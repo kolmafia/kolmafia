@@ -1,14 +1,13 @@
 package net.sourceforge.kolmafia.preferences;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.KoLCharacter;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 class PreferencesTest {
+
   // Convert to the new way of doing things...
   @BeforeAll
   protected static void initAll() {
@@ -43,7 +42,7 @@ class PreferencesTest {
 
     Preferences.removeProperty("ATestProperty", false);
     result = Preferences.propertyExists("ATestProperty", false);
-    assertFalse(result, "Property Remove but stll found.");
+    assertFalse(result, "Property Remove but still found.");
   }
 
   @Test
@@ -92,7 +91,7 @@ class PreferencesTest {
     String PrefName = "aBooleanPref";
     Preferences.setBoolean(PrefName, true);
 
-    Boolean checkPref = Preferences.getBoolean(PrefName);
+    boolean checkPref = Preferences.getBoolean(PrefName);
     assertTrue(checkPref, "Boolean Pref failed");
     Preferences.setBoolean(PrefName, false);
 
@@ -159,13 +158,13 @@ class PreferencesTest {
   @Test
   void IncrementPref() {
     String prefName = "anIntegerPref";
-    Integer prefValue = 73;
+    int prefValue = 73;
     String prefString = "aStringPref";
 
     Preferences.setInteger(prefName, prefValue);
     Preferences.increment(prefName);
     Integer checkIncrement = Preferences.getInteger(prefName);
-    assertEquals(prefValue + 1, checkIncrement, "Increement by one failed");
+    assertEquals(prefValue + 1, checkIncrement, "Increment by one failed");
 
     Preferences.increment(prefName, 9);
     checkIncrement = Preferences.getInteger(prefName);
@@ -188,7 +187,7 @@ class PreferencesTest {
   @Test
   void DecrementPref() {
     String prefName = "anIntegerPref";
-    Integer prefValue = 73;
+    int prefValue = 73;
     String prefString = "aStringPref";
 
     Preferences.setInteger(prefName, prefValue);
@@ -218,7 +217,7 @@ class PreferencesTest {
 
     Preferences.setString(userName, propName, propValue);
     String result = Preferences.getString(userName, propName);
-    assertEquals(propValue, result, "Could not set and retrieve per-user string prefe");
+    assertEquals(propValue, result, "Could not set and retrieve per-user string pref");
   }
 
   @Test
@@ -289,7 +288,7 @@ class PreferencesTest {
     String globalProp = "dailyDeedsVersion";
     Integer globalIntProp = 13;
     Integer globalIntValue = 44;
-    Float userPropFloat = 22.2f;
+    float userPropFloat = 22.2f;
     Float propDefaultValue = 1.0f;
 
     TreeMap<String, String> globalMap = Preferences.getMap(true, false);
@@ -307,7 +306,7 @@ class PreferencesTest {
     // override values and re-check
     Preferences.setFloat(propName, userPropFloat);
     Preferences.setInteger(globalProp, globalIntValue);
-    // get the maps again, becuase this is a snapshot of a moment-in-time
+    // get the maps again, because this is a snapshot of a moment-in-time
     globalMap = Preferences.getMap(true, false);
     userMap = Preferences.getMap(true, true);
 
@@ -321,7 +320,7 @@ class PreferencesTest {
         Integer.valueOf(globalMap.get(globalProp)),
         "Global default map value not equal to default value after setting");
 
-    // dfaults == fale means the these are the actual set values.
+    // defaults == false means the these are the actual set values.
     TreeMap<String, String> userDefaultsMap = Preferences.getMap(false, true);
     TreeMap<String, String> globalDefaultsMap = Preferences.getMap(false, false);
 
