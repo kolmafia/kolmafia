@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -18,12 +17,12 @@ public class AscensionHistoryRequestTest extends RequestTestBase {
     KoLCharacter.reset("the Tristero");
     KoLCharacter.setUserId(177122);
   }
-/*
-  @AfterAll
-  protected static void cleanUp() {
-    // exists to trigger hooked routine
-  }
-*/
+  /*
+    @AfterAll
+    protected static void cleanUp() {
+      // exists to trigger hooked routine
+    }
+  */
   @Test
   public void checkUserName() {
     assertEquals("the Tristero", KoLCharacter.getUserName());
