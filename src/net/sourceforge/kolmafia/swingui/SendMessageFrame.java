@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -231,28 +232,28 @@ public class SendMessageFrame extends GenericFrame implements ListElementFilter 
     int tradeableItemCount = source.getSize();
 
     AdventureResult current;
-    AdventureResult[] values =
+    List<AdventureResult> values =
         InputFieldUtilities.multiple("What would you like to send?", source, this);
 
-    if (values.length < tradeableItemCount) {
-      for (int i = 0; i < values.length; ++i) {
-        current = values[i];
+    if (values.size() < tradeableItemCount) {
+      for (int i = 0; i < values.size(); ++i) {
+        current = values.get(i);
         Integer value =
             InputFieldUtilities.getQuantity(
                 "How many " + current.getName() + " to send?", current.getCount());
         int amount = (value == null) ? 0 : value.intValue();
 
         if (amount <= 0) {
-          values[i] = null;
+          values.set(i, null);
         } else {
-          values[i] = current.getInstance(amount);
+          values.set(i, current.getInstance(amount));
         }
       }
     }
 
-    for (int i = 0; i < values.length; ++i) {
-      if (values[i] != null) {
-        this.attachments.add(values[i]);
+    for (AdventureResult value : values) {
+      if (value != null) {
+        this.attachments.add(value);
       }
     }
   }
