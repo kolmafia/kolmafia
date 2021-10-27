@@ -221,17 +221,75 @@ public class LineTest {
   }
 
   @Test
-  public void testTokenOffset() {
-    assertEquals(line1BOM.offset, line1Token1.offset);
-    assertEquals(line1Token1.restOfLineStart, line1Token2.offset);
-    assertEquals(line1Token2.restOfLineStart, line1Token3.offset);
+  public void testTokenStartCharacter() {
+    assertEquals(line1BOM.offset, line1Token1.getStart().getCharacter());
+    assertEquals(line1Token1.restOfLineStart, line1Token2.getStart().getCharacter());
+    assertEquals(line1Token2.restOfLineStart, line1Token3.getStart().getCharacter());
 
-    assertEquals(line3SurroundingWhitespace.offset, line3Token1.offset);
-    assertEquals(line3Token1.restOfLineStart, line3Token2.offset);
-    assertEquals(line3Token2.restOfLineStart, line3Token3.offset);
-    assertEquals(line3Token3.restOfLineStart, line3Token4.offset);
+    assertEquals(line3SurroundingWhitespace.offset, line3Token1.getStart().getCharacter());
+    assertEquals(line3Token1.restOfLineStart, line3Token2.getStart().getCharacter());
+    assertEquals(line3Token2.restOfLineStart, line3Token3.getStart().getCharacter());
+    assertEquals(line3Token3.restOfLineStart, line3Token4.getStart().getCharacter());
 
-    assertEquals(line3SurroundingWhitespace.offset, endOfFileToken.offset);
+    assertEquals(line3SurroundingWhitespace.offset, endOfFileToken.getStart().getCharacter());
+  }
+
+  @Test
+  public void testTokenEndCharacter() {
+    assertEquals(
+        line1Token1.getStart().getCharacter() + line1Token1.content.length(),
+        line1Token1.getEnd().getCharacter());
+    assertEquals(
+        line1Token2.getStart().getCharacter() + line1Token2.content.length(),
+        line1Token2.getEnd().getCharacter());
+    assertEquals(
+        line1Token3.getStart().getCharacter() + line1Token3.content.length(),
+        line1Token3.getEnd().getCharacter());
+
+    assertEquals(
+        line3Token1.getStart().getCharacter() + line3Token1.content.length(),
+        line3Token1.getEnd().getCharacter());
+    assertEquals(
+        line3Token2.getStart().getCharacter() + line3Token2.content.length(),
+        line3Token2.getEnd().getCharacter());
+    assertEquals(
+        line3Token3.getStart().getCharacter() + line3Token3.content.length(),
+        line3Token3.getEnd().getCharacter());
+    assertEquals(
+        line3Token4.getStart().getCharacter() + line3Token4.content.length(),
+        line3Token4.getEnd().getCharacter());
+
+    assertEquals(endOfFileToken.getStart().getCharacter(), endOfFileToken.getEnd().getCharacter());
+  }
+
+  /** Tokens' positions' line are 0-indexed version of the line they are on */
+  @Test
+  public void testTokenStartLine() {
+    assertEquals(line1Token1.getLine().lineNumber - 1, line1Token1.getStart().getLine());
+    assertEquals(line1Token2.getLine().lineNumber - 1, line1Token2.getStart().getLine());
+    assertEquals(line1Token3.getLine().lineNumber - 1, line1Token3.getStart().getLine());
+
+    assertEquals(line3Token1.getLine().lineNumber - 1, line3Token1.getStart().getLine());
+    assertEquals(line3Token2.getLine().lineNumber - 1, line3Token2.getStart().getLine());
+    assertEquals(line3Token3.getLine().lineNumber - 1, line3Token3.getStart().getLine());
+    assertEquals(line3Token4.getLine().lineNumber - 1, line3Token4.getStart().getLine());
+
+    assertEquals(endOfFileToken.getLine().lineNumber - 1, endOfFileToken.getStart().getLine());
+  }
+
+  /** Tokens are not allowed to span multiple lines */
+  @Test
+  public void testTokenSingleLine() {
+    assertEquals(line1Token1.getStart().getLine(), line1Token1.getEnd().getLine());
+    assertEquals(line1Token2.getStart().getLine(), line1Token2.getEnd().getLine());
+    assertEquals(line1Token3.getStart().getLine(), line1Token3.getEnd().getLine());
+
+    assertEquals(line3Token1.getStart().getLine(), line3Token1.getEnd().getLine());
+    assertEquals(line3Token2.getStart().getLine(), line3Token2.getEnd().getLine());
+    assertEquals(line3Token3.getStart().getLine(), line3Token3.getEnd().getLine());
+    assertEquals(line3Token4.getStart().getLine(), line3Token4.getEnd().getLine());
+
+    assertEquals(endOfFileToken.getStart().getLine(), endOfFileToken.getEnd().getLine());
   }
 
   @Test
@@ -241,11 +299,11 @@ public class LineTest {
         // restOfLineStart is undefined for the EOF token
         if (token != endOfFileToken) {
           assertEquals(
-              token.offset + token.content.length() + token.followingWhitespace.length(),
+              token.getEnd().getCharacter() + token.followingWhitespace.length(),
               token.restOfLineStart,
               "Token "
                   + token
-                  + "'s restOfLineStart doesn't equal its offset + the length of its content + the length of its following whitespace");
+                  + "'s restOfLineStart doesn't equal its end character's position + the length of its following whitespace");
         }
       }
     }
