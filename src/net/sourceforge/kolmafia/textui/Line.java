@@ -87,6 +87,10 @@ public final class Line {
       return "";
     }
 
+    if (beginIndex < this.offset) {
+      throw new IndexOutOfBoundsException();
+    }
+
     // subtract "offset" from beginIndex, since we already removed it
     return this.content.substring(beginIndex - this.offset);
   }
@@ -135,6 +139,15 @@ public final class Line {
     final int restOfLineStart;
 
     private Token(final int tokenLength) {
+      if (tokenLength <= 0 && Line.this.content != null) {
+        throw new IllegalArgumentException();
+      }
+
+      // Only one "end of file" token allowed
+      if (Line.this.content == null && Line.this.hasTokens()) {
+        throw new IllegalStateException();
+      }
+
       if (!Line.this.tokens.isEmpty()) {
         offset = Line.this.tokens.getLast().restOfLineStart;
       } else {

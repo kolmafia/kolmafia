@@ -69,6 +69,20 @@ public class LineTest {
     allTokens = Arrays.asList(line1Tokens, line2Tokens, line3Tokens, endOfFileTokens);
   }
 
+  /** Cannot make a token of length 0 or negative */
+  @Test
+  public void testInvalidLengthToken() {
+    assertThrows(IllegalArgumentException.class, () -> line1BOM.makeToken(0));
+    assertThrows(IllegalArgumentException.class, () -> line1BOM.makeComment(-1));
+    assertThrows(IllegalArgumentException.class, () -> line1BOM.makeToken(-5));
+  }
+
+  /** Can only have a single "end of file" token */
+  @Test
+  public void testDuplicateEndOfFileToken() {
+    assertThrows(IllegalStateException.class, () -> endOfFile.makeToken(0));
+  }
+
   /** Incremental, 1-indexed */
   @Test
   public void testLineNumbers() {
@@ -113,6 +127,14 @@ public class LineTest {
         line3SurroundingWhitespace.content.substring(5),
         line3SurroundingWhitespace.substring(line3SurroundingWhitespace.offset + 5));
     assertEquals("", endOfFile.substring(endOfFile.offset)); // Always an empty string
+  }
+
+  @Test
+  public void testLineInvalidSubstring() {
+    // Line.substring cannot take a value lesser than its offset
+    assertThrows(IndexOutOfBoundsException.class, () -> line1BOM.substring(line1BOM.offset - 1));
+    // End of File being the exception
+    assertDoesNotThrow(() -> endOfFile.substring(-1000));
   }
 
   @Test
@@ -347,6 +369,7 @@ public class LineTest {
     assertSame(line3Token3, line3SurroundingWhitespace.removeLastToken());
     assertSame(line3Token2, line3SurroundingWhitespace.removeLastToken());
     assertSame(line3Token1, line3SurroundingWhitespace.removeLastToken());
+    assertThrowsExactly(NoSuchElementException.class, line3SurroundingWhitespace::removeLastToken);
   }
 
   @Test
