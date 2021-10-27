@@ -383,17 +383,4 @@ public class LineTest {
     assertSame(line3Token4, line3SurroundingWhitespace.removeLastToken());
     assertThrows(IndexOutOfBoundsException.class, () -> line3SurroundingWhitespace.makeToken(50));
   }
-
-  @Test
-  public void canHaveBlankComment() {
-    LineNumberReader commandStream =
-        new LineNumberReader(
-            new InputStreamReader(
-                new ByteArrayInputStream("/*\n\n*/".getBytes(StandardCharsets.UTF_8)),
-                StandardCharsets.UTF_8));
-
-    Line startCommentLine = new Line(commandStream);
-    Line blankCommentLine = new Line(commandStream, startCommentLine);
-    assertDoesNotThrow(() -> blankCommentLine.makeComment(0));
-  }
 }
