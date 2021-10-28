@@ -222,6 +222,10 @@ public class ParserTest {
             Arrays.asList("$", "booleans", "[", "tr", "//Comment", "ue", "]"),
             Arrays.asList("1-1", "1-2", "1-10", "1-11", "1-13", "2-1", "2-3")),
         valid(
+            "Plural constant, comment at start of line",
+            "$booleans[tr\n//Comment\nue]",
+            Arrays.asList("$", "booleans", "[", "tr", "//Comment", "ue", "]")),
+        valid(
             "Plural constant, empty comment",
             "$booleans[tr//\nue]",
             Arrays.asList("$", "booleans", "[", "tr", "//", "ue", "]"),
@@ -395,6 +399,7 @@ public class ParserTest {
                 "1-1", "1-5", "1-8", "1-10", "1-18", "1-22", "1-25", "1-27", "2-1", "4-2", "4-4",
                 "4-5", "4-6")),
         invalid("interrupted script directive", "script", "Expected <, found end of file"),
+        valid("empty script directive", "script;", Arrays.asList("script", ";")),
         valid(
             "script directive delimited with <>",
             "script <zlib.ash>;",
