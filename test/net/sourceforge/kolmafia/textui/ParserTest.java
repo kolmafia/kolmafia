@@ -350,6 +350,7 @@ public class ParserTest {
             Arrays.asList(
                 "int", "foo", ";", "typedef", "int", "foo", ";", "(", "foo", "+", "2", ")", ";")),
         invalid("interrupted script directive", "script", "Expected <, found end of file"),
+        valid("empty script directive", "script;", Arrays.asList("script", ";")),
         valid(
             "script directive delimited with <>",
             "script <zlib.ash>;",

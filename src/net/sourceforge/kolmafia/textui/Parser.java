@@ -3551,8 +3551,10 @@ public class Parser {
       }
 
       resultString = line.substring(0, endIndex);
-      this.currentToken = this.currentLine.makeToken(endIndex);
-      this.readToken();
+      if (endIndex > 0) {
+        this.currentToken = this.currentLine.makeToken(endIndex);
+        this.readToken();
+      }
     }
 
     if (this.currentToken().equals(";")) {
