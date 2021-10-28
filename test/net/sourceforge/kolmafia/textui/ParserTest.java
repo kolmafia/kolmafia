@@ -202,6 +202,10 @@ public class ParserTest {
             "$booleans[tr//Comment\nue]",
             Arrays.asList("$", "booleans", "[", "tr", "//Comment", "ue", "]")),
         valid(
+            "Plural constant, comment at start of line",
+            "$booleans[tr\n//Comment\nue]",
+            Arrays.asList("$", "booleans", "[", "tr", "//Comment", "ue", "]")),
+        valid(
             "Plural constant, empty comment",
             "$booleans[tr//\nue]",
             Arrays.asList("$", "booleans", "[", "tr", "//", "ue", "]")),

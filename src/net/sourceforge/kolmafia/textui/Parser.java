@@ -3286,8 +3286,10 @@ public class Parser {
       if (slash) {
         slash = false;
         if (ch == '/') {
-          this.currentLine.makeToken(i - 1);
-          this.currentIndex += i - 1;
+          if (i > 1) {
+            this.currentLine.makeToken(i - 1);
+            this.currentIndex += i - 1;
+          }
           // Throw away the rest of the line
           this.currentLine.makeComment(this.restOfLine().length());
           this.currentIndex += this.restOfLine().length();
