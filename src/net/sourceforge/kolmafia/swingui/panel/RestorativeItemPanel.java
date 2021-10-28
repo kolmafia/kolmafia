@@ -16,7 +16,7 @@ public class RestorativeItemPanel extends ItemTableManagePanel {
     super(
         "use item",
         "check wiki",
-        (SortedListModel) KoLConstants.inventory,
+        (SortedListModel<AdventureResult>) KoLConstants.inventory,
         new boolean[] {false, true});
     this.filterItems();
   }

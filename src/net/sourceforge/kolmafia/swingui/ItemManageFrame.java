@@ -144,16 +144,21 @@ public class ItemManageFrame extends GenericFrame {
     selectorPanel.addSeparator();
 
     selectorPanel.addPanel(
-        "General", new InventoryPanel((SortedListModel) KoLConstants.inventory, false));
+        "General",
+        new InventoryPanel((SortedListModel<AdventureResult>) KoLConstants.inventory, false));
     selectorPanel.addPanel(
-        " - Recent", new InventoryPanel((SortedListModel) KoLConstants.tally, false));
+        " - Recent",
+        new InventoryPanel((SortedListModel<AdventureResult>) KoLConstants.tally, false));
     selectorPanel.addPanel(
-        " - Closet", new InventoryPanel((SortedListModel) KoLConstants.closet, false));
+        " - Closet",
+        new InventoryPanel((SortedListModel<AdventureResult>) KoLConstants.closet, false));
     selectorPanel.addPanel(" - Storage", new HagnkStoragePanel(false));
     selectorPanel.addPanel(
-        " - Unlimited", new ViewOnlyPanel((SortedListModel) KoLConstants.unlimited));
+        " - Unlimited",
+        new ViewOnlyPanel((SortedListModel<AdventureResult>) KoLConstants.unlimited));
     selectorPanel.addPanel(" - Free Pulls", new FreePullsPanel());
-    selectorPanel.addPanel(" - No Pull", new ViewOnlyPanel((SortedListModel) KoLConstants.nopulls));
+    selectorPanel.addPanel(
+        " - No Pull", new ViewOnlyPanel((SortedListModel<AdventureResult>) KoLConstants.nopulls));
 
     selectorPanel.addSeparator();
 
@@ -166,7 +171,8 @@ public class ItemManageFrame extends GenericFrame {
     selectorPanel.addSeparator();
 
     selectorPanel.addPanel(
-        "Equipment", new InventoryPanel((SortedListModel) KoLConstants.inventory, true));
+        "Equipment",
+        new InventoryPanel((SortedListModel<AdventureResult>) KoLConstants.inventory, true));
     selectorPanel.addPanel(
         " - Storage ",
         new HagnkStoragePanel(
@@ -301,7 +307,7 @@ public class ItemManageFrame extends GenericFrame {
 
   private class JunkItemsPanel extends OverlapPanel {
     public JunkItemsPanel() {
-      super("cleanup", "help", (LockableListModel) KoLConstants.junkList, true);
+      super("cleanup", "help", (LockableListModel<AdventureResult>) KoLConstants.junkList, true);
     }
 
     @Override
@@ -318,7 +324,8 @@ public class ItemManageFrame extends GenericFrame {
 
   private class SingletonItemsPanel extends OverlapPanel {
     public SingletonItemsPanel() {
-      super("closet", "help", (LockableListModel) KoLConstants.singletonList, true);
+      super(
+          "closet", "help", (LockableListModel<AdventureResult>) KoLConstants.singletonList, true);
     }
 
     @Override
@@ -343,7 +350,7 @@ public class ItemManageFrame extends GenericFrame {
 
   private class MementoItemsPanel extends OverlapPanel {
     public MementoItemsPanel() {
-      super("closet", "help", (LockableListModel) KoLConstants.mementoList, true);
+      super("closet", "help", (LockableListModel<AdventureResult>) KoLConstants.mementoList, true);
     }
 
     @Override
@@ -367,7 +374,11 @@ public class ItemManageFrame extends GenericFrame {
 
   private class RestockPanel extends OverlapPanel {
     public RestockPanel() {
-      super("automall", "host sale", (LockableListModel) KoLConstants.profitableList, true);
+      super(
+          "automall",
+          "host sale",
+          (LockableListModel<AdventureResult>) KoLConstants.profitableList,
+          true);
 
       this.filters[4].setSelected(false);
       this.filters[4].setEnabled(false);
@@ -411,7 +422,7 @@ public class ItemManageFrame extends GenericFrame {
       super(
           "pull item",
           isEquipmentOnly ? "pull & equip" : "put in closet",
-          (SortedListModel) KoLConstants.storage,
+          (SortedListModel<AdventureResult>) KoLConstants.storage,
           isEquipmentOnly);
 
       this.setButtons(new ActionListener[] {});
@@ -553,7 +564,11 @@ public class ItemManageFrame extends GenericFrame {
 
   private class FreePullsPanel extends InventoryPanel {
     public FreePullsPanel() {
-      super("pull item", "put in closet", (SortedListModel) KoLConstants.freepulls, false);
+      super(
+          "pull item",
+          "put in closet",
+          (SortedListModel<AdventureResult>) KoLConstants.freepulls,
+          false);
 
       this.addFilters();
       this.addMovers();

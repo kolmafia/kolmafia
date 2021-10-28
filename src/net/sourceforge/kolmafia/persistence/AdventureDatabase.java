@@ -869,11 +869,11 @@ public class AdventureDatabase {
         Arrays.sort(nameArray);
       }
 
-      List matchingNames = StringUtilities.getMatchingNames(nameArray, adventureName);
+      List<String> matchingNames = StringUtilities.getMatchingNames(nameArray, adventureName);
 
       if (matchingNames.size() > 1) {
         for (int i = 0; i < matchingNames.size(); ++i) {
-          RequestLogger.printLine((String) matchingNames.get(i));
+          RequestLogger.printLine(matchingNames.get(i));
         }
 
         KoLmafia.updateDisplay(MafiaState.ERROR, "Multiple matches against " + adventureName + ".");
@@ -881,7 +881,7 @@ public class AdventureDatabase {
       }
 
       if (matchingNames.size() == 1) {
-        String match = (String) matchingNames.get(0);
+        String match = matchingNames.get(0);
         return this.get(nameList.indexOf(match));
       }
 

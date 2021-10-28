@@ -34,7 +34,7 @@ public class UneffectCommand extends AbstractCommand {
       }
     }
 
-    List matchingEffects = EffectDatabase.getMatchingNames(parameters.trim());
+    List<String> matchingEffects = EffectDatabase.getMatchingNames(parameters.trim());
     if (matchingEffects.isEmpty()) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown effect: " + parameters);
       return;
@@ -50,7 +50,7 @@ public class UneffectCommand extends AbstractCommand {
       AdventureResult buffToRemove = null;
 
       for (int i = 0; i < matchingEffects.size(); ++i) {
-        buffToCheck = (String) matchingEffects.get(i);
+        buffToCheck = matchingEffects.get(i);
         int effectId = EffectDatabase.getEffectId(buffToCheck);
         if (UneffectRequest.isShruggable(effectId)) {
           ++shruggableCount;
@@ -77,7 +77,7 @@ public class UneffectCommand extends AbstractCommand {
       return;
     }
 
-    int effectId = EffectDatabase.getEffectId((String) matchingEffects.get(0));
+    int effectId = EffectDatabase.getEffectId(matchingEffects.get(0));
     AdventureResult effect = EffectPool.get(effectId);
 
     if (KoLmafiaCLI.isExecutingCheckOnlyCommand) {

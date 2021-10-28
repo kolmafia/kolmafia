@@ -19,7 +19,7 @@ public class PlayCommand extends AbstractCommand {
   private static String[] CANONICAL_STAT_ARRAY;
   private static final TreeMap<String, Stat> canonicalNameToStat = new TreeMap<String, Stat>();
 
-  private static void addStat(final Stat stat, final List stats) {
+  private static void addStat(final Stat stat, final List<String> stats) {
     String canonical = StringUtilities.getCanonicalName(stat.toString());
     stats.add(canonical);
     PlayCommand.canonicalNameToStat.put(canonical, stat);
@@ -38,7 +38,8 @@ public class PlayCommand extends AbstractCommand {
   private static final TreeMap<String, AdventureResult> canonicalNameToBuff =
       new TreeMap<String, AdventureResult>();
 
-  private static void addBuff(final String name, final AdventureResult buff, final List buffs) {
+  private static void addBuff(
+      final String name, final AdventureResult buff, final List<String> buffs) {
     String canonical = StringUtilities.getCanonicalName(name);
     buffs.add(canonical);
     PlayCommand.canonicalNameToBuff.put(canonical, buff);

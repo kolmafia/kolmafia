@@ -47,7 +47,7 @@ public class ExtendEffectCommand extends AbstractCommand {
       return;
     }
 
-    List names = EffectDatabase.getMatchingNames(parameters);
+    List<String> names = EffectDatabase.getMatchingNames(parameters);
     if (names.isEmpty()) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown effect: " + parameters);
       return;

@@ -21,7 +21,7 @@ import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class QuarkCommand extends AbstractCommand implements Comparator {
+public class QuarkCommand extends AbstractCommand implements Comparator<AdventureResult> {
   public QuarkCommand() {
     this.usage =
         "[?] [<itemList>...] - gain MP by pasting unstable quark with best item from itemList (or your junk list).";
@@ -42,7 +42,7 @@ public class QuarkCommand extends AbstractCommand implements Comparator {
       }
     }
 
-    List items = KoLConstants.junkList;
+    List<AdventureResult> items = KoLConstants.junkList;
     if (!parameters.equals("")) {
       items = Arrays.asList(ItemFinder.getMatchingItemList(parameters, KoLConstants.inventory));
       if (items.size() == 0) {
@@ -50,10 +50,10 @@ public class QuarkCommand extends AbstractCommand implements Comparator {
       }
     }
 
-    ArrayList usables = new ArrayList();
-    Iterator i = items.iterator();
+    ArrayList<AdventureResult> usables = new ArrayList<>();
+    Iterator<AdventureResult> i = items.iterator();
     while (i.hasNext()) {
-      AdventureResult item = (AdventureResult) i.next();
+      AdventureResult item = i.next();
       if (item.getCount(KoLConstants.inventory)
           < (KoLConstants.singletonList.contains(item) ? 2 : 1)) {
         continue;
@@ -77,7 +77,7 @@ public class QuarkCommand extends AbstractCommand implements Comparator {
       return;
     }
 
-    AdventureResult item = (AdventureResult) usables.get(0);
+    AdventureResult item = usables.get(0);
     RequestLogger.printLine("Pasting unstable quark with " + item);
     GenericRequest visitor =
         new GenericRequest(
@@ -96,7 +96,7 @@ public class QuarkCommand extends AbstractCommand implements Comparator {
     return false;
   }
 
-  public int compare(final Object o1, final Object o2) {
-    return ((AdventureResult) o2).getCount() - ((AdventureResult) o1).getCount();
+  public int compare(final AdventureResult o1, final AdventureResult o2) {
+    return o2.getCount() - o1.getCount();
   }
 }

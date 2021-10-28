@@ -36,9 +36,9 @@ public class LockableListFactory {
    */
   public static <E> List<E> getSortedInstance(Class<?> E) {
     if (SwinglessUIUtils.isSwingAvailable) {
-      return new SortedListModel<E>();
+      return new SortedListModel<>();
     }
-    List i = new SortedList<E>();
+    List<E> i = new SortedList<>();
     return i;
   }
 
@@ -78,9 +78,9 @@ public class LockableListFactory {
    * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#setSelectedItem()} if possible,
    * else no op
    */
-  public static void setSelectedItem(List l, Object selection) {
+  public static void setSelectedItem(List<?> l, Object selection) {
     if (SwinglessUIUtils.isSwingAvailable) {
-      ((LockableListModel) l).setSelectedItem(selection);
+      ((LockableListModel<?>) l).setSelectedItem(selection);
     } else {
       // noop
     }
@@ -102,9 +102,9 @@ public class LockableListFactory {
    * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#fireContentsChanged()} if
    * possible, else no op
    */
-  public static void fireContentsChanged(List l, int index0, int index1) {
+  public static void fireContentsChanged(List<?> l, int index0, int index1) {
     if (SwinglessUIUtils.isSwingAvailable) {
-      ((LockableListModel) l).fireContentsChanged(l, index0, index1);
+      ((LockableListModel<?>) l).fireContentsChanged(l, index0, index1);
     } else {
       // noop
     }
@@ -116,12 +116,12 @@ public class LockableListFactory {
   }
 
   /** Sorts the given list */
-  public static void sort(List l) {
+  public static void sort(List<?> l) {
     if (SwinglessUIUtils.isSwingAvailable) {
-      ((LockableListModel) l).sort();
+      ((LockableListModel<?>) l).sort();
     } else {
       if (l instanceof SortedList) {
-        ((SortedList) l).sort();
+        ((SortedList<?>) l).sort();
       } else {
         synchronized (l) {
           Collections.sort(l, null);

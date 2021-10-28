@@ -26,11 +26,11 @@ public class FamiliarTool {
    * @param opponents Array with Ids of all opponents. The index of each opponent will be re-used as
    *     a return value
    */
-  public FamiliarTool(final List opponents) {
+  public FamiliarTool(final List<ArenaOpponent> opponents) {
     int opponentCount = opponents.size();
     this.opponents = new Opponent[opponentCount];
     for (int i = 0; i < opponentCount; ++i) {
-      ArenaOpponent opponent = (ArenaOpponent) opponents.get(i);
+      ArenaOpponent opponent = opponents.get(i);
       this.opponents[i] = new Opponent(opponent);
     }
   }

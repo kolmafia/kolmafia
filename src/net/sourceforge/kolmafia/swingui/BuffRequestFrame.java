@@ -118,14 +118,14 @@ public class BuffRequestFrame extends GenericFrame {
     public BuffRequestPanel() {
       super("request", "online?");
 
-      Object[] list = BuffBotDatabase.getCompleteBotList();
+      String[] list = BuffBotDatabase.getCompleteBotList();
 
       for (int i = 0; i < list.length; ++i) {
         if (list[i] == null || list[i].equals("")) {
           continue;
         }
 
-        RequestPanel panel = new RequestPanel((String) list[i]);
+        RequestPanel panel = new RequestPanel(list[i]);
         BuffRequestFrame.this.panelMap.put(list[i], panel);
         BuffRequestFrame.this.nameContainer.add(panel, list[i]);
       }
@@ -149,7 +149,7 @@ public class BuffRequestFrame extends GenericFrame {
       JCheckBox[] checkboxes = panel.checkboxes;
       Offering[] offerings = panel.offerings;
 
-      ArrayList requests = new ArrayList();
+      ArrayList<SendMailRequest> requests = new ArrayList<>();
       for (int i = 0; i < checkboxes.length; ++i) {
         if (checkboxes[i] != null && checkboxes[i].isSelected()) {
           checkboxes[i].setSelected(false);
@@ -170,7 +170,7 @@ public class BuffRequestFrame extends GenericFrame {
                 + " to "
                 + BuffRequestFrame.this.botName
                 + "...");
-        RequestThread.postRequest((SendMailRequest) requests.get(i));
+        RequestThread.postRequest(requests.get(i));
       }
 
       KoLmafia.updateDisplay("Buff requests complete.");
@@ -217,7 +217,7 @@ public class BuffRequestFrame extends GenericFrame {
         this.add(scroller, String.valueOf(i));
       }
 
-      ArrayList list = new ArrayList();
+      ArrayList<Offering> list = new ArrayList<>();
       list.addAll(BuffBotDatabase.getStandardOfferings(botName));
       list.addAll(BuffBotDatabase.getPhilanthropicOfferings(botName));
 

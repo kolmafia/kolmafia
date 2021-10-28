@@ -164,22 +164,22 @@ public abstract class AbstractCommand {
   }
 
   protected static final AdventureResult itemParameter(final String parameter) {
-    List potentialItems = ItemDatabase.getMatchingNames(parameter);
+    List<String> potentialItems = ItemDatabase.getMatchingNames(parameter);
     if (potentialItems.isEmpty()) {
       return null;
     }
 
-    int itemId = ItemDatabase.getItemId((String) potentialItems.get(0));
+    int itemId = ItemDatabase.getItemId(potentialItems.get(0));
     return ItemPool.get(itemId, 0);
   }
 
   protected static final AdventureResult effectParameter(final String parameter) {
-    List potentialEffects = EffectDatabase.getMatchingNames(parameter);
+    List<String> potentialEffects = EffectDatabase.getMatchingNames(parameter);
     if (potentialEffects.isEmpty()) {
       return null;
     }
 
-    int effectId = EffectDatabase.getEffectId((String) potentialEffects.get(0));
+    int effectId = EffectDatabase.getEffectId(potentialEffects.get(0));
     return EffectPool.get(effectId, 0);
   }
 }

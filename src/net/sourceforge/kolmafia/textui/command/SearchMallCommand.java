@@ -13,7 +13,7 @@ public class SearchMallCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, String parameters) {
-    List results = new ArrayList();
+    List<String> results = new ArrayList<>();
     int desiredLimit = 0;
 
     if (parameters.indexOf("with limit") != -1) {

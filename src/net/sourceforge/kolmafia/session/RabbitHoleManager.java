@@ -645,7 +645,7 @@ public abstract class RabbitHoleManager {
         return new Integer[0];
       }
 
-      ArrayList list = new ArrayList();
+      ArrayList<Integer> list = new ArrayList<>();
 
       // Depending on type of piece, generate all moves
       // available on current board configuration
@@ -698,7 +698,7 @@ public abstract class RabbitHoleManager {
       return (Integer[]) list.toArray(array);
     }
 
-    private void addRookMoves(final ArrayList list, final int row, final int col) {
+    private void addRookMoves(final ArrayList<Integer> list, final int row, final int col) {
       // Go West. Quit when you hit a piece
       for (int i = col - 1; i >= 0; --i) {
         if (this.addMove(list, row, i)) {
@@ -725,7 +725,7 @@ public abstract class RabbitHoleManager {
       }
     }
 
-    private void addBishopMoves(final ArrayList list, final int row, final int col) {
+    private void addBishopMoves(final ArrayList<Integer> list, final int row, final int col) {
       // Go Northwest. Quit when you hit a piece
       for (int irow = row - 1, icol = col - 1; irow >= 0 && icol >= 0; --irow, --icol) {
         if (this.addMove(list, irow, icol)) {
@@ -752,7 +752,7 @@ public abstract class RabbitHoleManager {
       }
     }
 
-    private boolean addMove(final ArrayList list, final int row, final int col) {
+    private boolean addMove(final ArrayList<Integer> list, final int row, final int col) {
       // If the proposed move is off the board, fail
       if (row < 0 || row > 7 || col < 0 || col > 7) {
         return false;
@@ -1099,10 +1099,10 @@ public abstract class RabbitHoleManager {
   }
 
   private static class Path {
-    private final ArrayList list;
+    private final ArrayList<Integer> list;
 
     public Path() {
-      list = new ArrayList();
+      list = new ArrayList<>();
     }
 
     public void add(final int square) {
@@ -1118,7 +1118,7 @@ public abstract class RabbitHoleManager {
     }
 
     public Integer[] toArray() {
-      Integer[] array = (Integer[]) list.toArray(new Integer[list.size()]);
+      Integer[] array = list.toArray(new Integer[list.size()]);
       return array;
     }
   }
@@ -1234,7 +1234,7 @@ public abstract class RabbitHoleManager {
     buffer.append(ending);
   }
 
-  private static TreeMap getHatMap() {
+  private static TreeMap<Integer, StringBuffer> getHatMap() {
     // Make a map of all hats indexed by length
     List<AdventureResult> hats = EquipmentManager.getEquipmentLists()[EquipmentManager.HAT];
     FamiliarData current = KoLCharacter.getFamiliar();
@@ -1363,7 +1363,7 @@ public abstract class RabbitHoleManager {
 
   public static void getHatBuff(final int desiredHatLength) {
     if (RabbitHoleManager.hatLengthAvailable(desiredHatLength)) {
-      TreeMap lengths = getHatMap();
+      TreeMap<Integer, StringBuffer> lengths = getHatMap();
 
       String hat = lengths.get(IntegerPool.get(desiredHatLength)).toString().split("\\|")[0];
       RabbitHoleManager.getHatBuff(ItemFinder.getFirstMatchingItem(hat));
@@ -1373,7 +1373,7 @@ public abstract class RabbitHoleManager {
   }
 
   public static boolean hatLengthAvailable(int desiredHatLength) {
-    TreeMap lengths = getHatMap();
+    TreeMap<Integer, StringBuffer> lengths = getHatMap();
 
     if (lengths.size() == 0) {
       return false;

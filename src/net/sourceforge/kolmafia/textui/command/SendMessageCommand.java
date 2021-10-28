@@ -117,7 +117,7 @@ public class SendMessageCommand extends AbstractCommand {
       }
     }
 
-    List availablePackages = SendGiftRequest.getPackages();
+    List<?> availablePackages = SendGiftRequest.getPackages();
     int desiredPackageIndex =
         Math.min(Math.min(availablePackages.size() - 1, attachments.length), 5);
 

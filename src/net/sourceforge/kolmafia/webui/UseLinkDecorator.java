@@ -362,7 +362,7 @@ public abstract class UseLinkDecorator {
     }
 
     // Retrieve the known ingredient uses for the item.
-    SortedListModel creations = ConcoctionDatabase.getKnownUses(itemId);
+    SortedListModel<AdventureResult> creations = ConcoctionDatabase.getKnownUses(itemId);
     if (creations.isEmpty()) {
       return CraftingType.NOCREATE;
     }
@@ -415,7 +415,7 @@ public abstract class UseLinkDecorator {
     }
 
     for (int i = 0; i < creations.size(); ++i) {
-      AdventureResult creation = (AdventureResult) creations.get(i);
+      AdventureResult creation = creations.get(i);
       CraftingType mixingMethod = ConcoctionDatabase.getMixingMethod(creation);
       EnumSet<CraftingRequirements> requirements =
           ConcoctionDatabase.getRequirements(creation.getItemId());
@@ -1047,7 +1047,7 @@ public abstract class UseLinkDecorator {
 
           case ItemPool.GONG:
             // No use link if already under influence.
-            List active = KoLConstants.activeEffects;
+            List<AdventureResult> active = KoLConstants.activeEffects;
             if (active.contains(FightRequest.BIRDFORM) || active.contains(FightRequest.MOLEFORM)) {
               return null;
             }

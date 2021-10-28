@@ -355,13 +355,13 @@ public class ProfileSnapshot {
             ContactManager.getPlayerId(memberName),
             AscensionSnapshot.getAscensionMap().get(memberName));
 
-    List ascensions = request.getAscensionData();
+    List<AscensionDataField> ascensions = request.getAscensionData();
 
     strbuf.append("</td><td align=center>");
     if (ascensions.isEmpty()) {
       strbuf.append(memberLookup.getCreationAsString());
     } else {
-      strbuf.append(((AscensionDataField) ascensions.get(ascensions.size() - 1)).getDateAsString());
+      strbuf.append(ascensions.get(ascensions.size() - 1).getDateAsString());
     }
 
     strbuf.append("</td><td align=center>");

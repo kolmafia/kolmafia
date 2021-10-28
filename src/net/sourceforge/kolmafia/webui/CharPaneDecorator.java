@@ -928,7 +928,7 @@ public class CharPaneDecorator {
     // Insert any effects which are in your maintenance list which
     // have already run out.
 
-    List missingEffects = MoodManager.getMissingEffects();
+    List<AdventureResult> missingEffects = MoodManager.getMissingEffects();
 
     // If the player has at least one effect, then go ahead and add
     // all of their missing effects.
@@ -941,7 +941,7 @@ public class CharPaneDecorator {
       AdventureResult currentEffect;
 
       for (int i = 0; i < missingEffects.size(); ++i) {
-        currentEffect = (AdventureResult) missingEffects.get(i);
+        currentEffect = missingEffects.get(i);
 
         String effectName = currentEffect.getName();
         int effectId = currentEffect.getEffectId();

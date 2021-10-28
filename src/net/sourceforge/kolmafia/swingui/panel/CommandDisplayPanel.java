@@ -20,7 +20,7 @@ import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
 public class CommandDisplayPanel extends JPanel implements FocusListener {
-  private final RollingLinkedList commandHistory = new RollingLinkedList(10);
+  private final RollingLinkedList<String> commandHistory = new RollingLinkedList<>(10);
   private final AutoHighlightTextField entryField;
   private final JButton entryButton;
 
@@ -85,9 +85,7 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
         }
 
         CommandDisplayPanel.this.entryField.setText(
-            (String)
-                CommandDisplayPanel.this.commandHistory.get(
-                    --CommandDisplayPanel.this.commandIndex));
+            CommandDisplayPanel.this.commandHistory.get(--CommandDisplayPanel.this.commandIndex));
       } else if (keyCode == KeyEvent.VK_DOWN) {
         if (CommandDisplayPanel.this.commandIndex + 1
             >= CommandDisplayPanel.this.commandHistory.size()) {
@@ -95,9 +93,7 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
         }
 
         CommandDisplayPanel.this.entryField.setText(
-            (String)
-                CommandDisplayPanel.this.commandHistory.get(
-                    ++CommandDisplayPanel.this.commandIndex));
+            CommandDisplayPanel.this.commandHistory.get(++CommandDisplayPanel.this.commandIndex));
       } else if (keyCode == KeyEvent.VK_ENTER) {
         this.submitCommand();
       }

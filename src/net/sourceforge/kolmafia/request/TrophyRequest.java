@@ -11,7 +11,7 @@ public class TrophyRequest extends GenericRequest {
       Pattern.compile(
           "<td><img.*?src=[^>]*?(?:images.kingdomofloathing.com|/images)/(.+?)\".*?<td[^>]*?>(.+?)<.*?name=public(\\d+)\\s*(checked)?\\s*>",
           Pattern.DOTALL);
-  private ArrayList trophies;
+  private ArrayList<Trophy> trophies;
 
   // Get current trophies.
   public TrophyRequest() {
@@ -19,7 +19,7 @@ public class TrophyRequest extends GenericRequest {
   }
 
   // Rearrange trophies.
-  public TrophyRequest(ArrayList trophies) {
+  public TrophyRequest(ArrayList<Trophy> trophies) {
     super("trophies.php");
     this.trophies = trophies;
   }
@@ -28,7 +28,7 @@ public class TrophyRequest extends GenericRequest {
   public void run() {
     if (this.trophies == null) {
       super.run();
-      this.trophies = new ArrayList();
+      this.trophies = new ArrayList<>();
 
       if (this.responseText == null) {
         return;
@@ -44,9 +44,9 @@ public class TrophyRequest extends GenericRequest {
     }
 
     this.addFormField("action", "Yup.");
-    Iterator i = this.trophies.iterator();
+    Iterator<Trophy> i = this.trophies.iterator();
     while (i.hasNext()) {
-      Trophy t = (Trophy) i.next();
+      Trophy t = i.next();
       if (t.visible) {
         this.addFormField("public" + t.id, "on");
       }
@@ -58,7 +58,7 @@ public class TrophyRequest extends GenericRequest {
     i = this.trophies.iterator();
     int pos = 1;
     while (i.hasNext()) {
-      Trophy t = (Trophy) i.next();
+      Trophy t = i.next();
       buf.append("&trophy");
       buf.append(t.id);
       buf.append("=");
@@ -71,7 +71,7 @@ public class TrophyRequest extends GenericRequest {
     super.run();
   }
 
-  public ArrayList getTrophies() {
+  public ArrayList<Trophy> getTrophies() {
     return this.trophies;
   }
 
