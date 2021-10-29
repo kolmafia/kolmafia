@@ -1765,13 +1765,11 @@ public class Maximizer {
       } else
       // Otherwise we iterate through the maximization set so far
       {
-        Iterator i = Maximizer.boosts.iterator();
+        Iterator<Boost> i = Maximizer.boosts.iterator();
         while (i.hasNext()) {
-          Object boost = i.next();
-          if (boost instanceof Boost) {
-            if (item.equals(((Boost) boost).getItem())) {
-              count++;
-            }
+          Boost boost = i.next();
+          if (item.equals(boost.getItem())) {
+            count++;
           }
         }
       }
