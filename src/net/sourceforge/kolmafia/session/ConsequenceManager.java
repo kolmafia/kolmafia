@@ -30,7 +30,8 @@ public abstract class ConsequenceManager {
   private static final HashMap<String, Consequence> itemDescs = new HashMap<String, Consequence>();
   private static final HashMap<String, Consequence> effectDescs =
       new HashMap<String, Consequence>();
-  private static final HashMap<Integer, Consequence> skillDescs = new HashMap<Integer, Consequence>();
+  private static final HashMap<Integer, Consequence> skillDescs =
+      new HashMap<Integer, Consequence>();
   private static final ArrayList<String> descriptions = new ArrayList<String>();
   private static final HashMap<String, Consequence> monsters = new HashMap<String, Consequence>();
   private static final ArrayList<Consequence> accomplishments = new ArrayList<Consequence>();
