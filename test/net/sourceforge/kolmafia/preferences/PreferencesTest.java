@@ -17,6 +17,10 @@ class PreferencesTest {
   }
 
   @Test
+  //This test fails when another test sets Preferences.saveSettingsToFile = true;
+  //The comment about restoring from disk is concerning since there is nothing
+  //to restore from (AFAIK) when the setting is false;  But if the other test
+  //restores the value to false, this test passes.
   void ResetClearsPrefs() {
     String propName = "aTestProp";
     Preferences.setBoolean(propName, true);
@@ -485,6 +489,20 @@ class PreferencesTest {
     Preferences.setString("removeMe","please");
     Preferences.removeProperty("removeMe", false);
     assertFalse(Preferences.propertyExists("removeMe", false));
+    Preferences.saveSettingsToFile = false;
+  }
+
+  @Test
+  public void exerciseGetStringVariant() {
+    String name = "makeMineAlso"; //makeAndTestUserProperty using the same name breaks
+    String value = "the P Funk";
+    String userName = KoLCharacter.getUserName();
+    Preferences.setString(userName, name, value);
+    assertEquals(value, Preferences.getString(name, false));
+    name = "lastUsername"; //global
+    value = "Bootsy";
+    Preferences.setString(name, value);
+    assertEquals(value, Preferences.getString(name, true));
   }
 }
 
