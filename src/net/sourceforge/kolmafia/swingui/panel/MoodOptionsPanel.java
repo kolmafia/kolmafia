@@ -207,9 +207,7 @@ public class MoodOptionsPanel extends JPanel {
       String[] autoFillTypes =
           new String[] {"minimal set (current active buffs)", "maximal set (all castable buffs)"};
       String desiredType =
-          (String)
-              InputFieldUtilities.input(
-                  "Which kind of buff set would you like to use?", autoFillTypes);
+          InputFieldUtilities.input("Which kind of buff set would you like to use?", autoFillTypes);
 
       if (desiredType == null) {
         return;

@@ -36,7 +36,7 @@ public class LootHunterMenuItem extends ThreadedMenuItem {
 
       IntWrapper wrapper = new IntWrapper();
 
-      List bounties = new ArrayList();
+      List<PossibleSelection> bounties = new ArrayList<>();
       String[] results = new String[2];
 
       // Add Easy Bounty Item
@@ -109,7 +109,7 @@ public class LootHunterMenuItem extends ThreadedMenuItem {
       final String message,
       final String yesLabel,
       final String noLabel,
-      final List choices) {
+      final List<PossibleSelection> choices) {
     JPanel choicePanel = new JPanel();
     choicePanel.setLayout(new BoxLayout(choicePanel, BoxLayout.Y_AXIS));
 
@@ -117,9 +117,9 @@ public class LootHunterMenuItem extends ThreadedMenuItem {
 
     ButtonGroup buttonGroup = new ButtonGroup();
 
-    Iterator it = choices.iterator();
+    Iterator<PossibleSelection> it = choices.iterator();
     while (it.hasNext()) {
-      PossibleSelection c = (PossibleSelection) it.next();
+      PossibleSelection c = it.next();
 
       JRadioButton radio =
           new JRadioButton("<html>" + c.getLabel() + "<br>" + c.getDescription() + "</html>");

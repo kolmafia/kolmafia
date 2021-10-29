@@ -99,7 +99,7 @@ public class TestCommand extends AbstractCommand {
     }
   }
 
-  private static Frame findFrame(final Class type) {
+  private static Frame findFrame(final Class<?> type) {
     for (Frame frame : Frame.getFrames()) {
       if (frame.getClass() == type) {
         return frame;
@@ -609,6 +609,22 @@ public class TestCommand extends AbstractCommand {
               + ") "
               + (concoction == null ? "IS NOT" : "is")
               + " a known concoction");
+      return;
+    }
+
+    if (command.equals("skill")) {
+      if (split.length < 3 || !split[1].equals("add") && !split[1].equals("remove")) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "test skill [add/remove] skillId");
+        return;
+      }
+
+      int skillId = StringUtilities.parseInt(split[2]);
+
+      if (split[1].equals("add")) {
+        KoLCharacter.addAvailableSkill(skillId);
+      } else if (split[1].equals("remove")) {
+        KoLCharacter.removeAvailableSkill(skillId);
+      }
       return;
     }
 

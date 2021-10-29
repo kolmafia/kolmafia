@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class PageRegistry {
-  private static final Set<String> seenLocations = new HashSet<String>();
-  private static final Map pagesByLocation = new HashMap();
+  private static final Set<String> seenLocations = new HashSet<>();
+  private static final Map<String, Page> pagesByLocation = new HashMap<>();
 
   public static final boolean isGameAction(String path, String queryString) {
     if (PageRegistry.isExternalLocation(path)) {
@@ -26,12 +26,12 @@ public class PageRegistry {
   private static synchronized Page getPage(String path) {
 
     if (PageRegistry.seenLocations.contains(path)) {
-      return (Page) pagesByLocation.get(path);
+      return pagesByLocation.get(path);
     }
 
     PageRegistry.seenLocations.add(path);
 
-    Class pageClass = null;
+    Class<?> pageClass = null;
 
     try {
       String className = "net.sourceforge.kolmafia.pages." + path.substring(0, path.length() - 4);

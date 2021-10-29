@@ -5,6 +5,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -18,7 +19,7 @@ public abstract class NemesisManager {
   public static final String[][] DOOR_DATA = {
     // Class, door1 item, door2 item, door3 item
     {
-      KoLCharacter.SEAL_CLUBBER,
+      AscensionClass.SEAL_CLUBBER.getName(),
       // viking helmet
       "value='37'",
       // insanely spicy bean burrito
@@ -27,7 +28,7 @@ public abstract class NemesisManager {
       "value='2478'",
     },
     {
-      KoLCharacter.TURTLE_TAMER,
+      AscensionClass.TURTLE_TAMER.getName(),
       // viking helmet
       "value='37'",
       // insanely spicy bean burrito
@@ -36,7 +37,7 @@ public abstract class NemesisManager {
       "value='2477'",
     },
     {
-      KoLCharacter.PASTAMANCER,
+      AscensionClass.PASTAMANCER.getName(),
       // stalk of asparagus
       "value='560'",
       // insanely spicy enchanted bean burrito
@@ -45,7 +46,7 @@ public abstract class NemesisManager {
       "value='579'",
     },
     {
-      KoLCharacter.SAUCEROR,
+      AscensionClass.SAUCEROR.getName(),
       // stalk of asparagus
       "value='560'",
       // insanely spicy enchanted bean burrito
@@ -54,14 +55,14 @@ public abstract class NemesisManager {
       "value='420'",
     },
     {
-      KoLCharacter.DISCO_BANDIT,
+      AscensionClass.DISCO_BANDIT.getName(),
       // dirty hobo gloves
       "value='565'",
       // insanely spicy jumping bean burrito
       "value='1256'",
     },
     {
-      KoLCharacter.ACCORDION_THIEF,
+      AscensionClass.ACCORDION_THIEF.getName(),
       // dirty hobo gloves
       "value='565'",
       // insanely spicy jumping bean burrito
@@ -70,10 +71,10 @@ public abstract class NemesisManager {
   };
 
   private static void selectDoorItem(final int door, final StringBuffer buffer) {
-    String myClass = KoLCharacter.getClassType();
+    AscensionClass myClass = KoLCharacter.getAscensionClass();
     for (int i = 0; i < DOOR_DATA.length; ++i) {
       String[] data = DOOR_DATA[i];
-      if (myClass.equals(data[0])) {
+      if (myClass.getName().equals(data[0])) {
         if (data.length <= door) {
           return;
         }
@@ -248,9 +249,9 @@ public abstract class NemesisManager {
     PaperStrip[] array = new PaperStrip[PAPER_STRIPS.length];
 
     // Find leftmost paper strip
-    Iterator it = left.values().iterator();
+    Iterator<PaperStrip> it = left.values().iterator();
     while (it.hasNext()) {
-      PaperStrip strip = (PaperStrip) it.next();
+      PaperStrip strip = it.next();
       if (!right.containsKey(strip.left)) {
         array[0] = strip;
         break;

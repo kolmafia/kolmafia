@@ -278,7 +278,8 @@ public class LoginFrame extends GenericFrame {
       @Override
       protected void execute() {
         if (!LoginPanel.this.savePasswordCheckBox.isSelected()) {
-          String value = (String) ((SortedListModel) KoLConstants.saveStateNames).getSelectedItem();
+          String value =
+              (String) ((SortedListModel<String>) KoLConstants.saveStateNames).getSelectedItem();
           if (value == null) {
             return;
           }
@@ -299,7 +300,7 @@ public class LoginFrame extends GenericFrame {
      */
     private class LoginNameComboBox extends AutoFilterComboBox {
       public LoginNameComboBox() {
-        super((SortedListModel) KoLConstants.saveStateNames, true);
+        super((SortedListModel<String>) KoLConstants.saveStateNames, true);
       }
 
       @Override

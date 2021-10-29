@@ -72,11 +72,12 @@ public class CliRefCommand extends AbstractCommand {
       return;
     }
     boolean anymatches = false;
-    HashMap alreadySeen = new HashMap(); // usage => name of cmd already printed out
-    Iterator i = AbstractCommand.lookup.entrySet().iterator();
+    HashMap<String, String> alreadySeen =
+        new HashMap<>(); // usage => name of cmd already printed out
+    Iterator<Map.Entry<String, Object>> i = AbstractCommand.lookup.entrySet().iterator();
     while (i.hasNext()) {
-      Map.Entry e = (Map.Entry) i.next();
-      String name = (String) e.getKey();
+      Map.Entry<String, Object> e = i.next();
+      String name = e.getKey();
       int type = AbstractCommand.lookup.getKeyType(name);
       if (type == PrefixMap.NOT_A_KEY) {
         continue;
@@ -100,7 +101,7 @@ public class CliRefCommand extends AbstractCommand {
         anymatches = true;
         continue;
       }
-      String previouslySeen = (String) alreadySeen.get(usage);
+      String previouslySeen = alreadySeen.get(usage);
       if (previouslySeen == null) {
         // This isn't turning out very useful
         // alreadySeen.put( usage, name );

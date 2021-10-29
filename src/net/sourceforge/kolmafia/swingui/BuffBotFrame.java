@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.BuffBotManager;
+import net.sourceforge.kolmafia.session.BuffBotManager.Offering;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
@@ -27,7 +28,7 @@ import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BuffBotFrame extends GenericFrame {
-  private JList buffListDisplay;
+  private JList<Offering> buffListDisplay;
 
   /**
    * Constructs a new <code>BuffBotFrame</code> and inserts all of the necessary panels into a
@@ -58,9 +59,9 @@ public class BuffBotFrame extends GenericFrame {
   /** Internal class used to handle everything related to operating the buffbot. */
   private class MainBuffPanel extends ScrollablePanel {
     public MainBuffPanel() {
-      super("BuffBot Activities", "start", "stop", new JList(BuffBotHome.getMessages()));
+      super("BuffBot Activities", "start", "stop", new JList<>(BuffBotHome.getMessages()));
 
-      ((JList) this.scrollComponent).setCellRenderer(BuffBotHome.getMessageRenderer());
+      ((JList<?>) this.scrollComponent).setCellRenderer(BuffBotHome.getMessageRenderer());
     }
 
     @Override
@@ -94,7 +95,7 @@ public class BuffBotFrame extends GenericFrame {
 
   /** Internal class used to handle everything related to BuffBot options management */
   private class BuffOptionsPanel extends GenericPanel {
-    private final JComboBox skillSelect;
+    private final JComboBox<UseSkillRequest> skillSelect;
     private final AutoHighlightTextField priceField, countField;
 
     public BuffOptionsPanel() {
@@ -108,7 +109,7 @@ public class BuffBotFrame extends GenericFrame {
         }
       }
 
-      this.skillSelect = new JComboBox(buffSet);
+      this.skillSelect = new JComboBox<>(buffSet);
 
       this.priceField = new AutoHighlightTextField();
       this.countField = new AutoHighlightTextField();
@@ -130,8 +131,7 @@ public class BuffBotFrame extends GenericFrame {
 
     @Override
     public void actionCancelled() {
-      BuffBotManager.removeBuffs(
-          BuffBotFrame.this.buffListDisplay.getSelectedValuesList().toArray());
+      BuffBotManager.removeBuffs(BuffBotFrame.this.buffListDisplay.getSelectedValuesList());
     }
   }
 
@@ -144,7 +144,7 @@ public class BuffBotFrame extends GenericFrame {
               "Active Buffing List", SwingConstants.CENTER, Color.black, Color.white),
           BorderLayout.NORTH);
 
-      BuffBotFrame.this.buffListDisplay = new JList(BuffBotManager.getBuffCostTable());
+      BuffBotFrame.this.buffListDisplay = new JList<>(BuffBotManager.getBuffCostTable());
       BuffBotFrame.this.buffListDisplay.setSelectionMode(
           ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
       BuffBotFrame.this.buffListDisplay.setVisibleRowCount(5);
@@ -156,8 +156,8 @@ public class BuffBotFrame extends GenericFrame {
   /** Internal class used to handle everything related to BuffBot White List management */
   private class MainSettingsPanel extends GenericPanel {
     private final JTextArea invalidPriceMessage, thanksMessage;
-    private final JComboBox philanthropyModeSelect;
-    private final JComboBox messageDisposalSelect;
+    private final JComboBox<String> philanthropyModeSelect;
+    private final JComboBox<String> messageDisposalSelect;
 
     public MainSettingsPanel() {
       super("save", "reset", new Dimension(120, 20), new Dimension(200, 20), false);
@@ -166,13 +166,13 @@ public class BuffBotFrame extends GenericFrame {
       philanthropyModeChoices.add("Disabled");
       philanthropyModeChoices.add("Once per day");
       philanthropyModeChoices.add("Clan only");
-      this.philanthropyModeSelect = new JComboBox(philanthropyModeChoices);
+      this.philanthropyModeSelect = new JComboBox<>(philanthropyModeChoices);
 
       LockableListModel<String> messageDisposalChoices = new LockableListModel<String>();
       messageDisposalChoices.add("Auto-save non-requests");
       messageDisposalChoices.add("Auto-delete non-requests");
       messageDisposalChoices.add("Do nothing to non-requests");
-      this.messageDisposalSelect = new JComboBox(messageDisposalChoices);
+      this.messageDisposalSelect = new JComboBox<>(messageDisposalChoices);
 
       VerifiableElement[] elements = new VerifiableElement[2];
       elements[0] = new VerifiableElement("Philanthropy: ", this.philanthropyModeSelect);

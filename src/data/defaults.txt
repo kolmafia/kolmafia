@@ -228,7 +228,7 @@ user	awolDeferredPointsBeanslinger	0
 user	awolDeferredPointsCowpuncher	0
 user	awolDeferredPointsSnakeoiler	0
 user	awolVenom	0
-user	backupCameraMode
+user	backupCameraMode	meat
 user	backupCameraReverserEnabled	false
 user	badMoonEncounter01	false
 user	badMoonEncounter02	false
@@ -875,6 +875,7 @@ user	lastWartDinseyDefeated	-1
 user	lastWuTangDefeated	-1
 user	lastYearbookCameraAscension	-1
 user	lastZapperWand	0
+user	lastZapperWandExplosionDay	-3
 user	latteModifier	
 user	latteUnlocks	cinnamon,pumpkin,vanilla
 user	lawOfAveragesAvailable	true
@@ -947,6 +948,7 @@ user	merkinQuestPath	none
 user	merkinLockkeyMonster
 user	merkinVocabularyMastery	0
 user	middleChamberUnlock	false
+user	milkOfMagnesiumActive	false
 user	mineLayout1
 user	mineLayout2
 user	mineLayout3
@@ -966,7 +968,7 @@ user	munchiesPillsUsed	0
 user	mushroomGardenCropLevel	1
 user	neverendingPartyAlways	false
 user	nextAdventure
-user	nextParanormalActivity	0
+user	nextParanormalActivity	1
 user	nextSpookyravenElizabethRoom	The Haunted Storage Room
 user	nextSpookyravenStephenRoom	The Haunted Bedroom
 user	nextQuantumFamiliar	none

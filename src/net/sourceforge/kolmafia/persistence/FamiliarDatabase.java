@@ -723,7 +723,7 @@ public class FamiliarDatabase {
   }
 
   public static final boolean hasAttribute(final int familiarId, final String attribute) {
-    List attrs = FamiliarDatabase.getFamiliarAttributes(familiarId);
+    List<String> attrs = FamiliarDatabase.getFamiliarAttributes(familiarId);
     if (attrs == null) {
       return false;
     }

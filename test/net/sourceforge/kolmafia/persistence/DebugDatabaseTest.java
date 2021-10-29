@@ -5,18 +5,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import net.sourceforge.kolmafia.RequestLogger;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class DebugDatabaseTest {
 
-  @BeforeEach
-  public void setUp() throws Exception {}
-
-  @AfterEach
-  public void tearDown() throws Exception {}
   /* TODO: implement or delete these tests
   @Test
   public void checkItems()

@@ -13,11 +13,11 @@ public abstract class MailManager {
       new TreeMap<String, SortedListModel<KoLMailMessage>>();
 
   static {
-    MailManager.mailboxes.put("Inbox", new SortedListModel());
-    MailManager.mailboxes.put("PvP", new SortedListModel());
-    MailManager.mailboxes.put("Pen Pal", new SortedListModel());
-    MailManager.mailboxes.put("Outbox", new SortedListModel());
-    MailManager.mailboxes.put("Saved", new SortedListModel());
+    MailManager.mailboxes.put("Inbox", new SortedListModel<>());
+    MailManager.mailboxes.put("PvP", new SortedListModel<>());
+    MailManager.mailboxes.put("Pen Pal", new SortedListModel<>());
+    MailManager.mailboxes.put("Outbox", new SortedListModel<>());
+    MailManager.mailboxes.put("Saved", new SortedListModel<>());
   }
 
   public static final void clearMailboxes() {

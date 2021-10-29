@@ -14,13 +14,13 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class MaximizerTest {
-  @AfterEach
-  public void after() {
-    KoLCharacter.reset(false);
+  @BeforeEach
+  public void init() {
+    KoLCharacter.reset(true);
   }
 
   @Test

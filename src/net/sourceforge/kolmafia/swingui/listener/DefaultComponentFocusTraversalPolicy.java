@@ -7,16 +7,16 @@ import java.util.Comparator;
 import javax.swing.LayoutFocusTraversalPolicy;
 
 public class DefaultComponentFocusTraversalPolicy extends LayoutFocusTraversalPolicy {
-  private final WeakReference component;
+  private final WeakReference<Component> component;
 
   public DefaultComponentFocusTraversalPolicy(Component component) {
-    this.component = new WeakReference(component);
+    this.component = new WeakReference<>(component);
 
     this.setComparator(getComparator());
   }
 
   @Override
-  public void setComparator(Comparator c) {
+  public void setComparator(Comparator<? super Component> c) {
     if (c != null) {
       super.setComparator(new DefaultComponentFirstComparator(c));
     }
@@ -24,7 +24,7 @@ public class DefaultComponentFocusTraversalPolicy extends LayoutFocusTraversalPo
 
   @Override
   public Component getDefaultComponent(Container container) {
-    Component component = (Component) this.component.get();
+    Component component = this.component.get();
 
     if (component != null) {
       return component;
@@ -33,16 +33,15 @@ public class DefaultComponentFocusTraversalPolicy extends LayoutFocusTraversalPo
     return super.getDefaultComponent(container);
   }
 
-  private class DefaultComponentFirstComparator implements Comparator {
-    private final Comparator parent;
+  private class DefaultComponentFirstComparator implements Comparator<Component> {
+    private final Comparator<? super Component> parent;
 
-    public DefaultComponentFirstComparator(Comparator parent) {
+    public DefaultComponentFirstComparator(Comparator<? super Component> parent) {
       this.parent = parent;
     }
 
-    public int compare(Object o1, Object o2) {
-      Component defaultComponent =
-          (Component) DefaultComponentFocusTraversalPolicy.this.component.get();
+    public int compare(Component o1, Component o2) {
+      Component defaultComponent = DefaultComponentFocusTraversalPolicy.this.component.get();
 
       if (defaultComponent == null) {
         return this.parent.compare(o1, o2);

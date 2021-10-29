@@ -753,6 +753,7 @@ public class KoLmafiaCLI {
     new SpacegateCommand().register("spacegate");
     new SpeculateCommand().register("speculate").register("whatif");
     new SpookyravenCommand().register("spookyraven");
+    new SpoonCommand().register("spoon");
     new StickersCommand().registerPlural("sticker");
     new StorageCommand().register("hagnk").register("pull");
     new StyxPixieCommand().register("styx");

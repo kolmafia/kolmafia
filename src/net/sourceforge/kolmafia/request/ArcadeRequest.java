@@ -240,8 +240,8 @@ public class ArcadeRequest extends GenericRequest {
   private static String[] choices = null;
 
   private static void parseChoiceNames(final String responseText) {
-    ArrayList options = new ArrayList();
-    ArrayList names = new ArrayList();
+    ArrayList<Integer> options = new ArrayList<>();
+    ArrayList<String> names = new ArrayList<>();
     Matcher matcher = CHOICE_PATTERN.matcher(responseText);
     while (matcher.find()) {
       options.add(Integer.valueOf(matcher.group(1)));

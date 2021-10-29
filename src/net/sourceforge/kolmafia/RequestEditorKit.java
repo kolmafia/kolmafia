@@ -556,7 +556,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       eventsTable.append("</td></tr>");
       eventsTable.append("<tr><td style=\"padding: 5px; border: 1px solid orange;\" align=center>");
 
-      Iterator eventHyperTextIterator = EventManager.getEventHyperTexts().iterator();
+      Iterator<String> eventHyperTextIterator = EventManager.getEventHyperTexts().iterator();
 
       while (eventHyperTextIterator.hasNext()) {
         eventsTable.append(eventHyperTextIterator.next());
@@ -1409,14 +1409,14 @@ public class RequestEditorKit extends HTMLEditorKit {
       monsterData.append(danceMoveStatus);
     }
 
-    List items = monster.getItems();
+    List<AdventureResult> items = monster.getItems();
     if (!items.isEmpty()) {
       monsterData.append("<br />Drops: ");
       for (int i = 0; i < items.size(); ++i) {
         if (i != 0) {
           monsterData.append(", ");
         }
-        AdventureResult item = (AdventureResult) items.get(i);
+        AdventureResult item = items.get(i);
         int rate = item.getCount() >> 16;
         monsterData.append(item.getName());
         switch ((char) item.getCount() & 0xFFFF) {

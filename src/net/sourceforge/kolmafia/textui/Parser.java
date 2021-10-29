@@ -20,7 +20,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.textui.Parser.Line.Token;
+import net.sourceforge.kolmafia.textui.Line.Token;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayLiteral;
 import net.sourceforge.kolmafia.textui.parsetree.Assignment;
@@ -76,6 +76,10 @@ import net.sourceforge.kolmafia.utilities.ByteArrayStream;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+/**
+ * See devdoc/ParseRoadmap.ebnf for a simplified representation of this class's parsing methods'
+ * call hierarchy.
+ */
 public class Parser {
   public static final String APPROX = "\u2248";
   public static final String PRE_INCREMENT = "++X";
@@ -3286,8 +3290,10 @@ public class Parser {
       if (slash) {
         slash = false;
         if (ch == '/') {
-          this.currentLine.makeToken(i - 1);
-          this.currentIndex += i - 1;
+          if (i > 1) {
+            this.currentLine.makeToken(i - 1);
+            this.currentIndex += i - 1;
+          }
           // Throw away the rest of the line
           this.currentLine.makeComment(this.restOfLine().length());
           this.currentIndex += this.restOfLine().length();
@@ -3549,8 +3555,10 @@ public class Parser {
       }
 
       resultString = line.substring(0, endIndex);
-      this.currentToken = this.currentLine.makeToken(endIndex);
-      this.readToken();
+      if (endIndex > 0) {
+        this.currentToken = this.currentLine.makeToken(endIndex);
+        this.readToken();
+      }
     }
 
     if (this.currentToken().equals(";")) {
@@ -3588,8 +3596,6 @@ public class Parser {
 
   // **************** Tokenizer *****************
 
-  private static final char BOM = '\ufeff';
-
   /**
    * Returns {@link #currentToken} if non-null. Otherwise, moves in front of the next non-comment
    * token that we can find, before assigning it to {@link #currentToken} and returning it.
@@ -3618,7 +3624,9 @@ public class Parser {
         final int commentEnd = restOfLine.indexOf("*/");
 
         if (commentEnd == -1) {
-          this.currentLine.makeComment(restOfLine.length());
+          if (!restOfLine.isEmpty()) {
+            this.currentLine.makeComment(restOfLine.length());
+          }
 
           this.currentLine = this.currentLine.nextLine;
           this.currentIndex = this.currentLine.offset;
@@ -3654,7 +3662,9 @@ public class Parser {
         final int commentEnd = restOfLine.indexOf("*/", 2);
 
         if (commentEnd == -1) {
-          this.currentLine.makeComment(restOfLine.length());
+          if (!restOfLine.isEmpty()) {
+            this.currentLine.makeComment(restOfLine.length());
+          }
 
           this.currentLine = this.currentLine.nextLine;
           this.currentIndex = this.currentLine.offset;
@@ -3731,15 +3741,15 @@ public class Parser {
     this.currentToken();
 
     while (this.currentToken != destinationToken) {
-      this.currentLine.tokens.removeLast();
+      this.currentLine.removeLastToken();
 
-      while (this.currentLine.tokens.isEmpty()) {
+      while (!this.currentLine.hasTokens()) {
         // Don't do null checks. If previousLine is null, it means we never saw the
         // destination token, meaning we'd want to throw an error anyway.
         this.currentLine = this.currentLine.previousLine;
       }
 
-      this.currentToken = this.currentLine.tokens.getLast();
+      this.currentToken = this.currentLine.getLastToken();
       this.currentIndex = this.currentToken.offset;
     }
   }
@@ -3768,7 +3778,7 @@ public class Parser {
   private void clearCurrentToken() {
     if (this.currentToken != null) {
       this.currentToken = null;
-      this.currentLine.tokens.removeLast();
+      this.currentLine.removeLastToken();
     }
   }
 
@@ -3856,184 +3866,6 @@ public class Parser {
     return this.currentLine.content == null;
   }
 
-  public final class Line {
-    private final String content;
-    private final int lineNumber;
-    private final int offset;
-
-    private final Deque<Token> tokens = new LinkedList<>();
-
-    private final Line previousLine;
-    /* Not made final to avoid a possible StackOverflowError. Do not modify. */
-    private Line nextLine = null;
-
-    private Line(final LineNumberReader commandStream) {
-      this(commandStream, null);
-    }
-
-    private Line(final LineNumberReader commandStream, final Line previousLine) {
-      this.previousLine = previousLine;
-      if (previousLine != null) {
-        previousLine.nextLine = this;
-      }
-
-      int offset = 0;
-      String line;
-
-      try {
-        line = commandStream.readLine();
-      } catch (IOException e) {
-        // This should not happen. Therefore, print a stack trace for debug purposes.
-        StaticEntity.printStackTrace(e);
-        line = null;
-      }
-
-      if (line == null) {
-        // We are the "end of file" (or there was an IOException when reading)
-        this.content = null;
-        this.lineNumber = this.previousLine != null ? this.previousLine.lineNumber : 0;
-        this.offset = this.previousLine != null ? this.previousLine.offset : 0;
-        return;
-      }
-
-      // If the line starts with a Unicode BOM, remove it.
-      if (line.length() > 0 && line.charAt(0) == Parser.BOM) {
-        line = line.substring(1);
-        offset += 1;
-      }
-
-      // Remove whitespace at front and end
-      final String trimmed = line.trim();
-
-      if (!trimmed.isEmpty()) {
-        // While the more "obvious" solution would be to use line.indexOf( trimmed ), we
-        // know that the only difference between these strings is leading/trailing
-        // whitespace.
-        //
-        // There are two cases:
-        //  1. `trimmed` is empty, in which case `line` was entirely composed of whitespace.
-        //  2. `trimmed` is non-empty. The first non-whitespace character in `line`
-        //     indicates the start of `trimmed`.
-        //
-        // This is more efficient in that we don't need to confirm that the rest of
-        // `trimmed` is present in `line`.
-
-        final int ltrim = line.indexOf(trimmed.charAt(0));
-        offset += ltrim;
-      }
-
-      line = trimmed;
-
-      this.content = line;
-      this.lineNumber = commandStream.getLineNumber();
-      this.offset = offset;
-    }
-
-    private String substring(final int beginIndex) {
-      if (this.content == null) {
-        return "";
-      }
-
-      // subtract "offset" from beginIndex, since we already removed it
-      return this.content.substring(beginIndex - this.offset);
-    }
-
-    private Token makeToken(final int tokenLength) {
-      final Token newToken = new Token(tokenLength);
-      this.tokens.addLast(newToken);
-      return newToken;
-    }
-
-    private Token makeComment(final int commentLength) {
-      final Token newToken = new Comment(commentLength);
-      this.tokens.addLast(newToken);
-      return newToken;
-    }
-
-    @Override
-    public String toString() {
-      return this.content;
-    }
-
-    public class Token {
-      final int offset;
-      final String content;
-      final String followingWhitespace;
-      final int restOfLineStart;
-
-      private Token(final int tokenLength) {
-        if (!Line.this.tokens.isEmpty()) {
-          offset = Line.this.tokens.getLast().restOfLineStart;
-        } else {
-          offset = Line.this.offset;
-        }
-
-        final String lineRemainder;
-
-        if (Line.this.content == null) {
-          // At end of file
-          this.content = ";";
-          // Going forward, we can just assume lineRemainder is an
-          // empty string.
-          lineRemainder = "";
-        } else {
-          final String lineRemainderWithToken = Line.this.substring(offset);
-
-          this.content = lineRemainderWithToken.substring(0, tokenLength);
-          lineRemainder = lineRemainderWithToken.substring(tokenLength);
-        }
-
-        // As in Line(), this is more efficient than lineRemainder.indexOf( lineRemainder.trim() ).
-        String trimmed = lineRemainder.trim();
-        final int lTrim = trimmed.isEmpty() ? 0 : lineRemainder.indexOf(trimmed.charAt(0));
-
-        this.followingWhitespace = lineRemainder.substring(0, lTrim);
-
-        this.restOfLineStart = offset + tokenLength + lTrim;
-      }
-
-      /** The Line in which this token exists */
-      final Line getLine() {
-        return Line.this;
-      }
-
-      public boolean equals(final String s) {
-        return this.content.equals(s);
-      }
-
-      public boolean equalsIgnoreCase(final String s) {
-        return this.content.equalsIgnoreCase(s);
-      }
-
-      public int length() {
-        return this.content.length();
-      }
-
-      public String substring(final int beginIndex) {
-        return this.content.substring(beginIndex);
-      }
-
-      public String substring(final int beginIndex, final int endIndex) {
-        return this.content.substring(beginIndex, endIndex);
-      }
-
-      public boolean endsWith(final String suffix) {
-        return this.content.endsWith(suffix);
-      }
-
-      @Override
-      public String toString() {
-        return this.content;
-      }
-    }
-
-    private class Comment extends Token {
-      private Comment(final int commentLength) {
-        super(commentLength);
-      }
-    }
-  }
-
   public List<Token> getTokens() {
     final List<Token> result = new LinkedList<>();
 
@@ -4045,7 +3877,7 @@ public class Parser {
     }
 
     while (line != null && line.content != null) {
-      for (final Token token : line.tokens) {
+      for (final Token token : line.getTokensIterator()) {
         result.add(token);
       }
 

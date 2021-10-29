@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.AreaCombatData;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -88,6 +89,7 @@ import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.NemesisDecorator;
 import net.sourceforge.kolmafia.webui.VillainLairDecorator;
+import org.htmlcleaner.BaseToken;
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.CommentNode;
 import org.htmlcleaner.ContentNode;
@@ -348,32 +350,32 @@ public class FightRequest extends GenericRequest {
 
   private static final Object[][] NEMESIS_WEAPONS = { // class, LEW, ULEW
     {
-      KoLCharacter.SEAL_CLUBBER,
+      AscensionClass.SEAL_CLUBBER,
       ItemPool.get(ItemPool.HAMMER_OF_SMITING, 1),
       ItemPool.get(ItemPool.SLEDGEHAMMER_OF_THE_VAELKYR, 1)
     },
     {
-      KoLCharacter.TURTLE_TAMER,
+      AscensionClass.TURTLE_TAMER,
       ItemPool.get(ItemPool.CHELONIAN_MORNINGSTAR, 1),
       ItemPool.get(ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS, 1)
     },
     {
-      KoLCharacter.PASTAMANCER,
+      AscensionClass.PASTAMANCER,
       ItemPool.get(ItemPool.GREEK_PASTA_OF_PERIL, 1),
       ItemPool.get(ItemPool.WRATH_OF_THE_PASTALORDS, 1)
     },
     {
-      KoLCharacter.SAUCEROR,
+      AscensionClass.SAUCEROR,
       ItemPool.get(ItemPool.SEVENTEEN_ALARM_SAUCEPAN, 1),
       ItemPool.get(ItemPool.WINDSOR_PAN_OF_THE_SOURCE, 1)
     },
     {
-      KoLCharacter.DISCO_BANDIT,
+      AscensionClass.DISCO_BANDIT,
       ItemPool.get(ItemPool.SHAGADELIC_DISCO_BANJO, 1),
       ItemPool.get(ItemPool.SEEGERS_BANJO, 1)
     },
     {
-      KoLCharacter.ACCORDION_THIEF,
+      AscensionClass.ACCORDION_THIEF,
       ItemPool.get(ItemPool.SQUEEZEBOX_OF_THE_AGES, 1),
       ItemPool.get(ItemPool.TRICKSTER_TRIKITIXA, 1)
     },
@@ -3385,7 +3387,7 @@ public class FightRequest extends GenericRequest {
     // Cancel any combat modifiers
     Modifiers.overrideModifier("Generated:fightMods", null);
 
-    if (KoLCharacter.getClassType().equals(KoLCharacter.SAUCEROR)) {
+    if (KoLCharacter.isSauceror()) {
       // Check for Soulsauce gain
       Matcher SoulsauceMatcher =
           FightRequest.SOULSAUCE_PATTERN.matcher(FightRequest.lastResponseText);
@@ -4229,7 +4231,7 @@ public class FightRequest extends GenericRequest {
         Preferences.increment("boneAbacusVictories", 1);
       }
 
-      if (KoLCharacter.getClassType() == KoLCharacter.SNAKE_OILER) {
+      if (KoLCharacter.getAscensionClass() == AscensionClass.SNAKE_OILER) {
         if (responseText.contains("+1 Venom")) {
           Preferences.increment("awolVenom");
         } else if (responseText.contains("+1 Medicine")) {
@@ -4409,7 +4411,7 @@ public class FightRequest extends GenericRequest {
   private static void transmogrifyNemesisWeapon(boolean reverse) {
     for (int i = 0; i < FightRequest.NEMESIS_WEAPONS.length; ++i) {
       Object[] data = FightRequest.NEMESIS_WEAPONS[i];
-      if (KoLCharacter.getClassType().equals(data[0])) {
+      if (KoLCharacter.getAscensionClass() == data[0]) {
         EquipmentManager.transformEquipment(
             (AdventureResult) data[reverse ? 2 : 1], (AdventureResult) data[reverse ? 1 : 2]);
         return;
@@ -5007,9 +5009,9 @@ public class FightRequest extends GenericRequest {
       hasTag = true;
     }
 
-    Iterator it = node.getAllChildren().iterator();
+    Iterator<? extends BaseToken> it = node.getAllChildren().iterator();
     while (it.hasNext()) {
-      Object child = it.next();
+      BaseToken child = it.next();
 
       if (child instanceof ContentNode) {
         buffer.append(((ContentNode) child).getContent());
@@ -5675,11 +5677,11 @@ public class FightRequest extends GenericRequest {
     // allow regular node processing to glean whatever it wants
     // from what remains.
 
-    Iterator it = node.getAllChildren().iterator();
+    Iterator<? extends BaseToken> it = node.getAllChildren().iterator();
     boolean done = false;
     int pokindex = 0;
     while (it.hasNext() && !done) {
-      Object child = it.next();
+      BaseToken child = it.next();
       if (child instanceof TagNode) {
         TagNode tnode = (TagNode) child;
         String name = tnode.getName();
@@ -6377,9 +6379,9 @@ public class FightRequest extends GenericRequest {
 
   private static void processChildren(final TagNode node, final TagStatus status) {
     StringBuffer action = status.action;
-    Iterator it = node.getAllChildren().iterator();
+    Iterator<? extends BaseToken> it = node.getAllChildren().iterator();
     while (it.hasNext()) {
-      Object child = it.next();
+      BaseToken child = it.next();
 
       if (child instanceof CommentNode) {
         CommentNode object = (CommentNode) child;
@@ -7133,9 +7135,9 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void processComments(TagNode node, TagStatus status) {
-    Iterator it = node.getAllChildren().iterator();
+    Iterator<? extends BaseToken> it = node.getAllChildren().iterator();
     while (it.hasNext()) {
-      Object child = it.next();
+      BaseToken child = it.next();
 
       if (child instanceof CommentNode) {
         CommentNode object = (CommentNode) child;

@@ -32,7 +32,7 @@ public class PulverizePanel extends ItemListManagePanel {
   private JTable yields;
 
   public PulverizePanel() {
-    super((SortedListModel) KoLConstants.inventory);
+    super((SortedListModel<AdventureResult>) KoLConstants.inventory);
 
     this.setButtons(
         true,
@@ -367,15 +367,14 @@ public class PulverizePanel extends ItemListManagePanel {
       }
 
       MsgOption selected =
-          (MsgOption)
-              InputFieldUtilities.input(
-                  message,
-                  new MsgOption[] {
-                    new MsgOption("receive results as is", ""),
-                    new MsgOption("powders -> nuggets", "nuggets"),
-                    new MsgOption("also nuggets -> wads", "wads"),
-                  },
-                  null);
+          InputFieldUtilities.input(
+              message,
+              new MsgOption[] {
+                new MsgOption("receive results as is", ""),
+                new MsgOption("powders -> nuggets", "nuggets"),
+                new MsgOption("also nuggets -> wads", "wads"),
+              },
+              null);
       if (selected == null) {
         return;
       }

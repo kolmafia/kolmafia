@@ -676,7 +676,7 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill("Air Dirty Laundry");
         break;
       case ItemPool.WARBEAR_OIL_PAN:
-        if (KoLCharacter.getClassType() == KoLCharacter.SAUCEROR) {
+        if (KoLCharacter.isSauceror()) {
           KoLCharacter.removeAvailableSkill("Spray Hot Grease");
         }
         break;
@@ -1009,7 +1009,7 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill("Air Dirty Laundry");
         break;
       case ItemPool.WARBEAR_OIL_PAN:
-        if (KoLCharacter.getClassType() == KoLCharacter.SAUCEROR) {
+        if (KoLCharacter.isSauceror()) {
           KoLCharacter.addAvailableSkill("Spray Hot Grease");
         }
         break;
@@ -2238,8 +2238,7 @@ public class EquipmentManager {
       }
     }
 
-    if (KoLCharacter.getClassType() != KoLCharacter.ACCORDION_THIEF
-        && EquipmentDatabase.isSpecialAccordion(itemId)) {
+    if (!KoLCharacter.isAccordionThief() && EquipmentDatabase.isSpecialAccordion(itemId)) {
       return false;
     }
 
@@ -2366,9 +2365,9 @@ public class EquipmentManager {
     int fakeHands = 0;
 
     JSONObject equip = JSON.getJSONObject("equipment");
-    Iterator keys = equip.keys();
+    Iterator<String> keys = equip.keys();
     while (keys.hasNext()) {
-      String slotName = (String) keys.next();
+      String slotName = keys.next();
       if (slotName.equals("fakehands")) {
         fakeHands = equip.getInt(slotName);
         continue;

@@ -196,7 +196,7 @@ public abstract class StaticEntity {
       Iterator<ActionPanel> panelIterator = StaticEntity.existingPanels.iterator();
 
       while (panelIterator.hasNext()) {
-        ActionPanel panel = (ActionPanel) panelIterator.next();
+        ActionPanel panel = panelIterator.next();
 
         if (container.isAncestorOf(panel)) {
           panel.dispose();

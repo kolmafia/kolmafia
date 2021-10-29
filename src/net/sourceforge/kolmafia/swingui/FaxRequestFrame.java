@@ -353,7 +353,7 @@ public class FaxRequestFrame extends GenericFrame {
     return true;
   }
 
-  private class MonsterCategoryComboBox extends JComboBox {
+  private class MonsterCategoryComboBox extends JComboBox<String> {
     FaxRequestPanel panel;
 
     public MonsterCategoryComboBox(FaxRequestPanel panel, FaxBot bot) {

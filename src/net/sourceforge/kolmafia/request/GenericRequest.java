@@ -2480,7 +2480,7 @@ public class GenericRequest implements Runnable {
   }
 
   /*
-   * Method to display the current request in the Fight Frame. If we are synchronizing, show all requests If we are
+   * Method to display the current request in the Fight Frame. If we are synchronizing, show all requests. If we are
    * finishing, show only exceptional requests
    */
 

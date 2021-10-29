@@ -15,7 +15,7 @@ public class InvocationButton extends ThreadedButton {
         new InvocationListener(object, object == null ? null : object.getClass(), methodName));
   }
 
-  public InvocationButton(final String text, final Class c, final String methodName) {
+  public InvocationButton(final String text, final Class<?> c, final String methodName) {
     super(text, new InvocationListener(null, c, methodName));
   }
 
@@ -30,7 +30,7 @@ public class InvocationButton extends ThreadedButton {
   }
 
   public InvocationButton(
-      final String tooltip, final String icon, final Class c, final String methodName) {
+      final String tooltip, final String icon, final Class<?> c, final String methodName) {
     super(JComponentUtilities.getImage(icon), new InvocationListener(null, c, methodName));
     JComponentUtilities.setComponentSize(this, 32, 32);
 

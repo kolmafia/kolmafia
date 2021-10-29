@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
@@ -361,7 +362,7 @@ public abstract class UseLinkDecorator {
     }
 
     // Retrieve the known ingredient uses for the item.
-    SortedListModel creations = ConcoctionDatabase.getKnownUses(itemId);
+    SortedListModel<AdventureResult> creations = ConcoctionDatabase.getKnownUses(itemId);
     if (creations.isEmpty()) {
       return CraftingType.NOCREATE;
     }
@@ -414,7 +415,7 @@ public abstract class UseLinkDecorator {
     }
 
     for (int i = 0; i < creations.size(); ++i) {
-      AdventureResult creation = (AdventureResult) creations.get(i);
+      AdventureResult creation = creations.get(i);
       CraftingType mixingMethod = ConcoctionDatabase.getMixingMethod(creation);
       EnumSet<CraftingRequirements> requirements =
           ConcoctionDatabase.getRequirements(creation.getItemId());
@@ -1046,7 +1047,7 @@ public abstract class UseLinkDecorator {
 
           case ItemPool.GONG:
             // No use link if already under influence.
-            List active = KoLConstants.activeEffects;
+            List<AdventureResult> active = KoLConstants.activeEffects;
             if (active.contains(FightRequest.BIRDFORM) || active.contains(FightRequest.MOLEFORM)) {
               return null;
             }
@@ -1362,9 +1363,9 @@ public abstract class UseLinkDecorator {
                   "inv_equip.php?which=2&action=equip&slot=3&whichitem="));
         } else if (consumeMethod == KoLConstants.CONSUME_SIXGUN) {
           // Only as WOL class
-          if (KoLCharacter.getClassType() != KoLCharacter.COWPUNCHER
-              && KoLCharacter.getClassType() != KoLCharacter.BEANSLINGER
-              && KoLCharacter.getClassType() != KoLCharacter.SNAKE_OILER) {
+          if (KoLCharacter.getAscensionClass() != AscensionClass.COWPUNCHER
+              && KoLCharacter.getAscensionClass() != AscensionClass.BEANSLINGER
+              && KoLCharacter.getAscensionClass() != AscensionClass.SNAKE_OILER) {
             return null;
           }
           uses.add(

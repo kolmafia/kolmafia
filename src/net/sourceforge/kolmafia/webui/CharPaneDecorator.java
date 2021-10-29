@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -927,7 +928,7 @@ public class CharPaneDecorator {
     // Insert any effects which are in your maintenance list which
     // have already run out.
 
-    List missingEffects = MoodManager.getMissingEffects();
+    List<AdventureResult> missingEffects = MoodManager.getMissingEffects();
 
     // If the player has at least one effect, then go ahead and add
     // all of their missing effects.
@@ -940,7 +941,7 @@ public class CharPaneDecorator {
       AdventureResult currentEffect;
 
       for (int i = 0; i < missingEffects.size(); ++i) {
-        currentEffect = (AdventureResult) missingEffects.get(i);
+        currentEffect = missingEffects.get(i);
 
         String effectName = currentEffect.getName();
         int effectId = currentEffect.getEffectId();
@@ -1068,7 +1069,7 @@ public class CharPaneDecorator {
       boolean needsCocoa = UneffectRequest.needsCocoa(effectName);
       boolean isTimer = effectName.startsWith("Timer ");
       boolean isCowrruption = effectName.equals("Cowrruption");
-      boolean isCowpuncher = KoLCharacter.getClassType() == KoLCharacter.COWPUNCHER;
+      boolean isCowpuncher = KoLCharacter.getAscensionClass() == AscensionClass.COWPUNCHER;
       int duration = effect.getCount();
       boolean isIntrinsic = duration == Integer.MAX_VALUE;
 

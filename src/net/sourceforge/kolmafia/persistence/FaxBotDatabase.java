@@ -257,7 +257,7 @@ public class FaxBotDatabase {
       }
     }
 
-    public List findMatchingCommands(final String command) {
+    public List<String> findMatchingCommands(final String command) {
       String canonical = StringUtilities.getCanonicalName(command);
       return StringUtilities.getMatchingNames(this.canonicalCommands, canonical);
     }

@@ -129,7 +129,7 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
   }
 
   public static String getKnownSources(String name) {
-    Set existingActions = MoodTrigger.knownSources.get(name);
+    Set<String> existingActions = MoodTrigger.knownSources.get(name);
 
     if (existingActions == null) {
       return "";
@@ -137,14 +137,14 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
 
     StringBuilder buffer = new StringBuilder();
 
-    Iterator actionIterator = existingActions.iterator();
+    Iterator<String> actionIterator = existingActions.iterator();
 
     while (actionIterator.hasNext()) {
       if (buffer.length() > 0) {
         buffer.append("|");
       }
 
-      String action = (String) actionIterator.next();
+      String action = actionIterator.next();
       buffer.append(action);
     }
 

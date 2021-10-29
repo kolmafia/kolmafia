@@ -6,8 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,15 +26,16 @@ import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
-import net.sourceforge.kolmafia.session.ChoiceManager;
-import net.sourceforge.kolmafia.session.ChoiceManager.ChoiceAdventure;
+import net.sourceforge.kolmafia.session.MonorailManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
 public class Preferences {
+  // If false, blocks saving of all preferences. Do not modify outside of tests.
+  public static boolean saveSettingsToFile = true;
+
   private static final byte[] LINE_BREAK_AS_BYTES = KoLConstants.LINE_BREAK.getBytes();
 
   private static final String[] characterMap = new String[65536];
@@ -92,6 +91,309 @@ public class Preferences {
               "tempuraSummons",
               "timesRested",
               "tomeSummons"));
+
+  private static String[] resetOnAscension =
+      new String[] {
+        "affirmationCookiesEaten",
+        "aminoAcidsUsed",
+        "awolDeferredPointsBeanslinger",
+        "awolDeferredPointsCowpuncher",
+        "awolDeferredPointsSnakeoiler",
+        "awolMedicine",
+        "awolVenom",
+        "backupCameraMode",
+        "backupCameraReverserEnabled",
+        "bagOTricksCharges",
+        "banishingShoutMonsters",
+        "bigBrotherRescued",
+        "blankOutUsed",
+        "bondAdv",
+        "bondBeach",
+        "bondBeat",
+        "bondBooze",
+        "bondBridge",
+        "bondDesert",
+        "bondDR",
+        "bondDrunk1",
+        "bondDrunk2",
+        "bondHoney",
+        "bondHP",
+        "bondInit",
+        "bondItem1",
+        "bondItem2",
+        "bondItem3",
+        "bondJetpack",
+        "bondMartiniDelivery",
+        "bondMartiniPlus",
+        "bondMartiniTurn",
+        "bondMeat",
+        "bondMox1",
+        "bondMox2",
+        "bondMPregen",
+        "bondMus1",
+        "bondMus2",
+        "bondMys1",
+        "bondMys2",
+        "bondSpleen",
+        "bondStat",
+        "bondStat2",
+        "bondStealth",
+        "bondStealth2",
+        "bondSymbols",
+        "bondWar",
+        "bondWeapon2",
+        "bondWpn",
+        "boomBoxSong",
+        "camelSpit",
+        "cameraMonster",
+        "campAwayDecoration",
+        "carboLoading",
+        "cargoPocketScraps",
+        "cargoPocketsEmptied",
+        "catBurglarBankHeists",
+        "chaosButterflyThrown",
+        "charitableDonations",
+        "cinderellaMinutesToMidnight",
+        "cinderellaScore",
+        "commerceGhostItem",
+        "copperheadClubHazard",
+        "cornucopiasOpened",
+        "cozyCounter6332",
+        "cozyCounter6333",
+        "cozyCounter6334",
+        "crappyCameraMonster",
+        "crimbotArm",
+        "crimbotChassis",
+        "crimbotPropulsion",
+        "crimboTreeDays",
+        "crudeMonster",
+        "csServicesPerformed",
+        "cubelingProgress",
+        "currentEasyBountyItem",
+        "currentHardBountyItem",
+        "currentHedgeMazeRoom",
+        "currentHippyStore",
+        "currentSpecialBountyItem",
+        "cyrusAdjectives",
+        "dampOldBootPurchased",
+        "daycareEquipment",
+        "daycareInstructors",
+        "daycareToddlers",
+        "demonName12",
+        "demonName13",
+        "dnaSyringe",
+        "dolphinItem",
+        "dreadScroll1",
+        "dreadScroll2",
+        "dreadScroll3",
+        "dreadScroll4",
+        "dreadScroll5",
+        "dreadScroll6",
+        "dreadScroll7",
+        "dreadScroll8",
+        "dripAdventuresSinceAscension",
+        "drippingHallAdventuresSinceAscension",
+        "drippingTreesAdventuresSinceAscension",
+        "drippyJuice",
+        "edPiece",
+        "eldritchTentaclesFought",
+        "encountersUntilDMTChoice",
+        "encountersUntilNEPChoice",
+        "ensorcelee",
+        "ensorceleeLevel",
+        "envyfishMonster",
+        "falloutShelterChronoUsed",
+        "falloutShelterCoolingTankUsed",
+        "fireExtinguisherBatHoleUsed",
+        "fireExtinguisherChasmUsed",
+        "fireExtinguisherCyrptUsed",
+        "fireExtinguisherDesertUsed",
+        "fireExtinguisherHaremUsed",
+        "fistSkillsKnown",
+        "fistTeachingsBarroomBrawl",
+        "fistTeachingsBatHole",
+        "fistTeachingsConservatory",
+        "fistTeachingsFratHouse",
+        "fistTeachingsFunHouse",
+        "fistTeachingsHaikuDungeon",
+        "fistTeachingsMenagerie",
+        "fistTeachingsNinjaSnowmen",
+        "fistTeachingsPokerRoom",
+        "fistTeachingsRoad",
+        "fistTeachingsSlums",
+        "frenchGuardTurtlesFreed",
+        "garbageChampagneCharge",
+        "garbageFireProgress",
+        "garbageShirtCharge",
+        "garbageTreeCharge",
+        "gingerBlackmailAccomplished",
+        "gingerDigCount",
+        "gingerLawChoice",
+        "gingerMuscleChoice",
+        "gingerNegativesDropped",
+        "gingerSubwayLineUnlocked",
+        "gladiatorBallMovesKnown",
+        "gladiatorBladeMovesKnown",
+        "gladiatorNetMovesKnown",
+        "gnasirProgress",
+        "grimstoneCharge",
+        "grimstoneMaskPath",
+        "guardTurtlesFreed",
+        "guyMadeOfBeesCount",
+        "guyMadeOfBeesDefeated",
+        "guzzlrDeliveryProgress",
+        "hasBartender",
+        "hasChef",
+        "hasCocktailKit",
+        "hasOven",
+        "hasRange",
+        "hasShaker",
+        "hasSushiMat",
+        "hermitHax0red",
+        "highTopPumped",
+        "iceSculptureMonster",
+        "itemBoughtPerAscension10790",
+        "itemBoughtPerAscension10794",
+        "itemBoughtPerAscension10795",
+        "itemBoughtPerAscension637",
+        "itemBoughtPerAscension8266",
+        "jungCharge",
+        "lassoTraining",
+        "lastAnticheeseDay",
+        "lastColosseumRoundWon",
+        "lastCopyableMonster",
+        "lastCouncilVisit",
+        "lastZapperWandExplosionDay",
+        "latteModifier",
+        "latteUnlocks",
+        "leafletCompleted",
+        "lockPicked",
+        "louvreLayout",
+        "mappingMonsters",
+        "mapToAnemoneMinePurchased",
+        "mapToMadnessReefPurchased",
+        "mapToTheDiveBarPurchased",
+        "mapToTheMarinaraTrenchPurchased",
+        "mapToTheSkateParkPurchased",
+        "mayflyExperience",
+        "mayoInMouth",
+        "mayoLevel",
+        "mayoMinderSetting",
+        "meansuckerPrice",
+        "merkinLockkeyMonster",
+        "merkinQuestPath",
+        "merkinVocabularyMastery",
+        "milkOfMagnesiumActive",
+        "miniAdvClass",
+        "moonTuned",
+        "mushroomGardenCropLevel",
+        "nextParanormalActivity",
+        "nextQuantumFamiliar",
+        "nextQuantumFamiliarTurn",
+        "nextSpookyravenElizabethRoom",
+        "nextSpookyravenStephenRoom",
+        "nosyNoseMonster",
+        "optimisticCandleProgress",
+        "parasolUsed",
+        "pastaThrall1",
+        "pastaThrall2",
+        "pastaThrall3",
+        "pastaThrall4",
+        "pastaThrall5",
+        "pastaThrall6",
+        "pastaThrall7",
+        "pastaThrall8",
+        "pendingMapReflections",
+        "photocopyMonster",
+        "plantingDate",
+        "plantingDay",
+        "plumberBadgeCost",
+        "plumberCostumeCost",
+        "plumberCostumeWorn",
+        "pokefamBoosts",
+        "popularTartUnlocked",
+        "prayedForGlamour",
+        "prayedForProtection",
+        "prayedForVigor",
+        "procrastinatorLanguageFluency",
+        "pyramidBombUsed",
+        "pyramidPosition",
+        "rainDohMonster",
+        "redSnapperProgress",
+        "retroCapeSuperhero",
+        "retroCapeWashingInstructions",
+        "rockinRobinProgress",
+        "rumpelstiltskinKidsRescued",
+        "rumpelstiltskinTurnsUsed",
+        "sausageGrinderUnits",
+        "scrapbookCharges",
+        "screencappedMonster",
+        "seahorseName",
+        "shenInitiationDay",
+        "shockingLickCharges",
+        "singleFamiliarRun",
+        "slimelingFullness",
+        "slimelingStacksDropped",
+        "slimelingStacksDue",
+        "smoresEaten",
+        "smutOrcNoncombatProgress",
+        "snojoMoxieWins",
+        "snojoMuscleWins",
+        "snojoMysticalityWins",
+        "snojoSetting",
+        "snowsuit",
+        "sourceAgentsDefeated",
+        "sourceEnlightenment",
+        "sourceInterval",
+        "sourceOracleTarget",
+        "sourceTerminalEducate1",
+        "sourceTerminalEducate2",
+        "sourceTerminalEnquiry",
+        "spaceBabyLanguageFluency",
+        "spaceInvaderDefeated",
+        "spacePirateLanguageFluency",
+        "spookyPuttyMonster",
+        "statbotUses",
+        "sugarCounter4178",
+        "sugarCounter4179",
+        "sugarCounter4180",
+        "sugarCounter4181",
+        "sugarCounter4182",
+        "sugarCounter4183",
+        "sugarCounter4191",
+        "superficiallyInterestedMonster",
+        "telescope1",
+        "telescope2",
+        "telescope3",
+        "telescope4",
+        "telescope5",
+        "telescope6",
+        "telescope7",
+        "testudinalTeachings",
+        "trapperOre",
+        "turtleBlessingTurns",
+        "twinPeakProgress",
+        "unicornHornInflation",
+        "violetFogLayout",
+        "waxMonster",
+        "wildfireBarrelCaulked",
+        "wildfireDusted",
+        "wildfireFracked",
+        "wildfirePumpGreased",
+        "wildfireSprinkled",
+        "workteaClue",
+        "xoSkeleltonOProgress",
+        "xoSkeleltonXProgress",
+        "yearbookCameraPending",
+        "yearbookCameraTarget",
+        "youRobotBody",
+        "youRobotBottom",
+        "youRobotCPUUpgrades",
+        "youRobotLeft",
+        "youRobotRight",
+        "youRobotScavenged",
+        "youRobotTop",
+      };
 
   static {
     // Initialize perUserGlobalSet and read defaults.txt into
@@ -167,9 +469,7 @@ public class Preferences {
     synchronized (Preferences.userValues) {
       if (username == null || username.equals("")) {
         if (Preferences.userPropertiesFile != null) {
-          if (Preferences.getBoolean("saveSettingsOnSet")) {
-            Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userValues);
-          }
+          Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userValues);
           Preferences.userPropertiesFile = null;
           Preferences.userValues.clear();
         }
@@ -728,12 +1028,15 @@ public class Preferences {
   }
 
   private static void saveToFile(File file, Map<String, Object> data) {
+    if (!Preferences.saveSettingsToFile) {
+      return;
+    }
+
     // See Collections.synchronizedSortedMap
     //
     // We are essentially iterating over the map. Not exactly - we
     // are iterating over the entrySet - but let's keep the map and
     // the file in synch atomically
-
     synchronized (data) {
       // Determine the contents of the file by
       // actually printing them.
@@ -767,63 +1070,6 @@ public class Preferences {
     }
   }
 
-  public static final void printDefaults() {
-    PrintStream ostream = LogStream.openStream("choices.txt", true);
-
-    ostream.println("[u]Configurable[/u]");
-    ostream.println();
-
-    ChoiceManager.setChoiceOrdering(false);
-    Arrays.sort(ChoiceManager.CHOICE_ADVS);
-    Arrays.sort(ChoiceManager.CHOICE_ADV_SPOILERS);
-
-    Preferences.printDefaults(ChoiceManager.CHOICE_ADVS, ostream);
-
-    ostream.println();
-    ostream.println();
-    ostream.println("[u]Not Configurable[/u]");
-    ostream.println();
-
-    Preferences.printDefaults(ChoiceManager.CHOICE_ADV_SPOILERS, ostream);
-
-    ChoiceManager.setChoiceOrdering(true);
-    Arrays.sort(ChoiceManager.CHOICE_ADVS);
-    Arrays.sort(ChoiceManager.CHOICE_ADV_SPOILERS);
-
-    ostream.close();
-  }
-
-  private static void printDefaults(final ChoiceAdventure[] choices, final PrintStream ostream) {
-    for (ChoiceAdventure choice : choices) {
-      String setting = choice.getSetting();
-
-      ostream.print("[" + setting.substring(15) + "] ");
-      ostream.print(choice.getName() + ": ");
-
-      Object[] options = choice.getOptions();
-      int defaultOption = StringUtilities.parseInt(Preferences.userNames.get(setting));
-      Object def = ChoiceManager.findOption(options, defaultOption);
-
-      ostream.print(def.toString() + " [color=gray](");
-
-      int printedCount = 0;
-      for (Object option : options) {
-        if (option == def) {
-          continue;
-        }
-
-        if (printedCount != 0) {
-          ostream.print(", ");
-        }
-
-        ++printedCount;
-        ostream.print(option.toString());
-      }
-
-      ostream.println(")[/color]");
-    }
-  }
-
   public static void resetToDefault(String name) {
     if (Preferences.userNames.containsKey(name)) {
       Preferences.setString(name, Preferences.userNames.get(name));
@@ -834,6 +1080,27 @@ public class Preferences {
 
   public static boolean isDaily(String name) {
     return name.startsWith("_") || legacyDailies.contains(name);
+  }
+
+  public static void resetPerAscension() {
+    // Most prefs that get reset on ascension just return to their default value
+    for (String pref : resetOnAscension) {
+      resetToDefault(pref);
+    }
+
+    // Some need special treatment
+    MonorailManager.resetMuffinOrder();
+
+    // Deferred ascension rewards
+    Preferences.setInteger(
+        "yearbookCameraUpgrades", Preferences.getInteger("yearbookCameraAscensions"));
+    Preferences.increment(
+        "awolPointsBeanslinger", Preferences.getInteger("awolDeferredPointsBeanslinger"));
+    Preferences.increment(
+        "awolPointsCowpuncher", Preferences.getInteger("awolDeferredPointsCowpuncher"));
+    Preferences.increment(
+        "awolPointsSnakeoiler", Preferences.getInteger("awolDeferredPointsSnakeoiler"));
+    Preferences.increment("noobPoints", Preferences.getInteger("noobDeferredPoints"));
   }
 
   public static void resetDailies() {

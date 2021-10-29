@@ -14,7 +14,7 @@ public class InvocationMenuItem extends ThreadedMenuItem {
         new InvocationListener(object, object == null ? null : object.getClass(), methodName));
   }
 
-  public InvocationMenuItem(final String title, final Class c, final String methodName) {
+  public InvocationMenuItem(final String title, final Class<?> c, final String methodName) {
     super(title, new InvocationListener(null, c, methodName));
   }
 }
