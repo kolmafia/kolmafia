@@ -1,0 +1,161 @@
+(* An EBNF representation of the call hierarchy of Parser's parsing methods.
+   Every word (outside of comments) in this file is implitly preceded by "parse".
+   For example: CommandOrDeclaration => parseCommandOrDeclaration *)
+
+(* See https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form#Table_of_symbols
+   for information about the symbols' meaning. *)
+
+CommandOrDeclaration = Type, Variables
+                     | Command ;
+
+Scope = [ ScriptName ], [ Notify ], [ Since ], [ { Import } ],
+        { Typedef
+        | Type, [ Function
+                | Variables
+                | AggregateLiteral
+                ]
+        | Command
+        } ;
+
+Record = [ Identifier ], { Type, Identifier } ;
+
+Function = Identifier, [ { Type, Variable } ], BlockOrSingleCommand ;
+
+Variables = { Variable, Initialization } ;
+
+Variable = Identifier ;
+
+Initialization = AggregateLiteral
+               | Expression ;
+
+Typedef = Type, Identifier ;
+
+Command = Return
+        | BasicScript
+        | While
+        | Foreach
+        | JavaFor
+        | For
+        | Repeat
+        | Switch
+        | Conditional
+        | Try
+        | Catch
+        | Static
+        | Sort
+        | Remove
+        | Block
+        | Evaluable ;
+
+Type = Identifier, [ Record ], [ AggregateType ] ;
+
+AggregateLiteral = [ { ( AggregateLiteral | Expression ),
+                       [ ( AggregateLiteral | Expression ) ]
+                   } ] ;
+
+AggregateType = [ Identifier ], [ AggregateType ] ;
+
+Return = [ Expression ] ;
+
+SingleCommandScope = [ Command ] ;
+
+BlockOrSingleCommand = Block
+                     | SingleCommandScope ;
+
+Block = Scope ;
+
+Conditional = Expression,
+              { BlockOrSingleCommand, [ Expression ] } ;
+
+While = Expression, LoopScope ;
+
+Repeat = LoopScope, Expression ;
+
+Switch = [ Expression ],
+         { [ Expression ],
+           Type, Variables
+         | Command
+         } ;
+
+Try = BlockOrSingleCommand, BlockOrSingleCommand ;
+
+Catch = BlockOrSingleCommand ;
+
+CatchValue = Block
+           | Expression ;
+
+Static = Scope
+       | CommandOrDeclaration ;
+
+Sort = VariableReference, Expression ;
+
+Foreach = { Identifier }, Evaluable, LoopScope ;
+
+For = Identifier, Expression, Expression, [ Expression ], LoopScope ;
+
+JavaFor = [ { [ Type ], Identifier, [ Expression ] } ],
+          [ Expression ],
+          [ { PreIncDec
+            | VariableReference, ( PostIncDec | Assignment )
+          } ],
+          LoopScope ;
+
+LoopScope = Scope
+          | Command ;
+
+NewRecord = Identifier,
+            { [ AggregateLiteral | Expression ] } ;
+
+Call = ScopedIdentifier, Parameters, PostCall ;
+
+Parameters = [ { Expression } ] ;
+
+PostCall = [ { VariableReference } ] ;
+
+Invoke = [ Type ], ( Expression | VariableReference ), Parameters, PostCall ;
+
+Assignment = AggregateLiteral
+           | Expression ;
+
+Remove = Expression ;
+
+PreIncDec = VariableReference ;
+
+Expression = ( Evaluable | VariableReference ),
+             [ { Operator, Expression, [ Expression, [ Expression ] ] } ] ;
+
+Evaluable = ( Expression
+            | Number
+            | String
+            | TypedConstant
+            | NewRecord
+            | CatchValue
+            | PreIncDec
+            | Invoke
+            | Call
+            | Type, AggregateLiteral
+            | VariableReference
+            ),
+            [ { VariableReference } ],
+            [ Assignment | PostIncDec ] ;
+
+String = { [ EscapeSequence | Expression ] } ;
+
+TypedConstant = PluralConstant
+              | Literal ;
+
+PluralConstant = [ { { [ EscapeSequence ] }, Literal } ] ;
+
+VariableReference = Identifier,
+                    [ { Expression
+                      | Call
+                      | Identifier
+                    } ] ;
+
+ScriptName = Directive ;
+
+Notify = Directive ;
+
+Since = Directive ;
+
+Import = Directive ;
