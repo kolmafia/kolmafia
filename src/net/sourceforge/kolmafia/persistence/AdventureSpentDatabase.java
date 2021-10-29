@@ -152,7 +152,7 @@ public class AdventureSpentDatabase implements Serializable {
   }
 
   /*
-   * Attempts to load saved adventure queue settings from <username>_queue.ser
+   * Attempts to load saved adventure queue settings from <username>_turns.ser
    */
   public static void deserialize() {
     File file =
