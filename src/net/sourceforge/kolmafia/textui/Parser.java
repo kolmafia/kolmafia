@@ -76,6 +76,10 @@ import net.sourceforge.kolmafia.utilities.ByteArrayStream;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+/**
+ * See devdoc/ParseRoadmap.ebnf for a simplified representation of this class's parsing methods'
+ * call hierarchy.
+ */
 public class Parser {
   public static final String APPROX = "\u2248";
   public static final String PRE_INCREMENT = "++X";
