@@ -17,10 +17,10 @@ class PreferencesTest {
   }
 
   @Test
-  //This test fails when another test sets Preferences.saveSettingsToFile = true;
-  //The comment about restoring from disk is concerning since there is nothing
-  //to restore from (AFAIK) when the setting is false;  But if the other test
-  //restores the value to false, this test passes.
+  // This test fails when another test sets Preferences.saveSettingsToFile = true;
+  // The comment about restoring from disk is concerning since there is nothing
+  // to restore from (AFAIK) when the setting is false;  But if the other test
+  // restores the value to false, this test passes.
   void ResetClearsPrefs() {
     String propName = "aTestProp";
     Preferences.setBoolean(propName, true);
@@ -424,11 +424,11 @@ class PreferencesTest {
     String name = "charitableDonations";
     int val = 1337;
     Preferences.setInteger(name, val);
-    //Confirm it was set
+    // Confirm it was set
     assertEquals(val, Preferences.getInteger(name));
-    //reset
+    // reset
     Preferences.resetPerAscension();
-    //confirm changed
+    // confirm changed
     assertNotEquals(val, Preferences.getInteger(name));
   }
 
@@ -436,57 +436,68 @@ class PreferencesTest {
   void makeAndTestUnspecifiedProperty() {
     String name = "makeMine";
     String value = "the P Funk";
-    //Doesn't exist as either user or GLOBAL
+    // Doesn't exist as either user or GLOBAL
     assertFalse(Preferences.propertyExists(name, true));
     assertFalse(Preferences.propertyExists(name, false));
     assertFalse(Preferences.isGlobalProperty(name));
-    //Create it as unspecified
+    // Create it as unspecified
     Preferences.setString(name, value);
-    //Exists as user
+    // Exists as user
     assertFalse(Preferences.propertyExists(name, true));
     assertTrue(Preferences.propertyExists(name, false));
     assertFalse(Preferences.isGlobalProperty(name));
     assertFalse(Preferences.isPerUserGlobalProperty(name));
-    //Remove it and confirm it is gone
+    // Remove it and confirm it is gone
     Preferences.removeProperty(name, false);
     assertFalse(Preferences.propertyExists(name, true));
     assertFalse(Preferences.propertyExists(name, false));
     assertFalse(Preferences.isGlobalProperty(name));
   }
+
   @Test
   void makeAndTestUserProperty() {
     String name = "makeMine";
     String value = "the P Funk";
-    //Doesn't exist as either user or GLOBAL
+    // Doesn't exist as either user or GLOBAL
     assertFalse(Preferences.propertyExists(name, true));
     assertFalse(Preferences.propertyExists(name, false));
     assertFalse(Preferences.isGlobalProperty(name));
-    //Create it as user
+    // Create it as user
     String userName = KoLCharacter.getUserName();
     Preferences.setString(userName, name, value);
-    //Exists as user
+    // Exists as user
     assertFalse(Preferences.propertyExists(name, true));
     assertTrue(Preferences.propertyExists(name, false));
     assertFalse(Preferences.isGlobalProperty(name));
-    //Remove it and confirm it is gone
+    // Remove it and confirm it is gone
     Preferences.removeProperty(name, false);
     assertFalse(Preferences.propertyExists(name, true));
     assertFalse(Preferences.propertyExists(name, false));
     assertFalse(Preferences.isGlobalProperty(name));
   }
+
   @Test
   public void exerciseIsPerUserGlobalProperty() {
-    //not a property
+    // not a property
     assertFalse(Preferences.isPerUserGlobalProperty("xyzzy"));
     assertFalse(Preferences.isPerUserGlobalProperty("xy..z.zy"));
-    //property
+    // property
     assertTrue(Preferences.isPerUserGlobalProperty("getBreakfast.fakePrefUser"));
   }
+
   @Test
   public void actuallySaveFileToIncreaseCoverage() {
     Preferences.saveSettingsToFile = true;
     Preferences.setString("tabby", "*\\t*");
-    Preferences.setString("removeMe","please");
+    Preferences.setString("removeMe", "please");
+    Preferences.setString("a", "\\n");
+    Preferences.setString("b", "\\f");
+    Preferences.setString("c", "\\r");
+    Preferences.setString("d", "\\\\");
+    Preferences.setString("e", "=");
+    Preferences.setString("f", ":");
+    Preferences.setString("g", "#");
+    Preferences.setString("h", "!");
     Preferences.removeProperty("removeMe", false);
     assertFalse(Preferences.propertyExists("removeMe", false));
     Preferences.saveSettingsToFile = false;
@@ -494,12 +505,12 @@ class PreferencesTest {
 
   @Test
   public void exerciseGetStringVariant() {
-    String name = "makeMineAlso"; //makeAndTestUserProperty using the same name breaks
+    String name = "makeMineAlso"; // makeAndTestUserProperty using the same name breaks
     String value = "the P Funk";
     String userName = KoLCharacter.getUserName();
     Preferences.setString(userName, name, value);
     assertEquals(value, Preferences.getString(name, false));
-    name = "lastUsername"; //global
+    name = "lastUsername"; // global
     value = "Bootsy";
     Preferences.setString(name, value);
     assertEquals(value, Preferences.getString(name, true));
