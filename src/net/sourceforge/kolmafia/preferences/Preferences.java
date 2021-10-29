@@ -531,6 +531,10 @@ public class Preferences {
   }
 
   private static void loadUserPreferences(final String username) {
+    // Apparently the CodeQL security scan requires this as a fix...
+    if ((username != null) && (username.contains(".."))) {
+      return;
+    }
     File file =
         new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.txt");
     Preferences.userPropertiesFile = file;
