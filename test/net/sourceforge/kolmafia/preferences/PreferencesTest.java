@@ -20,7 +20,6 @@ class PreferencesTest {
   void ResetClearsPrefs() {
     String propName = "aTestProp";
     Preferences.setBoolean(propName, true);
-
     assertTrue(Preferences.getBoolean(propName), "Property Set but does not exist.");
     Preferences.reset("fakePrefUser"); // reload from disk
     assertFalse(Preferences.getBoolean(propName), "Property not restored from disk by reset.");
@@ -414,6 +413,78 @@ class PreferencesTest {
     String prefName = "autoLogin";
     boolean result = Preferences.containsDefault(prefName);
     assertTrue(result, "default not in defaultsSet for pref " + prefName);
+  }
+
+  @Test
+  void resetAscensionProperties() {
+    String name = "charitableDonations";
+    int val = 1337;
+    Preferences.setInteger(name, val);
+    //Confirm it was set
+    assertEquals(val, Preferences.getInteger(name));
+    //reset
+    Preferences.resetPerAscension();
+    //confirm changed
+    assertNotEquals(val, Preferences.getInteger(name));
+  }
+
+  @Test
+  void makeAndTestUnspecifiedProperty() {
+    String name = "makeMine";
+    String value = "the P Funk";
+    //Doesn't exist as either user or GLOBAL
+    assertFalse(Preferences.propertyExists(name, true));
+    assertFalse(Preferences.propertyExists(name, false));
+    assertFalse(Preferences.isGlobalProperty(name));
+    //Create it as unspecified
+    Preferences.setString(name, value);
+    //Exists as user
+    assertFalse(Preferences.propertyExists(name, true));
+    assertTrue(Preferences.propertyExists(name, false));
+    assertFalse(Preferences.isGlobalProperty(name));
+    assertFalse(Preferences.isPerUserGlobalProperty(name));
+    //Remove it and confirm it is gone
+    Preferences.removeProperty(name, false);
+    assertFalse(Preferences.propertyExists(name, true));
+    assertFalse(Preferences.propertyExists(name, false));
+    assertFalse(Preferences.isGlobalProperty(name));
+  }
+  @Test
+  void makeAndTestUserProperty() {
+    String name = "makeMine";
+    String value = "the P Funk";
+    //Doesn't exist as either user or GLOBAL
+    assertFalse(Preferences.propertyExists(name, true));
+    assertFalse(Preferences.propertyExists(name, false));
+    assertFalse(Preferences.isGlobalProperty(name));
+    //Create it as user
+    String userName = KoLCharacter.getUserName();
+    Preferences.setString(userName, name, value);
+    //Exists as user
+    assertFalse(Preferences.propertyExists(name, true));
+    assertTrue(Preferences.propertyExists(name, false));
+    assertFalse(Preferences.isGlobalProperty(name));
+    //Remove it and confirm it is gone
+    Preferences.removeProperty(name, false);
+    assertFalse(Preferences.propertyExists(name, true));
+    assertFalse(Preferences.propertyExists(name, false));
+    assertFalse(Preferences.isGlobalProperty(name));
+  }
+  @Test
+  public void exerciseIsPerUserGlobalProperty() {
+    //not a property
+    assertFalse(Preferences.isPerUserGlobalProperty("xyzzy"));
+    assertFalse(Preferences.isPerUserGlobalProperty("xy..z.zy"));
+    //property
+    assertTrue(Preferences.isPerUserGlobalProperty("getBreakfast.fakePrefUser"));
+  }
+  @Test
+  public void actuallySaveFileToIncreaseCoverage() {
+    Preferences.saveSettingsToFile = true;
+    Preferences.setString("tabby", "*\\t*");
+    Preferences.setString("removeMe","please");
+    Preferences.removeProperty("removeMe", false);
+    assertFalse(Preferences.propertyExists("removeMe", false));
   }
 }
 
