@@ -639,7 +639,11 @@ public class RelayRequest extends PasswordHashRequest {
   }
 
   public static File findRelayFile(final String filename) {
-    return new File(KoLConstants.RELAY_LOCATION, filename);
+    if ((filename == null) || (filename.contains(".."))) {
+      return null;
+    } else {
+      return new File(KoLConstants.RELAY_LOCATION, filename);
+    }
   }
 
   private void sendLocalFile(final String filename) {
