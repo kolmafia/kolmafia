@@ -497,7 +497,7 @@ public class KoLmafiaCLI {
     return this.elseRuns;
   }
 
-  static {
+  public static void registerCommands() {
     new AbortCommand().register("abort");
     new AbsorbCommand().register("absorb");
     new AccordionsCommand().register("accordions");
@@ -819,6 +819,10 @@ public class KoLmafiaCLI {
     new CommandAlias("skills", "passive").register("pass").register("passive");
     new CommandAlias("skills", "self").register("self");
     new CommandAlias("skills", "combat").register("combat");
+  }
+
+  static {
+    registerCommands();
   }
 
   public static void showHTML(final String text) {

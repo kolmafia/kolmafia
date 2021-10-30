@@ -127,6 +127,11 @@ public abstract class AbstractCommand {
     return null;
   }
 
+  public static void clear() {
+    AbstractCommand.lookup.clear();
+    AbstractCommand.substringLookup.clear();
+  }
+
   private void registerFlags(final String name) {
     if (this.flags == KoLmafiaCLI.FULL_LINE_CMD) {
       AbstractCommand.fullLineCmds +=

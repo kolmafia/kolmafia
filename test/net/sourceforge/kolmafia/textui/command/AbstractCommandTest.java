@@ -11,8 +11,7 @@ import org.junit.jupiter.api.Test;
 public class AbstractCommandTest {
   @BeforeEach
   public void initEach() {
-    AbstractCommand.lookup.clear();
-    AbstractCommand.substringLookup.clear();
+    AbstractCommand.clear();
   }
 
   @Test
