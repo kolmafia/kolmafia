@@ -3657,11 +3657,9 @@ public class Modifiers {
     Set<String> wikiname = new TreeSet<>();
 
     // Iterate over all items and assign item id to category
-    Iterator it = ItemDatabase.dataNameEntrySet().iterator();
-    while (it.hasNext()) {
-      Entry entry = (Entry) it.next();
-      Integer key = (Integer) entry.getKey();
-      String name = (String) entry.getValue();
+    for (Entry<Integer, String> entry : ItemDatabase.dataNameEntrySet()) {
+      Integer key = entry.getKey();
+      String name = entry.getValue();
       int type = ItemDatabase.getConsumptionType(key.intValue());
 
       switch (type) {
@@ -3721,10 +3719,8 @@ public class Modifiers {
     Set<String> familiars = new TreeSet<>();
     familiars.add("Familiar:(none)");
 
-    it = FamiliarDatabase.entrySet().iterator();
-    while (it.hasNext()) {
-      Entry entry = (Entry) it.next();
-      String name = (String) entry.getValue();
+    for (Entry<Integer, String> entry : FamiliarDatabase.entrySet()) {
+      String name = entry.getValue();
       if (Modifiers.getModifiers("Familiar", name) != null) {
         familiars.add(name);
       }
@@ -3755,11 +3751,9 @@ public class Modifiers {
     // Make a map of status effects
     Set<String> effects = new TreeSet<>();
 
-    it = EffectDatabase.entrySet().iterator();
-    while (it.hasNext()) {
-      Entry entry = (Entry) it.next();
-      Integer key = (Integer) entry.getKey();
-      String name = (String) entry.getValue();
+    for (Entry<Integer, String> entry : EffectDatabase.entrySet()) {
+      Integer key = entry.getKey();
+      String name = entry.getValue();
       // Skip effect which is also an item
       effects.add(name);
     }
@@ -3767,11 +3761,9 @@ public class Modifiers {
     // Make a map of passive skills
     Set<String> passives = new TreeSet<>();
 
-    it = SkillDatabase.entrySet().iterator();
-    while (it.hasNext()) {
-      Entry entry = (Entry) it.next();
-      Integer key = (Integer) entry.getKey();
-      String name = (String) entry.getValue();
+    for (Entry<Integer, String> entry : SkillDatabase.entrySet()) {
+      Integer key = entry.getKey();
+      String name = entry.getValue();
       if (SkillDatabase.isPassive(key.intValue())) {
         passives.add(name);
       }
@@ -3804,10 +3796,7 @@ public class Modifiers {
     // Make a map of zones
     Set<String> zones = new TreeSet<>();
 
-    it = AdventureDatabase.ZONE_DESCRIPTIONS.keySet().iterator();
-    while (it.hasNext()) {
-      String key = (String) it.next();
-      String name = key;
+    for (String name : AdventureDatabase.ZONE_DESCRIPTIONS.keySet()) {
       if (Modifiers.getModifiers("Zone", name) != null) {
         zones.add(name);
       }
@@ -3816,9 +3805,7 @@ public class Modifiers {
     // Make a map of locations
     Set<String> locations = new TreeSet<>();
 
-    it = AdventureDatabase.getAsLockableListModel().iterator();
-    while (it.hasNext()) {
-      KoLAdventure key = (KoLAdventure) it.next();
+    for (KoLAdventure key : AdventureDatabase.getAsLockableListModel()) {
       String name = key.getAdventureName();
       if (Modifiers.getModifiers("Loc", name) != null) {
         locations.add(name);
@@ -3828,20 +3815,16 @@ public class Modifiers {
     // Make a map of synergies
     Set<String> synergies = new TreeSet<>();
 
-    it = Modifiers.synergies.entrySet().iterator();
-    while (it.hasNext()) {
-      Entry entry = (Entry) it.next();
-      String name = (String) entry.getKey();
-      int mask = ((Integer) entry.getValue()).intValue();
+    for (Entry<String, Integer> entry : Modifiers.synergies.entrySet()) {
+      String name = entry.getKey();
+      int mask = entry.getValue().intValue();
       synergies.add(name);
     }
 
     // Make a map of mutexes
     Set<String> mutexes = new TreeSet<>();
 
-    it = Modifiers.mutexes.iterator();
-    while (it.hasNext()) {
-      String name = (String) it.next();
+    for (String name : Modifiers.mutexes) {
       mutexes.add(name);
     }
 
