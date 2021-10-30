@@ -6,22 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  tag:
-    if: github.repository == 'kolmafia/kolmafia'
-    name: Publish Artifacts
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Retrieve version and tag
-        run: |
-          KOLMAFIA_VERSION=$(git rev-list --count $GITHUB_SHA)
-          git tag "r$KOLMAFIA_VERSION"
   bin:
-    needs: [tag]
     if: github.repository == 'kolmafia/kolmafia'
     name: Build Binaries
     runs-on: ${{ matrix.os }}
@@ -59,7 +44,6 @@ jobs:
             build/releases/*.dmg
 
   jar:
-    needs: [tag]
     if: github.repository == 'kolmafia/kolmafia'
     name: Build Release
     runs-on: ubuntu-latest
@@ -102,9 +86,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Retrieve version
+      - name: Retrieve version and tag
         run: |
           KOLMAFIA_VERSION=$(git rev-list --count $GITHUB_SHA)
+          git tag "r$KOLMAFIA_VERSION"
           echo "KOLMAFIA_VERSION=$KOLMAFIA_VERSION" >> $GITHUB_ENV
 
       - name: Download binaries
