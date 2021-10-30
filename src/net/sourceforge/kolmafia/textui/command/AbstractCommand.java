@@ -113,7 +113,7 @@ public abstract class AbstractCommand {
 
   // Internal implementation thingies:
 
-  public static final PrefixMap lookup = new PrefixMap();
+  public static final PrefixMap<AbstractCommand> lookup = new PrefixMap<>();
   public static final Map<String, AbstractCommand> substringLookup = new TreeMap<>();
   public static String fullLineCmds = "";
   public static String flowControlCmds = "";
