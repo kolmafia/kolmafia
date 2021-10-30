@@ -48,7 +48,7 @@ public class Modifiers {
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
   private static final Map<String, Integer> modifierIndicesByName = new HashMap<>();
   private static final List<UseSkillRequest> passiveSkills = new ArrayList<>();
-  private static final List synergies = new ArrayList();
+  private static final Map<String, Integer> synergies = new HashMap<>();
   private static final List<String> mutexes = new ArrayList<>();
   private static final Map<String, Set<String>> uniques = new HashMap<>();
   public static String currentLocation = "";
@@ -2675,19 +2675,20 @@ public class Modifiers {
   public void applySynergies() {
     int synergetic = this.getRawBitmap(Modifiers.SYNERGETIC);
     if (synergetic == 0) return; // nothing possible
-    Iterator i = Modifiers.synergies.iterator();
+    Iterator<Entry<String, Integer>> i = Modifiers.synergies.entrySet().iterator();
     while (i.hasNext()) {
-      String name = (String) i.next();
-      int mask = ((Integer) i.next()).intValue();
+      Entry<String, Integer> entry = i.next();
+      String name = entry.getKey();
+      int mask = entry.getValue().intValue();
       if ((synergetic & mask) == mask) {
         this.add(Modifiers.getModifiers("Synergy", name));
       }
     }
   }
 
-  // Returned iterator yields alternating names / bitmaps
-  public static Iterator getSynergies() {
-    return Modifiers.synergies.iterator();
+  // Returned iterator yields bitmaps keyed by names
+  public static Iterator<Entry<String, Integer>> getSynergies() {
+    return Modifiers.synergies.entrySet().iterator();
   }
 
   private static final AdventureResult somePigs = EffectPool.get(EffectPool.SOME_PIGS);
@@ -3586,8 +3587,7 @@ public class Modifiers {
           }
           mask |= emask;
         }
-        Modifiers.synergies.add(name);
-        Modifiers.synergies.add(IntegerPool.get(mask));
+        Modifiers.synergies.put(name, IntegerPool.get(mask));
       } else if (type.startsWith("Mutex")) {
         String[] pieces = name.split("/");
         if (pieces.length < 2) {
@@ -3828,10 +3828,11 @@ public class Modifiers {
     // Make a map of synergies
     Set<String> synergies = new TreeSet<>();
 
-    it = Modifiers.synergies.iterator();
+    it = Modifiers.synergies.entrySet().iterator();
     while (it.hasNext()) {
-      String name = (String) it.next();
-      int mask = ((Integer) it.next()).intValue();
+      Entry entry = (Entry) it.next();
+      String name = (String) entry.getKey();
+      int mask = ((Integer) entry.getValue()).intValue();
       synergies.add(name);
     }
 

@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1002,10 +1003,11 @@ public class Evaluator {
     }
 
     int usefulSynergies = 0;
-    Iterator syn = Modifiers.getSynergies();
+    Iterator<Entry<String, Integer>> syn = Modifiers.getSynergies();
     while (syn.hasNext()) {
-      Modifiers mods = Modifiers.getModifiers("Synergy", (String) syn.next());
-      int value = ((Integer) syn.next()).intValue();
+      Entry<String, Integer> entry = syn.next();
+      Modifiers mods = Modifiers.getModifiers("Synergy", entry.getKey());
+      int value = entry.getValue().intValue();
       if (mods == null) continue;
       double delta = this.getScore(mods) - nullScore;
       if (delta > 0.0) usefulSynergies |= value;
@@ -1840,10 +1842,11 @@ public class Evaluator {
     // spots
 
     // Compare synergies with best items in the same spots, and remove automatic flag if not better
-    Iterator it = Modifiers.getSynergies();
+    Iterator<Entry<String, Integer>> it = Modifiers.getSynergies();
     while (it.hasNext()) {
-      String synergy = (String) it.next();
-      int mask = ((Integer) it.next()).intValue();
+      Entry<String, Integer> entry = it.next();
+      String synergy = entry.getKey();
+      int mask = entry.getValue().intValue();
       int index = synergy.indexOf("/");
       String itemName1 = synergy.substring(0, index);
       String itemName2 = synergy.substring(index + 1);
