@@ -12,7 +12,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SaberCommandTest extends AbstractCommandTest {
+public class SaberCommandTest extends AbstractCommandTestBase {
   @BeforeEach
   public void initEach() {
     KoLCharacter.reset("testUser");
