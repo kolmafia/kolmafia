@@ -118,7 +118,7 @@ public class PrefixMap<T> extends TreeMap<String, T> {
   // The following TreeMap methods cannot be used with PrefixMap:
   //
   // All constructors that specify a Comparator (normal string ordering is assumed).
-  // All comstructors that load initial values (which key type would they be?).
+  // All constructors that load initial values (which key type would they be?).
   // containsKey( Object key ) - harmless, but the result is meaningless.
   // put( Object key, Object value ) - must use putExact or putPrefix instead.
   // putAll( Map map ) - would need some way to indicate which type of keys to use
