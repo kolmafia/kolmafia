@@ -326,7 +326,7 @@ shadowJar.dependsOn pruneDist
 jacocoTestReport.dependsOn test
 
 def isDirty() {
-	return versioning.info.dirty || localCommits(findProperty(findProperty('commit') ?: 'HEAD')) > 0
+	return versioning.info.dirty || localCommits(findProperty('commit') ?: 'HEAD') > 0
 }
 
 def localCommits(commit) {
