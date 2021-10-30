@@ -198,20 +198,19 @@ task getRevision() {
 	onlyIf {
 		file('.git').exists()
 	}
-	def commit = findProperty('commit') ?: 'origin/main'
+	def commit = findProperty('commit') ?: 'HEAD'
 	inputs.dir('.git')
 	inputs.property('commit', commit)
 	outputs.files file('build/revision.txt')
 
 	doLast {
-		def revision = grgit.log(includes:[commit]).size()
+		def revision = grgit.log(includes:[commit]).size() - localCommits(commit)
 		logger.info('Commit: {} Revision: {}', commit, revision)
 		file('build/revision.txt').text = revision.toString().trim()
 		// Update the version to the new revision
 		project.setVersion(revision.toString().trim())
 		def revString = isDirty() ? project.getVersion() +'-M': project.getVersion()
 		println '\nRevision: ' + revString
-
 	}
 }
 
@@ -327,7 +326,11 @@ shadowJar.dependsOn pruneDist
 jacocoTestReport.dependsOn test
 
 def isDirty() {
-	return versioning.info.dirty || versioning.info.tag != 'r' + lastRevision();
+	return versioning.info.dirty || localCommits(findProperty(findProperty('commit') ?: 'HEAD')) > 0
+}
+
+def localCommits(commit) {
+	return grgit.log(includes:[commit], excludes:['origin/main']).size()
 }
 
 def lastRevision() {
