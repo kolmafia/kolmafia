@@ -75,4 +75,31 @@ public class SaberCommandTest extends AbstractCommandTest {
     assertContinueState();
     assertThat(output, containsString("Upgrading saber"));
   }
+
+  @Test
+  void canChooseMPUpgrade() {
+    hasSaber();
+    String output = execute("mp");
+
+    assertContinueState();
+    assertThat(output, containsString("Upgrading saber"));
+  }
+
+  @Test
+  void canChooseResUpgrade() {
+    hasSaber();
+    String output = execute("resistance");
+
+    assertContinueState();
+    assertThat(output, containsString("Upgrading saber"));
+  }
+
+  @Test
+  void canChooseFamUpgrade() {
+    hasSaber();
+    String output = execute("familiar");
+
+    assertContinueState();
+    assertThat(output, containsString("Upgrading saber"));
+  }
 }
