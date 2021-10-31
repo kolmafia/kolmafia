@@ -254,7 +254,7 @@ public abstract class CombatActionManager {
     String encounterKey = CombatActionManager.getBestEncounterKey(encounter);
 
     CustomCombatStrategy strategy = CombatActionManager.strategyLookup.getStrategy(encounterKey);
-    int actionCount = strategy.getActionCount(strategyLookup, new HashSet());
+    int actionCount = strategy.getActionCount(strategyLookup, new HashSet<>());
 
     if (roundIndex + 1 >= actionCount) {
       CombatActionManager.atEndOfStrategy = true;
@@ -627,11 +627,11 @@ public abstract class CombatActionManager {
       return -1;
     }
 
-    List matchingNames = ItemDatabase.getMatchingNames(action);
+    List<String> matchingNames = ItemDatabase.getMatchingNames(action);
     int count = matchingNames.size();
 
     for (int i = 0; i < count; ++i) {
-      String name = (String) matchingNames.get(i);
+      String name = matchingNames.get(i);
       int id = ItemDatabase.getItemId(name);
       if (ItemDatabase.getAttribute(
           id, ItemDatabase.ATTR_COMBAT | ItemDatabase.ATTR_COMBAT_REUSABLE)) {

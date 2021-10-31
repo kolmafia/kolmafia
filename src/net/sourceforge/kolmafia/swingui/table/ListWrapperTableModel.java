@@ -9,14 +9,14 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class ListWrapperTableModel extends DefaultTableModel implements ListDataListener {
   private final String[] headers;
-  private final Class[] types;
+  private final Class<?>[] types;
   private final boolean[] editable;
 
   protected LockableListModel listModel;
 
   public ListWrapperTableModel(
       final String[] headers,
-      final Class[] types,
+      final Class<?>[] types,
       final boolean[] editable,
       final LockableListModel listModel) {
     super(0, headers.length);
@@ -45,7 +45,7 @@ public abstract class ListWrapperTableModel extends DefaultTableModel implements
   }
 
   @Override
-  public Class getColumnClass(final int column) {
+  public Class<?> getColumnClass(final int column) {
     return column < 0 || column >= this.types.length ? Object.class : this.types[column];
   }
 

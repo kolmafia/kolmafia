@@ -16,7 +16,7 @@ public class LibraryFunction extends Function {
   public LibraryFunction(final String name, final Type type, final Type[] params) {
     super(name.toLowerCase(), type);
 
-    Class[] args = new Class[params.length + 1];
+    Class<?>[] args = new Class[params.length + 1];
 
     args[0] = ScriptRuntime.class;
 

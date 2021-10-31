@@ -45,7 +45,7 @@ public class RequestLogger extends NullStream {
     RequestLogger.printLine(line);
   }
 
-  public static final void printList(final List printing, final PrintStream ostream) {
+  public static final void printList(final List<?> printing, final PrintStream ostream) {
     if (printing == null || ostream == null) {
       return;
     }
@@ -82,7 +82,7 @@ public class RequestLogger extends NullStream {
     KoLConstants.commandBuffer.append(buffer.toString());
   }
 
-  public static final void printList(final List printing) {
+  public static final void printList(final List<?> printing) {
     RequestLogger.printList(printing, INSTANCE);
   }
 

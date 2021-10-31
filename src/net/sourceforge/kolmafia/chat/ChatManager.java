@@ -45,7 +45,7 @@ import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class ChatManager {
-  private static final LinkedList<Object> clanMessages = new RollingLinkedList(20);
+  private static final LinkedList<Object> clanMessages = new RollingLinkedList<>(20);
   private static final Set<String> validChatReplyRecipients = new HashSet<String>();
 
   private static final TreeMap<String, StyledChatBuffer> instantMessageBuffers =

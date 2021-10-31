@@ -49,9 +49,9 @@ public class WikiLookupCommand extends AbstractCommand {
     }
     if (command.equals("lookup") && target.length() > 0) {
       if (type.startsWith("effect") || type.startsWith("item or effect")) {
-        List names = EffectDatabase.getMatchingNames(target);
+        List<String> names = EffectDatabase.getMatchingNames(target);
         if (names.size() == 1) {
-          int effectId = EffectDatabase.getEffectId((String) names.get(0));
+          int effectId = EffectDatabase.getEffectId(names.get(0));
           AdventureResult result = EffectPool.get(effectId);
           WikiUtilities.showWikiDescription(result);
           return;
@@ -76,9 +76,9 @@ public class WikiLookupCommand extends AbstractCommand {
       }
 
       if (type.startsWith("skill")) {
-        List names = SkillDatabase.getMatchingNames(target);
+        List<String> names = SkillDatabase.getMatchingNames(target);
         if (names.size() == 1) {
-          int num = SkillDatabase.getSkillId((String) names.get(0));
+          int num = SkillDatabase.getSkillId(names.get(0));
           target = SkillDatabase.getSkillName(num);
           WikiUtilities.showWikiDescription(target);
           return;

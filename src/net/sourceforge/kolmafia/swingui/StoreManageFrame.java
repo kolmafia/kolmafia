@@ -80,11 +80,11 @@ public class StoreManageFrame extends GenericPanelFrame {
   private static final JLabel searchLabel =
       JComponentUtilities.createLabel(
           "Mall Prices", SwingConstants.CENTER, Color.black, Color.white);
-  private static final LockableListModel priceSummary = new LockableListModel();
+  private static final LockableListModel<String> priceSummary = new LockableListModel<>();
 
   private JComboBox sellingList;
   protected StoreManageTable manageTable;
-  private JList resultsDisplay;
+  private JList<String> resultsDisplay;
 
   public StoreManageFrame() {
     super("Store Manager");
@@ -722,7 +722,7 @@ public class StoreManageFrame extends GenericPanelFrame {
       container.add(StoreManageFrame.searchLabel, BorderLayout.NORTH);
       JComponentUtilities.setComponentSize(StoreManageFrame.searchLabel, 150, 16);
 
-      StoreManageFrame.this.resultsDisplay = new JList(StoreManageFrame.priceSummary);
+      StoreManageFrame.this.resultsDisplay = new JList<>(StoreManageFrame.priceSummary);
       StoreManageFrame.this.resultsDisplay.setPrototypeCellValue("1234567890ABCDEF");
       StoreManageFrame.this.resultsDisplay.setVisibleRowCount(11);
       StoreManageFrame.this.resultsDisplay.setSelectionMode(
@@ -737,7 +737,7 @@ public class StoreManageFrame extends GenericPanelFrame {
 
   private class StoreLogPanel extends ScrollablePanel {
     public StoreLogPanel() {
-      super("", "refresh", "resort", new JList(StoreManager.getStoreLog()), false);
+      super("", "refresh", "resort", new JList<>(StoreManager.getStoreLog()), false);
 
       JPanel northPanel = new JPanel(new BorderLayout());
       this.actualPanel.add(northPanel, BorderLayout.NORTH);

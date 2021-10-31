@@ -11,7 +11,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SnapperCommandTest extends AbstractCommandTest {
+public class SnapperCommandTest extends AbstractCommandTestBase {
   @BeforeEach
   public void initEach() {
     KoLCharacter.reset("testUser");

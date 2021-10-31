@@ -13,7 +13,7 @@ public class ClanWarRequest extends GenericRequest implements Comparable<ClanWar
   private static final Pattern WAIT_PATTERN =
       Pattern.compile("<br>Your clan can attack again in (.*?)<p>");
 
-  private static final SortedListModel enemyClans = new SortedListModel();
+  private static final SortedListModel<ClanWarRequest> enemyClans = new SortedListModel<>();
   private static String nextAttack = null;
 
   private final String name;
@@ -73,7 +73,7 @@ public class ClanWarRequest extends GenericRequest implements Comparable<ClanWar
         : ClanWarRequest.nextAttack;
   }
 
-  public static final SortedListModel getEnemyClans() {
+  public static final SortedListModel<ClanWarRequest> getEnemyClans() {
     return ClanWarRequest.enemyClans;
   }
 

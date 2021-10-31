@@ -1410,7 +1410,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
   private static class FamiliarRenderer extends DefaultListCellRenderer {
     @Override
     public Component getListCellRendererComponent(
-        final JList list,
+        final JList<?> list,
         final Object value,
         final int index,
         final boolean isSelected,

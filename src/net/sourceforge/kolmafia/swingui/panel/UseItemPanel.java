@@ -11,7 +11,7 @@ import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class UseItemPanel extends InventoryPanel {
   public UseItemPanel() {
-    super((SortedListModel) KoLConstants.inventory, false);
+    super((SortedListModel<AdventureResult>) KoLConstants.inventory, false);
   }
 
   @Override

@@ -4,6 +4,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
@@ -20,7 +21,7 @@ public class OverlapPanel extends ItemListManagePanel {
     super(
         confirmText,
         cancelText,
-        isOverlap ? overlapModel : (SortedListModel) KoLConstants.inventory,
+        isOverlap ? overlapModel : (SortedListModel<AdventureResult>) KoLConstants.inventory,
         true,
         false);
     this.overlapModel = overlapModel;

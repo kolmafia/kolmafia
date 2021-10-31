@@ -97,6 +97,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel {
     if (this.food) {
       listeners.add(new BingeGhostListener());
       listeners.add(new MilkListener());
+      listeners.add(new UniversalSeasoningListener());
       listeners.add(new LunchListener());
       listeners.add(new DistendListener());
     } else if (this.booze) {
@@ -210,7 +211,14 @@ public class UseItemEnqueuePanel extends ItemListManagePanel {
 
       this.buttons[bingeIndex + 1].setEnabled(milkAvailable);
 
-      // The lunch listener is just after the milk listener
+      // The seasoning listener is just after the ghost listener
+      boolean seasoningUsed = Preferences.getBoolean("_universalSeasoningUsed");
+      boolean seasoningAvailable =
+          !seasoningUsed && (InventoryManager.itemAvailable(ItemPool.UNIVERSAL_SEASONING));
+
+      this.buttons[bingeIndex + 2].setEnabled(seasoningAvailable);
+
+      // The lunch listener is just after the seasoning listener
       boolean lunchAvailable =
           KoLCharacter.hasSkill("Song of the Glorious Lunch")
               || (Preferences.getBoolean("barrelShrineUnlocked")
@@ -218,7 +226,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel {
                   && KoLCharacter.isTurtleTamer()
                   && StandardRequest.isAllowed("Items", "shrine to the Barrel god"));
 
-      this.buttons[bingeIndex + 2].setEnabled(lunchAvailable);
+      this.buttons[bingeIndex + 3].setEnabled(lunchAvailable);
 
       // We gray out the distend button unless we have a
       // pill, and haven't used one today.
@@ -553,6 +561,19 @@ public class UseItemEnqueuePanel extends ItemListManagePanel {
     @Override
     public String toString() {
       return "use milk";
+    }
+  }
+
+  private class UniversalSeasoningListener extends ThreadedListener {
+    @Override
+    protected void execute() {
+      RequestThread.postRequest(
+          UseItemRequest.getInstance(ItemPool.get(ItemPool.UNIVERSAL_SEASONING, 1)));
+    }
+
+    @Override
+    public String toString() {
+      return "universal seasoning";
     }
   }
 

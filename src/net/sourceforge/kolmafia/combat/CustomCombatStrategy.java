@@ -36,7 +36,7 @@ public class CustomCombatStrategy extends DefaultMutableTreeNode {
     this.actionOffsets = null;
   }
 
-  public int getActionCount(CustomCombatLookup lookup, Set seen) {
+  public int getActionCount(CustomCombatLookup lookup, Set<String> seen) {
     // Ignore any call to a section that results in a loop
 
     if (seen.contains(this.name)) {
@@ -89,7 +89,7 @@ public class CustomCombatStrategy extends DefaultMutableTreeNode {
       return "attack";
     }
 
-    getActionCount(lookup, new HashSet());
+    getActionCount(lookup, new HashSet<>());
 
     for (int i = 0; i < childCount; ++i) {
       if (this.actionOffsets[i] > roundIndex) {

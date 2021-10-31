@@ -393,13 +393,27 @@ void modify_deli( buffer page )
     page.insert( index, html.to_string() );
 }
 
+
+void modify_decision( buffer page )
+{
+  buffer permery = visit_url("afterlife.php?place=permery");
+  if ( permery.contains_text( "It looks like you've already got all of the skills from your last life marked permanent.  There's nothing we can do for you here!" ) )
+  {
+    string no_perm_warning = `<p style="color:red">Are you sure you want to reincarnate without marking any skills permanent?<br /><label><input type="checkbox" class="req" value="1" name="noskillsok" /> yes</label></p>`;
+    string no_perm_ok = `<p style="color:orange">You are reincarnating without marking any skills permanent because you have no skills to make permanent.  Try learning more skills.  Knowledge is power.</p><input type="hidden" value="1" name="noskillsok" />`;
+    replace_string(page, no_perm_warning, no_perm_ok );
+    }
+}
+
 void main()
 {
 	buffer page = visit_url();
 	if ( page.contains_text( "The Astral Pet Salesman" ) ) {
-	    modify_pet_store ( page );
+	    modify_pet_store( page );
 	} else if ( page.contains_text( "The Deli Lama Counterman" ) ) {
 	    modify_deli( page );
+	} else if ( page.contains_text("Are you sure you want to reincarnate without marking any skills permanent?" ) ) {
+	    modify_decision( page );
 	}
 	write( page );
 }

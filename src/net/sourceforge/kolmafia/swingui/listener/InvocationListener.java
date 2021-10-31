@@ -8,7 +8,7 @@ public class InvocationListener extends ThreadedListener {
   private Object object;
   private Method method;
 
-  public InvocationListener(Object object, Class c, String methodName) {
+  public InvocationListener(Object object, Class<?> c, String methodName) {
     try {
       this.object = object;
       this.method = c.getMethod(methodName, KoLConstants.NOPARAMS);

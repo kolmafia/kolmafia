@@ -29,7 +29,7 @@ public class FaxbotCommand extends AbstractCommand {
         continue;
       }
 
-      List commands = bot.findMatchingCommands(command);
+      List<String> commands = bot.findMatchingCommands(command);
       if (commands.isEmpty()) {
         continue;
       }
@@ -46,7 +46,7 @@ public class FaxbotCommand extends AbstractCommand {
         continue;
       }
 
-      Monster monster = bot.getMonsterByCommand((String) commands.get(0));
+      Monster monster = bot.getMonsterByCommand(commands.get(0));
       tried = true;
       if (FaxRequestFrame.requestFax(botName, monster, false)) {
         return;
