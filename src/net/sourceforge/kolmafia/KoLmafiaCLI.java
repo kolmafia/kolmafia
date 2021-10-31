@@ -312,7 +312,7 @@ public class KoLmafiaCLI {
         lcommand = lcommand.substring(0, length - 1);
       }
 
-      AbstractCommand handler = (AbstractCommand) AbstractCommand.lookup.get(lcommand);
+      AbstractCommand handler = AbstractCommand.lookup.get(lcommand);
       int flags = handler == null ? 0 : handler.flags;
       if (flags == KoLmafiaCLI.FULL_LINE_CMD && !line.equals("")) {
         // parameters are un-trimmed original
@@ -371,7 +371,7 @@ public class KoLmafiaCLI {
         if (command.endsWith("?")) {
           command = command.substring(0, command.length() - 1);
         }
-        AbstractCommand handler = (AbstractCommand) AbstractCommand.lookup.get(command);
+        AbstractCommand handler = AbstractCommand.lookup.get(command);
         int flags = handler == null ? 0 : handler.flags;
         if (flags == KoLmafiaCLI.FULL_LINE_CMD) {
           break;
@@ -440,7 +440,7 @@ public class KoLmafiaCLI {
       lcommand = command = "refresh";
     }
 
-    AbstractCommand handler = (AbstractCommand) AbstractCommand.lookup.get(lcommand);
+    AbstractCommand handler = AbstractCommand.lookup.get(lcommand);
 
     if (handler == null) {
       handler = AbstractCommand.getSubstringMatch(lcommand);
@@ -497,7 +497,7 @@ public class KoLmafiaCLI {
     return this.elseRuns;
   }
 
-  static {
+  public static void registerCommands() {
     new AbortCommand().register("abort");
     new AbsorbCommand().register("absorb");
     new AccordionsCommand().register("accordions");
@@ -819,6 +819,10 @@ public class KoLmafiaCLI {
     new CommandAlias("skills", "passive").register("pass").register("passive");
     new CommandAlias("skills", "self").register("self");
     new CommandAlias("skills", "combat").register("combat");
+  }
+
+  static {
+    registerCommands();
   }
 
   public static void showHTML(final String text) {

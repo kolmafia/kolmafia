@@ -1,35 +1,45 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.KoLmafia;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public abstract class AbstractCommandTest {
-  protected String command = "abort";
-
-  public String execute(final String params) {
-    var outputStream = new ByteArrayOutputStream();
-    RequestLogger.openCustom(new PrintStream(outputStream));
-    var cli = new KoLmafiaCLI(System.in);
-    cli.executeCommand(this.command, params);
-    RequestLogger.closeCustom();
-    return outputStream.toString();
+public class AbstractCommandTest {
+  @BeforeEach
+  public void initEach() {
+    AbstractCommand.clear();
   }
 
-  public static void assertState(final MafiaState state) {
-    assertEquals(state, StaticEntity.getContinuationState());
+  @Test
+  void unregisteredCommandIsNotFound() {
+    assertNull(AbstractCommand.lookup.get("fake"));
+    assertNull(AbstractCommand.getSubstringMatch("fake"));
   }
 
-  public static void assertContinueState() {
-    assertState(MafiaState.CONTINUE);
+  @Test
+  void registeredCommandIsFound() {
+    AbstractCommand command = new FakeCommand().register("fake");
+    assertEquals(command, AbstractCommand.lookup.get("fake"));
+    assertNull(AbstractCommand.getSubstringMatch("fake"));
   }
 
-  public static void assertErrorState() {
-    assertState(MafiaState.ERROR);
+  @Test
+  void registerSubstringFindsCommand() {
+    AbstractCommand command = new FakeCommand().registerSubstring("fake");
+    assertNull(AbstractCommand.lookup.get("fake"));
+    assertEquals(command, AbstractCommand.getSubstringMatch("fake"));
+    assertEquals(command, AbstractCommand.getSubstringMatch("morefake"));
+  }
+}
+
+class FakeCommand extends AbstractCommand {
+
+  @Override
+  public void run(String cmd, String parameters) {
+    KoLmafia.updateDisplay(MafiaState.CONTINUE, "Fake command was run");
   }
 }

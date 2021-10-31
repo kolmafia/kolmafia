@@ -42,7 +42,7 @@ be removed if no longer key that matches that prefix has been added to the
 map.
 */
 
-public class PrefixMap extends TreeMap<String, Object> {
+public class PrefixMap<T> extends TreeMap<String, T> {
   // Return values for getKeyType
   public static final int NOT_A_KEY = 0;
   public static final int EXACT_KEY = 1;
@@ -55,7 +55,7 @@ public class PrefixMap extends TreeMap<String, Object> {
     super();
   }
 
-  public Object get(String key) {
+  public T get(String key) {
     try {
       return super.get(super.headMap(key + EXACT_SUFFIX).lastKey());
     } catch (NoSuchElementException e) {
@@ -64,7 +64,7 @@ public class PrefixMap extends TreeMap<String, Object> {
   }
 
   // This returns the value that would be found if the key didn't exist.
-  private Object getBelow(String key) {
+  private T getBelow(String key) {
     try {
       return super.get(super.headMap(key).lastKey());
     } catch (NoSuchElementException e) {
@@ -72,20 +72,20 @@ public class PrefixMap extends TreeMap<String, Object> {
     }
   }
 
-  public void putExact(String key, Object value) {
+  public void putExact(String key, T value) {
     this.putRange(key, key + EXACT_SUFFIX, value);
   }
 
-  public void putPrefix(String key, Object value) {
+  public void putPrefix(String key, T value) {
     this.putRange(key, key + PREFIX_SUFFIX, value);
   }
 
-  private void putRange(String startKey, String endKey, Object value) {
+  private void putRange(String startKey, String endKey, T value) {
     super.put(startKey, value);
     super.put(endKey, this.getBelow(startKey));
   }
 
-  public Object remove(String key) {
+  public T remove(String key) {
     super.remove(key + EXACT_SUFFIX);
     super.remove(key + PREFIX_SUFFIX);
     return super.remove(key);
@@ -118,7 +118,7 @@ public class PrefixMap extends TreeMap<String, Object> {
   // The following TreeMap methods cannot be used with PrefixMap:
   //
   // All constructors that specify a Comparator (normal string ordering is assumed).
-  // All comstructors that load initial values (which key type would they be?).
+  // All constructors that load initial values (which key type would they be?).
   // containsKey( Object key ) - harmless, but the result is meaningless.
   // put( Object key, Object value ) - must use putExact or putPrefix instead.
   // putAll( Map map ) - would need some way to indicate which type of keys to use

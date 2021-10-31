@@ -74,15 +74,15 @@ public class CliRefCommand extends AbstractCommand {
     boolean anymatches = false;
     HashMap<String, String> alreadySeen =
         new HashMap<>(); // usage => name of cmd already printed out
-    Iterator<Map.Entry<String, Object>> i = AbstractCommand.lookup.entrySet().iterator();
+    Iterator<Map.Entry<String, AbstractCommand>> i = AbstractCommand.lookup.entrySet().iterator();
     while (i.hasNext()) {
-      Map.Entry<String, Object> e = i.next();
+      Map.Entry<String, AbstractCommand> e = i.next();
       String name = e.getKey();
       int type = AbstractCommand.lookup.getKeyType(name);
       if (type == PrefixMap.NOT_A_KEY) {
         continue;
       }
-      AbstractCommand handler = (AbstractCommand) e.getValue();
+      AbstractCommand handler = e.getValue();
       if (handler == null) // shouldn't happen
       {
         continue;
