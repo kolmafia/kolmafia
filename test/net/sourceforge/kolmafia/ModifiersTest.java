@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 public class ModifiersTest {
   @Test
-  public void patriotShiedClassModifiers() {
+  public void patriotShieldClassModifiers() {
     // Wide-reaching unit test for getModifiers
     KoLCharacter.setAscensionClass(AscensionClass.AVATAR_OF_JARLSBERG);
     Modifiers mods = Modifiers.getModifiers("Item", "Patriot Shield");
