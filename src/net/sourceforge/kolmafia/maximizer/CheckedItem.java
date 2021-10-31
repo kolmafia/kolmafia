@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.maximizer;
 
-import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -8,6 +7,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
@@ -34,10 +34,10 @@ public class CheckedItem extends AdventureResult {
     this.foldable = 0;
 
     if (itemId > 0 && Preferences.getBoolean("maximizerFoldables")) {
-      List group = ItemDatabase.getFoldGroup(itemName);
+      FoldGroup group = ItemDatabase.getFoldGroup(itemName);
       if (group != null) {
-        for (int i = 1; i < group.size(); ++i) {
-          String form = (String) group.get(i);
+        for (int i = 0; i < group.names.size(); ++i) {
+          String form = group.names.get(i);
           if (!form.equals(itemName)) {
             int foldItemId = ItemDatabase.getItemId(form);
             int count = InventoryManager.getAccessibleCount(foldItemId);
@@ -47,9 +47,9 @@ public class CheckedItem extends AdventureResult {
             }
           }
         }
-        // Cannot have more than one item from Januuary's Garbage Tote, no matter how many you have
+        // Cannot have more than one item from January's Garbage Tote, no matter how many you have
         // Fold groups are stored in lower case
-        if (group.get(1).equals("january's garbage tote")) {
+        if (group.names.get(0).equals("january's garbage tote")) {
           if (this.foldable + this.initial > 1) {
             this.foldable = 1 - this.initial;
           }
@@ -122,10 +122,10 @@ public class CheckedItem extends AdventureResult {
 
       this.pullfoldable = 0;
       if (itemId > 0 && Preferences.getBoolean("maximizerFoldables")) {
-        List group = ItemDatabase.getFoldGroup(itemName);
+        FoldGroup group = ItemDatabase.getFoldGroup(itemName);
         if (group != null) {
-          for (int i = 1; i < group.size(); ++i) {
-            String form = (String) group.get(i);
+          for (int i = 0; i < group.names.size(); ++i) {
+            String form = group.names.get(i);
             if (!form.equals(itemName)) {
               int foldItemId = ItemDatabase.getItemId(form);
               AdventureResult foldItem = ItemPool.get(foldItemId);
@@ -136,9 +136,9 @@ public class CheckedItem extends AdventureResult {
               }
             }
           }
-          // Cannot have more than one item from Januuary's Garbage Tote, no matter how many you
+          // Cannot have more than one item from January's Garbage Tote, no matter how many you
           // have
-          if (group.get(1).equals("january's garbage tote")) {
+          if (group.names.get(0).equals("january's garbage tote")) {
             if (this.pullfoldable > 1) {
               this.pullfoldable = 1;
             }
