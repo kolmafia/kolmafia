@@ -15,7 +15,6 @@ public abstract class AbstractCommandTestBase {
   public String execute(final String params) {
     var outputStream = new ByteArrayOutputStream();
     RequestLogger.openCustom(new PrintStream(outputStream));
-    KoLmafiaCLI.registerCommands();
     var cli = new KoLmafiaCLI(System.in);
     cli.executeCommand(this.command, params);
     RequestLogger.closeCustom();
