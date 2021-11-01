@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -2675,9 +2676,7 @@ public class Modifiers {
   public void applySynergies() {
     int synergetic = this.getRawBitmap(Modifiers.SYNERGETIC);
     if (synergetic == 0) return; // nothing possible
-    Iterator<Entry<String, Integer>> i = Modifiers.synergies.entrySet().iterator();
-    while (i.hasNext()) {
-      Entry<String, Integer> entry = i.next();
+    for (Entry<String, Integer> entry : Modifiers.synergies.entrySet()) {
       String name = entry.getKey();
       int mask = entry.getValue().intValue();
       if ((synergetic & mask) == mask) {
@@ -2686,9 +2685,9 @@ public class Modifiers {
     }
   }
 
-  // Returned iterator yields bitmaps keyed by names
-  public static Iterator<Entry<String, Integer>> getSynergies() {
-    return Modifiers.synergies.entrySet().iterator();
+  // Returned set yields bitmaps keyed by names
+  public static Set<Entry<String, Integer>> getSynergies() {
+    return Collections.unmodifiableSet(Modifiers.synergies.entrySet());
   }
 
   private static final AdventureResult somePigs = EffectPool.get(EffectPool.SOME_PIGS);

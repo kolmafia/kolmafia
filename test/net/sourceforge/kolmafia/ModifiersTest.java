@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Iterator;
 import java.util.Map.Entry;
 import org.junit.jupiter.api.Test;
 
@@ -38,9 +37,7 @@ public class ModifiersTest {
     // Modifiers.txt
     // The first Synergetic item seen gets 0b00001, the 2nd: 0b00010, 3rd: 0b00100, etc.
 
-    Iterator<Entry<String, Integer>> it = Modifiers.getSynergies();
-    while (it.hasNext()) {
-      Entry<String, Integer> entry = it.next();
+    for (Entry<String, Integer> entry : Modifiers.getSynergies()) {
       String name = entry.getKey();
       int mask = entry.getValue().intValue();
 

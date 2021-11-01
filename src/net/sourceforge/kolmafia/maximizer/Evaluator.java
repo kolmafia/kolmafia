@@ -1003,9 +1003,7 @@ public class Evaluator {
     }
 
     int usefulSynergies = 0;
-    Iterator<Entry<String, Integer>> syn = Modifiers.getSynergies();
-    while (syn.hasNext()) {
-      Entry<String, Integer> entry = syn.next();
+    for (Entry<String, Integer> entry : Modifiers.getSynergies()) {
       Modifiers mods = Modifiers.getModifiers("Synergy", entry.getKey());
       int value = entry.getValue().intValue();
       if (mods == null) continue;
@@ -1842,9 +1840,7 @@ public class Evaluator {
     // spots
 
     // Compare synergies with best items in the same spots, and remove automatic flag if not better
-    Iterator<Entry<String, Integer>> it = Modifiers.getSynergies();
-    while (it.hasNext()) {
-      Entry<String, Integer> entry = it.next();
+    for (Entry<String, Integer> entry : Modifiers.getSynergies()) {
       String synergy = entry.getKey();
       int mask = entry.getValue().intValue();
       int index = synergy.indexOf("/");
