@@ -2664,3 +2664,14 @@
 2663	Wine-Dark	redwine.gif	91221f225a1cfcc58156624ba3342349	neutral	none	drink 1 1950 Vampire Vintner wine
 2664	Wine-Befouled	redwine.gif	4a8aaadf65ca893d80287e7a4225ff96	neutral	none	drink 1 1950 Vampire Vintner wine
 2665	Wine-Friendly	redwine.gif	14e58c7caa942927ebdb75d93f1de316	neutral	none	drink 1 1950 Vampire Vintner wine
+2666	Toiletbrush Moustache	dsstache1.gif	e2c09216952563b198d6be5c00de9a4f	neutral	none
+2667	Barbell Moustache	dsstache2.gif	0f1ee3c05441592c1911f414b63961b8	neutral	none
+2668	Grizzly Beard	dsstache3.gif	86808cff1f8a44e651187cd104b348ae	neutral	none
+2669	Surrealist's Moustache	dsstache4.gif	255b2ce1af134cc520f3c24cade39283	neutral	none
+2670	Musician's Musician's Moustache	dsstache5.gif	006a01a30c1c9e278c85dc84c7b7af62	neutral	none
+2671	Gull-Wing Moustache	dsstache6.gif	b22887e130f6b336da89d33e232f13df	neutral	none
+2672	Space Warlord's Beard	dsstache7.gif	7edebc78a65f3b81a765e540c96c9b87	neutral	none
+2673	Pointy Wizard Beard	dsstache8.gif	81894746f014526635bbe291dc3371be	neutral	none
+2674	Cowboy Stache	dsstache9.gif	dc23d0e46b5883aacc81ba236798616a	neutral	none
+2675	Friendly Chops	dsstache10.gif	4052b13b7b1351690476fc4f1ccd6025	neutral	none
+2676	Spectacle Moustache	dsstache11.gif	3e53514c96e5971554a64859776333c5	neutral	none

@@ -10828,3 +10828,5 @@
 10800	1950 Vampire Vintner wine	140977937	redwine.gif	drink	d	111
 10801	bottled Vampire Vintner	477408262	vampvintbottle.gif	grow	t	0
 10802	French-Transylvanian Dictionary	758632519	redbook.gif	familiar	t	75
+10803	packaged Daylight Shavings Helmet	530690382	dshelmet_box.gif	usable	t	0
+10804	Daylight Shavings Helmet	362147328	dshelmet.gif	hat		0
