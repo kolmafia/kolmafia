@@ -3,6 +3,8 @@ package net.sourceforge.kolmafia.request;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.Test;
 
 public class RelayRequestTest {
@@ -23,6 +25,9 @@ public class RelayRequestTest {
   public void exerciseSomeStaticThingsForCoverage() {
     RelayRequest.loadOverrideImages(false);
     RelayRequest.loadOverrideImages(true);
+    Preferences.setBoolean("relayOverridesImages", true);
+    RelayRequest.loadOverrideImages(false);
+    RelayRequest.loadOverrideImages(true);
     RelayRequest.clearImageCache();
     assertFalse(RelayRequest.builtinRelayFile("notafile"));
     assertTrue(RelayRequest.builtinRelayFile("afterlife.1.ash"));
@@ -33,5 +38,6 @@ public class RelayRequestTest {
     RelayRequest rr = new RelayRequest(false);
     assertNull(rr.getHashField());
     assertFalse(rr.retryOnTimeout());
+    rr.constructURLString("diary.php?textversion=1");
   }
 }
