@@ -146,7 +146,9 @@ public class FileUtilities {
     // Next, load the icon which will be used by KoLmafia
     // in the system tray.  For now, this will be the old
     // icon used by KoLmelion.
-
+    if ((filename == null) || (filename.contains(".."))) {
+      return;
+    }
     File library = new File(parent, filename);
 
     if (library.exists()) {
@@ -362,10 +364,16 @@ public class FileUtilities {
   }
 
   public static final File imageFile(final String filename) {
+    if ((filename == null) || (filename.contains(".."))) {
+      return null;
+    }
     return new File(KoLConstants.IMAGE_LOCATION, FileUtilities.localImageName(filename));
   }
 
   public static final File downloadImage(final String filename) {
+    if ((filename == null) || (filename.contains(".."))) {
+      return null;
+    }
     String localname = FileUtilities.localImageName(filename);
     File localfile = new File(KoLConstants.IMAGE_LOCATION, localname);
 
