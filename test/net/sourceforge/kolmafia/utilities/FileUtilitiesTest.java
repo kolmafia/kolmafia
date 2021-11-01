@@ -24,10 +24,10 @@ class FileUtilitiesTest {
 
   @Test
   public void exerciseSomeMethodsForCoverage() {
-    // loadLibrary always returns true.  will address that soon.
-    assertTrue(FileUtilities.loadLibrary(KoLConstants.IMAGE_LOCATION, "images/", "TrayIcon12.gif"));
+
+    FileUtilities.loadLibrary(KoLConstants.IMAGE_LOCATION, "images/", "TrayIcon12.gif");
     deleteLoaded("images/", "TrayIcon12.gif");
-    assertTrue(FileUtilities.loadLibrary(KoLConstants.RELAY_LOCATION, "images/", "TrayIcon12.gif"));
+    FileUtilities.loadLibrary(KoLConstants.RELAY_LOCATION, "images/", "TrayIcon12.gif");
     deleteLoaded("images/", "TrayIcon12.gif");
     BufferedReader br = FileUtilities.getReader("xyzzy");
     String line = FileUtilities.readLine(br);
