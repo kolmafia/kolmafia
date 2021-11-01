@@ -1662,9 +1662,15 @@ public class RelayRequest extends PasswordHashRequest {
     StringBuilder warning = new StringBuilder();
 
     if (poolSkill >= 14) {
-      warning.append("You can't guarantee beating the hustler. You have ").append(poolSkill).append(" pool skill and need 18 to guarantee it. ");
+      warning
+          .append("You can't guarantee beating the hustler. You have ")
+          .append(poolSkill)
+          .append(" pool skill and need 18 to guarantee it. ");
     } else {
-      warning.append("You cannot beat the hustler. You have ").append(poolSkill).append(" pool skill and need 14 to have a chance, and 18 to guarantee it. ");
+      warning
+          .append("You cannot beat the hustler. You have ")
+          .append(poolSkill)
+          .append(" pool skill and need 14 to have a chance, and 18 to guarantee it. ");
     }
 
     if (!KoLCharacter.canDrink()) {
@@ -3047,7 +3053,7 @@ public class RelayRequest extends PasswordHashRequest {
 
       chatText =
           ChatSender.sendMessage(
-                  new LinkedList<>(), this.getFormField("graf"), true, false, tabbedChat);
+              new LinkedList<>(), this.getFormField("graf"), true, false, tabbedChat);
 
       if (tabbedChat && chatText.startsWith("{")) {
         ChatPoller.handleNewChat(chatText, this.getFormField("graf"), ChatPoller.localLastSeen);
