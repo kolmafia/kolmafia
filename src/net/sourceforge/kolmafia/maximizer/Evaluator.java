@@ -1548,9 +1548,8 @@ public class Evaluator {
       secondBest.setEnthroned(secondBestCarriedFamiliar);
 
       // Check each familiar in hat to see if they are worthwhile
-      List familiarList = KoLCharacter.getFamiliarList();
-      for (Object o : familiarList) {
-        FamiliarData familiar = (FamiliarData) o;
+      List<FamiliarData> familiarList = KoLCharacter.getFamiliarList();
+      for (FamiliarData familiar : familiarList) {
         if (familiar != null
             && familiar != FamiliarData.NO_FAMILIAR
             && familiar.canCarry()
