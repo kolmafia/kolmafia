@@ -332,8 +332,7 @@ public class ConcoctionDatabase {
     return mixingMethod == CraftingType.SUSHI || mixingMethod == CraftingType.VYKEA;
   }
 
-  public static final SortedListModel<AdventureResult> getKnownUses(final int itemId) //
-      {
+  public static final SortedListModel<AdventureResult> getKnownUses(final int itemId) {
     SortedListModel<AdventureResult> uses = ConcoctionDatabase.knownUses.get(itemId);
     return uses == null ? ConcoctionDatabase.EMPTY_LIST : uses;
   }

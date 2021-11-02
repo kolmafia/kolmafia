@@ -623,8 +623,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         value = dest.substring(6);
       } else if (dest.startsWith("choose ")) {
         return;
-      } else // For anything else, assume Manual Control
-      {
+      } else { // For anything else, assume Manual Control
         // For manual control, do not take a choice first
         Preferences.setString("choiceAdventure189", "0");
         Preferences.setString("oceanDestination", "manual");

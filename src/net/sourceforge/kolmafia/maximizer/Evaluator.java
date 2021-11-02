@@ -1119,12 +1119,10 @@ public class Evaluator {
         if ((familiarId == FamiliarPool.HATRACK && slot == EquipmentManager.HAT)
             || (familiarId == FamiliarPool.SCARECROW && slot == EquipmentManager.PANTS)) {
           familiarMods.applyFamiliarModifiers(fam, preItem);
-        } else
-        // Normal item modifiers when used by Disembodied Hand
-        {
+        } else {
+          // Normal item modifiers when used by Disembodied Hand
           familiarMods = Modifiers.getItemModifiers(id);
-          if (familiarMods == null) // no enchantments
-          {
+          if (familiarMods == null) { // no enchantments
             familiarMods = new Modifiers();
           }
         }
@@ -1222,9 +1220,8 @@ public class Evaluator {
               slot = auxSlot;
             }
             if (this.effective) {
-              if (id
-                  != ItemPool.FOURTH_SABER) // Always uses best stat, so always considered effective
-              {
+              if (id != ItemPool.FOURTH_SABER) {
+                // Always uses best stat, so always considered effective
                 if (KoLCharacter.getAdjustedMoxie() >= KoLCharacter.getAdjustedMuscle()
                     && weaponType != WeaponType.RANGED
                     && (!EquipmentDatabase.isKnife(id)
@@ -1354,8 +1351,7 @@ public class Evaluator {
         }
 
         Modifiers mods = Modifiers.getItemModifiers(id);
-        if (mods == null) // no enchantments
-        {
+        if (mods == null) { // no enchantments
           mods = new Modifiers();
         }
 

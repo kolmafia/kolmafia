@@ -1282,8 +1282,7 @@ public class CharPaneDecorator {
       buffer.append("</a>)");
       buffer.append(m.group(3));
       buffer.append("</td></tr>");
-    } else // !compact
-    {
+    } else { // !compact
       // Extra <td></td> fixes layout when KoL buff arrows are enabled and doesn't
       // break anything when they are disabled
       buffer.append("<tr><td></td><td>");

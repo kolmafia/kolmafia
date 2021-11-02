@@ -582,8 +582,7 @@ public class Maximizer {
             if (!filter.getOrDefault(KoLConstants.filterType.OTHER, false)) continue;
         }
 
-        if (cmd.startsWith("#")) // usage note, no command
-        {
+        if (cmd.startsWith("#")) { // usage note, no command
           if (includeAll) {
             if (cmd.contains("BM") && !KoLCharacter.inBadMoon()) {
               continue; // no use displaying this in non-BM
@@ -598,8 +597,7 @@ public class Maximizer {
           text = text + " (to remove " + name + ")";
         }
 
-        if (cmd.startsWith("(")) // preformatted note
-        {
+        if (cmd.startsWith("(")) { // preformatted note
           cmd = "";
           orFlag = false;
         } else if (cmd.startsWith("use ")
@@ -1762,9 +1760,8 @@ public class Maximizer {
             count++;
           }
         }
-      } else
-      // Otherwise we iterate through the maximization set so far
-      {
+      } else {
+        // Otherwise we iterate through the maximization set so far
         Iterator<Boost> i = Maximizer.boosts.iterator();
         while (i.hasNext()) {
           Boost boost = i.next();
@@ -1860,8 +1857,7 @@ public class Maximizer {
         if (priceLevel > 0) {
           price = StoreManager.getMallPrice(item);
         }
-      } else // Mall buyable
-      {
+      } else { // Mall buyable
         text = "acquire & " + text;
         if (priceLevel > 0) {
           price = StoreManager.getMallPrice(item);

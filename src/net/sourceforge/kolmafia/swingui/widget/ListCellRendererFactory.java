@@ -941,8 +941,7 @@ public class ListCellRendererFactory {
           stringForm.append(" (");
           if (fullness != null) {
             stringForm.append(fullness);
-          } else // if ( inebriety != null )
-          {
+          } else /*if (inebriety != null)*/ {
             stringForm.append(inebriety);
           }
 

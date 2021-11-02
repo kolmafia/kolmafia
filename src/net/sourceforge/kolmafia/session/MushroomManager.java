@@ -67,7 +67,7 @@ public abstract class MushroomManager {
     {KNOLL, 50, 3}
   };
 
-  // Assocations between the mushroom Ids
+  // Associations between the mushroom Ids
   // and the mushroom image.
 
   public static final Object[][] MUSHROOMS = {
