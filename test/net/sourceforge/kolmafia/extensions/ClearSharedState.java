@@ -16,7 +16,7 @@ public class ClearSharedState implements AfterAllCallback {
   @Override
   public void afterAll(ExtensionContext context) {
     // Clean up user files
-    deleteEm(KoLCharacter.baseUserName());
+    deleteUserPrefsAndMoodsFiles(KoLCharacter.baseUserName());
     // and GLOBALS
     deleteGlobals();
     // Among other things, this sets KoLCharacter.username.
@@ -35,7 +35,7 @@ public class ClearSharedState implements AfterAllCallback {
     KoLmafia.forceContinue();
   }
 
-  public static void deleteEm(String user) {
+  public static void deleteUserPrefsAndMoodsFiles(String user) {
     String begin = "settings/" + user;
     File file = new File(begin + "_prefs.txt");
     if (file.exists()) {
@@ -48,7 +48,7 @@ public class ClearSharedState implements AfterAllCallback {
   }
 
   public static void deleteGlobals() {
-    deleteEm("GLOBAL");
+    deleteUserPrefsAndMoodsFiles("GLOBAL");
     File file = new File("settings/GLOBAL_aliases.txt");
     if (file.exists()) {
       file.deleteOnExit();

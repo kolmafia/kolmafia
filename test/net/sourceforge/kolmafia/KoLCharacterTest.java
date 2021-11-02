@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia;
 
-import static net.sourceforge.kolmafia.extensions.ClearSharedState.deleteEm;
+import static net.sourceforge.kolmafia.extensions.ClearSharedState.deleteUserPrefsAndMoodsFiles;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
@@ -71,7 +71,7 @@ public class KoLCharacterTest {
 
   @AfterEach
   void resetUsername() {
-    deleteEm(KoLCharacter.baseUserName());
+    deleteUserPrefsAndMoodsFiles(KoLCharacter.baseUserName());
     KoLCharacter.reset("");
   }
 }
