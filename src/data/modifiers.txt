@@ -159,6 +159,8 @@ Item	crown-shaped beanie	Slime Resistance: +1, Food Drop: +20, Initiative: +20, 
 Item	crumpled felt fedora	Familiar Weight: +10, Muscle Percent: +5, Familiar Effect: "0.75xVolley, 0.75xLep"
 Item	cursed eyepatch	Mysticality: +15, Familiar Effect: "spooky atk, 1xBarrr"
 Item	cursed tricorn hat	Mysticality: +25, Experience: +10, PvP Fights: +5
+# Item Daylight Shavings Helmet: Keeps your facial hair stylish at all times
+Item	Daylight Shavings Helmet	Experience: +3, Adventures: +5, Familiar Weight: +5
 Item	demon-horned hat	Moxie: +4, Familiar Effect: "hot atk, 1xLep, cap 17"
 Item	depleted Grimacite ninja mask	Moxie Percent: [5*G], PvP Fights: [G], Familiar Effect: "1xBarrr, 1xFairy, cap 25"
 Item	dice-print do-rag	Random Monster Modifiers: +1
@@ -5008,6 +5010,7 @@ Effect	Bandananit	Avatar: "dirty thieving brigand"
 Effect	Bandersnatched	Moxie: +5, Ranged Damage: +10 
 Effect	Banono	Stench Damage: +40, Stench Spell Damage: +40
 Effect	Barbecue Saucy	Muscle: +15, Moxie: +15
+Effect	Barbell Moustache	Muscle: +25, Gear Drop: +50
 Effect	Barely Visible	Combat Rate: -10
 # Barfpits: Deals Stench Damage every round
 Effect	Bark of the Dog	Initiative: +50, Experience (Moxie): +2
@@ -5386,6 +5389,7 @@ Effect	Cosmic Flavor	Spell Critical Percent: +10
 Effect	Covered in the Rainbow	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
 Effect	Covetin' Drunk	Meat Drop: +200
 # Covetous Robbery: Increases meat drops from stingy monsters
+Effect	Cowboy Stache	Ranged Damage: +25, Maximum HP: +50, Maximum MP: +25
 Effect	Cowlick	Meat Drop: +50
 Effect	Cowrruption	Muscle Limit: [30-30*class(Cow Puncher)], Moxie Limit: [30-30*class(Cow Puncher)], Weapon Damage Percent: +200, Spell Damage Percent: +200
 # Coy to the Hurled: variable DR
@@ -5774,6 +5778,7 @@ Effect	French Bronilla Brogueishness	Moxie Percent: +100, Initiative: +100, Pick
 # Frenzied, Bloody: Lose 8-10 HP per Adventure
 Effect	Frenzied, Bloody	Weapon Damage Percent: +50
 Effect	Fresh Scent	Combat Rate: -5
+Effect	Friendly Chops	Meat Drop: +100, Sleaze Resistance: +5
 Effect	Frigid Weapon	Cold Damage: +3
 # Frigidalmatian: Bites your foes
 Effect	Frio Como Helado	Cold Damage: +10
@@ -5886,12 +5891,14 @@ Effect	Grilled	Muscle: -10
 Effect	Grillin' Like a Villain	Avatar: "toothy pirate"
 Effect	Grimace	Monster Level: +25, Slime Resistance: +1
 Effect	Gristlesphere	Monster Level: +20
+Effect	Grizzly Beard	Cold Resistance: +5, MP Regen Min: 25, MP Regen Max: 50, HP Regen Min: 50, HP Regen Max: 100
 Effect	Groast Out	Avatar: "groast"
 Effect	Grrrrrrreat!	Experience (Muscle): +10
 Effect	Grulched	Stench Damage: +25, Monster Level: +20
 Effect	Grumpy and Ornery	Weapon Damage: +10, Spell Damage: +20
 Effect	Guanified	Stench Damage: +10, Damage Reduction: -2
 Effect	Guild by Association	Avatar: "rabid MMO addict"
+Effect	Gull-Wing Moustache	Initiative: +100, Hot Resistance: +5
 Effect	Gummed Shoes	Combat Rate: -5
 # Gummi Badass: Deal damage to attackers
 Effect	Gummi-Grin	Experience (Muscle): +1
@@ -6388,6 +6395,7 @@ Effect	Mushroom Melody	Ranged Damage: +100
 Effect	Mushroom Might	Muscle Percent: +200
 Effect	Mushroom Moxiousness	Moxie Percent: +200
 Effect	Mushroom Samba	Item Drop: +25
+Effect	Musician's Musician's Moustache	Moxie: +25, Booze Drop: +50
 Effect	Musk of the Moose	Combat Rate: +5
 # Musky: You Smell Like a Lynyrd
 Effect	Musky	Stench Damage: +15
@@ -6588,6 +6596,7 @@ Effect	Plump and Chubby	Maximum HP Percent: +50, Maximum MP Percent: +50
 Effect	Pneumatic	Adventure Underwater
 Effect	Pockets of Fire	Hot Damage: +10
 Effect	Poetically Licensed	Mysticality Percent: +20, Muscle Percent: -20, Experience (Mysticality): +2, Spell Damage Percent: +10
+Effect	Pointy Wizard Beard	Spell Damage: +25, Spell Critical Percent: +10
 Effect	Poison For Blood	Muscle Percent: -90, Mysticality Percent: -90, Moxie Percent: -90
 Effect	Poker Faced	Moxie: +25
 Effect	Polar Express	MP Regen Min: 10, MP Regen Max: 20
@@ -6972,7 +6981,9 @@ Effect	Spa Day!	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: 
 Effect	Space Cadet	Maximum MP Percent: +50
 Effect	Space Cowboy	Experience: +2
 Effect	Space Tripping	Experience (Muscle): +4, Experience (Mysticality): +4, Experience (Moxie): +4
+Effect	Space Warlord's Beard	Weapon Damage: +25, Critical Hit Percent: +10
 Effect	Spangled Star	Monster Level: +10
+Effect	Spectacle Moustache	Item Drop: +50, Spooky Resistance: +5
 Effect	Sugary World View	Candy Drop: +100
 Effect	Sparkling Consciousness	Mysticality Percent: +100
 # Sparkly!: +50 Damage vs. Undead
@@ -7120,6 +7131,7 @@ Effect	Superhuman Sarcasm	Moxie Percent: +100
 Effect	Superioreo	Experience: +5, Maximum HP Percent: +100
 # SuperStar: You earned a gold star
 Effect	Superveiny 9000	Maximum HP: +300
+Effect	Surrealist's Moustache	Mysticality: +25, Food Drop: +50
 Effect	Surreally Buff	Muscle Percent: +20
 Effect	Suspicious Gaze	Initiative: +20
 Effect	Sweet and Green	Weapon Damage: +15, Weapon Damage Percent: +15
@@ -7314,6 +7326,7 @@ Effect	Tiny Bubbles in the Cupcake	HP Regen Min: 20, HP Regen Max: 20, MP Regen 
 Effect	To Protect and Servo	Avatar: "cyborg policeman"
 # Toad In The Hole: Continually take damage
 Effect	Toast Tea	Cold Resistance: +3
+Effect	Toiletbrush Moustache	Monster Level: +25, Stench Resistance: +5
 Effect	Tomato Power	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Tomes of Opportunity	Experience Percent (Mysticality): +20
 Effect	Too Cool for (Fish) School	Hot Resistance: +1
@@ -11205,6 +11218,7 @@ Item	Our Daily Candles&trade; order form	Free Pull
 # pacification grenade: Weakens enemies somewhat
 Item	Pack of Every Card	Free Pull
 Item	packaged backup camera	Free Pull
+Item	packaged Daylight Shavings Helmet	Free Pull
 Item	packaged familiar scrapbook	Free Pull
 Item	packaged industrial fire extinguisher	Free Pull
 Item	packaged knock-off retro superhero cape	Free Pull
