@@ -59,7 +59,7 @@ public class BatFellowRequest extends GenericRequest {
       return false;
     }
 
-    String message = message = "{" + BatManager.getTimeLeftString() + "} " + location;
+    String message = "{" + BatManager.getTimeLeftString() + "} " + location;
 
     RequestLogger.printLine();
     RequestLogger.printLine(message);
