@@ -149,13 +149,13 @@ public class ChatSender {
 
   public static final List<ChatMessage> sendRequest(ChatRequest request, boolean tabbedChat) {
     if (!ChatManager.chatLiterate()) {
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
     }
 
     RequestThread.postRequest(request);
 
     if (request.responseText == null) {
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
     }
 
     List<ChatMessage> newMessages = new LinkedList<ChatMessage>();
