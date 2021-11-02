@@ -1767,10 +1767,6 @@ public class SkillDatabase {
 
     String image = DebugDatabase.parseImage(text);
 
-    // Detach name and image from being substrings
-    skillName = skillName;
-    image = image;
-
     String typeString = DebugDatabase.parseSkillType(text);
     int type =
         typeString.equals("Passive")
