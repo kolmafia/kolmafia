@@ -2,11 +2,12 @@ package net.sourceforge.kolmafia;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Map.Entry;
 import org.junit.jupiter.api.Test;
 
 public class ModifiersTest {
   @Test
-  public void patriotSheildClassModifiers() {
+  public void patriotShieldClassModifiers() {
     // Wide-reaching unit test for getModifiers
     KoLCharacter.setAscensionClass(AscensionClass.AVATAR_OF_JARLSBERG);
     Modifiers mods = Modifiers.getModifiers("Item", "Patriot Shield");
@@ -28,5 +29,25 @@ public class ModifiersTest {
     assertEquals(0, mods.get(Modifiers.RANGED_DAMAGE));
     assertEquals(false, mods.getBoolean(Modifiers.FOUR_SONGS));
     assertEquals(0, mods.get(Modifiers.COMBAT_MANA_COST));
+  }
+
+  @Test
+  public void testSynergies() {
+    // The "synergy" bitmap modifier is assigned dynamically, based on appearance order in
+    // Modifiers.txt
+    // The first Synergetic item seen gets 0b00001, the 2nd: 0b00010, 3rd: 0b00100, etc.
+
+    for (Entry<String, Integer> entry : Modifiers.getSynergies()) {
+      String name = entry.getKey();
+      int mask = entry.getValue().intValue();
+
+      int manualMask = 0;
+      for (String piece : name.split("/")) {
+        Modifiers mods = Modifiers.getModifiers("Item", piece);
+        manualMask |= mods.getRawBitmap(Modifiers.SYNERGETIC);
+      }
+
+      assertEquals(manualMask, mask, name);
+    }
   }
 }
