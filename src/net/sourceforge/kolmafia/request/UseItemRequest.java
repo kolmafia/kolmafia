@@ -5755,7 +5755,7 @@ public class UseItemRequest extends GenericRequest {
         if (responseText.contains("You rip open your packet")
             || responseText.contains("You can't seem to rip the packet open")) {
           Preferences.setBoolean("universalSeasoningActive", true);
-          Preferences.setBoolean("_universalSeasoningUsed", true);
+          Preferences.increment("_universalSeasoningsUsed");
         }
         return;
 
