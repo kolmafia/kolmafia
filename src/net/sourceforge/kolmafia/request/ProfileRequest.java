@@ -551,12 +551,11 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
 
   public static void parseResponse(String location, String responseText) {
     int who = ProfileRequest.getWho(location);
-    if (who == 1) // if we're looking at Jick's profile
-    {
+    if (who == 1) { // if we're looking at Jick's profile
+      // and we have an empty jar
       if (InventoryManager.hasItem(ItemPool.PSYCHOANALYTIC_JAR)
-          && // and we have an empty jar
-          !Preferences.getBoolean("_psychoJarFilled")) // and we haven't already filled a jar
-      {
+          // and we haven't already filled a jar
+          && !Preferences.getBoolean("_psychoJarFilled")) {
         Preferences.setString(
             "_jickJarAvailable", Boolean.toString(responseText.contains("psychoanalytic jar")));
       }
@@ -591,8 +590,7 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
     }
 
     int who = ProfileRequest.getWho(urlString);
-    if (who == 1) // if we're looking at Jick's profile
-    {
+    if (who == 1) { // if we're looking at Jick's profile
       if (urlString.contains("action=jung") && urlString.contains("whichperson=jick")) {
         String message = "Psychoanalyzing Jick";
         RequestLogger.updateSessionLog();

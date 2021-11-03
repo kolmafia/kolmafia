@@ -951,9 +951,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.add(new TerminalExtrudeDaily());
     } else if (deedsString[1].equals("Terminal Summary")) {
       this.add(new TerminalSummaryDaily());
-    } else
-    // you added a special deed to BUILTIN_DEEDS but didn't add a method call.
-    {
+    } else { // you added a special deed to BUILTIN_DEEDS but didn't add a method call.
       RequestLogger.printLine(
           "Couldn't match a deed: " + deedsString[1] + " does not have a built-in method.");
     }
@@ -1194,10 +1192,9 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     // can probably generalize these combo listeners and put them somewhere else.
     // for now they're individual to each combo.
-    private class ShowerComboListener implements ActionListener
-    // the combo listeners exist solely to update the GO button with
-    // the combo box target
-    {
+    private class ShowerComboListener implements ActionListener {
+      // the combo listeners exist solely to update the GO button with
+      // the combo box target
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
         if (cb.getSelectedIndex() <= 0) {
@@ -3516,8 +3513,8 @@ public class DailyDeedsPanel extends Box implements Listener {
           Preferences.getInteger("lastArcadeAscension") == KoLCharacter.getAscensions();
       boolean unlockable =
           unlocked
-              || // Having those items doesn't matter if it's already unlocked
-              InventoryManager.hasItem(ItemPool.GG_TOKEN)
+              // Having those items doesn't matter if it's already unlocked
+              || InventoryManager.hasItem(ItemPool.GG_TOKEN)
               || InventoryManager.hasItem(ItemPool.GG_TICKET);
       boolean limited = Limitmode.limitClan();
 
@@ -3716,9 +3713,8 @@ public class DailyDeedsPanel extends Box implements Listener {
           setComboTarget(btn, "");
           setEnabled(false);
         } else {
-          if (cb.getSelectedIndex() > 1
-              && cardsdrawn > 10) // Can't cheat with less than 5 remaining
-          {
+          if (cb.getSelectedIndex() > 1 && cardsdrawn > 10) {
+            // Can't cheat with less than 5 remaining
             setComboTarget(btn, "");
             setEnabled(false);
           } else {

@@ -83,8 +83,7 @@ public class CliRefCommand extends AbstractCommand {
         continue;
       }
       AbstractCommand handler = e.getValue();
-      if (handler == null) // shouldn't happen
-      {
+      if (handler == null) { // shouldn't happen
         continue;
       }
       String usage = handler.getUsage(name);

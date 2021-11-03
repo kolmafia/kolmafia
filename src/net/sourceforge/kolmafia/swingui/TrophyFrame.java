@@ -232,8 +232,7 @@ public class TrophyFrame extends GenericFrame {
             this.add(TrophyPanel.source, destIndex);
             TrophyPanel.sourceList.add(dest, sourceIndex);
           }
-        } else // move, instead of exchange
-        {
+        } else { // move, instead of exchange
           if (TrophyPanel.sourceList == this && destIndex >= sourceIndex) {
             --destIndex;
           }

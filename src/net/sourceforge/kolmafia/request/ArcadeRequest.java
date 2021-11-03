@@ -1593,8 +1593,8 @@ public class ArcadeRequest extends GenericRequest {
         Preferences.getInteger("lastArcadeAscension") == KoLCharacter.getAscensions();
     boolean unlockable =
         unlocked
-            || // Having those items doesn't matter if it's already unlocked
-            TOKEN.getCount(KoLConstants.inventory) > 0
+            // Having those items doesn't matter if it's already unlocked
+            || TOKEN.getCount(KoLConstants.inventory) > 0
             || TICKET.getCount(KoLConstants.inventory) > 0;
 
     if (!unlocked && unlockable) {

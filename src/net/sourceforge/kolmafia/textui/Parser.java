@@ -1431,9 +1431,8 @@ public class Parser {
           if (condition == null || !condition.getType().equals(DataTypes.BOOLEAN_TYPE)) {
             throw this.parseException("\"if\" requires a boolean conditional expression");
           }
-        } else
-        // else without condition
-        {
+        } else {
+          // else without condition
           condition = Value.locate(DataTypes.TRUE_VALUE);
           finalElse = true;
         }
@@ -1807,8 +1806,7 @@ public class Parser {
       } else {
         throw this.parseException("}", this.currentToken());
       }
-    } else // body is a single call
-    {
+    } else { // body is a single call
       this.parseCommandOrDeclaration(result, functionType);
     }
 
@@ -3958,8 +3956,7 @@ public class Parser {
 
   private void enforceSince(String revision) {
     try {
-      if (revision.startsWith("r")) // revision
-      {
+      if (revision.startsWith("r")) { // revision
         revision = revision.substring(1);
         int targetRevision = Integer.parseInt(revision);
         int currentRevision = StaticEntity.getRevision();
@@ -3968,8 +3965,7 @@ public class Parser {
         if (currentRevision != 0 && currentRevision < targetRevision) {
           throw this.sinceException(String.valueOf(currentRevision), revision, true);
         }
-      } else // version (or syntax error)
-      {
+      } else { // version (or syntax error)
         String[] target = revision.split("\\.");
         if (target.length != 2) {
           throw this.parseException("invalid 'since' format");
