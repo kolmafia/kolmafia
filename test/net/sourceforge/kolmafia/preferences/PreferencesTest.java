@@ -551,10 +551,10 @@ class PreferencesTest {
   }
 
   @Test
-    public void exerciseReset() {
-      Preferences.reset(null);
-      Preferences.reset("");
-      Preferences.reset("dot_is_....not_good");
-      assertTrue(true);
+  public void exerciseReset() {
+    Preferences.reset(null);
+    Preferences.reset("");
+    Preferences.reset("dot_is_....not_good");
+    assertTrue(true);
   }
 }
