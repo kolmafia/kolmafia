@@ -530,17 +530,14 @@ public class Preferences {
     }
   }
 
-  private static void loadUserPreferences(final String username) {
-    String lusername;
+  private static void loadUserPreferences(String username) {
     // Apparently the CodeQL security scan requires this as a fix...
     if ((username != null) && (username.contains(".."))) {
-      lusername = null;
-    } else {
-      lusername = username;
+      username = null;
     }
     File file =
         new File(
-            KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(lusername) + "_prefs.txt");
+            KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.txt");
     Preferences.userPropertiesFile = file;
 
     Properties p = Preferences.loadPreferences(file);
