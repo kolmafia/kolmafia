@@ -13,8 +13,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 
 public class ListenerRegistry {
   // A registry of listeners:
-  private final HashMap<Object, ArrayList<WeakReference>> listenerMap =
-      new HashMap<Object, ArrayList<WeakReference>>();
+  private final HashMap<Object, ArrayList<WeakReference<Listener>>> listenerMap = new HashMap<>();
 
   // Logging. For now, this applies to all types of listeners
   private static boolean logging = false;
@@ -24,7 +23,7 @@ public class ListenerRegistry {
   }
 
   // Deferring
-  private final HashSet<Object> deferred = new HashSet<Object>();
+  private final HashSet<Object> deferred = new HashSet<>();
   private int deferring = 0;
 
   public ListenerRegistry() {}
@@ -56,7 +55,7 @@ public class ListenerRegistry {
       this.deferred.clear();
 
       for (Object key : listenerArray) {
-        ArrayList<WeakReference> listenerList = this.listenerMap.get(key);
+        ArrayList<WeakReference<Listener>> listenerList = this.listenerMap.get(key);
         if (logit) {
           int count = listenerList == null ? 0 : listenerList.size();
           RequestLogger.updateDebugLog("Firing " + count + " listeners for \"" + key + "\"");
@@ -67,18 +66,18 @@ public class ListenerRegistry {
   }
 
   public final void registerListener(final Object key, final Listener listener) {
-    ArrayList<WeakReference> listenerList = null;
+    ArrayList<WeakReference<Listener>> listenerList = null;
 
     synchronized (this.listenerMap) {
       listenerList = this.listenerMap.get(key);
 
       if (listenerList == null) {
-        listenerList = new ArrayList<WeakReference>();
+        listenerList = new ArrayList<>();
         this.listenerMap.put(key, listenerList);
       }
     }
 
-    WeakReference reference = new WeakReference(listener);
+    WeakReference<Listener> reference = new WeakReference<>(listener);
 
     synchronized (listenerList) {
       listenerList.add(reference);
@@ -86,7 +85,7 @@ public class ListenerRegistry {
   }
 
   public final void fireListener(final Object key) {
-    ArrayList<WeakReference> listenerList = null;
+    ArrayList<WeakReference<Listener>> listenerList = null;
 
     synchronized (this.listenerMap) {
       listenerList = this.listenerMap.get(key);
@@ -136,33 +135,33 @@ public class ListenerRegistry {
       return;
     }
 
-    HashSet<ArrayList<WeakReference>> listeners = new HashSet<ArrayList<WeakReference>>();
+    HashSet<ArrayList<WeakReference<Listener>>> listeners = new HashSet<>();
 
     if (logit) {
-      Set<Entry<Object, ArrayList<WeakReference>>> entries = null;
+      Set<Entry<Object, ArrayList<WeakReference<Listener>>>> entries = null;
       synchronized (this.listenerMap) {
         entries = this.listenerMap.entrySet();
       }
 
-      Iterator<Entry<Object, ArrayList<WeakReference>>> i1 = entries.iterator();
+      Iterator<Entry<Object, ArrayList<WeakReference<Listener>>>> i1 = entries.iterator();
       while (i1.hasNext()) {
-        Entry<Object, ArrayList<WeakReference>> entry = i1.next();
+        Entry<Object, ArrayList<WeakReference<Listener>>> entry = i1.next();
         Object key = entry.getKey();
-        ArrayList<WeakReference> listenerList = entry.getValue();
+        ArrayList<WeakReference<Listener>> listenerList = entry.getValue();
         int count = listenerList == null ? 0 : listenerList.size();
         RequestLogger.updateDebugLog("Firing " + count + " listeners for \"" + key + "\"");
         listeners.add(listenerList);
       }
     } else {
-      Collection<ArrayList<WeakReference>> values = null;
+      Collection<ArrayList<WeakReference<Listener>>> values = null;
       synchronized (this.listenerMap) {
         values = this.listenerMap.values();
       }
       listeners.addAll(values);
     }
 
-    Iterator<ArrayList<WeakReference>> i2 = listeners.iterator();
-    HashSet<Listener> notified = new HashSet<Listener>();
+    Iterator<ArrayList<WeakReference<Listener>>> i2 = listeners.iterator();
+    HashSet<Listener> notified = new HashSet<>();
 
     while (i2.hasNext()) {
       this.fireListeners(i2.next(), notified);
@@ -170,18 +169,18 @@ public class ListenerRegistry {
   }
 
   private void fireListeners(
-      final ArrayList<WeakReference> listenerList, final HashSet<Listener> notified) {
+      final ArrayList<WeakReference<Listener>> listenerList, final HashSet<Listener> notified) {
     if (listenerList == null) {
       return;
     }
 
     synchronized (listenerList) {
-      Iterator<WeakReference> i = listenerList.iterator();
+      Iterator<WeakReference<Listener>> i = listenerList.iterator();
 
       while (i.hasNext()) {
-        WeakReference reference = i.next();
+        WeakReference<Listener> reference = i.next();
 
-        Listener listener = (Listener) reference.get();
+        Listener listener = reference.get();
 
         if (listener == null) {
           i.remove();
