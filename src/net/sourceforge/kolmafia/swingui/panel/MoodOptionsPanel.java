@@ -36,7 +36,7 @@ public class MoodOptionsPanel extends JPanel {
   }
 
   private class MoodTriggerListPanel extends ScrollablePanel {
-    public JComboBox availableMoods;
+    public JComboBox<Mood> availableMoods;
 
     public MoodTriggerListPanel() {
       super("", new ShowDescriptionList(MoodManager.getTriggers()));
@@ -68,7 +68,7 @@ public class MoodOptionsPanel extends JPanel {
     @Override
     public void setEnabled(final boolean isEnabled) {}
 
-    private class MoodComboBox extends JComboBox {
+    private class MoodComboBox extends JComboBox<Mood> {
       public MoodComboBox() {
         super(MoodManager.getAvailableMoods());
 
@@ -242,7 +242,7 @@ public class MoodOptionsPanel extends JPanel {
       }
     }
 
-    private class TypeComboBox extends JComboBox {
+    private class TypeComboBox extends JComboBox<String> {
       public TypeComboBox() {
         this.addItem("When an effect is lost");
         this.addItem("When an effect is gained");

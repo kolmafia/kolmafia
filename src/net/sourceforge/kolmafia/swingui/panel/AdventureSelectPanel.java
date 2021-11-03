@@ -475,7 +475,7 @@ public class AdventureSelectPanel extends JPanel {
 
     CardLayout resultCards = new CardLayout();
     JPanel resultPanel = new JPanel(resultCards);
-    JComboBox resultSelect = new JComboBox();
+    JComboBox<String> resultSelect = new JComboBox<>();
 
     int cardCount = 0;
 
@@ -535,12 +535,12 @@ public class AdventureSelectPanel extends JPanel {
     private final String property;
     private final CardLayout resultCards;
     private final JPanel resultPanel;
-    private final JComboBox resultSelect;
+    private final JComboBox<?> resultSelect;
 
     public ResultSelectListener(
         final CardLayout resultCards,
         final JPanel resultPanel,
-        final JComboBox resultSelect,
+        final JComboBox<?> resultSelect,
         final String property) {
       this.resultCards = resultCards;
       this.resultPanel = resultPanel;

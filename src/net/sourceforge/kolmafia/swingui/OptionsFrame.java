@@ -1628,7 +1628,8 @@ public class OptionsFrame extends GenericFrame {
                   {"allowCloseableDesktopTabs", "Allow tabs on main window to be closed"},
                 };
 
-    private final JComboBox looks, toolbars, toolIcons, scripts;
+    private final JComboBox<Object> looks;
+    private final JComboBox<String> toolbars, toolIcons, scripts;
 
     public UserInterfacePanel() {
       super(new Dimension(80, 22), new Dimension(280, 22));
@@ -1640,7 +1641,7 @@ public class OptionsFrame extends GenericFrame {
 
       installedLooks[0] = "Always use OS default look and feel";
 
-      this.looks = new JComboBox();
+      this.looks = new JComboBox<>();
       this.looks.addItem(installedLooks[0]);
 
       for (int i = 0; i < installed.length; ++i) {
@@ -1652,20 +1653,20 @@ public class OptionsFrame extends GenericFrame {
         }
       }
 
-      this.toolbars = new JComboBox();
+      this.toolbars = new JComboBox<>();
       this.toolbars.addItem("Show global menus only");
       this.toolbars.addItem("Put toolbar along top of panel");
       this.toolbars.addItem("Put toolbar along bottom of panel");
       this.toolbars.addItem("Put toolbar along left of panel");
 
-      this.toolIcons = new JComboBox();
+      this.toolIcons = new JComboBox<>();
       this.toolIcons.addItem("Use classic toolbar icons");
       this.toolIcons.addItem("Use dark toolbar icons");
       // add additional toolbar icon sets here...
       // this.toolIcons.addItem( "Use modern toolbar icons" );
       // this.toolIcons.addItem( "Use light toolbar icons" );
 
-      this.scripts = new JComboBox();
+      this.scripts = new JComboBox<>();
       this.scripts.addItem("Do not show script bar on main interface");
       this.scripts.addItem("Show script bar along right of panel");
 
@@ -2320,7 +2321,7 @@ public class OptionsFrame extends GenericFrame {
     public void setEnabled(final boolean isEnabled) {}
   }
 
-  private class SkillMenu extends JComboBox {
+  private class SkillMenu extends JComboBox<String> {
     final String preference;
 
     public SkillMenu(final String name, final String[] skills, final String preference) {
@@ -2369,7 +2370,7 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private class CropMenu extends JComboBox {
+  private class CropMenu extends JComboBox<String> {
     final String preference;
 
     public CropMenu(final String preference) {
