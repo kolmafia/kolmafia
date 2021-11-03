@@ -522,12 +522,12 @@ class PreferencesTest {
   @Test
   public void actuallySaveFileToIncreaseCoverage() {
     Preferences.saveSettingsToFile = true;
-    Preferences.setString("tabby", "*\\t*");
+    Preferences.setString("tabby", "*\t*");
     Preferences.setString("removeMe", "please");
-    Preferences.setString("a", "\\n");
-    Preferences.setString("b", "\\f");
-    Preferences.setString("c", "\\r");
-    Preferences.setString("d", "\\\\");
+    Preferences.setString("a", "\n");
+    Preferences.setString("b", "\f");
+    Preferences.setString("c", "\r");
+    Preferences.setString("d", "\\");
     Preferences.setString("e", "=");
     Preferences.setString("f", ":");
     Preferences.setString("g", "#");
@@ -548,5 +548,13 @@ class PreferencesTest {
     value = "Bootsy";
     Preferences.setString(name, value);
     assertEquals(value, Preferences.getString(name, true));
+  }
+
+  @Test
+    public void exerciseReset() {
+      Preferences.reset(null);
+      Preferences.reset("");
+      Preferences.reset("dot_is_....not_good");
+      assertTrue(true);
   }
 }
