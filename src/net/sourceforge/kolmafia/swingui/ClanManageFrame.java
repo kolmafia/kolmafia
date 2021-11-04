@@ -297,7 +297,7 @@ public class ClanManageFrame extends GenericFrame {
 
   private class StoragePanel extends ItemListManagePanel {
     public StoragePanel() {
-      super((SortedListModel) KoLConstants.inventory);
+      super((SortedListModel<AdventureResult>) KoLConstants.inventory);
       this.setButtons(
           new ActionListener[] {
             new StorageListener(),

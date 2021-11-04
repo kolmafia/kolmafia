@@ -165,7 +165,7 @@ public class CreateSpecialPanel extends InventoryPanel {
       super(JSlider.VERTICAL, 0, 30, 18);
       this.setMinorTickSpacing(1);
       this.setMajorTickSpacing(5);
-      Hashtable h = new Hashtable();
+      Hashtable<Integer, JLabel> h = new Hashtable<>();
       h.put(IntegerPool.get(0), new JLabel("Free"));
       h.put(IntegerPool.get(10), new JLabel("Autosell price"));
       h.put(IntegerPool.get(20), new JLabel("Mall (or autosell if min-priced)"));
