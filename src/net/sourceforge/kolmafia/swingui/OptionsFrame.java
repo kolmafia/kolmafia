@@ -1026,7 +1026,8 @@ public class OptionsFrame extends GenericFrame {
     public void actionCancelled() {
       this.isRefreshing = true;
 
-      String username = (String) ((SortedListModel<String>) KoLConstants.saveStateNames).getSelectedItem();
+      String username =
+          (String) ((SortedListModel<String>) KoLConstants.saveStateNames).getSelectedItem();
       if (username == null) {
         username = "";
       }
