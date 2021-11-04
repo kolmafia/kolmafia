@@ -477,8 +477,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
           elementList.add(new VerifiableElement(key + ":  ", value.get(0)));
         } else {
           for (int j = 0; j < value.size(); ++j) {
-            elementList.add(
-                new VerifiableElement(key + " " + (j + 1) + ":  ", value.get(j)));
+            elementList.add(new VerifiableElement(key + " " + (j + 1) + ":  ", value.get(j)));
           }
         }
       }
