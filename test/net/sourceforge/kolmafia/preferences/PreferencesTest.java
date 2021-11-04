@@ -551,10 +551,50 @@ class PreferencesTest {
   }
 
   @Test
-  public void exerciseReset() {
+  public void exerciseResetNull() {
+    // Allow files to be written
+    Preferences.saveSettingsToFile = true;
+    // Global preferences name
+    String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
+    File globalfile = new File(globalName);
+    if (globalfile.exists()) {
+      globalfile.delete();
+    }
+    assertFalse(globalfile.exists());
+    // Reset should save global.
     Preferences.reset(null);
+    assertTrue(globalfile.exists());
+  }
+
+  @Test
+  public void exerciseResetEmpty() {
+    // Allow files to be written
+    Preferences.saveSettingsToFile = true;
+    // Global preferences name
+    String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
+    File globalfile = new File(globalName);
+    if (globalfile.exists()) {
+      globalfile.delete();
+    }
+    assertFalse(globalfile.exists());
+    // Reset should save global.
     Preferences.reset("");
+    assertTrue(globalfile.exists());
+  }
+
+  @Test
+  public void exerciseResetDots() {
+    // Allow files to be written
+    Preferences.saveSettingsToFile = true;
+    // Global preferences name
+    String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
+    File globalfile = new File(globalName);
+    if (globalfile.exists()) {
+      globalfile.delete();
+    }
+    assertFalse(globalfile.exists());
+    // Reset should save global.
     Preferences.reset("dot_is_....not_good");
-    assertTrue(true);
+    assertTrue(globalfile.exists());
   }
 }
