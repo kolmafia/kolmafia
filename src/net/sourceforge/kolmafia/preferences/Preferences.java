@@ -536,8 +536,7 @@ public class Preferences {
       username = null;
     }
     File file =
-        new File(
-            KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.txt");
+        new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.txt");
     Preferences.userPropertiesFile = file;
 
     Properties p = Preferences.loadPreferences(file);
