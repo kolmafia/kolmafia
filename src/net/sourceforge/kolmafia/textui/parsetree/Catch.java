@@ -35,7 +35,7 @@ public class Catch extends Evaluable {
     Value scopeValue = null;
 
     try {
-      KoLmafia.lastMessage = "";
+      KoLmafia.lastMessage = " ";
       scopeValue = this.node.execute(interpreter);
     } catch (ScriptException se) {
       errorMessage = "SCRIPT: " + se.getMessage();
