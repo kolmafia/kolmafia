@@ -215,8 +215,9 @@ public class LoginManager {
 
     if (Preferences.getString("spadingData").length() > 10) {
       KoLmafia.updateDisplay(
-          "Some data has been collected that may be of interest "
-              + "to others.  Please type `spade' to examine and submit or delete this data.");
+          "Some data has been collected that may be of interest to others. "
+              + "Please type `spade' to examine and submit or delete this data. If you have a lot, "
+              + "typing `spade autoconfirm' will send all of it without prompting you for each bit.");
     }
 
     // Rebuild Scripts menu if needed
