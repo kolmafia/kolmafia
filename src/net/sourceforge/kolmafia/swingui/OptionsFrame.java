@@ -395,13 +395,13 @@ public class OptionsFrame extends GenericFrame {
   }
 
   private abstract class ShiftableOrderPanel extends ScrollablePanel implements ListDataListener {
-    public LockableListModel list;
-    public JList elementList;
+    public LockableListModel<String> list;
+    public JList<String> elementList;
 
-    public ShiftableOrderPanel(final String title, final LockableListModel list) {
-      super(title, "move up", "move down", new JList(list));
+    public ShiftableOrderPanel(final String title, final LockableListModel<String> list) {
+      super(title, "move up", "move down", new JList<>(list));
 
-      this.elementList = (JList) this.scrollComponent;
+      this.elementList = (JList<String>) this.scrollComponent;
       this.elementList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
       this.list = list;
@@ -421,7 +421,7 @@ public class OptionsFrame extends GenericFrame {
         return;
       }
 
-      Object value = this.list.remove(index);
+      String value = this.list.remove(index);
       this.list.add(index - 1, value);
       this.elementList.setSelectedIndex(index - 1);
     }
@@ -433,7 +433,7 @@ public class OptionsFrame extends GenericFrame {
         return;
       }
 
-      Object value = this.list.remove(index);
+      String value = this.list.remove(index);
       this.list.add(index + 1, value);
       this.elementList.setSelectedIndex(index + 1);
     }
@@ -455,7 +455,7 @@ public class OptionsFrame extends GenericFrame {
 
   private class ScriptButtonPanel extends ShiftableOrderPanel {
     public ScriptButtonPanel() {
-      super("gCLI Toolbar Buttons", new LockableListModel());
+      super("gCLI Toolbar Buttons", new LockableListModel<>());
       String[] scriptList = Preferences.getString("scriptList").split(" +\\| +");
 
       this.list.addAll(Arrays.asList(scriptList));
@@ -526,12 +526,12 @@ public class OptionsFrame extends GenericFrame {
     public void saveSettings() {
       StringBuilder settingString = new StringBuilder();
       if (this.list.size() != 0) {
-        settingString.append((String) this.list.getElementAt(0));
+        settingString.append(this.list.getElementAt(0));
       }
 
       for (int i = 1; i < this.list.getSize(); ++i) {
         settingString.append(" | ");
-        settingString.append((String) this.list.getElementAt(i));
+        settingString.append(this.list.getElementAt(i));
       }
 
       Preferences.setString("scriptList", settingString.toString());
@@ -540,7 +540,7 @@ public class OptionsFrame extends GenericFrame {
 
   private class MaximizerStringsPanel extends ShiftableOrderPanel {
     public MaximizerStringsPanel() {
-      super("Modifier Maximizer Strings", new LockableListModel());
+      super("Modifier Maximizer Strings", new LockableListModel<>());
       String[] scriptList = Preferences.getString("maximizerList").split(" +\\| +");
 
       this.list.addAll(Arrays.asList(scriptList));
@@ -579,12 +579,12 @@ public class OptionsFrame extends GenericFrame {
     public void saveSettings() {
       StringBuilder settingString = new StringBuilder();
       if (this.list.size() != 0) {
-        settingString.append((String) this.list.getElementAt(0));
+        settingString.append(this.list.getElementAt(0));
       }
 
       for (int i = 1; i < this.list.getSize(); ++i) {
         settingString.append(" | ");
-        settingString.append((String) this.list.getElementAt(i));
+        settingString.append(this.list.getElementAt(i));
       }
 
       Preferences.setString("maximizerList", settingString.toString());
@@ -892,7 +892,7 @@ public class OptionsFrame extends GenericFrame {
   /** A special panel which generates a list of bookmarks which can subsequently be managed. */
   private class BookmarkManagePanel extends ShiftableOrderPanel {
     public BookmarkManagePanel() {
-      super("Configure Bookmarks", (LockableListModel) KoLConstants.bookmarks);
+      super("Configure Bookmarks", (LockableListModel<String>) KoLConstants.bookmarks);
 
       JPanel extraButtons = new JPanel(new BorderLayout(2, 2));
       extraButtons.add(new ThreadedButton("add", new AddBookmarkRunnable()), BorderLayout.NORTH);
@@ -933,7 +933,7 @@ public class OptionsFrame extends GenericFrame {
           return;
         }
 
-        String currentItem = (String) BookmarkManagePanel.this.elementList.getSelectedValue();
+        String currentItem = BookmarkManagePanel.this.elementList.getSelectedValue();
         if (currentItem == null) {
           return;
         }
@@ -970,9 +970,9 @@ public class OptionsFrame extends GenericFrame {
   protected class StartupFramesPanel extends GenericPanel implements ListDataListener {
     private boolean isRefreshing = false;
 
-    private final LockableListModel completeList = new LockableListModel();
-    private final LockableListModel startupList = new LockableListModel();
-    private final LockableListModel desktopList = new LockableListModel();
+    private final LockableListModel<String> completeList = new LockableListModel<>();
+    private final LockableListModel<String> startupList = new LockableListModel<>();
+    private final LockableListModel<String> desktopList = new LockableListModel<>();
 
     public StartupFramesPanel() {
       super();
@@ -1026,7 +1026,8 @@ public class OptionsFrame extends GenericFrame {
     public void actionCancelled() {
       this.isRefreshing = true;
 
-      String username = (String) ((SortedListModel) KoLConstants.saveStateNames).getSelectedItem();
+      String username =
+          (String) ((SortedListModel<String>) KoLConstants.saveStateNames).getSelectedItem();
       if (username == null) {
         username = "";
       }
@@ -1077,7 +1078,7 @@ public class OptionsFrame extends GenericFrame {
       } else if (src == this.desktopList) {
         this.startupList.removeAll(this.desktopList);
       } else if (src == this.completeList) {
-        Object item = this.completeList.get(e.getIndex0());
+        String item = this.completeList.get(e.getIndex0());
         this.desktopList.remove(item);
         this.startupList.remove(item);
       }
@@ -1440,8 +1441,8 @@ public class OptionsFrame extends GenericFrame {
       implements ListDataListener, Listener {
     private boolean isRefreshing = false;
 
-    private final LockableListModel builtInsList = new LockableListModel();
-    private final LockableListModel deedsList = new LockableListModel();
+    private final LockableListModel<String> builtInsList = new LockableListModel<>();
+    private final LockableListModel<String> deedsList = new LockableListModel<>();
 
     public CustomizeDailyDeedsPanel() {
       super(new Dimension(2, 2), new Dimension(2, 2));
@@ -1543,7 +1544,7 @@ public class OptionsFrame extends GenericFrame {
       Object src = e.getSource();
 
       if (src == this.builtInsList) {
-        Object item = this.builtInsList.get(e.getIndex0());
+        String item = this.builtInsList.get(e.getIndex0());
 
         this.deedsList.remove(item);
       }

@@ -13,7 +13,7 @@ public class StatusEffectPanel extends ScrollablePanel {
   private final ShowDescriptionList elementList;
 
   public StatusEffectPanel() {
-    this(new ShowDescriptionList((LockableListModel) KoLConstants.activeEffects));
+    this(new ShowDescriptionList((LockableListModel<AdventureResult>) KoLConstants.activeEffects));
   }
 
   public StatusEffectPanel(final ShowDescriptionList list) {
