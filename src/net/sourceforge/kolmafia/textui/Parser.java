@@ -8,7 +8,6 @@ import java.io.LineNumberReader;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -1431,9 +1430,8 @@ public class Parser {
           if (condition == null || !condition.getType().equals(DataTypes.BOOLEAN_TYPE)) {
             throw this.parseException("\"if\" requires a boolean conditional expression");
           }
-        } else
-        // else without condition
-        {
+        } else {
+          // else without condition
           condition = Value.locate(DataTypes.TRUE_VALUE);
           finalElse = true;
         }
@@ -1807,8 +1805,7 @@ public class Parser {
       } else {
         throw this.parseException("}", this.currentToken());
       }
-    } else // body is a single call
-    {
+    } else { // body is a single call
       this.parseCommandOrDeclaration(result, functionType);
     }
 
@@ -3750,7 +3747,7 @@ public class Parser {
       }
 
       this.currentToken = this.currentLine.getLastToken();
-      this.currentIndex = this.currentToken.offset;
+      this.currentIndex = this.currentToken.getStart().getCharacter();
     }
   }
 
@@ -3887,10 +3884,6 @@ public class Parser {
     return result;
   }
 
-  public List<String> getTokensContent() {
-    return this.getTokens().stream().map(token -> token.content).collect(Collectors.toList());
-  }
-
   // **************** Parse errors *****************
 
   private ScriptException parseException(final String expected, final Token found) {
@@ -3958,8 +3951,7 @@ public class Parser {
 
   private void enforceSince(String revision) {
     try {
-      if (revision.startsWith("r")) // revision
-      {
+      if (revision.startsWith("r")) { // revision
         revision = revision.substring(1);
         int targetRevision = Integer.parseInt(revision);
         int currentRevision = StaticEntity.getRevision();
@@ -3968,8 +3960,7 @@ public class Parser {
         if (currentRevision != 0 && currentRevision < targetRevision) {
           throw this.sinceException(String.valueOf(currentRevision), revision, true);
         }
-      } else // version (or syntax error)
-      {
+      } else { // version (or syntax error)
         String[] target = revision.split("\\.");
         if (target.length != 2) {
           throw this.parseException("invalid 'since' format");

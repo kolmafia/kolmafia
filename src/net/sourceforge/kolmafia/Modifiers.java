@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -48,7 +49,7 @@ public class Modifiers {
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
   private static final Map<String, Integer> modifierIndicesByName = new HashMap<>();
   private static final List<UseSkillRequest> passiveSkills = new ArrayList<>();
-  private static final List synergies = new ArrayList();
+  private static final Map<String, Integer> synergies = new HashMap<>();
   private static final List<String> mutexes = new ArrayList<>();
   private static final Map<String, Set<String>> uniques = new HashMap<>();
   public static String currentLocation = "";
@@ -2675,19 +2676,18 @@ public class Modifiers {
   public void applySynergies() {
     int synergetic = this.getRawBitmap(Modifiers.SYNERGETIC);
     if (synergetic == 0) return; // nothing possible
-    Iterator i = Modifiers.synergies.iterator();
-    while (i.hasNext()) {
-      String name = (String) i.next();
-      int mask = ((Integer) i.next()).intValue();
+    for (Entry<String, Integer> entry : Modifiers.synergies.entrySet()) {
+      String name = entry.getKey();
+      int mask = entry.getValue().intValue();
       if ((synergetic & mask) == mask) {
         this.add(Modifiers.getModifiers("Synergy", name));
       }
     }
   }
 
-  // Returned iterator yields alternating names / bitmaps
-  public static Iterator getSynergies() {
-    return Modifiers.synergies.iterator();
+  // Returned set yields bitmaps keyed by names
+  public static Set<Entry<String, Integer>> getSynergies() {
+    return Collections.unmodifiableSet(Modifiers.synergies.entrySet());
   }
 
   private static final AdventureResult somePigs = EffectPool.get(EffectPool.SOME_PIGS);
@@ -3586,8 +3586,7 @@ public class Modifiers {
           }
           mask |= emask;
         }
-        Modifiers.synergies.add(name);
-        Modifiers.synergies.add(IntegerPool.get(mask));
+        Modifiers.synergies.put(name, IntegerPool.get(mask));
       } else if (type.startsWith("Mutex")) {
         String[] pieces = name.split("/");
         if (pieces.length < 2) {
@@ -3657,11 +3656,9 @@ public class Modifiers {
     Set<String> wikiname = new TreeSet<>();
 
     // Iterate over all items and assign item id to category
-    Iterator it = ItemDatabase.dataNameEntrySet().iterator();
-    while (it.hasNext()) {
-      Entry entry = (Entry) it.next();
-      Integer key = (Integer) entry.getKey();
-      String name = (String) entry.getValue();
+    for (Entry<Integer, String> entry : ItemDatabase.dataNameEntrySet()) {
+      Integer key = entry.getKey();
+      String name = entry.getValue();
       int type = ItemDatabase.getConsumptionType(key.intValue());
 
       switch (type) {
@@ -3721,10 +3718,8 @@ public class Modifiers {
     Set<String> familiars = new TreeSet<>();
     familiars.add("Familiar:(none)");
 
-    it = FamiliarDatabase.entrySet().iterator();
-    while (it.hasNext()) {
-      Entry entry = (Entry) it.next();
-      String name = (String) entry.getValue();
+    for (Entry<Integer, String> entry : FamiliarDatabase.entrySet()) {
+      String name = entry.getValue();
       if (Modifiers.getModifiers("Familiar", name) != null) {
         familiars.add(name);
       }
@@ -3755,11 +3750,9 @@ public class Modifiers {
     // Make a map of status effects
     Set<String> effects = new TreeSet<>();
 
-    it = EffectDatabase.entrySet().iterator();
-    while (it.hasNext()) {
-      Entry entry = (Entry) it.next();
-      Integer key = (Integer) entry.getKey();
-      String name = (String) entry.getValue();
+    for (Entry<Integer, String> entry : EffectDatabase.entrySet()) {
+      Integer key = entry.getKey();
+      String name = entry.getValue();
       // Skip effect which is also an item
       effects.add(name);
     }
@@ -3767,11 +3760,9 @@ public class Modifiers {
     // Make a map of passive skills
     Set<String> passives = new TreeSet<>();
 
-    it = SkillDatabase.entrySet().iterator();
-    while (it.hasNext()) {
-      Entry entry = (Entry) it.next();
-      Integer key = (Integer) entry.getKey();
-      String name = (String) entry.getValue();
+    for (Entry<Integer, String> entry : SkillDatabase.entrySet()) {
+      Integer key = entry.getKey();
+      String name = entry.getValue();
       if (SkillDatabase.isPassive(key.intValue())) {
         passives.add(name);
       }
@@ -3804,10 +3795,7 @@ public class Modifiers {
     // Make a map of zones
     Set<String> zones = new TreeSet<>();
 
-    it = AdventureDatabase.ZONE_DESCRIPTIONS.keySet().iterator();
-    while (it.hasNext()) {
-      String key = (String) it.next();
-      String name = key;
+    for (String name : AdventureDatabase.ZONE_DESCRIPTIONS.keySet()) {
       if (Modifiers.getModifiers("Zone", name) != null) {
         zones.add(name);
       }
@@ -3816,9 +3804,7 @@ public class Modifiers {
     // Make a map of locations
     Set<String> locations = new TreeSet<>();
 
-    it = AdventureDatabase.getAsLockableListModel().iterator();
-    while (it.hasNext()) {
-      KoLAdventure key = (KoLAdventure) it.next();
+    for (KoLAdventure key : AdventureDatabase.getAsLockableListModel()) {
       String name = key.getAdventureName();
       if (Modifiers.getModifiers("Loc", name) != null) {
         locations.add(name);
@@ -3828,19 +3814,16 @@ public class Modifiers {
     // Make a map of synergies
     Set<String> synergies = new TreeSet<>();
 
-    it = Modifiers.synergies.iterator();
-    while (it.hasNext()) {
-      String name = (String) it.next();
-      int mask = ((Integer) it.next()).intValue();
+    for (Entry<String, Integer> entry : Modifiers.synergies.entrySet()) {
+      String name = entry.getKey();
+      int mask = entry.getValue().intValue();
       synergies.add(name);
     }
 
     // Make a map of mutexes
     Set<String> mutexes = new TreeSet<>();
 
-    it = Modifiers.mutexes.iterator();
-    while (it.hasNext()) {
-      String name = (String) it.next();
+    for (String name : Modifiers.mutexes) {
       mutexes.add(name);
     }
 

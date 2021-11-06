@@ -951,9 +951,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.add(new TerminalExtrudeDaily());
     } else if (deedsString[1].equals("Terminal Summary")) {
       this.add(new TerminalSummaryDaily());
-    } else
-    // you added a special deed to BUILTIN_DEEDS but didn't add a method call.
-    {
+    } else { // you added a special deed to BUILTIN_DEEDS but didn't add a method call.
       RequestLogger.printLine(
           "Couldn't match a deed: " + deedsString[1] + " does not have a built-in method.");
     }
@@ -1055,9 +1053,9 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addComboButton(command, displaytext).setToolTipText(tip);
     }
 
-    public DisabledItemsComboBox addComboBox(
+    public DisabledItemsComboBox<String> addComboBox(
         String[] choice, List<String> tooltips, String lengthString) {
-      DisabledItemsComboBox comboBox = new DisabledItemsComboBox();
+      DisabledItemsComboBox<String> comboBox = new DisabledItemsComboBox<>();
       int ht = comboBox.getFontMetrics(comboBox.getFont()).getHeight();
       int len = comboBox.getFontMetrics(comboBox.getFont()).stringWidth(lengthString);
 
@@ -1140,7 +1138,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     // We don't really need the ability to disable items within
     // the shower combo box, but it's implemented here for consistency
 
-    DisabledItemsComboBox box = new DisabledItemsComboBox();
+    DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     Component space;
     JButton btn;
 
@@ -1194,12 +1192,11 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     // can probably generalize these combo listeners and put them somewhere else.
     // for now they're individual to each combo.
-    private class ShowerComboListener implements ActionListener
-    // the combo listeners exist solely to update the GO button with
-    // the combo box target
-    {
+    private class ShowerComboListener implements ActionListener {
+      // the combo listeners exist solely to update the GO button with
+      // the combo box target
       public void actionPerformed(final ActionEvent e) {
-        DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+        DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         if (cb.getSelectedIndex() <= 0) {
           setComboTarget(btn, "");
         } else {
@@ -1211,7 +1208,7 @@ public class DailyDeedsPanel extends Box implements Listener {
   }
 
   public static class DemonCombo extends Daily {
-    DisabledItemsComboBox box = new DisabledItemsComboBox();
+    DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     Component space;
     JButton btn = null;
 
@@ -1279,7 +1276,7 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     private class DemonComboListener implements ActionListener {
       public void actionPerformed(final ActionEvent e) {
-        DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+        DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         if (cb.getSelectedIndex() <= 0) {
           setComboTarget(btn, "");
         } else {
@@ -1291,7 +1288,7 @@ public class DailyDeedsPanel extends Box implements Listener {
   }
 
   public static class ComboDaily extends Daily {
-    DisabledItemsComboBox box = new DisabledItemsComboBox();
+    DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     JButton btn = null;
 
     ArrayList<String[]> packedDeed;
@@ -1379,7 +1376,7 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     private class ComboListener implements ActionListener {
       public void actionPerformed(final ActionEvent e) {
-        DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+        DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         int choice = cb.getSelectedIndex();
         if (choice <= 0) {
           setComboTarget(btn, "");
@@ -2187,7 +2184,7 @@ public class DailyDeedsPanel extends Box implements Listener {
   }
 
   public static class MomCombo extends Daily {
-    DisabledItemsComboBox box = new DisabledItemsComboBox();
+    DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     Component space;
     JButton btn = null;
 
@@ -2242,7 +2239,7 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     private class MomComboListener implements ActionListener {
       public void actionPerformed(final ActionEvent e) {
-        DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+        DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         int index = cb.getSelectedIndex();
         if (index < 2) {
           setComboTarget(btn, "");
@@ -3202,7 +3199,7 @@ public class DailyDeedsPanel extends Box implements Listener {
   }
 
   public static class HatterDaily extends Daily {
-    private final DisabledItemsComboBox box;
+    private final DisabledItemsComboBox<String> box;
     private final Component space;
     private final JButton button;
 
@@ -3308,7 +3305,7 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     private class HatterComboListener implements ActionListener {
       public void actionPerformed(final ActionEvent e) {
-        DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+        DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
 
         if (cb.getItemCount() == 0) {
           return;
@@ -3516,8 +3513,8 @@ public class DailyDeedsPanel extends Box implements Listener {
           Preferences.getInteger("lastArcadeAscension") == KoLCharacter.getAscensions();
       boolean unlockable =
           unlocked
-              || // Having those items doesn't matter if it's already unlocked
-              InventoryManager.hasItem(ItemPool.GG_TOKEN)
+              // Having those items doesn't matter if it's already unlocked
+              || InventoryManager.hasItem(ItemPool.GG_TOKEN)
               || InventoryManager.hasItem(ItemPool.GG_TICKET);
       boolean limited = Limitmode.limitClan();
 
@@ -3653,7 +3650,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     private static final List<String> commands = new ArrayList<String>();
     private static final List<String> tooltips = new ArrayList<String>();
 
-    DisabledItemsComboBox box = new DisabledItemsComboBox();
+    DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     Component space;
     JButton btn;
 
@@ -3709,16 +3706,15 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     private class DeckComboListener implements ActionListener {
       public void actionPerformed(final ActionEvent e) {
-        DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+        DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         String command = commands.get(cb.getSelectedIndex());
         int cardsdrawn = Preferences.getInteger("_deckCardsDrawn");
         if (command.equals("")) {
           setComboTarget(btn, "");
           setEnabled(false);
         } else {
-          if (cb.getSelectedIndex() > 1
-              && cardsdrawn > 10) // Can't cheat with less than 5 remaining
-          {
+          if (cb.getSelectedIndex() > 1 && cardsdrawn > 10) {
+            // Can't cheat with less than 5 remaining
             setComboTarget(btn, "");
             setEnabled(false);
           } else {
@@ -3751,7 +3747,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       }
     }
 
-    DisabledItemsComboBox box = new DisabledItemsComboBox();
+    DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     Component space;
     JButton btn;
 
@@ -3793,7 +3789,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     private class TeaTreeListener implements ActionListener {
       @Override
       public void actionPerformed(final ActionEvent e) {
-        DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+        DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         String command = commands.get(cb.getSelectedIndex());
         setComboTarget(btn, command);
         setEnabled(cb.getSelectedIndex() > 0 && !Preferences.getBoolean("_pottedTeaTreeUsed"));
@@ -3910,7 +3906,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     private static final List<String> commands = new ArrayList<String>();
     private static final List<String> tooltips = new ArrayList<String>();
 
-    DisabledItemsComboBox box = new DisabledItemsComboBox();
+    DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     Component space;
     JButton btn;
 
@@ -3972,7 +3968,7 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     private class TerminalEnhanceComboListener implements ActionListener {
       public void actionPerformed(final ActionEvent e) {
-        DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+        DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         String command = commands.get(cb.getSelectedIndex());
         if (command.equals("")) {
           setComboTarget(btn, "");
@@ -3998,7 +3994,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     private static final List<String> commands = new ArrayList<String>();
     private static final List<String> tooltips = new ArrayList<String>();
 
-    DisabledItemsComboBox box = new DisabledItemsComboBox();
+    DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     JButton btn;
 
     static {
@@ -4048,7 +4044,7 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     private class TerminalEnquiryComboListener implements ActionListener {
       public void actionPerformed(final ActionEvent e) {
-        DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+        DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         String command = commands.get(cb.getSelectedIndex());
         String choice = choices.get(cb.getSelectedIndex());
         if (command.equals("") || choice.equals(Preferences.getString("sourceTerminalEnquiry"))) {
@@ -4081,7 +4077,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     private static final List<String> commands = new ArrayList<String>();
     private static final List<String> tooltips = new ArrayList<String>();
 
-    DisabledItemsComboBox box = new DisabledItemsComboBox();
+    DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     Component space;
     JButton btn;
 
@@ -4139,7 +4135,7 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     private class TerminalExtrudeComboListener implements ActionListener {
       public void actionPerformed(final ActionEvent e) {
-        DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+        DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         String command = commands.get(cb.getSelectedIndex());
         String choice = choices.get(cb.getSelectedIndex());
         if (command.equals("")) {
@@ -4168,7 +4164,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     private static final List<String> commands = new ArrayList<String>();
     private static final List<String> tooltips = new ArrayList<String>();
 
-    DisabledItemsComboBox box = new DisabledItemsComboBox();
+    DisabledItemsComboBox<String> box = new DisabledItemsComboBox<>();
     JButton btn;
 
     static {
@@ -4221,7 +4217,7 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     private class TerminalEducateComboListener implements ActionListener {
       public void actionPerformed(final ActionEvent e) {
-        DisabledItemsComboBox cb = (DisabledItemsComboBox) e.getSource();
+        DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         String command = commands.get(cb.getSelectedIndex());
         String choice = choices.get(cb.getSelectedIndex());
         String chips = Preferences.getString("sourceTerminalChips");

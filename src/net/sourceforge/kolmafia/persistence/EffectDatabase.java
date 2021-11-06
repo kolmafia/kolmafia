@@ -520,11 +520,6 @@ public class EffectDatabase {
 
     String image = DebugDatabase.parseImage(text);
 
-    // Detach name, descid, and image from being substrings
-    name = name;
-    descId = descId;
-    image = image;
-
     String canonicalName = StringUtilities.getCanonicalName(name);
     Integer id = IntegerPool.get(effectId);
 

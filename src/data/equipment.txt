@@ -80,6 +80,7 @@ crown-shaped beanie	200	Mox: 200
 crumpled felt fedora	200	Mox: 200
 cursed eyepatch	200	Mus: 85
 cursed tricorn hat	200	Mox: 50
+Daylight Shavings Helmet	100	none
 demon-horned hat	70	Mox: 20
 depleted Grimacite ninja mask	100	Mox: 35
 dice-print do-rag	10	none
