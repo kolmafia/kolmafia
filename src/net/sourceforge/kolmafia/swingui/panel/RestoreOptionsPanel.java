@@ -148,7 +148,7 @@ public class RestoreOptionsPanel extends JPanel implements Listener {
     return restoreSetting.toString();
   }
 
-  private float getPercentage(final JComboBox<?> option) {
+  private float getPercentage(final JComboBox<String> option) {
     return (option.getSelectedIndex() - 1) / 20.0f;
   }
 
@@ -166,7 +166,7 @@ public class RestoreOptionsPanel extends JPanel implements Listener {
     this.restoring = false;
   }
 
-  private void setSelectedIndex(final JComboBox<?> option, final String property) {
+  private void setSelectedIndex(final JComboBox<String> option, final String property) {
     int desiredIndex = (int) (Preferences.getFloat(property) * 20.0f + 1);
     option.setSelectedIndex(Math.min(Math.max(desiredIndex, 0), option.getItemCount() - 1));
   }
