@@ -6,6 +6,8 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import net.sourceforge.kolmafia.StaticEntity;
+import org.eclipse.lsp4j.Position;
+import org.eclipse.lsp4j.Range;
 
 public final class Line {
   private static final char BOM = '\ufeff';
@@ -44,7 +46,7 @@ public final class Line {
     if (line == null) {
       // We are the "end of file" (or there was an IOException when reading)
       this.content = null;
-      this.lineNumber = this.previousLine != null ? this.previousLine.lineNumber : 0;
+      this.lineNumber = this.previousLine != null ? this.previousLine.lineNumber : 1;
       this.offset = this.previousLine != null ? this.previousLine.offset : 0;
       return;
     }
@@ -132,13 +134,12 @@ public final class Line {
     return this.content;
   }
 
-  public class Token {
-    final int offset;
+  public class Token extends Range {
     final String content;
     final String followingWhitespace;
     final int restOfLineStart;
 
-    private Token(final int tokenLength) {
+    private Token(int tokenLength) {
       if (tokenLength <= 0 && Line.this.content != null) {
         throw new IllegalArgumentException();
       }
@@ -147,6 +148,8 @@ public final class Line {
       if (Line.this.content == null && Line.this.hasTokens()) {
         throw new IllegalStateException();
       }
+
+      final int offset;
 
       if (!Line.this.tokens.isEmpty()) {
         offset = Line.this.tokens.getLast().restOfLineStart;
@@ -162,12 +165,18 @@ public final class Line {
         // Going forward, we can just assume lineRemainder is an
         // empty string.
         lineRemainder = "";
+        tokenLength = 0;
       } else {
         final String lineRemainderWithToken = Line.this.substring(offset);
 
         this.content = lineRemainderWithToken.substring(0, tokenLength);
         lineRemainder = lineRemainderWithToken.substring(tokenLength);
       }
+
+      // 0-indexed line
+      final int lineNumber = Line.this.lineNumber - 1;
+      this.setStart(new Position(lineNumber, offset));
+      this.setEnd(new Position(lineNumber, offset + tokenLength));
 
       // As in Line(), this is more efficient than lineRemainder.indexOf( lineRemainder.trim() ).
       String trimmed = lineRemainder.trim();

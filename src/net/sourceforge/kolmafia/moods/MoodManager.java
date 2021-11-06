@@ -132,7 +132,7 @@ public abstract class MoodManager {
 
   public static final List<MoodTrigger> getTriggers(String moodName) {
     if (moodName == null || moodName.length() == 0) {
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
     }
 
     for (Mood mood : MoodManager.availableMoods) {
@@ -141,7 +141,7 @@ public abstract class MoodManager {
       }
     }
 
-    return Collections.EMPTY_LIST;
+    return Collections.emptyList();
   }
 
   /** Adds a trigger to the temporary mood settings. */
@@ -493,7 +493,7 @@ public abstract class MoodManager {
     List<MoodTrigger> triggers = MoodManager.currentMood.getTriggers();
 
     if (triggers.isEmpty()) {
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
     }
 
     ArrayList<AdventureResult> missing = new ArrayList<AdventureResult>();
@@ -665,7 +665,7 @@ public abstract class MoodManager {
 
     List<MoodTrigger> triggers =
         (MoodManager.currentMood == null)
-            ? Collections.EMPTY_LIST
+            ? Collections.emptyList()
             : MoodManager.currentMood.getTriggers();
 
     for (MoodTrigger trigger : triggers) {

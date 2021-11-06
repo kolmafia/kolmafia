@@ -255,8 +255,7 @@ public class FamiliarRequest extends GenericRequest {
                 + this.changeTo.getRace()
                 + " in the Bjorn Buddy...");
       }
-    } else // !enthrone
-    {
+    } else { // !enthrone
       if (familiar.getId() == this.changeTo.getId()) {
         return;
       }

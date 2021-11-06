@@ -2663,8 +2663,8 @@ public class FightRequest extends GenericRequest {
     Matcher macroMatcher = FightRequest.MACRO_PATTERN.matcher(responseText);
     if (macroMatcher.find()) {
       FightRequest.registerMacroAction(macroMatcher);
-    } else // no macro results
-    { // replace with dummy matcher that matches the full page
+    } else { // no macro results
+      // replace with dummy matcher that matches the full page
       macroMatcher = FightRequest.FULLPAGE_PATTERN.matcher(responseText);
       macroMatcher.find();
     }

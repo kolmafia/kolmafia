@@ -41,12 +41,10 @@ public class TableCellFactory {
     if (result instanceof AdventureResult) {
       AdventureResult advresult = (AdventureResult) result;
 
-      if (flags[0]) // Equipment panel
-      {
+      if (flags[0]) { // Equipment panel
         return getEquipmentCell(columnIndex, isSelected, advresult, raw);
       }
-      if (flags[1]) // Restores panel
-      {
+      if (flags[1]) { // Restores panel
         return getRestoresCell(columnIndex, isSelected, advresult, raw);
       }
       if (model == KoLConstants.storage) {
@@ -353,11 +351,9 @@ public class TableCellFactory {
   }
 
   public static String[] getColumnNames(LockableListModel originalModel, boolean[] flags) {
-    if (flags[0]) // Equipment panel
-    {
+    if (flags[0]) { // Equipment panel
       return new String[] {"item name", "power", "quantity", "mallprice", "autosell"};
-    } else if (flags[1]) // Restores panel
-    {
+    } else if (flags[1]) { // Restores panel
       return new String[] {
         "item name", "autosell", "quantity", "mallprice", "HP restore", "MP restore"
       };

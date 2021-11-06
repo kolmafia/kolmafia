@@ -1558,8 +1558,7 @@ public class EquipmentManager {
         --count;
       }
     }
-    if (count != 0) // we've lost count somewhere, refresh
-    {
+    if (count != 0) { // we've lost count somewhere, refresh
       RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.BEDAZZLEMENTS));
     }
   }

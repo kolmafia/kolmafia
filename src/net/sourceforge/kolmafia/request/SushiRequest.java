@@ -531,9 +531,8 @@ public class SushiRequest extends CreateItemRequest {
 
     if (updateFullness) {
       int fullness = ConsumablesDatabase.getFullness(name);
-      if (fullness > 0 && !responseText.contains("Fullness"))
-      // ResultProcessor will handle fullness gain if fullness display is enabled
-      {
+      if (fullness > 0 && !responseText.contains("Fullness")) {
+        // ResultProcessor will handle fullness gain if fullness display is enabled
         KoLCharacter.setFullness(KoLCharacter.getFullness() + fullness);
         KoLCharacter.updateStatus();
       }

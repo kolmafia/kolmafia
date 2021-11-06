@@ -110,9 +110,7 @@ public class PvpManager {
     return true;
   }
 
-  public static void executePvpRequest(
-      final int attacks, final String mission, final int stance) //
-      {
+  public static void executePvpRequest(final int attacks, final String mission, final int stance) {
     if (!PvpManager.checkHippyStone()) {
       return;
     }

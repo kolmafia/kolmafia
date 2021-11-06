@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SpoonCommandTest extends AbstractCommandTest {
+public class SpoonCommandTest extends AbstractCommandTestBase {
   @BeforeEach
   public void initEach() {
     KoLCharacter.reset("testUser");

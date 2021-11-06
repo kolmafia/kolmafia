@@ -25,8 +25,8 @@ import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 public class CardLayoutSelectorPanel extends JPanel {
   private final String indexPreference;
 
-  public final LockableListModel panelNames = new LockableListModel();
-  private final JList panelList = new JList(this.panelNames);
+  public final LockableListModel<Object> panelNames = new LockableListModel<>();
+  private final JList<Object> panelList = new JList<>(this.panelNames);
   public final ArrayList<JComponent> panels = new ArrayList<>();
   private final CardLayout panelCards = new CardLayout();
   private final JPanel mainPanel = new JPanel(this.panelCards);
@@ -138,7 +138,7 @@ public class CardLayoutSelectorPanel extends JPanel {
 
     @Override
     public Component getListCellRendererComponent(
-        final JList list,
+        final JList<?> list,
         final Object value,
         final int index,
         final boolean isSelected,

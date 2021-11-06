@@ -33,15 +33,14 @@ public abstract class BarrelDecorator {
     S
   };
 
-  public static final int barrelToQuad(int barrel) // 1..36 => 0..8
-      {
+  public static final int barrelToQuad(int barrel) { // 1..36 => 0..8
     int x = ((barrel - 1) % 6) / 2;
     int y = (barrel - 1) / 12;
     return y * 3 + x;
   }
 
-  public static final int quadToBarrel(int quad) // 0..8 => 1..36
-      { // Corresponding barrels are at N, N+1, N+6, and N+7
+  public static final int quadToBarrel(int quad) { // 0..8 => 1..36
+    // Corresponding barrels are at N, N+1, N+6, and N+7
     int x = quad % 3;
     int y = quad / 3;
     return y * 12 + x * 2 + 1;

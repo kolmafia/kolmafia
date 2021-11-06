@@ -10024,8 +10024,7 @@ public abstract class ChoiceManager {
         // We need to detect if the choiceadv step was completed OR we got beaten up.
         // If we Flee, nothing changes
         if (ChoiceManager.lastDecision == 1) {
-          if (text.contains("That's all the horror you can take")) // AKA beaten up
-          {
+          if (text.contains("That's all the horror you can take")) { // AKA beaten up
             Preferences.decrement("booPeakProgress", 2, 0);
           } else {
             Preferences.decrement("booPeakProgress", 2 * ChoiceManager.abooPeakLevel, 0);
