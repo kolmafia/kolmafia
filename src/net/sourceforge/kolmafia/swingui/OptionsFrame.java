@@ -892,7 +892,7 @@ public class OptionsFrame extends GenericFrame {
   /** A special panel which generates a list of bookmarks which can subsequently be managed. */
   private class BookmarkManagePanel extends ShiftableOrderPanel {
     public BookmarkManagePanel() {
-      super("Configure Bookmarks", (LockableListModel) KoLConstants.bookmarks);
+      super("Configure Bookmarks", (LockableListModel<String>) KoLConstants.bookmarks);
 
       JPanel extraButtons = new JPanel(new BorderLayout(2, 2));
       extraButtons.add(new ThreadedButton("add", new AddBookmarkRunnable()), BorderLayout.NORTH);
@@ -1026,7 +1026,8 @@ public class OptionsFrame extends GenericFrame {
     public void actionCancelled() {
       this.isRefreshing = true;
 
-      String username = (String) ((SortedListModel) KoLConstants.saveStateNames).getSelectedItem();
+      String username =
+          (String) ((SortedListModel<String>) KoLConstants.saveStateNames).getSelectedItem();
       if (username == null) {
         username = "";
       }
