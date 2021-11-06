@@ -1629,15 +1629,14 @@ public class OptionsFrame extends GenericFrame {
                   {"allowCloseableDesktopTabs", "Allow tabs on main window to be closed"},
                 };
 
-    private final JComboBox<Object> looks;
-    private final JComboBox<String> toolbars, toolIcons, scripts;
+    private final JComboBox<String> looks, toolbars, toolIcons, scripts;
 
     public UserInterfacePanel() {
       super(new Dimension(80, 22), new Dimension(280, 22));
       PreferenceListenerRegistry.registerPreferenceListener("swingLookAndFeel", this);
 
       UIManager.LookAndFeelInfo[] installed = UIManager.getInstalledLookAndFeels();
-      Object[] installedLooks = new Object[installed.length + 1];
+      String[] installedLooks = new String[installed.length + 1];
       String CurrentLook = getLookAndFeel().getClass().getName();
 
       installedLooks[0] = "Always use OS default look and feel";
