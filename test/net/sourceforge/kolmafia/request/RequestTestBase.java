@@ -3,8 +3,6 @@ package net.sourceforge.kolmafia.request;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
@@ -20,10 +18,14 @@ import net.sourceforge.kolmafia.extensions.ForbidNetworkAccess;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.HttpUtilities.ConnectionFactory;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.ArgumentMatcher;
-import org.mockito.verification.VerificationMode;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoSession;
+import org.mockito.quality.Strictness;
 
 /**
  * Extend this class when making tests involving {@link GenericRequest} and/or its descendants.
@@ -37,14 +39,12 @@ import org.mockito.verification.VerificationMode;
  *   <li>For the rest, gives access to {@link #respondIfContains}/{@link #respondIfMatches}, causing
  *       future executed requests to succeed with the given response if the path of the URL
  *       submitted contains the submitted text(s)/matches the submitted pattern(s)/matches the
- *       submitted {@link ArgumentMatcher}. These methods all return the {@link ArgumentMatcher}
- *       submitted for the stubbing. This allows them to be re-used to {@link
- *       org.mockito.Mockito#verify verify} the access of the method (using the {@link
- *       #verifyRequest} shortcut method).
+ *       submitted {@link ArgumentMatcher}.
  * </ul>
  */
 abstract class RequestTestBase {
-  protected ConnectionFactory factory;
+  @Mock protected ConnectionFactory factory;
+  private MockitoSession mockito;
 
   @BeforeAll
   static final void setSessionId() {
@@ -52,19 +52,22 @@ abstract class RequestTestBase {
   }
 
   @BeforeEach
-  final void openNetwork() {
+  final void setupSession() {
+    mockito =
+        Mockito.mockitoSession().initMocks(this).strictness(Strictness.STRICT_STUBS).startMocking();
     factory = mock(ConnectionFactory.class);
     HttpUtilities.setOpen(factory);
+  }
+
+  @AfterEach
+  final void tearDownSession() {
+    ForbidNetworkAccess.blockNetwork();
+    mockito.finishMocking();
   }
 
   @AfterAll
   static final void cleanSessionId() {
     GenericRequest.sessionId = null;
-  }
-
-  @AfterAll
-  static final void reBlockNetwork() {
-    ForbidNetworkAccess.blockNetwork();
   }
 
   // Inject expected success (responseCode = 200) response text.
@@ -84,17 +87,16 @@ abstract class RequestTestBase {
   }
 
   /** Set {@link #factory} to generate the given response if the path contains {@code text}. */
-  protected ArgumentMatcher<URL> respondIfContains(final String text, final String response) {
-    return respondIfContains(Collections.singletonList(text), response);
+  protected void respondIfContains(final String text, final String response) {
+    respondIfContains(Collections.singletonList(text), response);
   }
 
   /**
    * Set {@link #factory} to generate the given response if the path contains every element of
    * {@code texts}.
    */
-  protected ArgumentMatcher<URL> respondIfContains(
-      final List<String> texts, final String response) {
-    return respondIfMatches(
+  protected void respondIfContains(final List<String> texts, final String response) {
+    respondIfMatches(
         path -> {
           for (final String text : texts) {
             if (!path.contains(text)) {
@@ -107,17 +109,16 @@ abstract class RequestTestBase {
   }
 
   /** Set {@link #factory} to generate the given response if the path matches {@code pattern}. */
-  protected ArgumentMatcher<URL> respondIfMatches(final Pattern pattern, final String response) {
-    return respondIfMatches(Collections.singletonList(pattern), response);
+  protected void respondIfMatches(final Pattern pattern, final String response) {
+    respondIfMatches(Collections.singletonList(pattern), response);
   }
 
   /**
    * Set {@link #factory} to generate the given response if the path matches every element of {@code
    * patterns}.
    */
-  protected ArgumentMatcher<URL> respondIfMatches(
-      final List<Pattern> patterns, final String response) {
-    return respondIfMatches(
+  protected void respondIfMatches(final List<Pattern> patterns, final String response) {
+    respondIfMatches(
         path -> {
           for (final Pattern pattern : patterns) {
             if (!pattern.matcher(path).matches()) {
@@ -132,28 +133,13 @@ abstract class RequestTestBase {
   /**
    * Set {@link #factory} to generate the given response if the path matches with {@code matcher}.
    */
-  protected ArgumentMatcher<URL> respondIfMatches(
-      final ArgumentMatcher<String> matcher, final String response) {
-    return prepareResponse(url -> matcher.matches(url.getPath()), response);
+  protected void respondIfMatches(final ArgumentMatcher<String> matcher, final String response) {
+    prepareResponse(url -> matcher.matches(url.getPath()), response);
   }
 
-  private ArgumentMatcher<URL> prepareResponse(
-      final ArgumentMatcher<URL> matcher, final String response) {
+  private void prepareResponse(final ArgumentMatcher<URL> matcher, final String response) {
     try {
       when(factory.openConnection(argThat(matcher))).thenReturn(new FakeConnection(response));
-    } catch (IOException e) {
-    }
-
-    return matcher;
-  }
-
-  protected void verifyRequest(final ArgumentMatcher<URL> matcher) {
-    verifyRequest(matcher, times(1));
-  }
-
-  protected void verifyRequest(final ArgumentMatcher<URL> matcher, final VerificationMode mode) {
-    try {
-      verify(factory, mode).openConnection(argThat(matcher));
     } catch (IOException e) {
     }
   }
