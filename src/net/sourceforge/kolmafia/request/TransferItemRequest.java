@@ -361,7 +361,7 @@ public abstract class TransferItemRequest extends GenericRequest {
 
       if (destination == KoLConstants.collection) {
         if (!KoLConstants.collection.contains(item)) {
-          List shelf = (List) DisplayCaseManager.getShelves().get(0);
+          List<AdventureResult> shelf = DisplayCaseManager.getShelves().get(0);
           if (shelf != null) {
             shelf.add(item);
           }

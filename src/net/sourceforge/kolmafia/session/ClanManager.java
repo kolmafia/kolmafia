@@ -68,7 +68,7 @@ public abstract class ClanManager {
   private static final Map<Integer, List<String>> clanHotdogs =
       new HashMap<Integer, List<String>>();
 
-  private static final List battleList = new ArrayList();
+  private static final List<?> battleList = new ArrayList<>();
 
   private static final LockableListModel<String> rankList = new LockableListModel<String>();
   private static final SortedListModel<AdventureResult> stashContents =

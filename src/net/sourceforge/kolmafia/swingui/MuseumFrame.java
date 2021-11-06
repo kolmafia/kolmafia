@@ -49,7 +49,7 @@ public class MuseumFrame extends GenericFrame {
 
   private class DisplayCaseMatchPanel extends OverlapPanel {
     public DisplayCaseMatchPanel() {
-      super("display", "help", (SortedListModel) KoLConstants.collection, true);
+      super("display", "help", (SortedListModel<AdventureResult>) KoLConstants.collection, true);
     }
 
     @Override
@@ -135,7 +135,7 @@ public class MuseumFrame extends GenericFrame {
             "Inventory",
             "add all",
             "add some",
-            new ShowDescriptionList((SortedListModel) KoLConstants.inventory));
+            new ShowDescriptionList((SortedListModel<AdventureResult>) KoLConstants.inventory));
         this.elementList = (ShowDescriptionList) this.scrollComponent;
       }
 
@@ -165,7 +165,7 @@ public class MuseumFrame extends GenericFrame {
             "Display Case",
             "take all",
             "take some",
-            new ShowDescriptionList((SortedListModel) KoLConstants.collection));
+            new ShowDescriptionList((SortedListModel<AdventureResult>) KoLConstants.collection));
         this.elementList = (ShowDescriptionList) this.scrollComponent;
       }
 
@@ -223,10 +223,9 @@ public class MuseumFrame extends GenericFrame {
 
     @Override
     public void actionConfirmed() {
-      Object[] headerArray = DisplayCaseManager.getHeaders().toArray();
+      String[] headerArray = DisplayCaseManager.getHeaders().toArray(new String[0]);
 
-      String selectedValue =
-          (String) InputFieldUtilities.input("Moving to this shelf...", headerArray);
+      String selectedValue = InputFieldUtilities.input("Moving to this shelf...", headerArray);
 
       if (selectedValue == null) {
         return;
@@ -234,8 +233,7 @@ public class MuseumFrame extends GenericFrame {
 
       for (int i = 0; i < headerArray.length; ++i) {
         if (selectedValue.equals(headerArray[i])) {
-          DisplayCaseManager.move(
-              this.elementList.getSelectedValuesList().toArray(), this.index, i);
+          DisplayCaseManager.move(this.elementList.getSelectedValuesList(), this.index, i);
           break;
         }
       }
@@ -253,7 +251,7 @@ public class MuseumFrame extends GenericFrame {
 
   public class OrderingPanel extends ItemListManagePanel {
     public OrderingPanel() {
-      super((LockableListModel) DisplayCaseManager.getHeaders().clone());
+      super((LockableListModel<String>) DisplayCaseManager.getHeaders().clone());
 
       this.setButtons(
           false,

@@ -6185,8 +6185,7 @@ public abstract class RuntimeLibrary {
     // Use logic from CLI "play" command
     List<String> matchingNames = DeckOfEveryCardRequest.getMatchingNames(name.toString());
     // No match
-    if (matchingNames.size() != 1) // Ambiguous
-    {
+    if (matchingNames.size() != 1) { // Ambiguous
       return DataTypes.STRING_INIT;
     }
 

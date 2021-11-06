@@ -108,9 +108,9 @@ public class ValhallaDecorator {
   }
 
   private static void listPermableSkills(
-      final StringBuffer buffer, final ArrayList unpermedSkills) {
+      final StringBuffer buffer, final ArrayList<UseSkillRequest> unpermedSkills) {
     for (int i = 0; i < unpermedSkills.size(); ++i) {
-      UseSkillRequest skill = (UseSkillRequest) unpermedSkills.get(i);
+      UseSkillRequest skill = unpermedSkills.get(i);
       int skillId = skill.getSkillId();
 
       if (!SkillDatabase.isPermable(skillId)) {
@@ -130,7 +130,7 @@ public class ValhallaDecorator {
   }
 
   private static int listPermanentSkills(
-      final StringBuffer buffer, final ArrayList skillList, final int startingPoint) {
+      final StringBuffer buffer, final ArrayList<String> skillList, final int startingPoint) {
     int count = 0;
     for (int i = 0; i < 100; ++i) {
       int skillId = startingPoint + i;
@@ -481,7 +481,7 @@ public class ValhallaDecorator {
     Matcher matcher = ValhallaDecorator.EUDORA_PATTERN.matcher(response);
 
     Correspondent activeCorrespondent = Correspondent.NONE;
-    ArrayList<Correspondent> availableCorrespondents = new ArrayList();
+    ArrayList<Correspondent> availableCorrespondents = new ArrayList<>();
 
     while (matcher.find()) {
       String name = matcher.group(3);

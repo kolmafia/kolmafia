@@ -61,9 +61,8 @@ public class UpdateRunnable implements Runnable {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Something went wrong creating directories...");
         return;
       }
-    } else
-    // this.repo is null, we need to find it
-    {
+    } else {
+      // this.repo is null, we need to find it
       if (!KoLmafia.permitsContinue()) return;
 
       try {

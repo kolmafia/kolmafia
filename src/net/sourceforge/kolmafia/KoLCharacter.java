@@ -883,7 +883,7 @@ public abstract class KoLCharacter {
   }
 
   public static final int getFuryLimit() {
-    // 0 if not Seal Clubber, 3 with only Wrath of the Wolverine, 5 with Ire of the Orca in additon
+    // 0 if not Seal Clubber, 3 with only Wrath of the Wolverine, 5 with Ire of the Orca in addition
     return (ascensionClass != AscensionClass.SEAL_CLUBBER
             || !KoLCharacter.hasSkill("Wrath of the Wolverine"))
         ? 0
@@ -1807,7 +1807,7 @@ public abstract class KoLCharacter {
   }
 
   /**
-   * Accessor method to retrieve the total subpoints accumulted so far in muscle.
+   * Accessor method to retrieve the total subpoints accumulated so far in muscle.
    *
    * @return The total muscle subpoints so far
    */
@@ -1851,14 +1851,14 @@ public abstract class KoLCharacter {
   /**
    * Accessor method to retrieve the character's base value for mysticality.
    *
-   * @return The character's base value for muscle
+   * @return The character's base value for mysticality
    */
   public static final int getBaseMysticality() {
     return KoLCharacter.calculateBasePoints(KoLCharacter.totalSubpoints[1]);
   }
 
   /**
-   * Accessor method to retrieve the total subpoints accumulted so far in mysticality.
+   * Accessor method to retrieve the total subpoints accumulated so far in mysticality.
    *
    * @return The total mysticality subpoints so far
    */
@@ -1909,7 +1909,7 @@ public abstract class KoLCharacter {
   }
 
   /**
-   * Accessor method to retrieve the total subpoints accumulted so far in moxie.
+   * Accessor method to retrieve the total subpoints accumulated so far in moxie.
    *
    * @return The total moxie subpoints so far
    */
@@ -2854,7 +2854,7 @@ public abstract class KoLCharacter {
       KoLCharacter.checkTelescope();
     }
 
-    // If we were in a path that grants skills only while on the path, rest them
+    // If we were in a path that grants skills only while on the path, reset them
     if (oldPath == Path.HEAVY_RAINS
         || oldPath == Path.NUCLEAR_AUTUMN
         || oldPath == Path.YOU_ROBOT) {
@@ -2981,7 +2981,7 @@ public abstract class KoLCharacter {
     KoLCharacter.isCasual = isCasual;
   }
 
-  /** Returns whether or not the character is currently in roin. */
+  /** Returns whether or not the character is currently in ronin. */
   public static final boolean inRonin() {
     return KoLCharacter.inRonin;
   }

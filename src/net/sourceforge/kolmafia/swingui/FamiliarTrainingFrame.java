@@ -275,13 +275,13 @@ public class FamiliarTrainingFrame extends GenericFrame {
     private class OpponentsPanel extends JPanel {
       public OpponentsPanel() {
         // Get current opponents
-        LockableListModel opponents = CakeArenaManager.getOpponentList();
+        LockableListModel<ArenaOpponent> opponents = CakeArenaManager.getOpponentList();
         int opponentCount = opponents.size();
 
         this.setLayout(new GridLayout(opponentCount, 1, 0, 20));
 
         for (int i = 0; i < opponentCount; ++i) {
-          this.add(new OpponentLabel((ArenaOpponent) opponents.get(i)));
+          this.add(new OpponentLabel(opponents.get(i)));
         }
       }
 
@@ -674,7 +674,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
     FamiliarTrainingFrame.results.append("<br>");
 
     // Get opponent list
-    LockableListModel opponents = CakeArenaManager.getOpponentList();
+    LockableListModel<ArenaOpponent> opponents = CakeArenaManager.getOpponentList();
 
     // Print the opponents
     FamiliarTrainingFrame.printOpponents(opponents);
@@ -804,7 +804,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
     FamiliarTrainingFrame.results.append("<br>");
 
     // Get opponent list
-    LockableListModel opponents = CakeArenaManager.getOpponentList();
+    LockableListModel<ArenaOpponent> opponents = CakeArenaManager.getOpponentList();
 
     // Print the opponents
     FamiliarTrainingFrame.printOpponents(opponents);
@@ -1135,11 +1135,11 @@ public class FamiliarTrainingFrame extends GenericFrame {
         "Training " + name + " the " + weight + " lb. " + race + hope + ".<br>");
   }
 
-  private static void printOpponents(final LockableListModel opponents) {
+  private static void printOpponents(final LockableListModel<ArenaOpponent> opponents) {
     FamiliarTrainingFrame.results.append("Opponents:<br>");
     int opponentCount = opponents.size();
     for (int i = 0; i < opponentCount; ++i) {
-      ArenaOpponent opponent = (ArenaOpponent) opponents.get(i);
+      ArenaOpponent opponent = opponents.get(i);
       String name = opponent.getName();
       String race = opponent.getRace();
       int weight = opponent.getWeight();
@@ -1303,7 +1303,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
       this.checkCurrentEquipment();
 
       // Check available equipment
-      this.checkAvailableEquipment((SortedListModel) KoLConstants.inventory);
+      this.checkAvailableEquipment((SortedListModel<AdventureResult>) KoLConstants.inventory);
     }
 
     private void checkSkills() {
@@ -1501,7 +1501,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
       return false;
     }
 
-    private void checkAvailableEquipment(final LockableListModel inventory) {
+    private void checkAvailableEquipment(final LockableListModel<AdventureResult> inventory) {
       // If not wearing a pith helmet, search inventory
       this.pithHelmet |=
           FamiliarTrainingFrame.PITH_HELMET.getCount(inventory) > 0
@@ -1593,9 +1593,9 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
       // Find first familiar with item
 
-      List familiars = KoLCharacter.getFamiliarList();
+      List<FamiliarData> familiars = KoLCharacter.getFamiliarList();
       for (int i = 0; i < familiars.size(); ++i) {
-        FamiliarData familiar = (FamiliarData) familiars.get(i);
+        FamiliarData familiar = familiars.get(i);
         AdventureResult item = familiar.getItem();
 
         if (item == null) {

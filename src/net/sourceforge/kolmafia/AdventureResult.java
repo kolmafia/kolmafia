@@ -233,8 +233,6 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         RequestLogger.printLine(
             "Effect database error: id = " + this.id + " name = \"" + this.name + "\"");
       }
-    } else {
-      this.name = this.name;
     }
   }
 
@@ -261,7 +259,6 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
             "Item database error: id = " + this.id + " name = \"" + this.name + "\"");
       }
     } else {
-      this.name = this.name;
       RequestLogger.printLine("Unknown item found: " + this.name);
     }
   }

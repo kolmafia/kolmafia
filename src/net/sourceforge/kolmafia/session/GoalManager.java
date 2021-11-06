@@ -145,7 +145,7 @@ public class GoalManager {
   }
 
   public static final void makeSideTrip(KoLAdventure location, AdventureResult goal) {
-    List previousGoals = new ArrayList(GoalManager.goals);
+    List<AdventureResult> previousGoals = new ArrayList<>(GoalManager.goals);
 
     GoalManager.clearGoals();
     GoalManager.addGoal(goal);

@@ -37,11 +37,11 @@ public class RequestFrame extends GenericFrame {
   private static final Pattern BOOKSHELF_PATTERN =
       Pattern.compile("onClick=\"location.href='(.*?)';\"", Pattern.DOTALL);
 
-  private static final ArrayList sideBarFrames = new ArrayList();
+  private static final ArrayList<RequestFrame> sideBarFrames = new ArrayList<>();
 
   private int locationIndex = 0;
-  private final ArrayList history = new ArrayList();
-  private final ArrayList shownHTML = new ArrayList();
+  private final ArrayList<String> history = new ArrayList<>();
+  private final ArrayList<String> shownHTML = new ArrayList<>();
 
   private String currentLocation;
 
@@ -411,7 +411,7 @@ public class RequestFrame extends GenericFrame {
         RequestFrame.getDisplayHTML("charpane.php", CharPaneRequest.getLastResponse(), false);
 
     for (int i = 0; i < RequestFrame.sideBarFrames.size(); ++i) {
-      RequestFrame current = (RequestFrame) RequestFrame.sideBarFrames.get(i);
+      RequestFrame current = RequestFrame.sideBarFrames.get(i);
 
       if (current.sideDisplay == null) {
         continue;
@@ -455,9 +455,9 @@ public class RequestFrame extends GenericFrame {
       if (RequestFrame.this.locationIndex > 0) {
         --RequestFrame.this.locationIndex;
         RequestFrame.this.mainDisplay.setText(
-            (String) RequestFrame.this.shownHTML.get(RequestFrame.this.locationIndex));
+            RequestFrame.this.shownHTML.get(RequestFrame.this.locationIndex));
         RequestFrame.this.locationField.setText(
-            (String) RequestFrame.this.history.get(RequestFrame.this.locationIndex));
+            RequestFrame.this.history.get(RequestFrame.this.locationIndex));
       }
     }
   }
@@ -467,9 +467,9 @@ public class RequestFrame extends GenericFrame {
       if (RequestFrame.this.locationIndex + 1 < RequestFrame.this.shownHTML.size()) {
         ++RequestFrame.this.locationIndex;
         RequestFrame.this.mainDisplay.setText(
-            (String) RequestFrame.this.shownHTML.get(RequestFrame.this.locationIndex));
+            RequestFrame.this.shownHTML.get(RequestFrame.this.locationIndex));
         RequestFrame.this.locationField.setText(
-            (String) RequestFrame.this.history.get(RequestFrame.this.locationIndex));
+            RequestFrame.this.history.get(RequestFrame.this.locationIndex));
       }
     }
   }

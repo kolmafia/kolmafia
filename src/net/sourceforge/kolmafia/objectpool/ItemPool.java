@@ -3330,7 +3330,7 @@ public class ItemPool {
         "ATTACK", "BUILD", "BUFF", "MODIFY", "REPAIR", "TARGET", "SELF", "DRONE", "WALL"
       };
 
-  public static final List EV_HELMET_LEVELS =
+  public static final List<String> EV_HELMET_LEVELS =
       Arrays.asList(
           "PA",
           "ZERO",

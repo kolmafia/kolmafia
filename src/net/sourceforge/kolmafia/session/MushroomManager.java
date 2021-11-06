@@ -67,7 +67,7 @@ public abstract class MushroomManager {
     {KNOLL, 50, 3}
   };
 
-  // Assocations between the mushroom Ids
+  // Associations between the mushroom Ids
   // and the mushroom image.
 
   public static final Object[][] MUSHROOMS = {
@@ -657,7 +657,7 @@ public abstract class MushroomManager {
     // Now that we know that data files can be written okay,
     // begin writing layout data.
 
-    ArrayList days = new ArrayList();
+    ArrayList<ArrayList<String>> days = new ArrayList<>();
     String image = null;
     boolean isTodayEmpty = false;
 
@@ -676,7 +676,7 @@ public abstract class MushroomManager {
       // planting script.
 
       isTodayEmpty = true;
-      ArrayList commands = new ArrayList();
+      ArrayList<String> commands = new ArrayList<>();
 
       StringBuffer pickText = new StringBuffer();
       StringBuffer pickHtml = new StringBuffer();
@@ -858,7 +858,7 @@ public abstract class MushroomManager {
       plotScript.println("    set_property( \"plantingDay\", index );");
 
       for (int i = 0; i < days.size(); ++i) {
-        ArrayList commands = (ArrayList) days.get(i);
+        ArrayList<String> commands = days.get(i);
 
         if (!commands.isEmpty()) {
           plotScript.println();

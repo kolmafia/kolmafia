@@ -661,7 +661,7 @@ public abstract class StoreManager {
   }
 
   public static final void searchMall(
-      final String searchString, final int maximumResults, final List resultSummary) {
+      final String searchString, final int maximumResults, final List<String> resultSummary) {
     resultSummary.clear();
 
     if (searchString == null) {

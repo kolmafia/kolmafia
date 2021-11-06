@@ -887,9 +887,7 @@ public class AreaCombatData {
     } else if (weighting == -4) {
       buffer.append("0%");
     } else if (weighting == 0) {
-      {
-        buffer.append("special");
-      }
+      buffer.append("special");
     } else {
       buffer.append(
           this.format(

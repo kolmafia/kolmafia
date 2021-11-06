@@ -107,7 +107,7 @@ public class AdventureQueueDatabase implements Serializable {
 
     for (KoLAdventure adv : list) {
       if (!keys.contains(adv.getAdventureName())) {
-        AdventureQueueDatabase.COMBAT_QUEUE.put(adv.getAdventureName(), new RollingLinkedList(5));
+        AdventureQueueDatabase.COMBAT_QUEUE.put(adv.getAdventureName(), new RollingLinkedList<>(5));
         keyAdded = true;
       }
     }
@@ -117,7 +117,7 @@ public class AdventureQueueDatabase implements Serializable {
     for (KoLAdventure adv : list) {
       if (!keys.contains(adv.getAdventureName())) {
         AdventureQueueDatabase.NONCOMBAT_QUEUE.put(
-            adv.getAdventureName(), new RollingLinkedList(5));
+            adv.getAdventureName(), new RollingLinkedList<>(5));
         keyAdded = true;
       }
     }
@@ -138,7 +138,7 @@ public class AdventureQueueDatabase implements Serializable {
   public static void enqueue(String adventureName, String monster) {
     if (adventureName == null || monster == null) return;
 
-    RollingLinkedList zoneQueue = COMBAT_QUEUE.get(adventureName);
+    RollingLinkedList<String> zoneQueue = COMBAT_QUEUE.get(adventureName);
 
     if (zoneQueue == null) return;
 
@@ -161,7 +161,7 @@ public class AdventureQueueDatabase implements Serializable {
   public static void enqueueNoncombat(String noncombatAdventureName, String name) {
     if (noncombatAdventureName == null) return;
 
-    RollingLinkedList zoneQueue = NONCOMBAT_QUEUE.get(noncombatAdventureName);
+    RollingLinkedList<String> zoneQueue = NONCOMBAT_QUEUE.get(noncombatAdventureName);
 
     if (zoneQueue == null) return;
 
@@ -259,7 +259,7 @@ public class AdventureQueueDatabase implements Serializable {
   public static double applyQueueEffects(
       double numerator, MonsterData monster, AreaCombatData data) {
     String zone = data.getZone();
-    RollingLinkedList zoneQueue = COMBAT_QUEUE.get(zone);
+    RollingLinkedList<String> zoneQueue = COMBAT_QUEUE.get(zone);
 
     double denominator = data.totalWeighting();
 

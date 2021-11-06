@@ -115,7 +115,7 @@ public class WikiUtilities {
     if (item instanceof Boost) {
       item = ((Boost) item).getItem();
     } else if (item instanceof Entry) {
-      item = ((Entry) item).getValue();
+      item = ((Entry<?, ?>) item).getValue();
     }
 
     if (item instanceof MonsterData) {

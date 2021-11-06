@@ -27,7 +27,7 @@ public class DisplayCaseCommand extends AbstractCommand {
     }
 
     String itemName = parameters;
-    List sourceList = null;
+    List<AdventureResult> sourceList = null;
 
     if (parameters.startsWith("put ")) {
       itemName = parameters.substring(4);

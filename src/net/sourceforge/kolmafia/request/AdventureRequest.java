@@ -1100,8 +1100,7 @@ public class AdventureRequest extends GenericRequest {
     ArrayList<String> internal = new ArrayList<String>();
     String[] temp = text.split("\"");
 
-    for (int i = 1; i < temp.length - 1; i++) // The first and last elements are never useful
-    {
+    for (int i = 1; i < temp.length - 1; i++) { // The first and last elements are never useful
       if (!temp[i].contains(":") && !temp[i].equals(",")) {
         internal.add(temp[i]);
       }

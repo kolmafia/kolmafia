@@ -39,8 +39,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
  * choice adventures.
  */
 public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
-  private final TreeMap choiceMap;
-  private final HashMap selectMap;
+  private final TreeMap<String, ArrayList> choiceMap;
+  private final HashMap<String, ArrayList<JComponent>> selectMap;
   private final CardLayout choiceCards;
   private final JPanel choicePanel;
 
@@ -87,8 +87,8 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     super(JTabbedPane.LEFT);
     this.choiceCards = new CardLayout(10, 10);
 
-    this.choiceMap = new TreeMap();
-    this.selectMap = new HashMap();
+    this.choiceMap = new TreeMap<>();
+    this.selectMap = new HashMap<>();
 
     this.choicePanel = new JPanel(this.choiceCards);
     this.choicePanel.add(new JPanel(), "");
@@ -142,7 +142,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.louvreSelect.addItem("Boost Prime Stat");
     this.louvreSelect.addItem("Boost Lowest Stat");
 
-    LockableListModel overrideList = new LockableListModel();
+    LockableListModel<String> overrideList = new LockableListModel<>();
 
     this.manualLouvre = new AutoFilterComboBox(overrideList, true);
     overrideList.add("Use specified goal");
@@ -415,10 +415,10 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.loadSettings();
 
     ArrayList optionsList;
-    Object[] keys = this.choiceMap.keySet().toArray();
+    String[] keys = this.choiceMap.keySet().toArray(new String[0]);
 
     for (int i = 0; i < keys.length; ++i) {
-      optionsList = (ArrayList) this.choiceMap.get(keys[i]);
+      optionsList = this.choiceMap.get(keys[i]);
       if (keys[i].equals("Item-Driven")) {
         this.addTab("Item", new GenericScrollPane(new ChoicePanel(optionsList)));
         this.setToolTipTextAt(1, "Choices related to the use of an item");
@@ -449,17 +449,17 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     }
 
     if (!this.choiceMap.containsKey(zone)) {
-      this.choiceMap.put(zone, new ArrayList());
+      this.choiceMap.put(zone, new ArrayList<>());
     }
 
-    ArrayList options = (ArrayList) this.choiceMap.get(zone);
+    ArrayList options = this.choiceMap.get(zone);
 
     if (!options.contains(name)) {
       options.add(name);
-      this.selectMap.put(name, new ArrayList());
+      this.selectMap.put(name, new ArrayList<>());
     }
 
-    options = (ArrayList) this.selectMap.get(name);
+    options = this.selectMap.get(name);
     options.add(option);
   }
 
@@ -467,18 +467,17 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     public ChoicePanel(final ArrayList options) {
       super(new Dimension(150, 20), new Dimension(300, 20));
 
-      ArrayList elementList = new ArrayList();
+      ArrayList<VerifiableElement> elementList = new ArrayList<>();
 
       for (int i = 0; i < options.size(); ++i) {
         Object key = options.get(i);
-        ArrayList value = (ArrayList) ChoiceOptionsPanel.this.selectMap.get(key);
+        ArrayList<JComponent> value = ChoiceOptionsPanel.this.selectMap.get(key);
 
         if (value.size() == 1) {
-          elementList.add(new VerifiableElement(key + ":  ", (JComponent) value.get(0)));
+          elementList.add(new VerifiableElement(key + ":  ", value.get(0)));
         } else {
           for (int j = 0; j < value.size(); ++j) {
-            elementList.add(
-                new VerifiableElement(key + " " + (j + 1) + ":  ", (JComponent) value.get(j)));
+            elementList.add(new VerifiableElement(key + " " + (j + 1) + ":  ", value.get(j)));
           }
         }
       }
@@ -623,8 +622,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         value = dest.substring(6);
       } else if (dest.startsWith("choose ")) {
         return;
-      } else // For anything else, assume Manual Control
-      {
+      } else { // For anything else, assume Manual Control
         // For manual control, do not take a choice first
         Preferences.setString("choiceAdventure189", "0");
         Preferences.setString("oceanDestination", "manual");
@@ -705,8 +703,8 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
 
   private class UpdateChoicesListener implements ListSelectionListener {
     public void valueChanged(final ListSelectionEvent e) {
-      JList source = (JList) e.getSource();
-      KoLAdventure location = (KoLAdventure) source.getSelectedValue();
+      JList<KoLAdventure> source = (JList<KoLAdventure>) e.getSource();
+      KoLAdventure location = source.getSelectedValue();
       if (location == null) {
         return;
       }
