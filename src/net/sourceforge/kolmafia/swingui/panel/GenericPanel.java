@@ -35,7 +35,7 @@ public abstract class GenericPanel extends ActionVerifyPanel {
   protected ConfirmedListener CONFIRM_LISTENER = new ConfirmedListener();
   protected CancelledListener CANCEL_LISTENER = new CancelledListener();
 
-  protected HashMap<Object, WeakReference<ActionConfirmListener>> listenerMap;
+  protected HashMap<JTextComponent, WeakReference<ActionConfirmListener>> listenerMap;
 
   public JPanel southContainer;
   public JPanel actionStatusPanel;
@@ -176,7 +176,7 @@ public abstract class GenericPanel extends ActionVerifyPanel {
 
     if (component instanceof JTextField) {
       ((JTextField) component).addKeyListener(listener);
-      this.listenerMap.put(component, new WeakReference<>(listener));
+      this.listenerMap.put((JTextField) component, new WeakReference<>(listener));
     }
 
     if (component instanceof AutoFilterComboBox) {
@@ -201,7 +201,7 @@ public abstract class GenericPanel extends ActionVerifyPanel {
       return;
     }
 
-    Object[] keys = this.listenerMap.keySet().toArray();
+    JTextComponent[] keys = this.listenerMap.keySet().toArray(new JTextComponent[0]);
     for (int i = 0; i < keys.length; ++i) {
       WeakReference<ActionConfirmListener> ref = this.listenerMap.get(keys[i]);
       if (ref == null) {
