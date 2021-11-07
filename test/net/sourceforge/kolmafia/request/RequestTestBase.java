@@ -11,8 +11,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.List;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.extensions.ForbidNetworkAccess;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
@@ -36,10 +38,9 @@ import org.mockito.quality.Strictness;
  *   <li>For {@link GenericRequest}s made locally, gives access to {@link
  *       RequestTestBase#expectSuccess}, allowing the simulation of running a {@link
  *       org.mockito.Mockito#spy spy} of that request.
- *   <li>For the rest, gives access to {@link #respondIfContains}/{@link #respondIfMatches}, causing
- *       future executed requests to succeed with the given response if the path of the URL
- *       submitted contains the submitted text(s)/matches the submitted pattern(s)/matches the
- *       submitted {@link ArgumentMatcher}.
+ *   <li>For the rest, gives access to {@link #respondIf}, causing future executed requests to
+ *       succeed with the given response if the path of the URL submitted matches the submitted
+ *       {@link UrlMatcher}s (generated using {@link #hasPath}/{@link #hasParam}).
  * </ul>
  */
 abstract class RequestTestBase {
@@ -86,58 +87,77 @@ abstract class RequestTestBase {
         .externalExecute();
   }
 
-  /** Set {@link #factory} to generate the given response if the path contains {@code text}. */
-  protected void respondIfContains(final String text, final String response) {
-    respondIfContains(Collections.singletonList(text), response);
+  /**
+   * Set {@link #factory} to generate the given response if the path matches every one of {@code
+   * matchers}.
+   *
+   * <p>Use {@link #hasPath} and/or {@link #hasParam} to generate them.
+   */
+  protected void respondIf(final String response, final UrlMatcher... matchers) {
+    respondIf(response, Arrays.asList(matchers));
   }
 
   /**
-   * Set {@link #factory} to generate the given response if the path contains every element of
-   * {@code texts}.
+   * Set {@link #factory} to generate the given response if the path matches every one of {@code
+   * matchers}.
+   *
+   * <p>Use {@link #hasPath} and/or {@link #hasParam} to generate them.
    */
-  protected void respondIfContains(final List<String> texts, final String response) {
-    respondIfMatches(
-        path -> {
-          for (final String text : texts) {
-            if (!path.contains(text)) {
+  protected void respondIf(final String response, final Iterable<UrlMatcher> matchers) {
+    prepareResponse(
+        response,
+        url -> {
+          final SectionedUrl sectionedUrl = new SectionedUrl(url);
+          for (final UrlMatcher matcher : matchers) {
+            if (!matcher.matches(sectionedUrl)) {
               return false;
             }
           }
           return true;
-        },
-        response);
-  }
-
-  /** Set {@link #factory} to generate the given response if the path matches {@code pattern}. */
-  protected void respondIfMatches(final Pattern pattern, final String response) {
-    respondIfMatches(Collections.singletonList(pattern), response);
+        });
   }
 
   /**
-   * Set {@link #factory} to generate the given response if the path matches every element of {@code
-   * patterns}.
+   * Is true if the base of the URL matches {@code path}. The "base" is the part coming before the
+   * {@code ?} (if any), e.g., the base of {@code inventory.php?which=2} is {@code inventory.php}
    */
-  protected void respondIfMatches(final List<Pattern> patterns, final String response) {
-    respondIfMatches(
-        path -> {
-          for (final Pattern pattern : patterns) {
-            if (!pattern.matcher(path).matches()) {
-              return false;
-            }
-          }
-          return true;
-        },
-        response);
+  protected PathMatcher hasPath(final String path) {
+    return new PathMatcher(path);
   }
 
   /**
-   * Set {@link #factory} to generate the given response if the path matches with {@code matcher}.
+   * Is true if one of the URL's parameters has a key matching {@code param}, and a value matching
+   * {@code value}. The parameters are the part coming after the {@code ?} (if any), separated by
+   * {@code &}s.
+   *
+   * <p>For example, in {@code inventory.php?which=2&foo&bar=&pwd=abc}, the parameters are {@code
+   * which=2}, {@code foo}, {@code bar=} and {@code pwd=abc}.
+   *
+   * <p>Parameters are split into a key and a value, the key being what comes before the {@code =}
+   * (if any), and the value being what's after (again, if any).
+   *
+   * <p>If {@code value} is {@code null}, the parameter's value is allowed to be anything.
    */
-  protected void respondIfMatches(final ArgumentMatcher<String> matcher, final String response) {
-    prepareResponse(url -> matcher.matches(url.getPath()), response);
+  protected ParamMatcher hasParam(final String param, final String value) {
+    return new ParamMatcher(param, value);
   }
 
-  private void prepareResponse(final ArgumentMatcher<URL> matcher, final String response) {
+  /**
+   * Is true if one of the URL's parameters has a key matching {@code param}, and a value matching
+   * {@code value}. The parameters are the part coming after the {@code ?} (if any), separated by
+   * {@code &}s.
+   *
+   * <p>For example, in {@code inventory.php?which=2&foo&bar=&pwd=abc}, the parameters are {@code
+   * which=2}, {@code foo}, {@code bar=} and {@code pwd=abc}.
+   *
+   * <p>Parameters are split into a key and a value, the key being what comes before the {@code =}
+   * (if any), and the value being what's after (again, if any).
+   */
+  protected ParamMatcher hasParam(final String param, final Pattern valueMatcher) {
+    return new ParamMatcher(param, valueMatcher);
+  }
+
+  private void prepareResponse(final String response, final ArgumentMatcher<URL> matcher) {
     try {
       when(factory.openConnection(argThat(matcher))).thenReturn(new FakeConnection(response));
     } catch (IOException e) {
@@ -168,5 +188,73 @@ abstract class RequestTestBase {
 
     @Override
     public void connect() throws IOException {}
+  }
+
+  private class SectionedUrl {
+    private final String path;
+    private final Map<String, String> params = new HashMap<>();
+
+    private SectionedUrl(final URL url) {
+      final String fullPath = url.getPath();
+      final int formSplitIndex = fullPath.indexOf("?");
+
+      if (formSplitIndex == -1) {
+        this.path = fullPath;
+      } else {
+        this.path = GenericRequest.decodePath(fullPath.substring(0, formSplitIndex));
+
+        final String[] paramsString = fullPath.substring(formSplitIndex + 1).split("&");
+        for (final String param : paramsString) {
+          if (param.length() == 0) {
+            continue;
+          }
+
+          final String[] splitParam = param.split("=", 2);
+          params.put(splitParam[0], splitParam.length > 1 ? splitParam[1] : null);
+        }
+      }
+    }
+  }
+
+  private abstract class UrlMatcher {
+    abstract boolean matches(final SectionedUrl url);
+  }
+
+  private class PathMatcher extends UrlMatcher {
+    final ArgumentMatcher<String> matcher;
+
+    private PathMatcher(final String exactPath) {
+      this.matcher = path -> path.equals(exactPath);
+    }
+
+    boolean matches(final SectionedUrl url) {
+      return this.matcher.matches(url.path);
+    }
+  }
+
+  private class ParamMatcher extends UrlMatcher {
+    final ArgumentMatcher<Entry<String, String>> matcher;
+
+    private ParamMatcher(final String param, final String value) {
+      this.matcher =
+          entry ->
+              param.equals(entry.getKey())
+                  && (value == null ? true : value.equals(entry.getValue()));
+    }
+
+    private ParamMatcher(final String param, final Pattern valueMatcher) {
+      this.matcher =
+          entry -> param.equals(entry.getKey()) && valueMatcher.matcher(entry.getValue()).matches();
+    }
+
+    boolean matches(final SectionedUrl url) {
+      for (final Entry<String, String> entry : url.params.entrySet()) {
+        if (this.matcher.matches(entry)) {
+          return true;
+        }
+      }
+
+      return false;
+    }
   }
 }
