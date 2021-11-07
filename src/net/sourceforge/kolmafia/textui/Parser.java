@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.eclipse.lsp4j.Location;
 import org.eclipse.lsp4j.Position;
 import org.eclipse.lsp4j.Range;
+import org.eclipse.lsp4j.util.Positions;
 
 /**
  * See devdoc/ParseRoadmap.ebnf for a simplified representation of this class's parsing methods'
@@ -3922,10 +3923,7 @@ public class Parser {
   }
 
   private static Range mergeRanges(final Range start, final Range end) {
-    if (end == null
-        || start.getStart().getLine() > end.getEnd().getLine()
-        || (start.getStart().getLine() == end.getEnd().getLine()
-            && start.getStart().getCharacter() > end.getEnd().getCharacter())) {
+    if (end == null || Positions.isBefore(end.getEnd(), start.getStart())) {
       return start;
     }
 
