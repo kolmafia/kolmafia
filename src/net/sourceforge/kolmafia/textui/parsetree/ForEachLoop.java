@@ -126,8 +126,7 @@ public class ForEachLoop extends Loop {
         } else if (nextSlice instanceof AggregateValue) {
           interpreter.traceIndent();
           result = this.executeSlice(interpreter, (AggregateValue) nextSlice, it, nextVariable);
-        } else // value var instead of key var
-        {
+        } else { // value var instead of key var
           nextVariable.setValue(interpreter, nextSlice);
           result = super.execute(interpreter);
         }

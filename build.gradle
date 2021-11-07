@@ -135,7 +135,7 @@ task pruneDist(type: Delete) {
 	doLast {
 		file('dist').eachFile(groovy.io.FileType.FILES) { File file ->
 			if (file.name.startsWith('KoLmafia-') && file.name.endsWith('.jar')) {
-				if (!file.name.contains(project.getVersion().toString()) || (versioning.info.dirty != file.name.endsWith('-M.jar'))) {
+				if (!file.name.contains(project.getVersion().toString()) || (isDirty() != file.name.endsWith('-M.jar'))) {
 					delete file
 				}
 			}
@@ -176,7 +176,7 @@ jar {
 				'Build-Revision'  : new Object() { String toString() { project.getVersion() } },
 				'Build-Branch'    : versioning.info.branchId,
 				'Build-Build'     : versioning.info.build,
-				'Build-Dirty'     : versioning.info.dirty,
+				'Build-Dirty'     : isDirty(),
 				'Build-Jdk'       : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
 				'Build-OS'        : "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"
 				)
@@ -188,33 +188,32 @@ jar {
 	duplicatesStrategy = 'exclude'
 	destinationDirectory = file('dist/')
 	archiveBaseName.set('KoLmafia')
-	archiveClassifier.set("${versioning.info.dirty ? 'M' : ''}")
+	archiveClassifier.set("${isDirty() ? 'M' : ''}")
 }
 
 shadowJar {
 	duplicatesStrategy = 'exclude'
 	destinationDirectory = file('dist/')
-	archiveClassifier.set("${versioning.info.dirty ? 'M' : ''}")
+	archiveClassifier.set("${isDirty() ? 'M' : ''}")
 }
 
 task getRevision() {
 	onlyIf {
 		file('.git').exists()
 	}
-	def commit = findProperty('commit') ?: 'origin/main'
+	def commit = findProperty('commit') ?: 'HEAD'
 	inputs.dir('.git')
 	inputs.property('commit', commit)
 	outputs.files file('build/revision.txt')
 
 	doLast {
-		def revision = grgit.log(includes:[commit]).size()
+		def revision = grgit.log(includes:[commit]).size() - localCommits(commit)
 		logger.info('Commit: {} Revision: {}', commit, revision)
 		file('build/revision.txt').text = revision.toString().trim()
 		// Update the version to the new revision
 		project.setVersion(revision.toString().trim())
-		def revString = versioning.info.dirty ? project.getVersion() +'-M': project.getVersion()
+		def revString = isDirty() ? project.getVersion() +'-M': project.getVersion()
 		println '\nRevision: ' + revString
-
 	}
 }
 
@@ -229,7 +228,7 @@ task gitUpdate() {
 			println 'Already up-to-date, nothing to do.'
 			return
 		}
-		def dirty = versioning.info.dirty
+		def dirty = isDirty()
 		if (dirty) {
 			// This pollutes the reflog, but there's no stash functionality in
 			// grgit...
@@ -290,7 +289,7 @@ tasks.jpackage {
 	doFirst {
 		mainJar = tasks.shadowJar.archiveFileName.get()
 		appVersion += '.' + version
-		appName = 'KoLmafia-r' + version + "${versioning.info.dirty ? 'M' : ''}"
+		appName = 'KoLmafia-r' + version + "${isDirty() ? 'M' : ''}"
 		println 'Packaging app ' + appName + '...'
 		if (System.properties['os.name'] != 'Linux') {
 			return
@@ -328,6 +327,14 @@ jar.dependsOn pruneDist
 shadowJar.dependsOn pruneDist
 
 jacocoTestReport.dependsOn test
+
+def isDirty() {
+	return versioning.info.dirty || localCommits(findProperty('commit') ?: 'HEAD') > 0
+}
+
+def localCommits(commit) {
+	return grgit.log(includes:[commit], excludes:['origin/main']).size()
+}
 
 def lastRevision() {
 	def revisionFile = file('build/revision.txt')

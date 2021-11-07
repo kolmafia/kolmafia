@@ -151,7 +151,7 @@ public class ConditionsCommand extends AbstractCommand {
       return new AdventureResult(AdventureResult.PSEUDO_ITEM_PRIORITY, "pirate insult", count) {
 
         @Override
-        public int getCount(List list) {
+        public int getCount(List<AdventureResult> list) {
           if (list != KoLConstants.inventory) {
             return 0;
           }
@@ -166,7 +166,7 @@ public class ConditionsCommand extends AbstractCommand {
       return new AdventureResult(AdventureResult.PSEUDO_ITEM_PRIORITY, "Arena flyer ML", count) {
 
         @Override
-        public int getCount(List list) {
+        public int getCount(List<AdventureResult> list) {
           if (list != KoLConstants.inventory) {
             return 0;
           }
@@ -188,7 +188,7 @@ public class ConditionsCommand extends AbstractCommand {
           AdventureResult.PSEUDO_ITEM_PRIORITY, "Chasm Bridge Progress", count) {
 
         @Override
-        public int getCount(List list) {
+        public int getCount(List<AdventureResult> list) {
           if (list != KoLConstants.inventory) {
             return 0;
           }

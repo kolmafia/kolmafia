@@ -141,12 +141,14 @@ public class FileUtilities {
         != DataUtilities.EMPTY_STREAM;
   }
 
-  public static final boolean loadLibrary(
+  public static final void loadLibrary(
       final File parent, final String directory, final String filename) {
     // Next, load the icon which will be used by KoLmafia
     // in the system tray.  For now, this will be the old
     // icon used by KoLmelion.
-
+    if ((filename == null) || (filename.contains(".."))) {
+      return;
+    }
     File library = new File(parent, filename);
 
     if (library.exists()) {
@@ -154,7 +156,7 @@ public class FileUtilities {
           && !Preferences.getString("lastRelayUpdate").equals(StaticEntity.getVersion())) {
         library.delete();
       } else {
-        return true;
+        return;
       }
     }
 
@@ -174,8 +176,6 @@ public class FileUtilities {
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
-
-    return true;
   }
 
   private static HttpURLConnection connectToRemoteFile(final String remote) {
@@ -364,10 +364,16 @@ public class FileUtilities {
   }
 
   public static final File imageFile(final String filename) {
+    if ((filename == null) || (filename.contains(".."))) {
+      return null;
+    }
     return new File(KoLConstants.IMAGE_LOCATION, FileUtilities.localImageName(filename));
   }
 
   public static final File downloadImage(final String filename) {
+    if ((filename == null) || (filename.contains(".."))) {
+      return null;
+    }
     String localname = FileUtilities.localImageName(filename);
     File localfile = new File(KoLConstants.IMAGE_LOCATION, localname);
 
@@ -451,7 +457,7 @@ public class FileUtilities {
   }
 
   private static List<Object> getPathList(File f) {
-    List<Object> l = new ArrayList<Object>();
+    List<Object> l = new ArrayList<>();
     File r;
     try {
       r = f.getCanonicalFile();
@@ -475,10 +481,10 @@ public class FileUtilities {
   private static String matchPathLists(List<Object> r, List<Object> f) {
     int i;
     int j;
-    String s;
+    StringBuilder s;
     // start at the beginning of the lists
     // iterate while both lists are equal
-    s = "";
+    s = new StringBuilder();
     i = r.size() - 1;
     j = f.size() - 1;
 
@@ -490,17 +496,17 @@ public class FileUtilities {
 
     // for each remaining level in the home path, add a ..
     for (; i >= 0; i--) {
-      s += ".." + File.separator;
+      s.append("..").append(File.separator);
     }
 
     // for each level in the file path, add the path
     for (; j >= 1; j--) {
-      s += f.get(j) + File.separator;
+      s.append(f.get(j)).append(File.separator);
     }
 
     // file name
-    s += f.get(j);
-    return s;
+    s.append(f.get(j));
+    return s.toString();
   }
 
   /**

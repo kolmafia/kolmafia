@@ -297,23 +297,24 @@ public class SkillDatabase {
     SkillDatabase.castsById.put(skillId, IntegerPool.get(0));
   }
 
-  public static final List getSkillsByCategory(String category) {
+  public static final List<String> getSkillsByCategory(String category) {
     if (category == null) {
-      return new ArrayList();
+      return new ArrayList<>();
     }
 
-    List categoryMatches = StringUtilities.getMatchingNames(SkillDatabase.CATEGORIES, category);
+    List<String> categoryMatches =
+        StringUtilities.getMatchingNames(SkillDatabase.CATEGORIES, category);
 
     if (categoryMatches.size() != 1) {
-      return new ArrayList();
+      return new ArrayList<>();
     }
 
-    category = (String) categoryMatches.get(0);
+    category = categoryMatches.get(0);
 
-    List skills = SkillDatabase.skillsByCategory.get(category);
+    List<String> skills = SkillDatabase.skillsByCategory.get(category);
 
     if (skills == null) {
-      return new ArrayList();
+      return new ArrayList<>();
     }
 
     return skills;
@@ -1765,10 +1766,6 @@ public class SkillDatabase {
     }
 
     String image = DebugDatabase.parseImage(text);
-
-    // Detach name and image from being substrings
-    skillName = skillName;
-    image = image;
 
     String typeString = DebugDatabase.parseSkillType(text);
     int type =

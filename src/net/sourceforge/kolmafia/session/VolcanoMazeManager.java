@@ -649,7 +649,7 @@ public abstract class VolcanoMazeManager {
     VolcanoMazeManager.generateNeighbors();
 
     // The work queue of Paths
-    LinkedList queue = new LinkedList();
+    LinkedList<Path> queue = new LinkedList<>();
 
     // Statistics
     VolcanoMazeManager.pathsMade = 0;
@@ -678,7 +678,7 @@ public abstract class VolcanoMazeManager {
 
     // Perform a breadth-first search of the maze
     while (!queue.isEmpty()) {
-      Path path = (Path) queue.removeFirst();
+      Path path = queue.removeFirst();
       ++VolcanoMazeManager.pathsExamined;
       // System.out.println( "Examining path: " + path );
 
@@ -741,7 +741,7 @@ public abstract class VolcanoMazeManager {
 
       // Make an array of all the platforms
       String[] squares = coordinates.split("\\s*,\\s*");
-      ArrayList list = new ArrayList();
+      ArrayList<Integer> list = new ArrayList<>();
       for (int i = 0; i < squares.length; ++i) {
         String coord = squares[i];
         if (!StringUtilities.isNumeric(coord)) {
@@ -751,7 +751,7 @@ public abstract class VolcanoMazeManager {
         list.add(ival);
         this.board[ival.intValue()] = true;
       }
-      this.platforms = (Integer[]) list.toArray(new Integer[list.size()]);
+      this.platforms = list.toArray(new Integer[list.size()]);
 
       // Every board has the goal platform
       this.board[VolcanoMazeManager.goal] = true;
@@ -885,7 +885,7 @@ public abstract class VolcanoMazeManager {
       int row = row(square);
       int col = col(square);
 
-      ArrayList list = new ArrayList();
+      ArrayList<Integer> list = new ArrayList<>();
       Neighbors.addSquare(list, map, row - 1, col - 1);
       Neighbors.addSquare(list, map, row - 1, col);
       Neighbors.addSquare(list, map, row - 1, col + 1);
@@ -903,7 +903,7 @@ public abstract class VolcanoMazeManager {
       return this.platforms;
     }
 
-    private static void addSquare(List list, final VolcanoMap map, int row, int col) {
+    private static void addSquare(List<Integer> list, final VolcanoMap map, int row, int col) {
       if (row >= 0 && row < NROWS && col >= 0 && col < NCOLS) {
         int square = pos(row, col);
         if (map == null || map.inMap(square)) {

@@ -1669,7 +1669,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
     public class SellPanel extends ItemListManagePanel {
       public SellPanel() {
-        super((SortedListModel) KoLConstants.inventory);
+        super((SortedListModel<AdventureResult>) KoLConstants.inventory);
         this.setButtons(
             true,
             new ActionListener[] {
@@ -1755,7 +1755,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
     public class BuyPanel extends ItemListManagePanel {
       public BuyPanel(ActionListener[] listeners) {
-        super((LockableListModel) CoinmasterPanel.this.data.getBuyItems());
+        super((LockableListModel<AdventureResult>) CoinmasterPanel.this.data.getBuyItems());
 
         this.eastPanel.add(
             new InvocationButton("visit", CoinmasterPanel.this, "check"), BorderLayout.SOUTH);
@@ -1896,7 +1896,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
     @Override
     public Component getListCellRendererComponent(
-        final JList list,
+        final JList<?> list,
         final Object value,
         final int index,
         final boolean isSelected,

@@ -99,10 +99,6 @@ public class StringUtilities {
     }
 
     if (entityString == null) {
-      // If this string is a substring of a longer string, make sure
-      // we aren't keeping a reference to the longer string.
-      utf8String = utf8String;
-
       if (utf8String.contains("&") && utf8String.contains(";")) {
         entityString = CharacterEntities.escape(CharacterEntities.unescape(utf8String));
       } else {
@@ -138,10 +134,6 @@ public class StringUtilities {
     }
 
     if (utf8String == null) {
-      // If this string is a substring of a longer string, make sure
-      // we aren't keeping a reference to the longer string.
-      entityString = entityString;
-
       utf8String = CharacterEntities.unescape(entityString);
 
       if (cache && entityString.length() < 100) {
@@ -203,10 +195,6 @@ public class StringUtilities {
     String displayName = StringUtilities.displayNameCache.get(name);
 
     if (displayName == null) {
-      // If this string is a substring of a longer string, make sure
-      // we aren't keeping a reference to the longer string.
-      name = name;
-
       displayName = StringUtilities.getEntityDecode(name);
       StringUtilities.displayNameCache.put(name, displayName);
     }
@@ -223,10 +211,6 @@ public class StringUtilities {
     String canonicalName = StringUtilities.canonicalNameCache.get(name);
 
     if (canonicalName == null) {
-      // If this string is a substring of a longer string, make sure
-      // we aren't keeping a reference to the longer string.
-      name = name;
-
       canonicalName = StringUtilities.getEntityEncode(name).toLowerCase();
       if (name.length() < 100) {
         StringUtilities.canonicalNameCache.put(name, canonicalName);

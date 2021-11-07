@@ -248,7 +248,8 @@ public class ItemDatabase {
     ItemDatabase.defineSecondaryUse("mix", ItemDatabase.ATTR_MIX);
   }
 
-  private static final Set secondaryUsageEntrySet = INVERSE_SECONDARY_USE.entrySet();
+  private static final Set<Entry<Integer, String>> secondaryUsageEntrySet =
+      INVERSE_SECONDARY_USE.entrySet();
 
   public static boolean newItems = false;
 
@@ -374,7 +375,6 @@ public class ItemDatabase {
 
       String descId = data[2];
       if (StringUtilities.isNumeric(descId)) {
-        descId = descId;
         ItemDatabase.descriptionById.put(id, descId);
         ItemDatabase.itemIdByDescription.put(descId, id);
       }
@@ -478,12 +478,12 @@ public class ItemDatabase {
     PrintStream writer = LogStream.openStream(output, true);
     writer.println(KoLConstants.ITEMS_VERSION);
 
-    Iterator it = ItemDatabase.descriptionIdEntrySet().iterator();
+    Iterator<Entry<Integer, String>> it = ItemDatabase.descriptionIdEntrySet().iterator();
     int lastInteger = 1;
 
     while (it.hasNext()) {
-      Entry entry = (Entry) it.next();
-      Integer nextInteger = (Integer) entry.getKey();
+      Entry<Integer, String> entry = it.next();
+      Integer nextInteger = entry.getKey();
       int itemId = nextInteger.intValue();
 
       // Skip pseudo items
@@ -496,7 +496,7 @@ public class ItemDatabase {
       }
 
       lastInteger = itemId + 1;
-      String descId = (String) entry.getValue();
+      String descId = entry.getValue();
       String name = ItemDatabase.getItemDataName(nextInteger);
       String image = ItemDatabase.getImage(itemId);
       // Intentionally get a null if there is not an explicit plural in the database
@@ -836,10 +836,6 @@ public class ItemDatabase {
     if (itemName == null) {
       return;
     }
-
-    // Detach item name and descid from being substrings
-    itemName = itemName;
-    descId = descId;
 
     // Remember that a new item has been discovered
     ItemDatabase.newItems = true;
@@ -1581,15 +1577,15 @@ public class ItemDatabase {
 
     // Otherwise, iterate over bits
     StringBuilder result = new StringBuilder();
-    Iterator it = ItemDatabase.secondaryUsageEntrySet.iterator();
+    Iterator<Entry<Integer, String>> it = ItemDatabase.secondaryUsageEntrySet.iterator();
 
     while (it.hasNext()) {
-      Entry entry = (Entry) it.next();
-      Integer bit = (Integer) entry.getKey();
+      Entry<Integer, String> entry = it.next();
+      Integer bit = entry.getKey();
 
       if ((attrs & bit.intValue()) != 0) {
         result.append(", ");
-        result.append((String) entry.getValue());
+        result.append(entry.getValue());
       }
     }
 
@@ -1627,7 +1623,7 @@ public class ItemDatabase {
     // * For these purposes, a virtual item is an item that has a non-negative
     // * item number in KoL but does not (can not?) exist in inventory.  These
     // * items can be obtained, for example from an NPC store, but they are
-    // * "used" immediately.  Presently the only place the atrribute is used is the
+    // * "used" immediately.  Presently the only place the attribute is used is the
     // * ash function, is_displayable().  By definition, if it can't exist
     // * in inventory then it cannot be moved to a Display Case.
     switch (itemId) {
@@ -1787,7 +1783,7 @@ public class ItemDatabase {
     return ItemDatabase.dataNameById.get(itemId);
   }
 
-  public static final Set dataNameEntrySet() {
+  public static final Set<Entry<Integer, String>> dataNameEntrySet() {
     return ItemDatabase.dataNameById.entrySet();
   }
 
@@ -2099,7 +2095,7 @@ public class ItemDatabase {
     return ItemDatabase.descriptionById.keySet();
   }
 
-  public static final Set descriptionIdEntrySet() {
+  public static final Set<Entry<Integer, String>> descriptionIdEntrySet() {
     return ItemDatabase.descriptionById.entrySet();
   }
 

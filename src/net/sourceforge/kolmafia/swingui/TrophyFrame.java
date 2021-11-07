@@ -88,13 +88,13 @@ public class TrophyFrame extends GenericFrame {
       this.hiddenList.removeAll();
       TrophyRequest req = new TrophyRequest();
       RequestThread.postRequest(req);
-      ArrayList trophies = req.getTrophies();
+      ArrayList<Trophy> trophies = req.getTrophies();
       if (req == null) {
         return;
       }
-      Iterator i = trophies.iterator();
+      Iterator<Trophy> i = trophies.iterator();
       while (i.hasNext()) {
-        Trophy t = (Trophy) i.next();
+        Trophy t = i.next();
         FileUtilities.downloadImage(KoLmafia.imageServerPath() + t.filename);
         (t.visible ? this.shownList : this.hiddenList).add(new DraggableTrophy(t));
       }
@@ -105,7 +105,7 @@ public class TrophyFrame extends GenericFrame {
     }
 
     public void doSave() {
-      ArrayList trophies = new ArrayList();
+      ArrayList<Trophy> trophies = new ArrayList<>();
       this.shownList.addChildrenToList(trophies);
       this.hiddenList.addChildrenToList(trophies);
       RequestThread.postRequest(new TrophyRequest(trophies));
@@ -159,7 +159,7 @@ public class TrophyFrame extends GenericFrame {
       new DropTarget(this, DnDConstants.ACTION_MOVE | DnDConstants.ACTION_LINK, this);
     }
 
-    public void addChildrenToList(ArrayList list) {
+    public void addChildrenToList(ArrayList<Trophy> list) {
       int nc = this.getComponentCount();
       for (int i = 0; i < nc; ++i) {
         DraggableTrophy t = (DraggableTrophy) this.getComponent(i);
@@ -232,8 +232,7 @@ public class TrophyFrame extends GenericFrame {
             this.add(TrophyPanel.source, destIndex);
             TrophyPanel.sourceList.add(dest, sourceIndex);
           }
-        } else // move, instead of exchange
-        {
+        } else { // move, instead of exchange
           if (TrophyPanel.sourceList == this && destIndex >= sourceIndex) {
             --destIndex;
           }
@@ -319,7 +318,7 @@ public class TrophyFrame extends GenericFrame {
       implements DragGestureListener, DragSourceListener {
     public Trophy trophy;
     private final DragSource dragSource = DragSource.getDefaultDragSource();
-    private final HashMap similarities = new HashMap();
+    private final HashMap<Integer, Integer> similarities = new HashMap<>();
     private int[] cache;
     public int score;
 
@@ -352,7 +351,7 @@ public class TrophyFrame extends GenericFrame {
       int id1 = this.trophy.id;
       int id2 = other.trophy.id;
       key = IntegerPool.get(id1 < id2 ? (id1 << 16) | id2 : (id2 << 16) | id1);
-      rv = (Integer) this.similarities.get(key);
+      rv = this.similarities.get(key);
       if (rv != null) return rv.intValue();
       int[] img1 = this.grab();
       int[] img2 = other.grab();

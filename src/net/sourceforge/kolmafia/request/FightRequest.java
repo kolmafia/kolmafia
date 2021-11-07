@@ -89,6 +89,7 @@ import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.NemesisDecorator;
 import net.sourceforge.kolmafia.webui.VillainLairDecorator;
+import org.htmlcleaner.BaseToken;
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.CommentNode;
 import org.htmlcleaner.ContentNode;
@@ -2662,8 +2663,8 @@ public class FightRequest extends GenericRequest {
     Matcher macroMatcher = FightRequest.MACRO_PATTERN.matcher(responseText);
     if (macroMatcher.find()) {
       FightRequest.registerMacroAction(macroMatcher);
-    } else // no macro results
-    { // replace with dummy matcher that matches the full page
+    } else { // no macro results
+      // replace with dummy matcher that matches the full page
       macroMatcher = FightRequest.FULLPAGE_PATTERN.matcher(responseText);
       macroMatcher.find();
     }
@@ -5008,9 +5009,9 @@ public class FightRequest extends GenericRequest {
       hasTag = true;
     }
 
-    Iterator it = node.getAllChildren().iterator();
+    Iterator<? extends BaseToken> it = node.getAllChildren().iterator();
     while (it.hasNext()) {
-      Object child = it.next();
+      BaseToken child = it.next();
 
       if (child instanceof ContentNode) {
         buffer.append(((ContentNode) child).getContent());
@@ -5676,11 +5677,11 @@ public class FightRequest extends GenericRequest {
     // allow regular node processing to glean whatever it wants
     // from what remains.
 
-    Iterator it = node.getAllChildren().iterator();
+    Iterator<? extends BaseToken> it = node.getAllChildren().iterator();
     boolean done = false;
     int pokindex = 0;
     while (it.hasNext() && !done) {
-      Object child = it.next();
+      BaseToken child = it.next();
       if (child instanceof TagNode) {
         TagNode tnode = (TagNode) child;
         String name = tnode.getName();
@@ -6378,9 +6379,9 @@ public class FightRequest extends GenericRequest {
 
   private static void processChildren(final TagNode node, final TagStatus status) {
     StringBuffer action = status.action;
-    Iterator it = node.getAllChildren().iterator();
+    Iterator<? extends BaseToken> it = node.getAllChildren().iterator();
     while (it.hasNext()) {
-      Object child = it.next();
+      BaseToken child = it.next();
 
       if (child instanceof CommentNode) {
         CommentNode object = (CommentNode) child;
@@ -7134,9 +7135,9 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void processComments(TagNode node, TagStatus status) {
-    Iterator it = node.getAllChildren().iterator();
+    Iterator<? extends BaseToken> it = node.getAllChildren().iterator();
     while (it.hasNext()) {
-      Object child = it.next();
+      BaseToken child = it.next();
 
       if (child instanceof CommentNode) {
         CommentNode object = (CommentNode) child;

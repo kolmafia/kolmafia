@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.utilities;
 import java.util.Iterator;
 import java.util.Map;
 import net.sourceforge.kolmafia.RequestLogger;
+import org.htmlcleaner.BaseToken;
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.CommentNode;
 import org.htmlcleaner.ContentNode;
@@ -42,9 +43,9 @@ public class HTMLParserUtils {
     HTMLParserUtils.printTag(buffer, node);
     RequestLogger.updateDebugLog(buffer.toString());
 
-    Iterator it = node.getAllChildren().iterator();
+    Iterator<? extends BaseToken> it = node.getAllChildren().iterator();
     while (it.hasNext()) {
-      Object child = it.next();
+      BaseToken child = it.next();
 
       if (child instanceof CommentNode) {
         CommentNode object = (CommentNode) child;
@@ -87,19 +88,19 @@ public class HTMLParserUtils {
 
   private static void printTag(final StringBuffer buffer, TagNode node) {
     String name = node.getName();
-    Map attributes = node.getAttributes();
+    Map<String, String> attributes = node.getAttributes();
 
     buffer.append("<");
     buffer.append(name);
 
     if (!attributes.isEmpty()) {
-      Iterator it = attributes.keySet().iterator();
+      Iterator<String> it = attributes.keySet().iterator();
       while (it.hasNext()) {
-        String key = (String) it.next();
+        String key = it.next();
         buffer.append(" ");
         buffer.append(key);
         buffer.append("=\"");
-        buffer.append((String) attributes.get(key));
+        buffer.append(attributes.get(key));
         buffer.append("\"");
       }
     }

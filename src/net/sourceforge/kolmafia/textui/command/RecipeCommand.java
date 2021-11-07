@@ -63,13 +63,14 @@ public class RecipeCommand extends AbstractCommand {
     sb.append(ar.getInstance(ConcoctionDatabase.getYield(ar.getItemId())).toString());
     sb.append("</b>: ");
 
-    List ingredients = RecipeCommand.getFlattenedIngredients(ar, new ArrayList(), false);
+    List<AdventureResult> ingredients =
+        RecipeCommand.getFlattenedIngredients(ar, new ArrayList<>(), false);
     Collections.sort(ingredients);
 
-    Iterator it = ingredients.iterator();
+    Iterator<AdventureResult> it = ingredients.iterator();
     boolean first = true;
     while (it.hasNext()) {
-      AdventureResult ingredient = (AdventureResult) it.next();
+      AdventureResult ingredient = it.next();
       int need = ingredient.getCount();
       int have = InventoryManager.getAccessibleCount(ingredient);
       int missing = need - have;
@@ -95,7 +96,8 @@ public class RecipeCommand extends AbstractCommand {
     }
   }
 
-  private static List getFlattenedIngredients(AdventureResult ar, List list, boolean deep) {
+  private static List<AdventureResult> getFlattenedIngredients(
+      AdventureResult ar, List<AdventureResult> list, boolean deep) {
     AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(ar.getItemId());
     for (int i = 0; i < ingredients.length; ++i) {
       AdventureResult ingredient = ingredients[i];

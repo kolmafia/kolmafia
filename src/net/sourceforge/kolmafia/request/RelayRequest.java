@@ -81,7 +81,8 @@ import org.json.JSONObject;
 public class RelayRequest extends PasswordHashRequest {
   private final PauseObject pauser = new PauseObject();
 
-  private static final HashMap<String, File> overrideMap = new HashMap<String, File>();
+  private static final HashMap<String, File> overrideMap = new HashMap<>();
+  private static final Object lock = new Object(); // used to synch
 
   private static final Pattern STORE_PATTERN =
       Pattern.compile(
@@ -94,7 +95,7 @@ public class RelayRequest extends PasswordHashRequest {
   private static KoLAdventure lastSafety = null;
 
   private final boolean allowOverride;
-  public List<String> headers = new ArrayList<String>();
+  public List<String> headers = new ArrayList<>();
   public Set<ServerCookie> serverCookies = null;
   public String cookies = null;
   public byte[] rawByteBuffer = null;
@@ -255,7 +256,7 @@ public class RelayRequest extends PasswordHashRequest {
 
         ServerCookie serverCookie = new ServerCookie(cookie);
         if (this.serverCookies == null) {
-          this.serverCookies = new LinkedHashSet<ServerCookie>();
+          this.serverCookies = new LinkedHashSet<>();
         } else {
           this.serverCookies.remove(serverCookie);
         }
@@ -333,8 +334,8 @@ public class RelayRequest extends PasswordHashRequest {
     // above affordable levels.
 
     else if (path.startsWith("mallstore.php")) {
-      int searchItemId = -1;
-      int searchPrice = -1;
+      int searchItemId;
+      int searchPrice;
 
       searchItemId = StringUtilities.parseInt(this.getFormField("searchitem"));
       searchPrice = StringUtilities.parseInt(this.getFormField("searchprice"));
@@ -594,9 +595,7 @@ public class RelayRequest extends PasswordHashRequest {
 
   private static void clearImageDirectory(File directory, FilenameFilter filter) {
     File[] files = directory.listFiles(filter);
-    for (int i = 0; i < files.length; ++i) {
-      File file = files[i];
-
+    for (File file : files) {
       if (file.isDirectory()) {
         RelayRequest.clearImageDirectory(file, null);
       }
@@ -639,7 +638,11 @@ public class RelayRequest extends PasswordHashRequest {
   }
 
   public static File findRelayFile(final String filename) {
-    return new File(KoLConstants.RELAY_LOCATION, filename);
+    if ((filename == null) || (filename.contains(".."))) {
+      return null;
+    } else {
+      return new File(KoLConstants.RELAY_LOCATION, filename);
+    }
   }
 
   private void sendLocalFile(final String filename) {
@@ -666,7 +669,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // Read the file
-    StringBuffer replyBuffer = null;
+    StringBuffer replyBuffer;
 
     if (override.exists()) {
       // If the file is in the file system, it is a local override
@@ -1659,15 +1662,15 @@ public class RelayRequest extends PasswordHashRequest {
     StringBuilder warning = new StringBuilder();
 
     if (poolSkill >= 14) {
-      warning.append(
-          "You can't guarantee beating the hustler. You have "
-              + poolSkill
-              + " pool skill and need 18 to guarantee it. ");
+      warning
+          .append("You can't guarantee beating the hustler. You have ")
+          .append(poolSkill)
+          .append(" pool skill and need 18 to guarantee it. ");
     } else {
-      warning.append(
-          "You cannot beat the hustler. You have "
-              + poolSkill
-              + " pool skill and need 14 to have a chance, and 18 to guarantee it. ");
+      warning
+          .append("You cannot beat the hustler. You have ")
+          .append(poolSkill)
+          .append(" pool skill and need 14 to have a chance, and 18 to guarantee it. ");
     }
 
     if (!KoLCharacter.canDrink()) {
@@ -2224,10 +2227,10 @@ public class RelayRequest extends PasswordHashRequest {
     warning.append("\"></script>");
 
     warning.append("<script language=Javascript> ");
-    warning.append("var default0 = " + mcd0 + "; ");
-    warning.append("var default1 = " + mcd1 + "; ");
-    warning.append("var default2 = " + mcd2 + "; ");
-    warning.append("var current = " + mcd0 + "; ");
+    warning.append("var default0 = ").append(mcd0).append("; ");
+    warning.append("var default1 = ").append(mcd1).append("; ");
+    warning.append("var default2 = ").append(mcd2).append("; ");
+    warning.append("var current = ").append(mcd0).append("; ");
     warning.append("function switchLinks( id ) { ");
     warning.append("if ( id == \"mcd1\" ) { ");
     warning.append("current = (current == default0) ? default1 : default0; ");
@@ -2955,7 +2958,7 @@ public class RelayRequest extends PasswordHashRequest {
                 + "</p></body></html>";
         this.pseudoResponse("HTTP/1.1 200 OK", buffer);
       } else if (RelayRequest.specialCommandResponse.length() > 0) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
 
         Matcher matcher =
             RelayRequest.BASE_LINK_PATTERN.matcher(RelayRequest.specialCommandResponse);
@@ -3050,7 +3053,7 @@ public class RelayRequest extends PasswordHashRequest {
 
       chatText =
           ChatSender.sendMessage(
-              new LinkedList<ChatMessage>(), this.getFormField("graf"), true, false, tabbedChat);
+              new LinkedList<>(), this.getFormField("graf"), true, false, tabbedChat);
 
       if (tabbedChat && chatText.startsWith("{")) {
         ChatPoller.handleNewChat(chatText, this.getFormField("graf"), ChatPoller.localLastSeen);
@@ -3081,7 +3084,7 @@ public class RelayRequest extends PasswordHashRequest {
     ChatPoller.pauseChat(paused, false);
 
     List<HistoryEntry> chatMessages;
-    synchronized (ChatPoller.lastServerPoll) {
+    synchronized (lock) {
       ChatPoller.serverPolled();
       chatMessages = ChatPoller.getEntries(lastSeen, true, paused);
     }
@@ -3124,7 +3127,7 @@ public class RelayRequest extends PasswordHashRequest {
     long lastSeen = StringUtilities.parseLong(this.getFormField("lasttime"));
     ChatRequest request = new ChatRequest(lastSeen, true, false);
 
-    synchronized (ChatPoller.lastServerPoll) {
+    synchronized (lock) {
       ChatPoller.serverPolled();
       request.run();
     }
@@ -3137,12 +3140,10 @@ public class RelayRequest extends PasswordHashRequest {
 
       long localLastSeen = ChatPoller.localLastSeen;
       List<HistoryEntry> newEntries = ChatPoller.getOldEntries(true);
-      ArrayList<ChatMessage> messages = new ArrayList<ChatMessage>();
+      ArrayList<ChatMessage> messages = new ArrayList<>();
       for (HistoryEntry entry : newEntries) {
         if (entry instanceof SentMessageEntry) {
-          for (ChatMessage message : entry.getChatMessages()) {
-            messages.add(message);
-          }
+          messages.addAll(entry.getChatMessages());
         }
       }
 
@@ -3369,7 +3370,7 @@ public class RelayRequest extends PasswordHashRequest {
     String limitmode = KoLCharacter.getLimitmode();
 
     // If we are playing Spelunky, a specialized set of warnings are relevant
-    if (limitmode == Limitmode.SPELUNKY) {
+    if ((limitmode != null) && limitmode.equals(Limitmode.SPELUNKY)) {
       return this.sendSpelunkyWarning(adventure);
     }
 
@@ -3530,11 +3531,7 @@ public class RelayRequest extends PasswordHashRequest {
       return true;
     }
 
-    if (path.contains("whichplace=arcade") && this.sendArcadeWarning()) {
-      return true;
-    }
-
-    return false;
+    return path.contains("whichplace=arcade") && this.sendArcadeWarning();
   }
 
   private boolean sendCounterWarning() {
@@ -3544,7 +3541,7 @@ public class RelayRequest extends PasswordHashRequest {
       expired = TurnCounter.getExpiredCounter(this, true);
     }
 
-    StringBuffer msg = null;
+    StringBuilder msg = null;
     String image = null;
     boolean cookie = false;
     boolean lights = false;
@@ -3563,17 +3560,21 @@ public class RelayRequest extends PasswordHashRequest {
         continue;
       }
       if (msg == null) {
-        msg = new StringBuffer();
+        msg = new StringBuilder();
       } else {
         msg.append("<br>");
       }
       image = expired.getImage();
-      if (expired.getLabel().equals("Fortune Cookie")) {
-        cookie = true;
-      } else if (expired.getLabel().equals("Spookyraven Lights Out")) {
-        lights = true;
-      } else if (expired.getLabel().equals("Vote Monster")) {
-        voteMonster = true;
+      switch (expired.getLabel()) {
+        case "Fortune Cookie":
+          cookie = true;
+          break;
+        case "Spookyraven Lights Out":
+          lights = true;
+          break;
+        case "Vote Monster":
+          voteMonster = true;
+          break;
       }
       msg.append("The ");
       msg.append(expired.getLabel());

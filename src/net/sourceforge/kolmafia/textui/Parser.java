@@ -78,7 +78,12 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.eclipse.lsp4j.Location;
 import org.eclipse.lsp4j.Position;
 import org.eclipse.lsp4j.Range;
+import org.eclipse.lsp4j.util.Positions;
 
+/**
+ * See devdoc/ParseRoadmap.ebnf for a simplified representation of this class's parsing methods'
+ * call hierarchy.
+ */
 public class Parser {
   public static final String APPROX = "\u2248";
   public static final String PRE_INCREMENT = "++X";
@@ -1484,9 +1489,8 @@ public class Parser {
           if (condition == null || !condition.getType().equals(DataTypes.BOOLEAN_TYPE)) {
             throw this.parseException("\"if\" requires a boolean conditional expression");
           }
-        } else
-        // else without condition
-        {
+        } else {
+          // else without condition
           condition = Value.locate(this.makeZeroWidthLocation(), DataTypes.TRUE_VALUE);
           finalElse = true;
         }
@@ -1894,8 +1898,7 @@ public class Parser {
       } else {
         throw this.parseException("}", this.currentToken());
       }
-    } else // body is a single call
-    {
+    } else { // body is a single call
       this.parseCommandOrDeclaration(result, functionType);
     }
 
@@ -3471,8 +3474,10 @@ public class Parser {
       if (slash) {
         slash = false;
         if (ch == '/') {
-          this.currentLine.makeToken(i - 1);
-          this.currentIndex += i - 1;
+          if (i > 1) {
+            this.currentLine.makeToken(i - 1);
+            this.currentIndex += i - 1;
+          }
           // Throw away the rest of the line
           this.currentLine.makeComment(this.restOfLine().length());
           this.currentIndex += this.restOfLine().length();
@@ -3741,8 +3746,10 @@ public class Parser {
       }
 
       resultString = line.substring(0, endIndex);
-      this.currentToken = this.currentLine.makeToken(endIndex);
-      this.readToken();
+      if (endIndex > 0) {
+        this.currentToken = this.currentLine.makeToken(endIndex);
+        this.readToken();
+      }
     }
 
     if (this.currentToken().equals(";")) {
@@ -4083,7 +4090,7 @@ public class Parser {
 
   private Position getCurrentPosition() {
     // 0-indexed
-    int lineNumber = Math.max(0, this.getLineNumber() - 1);
+    int lineNumber = this.getLineNumber() - 1;
     return new Position(lineNumber, this.currentIndex);
   }
 
@@ -4098,10 +4105,7 @@ public class Parser {
   }
 
   private static Range mergeRanges(final Range start, final Range end) {
-    if (end == null
-        || start.getStart().getLine() > end.getEnd().getLine()
-        || (start.getStart().getLine() == end.getEnd().getLine()
-            && start.getStart().getCharacter() > end.getEnd().getCharacter())) {
+    if (end == null || Positions.isBefore(end.getEnd(), start.getStart())) {
       return start;
     }
 
@@ -4208,8 +4212,7 @@ public class Parser {
 
   private void enforceSince(String revision) {
     try {
-      if (revision.startsWith("r")) // revision
-      {
+      if (revision.startsWith("r")) { // revision
         revision = revision.substring(1);
         int targetRevision = Integer.parseInt(revision);
         int currentRevision = StaticEntity.getRevision();
@@ -4218,8 +4221,7 @@ public class Parser {
         if (currentRevision != 0 && currentRevision < targetRevision) {
           throw this.sinceException(String.valueOf(currentRevision), revision, true);
         }
-      } else // version (or syntax error)
-      {
+      } else { // version (or syntax error)
         String[] target = revision.split("\\.");
         if (target.length != 2) {
           throw this.parseException("invalid 'since' format");

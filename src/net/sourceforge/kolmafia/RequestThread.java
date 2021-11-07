@@ -66,7 +66,7 @@ public abstract class RequestThread {
   }
 
   private static class ExecuteDelayedMethodRunnable implements Runnable {
-    private final Class objectClass;
+    private final Class<?> objectClass;
     private final Object object;
     private final String methodName;
     private Method method;
@@ -74,7 +74,7 @@ public abstract class RequestThread {
 
     public ExecuteDelayedMethodRunnable(final Object object, final String methodName) {
       if (object instanceof Class) {
-        this.objectClass = (Class) object;
+        this.objectClass = (Class<?>) object;
         this.object = null;
       } else {
         this.objectClass = object.getClass();
@@ -83,7 +83,7 @@ public abstract class RequestThread {
 
       this.methodName = methodName;
       try {
-        Class[] parameters = new Class[0];
+        Class<?>[] parameters = new Class[0];
         this.method = this.objectClass.getMethod(methodName, parameters);
       } catch (Exception e) {
         this.method = null;
@@ -116,14 +116,14 @@ public abstract class RequestThread {
   }
 
   private static class ExecuteMethodRunnable implements Runnable {
-    private final Class objectClass;
+    private final Class<?> objectClass;
     private final Object object;
     private final String methodName;
     private Method method;
 
     public ExecuteMethodRunnable(final Object object, final String methodName) {
       if (object instanceof Class) {
-        this.objectClass = (Class) object;
+        this.objectClass = (Class<?>) object;
         this.object = null;
       } else {
         this.objectClass = object.getClass();
@@ -132,7 +132,7 @@ public abstract class RequestThread {
 
       this.methodName = methodName;
       try {
-        Class[] parameters = new Class[0];
+        Class<?>[] parameters = new Class[0];
         this.method = this.objectClass.getMethod(methodName, parameters);
       } catch (Exception e) {
         this.method = null;
@@ -215,10 +215,10 @@ public abstract class RequestThread {
     int openSequences = 0;
     Thread currentThread = Thread.currentThread();
 
-    Iterator threadIterator = RequestThread.threadMap.values().iterator();
+    Iterator<Thread> threadIterator = RequestThread.threadMap.values().iterator();
 
     while (threadIterator.hasNext()) {
-      Thread thread = (Thread) threadIterator.next();
+      Thread thread = threadIterator.next();
 
       if (thread != currentThread) {
         ++openSequences;

@@ -98,8 +98,7 @@ public class InterruptableDialog {
 
     InterruptableConfirmDialogBox r = new InterruptableConfirmDialogBox(mes);
 
-    synchronized (pauser) // get the object's monitor
-    {
+    synchronized (pauser) { // get the object's monitor
       try {
         pauser.wait(time); // wait for <time> millis, unless the dialog notifies the pauser
       } catch (InterruptedException e) {
@@ -139,8 +138,7 @@ public class InterruptableDialog {
 
     InterruptableInputDialogBox r = new InterruptableInputDialogBox(mes);
 
-    synchronized (pauser) // get the object's monitor
-    {
+    synchronized (pauser) { // get the object's monitor
       try {
         pauser.wait(time); // wait for <time> millis, unless the dialog notifies the pauser
       } catch (InterruptedException e) {

@@ -378,9 +378,9 @@ public class SpelunkyRequest extends GenericRequest {
     // Spelunky, but parse equipment, at least.
 
     JSONObject equip = JSON.getJSONObject("equipment");
-    Iterator keys = equip.keys();
+    Iterator<String> keys = equip.keys();
     while (keys.hasNext()) {
-      String slotName = (String) keys.next();
+      String slotName = keys.next();
       if (slotName.equals("fakehands")) {
         continue;
       }

@@ -13,6 +13,9 @@ import java.util.stream.Stream;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.ScriptData.InvalidScriptData;
 import net.sourceforge.kolmafia.textui.ScriptData.ValidScriptData;
+import org.eclipse.lsp4j.Location;
+import org.eclipse.lsp4j.Position;
+import org.eclipse.lsp4j.Range;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -222,6 +225,11 @@ public class ParserTest {
             Arrays.asList("$", "booleans", "[", "tr", "//Comment", "ue", "]"),
             Arrays.asList("1-1", "1-2", "1-10", "1-11", "1-13", "2-1", "2-3")),
         valid(
+            "Plural constant, comment at start of line",
+            "$booleans[tr\n//Comment\nue]",
+            Arrays.asList("$", "booleans", "[", "tr", "//Comment", "ue", "]"),
+            Arrays.asList("1-1", "1-2", "1-10", "1-11", "2-1", "3-1", "3-3")),
+        valid(
             "Plural constant, empty comment",
             "$booleans[tr//\nue]",
             Arrays.asList("$", "booleans", "[", "tr", "//", "ue", "]"),
@@ -395,6 +403,11 @@ public class ParserTest {
                 "1-1", "1-5", "1-8", "1-10", "1-18", "1-22", "1-25", "1-27", "2-1", "4-2", "4-4",
                 "4-5", "4-6")),
         invalid("interrupted script directive", "script", "Expected <, found end of file"),
+        valid(
+            "empty script directive",
+            "script;",
+            Arrays.asList("script", ";"),
+            Arrays.asList("1-1", "1-7")),
         valid(
             "script directive delimited with <>",
             "script <zlib.ash>;",
@@ -1646,5 +1659,41 @@ public class ParserTest {
     return parser.getTokens().stream()
         .map(token -> token.getStart().getLine() + 1 + "-" + (token.getStart().getCharacter() + 1))
         .collect(Collectors.toList());
+  }
+
+  public static Stream<Arguments> mergeLocationsData() {
+    return Stream.of(
+        Arguments.of(
+            "null start",
+            (Location) null,
+            new Location("foo", new Range(new Position(0, 0), new Position(0, 1))),
+            new Location("foo", new Range(new Position(0, 0), new Position(0, 1)))),
+        Arguments.of(
+            "null end",
+            new Location("foo", new Range(new Position(0, 0), new Position(0, 1))),
+            (Location) null,
+            new Location("foo", new Range(new Position(0, 0), new Position(0, 1)))),
+        Arguments.of(
+            "different URIs",
+            new Location("foo", new Range(new Position(0, 0), new Position(0, 1))),
+            new Location("bar", new Range(new Position(5, 6), new Position(5, 8))),
+            new Location("foo", new Range(new Position(0, 0), new Position(0, 1)))),
+        Arguments.of(
+            "start's start coming after end's end",
+            new Location("foo", new Range(new Position(2, 5), new Position(2, 6))),
+            new Location("foo", new Range(new Position(2, 2), new Position(2, 3))),
+            new Location("foo", new Range(new Position(2, 5), new Position(2, 6)))),
+        Arguments.of(
+            "Successful merge",
+            new Location("foo", new Range(new Position(2, 5), new Position(2, 6))),
+            new Location("foo", new Range(new Position(4, 2), new Position(7, 1))),
+            new Location("foo", new Range(new Position(2, 5), new Position(7, 1)))));
+  }
+
+  @ParameterizedTest
+  @MethodSource("mergeLocationsData")
+  public void testMergeLocations(String desc, Location start, Location end, Location expected) {
+    Location merged = Parser.mergeLocations(start, end);
+    assertEquals(expected, merged, desc);
   }
 }

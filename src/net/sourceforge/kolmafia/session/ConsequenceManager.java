@@ -30,7 +30,8 @@ public abstract class ConsequenceManager {
   private static final HashMap<String, Consequence> itemDescs = new HashMap<String, Consequence>();
   private static final HashMap<String, Consequence> effectDescs =
       new HashMap<String, Consequence>();
-  private static final HashMap<String, Consequence> skillDescs = new HashMap<String, Consequence>();
+  private static final HashMap<Integer, Consequence> skillDescs =
+      new HashMap<Integer, Consequence>();
   private static final ArrayList<String> descriptions = new ArrayList<String>();
   private static final HashMap<String, Consequence> monsters = new HashMap<String, Consequence>();
   private static final ArrayList<Consequence> accomplishments = new ArrayList<Consequence>();
@@ -181,8 +182,8 @@ public abstract class ConsequenceManager {
       return this.patt.matcher(text);
     }
 
-    public void register(Map map, Object key) {
-      this.next = (Consequence) map.get(key);
+    public <K> void register(Map<K, Consequence> map, K key) {
+      this.next = map.get(key);
       map.put(key, this);
     }
 

@@ -305,25 +305,25 @@ public class Speculation {
         this.setSnowsuit(params);
         this.equip(EquipmentManager.FAMILIAR, ItemPool.get(ItemPool.SNOW_SUIT));
       } else if (cmd.equals("up")) {
-        List effects = EffectDatabase.getMatchingNames(params);
+        List<String> effects = EffectDatabase.getMatchingNames(params);
         if (effects.isEmpty()) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown effect: " + params);
           return true;
         }
 
-        int effectId = EffectDatabase.getEffectId((String) effects.get(0));
+        int effectId = EffectDatabase.getEffectId(effects.get(0));
         AdventureResult effect = EffectPool.get(effectId);
         if (!this.hasEffect(effect)) {
           this.addEffect(effect);
         }
       } else if (cmd.equals("uneffect")) {
-        List effects = EffectDatabase.getMatchingNames(params);
+        List<String> effects = EffectDatabase.getMatchingNames(params);
         if (effects.isEmpty()) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown effect: " + params);
           return true;
         }
 
-        int effectId = EffectDatabase.getEffectId((String) effects.get(0));
+        int effectId = EffectDatabase.getEffectId(effects.get(0));
         AdventureResult effect = EffectPool.get(effectId);
         this.removeEffect(effect);
       } else if (cmd.equals("quiet")) {

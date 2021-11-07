@@ -47,7 +47,7 @@ public final class Line {
     if (line == null) {
       // We are the "end of file" (or there was an IOException when reading)
       this.content = null;
-      this.lineNumber = this.previousLine != null ? this.previousLine.lineNumber : 0;
+      this.lineNumber = this.previousLine != null ? this.previousLine.lineNumber : 1;
       this.offset = this.previousLine != null ? this.previousLine.offset : 0;
       return;
     }
@@ -227,7 +227,7 @@ public final class Line {
       }
 
       // 0-indexed line
-      final int lineNumber = Math.max(0, Line.this.lineNumber - 1);
+      final int lineNumber = Line.this.lineNumber - 1;
       this.setStart(new Position(lineNumber, offset));
       this.setEnd(new Position(lineNumber, offset + tokenLength));
 

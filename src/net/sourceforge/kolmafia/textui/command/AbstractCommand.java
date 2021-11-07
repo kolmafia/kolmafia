@@ -1,7 +1,8 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -102,8 +103,7 @@ public abstract class AbstractCommand {
   public AbstractCommand registerSubstring(String substring) {
     // For commands that are parsed as indexOf(...)!=-1.  Use sparingly!
     substring = substring.toLowerCase();
-    AbstractCommand.substringLookup.add(substring);
-    AbstractCommand.substringLookup.add(this);
+    AbstractCommand.substringLookup.put(substring, this);
 
     // Make it visible in the normal lookup map:
     AbstractCommand.lookup.putExact("*" + substring + "*", this);
@@ -113,18 +113,23 @@ public abstract class AbstractCommand {
 
   // Internal implementation thingies:
 
-  public static final PrefixMap lookup = new PrefixMap();
-  public static final ArrayList substringLookup = new ArrayList();
+  public static final PrefixMap<AbstractCommand> lookup = new PrefixMap<>();
+  public static final Map<String, AbstractCommand> substringLookup = new TreeMap<>();
   public static String fullLineCmds = "";
   public static String flowControlCmds = "";
 
   public static AbstractCommand getSubstringMatch(final String cmd) {
-    for (int i = 0; i < AbstractCommand.substringLookup.size(); i += 2) {
-      if (cmd.indexOf((String) AbstractCommand.substringLookup.get(i)) != -1) {
-        return (AbstractCommand) AbstractCommand.substringLookup.get(i + 1);
+    for (String key : AbstractCommand.substringLookup.keySet()) {
+      if (cmd.contains(key)) {
+        return AbstractCommand.substringLookup.get(key);
       }
     }
     return null;
+  }
+
+  public static void clear() {
+    AbstractCommand.lookup.clear();
+    AbstractCommand.substringLookup.clear();
   }
 
   private void registerFlags(final String name) {
@@ -164,22 +169,22 @@ public abstract class AbstractCommand {
   }
 
   protected static final AdventureResult itemParameter(final String parameter) {
-    List potentialItems = ItemDatabase.getMatchingNames(parameter);
+    List<String> potentialItems = ItemDatabase.getMatchingNames(parameter);
     if (potentialItems.isEmpty()) {
       return null;
     }
 
-    int itemId = ItemDatabase.getItemId((String) potentialItems.get(0));
+    int itemId = ItemDatabase.getItemId(potentialItems.get(0));
     return ItemPool.get(itemId, 0);
   }
 
   protected static final AdventureResult effectParameter(final String parameter) {
-    List potentialEffects = EffectDatabase.getMatchingNames(parameter);
+    List<String> potentialEffects = EffectDatabase.getMatchingNames(parameter);
     if (potentialEffects.isEmpty()) {
       return null;
     }
 
-    int effectId = EffectDatabase.getEffectId((String) potentialEffects.get(0));
+    int effectId = EffectDatabase.getEffectId(potentialEffects.get(0));
     return EffectPool.get(effectId, 0);
   }
 }

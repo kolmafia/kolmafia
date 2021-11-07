@@ -1558,8 +1558,7 @@ public class EquipmentManager {
         --count;
       }
     }
-    if (count != 0) // we've lost count somewhere, refresh
-    {
+    if (count != 0) { // we've lost count somewhere, refresh
       RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.BEDAZZLEMENTS));
     }
   }
@@ -2365,9 +2364,9 @@ public class EquipmentManager {
     int fakeHands = 0;
 
     JSONObject equip = JSON.getJSONObject("equipment");
-    Iterator keys = equip.keys();
+    Iterator<String> keys = equip.keys();
     while (keys.hasNext()) {
-      String slotName = (String) keys.next();
+      String slotName = keys.next();
       if (slotName.equals("fakehands")) {
         fakeHands = equip.getInt(slotName);
         continue;

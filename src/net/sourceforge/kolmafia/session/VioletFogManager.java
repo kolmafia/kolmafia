@@ -281,11 +281,9 @@ public abstract class VioletFogManager {
       return "unknown";
     }
 
-    if (goal == 10) // Boost Prime Stat
-    {
+    if (goal == 10) { // Boost Prime Stat
       goal = KoLCharacter.getPrimeIndex() + 4;
-    } else if (goal == 11) // Boost Lowest Stat
-    {
+    } else if (goal == 11) { // Boost Lowest Stat
       long mus = KoLCharacter.getTotalMuscle();
       long mys = KoLCharacter.getTotalMysticality();
       long mox = KoLCharacter.getTotalMoxie();
@@ -329,11 +327,9 @@ public abstract class VioletFogManager {
       return "4";
     }
 
-    if (goal == 10) // Boost Prime Stat
-    {
+    if (goal == 10) { // Boost Prime Stat
       goal = KoLCharacter.getPrimeIndex() + 4;
-    } else if (goal == 11) // Boost Lowest Stat
-    {
+    } else if (goal == 11) { // Boost Lowest Stat
       long mus = KoLCharacter.getTotalMuscle();
       long mys = KoLCharacter.getTotalMysticality();
       long mox = KoLCharacter.getTotalMoxie();
