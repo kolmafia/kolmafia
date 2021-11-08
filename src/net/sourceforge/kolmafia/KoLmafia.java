@@ -115,8 +115,8 @@ public abstract class KoLmafia {
   private static boolean isRefreshing = false;
   private static boolean isAdventuring = false;
   private static volatile String abortAfter = null;
-
-  public static String lastMessage = " ";
+  public static final String NO_MESSAGE = "";
+  public static String lastMessage = NO_MESSAGE;
 
   static {
     System.setProperty("sun.java2d.noddraw", "true");

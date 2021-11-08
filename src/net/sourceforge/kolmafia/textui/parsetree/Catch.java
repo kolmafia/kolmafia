@@ -35,7 +35,7 @@ public class Catch extends Evaluable {
     Value scopeValue = null;
 
     try {
-      KoLmafia.lastMessage = "";
+      KoLmafia.lastMessage = KoLmafia.NO_MESSAGE;
       scopeValue = this.node.execute(interpreter);
     } catch (ScriptException se) {
       errorMessage = "SCRIPT: " + se.getMessage();
@@ -47,7 +47,7 @@ public class Catch extends Evaluable {
     // Return message only if currently cannot continue.
     if (errorMessage.equals("") && !KoLmafia.permitsContinue()) {
       // Capture the value, permitting continuation
-      errorMessage = "CAPTURE: " + KoLmafia.lastMessage;
+      errorMessage = "CAPTURE: " + KoLmafia.getLastMessage();
       interpreter.captureValue(scopeValue);
     }
 
