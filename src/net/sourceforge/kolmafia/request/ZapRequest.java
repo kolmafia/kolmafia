@@ -64,7 +64,9 @@ public class ZapRequest extends GenericRequest {
       while ((line = FileUtilities.readLine(reader)) != null) {
         String[] list = line.split("(?<=($|[^\\\\])(\\\\\\\\){0,999})\\s*,\\s*");
         for (int i = 0; i < list.length; ++i) {
-          String name = list[i] = list[i].replace("\\,", ",").replaceAll("\\\\\\\\(?=(\\\\\\\\)*($|,))", "\\\\");
+          String name =
+              list[i] =
+                  list[i].replace("\\,", ",").replaceAll("\\\\\\\\(?=(\\\\\\\\)*($|,))", "\\\\");
           int itemId = ItemDatabase.getItemId(name, 1, false);
           if (itemId < 0) {
             RequestLogger.printLine("Unknown item in zap group: " + name);
