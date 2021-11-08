@@ -35,7 +35,7 @@ public class ParserTest {
     StaticEntity.overrideRevision(null);
   }
 
-  public static Stream<Arguments> data() {
+  public static Stream<ScriptData> data() {
     /**
      * @return A list containing arrays with the following spec: String description String errorText
      *     A substring of the expected error message. List<String> tokens that are expected for a
