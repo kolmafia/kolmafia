@@ -62,9 +62,40 @@ public class ZapRequest extends GenericRequest {
           FileUtilities.getVersionedReader("zapgroups.txt", KoLConstants.ZAPGROUPS_VERSION);
 
       while ((line = FileUtilities.readLine(reader)) != null) {
-        String[] list = line.split("\\s*,\\s*");
+        String[] list = line.split(",");
+        List<String> newList = new ArrayList<>();
+
         for (int i = 0; i < list.length; ++i) {
           String name = list[i];
+
+          // If name begins with a quote
+          if (name.matches("^\\s*\".*$")) {
+            // While name doesn't end with a quote and we have more names to loop through
+            while (!name.matches("^\\s*\".*\"\\s*$") && ++i < list.length) {
+              name += "," + list[i];
+            }
+
+            // If final name doesn't end with a quote
+            if (!name.matches("^\\s*\".*\"\\s*$")) {
+              RequestLogger.printLine("Unable to find closing quote in zap group: " + name);
+              continue;
+            }
+
+            // Substring to remove the enclosing quotes, but keep trailing spaces in the quoted string.
+            // If you quoted trailing spaces I'm sure you had a good reason.
+            name = name.substring(name.indexOf("\"") + 1, name.lastIndexOf("\""));
+          } else {
+            // Trim the trailing spaces
+            name = name.trim();
+          }
+
+          newList.add(name);
+        }
+
+        // Convert the names into a new list
+        list = newList.toArray(new String[0]);
+
+        for (String name : list){
           int itemId = ItemDatabase.getItemId(name, 1, false);
           if (itemId < 0) {
             RequestLogger.printLine("Unknown item in zap group: " + name);
