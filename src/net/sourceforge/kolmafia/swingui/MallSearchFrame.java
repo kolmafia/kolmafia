@@ -40,8 +40,7 @@ public class MallSearchFrame extends GenericPanelFrame {
   public static SortedListModel<PurchaseRequest> results;
 
   private static MallSearchFrame INSTANCE = null;
-  private static final SortedListModel<PurchaseRequest> pastSearches =
-      new SortedListModel<PurchaseRequest>();
+  private static final SortedListModel<String> pastSearches = new SortedListModel<>();
 
   private boolean currentlySearching;
   private boolean currentlyBuying;
