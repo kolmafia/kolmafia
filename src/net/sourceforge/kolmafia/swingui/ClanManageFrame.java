@@ -138,7 +138,7 @@ public class ClanManageFrame extends GenericFrame {
    */
   private class ClanBuffPanel extends LabeledPanel {
     private final boolean isBuffing;
-    private final JComboBox buffField;
+    private final JComboBox<ClanBuffRequest> buffField;
     private final AutoHighlightTextField countField;
 
     public ClanBuffPanel() {
@@ -150,7 +150,7 @@ public class ClanManageFrame extends GenericFrame {
           new Dimension(240, 20));
       this.isBuffing = false;
 
-      this.buffField = new JComboBox(ClanBuffRequest.getRequestList());
+      this.buffField = new JComboBox<>(ClanBuffRequest.getRequestList());
       this.countField = new AutoHighlightTextField();
 
       VerifiableElement[] elements = new VerifiableElement[2];
@@ -396,19 +396,19 @@ public class ClanManageFrame extends GenericFrame {
   }
 
   private class MemberSearchPanel extends GenericPanel {
-    private final JComboBox parameterSelect;
-    private final JComboBox matchSelect;
+    private final JComboBox<String> parameterSelect;
+    private final JComboBox<String> matchSelect;
     private final AutoHighlightTextField valueField;
 
     public MemberSearchPanel() {
       super("search clan", "apply changes", new Dimension(80, 20), new Dimension(240, 20));
 
-      this.parameterSelect = new JComboBox();
+      this.parameterSelect = new JComboBox<>();
       for (int i = 0; i < ProfileSnapshot.FILTER_NAMES.length; ++i) {
         this.parameterSelect.addItem(ProfileSnapshot.FILTER_NAMES[i]);
       }
 
-      this.matchSelect = new JComboBox();
+      this.matchSelect = new JComboBox<>();
       this.matchSelect.addItem("Less than...");
       this.matchSelect.addItem("Equal to...");
       this.matchSelect.addItem("Greater than...");

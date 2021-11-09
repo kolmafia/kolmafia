@@ -46,7 +46,7 @@ public class ThreadedButton extends JButton implements ActionListener, KeyListen
     }
 
     if (e.getSource() instanceof JComboBox) {
-      return ((JComboBox) e.getSource()).isPopupVisible();
+      return ((JComboBox<?>) e.getSource()).isPopupVisible();
     }
 
     return true;

@@ -44,43 +44,43 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
   private final CardLayout choiceCards;
   private final JPanel choicePanel;
 
-  private final JComboBox[] optionSelects;
+  private final JComboBox<Object>[] optionSelects;
 
-  private final JComboBox palindomePapayaSelect;
-  private final JComboBox spookyForestSelect;
-  private final JComboBox violetFogSelect;
-  private final JComboBox maidenSelect;
-  private final JComboBox louvreSelect;
-  private final JComboBox manualLouvre;
-  private final JComboBox riseSelect, fallSelect;
-  private final JComboBox lightsOutSelect;
+  private final JComboBox<String> palindomePapayaSelect;
+  private final JComboBox<String> spookyForestSelect;
+  private final JComboBox<String> violetFogSelect;
+  private final JComboBox<String> maidenSelect;
+  private final JComboBox<String> louvreSelect;
+  private final JComboBox<String> manualLouvre;
+  private final JComboBox<String> riseSelect, fallSelect;
+  private final JComboBox<String> lightsOutSelect;
   private final OceanDestinationComboBox oceanDestSelect;
-  private final JComboBox oceanActionSelect;
-  private final JComboBox barrelSelect;
-  private final JComboBox darkAtticSelect;
-  private final JComboBox unlivingRoomSelect;
-  private final JComboBox debasementSelect;
-  private final JComboBox propDeportmentSelect;
-  private final JComboBox reloadedSelect;
-  private final JComboBox sororityGuideSelect;
+  private final JComboBox<String> oceanActionSelect;
+  private final JComboBox<String> barrelSelect;
+  private final JComboBox<String> darkAtticSelect;
+  private final JComboBox<String> unlivingRoomSelect;
+  private final JComboBox<String> debasementSelect;
+  private final JComboBox<String> propDeportmentSelect;
+  private final JComboBox<String> reloadedSelect;
+  private final JComboBox<String> sororityGuideSelect;
   private final ShrineComboBox hiddenShrineNWSelect;
   private final ShrineComboBox hiddenShrineSWSelect;
   private final ShrineComboBox hiddenShrineNESelect;
   private final ShrineComboBox hiddenShrineSESelect;
-  private final JComboBox hiddenApartmentSelect;
-  private final JComboBox hiddenHospitalSelect;
-  private final JComboBox hiddenParkSelect;
-  private final JComboBox hiddenBowlingAlleySelect;
-  private final JComboBox hiddenOfficeSelect;
-  private final JComboBox massiveZigguratSelect;
-  private final JComboBox gongSelect;
-  private final JComboBox kolhsCafeteriaSelect;
-  private final JComboBox dailyDungeonDoorSelect;
-  private final JComboBox basementMallSelect;
-  private final JComboBox breakableSelect;
-  private final JComboBox addingSelect;
-  private final JComboBox paranormalLabSelect;
-  private final JComboBox containmentSelect;
+  private final JComboBox<String> hiddenApartmentSelect;
+  private final JComboBox<String> hiddenHospitalSelect;
+  private final JComboBox<String> hiddenParkSelect;
+  private final JComboBox<String> hiddenBowlingAlleySelect;
+  private final JComboBox<String> hiddenOfficeSelect;
+  private final JComboBox<String> massiveZigguratSelect;
+  private final JComboBox<String> gongSelect;
+  private final JComboBox<String> kolhsCafeteriaSelect;
+  private final JComboBox<String> dailyDungeonDoorSelect;
+  private final JComboBox<String> basementMallSelect;
+  private final JComboBox<String> breakableSelect;
+  private final JComboBox<String> addingSelect;
+  private final JComboBox<String> paranormalLabSelect;
+  private final JComboBox<String> containmentSelect;
 
   /** Constructs a new <code>ChoiceOptionsPanel</code>. */
   public ChoiceOptionsPanel() {
@@ -97,7 +97,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
 
     this.optionSelects = new JComboBox[ChoiceManager.CHOICE_ADVS.length];
     for (int i = 0; i < ChoiceManager.CHOICE_ADVS.length; ++i) {
-      this.optionSelects[i] = new JComboBox();
+      this.optionSelects[i] = new JComboBox<>();
       this.optionSelects[i].addItem("show in browser");
       Object[] options = ChoiceManager.CHOICE_ADVS[i].getOptions();
       for (int j = 0; j < options.length; ++j) {
@@ -105,14 +105,14 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       }
     }
 
-    this.palindomePapayaSelect = new JComboBox();
+    this.palindomePapayaSelect = new JComboBox<>();
     this.palindomePapayaSelect.addItem("3 papayas");
     this.palindomePapayaSelect.addItem("Trade papayas for stats");
     this.palindomePapayaSelect.addItem("Fewer stats");
     this.palindomePapayaSelect.addItem("Stats until out of papayas then papayas");
     this.palindomePapayaSelect.addItem("Stats until out of papayas then fewer stats");
 
-    this.spookyForestSelect = new JComboBox();
+    this.spookyForestSelect = new JComboBox<>();
     this.spookyForestSelect.addItem("show in browser");
     this.spookyForestSelect.addItem("mosquito larva or spooky mushrooms");
     this.spookyForestSelect.addItem("Spooky-Gro fertilizer");
@@ -128,12 +128,12 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.spookyForestSelect.addItem("loot Disco Bandit corpse");
     this.spookyForestSelect.addItem("loot Accordion Thief corpse");
 
-    this.violetFogSelect = new JComboBox();
+    this.violetFogSelect = new JComboBox<>();
     for (int i = 0; i < VioletFogManager.FogGoals.length; ++i) {
       this.violetFogSelect.addItem(VioletFogManager.FogGoals[i]);
     }
 
-    this.louvreSelect = new JComboBox();
+    this.louvreSelect = new JComboBox<>();
     this.louvreSelect.addItem("Ignore this adventure");
     for (int i = 0; i < LouvreManager.LouvreGoals.length; ++i) {
       this.louvreSelect.addItem(LouvreManager.LouvreGoals[i]);
@@ -165,7 +165,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       overrideList.add(1, overrideSetting);
     }
 
-    this.maidenSelect = new JComboBox();
+    this.maidenSelect = new JComboBox<>();
     this.maidenSelect.addItem("Ignore this adventure");
     this.maidenSelect.addItem("Fight a random knight");
     this.maidenSelect.addItem("Only fight the wolf knight");
@@ -174,24 +174,24 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.maidenSelect.addItem("Maidens, then fight the wolf knight");
     this.maidenSelect.addItem("Maidens, then fight the snake knight");
 
-    this.riseSelect = new JComboBox();
+    this.riseSelect = new JComboBox<>();
     this.riseSelect.addItem("ignore this adventure");
     this.riseSelect.addItem("boost mysticality substats");
     this.riseSelect.addItem("boost moxie substats");
     this.riseSelect.addItem("acquire mysticality skill");
 
-    this.fallSelect = new JComboBox();
+    this.fallSelect = new JComboBox<>();
     this.fallSelect.addItem("ignore this adventure");
     this.fallSelect.addItem("boost muscle substats");
 
-    this.lightsOutSelect = new JComboBox();
+    this.lightsOutSelect = new JComboBox<>();
     this.lightsOutSelect.addItem("show in browser");
     this.lightsOutSelect.addItem("take quest option if available");
     this.lightsOutSelect.addItem("skip adventure");
 
     this.oceanDestSelect = new OceanDestinationComboBox();
 
-    this.oceanActionSelect = new JComboBox();
+    this.oceanActionSelect = new JComboBox<>();
     this.oceanActionSelect.addItem("continue");
     this.oceanActionSelect.addItem("show");
     this.oceanActionSelect.addItem("stop");
@@ -199,7 +199,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.oceanActionSelect.addItem("save and show");
     this.oceanActionSelect.addItem("save and stop");
 
-    this.barrelSelect = new JComboBox();
+    this.barrelSelect = new JComboBox<>();
     this.barrelSelect.addItem("top rows (mixed drinks)");
     this.barrelSelect.addItem("middle rows (basic booze)");
     this.barrelSelect.addItem("top & middle rows");
@@ -208,7 +208,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.barrelSelect.addItem("middle & bottom rows");
     this.barrelSelect.addItem("all available drinks");
 
-    this.darkAtticSelect = new JComboBox();
+    this.darkAtticSelect = new JComboBox<>();
     this.darkAtticSelect.addItem("show in browser");
     this.darkAtticSelect.addItem("staff guides");
     this.darkAtticSelect.addItem("ghost trap");
@@ -222,7 +222,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.darkAtticSelect.addItem("lower area ML, then mass kill werewolves");
     this.darkAtticSelect.addItem("lower area ML, then mass kill werewolves or ghost trap");
 
-    this.unlivingRoomSelect = new JComboBox();
+    this.unlivingRoomSelect = new JComboBox<>();
     this.unlivingRoomSelect.addItem("show in browser");
     this.unlivingRoomSelect.addItem("mass kill zombies with chainsaw chain");
     this.unlivingRoomSelect.addItem("mass kill skeletons with funhouse mirror");
@@ -236,7 +236,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.unlivingRoomSelect.addItem("lower area ML, then get costume item");
     this.unlivingRoomSelect.addItem("lower area ML, then mass kill zombies/skeletons");
 
-    this.debasementSelect = new JComboBox();
+    this.debasementSelect = new JComboBox<>();
     this.debasementSelect.addItem("show in browser");
     this.debasementSelect.addItem("Prop Deportment");
     this.debasementSelect.addItem("mass kill vampires with plastic vampire fangs");
@@ -245,14 +245,14 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.debasementSelect.addItem("lower area ML, then Prop Deportment");
     this.debasementSelect.addItem("lower area ML, then mass kill vampires");
 
-    this.propDeportmentSelect = new JComboBox();
+    this.propDeportmentSelect = new JComboBox<>();
     this.propDeportmentSelect.addItem("show in browser");
     this.propDeportmentSelect.addItem("chainsaw chain");
     this.propDeportmentSelect.addItem("silver item");
     this.propDeportmentSelect.addItem("funhouse mirror");
     this.propDeportmentSelect.addItem("chainsaw/mirror");
 
-    this.reloadedSelect = new JComboBox();
+    this.reloadedSelect = new JComboBox<>();
     this.reloadedSelect.addItem("show in browser");
     this.reloadedSelect.addItem("melt Maxwell's Silver Hammer");
     this.reloadedSelect.addItem("melt silver tongue charrrm bracelet");
@@ -261,7 +261,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.reloadedSelect.addItem("melt silver paté knife");
     this.reloadedSelect.addItem("don't melt anything");
 
-    this.sororityGuideSelect = new JComboBox();
+    this.sororityGuideSelect = new JComboBox<>();
     this.sororityGuideSelect.addItem("show in browser");
     this.sororityGuideSelect.addItem("attic");
     this.sororityGuideSelect.addItem("main floor");
@@ -277,75 +277,75 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         new ShrineComboBox("choiceAdventure785", "Blessing of Pikachutlotal");
     this.hiddenShrineSESelect = new ShrineComboBox("choiceAdventure787", "Blessing of Charcoatl");
 
-    this.hiddenApartmentSelect = new JComboBox();
+    this.hiddenApartmentSelect = new JComboBox<>();
     this.hiddenApartmentSelect.addItem("show in browser");
     this.hiddenApartmentSelect.addItem("fight spirit or get cursed");
     this.hiddenApartmentSelect.addItem("banish lawyers or skip adventure");
     this.hiddenApartmentSelect.addItem("skip adventure");
 
-    this.hiddenHospitalSelect = new JComboBox();
+    this.hiddenHospitalSelect = new JComboBox<>();
     this.hiddenHospitalSelect.addItem("show in browser");
     this.hiddenHospitalSelect.addItem("fight spirit");
 
-    this.hiddenParkSelect = new JComboBox();
+    this.hiddenParkSelect = new JComboBox<>();
     this.hiddenParkSelect.addItem("show in browser");
     this.hiddenParkSelect.addItem("get random items");
     this.hiddenParkSelect.addItem("relocate pygmy janitors then get random items");
     this.hiddenParkSelect.addItem("skip adventure");
 
-    this.hiddenBowlingAlleySelect = new JComboBox();
+    this.hiddenBowlingAlleySelect = new JComboBox<>();
     this.hiddenBowlingAlleySelect.addItem("show in browser");
     this.hiddenBowlingAlleySelect.addItem("bowl and may fight spirit");
 
-    this.hiddenOfficeSelect = new JComboBox();
+    this.hiddenOfficeSelect = new JComboBox<>();
     this.hiddenOfficeSelect.addItem("show in browser");
     this.hiddenOfficeSelect.addItem("fight spirit or get binder clip or fight accountant");
     this.hiddenOfficeSelect.addItem("fight accountant");
     this.hiddenOfficeSelect.addItem("skip adventure");
 
-    this.massiveZigguratSelect = new JComboBox();
+    this.massiveZigguratSelect = new JComboBox<>();
     this.massiveZigguratSelect.addItem("show in browser");
     this.massiveZigguratSelect.addItem("fight Protector Spectre");
     this.massiveZigguratSelect.addItem("skip adventure");
 
-    this.kolhsCafeteriaSelect = new JComboBox();
+    this.kolhsCafeteriaSelect = new JComboBox<>();
     this.kolhsCafeteriaSelect.addItem("show in browser");
     this.kolhsCafeteriaSelect.addItem("get stats if possible else lose hp");
 
-    this.dailyDungeonDoorSelect = new JComboBox();
+    this.dailyDungeonDoorSelect = new JComboBox<>();
     this.dailyDungeonDoorSelect.addItem("show in browser");
     this.dailyDungeonDoorSelect.addItem("suffer trap effects");
     this.dailyDungeonDoorSelect.addItem("unlock door using PYEC, lockpicks, or skeleton key");
     this.dailyDungeonDoorSelect.addItem("try to avoid trap using highest buffed stat");
 
-    this.gongSelect = new JComboBox();
+    this.gongSelect = new JComboBox<>();
     for (int i = 0; i < GongCommand.GONG_PATHS.length; ++i) {
       this.gongSelect.addItem(GongCommand.GONG_PATHS[i]);
     }
 
-    this.basementMallSelect = new JComboBox();
+    this.basementMallSelect = new JComboBox<>();
     this.basementMallSelect.addItem("do not show Mall prices");
     this.basementMallSelect.addItem("show Mall prices for items you don't have");
     this.basementMallSelect.addItem("show Mall prices for all items");
 
-    this.breakableSelect = new JComboBox();
+    this.breakableSelect = new JComboBox<>();
     this.breakableSelect.addItem("abort on breakage");
     this.breakableSelect.addItem("equip previous");
     this.breakableSelect.addItem("re-equip from inventory, or abort");
     this.breakableSelect.addItem("re-equip from inventory, or previous");
     this.breakableSelect.addItem("acquire & re-equip");
 
-    this.addingSelect = new JComboBox();
+    this.addingSelect = new JComboBox<>();
     this.addingSelect.addItem("show in browser");
     this.addingSelect.addItem("create goal scrolls only");
     this.addingSelect.addItem("create goal & 668 scrolls");
     this.addingSelect.addItem("create goal, 31337, 668 scrolls");
 
-    this.paranormalLabSelect = new JComboBox();
+    this.paranormalLabSelect = new JComboBox<>();
     this.paranormalLabSelect.addItem("show in browser");
     this.paranormalLabSelect.addItem("automate");
 
-    this.containmentSelect = new JComboBox();
+    this.containmentSelect = new JComboBox<>();
     this.containmentSelect.addItem("show in browser");
     this.containmentSelect.addItem("automate");
 
@@ -503,7 +503,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     public void setEnabled(final boolean isEnabled) {}
   }
 
-  private class ShrineComboBox extends JComboBox {
+  private class ShrineComboBox extends JComboBox<String> {
     final String setting;
 
     public ShrineComboBox(final String setting, final String blessing) {
@@ -537,7 +537,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     }
   }
 
-  private class OceanDestinationComboBox extends JComboBox implements ActionListener {
+  private class OceanDestinationComboBox extends JComboBox<String> implements ActionListener {
     public OceanDestinationComboBox() {
       super();
       this.createMenu(Preferences.getString("oceanDestination"));

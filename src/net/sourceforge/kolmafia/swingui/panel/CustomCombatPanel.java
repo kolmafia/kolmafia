@@ -52,14 +52,14 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class CustomCombatPanel extends JPanel {
-  private JComboBox actionSelect;
+  private JComboBox<String> actionSelect;
   protected JTree combatTree;
   protected JTextArea combatEditor;
   protected DefaultTreeModel combatModel;
 
   protected JPanel combatCardPanel;
   protected CardLayout combatCards;
-  public JComboBox availableScripts;
+  public JComboBox<String> availableScripts;
 
   private static ImageIcon stealImg, stunImg;
   private static ImageIcon potionImg, olfactImg, puttyImg;
@@ -485,7 +485,7 @@ public class CustomCombatPanel extends JPanel {
     }
   }
 
-  public class CombatComboBox extends JComboBox implements ActionListener, Listener {
+  public class CombatComboBox extends JComboBox<String> implements ActionListener, Listener {
     public CombatComboBox() {
       super(CombatActionManager.getAvailableLookups());
       this.addActionListener(this);
