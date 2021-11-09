@@ -35,7 +35,7 @@ public abstract class GenericPanel extends ActionVerifyPanel {
   protected ConfirmedListener CONFIRM_LISTENER = new ConfirmedListener();
   protected CancelledListener CANCEL_LISTENER = new CancelledListener();
 
-  protected HashMap listenerMap;
+  protected HashMap<JTextComponent, WeakReference<ActionConfirmListener>> listenerMap;
 
   public JPanel southContainer;
   public JPanel actionStatusPanel;
@@ -171,12 +171,12 @@ public abstract class GenericPanel extends ActionVerifyPanel {
 
   private void addListener(final Object component, final ActionConfirmListener listener) {
     if (this.listenerMap == null) {
-      this.listenerMap = new HashMap();
+      this.listenerMap = new HashMap<>();
     }
 
     if (component instanceof JTextField) {
       ((JTextField) component).addKeyListener(listener);
-      this.listenerMap.put(component, new WeakReference(listener));
+      this.listenerMap.put((JTextField) component, new WeakReference<>(listener));
     }
 
     if (component instanceof AutoFilterComboBox) {
@@ -184,13 +184,13 @@ public abstract class GenericPanel extends ActionVerifyPanel {
           (JTextComponent) ((AutoFilterComboBox) component).getEditor().getEditorComponent();
 
       editor.addKeyListener(listener);
-      this.listenerMap.put(editor, new WeakReference(listener));
-    } else if (component instanceof JComboBox && ((JComboBox) component).isEditable()) {
+      this.listenerMap.put(editor, new WeakReference<>(listener));
+    } else if (component instanceof JComboBox && ((JComboBox<?>) component).isEditable()) {
       JTextComponent editor =
-          (JTextComponent) ((JComboBox) component).getEditor().getEditorComponent();
+          (JTextComponent) ((JComboBox<?>) component).getEditor().getEditorComponent();
 
       editor.addKeyListener(listener);
-      this.listenerMap.put(editor, new WeakReference(listener));
+      this.listenerMap.put(editor, new WeakReference<>(listener));
     }
   }
 
@@ -201,19 +201,19 @@ public abstract class GenericPanel extends ActionVerifyPanel {
       return;
     }
 
-    Object[] keys = this.listenerMap.keySet().toArray();
+    JTextComponent[] keys = this.listenerMap.keySet().toArray(new JTextComponent[0]);
     for (int i = 0; i < keys.length; ++i) {
-      WeakReference ref = (WeakReference) this.listenerMap.get(keys[i]);
+      WeakReference<ActionConfirmListener> ref = this.listenerMap.get(keys[i]);
       if (ref == null) {
         continue;
       }
 
-      Object listener = ref.get();
+      ActionConfirmListener listener = ref.get();
       if (listener == null) {
         continue;
       }
 
-      this.removeListener(keys[i], (ActionConfirmListener) listener);
+      this.removeListener(keys[i], listener);
     }
 
     this.listenerMap.clear();
@@ -236,9 +236,9 @@ public abstract class GenericPanel extends ActionVerifyPanel {
           (JTextComponent) ((AutoFilterComboBox) component).getEditor().getEditorComponent();
 
       editor.removeKeyListener(listener);
-    } else if (component instanceof JComboBox && ((JComboBox) component).isEditable()) {
+    } else if (component instanceof JComboBox && ((JComboBox<?>) component).isEditable()) {
       JTextComponent editor =
-          (JTextComponent) ((JComboBox) component).getEditor().getEditorComponent();
+          (JTextComponent) ((JComboBox<?>) component).getEditor().getEditorComponent();
 
       editor.removeKeyListener(listener);
     }

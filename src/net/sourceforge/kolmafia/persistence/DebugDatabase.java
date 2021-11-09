@@ -8,7 +8,6 @@ import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -3580,8 +3579,8 @@ public class DebugDatabase {
       report.println("Group with unrecognized item: " + firstItem);
       return;
     }
-    String[] zapgroup = ZapRequest.getZapGroup(itemId);
-    if (zapgroup.length == 0) {
+    List<String> zapGroup = ZapRequest.getZapGroup(itemId);
+    if (zapGroup.size() == 0) {
       report.println("New group:");
       Iterator<String> i = items.iterator();
       while (i.hasNext()) {
@@ -3592,9 +3591,9 @@ public class DebugDatabase {
       return;
     }
     ArrayList<String> existing = new ArrayList<String>();
-    existing.addAll(Arrays.asList(zapgroup));
+    existing.addAll(zapGroup);
     existing.removeAll(items);
-    items.removeAll(Arrays.asList(zapgroup));
+    items.removeAll(zapGroup);
     if (items.size() == 0 && existing.size() == 0) {
       report.println("Group OK: " + firstItem);
       return;

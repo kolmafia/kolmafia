@@ -35,7 +35,7 @@ public class MeatManageFrame extends GenericFrame {
    * An internal class which represents the panel used for donations to the statues in the shrine.
    */
   private class HeroDonationPanel extends LabeledPanel {
-    private final JComboBox heroField;
+    private final JComboBox<String> heroField;
     private final AutoHighlightTextField amountField;
 
     public HeroDonationPanel() {
@@ -51,7 +51,7 @@ public class MeatManageFrame extends GenericFrame {
       heroes.add("Statue of Jarlsberg");
       heroes.add("Statue of Sneaky Pete");
 
-      this.heroField = new JComboBox(heroes);
+      this.heroField = new JComboBox<>(heroes);
       this.amountField = new AutoHighlightTextField();
 
       VerifiableElement[] elements = new VerifiableElement[2];

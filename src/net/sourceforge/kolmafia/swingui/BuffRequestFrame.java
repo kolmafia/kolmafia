@@ -45,7 +45,7 @@ public class BuffRequestFrame extends GenericFrame {
           + "Respectfully yours,\nThe KoLmafia development team";
 
   private String botName;
-  private final JComboBox names, types;
+  private final JComboBox<String> names, types;
   private final SortedListModel[] nameList;
 
   private final TreeMap panelMap;
@@ -66,9 +66,9 @@ public class BuffRequestFrame extends GenericFrame {
       this.nameList[i] = new SortedListModel();
     }
 
-    this.names = new JComboBox(this.nameList[0]);
+    this.names = new JComboBox<>(this.nameList[0]);
 
-    this.types = new JComboBox();
+    this.types = new JComboBox<>();
     this.types.addItem("buff packs");
     this.types.addItem("sauceror buffs");
     this.types.addItem("turtle tamer buffs");

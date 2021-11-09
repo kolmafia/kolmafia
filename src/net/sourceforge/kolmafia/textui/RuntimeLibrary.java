@@ -4882,9 +4882,9 @@ public abstract class RuntimeLibrary {
     String which = type.toString();
 
     if (which.equals("zap")) {
-      String[] zapgroup = ZapRequest.getZapGroup((int) item.intValue());
-      for (int i = zapgroup.length - 1; i >= 0; --i) {
-        Value key = DataTypes.parseItemValue(zapgroup[i], true);
+      List<String> zapgroup = ZapRequest.getZapGroup((int) item.intValue());
+      for (int i = zapgroup.size() - 1; i >= 0; --i) {
+        Value key = DataTypes.parseItemValue(zapgroup.get(i), true);
         if (key.intValue() != item.intValue()) {
           value.aset(key, DataTypes.ZERO_VALUE);
         }

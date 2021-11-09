@@ -6,9 +6,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.io.PrintStream;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -75,6 +75,10 @@ import net.sourceforge.kolmafia.textui.parsetree.WhileLoop;
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import org.eclipse.lsp4j.Location;
+import org.eclipse.lsp4j.Position;
+import org.eclipse.lsp4j.Range;
+import org.eclipse.lsp4j.util.Positions;
 
 /**
  * See devdoc/ParseRoadmap.ebnf for a simplified representation of this class's parsing methods'
@@ -91,6 +95,7 @@ public class Parser {
 
   private final String fileName;
   private final String shortFileName;
+  private final URI fileUri;
   private String scriptName;
   private final InputStream istream;
 
@@ -121,6 +126,7 @@ public class Parser {
     if (scriptFile != null) {
       this.fileName = scriptFile.getPath();
       this.shortFileName = this.fileName.substring(this.fileName.lastIndexOf(File.separator) + 1);
+      this.fileUri = scriptFile.toURI();
 
       if (this.imports.isEmpty()) {
         this.imports.put(scriptFile, scriptFile.lastModified());
@@ -128,6 +134,7 @@ public class Parser {
     } else {
       this.fileName = null;
       this.shortFileName = null;
+      this.fileUri = null;
     }
 
     if (this.istream == null) {
@@ -184,6 +191,10 @@ public class Parser {
 
   public String getShortFileName() {
     return this.shortFileName;
+  }
+
+  public URI getUri() {
+    return this.fileUri;
   }
 
   public String getScriptName() {
@@ -3748,8 +3759,18 @@ public class Parser {
       }
 
       this.currentToken = this.currentLine.getLastToken();
-      this.currentIndex = this.currentToken.offset;
+      this.currentIndex = this.currentToken.getStart().getCharacter();
     }
+  }
+
+  /** Finds the last token that was *read* */
+  private final Token peekPreviousToken() {
+    return this.currentLine.peekPreviousToken(this.currentToken);
+  }
+
+  /** Finds the last token that was *discovered* */
+  private final Token peekLastToken() {
+    return this.currentLine.peekLastToken();
   }
 
   /**
@@ -3885,8 +3906,61 @@ public class Parser {
     return result;
   }
 
-  public List<String> getTokensContent() {
-    return this.getTokens().stream().map(token -> token.content).collect(Collectors.toList());
+  private Position getCurrentPosition() {
+    // 0-indexed
+    int lineNumber = this.getLineNumber() - 1;
+    return new Position(lineNumber, this.currentIndex);
+  }
+
+  private Range rangeToHere(final Position start) {
+    return new Range(start != null ? start : this.getCurrentPosition(), this.getCurrentPosition());
+  }
+
+  private static Range makeInlineRange(final Position start, final int offset) {
+    Position end = new Position(start.getLine(), start.getCharacter() + offset);
+
+    return offset >= 0 ? new Range(start, end) : new Range(end, start);
+  }
+
+  private static Range mergeRanges(final Range start, final Range end) {
+    if (end == null || Positions.isBefore(end.getEnd(), start.getStart())) {
+      return start;
+    }
+
+    return new Range(start.getStart(), end.getEnd());
+  }
+
+  private Location makeZeroWidthLocation() {
+    return this.makeLocation(this.getCurrentPosition());
+  }
+
+  private Location makeLocation(final Position start) {
+    return this.makeLocation(this.rangeToHere(start));
+  }
+
+  private Location makeLocation(final Range start, final Range end) {
+    return this.makeLocation(Parser.mergeRanges(start, end));
+  }
+
+  private Location makeLocation(final Range range) {
+    String uri = this.fileUri != null ? this.fileUri.toString() : this.istream.toString();
+    return new Location(uri, range);
+  }
+
+  private static Location makeLocation(final Location start, final Range end) {
+    return Parser.mergeLocations(start, new Location(start.getUri(), end));
+  }
+
+  public static Location mergeLocations(final Location start, final Location end) {
+    if (start == null) {
+      return end;
+    }
+
+    if (end == null || !start.getUri().equals(end.getUri())) {
+      return start;
+    }
+
+    return new Location(start.getUri(), Parser.mergeRanges(start.getRange(), end.getRange()));
   }
 
   // **************** Parse errors *****************

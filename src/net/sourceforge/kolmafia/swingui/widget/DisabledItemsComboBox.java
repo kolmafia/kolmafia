@@ -10,9 +10,9 @@ import javax.swing.UIManager;
 
 // DisabledItemsComboBox is a type of JComboBox that
 // can disable/enable individual elements.
-public class DisabledItemsComboBox extends JComboBox {
+public class DisabledItemsComboBox<E> extends JComboBox<E> {
   private List<String> tooltips;
-  private final HashSet disabledItems = new HashSet(); // these indices will be disabled
+  private final HashSet<String> disabledItems = new HashSet<>(); // these indices will be disabled
   private final DisabledItemsRenderer itemRenderer = new DisabledItemsRenderer();
 
   public DisabledItemsComboBox() {
@@ -22,7 +22,7 @@ public class DisabledItemsComboBox extends JComboBox {
     super.setRenderer(this.itemRenderer);
   }
 
-  public void addItem(Object object, boolean disabled) {
+  public void addItem(E object, boolean disabled) {
     super.addItem(object);
 
     if (disabled) {
@@ -42,7 +42,7 @@ public class DisabledItemsComboBox extends JComboBox {
       return;
     }
 
-    Object object = super.getItemAt(index);
+    E object = super.getItemAt(index);
     this.removeItem(object);
   }
 
@@ -61,7 +61,7 @@ public class DisabledItemsComboBox extends JComboBox {
       return;
     }
 
-    Object object = super.getItemAt(index);
+    E object = super.getItemAt(index);
     if (!this.disabledItems.contains(object.toString())) {
       super.setSelectedIndex(index);
     }
@@ -78,7 +78,7 @@ public class DisabledItemsComboBox extends JComboBox {
       return;
     }
 
-    Object object = super.getItemAt(index);
+    E object = super.getItemAt(index);
 
     if (disabled) {
       this.disabledItems.add(object.toString());
@@ -93,7 +93,7 @@ public class DisabledItemsComboBox extends JComboBox {
   }
 
   public void dumpDisabledItems() {
-    for (Object item : disabledItems) {
+    for (String item : disabledItems) {
       System.out.println(item);
     }
     System.out.println("-------");
@@ -108,7 +108,7 @@ public class DisabledItemsComboBox extends JComboBox {
   private class DisabledItemsRenderer extends DefaultListCellRenderer {
     @Override
     public Component getListCellRendererComponent(
-        JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+        JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
       if (isSelected) {
         setBackground(list.getSelectionBackground());
         setForeground(list.getSelectionForeground());
