@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.extensions.ClearSharedState;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,6 +28,11 @@ public class ScrapheapRequestTest extends RequestTestBase {
     req.responseText = html;
     req.processResults();
     return Preferences.getInteger("_chronolithActivations");
+  }
+
+  @AfterAll
+  protected static void makeFakeGoAway() {
+    ClearSharedState.deleteUserPrefsAndMoodsFiles("fakeUserName");
   }
 
   @Test

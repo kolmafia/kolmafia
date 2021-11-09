@@ -42,5 +42,6 @@ class FileUtilitiesTest {
     FileUtilities.copyFile(source, destination);
     assertTrue(destination.exists());
     destination.delete();
+    source.delete();
   }
 }

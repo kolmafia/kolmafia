@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Arrays;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.extensions.ClearSharedState;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.json.JSONException;
@@ -22,6 +23,11 @@ public class UseItemEnqueuePanelTest {
     // Now that we have a username set, we can edit preferences and have per-user defaults.
     // But first, make sure we don't persist anything.
     Preferences.setBoolean("saveSettingsOnSet", false);
+  }
+
+  @AfterAll
+  protected static void makeFakeGoAway() {
+    ClearSharedState.deleteUserPrefsAndMoodsFiles("fakeUserName");
   }
 
   @AfterAll
