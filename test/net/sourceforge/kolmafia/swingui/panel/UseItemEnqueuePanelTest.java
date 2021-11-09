@@ -39,7 +39,8 @@ public class UseItemEnqueuePanelTest {
 
   @Test
   public void universalSeasoningEnabledWhenAvailable() {
-    Preferences.setBoolean("_universalSeasoningUsed", false);
+    Preferences.setInteger("universalSeasoningCost", 1000);
+    Preferences.setInteger("_universalSeasoningsUsed", 0);
     loadInventory("{\"10640\": \"1\"}");
 
     var panel = new UseItemEnqueuePanel(true, false, false, null);
@@ -54,7 +55,8 @@ public class UseItemEnqueuePanelTest {
 
   @Test
   public void universalSeasoningDisabledWhenUnavailable() {
-    Preferences.setBoolean("_universalSeasoningUsed", false);
+    Preferences.setInteger("universalSeasoningCost", 1000);
+    Preferences.setInteger("_universalSeasoningsUsed", 0);
     loadInventory("{\"10640\": \"0\"}");
 
     var panel = new UseItemEnqueuePanel(true, false, false, null);
@@ -69,7 +71,8 @@ public class UseItemEnqueuePanelTest {
 
   @Test
   public void universalSeasoningDisabledWhenUsed() {
-    Preferences.setBoolean("_universalSeasoningUsed", true);
+    Preferences.setInteger("universalSeasoningCost", 1000);
+    Preferences.setInteger("_universalSeasoningsUsed", 1);
     loadInventory("{\"10640\": \"1\"}");
 
     var panel = new UseItemEnqueuePanel(true, false, false, null);
