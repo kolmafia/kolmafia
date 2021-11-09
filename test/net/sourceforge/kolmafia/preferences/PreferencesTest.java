@@ -2,25 +2,59 @@ package net.sourceforge.kolmafia.preferences;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.KoLCharacter;
-import org.junit.jupiter.api.*;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.textui.command.AbstractCommand;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class PreferencesTest {
-
-  // Convert to the new way of doing things...
-  @BeforeAll
-  protected static void initAll() {
+  @BeforeEach
+  public void initializeCharPrefs() {
     KoLCharacter.reset("fakePrefUser");
     KoLCharacter.reset(true);
     Preferences.saveSettingsToFile = false;
   }
 
+  @AfterEach
+  public void removePrefs() {
+    deleteUserPrefsAndMoodsFiles(KoLCharacter.baseUserName());
+    deleteGlobals();
+    KoLCharacter.reset("");
+    KoLCharacter.reset(true);
+    KoLCharacter.setUserId(0);
+    Preferences.saveSettingsToFile = false;
+    AbstractCommand.clear();
+    KoLmafiaCLI.registerCommands();
+    KoLmafia.lastMessage = " ";
+    KoLmafia.forceContinue();
+  }
+
+  public static void deleteUserPrefsAndMoodsFiles(String user) {
+    String begin = "settings/" + user;
+    File file = new File(begin + "_prefs.txt");
+    if (file.exists()) {
+      file.deleteOnExit();
+    }
+    file = new File(begin + "_moods.txt");
+    if (file.exists()) {
+      file.deleteOnExit();
+    }
+  }
+
+  public static void deleteGlobals() {
+    deleteUserPrefsAndMoodsFiles("GLOBAL");
+    File file = new File("settings/GLOBAL_aliases.txt");
+    if (file.exists()) {
+      file.deleteOnExit();
+    }
+  }
+
   @Test
-  // This test fails when another test sets Preferences.saveSettingsToFile = true;
-  // The comment about restoring from disk is concerning since there is nothing
-  // to restore from (AFAIK) when the setting is false;  But if the other test
-  // restores the value to false, this test passes.
   void ResetClearsPrefs() {
     String propName = "aTestProp";
     Preferences.setBoolean(propName, true);
@@ -488,12 +522,12 @@ class PreferencesTest {
   @Test
   public void actuallySaveFileToIncreaseCoverage() {
     Preferences.saveSettingsToFile = true;
-    Preferences.setString("tabby", "*\\t*");
+    Preferences.setString("tabby", "*\t*");
     Preferences.setString("removeMe", "please");
-    Preferences.setString("a", "\\n");
-    Preferences.setString("b", "\\f");
-    Preferences.setString("c", "\\r");
-    Preferences.setString("d", "\\\\");
+    Preferences.setString("a", "\n");
+    Preferences.setString("b", "\f");
+    Preferences.setString("c", "\r");
+    Preferences.setString("d", "\\");
     Preferences.setString("e", "=");
     Preferences.setString("f", ":");
     Preferences.setString("g", "#");
@@ -515,7 +549,52 @@ class PreferencesTest {
     Preferences.setString(name, value);
     assertEquals(value, Preferences.getString(name, true));
   }
-}
 
-// Generated with love by TestMe :) Please report issues and submit feature requests at:
-// http://weirddev.com/forum#!/testme
+  @Test
+  public void exerciseResetNull() {
+    // Allow files to be written
+    Preferences.saveSettingsToFile = true;
+    // Global preferences name
+    String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
+    File globalfile = new File(globalName);
+    if (globalfile.exists()) {
+      globalfile.delete();
+    }
+    assertFalse(globalfile.exists());
+    // Reset should save global.
+    Preferences.reset(null);
+    assertTrue(globalfile.exists());
+  }
+
+  @Test
+  public void exerciseResetEmpty() {
+    // Allow files to be written
+    Preferences.saveSettingsToFile = true;
+    // Global preferences name
+    String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
+    File globalfile = new File(globalName);
+    if (globalfile.exists()) {
+      globalfile.delete();
+    }
+    assertFalse(globalfile.exists());
+    // Reset should save global.
+    Preferences.reset("");
+    assertTrue(globalfile.exists());
+  }
+
+  @Test
+  public void exerciseResetDots() {
+    // Allow files to be written
+    Preferences.saveSettingsToFile = true;
+    // Global preferences name
+    String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
+    File globalfile = new File(globalName);
+    if (globalfile.exists()) {
+      globalfile.delete();
+    }
+    assertFalse(globalfile.exists());
+    // Reset should save global.
+    Preferences.reset("dot_is_....not_good");
+    assertTrue(globalfile.exists());
+  }
+}
