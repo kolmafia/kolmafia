@@ -37,20 +37,6 @@ public class AutoFilterComboBox<E> extends DisabledItemsComboBox<E> implements L
     this.editor.addKeyListener(listener);
   }
 
-  public String getText() {
-    return (String) (this.getSelectedItem() != null ? this.getSelectedItem() : this.currentMatch);
-  }
-
-  public void setText(final String text) {
-    if (this.model.contains(text)) {
-      this.setSelectedItem(text);
-    } else {
-      this.setSelectedItem(null);
-      this.currentMatch = text;
-      this.editor.setText(text);
-    }
-  }
-
   public void setModel(final LockableListModel<E> model) {
     super.setModel(model);
     this.model = model;

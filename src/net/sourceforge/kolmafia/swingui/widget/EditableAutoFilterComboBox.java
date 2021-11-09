@@ -8,6 +8,20 @@ public class EditableAutoFilterComboBox extends AutoFilterComboBox<String> {
     super(model);
   }
 
+  public String getText() {
+    return (String) (this.getSelectedItem() != null ? this.getSelectedItem() : this.currentMatch);
+  }
+
+  public void setText(final String text) {
+    if (this.model.contains(text)) {
+      this.setSelectedItem(text);
+    } else {
+      this.setSelectedItem(null);
+      this.currentMatch = text;
+      this.editor.setText(text);
+    }
+  }
+
   @Override
   public void forceAddition() {
     if (this.currentName == null || this.currentName.length() == 0) {
