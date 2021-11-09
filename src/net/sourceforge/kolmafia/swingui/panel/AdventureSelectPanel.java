@@ -52,10 +52,10 @@ import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
-import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
@@ -604,9 +604,9 @@ public class AdventureSelectPanel extends JPanel {
     }
   }
 
-  private class ConditionsComboBox extends AutoFilterComboBox {
+  private class ConditionsComboBox extends EditableAutoFilterComboBox {
     public ConditionsComboBox() {
-      super(AdventureSelectPanel.this.locationConditions, true);
+      super(AdventureSelectPanel.this.locationConditions);
     }
   }
 

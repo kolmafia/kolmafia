@@ -30,8 +30,8 @@ import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -86,7 +86,7 @@ public class MallSearchFrame extends GenericPanelFrame {
 
       this.searchField =
           Preferences.getBoolean("cacheMallSearches")
-              ? new AutoFilterComboBox(MallSearchFrame.pastSearches, true)
+              ? new EditableAutoFilterComboBox(MallSearchFrame.pastSearches)
               : new AutoHighlightTextField();
 
       this.countField = new AutoHighlightTextField();
@@ -173,8 +173,8 @@ public class MallSearchFrame extends GenericPanelFrame {
       if (this.searchField instanceof AutoHighlightTextField) {
         searchText = ((AutoHighlightTextField) this.searchField).getText();
       } else {
-        ((AutoFilterComboBox) this.searchField).forceAddition();
-        searchText = (String) ((AutoFilterComboBox) this.searchField).getSelectedItem();
+        ((EditableAutoFilterComboBox) this.searchField).forceAddition();
+        searchText = (String) ((EditableAutoFilterComboBox) this.searchField).getSelectedItem();
       }
 
       MallSearchFrame.this.currentlySearching = true;

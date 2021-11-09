@@ -27,8 +27,8 @@ import net.sourceforge.kolmafia.KoLGUIConstants;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
-import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.textui.command.SendMessageCommand;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -38,7 +38,7 @@ public class SendMessageFrame extends GenericFrame implements ListElementFilter 
 
   private final JComboBox<String> sourceSelect;
   private final LockableListModel<String> contacts;
-  private final AutoFilterComboBox recipientEntry;
+  private final EditableAutoFilterComboBox recipientEntry;
 
   private final LockableListModel<AdventureResult> attachments;
   private final JList<?> attachmentsList;
@@ -70,7 +70,7 @@ public class SendMessageFrame extends GenericFrame implements ListElementFilter 
     // Who you want to send it to.
 
     this.contacts = ContactManager.getMailContacts().getMirrorImage();
-    this.recipientEntry = new AutoFilterComboBox(this.contacts, true);
+    this.recipientEntry = new EditableAutoFilterComboBox(this.contacts);
 
     // How much you want to attach, in raw terms.
 

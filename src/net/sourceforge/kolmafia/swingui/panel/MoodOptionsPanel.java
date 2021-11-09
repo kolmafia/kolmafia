@@ -230,7 +230,7 @@ public class MoodOptionsPanel extends JPanel {
 
     private class ValueComboBox extends AutoFilterComboBox {
       public ValueComboBox() {
-        super(AddTriggerPanel.this.EFFECT_MODEL, false);
+        super(AddTriggerPanel.this.EFFECT_MODEL);
       }
 
       @Override
