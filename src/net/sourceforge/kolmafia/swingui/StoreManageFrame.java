@@ -82,7 +82,7 @@ public class StoreManageFrame extends GenericPanelFrame {
           "Mall Prices", SwingConstants.CENTER, Color.black, Color.white);
   private static final LockableListModel<String> priceSummary = new LockableListModel<>();
 
-  private JComboBox sellingList;
+  private JComboBox<AdventureResult> sellingList;
   protected StoreManageTable manageTable;
   private JList<String> resultsDisplay;
 

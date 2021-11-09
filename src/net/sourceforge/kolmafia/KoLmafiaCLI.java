@@ -884,25 +884,18 @@ public class KoLmafiaCLI {
   }
 
   private static List<File> findScriptFile(final String filename, List<File> matches) {
-    File scriptFile = new File(KoLConstants.ROOT_LOCATION, filename);
-
-    if (scriptFile.exists()) {
-      if (!scriptFile.isDirectory()) matches.add(scriptFile);
-    }
+    KoLmafiaCLI.findScriptFile(KoLConstants.ROOT_LOCATION, filename, matches, false);
 
     if (KoLConstants.SCRIPT_LOCATION.exists()) {
-      KoLmafiaCLI.findScriptFile(KoLConstants.SCRIPT_LOCATION, filename, matches);
+      KoLmafiaCLI.findScriptFile(KoLConstants.SCRIPT_LOCATION, filename, matches, true);
     }
 
     if (KoLConstants.PLOTS_LOCATION.exists()) {
-      scriptFile = new File(KoLConstants.PLOTS_LOCATION, filename);
-      if (scriptFile.exists()) {
-        if (!scriptFile.isDirectory()) matches.add(scriptFile);
-      }
+      KoLmafiaCLI.findScriptFile(KoLConstants.PLOTS_LOCATION, filename, matches, false);
     }
 
     if (KoLConstants.RELAY_LOCATION.exists()) {
-      KoLmafiaCLI.findScriptFile(KoLConstants.RELAY_LOCATION, filename, matches);
+      KoLmafiaCLI.findScriptFile(KoLConstants.RELAY_LOCATION, filename, matches, true);
     }
 
     // Only if we get here and there are no matches do we recursively try again, adding some
@@ -920,17 +913,22 @@ public class KoLmafiaCLI {
   }
 
   private static void findScriptFile(
-      final File directory, final String filename, List<File> matches) {
+      final File directory,
+      final String filename,
+      final List<File> matches,
+      final boolean searchSubdirectories) {
     File scriptFile = new File(directory, filename);
 
     if (scriptFile.exists()) {
       if (!scriptFile.isDirectory()) matches.add(scriptFile);
     }
 
-    File[] contents = DataUtilities.listFiles(directory);
-    for (File content : contents) {
-      if (content.isDirectory()) {
-        KoLmafiaCLI.findScriptFile(content, filename, matches);
+    if (searchSubdirectories) {
+      File[] contents = DataUtilities.listFiles(directory);
+      for (File content : contents) {
+        if (content.isDirectory()) {
+          KoLmafiaCLI.findScriptFile(content, filename, matches, true);
+        }
       }
     }
   }

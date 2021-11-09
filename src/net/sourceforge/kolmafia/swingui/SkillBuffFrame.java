@@ -439,7 +439,7 @@ public class SkillBuffFrame extends GenericFrame {
     }
   }
 
-  private class SkillTypeComboBox extends JComboBox {
+  private class SkillTypeComboBox extends JComboBox<String> {
     public SkillTypeComboBox() {
       super();
       addItem("All Castable Skills");

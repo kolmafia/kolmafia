@@ -64,7 +64,7 @@ public abstract class ThreadedListener
     }
 
     if (e.getSource() instanceof JComboBox) {
-      JComboBox control = (JComboBox) e.getSource();
+      JComboBox<?> control = (JComboBox<?>) e.getSource();
       return control.isPopupVisible();
     }
 
