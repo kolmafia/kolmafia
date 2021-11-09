@@ -105,7 +105,8 @@ public class SkillBuffFrame extends GenericFrame {
     }
   }
 
-  private class SkillSelectComboBox extends AutoFilterComboBox implements Listener {
+  private class SkillSelectComboBox extends AutoFilterComboBox<UseSkillRequest>
+      implements Listener {
     public SkillSelectComboBox(final LockableListModel<UseSkillRequest> model) {
       super(model);
       this.update();
