@@ -44,7 +44,7 @@ public enum AscensionClass {
 
   public static AscensionClass nameToClass(String name) {
     for (AscensionClass ascensionClass : AscensionClass.values()) {
-      if (name.equalsIgnoreCase(ascensionClass.getName())) {
+      if (ascensionClass.getName().toLowerCase().contains(name.toLowerCase())) {
         return ascensionClass;
       }
     }
