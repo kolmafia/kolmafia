@@ -1,4 +1,3 @@
-skills
 test skill add 12
 test skill add 121
 test skill add 152
