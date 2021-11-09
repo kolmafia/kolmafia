@@ -205,7 +205,7 @@ abstract class RequestTestBase {
 
         final String[] paramsString = fullPath.substring(formSplitIndex + 1).split("&");
         for (final String param : paramsString) {
-          if (param.length() == 0) {
+          if (param.isEmpty()) {
             continue;
           }
 
