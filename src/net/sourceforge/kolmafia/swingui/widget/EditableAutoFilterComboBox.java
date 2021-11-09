@@ -67,7 +67,7 @@ public class EditableAutoFilterComboBox extends AutoFilterComboBox<String> {
     // If it's not a result, then check to see if you need to
     // filter based on its string form.
 
-    if (this.matchString == null || this.matchString.length() == 0) {
+    if (this.matchString == null || this.matchString.isEmpty()) {
       return true;
     }
 
