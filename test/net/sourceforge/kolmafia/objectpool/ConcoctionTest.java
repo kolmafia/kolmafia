@@ -2,13 +2,12 @@ package net.sourceforge.kolmafia.objectpool;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /* This test was triggered by a runtime error traced back to sorting usable concoctions that
 said "Comparison method violates its general contract!"
@@ -22,12 +21,12 @@ public class ConcoctionTest {
   static int[][] result;
 
   // Helper method to force normalize Concoction comparisons to [-1, 0, 1] before testing
-  static private int sgn(int value) {
+  private static int sgn(int value) {
     return Integer.compare(value, 0);
   }
 
   @BeforeAll
-  static private void buildIndexAndData() {
+  private static void buildIndexAndData() {
     LockableListModel<Concoction> usables = ConcoctionDatabase.getUsables();
     maxIndex = usables.getSize();
     int i = 0;
@@ -53,7 +52,7 @@ public class ConcoctionTest {
     assertEquals(usableList.size(), thing);
   }
 
-  //sgn(x.compareTo(y)) == -sgn(y.compareTo(x)
+  // sgn(x.compareTo(y)) == -sgn(y.compareTo(x)
   @Test
   public void compareToShouldBeQuasiSymmetric() {
     for (int i = 0; i < maxIndex; i++) {
@@ -63,7 +62,6 @@ public class ConcoctionTest {
       }
     }
   }
-
 
   // tests the portion of the contract that says (x.compareTo(y)==0) == (x.equals(y))
   @Test
@@ -80,27 +78,28 @@ public class ConcoctionTest {
     }
   }
 
-  // tests the portion of the contract that says sgn(x.compareTo(y)) == -sgn(y.compareTo(x)
-
-
   // x.compareTo(y)==0 implies
   //	  that sgn(x.compareTo(z)) == sgn(y.compareTo(z)), for all z.
   @Test
   public void itShouldBeTransitive() {
     for (int i = 0; i < maxIndex; i++) {
-      //Don't have to check whole matrix
+      // Don't have to check whole matrix
       for (int j = i; j < maxIndex; j++) {
         if (result[i][j] > 0) {
           for (int k = 1; k < maxIndex; k++) {
             if (result[j][k] > 0) {
-              msg = "comparing (transitive)" + idsAndMaps.get(i) + "and " + idsAndMaps.get(j) +
-                      "and " + idsAndMaps.get(k);
+              msg =
+                  "comparing (transitive)"
+                      + idsAndMaps.get(i)
+                      + "and "
+                      + idsAndMaps.get(j)
+                      + "and "
+                      + idsAndMaps.get(k);
               assertTrue(result[i][k] > 0);
             }
           }
         }
       }
     }
-
   }
 }
