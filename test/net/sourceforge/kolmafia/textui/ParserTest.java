@@ -1,11 +1,9 @@
 package net.sourceforge.kolmafia.textui;
 
-import static net.sourceforge.kolmafia.textui.ScriptData.valid;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -20,21 +18,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 /** Tries to parse valid and invalid ASH programs. */
 public class ParserTest {
-
-  public static Stream<ScriptData> data() {
-    return Stream.of(
-        valid(
-            "Script with bom",
-            "\ufeff    'hello world'",
-            Arrays.asList("'hello world'"),
-            Arrays.asList("1-6")));
-  }
-
-  @ParameterizedTest
-  @MethodSource("data")
-  public void testBasicScriptValidity(ScriptData script) {
-    ParserTest.testScriptValidity(script);
-  }
 
   public static void testScriptValidity(ScriptData script) {
     if (script instanceof InvalidScriptData) {

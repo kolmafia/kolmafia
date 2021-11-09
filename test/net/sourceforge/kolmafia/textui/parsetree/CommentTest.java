@@ -59,7 +59,12 @@ public class CommentTest {
         invalid(
             "Empty multiline comment on one line, single asterisk",
             "int x =/*/ 5;",
-            "Expression expected"));
+            "Expression expected"),
+        valid(
+            "Script with bom",
+            "\ufeff    'hello world'",
+            Arrays.asList("'hello world'"),
+            Arrays.asList("1-6")));
   }
 
   @ParameterizedTest
