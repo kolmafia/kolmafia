@@ -1,9 +1,16 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
-import java.util.*;
-import net.sourceforge.kolmafia.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import net.sourceforge.kolmafia.Expression;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -93,7 +100,16 @@ public class DailyLimitDatabase {
         return StringUtilities.parseInt(this.max);
       }
 
-      return Preferences.getInteger(this.max);
+      if (this.max.startsWith("[") && this.max.endsWith("]")) {
+        String exprString = this.max.substring(1, this.max.length() - 1);
+        Expression expr =
+            new Expression(exprString, "daily limit for " + this.getType() + " " + this.getId());
+        if (!expr.hasErrors()) {
+          return (int) expr.eval();
+        }
+      }
+
+      return 1;
     }
 
     public int getUsesRemaining() {

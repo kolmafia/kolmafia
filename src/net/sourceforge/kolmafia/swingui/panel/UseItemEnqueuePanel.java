@@ -212,9 +212,9 @@ public class UseItemEnqueuePanel extends ItemListManagePanel {
       this.buttons[bingeIndex + 1].setEnabled(milkAvailable);
 
       // The seasoning listener is just after the ghost listener
-      boolean seasoningUsed = Preferences.getBoolean("_universalSeasoningUsed");
+      boolean seasoningUsable = UseItemRequest.maximumUses(ItemPool.UNIVERSAL_SEASONING) > 0;
       boolean seasoningAvailable =
-          !seasoningUsed && (InventoryManager.itemAvailable(ItemPool.UNIVERSAL_SEASONING));
+          seasoningUsable && (InventoryManager.itemAvailable(ItemPool.UNIVERSAL_SEASONING));
 
       this.buttons[bingeIndex + 2].setEnabled(seasoningAvailable);
 
