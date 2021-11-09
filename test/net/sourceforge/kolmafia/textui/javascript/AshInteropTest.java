@@ -14,7 +14,8 @@ public class AshInteropTest {
     // The lastMessage checks are left over from some debugging.  They remain in this first test but
     // there is no obvious benefit to including them in other tests.  If the assertion fails it is a
     // suggestion that an exception was thrown but not otherwise handled.  Note that the assertion
-    // failure message will include the value of lastMessage.  lastMessage is initialized to " ";
+    // failure message will include the value of lastMessage.  lastMessage is initialized to
+    // KoLmafia.NO_MESSAGE.
     ContactManager.registerPlayerId("heeheehee", "354981");
     var js = new JavascriptRuntime("getPlayerId(\"heeheehee\")");
     String x = KoLmafia.getLastMessage();
