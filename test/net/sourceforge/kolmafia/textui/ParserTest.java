@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ScriptData.InvalidScriptData;
 import net.sourceforge.kolmafia.textui.ScriptData.ValidScriptData;
+import net.sourceforge.kolmafia.textui.ScriptData.ValidScriptDataWithLocationTests;
+import net.sourceforge.kolmafia.textui.parsetree.Scope;
 import org.eclipse.lsp4j.Location;
 import org.eclipse.lsp4j.Position;
 import org.eclipse.lsp4j.Range;
@@ -34,10 +36,16 @@ public class ParserTest {
   }
 
   private static void testValidScript(final ValidScriptData script) {
+    final Scope scope;
+
     // This will fail if an exception is thrown.
-    script.parser.parse();
+    scope = script.parser.parse();
     assertEquals(script.tokens, getTokensContents(script.parser), script.desc);
     assertEquals(script.positions, getTokensPositions(script.parser), script.desc);
+
+    if (script instanceof ValidScriptDataWithLocationTests) {
+      ((ValidScriptDataWithLocationTests) script).locationTests.accept(scope);
+    }
   }
 
   private static List<String> getTokensContents(final Parser parser) {
