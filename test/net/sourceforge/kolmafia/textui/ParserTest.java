@@ -58,6 +58,19 @@ public class ParserTest {
         .collect(Collectors.toList());
   }
 
+  public static void assertLocationEquals(
+      final int expectedStartLine,
+      final int expectedStartCharacter,
+      final int expectedEndLine,
+      final int expectedEndCharacter,
+      final Location location) {
+    assertEquals(
+        new Range(
+            new Position(expectedStartLine - 1, expectedStartCharacter - 1),
+            new Position(expectedEndLine - 1, expectedEndCharacter - 1)),
+        location.getRange());
+  }
+
   public static Stream<Arguments> mergeLocationsData() {
     return Stream.of(
         Arguments.of(
