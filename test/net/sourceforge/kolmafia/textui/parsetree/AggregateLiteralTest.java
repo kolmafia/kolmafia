@@ -110,6 +110,18 @@ public class AggregateLiteralTest {
             "Ambiguity between array and map literal 3: that can't be a key",
             "string[5]{ '0', '1', '2', '3':'3', '4' }",
             "Expected , or }, found :"),
+        invalid(
+            "Unexpected aggregate in array literal",
+            "boolean[5]{ true, true, false, {true}, false }",
+            "Expected an element of type boolean, found an aggregate"),
+        invalid(
+            "Unexpected aggregate in map literal: as a key",
+            "boolean[5]{ 0:true, 1:true, 2:false, {3}:true, 4:false }",
+            "Expected a key of type int, found an aggregate"),
+        invalid(
+            "Unexpected aggregate in map literal: as a value",
+            "boolean[5]{ 0:true, 1:true, 2:false, 3:{true}, 4:false }",
+            "Expected a value of type boolean, found an aggregate"),
         valid(
             // This... exercises a different code path.
             "Parenthesized map literal",
