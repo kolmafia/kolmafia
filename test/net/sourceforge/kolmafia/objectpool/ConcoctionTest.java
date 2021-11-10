@@ -57,8 +57,8 @@ public class ConcoctionTest {
   public void compareToShouldBeQuasiSymmetric() {
     for (int i = 0; i < maxIndex; i++) {
       for (int j = 0; j < maxIndex; j++) {
-        msg = "comparing (quasi symmetry)" + idsAndMaps.get(i) + "and " + idsAndMaps.get(j);
-        assertEquals(sgn(result[i][j]), -sgn(result[j][i]), msg);
+        msg = "comparing (quasi symmetry) " + idsAndMaps.get(i) + " and " + idsAndMaps.get(j);
+        assertEquals(result[i][j], -result[j][i], msg);
       }
     }
   }
@@ -67,11 +67,11 @@ public class ConcoctionTest {
   @Test
   public void compareToShouldBeEqualForEquals() {
     for (int i = 0; i < maxIndex; i++) {
-      msg = "comparing (equality)" + idsAndMaps.get(i) + "and " + idsAndMaps.get(i);
+      msg = "comparing (equality) " + idsAndMaps.get(i) + " and " + idsAndMaps.get(i);
       assertEquals(0, result[i][i], msg);
       for (int j = 0; j < maxIndex; j++) {
         if (result[i][j] == 0) {
-          msg = "comparing (equality)" + idsAndMaps.get(i) + "and " + idsAndMaps.get(j);
+          msg = "comparing (equality) " + idsAndMaps.get(i) + " and " + idsAndMaps.get(j);
           assertEquals(idsAndMaps.get(i), idsAndMaps.get(j), msg);
         }
       }
@@ -91,9 +91,9 @@ public class ConcoctionTest {
               msg =
                   "comparing (transitive)"
                       + idsAndMaps.get(i)
-                      + "and "
+                      + " and "
                       + idsAndMaps.get(j)
-                      + "and "
+                      + " and "
                       + idsAndMaps.get(k);
               assertTrue(result[i][k] > 0);
             }
