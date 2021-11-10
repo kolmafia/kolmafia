@@ -229,28 +229,23 @@ abstract class RequestTestBase {
   }
 
   private class ParamMatcher extends UrlMatcher {
-    final ArgumentMatcher<Entry<String, String>> matcher;
+    final String param;
+    final ArgumentMatcher<String> matcher;
 
     private ParamMatcher(final String param, final String value) {
+      this.param = param;
       this.matcher =
-          entry ->
-              param.equals(entry.getKey())
-                  && (value == null ? true : value.equals(entry.getValue()));
+          val -> value == null ? true : value.equals(val);
     }
 
     private ParamMatcher(final String param, final Pattern valueMatcher) {
+      this.param = param;
       this.matcher =
-          entry -> param.equals(entry.getKey()) && valueMatcher.matcher(entry.getValue()).matches();
+          val -> valueMatcher.matcher(val).matches();
     }
 
     boolean matches(final ParsedUrl url) {
-      for (final Entry<String, String> entry : url.params.entrySet()) {
-        if (this.matcher.matches(entry)) {
-          return true;
-        }
-      }
-
-      return false;
+      return url.params.containsKey(this.param) && this.matcher.matches(url.params.get(this.param));
     }
   }
 }
