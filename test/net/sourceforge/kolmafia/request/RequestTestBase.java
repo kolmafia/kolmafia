@@ -107,7 +107,7 @@ abstract class RequestTestBase {
     prepareResponse(
         response,
         url -> {
-          final SectionedUrl sectionedUrl = new SectionedUrl(url);
+          final ParsedUrl sectionedUrl = new ParsedUrl(url);
           for (final UrlMatcher matcher : matchers) {
             if (!matcher.matches(sectionedUrl)) {
               return false;
@@ -190,11 +190,11 @@ abstract class RequestTestBase {
     public void connect() throws IOException {}
   }
 
-  private class SectionedUrl {
+  private class ParsedUrl {
     private final String path;
     private final Map<String, String> params = new HashMap<>();
 
-    private SectionedUrl(final URL url) {
+    private ParsedUrl(final URL url) {
       this.path = url.getPath();
       final String query = url.getQuery();
 
@@ -213,7 +213,7 @@ abstract class RequestTestBase {
   }
 
   private abstract class UrlMatcher {
-    abstract boolean matches(final SectionedUrl url);
+    abstract boolean matches(final ParsedUrl url);
   }
 
   private class PathMatcher extends UrlMatcher {
@@ -223,7 +223,7 @@ abstract class RequestTestBase {
       this.matcher = path -> path.equals(exactPath);
     }
 
-    boolean matches(final SectionedUrl url) {
+    boolean matches(final ParsedUrl url) {
       return this.matcher.matches(url.path);
     }
   }
@@ -243,7 +243,7 @@ abstract class RequestTestBase {
           entry -> param.equals(entry.getKey()) && valueMatcher.matcher(entry.getValue()).matches();
     }
 
-    boolean matches(final SectionedUrl url) {
+    boolean matches(final ParsedUrl url) {
       for (final Entry<String, String> entry : url.params.entrySet()) {
         if (this.matcher.matches(entry)) {
           return true;
