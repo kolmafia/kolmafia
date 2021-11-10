@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.request;
 
 import java.io.BufferedReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,7 +33,7 @@ public class ZapRequest extends GenericRequest {
   private static final BooleanArray isZappable = new BooleanArray();
   private static final SortedListModel<AdventureResult> zappableItems =
       new SortedListModel<AdventureResult>();
-  private static final Map<Integer, String[]> zapGroups = new HashMap<>();
+  private static final Map<Integer, List<String>> zapGroups = new HashMap<Integer, List<String>>();
 
   private AdventureResult item;
 
@@ -62,9 +64,8 @@ public class ZapRequest extends GenericRequest {
           FileUtilities.getVersionedReader("zapgroups.txt", KoLConstants.ZAPGROUPS_VERSION);
 
       while ((line = FileUtilities.readLine(reader)) != null) {
-        String[] list = line.split("\\s*,\\s*");
-        for (int i = 0; i < list.length; ++i) {
-          String name = list[i];
+        List<String> list = StringUtilities.tokenizeString(line);
+        for (String name : list) {
           int itemId = ItemDatabase.getItemId(name, 1, false);
           if (itemId < 0) {
             RequestLogger.printLine("Unknown item in zap group: " + name);
@@ -91,12 +92,11 @@ public class ZapRequest extends GenericRequest {
     return matchingItems;
   }
 
-  public static final String[] getZapGroup(int itemId) {
+  public static final List<String> getZapGroup(int itemId) {
     ZapRequest.initializeList();
 
-    String[] rv = ZapRequest.zapGroups.get(IntegerPool.get(itemId));
-    if (rv == null) return new String[0];
-    return rv;
+    List<String> rv = ZapRequest.zapGroups.get(IntegerPool.get(itemId));
+    return (rv != null) ? rv : new ArrayList();
   }
 
   @Override

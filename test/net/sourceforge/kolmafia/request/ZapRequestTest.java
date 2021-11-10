@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -20,7 +21,7 @@ public class ZapRequestTest {
     }
   }
 
-  private boolean arrayHas(String[] array, String in) {
+  private boolean arrayHas(List<String> array, String in) {
     for (String s : array) {
       if (s.equals(in)) return true;
     }
@@ -55,12 +56,19 @@ public class ZapRequestTest {
     loadInventory("{\"705\": \"1\",\"1268\": \"1\"}");
     LockableListModel<AdventureResult> items = ZapRequest.getZappableItems();
     assertTrue(items.contains(bacon));
-    String[] zapg = ZapRequest.getZapGroup(705);
+    List<String> zapg = ZapRequest.getZapGroup(705);
     assertTrue(arrayHas(zapg, "baconstone"));
     assertTrue(arrayHas(zapg, "hamethyst"));
     assertTrue(arrayHas(zapg, "porquoise"));
     assertFalse(arrayHas(zapg, "xyzzy"));
     zapg = ZapRequest.getZapGroup(42);
     assertFalse(arrayHas(zapg, "hermit permit"));
+  }
+
+  @Test
+  public void parsesEscapedCommaSeparatedData() {
+    List<String> zapGroup = ZapRequest.getZapGroup(5944);
+    assertTrue(arrayHas(zapGroup, "tiny plastic Hank North, Photojournalist"));
+    assertTrue(zapGroup.size() == 19);
   }
 }

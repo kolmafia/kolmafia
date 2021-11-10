@@ -43,7 +43,7 @@ public class ComparisonShopCommand extends AbstractCommand implements Comparator
         if (item == null) {
           return;
         }
-        names.addAll(Arrays.asList(ZapRequest.getZapGroup(item.getItemId())));
+        names.addAll(ZapRequest.getZapGroup(item.getItemId()));
       } else if (piece.startsWith("-")) {
         names.removeAll(ItemDatabase.getMatchingNames(piece.substring(1).trim()));
       } else {

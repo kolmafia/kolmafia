@@ -36,7 +36,7 @@ public class MoodOptionsPanel extends JPanel {
   }
 
   private class MoodTriggerListPanel extends ScrollablePanel {
-    public JComboBox availableMoods;
+    public JComboBox<Mood> availableMoods;
 
     public MoodTriggerListPanel() {
       super("", new ShowDescriptionList(MoodManager.getTriggers()));
@@ -68,7 +68,7 @@ public class MoodOptionsPanel extends JPanel {
     @Override
     public void setEnabled(final boolean isEnabled) {}
 
-    private class MoodComboBox extends JComboBox {
+    private class MoodComboBox extends JComboBox<Mood> {
       public MoodComboBox() {
         super(MoodManager.getAvailableMoods());
 
@@ -131,8 +131,8 @@ public class MoodOptionsPanel extends JPanel {
   }
 
   public class AddTriggerPanel extends GenericPanel implements ListSelectionListener {
-    public LockableListModel EMPTY_MODEL = new LockableListModel();
-    public LockableListModel EFFECT_MODEL = new LockableListModel();
+    public LockableListModel<String> EMPTY_MODEL = new LockableListModel<>();
+    public LockableListModel<String> EFFECT_MODEL = new LockableListModel<>();
 
     public TypeComboBox typeSelect;
     public ValueComboBox valueSelect;
@@ -228,9 +228,9 @@ public class MoodOptionsPanel extends JPanel {
     @Override
     public void addStatusLabel() {}
 
-    private class ValueComboBox extends AutoFilterComboBox {
+    private class ValueComboBox extends AutoFilterComboBox<String> {
       public ValueComboBox() {
-        super(AddTriggerPanel.this.EFFECT_MODEL, false);
+        super(AddTriggerPanel.this.EFFECT_MODEL);
       }
 
       @Override
@@ -242,7 +242,7 @@ public class MoodOptionsPanel extends JPanel {
       }
     }
 
-    private class TypeComboBox extends JComboBox {
+    private class TypeComboBox extends JComboBox<String> {
       public TypeComboBox() {
         this.addItem("When an effect is lost");
         this.addItem("When an effect is gained");

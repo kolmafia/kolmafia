@@ -52,10 +52,10 @@ import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
-import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
@@ -474,7 +474,7 @@ public class AdventureSelectPanel extends JPanel {
 
     CardLayout resultCards = new CardLayout();
     JPanel resultPanel = new JPanel(resultCards);
-    JComboBox resultSelect = new JComboBox();
+    JComboBox<String> resultSelect = new JComboBox<>();
 
     int cardCount = 0;
 
@@ -534,12 +534,12 @@ public class AdventureSelectPanel extends JPanel {
     private final String property;
     private final CardLayout resultCards;
     private final JPanel resultPanel;
-    private final JComboBox resultSelect;
+    private final JComboBox<String> resultSelect;
 
     public ResultSelectListener(
         final CardLayout resultCards,
         final JPanel resultPanel,
-        final JComboBox resultSelect,
+        final JComboBox<String> resultSelect,
         final String property) {
       this.resultCards = resultCards;
       this.resultPanel = resultPanel;
@@ -604,9 +604,9 @@ public class AdventureSelectPanel extends JPanel {
     }
   }
 
-  private class ConditionsComboBox extends AutoFilterComboBox {
+  private class ConditionsComboBox extends EditableAutoFilterComboBox {
     public ConditionsComboBox() {
-      super(AdventureSelectPanel.this.locationConditions, true);
+      super(AdventureSelectPanel.this.locationConditions);
     }
   }
 

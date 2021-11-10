@@ -479,8 +479,12 @@ public class Parser {
         continue;
       }
 
-      if ((t.getBaseType() instanceof AggregateType) && this.currentToken().equals("{")) {
-        result.addCommand(this.parseAggregateLiteral(result, (AggregateType) t), this);
+      if (this.currentToken().equals("{")) {
+        if (t.getBaseType() instanceof AggregateType) {
+          result.addCommand(this.parseAggregateLiteral(result, (AggregateType) t), this);
+        } else {
+          throw this.parseException("Aggregate type required to make an aggregate literal");
+        }
       } else {
         // Found a type but no function or variable to tie it to
         throw this.parseException("Type given but not used to declare anything");
@@ -1086,10 +1090,20 @@ public class Parser {
       // yet ensured we are reading a MapLiteral, allow any
       // type of Value as the "key"
       Type dataType = data.getBaseType();
-      if ((isArray || arrayAllowed)
-          && this.currentToken().equals("{")
-          && dataType instanceof AggregateType) {
-        lhs = this.parseAggregateLiteral(scope, (AggregateType) dataType);
+      if (this.currentToken().equals("{")) {
+        if (!isArray && !arrayAllowed) {
+          // We know this is a map, but they placed
+          // an aggregate literal as a key
+          throw this.parseException(
+              "Expected a key of type " + index.toString() + ", found an aggregate");
+        }
+
+        if (dataType instanceof AggregateType) {
+          lhs = this.parseAggregateLiteral(scope, (AggregateType) dataType);
+        } else {
+          throw this.parseException(
+              "Expected an element of type " + dataType.toString() + ", found an aggregate");
+        }
       } else {
         lhs = this.parseExpression(scope);
       }
@@ -1155,8 +1169,13 @@ public class Parser {
 
       Evaluable rhs;
 
-      if (this.currentToken().equals("{") && dataType instanceof AggregateType) {
-        rhs = this.parseAggregateLiteral(scope, (AggregateType) dataType);
+      if (this.currentToken().equals("{")) {
+        if (dataType instanceof AggregateType) {
+          rhs = this.parseAggregateLiteral(scope, (AggregateType) dataType);
+        } else {
+          throw this.parseException(
+              "Expected a value of type " + dataType.toString() + ", found an aggregate");
+        }
       } else {
         rhs = this.parseExpression(scope);
       }
@@ -2407,8 +2426,17 @@ public class Parser {
 
         if (this.currentToken().equals(",")) {
           val = Value.locate(this.makeZeroWidthLocation(), DataTypes.VOID_VALUE);
-        } else if (this.currentToken().equals("{") && expected instanceof AggregateType) {
-          val = this.parseAggregateLiteral(scope, (AggregateType) expected);
+        } else if (this.currentToken().equals("{")) {
+          if (expected instanceof AggregateType) {
+            val = this.parseAggregateLiteral(scope, (AggregateType) expected);
+          } else {
+            throw this.parseException(
+                "Aggregate literal found when "
+                    + expected
+                    + " expected for field #"
+                    + (param + 1)
+                    + errorMessageFieldName);
+          }
         } else {
           val = this.parseExpression(scope);
         }

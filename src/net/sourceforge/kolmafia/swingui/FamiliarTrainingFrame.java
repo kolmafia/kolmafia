@@ -165,7 +165,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
   private class FamiliarTrainingPanel extends JPanel {
     private FamiliarData familiar;
-    private final JComboBox familiars;
+    private final JComboBox<FamiliarData> familiars;
     private final JLabel winCount;
     private final JLabel prizeCounter;
     private final JLabel totalWeight;
@@ -575,8 +575,8 @@ public class FamiliarTrainingFrame extends GenericFrame {
       }
     }
 
-    private class ChangeComboBox extends JComboBox {
-      public ChangeComboBox(final LockableListModel selector) {
+    private class ChangeComboBox extends JComboBox<FamiliarData> {
+      public ChangeComboBox(final LockableListModel<FamiliarData> selector) {
         super(selector);
         this.addActionListener(new ChangeComboBoxListener());
       }
