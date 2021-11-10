@@ -17,7 +17,7 @@ public class ConcoctionTest {
 
   static final Map<Integer, Concoction> idsAndMaps = new HashMap<>();
   static int maxIndex;
-  static String msg;
+  String msg;
   static int[][] result;
 
   // Helper method to force normalize Concoction comparisons to [-1, 0, 1] before testing
