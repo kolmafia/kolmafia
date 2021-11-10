@@ -2,8 +2,6 @@ package net.sourceforge.kolmafia.objectpool;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.HashMap;
-import java.util.Map;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,7 +13,7 @@ said "Comparison method violates its general contract!"
 
 public class ConcoctionTest {
 
-  static final Map<Integer, Concoction> idsAndMaps = new HashMap<>();
+  static Concoction[] ids;
   static int maxIndex;
   String msg;
   static int[][] result;
@@ -29,15 +27,16 @@ public class ConcoctionTest {
   private static void buildIndexAndData() {
     LockableListModel<Concoction> usables = ConcoctionDatabase.getUsables();
     maxIndex = usables.getSize();
+    ids = new Concoction[maxIndex];
     int i = 0;
     for (Concoction con : usables) {
-      idsAndMaps.put(i, con);
+      ids[i] = con;
       i++;
     }
     result = new int[maxIndex][maxIndex];
     for (i = 0; i < maxIndex; i++) {
       for (int j = 0; j < maxIndex; j++) {
-        result[i][j] = sgn(idsAndMaps.get(i).compareTo(idsAndMaps.get(j)));
+        result[i][j] = sgn(ids[i].compareTo(ids[j]));
       }
     }
   }
@@ -57,7 +56,7 @@ public class ConcoctionTest {
   public void compareToShouldBeQuasiSymmetric() {
     for (int i = 0; i < maxIndex; i++) {
       for (int j = 0; j < maxIndex; j++) {
-        msg = "comparing (quasi symmetry) " + idsAndMaps.get(i) + " and " + idsAndMaps.get(j);
+        msg = "comparing (quasi symmetry) " + ids[i] + " and " + ids[j];
         assertEquals(result[i][j], -result[j][i], msg);
       }
     }
@@ -67,12 +66,12 @@ public class ConcoctionTest {
   @Test
   public void compareToShouldBeEqualForEquals() {
     for (int i = 0; i < maxIndex; i++) {
-      msg = "comparing (equality) " + idsAndMaps.get(i) + " and " + idsAndMaps.get(i);
+      msg = "comparing (equality) " + ids[i] + " and " + ids[i];
       assertEquals(0, result[i][i], msg);
       for (int j = 0; j < maxIndex; j++) {
         if (result[i][j] == 0) {
-          msg = "comparing (equality) " + idsAndMaps.get(i) + " and " + idsAndMaps.get(j);
-          assertEquals(idsAndMaps.get(i), idsAndMaps.get(j), msg);
+          msg = "comparing (equality) " + ids[i] + " and " + ids[j];
+          assertEquals(ids[i], ids[j], msg);
         }
       }
     }
@@ -88,13 +87,7 @@ public class ConcoctionTest {
         if (result[i][j] > 0) {
           for (int k = 1; k < maxIndex; k++) {
             if (result[j][k] > 0) {
-              msg =
-                  "comparing (transitive)"
-                      + idsAndMaps.get(i)
-                      + " and "
-                      + idsAndMaps.get(j)
-                      + " and "
-                      + idsAndMaps.get(k);
+              msg = "comparing (transitive)" + ids[i] + " and " + ids[j] + " and " + ids[k];
               assertTrue(result[i][k] > 0);
             }
           }
