@@ -1898,6 +1898,8 @@ public class Parser {
       throw this.parseException("by", this.currentToken());
     }
 
+    Token scopeStartToken = this.currentToken();
+
     // Define key variables of appropriate type
     VariableList varList = new VariableList();
     AggregateType type = (AggregateType) aggregate.getType().getBaseType();
@@ -1913,6 +1915,9 @@ public class Parser {
     if (expr == null) {
       throw this.parseException("Expression expected");
     }
+
+    Location scopeLocation = this.makeLocation(scopeStartToken, this.peekPreviousToken());
+    scope.setScopeLocation(scopeLocation);
 
     return new SortBy((VariableReference) aggregate, indexvar, valuevar, expr, this);
   }
