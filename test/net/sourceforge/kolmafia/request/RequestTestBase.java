@@ -29,6 +29,8 @@ import org.mockito.MockitoSession;
 import org.mockito.quality.Strictness;
 
 /**
+ * A library with tools facilitating the test of network requests and our response to them.
+ *
  * Extend this class when making tests involving {@link GenericRequest} and/or its descendants.
  *
  * <ul>
