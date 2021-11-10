@@ -14,7 +14,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.extensions.ForbidNetworkAccess;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
@@ -234,14 +233,12 @@ abstract class RequestTestBase {
 
     private ParamMatcher(final String param, final String value) {
       this.param = param;
-      this.matcher =
-          val -> value == null ? true : value.equals(val);
+      this.matcher = val -> value == null ? true : value.equals(val);
     }
 
     private ParamMatcher(final String param, final Pattern valueMatcher) {
       this.param = param;
-      this.matcher =
-          val -> valueMatcher.matcher(val).matches();
+      this.matcher = val -> valueMatcher.matcher(val).matches();
     }
 
     boolean matches(final ParsedUrl url) {
