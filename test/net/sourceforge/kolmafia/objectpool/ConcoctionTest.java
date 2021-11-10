@@ -84,12 +84,10 @@ public class ConcoctionTest {
     for (int i = 0; i < maxIndex; i++) {
       // Don't have to check whole matrix
       for (int j = i; j < maxIndex; j++) {
-        if (result[i][j] > 0) {
+        if (result[i][j] == 0) {
           for (int k = 1; k < maxIndex; k++) {
-            if (result[j][k] > 0) {
-              msg = "comparing (transitive)" + ids[i] + " and " + ids[j] + " and " + ids[k];
-              assertTrue(result[i][k] > 0);
-            }
+            msg = "comparing (transitive)" + ids[i] + " and " + ids[j] + " and " + ids[k];
+            assertEquals(result[i][k], result[j][k], msg);
           }
         }
       }
