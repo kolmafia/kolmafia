@@ -1486,6 +1486,8 @@ public class Parser {
       return null;
     }
 
+    Token basicScriptStartToken = this.currentToken();
+
     this.readToken(); // cli_execute
     this.readToken(); // {
 
@@ -1522,7 +1524,9 @@ public class Parser {
       this.currentIndex = this.currentLine.offset;
     }
 
-    return new BasicScript(ostream);
+    Location basicScriptLocation =
+        this.makeLocation(basicScriptStartToken, this.peekPreviousToken());
+    return new BasicScript(basicScriptLocation, ostream);
   }
 
   private Loop parseWhile(final Type functionType, final BasicScope parentScope) {
