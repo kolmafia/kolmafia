@@ -31,11 +31,11 @@ public class ConcoctionTest {
     int i = 0;
     for (Concoction con : usables) {
       ids[i] = con;
-      i++;
+      ++i;
     }
     result = new int[maxIndex][maxIndex];
-    for (i = 0; i < maxIndex; i++) {
-      for (int j = 0; j < maxIndex; j++) {
+    for (i = 0; i < maxIndex; ++i) {
+      for (int j = 0; j < maxIndex; ++j) {
         result[i][j] = sgn(ids[i].compareTo(ids[j]));
       }
     }
@@ -54,8 +54,8 @@ public class ConcoctionTest {
   // sgn(x.compareTo(y)) == -sgn(y.compareTo(x)
   @Test
   public void compareToShouldBeQuasiSymmetric() {
-    for (int i = 0; i < maxIndex; i++) {
-      for (int j = 0; j < maxIndex; j++) {
+    for (int i = 0; i < maxIndex; ++i) {
+      for (int j = 0; j < maxIndex; ++j) {
         msg = "comparing (quasi symmetry) " + ids[i] + " and " + ids[j];
         assertEquals(result[i][j], -result[j][i], msg);
       }
@@ -65,10 +65,10 @@ public class ConcoctionTest {
   // tests the portion of the contract that says (x.compareTo(y)==0) == (x.equals(y))
   @Test
   public void compareToShouldBeEqualForEquals() {
-    for (int i = 0; i < maxIndex; i++) {
+    for (int i = 0; i < maxIndex; ++i) {
       msg = "comparing (equality) " + ids[i] + " and " + ids[i];
       assertEquals(0, result[i][i], msg);
-      for (int j = 0; j < maxIndex; j++) {
+      for (int j = 0; j < maxIndex; ++j) {
         if (result[i][j] == 0) {
           msg = "comparing (equality) " + ids[i] + " and " + ids[j];
           assertEquals(ids[i], ids[j], msg);
@@ -81,11 +81,11 @@ public class ConcoctionTest {
   //	  that sgn(x.compareTo(z)) == sgn(y.compareTo(z)), for all z.
   @Test
   public void itShouldBeTransitive() {
-    for (int i = 0; i < maxIndex; i++) {
+    for (int i = 0; i < maxIndex; ++i) {
       // Don't have to check whole matrix
-      for (int j = i; j < maxIndex; j++) {
+      for (int j = i; j < maxIndex; ++j) {
         if (result[i][j] == 0) {
-          for (int k = 1; k < maxIndex; k++) {
+          for (int k = 1; k < maxIndex; ++k) {
             msg = "comparing (transitive)" + ids[i] + " and " + ids[j] + " and " + ids[k];
             assertEquals(result[i][k], result[j][k], msg);
           }
