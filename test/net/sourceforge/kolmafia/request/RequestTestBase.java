@@ -195,15 +195,11 @@ abstract class RequestTestBase {
     private final Map<String, String> params = new HashMap<>();
 
     private SectionedUrl(final URL url) {
-      final String fullPath = url.getPath();
-      final int formSplitIndex = fullPath.indexOf("?");
+      this.path = url.getPath();
+      final String query = url.getQuery();
 
-      if (formSplitIndex == -1) {
-        this.path = fullPath;
-      } else {
-        this.path = GenericRequest.decodePath(fullPath.substring(0, formSplitIndex));
-
-        final String[] paramsString = fullPath.substring(formSplitIndex + 1).split("&");
+      if (query != null) {
+        final String[] paramsString = query.split("&");
         for (final String param : paramsString) {
           if (param.isEmpty()) {
             continue;
