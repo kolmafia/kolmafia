@@ -88,7 +88,7 @@ abstract class RequestTestBase {
   }
 
   /**
-   * Set {@link #factory} to generate the given response if the path matches every one of {@code
+   * Sets {@link #factory} to generate the given response if the path matches every one of {@code
    * matchers}.
    *
    * <p>Use {@link #hasPath} and/or {@link #hasParam} to generate them.
