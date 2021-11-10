@@ -107,9 +107,9 @@ abstract class RequestTestBase {
     prepareResponse(
         response,
         url -> {
-          final ParsedUrl sectionedUrl = new ParsedUrl(url);
+          final ParsedUrl parsedUrl = new ParsedUrl(url);
           for (final UrlMatcher matcher : matchers) {
-            if (!matcher.matches(sectionedUrl)) {
+            if (!matcher.matches(parsedUrl)) {
               return false;
             }
           }
