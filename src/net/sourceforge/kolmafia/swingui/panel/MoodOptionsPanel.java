@@ -131,8 +131,8 @@ public class MoodOptionsPanel extends JPanel {
   }
 
   public class AddTriggerPanel extends GenericPanel implements ListSelectionListener {
-    public LockableListModel EMPTY_MODEL = new LockableListModel();
-    public LockableListModel EFFECT_MODEL = new LockableListModel();
+    public LockableListModel<String> EMPTY_MODEL = new LockableListModel<>();
+    public LockableListModel<String> EFFECT_MODEL = new LockableListModel<>();
 
     public TypeComboBox typeSelect;
     public ValueComboBox valueSelect;
@@ -228,9 +228,9 @@ public class MoodOptionsPanel extends JPanel {
     @Override
     public void addStatusLabel() {}
 
-    private class ValueComboBox extends AutoFilterComboBox {
+    private class ValueComboBox extends AutoFilterComboBox<String> {
       public ValueComboBox() {
-        super(AddTriggerPanel.this.EFFECT_MODEL, false);
+        super(AddTriggerPanel.this.EFFECT_MODEL);
       }
 
       @Override
