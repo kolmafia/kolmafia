@@ -535,6 +535,7 @@ public class Preferences {
   }
 
   private static void loadUserPreferences(String username) {
+    //This is a comment because I don't believe the scanner is scanning the branch.
     File file =
         new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.txt");
     Preferences.userPropertiesFile = file;
