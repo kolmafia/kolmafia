@@ -172,7 +172,7 @@ public class CustomCombatPanel extends JPanel {
       super(new Dimension(70, -1), new Dimension(200, -1));
 
       CustomCombatPanel.this.actionSelect =
-          new AutoFilterComboBox(KoLCharacter.getBattleSkillNames(), false);
+          new AutoFilterComboBox<>(KoLCharacter.getBattleSkillNames());
       CustomCombatPanel.this.actionSelect.addActionListener(new BattleActionListener());
 
       JPanel special = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));

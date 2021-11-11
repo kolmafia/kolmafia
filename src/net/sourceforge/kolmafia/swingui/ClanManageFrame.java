@@ -181,14 +181,14 @@ public class ClanManageFrame extends GenericFrame {
    */
   private class AttackPanel extends LabeledPanel {
     private final JLabel nextAttack;
-    private final AutoFilterComboBox enemyList;
+    private final AutoFilterComboBox<ClanWarRequest> enemyList;
 
     public AttackPanel() {
       super(
           "Loot Another Clan", "attack", "refresh", new Dimension(80, 20), new Dimension(240, 20));
 
       this.nextAttack = new JLabel(ClanWarRequest.getNextAttack());
-      this.enemyList = new AutoFilterComboBox(ClanWarRequest.getEnemyClans(), false);
+      this.enemyList = new AutoFilterComboBox<>(ClanWarRequest.getEnemyClans());
 
       VerifiableElement[] elements = new VerifiableElement[2];
       elements[0] = new VerifiableElement("Victim: ", this.enemyList);
