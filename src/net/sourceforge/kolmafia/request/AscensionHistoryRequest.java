@@ -52,7 +52,7 @@ public class AscensionHistoryRequest extends GenericRequest
     this.playerName = playerName;
     this.playerId = playerId;
 
-    this.ascensionData = new ArrayList<AscensionDataField>();
+    this.ascensionData = new ArrayList<>();
   }
 
   public static final void setComparator(final int typeComparator) {
@@ -62,8 +62,10 @@ public class AscensionHistoryRequest extends GenericRequest
   @Override
   public String toString() {
     StringBuilder stringForm = new StringBuilder();
-    stringForm.append(
-        "<tr><td><a href=\"ascensions/" + ClanManager.getURLName(this.playerName) + "\"><b>");
+    stringForm
+        .append("<tr><td><a href=\"ascensions/")
+        .append(ClanManager.getURLName(this.playerName))
+        .append("\"><b>");
 
     String name = ContactManager.getPlayerName(this.playerId);
     stringForm.append(name.equals(this.playerId) ? this.playerName : name);
@@ -79,7 +81,7 @@ public class AscensionHistoryRequest extends GenericRequest
   }
 
   public int compareTo(final AscensionHistoryRequest o) {
-    return !(o instanceof AscensionHistoryRequest)
+    return o == null
         ? -1
         : typeComparator == AscensionSnapshot.NORMAL
             ? o.softcoreCount - this.softcoreCount
@@ -212,22 +214,22 @@ public class AscensionHistoryRequest extends GenericRequest
     int bestMonth = 0, bestWeek = 0;
     int currentMonth, currentWeek;
 
-    for (int i = 0; i < resultFolders.length; ++i) {
-      if (!resultFolders[i].isDirectory()) {
+    for (File resultFolder : resultFolders) {
+      if (!resultFolder.isDirectory()) {
         continue;
       }
 
-      File[] ascensionFolders = DataUtilities.listFiles(resultFolders[i]);
+      File[] ascensionFolders = DataUtilities.listFiles(resultFolder);
 
-      for (int j = 0; j < ascensionFolders.length; ++j) {
-        if (!ascensionFolders[j].getName().startsWith("2005")) {
+      for (File ascensionFolder : ascensionFolders) {
+        if (!ascensionFolder.getName().startsWith("2005")) {
           continue;
         }
 
-        currentMonth = StringUtilities.parseInt(ascensionFolders[j].getName().substring(4, 6));
-        currentWeek = StringUtilities.parseInt(ascensionFolders[j].getName().substring(8, 9));
+        currentMonth = StringUtilities.parseInt(ascensionFolder.getName().substring(4, 6));
+        currentWeek = StringUtilities.parseInt(ascensionFolder.getName().substring(8, 9));
 
-        boolean shouldReplace = false;
+        boolean shouldReplace;
 
         shouldReplace = currentMonth > bestMonth;
 
@@ -240,7 +242,7 @@ public class AscensionHistoryRequest extends GenericRequest
         }
 
         if (shouldReplace) {
-          File checkFile = new File(ascensionFolders[j], "ascensions/" + this.playerId + ".htm");
+          File checkFile = new File(ascensionFolder, "ascensions/" + this.playerId + ".htm");
           if (checkFile.exists()) {
             backupFile = checkFile;
             bestMonth = currentMonth;
@@ -636,8 +638,7 @@ public class AscensionHistoryRequest extends GenericRequest
     public int getAge() {
       long ascensionDate = this.timestamp.getTime();
       float difference = System.currentTimeMillis() - ascensionDate;
-      int days = Math.round((difference / (1000 * 60 * 60 * 24)));
-      return days;
+      return Math.round((difference / (1000 * 60 * 60 * 24)));
     }
 
     @Override
@@ -675,7 +676,7 @@ public class AscensionHistoryRequest extends GenericRequest
     }
 
     public int compareTo(final AscensionDataField o) {
-      if (!(o instanceof AscensionDataField)) {
+      if (o == null) {
         return -1;
       }
 

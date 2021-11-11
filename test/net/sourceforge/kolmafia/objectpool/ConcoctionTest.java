@@ -30,8 +30,7 @@ public class ConcoctionTest {
     ids = new Concoction[maxIndex];
     int i = 0;
     for (Concoction con : usables) {
-      ids[i] = con;
-      ++i;
+      ids[i++] = con;
     }
     result = new int[maxIndex][maxIndex];
     for (i = 0; i < maxIndex; ++i) {
