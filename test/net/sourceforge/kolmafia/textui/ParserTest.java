@@ -64,9 +64,10 @@ public class ParserTest {
       final int expectedEndLine,
       final int expectedEndCharacter,
       final Location location) {
-    Range expectedRange = new Range(
-        new Position(expectedStartLine - 1, expectedStartCharacter - 1),
-        new Position(expectedEndLine - 1, expectedEndCharacter - 1));
+    Range expectedRange =
+        new Range(
+            new Position(expectedStartLine - 1, expectedStartCharacter - 1),
+            new Position(expectedEndLine - 1, expectedEndCharacter - 1));
     Range actualRange = location.getRange();
 
     if (actualRange instanceof Line.Token) {
