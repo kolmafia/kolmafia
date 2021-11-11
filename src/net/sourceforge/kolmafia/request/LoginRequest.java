@@ -109,7 +109,7 @@ public class LoginRequest extends GenericRequest {
     }
 
     String challenge = challengeMatcher.group(1);
-    String response = null;
+    String response;
 
     try {
       response = LoginRequest.digestPassword(password, challenge);
@@ -310,6 +310,10 @@ public class LoginRequest extends GenericRequest {
 
     if (name == null) {
       return;
+    }
+
+    if (name.contains("..")) {
+      name.replaceAll("[.]", "");
     }
 
     if (name.endsWith("/q")) {
