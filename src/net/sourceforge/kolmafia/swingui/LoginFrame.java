@@ -23,8 +23,8 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.LabeledPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
-import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LoginFrame extends GenericFrame {
@@ -298,9 +298,9 @@ public class LoginFrame extends GenericFrame {
      * Special instance of a JComboBox which overrides the default key events of a JComboBox to
      * allow you to catch key events.
      */
-    private class LoginNameComboBox extends AutoFilterComboBox {
+    private class LoginNameComboBox extends EditableAutoFilterComboBox {
       public LoginNameComboBox() {
-        super((SortedListModel<String>) KoLConstants.saveStateNames, true);
+        super((SortedListModel<String>) KoLConstants.saveStateNames);
       }
 
       @Override

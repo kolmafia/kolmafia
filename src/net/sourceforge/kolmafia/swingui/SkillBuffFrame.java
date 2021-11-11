@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.swingui.panel.RestorativeItemPanel;
 import net.sourceforge.kolmafia.swingui.panel.StatusEffectPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
@@ -37,7 +38,7 @@ public class SkillBuffFrame extends GenericFrame {
   private SkillTypeComboBox typeSelect;
   private SkillSelectComboBox skillSelect;
   private AutoHighlightTextField amountField;
-  private AutoFilterComboBox targetSelect;
+  private EditableAutoFilterComboBox targetSelect;
   private final ShowDescriptionList effectList;
 
   public SkillBuffFrame() {
@@ -104,9 +105,10 @@ public class SkillBuffFrame extends GenericFrame {
     }
   }
 
-  private class SkillSelectComboBox extends AutoFilterComboBox implements Listener {
+  private class SkillSelectComboBox extends AutoFilterComboBox<UseSkillRequest>
+      implements Listener {
     public SkillSelectComboBox(final LockableListModel<UseSkillRequest> model) {
-      super(model, false);
+      super(model);
       this.update();
       this.setSkillListeners();
     }
@@ -361,7 +363,8 @@ public class SkillBuffFrame extends GenericFrame {
       SkillBuffFrame.this.amountField = new AutoHighlightTextField();
 
       SkillBuffFrame.this.contacts = ContactManager.getMailContacts().getMirrorImage();
-      SkillBuffFrame.this.targetSelect = new AutoFilterComboBox(SkillBuffFrame.this.contacts, true);
+      SkillBuffFrame.this.targetSelect =
+          new EditableAutoFilterComboBox(SkillBuffFrame.this.contacts);
 
       VerifiableElement[] elements = new VerifiableElement[4];
       elements[0] = new VerifiableElement("Skill Type: ", SkillBuffFrame.this.typeSelect);
