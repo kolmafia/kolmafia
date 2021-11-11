@@ -57,6 +57,9 @@ dependencies {
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.0'
 	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.0'
 	testImplementation 'org.mockito:mockito-core:3.+'
+	testImplementation('org.eclipse.xtext:org.eclipse.xtext.xbase.lib:2.12.0') {
+		because 'assertion errors including Location/Range/Position need it'
+	}
 
 	implementation 'com.formdev:flatlaf:1.6'
 	implementation 'com.formdev:flatlaf-intellij-themes:1.6'
