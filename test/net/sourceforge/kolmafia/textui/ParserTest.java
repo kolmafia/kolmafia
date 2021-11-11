@@ -64,11 +64,17 @@ public class ParserTest {
       final int expectedEndLine,
       final int expectedEndCharacter,
       final Location location) {
-    assertEquals(
-        new Range(
-            new Position(expectedStartLine - 1, expectedStartCharacter - 1),
-            new Position(expectedEndLine - 1, expectedEndCharacter - 1)),
-        location.getRange());
+    Range expectedRange = new Range(
+        new Position(expectedStartLine - 1, expectedStartCharacter - 1),
+        new Position(expectedEndLine - 1, expectedEndCharacter - 1));
+    Range actualRange = location.getRange();
+
+    if (actualRange instanceof Line.Token) {
+      // Range.equals(Object) checks for the class, so we can't just submit the Token
+      actualRange = new Range(actualRange.getStart(), actualRange.getEnd());
+    }
+
+    assertEquals(expectedRange, actualRange);
   }
 
   public static Stream<Arguments> mergeLocationsData() {
