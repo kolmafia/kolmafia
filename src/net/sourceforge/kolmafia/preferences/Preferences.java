@@ -464,8 +464,12 @@ public class Preferences {
   }
 
   /** Resets all settings so that the given user is represented whenever settings are modified. */
-  public static final synchronized void reset(final String username) {
+  public static final synchronized void reset(String username) {
     Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalValues);
+    // Apparently the CodeQL security scan requires this as a fix...
+    if ((username != null) && (username.contains(".."))) {
+      username = null;
+    }
 
     // Prevent anybody from manipulating the user map until we are
     // done bulk-loading it.
@@ -531,10 +535,6 @@ public class Preferences {
   }
 
   private static void loadUserPreferences(String username) {
-    // Apparently the CodeQL security scan requires this as a fix...
-    if ((username != null) && (username.contains(".."))) {
-      username = null;
-    }
     File file =
         new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.txt");
     Preferences.userPropertiesFile = file;
