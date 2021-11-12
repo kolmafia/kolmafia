@@ -2,8 +2,13 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -37,7 +42,20 @@ public class JavaForLoopTest {
                 "length", ";", "i", "++", ")", ";"),
             Arrays.asList(
                 "1-1", "1-5", "1-6", "1-10", "1-11", "1-12", "1-13", "1-15", "1-19", "1-25", "1-26",
-                "1-27", "1-29", "1-31", "1-33", "1-39", "1-41", "1-42", "1-44", "1-45")),
+                "1-27", "1-29", "1-31", "1-33", "1-39", "1-41", "1-42", "1-44", "1-45"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              JavaForLoop forLoop = assertInstanceOf(JavaForLoop.class, commands.get(0));
+              Scope loopScope = forLoop.getScope();
+              Iterator<Variable> variables = loopScope.getVariables().iterator();
+
+              assertTrue(variables.hasNext());
+              ParserTest.assertLocationEquals(1, 10, 1, 11, variables.next().getLocation());
+              assertTrue(variables.hasNext());
+              ParserTest.assertLocationEquals(1, 19, 1, 25, variables.next().getLocation());
+              assertFalse(variables.hasNext());
+            }),
         invalid(
             "javaFor with empty initializer", "for (int i=0,; i < 5; ++i);", "Identifier expected"),
         valid(
@@ -57,7 +75,22 @@ public class JavaForLoopTest {
                 ";"),
             Arrays.asList(
                 "1-1", "1-5", "1-6", "1-8", "1-12", "1-13", "1-14", "1-15", "1-16", "1-18", "1-20",
-                "1-22", "1-23", "1-25", "1-26", "1-28", "1-29")),
+                "1-22", "1-23", "1-25", "1-26", "1-28", "1-29"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              JavaForLoop forLoop = assertInstanceOf(JavaForLoop.class, commands.get(1));
+              Scope loopScope = forLoop.getScope();
+              Iterator<Variable> variables = loopScope.getVariables().iterator();
+
+              assertFalse(variables.hasNext());
+
+              variables = loopScope.getParentScope().getVariables().iterator();
+
+              assertTrue(variables.hasNext());
+              ParserTest.assertLocationEquals(1, 5, 1, 6, variables.next().getLocation());
+              assertFalse(variables.hasNext());
+            }),
         invalid(
             "javaFor with unknown existing variable",
             "for (i=0; i < 5; i++);",

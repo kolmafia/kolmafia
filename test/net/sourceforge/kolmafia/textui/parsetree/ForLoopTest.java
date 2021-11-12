@@ -2,8 +2,13 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -39,7 +44,18 @@ public class ForLoopTest {
             "for-from-to-by",
             "for i from 1 to 10000 by 100;",
             Arrays.asList("for", "i", "from", "1", "to", "10000", "by", "100", ";"),
-            Arrays.asList("1-1", "1-5", "1-7", "1-12", "1-14", "1-17", "1-23", "1-26", "1-29")),
+            Arrays.asList("1-1", "1-5", "1-7", "1-12", "1-14", "1-17", "1-23", "1-26", "1-29"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              ForLoop forLoop = assertInstanceOf(ForLoop.class, commands.get(0));
+              Scope loopScope = forLoop.getScope();
+              Iterator<Variable> variables = loopScope.getVariables().iterator();
+
+              assertTrue(variables.hasNext());
+              ParserTest.assertLocationEquals(1, 5, 1, 6, variables.next().getLocation());
+              assertFalse(variables.hasNext());
+            }),
         valid(
             "for-from-downto",
             // This is valid, but will immediately return.
