@@ -2589,8 +2589,8 @@ public class DebugDatabase {
 
   public static void checkConcoctions() {
     // Code intended to verify that Concoction.compareTo() meets its contract.  Since the
-    // concoctions data is in a file and this is an expensive check, in terms of time.
-    // Moved out of unit testing to here.
+    // concoctions data is in a file and this is an expensive check, in terms of time,
+    // moved out of unit testing to here.
     Concoction[] ids;
     int maxIndex;
     String msg;
@@ -2616,27 +2616,23 @@ public class DebugDatabase {
                 + getIString(ids[i])
                 + " and "
                 + getIString(ids[j]);
-        if (!(result[i][j] == -result[j][i])) {
+        if (result[i][j] != -result[j][i]) {
           KoLmafia.updateDisplay(msg);
         }
       }
     }
     // tests the portion of the contract that says (x.compareTo(y)==0) == (x.equals(y))
     for (i = 0; i < maxIndex; ++i) {
-      msg = "Failed comparing (equality) " + getIString(ids[i]) + " and " + getIString(ids[i]);
-      if (result[i][i] != 0) {
-        KoLmafia.updateDisplay(msg);
-      }
       for (int j = 0; j < maxIndex; ++j) {
         if (result[i][j] == 0) {
           msg = "Failed comparing (equality) " + getIString(ids[i]) + " and " + getIString(ids[j]);
-          if (ids[i] != ids[j]) {
+          if (ids[i].equals(ids[j])) {
             KoLmafia.updateDisplay(msg);
           }
         }
       }
     }
-    // x.compareTo(y)==0 implies
+    // x.compareTo(y)==0 implies that sgn(x.compareTo(z)) == sgn(y.compareTo(z)), for all z.
     for (i = 0; i < maxIndex; ++i) {
       // Don't have to check whole matrix
       for (int j = i; j < maxIndex; ++j) {
