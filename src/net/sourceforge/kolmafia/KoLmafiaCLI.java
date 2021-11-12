@@ -548,6 +548,7 @@ public class KoLmafiaCLI {
     new CheckDataCommand()
         .register("newdata")
         .register("checkcandy")
+        .register("checkconcoctions")
         .register("checkconsumables")
         .register("checkconsumption")
         .register("checkeffects")

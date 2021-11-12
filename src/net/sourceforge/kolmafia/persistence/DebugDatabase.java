@@ -21,6 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -34,6 +35,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -2572,6 +2574,70 @@ public class DebugDatabase {
     } catch (JSONException e) {
       KoLmafia.updateDisplay("Error parsing JSON string!");
       StaticEntity.printStackTrace(e);
+    }
+  }
+
+  // Helper method to force normalize Concoction comparisons to [-1, 0, 1] before testing
+  private static int sgn(int value) {
+    return Integer.compare(value, 0);
+  }
+
+  public static void checkConcoctions() {
+    // Code intended to verify that Concoction.compareTo() meets its contract.  Since the
+    // concoctions data is in a file and this is an expensive check, in terms of time.
+    // Moved out of unit testing to here.
+    Concoction[] ids;
+    int maxIndex;
+    String msg;
+    int[][] result;
+    LockableListModel<Concoction> usables = ConcoctionDatabase.getUsables();
+    maxIndex = usables.getSize();
+    ids = new Concoction[maxIndex];
+    int i = 0;
+    for (Concoction con : usables) {
+      ids[i++] = con;
+    }
+    result = new int[maxIndex][maxIndex];
+    for (i = 0; i < maxIndex; ++i) {
+      for (int j = 0; j < maxIndex; ++j) {
+        result[i][j] = sgn(ids[i].compareTo(ids[j]));
+      }
+    }
+    // sgn(x.compareTo(y)) == -sgn(y.compareTo(x)
+    for (i = 0; i < maxIndex; ++i) {
+      for (int j = 0; j < maxIndex; ++j) {
+        msg = "Failed comparing (quasi symmetry) " + ids[i] + " and " + ids[j];
+        if (!(result[i][j] == -result[j][i])) KoLmafia.updateDisplay(msg);
+      }
+    }
+    // tests the portion of the contract that says (x.compareTo(y)==0) == (x.equals(y))
+    for (i = 0; i < maxIndex; ++i) {
+      msg = "Failed comparing (equality) " + ids[i] + " and " + ids[i];
+      if (result[i][i] != 0) {
+        KoLmafia.updateDisplay(msg);
+      }
+      for (int j = 0; j < maxIndex; ++j) {
+        if (result[i][j] == 0) {
+          msg = "Failed comparing (equality) " + ids[i] + " and " + ids[j];
+          if (ids[i] != ids[j]) {
+            KoLmafia.updateDisplay(msg);
+          }
+        }
+      }
+    }
+    // x.compareTo(y)==0 implies
+    for (i = 0; i < maxIndex; ++i) {
+      // Don't have to check whole matrix
+      for (int j = i; j < maxIndex; ++j) {
+        if (result[i][j] == 0) {
+          for (int k = 1; k < maxIndex; ++k) {
+            msg = "Failed comparing (transitive)" + ids[i] + " and " + ids[j] + " and " + ids[k];
+            if (result[i][k] != result[j][k]) {
+              KoLmafia.updateDisplay(msg);
+            }
+          }
+        }
+      }
     }
   }
 
