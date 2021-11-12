@@ -60,6 +60,12 @@ public class CheckDataCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("checkconctions")) {
+      DebugDatabase.checkConctions();
+      RequestLogger.printLine("Concoctions checked.");
+      return;
+    }
+
     if (command.equals("checkconsumables")) {
       DebugDatabase.checkConsumables();
       RequestLogger.printLine("Consumables checked.");
