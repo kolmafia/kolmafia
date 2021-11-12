@@ -2626,7 +2626,11 @@ public class DebugDatabase {
       for (int j = 0; j < maxIndex; ++j) {
         if (result[i][j] == 0) {
           msg = "Failed comparing (equality) " + getIString(ids[i]) + " and " + getIString(ids[j]);
-          if (ids[i].equals(ids[j])) {
+          if (!(ids[i].equals(ids[j]))) {
+            KoLmafia.updateDisplay(msg);
+          }
+          msg = "Failed comparing (other equality) " + getIString(ids[i]) + " and " + getIString(ids[j]);
+          if (ids[i] != ids[j]) {
             KoLmafia.updateDisplay(msg);
           }
         }
