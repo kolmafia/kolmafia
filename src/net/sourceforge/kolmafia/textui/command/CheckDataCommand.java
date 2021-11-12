@@ -184,7 +184,6 @@ public class CheckDataCommand extends AbstractCommand {
     if (command.equals("checkzapgroups")) {
       DebugDatabase.checkZapGroups();
       RequestLogger.printLine("Zap groups checked.");
-      return;
     }
   }
 }
