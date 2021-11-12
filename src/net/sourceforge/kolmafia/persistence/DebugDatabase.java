@@ -2629,7 +2629,11 @@ public class DebugDatabase {
           if (!(ids[i].equals(ids[j]))) {
             KoLmafia.updateDisplay(msg);
           }
-          msg = "Failed comparing (other equality) " + getIString(ids[i]) + " and " + getIString(ids[j]);
+          msg =
+              "Failed comparing (other equality) "
+                  + getIString(ids[i])
+                  + " and "
+                  + getIString(ids[j]);
           if (ids[i] != ids[j]) {
             KoLmafia.updateDisplay(msg);
           }

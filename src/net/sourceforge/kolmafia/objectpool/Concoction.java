@@ -320,7 +320,22 @@ public class Concoction implements Comparable<Concoction> {
       return false;
     }
 
-    return this.name.equalsIgnoreCase(other.name);
+    return nameCheckEquals(other);
+  }
+
+  private boolean nameCheckEquals(Concoction other) {
+    boolean names = this.name.equalsIgnoreCase(other.name);
+    boolean id = this.getItemId() == other.getItemId();
+    return names && id;
+  }
+
+  private int nameCheckCompare(Concoction other) {
+    int cname = this.name.compareToIgnoreCase(other.name);
+    if (cname != 0) {
+      return cname;
+    } else {
+      return Integer.compare(this.getItemId(), other.getItemId());
+    }
   }
 
   /*
@@ -406,12 +421,12 @@ public class Concoction implements Comparable<Concoction> {
     }
 
     if (this.sortOrder == NO_PRIORITY) {
-      return this.name.compareToIgnoreCase(o.name);
+      return nameCheckCompare(o);
     }
 
     // Sort steel organs to the top.
     if (this.steelOrgan) {
-      return o.steelOrgan ? this.name.compareToIgnoreCase(o.name) : -1;
+      return o.steelOrgan ? nameCheckCompare(o) : -1;
     } else if (o.steelOrgan) {
       return 1;
     }
@@ -489,7 +504,7 @@ public class Concoction implements Comparable<Concoction> {
       return gain2 > gain1 ? 1 : -1;
     }
 
-    return this.name.compareToIgnoreCase(o.name);
+    return nameCheckCompare(o);
   }
 
   public AdventureResult getItem() {
