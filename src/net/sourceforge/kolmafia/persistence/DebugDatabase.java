@@ -2582,6 +2582,11 @@ public class DebugDatabase {
     return Integer.compare(value, 0);
   }
 
+  // Helper method to append item id
+  private static String getIString(Concoction con) {
+    return "[" + con.getItemId() + "] " + con;
+  }
+
   public static void checkConcoctions() {
     // Code intended to verify that Concoction.compareTo() meets its contract.  Since the
     // concoctions data is in a file and this is an expensive check, in terms of time.
@@ -2606,19 +2611,25 @@ public class DebugDatabase {
     // sgn(x.compareTo(y)) == -sgn(y.compareTo(x)
     for (i = 0; i < maxIndex; ++i) {
       for (int j = 0; j < maxIndex; ++j) {
-        msg = "Failed comparing (quasi symmetry) " + ids[i] + " and " + ids[j];
-        if (!(result[i][j] == -result[j][i])) KoLmafia.updateDisplay(msg);
+        msg =
+            "Failed comparing (quasi symmetry) "
+                + getIString(ids[i])
+                + " and "
+                + getIString(ids[j]);
+        if (!(result[i][j] == -result[j][i])) {
+          KoLmafia.updateDisplay(msg);
+        }
       }
     }
     // tests the portion of the contract that says (x.compareTo(y)==0) == (x.equals(y))
     for (i = 0; i < maxIndex; ++i) {
-      msg = "Failed comparing (equality) " + ids[i] + " and " + ids[i];
+      msg = "Failed comparing (equality) " + getIString(ids[i]) + " and " + getIString(ids[i]);
       if (result[i][i] != 0) {
         KoLmafia.updateDisplay(msg);
       }
       for (int j = 0; j < maxIndex; ++j) {
         if (result[i][j] == 0) {
-          msg = "Failed comparing (equality) " + ids[i] + " and " + ids[j];
+          msg = "Failed comparing (equality) " + getIString(ids[i]) + " and " + getIString(ids[j]);
           if (ids[i] != ids[j]) {
             KoLmafia.updateDisplay(msg);
           }
@@ -2631,7 +2642,13 @@ public class DebugDatabase {
       for (int j = i; j < maxIndex; ++j) {
         if (result[i][j] == 0) {
           for (int k = 1; k < maxIndex; ++k) {
-            msg = "Failed comparing (transitive)" + ids[i] + " and " + ids[j] + " and " + ids[k];
+            msg =
+                "Failed comparing (transitive)"
+                    + getIString(ids[i])
+                    + " and "
+                    + getIString(ids[j])
+                    + " and "
+                    + getIString(ids[k]);
             if (result[i][k] != result[j][k]) {
               KoLmafia.updateDisplay(msg);
             }
