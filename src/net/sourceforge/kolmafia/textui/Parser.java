@@ -1755,6 +1755,8 @@ public class Parser {
       return null;
     }
 
+    Token tryStartToken = this.currentToken();
+
     this.readToken(); // try
 
     Scope body =
@@ -1776,7 +1778,8 @@ public class Parser {
       throw this.parseException("\"try\" without \"finally\" is pointless");
     }
 
-    return new Try(body, finalClause);
+    Location tryLocation = this.makeLocation(tryStartToken, this.peekPreviousToken());
+    return new Try(tryLocation, body, finalClause);
   }
 
   private Catch parseCatch(
