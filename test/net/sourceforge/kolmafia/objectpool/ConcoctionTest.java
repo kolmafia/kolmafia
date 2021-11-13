@@ -29,7 +29,7 @@ public class ConcoctionTest {
   @Test
   public void exerciseSameNames() {
     // Exercise compareTo and equals for Concoctions with the same name
-    // Lazy way to get teo Concoctions with the same name
+    // Lazy way to get two Concoctions with the same name
     LockableListModel<Concoction> usables = ConcoctionDatabase.getUsables();
     List<Concoction> Eds = new ArrayList<>();
     Iterator<Concoction> ui = usables.iterator();
