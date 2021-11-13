@@ -52,7 +52,7 @@ public class SkillDatabase {
   private static final String AVATAR_OF_JARLSBERG = "Avatar of Jarlsberg";
   private static final String AVATAR_OF_SNEAKY_PETE = "Avatar of Sneaky Pete";
   private static final String HEAVY_RAINS = "Heavy Rains";
-  private static final String ED = "Ed";
+  private static final String ED = "Ed the Undying";
   private static final String COWPUNCHER = "Cow Puncher";
   private static final String BEANSLINGER = "Beanslinger";
   private static final String SNAKE_OILER = "Snake Oiler";
