@@ -356,7 +356,7 @@ public class AfterLifeRequest extends GenericRequest {
           builder.append("Avatar of Sneaky Pete");
           break;
         case 17:
-          builder.append("Ed");
+          builder.append("Ed the Undying");
           break;
         case 18:
           builder.append("Cow Puncher");

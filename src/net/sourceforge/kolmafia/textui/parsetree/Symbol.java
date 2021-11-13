@@ -1,14 +1,31 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
+import org.eclipse.lsp4j.Location;
+
 public abstract class Symbol implements ParseTreeNode, Comparable<Symbol> {
   public final String name;
+  public final Location location;
 
+  // TEMPORARY
   public Symbol(final String name) {
+    this(name, null);
+  }
+
+  public Symbol(final String name, final Location location) {
     this.name = name;
+    this.location = location;
   }
 
   public String getName() {
     return this.name;
+  }
+
+  public Location getLocation() {
+    return this.location;
+  }
+
+  public Location getDefinitionLocation() {
+    return this.location;
   }
 
   @Override
