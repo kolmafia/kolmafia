@@ -50,6 +50,11 @@ public abstract class ScriptData {
     this.parser = new Parser(/*scriptFile=*/ null, /*stream=*/ istream, /*imports=*/ null);
   }
 
+  @Override
+  public String toString() {
+    return this.desc;
+  }
+
   public static class ValidScriptData extends ScriptData {
     public final List<String> tokens;
     public final List<String> positions;
