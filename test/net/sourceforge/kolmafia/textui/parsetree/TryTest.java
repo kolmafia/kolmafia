@@ -39,6 +39,7 @@ public class TryTest {
               List<Command> commands = scope.getCommandList();
 
               Try tryCommand = assertInstanceOf(Try.class, commands.get(0));
+              // From the "try" up to the last token of the "finally"'s command
               ParserTest.assertLocationEquals(1, 1, 1, 18, tryCommand.getLocation());
             }));
   }
