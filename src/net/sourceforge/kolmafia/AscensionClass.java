@@ -43,6 +43,10 @@ public enum AscensionClass {
   private final String stun;
 
   public static AscensionClass nameToClass(String name) {
+    if (name.equals("")) {
+      return null;
+    }
+
     for (AscensionClass ascensionClass : AscensionClass.values()) {
       if (ascensionClass.getName().toLowerCase().contains(name.toLowerCase())) {
         return ascensionClass;
