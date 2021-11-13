@@ -36,6 +36,7 @@ public class UserDefinedFunctionTest {
 
               // Functions are returned alphabetically, so bar() is first
               assertTrue(functions.hasNext());
+              // From the function's name (*not* including the type) to the end of the parameters
               ParserTest.assertLocationEquals(1, 18, 1, 23, functions.next().getLocation());
               assertTrue(functions.hasNext());
               ParserTest.assertLocationEquals(1, 6, 1, 11, functions.next().getLocation());
