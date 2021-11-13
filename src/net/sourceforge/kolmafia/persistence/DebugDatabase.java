@@ -2596,7 +2596,8 @@ public class DebugDatabase {
     String msg;
     int[][] result;
     LockableListModel<Concoction> usables = ConcoctionDatabase.getUsables();
-    maxIndex = usables.getSize();
+    // size is all elements.  getSize is visible elements.
+    maxIndex = usables.size();
     ids = new Concoction[maxIndex];
     int i = 0;
     for (Concoction con : usables) {
