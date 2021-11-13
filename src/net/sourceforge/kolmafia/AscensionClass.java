@@ -19,7 +19,7 @@ public enum AscensionClass {
   ZOMBIE_MASTER("Zombie Master", 12, "tombstone", 0, "Corpse Pile"),
   AVATAR_OF_JARLSBERG("Avatar of Jarlsberg", 14, "path12icon", 1, "Blend"),
   AVATAR_OF_SNEAKY_PETE("Avatar of Sneaky Pete", 15, "bigglasses", 2, "Snap Fingers"),
-  ED("Ed", 17, "thoth", 1, "Curse of Indecision"),
+  ED("Ed the Undying", 17, "thoth", 1, "Curse of Indecision"),
   COWPUNCHER("Cow Puncher", 18, "darkcow", 0),
   BEANSLINGER("Beanslinger", 19, "beancan", 1),
   SNAKE_OILER("Snake Oiler", 20, "tinysnake", 2),
@@ -43,8 +43,12 @@ public enum AscensionClass {
   private final String stun;
 
   public static AscensionClass nameToClass(String name) {
+    if (name.equals("")) {
+      return null;
+    }
+
     for (AscensionClass ascensionClass : AscensionClass.values()) {
-      if (name.equalsIgnoreCase(ascensionClass.getName())) {
+      if (ascensionClass.getName().toLowerCase().contains(name.toLowerCase())) {
         return ascensionClass;
       }
     }
