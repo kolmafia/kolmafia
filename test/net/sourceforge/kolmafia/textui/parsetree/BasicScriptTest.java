@@ -29,6 +29,7 @@ public class BasicScriptTest {
               List<Command> commands = scope.getCommandList();
 
               BasicScript basicScript = assertInstanceOf(BasicScript.class, commands.get(0));
+              // From the "cli_execute" up to the closing "}"
               ParserTest.assertLocationEquals(1, 1, 4, 2, basicScript.getLocation());
             }),
         invalid("Interrupted cli_execute script", "cli_execute {", "Expected }, found end of file"),
