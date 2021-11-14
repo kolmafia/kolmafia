@@ -3,7 +3,9 @@ package net.sourceforge.kolmafia.persistence;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.PrintStream;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -368,6 +370,12 @@ public class DebugDatabaseTest {
 
     String output = ostream.toString();
     assertEquals(expectedOutput, output, "checkZapGroups variances: \n" + output);
+    // deal with zapgroups
+    File zfo = new File(KoLConstants.DATA_LOCATION, "zapreport.txt");
+    if (zfo.exists()) {
+      assertEquals(0, zfo.length(), "zapgroups.out expected to be empty.");
+      zfo.delete();
+    }
   }
 
   @Test
