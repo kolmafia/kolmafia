@@ -26,6 +26,10 @@ public class Assignment extends Evaluable {
     return this.lhs;
   }
 
+  Operator getOperator() {
+    return this.oper;
+  }
+
   public Evaluable getRightHandSide() {
     return this.rhs == null ? Value.locate(this.lhs.getType().initialValueExpression()) : this.rhs;
   }
