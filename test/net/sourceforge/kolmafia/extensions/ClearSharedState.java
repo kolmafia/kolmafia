@@ -30,7 +30,6 @@ public class ClearSharedState implements AfterAllCallback {
     // re-register default commands
     AbstractCommand.clear();
     KoLmafiaCLI.registerCommands();
-
     KoLmafia.lastMessage = KoLmafia.NO_MESSAGE;
     KoLmafia.forceContinue();
   }

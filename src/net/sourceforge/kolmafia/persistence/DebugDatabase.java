@@ -21,6 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -34,6 +35,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -115,7 +117,7 @@ public class DebugDatabase {
       json = new JSONObject(request.responseText);
       plural = (String) json.get("plural");
     } catch (JSONException ex) {
-
+      KoLmafia.updateDisplay("Exception reading API: " + ex.getMessage());
     }
     return plural;
   }
@@ -182,7 +184,7 @@ public class DebugDatabase {
     public ItemMap(final String tag, final int type) {
       this.tag = tag;
       this.type = type;
-      this.map = new TreeMap<String, String>(KoLConstants.ignoreCaseComparator);
+      this.map = new TreeMap<>(KoLConstants.ignoreCaseComparator);
     }
 
     public String getTag() {
@@ -688,6 +690,11 @@ public class DebugDatabase {
   private static boolean typesMatch(final int type, final int descType) {
     switch (type) {
       case KoLConstants.NO_CONSUME:
+      case KoLConstants.CONSUME_FOOD_HELPER:
+      case KoLConstants.CONSUME_DRINK_HELPER:
+      case KoLConstants.CONSUME_STICKER:
+      case KoLConstants.CONSUME_FOLDER:
+      case KoLConstants.CONSUME_POKEPILL:
         // We intentionally disallow certain items from being
         // "used" through the GUI.
         return descType == KoLConstants.NO_CONSUME || descType == KoLConstants.CONSUME_USE;
@@ -717,12 +724,6 @@ public class DebugDatabase {
       case KoLConstants.CONSUME_POTION:
       case KoLConstants.CONSUME_AVATAR:
         return descType == KoLConstants.CONSUME_POTION;
-      case KoLConstants.CONSUME_FOOD_HELPER:
-      case KoLConstants.CONSUME_DRINK_HELPER:
-      case KoLConstants.CONSUME_STICKER:
-      case KoLConstants.CONSUME_FOLDER:
-      case KoLConstants.CONSUME_POKEPILL:
-        return descType == KoLConstants.NO_CONSUME || descType == KoLConstants.CONSUME_USE;
       case KoLConstants.CONSUME_CARD:
       case KoLConstants.CONSUME_SPHERE:
       case KoLConstants.CONSUME_ZAP:
@@ -781,11 +782,7 @@ public class DebugDatabase {
 
     // If the item is a Cocktailcrafting ingredient
     // we must mark the item with ATTR_MIX
-    if ((descAttrs & ItemDatabase.ATTR_MIX) != (attrs & ItemDatabase.ATTR_MIX)) {
-      return false;
-    }
-
-    return true;
+    return (descAttrs & ItemDatabase.ATTR_MIX) == (attrs & ItemDatabase.ATTR_MIX);
   }
 
   private static void checkConsumableItems(final PrintStream report) {
@@ -816,8 +813,8 @@ public class DebugDatabase {
     report.println("# Level requirements in " + file + ".txt");
 
     Object[] keys = map.keySet().toArray();
-    for (int i = 0; i < keys.length; ++i) {
-      String name = (String) keys[i];
+    for (Object key : keys) {
+      String name = (String) key;
       String text = map.get(name);
       DebugDatabase.checkConsumableDatum(name, type, text, report);
     }
@@ -826,7 +823,7 @@ public class DebugDatabase {
   private static void checkConsumableDatum(
       final String name, final int type, final String text, final PrintStream report) {
     Integer requirement = ConsumablesDatabase.getLevelReqByName(name);
-    int level = requirement == null ? 0 : requirement.intValue();
+    int level = requirement == null ? 0 : requirement;
     int descLevel = DebugDatabase.parseLevel(text);
     if (level != descLevel) {
       report.println(
@@ -912,8 +909,8 @@ public class DebugDatabase {
     report.println();
 
     Object[] keys = map.keySet().toArray();
-    for (int i = 0; i < keys.length; ++i) {
-      String name = (String) keys[i];
+    for (Object key : keys) {
+      String name = (String) key;
       String text = map.get(name);
       DebugDatabase.checkEquipmentDatum(name, text, report);
     }
@@ -1102,8 +1099,8 @@ public class DebugDatabase {
 
     Object[] keys = map.keySet().toArray();
     int type = imap.getType();
-    for (int i = 0; i < keys.length; ++i) {
-      String name = (String) keys[i];
+    for (Object key : keys) {
+      String name = (String) key;
       String text = map.get(name);
       DebugDatabase.checkItemModifierDatum(name, text, type, report, showAll);
     }
@@ -1116,7 +1113,7 @@ public class DebugDatabase {
       final PrintStream report,
       final boolean showAll) {
     ModifierList known = new ModifierList();
-    ArrayList<String> unknown = new ArrayList<String>();
+    ArrayList<String> unknown = new ArrayList<>();
 
     // Get the known and unknown modifiers from the item description
     DebugDatabase.parseItemEnchantments(text, known, unknown, type);
@@ -1259,8 +1256,8 @@ public class DebugDatabase {
       final ModifierList known,
       final ArrayList<String> unknown,
       final PrintStream report) {
-    for (int i = 0; i < unknown.size(); ++i) {
-      Modifiers.writeModifierComment(report, null, name, unknown.get(i));
+    for (String s : unknown) {
+      Modifiers.writeModifierComment(report, null, name, s);
     }
 
     if (known.size() == 0) {
@@ -1402,7 +1399,7 @@ public class DebugDatabase {
 
   public static final String parseItemEnchantments(final String text, final int type) {
     ModifierList known = new ModifierList();
-    ArrayList<String> unknown = new ArrayList<String>();
+    ArrayList<String> unknown = new ArrayList<>();
     DebugDatabase.parseItemEnchantments(text, known, unknown, type);
     return DebugDatabase.createModifierString(known);
   }
@@ -1488,8 +1485,8 @@ public class DebugDatabase {
 
     boolean decemberEvent = false;
 
-    for (int i = 0; i < mods.length; ++i) {
-      String enchantment = mods[i].trim();
+    for (String s : mods) {
+      String enchantment = s.trim();
       if (enchantment.equals("")) {
         continue;
       }
@@ -1562,9 +1559,7 @@ public class DebugDatabase {
     }
 
     if (decemberEvent) {
-      for (Iterator<Modifier> it = known.iterator(); it.hasNext(); ) {
-        Modifier m = it.next();
-
+      for (Modifier m : known) {
         m.setValue("[" + m.getValue() + "*event(December)]");
       }
     }
@@ -1580,8 +1575,8 @@ public class DebugDatabase {
 
       // Otherwise, certain modifiers - "All Attributes: +5" - turn into multiple modifiers
       String[] mods = mod.split(",");
-      for (int i = 0; i < mods.length; ++i) {
-        known.addToModifier(DebugDatabase.makeModifier(mods[i]));
+      for (String s : mods) {
+        known.addToModifier(DebugDatabase.makeModifier(s));
       }
     }
   }
@@ -1614,7 +1609,7 @@ public class DebugDatabase {
 
     DebugDatabase.outfits.clear();
     DebugDatabase.checkOutfits(report);
-    DebugDatabase.checkOutfitModifierMap(report, DebugDatabase.outfits);
+    DebugDatabase.checkOutfitModifierMap(report);
 
     report.close();
   }
@@ -1721,21 +1716,21 @@ public class DebugDatabase {
     return matcher.group(1);
   }
 
-  private static void checkOutfitModifierMap(final PrintStream report, final ItemMap imap) {
-    Map<String, String> map = imap.getMap();
+  private static void checkOutfitModifierMap(final PrintStream report) {
+    Map<String, String> map = DebugDatabase.outfits.getMap();
     if (map.size() == 0) {
       return;
     }
 
-    String tag = imap.getTag();
+    String tag = DebugDatabase.outfits.getTag();
 
     report.println();
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
     Object[] keys = map.keySet().toArray();
-    for (int i = 0; i < keys.length; ++i) {
-      String name = (String) keys[i];
+    for (Object key : keys) {
+      String name = (String) key;
       String text = map.get(name);
       DebugDatabase.checkOutfitModifierDatum(name, text, report);
     }
@@ -1744,7 +1739,7 @@ public class DebugDatabase {
   private static void checkOutfitModifierDatum(
       final String name, final String text, final PrintStream report) {
     ModifierList known = new ModifierList();
-    ArrayList<String> unknown = new ArrayList<String>();
+    ArrayList<String> unknown = new ArrayList<>();
 
     // Get the known and unknown modifiers from the outfit description
     DebugDatabase.parseOutfitEnchantments(text, known, unknown);
@@ -1807,10 +1802,9 @@ public class DebugDatabase {
 
   private static void checkEffects(final PrintStream report) {
     Set<Integer> keys = EffectDatabase.descriptionIdKeySet();
-    Iterator<Integer> it = keys.iterator();
 
-    while (it.hasNext()) {
-      int id = it.next().intValue();
+    for (Integer key : keys) {
+      int id = key;
       if (id < 1) {
         continue;
       }
@@ -1951,24 +1945,24 @@ public class DebugDatabase {
   private static void checkEffectModifiers(final PrintStream report) {
     RequestLogger.printLine("Checking modifiers...");
 
-    DebugDatabase.checkEffectModifierMap(report, DebugDatabase.effects);
+    DebugDatabase.checkEffectModifierMap(report);
   }
 
-  private static void checkEffectModifierMap(final PrintStream report, final ItemMap imap) {
-    Map<String, String> map = imap.getMap();
+  private static void checkEffectModifierMap(final PrintStream report) {
+    Map<String, String> map = DebugDatabase.effects.getMap();
     if (map.size() == 0) {
       return;
     }
 
-    String tag = imap.getTag();
+    String tag = DebugDatabase.effects.getTag();
 
     report.println();
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
     Object[] keys = map.keySet().toArray();
-    for (int i = 0; i < keys.length; ++i) {
-      String name = (String) keys[i];
+    for (Object key : keys) {
+      String name = (String) key;
       String text = map.get(name);
       DebugDatabase.checkEffectModifierDatum(name, text, report);
     }
@@ -1991,14 +1985,14 @@ public class DebugDatabase {
   }
 
   public static final String parseEffectEnchantments(final String text) {
-    ArrayList<String> unknown = new ArrayList<String>();
+    ArrayList<String> unknown = new ArrayList<>();
     return DebugDatabase.parseEffectEnchantments(text, unknown);
   }
 
   private static void checkEffectModifierDatum(
       final String name, final String text, final PrintStream report) {
     ModifierList known = new ModifierList();
-    ArrayList<String> unknown = new ArrayList<String>();
+    ArrayList<String> unknown = new ArrayList<>();
 
     // Get the known and unknown modifiers from the effect description
     DebugDatabase.parseEffectEnchantments(text, known, unknown);
@@ -2046,7 +2040,7 @@ public class DebugDatabase {
   private static void checkSkills(final PrintStream report) {
     Set<Integer> keys = SkillDatabase.idKeySet();
     for (Integer value : keys) {
-      int id = value.intValue();
+      int id = value;
       if (id < 1) {
         continue;
       }
@@ -2203,24 +2197,24 @@ public class DebugDatabase {
   private static void checkSkillModifiers(final PrintStream report) {
     RequestLogger.printLine("Checking modifiers...");
 
-    DebugDatabase.checkSkillModifierMap(report, DebugDatabase.passiveSkills);
+    DebugDatabase.checkSkillModifierMap(report);
   }
 
-  private static void checkSkillModifierMap(final PrintStream report, final ItemMap imap) {
-    Map<String, String> map = imap.getMap();
+  private static void checkSkillModifierMap(final PrintStream report) {
+    Map<String, String> map = DebugDatabase.passiveSkills.getMap();
     if (map.size() == 0) {
       return;
     }
 
-    String tag = imap.getTag();
+    String tag = DebugDatabase.passiveSkills.getTag();
 
     report.println();
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
     Object[] keys = map.keySet().toArray();
-    for (int i = 0; i < keys.length; ++i) {
-      String name = (String) keys[i];
+    for (Object key : keys) {
+      String name = (String) key;
       String text = map.get(name);
       DebugDatabase.checkSkillModifierDatum(name, text, report);
     }
@@ -2243,14 +2237,14 @@ public class DebugDatabase {
   }
 
   public static final String parseSkillEnchantments(final String text) {
-    ArrayList<String> unknown = new ArrayList<String>();
+    ArrayList<String> unknown = new ArrayList<>();
     return DebugDatabase.parseSkillEnchantments(text, unknown);
   }
 
   private static void checkSkillModifierDatum(
       final String name, final String text, final PrintStream report) {
     ModifierList known = new ModifierList();
-    ArrayList<String> unknown = new ArrayList<String>();
+    ArrayList<String> unknown = new ArrayList<>();
 
     // Get the known and unknown modifiers from the effect description
     DebugDatabase.parseSkillEnchantments(text, known, unknown);
@@ -2315,7 +2309,7 @@ public class DebugDatabase {
     PrintStream livedata = LogStream.openStream(file, true);
 
     while (it.hasNext()) {
-      int id = it.next().intValue();
+      int id = it.next();
       if (id < 1) {
         continue;
       }
@@ -2518,7 +2512,7 @@ public class DebugDatabase {
       return;
     }
 
-    TreeSet<AdventureResult> items = new TreeSet<AdventureResult>();
+    TreeSet<AdventureResult> items = new TreeSet<>();
     boolean force = option.equals("all");
 
     DebugDatabase.conditionallyAddItems(items, KoLConstants.inventory, force);
@@ -2583,6 +2577,92 @@ public class DebugDatabase {
     }
   }
 
+  // Helper method to force normalize Concoction comparisons to [-1, 0, 1] before testing
+  private static int sgn(int value) {
+    return Integer.compare(value, 0);
+  }
+
+  // Helper method to append item id
+  private static String getIString(Concoction con) {
+    return "[" + con.getItemId() + "] " + con;
+  }
+
+  public static void checkConcoctions() {
+    // Code intended to verify that Concoction.compareTo() meets its contract.  Since the
+    // concoctions data is in a file and this is an expensive check, in terms of time,
+    // moved out of unit testing to here.
+    Concoction[] ids;
+    int maxIndex;
+    String msg;
+    int[][] result;
+    LockableListModel<Concoction> usables = ConcoctionDatabase.getUsables();
+    // size is all elements.  getSize is visible elements.
+    maxIndex = usables.size();
+    ids = new Concoction[maxIndex];
+    int i = 0;
+    for (Concoction con : usables) {
+      ids[i++] = con;
+    }
+    result = new int[maxIndex][maxIndex];
+    for (i = 0; i < maxIndex; ++i) {
+      for (int j = 0; j < maxIndex; ++j) {
+        result[i][j] = sgn(ids[i].compareTo(ids[j]));
+      }
+    }
+    // sgn(x.compareTo(y)) == -sgn(y.compareTo(x)
+    for (i = 0; i < maxIndex; ++i) {
+      for (int j = 0; j < maxIndex; ++j) {
+        msg =
+            "Failed comparing (quasi symmetry) "
+                + getIString(ids[i])
+                + " and "
+                + getIString(ids[j]);
+        if (result[i][j] != -result[j][i]) {
+          KoLmafia.updateDisplay(msg);
+        }
+      }
+    }
+    // tests the portion of the contract that says (x.compareTo(y)==0) == (x.equals(y))
+    for (i = 0; i < maxIndex; ++i) {
+      for (int j = 0; j < maxIndex; ++j) {
+        if (result[i][j] == 0) {
+          msg = "Failed comparing (equality) " + getIString(ids[i]) + " and " + getIString(ids[j]);
+          if (!(ids[i].equals(ids[j]))) {
+            KoLmafia.updateDisplay(msg);
+          }
+          msg =
+              "Failed comparing (other equality) "
+                  + getIString(ids[i])
+                  + " and "
+                  + getIString(ids[j]);
+          if (ids[i] != ids[j]) {
+            KoLmafia.updateDisplay(msg);
+          }
+        }
+      }
+    }
+    // x.compareTo(y)==0 implies that sgn(x.compareTo(z)) == sgn(y.compareTo(z)), for all z.
+    for (i = 0; i < maxIndex; ++i) {
+      // Don't have to check whole matrix
+      for (int j = i; j < maxIndex; ++j) {
+        if (result[i][j] == 0) {
+          for (int k = 1; k < maxIndex; ++k) {
+            msg =
+                "Failed comparing (transitive)"
+                    + getIString(ids[i])
+                    + " and "
+                    + getIString(ids[j])
+                    + " and "
+                    + getIString(ids[k]);
+            if (result[i][k] != result[j][k]) {
+              KoLmafia.updateDisplay(msg);
+            }
+          }
+        }
+      }
+    }
+  }
+
   // **********************************************************
 
   public static final void checkShields() {
@@ -2633,7 +2713,7 @@ public class DebugDatabase {
     DebugDatabase.loadScrapeData(rawItems, ITEM_HTML);
 
     for (Integer id : ItemDatabase.descriptionIdKeySet()) {
-      int itemId = id.intValue();
+      int itemId = id;
       if (itemId < 1 || !ItemDatabase.isUsable(itemId) || ItemDatabase.isEquipment(itemId)) {
         continue;
       }
@@ -2679,7 +2759,7 @@ public class DebugDatabase {
     report.println("#");
 
     for (String name : map.keySet()) {
-      int size = map.get(name).intValue();
+      int size = map.get(name);
       DebugDatabase.checkConsumable(report, name, size);
     }
   }
@@ -2692,7 +2772,7 @@ public class DebugDatabase {
       return;
     }
 
-    int level = ConsumablesDatabase.getLevelReqByName(name).intValue();
+    int level = ConsumablesDatabase.getLevelReqByName(name);
     String adv = ConsumablesDatabase.getAdvRangeByName(name);
     String quality =
         (itemId == -1) ? ConsumablesDatabase.getQuality(name) : DebugDatabase.parseQuality(text);
@@ -2739,7 +2819,7 @@ public class DebugDatabase {
     FamiliarRequest request = new FamiliarRequest();
     RequestThread.postRequest(request);
 
-    TreeMap<Integer, String> map = new TreeMap<Integer, String>();
+    TreeMap<Integer, String> map = new TreeMap<>();
 
     Matcher matcher = DebugDatabase.FAMILIAR_ROW_PATTERN.matcher(request.responseText);
     while (matcher.find()) {
@@ -2749,7 +2829,7 @@ public class DebugDatabase {
     }
 
     for (Entry<Integer, String> entry : map.entrySet()) {
-      int id = entry.getKey().intValue();
+      int id = entry.getKey();
       String powers = entry.getValue();
       DebugDatabase.checkTerrariumFamiliar(id, powers, showVariable);
     }
@@ -3162,20 +3242,28 @@ public class DebugDatabase {
       String tag = node.getNodeName();
       Node child = node.getFirstChild();
 
-      if (tag.equals("title")) {
-        name = DebugDatabase.getStringValue(child);
-      } else if (tag.equals("advs")) {
-        advs = DebugDatabase.getNumericValue(child);
-      } else if (tag.equals("musc")) {
-        musc = DebugDatabase.getNumericValue(child);
-      } else if (tag.equals("myst")) {
-        myst = DebugDatabase.getNumericValue(child);
-      } else if (tag.equals("mox")) {
-        mox = DebugDatabase.getNumericValue(child);
-      } else if (tag.equals("fullness")) {
-        fullness = DebugDatabase.getNumericValue(child);
-      } else if (tag.equals("level")) {
-        level = DebugDatabase.getNumericValue(child);
+      switch (tag) {
+        case "title":
+          name = DebugDatabase.getStringValue(child);
+          break;
+        case "advs":
+          advs = DebugDatabase.getNumericValue(child);
+          break;
+        case "musc":
+          musc = DebugDatabase.getNumericValue(child);
+          break;
+        case "myst":
+          myst = DebugDatabase.getNumericValue(child);
+          break;
+        case "mox":
+          mox = DebugDatabase.getNumericValue(child);
+          break;
+        case "fullness":
+          fullness = DebugDatabase.getNumericValue(child);
+          break;
+        case "level":
+          level = DebugDatabase.getNumericValue(child);
+          break;
       }
     }
 
@@ -3250,20 +3338,28 @@ public class DebugDatabase {
       String tag = node.getNodeName();
       Node child = node.getFirstChild();
 
-      if (tag.equals("title")) {
-        name = DebugDatabase.getStringValue(child);
-      } else if (tag.equals("advs")) {
-        advs = DebugDatabase.getNumericValue(child);
-      } else if (tag.equals("musc")) {
-        musc = DebugDatabase.getNumericValue(child);
-      } else if (tag.equals("myst")) {
-        myst = DebugDatabase.getNumericValue(child);
-      } else if (tag.equals("mox")) {
-        mox = DebugDatabase.getNumericValue(child);
-      } else if (tag.equals("drunk")) {
-        drunk = DebugDatabase.getNumericValue(child);
-      } else if (tag.equals("level")) {
-        level = DebugDatabase.getNumericValue(child);
+      switch (tag) {
+        case "title":
+          name = DebugDatabase.getStringValue(child);
+          break;
+        case "advs":
+          advs = DebugDatabase.getNumericValue(child);
+          break;
+        case "musc":
+          musc = DebugDatabase.getNumericValue(child);
+          break;
+        case "myst":
+          myst = DebugDatabase.getNumericValue(child);
+          break;
+        case "mox":
+          mox = DebugDatabase.getNumericValue(child);
+          break;
+        case "drunk":
+          drunk = DebugDatabase.getNumericValue(child);
+          break;
+        case "level":
+          level = DebugDatabase.getNumericValue(child);
+          break;
       }
     }
 
@@ -3348,7 +3444,7 @@ public class DebugDatabase {
 
     NodeList elements = doc.getElementsByTagName("iteminfo");
 
-    HashSet<Integer> seen = new HashSet<Integer>();
+    HashSet<Integer> seen = new HashSet<>();
     for (int i = 0; i < elements.getLength(); i++) {
       Node element = elements.item(i);
       checkPulverize(element, writer, seen);
@@ -3381,29 +3477,41 @@ public class DebugDatabase {
       String tag = node.getNodeName();
       Node child = node.getFirstChild();
 
-      if (tag.equals("cansmash")) {
-        cansmash = DebugDatabase.getStringValue(child).equals("y");
-      } else if (tag.equals("confirmed")) {
-        confirmed = DebugDatabase.getStringValue(child).equals("y");
-      } else if (tag.equals("title")) {
-        name = DebugDatabase.getStringValue(child);
-      } else if (tag.equals("kolid")) {
-        id = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
-        seen.add(IntegerPool.get(id));
-      } else if (tag.equals("yield")) {
-        yield = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
-      } else if (tag.equals("cold")) {
-        cold = !DebugDatabase.getStringValue(child).equals("0");
-      } else if (tag.equals("hot")) {
-        hot = !DebugDatabase.getStringValue(child).equals("0");
-      } else if (tag.equals("sleazy")) {
-        sleaze = !DebugDatabase.getStringValue(child).equals("0");
-      } else if (tag.equals("spooky")) {
-        spooky = !DebugDatabase.getStringValue(child).equals("0");
-      } else if (tag.equals("stinky")) {
-        stench = !DebugDatabase.getStringValue(child).equals("0");
-      } else if (tag.equals("twinkly")) {
-        twinkly = !DebugDatabase.getStringValue(child).equals("0");
+      switch (tag) {
+        case "cansmash":
+          cansmash = DebugDatabase.getStringValue(child).equals("y");
+          break;
+        case "confirmed":
+          confirmed = DebugDatabase.getStringValue(child).equals("y");
+          break;
+        case "title":
+          name = DebugDatabase.getStringValue(child);
+          break;
+        case "kolid":
+          id = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
+          seen.add(IntegerPool.get(id));
+          break;
+        case "yield":
+          yield = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
+          break;
+        case "cold":
+          cold = !DebugDatabase.getStringValue(child).equals("0");
+          break;
+        case "hot":
+          hot = !DebugDatabase.getStringValue(child).equals("0");
+          break;
+        case "sleazy":
+          sleaze = !DebugDatabase.getStringValue(child).equals("0");
+          break;
+        case "spooky":
+          spooky = !DebugDatabase.getStringValue(child).equals("0");
+          break;
+        case "stinky":
+          stench = !DebugDatabase.getStringValue(child).equals("0");
+          break;
+        case "twinkly":
+          twinkly = !DebugDatabase.getStringValue(child).equals("0");
+          break;
       }
     }
 
@@ -3560,7 +3668,7 @@ public class DebugDatabase {
         group = group.substring(0, pos);
       }
       Matcher m = DebugDatabase.ZAPITEM_PATTERN.matcher(group);
-      ArrayList<String> items = new ArrayList<String>();
+      ArrayList<String> items = new ArrayList<>();
       while (m.find()) {
         items.add(m.group(1));
       }
@@ -3582,16 +3690,14 @@ public class DebugDatabase {
     List<String> zapGroup = ZapRequest.getZapGroup(itemId);
     if (zapGroup.size() == 0) {
       report.println("New group:");
-      Iterator<String> i = items.iterator();
-      while (i.hasNext()) {
-        report.print(i.next());
+      for (String item : items) {
+        report.print(item);
         report.print(", ");
       }
       report.println();
       return;
     }
-    ArrayList<String> existing = new ArrayList<String>();
-    existing.addAll(zapGroup);
+    ArrayList<String> existing = new ArrayList<>(zapGroup);
     existing.removeAll(items);
     items.removeAll(zapGroup);
     if (items.size() == 0 && existing.size() == 0) {

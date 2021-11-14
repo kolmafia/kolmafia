@@ -2,9 +2,12 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
@@ -48,6 +51,11 @@ public class ForLoopTest {
               ForLoop forLoop = assertInstanceOf(ForLoop.class, commands.get(0));
               Scope loopScope = forLoop.getScope();
               ParserTest.assertLocationEquals(1, 29, 1, 30, loopScope.getLocation());
+
+              Iterator<Variable> variables = loopScope.getVariables().iterator();
+              assertTrue(variables.hasNext());
+              ParserTest.assertLocationEquals(1, 5, 1, 6, variables.next().getLocation());
+              assertFalse(variables.hasNext());
             }),
         valid(
             "for-from-downto",

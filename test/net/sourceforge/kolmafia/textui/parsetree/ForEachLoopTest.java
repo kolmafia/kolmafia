@@ -2,8 +2,13 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -52,7 +57,20 @@ public class ForEachLoopTest {
                 "foreach", "key", ",", "value", "in", "int", "[", "int", "]", "{", "}", "{", "}"),
             Arrays.asList(
                 "1-1", "1-9", "1-12", "1-14", "1-20", "1-23", "1-26", "1-27", "1-30", "1-31",
-                "1-32", "1-34", "1-35")),
+                "1-32", "1-34", "1-35"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              ForEachLoop forLoop = assertInstanceOf(ForEachLoop.class, commands.get(0));
+              Scope loopScope = forLoop.getScope();
+              Iterator<Variable> variables = loopScope.getVariables().iterator();
+
+              assertTrue(variables.hasNext());
+              ParserTest.assertLocationEquals(1, 9, 1, 12, variables.next().getLocation());
+              assertTrue(variables.hasNext());
+              ParserTest.assertLocationEquals(1, 14, 1, 19, variables.next().getLocation());
+              assertFalse(variables.hasNext());
+            }),
         invalid(
             "foreach with too many keys",
             "foreach a, b, c in $items[];",

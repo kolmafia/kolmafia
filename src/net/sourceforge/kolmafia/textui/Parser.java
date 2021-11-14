@@ -777,7 +777,7 @@ public class Parser {
     } else if (scope != null && scope.findVariable(variableName.content) != null) {
       throw this.parseException("Variable " + variableName + " is already defined");
     } else {
-      result = new Variable(variableName.content, t);
+      result = new Variable(variableName.content, t, this.makeLocation(variableName));
     }
 
     this.readToken(); // read name
@@ -1903,9 +1903,9 @@ public class Parser {
     // Define key variables of appropriate type
     VariableList varList = new VariableList();
     AggregateType type = (AggregateType) aggregate.getType().getBaseType();
-    Variable valuevar = new Variable("value", type.getDataType());
+    Variable valuevar = new Variable("value", type.getDataType(), this.makeZeroWidthLocation());
     varList.add(valuevar);
-    Variable indexvar = new Variable("index", type.getIndexType());
+    Variable indexvar = new Variable("index", type.getIndexType(), this.makeZeroWidthLocation());
     varList.add(indexvar);
 
     // Parse the key expression in a new scope containing 'index' and 'value'
@@ -1932,6 +1932,7 @@ public class Parser {
     this.readToken(); // foreach
 
     List<String> names = new ArrayList<>();
+    List<Location> locations = new ArrayList<>();
 
     while (true) {
       Token name = this.currentToken();
@@ -1948,6 +1949,7 @@ public class Parser {
         throw this.parseException("Key variable '" + name + "' is already defined");
       } else {
         names.add(name.content);
+        locations.add(this.makeLocation(name));
       }
 
       this.readToken(); // name
@@ -1977,7 +1979,10 @@ public class Parser {
     List<VariableReference> variableReferences = new ArrayList<>();
     Type type = aggregate.getType().getBaseType();
 
-    for (String name : names) {
+    for (int i = 0; i < names.size(); i++) {
+      String name = names.get(i);
+      Location location = locations.get(i);
+
       Type itype;
       if (type == null) {
         throw this.parseException("Too many key variables specified");
@@ -1991,7 +1996,7 @@ public class Parser {
         type = null;
       }
 
-      Variable keyvar = new Variable(name, itype);
+      Variable keyvar = new Variable(name, itype, location);
       varList.add(keyvar);
       variableReferences.add(new VariableReference(keyvar));
     }
@@ -2069,7 +2074,7 @@ public class Parser {
     }
 
     // Create integer index variable
-    Variable indexvar = new Variable(name.content, DataTypes.INT_TYPE);
+    Variable indexvar = new Variable(name.content, DataTypes.INT_TYPE, this.makeLocation(name));
 
     // Put index variable onto a list
     VariableList varList = new VariableList();
@@ -2125,7 +2130,7 @@ public class Parser {
         }
 
         // Create variable and add it to the scope
-        variable = new Variable(name.content, t);
+        variable = new Variable(name.content, t, this.makeLocation(name));
         scope.addVariable(variable);
       }
 

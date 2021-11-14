@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.BufferedReader;
 import java.io.File;
 import net.sourceforge.kolmafia.KoLConstants;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class FileUtilitiesTest {
@@ -23,6 +24,7 @@ class FileUtilitiesTest {
   }
 
   @Test
+  @Disabled("Needs more annotation and confirmation that external files are not being introduced.")
   public void exerciseSomeMethodsForCoverage() {
 
     FileUtilities.loadLibrary(KoLConstants.IMAGE_LOCATION, "images/", "TrayIcon12.gif");
@@ -42,5 +44,6 @@ class FileUtilitiesTest {
     FileUtilities.copyFile(source, destination);
     assertTrue(destination.exists());
     destination.delete();
+    source.delete();
   }
 }
