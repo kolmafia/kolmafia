@@ -596,5 +596,6 @@ class PreferencesTest {
     // Reset should save global.
     Preferences.reset("dot_is_....not_good");
     assertTrue(globalfile.exists());
+    deleteUserPrefsAndMoodsFiles("dot_is_....not_good");
   }
 }
