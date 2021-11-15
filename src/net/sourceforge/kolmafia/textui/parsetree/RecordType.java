@@ -189,7 +189,12 @@ public class RecordType extends CompositeType {
 
   private class RecordTypeReference extends RecordType {
     public RecordTypeReference(final Location location) {
-      super(RecordType.this.name, RecordType.this.fieldNames, RecordType.this.fieldTypes, RecordType.this.fieldIndices, location);
+      super(
+          RecordType.this.name,
+          RecordType.this.fieldNames,
+          RecordType.this.fieldTypes,
+          RecordType.this.fieldIndices,
+          location);
     }
 
     @Override
