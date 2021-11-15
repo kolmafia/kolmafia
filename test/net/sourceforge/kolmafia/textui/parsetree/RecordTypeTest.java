@@ -2,8 +2,13 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -56,7 +61,20 @@ public class RecordTypeTest {
             "record {int a;}[] r;",
             Arrays.asList("record", "{", "int", "a", ";", "}", "[", "]", "r", ";"),
             Arrays.asList(
-                "1-1", "1-8", "1-9", "1-13", "1-14", "1-15", "1-16", "1-17", "1-19", "1-20")));
+                "1-1", "1-8", "1-9", "1-13", "1-14", "1-15", "1-16", "1-17", "1-19", "1-20"),
+            scope -> {
+              Iterator<Variable> variables = scope.getVariables().iterator();
+
+              assertTrue(variables.hasNext());
+              AggregateType array =
+                  assertInstanceOf(AggregateType.class, variables.next().getType());
+              RecordType record = assertInstanceOf(RecordType.class, array.getDataType());
+              // From the "record" up to the closing "}"
+              ParserTest.assertLocationEquals(1, 1, 1, 16, record.getLocation());
+              // Its creation was also its reference
+              assertEquals(record.getLocation(), record.getDefinitionLocation());
+              assertFalse(variables.hasNext());
+            }));
   }
 
   @ParameterizedTest

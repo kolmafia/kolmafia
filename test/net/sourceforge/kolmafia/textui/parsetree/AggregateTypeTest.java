@@ -2,8 +2,13 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -65,7 +70,39 @@ public class AggregateTypeTest {
             "multidimensional map with comma-separated type",
             "int[int, int] x;",
             Arrays.asList("int", "[", "int", ",", "int", "]", "x", ";"),
-            Arrays.asList("1-1", "1-4", "1-5", "1-8", "1-10", "1-13", "1-15", "1-16")),
+            Arrays.asList("1-1", "1-4", "1-5", "1-8", "1-10", "1-13", "1-15", "1-16"),
+            scope -> {
+              Iterator<Variable> variables = scope.getVariables().iterator();
+
+              assertTrue(variables.hasNext());
+              AggregateType array =
+                  assertInstanceOf(AggregateType.class, variables.next().getType());
+              assertFalse(variables.hasNext());
+
+              // int[int, int]
+              ParserTest.assertLocationEquals(1, 1, 1, 14, array.getLocation());
+              // Aggregates don't have a "definition"
+              assertNull(array.getDefinitionLocation());
+
+              // int[..., int]
+              array = assertInstanceOf(AggregateType.class, array.getDataType());
+              // The locations of the various dimensions of a multidimensional map are all the same.
+              // This is due to the keys being listed from left to right, but the final value being
+              // at the very left.
+              //
+              // Imagine this example:
+              // value[key1][key2][key3]
+              // It can be represented as
+              // >> value | [key1] >> [key2] >> [key3] vv
+              // ^^<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+              //
+              // The whole map is key1>>key2>>key3>>value, so its location is the whole thing.
+              // One layer deep is key2>>key3>>value. We start at key2 and end at value, but pass by
+              // key3
+              // Two layers deep is key3>>value. We start at key3 and end at value. Same thing.
+              ParserTest.assertLocationEquals(1, 1, 1, 14, array.getLocation());
+              assertNull(array.getDefinitionLocation());
+            }),
         valid(
             "multidimensional map with chained brackets with types",
             "int[int][int] x;",

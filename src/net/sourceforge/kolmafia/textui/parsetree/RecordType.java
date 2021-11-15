@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.util.List;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptException;
+import org.eclipse.lsp4j.Location;
 
 public class RecordType extends CompositeType {
   private final String[] fieldNames;
@@ -10,7 +11,15 @@ public class RecordType extends CompositeType {
   private final Value[] fieldIndices;
 
   public RecordType(final String name, final String[] fieldNames, final Type[] fieldTypes) {
-    super(name, DataTypes.TYPE_RECORD);
+    this(name, fieldNames, fieldTypes, null);
+  }
+
+  public RecordType(
+      final String name,
+      final String[] fieldNames,
+      final Type[] fieldTypes,
+      final Location location) {
+    super(name, DataTypes.TYPE_RECORD, location);
 
     this.fieldNames = fieldNames;
     this.fieldTypes = fieldTypes;
@@ -158,5 +167,21 @@ public class RecordType extends CompositeType {
       values += value;
     }
     return values;
+  }
+
+  @Override
+  public RecordType reference(final Location location) {
+    return new RecordTypeReference(location);
+  }
+
+  private class RecordTypeReference extends RecordType {
+    public RecordTypeReference(final Location location) {
+      super(RecordType.this.name, RecordType.this.fieldNames, RecordType.this.fieldTypes, location);
+    }
+
+    @Override
+    public Location getDefinitionLocation() {
+      return RecordType.this.getDefinitionLocation();
+    }
   }
 }
