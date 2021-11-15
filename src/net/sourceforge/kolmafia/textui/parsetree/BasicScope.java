@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Function.MatchType;
 import net.sourceforge.kolmafia.utilities.PauseObject;
+import org.eclipse.lsp4j.Location;
 
 public abstract class BasicScope extends Command {
   private final PauseObject pauser = new PauseObject();
@@ -31,6 +32,9 @@ public abstract class BasicScope extends Command {
 
   public BasicScope(
       FunctionList functions, VariableList variables, TypeList types, BasicScope parentScope) {
+    // Scopes need to be instantiated before we reach their end,
+    // so we can't send their location straight away.
+    super(null);
     this.functions = (functions == null) ? new FunctionList() : functions;
     this.types = (types == null) ? new TypeList() : types;
     this.variables = (variables == null) ? new VariableList() : variables;
@@ -50,6 +54,16 @@ public abstract class BasicScope extends Command {
 
   public BasicScope(final BasicScope parentScope) {
     this(null, null, null, parentScope);
+  }
+
+  /**
+   * Scopes need to be instantiated before we reach their end, so we can't send their location
+   * straight away.
+   */
+  public void setScopeLocation(final Location location) {
+    if (this.getLocation() == null) {
+      this.setLocation(location);
+    }
   }
 
   public BasicScope getParentScope() {

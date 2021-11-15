@@ -24,7 +24,14 @@ public class JavaForLoopTest {
             "valid empty Java for-loop",
             "for (;;) {}",
             Arrays.asList("for", "(", ";", ";", ")", "{", "}"),
-            Arrays.asList("1-1", "1-5", "1-6", "1-7", "1-8", "1-10", "1-11")),
+            Arrays.asList("1-1", "1-5", "1-6", "1-7", "1-8", "1-10", "1-11"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              JavaForLoop forLoop = assertInstanceOf(JavaForLoop.class, commands.get(0));
+              Scope loopScope = forLoop.getScope();
+              ParserTest.assertLocationEquals(1, 10, 1, 12, loopScope.getLocation());
+            }),
         valid(
             "Java for-loop with new variable",
             "for (int i = 0; i < 5; ++i) {}",

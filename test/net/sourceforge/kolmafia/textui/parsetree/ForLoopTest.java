@@ -50,8 +50,9 @@ public class ForLoopTest {
 
               ForLoop forLoop = assertInstanceOf(ForLoop.class, commands.get(0));
               Scope loopScope = forLoop.getScope();
-              Iterator<Variable> variables = loopScope.getVariables().iterator();
+              ParserTest.assertLocationEquals(1, 29, 1, 30, loopScope.getLocation());
 
+              Iterator<Variable> variables = loopScope.getVariables().iterator();
               assertTrue(variables.hasNext());
               ParserTest.assertLocationEquals(1, 5, 1, 6, variables.next().getLocation());
               assertFalse(variables.hasNext());
