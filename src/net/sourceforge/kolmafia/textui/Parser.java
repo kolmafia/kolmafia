@@ -940,7 +940,7 @@ public class Parser {
 
     if (this.currentToken().equalsIgnoreCase("break")) {
       if (allowBreak) {
-        result = new LoopBreak();
+        result = new LoopBreak(this.makeLocation(this.currentToken()));
       } else {
         throw this.parseException("Encountered 'break' outside of loop");
       }
@@ -948,14 +948,14 @@ public class Parser {
       this.readToken(); // break
     } else if (this.currentToken().equalsIgnoreCase("continue")) {
       if (allowContinue) {
-        result = new LoopContinue();
+        result = new LoopContinue(this.makeLocation(this.currentToken()));
       } else {
         throw this.parseException("Encountered 'continue' outside of loop");
       }
 
       this.readToken(); // continue
     } else if (this.currentToken().equalsIgnoreCase("exit")) {
-      result = new ScriptExit();
+      result = new ScriptExit(this.makeLocation(this.currentToken()));
       this.readToken(); // exit
     } else if ((result = this.parseReturn(functionType, scope)) != null) {
     } else if ((result = this.parseBasicScript()) != null) {
