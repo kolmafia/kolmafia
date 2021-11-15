@@ -6,11 +6,6 @@ public abstract class Symbol implements ParseTreeNode, Comparable<Symbol> {
   public final String name;
   public final Location location;
 
-  // TEMPORARY
-  public Symbol(final String name) {
-    this(name, null);
-  }
-
   public Symbol(final String name, final Location location) {
     this.name = name;
     this.location = location;
