@@ -594,7 +594,7 @@ class PreferencesTest {
     }
     assertFalse(globalfile.exists());
     // Reset should save global.
-    Preferences.reset();
+    Preferences.reset("dot_is_....not_good");
     assertTrue(globalfile.exists());
     deleteUserPrefsAndMoodsFiles("dot_is_....not_good");
   }
