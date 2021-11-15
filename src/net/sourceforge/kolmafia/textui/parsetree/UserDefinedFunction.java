@@ -7,14 +7,18 @@ import java.util.Stack;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
+import org.eclipse.lsp4j.Location;
 
 public class UserDefinedFunction extends Function {
   private Scope scope;
   private final Stack<ArrayList<Value>> callStack;
 
   public UserDefinedFunction(
-      final String name, final Type type, final List<VariableReference> variableReferences) {
-    super(name, type, variableReferences);
+      final String name,
+      final Type type,
+      final List<VariableReference> variableReferences,
+      final Location location) {
+    super(name, type, variableReferences, location);
 
     this.scope = null;
     this.callStack = new Stack<>();

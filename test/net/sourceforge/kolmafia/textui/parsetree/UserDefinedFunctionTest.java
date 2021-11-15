@@ -2,8 +2,11 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -27,7 +30,18 @@ public class UserDefinedFunctionTest {
             Arrays.asList(
                 "1-1", "1-6", "1-9", "1-10", "1-11", "1-13", "1-18", "1-21", "1-22", "1-24", "1-26",
                 "1-29", "1-30", "1-31", "1-33", "1-35", "1-40", "1-43", "1-44", "1-46", "1-48",
-                "1-54", "1-56", "1-58", "1-61", "1-62", "1-63")),
+                "1-54", "1-56", "1-58", "1-61", "1-62", "1-63"),
+            scope -> {
+              Iterator<Function> functions = scope.getFunctions().iterator();
+
+              // Functions are returned alphabetically, so bar() is first
+              assertTrue(functions.hasNext());
+              // From the function's name (*not* including the type) to the end of the parameters
+              ParserTest.assertLocationEquals(1, 18, 1, 23, functions.next().getLocation());
+              assertTrue(functions.hasNext());
+              ParserTest.assertLocationEquals(1, 6, 1, 11, functions.next().getLocation());
+              assertFalse(functions.hasNext());
+            }),
         invalid(
             "Invalid function name",
             "void float() {}",
