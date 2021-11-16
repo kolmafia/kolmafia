@@ -36,7 +36,8 @@ public class FunctionInvocationTest {
             scope -> {
               List<Command> commands = scope.getCommandList();
 
-              FunctionInvocation invocation = assertInstanceOf(FunctionInvocation.class, commands.get(1));
+              FunctionInvocation invocation =
+                  assertInstanceOf(FunctionInvocation.class, commands.get(1));
               // From the "call" up to the closing ")" of the parameters
               ParserTest.assertLocationEquals(1, 8, 1, 28, invocation.getLocation());
             }));
