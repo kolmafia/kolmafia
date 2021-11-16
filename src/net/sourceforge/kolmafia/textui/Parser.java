@@ -1635,6 +1635,8 @@ public class Parser {
       return null;
     }
 
+    Token switchStartToken = this.currentToken();
+
     this.readToken(); // switch
 
     if (!this.currentToken().equals("(") && !this.currentToken().equals("{")) {
@@ -1786,8 +1788,15 @@ public class Parser {
         this.makeLocation(switchScopeStartToken, this.peekPreviousToken());
     scope.setScopeLocation(switchScopeLocation);
 
+    Location switchLocation = this.makeLocation(switchStartToken, this.peekPreviousToken());
     return new Switch(
-        condition, tests, indices, defaultIndex, scope, constantLabels ? labels : null);
+        switchLocation,
+        condition,
+        tests,
+        indices,
+        defaultIndex,
+        scope,
+        constantLabels ? labels : null);
   }
 
   private Try parseTry(
