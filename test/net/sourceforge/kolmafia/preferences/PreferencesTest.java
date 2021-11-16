@@ -10,6 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class PreferencesTest {
+
+  // These need to be before and after each because leakage has been observed between tests
+  // in this class.
   @BeforeEach
   public void initializeCharPrefs() {
     KoLCharacter.reset("fakePrefUser");

@@ -15,9 +15,6 @@ import org.junit.jupiter.api.Test;
 public class UseSkillCommandTest extends AbstractCommandTestBase {
   @BeforeEach
   public void initEach() {
-    KoLCharacter.reset("testUser");
-    KoLCharacter.reset(true);
-
     // Stop requests from actually running
     GenericRequest.sessionId = null;
   }

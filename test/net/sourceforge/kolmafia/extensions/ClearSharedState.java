@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-
 import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -47,10 +46,11 @@ public class ClearSharedState implements AfterAllCallback {
 
   public void deleteDirectoriesAndContents() {
     // These are the directories and files in test\root that are under git control.  Everything
-    // else is fair game for deletion after testing.  Keep relay as well.
+    // else is fair game for deletion after testing.  Keep relay as well since at least one test
+    // assumes relay had content created when mafia starts up.
     String[] keepersArray = {"ccs", "data", "expected", "request", "relay", "scripts", "README"};
     List<String> keepersList = new ArrayList<>(Arrays.asList(keepersArray));
-    // Get list of things in test\root and iterate
+    // Get list of things in test\root and iterate, deleting as appropriate
     File root = KoLConstants.ROOT_LOCATION;
     String[] contents = root.list();
     for (String content : contents) {
