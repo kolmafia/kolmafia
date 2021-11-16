@@ -2,19 +2,13 @@ package net.sourceforge.kolmafia.request;
 
 import static org.mockito.Mockito.doAnswer;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
 abstract class RequestTestBase {
 
   @BeforeAll
-  static final void setSessionId() {
+  static void setSessionId() {
     GenericRequest.sessionId = "fake session id";
-  }
-
-  @AfterAll
-  static final void cleanSessionId() {
-    GenericRequest.sessionId = null;
   }
 
   // Inject expected success (responseCode = 200) response text.

@@ -33,7 +33,7 @@ public class CustomScriptTest {
   }
 
   private static Stream<Arguments> data() {
-    return Arrays.asList(KoLConstants.SCRIPT_LOCATION.list(new ScriptNameFilter())).stream()
+    return Arrays.stream(KoLConstants.SCRIPT_LOCATION.list(new ScriptNameFilter()))
         .map(Arguments::of);
   }
 

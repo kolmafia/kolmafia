@@ -5,9 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.textui.command.AbstractCommand;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,37 +18,11 @@ class PreferencesTest {
   }
 
   @AfterEach
-  public void removePrefs() {
-    deleteUserPrefsAndMoodsFiles(KoLCharacter.baseUserName());
-    deleteGlobals();
+  public void resetCharAndPrefs() {
     KoLCharacter.reset("");
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
     Preferences.saveSettingsToFile = false;
-    AbstractCommand.clear();
-    KoLmafiaCLI.registerCommands();
-    KoLmafia.lastMessage = KoLmafia.NO_MESSAGE;
-    KoLmafia.forceContinue();
-  }
-
-  public static void deleteUserPrefsAndMoodsFiles(String user) {
-    String begin = "settings/" + user;
-    File file = new File(begin + "_prefs.txt");
-    if (file.exists()) {
-      file.deleteOnExit();
-    }
-    file = new File(begin + "_moods.txt");
-    if (file.exists()) {
-      file.deleteOnExit();
-    }
-  }
-
-  public static void deleteGlobals() {
-    deleteUserPrefsAndMoodsFiles("GLOBAL");
-    File file = new File("settings/GLOBAL_aliases.txt");
-    if (file.exists()) {
-      file.deleteOnExit();
-    }
   }
 
   @Test
@@ -596,6 +567,5 @@ class PreferencesTest {
     // Reset should save global.
     Preferences.reset("dot_is_....not_good");
     assertTrue(globalfile.exists());
-    deleteUserPrefsAndMoodsFiles("dot_is_....not_good");
   }
 }

@@ -4,15 +4,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
-import net.sourceforge.kolmafia.extensions.ClearSharedState;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 public class KoLCharacterTest {
 
   @Test
   public void rejectsUsernameWithTwoPeriods() {
+    KoLCharacter.reset("");
+    KoLCharacter.reset(true);
+    KoLCharacter.setUserId(0);
     KoLCharacter.reset("test..name");
     // Unset value.
     assertEquals("", KoLCharacter.getUserName());
@@ -20,12 +21,18 @@ public class KoLCharacterTest {
 
   @Test
   public void rejectsUsernameWithForwardSlash() {
+    KoLCharacter.reset("");
+    KoLCharacter.reset(true);
+    KoLCharacter.setUserId(0);
     KoLCharacter.reset("test/name");
     assertEquals("", KoLCharacter.getUserName());
   }
 
   @Test
   public void rejectsUsernameWithBackslash() {
+    KoLCharacter.reset("");
+    KoLCharacter.reset(true);
+    KoLCharacter.setUserId(0);
     KoLCharacter.reset("test\\name");
     assertEquals("", KoLCharacter.getUserName());
   }
@@ -67,10 +74,5 @@ public class KoLCharacterTest {
     assertEquals(0, KoLCharacter.getSignIndex());
     assertEquals(ZodiacType.NONE, KoLCharacter.getSignStat());
     assertEquals(ZodiacZone.NONE, KoLCharacter.getSignZone());
-  }
-
-  @AfterEach
-  void resetUsername() {
-    KoLCharacter.reset("");
   }
 }

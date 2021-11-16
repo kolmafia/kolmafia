@@ -8,11 +8,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
+
+import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.textui.command.AbstractCommand;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -42,6 +41,8 @@ public class ClearSharedState implements AfterAllCallback {
     KoLmafiaCLI.registerCommands();
     KoLmafia.lastMessage = KoLmafia.NO_MESSAGE;
     KoLmafia.forceContinue();
+    StaticEntity.overrideRevision(null);
+    GenericRequest.sessionId = null;
   }
 
   public void deleteDirectoriesAndContents() {

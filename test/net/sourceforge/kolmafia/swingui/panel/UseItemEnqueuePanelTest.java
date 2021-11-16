@@ -23,20 +23,7 @@ public class UseItemEnqueuePanelTest {
     // But first, make sure we don't persist anything.
     Preferences.setBoolean("saveSettingsOnSet", false);
   }
-  /*
 
-  @AfterAll
-  protected static void makeFakeGoAway() {
-    ClearSharedState.deleteUserPrefsAndMoodsFiles("fakeUserName");
-  }
-
-  @AfterAll
-  private static void cleanupSession() {
-    KoLCharacter.reset("");
-  }
-
-
-   */
   private void loadInventory(String jsonInventory) {
     try {
       InventoryManager.parseInventory(new JSONObject(jsonInventory));
