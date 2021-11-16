@@ -6,15 +6,17 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public class Operator extends Command {
-  String operator;
+  final String operator;
 
   // For runtime error messages
-  String fileName;
-  int lineNumber;
+  private final String fileName;
+  private final int lineNumber;
 
-  public Operator(final String operator, final Parser parser) {
+  public Operator(final Location location, final String operator, final Parser parser) {
+    super(location);
     this.operator = operator;
     this.fileName = parser.getShortFileName();
     this.lineNumber = parser.getLineNumber();

@@ -2,8 +2,10 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -38,15 +40,17 @@ public class ExpressionTest {
             "(true + 1);",
             "Cannot apply operator + to true (boolean) and 1 (int)"),
         valid(
-            "unary negation",
-            "int x; (-x);",
-            Arrays.asList("int", "x", ";", "(", "-", "x", ")", ";"),
-            Arrays.asList("1-1", "1-5", "1-6", "1-8", "1-9", "1-10", "1-11", "1-12")),
-        valid(
             "Unary minus",
             "int x; (-x);",
             Arrays.asList("int", "x", ";", "(", "-", "x", ")", ";"),
-            Arrays.asList("1-1", "1-5", "1-6", "1-8", "1-9", "1-10", "1-11", "1-12")),
+            Arrays.asList("1-1", "1-5", "1-6", "1-8", "1-9", "1-10", "1-11", "1-12"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              Operation operation = assertInstanceOf(Operation.class, commands.get(1));
+              Operator oper = operation.getOperator();
+              ParserTest.assertLocationEquals(1, 9, 1, 10, oper.getLocation());
+            }),
         invalid(
             "non-coercible value mismatch",
             "(true ? 1 : $item[none];",
@@ -58,8 +62,14 @@ public class ExpressionTest {
             "int[] map; remove map[0];",
             Arrays.asList("int", "[", "]", "map", ";", "remove", "map", "[", "0", "]", ";"),
             Arrays.asList(
-                "1-1", "1-4", "1-5", "1-7", "1-10", "1-12", "1-19", "1-22", "1-23", "1-24",
-                "1-25")));
+                "1-1", "1-4", "1-5", "1-7", "1-10", "1-12", "1-19", "1-22", "1-23", "1-24", "1-25"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              Operation operation = assertInstanceOf(Operation.class, commands.get(1));
+              Operator oper = operation.getOperator();
+              ParserTest.assertLocationEquals(1, 12, 1, 18, oper.getLocation());
+            }));
   }
 
   @ParameterizedTest

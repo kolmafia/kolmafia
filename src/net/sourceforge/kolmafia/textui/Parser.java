@@ -2614,7 +2614,7 @@ public class Parser {
       throw this.parseException("Cannot use '" + operStr + "' on an aggregate");
     }
 
-    Operator oper = new Operator(operStr.content, this);
+    Operator oper = new Operator(this.makeLocation(operStr), operStr.content, this);
     this.readToken(); // oper
 
     Evaluable rhs;
@@ -2648,7 +2648,11 @@ public class Parser {
     Operator op = null;
 
     if (!operStr.equals("=")) {
-      op = new Operator(operStr.substring(0, operStr.length() - 1), this);
+      op =
+          new Operator(
+              this.makeLocation(Parser.makeInlineRange(operStr.getStart(), operStr.length() - 1)),
+              operStr.substring(0, operStr.length() - 1),
+              this);
     }
 
     return new Assignment(lhs, rhs, op);
@@ -2680,7 +2684,8 @@ public class Parser {
       return null;
     }
 
-    String operStr = this.currentToken().equals("++") ? Parser.PRE_INCREMENT : Parser.PRE_DECREMENT;
+    Token operToken = this.currentToken();
+    String operStr = operToken.equals("++") ? Parser.PRE_INCREMENT : Parser.PRE_DECREMENT;
 
     this.readToken(); // oper
 
@@ -2694,7 +2699,7 @@ public class Parser {
       throw this.parseException(operStr + " requires a numeric variable reference");
     }
 
-    Operator oper = new Operator(operStr, this);
+    Operator oper = new Operator(this.makeLocation(operToken), operStr, this);
 
     return new IncDec((VariableReference) lhs, oper);
   }
@@ -2707,8 +2712,8 @@ public class Parser {
       return lhs;
     }
 
-    String operStr =
-        this.currentToken().equals("++") ? Parser.POST_INCREMENT : Parser.POST_DECREMENT;
+    Token operToken = this.currentToken();
+    String operStr = operToken.equals("++") ? Parser.POST_INCREMENT : Parser.POST_DECREMENT;
 
     int ltype = lhs.getType().getType();
     if (ltype != DataTypes.TYPE_INT && ltype != DataTypes.TYPE_FLOAT) {
@@ -2717,7 +2722,7 @@ public class Parser {
 
     this.readToken(); // oper
 
-    Operator oper = new Operator(operStr, this);
+    Operator oper = new Operator(this.makeLocation(operToken), operStr, this);
 
     return new IncDec(lhs, oper);
   }
@@ -2737,7 +2742,7 @@ public class Parser {
 
     Token operator = this.currentToken();
     if (operator.equals("!")) {
-      oper = new Operator(operator.content, this);
+      oper = new Operator(this.makeLocation(operator), operator.content, this);
       this.readToken(); // !
       if ((lhs = this.parseEvaluable(scope)) == null) {
         throw this.parseException("Value expected");
@@ -2749,7 +2754,7 @@ public class Parser {
         throw this.parseException("\"!\" operator requires a boolean value");
       }
     } else if (operator.equals("~")) {
-      oper = new Operator(operator.content, this);
+      oper = new Operator(this.makeLocation(operator), operator.content, this);
       this.readToken(); // ~
       if ((lhs = this.parseEvaluable(scope)) == null) {
         throw this.parseException("Value expected");
@@ -2764,7 +2769,7 @@ public class Parser {
       // See if it's a negative numeric constant
       if ((lhs = this.parseEvaluable(scope)) == null) {
         // Nope. Unary minus.
-        oper = new Operator(operator.content, this);
+        oper = new Operator(this.makeLocation(operator), operator.content, this);
         this.readToken(); // -
         if ((lhs = this.parseEvaluable(scope)) == null) {
           throw this.parseException("Value expected");
@@ -2773,7 +2778,7 @@ public class Parser {
         lhs = new Operation(lhs, oper);
       }
     } else if (operator.equals("remove")) {
-      oper = new Operator(operator.content, this);
+      oper = new Operator(this.makeLocation(operator), operator.content, this);
       this.readToken(); // remove
 
       lhs = this.parseVariableReference(scope);
@@ -3491,7 +3496,7 @@ public class Parser {
       return null;
     }
 
-    return new Operator(oper.content, this);
+    return new Operator(this.makeLocation(oper), oper.content, this);
   }
 
   private boolean isOperator(final String oper) {
