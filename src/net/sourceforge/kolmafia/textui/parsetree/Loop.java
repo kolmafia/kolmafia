@@ -4,11 +4,13 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public abstract class Loop extends Command {
   private final Scope scope;
 
-  public Loop(final Scope scope) {
+  public Loop(final Location location, final Scope scope) {
+    super(location);
     this.scope = scope;
   }
 

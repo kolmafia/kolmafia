@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public class ForLoop extends Loop {
   private final VariableReference variable;
@@ -17,6 +18,7 @@ public class ForLoop extends Loop {
   private final int lineNumber;
 
   public ForLoop(
+      final Location location,
       final Scope scope,
       final VariableReference variable,
       final Evaluable initial,
@@ -24,7 +26,7 @@ public class ForLoop extends Loop {
       final Evaluable increment,
       final int direction,
       final Parser parser) {
-    super(scope);
+    super(location, scope);
     this.variable = variable;
     this.initial = initial;
     this.last = last;
