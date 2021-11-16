@@ -5,7 +5,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 
 public class Operation extends Expression {
-  Operator oper;
+  private final Operator oper;
 
   public Operation(final Evaluable lhs, final Evaluable rhs, final Operator oper) {
     this.lhs = lhs;
@@ -15,6 +15,10 @@ public class Operation extends Expression {
 
   public Operation(final Evaluable lhs, final Operator oper) {
     this(lhs, null, oper);
+  }
+
+  Operator getOperator() {
+    return this.oper;
   }
 
   @Override

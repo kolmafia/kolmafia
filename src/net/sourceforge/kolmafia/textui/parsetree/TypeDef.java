@@ -1,12 +1,13 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import net.sourceforge.kolmafia.textui.DataTypes;
+import org.eclipse.lsp4j.Location;
 
 public class TypeDef extends Type {
-  Type base;
+  private final Type base;
 
-  public TypeDef(final String name, final Type base) {
-    super(name, DataTypes.TYPE_TYPEDEF);
+  public TypeDef(final String name, final Type base, final Location location) {
+    super(name, DataTypes.TYPE_TYPEDEF, location);
     this.base = base;
   }
 
@@ -33,5 +34,21 @@ public class TypeDef extends Type {
   @Override
   public boolean equals(final Type o) {
     return o instanceof TypeDef && this.name.equals(o.name);
+  }
+
+  @Override
+  public TypeDef reference(final Location location) {
+    return new TypeDefReference(location);
+  }
+
+  private class TypeDefReference extends TypeDef {
+    public TypeDefReference(final Location location) {
+      super(TypeDef.this.name, TypeDef.this.base, location);
+    }
+
+    @Override
+    public Location getDefinitionLocation() {
+      return TypeDef.this.getDefinitionLocation();
+    }
   }
 }

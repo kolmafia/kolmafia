@@ -933,6 +933,12 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.INT_TYPE, DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("retrieve_item", DataTypes.BOOLEAN_TYPE, params));
 
+    params = new Type[] {};
+    functions.add(new LibraryFunction("receive_fax", DataTypes.VOID_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(new LibraryFunction("send_fax", DataTypes.VOID_TYPE, params));
+
     params = new Type[] {DataTypes.MONSTER_TYPE};
     functions.add(new LibraryFunction("faxbot", DataTypes.BOOLEAN_TYPE, params));
 
@@ -4612,6 +4618,16 @@ public abstract class RuntimeLibrary {
     return retrieve_item(controller, new Value(1), item);
   }
 
+  public static Value receive_fax(ScriptRuntime controller) {
+    KoLmafiaCLI.DEFAULT_SHELL.executeCommand("fax", "receive");
+    return RuntimeLibrary.continueValue();
+  }
+
+  public static Value send_fax(ScriptRuntime controller) {
+    KoLmafiaCLI.DEFAULT_SHELL.executeCommand("fax", "send");
+    return RuntimeLibrary.continueValue();
+  }
+
   public static Value faxbot(
       ScriptRuntime controller, final Value monsterName, final Value botName) {
     MonsterData monster = (MonsterData) monsterName.rawValue();
@@ -4882,9 +4898,9 @@ public abstract class RuntimeLibrary {
     String which = type.toString();
 
     if (which.equals("zap")) {
-      String[] zapgroup = ZapRequest.getZapGroup((int) item.intValue());
-      for (int i = zapgroup.length - 1; i >= 0; --i) {
-        Value key = DataTypes.parseItemValue(zapgroup[i], true);
+      List<String> zapgroup = ZapRequest.getZapGroup((int) item.intValue());
+      for (int i = zapgroup.size() - 1; i >= 0; --i) {
+        Value key = DataTypes.parseItemValue(zapgroup.get(i), true);
         if (key.intValue() != item.intValue()) {
           value.aset(key, DataTypes.ZERO_VALUE);
         }

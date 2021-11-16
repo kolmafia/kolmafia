@@ -116,7 +116,7 @@ Use	tonic djinn	_tonicDjinn
 Use	Trivial Avocations board game	_trivialAvocationsGame
 Use	Twelve Night Energy	_twelveNightEnergyUsed
 Use	Ultra Mega Sour Ball	_ultraMegaSourBallUsed
-Use	Universal Seasoning	_universalSeasoningUsed
+Use	Universal Seasoning	_universalSeasoningsUsed	[pref(universalSeasoningCost)/1000]
 Use	Victor's Spoils	_victorSpoilsUsed
 Use	vitachoconutriment capsule	_vitachocCapsulesUsed	3
 Use	warbear breakfast machine	_warbearBreakfastMachineUsed

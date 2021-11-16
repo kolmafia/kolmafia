@@ -60,7 +60,7 @@ public class ChatFrame extends GenericFrame {
       new SimpleDateFormat("HH:mm:ss", Locale.US);
 
   private ChatPanel mainPanel;
-  private JComboBox nameClickSelect;
+  private JComboBox<String> nameClickSelect;
 
   /**
    * Constructs a new <code>ChatFrame</code> which is intended to be used for instant messaging to
@@ -85,7 +85,7 @@ public class ChatFrame extends GenericFrame {
       // Add the name click options as a giant combo
       // box, rather than a hidden menu.
 
-      this.nameClickSelect = new JComboBox();
+      this.nameClickSelect = new JComboBox<>();
       this.nameClickSelect.addItem("Name click shows player profile");
       this.nameClickSelect.addItem("Name click opens blue message");
       this.nameClickSelect.addItem("Name click sends kmail message");

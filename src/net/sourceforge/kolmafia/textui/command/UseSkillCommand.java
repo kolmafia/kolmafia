@@ -26,6 +26,24 @@ public class UseSkillCommand extends AbstractCommand {
     ShowDataCommand.show("skills" + (command.equals("cast") ? " cast" : ""));
   }
 
+  /**
+   * For some very commonly used skills, we can safely expand certain shorthand forms for better
+   * ease of use. For example "cast ode" is safely expanded to "cast the ode to booze" rather than
+   * failing because it clashes the "CHEAT CODE: " skills.
+   *
+   * @param skillNameString Skill name provided as a parameter
+   * @return An expanded skill name if the parameter is a recognized shorthand, else the original
+   *     parameter
+   */
+  private static String expandRecognizedShorthand(final String skillNameString) {
+    switch (skillNameString) {
+      case "ode":
+        return "The Ode to Booze";
+    }
+
+    return skillNameString;
+  }
+
   private static void cast(final String parameters) {
     UseSkillCommand.cast(parameters, false);
   }
@@ -46,7 +64,8 @@ public class UseSkillCommand extends AbstractCommand {
       String buffCountString = buffParameters[0];
       String skillNameString = buffParameters[1];
 
-      String skillName = SkillDatabase.getUsableKnownSkillName(skillNameString);
+      String skillName =
+          SkillDatabase.getUsableKnownSkillName(expandRecognizedShorthand(skillNameString));
       if (skillName == null) {
         if (sim) {
           return false;

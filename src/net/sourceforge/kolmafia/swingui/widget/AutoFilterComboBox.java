@@ -11,25 +11,23 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class AutoFilterComboBox extends DisabledItemsComboBox implements ListElementFilter {
+public class AutoFilterComboBox<E> extends DisabledItemsComboBox<E> implements ListElementFilter {
   private int currentIndex = -1;
   private boolean isRecentFocus = false;
 
-  private String currentName;
-  private String matchString;
+  protected String currentName;
+  protected String matchString;
   public Object currentMatch;
-  private LockableListModel model;
-  private final boolean allowAdditions;
+  protected LockableListModel<E> model;
 
   private boolean active, strict;
-  private final JTextComponent editor;
+  protected final JTextComponent editor;
 
-  public AutoFilterComboBox(final LockableListModel model, final boolean allowAdditions) {
+  public AutoFilterComboBox(final LockableListModel<E> model) {
     this.setModel(model);
 
     this.setEditable(true);
 
-    this.allowAdditions = allowAdditions;
     NameInputListener listener = new NameInputListener();
 
     this.addItemListener(listener);
@@ -39,21 +37,7 @@ public class AutoFilterComboBox extends DisabledItemsComboBox implements ListEle
     this.editor.addKeyListener(listener);
   }
 
-  public String getText() {
-    return (String) (this.getSelectedItem() != null ? this.getSelectedItem() : this.currentMatch);
-  }
-
-  public void setText(final String text) {
-    if (this.model.contains(text)) {
-      this.setSelectedItem(text);
-    } else {
-      this.setSelectedItem(null);
-      this.currentMatch = text;
-      this.editor.setText(text);
-    }
-  }
-
-  public void setModel(final LockableListModel model) {
+  public void setModel(final LockableListModel<E> model) {
     super.setModel(model);
     this.model = model;
     this.model.setFilter(this);
@@ -64,16 +48,10 @@ public class AutoFilterComboBox extends DisabledItemsComboBox implements ListEle
       return;
     }
 
-    if (this.currentMatch == null
-        && this.allowAdditions
-        && !this.model.contains(this.currentName)) {
-      this.model.add(this.currentName);
-    }
-
     this.setSelectedItem(this.currentName);
   }
 
-  private void update() {
+  protected void update() {
     if (this.currentName == null) {
       return;
     }
@@ -98,9 +76,8 @@ public class AutoFilterComboBox extends DisabledItemsComboBox implements ListEle
 
   public synchronized void findMatch(final int keyCode) {
     this.currentName = this.getEditor().getItem().toString();
-    int caretPosition = this.editor.getCaretPosition();
 
-    if (!this.allowAdditions && this.model.contains(this.currentName)) {
+    if (this.model.contains(this.currentName)) {
       this.setSelectedItem(this.currentName);
       return;
     }
@@ -108,27 +85,14 @@ public class AutoFilterComboBox extends DisabledItemsComboBox implements ListEle
     this.currentMatch = null;
     this.update();
 
-    if (this.allowAdditions) {
-      if (this.model.getSize() != 1
-          || keyCode == KeyEvent.VK_BACK_SPACE
-          || keyCode == KeyEvent.VK_DELETE) {
-        this.editor.setText(this.currentName);
-        this.editor.setCaretPosition(caretPosition);
-        return;
-      }
-
-      this.currentMatch = this.model.getElementAt(0);
-      this.matchString = this.currentMatch.toString().toLowerCase();
-
-      this.editor.setText(this.currentMatch.toString());
-      this.editor.moveCaretPosition(caretPosition);
-      return;
-    }
-
     this.editor.setText(this.currentName);
     if (!this.isPopupVisible()) {
       this.showPopup();
     }
+  }
+
+  protected boolean isActive() {
+    return this.active;
   }
 
   public boolean isVisible(final Object element) {
@@ -144,11 +108,9 @@ public class AutoFilterComboBox extends DisabledItemsComboBox implements ListEle
     }
 
     String elementName = element.toString().toLowerCase();
-    return this.allowAdditions
-        ? elementName.startsWith(this.matchString)
-        : this.strict
-            ? elementName.indexOf(this.matchString) != -1
-            : StringUtilities.fuzzyMatches(elementName, this.matchString);
+    return this.strict
+        ? elementName.indexOf(this.matchString) != -1
+        : StringUtilities.fuzzyMatches(elementName, this.matchString);
   }
 
   private class NameInputListener extends KeyAdapter implements FocusListener, ItemListener {

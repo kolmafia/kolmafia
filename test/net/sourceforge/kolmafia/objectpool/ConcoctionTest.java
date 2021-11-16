@@ -2,23 +2,19 @@ package net.sourceforge.kolmafia.objectpool;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /* This test was triggered by a runtime error traced back to sorting usable concoctions that
-said "Comparison method violates its general contract!"  It is likely that the error was caused by
-dynamic data, i.e. something that changed because a character left Ronin, but it can't hurt to verify
-the comparison against static data.
+said "Comparison method violates its general contract!"  But it has been replaced by the cli
+command checkconcoctions for the contract checking portion.
  */
 
 public class ConcoctionTest {
-
-  // Helper method to force normalize Concoction comparisons to [-1, 0, 1] before testing
-  private int sgn(int value) {
-    return Integer.compare(value, 0);
-  }
 
   // This test should never fail but may generate a error if data is introduced that is not
   // properly handled by the compareTo.
@@ -30,64 +26,33 @@ public class ConcoctionTest {
     assertEquals(usableList.size(), thing);
   }
 
-  // tests the portion of the contract that says sgn(x.compareTo(y)) == -sgn(y.compareTo(x) and
-  // (x.compareTo(y)==0) == (x.equals(y))
   @Test
-  @Disabled("Nested for-loops are slow...")
-  public void itShouldBeSymmetric() {
-    LockableListModel<Concoction> first = ConcoctionDatabase.getUsables();
-    LockableListModel<Concoction> second = ConcoctionDatabase.getUsables();
-    for (Concoction acon : first) {
-      for (Concoction bcon : second) {
-        int x = acon.compareTo(bcon);
-        int y = bcon.compareTo(acon);
-        String msg = acon.toString() + " * " + bcon.toString();
-        assertEquals(sgn(x), -sgn(y), msg);
-        if (x == 0) assertEquals(acon, bcon, msg);
+  public void exerciseSameNames() {
+    // Exercise compareTo and equals for Concoctions with the same name
+    // Lazy way to get two Concoctions with the same name
+    LockableListModel<Concoction> usables = ConcoctionDatabase.getUsables();
+    List<Concoction> Eds = new ArrayList<>();
+    Iterator<Concoction> ui = usables.iterator();
+    while (ui.hasNext()) {
+      Concoction x = ui.next();
+      if (x.toString().contains("Eye of Ed")) {
+        Eds.add(x);
       }
     }
-  }
-
-  // x.compareTo(y)==0 implies
-  //	  that sgn(x.compareTo(z)) == sgn(y.compareTo(z)), for all z.
-  @Test
-  @Disabled("Nested for-loops are slow...")
-  public void itShouldBePreserveEquality() {
-    LockableListModel<Concoction> first = ConcoctionDatabase.getUsables();
-    LockableListModel<Concoction> second = ConcoctionDatabase.getUsables();
-    LockableListModel<Concoction> third = ConcoctionDatabase.getUsables();
-    for (Concoction acon : first) {
-      for (Concoction bcon : second) {
-        if (acon.compareTo(bcon) == 0) {
-          for (Concoction ccon : third) {
-            String msg = acon.toString() + " * " + bcon.toString() + " * " + ccon.toString();
-            int x = sgn(acon.compareTo(ccon));
-            int y = sgn(bcon.compareTo(ccon));
-            assertEquals(sgn(x), sgn(y), msg);
-          }
-        }
-      }
-    }
-  }
-
-  // (x.compareTo(y)>0 && y.compareTo(z)>0) implies x.compareTo(z)>0.
-  @Test
-  @Disabled("Test takes too much resources.  Needs optimization")
-  public void isBT() {
-    LockableListModel<Concoction> first = ConcoctionDatabase.getUsables();
-    first.sort();
-    Concoction[] cons = first.toArray(new Concoction[0]);
-    for (Concoction acon : cons) {
-      for (Concoction bcon : cons) {
-        int x = sgn(acon.compareTo(bcon));
-        if (x > 0) {
-          for (Concoction ccon : cons) {
-            String msg = acon.toString() + " * " + bcon.toString() + " *" + ccon.toString();
-            int y = sgn(bcon.compareTo(ccon));
-            if (y > 0) assertTrue(sgn(acon.compareTo(ccon)) > 0, msg);
-          }
-        }
-      }
-    }
+    assertEquals(2, Eds.size());
+    Concoction e1 = Eds.get(0);
+    Concoction e2 = Eds.get(1);
+    int c1 = e1.compareTo(e2);
+    int c2 = e2.compareTo(e1);
+    boolean b1 = e1.equals(e2);
+    boolean b2 = e2.equals(e1);
+    // they should not be equal by compareTo
+    assertNotEquals(0, c1);
+    // but they should be quasi symmetric
+    assertEquals(c1, -c2);
+    // they should not be equal by equals
+    assertFalse(b1);
+    assertEquals(b1, b2);
+    assertFalse(e1 == e2);
   }
 }
