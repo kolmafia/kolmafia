@@ -1432,6 +1432,8 @@ public class Parser {
       return null;
     }
 
+    Token conditionalStartToken = this.currentToken();
+
     this.readToken(); // if
 
     if (this.currentToken().equals("(")) {
@@ -1461,15 +1463,20 @@ public class Parser {
           parseBlockOrSingleCommand(
               functionType, null, parentScope, !elseFound, allowBreak, allowContinue);
 
+      Location conditionalLocation =
+          this.makeLocation(conditionalStartToken, this.peekPreviousToken());
+
       if (result == null) {
-        result = new If(scope, condition);
+        result = new If(conditionalLocation, scope, condition);
       } else if (finalElse) {
-        result.addElseLoop(new Else(scope, condition));
+        result.addElseLoop(new Else(conditionalLocation, scope, condition));
       } else {
-        result.addElseLoop(new ElseIf(scope, condition));
+        result.addElseLoop(new ElseIf(conditionalLocation, scope, condition));
       }
 
       if (!noElse && this.currentToken().equalsIgnoreCase("else")) {
+        conditionalStartToken = this.currentToken();
+
         if (finalElse) {
           throw this.parseException("Else without if");
         }
