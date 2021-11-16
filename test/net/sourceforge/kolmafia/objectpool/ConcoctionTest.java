@@ -21,7 +21,7 @@ public class ConcoctionTest {
   @Test
   public void itShouldSortUsables() {
     LockableListModel<Concoction> usableList = ConcoctionDatabase.getUsables();
-    int thing = usableList.getSize();
+    int thing = usableList.size();
     usableList.sort();
     assertEquals(usableList.size(), thing);
   }

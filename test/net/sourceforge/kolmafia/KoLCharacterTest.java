@@ -1,10 +1,10 @@
 package net.sourceforge.kolmafia;
 
-import static net.sourceforge.kolmafia.extensions.ClearSharedState.deleteUserPrefsAndMoodsFiles;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
+import net.sourceforge.kolmafia.extensions.ClearSharedState;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -71,7 +71,6 @@ public class KoLCharacterTest {
 
   @AfterEach
   void resetUsername() {
-    deleteUserPrefsAndMoodsFiles(KoLCharacter.baseUserName());
     KoLCharacter.reset("");
   }
 }

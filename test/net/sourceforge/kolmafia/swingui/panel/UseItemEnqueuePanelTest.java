@@ -6,16 +6,15 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Arrays;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.extensions.ClearSharedState;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class UseItemEnqueuePanelTest {
+
   @BeforeAll
   private static void injectPreferences() {
     KoLCharacter.reset("fakeUserName");
@@ -24,6 +23,7 @@ public class UseItemEnqueuePanelTest {
     // But first, make sure we don't persist anything.
     Preferences.setBoolean("saveSettingsOnSet", false);
   }
+  /*
 
   @AfterAll
   protected static void makeFakeGoAway() {
@@ -35,6 +35,8 @@ public class UseItemEnqueuePanelTest {
     KoLCharacter.reset("");
   }
 
+
+   */
   private void loadInventory(String jsonInventory) {
     try {
       InventoryManager.parseInventory(new JSONObject(jsonInventory));
