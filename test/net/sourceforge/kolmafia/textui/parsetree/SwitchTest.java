@@ -49,7 +49,12 @@ public class SwitchTest {
             scope -> {
               List<Command> commands = scope.getCommandList();
 
+              // Switch location test
               Switch switchCommand = assertInstanceOf(Switch.class, commands.get(0));
+              // From the "switch" up to the end of its scope
+              ParserTest.assertLocationEquals(1, 1, 1, 29, switchCommand.getLocation());
+
+              // Scope location test
               SwitchScope switchScope = switchCommand.getScope();
               ParserTest.assertLocationEquals(1, 8, 1, 29, switchScope.getLocation());
             }),

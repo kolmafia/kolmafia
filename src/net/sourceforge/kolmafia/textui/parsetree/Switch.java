@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public class Switch extends Command {
   private final Evaluable condition;
@@ -17,12 +18,14 @@ public class Switch extends Command {
   private final Map<Value, Integer> labels;
 
   public Switch(
+      final Location location,
       final Evaluable condition,
       final List<Evaluable> tests,
       final List<Integer> offsets,
       final int defaultIndex,
       final SwitchScope scope,
       final Map<Value, Integer> labels) {
+    super(location);
     this.condition = condition;
     this.tests = tests.toArray(new Evaluable[tests.size()]);
     this.offsets = offsets.toArray(new Integer[offsets.size()]);
