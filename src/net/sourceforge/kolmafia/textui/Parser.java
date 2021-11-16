@@ -1850,19 +1850,23 @@ public class Parser {
       return null;
     }
 
+    Token catchStartToken = this.currentToken();
+
     this.readToken(); // catch
 
     Scope body =
         this.parseBlockOrSingleCommand(
             functionType, null, parentScope, false, allowBreak, allowContinue);
 
-    return new Catch(body);
+    return new Catch(this.makeLocation(catchStartToken, this.peekPreviousToken()), body);
   }
 
   private Catch parseCatchValue(final BasicScope parentScope) {
     if (!this.currentToken().equalsIgnoreCase("catch")) {
       return null;
     }
+
+    Token catchStartToken = this.currentToken();
 
     this.readToken(); // catch
 
@@ -1876,7 +1880,7 @@ public class Parser {
       }
     }
 
-    return new Catch(body);
+    return new Catch(this.makeLocation(catchStartToken, this.peekPreviousToken()), body);
   }
 
   private Scope parseStatic(final Type functionType, final BasicScope parentScope) {
