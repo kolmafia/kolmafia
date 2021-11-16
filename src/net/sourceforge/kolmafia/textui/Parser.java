@@ -500,6 +500,8 @@ public class Parser {
       return null;
     }
 
+    Token recordStartToken = this.currentToken();
+
     this.readToken(); // read record
 
     if (this.currentToken().equals(";")) {
@@ -583,6 +585,8 @@ public class Parser {
       }
     }
 
+    Location recordDefinition = this.makeLocation(recordStartToken, this.peekPreviousToken());
+
     String[] fieldNameArray = new String[fieldNames.size()];
     Type[] fieldTypeArray = new Type[fieldTypes.size()];
     fieldNames.toArray(fieldNameArray);
@@ -596,7 +600,8 @@ public class Parser {
                     + Integer.toHexString(Arrays.hashCode(fieldNameArray))
                     + ")"),
             fieldNameArray,
-            fieldTypeArray);
+            fieldTypeArray,
+            recordDefinition);
 
     if (recordName != null) {
       // Enter into type table
@@ -642,7 +647,9 @@ public class Parser {
 
       if (this.currentToken().equals("...")) {
         // Make a vararg type out of the previously parsed type.
-        paramType = new VarArgType(paramType);
+        paramType =
+            new VarArgType(paramType)
+                .reference(Parser.makeLocation(paramType.getLocation(), this.currentToken()));
 
         this.readToken(); // read ...
       }
@@ -898,6 +905,8 @@ public class Parser {
       return false;
     }
 
+    Token typedefToken = this.currentToken();
+
     this.readToken(); // read typedef
 
     Type t = this.parseType(parentScope, true);
@@ -927,7 +936,9 @@ public class Parser {
       throw this.parseException("Type name '" + typeName + "' is already defined");
     } else {
       // Add the type to the type table
-      TypeDef type = new TypeDef(typeName.content, t);
+      TypeDef type =
+          new TypeDef(
+              typeName.content, t, this.makeLocation(typedefToken, this.peekPreviousToken()));
       parentScope.addType(type);
     }
 
@@ -1028,6 +1039,7 @@ public class Parser {
         throw this.parseException("Existing type expected for function parameter");
       }
     } else if ((valType = scope.findType(this.currentToken().content)) != null) {
+      valType = valType.reference(this.makeLocation(this.currentToken()));
       this.readToken();
     } else {
       return null;
@@ -1224,6 +1236,8 @@ public class Parser {
       indexType = scope.findType(indexToken.content);
 
       if (indexType != null) {
+        indexType = indexType.reference(this.makeLocation(indexToken));
+
         if (!indexType.isPrimitive()) {
           throw this.parseException(
               "Index type '" + this.currentToken() + "' is not a primitive type");
@@ -1250,9 +1264,12 @@ public class Parser {
       throw this.parseException(", or ]", this.currentToken());
     }
 
-    return indexType != null
-        ? new AggregateType(dataType, indexType)
-        : new AggregateType(dataType, size);
+    Type type =
+        indexType != null
+            ? new AggregateType(dataType, indexType)
+            : new AggregateType(dataType, size);
+
+    return type.reference(Parser.makeLocation(dataType.getLocation(), this.peekPreviousToken()));
   }
 
   private boolean parseIdentifier(final String identifier) {
@@ -3262,6 +3279,8 @@ public class Parser {
 
     if (type == null) {
       throw this.parseException("Unknown type " + name);
+    } else {
+      type = type.reference(this.makeLocation(name));
     }
 
     if (!type.isPrimitive()) {
