@@ -61,10 +61,17 @@ public class ForEachLoopTest {
             scope -> {
               List<Command> commands = scope.getCommandList();
 
+              // Loop location test
               ForEachLoop forLoop = assertInstanceOf(ForEachLoop.class, commands.get(0));
-              Scope loopScope = forLoop.getScope();
-              Iterator<Variable> variables = loopScope.getVariables().iterator();
+              // From the "foreach" up to the end of its scope
+              ParserTest.assertLocationEquals(1, 1, 1, 36, forLoop.getLocation());
 
+              // Scope location test
+              Scope loopScope = forLoop.getScope();
+              ParserTest.assertLocationEquals(1, 34, 1, 36, loopScope.getLocation());
+
+              // Variable location test
+              Iterator<Variable> variables = loopScope.getVariables().iterator();
               assertTrue(variables.hasNext());
               ParserTest.assertLocationEquals(1, 9, 1, 12, variables.next().getLocation());
               assertTrue(variables.hasNext());

@@ -1568,6 +1568,8 @@ public class Parser {
       return null;
     }
 
+    Token whileStartToken = this.currentToken();
+
     this.readToken(); // while
 
     if (this.currentToken().equals("(")) {
@@ -1590,13 +1592,16 @@ public class Parser {
 
     Scope scope = this.parseLoopScope(functionType, null, parentScope);
 
-    return new WhileLoop(scope, condition);
+    Location whileLocation = this.makeLocation(whileStartToken, this.peekPreviousToken());
+    return new WhileLoop(whileLocation, scope, condition);
   }
 
   private Loop parseRepeat(final Type functionType, final BasicScope parentScope) {
     if (!this.currentToken().equalsIgnoreCase("repeat")) {
       return null;
     }
+
+    Token repeatStartToken = this.currentToken();
 
     this.readToken(); // repeat
 
@@ -1626,7 +1631,8 @@ public class Parser {
       throw this.parseException("\"repeat\" requires a boolean conditional expression");
     }
 
-    return new RepeatUntilLoop(scope, condition);
+    Location repeatLocation = this.makeLocation(repeatStartToken, this.peekPreviousToken());
+    return new RepeatUntilLoop(repeatLocation, scope, condition);
   }
 
   private Switch parseSwitch(
@@ -1960,6 +1966,8 @@ public class Parser {
       return null;
     }
 
+    Token foreachStartToken = this.currentToken();
+
     this.readToken(); // foreach
 
     List<String> names = new ArrayList<>();
@@ -2036,7 +2044,8 @@ public class Parser {
     Scope scope = this.parseLoopScope(functionType, varList, parentScope);
 
     // Add the foreach node with the list of varRefs
-    return new ForEachLoop(scope, variableReferences, aggregate, this);
+    Location foreachLocation = this.makeLocation(foreachStartToken, this.peekPreviousToken());
+    return new ForEachLoop(foreachLocation, scope, variableReferences, aggregate, this);
   }
 
   private Loop parseFor(final Type functionType, final BasicScope parentScope) {
@@ -2049,6 +2058,8 @@ public class Parser {
     if (!this.parseIdentifier(this.nextToken())) {
       return null;
     }
+
+    Token forStartToken = this.currentToken();
 
     this.readToken(); // for
 
@@ -2113,8 +2124,16 @@ public class Parser {
 
     Scope scope = this.parseLoopScope(functionType, varList, parentScope);
 
+    Location forLocation = this.makeLocation(forStartToken, this.peekPreviousToken());
     return new ForLoop(
-        scope, new VariableReference(indexvar), initial, last, increment, direction, this);
+        forLocation,
+        scope,
+        new VariableReference(indexvar),
+        initial,
+        last,
+        increment,
+        direction,
+        this);
   }
 
   private Loop parseJavaFor(final Type functionType, final BasicScope parentScope) {
@@ -2125,6 +2144,8 @@ public class Parser {
     if (!"(".equals(this.nextToken())) {
       return null;
     }
+
+    Token javaForStartToken = this.currentToken();
 
     this.readToken(); // for
     this.readToken(); // (
@@ -2272,7 +2293,8 @@ public class Parser {
     // Parse scope body
     this.parseLoopScope(scope, functionType, parentScope);
 
-    return new JavaForLoop(scope, initializers, condition, incrementers);
+    Location javaForLocation = this.makeLocation(javaForStartToken, this.peekPreviousToken());
+    return new JavaForLoop(javaForLocation, scope, initializers, condition, incrementers);
   }
 
   private Scope parseLoopScope(
