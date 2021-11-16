@@ -1910,6 +1910,8 @@ public class Parser {
       return null;
     }
 
+    Token sortStartToken = this.currentToken();
+
     this.readToken(); // sort
 
     // Get an aggregate reference
@@ -1947,7 +1949,8 @@ public class Parser {
     Location scopeLocation = this.makeLocation(scopeStartToken, this.peekPreviousToken());
     scope.setScopeLocation(scopeLocation);
 
-    return new SortBy((VariableReference) aggregate, indexvar, valuevar, expr, this);
+    Location sortLocation = this.makeLocation(sortStartToken, this.peekPreviousToken());
+    return new SortBy(sortLocation, (VariableReference) aggregate, indexvar, valuevar, expr, this);
   }
 
   private Loop parseForeach(final Type functionType, final BasicScope parentScope) {
