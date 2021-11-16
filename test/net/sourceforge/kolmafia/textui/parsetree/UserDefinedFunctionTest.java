@@ -3,10 +3,13 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -70,7 +73,22 @@ public class UserDefinedFunctionTest {
                 "1-1", "1-6", "1-7", "1-8", "1-12", "1-13", "1-15", "1-22", "1-23", "1-25", "1-30",
                 "1-34", "1-35", "1-37", "1-38", "1-40", "1-41", "1-42", "1-43", "1-45", "1-50",
                 "1-52", "1-53", "1-54", "1-55", "1-57", "1-58", "1-59", "1-60", "1-62", "1-63",
-                "1-64", "1-65", "1-67", "1-69", "1-71", "1-72", "1-73")),
+                "1-64", "1-65", "1-67", "1-69", "1-71", "1-72", "1-73"),
+            scope -> {
+              Iterator<Function> functions = scope.getFunctions().iterator();
+
+              assertTrue(functions.hasNext());
+              UserDefinedFunction f = assertInstanceOf(UserDefinedFunction.class, functions.next());
+              assertFalse(functions.hasNext());
+
+              List<VariableReference> parameters = f.getVariableReferences();
+              VariableReference c = parameters.get(2);
+              VarArgType varArg = assertInstanceOf(VarArgType.class, c.getType());
+              // The type's location + the three dots (here: "float...")
+              ParserTest.assertLocationEquals(1, 25, 1, 33, varArg.getLocation());
+              // VarArgs don't have a "definition"
+              assertNull(varArg.getDefinitionLocation());
+            }),
         invalid(
             "Basic function with multiple varargs",
             "void f(int ... a, int ... b) {}",

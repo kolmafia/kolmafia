@@ -175,8 +175,12 @@ public class Parser {
           "Parser was not properly initialized before parsing was attempted");
     }
 
+    Token firstToken = this.currentToken();
     Scope scope =
         this.parseScope(null, null, null, Parser.getExistingFunctionScope(), false, false);
+
+    Location scriptLocation = this.makeLocation(firstToken, this.peekPreviousToken());
+    scope.setScopeLocation(scriptLocation);
 
     if (this.currentLine.nextLine != null) {
       throw this.parseException("Script parsing error");
@@ -496,6 +500,8 @@ public class Parser {
       return null;
     }
 
+    Token recordStartToken = this.currentToken();
+
     this.readToken(); // read record
 
     if (this.currentToken().equals(";")) {
@@ -579,6 +585,8 @@ public class Parser {
       }
     }
 
+    Location recordDefinition = this.makeLocation(recordStartToken, this.peekPreviousToken());
+
     String[] fieldNameArray = new String[fieldNames.size()];
     Type[] fieldTypeArray = new Type[fieldTypes.size()];
     fieldNames.toArray(fieldNameArray);
@@ -592,7 +600,8 @@ public class Parser {
                     + Integer.toHexString(Arrays.hashCode(fieldNameArray))
                     + ")"),
             fieldNameArray,
-            fieldTypeArray);
+            fieldTypeArray,
+            recordDefinition);
 
     if (recordName != null) {
       // Enter into type table
@@ -638,7 +647,9 @@ public class Parser {
 
       if (this.currentToken().equals("...")) {
         // Make a vararg type out of the previously parsed type.
-        paramType = new VarArgType(paramType);
+        paramType =
+            new VarArgType(paramType)
+                .reference(Parser.makeLocation(paramType.getLocation(), this.currentToken()));
 
         this.readToken(); // read ...
       }
@@ -894,6 +905,8 @@ public class Parser {
       return false;
     }
 
+    Token typedefToken = this.currentToken();
+
     this.readToken(); // read typedef
 
     Type t = this.parseType(parentScope, true);
@@ -923,7 +936,9 @@ public class Parser {
       throw this.parseException("Type name '" + typeName + "' is already defined");
     } else {
       // Add the type to the type table
-      TypeDef type = new TypeDef(typeName.content, t);
+      TypeDef type =
+          new TypeDef(
+              typeName.content, t, this.makeLocation(typedefToken, this.peekPreviousToken()));
       parentScope.addType(type);
     }
 
@@ -940,7 +955,7 @@ public class Parser {
 
     if (this.currentToken().equalsIgnoreCase("break")) {
       if (allowBreak) {
-        result = new LoopBreak();
+        result = new LoopBreak(this.makeLocation(this.currentToken()));
       } else {
         throw this.parseException("Encountered 'break' outside of loop");
       }
@@ -948,14 +963,14 @@ public class Parser {
       this.readToken(); // break
     } else if (this.currentToken().equalsIgnoreCase("continue")) {
       if (allowContinue) {
-        result = new LoopContinue();
+        result = new LoopContinue(this.makeLocation(this.currentToken()));
       } else {
         throw this.parseException("Encountered 'continue' outside of loop");
       }
 
       this.readToken(); // continue
     } else if (this.currentToken().equalsIgnoreCase("exit")) {
-      result = new ScriptExit();
+      result = new ScriptExit(this.makeLocation(this.currentToken()));
       this.readToken(); // exit
     } else if ((result = this.parseReturn(functionType, scope)) != null) {
     } else if ((result = this.parseBasicScript()) != null) {
@@ -1024,6 +1039,7 @@ public class Parser {
         throw this.parseException("Existing type expected for function parameter");
       }
     } else if ((valType = scope.findType(this.currentToken().content)) != null) {
+      valType = valType.reference(this.makeLocation(this.currentToken()));
       this.readToken();
     } else {
       return null;
@@ -1220,6 +1236,8 @@ public class Parser {
       indexType = scope.findType(indexToken.content);
 
       if (indexType != null) {
+        indexType = indexType.reference(this.makeLocation(indexToken));
+
         if (!indexType.isPrimitive()) {
           throw this.parseException(
               "Index type '" + this.currentToken() + "' is not a primitive type");
@@ -1246,9 +1264,12 @@ public class Parser {
       throw this.parseException(", or ]", this.currentToken());
     }
 
-    return indexType != null
-        ? new AggregateType(dataType, indexType)
-        : new AggregateType(dataType, size);
+    Type type =
+        indexType != null
+            ? new AggregateType(dataType, indexType)
+            : new AggregateType(dataType, size);
+
+    return type.reference(Parser.makeLocation(dataType.getLocation(), this.peekPreviousToken()));
   }
 
   private boolean parseIdentifier(final String identifier) {
@@ -1334,6 +1355,7 @@ public class Parser {
       final boolean noElse,
       final boolean allowBreak,
       final boolean allowContinue) {
+    Token scopeStartToken = this.currentToken();
     Scope result = new Scope(parentScope);
 
     Command command =
@@ -1347,6 +1369,9 @@ public class Parser {
         throw this.parseException(";", this.currentToken());
       }
     }
+
+    Location scopeLocation = this.makeLocation(scopeStartToken, this.peekPreviousToken());
+    result.setScopeLocation(scopeLocation);
 
     return result;
   }
@@ -1378,6 +1403,8 @@ public class Parser {
       return null;
     }
 
+    Token blockStartToken = this.currentToken();
+
     this.readToken(); // {
 
     Scope scope =
@@ -1388,6 +1415,9 @@ public class Parser {
     } else {
       throw this.parseException("}", this.currentToken());
     }
+
+    Location blockLocation = this.makeLocation(blockStartToken, this.peekPreviousToken());
+    scope.setScopeLocation(blockLocation);
 
     return scope;
   }
@@ -1490,6 +1520,8 @@ public class Parser {
       return null;
     }
 
+    Token basicScriptStartToken = this.currentToken();
+
     this.readToken(); // cli_execute
     this.readToken(); // {
 
@@ -1526,7 +1558,9 @@ public class Parser {
       this.currentIndex = this.currentLine.offset;
     }
 
-    return new BasicScript(ostream);
+    Location basicScriptLocation =
+        this.makeLocation(basicScriptStartToken, this.peekPreviousToken());
+    return new BasicScript(basicScriptLocation, ostream);
   }
 
   private Loop parseWhile(final Type functionType, final BasicScope parentScope) {
@@ -1625,6 +1659,8 @@ public class Parser {
     }
 
     Type type = condition.getType();
+
+    Token switchScopeStartToken = this.currentToken();
 
     if (this.currentToken().equals("{")) {
       this.readToken(); // {
@@ -1746,6 +1782,10 @@ public class Parser {
       throw this.parseException("}", this.currentToken());
     }
 
+    Location switchScopeLocation =
+        this.makeLocation(switchScopeStartToken, this.peekPreviousToken());
+    scope.setScopeLocation(switchScopeLocation);
+
     return new Switch(
         condition, tests, indices, defaultIndex, scope, constantLabels ? labels : null);
   }
@@ -1829,6 +1869,8 @@ public class Parser {
       return null;
     }
 
+    Token staticStartToken = this.currentToken();
+
     this.readToken(); // static
 
     Scope result = new StaticScope(parentScope);
@@ -1846,6 +1888,9 @@ public class Parser {
     } else { // body is a single call
       this.parseCommandOrDeclaration(result, functionType);
     }
+
+    Location staticLocation = this.makeLocation(staticStartToken, this.peekPreviousToken());
+    result.setScopeLocation(staticLocation);
 
     return result;
   }
@@ -1883,6 +1928,8 @@ public class Parser {
       throw this.parseException("by", this.currentToken());
     }
 
+    Token scopeStartToken = this.currentToken();
+
     // Define key variables of appropriate type
     VariableList varList = new VariableList();
     AggregateType type = (AggregateType) aggregate.getType().getBaseType();
@@ -1898,6 +1945,9 @@ public class Parser {
     if (expr == null) {
       throw this.parseException("Expression expected");
     }
+
+    Location scopeLocation = this.makeLocation(scopeStartToken, this.peekPreviousToken());
+    scope.setScopeLocation(scopeLocation);
 
     Location sortLocation = this.makeLocation(sortStartToken, this.peekPreviousToken());
     return new SortBy(sortLocation, (VariableReference) aggregate, indexvar, valuevar, expr, this);
@@ -2232,6 +2282,8 @@ public class Parser {
 
   private Scope parseLoopScope(
       final Scope result, final Type functionType, final BasicScope parentScope) {
+    Token loopScopeStartToken = this.currentToken();
+
     if (this.currentToken().equals("{")) {
       // Scope is a block
 
@@ -2257,6 +2309,9 @@ public class Parser {
         result.addCommand(command, this);
       }
     }
+
+    Location loopScopeLocation = this.makeLocation(loopScopeStartToken, this.peekPreviousToken());
+    result.setScopeLocation(loopScopeLocation);
 
     return result;
   }
@@ -3227,6 +3282,8 @@ public class Parser {
 
     if (type == null) {
       throw this.parseException("Unknown type " + name);
+    } else {
+      type = type.reference(this.makeLocation(name));
     }
 
     if (!type.isPrimitive()) {

@@ -5,11 +5,13 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
+import org.eclipse.lsp4j.Location;
 
 public class BasicScript extends Command {
   private final ByteArrayStream data;
 
-  public BasicScript(final ByteArrayStream data) {
+  public BasicScript(final Location location, final ByteArrayStream data) {
+    super(location);
     this.data = data;
   }
 

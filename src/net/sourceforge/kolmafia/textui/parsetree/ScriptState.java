@@ -4,11 +4,13 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public abstract class ScriptState extends Command {
   private final ScriptRuntime.State state;
 
-  public ScriptState(final ScriptRuntime.State state) {
+  public ScriptState(final Location location, final ScriptRuntime.State state) {
+    super(location);
     this.state = state;
   }
 
