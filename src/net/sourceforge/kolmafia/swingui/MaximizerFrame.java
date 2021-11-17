@@ -57,7 +57,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
 
   private SmartButtonGroup equipmentSelect, mallSelect;
   private AutoHighlightTextField maxPriceField;
-  private final ShowDescriptionList boostList;
+  private final ShowDescriptionList<Boost> boostList;
   private final EnumMap<KoLConstants.filterType, Boolean> activeFilters;
   private EnumMap<KoLConstants.filterType, JCheckBox> filterButtons;
   private JLabel listTitle = null;
@@ -77,7 +77,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
     JPanel wrapperPanel = new JPanel(new BorderLayout());
     wrapperPanel.add(new MaximizerPanel(), BorderLayout.NORTH);
 
-    this.boostList = new ShowDescriptionList(Maximizer.boosts, 12);
+    this.boostList = new ShowDescriptionList<>(Maximizer.boosts, 12);
     this.boostList.addListSelectionListener(this);
     this.activeFilters = new EnumMap<>(KoLConstants.filterType.class);
 
@@ -371,12 +371,12 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
     }
   }
 
-  private class BoostsPanel extends ScrollableFilteredPanel {
-    private final ShowDescriptionList elementList;
+  private class BoostsPanel extends ScrollableFilteredPanel<Boost> {
+    private final ShowDescriptionList<Boost> elementList;
 
-    public BoostsPanel(final ShowDescriptionList list) {
+    public BoostsPanel(final ShowDescriptionList<Boost> list) {
       super("Current score: --- \u25CA Predicted: ---", "equip all", "exec selected", list);
-      this.elementList = (ShowDescriptionList) this.scrollComponent;
+      this.elementList = (ShowDescriptionList<Boost>) this.scrollComponent;
       MaximizerFrame.this.listTitle = this.titleComponent;
     }
 

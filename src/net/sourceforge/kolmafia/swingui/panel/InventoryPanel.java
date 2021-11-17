@@ -17,22 +17,22 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
-public class InventoryPanel extends ItemTableManagePanel {
+public class InventoryPanel<E> extends ItemTableManagePanel<E> {
   protected boolean isEquipmentOnly;
   private FilterRadioButton[] equipmentFilters;
 
-  public InventoryPanel(final LockableListModel elementModel, final boolean isEquipmentOnly) {
+  public InventoryPanel(final LockableListModel<E> elementModel, final boolean isEquipmentOnly) {
     this(elementModel, new boolean[] {isEquipmentOnly, false});
   }
 
-  public InventoryPanel(final LockableListModel elementModel) {
+  public InventoryPanel(final LockableListModel<E> elementModel) {
     super(elementModel);
 
     this.getElementList().setCellRenderer(ListCellRendererFactory.getDefaultRenderer());
     this.addFilters();
   }
 
-  public InventoryPanel(final LockableListModel elementModel, final boolean[] flags) {
+  public InventoryPanel(final LockableListModel<E> elementModel, final boolean[] flags) {
     super(elementModel, flags);
     this.isEquipmentOnly = flags[0];
 
@@ -65,7 +65,7 @@ public class InventoryPanel extends ItemTableManagePanel {
   public InventoryPanel(
       final String confirmText,
       final String cancelText,
-      final LockableListModel model,
+      final LockableListModel<E> model,
       final boolean isEquipmentOnly) {
     super(confirmText, cancelText, model);
     this.isEquipmentOnly = isEquipmentOnly;
@@ -86,7 +86,7 @@ public class InventoryPanel extends ItemTableManagePanel {
       return;
     }
 
-    this.equipmentFilters = new FilterRadioButton[8];
+    this.equipmentFilters = new InventoryPanel.FilterRadioButton[8];
     this.equipmentFilters[0] = new FilterRadioButton("weapons", true);
     this.equipmentFilters[1] = new FilterRadioButton("offhand");
     this.equipmentFilters[2] = new FilterRadioButton("hats");

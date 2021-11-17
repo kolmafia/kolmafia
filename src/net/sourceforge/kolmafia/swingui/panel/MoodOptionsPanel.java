@@ -23,7 +23,7 @@ import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MoodOptionsPanel extends JPanel {
-  protected JList moodList;
+  protected JList<MoodTrigger> moodList;
 
   public MoodOptionsPanel() {
     super(new BorderLayout());
@@ -39,12 +39,12 @@ public class MoodOptionsPanel extends JPanel {
     public JComboBox<Mood> availableMoods;
 
     public MoodTriggerListPanel() {
-      super("", new ShowDescriptionList(MoodManager.getTriggers()));
+      super("", new ShowDescriptionList<>(MoodManager.getTriggers()));
 
       this.availableMoods = new MoodComboBox();
 
       this.centerPanel.add(this.availableMoods, BorderLayout.NORTH);
-      MoodOptionsPanel.this.moodList = (JList) this.scrollComponent;
+      MoodOptionsPanel.this.moodList = (JList<MoodTrigger>) this.scrollComponent;
 
       JPanel extraButtons = new JPanel(new GridLayout(4, 1, 5, 5));
 
@@ -131,8 +131,8 @@ public class MoodOptionsPanel extends JPanel {
   }
 
   public class AddTriggerPanel extends GenericPanel implements ListSelectionListener {
-    public LockableListModel<String> EMPTY_MODEL = new LockableListModel<>();
-    public LockableListModel<String> EFFECT_MODEL = new LockableListModel<>();
+    public final LockableListModel<String> EMPTY_MODEL = new LockableListModel<>();
+    public final LockableListModel<String> EFFECT_MODEL = new LockableListModel<>();
 
     public TypeComboBox typeSelect;
     public ValueComboBox valueSelect;
@@ -163,12 +163,12 @@ public class MoodOptionsPanel extends JPanel {
     }
 
     public void valueChanged(final ListSelectionEvent e) {
-      Object selected = MoodOptionsPanel.this.moodList.getSelectedValue();
+      MoodTrigger selected = MoodOptionsPanel.this.moodList.getSelectedValue();
       if (selected == null) {
         return;
       }
 
-      MoodTrigger node = (MoodTrigger) selected;
+      MoodTrigger node = selected;
       String type = node.getType();
 
       // Update the selected type

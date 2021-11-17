@@ -9,7 +9,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
-public class UseItemPanel extends InventoryPanel {
+public class UseItemPanel extends InventoryPanel<AdventureResult> {
   public UseItemPanel() {
     super((SortedListModel<AdventureResult>) KoLConstants.inventory, false);
   }
