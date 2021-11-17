@@ -5,6 +5,7 @@ import static net.sourceforge.kolmafia.textui.ScriptData.valid;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,7 +38,18 @@ public class AssignmentTest {
             scope -> {
               List<Command> commands = scope.getCommandList();
 
+              Assignment declaration = assertInstanceOf(Assignment.class, commands.get(0));
               Assignment assignment = assertInstanceOf(Assignment.class, commands.get(1));
+
+              // Variable + VariableReference location test
+              VariableReference varRef1 = declaration.getLeftHandSide();
+              VariableReference varRef2 = assignment.getLeftHandSide();
+              ParserTest.assertLocationEquals(1, 5, 1, 6, varRef1.getLocation());
+              ParserTest.assertLocationEquals(1, 8, 1, 9, varRef2.getLocation());
+              ParserTest.assertLocationEquals(1, 5, 1, 6, varRef1.target.getLocation());
+              assertSame(varRef1.target, varRef2.target);
+
+              // Operator location test
               Operator oper = assignment.getOperator();
               // Assignment.oper is the operator to use *before* doing the assignment (i.e. the "=")
               assertEquals("+", oper.toString());

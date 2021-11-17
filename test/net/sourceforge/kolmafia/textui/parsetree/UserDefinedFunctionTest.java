@@ -81,8 +81,16 @@ public class UserDefinedFunctionTest {
               UserDefinedFunction f = assertInstanceOf(UserDefinedFunction.class, functions.next());
               assertFalse(functions.hasNext());
 
+              // VariableReference location test
               List<VariableReference> parameters = f.getVariableReferences();
+              VariableReference a = parameters.get(0);
+              ParserTest.assertLocationEquals(1, 12, 1, 13, a.getLocation());
+              VariableReference b = parameters.get(1);
+              ParserTest.assertLocationEquals(1, 22, 1, 23, b.getLocation());
               VariableReference c = parameters.get(2);
+              ParserTest.assertLocationEquals(1, 34, 1, 35, c.getLocation());
+
+              // VarArgType location test
               VarArgType varArg = assertInstanceOf(VarArgType.class, c.getType());
               // The type's location + the three dots (here: "float...")
               ParserTest.assertLocationEquals(1, 25, 1, 33, varArg.getLocation());

@@ -688,7 +688,7 @@ public class Parser {
         }
       }
 
-      variableReferences.add(new VariableReference(param));
+      variableReferences.add(new VariableReference(param.getLocation(), param));
     }
 
     // Add the function to the parent scope before we parse the
@@ -747,7 +747,7 @@ public class Parser {
       }
 
       parentScope.addVariable(v);
-      VariableReference lhs = new VariableReference(v);
+      VariableReference lhs = new VariableReference(v.getLocation(), v);
       Evaluable rhs;
 
       if (this.currentToken().equals("=")) {
@@ -1059,6 +1059,8 @@ public class Parser {
    * such, MUST be checked before calling it. This method will never return null.
    */
   private Evaluable parseAggregateLiteral(final BasicScope scope, final AggregateType aggr) {
+    Token aggregateLiteralStartToken = this.currentToken();
+
     this.readToken(); // read {
 
     Type index = aggr.getIndexType();
@@ -1202,6 +1204,9 @@ public class Parser {
       }
     }
 
+    Location aggregateLiteralLocation =
+        this.makeLocation(aggregateLiteralStartToken, this.peekPreviousToken());
+
     if (isArray) {
       int size = aggr.getSize();
       if (size > 0 && size < values.size()) {
@@ -1212,7 +1217,7 @@ public class Parser {
 
     Value result = isArray ? new ArrayLiteral(aggr, values) : new MapLiteral(aggr, keys, values);
 
-    return Value.locate(result);
+    return Value.locate(aggregateLiteralLocation, result);
   }
 
   private Type parseAggregateType(Type dataType, final BasicScope scope) {
@@ -1435,6 +1440,8 @@ public class Parser {
       return null;
     }
 
+    Token conditionalStartToken = this.currentToken();
+
     this.readToken(); // if
 
     if (this.currentToken().equals("(")) {
@@ -1464,15 +1471,22 @@ public class Parser {
           parseBlockOrSingleCommand(
               functionType, null, parentScope, !elseFound, allowBreak, allowContinue);
 
+      Location conditionalLocation =
+          this.makeLocation(conditionalStartToken, this.peekPreviousToken());
+
+      // TODO save conditional chains as their own class so that we can access the first
+      // If's location
       if (result == null) {
-        result = new If(scope, condition);
+        result = new If(conditionalLocation, scope, condition);
       } else if (finalElse) {
-        result.addElseLoop(new Else(scope, condition));
+        result.addElseLoop(new Else(conditionalLocation, scope, condition));
       } else {
-        result.addElseLoop(new ElseIf(scope, condition));
+        result.addElseLoop(new ElseIf(conditionalLocation, scope, condition));
       }
 
       if (!noElse && this.currentToken().equalsIgnoreCase("else")) {
+        conditionalStartToken = this.currentToken();
+
         if (finalElse) {
           throw this.parseException("Else without if");
         }
@@ -1853,19 +1867,23 @@ public class Parser {
       return null;
     }
 
+    Token catchStartToken = this.currentToken();
+
     this.readToken(); // catch
 
     Scope body =
         this.parseBlockOrSingleCommand(
             functionType, null, parentScope, false, allowBreak, allowContinue);
 
-    return new Catch(body);
+    return new Catch(this.makeLocation(catchStartToken, this.peekPreviousToken()), body);
   }
 
   private Catch parseCatchValue(final BasicScope parentScope) {
     if (!this.currentToken().equalsIgnoreCase("catch")) {
       return null;
     }
+
+    Token catchStartToken = this.currentToken();
 
     this.readToken(); // catch
 
@@ -1879,7 +1897,7 @@ public class Parser {
       }
     }
 
-    return new Catch(body);
+    return new Catch(this.makeLocation(catchStartToken, this.peekPreviousToken()), body);
   }
 
   private Scope parseStatic(final Type functionType, final BasicScope parentScope) {
@@ -2049,7 +2067,7 @@ public class Parser {
 
       Variable keyvar = new Variable(name, itype, location);
       varList.add(keyvar);
-      variableReferences.add(new VariableReference(keyvar));
+      variableReferences.add(new VariableReference(keyvar.getLocation(), keyvar));
     }
 
     // Parse the scope with the list of keyVars
@@ -2140,7 +2158,7 @@ public class Parser {
     return new ForLoop(
         forLocation,
         scope,
-        new VariableReference(indexvar),
+        new VariableReference(indexvar.getLocation(), indexvar),
         initial,
         last,
         increment,
@@ -2200,7 +2218,7 @@ public class Parser {
 
       this.readToken(); // name
 
-      VariableReference lhs = new VariableReference(variable);
+      VariableReference lhs = new VariableReference(variable.getLocation(), variable);
       Evaluable rhs = null;
 
       if (this.currentToken().equals("=")) {
@@ -2355,6 +2373,8 @@ public class Parser {
       return null;
     }
 
+    Token newRecordStartToken = this.currentToken();
+
     this.readToken();
 
     if (!this.parseIdentifier(this.currentToken().content)) {
@@ -2450,7 +2470,8 @@ public class Parser {
       }
     }
 
-    return Value.locate(target.initialValueExpression(params));
+    Location newRecordLocation = this.makeLocation(newRecordStartToken, this.peekPreviousToken());
+    return Value.locate(newRecordLocation, target.initialValueExpression(params));
   }
 
   private Evaluable parseCall(final BasicScope scope) {
@@ -2552,6 +2573,8 @@ public class Parser {
       return null;
     }
 
+    Token invokeStartToken = this.currentToken();
+
     this.readToken(); // call
 
     Type type = this.parseType(scope, false);
@@ -2587,7 +2610,9 @@ public class Parser {
       throw this.parseException("(", this.currentToken());
     }
 
-    FunctionInvocation call = new FunctionInvocation(scope, type, name, params, this);
+    Location invokeLocation = this.makeLocation(invokeStartToken, this.peekPreviousToken());
+    FunctionInvocation call =
+        new FunctionInvocation(invokeLocation, scope, type, name, params, this);
 
     return this.parsePostCall(scope, call);
   }
@@ -2898,6 +2923,8 @@ public class Parser {
       return null;
     }
 
+    Token valueStartToken = this.currentToken();
+
     Evaluable result = null;
 
     // Parse parenthesized expressions
@@ -2910,6 +2937,11 @@ public class Parser {
         this.readToken(); // )
       } else {
         throw this.parseException(")", this.currentToken());
+      }
+
+      if (result != null) {
+        // Include the parenthesis in its location
+        result.growLocation(this.makeLocation(valueStartToken, this.peekPreviousToken()));
       }
     }
 
@@ -2974,6 +3006,8 @@ public class Parser {
   }
 
   private Evaluable parseNumber() {
+    Token numberStartToken = this.currentToken();
+
     Value number;
     int sign = 1;
 
@@ -3000,7 +3034,7 @@ public class Parser {
         throw this.parseException("numeric value", fraction);
       }
 
-      return Value.locate(number);
+      return Value.locate(this.makeLocation(numberStartToken, this.peekPreviousToken()), number);
     }
 
     Token integer = this.currentToken();
@@ -3021,7 +3055,7 @@ public class Parser {
       number = new Value(sign * StringUtilities.parseLong(integer.content));
     }
 
-    return Value.locate(number);
+    return Value.locate(this.makeLocation(numberStartToken, this.peekPreviousToken()), number);
   }
 
   private boolean readIntegerToken(final String token) {
@@ -3049,6 +3083,8 @@ public class Parser {
 
     // Directly work with currentLine - ignore any "tokens" you meet until
     // the string is closed
+
+    Position stringStartPosition = this.getCurrentPosition();
 
     char startCharacter = this.restOfLine().charAt(0);
     char stopCharacter = startCharacter;
@@ -3109,7 +3145,9 @@ public class Parser {
 
         this.clearCurrentToken();
 
-        Evaluable lhs = Value.locate(new Value(resultString.toString()));
+        Evaluable lhs =
+            Value.locate(
+                this.makeLocation(stringStartPosition), new Value(resultString.toString()));
         if (conc == null) {
           conc = new Concatenate(lhs, rhs);
         } else {
@@ -3118,6 +3156,7 @@ public class Parser {
         }
 
         resultString.setLength(0);
+        stringStartPosition = this.getCurrentPosition();
         continue;
       }
 
@@ -3126,7 +3165,9 @@ public class Parser {
             this.currentLine.makeToken(i + 1); // + 1 to get rid of stop character token
         this.readToken();
 
-        Evaluable result = Value.locate(new Value(resultString.toString()));
+        Evaluable result =
+            Value.locate(
+                this.makeLocation(stringStartPosition), new Value(resultString.toString()));
 
         if (conc == null) {
           return result;
@@ -3288,6 +3329,8 @@ public class Parser {
       return null;
     }
 
+    Token typedConstantStartToken = this.currentToken();
+
     this.readToken(); // read $
 
     Token name = this.currentToken();
@@ -3338,12 +3381,15 @@ public class Parser {
     if (plurals) {
       Value value = this.parsePluralConstant(scope, type);
 
+      Location typedConstantLocation =
+          this.makeLocation(typedConstantStartToken, this.peekPreviousToken());
+
       if (value != null) {
-        return Value.locate(value); // explicit list of values
+        return Value.locate(typedConstantLocation, value); // explicit list of values
       }
       value = type.allValues();
       if (value != null) {
-        return Value.locate(value); // implicit enumeration
+        return Value.locate(typedConstantLocation, value); // implicit enumeration
       }
       throw this.parseException("Can't enumerate all " + name);
     }
@@ -3389,7 +3435,8 @@ public class Parser {
       }
     }
 
-    return Value.locate(result);
+    return Value.locate(
+        this.makeLocation(typedConstantStartToken, this.peekPreviousToken()), result);
   }
 
   private PluralValue parsePluralConstant(final BasicScope scope, final Type type) {
@@ -3538,6 +3585,8 @@ public class Parser {
     }
 
     Token name = this.currentToken();
+    Location variableLocation = this.makeLocation(name);
+
     Variable var = scope.findVariable(name.content, true);
 
     if (var == null) {
@@ -3546,7 +3595,7 @@ public class Parser {
 
     this.readToken(); // read name
 
-    return this.parseVariableReference(scope, new VariableReference(var));
+    return this.parseVariableReference(scope, new VariableReference(variableLocation, var));
   }
 
   /**

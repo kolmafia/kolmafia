@@ -2,8 +2,10 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -58,7 +60,15 @@ public class PluralValueTest {
             "Plural constant, nested brackets, proper",
             "$items[[8042]rock]",
             Arrays.asList("$", "items", "[", "[8042]rock", "]"),
-            Arrays.asList("1-1", "1-2", "1-7", "1-8", "1-18")),
+            Arrays.asList("1-1", "1-2", "1-7", "1-8", "1-18"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              Value.Constant pluralValue = assertInstanceOf(Value.Constant.class, commands.get(0));
+              assertInstanceOf(PluralValue.class, pluralValue.value);
+              // From the "$" up to the closing "]"
+              ParserTest.assertLocationEquals(1, 1, 1, 19, pluralValue.getLocation());
+            }),
         invalid(
             "Plural constant, nested brackets, improper",
             "$items[[abc]]",

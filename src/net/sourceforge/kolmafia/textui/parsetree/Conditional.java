@@ -4,12 +4,14 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public abstract class Conditional extends Command {
-  public Scope scope;
+  protected final Scope scope;
   private final Evaluable condition;
 
-  public Conditional(final Scope scope, final Evaluable condition) {
+  public Conditional(final Location location, final Scope scope, final Evaluable condition) {
+    super(location);
     this.scope = scope;
     this.condition = condition;
   }

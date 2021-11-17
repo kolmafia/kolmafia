@@ -1037,7 +1037,7 @@
 1035	N-Spatial vision	eyes.gif	81dc1790b51b5fb794222e50646d8d16	bad	none	# fight N-space Virtual Assistant
 1036	Extra-Wet	doublewater.gif	128eb24cfd0d9996bfa2e26280db8680	good	none	use 1 drop of water-37
 1037	Hotcaked	hotcakes.gif	6c3d4400e40b0dd907100e0e7dad2d90	good	nohookah	eat 1 FDKOL hotcakes
-1038	Frigidalmatian	frigidal.gif	cce2cc0e019149f19f1d92c67000c3ed	neutral	none	cast 1 Frigidalmatian
+1038	Frigidalmatian	frigidal.gif	cce2cc0e019149f19f1d92c67000c3ed	neutral	nohookah	cast 1 Frigidalmatian
 1039	The Fire Inside	firebottle.gif	5faf1084fc98cbfdc190fe2b2cca6b58	neutral	none	use 1 bottle of fire
 1040	Long Live GORF	baggie.gif	a5848e4882faba3b64f96d373f05791d	neutral	none	eat 1 bag of GORF
 1041	Standard Issue Bravery	fratwarpin.gif	b204d7415629e9bc6ed9c12780d3732d	good	none	use 1 CSA bravery badge
@@ -2063,7 +2063,7 @@
 2061	Milk is Blood is Milk	blooddrops.gif	00662ad268709d76800df67f0daec5be	bad	none	# being hit by Daisy the Unclean
 2062	The Moomy's Curse	scarab.gif	0e125f8b36ad36e4959ad5b5d382289a	bad	none	# fighting Amoon-Ra Cowtep
 2063	Poker Faced	deuce.gif	cb201992ac7589203e0bc582d844f1a4	good	none	use 1 poker face paint
-2064	Cowrruption	cowskull.gif	806613cfee09c055a57d9dcbdd2dc5a2	good	nohookah	use either 1 demonic cow's blood, 1 corrupted marrow
+2064	Cowrruption	cowskull.gif	806613cfee09c055a57d9dcbdd2dc5a2	good	none	use either 1 demonic cow's blood, 1 corrupted marrow
 2065	Itchy Trigger Finger	gunbone.gif	d8384b7c33340bbd87765cf79f0ed9a5	good	none	use 1 triggerfingerbone|cargo effect Itchy Trigger Finger
 2066	Partially Ghosted	ghostbit.gif	487f468a1e6674254309a9ecf8bd3823	good	none	use 1 ghost bit
 2067	Buzzard Breath	skull.gif	b38a499ed169fd92bc330c1c4a8188cc	good	none	use 1 buzzard feather
@@ -2611,11 +2611,11 @@
 2609	Self-Harmonizing	smallharmonica.gif	344da8cadefc13c273059b97f93b1a31	neutral	none	use 1 candy harmonica
 2610	Festively-Dusted	snowpile.gif	ec397a83385436b3caf2da774864f9d0	neutral	none	use 1 powdered powdered sugar
 2611	Multi-Level Mindset	mlmarzipan.gif	2ad20a3224d74d21c41abe98e63ff5fa	neutral	none
-2612	Do You Crush What I Crush?	krakfist.gif	1211577348c03409f62087db22e3e4f6	good	none
-2613	Holiday Yoked	crimbohat.gif	e43692067b5396f2dd4c0393fa07fadf	good	none
-2614	Crimbo Wrapping	goodbandaid.gif	9c1405b3d65a9f2974e8e4dc877ab4e4	good	none
-2615	Let It Snow/Boil/Stink/Frighten/Grease	snowflake.gif	34ff84966dca2e9f89795c142e2c6443	good	none
-2616	All I Want For Crimbo Is Stuff	pressie.gif	2f25a5403ecd89ead01cd54552fd5eab	good	none
+2612	Do You Crush What I Crush?	krakfist.gif	1211577348c03409f62087db22e3e4f6	good	nohookah
+2613	Holiday Yoked	crimbohat.gif	e43692067b5396f2dd4c0393fa07fadf	good	nohookah
+2614	Crimbo Wrapping	goodbandaid.gif	9c1405b3d65a9f2974e8e4dc877ab4e4	good	nohookah
+2615	Let It Snow/Boil/Stink/Frighten/Grease	snowflake.gif	34ff84966dca2e9f89795c142e2c6443	good	nohookah
+2616	All I Want For Crimbo Is Stuff	pressie.gif	2f25a5403ecd89ead01cd54552fd5eab	good	nohookah
 2617	Dazzling Smile	bigsmile.gif	2d318824eb43e7060b53b40ae0694e27	neutral	none	use 1 prescription teeth whitener
 2618	Hypersoothed Throat	lemon.gif	fae67ee20280b5440bbb8070dbf39866	neutral	none	use 1 imported lemon lozenge
 2619	The Odor of Money	stench.gif	8025cf64fb9bf9228635e3c7e6ebb857	neutral	none	use 1 hermedisiac cologne
@@ -2631,17 +2631,17 @@
 2629	Feeling Nervous	emochip4.gif	83b943cec95c660e424a1e8573c3fbf6	neutral	none	cast 1 Feel Nervous
 2630	Feeling Lost	emochip7.gif	b2ba17b262547bb007bab8e99b44e8dd	neutral	none	cast 1 Feel Lost
 2631	Feeling Peaceful	emochip10.gif	6dbb54082c6f253bb57eb125cc5ecb55	neutral	none	cast 1 Feel Peaceful
-2632	AAA-Charged	ppbattery1.gif	259eff963782fe0e807de537fadabac3	neutral	none	use 1 battery (AAA)
-2633	AA-Charged	ppbattery2.gif	166625f1028ffa998cedf43062816dda	neutral	none	use 1 battery (AA)
-2634	D-Charged	ppbattery3.gif	482b90d54aefbeb2f63910ea2a86fd8c	neutral	none	use 1 battery (D)
-2635	9-Volt-Charged	ppbattery4.gif	cbc9d05db14b61807188116cf6b1039d	neutral	none	use 1 battery (9-Volt)
-2636	Lantern-Charged	ppbattery5.gif	0f13af62fe10c6f2fa4654d29f68eaa0	neutral	none	use 1 battery (lantern)
-2637	Car-Charged	ppbattery6.gif	a25be554ef73863a46f1e0068bd8c9a5	neutral	none	use 1 battery (car)
-2639	Shortly Drunk	shortbeer.gif	8ba1d9f9dfc1197ccf779d3afbce2888	neutral	none	use 1 short beer
-2640	Shortly Stacked	shortstack.gif	191d687c832bc3f3b476cc0a440e3ade	neutral	none	use 1 short stack of pancakes
-2641	Shortly Buttered	shortbutter.gif	f69d6c792ac3eece4dd49731b6bde325	neutral	none	use 1 short stick of butter
-2642	Shortly Hydrated	shortwater.gif	abdeeed35ff496c90ae65ff2bfcc98b1	neutral	none	use 1 short glass of water
-2643	Shortly Wired	shortcoffee.gif	2826fa9c758de1c2b80adb5994d9ded0	neutral	none	use 1 short white
+2632	AAA-Charged	ppbattery1.gif	259eff963782fe0e807de537fadabac3	neutral	nohookah	use 1 battery (AAA)
+2633	AA-Charged	ppbattery2.gif	166625f1028ffa998cedf43062816dda	neutral	nohookah	use 1 battery (AA)
+2634	D-Charged	ppbattery3.gif	482b90d54aefbeb2f63910ea2a86fd8c	neutral	nohookah	use 1 battery (D)
+2635	9-Volt-Charged	ppbattery4.gif	cbc9d05db14b61807188116cf6b1039d	neutral	nohookah	use 1 battery (9-Volt)
+2636	Lantern-Charged	ppbattery5.gif	0f13af62fe10c6f2fa4654d29f68eaa0	neutral	nohookah	use 1 battery (lantern)
+2637	Car-Charged	ppbattery6.gif	a25be554ef73863a46f1e0068bd8c9a5	neutral	nohookah	use 1 battery (car)
+2639	Shortly Drunk	shortbeer.gif	8ba1d9f9dfc1197ccf779d3afbce2888	neutral	nohookah	use 1 short beer
+2640	Shortly Stacked	shortstack.gif	191d687c832bc3f3b476cc0a440e3ade	neutral	nohookah	use 1 short stack of pancakes
+2641	Shortly Buttered	shortbutter.gif	f69d6c792ac3eece4dd49731b6bde325	neutral	nohookah	use 1 short stick of butter
+2642	Shortly Hydrated	shortwater.gif	abdeeed35ff496c90ae65ff2bfcc98b1	neutral	nohookah	use 1 short glass of water
+2643	Shortly Wired	shortcoffee.gif	2826fa9c758de1c2b80adb5994d9ded0	neutral	nohookah	use 1 short white
 2644	Glowing Blue	fwrocket2.gif	4e85d7600d7ac1d1b3e299377282f284	good	nohookah
 2645	Ready to Eat	fwrocket1.gif	4110df36689c215141ad56b77e117d07	good	nohookah
 2646	Fire cracked	firecrackers.gif	61f05396edb5cb3002bdc2b2dbc3092b	good	nohookah	eat 1 fire cracker
@@ -2657,13 +2657,13 @@
 2656	Confidence of the Votive	candlecvotive.gif	f52d3796283d5783af6be18126cade6b	neutral	none	use 1 votive of confidence
 2657	Fireproof Foam Suit	foam4.gif	5eab5cbe23379f4c4b969f717401fd06	good	nohookah
 2658	Cyclonic Filth	foam3.gif	c60d5383f361a7fe48cca6d74caae999	good	nohookah
-2659	Wine-Fortified	redwine.gif	e7ec714f1fdc254831f8fec3c74ba803	neutral	none	drink 1 1950 Vampire Vintner wine
-2660	Wine-Hot	redwine.gif	f562dd161fe50cc22b3ab10f04e1f26a	neutral	none	drink 1 1950 Vampire Vintner wine
-2661	Wine-Frisky	redwine.gif	98cf0260d82830c8b4d3723f790b6d9a	neutral	none	drink 1 1950 Vampire Vintner wine
-2662	Wine-Cold	redwine.gif	2c8403618f61dcb65a076c48979812e1	neutral	none	drink 1 1950 Vampire Vintner wine
-2663	Wine-Dark	redwine.gif	91221f225a1cfcc58156624ba3342349	neutral	none	drink 1 1950 Vampire Vintner wine
-2664	Wine-Befouled	redwine.gif	4a8aaadf65ca893d80287e7a4225ff96	neutral	none	drink 1 1950 Vampire Vintner wine
-2665	Wine-Friendly	redwine.gif	14e58c7caa942927ebdb75d93f1de316	neutral	none	drink 1 1950 Vampire Vintner wine
+2659	Wine-Fortified	redwine.gif	e7ec714f1fdc254831f8fec3c74ba803	neutral	nohookah	drink 1 1950 Vampire Vintner wine
+2660	Wine-Hot	redwine.gif	f562dd161fe50cc22b3ab10f04e1f26a	neutral	nohookah	drink 1 1950 Vampire Vintner wine
+2661	Wine-Frisky	redwine.gif	98cf0260d82830c8b4d3723f790b6d9a	neutral	nohookah	drink 1 1950 Vampire Vintner wine
+2662	Wine-Cold	redwine.gif	2c8403618f61dcb65a076c48979812e1	neutral	nohookah	drink 1 1950 Vampire Vintner wine
+2663	Wine-Dark	redwine.gif	91221f225a1cfcc58156624ba3342349	neutral	nohookah	drink 1 1950 Vampire Vintner wine
+2664	Wine-Befouled	redwine.gif	4a8aaadf65ca893d80287e7a4225ff96	neutral	nohookah	drink 1 1950 Vampire Vintner wine
+2665	Wine-Friendly	redwine.gif	14e58c7caa942927ebdb75d93f1de316	neutral	nohookah	drink 1 1950 Vampire Vintner wine
 2666	Toiletbrush Moustache	dsstache1.gif	e2c09216952563b198d6be5c00de9a4f	neutral	none
 2667	Barbell Moustache	dsstache2.gif	0f1ee3c05441592c1911f414b63961b8	neutral	none
 2668	Grizzly Beard	dsstache3.gif	86808cff1f8a44e651187cd104b348ae	neutral	none
