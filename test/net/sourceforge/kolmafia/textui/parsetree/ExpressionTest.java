@@ -31,11 +31,13 @@ public class ExpressionTest {
 
               // FALSE
               Operation operation = assertInstanceOf(Operation.class, commands.get(0));
-              ParserTest.assertLocationEquals(1, 26, 1, 31, operation.getRightHandSide().getLocation());
+              ParserTest.assertLocationEquals(
+                  1, 26, 1, 31, operation.getRightHandSide().getLocation());
 
               // True
               operation = assertInstanceOf(Operation.class, operation.getLeftHandSide());
-              ParserTest.assertLocationEquals(1, 18, 1, 22, operation.getRightHandSide().getLocation());
+              ParserTest.assertLocationEquals(
+                  1, 18, 1, 22, operation.getRightHandSide().getLocation());
             }),
         invalid("Interrupted ! expression", "(!", "Value expected"),
         invalid("Non-boolean ! expression", "(!'abc');", "\"!\" operator requires a boolean value"),
