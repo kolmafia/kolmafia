@@ -39,6 +39,20 @@ public class ExpressionTest {
               ParserTest.assertLocationEquals(
                   1, 18, 1, 22, operation.getRightHandSide().getLocation());
             }),
+        valid(
+            "File name constant",
+            // __FILE__ is a case-sensitive constant that bears the value of the current file's
+            // name.
+            "__FILE__",
+            Arrays.asList("__FILE__"),
+            Arrays.asList("1-1"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              Value.Constant file = assertInstanceOf(Value.Constant.class, commands.get(0));
+              ParserTest.assertLocationEquals(1, 1, 1, 9, file.getLocation());
+            }),
+        invalid("Incorrect file name constant", "__file__", "Unknown variable '__file__'"),
         invalid("Interrupted ! expression", "(!", "Value expected"),
         invalid("Non-boolean ! expression", "(!'abc');", "\"!\" operator requires a boolean value"),
         invalid("Interrupted ~ expression", "(~", "Value expected"),
