@@ -37,8 +37,7 @@ public class ConditionalTest {
               ParserTest.assertLocationEquals(1, 1, 1, 60, conditional.getLocation());
 
               // Conditional location test - If
-              // TODO save conditional chains as their own class so that we can access the first
-              // If's location
+              // Currently unavailable
               // From the "if" up to the end of the first conditional's scope
               // ParserTest.assertLocationEquals(1, 1, 1, 14, conditional.getLocation());
 

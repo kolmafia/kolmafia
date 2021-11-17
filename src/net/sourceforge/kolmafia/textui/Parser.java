@@ -1466,6 +1466,8 @@ public class Parser {
       Location conditionalLocation =
           this.makeLocation(conditionalStartToken, this.peekPreviousToken());
 
+      // TODO save conditional chains as their own class so that we can access the first
+      // If's location
       if (result == null) {
         result = new If(conditionalLocation, scope, condition);
       } else if (finalElse) {
