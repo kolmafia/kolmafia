@@ -3047,6 +3047,8 @@ public class Parser {
     // Directly work with currentLine - ignore any "tokens" you meet until
     // the string is closed
 
+    Position stringStartPosition = this.getCurrentPosition();
+
     char startCharacter = this.restOfLine().charAt(0);
     char stopCharacter = startCharacter;
     boolean template = startCharacter == '`';
@@ -3106,7 +3108,9 @@ public class Parser {
 
         this.clearCurrentToken();
 
-        Evaluable lhs = Value.locate(new Value(resultString.toString()));
+        Evaluable lhs =
+            Value.locate(
+                this.makeLocation(stringStartPosition), new Value(resultString.toString()));
         if (conc == null) {
           conc = new Concatenate(lhs, rhs);
         } else {
@@ -3115,6 +3119,7 @@ public class Parser {
         }
 
         resultString.setLength(0);
+        stringStartPosition = this.getCurrentPosition();
         continue;
       }
 
@@ -3123,7 +3128,9 @@ public class Parser {
             this.currentLine.makeToken(i + 1); // + 1 to get rid of stop character token
         this.readToken();
 
-        Evaluable result = Value.locate(new Value(resultString.toString()));
+        Evaluable result =
+            Value.locate(
+                this.makeLocation(stringStartPosition), new Value(resultString.toString()));
 
         if (conc == null) {
           return result;
