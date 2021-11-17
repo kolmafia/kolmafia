@@ -688,7 +688,7 @@ public class Parser {
         }
       }
 
-      variableReferences.add(new VariableReference(param));
+      variableReferences.add(new VariableReference(param.getLocation(), param));
     }
 
     // Add the function to the parent scope before we parse the
@@ -747,7 +747,7 @@ public class Parser {
       }
 
       parentScope.addVariable(v);
-      VariableReference lhs = new VariableReference(v);
+      VariableReference lhs = new VariableReference(v.getLocation(), v);
       Evaluable rhs;
 
       if (this.currentToken().equals("=")) {
@@ -2050,7 +2050,7 @@ public class Parser {
 
       Variable keyvar = new Variable(name, itype, location);
       varList.add(keyvar);
-      variableReferences.add(new VariableReference(keyvar));
+      variableReferences.add(new VariableReference(keyvar.getLocation(), keyvar));
     }
 
     // Parse the scope with the list of keyVars
@@ -2141,7 +2141,7 @@ public class Parser {
     return new ForLoop(
         forLocation,
         scope,
-        new VariableReference(indexvar),
+        new VariableReference(indexvar.getLocation(), indexvar),
         initial,
         last,
         increment,
@@ -2201,7 +2201,7 @@ public class Parser {
 
       this.readToken(); // name
 
-      VariableReference lhs = new VariableReference(variable);
+      VariableReference lhs = new VariableReference(variable.getLocation(), variable);
       Evaluable rhs = null;
 
       if (this.currentToken().equals("=")) {
@@ -3543,6 +3543,8 @@ public class Parser {
     }
 
     Token name = this.currentToken();
+    Location variableLocation = this.makeLocation(name);
+
     Variable var = scope.findVariable(name.content, true);
 
     if (var == null) {
@@ -3551,7 +3553,7 @@ public class Parser {
 
     this.readToken(); // read name
 
-    return this.parseVariableReference(scope, new VariableReference(var));
+    return this.parseVariableReference(scope, new VariableReference(variableLocation, var));
   }
 
   /**
