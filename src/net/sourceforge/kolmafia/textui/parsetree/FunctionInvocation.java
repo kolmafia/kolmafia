@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public class FunctionInvocation extends FunctionCall {
   private final BasicScope scope;
@@ -13,12 +14,13 @@ public class FunctionInvocation extends FunctionCall {
   private final Type type;
 
   public FunctionInvocation(
+      final Location location,
       final BasicScope scope,
       final Type type,
       final Evaluable name,
       final List<Evaluable> params,
       final Parser parser) {
-    super(null, params, parser);
+    super(location, null, params, parser);
     this.scope = scope;
     this.type = type;
     this.name = name;
