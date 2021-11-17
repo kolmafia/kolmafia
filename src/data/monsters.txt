@@ -56,7 +56,7 @@ baguette lady	1748	baglady.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: construct	mag
 Bailey's Beetle	576	warhipmo.gif	Atk: 195 Def: 175 HP: 210 Init: 70 E: stench P: hippy	green clay bead (30)	floorboard cruft (30)	battered hubcap (30)	communications windchimes (10)	reinforced beaded headband (1)	round purple sunglasses (2)	bullet-proof corduroys (4)
 Baiowulf	231	baiowulf.gif	ULTRARARE NOMANUEL Atk: 15 Def: 13 HP: 20 Init: 10000 P: dude	Talisman of Baio (100)
 banshee librarian	388	banshee.gif	Atk: 28 Def: 25 HP: 30 Init: -10000 ED: spooky P: undead GHOST	disintegrating quill pen (20)	killing jar (10)
-bar	202	bar.gif	Atk: 3 Def: 2 HP: 5 Init: 50 Meat: 15 P: beast	bar skin (25)	baritone accordion (a0)
+bar	202	bar.gif	Atk: 3 Def: 2 HP: 5 Init: 50 Meat: 15 P: beast	bar skin (35)	baritone accordion (a0)
 Baron von Ratsworth	286	ratsworth.gif	NOCOPY BOSS HP: [HP*1.25] Def: [MUS+min(13,3+A)] Atk: [MOX+min(13,3+A)] Init: 80 P: beast	Baron von Ratsworth's monocle (c100)	Baron von Ratsworth's money clip (c100)	Baron von Ratsworth's tophat (c100)
 baseball bat	43	ballbat.gif	Atk: 15 Def: 13 HP: 9 Init: 60 Meat: 20 P: beast	baseball (30)	sonar-in-a-biscuit (10)
 BASIC Elemental	87	basicgolem.gif	Atk: 50 Def: 45 HP: 40 Init: 60 P: elemental	GOTO (30)
