@@ -2971,6 +2971,8 @@ public class Parser {
   }
 
   private Evaluable parseNumber() {
+    Token numberStartToken = this.currentToken();
+
     Value number;
     int sign = 1;
 
@@ -2997,7 +2999,7 @@ public class Parser {
         throw this.parseException("numeric value", fraction);
       }
 
-      return Value.locate(number);
+      return Value.locate(this.makeLocation(numberStartToken, this.peekPreviousToken()), number);
     }
 
     Token integer = this.currentToken();
@@ -3018,7 +3020,7 @@ public class Parser {
       number = new Value(sign * StringUtilities.parseLong(integer.content));
     }
 
-    return Value.locate(number);
+    return Value.locate(this.makeLocation(numberStartToken, this.peekPreviousToken()), number);
   }
 
   private boolean readIntegerToken(final String token) {
