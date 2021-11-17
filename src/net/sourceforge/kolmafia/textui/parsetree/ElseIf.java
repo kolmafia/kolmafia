@@ -2,10 +2,11 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 import net.sourceforge.kolmafia.textui.AshRuntime;
+import org.eclipse.lsp4j.Location;
 
 public class ElseIf extends Conditional {
-  public ElseIf(final Scope scope, final Evaluable condition) {
-    super(scope, condition);
+  public ElseIf(final Location location, final Scope scope, final Evaluable condition) {
+    super(location, scope, condition);
   }
 
   @Override
