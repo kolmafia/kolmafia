@@ -4,6 +4,7 @@ import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
@@ -57,10 +58,14 @@ public class ForLoopTest {
               Scope loopScope = forLoop.getScope();
               ParserTest.assertLocationEquals(1, 29, 1, 30, loopScope.getLocation());
 
-              // Variable location test
+              // Variable + VariableReference location test
               Iterator<Variable> variables = loopScope.getVariables().iterator();
               assertTrue(variables.hasNext());
-              ParserTest.assertLocationEquals(1, 5, 1, 6, variables.next().getLocation());
+              Variable var = variables.next();
+              VariableReference varRef = forLoop.getVariable();
+              ParserTest.assertLocationEquals(1, 5, 1, 6, var.getLocation());
+              ParserTest.assertLocationEquals(1, 5, 1, 6, varRef.getLocation());
+              assertSame(var, varRef.target);
               assertFalse(variables.hasNext());
             }),
         valid(

@@ -58,7 +58,12 @@ public class ExpressionTest {
             scope -> {
               List<Command> commands = scope.getCommandList();
 
+              // Parenthesized expression location test
               Operation operation = assertInstanceOf(Operation.class, commands.get(1));
+              // An evaluable surrounded by parenthesis gets those parenthesis added to its location
+              ParserTest.assertLocationEquals(1, 8, 1, 12, operation.getLocation());
+
+              // Operator location test
               Operator oper = operation.getOperator();
               ParserTest.assertLocationEquals(1, 9, 1, 10, oper.getLocation());
             }),
