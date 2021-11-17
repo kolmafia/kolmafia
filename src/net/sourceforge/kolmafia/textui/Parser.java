@@ -2903,6 +2903,8 @@ public class Parser {
       return null;
     }
 
+    Token valueStartToken = this.currentToken();
+
     Evaluable result = null;
 
     // Parse parenthesized expressions
@@ -2915,6 +2917,11 @@ public class Parser {
         this.readToken(); // )
       } else {
         throw this.parseException(")", this.currentToken());
+      }
+
+      if (result != null) {
+        // Include the parenthesis in its location
+        result.growLocation(this.makeLocation(valueStartToken, this.peekPreviousToken()));
       }
     }
 
