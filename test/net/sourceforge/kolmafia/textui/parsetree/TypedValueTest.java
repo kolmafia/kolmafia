@@ -2,8 +2,10 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -36,7 +38,14 @@ public class TypedValueTest {
             "Typed constant, nested brackets, proper",
             "$item[[8042]rock]",
             Arrays.asList("$", "item", "[", "[8042]rock", "]"),
-            Arrays.asList("1-1", "1-2", "1-6", "1-7", "1-17")),
+            Arrays.asList("1-1", "1-2", "1-6", "1-7", "1-17"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              Value.Constant typedValue = assertInstanceOf(Value.Constant.class, commands.get(0));
+              // From the "$" up to the closing "]"
+              ParserTest.assertLocationEquals(1, 1, 1, 18, typedValue.getLocation());
+            }),
         invalid(
             "Typed constant, nested brackets, improper",
             "$item[[abc]]",
