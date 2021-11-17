@@ -2370,6 +2370,8 @@ public class Parser {
       return null;
     }
 
+    Token newRecordStartToken = this.currentToken();
+
     this.readToken();
 
     if (!this.parseIdentifier(this.currentToken().content)) {
@@ -2465,7 +2467,8 @@ public class Parser {
       }
     }
 
-    return Value.locate(target.initialValueExpression(params));
+    Location newRecordLocation = this.makeLocation(newRecordStartToken, this.peekPreviousToken());
+    return Value.locate(newRecordLocation, target.initialValueExpression(params));
   }
 
   private Evaluable parseCall(final BasicScope scope) {
