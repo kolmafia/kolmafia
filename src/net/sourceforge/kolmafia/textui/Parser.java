@@ -3285,6 +3285,8 @@ public class Parser {
       return null;
     }
 
+    Token typedConstantStartToken = this.currentToken();
+
     this.readToken(); // read $
 
     Token name = this.currentToken();
@@ -3335,12 +3337,15 @@ public class Parser {
     if (plurals) {
       Value value = this.parsePluralConstant(scope, type);
 
+      Location typedConstantLocation =
+          this.makeLocation(typedConstantStartToken, this.peekPreviousToken());
+
       if (value != null) {
-        return Value.locate(value); // explicit list of values
+        return Value.locate(typedConstantLocation, value); // explicit list of values
       }
       value = type.allValues();
       if (value != null) {
-        return Value.locate(value); // implicit enumeration
+        return Value.locate(typedConstantLocation, value); // implicit enumeration
       }
       throw this.parseException("Can't enumerate all " + name);
     }
@@ -3386,7 +3391,8 @@ public class Parser {
       }
     }
 
-    return Value.locate(result);
+    return Value.locate(
+        this.makeLocation(typedConstantStartToken, this.peekPreviousToken()), result);
   }
 
   private PluralValue parsePluralConstant(final BasicScope scope, final Type type) {
