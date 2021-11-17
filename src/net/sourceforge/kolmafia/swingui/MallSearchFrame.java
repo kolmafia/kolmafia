@@ -289,7 +289,8 @@ public class MallSearchFrame extends GenericPanelFrame {
       MallSearchFrame.this.resultsList = new ShowDescriptionList<>(MallSearchFrame.results);
       MallSearchFrame.this.resultsList.setSelectionMode(
           ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-      ((ShowDescriptionList) MallSearchFrame.this.resultsList).setPrototypeCellValue("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+      ((ShowDescriptionList) MallSearchFrame.this.resultsList)
+          .setPrototypeCellValue("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
       MallSearchFrame.this.resultsList.setVisibleRowCount(11);
 
       MallSearchFrame.this.resultsList.addListSelectionListener(new PurchaseSelectListener());

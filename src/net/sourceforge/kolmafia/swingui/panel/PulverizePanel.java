@@ -281,7 +281,8 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
     @Override
     protected void execute() {
       KoLConstants.pulverizeQueue.clear();
-      LockableListModel<AdventureResult> inv = (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
+      LockableListModel<AdventureResult> inv =
+          (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
       inv.fireContentsChanged(inv, 0, inv.size() - 1);
     }
 
@@ -306,7 +307,8 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
       AdventureResult[] items = new AdventureResult[KoLConstants.pulverizeQueue.size()];
       KoLConstants.pulverizeQueue.toArray(items);
       KoLConstants.pulverizeQueue.clear();
-      LockableListModel<AdventureResult> inv = (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
+      LockableListModel<AdventureResult> inv =
+          (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
       inv.fireContentsChanged(inv, 0, inv.size() - 1);
       for (int i = 0; i < items.length; ++i) {
         RequestThread.postRequest(new PulverizeRequest(items[i]));
@@ -382,7 +384,8 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
       AdventureResult[] items = new AdventureResult[KoLConstants.pulverizeQueue.size()];
       KoLConstants.pulverizeQueue.toArray(items);
       KoLConstants.pulverizeQueue.clear();
-      LockableListModel<AdventureResult> inv = (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
+      LockableListModel<AdventureResult> inv =
+          (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
       inv.fireContentsChanged(inv, 0, inv.size() - 1);
       SendMessageCommand.send("smashbot", selected.toMessage(), items, false, true);
     }

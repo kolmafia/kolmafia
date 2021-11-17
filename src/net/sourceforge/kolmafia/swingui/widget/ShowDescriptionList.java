@@ -62,7 +62,8 @@ public class ShowDescriptionList<E> extends JList<E> {
     this(displayModel, null, visibleRowCount);
   }
 
-  public ShowDescriptionList(final LockableListModel<E> displayModel, final ListElementFilter filter) {
+  public ShowDescriptionList(
+      final LockableListModel<E> displayModel, final ListElementFilter filter) {
     this(displayModel, filter, 4);
   }
 

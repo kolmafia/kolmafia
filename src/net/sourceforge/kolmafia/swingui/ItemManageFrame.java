@@ -214,7 +214,8 @@ public class ItemManageFrame extends GenericFrame {
         }
         builder.append(s).append("|");
         builder.append(
-            ((ShowDescriptionTable) ((InventoryPanel<?>) comp).scrollComponent).collectHeaderStates());
+            ((ShowDescriptionTable) ((InventoryPanel<?>) comp).scrollComponent)
+                .collectHeaderStates());
       } else if (comp instanceof RestorativeItemPanel) {
         String s = ItemManageFrame.selectorPanel.panelNames.get(i).toString();
         if (s.startsWith(" - ")) {

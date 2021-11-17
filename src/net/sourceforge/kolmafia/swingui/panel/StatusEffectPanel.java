@@ -13,7 +13,8 @@ public class StatusEffectPanel extends ScrollablePanel {
   private final ShowDescriptionList<AdventureResult> elementList;
 
   public StatusEffectPanel() {
-    this(new ShowDescriptionList<>((LockableListModel<AdventureResult>) KoLConstants.activeEffects));
+    this(
+        new ShowDescriptionList<>((LockableListModel<AdventureResult>) KoLConstants.activeEffects));
   }
 
   public StatusEffectPanel(final ShowDescriptionList<AdventureResult> list) {
@@ -23,7 +24,8 @@ public class StatusEffectPanel extends ScrollablePanel {
 
   @Override
   public void actionConfirmed() {
-    AdventureResult[] effects = this.elementList.getSelectedValuesList().toArray(new AdventureResult[0]);
+    AdventureResult[] effects =
+        this.elementList.getSelectedValuesList().toArray(new AdventureResult[0]);
     for (int i = 0; i < effects.length; ++i) {
       RequestThread.postRequest(new UneffectRequest(effects[i]));
     }
@@ -31,7 +33,8 @@ public class StatusEffectPanel extends ScrollablePanel {
 
   @Override
   public void actionCancelled() {
-    AdventureResult[] effects = this.elementList.getSelectedValuesList().toArray(new AdventureResult[0]);
+    AdventureResult[] effects =
+        this.elementList.getSelectedValuesList().toArray(new AdventureResult[0]);
     this.elementList.clearSelection();
 
     if (Preferences.getString("currentMood").equals("apathetic")) {

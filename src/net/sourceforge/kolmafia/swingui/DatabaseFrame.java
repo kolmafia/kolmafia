@@ -40,7 +40,8 @@ public class DatabaseFrame extends GenericFrame {
     this.tabs.addTab("Items", new ExamineItemsPanel());
     this.tabs.addTab(
         "Familiars", new ItemLookupPanel<>(DatabaseFrame.allFamiliars, "familiar", "which"));
-    this.tabs.addTab("Skills", new ItemLookupPanel<>(DatabaseFrame.allSkills, "skill", "whichskill"));
+    this.tabs.addTab(
+        "Skills", new ItemLookupPanel<>(DatabaseFrame.allSkills, "skill", "whichskill"));
     this.tabs.addTab("Effects", new ExamineEffectsPanel());
     this.tabs.addTab(
         "Outfits", new ItemLookupPanel<>(DatabaseFrame.allOutfits, "outfit", "whichoutfit"));
@@ -64,7 +65,10 @@ public class DatabaseFrame extends GenericFrame {
     public String type;
     public String which;
 
-    public ItemLookupPanel(final LockableListModel<LowerCaseEntry<Integer, E>> list, final String type, final String which) {
+    public ItemLookupPanel(
+        final LockableListModel<LowerCaseEntry<Integer, E>> list,
+        final String type,
+        final String which) {
       super(list);
 
       this.type = type;
