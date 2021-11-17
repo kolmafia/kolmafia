@@ -1059,6 +1059,8 @@ public class Parser {
    * such, MUST be checked before calling it. This method will never return null.
    */
   private Evaluable parseAggregateLiteral(final BasicScope scope, final AggregateType aggr) {
+    Token aggregateLiteralStartToken = this.currentToken();
+
     this.readToken(); // read {
 
     Type index = aggr.getIndexType();
@@ -1202,6 +1204,9 @@ public class Parser {
       }
     }
 
+    Location aggregateLiteralLocation =
+        this.makeLocation(aggregateLiteralStartToken, this.peekPreviousToken());
+
     if (isArray) {
       int size = aggr.getSize();
       if (size > 0 && size < values.size()) {
@@ -1212,7 +1217,7 @@ public class Parser {
 
     Value result = isArray ? new ArrayLiteral(aggr, values) : new MapLiteral(aggr, keys, values);
 
-    return Value.locate(result);
+    return Value.locate(aggregateLiteralLocation, result);
   }
 
   private Type parseAggregateType(Type dataType, final BasicScope scope) {
