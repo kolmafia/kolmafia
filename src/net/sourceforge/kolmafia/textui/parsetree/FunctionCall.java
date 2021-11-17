@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.Profiler;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public class FunctionCall extends Evaluable {
   protected Function target;
@@ -15,7 +16,17 @@ public class FunctionCall extends Evaluable {
   protected final String fileName;
   protected final int lineNumber;
 
+  // TEMPORARY
   public FunctionCall(final Function target, final List<Evaluable> params, final Parser parser) {
+    this(null, target, params, parser);
+  }
+
+  public FunctionCall(
+      final Location location,
+      final Function target,
+      final List<Evaluable> params,
+      final Parser parser) {
+    super(location);
     this.target = target;
     this.params = params;
     this.fileName = parser.getShortFileName();

@@ -2553,6 +2553,8 @@ public class Parser {
       return null;
     }
 
+    Token invokeStartToken = this.currentToken();
+
     this.readToken(); // call
 
     Type type = this.parseType(scope, false);
@@ -2588,7 +2590,9 @@ public class Parser {
       throw this.parseException("(", this.currentToken());
     }
 
-    FunctionInvocation call = new FunctionInvocation(scope, type, name, params, this);
+    Location invokeLocation = this.makeLocation(invokeStartToken, this.peekPreviousToken());
+    FunctionInvocation call =
+        new FunctionInvocation(invokeLocation, scope, type, name, params, this);
 
     return this.parsePostCall(scope, call);
   }
