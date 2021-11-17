@@ -36,7 +36,7 @@ public abstract class Evaluable extends Command implements TypedNode {
 
     if (this.getLocation() == null
         || this.getLocation().getUri().equals(location.getUri())
-          && Ranges.containsRange(location.getRange(), this.getLocation().getRange())) {
+            && Ranges.containsRange(location.getRange(), this.getLocation().getRange())) {
       this.setLocation(location);
     }
   }
