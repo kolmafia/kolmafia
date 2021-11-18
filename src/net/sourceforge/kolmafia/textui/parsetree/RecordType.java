@@ -35,6 +35,19 @@ public class RecordType extends CompositeType {
     }
   }
 
+  private RecordType(
+      final String name,
+      final String[] fieldNames,
+      final Type[] fieldTypes,
+      final Value[] fieldIndices,
+      final Location location) {
+    super(name, DataTypes.TYPE_RECORD, location);
+
+    this.fieldNames = fieldNames;
+    this.fieldTypes = fieldTypes;
+    this.fieldIndices = fieldIndices;
+  }
+
   public String[] getFieldNames() {
     return this.fieldNames;
   }
@@ -176,7 +189,12 @@ public class RecordType extends CompositeType {
 
   private class RecordTypeReference extends RecordType {
     public RecordTypeReference(final Location location) {
-      super(RecordType.this.name, RecordType.this.fieldNames, RecordType.this.fieldTypes, location);
+      super(
+          RecordType.this.name,
+          RecordType.this.fieldNames,
+          RecordType.this.fieldTypes,
+          RecordType.this.fieldIndices,
+          location);
     }
 
     @Override

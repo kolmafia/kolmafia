@@ -9,11 +9,11 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import org.eclipse.lsp4j.Location;
 
 public class Operator extends Command {
-  String operator;
+  final String operator;
 
   // For runtime error messages
-  String fileName;
-  int lineNumber;
+  private final String fileName;
+  private final int lineNumber;
 
   public Operator(final Location location, final String operator, final Parser parser) {
     super(location);

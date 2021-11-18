@@ -2,8 +2,14 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -13,6 +19,38 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class TypeDefTest {
   public static Stream<ScriptData> data() {
     return Stream.of(
+        valid(
+            "simple typedef",
+            "typedef int number; number foo;",
+            Arrays.asList("typedef", "int", "number", ";", "number", "foo", ";"),
+            Arrays.asList("1-1", "1-9", "1-13", "1-19", "1-21", "1-28", "1-31"),
+            scope -> {
+              // Test the definition
+              Iterator<Type> types = scope.getTypes().iterator();
+
+              assertTrue(types.hasNext());
+              TypeDef number = assertInstanceOf(TypeDef.class, types.next());
+              assertFalse(types.hasNext());
+
+              // From the "typedef" up to the new type name
+              ParserTest.assertLocationEquals(1, 1, 1, 19, number.getLocation());
+              assertEquals(number.getLocation(), number.getDefinitionLocation());
+
+              ParserTest.assertLocationEquals(1, 9, 1, 12, number.getBaseType().getLocation());
+              // Primitive types don't have a definition location
+              assertNull(number.getBaseType().getDefinitionLocation());
+
+              // Test the reference
+              Iterator<Variable> variables = scope.getVariables().iterator();
+
+              assertTrue(variables.hasNext());
+              Variable foo = variables.next();
+              TypeDef numberReference = assertInstanceOf(TypeDef.class, foo.getType());
+              assertFalse(variables.hasNext());
+
+              ParserTest.assertLocationEquals(1, 21, 1, 27, numberReference.getLocation());
+              ParserTest.assertLocationEquals(1, 1, 1, 19, numberReference.getDefinitionLocation());
+            }),
         valid(
             // Why is this allowed...? This is the only way I could think of to exercise the
             // rewind functionality.

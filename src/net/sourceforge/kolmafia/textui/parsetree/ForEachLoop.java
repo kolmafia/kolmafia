@@ -17,8 +17,8 @@ public class ForEachLoop extends Loop {
   private final Evaluable aggregate;
 
   // For runtime error messages
-  String fileName;
-  int lineNumber;
+  private final String fileName;
+  private final int lineNumber;
 
   public ForEachLoop(
       final Location location,

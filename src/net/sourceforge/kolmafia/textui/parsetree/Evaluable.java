@@ -3,7 +3,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode.TypedNode;
 import net.sourceforge.kolmafia.textui.parsetree.Value.Constant;
 import org.eclipse.lsp4j.Location;
-import org.eclipse.lsp4j.Position;
+import org.eclipse.lsp4j.util.Ranges;
 
 public abstract class Evaluable extends Command implements TypedNode {
   public Evaluable(final Location location) {
@@ -30,26 +30,9 @@ public abstract class Evaluable extends Command implements TypedNode {
     }
 
     if (this.getLocation() == null
-        || this.startIsEqualOrSmaller(location) && this.endIsEqualOrGreater(location)) {
+        || this.getLocation().getUri().equals(location.getUri())
+            && Ranges.containsRange(location.getRange(), this.getLocation().getRange())) {
       this.setLocation(location);
     }
-  }
-
-  private boolean startIsEqualOrSmaller(final Location location) {
-    Position ourStart = this.getLocation().getRange().getStart();
-    Position theirStart = location.getRange().getStart();
-
-    return theirStart.getLine() < ourStart.getLine()
-        || theirStart.getLine() == ourStart.getLine()
-            && theirStart.getCharacter() <= ourStart.getCharacter();
-  }
-
-  private boolean endIsEqualOrGreater(final Location location) {
-    Position ourEnd = this.getLocation().getRange().getEnd();
-    Position theirEnd = location.getRange().getEnd();
-
-    return ourEnd.getLine() < theirEnd.getLine()
-        || ourEnd.getLine() == theirEnd.getLine()
-            && ourEnd.getCharacter() <= theirEnd.getCharacter();
   }
 }

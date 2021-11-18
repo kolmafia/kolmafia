@@ -2,8 +2,10 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -39,7 +41,14 @@ public class SortByTest {
             Arrays.asList("int", "[", "]", "x", ";", "sort", "x", "by", "value", "*", "3", ";"),
             Arrays.asList(
                 "1-1", "1-4", "1-5", "1-7", "1-8", "1-10", "1-15", "1-17", "1-20", "1-25", "1-26",
-                "1-27")));
+                "1-27"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              SortBy sort = assertInstanceOf(SortBy.class, commands.get(1));
+              // From the "sort" up to the token prior to the semi-colon
+              ParserTest.assertLocationEquals(1, 10, 1, 27, sort.getLocation());
+            }));
   }
 
   @ParameterizedTest

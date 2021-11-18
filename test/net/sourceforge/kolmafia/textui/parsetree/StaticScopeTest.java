@@ -2,8 +2,10 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -28,7 +30,13 @@ public class StaticScopeTest {
             "static int x = 1, y = 2;",
             Arrays.asList("static", "int", "x", "=", "1", ",", "y", "=", "2", ";"),
             Arrays.asList(
-                "1-1", "1-8", "1-12", "1-14", "1-16", "1-17", "1-19", "1-21", "1-23", "1-24")),
+                "1-1", "1-8", "1-12", "1-14", "1-16", "1-17", "1-19", "1-21", "1-23", "1-24"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              StaticScope staticScope = assertInstanceOf(StaticScope.class, commands.get(0));
+              ParserTest.assertLocationEquals(1, 1, 1, 25, staticScope.getLocation());
+            }),
         invalid(
             "static type but no declaration",
             "static int;",
@@ -42,7 +50,13 @@ public class StaticScopeTest {
             "simple static block",
             "static { int x; }",
             Arrays.asList("static", "{", "int", "x", ";", "}"),
-            Arrays.asList("1-1", "1-8", "1-10", "1-14", "1-15", "1-17")),
+            Arrays.asList("1-1", "1-8", "1-10", "1-14", "1-15", "1-17"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              StaticScope staticScope = assertInstanceOf(StaticScope.class, commands.get(0));
+              ParserTest.assertLocationEquals(1, 1, 1, 18, staticScope.getLocation());
+            }),
         invalid("unterminated static declaration", "static int x\nint y;", "Expected ;, found int"),
         invalid("unterminated static block", "static {", "Expected }, found end of file"),
         invalid("lone static", "static;", "command or declaration required"));

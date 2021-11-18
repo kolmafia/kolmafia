@@ -920,7 +920,7 @@ three-tiered wedding cake	35	1	crappy	34-39	0	0	0
 throbbing organ pie	2	2	awesome	7-9	5-10	5-10	20-40
 thyme jelly donut	1	4	awesome	3-5	15-30	15-30	15-30	+5 turns of a current effect
 Tiger-lily's milk	1	1	crappy	1	5-10	0	0	5 Grrrrrrreat! (+10 mus exp)
-tin cup of mulligan stew	2	15	EPIC	14-20	308-760	308-760	308-760
+tin cup of mulligan stew	2	15	EPIC	15-18	308-760	308-760	308-760
 tin of submardines	1	4	awesome	4-5	30-40	0	0	50 Appeteyes (+50% Food drop)
 tin rations	3	1	good	8-10	3-5	3-5	3-5
 tiny frozen prehistoric meteorite jawbreaker	1	1	good	2	0	0	0

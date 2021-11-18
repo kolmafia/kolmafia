@@ -2,8 +2,13 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -22,7 +27,56 @@ public class ConditionalTest {
             Arrays.asList(
                 "1-1", "1-4", "1-5", "1-10", "1-12", "1-13", "1-15", "1-20", "1-23", "1-24", "1-29",
                 "1-31", "1-32", "1-34", "1-39", "1-42", "1-43", "1-48", "1-50", "1-51", "1-53",
-                "1-58", "1-59")),
+                "1-58", "1-59"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              // Conditional location test - whole
+              Conditional conditional = assertInstanceOf(If.class, commands.get(0));
+              // From the "if" up to the end of the last conditional's scope
+              ParserTest.assertLocationEquals(1, 1, 1, 60, conditional.getLocation());
+
+              // Conditional location test - If
+              // Currently unavailable
+              // From the "if" up to the end of the first conditional's scope
+              // ParserTest.assertLocationEquals(1, 1, 1, 14, conditional.getLocation());
+
+              // Scope location test - If
+              Scope conditionalScope = conditional.getScope();
+              ParserTest.assertLocationEquals(1, 12, 1, 14, conditionalScope.getLocation());
+
+              // Conditional location test - ElseIf 1
+              Iterator<Conditional> elseConditionals = ((If) conditional).getElseLoopIterator();
+              assertTrue(elseConditionals.hasNext());
+              conditional = assertInstanceOf(ElseIf.class, elseConditionals.next());
+              // From the first "else" up to the end of the second conditional's scope
+              ParserTest.assertLocationEquals(1, 15, 1, 33, conditional.getLocation());
+
+              // Scope location test - ElseIf 1
+              conditionalScope = conditional.getScope();
+              ParserTest.assertLocationEquals(1, 31, 1, 33, conditionalScope.getLocation());
+
+              // Conditional location test - ElseIf 2
+              assertTrue(elseConditionals.hasNext());
+              conditional = assertInstanceOf(ElseIf.class, elseConditionals.next());
+              // From the second "else" up to the end of the third conditional's scope
+              ParserTest.assertLocationEquals(1, 34, 1, 52, conditional.getLocation());
+
+              // Scope location test - ElseIf 2
+              conditionalScope = conditional.getScope();
+              ParserTest.assertLocationEquals(1, 50, 1, 52, conditionalScope.getLocation());
+
+              // Conditional location test - Else
+              assertTrue(elseConditionals.hasNext());
+              conditional = assertInstanceOf(Else.class, elseConditionals.next());
+              assertFalse(elseConditionals.hasNext());
+              // From the third "else" up to the end of the fourth conditional's scope
+              ParserTest.assertLocationEquals(1, 53, 1, 60, conditional.getLocation());
+
+              // Scope location test - Else
+              conditionalScope = conditional.getScope();
+              ParserTest.assertLocationEquals(1, 58, 1, 60, conditionalScope.getLocation());
+            }),
         invalid("Multiple else", "if (false) {} else {} else {}", "Else without if"),
         invalid("else-if after else", "if (false) {} else {} else if (true) {}", "Else without if"),
         invalid("else without if", "else {}", "Unknown variable 'else'"),

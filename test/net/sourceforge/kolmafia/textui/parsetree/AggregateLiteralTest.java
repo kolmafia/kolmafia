@@ -2,8 +2,10 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -91,7 +93,15 @@ public class AggregateLiteralTest {
             Arrays.asList(
                 "1-1", "1-4", "1-5", "1-8", "1-10", "1-13", "1-15", "1-18", "1-19", "1-21", "1-22",
                 "1-23", "1-25", "1-27", "1-28", "1-29", "1-30", "1-31", "1-33", "1-34", "1-36",
-                "1-38")),
+                "1-38"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              Value.Constant mapLiteral = assertInstanceOf(Value.Constant.class, commands.get(0));
+              assertInstanceOf(AggregateLiteral.class, mapLiteral.value);
+              // From the opening "{" up to its corresponding closing "}"
+              ParserTest.assertLocationEquals(1, 19, 1, 39, mapLiteral.getLocation());
+            }),
         invalid(
             "Interrupted multidimensional map literal",
             "int[int, int] {1:",

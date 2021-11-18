@@ -4,7 +4,7 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import org.eclipse.lsp4j.Location;
 
 public class TypeDef extends Type {
-  Type base;
+  private final Type base;
 
   public TypeDef(final String name, final Type base, final Location location) {
     super(name, DataTypes.TYPE_TYPEDEF, location);

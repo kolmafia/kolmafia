@@ -35,7 +35,7 @@ public class Try extends Command {
     try {
       result = this.body.execute(interpreter);
     } catch (Exception e) {
-      // *** Here is where we wuld look at catch blocks and find which, if any
+      // *** Here is where we would look at catch blocks and find which, if any
       // *** will handle this exception.
       //
       // If no catch block swallows this error, propagate it upwards

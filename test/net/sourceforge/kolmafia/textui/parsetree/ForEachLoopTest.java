@@ -2,8 +2,14 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -52,7 +58,38 @@ public class ForEachLoopTest {
                 "foreach", "key", ",", "value", "in", "int", "[", "int", "]", "{", "}", "{", "}"),
             Arrays.asList(
                 "1-1", "1-9", "1-12", "1-14", "1-20", "1-23", "1-26", "1-27", "1-30", "1-31",
-                "1-32", "1-34", "1-35")),
+                "1-32", "1-34", "1-35"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              // Loop location test
+              ForEachLoop forLoop = assertInstanceOf(ForEachLoop.class, commands.get(0));
+              // From the "foreach" up to the end of its scope
+              ParserTest.assertLocationEquals(1, 1, 1, 36, forLoop.getLocation());
+
+              // Scope location test
+              Scope loopScope = forLoop.getScope();
+              ParserTest.assertLocationEquals(1, 34, 1, 36, loopScope.getLocation());
+
+              // Variable + VariableReference location test
+              Iterator<Variable> variables = loopScope.getVariables().iterator();
+              List<VariableReference> references = forLoop.getVariableReferences();
+              // key
+              assertTrue(variables.hasNext());
+              Variable var = variables.next();
+              VariableReference varRef = references.get(0);
+              ParserTest.assertLocationEquals(1, 9, 1, 12, var.getLocation());
+              ParserTest.assertLocationEquals(1, 9, 1, 12, varRef.getLocation());
+              assertSame(var, varRef.target);
+              // value
+              assertTrue(variables.hasNext());
+              var = variables.next();
+              varRef = references.get(1);
+              ParserTest.assertLocationEquals(1, 14, 1, 19, var.getLocation());
+              ParserTest.assertLocationEquals(1, 14, 1, 19, varRef.getLocation());
+              assertSame(var, varRef.target);
+              assertFalse(variables.hasNext());
+            }),
         invalid(
             "foreach with too many keys",
             "foreach a, b, c in $items[];",

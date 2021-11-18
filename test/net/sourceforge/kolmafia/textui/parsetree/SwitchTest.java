@@ -2,8 +2,10 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -43,7 +45,19 @@ public class SwitchTest {
             "switch with block, nested variable",
             "switch { case true: int x; }",
             Arrays.asList("switch", "{", "case", "true", ":", "int", "x", ";", "}"),
-            Arrays.asList("1-1", "1-8", "1-10", "1-15", "1-19", "1-21", "1-25", "1-26", "1-28")),
+            Arrays.asList("1-1", "1-8", "1-10", "1-15", "1-19", "1-21", "1-25", "1-26", "1-28"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              // Switch location test
+              Switch switchCommand = assertInstanceOf(Switch.class, commands.get(0));
+              // From the "switch" up to the end of its scope
+              ParserTest.assertLocationEquals(1, 1, 1, 29, switchCommand.getLocation());
+
+              // Scope location test
+              SwitchScope switchScope = switchCommand.getScope();
+              ParserTest.assertLocationEquals(1, 8, 1, 29, switchScope.getLocation());
+            }),
         invalid(
             "switch with block, nested type but no variable",
             "switch { case true: int; }",

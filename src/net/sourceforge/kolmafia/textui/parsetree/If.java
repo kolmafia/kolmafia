@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
@@ -23,6 +24,10 @@ public class If extends Conditional {
     // chain, but currently, If represents the Command all by itself, and needs to have its
     // Location, so update it.
     this.setLocation(Parser.mergeLocations(this.getLocation(), elseLoop.getLocation()));
+  }
+
+  Iterator<Conditional> getElseLoopIterator() {
+    return this.elseLoops.iterator();
   }
 
   @Override

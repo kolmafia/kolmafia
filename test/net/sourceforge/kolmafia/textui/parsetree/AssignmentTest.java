@@ -2,8 +2,13 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -17,12 +22,39 @@ public class AssignmentTest {
             "Simple operator assignment",
             "int x = 3;",
             Arrays.asList("int", "x", "=", "3", ";"),
-            Arrays.asList("1-1", "1-5", "1-7", "1-9", "1-10")),
+            Arrays.asList("1-1", "1-5", "1-7", "1-9", "1-10"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              Assignment assignment = assertInstanceOf(Assignment.class, commands.get(0));
+              // Assignment.oper is the operator to use *before* doing the assignment (i.e. the "=")
+              assertNull(assignment.getOperator());
+            }),
         valid(
             "Compound operator assignment",
             "int x; x += 3;",
             Arrays.asList("int", "x", ";", "x", "+=", "3", ";"),
-            Arrays.asList("1-1", "1-5", "1-6", "1-8", "1-10", "1-13", "1-14")),
+            Arrays.asList("1-1", "1-5", "1-6", "1-8", "1-10", "1-13", "1-14"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              Assignment declaration = assertInstanceOf(Assignment.class, commands.get(0));
+              Assignment assignment = assertInstanceOf(Assignment.class, commands.get(1));
+
+              // Variable + VariableReference location test
+              VariableReference varRef1 = declaration.getLeftHandSide();
+              VariableReference varRef2 = assignment.getLeftHandSide();
+              ParserTest.assertLocationEquals(1, 5, 1, 6, varRef1.getLocation());
+              ParserTest.assertLocationEquals(1, 8, 1, 9, varRef2.getLocation());
+              ParserTest.assertLocationEquals(1, 5, 1, 6, varRef1.target.getLocation());
+              assertSame(varRef1.target, varRef2.target);
+
+              // Operator location test
+              Operator oper = assignment.getOperator();
+              // Assignment.oper is the operator to use *before* doing the assignment (i.e. the "=")
+              assertEquals("+", oper.toString());
+              ParserTest.assertLocationEquals(1, 10, 1, 11, oper.getLocation());
+            }),
         invalid(
             "Aggregate assignment to primitive",
             // What is this, C?
