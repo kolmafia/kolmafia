@@ -43,7 +43,7 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
-public class UseItemEnqueuePanel extends ItemListManagePanel {
+public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
   private final boolean food, booze, spleen;
   private final JCheckBox[] filters;
   private final JTabbedPane queueTabs;

@@ -44,7 +44,7 @@ public class MallSearchFrame extends GenericPanelFrame {
 
   private boolean currentlySearching;
   private boolean currentlyBuying;
-  private ShowDescriptionList resultsList;
+  private ShowDescriptionList<PurchaseRequest> resultsList;
   private final MallSearchPanel mallSearch;
 
   public MallSearchFrame() {
@@ -286,10 +286,11 @@ public class MallSearchFrame extends GenericPanelFrame {
               "Search Results", SwingConstants.CENTER, Color.black, Color.white),
           BorderLayout.NORTH);
 
-      MallSearchFrame.this.resultsList = new ShowDescriptionList(MallSearchFrame.results);
+      MallSearchFrame.this.resultsList = new ShowDescriptionList<>(MallSearchFrame.results);
       MallSearchFrame.this.resultsList.setSelectionMode(
           ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-      MallSearchFrame.this.resultsList.setPrototypeCellValue("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+      ((ShowDescriptionList) MallSearchFrame.this.resultsList)
+          .setPrototypeCellValue("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
       MallSearchFrame.this.resultsList.setVisibleRowCount(11);
 
       MallSearchFrame.this.resultsList.addListSelectionListener(new PurchaseSelectListener());

@@ -295,7 +295,7 @@ public class ClanManageFrame extends GenericFrame {
     }
   }
 
-  private class StoragePanel extends ItemListManagePanel {
+  private class StoragePanel extends ItemListManagePanel<AdventureResult> {
     public StoragePanel() {
       super((SortedListModel<AdventureResult>) KoLConstants.inventory);
       this.setButtons(
@@ -324,7 +324,7 @@ public class ClanManageFrame extends GenericFrame {
   }
 
   /** Internal class used to handle everything related to placing items into the stash. */
-  private class WithdrawPanel extends ItemListManagePanel {
+  private class WithdrawPanel extends ItemListManagePanel<AdventureResult> {
     public WithdrawPanel() {
       super(ClanManager.getStash());
 
@@ -357,7 +357,7 @@ public class ClanManageFrame extends GenericFrame {
           if (items.length == 0) {
             AdventureResult[] itemsArray =
                 new AdventureResult[WithdrawPanel.this.elementModel.size()];
-            items = (AdventureResult[]) WithdrawPanel.this.elementModel.toArray(itemsArray);
+            items = WithdrawPanel.this.elementModel.toArray(itemsArray);
           }
 
           if (items.length == 0) {

@@ -27,12 +27,12 @@ import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.CreationSettingCheckBox;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
-public class CreateSpecialPanel extends InventoryPanel {
-  private static final LockableListModel temp;
+public class CreateSpecialPanel extends InventoryPanel<CreateItemRequest> {
+  private static final LockableListModel<CreateItemRequest> temp;
 
   static {
-    temp = new LockableListModel();
-    temp.add("(reserved for list of manual recipes)");
+    temp = new LockableListModel<>();
+    ((LockableListModel) temp).add("(reserved for list of manual recipes)");
   }
 
   public CreateSpecialPanel() {

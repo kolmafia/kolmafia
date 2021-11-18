@@ -43,7 +43,7 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
-public abstract class ItemManagePanel extends ScrollablePanel {
+public abstract class ItemManagePanel<E> extends ScrollablePanel {
   public static final int USE_MULTIPLE = 0;
 
   public static final int TAKE_ALL = 1;
@@ -52,7 +52,7 @@ public abstract class ItemManagePanel extends ScrollablePanel {
   public static final int TAKE_ONE = 4;
 
   public JPanel northPanel;
-  public LockableListModel elementModel;
+  public LockableListModel<E> elementModel;
   public JComponent elementList;
 
   public JButton[] buttons;
@@ -63,7 +63,7 @@ public abstract class ItemManagePanel extends ScrollablePanel {
   protected JPanel buttonPanel;
   protected ThreadedButton refreshButton;
 
-  protected static boolean shouldAddRefreshButton(final LockableListModel elementModel) {
+  protected static boolean shouldAddRefreshButton(final LockableListModel<?> elementModel) {
     return (elementModel == KoLConstants.tally
         || elementModel == KoLConstants.inventory
         || elementModel == KoLConstants.closet
@@ -76,7 +76,7 @@ public abstract class ItemManagePanel extends ScrollablePanel {
   public ItemManagePanel(
       final String confirmedText,
       final String cancelledText,
-      final LockableListModel elementModel,
+      final LockableListModel<E> elementModel,
       final JComponent scrollComponent,
       final boolean addFilterField,
       final boolean addRefreshButton) {
@@ -126,7 +126,7 @@ public abstract class ItemManagePanel extends ScrollablePanel {
       final boolean equip,
       final boolean other,
       final boolean notrade) {
-    if (this.filterfield instanceof FilterItemField) {
+    if (this.filterfield instanceof ItemManagePanel.FilterItemField) {
       FilterItemField itemfilter = (FilterItemField) this.filterfield;
 
       itemfilter.food = food;
@@ -889,7 +889,7 @@ public abstract class ItemManagePanel extends ScrollablePanel {
     }
   }
 
-  private static InvocationListener getRefreshListener(final LockableListModel elementModel) {
+  private static InvocationListener getRefreshListener(final LockableListModel<?> elementModel) {
     return elementModel == KoLConstants.closet
         ? new InvocationListener(null, ClosetRequest.class, "refresh")
         : (elementModel == KoLConstants.storage || elementModel == KoLConstants.freepulls)
@@ -901,7 +901,7 @@ public abstract class ItemManagePanel extends ScrollablePanel {
   }
 
   protected class RefreshButton extends ThreadedButton {
-    public RefreshButton(LockableListModel elementModel) {
+    public RefreshButton(LockableListModel<E> elementModel) {
       super("refresh", ItemManagePanel.getRefreshListener(elementModel));
     }
   }

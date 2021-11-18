@@ -46,28 +46,29 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
-public class ShowDescriptionList extends JList {
+public class ShowDescriptionList<E> extends JList<E> {
   public int lastSelectIndex;
   public JPopupMenu contextMenu;
   public ListElementFilter filter;
 
-  private final LockableListModel displayModel, originalModel;
+  private final LockableListModel<E> displayModel, originalModel;
   private static final Pattern PLAYERID_MATCHER = Pattern.compile("\\(#(\\d+)\\)");
 
-  public ShowDescriptionList(final LockableListModel displayModel) {
+  public ShowDescriptionList(final LockableListModel<E> displayModel) {
     this(displayModel, null, 4);
   }
 
-  public ShowDescriptionList(final LockableListModel displayModel, final int visibleRowCount) {
+  public ShowDescriptionList(final LockableListModel<E> displayModel, final int visibleRowCount) {
     this(displayModel, null, visibleRowCount);
   }
 
-  public ShowDescriptionList(final LockableListModel displayModel, final ListElementFilter filter) {
+  public ShowDescriptionList(
+      final LockableListModel<E> displayModel, final ListElementFilter filter) {
     this(displayModel, filter, 4);
   }
 
   public ShowDescriptionList(
-      final LockableListModel displayModel,
+      final LockableListModel<E> displayModel,
       final ListElementFilter filter,
       final int visibleRowCount) {
     this.contextMenu = new JPopupMenu();
@@ -141,10 +142,10 @@ public class ShowDescriptionList extends JList {
 
     this.setVisibleRowCount(visibleRowCount);
     this.setCellRenderer(ListCellRendererFactory.getDefaultRenderer());
-    this.setPrototypeCellValue("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+    ((ShowDescriptionList) this).setPrototypeCellValue("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
   }
 
-  public LockableListModel getOriginalModel() {
+  public LockableListModel<E> getOriginalModel() {
     return this.originalModel;
   }
 

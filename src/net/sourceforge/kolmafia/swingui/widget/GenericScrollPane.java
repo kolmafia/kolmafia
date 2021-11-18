@@ -13,13 +13,13 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 public class GenericScrollPane extends JScrollPane {
   private final Component component;
 
-  public GenericScrollPane(final LockableListModel model) {
+  public GenericScrollPane(final LockableListModel<? extends Object> model) {
     this(model, 8);
   }
 
-  public GenericScrollPane(final LockableListModel model, final int visibleRows) {
+  public GenericScrollPane(final LockableListModel<? extends Object> model, final int visibleRows) {
     this(
-        new ShowDescriptionList(model, visibleRows),
+        new ShowDescriptionList<>(model, visibleRows),
         ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
         ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
   }
