@@ -1,16 +1,21 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
+import java.util.Collections;
 import java.util.List;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class RecordInitializer extends TypeInitializer {
-  private List<Evaluable> params;
+  private final List<Evaluable> params;
 
   public RecordInitializer(final RecordType type, List<Evaluable> params) {
     super(type);
     this.params = params;
+  }
+
+  List<Evaluable> getParams() {
+    return Collections.unmodifiableList(this.params);
   }
 
   @Override

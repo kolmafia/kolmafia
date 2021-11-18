@@ -28,9 +28,16 @@ public class JavaForLoopTest {
             scope -> {
               List<Command> commands = scope.getCommandList();
 
+              // Scope location test
               JavaForLoop forLoop = assertInstanceOf(JavaForLoop.class, commands.get(0));
               Scope loopScope = forLoop.getScope();
               ParserTest.assertLocationEquals(1, 10, 1, 12, loopScope.getLocation());
+
+              // Implicit value location test
+              Value.Constant condition =
+                  assertInstanceOf(Value.Constant.class, forLoop.getCondition());
+              // Zero-width location made at the beginning of the semi-colon
+              ParserTest.assertLocationEquals(1, 7, 1, 7, condition.getLocation());
             }),
         valid(
             "Java for-loop with new variable",
