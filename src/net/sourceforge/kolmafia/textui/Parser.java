@@ -2925,7 +2925,7 @@ public class Parser {
     Evaluable result = null;
 
     // Parse parenthesized expressions
-    if (this.currentToken().equals("(")) {
+    if (valueStartToken.equals("(")) {
       this.readToken(); // (
 
       result = this.parseExpression(scope);
@@ -2945,15 +2945,17 @@ public class Parser {
     // Parse constant values
     // true and false are reserved words
 
-    else if (this.currentToken().equalsIgnoreCase("true")) {
+    else if (valueStartToken.equalsIgnoreCase("true")) {
       this.readToken();
-      result = Value.locate(DataTypes.TRUE_VALUE);
-    } else if (this.currentToken().equalsIgnoreCase("false")) {
+      result = Value.locate(this.makeLocation(valueStartToken), DataTypes.TRUE_VALUE);
+    } else if (valueStartToken.equalsIgnoreCase("false")) {
       this.readToken();
-      result = Value.locate(DataTypes.FALSE_VALUE);
-    } else if (this.currentToken().equals("__FILE__")) {
+      result = Value.locate(this.makeLocation(valueStartToken), DataTypes.FALSE_VALUE);
+    } else if (valueStartToken.equals("__FILE__")) {
       this.readToken();
-      result = Value.locate(new Value(String.valueOf(this.shortFileName)));
+      result =
+          Value.locate(
+              this.makeLocation(valueStartToken), new Value(String.valueOf(this.shortFileName)));
     }
 
     // numbers

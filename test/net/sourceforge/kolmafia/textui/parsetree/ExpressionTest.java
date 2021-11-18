@@ -25,7 +25,34 @@ public class ExpressionTest {
                 ";"),
             Arrays.asList(
                 "1-1", "1-2", "1-3", "1-4", "1-5", "1-6", "1-8", "1-11", "1-13", "1-15", "1-18",
-                "1-23", "1-26", "1-31", "1-32")),
+                "1-23", "1-26", "1-31", "1-32"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              // FALSE
+              Operation operation = assertInstanceOf(Operation.class, commands.get(0));
+              ParserTest.assertLocationEquals(
+                  1, 26, 1, 31, operation.getRightHandSide().getLocation());
+
+              // True
+              operation = assertInstanceOf(Operation.class, operation.getLeftHandSide());
+              ParserTest.assertLocationEquals(
+                  1, 18, 1, 22, operation.getRightHandSide().getLocation());
+            }),
+        valid(
+            "File name constant",
+            // __FILE__ is a case-sensitive constant that bears the value of the current file's
+            // name.
+            "__FILE__",
+            Arrays.asList("__FILE__"),
+            Arrays.asList("1-1"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              Value.Constant file = assertInstanceOf(Value.Constant.class, commands.get(0));
+              ParserTest.assertLocationEquals(1, 1, 1, 9, file.getLocation());
+            }),
+        invalid("Incorrect file name constant", "__file__", "Unknown variable '__file__'"),
         invalid("Interrupted ! expression", "(!", "Value expected"),
         invalid("Non-boolean ! expression", "(!'abc');", "\"!\" operator requires a boolean value"),
         invalid("Interrupted ~ expression", "(~", "Value expected"),
