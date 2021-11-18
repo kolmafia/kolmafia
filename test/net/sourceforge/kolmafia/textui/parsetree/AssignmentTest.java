@@ -32,7 +32,9 @@ public class AssignmentTest {
 
               // Implicit value location test
               // Right hand side gets the left hand side's location when absent
-              assertSame(assignment.getLeftHandSide().getLocation(), assignment.getRightHandSide().getLocation());
+              assertSame(
+                  assignment.getLeftHandSide().getLocation(),
+                  assignment.getRightHandSide().getLocation());
             }),
         valid(
             "Simple operator assignment",
