@@ -5,11 +5,6 @@ import org.eclipse.lsp4j.Location;
 public abstract class Command implements ParseTreeNode {
   private Location location;
 
-  // TEMPORARY
-  public Command() {
-    this(null);
-  }
-
   public Command(final Location location) {
     this.location = location;
   }
@@ -19,6 +14,9 @@ public abstract class Command implements ParseTreeNode {
    *
    * <p>{@link BasicScope} and its subtypes don't know their location at the time of the
    * initialization, and need to have it set later.
+   *
+   * <p>Some {@link Evaluable}s are made of multiple parts/segments, and need to expand their
+   * location as we discover those segments.
    */
   protected void setLocation(final Location location) {
     this.location = location;

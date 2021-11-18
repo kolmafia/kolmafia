@@ -18,7 +18,6 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.extensions.ForbidNetworkAccess;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.HttpUtilities.ConnectionFactory;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,12 +48,12 @@ abstract class RequestTestBase {
   private MockitoSession mockito;
 
   @BeforeAll
-  static final void setSessionId() {
+  static void setSessionId() {
     GenericRequest.sessionId = "fake session id";
   }
 
   @BeforeEach
-  final void setupSession() {
+  void setupSession() {
     mockito =
         Mockito.mockitoSession().initMocks(this).strictness(Strictness.STRICT_STUBS).startMocking();
     factory = mock(ConnectionFactory.class);
@@ -62,14 +61,9 @@ abstract class RequestTestBase {
   }
 
   @AfterEach
-  final void tearDownSession() {
+  void tearDownSession() {
     ForbidNetworkAccess.blockNetwork();
     mockito.finishMocking();
-  }
-
-  @AfterAll
-  static final void cleanSessionId() {
-    GenericRequest.sessionId = null;
   }
 
   // Inject expected success (responseCode = 200) response text.

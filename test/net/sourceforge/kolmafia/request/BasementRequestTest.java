@@ -6,8 +6,6 @@ import static org.mockito.Mockito.spy;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.extensions.ClearSharedState;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -19,11 +17,6 @@ class BasementRequestTest extends RequestTestBase {
   protected static void injectPreferences() {
     // Set a username so we can edit preferences and have per-user defaults.
     KoLCharacter.reset("fakeUserName");
-  }
-
-  @AfterAll
-  protected static void makeFakeGoAway() {
-    ClearSharedState.deleteUserPrefsAndMoodsFiles("fakeUserName");
   }
 
   private static Stream<Arguments> monsterFights() {

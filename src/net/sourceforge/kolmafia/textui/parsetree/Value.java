@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode.TypedNode;
+import org.eclipse.lsp4j.Location;
 import org.json.JSONException;
 
 /**
@@ -476,19 +477,35 @@ public class Value implements TypedNode, Comparable<Value> {
     }
   }
 
+  // TEMPORARY
   public static final Evaluable locate(final Value value) {
+    return Value.locate(null, value);
+  }
+
+  /**
+   * Returns a {@link Constant} holding {@code value} and {@code location}.
+   *
+   * <p>If {@code value} is {@code null}, returns {@code null}.
+   */
+  public static final Evaluable locate(final Location location, final Value value) {
     if (value == null) {
       return null;
     }
 
-    return new Constant(value);
+    return new Constant(location, value);
   }
 
-  /** A specific {@link Value}, that can be carried across {@link Parser}. */
+  /**
+   * A specific {@link Value} to which is assigned a {@link Location}, that can be carried across
+   * {@link Parser}.
+   *
+   * <p>{@link #value} is never {@code null}.
+   */
   public static final class Constant extends Evaluable {
     public final Value value;
 
-    private Constant(final Value value) {
+    private Constant(final Location location, final Value value) {
+      super(location);
       this.value = value;
     }
 
