@@ -1320,6 +1320,8 @@ public class Parser {
       return null;
     }
 
+    Token returnStartToken = this.currentToken();
+
     this.readToken(); // return
 
     if (expectedType == null) {
@@ -1331,7 +1333,7 @@ public class Parser {
         throw this.parseException("Return needs " + expectedType + " value");
       }
 
-      return new FunctionReturn(null, DataTypes.VOID_TYPE);
+      return new FunctionReturn(this.makeLocation(returnStartToken), null, DataTypes.VOID_TYPE);
     }
 
     if (expectedType != null && expectedType.equals(DataTypes.TYPE_VOID)) {
@@ -1351,7 +1353,8 @@ public class Parser {
           "Cannot return " + value.getType() + " value from " + expectedType + " function");
     }
 
-    return new FunctionReturn(value, expectedType);
+    Location returnLocation = this.makeLocation(returnStartToken, this.peekPreviousToken());
+    return new FunctionReturn(returnLocation, value, expectedType);
   }
 
   private Scope parseSingleCommandScope(
