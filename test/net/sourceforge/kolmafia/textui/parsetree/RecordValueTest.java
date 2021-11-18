@@ -62,6 +62,26 @@ public class RecordValueTest {
             "new with field type mismatch",
             "record r {int a;}; new r('str');",
             "string found when int expected for field #1 (a)"),
+        valid(
+            "new with void fields",
+            "record r {int a; string b; boolean c; int d;}; new r(2, , true);",
+            Arrays.asList(
+                "record", "r", "{", "int", "a", ";", "string", "b", ";", "boolean", "c", ";", "int",
+                "d", ";", "}", ";", "new", "r", "(", "2", ",", ",", "true", ")", ";"),
+            Arrays.asList(
+                "1-1", "1-8", "1-10", "1-11", "1-15", "1-16", "1-18", "1-25", "1-26", "1-28",
+                "1-36", "1-37", "1-39", "1-43", "1-44", "1-45", "1-46", "1-48", "1-52", "1-53",
+                "1-54", "1-55", "1-57", "1-59", "1-63", "1-64"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              Value.Constant newRecord = assertInstanceOf(Value.Constant.class, commands.get(0));
+              RecordInitializer recordValue =
+                  assertInstanceOf(RecordInitializer.class, newRecord.value);
+              List<Evaluable> params = recordValue.getParams();
+              // Zero-width location made at the beginning of the following comma (or parenthesis)
+              ParserTest.assertLocationEquals(1, 57, 1, 57, params.get(1).getLocation());
+            }),
         invalid(
             "new with too many void fields",
             "record r {int a;}; new r(,,,,,,,);",

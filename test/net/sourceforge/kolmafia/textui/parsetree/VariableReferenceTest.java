@@ -2,8 +2,10 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -57,7 +59,15 @@ public class VariableReferenceTest {
             Arrays.asList("record", "{", "int", "a", ";", "}", "r", ";", "r", ".", "a", ";"),
             Arrays.asList(
                 "1-1", "1-8", "1-9", "1-13", "1-14", "1-15", "1-17", "1-18", "1-20", "1-21", "1-22",
-                "1-23")),
+                "1-23"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              CompositeReference reference =
+                  assertInstanceOf(CompositeReference.class, commands.get(1));
+              List<Evaluable> indices = reference.getIndices();
+              ParserTest.assertLocationEquals(1, 22, 1, 23, indices.get(0).getLocation());
+            }),
         invalid(
             "record field reference without field", "record {int a;} r; r.", "Field name expected"),
         invalid(
