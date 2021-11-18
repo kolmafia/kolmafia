@@ -2736,8 +2736,8 @@ public class Parser {
 
     Operator oper = new Operator(this.makeLocation(operToken), operStr, this);
 
-    return new IncDec(
-        this.makeLocation(operToken, this.peekPreviousToken()), (VariableReference) lhs, oper);
+    Location preIncDecLocation = this.makeLocation(operToken, this.peekPreviousToken());
+    return new IncDec(preIncDecLocation, (VariableReference) lhs, oper);
   }
 
   private Evaluable parsePostIncDec(final VariableReference lhs) {
@@ -2760,7 +2760,8 @@ public class Parser {
 
     Operator oper = new Operator(this.makeLocation(operToken), operStr, this);
 
-    return new IncDec(Parser.mergeLocations(lhs.getLocation(), oper.getLocation()), lhs, oper);
+    Location postIncDecLocation = Parser.mergeLocations(lhs.getLocation(), oper.getLocation());
+    return new IncDec(postIncDecLocation, lhs, oper);
   }
 
   private Evaluable parseExpression(final BasicScope scope) {
