@@ -19,7 +19,7 @@ public class AscensionHistoryRequestTest extends RequestTestBase {
   }
 
   @Test
-  public void checkUserName() throws IOException {
+  public void checkUserName() {
     assertEquals("the Tristero", KoLCharacter.getUserName());
   }
 

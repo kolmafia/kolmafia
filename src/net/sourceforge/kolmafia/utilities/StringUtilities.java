@@ -99,10 +99,6 @@ public class StringUtilities {
     }
 
     if (entityString == null) {
-      // If this string is a substring of a longer string, make sure
-      // we aren't keeping a reference to the longer string.
-      utf8String = utf8String;
-
       if (utf8String.contains("&") && utf8String.contains(";")) {
         entityString = CharacterEntities.escape(CharacterEntities.unescape(utf8String));
       } else {
@@ -138,10 +134,6 @@ public class StringUtilities {
     }
 
     if (utf8String == null) {
-      // If this string is a substring of a longer string, make sure
-      // we aren't keeping a reference to the longer string.
-      entityString = entityString;
-
       utf8String = CharacterEntities.unescape(entityString);
 
       if (cache && entityString.length() < 100) {
@@ -203,10 +195,6 @@ public class StringUtilities {
     String displayName = StringUtilities.displayNameCache.get(name);
 
     if (displayName == null) {
-      // If this string is a substring of a longer string, make sure
-      // we aren't keeping a reference to the longer string.
-      name = name;
-
       displayName = StringUtilities.getEntityDecode(name);
       StringUtilities.displayNameCache.put(name, displayName);
     }
@@ -223,10 +211,6 @@ public class StringUtilities {
     String canonicalName = StringUtilities.canonicalNameCache.get(name);
 
     if (canonicalName == null) {
-      // If this string is a substring of a longer string, make sure
-      // we aren't keeping a reference to the longer string.
-      name = name;
-
       canonicalName = StringUtilities.getEntityEncode(name).toLowerCase();
       if (name.length() < 100) {
         StringUtilities.canonicalNameCache.put(name, canonicalName);
@@ -239,8 +223,8 @@ public class StringUtilities {
   /**
    * Returns a list of all elements which contain the given substring in their name.
    *
-   * @param nameMap The map in which to search for the string
-   * @param substring The substring for which to search
+   * @param names The map in which to search for the string
+   * @param searchString The substring for which to search
    */
   public static final List<String> getMatchingNames(final String[] names, String searchString) {
     if (searchString == null) {
@@ -927,5 +911,48 @@ public class StringUtilities {
       }
     }
     return name;
+  }
+
+  public static List<String> tokenizeString(String s, char sep, char escape, boolean trim)
+      throws Exception {
+    List<String> tokens = new ArrayList<>();
+    StringBuilder sb = new StringBuilder();
+
+    boolean inEscape = false;
+    for (char c : s.toCharArray()) {
+      if (inEscape) {
+        inEscape = false;
+      } else if (c == escape) {
+        inEscape = true;
+        continue;
+      } else if (c == sep) {
+        String token = sb.toString();
+        tokens.add(trim ? token.trim() : token);
+        sb.setLength(0);
+        continue;
+      }
+      sb.append(c);
+    }
+
+    if (inEscape) {
+      throw new Exception("Invalid terminal escape");
+    }
+
+    String finalToken = sb.toString();
+    tokens.add(trim ? finalToken.trim() : finalToken);
+
+    return tokens;
+  }
+
+  public static List<String> tokenizeString(String s, char sep, char escape) throws Exception {
+    return tokenizeString(s, sep, escape, true);
+  }
+
+  public static List<String> tokenizeString(String s, char sep) throws Exception {
+    return tokenizeString(s, sep, '\\');
+  }
+
+  public static List<String> tokenizeString(String s) throws Exception {
+    return tokenizeString(s, ',');
   }
 }

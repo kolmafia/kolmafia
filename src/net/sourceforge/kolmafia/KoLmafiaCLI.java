@@ -312,7 +312,7 @@ public class KoLmafiaCLI {
         lcommand = lcommand.substring(0, length - 1);
       }
 
-      AbstractCommand handler = (AbstractCommand) AbstractCommand.lookup.get(lcommand);
+      AbstractCommand handler = AbstractCommand.lookup.get(lcommand);
       int flags = handler == null ? 0 : handler.flags;
       if (flags == KoLmafiaCLI.FULL_LINE_CMD && !line.equals("")) {
         // parameters are un-trimmed original
@@ -371,7 +371,7 @@ public class KoLmafiaCLI {
         if (command.endsWith("?")) {
           command = command.substring(0, command.length() - 1);
         }
-        AbstractCommand handler = (AbstractCommand) AbstractCommand.lookup.get(command);
+        AbstractCommand handler = AbstractCommand.lookup.get(command);
         int flags = handler == null ? 0 : handler.flags;
         if (flags == KoLmafiaCLI.FULL_LINE_CMD) {
           break;
@@ -440,7 +440,7 @@ public class KoLmafiaCLI {
       lcommand = command = "refresh";
     }
 
-    AbstractCommand handler = (AbstractCommand) AbstractCommand.lookup.get(lcommand);
+    AbstractCommand handler = AbstractCommand.lookup.get(lcommand);
 
     if (handler == null) {
       handler = AbstractCommand.getSubstringMatch(lcommand);
@@ -497,7 +497,7 @@ public class KoLmafiaCLI {
     return this.elseRuns;
   }
 
-  static {
+  public static void registerCommands() {
     new AbortCommand().register("abort");
     new AbsorbCommand().register("absorb");
     new AccordionsCommand().register("accordions");
@@ -548,6 +548,7 @@ public class KoLmafiaCLI {
     new CheckDataCommand()
         .register("newdata")
         .register("checkcandy")
+        .register("checkconcoctions")
         .register("checkconsumables")
         .register("checkconsumption")
         .register("checkeffects")
@@ -821,6 +822,10 @@ public class KoLmafiaCLI {
     new CommandAlias("skills", "combat").register("combat");
   }
 
+  static {
+    registerCommands();
+  }
+
   public static void showHTML(final String text) {
     // Remove HTML header and comments.
     String displayText = KoLmafiaCLI.HEAD_PATTERN.matcher(text).replaceAll("");
@@ -880,25 +885,18 @@ public class KoLmafiaCLI {
   }
 
   private static List<File> findScriptFile(final String filename, List<File> matches) {
-    File scriptFile = new File(KoLConstants.ROOT_LOCATION, filename);
-
-    if (scriptFile.exists()) {
-      if (!scriptFile.isDirectory()) matches.add(scriptFile);
-    }
+    KoLmafiaCLI.findScriptFile(KoLConstants.ROOT_LOCATION, filename, matches, false);
 
     if (KoLConstants.SCRIPT_LOCATION.exists()) {
-      KoLmafiaCLI.findScriptFile(KoLConstants.SCRIPT_LOCATION, filename, matches);
+      KoLmafiaCLI.findScriptFile(KoLConstants.SCRIPT_LOCATION, filename, matches, true);
     }
 
     if (KoLConstants.PLOTS_LOCATION.exists()) {
-      scriptFile = new File(KoLConstants.PLOTS_LOCATION, filename);
-      if (scriptFile.exists()) {
-        if (!scriptFile.isDirectory()) matches.add(scriptFile);
-      }
+      KoLmafiaCLI.findScriptFile(KoLConstants.PLOTS_LOCATION, filename, matches, false);
     }
 
     if (KoLConstants.RELAY_LOCATION.exists()) {
-      KoLmafiaCLI.findScriptFile(KoLConstants.RELAY_LOCATION, filename, matches);
+      KoLmafiaCLI.findScriptFile(KoLConstants.RELAY_LOCATION, filename, matches, true);
     }
 
     // Only if we get here and there are no matches do we recursively try again, adding some
@@ -916,17 +914,22 @@ public class KoLmafiaCLI {
   }
 
   private static void findScriptFile(
-      final File directory, final String filename, List<File> matches) {
+      final File directory,
+      final String filename,
+      final List<File> matches,
+      final boolean searchSubdirectories) {
     File scriptFile = new File(directory, filename);
 
     if (scriptFile.exists()) {
       if (!scriptFile.isDirectory()) matches.add(scriptFile);
     }
 
-    File[] contents = DataUtilities.listFiles(directory);
-    for (File content : contents) {
-      if (content.isDirectory()) {
-        KoLmafiaCLI.findScriptFile(content, filename, matches);
+    if (searchSubdirectories) {
+      File[] contents = DataUtilities.listFiles(directory);
+      for (File content : contents) {
+        if (content.isDirectory()) {
+          KoLmafiaCLI.findScriptFile(content, filename, matches, true);
+        }
       }
     }
   }

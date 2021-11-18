@@ -20,14 +20,14 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
 public class RestoreOptionsPanel extends JPanel implements Listener {
-  private JComboBox hpAutoRecoverSelect;
-  private JComboBox hpAutoRecoverTargetSelect;
-  private JComboBox hpHaltCombatSelect;
+  private JComboBox<String> hpAutoRecoverSelect;
+  private JComboBox<String> hpAutoRecoverTargetSelect;
+  private JComboBox<String> hpHaltCombatSelect;
   private JCheckBox[] hpRestoreCheckbox;
-  private JComboBox mpAutoRecoverSelect;
-  private JComboBox mpAutoRecoverTargetSelect;
-  private JComboBox mpBalanceTriggerSelect;
-  private JComboBox mpBalanceSelect;
+  private JComboBox<String> mpAutoRecoverSelect;
+  private JComboBox<String> mpAutoRecoverTargetSelect;
+  private JComboBox<String> mpBalanceTriggerSelect;
+  private JComboBox<String> mpBalanceSelect;
   private JCheckBox[] mpRestoreCheckbox;
   private HealthOptionsPanel healthOptionsPanel;
   private ManaOptionsPanel manaOptionsPanel;
@@ -148,7 +148,7 @@ public class RestoreOptionsPanel extends JPanel implements Listener {
     return restoreSetting.toString();
   }
 
-  private float getPercentage(final JComboBox option) {
+  private float getPercentage(final JComboBox<String> option) {
     return (option.getSelectedIndex() - 1) / 20.0f;
   }
 
@@ -166,7 +166,7 @@ public class RestoreOptionsPanel extends JPanel implements Listener {
     this.restoring = false;
   }
 
-  private void setSelectedIndex(final JComboBox option, final String property) {
+  private void setSelectedIndex(final JComboBox<String> option, final String property) {
     int desiredIndex = (int) (Preferences.getFloat(property) * 20.0f + 1);
     option.setSelectedIndex(Math.min(Math.max(desiredIndex, 0), option.getItemCount() - 1));
   }
@@ -180,20 +180,20 @@ public class RestoreOptionsPanel extends JPanel implements Listener {
   private class HealthOptionsPanel extends JPanel implements ActionListener {
 
     public HealthOptionsPanel() {
-      RestoreOptionsPanel.this.hpHaltCombatSelect = new JComboBox();
+      RestoreOptionsPanel.this.hpHaltCombatSelect = new JComboBox<>();
       RestoreOptionsPanel.this.hpHaltCombatSelect.addItem("Stop if auto-recovery fails");
       for (int i = 0; i <= 19; ++i) {
         RestoreOptionsPanel.this.hpHaltCombatSelect.addItem("Stop if health at " + i * 5 + "%");
       }
 
-      RestoreOptionsPanel.this.hpAutoRecoverSelect = new JComboBox();
+      RestoreOptionsPanel.this.hpAutoRecoverSelect = new JComboBox<>();
       RestoreOptionsPanel.this.hpAutoRecoverSelect.addItem("Do not auto-recover health");
       for (int i = 0; i <= 19; ++i) {
         RestoreOptionsPanel.this.hpAutoRecoverSelect.addItem(
             "Auto-recover health at " + i * 5 + "%");
       }
 
-      RestoreOptionsPanel.this.hpAutoRecoverTargetSelect = new JComboBox();
+      RestoreOptionsPanel.this.hpAutoRecoverTargetSelect = new JComboBox<>();
       RestoreOptionsPanel.this.hpAutoRecoverTargetSelect.addItem("Do not recover health");
       for (int i = 0; i <= 20; ++i) {
         RestoreOptionsPanel.this.hpAutoRecoverTargetSelect.addItem(
@@ -290,26 +290,26 @@ public class RestoreOptionsPanel extends JPanel implements Listener {
 
   private class ManaOptionsPanel extends JPanel implements ActionListener {
     public ManaOptionsPanel() {
-      RestoreOptionsPanel.this.mpBalanceTriggerSelect = new JComboBox();
+      RestoreOptionsPanel.this.mpBalanceTriggerSelect = new JComboBox<>();
       RestoreOptionsPanel.this.mpBalanceTriggerSelect.addItem("Start recasting immediately");
       for (int i = 0; i <= 20; ++i) {
         RestoreOptionsPanel.this.mpBalanceTriggerSelect.addItem(
             "Start recasting at " + i * 5 + "%");
       }
 
-      RestoreOptionsPanel.this.mpBalanceSelect = new JComboBox();
+      RestoreOptionsPanel.this.mpBalanceSelect = new JComboBox<>();
       RestoreOptionsPanel.this.mpBalanceSelect.addItem("Do not rebalance buffs");
       for (int i = 0; i <= 19; ++i) {
         RestoreOptionsPanel.this.mpBalanceSelect.addItem("Recast buffs down to " + i * 5 + "%");
       }
 
-      RestoreOptionsPanel.this.mpAutoRecoverSelect = new JComboBox();
+      RestoreOptionsPanel.this.mpAutoRecoverSelect = new JComboBox<>();
       RestoreOptionsPanel.this.mpAutoRecoverSelect.addItem("Do not auto-recover mana");
       for (int i = 0; i <= 19; ++i) {
         RestoreOptionsPanel.this.mpAutoRecoverSelect.addItem("Auto-recover mana at " + i * 5 + "%");
       }
 
-      RestoreOptionsPanel.this.mpAutoRecoverTargetSelect = new JComboBox();
+      RestoreOptionsPanel.this.mpAutoRecoverTargetSelect = new JComboBox<>();
       RestoreOptionsPanel.this.mpAutoRecoverTargetSelect.addItem("Do not auto-recover mana");
       for (int i = 0; i <= 20; ++i) {
         RestoreOptionsPanel.this.mpAutoRecoverTargetSelect.addItem(

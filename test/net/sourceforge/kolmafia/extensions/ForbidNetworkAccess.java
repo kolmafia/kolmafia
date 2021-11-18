@@ -8,6 +8,10 @@ public class ForbidNetworkAccess implements BeforeAllCallback {
 
   @Override
   public void beforeAll(ExtensionContext context) {
+    ForbidNetworkAccess.blockNetwork();
+  }
+
+  public static void blockNetwork() {
     HttpUtilities.setOpen((url) -> null);
   }
 }

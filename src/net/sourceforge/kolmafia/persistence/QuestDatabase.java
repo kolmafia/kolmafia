@@ -698,8 +698,7 @@ public class QuestDatabase {
       Preferences.setInteger("lttQuestDifficulty", 3);
       return "step3";
     }
-    if (details.contains("Defeat Granny Hackleton.")) // Check this works!
-    {
+    if (details.contains("Defeat Granny Hackleton.")) { // Check this works!
       Preferences.setString("lttQuestName", "Wagon Train Escort Wanted");
       Preferences.setInteger("lttQuestDifficulty", 3);
       return "step4";

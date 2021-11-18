@@ -375,7 +375,6 @@ public class ItemDatabase {
 
       String descId = data[2];
       if (StringUtilities.isNumeric(descId)) {
-        descId = descId;
         ItemDatabase.descriptionById.put(id, descId);
         ItemDatabase.itemIdByDescription.put(descId, id);
       }
@@ -848,10 +847,6 @@ public class ItemDatabase {
     if (itemName == null) {
       return;
     }
-
-    // Detach item name and descid from being substrings
-    itemName = itemName;
-    descId = descId;
 
     // Remember that a new item has been discovered
     ItemDatabase.newItems = true;

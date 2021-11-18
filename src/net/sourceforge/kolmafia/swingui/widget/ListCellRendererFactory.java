@@ -46,7 +46,7 @@ public class ListCellRendererFactory {
 
     @Override
     public final Component getListCellRendererComponent(
-        final JList list,
+        final JList<?> list,
         final Object value,
         final int index,
         final boolean isSelected,
@@ -722,7 +722,7 @@ public class ListCellRendererFactory {
   private static class NameOnlyRenderer extends DefaultListCellRenderer {
     @Override
     public Component getListCellRendererComponent(
-        final JList list,
+        final JList<?> list,
         final Object value,
         final int index,
         final boolean isSelected,
@@ -747,7 +747,7 @@ public class ListCellRendererFactory {
 
     @Override
     public Component getListCellRendererComponent(
-        final JList list,
+        final JList<?> list,
         final Object value,
         final int index,
         final boolean isSelected,
@@ -821,7 +821,7 @@ public class ListCellRendererFactory {
   private static class FamiliarEquipmentRenderer extends DefaultListCellRenderer {
     @Override
     public Component getListCellRendererComponent(
-        final JList list,
+        final JList<?> list,
         final Object value,
         final int index,
         final boolean isSelected,
@@ -864,7 +864,7 @@ public class ListCellRendererFactory {
 
     @Override
     public Component getListCellRendererComponent(
-        final JList list,
+        final JList<?> list,
         final Object value,
         final int index,
         final boolean isSelected,
@@ -941,8 +941,7 @@ public class ListCellRendererFactory {
           stringForm.append(" (");
           if (fullness != null) {
             stringForm.append(fullness);
-          } else // if ( inebriety != null )
-          {
+          } else /*if (inebriety != null)*/ {
             stringForm.append(inebriety);
           }
 

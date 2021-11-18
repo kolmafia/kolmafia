@@ -1,19 +1,30 @@
 package net.sourceforge.kolmafia.preferences;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
+import java.io.File;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.KoLCharacter;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class PreferencesTest {
-  // Convert to the new way of doing things...
-  @BeforeAll
-  protected static void initAll() {
+
+  // These need to be before and after each because leakage has been observed between tests
+  // in this class.
+  @BeforeEach
+  public void initializeCharPrefs() {
     KoLCharacter.reset("fakePrefUser");
     KoLCharacter.reset(true);
+    Preferences.saveSettingsToFile = false;
+  }
+
+  @AfterEach
+  public void resetCharAndPrefs() {
+    KoLCharacter.reset("");
+    KoLCharacter.reset(true);
+    KoLCharacter.setUserId(0);
     Preferences.saveSettingsToFile = false;
   }
 
@@ -21,7 +32,6 @@ class PreferencesTest {
   void ResetClearsPrefs() {
     String propName = "aTestProp";
     Preferences.setBoolean(propName, true);
-
     assertTrue(Preferences.getBoolean(propName), "Property Set but does not exist.");
     Preferences.reset("fakePrefUser"); // reload from disk
     assertFalse(Preferences.getBoolean(propName), "Property not restored from disk by reset.");
@@ -43,7 +53,7 @@ class PreferencesTest {
 
     Preferences.removeProperty("ATestProperty", false);
     result = Preferences.propertyExists("ATestProperty", false);
-    assertFalse(result, "Property Remove but stll found.");
+    assertFalse(result, "Property Remove but still found.");
   }
 
   @Test
@@ -92,7 +102,7 @@ class PreferencesTest {
     String PrefName = "aBooleanPref";
     Preferences.setBoolean(PrefName, true);
 
-    Boolean checkPref = Preferences.getBoolean(PrefName);
+    boolean checkPref = Preferences.getBoolean(PrefName);
     assertTrue(checkPref, "Boolean Pref failed");
     Preferences.setBoolean(PrefName, false);
 
@@ -159,13 +169,13 @@ class PreferencesTest {
   @Test
   void IncrementPref() {
     String prefName = "anIntegerPref";
-    Integer prefValue = 73;
+    int prefValue = 73;
     String prefString = "aStringPref";
 
     Preferences.setInteger(prefName, prefValue);
     Preferences.increment(prefName);
     Integer checkIncrement = Preferences.getInteger(prefName);
-    assertEquals(prefValue + 1, checkIncrement, "Increement by one failed");
+    assertEquals(prefValue + 1, checkIncrement, "Increment by one failed");
 
     Preferences.increment(prefName, 9);
     checkIncrement = Preferences.getInteger(prefName);
@@ -188,7 +198,7 @@ class PreferencesTest {
   @Test
   void DecrementPref() {
     String prefName = "anIntegerPref";
-    Integer prefValue = 73;
+    int prefValue = 73;
     String prefString = "aStringPref";
 
     Preferences.setInteger(prefName, prefValue);
@@ -218,7 +228,7 @@ class PreferencesTest {
 
     Preferences.setString(userName, propName, propValue);
     String result = Preferences.getString(userName, propName);
-    assertEquals(propValue, result, "Could not set and retrieve per-user string prefe");
+    assertEquals(propValue, result, "Could not set and retrieve per-user string pref");
   }
 
   @Test
@@ -289,7 +299,7 @@ class PreferencesTest {
     String globalProp = "dailyDeedsVersion";
     Integer globalIntProp = 13;
     Integer globalIntValue = 44;
-    Float userPropFloat = 22.2f;
+    float userPropFloat = 22.2f;
     Float propDefaultValue = 1.0f;
 
     TreeMap<String, String> globalMap = Preferences.getMap(true, false);
@@ -307,7 +317,7 @@ class PreferencesTest {
     // override values and re-check
     Preferences.setFloat(propName, userPropFloat);
     Preferences.setInteger(globalProp, globalIntValue);
-    // get the maps again, becuase this is a snapshot of a moment-in-time
+    // get the maps again, because this is a snapshot of a moment-in-time
     globalMap = Preferences.getMap(true, false);
     userMap = Preferences.getMap(true, true);
 
@@ -321,7 +331,7 @@ class PreferencesTest {
         Integer.valueOf(globalMap.get(globalProp)),
         "Global default map value not equal to default value after setting");
 
-    // dfaults == fale means the these are the actual set values.
+    // defaults == false means the these are the actual set values.
     TreeMap<String, String> userDefaultsMap = Preferences.getMap(false, true);
     TreeMap<String, String> globalDefaultsMap = Preferences.getMap(false, false);
 
@@ -329,8 +339,10 @@ class PreferencesTest {
         globalIntValue,
         Integer.parseInt(globalDefaultsMap.get(globalProp)),
         "Map value not equal to set value");
-    assertNotEquals(
-        userPropFloat, userDefaultsMap.get(propName), "Map value not equal to set value");
+    assertEquals(
+        userPropFloat,
+        Float.parseFloat(userDefaultsMap.get(propName)),
+        "Map value not equal to set value");
   }
 
   @Test
@@ -391,21 +403,21 @@ class PreferencesTest {
 
   @Test
   void ResetGlobalDailies() {
-    String gloablDailypref = "_testDaily";
+    String globalDailyPref = "_testDaily";
     Integer testValue = 2112;
-    Integer preTest = Preferences.getInteger("GLOBAL", gloablDailypref);
-    assertNotEquals(testValue, preTest, "new pref " + gloablDailypref + " is not empty.");
+    Integer preTest = Preferences.getInteger("GLOBAL", globalDailyPref);
+    assertNotEquals(testValue, preTest, "new pref " + globalDailyPref + " is not empty.");
 
-    Preferences.setInteger("GLOBAL", gloablDailypref, testValue);
-    Integer postSetPref = Preferences.getInteger(gloablDailypref);
-    assertEquals(testValue, postSetPref, "new pref " + gloablDailypref + " should be set");
+    Preferences.setInteger("GLOBAL", globalDailyPref, testValue);
+    Integer postSetPref = Preferences.getInteger(globalDailyPref);
+    assertEquals(testValue, postSetPref, "new pref " + globalDailyPref + " should be set");
 
     Preferences.resetGlobalDailies();
-    Integer afterReset = Preferences.getInteger("GLOBAL", gloablDailypref);
+    Integer afterReset = Preferences.getInteger("GLOBAL", globalDailyPref);
     assertNotEquals(
         testValue,
         afterReset,
-        "new pref " + gloablDailypref + " should be reset by resetGlobalDailies");
+        "new pref " + globalDailyPref + " should be reset by resetGlobalDailies");
   }
 
   @Test
@@ -414,7 +426,149 @@ class PreferencesTest {
     boolean result = Preferences.containsDefault(prefName);
     assertTrue(result, "default not in defaultsSet for pref " + prefName);
   }
-}
 
-// Generated with love by TestMe :) Please report issues and submit feature requests at:
-// http://weirddev.com/forum#!/testme
+  @Test
+  void resetAscensionProperties() {
+    String name = "charitableDonations";
+    int val = 1337;
+    Preferences.setInteger(name, val);
+    // Confirm it was set
+    assertEquals(val, Preferences.getInteger(name));
+    // reset
+    Preferences.resetPerAscension();
+    // confirm changed
+    assertNotEquals(val, Preferences.getInteger(name));
+  }
+
+  @Test
+  void makeAndTestUnspecifiedProperty() {
+    String name = "makeMine";
+    String value = "the P Funk";
+    // Doesn't exist as either user or GLOBAL
+    assertFalse(Preferences.propertyExists(name, true));
+    assertFalse(Preferences.propertyExists(name, false));
+    assertFalse(Preferences.isGlobalProperty(name));
+    // Create it as unspecified
+    Preferences.setString(name, value);
+    // Exists as user
+    assertFalse(Preferences.propertyExists(name, true));
+    assertTrue(Preferences.propertyExists(name, false));
+    assertFalse(Preferences.isGlobalProperty(name));
+    assertFalse(Preferences.isPerUserGlobalProperty(name));
+    // Remove it and confirm it is gone
+    Preferences.removeProperty(name, false);
+    assertFalse(Preferences.propertyExists(name, true));
+    assertFalse(Preferences.propertyExists(name, false));
+    assertFalse(Preferences.isGlobalProperty(name));
+  }
+
+  @Test
+  void makeAndTestUserProperty() {
+    String name = "makeMine";
+    String value = "the P Funk";
+    // Doesn't exist as either user or GLOBAL
+    assertFalse(Preferences.propertyExists(name, true));
+    assertFalse(Preferences.propertyExists(name, false));
+    assertFalse(Preferences.isGlobalProperty(name));
+    // Create it as user
+    String userName = KoLCharacter.getUserName();
+    Preferences.setString(userName, name, value);
+    // Exists as user
+    assertFalse(Preferences.propertyExists(name, true));
+    assertTrue(Preferences.propertyExists(name, false));
+    assertFalse(Preferences.isGlobalProperty(name));
+    // Remove it and confirm it is gone
+    Preferences.removeProperty(name, false);
+    assertFalse(Preferences.propertyExists(name, true));
+    assertFalse(Preferences.propertyExists(name, false));
+    assertFalse(Preferences.isGlobalProperty(name));
+  }
+
+  @Test
+  public void exerciseIsPerUserGlobalProperty() {
+    // not a property
+    assertFalse(Preferences.isPerUserGlobalProperty("xyzzy"));
+    assertFalse(Preferences.isPerUserGlobalProperty("xy..z.zy"));
+    // property
+    assertTrue(Preferences.isPerUserGlobalProperty("getBreakfast.fakePrefUser"));
+  }
+
+  @Test
+  public void actuallySaveFileToIncreaseCoverage() {
+    Preferences.saveSettingsToFile = true;
+    Preferences.setString("tabby", "*\t*");
+    Preferences.setString("removeMe", "please");
+    Preferences.setString("a", "\n");
+    Preferences.setString("b", "\f");
+    Preferences.setString("c", "\r");
+    Preferences.setString("d", "\\");
+    Preferences.setString("e", "=");
+    Preferences.setString("f", ":");
+    Preferences.setString("g", "#");
+    Preferences.setString("h", "!");
+    Preferences.removeProperty("removeMe", false);
+    assertFalse(Preferences.propertyExists("removeMe", false));
+    Preferences.saveSettingsToFile = false;
+  }
+
+  @Test
+  public void exerciseGetStringVariant() {
+    String name = "makeMineAlso"; // makeAndTestUserProperty using the same name breaks
+    String value = "the P Funk";
+    String userName = KoLCharacter.getUserName();
+    Preferences.setString(userName, name, value);
+    assertEquals(value, Preferences.getString(name, false));
+    name = "lastUsername"; // global
+    value = "Bootsy";
+    Preferences.setString(name, value);
+    assertEquals(value, Preferences.getString(name, true));
+  }
+
+  @Test
+  public void exerciseResetNull() {
+    // Allow files to be written
+    Preferences.saveSettingsToFile = true;
+    // Global preferences name
+    String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
+    File globalfile = new File(globalName);
+    if (globalfile.exists()) {
+      globalfile.delete();
+    }
+    assertFalse(globalfile.exists());
+    // Reset should save global.
+    Preferences.reset(null);
+    assertTrue(globalfile.exists());
+  }
+
+  @Test
+  public void exerciseResetEmpty() {
+    // Allow files to be written
+    Preferences.saveSettingsToFile = true;
+    // Global preferences name
+    String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
+    File globalfile = new File(globalName);
+    if (globalfile.exists()) {
+      globalfile.delete();
+    }
+    assertFalse(globalfile.exists());
+    // Reset should save global.
+    Preferences.reset("");
+    assertTrue(globalfile.exists());
+  }
+
+  @Test
+  public void exerciseResetDots() {
+    // Allow files to be written
+    Preferences.saveSettingsToFile = true;
+    // Global preferences name
+    String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
+    File globalfile = new File(globalName);
+    if (globalfile.exists()) {
+      globalfile.delete();
+    }
+    assertFalse(globalfile.exists());
+    // Reset should save global.
+    Preferences.reset("dot_is_....not_good");
+    assertTrue(globalfile.exists());
+  }
+}

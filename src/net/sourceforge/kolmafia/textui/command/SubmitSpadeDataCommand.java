@@ -9,7 +9,7 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class SubmitSpadeDataCommand extends AbstractCommand {
   public SubmitSpadeDataCommand() {
-    this.usage = " [prices <URL>] - submit automatically gathered data.";
+    this.usage = " [autoconfirm | prices <URL>] - submit automatically gathered data.";
   }
 
   @Override
@@ -18,6 +18,8 @@ public class SubmitSpadeDataCommand extends AbstractCommand {
       MallPriceDatabase.submitPrices(parameters.substring(6).trim());
       return;
     }
+
+    boolean autoconfirm = parameters.startsWith("autoconfirm");
 
     String[] data = Preferences.getString("spadingData").split("\\|");
     if (data.length < 3) {
@@ -29,13 +31,14 @@ public class SubmitSpadeDataCommand extends AbstractCommand {
       String contents = data[i];
       String recipient = data[i + 1];
       String explanation = data[i + 2];
-      if (InputFieldUtilities.confirm(
-          "Would you like to send the data \""
-              + contents
-              + "\" to "
-              + recipient
-              + "?\nThis information will be used "
-              + explanation)) {
+      if (autoconfirm
+          || InputFieldUtilities.confirm(
+              "Would you like to send the data \""
+                  + contents
+                  + "\" to "
+                  + recipient
+                  + "?\nThis information will be used "
+                  + explanation)) {
         RequestThread.postRequest(new SendMailRequest(recipient, contents));
       }
     }

@@ -60,6 +60,12 @@ public class CheckDataCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("checkconcoctions")) {
+      DebugDatabase.checkConcoctions();
+      RequestLogger.printLine("Concoctions checked.");
+      return;
+    }
+
     if (command.equals("checkconsumables")) {
       DebugDatabase.checkConsumables();
       RequestLogger.printLine("Consumables checked.");
@@ -184,7 +190,6 @@ public class CheckDataCommand extends AbstractCommand {
     if (command.equals("checkzapgroups")) {
       DebugDatabase.checkZapGroups();
       RequestLogger.printLine("Zap groups checked.");
-      return;
     }
   }
 }

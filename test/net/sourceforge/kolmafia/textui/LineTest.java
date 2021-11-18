@@ -59,7 +59,7 @@ public class LineTest {
     line3Token1 = line3SurroundingWhitespace.makeToken(4);
     line3Token2 = line3SurroundingWhitespace.makeToken(3);
     line3Token3 = line3SurroundingWhitespace.makeToken(8);
-    line3Token4 = line3SurroundingWhitespace.makeToken(7);
+    line3Token4 = line3SurroundingWhitespace.makeComment(7);
     line3Tokens = Arrays.asList(line3Token1, line3Token2, line3Token3, line3Token4);
 
     // Submitted length doesn't matter for EOF
@@ -168,6 +168,54 @@ public class LineTest {
     assertSame(endOfFileToken, endOfFile.getLastToken());
   }
 
+  /** Diverts from getLastToken() in that it skips comments, and has access to previous lines */
+  @Test
+  public void testPeekLastToken() {
+    assertSame(line1Token3, line1BOM.peekLastToken());
+    assertSame(line1Token3, line2Empty.peekLastToken());
+    assertSame(line3Token3, line3SurroundingWhitespace.peekLastToken());
+    assertSame(endOfFileToken, endOfFile.peekLastToken());
+  }
+
+  /** peekPreviousToken(null) is the same as peekLastToken() */
+  @Test
+  public void testPeekPreviousToken1() {
+    assertSame(line1BOM.peekLastToken(), line1BOM.peekPreviousToken(null));
+    assertSame(line2Empty.peekLastToken(), line2Empty.peekPreviousToken(null));
+    assertSame(
+        line3SurroundingWhitespace.peekLastToken(),
+        line3SurroundingWhitespace.peekPreviousToken(null));
+    assertSame(endOfFile.peekLastToken(), endOfFile.peekPreviousToken(null));
+  }
+
+  /** returns null if submitted the very first token */
+  @Test
+  public void testPeekPreviousToken2() {
+    assertEquals(null, line1BOM.peekPreviousToken(line1Token1));
+  }
+
+  @Test
+  public void testPeekPreviousToken3() {
+    assertSame(line1Token1, line1BOM.peekPreviousToken(line1Token2));
+    assertSame(line1Token3, line3SurroundingWhitespace.peekPreviousToken(line3Token1));
+    assertSame(line3Token1, line3SurroundingWhitespace.peekPreviousToken(line3Token2));
+    assertSame(line3Token2, line3SurroundingWhitespace.peekPreviousToken(line3Token3));
+    assertSame(line3Token3, line3SurroundingWhitespace.peekPreviousToken(line3Token4));
+  }
+
+  /** Comments are skipped */
+  @Test
+  public void testPeekPreviousToken4() {
+    assertSame(line1Token1, line1BOM.peekPreviousToken(line1Token3));
+    assertSame(line3Token3, endOfFile.peekPreviousToken(endOfFileToken));
+  }
+
+  /** Submitted tokens must come from the corresponding line */
+  @Test
+  public void testPeekPreviousToken5() {
+    assertThrows(IllegalArgumentException.class, () -> endOfFile.peekPreviousToken(line3Token4));
+  }
+
   @Test
   public void testGetTokensIterator() {
     assertIterableEquals(line1Tokens, line1BOM.getTokensIterator());
@@ -221,17 +269,75 @@ public class LineTest {
   }
 
   @Test
-  public void testTokenOffset() {
-    assertEquals(line1BOM.offset, line1Token1.offset);
-    assertEquals(line1Token1.restOfLineStart, line1Token2.offset);
-    assertEquals(line1Token2.restOfLineStart, line1Token3.offset);
+  public void testTokenStartCharacter() {
+    assertEquals(line1BOM.offset, line1Token1.getStart().getCharacter());
+    assertEquals(line1Token1.restOfLineStart, line1Token2.getStart().getCharacter());
+    assertEquals(line1Token2.restOfLineStart, line1Token3.getStart().getCharacter());
 
-    assertEquals(line3SurroundingWhitespace.offset, line3Token1.offset);
-    assertEquals(line3Token1.restOfLineStart, line3Token2.offset);
-    assertEquals(line3Token2.restOfLineStart, line3Token3.offset);
-    assertEquals(line3Token3.restOfLineStart, line3Token4.offset);
+    assertEquals(line3SurroundingWhitespace.offset, line3Token1.getStart().getCharacter());
+    assertEquals(line3Token1.restOfLineStart, line3Token2.getStart().getCharacter());
+    assertEquals(line3Token2.restOfLineStart, line3Token3.getStart().getCharacter());
+    assertEquals(line3Token3.restOfLineStart, line3Token4.getStart().getCharacter());
 
-    assertEquals(line3SurroundingWhitespace.offset, endOfFileToken.offset);
+    assertEquals(line3SurroundingWhitespace.offset, endOfFileToken.getStart().getCharacter());
+  }
+
+  @Test
+  public void testTokenEndCharacter() {
+    assertEquals(
+        line1Token1.getStart().getCharacter() + line1Token1.content.length(),
+        line1Token1.getEnd().getCharacter());
+    assertEquals(
+        line1Token2.getStart().getCharacter() + line1Token2.content.length(),
+        line1Token2.getEnd().getCharacter());
+    assertEquals(
+        line1Token3.getStart().getCharacter() + line1Token3.content.length(),
+        line1Token3.getEnd().getCharacter());
+
+    assertEquals(
+        line3Token1.getStart().getCharacter() + line3Token1.content.length(),
+        line3Token1.getEnd().getCharacter());
+    assertEquals(
+        line3Token2.getStart().getCharacter() + line3Token2.content.length(),
+        line3Token2.getEnd().getCharacter());
+    assertEquals(
+        line3Token3.getStart().getCharacter() + line3Token3.content.length(),
+        line3Token3.getEnd().getCharacter());
+    assertEquals(
+        line3Token4.getStart().getCharacter() + line3Token4.content.length(),
+        line3Token4.getEnd().getCharacter());
+
+    assertEquals(endOfFileToken.getStart().getCharacter(), endOfFileToken.getEnd().getCharacter());
+  }
+
+  /** Tokens' positions' line are 0-indexed version of the line they are on */
+  @Test
+  public void testTokenStartLine() {
+    assertEquals(line1Token1.getLine().lineNumber - 1, line1Token1.getStart().getLine());
+    assertEquals(line1Token2.getLine().lineNumber - 1, line1Token2.getStart().getLine());
+    assertEquals(line1Token3.getLine().lineNumber - 1, line1Token3.getStart().getLine());
+
+    assertEquals(line3Token1.getLine().lineNumber - 1, line3Token1.getStart().getLine());
+    assertEquals(line3Token2.getLine().lineNumber - 1, line3Token2.getStart().getLine());
+    assertEquals(line3Token3.getLine().lineNumber - 1, line3Token3.getStart().getLine());
+    assertEquals(line3Token4.getLine().lineNumber - 1, line3Token4.getStart().getLine());
+
+    assertEquals(endOfFileToken.getLine().lineNumber - 1, endOfFileToken.getStart().getLine());
+  }
+
+  /** Tokens are not allowed to span multiple lines */
+  @Test
+  public void testTokenSingleLine() {
+    assertEquals(line1Token1.getStart().getLine(), line1Token1.getEnd().getLine());
+    assertEquals(line1Token2.getStart().getLine(), line1Token2.getEnd().getLine());
+    assertEquals(line1Token3.getStart().getLine(), line1Token3.getEnd().getLine());
+
+    assertEquals(line3Token1.getStart().getLine(), line3Token1.getEnd().getLine());
+    assertEquals(line3Token2.getStart().getLine(), line3Token2.getEnd().getLine());
+    assertEquals(line3Token3.getStart().getLine(), line3Token3.getEnd().getLine());
+    assertEquals(line3Token4.getStart().getLine(), line3Token4.getEnd().getLine());
+
+    assertEquals(endOfFileToken.getStart().getLine(), endOfFileToken.getEnd().getLine());
   }
 
   @Test
@@ -241,11 +347,11 @@ public class LineTest {
         // restOfLineStart is undefined for the EOF token
         if (token != endOfFileToken) {
           assertEquals(
-              token.offset + token.content.length() + token.followingWhitespace.length(),
+              token.getEnd().getCharacter() + token.followingWhitespace.length(),
               token.restOfLineStart,
               "Token "
                   + token
-                  + "'s restOfLineStart doesn't equal its offset + the length of its content + the length of its following whitespace");
+                  + "'s restOfLineStart doesn't equal its end character's position + the length of its following whitespace");
         }
       }
     }

@@ -6,11 +6,13 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptException;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public class Catch extends Evaluable {
   private final Command node;
 
-  public Catch(final Command node) {
+  public Catch(final Location location, final Command node) {
+    super(location);
     this.node = node;
   }
 
@@ -35,7 +37,7 @@ public class Catch extends Evaluable {
     Value scopeValue = null;
 
     try {
-      KoLmafia.lastMessage = "";
+      KoLmafia.lastMessage = KoLmafia.NO_MESSAGE;
       scopeValue = this.node.execute(interpreter);
     } catch (ScriptException se) {
       errorMessage = "SCRIPT: " + se.getMessage();
@@ -47,7 +49,7 @@ public class Catch extends Evaluable {
     // Return message only if currently cannot continue.
     if (errorMessage.equals("") && !KoLmafia.permitsContinue()) {
       // Capture the value, permitting continuation
-      errorMessage = "CAPTURE: " + KoLmafia.lastMessage;
+      errorMessage = "CAPTURE: " + KoLmafia.getLastMessage();
       interpreter.captureValue(scopeValue);
     }
 

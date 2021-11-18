@@ -36,6 +36,8 @@ public class Preferences {
   // If false, blocks saving of all preferences. Do not modify outside of tests.
   public static boolean saveSettingsToFile = true;
 
+  private static final Object lock = new Object(); // used to synch io
+
   private static final byte[] LINE_BREAK_AS_BYTES = KoLConstants.LINE_BREAK.getBytes();
 
   private static final String[] characterMap = new String[65536];
@@ -92,7 +94,7 @@ public class Preferences {
               "timesRested",
               "tomeSummons"));
 
-  private static String[] resetOnAscension =
+  private static final String[] resetOnAscension =
       new String[] {
         "affirmationCookiesEaten",
         "aminoAcidsUsed",
@@ -453,6 +455,7 @@ public class Preferences {
     Preferences.globalNames.put("chatFontSize", isUsingMac ? "medium" : "small");
 
     try {
+      assert istream != null;
       istream.close();
     } catch (Exception e) {
       // The stream is already closed, go ahead
@@ -461,9 +464,8 @@ public class Preferences {
   }
 
   /** Resets all settings so that the given user is represented whenever settings are modified. */
-  public static final synchronized void reset(final String username) {
+  public static synchronized void reset(String username) {
     Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalValues);
-
     // Prevent anybody from manipulating the user map until we are
     // done bulk-loading it.
     synchronized (Preferences.userValues) {
@@ -487,7 +489,7 @@ public class Preferences {
     PreferenceListenerRegistry.fireAllPreferencesChanged();
   }
 
-  public static final String baseUserName(final String name) {
+  public static String baseUserName(final String name) {
     return name == null || name.equals("")
         ? "GLOBAL"
         : StringUtilities.globalStringReplace(name.trim(), " ", "_").toLowerCase();
@@ -506,10 +508,10 @@ public class Preferences {
     // migration will pull the value from the global map
     for (Entry<Object, Object> entry : p.entrySet()) {
       String key = (String) entry.getKey();
-      if (!Preferences.globalNames.containsKey(key) && !Preferences.isPerUserGlobalProperty(key)) {
-        // System.out.println( "obsolete global setting detected: " + key );
-        // continue;
-      }
+      if (!Preferences.globalNames.containsKey(key)) {
+        Preferences.isPerUserGlobalProperty(key);
+      } // System.out.println( "obsolete global setting detected: " + key );
+      // continue;
 
       String value = (String) entry.getValue();
       Preferences.globalValues.put(key, value);
@@ -527,7 +529,7 @@ public class Preferences {
     }
   }
 
-  private static void loadUserPreferences(final String username) {
+  private static void loadUserPreferences(String username) {
     File file =
         new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.txt");
     Preferences.userPropertiesFile = file;
@@ -645,13 +647,13 @@ public class Preferences {
                         : "\\u" + Integer.toHexString(ch);
   }
 
-  public static final boolean propertyExists(final String name, final boolean global) {
+  public static boolean propertyExists(final String name, final boolean global) {
     return global
         ? Preferences.globalValues.containsKey(name)
         : Preferences.userValues.containsKey(name);
   }
 
-  public static final String getString(final String name, final boolean global) {
+  public static String getString(final String name, final boolean global) {
     Object value = null;
 
     if (global) {
@@ -667,7 +669,7 @@ public class Preferences {
     return value == null ? "" : value.toString();
   }
 
-  public static final String getDefault(final String name) {
+  public static String getDefault(final String name) {
     if (Preferences.globalNames.containsKey(name)) {
       return Preferences.globalNames.get(name);
     }
@@ -679,7 +681,7 @@ public class Preferences {
     return "";
   }
 
-  public static final void removeProperty(final String name, final boolean global) {
+  public static void removeProperty(final String name, final boolean global) {
     // Remove only properties which do not have defaults
     if (global) {
       if (!Preferences.globalNames.containsKey(name)) {
@@ -704,7 +706,7 @@ public class Preferences {
     }
   }
 
-  public static final boolean isGlobalProperty(final String name) {
+  public static boolean isGlobalProperty(final String name) {
     return Preferences.globalNames.containsKey(name);
   }
 
@@ -719,67 +721,67 @@ public class Preferences {
     return false;
   }
 
-  public static final boolean isUserEditable(final String property) {
+  public static boolean isUserEditable(final String property) {
     return !property.startsWith("saveState") && !property.equals("externalEditor");
   }
 
-  public static final void setString(final String name, final String value) {
+  public static void setString(final String name, final String value) {
     setString(null, name, value);
   }
 
-  public static final String getString(final String name) {
+  public static String getString(final String name) {
     return getString(null, name);
   }
 
-  public static final void setBoolean(final String name, final boolean value) {
+  public static void setBoolean(final String name, final boolean value) {
     setBoolean(null, name, value);
   }
 
-  public static final boolean getBoolean(final String name) {
+  public static boolean getBoolean(final String name) {
     return getBoolean(null, name);
   }
 
-  public static final void setInteger(final String name, final int value) {
+  public static void setInteger(final String name, final int value) {
     setInteger(null, name, value);
   }
 
-  public static final int getInteger(final String name) {
+  public static int getInteger(final String name) {
     return getInteger(null, name);
   }
 
-  public static final void setFloat(final String name, final float value) {
+  public static void setFloat(final String name, final float value) {
     setFloat(null, name, value);
   }
 
-  public static final float getFloat(final String name) {
+  public static float getFloat(final String name) {
     return getFloat(null, name);
   }
 
-  public static final void setLong(final String name, final long value) {
+  public static void setLong(final String name, final long value) {
     setLong(null, name, value);
   }
 
-  public static final long getLong(final String name) {
+  public static long getLong(final String name) {
     return getLong(null, name);
   }
 
-  public static final void setDouble(final String name, final double value) {
+  public static void setDouble(final String name, final double value) {
     setDouble(null, name, value);
   }
 
-  public static final double getDouble(final String name) {
+  public static double getDouble(final String name) {
     return getDouble(null, name);
   }
 
-  public static final int increment(final String name) {
+  public static int increment(final String name) {
     return Preferences.increment(name, 1);
   }
 
-  public static final int increment(final String name, final int delta) {
+  public static int increment(final String name, final int delta) {
     return Preferences.increment(name, delta, 0, false);
   }
 
-  public static final int increment(
+  public static int increment(
       final String name, final int delta, final int max, final boolean mod) {
     int current = Preferences.getInteger(name);
     if (delta != 0) {
@@ -798,15 +800,15 @@ public class Preferences {
     return current;
   }
 
-  public static final int decrement(final String name) {
+  public static int decrement(final String name) {
     return Preferences.decrement(name, 1);
   }
 
-  public static final int decrement(final String name, final int delta) {
+  public static int decrement(final String name, final int delta) {
     return Preferences.decrement(name, delta, 0);
   }
 
-  public static final int decrement(final String name, final int delta, final int min) {
+  public static int decrement(final String name, final int delta, final int min) {
     int current = Preferences.getInteger(name);
     if (delta != 0) {
       current -= delta;
@@ -823,7 +825,7 @@ public class Preferences {
   // Per-user global properties are stored in the global settings with
   // key "<name>.<user>"
 
-  public static final String getString(final String user, final String name) {
+  public static String getString(final String user, final String name) {
     Object value = Preferences.getObject(user, name);
 
     if (value == null) {
@@ -833,7 +835,7 @@ public class Preferences {
     return value.toString();
   }
 
-  public static final boolean getBoolean(final String user, final String name) {
+  public static boolean getBoolean(final String user, final String name) {
     Map<String, Object> map = Preferences.getMap(name);
     Object value = Preferences.getObject(map, user, name);
 
@@ -846,10 +848,10 @@ public class Preferences {
       map.put(name, value);
     }
 
-    return ((Boolean) value).booleanValue();
+    return (Boolean) value;
   }
 
-  public static final int getInteger(final String user, final String name) {
+  public static int getInteger(final String user, final String name) {
     Map<String, Object> map = Preferences.getMap(name);
     Object value = Preferences.getObject(map, user, name);
 
@@ -862,10 +864,10 @@ public class Preferences {
       map.put(name, value);
     }
 
-    return ((Integer) value).intValue();
+    return (Integer) value;
   }
 
-  public static final long getLong(final String user, final String name) {
+  public static long getLong(final String user, final String name) {
     Map<String, Object> map = Preferences.getMap(name);
     Object value = Preferences.getObject(map, user, name);
 
@@ -878,10 +880,10 @@ public class Preferences {
       map.put(name, value);
     }
 
-    return ((Long) value).longValue();
+    return (Long) value;
   }
 
-  public static final float getFloat(final String user, final String name) {
+  public static float getFloat(final String user, final String name) {
     Map<String, Object> map = Preferences.getMap(name);
     Object value = Preferences.getObject(map, user, name);
 
@@ -894,10 +896,10 @@ public class Preferences {
       map.put(name, value);
     }
 
-    return ((Float) value).floatValue();
+    return (Float) value;
   }
 
-  public static final double getDouble(final String user, final String name) {
+  public static double getDouble(final String user, final String name) {
     Map<String, Object> map = Preferences.getMap(name);
     Object value = Preferences.getObject(map, user, name);
 
@@ -910,7 +912,7 @@ public class Preferences {
       map.put(name, value);
     }
 
-    return ((Double) value).doubleValue();
+    return (Double) value;
   }
 
   private static Map<String, Object> getMap(final String name) {
@@ -927,7 +929,7 @@ public class Preferences {
     return map.get(key);
   }
 
-  public static final TreeMap<String, String> getMap(boolean defaults, boolean user) {
+  public static TreeMap<String, String> getMap(boolean defaults, boolean user) {
     if (defaults) {
       return new TreeMap<>(user ? userNames : globalNames);
     } else {
@@ -940,42 +942,42 @@ public class Preferences {
     }
   }
 
-  public static final void setString(final String user, final String name, final String value) {
+  public static void setString(final String user, final String name, final String value) {
     String old = Preferences.getString(user, name);
     if (!old.equals(value)) {
       Preferences.setObject(user, name, value, value);
     }
   }
 
-  public static final void setBoolean(final String user, final String name, final boolean value) {
+  public static void setBoolean(final String user, final String name, final boolean value) {
     boolean old = Preferences.getBoolean(user, name);
     if (old != value) {
       Preferences.setObject(user, name, value ? "true" : "false", value);
     }
   }
 
-  public static final void setInteger(final String user, final String name, final int value) {
+  public static void setInteger(final String user, final String name, final int value) {
     int old = Preferences.getInteger(user, name);
     if (old != value) {
       Preferences.setObject(user, name, String.valueOf(value), IntegerPool.get(value));
     }
   }
 
-  public static final void setLong(final String user, final String name, final long value) {
+  public static void setLong(final String user, final String name, final long value) {
     long old = Preferences.getLong(user, name);
     if (old != value) {
       Preferences.setObject(user, name, String.valueOf(value), value);
     }
   }
 
-  public static final void setFloat(final String user, final String name, final float value) {
+  public static void setFloat(final String user, final String name, final float value) {
     float old = Preferences.getFloat(user, name);
     if (old != value) {
       Preferences.setObject(user, name, String.valueOf(value), value);
     }
   }
 
-  public static final void setDouble(final String user, final String name, final double value) {
+  public static void setDouble(final String user, final String name, final double value) {
     double old = Preferences.getDouble(user, name);
     if (old != value) {
       Preferences.setObject(user, name, String.valueOf(value), value);
@@ -1037,7 +1039,8 @@ public class Preferences {
     // We are essentially iterating over the map. Not exactly - we
     // are iterating over the entrySet - but let's keep the map and
     // the file in synch atomically
-    synchronized (data) {
+
+    synchronized (lock) {
       // Determine the contents of the file by
       // actually printing them.
 

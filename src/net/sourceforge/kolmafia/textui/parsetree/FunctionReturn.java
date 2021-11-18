@@ -5,12 +5,15 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public class FunctionReturn extends Command {
   private final Evaluable returnValue;
   private final Type expectedType;
 
-  public FunctionReturn(final Evaluable returnValue, final Type expectedType) {
+  public FunctionReturn(
+      final Location location, final Evaluable returnValue, final Type expectedType) {
+    super(location);
     this.returnValue = returnValue;
     this.expectedType = expectedType;
   }

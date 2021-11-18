@@ -1207,9 +1207,8 @@ public class SVNManager {
 
     initialize();
 
-    if (SVN_LOCK
-        .tryLock()) // if we're locked, bounce requests to update an individual script immediately
-    {
+    if (SVN_LOCK.tryLock()) {
+      // if we're locked, bounce requests to update an individual script immediately
       try {
         RequestThread.postRequest(new UpdateRunnable(project));
         pushUpdates();
@@ -1286,9 +1285,8 @@ public class SVNManager {
       }
 
       String relpath = FileUtilities.getRelativePath(fDepth.getParentFile(), f);
-      if (!relpath.startsWith(
-          ".")) // do not try to delete the rebase of hidden folders such as .svn!
-      {
+      if (!relpath.startsWith(".")) {
+        // do not try to delete the rebase of hidden folders such as .svn!
         File rebase = getRebase(relpath);
 
         if (rebase != null) {

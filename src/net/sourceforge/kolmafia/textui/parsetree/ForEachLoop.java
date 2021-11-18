@@ -10,21 +10,23 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public class ForEachLoop extends Loop {
   private final List<VariableReference> variableReferences;
   private final Evaluable aggregate;
 
   // For runtime error messages
-  String fileName;
-  int lineNumber;
+  private final String fileName;
+  private final int lineNumber;
 
   public ForEachLoop(
+      final Location location,
       final Scope scope,
       final List<VariableReference> variableReferences,
       final Evaluable aggregate,
       final Parser parser) {
-    super(scope);
+    super(location, scope);
     this.variableReferences = variableReferences;
     this.aggregate = aggregate;
     this.fileName = parser.getShortFileName();
@@ -124,8 +126,7 @@ public class ForEachLoop extends Loop {
         } else if (nextSlice instanceof AggregateValue) {
           interpreter.traceIndent();
           result = this.executeSlice(interpreter, (AggregateValue) nextSlice, it, nextVariable);
-        } else // value var instead of key var
-        {
+        } else { // value var instead of key var
           nextVariable.setValue(interpreter, nextSlice);
           result = super.execute(interpreter);
         }

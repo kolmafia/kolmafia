@@ -2026,7 +2026,7 @@ user	_twelveNightEnergyUsed	false
 user	_ultraMegaSourBallUsed	false
 user	_unaccompaniedMinerUsed	0
 user	_unconsciousCollectiveCharge	0
-user	_universalSeasoningUsed	false
+user	_universalSeasoningsUsed	0
 user	_universeCalculated	0
 user	_universeImploded	0
 user	_unknownEasyBountyItem	

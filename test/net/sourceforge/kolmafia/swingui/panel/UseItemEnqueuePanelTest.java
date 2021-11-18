@@ -10,11 +10,11 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class UseItemEnqueuePanelTest {
+
   @BeforeAll
   private static void injectPreferences() {
     KoLCharacter.reset("fakeUserName");
@@ -22,11 +22,6 @@ public class UseItemEnqueuePanelTest {
     // Now that we have a username set, we can edit preferences and have per-user defaults.
     // But first, make sure we don't persist anything.
     Preferences.setBoolean("saveSettingsOnSet", false);
-  }
-
-  @AfterAll
-  private static void cleanupSession() {
-    KoLCharacter.reset("");
   }
 
   private void loadInventory(String jsonInventory) {
@@ -39,7 +34,8 @@ public class UseItemEnqueuePanelTest {
 
   @Test
   public void universalSeasoningEnabledWhenAvailable() {
-    Preferences.setBoolean("_universalSeasoningUsed", false);
+    Preferences.setInteger("universalSeasoningCost", 1000);
+    Preferences.setInteger("_universalSeasoningsUsed", 0);
     loadInventory("{\"10640\": \"1\"}");
 
     var panel = new UseItemEnqueuePanel(true, false, false, null);
@@ -54,7 +50,8 @@ public class UseItemEnqueuePanelTest {
 
   @Test
   public void universalSeasoningDisabledWhenUnavailable() {
-    Preferences.setBoolean("_universalSeasoningUsed", false);
+    Preferences.setInteger("universalSeasoningCost", 1000);
+    Preferences.setInteger("_universalSeasoningsUsed", 0);
     loadInventory("{\"10640\": \"0\"}");
 
     var panel = new UseItemEnqueuePanel(true, false, false, null);
@@ -69,7 +66,8 @@ public class UseItemEnqueuePanelTest {
 
   @Test
   public void universalSeasoningDisabledWhenUsed() {
-    Preferences.setBoolean("_universalSeasoningUsed", true);
+    Preferences.setInteger("universalSeasoningCost", 1000);
+    Preferences.setInteger("_universalSeasoningsUsed", 1);
     loadInventory("{\"10640\": \"1\"}");
 
     var panel = new UseItemEnqueuePanel(true, false, false, null);

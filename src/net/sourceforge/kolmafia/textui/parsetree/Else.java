@@ -5,10 +5,11 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public class Else extends Conditional {
-  public Else(final Scope scope, final Evaluable condition) {
-    super(scope, condition);
+  public Else(final Location location, final Scope scope, final Evaluable condition) {
+    super(location, scope, condition);
   }
 
   @Override
