@@ -3701,12 +3701,9 @@ public class Parser {
         parseAggregate = false;
       }
 
-      current =
-          new CompositeReference(
-              Parser.makeLocation(current.getLocation(), this.peekPreviousToken()),
-              current.target,
-              indices,
-              this);
+      Location currentLocation =
+          Parser.makeLocation(current.getLocation(), this.peekPreviousToken());
+      current = new CompositeReference(currentLocation, current.target, indices, this);
     }
 
     if (parseAggregate) {

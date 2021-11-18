@@ -51,7 +51,15 @@ public class VariableReferenceTest {
                 "int", "[", "5", ",", "5", "]", "x", ";", "x", "[", "0", "]", "[", "1", "]", ";"),
             Arrays.asList(
                 "1-1", "1-4", "1-5", "1-6", "1-7", "1-8", "1-10", "1-11", "1-13", "1-14", "1-15",
-                "1-16", "1-17", "1-18", "1-19", "1-20")),
+                "1-16", "1-17", "1-18", "1-19", "1-20"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              CompositeReference reference =
+                  assertInstanceOf(CompositeReference.class, commands.get(1));
+              // From the first variable reference, to the last index
+              ParserTest.assertLocationEquals(1, 13, 1, 20, reference.getLocation());
+            }),
         invalid("non-record property reference", "int i; i.a;", "Record expected"),
         valid(
             "record field reference",
@@ -63,15 +71,31 @@ public class VariableReferenceTest {
             scope -> {
               List<Command> commands = scope.getCommandList();
 
+              // CompositeReference location test
               CompositeReference reference =
                   assertInstanceOf(CompositeReference.class, commands.get(1));
+              ParserTest.assertLocationEquals(1, 20, 1, 23, reference.getLocation());
+
+              // Implicit value location test
               List<Evaluable> indices = reference.getIndices();
               ParserTest.assertLocationEquals(1, 22, 1, 23, indices.get(0).getLocation());
             }),
         invalid(
             "record field reference without field", "record {int a;} r; r.", "Field name expected"),
         invalid(
-            "record unknown field reference", "record {int a;} r; r.b;", "Invalid field name 'b'"));
+            "record unknown field reference", "record {int a;} r; r.b;", "Invalid field name 'b'"),
+        valid(
+            "record field reference from function",
+            "my_class().primestat;",
+            Arrays.asList("my_class", "(", ")", ".", "primestat", ";"),
+            Arrays.asList("1-1", "1-9", "1-10", "1-11", "1-12", "1-21"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              CompositeReference reference =
+                  assertInstanceOf(CompositeReference.class, commands.get(0));
+              ParserTest.assertLocationEquals(1, 1, 1, 21, reference.getLocation());
+            }));
   }
 
   @ParameterizedTest

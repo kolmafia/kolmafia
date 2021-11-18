@@ -18,8 +18,8 @@ public class CompositeReference extends VariableReference {
   private Value index;
 
   // For runtime error messages
-  String fileName;
-  int lineNumber;
+  private final String fileName;
+  private final int lineNumber;
 
   public CompositeReference(
       final Location location,
