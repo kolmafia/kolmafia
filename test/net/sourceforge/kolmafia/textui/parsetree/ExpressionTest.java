@@ -29,15 +29,24 @@ public class ExpressionTest {
             scope -> {
               List<Command> commands = scope.getCommandList();
 
-              // FALSE
+              // (!(~-5 == 10) && True || FALSE)
               Operation operation = assertInstanceOf(Operation.class, commands.get(0));
+              // Constant value location test - FALSE
               ParserTest.assertLocationEquals(
                   1, 26, 1, 31, operation.getRightHandSide().getLocation());
 
-              // True
+              // !(~-5 == 10) && True
               operation = assertInstanceOf(Operation.class, operation.getLeftHandSide());
+              // Operation location test - operation with lhs + oper + rhs
+              ParserTest.assertLocationEquals(1, 2, 1, 22, operation.getLocation());
+              // Constant value location test - True
               ParserTest.assertLocationEquals(
                   1, 18, 1, 22, operation.getRightHandSide().getLocation());
+
+              // !(~-5 == 10)
+              operation = assertInstanceOf(Operation.class, operation.getLeftHandSide());
+              // Operation location test - operation with oper + lhs
+              ParserTest.assertLocationEquals(1, 2, 1, 14, operation.getLocation());
             }),
         valid(
             "File name constant",
