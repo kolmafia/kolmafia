@@ -2135,7 +2135,7 @@ public class Parser {
       throw this.parseException("Expression for floor/ceiling value expected");
     }
 
-    Evaluable increment = Value.locate(last.getLocation(), DataTypes.ONE_VALUE);
+    Evaluable increment = Value.locate(this.makeZeroWidthLocation(), DataTypes.ONE_VALUE);
     if (this.currentToken().equalsIgnoreCase("by")) {
       this.readToken(); // by
       increment = this.parseExpression(parentScope);
