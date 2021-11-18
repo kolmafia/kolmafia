@@ -1,8 +1,10 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -40,7 +42,21 @@ public class FunctionTest {
                 "1-1", "1-9", "1-13", "1-16", "1-18", "1-22", "1-24", "1-26", "1-27", "1-29",
                 "1-33", "1-39", "1-40", "1-44", "1-45", "1-47", "1-48", "1-55", "1-56", "1-57",
                 "1-59", "1-64", "1-67", "1-68", "1-72", "1-73", "1-75", "1-76", "1-78", "1-81",
-                "1-82", "1-83", "1-84")),
+                "1-82", "1-83", "1-84"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              // Coercion function call location test
+              FunctionCall barCall = assertInstanceOf(FunctionCall.class, commands.get(1));
+              // Just making sure we have the right one
+              ParserTest.assertLocationEquals(1, 78, 1, 84, barCall.getLocation());
+              List<Evaluable> barParams = barCall.getParams();
+              // Instead of simply being a VariableReference to "a", the parameter is a function
+              // call to to_int()
+              FunctionCall coercionCall = assertInstanceOf(FunctionCall.class, barParams.get(0));
+              ParserTest.assertLocationEquals(1, 82, 1, 83, coercionCall.getLocation());
+              ParserTest.assertLocationEquals(1, 33, 1, 46, coercionCall.getTarget().getLocation());
+            }),
         valid(
             "function parameter simple-to-typedef typedef coercion",
             "typedef int foo; foo a = 1; foo to_foo(int x) {return a;} void bar(foo x) {} bar(1);",
