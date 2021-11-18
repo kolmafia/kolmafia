@@ -2329,16 +2329,7 @@ public class Parser {
 
   private Scope parseLoopScope(
       final Type functionType, final VariableList varList, final BasicScope parentScope) {
-    Scope result = new Scope(varList, parentScope);
-
-    Token loopScopeStartToken = this.currentToken();
-
-    this.parseLoopScope(result, functionType, parentScope);
-
-    Location loopScopeLocation = this.makeLocation(loopScopeStartToken, this.peekPreviousToken());
-    result.setScopeLocation(loopScopeLocation);
-
-    return result;
+    return this.parseLoopScope(new Scope(varList, parentScope), functionType, parentScope);
   }
 
   private Scope parseLoopScope(
