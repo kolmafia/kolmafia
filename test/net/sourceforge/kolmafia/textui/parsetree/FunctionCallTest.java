@@ -2,8 +2,10 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -14,10 +16,29 @@ public class FunctionCallTest {
   public static Stream<ScriptData> data() {
     return Stream.of(
         valid(
+            "Standard function call.",
+            "to_string( 123 );",
+            Arrays.asList("to_string", "(", "123", ")", ";"),
+            Arrays.asList("1-1", "1-10", "1-12", "1-16", "1-17"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              FunctionCall call = assertInstanceOf(FunctionCall.class, commands.get(0));
+              // From the function name to the end of the parameters' parenthesis
+              ParserTest.assertLocationEquals(1, 1, 1, 17, call.getLocation());
+            }),
+        valid(
             "Int literal with method call.",
             "123.to_string();",
             Arrays.asList("123", ".", "to_string", "(", ")", ";"),
-            Arrays.asList("1-1", "1-4", "1-5", "1-14", "1-15", "1-16")),
+            Arrays.asList("1-1", "1-4", "1-5", "1-14", "1-15", "1-16"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              FunctionCall call = assertInstanceOf(FunctionCall.class, commands.get(0));
+              // From the first parameter to the end of the parameters' parenthesis
+              ParserTest.assertLocationEquals(1, 1, 1, 16, call.getLocation());
+            }),
         invalid(
             "undefined function call",
             "prin();",

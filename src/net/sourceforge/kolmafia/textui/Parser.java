@@ -2494,16 +2494,15 @@ public class Parser {
     Function target = scope.findFunction(name.content, params);
 
     Location functionCallLocation = this.makeLocation(name, this.peekPreviousToken());
+    // Include the first parameter, if any, in the FunctionCall's location
+    if (firstParam != null) {
+      functionCallLocation = Parser.mergeLocations(firstParam.getLocation(), functionCallLocation);
+    }
 
     if (target != null) {
       params = this.autoCoerceParameters(target, params, scope);
     } else {
       throw this.undefinedFunctionException(name.content, params);
-    }
-
-    // Include the first parameter, if any, in the FunctionCall's location
-    if (firstParam != null) {
-      functionCallLocation = Parser.mergeLocations(firstParam.getLocation(), functionCallLocation);
     }
 
     FunctionCall call = new FunctionCall(functionCallLocation, target, params, this);
