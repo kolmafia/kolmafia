@@ -2,8 +2,10 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -22,7 +24,15 @@ public class RecordValueTest {
             Arrays.asList("record", "r", "{", "int", "a", ";", "}", ";", "new", "r", ";"),
             Arrays.asList(
                 "1-1", "1-8", "1-10", "1-11", "1-15", "1-16", "1-17", "1-18", "1-20", "1-24",
-                "1-25")),
+                "1-25"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              Value.Constant newRecord = assertInstanceOf(Value.Constant.class, commands.get(0));
+              assertInstanceOf(TypeInitializer.class, newRecord.value);
+              // From the "new" up to the record's name
+              ParserTest.assertLocationEquals(1, 20, 1, 25, newRecord.getLocation());
+            }),
         invalid(
             "new record with semicolon",
             "record r {int a;}; new r(;",
@@ -35,7 +45,15 @@ public class RecordValueTest {
                 ",", "2", "}", ")", ";"),
             Arrays.asList(
                 "1-1", "1-8", "1-10", "1-11", "1-14", "1-15", "1-17", "1-18", "1-19", "1-20",
-                "1-22", "1-26", "1-27", "1-28", "1-29", "1-30", "1-31", "1-32", "1-33", "1-34")),
+                "1-22", "1-26", "1-27", "1-28", "1-29", "1-30", "1-31", "1-32", "1-33", "1-34"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              Value.Constant newRecord = assertInstanceOf(Value.Constant.class, commands.get(0));
+              assertInstanceOf(RecordInitializer.class, newRecord.value);
+              // From the "new" up to the parameters's closing ")"
+              ParserTest.assertLocationEquals(1, 22, 1, 34, newRecord.getLocation());
+            }),
         invalid(
             "new with unexpected aggregate field",
             "record r {int a;}; new r({1,2});",

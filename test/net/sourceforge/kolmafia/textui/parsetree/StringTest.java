@@ -2,8 +2,10 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -18,7 +20,13 @@ public class StringTest {
             "Multiline string, end of line properly escaped",
             "'\\\n'",
             Arrays.asList("'\\", "'"),
-            Arrays.asList("1-1", "2-1")),
+            Arrays.asList("1-1", "2-1"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              Value.Constant string = assertInstanceOf(Value.Constant.class, commands.get(0));
+              ParserTest.assertLocationEquals(1, 1, 2, 2, string.getLocation());
+            }),
         valid(
             "Multiline string, end of line properly escaped + empty lines",
             "'\\\n\n   \n\n\n'",
