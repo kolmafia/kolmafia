@@ -11,8 +11,8 @@ public class Operation extends Expression {
   public Operation(final Evaluable lhs, final Evaluable rhs, final Operator oper) {
     super(
         rhs == null
-            ? Parser.mergeLocations(oper.getLocation(), lhs.getLocation())
-            : Parser.mergeLocations(lhs.getLocation(), rhs.getLocation()));
+            ? Parser.mergeLocations(oper, lhs)
+            : Parser.mergeLocations(lhs, rhs));
     this.lhs = lhs;
     this.rhs = rhs;
     this.oper = oper;

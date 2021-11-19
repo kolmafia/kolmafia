@@ -11,7 +11,7 @@ public class Concatenate extends Expression {
   private final ArrayList<Evaluable> strings;
 
   public Concatenate(final Evaluable lhs, final Evaluable rhs) {
-    super(Parser.mergeLocations(lhs.getLocation(), rhs.getLocation()));
+    super(Parser.mergeLocations(lhs, rhs));
     this.strings = new ArrayList<>();
     strings.add(lhs);
     strings.add(rhs);
@@ -25,7 +25,7 @@ public class Concatenate extends Expression {
   public void addString(final Evaluable string) {
     strings.add(string);
 
-    this.growLocation(Parser.mergeLocations(this.getLocation(), string.getLocation()));
+    this.growLocation(Parser.mergeLocations(this, string));
   }
 
   @Override

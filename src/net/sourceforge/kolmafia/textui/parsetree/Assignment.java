@@ -17,10 +17,7 @@ public class Assignment extends Evaluable {
   }
 
   public Assignment(final VariableReference lhs, final Evaluable rhs, final Operator oper) {
-    super(
-        rhs == null
-            ? lhs.getLocation()
-            : Parser.mergeLocations(lhs.getLocation(), rhs.getLocation()));
+    super(Parser.mergeLocations(lhs, rhs));
     this.lhs = lhs;
     this.rhs = rhs;
     this.oper = oper;

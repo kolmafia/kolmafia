@@ -2759,7 +2759,7 @@ public class Parser {
 
     Operator oper = new Operator(this.makeLocation(operToken), operStr, this);
 
-    Location postIncDecLocation = Parser.mergeLocations(lhs.getLocation(), oper.getLocation());
+    Location postIncDecLocation = Parser.mergeLocations(lhs, oper);
     return new IncDec(postIncDecLocation, lhs, oper);
   }
 
@@ -4162,6 +4162,22 @@ public class Parser {
     }
 
     return new Location(start.getUri(), Parser.mergeRanges(start.getRange(), end.getRange()));
+  }
+
+  public static Location mergeLocations(final Command start, final Command end) {
+    if (start == null && end == null) {
+      return null;
+    }
+
+    if (start == null) {
+      return end.getLocation();
+    }
+
+    if (end == null) {
+      return start.getLocation();
+    }
+
+    return Parser.mergeLocations(start.getLocation(), end.getLocation());
   }
 
   // **************** Parse errors *****************

@@ -10,7 +10,7 @@ public class TernaryExpression extends Expression {
   Evaluable conditional;
 
   public TernaryExpression(final Evaluable conditional, final Evaluable lhs, final Evaluable rhs) {
-    super(Parser.mergeLocations(conditional.getLocation(), rhs.getLocation()));
+    super(Parser.mergeLocations(conditional, rhs));
     this.conditional = conditional;
     this.lhs = lhs;
     this.rhs = rhs;
