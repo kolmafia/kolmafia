@@ -9,10 +9,7 @@ public class Operation extends Expression {
   private final Operator oper;
 
   public Operation(final Evaluable lhs, final Evaluable rhs, final Operator oper) {
-    super(
-        rhs == null
-            ? Parser.mergeLocations(oper, lhs)
-            : Parser.mergeLocations(lhs, rhs));
+    super(rhs == null ? Parser.mergeLocations(oper, lhs) : Parser.mergeLocations(lhs, rhs));
     this.lhs = lhs;
     this.rhs = rhs;
     this.oper = oper;
