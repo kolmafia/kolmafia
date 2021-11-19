@@ -9339,7 +9339,8 @@ public class FightRequest extends GenericRequest {
         break;
 
       case SkillPool.FIRE_EXTINGUISHER__POLAR_VORTEX:
-        if (responseText.contains("You fire a blast of frigid extinguishant at your foe") || skillSuccess) {
+        if (responseText.contains("You fire a blast of frigid extinguishant at your foe")
+            || skillSuccess) {
           Preferences.decrement("_fireExtinguisherCharge", 10);
         }
         break;
