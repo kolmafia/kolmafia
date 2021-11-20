@@ -514,7 +514,7 @@ public class StoreManageFrame extends GenericPanelFrame {
     }
   }
 
-  private class StoreManageTableModel extends ListWrapperTableModel {
+  private class StoreManageTableModel extends ListWrapperTableModel<SoldItem> {
     public StoreManageTableModel() {
       super(
           new String[] {"Item Name", "Price", "Lowest", "Qty", "Lim", " ", " "},
@@ -555,7 +555,7 @@ public class StoreManageFrame extends GenericPanelFrame {
     }
 
     public SoldItem getSoldItem(int row) {
-      return (SoldItem) this.listModel.get(row);
+      return this.listModel.get(row);
     }
   }
 
