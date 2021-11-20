@@ -145,13 +145,13 @@ public class ItemManageFrame extends GenericFrame {
 
     selectorPanel.addPanel(
         "General",
-        new InventoryPanel((SortedListModel<AdventureResult>) KoLConstants.inventory, false));
+        new InventoryPanel<>((SortedListModel<AdventureResult>) KoLConstants.inventory, false));
     selectorPanel.addPanel(
         " - Recent",
-        new InventoryPanel((SortedListModel<AdventureResult>) KoLConstants.tally, false));
+        new InventoryPanel<>((SortedListModel<AdventureResult>) KoLConstants.tally, false));
     selectorPanel.addPanel(
         " - Closet",
-        new InventoryPanel((SortedListModel<AdventureResult>) KoLConstants.closet, false));
+        new InventoryPanel<>((SortedListModel<AdventureResult>) KoLConstants.closet, false));
     selectorPanel.addPanel(" - Storage", new HagnkStoragePanel(false));
     selectorPanel.addPanel(
         " - Unlimited",
@@ -172,7 +172,7 @@ public class ItemManageFrame extends GenericFrame {
 
     selectorPanel.addPanel(
         "Equipment",
-        new InventoryPanel((SortedListModel<AdventureResult>) KoLConstants.inventory, true));
+        new InventoryPanel<>((SortedListModel<AdventureResult>) KoLConstants.inventory, true));
     selectorPanel.addPanel(
         " - Storage ",
         new HagnkStoragePanel(
@@ -214,7 +214,8 @@ public class ItemManageFrame extends GenericFrame {
         }
         builder.append(s).append("|");
         builder.append(
-            ((ShowDescriptionTable) ((InventoryPanel) comp).scrollComponent).collectHeaderStates());
+            ((ShowDescriptionTable) ((InventoryPanel<?>) comp).scrollComponent)
+                .collectHeaderStates());
       } else if (comp instanceof RestorativeItemPanel) {
         String s = ItemManageFrame.selectorPanel.panelNames.get(i).toString();
         if (s.startsWith(" - ")) {
@@ -261,7 +262,7 @@ public class ItemManageFrame extends GenericFrame {
 
           if (s.contains(panelName)) {
             // set the header states.
-            ((ShowDescriptionTable) ((InventoryPanel) comp).scrollComponent).setHeaderStates(it);
+            ((ShowDescriptionTable) ((InventoryPanel<?>) comp).scrollComponent).setHeaderStates(it);
             break;
           }
         } else if (comp instanceof RestorativeItemPanel) {
@@ -415,7 +416,7 @@ public class ItemManageFrame extends GenericFrame {
     }
   }
 
-  private class HagnkStoragePanel extends InventoryPanel {
+  private class HagnkStoragePanel extends InventoryPanel<AdventureResult> {
     private boolean isPullingForUse = false;
 
     public HagnkStoragePanel(final boolean isEquipmentOnly) {
@@ -562,7 +563,7 @@ public class ItemManageFrame extends GenericFrame {
     }
   }
 
-  private class FreePullsPanel extends InventoryPanel {
+  private class FreePullsPanel extends InventoryPanel<AdventureResult> {
     public FreePullsPanel() {
       super(
           "pull item",
@@ -607,8 +608,8 @@ public class ItemManageFrame extends GenericFrame {
     }
   }
 
-  private class ViewOnlyPanel extends InventoryPanel {
-    public ViewOnlyPanel(final LockableListModel elementModel) {
+  private class ViewOnlyPanel extends InventoryPanel<AdventureResult> {
+    public ViewOnlyPanel(final LockableListModel<AdventureResult> elementModel) {
       super(elementModel);
     }
   }

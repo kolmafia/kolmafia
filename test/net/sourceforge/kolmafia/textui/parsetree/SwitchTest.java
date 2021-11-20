@@ -57,6 +57,12 @@ public class SwitchTest {
               // Scope location test
               SwitchScope switchScope = switchCommand.getScope();
               ParserTest.assertLocationEquals(1, 8, 1, 29, switchScope.getLocation());
+
+              // Implicit value location test
+              Value.Constant condition =
+                  assertInstanceOf(Value.Constant.class, switchCommand.getCondition());
+              // Zero-width location made at the beginning of the token following the "switch"
+              ParserTest.assertLocationEquals(1, 8, 1, 8, condition.getLocation());
             }),
         invalid(
             "switch with block, nested type but no variable",

@@ -1667,7 +1667,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       return this.data.canBuyItem(item.getItemId());
     }
 
-    public class SellPanel extends ItemListManagePanel {
+    public class SellPanel extends ItemListManagePanel<AdventureResult> {
       public SellPanel() {
         super((SortedListModel<AdventureResult>) KoLConstants.inventory);
         this.setButtons(
@@ -1753,7 +1753,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       }
     }
 
-    public class BuyPanel extends ItemListManagePanel {
+    public class BuyPanel extends ItemListManagePanel<AdventureResult> {
       public BuyPanel(ActionListener[] listeners) {
         super((LockableListModel<AdventureResult>) CoinmasterPanel.this.data.getBuyItems());
 

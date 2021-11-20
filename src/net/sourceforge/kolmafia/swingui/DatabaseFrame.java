@@ -39,11 +39,12 @@ public class DatabaseFrame extends GenericFrame {
 
     this.tabs.addTab("Items", new ExamineItemsPanel());
     this.tabs.addTab(
-        "Familiars", new ItemLookupPanel(DatabaseFrame.allFamiliars, "familiar", "which"));
-    this.tabs.addTab("Skills", new ItemLookupPanel(DatabaseFrame.allSkills, "skill", "whichskill"));
+        "Familiars", new ItemLookupPanel<>(DatabaseFrame.allFamiliars, "familiar", "which"));
+    this.tabs.addTab(
+        "Skills", new ItemLookupPanel<>(DatabaseFrame.allSkills, "skill", "whichskill"));
     this.tabs.addTab("Effects", new ExamineEffectsPanel());
     this.tabs.addTab(
-        "Outfits", new ItemLookupPanel(DatabaseFrame.allOutfits, "outfit", "whichoutfit"));
+        "Outfits", new ItemLookupPanel<>(DatabaseFrame.allOutfits, "outfit", "whichoutfit"));
     this.tabs.addTab("Monsters", new ExamineMonstersPanel());
 
     this.setCenterComponent(this.tabs);
@@ -60,11 +61,14 @@ public class DatabaseFrame extends GenericFrame {
     }
   }
 
-  private class ItemLookupPanel extends ItemTableManagePanel {
+  private class ItemLookupPanel<E> extends ItemTableManagePanel<LowerCaseEntry<Integer, E>> {
     public String type;
     public String which;
 
-    public ItemLookupPanel(final LockableListModel list, final String type, final String which) {
+    public ItemLookupPanel(
+        final LockableListModel<LowerCaseEntry<Integer, E>> list,
+        final String type,
+        final String which) {
       super(list);
 
       this.type = type;
@@ -130,7 +134,7 @@ public class DatabaseFrame extends GenericFrame {
     }
   }
 
-  private class ExamineItemsPanel extends ItemLookupPanel {
+  private class ExamineItemsPanel extends ItemLookupPanel<String> {
     public ExamineItemsPanel() {
       super(DatabaseFrame.allItems, "item", "whichitem");
     }
@@ -141,7 +145,7 @@ public class DatabaseFrame extends GenericFrame {
     }
   }
 
-  private class ExamineEffectsPanel extends ItemLookupPanel {
+  private class ExamineEffectsPanel extends ItemLookupPanel<String> {
     public ExamineEffectsPanel() {
       super(DatabaseFrame.allEffects, "effect", "whicheffect");
     }
@@ -152,7 +156,7 @@ public class DatabaseFrame extends GenericFrame {
     }
   }
 
-  private class ExamineMonstersPanel extends ItemLookupPanel {
+  private class ExamineMonstersPanel extends ItemLookupPanel<MonsterData> {
     public ExamineMonstersPanel() {
       super(DatabaseFrame.allMonsters, "monster", "whichmonster");
     }

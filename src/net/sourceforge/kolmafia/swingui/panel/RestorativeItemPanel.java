@@ -11,7 +11,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
-public class RestorativeItemPanel extends ItemTableManagePanel {
+public class RestorativeItemPanel extends ItemTableManagePanel<AdventureResult> {
   public RestorativeItemPanel() {
     super(
         "use item",

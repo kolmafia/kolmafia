@@ -127,16 +127,16 @@ public class MuseumFrame extends GenericFrame {
       return selection;
     }
 
-    private class OutsideDisplayPanel extends ScrollableFilteredPanel {
-      private final ShowDescriptionList elementList;
+    private class OutsideDisplayPanel extends ScrollableFilteredPanel<AdventureResult> {
+      private final ShowDescriptionList<AdventureResult> elementList;
 
       public OutsideDisplayPanel() {
         super(
             "Inventory",
             "add all",
             "add some",
-            new ShowDescriptionList((SortedListModel<AdventureResult>) KoLConstants.inventory));
-        this.elementList = (ShowDescriptionList) this.scrollComponent;
+            new ShowDescriptionList<>((SortedListModel<AdventureResult>) KoLConstants.inventory));
+        this.elementList = (ShowDescriptionList<AdventureResult>) this.scrollComponent;
       }
 
       private void move(final boolean moveAll) {
@@ -157,16 +157,16 @@ public class MuseumFrame extends GenericFrame {
       }
     }
 
-    private class InsideDisplayPanel extends ScrollableFilteredPanel {
-      private final ShowDescriptionList elementList;
+    private class InsideDisplayPanel extends ScrollableFilteredPanel<AdventureResult> {
+      private final ShowDescriptionList<AdventureResult> elementList;
 
       public InsideDisplayPanel() {
         super(
             "Display Case",
             "take all",
             "take some",
-            new ShowDescriptionList((SortedListModel<AdventureResult>) KoLConstants.collection));
-        this.elementList = (ShowDescriptionList) this.scrollComponent;
+            new ShowDescriptionList<>((SortedListModel<AdventureResult>) KoLConstants.collection));
+        this.elementList = (ShowDescriptionList<AdventureResult>) this.scrollComponent;
       }
 
       private void move(final boolean moveAll) {
@@ -195,7 +195,8 @@ public class MuseumFrame extends GenericFrame {
 
     @Override
     public PanelListCell constructPanelListCell(final Object value, final int index) {
-      MuseumShelfPanel toConstruct = new MuseumShelfPanel(index, (SortedListModel) value);
+      MuseumShelfPanel toConstruct =
+          new MuseumShelfPanel(index, (SortedListModel<AdventureResult>) value);
       return toConstruct;
     }
 
@@ -207,18 +208,18 @@ public class MuseumFrame extends GenericFrame {
 
   public class MuseumShelfPanel extends ScrollablePanel implements PanelListCell {
     private final int index;
-    private final ShowDescriptionList elementList;
+    private final ShowDescriptionList<AdventureResult> elementList;
 
-    public MuseumShelfPanel(final int index, final SortedListModel value) {
+    public MuseumShelfPanel(final int index, final SortedListModel<AdventureResult> value) {
       super(
           DisplayCaseManager.getHeader(index),
           "move",
           "remove",
-          new ShowDescriptionList(value),
+          new ShowDescriptionList<>(value),
           false);
 
       this.index = index;
-      this.elementList = (ShowDescriptionList) this.scrollComponent;
+      this.elementList = (ShowDescriptionList<AdventureResult>) this.scrollComponent;
     }
 
     @Override
@@ -249,7 +250,7 @@ public class MuseumFrame extends GenericFrame {
     public void updateDisplay(final PanelList list, final Object value, final int index) {}
   }
 
-  public class OrderingPanel extends ItemListManagePanel {
+  public class OrderingPanel extends ItemListManagePanel<String> {
     public OrderingPanel() {
       super((LockableListModel<String>) DisplayCaseManager.getHeaders().clone());
 
@@ -269,7 +270,7 @@ public class MuseumFrame extends GenericFrame {
           return;
         }
 
-        Object removed = OrderingPanel.this.elementModel.remove(selectedIndex);
+        String removed = OrderingPanel.this.elementModel.remove(selectedIndex);
         OrderingPanel.this.elementModel.add(selectedIndex - 1, removed);
         OrderingPanel.this.getElementList().setSelectedIndex(selectedIndex - 1);
       }
@@ -287,7 +288,7 @@ public class MuseumFrame extends GenericFrame {
           return;
         }
 
-        Object removed = OrderingPanel.this.elementModel.remove(selectedIndex);
+        String removed = OrderingPanel.this.elementModel.remove(selectedIndex);
         OrderingPanel.this.elementModel.add(selectedIndex + 1, removed);
         OrderingPanel.this.getElementList().setSelectedIndex(selectedIndex + 1);
       }

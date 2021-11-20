@@ -1514,7 +1514,7 @@ public class Parser {
           }
         } else {
           // else without condition
-          condition = Value.locate(DataTypes.TRUE_VALUE);
+          condition = Value.locate(this.makeZeroWidthLocation(), DataTypes.TRUE_VALUE);
           finalElse = true;
         }
 
@@ -1666,7 +1666,7 @@ public class Parser {
       throw this.parseException("( or {", this.currentToken());
     }
 
-    Evaluable condition = Value.locate(DataTypes.TRUE_VALUE);
+    Evaluable condition = Value.locate(this.makeZeroWidthLocation(), DataTypes.TRUE_VALUE);
     if (this.currentToken().equals("(")) {
       this.readToken(); // (
 
@@ -2262,7 +2262,7 @@ public class Parser {
 
     Evaluable condition =
         this.currentToken().equals(";")
-            ? Value.locate(DataTypes.TRUE_VALUE)
+            ? Value.locate(this.makeZeroWidthLocation(), DataTypes.TRUE_VALUE)
             : this.parseExpression(scope);
 
     if (this.currentToken().equals(";")) {
@@ -2424,7 +2424,7 @@ public class Parser {
         Evaluable val;
 
         if (this.currentToken().equals(",")) {
-          val = Value.locate(DataTypes.VOID_VALUE);
+          val = Value.locate(this.makeZeroWidthLocation(), DataTypes.VOID_VALUE);
         } else if (this.currentToken().equals("{")) {
           if (expected instanceof AggregateType) {
             val = this.parseAggregateLiteral(scope, (AggregateType) expected);
@@ -3677,7 +3677,7 @@ public class Parser {
           throw this.parseException("Field name expected");
         }
 
-        index = Value.locate(rtype.getFieldIndex(field.content));
+        index = Value.locate(this.makeLocation(field), rtype.getFieldIndex(field.content));
         if (index != null) {
           type = rtype.getDataType(index);
         } else {

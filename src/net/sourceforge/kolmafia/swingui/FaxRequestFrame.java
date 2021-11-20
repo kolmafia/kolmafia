@@ -59,7 +59,7 @@ public class FaxRequestFrame extends GenericFrame {
   private class FaxRequestPanel extends GenericPanel {
     private final FaxBot bot;
 
-    public ShowDescriptionList[] monsterLists;
+    public ShowDescriptionList<Monster>[] monsterLists;
     public int monsterIndex;
     private final MonsterCategoryComboBox categorySelect;
     private final MonsterSelectPanel monsterSelect;
@@ -73,7 +73,7 @@ public class FaxRequestFrame extends GenericFrame {
       int categories = monstersByCategory.length;
       this.monsterLists = new ShowDescriptionList[categories];
       for (int i = 0; i < categories; ++i) {
-        this.monsterLists[i] = new ShowDescriptionList(monstersByCategory[i], ROWS);
+        this.monsterLists[i] = new ShowDescriptionList<>(monstersByCategory[i], ROWS);
       }
 
       this.categorySelect = new MonsterCategoryComboBox(this, bot);
@@ -376,10 +376,10 @@ public class FaxRequestFrame extends GenericFrame {
   }
 
   private class MonsterSelectPanel extends ScrollablePanel {
-    private ShowDescriptionList elementList;
+    private ShowDescriptionList<Monster> elementList;
     private final AutoFilterTextField filterfield;
 
-    public MonsterSelectPanel(final ShowDescriptionList list) {
+    public MonsterSelectPanel(final ShowDescriptionList<Monster> list) {
       super("", null, null, list, false);
 
       this.elementList = list;
@@ -390,7 +390,7 @@ public class FaxRequestFrame extends GenericFrame {
       this.centerPanel.add(this.filterfield, BorderLayout.NORTH);
     }
 
-    public void setElementList(final ShowDescriptionList list) {
+    public void setElementList(final ShowDescriptionList<Monster> list) {
       this.elementList = list;
       this.scrollPane.getViewport().setView(list);
       this.filterfield.setList(list);

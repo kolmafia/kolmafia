@@ -17,7 +17,7 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
-public class UseItemDequeuePanel extends ItemListManagePanel {
+public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> {
   private final JTabbedPane queueTabs;
   private final boolean food, booze, spleen;
   private final LockableListModel<QueuedConcoction> queue;

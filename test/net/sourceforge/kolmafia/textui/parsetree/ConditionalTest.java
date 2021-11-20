@@ -76,6 +76,12 @@ public class ConditionalTest {
               // Scope location test - Else
               conditionalScope = conditional.getScope();
               ParserTest.assertLocationEquals(1, 58, 1, 60, conditionalScope.getLocation());
+
+              // Implicit value location test
+              Value.Constant condition =
+                  assertInstanceOf(Value.Constant.class, conditional.getCondition());
+              // Zero-width location made at the beginning of the token following the "else"
+              ParserTest.assertLocationEquals(1, 58, 1, 58, condition.getLocation());
             }),
         invalid("Multiple else", "if (false) {} else {} else {}", "Else without if"),
         invalid("else-if after else", "if (false) {} else {} else if (true) {}", "Else without if"),

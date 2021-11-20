@@ -617,7 +617,7 @@ public class StoreManageFrame extends GenericPanelFrame {
     }
   }
 
-  private class StoreAddFromInventoryPanel extends ItemListManagePanel {
+  private class StoreAddFromInventoryPanel extends ItemListManagePanel<AdventureResult> {
     public StoreAddFromInventoryPanel() {
       super("mallsell", "autosell", (SortedListModel<AdventureResult>) KoLConstants.inventory);
       this.addFilters();
@@ -648,7 +648,7 @@ public class StoreManageFrame extends GenericPanelFrame {
     }
   }
 
-  private class StoreAddFromStoragePanel extends ItemListManagePanel {
+  private class StoreAddFromStoragePanel extends ItemListManagePanel<AdventureResult> {
     public StoreAddFromStoragePanel() {
       super("mallsell", null, (SortedListModel<AdventureResult>) KoLConstants.storage, true, true);
       this.addFilters();
@@ -673,7 +673,7 @@ public class StoreManageFrame extends GenericPanelFrame {
     public void actionCancelled() {}
   }
 
-  private class StoreRemovePanel extends ItemListManagePanel {
+  private class StoreRemovePanel extends ItemListManagePanel<SoldItem> {
     public StoreRemovePanel() {
       super("take all", "take one", StoreManager.getSortedSoldItemList());
       this.addFilters();
@@ -695,10 +695,10 @@ public class StoreManageFrame extends GenericPanelFrame {
     public void removeItems(final boolean takeAll) {
       StoreManageFrame.cancelTableEditing();
 
-      Object[] items = this.getElementList().getSelectedValuesList().toArray();
+      SoldItem[] items = this.getElementList().getSelectedValuesList().toArray(new SoldItem[0]);
 
       for (int i = 0; i < items.length; ++i) {
-        SoldItem soldItem = ((SoldItem) items[i]);
+        SoldItem soldItem = items[i];
         int count = takeAll ? soldItem.getQuantity() : 1;
         RequestThread.postRequest(new ManageStoreRequest(soldItem.getItemId(), count));
       }

@@ -4,11 +4,11 @@ import javax.swing.ListSelectionModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
 
-public class ItemTableManagePanel extends ItemManagePanel {
+public class ItemTableManagePanel<E> extends ItemManagePanel<E> {
   public ItemTableManagePanel(
       final String confirmedText,
       final String cancelledText,
-      final LockableListModel elementModel,
+      final LockableListModel<E> elementModel,
       final boolean addFilterField,
       final boolean addRefreshButton,
       final boolean[] flags) {
@@ -31,7 +31,7 @@ public class ItemTableManagePanel extends ItemManagePanel {
   public ItemTableManagePanel(
       final String confirmedText,
       final String cancelledText,
-      final LockableListModel elementModel) {
+      final LockableListModel<E> elementModel) {
     this(
         confirmedText,
         cancelledText,
@@ -44,7 +44,7 @@ public class ItemTableManagePanel extends ItemManagePanel {
   public ItemTableManagePanel(
       final String confirmedText,
       final String cancelledText,
-      final LockableListModel elementModel,
+      final LockableListModel<E> elementModel,
       final boolean addFilterField,
       final boolean addRefreshButton) {
     this(
@@ -59,7 +59,7 @@ public class ItemTableManagePanel extends ItemManagePanel {
   public ItemTableManagePanel(
       final String confirmedText,
       final String cancelledText,
-      final LockableListModel elementModel,
+      final LockableListModel<E> elementModel,
       final boolean[] flags) {
     this(
         confirmedText,
@@ -71,14 +71,14 @@ public class ItemTableManagePanel extends ItemManagePanel {
   }
 
   public ItemTableManagePanel(
-      final LockableListModel elementModel,
+      final LockableListModel<E> elementModel,
       final boolean addFilterField,
       final boolean addRefreshButton,
       final boolean[] flags) {
     this(null, null, elementModel, addFilterField, addRefreshButton, flags);
   }
 
-  public ItemTableManagePanel(final LockableListModel elementModel) {
+  public ItemTableManagePanel(final LockableListModel<E> elementModel) {
     this(
         elementModel,
         true,
@@ -86,12 +86,12 @@ public class ItemTableManagePanel extends ItemManagePanel {
         new boolean[] {false, false});
   }
 
-  public ItemTableManagePanel(final LockableListModel elementModel, final boolean[] flags) {
+  public ItemTableManagePanel(final LockableListModel<E> elementModel, final boolean[] flags) {
     this(elementModel, true, ItemManagePanel.shouldAddRefreshButton(elementModel), flags);
   }
 
   public ItemTableManagePanel(
-      final LockableListModel elementModel,
+      final LockableListModel<E> elementModel,
       final boolean addFilterField,
       final boolean addRefreshButton) {
     this(elementModel, addFilterField, addRefreshButton, new boolean[] {false, false});

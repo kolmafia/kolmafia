@@ -19,7 +19,7 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
  * Internal class used to handle everything related to creating items; this allows creating of
  * items, which usually get resold in malls.
  */
-public class CreateItemPanel extends InventoryPanel {
+public class CreateItemPanel extends InventoryPanel<CreateItemRequest> {
   public CreateItemPanel(
       final boolean food, final boolean booze, final boolean equip, boolean other) {
     super("create item", "create & use", ConcoctionDatabase.getCreatables(), equip && !other);
