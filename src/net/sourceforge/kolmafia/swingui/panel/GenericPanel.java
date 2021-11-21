@@ -181,7 +181,7 @@ public abstract class GenericPanel extends ActionVerifyPanel {
 
     if (component instanceof AutoFilterComboBox) {
       JTextComponent editor =
-          (JTextComponent) ((AutoFilterComboBox) component).getEditor().getEditorComponent();
+          (JTextComponent) ((AutoFilterComboBox<?>) component).getEditor().getEditorComponent();
 
       editor.addKeyListener(listener);
       this.listenerMap.put(editor, new WeakReference<>(listener));
@@ -233,7 +233,7 @@ public abstract class GenericPanel extends ActionVerifyPanel {
 
     if (component instanceof AutoFilterComboBox) {
       JTextComponent editor =
-          (JTextComponent) ((AutoFilterComboBox) component).getEditor().getEditorComponent();
+          (JTextComponent) ((AutoFilterComboBox<?>) component).getEditor().getEditorComponent();
 
       editor.removeKeyListener(listener);
     } else if (component instanceof JComboBox && ((JComboBox<?>) component).isEditable()) {
