@@ -21,7 +21,7 @@ public class LockableListFactory {
    * @param E Class
    * @return LockableListModel<E> or an ArrayList if Swing cannot be loaded
    */
-  public static <E> List<E> getInstance(Class<?> E) {
+  public static <E> List<E> getInstance(Class<E> E) {
     if (SwinglessUIUtils.isSwingAvailable) {
       return new LockableListModel<E>();
     }
@@ -34,7 +34,7 @@ public class LockableListFactory {
    * @param E Class
    * @return SortedListModel<E> or an SortedList if Swing cannot be loaded
    */
-  public static <E> List<E> getSortedInstance(Class<?> E) {
+  public static <E extends Comparable<E>> List<E> getSortedInstance(Class<E> E) {
     if (SwinglessUIUtils.isSwingAvailable) {
       return new SortedListModel<>();
     }
