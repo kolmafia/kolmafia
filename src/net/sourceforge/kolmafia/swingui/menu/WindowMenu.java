@@ -4,7 +4,7 @@ import javax.swing.JComponent;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLGUIConstants;
 
-public class WindowMenu extends MenuItemList {
+public class WindowMenu extends MenuItemList<String> {
   public WindowMenu() {
     super("Window", KoLGUIConstants.existingFrames);
   }

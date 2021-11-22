@@ -9,16 +9,16 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public abstract class MenuItemList extends JMenu implements ListDataListener {
+public abstract class MenuItemList<E> extends JMenu implements ListDataListener {
   private final int headerCount;
-  private ArrayList dataValues;
-  private LockableListModel model;
+  private ArrayList<E> dataValues;
+  private LockableListModel<E> model;
 
-  public MenuItemList(final String title, final LockableListModel model) {
+  public MenuItemList(final String title, final LockableListModel<E> model) {
     super(title);
 
     this.model = model;
-    this.dataValues = new ArrayList();
+    this.dataValues = new ArrayList<>();
 
     // Add the headers to the list of items which
     // need to be added.
@@ -79,12 +79,12 @@ public abstract class MenuItemList extends JMenu implements ListDataListener {
    * @param e the <code>ListDataEvent</code> that triggered this function call
    */
   public void intervalAdded(final ListDataEvent e) {
-    LockableListModel source = (LockableListModel) e.getSource();
+    LockableListModel<E> source = (LockableListModel<E>) e.getSource();
     int index0 = e.getIndex0();
     int index1 = e.getIndex1();
 
     for (int i = index0; i <= index1; ++i) {
-      Object item = source.get(i);
+      E item = source.get(i);
 
       this.dataValues.add(i, item);
       this.add(this.constructMenuItem(item), i + this.headerCount);
@@ -123,7 +123,7 @@ public abstract class MenuItemList extends JMenu implements ListDataListener {
     }
 
     this.dataValues.clear();
-    LockableListModel source = (LockableListModel) e.getSource();
+    LockableListModel<E> source = (LockableListModel<E>) e.getSource();
 
     for (int i = 0; i < source.size(); ++i) {
       this.dataValues.add(i, source.get(i));
