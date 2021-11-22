@@ -46,9 +46,9 @@ public class BuffRequestFrame extends GenericFrame {
 
   private String botName;
   private final JComboBox<String> names, types;
-  private final SortedListModel[] nameList;
+  private final SortedListModel<String>[] nameList;
 
-  private final TreeMap panelMap;
+  private final TreeMap<String, RequestPanel> panelMap;
 
   private final JPanel nameContainer;
   private final CardLayout nameCards;
@@ -60,10 +60,10 @@ public class BuffRequestFrame extends GenericFrame {
   public BuffRequestFrame() {
     super("Purchase Buffs");
 
-    this.panelMap = new TreeMap();
+    this.panelMap = new TreeMap<>();
     this.nameList = new SortedListModel[4];
     for (int i = 0; i < 4; ++i) {
-      this.nameList[i] = new SortedListModel();
+      this.nameList[i] = new SortedListModel<>();
     }
 
     this.names = new JComboBox<>(this.nameList[0]);
@@ -385,7 +385,7 @@ public class BuffRequestFrame extends GenericFrame {
       return null;
     }
 
-    return (RequestPanel) this.panelMap.get(cardId);
+    return this.panelMap.get(cardId);
   }
 
   private class CardSwitchListener extends ThreadedListener {
