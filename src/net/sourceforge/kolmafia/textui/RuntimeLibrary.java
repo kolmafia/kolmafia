@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import java.util.zip.GZIPInputStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
+import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -111,42 +112,10 @@ import net.sourceforge.kolmafia.persistence.PocketDatabase.StatsPocket;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.TwoResultPocket;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.ApiRequest;
-import net.sourceforge.kolmafia.request.AutoSellRequest;
-import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.*;
 import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
-import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
-import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
-import net.sourceforge.kolmafia.request.ClanLoungeRequest;
-import net.sourceforge.kolmafia.request.ClanStashRequest;
-import net.sourceforge.kolmafia.request.ClosetRequest;
-import net.sourceforge.kolmafia.request.CoinMasterRequest;
-import net.sourceforge.kolmafia.request.CraftRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
-import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.EveryCard;
-import net.sourceforge.kolmafia.request.DisplayCaseRequest;
-import net.sourceforge.kolmafia.request.DrinkItemRequest;
-import net.sourceforge.kolmafia.request.EatItemRequest;
-import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.FamiliarRequest;
-import net.sourceforge.kolmafia.request.FightRequest;
-import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.InternalChatRequest;
-import net.sourceforge.kolmafia.request.ManageStoreRequest;
-import net.sourceforge.kolmafia.request.MicroBreweryRequest;
-import net.sourceforge.kolmafia.request.QuestLogRequest;
-import net.sourceforge.kolmafia.request.RelayRequest;
-import net.sourceforge.kolmafia.request.StandardRequest;
-import net.sourceforge.kolmafia.request.StorageRequest;
-import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
-import net.sourceforge.kolmafia.request.TrendyRequest;
-import net.sourceforge.kolmafia.request.UneffectRequest;
-import net.sourceforge.kolmafia.request.UseItemRequest;
-import net.sourceforge.kolmafia.request.UseSkillRequest;
-import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.*;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.svn.SVNManager;
@@ -1029,6 +998,9 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("mall_prices", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE};
+    functions.add(new LibraryFunction("well_stocked", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("npc_price", DataTypes.INT_TYPE, params));
@@ -5064,6 +5036,41 @@ public abstract class RuntimeLibrary {
   public static Value mall_prices(
       ScriptRuntime controller, final Value category, final Value tiers) {
     return new Value(StoreManager.getMallPrices(category.toString(), tiers.toString()));
+  }
+
+  public static Value well_stocked(
+      ScriptRuntime controller, final Value itemName, final Value quantity, final Value price) {
+    // extract parameters
+    String item = itemName.toString();
+    int itemID = ItemDatabase.getItemId(item);
+    long checkQuant = quantity.intValue();
+    long checkPrice = price.intValue();
+    // check parameters and return false if problems
+    if (item == null) return DataTypes.FALSE_VALUE;
+    if (itemID < 1) return DataTypes.FALSE_VALUE;
+    if (checkQuant < 6) return DataTypes.FALSE_VALUE;
+    if (checkPrice < (2 * ItemDatabase.getPriceById(itemID))) return DataTypes.FALSE_VALUE;
+    // get some data
+    SortedListModel<PurchaseRequest> results = new SortedListModel<PurchaseRequest>();
+    MallSearchRequest msr = new MallSearchRequest(item, 20, results, false);
+    msr.run();
+    // Now iterate over results
+    // Assume sorted by price so can bail at first failure
+    int available = 0;
+    for (PurchaseRequest pr : results) {
+      // only interested in mall
+      if (pr instanceof MallPurchaseRequest) {
+        // get price and bail if higher
+        int storePrice = pr.getPrice();
+        if (storePrice > checkPrice) return new Value(available >= checkQuant);
+        // get available
+        int canGet = Math.min(pr.getLimit(), pr.getQuantity());
+        available += canGet;
+        if (available >= checkQuant) return DataTypes.TRUE_VALUE;
+      }
+    }
+    // if we get here we have failed to find enough stock
+    return DataTypes.FALSE_VALUE;
   }
 
   public static Value npc_price(ScriptRuntime controller, final Value item) {
