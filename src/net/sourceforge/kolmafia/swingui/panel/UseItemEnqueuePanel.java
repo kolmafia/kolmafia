@@ -49,7 +49,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
   private final JTabbedPane queueTabs;
 
   private final LockableListModel<Concoction> model;
-  private final Comparator comparator;
+  private final Comparator<? extends Concoction> comparator;
 
   // These control the sort order for Consumable and Potion comparators.
   // They are controlled by checkboxes, but these are reasonable defaults

@@ -24,7 +24,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class TableCellFactory {
   public static Object get(
       int columnIndex,
-      LockableListModel model,
+      LockableListModel<?> model,
       Object result,
       boolean[] flags,
       boolean isSelected) {
@@ -33,7 +33,7 @@ public class TableCellFactory {
 
   public static Object get(
       int columnIndex,
-      LockableListModel model,
+      LockableListModel<?> model,
       Object result,
       boolean[] flags,
       boolean isSelected,
@@ -350,7 +350,7 @@ public class TableCellFactory {
     return price + " meat";
   }
 
-  public static String[] getColumnNames(LockableListModel originalModel, boolean[] flags) {
+  public static String[] getColumnNames(LockableListModel<?> originalModel, boolean[] flags) {
     if (flags[0]) { // Equipment panel
       return new String[] {"item name", "power", "quantity", "mallprice", "autosell"};
     } else if (flags[1]) { // Restores panel
