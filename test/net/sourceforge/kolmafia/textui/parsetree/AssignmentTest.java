@@ -19,6 +19,24 @@ public class AssignmentTest {
   public static Stream<ScriptData> data() {
     return Stream.of(
         valid(
+            "Definition assignment",
+            "int x;",
+            Arrays.asList("int", "x", ";"),
+            Arrays.asList("1-1", "1-5", "1-6"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              // Assignment location test
+              Assignment assignment = assertInstanceOf(Assignment.class, commands.get(0));
+              ParserTest.assertLocationEquals(1, 5, 1, 6, assignment.getLocation());
+
+              // Implicit value location test
+              // Right hand side gets the left hand side's location when absent
+              assertSame(
+                  assignment.getLeftHandSide().getLocation(),
+                  assignment.getRightHandSide().getLocation());
+            }),
+        valid(
             "Simple operator assignment",
             "int x = 3;",
             Arrays.asList("int", "x", "=", "3", ";"),
@@ -26,7 +44,11 @@ public class AssignmentTest {
             scope -> {
               List<Command> commands = scope.getCommandList();
 
+              // Assignment location test
               Assignment assignment = assertInstanceOf(Assignment.class, commands.get(0));
+              ParserTest.assertLocationEquals(1, 5, 1, 10, assignment.getLocation());
+
+              // Operator location test
               // Assignment.oper is the operator to use *before* doing the assignment (i.e. the "=")
               assertNull(assignment.getOperator());
             }),

@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public class CompositeReference extends VariableReference {
   private final List<Evaluable> indices;
@@ -17,12 +18,15 @@ public class CompositeReference extends VariableReference {
   private Value index;
 
   // For runtime error messages
-  String fileName;
-  int lineNumber;
+  private final String fileName;
+  private final int lineNumber;
 
   public CompositeReference(
-      final Variable target, final List<Evaluable> indices, final Parser parser) {
-    super(target);
+      final Location location,
+      final Variable target,
+      final List<Evaluable> indices,
+      final Parser parser) {
+    super(location, target);
     this.indices = indices;
     this.fileName = parser.getShortFileName();
     this.lineNumber = parser.getLineNumber();

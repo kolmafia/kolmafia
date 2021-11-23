@@ -17,6 +17,7 @@ public class Assignment extends Evaluable {
   }
 
   public Assignment(final VariableReference lhs, final Evaluable rhs, final Operator oper) {
+    super(Parser.mergeLocations(lhs, rhs));
     this.lhs = lhs;
     this.rhs = rhs;
     this.oper = oper;
@@ -31,7 +32,9 @@ public class Assignment extends Evaluable {
   }
 
   public Evaluable getRightHandSide() {
-    return this.rhs == null ? Value.locate(this.lhs.getType().initialValueExpression()) : this.rhs;
+    return this.rhs == null
+        ? Value.locate(this.lhs.getLocation(), this.lhs.getType().initialValueExpression())
+        : this.rhs;
   }
 
   @Override

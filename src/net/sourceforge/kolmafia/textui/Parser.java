@@ -850,7 +850,7 @@ public class Parser {
     if (ltype instanceof TypeDef || ltype instanceof RecordType) {
       Function target = scope.findFunction(name, params, MatchType.EXACT);
       if (target != null && target.getType().equals(ltype)) {
-        return new FunctionCall(target, params, this);
+        return new FunctionCall(rhs.getLocation(), target, params, this);
       }
     }
 
@@ -861,7 +861,7 @@ public class Parser {
     if (rtype instanceof TypeDef || rtype instanceof RecordType) {
       Function target = scope.findFunction(name, params, MatchType.EXACT);
       if (target != null && target.getType().equals(ltype)) {
-        return new FunctionCall(target, params, this);
+        return new FunctionCall(rhs.getLocation(), target, params, this);
       }
     }
 
@@ -2135,7 +2135,7 @@ public class Parser {
       throw this.parseException("Expression for floor/ceiling value expected");
     }
 
-    Evaluable increment = Value.locate(DataTypes.ONE_VALUE);
+    Evaluable increment = Value.locate(this.makeZeroWidthLocation(), DataTypes.ONE_VALUE);
     if (this.currentToken().equalsIgnoreCase("by")) {
       this.readToken(); // by
       increment = this.parseExpression(parentScope);
@@ -2493,14 +2493,19 @@ public class Parser {
     List<Evaluable> params = this.parseParameters(scope, firstParam);
     Function target = scope.findFunction(name.content, params);
 
+    Location functionCallLocation = this.makeLocation(name, this.peekPreviousToken());
+    // Include the first parameter, if any, in the FunctionCall's location
+    if (firstParam != null) {
+      functionCallLocation = Parser.mergeLocations(firstParam.getLocation(), functionCallLocation);
+    }
+
     if (target != null) {
       params = this.autoCoerceParameters(target, params, scope);
     } else {
       throw this.undefinedFunctionException(name.content, params);
     }
 
-    FunctionCall call = new FunctionCall(target, params, this);
-
+    FunctionCall call = new FunctionCall(functionCallLocation, target, params, this);
     return this.parsePostCall(scope, call);
   }
 
@@ -2562,7 +2567,8 @@ public class Parser {
       Variable current = new Variable(result.getType());
       current.setExpression(result);
 
-      result = this.parseVariableReference(scope, new VariableReference(current));
+      result =
+          this.parseVariableReference(scope, new VariableReference(result.getLocation(), current));
     }
 
     return result;
@@ -2729,7 +2735,8 @@ public class Parser {
 
     Operator oper = new Operator(this.makeLocation(operToken), operStr, this);
 
-    return new IncDec((VariableReference) lhs, oper);
+    Location preIncDecLocation = this.makeLocation(operToken, this.peekPreviousToken());
+    return new IncDec(preIncDecLocation, (VariableReference) lhs, oper);
   }
 
   private Evaluable parsePostIncDec(final VariableReference lhs) {
@@ -2752,7 +2759,8 @@ public class Parser {
 
     Operator oper = new Operator(this.makeLocation(operToken), operStr, this);
 
-    return new IncDec(lhs, oper);
+    Location postIncDecLocation = Parser.mergeLocations(lhs, oper);
+    return new IncDec(postIncDecLocation, lhs, oper);
   }
 
   private Evaluable parseExpression(final BasicScope scope) {
@@ -2993,7 +3001,8 @@ public class Parser {
       Variable current = new Variable(result.getType());
       current.setExpression(result);
 
-      result = this.parseVariableReference(scope, new VariableReference(current));
+      result =
+          this.parseVariableReference(scope, new VariableReference(result.getLocation(), current));
     }
 
     if (result instanceof VariableReference) {
@@ -3692,7 +3701,9 @@ public class Parser {
         parseAggregate = false;
       }
 
-      current = new CompositeReference(current.target, indices, this);
+      Location currentLocation =
+          Parser.makeLocation(current.getLocation(), this.peekPreviousToken());
+      current = new CompositeReference(currentLocation, current.target, indices, this);
     }
 
     if (parseAggregate) {
@@ -4151,6 +4162,22 @@ public class Parser {
     }
 
     return new Location(start.getUri(), Parser.mergeRanges(start.getRange(), end.getRange()));
+  }
+
+  public static Location mergeLocations(final Command start, final Command end) {
+    if (start == null && end == null) {
+      return null;
+    }
+
+    if (start == null) {
+      return end.getLocation();
+    }
+
+    if (end == null) {
+      return start.getLocation();
+    }
+
+    return Parser.mergeLocations(start.getLocation(), end.getLocation());
   }
 
   // **************** Parse errors *****************

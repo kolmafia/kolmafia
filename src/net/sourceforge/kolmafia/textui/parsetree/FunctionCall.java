@@ -16,11 +16,6 @@ public class FunctionCall extends Evaluable {
   protected final String fileName;
   protected final int lineNumber;
 
-  // TEMPORARY
-  public FunctionCall(final Function target, final List<Evaluable> params, final Parser parser) {
-    this(null, target, params, parser);
-  }
-
   public FunctionCall(
       final Location location,
       final Function target,

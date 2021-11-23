@@ -477,11 +477,6 @@ public class Value implements TypedNode, Comparable<Value> {
     }
   }
 
-  // TEMPORARY
-  public static final Evaluable locate(final Value value) {
-    return Value.locate(null, value);
-  }
-
   /**
    * Returns a {@link Constant} holding {@code value} and {@code location}.
    *

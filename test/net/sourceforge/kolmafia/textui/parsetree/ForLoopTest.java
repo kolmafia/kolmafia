@@ -35,7 +35,16 @@ public class ForLoopTest {
             "for-from-to",
             "for i from 1 to 10000;",
             Arrays.asList("for", "i", "from", "1", "to", "10000", ";"),
-            Arrays.asList("1-1", "1-5", "1-7", "1-12", "1-14", "1-17", "1-22")),
+            Arrays.asList("1-1", "1-5", "1-7", "1-12", "1-14", "1-17", "1-22"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              // Implicit value location test
+              ForLoop forLoop = assertInstanceOf(ForLoop.class, commands.get(0));
+              Evaluable increment = forLoop.getIncrement();
+              // Zero-width location made at the start of the token following the "last" expression
+              ParserTest.assertLocationEquals(1, 22, 1, 22, increment.getLocation());
+            }),
         valid(
             "for-from-upto",
             "for i from 1 upto 10000;",
