@@ -44,7 +44,7 @@ public class ClanMembersRequest extends GenericRequest {
   }
 
   public ClanMembersRequest(
-      final Object[] titleChange, final Object[] newTitles, final Object[] boots) {
+      final String[] titleChange, final String[] newTitles, final String[] boots) {
     super("clan_members.php");
 
     this.isLookup = false;
@@ -57,8 +57,8 @@ public class ClanMembersRequest extends GenericRequest {
 
     String currentId;
     for (int i = 0; i < titleChange.length; ++i) {
-      currentId = ContactManager.getPlayerId((String) titleChange[i]);
-      this.addFormField("title" + currentId, (String) newTitles[i]);
+      currentId = ContactManager.getPlayerId(titleChange[i]);
+      this.addFormField("title" + currentId, newTitles[i]);
 
       if (!fields.contains(currentId)) {
         fields.add(currentId);
@@ -66,7 +66,7 @@ public class ClanMembersRequest extends GenericRequest {
     }
 
     for (int i = 0; i < boots.length; ++i) {
-      currentId = ContactManager.getPlayerId((String) boots[i]);
+      currentId = ContactManager.getPlayerId(boots[i]);
       ClanManager.unregisterMember(currentId);
       this.addFormField("boot" + currentId, "on");
 
