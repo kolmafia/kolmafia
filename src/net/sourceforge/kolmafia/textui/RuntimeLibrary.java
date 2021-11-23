@@ -5046,10 +5046,10 @@ public abstract class RuntimeLibrary {
     long checkQuant = quantity.intValue();
     long checkPrice = price.intValue();
     // check parameters and return false if problems
-    if (item == null) return new Value(false);
-    if (itemID < 1) return new Value(false);
-    if (checkQuant < 6) return new Value(false);
-    if (checkPrice < (2 * ItemDatabase.getPriceById(itemID))) return new Value(false);
+    if (item == null) return DataTypes.FALSE_VALUE;
+    if (itemID < 1) return DataTypes.FALSE_VALUE;
+    if (checkQuant < 6) return DataTypes.FALSE_VALUE;
+    if (checkPrice < (2 * ItemDatabase.getPriceById(itemID))) return DataTypes.FALSE_VALUE;
     // get some data
     SortedListModel<PurchaseRequest> results = new SortedListModel<PurchaseRequest>();
     MallSearchRequest msr = new MallSearchRequest(item, 20, results, false);
@@ -5066,11 +5066,11 @@ public abstract class RuntimeLibrary {
         // get available
         int canGet = Math.min(pr.getLimit(), pr.getQuantity());
         available += canGet;
-        if (available >= checkQuant) return new Value(true);
+        if (available >= checkQuant) return DataTypes.TRUE_VALUE;
       }
     }
     // if we get here we have failed to find enough stock
-    return new Value(false);
+    return DataTypes.FALSE_VALUE;
   }
 
   public static Value npc_price(ScriptRuntime controller, final Value item) {
