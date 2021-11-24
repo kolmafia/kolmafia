@@ -4367,7 +4367,7 @@ public class Parser {
         if (range.getEnd().getCharacter() > 0) {
           result.append(", char " + (range.getEnd().getCharacter() + 1));
         }
-      } else if (range.getStart().getCharacter() < range.getEnd().getCharacter()) {
+      } else {
         result.append("char " + (range.getEnd().getCharacter() + 1));
       }
     }
