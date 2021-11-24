@@ -4363,13 +4363,10 @@ public class Parser {
 
       if (range.getStart().getLine() < range.getEnd().getLine()) {
         result.append("line " + (range.getEnd().getLine() + 1));
-
-        if (range.getEnd().getCharacter() > 0) {
-          result.append(", char " + (range.getEnd().getCharacter() + 1));
-        }
-      } else {
-        result.append("char " + (range.getEnd().getCharacter() + 1));
+        result.append(", ");
       }
+
+      result.append("char " + (range.getEnd().getCharacter() + 1));
     }
 
     result.append(")");
