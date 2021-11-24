@@ -4213,54 +4213,8 @@ public class Parser {
       location = this.makeZeroWidthLocation();
     }
 
-    final Range range = location.getRange();
-    final StringBuilder result = new StringBuilder();
-
-    result.append(message);
-    result.append(" (");
-
-    if (this.shortFileName == null) {
-      String commandLineNamespace = Preferences.getString("commandLineNamespace");
-
-      if (!commandLineNamespace.isEmpty()) {
-        result.append(commandLineNamespace);
-        result.append(", ");
-      }
-
-      // It's impossible to submit multiple lines from the command line, except maybe with
-      // "ash cli_execute('ash \n')"
-      // As such, don't display the start's line if it's '0', because it can easily be assumed.
-      if (range.getStart().getLine() > 0) {
-        result.append("line " + (range.getStart().getLine() + 1));
-        result.append(", ");
-      }
-    } else {
-      result.append(this.shortFileName);
-      result.append(", line " + (range.getStart().getLine() + 1));
-      result.append(", ");
-    }
-
-    result.append("char " + (range.getStart().getCharacter() + 1));
-
-    if (!range.getStart().equals(range.getEnd())) {
-      result.append(" to ");
-
-      if (range.getStart().getLine() < range.getEnd().getLine()) {
-        result.append("line " + (range.getEnd().getLine() + 1));
-
-        if (range.getEnd().getCharacter() > 0) {
-          result.append(", ");
-        }
-      }
-
-      if (range.getStart().getCharacter() < range.getEnd().getCharacter()) {
-        result.append("char " + (range.getEnd().getCharacter() + 1));
-      }
-    }
-
-    result.append(")");
-
-    return new ScriptException(result.toString());
+    return new ScriptException(
+        message + " " + Parser.getFileAndRange(this.shortFileName, location.getRange()));
   }
 
   private ScriptException undefinedFunctionException(
@@ -4370,6 +4324,57 @@ public class Parser {
     }
 
     return "(" + fileName + ", line " + lineNumber + ")";
+  }
+
+  public static final String getFileAndRange(String fileName, final Range range) {
+    if (range == null || Positions.isBefore(range.getEnd(), range.getStart())) {
+      throw new IllegalArgumentException();
+    }
+
+    final StringBuilder result = new StringBuilder();
+
+    result.append("(");
+
+    if (fileName == null) {
+      String commandLineNamespace = Preferences.getString("commandLineNamespace");
+
+      if (!commandLineNamespace.isEmpty()) {
+        result.append(commandLineNamespace);
+        result.append(", ");
+      }
+
+      // It's impossible to submit multiple lines from the command line, except maybe with
+      // "ash cli_execute('ash \n')"
+      // As such, don't display the start's line if it's '0', because it can easily be assumed.
+      if (range.getStart().getLine() > 0) {
+        result.append("line " + (range.getStart().getLine() + 1));
+        result.append(", ");
+      }
+    } else {
+      result.append(fileName);
+      result.append(", line " + (range.getStart().getLine() + 1));
+      result.append(", ");
+    }
+
+    result.append("char " + (range.getStart().getCharacter() + 1));
+
+    if (!range.getStart().equals(range.getEnd())) {
+      result.append(" to ");
+
+      if (range.getStart().getLine() < range.getEnd().getLine()) {
+        result.append("line " + (range.getEnd().getLine() + 1));
+
+        if (range.getEnd().getCharacter() > 0) {
+          result.append(", char " + (range.getEnd().getCharacter() + 1));
+        }
+      } else if (range.getStart().getCharacter() < range.getEnd().getCharacter()) {
+        result.append("char " + (range.getEnd().getCharacter() + 1));
+      }
+    }
+
+    result.append(")");
+
+    return result.toString();
   }
 
   public static void printIndices(
