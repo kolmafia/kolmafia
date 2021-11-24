@@ -35,7 +35,7 @@ public class ParserTest {
     assertThat(script.desc, e.getMessage(), containsString(script.errorText));
 
     if (script.errorLocationString != null) {
-      assertThat(script.desc, e.getMessage(), endsWith(script.errorLocationString));
+      assertThat(script.desc, e.getMessage(), endsWith(" (" + script.errorLocationString + ")"));
     }
   }
 

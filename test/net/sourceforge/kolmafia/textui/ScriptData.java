@@ -109,7 +109,7 @@ public abstract class ScriptData {
         final String errorLocationString) {
       super(description, script);
       this.errorText = errorText;
-      this.errorLocationString = " (" + errorLocationString + ")";
+      this.errorLocationString = errorLocationString;
     }
   }
 }
