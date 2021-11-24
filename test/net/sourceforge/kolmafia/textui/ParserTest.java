@@ -33,6 +33,10 @@ public class ParserTest {
   private static void testInvalidScript(final InvalidScriptData script) {
     ScriptException e = assertThrows(ScriptException.class, script.parser::parse, script.desc);
     assertThat(script.desc, e.getMessage(), containsString(script.errorText));
+
+    if (script.errorLocationString != null) {
+      assertThat(script.desc, e.getMessage(), endsWith(script.errorLocationString));
+    }
   }
 
   private static void testValidScript(final ValidScriptData script) {
