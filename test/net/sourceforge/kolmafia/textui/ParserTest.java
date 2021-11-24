@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.textui.ScriptData.InvalidScriptData;
 import net.sourceforge.kolmafia.textui.ScriptData.ValidScriptData;
 import net.sourceforge.kolmafia.textui.ScriptData.ValidScriptDataWithLocationTests;
@@ -14,6 +16,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Scope;
 import org.eclipse.lsp4j.Location;
 import org.eclipse.lsp4j.Position;
 import org.eclipse.lsp4j.Range;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -138,7 +141,7 @@ public class ParserTest {
             "multi-line range, end at char 0",
             "foo",
             new Range(new Position(0, 5), new Position(2, 0)),
-            "(foo, line 1, char 6 to line 3)"),
+            "(foo, line 1, char 6 to line 3, char 1)"),
         Arguments.of(
             "multi-line range, end at char > 0",
             "foo",
@@ -171,5 +174,16 @@ public class ParserTest {
 
     String actual = Parser.getFileAndRange(fileName, range);
     assertEquals(expected, actual, desc);
+  }
+
+  @Test
+  public void testGetFileAndRangeWithNamedNamespace() {
+    Preferences.setString("commandLineNamespace", "bar");
+    testGetFileAndRange(
+        "null file with named command line namespace",
+        null,
+        new Range(new Position(0, 5), new Position(2, 3)),
+        "(bar, char 6 to line 3, char 4)");
+    Preferences.resetToDefault("commandLineNamespace");
   }
 }
