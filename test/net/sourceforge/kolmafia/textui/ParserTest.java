@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.textui.ScriptData.InvalidScriptData;
 import net.sourceforge.kolmafia.textui.ScriptData.ValidScriptData;
