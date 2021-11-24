@@ -172,6 +172,13 @@ public class Value implements TypedNode, Comparable<Value> {
     return this.contentLong;
   }
 
+  public boolean booleanValue() {
+    if (!this.getType().equals(DataTypes.TYPE_BOOLEAN)) {
+      return false;
+    }
+    return this.intValue() == 1;
+  }
+
   public double floatValue() {
     if (!this.getType().equals(DataTypes.TYPE_FLOAT)) {
       return (double) this.contentLong;
