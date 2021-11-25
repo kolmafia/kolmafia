@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.TreeMap;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -46,7 +47,7 @@ public class BuffRequestFrame extends GenericFrame {
 
   private String botName;
   private final JComboBox<String> names, types;
-  private final SortedListModel<String>[] nameList;
+  private final List<SortedListModel<String>> nameList;
 
   private final TreeMap<String, RequestPanel> panelMap;
 
@@ -61,12 +62,12 @@ public class BuffRequestFrame extends GenericFrame {
     super("Purchase Buffs");
 
     this.panelMap = new TreeMap<>();
-    this.nameList = new SortedListModel[4];
+    this.nameList = new ArrayList<>(4);
     for (int i = 0; i < 4; ++i) {
-      this.nameList[i] = new SortedListModel<>();
+      this.nameList.add(new SortedListModel<>());
     }
 
-    this.names = new JComboBox<>(this.nameList[0]);
+    this.names = new JComboBox<>(this.nameList.get(0));
 
     this.types = new JComboBox<>();
     this.types.addItem("buff packs");
@@ -252,8 +253,8 @@ public class BuffRequestFrame extends GenericFrame {
 
         this.addBuffLabel(turns.length, buffId, categoryId);
 
-        if (!BuffRequestFrame.this.nameList[categoryId].contains(botName)) {
-          BuffRequestFrame.this.nameList[categoryId].add(botName);
+        if (!BuffRequestFrame.this.nameList.get(categoryId).contains(botName)) {
+          BuffRequestFrame.this.nameList.get(categoryId).add(botName);
         }
 
         this.categoryPanels[categoryId].add(this.checkboxes[i]);
@@ -362,8 +363,8 @@ public class BuffRequestFrame extends GenericFrame {
 
   private void resetCard() {
     int typeId = this.types.getSelectedIndex();
-    if (typeId != -1 && this.names.getModel() != this.nameList[typeId]) {
-      this.names.setModel(this.nameList[typeId]);
+    if (typeId != -1 && this.names.getModel() != this.nameList.get(typeId)) {
+      this.names.setModel(this.nameList.get(typeId));
     }
 
     RequestPanel panel = this.getPanel();
