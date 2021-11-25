@@ -537,7 +537,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     }
   }
 
-  private class OceanDestinationComboBox extends JComboBox<String> implements ActionListener {
+  private class OceanDestinationComboBox extends JComboBox<String> {
     public OceanDestinationComboBox() {
       super();
       this.createMenu(Preferences.getString("oceanDestination"));

@@ -651,7 +651,7 @@ public class ItemManageFrame extends GenericFrame {
     }
   }
 
-  public static class PrefPopup extends JComboBox<String> implements ActionListener, Listener {
+  public static class PrefPopup extends JComboBox<String> implements Listener {
     private final String pref;
 
     public PrefPopup(String pref) {
