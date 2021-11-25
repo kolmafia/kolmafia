@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
@@ -59,7 +61,7 @@ public class FaxRequestFrame extends GenericFrame {
   private class FaxRequestPanel extends GenericPanel {
     private final FaxBot bot;
 
-    public ShowDescriptionList<Monster>[] monsterLists;
+    public List<ShowDescriptionList<Monster>> monsterLists;
     public int monsterIndex;
     private final MonsterCategoryComboBox categorySelect;
     private final MonsterSelectPanel monsterSelect;
@@ -71,13 +73,13 @@ public class FaxRequestFrame extends GenericFrame {
 
       LockableListModel<Monster>[] monstersByCategory = bot.getMonstersByCategory();
       int categories = monstersByCategory.length;
-      this.monsterLists = new ShowDescriptionList[categories];
+      this.monsterLists = new ArrayList<>(categories);
       for (int i = 0; i < categories; ++i) {
-        this.monsterLists[i] = new ShowDescriptionList<>(monstersByCategory[i], ROWS);
+        this.monsterLists.add(new ShowDescriptionList<>(monstersByCategory[i], ROWS));
       }
 
       this.categorySelect = new MonsterCategoryComboBox(this, bot);
-      this.monsterSelect = new MonsterSelectPanel(this.monsterLists[0]);
+      this.monsterSelect = new MonsterSelectPanel(this.monsterLists.get(0));
       this.monsterIndex = 0;
 
       VerifiableElement[] elements = new VerifiableElement[1];
@@ -106,7 +108,7 @@ public class FaxRequestFrame extends GenericFrame {
     @Override
     public void actionConfirmed() {
       int list = this.monsterIndex;
-      Object value = monsterLists[list].getSelectedValue();
+      Object value = monsterLists.get(list).getSelectedValue();
       if (value == null) {
         return;
       }
@@ -370,7 +372,7 @@ public class FaxRequestFrame extends GenericFrame {
         int index = MonsterCategoryComboBox.this.getSelectedIndex();
         MonsterCategoryComboBox.this.panel.monsterIndex = index;
         MonsterCategoryComboBox.this.panel.monsterSelect.setElementList(
-            MonsterCategoryComboBox.this.panel.monsterLists[index]);
+            MonsterCategoryComboBox.this.panel.monsterLists.get(index));
       }
     }
   }
