@@ -33,7 +33,7 @@ public class MaximizerSpeculation extends Speculation
   private boolean foldables = false;
 
   @Override
-  public Object clone() {
+  public MaximizerSpeculation clone() {
     try {
       MaximizerSpeculation copy = (MaximizerSpeculation) super.clone();
       copy.equipment = this.equipment.clone();
@@ -791,7 +791,7 @@ public class MaximizerSpeculation extends Speculation
       throw new MaximizerLimitException();
     }
     if (this.compareTo(Maximizer.best) > 0) {
-      Maximizer.best = (MaximizerSpeculation) this.clone();
+      Maximizer.best = this.clone();
     }
     Maximizer.bestChecked++;
     long t = System.currentTimeMillis();

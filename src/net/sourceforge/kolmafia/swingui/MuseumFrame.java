@@ -251,6 +251,7 @@ public class MuseumFrame extends GenericFrame {
   }
 
   public class OrderingPanel extends ItemListManagePanel<String> {
+    @SuppressWarnings("unchecked")
     public OrderingPanel() {
       super((LockableListModel<String>) DisplayCaseManager.getHeaders().clone());
 

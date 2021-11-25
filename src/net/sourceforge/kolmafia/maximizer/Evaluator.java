@@ -1562,12 +1562,12 @@ public class Evaluator {
           spec.setEnthroned(familiar);
           spec.setUnscored();
           if (spec.compareTo(best) > 0) {
-            secondBest = (MaximizerSpeculation) best.clone();
-            best = (MaximizerSpeculation) spec.clone();
+            secondBest = best.clone();
+            best = spec.clone();
             secondBestCarriedFamiliar = bestCarriedFamiliar;
             bestCarriedFamiliar = familiar;
           } else if (spec.compareTo(secondBest) > 0) {
-            secondBest = (MaximizerSpeculation) spec.clone();
+            secondBest = spec.clone();
             secondBestCarriedFamiliar = familiar;
           }
         }
@@ -1597,7 +1597,7 @@ public class Evaluator {
           spec.equipment[EquipmentManager.OFFHAND] = sleeve;
           spec.equipment[EquipmentManager.CARDSLEEVE] = card;
           if (spec.compareTo(best) > 0) {
-            best = (MaximizerSpeculation) spec.clone();
+            best = spec.clone();
             bestCard = card;
           }
         }
@@ -1632,7 +1632,7 @@ public class Evaluator {
           spec.equipment[EquipmentManager.HAT] = edPiece;
           spec.setEdPiece(animal);
           if (spec.compareTo(best) > 0) {
-            best = (MaximizerSpeculation) spec.clone();
+            best = spec.clone();
             bestEdPiece = animal;
           }
         }
@@ -1662,7 +1662,7 @@ public class Evaluator {
         spec.equipment[EquipmentManager.FAMILIAR] = snowsuit;
         spec.setSnowsuit(decoration);
         if (spec.compareTo(best) > 0) {
-          best = (MaximizerSpeculation) spec.clone();
+          best = spec.clone();
           bestSnowsuit = decoration;
         }
       }
@@ -1699,7 +1699,7 @@ public class Evaluator {
           spec.equipment[EquipmentManager.CONTAINER] = retroCape;
           spec.setRetroCape(config);
           if (spec.compareTo(best) > 0) {
-            best = (MaximizerSpeculation) spec.clone();
+            best = spec.clone();
             bestRetroCape = config;
           }
         }
@@ -1731,7 +1731,7 @@ public class Evaluator {
         spec.equipment[EquipmentManager.ACCESSORY3] = backupCamera;
         spec.setBackupCamera(mode);
         if (spec.compareTo(best) > 0) {
-          best = (MaximizerSpeculation) spec.clone();
+          best = spec.clone();
           bestBackupCamera = mode;
         }
       }
