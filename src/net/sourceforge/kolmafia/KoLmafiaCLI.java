@@ -922,8 +922,12 @@ public class KoLmafiaCLI {
       final String filename,
       final List<File> matches,
       final boolean searchSubdirectories) {
+    // Bail if double dots
+    if (filename.contains("..")) {
+      return;
+    }
+
     File scriptFile = new File(directory, filename);
-    // Above here JAA
     if (scriptFile.exists()) {
       if (!scriptFile.isDirectory()) matches.add(scriptFile);
     }
