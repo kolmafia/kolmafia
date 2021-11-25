@@ -9,7 +9,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 
-public class StatusEffectPanel extends ScrollablePanel {
+public class StatusEffectPanel extends ScrollablePanel<ShowDescriptionList<AdventureResult>> {
   private final ShowDescriptionList<AdventureResult> elementList;
 
   public StatusEffectPanel() {
@@ -19,7 +19,7 @@ public class StatusEffectPanel extends ScrollablePanel {
 
   public StatusEffectPanel(final ShowDescriptionList<AdventureResult> list) {
     super("Active Effects", "uneffect", "add to mood", list);
-    this.elementList = (ShowDescriptionList<AdventureResult>) this.scrollComponent;
+    this.elementList = this.scrollComponent;
   }
 
   @Override

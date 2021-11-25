@@ -376,7 +376,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
 
     public BoostsPanel(final ShowDescriptionList<Boost> list) {
       super("Current score: --- \u25CA Predicted: ---", "equip all", "exec selected", list);
-      this.elementList = (ShowDescriptionList<Boost>) this.scrollComponent;
+      this.elementList = this.scrollComponent;
       MaximizerFrame.this.listTitle = this.titleComponent;
     }
 
