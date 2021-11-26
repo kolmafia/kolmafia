@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.swingui.panel;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
@@ -87,15 +88,16 @@ public class InventoryPanel<E> extends ItemTableManagePanel<E> {
       return;
     }
 
-    this.equipmentFilters = new ArrayList<>(8);
-    this.equipmentFilters.add(new FilterRadioButton("weapons", true));
-    this.equipmentFilters.add(new FilterRadioButton("offhand"));
-    this.equipmentFilters.add(new FilterRadioButton("hats"));
-    this.equipmentFilters.add(new FilterRadioButton("back"));
-    this.equipmentFilters.add(new FilterRadioButton("shirts"));
-    this.equipmentFilters.add(new FilterRadioButton("pants"));
-    this.equipmentFilters.add(new FilterRadioButton("accessories"));
-    this.equipmentFilters.add(new FilterRadioButton("familiar"));
+    this.equipmentFilters =
+        Arrays.asList(
+            new FilterRadioButton("weapons", true),
+            new FilterRadioButton("offhand"),
+            new FilterRadioButton("hats"),
+            new FilterRadioButton("back"),
+            new FilterRadioButton("shirts"),
+            new FilterRadioButton("pants"),
+            new FilterRadioButton("accessories"),
+            new FilterRadioButton("familiar"));
 
     ButtonGroup filterGroup = new ButtonGroup();
     JPanel filterPanel = new JPanel();
