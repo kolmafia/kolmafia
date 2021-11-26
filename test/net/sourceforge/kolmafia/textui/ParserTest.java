@@ -130,32 +130,32 @@ public class ParserTest {
             "0-width range",
             "foo",
             new Range(new Position(0, 0), new Position(0, 0)),
-            "(foo, line 1, char 1)"),
+            "foo, line 1, char 1"),
         Arguments.of(
             "uni-line range",
             "foo",
             new Range(new Position(0, 0), new Position(0, 5)),
-            "(foo, line 1, char 1 to char 6)"),
+            "foo, line 1, char 1 to char 6"),
         Arguments.of(
             "multi-line range, end at char 0",
             "foo",
             new Range(new Position(0, 5), new Position(2, 0)),
-            "(foo, line 1, char 6 to line 3, char 1)"),
+            "foo, line 1, char 6 to line 3, char 1"),
         Arguments.of(
             "multi-line range, end at char > 0",
             "foo",
             new Range(new Position(0, 5), new Position(2, 3)),
-            "(foo, line 1, char 6 to line 3, char 4)"),
+            "foo, line 1, char 6 to line 3, char 4"),
         Arguments.of(
             "null file, start at line 0",
             null,
             new Range(new Position(0, 5), new Position(2, 3)),
-            "(char 6 to line 3, char 4)"),
+            "char 6 to line 3, char 4"),
         Arguments.of(
             "null file, start at line > 0",
             null,
             new Range(new Position(1, 5), new Position(2, 3)),
-            "(line 2, char 6 to line 3, char 4)"));
+            "line 2, char 6 to line 3, char 4"));
   }
 
   @ParameterizedTest
@@ -182,7 +182,7 @@ public class ParserTest {
         "null file with named command line namespace",
         null,
         new Range(new Position(0, 5), new Position(2, 3)),
-        "(bar, char 6 to line 3, char 4)");
+        "bar, char 6 to line 3, char 4");
     Preferences.resetToDefault("commandLineNamespace");
   }
 }

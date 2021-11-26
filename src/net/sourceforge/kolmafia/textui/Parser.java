@@ -4214,7 +4214,7 @@ public class Parser {
     }
 
     return new ScriptException(
-        message + " " + Parser.getFileAndRange(this.shortFileName, location.getRange()));
+        message + " (" + Parser.getFileAndRange(this.shortFileName, location.getRange()) + ")");
   }
 
   private ScriptException undefinedFunctionException(
@@ -4333,8 +4333,6 @@ public class Parser {
 
     final StringBuilder result = new StringBuilder();
 
-    result.append("(");
-
     if (fileName == null) {
       String commandLineNamespace = Preferences.getString("commandLineNamespace");
 
@@ -4368,8 +4366,6 @@ public class Parser {
 
       result.append("char " + (range.getEnd().getCharacter() + 1));
     }
-
-    result.append(")");
 
     return result.toString();
   }
