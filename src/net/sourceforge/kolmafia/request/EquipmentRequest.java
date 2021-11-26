@@ -1189,7 +1189,7 @@ public class EquipmentRequest extends PasswordHashRequest {
           // Item was in the list for this slot
           // only so that it could be displayed
           // as the current item.	 Remove it.
-          EquipmentManager.getEquipmentLists()[slot].remove(oldItem);
+          EquipmentManager.getEquipmentLists().get(slot).remove(oldItem);
         }
         if (!newItem.equals(EquipmentRequest.UNEQUIP)) {
           ResultProcessor.processResult(newItem.getInstance(-1));

@@ -3269,7 +3269,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.modifiers.add(null);
 
       // build hat options here
-      List<AdventureResult> hats = EquipmentManager.getEquipmentLists()[EquipmentManager.HAT];
+      List<AdventureResult> hats = EquipmentManager.getEquipmentLists().get(EquipmentManager.HAT);
       FamiliarData current = KoLCharacter.getFamiliar();
 
       if (current.getItem() != null && EquipmentDatabase.isHat(current.getItem())) {
