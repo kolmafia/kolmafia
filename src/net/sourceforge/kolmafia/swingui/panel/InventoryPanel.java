@@ -3,6 +3,8 @@ package net.sourceforge.kolmafia.swingui.panel;
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -19,7 +21,7 @@ import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
 public class InventoryPanel<E> extends ItemTableManagePanel<E> {
   protected boolean isEquipmentOnly;
-  private FilterRadioButton[] equipmentFilters;
+  private List<FilterRadioButton> equipmentFilters;
 
   public InventoryPanel(final LockableListModel<E> elementModel, final boolean isEquipmentOnly) {
     this(elementModel, new boolean[] {isEquipmentOnly, false});
@@ -86,15 +88,16 @@ public class InventoryPanel<E> extends ItemTableManagePanel<E> {
       return;
     }
 
-    this.equipmentFilters = new InventoryPanel.FilterRadioButton[8];
-    this.equipmentFilters[0] = new FilterRadioButton("weapons", true);
-    this.equipmentFilters[1] = new FilterRadioButton("offhand");
-    this.equipmentFilters[2] = new FilterRadioButton("hats");
-    this.equipmentFilters[3] = new FilterRadioButton("back");
-    this.equipmentFilters[4] = new FilterRadioButton("shirts");
-    this.equipmentFilters[5] = new FilterRadioButton("pants");
-    this.equipmentFilters[6] = new FilterRadioButton("accessories");
-    this.equipmentFilters[7] = new FilterRadioButton("familiar");
+    this.equipmentFilters =
+        Arrays.asList(
+            new FilterRadioButton("weapons", true),
+            new FilterRadioButton("offhand"),
+            new FilterRadioButton("hats"),
+            new FilterRadioButton("back"),
+            new FilterRadioButton("shirts"),
+            new FilterRadioButton("pants"),
+            new FilterRadioButton("accessories"),
+            new FilterRadioButton("familiar"));
 
     ButtonGroup filterGroup = new ButtonGroup();
     JPanel filterPanel = new JPanel();
@@ -154,35 +157,35 @@ public class InventoryPanel<E> extends ItemTableManagePanel<E> {
 
       switch (ItemDatabase.getConsumptionType(itemId)) {
         case KoLConstants.EQUIP_WEAPON:
-          isVisibleWithFilter = InventoryPanel.this.equipmentFilters[0].isSelected();
+          isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(0).isSelected();
           break;
 
         case KoLConstants.EQUIP_OFFHAND:
-          isVisibleWithFilter = InventoryPanel.this.equipmentFilters[1].isSelected();
+          isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(1).isSelected();
           break;
 
         case KoLConstants.EQUIP_HAT:
-          isVisibleWithFilter = InventoryPanel.this.equipmentFilters[2].isSelected();
+          isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(2).isSelected();
           break;
 
         case KoLConstants.EQUIP_CONTAINER:
-          isVisibleWithFilter = InventoryPanel.this.equipmentFilters[3].isSelected();
+          isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(3).isSelected();
           break;
 
         case KoLConstants.EQUIP_SHIRT:
-          isVisibleWithFilter = InventoryPanel.this.equipmentFilters[4].isSelected();
+          isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(4).isSelected();
           break;
 
         case KoLConstants.EQUIP_PANTS:
-          isVisibleWithFilter = InventoryPanel.this.equipmentFilters[5].isSelected();
+          isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(5).isSelected();
           break;
 
         case KoLConstants.EQUIP_ACCESSORY:
-          isVisibleWithFilter = InventoryPanel.this.equipmentFilters[6].isSelected();
+          isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(6).isSelected();
           break;
 
         case KoLConstants.EQUIP_FAMILIAR:
-          isVisibleWithFilter = InventoryPanel.this.equipmentFilters[7].isSelected();
+          isVisibleWithFilter = InventoryPanel.this.equipmentFilters.get(7).isSelected();
           break;
 
         default:
