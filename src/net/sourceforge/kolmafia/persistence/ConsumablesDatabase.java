@@ -52,7 +52,7 @@ public class ConsumablesDatabase {
   private static final Map<String, String> qualityByName = new HashMap<String, String>();
   private static final Map<String, String> notesByName = new HashMap<String, String>();
 
-  private static final Map<String, Double>[][][][][] advsByName = new HashMap[2][2][2][2][2];
+  private static final Map<Integer, Map<String, Double>> advsByName = new HashMap<>(1 << 5);
   private static final Map<String, String> advRangeByName = new HashMap<String, String>();
   private static final Map<String, Integer> unitCostByName = new HashMap<String, Integer>();
   private static final Map<String, Integer> advStartByName = new HashMap<String, Integer>();
@@ -68,16 +68,8 @@ public class ConsumablesDatabase {
   public static final String EPIC = "EPIC";
 
   static {
-    for (int i1 = 0; i1 <= 1; ++i1) {
-      for (int i2 = 0; i2 <= 1; ++i2) {
-        for (int i3 = 0; i3 <= 1; ++i3) {
-          for (int i4 = 0; i4 <= 1; ++i4) {
-            for (int i5 = 0; i5 <= 1; ++i5) {
-              ConsumablesDatabase.advsByName[i1][i2][i3][i4][i5] = new HashMap<>();
-            }
-          }
-        }
-      }
+    for (int i = 0; i < 1 << 5; ++i) {
+      ConsumablesDatabase.advsByName.put(i, new HashMap<>());
     }
   }
 
@@ -559,8 +551,21 @@ public class ConsumablesDatabase {
       final boolean gainEffect2,
       final boolean gainEffect3,
       final boolean gainEffect4) {
-    return ConsumablesDatabase.advsByName[perUnit ? 1 : 0][gainEffect1 ? 1 : 0][
-        gainEffect2 ? 1 : 0][gainEffect3 ? 1 : 0][gainEffect4 ? 1 : 0];
+    return ConsumablesDatabase.advsByName.get(
+        adventureFlagsToKey(perUnit, gainEffect1, gainEffect2, gainEffect3, gainEffect4));
+  }
+
+  private static int adventureFlagsToKey(
+      final boolean perUnit,
+      final boolean gainEffect1,
+      final boolean gainEffect2,
+      final boolean gainEffect3,
+      final boolean gainEffect4) {
+    return (perUnit ? 1 : 0) << 4
+        | (gainEffect1 ? 1 : 0) << 3
+        | (gainEffect2 ? 1 : 0) << 2
+        | (gainEffect3 ? 1 : 0) << 1
+        | (gainEffect4 ? 1 : 0) << 0;
   }
 
   private static String extractStatRange(
