@@ -209,8 +209,7 @@ public abstract class HPRestoreItemList {
    * <p>Due to historical reasons, this class is named "HPRestoreItem" even though it encompasses
    * items, skills, and actions.
    */
-  public abstract static class HPRestoreItem extends RestoreItem
-      implements Comparable<RestoreItem> {
+  public abstract static class HPRestoreItem extends RestoreItem {
     private int healthPerUse;
     private int purchaseCost;
 

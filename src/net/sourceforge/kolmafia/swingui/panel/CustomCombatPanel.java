@@ -485,7 +485,7 @@ public class CustomCombatPanel extends JPanel {
     }
   }
 
-  public class CombatComboBox extends JComboBox<String> implements ActionListener, Listener {
+  public class CombatComboBox extends JComboBox<String> implements Listener {
     public CombatComboBox() {
       super(CombatActionManager.getAvailableLookups());
       this.addActionListener(this);
