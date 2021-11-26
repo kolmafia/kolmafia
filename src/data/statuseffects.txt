@@ -2246,7 +2246,7 @@
 2244
 2245
 2246	Slippery Tongue	tongue.gif	bbfca6078b816c398b444446bd69bd22	good	none	drink 1 extremely slippery nipple
-2247	Orcmouth	breath.gif	143bc680423fefd2f1266ebdd901a2ad	good	none	drink 1 Mysterious Island iced tea
+2247	Orcmouth	breath.gif	143bc680423fefd2f1266ebdd901a2ad	good	nohookah	drink 1 Mysterious Island iced tea
 2248
 2249
 2250	You Drank Fish Wine	whitewine.gif	ca447f558c3dd76c920c785ff7b89a33	good	none	drink 1 piscatini
