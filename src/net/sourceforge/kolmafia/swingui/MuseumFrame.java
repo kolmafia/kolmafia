@@ -253,6 +253,9 @@ public class MuseumFrame extends GenericFrame {
   }
 
   public class OrderingPanel extends ItemListManagePanel<String> {
+    @SuppressWarnings("unchecked")
+    // LockableListModel (the type of getHeaders())'s clone() method still claims to return an
+    // Object, but we know its internal list has the same elements, so their types definitely match
     public OrderingPanel() {
       super((LockableListModel<String>) DisplayCaseManager.getHeaders().clone());
 

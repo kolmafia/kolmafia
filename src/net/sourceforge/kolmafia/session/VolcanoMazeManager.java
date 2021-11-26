@@ -926,7 +926,7 @@ public abstract class VolcanoMazeManager {
     }
 
     public Path(final Path prefix, final Integer square) {
-      list = (ArrayList<Integer>) prefix.list.clone();
+      list = new ArrayList<>(prefix.list);
       list.add(square);
     }
 

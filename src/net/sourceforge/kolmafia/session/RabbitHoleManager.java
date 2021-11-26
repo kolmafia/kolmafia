@@ -514,7 +514,7 @@ public abstract class RabbitHoleManager {
     }
 
     @Override
-    public Object clone() {
+    public Board clone() {
       return new Board(this);
     }
 
@@ -1034,7 +1034,7 @@ public abstract class RabbitHoleManager {
 
   private static Path solve(final Board board) {
     // Attempt to solve by moving the current piece
-    return RabbitHoleManager.solve((Board) board.clone(), new Path());
+    return RabbitHoleManager.solve(board.clone(), new Path());
   }
 
   private static Path solve(final Board board, final Path path) {
