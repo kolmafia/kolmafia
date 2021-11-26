@@ -1532,28 +1532,28 @@ public class SkillDatabase {
   }
 
   public static final void generateSkillList(final StringBuffer buffer, final boolean appendHTML) {
-    ArrayList<String>[] categories = new ArrayList[SkillDatabase.CATEGORIES.length];
+    List<List<String>> categories = new ArrayList<>(SkillDatabase.CATEGORIES.length);
 
     if (SkillDatabase.skillNames.isEmpty()) {
       SkillDatabase.skillNames.addAll(SkillDatabase.skillIdSetByName.keySet());
     }
 
-    for (int i = 0; i < categories.length; ++i) {
-      categories[i] = new ArrayList<>();
-      categories[i].addAll(SkillDatabase.skillsByCategory.get(SkillDatabase.CATEGORIES[i]));
+    for (int i = 0; i < SkillDatabase.CATEGORIES.length; ++i) {
+      categories.add(new ArrayList<>());
+      categories.get(i).addAll(SkillDatabase.skillsByCategory.get(SkillDatabase.CATEGORIES[i]));
 
-      for (int j = 0; j < categories[i].size(); ++j) {
+      for (int j = 0; j < categories.get(i).size(); ++j) {
         if (!KoLConstants.availableSkills.contains(
-            UseSkillRequest.getUnmodifiedInstance(categories[i].get(j)))) {
-          categories[i].remove(j--);
+            UseSkillRequest.getUnmodifiedInstance(categories.get(i).get(j)))) {
+          categories.get(i).remove(j--);
         }
       }
     }
 
     boolean printedList = false;
 
-    for (int i = 0; i < categories.length; ++i) {
-      if (categories[i].isEmpty()) {
+    for (int i = 0; i < categories.size(); ++i) {
+      if (categories.get(i).isEmpty()) {
         continue;
       }
 
@@ -1569,7 +1569,7 @@ public class SkillDatabase {
           buffer,
           appendHTML,
           StringUtilities.toTitleCase(SkillDatabase.CATEGORIES[i]),
-          categories[i]);
+          categories.get(i));
       printedList = true;
     }
   }
@@ -1578,7 +1578,7 @@ public class SkillDatabase {
       final StringBuffer buffer,
       final boolean appendHTML,
       final String listName,
-      final ArrayList<String> list) {
+      final List<String> list) {
     if (list.isEmpty()) {
       return;
     }
