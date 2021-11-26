@@ -35,7 +35,7 @@ public class MoodOptionsPanel extends JPanel {
     this.add(triggers, BorderLayout.NORTH);
   }
 
-  private class MoodTriggerListPanel extends ScrollablePanel {
+  private class MoodTriggerListPanel extends ScrollablePanel<JList<MoodTrigger>> {
     public JComboBox<Mood> availableMoods;
 
     public MoodTriggerListPanel() {
@@ -44,7 +44,7 @@ public class MoodOptionsPanel extends JPanel {
       this.availableMoods = new MoodComboBox();
 
       this.centerPanel.add(this.availableMoods, BorderLayout.NORTH);
-      MoodOptionsPanel.this.moodList = (JList<MoodTrigger>) this.scrollComponent;
+      MoodOptionsPanel.this.moodList = this.scrollComponent;
 
       JPanel extraButtons = new JPanel(new GridLayout(4, 1, 5, 5));
 

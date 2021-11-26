@@ -377,7 +377,7 @@ public class FaxRequestFrame extends GenericFrame {
     }
   }
 
-  private class MonsterSelectPanel extends ScrollablePanel {
+  private class MonsterSelectPanel extends ScrollablePanel<ShowDescriptionList<Monster>> {
     private ShowDescriptionList<Monster> elementList;
     private final AutoFilterTextField filterfield;
 

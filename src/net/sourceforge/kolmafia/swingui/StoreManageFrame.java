@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.session.StoreManager.StoreLogEntry;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemListManagePanel;
@@ -735,15 +736,15 @@ public class StoreManageFrame extends GenericPanelFrame {
     }
   }
 
-  private class StoreLogPanel extends ScrollablePanel {
+  private class StoreLogPanel extends ScrollablePanel<JList<StoreLogEntry>> {
     public StoreLogPanel() {
       super("", "refresh", "resort", new JList<>(StoreManager.getStoreLog()), false);
 
       JPanel northPanel = new JPanel(new BorderLayout());
       this.actualPanel.add(northPanel, BorderLayout.NORTH);
 
-      AutoFilterTextField filterfield = new AutoFilterTextField((JList) this.scrollComponent);
-      this.centerPanel.add(filterfield, BorderLayout.NORTH);
+      AutoFilterTextField filterField = new AutoFilterTextField(this.scrollComponent);
+      this.centerPanel.add(filterField, BorderLayout.NORTH);
     }
 
     @Override

@@ -394,14 +394,15 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private abstract class ShiftableOrderPanel extends ScrollablePanel implements ListDataListener {
-    public LockableListModel<String> list;
-    public JList<String> elementList;
+  private abstract class ShiftableOrderPanel extends ScrollablePanel<JList<String>>
+      implements ListDataListener {
+    public final LockableListModel<String> list;
+    public final JList<String> elementList;
 
     public ShiftableOrderPanel(final String title, final LockableListModel<String> list) {
       super(title, "move up", "move down", new JList<>(list));
 
-      this.elementList = (JList<String>) this.scrollComponent;
+      this.elementList = this.scrollComponent;
       this.elementList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
       this.list = list;
@@ -983,9 +984,9 @@ public class OptionsFrame extends GenericFrame {
       }
 
       JPanel optionPanel = new JPanel(new GridLayout(1, 3));
-      optionPanel.add(new ScrollablePanel("Complete List", new JDnDList(this.completeList)));
-      optionPanel.add(new ScrollablePanel("Startup as Window", new JDnDList(this.startupList)));
-      optionPanel.add(new ScrollablePanel("Startup in Tabs", new JDnDList(this.desktopList)));
+      optionPanel.add(new ScrollablePanel<>("Complete List", new JDnDList(this.completeList)));
+      optionPanel.add(new ScrollablePanel<>("Startup as Window", new JDnDList(this.startupList)));
+      optionPanel.add(new ScrollablePanel<>("Startup in Tabs", new JDnDList(this.desktopList)));
 
       JTextArea message =
           new JTextArea(
@@ -1127,8 +1128,8 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private class DeedsButtonPanel extends ScrollablePanel implements ListDataListener {
-    public DeedsButtonPanel(final String title, final LockableListModel builtIns) {
+  private class DeedsButtonPanel extends ScrollablePanel<JDnDList> implements ListDataListener {
+    public DeedsButtonPanel(final String title, final LockableListModel<String> builtIns) {
       super(title, "add custom", "reset deeds", new JDnDList(builtIns));
 
       this.buttonPanel.add(new ThreadedButton("help", new HelpRunnable()), BorderLayout.CENTER);
@@ -1456,7 +1457,7 @@ public class OptionsFrame extends GenericFrame {
       }
 
       centerPanel.add(new DeedsButtonPanel("Built-In Deeds", this.builtInsList));
-      botPanel.add(new ScrollablePanel("Current Deeds", new JDnDList(this.deedsList)));
+      botPanel.add(new ScrollablePanel<>("Current Deeds", new JDnDList(this.deedsList)));
 
       this.container.add(centerPanel, BorderLayout.PAGE_START);
       this.container.add(botPanel, BorderLayout.PAGE_END);
