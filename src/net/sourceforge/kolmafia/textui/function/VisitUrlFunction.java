@@ -10,30 +10,31 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.webui.RelayServer;
 
-public class VisitUrlFunction extends LibraryFunction {
-  static final String name = "visit_url";
+public class VisitUrlFunction extends LibraryClassFunction {
+  public VisitUrlFunction() {
+    super("visit_url");
+  }
 
-  @LibraryFunctionOverload
-  public static Value exec(ScriptRuntime controller) {
+  @LibraryFunctionOverload(returns = "buffer")
+  public Value exec(ScriptRuntime controller) {
     return exec(controller, null);
   }
 
-  @LibraryFunctionOverload
-  public static Value exec(
-      ScriptRuntime controller, @LibraryFunctionParameter("string") final Value url) {
+  @LibraryFunctionOverload(returns = "buffer")
+  public Value exec(ScriptRuntime controller, @LibraryFunctionParameter("string") final Value url) {
     return exec(controller, url, DataTypes.TRUE_VALUE);
   }
 
-  @LibraryFunctionOverload
-  public static Value exec(
+  @LibraryFunctionOverload(returns = "buffer")
+  public Value exec(
       ScriptRuntime controller,
       @LibraryFunctionParameter("string") final Value url,
       @LibraryFunctionParameter("boolean") final Value usePostMethod) {
     return exec(controller, url, usePostMethod, DataTypes.FALSE_VALUE);
   }
 
-  @LibraryFunctionOverload
-  public static Value exec(
+  @LibraryFunctionOverload(returns = "buffer")
+  public Value exec(
       ScriptRuntime controller,
       @LibraryFunctionParameter("string") final Value url,
       @LibraryFunctionParameter("boolean") final Value usePostMethod,
@@ -44,11 +45,20 @@ public class VisitUrlFunction extends LibraryFunction {
     RelayRequest relayRequest = controller.getRelayRequest();
     boolean inRelayOverride = relayRequest != null;
 
-    // If we're in a relay override, use a RelayRequest rather than a GenericRequest
-    GenericRequest request = inRelayOverride ? new RelayRequest(false) : new GenericRequest("");
+    GenericRequest request;
 
     // Handle collecting relay page contents
-    if (url != null) {
+    if (url == null) {
+      if (!inRelayOverride) {
+        // With no URL and no relay override, we've got nothing to do
+        return returnValue;
+      } else {
+        // If we're in a relay override, use a RelayRequest rather than a GenericRequest
+        request = relayRequest;
+      }
+    } else {
+      request = inRelayOverride ? new RelayRequest(false) : new GenericRequest("");
+
       // Build the desired URL
       request.constructURLString(
           RelayServer.trimPrefix(url.toString()),
@@ -68,7 +78,7 @@ public class VisitUrlFunction extends LibraryFunction {
 
     // Post the request and get the response!  Note that if we are
     // in a relay script, we have to follow all redirection here.
-    while (true) {
+    while (request != null) {
       RequestThread.postRequest(request);
       if (!inRelayOverride || request.redirectLocation == null) {
         break;
@@ -79,7 +89,7 @@ public class VisitUrlFunction extends LibraryFunction {
       }
     }
 
-    if (request.responseText != null) {
+    if (request != null && request.responseText != null) {
       buffer.append(request.responseText);
     }
 

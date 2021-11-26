@@ -29,18 +29,16 @@ public class LibraryFunctionStub extends AshStub {
 
   @Override
   protected Value execute(Function function, List<Value> ashArgs) {
-    LibraryFunction ashFunction;
-    if (function instanceof LibraryFunction) {
-      ashFunction = (LibraryFunction) function;
-    } else {
-      throw controller.runtimeException(Parser.undefinedFunctionMessage(ashFunctionName, ashArgs));
-    }
-
     List<Object> ashArgsWithInterpreter = new ArrayList<>(ashArgs.size() + 1);
     ashArgsWithInterpreter.add(controller);
     ashArgsWithInterpreter.addAll(ashArgs);
 
-    return ashFunction.executeWithoutInterpreter(controller, ashArgsWithInterpreter.toArray());
+    if (function instanceof LibraryFunction) {
+      return ((LibraryFunction) function)
+          .executeWithoutInterpreter(controller, ashArgsWithInterpreter.toArray());
+    } else {
+      throw controller.runtimeException(Parser.undefinedFunctionMessage(ashFunctionName, ashArgs));
+    }
   }
 
   private int findFunctionReference(Object[] args) {

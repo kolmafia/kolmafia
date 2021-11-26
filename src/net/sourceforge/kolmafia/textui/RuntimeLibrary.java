@@ -47,7 +47,6 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.ModifierExpression;
@@ -155,6 +154,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime.CallFrame;
 import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
 import net.sourceforge.kolmafia.textui.command.EudoraCommand;
 import net.sourceforge.kolmafia.textui.command.SetPreferencesCommand;
+import net.sourceforge.kolmafia.textui.function.VisitUrlFunction;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateValue;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
@@ -173,7 +173,6 @@ import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import net.sourceforge.kolmafia.webui.RelayServer;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.SimpleXmlSerializer;
 import org.htmlcleaner.TagNode;
@@ -276,6 +275,9 @@ public abstract class RuntimeLibrary {
 
   static {
     Type[] params;
+
+    // New style of function
+    functions.addAll(new VisitUrlFunction().getFunctions());
 
     // Basic utility functions which print information
     // or allow for easy testing.
@@ -384,18 +386,6 @@ public abstract class RuntimeLibrary {
             "form_fields",
             new AggregateType(DataTypes.STRING_TYPE, DataTypes.STRING_TYPE),
             params));
-
-    params = new Type[] {};
-    functions.add(new LibraryFunction("visit_url", DataTypes.BUFFER_TYPE, params));
-
-    params = new Type[] {DataTypes.STRING_TYPE};
-    functions.add(new LibraryFunction("visit_url", DataTypes.BUFFER_TYPE, params));
-
-    params = new Type[] {DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE};
-    functions.add(new LibraryFunction("visit_url", DataTypes.BUFFER_TYPE, params));
-
-    params = new Type[] {DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE, DataTypes.BOOLEAN_TYPE};
-    functions.add(new LibraryFunction("visit_url", DataTypes.BUFFER_TYPE, params));
 
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.BOOLEAN_TYPE, DataTypes.BOOLEAN_TYPE};
     functions.add(new LibraryFunction("make_url", DataTypes.STRING_TYPE, params));
@@ -3025,100 +3015,6 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
-  }
-
-  public static Value visit_url(ScriptRuntime controller) {
-    RelayRequest relayRequest = controller.getRelayRequest();
-    if (relayRequest == null) {
-      return new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer());
-    }
-
-    while (true) {
-      RequestThread.postRequest(relayRequest);
-      if (relayRequest.redirectLocation == null) {
-        break;
-      }
-      relayRequest.constructURLString(relayRequest.redirectLocation, false, false);
-      if (KoLmafiaASH.getClientHTML(relayRequest)) {
-        break;
-      }
-    }
-
-    StringBuffer buffer = new StringBuffer();
-    if (relayRequest.responseText != null) {
-      buffer.append(relayRequest.responseText);
-    }
-    return new Value(DataTypes.BUFFER_TYPE, "", buffer);
-  }
-
-  public static Value visit_url(ScriptRuntime controller, final Value string) {
-    return RuntimeLibrary.visit_url(controller, string.toString(), true, false);
-  }
-
-  public static Value visit_url(
-      ScriptRuntime controller, final Value string, final Value usePostMethod) {
-    return RuntimeLibrary.visit_url(
-        controller, string.toString(), usePostMethod.intValue() == 1, false);
-  }
-
-  public static Value visit_url(
-      ScriptRuntime controller,
-      final Value string,
-      final Value usePostMethod,
-      final Value encoded) {
-    return RuntimeLibrary.visit_url(
-        controller, string.toString(), usePostMethod.intValue() == 1, encoded.intValue() == 1);
-  }
-
-  private static Value visit_url(ScriptRuntime controller, final String location) {
-    return RuntimeLibrary.visit_url(controller, location, true, false);
-  }
-
-  private static Value visit_url(
-      ScriptRuntime controller,
-      final String location,
-      final boolean usePostMethod,
-      final boolean encoded) {
-    StringBuffer buffer = new StringBuffer();
-    Value returnValue = new Value(DataTypes.BUFFER_TYPE, "", buffer);
-
-    // See if we are inside a relay override
-    boolean inRelayOverride = controller.getRelayRequest() != null;
-
-    // If so, use a RelayRequest rather than a GenericRequest
-    GenericRequest request = inRelayOverride ? new RelayRequest(false) : new GenericRequest("");
-
-    // Build the desired URL
-    request.constructURLString(RelayServer.trimPrefix(location), usePostMethod, encoded);
-    if (GenericRequest.shouldIgnore(request)) {
-      return returnValue;
-    }
-
-    // If we are not in a relay script, ignore a request to an unstarted fight
-    if (!inRelayOverride
-        && request.getPath().equals("fight.php")
-        && FightRequest.getCurrentRound() == 0) {
-      return returnValue;
-    }
-
-    // Post the request and get the response!  Note that if we are
-    // in a relay script, we have to follow all redirection here.
-    while (true) {
-      RequestThread.postRequest(request);
-      if (!inRelayOverride || request.redirectLocation == null) {
-        break;
-      }
-      request.constructURLString(request.redirectLocation, false, false);
-      if (KoLmafiaASH.getClientHTML((RelayRequest) request)) {
-        break;
-      }
-    }
-
-    if (request.responseText != null) {
-      buffer.append(request.responseText);
-    }
-
-    return returnValue;
   }
 
   public static Value make_url(
@@ -5863,8 +5759,9 @@ public abstract class RuntimeLibrary {
     // in combat, go ahead and allow it here.
 
     if (SkillDatabase.isCombat(skillId) && FightRequest.getCurrentRound() > 0) {
-      return RuntimeLibrary.visit_url(
-          controller, "fight.php?action=skill&whichskill=" + (int) skill.intValue());
+      return new VisitUrlFunction()
+          .exec(
+              controller, new Value("fight.php?action=skill&whichskill=" + (int) skill.intValue()));
     }
 
     KoLmafiaCLI.DEFAULT_SHELL.executeCommand("cast", "1 " + SkillDatabase.getSkillName(skillId));
@@ -5935,33 +5832,35 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value attack(ScriptRuntime controller) {
-    return RuntimeLibrary.visit_url(controller, "fight.php?action=attack");
+    return new VisitUrlFunction().exec(controller, new Value("fight.php?action=attack"));
   }
 
   public static Value twiddle(ScriptRuntime controller) {
-    return RuntimeLibrary.visit_url(controller, "fight.php?action=twiddle");
+    return new VisitUrlFunction().exec(controller, new Value("fight.php?action=twiddle"));
   }
 
   public static Value steal(ScriptRuntime controller) {
-    return RuntimeLibrary.visit_url(controller, "fight.php?action=steal");
+    return new VisitUrlFunction().exec(controller, new Value("fight.php?action=steal"));
   }
 
   public static Value runaway(ScriptRuntime controller) {
-    return RuntimeLibrary.visit_url(controller, "fight.php?action=runaway");
+    return new VisitUrlFunction().exec(controller, new Value("fight.php?action=runaway"));
   }
 
   public static Value throw_item(ScriptRuntime controller, final Value item) {
-    return RuntimeLibrary.visit_url(
-        controller, "fight.php?action=useitem&whichitem=" + (int) item.intValue());
+    return new VisitUrlFunction()
+        .exec(controller, new Value("fight.php?action=useitem&whichitem=" + (int) item.intValue()));
   }
 
   public static Value throw_items(ScriptRuntime controller, final Value item1, final Value item2) {
-    return RuntimeLibrary.visit_url(
-        controller,
-        "fight.php?action=useitem&whichitem="
-            + (int) item1.intValue()
-            + "&whichitem2="
-            + (int) item2.intValue());
+    return new VisitUrlFunction()
+        .exec(
+            controller,
+            new Value(
+                "fight.php?action=useitem&whichitem="
+                    + (int) item1.intValue()
+                    + "&whichitem2="
+                    + (int) item2.intValue()));
   }
 
   public static Value run_choice(ScriptRuntime controller, final Value decision) {
@@ -5990,7 +5889,8 @@ public abstract class RuntimeLibrary {
     // If we have finished a fight which is followed by a choice
     // but are not yet handling it, visit choice.php to load it up.
     if (FightRequest.choiceFollowsFight) {
-      RuntimeLibrary.visit_url(controller, "choice.php", true, false);
+      new VisitUrlFunction()
+          .exec(controller, new Value("choice.php"), DataTypes.TRUE_VALUE, DataTypes.FALSE_VALUE);
     }
 
     if (!ChoiceManager.handlingChoice || ChoiceManager.lastResponseText == null || option == 0) {

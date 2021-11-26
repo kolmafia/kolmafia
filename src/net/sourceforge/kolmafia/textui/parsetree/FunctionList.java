@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeMap;
 
 public class FunctionList implements Iterable<Function> {
@@ -13,6 +14,13 @@ public class FunctionList implements Iterable<Function> {
   public boolean add(final Function f) {
     this.list.put(f.getName().toLowerCase() + '\0' + this.sequence, f);
     ++this.sequence;
+    return true;
+  }
+
+  public boolean addAll(final List<Function> fs) {
+    for (Function f : fs) {
+      this.add(f);
+    }
     return true;
   }
 

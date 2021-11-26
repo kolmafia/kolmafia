@@ -12,10 +12,41 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class LibraryFunction extends Function {
   private Method method;
+  private Object instance;
 
   public LibraryFunction(final String name, final Type type, final Type[] params) {
     super(name.toLowerCase(), type);
 
+    Class<?>[] args = processParams(params);
+
+    try {
+      this.instance = this;
+      this.method = RuntimeLibrary.findMethod(name, args);
+    } catch (Exception e) {
+      // This should not happen; it denotes a coding error that must be fixed before release.
+      StaticEntity.printStackTrace(e, "No method found for built-in function: " + name);
+    }
+  }
+
+  public LibraryFunction(
+      final String name, final Type type, final Type[] params, Class clazz, Method method) {
+    super(name.toLowerCase(), type);
+
+    processParams(params);
+
+    try {
+      this.instance = clazz.getDeclaredConstructor().newInstance();
+      this.method = method;
+    } catch (InvocationTargetException
+        | InstantiationException
+        | IllegalAccessException
+        | NoSuchMethodException e) {
+      // This should not happen; it denotes a coding error that must be fixed before release.
+      StaticEntity.printStackTrace(e, "No method found for built-in function: " + name);
+    }
+  }
+
+  private Class<?>[] processParams(final Type[] params) {
     Class<?>[] args = new Class[params.length + 1];
 
     args[0] = ScriptRuntime.class;
@@ -28,14 +59,7 @@ public class LibraryFunction extends Function {
       args[i] = Value.class;
     }
 
-    try {
-      this.method = RuntimeLibrary.findMethod(name, args);
-    } catch (Exception e) {
-      // This should not happen; it denotes a coding
-      // error that must be fixed before release.
-
-      StaticEntity.printStackTrace(e, "No method found for built-in function: " + name);
-    }
+    return args;
   }
 
   @Override
@@ -60,7 +84,7 @@ public class LibraryFunction extends Function {
       values = this.bindVariableReferences(interpreter, values);
 
       // Invoke the method
-      return (Value) this.method.invoke(this, values);
+      return (Value) this.method.invoke(instance, values);
     } catch (InvocationTargetException e) {
       // This is an error in the called method. Pass
       // it on up so that we'll print a stack trace.
@@ -93,7 +117,7 @@ public class LibraryFunction extends Function {
       values = this.bindVariableReferences(null, values);
 
       // Invoke the method
-      return (Value) this.method.invoke(this, values);
+      return (Value) this.method.invoke(instance, values);
     } catch (InvocationTargetException e) {
       // This is an error in the called method. Pass
       // it on up so that we'll print a stack trace.
