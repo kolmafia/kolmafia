@@ -1532,7 +1532,7 @@ public class SkillDatabase {
   }
 
   public static final void generateSkillList(final StringBuffer buffer, final boolean appendHTML) {
-    List<ArrayList<String>> categories = new ArrayList<>(SkillDatabase.CATEGORIES.length);
+    List<List<String>> categories = new ArrayList<>(SkillDatabase.CATEGORIES.length);
 
     if (SkillDatabase.skillNames.isEmpty()) {
       SkillDatabase.skillNames.addAll(SkillDatabase.skillIdSetByName.keySet());
@@ -1578,7 +1578,7 @@ public class SkillDatabase {
       final StringBuffer buffer,
       final boolean appendHTML,
       final String listName,
-      final ArrayList<String> list) {
+      final List<String> list) {
     if (list.isEmpty()) {
       return;
     }
