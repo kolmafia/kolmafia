@@ -505,7 +505,7 @@ public class Parser {
     this.readToken(); // read record
 
     if (this.currentToken().equals(";")) {
-      throw this.parseException("Record name expected");
+      throw this.parseException(this.currentToken(), "Record name expected");
     }
 
     // Allow anonymous records
@@ -516,11 +516,13 @@ public class Parser {
       recordName = this.currentToken().content;
 
       if (!this.parseIdentifier(recordName)) {
-        throw this.parseException("Invalid record name '" + recordName + "'");
+        throw this.parseException(this.currentToken(), "Invalid record name '" + recordName + "'");
       } else if (Parser.isReservedWord(recordName)) {
-        throw this.parseException("Reserved word '" + recordName + "' cannot be a record name");
+        throw this.parseException(
+            this.currentToken(), "Reserved word '" + recordName + "' cannot be a record name");
       } else if (parentScope.findType(recordName) != null) {
-        throw this.parseException("Record name '" + recordName + "' is already defined");
+        throw this.parseException(
+            this.currentToken(), "Record name '" + recordName + "' is already defined");
       }
 
       this.readToken(); // read name
@@ -543,7 +545,7 @@ public class Parser {
 
       if (this.currentToken().equals("}")) {
         if (fieldTypes.isEmpty()) {
-          throw this.parseException("Record field(s) expected");
+          throw this.parseException(this.currentToken(), "Record field(s) expected");
         }
 
         this.readToken(); // read }
@@ -553,24 +555,22 @@ public class Parser {
       // Get the field type
       Type fieldType = this.parseType(parentScope, true);
       if (fieldType == null) {
-        throw this.parseException("Type name expected");
-      }
-
-      if (fieldType.getBaseType().equals(DataTypes.VOID_TYPE)) {
-        throw this.parseException("Non-void field type expected");
+        throw this.parseException(this.currentToken(), "Type name expected");
+      } else if (fieldType.getBaseType().equals(DataTypes.VOID_TYPE)) {
+        throw this.parseException(fieldType.getLocation(), "Non-void field type expected");
       }
 
       // Get the field name
       Token fieldName = this.currentToken();
       if (fieldName.equals(";")) {
-        throw this.parseException("Field name expected");
+        throw this.parseException(fieldName, "Field name expected");
       } else if (!this.parseIdentifier(fieldName.content)) {
-        throw this.parseException("Invalid field name '" + fieldName + "'");
+        throw this.parseException(fieldName, "Invalid field name '" + fieldName + "'");
       } else if (Parser.isReservedWord(fieldName.content)) {
         throw this.parseException(
-            "Reserved word '" + fieldName + "' cannot be used as a field name");
+            fieldName, "Reserved word '" + fieldName + "' cannot be used as a field name");
       } else if (fieldNames.contains(fieldName.content)) {
-        throw this.parseException("Field name '" + fieldName + "' is already defined");
+        throw this.parseException(fieldName, "Field name '" + fieldName + "' is already defined");
       } else {
         this.readToken(); // read name
       }
@@ -1036,7 +1036,8 @@ public class Parser {
 
     if ((valType = this.parseRecord(scope)) != null) {
       if (!records) {
-        throw this.parseException("Existing type expected for function parameter");
+        throw this.parseException(
+            valType.getLocation(), "Existing type expected for function parameter");
       }
     } else if ((valType = scope.findType(this.currentToken().content)) != null) {
       valType = valType.reference(this.makeLocation(this.currentToken()));
