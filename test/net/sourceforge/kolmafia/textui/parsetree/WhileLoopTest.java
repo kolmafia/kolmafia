@@ -32,18 +32,23 @@ public class WhileLoopTest {
               Scope loopScope = whileLoop.getScope();
               ParserTest.assertLocationEquals(1, 14, 1, 29, loopScope.getLocation());
             }),
-        invalid("while without condition", "while true", "Expected (, found true", "char 7 to char 11"),
+        invalid(
+            "while without condition", "while true", "Expected (, found true", "char 7 to char 11"),
         invalid(
             "while with empty condition",
             "while ()",
-            "Expression expected",
+            "Expression for while condition expected",
             "char 8 to char 9"),
         invalid(
             "while with incorrect condition",
             "while (2)",
             "\"while\" requires a boolean conditional expression",
             "char 8 to char 9"),
-        invalid("while with unclosed condition", "while (true", "Expected ), found end of file", "char 12"),
+        invalid(
+            "while with unclosed condition",
+            "while (true",
+            "Expected ), found end of file",
+            "char 12"),
         invalid("while with unclosed loop", "while (true) {", "Expected }, found end of file"),
         invalid(
             "while with multiple statements but no semicolon",

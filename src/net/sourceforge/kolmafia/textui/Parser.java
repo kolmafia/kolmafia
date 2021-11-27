@@ -1600,7 +1600,7 @@ public class Parser {
     if (condition == null) {
       Location errorLocation = this.makeLocation(this.currentToken());
 
-      throw this.parseException(errorLocation, "Expression expected");
+      throw this.parseException(errorLocation, "Expression for while condition expected");
     }
 
     if (this.currentToken().equals(")")) {
