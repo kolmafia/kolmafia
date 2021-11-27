@@ -196,7 +196,7 @@ public class MaximizerSpeculation extends Speculation
       List<FamiliarData> enthronedFamiliars,
       BooleanArray usefulOutfits,
       Map<AdventureResult, AdventureResult> outfitPieces,
-      List<CheckedItem>[] possibles,
+      List<List<CheckedItem>> possibles,
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
@@ -212,7 +212,7 @@ public class MaximizerSpeculation extends Speculation
         useBjornFamiliar);
     for (int i = 0; i < familiars.size(); ++i) {
       this.setFamiliar(familiars.get(i));
-      possibles[EquipmentManager.FAMILIAR] = possibles[EquipmentManager.ALL_SLOTS + i];
+      possibles.set(EquipmentManager.FAMILIAR, possibles.get(EquipmentManager.ALL_SLOTS + i));
       this.tryOutfits(
           enthronedFamiliars,
           usefulOutfits,
@@ -228,7 +228,7 @@ public class MaximizerSpeculation extends Speculation
       List<FamiliarData> enthronedFamiliars,
       BooleanArray usefulOutfits,
       Map<AdventureResult, AdventureResult> outfitPieces,
-      List<CheckedItem>[] possibles,
+      List<List<CheckedItem>> possibles,
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
@@ -303,14 +303,14 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryFamiliarItems(
       List<FamiliarData> enthronedFamiliars,
-      List<CheckedItem>[] possibles,
+      List<List<CheckedItem>> possibles,
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
       throws MaximizerInterruptedException {
     Object mark = this.mark();
     if (this.equipment[EquipmentManager.FAMILIAR] == null) {
-      List<CheckedItem> possible = possibles[EquipmentManager.FAMILIAR];
+      List<CheckedItem> possible = possibles.get(EquipmentManager.FAMILIAR);
       boolean any = false;
       for (int pos = 0; pos < possible.size(); ++pos) {
         AdventureResult item = possible.get(pos);
@@ -357,14 +357,14 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryContainers(
       List<FamiliarData> enthronedFamiliars,
-      List<CheckedItem>[] possibles,
+      List<List<CheckedItem>> possibles,
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar,
       FamiliarData useBjornFamiliar)
       throws MaximizerInterruptedException {
     Object mark = this.mark();
     if (this.equipment[EquipmentManager.CONTAINER] == null) {
-      List<CheckedItem> possible = possibles[EquipmentManager.CONTAINER];
+      List<CheckedItem> possible = possibles.get(EquipmentManager.CONTAINER);
       boolean any = false;
       for (int pos = 0; pos < possible.size(); ++pos) {
         AdventureResult item = possible.get(pos);
@@ -414,7 +414,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryAccessories(
       List<FamiliarData> enthronedFamiliars,
-      List<CheckedItem>[] possibles,
+      List<List<CheckedItem>> possibles,
       int pos,
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar)
@@ -425,7 +425,7 @@ public class MaximizerSpeculation extends Speculation
     if (this.equipment[EquipmentManager.ACCESSORY2] == null) ++free;
     if (this.equipment[EquipmentManager.ACCESSORY3] == null) ++free;
     if (free > 0) {
-      List<CheckedItem> possible = possibles[EquipmentManager.ACCESSORY1];
+      List<CheckedItem> possible = possibles.get(EquipmentManager.ACCESSORY1);
       boolean any = false;
       for (; pos < possible.size(); ++pos) {
         AdventureResult item = possible.get(pos);
@@ -493,13 +493,13 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryHats(
       List<FamiliarData> enthronedFamiliars,
-      List<CheckedItem>[] possibles,
+      List<List<CheckedItem>> possibles,
       AdventureResult bestCard,
       FamiliarData useCrownFamiliar)
       throws MaximizerInterruptedException {
     Object mark = this.mark();
     if (this.equipment[EquipmentManager.HAT] == null) {
-      List<CheckedItem> possible = possibles[EquipmentManager.HAT];
+      List<CheckedItem> possible = possibles.get(EquipmentManager.HAT);
       boolean any = false;
       for (int pos = 0; pos < possible.size(); ++pos) {
         AdventureResult item = possible.get(pos);
@@ -553,13 +553,13 @@ public class MaximizerSpeculation extends Speculation
     this.restore(mark);
   }
 
-  public void tryShirts(List<CheckedItem>[] possibles, AdventureResult bestCard)
+  public void tryShirts(List<List<CheckedItem>> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
     Object mark = this.mark();
     if (this.equipment[EquipmentManager.SHIRT] == null) {
       boolean any = false;
       if (KoLCharacter.isTorsoAware()) {
-        List<CheckedItem> possible = possibles[EquipmentManager.SHIRT];
+        List<CheckedItem> possible = possibles.get(EquipmentManager.SHIRT);
         for (int pos = 0; pos < possible.size(); ++pos) {
           AdventureResult item = possible.get(pos);
           int count = item.getCount();
@@ -594,11 +594,11 @@ public class MaximizerSpeculation extends Speculation
     this.restore(mark);
   }
 
-  public void tryPants(List<CheckedItem>[] possibles, AdventureResult bestCard)
+  public void tryPants(List<List<CheckedItem>> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
     Object mark = this.mark();
     if (this.equipment[EquipmentManager.PANTS] == null) {
-      List<CheckedItem> possible = possibles[EquipmentManager.PANTS];
+      List<CheckedItem> possible = possibles.get(EquipmentManager.PANTS);
       boolean any = false;
       for (int pos = 0; pos < possible.size(); ++pos) {
         AdventureResult item = possible.get(pos);
@@ -633,11 +633,11 @@ public class MaximizerSpeculation extends Speculation
     this.restore(mark);
   }
 
-  public void trySixguns(List<CheckedItem>[] possibles, AdventureResult bestCard)
+  public void trySixguns(List<List<CheckedItem>> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
     Object mark = this.mark();
     if (this.equipment[EquipmentManager.HOLSTER] == null) {
-      List<CheckedItem> possible = possibles[EquipmentManager.HOLSTER];
+      List<CheckedItem> possible = possibles.get(EquipmentManager.HOLSTER);
       boolean any = false;
       for (int pos = 0; pos < possible.size(); ++pos) {
         AdventureResult item = possible.get(pos);
@@ -657,7 +657,7 @@ public class MaximizerSpeculation extends Speculation
     this.restore(mark);
   }
 
-  public void tryWeapons(List<CheckedItem>[] possibles, AdventureResult bestCard)
+  public void tryWeapons(List<List<CheckedItem>> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
     Object mark = this.mark();
     boolean chefstaffable =
@@ -671,7 +671,7 @@ public class MaximizerSpeculation extends Speculation
                   == ItemPool.SPECIAL_SAUCE_GLOVE;
     }
     if (this.equipment[EquipmentManager.WEAPON] == null) {
-      List<CheckedItem> possible = possibles[EquipmentManager.WEAPON];
+      List<CheckedItem> possible = possibles.get(EquipmentManager.WEAPON);
       // boolean any = false;
       for (int pos = 0; pos < possible.size(); ++pos) {
         AdventureResult item = possible.get(pos);
@@ -719,7 +719,7 @@ public class MaximizerSpeculation extends Speculation
     this.restore(mark);
   }
 
-  public void tryOffhands(List<CheckedItem>[] possibles, AdventureResult bestCard)
+  public void tryOffhands(List<List<CheckedItem>> possibles, AdventureResult bestCard)
       throws MaximizerInterruptedException {
     Object mark = this.mark();
     int weapon = this.equipment[EquipmentManager.WEAPON].getItemId();
@@ -735,13 +735,13 @@ public class MaximizerSpeculation extends Speculation
       }
       switch (weaponType) {
         case MELEE:
-          possible = possibles[Evaluator.OFFHAND_MELEE];
+          possible = possibles.get(Evaluator.OFFHAND_MELEE);
           break;
         case RANGED:
-          possible = possibles[Evaluator.OFFHAND_RANGED];
+          possible = possibles.get(Evaluator.OFFHAND_RANGED);
           break;
         default:
-          possible = possibles[EquipmentManager.OFFHAND];
+          possible = possibles.get(EquipmentManager.OFFHAND);
       }
       boolean any = false;
 
