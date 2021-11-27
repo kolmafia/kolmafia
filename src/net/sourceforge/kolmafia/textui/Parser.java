@@ -463,7 +463,8 @@ public class Parser {
           if (parentScope.getParentScope() == null) {
             this.mainMethod = f;
           } else {
-            throw this.parseException("main method must appear at top level");
+            throw this.parseException(
+                f.getDefinitionLocation(), "main method must appear at top level");
           }
         }
 

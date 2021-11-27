@@ -127,7 +127,10 @@ public class UserDefinedFunctionTest {
             "Function 'f(int ...)' clashes with existing function 'f(int, int ...)'.",
             "char 34 to char 46"),
         invalid(
-            "inner main", "void foo() { void main() {} }", "main method must appear at top level"),
+            "inner main",
+            "void foo() { void main() {} }",
+            "main method must appear at top level",
+            "char 19 to char 25"),
         invalid(
             "parameter initialization",
             "int f(int x = 1) {}",
