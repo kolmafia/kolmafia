@@ -624,7 +624,7 @@ public class Parser {
 
     if (Parser.isReservedWord(functionName.content)) {
       throw this.parseException(
-          "Reserved word '" + functionName + "' cannot be used as a function name");
+          functionName, "Reserved word '" + functionName + "' cannot be used as a function name");
     }
 
     this.readToken(); // read Function name
@@ -662,17 +662,23 @@ public class Parser {
       if (vararg) {
         if (paramType instanceof VarArgType) {
           // We can only have a single vararg parameter
-          throw this.parseException("Only one vararg parameter is allowed");
+          throw this.parseException(
+              paramType.getLocation(), "Only one vararg parameter is allowed");
         } else {
           // The single vararg parameter must be the last one
-          throw this.parseException("The vararg parameter must be the last one");
+          throw this.parseException(
+              paramType.getLocation(), "The vararg parameter must be the last one");
         }
       } else if (!paramList.add(param)) {
-        throw this.parseException("Parameter " + param.getName() + " is already defined");
+        throw this.parseException(
+            param.getLocation(), "Parameter " + param.getName() + " is already defined");
+      } else {
+        variableReferences.add(new VariableReference(param.getLocation(), param));
       }
 
       if (this.currentToken().equals("=")) {
-        throw this.parseException("Cannot initialize parameter " + param.getName());
+        throw this.parseException(
+            this.currentToken(), "Cannot initialize parameter " + param.getName());
       }
 
       if (paramType instanceof VarArgType) {
@@ -687,8 +693,6 @@ public class Parser {
           throw this.parseException(",", this.currentToken());
         }
       }
-
-      variableReferences.add(new VariableReference(param.getLocation(), param));
     }
 
     // Add the function to the parent scope before we parse the
@@ -733,7 +737,7 @@ public class Parser {
 
     result.setScope(scope);
     if (!scope.assertBarrier() && !functionType.equals(DataTypes.TYPE_VOID)) {
-      throw this.parseException("Missing return value");
+      throw this.parseException(functionLocation, "Missing return value");
     }
 
     return result;
@@ -4224,12 +4228,12 @@ public class Parser {
 
   private ScriptException multiplyDefinedFunctionException(final Function f) {
     String buffer = "Function '" + f.getSignature() + "' defined multiple times.";
-    return this.parseException(buffer);
+    return this.parseException(f.getLocation(), buffer);
   }
 
   private ScriptException overridesLibraryFunctionException(final Function f) {
     String buffer = "Function '" + f.getSignature() + "' overrides a library function.";
-    return this.parseException(buffer);
+    return this.parseException(f.getLocation(), buffer);
   }
 
   private ScriptException varargClashException(final Function f, final Function clash) {
@@ -4239,7 +4243,7 @@ public class Parser {
             + "' clashes with existing function '"
             + clash.getSignature()
             + "'.";
-    return this.parseException(buffer);
+    return this.parseException(f.getLocation(), buffer);
   }
 
   public final ScriptException sinceException(
