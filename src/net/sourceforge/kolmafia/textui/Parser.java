@@ -1609,7 +1609,7 @@ public class Parser {
       throw this.parseException(")", this.currentToken());
     }
 
-    if (condition != null && !condition.getType().equals(DataTypes.BOOLEAN_TYPE)) {
+    if (!condition.getType().equals(DataTypes.BOOLEAN_TYPE)) {
       Location errorLocation = condition.getLocation();
 
       throw this.parseException(
