@@ -2381,11 +2381,11 @@ public class Parser {
       throw this.parseException("Record name", this.currentToken());
     }
 
-    String name = this.currentToken().content;
-    Type type = scope.findType(name);
+    Token name = this.currentToken();
+    Type type = scope.findType(name.content);
 
     if (!(type instanceof RecordType)) {
-      throw this.parseException("'" + name + "' is not a record type");
+      throw this.parseException(name, "'" + name + "' is not a record type");
     }
 
     RecordType target = (RecordType) type;
@@ -2417,7 +2417,8 @@ public class Parser {
           currentType = types[param];
           errorMessageFieldName = " (" + names[param] + ")";
         } else {
-          throw this.parseException("Too many field initializers for record " + name);
+          throw this.parseException(
+              this.currentToken(), "Too many field initializers for record " + name);
         }
 
         Type expected = currentType.getBaseType();
@@ -2430,6 +2431,7 @@ public class Parser {
             val = this.parseAggregateLiteral(scope, (AggregateType) expected);
           } else {
             throw this.parseException(
+                this.currentToken(),
                 "Aggregate literal found when "
                     + expected
                     + " expected for field #"
@@ -2441,7 +2443,10 @@ public class Parser {
         }
 
         if (val == null) {
+          Location errorLocation = this.makeLocation(this.currentToken());
+
           throw this.parseException(
+              errorLocation,
               "Expression expected for field #" + (param + 1) + errorMessageFieldName);
         }
 
@@ -2449,7 +2454,10 @@ public class Parser {
           val = this.autoCoerceValue(currentType, val, scope);
           Type given = val.getType();
           if (!Operator.validCoercion(expected, given, "assign")) {
+            Location errorLocation = val.getLocation();
+
             throw this.parseException(
+                errorLocation,
                 given
                     + " found when "
                     + expected

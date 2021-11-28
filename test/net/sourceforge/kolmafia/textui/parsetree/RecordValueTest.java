@@ -15,8 +15,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class RecordValueTest {
   public static Stream<ScriptData> data() {
     return Stream.of(
-        invalid("standalone new", "new;", "Expected Record name, found ;"),
-        invalid("new non-record", "int x = new int();", "'int' is not a record type"),
+        invalid("standalone new", "new;", "Expected Record name, found ;", "char 4 to char 5"),
+        invalid(
+            "new non-record",
+            "int x = new int();",
+            "'int' is not a record type",
+            "char 13 to char 16"),
         valid(
             "new record without parens",
             // Yields a default-constructed record.
@@ -36,7 +40,8 @@ public class RecordValueTest {
         invalid(
             "new record with semicolon",
             "record r {int a;}; new r(;",
-            "Expression expected for field #1 (a)"),
+            "Expression expected for field #1 (a)",
+            "char 26 to char 27"),
         valid(
             "new with aggregate field",
             "record r {int[] a;}; new r({1,2});",
@@ -57,11 +62,15 @@ public class RecordValueTest {
         invalid(
             "new with unexpected aggregate field",
             "record r {int a;}; new r({1,2});",
-            "Aggregate literal found when int expected for field #1 (a)"),
+            "Aggregate literal found when int expected for field #1 (a)",
+            // we currently can't read any further than the "{"
+            // "char 26 to char 31"),
+            "char 26 to char 27"),
         invalid(
             "new with field type mismatch",
             "record r {int a;}; new r('str');",
-            "string found when int expected for field #1 (a)"),
+            "string found when int expected for field #1 (a)",
+            "char 26 to char 31"),
         valid(
             "new with void fields",
             "record r {int a; string b; boolean c; int d;}; new r(2, , true);",
@@ -85,19 +94,23 @@ public class RecordValueTest {
         invalid(
             "new with too many void fields",
             "record r {int a;}; new r(,,,,,,,);",
-            "Too many field initializers for record r"),
+            "Too many field initializers for record r",
+            "char 27 to char 28"),
         invalid(
             "new without closing paren",
             "record r {int a;}; new r(",
-            "Expected ), found end of file"),
+            "Expected ), found end of file",
+            "char 26"),
         invalid(
             "new without closing paren 2",
             "record r {int a;}; new r(4",
-            "Expected , or ), found end of file"),
+            "Expected , or ), found end of file",
+            "char 27"),
         invalid(
             "new without closing comma separator",
             "record r {int a; int b;}; new r(4 5)",
-            "Expected , or ), found 5"));
+            "Expected , or ), found 5",
+            "char 35 to char 36"));
   }
 
   @ParameterizedTest
