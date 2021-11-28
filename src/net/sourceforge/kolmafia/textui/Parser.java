@@ -1641,7 +1641,7 @@ public class Parser {
     if (condition == null) {
       Location errorLocation = this.makeLocation(this.currentToken());
 
-      throw this.parseException(errorLocation, "Expression for repeat condition expected");
+      throw this.parseException(errorLocation, "Expression expected");
     }
 
     if (this.currentToken().equals(")")) {

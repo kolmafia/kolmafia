@@ -45,7 +45,7 @@ public class RepeatUntilLoopTest {
         invalid(
             "repeat with empty condition",
             "repeat {} until ()",
-            "Expression for repeat condition expected",
+            "Expression expected",
             "char 18 to char 19"),
         invalid(
             "repeat with incorrect condition",
