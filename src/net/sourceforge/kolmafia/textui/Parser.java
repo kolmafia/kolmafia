@@ -1893,7 +1893,9 @@ public class Parser {
       if (value != null) {
         body = value;
       } else {
-        throw this.parseException("\"catch\" requires a block or an expression");
+        Location errorLocation = this.makeLocation(this.currentToken());
+
+        throw this.parseException(errorLocation, "\"catch\" requires a block or an expression");
       }
     }
 
