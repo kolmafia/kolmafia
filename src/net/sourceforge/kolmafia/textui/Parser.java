@@ -2011,11 +2011,12 @@ public class Parser {
           || name.equalsIgnoreCase("in")
               && !"in".equalsIgnoreCase(this.nextToken())
               && !",".equals(this.nextToken())) {
-        throw this.parseException("Key variable name expected");
+        throw this.parseException(name, "Key variable name expected");
       } else if (Parser.isReservedWord(name.content)) {
-        throw this.parseException("Reserved word '" + name + "' cannot be a key variable name");
+        throw this.parseException(
+            name, "Reserved word '" + name + "' cannot be a key variable name");
       } else if (names.contains(name.content)) {
-        throw this.parseException("Key variable '" + name + "' is already defined");
+        throw this.parseException(name, "Key variable '" + name + "' is already defined");
       } else {
         names.add(name.content);
         locations.add(this.makeLocation(name));
@@ -2040,7 +2041,10 @@ public class Parser {
     Evaluable aggregate = this.parseEvaluable(parentScope);
 
     if (aggregate == null || !(aggregate.getType().getBaseType() instanceof AggregateType)) {
-      throw this.parseException("Aggregate reference expected");
+      Location errorLocation =
+          aggregate != null ? aggregate.getLocation() : this.makeLocation(this.currentToken());
+
+      throw this.parseException(errorLocation, "Aggregate reference expected");
     }
 
     // Define key variables of appropriate type
@@ -2054,7 +2058,7 @@ public class Parser {
 
       Type itype;
       if (type == null) {
-        throw this.parseException("Too many key variables specified");
+        throw this.parseException(location, "Too many key variables specified");
       }
 
       if (type instanceof AggregateType) {

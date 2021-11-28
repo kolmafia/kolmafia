@@ -27,30 +27,40 @@ public class ForEachLoopTest {
         invalid(
             "foreach with non-identifier key",
             "foreach 'key' in $items[];",
-            "Key variable name expected"),
+            "Key variable name expected",
+            "char 9 to char 10"),
         invalid(
             "foreach with reserved key",
             "foreach item in $items[];",
-            "Reserved word 'item' cannot be a key variable"),
-        invalid("foreach missing `in`", "foreach it;", "Expected in, found ;"),
+            "Reserved word 'item' cannot be a key variable name",
+            "char 9 to char 13"),
         invalid(
-            "foreach missing key variable name", "foreach in it;", "Key variable name expected"),
+            "foreach missing `in`", "foreach it;", "Expected in, found ;", "char 11 to char 12"),
+        invalid(
+            "foreach missing key variable name",
+            "foreach in it;",
+            "Key variable name expected",
+            "char 9 to char 11"),
         invalid(
             "foreach key variable named 'in'",
             "foreach in in it;",
-            "Reserved word 'in' cannot be a key variable name"),
+            "Reserved word 'in' cannot be a key variable name",
+            "char 9 to char 11"),
         invalid(
             "foreach key variable named 'in' 2",
             "foreach in, on, under, below, through in it;",
-            "Reserved word 'in' cannot be a key variable name"),
+            "Reserved word 'in' cannot be a key variable name",
+            "char 9 to char 11"),
         invalid(
             "foreach in not-a-reference",
             "foreach it in $item[none];",
-            "Aggregate reference expected"),
+            "Aggregate reference expected",
+            "char 15 to char 26"),
         invalid(
             "foreach with duplicate key",
             "foreach it, it in $items[];",
-            "Key variable 'it' is already defined"),
+            "Key variable 'it' is already defined",
+            "char 13 to char 15"),
         valid(
             "foreach with multiple keys",
             "foreach key, value in int[int]{} {}",
@@ -93,7 +103,8 @@ public class ForEachLoopTest {
         invalid(
             "foreach with too many keys",
             "foreach a, b, c in $items[];",
-            "Too many key variables specified"));
+            "Too many key variables specified",
+            "char 15 to char 16"));
   }
 
   @ParameterizedTest
