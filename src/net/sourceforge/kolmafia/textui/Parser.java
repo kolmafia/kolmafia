@@ -1452,14 +1452,22 @@ public class Parser {
 
     Evaluable condition = this.parseExpression(parentScope);
 
+    if (condition == null) {
+      Location errorLocation = this.makeLocation(this.currentToken());
+
+      throw this.parseException(errorLocation, "Expression expected");
+    }
+
     if (this.currentToken().equals(")")) {
       this.readToken(); // )
     } else {
       throw this.parseException(")", this.currentToken());
     }
 
-    if (condition == null || !condition.getType().equals(DataTypes.BOOLEAN_TYPE)) {
-      throw this.parseException("\"if\" requires a boolean conditional expression");
+    if (!condition.getType().equals(DataTypes.BOOLEAN_TYPE)) {
+      Location errorLocation = condition.getLocation();
+
+      throw this.parseException(errorLocation, "\"if\" requires a boolean conditional expression");
     }
 
     If result = null;
@@ -1488,7 +1496,7 @@ public class Parser {
         conditionalStartToken = this.currentToken();
 
         if (finalElse) {
-          throw this.parseException("Else without if");
+          throw this.parseException(this.currentToken(), "Else without if");
         }
 
         this.readToken(); // else
@@ -1503,14 +1511,23 @@ public class Parser {
 
           condition = this.parseExpression(parentScope);
 
+          if (condition == null) {
+            Location errorLocation = this.makeLocation(this.currentToken());
+
+            throw this.parseException(errorLocation, "Expression expected");
+          }
+
           if (this.currentToken().equals(")")) {
             this.readToken(); // )
           } else {
             throw this.parseException(")", this.currentToken());
           }
 
-          if (condition == null || !condition.getType().equals(DataTypes.BOOLEAN_TYPE)) {
-            throw this.parseException("\"if\" requires a boolean conditional expression");
+          if (!condition.getType().equals(DataTypes.BOOLEAN_TYPE)) {
+            Location errorLocation = condition.getLocation();
+
+            throw this.parseException(
+                errorLocation, "\"if\" requires a boolean conditional expression");
           }
         } else {
           // else without condition
