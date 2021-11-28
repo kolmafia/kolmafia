@@ -62,17 +62,27 @@ public class TypeDefTest {
                 "1-1", "1-5", "1-8", "1-10", "1-18", "1-22", "1-25", "1-27", "2-1", "4-2", "4-4",
                 "4-5", "4-6")),
         invalid("unterminated typedef", "typedef int foo\n foo bar;", "Expected ;, found foo"),
-        invalid("typedef with no type", "typedef;", "Missing data type for typedef"),
-        invalid("typedef with no name", "typedef int;", "Type name expected"),
-        invalid("typedef with non-identifier name", "typedef int 1;", "Invalid type name '1'"),
+        invalid(
+            "typedef with no type",
+            "typedef;",
+            "Missing data type for typedef",
+            "char 1 to char 9"),
+        invalid("typedef with no name", "typedef int;", "Type name expected", "char 12 to char 13"),
+        invalid(
+            "typedef with non-identifier name",
+            "typedef int 1;",
+            "Invalid type name '1'",
+            "char 13 to char 14"),
         invalid(
             "typedef with reserved name",
             "typedef int remove;",
-            "Reserved word 'remove' cannot be a type name"),
+            "Reserved word 'remove' cannot be a type name",
+            "char 13 to char 19"),
         invalid(
             "typedef with existing name",
             "typedef float double; typedef int double;",
-            "Type name 'double' is already defined"),
+            "Type name 'double' is already defined",
+            "char 35 to char 41"),
         valid(
             "equivalent typedef redefinition",
             "typedef float double; typedef float double;",
