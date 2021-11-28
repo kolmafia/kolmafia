@@ -1851,7 +1851,9 @@ public class Parser {
               functionType, null, body, false, allowBreak, allowContinue);
     } else {
       // this would not be an error if at least one catch was present
-      throw this.parseException("\"try\" without \"finally\" is pointless");
+      throw this.parseException(
+          this.makeLocation(tryStartToken, this.peekPreviousToken()),
+          "\"try\" without \"finally\" is pointless");
     }
 
     Location tryLocation = this.makeLocation(tryStartToken, this.peekPreviousToken());
