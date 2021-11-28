@@ -35,7 +35,7 @@ public class RecordTypeTest {
             "record redefinition",
             "record a { int a;}; record a { int a;};",
             "Record name 'a' is already defined",
-            "char 8 to char 9"),
+            "char 28 to char 29"),
         invalid(
             "record without fields",
             "record a {};",
