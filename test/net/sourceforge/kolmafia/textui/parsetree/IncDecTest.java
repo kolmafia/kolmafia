@@ -18,8 +18,18 @@ public class IncDecTest {
         invalid(
             "preincrement with non-numeric variable",
             "string x; ++x;",
-            "++X requires a numeric variable reference"),
-        invalid("preincrement requires a variable", "++1;", "Variable reference expected"),
+            "++X requires a numeric variable reference",
+            "char 13 to char 14"),
+        invalid(
+            "preincrement requires a variable",
+            "++1;",
+            "Variable reference expected",
+            "char 3 to char 4"),
+        invalid(
+            "preincrement requires a variable 2",
+            "int x; ++x.to_int();",
+            "Variable reference expected",
+            "char 10 to char 20"),
         valid(
             "predecrement with float variable",
             "float x; --x;",
@@ -35,12 +45,14 @@ public class IncDecTest {
         invalid(
             "postincrement with non-numeric variable",
             "string x; x++;",
-            "X++ requires a numeric variable reference"),
+            "X++ requires a numeric variable reference",
+            "char 11 to char 12"),
         /* Currently fails with "Expected ;, found ++" which is asymmetric.
         invalid(
             "postincrement requires a variable",
             "1++;",
-            "Variable reference expected"),
+            "Variable reference expected",
+            "char 1 to char 2"),
         */
         valid(
             "postdecrement with float variable",
