@@ -42,16 +42,29 @@ public class FunctionCallTest {
         invalid(
             "undefined function call",
             "prin();",
-            "Function 'prin( )' undefined.  This script may require a more recent version of KoLmafia and/or its supporting scripts."),
-        invalid("function call interrupted", "print(", "Expected ), found end of file"),
+            "Function 'prin( )' undefined.  This script may require a more recent version of KoLmafia and/or its supporting scripts.",
+            "char 1 to char 5"),
+        invalid("function call interrupted", "print(", "Expected ), found end of file", "char 7"),
         invalid(
             "function call interrupted after comma",
             "print(1,",
-            "Expected parameter, found end of file"),
-        invalid("function call closed after comma", "print(1,);", "Expected parameter, found )"),
+            "Expected parameter, found end of file",
+            "char 9"),
         invalid(
-            "function call interrupted after param", "print(1", "Expected ), found end of file"),
-        invalid("function call with non-comma separator", "print(1; 2);", "Expected ), found ;"),
+            "function call closed after comma",
+            "print(1,);",
+            "Expected parameter, found )",
+            "char 9 to char 10"),
+        invalid(
+            "function call interrupted after param",
+            "print(1",
+            "Expected ), found end of file",
+            "char 8"),
+        invalid(
+            "function call with non-comma separator",
+            "print(1; 2);",
+            "Expected ), found ;",
+            "char 8 to char 9"),
         valid(
             "method call of primitive var",
             "string x = 'hello'; x.print();",

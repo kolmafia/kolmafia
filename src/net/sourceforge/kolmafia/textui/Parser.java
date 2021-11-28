@@ -2502,7 +2502,7 @@ public class Parser {
     if (target != null) {
       params = this.autoCoerceParameters(target, params, scope);
     } else {
-      throw this.undefinedFunctionException(name.content, params);
+      throw this.undefinedFunctionException(name, params);
     }
 
     FunctionCall call = new FunctionCall(functionCallLocation, target, params, this);
@@ -4218,8 +4218,8 @@ public class Parser {
   }
 
   private ScriptException undefinedFunctionException(
-      final String name, final List<Evaluable> params) {
-    return this.parseException(Parser.undefinedFunctionMessage(name, params));
+      final Token name, final List<Evaluable> params) {
+    return this.parseException(name, Parser.undefinedFunctionMessage(name.content, params));
   }
 
   private ScriptException multiplyDefinedFunctionException(final Function f) {
