@@ -1581,7 +1581,7 @@ public class Parser {
   }
 
   private Loop parseWhile(final Type functionType, final BasicScope parentScope) {
-    if (!this.currentToken().equalsIgnoreCase("while")) {
+    if (!this.currentToken().equalsIgnoreCase("while")) {//
       return null;
     }
 
