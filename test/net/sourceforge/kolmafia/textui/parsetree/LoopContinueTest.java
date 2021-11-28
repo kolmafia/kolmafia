@@ -37,7 +37,8 @@ public class LoopContinueTest {
         invalid(
             "continue inside switch",
             "switch (true) { default: continue; }",
-            "Encountered 'continue' outside of loop"));
+            "Encountered 'continue' outside of loop",
+            "char 26 to char 34"));
   }
 
   @ParameterizedTest
