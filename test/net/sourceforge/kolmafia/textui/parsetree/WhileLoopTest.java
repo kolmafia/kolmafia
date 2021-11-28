@@ -37,7 +37,7 @@ public class WhileLoopTest {
         invalid(
             "while with empty condition",
             "while ()",
-            "Expression for while condition expected",
+            "Expression expected",
             "char 8 to char 9"),
         invalid(
             "while with incorrect condition",
