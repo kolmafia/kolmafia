@@ -18,8 +18,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class JavaForLoopTest {
   public static Stream<ScriptData> data() {
     return Stream.of(
-        invalid("Unterminated Java for-loop", "for (", "Expected ), found end of file"),
-        invalid("Java for-loop, bad incrementer", "for (;;1)", "Variable reference expected"),
+        invalid("Unterminated Java for-loop", "for (", "Expected ), found end of file", "char 6"),
+        invalid(
+            "Java for-loop, bad incrementer",
+            "for (;;1)",
+            "Variable reference expected",
+            "char 8 to char 9"),
         valid(
             "valid empty Java for-loop",
             "for (;;) {}",
@@ -71,7 +75,10 @@ public class JavaForLoopTest {
               assertFalse(variables.hasNext());
             }),
         invalid(
-            "javaFor with empty initializer", "for (int i=0,; i < 5; ++i);", "Identifier expected"),
+            "javaFor with empty initializer",
+            "for (int i=0,; i < 5; ++i);",
+            "Identifier expected",
+            "char 14 to char 15"),
         valid(
             "javaFor with compound increment",
             "for (int i=0; i < 5; i+=1);",
@@ -114,15 +121,18 @@ public class JavaForLoopTest {
         invalid(
             "javaFor with unknown existing variable",
             "for (i=0; i < 5; i++);",
-            "Unknown variable 'i'"),
+            "Unknown variable 'i'",
+            "char 6 to char 7"),
         invalid(
             "javaFor with redefined existing variable",
             "int i; for (int i=0; i < 5; i++);",
-            "Variable 'i' already defined"),
+            "Variable 'i' already defined",
+            "char 17 to char 18"),
         invalid(
             "javaFor with not-an-increment",
             "for (int i=0; i < 5; i==1);",
-            "Variable 'i' not incremented"),
+            "Variable 'i' not incremented",
+            "char 22 to char 23"),
         valid(
             "javaFor with constant assignment",
             // I guess this technically works... but will be an infinite
@@ -134,19 +144,30 @@ public class JavaForLoopTest {
                 "1-1", "1-5", "1-6", "1-10", "1-11", "1-12", "1-13", "1-15", "1-17", "1-19", "1-20",
                 "1-22", "1-23", "1-24", "1-25", "1-26")),
         invalid(
-            "javaFor missing initial identifier", "for (0; i < 5; i++);", "Identifier required"),
+            "javaFor missing initial identifier",
+            "for (0; i < 5; i++);",
+            "Identifier required",
+            "char 6 to char 7"),
         invalid(
             "javaFor missing initializer expression",
             "for (int i =; i < 5; i++);",
-            "Expression expected"),
+            "Expression expected",
+            "char 13 to char 14"),
         invalid(
             "javaFor invalid assignment",
             "for (int i ='abc'; i < 5; i++);",
-            "Cannot store string in i of type int"),
+            "Cannot store string in i of type int",
+            "char 13 to char 18"),
+        invalid(
+            "javaFor null condition", // "nothing" is evaluated as true, so we have to get creative
+            "for (int i; ?; i++);",
+            "Expression expected",
+            "char 13 to char 14"),
         invalid(
             "javaFor non-boolean condition",
             "for (int i; i + 5; i++);",
-            "\"for\" requires a boolean conditional expression"),
+            "\"for\" requires a boolean conditional expression",
+            "char 13 to char 18"),
         valid(
             "javaFor multiple increments",
             "for (int i, int j; i + j < 5; i++, j++);",
@@ -159,7 +180,8 @@ public class JavaForLoopTest {
         invalid(
             "javaFor interrupted multiple increments",
             "for (int i; i < 5; i++,);",
-            "Identifier expected"));
+            "Identifier expected",
+            "char 24 to char 25"));
   }
 
   @ParameterizedTest
