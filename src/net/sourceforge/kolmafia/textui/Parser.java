@@ -3637,21 +3637,28 @@ public class Parser {
         parseAggregate = true;
 
         if (!(type instanceof AggregateType)) {
+          Location location = Parser.makeLocation(current.getLocation(), this.peekPreviousToken());
+          String message;
           if (indices.isEmpty()) {
-            throw this.parseException("Variable '" + var.getName() + "' cannot be indexed");
+            message = "Variable '" + var.getName() + "' cannot be indexed";
           } else {
-            throw this.parseException("Too many keys for '" + var.getName() + "'");
+            message = "Too many keys for '" + var.getName() + "'";
           }
+          throw this.parseException(location, message);
         }
 
         AggregateType atype = (AggregateType) type;
         index = this.parseExpression(scope);
         if (index == null) {
-          throw this.parseException("Index for '" + current.getName() + "' expected");
+          Location errorLocation = this.makeLocation(this.currentToken());
+
+          throw this.parseException(
+              errorLocation, "Index for '" + current.getName() + "' expected");
         }
 
         if (!index.getType().getBaseType().equals(atype.getIndexType().getBaseType())) {
           throw this.parseException(
+              index.getLocation(),
               "Index for '"
                   + current.getName()
                   + "' has wrong data type "
@@ -3674,7 +3681,7 @@ public class Parser {
 
         type = type.asProxy();
         if (!(type instanceof RecordType)) {
-          throw this.parseException("Record expected");
+          throw this.parseException(current.getLocation(), "Record expected");
         }
 
         RecordType rtype = (RecordType) type;
@@ -3683,14 +3690,14 @@ public class Parser {
         if (this.parseIdentifier(field.content)) {
           this.readToken(); // read name
         } else {
-          throw this.parseException("Field name expected");
+          throw this.parseException(field, "Field name expected");
         }
 
         index = Value.locate(this.makeLocation(field), rtype.getFieldIndex(field.content));
         if (index != null) {
           type = rtype.getDataType(index);
         } else {
-          throw this.parseException("Invalid field name '" + field + "'");
+          throw this.parseException(field, "Invalid field name '" + field + "'");
         }
       }
 
