@@ -27,11 +27,13 @@ public class EscapeSequenceTest {
         invalid(
             "string with insufficient octal digits",
             "'\\11'",
-            "Octal character escape requires 3 digits"),
+            "Octal character escape requires 3 digits",
+            "char 2 to char 6"),
         invalid(
             "string with invalid octal digits",
             "'\\118'",
-            "Octal character escape requires 3 digits"),
+            "Octal character escape requires 3 digits",
+            "char 2 to char 6"),
         valid(
             "string with hex digits",
             "'\\x3fgh'",
@@ -40,11 +42,13 @@ public class EscapeSequenceTest {
         invalid(
             "string with invalid hex digits",
             "'\\xhello'",
-            "Hexadecimal character escape requires 2 digits"),
+            "Hexadecimal character escape requires 2 digits",
+            "char 2 to char 6"),
         invalid(
             "string with insufficient hex digits",
             "'\\x1'",
-            "Hexadecimal character escape requires 2 digits"),
+            "Hexadecimal character escape requires 2 digits",
+            "char 2 to char 6"),
         valid(
             "string with unicode digits",
             "'\\u0041'",
@@ -53,11 +57,13 @@ public class EscapeSequenceTest {
         invalid(
             "string with invalid unicode digits",
             "'\\uzzzz'",
-            "Unicode character escape requires 4 digits"),
+            "Unicode character escape requires 4 digits",
+            "char 2 to char 8"),
         invalid(
             "string with insufficient unicode digits",
             "'\\u1'",
-            "Unicode character escape requires 4 digits"),
+            "Unicode character escape requires 4 digits",
+            "char 2 to char 6"),
         invalid("string with escaped eof", "'\\", "No closing ' found"));
   }
 

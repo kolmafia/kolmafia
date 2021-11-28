@@ -3192,9 +3192,10 @@ public class Parser {
   }
 
   private int parseEscapeSequence(final StringBuilder resultString, int i) {
+    final int backslashIndex = i++;
     final String line = this.restOfLine();
 
-    if (++i == line.length()) {
+    if (i == line.length()) {
       resultString.append('\n');
       this.currentLine.makeToken(i);
       this.currentLine = this.currentLine.nextLine;
@@ -3223,7 +3224,14 @@ public class Parser {
           resultString.append((char) hex08);
           i += 2;
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
-          throw this.parseException("Hexadecimal character escape requires 2 digits");
+          Location errorLocation =
+              this.makeLocation(
+                  Parser.makeInlineRange(
+                      new Position(this.getLineNumber() - 1, backslashIndex),
+                      Math.min(4, line.length() - backslashIndex)));
+
+          throw this.parseException(
+              errorLocation, "Hexadecimal character escape requires 2 digits");
         }
         break;
 
@@ -3233,7 +3241,13 @@ public class Parser {
           resultString.append((char) hex16);
           i += 4;
         } catch (IndexOutOfBoundsException | NumberFormatException e) {
-          throw this.parseException("Unicode character escape requires 4 digits");
+          Location errorLocation =
+              this.makeLocation(
+                  Parser.makeInlineRange(
+                      new Position(this.getLineNumber() - 1, backslashIndex),
+                      Math.min(6, line.length() - backslashIndex)));
+
+          throw this.parseException(errorLocation, "Unicode character escape requires 4 digits");
         }
         break;
 
@@ -3245,7 +3259,13 @@ public class Parser {
             i += 2;
             break;
           } catch (IndexOutOfBoundsException | NumberFormatException e) {
-            throw this.parseException("Octal character escape requires 3 digits");
+            Location errorLocation =
+                this.makeLocation(
+                    Parser.makeInlineRange(
+                        new Position(this.getLineNumber() - 1, backslashIndex),
+                        Math.min(4, line.length() - backslashIndex)));
+
+            throw this.parseException(errorLocation, "Octal character escape requires 3 digits");
           }
         }
         resultString.append(ch);
