@@ -1974,7 +1974,10 @@ public class Parser {
 
     if (!(aggregate instanceof VariableReference)
         || !(aggregate.getType().getBaseType() instanceof AggregateType)) {
-      throw this.parseException("Aggregate reference expected");
+      Location errorLocation =
+          aggregate != null ? aggregate.getLocation() : this.makeLocation(this.currentToken());
+
+      throw this.parseException(errorLocation, "Aggregate reference expected");
     }
 
     if (this.currentToken().equalsIgnoreCase("by")) {
@@ -1998,7 +2001,9 @@ public class Parser {
     Evaluable expr = this.parseExpression(scope);
 
     if (expr == null) {
-      throw this.parseException("Expression expected");
+      Location errorLocation = this.makeLocation(this.currentToken());
+
+      throw this.parseException(errorLocation, "Expression expected");
     }
 
     Location scopeLocation = this.makeLocation(scopeStartToken, this.peekPreviousToken());

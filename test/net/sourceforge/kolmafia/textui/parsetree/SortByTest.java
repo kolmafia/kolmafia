@@ -32,9 +32,17 @@ public class SortByTest {
             Arrays.asList(
                 "1-1", "1-6", "1-10", "1-11", "1-12", "1-13", "1-15", "1-19", "1-20", "1-21")),
         invalid(
-            "sort not-a-variable primitive", "sort 2 by value;", "Aggregate reference expected"),
-        invalid("sort without by", "int[] x {3,2,1}; sort x;", "Expected by, found ;"),
-        invalid("Sort, no sorting expression", "int[] x; sort x by", "Expression expected"),
+            "sort not-a-variable primitive",
+            "sort 2 by value;",
+            "Aggregate reference expected",
+            "char 6 to char 7"),
+        invalid(
+            "sort without by",
+            "int[] x {3,2,1}; sort x;",
+            "Expected by, found ;",
+            "char 24 to char 25"),
+        invalid(
+            "Sort, no sorting expression", "int[] x; sort x by", "Expression expected", "char 19"),
         valid(
             "valid sort",
             "int[] x; sort x by value*3;",
