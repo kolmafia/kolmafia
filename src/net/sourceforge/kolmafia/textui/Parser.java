@@ -2219,19 +2219,20 @@ public class Parser {
       Variable variable;
 
       if (!this.parseIdentifier(name.content) || Parser.isReservedWord(name.content)) {
-        throw this.parseException("Identifier required");
+        throw this.parseException(name, "Identifier required");
       }
 
       // If there is no data type, it is using an existing variable
       if (t == null) {
         variable = parentScope.findVariable(name.content);
         if (variable == null) {
-          throw this.parseException("Unknown variable '" + name + "'");
+          throw this.parseException(name, "Unknown variable '" + name + "'");
         }
+
         t = variable.getType();
       } else {
         if (scope.findVariable(name.content, true) != null) {
-          throw this.parseException("Variable '" + name + "' already defined");
+          throw this.parseException(name, "Variable '" + name + "' already defined");
         }
 
         // Create variable and add it to the scope
@@ -2250,7 +2251,9 @@ public class Parser {
         rhs = this.parseExpression(scope);
 
         if (rhs == null) {
-          throw this.parseException("Expression expected");
+          Location errorLocation = this.makeLocation(this.currentToken());
+
+          throw this.parseException(errorLocation, "Expression expected");
         }
 
         Type ltype = t.getBaseType();
@@ -2258,7 +2261,8 @@ public class Parser {
         Type rtype = rhs.getType();
 
         if (!Operator.validCoercion(ltype, rtype, "assign")) {
-          throw this.parseException("Cannot store " + rtype + " in " + name + " of type " + ltype);
+          throw this.parseException(
+              rhs.getLocation(), "Cannot store " + rtype + " in " + name + " of type " + ltype);
         }
       }
 
@@ -2270,7 +2274,7 @@ public class Parser {
         this.readToken(); // ,
 
         if (this.currentToken().equals(";")) {
-          throw this.parseException("Identifier expected");
+          throw this.parseException(this.currentToken(), "Identifier expected");
         }
       }
     }
@@ -2288,14 +2292,22 @@ public class Parser {
             ? Value.locate(this.makeZeroWidthLocation(), DataTypes.TRUE_VALUE)
             : this.parseExpression(scope);
 
+    if (condition == null) {
+      Location errorLocation = this.makeLocation(this.currentToken());
+
+      throw this.parseException(errorLocation, "Expression expected");
+    }
+
     if (this.currentToken().equals(";")) {
       this.readToken(); // ;
     } else {
       throw this.parseException(";", this.currentToken());
     }
 
-    if (condition == null || !condition.getType().equals(DataTypes.BOOLEAN_TYPE)) {
-      throw this.parseException("\"for\" requires a boolean conditional expression");
+    if (!condition.getType().equals(DataTypes.BOOLEAN_TYPE)) {
+      Location errorLocation = condition.getLocation();
+
+      throw this.parseException(errorLocation, "\"for\" requires a boolean conditional expression");
     }
 
     // Parse incrementers in context of scope
@@ -2309,7 +2321,10 @@ public class Parser {
       } else {
         value = this.parseVariableReference(scope);
         if (!(value instanceof VariableReference)) {
-          throw this.parseException("Variable reference expected");
+          Location errorLocation =
+              value != null ? value.getLocation() : this.makeLocation(this.currentToken());
+
+          throw this.parseException(errorLocation, "Variable reference expected");
         }
 
         VariableReference ref = (VariableReference) value;
@@ -2321,7 +2336,8 @@ public class Parser {
           if (incrementer != null) {
             incrementers.add(incrementer);
           } else {
-            throw this.parseException("Variable '" + ref.getName() + "' not incremented");
+            throw this.parseException(
+                value.getLocation(), "Variable '" + ref.getName() + "' not incremented");
           }
         } else {
           incrementers.add(lhs);
@@ -2332,7 +2348,7 @@ public class Parser {
         this.readToken(); // ,
 
         if (this.atEndOfFile() || this.currentToken().equals(")")) {
-          throw this.parseException("Identifier expected");
+          throw this.parseException(this.currentToken(), "Identifier expected");
         }
       }
     }
