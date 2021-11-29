@@ -15,7 +15,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class LoopContinueTest {
   public static Stream<ScriptData> data() {
     return Stream.of(
-        invalid("continue outside loop", "continue;", "Encountered 'continue' outside of loop"),
+        invalid(
+            "continue outside loop",
+            "continue;",
+            "Encountered 'continue' outside of loop",
+            "char 1 to char 9"),
         valid(
             "continue inside while-loop",
             "while (true) continue;",
@@ -33,7 +37,8 @@ public class LoopContinueTest {
         invalid(
             "continue inside switch",
             "switch (true) { default: continue; }",
-            "Encountered 'continue' outside of loop"));
+            "Encountered 'continue' outside of loop",
+            "char 26 to char 34"));
   }
 
   @ParameterizedTest

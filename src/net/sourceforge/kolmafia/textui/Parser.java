@@ -965,7 +965,7 @@ public class Parser {
       if (allowContinue) {
         result = new LoopContinue(this.makeLocation(this.currentToken()));
       } else {
-        throw this.parseException("Encountered 'continue' outside of loop");
+        throw this.parseException(this.currentToken(), "Encountered 'continue' outside of loop");
       }
 
       this.readToken(); // continue
