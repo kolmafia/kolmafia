@@ -1233,7 +1233,7 @@ public class Parser {
 
     if (indexToken.equals("]")) {
       if (!separatorToken.equals("[")) {
-        throw this.parseException("Missing index token");
+        throw this.parseException(indexToken, "Missing index token");
       }
     } else if (this.readIntegerToken(indexToken.content)) {
       size = StringUtilities.parseInt(indexToken.content);
@@ -1246,15 +1246,15 @@ public class Parser {
 
         if (!indexType.isPrimitive()) {
           throw this.parseException(
-              "Index type '" + this.currentToken() + "' is not a primitive type");
+              indexToken, "Index type '" + indexToken + "' is not a primitive type");
         }
       } else {
-        throw this.parseException("Invalid type name '" + this.currentToken() + "'");
+        throw this.parseException(indexToken, "Invalid type name '" + indexToken + "'");
       }
 
       this.readToken(); // type name
     } else {
-      throw this.parseException("Missing index token");
+      throw this.parseException(indexToken, "Missing index token");
     }
 
     if (this.currentToken().equals(",")
