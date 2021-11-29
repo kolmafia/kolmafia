@@ -957,7 +957,7 @@ public class Parser {
       if (allowBreak) {
         result = new LoopBreak(this.makeLocation(this.currentToken()));
       } else {
-        throw this.parseException("Encountered 'break' outside of loop");
+        throw this.parseException(this.currentToken(), "Encountered 'break' outside of loop");
       }
 
       this.readToken(); // break

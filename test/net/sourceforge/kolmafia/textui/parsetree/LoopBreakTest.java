@@ -15,7 +15,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class LoopBreakTest {
   public static Stream<ScriptData> data() {
     return Stream.of(
-        invalid("break outside loop", "break;", "Encountered 'break' outside of loop"),
+        invalid(
+            "break outside loop",
+            "break;",
+            "Encountered 'break' outside of loop",
+            "char 1 to char 6"),
         valid(
             "break inside while-loop",
             "while (true) break;",
