@@ -784,9 +784,10 @@ public class Parser {
     Variable result;
 
     if (Parser.isReservedWord(variableName.content)) {
-      throw this.parseException("Reserved word '" + variableName + "' cannot be a variable name");
+      throw this.parseException(
+          variableName, "Reserved word '" + variableName + "' cannot be a variable name");
     } else if (scope != null && scope.findVariable(variableName.content) != null) {
-      throw this.parseException("Variable " + variableName + " is already defined");
+      throw this.parseException(variableName, "Variable " + variableName + " is already defined");
     } else {
       result = new Variable(variableName.content, t, this.makeLocation(variableName));
     }
@@ -3720,7 +3721,7 @@ public class Parser {
     Variable var = scope.findVariable(name.content, true);
 
     if (var == null) {
-      throw this.parseException("Unknown variable '" + name + "'");
+      throw this.parseException(variableLocation, "Unknown variable '" + name + "'");
     }
 
     this.readToken(); // read name

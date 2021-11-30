@@ -43,7 +43,8 @@ public class TemplateStringTest {
         invalid(
             "template string with a new variable",
             "`this is some math: {int x = 4; x + 7}`",
-            "Unknown variable 'int'"),
+            "Unknown variable 'int'",
+            "char 22 to char 25"),
         valid(
             "template string with predefined variable",
             "int x; `this is some math: {(x = 4) + 7}`",

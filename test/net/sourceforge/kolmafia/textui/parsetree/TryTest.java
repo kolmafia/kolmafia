@@ -19,7 +19,8 @@ public class TryTest {
             "finally without try",
             "finally {}",
             // "Encountered 'finally' without try",
-            "Unknown variable 'finally'"),
+            "Unknown variable 'finally'",
+            "char 1 to char 8"),
         invalid(
             "try without catch or finally",
             "try {}",
