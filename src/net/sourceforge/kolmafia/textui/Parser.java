@@ -2674,14 +2674,20 @@ public class Parser {
 
     if (current.equals("(")) {
       name = this.parseExpression(scope);
+
       if (name == null || !name.getType().equals(DataTypes.STRING_TYPE)) {
-        throw this.parseException("String expression expected for function name");
+        Location errorLocation = name != null ? name.getLocation() : this.makeLocation(current);
+
+        throw this.parseException(errorLocation, "String expression expected for function name");
       }
     } else {
       name = this.parseVariableReference(scope);
 
       if (!(name instanceof VariableReference)) {
-        throw this.parseException("Variable reference expected for function name");
+        Location errorLocation =
+            name != null ? name.getLocation() : this.makeLocation(this.currentToken());
+
+        throw this.parseException(errorLocation, "Variable reference expected for function name");
       }
     }
 
