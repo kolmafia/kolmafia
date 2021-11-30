@@ -809,7 +809,10 @@ public class Parser {
       if (ltype instanceof AggregateType) {
         result = this.parseAggregateLiteral(scope, (AggregateType) ltype);
       } else {
+        Location errorLocation = this.makeLocation(this.currentToken());
+
         throw this.parseException(
+            errorLocation,
             "Cannot initialize " + lhs + " of type " + t + " with an aggregate literal");
       }
     } else {
@@ -819,10 +822,11 @@ public class Parser {
         result = this.autoCoerceValue(t, result, scope);
         if (!Operator.validCoercion(ltype, result.getType(), "assign")) {
           throw this.parseException(
+              result.getLocation(),
               "Cannot store " + result.getType() + " in " + lhs + " of type " + ltype);
         }
       } else {
-        throw this.parseException("Expression expected");
+        throw this.parseException(this.currentToken(), "Expression expected");
       }
     }
 
@@ -2710,7 +2714,7 @@ public class Parser {
     boolean isAggregate = (ltype instanceof AggregateType);
 
     if (isAggregate && !operStr.equals("=")) {
-      throw this.parseException("Cannot use '" + operStr + "' on an aggregate");
+      throw this.parseException(operStr, "Cannot use '" + operStr + "' on an aggregate");
     }
 
     Operator oper = new Operator(this.makeLocation(operStr), operStr.content, this);
@@ -2722,14 +2726,19 @@ public class Parser {
       if (isAggregate) {
         rhs = this.parseAggregateLiteral(scope, (AggregateType) ltype);
       } else {
-        throw this.parseException("Cannot use an aggregate literal for type " + lhs.getType());
+        Location errorLocation = this.makeLocation(this.currentToken());
+
+        throw this.parseException(
+            errorLocation, "Cannot use an aggregate literal for type " + lhs.getType());
       }
     } else {
       rhs = this.parseExpression(scope);
     }
 
     if (rhs == null) {
-      throw this.parseException("Expression expected");
+      Location errorLocation = this.makeLocation(this.currentToken());
+
+      throw this.parseException(errorLocation, "Expression expected");
     }
 
     rhs = this.autoCoerceValue(lhs.getRawType(), rhs, scope);
@@ -2741,7 +2750,7 @@ public class Parser {
               : oper.isInteger()
                   ? (oper + " requires an integer expression and an integer variable reference")
                   : ("Cannot store " + rhs.getType() + " in " + lhs + " of type " + lhs.getType());
-      throw this.parseException(error);
+      throw this.parseException(Parser.mergeLocations(lhs.getLocation(), rhs.getLocation()), error);
     }
 
     Operator op = null;
