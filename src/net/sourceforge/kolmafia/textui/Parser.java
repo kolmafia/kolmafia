@@ -911,35 +911,35 @@ public class Parser {
 
     Type t = this.parseType(parentScope, true);
     if (t == null) {
-      throw this.parseException("Missing data type for typedef");
+      throw this.parseException(typedefToken, this.currentToken(), "Missing data type for typedef");
     }
 
     Token typeName = this.currentToken();
 
     if (typeName.equals(";")) {
-      throw this.parseException("Type name expected");
+      throw this.parseException(typeName, "Type name expected");
     } else if (!this.parseIdentifier(typeName.content)) {
-      throw this.parseException("Invalid type name '" + typeName + "'");
+      throw this.parseException(typeName, "Invalid type name '" + typeName + "'");
     } else if (Parser.isReservedWord(typeName.content)) {
-      throw this.parseException("Reserved word '" + typeName + "' cannot be a type name");
+      throw this.parseException(typeName, "Reserved word '" + typeName + "' cannot be a type name");
     } else {
       this.readToken(); // read name
-    }
 
-    Type existingType = parentScope.findType(typeName.content);
-    if (existingType != null) {
-      if (existingType.getBaseType().equals(t)) {
-        // It is OK to redefine a typedef with an equivalent type
-        return true;
+      Type existingType = parentScope.findType(typeName.content);
+      if (existingType != null) {
+        if (existingType.getBaseType().equals(t)) {
+          // It is OK to redefine a typedef with an equivalent type
+          return true;
+        }
+
+        throw this.parseException(typeName, "Type name '" + typeName + "' is already defined");
+      } else {
+        // Add the type to the type table
+        TypeDef type =
+            new TypeDef(
+                typeName.content, t, this.makeLocation(typedefToken, this.peekPreviousToken()));
+        parentScope.addType(type);
       }
-
-      throw this.parseException("Type name '" + typeName + "' is already defined");
-    } else {
-      // Add the type to the type table
-      TypeDef type =
-          new TypeDef(
-              typeName.content, t, this.makeLocation(typedefToken, this.peekPreviousToken()));
-      parentScope.addType(type);
     }
 
     return true;
