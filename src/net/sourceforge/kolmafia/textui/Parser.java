@@ -329,6 +329,10 @@ public class Parser {
   }
 
   public Scope importFile(final String fileName, final Scope scope) {
+    return this.importFile(fileName, scope, null);
+  }
+
+  private Scope importFile(final String fileName, final Scope scope, final Location location) {
     List<File> matches = KoLmafiaCLI.findScriptFile(fileName);
     if (matches.size() > 1) {
       StringBuilder s = new StringBuilder();
@@ -336,10 +340,10 @@ public class Parser {
         if (s.length() > 0) s.append("; ");
         s.append(f.getPath());
       }
-      throw this.parseException("too many matches for " + fileName + ": " + s);
+      throw this.parseException(location, "too many matches for " + fileName + ": " + s);
     }
     if (matches.size() == 0) {
-      throw this.parseException(fileName + " could not be found");
+      throw this.parseException(location, fileName + " could not be found");
     }
 
     File scriptFile = matches.get(0);
@@ -415,14 +419,15 @@ public class Parser {
       final BasicScope parentScope,
       final boolean allowBreak,
       final boolean allowContinue) {
-    String importString;
+    Directive importDirective;
 
     this.parseScriptName();
     this.parseNotify();
     this.parseSince();
 
-    while ((importString = this.parseImport()) != null) {
-      result = this.importFile(importString, result);
+    while ((importDirective = this.parseImport()) != null) {
+      result =
+          this.importFile(importDirective.value, result, this.makeLocation(importDirective.range));
     }
 
     while (true) {
@@ -3839,10 +3844,22 @@ public class Parser {
     return current;
   }
 
-  private String parseDirective(final String directive) {
+  private class Directive {
+    final String value;
+    final Range range;
+
+    Directive(final String value, final Range range) {
+      this.value = value;
+      this.range = range;
+    }
+  }
+
+  private Directive parseDirective(final String directive) {
     if (!this.currentToken().equalsIgnoreCase(directive)) {
       return null;
     }
+
+    Token directiveToken = this.currentToken();
 
     this.readToken(); // directive
 
@@ -3872,7 +3889,17 @@ public class Parser {
       endIndex = line.indexOf(ch, 1);
 
       if (endIndex == -1) {
-        throw this.parseException("No closing " + ch + " found");
+        endIndex = line.indexOf(";");
+
+        if (endIndex == -1) {
+          endIndex = line.length();
+        }
+
+        resultString = line.substring(0, endIndex);
+        this.currentToken = this.currentLine.makeToken(endIndex);
+        this.readToken();
+
+        throw this.parseException(this.peekPreviousToken(), "No closing " + ch + " found");
       }
 
       resultString = line.substring(1, endIndex);
@@ -3897,36 +3924,39 @@ public class Parser {
       }
     }
 
+    Directive result =
+        new Directive(resultString, Parser.mergeRanges(directiveToken, this.peekPreviousToken()));
+
     if (this.currentToken().equals(";")) {
       this.readToken(); // read ;
     }
 
-    return resultString;
+    return result;
   }
 
   private void parseScriptName() {
-    String resultString = this.parseDirective("script");
-    if (this.scriptName == null) {
-      this.scriptName = resultString;
+    Directive scriptDirective = this.parseDirective("script");
+    if (this.scriptName == null && scriptDirective != null) {
+      this.scriptName = scriptDirective.value;
     }
   }
 
   private void parseNotify() {
-    String resultString = this.parseDirective("notify");
-    if (this.notifyRecipient == null) {
-      this.notifyRecipient = resultString;
+    Directive notifyDirective = this.parseDirective("notify");
+    if (this.notifyRecipient == null && notifyDirective != null) {
+      this.notifyRecipient = notifyDirective.value;
     }
   }
 
   private void parseSince() {
-    String revision = this.parseDirective("since");
-    if (revision != null) {
+    Directive sinceDirective = this.parseDirective("since");
+    if (sinceDirective != null) {
       // enforce "since" directives RIGHT NOW at parse time
-      this.enforceSince(revision);
+      this.enforceSince(sinceDirective.value, sinceDirective.range);
     }
   }
 
-  private String parseImport() {
+  private Directive parseImport() {
     return this.parseDirective("import");
   }
 
@@ -4369,17 +4399,12 @@ public class Parser {
   }
 
   public final ScriptException sinceException(
-      String current, String target, boolean targetIsRevision) {
-    String template;
-    if (targetIsRevision) {
-      template =
-          "'%s' requires revision r%s of kolmafia or higher (current: r%s).  Up-to-date builds can be found at https://ci.kolmafia.us/.";
-    } else {
-      template =
-          "'%s' requires version %s of kolmafia or higher (current: %s).  Up-to-date builds can be found at https://ci.kolmafia.us/.";
-    }
+      final String current, final String target, final Range directiveRange) {
+    String template =
+        "'%s' requires revision r%s of kolmafia or higher (current: r%s).  Up-to-date builds can be found at https://ci.kolmafia.us/.";
 
-    return new ScriptException(String.format(template, this.shortFileName, target, current));
+    return this.parseException(
+        directiveRange, String.format(template, this.shortFileName, target, current));
   }
 
   public static String undefinedFunctionMessage(
@@ -4392,7 +4417,7 @@ public class Parser {
     return buffer.toString();
   }
 
-  private void enforceSince(String revision) {
+  private void enforceSince(String revision, final Range directiveRange) {
     try {
       if (revision.startsWith("r")) { // revision
         revision = revision.substring(1);
@@ -4401,23 +4426,24 @@ public class Parser {
         // A revision of zero means you're probably running in a debugger, in which
         // case you should be able to run anything.
         if (currentRevision != 0 && currentRevision < targetRevision) {
-          throw this.sinceException(String.valueOf(currentRevision), revision, true);
+          throw this.sinceException(String.valueOf(currentRevision), revision, directiveRange);
         }
       } else { // version (or syntax error)
         String[] target = revision.split("\\.");
         if (target.length != 2) {
-          throw this.parseException("invalid 'since' format");
+          throw this.parseException(directiveRange, "invalid 'since' format");
         }
 
         int targetMajor = Integer.parseInt(target[0]);
         int targetMinor = Integer.parseInt(target[1]);
 
         if (targetMajor > 21 || targetMajor == 21 && targetMinor > 9) {
-          throw this.parseException("invalid 'since' format (21.09 was the final point release)");
+          throw this.parseException(
+              directiveRange, "invalid 'since' format (21.09 was the final point release)");
         }
       }
     } catch (NumberFormatException e) {
-      throw this.parseException("invalid 'since' format");
+      throw this.parseException(directiveRange, "invalid 'since' format");
     }
   }
 
