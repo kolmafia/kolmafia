@@ -1712,14 +1712,16 @@ public class Parser {
 
       condition = this.parseExpression(parentScope);
 
+      if (condition == null) {
+        Location errorLocation = this.makeLocation(this.currentToken());
+
+        throw this.parseException(errorLocation, "\"switch ()\" requires an expression");
+      }
+
       if (this.currentToken().equals(")")) {
         this.readToken(); // )
       } else {
         throw this.parseException(")", this.currentToken());
-      }
-
-      if (condition == null) {
-        throw this.parseException("\"switch ()\" requires an expression");
       }
     }
 
@@ -1751,7 +1753,10 @@ public class Parser {
         Evaluable test = this.parseExpression(parentScope);
 
         if (test == null) {
-          throw this.parseException("Case label needs to be followed by an expression");
+          Location errorLocation = this.makeLocation(this.currentToken());
+
+          throw this.parseException(
+              errorLocation, "Case label needs to be followed by an expression");
         }
 
         if (this.currentToken().equals(":")) {
@@ -1762,6 +1767,7 @@ public class Parser {
 
         if (!test.getType().equals(type)) {
           throw this.parseException(
+              test.getLocation(),
               "Switch conditional has type "
                   + type
                   + " but label expression has type "
@@ -1774,7 +1780,7 @@ public class Parser {
 
         if (test instanceof Constant && ((Constant) test).value.getClass() == Value.class) {
           if (labels.get(((Constant) test).value) != null) {
-            throw this.parseException("Duplicate case label: " + test);
+            throw this.parseException(test.getLocation(), "Duplicate case label: " + test);
           } else {
             labels.put(((Constant) test).value, currentInteger);
           }
@@ -1790,6 +1796,8 @@ public class Parser {
       }
 
       if (this.currentToken().equalsIgnoreCase("default")) {
+        Token defaultToken = this.currentToken();
+
         this.readToken(); // default
 
         if (this.currentToken().equals(":")) {
@@ -1801,7 +1809,8 @@ public class Parser {
         if (defaultIndex == -1) {
           defaultIndex = currentIndex;
         } else {
-          throw this.parseException("Only one default label allowed in a switch statement");
+          throw this.parseException(
+              defaultToken, "Only one default label allowed in a switch statement");
         }
 
         scope.resetBarrier();
@@ -1828,7 +1837,9 @@ public class Parser {
 
       if (!this.parseVariables(t, scope)) {
         // Found a type but no function or variable to tie it to
-        throw this.parseException("Type given but not used to declare anything");
+        throw this.parseException(
+            Parser.makeLocation(t.getLocation(), this.currentToken()),
+            "Type given but not used to declare anything");
       }
 
       if (this.currentToken().equals(";")) {
