@@ -1,18 +1,17 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
-
+import java.awt.*;
+import java.io.StringWriter;
+import java.util.Enumeration;
+import java.util.regex.Pattern;
 import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
-import java.awt.*;
-import java.io.StringWriter;
-import java.util.Enumeration;
-import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RequestPane extends JEditorPane {
   static class WrappedHtmlEditorKit extends HTMLEditorKit {
@@ -70,22 +69,24 @@ public class RequestPane extends JEditorPane {
               this.title = text;
               break;
             }
-
           }
         }
 
         @Override
         public float getMinimumSpan(int axis) {
           switch (axis) {
-            case View.X_AXIS: {
-              return 0;
-            }
-            case View.Y_AXIS: {
-              return super.getMinimumSpan(axis);
-            }
-            default: {
-              throw new IllegalArgumentException("Invalid axis: " + axis);
-            }
+            case View.X_AXIS:
+              {
+                return 0;
+              }
+            case View.Y_AXIS:
+              {
+                return super.getMinimumSpan(axis);
+              }
+            default:
+              {
+                throw new IllegalArgumentException("Invalid axis: " + axis);
+              }
           }
         }
 
