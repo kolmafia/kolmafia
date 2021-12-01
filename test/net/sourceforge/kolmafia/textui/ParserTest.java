@@ -34,7 +34,7 @@ public class ParserTest {
 
   private static void testInvalidScript(final InvalidScriptData script) {
     ScriptException e = assertThrows(ScriptException.class, script.parser::parse, script.desc);
-    assertThat(script.desc, e.getMessage(), containsString(script.errorText));
+    assertThat(script.desc, e.getMessage(), startsWith(script.errorText));
 
     if (script.errorLocationString != null) {
       assertThat(script.desc, e.getMessage(), endsWith(" (" + script.errorLocationString + ")"));
