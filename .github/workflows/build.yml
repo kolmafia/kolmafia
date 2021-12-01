@@ -5,6 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: build-and-tag-release
+
 jobs:
   bin:
     if: github.repository == 'kolmafia/kolmafia'
