@@ -8,11 +8,6 @@ import org.eclipse.lsp4j.Location;
 public class VariableReference extends Evaluable implements Comparable<VariableReference> {
   public final Variable target;
 
-  // TEMPORARY
-  public VariableReference(final Variable target) {
-    this(null, target);
-  }
-
   public VariableReference(final Location location, final Variable target) {
     super(location);
     this.target = target;

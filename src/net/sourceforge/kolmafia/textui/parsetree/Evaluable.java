@@ -6,11 +6,6 @@ import org.eclipse.lsp4j.Location;
 import org.eclipse.lsp4j.util.Ranges;
 
 public abstract class Evaluable extends Command implements TypedNode {
-  // TEMPORARY
-  public Evaluable() {
-    this(null);
-  }
-
   public Evaluable(final Location location) {
     super(location);
   }

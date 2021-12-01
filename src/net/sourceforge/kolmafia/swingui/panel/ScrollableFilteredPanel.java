@@ -8,8 +8,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 
-public class ScrollableFilteredPanel<E> extends ScrollablePanel {
-  private final AutoFilterTextField filterfield;
+public class ScrollableFilteredPanel<E> extends ScrollablePanel<ShowDescriptionList<E>> {
+  private final AutoFilterTextField filterField;
   public ShowDescriptionList<E> elementList;
 
   public ScrollableFilteredPanel(
@@ -18,8 +18,8 @@ public class ScrollableFilteredPanel<E> extends ScrollablePanel {
       final String cancelledText,
       final ShowDescriptionList<E> scrollComponent) {
     super(title, confirmedText, cancelledText, scrollComponent);
-    this.elementList = (ShowDescriptionList<E>) this.scrollComponent;
-    this.filterfield = new AutoFilterTextField(this.elementList);
+    this.elementList = this.scrollComponent;
+    this.filterField = new AutoFilterTextField(this.elementList);
     JPanel topPanel = new JPanel(new BorderLayout());
 
     if (!title.equals("")) {
@@ -27,12 +27,12 @@ public class ScrollableFilteredPanel<E> extends ScrollablePanel {
           JComponentUtilities.createLabel(title, SwingConstants.CENTER, Color.black, Color.white);
       topPanel.add(this.titleComponent, BorderLayout.NORTH);
     }
-    topPanel.add(this.filterfield, BorderLayout.CENTER);
+    topPanel.add(this.filterField, BorderLayout.CENTER);
     this.centerPanel.add(topPanel, BorderLayout.NORTH);
     this.filterItems();
   }
 
   public void filterItems() {
-    this.filterfield.update();
+    this.filterField.update();
   }
 }

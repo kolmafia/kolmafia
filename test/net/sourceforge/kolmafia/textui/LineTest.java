@@ -279,7 +279,7 @@ public class LineTest {
     assertEquals(line3Token2.restOfLineStart, line3Token3.getStart().getCharacter());
     assertEquals(line3Token3.restOfLineStart, line3Token4.getStart().getCharacter());
 
-    assertEquals(line3SurroundingWhitespace.offset, endOfFileToken.getStart().getCharacter());
+    assertEquals(line3Token4.restOfLineStart, endOfFileToken.getStart().getCharacter());
   }
 
   @Test

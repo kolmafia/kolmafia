@@ -458,8 +458,8 @@ public class SkillBuffFrame extends GenericFrame {
 
     private class SkillTypeListener implements ActionListener {
       public void actionPerformed(final ActionEvent e) {
-        ComboBoxModel oldModel = SkillBuffFrame.this.skillSelect.getModel();
-        ComboBoxModel newModel = oldModel;
+        ComboBoxModel<UseSkillRequest> oldModel = SkillBuffFrame.this.skillSelect.getModel();
+        ComboBoxModel<UseSkillRequest> newModel = oldModel;
         switch (SkillTypeComboBox.this.getSelectedIndex()) {
           case 0:
             // All skills

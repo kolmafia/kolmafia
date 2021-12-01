@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 /** A special class which renders the list of available scripts. */
-public class ScriptMenu extends MenuItemList {
+public class ScriptMenu extends MenuItemList<File> {
   public ScriptMenu() {
     super("Scripts", (LockableListModel<File>) KoLConstants.scripts);
   }

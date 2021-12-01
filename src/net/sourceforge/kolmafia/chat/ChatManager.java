@@ -50,7 +50,7 @@ public abstract class ChatManager {
 
   private static final TreeMap<String, StyledChatBuffer> instantMessageBuffers =
       new TreeMap<String, StyledChatBuffer>();
-  private static Entry<String, StyledChatBuffer>[] bufferEntries = new Entry[0];
+  private static List<Entry<String, StyledChatBuffer>> bufferEntries = new ArrayList<>(0);
 
   private static boolean isRunning = false;
   private static boolean checkedLiteracy = false;
@@ -79,7 +79,7 @@ public abstract class ChatManager {
 
     ChatManager.clanMessages.clear();
     ChatManager.instantMessageBuffers.clear();
-    ChatManager.bufferEntries = new Entry[0];
+    ChatManager.bufferEntries = new ArrayList<>(0);
     ChatManager.activeChannels.clear();
     ChatManager.currentChannel = null;
 
@@ -236,8 +236,8 @@ public abstract class ChatManager {
 
     synchronized (ChatManager.bufferEntries) {
       ChatManager.instantMessageBuffers.put(bufferKey, buffer);
-      ChatManager.bufferEntries = new Entry[ChatManager.instantMessageBuffers.size()];
-      ChatManager.instantMessageBuffers.entrySet().toArray(ChatManager.bufferEntries);
+      ChatManager.bufferEntries = new ArrayList<>(ChatManager.instantMessageBuffers.size());
+      ChatManager.bufferEntries.addAll(ChatManager.instantMessageBuffers.entrySet());
     }
 
     return buffer;

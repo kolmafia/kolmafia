@@ -40,6 +40,15 @@ public abstract class ScriptData {
     return new InvalidScriptData(desc, script, errorText);
   }
 
+  /** Shortcut method for the creation of an invalid script failing with the given error message. */
+  public static ScriptData invalid(
+      final String desc,
+      final String script,
+      final String errorText,
+      final String errorLocationString) {
+    return new InvalidScriptData(desc, script, errorText, errorLocationString);
+  }
+
   public final String desc;
   public final Parser parser;
 
@@ -86,11 +95,21 @@ public abstract class ScriptData {
 
   public static class InvalidScriptData extends ScriptData {
     public final String errorText;
+    public final String errorLocationString;
 
     private InvalidScriptData(
         final String description, final String script, final String errorText) {
+      this(description, script, errorText, null);
+    }
+
+    private InvalidScriptData(
+        final String description,
+        final String script,
+        final String errorText,
+        final String errorLocationString) {
       super(description, script);
       this.errorText = errorText;
+      this.errorLocationString = errorLocationString;
     }
   }
 }

@@ -105,5 +105,6 @@ jobs:
             releases/*.dmg
           tag_name: r${{ env.KOLMAFIA_VERSION }}
           name: ${{ env.KOLMAFIA_VERSION }}
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -191,8 +191,7 @@ public abstract class MPRestoreItemList {
    * <p>Due to historical reasons, this class is named "MPRestoreItem" even though it encompasses
    * items, skills, and actions.
    */
-  public abstract static class MPRestoreItem extends RestoreItem
-      implements Comparable<RestoreItem> {
+  public abstract static class MPRestoreItem extends RestoreItem {
     private int manaPerUse;
     private int purchaseCost;
     private final boolean isCombatUsable;

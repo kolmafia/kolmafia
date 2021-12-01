@@ -24,12 +24,14 @@ public class TryTest {
             "try without catch or finally",
             "try {}",
             // This ought to allow catch, but it's not implemented yet.
-            "\"try\" without \"finally\" is pointless"),
+            "\"try\" without \"finally\" is pointless",
+            "char 1 to char 7"),
         invalid(
             "try-catch",
             "try {} catch {}",
             // This ought to allow catch, but it's not implemented yet.
-            "\"try\" without \"finally\" is pointless"),
+            "\"try\" without \"finally\" is pointless",
+            "char 1 to char 7"),
         valid(
             "try-finally",
             "try {} finally {}",

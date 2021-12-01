@@ -18,15 +18,18 @@ public class FunctionInvocationTest {
         invalid(
             "function invocation interrupted",
             "call",
-            "Variable reference expected for function name"),
+            "Variable reference expected for function name",
+            "char 5"),
         invalid(
             "function invocation non-string expression",
             "call (2)()",
-            "String expression expected for function name"),
+            "String expression expected for function name",
+            "char 6 to char 9"), // nice
         invalid(
             "function invocation interrupted after name expression",
             "call ('foo')",
-            "Expected (, found end of file"),
+            "Expected (, found end of file",
+            "char 13"),
         valid(
             "function invocation with non-void function",
             // ummm this should insist that the variable is a string...

@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -44,7 +45,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
   private final CardLayout choiceCards;
   private final JPanel choicePanel;
 
-  private final JComboBox<Object>[] optionSelects;
+  private final List<JComboBox<Object>> optionSelects;
 
   private final JComboBox<String> palindomePapayaSelect;
   private final JComboBox<String> spookyForestSelect;
@@ -95,13 +96,13 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.addTab("Zone", new GenericScrollPane(this.choicePanel));
     this.setToolTipTextAt(0, "Choices specific to the current adventure zone");
 
-    this.optionSelects = new JComboBox[ChoiceManager.CHOICE_ADVS.length];
+    this.optionSelects = new ArrayList<>(ChoiceManager.CHOICE_ADVS.length);
     for (int i = 0; i < ChoiceManager.CHOICE_ADVS.length; ++i) {
-      this.optionSelects[i] = new JComboBox<>();
-      this.optionSelects[i].addItem("show in browser");
+      this.optionSelects.add(new JComboBox<>());
+      this.optionSelects.get(i).addItem("show in browser");
       Object[] options = ChoiceManager.CHOICE_ADVS[i].getOptions();
       for (int j = 0; j < options.length; ++j) {
-        this.optionSelects[i].addItem(options[j]);
+        this.optionSelects.get(i).addItem(options[j]);
       }
     }
 
@@ -387,11 +388,11 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.addChoiceSelect("Conspiracy Island", "Paranormal Test Lab", this.paranormalLabSelect);
     this.addChoiceSelect("Conspiracy Island", "Containment Unit", this.containmentSelect);
 
-    for (int i = 0; i < this.optionSelects.length; ++i) {
+    for (int i = 0; i < this.optionSelects.size(); ++i) {
       this.addChoiceSelect(
           ChoiceManager.CHOICE_ADVS[i].getZone(),
           ChoiceManager.CHOICE_ADVS[i].getName(),
-          this.optionSelects[i]);
+          this.optionSelects.get(i));
     }
 
     this.addChoiceSelect("Item-Driven", "Item", new CommandButton("use 1 llama lama gong"));
@@ -537,7 +538,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     }
   }
 
-  private class OceanDestinationComboBox extends JComboBox<String> implements ActionListener {
+  private class OceanDestinationComboBox extends JComboBox<String> {
     public OceanDestinationComboBox() {
       super();
       this.createMenu(Preferences.getString("oceanDestination"));
@@ -820,11 +821,11 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     Preferences.setString("choiceAdventure91", overrideIndex > 0 || louvreGoal > 0 ? "1" : "2");
     Preferences.setInteger("louvreDesiredGoal", louvreGoal);
 
-    for (int i = 0; i < this.optionSelects.length; ++i) {
+    for (int i = 0; i < this.optionSelects.size(); ++i) {
       ChoiceManager.ChoiceAdventure choiceAdventure = ChoiceManager.CHOICE_ADVS[i];
       String setting = choiceAdventure.getSetting();
-      int index = this.optionSelects[i].getSelectedIndex();
-      Object option = this.optionSelects[i].getSelectedItem();
+      int index = this.optionSelects.get(i).getSelectedIndex();
+      Object option = this.optionSelects.get(i).getSelectedItem();
       if (option instanceof ChoiceManager.Option) {
         index = ((ChoiceManager.Option) option).getDecision(index);
       }
@@ -1129,7 +1130,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
 
     this.gongSelect.setSelectedIndex(Preferences.getInteger("gongPath"));
 
-    for (int i = 0; i < this.optionSelects.length; ++i) {
+    for (int i = 0; i < this.optionSelects.size(); ++i) {
       ChoiceManager.ChoiceAdventure choiceAdventure = ChoiceManager.CHOICE_ADVS[i];
       setting = choiceAdventure.getSetting();
       index = Preferences.getInteger(setting);
@@ -1141,14 +1142,14 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         Object[] options = choiceAdventure.getOptions();
         Object option = ChoiceManager.findOption(options, index);
         if (option != null) {
-          this.optionSelects[i].setSelectedItem(option);
+          this.optionSelects.get(i).setSelectedItem(option);
           continue;
         }
 
         System.out.println("Invalid setting " + index + " for " + setting);
       }
 
-      this.optionSelects[i].setSelectedIndex(0);
+      this.optionSelects.get(i).setSelectedIndex(0);
     }
 
     // Figure out what to do in the spooky forest

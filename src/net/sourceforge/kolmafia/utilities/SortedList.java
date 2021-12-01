@@ -11,7 +11,7 @@ import java.util.ListIterator;
  * Same as {@link net.java.dev.spellcast.utilities.SortedListModel}, except this extends an
  * ArrayList
  */
-public class SortedList<E> extends ArrayList<E> {
+public class SortedList<E extends Comparable<E>> extends ArrayList<E> {
   /**
    * Please refer to {@link java.util.List#add(int,Object)} for more information regarding this
    * function. Note that if the position is invalid (ie: it does not result in a sorted property),
@@ -37,7 +37,7 @@ public class SortedList<E> extends ArrayList<E> {
     }
 
     try {
-      super.add(this.insertionIndexOf(0, this.size() - 1, (Comparable) o), o);
+      super.add(this.insertionIndexOf(0, this.size() - 1, o), o);
       return true;
     } catch (IllegalArgumentException e1) {
       return false;
@@ -75,7 +75,7 @@ public class SortedList<E> extends ArrayList<E> {
     }
   }
 
-  public void sort(final Comparator c) {
+  public void sort(final Comparator<? super E> c) {
     synchronized (this) {
       Collections.sort(this, c);
     }
@@ -87,7 +87,7 @@ public class SortedList<E> extends ArrayList<E> {
    */
   @Override
   public int indexOf(final Object o) {
-    return o == null ? -1 : this.normalIndexOf(0, this.size() - 1, (Comparable) o);
+    return o == null ? -1 : this.normalIndexOf(0, this.size() - 1, (E) o);
   }
 
   /**
@@ -105,12 +105,12 @@ public class SortedList<E> extends ArrayList<E> {
    * in the event that there are multiple <code>SortedListModel</code> objects of respectable size,
    * having good performance is ideal.
    */
-  private int normalIndexOf(int beginIndex, int endIndex, final Comparable element) {
+  private int normalIndexOf(int beginIndex, int endIndex, final E element) {
     int compareResult;
 
     while (true) {
       if (beginIndex == endIndex) {
-        compareResult = this.compare(element, (Comparable) this.get(beginIndex));
+        compareResult = this.compare(element, this.get(beginIndex));
         return compareResult == 0 ? beginIndex : -1;
       }
 
@@ -123,10 +123,10 @@ public class SortedList<E> extends ArrayList<E> {
       // the last index of, the value is rounded up to avoid an infinite
       // recursive loop
       int halfwayIndex = beginIndex + endIndex >> 1;
-      compareResult = this.compare((Comparable) this.get(halfwayIndex), element);
+      compareResult = this.compare(this.get(halfwayIndex), element);
       // if the element in the middle is larger than the element being checked,
       // then it is known that the element is smaller than the middle element,
-      // so it must preceed the middle element
+      // so it must precede the middle element
 
       if (compareResult > 0) {
         endIndex = halfwayIndex - 1;
@@ -150,11 +150,11 @@ public class SortedList<E> extends ArrayList<E> {
     }
   }
 
-  private int insertionIndexOf(int beginIndex, int endIndex, final Comparable element) {
+  private int insertionIndexOf(int beginIndex, int endIndex, final E element) {
     int compareResult;
     while (true) {
       if (beginIndex == endIndex) {
-        compareResult = this.compare(element, (Comparable) this.get(beginIndex));
+        compareResult = this.compare(element, this.get(beginIndex));
         return compareResult < 0 ? beginIndex : beginIndex + 1;
       }
 
@@ -168,10 +168,10 @@ public class SortedList<E> extends ArrayList<E> {
       // recursive loop
 
       int halfwayIndex = beginIndex + endIndex >> 1;
-      compareResult = this.compare((Comparable) this.get(halfwayIndex), element);
+      compareResult = this.compare(this.get(halfwayIndex), element);
       // if the element in the middle is larger than the element being checked,
       // then it is known that the element is smaller than the middle element,
-      // so it must preceed the middle element
+      // so it must precede the middle element
 
       if (compareResult > 0) {
         endIndex = halfwayIndex - 1;
@@ -194,7 +194,7 @@ public class SortedList<E> extends ArrayList<E> {
     }
   }
 
-  private int compare(final Comparable left, final Comparable right) {
+  private int compare(final E left, final E right) {
     return left instanceof String || right instanceof String
         ? left.toString().compareToIgnoreCase(right.toString())
         : left.compareTo(right);

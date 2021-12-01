@@ -85,7 +85,7 @@ public class GearChangeFrame extends GenericFrame {
     this.equipment = new EquipmentComboBox[EquipmentManager.ALL_SLOTS];
     this.equipmentModels = new SortedListModel[EquipmentManager.ALL_SLOTS];
 
-    List<AdventureResult>[] lists = EquipmentManager.getEquipmentLists();
+    List<List<AdventureResult>> lists = EquipmentManager.getEquipmentLists();
 
     for (int i = 0; i < this.equipment.length; ++i) {
       LockableListModel<AdventureResult> list;
@@ -108,7 +108,7 @@ public class GearChangeFrame extends GenericFrame {
           list = this.equipmentModels[i] = new SortedListModel<>();
           break;
         default:
-          list = (LockableListModel<AdventureResult>) lists[i];
+          list = (LockableListModel<AdventureResult>) lists.get(i);
           break;
       }
 
@@ -1323,7 +1323,7 @@ public class GearChangeFrame extends GenericFrame {
 
       List<AdventureResult> items = equipmentLists[slot];
       AdventureResult selectedItem = this.currentOrSelectedItem(slot);
-      this.updateEquipmentList(model, items, selectedItem);
+      GearChangeFrame.updateEquipmentList(model, items, selectedItem);
       this.equipment[slot].setEnabled(this.isEnabled && !Limitmode.limitSlot(slot));
 
       if (slot == EquipmentManager.WEAPON) {

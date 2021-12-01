@@ -150,7 +150,7 @@ public class FaxBotDatabase {
 
     // Lists derived from the list of monsters
     private final LockableListModel<String> categories = new LockableListModel<String>();
-    private LockableListModel<Monster>[] monstersByCategory = new LockableListModel[0];
+    private List<LockableListModel<Monster>> monstersByCategory = new ArrayList<>(0);
 
     private final Map<String, Monster> monsterByActualName = new HashMap<String, Monster>();
     private final Map<String, Monster> monsterByCommand = new HashMap<String, Monster>();
@@ -177,7 +177,7 @@ public class FaxBotDatabase {
       return this.categories;
     }
 
-    public LockableListModel<Monster>[] getMonstersByCategory() {
+    public List<LockableListModel<Monster>> getMonstersByCategory() {
       return this.monstersByCategory;
     }
 
@@ -244,11 +244,11 @@ public class FaxBotDatabase {
       this.categories.addAll(tempCategories);
 
       // Make one list for each category
-      this.monstersByCategory = new SortedListModel[this.categories.size()];
+      this.monstersByCategory = new ArrayList<>(this.categories.size());
       for (int i = 0; i < this.categories.size(); ++i) {
         String category = categories.get(i);
         SortedListModel<Monster> model = new SortedListModel<Monster>();
-        this.monstersByCategory[i] = model;
+        this.monstersByCategory.add(model);
         for (Monster monster : monsters) {
           if (i == 0 || category.equals(monster.category)) {
             model.add(monster);

@@ -88,7 +88,8 @@ public class MuseumFrame extends GenericFrame {
    * items from the display.
    */
   private class AddRemovePanel extends JPanel {
-    private final ScrollablePanel inventoryPanel, displayPanel;
+    private final ScrollablePanel<ShowDescriptionList<AdventureResult>> inventoryPanel,
+        displayPanel;
 
     public AddRemovePanel() {
       this.setLayout(new GridLayout(2, 1, 10, 10));
@@ -136,7 +137,7 @@ public class MuseumFrame extends GenericFrame {
             "add all",
             "add some",
             new ShowDescriptionList<>((SortedListModel<AdventureResult>) KoLConstants.inventory));
-        this.elementList = (ShowDescriptionList<AdventureResult>) this.scrollComponent;
+        this.elementList = this.scrollComponent;
       }
 
       private void move(final boolean moveAll) {
@@ -166,7 +167,7 @@ public class MuseumFrame extends GenericFrame {
             "take all",
             "take some",
             new ShowDescriptionList<>((SortedListModel<AdventureResult>) KoLConstants.collection));
-        this.elementList = (ShowDescriptionList<AdventureResult>) this.scrollComponent;
+        this.elementList = this.scrollComponent;
       }
 
       private void move(final boolean moveAll) {
@@ -206,7 +207,8 @@ public class MuseumFrame extends GenericFrame {
     }
   }
 
-  public class MuseumShelfPanel extends ScrollablePanel implements PanelListCell {
+  public class MuseumShelfPanel extends ScrollablePanel<ShowDescriptionList<AdventureResult>>
+      implements PanelListCell {
     private final int index;
     private final ShowDescriptionList<AdventureResult> elementList;
 
@@ -219,7 +221,7 @@ public class MuseumFrame extends GenericFrame {
           false);
 
       this.index = index;
-      this.elementList = (ShowDescriptionList<AdventureResult>) this.scrollComponent;
+      this.elementList = this.scrollComponent;
     }
 
     @Override
@@ -251,6 +253,9 @@ public class MuseumFrame extends GenericFrame {
   }
 
   public class OrderingPanel extends ItemListManagePanel<String> {
+    @SuppressWarnings("unchecked")
+    // LockableListModel (the type of getHeaders())'s clone() method still claims to return an
+    // Object, but we know its internal list has the same elements, so their types definitely match
     public OrderingPanel() {
       super((LockableListModel<String>) DisplayCaseManager.getHeaders().clone());
 

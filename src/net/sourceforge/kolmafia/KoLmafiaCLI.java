@@ -864,6 +864,10 @@ public class KoLmafiaCLI {
   // probably should)
   public static List<File> findScriptFile(final String filename) {
     List<File> matches = new ArrayList<>();
+    // Bail if double dots
+    if (filename.contains("..")) {
+      return matches;
+    }
 
     File absoluteFile = new File(filename);
 
@@ -918,8 +922,12 @@ public class KoLmafiaCLI {
       final String filename,
       final List<File> matches,
       final boolean searchSubdirectories) {
-    File scriptFile = new File(directory, filename);
+    // Bail if double dots
+    if (filename.contains("..")) {
+      return;
+    }
 
+    File scriptFile = new File(directory, filename);
     if (scriptFile.exists()) {
       if (!scriptFile.isDirectory()) matches.add(scriptFile);
     }

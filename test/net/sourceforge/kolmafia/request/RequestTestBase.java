@@ -38,12 +38,13 @@ import org.mockito.quality.Strictness;
  *   <li>For {@link GenericRequest}s made locally, gives access to {@link
  *       RequestTestBase#expectSuccess}, allowing the simulation of running a {@link
  *       org.mockito.Mockito#spy spy} of that request.
- *   <li>For the rest, gives access to {@link #respondIf}, causing future executed requests to
- *       succeed with the given response if the path of the URL submitted matches the submitted
- *       {@link UrlMatcher}s (generated using {@link #hasPath}/{@link #hasParam}).
+ *   <li>For the rest, gives access to {@link #respondIf} and {@link #redirectIf}, causing future
+ *       executed requests to succeed with the given response or redirection if the path of the URL
+ *       submitted matches the submitted {@link UrlMatcher}s (generated using {@link
+ *       #hasPath}/{@link #hasParam}).
  * </ul>
  */
-abstract class RequestTestBase {
+public abstract class RequestTestBase {
   @Mock protected ConnectionFactory factory;
   private MockitoSession mockito;
 
@@ -113,6 +114,36 @@ abstract class RequestTestBase {
   }
 
   /**
+   * Sets {@link #factory} to generate the given redirect if the path matches every one of {@code
+   * matchers}.
+   *
+   * <p>Use {@link #hasPath} and/or {@link #hasParam} to generate them.
+   */
+  protected void redirectIf(final String response, final UrlMatcher... matchers) {
+    redirectIf(response, Arrays.asList(matchers));
+  }
+
+  /**
+   * Sets {@link #factory} to generate the given redirect if the path matches every one of {@code
+   * matchers}.
+   *
+   * <p>Use {@link #hasPath} and/or {@link #hasParam} to generate them.
+   */
+  protected void redirectIf(final String redirectLocation, final Iterable<UrlMatcher> matchers) {
+    prepareRedirect(
+        redirectLocation,
+        url -> {
+          final ParsedUrl parsedUrl = new ParsedUrl(url);
+          for (final UrlMatcher matcher : matchers) {
+            if (!matcher.matches(parsedUrl)) {
+              return false;
+            }
+          }
+          return true;
+        });
+  }
+
+  /**
    * Is true if the base of the URL matches {@code path}. The "base" is the part coming before the
    * {@code ?} (if any), e.g., the base of {@code inventory.php?which=2} is {@code inventory.php}
    */
@@ -153,19 +184,28 @@ abstract class RequestTestBase {
   }
 
   private void prepareResponse(final String response, final ArgumentMatcher<URL> matcher) {
+    prepareConnection(new FakeResponse(response), matcher);
+  }
+
+  private void prepareRedirect(final String redirectLocation, final ArgumentMatcher<URL> matcher) {
+    prepareConnection(new FakeRedirect(redirectLocation), matcher);
+  }
+
+  private void prepareConnection(
+      final FakeConnection connection, final ArgumentMatcher<URL> matcher) {
     try {
-      when(factory.openConnection(argThat(matcher))).thenReturn(new FakeConnection(response));
+      when(factory.openConnection(argThat(matcher))).thenReturn(connection);
     } catch (IOException e) {
     }
   }
 
-  private class FakeConnection extends HttpURLConnection {
+  private abstract class FakeConnection extends HttpURLConnection {
     private final String responseText;
 
-    private FakeConnection(final String responseText) {
+    private FakeConnection(final String responseText, final int responseCode) {
       super(null);
       this.responseText = responseText;
-      this.responseCode = 200;
+      this.responseCode = responseCode;
     }
 
     @Override
@@ -183,6 +223,30 @@ abstract class RequestTestBase {
 
     @Override
     public void connect() throws IOException {}
+  }
+
+  private class FakeResponse extends FakeConnection {
+    private FakeResponse(final String responseText) {
+      super(responseText, 200);
+    }
+  }
+
+  private class FakeRedirect extends FakeConnection {
+    private final String redirectLocation;
+
+    private FakeRedirect(final String redirectLocation) {
+      super("", 302);
+      this.redirectLocation = redirectLocation;
+    }
+
+    @Override
+    public String getHeaderField(final String name) {
+      if ("Location".equals(name)) {
+        return this.redirectLocation;
+      }
+
+      return super.getHeaderField(name);
+    }
   }
 
   private class ParsedUrl {

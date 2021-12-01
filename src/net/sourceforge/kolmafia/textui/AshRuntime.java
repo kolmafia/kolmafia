@@ -379,9 +379,8 @@ public class AshRuntime extends AbstractRuntime {
     return frame;
   }
 
-  @SuppressWarnings("unchecked")
   public List<CallFrame> getCallFrames() {
-    return (List<CallFrame>) frameStack.clone();
+    return new ArrayList<>(frameStack);
   }
 
   private String getStackTrace() {

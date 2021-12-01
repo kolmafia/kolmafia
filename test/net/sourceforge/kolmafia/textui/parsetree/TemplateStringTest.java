@@ -2,8 +2,10 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static net.sourceforge.kolmafia.textui.ScriptData.invalid;
 import static net.sourceforge.kolmafia.textui.ScriptData.valid;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
@@ -30,7 +32,14 @@ public class TemplateStringTest {
             "basic template string",
             "`this is some math: {4 + 7}`",
             Arrays.asList("`this is some math: {", "4", "+", "7", "}`"),
-            Arrays.asList("1-1", "1-22", "1-24", "1-26", "1-27")),
+            Arrays.asList("1-1", "1-22", "1-24", "1-26", "1-27"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              // Concatenate location test
+              Concatenate conc = assertInstanceOf(Concatenate.class, commands.get(0));
+              ParserTest.assertLocationEquals(1, 1, 1, 29, conc.getLocation());
+            }),
         invalid(
             "template string with a new variable",
             "`this is some math: {int x = 4; x + 7}`",

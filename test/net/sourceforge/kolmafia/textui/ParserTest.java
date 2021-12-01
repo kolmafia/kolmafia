@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.textui.ScriptData.InvalidScriptData;
 import net.sourceforge.kolmafia.textui.ScriptData.ValidScriptData;
 import net.sourceforge.kolmafia.textui.ScriptData.ValidScriptDataWithLocationTests;
@@ -14,6 +15,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Scope;
 import org.eclipse.lsp4j.Location;
 import org.eclipse.lsp4j.Position;
 import org.eclipse.lsp4j.Range;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -32,7 +34,11 @@ public class ParserTest {
 
   private static void testInvalidScript(final InvalidScriptData script) {
     ScriptException e = assertThrows(ScriptException.class, script.parser::parse, script.desc);
-    assertThat(script.desc, e.getMessage(), containsString(script.errorText));
+    assertThat(script.desc, e.getMessage(), startsWith(script.errorText));
+
+    if (script.errorLocationString != null) {
+      assertThat(script.desc, e.getMessage(), endsWith(" (" + script.errorLocationString + ")"));
+    }
   }
 
   private static void testValidScript(final ValidScriptData script) {
@@ -112,5 +118,71 @@ public class ParserTest {
   public void testMergeLocations(String desc, Location start, Location end, Location expected) {
     Location merged = Parser.mergeLocations(start, end);
     assertEquals(expected, merged, desc);
+  }
+
+  public static Stream<Arguments> getFileAndRangeData() {
+    return Stream.of(
+        Arguments.of("null range 1", null, null, null),
+        Arguments.of("null range 2", "foo", null, null),
+        Arguments.of(
+            "illegal range", "foo", new Range(new Position(0, 1), new Position(0, 0)), null),
+        Arguments.of(
+            "0-width range",
+            "foo",
+            new Range(new Position(0, 0), new Position(0, 0)),
+            "foo, line 1, char 1"),
+        Arguments.of(
+            "uni-line range",
+            "foo",
+            new Range(new Position(0, 0), new Position(0, 5)),
+            "foo, line 1, char 1 to char 6"),
+        Arguments.of(
+            "multi-line range, end at char 0",
+            "foo",
+            new Range(new Position(0, 5), new Position(2, 0)),
+            "foo, line 1, char 6 to line 3, char 1"),
+        Arguments.of(
+            "multi-line range, end at char > 0",
+            "foo",
+            new Range(new Position(0, 5), new Position(2, 3)),
+            "foo, line 1, char 6 to line 3, char 4"),
+        Arguments.of(
+            "null file, start at line 0",
+            null,
+            new Range(new Position(0, 5), new Position(2, 3)),
+            "char 6 to line 3, char 4"),
+        Arguments.of(
+            "null file, start at line > 0",
+            null,
+            new Range(new Position(1, 5), new Position(2, 3)),
+            "line 2, char 6 to line 3, char 4"));
+  }
+
+  @ParameterizedTest
+  @MethodSource("getFileAndRangeData")
+  public void testGetFileAndRange(String desc, String fileName, Range range, String expected) {
+    if (expected == null) {
+      assertThrows(
+          IllegalArgumentException.class,
+          () -> {
+            Parser.getFileAndRange(fileName, range);
+          },
+          desc);
+      return;
+    }
+
+    String actual = Parser.getFileAndRange(fileName, range);
+    assertEquals(expected, actual, desc);
+  }
+
+  @Test
+  public void testGetFileAndRangeWithNamedNamespace() {
+    Preferences.setString("commandLineNamespace", "bar");
+    testGetFileAndRange(
+        "null file with named command line namespace",
+        null,
+        new Range(new Position(0, 5), new Position(2, 3)),
+        "bar, char 6 to line 3, char 4");
+    Preferences.resetToDefault("commandLineNamespace");
   }
 }

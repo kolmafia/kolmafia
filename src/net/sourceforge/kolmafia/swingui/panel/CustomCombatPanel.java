@@ -485,7 +485,7 @@ public class CustomCombatPanel extends JPanel {
     }
   }
 
-  public class CombatComboBox extends JComboBox<String> implements ActionListener, Listener {
+  public class CombatComboBox extends JComboBox<String> implements Listener {
     public CombatComboBox() {
       super(CombatActionManager.getAvailableLookups());
       this.addActionListener(this);
@@ -507,10 +507,10 @@ public class CustomCombatPanel extends JPanel {
     }
   }
 
-  private class CustomCombatEditorPanel extends ScrollablePanel {
+  private class CustomCombatEditorPanel extends ScrollablePanel<JTextArea> {
     public CustomCombatEditorPanel() {
       super("Editor", "save", "cancel", new JTextArea());
-      CustomCombatPanel.this.combatEditor = (JTextArea) this.scrollComponent;
+      CustomCombatPanel.this.combatEditor = this.scrollComponent;
       CustomCombatPanel.this.combatEditor.setFont(KoLGUIConstants.DEFAULT_FONT);
       CustomCombatPanel.this.refreshCombatTree();
 
@@ -554,7 +554,7 @@ public class CustomCombatPanel extends JPanel {
     public void setEnabled(final boolean isEnabled) {}
   }
 
-  public class CustomCombatTreePanel extends ScrollablePanel {
+  public class CustomCombatTreePanel extends ScrollablePanel<JTree> {
     public CustomCombatTreePanel() {
       super("", "edit", "help", CustomCombatPanel.this.combatTree);
       CustomCombatPanel.this.combatTree.setVisibleRowCount(8);

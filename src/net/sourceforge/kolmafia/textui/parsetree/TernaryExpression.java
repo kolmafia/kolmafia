@@ -3,12 +3,14 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class TernaryExpression extends Expression {
   Evaluable conditional;
 
   public TernaryExpression(final Evaluable conditional, final Evaluable lhs, final Evaluable rhs) {
+    super(Parser.mergeLocations(conditional, rhs));
     this.conditional = conditional;
     this.lhs = lhs;
     this.rhs = rhs;

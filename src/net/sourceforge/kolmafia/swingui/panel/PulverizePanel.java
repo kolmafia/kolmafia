@@ -132,7 +132,7 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
     this.yields
         .getColumnModel()
         .getSelectionModel()
-        .addListSelectionListener((ListSelectionListener) this.filterfield);
+        .addListSelectionListener((ListSelectionListener) this.filterField);
 
     // If the yields list was added directly to northPanel, it would get horizontally
     // stretched, creating useless blank space inside the list frame.  Having an

@@ -4,12 +4,14 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class Concatenate extends Expression {
   private final ArrayList<Evaluable> strings;
 
   public Concatenate(final Evaluable lhs, final Evaluable rhs) {
+    super(Parser.mergeLocations(lhs, rhs));
     this.strings = new ArrayList<>();
     strings.add(lhs);
     strings.add(rhs);
@@ -22,6 +24,8 @@ public class Concatenate extends Expression {
 
   public void addString(final Evaluable string) {
     strings.add(string);
+
+    this.growLocation(Parser.mergeLocations(this, string));
   }
 
   @Override

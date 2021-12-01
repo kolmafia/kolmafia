@@ -7,18 +7,19 @@ import javax.swing.event.ListDataListener;
 import javax.swing.table.DefaultTableModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public abstract class ListWrapperTableModel extends DefaultTableModel implements ListDataListener {
+public abstract class ListWrapperTableModel<E> extends DefaultTableModel
+    implements ListDataListener {
   private final String[] headers;
   private final Class<?>[] types;
   private final boolean[] editable;
 
-  protected LockableListModel listModel;
+  protected LockableListModel<E> listModel;
 
   public ListWrapperTableModel(
       final String[] headers,
       final Class<?>[] types,
       final boolean[] editable,
-      final LockableListModel listModel) {
+      final LockableListModel<E> listModel) {
     super(0, headers.length);
 
     this.listModel = listModel;

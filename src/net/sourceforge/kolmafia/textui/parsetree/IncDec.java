@@ -5,12 +5,14 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public class IncDec extends Evaluable {
   private final VariableReference lhs;
   private final Operator oper;
 
-  public IncDec(final VariableReference lhs, final Operator oper) {
+  public IncDec(final Location location, final VariableReference lhs, final Operator oper) {
+    super(location);
     this.lhs = lhs;
     this.oper = oper;
   }

@@ -95,8 +95,7 @@ public class ZapRequest extends GenericRequest {
   public static final List<String> getZapGroup(int itemId) {
     ZapRequest.initializeList();
 
-    List<String> rv = ZapRequest.zapGroups.get(IntegerPool.get(itemId));
-    return (rv != null) ? rv : new ArrayList();
+    return ZapRequest.zapGroups.getOrDefault(IntegerPool.get(itemId), new ArrayList<>());
   }
 
   @Override

@@ -65,7 +65,11 @@ public class FunctionReturnTest {
               // From the "return" up to the end of the expression (without the semi-colon)
               ParserTest.assertLocationEquals(1, 11, 1, 23, functionReturn.getLocation());
             }),
-        invalid("no return from int function", "int f() {}", "Missing return value"),
+        invalid(
+            "no return from int function",
+            "int f() {}",
+            "Missing return value",
+            "char 5 to char 8"),
         invalid("return void from int function", "int f() { return; }", "Return needs int value"),
         invalid(
             "return string from int function",
