@@ -2159,10 +2159,15 @@ public class Parser {
 
     Token name = this.currentToken();
 
+    Variable indexvar;
+
     if (Parser.isReservedWord(name.content)) {
-      throw this.parseException("Reserved word '" + name + "' cannot be an index variable name");
+      throw this.parseException(
+          name, "Reserved word '" + name + "' cannot be an index variable name");
     } else if (parentScope.findVariable(name.content) != null) {
-      throw this.parseException("Index variable '" + name + "' is already defined");
+      throw this.parseException(name, "Index variable '" + name + "' is already defined");
+    } else {
+      indexvar = new Variable(name.content, DataTypes.INT_TYPE, this.makeLocation(name));
     }
 
     this.readToken(); // name
@@ -2176,27 +2181,32 @@ public class Parser {
     Evaluable initial = this.parseExpression(parentScope);
 
     if (initial == null) {
-      throw this.parseException("Expression for initial value expected");
+      Location errorLocation = this.makeLocation(this.currentToken());
+
+      throw this.parseException(errorLocation, "Expression for initial value expected");
     }
 
     int direction = 0;
 
     if (this.currentToken().equalsIgnoreCase("upto")) {
       direction = 1;
+      this.readToken(); // upto
     } else if (this.currentToken().equalsIgnoreCase("downto")) {
       direction = -1;
+      this.readToken(); // downto
     } else if (this.currentToken().equalsIgnoreCase("to")) {
       direction = 0;
+      this.readToken(); // to
     } else {
       throw this.parseException("to, upto, or downto", this.currentToken());
     }
 
-    this.readToken(); // upto/downto/to
-
     Evaluable last = this.parseExpression(parentScope);
 
     if (last == null) {
-      throw this.parseException("Expression for floor/ceiling value expected");
+      Location errorLocation = this.makeLocation(this.currentToken());
+
+      throw this.parseException(errorLocation, "Expression for floor/ceiling value expected");
     }
 
     Evaluable increment = Value.locate(this.makeZeroWidthLocation(), DataTypes.ONE_VALUE);
@@ -2205,12 +2215,11 @@ public class Parser {
       increment = this.parseExpression(parentScope);
 
       if (increment == null) {
-        throw this.parseException("Expression for increment value expected");
+        Location errorLocation = this.makeLocation(this.currentToken());
+
+        throw this.parseException(errorLocation, "Expression for increment value expected");
       }
     }
-
-    // Create integer index variable
-    Variable indexvar = new Variable(name.content, DataTypes.INT_TYPE, this.makeLocation(name));
 
     // Put index variable onto a list
     VariableList varList = new VariableList();
