@@ -48,20 +48,24 @@ public class UserDefinedFunctionTest {
         invalid(
             "Invalid function name",
             "void float() {}",
-            "Reserved word 'float' cannot be used as a function name"),
-        invalid("Basic function interrupted", "void f(", "Expected ), found end of file"),
+            "Reserved word 'float' cannot be used as a function name",
+            "char 6 to char 11"),
+        invalid("Basic function interrupted", "void f(", "Expected ), found end of file", "char 8"),
         invalid(
             "Basic function parameter interrupted",
             "void f(int",
-            "Expected identifier, found end of file"),
+            "Expected identifier, found end of file",
+            "char 11"),
         invalid(
             "Basic function duplicate parameter",
             "void f(int a, float a) {}",
-            "Parameter a is already defined"),
+            "Parameter a is already defined",
+            "char 21 to char 22"),
         invalid(
             "Basic function missing parameter separator",
             "void f(int a float a) {}",
-            "Expected ,, found float"), // Uh... doesn't quite stand out does it...
+            "Expected ,, found float", // Uh... doesn't quite stand out does it...
+            "char 14 to char 19"),
         valid(
             "Basic function with vararg",
             "void f(int a, string b, float... c) {} f(5, 'foo', 1.2, 6.3, 4.9, 10, -0)",
@@ -100,27 +104,38 @@ public class UserDefinedFunctionTest {
         invalid(
             "Basic function with multiple varargs",
             "void f(int ... a, int ... b) {}",
-            "Only one vararg parameter is allowed"),
+            "Only one vararg parameter is allowed",
+            "char 19 to char 26"),
         invalid(
             "Basic function with non-terminal vararg",
             "void f(int ... a, float b) {}",
-            "The vararg parameter must be the last one"),
+            "The vararg parameter must be the last one",
+            "char 19 to char 24"),
         invalid(
             "Basic function overrides library",
             "void round(float n) {}",
-            "Function 'round(float)' overrides a library function."),
+            "Function 'round(float)' overrides a library function.",
+            "char 6 to char 20"),
         invalid(
             "Basic function defined multiple times",
             "void f() {} void f() {}",
-            "Function 'f()' defined multiple times."),
+            "Function 'f()' defined multiple times.",
+            "char 18 to char 21"),
         invalid(
             "Basic function vararg clash",
             "void f(int a, int ... b) {} void f(int ... a) {}",
-            "Function 'f(int ...)' clashes with existing function 'f(int, int ...)'."),
+            "Function 'f(int ...)' clashes with existing function 'f(int, int ...)'.",
+            "char 34 to char 46"),
         invalid(
-            "inner main", "void foo() { void main() {} }", "main method must appear at top level"),
+            "inner main",
+            "void foo() { void main() {} }",
+            "main method must appear at top level",
+            "char 19 to char 25"),
         invalid(
-            "parameter initialization", "int f(int x = 1) {}", "Cannot initialize parameter x"));
+            "parameter initialization",
+            "int f(int x = 1) {}",
+            "Cannot initialize parameter x",
+            "char 13 to char 14"));
   }
 
   @ParameterizedTest
