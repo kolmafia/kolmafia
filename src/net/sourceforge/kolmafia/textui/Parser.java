@@ -2837,13 +2837,17 @@ public class Parser {
     this.readToken(); // oper
 
     Evaluable lhs = this.parseVariableReference(scope);
-    if (lhs == null) {
-      throw this.parseException("Variable reference expected");
+    if (!(lhs instanceof VariableReference)) {
+      Location errorLocation =
+          lhs != null ? lhs.getLocation() : this.makeLocation(this.currentToken());
+
+      throw this.parseException(errorLocation, "Variable reference expected");
     }
 
     int ltype = lhs.getType().getType();
     if (ltype != DataTypes.TYPE_INT && ltype != DataTypes.TYPE_FLOAT) {
-      throw this.parseException(operStr + " requires a numeric variable reference");
+      throw this.parseException(
+          lhs.getLocation(), operStr + " requires a numeric variable reference");
     }
 
     Operator oper = new Operator(this.makeLocation(operToken), operStr, this);
@@ -2865,7 +2869,8 @@ public class Parser {
 
     int ltype = lhs.getType().getType();
     if (ltype != DataTypes.TYPE_INT && ltype != DataTypes.TYPE_FLOAT) {
-      throw this.parseException(operStr + " requires a numeric variable reference");
+      throw this.parseException(
+          lhs.getLocation(), operStr + " requires a numeric variable reference");
     }
 
     this.readToken(); // oper
