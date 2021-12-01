@@ -281,6 +281,7 @@ Item	Hodgman's porkpie hat	Muscle Percent: +20, Mysticality Percent: +20, Moxie 
 Item	Hollandaise helmet	Spell Damage: +1, Familiar Effect: "atk, cap 2"
 Item	honeycap	Moxie Percent: +5, Item Drop: +10, Ranged Damage: +15, Familiar Effect: "1xPotato, cap 43"
 Item	hot daub bun	Hot Damage: +9, Hot Spell Damage: +9, Familiar Effect: "hot atk, cap 21"
+Item	ice crown	Maximum HP: +30, Maximum MP: +30, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Lasts Until Rollover
 Item	ice pick	Item Drop: +15, Softcore Only, Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
 Item	indie comic hipster glasses	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only, Familiar Effect: "1xVolley, 8xLep, cap 2"
 # insane tophat: We're All Mad Here!
@@ -657,6 +658,7 @@ Item	floral-print skirt	Stench Damage: +20, Monster Level: +5, Familiar Effect: 
 Item	flowing hippy skirt	Mysticality: +9, Stench Spell Damage: +15, Familiar Effect: "stench atk, 1xFairy, cap 45"
 Item	foam naval trousers	Initiative: +50, Familiar Effect: "sleaze atk, 1xPotato"
 Item	frilly skirt	Familiar Effect: "4xFairy, cap 8"
+Item	frozen jeans	Cold Damage: +20, Cold Spell Damage: +20, Item Drop: +15, Lasts Until Rollover
 Item	furry kilt	Sleaze Damage: +5, Familiar Effect: "sleaze atk, 1xFairy, cap 37"
 Item	furry pants	Sleaze Damage: +5, Familiar Effect: "1xPotato, 1xGhuol, MP regen, cap 37"
 Item	furry skirt	Sleaze Damage: +5, Familiar Effect: "sleaze atk, 1xFairy, cap 37"
@@ -3040,6 +3042,7 @@ Item	hopping socks	Slime Resistance: +1, Accessory Drop: +20, Maximum HP: +200, 
 Item	&quot;I Voted!&quot; sticker	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Lasts Until Rollover
 Item	ice key	Cold Resistance: +3, Cold Damage: +15, Cold Spell Damage: +30
 Item	ice skates	Initiative: +15, Meat Drop: +15, Single Equip, Softcore Only
+Item	ice wrap	Muscle: +10, Mysticality: +10, Moxie: +10, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Experience: +3, Single Equip, Lasts Until Rollover
 Item	Ice-Cold Aluminum Necklace	Muscle: +3, Mysticality: +3, Moxie: +3, Cold Spell Damage: +40, Single Equip
 Item	Ice-Cold Beer Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Cold Damage: +40, Single Equip
 Item	Ice-Cold Beerring	Sleaze Resistance: +3, Stench Resistance: +3, Single Equip
@@ -4957,6 +4960,12 @@ Effect	Animal Exploiter	Muscle: +40, Familiar Weight Percent: -50
 Effect	Annoyed by Threats	Monster Level: +25
 # Antarctic Memories: Recover HP and MP after battle
 Effect	Antarctic Memories	HP Regen Min: 40, HP Regen Max: 40, MP Regen Min: 40, MP Regen Max: 40
+Effect	Anti-Burning	Hot Resistance: +2, Cold Damage: +20, Cold Spell Damage: +20, Spooky Damage: +20, Spooky Spell Damage: +20
+Effect	Anti-Creeped	Sleaze Resistance: +2, Hot Damage: +20, Hot Spell Damage: +20, Stench Damage: +20, Stench Spell Damage: +20
+Effect	Anti-Freezing	Cold Resistance: +2, Stench Damage: +20, Stench Spell Damage: +20, Sleaze Damage: +20, Sleaze Spell Damage: +20
+Effect	Anti-Goosebumped	Spooky Resistance: +2, Cold Damage: +20, Cold Spell Damage: +20, Sleaze Damage: +20, Sleaze Spell Damage: +20
+Effect	Anti-Hurt	Damage Absorption: +50, Damage Reduction: 5, Weapon Damage: +10, Spell Damage: +10, Ranged Damage: +10
+Effect	Anti-Odored	Stench Resistance: +2, Hot Damage: +20, Hot Spell Damage: +20, Spooky Damage: +20, Spooky Spell Damage: +20
 Effect	Antibiotic Saucesphere	HP Regen Min: 4, HP Regen Max: 5
 # Antihangover	actual bonus is floor((yesterday's drunkenness)^(1/1.7)), we assume 5 but viewing effect updates
 Effect	Antihangover	Muscle: [pref(_antihangoverBonus)], Mysticality: [pref(_antihangoverBonus)], Moxie: [pref(_antihangoverBonus)]
@@ -5733,6 +5742,8 @@ Effect	Fit To Be Tide	HP Regen Min: 5, HP Regen Max: 16, MP Regen Min: 5, MP Reg
 Effect	Fitter, Bitter	Muscle Percent: +100, Maximum HP Percent: +50, HP Regen Min: 20, HP Regen Max: 25
 Effect	Fitter, Happier	Muscle Percent: +100, Mysticality Percent: +100
 # Fidoxene: Makes your familiars all at least 20 pounds
+Effect	Fixed Right Up	Experience: +3, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
+Effect	Fixed Up	Experience: +2, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	Fizzier Than Light	MP Regen Min: 1, MP Regen Max: 3
 Effect	Fizzy Fizzy	Maximum PP: +1
 Effect	Flagrantly Fragrant	Maximum HP: +100, Maximum MP: +50, Damage Reduction: 25, MP Regen Min: 5, MP Regen Max: 10, HP Regen Min: 10, HP Regen Max: 20
@@ -6314,6 +6325,9 @@ Effect	meat.enh	Meat Drop: +60
 Effect	Meatwise	Meat Drop: +35
 Effect	Meaty and Cheesy	Muscle Percent: [min(200,5*T)]
 Effect	Medieval Mage Mayhem	Weapon Damage Percent: +50, Spell Damage Percent: +100
+Effect	Medically Fortified	Experience (Muscle): +3, Muscle Percent: +30
+Effect	Medically Loosened	Experience (Moxie): +3, Moxie Percent: +30
+Effect	Medically Smartified	Experience (Mysticality): +3, Mysticality Percent: +30
 Effect	Mediocri Tea	Monster Level: +30
 Effect	Meet the Meat	Meat Drop: +100, Gear Drop: +50
 Effect	Melancholy Burden	Item Drop: +60
@@ -8699,6 +8713,11 @@ Item	Dinsey Whinskey	Effect: "The Dinsey Spirit", Effect Duration: 30
 Item	dirt julep	Effect: "Here's Some More Mud in Your Eye", Effect Duration: 40
 Item	discocktail	Effect: "Disco Neuropathy", Effect Duration: 30
 # Doc Clock's thyme cocktail: Reduces your Fullness by 2
+Item	Doc's Fortifying Wine	Effect: "Medically Fortified", Effect Duration: 40
+Item	Doc's Limbering Wine	Effect: "Medically Loosened", Effect Duration: 40
+Item	Doc's Medical-Grade Wine	Effect: "Fixed Up", Effect Duration: 40
+Item	Doc's Smartifying Wine	Effect: "Medically Smartified", Effect Duration: 40
+Item	Doc's Special Reserve Wine	Effect: "Fixed Right Up", Effect Duration: 40
 Item	double entendre	Effect: "Space Cadet", Effect Duration: 40
 Item	Doublepunchplanter	Effect: "Fishy", Effect Duration: 10
 Item	Drac & Tan	Effect: "Creepypasted", Effect Duration: 5
@@ -9087,6 +9106,12 @@ Item	Ancient Protector Soda	Effect: "Ancient Protected", Effect Duration: 50
 Item	Angry Farmer candy	Effect: "Sugar Rush", Effect Duration: 10
 Item	Angry Farmer's Wife Candy	Effect: "Sugar Rush", Effect Duration: 10
 Item	ant agonist	Effect: "All Fired Up", Effect Duration: 10
+Item	anti-creep cream	Effect: "Anti-Creeped", Effect Duration: 20
+Item	anti-pain cream	Effect: "Anti-Hurt", Effect Duration: 20
+Item	anti-goosebump cream	Effect: "Anti-Goosebumped", Effect Duration: 20
+Item	anti-odor cream	Effect: "Anti-Odored", Effect Duration: 20
+Item	anti-burn cream	Effect: "Anti-Burning", Effect Duration: 20
+Item	anti-freeze cream	Effect: "Anti-Freezing", Effect Duration: 20
 Item	arse-a'fire elixir	Effect: "Arse-a'fire", Effect Duration: 10
 Item	ash soda	Effect: "Ashen Burps", Effect Duration: 15
 Item	astral mushroom	Effect: "Half-Astral", Effect Duration: 5
@@ -11218,6 +11243,7 @@ Item	Our Daily Candles&trade; order form	Free Pull
 # pacification grenade: Weakens enemies somewhat
 Item	Pack of Every Card	Free Pull
 Item	packaged backup camera	Free Pull
+Item	packaged cold medicine cabinet	Free Pull
 Item	packaged Daylight Shavings Helmet	Free Pull
 Item	packaged familiar scrapbook	Free Pull
 Item	packaged industrial fire extinguisher	Free Pull

@@ -1,9 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -338,22 +335,21 @@ public class CampgroundRequest extends GenericRequest {
     CROPMAP.put(COLOSSAL_FREE_RANGE_MUSHROOM, CropType.MUSHROOM);
   }
 
-  public static final List<Integer> workshedItems = new ArrayList<Integer>();
-
-  static {
-    CampgroundRequest.workshedItems.add(ItemPool.JACKHAMMER_DRILL_PRESS);
-    CampgroundRequest.workshedItems.add(ItemPool.AUTO_ANVIL);
-    CampgroundRequest.workshedItems.add(ItemPool.INDUCTION_OVEN);
-    CampgroundRequest.workshedItems.add(ItemPool.CHEMISTRY_LAB);
-    CampgroundRequest.workshedItems.add(ItemPool.HIGH_EFFICIENCY_STILL);
-    CampgroundRequest.workshedItems.add(ItemPool.LP_ROM_BURNER);
-    CampgroundRequest.workshedItems.add(ItemPool.SNOW_MACHINE);
-    CampgroundRequest.workshedItems.add(ItemPool.SPINNING_WHEEL);
-    CampgroundRequest.workshedItems.add(ItemPool.DNA_LAB);
-    CampgroundRequest.workshedItems.add(ItemPool.MAYO_CLINIC);
-    CampgroundRequest.workshedItems.add(ItemPool.ASDON_MARTIN);
-    CampgroundRequest.workshedItems.add(ItemPool.DIABOLIC_PIZZA_CUBE);
-  }
+  public static final List<Integer> workshedItems =
+      Arrays.asList(
+          ItemPool.JACKHAMMER_DRILL_PRESS,
+          ItemPool.AUTO_ANVIL,
+          ItemPool.INDUCTION_OVEN,
+          ItemPool.CHEMISTRY_LAB,
+          ItemPool.HIGH_EFFICIENCY_STILL,
+          ItemPool.LP_ROM_BURNER,
+          ItemPool.SNOW_MACHINE,
+          ItemPool.SPINNING_WHEEL,
+          ItemPool.DNA_LAB,
+          ItemPool.MAYO_CLINIC,
+          ItemPool.ASDON_MARTIN,
+          ItemPool.DIABOLIC_PIZZA_CUBE,
+          ItemPool.COLD_MEDICINE_CABINET);
 
   public static final AdventureResult[] CROPS = {
     CampgroundRequest.PUMPKIN,
@@ -1431,6 +1427,7 @@ public class CampgroundRequest extends GenericRequest {
     } else if (findImage(responseText, "horadricoven.gif", ItemPool.DIABOLIC_PIZZA_CUBE)) {
       CampgroundRequest.setCurrentWorkshedItem(ItemPool.DIABOLIC_PIZZA_CUBE);
     }
+    // Cold Medicine Cabinet redirects to choice.php, so handle in ChoiceManager
   }
 
   private static boolean findImage(
