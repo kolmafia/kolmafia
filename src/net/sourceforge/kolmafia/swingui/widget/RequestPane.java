@@ -1,23 +1,120 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
-import java.io.StringWriter;
-import java.util.regex.Pattern;
-import javax.swing.JEditorPane;
-import javax.swing.text.html.HTMLDocument;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import javax.swing.*;
+import javax.swing.text.*;
+import javax.swing.text.html.HTML;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
+import java.awt.*;
+import java.io.StringWriter;
+import java.util.Enumeration;
+import java.util.regex.Pattern;
+
 public class RequestPane extends JEditorPane {
+  static class WrappedHtmlEditorKit extends HTMLEditorKit {
+    private final ViewFactory viewFactory;
+
+    public WrappedHtmlEditorKit() {
+      super();
+      this.viewFactory = new WrappedHtmlFactory();
+    }
+
+    @Override
+    public ViewFactory getViewFactory() {
+      return this.viewFactory;
+    }
+
+    private class WrappedHtmlFactory extends HTMLEditorKit.HTMLFactory {
+      @Override
+      public View create(Element elem) {
+        View view = super.create(elem);
+
+        if (view instanceof LabelView) {
+          Object attribute = elem.getAttributes().getAttribute(StyleConstants.NameAttribute);
+
+          if ((attribute instanceof HTML.Tag) && (attribute == HTML.Tag.BR)) {
+            return view;
+          }
+
+          return new WrapLabelView(elem);
+        }
+
+        return view;
+      }
+
+      private class WrapLabelView extends LabelView {
+        private String title;
+
+        public WrapLabelView(Element elem) {
+          super(elem);
+
+          Enumeration<?> itel = elem.getAttributes().getAttributeNames();
+
+          while (itel.hasMoreElements()) {
+            Object attribute = itel.nextElement();
+            Object value = elem.getAttributes().getAttribute(attribute);
+
+            if (value instanceof SimpleAttributeSet) {
+              SimpleAttributeSet attributeSet = (SimpleAttributeSet) value;
+
+              String text = (String) attributeSet.getAttribute(HTML.Attribute.TITLE);
+
+              if (text == null) {
+                continue;
+              }
+
+              this.title = text;
+              break;
+            }
+
+          }
+        }
+
+        @Override
+        public float getMinimumSpan(int axis) {
+          switch (axis) {
+            case View.X_AXIS: {
+              return 0;
+            }
+            case View.Y_AXIS: {
+              return super.getMinimumSpan(axis);
+            }
+            default: {
+              throw new IllegalArgumentException("Invalid axis: " + axis);
+            }
+          }
+        }
+
+        @Override
+        public String getToolTipText(float x, float y, Shape allocation) {
+          return title;
+        }
+      }
+    }
+  }
+
   private static final Pattern WHITESPACE = Pattern.compile("\n\\s*");
   private static final Pattern LINE_BREAK = Pattern.compile("<br/?>", Pattern.CASE_INSENSITIVE);
 
   public RequestPane() {
+    this.setEditorKit(new WrappedHtmlEditorKit());
     this.setContentType("text/html");
     this.setEditable(false);
 
+    ToolTipManager.sharedInstance().registerComponent(this);
+
     HTMLDocument currentHTML = (HTMLDocument) getDocument();
     currentHTML.putProperty("multiByte", Boolean.FALSE);
+  }
+
+  @Override
+  public void invalidate() {
+    ToolTipManager.sharedInstance().unregisterComponent(this);
+    super.invalidate();
   }
 
   @Override
