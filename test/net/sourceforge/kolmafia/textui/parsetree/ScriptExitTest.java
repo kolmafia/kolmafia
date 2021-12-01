@@ -26,7 +26,7 @@ public class ScriptExitTest {
               ScriptExit scriptExit = assertInstanceOf(ScriptExit.class, commands.get(0));
               ParserTest.assertLocationEquals(1, 1, 1, 5, scriptExit.getLocation());
             }),
-        invalid("exit with parameter", "exit 1;", "Expected ;, found 1"));
+        invalid("exit with parameter", "exit 1;", "Expected ;, found 1", "char 6 to char 7"));
   }
 
   @ParameterizedTest

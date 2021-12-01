@@ -16,12 +16,21 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class VariableTest {
   public static Stream<ScriptData> data() {
     return Stream.of(
-        invalid("unterminated top-level declaration", "int x\nint y", "Expected ;, found int"),
-        invalid("type but no declaration", "int;", "Type given but not used to declare anything"),
+        invalid(
+            "unterminated top-level declaration",
+            "int x\nint y",
+            "Expected ;, found int",
+            "line 2, char 1 to char 4"),
+        invalid(
+            "type but no declaration",
+            "int;",
+            "Type given but not used to declare anything",
+            "char 1 to char 5"),
         invalid(
             "declaration with non-identifier name",
             "int 1;",
-            "Type given but not used to declare anything"),
+            "Type given but not used to declare anything",
+            "char 1 to char 6"),
         invalid(
             "declaration with reserved name",
             "int class;",
