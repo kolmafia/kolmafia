@@ -794,9 +794,10 @@ public class Parser {
     Variable result;
 
     if (Parser.isReservedWord(variableName.content)) {
-      throw this.parseException("Reserved word '" + variableName + "' cannot be a variable name");
+      throw this.parseException(
+          variableName, "Reserved word '" + variableName + "' cannot be a variable name");
     } else if (scope != null && scope.findVariable(variableName.content) != null) {
-      throw this.parseException("Variable " + variableName + " is already defined");
+      throw this.parseException(variableName, "Variable " + variableName + " is already defined");
     } else {
       result = new Variable(variableName.content, t, this.makeLocation(variableName));
     }
@@ -3776,29 +3777,29 @@ public class Parser {
     Token name = this.currentToken();
     Location variableLocation = this.makeLocation(name);
 
-    Variable var = scope.findVariable(name.content, true);
+    Variable variable = scope.findVariable(name.content, true);
 
-    if (var == null) {
-      throw this.parseException("Unknown variable '" + name + "'");
+    if (variable == null) {
+      throw this.parseException(variableLocation, "Unknown variable '" + name + "'");
     }
 
     this.readToken(); // read name
 
-    return this.parseVariableReference(scope, new VariableReference(variableLocation, var));
+    return this.parseVariableReference(scope, new VariableReference(variableLocation, variable));
   }
 
   /**
-   * Look for an index/key, and return the corresponding data, expecting {@code var} to be a {@link
-   * AggregateType}/{@link RecordType}, e.g., {@code map.key}, {@code array[0]}.
+   * Look for an index/key, and return the corresponding data, expecting {@code varRef} to be a
+   * {@link AggregateType}/{@link RecordType}, e.g., {@code map.key}, {@code array[0]}.
    *
    * <p>May also return a {@link FunctionCall} if the chain ends with/is a function call, e.g.,
-   * {@code var.function()}.
+   * {@code varRef.function()}.
    *
    * <p>There may also be nothing, in which case the submitted variable reference is returned as is.
    */
-  private Evaluable parseVariableReference(final BasicScope scope, final VariableReference var) {
-    VariableReference current = var;
-    Type type = var.getType();
+  private Evaluable parseVariableReference(final BasicScope scope, final VariableReference varRef) {
+    VariableReference current = varRef;
+    Type type = varRef.getType();
     List<Evaluable> indices = new ArrayList<>();
 
     boolean parseAggregate = this.currentToken().equals("[");
@@ -3818,9 +3819,9 @@ public class Parser {
           Location location = Parser.makeLocation(current.getLocation(), this.peekPreviousToken());
           String message;
           if (indices.isEmpty()) {
-            message = "Variable '" + var.getName() + "' cannot be indexed";
+            message = "Variable '" + varRef.getName() + "' cannot be indexed";
           } else {
-            message = "Too many keys for '" + var.getName() + "'";
+            message = "Too many keys for '" + varRef.getName() + "'";
           }
           throw this.parseException(location, message);
         }

@@ -61,7 +61,11 @@ public class ExpressionTest {
               Value.Constant file = assertInstanceOf(Value.Constant.class, commands.get(0));
               ParserTest.assertLocationEquals(1, 1, 1, 9, file.getLocation());
             }),
-        invalid("Incorrect file name constant", "__file__", "Unknown variable '__file__'"),
+        invalid(
+            "Incorrect file name constant",
+            "__file__",
+            "Unknown variable '__file__'",
+            "char 1 to char 9"),
         invalid("Interrupted ! expression", "(!", "Value expected"),
         invalid("Non-boolean ! expression", "(!'abc');", "\"!\" operator requires a boolean value"),
         invalid("Interrupted ~ expression", "(~", "Value expected"),

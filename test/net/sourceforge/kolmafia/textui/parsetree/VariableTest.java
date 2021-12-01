@@ -25,13 +25,19 @@ public class VariableTest {
         invalid(
             "declaration with reserved name",
             "int class;",
-            "Reserved word 'class' cannot be a variable name"),
-        invalid("multiple-definition", "int x = 1; int x = 2;", "Variable x is already defined"),
+            "Reserved word 'class' cannot be a variable name",
+            "char 5 to char 10"),
+        invalid(
+            "multiple-definition",
+            "int x = 1; int x = 2;",
+            "Variable x is already defined",
+            "char 16 to char 17"),
         invalid(
             "variable declaration followed by definition",
             // One might expect this to be acceptable.
             "int x; int x = 1;",
-            "Variable x is already defined"),
+            "Variable x is already defined",
+            "char 12 to char 13"),
         valid(
             "simultaneous variable declaration",
             "int a, b = 10, c, d = b;",
