@@ -71,11 +71,11 @@ public class FaxRequestFrame extends GenericFrame {
 
       this.bot = bot;
 
-      LockableListModel<Monster>[] monstersByCategory = bot.getMonstersByCategory();
-      int categories = monstersByCategory.length;
+      List<LockableListModel<Monster>> monstersByCategory = bot.getMonstersByCategory();
+      int categories = monstersByCategory.size();
       this.monsterLists = new ArrayList<>(categories);
       for (int i = 0; i < categories; ++i) {
-        this.monsterLists.add(new ShowDescriptionList<>(monstersByCategory[i], ROWS));
+        this.monsterLists.add(new ShowDescriptionList<>(monstersByCategory.get(i), ROWS));
       }
 
       this.categorySelect = new MonsterCategoryComboBox(this, bot);
