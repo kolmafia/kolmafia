@@ -16726,6 +16726,9 @@ public abstract class ChoiceManager {
           Preferences.setString("backupCameraMode", setting);
           Preferences.setBoolean("backupCameraReverserEnabled", text.contains("Disable Reverser"));
         }
+      case 1455:
+        CampgroundRequest.setCurrentWorkshedItem(ItemPool.COLD_MEDICINE_CABINET);
+        break;
     }
 
     // Do this after special classes (like WumpusManager) have a
@@ -19534,6 +19537,7 @@ public abstract class ChoiceManager {
       case 1452: // Sprinkler Joe
       case 1453: // Fracker Dan
       case 1454: // Cropduster Dusty
+      case 1455: // Cold Medicine Cabinet
         return true;
 
       default:
