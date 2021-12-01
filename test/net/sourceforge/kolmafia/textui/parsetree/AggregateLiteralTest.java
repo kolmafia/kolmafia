@@ -43,8 +43,16 @@ public class AggregateLiteralTest {
             Arrays.asList(
                 "1-1", "1-4", "1-5", "1-9", "1-11", "1-13", "1-14", "1-18", "1-19", "1-37", "1-38",
                 "1-40", "1-41", "1-43", "1-44", "1-48", "1-49", "1-62", "1-63", "1-65", "1-66")),
-        invalid("Unterminated aggregate literal", "int[int] {", "Expected }, found end of file"),
-        invalid("Interrupted map literal", "int[int] {:", "Script parsing error"),
+        invalid(
+            "Unterminated aggregate literal",
+            "int[int] {",
+            "Expected }, found end of file",
+            "char 11"),
+        invalid(
+            "Interrupted map literal",
+            "int[int] {:",
+            "Script parsing error; couldn't figure out value of aggregate key",
+            "char 11 to char 12"),
         valid(
             "Simple array literal",
             "int[5] { 1, 2, 3, 4, 5}",
@@ -73,12 +81,14 @@ public class AggregateLiteralTest {
             // We ought to check for this case too, but we don't...
             "Array literal not enough elements",
             "int[10] { 1, 2, 3, 4, 5}",
-            "Array has 10 elements but 5 initializers."),
+            "Array has 10 elements but 5 initializers.",
+            "char 9 to char 25"),
         */
         invalid(
             "Array literal too many elements",
             "int[1] { 1, 2, 3, 4, 5 }",
-            "Array has 1 elements but 5 initializers."),
+            "Array has 1 elements but 5 initializers.",
+            "char 8 to char 25"),
         valid(
             "Empty multidimensional map literal",
             "int[int, int]{}",
@@ -105,33 +115,59 @@ public class AggregateLiteralTest {
         invalid(
             "Interrupted multidimensional map literal",
             "int[int, int] {1:",
-            "Script parsing error"),
-        invalid("Invalid array literal coercion", "int[int]{ 'foo' }", "Invalid array literal"),
-        invalid("Invalid map literal coercion", "int[int]{ 'foo':'bar' }", "Invalid map literal"),
+            "Script parsing error; couldn't figure out value of aggregate value",
+            "char 18"),
+        invalid(
+            "Invalid array literal coercion",
+            "int[int]{ 'foo' }",
+            "Invalid array literal; cannot assign type int to type string",
+            "char 11 to char 16"),
+        invalid(
+            "Invalid map literal coercion",
+            "boolean[int]{ 'foo':true }",
+            "Invalid map literal; cannot assign type int to key of type string",
+            "char 15 to char 20"),
+        invalid(
+            "Invalid map literal coercion 2",
+            "boolean[int]{ 2:'bar' }",
+            "Invalid map literal; cannot assign type boolean to value of type string",
+            "char 17 to char 22"),
         invalid(
             "Ambiguity between array and map literal",
             "boolean[5]{ 0:true, 1:true, 2:false, true, 4:false }",
-            "Expected :, found ,"),
+            "Expected :, found ,",
+            "char 42 to char 43"),
         invalid(
             "Ambiguity between array and map literal 2: index and data are both integers",
             "int[5]{ 0, 1, 2, 3:3, 4 }",
-            "Cannot include keys when making an array literal"),
+            "Cannot include keys when making an array literal",
+            "char 18 to char 19"),
         invalid(
             "Ambiguity between array and map literal 3: that can't be a key",
             "string[5]{ '0', '1', '2', '3':'3', '4' }",
-            "Expected , or }, found :"),
+            "Expected , or }, found :",
+            "char 30 to char 31"),
         invalid(
             "Unexpected aggregate in array literal",
             "boolean[5]{ true, true, false, {true}, false }",
-            "Expected an element of type boolean, found an aggregate"),
+            "Expected an element of type boolean, found an aggregate",
+            // we currently can't read past the "{" before throwing the exception
+            // "char 32 to char 38"),
+            "char 32 to char 33"),
         invalid(
             "Unexpected aggregate in map literal: as a key",
             "boolean[5]{ 0:true, 1:true, 2:false, {3}:true, 4:false }",
-            "Expected a key of type int, found an aggregate"),
+            "Expected a key of type int, found an aggregate",
+            // we currently can't read past the "{" before throwing the exception
+            // "char 38 to char 41"),
+            "char 38 to char 39"),
         invalid(
             "Unexpected aggregate in map literal: as a value",
             "boolean[5]{ 0:true, 1:true, 2:false, 3:{true}, 4:false }",
-            "Expected a value of type boolean, found an aggregate"),
+            "Expected a value of type boolean, found an aggregate",
+            // we currently can't read past the "{" before throwing the exception
+            // "char 40 to char 46"),
+            "char 40 to char 41"),
         valid(
             // This... exercises a different code path.
             "Parenthesized map literal",
@@ -143,7 +179,11 @@ public class AggregateLiteralTest {
             "int[1] x { 1 };",
             Arrays.asList("int", "[", "1", "]", "x", "{", "1", "}", ";"),
             Arrays.asList("1-1", "1-4", "1-5", "1-6", "1-8", "1-10", "1-12", "1-14", "1-15")),
-        invalid("aggregate literal without braces", "(int[])", "Expected {, found )"));
+        invalid(
+            "aggregate literal without braces",
+            "(int[])",
+            "Expected {, found )",
+            "char 7 to char 8"));
   }
 
   @ParameterizedTest

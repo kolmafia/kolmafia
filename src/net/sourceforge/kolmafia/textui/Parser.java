@@ -1101,18 +1101,23 @@ public class Parser {
       // yet ensured we are reading a MapLiteral, allow any
       // type of Value as the "key"
       Type dataType = data.getBaseType();
+
       if (this.currentToken().equals("{")) {
         if (!isArray && !arrayAllowed) {
           // We know this is a map, but they placed
           // an aggregate literal as a key
           throw this.parseException(
+              this.currentToken(),
               "Expected a key of type " + index.toString() + ", found an aggregate");
         }
 
         if (dataType instanceof AggregateType) {
           lhs = this.parseAggregateLiteral(scope, (AggregateType) dataType);
         } else {
+          Location errorLocation = this.makeLocation(this.currentToken());
+
           throw this.parseException(
+              errorLocation,
               "Expected an element of type " + dataType.toString() + ", found an aggregate");
         }
       } else {
@@ -1120,7 +1125,10 @@ public class Parser {
       }
 
       if (lhs == null) {
-        throw this.parseException("Script parsing error");
+        Location errorLocation = this.makeLocation(this.currentToken());
+
+        throw this.parseException(
+            errorLocation, "Script parsing error; couldn't figure out value of aggregate key");
       }
 
       Token delim = this.currentToken();
@@ -1141,7 +1149,12 @@ public class Parser {
           // The value must have the correct data type
           lhs = this.autoCoerceValue(data, lhs, scope);
           if (!Operator.validCoercion(dataType, lhs.getType(), "assign")) {
-            throw this.parseException("Invalid array literal");
+            throw this.parseException(
+                lhs.getLocation(),
+                "Invalid array literal; cannot assign type "
+                    + dataType.toString()
+                    + " to type "
+                    + lhs.getType().toString());
           }
 
           values.add(lhs);
@@ -1171,7 +1184,8 @@ public class Parser {
         if (data.equals(DataTypes.INT_TYPE)) {
           // If so, this is an int[int] aggregate. They could have done something like
           // {0, 1, 2, 3:3, 4:4, 5:5}
-          throw this.parseException("Cannot include keys when making an array literal");
+          throw this.parseException(
+              lhs.getLocation(), "Cannot include keys when making an array literal");
         } else {
           // If not, we can't tell why there's a colon here.
           throw this.parseException(", or }", delim);
@@ -1184,7 +1198,10 @@ public class Parser {
         if (dataType instanceof AggregateType) {
           rhs = this.parseAggregateLiteral(scope, (AggregateType) dataType);
         } else {
+          Location errorLocation = this.makeLocation(this.currentToken());
+
           throw this.parseException(
+              errorLocation,
               "Expected a value of type " + dataType.toString() + ", found an aggregate");
         }
       } else {
@@ -1192,15 +1209,32 @@ public class Parser {
       }
 
       if (rhs == null) {
-        throw this.parseException("Script parsing error");
+        Location errorLocation = this.makeLocation(this.currentToken());
+
+        throw this.parseException(
+            errorLocation, "Script parsing error; couldn't figure out value of aggregate value");
       }
 
       // Check that each type is valid via validCoercion
       lhs = this.autoCoerceValue(index, lhs, scope);
       rhs = this.autoCoerceValue(data, rhs, scope);
-      if (!Operator.validCoercion(index, lhs.getType(), "assign")
-          || !Operator.validCoercion(data, rhs.getType(), "assign")) {
-        throw this.parseException("Invalid map literal");
+
+      if (!Operator.validCoercion(index, lhs.getType(), "assign")) {
+        throw this.parseException(
+            lhs.getLocation(),
+            "Invalid map literal; cannot assign type "
+                + index.toString()
+                + " to key of type "
+                + lhs.getType().toString());
+      }
+
+      if (!Operator.validCoercion(data, rhs.getType(), "assign")) {
+        throw this.parseException(
+            rhs.getLocation(),
+            "Invalid map literal; cannot assign type "
+                + dataType.toString()
+                + " to value of type "
+                + rhs.getType().toString());
       }
 
       keys.add(lhs);
@@ -1221,6 +1255,7 @@ public class Parser {
       int size = aggr.getSize();
       if (size > 0 && size < values.size()) {
         throw this.parseException(
+            aggregateLiteralLocation,
             "Array has " + size + " elements but " + values.size() + " initializers.");
       }
     }
@@ -3294,9 +3329,9 @@ public class Parser {
             this.currentLine.makeToken(i + 1); // + 1 to get rid of stop character token
         this.readToken();
 
-        Evaluable result =
-            Value.locate(
-                this.makeLocation(stringStartPosition), new Value(resultString.toString()));
+        Location resultLocation =
+            this.makeLocation(stringStartPosition, this.peekPreviousToken().getEnd());
+        Evaluable result = Value.locate(resultLocation, new Value(resultString.toString()));
 
         if (conc == null) {
           return result;
@@ -4282,6 +4317,10 @@ public class Parser {
 
   private Location makeLocation(final Position start) {
     return this.makeLocation(this.rangeToHere(start));
+  }
+
+  private Location makeLocation(final Position start, final Position end) {
+    return this.makeLocation(new Range(start, end));
   }
 
   private Location makeLocation(final Range start, final Range end) {

@@ -32,6 +32,17 @@ public class StringTest {
             "'\\\n\n   \n\n\n'",
             Arrays.asList("'\\", "'"),
             Arrays.asList("1-1", "6-1")),
+        valid(
+            "Trailing spaces after string",
+            "'foobar'    //",
+            Arrays.asList("'foobar'", "//"),
+            Arrays.asList("1-1", "1-13"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              Value.Constant string = assertInstanceOf(Value.Constant.class, commands.get(0));
+              ParserTest.assertLocationEquals(1, 1, 1, 9, string.getLocation());
+            }),
         invalid(
             "Multiline string, end of line properly escaped + empty lines + comment",
             "'\\\n\n\n//Comment\n\n'",
