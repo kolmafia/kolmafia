@@ -64,7 +64,7 @@ public class EscapeSequenceTest {
             "'\\u1'",
             "Unicode character escape requires 4 digits",
             "char 2 to char 6"),
-        invalid("string with escaped eof", "'\\", "No closing ' found"));
+        invalid("string with escaped eof", "'\\", "No closing ' found", "char 1 to char 3"));
   }
 
   @ParameterizedTest

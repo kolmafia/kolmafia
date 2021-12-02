@@ -3282,8 +3282,13 @@ public class Parser {
           continue;
         }
 
+        if (i > 0) {
+          this.currentLine.makeToken(i);
+          this.currentIndex += i;
+        }
+
         // Plain strings can't span lines
-        throw this.parseException("No closing " + stopCharacter + " found");
+        throw this.parseException(stringStartPosition, "No closing " + stopCharacter + " found");
       }
 
       char ch = line.charAt(i);
@@ -3303,7 +3308,9 @@ public class Parser {
         Evaluable rhs = this.parseExpression(scope);
 
         if (rhs == null) {
-          throw this.parseException("Expression expected");
+          Location errorLocation = this.makeLocation(this.currentToken());
+
+          throw this.parseException(errorLocation, "Expression expected");
         }
 
         // Set i to -1 so that it is set to zero by the loop, as the

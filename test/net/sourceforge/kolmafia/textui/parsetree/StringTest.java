@@ -15,7 +15,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class StringTest {
   public static Stream<ScriptData> data() {
     return Stream.of(
-        invalid("Multiline string, end of line not escaped", "'\n'", "No closing ' found"),
+        invalid(
+            "Multiline string, end of line not escaped",
+            "'\n'",
+            "No closing ' found",
+            "char 1 to char 2"),
         valid(
             "Multiline string, end of line properly escaped",
             "'\\\n'",
@@ -46,7 +50,8 @@ public class StringTest {
         invalid(
             "Multiline string, end of line properly escaped + empty lines + comment",
             "'\\\n\n\n//Comment\n\n'",
-            "No closing ' found"));
+            "No closing ' found",
+            "char 1 to line 4, char 10"));
   }
 
   @ParameterizedTest
