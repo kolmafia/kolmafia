@@ -66,19 +66,30 @@ public class ExpressionTest {
             "__file__",
             "Unknown variable '__file__'",
             "char 1 to char 9"),
-        invalid("Interrupted ! expression", "(!", "Value expected"),
-        invalid("Non-boolean ! expression", "(!'abc');", "\"!\" operator requires a boolean value"),
-        invalid("Interrupted ~ expression", "(~", "Value expected"),
+        invalid("Interrupted ! expression", "(!", "Value expected", "char 3"),
+        invalid(
+            "Non-boolean ! expression",
+            "(!'abc');",
+            "\"!\" operator requires a boolean value",
+            "char 2 to char 8"),
+        invalid("Interrupted ~ expression", "(~", "Value expected", "char 3"),
         invalid(
             "Non-boolean/integer ~ expression",
             "(~'abc');",
-            "\"~\" operator requires an integer or boolean value"),
-        invalid("Interrupted - expression", "(-", "Value expected"),
-        invalid("Interrupted expression after operator", "(1 +", "Value expected"),
+            "\"~\" operator requires an integer or boolean value",
+            "char 2 to char 8"),
+        invalid("Interrupted - expression", "(-", "Value expected", "char 3"),
+        invalid(
+            "Non-integer/float - expression",
+            "(-'abc');",
+            "\"-\" operator requires an integer or float value",
+            "char 2 to char 8"),
+        invalid("Interrupted expression after operator", "(1 +", "Value expected", "char 5"),
         invalid(
             "Invalid expression coercion",
             "(true + 1);",
-            "Cannot apply operator + to true (boolean) and 1 (int)"),
+            "Cannot apply operator + to true (boolean) and 1 (int)",
+            "char 2 to char 10"),
         valid(
             "Unary minus",
             "int x; (-x);",
@@ -99,9 +110,24 @@ public class ExpressionTest {
         invalid(
             "non-coercible value mismatch",
             "(true ? 1 : $item[none];",
-            "Cannot choose between 1 (int) and none (item)"),
-        invalid("unclosed parenthetical expression", "(true", "Expected ), found end of file"),
-        invalid("improper remove", "int i; remove i;", "Aggregate reference expected"),
+            "Cannot choose between 1 (int) and none (item)",
+            "char 9 to char 24"),
+        invalid(
+            "unclosed parenthetical expression",
+            "(true",
+            "Expected ), found end of file",
+            "char 6"),
+        invalid(
+            "improper remove",
+            "int i; remove i;",
+            "Aggregate reference expected",
+            "char 15 to char 16"),
+        invalid(
+            "improper remove 2",
+            // 'remove' is case-sensitive
+            "int[] map; Remove map[0];",
+            "Bad 'remove' statement",
+            "char 12 to char 18"),
         valid(
             "proper remove",
             "int[] map; remove map[0];",
