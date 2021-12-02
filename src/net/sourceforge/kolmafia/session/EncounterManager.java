@@ -292,6 +292,20 @@ public abstract class EncounterManager {
         && zone.equalsIgnoreCase(Preferences.getString("crystalBallLocation"));
   }
 
+  public static final boolean isGregariousEncounter(
+      final String responseText, final boolean checkMonster) {
+    if (responseText.contains("Looks like it's that friend you gregariously made")) {
+      return true;
+    }
+
+    if (Preferences.getInteger("beGregariousFightsLeft") < 1) {
+      return false;
+    }
+
+    String monsterName = MonsterStatusTracker.getLastMonsterName();
+    return monsterName.equalsIgnoreCase(Preferences.getString("beGregariousMonster"));
+  }
+
   public static final boolean isWanderingMonster(String encounter) {
     MonsterData monster = MonsterDatabase.findMonster(encounter);
     return monster != null && monster.getType().contains(EncounterType.WANDERER);

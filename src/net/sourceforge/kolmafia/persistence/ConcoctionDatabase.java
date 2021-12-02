@@ -2248,7 +2248,10 @@ public class ConcoctionDatabase {
                 (KoLCharacter.getAdventuresLeft() > 0)
             ? 5 - Preferences.getInteger("_expertCornerCutterUsed")
             : 0)
-        + ConcoctionDatabase.CRAFT_TEA.getCount(KoLConstants.activeEffects) / 5;
+        + (ConcoctionDatabase.CRAFT_TEA.getCount(KoLConstants.activeEffects) / 5)
+        + (StandardRequest.isAllowed("Items", "Cold Medicine Cabinet")
+            ? Preferences.getInteger("homebodylCharges")
+            : 0);
   }
 
   public static int getFreeSmithJewelTurns() {
