@@ -145,6 +145,7 @@ public class Parser {
       final LineNumberReader commandStream =
           new LineNumberReader(new InputStreamReader(this.istream, StandardCharsets.UTF_8));
       this.currentLine = new Line(commandStream);
+      this.currentIndex = this.currentLine.offset;
 
       Line line = this.currentLine;
       while (line.content != null) {
@@ -153,9 +154,8 @@ public class Parser {
 
       // Move up to the first non-empty line
       while (this.currentLine.content != null && this.currentLine.content.length() == 0) {
-        this.currentLine = this.currentLine.nextLine;
+        this.readLine();
       }
-      this.currentIndex = this.currentLine.offset;
     } catch (Exception e) {
       // If any part of the initialization fails,
       // then throw an exception.
@@ -1638,9 +1638,9 @@ public class Parser {
 
       if (line.length() > 0) {
         this.currentLine.makeToken(line.length());
+        this.currentIndex += line.length();
       }
-      this.currentLine = this.currentLine.nextLine;
-      this.currentIndex = this.currentLine.offset;
+      this.readLine();
     }
 
     Location basicScriptLocation =
@@ -3270,14 +3270,18 @@ public class Parser {
             && this.currentIndex == this.currentLine.offset
             && this.currentLine.content != null) {
           // Empty lines are OK.
-          this.currentLine = this.currentLine.nextLine;
-          this.currentIndex = this.currentLine.offset;
+          this.readLine();
           i = -1;
           continue;
         }
 
+        if (i > 0) {
+          this.currentLine.makeToken(i);
+          this.currentIndex += i;
+        }
+
         // Plain strings can't span lines
-        throw this.parseException("No closing " + stopCharacter + " found");
+        throw this.parseException(stringStartPosition, "No closing " + stopCharacter + " found");
       }
 
       char ch = line.charAt(i);
@@ -3297,7 +3301,9 @@ public class Parser {
         Evaluable rhs = this.parseExpression(scope);
 
         if (rhs == null) {
-          throw this.parseException("Expression expected");
+          Location errorLocation = this.makeLocation(this.currentToken());
+
+          throw this.parseException(errorLocation, "Expression expected");
         }
 
         // Set i to -1 so that it is set to zero by the loop, as the
@@ -3357,8 +3363,8 @@ public class Parser {
     if (i == line.length()) {
       resultString.append('\n');
       this.currentLine.makeToken(i);
-      this.currentLine = this.currentLine.nextLine;
-      this.currentIndex = this.currentLine.offset;
+      this.currentIndex += i;
+      this.readLine();
       return -1;
     }
 
@@ -3656,8 +3662,7 @@ public class Parser {
           throw this.parseException("No closing ] found");
         }
 
-        this.currentLine = this.currentLine.nextLine;
-        this.currentIndex = this.currentLine.offset;
+        this.readLine();
         i = -1;
         continue;
       }
@@ -4049,8 +4054,7 @@ public class Parser {
             this.currentLine.makeComment(restOfLine.length());
           }
 
-          this.currentLine = this.currentLine.nextLine;
-          this.currentIndex = this.currentLine.offset;
+          this.readLine();
         } else {
           this.currentToken = this.currentLine.makeComment(commentEnd + 2);
           this.readToken();
@@ -4061,8 +4065,7 @@ public class Parser {
       }
 
       if (restOfLine.length() == 0) {
-        this.currentLine = this.currentLine.nextLine;
-        this.currentIndex = this.currentLine.offset;
+        this.readLine();
         continue;
       }
 
@@ -4073,8 +4076,7 @@ public class Parser {
       if (restOfLine.startsWith("#") || restOfLine.startsWith("//")) {
         this.currentLine.makeComment(restOfLine.length());
 
-        this.currentLine = this.currentLine.nextLine;
-        this.currentIndex = this.currentLine.offset;
+        this.readLine();
         continue;
       }
 
@@ -4087,8 +4089,7 @@ public class Parser {
             this.currentLine.makeComment(restOfLine.length());
           }
 
-          this.currentLine = this.currentLine.nextLine;
-          this.currentIndex = this.currentLine.offset;
+          this.readLine();
           inMultiLineComment = true;
         } else {
           this.currentToken = this.currentLine.makeComment(commentEnd + 2);
@@ -4280,6 +4281,23 @@ public class Parser {
 
   private boolean tokenString(final String s) {
     return Parser.multiCharTokens.contains(s);
+  }
+
+  /**
+   * If we are not at the end of the file, move to the next line. Then, if we are *still* not at the
+   * end of the file, update {@link #currentIndex} with the value of the line's {@link Line#offset}.
+   */
+  private void readLine() {
+    // at "end of file"
+    if (this.currentLine.content == null) {
+      return;
+    }
+
+    this.currentLine = this.currentLine.nextLine;
+
+    if (this.currentLine.content != null) {
+      this.currentIndex = this.currentLine.offset;
+    }
   }
 
   /** Returns the content of {@link #currentLine} starting at {@link #currentIndex}. */
