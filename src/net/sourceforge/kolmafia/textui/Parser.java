@@ -2857,13 +2857,7 @@ public class Parser {
       return null;
     }
 
-    Evaluable lhs = this.parseExpression(scope);
-
-    if (lhs == null) {
-      throw this.parseException("Bad 'remove' statement");
-    }
-
-    return lhs;
+    return this.parseExpression(scope);
   }
 
   private Evaluable parsePreIncDec(final BasicScope scope) {
@@ -2946,25 +2940,30 @@ public class Parser {
       oper = new Operator(this.makeLocation(operator), operator.content, this);
       this.readToken(); // !
       if ((lhs = this.parseEvaluable(scope)) == null) {
-        throw this.parseException("Value expected");
+        Location errorLocation = this.makeLocation(this.currentToken());
+
+        throw this.parseException(errorLocation, "Value expected");
       }
 
       lhs = this.autoCoerceValue(DataTypes.BOOLEAN_TYPE, lhs, scope);
       lhs = new Operation(lhs, oper);
       if (!lhs.getType().equals(DataTypes.BOOLEAN_TYPE)) {
-        throw this.parseException("\"!\" operator requires a boolean value");
+        throw this.parseException(lhs.getLocation(), "\"!\" operator requires a boolean value");
       }
     } else if (operator.equals("~")) {
       oper = new Operator(this.makeLocation(operator), operator.content, this);
       this.readToken(); // ~
       if ((lhs = this.parseEvaluable(scope)) == null) {
-        throw this.parseException("Value expected");
+        Location errorLocation = this.makeLocation(this.currentToken());
+
+        throw this.parseException(errorLocation, "Value expected");
       }
 
       lhs = new Operation(lhs, oper);
       if (!lhs.getType().equals(DataTypes.INT_TYPE)
           && !lhs.getType().equals(DataTypes.BOOLEAN_TYPE)) {
-        throw this.parseException("\"~\" operator requires an integer or boolean value");
+        throw this.parseException(
+            lhs.getLocation(), "\"~\" operator requires an integer or boolean value");
       }
     } else if (operator.equals("-")) {
       // See if it's a negative numeric constant
@@ -2973,18 +2972,28 @@ public class Parser {
         oper = new Operator(this.makeLocation(operator), operator.content, this);
         this.readToken(); // -
         if ((lhs = this.parseEvaluable(scope)) == null) {
-          throw this.parseException("Value expected");
+          Location errorLocation = this.makeLocation(this.currentToken());
+
+          throw this.parseException(errorLocation, "Value expected");
         }
 
         lhs = new Operation(lhs, oper);
+        if (!lhs.getType().equals(DataTypes.INT_TYPE)
+            && !lhs.getType().equals(DataTypes.FLOAT_TYPE)) {
+          throw this.parseException(
+              lhs.getLocation(), "\"-\" operator requires an integer or float value");
+        }
       }
-    } else if (operator.equals("remove")) {
-      oper = new Operator(this.makeLocation(operator), operator.content, this);
+    } else if (operator.equalsIgnoreCase("remove")) {
+      oper = new Operator(this.makeLocation(operator), operator.content.toLowerCase(), this);
       this.readToken(); // remove
 
       lhs = this.parseVariableReference(scope);
       if (!(lhs instanceof CompositeReference)) {
-        throw this.parseException("Aggregate reference expected");
+        Location errorLocation =
+            lhs != null ? lhs.getLocation() : this.makeLocation(this.currentToken());
+
+        throw this.parseException(errorLocation, "Aggregate reference expected");
       }
 
       lhs = new Operation(lhs, oper);
@@ -3014,11 +3023,14 @@ public class Parser {
 
         if (!conditional.getType().equals(DataTypes.BOOLEAN_TYPE)) {
           throw this.parseException(
+              conditional.getLocation(),
               "Non-boolean expression " + conditional + " (" + conditional.getType() + ")");
         }
 
         if ((lhs = this.parseExpression(scope)) == null) {
-          throw this.parseException("Value expected in left hand side");
+          Location errorLocation = this.makeLocation(this.currentToken());
+
+          throw this.parseException(errorLocation, "Value expected in left hand side");
         }
 
         if (this.currentToken().equals(":")) {
@@ -3028,11 +3040,14 @@ public class Parser {
         }
 
         if ((rhs = this.parseExpression(scope)) == null) {
-          throw this.parseException("Value expected");
+          Location errorLocation = this.makeLocation(this.currentToken());
+
+          throw this.parseException(errorLocation, "Value expected in right hand side");
         }
 
         if (!oper.validCoercion(lhs.getType(), rhs.getType())) {
           throw this.parseException(
+              Parser.mergeLocations(lhs.getLocation(), rhs.getLocation()),
               "Cannot choose between "
                   + lhs
                   + " ("
@@ -3049,7 +3064,9 @@ public class Parser {
         this.readToken(); // operator
 
         if ((rhs = this.parseExpression(scope, oper)) == null) {
-          throw this.parseException("Value expected");
+          Location errorLocation = this.makeLocation(this.currentToken());
+
+          throw this.parseException(errorLocation, "Value expected");
         }
 
         Type ltype = lhs.getType();
@@ -3070,9 +3087,12 @@ public class Parser {
             lhs = new Concatenate(lhs, rhs);
           }
         } else {
+          Location operationLocation = Parser.mergeLocations(lhs.getLocation(), rhs.getLocation());
+
           rhs = this.autoCoerceValue(ltype, rhs, scope);
           if (!oper.validCoercion(ltype, rhs.getType())) {
             throw this.parseException(
+                operationLocation,
                 "Cannot apply operator "
                     + oper
                     + " to "

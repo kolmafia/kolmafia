@@ -50,7 +50,8 @@ public class NumericValueTest {
         invalid(
             "Float literal with no integral part, non-numeric fractional part",
             "-.123abc;",
-            "Expected numeric value, found 123abc"));
+            "Expected numeric value, found 123abc",
+            "char 3 to char 9"));
   }
 
   @ParameterizedTest
