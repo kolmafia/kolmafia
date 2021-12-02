@@ -37,7 +37,7 @@ public class CampgroundRequest extends GenericRequest {
       Pattern.compile("<p>The fuel gauge currently reads: (.*?)</p>");
   private static final Pattern FUEL_PATTERN_3 = Pattern.compile("&qty=([\\d,]+)&iid=([\\d,]+)");
   private static final Pattern COLD_MEDICINE_CABINET_PATTERN =
-      Pattern.compile("You can visit the doctors again in (\\d+) turn.<br>You have (\\d) consul");
+      Pattern.compile("You can visit the doctors again in (\\d+) s?\\.<br>You have (\\d) consul");
 
   private static int currentDwellingLevel = 0;
   private static AdventureResult currentDwelling = null;
@@ -1429,11 +1429,9 @@ public class CampgroundRequest extends GenericRequest {
       }
     } else if (findImage(responseText, "horadricoven.gif", ItemPool.DIABOLIC_PIZZA_CUBE)) {
       CampgroundRequest.setCurrentWorkshedItem(ItemPool.DIABOLIC_PIZZA_CUBE);
-    } else if (responseText.contains("You can visit the doctors")
-        || responseText.contains("Looks like the doctors are out for the day")) {
+    } else if (findImage(responseText, "cmcabinet.gif", ItemPool.COLD_MEDICINE_CABINET)) {
       // Cold Medicine Cabinet usually redirects to choice.php, so this is also handled in
       // ChoiceManager
-      CampgroundRequest.setCurrentWorkshedItem(ItemPool.COLD_MEDICINE_CABINET);
       Matcher cabinetMatcher = COLD_MEDICINE_CABINET_PATTERN.matcher(responseText);
       if (cabinetMatcher.find()) {
         int turns = StringUtilities.parseInt(cabinetMatcher.group(1));
