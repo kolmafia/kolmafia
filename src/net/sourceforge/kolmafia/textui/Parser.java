@@ -386,7 +386,7 @@ public class Parser {
       if (c != null) {
         result.addCommand(c, this);
       } else {
-        throw this.parseException("command or declaration required");
+        throw this.parseException(this.currentToken(), "command or declaration required");
       }
     } else if (this.parseVariables(t, result)) {
       if (this.currentToken().equals(";")) {
@@ -396,7 +396,9 @@ public class Parser {
       }
     } else {
       // Found a type but no function or variable to tie it to
-      throw this.parseException("Type given but not used to declare anything");
+      throw this.parseException(
+          Parser.makeLocation(t.getLocation(), this.currentToken()),
+          "Type given but not used to declare anything");
     }
 
     return result;
@@ -490,11 +492,15 @@ public class Parser {
         if (t.getBaseType() instanceof AggregateType) {
           result.addCommand(this.parseAggregateLiteral(result, (AggregateType) t), this);
         } else {
-          throw this.parseException("Aggregate type required to make an aggregate literal");
+          throw this.parseException(
+              Parser.makeLocation(t.getLocation(), this.currentToken()),
+              "Aggregate type required to make an aggregate literal");
         }
       } else {
         // Found a type but no function or variable to tie it to
-        throw this.parseException("Type given but not used to declare anything");
+        throw this.parseException(
+            Parser.makeLocation(t.getLocation(), this.currentToken()),
+            "Type given but not used to declare anything");
       }
     }
 

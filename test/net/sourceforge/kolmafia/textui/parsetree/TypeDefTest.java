@@ -61,7 +61,11 @@ public class TypeDefTest {
             Arrays.asList(
                 "1-1", "1-5", "1-8", "1-10", "1-18", "1-22", "1-25", "1-27", "2-1", "4-2", "4-4",
                 "4-5", "4-6")),
-        invalid("unterminated typedef", "typedef int foo\n foo bar;", "Expected ;, found foo"),
+        invalid(
+            "unterminated typedef",
+            "typedef int foo\n foo bar;",
+            "Expected ;, found foo",
+            "line 2, char 2 to char 5"),
         invalid(
             "typedef with no type",
             "typedef;",
