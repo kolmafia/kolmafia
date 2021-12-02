@@ -151,8 +151,7 @@ public abstract class KoLmafia {
 
   public static boolean useAmazonImages = true;
 
-  public static final String AMAZON_IMAGE_SERVER =
-      "https://s3.amazonaws.com/images.kingdomofloathing.com";
+  public static final String AMAZON_IMAGE_SERVER = "https://d2uyhvukfffg5a.cloudfront.net";
   public static final String AMAZON_IMAGE_SERVER_PATH = AMAZON_IMAGE_SERVER + "/";
   public static final String KOL_IMAGE_SERVER = "http://images.kingdomofloathing.com";
   public static final String KOL_IMAGE_SERVER_PATH = KOL_IMAGE_SERVER + "/";
