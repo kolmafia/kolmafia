@@ -122,12 +122,6 @@ public class ExpressionTest {
             "int i; remove i;",
             "Aggregate reference expected",
             "char 15 to char 16"),
-        invalid(
-            "improper remove 2",
-            // 'remove' is case-sensitive
-            "int[] map; Remove map[0];",
-            "Bad 'remove' statement",
-            "char 12 to char 18"),
         valid(
             "proper remove",
             "int[] map; remove map[0];",
@@ -140,7 +134,14 @@ public class ExpressionTest {
               Operation operation = assertInstanceOf(Operation.class, commands.get(1));
               Operator oper = operation.getOperator();
               ParserTest.assertLocationEquals(1, 12, 1, 18, oper.getLocation());
-            }));
+            }),
+        valid(
+            "proper remove 2",
+            // 'remove' is case-insensitive
+            "int[] map; ReMoVe map[0];",
+            Arrays.asList("int", "[", "]", "map", ";", "ReMoVe", "map", "[", "0", "]", ";"),
+            Arrays.asList(
+                "1-1", "1-4", "1-5", "1-7", "1-10", "1-12", "1-19", "1-22", "1-23", "1-24", "1-25")));
   }
 
   @ParameterizedTest
