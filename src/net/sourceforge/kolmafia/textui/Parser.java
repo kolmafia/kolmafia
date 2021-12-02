@@ -1382,19 +1382,19 @@ public class Parser {
     this.readToken(); // return
 
     if (expectedType == null) {
-      throw this.parseException("Cannot return when outside of a function");
+      throw this.parseException(returnStartToken, "Cannot return when outside of a function");
     }
 
     if (this.currentToken().equals(";")) {
       if (expectedType != null && !expectedType.equals(DataTypes.TYPE_VOID)) {
-        throw this.parseException("Return needs " + expectedType + " value");
+        throw this.parseException(returnStartToken, "Return needs " + expectedType + " value");
       }
 
       return new FunctionReturn(this.makeLocation(returnStartToken), null, DataTypes.VOID_TYPE);
     }
 
     if (expectedType != null && expectedType.equals(DataTypes.TYPE_VOID)) {
-      throw this.parseException("Cannot return a value from a void function");
+      throw this.parseException(this.currentToken(), "Cannot return a value from a void function");
     }
 
     Evaluable value = this.parseExpression(parentScope);
@@ -1402,11 +1402,14 @@ public class Parser {
     if (value != null) {
       value = this.autoCoerceValue(expectedType, value, parentScope);
     } else {
-      throw this.parseException("Expression expected");
+      Location errorLocation = this.makeLocation(this.currentToken());
+
+      throw this.parseException(errorLocation, "Expression expected");
     }
 
     if (expectedType != null && !Operator.validCoercion(expectedType, value.getType(), "return")) {
       throw this.parseException(
+          value.getLocation(),
           "Cannot return " + value.getType() + " value from " + expectedType + " function");
     }
 
