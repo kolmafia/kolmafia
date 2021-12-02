@@ -1544,6 +1544,7 @@ user	_coalPaperweightUsed	false
 user	_cocoaDispenserUsed	false
 user	_cocktailShakerUsed	false
 user	_coldAirportToday	false
+user	_coldMedicineConsults	0
 user	_coldOne	false
 user	_communismUsed	false
 user	_companionshipCasts	0
@@ -1837,6 +1838,7 @@ user	_newYouQuestMonster
 user	_newYouQuestSharpensDone	0
 user	_newYouQuestSharpensToDo	0
 user	_newYouQuestSkill
+user	_nextColdMedicineConsult	0
 user	_nextQuantumAlignment	0
 user	_nightmareFuelCharges	0
 user	_noHatModifier
