@@ -56,6 +56,8 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
           "That rapid prototyping programming you downloaded is really paying dividends");
   public static final Pattern CORNER_CUTTER_PATTERN =
       Pattern.compile("You really crafted that item the LyleCo way");
+  public static final Pattern HOMEBODYL_PATTERN =
+      Pattern.compile("You are so relaxed that your crafting takes hardly any time at all!");
 
   public static final AdventureResult TENDER_HAMMER = ItemPool.get(ItemPool.TENDER_HAMMER, 1);
   public static final AdventureResult GRIMACITE_HAMMER = ItemPool.get(ItemPool.GRIMACITE_HAMMER, 1);
@@ -785,7 +787,14 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         }
       }
 
-      // Remove from Rapid Prototyping, then Corner Cutter
+      // Remove from Homebodyl, Rapid Prototyping, then Corner Cutter
+      freeTurn = HOMEBODYL_PATTERN.matcher(craftSection);
+      if (freeTurn.find()) {
+        int homebodylTurnsSaved =
+            Math.min(Preferences.getInteger("homebodylCharges"), created - turnsSaved);
+        Preferences.decrement("homebodylCharges", created - turnsSaved, 0);
+        turnsSaved += homebodylTurnsSaved;
+      }
       freeTurn = RAPID_PROTOTYPING_PATTERN.matcher(craftSection);
       if (freeTurn.find()) {
         int rapidPrototypingTurnsSaved =

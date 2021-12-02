@@ -2374,6 +2374,9 @@ public class FightRequest extends GenericRequest {
         // This is earlier in the chain than the things above, but since
         // there's no message it's easiest to check it after
         Preferences.decrement("_saberForceMonsterCount");
+      } else if (EncounterManager.isGregariousEncounter(responseText, true)) {
+        EncounterManager.ignoreSpecialMonsters();
+        Preferences.decrement("beGregariousFightsLeft", 1, 0);
       }
 
       // Increment stinky cheese counter
@@ -4184,6 +4187,11 @@ public class FightRequest extends GenericRequest {
         Preferences.setString("guzzlrQuestTier", "");
         Preferences.setInteger("guzzlrDeliveryProgress", 0);
         QuestDatabase.setQuestProgress(Quest.GUZZLR, QuestDatabase.UNSTARTED);
+      }
+
+      if (responseText.contains(
+          "The outdoors is so refreshing, that adventure just flew right by!")) {
+        Preferences.decrement("breathitinCharges", 1, 0);
       }
 
       if (responseText.contains("FREEFREEFREE")) {
@@ -9414,6 +9422,13 @@ public class FightRequest extends GenericRequest {
         if (success) {
           Preferences.decrement("_fireExtinguisherCharge", 20);
         }
+      case SkillPool.BE_GREGARIOUS:
+        if (responseText.contains("You decide to put your best foot forward") || skillSuccess) {
+          Preferences.setString("beGregariousMonster", monsterName);
+          Preferences.decrement("beGregariousCharges", 1, 0);
+          Preferences.setInteger("beGregariousFightsLeft", 3);
+        }
+        break;
     }
   }
 

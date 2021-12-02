@@ -320,6 +320,7 @@ public class SkillPool {
   public static final int FIRE_EXTINGUISHER__FOAM_YOURSELF = 7388;
   public static final int FIRE_EXTINGUISHER__BLAST_THE_AREA = 7389;
   public static final int FIRE_EXTINGUISHER__ZONE_SPECIFIC = 7390;
+  public static final int BE_GREGARIOUS = 7391;
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
   public static final int DEMAND_SANDWICH = 11021;
