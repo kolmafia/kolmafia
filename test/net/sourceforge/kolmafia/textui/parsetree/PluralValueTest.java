@@ -15,9 +15,17 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class PluralValueTest {
   public static Stream<ScriptData> data() {
     return Stream.of(
-        invalid("Plural constant, abrupt end", "$booleans[", "No closing ] found"),
-        invalid("Plural constant, unknown plural type", "$kolmafia[]", "Unknown type kolmafia"),
-        invalid("Plural constant, RAM-protection", "$strings[]", "Can't enumerate all strings"),
+        invalid("Plural constant, abrupt end", "$booleans[", "No closing ] found", "char 11"),
+        invalid(
+            "Plural constant, unknown plural type",
+            "$kolmafia[]",
+            "Unknown type kolmafia",
+            "char 2 to char 10"),
+        invalid(
+            "Plural constant, RAM-protection",
+            "$strings[]",
+            "Can't enumerate all strings",
+            "char 1 to char 11"),
         valid(
             "Plural constant, non... \"traditional\" plurals",
             "$bounties[]; $classes[]; $phyla[]",
@@ -55,7 +63,8 @@ public class PluralValueTest {
             "Plural constant w/ escape characters",
             // *Escaped* end-of-lines and escaped "\n"s get added to the value
             "$booleans[tr\\\nu\\ne]",
-            "Bad boolean value: \"tr\nu\ne\""),
+            "Bad boolean value: \"tr\nu\ne\"",
+            "char 11 to line 2, char 5"),
         valid(
             "Plural constant, nested brackets, proper",
             "$items[[8042]rock]",
@@ -72,11 +81,13 @@ public class PluralValueTest {
         invalid(
             "Plural constant, nested brackets, improper",
             "$items[[abc]]",
-            "Bad item value: \"[abc]\""),
+            "Bad item value: \"[abc]\"",
+            "char 8 to char 13"),
         invalid(
             "Plural constant, single slash",
             "$booleans[tr/Comment\nue]",
-            "Bad boolean value: \"tr/Commentue\""),
+            "Bad boolean value: \"tr/Commentue\"",
+            "char 11 to line 2, char 3"),
         valid(
             "Plural constant, comment",
             "$booleans[tr//Comment\nue]",
@@ -95,12 +106,18 @@ public class PluralValueTest {
         invalid(
             "Plural constant, two line-separated slashes",
             "$booleans[tr/\n/ue]",
-            "Bad boolean value: \"tr//ue\""),
+            "Bad boolean value: \"tr//ue\"",
+            "char 11 to line 2, char 4"),
         invalid(
             "Plural constant, line-separated multiline comment",
             "$booleans[tr/\n**/ue]",
-            "Bad boolean value: \"tr/**/ue\""),
-        invalid("plural typed constant with escaped eof", "$items[true\\", "No closing ] found"),
+            "Bad boolean value: \"tr/**/ue\"",
+            "char 11 to line 2, char 6"),
+        invalid(
+            "plural typed constant with escaped eof",
+            "$items[true\\",
+            "No closing ] found",
+            "char 8 to char 13"),
         valid(
             "plural typed constant with escaped space",
             "$effects[\n\tBuy!\\ \\ Sell!\\ \\ Buy!\\ \\ Sell!\n]",

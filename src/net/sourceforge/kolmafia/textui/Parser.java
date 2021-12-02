@@ -3466,10 +3466,10 @@ public class Parser {
     return i;
   }
 
-  private Value parseLiteral(Type type, String element) {
+  private Value parseLiteral(final Type type, final String element, final Location location) {
     Value value = DataTypes.parseValue(type, element, false);
     if (value == null) {
-      throw this.parseException("Bad " + type.toString() + " value: \"" + element + "\"");
+      throw this.parseException(location, "Bad " + type.toString() + " value: \"" + element + "\"");
     }
 
     if (!StringUtilities.isNumeric(element)) {
@@ -3557,42 +3557,44 @@ public class Parser {
     this.readToken(); // read $
 
     Token name = this.currentToken();
-    Type type = scope.findType(name.content);
+    Type type = null;
     boolean plurals = false;
 
-    if (type == null) {
-      StringBuilder buf = new StringBuilder(name.content);
-      int length = name.length();
+    if (this.parseIdentifier(name.content)) {
+      type = scope.findType(name.content);
 
-      if (name.endsWith("ies")) {
-        buf.delete(length - 3, length);
-        buf.insert(length - 3, "y");
-      } else if (name.endsWith("es")) {
-        buf.delete(length - 2, length);
-      } else if (name.endsWith("s")) {
-        buf.deleteCharAt(length - 1);
-      } else if (name.endsWith("a")) {
-        buf.deleteCharAt(length - 1);
-        buf.insert(length - 1, "um");
-      } else {
-        throw this.parseException("Unknown type " + name);
+      if (type == null) {
+        StringBuilder buf = new StringBuilder(name.content);
+        int length = name.length();
+
+        if (name.endsWith("ies")) {
+          buf.delete(length - 3, length);
+          buf.insert(length - 3, "y");
+        } else if (name.endsWith("es")) {
+          buf.delete(length - 2, length);
+        } else if (name.endsWith("s")) {
+          buf.deleteCharAt(length - 1);
+        } else if (name.endsWith("a")) {
+          buf.deleteCharAt(length - 1);
+          buf.insert(length - 1, "um");
+        }
+
+        type = scope.findType(buf.toString());
+
+        plurals = true;
       }
 
-      type = scope.findType(buf.toString());
-
-      plurals = true;
+      this.readToken();
     }
 
-    this.readToken();
-
     if (type == null) {
-      throw this.parseException("Unknown type " + name);
+      throw this.parseException(name, "Unknown type " + name);
     } else {
       type = type.reference(this.makeLocation(name));
     }
 
     if (!type.isPrimitive()) {
-      throw this.parseException("Non-primitive type " + name);
+      throw this.parseException(name, "Non-primitive type " + name);
     }
 
     if (this.currentToken().equals("[")) {
@@ -3614,24 +3616,39 @@ public class Parser {
       if (value != null) {
         return Value.locate(typedConstantLocation, value); // implicit enumeration
       }
-      throw this.parseException("Can't enumerate all " + name);
+
+      throw this.parseException(typedConstantLocation, "Can't enumerate all " + name);
     }
 
     StringBuilder resultString = new StringBuilder();
     final Value result;
+
+    Position currentElementStartPosition = this.getCurrentPosition();
 
     int level = 1;
     for (int i = 0; ; ++i) {
       final String line = this.restOfLine();
 
       if (i == line.length()) {
-        throw this.parseException("No closing ] found");
+        if (i > 0) {
+          this.currentLine.makeToken(i);
+          this.currentIndex += i;
+        }
+
+        Location currentElementLocation = this.makeLocation(currentElementStartPosition);
+
+        throw this.parseException(currentElementLocation, "No closing ] found");
       }
 
       char c = line.charAt(i);
       if (c == '\\') {
         if (++i == line.length()) {
-          throw this.parseException("No closing ] found");
+          this.currentLine.makeToken(i);
+          this.currentIndex += i;
+
+          Location currentElementLocation = this.makeLocation(currentElementStartPosition);
+
+          throw this.parseException(currentElementLocation, "No closing ] found");
         }
 
         resultString.append(line.charAt(i));
@@ -3649,9 +3666,10 @@ public class Parser {
           this.currentIndex += i;
         }
 
+        Location currentElementLocation = this.makeLocation(currentElementStartPosition);
         this.readToken(); // read ]
         String input = resultString.toString().trim();
-        result = this.parseLiteral(type, input);
+        result = this.parseLiteral(type, input, currentElementLocation);
         break;
       } else {
         resultString.append(c);
@@ -3670,6 +3688,8 @@ public class Parser {
     int level = 1;
     boolean slash = false;
 
+    Position currentElementStartPosition = this.getCurrentPosition();
+
     StringBuilder resultString = new StringBuilder();
     for (int i = 0; ; ++i) {
       final String line = this.restOfLine();
@@ -3686,7 +3706,9 @@ public class Parser {
         }
 
         if (this.currentLine.content == null) {
-          throw this.parseException("No closing ] found");
+          Location currentElementLocation = this.makeLocation(currentElementStartPosition);
+
+          throw this.parseException(currentElementLocation, "No closing ] found");
         }
 
         this.currentLine = this.currentLine.nextLine;
@@ -3746,7 +3768,13 @@ public class Parser {
       String element = resultString.toString().trim();
       resultString.setLength(0);
       if (element.length() != 0) {
-        list.add(this.parseLiteral(type, element));
+        Position currentElementEndPosition =
+            new Position(this.getLineNumber() - 1, this.currentIndex + i);
+        Location currentElementLocation =
+            this.makeLocation(new Range(currentElementStartPosition, currentElementEndPosition));
+        currentElementStartPosition = currentElementEndPosition;
+
+        list.add(this.parseLiteral(type, element, currentElementLocation));
       }
 
       if (ch == ']') {
