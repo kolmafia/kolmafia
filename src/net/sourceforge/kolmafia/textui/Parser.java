@@ -145,7 +145,6 @@ public class Parser {
       final LineNumberReader commandStream =
           new LineNumberReader(new InputStreamReader(this.istream, StandardCharsets.UTF_8));
       this.currentLine = new Line(commandStream);
-      this.currentIndex = this.currentLine.offset;
 
       Line line = this.currentLine;
       while (line.content != null) {
@@ -154,8 +153,9 @@ public class Parser {
 
       // Move up to the first non-empty line
       while (this.currentLine.content != null && this.currentLine.content.length() == 0) {
-        this.readLine();
+        this.currentLine = this.currentLine.nextLine;
       }
+      this.currentIndex = this.currentLine.offset;
     } catch (Exception e) {
       // If any part of the initialization fails,
       // then throw an exception.
@@ -1638,9 +1638,9 @@ public class Parser {
 
       if (line.length() > 0) {
         this.currentLine.makeToken(line.length());
-        this.currentIndex += line.length();
       }
-      this.readLine();
+      this.currentLine = this.currentLine.nextLine;
+      this.currentIndex = this.currentLine.offset;
     }
 
     Location basicScriptLocation =
@@ -3270,7 +3270,8 @@ public class Parser {
             && this.currentIndex == this.currentLine.offset
             && this.currentLine.content != null) {
           // Empty lines are OK.
-          this.readLine();
+          this.currentLine = this.currentLine.nextLine;
+          this.currentIndex = this.currentLine.offset;
           i = -1;
           continue;
         }
@@ -3363,8 +3364,8 @@ public class Parser {
     if (i == line.length()) {
       resultString.append('\n');
       this.currentLine.makeToken(i);
-      this.currentIndex += i;
-      this.readLine();
+      this.currentLine = this.currentLine.nextLine;
+      this.currentIndex = this.currentLine.offset;
       return -1;
     }
 
@@ -3662,7 +3663,8 @@ public class Parser {
           throw this.parseException("No closing ] found");
         }
 
-        this.readLine();
+        this.currentLine = this.currentLine.nextLine;
+        this.currentIndex = this.currentLine.offset;
         i = -1;
         continue;
       }
@@ -4054,7 +4056,8 @@ public class Parser {
             this.currentLine.makeComment(restOfLine.length());
           }
 
-          this.readLine();
+          this.currentLine = this.currentLine.nextLine;
+          this.currentIndex = this.currentLine.offset;
         } else {
           this.currentToken = this.currentLine.makeComment(commentEnd + 2);
           this.readToken();
@@ -4065,7 +4068,8 @@ public class Parser {
       }
 
       if (restOfLine.length() == 0) {
-        this.readLine();
+        this.currentLine = this.currentLine.nextLine;
+        this.currentIndex = this.currentLine.offset;
         continue;
       }
 
@@ -4076,7 +4080,8 @@ public class Parser {
       if (restOfLine.startsWith("#") || restOfLine.startsWith("//")) {
         this.currentLine.makeComment(restOfLine.length());
 
-        this.readLine();
+        this.currentLine = this.currentLine.nextLine;
+        this.currentIndex = this.currentLine.offset;
         continue;
       }
 
@@ -4089,7 +4094,8 @@ public class Parser {
             this.currentLine.makeComment(restOfLine.length());
           }
 
-          this.readLine();
+          this.currentLine = this.currentLine.nextLine;
+          this.currentIndex = this.currentLine.offset;
           inMultiLineComment = true;
         } else {
           this.currentToken = this.currentLine.makeComment(commentEnd + 2);
@@ -4281,23 +4287,6 @@ public class Parser {
 
   private boolean tokenString(final String s) {
     return Parser.multiCharTokens.contains(s);
-  }
-
-  /**
-   * If we are not at the end of the file, move to the next line. Then, if we are *still* not at the
-   * end of the file, update {@link #currentIndex} with the value of the line's {@link Line#offset}.
-   */
-  private void readLine() {
-    // at "end of file"
-    if (this.currentLine.content == null) {
-      return;
-    }
-
-    this.currentLine = this.currentLine.nextLine;
-
-    if (this.currentLine.content != null) {
-      this.currentIndex = this.currentLine.offset;
-    }
   }
 
   /** Returns the content of {@link #currentLine} starting at {@link #currentIndex}. */
