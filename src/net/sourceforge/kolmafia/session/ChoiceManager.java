@@ -16732,6 +16732,7 @@ public abstract class ChoiceManager {
 
           Preferences.setString("backupCameraMode", setting);
           Preferences.setBoolean("backupCameraReverserEnabled", text.contains("Disable Reverser"));
+          break;
         }
       case 1455:
         CampgroundRequest.setCurrentWorkshedItem(ItemPool.COLD_MEDICINE_CABINET);
