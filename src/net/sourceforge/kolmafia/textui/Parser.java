@@ -4369,6 +4369,12 @@ public class Parser {
     return this.currentLine.content == null;
   }
 
+  private boolean madeProgress(final Position previousPosition, final Position currentPosition) {
+    return previousPosition == null
+        || previousPosition.getLine() < currentPosition.getLine()
+        || previousPosition.getCharacter() < currentPosition.getCharacter();
+  }
+
   public List<Token> getTokens() {
     final List<Token> result = new LinkedList<>();
 
