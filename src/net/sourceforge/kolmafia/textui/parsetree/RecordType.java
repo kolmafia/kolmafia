@@ -202,4 +202,13 @@ public class RecordType extends CompositeType {
       return RecordType.this.getDefinitionLocation();
     }
   }
+
+  public static class BadRecordType extends RecordType implements BadNode {
+    public BadRecordType(final String name, final Location location) {
+      super(name, new String[] {}, new Type[] {}, location);
+    }
+
+    // Don't override isBad(). The fields don't affect whether or not
+    // the record itself is recognized.
+  }
 }
