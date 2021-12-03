@@ -45,12 +45,15 @@ public class RequestPane extends JEditorPane {
     // so remove those to find out the remaining HTML.
 
     String selectedText = sw.toString();
-    int beginIndex = selectedText.indexOf("<body>") + 6;
+    int beginIndex = selectedText.indexOf("<body>");
     int endIndex = selectedText.lastIndexOf("</body>");
 
     if (beginIndex == -1 || endIndex == -1) {
       return "";
     }
+
+    // skip over body tag
+    beginIndex = beginIndex + 6;
 
     selectedText = selectedText.substring(beginIndex, endIndex).trim();
     if (Preferences.getBoolean("copyAsHTML")) {
