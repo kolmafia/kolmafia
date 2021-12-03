@@ -37,7 +37,8 @@ public class CampgroundRequest extends GenericRequest {
       Pattern.compile("<p>The fuel gauge currently reads: (.*?)</p>");
   private static final Pattern FUEL_PATTERN_3 = Pattern.compile("&qty=([\\d,]+)&iid=([\\d,]+)");
   private static final Pattern COLD_MEDICINE_CABINET_PATTERN =
-      Pattern.compile("You can visit the doctors again in (\\d+) s?\\.<br>You have (\\d) consul");
+      Pattern.compile(
+          "You can visit the doctors again in (\\d+) turns?\\.<br>You have (\\d) consul");
 
   private static int currentDwellingLevel = 0;
   private static AdventureResult currentDwelling = null;
