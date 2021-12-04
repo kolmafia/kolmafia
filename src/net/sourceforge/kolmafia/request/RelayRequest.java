@@ -578,11 +578,11 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     for (String filename : IMAGES) {
-      String find1 = KoLmafia.KOL_IMAGE_SERVER_PATH + filename;
-      String find2 = KoLmafia.AMAZON_IMAGE_SERVER_PATH + filename;
       String replace = "/images/" + filename;
-      StringUtilities.globalStringReplace(buffer, find1, replace);
-      StringUtilities.globalStringReplace(buffer, find2, replace);
+      for (String path : KoLmafia.IMAGE_SERVER_PATHS) {
+        String find = path + filename;
+        StringUtilities.globalStringReplace(buffer, find, replace);
+      }
     }
   }
 

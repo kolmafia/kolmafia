@@ -70,7 +70,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
   // 1=id 2=image 3=name 4=race 5=exp 6=kills 7=extra
   private static final Pattern CURRENT_FAMILIAR_PATTERN =
       Pattern.compile(
-          ".*?(?:onClick='fam\\((\\d+)\\)')? .*?src=\"[^>]*?(?:images.kingdomofloathing.com|/images)/(?:item|other)images/([^\"]*?)\".*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, ([\\d,]+) kills?\\)(.*?)(?:</form)>");
+          ".*?(?:onClick='fam\\((\\d+)\\)')? .*?src=\"[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/(?:item|other)images/([^\"]*?)\".*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) (?:exp|experience|candy|candies)?, ([\\d,]+) kills?\\)(.*?)(?:</form)>");
 
   private static final Pattern FROW_PATTERN = Pattern.compile("<tr class=\"frow .*?</tr>");
 

@@ -89,7 +89,7 @@ public abstract class BarrelDecorator {
 
   private static final Pattern UNSMASHED =
       Pattern.compile(
-          "smash=(\\d+)&pwd=(\\w+)'><img src=[^>]*?(?:images.kingdomofloathing.com|/images)/otherimages/mountains/smallbarrel.gif'.*?>");
+          "smash=(\\d+)&pwd=(\\w+)'><img src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/otherimages/mountains/smallbarrel.gif'.*?>");
 
   public static final void decorate(final StringBuffer buffer) {
     if (!Preferences.getBoolean("relayShowSpoilers")) {

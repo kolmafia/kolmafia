@@ -9,7 +9,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class TrophyRequest extends GenericRequest {
   private static final Pattern TROPHY_PATTERN =
       Pattern.compile(
-          "<td><img.*?src=[^>]*?(?:images.kingdomofloathing.com|/images)/(.+?)\".*?<td[^>]*?>(.+?)<.*?name=public(\\d+)\\s*(checked)?\\s*>",
+          "<td><img.*?src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/(.+?)\".*?<td[^>]*?>(.+?)<.*?name=public(\\d+)\\s*(checked)?\\s*>",
           Pattern.DOTALL);
   private ArrayList<Trophy> trophies;
 

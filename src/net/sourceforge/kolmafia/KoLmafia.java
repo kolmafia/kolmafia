@@ -14,6 +14,7 @@ import java.math.BigInteger;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.util.List;
+import java.util.Set;
 import java.util.TimeZone;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
@@ -149,20 +150,20 @@ public abstract class KoLmafia {
   public static KoLAdventure currentAdventure;
   public static String statDay = "None";
 
-  public static boolean useAmazonImages = true;
-
-  public static final String AMAZON_IMAGE_SERVER =
-      "https://s3.amazonaws.com/images.kingdomofloathing.com";
-  public static final String AMAZON_IMAGE_SERVER_PATH = AMAZON_IMAGE_SERVER + "/";
-  public static final String KOL_IMAGE_SERVER = "http://images.kingdomofloathing.com";
-  public static final String KOL_IMAGE_SERVER_PATH = KOL_IMAGE_SERVER + "/";
+  private static final String PREFERRED_IMAGE_SERVER = "https://d2uyhvukfffg5a.cloudfront.net";
+  private static final String PREFERRED_IMAGE_SERVER_PATH = PREFERRED_IMAGE_SERVER + "/";
+  public static final Set<String> IMAGE_SERVER_PATHS =
+      Set.of(
+          PREFERRED_IMAGE_SERVER_PATH,
+          "https://s3.amazonaws.com/images.kingdomofloathing.com/",
+          "http://images.kingdomofloathing.com/");
 
   public static String imageServerPrefix() {
-    return KoLmafia.useAmazonImages ? AMAZON_IMAGE_SERVER : KOL_IMAGE_SERVER;
+    return PREFERRED_IMAGE_SERVER;
   }
 
   public static String imageServerPath() {
-    return KoLmafia.useAmazonImages ? AMAZON_IMAGE_SERVER_PATH : KOL_IMAGE_SERVER_PATH;
+    return PREFERRED_IMAGE_SERVER_PATH;
   }
 
   private static boolean acquireFileLock(final String suffix) {
