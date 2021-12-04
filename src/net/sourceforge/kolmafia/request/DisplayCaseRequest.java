@@ -192,7 +192,7 @@ public class DisplayCaseRequest extends TransferItemRequest {
   // height=100></td><td valign=center>...txt...</td></tr></table>
   public static final Pattern ANNOUNCEMENT_PATTERN =
       Pattern.compile(
-          "<table><tr><td valign=center><img src=[^>]*?(?:images.kingdomofloathing.com|/images)/otherimages/museum/displaycase.gif\" width=100 height=100></td><td[^.]*>(.*?)</td></table>");
+          "<table><tr><td valign=center><img src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/otherimages/museum/displaycase.gif\" width=100 height=100></td><td[^.]*>(.*?)</td></table>");
 
   public static final boolean parseDisplayCase(final String urlString, String responseText) {
     RequestThread.runInParallel(new DisplayCaseParser(responseText), false);

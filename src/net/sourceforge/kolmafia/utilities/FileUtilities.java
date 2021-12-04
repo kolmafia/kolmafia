@@ -355,6 +355,9 @@ public class FileUtilities {
     }
     String images = ".com";
     int index = filename.lastIndexOf(images);
+    if (index == -1) {
+      index = filename.lastIndexOf(".net");
+    }
     int offset = index == -1 ? 0 : (index + images.length() + 1);
     String localname = offset > 0 ? filename.substring(offset) : filename;
     if (localname.startsWith("albums/")) {
