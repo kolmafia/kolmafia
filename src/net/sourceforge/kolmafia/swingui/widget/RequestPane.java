@@ -78,6 +78,9 @@ public class RequestPane extends JEditorPane {
           switch (axis) {
             case View.X_AXIS:
               {
+                if (!Preferences.getBoolean("wrapLongLines")) {
+                  return super.getMinimumSpan(axis);
+                }
                 return 0;
               }
             case View.Y_AXIS:
