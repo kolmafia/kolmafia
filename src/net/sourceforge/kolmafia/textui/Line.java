@@ -48,7 +48,10 @@ public final class Line {
       // We are the "end of file" (or there was an IOException when reading)
       this.content = null;
       this.lineNumber = this.previousLine != null ? this.previousLine.lineNumber : 1;
-      this.offset = this.previousLine != null ? this.previousLine.offset : 0;
+      this.offset =
+          this.previousLine != null
+              ? this.previousLine.offset + this.previousLine.content.length()
+              : 0;
       return;
     }
 
@@ -203,28 +206,23 @@ public final class Line {
       }
 
       final int offset;
+
+      if (!Line.this.tokens.isEmpty()) {
+        offset = Line.this.tokens.getLast().restOfLineStart;
+      } else {
+        offset = Line.this.offset;
+      }
+
       final String lineRemainder;
 
       if (Line.this.content == null) {
         // At end of file
-        if (Line.this.previousLine != null && !Line.this.previousLine.tokens.isEmpty()) {
-          offset = Line.this.previousLine.tokens.getLast().restOfLineStart;
-        } else {
-          offset = Line.this.offset;
-        }
-
         this.content = ";";
         // Going forward, we can just assume lineRemainder is an
         // empty string.
         lineRemainder = "";
         tokenLength = 0;
       } else {
-        if (!Line.this.tokens.isEmpty()) {
-          offset = Line.this.tokens.getLast().restOfLineStart;
-        } else {
-          offset = Line.this.offset;
-        }
-
         final String lineRemainderWithToken = Line.this.substring(offset);
 
         this.content = lineRemainderWithToken.substring(0, tokenLength);

@@ -1,9 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -39,6 +36,9 @@ public class CampgroundRequest extends GenericRequest {
   private static final Pattern FUEL_PATTERN_2 =
       Pattern.compile("<p>The fuel gauge currently reads: (.*?)</p>");
   private static final Pattern FUEL_PATTERN_3 = Pattern.compile("&qty=([\\d,]+)&iid=([\\d,]+)");
+  private static final Pattern COLD_MEDICINE_CABINET_PATTERN =
+      Pattern.compile(
+          "You can visit the doctors again in (\\d+) turns?\\.<br>You have (\\d) consul");
 
   private static int currentDwellingLevel = 0;
   private static AdventureResult currentDwelling = null;
@@ -338,22 +338,21 @@ public class CampgroundRequest extends GenericRequest {
     CROPMAP.put(COLOSSAL_FREE_RANGE_MUSHROOM, CropType.MUSHROOM);
   }
 
-  public static final List<Integer> workshedItems = new ArrayList<Integer>();
-
-  static {
-    CampgroundRequest.workshedItems.add(ItemPool.JACKHAMMER_DRILL_PRESS);
-    CampgroundRequest.workshedItems.add(ItemPool.AUTO_ANVIL);
-    CampgroundRequest.workshedItems.add(ItemPool.INDUCTION_OVEN);
-    CampgroundRequest.workshedItems.add(ItemPool.CHEMISTRY_LAB);
-    CampgroundRequest.workshedItems.add(ItemPool.HIGH_EFFICIENCY_STILL);
-    CampgroundRequest.workshedItems.add(ItemPool.LP_ROM_BURNER);
-    CampgroundRequest.workshedItems.add(ItemPool.SNOW_MACHINE);
-    CampgroundRequest.workshedItems.add(ItemPool.SPINNING_WHEEL);
-    CampgroundRequest.workshedItems.add(ItemPool.DNA_LAB);
-    CampgroundRequest.workshedItems.add(ItemPool.MAYO_CLINIC);
-    CampgroundRequest.workshedItems.add(ItemPool.ASDON_MARTIN);
-    CampgroundRequest.workshedItems.add(ItemPool.DIABOLIC_PIZZA_CUBE);
-  }
+  public static final List<Integer> workshedItems =
+      Arrays.asList(
+          ItemPool.JACKHAMMER_DRILL_PRESS,
+          ItemPool.AUTO_ANVIL,
+          ItemPool.INDUCTION_OVEN,
+          ItemPool.CHEMISTRY_LAB,
+          ItemPool.HIGH_EFFICIENCY_STILL,
+          ItemPool.LP_ROM_BURNER,
+          ItemPool.SNOW_MACHINE,
+          ItemPool.SPINNING_WHEEL,
+          ItemPool.DNA_LAB,
+          ItemPool.MAYO_CLINIC,
+          ItemPool.ASDON_MARTIN,
+          ItemPool.DIABOLIC_PIZZA_CUBE,
+          ItemPool.COLD_MEDICINE_CABINET);
 
   public static final AdventureResult[] CROPS = {
     CampgroundRequest.PUMPKIN,
@@ -985,6 +984,7 @@ public class CampgroundRequest extends GenericRequest {
       if (fuelMatcher.find()) {
         asdonMartinFuel = StringUtilities.parseInt(fuelMatcher.group(1));
       }
+      return;
     }
   }
 
@@ -1430,6 +1430,18 @@ public class CampgroundRequest extends GenericRequest {
       }
     } else if (findImage(responseText, "horadricoven.gif", ItemPool.DIABOLIC_PIZZA_CUBE)) {
       CampgroundRequest.setCurrentWorkshedItem(ItemPool.DIABOLIC_PIZZA_CUBE);
+    } else if (findImage(responseText, "cmcabinet.gif", ItemPool.COLD_MEDICINE_CABINET)) {
+      // Cold Medicine Cabinet usually redirects to choice.php, so this is also handled in
+      // ChoiceManager
+      Matcher cabinetMatcher = COLD_MEDICINE_CABINET_PATTERN.matcher(responseText);
+      if (cabinetMatcher.find()) {
+        int turns = StringUtilities.parseInt(cabinetMatcher.group(1));
+        int remaining = StringUtilities.parseInt(cabinetMatcher.group(2));
+        Preferences.setInteger("_nextColdMedicineConsult", KoLCharacter.getTurnsPlayed() + turns);
+        Preferences.setInteger("_coldMedicineConsults", 5 - remaining);
+      } else {
+        Preferences.setInteger("_coldMedicineConsults", 5);
+      }
     }
   }
 

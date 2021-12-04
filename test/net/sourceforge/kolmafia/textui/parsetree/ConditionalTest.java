@@ -93,7 +93,7 @@ public class ConditionalTest {
             "if (false) {} else {} else if (true) {}",
             "Else without if",
             "char 23 to char 27"),
-        invalid("else without if", "else {}", "Unknown variable 'else'"),
+        invalid("else without if", "else {}", "Unknown variable 'else'", "char 1 to char 5"),
         valid(
             "single-command if",
             "if (true) print('msg');",

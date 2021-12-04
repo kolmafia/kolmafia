@@ -301,6 +301,9 @@ user	bearSwagger	0
 user	beeCounter	0
 user	beforePVPScript
 user	betweenBattleScript
+user	beGregariousCharges	0
+user	beGregariousMonster
+user	beGregariousFightsLeft	0
 user	bigBrotherRescued	false
 user	birdformCold	0
 user	birdformHot	0
@@ -367,6 +370,7 @@ user	breakfastAlways
 user	breakfastHardcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
 user	breakfastSoftcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
 user	breakfastCompleted	false
+user	breathitinCharges	0
 user	brodenBacteria	0
 user	brodenSprinkles	0
 user	buffBotCasting
@@ -715,6 +719,7 @@ user	hippiesDefeated	0
 user	holidayHalsBookAvailable	true
 user	holidayHalsBookCost	1000
 user	holidaySwagger	0
+user	homebodylCharges	0
 user	horseryAvailable	false
 user	hotAirportAlways	false
 user	hpAutoRecovery	-0.05
@@ -1539,6 +1544,7 @@ user	_coalPaperweightUsed	false
 user	_cocoaDispenserUsed	false
 user	_cocktailShakerUsed	false
 user	_coldAirportToday	false
+user	_coldMedicineConsults	0
 user	_coldOne	false
 user	_communismUsed	false
 user	_companionshipCasts	0
@@ -1832,6 +1838,7 @@ user	_newYouQuestMonster
 user	_newYouQuestSharpensDone	0
 user	_newYouQuestSharpensToDo	0
 user	_newYouQuestSkill
+user	_nextColdMedicineConsult	0
 user	_nextQuantumAlignment	0
 user	_nightmareFuelCharges	0
 user	_noHatModifier

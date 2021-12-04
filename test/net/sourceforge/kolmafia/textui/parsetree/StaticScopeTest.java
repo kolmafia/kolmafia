@@ -40,7 +40,8 @@ public class StaticScopeTest {
         invalid(
             "static type but no declaration",
             "static int;",
-            "Type given but not used to declare anything"),
+            "Type given but not used to declare anything",
+            "char 8 to char 12"),
         valid(
             "static command",
             "static print('hello world');",
@@ -57,9 +58,13 @@ public class StaticScopeTest {
               StaticScope staticScope = assertInstanceOf(StaticScope.class, commands.get(0));
               ParserTest.assertLocationEquals(1, 1, 1, 18, staticScope.getLocation());
             }),
-        invalid("unterminated static declaration", "static int x\nint y;", "Expected ;, found int"),
-        invalid("unterminated static block", "static {", "Expected }, found end of file"),
-        invalid("lone static", "static;", "command or declaration required"));
+        invalid(
+            "unterminated static declaration",
+            "static int x\nint y;",
+            "Expected ;, found int",
+            "line 2, char 1 to char 4"),
+        invalid("unterminated static block", "static {", "Expected }, found end of file", "char 9"),
+        invalid("lone static", "static;", "command or declaration required", "char 7 to char 8"));
   }
 
   @ParameterizedTest

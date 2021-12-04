@@ -78,9 +78,10 @@ blood snowcone	1	1	EPIC	17	15-20	15-20	15-20	Vampyre
 blood-soaked sponge cake	1	1	EPIC	23	25-30	25-30	25-30	Vampyre
 bloodstick	1	1	EPIC	11	5-10	5-10	5-10	Vampyre
 blue velvet cake	3	1	crappy	3	0	0	0
-blueberry-frosted king cake	3	1	crappy	3	0	0	0	blue plastic baby
 blueberry muffin	1	1	awesome	4-5	150	150	150	25 All Blued Up (+60% Meat Drop, 2-3 MP Regen, 5-10 HP Regen)
+blueberry-frosted king cake	3	1	crappy	3	0	0	0	blue plastic baby
 blunt cat claw	1	4	awesome	3-5	45-75	0	0	30 Feline Ferocity (+100% weapon dmg)
+bone broth	1	1	awesome	0	0	0	0	Unspaded
 bone meal	2	6	awesome	7-9	12-20	12-20	12-20
 boring spaghetti	4	5	good	10-14	0	20-25	0
 Boris's key lime pie	4	6	awesome	14-16	28-33	0	0	Boris's key
@@ -96,6 +97,7 @@ bowl of maggots	2	1	EPIC	10-12	10-20	0	0
 bowl of mernudo	3	1	good	0	0	0	0	Unspaded 30 Sea Guts
 bowl of mummy guts	2	1	awesome	7-9	0	0	10-20	30 Guts Feeling (+50% meat drop)
 bowl of oriole's nest soup	3	1	decent	3-9	0	0	0
+bowl of prescription candy	1	1	awesome	0	0	0	0	Unspaded
 bowl of rye sprouts	1	2	crappy	1	10-15	0	0
 bowl of Tastee-Wheet&trade;	1	5	EPIC	5	5	5	5	5 Video... Games? (+5 most modifiers)
 bowl of topioca	3	1	awesome	12	50-60	50-60	50-60
@@ -157,11 +159,11 @@ Children's Meal of the Damned	0	1	crappy	0	0	0	0
 chilly dog	3	1	awesome	11-13	0	0	0	30 Chill Out, Dog (+30 Cold Dam, +3 Sleaze/Stench Res, +10 ML)
 Choco-Mint patty	1	1	good	2-4	5-10	5-10	5-10	25 Alpine Mintiness (+25 HP/MP, +25 Weapon Damage, +25 Spell Damage)
 chocolate &quot;Phoenix&quot;	1	1	decent	2	0	70-90	0
+chocolate chip muffin	1	1	awesome	4-5	150	150	150	25 All Chipped Up (+30% Meat Drop, +20% Item Drop, 4-5 MP Regen, 3-6 HP Regen)
 chocolate Ogre Chieftain	1	1	decent	2	70-90	0	0
 chocolate Spider Queen	1	1	decent	2	0	0	70-90
 chocolate-covered scarab beetle	2	5	awesome	7-10	25-40	25-40	25-40
 chocolate-frosted king cake	3	1	crappy	3	0	0	0	red plastic baby
-chocolate chip muffin	1	1	awesome	4-5	150	150	150	25 All Chipped Up (+30% Meat Drop, +20% Item Drop, 4-5 MP Regen, 3-6 HP Regen)
 chorizo brownies	3	2	decent	3-9	0	0	0
 chorizo taco	1	1	decent	2	3-5	0	0
 cinnamon cannoli	1	4	awesome	4-5	15-25	15-25	15-25
@@ -328,6 +330,7 @@ filet of The Fish	3	11	EPIC	15-18	40-60	0	0
 fine aged cheddarwurst	3	3	decent	4-5	5-10	0	5-10
 fire crackers	1	1	good	3	5-15	5-15	5-15	20 Fire Cracked (+20 Experience)
 fireman's lunch	2	4	decent	2-4	0	0	0	20 You're Not Cooking (+50 Hot Spell Damage, +100% Spell Damage)
+fishcake	1	1	awesome	0	0	0	0	Unspaded
 fishy fish	2	8	good	3-9	0	0	26-33
 fishy fish casserole	3	9	awesome	8-15	0	0	38-44
 fishy fish lasagna	3	10	awesome	12-16	0	0	46-55	LASAGNA
@@ -346,6 +349,7 @@ fricasseed brains	3	1	decent	3-5	0	4-5	0	Zombie Slayer
 frozen banquet	6	15	EPIC	42-48	100-289	100-289	100-289
 frozen danish	1	4	awesome	3-5	0	0	45-75	30 Danish Cunning (+25% pickpocket)
 frozen mushroom	3	2	decent	3-9	0	0	0	lose 3 HP
+frozen tofu pop	1	1	EPIC	0	0	0	0	Unspaded
 fruitcake	3	1	decent	3-6	17-23	17-23	17-23
 fudge bunny	10	8	EPIC	60-66	50-90	50-90	50-90
 fudgesicle	1	1	decent	2	0	0	0	30 Fudge Headache (+75% Fudge Finding)
@@ -722,8 +726,8 @@ root beer	1	1	awesome	4	5-10	5-10	5-10	20-30 MP
 rotting beefsteak	3	1	awesome	9-10	0	0	0	30 Cowrruption (+200% weapon dmg, +200% spell dmg, muscle limited to 30, moxie limited to 30)
 royal jelly	1	1	crappy	1	10-15	0	0
 royal jelly taco	1	1	decent	2	4-20	0	0
-s'more	1	1	crappy	1	0	0	0
 S.T.L.T.	4	4	awesome	10-15	10-30	10-30	13-27
+s'more	1	1	crappy	1	0	0	0
 salacious crumbs	3	1	decent	5-7	0	0	15-20
 salt plum	2	1	good	0	0	0	0	Unspaded
 salty ancient serpent roll	3	1		9-14	0	8-16	20-30	45/55 Fishy, 10 Salty Dogs
@@ -829,6 +833,7 @@ stale Cheer-E-Os	3	1	awesome	11-13	0	0	0	20-30 crystalline cheer
 stalk of asparagus	1	1	crappy	1	0	1-3	0
 standard-issue cupcake	1	1	good	3	2-4	2-4	2-4
 star key lime pie	4	6	awesome	14-16	20-24	20-24	20-24	2-4 lines, 2-4 stars
+star pop	1	1	awesome	0	0	0	0	Unspaded
 steel lasagna	5	5		00	0	0	0	Stomach of Steel skill
 stinky hi mein	5	12	EPIC	24-27	30-35	70-75	15-20	5 Stinky Breath (combat skill), SAUCY
 stinky mushroom	3	2	decent	3-9	0	0	3-5	lose 3 HP

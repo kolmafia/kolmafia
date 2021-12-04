@@ -184,6 +184,7 @@ Hodgman's porkpie hat	200	Mox: 200
 Hollandaise helmet	10	none
 honeycap	175	Mox: 72
 hot daub bun	85	Mys: 27
+ice crown	100	none
 ice pick	100	none
 indie comic hipster glasses	10	none
 insane tophat	30	none
@@ -517,6 +518,7 @@ floral-print skirt	150	Mox: 50
 flowing hippy skirt	180	Mox: 75
 foam naval trousers	200	Mox: 85
 frilly skirt	35	Mox: 2
+frozen jeans	100	none
 furry kilt	150	Mox: 60
 furry pants	150	Mox: 60
 furry skirt	150	Mox: 60
@@ -2577,6 +2579,7 @@ hopping socks	200	Mys: 200
 &quot;I Voted!&quot; sticker	10	none
 ice key	10	none
 ice skates	0	none
+ice wrap	0	none
 Ice-Cold Aluminum Necklace	150	Mys: 60
 Ice-Cold Beer Ring	150	Mys: 60
 Ice-Cold Beerring	150	Mys: 60

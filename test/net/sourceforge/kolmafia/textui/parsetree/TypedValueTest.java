@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class TypedValueTest {
   public static Stream<ScriptData> data() {
     return Stream.of(
-        invalid("Typed constant, no bracket", "$int", "Expected [, found end of file"),
+        invalid("Typed constant, no bracket", "$int", "Expected [, found end of file", "char 5"),
         valid(
             "Typed constant non-successive characters",
             "$		boolean 	 [ 		false ]",
@@ -26,14 +26,23 @@ public class TypedValueTest {
             "$boolean[\\f\\a\\l\\s\\e]",
             Arrays.asList("$", "boolean", "[", "\\f\\a\\l\\s\\e", "]"),
             Arrays.asList("1-1", "1-2", "1-9", "1-10", "1-20")),
-        invalid("Typed constant bad typecast", "$boolean['']", "Bad boolean value: \"''\""),
-        invalid("Typed constant, unknown type", "$foo[]", "Unknown type foo"),
+        invalid(
+            "Typed constant bad typecast",
+            "$boolean['']",
+            "Bad boolean value: \"''\"",
+            "char 10 to char 12"),
+        invalid("Typed constant, unknown type", "$foo[]", "Unknown type foo", "char 2 to char 5"),
         invalid(
             "Typed constant, non-primitive type",
             "record r {int i;}; $r[]",
-            "Non-primitive type r"),
-        invalid("Typed constant multiline", "$boolean[\n]", "No closing ] found"),
-        invalid("Typed constant, escaped multiline", "$boolean[\\\n]", "No closing ] found"),
+            "Non-primitive type r",
+            "char 21 to char 22"),
+        invalid("Typed constant multiline", "$boolean[\n]", "No closing ] found", "char 10"),
+        invalid(
+            "Typed constant, escaped multiline",
+            "$boolean[\\\n]",
+            "No closing ] found",
+            "char 10 to char 11"),
         valid(
             "Typed constant, nested brackets, proper",
             "$item[[8042]rock]",
@@ -49,7 +58,8 @@ public class TypedValueTest {
         invalid(
             "Typed constant, nested brackets, improper",
             "$item[[abc]]",
-            "Bad item value: \"[abc]\""),
+            "Bad item value: \"[abc]\"",
+            "char 7 to char 12"),
         valid(
             "Typed constant, numeric literal",
             "$item[1]",

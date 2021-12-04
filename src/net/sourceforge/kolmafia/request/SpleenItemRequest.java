@@ -281,6 +281,24 @@ public class SpleenItemRequest extends UseItemRequest {
       case ItemPool.NIGHTMARE_FUEL:
         Preferences.increment("_nightmareFuelCharges", count);
         break;
+
+      case ItemPool.HOMEBODYL:
+        if (responseText.contains("You pop the pill and feel an immediate desire")) {
+          Preferences.increment("homebodylCharges", 11);
+        }
+        break;
+
+      case ItemPool.EXTROVERMECTIN:
+        if (responseText.contains("You pop the pill and are immediately overcome")) {
+          Preferences.increment("beGregariousCharges");
+        }
+        break;
+
+      case ItemPool.BREATHITIN:
+        if (responseText.contains("You pop the pill in your mouth")) {
+          Preferences.increment("breathitinCharges", 5);
+        }
+        break;
     }
   }
 

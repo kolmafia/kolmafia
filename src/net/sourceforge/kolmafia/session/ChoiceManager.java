@@ -13490,6 +13490,13 @@ public abstract class ChoiceManager {
           Preferences.setBoolean("wildfireDusted", true);
         }
         break;
+      case 1455:
+        // Cold Medicine Cabinet
+        if (ChoiceManager.lastDecision != 6) {
+          Preferences.increment("_coldMedicineConsults", 1, 5, false);
+          Preferences.setInteger("_nextColdMedicineConsult", KoLCharacter.getTurnsPlayed() + 20);
+        }
+        break;
     }
 
     // Certain choices cost meat or items when selected
@@ -16725,7 +16732,16 @@ public abstract class ChoiceManager {
 
           Preferences.setString("backupCameraMode", setting);
           Preferences.setBoolean("backupCameraReverserEnabled", text.contains("Disable Reverser"));
+          break;
         }
+      case 1455:
+        CampgroundRequest.setCurrentWorkshedItem(ItemPool.COLD_MEDICINE_CABINET);
+        Matcher consultations = Pattern.compile("You have <b>(\\d)</b> consul").matcher(text);
+        if (consultations.find()) {
+          int remaining = Integer.parseInt(consultations.group(1));
+          Preferences.setInteger("_coldMedicineConsults", 5 - remaining);
+        }
+        break;
     }
 
     // Do this after special classes (like WumpusManager) have a
@@ -19534,6 +19550,7 @@ public abstract class ChoiceManager {
       case 1452: // Sprinkler Joe
       case 1453: // Fracker Dan
       case 1454: // Cropduster Dusty
+      case 1455: // Cold Medicine Cabinet
         return true;
 
       default:

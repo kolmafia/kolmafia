@@ -197,6 +197,11 @@ discocktail	3	1	good	8-10	0	0	8-10	30 Disco Neuropathy (+15 DB Combat Damage, +3
 distilled fortified wine	1	1	EPIC	5-6	5-6	5-6	5-6
 Divine	4	6	awesome	14-18	16-20	25-27	0
 Doc Clock's thyme cocktail	4	8	EPIC	26-30	20-40	20-40	20-40	-2 Fullness
+Doc's Fortifying Wine	1	1	awesome	0	0	0	0	Unspaded
+Doc's Limbering Wine	1	1	awesome	0	0	0	0	Unspaded
+Doc's Smartifying Wine	1	1	awesome	0	0	0	0	Unspaded
+Doc's Special Reserve Wine	1	1	good	0	0	0	0	Unspaded
+Doc's Medical-Grade Wine	1	1	awesome	0	0	0	0	Unspaded
 double entendre	1	1	awesome	3-5	0	0	0	40 Space Cadet (+50% MP)
 Doublepunchplanter	2	4	awesome	6-7	10-15	10-15	10-15	10 Fishy
 Drac & Tan	2	1	good	4-5	10-20	0	0	5 Creepypasted (+50 Spooky Dam)

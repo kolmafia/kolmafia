@@ -46,11 +46,16 @@ public class WhileLoopTest {
             "while (true",
             "Expected ), found end of file",
             "char 12"),
-        invalid("while with unclosed loop", "while (true) {", "Expected }, found end of file"),
+        invalid(
+            "while with unclosed loop",
+            "while (true) {",
+            "Expected }, found end of file",
+            "char 15"),
         invalid(
             "while with multiple statements but no semicolon",
             "while (true) print(5)\nprint(6)",
-            "Expected ;, found print"));
+            "Expected ;, found print",
+            "line 2, char 1 to char 6"));
   }
 
   @ParameterizedTest

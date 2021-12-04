@@ -98,7 +98,9 @@ public class LineTest {
     assertEquals(1, line1BOM.offset);
     assertEquals(0, line2Empty.offset);
     assertEquals(5, line3SurroundingWhitespace.offset);
-    assertEquals(line3SurroundingWhitespace.offset, endOfFile.offset);
+    assertEquals(
+        line3SurroundingWhitespace.offset + line3SurroundingWhitespace.content.length(),
+        endOfFile.offset);
   }
 
   /** Trimmed line content */
@@ -279,7 +281,9 @@ public class LineTest {
     assertEquals(line3Token2.restOfLineStart, line3Token3.getStart().getCharacter());
     assertEquals(line3Token3.restOfLineStart, line3Token4.getStart().getCharacter());
 
-    assertEquals(line3Token4.restOfLineStart, endOfFileToken.getStart().getCharacter());
+    assertEquals(
+        line3SurroundingWhitespace.offset + line3SurroundingWhitespace.content.length(),
+        endOfFileToken.getStart().getCharacter());
   }
 
   @Test

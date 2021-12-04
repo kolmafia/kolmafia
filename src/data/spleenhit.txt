@@ -45,6 +45,7 @@ bottle of extra-strength melodramamine	3	1	good	0	0	0	0	50 Emotion Sickness (+ M
 bottle of melodramamine	1	1	good	0	0	0	0	5 Emotion Sickness (+ Meat and Items underwater)
 bottle of ultravitamins	1	6	awesome	0	18-20	0	0	10 Vitamin-Maxed (+10% mus)
 Breathetastic&trade; Premium Canned Air	5	13	EPIC	20-25	60-70	60-70	60-70
+Breathitin&trade;	2	1	crappy	0	0	0	0	Unspaded
 brilliant oyster egg	1	5	EPIC	0	0	50-60	0	20 Eggstraordinary Brilliance (+5 mys stats/fight)
 bug paste	4	4	good	5-10	18-22	18-22	18-22	10 Buggy Flavor (25% chance of poisoning opponent)
 can of Red Minotaur	3	1	crappy	0	0	0	0	+1 PvP fight, 5 Wings
@@ -74,10 +75,12 @@ epic wad	1	15	EPIC	5	140-150	140-150	140-150
 excitement pill	1	5	decent	0	0	0	0	Get random effect
 expensive cigar	1	7	decent	0	40-50	0	0
 extra-strength strongness elixir	1	3	good	0	8-10	0	0
+Extrovermectin&trade;	2	1	crappy	0	0	0	0	Unspaded
 fiberglass fibers	3	12	awesome	0	1000-2000	1000-2000	1000-2000
 fish sauce	1	1	good	0	0	0	0	30 Fishy
 fishy paste	4	4	good	5-10	18-22	18-22	18-22	10 Fishy
 Five Second Energy&trade;	3	1	crappy	0	0	0	0	+3 PvP fights
+Fleshazole&trade;	2	1	crappy	0	0	0	0	Unspaded
 furry pill	1	3	decent	0	0	0	0	Remove negative effect, Restores 40-50 HP
 gabardine smithereens	2	12	good	0	0	0	0	Unspaded
 gaseous gravy	1	1	EPIC	0	0	0	0	50 Gettin' the Goods (+100% Item drop)
@@ -103,6 +106,7 @@ Hatorade	5	1	crappy	0	0	0	0	+1 PvP fight
 haunted battery	1	1	EPIC	0	0	30-40	0
 hippy paste	4	4	good	5-10	18-22	18-22	18-22	10 Hippy Flavor (+15 mys)
 hobo paste	4	4	good	5-10	18-22	18-22	18-22	10 Hobo Flavor (stench dmg/res)
+Homebodyl&trade;	2	1	good	0	0	0	0	Unspaded
 homeopathic mint tea	1	1	decent	1-2	0	0	0	50 Alpine Mintiness (+25 HP/MP, +25 Weapon Damage, +25 Spell Damage)
 hot jelly	1	1	crappy	0	50-60	0	0	50 Hot Jellied (+3 mus stats/fight, +5 hot damage, +30% mus), grants one-use 20 turn banishing skill
 hot wad	1	6	good	0	50-60	10-20	30-40	20 Hot Blooded (+30% mus, +20% mox, +10% mys, hot dmg/res)
