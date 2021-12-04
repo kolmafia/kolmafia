@@ -4506,7 +4506,8 @@ public class Parser {
       result.append(")");
 
       for (final String additionalMessage : this.additionalMessages) {
-        result.append(" " + additionalMessage);
+        result.append(" ");
+        result.append(additionalMessage);
       }
 
       return result.toString();
