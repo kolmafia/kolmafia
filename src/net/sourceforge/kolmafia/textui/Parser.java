@@ -4678,7 +4678,7 @@ public class Parser {
 
   public final void error(
       final Range start, final Range end, final String msg, final String... otherInfo) {
-    this.error(Parser.mergeRanges(start, end), end, msg, otherInfo);
+    this.error(Parser.mergeRanges(start, end), msg, otherInfo);
   }
 
   public final void error(final Location location, final String msg, final String... otherInfo) {
