@@ -9,6 +9,7 @@ import javax.swing.text.*;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.InlineView;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -39,16 +40,16 @@ public class RequestPane extends JEditorPane {
             return view;
           }
 
-          return new WrapLabelView(elem);
+          return new WrapInlineView(elem);
         }
 
         return view;
       }
 
-      private static class WrapLabelView extends LabelView {
+      private static class WrapInlineView extends InlineView {
         private String title;
 
-        public WrapLabelView(Element elem) {
+        public WrapInlineView(Element elem) {
           super(elem);
 
           Enumeration<?> iterator = elem.getAttributes().getAttributeNames();
@@ -77,6 +78,9 @@ public class RequestPane extends JEditorPane {
           switch (axis) {
             case View.X_AXIS:
               {
+                if (!Preferences.getBoolean("wrapLongLines")) {
+                  return super.getMinimumSpan(axis);
+                }
                 return 0;
               }
             case View.Y_AXIS:
