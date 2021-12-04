@@ -27,7 +27,7 @@ public class RequestPane extends JEditorPane {
       return this.viewFactory;
     }
 
-    private class WrappedHtmlFactory extends HTMLEditorKit.HTMLFactory {
+    private static class WrappedHtmlFactory extends HTMLEditorKit.HTMLFactory {
       @Override
       public View create(Element elem) {
         View view = super.create(elem);
@@ -45,16 +45,16 @@ public class RequestPane extends JEditorPane {
         return view;
       }
 
-      private class WrapLabelView extends LabelView {
+      private static class WrapLabelView extends LabelView {
         private String title;
 
         public WrapLabelView(Element elem) {
           super(elem);
 
-          Enumeration<?> itel = elem.getAttributes().getAttributeNames();
+          Enumeration<?> iterator = elem.getAttributes().getAttributeNames();
 
-          while (itel.hasMoreElements()) {
-            Object attribute = itel.nextElement();
+          while (iterator.hasMoreElements()) {
+            Object attribute = iterator.nextElement();
             Object value = elem.getAttributes().getAttribute(attribute);
 
             if (value instanceof SimpleAttributeSet) {
@@ -92,7 +92,7 @@ public class RequestPane extends JEditorPane {
 
         @Override
         public String getToolTipText(float x, float y, Shape allocation) {
-          return title;
+          return this.title;
         }
       }
     }
