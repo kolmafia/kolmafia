@@ -1105,5 +1105,14 @@
    "shortDesc": "Help with the VIP Concession Stands",
    "category": "relay",
    "longDesc": "Hot dogs and Speakeasy Drinks from the VIP lounge are totally sweet -- awesome food, great in HC, and they give some totally sweet effects, but I can't remember what any of them do. To find out, first you have to click the item to open up an info box, which has a link to the effect, which you then click to give its description.<p>Or you can skip that process by using this script so you won't have to click <i>anything</i>."
+ },
+ {
+   "repo": "https://github.com/libraryaddict/KolAccountVal/branches/release/",
+   "author": "Irrat",
+   "name": "AccountVal",
+   "forumThread": "https://kolmafia.us/threads/26934/",
+   "shortDesc": "Script to value the worth of your account",
+   "category": "information",
+   "longDesc": "This JS script lets you find the worth of your account, you can have it only show items that are still tradeable, or everything including the iotms you've already bound to your account. This is a rewrite of soolar's accountval.ash script and is heavily inspired by their work."
  }
 ]
