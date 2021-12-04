@@ -5341,10 +5341,10 @@ Effect	Coated Arms	Weapon Damage: +15
 Effect	Cock of the Walk	Moxie Percent: +200
 Effect	Cockroach Scurry	Initiative: +50
 Effect	Cocoa-Buttery	Combat Rate: [-5*event(December)]
-Effect	Cocoa-Chanel	Moxie Percent: +100
-Effect	Cocoa-Crispy	Mysticality Percent: +100
-Effect	Cocoa-Fortified	Muscle Percent: +100
-# Effect Cocoa-Nuts: +10 Prismatic    Damage (only in December)
+Effect	Cocoa-Chanel	Moxie Percent: [+100*event(December)]
+Effect	Cocoa-Crispy	Mysticality Percent: [+100*event(December)]
+Effect	Cocoa-Fortified	Muscle Percent: [+100*event(December)]
+# Effect Cocoa-Nuts: Hot Damage: [+10*event(December)], Cold Damage: [+10*event(December)], Stench Damage: [+10*event(December)], Spooky Damage: [+10*event(December)], Sleaze Damage: [+10*event(December)]
 Effect	Coffee Achiever	Initiative: +25
 Effect	Coffeesphere	Combat Rate: +15
 Effect	Cold as Ice	Hot Resistance: +5, Cold Damage: +50, Cold Spell Damage: +50
@@ -6947,7 +6947,7 @@ Effect	Smoky Third Eye	Mysticality: +10
 # Smooth Legs: You know how to use them.
 Effect	Smooth Movements	Combat Rate: -5
 Effect	Smoothly Criminal...ing	Avatar: "Smooth Criminal"
-Effect	Smug of Cocoa	Monster Level: +30
+Effect	Smug of Cocoa	Monster Level: [+30*event(December)]
 Effect	Smugness	Moxie: +5
 Effect	SNAPPED INTO IT	Avatar: "Macho Man"
 Effect	Snarl of the Timberwolf	Spooky Damage: +10
