@@ -1,7 +1,5 @@
 package net.sourceforge.kolmafia.textui;
 
-import static org.eclipse.lsp4j.DiagnosticSeverity.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -4685,7 +4683,10 @@ public class Parser {
   public final void error(final Location location, final String msg, final String... otherInfo) {
     this.diagnostics.add(
         new AshDiagnostic(
-            location != null ? location : this.makeZeroWidthLocation(), Error, msg, otherInfo));
+            location != null ? location : this.makeZeroWidthLocation(),
+            DiagnosticSeverity.Error,
+            msg,
+            otherInfo));
   }
 
   public final void warning(final String msg) {
@@ -4709,7 +4710,10 @@ public class Parser {
   public final void warning(final Location location, final String msg, final String... otherInfo) {
     this.diagnostics.add(
         new AshDiagnostic(
-            location != null ? location : this.makeZeroWidthLocation(), Warning, msg, otherInfo));
+            location != null ? location : this.makeZeroWidthLocation(),
+            DiagnosticSeverity.Warning,
+            msg,
+            otherInfo));
   }
 
   private static void appendFunctionCall(
