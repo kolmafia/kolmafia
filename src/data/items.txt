@@ -10830,9 +10830,9 @@
 10802	French-Transylvanian Dictionary	758632519	redbook.gif	familiar	t	75
 10803	packaged Daylight Shavings Helmet	530690382	dshelmet_box.gif	usable	t	0
 10804	Daylight Shavings Helmet	362147328	dshelmet.gif	hat		0
-10805
-10806
-10807
+10805	eggwater	957157057	emptycup.gif	food	t	0
+10806	bread man	340392384	breadman.gif	food	t	0
+10807	plain candy cane	694467495	candychalk.gif	food	t	0
 10808
 10809
 10810
