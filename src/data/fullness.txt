@@ -107,6 +107,7 @@ brain-meltingly-hot chicken wings	1	10	good	2-4	15-30	15-30	0	lose 5-8 HP
 brains casserole	5	1	decent	6-14	0	8-10	0	Zombie Slayer
 bran muffin	1	1	awesome	4-5	150	150	150	25 All Branned Up (+40% Item Drop, 5-7 MP Regen)
 bread line	2	1	good	5-7	10-20	0	0	40 Bread-Lined (+50% Muscle, +25 Weapon damage)
+bread man	1	1	crappy	0	0	0	0	Unspaded
 bread roll	2	1	awesome	8-10	0	0	10-20	leftovers, 20 Thanksgetting (Variable +meat, +item, +familiar weight, +all res)
 breakfast mess	2	2	decent	3-5	1-5	1-5	1-5
 breakfast miracle	2	6	EPIC	12-14	25-50	25-50	25-50
@@ -273,6 +274,7 @@ druidic s'more	2	4	good	5-7	30-50	30-50	30-50
 dwarf bread	3	1	crappy	3-4	0	0	0	lose 10-13 HP
 eagle's milk	2	2	decent	3-4	0	0	0
 edible alien plant bit	1	1	good	3	0	0	0	gain 5 turns of a random positive effect
+eggwater	1	1	crappy	0	0	0	0	Unspaded
 eldritch mushroom	1	1	crappy	3	11	11	11
 eldritch mushroom pizza	3	12	awesome	9-11	333	333	333	gain eldritch effluvium, 1 Eldritch Attunement, PIZZA
 Eldritch snap	1	12	EPIC	7	11	11	11	3 Eldritch Attunement
@@ -658,6 +660,7 @@ pirate fork	4	1		0	0	0	0	Consume one random 4-fullness food
 pixel banana	2	4	awesome	9-11	0	0	0	40 Going Ape (+30% Item drops)
 pixel lemon	2	1	awesome	9-11	0	0	0
 plain bagel	3	1	decent	5-7	0	0	0
+plain candy cane	1	1	crappy	0	0	0	0	Unspaded
 plain pizza	2	1	decent	2-4	0	0	0	PIZZA
 plain snowcone	1	1	good	3	4-5	4-5	4-5
 plate of franks and beans	1	1	decent	2	0	0	0
