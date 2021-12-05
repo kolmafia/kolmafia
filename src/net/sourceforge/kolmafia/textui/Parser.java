@@ -4693,12 +4693,6 @@ public class Parser {
     RequestLogger.printLine("WARNING: " + msg + " " + this.getLineAndFile());
   }
 
-  /*
-  public final void warning(final String msg, final String... otherInfo) {
-    this.warning(this.getCurrentPosition(), msg, otherInfo);
-  }
-  */
-
   public final void warning(final Position start, final String msg, final String... otherInfo) {
     this.warning(this.rangeToHere(start), msg, otherInfo);
   }
