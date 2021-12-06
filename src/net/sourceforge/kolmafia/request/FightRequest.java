@@ -2321,6 +2321,17 @@ public class FightRequest extends GenericRequest {
 
       KoLCharacter.getFamiliar().recognizeCombatUse();
 
+      FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
+      int familiarId = familiar.getId();
+      // If other familiars also end up getting charged at start of fight rather than end we can put
+      // them here
+      switch (familiarId) {
+        case FamiliarPool.GHOST_COMMERCE:
+          {
+            Preferences.decrement("commerceGhostCombatUntilCharged");
+          }
+      }
+
       FightRequest.haveFought = true;
 
       if (responseText.contains(
@@ -7684,6 +7695,8 @@ public class FightRequest extends GenericRequest {
       if (matcher.find()) {
         String itemName = matcher.group(1);
         Preferences.setString("commerceGhostItem", itemName);
+        // TODO log some type of error if it doesn't already equal 0
+        Preferences.setInteger("commerceGhostCombatUntilCharged", -1);
         return true;
       }
     }
@@ -7692,10 +7705,10 @@ public class FightRequest extends GenericRequest {
       Matcher matcher = p.matcher(text);
       if (matcher.find()) {
         Preferences.setString("commerceGhostItem", "");
+        Preferences.setInteger("commerceGhostCombatUntilCharged", 10);
         return true;
       }
     }
-
     return false;
   }
 
