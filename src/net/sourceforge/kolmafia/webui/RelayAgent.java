@@ -463,7 +463,7 @@ public class RelayAgent extends Thread {
           "("
               + String.join("|", KoLmafia.IMAGE_SERVER_PATHS)
               + "|"
-              + "/iii"
+              + "/iii/"
               + "|"
               + "//images.kingdomofloathing.com/"
               + "|"
