@@ -203,6 +203,10 @@ public class Parser {
     return this.fileUri;
   }
 
+  public String getStringUri() {
+    return this.fileUri != null ? this.fileUri.toString() : this.istream.toString();
+  }
+
   public String getScriptName() {
     return (this.scriptName != null) ? this.scriptName : this.shortFileName;
   }
@@ -4435,8 +4439,7 @@ public class Parser {
   }
 
   private Location makeLocation(final Range range) {
-    String uri = this.fileUri != null ? this.fileUri.toString() : this.istream.toString();
-    return new Location(uri, range);
+    return new Location(this.getStringUri(), range);
   }
 
   private static Location makeLocation(final Location start, final Range end) {
@@ -4484,6 +4487,11 @@ public class Parser {
         final DiagnosticSeverity severity,
         final String message,
         final String... additionalMessages) {
+      // First, make sure that its Location corresponds to the Parser that submitted it
+      if (!Parser.this.getStringUri().equals(location.getUri())) {
+        throw new IllegalArgumentException();
+      }
+
       this.location = location;
       this.severity = severity;
       this.message = message;
