@@ -7685,7 +7685,7 @@ public class FightRequest extends GenericRequest {
     Pattern.compile("Oh,? good, you got an? (.*?)(?: before they sold out)?!"),
   };
 
-  private static boolean handleGhostOfCommerce(String text, TagStatus status) {
+  static boolean handleGhostOfCommerce(String text, TagStatus status) {
     if (!status.familiar.equals("cghost_commerce.gif")) {
       return false;
     }
