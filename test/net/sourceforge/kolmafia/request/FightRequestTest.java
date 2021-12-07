@@ -83,10 +83,13 @@ public class FightRequestTest {
     FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
     KoLCharacter.setFamiliar(fam);
     Preferences.setInteger("commerceGhostCombats", 5);
-    FightRequest.updateCombatData(null, null, "<td style=\"color: white;\" align=center bgcolor=blue><b>Combat!</b></td></tr><tr><tdstyle=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td> Don't forget to buy a foo!");
+    FightRequest.updateCombatData(
+        null,
+        null,
+        "<td style=\"color: white;\" align=center bgcolor=blue><b>Combat!</b></td></tr><tr><tdstyle=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td> Don't forget to buy a foo!");
     assertEquals(10, Preferences.getInteger("commerceGhostCombats"));
   }
-  
+
   // When we turn in the quest we should reset
   @Test
   public void commerceGhostResetsTo0() {
@@ -97,6 +100,7 @@ public class FightRequestTest {
     FightRequest.updateCombatData(null, null, "Nice, you bought a foo!");
     assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
   }
+
   @Test
   public void temptest() {
     Preferences.setInteger("commerceGhostCombats", 10);
