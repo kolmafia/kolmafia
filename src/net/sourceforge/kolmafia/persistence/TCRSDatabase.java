@@ -8,6 +8,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -20,6 +21,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -45,6 +47,29 @@ public class TCRSDatabase {
       this.size = size;
       this.quality = quality;
       this.modifiers = modifiers;
+    }
+  }
+
+  private static class TCRSDeriveRunnable implements Runnable {
+    private int itemId;
+
+    public TCRSDeriveRunnable(final int itemId) {
+      this.itemId = itemId;
+    }
+
+    public void run() {
+      String text = DebugDatabase.itemDescriptionText(itemId, false);
+      if (text == null) {
+        return;
+      }
+
+      TCRS tcrs = deriveItem(text);
+
+      if (tcrs == null) {
+        return;
+      }
+
+      TCRSMap.put(itemId, tcrs);
     }
   }
 
@@ -250,16 +275,13 @@ public class TCRSDatabase {
       KoLmafia.updateDisplay("Deriving TCRS item adjustments for all real items...");
     }
 
-    int total = keys.size();
-    int count = 0;
+    List<Runnable> actions = new ArrayList<>();
 
     for (Integer id : keys) {
-      if (verbose && ++count % 100 == 1) {
-        String message = "Progress: " + count + "/" + total + "...";
-        KoLmafia.updateDisplay(message);
-      }
-      derive(id);
+      actions.add(new TCRSDeriveRunnable(id));
     }
+
+    RequestThread.runInParallel(actions, verbose);
 
     currentClassSign = classSign;
 
