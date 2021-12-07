@@ -2328,7 +2328,7 @@ public class FightRequest extends GenericRequest {
       switch (familiarId) {
         case FamiliarPool.GHOST_COMMERCE:
           {
-            Preferences.decrement("commerceGhostCombatUntilCharged");
+            Preferences.increment("commerceGhostCombats");
           }
       }
 
@@ -7696,7 +7696,10 @@ public class FightRequest extends GenericRequest {
         String itemName = matcher.group(1);
         Preferences.setString("commerceGhostItem", itemName);
         // TODO log some type of error if it doesn't already equal 0
-        Preferences.setInteger("commerceGhostCombatUntilCharged", -1);
+	if (Preferences.getInteger("commerceGhostCombats") != 10) {
+	  logText("Commerce ghost miscounted",status);
+	}
+        Preferences.setInteger("commerceGhostCombats", 10);
         return true;
       }
     }
@@ -7705,7 +7708,7 @@ public class FightRequest extends GenericRequest {
       Matcher matcher = p.matcher(text);
       if (matcher.find()) {
         Preferences.setString("commerceGhostItem", "");
-        Preferences.setInteger("commerceGhostCombatUntilCharged", 10);
+        Preferences.setInteger("commerceGhostCombats", 0);
         return true;
       }
     }
