@@ -2,8 +2,12 @@ package net.sourceforge.kolmafia.request;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import net.sourceforge.kolmafia.FamiliarData;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.Test;
 
 /** Coverage driven collection of tests for FightRequest. */
@@ -50,5 +54,54 @@ public class FightRequestTest {
     assertFalse(FightRequest.inMultiFight);
     // Twiddle
     FightRequest.updateCombatData(null, null, "You twiddle your thumbs.");
+  }
+
+  // Commerce Ghost Tests
+  @Test
+  public void commerceGhostStartsAtProperValue() {
+    KoLCharacter.reset("the Tristero");
+    FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
+    KoLCharacter.setFamiliar(fam);
+    assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
+  }
+
+  @Test
+  public void commerceGhostIncrementsByOneOnFight() {
+    KoLCharacter.reset("the Tristero");
+    FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
+    KoLCharacter.setFamiliar(fam);
+    assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
+    FightRequest.currentRound = 0;
+    FightRequest.updateCombatData(null, null, "You twiddle your thumbs.");
+    assertEquals(1, Preferences.getInteger("commerceGhostCombats"));
+  }
+
+  // If mafia has miscounted we should move our count
+  @Test
+  public void commerceGhostResetsTo10() {
+    KoLCharacter.reset("the Tristero");
+    FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
+    KoLCharacter.setFamiliar(fam);
+    Preferences.setInteger("commerceGhostCombats", 5);
+    FightRequest.updateCombatData(null, null, "<td style=\"color: white;\" align=center bgcolor=blue><b>Combat!</b></td></tr><tr><tdstyle=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td> Don't forget to buy a foo!");
+    assertEquals(10, Preferences.getInteger("commerceGhostCombats"));
+  }
+  
+  // When we turn in the quest we should reset
+  @Test
+  public void commerceGhostResetsTo0() {
+    KoLCharacter.reset("the Tristero");
+    FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
+    KoLCharacter.setFamiliar(fam);
+    Preferences.setInteger("commerceGhostCombats", 10);
+    FightRequest.updateCombatData(null, null, "Nice, you bought a foo!");
+    assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
+  }
+  @Test
+  public void temptest() {
+    Preferences.setInteger("commerceGhostCombats", 10);
+    FightRequest.TagStatus t = new FightRequest.TagStatus();
+    FightRequest.handleGhostOfCommerce("Nice, you bought a foo!", t);
+    assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
   }
 }
