@@ -290,7 +290,7 @@ public class SpleenItemRequest extends UseItemRequest {
 
       case ItemPool.EXTROVERMECTIN:
         if (responseText.contains("You pop the pill and are immediately overcome")) {
-          Preferences.increment("beGregariousCharges");
+          Preferences.increment("beGregariousCharges", count);
         }
         break;
 
