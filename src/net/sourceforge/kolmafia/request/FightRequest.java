@@ -7695,7 +7695,6 @@ public class FightRequest extends GenericRequest {
       if (matcher.find()) {
         String itemName = matcher.group(1);
         Preferences.setString("commerceGhostItem", itemName);
-        // TODO log some type of error if it doesn't already equal 0
         if (Preferences.getInteger("commerceGhostCombats") != 10) {
           logText("Commerce ghost miscounted", status);
         }
