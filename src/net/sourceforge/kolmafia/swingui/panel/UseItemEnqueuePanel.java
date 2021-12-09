@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -244,7 +245,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
       this.buttons[bingeIndex].setEnabled(haveHobo);
 
       // The ode listener is just after the hobo listener
-      boolean haveOde = KoLCharacter.hasSkill("The Ode to Booze");
+      boolean haveOde = KoLCharacter.hasSkill(SkillPool.ODE_TO_BOOZE);
       boolean roomForSong = KoLCharacter.getSongs() < KoLCharacter.getMaxSongs();
       if (!haveOde || !roomForSong) {
         String reason =

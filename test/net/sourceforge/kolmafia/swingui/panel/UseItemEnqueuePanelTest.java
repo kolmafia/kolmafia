@@ -13,13 +13,14 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class UseItemEnqueuePanelTest {
 
-  @BeforeAll
-  private static void injectPreferences() {
+  @BeforeEach
+  private void beforeEach() {
+    KoLCharacter.reset(true);
     KoLCharacter.reset("fakeUserName");
 
     // Now that we have a username set, we can edit preferences and have per-user defaults.
@@ -90,7 +91,8 @@ public class UseItemEnqueuePanelTest {
         Arrays.stream(panel.buttons).filter(b -> b.getText().equals("cast ode")).findFirst();
     assertTrue(buttonSearch.isPresent());
     var button = buttonSearch.get();
-    assertFalse(button.isEnabled());
+    var enabled = button.isEnabled();
+    assertFalse(enabled);
   }
 
   @Test
@@ -113,9 +115,6 @@ public class UseItemEnqueuePanelTest {
     KoLConstants.activeEffects.add(EffectPool.get(531)); // Benetton's Medley of Diversity
     KoLConstants.activeEffects.add(EffectPool.get(532)); // Elron's Explosive Etude
 
-    System.out.println(KoLCharacter.getSongs());
-    System.out.println(KoLCharacter.getMaxSongs());
-
     var panel = new UseItemEnqueuePanel(false, true, false, null);
     var buttonSearch =
         Arrays.stream(panel.buttons).filter(b -> b.getText().equals("cast ode")).findFirst();
@@ -136,6 +135,6 @@ public class UseItemEnqueuePanelTest {
         Arrays.stream(panel.buttons).filter(b -> b.getText().equals("cast ode")).findFirst();
     assertTrue(buttonSearch.isPresent());
     var button = buttonSearch.get();
-    assertFalse(button.isEnabled());
+    assertTrue(button.isEnabled());
   }
 }
