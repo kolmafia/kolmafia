@@ -5,7 +5,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
-import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.webui.RelayServer;
@@ -17,12 +16,12 @@ public class VisitUrlFunction extends LibraryClassFunction {
 
   @LibraryFunctionOverload(returns = "buffer")
   public Value exec(ScriptRuntime controller) {
-    return exec(controller, null);
+    return new Value(exec(controller, (String) null));
   }
 
   @LibraryFunctionOverload(returns = "buffer")
   public Value exec(ScriptRuntime controller, @LibraryFunctionParameter("string") final Value url) {
-    return exec(controller, url, DataTypes.TRUE_VALUE);
+    return new Value(exec(controller, url.toString()));
   }
 
   @LibraryFunctionOverload(returns = "buffer")
@@ -30,7 +29,7 @@ public class VisitUrlFunction extends LibraryClassFunction {
       ScriptRuntime controller,
       @LibraryFunctionParameter("string") final Value url,
       @LibraryFunctionParameter("boolean") final Value usePostMethod) {
-    return exec(controller, url, usePostMethod, DataTypes.FALSE_VALUE);
+    return new Value(exec(controller, url.toString(), usePostMethod.booleanValue()));
   }
 
   @LibraryFunctionOverload(returns = "buffer")
@@ -39,9 +38,31 @@ public class VisitUrlFunction extends LibraryClassFunction {
       @LibraryFunctionParameter("string") final Value url,
       @LibraryFunctionParameter("boolean") final Value usePostMethod,
       @LibraryFunctionParameter("boolean") final Value encoded) {
-    StringBuffer buffer = new StringBuffer();
-    Value returnValue = new Value(DataTypes.BUFFER_TYPE, "", buffer);
+    return new Value(exec(controller, url.toString(), usePostMethod.booleanValue(), encoded.booleanValue()));
+  }
 
+  public StringBuffer exec(
+          ScriptRuntime controller,
+          String url
+  ) {
+    return exec(controller, url, true, false);
+  }
+
+  public StringBuffer exec(
+      ScriptRuntime controller,
+      String url,
+      boolean usePostMethod
+  ) {
+    return exec(controller, url, usePostMethod, false);
+  }
+
+  public StringBuffer exec(
+      ScriptRuntime controller,
+      String url,
+      boolean usePostMethod,
+      boolean encoded
+  ) {
+    StringBuffer buffer = new StringBuffer();
     RelayRequest relayRequest = controller.getRelayRequest();
     boolean inRelayOverride = relayRequest != null;
 
@@ -51,7 +72,7 @@ public class VisitUrlFunction extends LibraryClassFunction {
     if (url == null) {
       if (!inRelayOverride) {
         // With no URL and no relay override, we've got nothing to do
-        return returnValue;
+        return buffer;
       } else {
         // If we're in a relay override, use a RelayRequest rather than a GenericRequest
         request = relayRequest;
@@ -61,18 +82,18 @@ public class VisitUrlFunction extends LibraryClassFunction {
 
       // Build the desired URL
       request.constructURLString(
-          RelayServer.trimPrefix(url.toString()),
-          usePostMethod.booleanValue(),
-          encoded.booleanValue());
+          RelayServer.trimPrefix(url),
+          usePostMethod,
+          encoded);
       if (GenericRequest.shouldIgnore(request)) {
-        return returnValue;
+        return buffer;
       }
 
       // If we are not in a relay script, ignore a request to an unstarted fight
       if (!inRelayOverride
           && request.getPath().equals("fight.php")
           && FightRequest.getCurrentRound() == 0) {
-        return returnValue;
+        return buffer;
       }
     }
 
@@ -93,6 +114,6 @@ public class VisitUrlFunction extends LibraryClassFunction {
       buffer.append(request.responseText);
     }
 
-    return returnValue;
+    return buffer;
   }
 }

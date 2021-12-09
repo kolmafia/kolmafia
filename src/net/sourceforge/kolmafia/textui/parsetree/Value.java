@@ -50,6 +50,10 @@ public class Value implements TypedNode, Comparable<Value> {
     this.contentString = value == null ? "" : value;
   }
 
+  public Value(final StringBuffer value) {
+    this(DataTypes.BUFFER_TYPE, "", value);
+  }
+
   public Value(final double value) {
     this.type = DataTypes.FLOAT_TYPE;
     this.contentLong = Double.doubleToRawLongBits(value);
@@ -539,6 +543,18 @@ public class Value implements TypedNode, Comparable<Value> {
     @Override
     public void print(final PrintStream stream, final int indent) {
       this.value.print(stream, indent);
+    }
+  }
+
+  public static final class BooleanValue extends Value {
+    BooleanValue(final boolean value) {
+      super(value);
+    }
+  }
+
+  public static final class StringValue extends Value {
+    StringValue(final String value) {
+      super(value);
     }
   }
 }

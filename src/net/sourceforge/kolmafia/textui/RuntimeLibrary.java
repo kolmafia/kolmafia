@@ -5759,9 +5759,9 @@ public abstract class RuntimeLibrary {
     // in combat, go ahead and allow it here.
 
     if (SkillDatabase.isCombat(skillId) && FightRequest.getCurrentRound() > 0) {
-      return new VisitUrlFunction()
+      return new Value(new VisitUrlFunction()
           .exec(
-              controller, new Value("fight.php?action=skill&whichskill=" + (int) skill.intValue()));
+              controller, "fight.php?action=skill&whichskill=" + (int) skill.intValue()));
     }
 
     KoLmafiaCLI.DEFAULT_SHELL.executeCommand("cast", "1 " + SkillDatabase.getSkillName(skillId));
@@ -5832,32 +5832,31 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value attack(ScriptRuntime controller) {
-    return new VisitUrlFunction().exec(controller, new Value("fight.php?action=attack"));
+    return new Value(new VisitUrlFunction().exec(controller, "fight.php?action=attack"));
   }
 
   public static Value twiddle(ScriptRuntime controller) {
-    return new VisitUrlFunction().exec(controller, new Value("fight.php?action=twiddle"));
+    return new Value(new VisitUrlFunction().exec(controller, "fight.php?action=twiddle"));
   }
 
   public static Value steal(ScriptRuntime controller) {
-    return new VisitUrlFunction().exec(controller, new Value("fight.php?action=steal"));
+    return new Value(new VisitUrlFunction().exec(controller, "fight.php?action=steal"));
   }
 
   public static Value runaway(ScriptRuntime controller) {
-    return new VisitUrlFunction().exec(controller, new Value("fight.php?action=runaway"));
+    return new Value(new VisitUrlFunction().exec(controller, "fight.php?action=runaway"));
   }
 
   public static Value throw_item(ScriptRuntime controller, final Value item) {
-    return new VisitUrlFunction()
-        .exec(controller, new Value("fight.php?action=useitem&whichitem=" + (int) item.intValue()));
+    return new Value(new VisitUrlFunction()
+        .exec(controller, "fight.php?action=useitem&whichitem=" + (int) item.intValue()));
   }
 
   public static Value throw_items(ScriptRuntime controller, final Value item1, final Value item2) {
-    return new VisitUrlFunction()
+    return new Value(new VisitUrlFunction()
         .exec(
             controller,
-            new Value(
-                "fight.php?action=useitem&whichitem="
+            "fight.php?action=useitem&whichitem="
                     + (int) item1.intValue()
                     + "&whichitem2="
                     + (int) item2.intValue()));
@@ -5889,8 +5888,7 @@ public abstract class RuntimeLibrary {
     // If we have finished a fight which is followed by a choice
     // but are not yet handling it, visit choice.php to load it up.
     if (FightRequest.choiceFollowsFight) {
-      new VisitUrlFunction()
-          .exec(controller, new Value("choice.php"), DataTypes.TRUE_VALUE, DataTypes.FALSE_VALUE);
+      new VisitUrlFunction().exec(controller, "choice.php", true, false);
     }
 
     if (!ChoiceManager.handlingChoice || ChoiceManager.lastResponseText == null || option == 0) {
