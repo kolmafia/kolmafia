@@ -4,7 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.Test;
 
 public class KoLCharacterTest {
@@ -74,5 +77,32 @@ public class KoLCharacterTest {
     assertEquals(0, KoLCharacter.getSignIndex());
     assertEquals(ZodiacType.NONE, KoLCharacter.getSignStat());
     assertEquals(ZodiacZone.NONE, KoLCharacter.getSignZone());
+  }
+
+  @Test
+  public void getSongs() {
+    KoLConstants.activeEffects.add(EffectPool.get(EffectPool.ODE));
+    KoLConstants.activeEffects.add(EffectPool.get(2375)); // Paul's Passionate Pop Song
+    KoLConstants.activeEffects.add(EffectPool.get(1495)); // Rolando's Rondo of Resisto
+    KoLConstants.activeEffects.add(EffectPool.get(3)); // Confused (i.e. not a song)
+
+    assertEquals(3, KoLCharacter.getSongs());
+  }
+
+  private void equip(int slot, String item) {
+    EquipmentManager.setEquipment(slot, AdventureResult.parseResult(item));
+  }
+
+  @Test
+  public void getMaxSongs() {
+    KoLCharacter.setAscensionClass(AscensionClass.ACCORDION_THIEF);
+    equip(EquipmentManager.HAT, "brimstone beret"); // Four Songs (mutex)
+    equip(EquipmentManager.ACCESSORY1, "plexiglass pendant"); // Four Songs (mutex)
+    equip(EquipmentManager.WEAPON, "zombie accordion"); // Additional Song
+    KoLCharacter.addAvailableSkill(SkillPool.MARIACHI_MEMORY); // Additional Song
+
+    KoLCharacter.recalculateAdjustments();
+
+    assertEquals(6, KoLCharacter.getMaxSongs());
   }
 }

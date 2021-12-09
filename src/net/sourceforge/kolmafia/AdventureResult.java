@@ -710,12 +710,13 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
           name = name + " [" + monster + "]";
         }
       } else {
+        if (EffectDatabase.isSong(name)) {
+          name = "\u266B " + name;
+        }
+
         String skillName = UneffectRequest.effectToSkill(name);
         if (SkillDatabase.contains(skillName)) {
           int skillId = SkillDatabase.getSkillId(skillName);
-          if (SkillDatabase.isAccordionThiefSong(skillId)) {
-            name = "\u266B " + name;
-          }
           if (SkillDatabase.isExpression(skillId)) {
             name = "\u263A " + name;
           }

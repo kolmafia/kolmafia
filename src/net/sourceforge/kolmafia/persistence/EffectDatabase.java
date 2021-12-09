@@ -188,6 +188,14 @@ public class EffectDatabase {
     return (attrs == null) ? false : attrs.contains(attribute);
   }
 
+  public static final boolean isSong(final int effectId) {
+    return EffectDatabase.hasAttribute(effectId, "song");
+  }
+
+  public static final boolean isSong(final String effectName) {
+    return EffectDatabase.hasAttribute(effectName, "song");
+  }
+
   public static final String getDefaultAction(final int effectId) {
     if (effectId == -1) {
       return null;

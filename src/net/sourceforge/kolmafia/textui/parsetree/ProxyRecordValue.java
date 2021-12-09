@@ -1187,6 +1187,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("candy_tier", DataTypes.INT_TYPE)
             .add("quality", DataTypes.STRING_TYPE)
             .add("attributes", DataTypes.STRING_TYPE)
+            .add("song", DataTypes.BOOLEAN_TYPE)
             .finish("effect proxy");
 
     public EffectProxy(Value obj) {
@@ -1233,6 +1234,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public int get_candy_tier() {
       return CandyDatabase.getEffectTier((int) this.contentLong);
+    }
+
+    public boolean get_song() {
+      return EffectDatabase.isSong((int) this.contentLong);
     }
   }
 
