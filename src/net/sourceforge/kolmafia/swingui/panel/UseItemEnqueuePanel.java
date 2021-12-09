@@ -245,7 +245,18 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
 
       // The ode listener is just after the hobo listener
       boolean haveOde = KoLCharacter.hasSkill("The Ode to Booze");
-      this.buttons[bingeIndex + 1].setEnabled(haveOde);
+      boolean roomForSong = KoLCharacter.getSongs() < KoLCharacter.getMaxSongs();
+      if (!haveOde || !roomForSong) {
+        String reason =
+            (!haveOde)
+                ? "You do not know The Ode to Booze"
+                : (!roomForSong) ? "You can't remember any more songs" : "";
+        this.buttons[bingeIndex + 1].setToolTipText(reason);
+        this.buttons[bingeIndex + 1].setEnabled(false);
+      } else {
+        this.buttons[bingeIndex + 1].setEnabled(true);
+        this.buttons[bingeIndex + 1].setToolTipText("");
+      }
 
       // The prayer listener is just after the ode listener
       boolean prayerAvailable =

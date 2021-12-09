@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Arrays;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.json.JSONException;
@@ -75,6 +78,62 @@ public class UseItemEnqueuePanelTest {
         Arrays.stream(panel.buttons)
             .filter(b -> b.getText().equals("universal seasoning"))
             .findFirst();
+    assertTrue(buttonSearch.isPresent());
+    var button = buttonSearch.get();
+    assertFalse(button.isEnabled());
+  }
+
+  @Test
+  public void odeToBoozeDisabledWithNoSkill() {
+    var panel = new UseItemEnqueuePanel(false, true, false, null);
+    var buttonSearch =
+        Arrays.stream(panel.buttons).filter(b -> b.getText().equals("cast ode")).findFirst();
+    assertTrue(buttonSearch.isPresent());
+    var button = buttonSearch.get();
+    assertFalse(button.isEnabled());
+  }
+
+  @Test
+  public void odeToBoozeEnabledWithSkill() {
+    KoLCharacter.addAvailableSkill(SkillPool.ODE_TO_BOOZE);
+
+    var panel = new UseItemEnqueuePanel(false, true, false, null);
+    var buttonSearch =
+        Arrays.stream(panel.buttons).filter(b -> b.getText().equals("cast ode")).findFirst();
+    assertTrue(buttonSearch.isPresent());
+    var button = buttonSearch.get();
+    assertTrue(button.isEnabled());
+  }
+
+  @Test
+  public void odeToBoozeDisabledWithNoRoom() {
+    KoLCharacter.addAvailableSkill(SkillPool.ODE_TO_BOOZE);
+
+    KoLConstants.activeEffects.add(EffectPool.get(530)); // The Ballad of Richie Thingfinder
+    KoLConstants.activeEffects.add(EffectPool.get(531)); // Benetton's Medley of Diversity
+    KoLConstants.activeEffects.add(EffectPool.get(532)); // Elron's Explosive Etude
+
+    System.out.println(KoLCharacter.getSongs());
+    System.out.println(KoLCharacter.getMaxSongs());
+
+    var panel = new UseItemEnqueuePanel(false, true, false, null);
+    var buttonSearch =
+        Arrays.stream(panel.buttons).filter(b -> b.getText().equals("cast ode")).findFirst();
+    assertTrue(buttonSearch.isPresent());
+    var button = buttonSearch.get();
+    assertFalse(button.isEnabled());
+  }
+
+  @Test
+  public void odeToBoozeEnabledWithRoom() {
+    KoLCharacter.addAvailableSkill(SkillPool.ODE_TO_BOOZE);
+
+    KoLConstants.activeEffects.add(EffectPool.get(531)); // Benetton's Medley of Diversity
+    KoLConstants.activeEffects.add(EffectPool.get(532)); // Elron's Explosive Etude
+
+    var panel = new UseItemEnqueuePanel(false, true, false, null);
+    var buttonSearch =
+        Arrays.stream(panel.buttons).filter(b -> b.getText().equals("cast ode")).findFirst();
     assertTrue(buttonSearch.isPresent());
     var button = buttonSearch.get();
     assertFalse(button.isEnabled());
