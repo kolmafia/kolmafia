@@ -717,8 +717,8 @@ public class FightRequest extends GenericRequest {
   };
 
   private static boolean usingPapierEquipment() {
-    for (int i = 0; i < PAPIER_EQUIPMENT.length; ++i) {
-      if (KoLCharacter.hasEquipped(PAPIER_EQUIPMENT[i])) {
+    for (AdventureResult adventureResult : PAPIER_EQUIPMENT) {
+      if (KoLCharacter.hasEquipped(adventureResult)) {
         return true;
       }
     }
@@ -989,7 +989,7 @@ public class FightRequest extends GenericRequest {
         int initialRound = FightRequest.currentRound;
 
         Object[] parameters = new Object[3];
-        parameters[0] = Integer.valueOf(FightRequest.currentRound);
+        parameters[0] = FightRequest.currentRound;
         parameters[1] = MonsterStatusTracker.getLastMonster();
         parameters[2] = FightRequest.lastResponseText;
 
@@ -5034,10 +5034,7 @@ public class FightRequest extends GenericRequest {
       hasTag = true;
     }
 
-    Iterator<? extends BaseToken> it = node.getAllChildren().iterator();
-    while (it.hasNext()) {
-      BaseToken child = it.next();
-
+    for (BaseToken child : node.getAllChildren()) {
       if (child instanceof ContentNode) {
         buffer.append(((ContentNode) child).getContent());
       } else if (child instanceof TagNode) {
@@ -5295,8 +5292,8 @@ public class FightRequest extends GenericRequest {
     int damage = 0;
 
     String[] pieces = title.substring(8).split("[^\\d,]+");
-    for (int i = 0; i < pieces.length; ++i) {
-      damage += StringUtilities.parseInt(pieces[i]);
+    for (String piece : pieces) {
+      damage += StringUtilities.parseInt(piece);
     }
 
     return damage;
@@ -5678,7 +5675,7 @@ public class FightRequest extends GenericRequest {
       // Should be unnecessary. We need a more modern version of this package
       if (bnode instanceof TagNode) {
         TagNode b = (TagNode) bnode;
-        if (b.getText().toString().indexOf(" Team:") != -1) {
+        if (b.getText().toString().contains(" Team:")) {
           return b.getParent();
         }
       }
@@ -5979,8 +5976,7 @@ public class FightRequest extends GenericRequest {
         // value="Tackle" name="famaction[tackle-7]">
         TagNode[] inputs = rows[3].getElementsByName("input", true);
         int move = 0;
-        for (int i = 0; i < inputs.length; ++i) {
-          TagNode input = inputs[i];
+        for (TagNode input : inputs) {
           String type = input.getAttributeByName("class");
           if (type == null || !type.startsWith("button")) {
             continue;
@@ -6257,8 +6253,7 @@ public class FightRequest extends GenericRequest {
       }
 
       TagNode[] tables = node.getElementsByName("table", true);
-      for (int i = 0; i < tables.length; ++i) {
-        TagNode table = tables[i];
+      for (TagNode table : tables) {
         table.getParent().removeChild(table);
       }
 
@@ -6266,8 +6261,7 @@ public class FightRequest extends GenericRequest {
         FightRequest.processChildren(node, status);
       }
 
-      for (int i = 0; i < tables.length; ++i) {
-        TagNode table = tables[i];
+      for (TagNode table : tables) {
         FightRequest.processNode(table, status);
       }
 
@@ -6404,10 +6398,7 @@ public class FightRequest extends GenericRequest {
 
   private static void processChildren(final TagNode node, final TagStatus status) {
     StringBuffer action = status.action;
-    Iterator<? extends BaseToken> it = node.getAllChildren().iterator();
-    while (it.hasNext()) {
-      BaseToken child = it.next();
-
+    for (BaseToken child : node.getAllChildren()) {
       if (child instanceof CommentNode) {
         CommentNode object = (CommentNode) child;
         FightRequest.processComment(object, status);
@@ -7160,10 +7151,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void processComments(TagNode node, TagStatus status) {
-    Iterator<? extends BaseToken> it = node.getAllChildren().iterator();
-    while (it.hasNext()) {
-      BaseToken child = it.next();
-
+    for (BaseToken child : node.getAllChildren()) {
       if (child instanceof CommentNode) {
         CommentNode object = (CommentNode) child;
         FightRequest.processComment(object, status);
@@ -7223,8 +7211,7 @@ public class FightRequest extends GenericRequest {
     // thus improve the message we log.
 
     TagNode[] tables = node.getElementsByName("table", true);
-    for (int i = 0; i < tables.length; ++i) {
-      TagNode table = tables[i];
+    for (TagNode table : tables) {
       table.getParent().removeChild(table);
     }
 
@@ -7297,8 +7284,7 @@ public class FightRequest extends GenericRequest {
     }
 
     // Now process additional familiar actions
-    for (int i = 0; i < tables.length; ++i) {
-      TagNode table = tables[i];
+    for (TagNode table : tables) {
       FightRequest.processNode(table, status);
     }
   }
