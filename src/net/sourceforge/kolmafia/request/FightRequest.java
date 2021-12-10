@@ -2331,7 +2331,10 @@ public class FightRequest extends GenericRequest {
         case FamiliarPool.GHOST_COMMERCE:
           {
             Preferences.increment("commerceGhostCombats");
+            break;
           }
+        default:
+          break;
       }
 
       FightRequest.haveFought = true;
