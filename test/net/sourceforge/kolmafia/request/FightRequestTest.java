@@ -92,14 +92,13 @@ public class FightRequestTest {
 
   @Test
   @Disabled
-  public void commerceGhostIncrementsByOneOnFight() {
+  public void commerceGhostIncrementsByOneOnFight() throws IOException {
     KoLCharacter.reset("the Tristero");
     FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
     KoLCharacter.setFamiliar(fam);
     assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
     FightRequest.currentRound = 0;
-    // FightRequest.updateCombatData(null, null, "You twiddle your thumbs.");
-    FightRequest.parseFamBattleHTML("You twiddle your thumbs.");
+    // parseCombatData("request/test_fight_gnome_adv.html");
     assertEquals(1, Preferences.getInteger("commerceGhostCombats"));
   }
 
@@ -127,15 +126,6 @@ public class FightRequestTest {
     KoLCharacter.setFamiliar(fam);
     Preferences.setInteger("commerceGhostCombats", 10);
     FightRequest.updateCombatData(null, null, "Nice, you bought a foo!");
-    assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
-  }
-
-  @Test
-  @Disabled
-  public void temptest() {
-    Preferences.setInteger("commerceGhostCombats", 10);
-    FightRequest.TagStatus t = new FightRequest.TagStatus();
-    // FightRequest.handleGhostOfCommerce("Nice, you bought a foo!", t);
     assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
   }
 
