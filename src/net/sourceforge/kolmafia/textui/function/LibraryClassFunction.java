@@ -4,6 +4,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
+import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 public abstract class LibraryClassFunction {
   String functionName;
@@ -41,8 +43,16 @@ public abstract class LibraryClassFunction {
         continue;
       }
 
-      LibraryFunctionOverload r = method.getAnnotation(LibraryFunctionOverload.class);
-      Type returnType = DataTypes.simpleTypes.find(r.returns());
+      Type returnType;
+
+      Class<? extends Value> rt = (Class<? extends Value>) method.getReturnType();
+      try {
+        Field classType = rt.getField("classType");
+        returnType = (Type) classType.get(null);
+      } catch (NoSuchFieldException | IllegalAccessException e) {
+        continue;
+      }
+
       Parameter[] params = method.getParameters();
       Type[] paramTypes = new Type[params.length - 1];
 

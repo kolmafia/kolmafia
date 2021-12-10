@@ -547,13 +547,25 @@ public class Value implements TypedNode, Comparable<Value> {
   }
 
   public static final class BooleanValue extends Value {
-    BooleanValue(final boolean value) {
+    public static Type classType = DataTypes.BOOLEAN_TYPE;
+
+    public BooleanValue(final boolean value) {
       super(value);
     }
   }
 
   public static final class StringValue extends Value {
-    StringValue(final String value) {
+    public static Type classType = DataTypes.STRING_TYPE;
+
+    public StringValue(final String value) {
+      super(value);
+    }
+  }
+
+  public static final class BufferValue extends Value {
+    public static Type classType = DataTypes.BUFFER_TYPE;
+
+    public BufferValue(final StringBuffer value) {
       super(value);
     }
   }

@@ -6,7 +6,9 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
-import net.sourceforge.kolmafia.textui.parsetree.Value;
+import net.sourceforge.kolmafia.textui.parsetree.Value.StringValue;
+import net.sourceforge.kolmafia.textui.parsetree.Value.BooleanValue;
+import net.sourceforge.kolmafia.textui.parsetree.Value.BufferValue;
 import net.sourceforge.kolmafia.webui.RelayServer;
 
 public class VisitUrlFunction extends LibraryClassFunction {
@@ -15,30 +17,30 @@ public class VisitUrlFunction extends LibraryClassFunction {
   }
 
   @LibraryFunctionOverload(returns = "buffer")
-  public Value exec(ScriptRuntime controller) {
-    return new Value(exec(controller, (String) null));
+  public BufferValue exec(ScriptRuntime controller) {
+    return new BufferValue(exec(controller, (String) null));
   }
 
   @LibraryFunctionOverload(returns = "buffer")
-  public Value exec(ScriptRuntime controller, @LibraryFunctionParameter("string") final Value url) {
-    return new Value(exec(controller, url.toString()));
+  public BufferValue exec(ScriptRuntime controller, @LibraryFunctionParameter("string") final StringValue url) {
+    return new BufferValue(exec(controller, url.toString()));
   }
 
   @LibraryFunctionOverload(returns = "buffer")
-  public Value exec(
+  public BufferValue exec(
       ScriptRuntime controller,
-      @LibraryFunctionParameter("string") final Value url,
-      @LibraryFunctionParameter("boolean") final Value usePostMethod) {
-    return new Value(exec(controller, url.toString(), usePostMethod.booleanValue()));
+      @LibraryFunctionParameter("string") final StringValue url,
+      @LibraryFunctionParameter("boolean") final BooleanValue usePostMethod) {
+    return new BufferValue(exec(controller, url.toString(), usePostMethod.booleanValue()));
   }
 
   @LibraryFunctionOverload(returns = "buffer")
-  public Value exec(
+  public BufferValue exec(
       ScriptRuntime controller,
-      @LibraryFunctionParameter("string") final Value url,
-      @LibraryFunctionParameter("boolean") final Value usePostMethod,
-      @LibraryFunctionParameter("boolean") final Value encoded) {
-    return new Value(exec(controller, url.toString(), usePostMethod.booleanValue(), encoded.booleanValue()));
+      @LibraryFunctionParameter("string") final StringValue url,
+      @LibraryFunctionParameter("boolean") final BooleanValue usePostMethod,
+      @LibraryFunctionParameter("boolean") final BooleanValue encoded) {
+    return new BufferValue(exec(controller, url.toString(), usePostMethod.booleanValue(), encoded.booleanValue()));
   }
 
   public StringBuffer exec(
