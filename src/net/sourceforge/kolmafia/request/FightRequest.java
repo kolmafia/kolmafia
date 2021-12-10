@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -382,19 +382,21 @@ public class FightRequest extends GenericRequest {
   };
 
   // Skills which require a shield
-  private static final HashSet<String> INVALID_WITHOUT_SHIELD = new HashSet<String>();
+  private static final Set<String> INVALID_WITHOUT_SHIELD = Set.of("2005", "skill shieldbutt");
 
-  static {
-    INVALID_WITHOUT_SHIELD.add("2005");
-    INVALID_WITHOUT_SHIELD.add("skill shieldbutt");
-  }
+  private static final Set<String> INVALID_OUT_OF_WATER = Set.of("2024", "skill summon leviatuga");
 
-  private static final HashSet<String> INVALID_OUT_OF_WATER = new HashSet<String>();
-
-  static {
-    INVALID_OUT_OF_WATER.add("2024");
-    INVALID_OUT_OF_WATER.add("skill summon leviatuga");
-  }
+  private static final Set<String> GNOME_ADV_ACTIVATION =
+      Set.of(
+          "scrubs the mildew out of your grout",
+          "bundles your recycling for you",
+          "teaches you how to power-nap instead of sleeping all day",
+          "sharpens all your pencils and lines them up in a neat row",
+          "folds all your clean laundry",
+          "shows you how to shave a full minute off of your teeth brushing routine",
+          "organizes your sock drawer and alphabetizes your spice rack",
+          "hauls all of your scrap lumber to the dump",
+          "does all that tedious campsite cleaning you were going to do today");
 
   private static final String[][] EVIL_ZONES = {
     {
@@ -3511,7 +3513,8 @@ public class FightRequest extends GenericRequest {
           break;
 
         case FamiliarPool.REAGNIMATED_GNOME:
-          if (responseText.contains("You gain 1 Adventure")) {
+          if (KoLCharacter.hasEquipped(ItemPool.GNOMISH_KNEE, EquipmentManager.FAMILIAR)
+              && GNOME_ADV_ACTIVATION.stream().anyMatch(responseText::contains)) {
             Preferences.increment("_gnomeAdv", 1);
           }
           break;

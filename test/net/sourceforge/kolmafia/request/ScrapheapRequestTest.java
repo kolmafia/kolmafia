@@ -20,7 +20,6 @@ public class ScrapheapRequestTest extends RequestTestBase {
   }
 
   private int parseActivations(String path) throws IOException {
-
     String html = Files.readString(Paths.get(path));
     var req = new ScrapheapRequest("sh_chrono");
     req.responseText = html;

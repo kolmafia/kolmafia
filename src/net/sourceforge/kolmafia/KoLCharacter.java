@@ -1009,6 +1009,18 @@ public abstract class KoLCharacter {
     disco_momentum = 0;
   }
 
+  public static final int getMaxSongs() {
+    return (currentBooleanModifier(Modifiers.FOUR_SONGS) ? 4 : 3)
+        + (int) currentNumericModifier(Modifiers.ADDITIONAL_SONG);
+  }
+
+  public static final int getSongs() {
+    return (int)
+        KoLConstants.activeEffects.stream()
+            .filter(e -> EffectDatabase.isSong(e.getEffectId()))
+            .count();
+  }
+
   public static final int getAudience() {
     return KoLCharacter.audience;
   }

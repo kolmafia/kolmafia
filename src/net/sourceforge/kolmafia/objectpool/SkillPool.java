@@ -167,6 +167,7 @@ public class SkillPool {
   public static final int DONHOS = 6026;
   public static final int INIGOS = 6028;
   public static final int ACCORDION_BASH = 6032;
+  public static final int MARIACHI_MEMORY = 6043;
   public static final int POP_SONG = 6045;
   public static final int BRAMS_BLOODY_BAGATELLE = 6046;
   public static final int MAGIC_MISSILE = 7009;
