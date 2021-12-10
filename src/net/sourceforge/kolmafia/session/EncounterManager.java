@@ -256,6 +256,10 @@ public abstract class EncounterManager {
     return isSaberForceZone(Preferences.getString("_saberForceMonster"), zone);
   }
 
+  public static final boolean isSaberForceMonster(MonsterData monster, String zone) {
+    return isSaberForceMonster(monster.getName(), zone);
+  }
+
   public static final boolean isSaberForceMonster(String monsterName, String zone) {
     if (!isSaberForceZone(monsterName, zone)) {
       return false;
@@ -285,11 +289,19 @@ public abstract class EncounterManager {
         MonsterStatusTracker.getLastMonsterName(), Preferences.getString("nextAdventure"));
   }
 
+  public static final boolean isCrystalBallZone(String zone) {
+    return zone.equalsIgnoreCase(Preferences.getString("crystalBallLocation"));
+  }
+
+  public static final boolean isCrystalBallMonster(MonsterData monster, String zone) {
+    return isCrystalBallMonster(monster.getName(), zone);
+  }
+
   public static final boolean isCrystalBallMonster(String monster, String zone) {
     // There's no message to check for so assume the correct monster in the correct zone is from the
     // crystal ball
     return monster.equalsIgnoreCase(Preferences.getString("crystalBallMonster"))
-        && zone.equalsIgnoreCase(Preferences.getString("crystalBallLocation"));
+        && isCrystalBallZone(zone);
   }
 
   public static final boolean isGregariousEncounter(

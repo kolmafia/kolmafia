@@ -25,7 +25,7 @@ public class MonsterDataCommand extends AbstractCommand {
     StringBuffer buffer = new StringBuffer();
 
     buffer.append("<html>");
-    data.getMonsterData(buffer, false);
+    data.appendMonsterData(buffer, false);
     buffer.append("</html>");
 
     KoLmafiaCLI.showHTML(buffer.toString());
