@@ -5,22 +5,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-
-import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
-import org.junit.jupiter.api.Disabled;
-
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
-
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /** Coverage driven collection of tests for FightRequest. */
@@ -144,6 +138,7 @@ public class FightRequestTest {
     // FightRequest.handleGhostOfCommerce("Nice, you bought a foo!", t);
     assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
   }
+
   @Test
   public void gnomeAdv() throws IOException {
     var familiar = FamiliarData.registerFamiliar(FamiliarPool.REAGNIMATED_GNOME, 1);
