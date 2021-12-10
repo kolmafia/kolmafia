@@ -6508,9 +6508,17 @@ public class FightRequest extends GenericRequest {
           i++;
           cell = cells[i];
           int value = StringUtilities.parseInt(cell.getText().toString());
-          if (stat.equals("Enemy's Attack Power")) attack = value;
-          else if (stat.equals("Enemy's Defense")) defense = value;
-          else if (stat.equals("Enemy's Hit Points")) hp = value;
+          switch (stat) {
+            case "Enemy's Attack Power":
+              attack = value;
+              break;
+            case "Enemy's Defense":
+              defense = value;
+              break;
+            case "Enemy's Hit Points":
+              hp = value;
+              break;
+          }
         }
         MonsterStatusTracker.setManuelStats(attack, defense, hp);
         return false;
@@ -7905,56 +7913,67 @@ public class FightRequest extends GenericRequest {
     String monsterName = monster != null ? monster.getName() : "";
 
     // Some monsters block items, but do not destroy them
-    if (monsterName.equals("Bonerdagon")) {
-      Matcher matcher = FightRequest.BONERDAGON_BLOCK_PATTERN.matcher(responseText);
-      if (matcher.find()) {
-        if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
+    switch (monsterName) {
+      case "Bonerdagon":
+        {
+          Matcher matcher = FightRequest.BONERDAGON_BLOCK_PATTERN.matcher(responseText);
+          if (matcher.find()) {
+            if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
+              return false;
+            }
+          }
+          break;
+        }
+      case "Your Shadow":
+        if (responseText.contains("knocks it out of your hands")) {
+          // We can't tell which item is blocked, so assume both if funkslinging
           return false;
         }
-      }
-    } else if (monsterName.equals("Your Shadow")) {
-      if (responseText.contains("knocks it out of your hands")) {
-        // We can't tell which item is blocked, so assume both if funkslinging
-        return false;
-      }
-    } else if (monsterName.equals("Naughty Sorceress")) {
-      Matcher matcher = FightRequest.NS1_BLOCK1_PATTERN.matcher(responseText);
-      if (matcher.find()) {
-        if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
-          return false;
+        break;
+      case "Naughty Sorceress":
+        {
+          Matcher matcher = FightRequest.NS1_BLOCK1_PATTERN.matcher(responseText);
+          if (matcher.find()) {
+            if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
+              return false;
+            }
+          }
+          matcher = FightRequest.NS1_BLOCK2_PATTERN.matcher(responseText);
+          if (matcher.find()) {
+            if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
+              return false;
+            }
+          }
+          matcher = FightRequest.NS1_BLOCK3_PATTERN.matcher(responseText);
+          if (matcher.find()) {
+            if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
+              return false;
+            }
+          }
+          break;
         }
-      }
-      matcher = FightRequest.NS1_BLOCK2_PATTERN.matcher(responseText);
-      if (matcher.find()) {
-        if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
-          return false;
+      case "Naughty Sorceress (2)":
+        {
+          Matcher matcher = FightRequest.NS2_BLOCK1_PATTERN.matcher(responseText);
+          if (matcher.find()) {
+            if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
+              return false;
+            }
+          }
+          matcher = FightRequest.NS2_BLOCK2_PATTERN.matcher(responseText);
+          if (matcher.find()) {
+            if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
+              return false;
+            }
+          }
+          matcher = FightRequest.NS2_BLOCK3_PATTERN.matcher(responseText);
+          if (matcher.find()) {
+            if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
+              return false;
+            }
+          }
+          break;
         }
-      }
-      matcher = FightRequest.NS1_BLOCK3_PATTERN.matcher(responseText);
-      if (matcher.find()) {
-        if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
-          return false;
-        }
-      }
-    } else if (monsterName.equals("Naughty Sorceress (2)")) {
-      Matcher matcher = FightRequest.NS2_BLOCK1_PATTERN.matcher(responseText);
-      if (matcher.find()) {
-        if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
-          return false;
-        }
-      }
-      matcher = FightRequest.NS2_BLOCK2_PATTERN.matcher(responseText);
-      if (matcher.find()) {
-        if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
-          return false;
-        }
-      }
-      matcher = FightRequest.NS2_BLOCK3_PATTERN.matcher(responseText);
-      if (matcher.find()) {
-        if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
-          return false;
-        }
-      }
     }
 
     switch (itemId) {
@@ -9877,27 +9896,35 @@ public class FightRequest extends GenericRequest {
     // fake fight.php URL and call registerRequest on it.
 
     String action = m.group(1);
-    if (action.equals("attack")) {
-      FightRequest.registerRequest(false, "fight.php?attack");
-    } else if (action.equals("runaway")) {
-      FightRequest.registerRequest(false, "fight.php?runaway");
-    } else if (action.equals("steal")) {
-      FightRequest.registerRequest(false, "fight.php?steal");
-    } else if (action.equals("chefstaff")) {
-      FightRequest.registerRequest(false, "fight.php?chefstaff");
-    } else if (action.equals("skill")) {
-      FightRequest.registerRequest(false, "fight.php?whichskill=" + m.group(2));
-    } else if (action.equals("use")) {
-      String item1 = m.group(2);
-      String item2 = m.group(3);
-      if (item2 == null) {
-        FightRequest.registerRequest(false, "fight.php?whichitem=" + item1);
-      } else {
-        FightRequest.registerRequest(
-            false, "fight.php?whichitem=" + item1 + "&whichitem2=" + item2);
-      }
-    } else {
-      System.out.println("unrecognized macroaction: " + action);
+    switch (action) {
+      case "attack":
+        FightRequest.registerRequest(false, "fight.php?attack");
+        break;
+      case "runaway":
+        FightRequest.registerRequest(false, "fight.php?runaway");
+        break;
+      case "steal":
+        FightRequest.registerRequest(false, "fight.php?steal");
+        break;
+      case "chefstaff":
+        FightRequest.registerRequest(false, "fight.php?chefstaff");
+        break;
+      case "skill":
+        FightRequest.registerRequest(false, "fight.php?whichskill=" + m.group(2));
+        break;
+      case "use":
+        String item1 = m.group(2);
+        String item2 = m.group(3);
+        if (item2 == null) {
+          FightRequest.registerRequest(false, "fight.php?whichitem=" + item1);
+        } else {
+          FightRequest.registerRequest(
+              false, "fight.php?whichitem=" + item1 + "&whichitem2=" + item2);
+        }
+        break;
+      default:
+        System.out.println("unrecognized macroaction: " + action);
+        break;
     }
   }
 
