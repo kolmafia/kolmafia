@@ -4316,7 +4316,7 @@ public class FightRequest extends GenericRequest {
   }
 
   public static final String getSpecialAction() {
-    ArrayList<Integer> items = new ArrayList<Integer>();
+    ArrayList<Integer> items = new ArrayList<>();
 
     String pref = Preferences.getString("autoOlfact");
     if (!pref.equals("")
@@ -5851,7 +5851,7 @@ public class FightRequest extends GenericRequest {
     String image = "";
     String name = "";
     int power = 0;
-    List<String> attributes = new ArrayList<String>();
+    List<String> attributes = new ArrayList<>();
     String attribute = "None";
     int hp = 0;
 
@@ -9903,14 +9903,14 @@ public class FightRequest extends GenericRequest {
 
   // ****** Move this somewhere appropriate
 
-  private static final Map<String, String> pokefamMoveToAction1 = new HashMap<String, String>();
-  private static final Map<String, String> pokefamActionToMove1 = new HashMap<String, String>();
-  private static final Map<String, String> pokefamMoveToAction2 = new HashMap<String, String>();
-  private static final Map<String, String> pokefamActionToMove2 = new HashMap<String, String>();
-  private static final Map<String, String> pokefamMoveToAction3 = new HashMap<String, String>();
-  private static final Map<String, String> pokefamActionToMove3 = new HashMap<String, String>();
+  private static final Map<String, String> pokefamMoveToAction1 = new HashMap<>();
+  private static final Map<String, String> pokefamActionToMove1 = new HashMap<>();
+  private static final Map<String, String> pokefamMoveToAction2 = new HashMap<>();
+  private static final Map<String, String> pokefamActionToMove2 = new HashMap<>();
+  private static final Map<String, String> pokefamMoveToAction3 = new HashMap<>();
+  private static final Map<String, String> pokefamActionToMove3 = new HashMap<>();
 
-  private static final Map<String, String> pokefamMoveDescriptions = new HashMap<String, String>();
+  private static final Map<String, String> pokefamMoveDescriptions = new HashMap<>();
 
   private static void mapMoveToAction(int num, String move, String action, String description) {
     Map<String, String> moveToAction;
