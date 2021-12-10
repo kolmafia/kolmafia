@@ -2553,7 +2553,7 @@
 2551	Blessing of the Bird	findbird.gif	8de6fb855433dc4b90fb4dbc2a5c919d	neutral	none	cast 1 Seek out a Bird
 2552	Blessing of your favorite Bird	favoritebird.gif	e9c3b4f9a7f9b24166b835481f15c875	neutral	none	cast 1 Visit your Favorite Bird
 2553	Scariersauce	scarysauce.gif	33e4e82db2376879224ab4d8d406325a	good	nohookah
-2554	Dirge of Dreadfulness (Remastered)	dirge.gif	ec4766a15304fe13ca2334dfb41fd494	good	nohookah
+2554	Dirge of Dreadfulness (Remastered)	dirge.gif	ec4766a15304fe13ca2334dfb41fd494	good	song,nohookah
 2555	Snarl of Three Timberwolves	wolfmask.gif	193ef2bbdde7fe95e51e5a527ae4f42e	good	nohookah
 2556	Invisible Avatar	missingavatar.gif	da6f47ae655716b599e530128712c36c	neutral	none	cast 1 CHEAT CODE: Invisible Avatar
 2557	Triple-Sized	triplesize.gif	6be2d9af5964c3bc987c0696ea60eeeb	good	none	cast 1 CHEAT CODE: Triple Size
