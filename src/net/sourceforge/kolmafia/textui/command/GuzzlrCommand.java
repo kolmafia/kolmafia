@@ -65,13 +65,15 @@ public class GuzzlrCommand extends AbstractCommand {
           break;
       }
       if (option == null) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "Unrecognised client tier " + parameters);
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Use command 'guzzlr accept [bronze | gold | platinum]'");
         return;
       }
 
       KoLmafia.updateDisplay("Accepting a " + parameters + " client");
       tap();
       runChoice(option);
+    } else {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Use command guzzlr " + this.usage);
     }
   }
 

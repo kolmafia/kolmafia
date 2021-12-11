@@ -43,6 +43,15 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
+  void mustSpecifyParameters() {
+    playerHasGuzzlrTablet();
+    String output = execute("");
+
+    assertErrorState();
+    assertThat(output, containsString("Use command guzzlr"));
+  }
+
+  @Test
   void abandonMustHaveQuest() {
     playerHasGuzzlrTablet();
     Preferences.setString("questGuzzlr", "unstarted");
@@ -89,7 +98,7 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
     String output = execute("accept silver");
 
     assertErrorState();
-    assertThat(output, containsString("Unrecognised client tier"));
+    assertThat(output, containsString("Use command 'guzzlr"));
   }
 
   @Test
