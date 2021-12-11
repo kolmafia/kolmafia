@@ -81,7 +81,6 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -8001,74 +8000,18 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value location, final Value includeQueue) {
     KoLAdventure adventure = (KoLAdventure) location.rawValue();
     AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
+    boolean stateful = includeQueue.intValue() == 1;
 
     AggregateType type = new AggregateType(DataTypes.FLOAT_TYPE, DataTypes.MONSTER_TYPE);
     MapValue value = new MapValue(type);
     if (data == null) return value;
 
-    data.recalculate();
-
-    boolean hasForceMonster = EncounterManager.isSaberForceZone(data.getZone());
-    boolean hasPrediction = data.getZone().equals(Preferences.getString("crystalBallLocation"));
-
-    double combatFactor = data.areaCombatPercent();
-
-    if (hasForceMonster) {
-      combatFactor = 100.0f;
-    }
-
     value.aset(
-        DataTypes.MONSTER_INIT, new Value(data.combats() < 0 ? -1.0F : 100.0f - combatFactor));
+        DataTypes.MONSTER_INIT,
+        new Value(data.combats() < 0 ? -1.0F : 100.0f - data.areaCombatPercent()));
 
-    double total = data.totalWeighting();
-    double superlikelyChance = 0.0;
-    for (int i = data.getSuperlikelyMonsterCount() - 1; i >= 0; --i) {
-      MonsterData monster = data.getSuperlikelyMonster(i);
-      String name = monster.getName();
-      double chance = AreaCombatData.superlikelyChance(name);
-      superlikelyChance += chance;
-      Value toSet = new Value(chance);
-      value.aset(DataTypes.makeMonsterValue(monster), toSet);
-    }
-
-    double combatChance = combatFactor * (1 - superlikelyChance / 100);
-
-    for (int i = data.getMonsterCount() - 1; i >= 0; --i) {
-      int weight = data.getWeighting(i);
-      double rejection = data.getRejection(i);
-      if (weight == -2) continue; // impossible this ascension
-
-      Value toSet;
-      if (weight == -4) {
-        // Temporarily set to 0% chance
-        toSet = new Value(0);
-      } else if (weight <= 0) {
-        // Ultrarares & Banished
-        toSet = new Value(weight);
-      } else if (includeQueue.intValue() == 1) {
-        // Force monster takes precedence over the orb prediction
-        if (hasForceMonster) {
-          if (EncounterManager.isSaberForceMonster(data.getMonster(i).getName(), data.getZone())) {
-            toSet = new Value(100);
-          } else {
-            toSet = new Value(0);
-          }
-        } else if (hasPrediction) {
-          if (EncounterManager.isCrystalBallMonster(data.getMonster(i).getName(), data.getZone())) {
-            toSet = new Value(combatChance);
-          } else {
-            toSet = new Value(0);
-          }
-        } else {
-          toSet =
-              new Value(
-                  AdventureQueueDatabase.applyQueueEffects(
-                      combatChance * weight * (1 - rejection / 100), data.getMonster(i), data));
-        }
-      } else {
-        toSet = new Value(combatChance * (1 - rejection / 100) * weight / total);
-      }
-      value.aset(DataTypes.makeMonsterValue(data.getMonster(i)), toSet);
+    for (Map.Entry<MonsterData, Double> entry : data.getMonsterData(stateful).entrySet()) {
+      value.aset(DataTypes.makeMonsterValue(entry.getKey()), new Value(entry.getValue()));
     }
 
     return value;
@@ -8309,32 +8252,14 @@ public abstract class RuntimeLibrary {
     if (arg.getType().equals(DataTypes.TYPE_LOCATION)) {
       KoLAdventure adventure = (KoLAdventure) arg.rawValue();
       AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
-
-      int monsterCount = data == null ? 0 : data.getMonsterCount();
-      int superlikelyMonsterCount = data == null ? 0 : data.getSuperlikelyMonsterCount();
-      int jumpChance = data == null ? 0 : 100;
-
-      for (int i = 0; i < monsterCount; ++i) {
-        int monsterJumpChance = data.getMonster(i).getJumpChance();
-        if (jumpChance > monsterJumpChance && data.getWeighting(i) > 0) {
-          jumpChance = monsterJumpChance;
-        }
-      }
-      for (int i = 0; i < superlikelyMonsterCount; ++i) {
-        MonsterData monster = data.getSuperlikelyMonster(i);
-        int monsterJumpChance = monster.getJumpChance();
-        if (jumpChance > monsterJumpChance
-            && AreaCombatData.superlikelyChance(monster.getName()) > 0) {
-          jumpChance = monsterJumpChance;
-        }
-      }
-      return new Value(jumpChance);
+      return new Value(data.getJumpChance());
     }
     return DataTypes.ZERO_VALUE;
   }
 
   public static Value jump_chance(ScriptRuntime controller, final Value arg, final Value init) {
     int initiative = (int) init.intValue();
+
     if (arg.getType().equals(DataTypes.TYPE_MONSTER)) {
       MonsterData monster = (MonsterData) arg.rawValue();
       if (monster == null) {
@@ -8346,26 +8271,10 @@ public abstract class RuntimeLibrary {
     if (arg.getType().equals(DataTypes.TYPE_LOCATION)) {
       KoLAdventure adventure = (KoLAdventure) arg.rawValue();
       AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
-
-      int monsterCount = data == null ? 0 : data.getMonsterCount();
-      int superlikelyMonsterCount = data == null ? 0 : data.getSuperlikelyMonsterCount();
-      int jumpChance = data == null ? 0 : 100;
-
-      for (int i = 0; i < monsterCount; ++i) {
-        int monsterJumpChance = data.getMonster(i).getJumpChance(initiative);
-        if (jumpChance > monsterJumpChance && data.getWeighting(i) > 0) {
-          jumpChance = monsterJumpChance;
-        }
+      if (data == null) {
+        return DataTypes.ZERO_VALUE;
       }
-      for (int i = 0; i < superlikelyMonsterCount; ++i) {
-        MonsterData monster = data.getSuperlikelyMonster(i);
-        int monsterJumpChance = monster.getJumpChance(initiative);
-        if (jumpChance > monsterJumpChance
-            && AreaCombatData.superlikelyChance(monster.getName()) > 0) {
-          jumpChance = monsterJumpChance;
-        }
-      }
-      return new Value(jumpChance);
+      return new Value(data.getJumpChance(initiative));
     }
     return DataTypes.ZERO_VALUE;
   }
@@ -8385,18 +8294,12 @@ public abstract class RuntimeLibrary {
     if (arg.getType().equals(DataTypes.TYPE_LOCATION)) {
       KoLAdventure adventure = (KoLAdventure) arg.rawValue();
       AreaCombatData data = adventure == null ? null : adventure.getAreaSummary();
-
-      int monsterCount = data == null ? 0 : data.getMonsterCount();
-      int jumpChance = data == null ? 0 : 100;
-
-      for (int i = 0; i < monsterCount; ++i) {
-        int monsterJumpChance = data.getMonster(i).getJumpChance(initiative, monsterLevel);
-        if (jumpChance > monsterJumpChance && data.getWeighting(i) > 0) {
-          jumpChance = monsterJumpChance;
-        }
+      if (data == null) {
+        return DataTypes.ZERO_VALUE;
       }
-      return new Value(jumpChance);
+      return new Value(data.getJumpChance(initiative, monsterLevel));
     }
+
     return DataTypes.ZERO_VALUE;
   }
 
