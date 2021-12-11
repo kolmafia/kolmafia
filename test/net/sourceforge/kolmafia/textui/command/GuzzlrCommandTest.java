@@ -30,7 +30,7 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
     this.command = "guzzlr";
   }
 
-  private static void hasGuzzlrTablet() {
+  private static void playerHasGuzzlrTablet() {
     AdventureResult.addResultToList(KoLConstants.inventory, ItemPool.get(ItemPool.GUZZLR_TABLET));
   }
 
@@ -44,7 +44,7 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void abandonMustHaveQuest() {
-    hasGuzzlrTablet();
+    playerHasGuzzlrTablet();
     Preferences.setString("questGuzzlr", "unstarted");
     String output = execute("abandon");
 
@@ -54,7 +54,7 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void cannotAbandonTwiceInADay() {
-    hasGuzzlrTablet();
+    playerHasGuzzlrTablet();
     Preferences.setBoolean("_guzzlrQuestAbandoned", true);
     Preferences.setString("questGuzzlr", "started");
     String output = execute("abandon");
@@ -65,7 +65,7 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void abandonAbandons() {
-    hasGuzzlrTablet();
+    playerHasGuzzlrTablet();
     Preferences.setString("questGuzzlr", "started");
     String output = execute("abandon");
 
@@ -75,7 +75,7 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void acceptRequiresNoClient() {
-    hasGuzzlrTablet();
+    playerHasGuzzlrTablet();
     Preferences.setString("questGuzzlr", "started");
     String output = execute("accept bronze");
 
@@ -85,7 +85,7 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void acceptRequiresValidClient() {
-    hasGuzzlrTablet();
+    playerHasGuzzlrTablet();
     String output = execute("accept silver");
 
     assertErrorState();
@@ -94,7 +94,7 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void acceptBronze() {
-    hasGuzzlrTablet();
+    playerHasGuzzlrTablet();
     String output = execute("accept bronze");
 
     assertContinueState();
@@ -103,7 +103,7 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void acceptGoldRequiresFiveBronze() {
-    hasGuzzlrTablet();
+    playerHasGuzzlrTablet();
     String output = execute("accept gold");
 
     assertErrorState();
@@ -113,7 +113,7 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void acceptGold() {
-    hasGuzzlrTablet();
+    playerHasGuzzlrTablet();
     Preferences.setInteger("guzzlrBronzeDeliveries", 5);
     String output = execute("accept gold");
 
@@ -123,7 +123,7 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void acceptPlatinumRequiresFiveGold() {
-    hasGuzzlrTablet();
+    playerHasGuzzlrTablet();
     String output = execute("accept platinum");
 
     assertErrorState();
@@ -133,7 +133,7 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
 
   @Test
   void acceptPlatinum() {
-    hasGuzzlrTablet();
+    playerHasGuzzlrTablet();
     Preferences.setInteger("guzzlrGoldDeliveries", 5);
     String output = execute("accept platinum");
 
