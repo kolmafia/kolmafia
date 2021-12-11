@@ -32,6 +32,7 @@ public class AreaCombatDataTest {
   @BeforeEach
   public void beforeEach() {
     KoLCharacter.reset("fakeUserName");
+    Preferences.reset("fakeUsername");
   }
 
   @Test
