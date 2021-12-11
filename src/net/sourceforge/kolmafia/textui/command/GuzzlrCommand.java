@@ -43,22 +43,26 @@ public class GuzzlrCommand extends AbstractCommand {
       }
       parameters = parameters.substring(7);
       Integer option = null;
-      if (parameters.equals("bronze")) {
-        option = 2;
-      } else if (parameters.equals("gold")) {
-        if (Preferences.getInteger("guzzlrBronzeDeliveries") < 5) {
-          KoLmafia.updateDisplay(
-              MafiaState.ERROR, "You need to make 5 bronze deliveries to serve gold clients.");
-          return;
-        }
-        option = 3;
-      } else if (parameters.equals("platinum")) {
-        if (Preferences.getInteger("guzzlrGoldDeliveries") < 5) {
-          KoLmafia.updateDisplay(
-              MafiaState.ERROR, "You need to make 5 gold deliveries to serve platinum clients.");
-          return;
-        }
-        option = 4;
+      switch (parameters) {
+        case "bronze":
+          option = 2;
+          break;
+        case "gold":
+          if (Preferences.getInteger("guzzlrBronzeDeliveries") < 5) {
+            KoLmafia.updateDisplay(
+                MafiaState.ERROR, "You need to make 5 bronze deliveries to serve gold clients.");
+            return;
+          }
+          option = 3;
+          break;
+        case "platinum":
+          if (Preferences.getInteger("guzzlrGoldDeliveries") < 5) {
+            KoLmafia.updateDisplay(
+                MafiaState.ERROR, "You need to make 5 gold deliveries to serve platinum clients.");
+            return;
+          }
+          option = 4;
+          break;
       }
       if (option == null) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Unrecognised client tier " + parameters);
