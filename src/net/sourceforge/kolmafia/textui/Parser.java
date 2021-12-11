@@ -175,18 +175,7 @@ public class Parser {
           "Parser was not properly initialized before parsing was attempted");
     }
 
-    Token firstToken = this.currentToken();
-    Scope scope =
-        this.parseScope(null, null, null, Parser.getExistingFunctionScope(), false, false);
-
-    Location scriptLocation = this.makeLocation(firstToken, this.peekPreviousToken());
-    scope.setScopeLocation(scriptLocation);
-
-    if (this.currentLine.nextLine != null) {
-      throw this.parseException("Script parsing error");
-    }
-
-    return scope;
+    return this.parseFile(null);
   }
 
   public String getFileName() {
@@ -355,10 +344,7 @@ public class Parser {
     this.imports.put(scriptFile, scriptFile.lastModified());
 
     Parser parser = new Parser(scriptFile, null, this.imports);
-    Scope result = parser.parseScope(scope, null, null, scope.getParentScope(), false, false);
-    if (parser.currentLine.nextLine != null) {
-      throw this.parseException("Script parsing error");
-    }
+    Scope result = parser.parseFile(scope);
 
     if (parser.mainMethod
         != null) { // Make imported script's main() available under a different name
@@ -404,14 +390,32 @@ public class Parser {
     return result;
   }
 
+  private Scope parseFile(final Scope startScope) {
+    final Scope result =
+        startScope == null
+            ? new Scope((VariableList) null, Parser.getExistingFunctionScope())
+            : startScope;
+
+    Token firstToken = this.currentToken();
+    this.parseScope(result, null, result.getParentScope(), false, false);
+
+    Location scriptLocation = this.makeLocation(firstToken, this.peekPreviousToken());
+    result.setScopeLocation(scriptLocation);
+
+    if (this.currentLine.nextLine != null) {
+      throw this.parseException("Script parsing error");
+    }
+
+    return result;
+  }
+
   private Scope parseScope(
-      final Scope startScope,
       final Type expectedType,
       final VariableList variables,
       final BasicScope parentScope,
       final boolean allowBreak,
       final boolean allowContinue) {
-    Scope result = startScope == null ? new Scope(variables, parentScope) : startScope;
+    Scope result = new Scope(variables, parentScope);
     return this.parseScope(result, expectedType, parentScope, allowBreak, allowContinue);
   }
 
@@ -1475,8 +1479,7 @@ public class Parser {
 
     this.readToken(); // {
 
-    Scope scope =
-        this.parseScope(null, functionType, variables, parentScope, allowBreak, allowContinue);
+    Scope scope = this.parseScope(functionType, variables, parentScope, allowBreak, allowContinue);
 
     if (this.currentToken().equals("}")) {
       this.readToken(); // read }
