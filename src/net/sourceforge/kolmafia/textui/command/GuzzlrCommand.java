@@ -65,7 +65,8 @@ public class GuzzlrCommand extends AbstractCommand {
           break;
       }
       if (option == null) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "Use command 'guzzlr accept [bronze | gold | platinum]'");
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR, "Use command 'guzzlr accept [bronze | gold | platinum]'");
         return;
       }
 
