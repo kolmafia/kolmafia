@@ -107,7 +107,8 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
     String output = execute("accept gold");
 
     assertErrorState();
-    assertThat(output, containsString("You need to make 5 bronze deliveries to serve gold clients"));
+    assertThat(
+        output, containsString("You need to make 5 bronze deliveries to serve gold clients"));
   }
 
   @Test
@@ -126,7 +127,8 @@ public class GuzzlrCommandTest extends AbstractCommandTestBase {
     String output = execute("accept platinum");
 
     assertErrorState();
-    assertThat(output, containsString("You need to make 5 gold deliveries to serve platinum clients"));
+    assertThat(
+        output, containsString("You need to make 5 gold deliveries to serve platinum clients"));
   }
 
   @Test

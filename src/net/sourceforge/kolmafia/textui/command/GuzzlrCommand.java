@@ -11,8 +11,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class GuzzlrCommand extends AbstractCommand {
   public GuzzlrCommand() {
-    this.usage =
-        " [abandon | accept <bronze|gold|platinum>] - Use the Guzzlr tablet";
+    this.usage = " [abandon | accept <bronze|gold|platinum>] - Use the Guzzlr tablet";
   }
 
   @Override
@@ -38,7 +37,8 @@ public class GuzzlrCommand extends AbstractCommand {
       runChoice(5);
     } else if (parameters.startsWith("accept ")) {
       if ("started".equals(Preferences.getString("questGuzzlr"))) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "You already have a client, and need to abandon that client first.");
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR, "You already have a client, and need to abandon that client first.");
         return;
       }
       parameters = parameters.substring(7);
@@ -47,20 +47,21 @@ public class GuzzlrCommand extends AbstractCommand {
         option = 2;
       } else if (parameters.equals("gold")) {
         if (Preferences.getInteger("guzzlrBronzeDeliveries") < 5) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "You need to make 5 bronze deliveries to serve gold clients.");
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR, "You need to make 5 bronze deliveries to serve gold clients.");
           return;
         }
         option = 3;
       } else if (parameters.equals("platinum")) {
         if (Preferences.getInteger("guzzlrGoldDeliveries") < 5) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "You need to make 5 gold deliveries to serve platinum clients.");
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR, "You need to make 5 gold deliveries to serve platinum clients.");
           return;
         }
         option = 4;
       }
       if (option == null) {
-        KoLmafia.updateDisplay(
-            MafiaState.ERROR, "Unrecognised client tier " + parameters);
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Unrecognised client tier " + parameters);
         return;
       }
 
