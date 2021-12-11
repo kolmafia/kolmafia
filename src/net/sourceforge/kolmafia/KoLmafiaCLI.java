@@ -651,6 +651,7 @@ public class KoLmafiaCLI {
     new GrandpaCommand().register("grandpa");
     new GrayGUICommand().register("graygui").register("greygui").register("jstack");
     new GrimCommand().register("grim");
+    new GuzzlrCommand().register("guzzlr");
     new HallOfLegendsCommand().register("donate");
     new HatterCommand().register("hatter");
     new HeapDumpCommand().register("jmap").register("heapdump");
