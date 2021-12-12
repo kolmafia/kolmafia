@@ -743,7 +743,8 @@ public class StoreManageFrame extends GenericPanelFrame {
       JPanel northPanel = new JPanel(new BorderLayout());
       this.actualPanel.add(northPanel, BorderLayout.NORTH);
 
-      AutoFilterTextField filterField = new AutoFilterTextField(this.scrollComponent);
+      AutoFilterTextField<StoreLogEntry> filterField =
+          new AutoFilterTextField<>(this.scrollComponent);
       this.centerPanel.add(filterField, BorderLayout.NORTH);
     }
 

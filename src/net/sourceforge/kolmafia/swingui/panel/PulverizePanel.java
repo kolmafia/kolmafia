@@ -149,11 +149,12 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
   }
 
   @Override
-  public AutoFilterTextField getWordFilter() {
+  public AutoFilterTextField<AdventureResult> getWordFilter() {
     return new EquipmentFilterField();
   }
 
-  private class EquipmentFilterField extends AutoFilterTextField implements ListSelectionListener {
+  private class EquipmentFilterField extends AutoFilterTextField<AdventureResult>
+      implements ListSelectionListener {
     boolean others = false;
     boolean smiths = false;
     int elemMask = 0;

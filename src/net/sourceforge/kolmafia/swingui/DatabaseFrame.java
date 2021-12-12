@@ -86,8 +86,8 @@ public class DatabaseFrame extends GenericFrame {
     }
 
     @Override
-    public AutoFilterTextField getWordFilter() {
-      return new AutoFilterTextField(this.elementModel);
+    public AutoFilterTextField<LowerCaseEntry<Integer, E>> getWordFilter() {
+      return new AutoFilterTextField<>(this.elementModel);
     }
 
     /** Utility class which shows the description of the item which is currently selected. */

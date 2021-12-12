@@ -290,7 +290,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
   }
 
   @Override
-  public AutoFilterTextField getWordFilter() {
+  public AutoFilterTextField<Concoction> getWordFilter() {
     return new ConsumableFilterField();
   }
 
