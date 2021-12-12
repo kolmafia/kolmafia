@@ -58,7 +58,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
   public JCheckBox[] filters;
   public JRadioButton[] movers;
 
-  protected final AutoFilterTextField filterField;
+  protected final AutoFilterTextField<E> filterField;
   protected JPanel buttonPanel;
   protected ThreadedButton refreshButton;
 
@@ -100,7 +100,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
 
   public abstract Object[] getSelectedValues();
 
-  protected AutoFilterTextField getWordFilter() {
+  protected AutoFilterTextField<E> getWordFilter() {
     return new FilterItemField();
   }
 
@@ -125,13 +125,14 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       final boolean other,
       final boolean notrade) {
     if (this.filterField instanceof ItemManagePanel.FilterItemField) {
-      FilterItemField itemfilter = (FilterItemField) this.filterField;
+      ItemManagePanel<?, ?>.FilterItemField itemFilter =
+          (ItemManagePanel<?, ?>.FilterItemField) this.filterField;
 
-      itemfilter.food = food;
-      itemfilter.booze = booze;
-      itemfilter.equip = equip;
-      itemfilter.other = other;
-      itemfilter.notrade = notrade;
+      itemFilter.food = food;
+      itemFilter.booze = booze;
+      itemFilter.equip = equip;
+      itemFilter.other = other;
+      itemFilter.notrade = notrade;
     }
 
     this.filterItems();
@@ -766,7 +767,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
    * Special instance of a JComboBox which overrides the default key events of a JComboBox to allow
    * you to catch key events.
    */
-  public class FilterItemField extends AutoFilterTextField {
+  public class FilterItemField extends AutoFilterTextField<E> {
     public boolean food, booze, equip, restores, other, notrade, instyle;
 
     public FilterItemField() {

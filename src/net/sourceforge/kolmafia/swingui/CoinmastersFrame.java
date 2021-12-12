@@ -1699,7 +1699,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       }
 
       @Override
-      public AutoFilterTextField getWordFilter() {
+      public AutoFilterTextField<AdventureResult> getWordFilter() {
         return new SellableFilterField();
       }
 
@@ -1812,7 +1812,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       public void addMovers() {}
 
       @Override
-      public AutoFilterTextField getWordFilter() {
+      public AutoFilterTextField<AdventureResult> getWordFilter() {
         return new BuyableFilterField();
       }
 

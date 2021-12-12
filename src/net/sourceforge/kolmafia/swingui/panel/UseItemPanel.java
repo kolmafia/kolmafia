@@ -15,7 +15,7 @@ public class UseItemPanel extends InventoryPanel<AdventureResult> {
   }
 
   @Override
-  public AutoFilterTextField getWordFilter() {
+  public AutoFilterTextField<AdventureResult> getWordFilter() {
     return new UsableItemFilterField();
   }
 

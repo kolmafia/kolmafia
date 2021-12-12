@@ -36,7 +36,7 @@ public class OverlapPanel extends ItemListManagePanel<AdventureResult> {
   }
 
   @Override
-  public AutoFilterTextField getWordFilter() {
+  public AutoFilterTextField<AdventureResult> getWordFilter() {
     return new OverlapFilterField();
   }
 

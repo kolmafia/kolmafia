@@ -96,7 +96,7 @@ public class AdventureSelectPanel extends JPanel {
       this.zoneSelect = new FilterAdventureComboBox();
       this.matchingAdventures.setFilter((FilterAdventureComboBox) this.zoneSelect);
     } else {
-      this.zoneSelect = new AutoFilterTextField(this.locationSelect);
+      this.zoneSelect = new AutoFilterTextField<>(this.locationSelect);
     }
 
     this.zoneMap = new TreeMap<>();

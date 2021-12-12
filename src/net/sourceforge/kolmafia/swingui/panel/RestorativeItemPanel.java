@@ -22,7 +22,7 @@ public class RestorativeItemPanel extends ItemTableManagePanel<AdventureResult> 
   }
 
   @Override
-  public AutoFilterTextField getWordFilter() {
+  public AutoFilterTextField<AdventureResult> getWordFilter() {
     return new RestorativeItemFilterField();
   }
 

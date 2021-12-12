@@ -9,7 +9,7 @@ import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 
 public class ScrollableFilteredPanel<E> extends ScrollablePanel<ShowDescriptionList<E>> {
-  private final AutoFilterTextField filterField;
+  private final AutoFilterTextField<E> filterField;
   public ShowDescriptionList<E> elementList;
 
   public ScrollableFilteredPanel(
@@ -19,7 +19,7 @@ public class ScrollableFilteredPanel<E> extends ScrollablePanel<ShowDescriptionL
       final ShowDescriptionList<E> scrollComponent) {
     super(title, confirmedText, cancelledText, scrollComponent);
     this.elementList = this.scrollComponent;
-    this.filterField = new AutoFilterTextField(this.elementList);
+    this.filterField = new AutoFilterTextField<>(this.elementList);
     JPanel topPanel = new JPanel(new BorderLayout());
 
     if (!title.equals("")) {

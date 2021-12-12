@@ -146,7 +146,7 @@ public class ScriptManageFrame extends GenericPanelFrame {
       JLabel label = new JLabel("Search: ");
       topInnerRight.add(label, BorderLayout.WEST);
       JComponent filter =
-          new AutoFilterTextField(ScriptManageFrame.this.repoTable.getDisplayModel());
+          new AutoFilterTextField<>(ScriptManageFrame.this.repoTable.getDisplayModel());
       filter.setPreferredSize(new Dimension(150, filter.getPreferredSize().height));
       topInnerRight.add(filter, BorderLayout.CENTER);
 
