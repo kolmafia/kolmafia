@@ -85,11 +85,7 @@ public class CrystalBallManager {
     Preferences.setString("crystalBallPredictions", String.join("|", predictions));
   }
 
-  /**
-   * Parses an in-combat miniature crystal ball prediction.
-   *
-   * @param responseText
-   */
+  /** Parses an in-combat miniature crystal ball prediction. */
   public static void parseCrystalBall(final String responseText) {
     String predictedMonster = parseCrystalBallMonster(responseText);
 
@@ -119,7 +115,7 @@ public class CrystalBallManager {
     return null;
   }
 
-  public static void updateCrystalBallPredictions(final String urlString) {
+  public static void updateCrystalBallPredictions() {
     if (KoLAdventure.lastVisitedLocation() == null) {
       return;
     }
