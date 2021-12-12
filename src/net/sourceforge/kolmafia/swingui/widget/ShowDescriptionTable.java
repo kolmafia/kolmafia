@@ -584,14 +584,20 @@ public class ShowDescriptionTable<E> extends JXTable {
   }
 
   public void removeTriggers() {
-    Object[] items = ShowDescriptionTable.this.getSelectedValues();
+    List<E> items = ShowDescriptionTable.this.getSelectedValues();
+    List<MoodTrigger> triggers = new ArrayList<>(items.size());
+
+    for (final E item : items) {
+      triggers.add((MoodTrigger) item);
+    }
+
     ShowDescriptionTable.this.clearSelection();
 
-    MoodManager.removeTriggers(items);
+    MoodManager.removeTriggers(triggers);
     MoodManager.saveSettings();
   }
 
-  public Object[] getSelectedValues() {
+  public List<E> getSelectedValues() {
     /*
      * Since this function exists for lists but not for tables, provide this as a pseudo-adapter function.
      * Note that we have to get the MODEL index from the sorter object, as there is possibly a
@@ -600,12 +606,12 @@ public class ShowDescriptionTable<E> extends JXTable {
 
     int[] selectedRows = this.getSelectedRows();
 
-    Object[] selectedValues = new Object[selectedRows.length];
+    List<E> selectedValues = new ArrayList<>(selectedRows.length);
 
-    for (int i = 0; i < selectedRows.length; ++i) {
-      selectedValues[i] =
-          this.displayModel.getElementAt(this.convertRowIndexToModel(selectedRows[i]));
+    for (final int selectedRow : selectedRows) {
+      selectedValues.add(this.displayModel.getElementAt(this.convertRowIndexToModel(selectedRow)));
     }
+
     return selectedValues;
   }
 
@@ -627,10 +633,10 @@ public class ShowDescriptionTable<E> extends JXTable {
 
   public AdventureResult[] getSelectedItems() {
     // Obviously, this only works if the model contains AdventureResults
-    Object[] values = this.getSelectedValues();
-    AdventureResult[] result = new AdventureResult[values.length];
-    for (int i = 0; i < values.length; ++i) {
-      result[i] = (AdventureResult) values[i];
+    List<E> values = this.getSelectedValues();
+    AdventureResult[] result = new AdventureResult[values.size()];
+    for (int i = 0; i < values.size(); ++i) {
+      result[i] = (AdventureResult) values.get(i);
     }
     return result;
   }
@@ -638,12 +644,11 @@ public class ShowDescriptionTable<E> extends JXTable {
   private class ForceExecuteRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] items = ShowDescriptionTable.this.getSelectedValues();
-      ShowDescriptionTable.this.clearSelection();
-
-      for (int i = 0; i < items.length; ++i) {
-        KoLmafiaCLI.DEFAULT_SHELL.executeLine(((MoodTrigger) items[i]).getAction());
+      for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
+        KoLmafiaCLI.DEFAULT_SHELL.executeLine(((MoodTrigger) item).getAction());
       }
+
+      ShowDescriptionTable.this.clearSelection();
     }
   }
 
@@ -673,42 +678,40 @@ public class ShowDescriptionTable<E> extends JXTable {
   private class CastSkillRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] skills = ShowDescriptionTable.this.getSelectedValues();
-      ShowDescriptionTable.this.clearSelection();
-
       UseSkillRequest request;
 
-      for (int i = 0; i < skills.length; ++i) {
-        request = (UseSkillRequest) skills[i];
+      for (final E skill : ShowDescriptionTable.this.getSelectedValues()) {
+        request = (UseSkillRequest) skill;
 
         request.setTarget(null);
         request.setBuffCount(1);
 
         RequestThread.postRequest(request);
       }
+
+      ShowDescriptionTable.this.clearSelection();
     }
   }
 
   private class AddToMoodSkillRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] skills = ShowDescriptionTable.this.getSelectedValues();
-      ShowDescriptionTable.this.clearSelection();
-
       if (Preferences.getString("currentMood").equals("apathetic")) {
         Preferences.setString("currentMood", "default");
       }
 
       String name, action;
 
-      for (int i = 0; i < skills.length; ++i) {
-        name = UneffectRequest.skillToEffect(((UseSkillRequest) skills[i]).getSkillName());
+      for (final E skill : ShowDescriptionTable.this.getSelectedValues()) {
+        name = UneffectRequest.skillToEffect(((UseSkillRequest) skill).getSkillName());
 
         action = MoodManager.getDefaultAction("lose_effect", name);
         if (!action.equals("")) {
           MoodManager.addTrigger("lose_effect", name, action);
         }
       }
+
+      ShowDescriptionTable.this.clearSelection();
       MoodManager.saveSettings();
     }
   }
@@ -716,17 +719,14 @@ public class ShowDescriptionTable<E> extends JXTable {
   private class AddToMoodEffectRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] effects = ShowDescriptionTable.this.getSelectedValues();
-      ShowDescriptionTable.this.clearSelection();
-
       if (Preferences.getString("currentMood").equals("apathetic")) {
         Preferences.setString("currentMood", "default");
       }
 
       String name, action;
 
-      for (int i = 0; i < effects.length; ++i) {
-        name = ((AdventureResult) effects[i]).getName();
+      for (final E effect : ShowDescriptionTable.this.getSelectedValues()) {
+        name = ((AdventureResult) effect).getName();
 
         action = MoodManager.getDefaultAction("lose_effect", name);
         if (!action.equals("")) {
@@ -739,6 +739,8 @@ public class ShowDescriptionTable<E> extends JXTable {
           MoodManager.addTrigger("gain_effect", name, action);
         }
       }
+
+      ShowDescriptionTable.this.clearSelection();
       MoodManager.saveSettings();
     }
   }
@@ -746,28 +748,26 @@ public class ShowDescriptionTable<E> extends JXTable {
   private class ExtendEffectRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] effects = ShowDescriptionTable.this.getSelectedValues();
-      ShowDescriptionTable.this.clearSelection();
-
       String name, action;
 
-      for (int i = 0; i < effects.length; ++i) {
-        name = ((AdventureResult) effects[i]).getName();
+      for (final E effect : ShowDescriptionTable.this.getSelectedValues()) {
+        name = ((AdventureResult) effect).getName();
 
         action = MoodManager.getDefaultAction("lose_effect", name);
         if (!action.equals("")) {
           CommandDisplayFrame.executeCommand(action);
         }
       }
+
+      ShowDescriptionTable.this.clearSelection();
     }
   }
 
   private class ShrugOffRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] effects = ShowDescriptionTable.this.getSelectedValues();
-      for (int i = 0; i < effects.length; ++i) {
-        RequestThread.postRequest(new UneffectRequest((AdventureResult) effects[i]));
+      for (final E effect : ShowDescriptionTable.this.getSelectedValues()) {
+        RequestThread.postRequest(new UneffectRequest((AdventureResult) effect));
       }
     }
   }
@@ -775,24 +775,21 @@ public class ShowDescriptionTable<E> extends JXTable {
   private class AddToJunkListRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] items = ShowDescriptionTable.this.getSelectedValues();
-      ShowDescriptionTable.this.clearSelection();
-
       AdventureResult data;
 
-      for (int i = 0; i < items.length; ++i) {
+      for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
         data = null;
 
-        if (items[i] instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) items[i]).createdItem;
-        } else if (items[i] instanceof AdventureResult && ((AdventureResult) items[i]).isItem()) {
-          data = (AdventureResult) items[i];
-        } else if (items[i] instanceof String && ItemDatabase.contains((String) items[i])) {
-          int itemId = ItemDatabase.getItemId((String) items[i]);
+        if (item instanceof CreateItemRequest) {
+          data = ((CreateItemRequest) item).createdItem;
+        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
+          data = (AdventureResult) item;
+        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
+          int itemId = ItemDatabase.getItemId((String) item);
           data = ItemPool.get(itemId);
-        } else if (items[i] instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) items[i]).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) items[i]).getValue());
+        } else if (item instanceof Entry
+            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
+          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -804,30 +801,29 @@ public class ShowDescriptionTable<E> extends JXTable {
           KoLConstants.junkList.add(data);
         }
       }
+
+      ShowDescriptionTable.this.clearSelection();
     }
   }
 
   private class AddToSingletonListRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] items = ShowDescriptionTable.this.getSelectedValues();
-      ShowDescriptionTable.this.clearSelection();
-
       AdventureResult data;
 
-      for (int i = 0; i < items.length; ++i) {
+      for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
         data = null;
 
-        if (items[i] instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) items[i]).createdItem;
-        } else if (items[i] instanceof AdventureResult && ((AdventureResult) items[i]).isItem()) {
-          data = (AdventureResult) items[i];
-        } else if (items[i] instanceof String && ItemDatabase.contains((String) items[i])) {
-          int itemId = ItemDatabase.getItemId((String) items[i]);
+        if (item instanceof CreateItemRequest) {
+          data = ((CreateItemRequest) item).createdItem;
+        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
+          data = (AdventureResult) item;
+        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
+          int itemId = ItemDatabase.getItemId((String) item);
           data = ItemPool.get(itemId);
-        } else if (items[i] instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) items[i]).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) items[i]).getValue());
+        } else if (item instanceof Entry
+            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
+          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -842,30 +838,29 @@ public class ShowDescriptionTable<E> extends JXTable {
           KoLConstants.singletonList.add(data);
         }
       }
+
+      ShowDescriptionTable.this.clearSelection();
     }
   }
 
   private class AddToMementoListRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] items = ShowDescriptionTable.this.getSelectedValues();
-      ShowDescriptionTable.this.clearSelection();
-
       AdventureResult data;
 
-      for (int i = 0; i < items.length; ++i) {
+      for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
         data = null;
 
-        if (items[i] instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) items[i]).createdItem;
-        } else if (items[i] instanceof AdventureResult && ((AdventureResult) items[i]).isItem()) {
-          data = (AdventureResult) items[i];
-        } else if (items[i] instanceof String && ItemDatabase.contains((String) items[i])) {
-          int itemId = ItemDatabase.getItemId((String) items[i]);
+        if (item instanceof CreateItemRequest) {
+          data = ((CreateItemRequest) item).createdItem;
+        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
+          data = (AdventureResult) item;
+        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
+          int itemId = ItemDatabase.getItemId((String) item);
           data = ItemPool.get(itemId);
-        } else if (items[i] instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) items[i]).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) items[i]).getValue());
+        } else if (item instanceof Entry
+            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
+          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -874,6 +869,8 @@ public class ShowDescriptionTable<E> extends JXTable {
         }
       }
 
+      ShowDescriptionTable.this.clearSelection();
+
       Preferences.setBoolean("mementoListActive", true);
     }
   }
@@ -881,10 +878,8 @@ public class ShowDescriptionTable<E> extends JXTable {
   private class ZeroTallyRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] items = ShowDescriptionTable.this.getSelectedValues();
-      for (int i = 0; i < items.length; ++i) {
-        AdventureResult item = (AdventureResult) items[i];
-        AdventureResult.addResultToList(KoLConstants.tally, item.getNegation());
+      for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
+        AdventureResult.addResultToList(KoLConstants.tally, ((AdventureResult) item).getNegation());
       }
     }
   }
@@ -921,9 +916,8 @@ public class ShowDescriptionTable<E> extends JXTable {
         return;
       }
 
-      Object[] items = ShowDescriptionTable.this.getSelectedValues();
-      for (int i = 0; i < items.length; ++i) {
-        RequestThread.postRequest(UseItemRequest.getInstance((AdventureResult) items[i]));
+      for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
+        RequestThread.postRequest(UseItemRequest.getInstance((AdventureResult) item));
       }
     }
   }
@@ -936,9 +930,8 @@ public class ShowDescriptionTable<E> extends JXTable {
         return;
       }
 
-      Object[] items = ShowDescriptionTable.this.getSelectedValues();
-      for (int i = 0; i < items.length; ++i) {
-        RequestThread.postRequest(new PulverizeRequest((AdventureResult) items[i]));
+      for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
+        RequestThread.postRequest(new PulverizeRequest((AdventureResult) item));
       }
     }
   }

@@ -19,7 +19,7 @@ public class EditMoodCommand extends AbstractCommand {
     }
 
     if (parameters.equals("clear")) {
-      MoodManager.removeTriggers(MoodManager.getTriggers().toArray());
+      MoodManager.removeTriggers(MoodManager.getTriggers());
       MoodManager.saveSettings();
       RequestLogger.printLine("Cleared mood.");
       return;

@@ -22,7 +22,7 @@ public class MoodCommand extends AbstractCommand {
     } else if (parameters.equals("listall")) {
       RequestLogger.printList(MoodManager.getAvailableMoods());
     } else if (parameters.equals("clear")) {
-      MoodManager.removeTriggers(MoodManager.getTriggers().toArray());
+      MoodManager.removeTriggers(MoodManager.getTriggers());
       MoodManager.saveSettings();
       RequestLogger.printLine("Cleared mood.");
     } else if (parameters.equals("autofill")) {

@@ -157,17 +157,7 @@ public abstract class MoodManager {
     return trigger;
   }
 
-  /** Removes all the current displayList. */
-  public static final void removeTriggers(final Object[] triggers) {
-    for (int i = 0; i < triggers.length; ++i) {
-      MoodTrigger trigger = (MoodTrigger) triggers[i];
-
-      if (MoodManager.currentMood.removeTrigger(trigger)) {
-        MoodManager.displayList.remove(trigger);
-      }
-    }
-  }
-
+  /** Removes all from the current displayList. */
   public static final void removeTriggers(final Collection<MoodTrigger> triggers) {
     for (MoodTrigger trigger : triggers) {
       if (MoodManager.currentMood.removeTrigger(trigger)) {
