@@ -617,7 +617,7 @@ public class AreaCombatData {
   }
 
   public Map<MonsterData, Double> getMonsterData(boolean stateful) {
-    Map monsterData = new HashMap<>();
+    Map<MonsterData, Double> monsterData = new HashMap<>();
 
     if (stateful) {
       recalculate();
