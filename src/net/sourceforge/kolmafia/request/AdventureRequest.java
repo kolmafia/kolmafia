@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -414,10 +415,9 @@ public class AdventureRequest extends GenericRequest {
 
     TurnCounter.handleTemporaryCounters(type, encounter);
 
-    // Spending a turn somewhere should wipe the crystal ball monster prediction.
-    // Parsing a new prediction just needs to happen *after* this is called
-    Preferences.setString("crystalBallMonster", "");
-    Preferences.setString("crystalBallLocation", "");
+    if (!Preferences.getString("crystalBallPredictions").isEmpty()) {
+      CrystalBallManager.updateCrystalBallPredictions(urlString);
+    }
 
     return encounter;
   }

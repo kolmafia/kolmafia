@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.session.CrystalBallManager.Prediction;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
@@ -290,7 +291,13 @@ public abstract class EncounterManager {
   }
 
   public static final boolean isCrystalBallZone(String zone) {
-    return zone.equalsIgnoreCase(Preferences.getString("crystalBallLocation"));
+    for (final Prediction prediction : CrystalBallManager.predictions.values()) {
+      if (prediction.location.equalsIgnoreCase(zone)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public static final boolean isCrystalBallMonster(MonsterData monster, String zone) {
@@ -300,8 +307,14 @@ public abstract class EncounterManager {
   public static final boolean isCrystalBallMonster(String monster, String zone) {
     // There's no message to check for so assume the correct monster in the correct zone is from the
     // crystal ball
-    return monster.equalsIgnoreCase(Preferences.getString("crystalBallMonster"))
-        && isCrystalBallZone(zone);
+    for (final Prediction prediction : CrystalBallManager.predictions.values()) {
+      if (prediction.monster.equalsIgnoreCase(monster)
+          && prediction.location.equalsIgnoreCase(zone)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   public static final boolean isGregariousEncounter(
