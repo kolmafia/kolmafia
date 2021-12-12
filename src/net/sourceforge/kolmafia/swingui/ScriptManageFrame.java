@@ -30,7 +30,7 @@ import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 
 public class ScriptManageFrame extends GenericPanelFrame {
-  private class ScriptManageTable extends ShowDescriptionTable {
+  private class ScriptManageTable extends ShowDescriptionTable<Script> {
     public ScriptManageTable() {
       super(ScriptManager.getInstalledScripts(), 4, 4);
 
@@ -56,7 +56,7 @@ public class ScriptManageFrame extends GenericPanelFrame {
     }
   }
 
-  private class RepoManageTable extends ShowDescriptionTable {
+  private class RepoManageTable extends ShowDescriptionTable<Script> {
     public RepoManageTable() {
       super(ScriptManager.getRepoScripts(), 4, 4);
 
@@ -247,7 +247,7 @@ public class ScriptManageFrame extends GenericPanelFrame {
     public void actionCancelled() {}
   }
 
-  private static void doColumnSetup(ShowDescriptionTable table) {
+  private static void doColumnSetup(ShowDescriptionTable<Script> table) {
     table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
     // some magic numbers, enjoy

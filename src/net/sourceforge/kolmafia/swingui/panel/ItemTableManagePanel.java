@@ -4,7 +4,7 @@ import javax.swing.ListSelectionModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
 
-public class ItemTableManagePanel<E> extends ItemManagePanel<E, ShowDescriptionTable> {
+public class ItemTableManagePanel<E> extends ItemManagePanel<E, ShowDescriptionTable<E>> {
   public ItemTableManagePanel(
       final String confirmedText,
       final String cancelledText,
@@ -16,11 +16,11 @@ public class ItemTableManagePanel<E> extends ItemManagePanel<E, ShowDescriptionT
         confirmedText,
         cancelledText,
         elementModel,
-        new ShowDescriptionTable(elementModel, flags),
+        new ShowDescriptionTable<>(elementModel, flags),
         addFilterField,
         addRefreshButton);
 
-    ShowDescriptionTable elementList = this.scrollComponent;
+    ShowDescriptionTable<E> elementList = this.scrollComponent;
     elementList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     elementList.setVisibleRowCount(8);
     if (addFilterField) {
@@ -97,11 +97,11 @@ public class ItemTableManagePanel<E> extends ItemManagePanel<E, ShowDescriptionT
     this(elementModel, addFilterField, addRefreshButton, new boolean[] {false, false});
   }
 
-  public ShowDescriptionTable getElementList() {
+  public ShowDescriptionTable<E> getElementList() {
     return this.scrollComponent;
   }
 
-  public Object getSelectedValue() {
+  public E getSelectedValue() {
     return this.getElementList().getSelectedValue();
   }
 

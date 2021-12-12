@@ -80,12 +80,12 @@ It is meant so that you can simply instantiate ShowDescriptionTable instead of S
 and all the "List-specific" methods will be provided in adapter methods.
 */
 
-public class ShowDescriptionTable extends JXTable {
+public class ShowDescriptionTable<E> extends JXTable {
   public int lastSelectIndex;
   public JPopupMenu contextMenu;
   public ListElementFilter filter;
 
-  private final LockableListModel displayModel, originalModel;
+  private final LockableListModel<E> displayModel, originalModel;
   private final boolean[] flags;
 
   private AdaptedTableModel adaptedModel;
@@ -104,39 +104,39 @@ public class ShowDescriptionTable extends JXTable {
         }
       };
 
-  public ShowDescriptionTable(final LockableListModel displayModel) {
+  public ShowDescriptionTable(final LockableListModel<E> displayModel) {
     this(displayModel, null, 4);
   }
 
-  public ShowDescriptionTable(final LockableListModel displayModel, boolean[] flags) {
+  public ShowDescriptionTable(final LockableListModel<E> displayModel, boolean[] flags) {
     this(displayModel, null, 4, 3, flags);
   }
 
-  public ShowDescriptionTable(final LockableListModel displayModel, final int visibleRowCount) {
+  public ShowDescriptionTable(final LockableListModel<E> displayModel, final int visibleRowCount) {
     this(displayModel, null, visibleRowCount);
   }
 
   public ShowDescriptionTable(
-      final LockableListModel displayModel,
+      final LockableListModel<E> displayModel,
       final int visibleRowCount,
       final int visibleColumnCount) {
     this(displayModel, null, visibleRowCount, visibleColumnCount, new boolean[] {false, false});
   }
 
   public ShowDescriptionTable(
-      final LockableListModel displayModel, final ListElementFilter filter) {
+      final LockableListModel<E> displayModel, final ListElementFilter filter) {
     this(displayModel, filter, 4);
   }
 
   public ShowDescriptionTable(
-      final LockableListModel displayModel,
+      final LockableListModel<E> displayModel,
       final ListElementFilter filter,
       final int visibleRowCount) {
     this(displayModel, filter, 4, 3, new boolean[] {false, false});
   }
 
   public ShowDescriptionTable(
-      final LockableListModel displayModel,
+      final LockableListModel<E> displayModel,
       final ListElementFilter filter,
       final int visibleRowCount,
       final int visibleColumnCount,
@@ -147,7 +147,7 @@ public class ShowDescriptionTable extends JXTable {
     boolean isMoodList = displayModel == MoodManager.getTriggers();
     boolean isEncyclopedia = !displayModel.isEmpty() && displayModel.get(0) instanceof Entry;
     boolean isMonster =
-        isEncyclopedia && ((Entry) displayModel.get(0)).getValue() instanceof MonsterData;
+        isEncyclopedia && ((Entry<?, ?>) displayModel.get(0)).getValue() instanceof MonsterData;
 
     if (!isMoodList) {
       if (displayModel.size() == 0 || !isEncyclopedia) {
@@ -241,7 +241,7 @@ public class ShowDescriptionTable extends JXTable {
     String[] colNames = TableCellFactory.getColumnNames(this.originalModel, flags);
     this.adaptedModel = new AdaptedTableModel(this.displayModel, colNames);
 
-    // this.getTableHeader().setReorderingAllowed( false );
+    // this.getTableHeader().setReorderingAllowed(false);
     this.setShowGrid(false);
     this.setModel(this.adaptedModel);
 
@@ -308,9 +308,9 @@ public class ShowDescriptionTable extends JXTable {
   private class RenderedComparator implements Comparator<Object> {
     private final int column;
     private final boolean[] flags;
-    private final LockableListModel model;
+    private final LockableListModel<E> model;
 
-    public RenderedComparator(LockableListModel originalModel, int column, boolean[] flags) {
+    public RenderedComparator(LockableListModel<E> originalModel, int column, boolean[] flags) {
       this.model = originalModel;
       this.column = column;
       this.flags = flags;
@@ -338,26 +338,26 @@ public class ShowDescriptionTable extends JXTable {
     }
   }
 
-  public LockableListModel getOriginalModel() {
+  public LockableListModel<E> getOriginalModel() {
     return this.originalModel;
   }
 
-  public LockableListModel getDisplayModel() {
-    return displayModel;
+  public LockableListModel<E> getDisplayModel() {
+    return this.displayModel;
   }
 
   // This is the adapted model object. ListModel -> Wrapper -> TableModel
   public class AdaptedTableModel extends AbstractTableAdapter {
-    protected LockableListModel model;
+    protected LockableListModel<E> model;
     private Class<?>[] classDefs;
 
-    public AdaptedTableModel(LockableListModel listModel, String[] columnNames) {
+    public AdaptedTableModel(LockableListModel<E> listModel, String[] columnNames) {
       super(listModel, columnNames);
       this.model = listModel;
     }
 
     public AdaptedTableModel(
-        LockableListModel listModel, String[] columnNames, Class<?>[] classDefs) {
+        LockableListModel<E> listModel, String[] columnNames, Class<?>[] classDefs) {
       super(listModel, columnNames);
       this.model = listModel;
       this.classDefs = classDefs;
@@ -371,7 +371,7 @@ public class ShowDescriptionTable extends JXTable {
       return getRow(rowIndex);
     }
 
-    public LockableListModel getModel() {
+    public LockableListModel<E> getModel() {
       return this.model;
     }
 
@@ -390,10 +390,10 @@ public class ShowDescriptionTable extends JXTable {
   }
 
   public class DescriptionTableRenderer extends DefaultTableCellRenderer {
-    protected LockableListModel model;
+    protected LockableListModel<E> model;
     private final boolean[] flags;
 
-    public DescriptionTableRenderer(LockableListModel originalModel, boolean[] flags) {
+    public DescriptionTableRenderer(LockableListModel<E> originalModel, boolean[] flags) {
       this.model = originalModel;
       this.flags = flags;
     }
@@ -539,7 +539,7 @@ public class ShowDescriptionTable extends JXTable {
 
   private abstract class ContextMenuListener extends ThreadedListener {
     public int index;
-    public Object item;
+    public E item;
 
     @Override
     protected void execute() {
@@ -609,7 +609,7 @@ public class ShowDescriptionTable extends JXTable {
     return selectedValues;
   }
 
-  public Object getSelectedValue() {
+  public E getSelectedValue() {
     /*
      * Since this function exists for lists but not for tables, provide this as a pseudo-adapter function.
      * Note that we have to get the MODEL index from the sorter object, as there is possibly a
@@ -944,9 +944,9 @@ public class ShowDescriptionTable extends JXTable {
   }
 
   protected class InstallScriptRunnable extends ContextMenuListener {
-    private final ShowDescriptionTable table;
+    private final ShowDescriptionTable<Script> table;
 
-    public InstallScriptRunnable(ShowDescriptionTable table) {
+    public InstallScriptRunnable(ShowDescriptionTable<Script> table) {
       this.table = table;
     }
 
@@ -975,9 +975,9 @@ public class ShowDescriptionTable extends JXTable {
   }
 
   protected class DeleteScriptRunnable extends ContextMenuListener {
-    private final ShowDescriptionTable table;
+    private final ShowDescriptionTable<Script> table;
 
-    public DeleteScriptRunnable(ShowDescriptionTable table) {
+    public DeleteScriptRunnable(ShowDescriptionTable<Script> table) {
       this.table = table;
     }
 
@@ -1003,9 +1003,9 @@ public class ShowDescriptionTable extends JXTable {
   }
 
   protected class ShowThreadRunnable extends ContextMenuListener {
-    private final ShowDescriptionTable table;
+    private final ShowDescriptionTable<Script> table;
 
-    public ShowThreadRunnable(ShowDescriptionTable table) {
+    public ShowThreadRunnable(ShowDescriptionTable<Script> table) {
       this.table = table;
     }
 
@@ -1041,10 +1041,10 @@ public class ShowDescriptionTable extends JXTable {
   }
 
   protected class UpdateScriptRunnable extends ContextMenuListener {
-    private final ShowDescriptionTable table;
+    private final ShowDescriptionTable<Script> table;
     private final boolean all;
 
-    public UpdateScriptRunnable(ShowDescriptionTable table, boolean all) {
+    public UpdateScriptRunnable(ShowDescriptionTable<Script> table, boolean all) {
       this.table = table;
       this.all = all;
     }
