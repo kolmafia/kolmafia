@@ -110,16 +110,12 @@ public class RequestPane extends JEditorPane {
     this.setContentType("text/html");
     this.setEditable(false);
 
+    // No need to unregister the component as this only registers variables on this component, not
+    // on the shared instance.
     ToolTipManager.sharedInstance().registerComponent(this);
 
     HTMLDocument currentHTML = (HTMLDocument) getDocument();
     currentHTML.putProperty("multiByte", Boolean.FALSE);
-  }
-
-  @Override
-  public void invalidate() {
-    ToolTipManager.sharedInstance().unregisterComponent(this);
-    super.invalidate();
   }
 
   @Override
