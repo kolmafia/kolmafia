@@ -1365,8 +1365,6 @@ user	telescope2
 user	telescope3
 user	telescope4
 user	telescope5
-user	telescope6
-user	telescope7
 user	telescopeLookedHigh	false
 user	telescopeUpgrades	0
 user	tempuraSummons	0
