@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
@@ -266,8 +267,8 @@ public class AdventureQueueDatabase implements Serializable {
       return EncounterManager.isSaberForceMonster(monster, zone) ? 100.0 : 0.0;
     }
 
-    if (EncounterManager.isCrystalBallZone(zone)) {
-      return EncounterManager.isCrystalBallMonster(monster, zone) ? data.areaCombatPercent() : 0;
+    if (CrystalBallManager.isCrystalBallZone(zone)) {
+      return CrystalBallManager.isCrystalBallMonster(monster, zone) ? data.areaCombatPercent() : 0;
     }
 
     double denominator = data.totalWeighting();

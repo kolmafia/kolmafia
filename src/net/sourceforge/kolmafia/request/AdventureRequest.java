@@ -399,7 +399,7 @@ public class AdventureRequest extends GenericRequest {
             && !EncounterManager.isDigitizedEncounter(responseText, false)
             && !EncounterManager.isRomanticEncounter(responseText, false)
             && !EncounterManager.isSaberForceMonster()
-            && !EncounterManager.isCrystalBallMonster()
+            && !CrystalBallManager.isCrystalBallMonster()
             && !FightRequest.edFightInProgress()) {
           AdventureQueueDatabase.enqueue(KoLAdventure.lastVisitedLocation(), encounter);
         }

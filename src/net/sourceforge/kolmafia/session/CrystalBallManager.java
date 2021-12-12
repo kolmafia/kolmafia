@@ -8,10 +8,12 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
-public class CrystalBallManager {
+public final class CrystalBallManager {
   private static final Pattern[] CRYSTAL_BALL_PATTERNS = {
     Pattern.compile("your next fight will be against <b>an? (.*?)</b>"),
     Pattern.compile("next monster in this (?:zone is going to|area will) be <b>an? (.*?)</b>"),
@@ -131,5 +133,39 @@ public class CrystalBallManager {
         });
 
     updatePreference();
+  }
+
+  // EncounterManager methods
+
+  public static boolean isCrystalBallZone(final String zone) {
+    for (final Prediction prediction : CrystalBallManager.predictions.values()) {
+      if (prediction.location.equalsIgnoreCase(zone)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public static boolean isCrystalBallMonster() {
+    return CrystalBallManager.isCrystalBallMonster(
+        MonsterStatusTracker.getLastMonsterName(), Preferences.getString("nextAdventure"));
+  }
+
+  public static boolean isCrystalBallMonster(final MonsterData monster, final String zone) {
+    return CrystalBallManager.isCrystalBallMonster(monster.getName(), zone);
+  }
+
+  public static boolean isCrystalBallMonster(final String monster, final String zone) {
+    // There's no message to check for so assume the correct monster in the correct zone is from the
+    // crystal ball
+    for (final Prediction prediction : CrystalBallManager.predictions.values()) {
+      if (prediction.monster.equalsIgnoreCase(monster)
+          && prediction.location.equalsIgnoreCase(zone)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

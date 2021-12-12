@@ -19,7 +19,6 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
-import net.sourceforge.kolmafia.session.CrystalBallManager.Prediction;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
@@ -282,38 +281,6 @@ public abstract class EncounterManager {
       Preferences.setBoolean("_relativityMonster", false);
       return true;
     }
-    return false;
-  }
-
-  public static final boolean isCrystalBallMonster() {
-    return isCrystalBallMonster(
-        MonsterStatusTracker.getLastMonsterName(), Preferences.getString("nextAdventure"));
-  }
-
-  public static final boolean isCrystalBallZone(String zone) {
-    for (final Prediction prediction : CrystalBallManager.predictions.values()) {
-      if (prediction.location.equalsIgnoreCase(zone)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  public static final boolean isCrystalBallMonster(MonsterData monster, String zone) {
-    return isCrystalBallMonster(monster.getName(), zone);
-  }
-
-  public static final boolean isCrystalBallMonster(String monster, String zone) {
-    // There's no message to check for so assume the correct monster in the correct zone is from the
-    // crystal ball
-    for (final Prediction prediction : CrystalBallManager.predictions.values()) {
-      if (prediction.monster.equalsIgnoreCase(monster)
-          && prediction.location.equalsIgnoreCase(zone)) {
-        return true;
-      }
-    }
-
     return false;
   }
 

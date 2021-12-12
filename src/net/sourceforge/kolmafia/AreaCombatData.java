@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -917,7 +918,7 @@ public class AreaCombatData {
 
     if (EncounterManager.isSaberForceMonster(name, this.getZone())) {
       buffer.append("forced by the saber");
-    } else if (EncounterManager.isCrystalBallMonster(name, this.getZone())) {
+    } else if (CrystalBallManager.isCrystalBallMonster(name, this.getZone())) {
       buffer.append("predicted by crystal ball");
     } else if (weighting == -1) {
       buffer.append("ultra-rare");
