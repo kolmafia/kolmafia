@@ -422,6 +422,7 @@ user	cocktailSummons	0
 user	coldAirportAlways	false
 user	commaFamiliar
 user	commerceGhostItem
+user	commerceGhostCombats	 0
 user	considerShadowNoodles	false
 user	controlRoomUnlock	false
 user	counterScript
