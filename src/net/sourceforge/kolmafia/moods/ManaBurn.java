@@ -27,11 +27,7 @@ public class ManaBurn implements Comparable<ManaBurn> {
 
     long cost = Math.max(1, this.getMPCost());
 
-    if (cost > allowedMP) {
-      return false;
-    }
-
-    return true;
+    return cost <= allowedMP;
   }
 
   public long simulateCast() {
