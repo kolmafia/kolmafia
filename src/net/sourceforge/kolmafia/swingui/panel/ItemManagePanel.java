@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.swingui.panel;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -98,7 +99,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
     }
   }
 
-  public abstract Object[] getSelectedValues();
+  public abstract List<E> getSelectedValues();
 
   protected AutoFilterTextField<E> getWordFilter() {
     return new FilterItemField();
@@ -290,7 +291,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
   }
 
   public AdventureResult[] getDesiredItems(final String message, final int quantityType) {
-    Object[] items = this.getSelectedValues();
+    Object[] items = this.getSelectedValues().toArray();
     if (items.length == 0) {
       return null;
     }
@@ -312,7 +313,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         itemName = item.getName();
         itemCount = isTally ? item.getCount(KoLConstants.inventory) : item.getCount();
       } else {
-        Concoction concoction = ((Concoction) items[i]);
+        Concoction concoction = (Concoction) items[i];
         itemName = concoction.getName();
         itemCount = concoction.getAvailable();
         if (concoction.speakeasy) {

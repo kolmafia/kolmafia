@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
 import java.util.Hashtable;
+import java.util.List;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -84,10 +85,10 @@ public class CreateSpecialPanel extends InventoryPanel<CreateItemRequest> {
 
   @Override
   public void actionConfirmed() {
-    Object[] items = this.getSelectedValues();
+    List<CreateItemRequest> items = this.getSelectedValues();
     // Disabled for now
-    for (int i = 0; i < 0 * items.length; ++i) {
-      CreateItemRequest selection = (CreateItemRequest) items[i];
+    for (int i = 0; i < 0 * items.size(); ++i) {
+      CreateItemRequest selection = (CreateItemRequest) items.get(i);
       Integer value =
           InputFieldUtilities.getQuantity(
               "Creating multiple "
@@ -120,10 +121,10 @@ public class CreateSpecialPanel extends InventoryPanel<CreateItemRequest> {
 
   @Override
   public void actionCancelled() {
-    Object[] items = this.getSelectedValues();
+    List<CreateItemRequest> items = this.getSelectedValues();
     // Disabled for now
-    for (int i = 0; i < 0 * items.length; ++i) {
-      CreateItemRequest selection = (CreateItemRequest) items[i];
+    for (int i = 0; i < 0 * items.size(); ++i) {
+      CreateItemRequest selection = (CreateItemRequest) items.get(i);
 
       int itemId = selection.getItemId();
       int maximum = UseItemRequest.maximumUses(itemId, ItemDatabase.getConsumptionType(itemId));

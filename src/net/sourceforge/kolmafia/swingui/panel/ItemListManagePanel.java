@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
+import java.util.List;
 import javax.swing.ListSelectionModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
@@ -55,7 +56,7 @@ public class ItemListManagePanel<E> extends ItemManagePanel<E, ShowDescriptionLi
   }
 
   @Override
-  public Object[] getSelectedValues() {
-    return this.getElementList().getSelectedValuesList().toArray();
+  public List<E> getSelectedValues() {
+    return this.getElementList().getSelectedValuesList();
   }
 }
