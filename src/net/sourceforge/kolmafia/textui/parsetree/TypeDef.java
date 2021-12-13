@@ -51,4 +51,9 @@ public class TypeDef extends Type {
       return TypeDef.this.getDefinitionLocation();
     }
   }
+
+  @Override
+  public boolean isBad() {
+    return this.base.isBad();
+  }
 }

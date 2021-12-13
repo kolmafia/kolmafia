@@ -523,4 +523,10 @@ public class Type extends Symbol {
       return Type.this.getDefinitionLocation();
     }
   }
+
+  public static class BadType extends Type implements BadNode {
+    public BadType(final String name, final Location location) {
+      super(name, DataTypes.TYPE_ANY, location);
+    }
+  }
 }

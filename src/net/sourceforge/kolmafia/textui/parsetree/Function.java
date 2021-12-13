@@ -374,4 +374,10 @@ public abstract class Function extends Symbol {
       current.print(stream, indent + 1);
     }
   }
+
+  public static class BadFunction extends UserDefinedFunction implements BadNode {
+    public BadFunction(final String name) {
+      super(name, new Type.BadType(null, null), new ArrayList<>(), null);
+    }
+  }
 }

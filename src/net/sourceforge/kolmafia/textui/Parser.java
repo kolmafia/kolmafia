@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.textui.parsetree.WhileLoop;
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.Location;
 import org.eclipse.lsp4j.Position;
 import org.eclipse.lsp4j.Range;
@@ -104,6 +105,7 @@ public class Parser {
   private Token currentToken;
 
   private final Map<File, Long> imports;
+  private final List<AshDiagnostic> diagnostics = new ArrayList<>();
   private Function mainMethod = null;
   private String notifyRecipient = null;
 
@@ -190,6 +192,10 @@ public class Parser {
     return this.fileUri;
   }
 
+  public String getStringUri() {
+    return this.fileUri != null ? this.fileUri.toString() : this.istream.toString();
+  }
+
   public String getScriptName() {
     return (this.scriptName != null) ? this.scriptName : this.shortFileName;
   }
@@ -204,6 +210,10 @@ public class Parser {
 
   public Map<File, Long> getImports() {
     return this.imports;
+  }
+
+  public List<AshDiagnostic> getDiagnostics() {
+    return this.diagnostics;
   }
 
   public Function getMainMethod() {
@@ -4364,6 +4374,12 @@ public class Parser {
     return this.currentLine.content == null;
   }
 
+  private boolean madeProgress(final Position previousPosition, final Position currentPosition) {
+    return previousPosition == null
+        || previousPosition.getLine() < currentPosition.getLine()
+        || previousPosition.getCharacter() < currentPosition.getCharacter();
+  }
+
   public List<Token> getTokens() {
     final List<Token> result = new LinkedList<>();
 
@@ -4426,8 +4442,7 @@ public class Parser {
   }
 
   private Location makeLocation(final Range range) {
-    String uri = this.fileUri != null ? this.fileUri.toString() : this.istream.toString();
-    return new Location(uri, range);
+    return new Location(this.getStringUri(), range);
   }
 
   private static Location makeLocation(final Location start, final Range end) {
@@ -4463,6 +4478,50 @@ public class Parser {
   }
 
   // **************** Parse errors *****************
+
+  public class AshDiagnostic {
+    final Location location;
+    final DiagnosticSeverity severity;
+    final String message;
+    final List<String> additionalMessages;
+
+    private AshDiagnostic(
+        final Location location,
+        final DiagnosticSeverity severity,
+        final String message,
+        final String... additionalMessages) {
+      // First, make sure that its Location corresponds to the Parser that submitted it
+      if (!Parser.this.getStringUri().equals(location.getUri())) {
+        throw new IllegalArgumentException();
+      }
+
+      this.location = location;
+      this.severity = severity;
+      this.message = message;
+      this.additionalMessages = new ArrayList<>();
+      for (final String additionalMessage : additionalMessages) {
+        this.additionalMessages.add(additionalMessage);
+      }
+    }
+
+    public String toString() {
+      StringBuilder result = new StringBuilder();
+
+      result.append(this.message);
+      result.append(" (");
+
+      result.append(Parser.getFileAndRange(Parser.this.shortFileName, this.location.getRange()));
+
+      result.append(")");
+
+      for (final String additionalMessage : this.additionalMessages) {
+        result.append(" ");
+        result.append(additionalMessage);
+      }
+
+      return result.toString();
+    }
+  }
 
   private ScriptException parseException(final String expected, final Token found) {
     String foundString = found.content;
@@ -4533,6 +4592,48 @@ public class Parser {
         directiveRange, String.format(template, this.shortFileName, target, current));
   }
 
+  private void unexpectedTokenError(final String expected, final Token found) {
+    String foundString = found.content;
+
+    if (found.getLine().content == null) {
+      foundString = "end of file";
+    }
+
+    this.error(found, "Expected " + expected + ", found " + foundString);
+  }
+
+  private void undefinedFunctionError(final Token name, final List<Evaluable> params) {
+    this.error(name, Parser.undefinedFunctionMessage(name.content, params));
+  }
+
+  private void multiplyDefinedFunctionError(final Function f) {
+    String buffer = "Function '" + f.getSignature() + "' defined multiple times.";
+    this.error(f.getLocation(), buffer);
+  }
+
+  private void overridesLibraryFunctionError(final Function f) {
+    String buffer = "Function '" + f.getSignature() + "' overrides a library function.";
+    this.error(f.getLocation(), buffer);
+  }
+
+  private void varargClashError(final Function f, final Function clash) {
+    String buffer =
+        "Function '"
+            + f.getSignature()
+            + "' clashes with existing function '"
+            + clash.getSignature()
+            + "'.";
+    this.error(f.getLocation(), buffer);
+  }
+
+  public final void sinceError(
+      final String current, final String target, final Range directiveRange) {
+    String template =
+        "'%s' requires revision r%s of kolmafia or higher (current: r%s).  Up-to-date builds can be found at https://ci.kolmafia.us/.";
+
+    this.error(directiveRange, String.format(template, this.shortFileName, target, current));
+  }
+
   public static String undefinedFunctionMessage(
       final String name, final List<? extends TypedNode> params) {
     StringBuilder buffer = new StringBuilder();
@@ -4573,8 +4674,51 @@ public class Parser {
     }
   }
 
+  public final void error(final String msg, final String... otherInfo) {
+    this.error(this.getCurrentPosition(), msg, otherInfo);
+  }
+
+  public final void error(final Position start, final String msg, final String... otherInfo) {
+    this.error(this.rangeToHere(start), msg, otherInfo);
+  }
+
+  public final void error(final Range range, final String msg, final String... otherInfo) {
+    this.error(this.makeLocation(range), msg, otherInfo);
+  }
+
+  public final void error(
+      final Range start, final Range end, final String msg, final String... otherInfo) {
+    this.error(Parser.mergeRanges(start, end), msg, otherInfo);
+  }
+
+  public final void error(final Location location, final String msg, final String... otherInfo) {
+    this.diagnostics.add(
+        new AshDiagnostic(
+            location != null ? location : this.makeZeroWidthLocation(),
+            DiagnosticSeverity.Error,
+            msg,
+            otherInfo));
+  }
+
   public final void warning(final String msg) {
     RequestLogger.printLine("WARNING: " + msg + " " + this.getLineAndFile());
+  }
+
+  public final void warning(final Position start, final String msg, final String... otherInfo) {
+    this.warning(this.rangeToHere(start), msg, otherInfo);
+  }
+
+  public final void warning(final Range range, final String msg, final String... otherInfo) {
+    this.warning(this.makeLocation(range), msg, otherInfo);
+  }
+
+  public final void warning(final Location location, final String msg, final String... otherInfo) {
+    this.diagnostics.add(
+        new AshDiagnostic(
+            location != null ? location : this.makeZeroWidthLocation(),
+            DiagnosticSeverity.Warning,
+            msg,
+            otherInfo));
   }
 
   private static void appendFunctionCall(

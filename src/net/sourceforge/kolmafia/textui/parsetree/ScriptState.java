@@ -40,4 +40,20 @@ public abstract class ScriptState extends Command {
   public boolean assertBarrier() {
     return true;
   }
+
+  public static final class BadScriptState extends ScriptState {
+    public BadScriptState(final Location location) {
+      super(location, ScriptRuntime.State.NORMAL);
+    }
+
+    @Override
+    public Value execute(final AshRuntime interpreter) {
+      return null;
+    }
+
+    @Override
+    public boolean assertBarrier() {
+      return false;
+    }
+  }
 }

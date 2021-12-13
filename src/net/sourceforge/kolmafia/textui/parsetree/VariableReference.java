@@ -75,4 +75,12 @@ public class VariableReference extends Evaluable implements Comparable<VariableR
     AshRuntime.indentLine(stream, indent);
     stream.println("<VARREF> " + this.getName());
   }
+
+  public static VariableReference badVariableReference(final Location location) {
+    return VariableReference.badVariableReference(location, new Type.BadType(null, null));
+  }
+
+  public static VariableReference badVariableReference(final Location location, final Type type) {
+    return new VariableReference(location, new Variable.BadVariable(null, type, null));
+  }
 }

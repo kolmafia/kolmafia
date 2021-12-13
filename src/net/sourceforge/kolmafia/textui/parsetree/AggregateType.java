@@ -162,4 +162,13 @@ public class AggregateType extends CompositeType {
       return AggregateType.this.getDefinitionLocation();
     }
   }
+
+  @Override
+  public boolean isBad() {
+    return this.getIndexType().isBad() || this.getDataType().isBad();
+  }
+
+  public static AggregateType badAggregateType() {
+    return new AggregateType(new BadType(null, null), new BadType(null, null));
+  }
 }
