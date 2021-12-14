@@ -55,7 +55,7 @@ public class CrystalBallManagerTest {
   }
 
   @Test
-  public static void crystalBallMonsterTest() {
+  public static void crystalBallMonsterTestNextEncounter() {
     assertFalse(CrystalBallManager.isCrystalBallMonster());
 
     MonsterStatusTracker.setNextMonster(SKELTEON);
