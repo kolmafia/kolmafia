@@ -1045,10 +1045,11 @@ public class CharPaneDecorator {
 
         nextAppendIndex = text.indexOf("<td>(", startingIndex) + 5;
       } else {
-        nextAppendIndex = text.lastIndexOf("(", text.indexOf("</font", startingIndex)) + 1;
+        nextAppendIndex = text.lastIndexOf("(", text.indexOf("</font", startingIndex));
       }
 
       buffer.append(text, lastAppendIndex, nextAppendIndex);
+      buffer.append("<span style='white-space:nowrap;'>");
       lastAppendIndex = nextAppendIndex;
 
       String upkeepAction = MoodManager.getDefaultAction("lose_effect", effectName);
@@ -1180,6 +1181,8 @@ public class CharPaneDecorator {
 
         buffer.append("up.gif\" border=0></a>");
       }
+
+      buffer.append("</span>");
     }
 
     buffer.append(text.substring(lastAppendIndex));
