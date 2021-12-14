@@ -2671,7 +2671,7 @@ public class FightRequest extends GenericRequest {
 
     // Track monster's start-of-combat attack value
     if (currentRound == 1) {
-      FightRequest.startingAttack = monster.getAttack();
+      FightRequest.startingAttack = monster != null ? monster.getAttack() : 0;
     }
 
     // Assume this response does not warrant a refresh

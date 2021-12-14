@@ -40,7 +40,7 @@ public class CrystalBallManagerTest {
   }
 
   @Test
-  public static void crystalBallMonsterTest1() {
+  public static void crystalBallMonsterTestString() {
     assertTrue(
         CrystalBallManager.isCrystalBallMonster("smut orc nailer", "The Smut Orc Logging Camp"));
     assertTrue(CrystalBallManager.isCrystalBallMonster("party skelteon", "The Defiled Nook"));
@@ -48,14 +48,14 @@ public class CrystalBallManagerTest {
   }
 
   @Test
-  public static void crystalBallMonsterTest2() {
+  public static void crystalBallMonsterTestMonsterData() {
     assertTrue(CrystalBallManager.isCrystalBallMonster(NAILER, "The Smut Orc Logging Camp"));
     assertTrue(CrystalBallManager.isCrystalBallMonster(SKELTEON, "The Defiled Nook"));
     assertFalse(CrystalBallManager.isCrystalBallMonster(SKELELTON, "The Defiled Niche"));
   }
 
   @Test
-  public static void crystalBallMonsterTest3() {
+  public static void crystalBallMonsterTest() {
     assertFalse(CrystalBallManager.isCrystalBallMonster());
 
     MonsterStatusTracker.setNextMonster(SKELTEON);
