@@ -284,26 +284,6 @@ public abstract class EncounterManager {
     return false;
   }
 
-  public static final boolean isCrystalBallMonster() {
-    return isCrystalBallMonster(
-        MonsterStatusTracker.getLastMonsterName(), Preferences.getString("nextAdventure"));
-  }
-
-  public static final boolean isCrystalBallZone(String zone) {
-    return zone.equalsIgnoreCase(Preferences.getString("crystalBallLocation"));
-  }
-
-  public static final boolean isCrystalBallMonster(MonsterData monster, String zone) {
-    return isCrystalBallMonster(monster.getName(), zone);
-  }
-
-  public static final boolean isCrystalBallMonster(String monster, String zone) {
-    // There's no message to check for so assume the correct monster in the correct zone is from the
-    // crystal ball
-    return monster.equalsIgnoreCase(Preferences.getString("crystalBallMonster"))
-        && isCrystalBallZone(zone);
-  }
-
   public static final boolean isGregariousEncounter(
       final String responseText, final boolean checkMonster) {
     if (responseText.contains("Looks like it's that friend you gregariously made")) {

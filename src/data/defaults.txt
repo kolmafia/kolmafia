@@ -461,8 +461,7 @@ user	crimbotChassis
 user	crimbotArm
 user	crimbotPropulsion	
 user	crudeMonster
-user	crystalBallLocation
-user	crystalBallMonster
+user	crystalBallPredictions
 user	csServicesPerformed	
 user	cubelingProgress	0
 user	currentEasyBountyItem	

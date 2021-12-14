@@ -6,10 +6,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import net.sourceforge.kolmafia.FamiliarData;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -148,5 +150,34 @@ public class FightRequestTest {
 
     // Regression test for thumb ring adventures being picked up as Reagnimated Gnome adventures
     assertEquals(0, Preferences.getInteger("_gnomeAdv"));
+  }
+
+  @Test
+  public void crystalBallPredictions() throws IOException {
+    assertEquals("", Preferences.getString("crystalBallPredictions"));
+
+    KoLAdventure.setLastAdventure(AdventureDatabase.getAdventure("The Neverending Party"));
+    parseCombatData("request/test_fight_crystal_ball_neverending_party.html");
+    FightRequest.clearInstanceData();
+    // Parsing isn't initiated without the crystal ball
+    assertEquals("", Preferences.getString("crystalBallPredictions"));
+
+    // NOW equip the crystal ball
+    FamiliarData familiar = FamiliarData.registerFamiliar(FamiliarPool.MOSQUITO, 1);
+    KoLCharacter.setFamiliar(familiar);
+    EquipmentManager.setEquipment(
+        EquipmentManager.FAMILIAR, ItemPool.get(ItemPool.MINIATURE_CRYSTAL_BALL));
+
+    parseCombatData("request/test_fight_crystal_ball_neverending_party.html");
+    FightRequest.clearInstanceData();
+    assertEquals(
+        "0:The Neverending Party:party girl", Preferences.getString("crystalBallPredictions"));
+
+    KoLAdventure.setLastAdventure(AdventureDatabase.getAdventure("The Red Zeppelin"));
+    parseCombatData("request/test_fight_crystal_ball_zeppelin.html");
+    FightRequest.clearInstanceData();
+    assertEquals(
+        "0:The Neverending Party:party girl|0:The Red Zeppelin:Red Snapper",
+        Preferences.getString("crystalBallPredictions"));
   }
 }

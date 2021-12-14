@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
@@ -64,6 +63,7 @@ import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
@@ -2656,18 +2656,7 @@ public class FightRequest extends GenericRequest {
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.MINIATURE_CRYSTAL_BALL, EquipmentManager.FAMILIAR)) {
-        String predictedMonster = parseCrystalBall(responseText);
-        String zone = KoLAdventure.lastLocationName;
-
-        if (predictedMonster == null) {
-          zone = null;
-        }
-
-        Preferences.setString(
-            "crystalBallMonster", predictedMonster == null ? "" : predictedMonster);
-        Preferences.setString("crystalBallLocation", zone == null ? "" : zone);
-
-        AdventureQueueDatabase.enqueue(KoLAdventure.lastVisitedLocation(), predictedMonster);
+        CrystalBallManager.parseCrystalBall(responseText);
       }
     }
 
@@ -2696,7 +2685,7 @@ public class FightRequest extends GenericRequest {
 
     // Track monster's start-of-combat attack value
     if (currentRound == 1) {
-      FightRequest.startingAttack = monster.getAttack();
+      FightRequest.startingAttack = monster != null ? monster.getAttack() : 0;
     }
 
     // Assume this response does not warrant a refresh
@@ -4557,31 +4546,6 @@ public class FightRequest extends GenericRequest {
     if (matcher.find()) {
       Preferences.setString("lassoTraining", matcher.group(1));
     }
-  }
-
-  private static final Pattern[] CRYSTAL_BALL_PATTERNS = {
-    Pattern.compile("your next fight will be against <b>an? (.*?)</b>"),
-    Pattern.compile("next monster in this (?:zone is going to|area will) be <b>an? (.*?)</b>"),
-    Pattern.compile("Look out, there's <b>an? (.*?)</b> right around the next corner"),
-    Pattern.compile("There's a little you fighting a little <b>(.*?)</b>"),
-    Pattern.compile("How do you feel about fighting <b>an? (.*?)</b>\\? Coz that's"),
-    Pattern.compile("the next monster in this area will be <b>an? (.*?)</b>"),
-    Pattern.compile("and see a tiny you fighting a tiny <b>(.*?)</b> in a tiny"),
-    Pattern.compile("it looks like there's <b>an? (.*?)</b> prowling around"),
-    Pattern.compile("and see yourself running into <b>an? (.*?)</b> soon"),
-    Pattern.compile("showing you an image of yourself fighting <b>an? (.*?)</b>"),
-    Pattern.compile("you're going to run into <b>an? (.*?)</b>"),
-  };
-
-  private static String parseCrystalBall(final String responseText) {
-    for (Pattern p : CRYSTAL_BALL_PATTERNS) {
-      Matcher matcher = p.matcher(responseText);
-      if (matcher.find()) {
-        return matcher.group(1);
-      }
-    }
-
-    return null;
   }
 
   public static final void parseCombatItems(String responseText) {

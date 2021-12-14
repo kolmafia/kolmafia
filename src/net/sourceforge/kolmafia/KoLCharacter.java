@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
@@ -374,6 +375,7 @@ public abstract class KoLCharacter {
     MicroBreweryRequest.reset();
     HellKitchenRequest.reset();
 
+    CrystalBallManager.reset();
     DisplayCaseManager.clearCache();
     DwarfFactoryRequest.reset();
     EquipmentManager.resetEquipment();
