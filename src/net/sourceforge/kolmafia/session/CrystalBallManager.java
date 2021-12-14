@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -124,13 +125,15 @@ public final class CrystalBallManager {
 
     String lastAdventureName = KoLAdventure.lastLocationName;
 
-    CrystalBallManager.predictions.forEach(
-        (key, prediction) -> {
-          if (!prediction.location.equals(lastAdventureName)
-              && prediction.turnCount + 2 >= KoLCharacter.getCurrentRun()) {
-            CrystalBallManager.predictions.remove(key, prediction);
-          }
-        });
+    final Iterator<Prediction> it = CrystalBallManager.predictions.values().iterator();
+    while (it.hasNext()) {
+      Prediction prediction = it.next();
+
+      if (!prediction.location.equals(lastAdventureName)
+          && prediction.turnCount + 2 <= KoLCharacter.getCurrentRun()) {
+        it.remove();
+      }
+    }
 
     updatePreference();
   }
