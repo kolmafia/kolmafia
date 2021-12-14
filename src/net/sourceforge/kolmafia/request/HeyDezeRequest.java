@@ -13,8 +13,8 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HeyDezeRequest extends GenericRequest {
-  private int effectId = 0;
-  private String desc = "";
+  private final int effectId;
+  private final String desc;
 
   private static final Pattern ID_PATTERN = Pattern.compile("whichbuff=(\\d+)");
 
@@ -39,11 +39,13 @@ public class HeyDezeRequest extends GenericRequest {
         this.effectId = 448;
         this.desc = "smoother";
         break;
+      default:
+        this.effectId = 0;
+        this.desc = "";
+        return;
     }
 
-    if (this.effectId != 0) {
-      this.addFormField("whichbuff", String.valueOf(this.effectId));
-    }
+    this.addFormField("whichbuff", String.valueOf(this.effectId));
   }
 
   @Override

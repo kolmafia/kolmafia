@@ -1216,9 +1216,10 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
 
       case MIX_FANCY:
         return KoLCharacter.hasBartender() ? 0 : 1;
-    }
 
-    return 0;
+      default:
+        return 0;
+    }
   }
 
   private static int getAdventuresUsed(final CraftingType mixingMethod, final int quantityNeeded) {
@@ -1235,9 +1236,10 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       case COOK_FANCY:
       case MIX_FANCY:
         return Math.max(0, (quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns()));
-    }
 
-    return 0;
+      default:
+        return 0;
+    }
   }
 
   public static final boolean registerRequest(final boolean isExternal, final String urlString) {
