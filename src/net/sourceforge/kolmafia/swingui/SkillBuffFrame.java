@@ -316,7 +316,9 @@ public class SkillBuffFrame extends GenericFrame {
       }
     }
 
+    @Override
     public void update() {
+      super.update();
       this.clearDisabledItems();
 
       for (int i = 0; i < DAILY_LIMITED_SKILLS.length; ++i) {
