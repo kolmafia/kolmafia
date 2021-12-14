@@ -53,9 +53,11 @@ public class SkillPool {
   public static final int SHRAP = 110;
   public static final int PSYCHOKINETIC_HUG = 111;
   public static final int HOLLOW_LEG = 116;
+  public static final int BELCH_THE_RAINBOW = 117;
   public static final int PIRATE_BELLOW = 118;
   public static final int HOLIDAY_FUN = 121;
   public static final int SUMMON_CARROT = 128;
+  public static final int BEAR_ESSENCE = 135;
   public static final int SUMMON_KOKOMO_RESORT_PASS = 135;
   public static final int HEALING_SALVE = 136;
   public static final int DARK_RITUAL = 137;
@@ -80,6 +82,7 @@ public class SkillPool {
   public static final int INCREDIBLE_SELF_ESTEEM = 174;
   public static final int BUDGET_CONSCIOUS = 178;
   public static final int DRINKING_TO_DRINK = 179;
+  public static final int EXPERIENCE_SAFARI = 180;
   public static final int ARMY_TODDLER = 181;
   public static final int CAROL_OF_THE_BULLS = 182;
   public static final int CAROL_OF_THE_HELLS = 183;
@@ -96,6 +99,7 @@ public class SkillPool {
   public static final int EMOTIONALLY_CHIPPED = 203;
   public static final int WALRUS_TONGUE = 1010;
   public static final int BATTER_UP = 1014;
+  public static final int SNARL_OF_THE_TIMBERWOLF = 1020;
   public static final int CLOBBER = 1022;
   public static final int IRON_PALM_TECHNIQUE = 1025;
   public static final int HIBERNATE = 1027;
@@ -104,6 +108,7 @@ public class SkillPool {
   public static final int SILENT_HUNTER = 1041;
   public static final int GET_BIG = 1042;
   public static final int BLOOD_FRENZY = 1043;
+  public static final int SPECTRAL_SNAPPER = 2022;
   public static final int TOSS = 2023;
   public static final int SPIRIT_VACATION = 2027;
   public static final int SHELL_UP = 2028;
@@ -124,6 +129,7 @@ public class SkillPool {
   public static final int BANDAGES = 3009;
   public static final int COCOON = 3012;
   public static final int FLAVOUR_OF_MAGIC = 3017;
+  public static final int FEARFUL_FETTUCINI = 3019;
   public static final int SPAGHETTI_SPEAR = 3020;
   public static final int STRINGOZZI = 3023;
   public static final int CARBOLOADING = 3024;
@@ -141,6 +147,7 @@ public class SkillPool {
   public static final int BLOOD_BUCATINI = 3044;
   public static final int ADVANCED_SAUCECRAFTING = 4006;
   public static final int JALAPENO_SAUCESPHERE = 4008;
+  public static final int SCARYSAUCE = 4019;
   public static final int SALSABALL = 4020;
   public static final int SIMMER = 4025;
   public static final int SOUL_SAUCERY = 4027;
@@ -152,11 +159,13 @@ public class SkillPool {
   public static final int DISCO_NAP = 5007;
   public static final int ADVENTURER_OF_LEISURE = 5011;
   public static final int ADVANCED_COCKTAIL = 5014;
+  public static final int TANGO_OF_TERROR = 5019;
   public static final int SUCKERPUNCH = 5021;
   public static final int THATS_NOT_A_KNIFE = 5028;
   public static final int ACQUIRE_RHINESTONES = 5041;
   public static final int BLOOD_bLADE = 5042;
   public static final int ODE_TO_BOOZE = 6014;
+  public static final int DIRGE_OF_DREADFULNESS = 6018;
   public static final int GEMELLIS_MARCH_OF_TESTERY = 6019;
   public static final int THINGFINDER = 6020;
   public static final int BENETTONS = 6021;
@@ -244,6 +253,7 @@ public class SkillPool {
   public static final int THROW_ROCK = 7239;
   public static final int THROW_POT = 7242;
   public static final int THROW_TORCH = 7244;
+  public static final int TOGGLE_OPTIMALITY = 7254;
   public static final int BAT_PUNCH = 7255;
   public static final int BAT_KICK = 7256;
   public static final int BAT_OOMERANG = 7257;
@@ -385,6 +395,31 @@ public class SkillPool {
   public static final int FAN_HAMMER = 20001;
   public static final int EXTRACT_OIL = 20002;
   public static final int LONG_CON = 20007;
+  public static final int BOILING_TEAR_DUCTS = 22012;
+  public static final int THROAT_REFRIDGERANT = 22013;
+  public static final int SKUNK_GLANDS = 22014;
+  public static final int TRANSLUCENT_SKIN = 22015;
+  public static final int PROJECTILE_SALIVARY_GLANDS = 22016;
+  public static final int MIND_BULLETS = 22017;
+  public static final int METALLIC_SKIN = 22019;
+  public static final int ADIPOSE_POLYMERS = 22020;
+  public static final int EXTRA_MUSCLES = 22021;
+  public static final int EXTRA_BRAIN = 22022;
+  public static final int HYPNO_EYES = 22023;
+  public static final int BACKWARDS_KNEES = 22024;
+  public static final int SUCKER_FINGERS = 22025;
+  public static final int FLAPPY_EARS = 22027;
+  public static final int MAGIC_SWEAT = 22028;
+  public static final int STEROID_BLADDER = 22029;
+  public static final int INTRACRANIAL_EYE = 22030;
+  public static final int SELF_COMBING_HAIR = 22031;
+  public static final int BONE_SPRINGS = 22032;
+  public static final int MAGNETIC_EARS = 22033;
+  public static final int FIREFLY_ABDOMEN = 22034;
+  public static final int SQUID_GLANDS = 22035;
+  public static final int EXTREMELY_PUNCHABLE_FACE = 22036;
+  public static final int EXTRA_GALL_BLADDER = 22037;
+  public static final int EXTRA_KIDNEY = 22038;
   public static final int INTERNAL_SODA_MACHINE = 22039;
   public static final int GELATINOUS_RECONSTRUCTION = 23000;
   public static final int BENDABLE_KNEES = 23301;
@@ -414,4 +449,5 @@ public class SkillPool {
   public static final int FIREBALL_BARRAGE = 25004;
   public static final int SPIN_JUMP = 25005;
   public static final int MULTI_BOUNCE = 25006;
+  public static final int POWER_PLUS = 25007;
 }
