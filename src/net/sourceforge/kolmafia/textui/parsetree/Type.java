@@ -514,7 +514,7 @@ public class Type extends Symbol {
   }
 
   private class TypeReference extends Type {
-    public TypeReference(Type type, final Location location) {
+    private TypeReference(final Type type, final Location location) {
       super(type.name, type.type, location);
     }
 
