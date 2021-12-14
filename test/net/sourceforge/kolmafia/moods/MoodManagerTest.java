@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
@@ -124,7 +125,15 @@ class MoodManagerTest {
     // Copy file from data to settings
     assertTrue(copyMoodFile(), "Could not copy file");
     // Load settings and set mood preference
-    MoodManager.loadSettings();
     Preferences.setString("currentMood", "meatdrop");
+    MoodManager.loadSettings();
+    // Give Character skills
+    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("empathy of the newt"));
+    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("fat leon's phat loot lyric"));
+    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("leash of linguini"));
+    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("the polka of plenty"));
+    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("singer's faithful ocelot"));
+    // Get the cost of maintaining the current mood
+    assertEquals(60L, MoodManager.getMaintenanceCost(), "Unexpected cost");
   }
 }
