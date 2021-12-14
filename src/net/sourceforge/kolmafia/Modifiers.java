@@ -1293,8 +1293,9 @@ public class Modifiers {
         return Modifiers.SPOOKY_RESISTANCE;
       case STENCH:
         return Modifiers.STENCH_RESISTANCE;
+      default:
+        return -1;
     }
-    return -1;
   }
 
   public static List<AdventureResult> getPotentialChanges(final int index) {

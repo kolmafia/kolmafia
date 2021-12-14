@@ -2801,7 +2801,7 @@ public abstract class KoLCharacter {
 
     switch (oldPath) {
       case AVATAR_OF_WEST_OF_LOATHING:
-        String pref = null;
+        final String pref;
         switch (ascensionClass) {
           case BEANSLINGER:
             pref = "awolPointsBeanslinger";
@@ -2811,6 +2811,9 @@ public abstract class KoLCharacter {
             break;
           case SNAKE_OILER:
             pref = "awolPointsSnakeoiler";
+            break;
+          default:
+            pref = null;
             break;
         }
         if (pref != null) {

@@ -8474,8 +8474,9 @@ public abstract class RuntimeLibrary {
         return new Value(DataTypes.ELEMENT_TYPE, "spooky", element);
       case SLEAZE:
         return new Value(DataTypes.ELEMENT_TYPE, "sleaze", element);
+      default:
+        return DataTypes.ELEMENT_INIT;
     }
-    return DataTypes.ELEMENT_INIT;
   }
 
   public static Value unusual_construct_disc(ScriptRuntime controller) {
