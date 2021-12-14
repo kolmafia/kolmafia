@@ -1,4 +1,4 @@
-Changing "Ed" to "Ed the Undying" would get rid of this message. (test_class.ash, line 6)
+Changing "Ed" to "Ed the Undying" would get rid of this message. (test_class.ash, line 6, char 14 to char 16)
 comparison true
 primestat true
 true
