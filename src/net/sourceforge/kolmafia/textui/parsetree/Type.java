@@ -510,17 +510,23 @@ public class Type extends Symbol {
    * @param location the location of the reference
    */
   public Type reference(final Location location) {
-    return new TypeReference(location);
+    return new TypeReference(this, location);
   }
 
   private class TypeReference extends Type {
-    public TypeReference(final Location location) {
-      super(Type.this.name, Type.this.type, location);
+    public TypeReference(Type type, final Location location) {
+      super(type.name, type.type, location);
     }
 
     @Override
     public Location getDefinitionLocation() {
       return Type.this.getDefinitionLocation();
+    }
+  }
+
+  public static class BadType extends Type implements BadNode {
+    public BadType(final String name, final Location location) {
+      super(name, DataTypes.TYPE_ANY, location);
     }
   }
 }

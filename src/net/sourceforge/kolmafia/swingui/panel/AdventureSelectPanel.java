@@ -72,6 +72,10 @@ public class AdventureSelectPanel extends JPanel {
   private final JList<KoLAdventure> locationSelect;
   private final JComponent zoneSelect;
 
+  // zoneSelect will be either of these
+  private final AutoFilterTextField<KoLAdventure> autoFilterZoneSelect;
+  private final JComboBox<String> comboBoxZoneSelect;
+
   private final LockableListModel<String> locationConditions = new LockableListModel<>();
   private final RedoFreeAdventuresCheckbox redoFreeAdventures;
   private final JCheckBox conditionsFieldActive;
@@ -93,10 +97,12 @@ public class AdventureSelectPanel extends JPanel {
 
     boolean useZoneComboBox = Preferences.getBoolean("useZoneComboBox");
     if (useZoneComboBox) {
-      this.zoneSelect = new FilterAdventureComboBox();
+      this.zoneSelect = this.comboBoxZoneSelect = new FilterAdventureComboBox();
       this.matchingAdventures.setFilter((FilterAdventureComboBox) this.zoneSelect);
+      this.autoFilterZoneSelect = null;
     } else {
-      this.zoneSelect = new AutoFilterTextField(this.locationSelect);
+      this.zoneSelect = this.autoFilterZoneSelect = new AutoFilterTextField<>(this.locationSelect);
+      this.comboBoxZoneSelect = null;
     }
 
     this.zoneMap = new TreeMap<>();
@@ -114,7 +120,7 @@ public class AdventureSelectPanel extends JPanel {
       this.zoneMap.put(currentZone, zone);
 
       if (useZoneComboBox) {
-        ((JComboBox) this.zoneSelect).addItem(currentZone);
+        this.comboBoxZoneSelect.addItem(currentZone);
       }
     }
 
@@ -213,11 +219,11 @@ public class AdventureSelectPanel extends JPanel {
       return;
     }
 
-    if (this.zoneSelect instanceof AutoFilterTextField) {
+    if (this.zoneSelect == this.autoFilterZoneSelect) {
       this.locationSelect.clearSelection();
-      ((AutoFilterTextField) this.zoneSelect).setText(location.getZone());
+      this.autoFilterZoneSelect.setText(location.getZone());
     } else {
-      ((JComboBox) this.zoneSelect).setSelectedItem(location.getParentZoneDescription());
+      this.comboBoxZoneSelect.setSelectedItem(location.getParentZoneDescription());
     }
 
     this.locationSelect.setSelectedValue(location, true);
@@ -227,7 +233,7 @@ public class AdventureSelectPanel extends JPanel {
     this.locationSelect.addListSelectionListener(listener);
   }
 
-  private class FilterAdventureComboBox extends JComboBox implements ListElementFilter {
+  private class FilterAdventureComboBox extends JComboBox<String> implements ListElementFilter {
     private Object selectedZone;
 
     @Override

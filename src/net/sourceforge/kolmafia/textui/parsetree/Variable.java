@@ -107,4 +107,10 @@ public class Variable extends Symbol {
     AshRuntime.indentLine(stream, indent);
     stream.println("<VAR " + this.getType() + " " + this.getName() + ">");
   }
+
+  public static class BadVariable extends Variable implements BadNode {
+    public BadVariable(final String name, final Type type, final Location location) {
+      super(name, type, location);
+    }
+  }
 }

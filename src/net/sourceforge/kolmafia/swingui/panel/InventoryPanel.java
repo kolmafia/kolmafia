@@ -112,7 +112,7 @@ public class InventoryPanel<E> extends ItemTableManagePanel<E> {
   }
 
   @Override
-  public AutoFilterTextField getWordFilter() {
+  public AutoFilterTextField<E> getWordFilter() {
     return new EquipmentFilterField();
   }
 

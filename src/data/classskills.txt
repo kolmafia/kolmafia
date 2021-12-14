@@ -916,6 +916,7 @@
 7388	Fire Extinguisher: Foam Yourself	foam4.gif	5	0	0
 7389	Fire Extinguisher: Blast the Area	foam3.gif	5	0	0
 7390	Fire Extinguisher: Zone Specific	exting2.gif	5	0	0
+7391	Be Gregarious	happy.gif	5	1	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

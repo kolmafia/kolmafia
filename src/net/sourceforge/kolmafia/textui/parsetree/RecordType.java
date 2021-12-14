@@ -184,16 +184,16 @@ public class RecordType extends CompositeType {
 
   @Override
   public RecordType reference(final Location location) {
-    return new RecordTypeReference(location);
+    return new RecordTypeReference(this, location);
   }
 
   private class RecordTypeReference extends RecordType {
-    public RecordTypeReference(final Location location) {
+    public RecordTypeReference(final RecordType recordType, final Location location) {
       super(
-          RecordType.this.name,
-          RecordType.this.fieldNames,
-          RecordType.this.fieldTypes,
-          RecordType.this.fieldIndices,
+          recordType.name,
+          recordType.fieldNames,
+          recordType.fieldTypes,
+          recordType.fieldIndices,
           location);
     }
 
@@ -201,5 +201,14 @@ public class RecordType extends CompositeType {
     public Location getDefinitionLocation() {
       return RecordType.this.getDefinitionLocation();
     }
+  }
+
+  public static class BadRecordType extends RecordType implements BadNode {
+    public BadRecordType(final String name, final Location location) {
+      super(name, new String[] {}, new Type[] {}, location);
+    }
+
+    // Don't override isBad(). The fields don't affect whether or not
+    // the record itself is recognized.
   }
 }

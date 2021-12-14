@@ -1876,7 +1876,7 @@ public class DebugDatabase {
   // http://images.kingdomofloathing.com/otherimages/folders/folder22.gif
   // http://images.kingdomofloathing.com/otherimages/sigils/workouttat.gif
   private static final Pattern IMAGE_PATTERN =
-      Pattern.compile("images.kingdomofloathing.com/(.*?\\.gif)");
+      Pattern.compile("(?:cloudfront.net|images.kingdomofloathing.com)/(.*?\\.gif)");
 
   public static final String parseImage(final String text) {
     Matcher matcher = DebugDatabase.IMAGE_PATTERN.matcher(text);

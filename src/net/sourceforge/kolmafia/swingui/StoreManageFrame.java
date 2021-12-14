@@ -267,7 +267,7 @@ public class StoreManageFrame extends GenericPanelFrame {
       "KoLmafia will take items priced at 999,999,999 meat and undercut the current lowest price in the mall.  "
           + "Would you like KoLmafia to avoid 'minimum possible prices' (100 meat, or twice the autosell value of the item) when doing so?";
 
-  protected class StoreManageTable extends ShowDescriptionTable {
+  protected class StoreManageTable extends ShowDescriptionTable<SoldItem> {
     public StoreManageTable() {
       super(StoreManager.getSoldItemList(), 11, 7);
 
@@ -743,7 +743,8 @@ public class StoreManageFrame extends GenericPanelFrame {
       JPanel northPanel = new JPanel(new BorderLayout());
       this.actualPanel.add(northPanel, BorderLayout.NORTH);
 
-      AutoFilterTextField filterField = new AutoFilterTextField(this.scrollComponent);
+      AutoFilterTextField<StoreLogEntry> filterField =
+          new AutoFilterTextField<>(this.scrollComponent);
       this.centerPanel.add(filterField, BorderLayout.NORTH);
     }
 

@@ -35,14 +35,23 @@ public class TernaryExpressionTest {
         invalid(
             "ternary with non-boolean condition",
             "int x = 1 ? 1 : 2;",
-            "Non-boolean expression 1 (int)"),
-        invalid("ternary without lhs", "int x = true ? : 2;", "Value expected in left hand side"),
-        invalid("ternary without colon", "int x = true ? 1;", "Expected :, found ;"),
+            "Non-boolean expression 1 (int)",
+            "char 9 to char 10"),
+        invalid(
+            "ternary without lhs",
+            "int x = true ? : 2;",
+            "Value expected in left hand side",
+            "char 16 to char 17"),
+        invalid(
+            "ternary without colon",
+            "int x = true ? 1;",
+            "Expected :, found ;",
+            "char 17 to char 18"),
         invalid(
             "ternary without rhs",
             "int x = true ? 1:;",
-            // Another asymmetry: not "Value expected in right hand side"
-            "Value expected"));
+            "Value expected in right hand side",
+            "char 18 to char 19"));
   }
 
   @ParameterizedTest

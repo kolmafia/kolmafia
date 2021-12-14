@@ -13490,6 +13490,13 @@ public abstract class ChoiceManager {
           Preferences.setBoolean("wildfireDusted", true);
         }
         break;
+      case 1455:
+        // Cold Medicine Cabinet
+        if (ChoiceManager.lastDecision != 6) {
+          Preferences.increment("_coldMedicineConsults", 1, 5, false);
+          Preferences.setInteger("_nextColdMedicineConsult", KoLCharacter.getTurnsPlayed() + 20);
+        }
+        break;
     }
 
     // Certain choices cost meat or items when selected
@@ -16725,7 +16732,16 @@ public abstract class ChoiceManager {
 
           Preferences.setString("backupCameraMode", setting);
           Preferences.setBoolean("backupCameraReverserEnabled", text.contains("Disable Reverser"));
+          break;
         }
+      case 1455:
+        CampgroundRequest.setCurrentWorkshedItem(ItemPool.COLD_MEDICINE_CABINET);
+        Matcher consultations = Pattern.compile("You have <b>(\\d)</b> consul").matcher(text);
+        if (consultations.find()) {
+          int remaining = Integer.parseInt(consultations.group(1));
+          Preferences.setInteger("_coldMedicineConsults", 5 - remaining);
+        }
+        break;
     }
 
     // Do this after special classes (like WumpusManager) have a
@@ -17712,7 +17728,7 @@ public abstract class ChoiceManager {
           // The only one that has more than one option is the initial riddle.
           // The option numbers are randomized each time, although the correct
           // answer remains the same.
-          String answer = null;
+          final String answer;
           switch (KoLCharacter.getAscensionClass()) {
             case SEAL_CLUBBER:
               answer = "Boredom.";
@@ -17732,12 +17748,10 @@ public abstract class ChoiceManager {
             case ACCORDION_THIEF:
               answer = "Music.";
               break;
-          }
-
-          // Only standard classes can join the guild, so we
-          // should not fail. But, if we do, cope.
-          if (answer == null) {
-            return "0";
+            default:
+              // Only standard classes can join the guild, so we
+              // should not fail. But, if we do, cope.
+              return "0";
           }
 
           // Iterate over the option strings and find the one
@@ -17759,7 +17773,7 @@ public abstract class ChoiceManager {
           return "1";
         }
 
-        String answer = null;
+        final String answer;
         switch (KoLCharacter.getAscensionClass()) {
           case SEAL_CLUBBER:
             answer = "Freak the hell out like a wrathful wolverine.";
@@ -17779,12 +17793,10 @@ public abstract class ChoiceManager {
           case ACCORDION_THIEF:
             answer = "Bash the wall with your accordion.";
             break;
-        }
-
-        // Only standard classes can join the guild, so we
-        // should not fail. But, if we do, cope.
-        if (answer == null) {
-          return "0";
+          default:
+            // Only standard classes can join the guild, so we
+            // should not fail. But, if we do, cope.
+            return "0";
         }
 
         // Iterate over the option strings and find the one
@@ -19534,6 +19546,7 @@ public abstract class ChoiceManager {
       case 1452: // Sprinkler Joe
       case 1453: // Fracker Dan
       case 1454: // Cropduster Dusty
+      case 1455: // Cold Medicine Cabinet
         return true;
 
       default:

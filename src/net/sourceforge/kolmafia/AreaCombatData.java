@@ -1,8 +1,11 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -20,6 +23,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -43,9 +47,9 @@ public class AreaCombatData {
   // Parallel lists: monsters and encounter weighting
   private final List<MonsterData> monsters;
   private final List<MonsterData> superlikelyMonsters;
-  private final List<Integer> baseWeightings;
-  private final List<Integer> currentWeightings;
-  private final List<Integer> rejection;
+  private final Map<MonsterData, Integer> baseWeightings;
+  private final Map<MonsterData, Integer> currentWeightings;
+  private final Map<MonsterData, Integer> rejection;
 
   private final String zone;
 
@@ -62,9 +66,9 @@ public class AreaCombatData {
     this.zone = zone;
     this.monsters = new ArrayList<>();
     this.superlikelyMonsters = new ArrayList<>();
-    this.baseWeightings = new ArrayList<>();
-    this.currentWeightings = new ArrayList<>();
-    this.rejection = new ArrayList<>();
+    this.baseWeightings = new HashMap<>();
+    this.currentWeightings = new HashMap<>();
+    this.rejection = new HashMap<>();
     this.combats = combats;
     this.weights = 0.0;
     this.minHit = Integer.MAX_VALUE;
@@ -83,16 +87,15 @@ public class AreaCombatData {
     this.jumpChance = 100;
 
     double weights = 0.0;
-    List<Integer> currentWeightings = new ArrayList<>();
+    Map<MonsterData, Integer> currentWeightings = new HashMap<>();
 
-    for (int i = 0; i < this.monsters.size(); ++i) {
+    for (MonsterData monster : monsters) {
       // Weighting has two low bits which represent odd or even ascension restriction
       // Strip them out now and restore them at the end
-      int baseWeighting = this.baseWeightings.get(i);
+      int baseWeighting = this.baseWeightings.get(monster);
       int flags = baseWeighting & 3;
       baseWeighting = baseWeighting >> WEIGHT_SHIFT;
 
-      MonsterData monster = this.getMonster(i);
       String monsterName = monster.getName();
       Phylum monsterPhylum = monster.getPhylum();
 
@@ -173,24 +176,22 @@ public class AreaCombatData {
         currentWeighting = -4;
       }
 
-      currentWeightings.add((currentWeighting << WEIGHT_SHIFT) | flags);
+      currentWeightings.put(monster, (currentWeighting << WEIGHT_SHIFT) | flags);
 
       // Omit currently 0% chance, banished (-3), impossible (-2) and ultra-rare (-1) monsters
       if (currentWeighting < 0) {
         continue;
       }
 
-      weights += currentWeighting * (1 - (double) this.getRejection(i) / 100);
+      weights += currentWeighting * (1 - (double) this.getRejection(monster) / 100);
       this.addMonsterStats(monster);
     }
     this.weights = weights;
-    Collections.copy(this.currentWeightings, currentWeightings);
+    this.currentWeightings.putAll(currentWeightings);
 
     // Take into account superlikely monsters if they have a non zero chance to appear
-    for (int i = 0; i < this.superlikelyMonsters.size(); ++i) {
-      MonsterData monster = this.getMonster(i);
-      String monsterName = monster.getName();
-      if (AreaCombatData.superlikelyChance(monsterName) > 0) {
+    for (MonsterData monster : superlikelyMonsters) {
+      if (AreaCombatData.superlikelyChance(monster) > 0) {
         this.addMonsterStats(monster);
       }
     }
@@ -303,9 +304,9 @@ public class AreaCombatData {
       this.superlikelyMonsters.add(monster);
     } else {
       this.monsters.add(monster);
-      this.baseWeightings.add(IntegerPool.get((weighting << WEIGHT_SHIFT) | flags));
-      this.currentWeightings.add(IntegerPool.get((weighting << WEIGHT_SHIFT) | flags));
-      this.rejection.add(IntegerPool.get(rejection));
+      this.baseWeightings.put(monster, IntegerPool.get((weighting << WEIGHT_SHIFT) | flags));
+      this.currentWeightings.put(monster, IntegerPool.get((weighting << WEIGHT_SHIFT) | flags));
+      this.rejection.put(monster, IntegerPool.get(rejection));
     }
 
     this.poison = Math.min(this.poison, monster.getPoison());
@@ -377,23 +378,12 @@ public class AreaCombatData {
   }
 
   public int getAvailableMonsterCount() {
-    int count = 0;
-    int size = this.monsters.size();
-    for (int i = 0; i < size; ++i) {
-      int weighting = this.getWeighting(i);
-      if (weighting > 0) {
-        count++;
-      }
-    }
-    size = this.superlikelyMonsters.size();
-    for (int i = 0; i < size; ++i) {
-      MonsterData monster = this.superlikelyMonsters.get(i);
-      String monsterName = monster.getName();
-      if (AreaCombatData.superlikelyChance(monsterName) > 0) {
-        count++;
-      }
-    }
-    return count;
+    return (int)
+        Stream.concat(
+                monsters.stream().map(m -> getWeighting(m) > 0),
+                superlikelyMonsters.stream().map(m -> superlikelyChance(m) > 0))
+            .filter(p -> p)
+            .count();
   }
 
   public MonsterData getMonster(final int i) {
@@ -419,16 +409,16 @@ public class AreaCombatData {
     return this.superlikelyMonsters.indexOf(monster);
   }
 
-  public int getWeighting(final int i) {
-    int raw = (this.currentWeightings.get(i)).intValue();
+  public int getWeighting(final MonsterData monster) {
+    int raw = (this.currentWeightings.getOrDefault(monster, 0)).intValue();
     if (((raw >> (KoLCharacter.getAscensions() & 1)) & 1) == 0) {
       return -2; // impossible this ascension
     }
     return raw >> WEIGHT_SHIFT;
   }
 
-  public int getRejection(final int i) {
-    return this.rejection.get(i);
+  public int getRejection(final MonsterData monster) {
+    return this.rejection.get(monster);
   }
 
   public double totalWeighting() {
@@ -464,28 +454,42 @@ public class AreaCombatData {
     return AreaCombatData.hitPercent(hitStat, this.minHit()) > 0.0;
   }
 
+  public int getJumpChance() {
+    return getJumpChance(m -> m.getJumpChance());
+  }
+
+  public int getJumpChance(int initiative, int ml) {
+    return getJumpChance(m -> m.getJumpChance(initiative, ml));
+  }
+
+  public int getJumpChance(int initiative) {
+    return getJumpChance(m -> m.getJumpChance(initiative));
+  }
+
+  public int getJumpChance(Function<MonsterData, Integer> fn) {
+    return getMonsterData(true).entrySet().stream()
+        .filter(e -> e.getValue() > 0)
+        .mapToInt(e -> fn.apply(e.getKey()))
+        .min()
+        .orElse(0);
+  }
+
   public double getAverageML() {
-    double averageML = 0.0;
-
-    for (int i = 0; i < this.monsters.size(); ++i) {
-      int weighting = this.getWeighting(i);
-
-      // Omit impossible (-2), ultra-rare (-1) and special/banished (0) monsters
-      if (weighting < 1) {
-        continue;
-      }
-
-      MonsterData monster = this.getMonster(i);
-      double weight =
-          (double) weighting * (1 - (double) this.getRejection(i) / 100) / this.totalWeighting();
-      averageML += weight * monster.getAttack();
-    }
+    double averageML =
+        monsters.stream()
+            .filter(m -> getWeighting(m) > 0)
+            .map(
+                m ->
+                    (double) getWeighting(m)
+                        * (1 - (double) this.getRejection(m) / 100)
+                        / this.totalWeighting())
+            .reduce(0.0, Double::sum);
 
     double averageSuperlikelyML = 0.0;
     double superlikelyChance = 0.0;
+
     for (MonsterData monster : this.superlikelyMonsters) {
-      String monsterName = monster.getName();
-      double chance = AreaCombatData.superlikelyChance(monsterName);
+      double chance = AreaCombatData.superlikelyChance(monster);
       if (chance > 0) {
         averageSuperlikelyML += chance * monster.getAttack();
         superlikelyChance += chance;
@@ -516,7 +520,7 @@ public class AreaCombatData {
 
     this.getSummary(buffer, fullString);
     this.getEncounterData(buffer);
-    this.getMonsterData(buffer, fullString);
+    this.appendMonsterData(buffer, fullString);
 
     buffer.append("</body></html>");
     return buffer.toString();
@@ -550,17 +554,18 @@ public class AreaCombatData {
     // Iterate once through monsters to calculate average statGain
     double averageExperience = 0.0;
 
-    for (int i = 0; i < this.monsters.size(); ++i) {
-      int weighting = this.getWeighting(i);
+    for (MonsterData monster : monsters) {
+      int weighting = this.getWeighting(monster);
 
       // Omit impossible (-2), ultra-rare (-1) and special/banished (0) monsters
       if (weighting < 1) {
         continue;
       }
 
-      MonsterData monster = this.getMonster(i);
       double weight =
-          (double) weighting * (1 - (double) this.getRejection(i) / 100) / this.totalWeighting();
+          (double) weighting
+              * (1 - (double) this.getRejection(monster) / 100)
+              / this.totalWeighting();
       int ml = monster.ML();
       averageExperience +=
           weight * (monster.getExperience() + experienceAdjustment - ml / (ml > 0 ? 6.0 : 8.0));
@@ -608,48 +613,68 @@ public class AreaCombatData {
     }
   }
 
-  public void getMonsterData(final StringBuffer buffer, final boolean fullString) {
-    int moxie = KoLCharacter.getAdjustedMoxie();
-    int hitstat = EquipmentManager.getAdjustedHitStat();
-    double combatFactor = this.areaCombatPercent() / 100.0;
-    double superlikelyChance = 0.0;
+  public Map<MonsterData, Double> getMonsterData() {
+    return getMonsterData(false);
+  }
 
-    for (int i = 0; i < this.superlikelyMonsters.size(); ++i) {
-      MonsterData monster = this.superlikelyMonsters.get(i);
-      String monsterName = monster.getName();
-      double chance = AreaCombatData.superlikelyChance(monsterName);
-      buffer.append("<br><br>");
-      buffer.append(
-          this.getMonsterString(
-              this.getSuperlikelyMonster(i),
-              moxie,
-              hitstat,
-              0,
-              0,
-              combatFactor,
-              chance,
-              fullString));
-      superlikelyChance += chance;
+  public Map<MonsterData, Double> getMonsterData(boolean stateful) {
+    Map<MonsterData, Double> monsterData = new HashMap<>();
+
+    if (stateful) {
+      recalculate();
     }
 
-    for (int i = 0; i < this.monsters.size(); ++i) {
-      int weighting = this.getWeighting(i);
-      int rejection = this.getRejection(i);
+    double totalSuperlikelyChance = 0.0;
+
+    for (MonsterData monster : superlikelyMonsters) {
+      double chance = superlikelyChance(monster);
+      monsterData.put(monster, chance);
+      totalSuperlikelyChance += chance;
+    }
+
+    double combatFactor = this.areaCombatPercent(stateful) / 100.0;
+
+    for (MonsterData monster : monsters) {
+      int weighting = getWeighting(monster);
+
       if (weighting == -2) {
         continue;
       }
 
-      buffer.append("<br><br>");
-      buffer.append(
-          this.getMonsterString(
-              this.getMonster(i),
-              moxie,
-              hitstat,
-              weighting,
-              rejection,
-              combatFactor,
-              superlikelyChance,
-              fullString));
+      // Negative weight will set this to zero (which is good!)
+      double chance =
+          Math.max(
+              0,
+              100.0
+                  * combatFactor
+                  * (1 - totalSuperlikelyChance / 100)
+                  * weighting
+                  * (1 - (double) getRejection(monster) / 100));
+
+      if (stateful) {
+        chance = AdventureQueueDatabase.applyQueueEffects(chance, monster, this);
+      } else {
+        chance = chance / totalWeighting();
+      }
+
+      monsterData.put(monster, chance);
+    }
+
+    return monsterData;
+  }
+
+  public void appendMonsterData(final StringBuffer buffer, final boolean fullString) {
+    int moxie = KoLCharacter.getAdjustedMoxie();
+    int hitstat = EquipmentManager.getAdjustedHitStat();
+
+    for (Map.Entry<MonsterData, Double> entry : getMonsterData(true).entrySet()) {
+      MonsterData monster = entry.getKey();
+      double chance = entry.getValue();
+      buffer
+          .append("<br><br>")
+          .append(
+              this.getMonsterString(
+                  monster, moxie, hitstat, getWeighting(monster), chance, fullString));
     }
   }
 
@@ -742,38 +767,52 @@ public class AreaCombatData {
   }
 
   public double areaCombatPercent() {
-    // Some areas have fixed non-combats, if we're tracking this, handle them here.
-    if (this.zone.equals("The Defiled Alcove")
-        && Preferences.getInteger("cyrptAlcoveEvilness") <= 25) {
-      return 100;
-    }
-    if (this.zone.equals("The Defiled Cranny")
-        && Preferences.getInteger("cyrptCrannyEvilness") <= 25) {
-      return 100;
-    }
-    if (this.zone.equals("The Defiled Niche")
-        && Preferences.getInteger("cyrptNicheEvilness") <= 25) {
-      return 100;
-    }
-    if (this.zone.equals("The Defiled Nook") && Preferences.getInteger("cyrptNookEvilness") <= 25) {
-      return 100;
-    }
+    return areaCombatPercent(true);
+  }
 
-    if (this.zone.equals("Barf Mountain")) {
-      return Preferences.getBoolean("dinseyRollercoasterNext") ? 0 : 100;
-    }
+  public double areaCombatPercent(boolean stateful) {
+    if (stateful) {
+      // Some situations can force combats
+      if (EncounterManager.isSaberForceZone(this.getZone())) {
+        return 100;
+      }
 
-    if (this.zone.equals("Investigating a Plaintive Telegram")) {
-      return Preferences.getInteger("lttQuestStageCount") == 9
-              || QuestDatabase.isQuestStep(Quest.TELEGRAM, QuestDatabase.STARTED)
-          ? 0
-          : 100;
-    }
-
-    if (this.zone.equals("The Dripping Trees")) {
-      // Non-Combat on turn 16, 31, 46, ...
-      int advs = Preferences.getInteger("drippingTreesAdventuresSinceAscension");
-      return (advs > 0 && (advs % 15) == 0) ? 0 : 100;
+      // Some areas have fixed non-combats, if we're tracking this, handle them here.
+      switch (zone) {
+        case "The Defiled Alcove":
+          if (Preferences.getInteger("cyrptAlcoveEvilness") <= 25) {
+            return 100;
+          }
+          break;
+        case "The Defiled Cranny":
+          if (Preferences.getInteger("cyrptCrannyEvilness") <= 25) {
+            return 100;
+          }
+          break;
+        case "The Defiled Niche":
+          if (Preferences.getInteger("cyrptNicheEvilness") <= 25) {
+            return 100;
+          }
+          break;
+        case "The Defiled Nook":
+          if (Preferences.getInteger("cyrptNookEvilness") <= 25) {
+            return 100;
+          }
+          break;
+        case "The Smut Orc Logging Camp":
+          return Preferences.getInteger("smutOrcNoncombatProgress") < 15 ? 100 : 0;
+        case "Barf Mountain":
+          return Preferences.getBoolean("dinseyRollercoasterNext") ? 0 : 100;
+        case "Investigating a Plaintive Telegram":
+          return Preferences.getInteger("lttQuestStageCount") == 9
+                  || QuestDatabase.isQuestStep(Quest.TELEGRAM, QuestDatabase.STARTED)
+              ? 0
+              : 100;
+        case "The Dripping Trees":
+          // Non-Combat on turn 16, 31, 46, ...
+          int advs = Preferences.getInteger("drippingTreesAdventuresSinceAscension");
+          return (advs > 0 && (advs % 15) == 0) ? 0 : 100;
+      }
     }
 
     // If we don't have the data, pretend it's all combat
@@ -786,7 +825,12 @@ public class AreaCombatData {
       return this.combats;
     }
 
-    double pct = this.combats + KoLCharacter.getCombatRateAdjustment();
+    double pct = this.combats;
+
+    if (stateful) {
+      pct += KoLCharacter.getCombatRateAdjustment();
+    }
+
     return Math.max(0.0, Math.min(100.0, pct));
   }
 
@@ -840,9 +884,7 @@ public class AreaCombatData {
       final int moxie,
       final int hitstat,
       final int weighting,
-      final int rejection,
-      final double combatFactor,
-      final double superlikelyChance,
+      final double chance,
       final boolean fullString) {
     // moxie and hitstat NOT adjusted for monster level, since monster stats now are
 
@@ -874,11 +916,9 @@ public class AreaCombatData {
     buffer.append(name);
     buffer.append("</b></font> (");
 
-    if (EncounterManager.isSuperlikelyMonster(name)) {
-      buffer.append(this.format(superlikelyChance) + "%");
-    } else if (EncounterManager.isSaberForceMonster(name, this.getZone())) {
+    if (EncounterManager.isSaberForceMonster(name, this.getZone())) {
       buffer.append("forced by the saber");
-    } else if (EncounterManager.isCrystalBallMonster(name, this.getZone())) {
+    } else if (CrystalBallManager.isCrystalBallMonster(name, this.getZone())) {
       buffer.append("predicted by crystal ball");
     } else if (weighting == -1) {
       buffer.append("ultra-rare");
@@ -889,17 +929,7 @@ public class AreaCombatData {
     } else if (weighting == 0) {
       buffer.append("special");
     } else {
-      buffer.append(
-          this.format(
-                  AdventureQueueDatabase.applyQueueEffects(
-                      100.0
-                          * combatFactor
-                          * (1 - superlikelyChance / 100)
-                          * weighting
-                          * (1 - (double) rejection / 100),
-                      monster,
-                      this))
-              + "%");
+      buffer.append(this.format(chance) + "%");
     }
 
     buffer.append(")<br>Hit: <font color=" + AreaCombatData.elementColor(ed) + ">");
@@ -1603,6 +1633,10 @@ public class AreaCombatData {
       }
     }
     return weighting;
+  }
+
+  public static final double superlikelyChance(MonsterData monster) {
+    return superlikelyChance(monster.getName());
   }
 
   public static final double superlikelyChance(String monster) {

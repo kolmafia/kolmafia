@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.pages.PageRegistry;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -110,7 +111,7 @@ import net.sourceforge.kolmafia.webui.MineDecorator;
 
 public class ResponseTextParser {
   private static final Pattern NEWSKILL1_PATTERN =
-      Pattern.compile("<td>You (have learned|learn) a new skill: <b>(.*?)</b>");
+      Pattern.compile("<td>You (?:have learned|learn) a new skill: <b>(.*?)</b>");
   private static final Pattern NEWSKILL2_PATTERN = Pattern.compile("whichskill=(\\d+)");
 
   // You acquire a skill:&nbsp;&nbsp;</td><td><img
@@ -120,7 +121,7 @@ public class ResponseTextParser {
   // onClick='javascript:poop("desc_skill.php?whichskill=67&self=true","skill", 350,
   // 300)'>Stinkpalm</a></b>
   private static final Pattern NEWSKILL3_PATTERN =
-      Pattern.compile("You (?:gain|acquire) a skill:.*?<[bB]>(?:<a[^>]*>)?(.*?)(?:</a>)?</[bB]>");
+      Pattern.compile("You (?:gain|acquire) a skill:.*?whichskill=(\\d+)");
   private static final Pattern DESCITEM_PATTERN = Pattern.compile("whichitem=(\\d+)");
   private static final Pattern DESCEFFECT_PATTERN = Pattern.compile("whicheffect=([0-9a-zA-Z]+)");
 
@@ -721,110 +722,135 @@ public class ResponseTextParser {
 
   public static void learnSkillFromResponse(final String responseText) {
     boolean skillFound = false;
+
     Matcher matcher = ResponseTextParser.NEWSKILL1_PATTERN.matcher(responseText);
     while (matcher.find()) {
-      ResponseTextParser.learnSkill(matcher.group(2));
+      ResponseTextParser.learnSkill(matcher.group(1));
       skillFound = true;
     }
+
     if (skillFound) {
       return;
     }
 
     matcher = ResponseTextParser.NEWSKILL3_PATTERN.matcher(responseText);
     while (matcher.find()) {
-      ResponseTextParser.learnSkill(matcher.group(1));
+      ResponseTextParser.learnSkill(Integer.parseInt(matcher.group(1)));
       skillFound = true;
     }
+
     if (skillFound) {
       return;
     }
   }
 
   public static final void learnSkill(final String skillName) {
+    learnSkill(SkillDatabase.getSkillId(skillName));
+  }
+
+  public static final void learnSkill(final int skillId) {
     // The following skills are found in battle and result in
     // losing an item from inventory.
 
-    if (skillName.equals("Snarl of the Timberwolf")) {
-      if (InventoryManager.hasItem(ItemPool.TATTERED_WOLF_STANDARD)) {
-        ResultProcessor.processItem(ItemPool.TATTERED_WOLF_STANDARD, -1);
-      }
-    } else if (skillName.equals("Spectral Snapper")) {
-      if (InventoryManager.hasItem(ItemPool.TATTERED_SNAKE_STANDARD)) {
-        ResultProcessor.processItem(ItemPool.TATTERED_SNAKE_STANDARD, -1);
-      }
-    } else if (skillName.equals("Scarysauce") || skillName.equals("Fearful Fettucini")) {
-      if (InventoryManager.hasItem(ItemPool.ENGLISH_TO_A_F_U_E_DICTIONARY)) {
-        ResultProcessor.processItem(ItemPool.ENGLISH_TO_A_F_U_E_DICTIONARY, -1);
-      }
-    } else if (skillName.equals("Tango of Terror") || skillName.equals("Dirge of Dreadfulness")) {
-      if (InventoryManager.hasItem(ItemPool.BIZARRE_ILLEGIBLE_SHEET_MUSIC)) {
-        ResultProcessor.processItem(ItemPool.BIZARRE_ILLEGIBLE_SHEET_MUSIC, -1);
-      }
-    } else if (skillName.equals("Belch The Rainbow")) {
-      Preferences.increment("skillLevel117", 1, 11, false);
-    } else if (skillName.equals("Toggle Optimality")) {
-      Preferences.increment("skillLevel7254", 1);
-    } else if (skillName.equals("Pirate Bellow")) {
-      Preferences.increment("skillLevel118");
-    } else if (skillName.equals("Summon Holiday Fun!")) {
-      Preferences.increment("skillLevel121");
-    } else if (skillName.equals("Summon Carrot")) {
-      Preferences.increment("skillLevel128");
-    } else if (skillName.equals("Bear Essence")) {
-      Preferences.increment("skillLevel134", 1);
-    } else if (skillName.equals("Calculate the Universe")) {
-      Preferences.increment("skillLevel144");
-    } else if (skillName.equals("Experience Safari")) {
-      Preferences.increment("skillLevel180");
-    } else if (skillName.equals("Implode Universe")) {
-      Preferences.increment("skillLevel188", 1, 13, false);
-    } else if (KoLCharacter.inNuclearAutumn()) {
-      if (skillName.equals("Boiling Tear Ducts")
-          || skillName.equals("Projectile Salivary Glands")
-          || skillName.equals("Translucent Skin")
-          || skillName.equals("Skunk Glands")
-          || skillName.equals("Throat Refrigerant")
-          || skillName.equals("Internal Soda Machine")) {
-        ResultProcessor.processResult(ItemPool.get(ItemPool.RAD, -30));
-      } else if (skillName.equals("Steroid Bladder")
-          || skillName.equals("Magic Sweat")
-          || skillName.equals("Flappy Ears")
-          || skillName.equals("Self-Combing Hair")
-          || skillName.equals("Intracranial Eye")
-          || skillName.equals("Mind Bullets")
-          || skillName.equals("Extra Kidney")
-          || skillName.equals("Extra Gall Bladder")) {
-        ResultProcessor.processResult(ItemPool.get(ItemPool.RAD, -60));
-      } else if (skillName.equals("Extra Muscles")
-          || skillName.equals("Adipose Polymers")
-          || skillName.equals("Metallic Skin")
-          || skillName.equals("Hypno-Eyes")
-          || skillName.equals("Extra Brain")
-          || skillName.equals("Magnetic Ears")
-          || skillName.equals("Extremely Punchable Face")
-          || skillName.equals("Firefly Abdomen")
-          || skillName.equals("Bone Springs")
-          || skillName.equals("Squid Glands")) {
-        ResultProcessor.processResult(ItemPool.get(ItemPool.RAD, -90));
-      } else if (skillName.equals("Sucker Fingers") || skillName.equals("Backwards Knees")) {
-        ResultProcessor.processResult(ItemPool.get(ItemPool.RAD, -120));
-      }
+    switch (skillId) {
+      case SkillPool.SNARL_OF_THE_TIMBERWOLF:
+        if (InventoryManager.hasItem(ItemPool.TATTERED_WOLF_STANDARD)) {
+          ResultProcessor.processItem(ItemPool.TATTERED_WOLF_STANDARD, -1);
+        }
+        break;
+      case SkillPool.SPECTRAL_SNAPPER:
+        if (InventoryManager.hasItem(ItemPool.TATTERED_SNAKE_STANDARD)) {
+          ResultProcessor.processItem(ItemPool.TATTERED_SNAKE_STANDARD, -1);
+        }
+        break;
+      case SkillPool.SCARYSAUCE:
+      case SkillPool.FEARFUL_FETTUCINI:
+        if (InventoryManager.hasItem(ItemPool.ENGLISH_TO_A_F_U_E_DICTIONARY)) {
+          ResultProcessor.processItem(ItemPool.ENGLISH_TO_A_F_U_E_DICTIONARY, -1);
+        }
+        break;
+      case SkillPool.TANGO_OF_TERROR:
+      case SkillPool.DIRGE_OF_DREADFULNESS:
+        if (InventoryManager.hasItem(ItemPool.BIZARRE_ILLEGIBLE_SHEET_MUSIC)) {
+          ResultProcessor.processItem(ItemPool.BIZARRE_ILLEGIBLE_SHEET_MUSIC, -1);
+        }
+        break;
+      case SkillPool.BELCH_THE_RAINBOW:
+        Preferences.increment("skillLevel117", 1, 11, false);
+        break;
+      case SkillPool.TOGGLE_OPTIMALITY:
+      case SkillPool.PIRATE_BELLOW:
+      case SkillPool.HOLIDAY_FUN:
+      case SkillPool.SUMMON_CARROT:
+      case SkillPool.BEAR_ESSENCE:
+      case SkillPool.CALCULATE_THE_UNIVERSE:
+      case SkillPool.EXPERIENCE_SAFARI:
+        Preferences.increment("skillLevel" + skillId);
+        break;
+      case SkillPool.IMPLODE_UNIVERSE:
+        Preferences.increment("skillLevel188", 1, 13, false);
+        break;
     }
 
-    String message = "You learned a new skill: " + skillName;
+    if (KoLCharacter.inNuclearAutumn()) {
+      int cost = 0;
+
+      switch (skillId) {
+        case SkillPool.BOILING_TEAR_DUCTS:
+        case SkillPool.PROJECTILE_SALIVARY_GLANDS:
+        case SkillPool.TRANSLUCENT_SKIN:
+        case SkillPool.SKUNK_GLANDS:
+        case SkillPool.THROAT_REFRIDGERANT:
+        case SkillPool.INTERNAL_SODA_MACHINE:
+          cost = 30;
+          break;
+        case SkillPool.STEROID_BLADDER:
+        case SkillPool.MAGIC_SWEAT:
+        case SkillPool.FLAPPY_EARS:
+        case SkillPool.SELF_COMBING_HAIR:
+        case SkillPool.INTRACRANIAL_EYE:
+        case SkillPool.MIND_BULLETS:
+        case SkillPool.EXTRA_KIDNEY:
+        case SkillPool.EXTRA_GALL_BLADDER:
+          cost = 60;
+          break;
+        case SkillPool.EXTRA_MUSCLES:
+        case SkillPool.ADIPOSE_POLYMERS:
+        case SkillPool.METALLIC_SKIN:
+        case SkillPool.HYPNO_EYES:
+        case SkillPool.EXTRA_BRAIN:
+        case SkillPool.MAGNETIC_EARS:
+        case SkillPool.EXTREMELY_PUNCHABLE_FACE:
+        case SkillPool.FIREFLY_ABDOMEN:
+        case SkillPool.BONE_SPRINGS:
+        case SkillPool.SQUID_GLANDS:
+          cost = 90;
+          break;
+        case SkillPool.SUCKER_FINGERS:
+        case SkillPool.BACKWARDS_KNEES:
+          cost = 120;
+          break;
+      }
+
+      ResultProcessor.processResult(ItemPool.get(ItemPool.RAD, -cost));
+    }
+
+    UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
+
+    String message = "You learned a new skill: " + skill.getSkillName();
     RequestLogger.printLine(message);
     RequestLogger.updateSessionLog(message);
-    KoLCharacter.addAvailableSkill(skillName);
+    KoLCharacter.addAvailableSkill(skill);
     KoLCharacter.updateStatus();
     LockableListFactory.sort(KoLConstants.usableSkills);
-    DiscoCombatHelper.learnSkill(skillName);
+    DiscoCombatHelper.learnSkill(skill.getSkillName());
     ConcoctionDatabase.setRefreshNeeded(true);
-    if (SkillDatabase.isBookshelfSkill(skillName)) {
+    if (SkillDatabase.isBookshelfSkill(skillId)) {
       KoLCharacter.setBookshelf(true);
     }
     PreferenceListenerRegistry.firePreferenceChanged("(skill)");
 
-    if (skillName.equals("Power Plus")) {
+    if (skillId == SkillPool.POWER_PLUS) {
       KoLCharacter.recalculateAdjustments();
       KoLCharacter.resetCurrentPP();
     }

@@ -851,7 +851,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
 
     public AdventureResult[] getDesiredItems() {
-      Object[] items = this.buyPanel.getSelectedValues();
+      AdventureResult[] items = this.buyPanel.getSelectedValues().toArray(new AdventureResult[0]);
       return this.getDesiredBuyItems(items, false);
     }
 
@@ -1569,7 +1569,8 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       }
     }
 
-    public AdventureResult[] getDesiredBuyItems(Object[] items, final boolean fromStorage) {
+    public AdventureResult[] getDesiredBuyItems(
+        final AdventureResult[] items, final boolean fromStorage) {
       if (items.length == 0) {
         return null;
       }
@@ -1580,7 +1581,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       int neededSize = items.length;
 
       for (int i = 0; i < items.length; ++i) {
-        AdventureResult item = (AdventureResult) items[i];
+        AdventureResult item = items[i];
         int itemId = item.getItemId();
 
         if (!data.availableItem(itemId)) {
@@ -1656,7 +1657,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
       for (int i = 0; i < items.length; ++i) {
         if (items[i] != null) {
-          desiredItems[neededSize++] = (AdventureResult) items[i];
+          desiredItems[neededSize++] = items[i];
         }
       }
 
@@ -1699,7 +1700,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       }
 
       @Override
-      public AutoFilterTextField getWordFilter() {
+      public AutoFilterTextField<AdventureResult> getWordFilter() {
         return new SellableFilterField();
       }
 
@@ -1812,12 +1813,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       public void addMovers() {}
 
       @Override
-      public AutoFilterTextField getWordFilter() {
+      public AutoFilterTextField<AdventureResult> getWordFilter() {
         return new BuyableFilterField();
       }
 
       public AdventureResult[] getDesiredItems(final boolean fromStorage) {
-        Object[] items = this.getSelectedValues();
+        AdventureResult[] items = this.getSelectedValues().toArray(new AdventureResult[0]);
         return CoinmasterPanel.this.getDesiredBuyItems(items, fromStorage);
       }
 

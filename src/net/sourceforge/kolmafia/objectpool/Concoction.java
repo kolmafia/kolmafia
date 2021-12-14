@@ -203,7 +203,7 @@ public class Concoction implements Comparable<Concoction> {
   }
 
   public void setStatGain() {
-    String range = "+0.0";
+    final String range;
     switch (KoLCharacter.mainStat()) {
       case MUSCLE:
         range = ConsumablesDatabase.getMuscleRange(this.name);
@@ -213,6 +213,9 @@ public class Concoction implements Comparable<Concoction> {
         break;
       case MOXIE:
         range = ConsumablesDatabase.getMoxieRange(this.name);
+        break;
+      default:
+        range = "+0.0";
         break;
     }
     this.mainstatGain = StringUtilities.parseDouble(range);

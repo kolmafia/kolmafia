@@ -86,8 +86,8 @@ public class DatabaseFrame extends GenericFrame {
     }
 
     @Override
-    public AutoFilterTextField getWordFilter() {
-      return new AutoFilterTextField(this.elementModel);
+    public AutoFilterTextField<LowerCaseEntry<Integer, E>> getWordFilter() {
+      return new AutoFilterTextField<>(this.elementModel);
     }
 
     /** Utility class which shows the description of the item which is currently selected. */
@@ -96,8 +96,8 @@ public class DatabaseFrame extends GenericFrame {
       protected void execute() {
         int index = ItemLookupPanel.this.getElementList().getSelectedIndex();
         if (index != -1) {
-          Entry entry =
-              (Entry) ItemLookupPanel.this.getElementList().getDisplayModel().getElementAt(index);
+          Entry<Integer, E> entry =
+              ItemLookupPanel.this.getElementList().getDisplayModel().getElementAt(index);
           ItemLookupPanel.this.showDescription(entry);
         }
       }
@@ -113,24 +113,25 @@ public class DatabaseFrame extends GenericFrame {
         }
 
         int index = ItemLookupPanel.this.getElementList().locationToIndex(e.getPoint());
-        Object entry = ItemLookupPanel.this.getElementList().getDisplayModel().getElementAt(index);
+        Entry<Integer, E> entry =
+            ItemLookupPanel.this.getElementList().getDisplayModel().getElementAt(index);
 
         if (!(entry instanceof Entry)) {
           return;
         }
 
         ItemLookupPanel.this.getElementList().ensureIndexIsVisible(index);
-        ItemLookupPanel.this.showDescription((Entry) entry);
+        ItemLookupPanel.this.showDescription(entry);
       }
     }
 
-    public void showDescription(final Entry entry) {
+    public void showDescription(final Entry<Integer, E> entry) {
       StaticEntity.openDescriptionFrame(
           "desc_" + this.type + ".php?" + this.which + "=" + this.getId(entry));
     }
 
-    public String getId(final Entry e) {
-      return String.valueOf(((Integer) e.getKey()).intValue());
+    public String getId(final Entry<Integer, E> e) {
+      return String.valueOf(e.getKey().intValue());
     }
   }
 
@@ -140,8 +141,8 @@ public class DatabaseFrame extends GenericFrame {
     }
 
     @Override
-    public String getId(final Entry e) {
-      return ItemDatabase.getDescriptionId(((Integer) e.getKey()).intValue());
+    public String getId(final Entry<Integer, String> e) {
+      return ItemDatabase.getDescriptionId(e.getKey().intValue());
     }
   }
 
@@ -151,8 +152,8 @@ public class DatabaseFrame extends GenericFrame {
     }
 
     @Override
-    public String getId(final Entry e) {
-      return EffectDatabase.getDescriptionId(((Integer) e.getKey()).intValue());
+    public String getId(final Entry<Integer, String> e) {
+      return EffectDatabase.getDescriptionId(e.getKey().intValue());
     }
   }
 
@@ -162,8 +163,8 @@ public class DatabaseFrame extends GenericFrame {
     }
 
     @Override
-    public void showDescription(final Entry entry) {
-      MonsterDescriptionFrame.showMonster((MonsterData) entry.getValue());
+    public void showDescription(final Entry<Integer, MonsterData> entry) {
+      MonsterDescriptionFrame.showMonster(entry.getValue());
     }
   }
 }

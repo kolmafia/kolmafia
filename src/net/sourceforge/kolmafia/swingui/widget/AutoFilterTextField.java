@@ -22,11 +22,11 @@ import net.sourceforge.kolmafia.session.StoreManager.StoreLogEntry;
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class AutoFilterTextField extends AutoHighlightTextField
+public class AutoFilterTextField<E> extends AutoHighlightTextField
     implements ActionListener, ListElementFilter {
-  protected JList list;
+  protected JList<E> list;
   protected String text;
-  protected LockableListModel model;
+  protected LockableListModel<E> model;
   protected boolean strict;
   protected int quantity;
   protected int price;
@@ -44,19 +44,11 @@ public class AutoFilterTextField extends AutoHighlightTextField
 
   private static final Pattern NOTSEARCH_PATTERN = Pattern.compile("\\s*!\\s*=\\s*(.+)\\s*");
 
-  public AutoFilterTextField(final JList list) {
-    this.setList(list);
-
-    this.addKeyListener(new FilterListener());
-
-    // Make this look like a normal search field on OS X.
-    // Note that the field MUST NOT be forced to a height other than its
-    // preferred height; that produces some ugly visual glitches.
-
-    this.putClientProperty("JTextField.variant", "search");
+  public AutoFilterTextField(final JList<E> list) {
+    this(list, null);
   }
 
-  public AutoFilterTextField(final JList list, Object initial) {
+  public AutoFilterTextField(final JList<E> list, E initial) {
     this.setList(list);
 
     this.addKeyListener(new FilterListener());
@@ -72,7 +64,7 @@ public class AutoFilterTextField extends AutoHighlightTextField
     }
   }
 
-  public AutoFilterTextField(LockableListModel displayModel) {
+  public AutoFilterTextField(LockableListModel<E> displayModel) {
     this.addKeyListener(new FilterListener());
 
     this.model = displayModel;
@@ -85,14 +77,14 @@ public class AutoFilterTextField extends AutoHighlightTextField
     this.putClientProperty("JTextField.variant", "search");
   }
 
-  public void setList(final JList list) {
+  public void setList(final JList<E> list) {
     this.list = list;
-    this.model = (LockableListModel) list.getModel();
+    this.model = (LockableListModel<E>) list.getModel();
     this.model.setFilter(this);
     this.list.clearSelection();
   }
 
-  public void setModel(final LockableListModel model) {
+  public void setModel(final LockableListModel<E> model) {
     this.model = model;
     this.model.setFilter(this);
   }
@@ -277,7 +269,7 @@ public class AutoFilterTextField extends AutoHighlightTextField
       }
 
       if (AutoFilterTextField.this.list != null) {
-        JList list = AutoFilterTextField.this.list;
+        JList<E> list = AutoFilterTextField.this.list;
         if (AutoFilterTextField.this.model.getSize() == 1) {
           list.setSelectedIndex(0);
         } else if (list.getSelectedIndices().length == 1) {

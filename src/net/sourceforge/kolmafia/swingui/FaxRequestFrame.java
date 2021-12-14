@@ -379,7 +379,7 @@ public class FaxRequestFrame extends GenericFrame {
 
   private class MonsterSelectPanel extends ScrollablePanel<ShowDescriptionList<Monster>> {
     private ShowDescriptionList<Monster> elementList;
-    private final AutoFilterTextField filterfield;
+    private final AutoFilterTextField<Monster> filterField;
 
     public MonsterSelectPanel(final ShowDescriptionList<Monster> list) {
       super("", null, null, list, false);
@@ -388,14 +388,14 @@ public class FaxRequestFrame extends GenericFrame {
       this.elementList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
       this.elementList.setVisibleRowCount(8);
 
-      this.filterfield = new AutoFilterTextField(this.elementList);
-      this.centerPanel.add(this.filterfield, BorderLayout.NORTH);
+      this.filterField = new AutoFilterTextField<>(this.elementList);
+      this.centerPanel.add(this.filterField, BorderLayout.NORTH);
     }
 
     public void setElementList(final ShowDescriptionList<Monster> list) {
       this.elementList = list;
       this.scrollPane.getViewport().setView(list);
-      this.filterfield.setList(list);
+      this.filterField.setList(list);
     }
   }
 }

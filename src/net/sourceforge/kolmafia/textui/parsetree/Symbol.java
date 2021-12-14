@@ -37,4 +37,11 @@ public abstract class Symbol implements ParseTreeNode, Comparable<Symbol> {
     }
     return this.name.compareToIgnoreCase(o.name);
   }
+
+  /** For error propagation only */
+  public static interface BadNode {}
+
+  public boolean isBad() {
+    return this instanceof BadNode;
+  }
 }

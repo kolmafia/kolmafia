@@ -1314,7 +1314,7 @@ fired-up Knob Goblin King	2212	firegoblinking.gif	Atk: 53 Def: 47 HP: 50 Init: 1
 Burnerdagon	2213	burnerdagon.gif	Atk: 90 Def: 81 HP: 120 Init: 90 P: undead E: hot NOCOPY BOSS	skull of the Bonerdagon (n100)	chest of the Bonerdagon (n100)
 Dr. Awkward, who is on fire	2214	fireawkward.gif	Atk: 175 Def: 157 HP: 200 Init: -10000 P: dude E: hot NOCOPY BOSS	Drowsy Sword (n100)	Staff of Fats (n100)
 Lord Sootyraven	2215	fireyraven.gif	Atk: 165 Def: 148 HP: 200 Init: 10000 P: undead E: hot NOCOPY BOSS	Eye of Ed (n100)	Lord Spookyraven's ear trumpet (n100)
-Protector Spectre (Wildfire)	2216	firespectre.gif	Atk: 164 Def: 151 HP: 100 Init: 30 P: undead E: hot NOCOPY BOSS	ancient amulet (n100)	spectre scepter (n100)
+Protector Spectre (Wildfire)	2216	firespectre.gif	Atk: 164 Def: 151 HP: 100 Init: 30 P: undead E: hot NOCOPY BOSS Manuel: "Protector Spectre"	ancient amulet (n100)	spectre scepter (n100)
 Groar, Except Hot	2217	firegroar.gif	Atk: 120 Def: 108 HP: 250 Init: 50 P: beast E: hot NOCOPY BOSS	Groar's fur (100)	dense meat stack (100)	dense meat stack (100)	dense meat stack (100)	dense meat stack (100)	dense meat stack (100)
 The Big Ignatowicz	2218	firethedude.gif	Atk: 250 Def: 225 HP: 2000 Init: 60 P: hippy E: hot NOCOPY BOSS	solid gold bowling ball (100)
 The Man on Fire	2219	firetheman.gif	Atk: 250 Def: 225 HP: 2000 Init: 60 P: dude E: hot NOCOPY BOSS	really dense meat stack (100)

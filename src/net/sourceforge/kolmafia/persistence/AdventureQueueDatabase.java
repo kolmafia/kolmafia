@@ -22,6 +22,8 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
+import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
 /*
@@ -259,7 +261,15 @@ public class AdventureQueueDatabase implements Serializable {
   public static double applyQueueEffects(
       double numerator, MonsterData monster, AreaCombatData data) {
     String zone = data.getZone();
-    RollingLinkedList<String> zoneQueue = COMBAT_QUEUE.get(zone);
+    RollingLinkedList<String> zoneQueue = getZoneQueue(zone);
+
+    if (EncounterManager.isSaberForceZone(zone)) {
+      return EncounterManager.isSaberForceMonster(monster, zone) ? 100.0 : 0.0;
+    }
+
+    if (CrystalBallManager.isCrystalBallZone(zone)) {
+      return CrystalBallManager.isCrystalBallMonster(monster, zone) ? data.areaCombatPercent() : 0;
+    }
 
     double denominator = data.totalWeighting();
 
@@ -282,14 +292,13 @@ public class AdventureQueueDatabase implements Serializable {
     int queueWeight = 0;
     for (String mon : zoneSet) {
       MonsterData queueMonster = MonsterDatabase.findMonster(mon);
-      int index = data.getMonsterIndex(queueMonster);
       boolean olfacted =
           queueMonster != null
               && ((Preferences.getString("olfactedMonster").equals(queueMonster.getName())
                       && KoLConstants.activeEffects.contains(FightRequest.ONTHETRAIL))
                   || Preferences.getString("longConMonster").equals(queueMonster.getName()));
-      if (index != -1 && data.getWeighting(index) > 0 && !olfacted) {
-        queueWeight += data.getWeighting(index);
+      if (queueMonster != null && data.getWeighting(queueMonster) > 0 && !olfacted) {
+        queueWeight += data.getWeighting(queueMonster);
       }
     }
 

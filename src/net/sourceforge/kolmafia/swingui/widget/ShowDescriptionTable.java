@@ -80,12 +80,12 @@ It is meant so that you can simply instantiate ShowDescriptionTable instead of S
 and all the "List-specific" methods will be provided in adapter methods.
 */
 
-public class ShowDescriptionTable extends JXTable {
+public class ShowDescriptionTable<E> extends JXTable {
   public int lastSelectIndex;
   public JPopupMenu contextMenu;
   public ListElementFilter filter;
 
-  private final LockableListModel displayModel, originalModel;
+  private final LockableListModel<E> displayModel, originalModel;
   private final boolean[] flags;
 
   private AdaptedTableModel adaptedModel;
@@ -104,39 +104,39 @@ public class ShowDescriptionTable extends JXTable {
         }
       };
 
-  public ShowDescriptionTable(final LockableListModel displayModel) {
+  public ShowDescriptionTable(final LockableListModel<E> displayModel) {
     this(displayModel, null, 4);
   }
 
-  public ShowDescriptionTable(final LockableListModel displayModel, boolean[] flags) {
+  public ShowDescriptionTable(final LockableListModel<E> displayModel, boolean[] flags) {
     this(displayModel, null, 4, 3, flags);
   }
 
-  public ShowDescriptionTable(final LockableListModel displayModel, final int visibleRowCount) {
+  public ShowDescriptionTable(final LockableListModel<E> displayModel, final int visibleRowCount) {
     this(displayModel, null, visibleRowCount);
   }
 
   public ShowDescriptionTable(
-      final LockableListModel displayModel,
+      final LockableListModel<E> displayModel,
       final int visibleRowCount,
       final int visibleColumnCount) {
     this(displayModel, null, visibleRowCount, visibleColumnCount, new boolean[] {false, false});
   }
 
   public ShowDescriptionTable(
-      final LockableListModel displayModel, final ListElementFilter filter) {
+      final LockableListModel<E> displayModel, final ListElementFilter filter) {
     this(displayModel, filter, 4);
   }
 
   public ShowDescriptionTable(
-      final LockableListModel displayModel,
+      final LockableListModel<E> displayModel,
       final ListElementFilter filter,
       final int visibleRowCount) {
     this(displayModel, filter, 4, 3, new boolean[] {false, false});
   }
 
   public ShowDescriptionTable(
-      final LockableListModel displayModel,
+      final LockableListModel<E> displayModel,
       final ListElementFilter filter,
       final int visibleRowCount,
       final int visibleColumnCount,
@@ -147,7 +147,7 @@ public class ShowDescriptionTable extends JXTable {
     boolean isMoodList = displayModel == MoodManager.getTriggers();
     boolean isEncyclopedia = !displayModel.isEmpty() && displayModel.get(0) instanceof Entry;
     boolean isMonster =
-        isEncyclopedia && ((Entry) displayModel.get(0)).getValue() instanceof MonsterData;
+        isEncyclopedia && ((Entry<?, ?>) displayModel.get(0)).getValue() instanceof MonsterData;
 
     if (!isMoodList) {
       if (displayModel.size() == 0 || !isEncyclopedia) {
@@ -241,7 +241,7 @@ public class ShowDescriptionTable extends JXTable {
     String[] colNames = TableCellFactory.getColumnNames(this.originalModel, flags);
     this.adaptedModel = new AdaptedTableModel(this.displayModel, colNames);
 
-    // this.getTableHeader().setReorderingAllowed( false );
+    // this.getTableHeader().setReorderingAllowed(false);
     this.setShowGrid(false);
     this.setModel(this.adaptedModel);
 
@@ -308,9 +308,9 @@ public class ShowDescriptionTable extends JXTable {
   private class RenderedComparator implements Comparator<Object> {
     private final int column;
     private final boolean[] flags;
-    private final LockableListModel model;
+    private final LockableListModel<E> model;
 
-    public RenderedComparator(LockableListModel originalModel, int column, boolean[] flags) {
+    public RenderedComparator(LockableListModel<E> originalModel, int column, boolean[] flags) {
       this.model = originalModel;
       this.column = column;
       this.flags = flags;
@@ -338,26 +338,26 @@ public class ShowDescriptionTable extends JXTable {
     }
   }
 
-  public LockableListModel getOriginalModel() {
+  public LockableListModel<E> getOriginalModel() {
     return this.originalModel;
   }
 
-  public LockableListModel getDisplayModel() {
-    return displayModel;
+  public LockableListModel<E> getDisplayModel() {
+    return this.displayModel;
   }
 
   // This is the adapted model object. ListModel -> Wrapper -> TableModel
   public class AdaptedTableModel extends AbstractTableAdapter {
-    protected LockableListModel model;
+    protected LockableListModel<E> model;
     private Class<?>[] classDefs;
 
-    public AdaptedTableModel(LockableListModel listModel, String[] columnNames) {
+    public AdaptedTableModel(LockableListModel<E> listModel, String[] columnNames) {
       super(listModel, columnNames);
       this.model = listModel;
     }
 
     public AdaptedTableModel(
-        LockableListModel listModel, String[] columnNames, Class<?>[] classDefs) {
+        LockableListModel<E> listModel, String[] columnNames, Class<?>[] classDefs) {
       super(listModel, columnNames);
       this.model = listModel;
       this.classDefs = classDefs;
@@ -371,7 +371,7 @@ public class ShowDescriptionTable extends JXTable {
       return getRow(rowIndex);
     }
 
-    public LockableListModel getModel() {
+    public LockableListModel<E> getModel() {
       return this.model;
     }
 
@@ -390,10 +390,10 @@ public class ShowDescriptionTable extends JXTable {
   }
 
   public class DescriptionTableRenderer extends DefaultTableCellRenderer {
-    protected LockableListModel model;
+    protected LockableListModel<E> model;
     private final boolean[] flags;
 
-    public DescriptionTableRenderer(LockableListModel originalModel, boolean[] flags) {
+    public DescriptionTableRenderer(LockableListModel<E> originalModel, boolean[] flags) {
       this.model = originalModel;
       this.flags = flags;
     }
@@ -539,7 +539,7 @@ public class ShowDescriptionTable extends JXTable {
 
   private abstract class ContextMenuListener extends ThreadedListener {
     public int index;
-    public Object item;
+    public E item;
 
     @Override
     protected void execute() {
@@ -584,14 +584,20 @@ public class ShowDescriptionTable extends JXTable {
   }
 
   public void removeTriggers() {
-    Object[] items = ShowDescriptionTable.this.getSelectedValues();
+    List<E> items = ShowDescriptionTable.this.getSelectedValues();
+    List<MoodTrigger> triggers = new ArrayList<>(items.size());
+
+    for (final E item : items) {
+      triggers.add((MoodTrigger) item);
+    }
+
     ShowDescriptionTable.this.clearSelection();
 
-    MoodManager.removeTriggers(items);
+    MoodManager.removeTriggers(triggers);
     MoodManager.saveSettings();
   }
 
-  public Object[] getSelectedValues() {
+  public List<E> getSelectedValues() {
     /*
      * Since this function exists for lists but not for tables, provide this as a pseudo-adapter function.
      * Note that we have to get the MODEL index from the sorter object, as there is possibly a
@@ -600,16 +606,16 @@ public class ShowDescriptionTable extends JXTable {
 
     int[] selectedRows = this.getSelectedRows();
 
-    Object[] selectedValues = new Object[selectedRows.length];
+    List<E> selectedValues = new ArrayList<>(selectedRows.length);
 
-    for (int i = 0; i < selectedRows.length; ++i) {
-      selectedValues[i] =
-          this.displayModel.getElementAt(this.convertRowIndexToModel(selectedRows[i]));
+    for (final int selectedRow : selectedRows) {
+      selectedValues.add(this.displayModel.getElementAt(this.convertRowIndexToModel(selectedRow)));
     }
+
     return selectedValues;
   }
 
-  public Object getSelectedValue() {
+  public E getSelectedValue() {
     /*
      * Since this function exists for lists but not for tables, provide this as a pseudo-adapter function.
      * Note that we have to get the MODEL index from the sorter object, as there is possibly a
@@ -627,10 +633,10 @@ public class ShowDescriptionTable extends JXTable {
 
   public AdventureResult[] getSelectedItems() {
     // Obviously, this only works if the model contains AdventureResults
-    Object[] values = this.getSelectedValues();
-    AdventureResult[] result = new AdventureResult[values.length];
-    for (int i = 0; i < values.length; ++i) {
-      result[i] = (AdventureResult) values[i];
+    List<E> values = this.getSelectedValues();
+    AdventureResult[] result = new AdventureResult[values.size()];
+    for (int i = 0; i < values.size(); ++i) {
+      result[i] = (AdventureResult) values.get(i);
     }
     return result;
   }
@@ -638,12 +644,11 @@ public class ShowDescriptionTable extends JXTable {
   private class ForceExecuteRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] items = ShowDescriptionTable.this.getSelectedValues();
-      ShowDescriptionTable.this.clearSelection();
-
-      for (int i = 0; i < items.length; ++i) {
-        KoLmafiaCLI.DEFAULT_SHELL.executeLine(((MoodTrigger) items[i]).getAction());
+      for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
+        KoLmafiaCLI.DEFAULT_SHELL.executeLine(((MoodTrigger) item).getAction());
       }
+
+      ShowDescriptionTable.this.clearSelection();
     }
   }
 
@@ -673,42 +678,40 @@ public class ShowDescriptionTable extends JXTable {
   private class CastSkillRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] skills = ShowDescriptionTable.this.getSelectedValues();
-      ShowDescriptionTable.this.clearSelection();
-
       UseSkillRequest request;
 
-      for (int i = 0; i < skills.length; ++i) {
-        request = (UseSkillRequest) skills[i];
+      for (final E skill : ShowDescriptionTable.this.getSelectedValues()) {
+        request = (UseSkillRequest) skill;
 
         request.setTarget(null);
         request.setBuffCount(1);
 
         RequestThread.postRequest(request);
       }
+
+      ShowDescriptionTable.this.clearSelection();
     }
   }
 
   private class AddToMoodSkillRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] skills = ShowDescriptionTable.this.getSelectedValues();
-      ShowDescriptionTable.this.clearSelection();
-
       if (Preferences.getString("currentMood").equals("apathetic")) {
         Preferences.setString("currentMood", "default");
       }
 
       String name, action;
 
-      for (int i = 0; i < skills.length; ++i) {
-        name = UneffectRequest.skillToEffect(((UseSkillRequest) skills[i]).getSkillName());
+      for (final E skill : ShowDescriptionTable.this.getSelectedValues()) {
+        name = UneffectRequest.skillToEffect(((UseSkillRequest) skill).getSkillName());
 
         action = MoodManager.getDefaultAction("lose_effect", name);
         if (!action.equals("")) {
           MoodManager.addTrigger("lose_effect", name, action);
         }
       }
+
+      ShowDescriptionTable.this.clearSelection();
       MoodManager.saveSettings();
     }
   }
@@ -716,17 +719,14 @@ public class ShowDescriptionTable extends JXTable {
   private class AddToMoodEffectRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] effects = ShowDescriptionTable.this.getSelectedValues();
-      ShowDescriptionTable.this.clearSelection();
-
       if (Preferences.getString("currentMood").equals("apathetic")) {
         Preferences.setString("currentMood", "default");
       }
 
       String name, action;
 
-      for (int i = 0; i < effects.length; ++i) {
-        name = ((AdventureResult) effects[i]).getName();
+      for (final E effect : ShowDescriptionTable.this.getSelectedValues()) {
+        name = ((AdventureResult) effect).getName();
 
         action = MoodManager.getDefaultAction("lose_effect", name);
         if (!action.equals("")) {
@@ -739,6 +739,8 @@ public class ShowDescriptionTable extends JXTable {
           MoodManager.addTrigger("gain_effect", name, action);
         }
       }
+
+      ShowDescriptionTable.this.clearSelection();
       MoodManager.saveSettings();
     }
   }
@@ -746,28 +748,26 @@ public class ShowDescriptionTable extends JXTable {
   private class ExtendEffectRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] effects = ShowDescriptionTable.this.getSelectedValues();
-      ShowDescriptionTable.this.clearSelection();
-
       String name, action;
 
-      for (int i = 0; i < effects.length; ++i) {
-        name = ((AdventureResult) effects[i]).getName();
+      for (final E effect : ShowDescriptionTable.this.getSelectedValues()) {
+        name = ((AdventureResult) effect).getName();
 
         action = MoodManager.getDefaultAction("lose_effect", name);
         if (!action.equals("")) {
           CommandDisplayFrame.executeCommand(action);
         }
       }
+
+      ShowDescriptionTable.this.clearSelection();
     }
   }
 
   private class ShrugOffRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] effects = ShowDescriptionTable.this.getSelectedValues();
-      for (int i = 0; i < effects.length; ++i) {
-        RequestThread.postRequest(new UneffectRequest((AdventureResult) effects[i]));
+      for (final E effect : ShowDescriptionTable.this.getSelectedValues()) {
+        RequestThread.postRequest(new UneffectRequest((AdventureResult) effect));
       }
     }
   }
@@ -775,24 +775,21 @@ public class ShowDescriptionTable extends JXTable {
   private class AddToJunkListRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] items = ShowDescriptionTable.this.getSelectedValues();
-      ShowDescriptionTable.this.clearSelection();
-
       AdventureResult data;
 
-      for (int i = 0; i < items.length; ++i) {
+      for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
         data = null;
 
-        if (items[i] instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) items[i]).createdItem;
-        } else if (items[i] instanceof AdventureResult && ((AdventureResult) items[i]).isItem()) {
-          data = (AdventureResult) items[i];
-        } else if (items[i] instanceof String && ItemDatabase.contains((String) items[i])) {
-          int itemId = ItemDatabase.getItemId((String) items[i]);
+        if (item instanceof CreateItemRequest) {
+          data = ((CreateItemRequest) item).createdItem;
+        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
+          data = (AdventureResult) item;
+        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
+          int itemId = ItemDatabase.getItemId((String) item);
           data = ItemPool.get(itemId);
-        } else if (items[i] instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) items[i]).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) items[i]).getValue());
+        } else if (item instanceof Entry
+            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
+          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -804,30 +801,29 @@ public class ShowDescriptionTable extends JXTable {
           KoLConstants.junkList.add(data);
         }
       }
+
+      ShowDescriptionTable.this.clearSelection();
     }
   }
 
   private class AddToSingletonListRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] items = ShowDescriptionTable.this.getSelectedValues();
-      ShowDescriptionTable.this.clearSelection();
-
       AdventureResult data;
 
-      for (int i = 0; i < items.length; ++i) {
+      for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
         data = null;
 
-        if (items[i] instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) items[i]).createdItem;
-        } else if (items[i] instanceof AdventureResult && ((AdventureResult) items[i]).isItem()) {
-          data = (AdventureResult) items[i];
-        } else if (items[i] instanceof String && ItemDatabase.contains((String) items[i])) {
-          int itemId = ItemDatabase.getItemId((String) items[i]);
+        if (item instanceof CreateItemRequest) {
+          data = ((CreateItemRequest) item).createdItem;
+        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
+          data = (AdventureResult) item;
+        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
+          int itemId = ItemDatabase.getItemId((String) item);
           data = ItemPool.get(itemId);
-        } else if (items[i] instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) items[i]).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) items[i]).getValue());
+        } else if (item instanceof Entry
+            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
+          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -842,30 +838,29 @@ public class ShowDescriptionTable extends JXTable {
           KoLConstants.singletonList.add(data);
         }
       }
+
+      ShowDescriptionTable.this.clearSelection();
     }
   }
 
   private class AddToMementoListRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] items = ShowDescriptionTable.this.getSelectedValues();
-      ShowDescriptionTable.this.clearSelection();
-
       AdventureResult data;
 
-      for (int i = 0; i < items.length; ++i) {
+      for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
         data = null;
 
-        if (items[i] instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) items[i]).createdItem;
-        } else if (items[i] instanceof AdventureResult && ((AdventureResult) items[i]).isItem()) {
-          data = (AdventureResult) items[i];
-        } else if (items[i] instanceof String && ItemDatabase.contains((String) items[i])) {
-          int itemId = ItemDatabase.getItemId((String) items[i]);
+        if (item instanceof CreateItemRequest) {
+          data = ((CreateItemRequest) item).createdItem;
+        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
+          data = (AdventureResult) item;
+        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
+          int itemId = ItemDatabase.getItemId((String) item);
           data = ItemPool.get(itemId);
-        } else if (items[i] instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) items[i]).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) items[i]).getValue());
+        } else if (item instanceof Entry
+            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
+          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -874,6 +869,8 @@ public class ShowDescriptionTable extends JXTable {
         }
       }
 
+      ShowDescriptionTable.this.clearSelection();
+
       Preferences.setBoolean("mementoListActive", true);
     }
   }
@@ -881,10 +878,8 @@ public class ShowDescriptionTable extends JXTable {
   private class ZeroTallyRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] items = ShowDescriptionTable.this.getSelectedValues();
-      for (int i = 0; i < items.length; ++i) {
-        AdventureResult item = (AdventureResult) items[i];
-        AdventureResult.addResultToList(KoLConstants.tally, item.getNegation());
+      for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
+        AdventureResult.addResultToList(KoLConstants.tally, ((AdventureResult) item).getNegation());
       }
     }
   }
@@ -921,9 +916,8 @@ public class ShowDescriptionTable extends JXTable {
         return;
       }
 
-      Object[] items = ShowDescriptionTable.this.getSelectedValues();
-      for (int i = 0; i < items.length; ++i) {
-        RequestThread.postRequest(UseItemRequest.getInstance((AdventureResult) items[i]));
+      for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
+        RequestThread.postRequest(UseItemRequest.getInstance((AdventureResult) item));
       }
     }
   }
@@ -936,17 +930,16 @@ public class ShowDescriptionTable extends JXTable {
         return;
       }
 
-      Object[] items = ShowDescriptionTable.this.getSelectedValues();
-      for (int i = 0; i < items.length; ++i) {
-        RequestThread.postRequest(new PulverizeRequest((AdventureResult) items[i]));
+      for (final E item : ShowDescriptionTable.this.getSelectedValues()) {
+        RequestThread.postRequest(new PulverizeRequest((AdventureResult) item));
       }
     }
   }
 
   protected class InstallScriptRunnable extends ContextMenuListener {
-    private final ShowDescriptionTable table;
+    private final ShowDescriptionTable<Script> table;
 
-    public InstallScriptRunnable(ShowDescriptionTable table) {
+    public InstallScriptRunnable(ShowDescriptionTable<Script> table) {
       this.table = table;
     }
 
@@ -975,9 +968,9 @@ public class ShowDescriptionTable extends JXTable {
   }
 
   protected class DeleteScriptRunnable extends ContextMenuListener {
-    private final ShowDescriptionTable table;
+    private final ShowDescriptionTable<Script> table;
 
-    public DeleteScriptRunnable(ShowDescriptionTable table) {
+    public DeleteScriptRunnable(ShowDescriptionTable<Script> table) {
       this.table = table;
     }
 
@@ -1003,9 +996,9 @@ public class ShowDescriptionTable extends JXTable {
   }
 
   protected class ShowThreadRunnable extends ContextMenuListener {
-    private final ShowDescriptionTable table;
+    private final ShowDescriptionTable<Script> table;
 
-    public ShowThreadRunnable(ShowDescriptionTable table) {
+    public ShowThreadRunnable(ShowDescriptionTable<Script> table) {
       this.table = table;
     }
 
@@ -1041,10 +1034,10 @@ public class ShowDescriptionTable extends JXTable {
   }
 
   protected class UpdateScriptRunnable extends ContextMenuListener {
-    private final ShowDescriptionTable table;
+    private final ShowDescriptionTable<Script> table;
     private final boolean all;
 
-    public UpdateScriptRunnable(ShowDescriptionTable table, boolean all) {
+    public UpdateScriptRunnable(ShowDescriptionTable<Script> table, boolean all) {
       this.table = table;
       this.all = all;
     }

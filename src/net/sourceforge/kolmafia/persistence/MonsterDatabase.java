@@ -215,8 +215,9 @@ public class MonsterDatabase {
         return element2 == Element.HOT || element2 == Element.STENCH;
       case STENCH:
         return element2 == Element.SLEAZE || element2 == Element.COLD;
+      default:
+        return false;
     }
-    return false;
   }
 
   private static void addMapping(Map<MonsterData, MonsterData> map, String name1, String name2) {

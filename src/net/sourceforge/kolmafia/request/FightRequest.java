@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -44,7 +44,6 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
@@ -64,6 +63,7 @@ import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
@@ -382,19 +382,21 @@ public class FightRequest extends GenericRequest {
   };
 
   // Skills which require a shield
-  private static final HashSet<String> INVALID_WITHOUT_SHIELD = new HashSet<String>();
+  private static final Set<String> INVALID_WITHOUT_SHIELD = Set.of("2005", "skill shieldbutt");
 
-  static {
-    INVALID_WITHOUT_SHIELD.add("2005");
-    INVALID_WITHOUT_SHIELD.add("skill shieldbutt");
-  }
+  private static final Set<String> INVALID_OUT_OF_WATER = Set.of("2024", "skill summon leviatuga");
 
-  private static final HashSet<String> INVALID_OUT_OF_WATER = new HashSet<String>();
-
-  static {
-    INVALID_OUT_OF_WATER.add("2024");
-    INVALID_OUT_OF_WATER.add("skill summon leviatuga");
-  }
+  private static final Set<String> GNOME_ADV_ACTIVATION =
+      Set.of(
+          "scrubs the mildew out of your grout",
+          "bundles your recycling for you",
+          "teaches you how to power-nap instead of sleeping all day",
+          "sharpens all your pencils and lines them up in a neat row",
+          "folds all your clean laundry",
+          "shows you how to shave a full minute off of your teeth brushing routine",
+          "organizes your sock drawer and alphabetizes your spice rack",
+          "hauls all of your scrap lumber to the dump",
+          "does all that tedious campsite cleaning you were going to do today");
 
   private static final String[][] EVIL_ZONES = {
     {
@@ -715,8 +717,8 @@ public class FightRequest extends GenericRequest {
   };
 
   private static boolean usingPapierEquipment() {
-    for (int i = 0; i < PAPIER_EQUIPMENT.length; ++i) {
-      if (KoLCharacter.hasEquipped(PAPIER_EQUIPMENT[i])) {
+    for (AdventureResult adventureResult : PAPIER_EQUIPMENT) {
+      if (KoLCharacter.hasEquipped(adventureResult)) {
         return true;
       }
     }
@@ -987,7 +989,7 @@ public class FightRequest extends GenericRequest {
         int initialRound = FightRequest.currentRound;
 
         Object[] parameters = new Object[3];
-        parameters[0] = Integer.valueOf(FightRequest.currentRound);
+        parameters[0] = FightRequest.currentRound;
         parameters[1] = MonsterStatusTracker.getLastMonster();
         parameters[2] = FightRequest.lastResponseText;
 
@@ -2321,6 +2323,20 @@ public class FightRequest extends GenericRequest {
 
       KoLCharacter.getFamiliar().recognizeCombatUse();
 
+      FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
+      int familiarId = familiar.getId();
+      // If other familiars also end up getting charged at start of fight rather than end we can put
+      // them here
+      switch (familiarId) {
+        case FamiliarPool.GHOST_COMMERCE:
+          {
+            Preferences.increment("commerceGhostCombats");
+            break;
+          }
+        default:
+          break;
+      }
+
       FightRequest.haveFought = true;
 
       if (responseText.contains(
@@ -2374,6 +2390,9 @@ public class FightRequest extends GenericRequest {
         // This is earlier in the chain than the things above, but since
         // there's no message it's easiest to check it after
         Preferences.decrement("_saberForceMonsterCount");
+      } else if (EncounterManager.isGregariousEncounter(responseText, true)) {
+        EncounterManager.ignoreSpecialMonsters();
+        Preferences.decrement("beGregariousFightsLeft", 1, 0);
       }
 
       // Increment stinky cheese counter
@@ -2637,18 +2656,7 @@ public class FightRequest extends GenericRequest {
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.MINIATURE_CRYSTAL_BALL, EquipmentManager.FAMILIAR)) {
-        String predictedMonster = parseCrystalBall(responseText);
-        String zone = KoLAdventure.lastLocationName;
-
-        if (predictedMonster == null) {
-          zone = null;
-        }
-
-        Preferences.setString(
-            "crystalBallMonster", predictedMonster == null ? "" : predictedMonster);
-        Preferences.setString("crystalBallLocation", zone == null ? "" : zone);
-
-        AdventureQueueDatabase.enqueue(KoLAdventure.lastVisitedLocation(), predictedMonster);
+        CrystalBallManager.parseCrystalBall(responseText);
       }
     }
 
@@ -2677,7 +2685,7 @@ public class FightRequest extends GenericRequest {
 
     // Track monster's start-of-combat attack value
     if (currentRound == 1) {
-      FightRequest.startingAttack = monster.getAttack();
+      FightRequest.startingAttack = monster != null ? monster.getAttack() : 0;
     }
 
     // Assume this response does not warrant a refresh
@@ -3497,7 +3505,8 @@ public class FightRequest extends GenericRequest {
           break;
 
         case FamiliarPool.REAGNIMATED_GNOME:
-          if (responseText.contains("You gain 1 Adventure")) {
+          if (KoLCharacter.hasEquipped(ItemPool.GNOMISH_KNEE, EquipmentManager.FAMILIAR)
+              && GNOME_ADV_ACTIVATION.stream().anyMatch(responseText::contains)) {
             Preferences.increment("_gnomeAdv", 1);
           }
           break;
@@ -4186,6 +4195,11 @@ public class FightRequest extends GenericRequest {
         QuestDatabase.setQuestProgress(Quest.GUZZLR, QuestDatabase.UNSTARTED);
       }
 
+      if (responseText.contains(
+          "The outdoors is so refreshing, that adventure just flew right by!")) {
+        Preferences.decrement("breathitinCharges", 1, 0);
+      }
+
       if (responseText.contains("FREEFREEFREE")) {
         String updateMessage = "This combat did not cost a turn";
         RequestLogger.updateSessionLog(updateMessage);
@@ -4291,7 +4305,7 @@ public class FightRequest extends GenericRequest {
   }
 
   public static final String getSpecialAction() {
-    ArrayList<Integer> items = new ArrayList<Integer>();
+    ArrayList<Integer> items = new ArrayList<>();
 
     String pref = Preferences.getString("autoOlfact");
     if (!pref.equals("")
@@ -4532,31 +4546,6 @@ public class FightRequest extends GenericRequest {
     if (matcher.find()) {
       Preferences.setString("lassoTraining", matcher.group(1));
     }
-  }
-
-  private static final Pattern[] CRYSTAL_BALL_PATTERNS = {
-    Pattern.compile("your next fight will be against <b>an? (.*?)</b>"),
-    Pattern.compile("next monster in this (?:zone is going to|area will) be <b>an? (.*?)</b>"),
-    Pattern.compile("Look out, there's <b>an? (.*?)</b> right around the next corner"),
-    Pattern.compile("There's a little you fighting a little <b>(.*?)</b>"),
-    Pattern.compile("How do you feel about fighting <b>an? (.*?)</b>\\? Coz that's"),
-    Pattern.compile("the next monster in this area will be <b>an? (.*?)</b>"),
-    Pattern.compile("and see a tiny you fighting a tiny <b>(.*?)</b> in a tiny"),
-    Pattern.compile("it looks like there's <b>an? (.*?)</b> prowling around"),
-    Pattern.compile("and see yourself running into <b>an? (.*?)</b> soon"),
-    Pattern.compile("showing you an image of yourself fighting <b>an? (.*?)</b>"),
-    Pattern.compile("you're going to run into <b>an? (.*?)</b>"),
-  };
-
-  private static String parseCrystalBall(final String responseText) {
-    for (Pattern p : CRYSTAL_BALL_PATTERNS) {
-      Matcher matcher = p.matcher(responseText);
-      if (matcher.find()) {
-        return matcher.group(1);
-      }
-    }
-
-    return null;
   }
 
   public static final void parseCombatItems(String responseText) {
@@ -5009,10 +4998,7 @@ public class FightRequest extends GenericRequest {
       hasTag = true;
     }
 
-    Iterator<? extends BaseToken> it = node.getAllChildren().iterator();
-    while (it.hasNext()) {
-      BaseToken child = it.next();
-
+    for (BaseToken child : node.getAllChildren()) {
       if (child instanceof ContentNode) {
         buffer.append(((ContentNode) child).getContent());
       } else if (child instanceof TagNode) {
@@ -5270,8 +5256,8 @@ public class FightRequest extends GenericRequest {
     int damage = 0;
 
     String[] pieces = title.substring(8).split("[^\\d,]+");
-    for (int i = 0; i < pieces.length; ++i) {
-      damage += StringUtilities.parseInt(pieces[i]);
+    for (String piece : pieces) {
+      damage += StringUtilities.parseInt(piece);
     }
 
     return damage;
@@ -5653,7 +5639,7 @@ public class FightRequest extends GenericRequest {
       // Should be unnecessary. We need a more modern version of this package
       if (bnode instanceof TagNode) {
         TagNode b = (TagNode) bnode;
-        if (b.getText().toString().indexOf(" Team:") != -1) {
+        if (b.getText().toString().contains(" Team:")) {
           return b.getParent();
         }
       }
@@ -5829,7 +5815,7 @@ public class FightRequest extends GenericRequest {
     String image = "";
     String name = "";
     int power = 0;
-    List<String> attributes = new ArrayList<String>();
+    List<String> attributes = new ArrayList<>();
     String attribute = "None";
     int hp = 0;
 
@@ -5954,8 +5940,7 @@ public class FightRequest extends GenericRequest {
         // value="Tackle" name="famaction[tackle-7]">
         TagNode[] inputs = rows[3].getElementsByName("input", true);
         int move = 0;
-        for (int i = 0; i < inputs.length; ++i) {
-          TagNode input = inputs[i];
+        for (TagNode input : inputs) {
           String type = input.getAttributeByName("class");
           if (type == null || !type.startsWith("button")) {
             continue;
@@ -6232,8 +6217,7 @@ public class FightRequest extends GenericRequest {
       }
 
       TagNode[] tables = node.getElementsByName("table", true);
-      for (int i = 0; i < tables.length; ++i) {
-        TagNode table = tables[i];
+      for (TagNode table : tables) {
         table.getParent().removeChild(table);
       }
 
@@ -6241,8 +6225,7 @@ public class FightRequest extends GenericRequest {
         FightRequest.processChildren(node, status);
       }
 
-      for (int i = 0; i < tables.length; ++i) {
-        TagNode table = tables[i];
+      for (TagNode table : tables) {
         FightRequest.processNode(table, status);
       }
 
@@ -6379,10 +6362,7 @@ public class FightRequest extends GenericRequest {
 
   private static void processChildren(final TagNode node, final TagStatus status) {
     StringBuffer action = status.action;
-    Iterator<? extends BaseToken> it = node.getAllChildren().iterator();
-    while (it.hasNext()) {
-      BaseToken child = it.next();
-
+    for (BaseToken child : node.getAllChildren()) {
       if (child instanceof CommentNode) {
         CommentNode object = (CommentNode) child;
         FightRequest.processComment(object, status);
@@ -6492,9 +6472,17 @@ public class FightRequest extends GenericRequest {
           i++;
           cell = cells[i];
           int value = StringUtilities.parseInt(cell.getText().toString());
-          if (stat.equals("Enemy's Attack Power")) attack = value;
-          else if (stat.equals("Enemy's Defense")) defense = value;
-          else if (stat.equals("Enemy's Hit Points")) hp = value;
+          switch (stat) {
+            case "Enemy's Attack Power":
+              attack = value;
+              break;
+            case "Enemy's Defense":
+              defense = value;
+              break;
+            case "Enemy's Hit Points":
+              hp = value;
+              break;
+          }
         }
         MonsterStatusTracker.setManuelStats(attack, defense, hp);
         return false;
@@ -7135,10 +7123,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void processComments(TagNode node, TagStatus status) {
-    Iterator<? extends BaseToken> it = node.getAllChildren().iterator();
-    while (it.hasNext()) {
-      BaseToken child = it.next();
-
+    for (BaseToken child : node.getAllChildren()) {
       if (child instanceof CommentNode) {
         CommentNode object = (CommentNode) child;
         FightRequest.processComment(object, status);
@@ -7198,8 +7183,7 @@ public class FightRequest extends GenericRequest {
     // thus improve the message we log.
 
     TagNode[] tables = node.getElementsByName("table", true);
-    for (int i = 0; i < tables.length; ++i) {
-      TagNode table = tables[i];
+    for (TagNode table : tables) {
       table.getParent().removeChild(table);
     }
 
@@ -7272,8 +7256,7 @@ public class FightRequest extends GenericRequest {
     }
 
     // Now process additional familiar actions
-    for (int i = 0; i < tables.length; ++i) {
-      TagNode table = tables[i];
+    for (TagNode table : tables) {
       FightRequest.processNode(table, status);
     }
   }
@@ -7676,6 +7659,10 @@ public class FightRequest extends GenericRequest {
       if (matcher.find()) {
         String itemName = matcher.group(1);
         Preferences.setString("commerceGhostItem", itemName);
+        if (Preferences.getInteger("commerceGhostCombats") != 10) {
+          logText("Commerce ghost miscounted", status);
+        }
+        Preferences.setInteger("commerceGhostCombats", 10);
         return true;
       }
     }
@@ -7684,10 +7671,10 @@ public class FightRequest extends GenericRequest {
       Matcher matcher = p.matcher(text);
       if (matcher.find()) {
         Preferences.setString("commerceGhostItem", "");
+        Preferences.setInteger("commerceGhostCombats", 0);
         return true;
       }
     }
-
     return false;
   }
 
@@ -7890,56 +7877,67 @@ public class FightRequest extends GenericRequest {
     String monsterName = monster != null ? monster.getName() : "";
 
     // Some monsters block items, but do not destroy them
-    if (monsterName.equals("Bonerdagon")) {
-      Matcher matcher = FightRequest.BONERDAGON_BLOCK_PATTERN.matcher(responseText);
-      if (matcher.find()) {
-        if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
+    switch (monsterName) {
+      case "Bonerdagon":
+        {
+          Matcher matcher = FightRequest.BONERDAGON_BLOCK_PATTERN.matcher(responseText);
+          if (matcher.find()) {
+            if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
+              return false;
+            }
+          }
+          break;
+        }
+      case "Your Shadow":
+        if (responseText.contains("knocks it out of your hands")) {
+          // We can't tell which item is blocked, so assume both if funkslinging
           return false;
         }
-      }
-    } else if (monsterName.equals("Your Shadow")) {
-      if (responseText.contains("knocks it out of your hands")) {
-        // We can't tell which item is blocked, so assume both if funkslinging
-        return false;
-      }
-    } else if (monsterName.equals("Naughty Sorceress")) {
-      Matcher matcher = FightRequest.NS1_BLOCK1_PATTERN.matcher(responseText);
-      if (matcher.find()) {
-        if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
-          return false;
+        break;
+      case "Naughty Sorceress":
+        {
+          Matcher matcher = FightRequest.NS1_BLOCK1_PATTERN.matcher(responseText);
+          if (matcher.find()) {
+            if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
+              return false;
+            }
+          }
+          matcher = FightRequest.NS1_BLOCK2_PATTERN.matcher(responseText);
+          if (matcher.find()) {
+            if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
+              return false;
+            }
+          }
+          matcher = FightRequest.NS1_BLOCK3_PATTERN.matcher(responseText);
+          if (matcher.find()) {
+            if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
+              return false;
+            }
+          }
+          break;
         }
-      }
-      matcher = FightRequest.NS1_BLOCK2_PATTERN.matcher(responseText);
-      if (matcher.find()) {
-        if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
-          return false;
+      case "Naughty Sorceress (2)":
+        {
+          Matcher matcher = FightRequest.NS2_BLOCK1_PATTERN.matcher(responseText);
+          if (matcher.find()) {
+            if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
+              return false;
+            }
+          }
+          matcher = FightRequest.NS2_BLOCK2_PATTERN.matcher(responseText);
+          if (matcher.find()) {
+            if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
+              return false;
+            }
+          }
+          matcher = FightRequest.NS2_BLOCK3_PATTERN.matcher(responseText);
+          if (matcher.find()) {
+            if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
+              return false;
+            }
+          }
+          break;
         }
-      }
-      matcher = FightRequest.NS1_BLOCK3_PATTERN.matcher(responseText);
-      if (matcher.find()) {
-        if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
-          return false;
-        }
-      }
-    } else if (monsterName.equals("Naughty Sorceress (2)")) {
-      Matcher matcher = FightRequest.NS2_BLOCK1_PATTERN.matcher(responseText);
-      if (matcher.find()) {
-        if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
-          return false;
-        }
-      }
-      matcher = FightRequest.NS2_BLOCK2_PATTERN.matcher(responseText);
-      if (matcher.find()) {
-        if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
-          return false;
-        }
-      }
-      matcher = FightRequest.NS2_BLOCK3_PATTERN.matcher(responseText);
-      if (matcher.find()) {
-        if (ItemDatabase.getItemName(itemId).equals(matcher.group(1))) {
-          return false;
-        }
-      }
     }
 
     switch (itemId) {
@@ -9414,6 +9412,13 @@ public class FightRequest extends GenericRequest {
         if (success) {
           Preferences.decrement("_fireExtinguisherCharge", 20);
         }
+      case SkillPool.BE_GREGARIOUS:
+        if (responseText.contains("You decide to put your best foot forward") || skillSuccess) {
+          Preferences.setString("beGregariousMonster", monsterName);
+          Preferences.decrement("beGregariousCharges", 1, 0);
+          Preferences.setInteger("beGregariousFightsLeft", 3);
+        }
+        break;
     }
   }
 
@@ -9855,40 +9860,48 @@ public class FightRequest extends GenericRequest {
     // fake fight.php URL and call registerRequest on it.
 
     String action = m.group(1);
-    if (action.equals("attack")) {
-      FightRequest.registerRequest(false, "fight.php?attack");
-    } else if (action.equals("runaway")) {
-      FightRequest.registerRequest(false, "fight.php?runaway");
-    } else if (action.equals("steal")) {
-      FightRequest.registerRequest(false, "fight.php?steal");
-    } else if (action.equals("chefstaff")) {
-      FightRequest.registerRequest(false, "fight.php?chefstaff");
-    } else if (action.equals("skill")) {
-      FightRequest.registerRequest(false, "fight.php?whichskill=" + m.group(2));
-    } else if (action.equals("use")) {
-      String item1 = m.group(2);
-      String item2 = m.group(3);
-      if (item2 == null) {
-        FightRequest.registerRequest(false, "fight.php?whichitem=" + item1);
-      } else {
-        FightRequest.registerRequest(
-            false, "fight.php?whichitem=" + item1 + "&whichitem2=" + item2);
-      }
-    } else {
-      System.out.println("unrecognized macroaction: " + action);
+    switch (action) {
+      case "attack":
+        FightRequest.registerRequest(false, "fight.php?attack");
+        break;
+      case "runaway":
+        FightRequest.registerRequest(false, "fight.php?runaway");
+        break;
+      case "steal":
+        FightRequest.registerRequest(false, "fight.php?steal");
+        break;
+      case "chefstaff":
+        FightRequest.registerRequest(false, "fight.php?chefstaff");
+        break;
+      case "skill":
+        FightRequest.registerRequest(false, "fight.php?whichskill=" + m.group(2));
+        break;
+      case "use":
+        String item1 = m.group(2);
+        String item2 = m.group(3);
+        if (item2 == null) {
+          FightRequest.registerRequest(false, "fight.php?whichitem=" + item1);
+        } else {
+          FightRequest.registerRequest(
+              false, "fight.php?whichitem=" + item1 + "&whichitem2=" + item2);
+        }
+        break;
+      default:
+        System.out.println("unrecognized macroaction: " + action);
+        break;
     }
   }
 
   // ****** Move this somewhere appropriate
 
-  private static final Map<String, String> pokefamMoveToAction1 = new HashMap<String, String>();
-  private static final Map<String, String> pokefamActionToMove1 = new HashMap<String, String>();
-  private static final Map<String, String> pokefamMoveToAction2 = new HashMap<String, String>();
-  private static final Map<String, String> pokefamActionToMove2 = new HashMap<String, String>();
-  private static final Map<String, String> pokefamMoveToAction3 = new HashMap<String, String>();
-  private static final Map<String, String> pokefamActionToMove3 = new HashMap<String, String>();
+  private static final Map<String, String> pokefamMoveToAction1 = new HashMap<>();
+  private static final Map<String, String> pokefamActionToMove1 = new HashMap<>();
+  private static final Map<String, String> pokefamMoveToAction2 = new HashMap<>();
+  private static final Map<String, String> pokefamActionToMove2 = new HashMap<>();
+  private static final Map<String, String> pokefamMoveToAction3 = new HashMap<>();
+  private static final Map<String, String> pokefamActionToMove3 = new HashMap<>();
 
-  private static final Map<String, String> pokefamMoveDescriptions = new HashMap<String, String>();
+  private static final Map<String, String> pokefamMoveDescriptions = new HashMap<>();
 
   private static void mapMoveToAction(int num, String move, String action, String description) {
     Map<String, String> moveToAction;

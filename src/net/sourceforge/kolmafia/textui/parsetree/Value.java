@@ -25,6 +25,8 @@ import org.json.JSONException;
  * as some sort of... hazmat suit..?
  */
 public class Value implements TypedNode, Comparable<Value> {
+  public static final Value BAD_VALUE = new Value(new Type.BadType(null, null));
+
   public Type type;
 
   public long contentLong = 0;

@@ -60,7 +60,7 @@ public abstract class BuffBotManager {
 
   public static final Pattern MEAT_PATTERN =
       Pattern.compile(
-          "<img src=[^>]*?(?:images.kingdomofloathing.com|/images)/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat");
+          "<img src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat");
   public static final Pattern GIFT1_PATTERN =
       Pattern.compile(
           "<a class=nounder style='color: blue' href='showplayer.php\\?who=(\\d+)' target=mainpane>");

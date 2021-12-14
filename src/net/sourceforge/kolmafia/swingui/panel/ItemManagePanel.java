@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.swingui.panel;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -58,7 +59,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
   public JCheckBox[] filters;
   public JRadioButton[] movers;
 
-  protected final AutoFilterTextField filterField;
+  protected final AutoFilterTextField<E> filterField;
   protected JPanel buttonPanel;
   protected ThreadedButton refreshButton;
 
@@ -98,9 +99,9 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
     }
   }
 
-  public abstract Object[] getSelectedValues();
+  public abstract List<E> getSelectedValues();
 
-  protected AutoFilterTextField getWordFilter() {
+  protected AutoFilterTextField<E> getWordFilter() {
     return new FilterItemField();
   }
 
@@ -125,13 +126,14 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       final boolean other,
       final boolean notrade) {
     if (this.filterField instanceof ItemManagePanel.FilterItemField) {
-      FilterItemField itemfilter = (FilterItemField) this.filterField;
+      ItemManagePanel<?, ?>.FilterItemField itemFilter =
+          (ItemManagePanel<?, ?>.FilterItemField) this.filterField;
 
-      itemfilter.food = food;
-      itemfilter.booze = booze;
-      itemfilter.equip = equip;
-      itemfilter.other = other;
-      itemfilter.notrade = notrade;
+      itemFilter.food = food;
+      itemFilter.booze = booze;
+      itemFilter.equip = equip;
+      itemFilter.other = other;
+      itemFilter.notrade = notrade;
     }
 
     this.filterItems();
@@ -289,7 +291,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
   }
 
   public AdventureResult[] getDesiredItems(final String message, final int quantityType) {
-    Object[] items = this.getSelectedValues();
+    Object[] items = this.getSelectedValues().toArray();
     if (items.length == 0) {
       return null;
     }
@@ -311,7 +313,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         itemName = item.getName();
         itemCount = isTally ? item.getCount(KoLConstants.inventory) : item.getCount();
       } else {
-        Concoction concoction = ((Concoction) items[i]);
+        Concoction concoction = (Concoction) items[i];
         itemName = concoction.getName();
         itemCount = concoction.getAvailable();
         if (concoction.speakeasy) {
@@ -766,7 +768,7 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
    * Special instance of a JComboBox which overrides the default key events of a JComboBox to allow
    * you to catch key events.
    */
-  public class FilterItemField extends AutoFilterTextField {
+  public class FilterItemField extends AutoFilterTextField<E> {
     public boolean food, booze, equip, restores, other, notrade, instyle;
 
     public FilterItemField() {

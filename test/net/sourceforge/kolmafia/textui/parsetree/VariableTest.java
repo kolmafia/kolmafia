@@ -16,22 +16,37 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class VariableTest {
   public static Stream<ScriptData> data() {
     return Stream.of(
-        invalid("unterminated top-level declaration", "int x\nint y", "Expected ;, found int"),
-        invalid("type but no declaration", "int;", "Type given but not used to declare anything"),
+        invalid(
+            "unterminated top-level declaration",
+            "int x\nint y",
+            "Expected ;, found int",
+            "line 2, char 1 to char 4"),
+        invalid(
+            "type but no declaration",
+            "int;",
+            "Type given but not used to declare anything",
+            "char 1 to char 5"),
         invalid(
             "declaration with non-identifier name",
             "int 1;",
-            "Type given but not used to declare anything"),
+            "Type given but not used to declare anything",
+            "char 1 to char 6"),
         invalid(
             "declaration with reserved name",
             "int class;",
-            "Reserved word 'class' cannot be a variable name"),
-        invalid("multiple-definition", "int x = 1; int x = 2;", "Variable x is already defined"),
+            "Reserved word 'class' cannot be a variable name",
+            "char 5 to char 10"),
+        invalid(
+            "multiple-definition",
+            "int x = 1; int x = 2;",
+            "Variable x is already defined",
+            "char 16 to char 17"),
         invalid(
             "variable declaration followed by definition",
             // One might expect this to be acceptable.
             "int x; int x = 1;",
-            "Variable x is already defined"),
+            "Variable x is already defined",
+            "char 12 to char 13"),
         valid(
             "simultaneous variable declaration",
             "int a, b = 10, c, d = b;",

@@ -36,7 +36,7 @@ public class OverlapPanel extends ItemListManagePanel<AdventureResult> {
   }
 
   @Override
-  public AutoFilterTextField getWordFilter() {
+  public AutoFilterTextField<AdventureResult> getWordFilter() {
     return new OverlapFilterField();
   }
 
@@ -61,7 +61,8 @@ public class OverlapPanel extends ItemListManagePanel<AdventureResult> {
         return;
       }
 
-      Object[] items = OverlapPanel.this.getSelectedValues();
+      AdventureResult[] items =
+          OverlapPanel.this.getSelectedValues().toArray(new AdventureResult[0]);
       OverlapPanel.this.getElementList().clearSelection();
 
       for (int i = 0; i < items.length; ++i) {

@@ -353,7 +353,7 @@ public class ClanManageFrame extends GenericFrame {
         AdventureResult[] items;
 
         if (this.moveType == ClanManageFrame.MOVE_ALL_BUT) {
-          items = (AdventureResult[]) WithdrawPanel.this.getSelectedValues();
+          items = WithdrawPanel.this.getSelectedValues().toArray(new AdventureResult[0]);
           if (items.length == 0) {
             AdventureResult[] itemsArray =
                 new AdventureResult[WithdrawPanel.this.elementModel.size()];

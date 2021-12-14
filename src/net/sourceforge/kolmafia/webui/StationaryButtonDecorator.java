@@ -142,9 +142,7 @@ public class StationaryButtonDecorator {
     if (Preferences.getBoolean("serverAddsCustomCombat")) {
       // Apparently KoL is always using the Amazon server for the CAB
       String bufferString =
-          "<td><img src='"
-              + KoLmafia.AMAZON_IMAGE_SERVER_PATH
-              + "itemimages/book3.gif' id='skills'>";
+          "<td><img src='" + KoLmafia.imageServerPath() + "itemimages/book3.gif' id='skills'>";
       int imageIndex = buffer.indexOf(bufferString);
       if (imageIndex != -1) {
         boolean again = FightRequest.getCurrentRound() == 0;

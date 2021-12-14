@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
@@ -374,6 +375,7 @@ public abstract class KoLCharacter {
     MicroBreweryRequest.reset();
     HellKitchenRequest.reset();
 
+    CrystalBallManager.reset();
     DisplayCaseManager.clearCache();
     DwarfFactoryRequest.reset();
     EquipmentManager.resetEquipment();
@@ -1007,6 +1009,18 @@ public abstract class KoLCharacter {
 
   public static final void resetDiscoMomentum() {
     disco_momentum = 0;
+  }
+
+  public static final int getMaxSongs() {
+    return (currentBooleanModifier(Modifiers.FOUR_SONGS) ? 4 : 3)
+        + (int) currentNumericModifier(Modifiers.ADDITIONAL_SONG);
+  }
+
+  public static final int getSongs() {
+    return (int)
+        KoLConstants.activeEffects.stream()
+            .filter(e -> EffectDatabase.isSong(e.getEffectId()))
+            .count();
   }
 
   public static final int getAudience() {
@@ -2789,7 +2803,7 @@ public abstract class KoLCharacter {
 
     switch (oldPath) {
       case AVATAR_OF_WEST_OF_LOATHING:
-        String pref = null;
+        final String pref;
         switch (ascensionClass) {
           case BEANSLINGER:
             pref = "awolPointsBeanslinger";
@@ -2799,6 +2813,9 @@ public abstract class KoLCharacter {
             break;
           case SNAKE_OILER:
             pref = "awolPointsSnakeoiler";
+            break;
+          default:
+            pref = null;
             break;
         }
         if (pref != null) {

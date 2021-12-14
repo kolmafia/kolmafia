@@ -22,7 +22,7 @@ public class RestorativeItemPanel extends ItemTableManagePanel<AdventureResult> 
   }
 
   @Override
-  public AutoFilterTextField getWordFilter() {
+  public AutoFilterTextField<AdventureResult> getWordFilter() {
     return new RestorativeItemFilterField();
   }
 
@@ -41,10 +41,9 @@ public class RestorativeItemPanel extends ItemTableManagePanel<AdventureResult> 
   @Override
   public void actionCancelled() {
     String name;
-    Object[] values = this.getSelectedValues();
 
-    for (int i = 0; i < values.length; ++i) {
-      name = ((AdventureResult) values[i]).getName();
+    for (final AdventureResult value : this.getSelectedValues()) {
+      name = value.getName();
       if (name != null) {
         RelayLoader.openSystemBrowser(
             "http://kol.coldfront.net/thekolwiki/index.php/Special:Search?search=" + name);

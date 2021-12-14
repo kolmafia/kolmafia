@@ -3,9 +3,13 @@ package net.sourceforge.kolmafia;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletionService;
+import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.swing.SwingUtilities;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -26,8 +30,11 @@ public abstract class RequestThread {
 
   static {
     int fixedPoolSize = Preferences.getInteger("fixedThreadPoolSize");
-    if (fixedPoolSize > 0) EXECUTOR = Executors.newFixedThreadPool(fixedPoolSize);
-    else EXECUTOR = Executors.newCachedThreadPool();
+    if (fixedPoolSize == 0) {
+      fixedPoolSize = 100;
+    }
+
+    EXECUTOR = Executors.newFixedThreadPool(fixedPoolSize);
   }
 
   public static final void runInParallel(final Runnable action) {
@@ -36,6 +43,34 @@ public abstract class RequestThread {
 
   public static final void runInParallel(final Runnable action, final boolean sequence) {
     EXECUTOR.submit(new SequencedRunnable(action, sequence));
+  }
+
+  public static final boolean runInParallel(final List<Runnable> actions, final boolean verbose) {
+    CompletionService<Boolean> completionService = new ExecutorCompletionService<>(EXECUTOR);
+
+    for (Runnable action : actions) {
+      completionService.submit(action, true);
+    }
+
+    int received = 0;
+    boolean result = true;
+    int lastAnnounce = 0;
+
+    while (received < actions.size() && result) {
+      try {
+        Future<Boolean> resultFuture = completionService.take(); // blocks if none available
+        result = result && resultFuture.get();
+        received++;
+        if (lastAnnounce < received && verbose && received % 100 == 1) {
+          KoLmafia.updateDisplay("Progress: " + received + "/" + actions.size());
+          lastAnnounce = received;
+        }
+      } catch (Exception e) {
+        result = false;
+      }
+    }
+
+    return result;
   }
 
   public static final void postRequestAfterInitialization(final GenericRequest request) {

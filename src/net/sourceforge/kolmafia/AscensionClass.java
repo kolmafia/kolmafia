@@ -114,9 +114,9 @@ public enum AscensionClass {
         return ItemPool.DISCO_BALL;
       case ACCORDION_THIEF:
         return ItemPool.STOLEN_ACCORDION;
+      default:
+        return -1;
     }
-
-    return -1;
   }
 
   public final int getPrimeStatIndex() {

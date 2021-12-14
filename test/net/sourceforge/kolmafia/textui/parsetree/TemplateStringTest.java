@@ -19,15 +19,18 @@ public class TemplateStringTest {
             "Unterminated string template",
             "`{`",
             // The parser tries to start a new string template inside the expression
-            "No closing ` found"),
+            "No closing ` found",
+            "char 3 to char 4"),
         invalid(
             "Abruptly unterminated string template, expecting expression",
             "`{",
-            "Expression expected"),
+            "Expression expected",
+            "char 3"),
         invalid(
             "Abruptly unterminated string template, parsed expression",
             "`{1",
-            "Expected }, found end of file"),
+            "Expected }, found end of file",
+            "char 4"),
         valid(
             "basic template string",
             "`this is some math: {4 + 7}`",
@@ -43,7 +46,8 @@ public class TemplateStringTest {
         invalid(
             "template string with a new variable",
             "`this is some math: {int x = 4; x + 7}`",
-            "Unknown variable 'int'"),
+            "Unknown variable 'int'",
+            "char 22 to char 25"),
         valid(
             "template string with predefined variable",
             "int x; `this is some math: {(x = 4) + 7}`",
@@ -55,7 +59,8 @@ public class TemplateStringTest {
         invalid(
             "template string with unclosed comment",
             "`this is some math: {7 // what determines the end?}`",
-            "Expected }, found end of file"),
+            "Expected }, found end of file",
+            "char 53"),
         valid(
             "template string with terminated comment",
             "`this is some math: {7 // turns out you need a newline\r\n\t}`",
