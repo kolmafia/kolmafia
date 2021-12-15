@@ -683,7 +683,7 @@ public class CharPaneDecorator {
     }
   }
 
-  private static void decorateEffects(final StringBuffer buffer) {
+  protected static StringBuffer decorateEffects(final StringBuffer buffer) {
     String effectText = CharPaneDecorator.getEffectText(buffer);
     String moodText = CharPaneDecorator.getMoodText();
     int counters = TurnCounter.count();
@@ -691,7 +691,7 @@ public class CharPaneDecorator {
     // If there are no effects on the charpane, no active mood, and
     // no active counters, nothing to do.
     if (effectText == null && moodText == null && counters == 0) {
-      return;
+      return buffer;
     }
 
     // Otherwise, make a buffer to manipulate effect text in
@@ -736,6 +736,8 @@ public class CharPaneDecorator {
       int index = CharPaneDecorator.chooseEffectTableIndex(buffer);
       buffer.insert(index, effects.toString());
     }
+
+    return buffer;
   }
 
   private static int getIntrinsicIndex(final StringBuffer buffer) {
@@ -1043,14 +1045,14 @@ public class CharPaneDecorator {
           buffer.append("</font></nobr></td>");
         }
 
-        nextAppendIndex = text.indexOf("<td>(", startingIndex) + 5;
+        nextAppendIndex = text.indexOf("<td>(", startingIndex) + 4;
       } else {
         nextAppendIndex = text.lastIndexOf("(", text.indexOf("</font", startingIndex));
       }
 
       buffer.append(text, lastAppendIndex, nextAppendIndex);
-      buffer.append("<span style='white-space:nowrap;'>");
-      lastAppendIndex = nextAppendIndex;
+      buffer.append("<span style='white-space:nowrap;'>(");
+      lastAppendIndex = nextAppendIndex + 1;
 
       String upkeepAction = MoodManager.getDefaultAction("lose_effect", effectName);
 
@@ -1142,8 +1144,8 @@ public class CharPaneDecorator {
         buffer.append(">");
       }
 
-      nextAppendIndex = text.indexOf(")", lastAppendIndex) + 1;
-      buffer.append(text, lastAppendIndex, nextAppendIndex - 1);
+      nextAppendIndex = text.indexOf(")", lastAppendIndex);
+      buffer.append(text, lastAppendIndex, nextAppendIndex);
       lastAppendIndex = nextAppendIndex;
 
       if (isShruggable || !removeAction.equals("")) {
@@ -1151,6 +1153,7 @@ public class CharPaneDecorator {
       }
 
       buffer.append(")");
+      lastAppendIndex++;
 
       if (isIntrinsic) {
         continue;

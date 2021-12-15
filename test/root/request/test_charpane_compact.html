@@ -1,0 +1,149 @@
+<html><head>
+<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.css">
+<style type="text/css">
+	#nudges div { position: relative; padding: 0px; }
+	#nudges div .close { position: absolute; top: -2px; right: -10px; border: 1px solid #000; }
+    .blur1 {color: transparent; text-shadow:0 0 1px #000, 1px 0 1px #000; }
+    .blur2 {color: transparent; text-shadow:0 0 1px #000, 2px 0 2px #000, 0 1px 1px #000; }
+    .blur3 {color: transparent; text-shadow:0 0 3px #000, 1px 0 1px #000,-2px -1px 1px #000; }
+    .blur4 {color: transparent; text-shadow:1px 0 3px #000, 1px 0 2px #000,-2px -1px 1px #000; }
+    .blur5 {color: transparent; text-shadow:   0 0 3px #000, 1px 0 1px #000,-3px -1px 1px #000; }
+	 @media screen and (min-width:0\0) and (min-resolution: +72dpi) {
+    	.blur1,.blur2,.blur3,.blur4,.blur5 {color:#000;}
+  	}
+</style>
+<!--[if IE]>
+<style>.blur1,.blur2,.blur3,.blur4,.blur5 {color:#000;}</style>
+<![endif]-->
+<style type="text/css"> body, td { font-size: .8em;
+ } </style>
+</head>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.3.1.min.js"></script>
+<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/pop_query.20130705.js"></script>
+<script type="text/javascript">
+
+	var CURFAM = 0;
+	var FAMILIARFAVES = [["Clon","Rogue Program","tronguy",135],["Dune","Baby Sandworm","babyworm",111],["Lucidity","Unconscious Collective","uc",166],["Aglet","Pair of Stomping Boots","stompboots",150],["Temporal","Temporal Riftlet","familiar43",43],["Lero","Disembodied Hand","dishand",92],["Freud","Angry Jung Man","jungman",165],["Girth","Mini-Adventurer","miniadv0",174],["Poultergeist","Hovering Sombrero","hat2",18],["Dicey","Levitating Potato","familiar3",3],["%jokebot_template%","Homemade Robot","homemadebot",169],["Wisdom","He-Boulder","heboulder",113],["%dvname_bugbear_spooky_template%","Baby Bugged Bugbear","babybugbug",124],["Joseph","Exotic Parrot","parrot",72],["Chthulu","Squamous Gibberer","gibberer",117],["Maroon","Dataspider","dataspider",149],["OMASTAR","Helix Fossil","foss_amm",185],["Gort","Happy Medium","medium_0",159],["Spruce","Holiday Log","holidaylog",144],["Squirp","Gelatinous Cubeling","gcube",171] ];
+	var IMAGES = "https:\/\/d2uyhvukfffg5a.cloudfront.net\/";
+</script>
+	<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/familiarfaves.20201210.js"></script>
+	<script type="text/javascript">
+tp=top
+var todo = [];
+function nextAction() {
+	var next_todo = todo.shift();
+	if (next_todo) {
+		eval(next_todo);
+	}
+}
+function dojax(dourl, afterFunc, hoverCaller, failureFunc, method, params) {
+	$.ajax({
+		type: method || 'GET', url: dourl, cache: false,
+		data: params || null,
+		global: false,
+		success: function (out) {
+			nextAction();
+			if (out.match(/no\|/)) {
+				var parts = out.split(/\|/);
+				if (failureFunc) failureFunc(parts[1]);
+				else if (window.dojaxFailure) window.dojaxFailure(parts[1]);
+				else if (tp.chatpane.handleMessage) tp.chatpane.handleMessage({type: 'event', msg: 'Oops!  Sorry, Dave, you appear to be ' + parts[1]});
+				else  $('#ChatWindow').append('<font color="green">Oops!  Sorry, Dave, you appear to be ' + parts[1] + '.</font><br />' + "\n");
+				return;
+			}
+
+			if (hoverCaller)  {
+				float_results(hoverCaller, out);
+				if (afterFunc) { afterFunc(out); }
+				return;
+			}			var $eff = $(tp.mainpane.document).find('#effdiv');
+			if ($eff.length == 0) {
+				var d = tp.mainpane.document.createElement('DIV');
+				d.id = 'effdiv';
+				var b = tp.mainpane.document.body;
+				if ($('#content_').length > 0) {
+					b = $('#content_ div:first')[0];
+				}
+				b.insertBefore(d, b.firstChild);
+				$eff = $(d);
+			}
+			$eff.find('a[name="effdivtop"]').remove().end()
+				.prepend('<a name="effdivtop"></a><center>' + out + '</center>').css('display','block');
+			if (!window.dontscroll || (window.dontscroll && dontscroll==0)) {
+				tp.mainpane.document.location = tp.mainpane.document.location + "#effdivtop";
+			}
+			if (afterFunc) { afterFunc(out); }
+		}
+	});
+}
+	var turnsplayed = 97072;
+var turnsthisrun = 236;
+var rollover = 1639625399;
+var rightnow = 1639567161;
+var playerid = 1197090;
+var pwdhash = "abc123";
+var hide_nudges = true;
+$(document).ready(function () {
+	var multi = function  (e) {
+		e.preventDefault();
+		var link = this;
+		pop_query($(this), 'How many times?', 'Do It!', function (res) {
+			dojax(($(link).attr('href')+'&ajax=1').replace('qty=1', 'qty='+res));
+		});
+	};
+	$('.upeffect').click(function (e) {
+		e.preventDefault();
+		if (e.shiftKey) multi.apply(this, [e]);
+		else dojax($(this).attr('href')+'&ajax=1');
+	});
+	$('.upeffect').bind('contextmenu', multi);
+
+	function add_close(el) {
+		if (!hide_nudges) return;
+		if ($(el).find('.close').length > 0) return;
+		var ht = '<a href="#" class="close"><img alt="Hide" title="Hide"  src="https://d2uyhvukfffg5a.cloudfront.net/closebutton.gif" style="float: right;"/></a>';
+		var c = $(ht);
+		$(el).append(c);
+		c.click(function () {
+			var key = $(this).parents('tr:first').attr('rel');
+			var nxt = $(this).parents('tr');
+			if (nxt.next()) {
+				add_close(nxt.next().find('td div'));
+			}
+			$(this).parents('tr:first').remove();
+			$.get('charpane.php?hide='+escape(key)+'&pwd='+pwdhash);
+			$('.showall').show();
+		});
+	}
+
+	if (hide_nudges) $('#nudges td div').hover(
+		function () {
+			if (!hide_nudges) return;
+			add_close(this);
+		},
+		function () {
+			if (!hide_nudges) return;
+			$(this).find('.close').remove();
+		}
+	);
+});
+</script>
+	<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/charpane.20130711.js"></script>
+	<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/cookie.20121112.js"></script>
+<script type="text/javascript">
+jQuery(function ($) {
+	$(window).resize(function () {
+		var winW = 300;
+		if (document.body && document.body.offsetWidth) { winW = document.body.offsetWidth; }
+		if (document.compatMode=='CSS1Compat' && document.documentElement && document.documentElement.offsetWidth ) { winW = document.documentElement.offsetWidth; }
+		if (window.innerWidth && window.innerHeight) { winW = window.innerWidth; }
+		setCookie('charpwd', winW, 365, true);
+	});
+})
+</script>
+<body bgcolor=white text=black link=black alink=black vlink=black onload='startup();'>
+<center id='rollover' class=tiny style='color: red; cursor: pointer;' onClick='doc("maintenance");'></center><center><b><a class=nounder target=mainpane href="charsheet.php">gausie</a></b><br>Lvl. 255<table title='65,420,656 / 65,940,441' align=center cellpadding=0 cellspacing=0 style='border: 1px solid #5A5A5A'><tr><td height=3 width=59 bgcolor=#5A5A5A></td><td width=1 bgcolor=white></td></tr></table><hr width=50%><table cellpadding=1 cellspacing=0 align=center><tr><td align=right>Mus:</td><td align=left><b><font color=blue>50577</font>&nbsp;(45979)</b></td></tr><tr><td></td><td><table width=100% title='57,073 / 91,959' cellpadding=0 cellspacing=0 style='border: 1px solid #5A5A5A'><tr><td height=3 width=24 bgcolor=#5A5A5A></td><td width=16 bgcolor=white></td></tr></table></td></tr><tr><td align=right>Mys:</td><td align=left><b><font color=blue>71528</font>&nbsp;(65025)</b></td></tr><tr><td></td><td><table width=100% title='431 / 130,051' cellpadding=0 cellspacing=0 style='border: 1px solid #5A5A5A'><tr><td height=3 width=0 bgcolor=#5A5A5A></td><td width=40 bgcolor=white></td></tr></table></td></tr><tr><td align=right>Mox:</td><td align=left><b><font color=blue>50577</font>&nbsp;(45979)</b></td></tr><tr><td></td><td><table width=100% title='57,071 / 91,959' cellpadding=0 cellspacing=0 style='border: 1px solid #5A5A5A'><tr><td height=3 width=24 bgcolor=#5A5A5A></td><td width=16 bgcolor=white></td></tr></table></td></tr><tr><td align=right><span class=>Drunk:</span></td><td align=left><b><span class="">10 / 31</span></b></td></tr></table><hr width=50%><table align=center cellpadding=1 cellspacing=1><tr><td align=right>HP:</td><td align=left><b><font color=black><a style="color:black" title="Restore your HP" href="/KoLmafia/sideCommand?cmd=restore+HP&pwd=abc123">45996</a>/73351</font></b></td></tr><tr><td align=right>MP:</td><td align=left><b><a style="color:black" title="Restore your MP" href="/KoLmafia/sideCommand?cmd=restore+MP&pwd=abc123">24309</a>/157377</b></td></tr><tr><td align=right>Meat:</td><td align=left><b>4,294,962,870</b></td></tr><tr><td><span onmouseover="document.getElementById('lastadvmenu').style.display = 'inline';" onmouseout="document.getElementById('lastadvmenu').style.display = 'none';"><div style="text-align: right"><a onclick='if (top.mainpane.focus) top.mainpane.focus();' title="Last Adventure: The Barrel Full of Barrels" target=mainpane href="barrel.php">Adv</a>:</div><span id="lastadvmenu" style="position: absolute; padding: 5px 5px 5px 5px; background: #f5f5f5; display: none"><font size=1><nobr><a onclick='if (top.mainpane.focus) top.mainpane.focus();' target=mainpane href="barrel.php">The Barrel Full of Barrels</a></nobr><br/><nobr><a onclick='if (top.mainpane.focus) top.mainpane.focus();' target=mainpane href="adventure.php?snarfblat=439">The Skeleton Store</a></nobr></font></span></span></td><td align=left><b>254</b></td></tr><tr><td align=right><a target=mainpane href="inv_use.php?pwd=abc123&whichitem=2682">Radio</a>:</td><td><b>10</b></td></tr></table><br><center id="nudgeblock"><font size=2><a class=nounder href=questlog.php target=mainpane><b>Current Quest:</b></a></font><br><a style="display: none" href="charpane.php?showall=1&pwd=abc123" class="showall"><font size="1">[show all]</font><br/></a><div style='height: 50px; overflow-y: auto;'><table id="nudges" width="90%"><tr rel="meatsmith"><td class="small" colspan="2"><div><a class=nounder target=mainpane href=place.php?whichplace=town_market><b>The Meatsmith</b></a> wants you to recover his check from the Skeleton Store in <a class=nounder target=mainpane href=place.php?whichplace=town_market><b>Market Square</b></a></div></td></tr><tr rel="docg"><td class="small" colspan="2"><div>Take the collection of flowers back to <a class=nounder target=mainpane href=place.php?whichplace=town_market><b>Doc Galaktik</b>.</div></td></tr><tr rel="bakery"><td class="small" colspan="2"><div>The <a class=nounder target=mainpane href=place.php?whichplace=town_market><b>Armorer and Leggerer</b></a> ordered a pie from the <a class=nounder target=mainpane href=place.php?whichplace=town_right><b>Bakery</b></a> on the <a class=nounder target=mainpane href=place.php?whichplace=town_right><b>Right Side of the Tracks</b></a> but it was never delivered.</div></td></tr><tr rel="untinker"><td class="small" colspan="2"><div>Take the screwdriver back to the Untinker in <a class=nounder target=mainpane href=forestvillage.php><b>Forest Village</b></a>.</div></td></tr><tr rel="manor3"><td class="small" colspan="2"><div>Gather up Lady Spookyraven's babies on the <a class=nounder target=mainpane href=place.php?whichplace=manor3><b>third floor</b></a> of <a class=nounder target=mainpane href=place.php?whichplace=manor1><b>Spookyraven Manor</b></a>.</div></td></tr><tr rel="monkeyrescue"><td class="small" colspan="2"><div>Have a chat with Grandpa in the <a class=nounder target=mainpane href=monkeycastle.php><b>Sea Monkee Castle</b></a>.</div></td></tr><tr rel="newnemesis"><td class="small" colspan="2"><div>Find Beelzebozo in <a class=nounder target=mainpane href=place.php?whichplace=plains><b>The &quot;Fun&quot; House</b></a> and recover the missing piece of the Legendary Epic Weapon.</div></td></tr><tr rel="landfill"><td class="small" colspan="2"><div>Find the parts to make a junk junk at the <a class=nounder target=mainpane href=woods.php><b>Old Landfill</b></a>.</div></td></tr><tr rel="ioty2014"><td class="small" colspan="2"><div>Screw up Cindy's evening at <a class=nounder target=mainpane href=place.php?whichplace=ioty2014_cindy><b>The Prince's Ball</b></a>.<br>&nbsp;&nbsp;Time Left: 29 minutes<br>&nbsp;&nbsp;Score: 0</div></td></tr><tr rel="whiteys"><td class="small" colspan="2"><div>You've found the <a class=nounder target=mainpane href='place.php?whichplace=woods'><b>Road to the White Citadel</b></a>! Now you can begin your quest there.</div></td></tr><tr rel="guzzlr"><td class="small" colspan="2"><div>Deliver the plain old beer to your Guzzlr client: JuggaloFurry Jamesalicious in Tower Ruins.</div></td></tr><tr rel="dl_2"><td class="small" colspan="2"><div>Make the <a class=nounder target=mainpane href=place.php?whichplace=airport_stench><b>Pirates of the Garbage Barges</b></a> ride less sexist.<br>&nbsp;&nbsp;&nbsp;Currently: Only Kinda Sexist
+</div></td></tr><tr rel="glaciest"><td class="small" colspan="2"><div>Equip <a class=nounder target=mainpane href=inventory.php?which=2><b>Walford's bucket</b></a>!</div></td></tr><tr rel="crimbo21"><td class="small" colspan="2"><div>Talk to Tammy in <a class=nounder target=mainpane href=place.php?whichplace=mountains><b>Crimbo Town</b></a>.</div></td></tr><tr rel="doctorbag"><td class="small" colspan="2"><div>Take an antique bottle of cough syrup to the patient in <a href=place.php?whichplace=knoll_hostile class=nounder target=mainpane><b>The Degrassi Knoll Garage</b></a>.</div></td></tr></table></div><p></center><br><center><font size=2><b>Pasta Thrall:</b></font><br><img onClick='javascript:window.open("desc_guardian.php","","height=200,width=300")' src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/t_spiceghost.gif width=30 height=30><br><font size=2><b>Moxmux</b><br>the Lvl. 10 Spice Ghost</font><hr width=50%><center><a target=mainpane href='familiar.php' class="familiarpick">(no familiar)</a></center><hr width=50%><table cellpadding=1 cellspacing=0><tr><td></td><td valign='middle' align=right><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/daquiri.gif" width=30 height=30 alt="Margamergency" title="Margamergency" onClick='eff("c72ea0d9451011b604ec1142dfc01914");' oncontextmenu='return hardshrug(1943, "Margamergency");'></td><td>(1)</td></tr><tr><td valign="middle"><a href="upeffect.php?efid=71&qty=1&pwd=abc123" target="mainpane" class="upeffect" rel="Ode to Booze"><span style="font-weight: bold"><img  alt="Click to cast The Ode to Booze.  Right-click to cast multiple times." title="Click to cast The Ode to Booze.  Right-click to cast multiple times." src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/smallarrow_up.gif" height="15" width="15" /></span></a></td><td valign='middle' align=right><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/odetobooze.gif" width=30 height=30 alt="Ode to Booze" title="Ode to Booze" onClick='eff("626c8ef76cfc003c6ac2e65e9af5fd7a");' oncontextmenu='return shrug(71, "Ode to Booze");'></td><td>(5)</td></tr><tr><td></td><td valign='middle' align=right><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/runespoon.gif" width=30 height=30 alt="Spoon Boon" title="Spoon Boon" onClick='eff("fa4374dcb3f6a5d3ff129b0be374fa1f");' oncontextmenu='return hardshrug(2469, "Spoon Boon");'></td><td>(27)</td></tr><tr><td></td><td valign='middle' align=right><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/snout.gif" width=30 height=30 alt="On the Trail" title="On the Trail" onClick='eff("91635be2834f8a07c8ff9e3b47d2e43a");' oncontextmenu='return hardshrug(331, "On the Trail");'></td><td>(39)</td></tr><tr><td valign="middle"><a href="upeffect.php?efid=1668&qty=1&pwd=abc123" target="mainpane" class="upeffect" rel="Artisanal Retentive"><span style="font-weight: bold"><img  alt="Click to use an artisanal hand-squeezed wheatgrass juice.  Right-click to use multiple." title="Click to use an artisanal hand-squeezed wheatgrass juice.  Right-click to use multiple." src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/smallarrow_up.gif" height="15" width="15" /></span></a></td><td valign='middle' align=right><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/shot.gif" width=30 height=30 alt="Artisanal Retentive" title="Artisanal Retentive" onClick='eff("fb6179f9e82836e2642ef2d796d85647");' oncontextmenu='return hardshrug(1668, "Artisanal Retentive");'></td><td>(200)</td></tr><tr><td></td><td valign='middle' align=right><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/10101.gif" width=30 height=30 alt="familiar.enq" title="familiar.enq" onClick='eff("e0ee8a20aa6c6f60720749b5b3f875a5");' oncontextmenu='return hardshrug(2109, "familiar.enq");'></td><td>(277)</td></tr></table><hr width=50%><table cellpadding=1 cellspacing=0><tr><td width="15"></td><td><img height=30 width=30 src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/kungfu.gif" alt="Kung Fu Fighting" title="Kung Fu Fighting" onClick='eff("c3b40896d1596565f2f489b2774dd6ec");'></td><td>(&infin;)</td></tr><tr><td width="15"></td><td><img height=30 width=30 src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/lightning.gif" alt="Fast as Lightning" title="Fast as Lightning" onClick='eff("e5da19b3764183b04d100fabe8978416");'></td><td>(&infin;)</td></tr><tr><td width="15"></td><td><img height=30 width=30 src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/scaredeyes.gif" alt="A Little Bit Frightening" title="A Little Bit Frightening" onClick='eff("346ada2be15421d61362feb7efe73249");'></td><td>(&infin;)</td></tr></table></center></body></html>
