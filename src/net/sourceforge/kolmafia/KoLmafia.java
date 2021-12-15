@@ -1750,35 +1750,46 @@ public abstract class KoLmafia {
       }
 
       int previousLimit = currentRequest.getLimit();
-      currentRequest.setLimit(
+      int toPurchase =
           Math.min(
               (int) Math.min(Integer.MAX_VALUE, currentRequest.getAvailableMeat() / currentPrice),
-              Math.min(previousLimit, desiredCount - currentCount)));
+              Math.min(previousLimit, desiredCount - currentCount));
+      currentRequest.setLimit(toPurchase);
 
       RequestThread.postRequest(currentRequest);
-
-      // We've purchased as many as we will from this store
-
-      if (KoLmafia.permitsContinue()) {
-        if (currentRequest.getQuantity() == currentRequest.getLimit()) {
-          results.remove(currentRequest);
-        } else if (currentRequest.getQuantity() == PurchaseRequest.MAX_QUANTITY) {
-          currentRequest.setLimit(PurchaseRequest.MAX_QUANTITY);
-        } else {
-          if (currentRequest.getLimit() == previousLimit) {
-            currentRequest.setCanPurchase(false);
-          }
-
-          currentRequest.setQuantity(currentRequest.getQuantity() - currentRequest.getLimit());
-          currentRequest.setLimit(previousLimit);
-        }
-      } else {
-        currentRequest.setLimit(previousLimit);
-      }
 
       // Update how many of the item we have post-purchase
       int purchased = item.getCount(destination) - currentCount;
       remaining -= purchased;
+
+      // We've purchased as many as we will from this store
+
+      // Restore original limit
+      currentRequest.setLimit(previousLimit);
+
+      // If purchase succeeded.
+      if (KoLmafia.permitsContinue()) {
+        // If original limit was less than original quantity, we have purchased some of our daily
+        // limit
+        if (previousLimit < currentRequest.getQuantity()) {
+          currentRequest.setLimit(previousLimit - purchased);
+
+          // If we have purchased the store's daily limit, done with store today.
+          if (previousLimit == purchased) {
+            currentRequest.setCanPurchase(false);
+          }
+        }
+
+        // If this is not an NPC store, remove purchased items
+        if (currentRequest.getQuantity() != PurchaseRequest.MAX_QUANTITY) {
+          currentRequest.setQuantity(currentRequest.getQuantity() - purchased);
+        }
+
+        // If store is now empty. remove from result list
+        if (currentRequest.getQuantity() == 0) {
+          results.remove(currentRequest);
+        }
+      }
     }
 
     if (remaining == 0 || maxPurchases == Integer.MAX_VALUE) {

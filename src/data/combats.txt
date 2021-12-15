@@ -211,6 +211,7 @@ Shivering Timbers	100	deadwood tree	fur tree	hangman's tree	pumpkin tree	toilet-
 Shop Class	100	out-of-control bandsaw	deadly vise	demonic jigsaw	screw golem	X-fingered Shop Teacher: 0
 Simple Tool-Making Cave	100	flint-scraping cave elf	hunter-gatherer cave elf	rock-banging cave elf	sinew-stretching cave elf
 Sinister Dodecahedron	100	death ray in a pear tree: 1	turtle mech: 2	Swiss hen: 3	killing bird: 4	golden ring: 5	goose a-laying: 6	swarm a-swarming: 7	blade a-spinning: 8	laser lancing: 9	borg a-beeping: 10	strangler strangling: 11	stomper stomping: 12
+Site Alpha Dormitory	100	gooified elf-thing	gooified dog-thing
 Sleaziest Adventurer Contest	100	Grease Trapper	Ham Shaman	Porkpocket	Leonard: 0
 Sloppy Seconds Diner	100	Sloppy Seconds Sundae	Sloppy Seconds Burger	Sloppy Seconds Cocktail
 Smartest Adventurer Contest	100	Accountant-Barbarian	Metaphysical Gastronomist	Kleptobrainiac	The Mastermind: 0
