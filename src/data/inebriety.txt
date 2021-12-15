@@ -151,6 +151,7 @@ Churchill	1	1	awesome	4-6	0	0	0	40 Big Ol' Glass of Rum (+20 Mox)
 Cinco Mayo Lager	3	1	awesome	14-16	5	5	5	5 Cinco Elementos (+prismatic dmg), BEER, CANNED
 Citrus Crush wine cooler	2	1	good	6	2-3	2-3	2-3
 citrus-infused sake	4	7	awesome	14-17	75-120	0	0	1 Warm Belly (+hot dmg, +10 Fishy)
+clear Russian	3	1	decent	0	0	0	0	Unspaded
 Cobb's Knob Wurstbrau	1	4	good	2-3	4-6	0	0	5-10 MP, BEER
 Cobra Bowl	6	6	awesome	0	0	0	0	Unspaded 40 Tiki Temerity (+100% Moxie, +10% Moxie Gains)
 Cold One	1	1		6	0	0	0	BEER, CANNED
