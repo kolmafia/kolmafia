@@ -108,6 +108,7 @@ brains casserole	5	1	decent	6-14	0	8-10	0	Zombie Slayer
 bran muffin	1	1	awesome	4-5	150	150	150	25 All Branned Up (+40% Item Drop, 5-7 MP Regen)
 bread line	2	1	good	5-7	10-20	0	0	40 Bread-Lined (+50% Muscle, +25 Weapon damage)
 bread man	1	1	crappy	0	0	0	0	Unspaded
+bread pie	3	1	decent	0	0	0	0	Unspaded
 bread roll	2	1	awesome	8-10	0	0	10-20	leftovers, 20 Thanksgetting (Variable +meat, +item, +familiar weight, +all res)
 breakfast mess	2	2	decent	3-5	1-5	1-5	1-5
 breakfast miracle	2	6	EPIC	12-14	25-50	25-50	25-50

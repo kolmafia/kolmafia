@@ -2686,3 +2686,4 @@
 2685	Anti-Goosebumped	creamtube.gif	5ef4224b2dca1a2e767c1bda1fd25dc7	neutral	none	use 1 anti-goosebump cream
 2686	Anti-Odored	creamtube.gif	59a4b9e87e0d81c171e8338bd01eab0c	neutral	none	use 1 anti-odor cream
 2687	Anti-Creeped	creamtube.gif	7f1f6e0b45ec819986a953a46df2630c	neutral	none	use 1 anti-creep cream
+2688	Sauna-Fresh	stench.gif	015dd9870949c871d82e971a3a64aa86	neutral	none
