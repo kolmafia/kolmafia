@@ -134,7 +134,7 @@ public class FoldItemCommand extends AbstractCommand {
         }
       }
 
-      // Consider the next item. Skip index 0.
+      // Consider the next item.
       sourceIndex = sourceIndex > 0 ? sourceIndex - 1 : groupSize - 1;
     }
 
