@@ -83,7 +83,7 @@ public class RecordType extends CompositeType {
     Value value = key instanceof Value.Constant ? ((Value.Constant) key).value : (Value) key;
     int index = this.indexOf(value);
     if (index < 0 || index >= this.fieldTypes.length) {
-      return null;
+      return new BadType(null, null);
     }
     return this.fieldTypes[index];
   }
