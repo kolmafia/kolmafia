@@ -144,22 +144,23 @@ class MoodManagerTest {
 
   @Test
   public void itShouldAddAndRemoveTriggers() {
-    resetCharAndPrefs();
+    initializeCharPrefs();
     assertTrue(copyMoodFile(), "Could not copy file");
     MoodManager.loadSettings();
+    MoodManager.setMood("meatdrop");
     Preferences.setString("currentMood", "meatdrop");
-    List<MoodTrigger> before = MoodManager.getTriggers();
+    List<MoodTrigger> before = MoodManager.getTriggers("meatdrop");
     assertEquals(8, before.size(), "Unexpected triggers");
     // Make and add a new trigger
     MoodTrigger newTrigger = MoodManager.addTrigger("gain_effect", "beaten up", "abort");
-    List<MoodTrigger> after = MoodManager.getTriggers();
-    assertEquals(9, after.size(), "Trigger not added");
     assertFalse(before.contains(newTrigger), "Unexpected duplication of triggers");
+    List<MoodTrigger> after = MoodManager.getTriggers("meatdrop");
+    assertEquals(9, after.size(), "Trigger not added");
     assertTrue(after.contains(newTrigger), "Unexpected duplication of triggers");
-    Collection<MoodTrigger> collection = new ArrayList<MoodTrigger>();
+    Collection<MoodTrigger> collection = new ArrayList<>();
     collection.add(newTrigger);
     MoodManager.removeTriggers(collection);
-    after = MoodManager.getTriggers();
+    after = MoodManager.getTriggers("meatdrop");
     assertEquals(8, after.size(), "Unexpected triggers");
     assertFalse(after.contains(newTrigger), "Unexpected duplication of triggers");
   }
