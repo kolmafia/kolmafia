@@ -10865,7 +10865,7 @@
 10837	anti-pain cream	646241186	creamtube.gif	potion, usable	t,d	10
 10838	Doc's Special Reserve Wine	510170168	rxwine.gif	drink	t,d	10
 10839	bread pie	734136895	pie.gif	food	t,d	5
-10840	clear Russian	276019932	whitedrink.gif	drink	t,d
+10840	clear Russian	276019932	whitedrink.gif	drink	t,d	5
 10842	white Crimbo ball	465562412	crimball_white.gif	none	t	0
 10843	black Crimbo ball	720352210	crimball_black.gif	none	t	0
 10844	gooified animal matter	770996300	goo_org.gif	none	t	0
