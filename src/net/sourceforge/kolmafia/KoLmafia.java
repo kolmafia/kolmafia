@@ -1769,7 +1769,8 @@ public abstract class KoLmafia {
 
       // If purchase succeeded.
       if (KoLmafia.permitsContinue()) {
-        // If original limit was less than original quantity, we have purchased some of our daily limit
+        // If original limit was less than original quantity, we have purchased some of our daily
+        // limit
         if (previousLimit < currentRequest.getQuantity()) {
           currentRequest.setLimit(previousLimit - purchased);
 
