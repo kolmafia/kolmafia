@@ -168,6 +168,12 @@ public class Operator extends Command {
     int ltype = lhs.getBaseType().getType();
     int rtype = rhs.getBaseType().getType();
 
+    if (lhs.isBad() || rhs.isBad()) {
+      // BadNode's are only generated through errors, which
+      // means one was already generated about this type.
+      return true;
+    }
+
     if (this.isInteger()) {
       return (ltype == DataTypes.TYPE_INT && rtype == DataTypes.TYPE_INT);
     }
@@ -184,6 +190,12 @@ public class Operator extends Command {
     // Resolve aliases
     lhs = lhs.getBaseType();
     rhs = rhs.getBaseType();
+
+    if (lhs.isBad() || rhs.isBad()) {
+      // BadNode's are only generated through errors, which
+      // means one was already generated about this type.
+      return true;
+    }
 
     if (oper == null) {
       return lhs.getType() == rhs.getType();

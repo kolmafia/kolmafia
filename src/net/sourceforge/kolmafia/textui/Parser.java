@@ -534,9 +534,11 @@ public class Parser {
         if (t.getBaseType() instanceof AggregateType) {
           result.addCommand(this.parseAggregateLiteral(result, (AggregateType) t), this);
         } else {
-          this.error(
-              Parser.makeLocation(t.getLocation(), this.currentToken()),
-              "Aggregate type required to make an aggregate literal");
+          if (!t.isBad()) {
+            this.error(
+                Parser.makeLocation(t.getLocation(), this.currentToken()),
+                "Aggregate type required to make an aggregate literal");
+          }
 
           this.parseAggregateLiteral(result, badAggregateType());
         }
@@ -896,11 +898,13 @@ public class Parser {
       if (ltype instanceof AggregateType) {
         result = this.parseAggregateLiteral(scope, (AggregateType) ltype);
       } else {
-        Location errorLocation = this.makeLocation(this.currentToken());
+        if (!ltype.isBad()) {
+          Location errorLocation = this.makeLocation(this.currentToken());
 
-        this.error(
-            errorLocation,
-            "Cannot initialize " + lhs + " of type " + t + " with an aggregate literal");
+          this.error(
+              errorLocation,
+              "Cannot initialize " + lhs + " of type " + t + " with an aggregate literal");
+        }
 
         result = this.parseAggregateLiteral(scope, badAggregateType());
       }
@@ -922,10 +926,15 @@ public class Parser {
     return result;
   }
 
-  private Evaluable autoCoerceValue(Type ltype, final Evaluable rhs, final BasicScope scope) {
+  private Evaluable autoCoerceValue(final Type ltype, final Evaluable rhs, final BasicScope scope) {
     // DataTypes.TYPE_ANY has no name
     if (ltype == null || ltype.getName() == null) {
       return rhs;
+    }
+
+    // Error propagation
+    if (ltype.isBad() || rhs.getType().isBad()) {
+      return Value.locate(rhs.getLocation(), Value.BAD_VALUE);
     }
 
     // If the types are the same no coercion needed
@@ -1026,7 +1035,7 @@ public class Parser {
 
       Type existingType = parentScope.findType(typeName.content);
       if (existingType != null) {
-        if (existingType.getBaseType().equals(t)) {
+        if (existingType.getBaseType().equals(t) || existingType.isBad()) {
           // It is OK to redefine a typedef with an equivalent type
           return true;
         }
@@ -1198,7 +1207,7 @@ public class Parser {
       Type dataType = data.getBaseType();
 
       if (this.currentToken().equals("{")) {
-        if (!isArray && !arrayAllowed) {
+        if (!isArray && !arrayAllowed && !aggr.isBad()) {
           // We know this is a map, but they placed
           // an aggregate literal as a key
           this.error(
@@ -1209,11 +1218,13 @@ public class Parser {
         if (dataType instanceof AggregateType) {
           lhs = this.parseAggregateLiteral(scope, (AggregateType) dataType);
         } else {
-          Location errorLocation = this.makeLocation(this.currentToken());
+          if (!dataType.isBad()) {
+            Location errorLocation = this.makeLocation(this.currentToken());
 
-          this.error(
-              errorLocation,
-              "Expected an element of type " + dataType.toString() + ", found an aggregate");
+            this.error(
+                errorLocation,
+                "Expected an element of type " + dataType.toString() + ", found an aggregate");
+          }
 
           lhs = this.parseAggregateLiteral(scope, badAggregateType());
         }
@@ -1296,11 +1307,13 @@ public class Parser {
         if (dataType instanceof AggregateType) {
           rhs = this.parseAggregateLiteral(scope, (AggregateType) dataType);
         } else {
-          Location errorLocation = this.makeLocation(this.currentToken());
+          if (!dataType.isBad()) {
+            Location errorLocation = this.makeLocation(this.currentToken());
 
-          this.error(
-              errorLocation,
-              "Expected a value of type " + dataType.toString() + ", found an aggregate");
+            this.error(
+                errorLocation,
+                "Expected a value of type " + dataType.toString() + ", found an aggregate");
+          }
 
           rhs = this.parseAggregateLiteral(scope, badAggregateType());
         }
@@ -1391,19 +1404,25 @@ public class Parser {
         indexType = indexType.reference(this.makeLocation(indexToken));
 
         if (!indexType.isPrimitive()) {
-          this.error(indexToken, "Index type '" + indexToken + "' is not a primitive type");
+          if (!dataType.isBad()) {
+            this.error(indexToken, "Index type '" + indexToken + "' is not a primitive type");
+          }
 
           indexType = new BadType(indexToken.content, this.makeLocation(indexToken));
         }
       } else {
-        this.error(indexToken, "Invalid type name '" + indexToken + "'");
+        if (!dataType.isBad()) {
+          this.error(indexToken, "Invalid type name '" + indexToken + "'");
+        }
 
         indexType = new BadType(indexToken.content, this.makeLocation(indexToken));
       }
 
       this.readToken(); // type name
     } else {
-      this.error(indexToken, "Missing index token");
+      if (!dataType.isBad()) {
+        this.error(indexToken, "Missing index token");
+      }
 
       Type type = new AggregateType(dataType, new BadType(null, null));
       return type.reference(Parser.makeLocation(dataType.getLocation(), this.peekPreviousToken()));
@@ -1500,7 +1519,9 @@ public class Parser {
     } else {
       Location errorLocation = this.makeLocation(this.currentToken());
 
-      this.error(errorLocation, "Expression expected");
+      if (expectedType != null && !expectedType.equals(DataTypes.TYPE_VOID)) {
+        this.error(errorLocation, "Expression expected");
+      }
 
       value = Value.locate(errorLocation, Value.BAD_VALUE);
     }
@@ -1623,7 +1644,7 @@ public class Parser {
       this.unexpectedTokenError(")", this.currentToken());
     }
 
-    if (!condition.getType().equals(DataTypes.BOOLEAN_TYPE)) {
+    if (!condition.getType().equals(DataTypes.BOOLEAN_TYPE) && !condition.getType().isBad()) {
       Location errorLocation = condition.getLocation();
 
       this.error(errorLocation, "\"if\" requires a boolean conditional expression");
@@ -1686,7 +1707,7 @@ public class Parser {
             this.unexpectedTokenError(")", this.currentToken());
           }
 
-          if (!condition.getType().equals(DataTypes.BOOLEAN_TYPE)) {
+          if (!condition.getType().equals(DataTypes.BOOLEAN_TYPE) && !condition.getType().isBad()) {
             Location errorLocation = condition.getLocation();
 
             this.error(errorLocation, "\"if\" requires a boolean conditional expression");
@@ -1793,7 +1814,7 @@ public class Parser {
       this.unexpectedTokenError(")", this.currentToken());
     }
 
-    if (!condition.getType().equals(DataTypes.BOOLEAN_TYPE)) {
+    if (!condition.getType().equals(DataTypes.BOOLEAN_TYPE) && !condition.getType().isBad()) {
       Location errorLocation = condition.getLocation();
 
       this.error(errorLocation, "\"while\" requires a boolean conditional expression");
@@ -1846,7 +1867,7 @@ public class Parser {
       this.unexpectedTokenError(")", this.currentToken());
     }
 
-    if (!condition.getType().equals(DataTypes.BOOLEAN_TYPE)) {
+    if (!condition.getType().equals(DataTypes.BOOLEAN_TYPE) && !condition.getType().isBad()) {
       Location errorLocation = condition.getLocation();
 
       this.error(errorLocation, "\"repeat\" requires a boolean conditional expression");
@@ -1934,7 +1955,7 @@ public class Parser {
           this.unexpectedTokenError(":", this.currentToken());
         }
 
-        if (!test.getType().equals(type)) {
+        if (!test.getType().equals(type) && !type.isBad() && !test.getType().isBad()) {
           this.error(
               test.getLocation(),
               "Switch conditional has type "
@@ -1952,7 +1973,7 @@ public class Parser {
         if (test instanceof Constant && ((Constant) test).value.getClass() == Value.class) {
           if (labels.get(((Constant) test).value) != null) {
             this.error(test.getLocation(), "Duplicate case label: " + test);
-          } else {
+          } else if (!test.evaluatesTo(Value.BAD_VALUE)) {
             labels.put(((Constant) test).value, currentInteger);
           }
         } else {
@@ -2186,7 +2207,9 @@ public class Parser {
       Location errorLocation =
           aggregate != null ? aggregate.getLocation() : this.makeLocation(this.currentToken());
 
-      this.error(errorLocation, "Aggregate reference expected");
+      if (aggregate == null || !aggregate.getType().isBad()) {
+        this.error(errorLocation, "Aggregate reference expected");
+      }
 
       aggregate = badVariableReference(errorLocation, badAggregateType());
     }
@@ -2576,7 +2599,7 @@ public class Parser {
       this.unexpectedTokenError(";", this.currentToken());
     }
 
-    if (!condition.getType().equals(DataTypes.BOOLEAN_TYPE)) {
+    if (!condition.getType().equals(DataTypes.BOOLEAN_TYPE) && !condition.getType().isBad()) {
       Location errorLocation = condition.getLocation();
 
       this.error(errorLocation, "\"for\" requires a boolean conditional expression");
@@ -2603,7 +2626,9 @@ public class Parser {
           Location errorLocation =
               value != null ? value.getLocation() : this.makeLocation(this.currentToken());
 
-          this.error(errorLocation, "Variable reference expected");
+          if (value == null || !value.evaluatesTo(Value.BAD_VALUE)) {
+            this.error(errorLocation, "Variable reference expected");
+          }
 
           value = badVariableReference(errorLocation);
         }
@@ -2706,7 +2731,9 @@ public class Parser {
     Type type = scope.findType(name.content);
 
     if (!(type instanceof RecordType)) {
-      this.error(name, "'" + name + "' is not a record type");
+      if (type == null || !type.isBad()) {
+        this.error(name, "'" + name + "' is not a record type");
+      }
 
       type = new BadRecordType(null, this.makeLocation(name));
     }
@@ -2843,9 +2870,23 @@ public class Parser {
     if (target != null) {
       params = this.autoCoerceParameters(target, params, scope);
     } else {
-      this.undefinedFunctionError(name, params);
-
       target = new BadFunction(name.content);
+
+      // Don't make an error if the function couldn't be found
+      // because the user messed up one of the parameters
+      // (since that means we already made one earlier)
+      boolean error = true;
+
+      for (Evaluable param : params) {
+        if (param != null && param.getType().isBad()) {
+          error = false;
+          break;
+        }
+      }
+
+      if (error) {
+        this.undefinedFunctionError(name, params);
+      }
     }
 
     FunctionCall call = new FunctionCall(functionCallLocation, target, params, this);
@@ -2946,7 +2987,8 @@ public class Parser {
     if (current.equals("(")) {
       name = this.parseExpression(scope);
 
-      if (name == null || !name.getType().equals(DataTypes.STRING_TYPE)) {
+      if (name == null
+          || !name.getType().equals(DataTypes.STRING_TYPE) && !name.getType().isBad()) {
         Location errorLocation = name != null ? name.getLocation() : this.makeLocation(current);
 
         this.error(errorLocation, "String expression expected for function name");
@@ -2960,7 +3002,9 @@ public class Parser {
         Location errorLocation =
             name != null ? name.getLocation() : this.makeLocation(this.currentToken());
 
-        this.error(errorLocation, "Variable reference expected for function name");
+        if (name == null || !name.evaluatesTo(Value.BAD_VALUE)) {
+          this.error(errorLocation, "Variable reference expected for function name");
+        }
 
         name = badVariableReference(errorLocation);
       }
@@ -3090,13 +3134,15 @@ public class Parser {
       Location errorLocation =
           lhs != null ? lhs.getLocation() : this.makeLocation(this.currentToken());
 
-      this.error(errorLocation, "Variable reference expected");
+      if (lhs == null || !lhs.evaluatesTo(Value.BAD_VALUE)) {
+        this.error(errorLocation, "Variable reference expected");
+      }
 
       lhs = badVariableReference(errorLocation);
     }
 
     int ltype = lhs.getType().getType();
-    if (ltype != DataTypes.TYPE_INT && ltype != DataTypes.TYPE_FLOAT) {
+    if (ltype != DataTypes.TYPE_INT && ltype != DataTypes.TYPE_FLOAT && !lhs.getType().isBad()) {
       this.error(lhs.getLocation(), operStr + " requires a numeric variable reference");
     }
 
@@ -3118,7 +3164,7 @@ public class Parser {
     String operStr = operToken.equals("++") ? Parser.POST_INCREMENT : Parser.POST_DECREMENT;
 
     int ltype = lhs.getType().getType();
-    if (ltype != DataTypes.TYPE_INT && ltype != DataTypes.TYPE_FLOAT) {
+    if (ltype != DataTypes.TYPE_INT && ltype != DataTypes.TYPE_FLOAT && !lhs.getType().isBad()) {
       this.error(lhs.getLocation(), operStr + " requires a numeric variable reference");
     }
 
@@ -3157,7 +3203,7 @@ public class Parser {
 
       lhs = this.autoCoerceValue(DataTypes.BOOLEAN_TYPE, lhs, scope);
       lhs = new Operation(lhs, oper);
-      if (!lhs.getType().equals(DataTypes.BOOLEAN_TYPE)) {
+      if (!lhs.getType().equals(DataTypes.BOOLEAN_TYPE) && !lhs.getType().isBad()) {
         this.error(lhs.getLocation(), "\"!\" operator requires a boolean value");
       }
     } else if (operator.equals("~")) {
@@ -3173,7 +3219,8 @@ public class Parser {
 
       lhs = new Operation(lhs, oper);
       if (!lhs.getType().equals(DataTypes.INT_TYPE)
-          && !lhs.getType().equals(DataTypes.BOOLEAN_TYPE)) {
+          && !lhs.getType().equals(DataTypes.BOOLEAN_TYPE)
+          && !lhs.getType().isBad()) {
         this.error(lhs.getLocation(), "\"~\" operator requires an integer or boolean value");
       }
     } else if (operator.equals("-")) {
@@ -3192,7 +3239,8 @@ public class Parser {
 
         lhs = new Operation(lhs, oper);
         if (!lhs.getType().equals(DataTypes.INT_TYPE)
-            && !lhs.getType().equals(DataTypes.FLOAT_TYPE)) {
+            && !lhs.getType().equals(DataTypes.FLOAT_TYPE)
+            && !lhs.getType().isBad()) {
           this.error(lhs.getLocation(), "\"-\" operator requires an integer or float value");
         }
       }
@@ -3205,7 +3253,9 @@ public class Parser {
         Location errorLocation =
             lhs != null ? lhs.getLocation() : this.makeLocation(this.currentToken());
 
-        this.error(errorLocation, "Aggregate reference expected");
+        if (lhs == null || !lhs.getType().isBad()) {
+          this.error(errorLocation, "Aggregate reference expected");
+        }
 
         if (!(lhs instanceof VariableReference)) {
           lhs = badVariableReference(errorLocation);
@@ -3237,7 +3287,8 @@ public class Parser {
 
         Evaluable conditional = lhs;
 
-        if (!conditional.getType().equals(DataTypes.BOOLEAN_TYPE)) {
+        if (!conditional.getType().equals(DataTypes.BOOLEAN_TYPE)
+            && !conditional.getType().isBad()) {
           this.error(
               conditional.getLocation(),
               "Non-boolean expression " + conditional + " (" + conditional.getType() + ")");
@@ -3712,7 +3763,9 @@ public class Parser {
   private Value parseLiteral(final Type type, final String element, final Location location) {
     Value value = DataTypes.parseValue(type, element, false);
     if (value == null) {
-      this.error(location, "Bad " + type.toString() + " value: \"" + element + "\"");
+      if (!type.isBad()) {
+        this.error(location, "Bad " + type.toString() + " value: \"" + element + "\"");
+      }
 
       return Value.BAD_VALUE;
     }
@@ -3828,7 +3881,7 @@ public class Parser {
       type = type.reference(this.makeLocation(name));
     }
 
-    if (!type.isPrimitive()) {
+    if (!type.isPrimitive() && !type.isBad()) {
       this.error(name, "Non-primitive type " + name);
 
       type = new BadType(name.content, this.makeLocation(name));
@@ -4131,14 +4184,17 @@ public class Parser {
         parseAggregate = true;
 
         if (!(type instanceof AggregateType)) {
-          Location location = Parser.makeLocation(current.getLocation(), this.peekPreviousToken());
-          String message;
-          if (indices.isEmpty()) {
-            message = "Variable '" + varRef.getName() + "' cannot be indexed";
-          } else {
-            message = "Too many keys for '" + varRef.getName() + "'";
+          if (!type.isBad()) {
+            Location location =
+                Parser.makeLocation(current.getLocation(), this.peekPreviousToken());
+            String message;
+            if (indices.isEmpty()) {
+              message = "Variable '" + varRef.getName() + "' cannot be indexed";
+            } else {
+              message = "Too many keys for '" + varRef.getName() + "'";
+            }
+            this.error(location, message);
           }
-          this.error(location, message);
 
           type = badAggregateType();
         }
@@ -4153,7 +4209,9 @@ public class Parser {
           index = Value.locate(errorLocation, Value.BAD_VALUE);
         }
 
-        if (!index.getType().getBaseType().equals(atype.getIndexType().getBaseType())) {
+        if (!index.getType().getBaseType().equals(atype.getIndexType().getBaseType())
+            && !index.getType().isBad()
+            && !atype.getIndexType().isBad()) {
           this.error(
               index.getLocation(),
               "Index for '"
@@ -4178,7 +4236,9 @@ public class Parser {
 
         type = type.asProxy();
         if (!(type instanceof RecordType)) {
-          this.error(current.getLocation(), "Record expected");
+          if (!type.isBad()) {
+            this.error(current.getLocation(), "Record expected");
+          }
 
           type = new BadRecordType(null, null);
         }

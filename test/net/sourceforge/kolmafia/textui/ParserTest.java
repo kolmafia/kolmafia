@@ -124,6 +124,24 @@ public class ParserTest {
     ParserTest.assertLocationEquals(2, 8, 2, 38, diagnostics.get(3).location);
   }
 
+  @Test
+  public void testErrorFilter() {
+    final String script = "int a; max(a, b)";
+    final ByteArrayInputStream istream =
+        new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8));
+    final Parser parser = new Parser(null, istream, null);
+
+    parser.parse();
+
+    final List<Parser.AshDiagnostic> diagnostics = parser.getDiagnostics();
+    assertEquals(1, diagnostics.size());
+
+    assertEquals("Unknown variable 'b'", diagnostics.get(0).message);
+    ParserTest.assertLocationEquals(1, 15, 1, 16, diagnostics.get(0).location);
+
+    // Note the lack of "Function 'max( int, <unknown> )' undefined."
+  }
+
   public static Stream<Arguments> mergeLocationsData() {
     return Stream.of(
         Arguments.of(
