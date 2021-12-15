@@ -177,6 +177,7 @@ public class SendMessageFrame extends GenericFrame implements ListElementFilter 
   }
 
   private class AttachmentClearListener implements ActionListener {
+    @Override
     public void actionPerformed(final ActionEvent e) {
       boolean wasStorage = SendMessageFrame.this.isStorage;
       SendMessageFrame.this.isStorage = SendMessageFrame.this.sourceSelect.getSelectedIndex() == 1;
@@ -204,6 +205,7 @@ public class SendMessageFrame extends GenericFrame implements ListElementFilter 
     }
   }
 
+  @Override
   public boolean isVisible(Object o) {
     if (!(o instanceof AdventureResult)) {
       return false;

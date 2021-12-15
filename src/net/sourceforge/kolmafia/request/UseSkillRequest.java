@@ -438,6 +438,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     this.buffCount = buffCount;
   }
 
+  @Override
   public int compareTo(final UseSkillRequest o) {
     if (!(o instanceof UseSkillRequest)) {
       return -1;

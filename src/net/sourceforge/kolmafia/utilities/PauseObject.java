@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 public class PauseObject implements Runnable {
   private long milliseconds = 0;
 
+  @Override
   public void run() {
     this.pause(this.milliseconds);
   }

@@ -588,6 +588,7 @@ public class RelayRequest extends PasswordHashRequest {
 
   private static final FilenameFilter RELAYIMAGES_FILTER =
       new FilenameFilter() {
+        @Override
         public boolean accept(final File dir, final String name) {
           return !name.equals("relayimages");
         }

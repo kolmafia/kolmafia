@@ -134,6 +134,7 @@ public class BuffBotHome {
       return !this.deny;
     }
 
+    @Override
     public int compareTo(final BuffRecord o) {
       return this.name.compareToIgnoreCase(o.name);
     }

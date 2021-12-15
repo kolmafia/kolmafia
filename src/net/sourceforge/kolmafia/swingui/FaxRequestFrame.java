@@ -368,6 +368,7 @@ public class FaxRequestFrame extends GenericFrame {
     }
 
     private class MonsterCategoryListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         int index = MonsterCategoryComboBox.this.getSelectedIndex();
         MonsterCategoryComboBox.this.panel.monsterIndex = index;

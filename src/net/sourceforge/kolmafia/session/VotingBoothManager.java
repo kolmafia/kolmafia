@@ -83,7 +83,7 @@ public class VotingBoothManager {
 
     int n = 15;
     while (n > 14) {
-      n = mtRng.nextInt(0, 15);
+      n = mtRng.nextBoundedInt(0, 15);
     }
 
     return VOTING_BOOTH_NEGATIVE_MODIFIERS[n];

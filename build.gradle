@@ -18,11 +18,11 @@ mainClassName = 'net.sourceforge.kolmafia.KoLmafia'
 sourceSets {
 	main {
 		java {
-			srcDirs = ['src', 'lib']
+			srcDirs = ['src']
 			destinationDirectory.set(file('build/main'))
 		}
 		resources {
-			srcDirs = ['src', 'lib']
+			srcDirs = ['src']
 			excludes = ['**/*.java', '**/*.jar']
 		}
 	}
@@ -349,6 +349,11 @@ pmd {
 	ruleSets = [
 		'category/java/bestpractices.xml/MissingOverride'
 	]
+
+	// Do not perform static analysis on library source
+	pmdLib {
+		enabled = false
+	}
 }
 
 // Set version from last build/revision.txt if up-to-date

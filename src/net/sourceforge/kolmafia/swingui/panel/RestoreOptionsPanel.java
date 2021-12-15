@@ -172,6 +172,7 @@ public class RestoreOptionsPanel extends JPanel implements Listener {
   }
 
   private class CheckboxListener implements ActionListener {
+    @Override
     public void actionPerformed(final ActionEvent e) {
       RestoreOptionsPanel.this.saveRestoreSettings();
     }
@@ -283,6 +284,7 @@ public class RestoreOptionsPanel extends JPanel implements Listener {
       }
     }
 
+    @Override
     public void actionPerformed(final ActionEvent e) {
       RestoreOptionsPanel.this.saveRestoreSettings();
     }
@@ -405,11 +407,13 @@ public class RestoreOptionsPanel extends JPanel implements Listener {
       }
     }
 
+    @Override
     public void actionPerformed(final ActionEvent e) {
       RestoreOptionsPanel.this.saveRestoreSettings();
     }
   }
 
+  @Override
   public void update() {
     updateFromPreferences();
     this.revalidate();

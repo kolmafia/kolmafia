@@ -38,6 +38,7 @@ public class LoadScriptMenuItem extends ThreadedMenuItem {
         try {
           SwingUtilities.invokeAndWait(
               new Runnable() {
+                @Override
                 public void run() {
                   File input =
                       InputFieldUtilities.chooseInputFile(KoLConstants.SCRIPT_LOCATION, null);

@@ -153,10 +153,12 @@ public class MallSearchFrame extends GenericPanelFrame {
       this.storageBalanceLabel.setText(buffer.toString());
     }
 
+    @Override
     public void focusGained(FocusEvent e) {
       this.searchField.requestFocus();
     }
 
+    @Override
     public void focusLost(FocusEvent e) {}
 
     @Override
@@ -302,6 +304,7 @@ public class MallSearchFrame extends GenericPanelFrame {
      * panel.
      */
     private class PurchaseSelectListener implements ListSelectionListener {
+      @Override
       public void valueChanged(final ListSelectionEvent e) {
         if (e.getValueIsAdjusting()) {
           return;

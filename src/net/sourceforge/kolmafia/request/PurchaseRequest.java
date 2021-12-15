@@ -244,6 +244,7 @@ public abstract class PurchaseRequest extends GenericRequest
     PurchaseRequest.usePriceComparison = usePriceComparison;
   }
 
+  @Override
   public int compareTo(final PurchaseRequest pr) {
     if (pr == null) {
       return -1;

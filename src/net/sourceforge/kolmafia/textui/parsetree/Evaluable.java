@@ -10,6 +10,7 @@ public abstract class Evaluable extends Command implements TypedNode {
     super(location);
   }
 
+  @Override
   public abstract String toString();
 
   public String toQuotedString() {

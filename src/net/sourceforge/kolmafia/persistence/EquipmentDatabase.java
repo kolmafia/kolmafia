@@ -987,6 +987,7 @@ public class EquipmentDatabase {
     private final ArrayList<SpecialOutfit> internalList = new ArrayList<SpecialOutfit>();
     private final TreeSet<Integer> internalSet = new TreeSet<Integer>();
 
+    @Override
     public Iterator<SpecialOutfit> iterator() {
       return this.internalList.iterator();
     }

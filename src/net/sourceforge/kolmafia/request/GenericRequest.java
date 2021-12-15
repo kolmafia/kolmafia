@@ -1077,6 +1077,7 @@ public class GenericRequest implements Runnable {
    * Loathing, and prepares the input for reading. Because the Kingdom of Loathing has identical
    * page layouts, all page reading and handling will occur through these method calls.
    */
+  @Override
   public void run() {
     if (GenericRequest.sessionId == null
         && !(this instanceof LoginRequest)
@@ -3270,6 +3271,7 @@ public class GenericRequest implements Runnable {
       return this.name != null ? this.name.hashCode() : 0;
     }
 
+    @Override
     public int compareTo(final ServerCookie o) {
       return o == null ? -1 : this.getName().compareTo(o.getName());
     }

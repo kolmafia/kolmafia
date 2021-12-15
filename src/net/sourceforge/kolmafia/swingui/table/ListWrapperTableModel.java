@@ -29,6 +29,7 @@ public abstract class ListWrapperTableModel<E> extends DefaultTableModel
 
     SwingUtilities.invokeLater(
         new Runnable() {
+          @Override
           public void run() {
             for (int i = 0; i < listModel.size(); ++i) {
               ListWrapperTableModel.this.insertRow(
@@ -63,9 +64,11 @@ public abstract class ListWrapperTableModel<E> extends DefaultTableModel
    *
    * @param e the <code>ListDataEvent</code> that triggered this function call
    */
+  @Override
   public void intervalAdded(final ListDataEvent e) {
     SwingUtilities.invokeLater(
         new Runnable() {
+          @Override
           public void run() {
             LockableListModel source = (LockableListModel) e.getSource();
             int index0 = e.getIndex0();
@@ -85,9 +88,11 @@ public abstract class ListWrapperTableModel<E> extends DefaultTableModel
    *
    * @param e the <code>ListDataEvent</code> that triggered this function call
    */
+  @Override
   public void intervalRemoved(final ListDataEvent e) {
     SwingUtilities.invokeLater(
         new Runnable() {
+          @Override
           public void run() {
             int index0 = e.getIndex0();
             int index1 = e.getIndex1();
@@ -105,9 +110,11 @@ public abstract class ListWrapperTableModel<E> extends DefaultTableModel
    *
    * @param e the <code>ListDataEvent</code> that triggered this function call
    */
+  @Override
   public void contentsChanged(final ListDataEvent e) {
     SwingUtilities.invokeLater(
         new Runnable() {
+          @Override
           public void run() {
             LockableListModel source = (LockableListModel) e.getSource();
             int index0 = e.getIndex0();

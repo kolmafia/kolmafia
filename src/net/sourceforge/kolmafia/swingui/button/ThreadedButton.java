@@ -32,6 +32,7 @@ public class ThreadedButton extends JButton implements ActionListener, KeyListen
     this.action = action;
   }
 
+  @Override
   public void actionPerformed(final ActionEvent e) {
     if (!this.isValidEvent(e)) {
       return;
@@ -52,8 +53,10 @@ public class ThreadedButton extends JButton implements ActionListener, KeyListen
     return true;
   }
 
+  @Override
   public void keyPressed(final KeyEvent e) {}
 
+  @Override
   public void keyReleased(final KeyEvent e) {
     if (e.isConsumed()) {
       return;
@@ -67,5 +70,6 @@ public class ThreadedButton extends JButton implements ActionListener, KeyListen
     e.consume();
   }
 
+  @Override
   public void keyTyped(final KeyEvent e) {}
 }

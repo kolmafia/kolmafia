@@ -13,6 +13,7 @@ public class StatusHandler implements ISVNStatusHandler, ISVNEventHandler {
   /*
    * This is an implementation of ISVNStatusHandler.handleStatus(SVNStatus status)
    */
+  @Override
   public void handleStatus(SVNStatus status) {
     /*
      * Gets the status of file/directory/symbolic link text contents. It is SVNStatusType who contains information
@@ -40,6 +41,7 @@ public class StatusHandler implements ISVNStatusHandler, ISVNEventHandler {
   /*
    * This is an implementation for ISVNEventHandler.handleEvent(SVNEvent event, double progress)
    */
+  @Override
   public void handleEvent(SVNEvent event, double progress) {
     /*
      * Gets the current action. An action is represented by SVNEventAction. In case of a status operation a current
@@ -60,5 +62,6 @@ public class StatusHandler implements ISVNStatusHandler, ISVNEventHandler {
    * Should be implemented to check if the current operation is cancelled. If it is, this method should throw an
    * SVNCancelException.
    */
+  @Override
   public void checkCancelled() throws SVNCancelException {}
 }

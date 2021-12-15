@@ -731,6 +731,7 @@ public class CompactSidePane extends JPanel implements Runnable {
     return statText;
   }
 
+  @Override
   public void run() {
     String limitmode = KoLCharacter.getLimitmode();
 
@@ -1154,6 +1155,7 @@ public class CompactSidePane extends JPanel implements Runnable {
       icon.setImageObserver(this);
     }
 
+    @Override
     public void update() {
       FamiliarData current = KoLCharacter.getFamiliar();
       FamiliarData effective = KoLCharacter.getEffectiveFamiliar();

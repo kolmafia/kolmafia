@@ -101,6 +101,7 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
       this.delegate = delegate;
     }
 
+    @Override
     public Component getListCellRendererComponent(
         final JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
       Component comp =
@@ -118,6 +119,7 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
     protected abstract boolean addSeparatorAfter(JList<?> list, Object value, int index);
   }
 
+  @Override
   public void update() {
     String[] newlist = Preferences.getString(this.pDefaultList).split(" \\| ");
     this.defaultList.clear();

@@ -10,6 +10,7 @@ public class HTMLListEntry implements Comparable<HTMLListEntry> {
     this.setColor(color);
   }
 
+  @Override
   public int compareTo(HTMLListEntry o) {
     String compareValue;
 

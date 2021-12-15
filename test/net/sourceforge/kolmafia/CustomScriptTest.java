@@ -24,6 +24,7 @@ public class CustomScriptTest {
   private static final File EXPECTED_LOCATION = new File(KoLConstants.ROOT_LOCATION, "expected/");
 
   private static class ScriptNameFilter implements FilenameFilter {
+    @Override
     public boolean accept(File dir, String name) {
       return name.endsWith(".ash")
           || name.endsWith(".txt")

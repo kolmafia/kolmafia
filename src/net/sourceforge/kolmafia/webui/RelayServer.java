@@ -93,6 +93,7 @@ public class RelayServer implements Runnable {
     RelayServer.listening = false;
   }
 
+  @Override
   public void run() {
     boolean startedSuccessfully = true;
     Integer minPort = 60080;

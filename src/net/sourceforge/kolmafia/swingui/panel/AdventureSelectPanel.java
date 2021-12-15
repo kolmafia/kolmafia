@@ -280,11 +280,13 @@ public class AdventureSelectPanel extends JPanel {
       NamedListenerRegistry.registerNamedListener("(adventuring)", this);
     }
 
+    @Override
     public void actionPerformed(final ActionEvent e) {
       KoLmafia.redoSkippedAdventures = this.isSelected();
     }
 
     // called when (adventuring) fires
+    @Override
     public void update() {
       this.setEnabled(!KoLmafia.isAdventuring());
     }
@@ -305,6 +307,7 @@ public class AdventureSelectPanel extends JPanel {
       AdventureSelectPanel.this.fillDefaultConditions();
     }
 
+    @Override
     public void valueChanged(final ListSelectionEvent e) {
       if (KoLmafia.isAdventuring()) {
         return;
@@ -318,14 +321,17 @@ public class AdventureSelectPanel extends JPanel {
       AdventureSelectPanel.this.fillDefaultConditions();
     }
 
+    @Override
     public void intervalAdded(final ListDataEvent e) {
       AdventureSelectPanel.this.fillCurrentConditions();
     }
 
+    @Override
     public void intervalRemoved(final ListDataEvent e) {
       AdventureSelectPanel.this.fillCurrentConditions();
     }
 
+    @Override
     public void contentsChanged(final ListDataEvent e) {
       AdventureSelectPanel.this.fillCurrentConditions();
     }
@@ -338,6 +344,7 @@ public class AdventureSelectPanel extends JPanel {
       this.setToolTipText("Stop after current adventure");
     }
 
+    @Override
     public void actionPerformed(final ActionEvent e) {
       KoLmafia.abortAfter("Manual stop requested.");
     }
@@ -346,6 +353,7 @@ public class AdventureSelectPanel extends JPanel {
   private class ExecuteRunnable implements Runnable {
     private final PauseObject pauser = new PauseObject();
 
+    @Override
     public void run() {
       KoLmafia.updateDisplay("Validating adventure sequence...");
 
@@ -553,6 +561,7 @@ public class AdventureSelectPanel extends JPanel {
       this.property = property;
     }
 
+    @Override
     public void actionPerformed(final ActionEvent e) {
       String index = String.valueOf(this.resultSelect.getSelectedIndex());
       this.resultCards.show(this.resultPanel, index);
@@ -583,6 +592,7 @@ public class AdventureSelectPanel extends JPanel {
       this.setSafetyString();
     }
 
+    @Override
     public void run() {
       this.setSafetyString();
     }
@@ -623,6 +633,7 @@ public class AdventureSelectPanel extends JPanel {
       this.setToolTipText("Number of turns to adventure in the selected zone");
     }
 
+    @Override
     public void stateChanged(final ChangeEvent e) {
       int maximum = KoLCharacter.getAdventuresLeft();
       if (maximum == 0) {

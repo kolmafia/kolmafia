@@ -957,6 +957,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
   }
 
+  @Override
   public void update() {
     // Called whenever the dailyDeedsOptions preference is changed.
     this.removeAll();
@@ -978,6 +979,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.daily = daily;
     }
 
+    @Override
     public void run() {
       daily.update();
     }
@@ -1124,6 +1126,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       }
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
       CommandDisplayFrame.executeCommand(e.getActionCommand());
       // Try to avoid having a random button, possibly with a high associated
@@ -1131,6 +1134,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
     }
 
+    @Override
     public abstract void update();
   }
 
@@ -1195,6 +1199,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     private class ShowerComboListener implements ActionListener {
       // the combo listeners exist solely to update the GO button with
       // the combo box target
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         if (cb.getSelectedIndex() <= 0) {
@@ -1275,6 +1280,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     private class DemonComboListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         if (cb.getSelectedIndex() <= 0) {
@@ -1375,6 +1381,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     private class ComboListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         int choice = cb.getSelectedIndex();
@@ -1498,6 +1505,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         this.preference = pref;
       }
 
+      @Override
       public void actionPerformed(ActionEvent arg0) {
         String pref = this.preference;
         int value = Preferences.getInteger(pref);
@@ -2238,6 +2246,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     private class MomComboListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         int index = cb.getSelectedIndex();
@@ -3304,6 +3313,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     private class HatterComboListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
 
@@ -3705,6 +3715,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     private class DeckComboListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         String command = commands.get(cb.getSelectedIndex());
@@ -3967,6 +3978,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     private class TerminalEnhanceComboListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         String command = commands.get(cb.getSelectedIndex());
@@ -4043,6 +4055,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     private class TerminalEnquiryComboListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         String command = commands.get(cb.getSelectedIndex());
@@ -4134,6 +4147,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     private class TerminalExtrudeComboListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         String command = commands.get(cb.getSelectedIndex());
@@ -4216,6 +4230,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     private class TerminalEducateComboListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         String command = commands.get(cb.getSelectedIndex());

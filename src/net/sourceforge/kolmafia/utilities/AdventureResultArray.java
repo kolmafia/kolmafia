@@ -21,6 +21,7 @@ public class AdventureResultArray implements Iterable<AdventureResult> {
     this.internalList = new ArrayList<>(data);
   }
 
+  @Override
   public Iterator<AdventureResult> iterator() {
     return this.internalList.iterator();
   }

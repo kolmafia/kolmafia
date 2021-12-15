@@ -1134,6 +1134,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
    * Executes the appropriate <code>GenericRequest</code> for the adventure encapsulated by this
    * <code>KoLAdventure</code>.
    */
+  @Override
   public void run() {
     if (RecoveryManager.isRecoveryPossible() && !RecoveryManager.runThresholdChecks()) {
       return;
@@ -2349,6 +2350,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         : KoLCharacter.getCurrentRun() + 1;
   }
 
+  @Override
   public int compareTo(final KoLAdventure o) {
     if (!(o instanceof KoLAdventure)) {
       return 1;

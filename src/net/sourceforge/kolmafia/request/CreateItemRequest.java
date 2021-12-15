@@ -110,6 +110,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     return this.yield;
   }
 
+  @Override
   public void reconstructFields() {
     String formSource = "craft.php";
     String action = "craft";
@@ -377,6 +378,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     return this.name != null ? this.name.toLowerCase().hashCode() : 0;
   }
 
+  @Override
   public int compareTo(final CreateItemRequest o) {
     return o == null ? -1 : this.getName().compareToIgnoreCase(o.getName());
   }
@@ -1020,6 +1022,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     Arrays.sort(
         ingredients,
         new Comparator<AdventureResult>() {
+          @Override
           public int compare(AdventureResult o1, AdventureResult o2) {
             Concoction left = ConcoctionPool.get(o1);
             if (left == null) return -1;

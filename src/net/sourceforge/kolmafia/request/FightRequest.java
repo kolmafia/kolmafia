@@ -7781,6 +7781,7 @@ public class FightRequest extends GenericRequest {
         && !FightRequest.choiceFollowsFight) {
       Runnable initializeRunner =
           new Runnable() {
+            @Override
             public void run() {
               LoginManager.login(KoLCharacter.getUserName());
               FightRequest.initializeAfterFight = false;

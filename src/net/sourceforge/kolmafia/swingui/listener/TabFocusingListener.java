@@ -10,6 +10,7 @@ public class TabFocusingListener implements ChangeListener {
     super();
   }
 
+  @Override
   public void stateChanged(final ChangeEvent e) {
     JTabbedPane pane = (JTabbedPane) e.getSource();
     JComponent selected = (JComponent) pane.getSelectedComponent();

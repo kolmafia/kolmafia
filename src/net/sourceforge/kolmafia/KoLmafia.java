@@ -1831,6 +1831,7 @@ public abstract class KoLmafia {
   }
 
   private static class UpdateCheckRunnable implements Runnable {
+    @Override
     public void run() {
       // TODO: Check for new version on jenkins\github after migration is complete. See revision
       // history for old release update check.
@@ -1872,6 +1873,7 @@ public abstract class KoLmafia {
   }
 
   private static class QuitRunnable implements Runnable {
+    @Override
     public void run() {
       LogoutManager.logout();
 
@@ -1906,6 +1908,7 @@ public abstract class KoLmafia {
   }
 
   private static class PreferencesRunnable implements Runnable {
+    @Override
     public void run() {
       KoLmafiaGUI.constructFrame("OptionsFrame");
     }
