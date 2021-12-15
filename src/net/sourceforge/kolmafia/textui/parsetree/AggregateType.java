@@ -149,12 +149,12 @@ public class AggregateType extends CompositeType {
 
   @Override
   public AggregateType reference(final Location location) {
-    return new AggregateTypeReference(location);
+    return new AggregateTypeReference(this, location);
   }
 
   private class AggregateTypeReference extends AggregateType {
-    public AggregateTypeReference(final Location location) {
-      super(AggregateType.this, location);
+    private AggregateTypeReference(final AggregateType aggregateType, final Location location) {
+      super(aggregateType, location);
     }
 
     @Override

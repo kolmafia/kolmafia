@@ -18,12 +18,12 @@ public class VarArgType extends AggregateType {
 
   @Override
   public VarArgType reference(final Location location) {
-    return new VarArgTypeReference(location);
+    return new VarArgTypeReference(this, location);
   }
 
   private class VarArgTypeReference extends VarArgType {
-    public VarArgTypeReference(final Location location) {
-      super(VarArgType.this.dataType, location);
+    private VarArgTypeReference(final VarArgType varArgType, final Location location) {
+      super(varArgType.dataType, location);
     }
 
     @Override

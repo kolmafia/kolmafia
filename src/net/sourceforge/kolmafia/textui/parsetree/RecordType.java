@@ -188,7 +188,7 @@ public class RecordType extends CompositeType {
   }
 
   private class RecordTypeReference extends RecordType {
-    public RecordTypeReference(final RecordType recordType, final Location location) {
+    private RecordTypeReference(final RecordType recordType, final Location location) {
       super(
           recordType.name,
           recordType.fieldNames,
