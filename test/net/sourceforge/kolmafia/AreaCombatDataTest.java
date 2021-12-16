@@ -3,12 +3,15 @@ package net.sourceforge.kolmafia;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+import java.io.File;
 import java.util.Map;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +38,14 @@ public class AreaCombatDataTest {
     Preferences.reset("fakeUsername");
   }
 
+  @AfterAll
+  public static void deleteQueueFile() {
+    File queueF = new File(KoLConstants.DATA_LOCATION, "fakeusername_queue.ser");
+    if (queueF.exists()) {
+      queueF.delete();
+    }
+  }
+
   @Test
   public void nonstatefulData() {
     Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData();
@@ -58,8 +69,9 @@ public class AreaCombatDataTest {
     Preferences.setInteger("_saberForceMonsterCount", 3);
 
     // Should override a crystal ball prediction
-    Preferences.setString("crystalBallMonster", "smut orc jacker");
-    Preferences.setString("crystalBallLocation", SMUT_ORC_CAMP.getZone());
+    Preferences.setString(
+        "crystalBallPredictions", "0:" + SMUT_ORC_CAMP.getZone() + ":smut orc jacker");
+    CrystalBallManager.reset();
 
     Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
 
@@ -78,8 +90,9 @@ public class AreaCombatDataTest {
 
   @Test
   public void crystalBallPrediction() {
-    Preferences.setString("crystalBallMonster", "smut orc nailer");
-    Preferences.setString("crystalBallLocation", SMUT_ORC_CAMP.getZone());
+    Preferences.setString(
+        "crystalBallPredictions", "0:" + SMUT_ORC_CAMP.getZone() + ":smut orc nailer");
+    CrystalBallManager.reset();
 
     Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
 
@@ -98,8 +111,9 @@ public class AreaCombatDataTest {
 
   @Test
   public void crystalBallPredictionWhenNCIsUp() {
-    Preferences.setString("crystalBallMonster", "smut orc nailer");
-    Preferences.setString("crystalBallLocation", SMUT_ORC_CAMP.getZone());
+    Preferences.setString(
+        "crystalBallPredictions", "0:" + SMUT_ORC_CAMP.getZone() + ":smut orc nailer");
+    CrystalBallManager.reset();
     Preferences.setInteger("smutOrcNoncombatProgress", 15);
 
     Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);

@@ -6786,6 +6786,7 @@ Effect	Sauce Monocle	Spell Critical Percent: [5+10*class(Sauceror)]
 Effect	Saucefingers	Spell Damage Percent: +50
 Effect	Saucegoggles	MP Regen Min: 8, MP Regen Max: 10
 Effect	Saucemastery	Maximum HP: +3, Mysticality: +1
+Effect	Sauna-Fresh	Muscle: +100, Mysticality: +100, Moxie: +100, Cold Resistance: +5
 # Sausage Festive: Regenerate 5-10 HP/MP per Adventure
 Effect	Sausage Festive	HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 Effect	Savage Beast Inside	Muscle: +20

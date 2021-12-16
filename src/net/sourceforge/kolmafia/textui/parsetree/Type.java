@@ -510,12 +510,12 @@ public class Type extends Symbol {
    * @param location the location of the reference
    */
   public Type reference(final Location location) {
-    return new TypeReference(location);
+    return new TypeReference(this, location);
   }
 
   private class TypeReference extends Type {
-    public TypeReference(final Location location) {
-      super(Type.this.name, Type.this.type, location);
+    private TypeReference(final Type type, final Location location) {
+      super(type.name, type.type, location);
     }
 
     @Override

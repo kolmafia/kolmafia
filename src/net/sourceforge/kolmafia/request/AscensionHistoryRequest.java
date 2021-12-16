@@ -164,7 +164,7 @@ public class AscensionHistoryRequest extends GenericRequest
     for (Entry<AscensionClass, Integer> entry : challengeClassPoints.entrySet()) {
       int points = entry.getValue();
 
-      String pref = null;
+      final String pref;
 
       switch (entry.getKey()) {
         case COWPUNCHER:
@@ -176,10 +176,8 @@ public class AscensionHistoryRequest extends GenericRequest
         case SNAKE_OILER:
           pref = "awolPointsSnakeoiler";
           break;
-      }
-
-      if (pref == null) {
-        continue;
+        default:
+          continue;
       }
 
       if (points > Preferences.getInteger(pref)) {

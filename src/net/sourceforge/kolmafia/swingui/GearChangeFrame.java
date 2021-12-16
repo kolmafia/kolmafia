@@ -1204,8 +1204,9 @@ public class GearChangeFrame extends GenericFrame {
         return this.weaponTypes[1].isSelected();
       case RANGED:
         return this.weaponTypes[2].isSelected();
+      default:
+        return false;
     }
-    return false;
   }
 
   private boolean filterOffhand(final AdventureResult offhand, int consumption) {

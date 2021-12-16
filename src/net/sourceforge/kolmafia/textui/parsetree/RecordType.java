@@ -83,7 +83,7 @@ public class RecordType extends CompositeType {
     Value value = key instanceof Value.Constant ? ((Value.Constant) key).value : (Value) key;
     int index = this.indexOf(value);
     if (index < 0 || index >= this.fieldTypes.length) {
-      return null;
+      return new BadType(null, null);
     }
     return this.fieldTypes[index];
   }
@@ -184,16 +184,16 @@ public class RecordType extends CompositeType {
 
   @Override
   public RecordType reference(final Location location) {
-    return new RecordTypeReference(location);
+    return new RecordTypeReference(this, location);
   }
 
   private class RecordTypeReference extends RecordType {
-    public RecordTypeReference(final Location location) {
+    private RecordTypeReference(final RecordType recordType, final Location location) {
       super(
-          RecordType.this.name,
-          RecordType.this.fieldNames,
-          RecordType.this.fieldTypes,
-          RecordType.this.fieldIndices,
+          recordType.name,
+          recordType.fieldNames,
+          recordType.fieldTypes,
+          recordType.fieldIndices,
           location);
     }
 

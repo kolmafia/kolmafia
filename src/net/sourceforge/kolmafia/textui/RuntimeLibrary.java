@@ -93,6 +93,7 @@ import net.sourceforge.kolmafia.persistence.FaxBotDatabase.FaxBot;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -4877,11 +4878,10 @@ public abstract class RuntimeLibrary {
         }
       }
     } else if (which.equals("fold")) {
-      List list = ItemDatabase.getFoldGroup(item.toString());
+      FoldGroup list = ItemDatabase.getFoldGroup(item.toString());
       if (list == null) return value;
-      // Don't use element 0, that's the damage percentage
-      for (int i = list.size() - 1; i > 0; --i) {
-        value.aset(DataTypes.parseItemValue((String) list.get(i), true), new Value(i));
+      for (int i = list.names.size() - 1; i >= 0; --i) {
+        value.aset(DataTypes.parseItemValue(list.names.get(i), true), new Value(i + 1));
       }
     } else if (which.equals("pulverize")) { // All values scaled up by one million
       int pulver = EquipmentDatabase.getPulverization((int) item.intValue());
@@ -8474,8 +8474,9 @@ public abstract class RuntimeLibrary {
         return new Value(DataTypes.ELEMENT_TYPE, "spooky", element);
       case SLEAZE:
         return new Value(DataTypes.ELEMENT_TYPE, "sleaze", element);
+      default:
+        return DataTypes.ELEMENT_INIT;
     }
-    return DataTypes.ELEMENT_INIT;
   }
 
   public static Value unusual_construct_disc(ScriptRuntime controller) {

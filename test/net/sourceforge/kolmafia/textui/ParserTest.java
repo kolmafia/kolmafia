@@ -1,9 +1,12 @@
 package net.sourceforge.kolmafia.textui;
 
+import static org.eclipse.lsp4j.DiagnosticSeverity.Error;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,28 +27,36 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class ParserTest {
 
   public static void testScriptValidity(ScriptData script) {
+    final Scope scope = script.parser.parse();
+
+    String firstError = null;
+    for (Parser.AshDiagnostic diagnostic : script.parser.getDiagnostics()) {
+      if (diagnostic.severity == Error) {
+        firstError = diagnostic.toString();
+        break;
+      }
+    }
+
     if (script instanceof InvalidScriptData) {
-      testInvalidScript((InvalidScriptData) script);
+      testInvalidScript((InvalidScriptData) script, scope, firstError);
       return;
     }
 
-    testValidScript((ValidScriptData) script);
+    testValidScript((ValidScriptData) script, scope, firstError);
   }
 
-  private static void testInvalidScript(final InvalidScriptData script) {
-    ScriptException e = assertThrows(ScriptException.class, script.parser::parse, script.desc);
-    assertThat(script.desc, e.getMessage(), startsWith(script.errorText));
+  private static void testInvalidScript(
+      final InvalidScriptData script, final Scope scope, final String error) {
+    assertThat(script.desc, error, startsWith(script.errorText));
 
     if (script.errorLocationString != null) {
-      assertThat(script.desc, e.getMessage(), endsWith(" (" + script.errorLocationString + ")"));
+      assertThat(script.desc, error, containsString(" (" + script.errorLocationString + ")"));
     }
   }
 
-  private static void testValidScript(final ValidScriptData script) {
-    final Scope scope;
-
-    // This will fail if an exception is thrown.
-    scope = script.parser.parse();
+  private static void testValidScript(
+      final ValidScriptData script, final Scope scope, final String error) {
+    assertNull(error, script.desc);
     assertEquals(script.tokens, getTokensContents(script.parser), script.desc);
     assertEquals(script.positions, getTokensPositions(script.parser), script.desc);
 
@@ -82,6 +93,35 @@ public class ParserTest {
     }
 
     assertEquals(expectedRange, actualRange);
+  }
+
+  @Test
+  public void testMultipleDiagnosticsPerParser() {
+    final String script =
+        "import fake/path"
+            + "\nstring foobar(string... foo, int bar) {"
+            + "\n    continue;"
+            + "\n}";
+    final ByteArrayInputStream istream =
+        new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8));
+    final Parser parser = new Parser(null, istream, null);
+
+    parser.parse();
+
+    final List<Parser.AshDiagnostic> diagnostics = parser.getDiagnostics();
+    assertEquals(4, diagnostics.size());
+
+    assertEquals("fake/path could not be found", diagnostics.get(0).message);
+    ParserTest.assertLocationEquals(1, 1, 1, 17, diagnostics.get(0).location);
+
+    assertEquals("The vararg parameter must be the last one", diagnostics.get(1).message);
+    ParserTest.assertLocationEquals(2, 30, 2, 33, diagnostics.get(1).location);
+
+    assertEquals("Encountered 'continue' outside of loop", diagnostics.get(2).message);
+    ParserTest.assertLocationEquals(3, 5, 3, 13, diagnostics.get(2).location);
+
+    assertEquals("Missing return value", diagnostics.get(3).message);
+    ParserTest.assertLocationEquals(2, 8, 2, 38, diagnostics.get(3).location);
   }
 
   public static Stream<Arguments> mergeLocationsData() {

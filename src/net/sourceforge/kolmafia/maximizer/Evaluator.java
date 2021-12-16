@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -2174,7 +2175,7 @@ public class Evaluator {
 
           // If we only need as many fold items as we have, then we can
           // count them against the items we need to pass through
-          List group = ItemDatabase.getFoldGroup(item.getName());
+          FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
           int foldItemsNeeded = 0;
           if (group != null && Preferences.getBoolean("maximizerFoldables")) {
             foldItemsNeeded += Math.max(item.getCount(), this.maxUseful(slot));
@@ -2183,8 +2184,8 @@ public class Evaluator {
               List<CheckedItem> checkItemList = automatic.get(checkSlot);
               if (checkItemList != null) {
                 for (CheckedItem checkItem : checkItemList) {
-                  List checkGroup = ItemDatabase.getFoldGroup(checkItem.getName());
-                  if (checkGroup != null && group.get(1).equals(checkGroup.get(1))) {
+                  FoldGroup checkGroup = ItemDatabase.getFoldGroup(checkItem.getName());
+                  if (checkGroup != null && group.names.get(0).equals(checkGroup.names.get(0))) {
                     foldItemsNeeded += Math.max(checkItem.getCount(), this.maxUseful(checkSlot));
                   }
                 }
@@ -2199,8 +2200,8 @@ public class Evaluator {
               int usefulCheckCount = this.maxUseful(checkSlot);
               while (checkIterator.hasPrevious()) {
                 CheckedItem checkItem = checkIterator.previous().attachment;
-                List checkGroup = ItemDatabase.getFoldGroup(checkItem.getName());
-                if (checkGroup != null && group.get(1).equals(checkGroup.get(1))) {
+                FoldGroup checkGroup = ItemDatabase.getFoldGroup(checkItem.getName());
+                if (checkGroup != null && group.names.get(0).equals(checkGroup.names.get(0))) {
                   if (usefulCheckCount > 0 || checkItem.requiredFlag) {
                     foldItemsNeeded += Math.max(checkItem.getCount(), this.maxUseful(checkSlot));
                   }

@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -13,6 +12,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -55,13 +55,13 @@ public class FoldItemCommand extends AbstractCommand {
 
     // Find the fold group containing this item
     String targetName = target.getName();
-    List group = ItemDatabase.getFoldGroup(targetName);
+    FoldGroup group = ItemDatabase.getFoldGroup(targetName);
     if (group == null) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "That's not a transformable item!");
       return;
     }
 
-    String groupHead = (String) group.get(1);
+    String groupHead = group.names.get(0);
     String canon = StringUtilities.getCanonicalName(targetName);
 
     // Confirm that we'll be able to make this item
@@ -86,10 +86,10 @@ public class FoldItemCommand extends AbstractCommand {
     }
 
     // Locate the item in the fold group
-    int groupSize = group.size();
-    int targetIndex = 0;
-    for (int i = 1; i < groupSize; ++i) {
-      String form = (String) group.get(i);
+    int groupSize = group.names.size();
+    int targetIndex = -1;
+    for (int i = 0; i < groupSize; ++i) {
+      String form = group.names.get(i);
       if (form.equals(canon)) {
         targetIndex = i;
         break;
@@ -97,15 +97,14 @@ public class FoldItemCommand extends AbstractCommand {
     }
 
     // Sanity check
-    if (targetIndex == 0) {
+    if (targetIndex == -1) {
       KoLmafia.updateDisplay(
           MafiaState.ERROR, "Internal error: cannot find " + targetName + " in fold group");
       return;
     }
 
-    // Iterate backwards to find closest item to transform. Skip
-    // index 0.
-    int sourceIndex = (targetIndex > 1) ? targetIndex - 1 : groupSize - 1;
+    // Iterate backwards to find closest item to transform.
+    int sourceIndex = (targetIndex > 0) ? targetIndex - 1 : groupSize - 1;
     AdventureResult source = null;
     AdventureResult worn = null;
     int wornIndex = 0;
@@ -113,7 +112,7 @@ public class FoldItemCommand extends AbstractCommand {
     boolean multiple = false;
 
     while (sourceIndex != targetIndex) {
-      String form = (String) group.get(sourceIndex);
+      String form = group.names.get(sourceIndex);
       int itemId = ItemDatabase.getItemId(form);
       AdventureResult item = ItemPool.get(itemId);
 
@@ -135,8 +134,8 @@ public class FoldItemCommand extends AbstractCommand {
         }
       }
 
-      // Consider the next item. Skip index 0.
-      sourceIndex = sourceIndex > 1 ? sourceIndex - 1 : groupSize - 1;
+      // Consider the next item.
+      sourceIndex = sourceIndex > 0 ? sourceIndex - 1 : groupSize - 1;
     }
 
     // If a Boris's Helm is equipped, twist it regardless of whether or not
@@ -284,24 +283,24 @@ public class FoldItemCommand extends AbstractCommand {
 
       GenericRequest choiceRequest = new GenericRequest("choice.php");
       choiceRequest.addFormField("whichchoice", "1275");
-      choiceRequest.addFormField("option", String.valueOf(targetIndex - 1));
+      choiceRequest.addFormField("option", String.valueOf(targetIndex));
       choiceRequest.addFormField("pwd", GenericRequest.passwordHash);
       RequestThread.postRequest(choiceRequest);
 
       return;
     }
 
-    long damage = ((Integer) group.get(0)).intValue();
+    long damage = group.damage;
     damage = damage == 0 ? 0 : KoLCharacter.getMaximumHP() * damage / 100 + 2;
 
     // Fold repeatedly until target is obtained
     while (sourceIndex != targetIndex) {
-      String form = (String) group.get(sourceIndex);
+      String form = group.names.get(sourceIndex);
       int itemId = ItemDatabase.getItemId(form);
       AdventureResult item = ItemPool.get(itemId);
 
-      // Consider the next item. Skip index 0.
-      sourceIndex = (sourceIndex < groupSize - 1) ? sourceIndex + 1 : 1;
+      // Consider the next item.
+      sourceIndex = (sourceIndex < groupSize - 1) ? sourceIndex + 1 : 0;
 
       // If we don't have this item in inventory,  skip
       if (item.getCount(KoLConstants.inventory) == 0) {

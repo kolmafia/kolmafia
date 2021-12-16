@@ -10833,7 +10833,7 @@
 10805	eggwater	957157057	emptycup.gif	food	t	0
 10806	bread man	340392384	breadman.gif	food	t	0
 10807	plain candy cane	694467495	candychalk.gif	food	t	0
-10808
+10808	flour cookie	395767899	flourcookie.gif	food	t,d	5
 10809
 10810
 10811
@@ -10864,3 +10864,11 @@
 10836	anti-creep cream	776583266	creamtube.gif	potion, usable	t,d	10
 10837	anti-pain cream	646241186	creamtube.gif	potion, usable	t,d	10
 10838	Doc's Special Reserve Wine	510170168	rxwine.gif	drink	t,d	10
+10839	bread pie	734136895	pie.gif	food	t,d	5
+10840	clear Russian	276019932	whitedrink.gif	drink	t,d	5
+10842	white Crimbo ball	465562412	crimball_white.gif	none	t	0
+10843	black Crimbo ball	720352210	crimball_black.gif	none	t	0
+10844	gooified animal matter	770996300	goo_org.gif	none	t	0
+10845	gooified vegetable matter	352079501	goo_veg.gif	none	t	0
+10846
+10847	[experimental crimbo food]	268310979	confused.gif	food	q	11

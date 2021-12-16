@@ -2176,6 +2176,13 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     {
       "That isn't a place you can go\\.", "You can't get there from here.",
     },
+
+    // Site Alpha Dormitory
+    //
+    // It's getting colder! Better bundle up.
+    {
+      "Better bundle up", "You need more cold resistance.",
+    },
   };
 
   public static final int findAdventureFailure(String responseText) {

@@ -2182,6 +2182,10 @@ wild moose	2101	c18moose.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 E: cold 
 wild beaver	2102	c18beaver.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 E: cold P: beast Meat: 150	beavermouth (10)	portable dam (c0)
 wild reindeer	2103	c18reindeer.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 E: cold P: beast Meat: 150
 
+# Crimbo 2021
+gooified elf-thing	2221	goo_elf1.gif,goo_elf2.gif,goo_elf3.gif	Atk: 130 Def: 130 HP: 150 Init: 100 P: elf	gooified animal matter	gooified animal matter
+gooified dog-thing	2222	goo_dog.gif	Atk: 150 Def: 150 HP: 200 Init: 200 P: beast	gooified animal matter	gooified animal matter	gooified animal matter
+
 # Old Events
 
 # White Wednesday (October 26, 2005)

@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -327,13 +328,13 @@ public class MaximizerSpeculation extends Speculation
         if (item.equals(this.equipment[EquipmentManager.PANTS])) {
           --count;
         }
-        List group = ItemDatabase.getFoldGroup(item.getName());
+        FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
         if (group != null && this.foldables) {
-          String groupName = (String) group.get(1);
+          String groupName = group.names.get(0);
           for (int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot) {
             if (slot != EquipmentManager.FAMILIAR && this.equipment[slot] != null) {
-              List groupEquipped = ItemDatabase.getFoldGroup(this.equipment[slot].getName());
-              if (groupEquipped != null && groupName.equals(groupEquipped.get(1))) {
+              FoldGroup groupEquipped = ItemDatabase.getFoldGroup(this.equipment[slot].getName());
+              if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
                 --count;
               }
             }
@@ -369,13 +370,13 @@ public class MaximizerSpeculation extends Speculation
       for (int pos = 0; pos < possible.size(); ++pos) {
         AdventureResult item = possible.get(pos);
         int count = item.getCount();
-        List group = ItemDatabase.getFoldGroup(item.getName());
+        FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
         if (group != null && this.foldables) {
-          String groupName = (String) group.get(1);
+          String groupName = group.names.get(0);
           for (int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot) {
             if (slot != EquipmentManager.CONTAINER && this.equipment[slot] != null) {
-              List groupEquipped = ItemDatabase.getFoldGroup(this.equipment[slot].getName());
-              if (groupEquipped != null && groupName.equals(groupEquipped.get(1))) {
+              FoldGroup groupEquipped = ItemDatabase.getFoldGroup(this.equipment[slot].getName());
+              if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
                 --count;
               }
             }
@@ -439,13 +440,13 @@ public class MaximizerSpeculation extends Speculation
         if (item.equals(this.equipment[EquipmentManager.ACCESSORY3])) {
           --count;
         }
-        List group = ItemDatabase.getFoldGroup(item.getName());
+        FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
         if (group != null && this.foldables) {
-          String groupName = (String) group.get(1);
+          String groupName = group.names.get(0);
           for (int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot) {
             if (this.equipment[slot] != null) {
-              List groupEquipped = ItemDatabase.getFoldGroup(this.equipment[slot].getName());
-              if (groupEquipped != null && groupName.equals(groupEquipped.get(1))) {
+              FoldGroup groupEquipped = ItemDatabase.getFoldGroup(this.equipment[slot].getName());
+              if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
                 --count;
               }
             }
@@ -507,13 +508,13 @@ public class MaximizerSpeculation extends Speculation
         if (item.equals(this.equipment[EquipmentManager.FAMILIAR])) {
           --count;
         }
-        List group = ItemDatabase.getFoldGroup(item.getName());
+        FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
         if (group != null && this.foldables) {
-          String groupName = (String) group.get(1);
+          String groupName = group.names.get(0);
           for (int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot) {
             if (slot != EquipmentManager.HAT && this.equipment[slot] != null) {
-              List groupEquipped = ItemDatabase.getFoldGroup(this.equipment[slot].getName());
-              if (groupEquipped != null && groupName.equals(groupEquipped.get(1))) {
+              FoldGroup groupEquipped = ItemDatabase.getFoldGroup(this.equipment[slot].getName());
+              if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
                 --count;
               }
             }
@@ -566,13 +567,13 @@ public class MaximizerSpeculation extends Speculation
           if (item.equals(this.equipment[EquipmentManager.FAMILIAR])) {
             --count;
           }
-          List group = ItemDatabase.getFoldGroup(item.getName());
+          FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
           if (group != null && this.foldables) {
-            String groupName = (String) group.get(1);
+            String groupName = group.names.get(0);
             for (int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot) {
               if (slot != EquipmentManager.SHIRT && this.equipment[slot] != null) {
-                List groupEquipped = ItemDatabase.getFoldGroup(this.equipment[slot].getName());
-                if (groupEquipped != null && groupName.equals(groupEquipped.get(1))) {
+                FoldGroup groupEquipped = ItemDatabase.getFoldGroup(this.equipment[slot].getName());
+                if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
                   --count;
                 }
               }
@@ -606,13 +607,13 @@ public class MaximizerSpeculation extends Speculation
         if (item.equals(this.equipment[EquipmentManager.FAMILIAR])) {
           --count;
         }
-        List group = ItemDatabase.getFoldGroup(item.getName());
+        FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
         if (group != null && this.foldables) {
-          String groupName = (String) group.get(1);
+          String groupName = group.names.get(0);
           for (int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot) {
             if (slot != EquipmentManager.PANTS && this.equipment[slot] != null) {
-              List groupEquipped = ItemDatabase.getFoldGroup(this.equipment[slot].getName());
-              if (groupEquipped != null && groupName.equals(groupEquipped.get(1))) {
+              FoldGroup groupEquipped = ItemDatabase.getFoldGroup(this.equipment[slot].getName());
+              if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
                 --count;
               }
             }
@@ -685,13 +686,13 @@ public class MaximizerSpeculation extends Speculation
         if (item.equals(this.equipment[EquipmentManager.FAMILIAR])) {
           --count;
         }
-        List group = ItemDatabase.getFoldGroup(item.getName());
+        FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
         if (group != null && this.foldables) {
-          String groupName = (String) group.get(1);
+          String groupName = group.names.get(0);
           for (int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot) {
             if (slot != EquipmentManager.WEAPON && this.equipment[slot] != null) {
-              List groupEquipped = ItemDatabase.getFoldGroup(this.equipment[slot].getName());
-              if (groupEquipped != null && groupName.equals(groupEquipped.get(1))) {
+              FoldGroup groupEquipped = ItemDatabase.getFoldGroup(this.equipment[slot].getName());
+              if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
                 --count;
               }
             }
@@ -754,13 +755,13 @@ public class MaximizerSpeculation extends Speculation
         if (item.equals(this.equipment[EquipmentManager.FAMILIAR])) {
           --count;
         }
-        List group = ItemDatabase.getFoldGroup(item.getName());
+        FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
         if (group != null && this.foldables) {
-          String groupName = (String) group.get(1);
+          String groupName = group.names.get(0);
           for (int slot = 0; slot < EquipmentManager.ALL_SLOTS; ++slot) {
             if (slot != EquipmentManager.OFFHAND && this.equipment[slot] != null) {
-              List groupEquipped = ItemDatabase.getFoldGroup(this.equipment[slot].getName());
-              if (groupEquipped != null && groupName.equals(groupEquipped.get(1))) {
+              FoldGroup groupEquipped = ItemDatabase.getFoldGroup(this.equipment[slot].getName());
+              if (groupEquipped != null && groupName.equals(groupEquipped.names.get(0))) {
                 --count;
               }
             }

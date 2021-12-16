@@ -309,6 +309,8 @@ Tammy's Offshore Platform	adventure=536	Env: underwater Stat: 0	Gingerbread Reef
 Tammy's Offshore Platform	adventure=537	Env: underwater Stat: 0	The Wreck of the H. M. S. Kringle
 Tammy's Offshore Platform	adventure=538	Env: underwater Stat: 0	The Impenetrable Kelp-Holly Forest
 
+Crimbo21	adventure=554	Env: indoor Stat: 0	Site Alpha Dormitory
+
 Crimbo18	adventure=529	Env: outdoor Stat: 0	The Canadian Wildlife Preserve
 
 Crimbo17	adventure=497	Env: indoor Stat: 0 nowander	The Cheerless Spire (Level 1)

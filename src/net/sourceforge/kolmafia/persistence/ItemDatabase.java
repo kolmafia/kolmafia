@@ -65,7 +65,7 @@ public class ItemDatabase {
   private static final Map<String, Integer> itemIdByPlural = new HashMap<String, Integer>();
 
   private static final Map<String, Integer> itemIdByDescription = new HashMap<String, Integer>();
-  private static final Map<String, List<Comparable>> foldGroupsByName = new HashMap<>();
+  private static final Map<String, FoldGroup> foldGroupsByName = new HashMap<>();
 
   private static final Map<Integer, int[]> itemSourceByNoobSkillId = new HashMap<Integer, int[]>();
   private static final IntegerArray noobSkillIdByItemSource = new IntegerArray();
@@ -541,6 +541,16 @@ public class ItemDatabase {
         + (plural == null || plural.equals("") ? "" : "\t" + plural);
   }
 
+  public static class FoldGroup {
+    public final int damage;
+    public final List<String> names;
+
+    private FoldGroup(final int damage, final List<String> names) {
+      this.damage = damage;
+      this.names = names;
+    }
+  }
+
   private static void readFoldGroups() {
     BufferedReader reader =
         FileUtilities.getVersionedReader("foldgroups.txt", KoLConstants.FOLDGROUPS_VERSION);
@@ -551,8 +561,9 @@ public class ItemDatabase {
         continue;
       }
 
-      ArrayList<Comparable> group = new ArrayList<Comparable>();
-      group.add(IntegerPool.get(StringUtilities.parseInt(data[0])));
+      int damage = StringUtilities.parseInt(data[0]);
+      ArrayList<String> names = new ArrayList<>();
+      FoldGroup group = new FoldGroup(damage, names);
       for (int i = 1; i < data.length; ++i) {
         String name = StringUtilities.getCanonicalName(data[i]);
         if (ItemDatabase.itemIdSetByName.get(name) == null) {
@@ -560,9 +571,9 @@ public class ItemDatabase {
           continue;
         }
         ItemDatabase.foldGroupsByName.put(name, group);
-        group.add(name);
+        names.add(name);
       }
-      group.trimToSize();
+      names.trimToSize();
     }
 
     try {
@@ -1536,7 +1547,7 @@ public class ItemDatabase {
     return JComponentUtilities.getImage(path);
   }
 
-  public static final List<Comparable> getFoldGroup(final String name) {
+  public static final FoldGroup getFoldGroup(final String name) {
     if (name == null) {
       return null;
     }

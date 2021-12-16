@@ -918,6 +918,12 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    if ((request instanceof Crimbo21TreeRequest || isExternal)
+        && Crimbo21TreeRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     if ((request instanceof CrimboCartelRequest || isExternal)
         && CrimboCartelRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
