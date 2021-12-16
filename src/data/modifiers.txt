@@ -420,6 +420,7 @@ Item	psychic's circlet	Adventures: +3, MP Regen Min: 3, MP Regen Max: 6
 Item	pumpkinhead mask	Familiar Effect: "1xVolley, 8xLep, cap 2"
 Item	radiation-resistant helmet	Item Drop: -10, Familiar Effect: "1xFairy, cap 12"
 Item	Radio Free Baseball Cap	Moxie: +20, Familiar Effect: "1xLep, 1xFairy, cap 37"
+Item    raisin meringue pizza   Effect: "Preemptive Medicine", Effect Duration: 13
 Item	raspberry beret	Hot Resistance: +2, Familiar Effect: "2xPotato, 2xLep, cap 12"
 Item	ratty knitted cap	Sleaze Damage: +15, Sleaze Spell Damage: +15
 Item	rave visor	Maximum MP: +20, Raveosity: +2, Familiar Effect: "1xVolley, 1.5xPotato, cap 37"
