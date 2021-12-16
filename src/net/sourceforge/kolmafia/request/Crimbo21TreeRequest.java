@@ -45,7 +45,7 @@ public class Crimbo21TreeRequest extends GenericRequest {
 
         String action = GenericRequest.getAction(location);
 
-        if (action == "j") {
+        if ("j".equals(action)) {
             ResultProcessor.processResult(getAmmo(location));
         }
     }
@@ -60,7 +60,7 @@ public class Crimbo21TreeRequest extends GenericRequest {
         String action = GenericRequest.getAction(urlString);
         String message = null;
 
-        if (action != "j") {
+        if (!"j".equals(action)) {
             AdventureResult item = getAmmo(urlString);
             message = "Throwing " + (item == null ? "something" : item.getName()) + " at the Crimbo tree";
         }
