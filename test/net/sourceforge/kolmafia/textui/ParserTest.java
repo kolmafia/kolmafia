@@ -56,7 +56,7 @@ public class ParserTest {
       for (final String forbiddenError :
           ((InvalidScriptDataWithErrorFilterTest) script).forbiddenErrors) {
         assertFalse(
-            errors.contains(forbiddenError),
+            errors.stream().anyMatch(error -> error.startsWith(forbiddenError)),
             script.desc
                 + KoLConstants.LINE_BREAK
                 + String.join(KoLConstants.LINE_BREAK, errors)
