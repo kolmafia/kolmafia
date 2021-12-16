@@ -55,14 +55,22 @@ public class ParserTest {
     if (script instanceof InvalidScriptDataWithErrorFilterTest) {
       for (final String forbiddenError :
           ((InvalidScriptDataWithErrorFilterTest) script).forbiddenErrors) {
-        assertFalse(
-            errors.stream().anyMatch(error -> error.startsWith(forbiddenError)),
-            script.desc
-                + KoLConstants.LINE_BREAK
-                + String.join(KoLConstants.LINE_BREAK, errors)
-                + KoLConstants.LINE_BREAK
-                + "should not contain "
-                + forbiddenError);
+        if (errors.stream().anyMatch(error -> error.startsWith(forbiddenError))) {
+          fail(
+              script.desc
+                  + KoLConstants.LINE_BREAK
+                  + "The generated list of errors"
+                  + KoLConstants.LINE_BREAK
+                  + "["
+                  + KoLConstants.LINE_BREAK
+                  + "  "
+                  + String.join("," + KoLConstants.LINE_BREAK + "  ", errors)
+                  + KoLConstants.LINE_BREAK
+                  + "]"
+                  + KoLConstants.LINE_BREAK
+                  + "should not contain "
+                  + forbiddenError);
+        }
       }
     }
   }
