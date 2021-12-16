@@ -4773,75 +4773,6 @@ public class Parser {
     }
   }
 
-  private ScriptException parseException(final String expected, final Token found) {
-    String foundString = found.content;
-
-    if (found.getLine().content == null) {
-      foundString = "end of file";
-    }
-
-    return this.parseException(found, "Expected " + expected + ", found " + foundString);
-  }
-
-  private ScriptException parseException(final String message) {
-    return this.parseException(this.getCurrentPosition(), message);
-  }
-
-  private ScriptException parseException(final Position start, final String message) {
-    return this.parseException(this.rangeToHere(start), message);
-  }
-
-  private ScriptException parseException(final Range range, final String message) {
-    return this.parseException(this.makeLocation(range), message);
-  }
-
-  private ScriptException parseException(final Range start, final Range end, final String message) {
-    return this.parseException(Parser.mergeRanges(start, end), message);
-  }
-
-  private ScriptException parseException(Location location, final String message) {
-    if (location == null) {
-      location = this.makeZeroWidthLocation();
-    }
-
-    return new ScriptException(
-        message + " (" + Parser.getFileAndRange(this.shortFileName, location.getRange()) + ")");
-  }
-
-  private ScriptException undefinedFunctionException(
-      final Token name, final List<Evaluable> params) {
-    return this.parseException(name, Parser.undefinedFunctionMessage(name.content, params));
-  }
-
-  private ScriptException multiplyDefinedFunctionException(final Function f) {
-    String buffer = "Function '" + f.getSignature() + "' defined multiple times.";
-    return this.parseException(f.getLocation(), buffer);
-  }
-
-  private ScriptException overridesLibraryFunctionException(final Function f) {
-    String buffer = "Function '" + f.getSignature() + "' overrides a library function.";
-    return this.parseException(f.getLocation(), buffer);
-  }
-
-  private ScriptException varargClashException(final Function f, final Function clash) {
-    String buffer =
-        "Function '"
-            + f.getSignature()
-            + "' clashes with existing function '"
-            + clash.getSignature()
-            + "'.";
-    return this.parseException(f.getLocation(), buffer);
-  }
-
-  public final ScriptException sinceException(
-      final String current, final String target, final Range directiveRange) {
-    String template =
-        "'%s' requires revision r%s of kolmafia or higher (current: r%s).  Up-to-date builds can be found at https://ci.kolmafia.us/.";
-
-    return this.parseException(
-        directiveRange, String.format(template, this.shortFileName, target, current));
-  }
-
   private void unexpectedTokenError(final String expected, final Token found) {
     String foundString = found.content;
 
@@ -4986,10 +4917,6 @@ public class Parser {
     }
 
     buffer.append(" )");
-  }
-
-  private String getLineAndFile() {
-    return Parser.getLineAndFile(this.shortFileName, this.getLineNumber());
   }
 
   public static String getLineAndFile(final String fileName, final int lineNumber) {

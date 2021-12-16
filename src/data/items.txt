@@ -10833,7 +10833,7 @@
 10805	eggwater	957157057	emptycup.gif	food	t	0
 10806	bread man	340392384	breadman.gif	food	t	0
 10807	plain candy cane	694467495	candychalk.gif	food	t	0
-10808
+10808	flour cookie	395767899	flourcookie.gif	food	t,d	5
 10809
 10810
 10811
