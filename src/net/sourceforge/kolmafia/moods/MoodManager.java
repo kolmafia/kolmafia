@@ -587,6 +587,10 @@ public abstract class MoodManager {
    * rewritten into the appropriate file.
    */
   public static void loadSettings() {
+    loadSettings(FileUtilities.getReader(getFile()));
+  }
+
+  public static void loadSettings(BufferedReader reader) {
     MoodManager.availableMoods.clear();
 
     Mood mood = new Mood("apathetic");
@@ -595,47 +599,48 @@ public abstract class MoodManager {
     mood = new Mood("default");
     MoodManager.availableMoods.add(mood);
 
-    try {
-      // First guarantee that a settings file exists with
-      // the appropriate Properties data.
+    if (reader != null) {
 
-      BufferedReader reader = FileUtilities.getReader(getFile());
+      try {
+        // First guarantee that a settings file exists with
+        // the appropriate Properties data.
 
-      String line;
+        String line;
 
-      while ((line = reader.readLine()) != null) {
-        line = line.trim();
+        while ((line = reader.readLine()) != null) {
+          line = line.trim();
 
-        if (line.length() == 0) {
-          continue;
+          if (line.length() == 0) {
+            continue;
+          }
+
+          if (!line.startsWith("[")) {
+            mood.addTrigger(MoodTrigger.constructNode(line));
+            continue;
+          }
+
+          int closeBracketIndex = line.indexOf("]");
+
+          if (closeBracketIndex == -1) {
+            continue;
+          }
+
+          String moodName = line.substring(1, closeBracketIndex);
+          mood = new Mood(moodName);
+
+          MoodManager.availableMoods.remove(mood);
+          MoodManager.availableMoods.add(mood);
         }
 
-        if (!line.startsWith("[")) {
-          mood.addTrigger(MoodTrigger.constructNode(line));
-          continue;
-        }
+        reader.close();
 
-        int closeBracketIndex = line.indexOf("]");
+        MoodManager.setMood(Preferences.getString("currentMood"));
+      } catch (IOException e) {
+        // This should not happen.  Therefore, print
+        // a stack trace for debug purposes.
 
-        if (closeBracketIndex == -1) {
-          continue;
-        }
-
-        String moodName = line.substring(1, closeBracketIndex);
-        mood = new Mood(moodName);
-
-        MoodManager.availableMoods.remove(mood);
-        MoodManager.availableMoods.add(mood);
+        StaticEntity.printStackTrace(e);
       }
-
-      reader.close();
-
-      MoodManager.setMood(Preferences.getString("currentMood"));
-    } catch (IOException e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
-      StaticEntity.printStackTrace(e);
     }
   }
 
