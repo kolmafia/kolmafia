@@ -56,20 +56,23 @@ public class ParserTest {
       for (final String forbiddenError :
           ((InvalidScriptDataWithErrorFilterTest) script).forbiddenErrors) {
         if (errors.stream().anyMatch(error -> error.startsWith(forbiddenError))) {
-          fail(
-              script.desc
-                  + KoLConstants.LINE_BREAK
-                  + "The generated list of errors"
-                  + KoLConstants.LINE_BREAK
-                  + "["
-                  + KoLConstants.LINE_BREAK
-                  + "  "
-                  + String.join("," + KoLConstants.LINE_BREAK + "  ", errors)
-                  + KoLConstants.LINE_BREAK
-                  + "]"
-                  + KoLConstants.LINE_BREAK
-                  + "should not contain "
-                  + forbiddenError);
+          StringBuilder message = new StringBuilder();
+
+          message.append(script.desc);
+          message.append(KoLConstants.LINE_BREAK);
+          message.append("The generated list of errors");
+          message.append(KoLConstants.LINE_BREAK);
+          message.append("[");
+          message.append(KoLConstants.LINE_BREAK);
+          message.append("  ");
+          message.append(String.join("," + KoLConstants.LINE_BREAK + "  ", errors));
+          message.append(KoLConstants.LINE_BREAK);
+          message.append("]");
+          message.append(KoLConstants.LINE_BREAK);
+          message.append("should not contain ");
+          message.append(forbiddenError);
+
+          fail(message.toString());
         }
       }
     }
