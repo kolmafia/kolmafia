@@ -658,14 +658,24 @@ public class CharPaneDecorator {
 
           if (spit < 100) {
             double spitPerTurn = 10 / 3.0;
-            AdventureResult chip = ItemPool.get(ItemPool.DROMEDARY_DRINKING_HELMENT, 1);
-            if (EquipmentManager.getEquipment(EquipmentManager.FAMILIAR).equals(chip)) {
+            AdventureResult helmet = ItemPool.get(ItemPool.DROMEDARY_DRINKING_HELMENT, 1);
+            boolean wearingHelmet =
+                EquipmentManager.getEquipment(EquipmentManager.FAMILIAR).equals(helmet);
+
+            if (wearingHelmet) {
               spitPerTurn += 1;
             }
+
+            double turnsRemaining = ((100 - spit) / spitPerTurn);
+            boolean estimate = wearingHelmet && turnsRemaining > 1;
+
             buffer
-                .append("(~")
-                .append(Math.round(((100 - spit) / spitPerTurn) * 10.0) / 10.0)
-                .append(" turns)");
+                .append("(")
+                .append(estimate ? "~" : "")
+                .append(Math.round(turnsRemaining * 10.0) / 10.0)
+                .append(" turn")
+                .append(turnsRemaining > 1 ? "s" : "")
+                .append(")");
           }
 
           return buffer;
