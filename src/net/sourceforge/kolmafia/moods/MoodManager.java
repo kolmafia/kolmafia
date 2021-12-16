@@ -49,8 +49,7 @@ public abstract class MoodManager {
 
   private static Mood currentMood = null;
   private static final SortedListModel<Mood> availableMoods = new SortedListModel<>();
-  private static final SortedListModel<MoodTrigger> displayList =
-          new SortedListModel<>();
+  private static final SortedListModel<MoodTrigger> displayList = new SortedListModel<>();
 
   static boolean isExecuting = false;
 
@@ -145,8 +144,7 @@ public abstract class MoodManager {
   }
 
   /** Adds a trigger to the temporary mood settings. */
-  public static MoodTrigger addTrigger(
-      final String type, final String name, final String action) {
+  public static MoodTrigger addTrigger(final String type, final String name, final String action) {
     MoodTrigger trigger = MoodTrigger.constructNode(type + " " + name + " => " + action);
 
     if (MoodManager.currentMood.addTrigger(trigger)) {
@@ -689,8 +687,7 @@ public abstract class MoodManager {
     }
   }
 
-  public static boolean currentlyExecutable(
-      final AdventureResult effect, final String action) {
+  public static boolean currentlyExecutable(final AdventureResult effect, final String action) {
     // It's always OK to boost a stackable effect.
     // Otherwise, it's only OK if it's not active.
 
