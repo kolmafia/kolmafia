@@ -2870,23 +2870,17 @@ public class Parser {
     if (target != null) {
       params = this.autoCoerceParameters(target, params, scope);
     } else {
-      target = new BadFunction(name.content);
-
       // Don't make an error if the function couldn't be found
       // because the user messed up one of the parameters
       // (since that means we already made one earlier)
-      boolean error = true;
+      boolean alreadyErrored =
+          params.stream().anyMatch(param -> param != null && param.getType().isBad());
 
-      for (Evaluable param : params) {
-        if (param != null && param.getType().isBad()) {
-          error = false;
-          break;
-        }
-      }
-
-      if (error) {
+      if (!alreadyErrored) {
         this.undefinedFunctionError(name, params);
       }
+
+      target = new BadFunction(name.content);
     }
 
     FunctionCall call = new FunctionCall(functionCallLocation, target, params, this);
