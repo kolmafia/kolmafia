@@ -674,7 +674,7 @@ public class CharPaneDecorator {
                 .append("<br>(")
                 .append(estimate ? "~" : "")
                 .append(HUMAN_READABLE_FORMAT.format(turnsRemaining))
-                .append(" turn")
+                .append(" combat")
                 .append(turnsRemaining > 1 ? "s" : "")
                 .append(")");
           }
