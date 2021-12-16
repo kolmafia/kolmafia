@@ -44,10 +44,9 @@ public class AreaCombatDataTest {
     if (queueF.exists()) {
       queueF.delete();
     }
-    }
+  }
 
-
-    @Test
+  @Test
   public void nonstatefulData() {
     Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData();
 
