@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.webui;
 
+import static net.sourceforge.kolmafia.KoLConstants.HUMAN_READABLE_FORMAT;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -647,6 +649,36 @@ public class CharPaneDecorator {
           buffer.append(progress);
           buffer.append("/11 ");
           buffer.append(phylum.equals("") ? "(none)" : phylum);
+          return buffer;
+        }
+
+      case FamiliarPool.MELODRAMEDARY:
+        {
+          int spit = Preferences.getInteger("camelSpit");
+          buffer.append(spit).append("% charged");
+
+          if (spit < 100) {
+            double spitPerTurn = 10 / 3.0;
+            AdventureResult helmet = ItemPool.get(ItemPool.DROMEDARY_DRINKING_HELMENT, 1);
+            boolean wearingHelmet =
+                EquipmentManager.getEquipment(EquipmentManager.FAMILIAR).equals(helmet);
+
+            if (wearingHelmet) {
+              spitPerTurn += 1;
+            }
+
+            double turnsRemaining = Math.max((100 - spit) / spitPerTurn, 1.0);
+            boolean estimate = wearingHelmet && turnsRemaining > 1;
+
+            buffer
+                .append("<br>(")
+                .append(estimate ? "~" : "")
+                .append(HUMAN_READABLE_FORMAT.format(turnsRemaining))
+                .append(" combat")
+                .append(turnsRemaining > 1 ? "s" : "")
+                .append(")");
+          }
+
           return buffer;
         }
     }
