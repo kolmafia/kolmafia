@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.hamcrest.Matchers;
@@ -123,7 +124,7 @@ class MoodManagerTest {
         }
       }
     }
-   }
+  }
 
   @Test
   public void itShouldLoadFromFile() {
@@ -163,5 +164,41 @@ class MoodManagerTest {
     after = MoodManager.getTriggers("meatdrop");
     assertEquals(8, after.size(), "Unexpected triggers");
     assertFalse(after.contains(newTrigger), "Unexpected duplication of triggers");
+  }
+
+  @Test
+  public void itShouldExerciseMinimalSet() {
+    MoodManager.deleteCurrentMood();
+    // minimal set is nothing for apathetic
+    MoodManager.setMood("apathetic");
+    assertEquals(0, MoodManager.getTriggers("apathetic").size(), "Triggers already present");
+    MoodManager.minimalSet();
+    assertEquals(0, MoodManager.getTriggers("apathetic").size(), "Triggers already present");
+    // minimal set includes triggers for current effects
+    MoodManager.setMood("default");
+    assertEquals(0, MoodManager.getTriggers("default").size(), "Triggers already present");
+    KoLConstants.activeEffects.add(EffectPool.get(EffectPool.LEASH_OF_LINGUINI));
+    MoodManager.minimalSet();
+    assertEquals(1, MoodManager.getTriggers("default").size(), "Triggers already present");
+  }
+
+  @Test
+  public void itShouldExerciseMaximalSet() {
+    MoodManager.deleteCurrentMood();
+    // maximal set is nothing for apathetic
+    MoodManager.setMood("apathetic");
+    MoodManager.maximalSet();
+    assertEquals(0, MoodManager.getTriggers("apathetic").size(), "Triggers already present");
+    MoodManager.setMood("default");
+    // No skills so maximal set is empty
+    MoodManager.maximalSet();
+    assertEquals(0, MoodManager.getTriggers("default").size(), "Triggers already present");
+    // Acquire some skills
+    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("empathy of the newt"));
+    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("fat leon's phat loot lyric"));
+    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("leash of linguini"));
+    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("the polka of plenty"));
+    MoodManager.maximalSet();
+    assertEquals(4, MoodManager.getTriggers("default").size(), "Triggers already present");
   }
 }
