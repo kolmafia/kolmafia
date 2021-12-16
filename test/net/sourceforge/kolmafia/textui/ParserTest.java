@@ -10,8 +10,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.textui.ScriptData.InvalidScriptData;
+import net.sourceforge.kolmafia.textui.ScriptData.InvalidScriptDataWithErrorFilterTest;
 import net.sourceforge.kolmafia.textui.ScriptData.ValidScriptData;
 import net.sourceforge.kolmafia.textui.ScriptData.ValidScriptDataWithLocationTests;
 import net.sourceforge.kolmafia.textui.parsetree.Scope;
@@ -26,37 +28,46 @@ import org.junit.jupiter.params.provider.MethodSource;
 /** Tries to parse valid and invalid ASH programs. */
 public class ParserTest {
 
-  public static void testScriptValidity(ScriptData script) {
+  public static void testScriptValidity(final ScriptData script) {
     final Scope scope = script.parser.parse();
 
-    String firstError = null;
-    for (Parser.AshDiagnostic diagnostic : script.parser.getDiagnostics()) {
-      if (diagnostic.severity == Error) {
-        firstError = diagnostic.toString();
-        break;
-      }
-    }
+    final List<String> errors =
+        script.parser.getDiagnostics().stream()
+            .filter(diagnostic -> diagnostic.severity == Error)
+            .map(diagnostic -> diagnostic.toString())
+            .collect(Collectors.toList());
 
     if (script instanceof InvalidScriptData) {
-      testInvalidScript((InvalidScriptData) script, scope, firstError);
+      assertFalse(errors.isEmpty(), script.desc);
+      testInvalidScript((InvalidScriptData) script, scope, errors);
       return;
     }
 
-    testValidScript((ValidScriptData) script, scope, firstError);
+    assertTrue(errors.isEmpty(), script.desc);
+    testValidScript((ValidScriptData) script, scope);
   }
 
   private static void testInvalidScript(
-      final InvalidScriptData script, final Scope scope, final String error) {
-    assertThat(script.desc, error, startsWith(script.errorText));
+      final InvalidScriptData script, final Scope scope, final List<String> errors) {
+    assertThat(script.desc, errors.get(0), startsWith(script.errorText));
+    assertThat(script.desc, errors.get(0), containsString(" (" + script.errorLocationString + ")"));
 
-    if (script.errorLocationString != null) {
-      assertThat(script.desc, error, containsString(" (" + script.errorLocationString + ")"));
+    if (script instanceof InvalidScriptDataWithErrorFilterTest) {
+      for (final String forbiddenError :
+          ((InvalidScriptDataWithErrorFilterTest) script).forbiddenErrors) {
+        assertFalse(
+            errors.contains(forbiddenError),
+            script.desc
+                + KoLConstants.LINE_BREAK
+                + String.join(KoLConstants.LINE_BREAK, errors)
+                + KoLConstants.LINE_BREAK
+                + "should not contain "
+                + forbiddenError);
+      }
     }
   }
 
-  private static void testValidScript(
-      final ValidScriptData script, final Scope scope, final String error) {
-    assertNull(error, script.desc);
+  private static void testValidScript(final ValidScriptData script, final Scope scope) {
     assertEquals(script.tokens, getTokensContents(script.parser), script.desc);
     assertEquals(script.positions, getTokensPositions(script.parser), script.desc);
 

@@ -44,6 +44,20 @@ public abstract class ScriptData {
     return new InvalidScriptData(desc, script, errorText, errorLocationString);
   }
 
+  /**
+   * Shortcut method for the creation of an invalid script failing with the given error message as
+   * its first error, and with none of {@code forbiddenErrors}.
+   */
+  public static ScriptData invalid(
+      final String desc,
+      final String script,
+      final String errorText,
+      final String errorLocationString,
+      final List<String> forbiddenErrors) {
+    return new InvalidScriptDataWithErrorFilterTest(
+        desc, script, errorText, errorLocationString, forbiddenErrors);
+  }
+
   public final String desc;
   public final Parser parser;
 
@@ -77,7 +91,7 @@ public abstract class ScriptData {
   public static class ValidScriptDataWithLocationTests extends ValidScriptData {
     final Consumer<Scope> locationTests;
 
-    public ValidScriptDataWithLocationTests(
+    private ValidScriptDataWithLocationTests(
         final String description,
         final String script,
         final List<String> tokens,
@@ -100,6 +114,20 @@ public abstract class ScriptData {
       super(description, script);
       this.errorText = errorText;
       this.errorLocationString = errorLocationString;
+    }
+  }
+
+  public static class InvalidScriptDataWithErrorFilterTest extends InvalidScriptData {
+    public final List<String> forbiddenErrors;
+
+    private InvalidScriptDataWithErrorFilterTest(
+        final String description,
+        final String script,
+        final String errorText,
+        final String errorLocationString,
+        final List<String> forbiddenErrors) {
+      super(description, script, errorText, errorLocationString);
+      this.forbiddenErrors = forbiddenErrors;
     }
   }
 }
