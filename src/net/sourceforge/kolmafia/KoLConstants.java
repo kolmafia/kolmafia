@@ -49,6 +49,7 @@ public interface KoLConstants extends UtilityConstants {
   DecimalFormat ROUNDED_MODIFIER_FORMAT =
       new DecimalFormat("+#0.00;-#0.00", new DecimalFormatSymbols(Locale.US));
   DecimalFormat CHAT_LASTSEEN_FORMAT = new DecimalFormat("0000000000");
+  DecimalFormat HUMAN_READABLE_FORMAT = new DecimalFormat("#.##");
 
   SimpleDateFormat DAILY_FORMAT = new SimpleDateFormat("yyyyMMdd", Locale.US);
   SimpleDateFormat WEEKLY_FORMAT = new SimpleDateFormat("yyyyMM_'w'W", Locale.US);

@@ -26,6 +26,8 @@ import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+import static net.sourceforge.kolmafia.KoLConstants.HUMAN_READABLE_FORMAT;
+
 public class CharPaneDecorator {
   private static final Pattern EFFECT_PATTERN =
       Pattern.compile("onClick='eff\\(.*?(\\d+)(?:</a>)?\\)");
@@ -654,7 +656,6 @@ public class CharPaneDecorator {
         {
           int spit = Preferences.getInteger("camelSpit");
           buffer.append(spit).append("% charged");
-          buffer.append("<br>");
 
           if (spit < 100) {
             double spitPerTurn = 10 / 3.0;
@@ -666,13 +667,13 @@ public class CharPaneDecorator {
               spitPerTurn += 1;
             }
 
-            double turnsRemaining = ((100 - spit) / spitPerTurn);
+            double turnsRemaining = Math.max((100 - spit) / spitPerTurn, 1.0);
             boolean estimate = wearingHelmet && turnsRemaining > 1;
 
             buffer
-                .append("(")
+                .append("<br>(")
                 .append(estimate ? "~" : "")
-                .append(Math.round(turnsRemaining * 10.0) / 10.0)
+                .append(HUMAN_READABLE_FORMAT.format(turnsRemaining))
                 .append(" turn")
                 .append(turnsRemaining > 1 ? "s" : "")
                 .append(")");
