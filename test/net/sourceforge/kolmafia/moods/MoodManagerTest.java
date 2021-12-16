@@ -172,8 +172,6 @@ class MoodManagerTest {
 
   @Test
   public void itShouldLoadFromFile() throws IOException {
-    // Copy file from data to settings
-    // assertTrue(copyMoodFile(), "Could not copy file");
     // Load settings and set mood preference
     Preferences.setString("currentMood", "meatdrop");
     MoodManager.loadSettings(mockedReader());
@@ -190,7 +188,6 @@ class MoodManagerTest {
   @Test
   public void itShouldAddAndRemoveTriggers() throws IOException {
     initializeCharPrefs();
-    // assertTrue(copyMoodFile(), "Could not copy file");
     MoodManager.loadSettings(mockedReader());
     MoodManager.setMood("meatdrop");
     Preferences.setString("currentMood", "meatdrop");
