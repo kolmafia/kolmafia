@@ -63,7 +63,7 @@ public class ChatRequestTest {
   }
 
   @Test
-  public void isShouldBuildAModernChatRequest() {
+  public void itShouldBuildAModernChatRequest() {
     creq = new ChatRequest("This is not a message.", true);
     fullURL = creq.getFullURLString();
     expect = "submitnewchat.php?j=1&pwd=&playerid=0&graf=This+is+not+a+message.";
@@ -73,7 +73,7 @@ public class ChatRequestTest {
   }
 
   @Test
-  public void isShouldBuildAnOlderChatRequest() {
+  public void itShouldBuildAnOlderChatRequest() {
     creq = new ChatRequest("This is not a message.", false);
     fullURL = creq.getFullURLString();
     expect = "submitnewchat.php?pwd=&playerid=0&graf=This+is+not+a+message.";
