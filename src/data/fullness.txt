@@ -702,6 +702,7 @@ rack of dinosaur ribs	3	11	EPIC	15-18	10-20	10-20	10-20	30 Meat the Flintstones
 radio button candy	1	8	EPIC	2-9	30-50	33-49	30-50
 Rainbow Spider Fun Roll	4	1	decent	6-10	0	0	0	3-5 plastic ingots
 raisin	1	1	crappy	1	0	0	0
+raisin meringue pizza	3	1	EPIC	0	0	0	0	Unspaded
 raspberry	1	2	decent	2	0	0	0
 rat appendix kabob	2	1	decent	2-5	0	0	6-9
 rat appendix stir-fry	3	4	awesome	8-12	0	0	27-31
