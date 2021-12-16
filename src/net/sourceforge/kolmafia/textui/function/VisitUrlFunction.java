@@ -6,9 +6,9 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
-import net.sourceforge.kolmafia.textui.parsetree.Value.StringValue;
 import net.sourceforge.kolmafia.textui.parsetree.Value.BooleanValue;
 import net.sourceforge.kolmafia.textui.parsetree.Value.BufferValue;
+import net.sourceforge.kolmafia.textui.parsetree.Value.StringValue;
 import net.sourceforge.kolmafia.webui.RelayServer;
 
 public class VisitUrlFunction extends LibraryClassFunction {
@@ -22,7 +22,8 @@ public class VisitUrlFunction extends LibraryClassFunction {
   }
 
   @LibraryFunctionOverload(returns = "buffer")
-  public BufferValue exec(ScriptRuntime controller, @LibraryFunctionParameter("string") final StringValue url) {
+  public BufferValue exec(
+      ScriptRuntime controller, @LibraryFunctionParameter("string") final StringValue url) {
     return new BufferValue(exec(controller, url.toString()));
   }
 
@@ -40,30 +41,20 @@ public class VisitUrlFunction extends LibraryClassFunction {
       @LibraryFunctionParameter("string") final StringValue url,
       @LibraryFunctionParameter("boolean") final BooleanValue usePostMethod,
       @LibraryFunctionParameter("boolean") final BooleanValue encoded) {
-    return new BufferValue(exec(controller, url.toString(), usePostMethod.booleanValue(), encoded.booleanValue()));
+    return new BufferValue(
+        exec(controller, url.toString(), usePostMethod.booleanValue(), encoded.booleanValue()));
   }
 
-  public StringBuffer exec(
-          ScriptRuntime controller,
-          String url
-  ) {
+  public StringBuffer exec(ScriptRuntime controller, String url) {
     return exec(controller, url, true, false);
   }
 
-  public StringBuffer exec(
-      ScriptRuntime controller,
-      String url,
-      boolean usePostMethod
-  ) {
+  public StringBuffer exec(ScriptRuntime controller, String url, boolean usePostMethod) {
     return exec(controller, url, usePostMethod, false);
   }
 
   public StringBuffer exec(
-      ScriptRuntime controller,
-      String url,
-      boolean usePostMethod,
-      boolean encoded
-  ) {
+      ScriptRuntime controller, String url, boolean usePostMethod, boolean encoded) {
     StringBuffer buffer = new StringBuffer();
     RelayRequest relayRequest = controller.getRelayRequest();
     boolean inRelayOverride = relayRequest != null;
@@ -83,10 +74,7 @@ public class VisitUrlFunction extends LibraryClassFunction {
       request = inRelayOverride ? new RelayRequest(false) : new GenericRequest("");
 
       // Build the desired URL
-      request.constructURLString(
-          RelayServer.trimPrefix(url),
-          usePostMethod,
-          encoded);
+      request.constructURLString(RelayServer.trimPrefix(url), usePostMethod, encoded);
       if (GenericRequest.shouldIgnore(request)) {
         return buffer;
       }

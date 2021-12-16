@@ -5759,9 +5759,9 @@ public abstract class RuntimeLibrary {
     // in combat, go ahead and allow it here.
 
     if (SkillDatabase.isCombat(skillId) && FightRequest.getCurrentRound() > 0) {
-      return new Value(new VisitUrlFunction()
-          .exec(
-              controller, "fight.php?action=skill&whichskill=" + (int) skill.intValue()));
+      return new Value(
+          new VisitUrlFunction()
+              .exec(controller, "fight.php?action=skill&whichskill=" + (int) skill.intValue()));
     }
 
     KoLmafiaCLI.DEFAULT_SHELL.executeCommand("cast", "1 " + SkillDatabase.getSkillName(skillId));
@@ -5848,15 +5848,17 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value throw_item(ScriptRuntime controller, final Value item) {
-    return new Value(new VisitUrlFunction()
-        .exec(controller, "fight.php?action=useitem&whichitem=" + (int) item.intValue()));
+    return new Value(
+        new VisitUrlFunction()
+            .exec(controller, "fight.php?action=useitem&whichitem=" + (int) item.intValue()));
   }
 
   public static Value throw_items(ScriptRuntime controller, final Value item1, final Value item2) {
-    return new Value(new VisitUrlFunction()
-        .exec(
-            controller,
-            "fight.php?action=useitem&whichitem="
+    return new Value(
+        new VisitUrlFunction()
+            .exec(
+                controller,
+                "fight.php?action=useitem&whichitem="
                     + (int) item1.intValue()
                     + "&whichitem2="
                     + (int) item2.intValue()));
