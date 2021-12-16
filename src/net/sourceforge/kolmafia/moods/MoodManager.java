@@ -48,21 +48,20 @@ public abstract class MoodManager {
   public static final AdventureResult EAU_DE_TORTUE = EffectPool.get(EffectPool.EAU_DE_TORTUE);
 
   private static Mood currentMood = null;
-  private static final SortedListModel<Mood> availableMoods = new SortedListModel<Mood>();
-  private static final SortedListModel<MoodTrigger> displayList =
-      new SortedListModel<MoodTrigger>();
+  private static final SortedListModel<Mood> availableMoods = new SortedListModel<>();
+  private static final SortedListModel<MoodTrigger> displayList = new SortedListModel<>();
 
   static boolean isExecuting = false;
 
-  public static final File getFile() {
+  public static File getFile() {
     return new File(KoLConstants.SETTINGS_LOCATION, KoLCharacter.baseUserName() + "_moods.txt");
   }
 
-  public static final boolean isExecuting() {
+  public static boolean isExecuting() {
     return MoodManager.isExecuting;
   }
 
-  public static final void updateFromPreferences() {
+  public static void updateFromPreferences() {
     MoodTrigger.clearKnownSources();
     MoodManager.availableMoods.clear();
 
@@ -76,7 +75,7 @@ public abstract class MoodManager {
     MoodManager.saveSettings();
   }
 
-  public static final LockableListModel<Mood> getAvailableMoods() {
+  public static LockableListModel<Mood> getAvailableMoods() {
     return MoodManager.availableMoods;
   }
 
@@ -84,7 +83,7 @@ public abstract class MoodManager {
    * Sets the current mood to be executed to the given mood. Also ensures that all defaults are
    * loaded for the given mood if no data exists.
    */
-  public static final void setMood(String newMoodName) {
+  public static void setMood(String newMoodName) {
     if (newMoodName == null || newMoodName.trim().equals("")) {
       newMoodName = "default";
     }
@@ -105,7 +104,7 @@ public abstract class MoodManager {
       if (mood.equals(newMood)) {
         MoodManager.currentMood = mood;
 
-        if (newMoodName.indexOf(" extends ") != -1 || newMoodName.indexOf(",") != -1) {
+        if (newMoodName.contains(" extends ") || newMoodName.contains(",")) {
           MoodManager.currentMood.setParentNames(newMood.getParentNames());
         }
 
@@ -126,11 +125,11 @@ public abstract class MoodManager {
   }
 
   /** Retrieves the model associated with the given mood. */
-  public static final LockableListModel<MoodTrigger> getTriggers() {
+  public static LockableListModel<MoodTrigger> getTriggers() {
     return MoodManager.displayList;
   }
 
-  public static final List<MoodTrigger> getTriggers(String moodName) {
+  public static List<MoodTrigger> getTriggers(String moodName) {
     if (moodName == null || moodName.length() == 0) {
       return Collections.emptyList();
     }
@@ -145,8 +144,7 @@ public abstract class MoodManager {
   }
 
   /** Adds a trigger to the temporary mood settings. */
-  public static final MoodTrigger addTrigger(
-      final String type, final String name, final String action) {
+  public static MoodTrigger addTrigger(final String type, final String name, final String action) {
     MoodTrigger trigger = MoodTrigger.constructNode(type + " " + name + " => " + action);
 
     if (MoodManager.currentMood.addTrigger(trigger)) {
@@ -158,7 +156,7 @@ public abstract class MoodManager {
   }
 
   /** Removes all from the current displayList. */
-  public static final void removeTriggers(final Collection<MoodTrigger> triggers) {
+  public static void removeTriggers(final Collection<MoodTrigger> triggers) {
     for (MoodTrigger trigger : triggers) {
       if (MoodManager.currentMood.removeTrigger(trigger)) {
         MoodManager.displayList.remove(trigger);
@@ -166,7 +164,7 @@ public abstract class MoodManager {
     }
   }
 
-  public static final void minimalSet() {
+  public static void minimalSet() {
     String currentMood = Preferences.getString("currentMood");
     if (currentMood.equals("apathetic")) {
       return;
@@ -179,10 +177,10 @@ public abstract class MoodManager {
     AdventureResult[] effects = new AdventureResult[KoLConstants.activeEffects.size()];
     KoLConstants.activeEffects.toArray(effects);
 
-    for (int i = 0; i < effects.length; ++i) {
-      String action = MoodManager.getDefaultAction("lose_effect", effects[i].getName());
+    for (AdventureResult effect : effects) {
+      String action = MoodManager.getDefaultAction("lose_effect", effect.getName());
       if (action != null && !action.equals("")) {
-        MoodManager.addTrigger("lose_effect", effects[i].getName(), action);
+        MoodManager.addTrigger("lose_effect", effect.getName(), action);
       }
     }
   }
@@ -218,7 +216,7 @@ public abstract class MoodManager {
         "Song of Cockiness",
       };
 
-  public static final void maximalSet() {
+  public static void maximalSet() {
     String currentMood = Preferences.getString("currentMood");
     if (currentMood.equals("apathetic")) {
       return;
@@ -227,11 +225,11 @@ public abstract class MoodManager {
     UseSkillRequest[] skills = new UseSkillRequest[KoLConstants.availableSkills.size()];
     KoLConstants.availableSkills.toArray(skills);
 
-    ArrayList<String> thiefSkills = new ArrayList<String>();
-    ArrayList<String> borisSongs = new ArrayList<String>();
+    ArrayList<String> thiefSkills = new ArrayList<>();
+    ArrayList<String> borisSongs = new ArrayList<>();
 
-    for (int i = 0; i < skills.length; ++i) {
-      int skillId = skills[i].getSkillId();
+    for (UseSkillRequest skill : skills) {
+      int skillId = skill.getSkillId();
 
       if (skillId < 1000) {
         continue;
@@ -256,7 +254,7 @@ public abstract class MoodManager {
         continue;
       }
 
-      String skillName = skills[i].getSkillName();
+      String skillName = skill.getSkillName();
 
       if (SkillDatabase.isAccordionThiefSong(skillId)) {
         thiefSkills.add(skillName);
@@ -312,9 +310,9 @@ public abstract class MoodManager {
       String[] skillNames = new String[skillCount];
       skills.toArray(skillNames);
 
-      for (int i = 0; i < skillNames.length; ++i) {
-        String effectName = UneffectRequest.skillToEffect(skillNames[i]);
-        MoodManager.addTrigger("lose_effect", effectName, "cast " + skillNames[i]);
+      for (String skillName : skillNames) {
+        String effectName = UneffectRequest.skillToEffect(skillName);
+        MoodManager.addTrigger("lose_effect", effectName, "cast " + skillName);
       }
 
       return;
@@ -333,7 +331,7 @@ public abstract class MoodManager {
   }
 
   /** Deletes the current mood and sets the current mood to apathetic. */
-  public static final void deleteCurrentMood() {
+  public static void deleteCurrentMood() {
     MoodManager.displayList.clear();
 
     Mood current = MoodManager.currentMood;
@@ -347,7 +345,7 @@ public abstract class MoodManager {
   }
 
   /** Duplicates the current trigger list into a new list */
-  public static final void copyTriggers(final String newMoodName) {
+  public static void copyTriggers(final String newMoodName) {
     // Copy displayList from current list, then
     // create and switch to new list
 
@@ -359,21 +357,21 @@ public abstract class MoodManager {
   }
 
   /** Executes all the mood displayList for the current mood. */
-  public static final void execute() {
+  public static void execute() {
     MoodManager.execute(-1);
   }
 
-  public static final boolean effectInMood(final AdventureResult effect) {
+  public static boolean effectInMood(final AdventureResult effect) {
     return MoodManager.currentMood.isTrigger(effect);
   }
 
-  public static final void checkpointedExecute(final int multiplicity) {
+  public static void checkpointedExecute(final int multiplicity) {
     try (Checkpoint checkpoint = new Checkpoint()) {
       MoodManager.execute(0);
     }
   }
 
-  public static final void execute(final int multiplicity) {
+  public static void execute(final int multiplicity) {
     if (KoLmafia.refusesContinue()) {
       return;
     }
@@ -401,13 +399,13 @@ public abstract class MoodManager {
     // First we determine which buffs are already affecting the
     // character in question.
 
-    ArrayList<AdventureResult> thiefBuffs = new ArrayList<AdventureResult>();
-    for (int i = 0; i < effects.length; ++i) {
-      String skillName = UneffectRequest.effectToSkill(effects[i].getName());
+    ArrayList<AdventureResult> thiefBuffs = new ArrayList<>();
+    for (AdventureResult adventureResult : effects) {
+      String skillName = UneffectRequest.effectToSkill(adventureResult.getName());
       if (SkillDatabase.contains(skillName)) {
         int skillId = SkillDatabase.getSkillId(skillName);
         if (SkillDatabase.isAccordionThiefSong(skillId)) {
-          thiefBuffs.add(effects[i]);
+          thiefBuffs.add(adventureResult);
         }
       }
     }
@@ -415,8 +413,8 @@ public abstract class MoodManager {
     // Then, we determine the triggers which are thief skills, and
     // thereby would be cast at this time.
 
-    ArrayList<AdventureResult> thiefKeep = new ArrayList<AdventureResult>();
-    ArrayList<AdventureResult> thiefNeed = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> thiefKeep = new ArrayList<>();
+    ArrayList<AdventureResult> thiefNeed = new ArrayList<>();
 
     List<MoodTrigger> triggers = MoodManager.currentMood.getTriggers();
     for (MoodTrigger trigger : triggers) {
@@ -464,7 +462,7 @@ public abstract class MoodManager {
     MoodManager.isExecuting = false;
   }
 
-  public static final boolean willExecute(final int multiplicity) {
+  public static boolean willExecute(final int multiplicity) {
     if (!MoodManager.currentMood.isExecutable()) {
       return false;
     }
@@ -479,14 +477,14 @@ public abstract class MoodManager {
     return willExecute;
   }
 
-  public static final List<AdventureResult> getMissingEffects() {
+  public static List<AdventureResult> getMissingEffects() {
     List<MoodTrigger> triggers = MoodManager.currentMood.getTriggers();
 
     if (triggers.isEmpty()) {
       return Collections.emptyList();
     }
 
-    ArrayList<AdventureResult> missing = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> missing = new ArrayList<>();
     for (MoodTrigger trigger : triggers) {
       if (trigger.getType().equals("lose_effect") && !trigger.matches()) {
         missing.add(trigger.getEffect());
@@ -504,7 +502,7 @@ public abstract class MoodManager {
     return missing;
   }
 
-  public static final void removeMalignantEffects() {
+  public static void removeMalignantEffects() {
     for (int i = 0; i < MoodManager.AUTO_CLEAR.length && KoLmafia.permitsContinue(); ++i) {
       AdventureResult effect = MoodManager.AUTO_CLEAR[i];
 
@@ -518,7 +516,7 @@ public abstract class MoodManager {
     }
   }
 
-  public static final long getMaintenanceCost() {
+  public static long getMaintenanceCost() {
     List<MoodTrigger> triggers = MoodManager.currentMood.getTriggers();
 
     if (triggers.isEmpty()) {
@@ -573,7 +571,7 @@ public abstract class MoodManager {
    * Stores the settings maintained in this <code>MoodManager</code> object to disk for later
    * retrieval.
    */
-  public static final void saveSettings() {
+  public static void saveSettings() {
     PrintStream writer = LogStream.openStream(getFile(), true);
 
     for (Mood mood : MoodManager.availableMoods) {
@@ -588,7 +586,11 @@ public abstract class MoodManager {
    * overridden; if the given file does not exist, the current global settings will also be
    * rewritten into the appropriate file.
    */
-  public static final void loadSettings() {
+  public static void loadSettings() {
+    loadSettings(FileUtilities.getReader(getFile()));
+  }
+
+  public static void loadSettings(BufferedReader reader) {
     MoodManager.availableMoods.clear();
 
     Mood mood = new Mood("apathetic");
@@ -597,52 +599,49 @@ public abstract class MoodManager {
     mood = new Mood("default");
     MoodManager.availableMoods.add(mood);
 
-    try {
-      // First guarantee that a settings file exists with
-      // the appropriate Properties data.
+    if (reader != null) {
 
-      BufferedReader reader = FileUtilities.getReader(getFile());
+      try {
+        String line;
 
-      String line;
+        while ((line = reader.readLine()) != null) {
+          line = line.trim();
 
-      while ((line = reader.readLine()) != null) {
-        line = line.trim();
+          if (line.length() == 0) {
+            continue;
+          }
 
-        if (line.length() == 0) {
-          continue;
+          if (!line.startsWith("[")) {
+            mood.addTrigger(MoodTrigger.constructNode(line));
+            continue;
+          }
+
+          int closeBracketIndex = line.indexOf("]");
+
+          if (closeBracketIndex == -1) {
+            continue;
+          }
+
+          String moodName = line.substring(1, closeBracketIndex);
+          mood = new Mood(moodName);
+
+          MoodManager.availableMoods.remove(mood);
+          MoodManager.availableMoods.add(mood);
         }
 
-        if (!line.startsWith("[")) {
-          mood.addTrigger(MoodTrigger.constructNode(line));
-          continue;
-        }
+        reader.close();
 
-        int closeBracketIndex = line.indexOf("]");
+        MoodManager.setMood(Preferences.getString("currentMood"));
+      } catch (IOException e) {
+        // This should not happen.  Therefore, print
+        // a stack trace for debug purposes.
 
-        if (closeBracketIndex == -1) {
-          continue;
-        }
-
-        String moodName = line.substring(1, closeBracketIndex);
-        mood = new Mood(moodName);
-
-        MoodManager.availableMoods.remove(mood);
-        MoodManager.availableMoods.add(mood);
+        StaticEntity.printStackTrace(e);
       }
-
-      reader.close();
-      reader = null;
-
-      MoodManager.setMood(Preferences.getString("currentMood"));
-    } catch (IOException e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
-      StaticEntity.printStackTrace(e);
     }
   }
 
-  public static final String getDefaultAction(final String type, final String name) {
+  public static String getDefaultAction(final String type, final String name) {
     if (type == null || name == null) {
       return "";
     }
@@ -690,23 +689,22 @@ public abstract class MoodManager {
     }
   }
 
-  public static final boolean currentlyExecutable(
-      final AdventureResult effect, final String action) {
+  public static boolean currentlyExecutable(final AdventureResult effect, final String action) {
     // It's always OK to boost a stackable effect.
     // Otherwise, it's only OK if it's not active.
 
     return !MoodManager.unstackableAction(action) || !KoLConstants.activeEffects.contains(effect);
   }
 
-  public static final boolean unstackableAction(final String action) {
-    return action.indexOf("absinthe") != -1
-        || action.indexOf("astral mushroom") != -1
-        || action.indexOf("oasis") != -1
-        || action.indexOf("turtle pheromones") != -1
-        || action.indexOf("gong") != -1;
+  public static boolean unstackableAction(final String action) {
+    return action.contains("absinthe")
+        || action.contains("astral mushroom")
+        || action.contains("oasis")
+        || action.contains("turtle pheromones")
+        || action.contains("gong");
   }
 
-  public static final boolean canMasterTrivia() {
+  public static boolean canMasterTrivia() {
     if (InventoryManager.canUseMall()) {
       return true;
     }
