@@ -235,6 +235,16 @@ public class AdventureRequest extends GenericRequest {
     if (index >= 0) {
       String failure = KoLAdventure.adventureFailureMessage(index);
       MafiaState severity = KoLAdventure.adventureFailureSeverity(index);
+
+      // Add more details to the failure message when adventuring in the 2021 crimbo cold resistance
+      // zone.
+      if (index == 107) {
+        int required = Preferences.getInteger("_crimbo21ColdResistance");
+        int current = KoLCharacter.getElementalResistanceLevels(MonsterDatabase.Element.COLD);
+        failure +=
+            " You need " + required + " (" + (required - current) + " more than you have now).";
+      }
+
       KoLmafia.updateDisplay(severity, failure);
       this.override = 0;
       return;
