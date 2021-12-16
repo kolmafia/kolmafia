@@ -919,7 +919,7 @@ public class RequestLogger extends NullStream {
     }
 
     if ((request instanceof Crimbo21TreeRequest || isExternal)
-            && Crimbo21TreeRequest.registerRequest(urlString)) {
+        && Crimbo21TreeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
