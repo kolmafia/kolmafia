@@ -4,6 +4,7 @@
 
 # Food	Fullness	Level Req	quality	Adv	Musc	Myst	Moxie
 
+[experimental crimbo food]	3	1	EPIC	0	0	0	0	Random
 &quot;meat&quot; stick	1	5	good	3	15-25	0	0	50 Empty Inside (+50 Food Drop, +50 Booze Drop)
 3vi1 pr0n m4nic0tti	4	3	awesome	11-16	0	0	60-63	10 A Little Bit Evil (+2 ML)
 a dance upon the palate	1	1	crappy	2-4	2-20	2-20	2-20
