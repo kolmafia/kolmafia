@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.webui;
 
+import static net.sourceforge.kolmafia.KoLConstants.HUMAN_READABLE_FORMAT;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -25,8 +27,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-
-import static net.sourceforge.kolmafia.KoLConstants.HUMAN_READABLE_FORMAT;
 
 public class CharPaneDecorator {
   private static final Pattern EFFECT_PATTERN =
