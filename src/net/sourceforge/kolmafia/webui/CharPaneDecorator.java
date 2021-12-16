@@ -649,6 +649,27 @@ public class CharPaneDecorator {
           buffer.append(phylum.equals("") ? "(none)" : phylum);
           return buffer;
         }
+
+      case FamiliarPool.MELODRAMEDARY:
+        {
+          int spit = Preferences.getInteger("camelSpit");
+          buffer.append(spit).append("% charged");
+          buffer.append("<br>");
+
+          if (spit < 100) {
+            double spitPerTurn = 10 / 3.0;
+            AdventureResult chip = ItemPool.get(ItemPool.DROMEDARY_DRINKING_HELMENT, 1);
+            if (EquipmentManager.getEquipment(EquipmentManager.FAMILIAR).equals(chip)) {
+              spitPerTurn += 1;
+            }
+            buffer
+                .append("(~")
+                .append(Math.round(((100 - spit) / spitPerTurn) * 10.0) / 10.0)
+                .append(" turns)");
+          }
+
+          return buffer;
+        }
     }
 
     if (familiar.hasDrop()) {
