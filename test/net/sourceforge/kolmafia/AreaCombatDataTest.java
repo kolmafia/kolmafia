@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+import java.io.File;
 import java.util.Map;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -10,6 +11,7 @@ import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +36,14 @@ public class AreaCombatDataTest {
   public void beforeEach() {
     KoLCharacter.reset("fakeUserName");
     Preferences.reset("fakeUsername");
+  }
+
+  @AfterAll
+  public static void deleteQueueFile() {
+    File queueF = new File(KoLConstants.DATA_LOCATION, "fakeusername_queue.ser");
+    if (queueF.exists()) {
+      queueF.delete();
+    }
   }
 
   @Test

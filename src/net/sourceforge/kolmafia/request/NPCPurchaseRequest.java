@@ -443,8 +443,14 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       String desc = matcher.group(2);
       String name = matcher.group(3);
       String data = ItemDatabase.getItemDataName(id);
+
       if (data == null || !data.equals(name)) {
-        // Unknown item in shop
+        // Unknown item
+        ItemDatabase.registerItem(id, name, desc);
+      }
+
+      if (NPCStoreDatabase.getPurchaseRequest(id) == null) {
+        // Didn't know this was buyable
         String currency = matcher.group(4);
         String cost = matcher.group(5).replaceAll(",", "");
         String row = matcher.group(6);
@@ -461,7 +467,6 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         } else {
           NPCPurchaseRequest.learnCoinmasterItem(shopName, name, cost, row);
         }
-        ItemDatabase.registerItem(id, name, desc);
       }
     }
 
