@@ -602,9 +602,6 @@ public abstract class MoodManager {
     if (reader != null) {
 
       try {
-        // First guarantee that a settings file exists with
-        // the appropriate Properties data.
-
         String line;
 
         while ((line = reader.readLine()) != null) {
