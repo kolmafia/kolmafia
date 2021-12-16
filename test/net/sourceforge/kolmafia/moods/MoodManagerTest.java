@@ -4,11 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -38,23 +34,6 @@ class MoodManagerTest {
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
     Preferences.saveSettingsToFile = false;
-  }
-
-  public boolean copyMoodFile() {
-    String name = "moody_moods.txt";
-    File sourceF = new File(KoLConstants.DATA_LOCATION, name);
-    if (!sourceF.exists()) return false;
-    Path source = sourceF.toPath();
-    Path destination = new File(KoLConstants.SETTINGS_LOCATION, name).toPath();
-    try {
-      Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
-      assertTrue(destination.toFile().exists(), "Copy did not create file");
-      assertEquals(
-          Files.readAllLines(source), Files.readAllLines(destination), "Files not the same");
-      return true;
-    } catch (Exception e) {
-      return false;
-    }
   }
 
   public BufferedReader mockedReader() throws IOException {
