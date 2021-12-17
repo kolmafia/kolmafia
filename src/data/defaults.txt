@@ -191,6 +191,7 @@ user	armoryUnlocked	false
 user	autoAbortThreshold	-0.05
 user	autoAntidote	0
 user	autoBuyPriceLimit	20000
+user	autoForbidIgnoringStores	true
 user	autoCraft	true
 user	autoQuest	true
 user	autoEntangle	false
@@ -607,6 +608,7 @@ user	flickeringPixel6	false
 user	flickeringPixel7	false
 user	flickeringPixel8	false
 user	flyeredML	0
+user	forbiddenStores
 user	fossilB	0
 user	fossilD	0
 user	fossilN	0
