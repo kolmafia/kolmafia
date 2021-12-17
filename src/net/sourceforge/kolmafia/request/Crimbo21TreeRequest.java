@@ -44,7 +44,7 @@ public class Crimbo21TreeRequest extends GenericRequest {
 
     String action = GenericRequest.getAction(location);
 
-    if ("j".equals(action)) {
+    if ("b".equals(action)) {
       ResultProcessor.processResult(getAmmo(location));
     }
   }
