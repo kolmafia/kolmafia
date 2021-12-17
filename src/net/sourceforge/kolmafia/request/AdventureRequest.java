@@ -242,8 +242,10 @@ public class AdventureRequest extends GenericRequest {
         if (this.adventureId.equals(AdventurePool.SITE_ALPHA_DORMITORY)) {
           int required = Preferences.getInteger("_crimbo21ColdResistance");
           int current = KoLCharacter.getElementalResistanceLevels(MonsterDatabase.Element.COLD);
-          failure +=
-              " You need " + required + " (" + (required - current) + " more than you have now).";
+          if (current < required) {
+            failure +=
+                " You need " + required + " (" + (required - current) + " more than you have now).";
+          }
         }
       }
 
