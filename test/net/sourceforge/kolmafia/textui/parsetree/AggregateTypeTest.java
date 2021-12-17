@@ -45,12 +45,16 @@ public class AggregateTypeTest {
             "int[2, 2] x;",
             Arrays.asList("int", "[", "2", ",", "2", "]", "x", ";"),
             Arrays.asList("1-1", "1-4", "1-5", "1-6", "1-8", "1-9", "1-11", "1-12")),
-        // TODO: `typedef int[] intArray` and aggregate shouldn't be valid keys.
         invalid(
-            "map with non-primitive key type",
+            "map with non-primitive key type - record",
             "record a{int b;}; int[a] x;",
             "Index type 'a' is not a primitive type",
             "char 23 to char 24"),
+        invalid(
+            "map with non-primitive key type - composite type typedef",
+            "typedef int[] a; int[a] x;",
+            "Index type 'a' is not a primitive type",
+            "char 22 to char 23"),
         invalid(
             "multidimensional map with partially specified comma-separated type",
             "int[2,] x;",
