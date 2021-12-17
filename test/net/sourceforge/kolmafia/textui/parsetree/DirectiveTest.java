@@ -13,8 +13,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class DirectiveTest {
-  @BeforeEach
-  public void setRevision() {
+  @BeforeAll
+  public static void setRevision() {
     StaticEntity.overrideRevision(10000);
   }
 
