@@ -1,26 +1,8 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.swing.JList;
-import javax.swing.JPopupMenu;
-import javax.swing.JSeparator;
-import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
-import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.CreateFrameRunnable;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
@@ -31,14 +13,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.AutoMallRequest;
-import net.sourceforge.kolmafia.request.AutoSellRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
-import net.sourceforge.kolmafia.request.PulverizeRequest;
-import net.sourceforge.kolmafia.request.PurchaseRequest;
-import net.sourceforge.kolmafia.request.UneffectRequest;
-import net.sourceforge.kolmafia.request.UseItemRequest;
-import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.*;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
 import net.sourceforge.kolmafia.swingui.ProfileFrame;
@@ -47,6 +22,18 @@ import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.webui.RelayLoader;
+
+import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ShowDescriptionList<E> extends JList<E> {
   public int lastSelectIndex;
@@ -89,6 +76,7 @@ public class ShowDescriptionList<E> extends JList<E> {
     if (displayModel == MallSearchFrame.results) {
       this.contextMenu.add(new JSeparator());
       this.contextMenu.add(new ContextMenuItem("Go To Store...", new StoreLookupRunnable()));
+      this.contextMenu.add(new ContextMenuItem("Toggle Forbidden Store", new ForbidStoreRunnable()));
     }
 
     if (displayModel == KoLConstants.activeEffects) {
@@ -317,6 +305,30 @@ public class ShowDescriptionList<E> extends JList<E> {
     @Override
     protected void executeAction() {
       ShowDescriptionList.showMallStore(this.item);
+    }
+  }
+
+  public class ForbidStoreRunnable extends ContextMenuListener {
+    @Override
+    protected void executeAction() {
+      if (!(this.item instanceof PurchaseRequest)) {
+        return;
+      }
+
+      List<String> forbidden = new ArrayList<>(Arrays.asList(Preferences.getString("forbiddenStores").split("\\s?,\\s?")));
+      String storeId = ((PurchaseRequest) this.item).getFormField("whichstore");
+
+      if (storeId == null || !storeId.matches("[0-9]+")) {
+        return;
+      }
+
+      if (forbidden.contains(storeId)) {
+        forbidden.remove(storeId);
+      } else {
+        forbidden.add(storeId);
+      }
+
+      Preferences.setString("forbiddenStores", String.join(",", forbidden));
     }
   }
 
