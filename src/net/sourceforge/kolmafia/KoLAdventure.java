@@ -2180,8 +2180,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // Site Alpha Dormitory
     //
     // It's getting colder! Better bundle up.
+    // The extreme cold makes it impossible for you to continue...
     {
       "Better bundle up", "You need more cold resistance.",
+    },
+    {
+      "extreme cold makes it impossible", "You need more cold resistance.",
     },
   };
 
@@ -2202,7 +2206,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       Preferences.setInteger("fratboysDefeated", 1000);
     } else if (responseText.contains("Drippy Juice supply")) {
       Preferences.setInteger("drippyJuice", 0);
-    } else if (responseText.contains("Better bundle up")) {
+    } else if (responseText.contains("Better bundle up")
+        || responseText.contains("extreme cold makes it impossible")) {
       Matcher matcher = CRIMBO21_COLD_RES.matcher(responseText);
       if (matcher.find()) {
         int required = Integer.parseInt(matcher.group(1));
