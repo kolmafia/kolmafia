@@ -238,11 +238,13 @@ public class AdventureRequest extends GenericRequest {
 
       // Add more details to the failure message when adventuring in the 2021 crimbo cold resistance
       // zone.
-      if (index == 107) {
-        int required = Preferences.getInteger("_crimbo21ColdResistance");
-        int current = KoLCharacter.getElementalResistanceLevels(MonsterDatabase.Element.COLD);
-        failure +=
-            " You need " + required + " (" + (required - current) + " more than you have now).";
+      if (this.formSource.equals("adventure.php")) {
+        if (this.adventureId.equals(AdventurePool.SITE_ALPHA_DORMITORY)) {
+          int required = Preferences.getInteger("_crimbo21ColdResistance");
+          int current = KoLCharacter.getElementalResistanceLevels(MonsterDatabase.Element.COLD);
+          failure +=
+              " You need " + required + " (" + (required - current) + " more than you have now).";
+        }
       }
 
       KoLmafia.updateDisplay(severity, failure);
