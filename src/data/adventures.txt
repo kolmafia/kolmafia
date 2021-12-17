@@ -310,6 +310,7 @@ Tammy's Offshore Platform	adventure=537	Env: underwater Stat: 0	The Wreck of the
 Tammy's Offshore Platform	adventure=538	Env: underwater Stat: 0	The Impenetrable Kelp-Holly Forest
 
 Crimbo21	adventure=554	Env: indoor Stat: 0	Site Alpha Dormitory
+Crimbo21	adventure=555	Env: indoor Stat: 0	Site Alpha Greenhouse
 
 Crimbo18	adventure=529	Env: outdoor Stat: 0	The Canadian Wildlife Preserve
 
