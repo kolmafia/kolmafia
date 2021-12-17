@@ -157,7 +157,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
   @Override
   public String color() {
-     if (Arrays.asList(Preferences.getString("forbiddenStores").split("\\s?,\\s?")).contains(String.valueOf(this.shopId))) {
+     if (getForbiddenStores().contains(String.valueOf(this.shopId))) {
       return "#c2002d";
     }
 
