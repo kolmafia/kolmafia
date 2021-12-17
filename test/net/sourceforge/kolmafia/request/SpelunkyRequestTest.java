@@ -75,7 +75,7 @@ class SpelunkyRequestTest {
     assertEquals(
         Preferences.getDefault("spelunkyWinCount"), Preferences.getString("spelunkyWinCount"));
     item = ItemPool.get(ItemPool.SPELUNKY_BOOMERANG);
-    assertEquals(0, item.getCount(KoLConstants.inventory),"Unexpected item count after reset");
+    assertEquals(0, item.getCount(KoLConstants.inventory), "Unexpected item count after reset");
     item = ItemPool.get(ItemPool.SPELUNKY_COFFEE_CUP);
     assertEquals(0, item.getCount(KoLConstants.inventory), "Unexpected item count after reset");
     item = ItemPool.get(ItemPool.SPELUNKY_FEDORA);
