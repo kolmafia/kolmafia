@@ -36,6 +36,9 @@ public class TernaryExpressionTest {
             "ternary with non-boolean condition",
             "int x = 1 ? 1 : 2;",
             "Non-boolean expression 1 (int)",
+            "char 9 to char 10",
+            "int x = y ? 1 : 2;",
+            "Unknown variable 'y'",
             "char 9 to char 10"),
         invalid(
             "ternary without lhs",

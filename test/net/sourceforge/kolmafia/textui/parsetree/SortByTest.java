@@ -35,7 +35,10 @@ public class SortByTest {
             "sort not-a-variable primitive",
             "sort 2 by value;",
             "Aggregate reference expected",
-            "char 6 to char 7"),
+            "char 6 to char 7",
+            "sort two by value;",
+            "Unknown variable 'two'",
+            "char 6 to char 9"),
         invalid(
             "sort without by",
             "int[] x {3,2,1}; sort x;",

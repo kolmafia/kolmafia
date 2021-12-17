@@ -110,7 +110,10 @@ public class AssignmentTest {
             "Cannot initialize x of type int with an aggregate literal",
             // we currently can't read past the "{" before throwing the exception
             // "char 9 to char 12"),
-            "char 9 to char 10"),
+            "char 9 to char 10",
+            "x = {1}",
+            "Unknown variable 'x'",
+            "char 1 to char 2"),
         valid(
             "brace assignment of array",
             "int[] x = {1, 2, 3};",
