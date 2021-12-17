@@ -1,9 +1,12 @@
 package net.sourceforge.kolmafia.textui;
 
+import static org.eclipse.lsp4j.DiagnosticSeverity.Error;
+
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.textui.parsetree.Scope;
 
 public abstract class ScriptData {
@@ -46,26 +49,57 @@ public abstract class ScriptData {
 
   /**
    * Shortcut method for the creation of an invalid script failing with the given error message as
-   * its first error, and with none of {@code forbiddenErrors}.
+   * its first error, followed by a modified version of it which does not.
    */
   public static ScriptData invalid(
       final String desc,
       final String script,
       final String errorText,
       final String errorLocationString,
-      final List<String> forbiddenErrors) {
+      final String newScript,
+      final String newErrorText,
+      final String newErrorLocationString) {
     return new InvalidScriptDataWithErrorFilterTest(
-        desc, script, errorText, errorLocationString, forbiddenErrors);
+        desc,
+        script,
+        errorText,
+        errorLocationString,
+        newScript,
+        newErrorText,
+        newErrorLocationString);
   }
 
   public final String desc;
   public final Parser parser;
+  public final Scope scope;
+  public final List<String> errors;
+
+  /** Exception thrown by Parser.parse(), if any */
+  public final Throwable parsingException;
 
   private ScriptData(final String description, final String script) {
     this.desc = description;
     ByteArrayInputStream istream =
         new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8));
     this.parser = new Parser(/*scriptFile=*/ null, /*stream=*/ istream, /*imports=*/ null);
+
+    Scope scope;
+    try {
+      scope = this.parser.parse();
+    } catch (Throwable e) {
+      this.parsingException = e;
+      this.scope = null;
+      this.errors = null;
+      return;
+    }
+
+    this.parsingException = null;
+    this.scope = scope;
+    this.errors =
+        this.parser.getDiagnostics().stream()
+            .filter(diagnostic -> diagnostic.severity == Error)
+            .map(diagnostic -> diagnostic.toString())
+            .collect(Collectors.toList());
   }
 
   @Override
@@ -118,16 +152,20 @@ public abstract class ScriptData {
   }
 
   public static class InvalidScriptDataWithErrorFilterTest extends InvalidScriptData {
-    public final List<String> forbiddenErrors;
+    public final InvalidScriptData filteredScript;
 
     private InvalidScriptDataWithErrorFilterTest(
         final String description,
         final String script,
         final String errorText,
         final String errorLocationString,
-        final List<String> forbiddenErrors) {
+        final String newScript,
+        final String newErrorText,
+        final String newErrorLocationString) {
       super(description, script, errorText, errorLocationString);
-      this.forbiddenErrors = forbiddenErrors;
+      this.filteredScript =
+          new InvalidScriptData(
+              description + " - filtered", newScript, newErrorText, newErrorLocationString);
     }
   }
 }

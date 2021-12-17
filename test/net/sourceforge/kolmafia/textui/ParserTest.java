@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.textui;
 
-import static org.eclipse.lsp4j.DiagnosticSeverity.Error;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +15,6 @@ import net.sourceforge.kolmafia.textui.ScriptData.InvalidScriptData;
 import net.sourceforge.kolmafia.textui.ScriptData.InvalidScriptDataWithErrorFilterTest;
 import net.sourceforge.kolmafia.textui.ScriptData.ValidScriptData;
 import net.sourceforge.kolmafia.textui.ScriptData.ValidScriptDataWithLocationTests;
-import net.sourceforge.kolmafia.textui.parsetree.Scope;
 import org.eclipse.lsp4j.Location;
 import org.eclipse.lsp4j.Position;
 import org.eclipse.lsp4j.Range;
@@ -29,61 +27,67 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class ParserTest {
 
   public static void testScriptValidity(final ScriptData script) {
-    final Scope scope = script.parser.parse();
-
-    final List<String> errors =
-        script.parser.getDiagnostics().stream()
-            .filter(diagnostic -> diagnostic.severity == Error)
-            .map(diagnostic -> diagnostic.toString())
-            .collect(Collectors.toList());
+    // Wait until now to throw errors thrown during parsing, so that we can more easily tell which
+    // test/script threw it
+    if (script.parsingException != null) {
+      throw new RuntimeException(script.parsingException.getMessage(), script.parsingException);
+    }
 
     if (script instanceof InvalidScriptData) {
-      assertFalse(errors.isEmpty(), script.desc);
-      testInvalidScript((InvalidScriptData) script, scope, errors);
+      testInvalidScript((InvalidScriptData) script);
       return;
     }
 
-    assertTrue(errors.isEmpty(), script.desc);
-    testValidScript((ValidScriptData) script, scope);
+    testValidScript((ValidScriptData) script);
   }
 
-  private static void testInvalidScript(
-      final InvalidScriptData script, final Scope scope, final List<String> errors) {
-    assertThat(script.desc, errors.get(0), startsWith(script.errorText));
-    assertThat(script.desc, errors.get(0), containsString(" (" + script.errorLocationString + ")"));
+  private static void testInvalidScript(final InvalidScriptData script) {
+    assertFalse(script.errors.isEmpty(), script.desc);
+
+    // The error that changed the state of the script from "valid" to "invalid"
+    final String firstError = script.errors.get(0);
+
+    assertThat(script.desc, firstError, startsWith(script.errorText));
+    assertThat(script.desc, firstError, containsString(" (" + script.errorLocationString + ")"));
 
     if (script instanceof InvalidScriptDataWithErrorFilterTest) {
-      for (final String forbiddenError :
-          ((InvalidScriptDataWithErrorFilterTest) script).forbiddenErrors) {
-        if (errors.stream().anyMatch(error -> error.startsWith(forbiddenError))) {
-          StringBuilder message = new StringBuilder();
+      final InvalidScriptData filteredScript =
+          ((InvalidScriptDataWithErrorFilterTest) script).filteredScript;
 
-          message.append(script.desc);
-          message.append(KoLConstants.LINE_BREAK);
-          message.append("The generated list of errors");
-          message.append(KoLConstants.LINE_BREAK);
-          message.append("[");
-          message.append(KoLConstants.LINE_BREAK);
-          message.append("  ");
-          message.append(String.join("," + KoLConstants.LINE_BREAK + "  ", errors));
-          message.append(KoLConstants.LINE_BREAK);
-          message.append("]");
-          message.append(KoLConstants.LINE_BREAK);
-          message.append("should not contain ");
-          message.append(forbiddenError);
+      // Trigger the normal tests on that version
+      ParserTest.testScriptValidity(filteredScript);
 
-          fail(message.toString());
-        }
+      // Confirm that the modified version doesn't contain the initial version's first error
+      if (filteredScript.errors.stream().anyMatch(error -> error.startsWith(script.errorText))) {
+        final StringBuilder message = new StringBuilder();
+
+        message.append(filteredScript.desc);
+        message.append(KoLConstants.LINE_BREAK);
+        message.append("The generated list of errors");
+        message.append(KoLConstants.LINE_BREAK);
+        message.append("[");
+        message.append(KoLConstants.LINE_BREAK);
+        message.append("  ");
+        message.append(String.join("," + KoLConstants.LINE_BREAK + "  ", filteredScript.errors));
+        message.append(KoLConstants.LINE_BREAK);
+        message.append("]");
+        message.append(KoLConstants.LINE_BREAK);
+        message.append("should not contain ");
+        message.append(script.errorText);
+
+        fail(message.toString());
       }
     }
   }
 
-  private static void testValidScript(final ValidScriptData script, final Scope scope) {
+  private static void testValidScript(final ValidScriptData script) {
+    assertTrue(script.errors.isEmpty(), script.desc);
+
     assertEquals(script.tokens, getTokensContents(script.parser), script.desc);
     assertEquals(script.positions, getTokensPositions(script.parser), script.desc);
 
     if (script instanceof ValidScriptDataWithLocationTests) {
-      ((ValidScriptDataWithLocationTests) script).locationTests.accept(scope);
+      ((ValidScriptDataWithLocationTests) script).locationTests.accept(script.scope);
     }
   }
 
