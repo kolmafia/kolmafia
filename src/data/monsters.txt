@@ -190,7 +190,7 @@ dire pigeon	1753	direpigeon.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: beast	jaunty
 dirty hippy	53	hippy2.gif	Atk: 40 Def: 36 HP: 30 Init: 70 E: stench P: hippy	Feng Shui for Big Dumb Idiots (30)	filthy corduroys (5)	reodorant (5)	filthy knitted dread sack (2)	hippy bongo (5)	Spanish fly (c25)
 dirty hippy jewelry maker	59	hippy2.gif	Atk: 40 Def: 36 HP: 30 Init: 70 E: stench P: hippy	beach glass bead (10)	clay peace-sign bead (10)	filthy corduroys (5)	filthy knitted dread sack (2)	hemp string (30)	hippy bongo (5)	phat turquoise bead (10)	reodorant (5)	Spanish fly (c25)
 dirty hippy Vegan chef	56	hippy2.gif	Atk: 40 Def: 36 HP: 30 Init: 70 E: stench P: hippy	carob chunks (30)	double-barreled sling (5)	filthy knitted dread sack (5)	Uncle Jick's Brownie Mix (30)	reodorant (5)	filthy corduroys (2)	filthy pestle (5)	Spanish fly (c25)
-dirty old lihc	1071	dirtyoldlihc.gif	Atk: 60 Def: 54 HP: 50 Init: 50 E: spooky P: undead	salacious crumbs (0)
+dirty old lihc	1071	dirtyoldlihc.gif	Atk: 60 Def: 54 HP: 50 Init: 50 E: spooky P: undead	salacious crumbs (25)
 dirty thieving brigand	475	bandit.gif	Atk: 169 Def: 153 HP: 185 Init: 50 Meat: 1000 P: dude	brigand brittle (c0)
 disease-in-the-box	110	dinbox.gif	Atk: 18 Def: 16 HP: 14 Init: 80 P: construct	box (30)	disease (40)
 diving belle	762	divingbelle.gif	Atk: 400 Def: 450 HP: 750 Init: 50 E: spooky P: undead	diving muff (n3)	salinated mint julep (32)	water-polo mitt (c0)	comb jelly (0)
@@ -210,7 +210,7 @@ drunk pygmy	1431	pyg_drunk.gif	Atk: 150 Def: 130 HP: 160 Init: 20 P: dude Meat: 
 drunken 7-foot dwarf	998	drunkminer.gif	Atk: 8 Def: 9 HP: 7 Init: 40 P: humanoid Meat: 20	bottle of whiskey (20)	bottle of whiskey (20)
 drunken half-orc hobo	158	hobo.gif	Atk: 1 Def: 0 HP: 1 Init: 40 E: stench P: hobo	dirty hobo gloves (32)	Mad Train wine (60)	moxie weed (15)	Boozehounds Anonymous token (p10)	beer-battered accordion (a0)
 drunken rat	51	rat.gif	Atk: 10 Def: 9 HP: 8 Init: 60 Meat: 10 P: beast	rat whisker (100)	rat appendix (20)	furry pill (0)
-drunken rat king	996	ratking.gif	NOCOPY Atk: 40 Def: 36 HP: 32 Init: 100 Meat: 40 P: beast	rat whisker (0)	rat whisker (0)	rat whisker (0)	rat whisker (0)	rat appendix (0)	rat appendix (0)	rat appendix (0)	tangle of rat tails (0)
+drunken rat king	996	ratking.gif	NOCOPY Atk: 40 Def: 36 HP: 32 Init: 100 Meat: 40 P: beast	rat whisker (100)	rat whisker (100)	rat whisker (100)	rat whisker (100)	rat appendix (20)	rat appendix (20)	rat appendix (20)	tangle of rat tails (100)
 Dusken Raider Ghost	1255	aboo_dipshit.gif	Atk: 72 Def: 68 HP: 40 Init: -10000 E: spooky P: undead Phys: 100 GHOST	A-Boo clue (c15)	Duskwalker syringe (15)	Duskwalker fangs (5)	ectoplasmic orbs (10)
 Dyspepsi-Cola General	293	colaoff2.gif	Atk: 30 Def: 27 HP: 40 Init: 50 P: dude	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi-Cola d-rations (5)	Dyspepsi grenade (5)
 Dyspepsi-Cola Knight	291	colasol2.gif	Atk: 30 Def: 27 HP: 35 Init: 50 P: dude	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)
@@ -683,7 +683,7 @@ spider (duck?) topiary animal	1245	topi1.gif	Atk: 85 Def: 80 HP: 90 Init: 50 P: 
 spider gremlin	552	gremlinspider.gif	Atk: 172 Def: 151 HP: 170 Init: 60 Meat: 50 P: humanoid	gremlin juice (3)
 spider gremlin (tool)	553	gremlinspider.gif	Atk: 172 Def: 151 HP: 170 Init: 60 Meat: 50 P: humanoid Manuel: "spider gremlin" Wiki: "spider gremlin (quest)"	gremlin juice (3)	molybdenum pliers (c0)
 spider-legged witch's hut	1580	spiderhut.gif	NOCOPY Atk: 50 Def: 50 HP: 50 Init: 50 P: construct	giant spider leg (c100)
-spiny skelelton	185	spikeskel.gif	Atk: 53 Def: 48 HP: 50 Init: 50 E: spooky P: undead	skeleton bone (40)	smart skull (50)	spiked femur (10)	succulent marrow (0)	evil eye (20)	skelelton spine (c0)
+spiny skelelton	185	spikeskel.gif	Atk: 53 Def: 48 HP: 50 Init: 50 E: spooky P: undead	skeleton bone (40)	smart skull (50)	spiked femur (10)	succulent marrow (25)	evil eye (20)	skelelton spine (c0)
 Spirit of New Wave (Inner Sanctum)	25	5_1.gif	NOCOPY BOSS Atk: 27 Def: 24 HP: 30 Init: 60 Meat: 35 P: undead GHOST Manuel: "Spirit of New Wave"	Disco 'Fro Pick (100)
 Spirit of New Wave (The Nemesis' Lair)	876	5_2.gif	NOCOPY BOSS Atk: 170 Def: 153 HP: 220 Init: 80 P: undead GHOST Manuel: "Spirit of New Wave"	Volartta's bellbottoms (100)
 Spirit of New Wave (Volcanic Cave)	886	5_3.gif	NOCOPY BOSS Atk: 185 Def: 166 HP: 260 Init: 90 Phys: 25 P: undead GHOST Manuel: "Spirit of New Wave"
@@ -2005,7 +2005,7 @@ Red Roger	2134	pr_redroger.gif	Atk: 100 Def: 100 HP: 500 Init: -10000 P: constru
 Glass Jack Hummel	2135	pr_glassjack.gif	Atk: 100 Def: 100 HP: 200 Init: 50 P: construct
 
 # Cargo Cultist Shorts (Sep 2020)
-Astrologer of Shub-Jigguwatt	2200	ccs_astrologer.gif	Scale: 15 E: sleaze Init: -10000 P: constellation NOCOPY	star chart (n100)	star (n30)	star (n30)	line (n30)	line (n30)
+Astrologer of Shub-Jigguwatt	2200	ccs_astrologer.gif	Scale: 15 E: sleaze Init: -10000 P: constellation NOCOPY	star chart (n100)	star (n30)	star (n10)	line (n30)	line (n10)
 Burning Daughter	2196	ccs_daughter.gif	Scale: 15 E: hot Init: -10000 P: elemental NOCOPY	fire (n100)	fire (n100)	flame orb (n100)
 Chosen of Yog-Urt	2199	ccs_disciple.gif	Scale: 15 E: stench Init: -10000 P: horror NOCOPY	bowl of cottage cheese (n100)	bowl of cottage cheese (n100)	bowl of cottage cheese (n25)	bowl of cottage cheese (n10)	bowl of cottage cheese (n5)	glass of goat's milk (n100)	glass of goat's milk (n100)	milk of magnesium (n10)	Hatorade (n20)
 Herald of Fridgr	2197	ccs_herald.gif	Scale: 15 E: cold Init: -10000 P: dude NOCOPY	cold wad (n100)	cold nuggets (n100)	cold nuggets (n100)	cold powder (n25)	cold powder (n25)	cold powder (n25)	cold powder (n25)
