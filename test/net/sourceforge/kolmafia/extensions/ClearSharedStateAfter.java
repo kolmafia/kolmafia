@@ -9,15 +9,10 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import net.sourceforge.kolmafia.*;
-import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.textui.command.AbstractCommand;
 import org.junit.jupiter.api.extension.AfterAllCallback;
-import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
 public class ClearSharedStateAfter implements AfterAllCallback {
-
 
   // Prevents leakage of shared state across test classes.
 
@@ -35,16 +30,18 @@ public class ClearSharedStateAfter implements AfterAllCallback {
     // Get list of things in test\root and iterate, deleting as appropriate
     File root = KoLConstants.ROOT_LOCATION;
     String[] contents = root.list();
-    for (String content : contents) {
-      if (!keepersList.contains(content)) {
-        Path pathToBeDeleted = new File(root, content).toPath();
-        try {
-          Files.walk(pathToBeDeleted)
-              .sorted(Comparator.reverseOrder())
-              .map(Path::toFile)
-              .forEach(File::delete);
-        } catch (IOException e) {
-          e.printStackTrace();
+    if (contents != null) {
+      for (String content : contents) {
+        if (!keepersList.contains(content)) {
+          Path pathToBeDeleted = new File(root, content).toPath();
+          try {
+            Files.walk(pathToBeDeleted)
+                .sorted(Comparator.reverseOrder())
+                .map(Path::toFile)
+                .forEach(File::delete);
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
         }
       }
     }
