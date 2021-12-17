@@ -127,18 +127,20 @@ public class RequestPane extends JEditorPane {
     StringWriter sw = new StringWriter();
 
     try {
-      // Provides a workaround for the writer normally trying to indent the text after 80 characters.
+      // Provides a workaround for the writer normally trying to indent the text after 80
+      // characters.
       // This results in weird text like "Example    goes here"
       if (this.getDocument() instanceof HTMLDocument) {
-        HTMLWriter w = new HTMLWriter(
-            sw,
-            (HTMLDocument) this.getDocument(),
-            this.getSelectionStart(),
-            this.getSelectionEnd() - this.getSelectionStart()) {
-          {
-            setLineLength(999_999);
-          }
-        };
+        HTMLWriter w =
+            new HTMLWriter(
+                sw,
+                (HTMLDocument) this.getDocument(),
+                this.getSelectionStart(),
+                this.getSelectionEnd() - this.getSelectionStart()) {
+              {
+                setLineLength(999_999);
+              }
+            };
         w.write();
       } else {
         this.getEditorKit()
