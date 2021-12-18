@@ -62,8 +62,8 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
     // forbidden is a fixed-sized list
     ArrayList<String> list = new ArrayList<>(forbidden);
+    list.remove(shopIdString);
 
-    list.add(shopIdString);
     Preferences.setString("forbiddenStores", String.join(",", list));
   }
 
