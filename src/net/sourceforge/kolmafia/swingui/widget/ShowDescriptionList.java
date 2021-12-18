@@ -34,6 +34,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
@@ -89,6 +90,8 @@ public class ShowDescriptionList<E> extends JList<E> {
     if (displayModel == MallSearchFrame.results) {
       this.contextMenu.add(new JSeparator());
       this.contextMenu.add(new ContextMenuItem("Go To Store...", new StoreLookupRunnable()));
+      this.contextMenu.add(
+          new ContextMenuItem("Toggle Forbidden Store", new ForbidStoreRunnable()));
     }
 
     if (displayModel == KoLConstants.activeEffects) {
@@ -317,6 +320,21 @@ public class ShowDescriptionList<E> extends JList<E> {
     @Override
     protected void executeAction() {
       ShowDescriptionList.showMallStore(this.item);
+    }
+  }
+
+  public class ForbidStoreRunnable extends ContextMenuListener {
+    @Override
+    protected void executeAction() {
+      if (!(this.item instanceof PurchaseRequest)) {
+        return;
+      }
+
+      try {
+        int storeId = Integer.parseInt(((PurchaseRequest) this.item).getFormField("whichstore"));
+        MallPurchaseRequest.toggleForbiddenStore(storeId);
+      } catch (NumberFormatException e) {
+      }
     }
   }
 

@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -8,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import javax.swing.UIManager;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -48,24 +51,47 @@ public class MallPurchaseRequest extends PurchaseRequest {
     MallPurchaseRequest.ignoringStores.clear();
   }
 
-  public static List<String> getForbiddenStores() {
+  public static Set<Integer> getForbiddenStores() {
     // We want to return a mutable list.
     // String.split returns a fixed-size list
     // String.split returns a list with an empty element if the input string is empty
     String input = Preferences.getString("forbiddenStores").trim();
     if (input.equals("")) {
-      return new ArrayList<String>();
+      return new HashSet<>();
     }
-    return new ArrayList(Arrays.asList(input.split("\\s*,\\s*")));
+
+    return Arrays.stream(input.split("\\s*,\\s*"))
+        .mapToInt(Integer::parseInt)
+        .boxed()
+        .collect(Collectors.toSet());
+  }
+
+  private static void setForbiddenStores(Set<Integer> forbidden) {
+    Preferences.setString(
+        "forbiddenStores",
+        String.join(",", forbidden.stream().map(String::valueOf).collect(Collectors.joining(","))));
+  }
+
+  public static void removeForbiddenStore(int shopId) {
+    Set<Integer> forbidden = getForbiddenStores();
+    forbidden.remove(shopId);
+    setForbiddenStores(forbidden);
   }
 
   public static void addForbiddenStore(int shopId) {
-    List<String> forbidden = MallPurchaseRequest.getForbiddenStores();
-    String shopIdString = String.valueOf(shopId);
-    if (!forbidden.contains(shopIdString)) {
-      forbidden.add(shopIdString);
-      Preferences.setString("forbiddenStores", String.join(",", forbidden));
+    Set<Integer> forbidden = getForbiddenStores();
+    forbidden.add(shopId);
+    setForbiddenStores(forbidden);
+  }
+
+  public static void toggleForbiddenStore(int shopId) {
+    Set<Integer> forbidden = getForbiddenStores();
+    if (forbidden.contains(shopId)) {
+      forbidden.remove(shopId);
+    } else {
+      forbidden.add(shopId);
     }
+    setForbiddenStores(forbidden);
   }
 
   /**
@@ -73,7 +99,6 @@ public class MallPurchaseRequest extends PurchaseRequest {
    * value which can be modified at a later time is the quantity of items being purchases; all
    * others are consistent through the time when the purchase is actually executed.
    *
-   * @param itemName The name of the item to be purchased
    * @param itemId The database Id for the item to be purchased
    * @param quantity The quantity of items to be purchased
    * @param shopId The integer identifier for the shop from which the item will be purchased
@@ -158,6 +183,17 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
   @Override
   public String color() {
+    if (getForbiddenStores().contains(String.valueOf(this.shopId))) {
+      // Try get the color from look and feel
+      Color color = UIManager.getColor("InternalFrame.closePressedBackground");
+
+      if (color == null) {
+        return "red";
+      }
+
+      return "#" + Integer.toHexString(color.getRGB()).substring(2);
+    }
+
     return !this.canPurchase
         ? "gray"
         : KoLCharacter.canInteract()
