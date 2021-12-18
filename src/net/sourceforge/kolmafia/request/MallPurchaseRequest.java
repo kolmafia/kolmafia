@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.UIManager;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -178,7 +180,14 @@ public class MallPurchaseRequest extends PurchaseRequest {
   @Override
   public String color() {
     if (getForbiddenStores().contains(String.valueOf(this.shopId))) {
-      return "#c2002d";
+      // Try get the color from look and feel
+      Color color = UIManager.getColor("InternalFrame.closePressedBackground");
+
+      if (color == null) {
+        return "red";
+      }
+
+      return "#" + Integer.toHexString(color.getRGB()).substring(2);
     }
 
     return !this.canPurchase
