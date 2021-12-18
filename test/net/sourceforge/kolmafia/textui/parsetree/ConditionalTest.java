@@ -110,7 +110,10 @@ public class ConditionalTest {
             "if with incorrect condition",
             "if (1)",
             "\"if\" requires a boolean conditional expression",
-            "char 5 to char 6"),
+            "char 5 to char 6",
+            "if (1 +)",
+            "Value expected",
+            "char 8 to char 9"),
         invalid(
             "if with unclosed condition", "if (true", "Expected ), found end of file", "char 9"),
         // These probably shouldn't need to be separate test cases...
@@ -128,7 +131,10 @@ public class ConditionalTest {
             "else if with incorrect condition",
             "if (false); else if (2)",
             "\"if\" requires a boolean conditional expression",
-            "char 22 to char 23"),
+            "char 22 to char 23",
+            "if (false); else if (2 +)",
+            "Value expected",
+            "char 25 to char 26"),
         invalid(
             "else if with unclosed condition",
             "if (false); else if (true",

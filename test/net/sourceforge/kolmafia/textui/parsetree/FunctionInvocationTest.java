@@ -21,10 +21,18 @@ public class FunctionInvocationTest {
             "Variable reference expected for function name",
             "char 5"),
         invalid(
+            "function invocation non-variable reference",
+            "int x; call x.max(3)()",
+            "Variable reference expected for function name",
+            "char 13 to char 21"),
+        invalid(
             "function invocation non-string expression",
             "call (2)()",
             "String expression expected for function name",
-            "char 6 to char 9"), // nice
+            "char 6 to char 9", // nice
+            "call (!)()",
+            "Value expected",
+            "char 8 to char 9"),
         invalid(
             "function invocation interrupted after name expression",
             "call ('foo')",

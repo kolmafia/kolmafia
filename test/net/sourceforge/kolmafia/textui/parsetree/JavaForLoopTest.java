@@ -167,7 +167,10 @@ public class JavaForLoopTest {
             "javaFor non-boolean condition",
             "for (int i; i + 5; i++);",
             "\"for\" requires a boolean conditional expression",
-            "char 13 to char 18"),
+            "char 13 to char 18",
+            "for (; i; i++);",
+            "Unknown variable 'i'",
+            "char 8 to char 9"),
         valid(
             "javaFor multiple increments",
             "for (int i, int j; i + j < 5; i++, j++);",

@@ -55,7 +55,10 @@ public class ForEachLoopTest {
             "foreach in not-a-reference",
             "foreach it in $item[none];",
             "Aggregate reference expected",
-            "char 15 to char 26"),
+            "char 15 to char 26",
+            "foreach it in it;",
+            "Unknown variable 'it'",
+            "char 15 to char 17"),
         invalid(
             "foreach with duplicate key",
             "foreach it, it in $items[];",

@@ -43,7 +43,10 @@ public class FunctionCallTest {
             "undefined function call",
             "prin();",
             "Function 'prin( )' undefined.  This script may require a more recent version of KoLmafia and/or its supporting scripts.",
-            "char 1 to char 5"),
+            "char 1 to char 5",
+            "prin(x);",
+            "Unknown variable 'x'",
+            "char 6 to char 7"),
         invalid("function call interrupted", "print(", "Expected ), found end of file", "char 7"),
         invalid(
             "function call interrupted after comma",

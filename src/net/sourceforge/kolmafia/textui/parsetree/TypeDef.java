@@ -8,6 +8,7 @@ public class TypeDef extends Type {
 
   public TypeDef(final String name, final Type base, final Location location) {
     super(name, DataTypes.TYPE_TYPEDEF, location);
+    this.primitive = base.isPrimitive();
     this.base = base;
   }
 
