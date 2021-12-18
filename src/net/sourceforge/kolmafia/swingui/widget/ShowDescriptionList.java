@@ -1,5 +1,16 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.*;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.*;
@@ -22,18 +33,6 @@ import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.webui.RelayLoader;
-
-import javax.swing.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ShowDescriptionList<E> extends JList<E> {
   public int lastSelectIndex;
@@ -76,7 +75,8 @@ public class ShowDescriptionList<E> extends JList<E> {
     if (displayModel == MallSearchFrame.results) {
       this.contextMenu.add(new JSeparator());
       this.contextMenu.add(new ContextMenuItem("Go To Store...", new StoreLookupRunnable()));
-      this.contextMenu.add(new ContextMenuItem("Toggle Forbidden Store", new ForbidStoreRunnable()));
+      this.contextMenu.add(
+          new ContextMenuItem("Toggle Forbidden Store", new ForbidStoreRunnable()));
     }
 
     if (displayModel == KoLConstants.activeEffects) {
@@ -315,7 +315,9 @@ public class ShowDescriptionList<E> extends JList<E> {
         return;
       }
 
-      List<String> forbidden = new ArrayList<>(Arrays.asList(Preferences.getString("forbiddenStores").split("\\s?,\\s?")));
+      List<String> forbidden =
+          new ArrayList<>(
+              Arrays.asList(Preferences.getString("forbiddenStores").split("\\s?,\\s?")));
       String storeId = ((PurchaseRequest) this.item).getFormField("whichstore");
 
       if (storeId == null || !storeId.matches("[0-9]+")) {

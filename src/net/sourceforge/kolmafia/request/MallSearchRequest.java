@@ -414,7 +414,8 @@ public class MallSearchRequest extends GenericRequest {
         int shopId = StringUtilities.parseInt(detailsMatcher.group(1));
 
         // If we are ignoring this store, skip it.
-        if (!Preferences.getBoolean("showForbiddenStores") && forbidden.contains(String.valueOf(shopId))) {
+        if (!Preferences.getBoolean("showForbiddenStores")
+            && forbidden.contains(String.valueOf(shopId))) {
           continue;
         }
 
