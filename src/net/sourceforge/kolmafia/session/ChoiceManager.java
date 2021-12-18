@@ -11783,6 +11783,7 @@ public abstract class ChoiceManager {
         // Travel to a Recent Fight
         if (ChoiceManager.lastDecision == 1 && !urlString.contains("monid=0")) {
           Preferences.increment("_timeSpinnerMinutesUsed", 3);
+          EncounterManager.ignoreSpecialMonsters();
         }
         break;
 
