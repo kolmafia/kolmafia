@@ -51,7 +51,14 @@ public class MallPurchaseRequest extends PurchaseRequest {
   }
 
   public static List<String> getForbiddenStores() {
-    return Arrays.asList(Preferences.getString("forbiddenStores").split("\\s*,\\s*"));
+    // We want to return a mutable list.
+    // String.split returns a fixed-size list
+    // String.split returns a list with an empty element if the input string is empty
+    String input = Preferences.getString("forbiddenStores").trim();
+    if (input.equals("")) {
+      return new ArrayList<String>();
+    }
+    return new ArrayList(Arrays.asList(input.split("\\s*,\\s*")));
   }
 
   public static void removeForbiddenStore(int shopId) {
@@ -77,16 +84,9 @@ public class MallPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    // forbidden is a fixed-sized list
-    ArrayList<String> list = new ArrayList<>(forbidden);
+    forbidden.add(shopIdString);
 
-    // An empty string splits into an array with a single empty element.
-    if (list.size() == 1 && list.get(0).equals("")) {
-      list.remove(0);
-    }
-
-    list.add(shopIdString);
-    Preferences.setString("forbiddenStores", String.join(",", list));
+    Preferences.setString("forbiddenStores", String.join(",", forbidden));
   }
 
   /**
