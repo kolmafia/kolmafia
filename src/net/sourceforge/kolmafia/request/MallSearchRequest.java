@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -382,7 +381,7 @@ public class MallSearchRequest extends GenericRequest {
       String itemListResult = itemMatcher.group(4);
       Matcher linkMatcher = MallSearchRequest.STOREDETAIL_PATTERN.matcher(itemListResult);
 
-      List<String> forbidden = Arrays.asList(Preferences.getString("forbiddenStores").split(","));
+      List<String> forbidden = MallPurchaseRequest.getForbiddenStores();
 
       while (linkMatcher.find()) {
         String linkText = linkMatcher.group();
