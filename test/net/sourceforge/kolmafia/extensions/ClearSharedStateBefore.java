@@ -15,7 +15,7 @@ import net.sourceforge.kolmafia.textui.command.AbstractCommand;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
-public class ClearSharedState implements BeforeAllCallback {
+public class ClearSharedStateBefore implements BeforeAllCallback {
 
   // Prevents leakage of shared state across test classes.
 

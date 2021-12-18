@@ -53,7 +53,10 @@ public class RepeatUntilLoopTest {
             // This should probably read as "'until' requires a
             // boolean conditional expression"...
             "\"repeat\" requires a boolean conditional expression",
-            "char 18 to char 24"),
+            "char 18 to char 24",
+            "repeat {} until (done)",
+            "Unknown variable 'done'",
+            "char 18 to char 22"),
         invalid(
             "repeat with unclosed condition",
             "repeat {} until (true",

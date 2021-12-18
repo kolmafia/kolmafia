@@ -153,21 +153,30 @@ public class AggregateLiteralTest {
             "Expected an element of type boolean, found an aggregate",
             // we currently can't read past the "{" before throwing the exception
             // "char 32 to char 38"),
-            "char 32 to char 33"),
+            "char 32 to char 33",
+            "boolean[x]{ true, true, false, {true}, false }",
+            "Invalid type name 'x'",
+            "char 9 to char 10"),
         invalid(
             "Unexpected aggregate in map literal: as a key",
             "boolean[5]{ 0:true, 1:true, 2:false, {3}:true, 4:false }",
             "Expected a key of type int, found an aggregate",
             // we currently can't read past the "{" before throwing the exception
             // "char 38 to char 41"),
-            "char 38 to char 39"),
+            "char 38 to char 39",
+            "boolean[x]{ 0:true, 1:true, 2:false, {3}:true, 4:false }",
+            "Invalid type name 'x'",
+            "char 9 to char 10"),
         invalid(
             "Unexpected aggregate in map literal: as a value",
             "boolean[5]{ 0:true, 1:true, 2:false, 3:{true}, 4:false }",
             "Expected a value of type boolean, found an aggregate",
             // we currently can't read past the "{" before throwing the exception
             // "char 40 to char 46"),
-            "char 40 to char 41"),
+            "char 40 to char 41",
+            "boolean[x]{ 0:true, 1:true, 2:false, 3:{true}, 4:false }",
+            "Invalid type name 'x'",
+            "char 9 to char 10"),
         valid(
             // This... exercises a different code path.
             "Parenthesized map literal",

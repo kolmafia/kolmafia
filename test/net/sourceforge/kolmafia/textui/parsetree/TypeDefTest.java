@@ -86,7 +86,10 @@ public class TypeDefTest {
             "typedef with existing name",
             "typedef float double; typedef int double;",
             "Type name 'double' is already defined",
-            "char 35 to char 41"),
+            "char 35 to char 41",
+            "typedef double; typedef float double;",
+            "Missing data type for typedef",
+            "char 1 to char 15"),
         valid(
             "equivalent typedef redefinition",
             "typedef float double; typedef float double;",

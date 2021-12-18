@@ -291,7 +291,7 @@ public class AdventureDatabase {
 
   public static final String pirateRealmIslandName() {
     String island = Preferences.getString("_LastPirateRealmIsland");
-    return island == "" ? "PirateRealm Island" : island;
+    return island.isEmpty() ? "PirateRealm Island" : island;
   }
 
   public static final void addAdventure(final KoLAdventure location) {

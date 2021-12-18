@@ -48,6 +48,26 @@ public class MallPurchaseRequest extends PurchaseRequest {
     MallPurchaseRequest.ignoringStores.clear();
   }
 
+  public static List<String> getForbiddenStores() {
+    // We want to return a mutable list.
+    // String.split returns a fixed-size list
+    // String.split returns a list with an empty element if the input string is empty
+    String input = Preferences.getString("forbiddenStores").trim();
+    if (input.equals("")) {
+      return new ArrayList<String>();
+    }
+    return new ArrayList(Arrays.asList(input.split("\\s*,\\s*")));
+  }
+
+  public static void addForbiddenStore(int shopId) {
+    List<String> forbidden = MallPurchaseRequest.getForbiddenStores();
+    String shopIdString = String.valueOf(shopId);
+    if (!forbidden.contains(shopIdString)) {
+      forbidden.add(shopIdString);
+      Preferences.setString("forbiddenStores", String.join(",", forbidden));
+    }
+  }
+
   /**
    * Constructs a new <code>MallPurchaseRequest</code> with the given values. Note that the only
    * value which can be modified at a later time is the quantity of items being purchases; all
@@ -171,8 +191,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    if (Arrays.asList(Preferences.getString("forbiddenStores").split(","))
-        .contains(String.valueOf(this.shopId))) {
+    if (MallPurchaseRequest.getForbiddenStores().contains(String.valueOf(this.shopId))) {
       KoLmafia.updateDisplay(
           "This shop ("
               + this.shopName
@@ -248,6 +267,9 @@ public class MallPurchaseRequest extends PurchaseRequest {
       RequestLogger.updateSessionLog(
           "You are on this shop's ignore list (#" + this.shopId + "). Skipping...");
       MallPurchaseRequest.ignoringStores.add(shopId);
+      if (Preferences.getBoolean("autoForbidIgnoringStores")) {
+        MallPurchaseRequest.addForbiddenStore(this.shopId);
+      }
       StoreManager.flushCache(-1, this.shopId);
       return;
     }

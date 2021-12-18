@@ -8,13 +8,13 @@ import java.util.stream.Stream;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.ParserTest;
 import net.sourceforge.kolmafia.textui.ScriptData;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class DirectiveTest {
-  @BeforeEach
-  public void setRevision() {
+  @BeforeAll
+  public static void setRevision() {
     StaticEntity.overrideRevision(10000);
   }
 

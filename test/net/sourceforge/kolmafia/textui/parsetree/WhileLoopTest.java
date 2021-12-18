@@ -40,7 +40,10 @@ public class WhileLoopTest {
             "while with incorrect condition",
             "while (2)",
             "\"while\" requires a boolean conditional expression",
-            "char 8 to char 9"),
+            "char 8 to char 9",
+            "while (2 +)",
+            "Value expected",
+            "char 11 to char 12"),
         invalid(
             "while with unclosed condition",
             "while (true",

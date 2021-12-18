@@ -108,13 +108,19 @@ public class SwitchTest {
             "switch type mismatch",
             "switch (1) { case true: }",
             "Switch conditional has type int but label expression has type boolean",
-            "char 19 to char 23"),
+            "char 19 to char 23",
+            "switch (1 +) { case true: }",
+            "Value expected",
+            "char 12 to char 13"),
         invalid(
             "switch block type mismatch",
             // Note that the implicit switch type is boolean here.
             "switch { case 1: }",
             "Switch conditional has type boolean but label expression has type int",
-            "char 15 to char 16"),
+            "char 15 to char 16",
+            "switch { case 1 +: }",
+            "Value expected",
+            "char 18 to char 19"),
         invalid(
             "duplicate switch label",
             "switch (1) { case 0: case 0: }",
