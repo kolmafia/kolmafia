@@ -16677,7 +16677,8 @@ public abstract class ChoiceManager {
 
         // If we have unlocked Gold Tier but cannot accept one, we must have already accepted three.
         boolean unlockedGoldTier = Preferences.getInteger("guzzlrBronzeDeliveries") >= 5;
-        if (unlockedGoldTier && ChoiceManager.findChoiceDecisionIndex("Gold Tier", text).equals("0")) {
+        if (unlockedGoldTier
+            && ChoiceManager.findChoiceDecisionIndex("Gold Tier", text).equals("0")) {
           Preferences.setInteger("_guzzlrGoldDeliveries", 3);
         }
 
