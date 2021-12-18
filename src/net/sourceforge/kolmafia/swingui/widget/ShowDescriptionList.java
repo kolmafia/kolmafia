@@ -330,17 +330,10 @@ public class ShowDescriptionList<E> extends JList<E> {
         return;
       }
 
-      List<String> forbidden = MallPurchaseRequest.getForbiddenStores();
-      String storeId = ((PurchaseRequest) this.item).getFormField("whichstore");
-
-      if (storeId == null || !storeId.matches("[0-9]+")) {
-        return;
-      }
-
-      if (forbidden.contains(storeId)) {
-        MallPurchaseRequest.removeForbiddenStore(Integer.parseInt(storeId));
-      } else {
-        MallPurchaseRequest.addForbiddenStore(Integer.parseInt(storeId));
+      try {
+        int storeId = Integer.parseInt(((PurchaseRequest) this.item).getFormField("whichstore"));
+        MallPurchaseRequest.toggleForbiddenStore(storeId);
+      } catch (NumberFormatException e) {
       }
     }
   }
