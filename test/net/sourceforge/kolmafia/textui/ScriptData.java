@@ -48,8 +48,23 @@ public abstract class ScriptData {
   }
 
   /**
-   * Shortcut method for the creation of an invalid script failing with the given error message as
-   * its first error, followed by a modified version of it which does not.
+   * Creates two invalid scripts failing with the given error messages.
+   *
+   * <p>The first script acts normally, in that only the first given error is looked at.
+   *
+   * <p>The <i>second</i> script, however, is meant to test the error filtering behaviour. It is a
+   * script similar to the first, which, in addition to looking at the first given error of {@code
+   * newScript}, looks at <b>all</b> the errors made by the script, asserting that <b>none</b> of
+   * them match {@code errorText}, because it has (allegedly) been filtered due to a prior error.
+   *
+   * @param desc the description of the script
+   * @param script the content of the first script
+   * @param errorText the error message expected from the first script, and <i>not</i> from the
+   *     second
+   * @param errorLocationString the location of the error expected from the first script
+   * @param newScript the content of the second script. Should be similar to the first
+   * @param newErrorText the error message expected from the second script
+   * @param newErrorLocationString the location of the error expected from the second script
    */
   public static ScriptData invalid(
       final String desc,
