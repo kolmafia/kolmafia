@@ -5,7 +5,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -315,9 +314,7 @@ public class ShowDescriptionList<E> extends JList<E> {
         return;
       }
 
-      List<String> forbidden =
-          new ArrayList<>(
-              Arrays.asList(Preferences.getString("forbiddenStores").split("\\s?,\\s?")));
+      List<String> forbidden = MallPurchaseRequest.getForbiddenStores();
       String storeId = ((PurchaseRequest) this.item).getFormField("whichstore");
 
       if (storeId == null || !storeId.matches("[0-9]+")) {
@@ -325,12 +322,10 @@ public class ShowDescriptionList<E> extends JList<E> {
       }
 
       if (forbidden.contains(storeId)) {
-        forbidden.remove(storeId);
+        MallPurchaseRequest.removeForbiddenStore(Integer.parseInt(storeId));
       } else {
-        forbidden.add(storeId);
+        MallPurchaseRequest.addForbiddenStore(Integer.parseInt(storeId));
       }
-
-      Preferences.setString("forbiddenStores", String.join(",", forbidden));
     }
   }
 

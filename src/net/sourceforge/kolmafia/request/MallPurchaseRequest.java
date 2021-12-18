@@ -49,22 +49,42 @@ public class MallPurchaseRequest extends PurchaseRequest {
   }
 
   public static List<String> getForbiddenStores() {
-    return Arrays.asList(Preferences.getString("forbiddenStores").split("\\s,\\s"));
+    return Arrays.asList(Preferences.getString("forbiddenStores").split("\\s?,\\s?"));
+  }
+
+  public static void removeForbiddenStore(int shopId) {
+    List<String> forbidden = MallPurchaseRequest.getForbiddenStores();
+    String shopIdString = String.valueOf(shopId);
+
+    if (!forbidden.contains(shopIdString)) {
+      return;
+    }
+
+    // forbidden is a fixed-sized list
+    ArrayList<String> list = new ArrayList<>(forbidden);
+
+    list.add(shopIdString);
+    Preferences.setString("forbiddenStores", String.join(",", list));
   }
 
   public static void addForbiddenStore(int shopId) {
     List<String> forbidden = MallPurchaseRequest.getForbiddenStores();
     String shopIdString = String.valueOf(shopId);
-    if (!forbidden.contains(shopIdString)) {
-      // forbidden is a fixed-sized list
-      ArrayList<String> list = new ArrayList<>(forbidden);
-      // An empty string splits into an array with a single empty element.
-      if (list.size() == 1 && list.get(0).equals("")) {
-        list.remove(0);
-      }
-      list.add(shopIdString);
-      Preferences.setString("forbiddenStores", String.join(",", list));
+
+    if (forbidden.contains(shopIdString)) {
+      return;
     }
+
+    // forbidden is a fixed-sized list
+    ArrayList<String> list = new ArrayList<>(forbidden);
+
+    // An empty string splits into an array with a single empty element.
+    if (list.size() == 1 && list.get(0).equals("")) {
+      list.remove(0);
+    }
+
+    list.add(shopIdString);
+    Preferences.setString("forbiddenStores", String.join(",", list));
   }
 
   /**
