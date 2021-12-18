@@ -247,7 +247,7 @@ public class AddCustomDeedsPanel extends JPanel {
 
         for (JLabel label : CustomDeedConstructor.this.labels) {
           String text = label.getText();
-          enableButton &= text == "OK" || text == "(optional)";
+          enableButton &= text.equals("OK") || text.equals("(optional)");
         }
 
         CustomDeedConstructor.this.button.setEnabled(enableButton);

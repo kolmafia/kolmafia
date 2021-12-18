@@ -10675,7 +10675,7 @@ public abstract class ChoiceManager {
         // Shen Copperhead, Nightclub Owner
         QuestDatabase.setQuestProgress(Quest.SHEN, "step1");
         Preferences.setInteger("shenInitiationDay", KoLCharacter.getCurrentDays());
-        if (Preferences.getString("shenQuestItem") == "") {
+        if (Preferences.getString("shenQuestItem").isEmpty()) {
           // We didn't recognise quest text before accepting quest, so get it from quest log
           RequestThread.postRequest(new QuestLogRequest());
         }
@@ -12872,7 +12872,7 @@ public abstract class ChoiceManager {
       case 1340:
         // Is There A Doctor In The House?
         if (ChoiceManager.lastDecision == 1) {
-          if (Preferences.getString("doctorBagQuestItem") == "") {
+          if (Preferences.getString("doctorBagQuestItem").isEmpty()) {
             // We didn't recognise quest text, so get it from quest log
             RequestThread.postRequest(new QuestLogRequest());
           }
@@ -13262,7 +13262,7 @@ public abstract class ChoiceManager {
                 if (!tier.equals("bronze")) {
                   Preferences.increment(
                       "_guzzlr" + StringUtilities.toTitleCase(tier) + "Deliveries",
-                      tier == "gold" ? 3 : 1);
+                      tier.equals("gold") ? 3 : 1);
                 }
 
                 if (boozeMatcher.find()) {
@@ -13270,8 +13270,8 @@ public abstract class ChoiceManager {
                   Preferences.setString("guzzlrQuestBooze", ItemDatabase.getItemName(itemId));
                 }
 
-                if (Preferences.getString("guzzlrQuestBooze") == ""
-                    || Preferences.getString("guzzlrQuestLocation") == "") {
+                if (Preferences.getString("guzzlrQuestBooze").isEmpty()
+                    || Preferences.getString("guzzlrQuestLocation").isEmpty()) {
                   RequestThread.postRequest(new QuestLogRequest());
                 }
 
@@ -16670,14 +16670,15 @@ public abstract class ChoiceManager {
 
           Preferences.setBoolean(
               "_guzzlrQuestAbandoned",
-              (ChoiceManager.findChoiceDecisionIndex("Abandon Client", text) == "0"));
+              (ChoiceManager.findChoiceDecisionIndex("Abandon Client", text).equals("0")));
 
           break;
         }
 
         // If we have unlocked Gold Tier but cannot accept one, we must have already accepted three.
         boolean unlockedGoldTier = Preferences.getInteger("guzzlrBronzeDeliveries") >= 5;
-        if (unlockedGoldTier && ChoiceManager.findChoiceDecisionIndex("Gold Tier", text) == "0") {
+        if (unlockedGoldTier
+            && ChoiceManager.findChoiceDecisionIndex("Gold Tier", text).equals("0")) {
           Preferences.setInteger("_guzzlrGoldDeliveries", 3);
         }
 
@@ -16685,7 +16686,7 @@ public abstract class ChoiceManager {
         // one.
         boolean unlockedPlatinumTier = Preferences.getInteger("guzzlrGoldDeliveries") >= 5;
         if (unlockedPlatinumTier
-            && ChoiceManager.findChoiceDecisionIndex("Platinum Tier", text) == "0") {
+            && ChoiceManager.findChoiceDecisionIndex("Platinum Tier", text).equals("0")) {
           Preferences.setInteger("_guzzlrPlatinumDeliveries", 1);
         }
 
