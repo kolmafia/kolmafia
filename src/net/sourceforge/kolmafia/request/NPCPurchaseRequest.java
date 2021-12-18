@@ -470,9 +470,16 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       boolean takesMeat = currency.equals("Meat");
 
       if ((takesMeat && NPCStoreDatabase.getPurchaseRequest(id) == null)
-          || (!takesMeat
+          || (
+          // Doesnt take meat...
+          !takesMeat
+              // ...and not in coinmasters
               && CoinmastersDatabase.getPurchaseRequest(id) == null
-              && (!usesMixedCurrency(shopId) || !ConcoctionDatabase.hasMixingMethod(id)))) {
+              // ...and doesn't use mixed currency (we can't store this currently in our data files)
+              && !usesMixedCurrency(shopId)
+              // ...and doesn't have a mixing method (sometimes things are stored as concoctions
+              // instead of NPC items)
+              && !ConcoctionDatabase.hasMixingMethod(id))) {
         // Didn't know this was buyable
         String cost = matcher.group(5).replaceAll(",", "");
         String row = matcher.group(6);
