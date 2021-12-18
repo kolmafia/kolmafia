@@ -30,11 +30,7 @@ class SpelunkyRequestTest {
   }
 
   @Test
-  public void itShouldGetImageNamesPlusGenerateCoverage() {
-    // Just make an object for coverage
-    SpelunkyRequest req = new SpelunkyRequest();
-    // For coverage
-    SpelunkyRequest.parseCharpane("Not a response");
+  public void itShouldGetImageNames() {
     // Not a spelunky adventure
     KoLAdventure adventure = AdventureDatabase.getAdventureByName("Summoning Chamber");
     assertNull(SpelunkyRequest.adventureImage(adventure), "Not a spelunky location");
@@ -80,5 +76,23 @@ class SpelunkyRequestTest {
     assertEquals(0, item.getCount(KoLConstants.inventory), "Unexpected item count after reset");
     item = ItemPool.get(ItemPool.SPELUNKY_FEDORA);
     assertEquals(0, item.getCount(KoLConstants.inventory), "Unexpected item count after reset");
+  }
+
+  @Test
+  public void itShouldExerciseSomeRoutinesWithNoData() {
+    // Just make an object for coverage
+    SpelunkyRequest req = new SpelunkyRequest();
+    // For coverage
+    SpelunkyRequest.parseCharpane("Not a response");
+    // There is no buddy or image
+    assertNull(SpelunkyRequest.getBuddyName(), "Should not be a buddy");
+    assertNull(SpelunkyRequest.getBuddyImageName(), "Should not be a buddy image");
+    assertNull(SpelunkyRequest.getBuddyRole(), "Should not be a buddy role");
+    // No gold or other things
+    assertEquals(0, SpelunkyRequest.getGold(), "Should not have gold");
+    assertEquals(0, SpelunkyRequest.getBomb(), "Should not have bomb");
+    assertEquals(0, SpelunkyRequest.getKey(), "Should not have keys");
+    assertEquals(0, SpelunkyRequest.getTurnsLeft(), "Should not have turns left");
+    assertEquals(0, SpelunkyRequest.getRope(), "Should not have rope");
   }
 }
