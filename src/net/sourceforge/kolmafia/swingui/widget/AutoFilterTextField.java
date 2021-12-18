@@ -223,7 +223,7 @@ public class AutoFilterTextField<E> extends AutoHighlightTextField
 
       if (AutoFilterTextField.this.text != null
           && AutoFilterTextField.this.text.length() > 1
-          && AutoFilterTextField.this.text.charAt(0) == "-".charAt(0)) {
+          && AutoFilterTextField.this.text.charAt(0) == '-') {
         AutoFilterTextField.this.notChecked = true;
         AutoFilterTextField.this.text = AutoFilterTextField.this.text.substring(1).trim();
       }
