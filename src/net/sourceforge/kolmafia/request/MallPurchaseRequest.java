@@ -49,7 +49,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
   }
 
   public static List<String> getForbiddenStores() {
-    return Arrays.asList(Preferences.getString("forbiddenStores").split("\\s?,\\s?"));
+    return Arrays.asList(Preferences.getString("forbiddenStores").split("\\s*,\\s*"));
   }
 
   public static void removeForbiddenStore(int shopId) {
