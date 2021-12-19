@@ -29,6 +29,15 @@ public class MaximizerTest {
   }
 
   @Test
+  public void equipsItemsOnlyIfHasStats() {
+    addItem("helmet turtle");
+    addItem("wreath of laurels");
+    assertTrue(maximize("mus"));
+    assertEquals(1, modFor("Buffed Muscle"), 0.01);
+    recommendedSlotIs(EquipmentManager.HAT, "helmet turtle");
+  }
+
+  @Test
   public void nothingBetterThanSomething() {
     addItem("helmet turtle");
     assertTrue(maximize("-mus"));
@@ -77,9 +86,8 @@ public class MaximizerTest {
         modFor("Cold Resistance") - modFor("Combat Rate"),
         0.01,
         "Maximizing one slot should reach 27");
-    Optional<AdventureResult> acc1 = getSlot(EquipmentManager.ACCESSORY1);
-    assertTrue(acc1.isPresent());
-    assertEquals(acc1.get(), AdventureResult.parseResult("Krampus horn"));
+
+    recommendedSlotIs(EquipmentManager.ACCESSORY1, "Krampus horn");
   }
 
   @Test
@@ -180,9 +188,7 @@ public class MaximizerTest {
     assertEquals(3, modFor("Cold Resistance"), 0.01);
     assertEquals(20, modFor("Item Drop"), 0.01);
 
-    Optional<AdventureResult> hat = getSlot(EquipmentManager.HAT);
-    assertTrue(hat.isPresent());
-    assertEquals(hat.get(), AdventureResult.parseResult("bounty-hunting helmet"));
+    recommendedSlotIs(EquipmentManager.HAT, "bounty-hunting helmet");
   }
 
   @Test
@@ -191,6 +197,25 @@ public class MaximizerTest {
     assertFalse(maximize("mus 2 min"));
     // still provides equipment
     assertEquals(1, modFor("Buffed Muscle"), 0.01);
+  }
+
+  @Test
+  public void clownosityTriesClownEquipment() {
+    addItem("clown wig");
+    setStats(0, 0, 10);
+    assertFalse(maximize("clownosity"));
+    // still provides equipment
+    recommendedSlotIs(EquipmentManager.HAT, "clown wig");
+  }
+
+  @Test
+  public void clownositySucceedsWithEnoughEquipment() {
+    addItem("clown wig");
+    addItem("polka-dot bow tie");
+    setStats(0, 10, 10);
+    assertTrue(maximize("clownosity"));
+    recommendedSlotIs(EquipmentManager.HAT, "clown wig");
+    recommendedSlotIs(EquipmentManager.ACCESSORY1, "polka-dot bow tie");
   }
 
   private void equip(int slot, String item) {
@@ -240,5 +265,11 @@ public class MaximizerTest {
             .filter(b -> b.getSlot() == slot)
             .map(Boost::getItem)
             .findAny();
+  }
+
+  private void recommendedSlotIs(int slot, String item) {
+    Optional<AdventureResult> hat = getSlot(slot);
+    assertTrue(hat.isPresent());
+    assertEquals(hat.get(), AdventureResult.parseResult(item));
   }
 }
