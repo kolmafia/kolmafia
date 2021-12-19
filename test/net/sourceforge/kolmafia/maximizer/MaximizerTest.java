@@ -37,7 +37,7 @@ public class MaximizerTest {
 
   @Test
   public void clubModifierDoesntAffectOffhand() {
-    KoLCharacter.addAvailableSkill("Double-Fisted Skull Smashing");
+    addSkill("Double-Fisted Skull Smashing");
     // 15 base + buffed mus.
     setStats(15, 0, 0);
     // 2 flaming crutch, 2 white sword, 1 dense meat sword.
@@ -77,12 +77,7 @@ public class MaximizerTest {
         modFor("Cold Resistance") - modFor("Combat Rate"),
         0.01,
         "Maximizing one slot should reach 27");
-    Optional<AdventureResult> acc1 =
-        Maximizer.boosts.stream()
-            .filter(Boost::isEquipment)
-            .filter(b -> b.getSlot() == EquipmentManager.ACCESSORY1)
-            .map(Boost::getItem)
-            .findAny();
+    Optional<AdventureResult> acc1 = getSlot(EquipmentManager.ACCESSORY1);
     assertTrue(acc1.isPresent());
     assertEquals(acc1.get(), AdventureResult.parseResult("Krampus horn"));
   }
@@ -174,6 +169,30 @@ public class MaximizerTest {
     assertEquals(25, modFor("Meat Drop"), 0.01);
   }
 
+  @Test
+  public void maxKeywordStopsCountingBeyondTarget() {
+    addItem("hardened slime hat");
+    addItem("bounty-hunting helmet");
+    addSkill("Refusal to Freeze");
+    setStats(0, 0, 200);
+    assertTrue(maximize("cold res 3 max, 0.1 item drop"));
+
+    assertEquals(3, modFor("Cold Resistance"), 0.01);
+    assertEquals(20, modFor("Item Drop"), 0.01);
+
+    Optional<AdventureResult> hat = getSlot(EquipmentManager.HAT);
+    assertTrue(hat.isPresent());
+    assertEquals(hat.get(), AdventureResult.parseResult("bounty-hunting helmet"));
+  }
+
+  @Test
+  public void minKeywordFailsMaximizationIfNotHit() {
+    addItem("helmet turtle");
+    assertFalse(maximize("mus 2 min"));
+    // still provides equipment
+    assertEquals(1, modFor("Buffed Muscle"), 0.01);
+  }
+
   private void equip(int slot, String item) {
     EquipmentManager.setEquipment(slot, AdventureResult.parseResult(item));
   }
@@ -190,6 +209,10 @@ public class MaximizerTest {
 
   private void addEffect(String effect) {
     KoLConstants.activeEffects.add(EffectPool.get(EffectDatabase.getEffectId(effect)));
+  }
+
+  private void addSkill(String skill) {
+    KoLCharacter.addAvailableSkill(skill);
   }
 
   private void setStats(int muscle, int mysticality, int moxie) {
@@ -209,5 +232,13 @@ public class MaximizerTest {
 
   private double modFor(String modifier) {
     return Modifiers.getNumericModifier("Generated", "_spec", modifier);
+  }
+
+  private Optional<AdventureResult> getSlot(int slot) {
+    return Maximizer.boosts.stream()
+            .filter(Boost::isEquipment)
+            .filter(b -> b.getSlot() == slot)
+            .map(Boost::getItem)
+            .findAny();
   }
 }
