@@ -56,11 +56,13 @@ public class MallPurchaseRequest extends PurchaseRequest {
     // String.split returns a fixed-size list
     // String.split returns a list with an empty element if the input string is empty
     String input = Preferences.getString("forbiddenStores").trim();
+
     if (input.equals("")) {
       return new HashSet<>();
     }
 
     return Arrays.stream(input.split("\\s*,\\s*"))
+        .filter(s -> s.matches("[0-9]+"))
         .mapToInt(Integer::parseInt)
         .boxed()
         .collect(Collectors.toSet());
