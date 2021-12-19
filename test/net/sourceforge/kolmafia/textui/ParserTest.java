@@ -125,7 +125,7 @@ public class ParserTest {
   public void testMultipleDiagnosticsPerParser() {
     final String script =
         "import fake/path"
-            + "\nstring foobar(string... foo, int bar) {"
+            + "\nvoid foobar(string... foo, int bar) {"
             + "\n    continue;"
             + "\n}";
     final ByteArrayInputStream istream =
@@ -135,19 +135,16 @@ public class ParserTest {
     parser.parse();
 
     final List<Parser.AshDiagnostic> diagnostics = parser.getDiagnostics();
-    assertEquals(4, diagnostics.size());
+    assertEquals(3, diagnostics.size());
 
     assertEquals("fake/path could not be found", diagnostics.get(0).message);
     ParserTest.assertLocationEquals(1, 1, 1, 17, diagnostics.get(0).location);
 
     assertEquals("The vararg parameter must be the last one", diagnostics.get(1).message);
-    ParserTest.assertLocationEquals(2, 30, 2, 33, diagnostics.get(1).location);
+    ParserTest.assertLocationEquals(2, 28, 2, 31, diagnostics.get(1).location);
 
     assertEquals("Encountered 'continue' outside of loop", diagnostics.get(2).message);
     ParserTest.assertLocationEquals(3, 5, 3, 13, diagnostics.get(2).location);
-
-    assertEquals("Missing return value", diagnostics.get(3).message);
-    ParserTest.assertLocationEquals(2, 8, 2, 38, diagnostics.get(3).location);
   }
 
   @Test
