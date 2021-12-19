@@ -47,9 +47,7 @@ public class MaximizerTest {
   @Test
   public void clubModifierDoesntAffectOffhand() {
     addSkill("Double-Fisted Skull Smashing");
-    // 15 base + buffed mus.
     setStats(15, 0, 0);
-    // 2 flaming crutch, 2 white sword, 1 dense meat sword.
     // Max required muscle to equip any of these is 15.
     addItem("flaming crutch", 2);
     addItem("white sword", 2);
@@ -64,7 +62,6 @@ public class MaximizerTest {
 
   @Test
   public void maximizeGiveBestScoreWithEffectsAtNoncombatLimit() {
-    // space trip safety headphones, Krampus horn
     addItem("Space Trip safety headphones");
     addItem("Krampus horn");
     // get ourselves to -25 combat
@@ -121,7 +118,6 @@ public class MaximizerTest {
   // Sample test for https://kolmafia.us/showthread.php?23648&p=151903#post151903.
   @Test
   public void noTieCanLeaveSlotsEmpty() {
-    // 1 helmet turtle.
     addItem("helmet turtle");
     assertTrue(maximize("mys -tie"));
     assertEquals(0, modFor("Buffed Muscle"), 0.01);
@@ -282,8 +278,8 @@ public class MaximizerTest {
   }
 
   private void recommendedSlotIs(int slot, String item) {
-    Optional<AdventureResult> hat = getSlot(slot);
-    assertTrue(hat.isPresent());
-    assertEquals(hat.get(), AdventureResult.parseResult(item));
+    Optional<AdventureResult> equipment = getSlot(slot);
+    assertTrue(equipment.isPresent());
+    assertEquals(equipment.get(), AdventureResult.parseResult(item));
   }
 }
