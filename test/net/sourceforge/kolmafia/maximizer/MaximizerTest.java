@@ -192,6 +192,18 @@ public class MaximizerTest {
   }
 
   @Test
+  public void startingMaxKeywordTerminatesEarlyIfConditionMet() {
+    addItem("hardened slime hat");
+    addItem("bounty-hunting helmet");
+    addSkill("Refusal to Freeze");
+    setStats(0, 0, 200);
+    maximize("3 max, cold res");
+
+    assertTrue(Maximizer.boosts.stream()
+        .anyMatch(b -> b.toString().contains("(maximum achieved, no further combinations checked)")));
+  }
+
+  @Test
   public void minKeywordFailsMaximizationIfNotHit() {
     addItem("helmet turtle");
     assertFalse(maximize("mus 2 min"));
