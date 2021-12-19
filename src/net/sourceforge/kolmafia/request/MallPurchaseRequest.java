@@ -81,16 +81,19 @@ public class MallPurchaseRequest extends PurchaseRequest {
   public static void addForbiddenStore(int shopId) {
     Set<Integer> forbidden = getForbiddenStores();
     forbidden.add(shopId);
+
     setForbiddenStores(forbidden);
   }
 
   public static void toggleForbiddenStore(int shopId) {
     Set<Integer> forbidden = getForbiddenStores();
+
     if (forbidden.contains(shopId)) {
       forbidden.remove(shopId);
     } else {
       forbidden.add(shopId);
     }
+
     setForbiddenStores(forbidden);
   }
 
@@ -183,7 +186,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
   @Override
   public String color() {
-    if (getForbiddenStores().contains(String.valueOf(this.shopId))) {
+    if (getForbiddenStores().contains(this.shopId)) {
       // Try get the color from look and feel
       Color color = UIManager.getColor("InternalFrame.closePressedBackground");
 
@@ -227,7 +230,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    if (MallPurchaseRequest.getForbiddenStores().contains(String.valueOf(this.shopId))) {
+    if (MallPurchaseRequest.getForbiddenStores().contains(this.shopId)) {
       KoLmafia.updateDisplay(
           "This shop ("
               + this.shopName
