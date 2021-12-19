@@ -10871,4 +10871,5 @@
 10844	gooified animal matter	770996300	goo_org.gif	none	t	0
 10845	gooified vegetable matter	352079501	goo_veg.gif	none	t	0
 10846	gooified mineral matter	933889078	goo_min.gif	none	t	0
-10847	[experimental crimbo food]	268310979	confused.gif	food	q	11
+10847	[experimental crimbo food]	268310979	confused.gif	food	q,d	11
+10848	[experimental crimbo booze]	222544926	coffeecup.gif	drink	q,d	11
