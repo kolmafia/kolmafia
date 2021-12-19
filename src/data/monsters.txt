@@ -2187,6 +2187,7 @@ gooified elf-thing	2221	goo_elf1.gif,goo_elf2.gif,goo_elf3.gif	Atk: 130 Def: 130
 gooified dog-thing	2222	goo_dog.gif	Atk: 150 Def: 150 HP: 200 Init: 200 P: beast	gooified animal matter (100)	gooified animal matter (50)	gooified animal matter (25)	gooified animal matter (5)	gooified animal matter (1)
 gooified flower	2223	goo_flower.gif	Atk: 180 Def: 180 HP: 300 Init: -10000 P: plant	gooified vegetable matter (100)	gooified vegetable matter (100)	gooified vegetable matter (100)
 gooified tree	2224	goo_tree.gif	Atk: 150 Def: 50 HP: 1000 Init: -10000 P: plant	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)
+gooified rock slab	2225	goo_slab1.gif,goo_slab2.gif,goo_slab3.gif	Atk: 250 Def: 250 HP: 500 Init: -10000 P: elemental	gooified mineral matter (100)	gooified mineral matter (100)
 
 # Old Events
 
