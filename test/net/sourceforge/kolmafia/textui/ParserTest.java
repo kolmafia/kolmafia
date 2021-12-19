@@ -124,10 +124,7 @@ public class ParserTest {
   @Test
   public void testMultipleDiagnosticsPerParser() {
     final String script =
-        "import fake/path"
-            + "\nvoid foobar(string... foo, int bar) {"
-            + "\n    continue;"
-            + "\n}";
+        "import fake/path" + "\nvoid foobar(string... foo, int bar) {" + "\n    continue;" + "\n}";
     final ByteArrayInputStream istream =
         new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8));
     final Parser parser = new Parser(null, istream, null);
