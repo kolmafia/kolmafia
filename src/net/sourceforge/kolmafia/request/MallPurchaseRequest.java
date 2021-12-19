@@ -28,7 +28,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class MallPurchaseRequest extends PurchaseRequest {
   private static final Pattern YIELD_PATTERN =
       Pattern.compile(
-          "You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)");
+          "You may only buy ([\\d,]+) of this item per day from this store\\. You have already purchased ([\\d,]+)");
 
   public static final Set<Integer> disabledStores = new HashSet<>();
   public static final Set<Integer> ignoringStores = new HashSet<>();
