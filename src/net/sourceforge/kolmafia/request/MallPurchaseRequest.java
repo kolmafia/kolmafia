@@ -30,14 +30,14 @@ public class MallPurchaseRequest extends PurchaseRequest {
       Pattern.compile(
           "You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)");
 
-  public static final Set<Integer> disabledStores = new HashSet<Integer>();
-  public static final Set<Integer> ignoringStores = new HashSet<Integer>();
+  public static final Set<Integer> disabledStores = new HashSet<>();
+  public static final Set<Integer> ignoringStores = new HashSet<>();
 
   private final int shopId;
 
   private static final Pattern STOREID_PATTERN = Pattern.compile("whichstore\\d?=(\\d+)");
 
-  public static final int getStoreId(final String urlString) {
+  public static int getStoreId(final String urlString) {
     return GenericRequest.getNumericField(urlString, MallPurchaseRequest.STOREID_PATTERN);
   }
 
@@ -163,7 +163,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
     this.timestamp = System.currentTimeMillis();
   }
 
-  public static final String getStoreString(final int itemId, final int price) {
+  public static String getStoreString(final int itemId, final int price) {
     // whichitem=2272000000246
 
     StringBuilder whichItem = new StringBuilder();
@@ -395,7 +395,6 @@ public class MallPurchaseRequest extends PurchaseRequest {
       }
 
       this.canPurchase = false;
-      return;
     }
   }
 
@@ -408,7 +407,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
           "You spent ([\\d,]+) [Mm]eat( from Hagnk's.*?You have ([\\d,]+) [Mm]eat left)?",
           Pattern.DOTALL);
 
-  public static final void parseResponse(final String urlString, final String responseText) {
+  public static void parseResponse(final String urlString, final String responseText) {
     if (!urlString.startsWith("mallstore.php") || !urlString.contains("whichitem")) {
       return;
     }
@@ -478,12 +477,12 @@ public class MallPurchaseRequest extends PurchaseRequest {
   // Mini-Storage)
   // You acquire <b>37 limes</b><br>(In a row?!) (stored in Hagnk's Ancestral Mini-Storage)
 
-  public static Pattern ITEM_PATTERN =
+  public static final Pattern ITEM_PATTERN =
       Pattern.compile(
           "<table class=\"item\".*?rel=\".*?\".*?( \\(stored in Hagnk's Ancestral Mini-Storage\\))?</td></tr></table>",
           Pattern.DOTALL);
 
-  public static final AdventureResult processItemFromMall(final String text) {
+  public static AdventureResult processItemFromMall(final String text) {
     // Items are now wrapped in KoL's standard "relstring" table"
 
     Matcher itemMatcher = MallPurchaseRequest.ITEM_PATTERN.matcher(text);
@@ -497,7 +496,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       result = result.replaceFirst("\\(stored in Hagnk's Ancestral Mini-Storage\\)", "");
     }
 
-    ArrayList<AdventureResult> results = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> results = new ArrayList<>();
     ResultProcessor.processResults(false, result, results);
 
     if (results.isEmpty()) {
@@ -517,7 +516,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
     return item;
   }
 
-  public static final boolean registerRequest(final String urlString) {
+  public static boolean registerRequest(final String urlString) {
     // mallstore.php?whichstore=294980&buying=1&ajax=1&whichitem=2272000000246&quantity=9
 
     if (!urlString.startsWith("mallstore.php")) {
