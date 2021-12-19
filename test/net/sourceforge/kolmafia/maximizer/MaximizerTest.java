@@ -199,8 +199,10 @@ public class MaximizerTest {
     setStats(0, 0, 200);
     maximize("3 max, cold res");
 
-    assertTrue(Maximizer.boosts.stream()
-        .anyMatch(b -> b.toString().contains("(maximum achieved, no further combinations checked)")));
+    assertTrue(
+        Maximizer.boosts.stream()
+            .anyMatch(
+                b -> b.toString().contains("(maximum achieved, no further combinations checked)")));
   }
 
   @Test
@@ -273,10 +275,10 @@ public class MaximizerTest {
 
   private Optional<AdventureResult> getSlot(int slot) {
     return Maximizer.boosts.stream()
-            .filter(Boost::isEquipment)
-            .filter(b -> b.getSlot() == slot)
-            .map(Boost::getItem)
-            .findAny();
+        .filter(Boost::isEquipment)
+        .filter(b -> b.getSlot() == slot)
+        .map(Boost::getItem)
+        .findAny();
   }
 
   private void recommendedSlotIs(int slot, String item) {
