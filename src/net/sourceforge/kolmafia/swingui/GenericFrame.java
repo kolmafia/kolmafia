@@ -656,13 +656,24 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
   private void rememberPosition() {
     Point p = this.getLocation();
 
-    // We store the width/height despite not using it outside of TabbedChatFrame in case we change our mind later
+    // We store the width/height despite not using it outside of TabbedChatFrame in case we change
+    // our mind later
     if (this.tabs == null) {
-      Preferences.setString(this.frameName, (int) p.getX() + "," + (int) p.getY() + "," + getWidth() + "," + getHeight());
+      Preferences.setString(
+          this.frameName,
+          (int) p.getX() + "," + (int) p.getY() + "," + getWidth() + "," + getHeight());
     } else {
       Preferences.setString(
           this.frameName,
-          (int) p.getX() + "," + (int) p.getY() + "," + this.tabs.getSelectedIndex() + "," + getWidth() + "," + getHeight());
+          (int) p.getX()
+              + ","
+              + (int) p.getY()
+              + ","
+              + this.tabs.getSelectedIndex()
+              + ","
+              + getWidth()
+              + ","
+              + getHeight());
     }
   }
 
