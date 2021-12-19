@@ -1203,7 +1203,7 @@
 1201	Pretending to Pretend	pewtersword.gif	9325284afe7a89c7ad04231ef3e92e30	good	none	# turn on Ye Olde Television Set in The Castle in the Clouds in the Sky (Ground Floor)
 1202	Superveiny 9000	strboost.gif	6d89203ac28fe98c2de379b0c3e0bb63	good	none	use 1 Super Weight-Gain 9000
 1203	Always In Motion	jarl_neverlate.gif	8e8bc4e1f0f6df5807d2b7d7bc58341e	good	none	use 1 possibility potion
-1204	Celestial Sheen	celestoil.gif	ebb01f56b26ffd4319e770a492d2c1f3	good	none	use 1 celestial olive oil|cargo effect Celestial Sheen
+1204	Celestial Sheen	celestoil.gif	ebb01f56b26ffd4319e770a492d2c1f3	good	none	use 1 celestial olive oil|cargo effect Celestial Sheen|genie effect Celestial Sheen
 1205	Celestial Vision	celesteyes.gif	d650ad971bf6c21a87dd67ab829b2c1c	good	none	use 1 celestial carrot juice
 1206	Celestial Saltiness	celestsalt.gif	736dbff093fb7c6e4fa8da154320b8ec	neutral	none	use 1 celestial au jus
 1207	Celestial Camouflage	celestcamo.gif	fbe81949d5784e4cc9942f47c97103d3	neutral	none	use 1 celestial squid ink
@@ -1295,7 +1295,7 @@
 1293	Top Dog	hotdog_sly.gif	0f072510150a80baaa64627b794a7139	good	none	eat 1 sly dog
 1294	Devil Inside	hotdog_hot.gif	09406849a16083bcfe48537b2cd1137d	good	none	eat 1 devil dog
 1295	Chill Out, Dog	hotdog_cold.gif	79c1fde9df0bb0d42fe063dd75b061fa	neutral	none	eat 1 chilly dog
-1296	Scaredy Dog	hotdog_spooky.gif	17e17c59ee318d83bc9f094145261adb	neutral	none	eat 1 ghost dog
+1296	Scaredy Dog	hotdog_spooky.gif	17e17c59ee318d83bc9f094145261adb	neutral	none	eat 1 ghost dog|genie effect Scaredy Dog
 1297	Dog Breath	hotdog_stench.gif	b7a0cfb670076dc88479ac4b35339c9a	neutral	none	eat 1 junkyard dog
 1298	Hangdog	hotdog_sleaze.gif	3b5ecfa5953774999e709c9ea98328b5	good	none	eat 1 wet dog
 1299	Video Game Hot Dog	hotdog_vg.gif	e7d3f4c89ec772a9f9428d6f8e335d1b	good	none	eat 1 video games hot dog
@@ -2524,7 +2524,7 @@
 2522	Festively Brined	flan2.gif	fdfdb06b66794900575f6e192c6c2247	neutral	none	eat 1 flan del mar
 2523	Baja, Humbug	sopapilla.gif	28b561f29c7cbcf8ca361184a859ff6e	neutral	none
 2524	Mana-Blasted	snowflakes.gif	0eea810738136755db9016d1a3b9dab5	good	none	eat either 1 mana-coated yams, 1 mana-basted tofurkey leg, 1 mana-fortified cranberry sauce, 1 mana-stuffed herbal stuffing
-2525	Furrier Than Thou	spacefur.gif	32e5886efc29d83ed915e979ac4ad7f8	good	none	use 1 patch of extra-warm fur
+2525	Furrier Than Thou	spacefur.gif	32e5886efc29d83ed915e979ac4ad7f8	good	none	use 1 patch of extra-warm fur|genie effect Furrier Than Thou
 2526	Potpourri Committed	sachet.gif	1394a0b4d47903bc761b2243f4babf84	good	none	use 1 organic potpourri
 2527	Gooed Enough For Government Work	plantgoo.gif	c3aed4f4cf78c7fd3cb8912e470e76df	good	none	use 1 extra-strength goo
 2528	Good Chance of Surviving Hell	hellsnowball.gif	568b981ef6e25816b734647f14ec2fab	good	none	use 1 infernal snowball
