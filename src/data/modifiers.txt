@@ -5703,6 +5703,7 @@ Effect	Feet of Strawberry	Experience (Moxie): +3
 Effect	Feet of Watermelon	Experience (Muscle): +3
 # Festively Brined: Makes you a better diver
 Effect Festively Brined	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
+Effect	Festively Experimented-Upon	Maximum HP Percent: +200, Maximum MP Percent: +200
 Effect	Feline Ferocity	Weapon Damage Percent: +100
 Effect	Feroci Tea	Muscle: +50
 Effect	Festive Radiation	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, HP Regen Min: 10, HP Regen Max: 10, MP Regen Min: 10, MP Regen Max: 10
