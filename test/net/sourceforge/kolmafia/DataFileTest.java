@@ -64,7 +64,7 @@ public class DataFileTest {
               ".+", // name
               "\\d+", // fullness
               "\\d+", // level
-              "(crappy|decent|good|awesome|EPIC)", // quality
+              "(|crappy|decent|good|awesome|EPIC)", // quality
               "-?\\d+(-\\d+)?", // adv
               "-?\\d+(-\\d+)?", // mus
               "-?\\d+(-\\d+)?", // mys
