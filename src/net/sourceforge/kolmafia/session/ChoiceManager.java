@@ -15172,6 +15172,24 @@ public abstract class ChoiceManager {
       case 1454: // Cropduster Dusty
         WildfireCampRequest.refresh();
         break;
+
+      case 1457: // Food Lab
+        if (ChoiceManager.lastDecision == 1 && text.contains("You acquire an item")) {
+          ResultProcessor.processItem(ItemPool.GOOIFIED_ANIMAL_MATTER, -5);
+        }
+        break;
+
+      case 1458: // Nog Lab
+        if (ChoiceManager.lastDecision == 1 && text.contains("You acquire an item")) {
+          ResultProcessor.processItem(ItemPool.GOOIFIED_VEGETABLE_MATTER, -5);
+        }
+        break;
+
+      case 1459: // Chem Lab
+        if (ChoiceManager.lastDecision == 1 && text.contains("You acquire an item")) {
+          ResultProcessor.processItem(ItemPool.GOOIFIED_MINERAL_MATTER, -5);
+        }
+        break;
     }
 
     if (ChoiceManager.handlingChoice) {
