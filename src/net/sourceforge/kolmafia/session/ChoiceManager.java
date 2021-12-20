@@ -13262,8 +13262,7 @@ public abstract class ChoiceManager {
                 // Increment the number of gold or platinum deliveres STARTED today
                 if (!tier.equals("bronze")) {
                   Preferences.increment(
-                      "_guzzlr" + StringUtilities.toTitleCase(tier) + "Deliveries",
-                      tier.equals("gold") ? 3 : 1);
+                      "_guzzlr" + StringUtilities.toTitleCase(tier) + "Deliveries", 1);
                 }
 
                 if (boozeMatcher.find()) {
