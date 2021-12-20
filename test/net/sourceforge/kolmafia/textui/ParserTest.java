@@ -4,8 +4,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -130,41 +128,29 @@ public class ParserTest {
 
   @Test
   public void testMultipleDiagnosticsPerParser() {
-    final String script =
-        "import fake/path" + "\nvoid foobar(string... foo, int bar) {" + "\n    continue;" + "\n}";
-    final ByteArrayInputStream istream =
-        new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8));
-    final Parser parser = new Parser(null, istream, null);
+    final ScriptData script =
+        ScriptData.invalid(
+            "multiple diagnostics per parser",
+            "import fake/path\nvoid foobar(string... foo, int bar) {\n    continue;\n}",
+            "fake/path could not be found",
+            "char 1 to char 17");
 
-    parser.parse();
+    assertEquals(3, script.errors.size());
 
-    final List<Parser.AshDiagnostic> diagnostics = parser.getDiagnostics();
-    assertEquals(3, diagnostics.size());
+    assertEquals("The vararg parameter must be the last one", script.errors.get(1).message);
+    ParserTest.assertLocationEquals(2, 28, 2, 31, script.errors.get(1).location);
 
-    assertEquals("fake/path could not be found", diagnostics.get(0).message);
-    ParserTest.assertLocationEquals(1, 1, 1, 17, diagnostics.get(0).location);
-
-    assertEquals("The vararg parameter must be the last one", diagnostics.get(1).message);
-    ParserTest.assertLocationEquals(2, 28, 2, 31, diagnostics.get(1).location);
-
-    assertEquals("Encountered 'continue' outside of loop", diagnostics.get(2).message);
-    ParserTest.assertLocationEquals(3, 5, 3, 13, diagnostics.get(2).location);
+    assertEquals("Encountered 'continue' outside of loop", script.errors.get(2).message);
+    ParserTest.assertLocationEquals(3, 5, 3, 13, script.errors.get(2).location);
   }
 
   @Test
   public void testErrorFilter() {
-    final String script = "int a; max(a, b)";
-    final ByteArrayInputStream istream =
-        new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8));
-    final Parser parser = new Parser(null, istream, null);
+    final ScriptData script =
+        ScriptData.invalid(
+            "error filter test", "int a; max(a, b)", "Unknown variable 'b'", "char 15 to char 16");
 
-    parser.parse();
-
-    final List<Parser.AshDiagnostic> diagnostics = parser.getDiagnostics();
-    assertEquals(1, diagnostics.size());
-
-    assertEquals("Unknown variable 'b'", diagnostics.get(0).message);
-    ParserTest.assertLocationEquals(1, 15, 1, 16, diagnostics.get(0).location);
+    assertEquals(1, script.errors.size());
 
     // Note the lack of "Function 'max( int, <unknown> )' undefined."
   }
