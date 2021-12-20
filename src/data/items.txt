@@ -10873,3 +10873,4 @@
 10846	gooified mineral matter	933889078	goo_min.gif	none	t	0
 10847	[experimental crimbo food]	268310979	confused.gif	food	q,d	11
 10848	[experimental crimbo booze]	222544926	coffeecup.gif	drink	q,d	11
+10849	[experimental crimbo spleen]	489345410	potion10.gif	spleen, usable	q,d	11

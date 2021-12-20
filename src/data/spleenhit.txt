@@ -4,6 +4,7 @@
 
 # Item	Spleenhit	Level Req	Quality	Adv	Musc	Myst	Moxie
 
+[experimental crimbo spleen]	2	1		0	0	0	0	Unspaded
 a bug's lymph	1	1	awesome	0	0	0	0	Unspaded 60 A Bug's Life (+100% HP, +8-10 HP Regen)
 abstraction: action	1	1	decent	0	0	0	0	50 Action (+100% mus)
 abstraction: category	1	1	decent	0	0	0	0	50 Category (+25% mys experience)
