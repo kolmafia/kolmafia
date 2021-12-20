@@ -47,8 +47,10 @@ public class ParserTest {
     // The error that changed the state of the script from "valid" to "invalid"
     final String firstError = script.errors.get(0);
 
-    assertThat(script.desc, firstError, startsWith(script.errorText));
-    assertThat(script.desc, firstError, containsString(" (" + script.errorLocationString + ")"));
+    assertThat(
+        script.desc,
+        firstError,
+        startsWith(script.errorText + " (" + script.errorLocationString + ")"));
 
     if (script instanceof InvalidScriptDataWithErrorFilterTest) {
       final InvalidScriptData filteredScript =
