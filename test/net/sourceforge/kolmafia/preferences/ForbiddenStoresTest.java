@@ -116,4 +116,62 @@ class ForbiddenStoresTest {
 
     assertTrue(MallPurchaseRequest.getForbiddenStores().isEmpty());
   }
+
+  @Test
+  public void forbiddenToggle() {
+    assertTrue(MallPurchaseRequest.getForbiddenStores().isEmpty());
+
+    // 3
+    MallPurchaseRequest.toggleForbiddenStore(3);
+
+    Set<Integer> list = MallPurchaseRequest.getForbiddenStores();
+
+    assertArrayEquals(new Integer[] {3}, list.toArray(Integer[]::new));
+
+    // 3,5
+    MallPurchaseRequest.toggleForbiddenStore(5);
+
+    list = MallPurchaseRequest.getForbiddenStores();
+
+    assertArrayEquals(new Integer[] {3, 5}, list.toArray(Integer[]::new));
+
+    // 3
+    MallPurchaseRequest.toggleForbiddenStore(5);
+
+    // Compare using string just to prove it didn't save malformed that parses properly
+    assertEquals("3", Preferences.getString("forbiddenStores"));
+
+    // 3, 5
+    MallPurchaseRequest.toggleForbiddenStore(5);
+    // 3, 5
+    MallPurchaseRequest.addForbiddenStore(5);
+
+    list = MallPurchaseRequest.getForbiddenStores();
+
+    assertArrayEquals(new Integer[] {3, 5}, list.toArray(Integer[]::new));
+
+    // 3
+    MallPurchaseRequest.toggleForbiddenStore(5);
+
+    // Empty String
+    MallPurchaseRequest.toggleForbiddenStore(3);
+
+    // Compare using string just to prove it didn't save malformed that parses properly
+    assertEquals("", Preferences.getString("forbiddenStores"));
+  }
+
+  @Test
+  public void forbiddenSwitchUsers() {
+    assertEquals("", Preferences.getString("forbiddenStores"));
+
+    MallPurchaseRequest.toggleForbiddenStore(5);
+
+    assertEquals("5", Preferences.getString("forbiddenStores"));
+
+    KoLCharacter.reset("fakePrefUserToo");
+
+    assertEquals("", Preferences.getString("forbiddenStores"));
+
+    // We don't test if exists when we switch back, because we don't save preferences in our tests
+  }
 }
