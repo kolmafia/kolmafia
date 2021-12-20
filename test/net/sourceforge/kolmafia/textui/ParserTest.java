@@ -43,7 +43,7 @@ public class ParserTest {
     assertFalse(script.errors.isEmpty(), script.desc);
 
     // The error that changed the state of the script from "valid" to "invalid"
-    final String firstError = script.errors.get(0).toString();
+    final String firstError = script.errors.get(0);
 
     assertThat(
         script.desc,
@@ -57,13 +57,8 @@ public class ParserTest {
       // Trigger the normal tests on that version
       ParserTest.testScriptValidity(filteredScript);
 
-      final List<String> errors =
-          filteredScript.errors.stream()
-              .map(error -> error.toString())
-              .collect(Collectors.toList());
-
       // Confirm that the modified version doesn't contain the initial version's first error
-      if (errors.stream().anyMatch(error -> error.startsWith(script.errorText))) {
+      if (filteredScript.errors.stream().anyMatch(error -> error.startsWith(script.errorText))) {
         final StringBuilder message = new StringBuilder();
 
         message.append(filteredScript.desc);
@@ -73,7 +68,7 @@ public class ParserTest {
         message.append("[");
         message.append(KoLConstants.LINE_BREAK);
         message.append("  ");
-        message.append(String.join("," + KoLConstants.LINE_BREAK + "  ", errors));
+        message.append(String.join("," + KoLConstants.LINE_BREAK + "  ", filteredScript.errors));
         message.append(KoLConstants.LINE_BREAK);
         message.append("]");
         message.append(KoLConstants.LINE_BREAK);
@@ -137,11 +132,12 @@ public class ParserTest {
 
     assertEquals(3, script.errors.size());
 
-    assertEquals("The vararg parameter must be the last one", script.errors.get(1).message);
-    ParserTest.assertLocationEquals(2, 28, 2, 31, script.errors.get(1).location);
+    assertEquals(
+        "The vararg parameter must be the last one (line 2, char 28 to char 31)",
+        script.errors.get(1));
 
-    assertEquals("Encountered 'continue' outside of loop", script.errors.get(2).message);
-    ParserTest.assertLocationEquals(3, 5, 3, 13, script.errors.get(2).location);
+    assertEquals(
+        "Encountered 'continue' outside of loop (line 3, char 5 to char 13)", script.errors.get(2));
   }
 
   @Test
