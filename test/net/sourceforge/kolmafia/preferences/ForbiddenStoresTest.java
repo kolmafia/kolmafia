@@ -11,7 +11,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-/** Created by libraryaddict on 20/12/2021. */
 class ForbiddenStoresTest {
 
   // These need to be before and after each because leakage has been observed between tests
