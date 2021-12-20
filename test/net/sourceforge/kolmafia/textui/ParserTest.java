@@ -45,7 +45,7 @@ public class ParserTest {
     assertFalse(script.errors.isEmpty(), script.desc);
 
     // The error that changed the state of the script from "valid" to "invalid"
-    final String firstError = script.errors.get(0);
+    final String firstError = script.errors.get(0).toString();
 
     assertThat(
         script.desc,
@@ -59,8 +59,13 @@ public class ParserTest {
       // Trigger the normal tests on that version
       ParserTest.testScriptValidity(filteredScript);
 
+      final List<String> errors =
+          filteredScript.errors.stream()
+              .map(error -> error.toString())
+              .collect(Collectors.toList());
+
       // Confirm that the modified version doesn't contain the initial version's first error
-      if (filteredScript.errors.stream().anyMatch(error -> error.startsWith(script.errorText))) {
+      if (errors.stream().anyMatch(error -> error.startsWith(script.errorText))) {
         final StringBuilder message = new StringBuilder();
 
         message.append(filteredScript.desc);
@@ -70,7 +75,7 @@ public class ParserTest {
         message.append("[");
         message.append(KoLConstants.LINE_BREAK);
         message.append("  ");
-        message.append(String.join("," + KoLConstants.LINE_BREAK + "  ", filteredScript.errors));
+        message.append(String.join("," + KoLConstants.LINE_BREAK + "  ", errors));
         message.append(KoLConstants.LINE_BREAK);
         message.append("]");
         message.append(KoLConstants.LINE_BREAK);

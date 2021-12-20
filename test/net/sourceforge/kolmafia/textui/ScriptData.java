@@ -87,7 +87,7 @@ public abstract class ScriptData {
   public final String desc;
   public final Parser parser;
   public final Scope scope;
-  public final List<String> errors;
+  public final List<Parser.AshDiagnostic> errors;
 
   /** Exception thrown by Parser.parse(), if any */
   public final Throwable parsingException;
@@ -113,7 +113,6 @@ public abstract class ScriptData {
     this.errors =
         this.parser.getDiagnostics().stream()
             .filter(diagnostic -> diagnostic.severity == Error)
-            .map(diagnostic -> diagnostic.toString())
             .collect(Collectors.toList());
   }
 
