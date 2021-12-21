@@ -130,6 +130,8 @@ public class ParserTest {
             "fake/path could not be found",
             "char 1 to char 17");
 
+    ParserTest.testScriptValidity(script);
+
     assertEquals(3, script.errors.size());
 
     assertEquals(
@@ -145,6 +147,8 @@ public class ParserTest {
     final ScriptData script =
         ScriptData.invalid(
             "error filter test", "int a; max(a, b)", "Unknown variable 'b'", "char 15 to char 16");
+
+    ParserTest.testScriptValidity(script);
 
     assertEquals(1, script.errors.size());
 
