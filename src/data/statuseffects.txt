@@ -2688,3 +2688,5 @@
 2687	Anti-Creeped	creamtube.gif	7f1f6e0b45ec819986a953a46df2630c	neutral	none	use 1 anti-creep cream
 2688	Sauna-Fresh	stench.gif	015dd9870949c871d82e971a3a64aa86	neutral	none
 2689	Festively Experimented-Upon	mistletoe.gif	b34d84b3ea1112ac5d9e8be0d9819be5	neutral	none
+2690	Puttied, Fleshly	fleshputty.gif	80ea9b026aaf0d54448990c17613a2f0	neutral	none	use 1 fleshy putty
+2691	Real Meat Craving	synthmeat.gif	d46677458bfe6610d4d0255c031c4a34	neutral	none	eat 1 lab-grown meat

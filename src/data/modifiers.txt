@@ -3260,6 +3260,7 @@ Item	pearl necklace	Sleaze Damage: +23, Sleaze Spell Damage: +37, Moxie Percent:
 Item	peg key	Experience: +5
 Item	Pendant of Fire	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Spell Damage: +40, Single Equip
 Item	Pendant of Gargalesis	MP Regen Min: 6, MP Regen Max: 10
+Item	peppermint-scented socks	MP Regen Min: 8, MP Regen Max: 16
 Item	perfume-soaked bandana	Stench Resistance: +4, Spooky Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip
 # Personal Ventilation Unit: Allows Safe Access to Secret Government Lab
 Item	Personal Ventilation Unit	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Single Equip
@@ -3674,6 +3675,7 @@ Item	tiny plastic fiendish can of asparagus	Monster Level: +1
 Item	tiny plastic filthy hippy jewelry maker	Monster Level: +1
 Item	tiny plastic fire servant	Hot Spell Damage: +5
 Item	tiny plastic fluffy bunny	Monster Level: +1
+Item	tiny plastic food lab	Food Drop: +20, Single Equip
 Item	tiny plastic four-shadowed mime	Monster Level: +20, Spooky Damage: +50, Spooky Spell Damage: +50, Single Equip
 Item	tiny plastic fruit golem	Monster Level: +1
 Item	tiny plastic Fudge Wizard	Spell Damage: +10
@@ -6674,6 +6676,7 @@ Effect	Purple Reign	Mysticality: [ceil(min(T,50)/2)], Experience (Mysticality): 
 Effect	Purple Tongue	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 Effect	Purpose	Experience Percent (Muscle): +25
 # Purr of the Feline: Makes Ed's Servants Stronger
+Effect	Puttied, Fleshly	Maximum HP Percent: +100, HP Regen Min: 10, HP Regen Max: 15
 Effect	Putting the Orc in Porcine	Avatar: "smut orc pervert"
 Effect	Putting the Pro in Proletariat	Moxie Percent: +50, Ranged Damage: +25
 Effect	Puzzle Champ	Familiar Weight: [pref(puzzleChampBonus)]
@@ -6722,6 +6725,7 @@ Effect	Re-Possessed	Weapon Damage: +10, Damage Reduction: -2
 # Effect Ready to Eat: Your next meal is going to be SOOO satisfying
 Effect	Ready to Roll	Booze Drop: +100, Cold Damage: +25, Cold Spell Damage: +25
 Effect	Ready to Snap	Mysticality: +5, Experience (Mysticality): +1
+Effect	Real Meat Craving	Meat Drop: +30
 Effect	Really Deep Breath	Adventure Underwater
 Effect	Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9
 Effect	Reassured	Muscle: [10*interact()], Mysticality: [10*interact()], Moxie: [10*interact()]
@@ -8327,6 +8331,7 @@ MaxCat	_smithsness	Meat Drop: +2, Item Drop: +1, Moxie Percent: +2, Mysticality 
 
 # Food section of modifiers.txt
 
+# &quot;caramel&quot; orange: Also gives 10 turns of a random beneficial effect
 Item	&quot;meat&quot; stick	Effect: "Empty Inside", Effect Duration: 50
 Item	3vi1 pr0n m4nic0tti	Effect: "[599]A Little Bit Evil", Effect Duration: 10
 Item	Aldebaran sardines	Effect: "Fishy", Effect Duration: 60
@@ -8502,6 +8507,7 @@ Item	king cookie	Effect: "The Royal We", Effect Duration: 30
 Item	knight cookie	Effect: "Knightlife", Effect Duration: 30
 Item	knuckle sandwich	Effect: "Cruisin' for a Bruisin'", Effect Duration: 20
 # Kudzu salad
+Item	lab-grown meat	Effect: "Real Meat Craving", Effect Duration: 20
 Item	lava cake	Effect: "Demonic Flavor", Effect Duration: 60
 # licorice garrote: Weakens enemies based on how sugared-up you are
 Item	licorice garrote	Effect: "Sugar Rush", Effect Duration: 5
@@ -9439,6 +9445,7 @@ Item	flask of mining oil	Effect Duration: 10
 Item	flask of porquoise juice	Effect: "Je Ne Sais Porquoise", Effect Duration: 10
 Item	flask of tainted mining oil	Effect Duration: 0
 Item	Flaskfull of Hollow	Effect: "Merry Smithsness", Effect Duration: 150
+Item	fleshy putty	Effect: "Puttied, Fleshly", Effect Duration: 30
 Item	floaty sand	Effect: "5 Pounds Lighter", Effect Duration: 10
 Item	fluid of fudge-finding	Effect: "Fudgehound", Effect Duration: 5
 Item	foetid seal tear	Effect: "Abyssal Tears", Effect Duration: 20
@@ -11747,6 +11754,7 @@ Item	unearthed volcanic meteoroid	Skill: "Volcanometeor Showeruption"
 Item	unemployed hunchbacked minion	Free Pull
 # unfinished ice sculpture: Makes a copy of a monster to fight later
 Item	uniclops egg	Free Pull
+# universal biscuit: Gives your familiar 10 XP
 Item	Unmotivator: Crashed Meat Car	Free Pull
 Item	Unmotivator: Crashed Orca	Free Pull
 Item	Unmotivator: Success Warrior	Free Pull

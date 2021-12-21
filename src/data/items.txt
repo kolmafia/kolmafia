@@ -10834,7 +10834,7 @@
 10806	bread man	340392384	breadman.gif	food	t	0
 10807	plain candy cane	694467495	candychalk.gif	food	t	0
 10808	flour cookie	395767899	flourcookie.gif	food	t,d	5
-10809
+10809	tiny plastic food lab	612016475	c21tp1.gif	accessory	t	0
 10810
 10811
 10812
@@ -10874,3 +10874,10 @@
 10847	[experimental crimbo food]	268310979	confused.gif	food	q,d	11
 10848	[experimental crimbo booze]	222544926	coffeecup.gif	drink	q,d	11
 10849	[experimental crimbo spleen]	489345410	potion10.gif	spleen, usable	q,d	11
+10853	fleshy putty	407684786	fleshputty.gif	potion, usable	t,d	11
+10857	peppermint-scented socks	221981884	peppersocks.gif	accessory	t,d	125
+10859	projectile chemistry set	150726951	tuberack.gif	none, combat	t,d	22
+10862	&quot;caramel&quot; orange	469896854	caramelorange.gif	food	t,d	25
+10865	universal biscuit	562456864	univbiscuit.gif	multiple	t,d	16
+10868	lab-grown meat	545391071	synthmeat.gif	food	t,d	5
+10871	cloning kit	497087978	cloningkit.gif	none, combat	t,d	11

@@ -578,6 +578,8 @@ public class PlaceRequest extends GenericRequest {
         message = "Entering the Nog Lab";
       } else if (action.equals("np_spleenlab")) {
         message = "Entering the Chem Lab";
+      } else if (action.equals("np_toylab")) {
+        message = "Entering the Gift Fabrication Lab";
       }
     } else if (place.equals("orc_chasm")) {
       if (action.startsWith("bridge") || action.equals("label1") || action.equals("label2")) {

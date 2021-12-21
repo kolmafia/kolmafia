@@ -5930,14 +5930,14 @@ public abstract class ChoiceManager {
 
     // Choice 1427 is The Hidden Junction
     new ChoiceAdventure(
-        "Guano Junction",
+        "BatHole",
         "choiceAdventure1427",
         "The Hidden Junction",
         new Object[] {new Option("fight screambat", 1), new Option("gain ~360 meat", 2)}),
 
     // Choice 1428 is Your Neck of the Woods
     new ChoiceAdventure(
-        "The Dark Neck of the Woods",
+        "Friars",
         "choiceAdventure1428",
         "Your Neck of the Woods",
         new Object[] {
@@ -5947,16 +5947,16 @@ public abstract class ChoiceManager {
 
     // Choice 1429 is No Nook Unknown
     new ChoiceAdventure(
-        "Defiled Nook",
+        "Cyrpt",
         "choiceAdventure1429",
         "No Nook Unknown",
         new Object[] {new Option("acquire 2 evil eyes", 1), new Option("fight party skeleton", 2)}),
 
     // Choice 1430 is Ghostly Memories
     new ChoiceAdventure(
-        "Ghostly Memories",
+        "Highlands",
         "choiceAdventure1430",
-        "A-Boo Peak",
+        "Ghostly Memories",
         new Object[] {
           new Option("the Horror, spooky/cold res recommended", 1),
           new Option("fight oil baron", 2),
@@ -5965,9 +5965,9 @@ public abstract class ChoiceManager {
 
     // Choice 1431 is Here There Be Giants
     new ChoiceAdventure(
-        "Here There Be Giants",
+        "Beanstalk",
         "choiceAdventure1431",
-        "The Castle in the Clouds in the Sky (Top Floor)",
+        "Here There Be Giants",
         new Object[] {
           new Option("complete trash quest, unlock HiTS", 1),
           new Option("fight goth giant, acquire black candles", 2),
@@ -5977,9 +5977,9 @@ public abstract class ChoiceManager {
 
     // Choice 1432 is Mob Maptality
     new ChoiceAdventure(
-        "Mob Maptality",
+        "The Red Zeppelin's Mooring",
         "choiceAdventure1432",
-        "A Mob of Zeppelin Protesters",
+        "Mob Maptality",
         new Object[] {
           new Option("creep protestors (more with sleaze damage/sleaze spell damage)", 1),
           new Option("scare protestors (more with lynyrd gear)", 2),
@@ -5988,9 +5988,9 @@ public abstract class ChoiceManager {
 
     // Choice 1433 is Hippy camp verge of war Sneaky Sneaky
     new ChoiceAdventure(
-        "Sneaky Sneaky",
-        "choiceAdventure1433",
         "The Hippy Camp (Verge of War)",
+        "choiceAdventure1433",
+        "Sneaky Sneaky",
         new Object[] {
           new Option("fight a war hippy drill sargent", 1),
           new Option("fight a war hippy space cadet", 2),
@@ -5999,9 +5999,9 @@ public abstract class ChoiceManager {
 
     // Choice 1434 is frat camp verge of war Sneaky Sneaky
     new ChoiceAdventure(
-        "Sneaky Sneaky",
-        "choiceAdventure1434",
         "The Frat Camp (Verge of War)",
+        "choiceAdventure1434",
+        "Sneaky Sneaky",
         new Object[] {
           new Option("fight a war pledge/acquire sake bombers", 1),
           new Option("start the war", 2),
@@ -6010,14 +6010,30 @@ public abstract class ChoiceManager {
 
     // Choice 1436 is Billiards Room Options
     new ChoiceAdventure(
-        "Billiards Room Options",
+        "Manor1",
         "choiceAdventure1436",
-        "The Haunted Billiards Room",
+        "Billiards Room Options",
         new Object[] {
           new Option("aquire pool cue", 1),
           new Option("play pool with the ghost", 2),
           new Option("fight a chalkdust wraith", 3)
-        })
+        }),
+
+    // The Only Thing About Him is the Way That He Walks
+    new ChoiceAdventure(
+        "Crimbo21",
+        "choiceAdventure1460",
+        "Site Alpha Toy Lab",
+        new Object[] {
+          new Option("fleshy putty", "fleshy putty"),
+          new Option("peppermint-scented socks", "peppermint-scented socks"),
+          new Option("projectile chemistry set", "projectile chemistry set"),
+          new Option("&quot;caramel&quot; orange", "&quot;caramel&quot; orange"),
+          new Option("universal biscuit", "universal biscuit"),
+          new Option("lab-grown meat", "lab-grown meat"),
+          new Option("cloning kit", "cloning kit"),
+          new Option("return to Site Alpha")
+        }),
   };
 
   public static final ChoiceAdventure[] CHOICE_ADVS;
@@ -15189,6 +15205,41 @@ public abstract class ChoiceManager {
           ResultProcessor.processItem(ItemPool.GOOIFIED_MINERAL_MATTER, -5);
         }
         break;
+
+      case 1460: // Gift Fabrication Lab
+        if (text.contains("You acquire an item")) {
+          switch (ChoiceManager.lastDecision) {
+            case 1:
+              ResultProcessor.processItem(ItemPool.GOOIFIED_ANIMAL_MATTER, -30);
+              break;
+            case 2:
+              ResultProcessor.processItem(ItemPool.GOOIFIED_VEGETABLE_MATTER, -30);
+              break;
+            case 3:
+              ResultProcessor.processItem(ItemPool.GOOIFIED_MINERAL_MATTER, -30);
+              break;
+            case 4:
+              ResultProcessor.processItem(ItemPool.GOOIFIED_ANIMAL_MATTER, -15);
+              ResultProcessor.processItem(ItemPool.GOOIFIED_VEGETABLE_MATTER, -15);
+              break;
+            case 5:
+              ResultProcessor.processItem(ItemPool.GOOIFIED_VEGETABLE_MATTER, -15);
+              ResultProcessor.processItem(ItemPool.GOOIFIED_MINERAL_MATTER, -15);
+              break;
+            case 6:
+              ResultProcessor.processItem(ItemPool.GOOIFIED_MINERAL_MATTER, -15);
+              ResultProcessor.processItem(ItemPool.GOOIFIED_ANIMAL_MATTER, -15);
+              break;
+            case 7:
+              ResultProcessor.processItem(ItemPool.GOOIFIED_ANIMAL_MATTER, -10);
+              ResultProcessor.processItem(ItemPool.GOOIFIED_VEGETABLE_MATTER, -10);
+              ResultProcessor.processItem(ItemPool.GOOIFIED_MINERAL_MATTER, -10);
+              break;
+            default:
+              break;
+          }
+        }
+        break;
     }
 
     if (ChoiceManager.handlingChoice) {
@@ -19566,6 +19617,10 @@ public abstract class ChoiceManager {
       case 1453: // Fracker Dan
       case 1454: // Cropduster Dusty
       case 1455: // Cold Medicine Cabinet
+      case 1457: // Food Lab
+      case 1458: // Booze Lab
+      case 1459: // Chem Lab
+      case 1460: // Toy Lab
         return true;
 
       default:
