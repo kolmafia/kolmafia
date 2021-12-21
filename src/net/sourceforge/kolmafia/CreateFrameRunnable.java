@@ -258,6 +258,10 @@ public class CreateFrameRunnable implements Runnable {
   }
 
   private static void addMenuItems() {
+    if (!Desktop.isDesktopSupported()) {
+      return;
+    }
+
     Desktop desktop = Desktop.getDesktop();
 
     DesktopHandler handler = new DesktopHandler();
