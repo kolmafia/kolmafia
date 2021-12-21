@@ -311,3 +311,5 @@
 282	Ghost of Crimbo Commerce	cghost_commerce.gif	meat0,other0	greedy ghostling		0	0	0	0	eyes,undead
 283	Shorter-Order Cook	shortchef.gif	combat0,combat1,delevel,drop	shortest-order cook	blue plate	3	3	1	1	animal,clothes,eyes,hot,hands
 284	Vampire Vintner	vampvint.gif	combat0,hp0,drop	bottled Vampire Vintner	French-Transylvanian Dictionary	2	3	2	3	undead
+285	Arachnelf	arachnelf.gif	none	festive egg sac	Site Alpha ID badge	0	0	0	0
+286	Synthetic Rock	synthrock.gif	none	synthetic rock		0	0	0	0

@@ -440,25 +440,54 @@ public abstract class ChoiceManager {
   public static class Option {
     private final String name;
     private final int option;
-    private final AdventureResult item;
+    private final AdventureResult items[];
 
     public Option(final String name) {
-      this(name, 0, null);
+      this(name, 0, null, null, null);
     }
 
     public Option(final String name, final int option) {
-      this(name, option, null);
+      this(name, option, null, null, null);
     }
 
-    public Option(final String name, final String item) {
-      this(name, 0, item);
+    public Option(final String name, final int option, final String item1) {
+      this(name, option, item1, null, null);
     }
 
-    public Option(final String name, final int option, final String item) {
+    public Option(final String name, final int option, final String item1, String item2) {
+      this(name, option, item1, item2, null);
+    }
+
+    public Option(final String name, final String item1) {
+      this(name, 0, item1, null, null);
+    }
+
+    public Option(final String name, final String item1, String item2) {
+      this(name, 0, item1, item2, null);
+    }
+
+    public Option(final String name, final String item1, String item2, String item3) {
+      this(name, 0, item1, item2, item3);
+    }
+
+    public Option(
+        final String name, final int option, final String item1, String item2, String item3) {
       this.name = name;
       this.option = option;
-      int itemId = ItemDatabase.getItemId(item);
-      this.item = item != null ? ItemPool.get(itemId) : null;
+      int count = item3 != null ? 3 : item2 != null ? 2 : item1 != null ? 1 : 0;
+      this.items = new AdventureResult[count];
+
+      if (count > 0) {
+        this.items[0] = ItemPool.get(ItemDatabase.getItemId(item1));
+      }
+
+      if (count > 1) {
+        this.items[1] = ItemPool.get(ItemDatabase.getItemId(item2));
+      }
+
+      if (count > 2) {
+        this.items[2] = ItemPool.get(ItemDatabase.getItemId(item3));
+      }
     }
 
     public String getName() {
@@ -473,8 +502,8 @@ public abstract class ChoiceManager {
       return this.option == 0 ? def : this.option;
     }
 
-    public AdventureResult getItem() {
-      return this.item;
+    public AdventureResult[] getItems() {
+      return this.items;
     }
 
     @Override
@@ -6025,13 +6054,26 @@ public abstract class ChoiceManager {
         "choiceAdventure1460",
         "Site Alpha Toy Lab",
         new Object[] {
-          new Option("fleshy putty", "fleshy putty"),
-          new Option("peppermint-scented socks", "peppermint-scented socks"),
-          new Option("projectile chemistry set", "projectile chemistry set"),
-          new Option("&quot;caramel&quot; orange", "&quot;caramel&quot; orange"),
-          new Option("universal biscuit", "universal biscuit"),
-          new Option("lab-grown meat", "lab-grown meat"),
-          new Option("cloning kit", "cloning kit"),
+          new Option("fleshy putty", "fleshy putty", "third ear", "festive egg sac"),
+          new Option(
+              "poisonsettia",
+              "poisonsettia",
+              "peppermint-scented socks",
+              "the Crymbich Manuscript"),
+          new Option(
+              "projectile chemistry set",
+              "projectile chemistry set",
+              "depleted Crimbonium football helmet",
+              "synthetic rock"),
+          new Option(
+              "&quot;caramel&quot; orange",
+              "&quot;caramel&quot; orange",
+              "self-repairing earmuffs",
+              "carnivorous potted plant"),
+          new Option(
+              "universal biscuit", "universal biscuit", "yule hatchet", "potato alarm clock"),
+          new Option("lab-grown meat", "lab-grown meat", "golden fleece", "boxed gumball machine"),
+          new Option("cloning kit", "cloning kit", "electric pants", "can of mixed everything"),
           new Option("return to Site Alpha")
         }),
   };
@@ -18911,12 +18953,13 @@ public abstract class ChoiceManager {
       }
 
       Option opt = (Option) obj;
-      AdventureResult item = opt.getItem();
-      if (item == null) {
+      AdventureResult item[] = opt.getItems();
+      if (item.length == 0) {
         continue;
       }
 
-      if (GoalManager.hasGoal(item)) {
+      // Iterate?
+      if (GoalManager.hasGoal(item[0])) {
         return String.valueOf(opt.getDecision(i + 1));
       }
 
@@ -18944,12 +18987,13 @@ public abstract class ChoiceManager {
       }
 
       Option opt = (Option) obj;
-      AdventureResult item = opt.getItem();
+      AdventureResult item[] = opt.getItems();
       if (item == null) {
         continue;
       }
 
-      if (!InventoryManager.hasItem(item)) {
+      // Should iterate
+      if (!InventoryManager.hasItem(item[0])) {
         return String.valueOf(opt.getDecision(i + 1));
       }
     }

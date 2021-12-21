@@ -159,9 +159,11 @@ Item	crown-shaped beanie	Slime Resistance: +1, Food Drop: +20, Initiative: +20, 
 Item	crumpled felt fedora	Familiar Weight: +10, Muscle Percent: +5, Familiar Effect: "0.75xVolley, 0.75xLep"
 Item	cursed eyepatch	Mysticality: +15, Familiar Effect: "spooky atk, 1xBarrr"
 Item	cursed tricorn hat	Mysticality: +25, Experience: +10, PvP Fights: +5
-# Item Daylight Shavings Helmet: Keeps your facial hair stylish at all times
+# Daylight Shavings Helmet: Keeps your facial hair stylish at all times
 Item	Daylight Shavings Helmet	Experience: +3, Adventures: +5, Familiar Weight: +5
 Item	demon-horned hat	Moxie: +4, Familiar Effect: "hot atk, 1xLep, cap 17"
+# depleted Crimbonium football helmet: Reduce all damage taken from monster attacks by 50%
+Item	depleted Crimbonium football helmet	Initiative: -50
 Item	depleted Grimacite ninja mask	Moxie Percent: [5*G], PvP Fights: [G], Familiar Effect: "1xBarrr, 1xFairy, cap 25"
 Item	dice-print do-rag	Random Monster Modifiers: +1
 Item	dilapidated wizard hat	Hot Damage: +10, Hot Spell Damage: +15, Familiar Effect: "cap 31"
@@ -645,6 +647,7 @@ Item	Dyspepsi-Cola fatigues	Mysticality: +3, Familiar Effect: "3.5xPotato, 3xVol
 Item	eelskin pants	Mysticality Percent: +5, Familiar Effect: "1xPotato, MP regen"
 Item	El Vibrato leg guards	Familiar Effect: "1xBarrr, 1xGhuol"
 Item	eldritch pants	Mysticality Percent: +20, Maximum MP: +40, MP Regen Min: 6, MP Regen Max: 10
+Item	electric pants	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10
 Item	electronic dulcimer pants	Adventures: +2, Initiative: +25, Familiar Effect: "8xPotato, cap 2"
 # exo-servo leg braces: Allows you to move normally in high gravity environments (Spacegate)
 Item	exo-servo leg braces	Lasts Until Rollover
@@ -955,6 +958,7 @@ Item	gladiator tunica	HP Regen Min: 5, HP Regen Max: 15
 # glass casserole dish: Minor Radiation Sickness Protection
 Item	glass casserole dish	PvP Fights: +3, Sleaze Damage: +30, Damage Reduction: 10
 Item	gnauga hide vest	Damage Reduction: 6, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
+Item	golden fleece	Meat Drop: +20
 Item	goth kid t-shirt	Monster Level: +5
 Item	Grateful Undead T-shirt	Item Drop: +5
 Item	Gregarious Gregorian Smock	Muscle Percent: [5+G], Mysticality Percent: [5+G], Moxie Percent: [5+G]
@@ -1987,6 +1991,7 @@ Item	wumpus-hair whip	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold
 Item	X-37 gun	Breakable
 Item	yak whip	Weakens Monster
 Item	yohohoyo	Critical Hit Percent: +5, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
+Item	yule hatchet	Experience (familiar): +2
 Item	Zim Merman's guitar	Ranged Damage: +20
 Item	zombie accordion	Ranged Damage: [50*(1+skill(Accordion Appreciation))], Item Drop: [5*(1+skill(Accordion Appreciation))], Additional Song: 1, Class: "Accordion Thief", Single Equip, Song Duration: 20
 Item	Zombo's shoulder blade	Muscle Percent: +30, Weapon Damage Percent: +30
@@ -2071,8 +2076,12 @@ Item	bumblebee marble	Spell Damage: +50
 Item	burning paper crane	Spooky Resistance: +3, Maximum HP: +25, Maximum MP: +25, Familiar Weight: +10, Lasts Until Rollover
 Item	C.H.U.M. lantern	Stench Damage: +17, Item Drop: [30*loc(Sewer Tunnels)]
 # card sleeve: If you like it, you should put a card in it!
+# Item can of mixed everything: There's a little bit of everything in there!
+Item	can of mixed everything	Muscle: +5, Mysticality: +5, Moxie: +5, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 Item	cardboard box turtle	Muscle: +3, Damage Reduction: 4
 Item	cardboard wine carrier	Booze Drop: +50, Lasts Until Rollover
+# Item carnivorous potted plant: Occasionally swallows your enemy whole
+Item	carnivorous potted plant	Monster Level: +25
 Item	catskin buckler	Muscle: +10, Damage Absorption: +50, Damage Reduction: 11
 Item	Chalice of the Malkovich Prince	Muscle Percent: +4, Mysticality Percent: +4, Moxie Percent: +4
 # chalk chalice: Weakens enemies who hit you
@@ -3417,6 +3426,7 @@ Item	sealhide belt	Maximum HP: +25, Maximum MP: +25
 Item	sealhide gloves	Weapon Damage: +10
 Item	sealhide moccasins	Muscle: +5, Mysticality: +5, Moxie: +5, Single Equip
 Item	second-hand knockoff engagement ring	Muscle: +1, Mysticality: +1, Moxie: +1, Single Equip
+Item	self-repairing earmuffs	HP Regen Min: 10, HP Regen Max: 20
 Item	Senior LAAAAME merit badge	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	severed rocking horse head	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	shamanic beads	Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1, Spell Damage: +10
@@ -3544,6 +3554,7 @@ Item	The Lost Glasses	Reduce Enemy Defense: 15, Hot Resistance: +2, Single Equip
 Item	The One Mood Ring	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G], Monster Level: [25-5*G], Single Equip
 Item	The Ring	Muscle: +3, Mysticality: +3, Moxie: +3, Spooky Damage: +40, Single Equip
 Item	thicksilver ring	Damage Absorption: +30, Damage Reduction: 60, Single Equip
+Item	third ear	Initiative: +50, Single Equip
 Item	ticksilver ring	Adventures: +6, PvP Fights: +4, Single Equip
 Item	tie-dyed fannypack	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2, Item Drop: +10, Single Equip
 # Time Bandit Badge of Courage: Proves your worth to the Time Bandits
@@ -4292,6 +4303,7 @@ Item	shell bell	Familiar Weight: +10, Lasts Until Rollover, Generic
 Item	shiny brass tailfeathers	Familiar Weight: +5
 Item	shiny gold fronts	Familiar Weight: +5
 # shock collar: Familiar Will Attack You Less Often
+Item	Site Alpha ID badge	Familiar Weight: +5
 Item	six-armed sweater	Familiar Weight: +5
 Item	skewer-mounted razor blade	Familiar Weight: +5
 Item	slightly thicker filthy rags	Familiar Weight: +5
@@ -7614,6 +7626,7 @@ Skill	Aluminum Nerves	MP Regen Min: 8, MP Regen Max: 10
 Skill	Always Never Not Guzzling	Booze Drop: +25
 # Ambidextrous Funkslinging: You can use two combat items per round
 Skill	Amphibian Sympathy	Familiar Weight: +5
+# Ancient Crimbo Lore: +3 Stats Per Fight in December
 Skill	Animal Magnetism	Moxie Controls MP, MP Regen Min: 8, MP Regen Max: 10
 Skill	Ankle Joints	Initiative: +20
 # Another Extra Spleen: Another +5 spleen capacity
@@ -11326,6 +11339,7 @@ Item	plump purple mushroom	Lasts Until Rollover
 # pog #10 (hobo): Does all sorts of crazy things
 # pog #11 (Naughty Sorceress): Does all sorts of crazy things
 Item	poisoned druidic s'more	Lasts Until Rollover
+# poisonsettia: Poisons an enemy for 25 and then doubles the amount of poison
 Item	Pok&eacute;fam Guide to Capturing All of Them	Free Pull
 # poltergeist-in-the-jar-o: Deals 200-250 Physical Damage
 # pool of liquid metal: Does various things
@@ -11339,6 +11353,7 @@ Item	Pop Art: a Guide	Skill: "Fifteen Minutes of Flame"
 # portable table: You can hide behind it
 # possessed tomato: Deals 6-8 <font color=gray>Spooky Damage</font> per round for the rest of the fight
 # possessed top: Weakens enemies a little bit
+# potato alarm clock: Gives you 5 additional Adventures when you log in
 # potted tea tree: 1) Plant it in your campsite
 # potted tea tree: 2) Get tea every day
 # powdered madness: Instantly dispatch a foe (limit 5/day)
@@ -11634,6 +11649,7 @@ Item	The Big Book of Communism (used)	Skill: "Communism!"
 # The Bomb: Deals 400-500 Physical Damage
 Item	The Chill of the Wild	Skill: "Beardfreeze"
 Item	The Confiscator's Grimoire	Free Pull, Skill: "Summon Confiscated Things"
+Item	the Crymbich Manuscript	Skill: "Ancient Crymbo Lore"
 # The Emperor's new cookie: So delicious!
 # The Fingernail of the Thing in the Basement: Jeremy Science will be interested in this
 Item	The Firegate Tapes	Skill: "Firegate"

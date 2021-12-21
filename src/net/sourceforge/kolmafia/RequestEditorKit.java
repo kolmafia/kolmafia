@@ -1858,21 +1858,30 @@ public class RequestEditorKit extends HTMLEditorKit {
 
         // If this decision has an item associated with it, annotate it
         if (spoiler instanceof ChoiceManager.Option) {
-          AdventureResult item = ((ChoiceManager.Option) spoiler).getItem();
+          ChoiceManager.Option option = ((ChoiceManager.Option) spoiler);
+          AdventureResult[] items = option.getItems();
 
-          // If this decision leads to an item...
-          if (item != null) {
-            // List # in inventory
-            spoilerBuffer.append(
-                "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('");
-            spoilerBuffer.append(ItemDatabase.getDescriptionId(item.getItemId()));
-            spoilerBuffer.append("');\">");
+          // If this decision leads to one or more item...
+          for (int it = 0; it < items.length; it++) {
+            AdventureResult item = items[it];
+            if (item != null) {
+              if (it > 0) {
+                spoilerBuffer.append(" or ");
+                spoilerBuffer.append(item.getName());
+              }
 
-            int available = KoLCharacter.hasEquipped(item) ? 1 : 0;
-            available += item.getCount(KoLConstants.inventory);
+              // List # in inventory
+              spoilerBuffer.append(
+                  "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('");
+              spoilerBuffer.append(ItemDatabase.getDescriptionId(item.getItemId()));
+              spoilerBuffer.append("');\">");
 
-            spoilerBuffer.append(available);
-            spoilerBuffer.append(" in inventory");
+              int available = KoLCharacter.hasEquipped(item) ? 1 : 0;
+              available += item.getCount(KoLConstants.inventory);
+
+              spoilerBuffer.append(available);
+              spoilerBuffer.append(" in inventory");
+            }
           }
         }
 
