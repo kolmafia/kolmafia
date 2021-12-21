@@ -227,7 +227,8 @@
 202	Chubby and Plump	chubbybar.gif	1	50	0
 203	Emotionally Chipped	emochip_clean.gif	0	0	0
 204
-205	Dead Nostrils		0	0	0
+205	Dead Nostrils	stinknose.gif	0	0	0
+206	Ancient Crymbo Lore	crimbohat.gif	0	0	0
 
 # Skills available to Clubbers
 

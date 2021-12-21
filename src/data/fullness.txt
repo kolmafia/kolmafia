@@ -5,6 +5,7 @@
 # Food	Fullness	Level Req	quality	Adv	Musc	Myst	Moxie
 
 [experimental crimbo food]	3	1	EPIC	0	0	0	0	Random
+&quot;caramel&quot; orange	1	1	awesome	0	0	0	0	Unspaded
 &quot;meat&quot; stick	1	5	good	3	15-25	0	0	50 Empty Inside (+50 Food Drop, +50 Booze Drop)
 3vi1 pr0n m4nic0tti	4	3	awesome	11-16	0	0	60-63	10 A Little Bit Evil (+2 ML)
 a dance upon the palate	1	1	crappy	2-4	2-20	2-20	2-20
@@ -515,6 +516,7 @@ Knoll stir-fry	2	3	good	4-7	14-18	0	0
 knuckle sandwich	3	5	good	7-10	22-40	22-40	22-40	20 Cruisin' for a Bruisin' (+100% weapon dmg)
 Kudzu salad	2	4	EPIC	16-20	10-20	10-20	10-20	SALAD
 kumquat	1	2	decent	2	0	0	0
+lab-grown meat	3	1	awesome	0	0	0	0	Unspaded 20 Real Meat Craving (+30% meat drop)
 large cocoa eggshell fragment	1	1	decent	2	0	0	0
 laser-broiled pear	1	1	awesome	3-4	8-10	8-10	8-10
 lava cake	4	6	awesome	12-18	20-40	0	0	60 Demonic Flavor
@@ -573,6 +575,7 @@ mana-stuffed herbal stuffing	4	7	awesome	0	0	0	0	Unspaded
 Manetwich	2	4	good	3-9	14-30	0	5-18
 maple syrup	1	1	crappy	1	0	0	0	20-30 HP
 mashed potatoes	2	1	awesome	8-10	10-20	0	0	leftovers, 20 Thanksgetting (Variable +meat, +item, +familiar weight, +all res)
+meatball	1	1	awesome	0	0	0	0	Unspaded
 Medical Pastaco	2	3	EPIC	12-14	30-50	0	0	40 Helvella Health (+100 HP, +10-20 HP Regen)
 menudo	2	2	decent	2-7	14-18	0	0
 menudo ravioli	4	4	good	10-14	20-30	0	0
