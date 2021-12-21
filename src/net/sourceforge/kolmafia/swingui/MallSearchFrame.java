@@ -241,6 +241,8 @@ public class MallSearchFrame extends GenericPanelFrame {
       KoLmafiaGUI.constructFrame("MallSearchFrame");
     }
 
+    PurchaseRequest.setUsePriceComparison(INSTANCE.mallSearch.forceSortingCheckBox.isSelected());
+
     MallSearchFrame.results.clear();
     request.setResults(MallSearchFrame.results);
 
