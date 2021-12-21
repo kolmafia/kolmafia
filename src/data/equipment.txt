@@ -1782,7 +1782,7 @@ Codex of Capsaicin Conjuration	30	none
 coffin lid	50	Mus: 10	shield
 Cold Stone of Hatred	200	Mus: 125
 collapsible baton	200	Mys: 85
-complicated device	2000	Mys: 200
+complicated device	200	Mys: 200
 Cookbook of the Damned	30	none
 cosmetic football	50	none
 creepy doll head	100	Mys: 35
@@ -3411,7 +3411,7 @@ shellacked shell	10	none
 shocked shell	100	Mus: 50
 Size XI Wizard's Robe	0	none
 smoker's cloak	80	Mys: 25
-snowpack	2000	Mys: 75
+snowpack	200	Mys: 75
 stained glass serape	120	Mox: 40
 spant backplate	100	Mus: 20
 spiky back shell	0	none
