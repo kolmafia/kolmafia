@@ -5988,7 +5988,7 @@ public abstract class ChoiceManager {
 
     // Choice 1433 is Hippy camp verge of war Sneaky Sneaky
     new ChoiceAdventure(
-        "The Hippy Camp (Verge of War)",
+        "Island",
         "choiceAdventure1433",
         "Sneaky Sneaky",
         new Object[] {
@@ -5999,7 +5999,7 @@ public abstract class ChoiceManager {
 
     // Choice 1434 is frat camp verge of war Sneaky Sneaky
     new ChoiceAdventure(
-        "The Frat Camp (Verge of War)",
+        "Island",
         "choiceAdventure1434",
         "Sneaky Sneaky",
         new Object[] {
