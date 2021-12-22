@@ -328,7 +328,7 @@ public class MallSearchRequest extends GenericRequest {
 
         int itemId = StringUtilities.parseInt(priceId.substring(0, priceId.length() - 9));
         int quantity = StringUtilities.parseInt(priceMatcher.group(3));
-        int limit = quantity;
+        int limit = 0;
 
         Matcher limitMatcher = MallSearchRequest.STORELIMIT_PATTERN.matcher(priceMatcher.group(4));
         if (limitMatcher.find()) {
@@ -393,7 +393,7 @@ public class MallSearchRequest extends GenericRequest {
           quantity = StringUtilities.parseInt(quantityMatcher.group(1));
         }
 
-        int limit = quantity;
+        int limit = 0;
         boolean canPurchase = true;
 
         Matcher limitMatcher = MallSearchRequest.LISTLIMIT_PATTERN.matcher(linkText);

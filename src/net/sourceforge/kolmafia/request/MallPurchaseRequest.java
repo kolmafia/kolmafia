@@ -152,7 +152,8 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
     this.quantity = quantity;
     this.price = price;
-    this.limit = Math.min(quantity, limit);
+    this.storeLimit = limit;
+    this.limit = limit == 0 ? quantity : Math.min(quantity, limit);
     this.canPurchase = canPurchase;
 
     this.addFormField("whichstore", String.valueOf(shopId));

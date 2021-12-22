@@ -20,6 +20,7 @@ public abstract class PurchaseRequest extends GenericRequest
   protected int quantity;
   protected int price;
   protected int limit;
+  protected int storeLimit;
 
   protected boolean canPurchase;
   protected long timestamp;
@@ -112,6 +113,14 @@ public abstract class PurchaseRequest extends GenericRequest
     this.limit = Math.min(this.quantity, limit);
   }
 
+  public void setStoreLimit(final int storeLimit) {
+    this.storeLimit = storeLimit;
+  }
+
+  public int getStoreLimit() {
+    return this.storeLimit;
+  }
+
   /** Converts this request into a readable string. */
   @Override
   public String toString() {
@@ -135,9 +144,9 @@ public abstract class PurchaseRequest extends GenericRequest
     } else {
       buffer.append(KoLConstants.COMMA_FORMAT.format(this.quantity));
 
-      if (this.limit < this.quantity) {
+      if (this.storeLimit > 0) {
         buffer.append(" limit ");
-        buffer.append(KoLConstants.COMMA_FORMAT.format(this.limit));
+        buffer.append(KoLConstants.COMMA_FORMAT.format(this.storeLimit));
       }
     }
 

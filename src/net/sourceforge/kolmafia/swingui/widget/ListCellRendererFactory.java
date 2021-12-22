@@ -119,9 +119,9 @@ public class ListCellRendererFactory {
       } else {
         buffer.append(KoLConstants.COMMA_FORMAT.format(value.getQuantity()));
 
-        if (value.getLimit() < value.getQuantity()) {
+        if (value.getStoreLimit() > 0) {
           buffer.append(" limit ");
-          buffer.append(KoLConstants.COMMA_FORMAT.format(value.getLimit()));
+          buffer.append(KoLConstants.COMMA_FORMAT.format(value.getStoreLimit()));
         }
       }
 
