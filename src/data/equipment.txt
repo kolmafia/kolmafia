@@ -1769,11 +1769,11 @@ brown crock marble	202	Mys: 85
 bumblebee marble	205	Mys: 85
 burning paper crane	100	none
 C.H.U.M. lantern	100	Mus: 150
-can of mixed everything	0	Mys: 30
+can of mixed everything	100	Mys: 30
 card sleeve	10	none
 cardboard box turtle	70	Mus: 20	shield
 cardboard wine carrier	0	none
-carnivorous potted plant	0	none
+carnivorous potted plant	150	none
 catskin buckler	180	Mus: 75	shield
 Chalice of the Malkovich Prince	0	none
 chalk chalice	50	none
@@ -1879,6 +1879,7 @@ glued-together crystal ball	50	none
 gnauga hide buckler	90	Mus: 30	shield
 Golden HP-35 Calculator	0	none
 golden sausage	0	none
+goo magnet	10	none
 gore bucket	0	none
 Great Wolf's left paw	300	Mus: 250
 green balloon	10	none
@@ -2900,7 +2901,7 @@ sealhide belt	160	Mys: 65
 sealhide gloves	160	Mys: 65
 sealhide moccasins	160	Mys: 65
 second-hand knockoff engagement ring	0	none
-self-repairing earmuffs	0	none
+self-repairing earmuffs	50	none
 Senior LAAAAME merit badge	0	none
 severed rocking horse head	50	Mys: 10
 shamanic beads	125	Mys: 47
@@ -3191,6 +3192,7 @@ tiny plastic mumblebee	10	none
 tiny plastic mutant elf	0	none
 tiny plastic Naughty Sorceress	100	Mys: 35
 tiny plastic ninja snowman	10	none
+tiny plastic nog lab	10	none
 tiny plastic Norville Rogers	10	none
 tiny plastic Orcish Frat Boy	10	none
 tiny plastic orphan	10	none

@@ -2076,11 +2076,11 @@ Item	bumblebee marble	Spell Damage: +50
 Item	burning paper crane	Spooky Resistance: +3, Maximum HP: +25, Maximum MP: +25, Familiar Weight: +10, Lasts Until Rollover
 Item	C.H.U.M. lantern	Stench Damage: +17, Item Drop: [30*loc(Sewer Tunnels)]
 # card sleeve: If you like it, you should put a card in it!
-# Item can of mixed everything: There's a little bit of everything in there!
+# can of mixed everything: There's a little bit of everything in there!
 Item	can of mixed everything	Muscle: +5, Mysticality: +5, Moxie: +5, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 Item	cardboard box turtle	Muscle: +3, Damage Reduction: 4
 Item	cardboard wine carrier	Booze Drop: +50, Lasts Until Rollover
-# Item carnivorous potted plant: Occasionally swallows your enemy whole
+# carnivorous potted plant: Occasionally swallows your enemy whole
 Item	carnivorous potted plant	Monster Level: +25
 Item	catskin buckler	Muscle: +10, Damage Absorption: +50, Damage Reduction: 11
 Item	Chalice of the Malkovich Prince	Muscle Percent: +4, Mysticality Percent: +4, Moxie Percent: +4
@@ -2202,6 +2202,7 @@ Item	glued-together crystal ball	Mysticality Percent: +50
 Item	gnauga hide buckler	Muscle: +3, Mysticality: +3, Moxie: +3, Damage Reduction: 5
 # Golden HP-35 Calculator: Makes you look super altruistic
 # golden sausage
+# goo magnet: Automatically collects residual grey goo at Site Alpha locations
 # gore bucket
 Item	Great Wolf's left paw	Critical Hit Percent: +10, Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Never Fumble, Class: "Seal Clubber"
 # green balloon
@@ -3745,6 +3746,7 @@ Item	tiny plastic mumblebee	Monster Level: +1
 Item	tiny plastic mutant elf	Maximum HP: +3, Maximum MP: +3
 Item	tiny plastic Naughty Sorceress	Spell Damage Percent: +100, Maximum MP: +100
 Item	tiny plastic ninja snowman	Monster Level: +1
+Item	tiny plastic nog lab	Booze Drop: +20, Single Equip
 Item	tiny plastic Norville Rogers	Monster Level: +1
 Item	tiny plastic Orcish Frat Boy	Monster Level: +1
 Item	tiny plastic orphan	Stench Resistance: +1
@@ -3937,7 +3939,7 @@ Item	Zombo's skull ring	Moxie Percent: +15, PvP Fights: +4, Single Equip
 Item	anniversary pewter cape	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	antique nutcracker cape	Spell Damage Percent: +30, Mysticality Percent: +15
 Item	auxiliary backbone	PvP Fights: +3
-# Item B. L. A. R. T.: Spray water at your foes in various stream configurations
+# B. L. A. R. T.: Spray water at your foes in various stream configurations
 Item	B. L. A. R. T.	Hot Resistance: +3
 Item	back shell	Damage Absorption: +200, Damage Reduction: 20
 # bakelite backpack: Makes Accordion Bash knock loose some Meat
@@ -4068,7 +4070,7 @@ Item	attention spanner	Familiar Weight: +5
 Item	black gallstone	Familiar Weight: +5
 Item	blue canary nightlight	Familiar Weight: +5
 # blue pumps: Causes your Ms. Puck Man to sometimes drop extra yellow pixels
-# Item blue plate: Improves Cooking
+# blue plate: Improves Cooking
 Item	blue plate	Familiar Weight: +5
 Item	blue suede shoes	Familiar Weight: +5
 Item	blundarrrbus	Familiar Weight: +5
@@ -11650,6 +11652,7 @@ Item	The Big Book of Communism (used)	Skill: "Communism!"
 Item	The Chill of the Wild	Skill: "Beardfreeze"
 Item	The Confiscator's Grimoire	Free Pull, Skill: "Summon Confiscated Things"
 Item	the Crymbich Manuscript	Skill: "Ancient Crymbo Lore"
+Item	the Crymbich Manuscript (used)	Skill: "Ancient Crymbo Lore"
 # The Emperor's new cookie: So delicious!
 # The Fingernail of the Thing in the Basement: Jeremy Science will be interested in this
 Item	The Firegate Tapes	Skill: "Firegate"
