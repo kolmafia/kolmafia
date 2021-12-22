@@ -10835,7 +10835,7 @@
 10807	plain candy cane	694467495	candychalk.gif	food	t	0
 10808	flour cookie	395767899	flourcookie.gif	food	t,d	5
 10809	tiny plastic food lab	612016475	c21tp1.gif	accessory	t	0
-10810
+10810	tiny plastic nog lab	678768923	c21tpboo.gif	accessory	t	0
 10811
 10812
 10813
@@ -10874,7 +10874,7 @@
 10847	[experimental crimbo food]	268310979	confused.gif	food	q,d	11
 10848	[experimental crimbo booze]	222544926	coffeecup.gif	drink	q,d	11
 10849	[experimental crimbo spleen]	489345410	potion10.gif	spleen, usable	q,d	11
-10850
+10850	goo magnet	360608518	c21magnet.gif	offhand		0
 10851
 10852
 10853	fleshy putty	407684786	fleshputty.gif	potion, usable	t,d	11
@@ -10882,7 +10882,7 @@
 10855	festive egg sac	942800796	crimbosac.gif	grow	t	0
 10856	poisonsettia	742264853	poinsettia.gif	none, combat	t,d	15
 10857	peppermint-scented socks	221981884	peppersocks.gif	accessory	t,d	125
-10858	the Crymbich Manuscript	174909553	documents.gif	usable	t	0
+10858	the Crymbich Manuscript	174909553	documents.gif	usable	t	0	copies of the Crymbich Manuscript
 10859	projectile chemistry set	150726951	tuberack.gif	none, combat	t,d	22
 10860	depleted Crimbonium football helmet	964142149	crimbohelmet.gif	hat	t,d	200
 10861	synthetic rock	178996477	synthrock.gif	grow	t	0
@@ -10899,5 +10899,7 @@
 10872	electric pants	424755252	electricpants.gif	pants	t,d	155
 10873	can of mixed everything	133731315	everythingcan.gif	offhand	t	0
 10874	Site Alpha ID badge	913376088	sgbadge.gif	familiar	t,d	75
-10875
+10875	the Crymbich Manuscript (used)	458983556	documents.gif	usable		0
 10876	meatball	467177737	meatball.gif	food	t,d	5
+10877
+10878	meatball machine	811453503	gumballmachine.gif	usable		0
