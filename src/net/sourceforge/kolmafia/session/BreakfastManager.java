@@ -41,7 +41,6 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
-import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 
 public class BreakfastManager {
   private static final AdventureResult[] toys =
@@ -193,8 +192,8 @@ public class BreakfastManager {
     boolean useCloset = true;
     boolean useStorage = KoLCharacter.canInteract();
 
-    AdventureResultArray closetItems = useCloset ? new AdventureResultArray() : null;
-    AdventureResultArray storageItems = useStorage ? new AdventureResultArray() : null;
+    List<AdventureResult> closetItems = useCloset ? new ArrayList<>() : null;
+    List<AdventureResult> storageItems = useStorage ? new ArrayList<>() : null;
     ArrayList<UseItemRequest> requests = new ArrayList<>();
 
     for (AdventureResult toy : toys) {
@@ -266,13 +265,17 @@ public class BreakfastManager {
     // Pull items that are in storage but not inventory or the closet
     if (useStorage && storageItems.size() > 0) {
       RequestThread.postRequest(
-          new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, storageItems.toArray(), false));
+          new StorageRequest(
+              StorageRequest.STORAGE_TO_INVENTORY,
+              storageItems.toArray(new AdventureResult[0]),
+              false));
     }
 
     // Move items that are in the closet into inventory
     if (useCloset && closetItems.size() > 0) {
       RequestThread.postRequest(
-          new ClosetRequest(ClosetRequest.CLOSET_TO_INVENTORY, closetItems.toArray()));
+          new ClosetRequest(
+              ClosetRequest.CLOSET_TO_INVENTORY, closetItems.toArray(new AdventureResult[0])));
     }
 
     // Use the toys!

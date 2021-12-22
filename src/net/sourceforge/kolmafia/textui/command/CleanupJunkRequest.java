@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.ArrayList;
+import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -16,7 +18,6 @@ import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 
 public class CleanupJunkRequest extends AbstractCommand {
   {
@@ -43,7 +44,7 @@ public class CleanupJunkRequest extends AbstractCommand {
     boolean madeUntinkerRequest = false;
     boolean canUntinker = UntinkerRequest.canUntinker();
 
-    AdventureResultArray closetList = new AdventureResultArray();
+    List<AdventureResult> closetList = new ArrayList<>();
 
     for (int i = 0; i < items.length; ++i) {
       AdventureResult item = items[i];
@@ -58,7 +59,8 @@ public class CleanupJunkRequest extends AbstractCommand {
 
     if (closetList.size() > 0) {
       RequestThread.postRequest(
-          new ClosetRequest(ClosetRequest.INVENTORY_TO_CLOSET, closetList.toArray()));
+          new ClosetRequest(
+              ClosetRequest.INVENTORY_TO_CLOSET, closetList.toArray(new AdventureResult[0])));
     }
 
     do {
@@ -163,7 +165,7 @@ public class CleanupJunkRequest extends AbstractCommand {
     // Now you've got all the items used up, go ahead and prepare to
     // sell anything that's left.
 
-    AdventureResultArray sellList = new AdventureResultArray();
+    List<AdventureResult> sellList = new ArrayList<>();
 
     for (int i = 0; i < items.length; ++i) {
       currentItem = items[i];
@@ -183,7 +185,7 @@ public class CleanupJunkRequest extends AbstractCommand {
     }
 
     if (!sellList.isEmpty()) {
-      RequestThread.postRequest(new AutoSellRequest(sellList.toArray()));
+      RequestThread.postRequest(new AutoSellRequest(sellList.toArray(new AdventureResult[0])));
       sellList.clear();
     }
 
@@ -206,7 +208,7 @@ public class CleanupJunkRequest extends AbstractCommand {
       }
 
       if (!sellList.isEmpty()) {
-        RequestThread.postRequest(new AutoSellRequest(sellList.toArray()));
+        RequestThread.postRequest(new AutoSellRequest(sellList.toArray(new AdventureResult[0])));
       }
     }
   }

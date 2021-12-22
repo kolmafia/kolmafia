@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.session;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -34,7 +36,6 @@ import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
-import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 
 public class ValhallaManager {
 
@@ -118,7 +119,7 @@ public class ValhallaManager {
 
     // Sell autosellable quest items
 
-    AdventureResultArray items = new AdventureResultArray();
+    List<AdventureResult> items = new ArrayList<>();
     for (int i = 0; i < ValhallaManager.AUTOSELLABLE.length; ++i) {
       AdventureResult item = ValhallaManager.AUTOSELLABLE[i];
       int count = item.getCount(KoLConstants.inventory);
@@ -128,7 +129,7 @@ public class ValhallaManager {
     }
 
     if (items.size() > 0) {
-      AutoSellRequest request = new AutoSellRequest(items.toArray());
+      AutoSellRequest request = new AutoSellRequest(items.toArray(new AdventureResult[0]));
       RequestThread.postRequest(request);
     }
 
