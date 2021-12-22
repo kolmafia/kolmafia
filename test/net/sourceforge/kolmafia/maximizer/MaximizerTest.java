@@ -126,6 +126,35 @@ public class MaximizerTest {
     recommendedSlotIs(EquipmentManager.ACCESSORY1, "polka-dot bow tie");
   }
 
+  // raveosity
+
+  @Test
+  public void raveosityTriesRaveEquipment() {
+    canUse("rave visor");
+    canUse("baggy rave pants");
+    canUse("rave whistle");
+    assertFalse(maximize("raveosity"));
+    // still provides equipment
+    recommendedSlotIs(EquipmentManager.HAT, "rave visor");
+    recommendedSlotIs(EquipmentManager.PANTS, "baggy rave pants");
+    recommendedSlotIs(EquipmentManager.WEAPON, "rave whistle");
+  }
+
+  @Test
+  public void raveositySucceedsWithEnoughEquipment() {
+    canUse("blue glowstick");
+    canUse("glowstick on a string");
+    canUse("teddybear backpack");
+    canUse("rave visor");
+    canUse("baggy rave pants");
+    assertTrue(maximize("raveosity"));
+    recommendedSlotIs(EquipmentManager.HAT, "rave visor");
+    recommendedSlotIs(EquipmentManager.PANTS, "baggy rave pants");
+    recommendedSlotIs(EquipmentManager.CONTAINER, "teddybear backpack");
+    recommendedSlotIs(EquipmentManager.OFFHAND, "glowstick on a string");
+    recommends("blue glowstick");
+  }
+
   // club
 
   @Test
@@ -335,7 +364,15 @@ public class MaximizerTest {
 
   private void recommendedSlotIs(int slot, String item) {
     Optional<AdventureResult> equipment = getSlot(slot);
-    assertTrue(equipment.isPresent());
+    assertTrue(equipment.isPresent(), "Expected " + item + " to be recommended, but it was not");
     assertEquals(equipment.get(), AdventureResult.parseResult(item));
+  }
+
+  private void recommends(String item) {
+    Optional<Boost> found = Maximizer.boosts.stream()
+        .filter(Boost::isEquipment)
+        .filter(b -> item.equals(b.getItem().getName()))
+        .findAny();
+    assertTrue(found.isPresent(), "Expected " + item + " to be recommended, but it was not");
   }
 }
