@@ -21,6 +21,8 @@ public class MaximizerTest {
     KoLCharacter.reset(true);
   }
 
+  // basic
+
   @Test
   public void changesGear() {
     addItem("helmet turtle");
@@ -44,6 +46,69 @@ public class MaximizerTest {
     assertEquals(0, modFor("Buffed Muscle"), 0.01);
   }
 
+  // max
+
+  @Test
+  public void maxKeywordStopsCountingBeyondTarget() {
+    addItem("hardened slime hat");
+    addItem("bounty-hunting helmet");
+    addSkill("Refusal to Freeze");
+    setStats(0, 0, 200);
+    assertTrue(maximize("cold res 3 max, 0.1 item drop"));
+
+    assertEquals(3, modFor("Cold Resistance"), 0.01);
+    assertEquals(20, modFor("Item Drop"), 0.01);
+
+    recommendedSlotIs(EquipmentManager.HAT, "bounty-hunting helmet");
+  }
+
+  @Test
+  public void startingMaxKeywordTerminatesEarlyIfConditionMet() {
+    addItem("hardened slime hat");
+    addItem("bounty-hunting helmet");
+    addSkill("Refusal to Freeze");
+    setStats(0, 0, 200);
+    maximize("3 max, cold res");
+
+    assertTrue(
+        Maximizer.boosts.stream()
+            .anyMatch(
+                b -> b.toString().contains("(maximum achieved, no further combinations checked)")));
+  }
+
+  // min
+
+  @Test
+  public void minKeywordFailsMaximizationIfNotHit() {
+    addItem("helmet turtle");
+    assertFalse(maximize("mus 2 min"));
+    // still provides equipment
+    assertEquals(1, modFor("Buffed Muscle"), 0.01);
+  }
+
+  // clownosity
+
+  @Test
+  public void clownosityTriesClownEquipment() {
+    addItem("clown wig");
+    setStats(0, 0, 10);
+    assertFalse(maximize("clownosity"));
+    // still provides equipment
+    recommendedSlotIs(EquipmentManager.HAT, "clown wig");
+  }
+
+  @Test
+  public void clownositySucceedsWithEnoughEquipment() {
+    addItem("clown wig");
+    addItem("polka-dot bow tie");
+    setStats(0, 10, 10);
+    assertTrue(maximize("clownosity"));
+    recommendedSlotIs(EquipmentManager.HAT, "clown wig");
+    recommendedSlotIs(EquipmentManager.ACCESSORY1, "polka-dot bow tie");
+  }
+
+  // club
+
   @Test
   public void clubModifierDoesntAffectOffhand() {
     addSkill("Double-Fisted Skull Smashing");
@@ -59,6 +124,8 @@ public class MaximizerTest {
     assertEquals(2, modFor("Muscle"), 0.01, "Muscle as expected.");
     assertEquals(3, modFor("Hot Damage"), 0.01, "Hot damage as expected.");
   }
+
+  // effect limits
 
   @Test
   public void maximizeGiveBestScoreWithEffectsAtNoncombatLimit() {
@@ -87,6 +154,9 @@ public class MaximizerTest {
     recommendedSlotIs(EquipmentManager.ACCESSORY1, "Krampus horn");
   }
 
+  // regression
+
+  // https://kolmafia.us/threads/maximizer-reduces-score-with-combat-chance-at-soft-limit-failing-test-included.25672/
   @Test
   public void maximizeShouldNotRemoveEquipmentThatCanNoLongerBeEquipped() {
     // slippers have a Moxie requirement of 125
@@ -103,6 +173,7 @@ public class MaximizerTest {
     assertEquals(5, -modFor("Combat Rate"), 0.01, "Maximizing should not reduce score");
   }
 
+  // https://kolmafia.us/threads/maximizer-reduces-score-with-combat-chance-at-soft-limit-failing-test-included.25672/
   @Test
   public void freshCharacterShouldNotRecommendEverythingWithCurrentScore() {
     KoLCharacter.setSign("Platypus");
@@ -173,60 +244,7 @@ public class MaximizerTest {
     assertEquals(25, modFor("Meat Drop"), 0.01);
   }
 
-  @Test
-  public void maxKeywordStopsCountingBeyondTarget() {
-    addItem("hardened slime hat");
-    addItem("bounty-hunting helmet");
-    addSkill("Refusal to Freeze");
-    setStats(0, 0, 200);
-    assertTrue(maximize("cold res 3 max, 0.1 item drop"));
-
-    assertEquals(3, modFor("Cold Resistance"), 0.01);
-    assertEquals(20, modFor("Item Drop"), 0.01);
-
-    recommendedSlotIs(EquipmentManager.HAT, "bounty-hunting helmet");
-  }
-
-  @Test
-  public void startingMaxKeywordTerminatesEarlyIfConditionMet() {
-    addItem("hardened slime hat");
-    addItem("bounty-hunting helmet");
-    addSkill("Refusal to Freeze");
-    setStats(0, 0, 200);
-    maximize("3 max, cold res");
-
-    assertTrue(
-        Maximizer.boosts.stream()
-            .anyMatch(
-                b -> b.toString().contains("(maximum achieved, no further combinations checked)")));
-  }
-
-  @Test
-  public void minKeywordFailsMaximizationIfNotHit() {
-    addItem("helmet turtle");
-    assertFalse(maximize("mus 2 min"));
-    // still provides equipment
-    assertEquals(1, modFor("Buffed Muscle"), 0.01);
-  }
-
-  @Test
-  public void clownosityTriesClownEquipment() {
-    addItem("clown wig");
-    setStats(0, 0, 10);
-    assertFalse(maximize("clownosity"));
-    // still provides equipment
-    recommendedSlotIs(EquipmentManager.HAT, "clown wig");
-  }
-
-  @Test
-  public void clownositySucceedsWithEnoughEquipment() {
-    addItem("clown wig");
-    addItem("polka-dot bow tie");
-    setStats(0, 10, 10);
-    assertTrue(maximize("clownosity"));
-    recommendedSlotIs(EquipmentManager.HAT, "clown wig");
-    recommendedSlotIs(EquipmentManager.ACCESSORY1, "polka-dot bow tie");
-  }
+  // helper methods
 
   private void equip(int slot, String item) {
     EquipmentManager.setEquipment(slot, AdventureResult.parseResult(item));
