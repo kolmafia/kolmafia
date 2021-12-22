@@ -27,10 +27,10 @@ public class PHPRandom extends Random {
 
   @Override
   public int nextInt(final int max) {
-    return nextBoundedInt(0, max);
+    return nextInt(0, max);
   }
 
-  public int nextBoundedInt(final int min, final int max) {
+  public int nextInt(final int min, final int max) {
     double clamped = (max - min + 1.0) * nextDouble();
     int val = min + (int) clamped;
     return val;
