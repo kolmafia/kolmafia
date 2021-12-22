@@ -70,6 +70,7 @@ public class PHPMTRandom extends Random {
     return nextInt(0, max);
   }
 
+  @SuppressWarnings("PMD.MissingOverride")
   public int nextInt(final int min, final int max) {
     double clamped = (max - min + 1.0) * nextDouble();
     int val = min + (int) clamped;
