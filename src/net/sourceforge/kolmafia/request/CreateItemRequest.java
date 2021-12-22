@@ -27,7 +27,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
-import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CreateItemRequest extends GenericRequest implements Comparable<CreateItemRequest> {
@@ -1439,12 +1438,12 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
             ? CreateItemRequest.CRAFT_PATTERN_1.matcher(urlString)
             : CreateItemRequest.ITEMID_PATTERN.matcher(urlString);
 
-    AdventureResultArray ingredients = new AdventureResultArray();
+    List<AdventureResult> ingredients = new ArrayList<>();
     while (matcher.find()) {
       ingredients.add(CreateItemRequest.getIngredient(matcher.group(1)));
     }
 
-    return ingredients.toArray();
+    return ingredients.toArray(new AdventureResult[0]);
   }
 
   private static AdventureResult getIngredient(final String itemId) {

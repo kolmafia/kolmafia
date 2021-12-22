@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -10,7 +12,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.StoreManager;
-import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -127,7 +128,7 @@ public class AutoMallRequest extends TransferItemRequest {
     }
 
     // Get the items we transferred
-    AdventureResultArray items =
+    List<AdventureResult> items =
         TransferItemRequest.getItemList(
             urlString,
             TransferItemRequest.ITEMID_PATTERN,
@@ -155,7 +156,8 @@ public class AutoMallRequest extends TransferItemRequest {
         }
       }
 
-      StoreManager.addItems(items.toArray(), prices.toArray(), limits.toArray());
+      StoreManager.addItems(
+          items.toArray(new AdventureResult[0]), prices.toArray(), limits.toArray());
     } else {
       StoreManager.update(responseText, StoreManager.ADDER);
     }
@@ -164,13 +166,13 @@ public class AutoMallRequest extends TransferItemRequest {
   }
 
   private static AdventureResult[] getItems(final String urlString) {
-    AdventureResultArray items = new AdventureResultArray();
+    List<AdventureResult> items = new ArrayList<>();
     Matcher matcher = TransferItemRequest.ITEMID_PATTERN.matcher(urlString);
     while (matcher.find()) {
       int itemId = StringUtilities.parseInt(matcher.group(1));
       items.add(ItemPool.get(itemId, 0));
     }
-    return items.toArray();
+    return items.toArray(new AdventureResult[0]);
   }
 
   private static int[] getPrices(final String urlString) {

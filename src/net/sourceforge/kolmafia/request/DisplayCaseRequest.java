@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -9,7 +10,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
-import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DisplayCaseRequest extends TransferItemRequest {
@@ -157,7 +157,7 @@ public class DisplayCaseRequest extends TransferItemRequest {
         return false;
       }
 
-      AdventureResultArray itemList =
+      List<AdventureResult> itemList =
           TransferItemRequest.getItemList(
               responseText, ITEM_PATTERN2, TransferItemRequest.ITEM_PATTERN1, (Pattern) null);
 

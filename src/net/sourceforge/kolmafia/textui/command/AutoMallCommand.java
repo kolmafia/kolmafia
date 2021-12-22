@@ -1,11 +1,12 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.ArrayList;
+import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
-import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 
 public class AutoMallCommand extends AbstractCommand {
   public AutoMallCommand() {
@@ -27,7 +28,7 @@ public class AutoMallCommand extends AbstractCommand {
     AdventureResult[] itemsArray = new AdventureResult[KoLConstants.profitableList.size()];
     AdventureResult[] items = KoLConstants.profitableList.toArray(itemsArray);
 
-    AdventureResultArray sellList = new AdventureResultArray();
+    List<AdventureResult> sellList = new ArrayList<>();
 
     for (int i = 0; i < items.length; ++i) {
       currentItem = items[i];
@@ -50,7 +51,7 @@ public class AutoMallCommand extends AbstractCommand {
     }
 
     if (!sellList.isEmpty()) {
-      RequestThread.postRequest(new AutoMallRequest(sellList.toArray()));
+      RequestThread.postRequest(new AutoMallRequest(sellList.toArray(new AdventureResult[0])));
     }
   }
 }

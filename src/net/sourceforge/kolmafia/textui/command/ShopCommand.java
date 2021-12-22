@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.ArrayList;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -12,7 +13,6 @@ import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
-import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -51,7 +51,7 @@ public class ShopCommand extends AbstractCommand {
       parameters = parameters.substring(TEST.length()).trim();
     }
 
-    AdventureResultArray items = new AdventureResultArray();
+    List<AdventureResult> items = new ArrayList<>();
     IntegerArray prices = new IntegerArray();
     IntegerArray limits = new IntegerArray();
 
@@ -111,10 +111,15 @@ public class ShopCommand extends AbstractCommand {
     if (items.size() > 0) {
       if (storage) {
         RequestThread.postRequest(
-            new ManageStoreRequest(items.toArray(), prices.toArray(), limits.toArray(), storage));
+            new ManageStoreRequest(
+                items.toArray(new AdventureResult[0]),
+                prices.toArray(),
+                limits.toArray(),
+                storage));
       } else {
         RequestThread.postRequest(
-            new AutoMallRequest(items.toArray(), prices.toArray(), limits.toArray()));
+            new AutoMallRequest(
+                items.toArray(new AdventureResult[0]), prices.toArray(), limits.toArray()));
       }
     }
   }
