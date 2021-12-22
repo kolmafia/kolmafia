@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -198,6 +199,26 @@ public class MaximizerTest {
     recommendedSlotIs(EquipmentManager.ACCESSORY1, "Krampus horn");
   }
 
+  @Test
+  public void aboveWaterZonesDoNotCheckUnderwaterNegativeCombat() {
+    Modifiers.setLocation(AdventureDatabase.getAdventure("Noob Cave"));
+    canUse("Mer-kin sneakmask");
+    assertTrue(maximize("-combat -tie"));
+    assertEquals(0, modFor("Combat Rate"), 0.01);
+
+    recommendedSlotIsEmpty(EquipmentManager.HAT);
+  }
+
+  @Test
+  public void underwaterZonesCheckUnderwaterNegativeCombat() {
+    Modifiers.setLocation(AdventureDatabase.getAdventure("The Ice Hole"));
+    canUse("Mer-kin sneakmask");
+    assertEquals(AdventureDatabase.getEnvironment(Modifiers.currentLocation), "underwater");
+    assertTrue(maximize("-combat -tie"));
+
+    recommendedSlotIs(EquipmentManager.HAT, "Mer-kin sneakmask");
+  }
+
   // regression
 
   // https://kolmafia.us/threads/maximizer-reduces-score-with-combat-chance-at-soft-limit-failing-test-included.25672/
@@ -306,8 +327,7 @@ public class MaximizerTest {
   }
 
   private void canUse(String item) {
-    addItem(item);
-    canEquip(item);
+    canUse(item, 1);
   }
 
   private void canUse(String item, int count) {
@@ -354,17 +374,23 @@ public class MaximizerTest {
   }
 
   private Optional<AdventureResult> getSlot(int slot) {
-    return Maximizer.boosts.stream()
-        .filter(Boost::isEquipment)
-        .filter(b -> b.getSlot() == slot)
-        .map(Boost::getItem)
-        .findAny();
+    var boost =
+        Maximizer.boosts.stream()
+            .filter(Boost::isEquipment)
+            .filter(b -> b.getSlot() == slot)
+            .findAny();
+    return boost.map(Boost::getItem);
   }
 
   private void recommendedSlotIs(int slot, String item) {
     Optional<AdventureResult> equipment = getSlot(slot);
     assertTrue(equipment.isPresent(), "Expected " + item + " to be recommended, but it was not");
     assertEquals(equipment.get(), AdventureResult.parseResult(item));
+  }
+
+  private void recommendedSlotIsEmpty(int slot) {
+    Optional<AdventureResult> equipment = getSlot(slot);
+    assertTrue(equipment.isEmpty(), "Expected empty slot " + slot + ", but it was not");
   }
 
   private void recommends(String item) {
