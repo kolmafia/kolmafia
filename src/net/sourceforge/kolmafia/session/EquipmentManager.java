@@ -32,7 +32,6 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -2244,18 +2243,22 @@ public class EquipmentManager {
       return false;
     }
 
-    EquipmentRequirement req = new EquipmentRequirement(EquipmentDatabase.getEquipRequirement(itemId));
+    EquipmentRequirement req =
+        new EquipmentRequirement(EquipmentDatabase.getEquipRequirement(itemId));
 
     if (req.isMuscle()) {
-      return KoLCharacter.getBaseMuscle() >= req.getAmount() || KoLCharacter.muscleTrigger(req.getAmount(), itemId);
+      return KoLCharacter.getBaseMuscle() >= req.getAmount()
+          || KoLCharacter.muscleTrigger(req.getAmount(), itemId);
     }
 
     if (req.isMysticality()) {
-      return KoLCharacter.getBaseMysticality() >= req.getAmount() || KoLCharacter.mysticalityTrigger(req.getAmount(), itemId);
+      return KoLCharacter.getBaseMysticality() >= req.getAmount()
+          || KoLCharacter.mysticalityTrigger(req.getAmount(), itemId);
     }
 
     if (req.isMoxie()) {
-      return KoLCharacter.getBaseMoxie() >= req.getAmount() || KoLCharacter.moxieTrigger(req.getAmount(), itemId);
+      return KoLCharacter.getBaseMoxie() >= req.getAmount()
+          || KoLCharacter.moxieTrigger(req.getAmount(), itemId);
     }
 
     return true;

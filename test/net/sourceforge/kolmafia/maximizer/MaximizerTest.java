@@ -331,8 +331,7 @@ public class MaximizerTest {
     setStats(
         Math.max(req.isMuscle() ? req.getAmount() : 0, KoLCharacter.getBaseMuscle()),
         Math.max(req.isMysticality() ? req.getAmount() : 0, KoLCharacter.getBaseMysticality()),
-        Math.max(req.isMoxie() ? req.getAmount() : 0, KoLCharacter.getBaseMoxie())
-    );
+        Math.max(req.isMoxie() ? req.getAmount() : 0, KoLCharacter.getBaseMoxie()));
   }
 
   private void setStats(int muscle, int mysticality, int moxie) {
@@ -369,10 +368,11 @@ public class MaximizerTest {
   }
 
   private void recommends(String item) {
-    Optional<Boost> found = Maximizer.boosts.stream()
-        .filter(Boost::isEquipment)
-        .filter(b -> item.equals(b.getItem().getName()))
-        .findAny();
+    Optional<Boost> found =
+        Maximizer.boosts.stream()
+            .filter(Boost::isEquipment)
+            .filter(b -> item.equals(b.getItem().getName()))
+            .findAny();
     assertTrue(found.isPresent(), "Expected " + item + " to be recommended, but it was not");
   }
 }

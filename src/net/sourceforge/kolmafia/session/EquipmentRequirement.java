@@ -4,8 +4,8 @@ import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EquipmentRequirement {
-    private Stat stat = Stat.NONE;
-    private int amount;
+  private Stat stat = Stat.NONE;
+  private int amount;
 
   public EquipmentRequirement(String requirement) {
     if (requirement.startsWith("Mus:")) {
