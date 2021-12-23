@@ -229,7 +229,12 @@ public abstract class PurchaseRequest extends GenericRequest
             + KoLConstants.COMMA_FORMAT.format(this.limit)
             + " @ "
             + this.getPriceString()
-            + ")...");
+            + (this.limit > 1
+                ? " = " + KoLConstants.COMMA_FORMAT.format(this.limit * this.price)
+                : "")
+            + ") from "
+            + getFormField("whichstore")
+            + "...");
 
     this.initialCount = this.getCurrentCount();
 
