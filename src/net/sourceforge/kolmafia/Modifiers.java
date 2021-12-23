@@ -207,7 +207,13 @@ public class Modifiers {
   public static final int CLOWNINESS = 132;
   public static final int PP = 133;
   public static final int PLUMBER_POWER = 134;
-  public static final int FAMILIAR_ACTION_BONUS = 135;
+  public static final int DRIPPY_DAMAGE = 135;
+  public static final int DRIPPY_RESISTANCE = 136;
+  public static final int ENERGY = 137;
+  public static final int SCRAP = 138;
+  public static final int FAMILIAR_ACTION_BONUS = 139;
+  public static final int WATER = 140;
+  public static final int SPLEENDROP = 141;
   public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
   private static final Object[][] doubleModifiers = {
@@ -789,6 +795,11 @@ public class Modifiers {
       "Water",
       Pattern.compile("Collect (\\d+) water per adventure"),
       Pattern.compile("Water: " + EXPR)
+    },
+    {
+      "Spleen Drop",
+      Pattern.compile("([+-]\\d+)% Spleen Item Drops? [Ff]rom Monsters$"),
+      Pattern.compile("Spleen Drop: " + EXPR)
     },
   };
 

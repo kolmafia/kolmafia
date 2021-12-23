@@ -2813,6 +2813,7 @@ Item	Copper Alpha of Sincerity	Muscle: +11, Mysticality: +11, Moxie: +11, Item D
 Item	copper ha'penny charrrm bracelet	Maximum HP: +20, Maximum MP: +20
 Item	corncob pipe	Muscle Percent: +10, Single Equip
 Item	Counterclockwise Watch	Adventures: +10, Single Equip, Nonstackable Watch
+Item	cozy scarf	Cold Resistance: +5
 # CRIMBCO lanyard: Lets you work harder!
 Item	CRIMBCO lanyard	Single Equip
 Item	Crimbolex watch	Adventures: +5, PvP Fights: +5, Rollover Effect: "Watched Over", Rollover Effect Duration: 100, Single Equip, Nonstackable Watch
@@ -3647,6 +3648,7 @@ Item	tiny plastic Caf&eacute; Elf	Hot Resistance: +1
 Item	tiny plastic Captain Kerkard	Monster Level: +1
 Item	tiny plastic cavebugbear	Monster Level: +1
 Item	tiny plastic Charity the Zombie Hunter	Monster Level: +1
+Item	tiny plastic chem lab	Spleen Drop: +20, Single Equip
 Item	tiny plastic Cheshire bat	Familiar Weight: +1
 Item	tiny plastic ChibiBuddy&trade;	Familiar Weight: +2
 Item	tiny plastic chunk of depleted Grimacite	HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2
