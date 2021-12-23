@@ -2394,6 +2394,7 @@ Copper Alpha of Sincerity	200	Mys: 85
 copper ha'penny charrrm bracelet	190	Mys: 80
 corncob pipe	200	Mys: 200
 Counterclockwise Watch	200	none
+cozy scarf	50	none
 CRIMBCO lanyard	0	none
 Crimbolex watch	200	Mys: 20
 Crimbomega drive chain	100	none
@@ -3093,6 +3094,7 @@ tiny plastic Caf&eacute; Elf	10	none
 tiny plastic Captain Kerkard	10	none
 tiny plastic cavebugbear	10	none
 tiny plastic Charity the Zombie Hunter	10	none
+tiny plastic chem lab	10	none
 tiny plastic Cheshire bat	10	none
 tiny plastic ChibiBuddy&trade;	0	none
 tiny plastic chunk of depleted Grimacite	0	none
