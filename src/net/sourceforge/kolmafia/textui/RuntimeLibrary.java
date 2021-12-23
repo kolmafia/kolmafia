@@ -990,6 +990,9 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("mall_price", DataTypes.INT_TYPE, params));
 
+    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.FLOAT_TYPE};
+    functions.add(new LibraryFunction("mall_price", DataTypes.INT_TYPE, params));
+
     params = new Type[] {RuntimeLibrary.ItemSetType};
     functions.add(new LibraryFunction("mall_prices", DataTypes.INT_TYPE, params));
 
@@ -5007,6 +5010,12 @@ public abstract class RuntimeLibrary {
 
   public static Value mall_price(ScriptRuntime controller, final Value item) {
     return new Value(StoreManager.getMallPrice(ItemPool.get((int) item.intValue(), 0)));
+  }
+
+  public static Value mall_price(ScriptRuntime controller, final Value item, final Value maxAge) {
+    return new Value(
+        StoreManager.getMallPrice(
+            ItemPool.get((int) item.intValue(), 0), (float) maxAge.floatValue()));
   }
 
   public static Value mall_prices(ScriptRuntime controller, final Value arg) {
