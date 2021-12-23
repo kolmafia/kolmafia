@@ -210,7 +210,7 @@ public abstract class PurchaseRequest extends GenericRequest
 
     // Make sure we have enough Meat to buy what we want.
 
-    if (this.getAvailableMeat() < this.limit * this.getPrice()) {
+    if (this.getAvailableMeat() < (long) this.limit * this.getPrice()) {
       return;
     }
 
@@ -240,7 +240,7 @@ public abstract class PurchaseRequest extends GenericRequest
             + " @ "
             + this.getPriceString()
             + (this.limit > 1
-                ? " = " + KoLConstants.COMMA_FORMAT.format(this.limit * getPrice())
+                ? " = " + KoLConstants.COMMA_FORMAT.format((long) this.limit * getPrice())
                 : "")
             + ")"
             + shopName
@@ -255,7 +255,7 @@ public abstract class PurchaseRequest extends GenericRequest
     return this.item.getCount(KoLConstants.inventory);
   }
 
-  public static final void setUsePriceComparison(final boolean usePriceComparison) {
+  public static void setUsePriceComparison(final boolean usePriceComparison) {
     PurchaseRequest.usePriceComparison = usePriceComparison;
   }
 
@@ -302,10 +302,9 @@ public abstract class PurchaseRequest extends GenericRequest
 
   @Override
   public boolean equals(final Object o) {
-    return !(o instanceof PurchaseRequest)
-        ? false
-        : this.shopName.equals(((PurchaseRequest) o).shopName)
-            && this.item.getItemId() == ((PurchaseRequest) o).item.getItemId();
+    return o instanceof PurchaseRequest
+        && this.shopName.equals(((PurchaseRequest) o).shopName)
+        && this.item.getItemId() == ((PurchaseRequest) o).item.getItemId();
   }
 
   @Override
