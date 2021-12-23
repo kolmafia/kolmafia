@@ -220,6 +220,16 @@ public abstract class PurchaseRequest extends GenericRequest
       return;
     }
 
+    String shopName = getFormField("whichstore");
+
+    // If shop exists, and it's not an empty string
+    if (shopName != null && !shopName.isEmpty()) {
+      shopName = " from #" + shopName;
+    } else {
+      // Set to empty string just incase it is null
+      shopName = "";
+    }
+
     // Now that we're ready, make the purchase!
 
     KoLmafia.updateDisplay(
@@ -232,8 +242,8 @@ public abstract class PurchaseRequest extends GenericRequest
             + (this.limit > 1
                 ? " = " + KoLConstants.COMMA_FORMAT.format(this.limit * this.price)
                 : "")
-            + ") from "
-            + getFormField("whichstore")
+            + ")"
+            + shopName
             + "...");
 
     this.initialCount = this.getCurrentCount();
