@@ -758,7 +758,12 @@ public abstract class StoreManager {
   public static int getMallPrice(AdventureResult item, float maxAge) {
     int id = item.getItemId();
     int price = MallPriceDatabase.getPrice(id);
-    if (price <= 0 || MallPriceDatabase.getAge(id) > maxAge) {
+    if (MallPriceDatabase.getAge(id) > maxAge) {
+      StoreManager.flushCache(id);
+      StoreManager.mallPrices.set(id, 0);
+      price = 0;
+    }
+    if (price <= 0) {
       price = StoreManager.getMallPrice(item);
     }
     return price;
