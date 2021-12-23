@@ -240,7 +240,7 @@ public abstract class PurchaseRequest extends GenericRequest
             + " @ "
             + this.getPriceString()
             + (this.limit > 1
-                ? " = " + KoLConstants.COMMA_FORMAT.format(this.limit * this.price)
+                ? " = " + KoLConstants.COMMA_FORMAT.format(this.limit * getPrice())
                 : "")
             + ")"
             + shopName
