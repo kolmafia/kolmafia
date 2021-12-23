@@ -10875,7 +10875,7 @@
 10848	[experimental crimbo booze]	222544926	coffeecup.gif	drink	q,d	11
 10849	[experimental crimbo spleen]	489345410	potion10.gif	spleen, usable	q,d	11
 10850	goo magnet	360608518	c21magnet.gif	offhand		0
-10851
+10851	cozy scarf	391366471	cozyscarf.gif	accessory		0
 10852
 10853	fleshy putty	407684786	fleshputty.gif	potion, usable	t,d	11
 10854	third ear	572790413	thirdear.gif	accessory	t,d	66

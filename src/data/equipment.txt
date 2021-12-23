@@ -2394,6 +2394,7 @@ Copper Alpha of Sincerity	200	Mys: 85
 copper ha'penny charrrm bracelet	190	Mys: 80
 corncob pipe	200	Mys: 200
 Counterclockwise Watch	200	none
+cozy scarf	50	none
 CRIMBCO lanyard	0	none
 Crimbolex watch	200	Mys: 20
 Crimbomega drive chain	100	none
