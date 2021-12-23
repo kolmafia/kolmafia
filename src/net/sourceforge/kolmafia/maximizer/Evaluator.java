@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -560,8 +561,7 @@ public class Evaluator {
           }
         } else if (keyword.startsWith("com")) {
           index = Modifiers.COMBAT_RATE;
-          if (Modifiers.currentZone.equals("The Sea")
-              || Modifiers.currentLocation.equals("The Sunken Party Yacht")) {
+          if ("underwater".equals(AdventureDatabase.getEnvironment(Modifiers.currentLocation))) {
             this.weight[Modifiers.UNDERWATER_COMBAT_RATE] = weight;
           }
         } else if (keyword.startsWith("item")) {

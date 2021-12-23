@@ -1003,9 +1003,7 @@ public class AdventureRequest extends GenericRequest {
     if (this.adventureId.equals(AdventurePool.THE_SHORE_ID)) {
       return KoLCharacter.inFistcore() ? 5 : 3;
     }
-    String zone = AdventureDatabase.getZone(this.adventureName);
-    if (zone != null
-        && (zone.equals("The Sea") || this.adventureId.equals(AdventurePool.YACHT_ID))) {
+    if ("underwater".equals(AdventureDatabase.getEnvironment(this.adventureName))) {
       return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FISHY)) ? 1 : 2;
     }
     return 1;
