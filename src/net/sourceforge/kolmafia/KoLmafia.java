@@ -142,6 +142,7 @@ public abstract class KoLmafia {
 
   public static final int[] initialStats = new int[3];
 
+  private static final int MAX_SESSIONS = 10;
   private static FileLock SESSION_HOLDER = null;
   private static FileChannel SESSION_CHANNEL = null;
   private static File SESSION_FILE = null;
@@ -283,9 +284,14 @@ public abstract class KoLmafia {
     if (SwinglessUIUtils.isSwingAvailable()) {
       KoLmafia.initLookAndFeel();
     }
-    if (!KoLmafia.acquireFileLock("1") && !KoLmafia.acquireFileLock("2")) {
-      System.out.println("Could not acquire file lock");
-      System.exit(-1);
+    for (int i = 1; i <= MAX_SESSIONS; i++) {
+      if (KoLmafia.acquireFileLock(String.valueOf(i))) {
+        break;
+      }
+      if (i == MAX_SESSIONS) {
+        System.out.println("Could not acquire file lock");
+        System.exit(-1);
+      }
     }
 
     FlaggedItems.initializeLists();
