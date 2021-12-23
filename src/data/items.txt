@@ -10901,5 +10901,5 @@
 10874	Site Alpha ID badge	913376088	sgbadge.gif	familiar	t,d	75
 10875	the Crymbich Manuscript (used)	458983556	documents.gif	usable		0
 10876	meatball	467177737	meatball.gif	food	t,d	5
-10877
+10877	cloned monster	407492263	dna.gif	usable	q	0
 10878	meatball machine	811453503	gumballmachine.gif	usable		0
