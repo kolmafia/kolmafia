@@ -3487,7 +3487,7 @@ public class Parser {
       } else {
         this.unexpectedTokenError("numeric value", fraction);
 
-        number = new Value(0);
+        number = DataTypes.ZERO_VALUE;
       }
 
       return Value.locate(this.makeLocation(numberStartToken, this.peekPreviousToken()), number);
