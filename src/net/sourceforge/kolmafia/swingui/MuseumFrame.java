@@ -3,6 +3,8 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -21,7 +23,6 @@ import net.sourceforge.kolmafia.swingui.panel.OverlapPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollableFilteredPanel;
 import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
-import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MuseumFrame extends GenericFrame {
@@ -59,7 +60,7 @@ public class MuseumFrame extends GenericFrame {
       AdventureResult[] display = new AdventureResult[KoLConstants.collection.size()];
       KoLConstants.collection.toArray(display);
 
-      AdventureResultArray items = new AdventureResultArray();
+      List<AdventureResult> items = new ArrayList<>();
 
       for (int i = 0; i < display.length; ++i) {
         AdventureResult item = display[i];
@@ -73,7 +74,8 @@ public class MuseumFrame extends GenericFrame {
         return;
       }
 
-      RequestThread.postRequest(new DisplayCaseRequest(items.toArray(), true));
+      RequestThread.postRequest(
+          new DisplayCaseRequest(items.toArray(new AdventureResult[0]), true));
     }
 
     @Override
