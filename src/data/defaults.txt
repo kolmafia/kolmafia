@@ -1047,6 +1047,8 @@ user	prayedForProtection	false
 user	prayedForVigor	false
 user	preAscensionScript
 user	preBlackbirdFamiliar
+user	primaryLabGooIntensity	10
+user	primaryLabCheerCoreGrabbed	false
 user	prismaticSummons	0
 user	procrastinatorLanguageFluency	0
 user	promptAboutCrafting	1
@@ -2846,6 +2848,7 @@ user	choiceAdventure1405	1
 user	choiceAdventure1411	0
 user	choiceAdventure1415	0
 user	choiceAdventure1460	8
+user	choiceAdventure1461	4
 
 user	lockedItem4637	true
 user	lockedItem4638	true

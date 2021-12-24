@@ -10627,7 +10627,7 @@
 10599	Dripwood slab	429328231	dripwood.gif	none	t	0
 10600	drippy diadem	516307518	dripdiadem.gif	hat		0
 10601	Thwaitgold slug statuette	655416395	thwaitslug.gif	none		0
-10602	inert grey goo ring	613175985	greygooring.gif	accessory	t	0
+10602	ert grey goo ring	613175985	greygooring.gif	accessory	t	0
 10603	fistful of wood shavings	725899167	scpowder.gif	none, combat	t,d	5	fistsful of wood shavings
 10604	Yeg's Motel ashtray	695921497	yeg_ashtray.gif	none, combat	t,d	6
 10605	Yeg's Motel alarm clock	834539301	yeg_clock.gif	usable	t,d	6
@@ -10837,7 +10837,7 @@
 10809	tiny plastic food lab	612016475	c21tp1.gif	accessory	t	0
 10810	tiny plastic nog lab	678768923	c21tpboo.gif	accessory	t	0
 10811	tiny plastic chem lab	974054842	c21tptres.gif	accessory	t	0
-10812
+10812	tiny plastic primary lab	618163201	c21tpfore.gif	accessory	t	0
 10813
 10814	packaged cold medicine cabinet	394128710	cmcabinet_box.gif	usable	t	0
 10815	cold medicine cabinet	411733473	cmcabinet.gif	usable		0

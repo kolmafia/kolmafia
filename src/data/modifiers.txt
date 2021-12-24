@@ -3061,8 +3061,8 @@ Item	Iiti Kitty phone charm	Spooky Damage: +15, Single Equip
 Item	imitation nice watch	Adventures: +3, Single Equip, Nonstackable Watch
 Item	imp unity ring	Hot Damage: +5, Hot Spell Damage: +5
 Item	incredibly dense meat gem	Meat Drop: +60, Moxie: +5, Maximum MP: +10
-# inert grey goo ring: Definitely Safe
-Item	inert grey goo ring	Maximum HP: +10, Maximum MP: +10
+# ert grey goo ring: Definitely Safe
+Item	ert grey goo ring	Maximum HP: +10, Maximum MP: +10
 Item	infernal insoles	Hot Resistance: +1, Initiative: +10
 # inflatable duck
 Item	intergalactic pom poms	Moxie: +20, Initiative: +30
@@ -3755,6 +3755,7 @@ Item	tiny plastic orphan	Stench Resistance: +1
 Item	tiny plastic pastamancer	Mysticality: +2, Muscle: +1
 Item	tiny plastic peacannon	Ranged Damage: +5
 Item	tiny plastic Penny	Meat Drop: +10
+Item	tiny plastic primary lab	Single Equip
 Item	tiny plastic Professor What	Monster Level: +1
 Item	tiny plastic Protagonist	Monster Level: +1
 Item	tiny plastic protector spectre	Spooky Damage: +10

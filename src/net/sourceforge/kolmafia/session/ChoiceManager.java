@@ -6048,7 +6048,7 @@ public abstract class ChoiceManager {
           new Option("fight a chalkdust wraith", 3)
         }),
 
-    // The Only Thing About Him is the Way That He Walks
+    // Gift Fabrication Lab
     new ChoiceAdventure(
         "Crimbo21",
         "choiceAdventure1460",
@@ -6075,6 +6075,19 @@ public abstract class ChoiceManager {
           new Option("lab-grown meat", "lab-grown meat", "golden fleece", "boxed gumball machine"),
           new Option("cloning kit", "cloning kit", "electric pants", "can of mixed everything"),
           new Option("return to Site Alpha")
+        }),
+
+    // (Unnamed choice adventure)
+    new ChoiceAdventure(
+        "Crimbo21",
+        "choiceAdventure1461",
+        "Site Alpha Primary Lab",
+        new Object[] {
+          new Option("Increase goo intensity", 1),
+          new Option("Decrease goo intensity", 2),
+          new Option("Trade grey goo ring for gooified matter", 3),
+          new Option("Do nothing", 4),
+          new Option("Grab the cheer core. Just do it!", 5),
         }),
   };
 
@@ -15282,6 +15295,27 @@ public abstract class ChoiceManager {
           }
         }
         break;
+
+      case 1461: // Site Alpha Primary Lab
+        switch (ChoiceManager.lastDecision) {
+          case 1:
+            Preferences.increment("primaryLabGooIntensity", 1);
+            break;
+          case 2:
+            Preferences.decrement("primaryLabGooIntensity", 1);
+            break;
+          case 3:
+            ResultProcessor.processItem(ItemPool.GREY_GOO_RING, -1);
+            break;
+          case 4:
+            // Do nothing
+            break;
+          case 5:
+            // Grab the Cheer Core
+            Preferences.setBoolean("primaryLabCheerCoreGrabbed", true);
+            break;
+        }
+        break;
     }
 
     if (ChoiceManager.handlingChoice) {
@@ -18888,6 +18922,14 @@ public abstract class ChoiceManager {
       case 1262:
         // What Setting?
         return VillainLairDecorator.Symbology(responseText);
+
+      case 1461:
+        // Site Alpha Primary Lab
+        // If you can "Grab the Cheer Core!", do it.
+        if (responseText.contains("Grab the Cheer Core!")) {
+          return "5";
+        }
+        return decision;
     }
     return decision;
   }
