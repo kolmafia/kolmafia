@@ -3248,6 +3248,7 @@ public class ItemPool {
   public static final int WORMWOOD_WEDDING_RING = 10598;
   public static final int DRIPWOOD_SLAB = 10599;
   public static final int DRIPPY_DIADEM = 10600;
+  public static final int GREY_GOO_RING = 10602;
   public static final int SIZZLING_DESK_BELL = 10617;
   public static final int FROST_RIMED_DESK_BELL = 10618;
   public static final int UNCANNY_DESK_BELL = 10619;

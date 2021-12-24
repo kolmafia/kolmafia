@@ -10837,7 +10837,7 @@
 10809	tiny plastic food lab	612016475	c21tp1.gif	accessory	t	0
 10810	tiny plastic nog lab	678768923	c21tpboo.gif	accessory	t	0
 10811	tiny plastic chem lab	974054842	c21tptres.gif	accessory	t	0
-10812
+10812	tiny plastic primary lab	618163201	c21tpfore.gif	accessory	t	0
 10813
 10814	packaged cold medicine cabinet	394128710	cmcabinet_box.gif	usable	t	0
 10815	cold medicine cabinet	411733473	cmcabinet.gif	usable		0

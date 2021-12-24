@@ -3201,6 +3201,7 @@ tiny plastic orphan	10	none
 tiny plastic pastamancer	20	none
 tiny plastic peacannon	30	none
 tiny plastic Penny	10	none
+tiny plastic primary lab	10	none
 tiny plastic Professor What	10	none
 tiny plastic Protagonist	10	none
 tiny plastic protector spectre	50	Mys: 10
