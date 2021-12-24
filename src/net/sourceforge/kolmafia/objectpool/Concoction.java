@@ -777,7 +777,7 @@ public class Concoction implements Comparable<Concoction> {
       SortedListModel<AdventureResult> uses = ConcoctionDatabase.knownUses.get(itemId);
       if (uses == null) {
         uses = new SortedListModel<>();
-        ConcoctionDatabase.knownUses.set(ingredient.getItemId(), uses);
+        ConcoctionDatabase.knownUses.put(ingredient.getItemId(), uses);
       }
 
       uses.add(this.concoction);
