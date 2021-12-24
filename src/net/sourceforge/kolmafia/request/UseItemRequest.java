@@ -5788,6 +5788,12 @@ public class UseItemRequest extends GenericRequest {
           Preferences.setBoolean("wildfirePumpGreased", true);
         }
         break;
+      case ItemPool.MEATBALL_MACHINE:
+        if (responseText.contains("You put your hand under the spout")
+            || responseText.contains("day's allottment of free meatballs")) {
+          Preferences.setBoolean("_meatballMachineUsed", true);
+        }
+        return;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {

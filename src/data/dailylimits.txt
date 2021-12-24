@@ -80,6 +80,7 @@ Use	M-242	_fireworkUsed
 Use	Manual of Dexterity	_guildManualUsed
 Use	Manual of Labor	_guildManualUsed
 Use	Manual of Transmission	_guildManualUsed
+Use	meatball machine	_meatballMachineUsed
 Use	Meteorite-Ade	_meteoriteAdesUsed	3
 Use	milk of magnesium	_milkOfMagnesiumUsed
 Use	mojo filter	currentMojoFilters	3
