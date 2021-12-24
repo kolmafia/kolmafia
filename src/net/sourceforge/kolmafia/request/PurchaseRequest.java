@@ -210,7 +210,7 @@ public abstract class PurchaseRequest extends GenericRequest
 
     // Make sure we have enough Meat to buy what we want.
 
-    if (this.getAvailableMeat() < this.limit * this.getPrice()) {
+    if (this.getAvailableMeat() < (long) this.limit * this.getPrice()) {
       return;
     }
 
@@ -218,6 +218,16 @@ public abstract class PurchaseRequest extends GenericRequest
 
     if (!this.ensureProperAttire()) {
       return;
+    }
+
+    String shopName = getFormField("whichstore");
+
+    // If shop exists, and it's not an empty string
+    if (shopName != null && !shopName.isEmpty()) {
+      shopName = " from #" + shopName;
+    } else {
+      // Set to empty string just incase it is null
+      shopName = "";
     }
 
     // Now that we're ready, make the purchase!
@@ -229,7 +239,12 @@ public abstract class PurchaseRequest extends GenericRequest
             + KoLConstants.COMMA_FORMAT.format(this.limit)
             + " @ "
             + this.getPriceString()
-            + ")...");
+            + (this.limit > 1
+                ? " = " + KoLConstants.COMMA_FORMAT.format((long) this.limit * getPrice())
+                : "")
+            + ")"
+            + shopName
+            + "...");
 
     this.initialCount = this.getCurrentCount();
 
@@ -240,7 +255,7 @@ public abstract class PurchaseRequest extends GenericRequest
     return this.item.getCount(KoLConstants.inventory);
   }
 
-  public static final void setUsePriceComparison(final boolean usePriceComparison) {
+  public static void setUsePriceComparison(final boolean usePriceComparison) {
     PurchaseRequest.usePriceComparison = usePriceComparison;
   }
 
@@ -287,10 +302,9 @@ public abstract class PurchaseRequest extends GenericRequest
 
   @Override
   public boolean equals(final Object o) {
-    return !(o instanceof PurchaseRequest)
-        ? false
-        : this.shopName.equals(((PurchaseRequest) o).shopName)
-            && this.item.getItemId() == ((PurchaseRequest) o).item.getItemId();
+    return o instanceof PurchaseRequest
+        && this.shopName.equals(((PurchaseRequest) o).shopName)
+        && this.item.getItemId() == ((PurchaseRequest) o).item.getItemId();
   }
 
   @Override
