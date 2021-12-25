@@ -10838,7 +10838,7 @@
 10810	tiny plastic nog lab	678768923	c21tpboo.gif	accessory	t	0
 10811	tiny plastic chem lab	974054842	c21tptres.gif	accessory	t	0
 10812	tiny plastic primary lab	618163201	c21tpfore.gif	accessory	t	0
-10813
+10813	tiny plastic Cheer Core	900662982	c21tpcore.gif	accessory	t	0
 10814	packaged cold medicine cabinet	394128710	cmcabinet_box.gif	usable	t	0
 10815	cold medicine cabinet	411733473	cmcabinet.gif	usable		0
 10816	ice crown	610702654	icecrown.gif	hat	q	0
@@ -10876,8 +10876,7 @@
 10849	[experimental crimbo spleen]	489345410	potion10.gif	spleen, usable	q,d	11
 10850	goo magnet	360608518	c21magnet.gif	offhand		0
 10851	cozy scarf	391366471	cozyscarf.gif	accessory		0
-10852
-10853	fleshy putty	407684786	fleshputty.gif	potion, usable	t,d	11	balls of fleshy putty
+10852	huge Crimbo cookie	888257908	c21cookie.gif	food	t,d	2021	balls of fleshy putty
 10854	third ear	572790413	thirdear.gif	accessory	t,d	66
 10855	festive egg sac	942800796	crimbosac.gif	grow	t	0
 10856	poisonsettia	742264853	poinsettia.gif	none, combat	t,d	15
@@ -10903,3 +10902,4 @@
 10876	meatball	467177737	meatball.gif	food	t,d	5
 10877	cloned monster	407492263	dna.gif	usable	q	0
 10878	meatball machine	811453503	gumballmachine.gif	usable		0
+10879	refurbished air fryer	856536306	airfryer.gif	usable		0
