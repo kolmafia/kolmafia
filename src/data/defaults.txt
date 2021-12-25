@@ -1461,6 +1461,7 @@ user	_abstractionDropsCrown	0
 user	_affirmationCookieEaten	false
 user	_affirmationHateUsed	false
 user	_aguaDrops	0
+user	_airFryerUsed	false
 user	_akgyxothUsed	false
 user	_xenomorphCharge	0
 user	_alienAnimalMilkUsed	false

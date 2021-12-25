@@ -5794,6 +5794,12 @@ public class UseItemRequest extends GenericRequest {
           Preferences.setBoolean("_meatballMachineUsed", true);
         }
         return;
+      case ItemPool.REFURBISHED_AIR_FRYER:
+        if (responseText.contains("collect your fried air")
+            || responseText.contains("fryer needs to cool down")) {
+          Preferences.setBoolean("_airFryerUsed", true);
+        }
+        return;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
