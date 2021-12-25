@@ -10876,7 +10876,8 @@
 10849	[experimental crimbo spleen]	489345410	potion10.gif	spleen, usable	q,d	11
 10850	goo magnet	360608518	c21magnet.gif	offhand		0
 10851	cozy scarf	391366471	cozyscarf.gif	accessory		0
-10852	huge Crimbo cookie	888257908	c21cookie.gif	food	t,d	2021	balls of fleshy putty
+10852	huge Crimbo cookie	888257908	c21cookie.gif	food	t,d	2021
+10853	fleshy putty	407684786	fleshputty.gif	potion, usable	t,d	11	balls of fleshy putty
 10854	third ear	572790413	thirdear.gif	accessory	t,d	66
 10855	festive egg sac	942800796	crimbosac.gif	grow	t	0
 10856	poisonsettia	742264853	poinsettia.gif	none, combat	t,d	15
