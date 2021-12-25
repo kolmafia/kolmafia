@@ -214,6 +214,68 @@ public class MaximizerTest {
     recommendedSlotIs(EquipmentManager.HAT, "Mer-kin sneakmask");
   }
 
+  // outfits
+
+  @Test
+  public void considersOutfitsIfHelpful() {
+    canUse("eldritch hat");
+    canUse("eldritch pants");
+    assertTrue(maximize("item -tie"));
+
+    assertEquals(50, modFor("Item Drop"), 0.01);
+    recommendedSlotIs(EquipmentManager.HAT, "eldritch hat");
+    recommendedSlotIs(EquipmentManager.PANTS, "eldritch pants");
+  }
+
+  @Test
+  public void avoidsOutfitsIfOtherItemsBetter() {
+    canUse("eldritch hat");
+    canUse("eldritch pants");
+    canUse("Team Avarice cap");
+    assertTrue(maximize("item -tie"));
+
+    assertEquals(100, modFor("Item Drop"), 0.01);
+    recommendedSlotIs(EquipmentManager.HAT, "Team Avarice cap");
+  }
+
+  @Test
+  public void forcingOutfitRequiresThatOutfit() {
+    canUse("bounty-hunting helmet");
+    canUse("bounty-hunting rifle");
+    canUse("bounty-hunting pants");
+    canUse("eldritch hat");
+    canUse("eldritch pants");
+    assertTrue(maximize("item -tie"));
+
+    assertEquals(70, modFor("Item Drop"), 0.01);
+    recommendedSlotIs(EquipmentManager.HAT, "bounty-hunting helmet");
+    recommendedSlotIs(EquipmentManager.WEAPON, "bounty-hunting rifle");
+    recommendedSlotIs(EquipmentManager.PANTS, "bounty-hunting pants");
+
+    assertTrue(maximize("item, +outfit Eldritch Equipage -tie"));
+    assertEquals(65, modFor("Item Drop"), 0.01);
+    recommendedSlotIs(EquipmentManager.HAT, "eldritch hat");
+    recommendedSlotIs(EquipmentManager.WEAPON, "bounty-hunting rifle");
+    recommendedSlotIs(EquipmentManager.PANTS, "eldritch pants");
+
+    assertTrue(maximize("item, -outfit Bounty-Hunting Rig -tie"));
+    assertEquals(65, modFor("Item Drop"), 0.01);
+    recommendedSlotIs(EquipmentManager.HAT, "eldritch hat");
+    recommendedSlotIs(EquipmentManager.WEAPON, "bounty-hunting rifle");
+    recommendedSlotIs(EquipmentManager.PANTS, "eldritch pants");
+  }
+
+  @Test
+  public void considersOutfitPartsIfHelpful() {
+    canUse("Brimstone Beret");
+    canUse("Brimstone Boxers");
+    assertTrue(maximize("ml -tie"));
+
+    assertEquals(4, modFor("Monster Level"), 0.01);
+    recommendedSlotIs(EquipmentManager.HAT, "Brimstone Beret");
+    recommendedSlotIs(EquipmentManager.PANTS, "Brimstone Boxers");
+  }
+
   // regression
 
   // https://kolmafia.us/threads/maximizer-reduces-score-with-combat-chance-at-soft-limit-failing-test-included.25672/
