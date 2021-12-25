@@ -3661,6 +3661,7 @@ Item	tiny plastic CRIMBCO HQ	Item Drop: +4
 Item	tiny plastic Crimbo caroler	Familiar Weight: +3
 Item	tiny plastic Crimbo Casino	Meat Drop: +4
 Item	tiny plastic Crimbo cheer	Familiar Weight: +3
+Item	tiny plastic Cheer Core	Experience: +1, Single Equip
 Item	tiny plastic Crimbo elf	Familiar Weight: +1
 Item	tiny plastic Crimbo reindeer	Adventures: +1, Single Equip
 Item	tiny plastic Crimbo wreath	MP Regen Min: 1, MP Regen Max: 2, Single Equip
@@ -3755,7 +3756,7 @@ Item	tiny plastic orphan	Stench Resistance: +1
 Item	tiny plastic pastamancer	Mysticality: +2, Muscle: +1
 Item	tiny plastic peacannon	Ranged Damage: +5
 Item	tiny plastic Penny	Meat Drop: +10
-Item	tiny plastic primary lab	Single Equip
+Item	tiny plastic primary lab	Potion Drop: +20, Single Equip
 Item	tiny plastic Professor What	Monster Level: +1
 Item	tiny plastic Protagonist	Monster Level: +1
 Item	tiny plastic protector spectre	Spooky Damage: +10

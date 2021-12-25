@@ -213,7 +213,8 @@ public class Modifiers {
   public static final int SCRAP = 138;
   public static final int FAMILIAR_ACTION_BONUS = 139;
   public static final int WATER = 140;
-  public static final int SPLEENDROP = 141;
+  public static final int SPLEEN_DROP = 141;
+  public static final int POTION_DROP = 142;
   public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
   private static final Object[][] doubleModifiers = {
@@ -799,6 +800,11 @@ public class Modifiers {
     {
       "Spleen Drop",
       Pattern.compile("([+-]\\d+)% Spleen Item Drops? [Ff]rom Monsters$"),
+      Pattern.compile("Spleen Drop: " + EXPR)
+    },
+    {
+      "Potion Drop",
+      Pattern.compile("([+-]\\d+)% Potion Drops? [Ff]rom Monsters$"),
       Pattern.compile("Spleen Drop: " + EXPR)
     },
   };

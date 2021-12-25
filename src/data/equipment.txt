@@ -3094,6 +3094,7 @@ tiny plastic Caf&eacute; Elf	10	none
 tiny plastic Captain Kerkard	10	none
 tiny plastic cavebugbear	10	none
 tiny plastic Charity the Zombie Hunter	10	none
+tiny plastic Cheer Core	10	none
 tiny plastic chem lab	10	none
 tiny plastic Cheshire bat	10	none
 tiny plastic ChibiBuddy&trade;	0	none
