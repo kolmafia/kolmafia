@@ -82,6 +82,7 @@ fish sauce	1	1	good	0	0	0	0	30 Fishy
 fishy paste	4	4	good	5-10	18-22	18-22	18-22	10 Fishy
 Five Second Energy&trade;	3	1	crappy	0	0	0	0	+3 PvP fights
 Fleshazole&trade;	2	1	crappy	0	0	0	0	Unspaded
+fried air	1	1		0	0	0	0	Unspaded
 furry pill	1	3	decent	0	0	0	0	Remove negative effect, Restores 40-50 HP
 gabardine smithereens	2	12	good	0	0	0	0	Unspaded
 gaseous gravy	1	1	EPIC	0	0	0	0	50 Gettin' the Goods (+100% Item drop)

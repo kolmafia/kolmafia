@@ -10903,4 +10903,5 @@
 10876	meatball	467177737	meatball.gif	food	t,d	5
 10877	cloned monster	407492263	dna.gif	usable	q	0
 10878	meatball machine	811453503	gumballmachine.gif	usable		0
-10879	refurbished air fryer	856536306	airfryer.gif	usable		0
+10879	refurbished air fryer	856536306	airfryer.gif	reusable		0
+10880	fried air	262581171	friedair.gif	spleen, usable	d	5
