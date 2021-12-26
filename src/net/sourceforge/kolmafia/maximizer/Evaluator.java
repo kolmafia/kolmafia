@@ -2072,7 +2072,7 @@ public class Evaluator {
     outfitSummary.append("Outfits [");
     int outfitCount = 0;
     for (Integer i : usefulOutfits.keySet()) {
-      if (usefulOutfits.getOrDefault(i, false)) {
+      if (usefulOutfits.get(i)) {
         int accCount = 0;
         MaximizerSpeculation outfitSpec = new MaximizerSpeculation();
         MaximizerSpeculation compareSpec = new MaximizerSpeculation();

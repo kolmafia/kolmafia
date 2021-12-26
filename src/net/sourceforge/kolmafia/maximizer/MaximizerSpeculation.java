@@ -235,7 +235,7 @@ public class MaximizerSpeculation extends Speculation
       throws MaximizerInterruptedException {
     Object mark = this.mark();
     for (Integer outfit : usefulOutfits.keySet()) {
-      if (!usefulOutfits.getOrDefault(outfit, false)) continue;
+      if (!usefulOutfits.get(outfit)) continue;
       AdventureResult[] pieces = EquipmentDatabase.getOutfit(outfit).getPieces();
       pieceloop:
       for (int idx = pieces.length - 1; ; --idx) {
