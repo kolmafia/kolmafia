@@ -41,7 +41,6 @@ import net.sourceforge.kolmafia.textui.command.BackupCameraCommand;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
 import net.sourceforge.kolmafia.textui.command.RetroCapeCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
-import net.sourceforge.kolmafia.utilities.BooleanArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Evaluator {
@@ -976,14 +975,14 @@ public class Evaluator {
 
     double nullScore = this.getScore(new Modifiers());
 
-    BooleanArray usefulOutfits = new BooleanArray();
+    Map<Integer, Boolean> usefulOutfits = new HashMap<>();
     Map<AdventureResult, AdventureResult> outfitPieces = new HashMap<>();
     for (int i = 1; i < EquipmentDatabase.normalOutfits.size(); ++i) {
       SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get(i);
       if (outfit == null) continue;
       if (this.negOutfits.contains(outfit.getName())) continue;
       if (this.posOutfits.contains(outfit.getName())) {
-        usefulOutfits.set(i, true);
+        usefulOutfits.put(i, true);
         continue;
       }
 
@@ -1000,7 +999,7 @@ public class Evaluator {
           if (delta <= 0.0) continue;
           break;
       }
-      usefulOutfits.set(i, true);
+      usefulOutfits.put(i, true);
     }
 
     int usefulSynergies = 0;
@@ -1335,7 +1334,7 @@ public class Evaluator {
           }
         }
 
-        if (usefulOutfits.get(EquipmentDatabase.getOutfitWithItem(id))) {
+        if (usefulOutfits.getOrDefault(EquipmentDatabase.getOutfitWithItem(id), false)) {
           item.validate(maxPrice, priceLevel);
 
           if (item.getCount() == 0) {
@@ -2072,7 +2071,7 @@ public class Evaluator {
     StringBuilder outfitSummary = new StringBuilder();
     outfitSummary.append("Outfits [");
     int outfitCount = 0;
-    for (int i = 0; i < usefulOutfits.size(); i++) {
+    for (Integer i : usefulOutfits.keySet()) {
       if (usefulOutfits.get(i)) {
         int accCount = 0;
         MaximizerSpeculation outfitSpec = new MaximizerSpeculation();
@@ -2118,7 +2117,7 @@ public class Evaluator {
           outfitSpec.equipment[newSlot] = outfitItem;
         }
         if (outfitSpec.compareTo(compareSpec) <= 0 && !this.posOutfits.contains(outfit.getName())) {
-          usefulOutfits.set(i, false);
+          usefulOutfits.put(i, false);
         } else {
           if (outfitCount > 0) {
             outfitSummary.append(", ");

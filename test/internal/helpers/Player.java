@@ -12,7 +12,7 @@ import net.sourceforge.kolmafia.session.EquipmentRequirement;
 
 public class Player {
   public static void equip(int slot, String item) {
-    EquipmentManager.setEquipment(slot, AdventureResult.parseResult(item));
+    EquipmentManager.setEquipment(slot, AdventureResult.tallyItem(item));
   }
 
   public static void addItem(String item) {
@@ -20,7 +20,7 @@ public class Player {
   }
 
   public static void addItem(String item, int count) {
-    AdventureResult parsed = AdventureResult.parseResult(item);
+    AdventureResult parsed = AdventureResult.tallyItem(item);
     for (int i = 0; i < count; i++) {
       AdventureResult.addResultToList(KoLConstants.inventory, parsed);
     }
