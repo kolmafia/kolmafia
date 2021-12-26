@@ -42,15 +42,14 @@ import org.eclipse.lsp4j.services.WorkspaceService;
  */
 public abstract class AshLanguageServer implements LanguageClientAware, LanguageServer {
 
+  static ServerSocket serverSocket;
+
   /* The Launcher */
 
   public static void main(String... args) throws IOException {
-    if (args.length > 0 && args[0].equals("socket")) {
-      Socket socket = new ServerSocket(60180, 25, InetAddress.getByName("127.0.0.1")).accept();
-      AshLanguageServer.launch(socket.getInputStream(), socket.getOutputStream());
-    } else {
-      AshLanguageServer.launch(System.in, System.out);
-    }
+    AshLanguageServer.serverSocket = new ServerSocket(60180, 25, InetAddress.getByName("127.0.0.1"));
+    Socket socket = AshLanguageServer.serverSocket.accept();
+    AshLanguageServer.launch(socket.getInputStream(), socket.getOutputStream());
   }
 
   public static AshLanguageServer launch(final InputStream in, final OutputStream out) {
@@ -157,6 +156,9 @@ public abstract class AshLanguageServer implements LanguageClientAware, Language
     // Call close() in case the client didn't send a shutdown notification
     this.close();
     this.executor.shutdownNow();
+    try {
+      AshLanguageServer.serverSocket.close();
+    } catch (IOException e) {}
   }
 
   private void close() {
