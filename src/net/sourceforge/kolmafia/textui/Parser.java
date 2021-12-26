@@ -2982,7 +2982,8 @@ public class Parser {
     return params;
   }
 
-  private Evaluable parsePostCall(final BasicScope scope, FunctionCall call) throws InterruptedException {
+  private Evaluable parsePostCall(final BasicScope scope, FunctionCall call)
+      throws InterruptedException {
     Evaluable result = call;
     while (result != null && this.currentToken().equals(".")) {
       Variable current = new Variable(result.getType());

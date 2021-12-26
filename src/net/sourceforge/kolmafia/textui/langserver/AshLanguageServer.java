@@ -47,7 +47,8 @@ public abstract class AshLanguageServer implements LanguageClientAware, Language
   /* The Launcher */
 
   public static void main(String... args) throws IOException {
-    AshLanguageServer.serverSocket = new ServerSocket(60180, 25, InetAddress.getByName("127.0.0.1"));
+    AshLanguageServer.serverSocket =
+        new ServerSocket(60180, 25, InetAddress.getByName("127.0.0.1"));
     Socket socket = AshLanguageServer.serverSocket.accept();
     AshLanguageServer.launch(socket.getInputStream(), socket.getOutputStream());
   }
@@ -158,7 +159,8 @@ public abstract class AshLanguageServer implements LanguageClientAware, Language
     this.executor.shutdownNow();
     try {
       AshLanguageServer.serverSocket.close();
-    } catch (IOException e) {}
+    } catch (IOException e) {
+    }
   }
 
   private void close() {
