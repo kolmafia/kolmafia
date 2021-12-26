@@ -7509,6 +7509,7 @@ Effect	Well-Oiled	Damage Absorption: +30, Damage Reduction: 10, Spooky Resistanc
 Effect	Well-preserved	HP Regen Min: 150, HP Regen Max: 200
 Effect	Well-Rested	Experience: +3
 Effect	Well-Swabbed Ear	Initiative: +30
+Effect	Well-Ventilated	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	Wet and Greedy	Item Drop: +25
 Effect	Wet Rub	HP Regen Min: 16, HP Regen Max: 20
 # Wet Willied: Your familiar can breathe underwater
@@ -9018,6 +9019,7 @@ Item	elemental paste	Effect: "Elemental Flavor", Effect Duration: 10
 # excitement pill: Get an exciting random effect!
 Item	fish sauce	Effect: "Fishy", Effect Duration: 30
 Item	fishy paste	Effect: "Fishy", Effect Duration: 10
+Item	fried air	Effect: "Well-Ventilated", Effect Duration: 30
 # furry pill: Removes a Negative Effect<br />Restores 40-50 HP
 Item	gaseous gravy	Effect: "Gettin' the Goods", Effect Duration: 50
 Item	gleaming oyster egg	Effect: "Gleam-Inducing", Effect Duration: 50
