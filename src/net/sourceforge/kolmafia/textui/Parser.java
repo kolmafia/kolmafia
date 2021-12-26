@@ -82,6 +82,7 @@ import net.sourceforge.kolmafia.textui.parsetree.WhileLoop;
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.Location;
 import org.eclipse.lsp4j.Position;
@@ -104,6 +105,7 @@ public class Parser {
   private final String fileName;
   private final String shortFileName;
   private final URI fileUri;
+  private final long modificationDate;
   private String scriptName;
   private final InputStream istream;
 
@@ -111,7 +113,7 @@ public class Parser {
   private int currentIndex;
   private Token currentToken;
 
-  private final Map<File, Long> imports;
+  private final Map<File, Parser> imports;
   private final List<AshDiagnostic> diagnostics = new ArrayList<>();
   private Function mainMethod = null;
   private String notifyRecipient = null;
@@ -120,11 +122,11 @@ public class Parser {
     this(null, null, null);
   }
 
-  public Parser(final File scriptFile, final Map<File, Long> imports) {
+  public Parser(final File scriptFile, final Map<File, Parser> imports) {
     this(scriptFile, null, imports);
   }
 
-  public Parser(final File scriptFile, final InputStream stream, final Map<File, Long> imports) {
+  public Parser(final File scriptFile, final InputStream stream, final Map<File, Parser> imports) {
     this.imports = imports != null ? imports : new TreeMap<>();
 
     this.istream =
@@ -136,14 +138,16 @@ public class Parser {
       this.fileName = scriptFile.getPath();
       this.shortFileName = this.fileName.substring(this.fileName.lastIndexOf(File.separator) + 1);
       this.fileUri = scriptFile.toURI();
+      this.modificationDate = scriptFile.lastModified();
 
       if (this.imports.isEmpty()) {
-        this.imports.put(scriptFile, scriptFile.lastModified());
+        this.imports.put(scriptFile, this);
       }
     } else {
       this.fileName = null;
       this.shortFileName = null;
       this.fileUri = null;
+      this.modificationDate = 0L;
     }
 
     if (this.istream == null) {
@@ -178,7 +182,7 @@ public class Parser {
     }
   }
 
-  public Scope parse() {
+  public Scope parse() throws InterruptedException {
     if (this.istream == null) {
       throw new RuntimeException(
           "Parser was not properly initialized before parsing was attempted");
@@ -215,12 +219,16 @@ public class Parser {
     return this.currentLine.lineNumber;
   }
 
-  public Map<File, Long> getImports() {
+  public Map<File, Parser> getImports() {
     return this.imports;
   }
 
   public List<AshDiagnostic> getDiagnostics() {
     return this.diagnostics;
+  }
+
+  public long getModificationDate() {
+    return this.modificationDate;
   }
 
   public Function getMainMethod() {
@@ -334,11 +342,16 @@ public class Parser {
     return name != null && Parser.reservedWords.contains(name.toLowerCase());
   }
 
-  public Scope importFile(final String fileName, final Scope scope) {
+  public Scope importFile(final String fileName, final Scope scope) throws InterruptedException {
     return this.importFile(fileName, scope, null);
   }
 
-  private Scope importFile(final String fileName, final Scope scope, final Location location) {
+  private Scope importFile(final String fileName, final Scope scope, final Location location)
+      throws InterruptedException {
+    if (Thread.interrupted()) {
+      throw new InterruptedException();
+    }
+
     List<File> matches = KoLmafiaCLI.findScriptFile(fileName);
     if (matches.size() > 1) {
       StringBuilder s = new StringBuilder();
@@ -362,9 +375,10 @@ public class Parser {
       return scope;
     }
 
-    this.imports.put(scriptFile, scriptFile.lastModified());
+    Parser parser = this.getParser(scriptFile);
 
-    Parser parser = new Parser(scriptFile, null, this.imports);
+    this.imports.put(scriptFile, parser);
+
     Scope result = parser.parseFile(scope);
 
     for (AshDiagnostic diagnostic : parser.diagnostics) {
@@ -388,7 +402,12 @@ public class Parser {
     return result;
   }
 
-  private Scope parseCommandOrDeclaration(final Scope result, final Type expectedType) {
+  protected Parser getParser(final File scriptFile) {
+    return new Parser(scriptFile, null, this.imports);
+  }
+
+  private Scope parseCommandOrDeclaration(final Scope result, final Type expectedType)
+      throws InterruptedException {
     Type t = this.parseType(result, true);
 
     // If there is no data type, it's a command of some sort
@@ -415,7 +434,7 @@ public class Parser {
     return result;
   }
 
-  private Scope parseFile(final Scope startScope) {
+  private Scope parseFile(final Scope startScope) throws InterruptedException {
     final Scope result =
         startScope == null
             ? new Scope((VariableList) null, Parser.getExistingFunctionScope())
@@ -439,7 +458,8 @@ public class Parser {
       final VariableList variables,
       final BasicScope parentScope,
       final boolean allowBreak,
-      final boolean allowContinue) {
+      final boolean allowContinue)
+      throws InterruptedException {
     Scope result = new Scope(variables, parentScope);
     return this.parseScope(result, expectedType, parentScope, false, allowBreak, allowContinue);
   }
@@ -450,7 +470,8 @@ public class Parser {
       final BasicScope parentScope,
       final boolean wholeFile,
       final boolean allowBreak,
-      final boolean allowContinue) {
+      final boolean allowContinue)
+      throws InterruptedException {
     Directive importDirective;
 
     this.parseScriptName();
@@ -553,7 +574,7 @@ public class Parser {
     return result;
   }
 
-  private Type parseRecord(final BasicScope parentScope) {
+  private Type parseRecord(final BasicScope parentScope) throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("record")) {
       return null;
     }
@@ -688,7 +709,8 @@ public class Parser {
     return rec;
   }
 
-  private Function parseFunction(final Type functionType, final Scope parentScope) {
+  private Function parseFunction(final Type functionType, final Scope parentScope)
+      throws InterruptedException {
     if (!this.parseIdentifier(this.currentToken().content)) {
       return null;
     }
@@ -824,7 +846,8 @@ public class Parser {
     return result;
   }
 
-  private boolean parseVariables(final Type t, final BasicScope parentScope) {
+  private boolean parseVariables(final Type t, final BasicScope parentScope)
+      throws InterruptedException {
     while (true) {
       Variable v = this.parseVariable(t, parentScope);
       if (v == null) {
@@ -860,7 +883,7 @@ public class Parser {
     }
   }
 
-  private Variable parseVariable(final Type t, final BasicScope scope) {
+  private Variable parseVariable(final Type t, final BasicScope scope) throws InterruptedException {
     if (!this.parseIdentifier(this.currentToken().content)) {
       return null;
     }
@@ -889,7 +912,8 @@ public class Parser {
    * Parses the right-hand-side of a variable definition. It is assumed that the caller expects an
    * expression to be found, so this method never returns null.
    */
-  private Evaluable parseInitialization(final VariableReference lhs, final BasicScope scope) {
+  private Evaluable parseInitialization(final VariableReference lhs, final BasicScope scope)
+      throws InterruptedException {
     Evaluable result;
 
     Type t = lhs.target.getType();
@@ -1002,7 +1026,7 @@ public class Parser {
     return params;
   }
 
-  private boolean parseTypedef(final Scope parentScope) {
+  private boolean parseTypedef(final Scope parentScope) throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("typedef")) {
       return false;
     }
@@ -1058,7 +1082,8 @@ public class Parser {
       final BasicScope scope,
       final boolean noElse,
       final boolean allowBreak,
-      final boolean allowContinue) {
+      final boolean allowContinue)
+      throws InterruptedException {
     Command result;
 
     if (this.currentToken().equalsIgnoreCase("break")) {
@@ -1139,7 +1164,8 @@ public class Parser {
     return result;
   }
 
-  private Type parseType(final BasicScope scope, final boolean records) {
+  private Type parseType(final BasicScope scope, final boolean records)
+      throws InterruptedException {
     if (!this.parseIdentifier(this.currentToken().content)) {
       return null;
     }
@@ -1170,7 +1196,8 @@ public class Parser {
    * <p>The presence of the opening bracket "{" is ALWAYS assumed when entering this method, and as
    * such, MUST be checked before calling it. This method will never return null.
    */
-  private Evaluable parseAggregateLiteral(final BasicScope scope, final AggregateType aggr) {
+  private Evaluable parseAggregateLiteral(final BasicScope scope, final AggregateType aggr)
+      throws InterruptedException {
     Token aggregateLiteralStartToken = this.currentToken();
 
     this.readToken(); // read {
@@ -1380,7 +1407,8 @@ public class Parser {
     return Value.locate(aggregateLiteralLocation, result);
   }
 
-  private Type parseAggregateType(Type dataType, final BasicScope scope) {
+  private Type parseAggregateType(Type dataType, final BasicScope scope)
+      throws InterruptedException {
     Token separatorToken = this.currentToken();
 
     this.readToken(); // [ or ,
@@ -1481,7 +1509,8 @@ public class Parser {
     return true;
   }
 
-  private FunctionReturn parseReturn(final Type expectedType, final BasicScope parentScope) {
+  private FunctionReturn parseReturn(final Type expectedType, final BasicScope parentScope)
+      throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("return")) {
       return null;
     }
@@ -1535,7 +1564,8 @@ public class Parser {
       final BasicScope parentScope,
       final boolean noElse,
       final boolean allowBreak,
-      final boolean allowContinue) {
+      final boolean allowContinue)
+      throws InterruptedException {
     Token scopeStartToken = this.currentToken();
     Scope result = new Scope(parentScope);
 
@@ -1563,7 +1593,8 @@ public class Parser {
       final BasicScope parentScope,
       final boolean noElse,
       final boolean allowBreak,
-      final boolean allowContinue) {
+      final boolean allowContinue)
+      throws InterruptedException {
     Scope scope =
         this.parseBlock(functionType, variables, parentScope, noElse, allowBreak, allowContinue);
     if (scope != null) {
@@ -1579,7 +1610,8 @@ public class Parser {
       final BasicScope parentScope,
       final boolean noElse,
       final boolean allowBreak,
-      final boolean allowContinue) {
+      final boolean allowContinue)
+      throws InterruptedException {
     if (!this.currentToken().equals("{")) {
       return null;
     }
@@ -1607,7 +1639,8 @@ public class Parser {
       final BasicScope parentScope,
       final boolean noElse,
       final boolean allowBreak,
-      final boolean allowContinue) {
+      final boolean allowContinue)
+      throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("if")) {
       return null;
     }
@@ -1724,7 +1757,7 @@ public class Parser {
     return result;
   }
 
-  private BasicScript parseBasicScript() {
+  private BasicScript parseBasicScript() throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("cli_execute")) {
       return null;
     }
@@ -1777,7 +1810,8 @@ public class Parser {
     return new BasicScript(basicScriptLocation, ostream);
   }
 
-  private Loop parseWhile(final Type functionType, final BasicScope parentScope) {
+  private Loop parseWhile(final Type functionType, final BasicScope parentScope)
+      throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("while")) {
       return null;
     }
@@ -1822,7 +1856,8 @@ public class Parser {
     return new WhileLoop(whileLocation, scope, condition);
   }
 
-  private Loop parseRepeat(final Type functionType, final BasicScope parentScope) {
+  private Loop parseRepeat(final Type functionType, final BasicScope parentScope)
+      throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("repeat")) {
       return null;
     }
@@ -1874,7 +1909,8 @@ public class Parser {
   }
 
   private Switch parseSwitch(
-      final Type functionType, final BasicScope parentScope, final boolean allowContinue) {
+      final Type functionType, final BasicScope parentScope, final boolean allowContinue)
+      throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("switch")) {
       return null;
     }
@@ -2062,7 +2098,8 @@ public class Parser {
       final Type functionType,
       final BasicScope parentScope,
       final boolean allowBreak,
-      final boolean allowContinue) {
+      final boolean allowContinue)
+      throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("try")) {
       return null;
     }
@@ -2101,7 +2138,8 @@ public class Parser {
       final Type functionType,
       final BasicScope parentScope,
       final boolean allowBreak,
-      final boolean allowContinue) {
+      final boolean allowContinue)
+      throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("catch")) {
       return null;
     }
@@ -2117,7 +2155,7 @@ public class Parser {
     return new Catch(this.makeLocation(catchStartToken, this.peekPreviousToken()), body);
   }
 
-  private Catch parseCatchValue(final BasicScope parentScope) {
+  private Catch parseCatchValue(final BasicScope parentScope) throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("catch")) {
       return null;
     }
@@ -2143,7 +2181,8 @@ public class Parser {
     return new Catch(this.makeLocation(catchStartToken, this.peekPreviousToken()), body);
   }
 
-  private Scope parseStatic(final Type functionType, final BasicScope parentScope) {
+  private Scope parseStatic(final Type functionType, final BasicScope parentScope)
+      throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("static")) {
       return null;
     }
@@ -2174,7 +2213,7 @@ public class Parser {
     return result;
   }
 
-  private SortBy parseSort(final BasicScope parentScope) {
+  private SortBy parseSort(final BasicScope parentScope) throws InterruptedException {
     // sort aggregate by expr
 
     if (!this.currentToken().equalsIgnoreCase("sort")) {
@@ -2243,7 +2282,8 @@ public class Parser {
     return new SortBy(sortLocation, (VariableReference) aggregate, indexvar, valuevar, expr, this);
   }
 
-  private Loop parseForeach(final Type functionType, final BasicScope parentScope) {
+  private Loop parseForeach(final Type functionType, final BasicScope parentScope)
+      throws InterruptedException {
     // foreach key [, key ... ] in aggregate { scope }
 
     if (!this.currentToken().equalsIgnoreCase("foreach")) {
@@ -2363,7 +2403,8 @@ public class Parser {
     return new ForEachLoop(foreachLocation, scope, variableReferences, aggregate, this);
   }
 
-  private Loop parseFor(final Type functionType, final BasicScope parentScope) {
+  private Loop parseFor(final Type functionType, final BasicScope parentScope)
+      throws InterruptedException {
     // for identifier from X [upto|downto|to|] Y [by Z]? {scope }
 
     if (!this.currentToken().equalsIgnoreCase("for")) {
@@ -2469,7 +2510,8 @@ public class Parser {
         this);
   }
 
-  private Loop parseJavaFor(final Type functionType, final BasicScope parentScope) {
+  private Loop parseJavaFor(final Type functionType, final BasicScope parentScope)
+      throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("for")) {
       return null;
     }
@@ -2666,12 +2708,14 @@ public class Parser {
   }
 
   private Scope parseLoopScope(
-      final Type functionType, final VariableList varList, final BasicScope parentScope) {
+      final Type functionType, final VariableList varList, final BasicScope parentScope)
+      throws InterruptedException {
     return this.parseLoopScope(new Scope(varList, parentScope), functionType, parentScope);
   }
 
   private Scope parseLoopScope(
-      final Scope result, final Type functionType, final BasicScope parentScope) {
+      final Scope result, final Type functionType, final BasicScope parentScope)
+      throws InterruptedException {
     Token loopScopeStartToken = this.currentToken();
 
     if (this.currentToken().equals("{")) {
@@ -2706,7 +2750,7 @@ public class Parser {
     return result;
   }
 
-  private Evaluable parseNewRecord(final BasicScope scope) {
+  private Evaluable parseNewRecord(final BasicScope scope) throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("new")) {
       return null;
     }
@@ -2834,11 +2878,12 @@ public class Parser {
     return Value.locate(newRecordLocation, target.initialValueExpression(params));
   }
 
-  private Evaluable parseCall(final BasicScope scope) {
+  private Evaluable parseCall(final BasicScope scope) throws InterruptedException {
     return this.parseCall(scope, null);
   }
 
-  private Evaluable parseCall(final BasicScope scope, final Evaluable firstParam) {
+  private Evaluable parseCall(final BasicScope scope, final Evaluable firstParam)
+      throws InterruptedException {
     if (!"(".equals(this.nextToken())) {
       return null;
     }
@@ -2879,7 +2924,8 @@ public class Parser {
     return this.parsePostCall(scope, call);
   }
 
-  private List<Evaluable> parseParameters(final BasicScope scope, final Evaluable firstParam) {
+  private List<Evaluable> parseParameters(final BasicScope scope, final Evaluable firstParam)
+      throws InterruptedException {
     if (!this.currentToken().equals("(")) {
       return null;
     }
@@ -2936,7 +2982,7 @@ public class Parser {
     return params;
   }
 
-  private Evaluable parsePostCall(final BasicScope scope, FunctionCall call) {
+  private Evaluable parsePostCall(final BasicScope scope, FunctionCall call) throws InterruptedException {
     Evaluable result = call;
     while (result != null && this.currentToken().equals(".")) {
       Variable current = new Variable(result.getType());
@@ -2949,7 +2995,7 @@ public class Parser {
     return result;
   }
 
-  private Evaluable parseInvoke(final BasicScope scope) {
+  private Evaluable parseInvoke(final BasicScope scope) throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("call")) {
       return null;
     }
@@ -3011,7 +3057,8 @@ public class Parser {
     return this.parsePostCall(scope, call);
   }
 
-  private Assignment parseAssignment(final BasicScope scope, final VariableReference lhs) {
+  private Assignment parseAssignment(final BasicScope scope, final VariableReference lhs)
+      throws InterruptedException {
     Token operStr = this.currentToken();
     if (!operStr.equals("=")
         && !operStr.equals("+=")
@@ -3088,7 +3135,7 @@ public class Parser {
     return new Assignment(lhs, rhs, op);
   }
 
-  private Evaluable parseRemove(final BasicScope scope) {
+  private Evaluable parseRemove(final BasicScope scope) throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("remove")) {
       return null;
     }
@@ -3096,7 +3143,7 @@ public class Parser {
     return this.parseExpression(scope);
   }
 
-  private Evaluable parsePreIncDec(final BasicScope scope) {
+  private Evaluable parsePreIncDec(final BasicScope scope) throws InterruptedException {
     if (this.nextToken() == null) {
       return null;
     }
@@ -3134,7 +3181,7 @@ public class Parser {
     return new IncDec(preIncDecLocation, (VariableReference) lhs, oper);
   }
 
-  private Evaluable parsePostIncDec(final VariableReference lhs) {
+  private Evaluable parsePostIncDec(final VariableReference lhs) throws InterruptedException {
     // [VariableReference]++
     // [VariableReference]--
 
@@ -3158,11 +3205,12 @@ public class Parser {
     return new IncDec(postIncDecLocation, lhs, oper);
   }
 
-  private Evaluable parseExpression(final BasicScope scope) {
+  private Evaluable parseExpression(final BasicScope scope) throws InterruptedException {
     return this.parseExpression(scope, null);
   }
 
-  private Evaluable parseExpression(final BasicScope scope, final Operator previousOper) {
+  private Evaluable parseExpression(final BasicScope scope, final Operator previousOper)
+      throws InterruptedException {
     if (this.currentToken().equals(";")) {
       return null;
     }
@@ -3366,7 +3414,7 @@ public class Parser {
     } while (true);
   }
 
-  private Evaluable parseEvaluable(final BasicScope scope) {
+  private Evaluable parseEvaluable(final BasicScope scope) throws InterruptedException {
     if (this.currentToken().equals(";")) {
       return null;
     }
@@ -3459,7 +3507,7 @@ public class Parser {
     return result;
   }
 
-  private Evaluable parseNumber() {
+  private Evaluable parseNumber() throws InterruptedException {
     Token numberStartToken = this.currentToken();
 
     Value number;
@@ -3528,7 +3576,7 @@ public class Parser {
     return true;
   }
 
-  private Evaluable parseString(final BasicScope scope) {
+  private Evaluable parseString(final BasicScope scope) throws InterruptedException {
     if (!this.currentToken().equals("\"")
         && !this.currentToken().equals("'")
         && !this.currentToken().equals("`")) {
@@ -3815,7 +3863,7 @@ public class Parser {
     return value;
   }
 
-  private Evaluable parseTypedConstant(final BasicScope scope) {
+  private Evaluable parseTypedConstant(final BasicScope scope) throws InterruptedException {
     if (!this.currentToken().equals("$")) {
       return null;
     }
@@ -3957,7 +4005,8 @@ public class Parser {
         this.makeLocation(typedConstantStartToken, this.peekPreviousToken()), result);
   }
 
-  private PluralValue parsePluralConstant(final BasicScope scope, final Type type) {
+  private PluralValue parsePluralConstant(final BasicScope scope, final Type type)
+      throws InterruptedException {
     // Directly work with currentLine - ignore any "tokens" you meet until
     // the string is closed
 
@@ -4117,7 +4166,7 @@ public class Parser {
         || oper.equals("remove");
   }
 
-  private Evaluable parseVariableReference(final BasicScope scope) {
+  private Evaluable parseVariableReference(final BasicScope scope) throws InterruptedException {
     if (!this.parseIdentifier(this.currentToken().content)) {
       return null;
     }
@@ -4147,7 +4196,8 @@ public class Parser {
    *
    * <p>There may also be nothing, in which case the submitted variable reference is returned as is.
    */
-  private Evaluable parseVariableReference(final BasicScope scope, final VariableReference varRef) {
+  private Evaluable parseVariableReference(final BasicScope scope, final VariableReference varRef)
+      throws InterruptedException {
     VariableReference current = varRef;
     Type type = varRef.getType();
     List<Evaluable> indices = new ArrayList<>();
@@ -4274,7 +4324,7 @@ public class Parser {
     }
   }
 
-  private Directive parseDirective(final String directive) {
+  private Directive parseDirective(final String directive) throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase(directive)) {
       return null;
     }
@@ -4358,21 +4408,21 @@ public class Parser {
     return result;
   }
 
-  private void parseScriptName() {
+  private void parseScriptName() throws InterruptedException {
     Directive scriptDirective = this.parseDirective("script");
     if (this.scriptName == null && scriptDirective != null) {
       this.scriptName = scriptDirective.value;
     }
   }
 
-  private void parseNotify() {
+  private void parseNotify() throws InterruptedException {
     Directive notifyDirective = this.parseDirective("notify");
     if (this.notifyRecipient == null && notifyDirective != null) {
       this.notifyRecipient = notifyDirective.value;
     }
   }
 
-  private void parseSince() {
+  private void parseSince() throws InterruptedException {
     Directive sinceDirective = this.parseDirective("since");
     if (sinceDirective != null) {
       // enforce "since" directives RIGHT NOW at parse time
@@ -4380,7 +4430,7 @@ public class Parser {
     }
   }
 
-  private Directive parseImport() {
+  private Directive parseImport() throws InterruptedException {
     return this.parseDirective("import");
   }
 
@@ -4392,7 +4442,11 @@ public class Parser {
    *
    * <p>Never returns {@code null}.
    */
-  private Token currentToken() {
+  private Token currentToken() throws InterruptedException {
+    if (Thread.interrupted()) {
+      throw new InterruptedException();
+    }
+
     // If we've already parsed a token, return it
     if (this.currentToken != null) {
       return this.currentToken;
@@ -4478,7 +4532,7 @@ public class Parser {
    * @return the content of the next token to come after the token we are currently in front of, or
    *     {@code null} if we are at the end of the file.
    */
-  private String nextToken() {
+  private String nextToken() throws InterruptedException {
     int offset = this.currentToken().restOfLineStart;
     Line line = this.currentLine;
     boolean inMultiLineComment = false;
@@ -4527,7 +4581,7 @@ public class Parser {
   /**
    * Forget every token up to {@code destinationToken}, so that we can resume parsing from there.
    */
-  private void rewindBackTo(final Token destinationToken) {
+  private void rewindBackTo(final Token destinationToken) throws InterruptedException {
     this.currentToken();
 
     while (this.currentToken != destinationToken) {
@@ -4558,7 +4612,7 @@ public class Parser {
    * If we are not at the end of the file, null out {@link #currentToken} (allowing a new one to be
    * gathered next time we call {@link #currentToken()}), and move {@link #currentIndex} forward.
    */
-  private void readToken() {
+  private void readToken() throws InterruptedException {
     // at "end of file"
     if (this.currentToken().getLine().content == null) {
       return;
@@ -4660,7 +4714,7 @@ public class Parser {
    * Calls {@link #currentToken()} in order to skip any comment or whitespace we would be in front
    * of, then return whether or not we reached the end of the file.
    */
-  private boolean atEndOfFile() {
+  private boolean atEndOfFile() throws InterruptedException {
     this.currentToken();
 
     return this.currentLine.content == null;
@@ -4812,6 +4866,30 @@ public class Parser {
       }
 
       return result.toString();
+    }
+
+    public Diagnostic toLspDiagnostic() {
+      StringBuilder message = new StringBuilder();
+
+      message.append(this.message);
+
+      for (final String additionalMessage : this.additionalMessages) {
+        message.append(KoLConstants.LINE_BREAK);
+        message.append(additionalMessage);
+      }
+
+      final Diagnostic diagnostic =
+          new Diagnostic(
+              this.location.getRange(),
+              message.toString(),
+              this.severity,
+              StaticEntity.getVersion());
+
+      return diagnostic;
+    }
+
+    public final boolean originatesFrom(final Parser parser) {
+      return Parser.this == parser;
     }
   }
 

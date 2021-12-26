@@ -132,7 +132,12 @@ public class ParserTest {
         new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8));
     final Parser parser = new Parser(null, istream, null);
 
-    parser.parse();
+    try {
+      parser.parse();
+    } catch (InterruptedException e) {
+      fail("error during parsing");
+      return;
+    }
 
     final List<Parser.AshDiagnostic> diagnostics = parser.getDiagnostics();
     assertEquals(4, diagnostics.size());
@@ -157,7 +162,11 @@ public class ParserTest {
         new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8));
     final Parser parser = new Parser(null, istream, null);
 
-    parser.parse();
+    try {
+      parser.parse();
+    } catch (InterruptedException e) {
+      fail("error during parsing");
+    }
 
     final List<Parser.AshDiagnostic> diagnostics = parser.getDiagnostics();
     assertEquals(1, diagnostics.size());
