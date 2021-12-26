@@ -78,6 +78,7 @@ public class BreakfastManager {
         ItemPool.get(ItemPool.SUBSCRIPTION_COCOA_DISPENSER, 1),
         ItemPool.get(ItemPool.OVERFLOWING_GIFT_BASKET, 1),
         ItemPool.get(ItemPool.MEATBALL_MACHINE, 1),
+        ItemPool.get(ItemPool.REFURBISHED_AIR_FRYER, 1),
       };
 
   private static final AdventureResult VIP_LOUNGE_KEY = ItemPool.get(ItemPool.VIP_LOUNGE_KEY, 1);

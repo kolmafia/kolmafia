@@ -95,6 +95,7 @@ Use	pressurized potion of pneumaticity	_pneumaticityPotionUsed
 Use	pump-up high-tops	_highTopPumps	3
 Use	red and green rain stick	_rainStickUsed
 Use	redwood rain stick	_redwoodRainStickUsed
+Use	refurbished air fryer	_airFryerUsed
 Use	School of Hard Knocks Diploma	_hardKnocksDiplomaUsed
 Use	set of jacks	_setOfJacksUsed
 Use	sewing kit	_sewingKitUsed
