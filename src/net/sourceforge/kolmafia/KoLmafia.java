@@ -668,7 +668,7 @@ public abstract class KoLmafia {
 
     // Some things aren't properly set by KoL until main.php is loaded
 
-    RequestThread.postRequest(new GenericRequest("main.php"));
+    KoLmafia.makeMainRequest();
 
     // Get current moon phases
 
@@ -879,6 +879,19 @@ public abstract class KoLmafia {
     // Ensure turn based counters are active
     LightsOutManager.checkCounter();
     VoteMonsterManager.checkCounter();
+  }
+
+  public static final void makeMainRequest() {
+    GenericRequest mainRequest = new GenericRequest("main.php");
+    RequestThread.postRequest(mainRequest);
+    String response = mainRequest.responseText;
+    // Your potato alarm clock has been going off for 5 minutes now!
+    if (response != null && response.contains("Your potato alarm clock")) {
+      String message = "Your potato alarm clock gave you 5 extra adventures";
+      KoLmafia.updateDisplay(message);
+      RequestLogger.updateSessionLog(message);
+      Preferences.setBoolean("_potatoAlarmClockUsed", true);
+    }
   }
 
   public static final boolean isRefreshing() {

@@ -805,7 +805,7 @@ public class Modifiers {
     {
       "Potion Drop",
       Pattern.compile("([+-]\\d+)% Potion Drops? [Ff]rom Monsters$"),
-      Pattern.compile("Spleen Drop: " + EXPR)
+      Pattern.compile("Potion Drop: " + EXPR)
     },
   };
 
