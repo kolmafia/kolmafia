@@ -1040,10 +1040,6 @@ public class FightRequest extends GenericRequest {
   }
 
   private void handleMacroAction(String macro) {
-    FightRequest.nextAction = "macro";
-
-    this.addFormField("action", "macro");
-
     // In case the player continues the script from the relay browser,
     // insert a jump to the next restart point.
 
@@ -1054,8 +1050,21 @@ public class FightRequest extends GenericRequest {
       StringUtilities.singleStringReplace(macro, "#mafiaheader", "#mafiaheader\ngoto " + label);
     }
 
-    this.addFormField(
-        "macrotext", FightRequest.MACRO_COMPACT_PATTERN.matcher(macro).replaceAll("$1"));
+    macro = FightRequest.MACRO_COMPACT_PATTERN.matcher(macro).replaceAll("$1").trim();
+
+    // Sending an empty (or whitespace-only) macro to KoL generates an
+    // "Invalid macro" error.
+    if (macro.isBlank()) {
+      if (RequestLogger.isDebugging()) {
+        RequestLogger.updateDebugLog("Macro optimized down to nothing, not submitting");
+      }
+      return;
+    }
+
+    FightRequest.nextAction = "macro";
+
+    this.addFormField("action", "macro");
+    this.addFormField("macrotext", macro);
   }
 
   public static final String getCurrentKey() {
