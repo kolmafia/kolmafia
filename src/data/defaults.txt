@@ -567,6 +567,7 @@ user	encountersUntilNEPChoice	7
 user	enamorangMonster
 user	ensorcelee
 user	ensorceleeLevel	0
+user	entauntaunedColdRes	0
 user	envyfishMonster
 user	essenceOfAnnoyanceAvailable	true
 user	essenceOfAnnoyanceCost	5000
@@ -1608,6 +1609,7 @@ user	_eldritchTentacleFought	false
 user	_elronsCasts	0
 user	_enamorangs	0
 user	_energyCollected	0
+user	_entauntaunedToday	false
 user	_envyfishEggUsed	false
 user	_essentialTofuUsed	false
 user	_etchedHourglassUsed	false

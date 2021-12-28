@@ -102,6 +102,7 @@ DESC_EFFECT	Blood Porter	HP \+(\d+)	bloodweiserDrunk=[$1/10]
 DESC_EFFECT	Chilled to the Bone	\+(\d+) MP	_chilledToTheBone=$1
 DESC_EFFECT	Disavowed	Muscle -(\d+)	_disavowed=$1
 DESC_EFFECT	Electric, Kool	MP \+(\d+)	electricKoolAidEaten=[$1/5]
+DESC_EFFECT	Entauntauned	Cold Resistance \(\+(\d+)\)	entauntaunedColdRes=$1
 DESC_EFFECT	Experimental Effect G-9	\+(\d+)%	_g9Effect=$1
 DESC_EFFECT	Feelin' The Rhythm!	Muscle \+(\d+)	_feelinTheRhythm=$1
 DESC_EFFECT	Having a Ball!	\+(\d+)%	ballpitBonus=$1
