@@ -6077,7 +6077,7 @@ public abstract class ChoiceManager {
           new Option("return to Site Alpha")
         }),
 
-    // (Unnamed choice adventure)
+    // Hello Knob My Old Friend
     new ChoiceAdventure(
         "Crimbo21",
         "choiceAdventure1461",
@@ -18924,7 +18924,7 @@ public abstract class ChoiceManager {
         return VillainLairDecorator.Symbology(responseText);
 
       case 1461:
-        // Site Alpha Primary Lab
+        // Hello Knob My Old Friend
         // If you can "Grab the Cheer Core!", do it.
         if (responseText.contains("Grab the Cheer Core!")) {
           return "5";

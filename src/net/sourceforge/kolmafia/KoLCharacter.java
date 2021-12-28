@@ -4063,6 +4063,19 @@ public abstract class KoLCharacter {
     return list.contains(skill);
   }
 
+  public static final boolean availableCombatSkill(final int skillId) {
+    UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
+    return KoLCharacter.availableCombatSkill(skill);
+  }
+
+  public static final boolean availableCombatSkill(final UseSkillRequest skill) {
+    if (skill == null) {
+      return false;
+    }
+
+    return KoLConstants.availableCombatSkillsMap.containsKey(skill);
+  }
+
   /**
    * Accessor method to get the current familiar.
    *
