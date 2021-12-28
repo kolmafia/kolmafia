@@ -4,8 +4,10 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -231,7 +233,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   private void update(final Matcher dataMatcher) {
     this.name = dataMatcher.group(3);
-    this.experience = StringUtilities.parseInt(dataMatcher.group(5));
+    this.setExperience(StringUtilities.parseInt(dataMatcher.group(5)));
     this.setWeight();
     // dataMatcher.group( 6 ) => kills
     String itemData = dataMatcher.group(7);
@@ -328,18 +330,25 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   public final void setExperience(int exp) {
-    if (CRIMBO_GHOSTS.contains(this.getId())) {
-      for (Integer ghostId : CRIMBO_GHOSTS) {
-        FamiliarData fam = KoLCharacter.findFamiliar(ghostId);
-        if (fam != null) {
+    Stream<FamiliarData> famsToSet =
+        CRIMBO_GHOSTS.contains(this.getId())
+            ? CRIMBO_GHOSTS.stream().map(KoLCharacter::findFamiliar).filter(Objects::nonNull)
+            : Stream.of(this);
+
+    famsToSet.forEach(
+        fam -> {
           fam.experience = exp;
           fam.setWeight();
-        }
-      }
-    } else {
-      this.experience = exp;
-      this.setWeight();
-    }
+        });
+  }
+
+  public final void loseExperience(int exp) {
+    setExperience(this.experience - exp);
+    setWeight();
+  }
+
+  public final void loseExperience() {
+    loseExperience(this.experience);
   }
 
   public final int determineTestTeachExperience() {

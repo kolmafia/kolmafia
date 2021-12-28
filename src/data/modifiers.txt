@@ -5644,7 +5644,7 @@ Effect	Enhanced Archaeologist	Mysticality: +20, Muscle: -5, Moxie: -5
 # Enhanced Interrogation: Boosts psychological attack and defense in Bastille Battalion.
 Effect	Ennerderated	Avatar: "Kleptobrainiac"
 Effect	Enraged	Muscle Percent: +10
-# Entauntauned: Cold Resistance (+X) - X = base weight of the Melodramedary when opened
+Effect	Entauntauned	Cold Resistance: [pref(entauntanedColdRes)]
 Effect	Ermahgerd, Burke	Avatar: "Special Agent Wallace Burke Corrigan"
 Effect	Ermine Eyes	Item Drop: +5
 Effect	Erudite	Mysticality Percent: +10, Spell Damage: +15, Damage Reduction: -10

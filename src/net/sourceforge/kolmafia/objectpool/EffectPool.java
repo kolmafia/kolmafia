@@ -321,6 +321,7 @@ public class EffectPool {
   public static final int BLESSING_OF_THE_BIRD = 2551;
   public static final int BLESSING_OF_YOUR_FAVORITE_BIRD = 2552;
   public static final int FIZZY_FIZZY = 2561;
+  public static final int ENTAUNTAUNED = 2578;
   public static final int JOKE_MAD = 2582;
   public static final int CARTOGRAPHICALLY_CHARGED = 2600;
   public static final int CARTOGRAPHICALLY_AWARE = 2601;

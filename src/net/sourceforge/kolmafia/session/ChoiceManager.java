@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
@@ -13366,6 +13367,20 @@ public abstract class ChoiceManager {
 
       case 1414:
         Preferences.setBoolean("lockPicked", true);
+        break;
+
+      case 1418:
+        // So Cold
+        if (ChoiceManager.lastDecision == 1) {
+          Modifiers.overrideEffectModifiers(EffectPool.ENTAUNTAUNED);
+          int res =
+              (int)
+                  Modifiers.getNumericModifier(
+                      "Effect", EffectPool.ENTAUNTAUNED, "Cold Resistance");
+          KoLCharacter.findFamiliar(FamiliarPool.MELODRAMEDARY).loseExperience();
+          Preferences.setInteger("entauntaunedColdRes", res);
+          Preferences.setBoolean("_entauntaunedToday", true);
+        }
         break;
 
       case 1420:
