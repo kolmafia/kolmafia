@@ -1327,6 +1327,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("have_skill", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.SKILL_TYPE};
+    functions.add(new LibraryFunction("combat_skill_available", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.SKILL_TYPE};
     functions.add(new LibraryFunction("mp_cost", DataTypes.INT_TYPE, params));
 
     params = new Type[] {DataTypes.SKILL_TYPE};
@@ -5762,6 +5765,11 @@ public abstract class RuntimeLibrary {
     return DataTypes.makeBooleanValue(
         KoLCharacter.hasSkill(skill, KoLConstants.availableSkills)
             || KoLCharacter.hasSkill(skill, KoLConstants.availableCombatSkills));
+  }
+
+  public static Value combat_skill_available(ScriptRuntime controller, final Value arg) {
+    int skillId = (int) arg.intValue();
+    return DataTypes.makeBooleanValue(KoLCharacter.availableCombatSkill(skillId));
   }
 
   public static Value mp_cost(ScriptRuntime controller, final Value skill) {
