@@ -387,6 +387,12 @@ public class ResultProcessor {
     Preferences.setString(property + "Mods", mods);
   }
 
+  public static void updateEntauntauned() {
+    Modifiers.overrideEffectModifiers(EffectPool.ENTAUNTAUNED);
+    double res = Modifiers.getNumericModifier("Effect", EffectPool.ENTAUNTAUNED, "Cold Resistance");
+    Preferences.setInteger("entauntaunedColdRes", (int) res);
+  }
+
   public static void updateVintner() {
     // Check the wine's type
     RequestThread.postRequest(
@@ -428,6 +434,9 @@ public class ResultProcessor {
         case EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD:
           ResultProcessor.updateBird(
               EffectPool.BLESSING_OF_YOUR_FAVORITE_BIRD, effectName, "yourFavoriteBird");
+          break;
+        case EffectPool.ENTAUNTAUNED:
+          updateEntauntauned();
           break;
         case EffectPool.WINE_FORTIFIED:
         case EffectPool.WINE_HOT:

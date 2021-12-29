@@ -13372,13 +13372,7 @@ public abstract class ChoiceManager {
       case 1418:
         // So Cold
         if (ChoiceManager.lastDecision == 1) {
-          Modifiers.overrideEffectModifiers(EffectPool.ENTAUNTAUNED);
-          int res =
-              (int)
-                  Modifiers.getNumericModifier(
-                      "Effect", EffectPool.ENTAUNTAUNED, "Cold Resistance");
           KoLCharacter.findFamiliar(FamiliarPool.MELODRAMEDARY).loseExperience();
-          Preferences.setInteger("entauntaunedColdRes", res);
           Preferences.setBoolean("_entauntaunedToday", true);
         }
         break;
