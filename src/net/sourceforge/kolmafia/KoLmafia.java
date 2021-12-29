@@ -822,6 +822,7 @@ public abstract class KoLmafia {
     // Items that need to be checked every time
     InventoryManager.checkKGB();
     InventoryManager.checkBirdOfTheDay();
+    ResultProcessor.updateEntauntauned();
     CargoCultistShortsRequest.loadPockets();
 
     // Check items that vary per person
