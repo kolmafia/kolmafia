@@ -104,6 +104,7 @@ public class Parser {
   private final String fileName;
   private final String shortFileName;
   private final URI fileUri;
+  private final long modificationTimestamp;
   private String scriptName;
   private final InputStream istream;
 
@@ -111,7 +112,7 @@ public class Parser {
   private int currentIndex;
   private Token currentToken;
 
-  private final Map<File, Long> imports;
+  private final Map<File, Parser> imports;
   private final List<AshDiagnostic> diagnostics = new ArrayList<>();
   private Function mainMethod = null;
   private String notifyRecipient = null;
@@ -120,11 +121,11 @@ public class Parser {
     this(null, null, null);
   }
 
-  public Parser(final File scriptFile, final Map<File, Long> imports) {
+  public Parser(final File scriptFile, final Map<File, Parser> imports) {
     this(scriptFile, null, imports);
   }
 
-  public Parser(final File scriptFile, final InputStream stream, final Map<File, Long> imports) {
+  public Parser(final File scriptFile, final InputStream stream, final Map<File, Parser> imports) {
     this.imports = imports != null ? imports : new TreeMap<>();
 
     this.istream =
@@ -136,14 +137,14 @@ public class Parser {
       this.fileName = scriptFile.getPath();
       this.shortFileName = this.fileName.substring(this.fileName.lastIndexOf(File.separator) + 1);
       this.fileUri = scriptFile.toURI();
+      this.modificationTimestamp = scriptFile.lastModified();
 
-      if (this.imports.isEmpty()) {
-        this.imports.put(scriptFile, scriptFile.lastModified());
-      }
+      this.imports.put(scriptFile, this);
     } else {
       this.fileName = null;
       this.shortFileName = null;
       this.fileUri = null;
+      this.modificationTimestamp = 0L;
     }
 
     if (this.istream == null) {
@@ -215,12 +216,16 @@ public class Parser {
     return this.currentLine.lineNumber;
   }
 
-  public Map<File, Long> getImports() {
+  public Map<File, Parser> getImports() {
     return this.imports;
   }
 
   public List<AshDiagnostic> getDiagnostics() {
     return this.diagnostics;
+  }
+
+  public long getModificationTimestamp() {
+    return this.modificationTimestamp;
   }
 
   public Function getMainMethod() {
@@ -361,8 +366,6 @@ public class Parser {
     if (this.imports.containsKey(scriptFile)) {
       return scope;
     }
-
-    this.imports.put(scriptFile, scriptFile.lastModified());
 
     Parser parser = new Parser(scriptFile, null, this.imports);
     Scope result = parser.parseFile(scope);

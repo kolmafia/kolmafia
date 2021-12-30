@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.NamespaceInterpreter;
+import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
@@ -194,14 +195,14 @@ public abstract class KoLmafiaASH {
     if (!createInterpreter) {
       ScriptRuntime interpreter = KoLmafiaASH.INTERPRETERS.get(toExecute);
       if (interpreter instanceof AshRuntime) {
-        Map<File, Long> imports = ((AshRuntime) interpreter).getImports();
+        Map<File, Parser> imports = ((AshRuntime) interpreter).getImports();
 
-        Iterator<Entry<File, Long>> it = imports.entrySet().iterator();
+        Iterator<Entry<File, Parser>> it = imports.entrySet().iterator();
 
         while (it.hasNext() && !createInterpreter) {
-          Entry<File, Long> entry = it.next();
+          Entry<File, Parser> entry = it.next();
           File file = entry.getKey();
-          Long timestamp = entry.getValue();
+          long timestamp = entry.getValue().getModificationTimestamp();
           createInterpreter = timestamp != file.lastModified();
         }
       }
