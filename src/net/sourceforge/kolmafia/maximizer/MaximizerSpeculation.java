@@ -137,18 +137,18 @@ public class MaximizerSpeculation extends Speculation
       if (mods.getBoolean(Modifiers.DROPS_MEAT)) countOtherDropsMeat++;
     }
     // Prefer item droppers
-    if (countThisDropsItems != countOtherDropsItems) {
+    if (Maximizer.eval.isUsingTiebreaker() && countThisDropsItems != countOtherDropsItems) {
       return countThisDropsItems > countOtherDropsItems ? 1 : -1;
     }
     // Prefer meat droppers
-    if (countThisDropsMeat != countOtherDropsMeat) {
+    if (Maximizer.eval.isUsingTiebreaker() && countThisDropsMeat != countOtherDropsMeat) {
       return countThisDropsMeat > countOtherDropsMeat ? 1 : -1;
     }
     // Prefer higher tiebreaker account (unless -tie used)
     rv = Double.compare(this.getTiebreaker(), other.getTiebreaker());
     if (rv != 0) return rv;
     // Prefer rollover effects
-    if (countThisEffects != countOtherEffects) {
+    if (Maximizer.eval.isUsingTiebreaker() && countThisEffects != countOtherEffects) {
       return countThisEffects > countOtherEffects ? 1 : -1;
     }
     // Prefer unbreakables
