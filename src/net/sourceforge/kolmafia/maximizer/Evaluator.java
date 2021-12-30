@@ -851,6 +851,10 @@ public class Evaluator {
     return this.tiebreaker.getScore(mods);
   }
 
+  boolean isUsingTiebreaker() {
+    return !this.noTiebreaker;
+  }
+
   int checkConstraints(Modifiers mods) {
     // Return value:
     //	-1: item violates a constraint, don't use it

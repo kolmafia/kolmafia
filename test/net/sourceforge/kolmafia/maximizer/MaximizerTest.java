@@ -366,6 +366,23 @@ public class MaximizerTest {
     assertEquals(25, modFor("Meat Drop"), 0.01);
   }
 
+  // https://kolmafia.us/threads/27073/
+  @Test
+  public void noTiePrefersCurrentGear() {
+    // Drops items, but otherwise irrelevant.
+    canUse("Camp Scout backpack");
+    // +1 mys, +2 mox; 7 mox required; Maximizer needs to recommend changes in order to create a
+    // speculation.
+    canUse("basic meat fez");
+    // +7 mus; 75 mys required
+    equip(EquipmentManager.CONTAINER, "barskin cloak");
+    assertTrue(maximize("mys -tie"));
+    recommendedSlotIs(EquipmentManager.HAT, "basic meat fez");
+    // No back change recommended.
+    assertFalse(getSlot(EquipmentManager.CONTAINER).isPresent());
+    assertEquals(7, modFor("Buffed Muscle"), 0.01);
+  }
+
   // helper methods
 
   private boolean maximize(String maximizerString) {
