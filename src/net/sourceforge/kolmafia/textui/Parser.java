@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.io.PrintStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -367,7 +369,7 @@ public class Parser {
       return scope;
     }
 
-    Parser parser = new Parser(scriptFile, null, this.imports);
+    Parser parser = this.makeChild(scriptFile);
     Scope result = parser.parseFile(scope);
 
     for (AshDiagnostic diagnostic : parser.diagnostics) {
@@ -389,6 +391,29 @@ public class Parser {
     }
 
     return result;
+  }
+
+  private Parser makeChild(final File scriptFile) {
+    final InputStream stream = this.getInputStream(scriptFile);
+
+    try {
+      Constructor<? extends Parser> childConstructor =
+          this.getClass().getConstructor(File.class, InputStream.class, Map.class);
+
+      return childConstructor.newInstance(scriptFile, stream, this.imports);
+    } catch (NoSuchMethodException | IllegalAccessException e) {
+      // The caller didn't want us to be able to do this, so don't.
+    } catch (InstantiationException e) {
+      // Shouldn't happen; it can't be an abstract class since we got it from an instance.
+    } catch (InvocationTargetException e) {
+      throw new RuntimeException(e);
+    }
+
+    return new Parser(scriptFile, stream, this.imports);
+  }
+
+  protected InputStream getInputStream(final File scriptFile) {
+    return null;
   }
 
   private Scope parseCommandOrDeclaration(final Scope result, final Type expectedType) {
