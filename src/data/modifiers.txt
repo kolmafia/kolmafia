@@ -10342,6 +10342,7 @@ Item	zombie hollandaise	Effect: "Chef Brains-are-dee", Effect Duration: 30
 
 # Everything Else section of modifiers.txt
 
+# 11-leaf clover: Gives you good luck
 # 1952 Mickey Mantle card: Super valuable!
 # 30669 scroll: Mostly Just Confuses Enemies
 # 31337 scroll: Mostly Just Confuses Enemies

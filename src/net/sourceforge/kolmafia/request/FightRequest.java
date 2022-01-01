@@ -758,7 +758,7 @@ public class FightRequest extends GenericRequest {
   public static final boolean canOlfact() {
     return FightRequest.canOlfact
         && !KoLCharacter.inGLover()
-        && !KoLConstants.activeEffects.contains(FightRequest.ONTHETRAIL);
+        && KoLCharacter.availableCombatSkill(SkillPool.OLFACTION);
   }
 
   public static final boolean isSourceAgent() {
@@ -1360,7 +1360,7 @@ public class FightRequest extends GenericRequest {
         // your skills.
 
         if ((KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled())
-            || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ON_THE_TRAIL))) {
+            || !KoLCharacter.availableCombatSkill(SkillPool.OLFACTION)) {
           this.skipRound();
           return;
         }
@@ -4322,9 +4322,7 @@ public class FightRequest extends GenericRequest {
       boolean haveSkill =
           KoLCharacter.hasSkill("Transcendent Olfaction")
               && !KoLCharacter.inGLover()
-              && (Preferences.getBoolean("autoManaRestore")
-                  || KoLCharacter.getCurrentMP()
-                      >= SkillDatabase.getMPConsumptionById(SkillPool.OLFACTION));
+              && (Preferences.getBoolean("autoManaRestore"));
       boolean haveItem = KoLConstants.inventory.contains(FightRequest.EXTRACTOR);
       if ((haveSkill || haveItem) && shouldTag(pref, "autoOlfact triggered")) {
         if (haveSkill) {
@@ -8657,6 +8655,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.OLFACTION:
         if (responseText.contains("fill your entire being") || skillSuccess) {
+          Preferences.increment("_olfactionsUsed", 1);
           Preferences.setString("olfactedMonster", monsterName);
           Preferences.setString("autoOlfact", "");
           FightRequest.canOlfact = false;
@@ -10205,8 +10204,7 @@ public class FightRequest extends GenericRequest {
               action.append("plays Garin's Harp");
             }
           } else {
-            if (item.equalsIgnoreCase("odor extractor")
-                && !KoLConstants.activeEffects.contains(FightRequest.ONTHETRAIL)) {
+            if (item.equalsIgnoreCase("odor extractor")) {
               Preferences.setString("olfactedMonster", monsterName);
               Preferences.setString("autoOlfact", "");
               FightRequest.canOlfact = false;
@@ -10222,8 +10220,7 @@ public class FightRequest extends GenericRequest {
             itemId = StringUtilities.parseInt(itemMatcher.group(1));
             item = ItemDatabase.getItemName(itemId);
             if (item != null) {
-              if (item.equalsIgnoreCase("odor extractor")
-                  && !KoLConstants.activeEffects.contains(FightRequest.ONTHETRAIL)) {
+              if (item.equalsIgnoreCase("odor extractor")) {
                 Preferences.setString("olfactedMonster", monsterName);
                 Preferences.setString("autoOlfact", "");
               }
