@@ -390,7 +390,7 @@ public class ResultProcessor {
   public static void updateEntauntauned() {
     Modifiers.overrideEffectModifiers(EffectPool.ENTAUNTAUNED);
     double res = Modifiers.getNumericModifier("Effect", EffectPool.ENTAUNTAUNED, "Cold Resistance");
-    Preferences.setInteger("entauntaunedColdRes", (int) res);
+    Preferences.setInteger("entauntaunedColdRes", (int) Math.round(res));
   }
 
   public static void updateVintner() {
