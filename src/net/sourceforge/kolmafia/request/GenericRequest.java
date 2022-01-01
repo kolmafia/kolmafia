@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.InternalMessage;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -926,9 +927,7 @@ public class GenericRequest implements Runnable {
                 + (remain == 1 ? "." : "s.");
       }
 
-      if (expired.getLabel().equals("Fortune Cookie")) {
-        message += " " + EatItemRequest.lastSemirareMessage();
-      } else if (expired.getLabel().equals("Spookyraven Lights Out")) {
+      if (expired.getLabel().equals("Spookyraven Lights Out")) {
         message += " " + LightsOutManager.message();
       }
 
@@ -1381,16 +1380,7 @@ public class GenericRequest implements Runnable {
   }
 
   public static final boolean shouldIgnore(final GenericRequest request) {
-    String requestURL = GenericRequest.decodeField(request.formURLString);
-    return requestURL == null
-        ||
-        // Disallow mall searches
-        requestURL.contains("mall.php")
-        || requestURL.contains("manageprices.php")
-        || requestURL.contains("backoffice.php")
-        ||
-        // Disallow anything to do with chat
-        request.isChatRequest;
+    return false;
   }
 
   /**
@@ -2241,12 +2231,6 @@ public class GenericRequest implements Runnable {
       ChoiceManager.postChoice2(urlString, this);
     }
 
-    // Let clover protection kick in if needed
-
-    if (ResultProcessor.shouldDisassembleClovers(urlString)) {
-      KoLmafia.protectClovers();
-    }
-
     // Perhaps check for random donations in Fistcore
     if (!ResultProcessor.onlyAutosellDonationsCount && KoLCharacter.inFistcore()) {
       ResultProcessor.handleDonations(urlString, this.responseText);
@@ -2410,30 +2394,9 @@ public class GenericRequest implements Runnable {
       return;
     }
 
-    // If this is a lucky adventure, then remove a clover
-    // from the player's inventory,
-    //
-    // Most places, this is signaled by the message "Your (or your)
-    // ten-leaf clover disappears in a puff of smoke."
-    //
-    // Some places, it "vanishes in a puff of smoke."
-    //
-    // The Hippy Camp (In Disguise)'s A Case of the Baskets, the message is
-    // "Like the smoke your ten-leaf clover disappears in a puff of"
-    //
-    // In the Spooky Forest's Lucky, Lucky! encounter, the message is
-    // "Your ten-leaf clover disappears into the leprechaun's pocket"
-    //
-    // The Orcish Frat House:
-    // Pretty good timing, it seems. Your ten-leaf clover
-    // disappears in a cloud of smoke and alcohol fumes.
-
-    if (this.responseText.contains("clover")
-        && (this.responseText.contains("disappears in a puff of")
-            || this.responseText.contains("vanishes in a puff of smoke")
-            || this.responseText.contains("into the leprechaun's pocket")
-            || this.responseText.contains("cloud of smoke and alcohol fumes"))) {
-      ResultProcessor.processItem(ItemPool.TEN_LEAF_CLOVER, -1);
+    // If this is a lucky adventure, then remove the Lucky intrinsic
+    if (this.responseText.contains("You feel less lucky")) {
+      KoLConstants.activeEffects.remove(EffectPool.get(EffectPool.LUCKY));
     }
 
     if (this.responseText.contains("You break the bottle on the ground")) {

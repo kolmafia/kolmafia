@@ -18,7 +18,6 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
@@ -27,8 +26,7 @@ public abstract class EncounterManager {
   public enum EncounterType {
     NONE,
     STOP,
-    SEMIRARE,
-    CLOVER,
+    LUCKY,
     GLYPH,
     TURTLE,
     SEAL,
@@ -303,9 +301,9 @@ public abstract class EncounterManager {
     return monster != null && monster.getType().contains(EncounterType.WANDERER);
   }
 
-  public static boolean isSemiRareMonster(String encounter) {
+  public static boolean isLuckyMonster(String encounter) {
     MonsterData monster = MonsterDatabase.findMonster(encounter);
-    return monster != null && monster.getType().contains(EncounterType.SEMIRARE);
+    return monster != null && monster.getType().contains(EncounterType.LUCKY);
   }
 
   public static boolean isSuperlikelyMonster(String encounter) {
@@ -362,20 +360,6 @@ public abstract class EncounterManager {
     // cold, and hear a wolf whistle from behind you. You spin
     // around and see <monster> that looks suspiciously like the
     // ones you shot with a love arrow earlier.
-
-    // Some semirares can also be clover adventures, if a clover disappears it isn't a semi-rare
-
-    if (encounterType == EncounterType.SEMIRARE
-        && !ignoreSpecialMonsters
-        && !EncounterManager.isRomanticEncounter(responseText, false)
-        && !EncounterManager.isDigitizedEncounter(responseText, false)
-        && !EncounterManager.isEnamorangEncounter(responseText, false)
-        && !responseText.contains("clover disappears")
-        && !FightRequest.edFightInProgress()) {
-      KoLCharacter.registerSemirare();
-      return;
-    }
-
     if (encounterType == EncounterType.NONE) {
       return;
     }

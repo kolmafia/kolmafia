@@ -55,8 +55,8 @@ public class HermitRequest extends CoinMasterRequest {
 
   private static final Pattern CLOVER_PATTERN = Pattern.compile("(\\d+) left in stock for today");
 
-  public static final AdventureResult CLOVER = ItemPool.get(ItemPool.TEN_LEAF_CLOVER, 1);
-  public static final String CLOVER_FIELD = "whichitem=" + ItemPool.TEN_LEAF_CLOVER;
+  public static final AdventureResult CLOVER = ItemPool.get(ItemPool.ELEVEN_LEAF_CLOVER, 1);
+  public static final String CLOVER_FIELD = "whichitem=" + ItemPool.ELEVEN_LEAF_CLOVER;
 
   public static final AdventureResult PERMIT = ItemPool.get(ItemPool.HERMIT_PERMIT, 1);
 
@@ -122,7 +122,7 @@ public class HermitRequest extends CoinMasterRequest {
       HermitRequest.registerHermitItem(ItemPool.ANCIENT_SEAL, PurchaseRequest.MAX_QUANTITY);
     }
 
-    HermitRequest.registerHermitItem(ItemPool.TEN_LEAF_CLOVER, -1);
+    HermitRequest.registerHermitItem(ItemPool.ELEVEN_LEAF_CLOVER, -1);
 
     HermitRequest.resetPurchaseRequests();
   }

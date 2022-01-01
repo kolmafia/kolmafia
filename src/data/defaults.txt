@@ -17,7 +17,6 @@ global	chatBeep	false
 global	chatFontSize
 global	chatLinksUseRelay	false
 global	chatStyle	0
-global	cloverProtectActive	true
 global	coinMasterIndex	1
 global	combatHotkey0
 global	combatHotkey1
@@ -856,7 +855,6 @@ user	lastPorkoExpected
 user	lastQuartetAscension	-1
 user	lastQuartetRequest	0
 user	lastSecondFloorUnlock	-1
-user	lastSemirareReset	-1
 user	lastSkateParkReset	-1
 user	lastSlimeVial3885
 user	lastSlimeVial3886
@@ -1209,8 +1207,6 @@ user	scriptMRUList
 user	seahorseName
 user	seaodesFound	0
 user	SeasoningSwagger	0
-user	semirareCounter	0
-user	semirareLocation
 user	serverAddsCustomCombat	false
 user	sexChanges	0
 user	SHAWARMAInitiativeUnlocked	false

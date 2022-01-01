@@ -309,7 +309,7 @@ public class BreakfastManager {
         "grabClovers" + (KoLCharacter.canInteract() ? "Softcore" : "Hardcore"))) {
       int count = HermitRequest.cloverCount();
       if (count > 0) {
-        KoLmafiaCLI.DEFAULT_SHELL.executeLine("hermit " + count + " ten-leaf clover");
+        KoLmafiaCLI.DEFAULT_SHELL.executeLine("hermit " + count + " 11-leaf clover");
       }
 
       KoLmafia.forceContinue();

@@ -16,7 +16,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.request.EatItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
@@ -301,9 +300,6 @@ public class ShowDataCommand extends AbstractCommand {
     }
 
     if (desiredData.equals("counters")) {
-      desiredStream.println(EatItemRequest.lastSemirareMessage());
-      desiredStream.println();
-
       String counters = TurnCounter.getUnexpiredCounters();
       if (counters.equals("")) {
         desiredStream.println("No active counters.");

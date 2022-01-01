@@ -720,19 +720,11 @@ public class AreaCombatData {
       }
     }
 
-    String encounter = EncounterManager.findEncounterForLocation(this.zone, EncounterType.SEMIRARE);
+    String encounter = EncounterManager.findEncounterForLocation(this.zone, EncounterType.LUCKY);
 
     if (null != encounter) {
       buffer.append("<br>");
-      buffer.append("<b>Semi-Rare:</b> ");
-      buffer.append(encounter);
-    }
-
-    encounter = EncounterManager.findEncounterForLocation(this.zone, EncounterType.CLOVER);
-
-    if (null != encounter) {
-      buffer.append("<br>");
-      buffer.append("<b>Clover:</b> ");
+      buffer.append("<b>Lucky:</b> ");
       buffer.append(encounter);
     }
 

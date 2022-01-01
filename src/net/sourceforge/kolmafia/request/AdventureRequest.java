@@ -406,7 +406,7 @@ public class AdventureRequest extends GenericRequest {
         if (!EncounterManager.ignoreSpecialMonsters
             && !EncounterManager.isWanderingMonster(encounter)
             && !EncounterManager.isUltrarareMonster(encounter)
-            && !EncounterManager.isSemiRareMonster(encounter)
+            && !EncounterManager.isLuckyMonster(encounter)
             && !EncounterManager.isSuperlikelyMonster(encounter)
             && !EncounterManager.isFreeCombatMonster(encounter)
             && !EncounterManager.isNoWanderMonster(encounter)

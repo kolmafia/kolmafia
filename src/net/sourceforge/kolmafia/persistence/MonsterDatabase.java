@@ -949,8 +949,8 @@ public class MonsterDatabase {
         } else if (option.equals("ULTRARARE")) {
           type.add(EncounterType.ULTRARARE);
           continue;
-        } else if (option.equals("SEMIRARE")) {
-          type.add(EncounterType.SEMIRARE);
+        } else if (option.equals("LUCKY")) {
+          type.add(EncounterType.LUCKY);
           continue;
         } else if (option.equals("SUPERLIKELY")) {
           type.add(EncounterType.SUPERLIKELY);

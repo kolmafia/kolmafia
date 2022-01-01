@@ -1490,24 +1490,6 @@ public abstract class KoLmafia {
     KoLmafia.abortAfter = msg;
   }
 
-  public static void protectClovers() {
-    // If we are in a multifight or a choice follows a fight, defer
-    // this until we are free of those
-    if (GenericRequest.abortIfInFightOrChoice(true)) {
-      // That didn't actually abort.
-      ResultProcessor.deferClover();
-      return;
-    }
-
-    ResultProcessor.undeferClover();
-
-    if (KoLCharacter.inBeecore() || KoLCharacter.inGLover()) {
-      KoLmafiaCLI.DEFAULT_SHELL.executeCommand("closet", "put * ten-leaf clover");
-    } else {
-      KoLmafiaCLI.DEFAULT_SHELL.executeCommand("use", "* ten-leaf clover");
-    }
-  }
-
   /** Show an HTML string to the user */
   public static void showHTML(String location, String text) {
     if (!GenericFrame.instanceExists()) {
@@ -1733,18 +1715,6 @@ public abstract class KoLmafia {
       PurchaseRequest currentRequest = purchases[i];
       AdventureResult item = currentRequest.getItem();
       itemId = item.getItemId();
-
-      if (itemId == ItemPool.TEN_LEAF_CLOVER
-          && destination == KoLConstants.inventory
-          && InventoryManager.cloverProtectionActive()
-          && !KoLCharacter.inBeecore()
-          && !KoLCharacter.inGLover()) {
-        // Clover protection will miraculously turn ten-leaf
-        // clovers into disassembled clovers as soon as they
-        // come into inventory
-
-        item = ItemPool.get(ItemPool.DISASSEMBLED_CLOVER, item.getCount());
-      }
 
       int initialCount = item.getCount(destination);
       int currentCount = initialCount;
