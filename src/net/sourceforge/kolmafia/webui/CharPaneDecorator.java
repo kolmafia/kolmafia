@@ -1350,12 +1350,12 @@ public class CharPaneDecorator {
     }
   }
 
-  private static void decorateIntrinsics(final StringBuffer buffer) {
+  protected static StringBuffer decorateIntrinsics(final StringBuffer buffer) {
     String intrinsicsText = CharPaneDecorator.getIntrinsicsText(buffer);
 
     // If there are no intrinsics on the charpane, nothing to do.
     if (intrinsicsText == null || !Preferences.getBoolean("relayAddsUpArrowLinks")) {
-      return;
+      return buffer;
     }
 
     // Otherwise, make a buffer to manipulate intrinsic text in
@@ -1366,6 +1366,8 @@ public class CharPaneDecorator {
 
     // Replace existing effects table with what we generated
     StringUtilities.singleStringReplace(buffer, intrinsicsText, intrinsics.toString());
+
+    return buffer;
   }
 
   public static final void updateFromPreferences() {
