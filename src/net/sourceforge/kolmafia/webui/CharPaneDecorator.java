@@ -1188,6 +1188,7 @@ public class CharPaneDecorator {
       lastAppendIndex++;
 
       if (isIntrinsic) {
+        buffer.append("</span>");
         continue;
       }
 
