@@ -40,7 +40,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
-import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1215,11 +1214,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!InventoryManager.checkpointedRetrieveItem(ItemPool.ANTIDOTE)) {
         return;
       }
-    }
-
-    if (AdventureDatabase.isPotentialCloverAdventure(adventureName)
-        && ResultProcessor.shouldDisassembleClovers(this.request.getURLString())) {
-      KoLmafia.protectClovers();
     }
 
     // Let the betweenBattleScript do anything it wishes

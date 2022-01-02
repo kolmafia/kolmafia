@@ -334,6 +334,7 @@ public class EffectPool {
   public static final int WINE_DARK = 2663;
   public static final int WINE_BEFOULED = 2664;
   public static final int WINE_FRIENDLY = 2665;
+  public static final int LUCKY = 2693;
   public static final int ON_THE_TRAIL = 2694;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
