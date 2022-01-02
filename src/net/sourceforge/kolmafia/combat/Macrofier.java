@@ -11,8 +11,8 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList.MPRestoreItem;
-import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -414,13 +414,9 @@ public class Macrofier {
         // your skills.
 
         if ((KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled())
-            || KoLConstants.activeEffects.contains(
-                EffectPool.get(EffectPool.ON_THE_TRAIL))) { // ignore
-        } else { // must insert On The Trail check in generated macro
-          // too, in case more than one olfact is attempted.
-          macro.append("if !haseffect 331\n");
+            || !KoLCharacter.availableCombatSkill(SkillPool.OLFACTION)) { // ignore
+        } else {
           Macrofier.macroSkill(macro, skillId);
-          macro.append("endif\n");
         }
       } else if (skillName.equals(
           "CLEESH")) { // Macrofied combat will continue with the same CCS after

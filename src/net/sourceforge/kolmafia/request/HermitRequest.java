@@ -347,7 +347,7 @@ public class HermitRequest extends CoinMasterRequest {
 
     int index = KoLConstants.hermitItems.indexOf(CLOVER);
     if (index < 0) {
-      HermitRequest.registerHermitItem(ItemPool.TEN_LEAF_CLOVER, count);
+      HermitRequest.registerHermitItem(ItemPool.ELEVEN_LEAF_CLOVER, count);
     } else {
       AdventureResult old = KoLConstants.hermitItems.get(index);
       int oldCount = old.getCount();
@@ -425,7 +425,7 @@ public class HermitRequest extends CoinMasterRequest {
       AdventureResult clover = KoLConstants.hermitItems.get(index);
       KoLConstants.hermitItems.set(index, HermitRequest.CLOVER.getInstance(clover.getCount() + 1));
     } else {
-      HermitRequest.registerHermitItem(ItemPool.TEN_LEAF_CLOVER, 1);
+      HermitRequest.registerHermitItem(ItemPool.ELEVEN_LEAF_CLOVER, 1);
     }
   }
 

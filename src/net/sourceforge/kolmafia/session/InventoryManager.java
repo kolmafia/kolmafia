@@ -787,12 +787,26 @@ public abstract class InventoryManager {
       }
     }
 
+    // An 11-leaf clover can be purchased from the Hermit (if he has any in
+    // stock.
+
     if (shouldUseCoinmasters
         && KoLConstants.hermitItems.contains(item)
         && (!shouldUseMall
             || SewerRequest.currentWorthlessItemCost() < StoreManager.getMallPrice(item))) {
-      if (sim) {
-        return "hermit";
+
+      int itemCount =
+          itemId == ItemPool.ELEVEN_LEAF_CLOVER
+              ? HermitRequest.cloverCount()
+              : PurchaseRequest.MAX_QUANTITY;
+
+      if (itemCount > 0) {
+        if (sim) {
+          return "hermit";
+        }
+
+        int retrieveCount = Math.min(itemCount, missingCount);
+        RequestThread.postRequest(new HermitRequest(itemId, retrieveCount));
       }
 
       RequestThread.postRequest(new HermitRequest(itemId, missingCount));
