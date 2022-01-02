@@ -2781,10 +2781,6 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    if (!InventoryManager.cloverProtectionActive()) {
-      return false;
-    }
-
     if (this.getFormField(CONFIRM_CLOVER) != null) {
       return false;
     }

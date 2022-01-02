@@ -36,7 +36,7 @@ public class LootHermitMenuItem extends ThreadedMenuItem {
 
       String message = "(You have " + maximumValue + " worthless items retrievable)";
 
-      if (selected == ItemPool.TEN_LEAF_CLOVER) {
+      if (selected == ItemPool.ELEVEN_LEAF_CLOVER) {
         if (cloverCount <= maximumValue) {
           message = "(There are " + cloverCount + " clovers still available)";
           maximumValue = cloverCount;

@@ -40,7 +40,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
@@ -52,73 +51,7 @@ import net.sourceforge.kolmafia.webui.BarrelDecorator;
 public class ResultProcessor {
   private static final Pattern DISCARD_PATTERN = Pattern.compile("You discard your (.*?)\\.");
 
-  private static boolean receivedClover = false;
-  private static boolean deferredClover = false;
-  private static boolean receivedDisassembledClover = false;
   private static boolean autoCrafting = false;
-
-  public static boolean receivedClover() {
-    return ResultProcessor.receivedClover;
-  }
-
-  public static boolean deferredClover() {
-    return ResultProcessor.deferredClover;
-  }
-
-  public static boolean receivedDisassembledClover() {
-    return ResultProcessor.receivedDisassembledClover;
-  }
-
-  public static void deferClover() {
-    if (ResultProcessor.receivedClover) {
-      ResultProcessor.deferredClover = true;
-      ResultProcessor.receivedClover = false;
-    }
-  }
-
-  public static void undeferClover() {
-    if (ResultProcessor.deferredClover) {
-      ResultProcessor.deferredClover = false;
-      ResultProcessor.receivedClover = true;
-    }
-  }
-
-  public static boolean disassembledClovers(String formURLString) {
-    return ResultProcessor.receivedDisassembledClover
-        && !GenericRequest.ascending
-        && FightRequest.getCurrentRound() == 0
-        && InventoryManager.cloverProtectionActive()
-        && isCloverURL(formURLString);
-  }
-
-  public static boolean shouldDisassembleClovers(String formURLString) {
-    return (ResultProcessor.receivedClover || ResultProcessor.deferredClover)
-        && !GenericRequest.ascending
-        && FightRequest.getCurrentRound() == 0
-        && InventoryManager.cloverProtectionActive()
-        && isCloverURL(formURLString);
-  }
-
-  private static boolean isCloverURL(String formURLString) {
-    return formURLString.startsWith("adventure.php")
-        || formURLString.startsWith("choice.php")
-        || formURLString.startsWith("hermit.php")
-        || formURLString.startsWith("mallstore.php")
-        || formURLString.startsWith("town_fleamarket.php")
-        || formURLString.startsWith("barrel.php")
-        ||
-        // Marmot sign can give you a clover after a fight
-        formURLString.startsWith("fight.php")
-        ||
-        // Using a 31337 scroll
-        formURLString.contains("whichitem=553")
-        ||
-        // Using a green rocket
-        formURLString.contains("whichitem=9827")
-        ||
-        // ...without in-line loading can redirect to inventory
-        (formURLString.startsWith("inventory.php") && formURLString.contains("action=message"));
-  }
 
   public static Pattern ITEM_TABLE_PATTERN =
       Pattern.compile(
@@ -475,8 +408,6 @@ public class ResultProcessor {
 
   public static boolean processResults(
       boolean combatResults, String results, List<AdventureResult> data) {
-    ResultProcessor.receivedClover = false;
-    ResultProcessor.receivedDisassembledClover = false;
 
     if (data == null && RequestLogger.isDebugging()) {
       RequestLogger.updateDebugLog("Processing results...");
@@ -1909,14 +1840,6 @@ public class ResultProcessor {
 
       case ItemPool.CARONCH_DENTURES:
         QuestDatabase.setQuestIfBetter(Quest.PIRATE, "step3");
-        break;
-
-      case ItemPool.TEN_LEAF_CLOVER:
-        ResultProcessor.receivedClover = true;
-        break;
-
-      case ItemPool.DISASSEMBLED_CLOVER:
-        ResultProcessor.receivedDisassembledClover = true;
         break;
 
       case ItemPool.EXORCISED_SANDWICH:

@@ -58,7 +58,6 @@ import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.OceanManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
-import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
@@ -269,16 +268,6 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    // If clovers were auto-disassembled, show disassembled clovers
-
-    if (ResultProcessor.disassembledClovers(location)) {
-      // Replace not only the bolded item name, but
-      // also alt and title tags of the image
-      StringUtilities.globalStringReplace(buffer, "ten-leaf clover", "disassembled clover");
-      StringUtilities.singleStringReplace(buffer, "clover.gif", "disclover.gif");
-      StringUtilities.singleStringReplace(buffer, "370834526", "328909735");
-    }
-
     // Override images, if requested
     RelayRequest.overrideImages(buffer);
 
@@ -334,6 +323,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     } else if (location.startsWith("bigisland.php")) {
       IslandDecorator.decorateBigIsland(location, buffer);
     } else if (location.startsWith("casino.php")) {
+      // Should this be Lucky! instead?
       if (!InventoryManager.hasItem(ItemPool.TEN_LEAF_CLOVER)) {
         StringUtilities.insertAfter(
             buffer,
