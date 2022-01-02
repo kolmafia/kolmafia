@@ -429,7 +429,7 @@ public abstract class InventoryManager {
       final boolean useEquipped,
       final boolean canCreate,
       final boolean sim) {
-    return InventoryManager.doRetrieveItem(item, isAutomated, useEquipped, false, canCreate);
+    return InventoryManager.doRetrieveItem(item, isAutomated, useEquipped, sim, canCreate);
   }
 
   // When called with sim=true, retrieveItem should return a non-empty string
