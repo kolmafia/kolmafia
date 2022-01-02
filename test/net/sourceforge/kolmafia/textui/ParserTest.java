@@ -122,7 +122,7 @@ public class ParserTest {
   }
 
   @Test
-  public void testMultipleDiagnosticsPerParser() {
+  public void testMultipleDiagnosticsPerParser() throws InterruptedException {
     final String script =
         "import fake/path"
             + "\nstring foobar(string... foo, int bar) {"
@@ -151,7 +151,7 @@ public class ParserTest {
   }
 
   @Test
-  public void testErrorFilter() {
+  public void testErrorFilter() throws InterruptedException {
     final String script = "int a; max(a, b)";
     final ByteArrayInputStream istream =
         new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8));
