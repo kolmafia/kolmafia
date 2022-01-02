@@ -15327,12 +15327,12 @@ public abstract class ChoiceManager {
         break;
     }
 
+    SpadingManager.processChoice(urlString, text);
+
     if (ChoiceManager.handlingChoice) {
       ChoiceManager.visitChoice(request);
       return;
     }
-
-    SpadingManager.processChoice(urlString, text);
 
     if (text.contains("charpane.php")) {
       // Since a charpane refresh was requested, a turn might have been spent
