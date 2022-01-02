@@ -328,7 +328,7 @@ public class RequestEditorKit extends HTMLEditorKit {
         StringUtilities.insertAfter(
             buffer,
             "<a href=\"casino.php?action=slot&whichslot=11\"",
-            " onclick=\"return confirm('Are you sure you want to adventure here WITHOUT being Lucky?');\"");
+            " onclick=\"return confirm('Are you sure you want to adventure here WITHOUT Lucky!?');\"");
       }
     } else if (location.startsWith("cave.php")) {
       NemesisManager.decorate(location, buffer);
