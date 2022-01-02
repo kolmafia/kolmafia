@@ -796,11 +796,6 @@ public class AdventureDatabase {
     return fistcoreDataSetting(fistcoreLocationToData(location));
   }
 
-  public static boolean isPotentialCloverAdventure(String adventureName) {
-    // *** Should be "potential Lucky! adventure"
-    return false;
-  }
-
   public static final String getEnvironment(String adventureName) {
     String env = AdventureDatabase.environmentLookup.get(adventureName);
     return env == null ? "none" : env;

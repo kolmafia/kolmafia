@@ -109,7 +109,6 @@ public class RelayRequest extends PasswordHashRequest {
   public static String redirectedCommandURL = "";
 
   private static final String CONFIRM_COUNTER = "confirm0";
-  private static final String CONFIRM_CLOVER = "confirm1";
   private static final String CONFIRM_MCD = "confirm2";
   private static final String CONFIRM_FAMILIAR = "confirm3";
   private static final String CONFIRM_RECOVERY = "confirm4";
@@ -2772,86 +2771,6 @@ public class RelayRequest extends PasswordHashRequest {
     this.pseudoResponse("HTTP/1.1 200 OK", warning.toString());
   }
 
-  public boolean sendCloverWarning(final String adventureName) {
-    if (adventureName == null) {
-      return false;
-    }
-
-    if (!AdventureDatabase.isPotentialCloverAdventure(adventureName)) {
-      return false;
-    }
-
-    if (this.getFormField(CONFIRM_CLOVER) != null) {
-      return false;
-    }
-
-    StringBuilder warning = new StringBuilder();
-    boolean closetClovers = KoLCharacter.inBeecore() || KoLCharacter.inGLover();
-
-    warning.append("<html><head><script language=Javascript src=\"/");
-    warning.append(KoLConstants.BASICS_JS);
-    warning.append("\"></script>");
-
-    warning.append(
-        "<link rel=\"stylesheet\" type=\"text/css\" href=\"/images/styles.css\"></head>");
-    warning.append(
-        "<body><center><table width=95%	 cellspacing=0 cellpadding=0><tr><td style=\"color: white;\" align=center bgcolor=blue><b>Results:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\"><center><table><tr><td><center>");
-
-    warning.append("<table><tr>");
-
-    String url = this.getURLString();
-
-    // Proceed with clover
-    warning.append(
-        "<td align=center valign=center><div id=\"lucky\" style=\"padding: 4px 4px 4px 4px\"><a style=\"text-decoration: none\" href=\"");
-    warning.append(url);
-    warning.append(!url.contains("?") ? "?" : "&");
-    warning.append(CONFIRM_CLOVER);
-    warning.append("=on\"><img src=\"/images/itemimages/clover.gif\" width=30 height=30 border=0>");
-    warning.append("</a></div></td>");
-
-    warning.append("<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>");
-
-    // Protect clover
-    warning.append(
-        "<td align=center valign=center><div id=\"unlucky\" style=\"padding: 4px 4px 4px 4px\">");
-    if (closetClovers) {
-      // fillcloset.php?action=closetpush&whichitem=24&qty=all&pwd&ajax=1
-      warning.append(
-          "<a style=\"text-decoration: none\" href=\"#\" onClick=\"inlineLoad('fillcloset.php', 'action=closetpush&whichitem=");
-      warning.append(ItemPool.TEN_LEAF_CLOVER);
-      warning.append("&qty=all&pwd=");
-      warning.append(GenericRequest.passwordHash);
-      warning.append("&ajax=1', ");
-      warning.append(ItemPool.TEN_LEAF_CLOVER);
-      warning.append("); void(0);\">");
-      warning.append("<img src=\"/images/closet.gif\" width=30 height=30 border=0>");
-    } else {
-      warning.append(
-          "<a style=\"text-decoration: none\" href=\"#\" onClick=\"multiUse('multiuse.php', ");
-      warning.append(ItemPool.TEN_LEAF_CLOVER);
-      warning.append(", ");
-      warning.append(InventoryManager.getCount(ItemPool.TEN_LEAF_CLOVER));
-      warning.append("); void(0);\">");
-      warning.append("<img src=\"/images/itemimages/disclover.gif\" width=30 height=30 border=0>");
-    }
-    warning.append("</a></div></td>");
-
-    warning.append(
-        "</tr></table></center><blockquote>KoLmafia has detected a ten-leaf clover in your inventory.  If you are sure you wish to use it, click on the assembled clover on the left.  If this was an accident, please click on the ");
-    if (closetClovers) {
-      warning.append("closet on the right to closet");
-    } else {
-      warning.append("disassembled clover on the right to disassemble");
-    }
-    warning.append(
-        " your clovers first.  To disable this warning, please check your preferences and disable clover protection.</blockquote></td></tr></table></center></td></tr></table></center></body></html>");
-
-    this.pseudoResponse("HTTP/1.1 200 OK", warning.toString());
-
-    return true;
-  }
-
   private void handleSafety() {
     if (RelayRequest.lastSafety == null) {
       this.pseudoResponse("HTTP/1.1 200 OK", "");
@@ -3468,10 +3387,6 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     if (this.sendGremlinWarning(adventure)) {
-      return true;
-    }
-
-    if (this.sendCloverWarning(adventureName)) {
       return true;
     }
 
