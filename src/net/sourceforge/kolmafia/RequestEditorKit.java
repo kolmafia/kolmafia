@@ -26,6 +26,7 @@ import javax.swing.text.html.ImageView;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -323,12 +324,11 @@ public class RequestEditorKit extends HTMLEditorKit {
     } else if (location.startsWith("bigisland.php")) {
       IslandDecorator.decorateBigIsland(location, buffer);
     } else if (location.startsWith("casino.php")) {
-      // Should this be Lucky! instead?
-      if (!InventoryManager.hasItem(ItemPool.TEN_LEAF_CLOVER)) {
+      if (!KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.LUCKY))) {
         StringUtilities.insertAfter(
             buffer,
             "<a href=\"casino.php?action=slot&whichslot=11\"",
-            " onclick=\"return confirm('Are you sure you want to adventure here WITHOUT a ten-leaf clover?');\"");
+            " onclick=\"return confirm('Are you sure you want to adventure here WITHOUT being Lucky?');\"");
       }
     } else if (location.startsWith("cave.php")) {
       NemesisManager.decorate(location, buffer);
