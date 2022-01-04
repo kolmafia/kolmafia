@@ -1806,6 +1806,7 @@ cuddly teddy bear	125	Mys: 47
 cup of infinite pencils	150	Mus: 175
 cursed coffee cup	0	none
 cursed compass	0	none
+cursed magnifying glass	100	none
 cyborg doll	110	Mys: 40
 Dallas Dynasty Falcon Crest shield	240	Mus: 85	shield
 deceased crimbo tree	0	none
