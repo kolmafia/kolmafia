@@ -793,6 +793,9 @@ vendor slime	805	vendorslime.gif	Atk: 145 Def: 130 HP: 160 Init: 75 P: slime NOB
 vengeful turtle spectre	654	turtleghost.gif	Atk: 21 Def: 18 HP: 18 Init: 20 P: undead	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 vicious gnauga	247	gnauga.gif	Atk: 45 Def: 36 HP: 40 Init: 60 P: beast	gnauga hide (10)
 Victor the Insult Comic Hellhound	983	victor.gif	NOCOPY BOSS Atk: 70 Def: 63 HP: 70 Init: 50 P: demon	Victor, the Insult Comic Hellhound Puppet (100)
+void slab	2227	voidslab.gif	WANDERER Atk: 13 Def: 13 HP: 13 Init: 999 P: horror
+void spider	2228	voidspider.gif	WANDERER Atk: 13 Def: 13 HP: 13 Init: 999 P: horror
+void guy	2229	voidguy.gif	WANDERER Atk: 13 Def: 13 HP: 13 Init: 999 P: horror
 W imp	122	wimp.gif	Atk: 40 Def: 36 HP: 40 Init: 60 E: hot Meat: 30 P: demon	Imp Ale (30)	ruby W (30)	wussiness potion (30)	infernal fife (10)
 wacky pirate	630	wackypirate.gif	Atk: 120 Def: 108 HP: 110 Init: 50 Meat: 75 P: pirate	cannonball charrrm (10)	yohohoyo (5)	pirate cream pie (c0)
 wailing mushroom guy	1807	mush_shrieking.gif	Atk: 25 Def: 25 HP: 20 Init: -10000 P: plant	jingling spore pod (0)	frozen mushroom (0)
@@ -2188,7 +2191,7 @@ gooified dog-thing	2222	goo_dog.gif	Atk: 150 Def: 150 HP: 200 Init: 200 P: beast
 gooified flower	2223	goo_flower.gif	Atk: 180 Def: 180 HP: 300 Init: -10000 P: plant	gooified vegetable matter (100)	gooified vegetable matter (100)	gooified vegetable matter (100)
 gooified tree	2224	goo_tree.gif	Atk: 150 Def: 50 HP: 1000 Init: -10000 P: plant	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)
 gooified rock slab	2225	goo_slab1.gif,goo_slab2.gif,goo_slab3.gif	Atk: 250 Def: 250 HP: 500 Init: -10000 P: elemental	gooified mineral matter (100)	gooified mineral matter (100)
-massive goo construct	2226		Init: -10000 P: construct	gooified animal matter (100)	gooified vegetable matter (100)	gooified mineral matter (100)
+massive goo construct	2226		Atk: 100 Def: 100 HP: 100 Init: -10000 P: construct	gooified animal matter (100)	gooified vegetable matter (100)	gooified mineral matter (100)
 
 # Old Events
 

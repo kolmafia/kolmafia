@@ -2117,6 +2117,8 @@ Item	cuddly teddy bear	Monster Level: +10
 # cup of infinite pencils: Never runs out of pencils
 Item	cup of infinite pencils	Meat Drop: +15
 Item	cursed compass	Item Drop: [100*zone(PirateRealm)], Lasts Until Rollover
+# cursed magnifying glass: Reveals things you weren't meant to see
+Item	cursed magnifying glass	Item Drop: +13, Spooky Damage: +13, Initiative: +13
 Item	cyborg doll	Muscle: +3
 Item	Dallas Dynasty Falcon Crest shield	Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Damage Reduction: 15
 # deceased crimbo tree: Blocks damage while needles remain
@@ -5413,6 +5415,7 @@ Effect	Corona de la Salsa	Hot Damage: +5, Cold Damage: +5, Spooky Damage: +5, St
 Effect	Corroded Weapon	Weapon Damage: -5
 # Corrupted: All Attributes +/- ???
 Effect	Corruption of Wretched Wally	Muscle: +3, Weapon Damage: +3, HP Regen Min: 3, HP Regen Max: 5
+Effect	Cosmic Ball in the Air	Item Drop: +25, Meat Drop: +50
 Effect	Cosmic Flavor	Spell Critical Percent: +10
 # Cotton Mouthed: So dry!  It's from yesterday!
 Effect	Covered in the Rainbow	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
@@ -5537,6 +5540,7 @@ Effect	Disdain of the Storm Tortoise	Initiative: +5, Maximum MP: +10
 Effect	Disdain of the War Snapper	Muscle: +5, Weapon Damage: +5
 Effect	Disguised as a Warehouse Clerk	Avatar: "warehouse clerk"
 Effect	Disquiet Riot	Combat Rate: -20
+Effect	Dizzy	Mysticality Percent: -30
 Effect	Dizzy with Rage	Moxie Percent: -10
 Effect	Do I Know You From Somewhere?	Familiar Weight: +5
 Effect	Do You Crush What I Crush?	Spell Damage Percent: +100, Weapon Damage Percent: +100
@@ -5555,6 +5559,7 @@ Effect	Double-Barreled	Ranged Damage Percent: +150
 Effect	Down With Chow	Familiar Weight: +10
 Effect	Dragged Through the Coals	Hot Damage: +100
 Effect	Draggin' Balls	Moxie: +6, Muscle: -3
+Effect	Drained	Muscle Percent: -30
 Effect	Dreadful Chill	Stench Resistance: +5, Sleaze Resistance: +5
 Effect	Dreadful Fear	Cold Resistance: +5, Sleaze Resistance: +5
 Effect	Dreadful Heat	Cold Resistance: +5, Spooky Resistance: +5
@@ -6949,6 +6954,7 @@ Effect	Slippery Oiliness	Equalize: "Moxie"
 Effect	Slippery Tongue	Sleaze Damage: +20, Sleaze Spell Damage: +20
 Effect	Slithering Mounds	Drippy Damage: +5
 Effect	Sludgesick	Stench Damage: +10, Cold Damage: +10
+Effect	Sluggish	Moxie Percent: -30
 Effect	Slurpee-O'ed	Avatar: "angry tourist"
 Effect	Small	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
 Effect	Smart Drunk	Maximum HP: +120, Familiar Weight: +20
@@ -10625,6 +10631,7 @@ Item	Convincing People You Can See The Future	Skill: "Inscrutable Gaze"
 # cool spore pod: Briefly enhances your Moxie
 # cop dollar
 Item	corked genie bottle	Free Pull
+# cosmic bowling ball: Throw it in various ways
 Item	cosmic bucket	Free Pull
 # cotton bandages: Restores 20-40 HP
 # cotton candy bale: Restores 41-82 HP and MP
@@ -11188,6 +11195,7 @@ Item	Merc Core Field Manual: Sanity Maintenance	Skill: "Hypersane"
 # Miniborg strangler: (doesn't go away when used)
 Item	miniscule temporal rip	Free Pull
 Item	mint condition Lil' Doctor&trade; bag	Free Pull
+# mint condition magnifying glass: Helps you solve mysteries and is totally safe
 Item	mint-in-box Powerful Glove	Free Pull
 # Mob Penguin cellular phone: Lets You Talk to Penguins
 # modern picture frame: Put abstractions in it to create abstract art!
@@ -11776,6 +11784,7 @@ Item	Uncle Romulus (used)	Class: "Turtle Tamer", Skill: "Curiosity of Br'er Tarr
 # underwater slingshot: (sometimes more)
 # underwater slingshot: (and only works underwater)
 Item	Underworld acorn	Free Pull
+Item	undrilled cosmic bowling ball	Free Pull
 Item	unearthed volcanic meteoroid	Skill: "Volcanometeor Showeruption"
 Item	unemployed hunchbacked minion	Free Pull
 # unfinished ice sculpture: Makes a copy of a monster to fight later
@@ -11806,6 +11815,7 @@ Item	vampyric cloake pattern	Free Pull
 # vial of holy water: Deals 40-60 <font color=red>Hot Damage</font>
 # vial of patchouli oil: Weakens enemies a little bit
 # viral video: Brainlock an enemy and causes all of its items to drop
+# void stone: I'm sure it's safe to just sell it
 # Volcoino: Spend it at the Towering Inferno Discotheque's Gift Shop
 Item	voter registration form	Free Pull
 Item	walkie-talkie	Free Pull

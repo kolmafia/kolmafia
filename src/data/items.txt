@@ -10906,3 +10906,13 @@
 10879	refurbished air fryer	856536306	airfryer.gif	reusable		0
 10880	fried air	262581171	friedair.gif	spleen, usable	d	5
 10881	11-leaf clover	477842994	11leafclover.gif	usable	t	0
+10882
+10883
+10884	mint condition magnifying glass	151700929	cursedmagbox.gif	usable	t	0
+10885	cursed magnifying glass	953755260	cursedmag.gif	offhand		0
+10886	void lager	295960773	voidbeer.gif	drink	d	5
+10887	void burger	594078167	voidburger.gif	food	d	5
+10888	void stone	676671920	voidstone.gif	none	d	500
+10889
+10890	undrilled cosmic bowling ball	276317641	cosmicball.gif	usable	t	0
+10891	cosmic bowling ball	119596776	cosmicball2.gif	none, combat		0

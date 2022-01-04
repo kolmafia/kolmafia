@@ -681,6 +681,7 @@ vodka martini	3	1	decent	5-6	0	0	8-10	MARTINI
 Vodka Matryoshka	2	2	EPIC	10-13	25-50	10-20	10-20
 vodka stinger	1	1	awesome	3-5	0	0	0	40 Mer-kindliness (+2 Prismatic res)
 vodka stratocaster	4	6	awesome	14-18	25-27	0	16-20
+void lager	1	1	awesome	0	0	0	0	Unspaded
 VYKEA mead	2	7	awesome	8-10	5-10	5-10	20-40
 warbear bearserker mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Warlust (+60 WarBear Armor Penetration), WINE
 warbear blizzard mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Blubber (Serious Supercold resistance), WINE

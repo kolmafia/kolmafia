@@ -918,6 +918,22 @@
 7389	Fire Extinguisher: Blast the Area	foam3.gif	5	0	0
 7390	Fire Extinguisher: Zone Specific	exting2.gif	5	0	0
 7391	Be Gregarious	happy.gif	5	1	0
+7392
+7393
+7394
+7395
+7396
+7397
+7398
+7399
+7400
+7401
+7402
+7403
+7404	Bowl Backwards	bowlback.gif	5	0	0
+7405	Bowl a Curveball	bowlcurv.gif	5	0	0
+7406	Bowl Sideways	bowlside.gif	5	0	0
+7407	Bowl Straight Up	bowlup.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
