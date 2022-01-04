@@ -899,12 +899,7 @@ public class GenericRequest implements Runnable {
         if (also.getTurnsRemaining() < 0) {
           continue;
         }
-        if (also.getLabel().equals("Fortune Cookie")) {
-          KoLmafia.updateDisplay("(" + expired.getLabel() + " counter discarded due to conflict)");
-          expired = also;
-        } else {
-          KoLmafia.updateDisplay("(" + also.getLabel() + " counter discarded due to conflict)");
-        }
+        KoLmafia.updateDisplay("(" + also.getLabel() + " counter discarded due to conflict)");
       }
 
       if (this.invokeCounterScript(expired)) {

@@ -1809,9 +1809,6 @@ public class ClanLoungeRequest extends GenericRequest {
         return;
       }
       int index = ClanLoungeRequest.speakeasyIdToIndex(StringUtilities.parseInt(m.group(1)));
-      if (index < 0) {
-        return;
-      }
       if (index >= 0) {
         Preferences.increment("_speakeasyDrinksDrunk", 1);
       }

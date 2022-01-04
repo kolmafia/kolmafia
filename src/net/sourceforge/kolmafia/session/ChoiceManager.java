@@ -15208,6 +15208,9 @@ public abstract class ChoiceManager {
               KoLCharacter.setSpleenUse(KoLCharacter.getSpleenUse() + 3);
             }
           }
+          if (ChoiceManager.lastDecision == 7) {
+            // *** No longer forces a semirare
+          }
         }
         break;
 
@@ -15309,12 +15312,12 @@ public abstract class ChoiceManager {
         break;
     }
 
+    SpadingManager.processChoice(urlString, text);
+
     if (ChoiceManager.handlingChoice) {
       ChoiceManager.visitChoice(request);
       return;
     }
-
-    SpadingManager.processChoice(urlString, text);
 
     if (text.contains("charpane.php")) {
       // Since a charpane refresh was requested, a turn might have been spent
