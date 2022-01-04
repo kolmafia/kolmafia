@@ -334,6 +334,7 @@ public class ChatFrame extends GenericFrame {
             text = ChatPanel.this.commandHistory.get(--ChatPanel.this.lastCommandIndex);
           }
           ChatPanel.this.entryField.setText(text);
+          ChatPanel.this.entryField.setCaretPosition(text.length());
         } else if (keyCode == KeyEvent.VK_DOWN) {
           String text;
           if (ChatPanel.this.lastCommandIndex + 1 >= ChatPanel.this.commandHistory.size()) {
@@ -343,6 +344,7 @@ public class ChatFrame extends GenericFrame {
             text = ChatPanel.this.commandHistory.get(++ChatPanel.this.lastCommandIndex);
           }
           ChatPanel.this.entryField.setText(text);
+          ChatPanel.this.entryField.setCaretPosition(text.length());
         } else if (keyCode == KeyEvent.VK_ENTER) {
           this.submitChat();
         }

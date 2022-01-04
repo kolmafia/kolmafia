@@ -1,16 +1,23 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class KoLCharacterTest {
+  @BeforeEach
+  public void init() {
+    KoLCharacter.reset(true);
+  }
 
   @Test
   public void rejectsUsernameWithTwoPeriods() {
@@ -89,10 +96,6 @@ public class KoLCharacterTest {
     assertEquals(3, KoLCharacter.getSongs());
   }
 
-  private void equip(int slot, String item) {
-    EquipmentManager.setEquipment(slot, AdventureResult.parseResult(item));
-  }
-
   @Test
   public void getMaxSongs() {
     KoLCharacter.setAscensionClass(AscensionClass.ACCORDION_THIEF);
@@ -104,5 +107,21 @@ public class KoLCharacterTest {
     KoLCharacter.recalculateAdjustments();
 
     assertEquals(6, KoLCharacter.getMaxSongs());
+  }
+
+  @Test
+  public void aboveWaterZonesDoNotCheckUnderwaterNegativeCombat() {
+    Modifiers.setLocation(AdventureDatabase.getAdventure("Noob Cave"));
+    addEffect("Colorfully Concealed");
+    KoLCharacter.recalculateAdjustments();
+    assertEquals(0, KoLCharacter.getCombatRateAdjustment());
+  }
+
+  @Test
+  public void underwaterZonesCheckUnderwaterNegativeCombat() {
+    Modifiers.setLocation(AdventureDatabase.getAdventure("The Ice Hole"));
+    addEffect("Colorfully Concealed");
+    KoLCharacter.recalculateAdjustments();
+    assertEquals(-5, KoLCharacter.getCombatRateAdjustment());
   }
 }

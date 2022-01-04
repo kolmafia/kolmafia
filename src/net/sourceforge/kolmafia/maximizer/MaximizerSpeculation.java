@@ -18,7 +18,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.utilities.BooleanArray;
 
 public class MaximizerSpeculation extends Speculation
     implements Comparable<MaximizerSpeculation>, Cloneable {
@@ -138,18 +137,18 @@ public class MaximizerSpeculation extends Speculation
       if (mods.getBoolean(Modifiers.DROPS_MEAT)) countOtherDropsMeat++;
     }
     // Prefer item droppers
-    if (countThisDropsItems != countOtherDropsItems) {
+    if (Maximizer.eval.isUsingTiebreaker() && countThisDropsItems != countOtherDropsItems) {
       return countThisDropsItems > countOtherDropsItems ? 1 : -1;
     }
     // Prefer meat droppers
-    if (countThisDropsMeat != countOtherDropsMeat) {
+    if (Maximizer.eval.isUsingTiebreaker() && countThisDropsMeat != countOtherDropsMeat) {
       return countThisDropsMeat > countOtherDropsMeat ? 1 : -1;
     }
     // Prefer higher tiebreaker account (unless -tie used)
     rv = Double.compare(this.getTiebreaker(), other.getTiebreaker());
     if (rv != 0) return rv;
     // Prefer rollover effects
-    if (countThisEffects != countOtherEffects) {
+    if (Maximizer.eval.isUsingTiebreaker() && countThisEffects != countOtherEffects) {
       return countThisEffects > countOtherEffects ? 1 : -1;
     }
     // Prefer unbreakables
@@ -195,7 +194,7 @@ public class MaximizerSpeculation extends Speculation
   public void tryAll(
       List<FamiliarData> familiars,
       List<FamiliarData> enthronedFamiliars,
-      BooleanArray usefulOutfits,
+      Map<Integer, Boolean> usefulOutfits,
       Map<AdventureResult, AdventureResult> outfitPieces,
       List<List<CheckedItem>> possibles,
       AdventureResult bestCard,
@@ -227,7 +226,7 @@ public class MaximizerSpeculation extends Speculation
 
   public void tryOutfits(
       List<FamiliarData> enthronedFamiliars,
-      BooleanArray usefulOutfits,
+      Map<Integer, Boolean> usefulOutfits,
       Map<AdventureResult, AdventureResult> outfitPieces,
       List<List<CheckedItem>> possibles,
       AdventureResult bestCard,
@@ -235,7 +234,7 @@ public class MaximizerSpeculation extends Speculation
       FamiliarData useBjornFamiliar)
       throws MaximizerInterruptedException {
     Object mark = this.mark();
-    for (int outfit = usefulOutfits.size() - 1; outfit >= 0; --outfit) {
+    for (Integer outfit : usefulOutfits.keySet()) {
       if (!usefulOutfits.get(outfit)) continue;
       AdventureResult[] pieces = EquipmentDatabase.getOutfit(outfit).getPieces();
       pieceloop:

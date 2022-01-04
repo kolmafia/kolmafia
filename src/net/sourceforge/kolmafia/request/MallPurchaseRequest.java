@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -8,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import javax.swing.UIManager;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -25,16 +28,16 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class MallPurchaseRequest extends PurchaseRequest {
   private static final Pattern YIELD_PATTERN =
       Pattern.compile(
-          "You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)");
+          "You may only buy ([\\d,]+) of this item per day from this store\\. You have already purchased ([\\d,]+)");
 
-  public static final Set<Integer> disabledStores = new HashSet<Integer>();
-  public static final Set<Integer> ignoringStores = new HashSet<Integer>();
+  public static final Set<Integer> disabledStores = new HashSet<>();
+  public static final Set<Integer> ignoringStores = new HashSet<>();
 
   private final int shopId;
 
   private static final Pattern STOREID_PATTERN = Pattern.compile("whichstore\\d?=(\\d+)");
 
-  public static final int getStoreId(final String urlString) {
+  public static int getStoreId(final String urlString) {
     return GenericRequest.getNumericField(urlString, MallPurchaseRequest.STOREID_PATTERN);
   }
 
@@ -48,24 +51,52 @@ public class MallPurchaseRequest extends PurchaseRequest {
     MallPurchaseRequest.ignoringStores.clear();
   }
 
-  public static List<String> getForbiddenStores() {
+  public static Set<Integer> getForbiddenStores() {
     // We want to return a mutable list.
     // String.split returns a fixed-size list
     // String.split returns a list with an empty element if the input string is empty
     String input = Preferences.getString("forbiddenStores").trim();
+
     if (input.equals("")) {
-      return new ArrayList<String>();
+      return new HashSet<>();
     }
-    return new ArrayList(Arrays.asList(input.split("\\s*,\\s*")));
+
+    return Arrays.stream(input.split("\\s*,\\s*"))
+        .filter(s -> s.matches("[0-9]+"))
+        .mapToInt(Integer::parseInt)
+        .boxed()
+        .collect(Collectors.toSet());
+  }
+
+  private static void setForbiddenStores(Set<Integer> forbidden) {
+    Preferences.setString(
+        "forbiddenStores",
+        String.join(",", forbidden.stream().map(String::valueOf).collect(Collectors.joining(","))));
+  }
+
+  public static void removeForbiddenStore(int shopId) {
+    Set<Integer> forbidden = getForbiddenStores();
+    forbidden.remove(shopId);
+    setForbiddenStores(forbidden);
   }
 
   public static void addForbiddenStore(int shopId) {
-    List<String> forbidden = MallPurchaseRequest.getForbiddenStores();
-    String shopIdString = String.valueOf(shopId);
-    if (!forbidden.contains(shopIdString)) {
-      forbidden.add(shopIdString);
-      Preferences.setString("forbiddenStores", String.join(",", forbidden));
+    Set<Integer> forbidden = getForbiddenStores();
+    forbidden.add(shopId);
+
+    setForbiddenStores(forbidden);
+  }
+
+  public static void toggleForbiddenStore(int shopId) {
+    Set<Integer> forbidden = getForbiddenStores();
+
+    if (forbidden.contains(shopId)) {
+      forbidden.remove(shopId);
+    } else {
+      forbidden.add(shopId);
     }
+
+    setForbiddenStores(forbidden);
   }
 
   /**
@@ -73,7 +104,6 @@ public class MallPurchaseRequest extends PurchaseRequest {
    * value which can be modified at a later time is the quantity of items being purchases; all
    * others are consistent through the time when the purchase is actually executed.
    *
-   * @param itemName The name of the item to be purchased
    * @param itemId The database Id for the item to be purchased
    * @param quantity The quantity of items to be purchased
    * @param shopId The integer identifier for the shop from which the item will be purchased
@@ -133,7 +163,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
     this.timestamp = System.currentTimeMillis();
   }
 
-  public static final String getStoreString(final int itemId, final int price) {
+  public static String getStoreString(final int itemId, final int price) {
     // whichitem=2272000000246
 
     StringBuilder whichItem = new StringBuilder();
@@ -158,6 +188,17 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
   @Override
   public String color() {
+    if (getForbiddenStores().contains(this.shopId)) {
+      // Try get the color from look and feel
+      Color color = UIManager.getColor("InternalFrame.closePressedBackground");
+
+      if (color == null) {
+        return "red";
+      }
+
+      return "#" + Integer.toHexString(color.getRGB()).substring(2);
+    }
+
     return !this.canPurchase
         ? "gray"
         : KoLCharacter.canInteract()
@@ -191,7 +232,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    if (MallPurchaseRequest.getForbiddenStores().contains(String.valueOf(this.shopId))) {
+    if (MallPurchaseRequest.getForbiddenStores().contains(this.shopId)) {
       KoLmafia.updateDisplay(
           "This shop ("
               + this.shopName
@@ -354,7 +395,6 @@ public class MallPurchaseRequest extends PurchaseRequest {
       }
 
       this.canPurchase = false;
-      return;
     }
   }
 
@@ -367,7 +407,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
           "You spent ([\\d,]+) [Mm]eat( from Hagnk's.*?You have ([\\d,]+) [Mm]eat left)?",
           Pattern.DOTALL);
 
-  public static final void parseResponse(final String urlString, final String responseText) {
+  public static void parseResponse(final String urlString, final String responseText) {
     if (!urlString.startsWith("mallstore.php") || !urlString.contains("whichitem")) {
       return;
     }
@@ -437,12 +477,12 @@ public class MallPurchaseRequest extends PurchaseRequest {
   // Mini-Storage)
   // You acquire <b>37 limes</b><br>(In a row?!) (stored in Hagnk's Ancestral Mini-Storage)
 
-  public static Pattern ITEM_PATTERN =
+  public static final Pattern ITEM_PATTERN =
       Pattern.compile(
           "<table class=\"item\".*?rel=\".*?\".*?( \\(stored in Hagnk's Ancestral Mini-Storage\\))?</td></tr></table>",
           Pattern.DOTALL);
 
-  public static final AdventureResult processItemFromMall(final String text) {
+  public static AdventureResult processItemFromMall(final String text) {
     // Items are now wrapped in KoL's standard "relstring" table"
 
     Matcher itemMatcher = MallPurchaseRequest.ITEM_PATTERN.matcher(text);
@@ -456,7 +496,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       result = result.replaceFirst("\\(stored in Hagnk's Ancestral Mini-Storage\\)", "");
     }
 
-    ArrayList<AdventureResult> results = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> results = new ArrayList<>();
     ResultProcessor.processResults(false, result, results);
 
     if (results.isEmpty()) {
@@ -476,7 +516,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
     return item;
   }
 
-  public static final boolean registerRequest(final String urlString) {
+  public static boolean registerRequest(final String urlString) {
     // mallstore.php?whichstore=294980&buying=1&ajax=1&whichitem=2272000000246&quantity=9
 
     if (!urlString.startsWith("mallstore.php")) {

@@ -34,7 +34,6 @@ import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
-import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -758,7 +757,12 @@ public abstract class StoreManager {
   public static int getMallPrice(AdventureResult item, float maxAge) {
     int id = item.getItemId();
     int price = MallPriceDatabase.getPrice(id);
-    if (price <= 0 || MallPriceDatabase.getAge(id) > maxAge) {
+    if (MallPriceDatabase.getAge(id) > maxAge) {
+      StoreManager.flushCache(id);
+      StoreManager.mallPrices.set(id, 0);
+      price = 0;
+    }
+    if (price <= 0) {
       price = StoreManager.getMallPrice(item);
     }
     return price;
@@ -1042,8 +1046,8 @@ public abstract class StoreManager {
     AdventureResult[] items = new AdventureResult[KoLConstants.inventory.size()];
     KoLConstants.inventory.toArray(items);
 
-    AdventureResultArray autosell = new AdventureResultArray();
-    AdventureResultArray automall = new AdventureResultArray();
+    List<AdventureResult> autosell = new ArrayList<>();
+    List<AdventureResult> automall = new ArrayList<>();
 
     for (int i = 0; i < items.length; ++i) {
       int itemId = items[i].getItemId();
@@ -1073,11 +1077,11 @@ public abstract class StoreManager {
     // to determine the minimum price.
 
     if (autosell.size() > 0 && KoLmafia.permitsContinue()) {
-      RequestThread.postRequest(new AutoSellRequest(autosell.toArray()));
+      RequestThread.postRequest(new AutoSellRequest(autosell.toArray(new AdventureResult[0])));
     }
 
     if (automall.size() > 0 && KoLmafia.permitsContinue()) {
-      RequestThread.postRequest(new AutoMallRequest(automall.toArray()));
+      RequestThread.postRequest(new AutoMallRequest(automall.toArray(new AdventureResult[0])));
     }
 
     // Now, remove all the items that you intended

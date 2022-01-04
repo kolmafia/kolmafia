@@ -86,7 +86,6 @@ public class EffectPool {
   public static final int HYPHEMARIFFIC = 319;
   public static final int CANT_SMELL_NOTHING = 320;
   public static final int HYPEROFFENDED = 321;
-  public static final int ON_THE_TRAIL = 331;
   public static final int BESTIAL_SYMPATHY = 342;
   public static final int RED_DOOR_SYNDROME = 354;
   public static final int ABSINTHE = 357;
@@ -321,6 +320,7 @@ public class EffectPool {
   public static final int BLESSING_OF_THE_BIRD = 2551;
   public static final int BLESSING_OF_YOUR_FAVORITE_BIRD = 2552;
   public static final int FIZZY_FIZZY = 2561;
+  public static final int ENTAUNTAUNED = 2578;
   public static final int JOKE_MAD = 2582;
   public static final int CARTOGRAPHICALLY_CHARGED = 2600;
   public static final int CARTOGRAPHICALLY_AWARE = 2601;
@@ -334,6 +334,8 @@ public class EffectPool {
   public static final int WINE_DARK = 2663;
   public static final int WINE_BEFOULED = 2664;
   public static final int WINE_FRIENDLY = 2665;
+  public static final int LUCKY = 2693;
+  public static final int ON_THE_TRAIL = 2694;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
   public static final AdventureResult CURSE2_EFFECT = EffectPool.get(EffectPool.TWICE_CURSED);

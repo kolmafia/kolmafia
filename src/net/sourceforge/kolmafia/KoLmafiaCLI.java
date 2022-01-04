@@ -667,7 +667,7 @@ public class KoLmafiaCLI {
         .register("javascriptq");
     new JsRefCommand().register("jsref");
     new JukeboxCommand().register("jukebox");
-    new KitchenCommand().registerSubstring("kitchen");
+    new KitchenCommand().register("kitchen").register("hellkitchen").register("hellskitchen");
     new LatteCommand().register("latte");
     new LeafletCommand().register("leaflet");
     new LogEchoCommand().register("logecho").register("logprint");
@@ -680,7 +680,11 @@ public class KoLmafiaCLI {
     new MayoMinderCommand().register("mayominder");
     new MayosoakCommand().register("mayosoak");
     new MemoryCleanupCommand().register("gc");
-    new MirrorLogCommand().registerSubstring("mirror");
+    new MirrorLogCommand()
+        .register("mirror")
+        .register("mirrorclose")
+        .register("mirrorend")
+        .register("mirrorstop");
     new ModifierListCommand().register("modifies");
     new ModifierMaximizeCommand().register("maximize");
     new ModifierTraceCommand().register("modtrace");
@@ -724,7 +728,7 @@ public class KoLmafiaCLI {
     new RegisterAdventureCommand().register("location");
     new RelayBrowserCommand().register("relay");
     new RepeatLineCommand().register("repeat");
-    new RestaurantCommand().register("restaurant").registerSubstring("brewery");
+    new RestaurantCommand().register("restaurant").register("brewery").register("microbrewery");
     new RestoresCommand().register("restores");
     new RetroCapeCommand().register("retrocape");
     new SaberCommand().register("saber");
@@ -796,7 +800,11 @@ public class KoLmafiaCLI {
         .register("robo");
     new UseSkillCommand().register("cast").register("skill");
     new VersionCommand().register("version");
-    new VisitURLCommand().register("text").registerPrefix("http://").registerSubstring(".php");
+    new VisitURLCommand()
+        .register("text")
+        .registerPrefix("http://")
+        .registerPrefix("https://")
+        .registerSubstring(".php");
     new VolcanoCommand().register("volcano");
     new WaitCommand().register("wait").register("waitq").register("pause");
     new WhileStatement().register("while");

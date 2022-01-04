@@ -17,7 +17,6 @@ global	chatBeep	false
 global	chatFontSize
 global	chatLinksUseRelay	false
 global	chatStyle	0
-global	cloverProtectActive	true
 global	coinMasterIndex	1
 global	combatHotkey0
 global	combatHotkey1
@@ -567,6 +566,7 @@ user	encountersUntilNEPChoice	7
 user	enamorangMonster
 user	ensorcelee
 user	ensorceleeLevel	0
+user	entauntaunedColdRes	0
 user	envyfishMonster
 user	essenceOfAnnoyanceAvailable	true
 user	essenceOfAnnoyanceCost	5000
@@ -1047,6 +1047,8 @@ user	prayedForProtection	false
 user	prayedForVigor	false
 user	preAscensionScript
 user	preBlackbirdFamiliar
+user	primaryLabGooIntensity	10
+user	primaryLabCheerCoreGrabbed	false
 user	prismaticSummons	0
 user	procrastinatorLanguageFluency	0
 user	promptAboutCrafting	1
@@ -1214,6 +1216,7 @@ user	SHAWARMAInitiativeUnlocked	false
 user	shenInitiationDay	0
 user	shenQuestItem
 user	shockingLickCharges	0
+user	showForbiddenStores	false
 user	showGainsPerUnit	false
 user	showIgnoringStorePrices	false
 user	showNoSummonOnly	false
@@ -1458,6 +1461,7 @@ user	_abstractionDropsCrown	0
 user	_affirmationCookieEaten	false
 user	_affirmationHateUsed	false
 user	_aguaDrops	0
+user	_airFryerUsed	false
 user	_akgyxothUsed	false
 user	_xenomorphCharge	0
 user	_alienAnimalMilkUsed	false
@@ -1604,6 +1608,7 @@ user	_eldritchTentacleFought	false
 user	_elronsCasts	0
 user	_enamorangs	0
 user	_energyCollected	0
+user	_entauntaunedToday	false
 user	_envyfishEggUsed	false
 user	_essentialTofuUsed	false
 user	_etchedHourglassUsed	false
@@ -1816,6 +1821,7 @@ user	_mayflowerDrops	0
 user	_mayflySummons	0
 user	_mayoDeviceRented	false
 user	_mayoTankSoaked	false
+user	_meatballMachineUsed	false
 user	_mediumSiphons	0
 user	_meteoriteAdesUsed	0
 user	_meteorShowerUses	0
@@ -1849,6 +1855,7 @@ user	_noHatModifier
 user	_noobSkillCount	0
 user	_nuclearStockpileUsed	0
 user	_oilExtracted	0
+user	_olfactionsUsed	0
 user	_olympicSwimmingPool	false
 user	_olympicSwimmingPoolItemFound	false
 user	_optimisticCandleDropsCrown	0
@@ -1884,6 +1891,7 @@ user	_pocketProfessorLectures	0
 user	_poisonArrows	0
 user	_pokeGrowFertilizerDrops	0
 user	_poolGames	0
+user	_potatoAlarmClockUsed	false
 user	_pottedTeaTreeUsed	false
 user	_powderedGoldDrops	0
 user	_powderedMadnessUses	0
@@ -2843,6 +2851,8 @@ user	choiceAdventure1399	2
 user	choiceAdventure1405	1
 user	choiceAdventure1411	0
 user	choiceAdventure1415	0
+user	choiceAdventure1460	8
+user	choiceAdventure1461	4
 
 user	lockedItem4637	true
 user	lockedItem4638	true

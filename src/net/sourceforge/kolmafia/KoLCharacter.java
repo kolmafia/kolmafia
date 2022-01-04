@@ -2206,8 +2206,7 @@ public abstract class KoLCharacter {
   /** Accessor method to retrieve the total current combat percent adjustment */
   public static final double getCombatRateAdjustment() {
     double rate = KoLCharacter.currentModifiers.get(Modifiers.COMBAT_RATE);
-    if (Modifiers.currentZone.contains("The Sea")
-        || Modifiers.currentLocation.equals("The Sunken Party Yacht")) {
+    if ("underwater".equals(AdventureDatabase.getEnvironment(Modifiers.currentLocation))) {
       rate += KoLCharacter.currentModifiers.get(Modifiers.UNDERWATER_COMBAT_RATE);
     }
     return rate;
@@ -4062,6 +4061,19 @@ public abstract class KoLCharacter {
       return KoLConstants.availableCombatSkillsMap.containsKey(skill);
     }
     return list.contains(skill);
+  }
+
+  public static final boolean availableCombatSkill(final int skillId) {
+    UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
+    return KoLCharacter.availableCombatSkill(skill);
+  }
+
+  public static final boolean availableCombatSkill(final UseSkillRequest skill) {
+    if (skill == null) {
+      return false;
+    }
+
+    return KoLConstants.availableCombatSkillsMap.containsKey(skill);
   }
 
   /**

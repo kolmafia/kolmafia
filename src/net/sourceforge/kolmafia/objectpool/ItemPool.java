@@ -3248,6 +3248,7 @@ public class ItemPool {
   public static final int WORMWOOD_WEDDING_RING = 10598;
   public static final int DRIPWOOD_SLAB = 10599;
   public static final int DRIPPY_DIADEM = 10600;
+  public static final int GREY_GOO_RING = 10602;
   public static final int SIZZLING_DESK_BELL = 10617;
   public static final int FROST_RIMED_DESK_BELL = 10618;
   public static final int UNCANNY_DESK_BELL = 10619;
@@ -3307,6 +3308,12 @@ public class ItemPool {
   public static final int HOMEBODYL = 10828;
   public static final int EXTROVERMECTIN = 10829;
   public static final int BREATHITIN = 10830;
+  public static final int GOOIFIED_ANIMAL_MATTER = 10844;
+  public static final int GOOIFIED_VEGETABLE_MATTER = 10845;
+  public static final int GOOIFIED_MINERAL_MATTER = 10846;
+  public static final int MEATBALL_MACHINE = 10878;
+  public static final int REFURBISHED_AIR_FRYER = 10879;
+  public static final int ELEVEN_LEAF_CLOVER = 10881;
 
   public static final AdventureResult get(String itemName, int count) {
     int itemId = ItemDatabase.getItemId(itemName, 1, false);

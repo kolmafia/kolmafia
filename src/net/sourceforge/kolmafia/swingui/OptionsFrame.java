@@ -312,7 +312,6 @@ public class OptionsFrame extends GenericFrame {
       String[][] options = {
         {"allowNegativeTally", "Allow item counts in session results to go negative"},
         {},
-        {"cloverProtectActive", "Protect against accidental ten-leaf clover usage"},
         {"mementoListActive", "Prevent accidental destruction of 'memento' items"},
 
         // The following cannot be right, but it will

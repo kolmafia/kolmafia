@@ -34,7 +34,10 @@ public class CharPaneDecoratorTest {
     var expected =
         Files.readString(
             Paths.get("request/test_charpane_" + displayMode + "_decorated_effects.html"));
-    var actual = CharPaneDecorator.decorateEffects(new StringBuffer(input)).toString();
+    var actual =
+        CharPaneDecorator.decorateIntrinsics(
+                CharPaneDecorator.decorateEffects(new StringBuffer(input)))
+            .toString();
 
     assertEquals(expected, actual);
   }

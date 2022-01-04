@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.maximizer;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -184,7 +185,11 @@ public class CheckedItem extends AdventureResult {
         + this.pullBuyable;
   }
 
-  public void validate(int maxPrice, int priceLevel) {
+  public void validate(int maxPrice, int priceLevel) throws MaximizerInterruptedException {
+    if (!KoLmafia.permitsContinue()) {
+      throw new MaximizerInterruptedException();
+    }
+
     if (priceLevel <= 0) {
       return;
     }

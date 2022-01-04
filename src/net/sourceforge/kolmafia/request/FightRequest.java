@@ -758,7 +758,7 @@ public class FightRequest extends GenericRequest {
   public static final boolean canOlfact() {
     return FightRequest.canOlfact
         && !KoLCharacter.inGLover()
-        && !KoLConstants.activeEffects.contains(FightRequest.ONTHETRAIL);
+        && KoLCharacter.availableCombatSkill(SkillPool.OLFACTION);
   }
 
   public static final boolean isSourceAgent() {
@@ -1040,10 +1040,6 @@ public class FightRequest extends GenericRequest {
   }
 
   private void handleMacroAction(String macro) {
-    FightRequest.nextAction = "macro";
-
-    this.addFormField("action", "macro");
-
     // In case the player continues the script from the relay browser,
     // insert a jump to the next restart point.
 
@@ -1054,8 +1050,21 @@ public class FightRequest extends GenericRequest {
       StringUtilities.singleStringReplace(macro, "#mafiaheader", "#mafiaheader\ngoto " + label);
     }
 
-    this.addFormField(
-        "macrotext", FightRequest.MACRO_COMPACT_PATTERN.matcher(macro).replaceAll("$1"));
+    macro = FightRequest.MACRO_COMPACT_PATTERN.matcher(macro).replaceAll("$1").trim();
+
+    // Sending an empty (or whitespace-only) macro to KoL generates an
+    // "Invalid macro" error.
+    if (macro.isBlank()) {
+      if (RequestLogger.isDebugging()) {
+        RequestLogger.updateDebugLog("Macro optimized down to nothing, not submitting");
+      }
+      return;
+    }
+
+    FightRequest.nextAction = "macro";
+
+    this.addFormField("action", "macro");
+    this.addFormField("macrotext", macro);
   }
 
   public static final String getCurrentKey() {
@@ -1351,7 +1360,7 @@ public class FightRequest extends GenericRequest {
         // your skills.
 
         if ((KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled())
-            || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ON_THE_TRAIL))) {
+            || !KoLCharacter.availableCombatSkill(SkillPool.OLFACTION)) {
           this.skipRound();
           return;
         }
@@ -4313,9 +4322,7 @@ public class FightRequest extends GenericRequest {
       boolean haveSkill =
           KoLCharacter.hasSkill("Transcendent Olfaction")
               && !KoLCharacter.inGLover()
-              && (Preferences.getBoolean("autoManaRestore")
-                  || KoLCharacter.getCurrentMP()
-                      >= SkillDatabase.getMPConsumptionById(SkillPool.OLFACTION));
+              && (Preferences.getBoolean("autoManaRestore"));
       boolean haveItem = KoLConstants.inventory.contains(FightRequest.EXTRACTOR);
       if ((haveSkill || haveItem) && shouldTag(pref, "autoOlfact triggered")) {
         if (haveSkill) {
@@ -8648,6 +8655,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.OLFACTION:
         if (responseText.contains("fill your entire being") || skillSuccess) {
+          Preferences.increment("_olfactionsUsed", 1);
           Preferences.setString("olfactedMonster", monsterName);
           Preferences.setString("autoOlfact", "");
           FightRequest.canOlfact = false;
@@ -10196,8 +10204,7 @@ public class FightRequest extends GenericRequest {
               action.append("plays Garin's Harp");
             }
           } else {
-            if (item.equalsIgnoreCase("odor extractor")
-                && !KoLConstants.activeEffects.contains(FightRequest.ONTHETRAIL)) {
+            if (item.equalsIgnoreCase("odor extractor")) {
               Preferences.setString("olfactedMonster", monsterName);
               Preferences.setString("autoOlfact", "");
               FightRequest.canOlfact = false;
@@ -10213,8 +10220,7 @@ public class FightRequest extends GenericRequest {
             itemId = StringUtilities.parseInt(itemMatcher.group(1));
             item = ItemDatabase.getItemName(itemId);
             if (item != null) {
-              if (item.equalsIgnoreCase("odor extractor")
-                  && !KoLConstants.activeEffects.contains(FightRequest.ONTHETRAIL)) {
+              if (item.equalsIgnoreCase("odor extractor")) {
                 Preferences.setString("olfactedMonster", monsterName);
                 Preferences.setString("autoOlfact", "");
               }

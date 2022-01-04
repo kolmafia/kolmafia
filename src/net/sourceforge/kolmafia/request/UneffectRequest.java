@@ -158,6 +158,11 @@ public class UneffectRequest extends GenericRequest {
         return true;
     }
 
+    // Some songs are not AT buffs but are still shruggable
+    if (EffectDatabase.isSong(effectId)) {
+      return true;
+    }
+
     String name = EffectDatabase.getEffectName(effectId);
     if (name == null) {
       return false;

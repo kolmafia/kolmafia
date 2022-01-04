@@ -10627,7 +10627,7 @@
 10599	Dripwood slab	429328231	dripwood.gif	none	t	0
 10600	drippy diadem	516307518	dripdiadem.gif	hat		0
 10601	Thwaitgold slug statuette	655416395	thwaitslug.gif	none		0
-10602	inert grey goo ring	613175985	greygooring.gif	accessory	t	0
+10602	ert grey goo ring	613175985	greygooring.gif	accessory	t	0
 10603	fistful of wood shavings	725899167	scpowder.gif	none, combat	t,d	5	fistsful of wood shavings
 10604	Yeg's Motel ashtray	695921497	yeg_ashtray.gif	none, combat	t,d	6
 10605	Yeg's Motel alarm clock	834539301	yeg_clock.gif	usable	t,d	6
@@ -10810,7 +10810,7 @@
 10782	Abracandalabra	945645633	candlecabra.gif	offhand	q	0
 10783	extra-wide head candle	610762802	candlechelmet.gif	hat	q	0
 10784	natural magick candle	514857943	candlecincense.gif	potion, usable	t,d	5
-10785	rainbow glitter candle	281896112	candlecglitter.gif	potion, usable	t,d	5
+10785	rainbow glitter candle	281896112	candlecglitter.gif	potion, multiple	t,d	5
 10786	banana candle	822250066	candlecbanana.gif	potion, usable	t,d	5
 10787	ear candle	159239343	candlecear.gif	potion, usable	t,d	5
 10788	votive of confidence	573165116	candlecvotive.gif	potion, usable	t,d	5
@@ -10825,20 +10825,20 @@
 10797	industrial fire extinguisher	418444931	exting2.gif	weapon		0
 10798	The Nose Knows, A Guide to Smells	147329106	book5.gif	usable	t	0
 10799	The Nose Knows, A Guide to Smells (read)	250620886	book5.gif	reusable		0
-10800	1950 Vampire Vintner wine	140977937	redwine.gif	drink	d	111
+10800	1950 Vampire Vintner wine	140977937	redwine.gif	drink	q,d	111
 10801	bottled Vampire Vintner	477408262	vampvintbottle.gif	grow	t	0
-10802	French-Transylvanian Dictionary	758632519	redbook.gif	familiar	t	75
+10802	French-Transylvanian Dictionary	758632519	redbook.gif	familiar	t,d	75
 10803	packaged Daylight Shavings Helmet	530690382	dshelmet_box.gif	usable	t	0
 10804	Daylight Shavings Helmet	362147328	dshelmet.gif	hat		0
 10805	eggwater	957157057	emptycup.gif	food	t	0
 10806	bread man	340392384	breadman.gif	food	t	0
 10807	plain candy cane	694467495	candychalk.gif	food	t	0
 10808	flour cookie	395767899	flourcookie.gif	food	t,d	5
-10809
-10810
-10811
-10812
-10813
+10809	tiny plastic food lab	612016475	c21tp1.gif	accessory	t	0
+10810	tiny plastic nog lab	678768923	c21tpboo.gif	accessory	t	0
+10811	tiny plastic chem lab	974054842	c21tptres.gif	accessory	t	0
+10812	tiny plastic primary lab	618163201	c21tpfore.gif	accessory	t	0
+10813	tiny plastic Cheer Core	900662982	c21tpcore.gif	accessory	t	0
 10814	packaged cold medicine cabinet	394128710	cmcabinet_box.gif	usable	t	0
 10815	cold medicine cabinet	411733473	cmcabinet.gif	usable		0
 10816	ice crown	610702654	icecrown.gif	hat	q	0
@@ -10871,4 +10871,38 @@
 10844	gooified animal matter	770996300	goo_org.gif	none	t	0
 10845	gooified vegetable matter	352079501	goo_veg.gif	none	t	0
 10846	gooified mineral matter	933889078	goo_min.gif	none	t	0
-10847	[experimental crimbo food]	268310979	confused.gif	food	q	11
+10847	[experimental crimbo food]	268310979	confused.gif	food	q,d	11
+10848	[experimental crimbo booze]	222544926	coffeecup.gif	drink	q,d	11
+10849	[experimental crimbo spleen]	489345410	potion10.gif	spleen, usable	q,d	11
+10850	goo magnet	360608518	c21magnet.gif	offhand		0
+10851	cozy scarf	391366471	cozyscarf.gif	accessory		0
+10852	huge Crimbo cookie	888257908	c21cookie.gif	food	t,d	2021
+10853	fleshy putty	407684786	fleshputty.gif	potion, usable	t,d	11	balls of fleshy putty
+10854	third ear	572790413	thirdear.gif	accessory	t,d	66
+10855	festive egg sac	942800796	crimbosac.gif	grow	t	0
+10856	poisonsettia	742264853	poinsettia.gif	none, combat	t,d	15
+10857	peppermint-scented socks	221981884	peppersocks.gif	accessory	t,d	125	pairs of peppermint-scented socks
+10858	the Crymbich Manuscript	174909553	documents.gif	usable	t	0	copies of the Crymbich Manuscript
+10859	projectile chemistry set	150726951	tuberack.gif	none, combat	t,d	22
+10860	depleted Crimbonium football helmet	964142149	crimbohelmet.gif	hat	t,d	200
+10861	synthetic rock	178996477	synthrock.gif	grow	t	0
+10862	&quot;caramel&quot; orange	469896854	caramelorange.gif	food	t,d	25
+10863	self-repairing earmuffs	335225625	earmuffs2.gif	accessory	t,d	150	pairs of self-repairing earmuffs
+10864	carnivorous potted plant	186119834	offhandplant.gif	offhand	t	0
+10865	universal biscuit	562456864	univbiscuit.gif	multiple	t,d	16
+10866	yule hatchet	491022400	crimbohatchet.gif	weapon	t,d	111
+10867	potato alarm clock	474190496	potatoclock.gif	none	t	0
+10868	lab-grown meat	545391071	synthmeat.gif	food	t,d	5	slabs of lab-grown meat
+10869	golden fleece	318331459	goldfleece.gif	shirt	t,d	500
+10870	boxed gumball machine	415385037	gumballbox.gif	usable	t	0
+10871	cloning kit	497087978	cloningkit.gif	none, combat	t,d	11
+10872	electric pants	424755252	electricpants.gif	pants	t,d	155	pairs of electric pants
+10873	can of mixed everything	133731315	everythingcan.gif	offhand	t	0	cans of mixed everything
+10874	Site Alpha ID badge	913376088	sgbadge.gif	familiar	t,d	75
+10875	the Crymbich Manuscript (used)	458983556	documents.gif	usable		0
+10876	meatball	467177737	meatball.gif	food	t,d	5
+10877	cloned monster	407492263	dna.gif	usable	q	0
+10878	meatball machine	811453503	gumballmachine.gif	usable		0
+10879	refurbished air fryer	856536306	airfryer.gif	reusable		0
+10880	fried air	262581171	friedair.gif	spleen, usable	d	5
+10881	11-leaf clover	477842994	11leafclover.gif	usable	t	0

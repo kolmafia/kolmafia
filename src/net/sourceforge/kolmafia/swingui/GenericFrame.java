@@ -656,18 +656,32 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
   private void rememberPosition() {
     Point p = this.getLocation();
 
+    // We store the width/height despite not using it outside of TabbedChatFrame in case we change
+    // our mind later
     if (this.tabs == null) {
-      Preferences.setString(this.frameName, (int) p.getX() + "," + (int) p.getY());
+      Preferences.setString(
+          this.frameName,
+          (int) p.getX() + "," + (int) p.getY() + "," + getWidth() + "," + getHeight());
     } else {
       Preferences.setString(
           this.frameName,
-          (int) p.getX() + "," + (int) p.getY() + "," + this.tabs.getSelectedIndex());
+          (int) p.getX()
+              + ","
+              + (int) p.getY()
+              + ","
+              + this.tabs.getSelectedIndex()
+              + ","
+              + getWidth()
+              + ","
+              + getHeight());
     }
   }
 
   private void restorePosition() {
     int xLocation;
     int yLocation;
+    int width;
+    int height;
 
     Rectangle display = new Rectangle();
     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -714,6 +728,14 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
         this.tabs.setSelectedIndex(tabIndex);
       } else if (this.tabs.getTabCount() > 0) {
         this.tabs.setSelectedIndex(0);
+      }
+
+      // Only TabbedChatFrame has the width/height restored as the other frames feel weird
+      if (location.length > 3 && this instanceof TabbedChatFrame) {
+        width = StringUtilities.parseInt(location[location.length - 2]);
+        height = StringUtilities.parseInt(location[location.length - 1]);
+
+        this.setSize(width, height);
       }
     }
   }

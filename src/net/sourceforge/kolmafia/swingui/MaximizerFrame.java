@@ -93,7 +93,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
       }
     }
     for (KoLConstants.filterType f : KoLConstants.filterType.values()) {
-      activeFilters.put(f, true);
+      activeFilters.put(f, filterButtons.get(f).isSelected());
     }
   }
 

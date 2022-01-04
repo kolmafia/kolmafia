@@ -990,6 +990,9 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("mall_price", DataTypes.INT_TYPE, params));
 
+    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.FLOAT_TYPE};
+    functions.add(new LibraryFunction("mall_price", DataTypes.INT_TYPE, params));
+
     params = new Type[] {RuntimeLibrary.ItemSetType};
     functions.add(new LibraryFunction("mall_prices", DataTypes.INT_TYPE, params));
 
@@ -1322,6 +1325,9 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.SKILL_TYPE};
     functions.add(new LibraryFunction("have_skill", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.SKILL_TYPE};
+    functions.add(new LibraryFunction("combat_skill_available", DataTypes.BOOLEAN_TYPE, params));
 
     params = new Type[] {DataTypes.SKILL_TYPE};
     functions.add(new LibraryFunction("mp_cost", DataTypes.INT_TYPE, params));
@@ -3462,7 +3468,7 @@ public abstract class RuntimeLibrary {
       controller.runtimeException("Bad parameter(s) passed to date_to_timestamp");
     }
 
-    return new Value();
+    return DataTypes.VOID_VALUE;
   }
 
   public static Value timestamp_to_date(
@@ -3476,7 +3482,7 @@ public abstract class RuntimeLibrary {
       controller.runtimeException("Bad parameter(s) passed to timestamp_to_date");
     }
 
-    return new Value();
+    return DataTypes.VOID_VALUE;
   }
 
   public static Value format_date_time(
@@ -3824,7 +3830,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value buy(ScriptRuntime controller, final Value item) {
-    return buy(controller, new Value(1), item);
+    return buy(controller, DataTypes.ONE_VALUE, item);
   }
 
   public static Value buy(ScriptRuntime controller, final Value arg1, final Value arg2) {
@@ -3877,7 +3883,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value buy_using_storage(ScriptRuntime controller, final Value item) {
-    return buy_using_storage(controller, new Value(1), item);
+    return buy_using_storage(controller, DataTypes.ONE_VALUE, item);
   }
 
   public static Value buy_using_storage(
@@ -4032,7 +4038,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value create(ScriptRuntime controller, final Value item) {
-    return create(controller, new Value(1), item);
+    return create(controller, DataTypes.ONE_VALUE, item);
   }
 
   public static Value create(ScriptRuntime controller, final Value arg1, final Value arg2) {
@@ -4041,7 +4047,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value use(ScriptRuntime controller, final Value item) {
-    return use(controller, new Value(1), item);
+    return use(controller, DataTypes.ONE_VALUE, item);
   }
 
   public static Value use(ScriptRuntime controller, final Value arg1, final Value arg2) {
@@ -4049,7 +4055,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value eat(ScriptRuntime controller, final Value item) {
-    return eat(controller, new Value(1), item);
+    return eat(controller, DataTypes.ONE_VALUE, item);
   }
 
   public static Value eat(ScriptRuntime controller, final Value arg1, final Value arg2) {
@@ -4057,7 +4063,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value eatsilent(ScriptRuntime controller, final Value item) {
-    return eatsilent(controller, new Value(1), item);
+    return eatsilent(controller, DataTypes.ONE_VALUE, item);
   }
 
   public static Value eatsilent(ScriptRuntime controller, final Value arg1, final Value arg2) {
@@ -4070,7 +4076,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value drink(ScriptRuntime controller, final Value item) {
-    return drink(controller, new Value(1), item);
+    return drink(controller, DataTypes.ONE_VALUE, item);
   }
 
   public static Value drink(ScriptRuntime controller, final Value arg1, final Value arg2) {
@@ -4078,7 +4084,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value overdrink(ScriptRuntime controller, final Value item) {
-    return overdrink(controller, new Value(1), item);
+    return overdrink(controller, DataTypes.ONE_VALUE, item);
   }
 
   public static Value overdrink(ScriptRuntime controller, final Value arg1, final Value arg2) {
@@ -4086,7 +4092,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value drinksilent(ScriptRuntime controller, final Value item) {
-    return drinksilent(controller, new Value(1), item);
+    return drinksilent(controller, DataTypes.ONE_VALUE, item);
   }
 
   public static Value drinksilent(ScriptRuntime controller, final Value arg1, final Value arg2) {
@@ -4099,7 +4105,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value chew(ScriptRuntime controller, final Value item) {
-    return chew(controller, new Value(1), item);
+    return chew(controller, DataTypes.ONE_VALUE, item);
   }
 
   public static Value chew(ScriptRuntime controller, final Value arg1, final Value arg2) {
@@ -4149,7 +4155,7 @@ public abstract class RuntimeLibrary {
 
   public static Value put_closet(ScriptRuntime controller, final Value arg1) {
     if (!arg1.getType().equals(DataTypes.INT_TYPE)) {
-      return put_closet(controller, new Value(1), arg1);
+      return put_closet(controller, DataTypes.ONE_VALUE, arg1);
     }
 
     long meat = arg1.intValue();
@@ -4362,7 +4368,7 @@ public abstract class RuntimeLibrary {
 
   public static Value take_closet(ScriptRuntime controller, final Value arg1) {
     if (!arg1.getType().equals(DataTypes.INT_TYPE)) {
-      return take_closet(controller, new Value(1), arg1);
+      return take_closet(controller, DataTypes.ONE_VALUE, arg1);
     }
 
     long meat = arg1.intValue();
@@ -4587,7 +4593,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value retrieve_item(ScriptRuntime controller, final Value item) {
-    return retrieve_item(controller, new Value(1), item);
+    return retrieve_item(controller, DataTypes.ONE_VALUE, item);
   }
 
   public static Value receive_fax(ScriptRuntime controller) {
@@ -5009,6 +5015,12 @@ public abstract class RuntimeLibrary {
     return new Value(StoreManager.getMallPrice(ItemPool.get((int) item.intValue(), 0)));
   }
 
+  public static Value mall_price(ScriptRuntime controller, final Value item, final Value maxAge) {
+    return new Value(
+        StoreManager.getMallPrice(
+            ItemPool.get((int) item.intValue(), 0), (float) maxAge.floatValue()));
+  }
+
   public static Value mall_prices(ScriptRuntime controller, final Value arg) {
     if (arg.getType().equals(DataTypes.STRING_TYPE)) {
       return new Value(StoreManager.getMallPrices(arg.toString(), ""));
@@ -5182,7 +5194,7 @@ public abstract class RuntimeLibrary {
   public static Value creatable_turns(ScriptRuntime controller, final Value itemId) {
     AdventureResult item = ItemPool.get((int) itemId.intValue());
     if (item == null) {
-      return new Value(0);
+      return DataTypes.ZERO_VALUE;
     }
     int initialAmount = item.getCount(KoLConstants.inventory);
     Concoction concoction = ConcoctionPool.get(item);
@@ -5194,7 +5206,7 @@ public abstract class RuntimeLibrary {
     AdventureResult item = ItemPool.get((int) itemId.intValue());
     int number = (int) count.intValue();
     if (item == null) {
-      return new Value(0);
+      return DataTypes.ZERO_VALUE;
     }
     int initialAmount = item.getCount(KoLConstants.inventory);
     Concoction concoction = ConcoctionPool.get(item);
@@ -5208,7 +5220,7 @@ public abstract class RuntimeLibrary {
     int number = (int) count.intValue();
     boolean considerFreeCrafting = freeCrafting.intValue() == 1;
     if (item == null) {
-      return new Value(0);
+      return DataTypes.ZERO_VALUE;
     }
     int initialAmount = item.getCount(KoLConstants.inventory);
     Concoction concoction = ConcoctionPool.get(item);
@@ -5598,7 +5610,7 @@ public abstract class RuntimeLibrary {
       }
     }
 
-    return new Value(0);
+    return DataTypes.ZERO_VALUE;
   }
 
   public static Value my_session_results(ScriptRuntime controller) {
@@ -5753,6 +5765,11 @@ public abstract class RuntimeLibrary {
     return DataTypes.makeBooleanValue(
         KoLCharacter.hasSkill(skill, KoLConstants.availableSkills)
             || KoLCharacter.hasSkill(skill, KoLConstants.availableCombatSkills));
+  }
+
+  public static Value combat_skill_available(ScriptRuntime controller, final Value arg) {
+    int skillId = (int) arg.intValue();
+    return DataTypes.makeBooleanValue(KoLCharacter.availableCombatSkill(skillId));
   }
 
   public static Value mp_cost(ScriptRuntime controller, final Value skill) {
@@ -6181,7 +6198,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value reverse_numberology(ScriptRuntime controller) {
-    return reverse_numberology(controller, new Value(0), new Value(0));
+    return reverse_numberology(controller, DataTypes.ZERO_VALUE, DataTypes.ZERO_VALUE);
   }
 
   public static Value reverse_numberology(
@@ -8879,8 +8896,8 @@ public abstract class RuntimeLibrary {
     ArrayValue value = new ArrayValue(type);
 
     if (candies.length == 2) {
-      value.aset(new Value(0), DataTypes.makeItemValue(candies[0].getItemId(), true));
-      value.aset(new Value(1), DataTypes.makeItemValue(candies[1].getItemId(), true));
+      value.aset(DataTypes.ZERO_VALUE, DataTypes.makeItemValue(candies[0].getItemId(), true));
+      value.aset(DataTypes.ONE_VALUE, DataTypes.makeItemValue(candies[1].getItemId(), true));
     }
 
     return value;
