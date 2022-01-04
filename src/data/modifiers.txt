@@ -2161,7 +2161,7 @@ Item	Engorged Sausages and You	Spell Damage: +15, Food Drop: +20
 # enhanced signal receiver: Reveals and interprets electromagnetic noise
 Item	eye of the Tiger-lily	Spell Damage: +10, Item Drop: +5
 Item	familiar scrapbook	HP Regen Min: [4+min(30,pref(scrapbookCharges)/10)], HP Regen Max: [6+min(30,pref(scrapbookCharges)/10)], MP Regen Min: [2+min(30,pref(scrapbookCharges)/10)], MP Regen Max: [3+min(30,pref(scrapbookCharges)/10)], Experience Percent (Muscle): [5+min(10,pref(scrapbookCharges)/10)], Experience Percent (Mysticality): [5+min(10,pref(scrapbookCharges)/10)], Experience Percent (Moxie): [5+min(10,pref(scrapbookCharges)/10)], Familiar Weight: +5, Experience (familiar): +1, Moxie: [min(1,floor(pref(scrapbookCharges)/1111))]
-# fake hand: Gives Extra OffhandEquipment Slot
+# fake hand: Gives Extra Offhand Equipment Slot
 Item	fake hand	Weapon Damage: -1
 Item	fake washboard	Experience Percent (Muscle): +25, Damage Absorption: +50, Accessory Drop: +75, Damage Reduction: 13
 Item	fancy marzipan briefcase	MP Regen Min: 4, MP Regen Max: 8, Combat Rate: -10, Lasts Until Rollover
