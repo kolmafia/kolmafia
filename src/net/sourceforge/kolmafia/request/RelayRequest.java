@@ -3454,7 +3454,6 @@ public class RelayRequest extends PasswordHashRequest {
 
     StringBuilder msg = null;
     String image = null;
-    boolean cookie = false;
     boolean lights = false;
     boolean voteMonster = false;
 
@@ -3477,9 +3476,6 @@ public class RelayRequest extends PasswordHashRequest {
       }
       image = expired.getImage();
       switch (expired.getLabel()) {
-        case "Fortune Cookie":
-          cookie = true;
-          break;
         case "Spookyraven Lights Out":
           lights = true;
           break;
@@ -3521,10 +3517,7 @@ public class RelayRequest extends PasswordHashRequest {
         msg.append("this is where you'd like to adventure");
       }
       msg.append(", click on the image to proceed.");
-      if (cookie) {
-        msg.append("<br><br>");
-        msg.append(EatItemRequest.lastSemirareMessage());
-      } else if (lights) {
+      if (lights) {
         msg.append("<br><br>");
         msg.append(LightsOutManager.message(true));
       }

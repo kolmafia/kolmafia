@@ -2071,56 +2071,6 @@ public abstract class KoLCharacter {
     KoLCharacter.daycount = daycount;
   }
 
-  /** Accessor method to record the turn count when a semirare was found. */
-  public static final void registerSemirare() {
-    KoLCharacter.ensureUpdatedAscensionCounters();
-
-    Preferences.setInteger("semirareCounter", KoLCharacter.currentRun + 1);
-    KoLAdventure location = KoLAdventure.lastVisitedLocation();
-
-    String loc = (location == null) ? "" : location.getAdventureName();
-    Preferences.setString("semirareLocation", loc);
-
-    TurnCounter.stopCounting("Fortune Cookie");
-    TurnCounter.stopCounting("Semirare window begin");
-    TurnCounter.stopCounting("Semirare window end");
-
-    if (KoLCharacter.inLAR()) {
-      TurnCounter.startCounting(110, "Fortune Cookie", "fortune.gif");
-      return;
-    }
-
-    int begin = 160;
-    int end = 200;
-
-    if (KoLCharacter.getPath().equals("Oxygenarian")) {
-      begin = 100;
-      end = 120;
-    }
-
-    StringBuilder beginType = new StringBuilder();
-    beginType.append("Semirare window begin");
-
-    if (KoLCharacter.canInteract()) {
-      beginType.append(" loc=*");
-    }
-
-    TurnCounter.startCounting(begin + 1, beginType.toString(), "lparen.gif");
-    TurnCounter.startCounting(end + 1, "Semirare window end loc=*", "rparen.gif");
-  }
-
-  /** Accessor method to return how many turns have passed since the last semirare was found. */
-  public static final int turnsSinceLastSemirare() {
-    KoLCharacter.ensureUpdatedAscensionCounters();
-    int last = Preferences.getInteger("semirareCounter");
-    return KoLCharacter.currentRun - last;
-  }
-
-  public static final int lastSemirareTurn() {
-    KoLCharacter.ensureUpdatedAscensionCounters();
-    return Preferences.getInteger("semirareCounter");
-  }
-
   /** Accessor method to retrieve the current value of a named modifier */
   public static final Modifiers getCurrentModifiers() {
     return KoLCharacter.currentModifiers;
@@ -5670,11 +5620,8 @@ public abstract class KoLCharacter {
   }
 
   public static final void ensureUpdatedAscensionCounters() {
-    int lastAscension = Preferences.getInteger("lastSemirareReset");
+    int lastAscension = Preferences.getInteger("beeCounter");
     if (lastAscension < KoLCharacter.getAscensions()) {
-      Preferences.setInteger("lastSemirareReset", KoLCharacter.getAscensions());
-      Preferences.setInteger("semirareCounter", 0);
-      Preferences.setString("semirareLocation", "");
       Preferences.setInteger("beeCounter", 0);
     }
   }

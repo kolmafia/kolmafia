@@ -898,12 +898,7 @@ public class GenericRequest implements Runnable {
         if (also.getTurnsRemaining() < 0) {
           continue;
         }
-        if (also.getLabel().equals("Fortune Cookie")) {
-          KoLmafia.updateDisplay("(" + expired.getLabel() + " counter discarded due to conflict)");
-          expired = also;
-        } else {
-          KoLmafia.updateDisplay("(" + also.getLabel() + " counter discarded due to conflict)");
-        }
+        KoLmafia.updateDisplay("(" + also.getLabel() + " counter discarded due to conflict)");
       }
 
       if (this.invokeCounterScript(expired)) {
@@ -926,9 +921,7 @@ public class GenericRequest implements Runnable {
                 + (remain == 1 ? "." : "s.");
       }
 
-      if (expired.getLabel().equals("Fortune Cookie")) {
-        message += " " + EatItemRequest.lastSemirareMessage();
-      } else if (expired.getLabel().equals("Spookyraven Lights Out")) {
+      if (expired.getLabel().equals("Spookyraven Lights Out")) {
         message += " " + LightsOutManager.message();
       }
 
