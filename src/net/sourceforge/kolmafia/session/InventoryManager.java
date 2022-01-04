@@ -787,13 +787,14 @@ public abstract class InventoryManager {
       }
     }
 
-    // An eleven-leaf clover can be purchased from the Hermit (if he has any in
+    // An 11-leaf clover can be purchased from the Hermit (if he has any in
     // stock.
 
     if (shouldUseCoinmasters
         && KoLConstants.hermitItems.contains(item)
         && (!shouldUseMall
             || SewerRequest.currentWorthlessItemCost() < StoreManager.getMallPrice(item))) {
+
       int itemCount =
           itemId == ItemPool.ELEVEN_LEAF_CLOVER
               ? HermitRequest.cloverCount()
