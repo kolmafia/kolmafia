@@ -224,6 +224,8 @@ Item	fire	Initiative: +10, Hot Damage: +7, Familiar Effect: "hot atk, 1xVolley, 
 Item	fireman's helmet	Hot Resistance: +3, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Familiar Effect: "cold atk"
 Item	fishin' hat	Fishing Skill: +5
 Item	five-gallon hat	Muscle: +5, Mysticality: +5, Moxie: +5, Experience: +3
+# flagstone fez: Unleash dark rituals on your unsuspecting foes
+Item	flagstone fez	Mysticality Percent: +20, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
 Item	floaty rock helmet	Spell Critical Percent: +10, Familiar Effect: "1xGhuol, cap 25"
 Item	foam commodore's hat	Weapon Damage Percent: +25, Spell Damage Percent: +25, Familiar Effect: "atk, 1xVolley"
 Item	foolscap fool's cap	Moxie: +2, Mysticality: -2, Clowniness: 25, Familiar Effect: "3xVolley, cap 10"
@@ -319,6 +321,8 @@ Item	Lens of Violence	Item Drop: +15, Critical Hit Percent: +5, Weapon Damage Pe
 Item	lihc face	Spooky Resistance: +2, Familiar Effect: "spooky atk, 1xBarrr, cap 22"
 Item	linoleum helmet turtle	Maximum HP: +10, Maximum MP: +10, Familiar Effect: "stench atk, 1xFairy, cap 25"
 Item	literal bucket hat	Water: +5
+# loofah lumberjack's hat: Feels good on your head
+Item	loofah lumberjack's hat	Muscle: +10, HP Regen Min: 15, HP Regen Max: 25
 Item	longhaired hippy wig	Stench Damage: +20, Mysticality Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
 Item	lynyrdskin cap	Initiative: +25, Familiar Effect: "1xPotato, 1xVolley, cap 42"
 Item	MAHI fez	Moxie: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, 0.5xLep, 0.5xFairy"
@@ -717,6 +721,8 @@ Item	lemon drop trousers	Candy Drop: +50, Lasts Until Rollover, Familiar Effect:
 Item	leotarrrd	Initiative: +15, Familiar Effect: "2xVolley, 2xPotato, cap 22"
 # liar's pants: +30 to All Attributes.  Yeah, +30.  That's the ticket.
 Item	liar's pants	Hot Damage: +10, Softcore Only, Muscle: +5, Mysticality: +5, Moxie: +5, Familiar Effect: "hot atk, cold atk, cap 25"
+# loofah lederhosen: You often find loose Meat in them
+Item	loofah lederhosen	Mysticality: +10, MP Regen Min: 10, MP Regen Max: 20
 Item	los chinos	Damage Absorption: +20, Familiar Effect: "2xPotato, HP regen, cap 13"
 Item	lynyrdskin breeches	Initiative: +25, Familiar Effect: "1xPotato, 1.5xGhuol, cap 42"
 Item	makeshift skirt	Initiative: +15, Familiar Effect: "2xBarrr, 1xFairy, cap 25"
@@ -944,6 +950,8 @@ Item	famous blue raincoat	Spooky Resistance: +2, Stench Resistance: +2, Hot Resi
 Item	filthy hippy poncho	Mysticality: +3
 Item	First Post shirt - Cir Senam	Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1, Monster Level: +15, PvP Fights: +5
 # fishbone corset: Reduces the level of nearby water
+# flagstone fleece: Lets you flex your muscles
+Item	flagstone fleece	Experience (Moxie): +3, Adventures: +3
 Item	flaming pink shirt	Item Drop: +15, Softcore Only
 Item	floral print shirt	Mysticality: +5
 Item	flyest of shirts	Moxie: +5, Spell Damage: +5
@@ -1338,6 +1346,8 @@ Item	fish bazooka	Moxie Percent: +5, Meat Drop: +10
 Item	fish hatchet	Muscle Percent: +100, Weapon Damage: +50, Familiar Weight: +5, Combat Rate: -10, Lasts Until Rollover
 Item	fish scimitar	Muscle Percent: +5, Weapon Damage Percent: +10
 Item	fish stick	Mysticality Percent: +5, Spell Damage Percent: +15
+# flagstone flail: Lets you clobber your enemies
+Item	flagstone flail	Muscle Percent: +20, Meat Drop: +20
 # Flail of the Seven Aspects: Handle Doubles as a Turtling Rod
 # Flail of the Seven Aspects: Special Attack:  Turtle of Seven Tails
 Item	Flail of the Seven Aspects	Muscle: +15, Never Fumble, Class: "Turtle Tamer"
@@ -1525,6 +1535,8 @@ Item	Loathing Legion flamethrower	Hot Damage: +20, Softcore Only
 # Loathing Legion hammer: Gets the job done
 Item	Loathing Legion hammer	Softcore Only
 Item	logging hatchet	Weapon Damage: +5
+# loofah ladle: Lets you sling cold stew at your enemies
+Item	loofah ladle	Experience (Mysticality): +2, Maximum MP: +30
 Item	love	Pants Drop: +50, HP Regen Min: 8, HP Regen Max: 16, MP Regen Min: 8, MP Regen Max: 16, Familiar Weight: +5
 # lucky ball-and-chain
 Item	lupine sword	Spooky Damage: +9, Synergetic
@@ -2170,6 +2182,8 @@ Item	fancy opera glasses	Meat Drop: +5, Item Drop: +5
 Item	fiberglass fetish	HP Regen Min: 6, HP Regen Max: 10, Stench Resistance: +5
 Item	fireproof megaphone	Monster Level: +10, Hot Resistance: +2
 # fishbone catcher's mitt: Prevents some items from washing away in the Heavy Rains
+# flagstone flag: Lets you hit your enemies with a big heavy flag
+Item	flagstone flag	Experience (Muscle): +3, Item Drop: +10
 Item	flaming talons	Weapon Damage: +5, Hot Damage: +5
 Item	fleshy lump	Maximum HP: +20, HP Regen Min: 2, HP Regen Max: 4, Damage Reduction: 3
 Item	flickering flashlight	Item Drop: +15
@@ -2921,6 +2935,9 @@ Item	fishbone facemask	Monster Level: [-30*path(Heavy Rains)]
 Item	fishbone fins	Single Equip
 # fishbone kneepads: (Heavy Rains only)
 Item	fishbone kneepads	Initiative: [60*path(Heavy Rains)], Single Equip
+# flagstone flip-flops: Lets you kick your enemies
+Item	flagstone flip-flops	Experience (Mysticality): +3, Initiative: +40, Single Equip
+Item	flagstone fringe	Moxie Percent: +20, PvP Fights: +4, Single Equip
 Item	flapper floppers	Mysticality Percent: +25, Experience (Mysticality): +2, Single Equip
 Item	flashing novelty button	Maximum HP: +5, Moxie: -2
 Item	flask flops	Booze Drop: +20, Maximum Hooch: +3, Single Equip
@@ -3114,6 +3131,12 @@ Item	Loathing Legion rollerblades	Initiative: +50, Single Equip, Softcore Only
 Item	Lockenstock&trade; sandals	Mysticality: +7, Stench Damage: +7, Single Equip
 Item	lollipop cufflinks	Mysticality: +5
 Item	long-forgotten necklace	Meat Drop: +15
+# loofah lavalier: Lets you unleash lava on your foes
+Item	loofah lavalier	Experience (Moxie): +2, Maximum HP: +20, Maximum MP: +20, Single Equip
+# loofah lei: Lets you lasso your foes
+Item	loofah lei	Experience (Muscle): +2, Maximum HP: +40, Single Equip
+# loofah legwarmers: They keep your legs warm
+Item	loofah legwarmers	Moxie: +10, HP Regen Min: 5, HP Regen Max: 15, MP Regen Min: 5, MP Regen Max: 15, Single Equip
 Item	Lord Soggyraven's Slippers	Initiative: +20, Pickpocket Chance: +20, Maximum HP: +20, Maximum MP: +20, Single Equip
 Item	Lord Spookyraven's ear trumpet	Initiative: +25, Single Equip
 # Lord Spookyraven's spectacles
@@ -8993,6 +9016,7 @@ Item	ancient medicinal herbs	Effect: "Ancient Fortitude", Effect Duration: 50
 # ancient pills: Restore 30-40 MP
 Item	antique bottle of cough syrup	Effect: "The Q Is Talking To You", Effect Duration: 10
 Item	armored prawn	Effect: "Rushtacean'", Effect Duration: 50
+# astral energy drink: Gives you good luck
 Item	beastly paste	Effect: "Beastly Flavor", Effect Duration: 10
 Item	beefy pill	Effect: "Beefy", Effect Duration: 30
 Item	beggin' cologne	Effect: "Eau d' Clochard", Effect Duration: 60
