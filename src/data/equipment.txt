@@ -132,6 +132,7 @@ fire	10	none
 fireman's helmet	150	Mus: 60
 fishin' hat	10	none
 five-gallon hat	100	none
+flagstone fez	120	Mys: 40
 floaty rock helmet	100	Mox: 35
 foam commodore's hat	200	Mox: 85
 foolscap fool's cap	40	Mox: 5
@@ -214,6 +215,7 @@ Lens of Violence	200	Mys: 125
 lihc face	90	Mox: 30
 linoleum helmet turtle	100	Mox: 35
 literal bucket hat	100	Mus: 35
+loofah lumberjack's hat	50	none
 longhaired hippy wig	200	Mox: 85
 lynyrdskin cap	170	Mox: 70
 MAHI fez	200	Mox: 85
@@ -570,6 +572,7 @@ leggings of the Spider Queen	200	Mox: 40
 lemon drop trousers	50	Mox: 10
 leotarrrd	90	Mox: 30
 liar's pants	100	none
+loofah lederhosen	50	none
 los chinos	55	Mox: 12
 lynyrdskin breeches	170	Mox: 70
 makeshift skirt	100	Mox: 35
@@ -771,6 +774,7 @@ famous blue raincoat	100	none
 filthy hippy poncho	40	Mus: 5
 First Post shirt - Cir Senam	100	none
 fishbone corset	20	none
+flagstone fleece	0	Mox: 40
 flaming pink shirt	100	none
 floral print shirt	100	Mus: 35
 flyest of shirts	80	Mus: 25
@@ -1130,6 +1134,7 @@ fish bazooka	200	Mox: 85	2-handed bazooka
 fish hatchet	200	Mus: 0	1-handed axe
 fish scimitar	200	Mus: 85	1-handed sword
 fish stick	200	Mus: 85	2-handed staff
+flagstone flail	120	Mus: 40	1-handed flail
 Flail of the Seven Aspects	200	Mus: 60	1-handed flail
 flamin' bindle	200	Mus: 200	2-handed polearm
 flaming cardboard sword	70	Mus: 20	1-handed sword
@@ -1297,6 +1302,7 @@ Loathing Legion double prism	100	Mox: 0	1-handed prism
 Loathing Legion flamethrower	100	Mox: 0	2-handed flamethrower
 Loathing Legion hammer	100	Mus: 0	1-handed hammer
 logging hatchet	75	Mus: 22	1-handed axe
+loofah ladle	50	Mys: 0	1-handed utensil
 love	150	Mox: 35	1-handed pistol
 lucky ball-and-chain	130	Mox: 50	2-handed flail
 lupine sword	115	Mus: 42	1-handed sword
@@ -1849,6 +1855,7 @@ fancy opera glasses	50	Mys: 10
 fiberglass fetish	120	Mus: 40
 fireproof megaphone	10	none
 fishbone catcher's mitt	20	none
+flagstone flag	120	Mus: 40
 flaming talons	90	Mys: 30
 fleshy lump	50	none	shield
 flickering flashlight	50	none
@@ -2481,6 +2488,8 @@ fishbone bracers	20	none
 fishbone facemask	20	none
 fishbone fins	20	none
 fishbone kneepads	20	none
+flagstone flip-flops	0	Mys: 40
+flagstone fringe	0	Mox: 40
 flapper floppers	100	Mys: 35
 flashing novelty button	20	none
 flask flops	10	none
@@ -2637,6 +2646,9 @@ Loathing Legion necktie	0	none
 Loathing Legion rollerblades	0	none
 Lockenstock&trade; sandals	160	Mys: 65
 lollipop cufflinks	0	none
+loofah lavalier	0	none
+loofah legwarmers	0	none
+loofah lei	0	none
 long-forgotten necklace	200	Mys: 85
 Lord Soggyraven's Slippers	150	Mys: 60
 Lord Spookyraven's ear trumpet	150	Mys: 20
