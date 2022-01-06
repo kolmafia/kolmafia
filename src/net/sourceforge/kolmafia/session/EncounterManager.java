@@ -285,16 +285,7 @@ public abstract class EncounterManager {
 
   public static final boolean isGregariousEncounter(
       final String responseText, final boolean checkMonster) {
-    if (responseText.contains("Looks like it's that friend you gregariously made")) {
-      return true;
-    }
-
-    if (Preferences.getInteger("beGregariousFightsLeft") < 1) {
-      return false;
-    }
-
-    String monsterName = MonsterStatusTracker.getLastMonsterName();
-    return monsterName.equalsIgnoreCase(Preferences.getString("beGregariousMonster"));
+    return responseText.contains("Looks like it's that friend you gregariously made");
   }
 
   public static final boolean isWanderingMonster(String encounter) {
