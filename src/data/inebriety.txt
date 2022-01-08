@@ -408,7 +408,7 @@ Locust	2	4	awesome	6-7	0	0	20-30	10 Cockroach Scurry (+50 Init)
 Lollipop Drop	2	1	good	4-5	0	0	10-20	5 Holiday Bliss (+20 Item Drop, +20 Meat Drop)
 London frog	1	1	awesome	3-5	0	0	0	40 Slime Time (+100% HP)
 low tide martini	1	1	awesome	4-6	0	0	0	40 Floundering (+5 Fishing Skill), MARTINI
-Lucky Lindy	1	1	good	2-4	0	0	0	semi-rare number
+Lucky Lindy	6	1	good	2-4	0	0	0	Grants Lucky! intrinsic
 lumbering jack	3	1	decent	3-8	0	11-14	0
 Lumineux Limnio	1	2	awesome	3-5	0	35	0	30 Bright! (+100 max MP), WINE
 lychee chuhai	3	4	decent	5-6	0	0	34-80	20 Brined Liver
@@ -681,6 +681,7 @@ vodka martini	3	1	decent	5-6	0	0	8-10	MARTINI
 Vodka Matryoshka	2	2	EPIC	10-13	25-50	10-20	10-20
 vodka stinger	1	1	awesome	3-5	0	0	0	40 Mer-kindliness (+2 Prismatic res)
 vodka stratocaster	4	6	awesome	14-18	25-27	0	16-20
+void lager	1	1	awesome	0	0	0	0	Unspaded
 VYKEA mead	2	7	awesome	8-10	5-10	5-10	20-40
 warbear bearserker mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Warlust (+60 WarBear Armor Penetration), WINE
 warbear blizzard mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Blubber (Serious Supercold resistance), WINE

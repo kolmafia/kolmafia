@@ -8167,6 +8167,7 @@ public class FightRequest extends GenericRequest {
             TurnCounter.startCounting(15, "Enamorang Monster loc=* type=wander", "watch.gif");
           }
           Preferences.setString("enamorangMonster", monsterName);
+          Preferences.setInteger("enamorangMonsterTurn", KoLCharacter.getTurnsPlayed());
           Preferences.increment("_enamorangs");
           return true;
         }

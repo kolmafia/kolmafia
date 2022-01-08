@@ -2693,3 +2693,7 @@
 2692	Well-Ventilated	friedair.gif	9d8854ac085d8cd580399c9540556d17	neutral	none	chew 1 fried air
 2693	Lucky!	11leafclover.gif	de95d62abb71d5221ec6c068c1c72626	neutral	none
 2694	On the Trail	snout.gif	519edacbd99d93658cc2ef05bd6baefb	neutral	none	# Transcendent Olfaction
+2695	Dizzy	dizzy.gif	c9fe57705a1a6d4b2a24e03228e49faf	neutral	none
+2696	Sluggish	slug.gif	f07d57053c4ed45f8523a4ae8dd95495	neutral	none
+2697	Drained	downarrow.gif	661a324f81137062fc3a484a00a7861a	neutral	none
+2698	Cosmic Ball in the Air	bowlup.gif	48f47e7233cc46a1f5e666d429b488bc	neutral	none

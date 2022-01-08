@@ -564,6 +564,7 @@ user	electricKoolAidEaten	0
 user	encountersUntilDMTChoice	5
 user	encountersUntilNEPChoice	7
 user	enamorangMonster
+user	enamorangMonsterTurn
 user	ensorcelee
 user	ensorceleeLevel	0
 user	entauntaunedColdRes	0
