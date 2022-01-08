@@ -2232,14 +2232,42 @@ public abstract class KoLCharacter {
     return (int) KoLCharacter.currentModifiers.get(Modifiers.POOL_SKILL);
   }
 
-  public static int estimatedPoolSkill() {
+  public static int estimatedPoolSkill(boolean verbose) {
+    int drunk = KoLCharacter.getInebriety();
+    int drunkBonus = drunk - (drunk > 10 ? (drunk - 10) * 3 : 0);
     int equip = KoLCharacter.getPoolSkill();
+    int poolsSharked = Preferences.getInteger("poolSharkCount");
+    int poolSharkBonus = 0;
+    if (poolsSharked > 25) {
+      poolSharkBonus = 10;
+    } else if (poolsSharked > 0) {
+      poolSharkBonus = (int) Math.floor(2 * Math.sqrt(poolsSharked));
+    }
     int training = Preferences.getInteger("poolSkill");
-    int semiRare = Preferences.getInteger("poolSharkCount");
-    int semiRareBonus = (int) Math.min(10, Math.floor(2 * Math.sqrt(semiRare)));
-    int inebriety = KoLCharacter.inebriety;
-    int inebrietyBonus = (inebriety > 10 ? 10 - 2 * (inebriety - 10) : inebriety);
-    return equip + training + semiRareBonus + inebrietyBonus;
+    int poolSkill = equip + training + poolSharkBonus + drunkBonus;
+
+    if (verbose) {
+      RequestLogger.printLine("Pool Skill is estimated at : " + poolSkill + ".");
+      RequestLogger.printLine(
+          equip
+              + " from equipment, "
+              + drunkBonus
+              + " from having "
+              + drunk
+              + " inebriety, "
+              + training
+              + " hustling training and "
+              + poolSharkBonus
+              + " learning from "
+              + poolsSharked
+              + " sharks.");
+    }
+
+    return poolSkill;
+  }
+
+  public static int estimatedPoolSkill() {
+    return estimatedPoolSkill(false);
   }
 
   /**

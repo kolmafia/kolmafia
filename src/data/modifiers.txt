@@ -8264,8 +8264,7 @@ Outfit	Xiblaxian Stealth Suit	Muscle Percent: +10, Mysticality Percent: +10, Mox
 # Blender: +5 Adventures per day from Booze
 Sign	Blender	Experience Percent (Mysticality): +10
 # Marmot: Unlocks Little Canadia
-# Marmot: Get 1 Free Ten-Leaf Clover per Day
-Sign	Marmot	Experience Percent (Moxie): +10
+Sign	Marmot	Experience Percent (Moxie): +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 # Mongoose: Unlocks Degrassi Knoll
 Sign	Mongoose	Experience Percent (Muscle): +10, Weapon Damage Percent: +20
 # Opossum: Unlocks Little Canadia
