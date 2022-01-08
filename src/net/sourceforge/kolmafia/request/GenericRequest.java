@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.InternalMessage;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -2395,6 +2396,11 @@ public class GenericRequest implements Runnable {
       // item drop, but have a user supplied message.
       DisplayCaseRequest.parseDisplayCase(urlString, this.responseText);
       return;
+    }
+
+    // If this is a lucky adventure, then remove the Lucky intrinsic
+    if (this.responseText.contains("You feel less lucky")) {
+      KoLConstants.activeEffects.remove(EffectPool.get(EffectPool.LUCKY));
     }
 
     if (this.responseText.contains("You break the bottle on the ground")) {

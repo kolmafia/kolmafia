@@ -1575,18 +1575,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // Calculate current pool skill
-    int drunk = KoLCharacter.getInebriety();
-    int drunkBonus = drunk - (drunk > 10 ? (drunk - 10) * 3 : 0);
-    int equip = KoLCharacter.getPoolSkill();
-    int semiRare = Preferences.getInteger("poolSharkCount");
-    int semiRareBonus = 0;
-    if (semiRare > 25) {
-      semiRareBonus = 10;
-    } else if (semiRare > 0) {
-      semiRareBonus = (int) Math.floor(2 * Math.sqrt(semiRare));
-    }
-    int training = Preferences.getInteger("poolSkill");
-    int poolSkill = equip + training + semiRareBonus + drunkBonus;
+    int poolSkill = KoLCharacter.estimatedPoolSkill();
 
     // If pool skill 18 or greater, no problem (based on current spading, no failures at 18)
     if (poolSkill >= 18) {
@@ -1679,7 +1668,7 @@ public class RelayRequest extends PasswordHashRequest {
         warning.append("<br>If you are sure you wish to adventure, click the icon on the left. ");
       }
     } else {
-      if (drunk < 10) {
+      if (KoLCharacter.getInebriety() < 10) {
         warning.append(
             "<br>Drinking more may help, giving an extra one pool skill per drunk up to 10.");
       }
