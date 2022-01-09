@@ -535,7 +535,8 @@ public class Parser {
 
       if (this.currentToken().equals("{")) {
         if (t.getBaseType() instanceof AggregateType) {
-          result.addCommand(this.parseAggregateLiteral(result, (AggregateType) t), this);
+          result.addCommand(
+              this.parseAggregateLiteral(result, (AggregateType) t.getBaseType()), this);
         } else {
           if (!t.isBad()) {
             this.error(
