@@ -2655,6 +2655,10 @@ public class FightRequest extends GenericRequest {
                   20, "WoL Monster window end loc=* type=wander", "rparen.gif");
             }
             break;
+            
+          case VOID:
+            Preferences.increment("_voidFights");
+            break;
         }
       }
 
