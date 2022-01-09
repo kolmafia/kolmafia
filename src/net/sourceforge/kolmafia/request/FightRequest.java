@@ -645,7 +645,7 @@ public class FightRequest extends GenericRequest {
 
     FightRequest.specialMonsters.put("Source Agent", SpecialMonster.PORTSCAN);
     FightRequest.specialMonsters.put("Government agent", SpecialMonster.PORTSCAN);
-    
+
     FightRequest.specialmonsters.put("void guy", SpecialMonster.VOID);
     FightRequest.specialmonsters.put("void slab", SpecialMonster.VOID);
     FightRequest.specialmonsters.put("void spider", SpecialMonster.VOID);
@@ -2645,7 +2645,7 @@ public class FightRequest extends GenericRequest {
                   45, "Rain Monster window end loc=* type=wander", "rparen.gif");
             }
             break;
-            
+
           case VOID:
             Preferences.increment("_voidFights");
             break;
