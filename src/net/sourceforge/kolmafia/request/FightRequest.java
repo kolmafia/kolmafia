@@ -646,9 +646,9 @@ public class FightRequest extends GenericRequest {
     FightRequest.specialMonsters.put("Source Agent", SpecialMonster.PORTSCAN);
     FightRequest.specialMonsters.put("Government agent", SpecialMonster.PORTSCAN);
 
-    FightRequest.specialmonsters.put("void guy", SpecialMonster.VOID);
-    FightRequest.specialmonsters.put("void slab", SpecialMonster.VOID);
-    FightRequest.specialmonsters.put("void spider", SpecialMonster.VOID);
+    FightRequest.specialMonsters.put("void guy", SpecialMonster.VOID);
+    FightRequest.specialMonsters.put("void slab", SpecialMonster.VOID);
+    FightRequest.specialMonsters.put("void spider", SpecialMonster.VOID);
 
     FightRequest.addAreaMonsters("A Maze of Sewer Tunnels", SpecialMonster.SEWER);
     FightRequest.addAreaMonsters("The Battlefield (Frat Uniform)", SpecialMonster.WAR_HIPPY);
