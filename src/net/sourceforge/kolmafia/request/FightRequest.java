@@ -2647,7 +2647,11 @@ public class FightRequest extends GenericRequest {
             break;
 
           case VOID:
-            Preferences.increment("_voidFights");
+            if (responseText.contains("Time seems to stop.")) {
+              Preferences.increment("_voidFreeFights", 1, 5, false);
+            } else {
+              Preferences.setInteger("_voidFreeFights", 5);
+            }
             break;
 
           case WOL:
