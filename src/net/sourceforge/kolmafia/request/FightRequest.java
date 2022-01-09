@@ -2645,6 +2645,10 @@ public class FightRequest extends GenericRequest {
                   45, "Rain Monster window end loc=* type=wander", "rparen.gif");
             }
             break;
+            
+          case VOID:
+            Preferences.increment("_voidFights");
+            break;
 
           case WOL:
             if (!EncounterManager.ignoreSpecialMonsters) {
@@ -2654,10 +2658,6 @@ public class FightRequest extends GenericRequest {
               TurnCounter.startCounting(
                   20, "WoL Monster window end loc=* type=wander", "rparen.gif");
             }
-            break;
-            
-          case VOID:
-            Preferences.increment("_voidFights");
             break;
         }
       }
