@@ -2653,7 +2653,8 @@ public class FightRequest extends GenericRequest {
             } else {
               Preferences.setInteger("_voidFreeFights", 5);
             }
-            if (!EncounterManager.ignoreSpecialMonsters && Preferences.getInteger("cursedMagnifyingGlassCount") == 1) {
+            if (!EncounterManager.ignoreSpecialMonsters
+                && Preferences.getInteger("cursedMagnifyingGlassCount") == 1) {
               Preferences.setInteger("cursedMagnifyingGlassCount", 14);
             }
             break;
@@ -2907,7 +2908,7 @@ public class FightRequest extends GenericRequest {
       EquipmentManager.breakEquipment(ItemPool.DECEASED_TREE, "You toss your crimbo tree away.");
     }
 
-    //Check for magnifying glass messages
+    // Check for magnifying glass messages
     CursedMagnifyingGlassManager.updatePreference(responseText);
 
     // "The Slime draws back and shudders, as if it's about to sneeze.
