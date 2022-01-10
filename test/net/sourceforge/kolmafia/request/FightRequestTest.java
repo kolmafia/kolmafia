@@ -190,9 +190,11 @@ public class FightRequestTest {
     assertEquals(5, Preferences.getInteger("_voidFreeFights"));
   }
 
-  @Test public void cursedMagnifyingGlassTest() throws IOException {
+  @Test
+  public void cursedMagnifyingGlassTest() throws IOException {
     KoLCharacter.reset("the Tristero");
-    EquipmentManager.setEquipment(EquipmentManager.OFFHAND, ItemPool.get(ItemPool.CURSED_MAGNIFYING_GLASS));
+    EquipmentManager.setEquipment(
+        EquipmentManager.OFFHAND, ItemPool.get(ItemPool.CURSED_MAGNIFYING_GLASS));
     Preferences.setInteger("cursedMagnifyingGlassCount", 13);
     MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("void slab"));
     parseCombatData("request/test_fight_void_monster.html");
@@ -201,6 +203,5 @@ public class FightRequestTest {
     MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("lavatory"));
     parseCombatData("request/test_cursed_magnifying_glass_update.html");
     assertEquals(3, Preferences.getInteger("cursedMagnifyingGlassCount"));
-
   }
 }
