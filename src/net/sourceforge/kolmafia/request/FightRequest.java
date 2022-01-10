@@ -9417,7 +9417,7 @@ public class FightRequest extends GenericRequest {
           case "The Smut Orc Logging Camp":
             if (responseText.contains("You wantonly spray the area with your fire extinguisher")
                 || skillSuccess) {
-              Preferences.increment("smutOrcNoncombatProgress", 10, 15, false);
+              Preferences.increment("smutOrcNoncombatProgress", 11, 15, false);
               Preferences.setBoolean("fireExtinguisherChasmUsed", true);
               success = true;
             }
