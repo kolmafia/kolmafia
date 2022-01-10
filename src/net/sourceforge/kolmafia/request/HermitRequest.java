@@ -55,8 +55,8 @@ public class HermitRequest extends CoinMasterRequest {
 
   private static final Pattern CLOVER_PATTERN = Pattern.compile("(\\d+) left in stock for today");
 
-  public static final AdventureResult CLOVER = ItemPool.get(ItemPool.TEN_LEAF_CLOVER, 1);
-  public static final String CLOVER_FIELD = "whichitem=" + ItemPool.TEN_LEAF_CLOVER;
+  public static final AdventureResult CLOVER = ItemPool.get(ItemPool.ELEVEN_LEAF_CLOVER, 1);
+  public static final String CLOVER_FIELD = "whichitem=" + ItemPool.ELEVEN_LEAF_CLOVER;
 
   public static final AdventureResult PERMIT = ItemPool.get(ItemPool.HERMIT_PERMIT, 1);
 
@@ -122,7 +122,7 @@ public class HermitRequest extends CoinMasterRequest {
       HermitRequest.registerHermitItem(ItemPool.ANCIENT_SEAL, PurchaseRequest.MAX_QUANTITY);
     }
 
-    HermitRequest.registerHermitItem(ItemPool.TEN_LEAF_CLOVER, -1);
+    HermitRequest.registerHermitItem(ItemPool.ELEVEN_LEAF_CLOVER, -1);
 
     HermitRequest.resetPurchaseRequests();
   }
@@ -143,9 +143,23 @@ public class HermitRequest extends CoinMasterRequest {
     }
 
     int count = 0;
-    for (int i = 0; i < this.attachments.length; ++i) {
-      AdventureResult attachment = this.attachments[i];
+    for (AdventureResult attachment : this.attachments) {
       count += attachment.getCount();
+    }
+
+    return count;
+  }
+
+  private int cloversNeeded() {
+    if (this.attachments == null) {
+      return 0;
+    }
+
+    int count = 0;
+    for (AdventureResult attachment : this.attachments) {
+      if (attachment.getItemId() == ItemPool.ELEVEN_LEAF_CLOVER) {
+        count += attachment.getCount();
+      }
     }
 
     return count;
@@ -161,6 +175,19 @@ public class HermitRequest extends CoinMasterRequest {
     // If we are simply visiting, we need no worthless items
     if (this.attachments == null) {
       super.run();
+      return;
+    }
+
+    int cloversWanted = this.cloversNeeded();
+    int cloversAvailable = HermitRequest.cloverCount();
+    if (cloversWanted > cloversAvailable) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR,
+          "Asking for "
+              + cloversWanted
+              + " 11-leaf clover, but "
+              + cloversAvailable
+              + " left today.");
       return;
     }
 
@@ -347,7 +374,7 @@ public class HermitRequest extends CoinMasterRequest {
 
     int index = KoLConstants.hermitItems.indexOf(CLOVER);
     if (index < 0) {
-      HermitRequest.registerHermitItem(ItemPool.TEN_LEAF_CLOVER, count);
+      HermitRequest.registerHermitItem(ItemPool.ELEVEN_LEAF_CLOVER, count);
     } else {
       AdventureResult old = KoLConstants.hermitItems.get(index);
       int oldCount = old.getCount();
@@ -425,7 +452,7 @@ public class HermitRequest extends CoinMasterRequest {
       AdventureResult clover = KoLConstants.hermitItems.get(index);
       KoLConstants.hermitItems.set(index, HermitRequest.CLOVER.getInstance(clover.getCount() + 1));
     } else {
-      HermitRequest.registerHermitItem(ItemPool.TEN_LEAF_CLOVER, 1);
+      HermitRequest.registerHermitItem(ItemPool.ELEVEN_LEAF_CLOVER, 1);
     }
   }
 

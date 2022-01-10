@@ -1065,6 +1065,12 @@ public class AdventureRequest extends GenericRequest {
       return;
     }
 
+    if (redirectLocation.startsWith("shop.php")) {
+      // The Shore Inc. can redirect to the gift shop.
+      AdventureRequest.ZONE_UNLOCK.run();
+      return;
+    }
+
     RequestSynchFrame.showRequest(AdventureRequest.ZONE_UNLOCK);
     KoLmafia.updateDisplay(MafiaState.ABORT, "Unknown adventure type encountered.");
   }

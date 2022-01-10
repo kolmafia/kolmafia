@@ -4,6 +4,7 @@ import com.sun.java.forums.TableSorter;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.BoxLayout;
@@ -473,10 +474,8 @@ public class ClanManageFrame extends GenericFrame {
     }
 
     @Override
-    public Vector constructVector(final Object o) {
-      ProfileRequest p = (ProfileRequest) o;
-
-      Vector value = new Vector();
+    public Vector<Serializable> constructVector(final ProfileRequest p) {
+      Vector<Serializable> value = new Vector<>();
 
       JButton profileButton = new JButton(JComponentUtilities.getImage("icon_warning_sml.gif"));
       profileButton.addMouseListener(new ShowProfileListener(p));

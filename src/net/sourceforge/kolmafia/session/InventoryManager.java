@@ -66,7 +66,6 @@ public abstract class InventoryManager {
   private static final int BULK_PURCHASE_AMOUNT = 30;
 
   private static int askedAboutCrafting = 0;
-  private static boolean cloverProtectionEnabled = true;
 
   public static void resetInventory() {
     KoLConstants.inventory.clear();
@@ -430,18 +429,7 @@ public abstract class InventoryManager {
       final boolean useEquipped,
       final boolean canCreate,
       final boolean sim) {
-    // if we're simulating, we don't need to waste time disabling/enabling clover protection
-    if (sim) {
-      return InventoryManager.doRetrieveItem(item, isAutomated, useEquipped, sim, canCreate);
-    }
-
-    try {
-      InventoryManager.setCloverProtection(false);
-      return InventoryManager.doRetrieveItem(item, isAutomated, useEquipped, false, canCreate);
-    } finally {
-      // Restore clover protection
-      InventoryManager.setCloverProtection(true);
-    }
+    return InventoryManager.doRetrieveItem(item, isAutomated, useEquipped, sim, canCreate);
   }
 
   // When called with sim=true, retrieveItem should return a non-empty string
@@ -799,16 +787,16 @@ public abstract class InventoryManager {
       }
     }
 
-    // A ten-leaf clover can be created (by using a disassembled
-    // clover) or purchased from the Hermit (if he has any in
-    // stock. We tried the former above. Now try the latter.
+    // An 11-leaf clover can be purchased from the Hermit (if he has any in
+    // stock.
 
     if (shouldUseCoinmasters
         && KoLConstants.hermitItems.contains(item)
         && (!shouldUseMall
             || SewerRequest.currentWorthlessItemCost() < StoreManager.getMallPrice(item))) {
+
       int itemCount =
-          itemId == ItemPool.TEN_LEAF_CLOVER
+          itemId == ItemPool.ELEVEN_LEAF_CLOVER
               ? HermitRequest.cloverCount()
               : PurchaseRequest.MAX_QUANTITY;
 
@@ -1769,17 +1757,5 @@ public abstract class InventoryManager {
     InventoryManager.askedAboutCrafting = KoLCharacter.getUserId();
 
     return true;
-  }
-
-  public static boolean cloverProtectionActive() {
-    return InventoryManager.cloverProtectionEnabled
-        && Preferences.getBoolean("cloverProtectActive");
-  }
-
-  // Accessory function just to _temporarily_ disable clover protection so that messing with
-  // preferences is unnecessary.
-
-  private static void setCloverProtection(boolean enabled) {
-    InventoryManager.cloverProtectionEnabled = enabled;
   }
 }

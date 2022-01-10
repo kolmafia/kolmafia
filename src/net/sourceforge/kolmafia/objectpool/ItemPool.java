@@ -3313,6 +3313,7 @@ public class ItemPool {
   public static final int GOOIFIED_MINERAL_MATTER = 10846;
   public static final int MEATBALL_MACHINE = 10878;
   public static final int REFURBISHED_AIR_FRYER = 10879;
+  public static final int ELEVEN_LEAF_CLOVER = 10881;
 
   public static final AdventureResult get(String itemName, int count) {
     int itemId = ItemDatabase.getItemId(itemName, 1, false);

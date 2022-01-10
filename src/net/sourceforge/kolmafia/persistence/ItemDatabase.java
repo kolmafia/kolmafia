@@ -2391,11 +2391,7 @@ public class ItemDatabase {
   }
 
   public static int getNoobSkillId(final int itemId) {
-    Integer skillId = ItemDatabase.noobSkillIdByItemSource.get(itemId);
-    if (skillId == null) {
-      return -1;
-    }
-    return skillId.intValue();
+    return ItemDatabase.noobSkillIdByItemSource.get(itemId);
   }
 
   public static int[] getItemListByNoobSkillId(final int skillId) {

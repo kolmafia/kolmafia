@@ -330,7 +330,7 @@
 328	Soul Freeze	iceberglet.gif	ac1584de4a0d6359c4738bf0bae571a1	neutral	none	# Wave of Sauce splashback
 329	Broken Fast	ccheese.gif	1e776d50f7d0c07ae3bf04aa1ea13e49	good	none	eat 1 bowl of Bounty-Os
 330	Hoity Toity	snifter.gif	89a2e36f2f2fa3c6c4053a6a35c2a12a	good	none	drink 1 Oreille Divis&eacute;e brandy
-331	On the Trail	snout.gif	91635be2834f8a07c8ff9e3b47d2e43a	neutral	nopvp	# Transcendent Olfaction
+# 331	On the Trail	snout.gif	91635be2834f8a07c8ff9e3b47d2e43a	neutral	nopvp	# Transcendent Olfaction
 332	Moon'd	moon4.gif	3f23af7d42cd450e5a198ba091a842c1	good	none	concert Moon'd
 333	Dilated Pupils	pupils.gif	dd0d5b24b28fff02cb53607f45d0d220	good	none	concert Dilated Pupils
 334	Optimist Primal	happy.gif	63965c29290f23349477c4199c9b10c3	good	none	concert Optimist Primal
@@ -2607,7 +2607,7 @@
 2605	Cocoa-Chanel	coffeecup.gif	cb8ef9c54c1c0e652d8ec405efe24d7e	neutral	none	use 1 cool hot cocoa
 2606	Smug of Cocoa	coffeecup.gif	bc02bd4b87acaae9d9dfbca57fc20a39	neutral	none	use 1 overly-fancy hot cocoa
 2607	Cocoa-Buttery	coffeecup.gif	0a6f237d1087c2673d0b8304e3b26a17	neutral	none	use 1 hot cocoa au beurre
-2608	Cocoa-Nuts	coffeecup.gif	2f38dbd438b8c462bc4c402af089ec70	neutral	none 	use 1 hot cocoa with rainbow marshmallows
+2608	Cocoa-Nuts	coffeecup.gif	2f38dbd438b8c462bc4c402af089ec70	neutral	none	use 1 hot cocoa with rainbow marshmallows
 2609	Self-Harmonizing	smallharmonica.gif	344da8cadefc13c273059b97f93b1a31	neutral	none	use 1 candy harmonica
 2610	Festively-Dusted	snowpile.gif	ec397a83385436b3caf2da774864f9d0	neutral	none	use 1 powdered powdered sugar
 2611	Multi-Level Mindset	mlmarzipan.gif	2ad20a3224d74d21c41abe98e63ff5fa	neutral	none
@@ -2624,7 +2624,7 @@
 2622	Grand Theft Candy	lasso.gif	5a17e3c490ce662c5eb3283e868e7081	neutral	none	use 1 Hotwire&trade; brand candy rope
 2623	Jowls Full, and Belly	soupbowl.gif	7a198c6aa6ce89f91144e39b05de5ebb	good	none	eat 1 bowl full of jelly
 2624	Twist and an Eye	bseye.gif	be003502a30404e3e2d43732876f6cbc	good	none	drink 1 Eye and a Twist
-2625	Plump and Chubby	chubbybar.gif	5bb46b48ec5a2449117845bff0c897d3	good	none    	use 1 Chubby and Plump bar
+2625	Plump and Chubby	chubbybar.gif	5bb46b48ec5a2449117845bff0c897d3	good	none	use 1 Chubby and Plump bar
 2626	Stained	sg_candy.gif	31bc709fdf929455aa7f0d1e10fe2614	neutral	none	use 1 stained hard candy
 2627	Feeling Excited	emochip1.gif	7b78b0e96a9d9e28de62d11931ccc389	good	none	cast 1 Feel Excitement
 2628	Feeling Lonely	emochip11.gif	26d83401d58117dd07f65c1a1466368f	neutral	none	cast 1 Feel Lonely
@@ -2691,3 +2691,9 @@
 2690	Puttied, Fleshly	fleshputty.gif	80ea9b026aaf0d54448990c17613a2f0	neutral	none	use 1 fleshy putty
 2691	Real Meat Craving	synthmeat.gif	d46677458bfe6610d4d0255c031c4a34	neutral	none	eat 1 lab-grown meat
 2692	Well-Ventilated	friedair.gif	9d8854ac085d8cd580399c9540556d17	neutral	none	chew 1 fried air
+2693	Lucky!	11leafclover.gif	de95d62abb71d5221ec6c068c1c72626	neutral	none
+2694	On the Trail	snout.gif	519edacbd99d93658cc2ef05bd6baefb	neutral	none	# Transcendent Olfaction
+2695	Dizzy	dizzy.gif	c9fe57705a1a6d4b2a24e03228e49faf	neutral	none
+2696	Sluggish	slug.gif	f07d57053c4ed45f8523a4ae8dd95495	neutral	none
+2697	Drained	downarrow.gif	661a324f81137062fc3a484a00a7861a	neutral	none
+2698	Cosmic Ball in the Air	bowlup.gif	48f47e7233cc46a1f5e666d429b488bc	neutral	none

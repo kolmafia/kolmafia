@@ -446,6 +446,7 @@ public class FightRequest extends GenericRequest {
     RAIN("Heavy Rains"),
     SEWER("Sewer Tunnel"),
     TACO_ELF("taco elf"),
+    VOID("void monsters"),
     WAR_FRATBOY("War Fratboy"),
     WAR_HIPPY("War Hippy"),
     WITCHESS("witchess"),
@@ -645,6 +646,10 @@ public class FightRequest extends GenericRequest {
     FightRequest.specialMonsters.put("Source Agent", SpecialMonster.PORTSCAN);
     FightRequest.specialMonsters.put("Government agent", SpecialMonster.PORTSCAN);
 
+    FightRequest.specialMonsters.put("void guy", SpecialMonster.VOID);
+    FightRequest.specialMonsters.put("void slab", SpecialMonster.VOID);
+    FightRequest.specialMonsters.put("void spider", SpecialMonster.VOID);
+
     FightRequest.addAreaMonsters("A Maze of Sewer Tunnels", SpecialMonster.SEWER);
     FightRequest.addAreaMonsters("The Battlefield (Frat Uniform)", SpecialMonster.WAR_HIPPY);
     FightRequest.addAreaMonsters("The Battlefield (Hippy Uniform)", SpecialMonster.WAR_FRATBOY);
@@ -758,7 +763,7 @@ public class FightRequest extends GenericRequest {
   public static final boolean canOlfact() {
     return FightRequest.canOlfact
         && !KoLCharacter.inGLover()
-        && !KoLConstants.activeEffects.contains(FightRequest.ONTHETRAIL);
+        && KoLCharacter.availableCombatSkill(SkillPool.OLFACTION);
   }
 
   public static final boolean isSourceAgent() {
@@ -1360,7 +1365,7 @@ public class FightRequest extends GenericRequest {
         // your skills.
 
         if ((KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled())
-            || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ON_THE_TRAIL))) {
+            || !KoLCharacter.availableCombatSkill(SkillPool.OLFACTION)) {
           this.skipRound();
           return;
         }
@@ -2638,6 +2643,14 @@ public class FightRequest extends GenericRequest {
               TurnCounter.startCounting(35, "Rain Monster window begin loc=*", "lparen.gif");
               TurnCounter.startCounting(
                   45, "Rain Monster window end loc=* type=wander", "rparen.gif");
+            }
+            break;
+
+          case VOID:
+            if (responseText.contains("Time seems to stop.")) {
+              Preferences.increment("_voidFreeFights", 1, 5, false);
+            } else {
+              Preferences.setInteger("_voidFreeFights", 5);
             }
             break;
 
@@ -4322,9 +4335,7 @@ public class FightRequest extends GenericRequest {
       boolean haveSkill =
           KoLCharacter.hasSkill("Transcendent Olfaction")
               && !KoLCharacter.inGLover()
-              && (Preferences.getBoolean("autoManaRestore")
-                  || KoLCharacter.getCurrentMP()
-                      >= SkillDatabase.getMPConsumptionById(SkillPool.OLFACTION));
+              && (Preferences.getBoolean("autoManaRestore"));
       boolean haveItem = KoLConstants.inventory.contains(FightRequest.EXTRACTOR);
       if ((haveSkill || haveItem) && shouldTag(pref, "autoOlfact triggered")) {
         if (haveSkill) {
@@ -8169,6 +8180,7 @@ public class FightRequest extends GenericRequest {
             TurnCounter.startCounting(15, "Enamorang Monster loc=* type=wander", "watch.gif");
           }
           Preferences.setString("enamorangMonster", monsterName);
+          Preferences.setInteger("enamorangMonsterTurn", KoLCharacter.getTurnsPlayed());
           Preferences.increment("_enamorangs");
           return true;
         }
@@ -8657,6 +8669,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.OLFACTION:
         if (responseText.contains("fill your entire being") || skillSuccess) {
+          Preferences.increment("_olfactionsUsed", 1);
           Preferences.setString("olfactedMonster", monsterName);
           Preferences.setString("autoOlfact", "");
           FightRequest.canOlfact = false;
@@ -9404,7 +9417,7 @@ public class FightRequest extends GenericRequest {
           case "The Smut Orc Logging Camp":
             if (responseText.contains("You wantonly spray the area with your fire extinguisher")
                 || skillSuccess) {
-              Preferences.increment("smutOrcNoncombatProgress", 10, 15, false);
+              Preferences.increment("smutOrcNoncombatProgress", 11, 15, false);
               Preferences.setBoolean("fireExtinguisherChasmUsed", true);
               success = true;
             }
@@ -10205,8 +10218,7 @@ public class FightRequest extends GenericRequest {
               action.append("plays Garin's Harp");
             }
           } else {
-            if (item.equalsIgnoreCase("odor extractor")
-                && !KoLConstants.activeEffects.contains(FightRequest.ONTHETRAIL)) {
+            if (item.equalsIgnoreCase("odor extractor")) {
               Preferences.setString("olfactedMonster", monsterName);
               Preferences.setString("autoOlfact", "");
               FightRequest.canOlfact = false;
@@ -10222,8 +10234,7 @@ public class FightRequest extends GenericRequest {
             itemId = StringUtilities.parseInt(itemMatcher.group(1));
             item = ItemDatabase.getItemName(itemId);
             if (item != null) {
-              if (item.equalsIgnoreCase("odor extractor")
-                  && !KoLConstants.activeEffects.contains(FightRequest.ONTHETRAIL)) {
+              if (item.equalsIgnoreCase("odor extractor")) {
                 Preferences.setString("olfactedMonster", monsterName);
                 Preferences.setString("autoOlfact", "");
               }

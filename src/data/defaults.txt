@@ -17,7 +17,6 @@ global	chatBeep	false
 global	chatFontSize
 global	chatLinksUseRelay	false
 global	chatStyle	0
-global	cloverProtectActive	true
 global	coinMasterIndex	1
 global	combatHotkey0
 global	combatHotkey1
@@ -565,6 +564,7 @@ user	electricKoolAidEaten	0
 user	encountersUntilDMTChoice	5
 user	encountersUntilNEPChoice	7
 user	enamorangMonster
+user	enamorangMonsterTurn
 user	ensorcelee
 user	ensorceleeLevel	0
 user	entauntaunedColdRes	0
@@ -856,7 +856,6 @@ user	lastPorkoExpected
 user	lastQuartetAscension	-1
 user	lastQuartetRequest	0
 user	lastSecondFloorUnlock	-1
-user	lastSemirareReset	-1
 user	lastSkateParkReset	-1
 user	lastSlimeVial3885
 user	lastSlimeVial3886
@@ -1209,8 +1208,6 @@ user	scriptMRUList
 user	seahorseName
 user	seaodesFound	0
 user	SeasoningSwagger	0
-user	semirareCounter	0
-user	semirareLocation
 user	serverAddsCustomCombat	false
 user	sexChanges	0
 user	SHAWARMAInitiativeUnlocked	false
@@ -1856,6 +1853,7 @@ user	_noHatModifier
 user	_noobSkillCount	0
 user	_nuclearStockpileUsed	0
 user	_oilExtracted	0
+user	_olfactionsUsed	0
 user	_olympicSwimmingPool	false
 user	_olympicSwimmingPoolItemFound	false
 user	_optimisticCandleDropsCrown	0
@@ -2070,6 +2068,7 @@ user	_villainLairWebUsed	false
 user	_vitachocCapsulesUsed	0
 user	_vmaskAdv	0
 user	_vmaskBanisherUsed	false
+user	_voidFreeFights	0
 user	_volcanoItem1	0
 user	_volcanoItem2	0
 user	_volcanoItem3	0

@@ -10155,20 +10155,20 @@
 10127	stained glass serape	899600398	sg_serape.gif	container		0
 10128	stained glass shards	234921550	sg_bits.gif	spleen, usable		0
 10129	stained hard candy	337288423	sg_candy.gif	potion, usable	t,d	15
-10130
-10131
-10132
-10133
-10134
-10135
+10130	loofah lumberjack's hat	498407704	loof_hat.gif	hat		0
+10131	loofah lei	215839158	loof_lei.gif	accessory		0
+10132	loofah lederhosen	182173710	loof_pants.gif	pants		0
+10133	loofah ladle	851884840	loof_ladle.gif	weapon		0
+10134	loofah legwarmers	861814172	loof_warmers.gif	accessory		0
+10135	loofah lavalier	742480306	loof_lavalier.gif	accessory		0
 10136
 10137
-10138
-10139
-10140
-10141
-10142
-10143
+10138	flagstone flag	485110859	fs_flag.gif	offhand		0
+10139	flagstone flail	774649175	fs_flail.gif	weapon		0
+10140	flagstone flip-flops	790456758	fs_flipflops.gif	accessory		0
+10141	flagstone fez	996975363	fs_fez.gif	hat		0
+10142	flagstone fleece	890070574	fs_fleece.gif	container		0
+10143	flagstone fringe	839701459	fs_fringe.gif	accessory		0
 10144
 10145
 10146	elf sleeper agent	896004413	elfoplarva.gif	grow	t	0
@@ -10810,7 +10810,7 @@
 10782	Abracandalabra	945645633	candlecabra.gif	offhand	q	0
 10783	extra-wide head candle	610762802	candlechelmet.gif	hat	q	0
 10784	natural magick candle	514857943	candlecincense.gif	potion, usable	t,d	5
-10785	rainbow glitter candle	281896112	candlecglitter.gif	potion, usable	t,d	5
+10785	rainbow glitter candle	281896112	candlecglitter.gif	potion, multiple	t,d	5
 10786	banana candle	822250066	candlecbanana.gif	potion, usable	t,d	5
 10787	ear candle	159239343	candlecear.gif	potion, usable	t,d	5
 10788	votive of confidence	573165116	candlecvotive.gif	potion, usable	t,d	5
@@ -10905,3 +10905,14 @@
 10878	meatball machine	811453503	gumballmachine.gif	usable		0
 10879	refurbished air fryer	856536306	airfryer.gif	reusable		0
 10880	fried air	262581171	friedair.gif	spleen, usable	d	5
+10881	11-leaf clover	477842994	11leafclover.gif	usable	t	0
+10882	carton of astral energy drinks	824102367	ast_carton.gif	usable	q	0
+10883	astral energy drink	371528474	ast_energy.gif	spleen, usable	q	0
+10884	mint condition magnifying glass	151700929	cursedmagbox.gif	usable	t	0
+10885	cursed magnifying glass	953755260	cursedmag.gif	offhand		0
+10886	void lager	295960773	voidbeer.gif	drink	d	5
+10887	void burger	594078167	voidburger.gif	food	d	5
+10888	void stone	676671920	voidstone.gif	none	d	500
+10889
+10890	undrilled cosmic bowling ball	276317641	cosmicball.gif	usable	t	0
+10891	cosmic bowling ball	119596776	cosmicball2.gif	none, combat		0

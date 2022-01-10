@@ -30,9 +30,6 @@ import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
-import net.sourceforge.kolmafia.session.EncounterManager;
-import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
-import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -797,21 +794,6 @@ public class AdventureDatabase {
 
   public static String fistcoreLocationToSetting(final int location) {
     return fistcoreDataSetting(fistcoreLocationToData(location));
-  }
-
-  /**
-   * Returns whether or not the user has a ten-leaf clover in inventory.
-   *
-   * @return <code>true</code>
-   */
-  private static boolean hasClover() {
-    return InventoryManager.getCount(ItemPool.TEN_LEAF_CLOVER) > 0;
-  }
-
-  public static boolean isPotentialCloverAdventure(String adventureName) {
-    String encounter =
-        EncounterManager.findEncounterForLocation(adventureName, EncounterType.CLOVER);
-    return AdventureDatabase.hasClover() && encounter != null;
   }
 
   public static final String getEnvironment(String adventureName) {

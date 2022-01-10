@@ -9247,17 +9247,6 @@ public abstract class ChoiceManager {
         ResultProcessor.removeItem(ItemPool.FUNKY_JUNK_KEY);
         break;
 
-      case 866:
-        // Choice 866 is Methinks the Protesters Doth Protest Too Little
-        // If you have a clover, this is a clover adventure.
-        // Otherwise it is a semirare
-        if (InventoryManager.getCount(ItemPool.TEN_LEAF_CLOVER) > 0) {
-          ResultProcessor.removeItem(ItemPool.TEN_LEAF_CLOVER);
-        } else {
-          KoLCharacter.registerSemirare();
-        }
-        break;
-
       case 931:
         // Life Ain't Nothin But Witches and Mummies
         QuestDatabase.setQuestIfBetter(Quest.CITADEL, "step6");
@@ -15220,11 +15209,7 @@ public abstract class ChoiceManager {
             }
           }
           if (ChoiceManager.lastDecision == 7) {
-            TurnCounter.stopCounting("Fortune Cookie");
-            TurnCounter.stopCounting("Semirare window begin");
-            TurnCounter.stopCounting("Semirare window end");
-            TurnCounter.startCounting(0, "Fortune Cookie", "fortune.gif");
-            Preferences.setString("semirareLocation", "");
+            // *** No longer forces a semirare
           }
         }
         break;
@@ -15327,12 +15312,12 @@ public abstract class ChoiceManager {
         break;
     }
 
+    SpadingManager.processChoice(urlString, text);
+
     if (ChoiceManager.handlingChoice) {
       ChoiceManager.visitChoice(request);
       return;
     }
-
-    SpadingManager.processChoice(urlString, text);
 
     if (text.contains("charpane.php")) {
       // Since a charpane refresh was requested, a turn might have been spent

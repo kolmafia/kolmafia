@@ -54,6 +54,23 @@ public class AggregateLiteralTest {
             "Script parsing error; couldn't figure out value of aggregate key",
             "char 11 to char 12"),
         valid(
+            "aggregate literal with aggregate typedef",
+            "typedef int[] foo; foo { 1, 2 }",
+            Arrays.asList("typedef", "int", "[", "]", "foo", ";", "foo", "{", "1", ",", "2", "}"),
+            Arrays.asList(
+                "1-1", "1-9", "1-12", "1-13", "1-15", "1-18", "1-20", "1-24", "1-26", "1-27",
+                "1-29", "1-31")),
+        invalid(
+            "aggregate literal with non-aggregate typedef",
+            "typedef int foo; foo { 1, 2 }",
+            "Aggregate type required to make an aggregate literal",
+            // we currently can't read past the "{" before throwing the exception
+            // "char 18 to char 30"),
+            "char 18 to char 23",
+            "typedef foo; foo { 1, 2 }",
+            "Missing data type for typedef",
+            "char 1 to char 12"),
+        valid(
             "Simple array literal",
             "int[5] { 1, 2, 3, 4, 5}",
             Arrays.asList(

@@ -18,7 +18,6 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
@@ -286,16 +285,7 @@ public abstract class EncounterManager {
 
   public static final boolean isGregariousEncounter(
       final String responseText, final boolean checkMonster) {
-    if (responseText.contains("Looks like it's that friend you gregariously made")) {
-      return true;
-    }
-
-    if (Preferences.getInteger("beGregariousFightsLeft") < 1) {
-      return false;
-    }
-
-    String monsterName = MonsterStatusTracker.getLastMonsterName();
-    return monsterName.equalsIgnoreCase(Preferences.getString("beGregariousMonster"));
+    return responseText.contains("Looks like it's that friend you gregariously made");
   }
 
   public static final boolean isWanderingMonster(String encounter) {
@@ -362,19 +352,6 @@ public abstract class EncounterManager {
     // cold, and hear a wolf whistle from behind you. You spin
     // around and see <monster> that looks suspiciously like the
     // ones you shot with a love arrow earlier.
-
-    // Some semirares can also be clover adventures, if a clover disappears it isn't a semi-rare
-
-    if (encounterType == EncounterType.SEMIRARE
-        && !ignoreSpecialMonsters
-        && !EncounterManager.isRomanticEncounter(responseText, false)
-        && !EncounterManager.isDigitizedEncounter(responseText, false)
-        && !EncounterManager.isEnamorangEncounter(responseText, false)
-        && !responseText.contains("clover disappears")
-        && !FightRequest.edFightInProgress()) {
-      KoLCharacter.registerSemirare();
-      return;
-    }
 
     if (encounterType == EncounterType.NONE) {
       return;
