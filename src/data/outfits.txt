@@ -159,8 +159,8 @@
 148	Terra Cotta Tackle	tc_tat.gif	terra cotta tongs, terra cotta tambourine, terra cotta train, terra cotta trousers, terra cotta tie tack, terra cotta truss	terra panna cotta
 149	Velour Vestments	velourtat.gif	velour voulge, velour valise, velour vaqueros, velour vambraces, velour veil, velour viscometer	Velougats&trade;
 150	Stained Glass Suit	stainedtat.gif	stained glass stetson, stained glass shiv, stained glass shield, stained glass serape, stained glass suspenders, stained glass spectacles	stained hard candy
-151
-152
+151	Loofah Loungewear	loofahtat.gif	loofah lumberjack's hat, loofah ladle, loofah lederhosen, loofah lavalier, loofah lei, loofah legwarmers
+152	Flagstone Finery	flagstonetat.gif	flagstone fez, flagstone flail, flagstone flag, flagstone fleece, flagstone flip-flops, flagstone fringe
 153	PirateRealm Assortment	prealmtat.gif	PirateRealm party hat, piratical blunderbuss, conquistador's breastplate, plush sea serpent, pirate radio ring	one piece of bubble gum
 154	Shallow Sea Fishing Outfit	fishingtat.gif	spearfish fishing spear, waders, lucky rabbitfish fin	Finnish Fish
 155	Cursed Skeleton Pirate Costume	skelepiratetat.gif	cursed tricorn hat, cursed pirate cutlass, cursed swash buckle	cursed chocolate doubloon
