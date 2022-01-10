@@ -182,7 +182,7 @@ public class FightRequestTest {
   }
 
   @Test
-  public void voidMonsterIncrementationTest() {
+  public void voidMonsterIncrementationTest() throws IOException {
     KoLCharacter.reset("the Tristero");
     parseCombatData("request/test_fight_void_monster.html");
     assertEquals(5, Preferences.getInteger("_voidFreeFights"));
