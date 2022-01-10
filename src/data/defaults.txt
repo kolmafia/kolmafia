@@ -477,7 +477,7 @@ user	currentNunneryMeat	0
 user	currentPVPSeason	none
 user	currentPvpVictories
 user	currentSpecialBountyItem
-user	cursedMagnifyingGlassCount	14
+user	cursedMagnifyingGlassCount	0
 user	customCombatScript	default
 user	cyrptAlcoveEvilness	0
 user	cyrptCrannyEvilness	0

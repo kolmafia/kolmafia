@@ -2654,9 +2654,9 @@ public class FightRequest extends GenericRequest {
               Preferences.setInteger("_voidFreeFights", 5);
             }
             if (!EncounterManager.ignoreSpecialMonsters
-                && Preferences.getInteger("cursedMagnifyingGlassCount") == 1
+                && Preferences.getInteger("cursedMagnifyingGlassCount") == 13
                 && KoLCharacter.hasEquipped(ItemPool.CURSED_MAGNIFYING_GLASS)) {
-              Preferences.setInteger("cursedMagnifyingGlassCount", 14);
+              Preferences.setInteger("cursedMagnifyingGlassCount", 0);
             }
             break;
 
