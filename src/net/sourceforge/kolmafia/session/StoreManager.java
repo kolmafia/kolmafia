@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -877,7 +878,7 @@ public abstract class StoreManager {
   /**
    * Internal immutable class used to hold a single instance of an item sold in a player's store.
    */
-  public static class SoldItem extends Vector<Object> implements Comparable<Object> {
+  public static class SoldItem extends Vector<Serializable> implements Comparable<Object> {
     private final int itemId;
     private final String itemName;
     private final int quantity;

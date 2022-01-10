@@ -50,7 +50,7 @@ public abstract class ListWrapperTableModel<E> extends DefaultTableModel
     return column < 0 || column >= this.types.length ? Object.class : this.types[column];
   }
 
-  public abstract Vector constructVector(Object o);
+  public abstract Vector<?> constructVector(E o);
 
   @Override
   public boolean isCellEditable(final int row, final int column) {
@@ -65,16 +65,18 @@ public abstract class ListWrapperTableModel<E> extends DefaultTableModel
    */
   public void intervalAdded(final ListDataEvent e) {
     SwingUtilities.invokeLater(
-        new Runnable() {
-          public void run() {
-            LockableListModel source = (LockableListModel) e.getSource();
-            int index0 = e.getIndex0();
-            int index1 = e.getIndex1();
+        () -> {
+          if (e.getSource() != ListWrapperTableModel.this.listModel) {
+            return;
+          }
 
-            for (int i = index0; i <= index1; ++i) {
-              ListWrapperTableModel.this.insertRow(
-                  i, ListWrapperTableModel.this.constructVector(source.get(i)));
-            }
+          LockableListModel<E> source = ListWrapperTableModel.this.listModel;
+          int index0 = e.getIndex0();
+          int index1 = e.getIndex1();
+
+          for (int i = index0; i <= index1; ++i) {
+            ListWrapperTableModel.this.insertRow(
+                i, ListWrapperTableModel.this.constructVector(source.get(i)));
           }
         });
   }
@@ -87,14 +89,16 @@ public abstract class ListWrapperTableModel<E> extends DefaultTableModel
    */
   public void intervalRemoved(final ListDataEvent e) {
     SwingUtilities.invokeLater(
-        new Runnable() {
-          public void run() {
-            int index0 = e.getIndex0();
-            int index1 = e.getIndex1();
+        () -> {
+          if (e.getSource() != ListWrapperTableModel.this.listModel) {
+            return;
+          }
 
-            for (int i = index1; i >= index0; --i) {
-              ListWrapperTableModel.this.removeRow(i);
-            }
+          int index0 = e.getIndex0();
+          int index1 = e.getIndex1();
+
+          for (int i = index1; i >= index0; --i) {
+            ListWrapperTableModel.this.removeRow(i);
           }
         });
   }
@@ -107,29 +111,31 @@ public abstract class ListWrapperTableModel<E> extends DefaultTableModel
    */
   public void contentsChanged(final ListDataEvent e) {
     SwingUtilities.invokeLater(
-        new Runnable() {
-          public void run() {
-            LockableListModel source = (LockableListModel) e.getSource();
-            int index0 = e.getIndex0();
-            int index1 = e.getIndex1();
+        () -> {
+          if (e.getSource() != ListWrapperTableModel.this.listModel) {
+            return;
+          }
 
-            if (index0 < 0 || index1 < 0) {
-              return;
-            }
+          LockableListModel<E> source = ListWrapperTableModel.this.listModel;
+          int index0 = e.getIndex0();
+          int index1 = e.getIndex1();
 
-            int rowCount = ListWrapperTableModel.this.getRowCount();
+          if (index0 < 0 || index1 < 0) {
+            return;
+          }
 
-            for (int i = index1; i >= index0; --i) {
-              if (source.size() < i) {
-                ListWrapperTableModel.this.removeRow(i);
-              } else if (i > rowCount) {
-                ListWrapperTableModel.this.insertRow(
-                    rowCount, ListWrapperTableModel.this.constructVector(source.get(i)));
-              } else {
-                ListWrapperTableModel.this.removeRow(i);
-                ListWrapperTableModel.this.insertRow(
-                    i, ListWrapperTableModel.this.constructVector(source.get(i)));
-              }
+          int rowCount = ListWrapperTableModel.this.getRowCount();
+
+          for (int i = index1; i >= index0; --i) {
+            if (source.size() < i) {
+              ListWrapperTableModel.this.removeRow(i);
+            } else if (i > rowCount) {
+              ListWrapperTableModel.this.insertRow(
+                  rowCount, ListWrapperTableModel.this.constructVector(source.get(i)));
+            } else {
+              ListWrapperTableModel.this.removeRow(i);
+              ListWrapperTableModel.this.insertRow(
+                  i, ListWrapperTableModel.this.constructVector(source.get(i)));
             }
           }
         });

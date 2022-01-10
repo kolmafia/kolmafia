@@ -533,8 +533,7 @@ public class StoreManageFrame extends GenericPanelFrame {
     }
 
     @Override
-    public Vector<Serializable> constructVector(final Object o) {
-      Vector<Serializable> value = (Vector<Serializable>) o;
+    public SoldItem constructVector(final SoldItem value) {
       if (value.size() < 7) {
         String itemName = (String) value.get(0);
         String displayName = StringUtilities.getDisplayName(itemName);
