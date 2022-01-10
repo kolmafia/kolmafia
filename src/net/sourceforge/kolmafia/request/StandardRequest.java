@@ -179,9 +179,9 @@ public class StandardRequest extends GenericRequest {
 
       Matcher objectMatcher = StandardRequest.OBJECT_PATTERN.matcher(matcher.group(2));
       while (objectMatcher.find()) {
-        String object = objectMatcher.group(1).trim().toLowerCase();
+        String object = objectMatcher.group(1);
         if (object.length() > 0) {
-          set.add(object);
+          setRestricted(set, object);
         }
       }
     }
@@ -193,6 +193,17 @@ public class StandardRequest extends GenericRequest {
     }
 
     StandardRequest.initialized = true;
+  }
+
+  public static final void setRestricted(String type, String object) {
+    Set<String> set = typeToSet(type);
+    setRestricted(set, object);
+  }
+
+  public static void setRestricted(Set<String> set, String object) {
+    if (set != null) {
+      set.add(object.trim().toLowerCase());
+    }
   }
 
   public static final boolean registerRequest(final String urlString) {
