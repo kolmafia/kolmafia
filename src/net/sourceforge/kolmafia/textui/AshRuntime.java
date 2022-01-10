@@ -133,6 +133,9 @@ public class AshRuntime extends AbstractRuntime {
     try {
       this.parser = new Parser(scriptFile, stream, null);
       this.scope = parser.parse();
+    } catch (InterruptedException e) {
+      // Unlikely, but just in case.
+      return false;
     } catch (Exception e) {
       StaticEntity.printStackTrace(e);
       return false;
