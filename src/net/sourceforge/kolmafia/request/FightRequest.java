@@ -446,6 +446,7 @@ public class FightRequest extends GenericRequest {
     RAIN("Heavy Rains"),
     SEWER("Sewer Tunnel"),
     TACO_ELF("taco elf"),
+    VOID("void monsters"),
     WAR_FRATBOY("War Fratboy"),
     WAR_HIPPY("War Hippy"),
     WITCHESS("witchess"),
@@ -644,6 +645,10 @@ public class FightRequest extends GenericRequest {
 
     FightRequest.specialMonsters.put("Source Agent", SpecialMonster.PORTSCAN);
     FightRequest.specialMonsters.put("Government agent", SpecialMonster.PORTSCAN);
+
+    FightRequest.specialMonsters.put("void guy", SpecialMonster.VOID);
+    FightRequest.specialMonsters.put("void slab", SpecialMonster.VOID);
+    FightRequest.specialMonsters.put("void spider", SpecialMonster.VOID);
 
     FightRequest.addAreaMonsters("A Maze of Sewer Tunnels", SpecialMonster.SEWER);
     FightRequest.addAreaMonsters("The Battlefield (Frat Uniform)", SpecialMonster.WAR_HIPPY);
@@ -2638,6 +2643,14 @@ public class FightRequest extends GenericRequest {
               TurnCounter.startCounting(35, "Rain Monster window begin loc=*", "lparen.gif");
               TurnCounter.startCounting(
                   45, "Rain Monster window end loc=* type=wander", "rparen.gif");
+            }
+            break;
+
+          case VOID:
+            if (responseText.contains("Time seems to stop.")) {
+              Preferences.increment("_voidFreeFights", 1, 5, false);
+            } else {
+              Preferences.setInteger("_voidFreeFights", 5);
             }
             break;
 
