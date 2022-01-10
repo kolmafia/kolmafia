@@ -191,6 +191,32 @@ public class ParserTest {
     assertSame(Parser.class, imports[0].getClass());
   }
 
+  private static class ParserNonPublicSubclass extends Parser {
+    // Note how it's not public
+    ParserNonPublicSubclass(File scriptFile, InputStream stream, Map<File, Parser> imports) {
+      super(scriptFile, stream, imports);
+    }
+  }
+
+  @Test
+  public void testMakeChildNonPublicConstructor() {
+    final InputStream stream = new ByteArrayInputStream(makeChildBytes);
+    final Parser parser = new ParserNonPublicSubclass(null, stream, null);
+
+    final ScriptData script = new CustomParserScriptData("Parser.makeChild() test", parser);
+
+    final Parser[] imports = script.parser.getImports().values().toArray(new Parser[0]);
+
+    // Doesn't contain the parent Parser, since it wasn't submitted a File to map it with
+    assertEquals(1, imports.length);
+    assertNotSame(parser, imports[0]);
+
+    // Since the parser submitted didn't implement a public constructor with File + InputStream +
+    // Map, we didn't use it for the imported files' parsers
+    assertNotSame(Parser.class, parser.getClass());
+    assertSame(Parser.class, imports[0].getClass());
+  }
+
   private static class ParserModifiedSubclass extends Parser {
     public ParserModifiedSubclass(File scriptFile, InputStream stream, Map<File, Parser> imports) {
       super(scriptFile, stream, imports);
