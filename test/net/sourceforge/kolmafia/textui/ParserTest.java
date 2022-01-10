@@ -122,7 +122,25 @@ public class ParserTest {
   }
 
   @Test
-  public void testMultipleDiagnosticsPerParser() {
+  public void testInterruption() {
+    assertFalse(Thread.currentThread().isInterrupted());
+
+    Thread.currentThread().interrupt();
+    assertTrue(Thread.currentThread().isInterrupted());
+
+    // Doesn't matter if we use valid() or invalid(); the parsing gets interrupted anyway
+    final ScriptData script = ScriptData.valid("Will not parse", "foobar();", null, null);
+
+    assertNull(script.scope);
+    assertNull(script.errors);
+    assertInstanceOf(InterruptedException.class, script.parsingException);
+
+    // The interrupted state of the thread was cleared
+    assertFalse(Thread.currentThread().isInterrupted());
+  }
+
+  @Test
+  public void testMultipleDiagnosticsPerParser() throws InterruptedException {
     final String script =
         "import fake/path"
             + "\nstring foobar(string... foo, int bar) {"
@@ -151,7 +169,7 @@ public class ParserTest {
   }
 
   @Test
-  public void testErrorFilter() {
+  public void testErrorFilter() throws InterruptedException {
     final String script = "int a; max(a, b)";
     final ByteArrayInputStream istream =
         new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8));
