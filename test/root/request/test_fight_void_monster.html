@@ -1,0 +1,36 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == -1) location.href="game.php";
+top.charpane.location.href="charpane.php";
+//-->
+</script>
+<script language=Javascript src="/images/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="/images/scripts/window.20111231.js"></script>
+<script language=Javascript src="/images/scripts/jquery-1.3.1.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet"><script language="javascript" src="/images/scripts/core.js"></script><link rel="stylesheet" type="text/css" href="/images/actionbar.6.css">
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" href="/images/actionbar.ie.4.css">
+<script src='/images/scripts/minmax.js'></script>
+<![endif]-->
+<script src="/images/scripts/fight.js"></script>
+<script>
+var onturn = 1;
+
+</script>	<link rel="stylesheet" type="text/css" href="/images/styles.20151006.css">
+<style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+<script language="Javascript" src="/basics.js"></script><link rel="stylesheet" href="/basics.1.css" /></head>
+
+<body>
+<center><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Combat: Round 1!</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><center><table><tr><td><div id=monsterpic style='position: relative;'>	<img  id='monpic'   src="/images/adventureimages/voidspider.gif" width=100 height=100></div></td><td valign=center>You're fighting <span id='monname'>a void spider</span><font size=2 color=gray><br />HP: 75, Atk: 75, Def: 75, Type: horror</font></td><!-- MONSTERID: 2228 --><td width=30></td><td><table><tr><td width=30><img src=/images/itemimages/nicesword.gif width=30 height=30 alt="Enemy's Attack Power" title="Enemy's Attack Power"></td><td width=50 valign=center align=left><b><font size=+2>75</font></b></td><td><img src=/images/itemimages/skull.gif alt="This monster is a Horror" title="This monster is a Horror"></td></tr><tr><td width=30><img src=/images/itemimages/whiteshield.gif width=30 height=30 alt="Enemy's Defense" title="Enemy's Defense"></td><td width=50 valign=center align=left><b><font size=+2>75</font></b></td><td><img src=/images/itemimages/circle.gif width=30 height=30 alt="This monster has no particular elemental alignment." title="This monster has no particular elemental alignment."></td></tr><tr><td width=30><img src=/images/itemimages/hp.gif width=30 height=30 alt="Enemy's Hit Points" title="Enemy's Hit Points"></td><td width=50 valign=center align=left><b><font size=+2>75</font></b></td><td><img src=/images/itemimages/watch.gif alt="Initiative +999%" title="Initiative +999%"></td></tr></table></td></tr></table><br><script type="text/javascript">var monsterstats = {"hp":"75","def":"75","off":"75"};</script></center><blockquote>Your magnifying glass reveals a line of darkness.  You follow the line all the way to its terminus -- the butt of a spider that is also made out of darkness.</blockquote><center><p><p>It gets the jump on you.<p><p>The spider sinks its lack of fangs into your all-too-real lower back and injects you with some kind of poisonous darkness.<center><table><tr><td><img class=hand src="/images/itemimages/slug.gif" onClick='eff("f07d57053c4ed45f8523a4ae8dd95495");' width=30 height=30 alt="Sluggish" title="Sluggish"></td><td valign=center class=effect>You acquire an effect: <b>Sluggish</b><br>(duration: 1 Adventure)</td></tr></table></center><p><table><tr><td>It wraps a web around your giblets, but you've been doing giblets stretches, so you easily slither out of it.</td></tr></table><div id='fightform' class='hideform'><p><center><table><a name="end"><form name=attack action=fight.php method=post><input type=hidden name=action value="attack"><tr><td align=center><input id='tack' picurl=slordstaff onclick="return killforms(this)"  class=button type=submit value="Attack with your Staff of Kitchen Royalty"></td></tr></form></a><form name=chefstaffform action=fight.php method=post><input type=hidden name=action value="chefstaff"><tr><td align=center><input id='chefstaffbutton' picurl=squeastaff class=button type=submit onclick="return killforms(this);" value="Jiggle your Staff of Kitchen Royalty"></td></tr></form><form name=useitem action=fight.php method=post><input type=hidden name=action value="useitem"><tr><td align=left><select name=whichitem><option value=0>(select an item)<option  value=1389>yo-yo (2)</option><option  value=3388>Zombo's empty eye (1)</option></select> <input class=button type=submit onclick="return killforms(this);" value="Use Item(s)"></td></tr></form><form name=skill action=fight.php method=post><input type=hidden name=action value="skill"><tr><td align=center><select name=whichskill><option value='none'>(select a skill)</option><option value="7297" picurl="songboombox" >Sing Along (0 Muscularity Points)</option></select> <input class=button type=submit onclick="return killforms(this);" value="Use Skill"></td></tr></form><form name=macro action=fight.php method=post><input type=hidden name=action value="macro"><input type="hidden" name="macrotext" value=""><tr><td align=center><select name=whichmacro><option value='0'>(select a macro)</option><option value="182898" picurl="assembly2" >ur</option></select> <input class=button type=submit onclick="return killforms(this);" value="Execute Macro"></td></tr></form><form name=runaway action=fight.php method=post><input type=hidden name=action value="runaway"><tr><td align=center><input class=button onclick="return killforms(this);" type=submit value="Run Away"></td></tr></form></table></center></div><br><a href='#' onclick='document.getElementById("fightform").className="showform"; document.getElementById("formlink").style.display = "none";' id='formlink' class=tiny>(show old combat form)</a></td></tr></table></center></td></tr><tr><td height=4></td></tr></table><!--faaaaaaart--></center></div></div><script>var ifb = false; var imagepath = "/images/itemimages/"; var pwd="55b2c794b60800ceaf7a33affe057720";</script><script src='/images/scripts/actionbar.20170731.js'></script><script>multiCAB_additionalBars = [12];</script><script src='multicab.js'></script></body><script src="/onfocus.1.js"></script><script src="/combatfilter.1.js"></script></html>

@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.beans.Transient;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -179,5 +180,12 @@ public class FightRequestTest {
     assertEquals(
         "0:The Neverending Party:party girl|0:The Red Zeppelin:Red Snapper",
         Preferences.getString("crystalBallPredictions"));
+  }
+
+  @Test
+  public void voidMonsterIncrementationTest() {
+    KoLCharacter.reset("the Tristero");
+    parseCombatData("request/test_fight_void_monster.html");
+    assertEquals(5, Preferences.getInteger("_voidFreeFights"));
   }
 }
