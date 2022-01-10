@@ -64,6 +64,7 @@ import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
+import net.sourceforge.kolmafia.session.CursedMagnifyingGlassManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
@@ -2652,6 +2653,11 @@ public class FightRequest extends GenericRequest {
             } else {
               Preferences.setInteger("_voidFreeFights", 5);
             }
+            if (!EncounterManager.ignoreSpecialMonsters
+                && Preferences.getInteger("cursedMagnifyingGlassCount") == 13
+                && KoLCharacter.hasEquipped(ItemPool.CURSED_MAGNIFYING_GLASS)) {
+              Preferences.setInteger("cursedMagnifyingGlassCount", 0);
+            }
             break;
 
           case WOL:
@@ -2902,6 +2908,9 @@ public class FightRequest extends GenericRequest {
       Preferences.setInteger("garbageTreeCharge", 0);
       EquipmentManager.breakEquipment(ItemPool.DECEASED_TREE, "You toss your crimbo tree away.");
     }
+
+    // Check for magnifying glass messages
+    CursedMagnifyingGlassManager.updatePreference(responseText);
 
     // "The Slime draws back and shudders, as if it's about to sneeze.
     // Then it blasts you with a massive loogie that sticks to your
