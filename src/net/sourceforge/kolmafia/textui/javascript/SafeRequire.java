@@ -79,7 +79,12 @@ public class SafeRequire extends Require {
         String functionName = userDefinedFunction.getName();
         String functionNameCamelCase = JavascriptRuntime.toCamelCase(functionName);
         if (!ScriptableObject.hasProperty(exports, functionNameCamelCase)) {
-          UserDefinedFunctionStub stub = new UserDefinedFunctionStub(interpreter, functionName);
+          UserDefinedFunctionStub stub =
+              new UserDefinedFunctionStub(
+                  exports,
+                  ScriptableObject.getFunctionPrototype(exports),
+                  interpreter,
+                  functionName);
           int attributes =
               ScriptableObject.DONTENUM | ScriptableObject.PERMANENT | ScriptableObject.READONLY;
           ScriptableObject.defineProperty(exports, functionNameCamelCase, stub, attributes);
