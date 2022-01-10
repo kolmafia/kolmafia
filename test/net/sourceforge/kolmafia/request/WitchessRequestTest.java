@@ -22,8 +22,8 @@ public class WitchessRequestTest extends RequestTestBase {
 
   @BeforeEach
   public void beforeEach() {
-    KoLCharacter.reset("testUser");
-    KoLCharacter.reset(true);
+    KoLCharacter.reset("");
+    KoLCharacter.reset("witchess user");
     Set.of("puzzleChampBonus", "_witchessBuff").forEach(Preferences::resetToDefault);
     KoLCharacter.setRestricted(false);
   }
