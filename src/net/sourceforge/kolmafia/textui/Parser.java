@@ -398,20 +398,28 @@ public class Parser {
     return result;
   }
 
+  /**
+   * Makes a new instance of the first class we can find that has a public constructor expecting
+   * File + InputStream + Map
+   */
   private Parser makeChild(final File scriptFile) {
     final InputStream stream = this.getInputStream(scriptFile);
 
-    try {
-      Constructor<? extends Parser> childConstructor =
-          this.getClass().getConstructor(File.class, InputStream.class, Map.class);
+    Class<? extends Parser> currentClass = this.getClass();
 
-      return childConstructor.newInstance(scriptFile, stream, this.imports);
-    } catch (NoSuchMethodException | IllegalAccessException e) {
-      // The caller didn't want us to be able to do this, so don't.
-    } catch (InstantiationException e) {
-      // Shouldn't happen; it can't be an abstract class since we got it from an instance.
-    } catch (InvocationTargetException e) {
-      throw new RuntimeException(e);
+    while (currentClass != Parser.class) {
+      try {
+        Constructor<? extends Parser> childConstructor =
+            currentClass.getConstructor(File.class, InputStream.class, Map.class);
+
+        return childConstructor.newInstance(scriptFile, stream, this.imports);
+      } catch (NoSuchMethodException | IllegalAccessException | InstantiationException e) {
+        // Retry with the parent class
+        // asSubclass is only here to correct the generic; we know we're still descendant of Parser
+        currentClass = currentClass.getSuperclass().asSubclass(Parser.class);
+      } catch (InvocationTargetException e) {
+        throw new RuntimeException(e.getCause());
+      }
     }
 
     return new Parser(scriptFile, stream, this.imports);

@@ -174,7 +174,7 @@ public class ParserTest {
   @Test
   public void testMakeChildNoConstructor() {
     final InputStream stream = new ByteArrayInputStream(makeChildBytes);
-    // Note the braces at the end, causing it to be an anonymous subtype of Parser
+    // Note the braces at the end, causing it to be an anonymous subclass of Parser
     final Parser parser = new Parser(null, stream, null) {};
 
     final ScriptData script = new CustomParserScriptData("Parser.makeChild() test", parser);
@@ -215,6 +215,27 @@ public class ParserTest {
     // Map, we didn't use it for the imported files' parsers
     assertNotSame(Parser.class, parser.getClass());
     assertSame(Parser.class, imports[0].getClass());
+  }
+
+  @Test
+  public void testMakeChildImproperSubclassOfProperSubclass() {
+    final InputStream stream = new ByteArrayInputStream(makeChildBytes);
+    // Note the braces at the end, causing it to be an anonymous subclass of ParserSubclass
+    final Parser parser = new ParserSubclass(null, stream, null) {};
+
+    final ScriptData script = new CustomParserScriptData("Parser.makeChild() test", parser);
+
+    final Parser[] imports = script.parser.getImports().values().toArray(new Parser[0]);
+
+    // Doesn't contain the parent Parser, since it wasn't submitted a File to map it with
+    assertEquals(1, imports.length);
+    assertNotSame(parser, imports[0]);
+
+    // The submitted parser didn't have the expected constructor, but its superclass did, so it was
+    // used
+    assertNotSame(Parser.class, parser.getClass());
+    assertNotSame(ParserSubclass.class, parser.getClass());
+    assertSame(ParserSubclass.class, imports[0].getClass());
   }
 
   private static class ParserModifiedSubclass extends Parser {
