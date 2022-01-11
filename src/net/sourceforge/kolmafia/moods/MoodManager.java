@@ -155,9 +155,10 @@ public abstract class MoodManager {
     return trigger;
   }
 
-  /** Removes all from the current displayList. */
+  /** Removes all triggers from the current mood and displayList. */
   public static void removeTriggers(final Collection<MoodTrigger> triggers) {
-    for (MoodTrigger trigger : triggers) {
+    MoodTrigger[] local = triggers.toArray(new MoodTrigger[0]);
+    for (MoodTrigger trigger : local) {
       if (MoodManager.currentMood.removeTrigger(trigger)) {
         MoodManager.displayList.remove(trigger);
       }
