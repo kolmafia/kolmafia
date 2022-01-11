@@ -8159,6 +8159,7 @@ Outfit	FantasyRealm Warrior's Outfit	Weapon Damage Percent: +100
 Outfit	FantasyRealm Wizard's Outfit	Spell Damage Percent: +100
 Outfit	Fiberglass Finery	Initiative: +50
 Outfit	Filthy Hippy Disguise	Stench Damage: +5
+Outfit	Flagstone Finery	Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5
 Outfit	Floaty Fatigues	Spell Critical Percent: +10
 Outfit	Frat Boy Ensemble	Sleaze Damage: +5
 Outfit	Frat Warrior Fatigues	Sleaze Damage: +15
@@ -8190,6 +8191,7 @@ Outfit	Legendary Regalia of the Master Squeezeboxer	Pickpocket Chance: +50
 # Legendary Regalia of the Pasta Master: Pasta Ghosts Level Up Faster
 # Legendary Regalia of the Saucemaestro: Better Saucespheres
 # Legendary Regalia of the Seal Crusher: +100% Item Drops from Infernal Seals
+Outfit	Loofah Loungewear	Damage Absorption: +200
 Outfit	Luniform	Weapon Damage Percent: +25, Spell Damage Percent: +25
 Outfit	Marble Materials	Familiar Weight: +10
 Outfit	Mer-kin Gladiatorial Gear	Critical Hit Percent: +3
