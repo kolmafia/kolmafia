@@ -2686,6 +2686,10 @@ public class FightRequest extends GenericRequest {
       if (KoLCharacter.hasEquipped(ItemPool.MINIATURE_CRYSTAL_BALL, EquipmentManager.FAMILIAR)) {
         CrystalBallManager.parseCrystalBall(responseText);
       }
+
+      if (KoLCharacter.hasEquipped(ItemPool.DAYLIGHT_SHAVINGS_HELMET, EquipmentManager.HAT)) {
+        
+      }
     }
 
     // Figure out various things by examining the responseText. Ideally,

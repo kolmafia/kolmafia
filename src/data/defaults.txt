@@ -582,6 +582,7 @@ user	falloutShelterChronoUsed	false
 user	falloutShelterCoolingTankUsed	false
 user	falloutShelterLevel	0
 user	familiarScript
+user	lastBeardBuff
 user	lastCopyableMonster
 user	fingernailsClipped	0
 user	fireExtinguisherBatHoleUsed	false
