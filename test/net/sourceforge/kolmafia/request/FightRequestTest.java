@@ -211,6 +211,6 @@ public class FightRequestTest {
     EquipmentManager.setEquipment(
         EquipmentManager.HAT, ItemPool.get(ItemPool.DAYLIGHT_SHAVINGS_HELMET));
     parseCombatData("request/test_fight_daylight_shavings_buff.html");
-    assertEquals(2671, Preferences.getInt("lastBeardBuff"));
+    assertEquals(2671, Preferences.getInteger("lastBeardBuff"));
   }
 }
