@@ -14,11 +14,13 @@ public class DaylightShavingsHelmetManager {
     "A clippers-tipped robotic arm emerges from your helmet and gives you a quick face trim.",
   };
 
+  public static final Pattern DAYLIGHT_SHAVINGS_EFFECT_PATTERN = Pattern.compile("onClick='eff\\(\"(.*?)\"\\);'")
+
   public static void updatePreference(String responseText) {
     for (String msg : DAYLIGHT_SHAVINGS_MESSAGES) {
       int position = responseText.indexOf(msg);
       if (position > -1) {
-        Matcher matcher = Pattern.compile("onClick='eff\\(\"(.*?)\"\\);'").matcher(responseText);
+        Matcher matcher = DAYLIGHT_SHAVINGS_EFFECT_PATTERN.matcher(responseText);
         if (matcher.find(position)) {
           int effect = EffectDatabase.getEffectIdFromDescription(matcher.group(1));
           if (effect >= 2666 && effect <= 2676) {
