@@ -2913,7 +2913,7 @@ public class FightRequest extends GenericRequest {
     // Check for magnifying glass messages
     CursedMagnifyingGlassManager.updatePreference(responseText);
 
-    if (KoLCharacter.hasEquipped(ItemPool.DAYLIGHT_SHAVINGS_HELMET), EquipmentManager.HAT) {
+    if (KoLCharacter.hasEquipped(ItemPool.DAYLIGHT_SHAVINGS_HELMET, EquipmentManager.HAT)) {
       DaylightShavingsHelmetManager.updatePreference(responseText);
     }
 
