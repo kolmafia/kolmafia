@@ -2687,10 +2687,6 @@ public class FightRequest extends GenericRequest {
       if (KoLCharacter.hasEquipped(ItemPool.MINIATURE_CRYSTAL_BALL, EquipmentManager.FAMILIAR)) {
         CrystalBallManager.parseCrystalBall(responseText);
       }
-
-      if (KoLCharacter.hasEquipped(ItemPool.DAYLIGHT_SHAVINGS_HELMET, EquipmentManager.HAT)) {
-        DaylightShavingsHelmetManager.updatePreference(responseText);
-      }
     }
 
     // Figure out various things by examining the responseText. Ideally,
@@ -2916,6 +2912,10 @@ public class FightRequest extends GenericRequest {
 
     // Check for magnifying glass messages
     CursedMagnifyingGlassManager.updatePreference(responseText);
+
+    if (KoLCharacter.hasEquipped(ItemPool.DAYLIGHT_SHAVINGS_HELMET), EquipmentManager.HAT) {
+      DaylightShavingsHelmetManager.updatePreference(responseText);
+    }
 
     // "The Slime draws back and shudders, as if it's about to sneeze.
     // Then it blasts you with a massive loogie that sticks to your

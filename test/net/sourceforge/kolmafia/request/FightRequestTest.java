@@ -210,7 +210,7 @@ public class FightRequestTest {
     KoLCharacter.reset("the Tristero");
     EquipmentManager.setEquipment(
         EquipmentManager.HAT, ItemPool.get(ItemPool.DAYLIGHT_SHAVINGS_HELMET));
-    parseCombatData("request/test_fight_daylight_shavings_buff");
+    parseCombatData("request/test_fight_daylight_shavings_buff.html");
     assertEquals("Gull-Wing Moustache", Preferences.getString("lastBeardBuff"));
   }
 }
