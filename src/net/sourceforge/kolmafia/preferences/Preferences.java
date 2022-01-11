@@ -181,6 +181,7 @@ public class Preferences {
         "currentHedgeMazeRoom",
         "currentHippyStore",
         "currentSpecialBountyItem",
+        "cursedMagnifyingGlassCount",
         "cyrusAdjectives",
         "dampOldBootPurchased",
         "daycareEquipment",
