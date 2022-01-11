@@ -242,4 +242,16 @@ class MoodManagerTest {
     MoodManager.maximalSet();
     assertEquals(4, MoodManager.getTriggers("default").size(), "Triggers already present");
   }
+
+  @Test
+  public void itShouldClearAll() throws IOException {
+    //simulate mood clear command
+    Preferences.setString("currentMood", "meatdrop");
+    MoodManager.loadSettings(mockedReader());
+    assertEquals(7, MoodManager.getAvailableMoods().size(), "Wrong number of moods");
+    MoodManager.removeTriggers(MoodManager.getTriggers());
+    MoodManager.saveSettings();
+    assertEquals(0, MoodManager.getAvailableMoods().size(), "Wrong number of moods");
+
+  }
 }
