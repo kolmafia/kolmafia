@@ -21,8 +21,7 @@ public class CursedMagnifyingGlassManager {
           Map.entry(
               "You look at your left hand and notice, to your horror, that you have five fingers.  Oh, wait, that's the normal number.  Never mind.",
               9),
-          Map.entry(
-              "The bells of a distant cathedral ring four times.", 10),
+          Map.entry("The bells of a distant cathedral ring four times.", 10),
           Map.entry(
               "Three wolves howl in the distance.  You wonder what they're howling about.  Probably just ordinary wolf stuff.",
               11),
