@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.CursedMagnifyingGlassManager;
 import net.sourceforge.kolmafia.session.DadManager;
+import net.sourceforge.kolmafia.session.DaylightShavingsHelmetManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -2688,7 +2689,7 @@ public class FightRequest extends GenericRequest {
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.DAYLIGHT_SHAVINGS_HELMET, EquipmentManager.HAT)) {
-        
+        DaylightShavingsHelmetManager.updatePreference(responseText);
       }
     }
 
