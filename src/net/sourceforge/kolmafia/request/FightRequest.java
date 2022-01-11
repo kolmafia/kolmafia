@@ -2402,13 +2402,16 @@ public class FightRequest extends GenericRequest {
         TurnCounter.stopCounting("Enamorang unknown monster window begin");
         TurnCounter.stopCounting("Enamorang unknown monster window end");
         Preferences.setString("enamorangMonster", "");
+      } else if (EncounterManager.isGregariousEncounter(responseText, true)) {
+        EncounterManager.ignoreSpecialMonsters();
+        Preferences.decrement("beGregariousFightsLeft", 1, 0);
       } else if (EncounterManager.isSaberForceMonster()) {
         // This is earlier in the chain than the things above, but since
         // there's no message it's easiest to check it after
         Preferences.decrement("_saberForceMonsterCount");
-      } else if (EncounterManager.isGregariousEncounter(responseText, true)) {
-        EncounterManager.ignoreSpecialMonsters();
-        Preferences.decrement("beGregariousFightsLeft", 1, 0);
+      } else if (CrystalBallManager.isCrystalBallMonster()) {
+        // This similarly has no message so can be checked at the end
+        CrystalBallManager.clear();
       }
 
       // Increment stinky cheese counter
