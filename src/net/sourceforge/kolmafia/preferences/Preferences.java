@@ -269,6 +269,7 @@ public class Preferences {
         "jungCharge",
         "lassoTraining",
         "lastAnticheeseDay",
+        "lastBeardBuff",
         "lastColosseumRoundWon",
         "lastCopyableMonster",
         "lastCouncilVisit",
