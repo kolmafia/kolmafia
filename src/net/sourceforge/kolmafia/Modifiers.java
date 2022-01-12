@@ -2634,9 +2634,7 @@ public class Modifiers {
     // modifier being set.
 
     if (Modifiers.passiveSkills.isEmpty()) {
-      String[] keys = Modifiers.modifiersByName.keySet().toArray(new String[0]);
-      for (int i = 0; i < keys.length; ++i) {
-        String lookup = keys[i];
+      for (String lookup : Modifiers.modifiersByName.keySet()) {
         if (!Modifiers.getTypeFromLookup(lookup).equals("Skill")) {
           continue;
         }
