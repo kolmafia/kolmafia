@@ -213,4 +213,9 @@ public class FightRequestTest {
     parseCombatData("request/test_fight_daylight_shavings_buff.html");
     assertEquals(2671, Preferences.getInteger("lastBeardBuff"));
   }
+
+  @Test
+  public void luckyGoldRingVolcoinoDropRecorded() {
+    assert (false);
+  }
 }
