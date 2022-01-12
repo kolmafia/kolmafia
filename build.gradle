@@ -1,5 +1,11 @@
 //-*- mode: groovy -*-
 
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+}
+
 plugins {
 	id 'application'
 	id 'jacoco'
