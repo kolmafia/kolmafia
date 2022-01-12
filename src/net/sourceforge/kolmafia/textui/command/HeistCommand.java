@@ -38,8 +38,6 @@ public class HeistCommand extends AbstractCommand {
 
       var heistResponse = heistRequest();
 
-      // parse request to find valid items
-      // print all items (+ monster they came from, + number of heists)
       Matcher countMatcher = HeistCommand.HEIST_COUNT.matcher(heistResponse);
       if (countMatcher.find()) {
         heists = Integer.parseInt(countMatcher.group(1));
@@ -57,7 +55,6 @@ public class HeistCommand extends AbstractCommand {
         output.append(monsterMatcher.group("monster"));
         output.append(": <ul>");
 
-        // loop
         Matcher itemMatcher = ITEM.matcher(monsterMatcher.group("items"));
         while (itemMatcher.find()) {
           output.append("<li>");
