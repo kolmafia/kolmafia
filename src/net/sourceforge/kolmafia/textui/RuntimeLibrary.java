@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -6241,6 +6242,11 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value get_heistables(ScriptRuntime controller) {
+    FamiliarData current = KoLCharacter.getFamiliar();
+    if (current == null || current.getId() != FamiliarPool.CAT_BURGLAR) {
+      throw controller.runtimeException("Cat Burglar must be equipped to get heistables");
+    }
+
     MapValue returnValue = new MapValue(HeistType);
     var heistData = new HeistManager().getHeistable();
     for (var heistable : heistData.heistables.entrySet()) {
@@ -6257,6 +6263,11 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value heist(ScriptRuntime controller, final Value item) {
+    FamiliarData current = KoLCharacter.getFamiliar();
+    if (current == null || current.getId() != FamiliarPool.CAT_BURGLAR) {
+      throw controller.runtimeException("Cat Burglar must be equipped to heist");
+    }
+
     int itemId = (int) item.intValue();
     var heisted = new HeistManager().heist(itemId);
     return DataTypes.makeBooleanValue(heisted);
