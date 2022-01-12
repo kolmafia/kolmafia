@@ -3403,7 +3403,7 @@ public class FightRequest extends GenericRequest {
     }
 
     if (responseText.contains(
-        "Your lucky gold ring gets warmer for a moment. You look down and find a Volcoino!")) {
+        "Your lucky gold ring gets warmer for a moment.  You look down and find a Volcoino!")) {
       Preferences.setBoolean("_luckyGoldRingVolcoino", true);
     }
 
