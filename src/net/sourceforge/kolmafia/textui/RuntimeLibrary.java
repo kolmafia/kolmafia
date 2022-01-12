@@ -1485,7 +1485,7 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("every_card_name", DataTypes.STRING_TYPE, params));
 
     params = new Type[] {};
-    functions.add(new LibraryFunction("get_heistables", HeistType, params));
+    functions.add(new LibraryFunction("heist_targets", HeistType, params));
 
     params = new Type[] {DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("heist", DataTypes.BOOLEAN_TYPE, params));
@@ -6241,7 +6241,7 @@ public abstract class RuntimeLibrary {
     return (card == null) ? DataTypes.STRING_INIT : DataTypes.makeStringValue(card.name);
   }
 
-  public static Value get_heistables(ScriptRuntime controller) {
+  public static Value heist_targets(ScriptRuntime controller) {
     FamiliarData current = KoLCharacter.getFamiliar();
     if (current == null || current.getId() != FamiliarPool.CAT_BURGLAR) {
       throw controller.runtimeException("Cat Burglar must be equipped to get heistables");
