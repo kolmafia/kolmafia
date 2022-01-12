@@ -6351,12 +6351,11 @@ public class FightRequest extends GenericRequest {
           ||
           // Mr. Cheeng's spectacles
           str.contains("You see a weird thing out of the corner of your eye, and you grab it")
-          || str.contains("You think you see a weird thing out of the corner of your eye")
-          ||
-          // lucky gold ring
-          str.contains("Your lucky gold ring gets warmer for a moment.")) {
+          || str.contains("You think you see a weird thing out of the corner of your eye")) {
         FightRequest.logText(str, status);
       }
+
+      FightRequest.handleLuckyGoldRing(str, status);
 
       // Retrospecs
       if (str.contains("notice an item you missed earlier")) {
@@ -7135,6 +7134,16 @@ public class FightRequest extends GenericRequest {
       FightRequest.logText(str);
       VillainLairDecorator.parseColorClue(str);
       return;
+    }
+  }
+
+  private static void handleLuckyGoldRing(String str, TagStatus status) {
+    if (!str.contains("Your lucky gold ring gets warmer for a moment.")) {
+      return;
+    }
+    FightRequest.logText(str, status);
+    if (str.contains("You look down and find a Volcoino!")) {
+      Preferences.setBoolean("_luckyGoldRingVolcoino", true);
     }
   }
 

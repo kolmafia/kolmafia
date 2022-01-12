@@ -30,7 +30,7 @@ public class FightRequestTest {
   }
 
   private void parseCombatData(String path, String location, String encounter) throws IOException {
-    String html = Files.readString(Paths.get(path));
+    String html = Files.readString(Paths.get(path)).trim();
     FightRequest.updateCombatData(location, encounter, html);
   }
 
@@ -212,5 +212,12 @@ public class FightRequestTest {
         EquipmentManager.HAT, ItemPool.get(ItemPool.DAYLIGHT_SHAVINGS_HELMET));
     parseCombatData("request/test_fight_daylight_shavings_buff.html");
     assertEquals(2671, Preferences.getInteger("lastBeardBuff"));
+  }
+
+  @Test
+  public void luckyGoldRingVolcoinoDropRecorded() throws IOException {
+    assertEquals(false, Preferences.getBoolean("_luckyGoldRingVolcoino"));
+    parseCombatData("request/test_fight_lucky_gold_ring_volcoino.html");
+    assertEquals(true, Preferences.getBoolean("_luckyGoldRingVolcoino"));
   }
 }
