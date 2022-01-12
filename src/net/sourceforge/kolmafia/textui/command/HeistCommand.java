@@ -103,7 +103,7 @@ public class HeistCommand extends AbstractCommand {
     GenericRequest request = new GenericRequest("choice.php");
     request.addFormField("whichchoice", "1320");
     request.addFormField("option", "1");
-    request.addFormField("st:" + itemId + ":" + monsterId, itemName);
+    request.addFormField("st:" + monsterId + ":" + itemId, itemName);
     request.addFormField("pwd", GenericRequest.passwordHash);
     RequestThread.postRequest(request);
 
