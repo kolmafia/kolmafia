@@ -2314,13 +2314,15 @@ public class ResultProcessor {
         break;
 
       case ItemPool.HOT_ASHES:
-        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GALLOPING_GRILL) {
+        if (adventureResults
+            && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GALLOPING_GRILL) {
           Preferences.increment("_hotAshesDrops", 1);
         }
         break;
 
       case ItemPool.PSYCHOANALYTIC_JAR:
-        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.ANGRY_JUNG_MAN) {
+        if (adventureResults
+            && KoLCharacter.currentFamiliar.getId() == FamiliarPool.ANGRY_JUNG_MAN) {
           Preferences.increment("_jungDrops", 1);
           Preferences.setInteger("jungCharge", 0);
           KoLCharacter.findFamiliar(FamiliarPool.ANGRY_JUNG_MAN).setCharges(0);
@@ -2335,7 +2337,8 @@ public class ResultProcessor {
         break;
 
       case ItemPool.POWDERED_GOLD:
-        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GOLDEN_MONKEY) {
+        if (adventureResults
+            && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GOLDEN_MONKEY) {
           Preferences.increment("_powderedGoldDrops", 1);
         }
         break;
@@ -3163,7 +3166,8 @@ public class ResultProcessor {
       case ItemPool.SPOOKY_JELLY:
       case ItemPool.SLEAZE_JELLY:
       case ItemPool.STENCH_JELLY:
-        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SPACE_JELLYFISH) {
+        if (adventureResults
+            && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SPACE_JELLYFISH) {
           Preferences.increment("_spaceJellyfishDrops");
         }
         break;
