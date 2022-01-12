@@ -50,7 +50,7 @@ public class HeistManager {
     }
   }
 
-  public HeistData getHeistable() {
+  public HeistData getHeistTargets() {
     var response = getRequest();
     int heists = 0;
 

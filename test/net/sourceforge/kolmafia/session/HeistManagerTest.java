@@ -27,7 +27,7 @@ public class HeistManagerTest {
 
   @Test
   void parsesHeistPage() {
-    var heistable = manager.getHeistable();
+    var heistable = manager.getHeistTargets();
 
     assertThat(heistable.heists, equalTo(42));
     assertThat(

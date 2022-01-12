@@ -29,7 +29,7 @@ public class HeistCommand extends AbstractCommand {
       StringBuilder output = new StringBuilder();
 
       var heistManager = heistManager();
-      var heistData = heistManager.getHeistable();
+      var heistData = heistManager.getHeistTargets();
 
       output.append("You have ");
       output.append(heistData.heists);

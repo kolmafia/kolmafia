@@ -6248,7 +6248,7 @@ public abstract class RuntimeLibrary {
     }
 
     MapValue returnValue = new MapValue(HeistType);
-    var heistData = new HeistManager().getHeistable();
+    var heistData = new HeistManager().getHeistTargets();
     for (var heistable : heistData.heistables.entrySet()) {
       var monster = heistable.getKey();
       MapValue value = new MapValue(DataTypes.INT_TO_ITEM_TYPE);
