@@ -692,6 +692,31 @@ public class TestCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("vintner")) {
+      if (TestCommand.contents != null) {
+        ItemDatabase.parseVampireVintnerWine(TestCommand.contents);
+        TestCommand.contents = null;
+      } else {
+        ItemDatabase.parseVampireVintnerWine();
+      }
+
+      String name = Preferences.getString("vintnerWineName");
+      String effect = Preferences.getString("vintnerWineEffect");
+      int level = Preferences.getInteger("vintnerWineLevel");
+      String type = Preferences.getString("vintnerWineType");
+
+      if (level > 0) {
+        RequestLogger.printLine(name + " is a level " + level + " " + type + " wine.");
+        RequestLogger.printLine("It grants 12 turns of the '" + effect + "' effect:");
+        RequestLogger.printLine(
+            Modifiers.getStringModifier("Effect", effect, "Evaluated Modifiers"));
+      } else {
+        RequestLogger.printLine("You currently have no access to a 1950 Vampire Vintner wine");
+      }
+
+      return;
+    }
+
     if (command.equals("wiki")) {
       if (split.length < 3) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "test wiki type name");

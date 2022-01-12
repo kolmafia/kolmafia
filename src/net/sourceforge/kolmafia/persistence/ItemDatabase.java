@@ -2160,32 +2160,82 @@ public class ItemDatabase {
     }
   }
 
-  public static void parseVampireVintnerWine(final String desc) {
+  public static void resetVampireVintnerWine() {
+    Preferences.setString("vintnerWineName", "");
+    Preferences.setString("vintnerWineEffect", "");
+    Preferences.setInteger("vintnerWineLevel", 0);
+    Preferences.setString("vintnerWineType", "");
+  }
+
+  public static void parseVampireVintnerWine() {
+    String idesc = DebugDatabase.itemDescriptionText(ItemPool.VAMPIRE_VINTNER_WINE, true);
+    ItemDatabase.parseVampireVintnerWine(idesc);
+  }
+
+  public static void parseVampireVintnerWine(final String idesc) {
+    String name = DebugDatabase.parseName(idesc);
+    String iEnchantments =
+        DebugDatabase.parseItemEnchantments(
+            idesc, new ArrayList<String>(), KoLConstants.CONSUME_DRINK);
+    Modifiers imods = Modifiers.parseModifiers(name, iEnchantments);
+    String effectName = imods.getString("Effect");
+    int effectId = EffectDatabase.getEffectId(effectName);
+
+    if (effectId == -1) {
+      // Unknown wine
+      ItemDatabase.resetVampireVintnerWine();
+      return;
+    }
+
+    String edesc = DebugDatabase.readEffectDescriptionText(effectId);
+    String eEnchantments = DebugDatabase.parseEffectEnchantments(edesc, new ArrayList<String>());
+    Modifiers emods = Modifiers.parseModifiers(effectName, eEnchantments);
+
     String type = "";
-    switch (Modifiers.getStringModifier("Item", ItemPool.VAMPIRE_VINTNER_WINE, "Effect")) {
+    int level = 0;
+
+    switch (effectName) {
       case "Wine-Befouled":
         type = "stench";
+        level = (int) emods.get(Modifiers.STENCH_DAMAGE) / 3;
         break;
       case "Wine-Cold":
+        level = (int) emods.get(Modifiers.COLD_DAMAGE) / 3;
         type = "cold";
         break;
       case "Wine-Dark":
+        level = (int) emods.get(Modifiers.SPOOKY_DAMAGE) / 4;
         type = "spooky";
         break;
       case "Wine-Fortified":
+        level = (int) emods.get(Modifiers.WEAPON_DAMAGE) / 3;
         type = "physical";
         break;
       case "Wine-Frisky":
+        level = (int) emods.get(Modifiers.SLEAZE_DAMAGE) / 3;
         type = "sleaze";
         break;
       case "Wine-Friendly":
+        level = (int) emods.get(Modifiers.FAMILIAR_DAMAGE) / 3;
         type = "familiar";
         break;
       case "Wine-Hot":
+        level = (int) emods.get(Modifiers.HOT_DAMAGE) / 3;
         type = "hot";
         break;
+      default:
+        break;
     }
+
+    Preferences.setString("vintnerWineName", name);
+    Preferences.setString("vintnerWineEffect", effectName);
+    Preferences.setInteger("vintnerWineLevel", level);
     Preferences.setString("vintnerWineType", type);
+
+    Modifiers.overrideModifier(Modifiers.getLookupName("Item", "1950 Vampire Vintner wine"), imods);
+
+    // The effects already have modifiers based on cintnerWineLevel
+    // Modifiers.overrideModifier(Modifiers.getLookupName("Effect", effectName), emods);
   }
 
   public static int parseYearbookCamera(final String desc) {
