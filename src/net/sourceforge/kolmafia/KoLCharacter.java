@@ -4384,6 +4384,10 @@ public abstract class KoLCharacter {
     return null;
   }
 
+  public static final boolean hasFamiliar(final int familiarId) {
+    return KoLCharacter.findFamiliar(familiarId) != null;
+  }
+
   /**
    * Accessor method to set the data for the current familiar.
    *

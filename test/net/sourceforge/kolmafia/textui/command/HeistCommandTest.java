@@ -35,10 +35,10 @@ public class HeistCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustHaveCatBurglar() {
-    KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR);
+    KoLCharacter.familiars.clear();
     String output = execute("");
 
-    assertThat(output, containsString("You need to take your Cat Burglar with you"));
+    assertThat(output, containsString("You don't have a Cat Burglar"));
     assertContinueState();
   }
 

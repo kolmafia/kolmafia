@@ -6242,10 +6242,12 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value heist_targets(ScriptRuntime controller) {
-    FamiliarData current = KoLCharacter.getFamiliar();
-    if (current == null || current.getId() != FamiliarPool.CAT_BURGLAR) {
-      throw controller.runtimeException("Cat Burglar must be equipped to get heistables");
+    if (!KoLCharacter.hasFamiliar(FamiliarPool.CAT_BURGLAR)) {
+      throw controller.runtimeException("You don't have a Cat Burglar");
     }
+    FamiliarData current = KoLCharacter.getFamiliar();
+    RequestThread.postRequest(
+        new FamiliarRequest(KoLCharacter.findFamiliar(FamiliarPool.CAT_BURGLAR)));
 
     MapValue returnValue = new MapValue(HeistType);
     var heistData = new HeistManager().getHeistTargets();
@@ -6259,17 +6261,23 @@ public abstract class RuntimeLibrary {
       }
       returnValue.aset(DataTypes.makeMonsterValue(monster.id, false), value);
     }
+
+    RequestThread.postRequest(new FamiliarRequest(current));
     return returnValue;
   }
 
   public static Value heist(ScriptRuntime controller, final Value item) {
-    FamiliarData current = KoLCharacter.getFamiliar();
-    if (current == null || current.getId() != FamiliarPool.CAT_BURGLAR) {
-      throw controller.runtimeException("Cat Burglar must be equipped to heist");
+    if (!KoLCharacter.hasFamiliar(FamiliarPool.CAT_BURGLAR)) {
+      throw controller.runtimeException("You don't have a Cat Burglar");
     }
+    FamiliarData current = KoLCharacter.getFamiliar();
+    RequestThread.postRequest(
+        new FamiliarRequest(KoLCharacter.findFamiliar(FamiliarPool.CAT_BURGLAR)));
 
     int itemId = (int) item.intValue();
     var heisted = new HeistManager().heist(itemId);
+
+    RequestThread.postRequest(new FamiliarRequest(current));
     return DataTypes.makeBooleanValue(heisted);
   }
 
