@@ -195,6 +195,8 @@ public abstract class RuntimeLibrary {
 
   private static final AggregateType NumberologyType =
       new AggregateType(DataTypes.INT_TYPE, DataTypes.INT_TYPE);
+  private static final AggregateType HeistType =
+      new AggregateType(DataTypes.INT_TO_ITEM_TYPE, DataTypes.MONSTER_TYPE);
 
   private static final AggregateType ItemSetType =
       new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.INT_TYPE);
@@ -1480,6 +1482,12 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.STRICT_STRING_TYPE};
     functions.add(new LibraryFunction("every_card_name", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(new LibraryFunction("get_heistables", HeistType, params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("heist", DataTypes.BOOLEAN_TYPE, params));
 
     // Equipment functions.
 
@@ -6230,6 +6238,28 @@ public abstract class RuntimeLibrary {
 
     EveryCard card = DeckOfEveryCardRequest.canonicalNameToCard(matchingNames.get(0));
     return (card == null) ? DataTypes.STRING_INIT : DataTypes.makeStringValue(card.name);
+  }
+
+  public static Value get_heistables(ScriptRuntime controller) {
+    MapValue returnValue = new MapValue(HeistType);
+    var heistData = new HeistManager().getHeistable();
+    for (var heistable : heistData.heistables.entrySet()) {
+      var monster = heistable.getKey();
+      MapValue value = new MapValue(DataTypes.INT_TO_ITEM_TYPE);
+      int i = 0;
+      for (var item : heistable.getValue()) {
+        value.aset(DataTypes.makeIntValue(i), DataTypes.makeItemValue(item.id, false));
+        i++;
+      }
+      returnValue.aset(DataTypes.makeMonsterValue(monster.id, false), value);
+    }
+    return returnValue;
+  }
+
+  public static Value heist(ScriptRuntime controller, final Value item) {
+    int itemId = (int) item.intValue();
+    var heisted = new HeistManager().heist(itemId);
+    return DataTypes.makeBooleanValue(heisted);
   }
 
   // Equipment functions.
