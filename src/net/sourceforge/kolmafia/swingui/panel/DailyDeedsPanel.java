@@ -702,9 +702,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         RequestLogger.printLine("Daily Deeds error: unable to resolve skill " + deedsString[3]);
         return;
       }
-      this.add(
-          new SkillDaily(
-              displayText, pref, skillNames.get(0), "cast " + skillNames.get(0)));
+      this.add(new SkillDaily(displayText, pref, skillNames.get(0), "cast " + skillNames.get(0)));
     } else if (deedsString.length == 5) {
       String displayText = deedsString[1];
       List<String> skillNames = SkillDatabase.getMatchingNames(deedsString[3]);
@@ -718,11 +716,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         }
         this.add(
             new SkillDaily(
-                displayText,
-                pref,
-                skillNames.get(0),
-                "cast " + skillNames.get(0),
-                maxCasts));
+                displayText, pref, skillNames.get(0), "cast " + skillNames.get(0), maxCasts));
       } catch (NumberFormatException e) {
         RequestLogger.printLine(
             "Daily Deeds error: Skill deeds require an int for the fifth parameter.");

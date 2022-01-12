@@ -316,7 +316,10 @@ public class MallSearchFrame extends GenericPanelFrame {
         if (!MallSearchFrame.this.currentlyBuying) {
           MallSearchFrame.this.mallSearch.setStatusMessage(
               MallSearchFrame.this.getPurchaseSummary(
-                  MallSearchFrame.this.resultsList.getSelectedValuesList().toArray(new PurchaseRequest[0])));
+                  MallSearchFrame.this
+                      .resultsList
+                      .getSelectedValuesList()
+                      .toArray(new PurchaseRequest[0])));
         }
       }
     }
