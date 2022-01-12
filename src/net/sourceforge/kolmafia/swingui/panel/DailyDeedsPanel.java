@@ -683,20 +683,20 @@ public class DailyDeedsPanel extends Box implements Listener {
        * Skill|displayText|preference
        * skillName is found from displayText
        */
-      List<?> skillNames = SkillDatabase.getMatchingNames(deedsString[1]);
+      List<String> skillNames = SkillDatabase.getMatchingNames(deedsString[1]);
 
       if (skillNames.size() != 1) {
         RequestLogger.printLine("Daily Deeds error: unable to resolve skill " + deedsString[1]);
         return;
       }
 
-      this.add(new SkillDaily(pref, (String) skillNames.get(0), "cast " + skillNames.get(0)));
+      this.add(new SkillDaily(pref, skillNames.get(0), "cast " + skillNames.get(0)));
     } else if (deedsString.length == 4) {
       /*
        * Skill|displayText|preference|skillName
        */
       String displayText = deedsString[1];
-      List<?> skillNames = SkillDatabase.getMatchingNames(deedsString[3]);
+      List<String> skillNames = SkillDatabase.getMatchingNames(deedsString[3]);
 
       if (skillNames.size() != 1) {
         RequestLogger.printLine("Daily Deeds error: unable to resolve skill " + deedsString[3]);
@@ -704,10 +704,10 @@ public class DailyDeedsPanel extends Box implements Listener {
       }
       this.add(
           new SkillDaily(
-              displayText, pref, (String) skillNames.get(0), "cast " + skillNames.get(0)));
+              displayText, pref, skillNames.get(0), "cast " + skillNames.get(0)));
     } else if (deedsString.length == 5) {
       String displayText = deedsString[1];
-      List<?> skillNames = SkillDatabase.getMatchingNames(deedsString[3]);
+      List<String> skillNames = SkillDatabase.getMatchingNames(deedsString[3]);
 
       try {
         int maxCasts = Integer.parseInt(deedsString[4]);
@@ -720,7 +720,7 @@ public class DailyDeedsPanel extends Box implements Listener {
             new SkillDaily(
                 displayText,
                 pref,
-                (String) skillNames.get(0),
+                skillNames.get(0),
                 "cast " + skillNames.get(0),
                 maxCasts));
       } catch (NumberFormatException e) {
@@ -729,7 +729,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       }
     } else if (deedsString.length == 6) {
       String displayText = deedsString[1];
-      List<?> skillNames = SkillDatabase.getMatchingNames(deedsString[3]);
+      List<String> skillNames = SkillDatabase.getMatchingNames(deedsString[3]);
       String toolTip = deedsString[5];
 
       try {
@@ -743,7 +743,7 @@ public class DailyDeedsPanel extends Box implements Listener {
             new SkillDaily(
                 displayText,
                 pref,
-                (String) skillNames.get(0),
+                skillNames.get(0),
                 "cast " + skillNames.get(0),
                 maxCasts,
                 toolTip));
@@ -757,7 +757,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       if (skillString.equals("")) {
         skillString = displayText;
       }
-      List<?> skillNames = SkillDatabase.getMatchingNames(skillString);
+      List<String> skillNames = SkillDatabase.getMatchingNames(skillString);
       String toolTip = deedsString[5];
       String compMessage = deedsString[6];
 
@@ -776,7 +776,7 @@ public class DailyDeedsPanel extends Box implements Listener {
             new SkillDaily(
                 displayText,
                 pref,
-                (String) skillNames.get(0),
+                skillNames.get(0),
                 "cast " + skillNames.get(0),
                 maxCasts,
                 toolTip,

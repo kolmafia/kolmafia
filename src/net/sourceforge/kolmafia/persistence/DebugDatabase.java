@@ -812,9 +812,8 @@ public class DebugDatabase {
     report.println();
     report.println("# Level requirements in " + file + ".txt");
 
-    Object[] keys = map.keySet().toArray();
-    for (Object key : keys) {
-      String name = (String) key;
+    String[] keys = map.keySet().toArray(new String[0]);
+    for (String name : keys) {
       String text = map.get(name);
       DebugDatabase.checkConsumableDatum(name, type, text, report);
     }
@@ -908,9 +907,8 @@ public class DebugDatabase {
     report.println("# " + tag + " section of equipment.txt");
     report.println();
 
-    Object[] keys = map.keySet().toArray();
-    for (Object key : keys) {
-      String name = (String) key;
+    String[] keys = map.keySet().toArray(new String[0]);
+    for (String name : keys) {
       String text = map.get(name);
       DebugDatabase.checkEquipmentDatum(name, text, report);
     }
@@ -1097,10 +1095,9 @@ public class DebugDatabase {
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
-    Object[] keys = map.keySet().toArray();
+    String[] keys = map.keySet().toArray(new String[0]);
     int type = imap.getType();
-    for (Object key : keys) {
-      String name = (String) key;
+    for (String name : keys) {
       String text = map.get(name);
       DebugDatabase.checkItemModifierDatum(name, text, type, report, showAll);
     }
@@ -1728,9 +1725,8 @@ public class DebugDatabase {
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
-    Object[] keys = map.keySet().toArray();
-    for (Object key : keys) {
-      String name = (String) key;
+    String[] keys = map.keySet().toArray(new String[0]);
+    for (String name : keys) {
       String text = map.get(name);
       DebugDatabase.checkOutfitModifierDatum(name, text, report);
     }
@@ -1960,9 +1956,8 @@ public class DebugDatabase {
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
-    Object[] keys = map.keySet().toArray();
-    for (Object key : keys) {
-      String name = (String) key;
+    String[] keys = map.keySet().toArray(new String[0]);
+    for (String name : keys) {
       String text = map.get(name);
       DebugDatabase.checkEffectModifierDatum(name, text, report);
     }
@@ -2212,9 +2207,8 @@ public class DebugDatabase {
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
-    Object[] keys = map.keySet().toArray();
-    for (Object key : keys) {
-      String name = (String) key;
+    String[] keys = map.keySet().toArray(new String[0]);
+    for (String name : keys) {
       String text = map.get(name);
       DebugDatabase.checkSkillModifierDatum(name, text, report);
     }

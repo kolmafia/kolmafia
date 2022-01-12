@@ -2363,7 +2363,7 @@ public class OptionsFrame extends GenericFrame {
           skill = "all";
           break;
         default:
-          skill = (String) this.getItemAt(index);
+          skill = this.getItemAt(index);
           break;
       }
       Preferences.setString(this.preference, skill);
@@ -2414,7 +2414,7 @@ public class OptionsFrame extends GenericFrame {
           crop = "any";
           break;
         default:
-          crop = (String) this.getItemAt(index);
+          crop = this.getItemAt(index);
           break;
       }
       Preferences.setString(this.preference, crop);

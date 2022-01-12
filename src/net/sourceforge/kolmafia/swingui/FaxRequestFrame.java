@@ -108,13 +108,12 @@ public class FaxRequestFrame extends GenericFrame {
     @Override
     public void actionConfirmed() {
       int list = this.monsterIndex;
-      Object value = monsterLists.get(list).getSelectedValue();
-      if (value == null) {
+      Monster monster = monsterLists.get(list).getSelectedValue();
+      if (monster == null) {
         return;
       }
 
       String botName = this.bot.getName();
-      Monster monster = (Monster) value;
       FaxRequestFrame.requestFax(botName, monster);
     }
 
