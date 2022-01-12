@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -157,10 +154,15 @@ public abstract class MoodManager {
 
   /** Removes all triggers from the current mood and displayList. */
   public static void removeTriggers(final Collection<MoodTrigger> triggers) {
-    MoodTrigger[] local = triggers.toArray(new MoodTrigger[0]);
-    for (MoodTrigger trigger : local) {
+    Iterator<MoodTrigger> it = triggers.iterator();
+    while (it.hasNext()) {
+      MoodTrigger trigger = it.next();
       if (MoodManager.currentMood.removeTrigger(trigger)) {
-        MoodManager.displayList.remove(trigger);
+        if (triggers == MoodManager.displayList) {
+          it.remove();
+        } else {
+          MoodManager.displayList.remove(trigger);
+        }
       }
     }
   }
@@ -387,8 +389,6 @@ public abstract class MoodManager {
     }
 
     MoodManager.isExecuting = true;
-
-    MoodTrigger current = null;
 
     AdventureResult[] effects = new AdventureResult[KoLConstants.activeEffects.size()];
     KoLConstants.activeEffects.toArray(effects);
