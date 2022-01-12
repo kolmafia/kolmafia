@@ -3238,12 +3238,6 @@ public class ResultProcessor {
         QuestDatabase.setQuestProgress(Quest.BLACK, "step1");
         break;
 
-      case ItemPool.VOLCOINO:
-        if (combatResults && KoLCharacter.hasEquipped(ItemPool.get(ItemPool.LUCKY_GOLD_RING, 1))) {
-          Preferences.setBoolean("_luckyGoldRingVolcoino", true);
-        }
-        break;
-
       case ItemPool.VAMPIRE_VINTNER_WINE:
         ResultProcessor.updateVintner();
         break;
