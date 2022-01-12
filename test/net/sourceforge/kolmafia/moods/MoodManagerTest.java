@@ -199,7 +199,7 @@ class MoodManagerTest {
     assertFalse(before.contains(newTrigger), "Unexpected duplication of triggers");
     List<MoodTrigger> after = MoodManager.getTriggers("meatdrop");
     assertEquals(9, after.size(), "Trigger not added");
-    assertTrue(after.contains(newTrigger), "Unexpected duplication of triggers");
+    assertTrue(after.contains(newTrigger), "Unexpected absence of triggers");
     Collection<MoodTrigger> collection = new ArrayList<>();
     collection.add(newTrigger);
     MoodManager.removeTriggers(collection);
@@ -269,5 +269,26 @@ class MoodManagerTest {
     for (MoodTrigger mt : moodTriggerList) {
       assertTrue(moodTriggerLockableListModel.contains(mt), "Unexpected trigger in lockable list");
     }
+  }
+
+  @Test
+  public void itShouldRemoveTriggersUsingAListMaintainedElsewhere() throws IOException {
+    Preferences.setString("currentMood", "default");
+    MoodManager.loadSettings(mockedReader());
+    assertEquals(4, MoodManager.getTriggers().size(), "Wrong number of triggers");
+    //make some triggers
+    MoodTrigger aTrigger = MoodManager.addTrigger("gain_effect", "beaten up", "abort");
+    MoodTrigger bTrigger = MoodManager.addTrigger("unconditional", "", "scrtip1.ash");
+    MoodTrigger cTrigger = MoodManager.addTrigger("unconditional", "", "script2.ash");
+    Collection<MoodTrigger> triggerList = new ArrayList<>();
+    triggerList.add(aTrigger);
+    triggerList.add(bTrigger);
+    triggerList.add(cTrigger);
+    assertEquals(3, triggerList.size(), "External list not as expected");
+    MoodManager.removeTriggers(triggerList);
+    // don't change input
+    assertEquals(3, triggerList.size(), "External list not as expected");
+    // only one trigger in both lists
+    assertEquals(3, MoodManager.getTriggers().size(), "Wrong number of triggers");
   }
 }
