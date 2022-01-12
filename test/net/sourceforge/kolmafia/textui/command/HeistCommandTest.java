@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.HeistManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -99,18 +100,24 @@ public class HeistCommandTest extends AbstractCommandTestBase {
     this.command = "heistFake";
     String output = execute("\"meat\" stick");
 
-    assertThat(output, containsString("Heisted &quot;meat&quot; stick"));
+    assertThat(output, containsString("Heisted \"meat\" stick"));
     assertContinueState();
   }
 
   public static class HeistCommandFakeRequest extends HeistCommand {
     @Override
-    protected String heistRequest() {
-      try {
-        return Files.readString(Paths.get("request/test_heist_command.html"));
-      } catch (IOException e) {
-        throw new RuntimeException("could not find test HTML");
+    protected HeistManager heistManager() {
+      class HeistManagerFakeRequest extends HeistManager {
+        @Override
+        protected String heistRequest() {
+          try {
+            return Files.readString(Paths.get("request/test_heist_command.html"));
+          } catch (IOException e) {
+            throw new RuntimeException("could not find test HTML");
+          }
+        }
       }
+      return new HeistManagerFakeRequest();
     }
   }
 }
