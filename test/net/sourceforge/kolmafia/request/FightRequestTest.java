@@ -204,4 +204,13 @@ public class FightRequestTest {
     parseCombatData("request/test_cursed_magnifying_glass_update.html");
     assertEquals(3, Preferences.getInteger("cursedMagnifyingGlassCount"));
   }
+
+  @Test
+  public void daylightShavingTest() throws IOException {
+    KoLCharacter.reset("the Tristero");
+    EquipmentManager.setEquipment(
+        EquipmentManager.HAT, ItemPool.get(ItemPool.DAYLIGHT_SHAVINGS_HELMET));
+    parseCombatData("request/test_fight_daylight_shavings_buff.html");
+    assertEquals(2671, Preferences.getInteger("lastBeardBuff"));
+  }
 }

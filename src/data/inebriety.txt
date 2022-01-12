@@ -199,11 +199,11 @@ discocktail	3	1	good	8-10	0	0	8-10	30 Disco Neuropathy (+15 DB Combat Damage, +3
 distilled fortified wine	1	1	EPIC	5-6	5-6	5-6	5-6
 Divine	4	6	awesome	14-18	16-20	25-27	0
 Doc Clock's thyme cocktail	4	8	EPIC	26-30	20-40	20-40	20-40	-2 Fullness
-Doc's Fortifying Wine	1	1	awesome	0	0	0	0	Unspaded
-Doc's Limbering Wine	1	1	awesome	0	0	0	0	Unspaded
-Doc's Smartifying Wine	1	1	awesome	0	0	0	0	Unspaded
+Doc's Fortifying Wine	1	1	awesome	4-5	45-60	5-15	5-15	WINE 40 Medically Fortified (+3 Mus stats/fight, +30% Mus)
+Doc's Limbering Wine	1	1	awesome	4-5	5-15	5-15	45-60	WINE 40 Medically Loosened (+3 Mox stats/fight, +30% Mox)
+Doc's Smartifying Wine	1	1	awesome	4-5	5-15	45-60	5-15	WINE 40 Medically Smartified (+3 Mys stats/fight, +30% Mys)
 Doc's Special Reserve Wine	1	1	good	0	0	0	0	Unspaded
-Doc's Medical-Grade Wine	1	1	awesome	0	0	0	0	Unspaded
+Doc's Medical-Grade Wine	1	1	awesome	4-5	20-35	20-35	20-35	WINE 40 Fixed Up (+2 stats/fight, +10% Mus, +10% Mys, +10% Mox)
 double entendre	1	1	awesome	3-5	0	0	0	40 Space Cadet (+50% MP)
 Doublepunchplanter	2	4	awesome	6-7	10-15	10-15	10-15	10 Fishy
 Drac & Tan	2	1	good	4-5	10-20	0	0	5 Creepypasted (+50 Spooky Dam)
@@ -681,7 +681,7 @@ vodka martini	3	1	decent	5-6	0	0	8-10	MARTINI
 Vodka Matryoshka	2	2	EPIC	10-13	25-50	10-20	10-20
 vodka stinger	1	1	awesome	3-5	0	0	0	40 Mer-kindliness (+2 Prismatic res)
 vodka stratocaster	4	6	awesome	14-18	25-27	0	16-20
-void lager	1	1	awesome	0	0	0	0	Unspaded
+void lager	1	1	awesome	3-4	0	0	0	
 VYKEA mead	2	7	awesome	8-10	5-10	5-10	20-40
 warbear bearserker mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Warlust (+60 WarBear Armor Penetration), WINE
 warbear blizzard mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Blubber (Serious Supercold resistance), WINE
