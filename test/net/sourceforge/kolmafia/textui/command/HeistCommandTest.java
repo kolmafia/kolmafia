@@ -57,6 +57,7 @@ public class HeistCommandTest extends AbstractCommandTestBase {
     String output = execute("");
 
     assertThat(output, containsString("You have 42 heists."));
+    assertThat(output, containsString("From  bigface:"));
     assertThat(output, containsString("From a jock:"));
     assertThat(output, containsString("From a burnout:"));
     assertContinueState();
@@ -89,6 +90,16 @@ public class HeistCommandTest extends AbstractCommandTestBase {
     String output = execute("Purple Beast");
 
     assertThat(output, containsString("Heisted Purple Beast energy drink"));
+    assertContinueState();
+  }
+
+  @Test
+  void heistsValidItemWithQuotes() {
+    setCatBurglar();
+    this.command = "heistFake";
+    String output = execute("\"meat\" stick");
+
+    assertThat(output, containsString("Heisted &quot;meat&quot; stick"));
     assertContinueState();
   }
 
