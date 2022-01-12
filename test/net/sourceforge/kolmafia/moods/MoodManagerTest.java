@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -198,7 +199,7 @@ class MoodManagerTest {
     assertFalse(before.contains(newTrigger), "Unexpected duplication of triggers");
     List<MoodTrigger> after = MoodManager.getTriggers("meatdrop");
     assertEquals(9, after.size(), "Trigger not added");
-    assertTrue(after.contains(newTrigger), "Unexpected duplication of triggers");
+    assertTrue(after.contains(newTrigger), "Unexpected absence of triggers");
     Collection<MoodTrigger> collection = new ArrayList<>();
     collection.add(newTrigger);
     MoodManager.removeTriggers(collection);
@@ -241,5 +242,53 @@ class MoodManagerTest {
     KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("the polka of plenty"));
     MoodManager.maximalSet();
     assertEquals(4, MoodManager.getTriggers("default").size(), "Triggers already present");
+  }
+
+  @Test
+  public void itShouldClearAll() throws IOException {
+    // simulate mood clear command
+    Preferences.setString("currentMood", "meatdrop");
+    MoodManager.loadSettings(mockedReader());
+    assertEquals(8, MoodManager.getTriggers().size(), "Wrong number of triggers before");
+    MoodManager.removeTriggers(MoodManager.getTriggers());
+    MoodManager.saveSettings();
+    assertEquals(0, MoodManager.getTriggers().size(), "Wrong number of triggers after");
+  }
+
+  @Test
+  public void triggerListsShouldBeTheSame() throws IOException {
+    Preferences.setString("currentMood", "meatdrop");
+    MoodManager.loadSettings(mockedReader());
+    LockableListModel<MoodTrigger> moodTriggerLockableListModel = MoodManager.getTriggers();
+    List<MoodTrigger> moodTriggerList = MoodManager.getTriggers("meatdrop");
+    assertEquals(
+        moodTriggerLockableListModel.size(), moodTriggerList.size(), "Lists are not same length");
+    for (MoodTrigger mt : moodTriggerLockableListModel) {
+      assertTrue(moodTriggerList.contains(mt), "Unexpected trigger in List");
+    }
+    for (MoodTrigger mt : moodTriggerList) {
+      assertTrue(moodTriggerLockableListModel.contains(mt), "Unexpected trigger in lockable list");
+    }
+  }
+
+  @Test
+  public void itShouldRemoveTriggersUsingAListMaintainedElsewhere() throws IOException {
+    Preferences.setString("currentMood", "default");
+    MoodManager.loadSettings(mockedReader());
+    assertEquals(4, MoodManager.getTriggers().size(), "Wrong number of triggers");
+    // make some triggers
+    MoodTrigger aTrigger = MoodManager.addTrigger("gain_effect", "beaten up", "abort");
+    MoodTrigger bTrigger = MoodManager.addTrigger("unconditional", "", "scrtip1.ash");
+    MoodTrigger cTrigger = MoodManager.addTrigger("unconditional", "", "script2.ash");
+    Collection<MoodTrigger> triggerList = new ArrayList<>();
+    triggerList.add(aTrigger);
+    triggerList.add(bTrigger);
+    triggerList.add(cTrigger);
+    assertEquals(3, triggerList.size(), "External list not as expected");
+    MoodManager.removeTriggers(triggerList);
+    // don't change input
+    assertEquals(3, triggerList.size(), "External list not as expected");
+    // only one trigger in both lists
+    assertEquals(3, MoodManager.getTriggers().size(), "Wrong number of triggers");
   }
 }
