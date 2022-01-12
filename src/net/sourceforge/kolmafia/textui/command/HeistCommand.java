@@ -18,8 +18,11 @@ public class HeistCommand extends AbstractCommand {
   }
 
   private static final Pattern HEIST_COUNT = Pattern.compile("(\\d+) more heists available");
-  private static final Pattern MONSTER = Pattern.compile("From (?<pronoun>[^ ]*) (?<monster>.*?):<br />(?<items>(<input [^/]+ />)+)");
-  private static final Pattern ITEM = Pattern.compile("<input type=\"submit\" name=\"st:(?<monsterId>\\d+):(?<itemId>\\d+)\" value=\"(?<itemName>[^\"]+)\" class=\"button\" />");
+  private static final Pattern MONSTER =
+      Pattern.compile("From (?<pronoun>[^ ]*) (?<monster>.*?):<br />(?<items>(<input [^/]+ />)+)");
+  private static final Pattern ITEM =
+      Pattern.compile(
+          "<input type=\"submit\" name=\"st:(?<monsterId>\\d+):(?<itemId>\\d+)\" value=\"(?<itemName>[^\"]+)\" class=\"button\" />");
 
   @Override
   public void run(final String cmd, String parameter) {
@@ -72,8 +75,7 @@ public class HeistCommand extends AbstractCommand {
 
     int id = ItemDatabase.getItemId(parameter);
     if (id == -1) {
-      KoLmafia.updateDisplay(
-          MafiaState.ERROR, "What item is " + parameter + "?");
+      KoLmafia.updateDisplay(MafiaState.ERROR, "What item is " + parameter + "?");
       return;
     }
 
