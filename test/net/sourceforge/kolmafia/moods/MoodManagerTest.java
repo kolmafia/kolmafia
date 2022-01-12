@@ -276,7 +276,7 @@ class MoodManagerTest {
     Preferences.setString("currentMood", "default");
     MoodManager.loadSettings(mockedReader());
     assertEquals(4, MoodManager.getTriggers().size(), "Wrong number of triggers");
-    //make some triggers
+    // make some triggers
     MoodTrigger aTrigger = MoodManager.addTrigger("gain_effect", "beaten up", "abort");
     MoodTrigger bTrigger = MoodManager.addTrigger("unconditional", "", "scrtip1.ash");
     MoodTrigger cTrigger = MoodManager.addTrigger("unconditional", "", "script2.ash");
