@@ -2168,8 +2168,13 @@ public class ItemDatabase {
   }
 
   public static void parseVampireVintnerWine() {
+    // Call desc_item.php for 1950 Vampire Vintner wine
     String idesc = DebugDatabase.itemDescriptionText(ItemPool.VAMPIRE_VINTNER_WINE, true);
-    ItemDatabase.parseVampireVintnerWine(idesc);
+
+    // GenericRequest calls ResponseTextParser which makes the following call.
+    // No reason to parse the response text twice!
+
+    // ItemDatabase.parseVampireVintnerWine(idesc);
   }
 
   public static void parseVampireVintnerWine(final String idesc) {
