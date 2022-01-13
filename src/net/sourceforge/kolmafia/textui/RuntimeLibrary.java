@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -195,6 +196,8 @@ public abstract class RuntimeLibrary {
 
   private static final AggregateType NumberologyType =
       new AggregateType(DataTypes.INT_TYPE, DataTypes.INT_TYPE);
+  private static final AggregateType HeistType =
+      new AggregateType(DataTypes.INT_TO_ITEM_TYPE, DataTypes.MONSTER_TYPE);
 
   private static final AggregateType ItemSetType =
       new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.INT_TYPE);
@@ -1480,6 +1483,12 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.STRICT_STRING_TYPE};
     functions.add(new LibraryFunction("every_card_name", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(new LibraryFunction("heist_targets", HeistType, params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("heist", DataTypes.BOOLEAN_TYPE, params));
 
     // Equipment functions.
 
@@ -6230,6 +6239,46 @@ public abstract class RuntimeLibrary {
 
     EveryCard card = DeckOfEveryCardRequest.canonicalNameToCard(matchingNames.get(0));
     return (card == null) ? DataTypes.STRING_INIT : DataTypes.makeStringValue(card.name);
+  }
+
+  public static Value heist_targets(ScriptRuntime controller) {
+    if (!KoLCharacter.hasFamiliar(FamiliarPool.CAT_BURGLAR)) {
+      throw controller.runtimeException("You don't have a Cat Burglar");
+    }
+    FamiliarData current = KoLCharacter.getFamiliar();
+    RequestThread.postRequest(
+        new FamiliarRequest(KoLCharacter.findFamiliar(FamiliarPool.CAT_BURGLAR)));
+
+    MapValue returnValue = new MapValue(HeistType);
+    var heistData = new HeistManager().getHeistTargets();
+    for (var heistable : heistData.heistables.entrySet()) {
+      var monster = heistable.getKey();
+      MapValue value = new MapValue(DataTypes.INT_TO_ITEM_TYPE);
+      int i = 0;
+      for (var item : heistable.getValue()) {
+        value.aset(DataTypes.makeIntValue(i), DataTypes.makeItemValue(item.id, false));
+        i++;
+      }
+      returnValue.aset(DataTypes.makeMonsterValue(monster.id, false), value);
+    }
+
+    RequestThread.postRequest(new FamiliarRequest(current));
+    return returnValue;
+  }
+
+  public static Value heist(ScriptRuntime controller, final Value item) {
+    if (!KoLCharacter.hasFamiliar(FamiliarPool.CAT_BURGLAR)) {
+      throw controller.runtimeException("You don't have a Cat Burglar");
+    }
+    FamiliarData current = KoLCharacter.getFamiliar();
+    RequestThread.postRequest(
+        new FamiliarRequest(KoLCharacter.findFamiliar(FamiliarPool.CAT_BURGLAR)));
+
+    int itemId = (int) item.intValue();
+    var heisted = new HeistManager().heist(itemId);
+
+    RequestThread.postRequest(new FamiliarRequest(current));
+    return DataTypes.makeBooleanValue(heisted);
   }
 
   // Equipment functions.
