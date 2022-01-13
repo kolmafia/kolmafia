@@ -907,9 +907,9 @@ public class DebugDatabase {
     report.println("# " + tag + " section of equipment.txt");
     report.println();
 
-    String[] keys = map.keySet().toArray(new String[0]);
-    for (String name : keys) {
-      String text = map.get(name);
+    for (Entry<String, String> entry : map.entrySet()) {
+      String name = entry.getKey();
+      String text = entry.getValue();
       DebugDatabase.checkEquipmentDatum(name, text, report);
     }
   }
@@ -1095,10 +1095,10 @@ public class DebugDatabase {
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
-    String[] keys = map.keySet().toArray(new String[0]);
     int type = imap.getType();
-    for (String name : keys) {
-      String text = map.get(name);
+    for (Entry<String, String> entry : map.entrySet()) {
+      String name = entry.getKey();
+      String text = entry.getValue();
       DebugDatabase.checkItemModifierDatum(name, text, type, report, showAll);
     }
   }
@@ -1725,9 +1725,9 @@ public class DebugDatabase {
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
-    String[] keys = map.keySet().toArray(new String[0]);
-    for (String name : keys) {
-      String text = map.get(name);
+    for (Entry<String, String> entry : map.entrySet()) {
+      String name = entry.getKey();
+      String text = entry.getValue();
       DebugDatabase.checkOutfitModifierDatum(name, text, report);
     }
   }
@@ -1956,9 +1956,9 @@ public class DebugDatabase {
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
-    String[] keys = map.keySet().toArray(new String[0]);
-    for (String name : keys) {
-      String text = map.get(name);
+    for (Entry<String, String> entry : map.entrySet()) {
+      String name = entry.getKey();
+      String text = entry.getValue();
       DebugDatabase.checkEffectModifierDatum(name, text, report);
     }
   }
@@ -2207,9 +2207,9 @@ public class DebugDatabase {
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
-    String[] keys = map.keySet().toArray(new String[0]);
-    for (String name : keys) {
-      String text = map.get(name);
+    for (Entry<String, String> entry : map.entrySet()) {
+      String name = entry.getKey();
+      String text = entry.getValue();
       DebugDatabase.checkSkillModifierDatum(name, text, report);
     }
   }
