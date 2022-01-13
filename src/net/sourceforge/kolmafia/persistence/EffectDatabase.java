@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.textui.command.UseItemCommand;
 import net.sourceforge.kolmafia.textui.command.UseSkillCommand;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -754,5 +755,41 @@ public class EffectDatabase {
       return 6;
     }
     return Integer.MAX_VALUE;
+  }
+
+  public static void parseVampireVintnerWineEffect(final String edesc, final int effectId) {
+    String eEnchantments = DebugDatabase.parseEffectEnchantments(edesc, new ArrayList<String>());
+    String ename = EffectDatabase.getEffectName(effectId);
+    Modifiers emods = Modifiers.parseModifiers(ename, eEnchantments);
+
+    int level = 0;
+
+    switch (effectId) {
+      case EffectPool.WINE_FORTIFIED:
+        level = (int) emods.get(Modifiers.WEAPON_DAMAGE) / 3;
+        break;
+      case EffectPool.WINE_HOT:
+        level = (int) emods.get(Modifiers.HOT_DAMAGE) / 3;
+        break;
+      case EffectPool.WINE_COLD:
+        level = (int) emods.get(Modifiers.COLD_DAMAGE) / 3;
+        break;
+      case EffectPool.WINE_DARK:
+        level = (int) emods.get(Modifiers.SPOOKY_DAMAGE) / 4;
+        break;
+      case EffectPool.WINE_BEFOULED:
+        level = (int) emods.get(Modifiers.STENCH_DAMAGE) / 3;
+        break;
+      case EffectPool.WINE_FRISKY:
+        level = (int) emods.get(Modifiers.SLEAZE_DAMAGE) / 3;
+        break;
+      case EffectPool.WINE_FRIENDLY:
+        level = (int) emods.get(Modifiers.FAMILIAR_DAMAGE) / 3;
+        break;
+      default:
+        return;
+    }
+
+    Preferences.setInteger("vintnerWineLevel", level);
   }
 }

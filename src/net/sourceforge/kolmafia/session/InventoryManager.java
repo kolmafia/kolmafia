@@ -1602,6 +1602,17 @@ public abstract class InventoryManager {
     checkItemDescription(ItemPool.KREMLIN_BRIEFCASE);
   }
 
+  public static final void checkVampireVintnerWine() {
+    // 1950 Vampire Vintner Wine is a quest item. You can have at most
+    // one in inventory - and nowhere else.
+    if (InventoryManager.getCount(ItemPool.VAMPIRE_VINTNER_WINE) == 0) {
+      return;
+    }
+
+    // ResultProcessor will parse the item description and set properties
+    InventoryManager.checkItemDescription(ItemPool.VAMPIRE_VINTNER_WINE);
+  }
+
   public static final void checkCoatOfPaint() {
     AdventureResult COAT_OF_PAINT = ItemPool.get(ItemPool.COAT_OF_PAINT, 1);
     String mod = Preferences.getString("_coatOfPaintModifier");
