@@ -786,6 +786,8 @@ public class EffectDatabase {
       case EffectPool.WINE_FRIENDLY:
         level = (int) emods.get(Modifiers.FAMILIAR_DAMAGE) / 3;
         break;
+      default:
+        return;
     }
 
     Preferences.setInteger("vintnerWineLevel", level);
