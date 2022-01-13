@@ -1606,7 +1606,6 @@ public abstract class InventoryManager {
     // 1950 Vampire Vintner Wine is a quest item. You can have at most
     // one in inventory - and nowhere else.
     if (InventoryManager.getCount(ItemPool.VAMPIRE_VINTNER_WINE) == 0) {
-      ItemDatabase.resetVampireVintnerWine();
       return;
     }
 

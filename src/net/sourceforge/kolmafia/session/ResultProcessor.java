@@ -327,14 +327,7 @@ public class ResultProcessor {
   }
 
   public static void updateVintner() {
-    // Check the wine's type
-    RequestThread.postRequest(
-        new GenericRequest("desc_item.php?whichitem=" + ItemPool.VAMPIRE_VINTNER_WINE));
-    // We can just check any of the effects for the level
-    RequestThread.postRequest(
-        new GenericRequest(
-            "desc_effect.php?whicheffect="
-                + EffectDatabase.getDescriptionId(EffectPool.WINE_BEFOULED)));
+    ItemDatabase.parseVampireVintnerWine();
   }
 
   public static Pattern EFFECT_TABLE_PATTERN =
@@ -379,6 +372,7 @@ public class ResultProcessor {
         case EffectPool.WINE_DARK:
         case EffectPool.WINE_BEFOULED:
           ResultProcessor.updateVintner();
+          break;
       }
 
       String acquisition = effectMatcher.group(2);
