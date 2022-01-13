@@ -29,7 +29,6 @@ import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenieRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
@@ -799,10 +798,10 @@ public class BreakfastManager {
 
     FamiliarData currentFam = KoLCharacter.getFamiliar();
 
-    RequestThread.postRequest(new FamiliarRequest(jellyfish));
+    FamiliarManager.changeFamiliar(jellyfish, false);
     RequestThread.postRequest(new PlaceRequest("thesea", "thesea_left2", false));
     RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1219&option=1"));
-    RequestThread.postRequest(new FamiliarRequest(currentFam));
+    FamiliarManager.changeFamiliar(currentFam);
 
     KoLmafia.forceContinue();
   }

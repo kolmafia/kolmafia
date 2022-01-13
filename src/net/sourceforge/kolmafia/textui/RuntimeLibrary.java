@@ -6246,8 +6246,7 @@ public abstract class RuntimeLibrary {
       throw controller.runtimeException("You don't have a Cat Burglar");
     }
     FamiliarData current = KoLCharacter.getFamiliar();
-    RequestThread.postRequest(
-        new FamiliarRequest(KoLCharacter.findFamiliar(FamiliarPool.CAT_BURGLAR)));
+    FamiliarManager.changeFamiliar(FamiliarPool.CAT_BURGLAR, false);
 
     MapValue returnValue = new MapValue(HeistType);
     var heistData = new HeistManager().getHeistTargets();
@@ -6262,7 +6261,7 @@ public abstract class RuntimeLibrary {
       returnValue.aset(DataTypes.makeMonsterValue(monster.id, false), value);
     }
 
-    RequestThread.postRequest(new FamiliarRequest(current));
+    FamiliarManager.changeFamiliar(current);
     return returnValue;
   }
 
@@ -6271,13 +6270,12 @@ public abstract class RuntimeLibrary {
       throw controller.runtimeException("You don't have a Cat Burglar");
     }
     FamiliarData current = KoLCharacter.getFamiliar();
-    RequestThread.postRequest(
-        new FamiliarRequest(KoLCharacter.findFamiliar(FamiliarPool.CAT_BURGLAR)));
+    FamiliarManager.changeFamiliar(FamiliarPool.CAT_BURGLAR, false);
 
     int itemId = (int) item.intValue();
     var heisted = new HeistManager().heist(itemId);
 
-    RequestThread.postRequest(new FamiliarRequest(current));
+    FamiliarManager.changeFamiliar(current);
     return DataTypes.makeBooleanValue(heisted);
   }
 

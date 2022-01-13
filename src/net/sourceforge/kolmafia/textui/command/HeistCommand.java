@@ -5,10 +5,9 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.request.FamiliarRequest;
+import net.sourceforge.kolmafia.session.FamiliarManager;
 import net.sourceforge.kolmafia.session.HeistManager;
 
 public class HeistCommand extends AbstractCommand {
@@ -24,9 +23,7 @@ public class HeistCommand extends AbstractCommand {
     }
 
     FamiliarData current = KoLCharacter.getFamiliar();
-
-    RequestThread.postRequest(
-        new FamiliarRequest(KoLCharacter.findFamiliar(FamiliarPool.CAT_BURGLAR)));
+    FamiliarManager.changeFamiliar(FamiliarPool.CAT_BURGLAR, false);
 
     parameter = parameter.trim();
 
@@ -35,7 +32,7 @@ public class HeistCommand extends AbstractCommand {
     } else {
       heistItem(parameter);
     }
-    RequestThread.postRequest(new FamiliarRequest(current));
+    FamiliarManager.changeFamiliar(current);
   }
 
   private void showAllItems() {
