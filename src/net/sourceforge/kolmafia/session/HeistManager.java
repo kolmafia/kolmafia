@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
@@ -108,7 +109,7 @@ public class HeistManager {
     String monsterId = itemMatcher.group("monsterId");
     String itemName = itemMatcher.group("itemName");
 
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < count && KoLmafia.permitsContinue(); i++) {
       GenericRequest request = new GenericRequest("choice.php");
       request.addFormField("whichchoice", "1320");
       request.addFormField("option", "1");
