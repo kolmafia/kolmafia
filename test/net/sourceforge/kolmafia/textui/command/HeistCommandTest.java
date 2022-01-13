@@ -68,9 +68,9 @@ public class HeistCommandTest extends AbstractCommandTestBase {
   void doesNotHeistInvalidItem() {
     setCatBurglar();
     this.command = "heistFake";
-    String output = execute("Brimstone Bludgeon");
+    String output = execute("334 scroll");
 
-    assertThat(output, containsString("Could not find Brimstone Bludgeon to heist"));
+    assertThat(output, containsString("Could not find 334 scroll to heist"));
     assertErrorState();
   }
 
@@ -101,6 +101,16 @@ public class HeistCommandTest extends AbstractCommandTestBase {
     String output = execute("\"meat\" stick");
 
     assertThat(output, containsString("Heisted \"meat\" stick"));
+    assertContinueState();
+  }
+
+  @Test
+  void heistsMultipleValidItem() {
+    setCatBurglar();
+    this.command = "heistFake";
+    String output = execute("13 Purple Beast");
+
+    assertThat(output, containsString("Heisted 13 Purple Beast energy drink"));
     assertContinueState();
   }
 
