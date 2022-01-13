@@ -799,10 +799,10 @@ public class BreakfastManager {
 
     FamiliarData currentFam = KoLCharacter.getFamiliar();
 
-    RequestThread.postRequest(new FamiliarRequest(jellyfish));
+    FamiliarManager.changeFamiliar(jellyfish, false);
     RequestThread.postRequest(new PlaceRequest("thesea", "thesea_left2", false));
     RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1219&option=1"));
-    RequestThread.postRequest(new FamiliarRequest(currentFam));
+    FamiliarManager.changeFamiliar(currentFam);
 
     KoLmafia.forceContinue();
   }
