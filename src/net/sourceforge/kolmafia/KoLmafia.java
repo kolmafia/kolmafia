@@ -821,6 +821,7 @@ public abstract class KoLmafia {
 
     // Items that need to be checked every time
     InventoryManager.checkKGB();
+    InventoryManager.checkVampireVintnerWine();
     InventoryManager.checkBirdOfTheDay();
     ResultProcessor.updateEntauntauned();
     CargoCultistShortsRequest.loadPockets();
