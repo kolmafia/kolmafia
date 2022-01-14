@@ -355,6 +355,7 @@ public class RequestFrame extends GenericFrame {
       this.request = request;
     }
 
+    @Override
     public void run() {
       // New prevention mechanism: tell the requests that there
       // will be no synchronization.
@@ -445,12 +446,14 @@ public class RequestFrame extends GenericFrame {
   }
 
   private class HomeRunnable implements Runnable {
+    @Override
     public void run() {
       RequestFrame.this.refresh(new GenericRequest("main.php"));
     }
   }
 
   private class BackRunnable implements Runnable {
+    @Override
     public void run() {
       if (RequestFrame.this.locationIndex > 0) {
         --RequestFrame.this.locationIndex;
@@ -463,6 +466,7 @@ public class RequestFrame extends GenericFrame {
   }
 
   private class ForwardRunnable implements Runnable {
+    @Override
     public void run() {
       if (RequestFrame.this.locationIndex + 1 < RequestFrame.this.shownHTML.size()) {
         ++RequestFrame.this.locationIndex;
@@ -475,6 +479,7 @@ public class RequestFrame extends GenericFrame {
   }
 
   private class ReloadRunnable implements Runnable {
+    @Override
     public void run() {
       if (RequestFrame.this.currentLocation == null) {
         return;
@@ -485,6 +490,7 @@ public class RequestFrame extends GenericFrame {
   }
 
   private class GoRunnable implements Runnable {
+    @Override
     public void run() {
       KoLAdventure adventure =
           AdventureDatabase.getAdventure(RequestFrame.this.locationField.getText());

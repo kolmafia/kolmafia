@@ -54,6 +54,7 @@ public class MonsterDescriptionFrame extends DescriptionFrame {
   }
 
   private class LastVariantRunnable implements Runnable {
+    @Override
     public void run() {
       MonsterDescriptionFrame frame = MonsterDescriptionFrame.this;
       if (frame.variant > 0) {
@@ -69,6 +70,7 @@ public class MonsterDescriptionFrame extends DescriptionFrame {
   }
 
   private class NextVariantRunnable implements Runnable {
+    @Override
     public void run() {
       MonsterDescriptionFrame frame = MonsterDescriptionFrame.this;
       if (frame.variant < frame.variants.length - 1) {

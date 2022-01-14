@@ -569,6 +569,7 @@ public abstract class ChoiceManager {
       return this.spoilers;
     }
 
+    @Override
     public int compareTo(final ChoiceAdventure o) {
       // Choices can have a specified relative ordering
       // within zone regardless of name or choice number

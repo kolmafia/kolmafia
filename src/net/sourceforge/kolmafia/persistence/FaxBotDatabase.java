@@ -277,6 +277,7 @@ public class FaxBotDatabase {
       return this.name != null ? this.name.hashCode() : 0;
     }
 
+    @Override
     public int compareTo(final FaxBot o) {
       if (!(o instanceof FaxBot)) {
         return -1;
@@ -345,6 +346,7 @@ public class FaxBotDatabase {
       return this.name != null ? this.name.hashCode() : 0;
     }
 
+    @Override
     public int compareTo(final Monster o) {
       if (!(o instanceof Monster)) {
         return -1;
@@ -361,6 +363,7 @@ public class FaxBotDatabase {
       this.data = data;
     }
 
+    @Override
     public void run() {
       // Start with a clean slate
       FaxBotDatabase.faxBotError = false;

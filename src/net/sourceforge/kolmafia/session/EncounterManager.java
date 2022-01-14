@@ -486,6 +486,7 @@ public abstract class EncounterManager {
       return this.stringform + " (" + this.encounterCount + ")";
     }
 
+    @Override
     public int compareTo(final RegisteredEncounter o) {
       if (o == null) {
         return -1;

@@ -211,6 +211,7 @@ public class DisplayCaseRequest extends TransferItemRequest {
               : StringUtilities.singleStringReplace(responseText, announcement, "");
     }
 
+    @Override
     public void run() {
       ItemDatabase.parseNewItems(responseText);
     }

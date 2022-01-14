@@ -94,6 +94,7 @@ public class ShowDescriptionTable<E> extends JXTable {
 
   private final Comparator<String[]> arrayComparator =
       new Comparator<String[]>() {
+        @Override
         public int compare(String[] o1, String[] o2) {
           if (o1.length != 2 || o2.length != 2) {
             return 0;
@@ -316,6 +317,7 @@ public class ShowDescriptionTable<E> extends JXTable {
       this.flags = flags;
     }
 
+    @Override
     public int compare(Object o1, Object o2) {
       Object o1val = TableCellFactory.get(this.column, this.model, o1, this.flags, false, true);
       Object o2val = TableCellFactory.get(this.column, this.model, o2, this.flags, false, true);
@@ -363,6 +365,7 @@ public class ShowDescriptionTable<E> extends JXTable {
       this.classDefs = classDefs;
     }
 
+    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
       return getRow(rowIndex);
     }
@@ -470,14 +473,17 @@ public class ShowDescriptionTable<E> extends JXTable {
         this.delegate = t;
       }
 
+      @Override
       public DataFlavor[] getTransferDataFlavors() {
         return flavors.toArray(new DataFlavor[0]);
       }
 
+      @Override
       public boolean isDataFlavorSupported(DataFlavor flavor) {
         return flavors.contains(flavor);
       }
 
+      @Override
       public Object getTransferData(DataFlavor flavor)
           throws UnsupportedFlavorException, IOException {
         int row = delegate.getSelectedRow();
@@ -951,6 +957,7 @@ public class ShowDescriptionTable<E> extends JXTable {
       if (ob instanceof Script) {
         RequestThread.postRequest(
             new Runnable() {
+              @Override
               public void run() {
                 String installMe = ((Script) ob).getRepo();
                 try {
@@ -982,6 +989,7 @@ public class ShowDescriptionTable<E> extends JXTable {
       if (ob instanceof InstalledScript) {
         RequestThread.postRequest(
             new Runnable() {
+              @Override
               public void run() {
                 File deleteMe = ((InstalledScript) ob).getScriptFolder();
                 SVNManager.deleteInstalledProject(deleteMe);
@@ -1010,6 +1018,7 @@ public class ShowDescriptionTable<E> extends JXTable {
       if (ob instanceof Script) {
         RequestThread.postRequest(
             new Runnable() {
+              @Override
               public void run() {
                 String ft = ((Script) ob).getForumThread();
                 if (ft != null && !ft.equals("")) RelayLoader.openSystemBrowser(ft);
@@ -1026,6 +1035,7 @@ public class ShowDescriptionTable<E> extends JXTable {
     protected void executeAction() {
       RequestThread.postRequest(
           new Runnable() {
+            @Override
             public void run() {
               ScriptManager.updateInstalledScripts();
             }
@@ -1047,6 +1057,7 @@ public class ShowDescriptionTable<E> extends JXTable {
       if (all) {
         RequestThread.postRequest(
             new Runnable() {
+              @Override
               public void run() {
                 SVNManager.doUpdate();
                 ScriptManager.updateInstalledScripts();
@@ -1055,6 +1066,7 @@ public class ShowDescriptionTable<E> extends JXTable {
       } else {
         RequestThread.postRequest(
             new Runnable() {
+              @Override
               public void run() {
                 Object ob = UpdateScriptRunnable.this.table.getValueAt(table.getSelectedRow(), 0);
 
@@ -1080,6 +1092,7 @@ public class ShowDescriptionTable<E> extends JXTable {
     protected void executeAction() {
       RequestThread.postRequest(
           new Runnable() {
+            @Override
             public void run() {
               ScriptManager.updateRepoScripts(true);
             }

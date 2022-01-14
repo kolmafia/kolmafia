@@ -20,6 +20,7 @@ public class LoadScriptButton extends ThreadedButton {
       this.scriptPath = scriptPath;
     }
 
+    @Override
     public void run() {
 
       KoLmafiaCLI.DEFAULT_SHELL.executeLine(this.scriptPath);

@@ -137,6 +137,7 @@ public class ClanWarRequest extends GenericRequest implements Comparable<ClanWar
     return this.name;
   }
 
+  @Override
   public int compareTo(final ClanWarRequest car) {
     return this.name.compareToIgnoreCase(car.name);
   }

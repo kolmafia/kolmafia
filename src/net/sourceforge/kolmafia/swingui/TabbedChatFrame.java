@@ -51,6 +51,7 @@ public class TabbedChatFrame extends ChatFrame
     this.setCenterComponent(this.tabs);
   }
 
+  @Override
   public boolean closeTab(final int tabIndexToClose) {
     if (tabIndexToClose == -1) {
       return false;
@@ -63,6 +64,7 @@ public class TabbedChatFrame extends ChatFrame
     return true;
   }
 
+  @Override
   public void closeOperation(final MouseEvent e, final int overTabIndex) {
     if (this.closeTab(overTabIndex)) {
       this.tabs.removeTabAt(overTabIndex);
@@ -123,6 +125,7 @@ public class TabbedChatFrame extends ChatFrame
       this.tabName = tabName;
     }
 
+    @Override
     public void run() {
       JTabbedPane tabs = TabbedChatFrame.this.tabs;
       ChatPanel createdPanel = new ChatPanel(this.tabName);
@@ -166,6 +169,7 @@ public class TabbedChatFrame extends ChatFrame
       this.tabIndex = tabIndex;
     }
 
+    @Override
     public void run() {
       if (TabbedChatFrame.this.tabs.getSelectedIndex() == this.tabIndex) {
         return;
@@ -186,6 +190,7 @@ public class TabbedChatFrame extends ChatFrame
       this.closedTab = closedTab;
     }
 
+    @Override
     public void run() {
       ChatManager.closeWindow(this.closedTab);
     }

@@ -382,6 +382,7 @@ public class CandyDatabase {
       return (o instanceof Candy) && (this.itemId == ((Candy) o).itemId);
     }
 
+    @Override
     public int compareTo(final Candy o) {
       if (o == null) {
         throw new NullPointerException();
@@ -424,6 +425,7 @@ public class CandyDatabase {
       return this;
     }
 
+    @Override
     public String toString() {
       return this.name;
     }
@@ -441,6 +443,7 @@ public class CandyDatabase {
 
   // Compare by lowest mall price, then largest quantity, then alphabetically
   private static class MallPriceComparator implements Comparator<Candy> {
+    @Override
     public int compare(Candy o1, Candy o2) {
       int cost1 = o1.getCost();
       int cost2 = o2.getCost();
@@ -460,6 +463,7 @@ public class CandyDatabase {
 
   // Compare by largest quantity, then by lowest mall price, then alphabetically
   private static class InverseCountComparator implements Comparator<Candy> {
+    @Override
     public int compare(Candy o1, Candy o2) {
       int count1 = o1.getCount();
       int count2 = o2.getCount();

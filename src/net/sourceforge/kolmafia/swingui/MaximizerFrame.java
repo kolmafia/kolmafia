@@ -102,6 +102,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
     return null;
   }
 
+  @Override
   public void valueChanged(final ListSelectionEvent e) {
     double current = Maximizer.eval.getScore(KoLCharacter.getCurrentModifiers());
     boolean failed = Maximizer.eval.failed;
@@ -353,6 +354,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
       this.update();
     }
 
+    @Override
     public void update() {
       int pulls = ConcoctionDatabase.getPullsRemaining();
       StringBuilder buf = new StringBuilder(this.text);

@@ -229,6 +229,7 @@ public abstract class HPRestoreItemList {
       return Math.min(this.healthPerUse, KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP());
     }
 
+    @Override
     public boolean usableInCurrentPath() {
       if (KoLCharacter.isEd()) {
         return false;
@@ -303,6 +304,7 @@ public abstract class HPRestoreItemList {
       return Float.compare(ratioDifference, 0.0f);
     }
 
+    @Override
     public void recover(final int needed, final boolean purchase) {
       if (!KoLmafia.permitsContinue()) {
         return;

@@ -143,10 +143,12 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     this.addFocusListener(this);
   }
 
+  @Override
   public void focusGained(FocusEvent e) {
     this.framePanel.requestFocus();
   }
 
+  @Override
   public void focusLost(FocusEvent e) {}
 
   public void setCenterComponent(Component c) {
@@ -257,12 +259,14 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
   }
 
   private class CloseWindowListener implements ActionListener {
+    @Override
     public void actionPerformed(final ActionEvent e) {
       dispose();
     }
   }
 
   private class TabForwardListener implements ActionListener {
+    @Override
     public void actionPerformed(final ActionEvent e) {
       if (GenericFrame.this.tabs == null) {
         return;
@@ -274,6 +278,7 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
   }
 
   private class TabBackwardListener implements ActionListener {
+    @Override
     public void actionPerformed(final ActionEvent e) {
       if (GenericFrame.this.tabs == null) {
         return;
@@ -494,6 +499,7 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
       this.update(scriptList, scriptButtonPosition);
     }
 
+    @Override
     public void update() {
       this.update(
           Preferences.getString("scriptList"), Preferences.getInteger("scriptButtonPosition"));
@@ -639,6 +645,7 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     }
   }
 
+  @Override
   public void run() {
     super.setVisible(true);
     super.setExtendedState(Frame.NORMAL);
@@ -829,16 +836,19 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
       }
     }
 
+    @Override
     public void focusGained(FocusEvent e) {
       if (this.centerComponent != null) {
         this.centerComponent.requestFocus();
       }
     }
 
+    @Override
     public void focusLost(FocusEvent e) {}
   }
 
   private static class LogoutRunnable implements Runnable {
+    @Override
     public void run() {
       LogoutManager.logout();
     }

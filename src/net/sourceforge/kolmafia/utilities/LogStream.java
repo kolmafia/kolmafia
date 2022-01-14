@@ -87,6 +87,7 @@ public class LogStream extends PrintStream implements Runnable {
     }
   }
 
+  @Override
   public void run() {
     KoLDesktop.getInstance().getRootPane().putClientProperty("Window.documentFile", this.proxy);
   }

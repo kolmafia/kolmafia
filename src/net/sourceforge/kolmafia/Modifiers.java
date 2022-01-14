@@ -2131,6 +2131,7 @@ public class Modifiers {
       this.list = new LinkedList<Modifier>();
     }
 
+    @Override
     public Iterator<Modifier> iterator() {
       return this.list.iterator();
     }

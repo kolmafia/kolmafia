@@ -183,6 +183,7 @@ public class ScriptManageFrame extends GenericPanelFrame {
       this.comp = comp;
     }
 
+    @Override
     public void valueChanged(ListSelectionEvent e) {
       int row = table.getSelectedRow();
 

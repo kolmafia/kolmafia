@@ -27,6 +27,7 @@ public class CheckStatusRunnable implements Runnable, Callable<CheckStatusRunnab
     this.quiet = quiet;
   }
 
+  @Override
   public void run() {
     result = CheckStatusResult.STARTED;
     try {

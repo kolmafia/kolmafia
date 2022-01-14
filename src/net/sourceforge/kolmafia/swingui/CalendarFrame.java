@@ -105,6 +105,7 @@ public class CalendarFrame extends GenericFrame implements ListSelectionListener
    * Listener method which updates the main HTML panel with information, pending on the user's
    * calendar day selection.
    */
+  @Override
   public void valueChanged(final ListSelectionEvent e) {
     // If the person has not yet released the
     // mouse, then do nothing.

@@ -402,6 +402,7 @@ public class Concoction implements Comparable<Concoction> {
     zero or positive.
   */
 
+  @Override
   public int compareTo(final Concoction o) {
     // Note that null is not an instance of any class, and
     // e.compareTo(null) should throw a NullPointerException even

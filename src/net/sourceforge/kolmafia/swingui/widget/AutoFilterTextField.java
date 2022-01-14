@@ -89,6 +89,7 @@ public class AutoFilterTextField<E> extends AutoHighlightTextField
     this.model.setFilter(this);
   }
 
+  @Override
   public void actionPerformed(final ActionEvent e) {
     this.update();
   }
@@ -99,6 +100,7 @@ public class AutoFilterTextField<E> extends AutoHighlightTextField
     this.update();
   }
 
+  @Override
   public boolean isVisible(final Object element) {
     if (this.qtyChecked) {
       int qty = AutoFilterTextField.getResultQuantity(element);
