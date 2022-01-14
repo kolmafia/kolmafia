@@ -45,6 +45,11 @@ public class HeistManagerTest {
     assertTrue(manager.heist(ItemDatabase.getItemId("ratty knitted cap")));
   }
 
+  @Test
+  void heistsManyValidItem() {
+    assertTrue(manager.heist(12, ItemDatabase.getItemId("ratty knitted cap")));
+  }
+
   static class FakeHeistManager extends HeistManager {
     @Override
     protected String heistRequest() {

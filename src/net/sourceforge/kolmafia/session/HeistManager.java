@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
@@ -83,10 +84,14 @@ public class HeistManager {
   }
 
   public boolean heist(int itemId) {
-    return heist(String.valueOf(itemId));
+    return heist(1, String.valueOf(itemId));
   }
 
-  private boolean heist(String itemId) {
+  public boolean heist(int count, int itemId) {
+    return heist(count, String.valueOf(itemId));
+  }
+
+  private boolean heist(int count, String itemId) {
     var response = getRequest();
     Matcher itemMatcher = ITEM.matcher(response);
     boolean found = false;
@@ -104,12 +109,14 @@ public class HeistManager {
     String monsterId = itemMatcher.group("monsterId");
     String itemName = itemMatcher.group("itemName");
 
-    GenericRequest request = new GenericRequest("choice.php");
-    request.addFormField("whichchoice", "1320");
-    request.addFormField("option", "1");
-    request.addFormField("st:" + monsterId + ":" + itemId, itemName);
-    request.addFormField("pwd", GenericRequest.passwordHash);
-    RequestThread.postRequest(request);
+    for (int i = 0; i < count && KoLmafia.permitsContinue(); i++) {
+      GenericRequest request = new GenericRequest("choice.php");
+      request.addFormField("whichchoice", "1320");
+      request.addFormField("option", "1");
+      request.addFormField("st:" + monsterId + ":" + itemId, itemName);
+      request.addFormField("pwd", GenericRequest.passwordHash);
+      RequestThread.postRequest(request);
+    }
 
     return true;
   }
