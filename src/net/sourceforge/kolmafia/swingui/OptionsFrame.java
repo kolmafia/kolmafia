@@ -94,7 +94,6 @@ public class OptionsFrame extends GenericFrame {
     selectorPanel.addPanel("General", new GeneralOptionsPanel(), true);
     selectorPanel.addPanel(" - Item Acquisition", new ItemOptionsPanel(), true);
     selectorPanel.addPanel(" - Maximizer", new MaximizerOptionsPanel(), true);
-    selectorPanel.addPanel(" - IotM Tracking", new IotMTrackingPanel(), true);
     selectorPanel.addPanel(" - Session Logs", new SessionLogOptionsPanel(), true);
     selectorPanel.addPanel(" - Extra Debugging", new DebugOptionsPanel(), true);
 
@@ -358,35 +357,6 @@ public class OptionsFrame extends GenericFrame {
         {"logReadableHTML", "Include line breaks in logged HTML"},
         {"logDecoratedResponses", "Log decorated responses in debug log"},
         {"logChatRequests", "Include chat-related requests in debug log"},
-      };
-
-      this.setOptions(options);
-    }
-  }
-
-  private class IotMTrackingPanel extends OptionsPanel {
-    /** Constructs a new <code>IotMTrackingPanel</code> */
-    public IotMTrackingPanel() {
-      super(new Dimension(20, 16), new Dimension(370, 16));
-
-      String helpText =
-          "Some Items Of The Month have daily passes, and so KoLMafia cannot tell if you have them from seeing the zone. You can mark them here instead.";
-
-      String[][] options = {
-        {helpText},
-        {},
-        {"sleazeAirportAlways", "Have Spring Break Beach"},
-        {"spookyAirportAlways", "Have Conspiracy Island"},
-        {"stenchAirportAlways", "Have Dinseylandfill"},
-        {"hotAirportAlways", "Have That 70s Volcano"},
-        {"coldAirportAlways", "Have The Glaciest"},
-        {"gingerbreadCityAvailable", "Have Gingerbread City"},
-        {"spacegateAlways", "Have Spacegate"},
-        {"frAlways", "<html>Have FantasyRealm&trade;</html>"},
-        {"prAlways", "<html>Have PirateRealm&trade;</tml>"},
-        {"neverendingPartyAlways", "Have Neverending Party"},
-        {"voteAlways", "Have Voter Registration"},
-        {"daycareOpen", "Have Boxing Daycare"},
       };
 
       this.setOptions(options);
