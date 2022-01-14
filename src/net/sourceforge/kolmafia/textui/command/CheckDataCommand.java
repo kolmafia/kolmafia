@@ -176,7 +176,7 @@ public class CheckDataCommand extends AbstractCommand {
 
     if (command.equals("checkrepo")) {
       DebugDatabase.checkLocalSVNRepository();
-      RequestLogger.printLine("Pulverization data checked.");
+      RequestLogger.printLine("Local SVN repos scanned for possible duplicates.");
       return;
     }
 
