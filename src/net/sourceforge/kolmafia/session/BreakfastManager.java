@@ -553,7 +553,7 @@ public class BreakfastManager {
 
     if (skillCount == 1) {
       // We are casting exactly one skill from this list.
-      String skillName = (String) castable.get(0);
+      String skillName = castable.get(0);
       return BreakfastManager.castSkill(skillName, totalCasts, allowRestore, manaRemaining);
     }
 
@@ -569,7 +569,7 @@ public class BreakfastManager {
     // at a time until we are done.
 
     for (int i = 0; i < skillCount; ++i) {
-      String skillName = (String) castable.get(i);
+      String skillName = castable.get(i);
 
       done &= BreakfastManager.castSkill(skillName, cast, allowRestore, manaRemaining);
       cast = nextCast;

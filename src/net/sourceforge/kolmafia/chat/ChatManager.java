@@ -45,7 +45,7 @@ import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class ChatManager {
-  private static final LinkedList<Object> clanMessages = new RollingLinkedList<>(20);
+  private static final LinkedList<ChatMessage> clanMessages = new RollingLinkedList<>(20);
   private static final Set<String> validChatReplyRecipients = new HashSet<String>();
 
   private static final TreeMap<String, StyledChatBuffer> instantMessageBuffers =
@@ -573,10 +573,10 @@ public abstract class ChatManager {
 
       StringBuilder mailContent = new StringBuilder();
 
-      Iterator<Object> clanMessageIterator = ChatManager.clanMessages.iterator();
+      Iterator<ChatMessage> clanMessageIterator = ChatManager.clanMessages.iterator();
 
       while (clanMessageIterator.hasNext()) {
-        ChatMessage message = (ChatMessage) clanMessageIterator.next();
+        ChatMessage message = clanMessageIterator.next();
         String cleanMessage =
             KoLConstants.ANYTAG_PATTERN
                 .matcher(ChatFormatter.formatChatMessage(message))

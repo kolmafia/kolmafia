@@ -812,10 +812,9 @@ public class DebugDatabase {
     report.println();
     report.println("# Level requirements in " + file + ".txt");
 
-    Object[] keys = map.keySet().toArray();
-    for (Object key : keys) {
-      String name = (String) key;
-      String text = map.get(name);
+    for (Entry<String, String> entry : map.entrySet()) {
+      String name = entry.getKey();
+      String text = entry.getValue();
       DebugDatabase.checkConsumableDatum(name, type, text, report);
     }
   }
@@ -908,10 +907,9 @@ public class DebugDatabase {
     report.println("# " + tag + " section of equipment.txt");
     report.println();
 
-    Object[] keys = map.keySet().toArray();
-    for (Object key : keys) {
-      String name = (String) key;
-      String text = map.get(name);
+    for (Entry<String, String> entry : map.entrySet()) {
+      String name = entry.getKey();
+      String text = entry.getValue();
       DebugDatabase.checkEquipmentDatum(name, text, report);
     }
   }
@@ -1097,11 +1095,10 @@ public class DebugDatabase {
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
-    Object[] keys = map.keySet().toArray();
     int type = imap.getType();
-    for (Object key : keys) {
-      String name = (String) key;
-      String text = map.get(name);
+    for (Entry<String, String> entry : map.entrySet()) {
+      String name = entry.getKey();
+      String text = entry.getValue();
       DebugDatabase.checkItemModifierDatum(name, text, type, report, showAll);
     }
   }
@@ -1728,10 +1725,9 @@ public class DebugDatabase {
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
-    Object[] keys = map.keySet().toArray();
-    for (Object key : keys) {
-      String name = (String) key;
-      String text = map.get(name);
+    for (Entry<String, String> entry : map.entrySet()) {
+      String name = entry.getKey();
+      String text = entry.getValue();
       DebugDatabase.checkOutfitModifierDatum(name, text, report);
     }
   }
@@ -1968,10 +1964,9 @@ public class DebugDatabase {
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
-    Object[] keys = map.keySet().toArray();
-    for (Object key : keys) {
-      String name = (String) key;
-      String text = map.get(name);
+    for (Entry<String, String> entry : map.entrySet()) {
+      String name = entry.getKey();
+      String text = entry.getValue();
       DebugDatabase.checkEffectModifierDatum(name, text, report);
     }
   }
@@ -2220,10 +2215,9 @@ public class DebugDatabase {
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
-    Object[] keys = map.keySet().toArray();
-    for (Object key : keys) {
-      String name = (String) key;
-      String text = map.get(name);
+    for (Entry<String, String> entry : map.entrySet()) {
+      String name = entry.getKey();
+      String text = entry.getValue();
       DebugDatabase.checkSkillModifierDatum(name, text, report);
     }
   }

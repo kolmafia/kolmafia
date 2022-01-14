@@ -53,7 +53,7 @@ public class TableCellFactory {
       return getGeneralCell(columnIndex, isSelected, advresult, raw);
     }
     if (result instanceof CreateItemRequest) {
-      return getCreationCell(columnIndex, result, isSelected, raw);
+      return getCreationCell(columnIndex, (CreateItemRequest) result, isSelected, raw);
     }
     if (result instanceof LowerCaseEntry) {
       if (model == DatabaseFrame.allItems) {
@@ -215,8 +215,7 @@ public class TableCellFactory {
   }
 
   private static Object getCreationCell(
-      int columnIndex, Object result, boolean isSelected, boolean raw) {
-    CreateItemRequest CIRresult = (CreateItemRequest) result;
+      int columnIndex, CreateItemRequest CIRresult, boolean isSelected, boolean raw) {
     Integer fill;
 
     switch (columnIndex) {

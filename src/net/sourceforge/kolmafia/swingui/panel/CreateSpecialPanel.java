@@ -88,7 +88,7 @@ public class CreateSpecialPanel extends InventoryPanel<CreateItemRequest> {
     List<CreateItemRequest> items = this.getSelectedValues();
     // Disabled for now
     for (int i = 0; i < 0 * items.size(); ++i) {
-      CreateItemRequest selection = (CreateItemRequest) items.get(i);
+      CreateItemRequest selection = items.get(i);
       Integer value =
           InputFieldUtilities.getQuantity(
               "Creating multiple "
@@ -124,7 +124,7 @@ public class CreateSpecialPanel extends InventoryPanel<CreateItemRequest> {
     List<CreateItemRequest> items = this.getSelectedValues();
     // Disabled for now
     for (int i = 0; i < 0 * items.size(); ++i) {
-      CreateItemRequest selection = (CreateItemRequest) items.get(i);
+      CreateItemRequest selection = items.get(i);
 
       int itemId = selection.getItemId();
       int maximum = UseItemRequest.maximumUses(itemId, ItemDatabase.getConsumptionType(itemId));
