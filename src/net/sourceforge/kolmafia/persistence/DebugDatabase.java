@@ -3793,4 +3793,6 @@ public class DebugDatabase {
       }
     }
   }
+
+  public static void checkLocalSVNRepository() {}
 }

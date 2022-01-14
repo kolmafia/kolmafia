@@ -174,6 +174,12 @@ public class CheckDataCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("checkrepo")) {
+      DebugDatabase.checkLocalSVNRepository();
+      RequestLogger.printLine("Pulverization data checked.");
+      return;
+    }
+
     if (command.equals("checkshields")) {
       DebugDatabase.checkShields();
       RequestLogger.printLine("Shield power checked.");
