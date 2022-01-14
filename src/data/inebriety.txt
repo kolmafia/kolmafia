@@ -202,7 +202,7 @@ Doc Clock's thyme cocktail	4	8	EPIC	26-30	20-40	20-40	20-40	-2 Fullness
 Doc's Fortifying Wine	1	1	awesome	4-5	45-60	5-15	5-15	WINE 40 Medically Fortified (+3 Mus stats/fight, +30% Mus)
 Doc's Limbering Wine	1	1	awesome	4-5	5-15	5-15	45-60	WINE 40 Medically Loosened (+3 Mox stats/fight, +30% Mox)
 Doc's Smartifying Wine	1	1	awesome	4-5	5-15	45-60	5-15	WINE 40 Medically Smartified (+3 Mys stats/fight, +30% Mys)
-Doc's Special Reserve Wine	1	1	good	0	0	0	0	Unspaded
+Doc's Special Reserve Wine	1	1	good	4-5	0	0	0	WINE 40 Fixed Right Up (+3 stats/fight, +15% Mus, +15% Mys, +15% Mox) 
 Doc's Medical-Grade Wine	1	1	awesome	4-5	20-35	20-35	20-35	WINE 40 Fixed Up (+2 stats/fight, +10% Mus, +10% Mys, +10% Mox)
 double entendre	1	1	awesome	3-5	0	0	0	40 Space Cadet (+50% MP)
 Doublepunchplanter	2	4	awesome	6-7	10-15	10-15	10-15	10 Fishy
@@ -408,7 +408,7 @@ Locust	2	4	awesome	6-7	0	0	20-30	10 Cockroach Scurry (+50 Init)
 Lollipop Drop	2	1	good	4-5	0	0	10-20	5 Holiday Bliss (+20 Item Drop, +20 Meat Drop)
 London frog	1	1	awesome	3-5	0	0	0	40 Slime Time (+100% HP)
 low tide martini	1	1	awesome	4-6	0	0	0	40 Floundering (+5 Fishing Skill), MARTINI
-Lucky Lindy	6	1	good	2-4	0	0	0	Grants Lucky! intrinsic
+Lucky Lindy	6	1	good	16-20	0	0	0	Grants Lucky! intrinsic
 lumbering jack	3	1	decent	3-8	0	11-14	0
 Lumineux Limnio	1	2	awesome	3-5	0	35	0	30 Bright! (+100 max MP), WINE
 lychee chuhai	3	4	decent	5-6	0	0	34-80	20 Brined Liver
