@@ -343,7 +343,7 @@ public class DebugDatabaseTest {
   }
   */
   @Test
-  @Disabled("fails due to data problems")
+  @Disabled("Accesses Coldfront which is returning malformed XML")
   public void checkPulverizationData() {
     String expectedOutput = "Checking pulverization data...\n";
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
@@ -421,7 +421,7 @@ public class DebugDatabaseTest {
   }
 
   @Test
-  @Disabled("need to figure out if test is reporting valid errors.")
+  @Disabled("Relies on external resources (wiki)")
   public void checkMeat() {
     String expectedOutput = "";
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();

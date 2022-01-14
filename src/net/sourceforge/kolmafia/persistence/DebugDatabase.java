@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -3789,13 +3788,13 @@ public class DebugDatabase {
 
   public static void checkLocalSVNRepository() {
     File root = KoLConstants.SVN_LOCATION;
-    List<Path> theList;
+    List<File> theList;
     theList = new LinkedList<>(curseAgain(root));
     Collections.sort(theList);
     RequestLogger.printLine("Found " + theList.size() + " repo files.");
-    Map<String, Path> seen = new HashMap<>();
-    for (Path p : theList) {
-      String name = p.toFile().getName().toLowerCase();
+    Map<String, File> seen = new HashMap<>();
+    for (File p : theList) {
+      String name = p.getName().toLowerCase();
       if (seen.containsKey(name)) {
         RequestLogger.printLine("***");
         RequestLogger.printLine(seen.get(name).toString());
@@ -3807,8 +3806,8 @@ public class DebugDatabase {
     }
   }
 
-  private static List<Path> curseAgain(File here) {
-    List<Path> theList = new LinkedList<>();
+  private static List<File> curseAgain(File here) {
+    List<File> theList = new LinkedList<>();
     File[] contents = here.listFiles();
     if (contents != null) {
       for (File f : contents) {
@@ -3817,7 +3816,7 @@ public class DebugDatabase {
         if (f.isDirectory()) {
           theList.addAll(curseAgain(f));
         } else {
-          theList.add(f.toPath());
+          theList.add(f);
         }
       }
     }
