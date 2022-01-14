@@ -809,8 +809,6 @@ public abstract class InventoryManager {
         RequestThread.postRequest(new HermitRequest(itemId, retrieveCount));
       }
 
-      RequestThread.postRequest(new HermitRequest(itemId, missingCount));
-
       missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
       if (missingCount <= 0) {
         return "";
