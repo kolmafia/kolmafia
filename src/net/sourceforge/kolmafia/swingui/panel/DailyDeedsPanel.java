@@ -683,31 +683,29 @@ public class DailyDeedsPanel extends Box implements Listener {
        * Skill|displayText|preference
        * skillName is found from displayText
        */
-      List<?> skillNames = SkillDatabase.getMatchingNames(deedsString[1]);
+      List<String> skillNames = SkillDatabase.getMatchingNames(deedsString[1]);
 
       if (skillNames.size() != 1) {
         RequestLogger.printLine("Daily Deeds error: unable to resolve skill " + deedsString[1]);
         return;
       }
 
-      this.add(new SkillDaily(pref, (String) skillNames.get(0), "cast " + skillNames.get(0)));
+      this.add(new SkillDaily(pref, skillNames.get(0), "cast " + skillNames.get(0)));
     } else if (deedsString.length == 4) {
       /*
        * Skill|displayText|preference|skillName
        */
       String displayText = deedsString[1];
-      List<?> skillNames = SkillDatabase.getMatchingNames(deedsString[3]);
+      List<String> skillNames = SkillDatabase.getMatchingNames(deedsString[3]);
 
       if (skillNames.size() != 1) {
         RequestLogger.printLine("Daily Deeds error: unable to resolve skill " + deedsString[3]);
         return;
       }
-      this.add(
-          new SkillDaily(
-              displayText, pref, (String) skillNames.get(0), "cast " + skillNames.get(0)));
+      this.add(new SkillDaily(displayText, pref, skillNames.get(0), "cast " + skillNames.get(0)));
     } else if (deedsString.length == 5) {
       String displayText = deedsString[1];
-      List<?> skillNames = SkillDatabase.getMatchingNames(deedsString[3]);
+      List<String> skillNames = SkillDatabase.getMatchingNames(deedsString[3]);
 
       try {
         int maxCasts = Integer.parseInt(deedsString[4]);
@@ -718,18 +716,14 @@ public class DailyDeedsPanel extends Box implements Listener {
         }
         this.add(
             new SkillDaily(
-                displayText,
-                pref,
-                (String) skillNames.get(0),
-                "cast " + skillNames.get(0),
-                maxCasts));
+                displayText, pref, skillNames.get(0), "cast " + skillNames.get(0), maxCasts));
       } catch (NumberFormatException e) {
         RequestLogger.printLine(
             "Daily Deeds error: Skill deeds require an int for the fifth parameter.");
       }
     } else if (deedsString.length == 6) {
       String displayText = deedsString[1];
-      List<?> skillNames = SkillDatabase.getMatchingNames(deedsString[3]);
+      List<String> skillNames = SkillDatabase.getMatchingNames(deedsString[3]);
       String toolTip = deedsString[5];
 
       try {
@@ -743,7 +737,7 @@ public class DailyDeedsPanel extends Box implements Listener {
             new SkillDaily(
                 displayText,
                 pref,
-                (String) skillNames.get(0),
+                skillNames.get(0),
                 "cast " + skillNames.get(0),
                 maxCasts,
                 toolTip));
@@ -757,7 +751,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       if (skillString.equals("")) {
         skillString = displayText;
       }
-      List<?> skillNames = SkillDatabase.getMatchingNames(skillString);
+      List<String> skillNames = SkillDatabase.getMatchingNames(skillString);
       String toolTip = deedsString[5];
       String compMessage = deedsString[6];
 
@@ -776,7 +770,7 @@ public class DailyDeedsPanel extends Box implements Listener {
             new SkillDaily(
                 displayText,
                 pref,
-                (String) skillNames.get(0),
+                skillNames.get(0),
                 "cast " + skillNames.get(0),
                 maxCasts,
                 toolTip,
@@ -957,6 +951,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
   }
 
+  @Override
   public void update() {
     // Called whenever the dailyDeedsOptions preference is changed.
     this.removeAll();
@@ -978,6 +973,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.daily = daily;
     }
 
+    @Override
     public void run() {
       daily.update();
     }
@@ -1124,6 +1120,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       }
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
       CommandDisplayFrame.executeCommand(e.getActionCommand());
       // Try to avoid having a random button, possibly with a high associated
@@ -1131,6 +1128,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
     }
 
+    @Override
     public abstract void update();
   }
 
@@ -1195,6 +1193,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     private class ShowerComboListener implements ActionListener {
       // the combo listeners exist solely to update the GO button with
       // the combo box target
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         if (cb.getSelectedIndex() <= 0) {
@@ -1275,6 +1274,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     private class DemonComboListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         if (cb.getSelectedIndex() <= 0) {
@@ -1375,6 +1375,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     private class ComboListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         int choice = cb.getSelectedIndex();
@@ -1498,6 +1499,7 @@ public class DailyDeedsPanel extends Box implements Listener {
         this.preference = pref;
       }
 
+      @Override
       public void actionPerformed(ActionEvent arg0) {
         String pref = this.preference;
         int value = Preferences.getInteger(pref);
@@ -2238,6 +2240,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     private class MomComboListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         int index = cb.getSelectedIndex();
@@ -3304,6 +3307,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     private class HatterComboListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
 
@@ -3705,6 +3709,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     private class DeckComboListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         String command = commands.get(cb.getSelectedIndex());
@@ -3967,6 +3972,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     private class TerminalEnhanceComboListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         String command = commands.get(cb.getSelectedIndex());
@@ -4043,6 +4049,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     private class TerminalEnquiryComboListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         String command = commands.get(cb.getSelectedIndex());
@@ -4134,6 +4141,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     private class TerminalExtrudeComboListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         String command = commands.get(cb.getSelectedIndex());
@@ -4216,6 +4224,7 @@ public class DailyDeedsPanel extends Box implements Listener {
     }
 
     private class TerminalEducateComboListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         DisabledItemsComboBox<?> cb = (DisabledItemsComboBox<?>) e.getSource();
         String command = commands.get(cb.getSelectedIndex());

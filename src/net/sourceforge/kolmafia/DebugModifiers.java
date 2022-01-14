@@ -205,6 +205,7 @@ public class DebugModifiers extends Modifiers {
           + "</td>";
     }
 
+    @Override
     public int compareTo(Change o) {
       Change other = o;
       if (this.value < other.value) return 1;

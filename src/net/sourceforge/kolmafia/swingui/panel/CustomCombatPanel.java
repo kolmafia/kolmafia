@@ -304,6 +304,7 @@ public class CustomCombatPanel extends JPanel {
       this.update();
     }
 
+    @Override
     public void update() {
       this.updating = true;
 
@@ -405,6 +406,7 @@ public class CustomCombatPanel extends JPanel {
     public void addStatusLabel() {}
 
     private class BattleActionListener implements ActionListener {
+      @Override
       public void actionPerformed(ActionEvent e) {
         // Don't set preferences from widgets when we
         // are in the middle of loading widgets from
@@ -427,6 +429,7 @@ public class CustomCombatPanel extends JPanel {
         SpecialActionsPanel.this.specialPopup.show(SpecialActionsPanel.this.special, 0, 32);
       }
 
+      @Override
       public void itemStateChanged(final ItemEvent e) {
         // Don't set preferences from widgets when we
         // are in the middle of loading widgets from
@@ -492,6 +495,7 @@ public class CustomCombatPanel extends JPanel {
       PreferenceListenerRegistry.registerPreferenceListener("customCombatScript", this);
     }
 
+    @Override
     public void update() {
       CustomCombatPanel.this.combatCards.show(CustomCombatPanel.this.combatCardPanel, "tree");
       this.setSelectedItem(Preferences.getString("customCombatScript"));
@@ -588,6 +592,7 @@ public class CustomCombatPanel extends JPanel {
     public void setEnabled(final boolean isEnabled) {}
 
     public class NewScriptRunnable implements Runnable {
+      @Override
       public void run() {
         String name = InputFieldUtilities.input("Give your combat script a name!");
         if (name == null || name.equals("") || name.equals("default")) {
@@ -600,6 +605,7 @@ public class CustomCombatPanel extends JPanel {
     }
 
     public class CopyScriptRunnable implements Runnable {
+      @Override
       public void run() {
         String name = InputFieldUtilities.input("Make a copy of current script called:");
         if (name == null || name.equals("") || name.equals("default")) {
@@ -613,6 +619,7 @@ public class CustomCombatPanel extends JPanel {
     }
 
     public class DeleteScriptRunnable implements Runnable {
+      @Override
       public void run() {
         String strategy = CombatActionManager.getStrategyLookupName();
 

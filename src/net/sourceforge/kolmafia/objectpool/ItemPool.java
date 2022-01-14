@@ -3304,6 +3304,7 @@ public class ItemPool {
   public static final int PUMP_GREASE = 10795;
   public static final int INDUSTRIAL_FIRE_EXTINGUISHER = 10797;
   public static final int VAMPIRE_VINTNER_WINE = 10800;
+  public static final int DAYLIGHT_SHAVINGS_HELMET = 10804;
   public static final int COLD_MEDICINE_CABINET = 10815;
   public static final int HOMEBODYL = 10828;
   public static final int EXTROVERMECTIN = 10829;
@@ -3314,6 +3315,7 @@ public class ItemPool {
   public static final int MEATBALL_MACHINE = 10878;
   public static final int REFURBISHED_AIR_FRYER = 10879;
   public static final int ELEVEN_LEAF_CLOVER = 10881;
+  public static final int CURSED_MAGNIFYING_GLASS = 10885;
 
   public static final AdventureResult get(String itemName, int count) {
     int itemId = ItemDatabase.getItemId(itemName, 1, false);

@@ -18,6 +18,22 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 
 public abstract class FamiliarManager {
+  public static void changeFamiliar(int famId) {
+    changeFamiliar(famId, true);
+  }
+
+  public static void changeFamiliar(int famId, boolean stealEquipment) {
+    changeFamiliar(KoLCharacter.findFamiliar(famId), stealEquipment);
+  }
+
+  public static void changeFamiliar(FamiliarData familiar) {
+    changeFamiliar(familiar, true);
+  }
+
+  public static void changeFamiliar(FamiliarData familiar, boolean stealEquipment) {
+    RequestThread.postRequest(new FamiliarRequest(familiar, stealEquipment));
+  }
+
   public static void equipAllFamiliars() {
     KoLmafia.updateDisplay("Equipping familiars...");
 

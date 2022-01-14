@@ -307,6 +307,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
   public void actionCancelled() {}
 
   private class ConsumableComparator implements Comparator<Concoction> {
+    @Override
     public int compare(Concoction o1, Concoction o2) {
       if (o1 == null || o2 == null) {
         throw new NullPointerException();
@@ -380,12 +381,14 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
       return o1.compareTo(o2);
     }
 
+    @Override
     public boolean equals(Object o) {
       return o instanceof ConsumableComparator;
     }
   }
 
   private class PotionComparator implements Comparator<Concoction> {
+    @Override
     public int compare(Concoction o1, Concoction o2) {
       if (o1 == null || o2 == null) {
         throw new NullPointerException();
@@ -406,6 +409,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
           : name2 == null ? -1 : name1.compareToIgnoreCase(name2);
     }
 
+    @Override
     public boolean equals(Object o) {
       return o instanceof PotionComparator;
     }
@@ -1010,6 +1014,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
       this.addActionListener(this);
     }
 
+    @Override
     public void actionPerformed(final ActionEvent e) {
       if (UseItemEnqueuePanel.this.sortByEffect == this.isSelected()) {
         return;

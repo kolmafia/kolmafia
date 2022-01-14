@@ -164,6 +164,7 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
       super(PulverizePanel.this.getElementList());
     }
 
+    @Override
     public void valueChanged(ListSelectionEvent e) {
       this.update();
     }

@@ -774,7 +774,7 @@ famous blue raincoat	100	none
 filthy hippy poncho	40	Mus: 5
 First Post shirt - Cir Senam	100	none
 fishbone corset	20	none
-flagstone fleece	0	Mox: 40
+flagstone fleece	120	Mox: 40
 flaming pink shirt	100	none
 floral print shirt	100	Mus: 35
 flyest of shirts	80	Mus: 25
@@ -2488,8 +2488,8 @@ fishbone bracers	20	none
 fishbone facemask	20	none
 fishbone fins	20	none
 fishbone kneepads	20	none
-flagstone flip-flops	0	Mys: 40
-flagstone fringe	0	Mox: 40
+flagstone flip-flops	120	Mys: 40
+flagstone fringe	120	Mox: 40
 flapper floppers	100	Mys: 35
 flashing novelty button	20	none
 flask flops	10	none
@@ -2646,9 +2646,9 @@ Loathing Legion necktie	0	none
 Loathing Legion rollerblades	0	none
 Lockenstock&trade; sandals	160	Mys: 65
 lollipop cufflinks	0	none
-loofah lavalier	0	none
-loofah legwarmers	0	none
-loofah lei	0	none
+loofah lavalier	50	none
+loofah legwarmers	50	none
+loofah lei	50	none
 long-forgotten necklace	200	Mys: 85
 Lord Soggyraven's Slippers	150	Mys: 60
 Lord Spookyraven's ear trumpet	150	Mys: 20

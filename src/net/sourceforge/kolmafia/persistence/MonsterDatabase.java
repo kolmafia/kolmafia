@@ -461,6 +461,7 @@ public class MonsterDatabase {
 
     MonsterData cloned =
         new MonsterData(monster) {
+          @Override
           public String getName() {
             return alias;
           }

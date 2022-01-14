@@ -64,7 +64,9 @@ import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
+import net.sourceforge.kolmafia.session.CursedMagnifyingGlassManager;
 import net.sourceforge.kolmafia.session.DadManager;
+import net.sourceforge.kolmafia.session.DaylightShavingsHelmetManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -446,6 +448,7 @@ public class FightRequest extends GenericRequest {
     RAIN("Heavy Rains"),
     SEWER("Sewer Tunnel"),
     TACO_ELF("taco elf"),
+    VOID("void monsters"),
     WAR_FRATBOY("War Fratboy"),
     WAR_HIPPY("War Hippy"),
     WITCHESS("witchess"),
@@ -644,6 +647,10 @@ public class FightRequest extends GenericRequest {
 
     FightRequest.specialMonsters.put("Source Agent", SpecialMonster.PORTSCAN);
     FightRequest.specialMonsters.put("Government agent", SpecialMonster.PORTSCAN);
+
+    FightRequest.specialMonsters.put("void guy", SpecialMonster.VOID);
+    FightRequest.specialMonsters.put("void slab", SpecialMonster.VOID);
+    FightRequest.specialMonsters.put("void spider", SpecialMonster.VOID);
 
     FightRequest.addAreaMonsters("A Maze of Sewer Tunnels", SpecialMonster.SEWER);
     FightRequest.addAreaMonsters("The Battlefield (Frat Uniform)", SpecialMonster.WAR_HIPPY);
@@ -2641,6 +2648,19 @@ public class FightRequest extends GenericRequest {
             }
             break;
 
+          case VOID:
+            if (responseText.contains("Time seems to stop.")) {
+              Preferences.increment("_voidFreeFights", 1, 5, false);
+            } else {
+              Preferences.setInteger("_voidFreeFights", 5);
+            }
+            if (!EncounterManager.ignoreSpecialMonsters
+                && Preferences.getInteger("cursedMagnifyingGlassCount") == 13
+                && KoLCharacter.hasEquipped(ItemPool.CURSED_MAGNIFYING_GLASS)) {
+              Preferences.setInteger("cursedMagnifyingGlassCount", 0);
+            }
+            break;
+
           case WOL:
             if (!EncounterManager.ignoreSpecialMonsters) {
               TurnCounter.stopCounting("WoL Monster window begin");
@@ -2888,6 +2908,13 @@ public class FightRequest extends GenericRequest {
     else if (responseText.contains("Your crimbo tree is now 100% naked")) {
       Preferences.setInteger("garbageTreeCharge", 0);
       EquipmentManager.breakEquipment(ItemPool.DECEASED_TREE, "You toss your crimbo tree away.");
+    }
+
+    // Check for magnifying glass messages
+    CursedMagnifyingGlassManager.updatePreference(responseText);
+
+    if (KoLCharacter.hasEquipped(ItemPool.DAYLIGHT_SHAVINGS_HELMET, EquipmentManager.HAT)) {
+      DaylightShavingsHelmetManager.updatePreference(responseText);
     }
 
     // "The Slime draws back and shudders, as if it's about to sneeze.
@@ -6324,12 +6351,11 @@ public class FightRequest extends GenericRequest {
           ||
           // Mr. Cheeng's spectacles
           str.contains("You see a weird thing out of the corner of your eye, and you grab it")
-          || str.contains("You think you see a weird thing out of the corner of your eye")
-          ||
-          // lucky gold ring
-          str.contains("Your lucky gold ring gets warmer for a moment.")) {
+          || str.contains("You think you see a weird thing out of the corner of your eye")) {
         FightRequest.logText(str, status);
       }
+
+      FightRequest.handleLuckyGoldRing(str, status);
 
       // Retrospecs
       if (str.contains("notice an item you missed earlier")) {
@@ -7111,6 +7137,16 @@ public class FightRequest extends GenericRequest {
     }
   }
 
+  private static void handleLuckyGoldRing(String str, TagStatus status) {
+    if (!str.contains("Your lucky gold ring gets warmer for a moment.")) {
+      return;
+    }
+    FightRequest.logText(str, status);
+    if (str.contains("You look down and find a Volcoino!")) {
+      Preferences.setBoolean("_luckyGoldRingVolcoino", true);
+    }
+  }
+
   private static boolean handleProselytization(TagNode node, TagStatus status) {
     String str = node.getText().toString();
 
@@ -7788,6 +7824,7 @@ public class FightRequest extends GenericRequest {
         && !FightRequest.choiceFollowsFight) {
       Runnable initializeRunner =
           new Runnable() {
+            @Override
             public void run() {
               LoginManager.login(KoLCharacter.getUserName());
               FightRequest.initializeAfterFight = false;
@@ -9404,7 +9441,7 @@ public class FightRequest extends GenericRequest {
           case "The Smut Orc Logging Camp":
             if (responseText.contains("You wantonly spray the area with your fire extinguisher")
                 || skillSuccess) {
-              Preferences.increment("smutOrcNoncombatProgress", 10, 15, false);
+              Preferences.increment("smutOrcNoncombatProgress", 11, 15, false);
               Preferences.setBoolean("fireExtinguisherChasmUsed", true);
               success = true;
             }

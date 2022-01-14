@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.swingui;
 
 import net.sourceforge.kolmafia.RequestEditorKit;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class RequestSynchFrame extends RequestFrame {
@@ -16,6 +17,10 @@ public class RequestSynchFrame extends RequestFrame {
   }
 
   public static final void showRequest(final GenericRequest request) {
+    if (StaticEntity.isHeadless()) {
+      return;
+    }
+
     if (RequestSynchFrame.INSTANCE == null) {
       GenericFrame.createDisplay(RequestSynchFrame.class);
     }

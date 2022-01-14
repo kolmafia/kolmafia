@@ -140,6 +140,7 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> {
   }
 
   private class UndoQueueRunnable implements Runnable {
+    @Override
     public void run() {
       ConcoctionDatabase.pop(
           UseItemDequeuePanel.this.food,

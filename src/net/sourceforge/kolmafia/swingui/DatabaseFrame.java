@@ -51,6 +51,7 @@ public class DatabaseFrame extends GenericFrame {
   }
 
   private static class IntegerEntryKeyComparator implements Comparator<LowerCaseEntry<?, ?>> {
+    @Override
     public int compare(LowerCaseEntry<?, ?> o1, LowerCaseEntry<?, ?> o2) {
       Object key1 = o1.getKey();
       Object key2 = o2.getKey();

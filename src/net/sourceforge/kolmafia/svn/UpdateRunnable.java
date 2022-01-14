@@ -31,6 +31,7 @@ public class UpdateRunnable implements Runnable {
     this.revision = rev;
   }
 
+  @Override
   public void run() {
     if (this.WCDir == null) {
       if (!KoLmafia.permitsContinue()) return;

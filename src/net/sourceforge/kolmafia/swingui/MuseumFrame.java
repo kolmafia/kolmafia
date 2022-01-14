@@ -251,6 +251,7 @@ public class MuseumFrame extends GenericFrame {
       RequestThread.postRequest(new DisplayCaseRequest());
     }
 
+    @Override
     public void updateDisplay(final PanelList list, final Object value, final int index) {}
   }
 
@@ -271,6 +272,7 @@ public class MuseumFrame extends GenericFrame {
     }
 
     private class MoveUpListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         int selectedIndex = OrderingPanel.this.getElementList().getSelectedIndex();
         if (selectedIndex < 1) {
@@ -289,6 +291,7 @@ public class MuseumFrame extends GenericFrame {
     }
 
     private class MoveDownListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         int selectedIndex = OrderingPanel.this.getElementList().getSelectedIndex();
         if (selectedIndex < 0 || selectedIndex == OrderingPanel.this.elementModel.size() - 1) {

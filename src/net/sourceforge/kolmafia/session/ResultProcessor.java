@@ -61,7 +61,7 @@ public class ResultProcessor {
           "<b>([^<]*)</b>(?: \\((stored in Hagnk's Ancestral Mini-Storage|automatically equipped)\\))?");
 
   public static String processItems(
-      boolean combatResults, final String results, final List<AdventureResult> items) {
+      boolean adventureResults, final String results, final List<AdventureResult> items) {
     // Results now come in like this:
     //
     // <table class="item" style="float: none" rel="id=617&s=137&q=0&d=1&g=0&t=1&n=1&m=1&u=u">
@@ -205,7 +205,7 @@ public class ResultProcessor {
         else if (comment.contains("automatically equipped")) {
           // add to inventory, equip it, and remove from page text
           String acquisition = "You acquire and equip an item:";
-          ResultProcessor.processItem(combatResults, acquisition, item, null);
+          ResultProcessor.processItem(adventureResults, acquisition, item, null);
           EquipmentManager.autoequipItem(item);
         }
       }
@@ -327,14 +327,7 @@ public class ResultProcessor {
   }
 
   public static void updateVintner() {
-    // Check the wine's type
-    RequestThread.postRequest(
-        new GenericRequest("desc_item.php?whichitem=" + ItemPool.VAMPIRE_VINTNER_WINE));
-    // We can just check any of the effects for the level
-    RequestThread.postRequest(
-        new GenericRequest(
-            "desc_effect.php?whicheffect="
-                + EffectDatabase.getDescriptionId(EffectPool.WINE_BEFOULED)));
+    ItemDatabase.parseVampireVintnerWine();
   }
 
   public static Pattern EFFECT_TABLE_PATTERN =
@@ -379,6 +372,7 @@ public class ResultProcessor {
         case EffectPool.WINE_DARK:
         case EffectPool.WINE_BEFOULED:
           ResultProcessor.updateVintner();
+          break;
       }
 
       String acquisition = effectMatcher.group(2);
@@ -402,12 +396,12 @@ public class ResultProcessor {
     return effects;
   }
 
-  public static boolean processResults(boolean combatResults, String results) {
-    return ResultProcessor.processResults(combatResults, results, null);
+  public static boolean processResults(boolean adventureResults, String results) {
+    return ResultProcessor.processResults(adventureResults, results, null);
   }
 
   public static boolean processResults(
-      boolean combatResults, String results, List<AdventureResult> data) {
+      boolean adventureResults, String results, List<AdventureResult> data) {
 
     if (data == null && RequestLogger.isDebugging()) {
       RequestLogger.updateDebugLog("Processing results...");
@@ -421,7 +415,7 @@ public class ResultProcessor {
     // Check multi-usability and plurals
 
     LinkedList<AdventureResult> items = new LinkedList<>();
-    results = ResultProcessor.processItems(combatResults, results, items);
+    results = ResultProcessor.processItems(adventureResults, results, items);
 
     // Process effects similarly, saving them to a list of effects.
     // Register new effects.
@@ -431,7 +425,7 @@ public class ResultProcessor {
     boolean requiresRefresh = false;
 
     try {
-      requiresRefresh = processNormalResults(combatResults, results, data, items, effects);
+      requiresRefresh = processNormalResults(adventureResults, results, data, items, effects);
     } finally {
       if (data == null) {
         KoLmafia.applyEffects();
@@ -442,7 +436,7 @@ public class ResultProcessor {
   }
 
   private static boolean processNormalResults(
-      boolean combatResults,
+      boolean adventureResults,
       String results,
       List<AdventureResult> data,
       LinkedList<AdventureResult> items,
@@ -462,7 +456,7 @@ public class ResultProcessor {
 
     while (parsedResults.size() > 0) {
       shouldRefresh |=
-          ResultProcessor.processNextResult(combatResults, parsedResults, data, items, effects);
+          ResultProcessor.processNextResult(adventureResults, parsedResults, data, items, effects);
     }
 
     return shouldRefresh;
@@ -495,7 +489,7 @@ public class ResultProcessor {
   }
 
   private static boolean processNextResult(
-      boolean combatResults,
+      boolean adventureResults,
       LinkedList<String> parsedResults,
       List<AdventureResult> data,
       LinkedList<AdventureResult> items,
@@ -538,7 +532,7 @@ public class ResultProcessor {
         return false;
       }
 
-      ResultProcessor.processItem(combatResults, parsedResults, acquisition, data, items);
+      ResultProcessor.processItem(adventureResults, parsedResults, acquisition, data, items);
       return false;
     }
 
@@ -561,7 +555,7 @@ public class ResultProcessor {
   }
 
   private static void processItem(
-      boolean combatResults,
+      boolean adventureResults,
       LinkedList<String> parsedResults,
       String acquisition,
       List<AdventureResult> data,
@@ -587,7 +581,7 @@ public class ResultProcessor {
 
       if (result != null) {
         items.removeFirst();
-        ResultProcessor.processItem(combatResults, acquisition, result, data);
+        ResultProcessor.processItem(adventureResults, acquisition, result, data);
         return;
       }
 
@@ -610,7 +604,7 @@ public class ResultProcessor {
         acquisition = "You acquire and equip an item:";
       }
 
-      ResultProcessor.processItem(combatResults, acquisition, result, data);
+      ResultProcessor.processItem(adventureResults, acquisition, result, data);
 
       if (autoEquip) {
         EquipmentManager.autoequipItem(result);
@@ -648,7 +642,7 @@ public class ResultProcessor {
 
     if (result != null) {
       items.removeFirst();
-      ResultProcessor.processItem(combatResults, acquisition, result, data);
+      ResultProcessor.processItem(adventureResults, acquisition, result, data);
       return;
     }
 
@@ -672,11 +666,11 @@ public class ResultProcessor {
       }
     }
 
-    ResultProcessor.processItem(combatResults, acquisition, result, data);
+    ResultProcessor.processItem(adventureResults, acquisition, result, data);
   }
 
   public static void processItem(
-      boolean combatResults,
+      boolean adventureResults,
       String acquisition,
       AdventureResult result,
       List<AdventureResult> data) {
@@ -692,7 +686,7 @@ public class ResultProcessor {
       RequestLogger.updateSessionLog(message);
     }
 
-    ResultProcessor.processResult(combatResults, result);
+    ResultProcessor.processResult(adventureResults, result);
   }
 
   public static Pattern DURATION_PATTERN =
@@ -744,7 +738,7 @@ public class ResultProcessor {
   }
 
   public static boolean processEffect(
-      boolean combatResults,
+      boolean adventureResults,
       String acquisition,
       AdventureResult result,
       List<AdventureResult> data) {
@@ -766,7 +760,7 @@ public class ResultProcessor {
       RequestLogger.updateSessionLog(message);
     }
 
-    return ResultProcessor.processResult(combatResults, result);
+    return ResultProcessor.processResult(adventureResults, result);
   }
 
   private static boolean processIntrinsic(
@@ -805,7 +799,7 @@ public class ResultProcessor {
   }
 
   public static boolean processIntrinsic(
-      boolean combatResults,
+      boolean adventureResults,
       String acquisition,
       AdventureResult result,
       List<AdventureResult> data) {
@@ -822,7 +816,7 @@ public class ResultProcessor {
       RequestLogger.updateSessionLog(message);
     }
 
-    return ResultProcessor.processResult(combatResults, result);
+    return ResultProcessor.processResult(adventureResults, result);
   }
 
   public static boolean processGainLoss(String lastToken, final List<AdventureResult> data) {
@@ -1014,7 +1008,7 @@ public class ResultProcessor {
     return ResultProcessor.processResult(false, result);
   }
 
-  public static boolean processResult(boolean combatResults, AdventureResult result) {
+  public static boolean processResult(boolean adventureResults, AdventureResult result) {
     // This should not happen, but punt if the result was null.
 
     if (result == null) {
@@ -1110,7 +1104,7 @@ public class ResultProcessor {
 
     if (result.isItem()) {
       // Do special processing when you get certain items
-      ResultProcessor.gainItem(combatResults, result);
+      ResultProcessor.gainItem(adventureResults, result);
 
       if (GenericRequest.isBarrelSmash) {
         BarrelDecorator.gainItem(result);
@@ -1294,7 +1288,7 @@ public class ResultProcessor {
     }
   }
 
-  private static void gainItem(boolean combatResults, AdventureResult result) {
+  private static void gainItem(boolean adventureResults, AdventureResult result) {
     int itemId = result.getItemId();
     int count = result.getCount();
 
@@ -1477,7 +1471,7 @@ public class ResultProcessor {
 
     switch (itemId) {
       case ItemPool.GMOB_POLLEN:
-        if (combatResults) {
+        if (adventureResults) {
           // Record that we beat the guy made of bees.
           Preferences.setBoolean("guyMadeOfBeesDefeated", true);
         }
@@ -1701,7 +1695,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.SPOOKY_BICYCLE_CHAIN:
-        if (combatResults) QuestDatabase.setQuestIfBetter(Quest.BUGBEAR, "step3");
+        if (adventureResults) QuestDatabase.setQuestIfBetter(Quest.BUGBEAR, "step3");
         break;
 
       case ItemPool.RONALD_SHELTER_MAP:
@@ -1726,19 +1720,19 @@ public class ResultProcessor {
       case ItemPool.EL_VIBRATO_HELMET:
       case ItemPool.EL_VIBRATO_SPEAR:
       case ItemPool.EL_VIBRATO_PANTS:
-        if (combatResults) ResultProcessor.removeItem(ItemPool.POWER_SPHERE);
+        if (adventureResults) ResultProcessor.removeItem(ItemPool.POWER_SPHERE);
         break;
 
       case ItemPool.BROKEN_DRONE:
-        if (combatResults) ResultProcessor.removeItem(ItemPool.DRONE);
+        if (adventureResults) ResultProcessor.removeItem(ItemPool.DRONE);
         break;
 
       case ItemPool.REPAIRED_DRONE:
-        if (combatResults) ResultProcessor.removeItem(ItemPool.BROKEN_DRONE);
+        if (adventureResults) ResultProcessor.removeItem(ItemPool.BROKEN_DRONE);
         break;
 
       case ItemPool.AUGMENTED_DRONE:
-        if (combatResults) ResultProcessor.removeItem(ItemPool.REPAIRED_DRONE);
+        if (adventureResults) ResultProcessor.removeItem(ItemPool.REPAIRED_DRONE);
         break;
 
       case ItemPool.TRAPEZOID:
@@ -1851,7 +1845,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.BATSKIN_BELT:
-        if (combatResults) {
+        if (adventureResults) {
           QuestDatabase.setQuestProgress(Quest.BAT, "step4");
           ResultProcessor.autoCreate(ItemPool.BADASS_BELT);
         }
@@ -1860,7 +1854,7 @@ public class ResultProcessor {
       case ItemPool.KNOB_GOBLIN_CROWN:
       case ItemPool.KNOB_GOBLIN_BALLS:
       case ItemPool.KNOB_GOBLIN_CODPIECE:
-        if (combatResults) {
+        if (adventureResults) {
           QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
         }
         break;
@@ -1891,7 +1885,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.BONERDAGON_SKULL:
-        if (combatResults) {
+        if (adventureResults) {
           ResultProcessor.autoCreate(ItemPool.BADASS_BELT);
         }
         break;
@@ -2047,13 +2041,13 @@ public class ResultProcessor {
         break;
 
       case ItemPool.NEOPRENE_SKULLCAP:
-        if (combatResults) {
+        if (adventureResults) {
           QuestDatabase.setQuestProgress(Quest.BAT, "step4");
         }
         break;
 
       case ItemPool.GOBLIN_WATER:
-        if (combatResults) {
+        if (adventureResults) {
           QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
         }
         break;
@@ -2164,7 +2158,7 @@ public class ResultProcessor {
       case ItemPool.ANCIENT_SAUCEHELM:
       case ItemPool.DISCO_FRO_PICK:
       case ItemPool.EL_SOMBRERO_DE_LOPEZ:
-        if (combatResults) {
+        if (adventureResults) {
           QuestDatabase.setQuestProgress(Quest.NEMESIS, "step16");
         }
         break;
@@ -2175,7 +2169,7 @@ public class ResultProcessor {
       case ItemPool.NEWMANS_OWN_TROUSERS:
       case ItemPool.VOLARTTAS_BELLBOTTOMS:
       case ItemPool.LEDERHOSEN_OF_THE_NIGHT:
-        if (combatResults) {
+        if (adventureResults) {
           QuestDatabase.setQuestProgress(Quest.NEMESIS, "step27");
         }
         break;
@@ -2193,7 +2187,7 @@ public class ResultProcessor {
         // If you acquire this item you've just completed Nemesis quest
         // Contents of Hacienda for Accordion Thief changes
       case ItemPool.BELT_BUCKLE_OF_LOPEZ:
-        if (combatResults) {
+        if (adventureResults) {
           HaciendaManager.questCompleted();
         }
         // fall through
@@ -2202,13 +2196,13 @@ public class ResultProcessor {
       case ItemPool.SPAGHETTI_BANDOLIER:
       case ItemPool.SAUCEBLOB_BELT:
       case ItemPool.NEW_WAVE_BLING:
-        if (combatResults) {
+        if (adventureResults) {
           QuestDatabase.setQuestProgress(Quest.NEMESIS, QuestDatabase.FINISHED);
         }
         break;
 
       case ItemPool.PIXEL_CHAIN_WHIP:
-        if (combatResults) {
+        if (adventureResults) {
           // If you acquire a pixel chain whip, you lose
           // the pixel whip you were wielding and wield
           // the chain whip in its place.
@@ -2220,7 +2214,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.PIXEL_MORNING_STAR:
-        if (combatResults) {
+        if (adventureResults) {
           // If you acquire a pixel morning star, you
           // lose the pixel chain whip you were wielding
           // and wield the morning star in its place.
@@ -2232,7 +2226,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.REFLECTION_OF_MAP:
-        if (combatResults) {
+        if (adventureResults) {
           int current = Preferences.getInteger("pendingMapReflections");
           current = Math.max(0, current - 1);
           Preferences.setInteger("pendingMapReflections", current);
@@ -2240,13 +2234,13 @@ public class ResultProcessor {
         break;
 
       case ItemPool.GONG:
-        if (combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.LLAMA) {
+        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.LLAMA) {
           Preferences.increment("_gongDrops", 1);
         }
         break;
 
       case ItemPool.SLIME_STACK:
-        if (combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SLIMELING) {
+        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SLIMELING) {
           int dropped = Preferences.increment("slimelingStacksDropped", 1);
           if (dropped > Preferences.getInteger("slimelingStacksDue")) {
             // in case it's out of sync, nod and smile
@@ -2256,37 +2250,37 @@ public class ResultProcessor {
         break;
 
       case ItemPool.ABSINTHE:
-        if (combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.PIXIE) {
+        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.PIXIE) {
           Preferences.increment("_absintheDrops", 1);
         }
         break;
 
       case ItemPool.ASTRAL_MUSHROOM:
-        if (combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.BADGER) {
+        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.BADGER) {
           Preferences.increment("_astralDrops", 1);
         }
         break;
 
       case ItemPool.AGUA_DE_VIDA:
-        if (combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SANDWORM) {
+        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SANDWORM) {
           Preferences.increment("_aguaDrops", 1);
         }
         break;
 
       case ItemPool.DEVILISH_FOLIO:
-        if (combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.KLOOP) {
+        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.KLOOP) {
           Preferences.increment("_kloopDrops", 1);
         }
         break;
 
       case ItemPool.GROOSE_GREASE:
-        if (combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GROOSE) {
+        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GROOSE) {
           Preferences.increment("_grooseDrops", 1);
         }
         break;
 
       case ItemPool.GG_TOKEN:
-        if (combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.TRON) {
+        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.TRON) {
           Preferences.increment("_tokenDrops", 1);
         }
         // Fall through
@@ -2301,26 +2295,28 @@ public class ResultProcessor {
         break;
 
       case ItemPool.TRANSPORTER_TRANSPONDER:
-        if (combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.ALIEN) {
+        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.ALIEN) {
           Preferences.increment("_transponderDrops", 1);
         }
         break;
 
       case ItemPool.UNCONSCIOUS_COLLECTIVE_DREAM_JAR:
-        if (combatResults
+        if (adventureResults
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.UNCONSCIOUS_COLLECTIVE) {
           Preferences.increment("_dreamJarDrops", 1);
         }
         break;
 
       case ItemPool.HOT_ASHES:
-        if (combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GALLOPING_GRILL) {
+        if (adventureResults
+            && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GALLOPING_GRILL) {
           Preferences.increment("_hotAshesDrops", 1);
         }
         break;
 
       case ItemPool.PSYCHOANALYTIC_JAR:
-        if (combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.ANGRY_JUNG_MAN) {
+        if (adventureResults
+            && KoLCharacter.currentFamiliar.getId() == FamiliarPool.ANGRY_JUNG_MAN) {
           Preferences.increment("_jungDrops", 1);
           Preferences.setInteger("jungCharge", 0);
           KoLCharacter.findFamiliar(FamiliarPool.ANGRY_JUNG_MAN).setCharges(0);
@@ -2328,27 +2324,28 @@ public class ResultProcessor {
         break;
 
       case ItemPool.TALES_OF_SPELUNKING:
-        if (combatResults
+        if (adventureResults
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.ADVENTUROUS_SPELUNKER) {
           Preferences.increment("_spelunkingTalesDrops", 1);
         }
         break;
 
       case ItemPool.POWDERED_GOLD:
-        if (combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GOLDEN_MONKEY) {
+        if (adventureResults
+            && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GOLDEN_MONKEY) {
           Preferences.increment("_powderedGoldDrops", 1);
         }
         break;
 
       case ItemPool.MINI_MARTINI:
-        if (combatResults
+        if (adventureResults
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SWORD_AND_MARTINI_GUY) {
           Preferences.increment("_miniMartiniDrops", 1);
         }
         break;
 
       case ItemPool.POWER_PILL:
-        if (combatResults
+        if (adventureResults
             && (KoLCharacter.currentFamiliar.getId() == FamiliarPool.PUCK_MAN
                 || KoLCharacter.currentFamiliar.getId() == FamiliarPool.MS_PUCK_MAN)) {
           Preferences.increment("_powerPillDrops", 1);
@@ -2356,7 +2353,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.MACHINE_SNOWGLOBE:
-        if (combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.MACHINE_ELF) {
+        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.MACHINE_ELF) {
           Preferences.increment("_snowglobeDrops", 1);
         }
         break;
@@ -2369,7 +2366,7 @@ public class ResultProcessor {
       case ItemPool.TURNOVER:
       case ItemPool.DEAD_PIE:
       case ItemPool.THROBBING_PIE:
-        if (combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GRINDER) {
+        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GRINDER) {
           Preferences.increment("_pieDrops", 1);
           Preferences.setInteger("_piePartsCount", -1);
           Preferences.setString("pieStuffing", "");
@@ -2398,13 +2395,13 @@ public class ResultProcessor {
       case ItemPool.COSMIC_PASTE:
       case ItemPool.HOBO_PASTE:
       case ItemPool.CRIMBO_PASTE:
-        if (combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.BOOTS) {
+        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.BOOTS) {
           Preferences.increment("_pasteDrops", 1);
         }
         break;
 
       case ItemPool.BEER_LENS:
-        if (combatResults) {
+        if (adventureResults) {
           Preferences.increment("_beerLensDrops", 1);
         }
         break;
@@ -2416,7 +2413,7 @@ public class ResultProcessor {
       case ItemPool.COTTON_CANDY_PLUG:
       case ItemPool.COTTON_CANDY_PILLOW:
       case ItemPool.COTTON_CANDY_BALE:
-        if (combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.CARNIE) {
+        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.CARNIE) {
           Preferences.increment("_carnieCandyDrops", 1);
         }
         break;
@@ -2426,7 +2423,7 @@ public class ResultProcessor {
       case ItemPool.BEGPWNIA:
       case ItemPool.UPSY_DAISY:
       case ItemPool.HALF_ORCHID:
-        if (combatResults) {
+        if (adventureResults) {
           Preferences.increment("_mayflowerDrops", 1);
         }
         break;
@@ -2520,13 +2517,13 @@ public class ResultProcessor {
       case ItemPool.BOSS_GAUNTLETS:
       case ItemPool.BOSS_BOOTS:
       case ItemPool.BOSS_BELT:
-        if (combatResults) {
+        if (adventureResults) {
           ResultProcessor.removeItem(ItemPool.GAMEPRO_WALKTHRU);
         }
         break;
 
       case ItemPool.CARROT_NOSE:
-        if (combatResults) {
+        if (adventureResults) {
           Preferences.increment("_carrotNoseDrops");
         }
         break;
@@ -2564,7 +2561,7 @@ public class ResultProcessor {
         }
 
       case ItemPool.CLANCY_LUTE:
-        if (combatResults) {
+        if (adventureResults) {
           QuestDatabase.setQuestProgress(Quest.CLANCY, "step5");
         }
         break;
@@ -2588,7 +2585,7 @@ public class ResultProcessor {
       case ItemPool.BAL_MUSETTE_ACCORDION:
       case ItemPool.CAJUN_ACCORDION:
       case ItemPool.QUIRKY_ACCORDION:
-        if (combatResults) {
+        if (adventureResults) {
           StringBuilder buffer = new StringBuilder(Preferences.getString("_stolenAccordions"));
           if (buffer.length() > 0) {
             buffer.append(",");
@@ -2604,7 +2601,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.GRIMSTONE_MASK:
-        if (combatResults) {
+        if (adventureResults) {
           if (KoLCharacter.getFamiliar()
               .equals(KoLCharacter.findFamiliar(FamiliarPool.GRIMSTONE_GOLEM))) {
             Preferences.increment("_grimstoneMaskDrops");
@@ -2618,7 +2615,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.GRIM_FAIRY_TALE:
-        if (combatResults) {
+        if (adventureResults) {
           if (KoLCharacter.getFamiliar()
               .equals(KoLCharacter.findFamiliar(FamiliarPool.GRIM_BROTHER))) {
             Preferences.increment("_grimFairyTaleDrops");
@@ -2631,7 +2628,7 @@ public class ResultProcessor {
 
       case ItemPool.TOASTED_HALF_SANDWICH:
       case ItemPool.MULLED_HOBO_WINE:
-        if (combatResults) {
+        if (adventureResults) {
           if (KoLCharacter.getFamiliar()
               .equals(KoLCharacter.findFamiliar(FamiliarPool.GARBAGE_FIRE))) {
             // This will be updated to 0 in FightRequest later
@@ -2641,7 +2638,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.BURNING_NEWSPAPER:
-        if (combatResults) {
+        if (adventureResults) {
           if (KoLCharacter.getFamiliar()
               .equals(KoLCharacter.findFamiliar(FamiliarPool.GARBAGE_FIRE))) {
             // This will be updated to 0 in FightRequest later
@@ -2654,13 +2651,13 @@ public class ResultProcessor {
         break;
 
       case ItemPool.HOARDED_CANDY_WAD:
-        if (combatResults) {
+        if (adventureResults) {
           Preferences.increment("_hoardedCandyDropsCrown");
         }
         break;
 
       case ItemPool.SPACE_BEAST_FUR:
-        if (combatResults) {
+        if (adventureResults) {
           // It could still drop from a space beast while this is true, but that would
           // be harder to check for
           if (KoLCharacter.currentBjorned.getId() == FamiliarPool.TWITCHING_SPACE_CRITTER
@@ -2676,7 +2673,7 @@ public class ResultProcessor {
       case ItemPool.VELCRO_ORE:
       case ItemPool.TEFLON_ORE:
       case ItemPool.VINYL_ORE:
-        if (combatResults) {
+        if (adventureResults) {
           // First three could still drop from a ghost miner while this is true, but that would
           // be harder to check for
           if (KoLCharacter.currentBjorned.getId() == FamiliarPool.ADVENTUROUS_SPELUNKER
@@ -2692,7 +2689,7 @@ public class ResultProcessor {
       case ItemPool.ABSTRACTION_PURPOSE:
       case ItemPool.ABSTRACTION_CATEGORY:
       case ItemPool.ABSTRACTION_PERCEPTION:
-        if (combatResults) {
+        if (adventureResults) {
           if (KoLCharacter.currentBjorned.getId() == FamiliarPool.MACHINE_ELF
               || KoLCharacter.currentEnthroned.getId() == FamiliarPool.MACHINE_ELF) {
             Preferences.increment("_abstractionDropsCrown");
@@ -2718,7 +2715,7 @@ public class ResultProcessor {
         }
 
       case ItemPool.THINKNERD_PACKAGE:
-        if (combatResults) {
+        if (adventureResults) {
           Preferences.increment("_thinknerdPackageDrops");
         }
         break;
@@ -2738,7 +2735,7 @@ public class ResultProcessor {
       case ItemPool.STEAM_PLUMBER_1:
       case ItemPool.STEAM_PLUMBER_2:
       case ItemPool.STEAM_PLUMBER_3:
-        if (combatResults) {
+        if (adventureResults) {
           Preferences.increment("_steamCardDrops");
         }
         break;
@@ -2768,13 +2765,13 @@ public class ResultProcessor {
         break;
 
       case ItemPool.ELIZABETH_DOLLIE:
-        if (combatResults) {
+        if (adventureResults) {
           Preferences.setString("nextSpookyravenElizabethRoom", "none");
         }
         break;
 
       case ItemPool.STEPHEN_LAB_COAT:
-        if (combatResults) {
+        if (adventureResults) {
           Preferences.setString("nextSpookyravenStephenRoom", "none");
         }
         break;
@@ -2869,7 +2866,7 @@ public class ResultProcessor {
       case ItemPool.FRIENDLY_TURKEY:
       case ItemPool.AGITATED_TURKEY:
       case ItemPool.AMBITIOUS_TURKEY:
-        if (combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.FIST_TURKEY) {
+        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.FIST_TURKEY) {
           Preferences.increment("_turkeyBooze");
         }
         break;
@@ -2877,7 +2874,7 @@ public class ResultProcessor {
       case ItemPool.XIBLAXIAN_ALLOY:
       case ItemPool.XIBLAXIAN_CIRCUITRY:
       case ItemPool.XIBLAXIAN_POLYMER:
-        if (combatResults) {
+        if (adventureResults) {
           Preferences.increment("_holoWristDrops");
           // This will be incremented to 0 during later processing
           Preferences.setInteger("_holoWristProgress", -1);
@@ -2924,7 +2921,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.YELLOW_PIXEL:
-        if (combatResults) {
+        if (adventureResults) {
           if (KoLCharacter.currentBjorned.getId() == FamiliarPool.PUCK_MAN
               || KoLCharacter.currentEnthroned.getId() == FamiliarPool.PUCK_MAN
               || KoLCharacter.currentBjorned.getId() == FamiliarPool.MS_PUCK_MAN
@@ -2977,13 +2974,13 @@ public class ResultProcessor {
         break;
 
       case ItemPool.SUPERHEATED_METAL:
-        if (combatResults) {
+        if (adventureResults) {
           ResultProcessor.removeItem(ItemPool.HEAT_RESISTANT_SHEET_METAL);
         }
         break;
 
       case ItemPool.SUPERDUPERHEATED_METAL:
-        if (combatResults) {
+        if (adventureResults) {
           Preferences.setBoolean("_volcanoSuperduperheatedMetal", true);
           ResultProcessor.removeItem(ItemPool.HEAT_RESISTANT_SHEET_METAL);
         }
@@ -3003,7 +3000,7 @@ public class ResultProcessor {
 
         // Correct Snojo progress based on drops - note that it increments after the fight!
       case ItemPool.ANCIENT_MEDICINAL_HERBS:
-        if (combatResults) {
+        if (adventureResults) {
           int progress = Preferences.getInteger("snojoMuscleWins");
           // Always should be a multiple of 7 for this drop, after the counter increments later!
           if (progress % 7 != 6) {
@@ -3013,7 +3010,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.ICE_RICE:
-        if (combatResults) {
+        if (adventureResults) {
           int progress = Preferences.getInteger("snojoMysticalityWins");
           // Always should be a multiple of 7 for this drop, after the counter increments later!
           if (progress % 7 != 6) {
@@ -3023,7 +3020,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.ICED_PLUM_WINE:
-        if (combatResults) {
+        if (adventureResults) {
           int progress = Preferences.getInteger("snojoMoxieWins");
           // Always should be a multiple of 7 for this drop, after the counter increments later!
           if (progress % 7 != 6) {
@@ -3033,37 +3030,37 @@ public class ResultProcessor {
         break;
 
       case ItemPool.TRAINING_BELT:
-        if (combatResults) {
+        if (adventureResults) {
           Preferences.setInteger("snojoMuscleWins", 10);
         }
         break;
 
       case ItemPool.TRAINING_LEGWARMERS:
-        if (combatResults) {
+        if (adventureResults) {
           Preferences.setInteger("snojoMysticalityWins", 10);
         }
         break;
 
       case ItemPool.TRAINING_HELMET:
-        if (combatResults) {
+        if (adventureResults) {
           Preferences.setInteger("snojoMoxieWins", 10);
         }
         break;
 
       case ItemPool.SCROLL_SHATTERING_PUNCH:
-        if (combatResults) {
+        if (adventureResults) {
           Preferences.setInteger("snojoMuscleWins", 49);
         }
         break;
 
       case ItemPool.SCROLL_SNOKEBOMB:
-        if (combatResults) {
+        if (adventureResults) {
           Preferences.setInteger("snojoMysticalityWins", 49);
         }
         break;
 
       case ItemPool.SCROLL_SHIVERING_MONKEY:
-        if (combatResults) {
+        if (adventureResults) {
           Preferences.setInteger("snojoMoxieWins", 49);
         }
         break;
@@ -3079,7 +3076,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.ROBIN_EGG:
-        if (combatResults) {
+        if (adventureResults) {
           if (KoLCharacter.currentFamiliar.getId() == FamiliarPool.ROCKIN_ROBIN) {
             // This will be updated to 0 in FightRequest later
             Preferences.setInteger("rockinRobinProgress", -1);
@@ -3088,7 +3085,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.WAX_GLOB:
-        if (combatResults) {
+        if (adventureResults) {
           if (KoLCharacter.currentFamiliar.getId() == FamiliarPool.CANDLE) {
             // This will be updated to 0 in FightRequest later
             Preferences.setInteger("optimisticCandleProgress", -1);
@@ -3100,7 +3097,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.X:
-        if (combatResults) {
+        if (adventureResults) {
           if (KoLCharacter.currentFamiliar.getId() == FamiliarPool.XO_SKELETON) {
             // This will be updated to 0 in FightRequest later
             Preferences.setInteger("xoSkeleltonXProgress", -1);
@@ -3110,7 +3107,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.O:
-        if (combatResults) {
+        if (adventureResults) {
           if (KoLCharacter.currentFamiliar.getId() == FamiliarPool.XO_SKELETON) {
             // This will be updated to 0 in FightRequest later
             Preferences.setInteger("xoSkeleltonOProgress", -1);
@@ -3124,7 +3121,7 @@ public class ResultProcessor {
       case ItemPool.SPECIAL_SEASONING:
       case ItemPool.NIGHTMARE_FUEL:
       case ItemPool.MEAT_CLIP:
-        if (combatResults) {
+        if (adventureResults) {
           // This will be updated to 0 in FightRequest later
           Preferences.setInteger("_boomBoxFights", -1);
         }
@@ -3163,19 +3160,20 @@ public class ResultProcessor {
       case ItemPool.SPOOKY_JELLY:
       case ItemPool.SLEAZE_JELLY:
       case ItemPool.STENCH_JELLY:
-        if (combatResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SPACE_JELLYFISH) {
+        if (adventureResults
+            && KoLCharacter.currentFamiliar.getId() == FamiliarPool.SPACE_JELLYFISH) {
           Preferences.increment("_spaceJellyfishDrops");
         }
         break;
 
       case ItemPool.LICENSE_TO_CHILL:
-        if (combatResults) {
+        if (adventureResults) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.LICENSE_TO_KILL, -11));
         }
         break;
 
       case ItemPool.POKE_GROW_FERTILIZER:
-        if (combatResults) {
+        if (adventureResults) {
           Preferences.increment("_pokeGrowFertilizerDrops");
         }
         break;
@@ -3185,7 +3183,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.GARLAND_OF_GREATNESS:
-        if (combatResults) {
+        if (adventureResults) {
           Preferences.increment("garlandUpgrades");
         }
         break;
@@ -3212,7 +3210,7 @@ public class ResultProcessor {
       case ItemPool.LIVID_ENERGY:
       case ItemPool.MICRONOVA:
       case ItemPool.BEGGIN_COLOGNE:
-        if (combatResults) {
+        if (adventureResults) {
           // The end of the fight will increment it to 0
           Preferences.setInteger("redSnapperProgress", -1);
         }
@@ -3236,12 +3234,6 @@ public class ResultProcessor {
 
       case ItemPool.BLACK_MAP:
         QuestDatabase.setQuestProgress(Quest.BLACK, "step1");
-        break;
-
-      case ItemPool.VOLCOINO:
-        if (combatResults && KoLCharacter.hasEquipped(ItemPool.get(ItemPool.LUCKY_GOLD_RING, 1))) {
-          Preferences.setBoolean("_luckyGoldRingVolcoino", true);
-        }
         break;
 
       case ItemPool.VAMPIRE_VINTNER_WINE:

@@ -918,18 +918,18 @@
 7389	Fire Extinguisher: Blast the Area	foam3.gif	5	0	0
 7390	Fire Extinguisher: Zone Specific	exting2.gif	5	0	0
 7391	Be Gregarious	happy.gif	5	1	0
-7392
-7393
-7394
-7395
-7396
-7397
+7392	Loofah Head-Scratch	loof_hat.gif	5	0	0
+7393	Loofah Lei Lasso	loof_lei.gif	5	0	0
+7394	Loofah Hosenzittern	loof_pants.gif	5	0	0
+7395	Loofah Stew	loof_ladle.gif	5	0	0
+7396	Loofah Leglifts	loof_warmers.gif	5	0	0
+7397	Loofah Lava	loof_lavalier.gif	5	0	0
 7398	Flagellate	fs_flag.gif	5	0	0
-7399
-7400
-7401
-7402
-7403
+7399	Flagflog	fs_flail.gif	5	0	0
+7400	Flagstone Flap Flip	fs_flipflops.gif	5	0	0
+7401	Flagstone Fez Ritual	fs_fez.gif	5	0	0
+7402	Flagstone Fleece Flex	fs_fleece.gif	5	0	0
+7403	Flagstone Foxtrot	fs_fringe.gif	5	0	0
 7404	Bowl Backwards	bowlback.gif	5	0	0
 7405	Bowl a Curveball	bowlcurv.gif	5	0	0
 7406	Bowl Sideways	bowlside.gif	5	0	0

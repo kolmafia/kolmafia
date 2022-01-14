@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -417,6 +418,7 @@ public abstract class StoreManager {
       return this.stringForm;
     }
 
+    @Override
     public int compareTo(final StoreLogEntry o) {
       if (o == null) {
         return -1;
@@ -877,7 +879,7 @@ public abstract class StoreManager {
   /**
    * Internal immutable class used to hold a single instance of an item sold in a player's store.
    */
-  public static class SoldItem extends Vector<Object> implements Comparable<Object> {
+  public static class SoldItem extends Vector<Serializable> implements Comparable<Object> {
     private final int itemId;
     private final String itemName;
     private final int quantity;
@@ -935,6 +937,7 @@ public abstract class StoreManager {
       return this.itemId;
     }
 
+    @Override
     public int compareTo(final Object o) {
       if (!(o instanceof SoldItem)) {
         return -1;

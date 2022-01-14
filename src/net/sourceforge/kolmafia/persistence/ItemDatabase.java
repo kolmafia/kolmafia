@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -2160,32 +2161,78 @@ public class ItemDatabase {
     }
   }
 
-  public static void parseVampireVintnerWine(final String desc) {
+  public static void resetVampireVintnerWine() {
+    Preferences.setString("vintnerWineName", "");
+    Preferences.setString("vintnerWineEffect", "");
+    Preferences.setInteger("vintnerWineLevel", 0);
+    Preferences.setString("vintnerWineType", "");
+  }
+
+  public static void parseVampireVintnerWine() {
+    // Call desc_item.php for 1950 Vampire Vintner wine
+    String idesc = DebugDatabase.itemDescriptionText(ItemPool.VAMPIRE_VINTNER_WINE, true);
+
+    // GenericRequest calls ResponseTextParser which makes the following call.
+    // No reason to parse the response text twice!
+
+    // ItemDatabase.parseVampireVintnerWine(idesc);
+  }
+
+  public static void parseVampireVintnerWine(final String idesc) {
+    String iEnchantments =
+        DebugDatabase.parseItemEnchantments(
+            idesc, new ArrayList<String>(), KoLConstants.CONSUME_DRINK);
+    String iname = DebugDatabase.parseName(idesc);
+    Modifiers imods = Modifiers.parseModifiers(iname, iEnchantments);
+
+    // Validate this by seeing what effect this wine grants.
+    String effectName = imods.getString("Effect");
+    int effectId = EffectDatabase.getEffectId(effectName);
+
+    // If it doesn't grant one, this is the generic 1950 Vampire Vintner wine
+    if (effectId == -1) {
+      ItemDatabase.resetVampireVintnerWine();
+      return;
+    }
+
+    // The damage type that created this wine is implied by the effect the wine grants.
     String type = "";
-    switch (Modifiers.getStringModifier("Item", ItemPool.VAMPIRE_VINTNER_WINE, "Effect")) {
-      case "Wine-Befouled":
-        type = "stench";
-        break;
-      case "Wine-Cold":
-        type = "cold";
-        break;
-      case "Wine-Dark":
-        type = "spooky";
-        break;
-      case "Wine-Fortified":
+
+    switch (effectId) {
+      case EffectPool.WINE_FORTIFIED:
         type = "physical";
         break;
-      case "Wine-Frisky":
-        type = "sleaze";
-        break;
-      case "Wine-Friendly":
-        type = "familiar";
-        break;
-      case "Wine-Hot":
+      case EffectPool.WINE_HOT:
         type = "hot";
         break;
+      case EffectPool.WINE_COLD:
+        type = "cold";
+        break;
+      case EffectPool.WINE_DARK:
+        type = "spooky";
+        break;
+      case EffectPool.WINE_BEFOULED:
+        type = "stench";
+        break;
+      case EffectPool.WINE_FRISKY:
+        type = "sleaze";
+        break;
+      case EffectPool.WINE_FRIENDLY:
+        type = "familiar";
+        break;
     }
+
+    Preferences.setString("vintnerWineName", iname);
+    Preferences.setString("vintnerWineEffect", effectName);
     Preferences.setString("vintnerWineType", type);
+
+    // Look up the description of the the effect. ResponseTextParser will
+    // examine it and set the vintnerWineLevel property
+    DebugDatabase.readEffectDescriptionText(effectId);
+
+    // Override the modifiers for the 1950 Vampire Vintner wine to include the
+    // effect that drinking this one will provide.
+    Modifiers.overrideModifier(Modifiers.getLookupName("Item", "1950 Vampire Vintner wine"), imods);
   }
 
   public static int parseYearbookCamera(final String desc) {

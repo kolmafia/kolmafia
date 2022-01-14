@@ -34,6 +34,7 @@ public class InfoHandler implements ISVNInfoHandler {
    * Copy path in the manner of the native SVN command line client.
    */
 
+  @Override
   public void handleInfo(SVNInfo info) {
     RequestLogger.printLine("-----------------INFO-----------------");
     RequestLogger.printLine("Local Path: " + info.getFile().getPath());

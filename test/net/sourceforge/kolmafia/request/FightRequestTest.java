@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -29,7 +30,7 @@ public class FightRequestTest {
   }
 
   private void parseCombatData(String path, String location, String encounter) throws IOException {
-    String html = Files.readString(Paths.get(path));
+    String html = Files.readString(Paths.get(path)).trim();
     FightRequest.updateCombatData(location, encounter, html);
   }
 
@@ -179,5 +180,44 @@ public class FightRequestTest {
     assertEquals(
         "0:The Neverending Party:party girl|0:The Red Zeppelin:Red Snapper",
         Preferences.getString("crystalBallPredictions"));
+  }
+
+  @Test
+  public void voidMonsterIncrementationTest() throws IOException {
+    KoLCharacter.reset("the Tristero");
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("void slab"));
+    parseCombatData("request/test_fight_void_monster.html");
+    assertEquals(5, Preferences.getInteger("_voidFreeFights"));
+  }
+
+  @Test
+  public void cursedMagnifyingGlassTest() throws IOException {
+    KoLCharacter.reset("the Tristero");
+    EquipmentManager.setEquipment(
+        EquipmentManager.OFFHAND, ItemPool.get(ItemPool.CURSED_MAGNIFYING_GLASS));
+    Preferences.setInteger("cursedMagnifyingGlassCount", 13);
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("void slab"));
+    parseCombatData("request/test_fight_void_monster.html");
+    assertEquals(0, Preferences.getInteger("cursedMagnifyingGlassCount"));
+
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("lavatory"));
+    parseCombatData("request/test_cursed_magnifying_glass_update.html");
+    assertEquals(3, Preferences.getInteger("cursedMagnifyingGlassCount"));
+  }
+
+  @Test
+  public void daylightShavingTest() throws IOException {
+    KoLCharacter.reset("the Tristero");
+    EquipmentManager.setEquipment(
+        EquipmentManager.HAT, ItemPool.get(ItemPool.DAYLIGHT_SHAVINGS_HELMET));
+    parseCombatData("request/test_fight_daylight_shavings_buff.html");
+    assertEquals(2671, Preferences.getInteger("lastBeardBuff"));
+  }
+
+  @Test
+  public void luckyGoldRingVolcoinoDropRecorded() throws IOException {
+    assertEquals(false, Preferences.getBoolean("_luckyGoldRingVolcoino"));
+    parseCombatData("request/test_fight_lucky_gold_ring_volcoino.html");
+    assertEquals(true, Preferences.getBoolean("_luckyGoldRingVolcoino"));
   }
 }

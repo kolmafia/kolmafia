@@ -86,9 +86,9 @@ public abstract class InventoryManager {
 
     try {
       // {"1":"1","2":"1" ... }
-      Iterator<?> keys = JSON.keys();
+      Iterator<String> keys = JSON.keys();
       while (keys.hasNext()) {
-        String key = (String) keys.next();
+        String key = keys.next();
         int itemId = StringUtilities.parseInt(key);
         int count = JSON.getInt(key);
         String name = ItemDatabase.getItemDataName(itemId);
@@ -1602,6 +1602,17 @@ public abstract class InventoryManager {
     }
 
     checkItemDescription(ItemPool.KREMLIN_BRIEFCASE);
+  }
+
+  public static final void checkVampireVintnerWine() {
+    // 1950 Vampire Vintner Wine is a quest item. You can have at most
+    // one in inventory - and nowhere else.
+    if (InventoryManager.getCount(ItemPool.VAMPIRE_VINTNER_WINE) == 0) {
+      return;
+    }
+
+    // ResultProcessor will parse the item description and set properties
+    InventoryManager.checkItemDescription(ItemPool.VAMPIRE_VINTNER_WINE);
   }
 
   public static final void checkCoatOfPaint() {

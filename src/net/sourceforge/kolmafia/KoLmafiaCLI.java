@@ -655,6 +655,7 @@ public class KoLmafiaCLI {
     new HallOfLegendsCommand().register("donate");
     new HatterCommand().register("hatter");
     new HeapDumpCommand().register("jmap").register("heapdump");
+    new HeistCommand().register("heist");
     new HermitCommand().register("hermit");
     new HorseryCommand().register("horsery");
     new HotTubCommand().register("hottub").register("soak");

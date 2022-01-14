@@ -78,6 +78,7 @@ public abstract class MenuItemList<E> extends JMenu implements ListDataListener 
    *
    * @param e the <code>ListDataEvent</code> that triggered this function call
    */
+  @Override
   public void intervalAdded(final ListDataEvent e) {
     LockableListModel<E> source = (LockableListModel<E>) e.getSource();
     int index0 = e.getIndex0();
@@ -99,6 +100,7 @@ public abstract class MenuItemList<E> extends JMenu implements ListDataListener 
    *
    * @param e the <code>ListDataEvent</code> that triggered this function call
    */
+  @Override
   public void intervalRemoved(final ListDataEvent e) {
     int index0 = e.getIndex0();
     int index1 = e.getIndex1();
@@ -117,6 +119,7 @@ public abstract class MenuItemList<E> extends JMenu implements ListDataListener 
    *
    * @param e the <code>ListDataEvent</code> that triggered this function call
    */
+  @Override
   public void contentsChanged(final ListDataEvent e) {
     for (int i = 0; i < this.dataValues.size(); ++i) {
       this.remove(this.headerCount);

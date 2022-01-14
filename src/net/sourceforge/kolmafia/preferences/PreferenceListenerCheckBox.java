@@ -23,12 +23,14 @@ public class PreferenceListenerCheckBox extends JCheckBox implements ActionListe
     this.addActionListener(this);
   }
 
+  @Override
   public void update() {
     boolean isTrue = Preferences.getBoolean(this.property);
 
     this.setSelected(isTrue);
   }
 
+  @Override
   public void actionPerformed(final ActionEvent e) {
     if (Preferences.getBoolean(this.property) == this.isSelected()) {
       return;

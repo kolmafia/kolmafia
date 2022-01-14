@@ -2131,6 +2131,7 @@ public class Modifiers {
       this.list = new LinkedList<Modifier>();
     }
 
+    @Override
     public Iterator<Modifier> iterator() {
       return this.list.iterator();
     }
@@ -2634,9 +2635,7 @@ public class Modifiers {
     // modifier being set.
 
     if (Modifiers.passiveSkills.isEmpty()) {
-      Object[] keys = Modifiers.modifiersByName.keySet().toArray();
-      for (int i = 0; i < keys.length; ++i) {
-        String lookup = (String) keys[i];
+      for (String lookup : Modifiers.modifiersByName.keySet()) {
         if (!Modifiers.getTypeFromLookup(lookup).equals("Skill")) {
           continue;
         }

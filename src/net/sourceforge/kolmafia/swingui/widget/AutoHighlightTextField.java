@@ -22,10 +22,12 @@ public class AutoHighlightTextField extends JTextField implements FocusListener 
     this.selectAll();
   }
 
+  @Override
   public void focusGained(final FocusEvent e) {
     this.selectAll();
   }
 
+  @Override
   public void focusLost(final FocusEvent e) {}
 
   @Override

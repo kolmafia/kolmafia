@@ -59,6 +59,7 @@ public class Profiler {
     Collections.sort(
         list,
         new Comparator<Profiler>() {
+          @Override
           public int compare(Profiler left, Profiler right) {
             return (int) Math.signum(right.total - left.total);
           }
@@ -70,6 +71,7 @@ public class Profiler {
     Collections.sort(
         list,
         new Comparator<Profiler>() {
+          @Override
           public int compare(Profiler left, Profiler right) {
             return (int) Math.signum(right.net - left.net);
           }

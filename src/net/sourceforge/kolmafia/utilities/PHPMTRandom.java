@@ -50,6 +50,7 @@ public class PHPMTRandom extends Random {
   ArrayList<Long> state;
   int index;
 
+  @Override
   public int next(int bits) {
     if (index >= state.size()) {
       reload();
@@ -59,14 +60,17 @@ public class PHPMTRandom extends Random {
     return (int) (temper(value) >> 1);
   }
 
+  @Override
   public double nextDouble() {
     return nextInt() / (Integer.MAX_VALUE + 1.0);
   }
 
+  @Override
   public int nextInt(final int max) {
     return nextInt(0, max);
   }
 
+  @SuppressWarnings("PMD.MissingOverride")
   public int nextInt(final int min, final int max) {
     double clamped = (max - min + 1.0) * nextDouble();
     int val = min + (int) clamped;
@@ -93,6 +97,7 @@ public class PHPMTRandom extends Random {
     }
   }
 
+  @Override
   public synchronized void setSeed(long seed) {
     if (state == null) {
       state = new ArrayList<Long>();

@@ -94,7 +94,6 @@ public class OptionsFrame extends GenericFrame {
     selectorPanel.addPanel("General", new GeneralOptionsPanel(), true);
     selectorPanel.addPanel(" - Item Acquisition", new ItemOptionsPanel(), true);
     selectorPanel.addPanel(" - Maximizer", new MaximizerOptionsPanel(), true);
-    selectorPanel.addPanel(" - IotM Tracking", new IotMTrackingPanel(), true);
     selectorPanel.addPanel(" - Session Logs", new SessionLogOptionsPanel(), true);
     selectorPanel.addPanel(" - Extra Debugging", new DebugOptionsPanel(), true);
 
@@ -364,35 +363,6 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private class IotMTrackingPanel extends OptionsPanel {
-    /** Constructs a new <code>IotMTrackingPanel</code> */
-    public IotMTrackingPanel() {
-      super(new Dimension(20, 16), new Dimension(370, 16));
-
-      String helpText =
-          "Some Items Of The Month have daily passes, and so KoLMafia cannot tell if you have them from seeing the zone. You can mark them here instead.";
-
-      String[][] options = {
-        {helpText},
-        {},
-        {"sleazeAirportAlways", "Have Spring Break Beach"},
-        {"spookyAirportAlways", "Have Conspiracy Island"},
-        {"stenchAirportAlways", "Have Dinseylandfill"},
-        {"hotAirportAlways", "Have That 70s Volcano"},
-        {"coldAirportAlways", "Have The Glaciest"},
-        {"gingerbreadCityAvailable", "Have Gingerbread City"},
-        {"spacegateAlways", "Have Spacegate"},
-        {"frAlways", "<html>Have FantasyRealm&trade;</html>"},
-        {"prAlways", "<html>Have PirateRealm&trade;</tml>"},
-        {"neverendingPartyAlways", "Have Neverending Party"},
-        {"voteAlways", "Have Voter Registration"},
-        {"daycareOpen", "Have Boxing Daycare"},
-      };
-
-      this.setOptions(options);
-    }
-  }
-
   private abstract class ShiftableOrderPanel extends ScrollablePanel<JList<String>>
       implements ListDataListener {
     public final LockableListModel<String> list;
@@ -438,14 +408,17 @@ public class OptionsFrame extends GenericFrame {
       this.elementList.setSelectedIndex(index + 1);
     }
 
+    @Override
     public void intervalAdded(final ListDataEvent e) {
       this.saveSettings();
     }
 
+    @Override
     public void intervalRemoved(final ListDataEvent e) {
       this.saveSettings();
     }
 
+    @Override
     public void contentsChanged(final ListDataEvent e) {
       this.saveSettings();
     }
@@ -478,6 +451,7 @@ public class OptionsFrame extends GenericFrame {
     }
 
     private class AddScriptListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         File input = InputFieldUtilities.chooseInputFile(KoLConstants.SCRIPT_LOCATION, null);
         if (input == null) {
@@ -499,6 +473,7 @@ public class OptionsFrame extends GenericFrame {
     }
 
     private class AddCommandListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         String currentValue = InputFieldUtilities.input("Enter the desired CLI Command");
         if (currentValue == null || currentValue.length() == 0) {
@@ -511,6 +486,7 @@ public class OptionsFrame extends GenericFrame {
     }
 
     private class DeleteListingListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         int index = ScriptButtonPanel.this.elementList.getSelectedIndex();
         if (index == -1) {
@@ -553,6 +529,7 @@ public class OptionsFrame extends GenericFrame {
     }
 
     private class AddMaximizerRunnable implements Runnable {
+      @Override
       public void run() {
         String currentValue = InputFieldUtilities.input("Enter the desired maximizer string");
         if (currentValue != null && currentValue.length() != 0) {
@@ -564,6 +541,7 @@ public class OptionsFrame extends GenericFrame {
     }
 
     private class DeleteListingRunnable implements Runnable {
+      @Override
       public void run() {
         int index = MaximizerStringsPanel.this.elementList.getSelectedIndex();
         if (index == -1) {
@@ -761,10 +739,12 @@ public class OptionsFrame extends GenericFrame {
       this.singleFilterBox.setSelected(Preferences.getBoolean("maximizerSingleFilter"));
     }
 
+    @Override
     public void focusLost(final FocusEvent e) {
       MaximizerOptionsPanel.this.actionConfirmed();
     }
 
+    @Override
     public void focusGained(final FocusEvent e) {}
   }
 
@@ -909,6 +889,7 @@ public class OptionsFrame extends GenericFrame {
     }
 
     private class AddBookmarkRunnable implements Runnable {
+      @Override
       public void run() {
         String newName = InputFieldUtilities.input("Add a bookmark!", "http://www.google.com/");
 
@@ -927,6 +908,7 @@ public class OptionsFrame extends GenericFrame {
     }
 
     private class RenameBookmarkRunnable implements Runnable {
+      @Override
       public void run() {
         int index = BookmarkManagePanel.this.elementList.getSelectedIndex();
         if (index == -1) {
@@ -956,6 +938,7 @@ public class OptionsFrame extends GenericFrame {
     }
 
     private class DeleteBookmarkRunnable implements Runnable {
+      @Override
       public void run() {
         int index = BookmarkManagePanel.this.elementList.getSelectedIndex();
         if (index == -1) {
@@ -1071,6 +1054,7 @@ public class OptionsFrame extends GenericFrame {
     @Override
     public void setEnabled(final boolean isEnabled) {}
 
+    @Override
     public void intervalAdded(final ListDataEvent e) {
       Object src = e.getSource();
       if (src == this.startupList) {
@@ -1086,10 +1070,12 @@ public class OptionsFrame extends GenericFrame {
       this.saveLayoutSettings();
     }
 
+    @Override
     public void intervalRemoved(final ListDataEvent e) {
       this.saveLayoutSettings();
     }
 
+    @Override
     public void contentsChanged(final ListDataEvent e) {}
 
     public void saveLayoutSettings() {
@@ -1153,14 +1139,17 @@ public class OptionsFrame extends GenericFrame {
       }
     }
 
+    @Override
     public void intervalAdded(final ListDataEvent e) {
       this.saveSettings();
     }
 
+    @Override
     public void intervalRemoved(final ListDataEvent e) {
       this.saveSettings();
     }
 
+    @Override
     public void contentsChanged(final ListDataEvent e) {
       this.saveSettings();
     }
@@ -1253,6 +1242,7 @@ public class OptionsFrame extends GenericFrame {
         this.pane = new JOptionPane(scrollPane, JOptionPane.PLAIN_MESSAGE);
       }
 
+      @Override
       public void run() {
         JDialog dialog = this.pane.createDialog(null, "Daily Deeds Help");
         dialog.setModal(false);
@@ -1427,6 +1417,7 @@ public class OptionsFrame extends GenericFrame {
       update();
     }
 
+    @Override
     public void update() {
       this.box.setSelected(Preferences.getBoolean(this.pref));
     }
@@ -1540,6 +1531,7 @@ public class OptionsFrame extends GenericFrame {
     @Override
     public void setEnabled(final boolean isEnabled) {}
 
+    @Override
     public void intervalAdded(final ListDataEvent e) {
       Object src = e.getSource();
 
@@ -1552,10 +1544,12 @@ public class OptionsFrame extends GenericFrame {
       this.saveLayoutSettings();
     }
 
+    @Override
     public void intervalRemoved(final ListDataEvent e) {
       this.saveLayoutSettings();
     }
 
+    @Override
     public void contentsChanged(final ListDataEvent e) {}
 
     public void saveLayoutSettings() {
@@ -1585,6 +1579,7 @@ public class OptionsFrame extends GenericFrame {
       Preferences.setString("dailyDeedsOptions", String.join(",", frameStrings));
     }
 
+    @Override
     public void update() {
       this.actionCancelled();
     }
@@ -2088,6 +2083,7 @@ public class OptionsFrame extends GenericFrame {
       this.actionCancelled();
     }
 
+    @Override
     public void actionPerformed(final ActionEvent e) {
       this.actionConfirmed();
     }
@@ -2254,6 +2250,7 @@ public class OptionsFrame extends GenericFrame {
       this.actionCancelled();
     }
 
+    @Override
     public void actionPerformed(final ActionEvent e) {
       this.actionConfirmed();
     }
@@ -2363,7 +2360,7 @@ public class OptionsFrame extends GenericFrame {
           skill = "all";
           break;
         default:
-          skill = (String) this.getItemAt(index);
+          skill = this.getItemAt(index);
           break;
       }
       Preferences.setString(this.preference, skill);
@@ -2414,7 +2411,7 @@ public class OptionsFrame extends GenericFrame {
           crop = "any";
           break;
         default:
-          crop = (String) this.getItemAt(index);
+          crop = this.getItemAt(index);
           break;
       }
       Preferences.setString(this.preference, crop);
@@ -2634,6 +2631,7 @@ public class OptionsFrame extends GenericFrame {
         this.addMouseListener(this);
       }
 
+      @Override
       public void mousePressed(final MouseEvent e) {
         Color c = JColorChooser.showDialog(null, "Choose a color:", this.getBackground());
         if (c == null) {
@@ -2669,12 +2667,16 @@ public class OptionsFrame extends GenericFrame {
         Preferences.setString("textColors", newPref);
       }
 
+      @Override
       public void mouseReleased(final MouseEvent e) {}
 
+      @Override
       public void mouseClicked(final MouseEvent e) {}
 
+      @Override
       public void mouseEntered(final MouseEvent e) {}
 
+      @Override
       public void mouseExited(final MouseEvent e) {}
     }
   }
