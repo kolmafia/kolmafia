@@ -3,7 +3,7 @@
 #
 # Adventure Area Name must match that in adventures.txt
 #
-# Type can be one of the following: STOP, LUCKY, LUCKY, GLYPH, TURTLE, SEAL, FIST, BORIS, BADMOON, BUGBEAR
+# Type can be one of the following: STOP, LUCKY, GLYPH, TURTLE, SEAL, FIST, BORIS, BADMOON, BUGBEAR
 #
 
 ### Autostop Adventures
