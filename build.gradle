@@ -4,7 +4,6 @@ plugins {
 	id 'application'
 	id 'jacoco'
 	id 'java'
-	id 'pmd'
 
 	id 'com.diffplug.spotless' version '5.15.1'
 	id 'com.github.johnrengelman.shadow' version '7.1.0'
@@ -12,17 +11,16 @@ plugins {
 	id 'org.ajoberstar.grgit' version '4.1.0'
 	id 'org.panteleyev.jpackageplugin' version '1.3.1'
 }
-
 mainClassName = 'net.sourceforge.kolmafia.KoLmafia'
 
 sourceSets {
 	main {
 		java {
-			srcDirs = ['src']
+			srcDirs = ['src', 'lib']
 			destinationDirectory.set(file('build/main'))
 		}
 		resources {
-			srcDirs = ['src']
+			srcDirs = ['src', 'lib']
 			excludes = ['**/*.java', '**/*.jar']
 		}
 	}
@@ -343,17 +341,6 @@ def localCommits(commit) {
 def lastRevision() {
 	def revisionFile = file('build/revision.txt')
 	return revisionFile.exists() ? revisionFile.text.trim() : '0'
-}
-
-pmd {
-	ruleSets = [
-		'category/java/bestpractices.xml/MissingOverride'
-	]
-
-	// Do not perform static analysis on library source
-	pmdLib {
-		enabled = false
-	}
 }
 
 // Set version from last build/revision.txt if up-to-date
