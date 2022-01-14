@@ -196,7 +196,8 @@ public final class CrystalBallManager {
     RequestThread.postRequest(new GenericRequest("inventory.php?ponder=1", false));
   }
 
-  private static Pattern POSSIBLE_PREDICTION = Pattern.compile("<li> +(?:an?)? ?(.*?) in (.*?)<\\/li>");
+  private static Pattern POSSIBLE_PREDICTION =
+      Pattern.compile("<li> +(?:an?)? ?(.*?) in (.*?)<\\/li>");
 
   public static void parsePonder(final String responseText) {
     predictions.clear();
