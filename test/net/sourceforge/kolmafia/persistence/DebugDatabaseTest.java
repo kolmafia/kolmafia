@@ -13,6 +13,8 @@ import org.mockito.Mockito;
 
 public class DebugDatabaseTest {
 
+  private static final String LS = System.lineSeparator();
+
   /* TODO: implement or delete these tests
   @Test
   public void checkItems()
@@ -437,25 +439,59 @@ public class DebugDatabaseTest {
   }
 
   @Test
-  public void itShouldFindSVNDuplicates() {
+  public void itShouldFindSVNDuplicatesSimple() {
+    var outputStream = new ByteArrayOutputStream();
+    RequestLogger.openCustom(new PrintStream(outputStream));
     File svnRoot = mockSimpleSystem();
     DebugDatabase.checkLocalSVNRepository(svnRoot);
-    // capture and test output
-    // make more complex fs
-    assertEquals(1,0);
+    String expected = "Found 1 repo files." + LS;
+    assertEquals(expected, outputStream.toString(), "Output off");
+    RequestLogger.closeCustom();
   }
 
   private File mockSimpleSystem() {
     File rootDir = Mockito.mock(File.class);
-    File mockDot = Mockito.mock(File.class);
-    File mockDep = Mockito.mock(File.class);
-    File mockOne = Mockito.mock(File.class);
+    File mockDot = mockFile(".svn");
+    File mockDep = mockFile("dependencies.txt");
+    File mockOne = mockFile("file.txt");
     File[] contents = {mockDep, mockDot, mockOne};
     Mockito.when(rootDir.listFiles()).thenReturn(contents);
-    Mockito.when(mockDot.getName()).thenReturn(".svn");
-    Mockito.when(mockDep.getName()).thenReturn("dependencies.txt");
-    Mockito.when(mockOne.getName()).thenReturn("file.txt");
-    Mockito.when(mockOne.isDirectory()).thenReturn(false);
     return rootDir;
+  }
+
+  @Test
+  public void itShouldFindSVNDuplicatesMoreComplex() {
+    var outputStream = new ByteArrayOutputStream();
+    RequestLogger.openCustom(new PrintStream(outputStream));
+    File svnRoot = mockMoreComplexSystem();
+    DebugDatabase.checkLocalSVNRepository(svnRoot);
+    String expected = "Found 3 repo files." + LS;
+    assertEquals(expected, outputStream.toString(), "Output off");
+    RequestLogger.closeCustom();
+  }
+
+  private File mockMoreComplexSystem() {
+    File rootDir = Mockito.mock(File.class);
+    File mockDot = mockFile(".svn");
+    File mockDep = mockFile("dependencies.txt");
+    File mockOne = mockFile("file.txt");
+    File mockDir = Mockito.mock(File.class);
+    File[] contents = {mockDep, mockDot, mockOne, mockDir};
+    Mockito.when(rootDir.listFiles()).thenReturn(contents);
+    Mockito.when(rootDir.listFiles()).thenReturn(contents);
+    Mockito.when(mockDir.getName()).thenReturn("scripts");
+    Mockito.when(mockDir.isDirectory()).thenReturn(true);
+    File a = mockFile("meatfarm.ash");
+    File b = mockFile("farmmeat.ash");
+    File[] moreContents = {a, b};
+    Mockito.when(mockDir.listFiles()).thenReturn(moreContents);
+    return rootDir;
+  }
+
+  private File mockFile(String name) {
+    File retVal = Mockito.mock(File.class);
+    Mockito.when(retVal.getName()).thenReturn(name);
+    Mockito.when(retVal.isDirectory()).thenReturn(false);
+    return retVal;
   }
 }

@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.textui.command;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
