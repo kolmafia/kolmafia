@@ -3780,8 +3780,7 @@ public class DebugDatabase {
     }
   }
 
-  public static void checkLocalSVNRepository() {
-    File root = KoLConstants.SVN_LOCATION;
+  public static void checkLocalSVNRepository(File root) {
     List<File> theList;
     theList = new LinkedList<>(curseAgain(root));
     Collections.sort(theList);

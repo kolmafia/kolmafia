@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 public class DebugDatabaseTest {
 
@@ -433,5 +434,28 @@ public class DebugDatabaseTest {
 
     String output = ostream.toString();
     assertEquals(expectedOutput, output, "checkMeat variances: \n" + output);
+  }
+
+  @Test
+  public void itShouldFindSVNDuplicates() {
+    File svnRoot = mockSimpleSystem();
+    DebugDatabase.checkLocalSVNRepository(svnRoot);
+    // capture and test output
+    // make more complex fs
+    assertEquals(1,0);
+  }
+
+  private File mockSimpleSystem() {
+    File rootDir = Mockito.mock(File.class);
+    File mockDot = Mockito.mock(File.class);
+    File mockDep = Mockito.mock(File.class);
+    File mockOne = Mockito.mock(File.class);
+    File[] contents = {mockDep, mockDot, mockOne};
+    Mockito.when(rootDir.listFiles()).thenReturn(contents);
+    Mockito.when(mockDot.getName()).thenReturn(".svn");
+    Mockito.when(mockDep.getName()).thenReturn("dependencies.txt");
+    Mockito.when(mockOne.getName()).thenReturn("file.txt");
+    Mockito.when(mockOne.isDirectory()).thenReturn(false);
+    return rootDir;
   }
 }
