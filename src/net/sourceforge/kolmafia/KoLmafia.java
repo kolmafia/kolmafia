@@ -624,11 +624,11 @@ public abstract class KoLmafia {
 
     boolean shouldResetCounters = false;
     boolean shouldResetGlobalCounters = false;
-    // Assume if rollover has changed by an hour, it is a new rollover. Time varies slightly between
-    // servers by a few seconds.
-    shouldResetCounters = KoLCharacter.getRollover() - Preferences.getLong("lastCounterDay") > 3600;
+    // If the rollover response from API.php is greater than 
+    // the previous recorded value then assume it is a new rollover
+    shouldResetCounters = KoLCharacter.getRollover() > Preferences.getLong("lastCounterDay");
     shouldResetGlobalCounters =
-        KoLCharacter.getRollover() - Preferences.getLong("lastGlobalCounterDay") > 3600;
+        KoLCharacter.getRollover() > Preferences.getLong("lastGlobalCounterDay");
 
     int ascensions = KoLCharacter.getAscensions();
     int knownAscensions = Preferences.getInteger("knownAscensions");

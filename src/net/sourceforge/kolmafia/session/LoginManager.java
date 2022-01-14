@@ -64,11 +64,11 @@ public class LoginManager {
       return;
     }
 
-    // Assume if rollover has changed by an hour, it is a new rollover.
-    // Time varies slightly between servers by a few seconds.
+    // If the rollover response from API.php is greater than 
+    // the previous recorded value then assume it is a new rollover
     long lastRollover = Preferences.getLong("lastCounterDay");
     long newRollover = KoLCharacter.getRollover();
-    if ((newRollover - lastRollover) > 3600) {
+    if (newRollover > lastRollover) {
       // This is the first login after rollover.
       // Treat it as a full login
       LoginManager.login(username);
