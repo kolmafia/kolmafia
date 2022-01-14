@@ -7,16 +7,9 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.Path;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
@@ -92,7 +85,7 @@ public class DebugDatabase {
           byte[] bytes = ByteBufferUtilities.read(istream);
           return StringUtilities.getEncodedString(bytes, "UTF-8");
         }
-
+        // JAA - Should this be && and not || ?
         if (responseCode >= 301 || responseCode < 308) {
           String redirectLocation = connection.getHeaderField("Location");
           System.out.println(url + " => " + redirectLocation);
@@ -3794,5 +3787,40 @@ public class DebugDatabase {
     }
   }
 
-  public static void checkLocalSVNRepository() {}
+  public static void checkLocalSVNRepository() {
+    File root = KoLConstants.SVN_LOCATION;
+    List<Path> theList;
+    theList = new LinkedList<>(curseAgain(root));
+    Collections.sort(theList);
+    RequestLogger.printLine("Found " + theList.size() + " repo files.");
+    Map<String, Path> seen = new HashMap<>();
+    for (Path p : theList) {
+      String name = p.toFile().getName().toLowerCase();
+      if (seen.containsKey(name)) {
+        RequestLogger.printLine("***");
+        RequestLogger.printLine(seen.get(name).toString());
+        RequestLogger.printLine(p.toString());
+        RequestLogger.printLine("***");
+      } else {
+        seen.put(name, p);
+      }
+    }
+  }
+
+  private static List<Path> curseAgain(File here) {
+    List<Path> theList = new LinkedList<>();
+    File[] contents = here.listFiles();
+    if (contents != null) {
+      for (File f : contents) {
+        if (f.getName().startsWith(".")) continue;
+        if (f.getName().equalsIgnoreCase("dependencies.txt")) continue;
+        if (f.isDirectory()) {
+          theList.addAll(curseAgain(f));
+        } else {
+          theList.add(f.toPath());
+        }
+      }
+    }
+    return (theList);
+  }
 }
