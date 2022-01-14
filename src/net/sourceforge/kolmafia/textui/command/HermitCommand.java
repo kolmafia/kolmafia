@@ -53,7 +53,7 @@ public class HermitCommand extends AbstractCommand {
 
     if (KoLCharacter.inZombiecore() && parameters.contains("clover")) {
       if (!Preferences.getBoolean("_zombieClover")) {
-        itemId = ItemPool.TEN_LEAF_CLOVER;
+        itemId = ItemPool.ELEVEN_LEAF_CLOVER;
       }
     } else {
       for (AdventureResult item : KoLConstants.hermitItems) {
@@ -81,11 +81,11 @@ public class HermitCommand extends AbstractCommand {
     // the worthless items you currently have
 
     count =
-        itemId == ItemPool.TEN_LEAF_CLOVER
-            ? Math.min(count, cloverCount)
-            : count == Integer.MAX_VALUE
-                ? Math.min(count, HermitRequest.getWorthlessItemCount())
-                : count;
+        count == Integer.MAX_VALUE
+            ? itemId == ItemPool.ELEVEN_LEAF_CLOVER
+                ? Math.min(count, cloverCount)
+                : Math.min(count, HermitRequest.getWorthlessItemCount())
+            : count;
 
     if (count > 0) {
       if (KoLCharacter.inZombiecore()) {

@@ -1,10 +1,14 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Player.addItem;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,6 +67,15 @@ public class ZapRequestTest {
     assertFalse(arrayHas(zapg, "xyzzy"));
     zapg = ZapRequest.getZapGroup(42);
     assertFalse(arrayHas(zapg, "hermit permit"));
+  }
+
+  @Test
+  public void shouldTrimZappableItemsIfRequested() {
+    Preferences.setBoolean("relayTrimsZapList", true);
+    addItem("baconstone");
+    addItem("hermit permit");
+    AdventureResult baconstone = AdventureResult.tallyItem("baconstone");
+    assertThat(ZapRequest.getZappableItems(), contains(baconstone));
   }
 
   @Test

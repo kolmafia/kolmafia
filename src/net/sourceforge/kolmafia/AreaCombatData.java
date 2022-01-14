@@ -641,15 +641,18 @@ public class AreaCombatData {
         continue;
       }
 
-      // Negative weight will set this to zero (which is good!)
+      if (weighting < 0) {
+        monsterData.put(monster, (double) weighting);
+        continue;
+      }
+
+      // Negative weights (which have special meaning) are already handled above.
       double chance =
-          Math.max(
-              0,
-              100.0
-                  * combatFactor
-                  * (1 - totalSuperlikelyChance / 100)
-                  * weighting
-                  * (1 - (double) getRejection(monster) / 100));
+          100.0
+              * combatFactor
+              * (1 - totalSuperlikelyChance / 100)
+              * weighting
+              * (1 - (double) getRejection(monster) / 100);
 
       if (stateful) {
         chance = AdventureQueueDatabase.applyQueueEffects(chance, monster, this);

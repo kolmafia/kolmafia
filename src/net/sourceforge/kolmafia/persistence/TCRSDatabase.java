@@ -630,7 +630,7 @@ public class TCRSDatabase {
       String either = verb + "either ";
       String[] split = actions.split(" *\\| *");
       for (String action : split) {
-        if (action == "") {
+        if (action.isEmpty()) {
           continue;
         }
         if (buffer.length() > 0) {

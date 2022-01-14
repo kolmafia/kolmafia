@@ -14,7 +14,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 public class PillKeeperCommand extends AbstractCommand {
   public PillKeeperCommand() {
     this.usage =
-        " [free] explode | extend | noncombat | element | stat | familiar | semirare | random";
+        " [free] explode | extend | noncombat | element | stat | familiar | lucky | random";
   }
 
   @Override
@@ -59,7 +59,7 @@ public class PillKeeperCommand extends AbstractCommand {
     } else if (parameters.contains("fam")) {
       choice = 6;
       pilltext = "Saturday - Fidoxene";
-    } else if (parameters.contains("sem")) {
+    } else if (parameters.contains("sem") || parameters.contains("luc")) {
       choice = 7;
       pilltext = "Sunday - Surprise Me";
     } else if (parameters.contains("ran")) {

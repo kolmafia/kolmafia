@@ -19,7 +19,10 @@ public class IncDecTest {
             "preincrement with non-numeric variable",
             "string x; ++x;",
             "++X requires a numeric variable reference",
-            "char 13 to char 14"),
+            "char 13 to char 14",
+            "++x;",
+            "Unknown variable 'x'",
+            "char 3 to char 4"),
         invalid(
             "preincrement requires a variable",
             "++1;",
@@ -46,7 +49,10 @@ public class IncDecTest {
             "postincrement with non-numeric variable",
             "string x; x++;",
             "X++ requires a numeric variable reference",
-            "char 11 to char 12"),
+            "char 11 to char 12",
+            "x++;",
+            "Unknown variable 'x'",
+            "char 1 to char 2"),
         /* Currently fails with "Expected ;, found ++" which is asymmetric.
         invalid(
             "postincrement requires a variable",

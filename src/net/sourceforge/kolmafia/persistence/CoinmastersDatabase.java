@@ -209,8 +209,8 @@ public class CoinmastersDatabase {
 
     // Register this in the Concoction for the item
 
-    // Special case: ten-leaf-clovers are limited
-    if (itemId == ItemPool.TEN_LEAF_CLOVER) {
+    // Special case: 11-leaf clovers are limited
+    if (itemId == ItemPool.ELEVEN_LEAF_CLOVER) {
       return;
     }
 

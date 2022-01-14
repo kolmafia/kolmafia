@@ -76,7 +76,7 @@ public class LoginManager {
     }
 
     // Some things aren't properly set by KoL until main.php is loaded
-    RequestThread.postRequest(new GenericRequest("main.php"));
+    KoLmafia.makeMainRequest();
   }
 
   private static void doLogin(String username) {

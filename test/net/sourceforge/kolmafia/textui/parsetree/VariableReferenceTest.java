@@ -25,12 +25,18 @@ public class VariableReferenceTest {
             "indexed primitive",
             "int x; x[0];",
             "Variable 'x' cannot be indexed",
-            "char 8 to char 10"),
+            "char 8 to char 10",
+            "x[0];",
+            "Unknown variable 'x'",
+            "char 1 to char 2"),
         invalid(
             "over-indexed variable reference",
             "int[5] x; x[0,1];",
             "Too many keys for 'x'",
-            "char 11 to char 15"),
+            "char 11 to char 15",
+            "int[,] x; x[0,1];",
+            "Missing index token",
+            "char 5 to char 6"),
         invalid(
             "empty indexed variable reference",
             "int[5] x; x[];",
@@ -50,7 +56,10 @@ public class VariableReferenceTest {
             "type-mismatched indexed composite reference",
             "int[5, 5] x; x[0]['str'];",
             "Index for 'x[]' has wrong data type (expected int, got string)",
-            "char 19 to char 24"),
+            "char 19 to char 24",
+            "int[5, 5] x; x[0][str];",
+            "Unknown variable 'str'",
+            "char 19 to char 22"),
         valid(
             "multidimensional comma-separated array index",
             "int[5,5] x; x[0,1];",
@@ -76,7 +85,13 @@ public class VariableReferenceTest {
               ParserTest.assertLocationEquals(1, 13, 1, 20, reference.getLocation());
             }),
         invalid(
-            "non-record property reference", "int i; i.a;", "Record expected", "char 8 to char 9"),
+            "non-record property reference",
+            "int i; i.a;",
+            "Record expected",
+            "char 8 to char 9",
+            "i.a;",
+            "Unknown variable 'i'",
+            "char 1 to char 2"),
         valid(
             "record field reference",
             "record {int a;} r; r.a;",

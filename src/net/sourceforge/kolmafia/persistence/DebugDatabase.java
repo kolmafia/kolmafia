@@ -1902,6 +1902,14 @@ public class DebugDatabase {
     return DebugDatabase.effectDescriptionText(DebugDatabase.rawEffectDescriptionText(effectId));
   }
 
+  public static String readEffectDescriptionText(final int effectId) {
+    String descId = EffectDatabase.getDescriptionId(effectId);
+    if (descId == null || descId.equals("")) {
+      return null;
+    }
+    return DebugDatabase.readEffectDescriptionText(descId);
+  }
+
   public static final String readEffectDescriptionText(final String descId) {
     DebugDatabase.DESC_EFFECT_REQUEST.clearDataFields();
     DebugDatabase.DESC_EFFECT_REQUEST.addFormField("whicheffect", descId);

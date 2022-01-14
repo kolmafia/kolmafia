@@ -54,6 +54,23 @@ public class AggregateLiteralTest {
             "Script parsing error; couldn't figure out value of aggregate key",
             "char 11 to char 12"),
         valid(
+            "aggregate literal with aggregate typedef",
+            "typedef int[] foo; foo { 1, 2 }",
+            Arrays.asList("typedef", "int", "[", "]", "foo", ";", "foo", "{", "1", ",", "2", "}"),
+            Arrays.asList(
+                "1-1", "1-9", "1-12", "1-13", "1-15", "1-18", "1-20", "1-24", "1-26", "1-27",
+                "1-29", "1-31")),
+        invalid(
+            "aggregate literal with non-aggregate typedef",
+            "typedef int foo; foo { 1, 2 }",
+            "Aggregate type required to make an aggregate literal",
+            // we currently can't read past the "{" before throwing the exception
+            // "char 18 to char 30"),
+            "char 18 to char 23",
+            "typedef foo; foo { 1, 2 }",
+            "Missing data type for typedef",
+            "char 1 to char 12"),
+        valid(
             "Simple array literal",
             "int[5] { 1, 2, 3, 4, 5}",
             Arrays.asList(
@@ -153,21 +170,30 @@ public class AggregateLiteralTest {
             "Expected an element of type boolean, found an aggregate",
             // we currently can't read past the "{" before throwing the exception
             // "char 32 to char 38"),
-            "char 32 to char 33"),
+            "char 32 to char 33",
+            "boolean[x]{ true, true, false, {true}, false }",
+            "Invalid type name 'x'",
+            "char 9 to char 10"),
         invalid(
             "Unexpected aggregate in map literal: as a key",
             "boolean[5]{ 0:true, 1:true, 2:false, {3}:true, 4:false }",
             "Expected a key of type int, found an aggregate",
             // we currently can't read past the "{" before throwing the exception
             // "char 38 to char 41"),
-            "char 38 to char 39"),
+            "char 38 to char 39",
+            "boolean[x]{ 0:true, 1:true, 2:false, {3}:true, 4:false }",
+            "Invalid type name 'x'",
+            "char 9 to char 10"),
         invalid(
             "Unexpected aggregate in map literal: as a value",
             "boolean[5]{ 0:true, 1:true, 2:false, 3:{true}, 4:false }",
             "Expected a value of type boolean, found an aggregate",
             // we currently can't read past the "{" before throwing the exception
             // "char 40 to char 46"),
-            "char 40 to char 41"),
+            "char 40 to char 41",
+            "boolean[x]{ 0:true, 1:true, 2:false, 3:{true}, 4:false }",
+            "Invalid type name 'x'",
+            "char 9 to char 10"),
         valid(
             // This... exercises a different code path.
             "Parenthesized map literal",

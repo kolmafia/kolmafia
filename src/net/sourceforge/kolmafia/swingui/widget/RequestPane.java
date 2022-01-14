@@ -9,6 +9,7 @@ import javax.swing.text.*;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.HTMLWriter;
 import javax.swing.text.html.InlineView;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -126,12 +127,29 @@ public class RequestPane extends JEditorPane {
     StringWriter sw = new StringWriter();
 
     try {
-      this.getEditorKit()
-          .write(
-              sw,
-              this.getDocument(),
-              this.getSelectionStart(),
-              this.getSelectionEnd() - this.getSelectionStart());
+      // Provides a workaround for the writer normally trying to indent the text after 80
+      // characters.
+      // This results in weird text like "Example    goes here"
+      if (this.getDocument() instanceof HTMLDocument) {
+        HTMLWriter w =
+            new HTMLWriter(
+                sw,
+                (HTMLDocument) this.getDocument(),
+                this.getSelectionStart(),
+                this.getSelectionEnd() - this.getSelectionStart()) {
+              {
+                setLineLength(999_999);
+              }
+            };
+        w.write();
+      } else {
+        this.getEditorKit()
+            .write(
+                sw,
+                this.getDocument(),
+                this.getSelectionStart(),
+                this.getSelectionEnd() - this.getSelectionStart());
+      }
     } catch (Exception e) {
       // In the event that an exception happens, return
       // an empty string.

@@ -12,15 +12,15 @@ import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.textui.command.AbstractCommand;
-import org.junit.jupiter.api.extension.AfterAllCallback;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
-public class ClearSharedState implements AfterAllCallback {
+public class ClearSharedStateBefore implements BeforeAllCallback {
 
   // Prevents leakage of shared state across test classes.
 
   @Override
-  public void afterAll(ExtensionContext context) {
+  public void beforeAll(ExtensionContext context) {
     restoreUserStateToNoUser();
     restoreOtherStates();
     deleteDirectoriesAndContents();
@@ -37,11 +37,13 @@ public class ClearSharedState implements AfterAllCallback {
     Preferences.saveSettingsToFile = false;
     // re-register default commands
     AbstractCommand.clear();
+    KoLCharacter.setCurrentRun(0);
     KoLmafiaCLI.registerCommands();
     KoLmafia.lastMessage = KoLmafia.NO_MESSAGE;
     KoLmafia.forceContinue();
     StaticEntity.overrideRevision(null);
     GenericRequest.sessionId = null;
+    GenericRequest.passwordHash = "";
   }
 
   public void deleteDirectoriesAndContents() {

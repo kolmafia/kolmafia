@@ -26,12 +26,12 @@ public class NamespaceInterpreter extends AshRuntime {
     boolean shouldRefresh = !this.lastImportString.equals(importString);
 
     if (!shouldRefresh) {
-      Map<File, Long> imports = this.parser.getImports();
+      Map<File, Parser> imports = this.parser.getImports();
 
-      for (Entry<File, Long> entry : imports.entrySet()) {
+      for (Entry<File, Parser> entry : imports.entrySet()) {
         File file = entry.getKey();
-        Long date = entry.getValue();
-        shouldRefresh = date.longValue() != file.lastModified();
+        long date = entry.getValue().getModificationTimestamp();
+        shouldRefresh = date != file.lastModified();
       }
     }
 
@@ -55,6 +55,9 @@ public class NamespaceInterpreter extends AshRuntime {
         } catch (ScriptException e) {
           // The user changed the script since it was validated
           KoLmafia.updateDisplay(MafiaState.ERROR, e.getMessage());
+          return false;
+        } catch (InterruptedException e) {
+          // Unlikely, but just in case.
           return false;
         } catch (Exception e) {
           StaticEntity.printStackTrace(e);

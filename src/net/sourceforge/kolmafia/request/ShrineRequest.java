@@ -179,7 +179,7 @@ public class ShrineRequest extends GenericRequest {
       return false;
     }
 
-    String message = null;
+    String message;
 
     if (urlString.contains("barrelshrine=1")) {
       message = "Worshiping at the Shrine to the Barrel God";
@@ -202,10 +202,6 @@ public class ShrineRequest extends GenericRequest {
       }
 
       message = "Donating " + qty + " Meat to the " + place;
-    }
-
-    if (message == null) {
-      return false;
     }
 
     RequestLogger.printLine("");

@@ -9,10 +9,12 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.pages.PageRegistry;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -45,6 +47,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.Crimbo09Request;
 import net.sourceforge.kolmafia.request.Crimbo10Request;
 import net.sourceforge.kolmafia.request.Crimbo11Request;
+import net.sourceforge.kolmafia.request.Crimbo21TreeRequest;
 import net.sourceforge.kolmafia.request.CurseRequest;
 import net.sourceforge.kolmafia.request.CustomOutfitRequest;
 import net.sourceforge.kolmafia.request.DigRequest;
@@ -293,6 +296,8 @@ public class ResponseTextParser {
       Crimbo10Request.parseResponse(location, responseText);
     } else if (location.startsWith("crimbo11.php")) {
       Crimbo11Request.parseResponse(location, responseText);
+    } else if (location.startsWith("crimbo21tree.php")) {
+      Crimbo21TreeRequest.parseResponse(location, responseText);
     } else if (location.startsWith("curse.php")) {
       CurseRequest.parseResponse(location, responseText);
     } else if (location.startsWith("da.php")) {
@@ -348,7 +353,20 @@ public class ResponseTextParser {
     } else if (location.startsWith("desc_effect.php")) {
       Matcher m = ResponseTextParser.DESCEFFECT_PATTERN.matcher(location);
       if (m.find()) {
-        ConsequenceManager.parseEffectDesc(m.group(1), responseText);
+        String descid = m.group(1);
+        ConsequenceManager.parseEffectDesc(descid, responseText);
+        int effectId = EffectDatabase.getEffectIdFromDescription(descid);
+        switch (effectId) {
+          case EffectPool.WINE_FORTIFIED:
+          case EffectPool.WINE_HOT:
+          case EffectPool.WINE_FRISKY:
+          case EffectPool.WINE_COLD:
+          case EffectPool.WINE_DARK:
+          case EffectPool.WINE_BEFOULED:
+          case EffectPool.WINE_FRIENDLY:
+            EffectDatabase.parseVampireVintnerWineEffect(responseText, effectId);
+            break;
+        }
       }
     } else if (location.startsWith("diary.php")) {
       UseItemRequest.handleDiary(responseText);

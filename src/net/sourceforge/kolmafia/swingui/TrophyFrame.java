@@ -89,9 +89,6 @@ public class TrophyFrame extends GenericFrame {
       TrophyRequest req = new TrophyRequest();
       RequestThread.postRequest(req);
       ArrayList<Trophy> trophies = req.getTrophies();
-      if (req == null) {
-        return;
-      }
       Iterator<Trophy> i = trophies.iterator();
       while (i.hasNext()) {
         Trophy t = i.next();

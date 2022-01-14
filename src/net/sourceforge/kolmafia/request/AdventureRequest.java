@@ -235,6 +235,21 @@ public class AdventureRequest extends GenericRequest {
     if (index >= 0) {
       String failure = KoLAdventure.adventureFailureMessage(index);
       MafiaState severity = KoLAdventure.adventureFailureSeverity(index);
+
+      // Add more details to the failure message when adventuring in the 2021 crimbo cold resistance
+      // zones.
+      if (this.formSource.equals("adventure.php")) {
+        String zone = AdventureDatabase.getZone(this.adventureName);
+        if ("Crimbo21".equals(zone)) {
+          int required = Preferences.getInteger("_crimbo21ColdResistance");
+          int current = KoLCharacter.getElementalResistanceLevels(MonsterDatabase.Element.COLD);
+          if (current < required) {
+            failure +=
+                " You need " + required + " (" + (required - current) + " more than you have now).";
+          }
+        }
+      }
+
       KoLmafia.updateDisplay(severity, failure);
       this.override = 0;
       return;
@@ -988,9 +1003,7 @@ public class AdventureRequest extends GenericRequest {
     if (this.adventureId.equals(AdventurePool.THE_SHORE_ID)) {
       return KoLCharacter.inFistcore() ? 5 : 3;
     }
-    String zone = AdventureDatabase.getZone(this.adventureName);
-    if (zone != null
-        && (zone.equals("The Sea") || this.adventureId.equals(AdventurePool.YACHT_ID))) {
+    if ("underwater".equals(AdventureDatabase.getEnvironment(this.adventureName))) {
       return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FISHY)) ? 1 : 2;
     }
     return 1;
@@ -1048,6 +1061,12 @@ public class AdventureRequest extends GenericRequest {
       // Submitting a Source Terminal request with a bad
       // option leaves the Source Terminal by redirecting to
       // the campground.
+      AdventureRequest.ZONE_UNLOCK.run();
+      return;
+    }
+
+    if (redirectLocation.startsWith("shop.php")) {
+      // The Shore Inc. can redirect to the gift shop.
       AdventureRequest.ZONE_UNLOCK.run();
       return;
     }

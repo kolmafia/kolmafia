@@ -24,7 +24,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -830,18 +829,6 @@ public class EatItemRequest extends UseItemRequest {
     // Perform item-specific processing
 
     switch (itemId) {
-      case ItemPool.FORTUNE_COOKIE:
-      case ItemPool.QUANTUM_TACO:
-
-        // If it's a fortune cookie, get the fortune
-
-        Matcher matcher = EatItemRequest.FORTUNE_PATTERN.matcher(responseText);
-        while (matcher.find()) {
-          EatItemRequest.handleFortuneCookie(matcher);
-        }
-
-        return;
-
       case ItemPool.LUCIFER:
 
         // Jumbo Dr. Lucifer reduces your hit points to 1.
@@ -1103,81 +1090,6 @@ public class EatItemRequest extends UseItemRequest {
     Preferences.decrement("munchiesPillsUsed", count);
   }
 
-  private static void handleFortuneCookie(final Matcher matcher) {
-    EatItemRequest.logConsumption(matcher.group(1));
-
-    if (TurnCounter.isCounting("Fortune Cookie")) {
-      for (int i = 2; i <= 4; ++i) {
-        int number = StringUtilities.parseInt(matcher.group(i));
-        if (TurnCounter.isCounting("Fortune Cookie", number)) {
-          TurnCounter.stopCounting("Fortune Cookie");
-          TurnCounter.startCounting(number, "Fortune Cookie", "fortune.gif");
-          TurnCounter.stopCounting("Semirare window begin");
-          TurnCounter.stopCounting("Semirare window end");
-          return;
-        }
-      }
-    }
-
-    int minCounter;
-
-    // First semirare comes between 70 and 80 regardless of path
-
-    // If we haven't played 70 turns, we definitely have not passed
-    // the semirare counter yet.
-    if (KoLCharacter.getCurrentRun() < 70) {
-      minCounter = 70;
-    }
-    // If we haven't seen a semirare yet and are still within the
-    // window for the first, again, expect the first one.
-    else if (KoLCharacter.getCurrentRun() < 80 && KoLCharacter.lastSemirareTurn() == 0) {
-      minCounter = 70;
-    }
-    // Otherwise, we are definitely past the first semirare,
-    // whether or not we saw it. If you are not an Oxygenarian,
-    // semirares come less frequently
-    else if (KoLCharacter.canEat() || KoLCharacter.canDrink()) {
-      minCounter = 150; // conservative, wiki claims 160 minimum
-    }
-    // ... than if you are on the Oxygenarian path
-    else {
-      minCounter = 100; // conservative, wiki claims 102 minimum
-    }
-
-    minCounter -= KoLCharacter.turnsSinceLastSemirare();
-    for (int i = 2; i <= 4; ++i) {
-      int number = StringUtilities.parseInt(matcher.group(i));
-      int minEnd = 0;
-      if (TurnCounter.getCounters("Semirare window begin", 0, 500).equals("")) {
-        // We are possibly within the window currently.
-        // If the actual semirare turn has already been
-        // missed, a number past the window end could
-        // be valid - but it would have to be at least
-        // 80 turns past the end.
-        minEnd = number - 79;
-      }
-
-      if (number < minCounter
-          || !TurnCounter.getCounters("Semirare window begin", number + 1, 500).equals("")) {
-        KoLmafia.updateDisplay("Lucky number " + number + " ignored - too soon to be a semirare.");
-        continue;
-      }
-
-      if (number > 205
-          || !TurnCounter.getCounters("Semirare window end", minEnd, number - 1)
-              .equals("")) { // conservative, wiki claims 200 maximum
-        KoLmafia.updateDisplay("Lucky number " + number + " ignored - too large to be a semirare.");
-        continue;
-      }
-
-      // Add the new lucky number
-      TurnCounter.startCounting(number, "Fortune Cookie", "fortune.gif");
-    }
-
-    TurnCounter.stopCounting("Semirare window begin");
-    TurnCounter.stopCounting("Semirare window end");
-  }
-
   public static final void updateTimeSpinner(final int itemId, final boolean timeSpinnerUsed) {
     // This will also track Thanksgetting foods, since all foods that count for it
     // show up in the Time-Spinner list
@@ -1207,20 +1119,6 @@ public class EatItemRequest extends UseItemRequest {
     if (itemId >= ItemPool.CANDIED_SWEET_POTATOES && itemId <= ItemPool.BREAD_ROLL) {
       Preferences.increment("_thanksgettingFoodsEaten");
     }
-  }
-
-  public static final String lastSemirareMessage() {
-    KoLCharacter.ensureUpdatedAscensionCounters();
-
-    int turns = Preferences.getInteger("semirareCounter");
-    if (turns == 0) {
-      return "No semirare found yet this run.";
-    }
-
-    int current = KoLCharacter.getCurrentRun();
-    String location = Preferences.getString("semirareLocation");
-    String loc = location.equals("") ? "" : (" in " + location);
-    return "Last semirare found " + (current - turns) + " turns ago (on turn " + turns + ")" + loc;
   }
 
   public static final boolean registerRequest() {

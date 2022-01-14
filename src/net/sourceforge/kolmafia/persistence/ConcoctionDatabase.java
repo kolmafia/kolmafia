@@ -52,7 +52,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.SortedListModelArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ConcoctionDatabase {
@@ -122,8 +121,7 @@ public class ConcoctionDatabase {
       new Concoction(null, CraftingType.NOCREATE);
   public static final Concoction meatLimit = new Concoction(null, CraftingType.NOCREATE);
 
-  public static final SortedListModelArray<AdventureResult> knownUses =
-      new SortedListModelArray<AdventureResult>();
+  public static final Map<Integer, SortedListModel<AdventureResult>> knownUses = new HashMap<>();
 
   public static final EnumSet<CraftingType> PERMIT_METHOD = EnumSet.noneOf(CraftingType.class);
   public static final Map<CraftingType, Integer> ADVENTURE_USAGE =
@@ -2296,6 +2294,10 @@ public class ConcoctionDatabase {
 
   public static final CraftingType getMixingMethod(final AdventureResult ar) {
     return ConcoctionDatabase.getMixingMethod(ConcoctionPool.get(ar));
+  }
+
+  public static final boolean hasMixingMethod(final int itemId) {
+    return getMixingMethod(itemId) != CraftingType.NOCREATE;
   }
 
   public static final EnumSet<CraftingRequirements> getRequirements(final int itemId) {
