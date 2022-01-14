@@ -10849,10 +10849,10 @@
 10821	fishcake	577941786	knobcake.gif	food	t,d	10
 10822	bone broth	529151424	soupbowl.gif	food	t,d	10
 10823	star pop	868850043	starpop.gif	food	t,d	10
-10824	Doc's Fortifying Wine	655187812	rxwine.gif	drink	t,d	10
-10825	Doc's Smartifying Wine	747053412	rxwine.gif	drink	t,d	10
-10826	Doc's Limbering Wine	975820765	rxwine.gif	drink	t,d	10
-10827	Doc's Medical-Grade Wine	237098811	rxwine.gif	drink	t,d	10
+10824	Doc's Fortifying Wine	655187812	rxwine.gif	drink	t,d	10	bottles of Doc's Fortifying Wine
+10825	Doc's Smartifying Wine	747053412	rxwine.gif	drink	t,d	10	bottles of Doc's Smartifying Wine
+10826	Doc's Limbering Wine	975820765	rxwine.gif	drink	t,d	10	bottles of Doc's Limbering Wine
+10827	Doc's Medical-Grade Wine	237098811	rxwine.gif	drink	t,d	10	bottles of Doc's Medical-Grade Wine
 10828	Homebodyl&trade;	972999798	pill3.gif	spleen, usable	t,d	10
 10829	Extrovermectin&trade;	411068914	stimpill.gif	spleen, usable	t,d	10
 10830	Breathitin&trade;	910011561	pill2.gif	spleen, usable	t,d	10
@@ -10863,7 +10863,7 @@
 10835	anti-odor cream	412231148	creamtube.gif	potion, usable	t,d	10
 10836	anti-creep cream	776583266	creamtube.gif	potion, usable	t,d	10
 10837	anti-pain cream	646241186	creamtube.gif	potion, usable	t,d	10
-10838	Doc's Special Reserve Wine	510170168	rxwine.gif	drink	t,d	10
+10838	Doc's Special Reserve Wine	510170168	rxwine.gif	drink	t,d	10	bottles of Doc's Special Reserve Wine
 10839	bread pie	734136895	pie.gif	food	t,d	5
 10840	clear Russian	276019932	whitedrink.gif	drink	t,d	5
 10842	white Crimbo ball	465562412	crimball_white.gif	none	t	0
