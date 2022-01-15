@@ -2397,6 +2397,10 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("svn_at_head", DataTypes.BOOLEAN_TYPE, params));
 
+    params = new Type[] {};
+    functions.add(
+        new LibraryFunction("svn_list", new AggregateType(DataTypes.STRING_TYPE, 0), params));
+
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("svn_info", svnInfoRec, params));
 
@@ -8432,6 +8436,21 @@ public abstract class RuntimeLibrary {
           || dropType > '9') { // leave as an empty string if no special type was given
         rec.aset(2, new Value(String.valueOf(dropType)), null);
       }
+    }
+
+    return value;
+  }
+
+  public static Value svn_list(ScriptRuntime controller) {
+    String[] projects = KoLConstants.SVN_LOCATION.list();
+
+    int projectCount = projects != null ? projects.length : 0;
+
+    AggregateType type = new AggregateType(DataTypes.STRING_TYPE, projectCount);
+    ArrayValue value = new ArrayValue(type);
+
+    for (int i = 0; i < projectCount; ++i) {
+      value.aset(new Value(i), new Value(projects[i]));
     }
 
     return value;
