@@ -84,7 +84,7 @@ public class DebugDatabase {
           byte[] bytes = ByteBufferUtilities.read(istream);
           return StringUtilities.getEncodedString(bytes, "UTF-8");
         }
-        if (301 <= responseCode && responseCode < 308) {
+        if (301 <= responseCode && responseCode <= 308) {
           String redirectLocation = connection.getHeaderField("Location");
           System.out.println(url + " => " + redirectLocation);
           url = redirectLocation;
