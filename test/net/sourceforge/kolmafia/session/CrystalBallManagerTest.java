@@ -1,8 +1,12 @@
 package net.sourceforge.kolmafia.session;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -33,14 +37,14 @@ public class CrystalBallManagerTest {
   }
 
   @Test
-  public static void crystalBallZoneTest() {
+  public void crystalBallZoneTest() {
     assertTrue(CrystalBallManager.isCrystalBallZone("The Smut Orc Logging Camp"));
     assertTrue(CrystalBallManager.isCrystalBallZone("The Defiled Nook"));
     assertFalse(CrystalBallManager.isCrystalBallZone("The Defiled Niche"));
   }
 
   @Test
-  public static void crystalBallMonsterTestString() {
+  public void crystalBallMonsterTestString() {
     assertTrue(
         CrystalBallManager.isCrystalBallMonster("smut orc nailer", "The Smut Orc Logging Camp"));
     assertTrue(CrystalBallManager.isCrystalBallMonster("party skelteon", "The Defiled Nook"));
@@ -48,14 +52,14 @@ public class CrystalBallManagerTest {
   }
 
   @Test
-  public static void crystalBallMonsterTestMonsterData() {
+  public void crystalBallMonsterTestMonsterData() {
     assertTrue(CrystalBallManager.isCrystalBallMonster(NAILER, "The Smut Orc Logging Camp"));
     assertTrue(CrystalBallManager.isCrystalBallMonster(SKELTEON, "The Defiled Nook"));
     assertFalse(CrystalBallManager.isCrystalBallMonster(SKELELTON, "The Defiled Niche"));
   }
 
   @Test
-  public static void crystalBallMonsterTestNextEncounter() {
+  public void crystalBallMonsterTestNextEncounter() {
     assertFalse(CrystalBallManager.isCrystalBallMonster());
 
     MonsterStatusTracker.setNextMonster(SKELTEON);
@@ -63,5 +67,21 @@ public class CrystalBallManagerTest {
 
     Preferences.setString("nextAdventure", "The Defiled Nook");
     assertTrue(CrystalBallManager.isCrystalBallMonster());
+  }
+
+  @Test
+  public void canParsePonder() throws IOException {
+    String html = Files.readString(Path.of("request/test_ponder_orb_one_prediction.html"));
+    CrystalBallManager.parsePonder(html);
+    assertEquals("0:Twin Peak:Creepy Ginger Twin", Preferences.getString("crystalBallPredictions"));
+  }
+
+  @Test
+  public void canParsePonderWithMultiple() throws IOException {
+    String html = Files.readString(Path.of("request/test_ponder_orb_two_predictions.html"));
+    CrystalBallManager.parsePonder(html);
+    assertEquals(
+        "0:A-Boo Peak:Dusken Raider Ghost|0:Twin Peak:Creepy Ginger Twin",
+        Preferences.getString("crystalBallPredictions"));
   }
 }

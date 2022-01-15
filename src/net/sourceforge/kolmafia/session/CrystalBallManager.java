@@ -7,12 +7,18 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.GenericRequest;
 
 public final class CrystalBallManager {
   private static final Pattern[] CRYSTAL_BALL_PATTERNS = {
@@ -57,6 +63,11 @@ public final class CrystalBallManager {
 
   public static final Map<String, Prediction> predictions = new HashMap<>();
 
+  public static void clear() {
+    CrystalBallManager.predictions.clear();
+    updatePreference();
+  }
+
   public static void reset() {
     CrystalBallManager.predictions.clear();
 
@@ -96,15 +107,17 @@ public final class CrystalBallManager {
       return;
     }
 
-    String lastAdventureName = KoLAdventure.lastLocationName;
-
-    CrystalBallManager.predictions.put(
-        lastAdventureName,
-        new Prediction(KoLCharacter.getCurrentRun(), lastAdventureName, predictedMonster));
-
+    addPrediction(KoLAdventure.lastVisitedLocation(), predictedMonster);
     updatePreference();
+  }
 
-    AdventureQueueDatabase.enqueue(KoLAdventure.lastVisitedLocation(), predictedMonster);
+  private static void addPrediction(final KoLAdventure location, final String predictedMonster) {
+    CrystalBallManager.predictions.put(
+        location.getAdventureName(),
+        new Prediction(
+            KoLCharacter.getCurrentRun(), location.getAdventureName(), predictedMonster));
+
+    AdventureQueueDatabase.enqueue(location, predictedMonster);
   }
 
   private static String parseCrystalBallMonster(final String responseText) {
@@ -170,5 +183,35 @@ public final class CrystalBallManager {
     }
 
     return false;
+  }
+
+  public static boolean own() {
+    AdventureResult ORB = ItemPool.get(ItemPool.MINIATURE_CRYSTAL_BALL, 1);
+    return (KoLCharacter.hasEquipped(ORB, EquipmentManager.FAMILIAR)
+        || KoLConstants.inventory.contains(ORB));
+  }
+
+  public static void ponder() {
+    if (!own()) return;
+    RequestThread.postRequest(new GenericRequest("inventory.php?ponder=1", false));
+  }
+
+  private static Pattern POSSIBLE_PREDICTION =
+      Pattern.compile("<li> +(?:an?)? ?(.*?) in (.*?)<\\/li>");
+
+  public static void parsePonder(final String responseText) {
+    predictions.clear();
+
+    Matcher m = POSSIBLE_PREDICTION.matcher(responseText);
+
+    while (m.find()) {
+      String monsterName = m.group(1);
+      KoLAdventure location = AdventureDatabase.getAdventure(m.group(2));
+      if (location != null) {
+        addPrediction(location, monsterName);
+      }
+    }
+
+    updatePreference();
   }
 }
