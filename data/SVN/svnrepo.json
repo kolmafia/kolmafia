@@ -1,6 +1,6 @@
 [
  {
-   "repo": "https://svn.code.sf.net/p/acquirebuff/code/",
+   "repo": "https://github.com/Rinn/kolmafia-scripts/trunk/AcquireBuff/",
    "author": "Rinn",
    "name": "acquireBuff",
    "forumThread": "https://kolmafia.us/showthread.php?4048-acquireBuff-Get-a-buff-from-a-buffbot",
@@ -846,7 +846,7 @@
    "longDesc": "A buttontastic improvement to the interface of mall-stores and (most) NPC stores."
  },
  {
-   "repo": "https://svn.code.sf.net/p/relay-charsheet/code/",
+   "repo": "https://github.com/Rinn/kolmafia-scripts/trunk/RelaySkills/",
    "author": "Heeheehee, Theraze, Rinn",
    "name": "Charsheet: Skills by Class",
    "forumThread": "https://kolmafia.us/showthread.php?1578-charsheet-php-Group-Skills-by-Character-Class",

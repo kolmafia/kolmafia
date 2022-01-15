@@ -563,6 +563,7 @@ public class KoLmafiaCLI {
         .register("checkpowers")
         .register("checkprofile")
         .register("checkpulverization")
+        .register("checkrepo")
         .register("checkshields")
         .register("checkskills")
         .register("checkzapgroups");
