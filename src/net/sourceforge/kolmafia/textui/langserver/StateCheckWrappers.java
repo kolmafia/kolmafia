@@ -43,58 +43,94 @@ abstract class StateCheckWrappers {
       return this.state == ServerState.SHUTDOWN;
     }
 
-    /** To use with @JsonNotifications. They are simply ignored if we are not initialized. */
-    private boolean isActive() {
+    // Not made private to allow tests
+    boolean isActive() {
       return this.state == ServerState.INITIALIZED;
     }
 
-    private void initializeCheck() {
-      if (this.notInitialized()) {
-        ResponseError error =
-            new ResponseError(
-                ResponseErrorCode.serverNotInitialized, "Server was not initialized", null);
-        throw new ResponseErrorException(error);
-      }
-    }
-
-    private void shutdownCheck() {
-      if (this.wasShutdown()) {
-        ResponseError error =
-            new ResponseError(ResponseErrorCode.InvalidRequest, "Server was shut down", null);
-        throw new ResponseErrorException(error);
+    /** To use with JsonNotifications. They are simply ignored if we are not initialized. */
+    private <P> void ifActive(Notification<P> notification, P param) {
+      if (this.isActive()) {
+        notification.processNotification(param);
       }
     }
 
     /** To use with @JsonRequests. They must throw an error if we are not initialized. */
-    private void stateCheck() {
-      this.initializeCheck();
-      this.shutdownCheck();
+    private <P, R> CompletableFuture<R> ifActive(Request<P, R> request, P param) {
+      if (this.notInitialized()) {
+        CompletableFuture<R> result = new CompletableFuture<>();
+        ResponseError error =
+            new ResponseError(
+                ResponseErrorCode.serverNotInitialized, "Server was not initialized", null);
+        result.completeExceptionally(new ResponseErrorException(error));
+
+        return result;
+      }
+
+      if (this.wasShutdown()) {
+        CompletableFuture<R> result = new CompletableFuture<>();
+        ResponseError error =
+            new ResponseError(ResponseErrorCode.InvalidRequest, "Server was shut down", null);
+        result.completeExceptionally(new ResponseErrorException(error));
+
+        return result;
+      }
+
+      return request.processRequest(param);
     }
 
     // LanguageServer
 
     @Override
     public CompletableFuture<InitializeResult> initialize(InitializeParams params) {
-      this.shutdownCheck();
-      this.state = ServerState.INITIALIZED;
-      return super.initialize(params);
+      if (this.notInitialized()) {
+        this.state = ServerState.INITIALIZED;
+        return super.initialize(params);
+      }
+
+      if (this.wasShutdown()) {
+        CompletableFuture<InitializeResult> result = new CompletableFuture<>();
+        ResponseError error =
+            new ResponseError(ResponseErrorCode.InvalidRequest, "Server was shut down", null);
+        result.completeExceptionally(new ResponseErrorException(error));
+
+        return result;
+      }
+
+      // https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#initialize
+      // The initialize request may only be sent once.
+      CompletableFuture<InitializeResult> result = new CompletableFuture<>();
+      ResponseError error =
+          new ResponseError(
+              ResponseErrorCode.InvalidRequest, "Server was already initialized", null);
+      result.completeExceptionally(new ResponseErrorException(error));
+
+      return result;
     }
 
     @Override
     public void initialized(InitializedParams params) {
       // https://microsoft.github.io/language-server-protocol/specifications/specification-3-16/#initialized
-      // The protocol specifies that this notification "may only be sent once", but... doesn't
-      // specify what to do if it is sent multiple times...
-      if (this.isActive()) {
-        super.initialized(params);
-      }
+      // There are additional specifications, regarding how this should be "the very first
+      // notification/request from the client (if sent at all)" and "may only be sent once", but
+      // this seems like too much trouble for something that... doesn't actually share any
+      // information?? Like, what's the point?
+      this.ifActive((Notification<InitializedParams>) super::initialized, params);
+    }
+
+    @Override
+    public void initialized() {
+      this.initialized(new InitializedParams());
     }
 
     @Override
     public CompletableFuture<Object> shutdown() {
-      this.initializeCheck();
-      this.state = ServerState.SHUTDOWN;
-      return super.shutdown();
+      return this.ifActive(
+          x -> {
+            this.state = ServerState.SHUTDOWN;
+            return super.shutdown();
+          },
+          (Void) null);
     }
 
     @Override
@@ -108,9 +144,7 @@ abstract class StateCheckWrappers {
 
     @Override
     public void cancelProgress(WorkDoneProgressCancelParams params) {
-      if (this.isActive()) {
-        super.cancelProgress(params);
-      }
+      this.ifActive(super::cancelProgress, params);
     }
   }
 
@@ -125,276 +159,229 @@ abstract class StateCheckWrappers {
     @Override
     public CompletableFuture<Either<List<CompletionItem>, CompletionList>> completion(
         CompletionParams position) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.completion(position);
+      return ((AshLanguageServer) this.parent).ifActive(super::completion, position);
     }
 
     @Override
     public CompletableFuture<CompletionItem> resolveCompletionItem(CompletionItem unresolved) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.resolveCompletionItem(unresolved);
+      return ((AshLanguageServer) this.parent).ifActive(super::resolveCompletionItem, unresolved);
     }
 
     @Override
     public CompletableFuture<Hover> hover(HoverParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.hover(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::hover, params);
     }
 
     @Override
     public CompletableFuture<SignatureHelp> signatureHelp(SignatureHelpParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.signatureHelp(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::signatureHelp, params);
     }
 
     @Override
     public CompletableFuture<Either<List<? extends Location>, List<? extends LocationLink>>>
         declaration(DeclarationParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.declaration(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::declaration, params);
     }
 
     @Override
     public CompletableFuture<Either<List<? extends Location>, List<? extends LocationLink>>>
         definition(DefinitionParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.definition(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::definition, params);
     }
 
     @Override
     public CompletableFuture<Either<List<? extends Location>, List<? extends LocationLink>>>
         typeDefinition(TypeDefinitionParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.typeDefinition(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::typeDefinition, params);
     }
 
     @Override
     public CompletableFuture<Either<List<? extends Location>, List<? extends LocationLink>>>
         implementation(ImplementationParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.implementation(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::implementation, params);
     }
 
     @Override
     public CompletableFuture<List<? extends Location>> references(ReferenceParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.references(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::references, params);
     }
 
     @Override
     public CompletableFuture<List<? extends DocumentHighlight>> documentHighlight(
         DocumentHighlightParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.documentHighlight(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::documentHighlight, params);
     }
 
     @Override
     public CompletableFuture<List<Either<SymbolInformation, DocumentSymbol>>> documentSymbol(
         DocumentSymbolParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.documentSymbol(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::documentSymbol, params);
     }
 
     @Override
     public CompletableFuture<List<Either<Command, CodeAction>>> codeAction(
         CodeActionParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.codeAction(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::codeAction, params);
     }
 
     @Override
     public CompletableFuture<CodeAction> resolveCodeAction(CodeAction unresolved) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.resolveCodeAction(unresolved);
+      return ((AshLanguageServer) this.parent).ifActive(super::resolveCodeAction, unresolved);
     }
 
     @Override
     public CompletableFuture<List<? extends CodeLens>> codeLens(CodeLensParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.codeLens(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::codeLens, params);
     }
 
     @Override
     public CompletableFuture<CodeLens> resolveCodeLens(CodeLens unresolved) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.resolveCodeLens(unresolved);
+      return ((AshLanguageServer) this.parent).ifActive(super::resolveCodeLens, unresolved);
     }
 
     @Override
     public CompletableFuture<List<? extends TextEdit>> formatting(DocumentFormattingParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.formatting(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::formatting, params);
     }
 
     @Override
     public CompletableFuture<List<? extends TextEdit>> rangeFormatting(
         DocumentRangeFormattingParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.rangeFormatting(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::rangeFormatting, params);
     }
 
     @Override
     public CompletableFuture<List<? extends TextEdit>> onTypeFormatting(
         DocumentOnTypeFormattingParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.onTypeFormatting(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::onTypeFormatting, params);
     }
 
     @Override
     public CompletableFuture<WorkspaceEdit> rename(RenameParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.rename(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::rename, params);
     }
 
     @Override
     public CompletableFuture<LinkedEditingRanges> linkedEditingRange(
         LinkedEditingRangeParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.linkedEditingRange(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::linkedEditingRange, params);
     }
 
     @Override
     public void didOpen(DidOpenTextDocumentParams params) {
-      if (((AshLanguageServer) this.parent).isActive()) {
-        super.didOpen(params);
-      }
+      ((AshLanguageServer) this.parent).ifActive(super::didOpen, params);
     }
 
     @Override
     public void didChange(DidChangeTextDocumentParams params) {
-      if (((AshLanguageServer) this.parent).isActive()) {
-        super.didChange(params);
-      }
+      ((AshLanguageServer) this.parent).ifActive(super::didChange, params);
     }
 
     @Override
     public void didClose(DidCloseTextDocumentParams params) {
-      if (((AshLanguageServer) this.parent).isActive()) {
-        super.didClose(params);
-      }
+      ((AshLanguageServer) this.parent).ifActive(super::didClose, params);
     }
 
     @Override
     public void didSave(DidSaveTextDocumentParams params) {
-      if (((AshLanguageServer) this.parent).isActive()) {
-        super.didSave(params);
-      }
+      ((AshLanguageServer) this.parent).ifActive(super::didSave, params);
     }
 
     @Override
     public void willSave(WillSaveTextDocumentParams params) {
-      if (((AshLanguageServer) this.parent).isActive()) {
-        super.willSave(params);
-      }
+      ((AshLanguageServer) this.parent).ifActive(super::willSave, params);
     }
 
     @Override
     public CompletableFuture<List<TextEdit>> willSaveWaitUntil(WillSaveTextDocumentParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.willSaveWaitUntil(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::willSaveWaitUntil, params);
     }
 
     @Override
     public CompletableFuture<List<DocumentLink>> documentLink(DocumentLinkParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.documentLink(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::documentLink, params);
     }
 
     @Override
     public CompletableFuture<DocumentLink> documentLinkResolve(DocumentLink params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.documentLinkResolve(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::documentLinkResolve, params);
     }
 
     @Override
     public CompletableFuture<List<ColorInformation>> documentColor(DocumentColorParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.documentColor(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::documentColor, params);
     }
 
     @Override
     public CompletableFuture<List<ColorPresentation>> colorPresentation(
         ColorPresentationParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.colorPresentation(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::colorPresentation, params);
     }
 
     @Override
     public CompletableFuture<List<FoldingRange>> foldingRange(FoldingRangeRequestParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.foldingRange(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::foldingRange, params);
     }
 
     @Override
     public CompletableFuture<Either<Range, PrepareRenameResult>> prepareRename(
         PrepareRenameParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.prepareRename(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::prepareRename, params);
     }
 
     @Override
     public CompletableFuture<TypeHierarchyItem> typeHierarchy(TypeHierarchyParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.typeHierarchy(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::typeHierarchy, params);
     }
 
     @Override
     public CompletableFuture<TypeHierarchyItem> resolveTypeHierarchy(
         ResolveTypeHierarchyItemParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.resolveTypeHierarchy(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::resolveTypeHierarchy, params);
     }
 
     @Override
     public CompletableFuture<List<CallHierarchyItem>> prepareCallHierarchy(
         CallHierarchyPrepareParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.prepareCallHierarchy(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::prepareCallHierarchy, params);
     }
 
     @Override
     public CompletableFuture<List<CallHierarchyIncomingCall>> callHierarchyIncomingCalls(
         CallHierarchyIncomingCallsParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.callHierarchyIncomingCalls(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::callHierarchyIncomingCalls, params);
     }
 
     @Override
     public CompletableFuture<List<CallHierarchyOutgoingCall>> callHierarchyOutgoingCalls(
         CallHierarchyOutgoingCallsParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.callHierarchyOutgoingCalls(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::callHierarchyOutgoingCalls, params);
     }
 
     @Override
     public CompletableFuture<List<SelectionRange>> selectionRange(SelectionRangeParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.selectionRange(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::selectionRange, params);
     }
 
     @Override
     public CompletableFuture<SemanticTokens> semanticTokensFull(SemanticTokensParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.semanticTokensFull(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::semanticTokensFull, params);
     }
 
     @Override
     public CompletableFuture<Either<SemanticTokens, SemanticTokensDelta>> semanticTokensFullDelta(
         SemanticTokensDeltaParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.semanticTokensFullDelta(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::semanticTokensFullDelta, params);
     }
 
     @Override
     public CompletableFuture<SemanticTokens> semanticTokensRange(SemanticTokensRangeParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.semanticTokensRange(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::semanticTokensRange, params);
     }
 
     @Override
     public CompletableFuture<List<Moniker>> moniker(MonikerParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.moniker(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::moniker, params);
     }
   }
 
@@ -406,75 +393,68 @@ abstract class StateCheckWrappers {
 
     @Override
     public CompletableFuture<Object> executeCommand(ExecuteCommandParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.executeCommand(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::executeCommand, params);
     }
 
     @Override
     public CompletableFuture<List<? extends SymbolInformation>> symbol(
         WorkspaceSymbolParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.symbol(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::symbol, params);
     }
 
     @Override
     public void didChangeConfiguration(DidChangeConfigurationParams params) {
-      if (((AshLanguageServer) this.parent).isActive()) {
-        super.didChangeConfiguration(params);
-      }
+      ((AshLanguageServer) this.parent).ifActive(super::didChangeConfiguration, params);
     }
 
     @Override
     public void didChangeWatchedFiles(DidChangeWatchedFilesParams params) {
-      if (((AshLanguageServer) this.parent).isActive()) {
-        super.didChangeWatchedFiles(params);
-      }
+      ((AshLanguageServer) this.parent).ifActive(super::didChangeWatchedFiles, params);
     }
 
     @Override
     public void didChangeWorkspaceFolders(DidChangeWorkspaceFoldersParams params) {
-      if (((AshLanguageServer) this.parent).isActive()) {
-        super.didChangeWorkspaceFolders(params);
-      }
+      ((AshLanguageServer) this.parent).ifActive(super::didChangeWorkspaceFolders, params);
     }
 
     @Override
     public CompletableFuture<WorkspaceEdit> willCreateFiles(CreateFilesParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.willCreateFiles(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::willCreateFiles, params);
     }
 
     @Override
     public void didCreateFiles(CreateFilesParams params) {
-      if (((AshLanguageServer) this.parent).isActive()) {
-        super.didCreateFiles(params);
-      }
+      ((AshLanguageServer) this.parent).ifActive(super::didCreateFiles, params);
     }
 
     @Override
     public CompletableFuture<WorkspaceEdit> willRenameFiles(RenameFilesParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.willRenameFiles(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::willRenameFiles, params);
     }
 
     @Override
     public void didRenameFiles(RenameFilesParams params) {
-      if (((AshLanguageServer) this.parent).isActive()) {
-        super.didRenameFiles(params);
-      }
+      ((AshLanguageServer) this.parent).ifActive(super::didRenameFiles, params);
     }
 
     @Override
     public CompletableFuture<WorkspaceEdit> willDeleteFiles(DeleteFilesParams params) {
-      ((AshLanguageServer) this.parent).stateCheck();
-      return super.willDeleteFiles(params);
+      return ((AshLanguageServer) this.parent).ifActive(super::willDeleteFiles, params);
     }
 
     @Override
     public void didDeleteFiles(DeleteFilesParams params) {
-      if (((AshLanguageServer) this.parent).isActive()) {
-        super.didDeleteFiles(params);
-      }
+      ((AshLanguageServer) this.parent).ifActive(super::didDeleteFiles, params);
     }
+  }
+
+  @FunctionalInterface
+  private static interface Notification<P> {
+    void processNotification(P param);
+  }
+
+  @FunctionalInterface
+  private static interface Request<P, R> {
+    CompletableFuture<R> processRequest(P param);
   }
 }
