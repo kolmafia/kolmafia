@@ -84,8 +84,7 @@ public class DebugDatabase {
           byte[] bytes = ByteBufferUtilities.read(istream);
           return StringUtilities.getEncodedString(bytes, "UTF-8");
         }
-        // JAA - Should this be && and not || ?
-        if (responseCode >= 301 || responseCode < 308) {
+        if (301 <= responseCode && responseCode < 308) {
           String redirectLocation = connection.getHeaderField("Location");
           System.out.println(url + " => " + redirectLocation);
           url = redirectLocation;
