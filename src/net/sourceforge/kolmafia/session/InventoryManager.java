@@ -1147,7 +1147,9 @@ public abstract class InventoryManager {
       }
     }
 
-    int mallPrice = (exact ? StoreManager.getMallPrice(item) : StoreManager.getMallPrice(item, 7.0f)) * quantity;
+    int mallPrice =
+        (exact ? StoreManager.getMallPrice(item) : StoreManager.getMallPrice(item, 7.0f))
+            * quantity;
     if (mallPrice <= 0) {
       mallPrice = Integer.MAX_VALUE;
     } else {
