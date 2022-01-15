@@ -9798,6 +9798,7 @@ public class FightRequest extends GenericRequest {
         // Since you've got this cosmic bowling ball, you hurl it down
         // the ancient lanes. You knock over a few pins. You may be
         // getting the hang of this!
+        Preferences.setBoolean("cosmicBowlingBallActive", true);
         if (responseText.contains("you hurl it down the ancient lanes")) {
           Preferences.increment("hiddenBowlingAlleyProgress", 1);
         }
