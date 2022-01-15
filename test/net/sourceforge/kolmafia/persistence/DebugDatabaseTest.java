@@ -492,6 +492,42 @@ public class DebugDatabaseTest {
     File retVal = Mockito.mock(File.class);
     Mockito.when(retVal.getName()).thenReturn(name);
     Mockito.when(retVal.isDirectory()).thenReturn(false);
+    Mockito.when(retVal.toString()).thenReturn(name);
+    return retVal;
+  }
+
+  @Test
+  public void itShouldFindSVNDuplicatesWhenThereAreSome() {
+    var outputStream = new ByteArrayOutputStream();
+    RequestLogger.openCustom(new PrintStream(outputStream));
+    File svnRoot = mockDupes();
+    DebugDatabase.checkLocalSVNRepository(svnRoot);
+    String expected =
+        "Found 2 repo files." + LS + "***" + LS + "test.ash" + LS + "test.ash" + LS + "***" + LS;
+
+    assertEquals(expected, outputStream.toString(), "Output off");
+    RequestLogger.closeCustom();
+  }
+
+  private File mockDupes() {
+    File a = mockFile("test.ash");
+    File b = mockFile("test.ash");
+    File[] x = {a};
+    File relay = mockDir("relay", x);
+    File[] y = {b};
+    File scripts = mockDir("scripts", y);
+    File[] z = {relay};
+    File one = mockDir("cheeks", z);
+    File[] xx = {scripts};
+    File two = mockDir("bail", xx);
+    File[] yy = {one, two, mockFile(".svn"), mockFile("dependencies.txt")};
+    return mockDir("root", yy);
+  }
+
+  private File mockDir(String dirname, File[] contents) {
+    File retVal = mockFile(dirname);
+    Mockito.when(retVal.isDirectory()).thenReturn(true);
+    Mockito.when(retVal.listFiles()).thenReturn(contents);
     return retVal;
   }
 }
