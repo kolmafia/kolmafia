@@ -1108,7 +1108,7 @@ public abstract class InventoryManager {
     factor -= 1.0f;
     lower = upper;
 
-    int mall = StoreManager.getMallPrice(item, exact ? 0.0f : 7.0f);
+    int mall = exact ? StoreManager.getMallPrice(item) : StoreManager.getMallPrice(item, 7.0f);
     if (mall > Math.max(100, 2 * Math.abs(autosell))) {
       upper = Math.max(lower, mall);
     }
@@ -1147,7 +1147,9 @@ public abstract class InventoryManager {
       }
     }
 
-    int mallPrice = StoreManager.getMallPrice(item, exact ? 0.0f : 7.0f) * quantity;
+    int mallPrice =
+        (exact ? StoreManager.getMallPrice(item) : StoreManager.getMallPrice(item, 7.0f))
+            * quantity;
     if (mallPrice <= 0) {
       mallPrice = Integer.MAX_VALUE;
     } else {
