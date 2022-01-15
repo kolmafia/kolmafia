@@ -431,9 +431,7 @@ public class DebugDatabaseTest {
     PrintStream out = new PrintStream(ostream);
     // Inject custom output stream.
     RequestLogger.openCustom(out);
-
     DebugDatabase.checkMeat();
-
     String output = ostream.toString();
     assertEquals(expectedOutput, output, "checkMeat variances: \n" + output);
   }
@@ -450,13 +448,11 @@ public class DebugDatabaseTest {
   }
 
   private File mockSimpleSystem() {
-    File rootDir = Mockito.mock(File.class);
     File mockDot = mockFile(".svn");
     File mockDep = mockFile("dependencies.txt");
     File mockOne = mockFile("file.txt");
     File[] contents = {mockDep, mockDot, mockOne};
-    Mockito.when(rootDir.listFiles()).thenReturn(contents);
-    return rootDir;
+    return mockDir("Root", contents);
   }
 
   @Test
@@ -471,21 +467,15 @@ public class DebugDatabaseTest {
   }
 
   private File mockMoreComplexSystem() {
-    File rootDir = Mockito.mock(File.class);
     File mockDot = mockFile(".svn");
     File mockDep = mockFile("dependencies.txt");
     File mockOne = mockFile("file.txt");
-    File mockDir = Mockito.mock(File.class);
-    File[] contents = {mockDep, mockDot, mockOne, mockDir};
-    Mockito.when(rootDir.listFiles()).thenReturn(contents);
-    Mockito.when(rootDir.listFiles()).thenReturn(contents);
-    Mockito.when(mockDir.getName()).thenReturn("scripts");
-    Mockito.when(mockDir.isDirectory()).thenReturn(true);
     File a = mockFile("meatfarm.ash");
     File b = mockFile("farmmeat.ash");
     File[] moreContents = {a, b};
-    Mockito.when(mockDir.listFiles()).thenReturn(moreContents);
-    return rootDir;
+    File mockDir = mockDir("scripts", moreContents);
+    File[] contents = {mockDep, mockDot, mockOne, mockDir};
+    return mockDir("root", contents);
   }
 
   private File mockFile(String name) {
@@ -504,7 +494,6 @@ public class DebugDatabaseTest {
     DebugDatabase.checkLocalSVNRepository(svnRoot);
     String expected =
         "Found 2 repo files." + LS + "***" + LS + "test.ash" + LS + "test.ash" + LS + "***" + LS;
-
     assertEquals(expected, outputStream.toString(), "Output off");
     RequestLogger.closeCustom();
   }
