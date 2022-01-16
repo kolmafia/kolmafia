@@ -198,8 +198,6 @@ public class QuestManager {
       }
     } else if (location.startsWith("barrel")) {
       BarrelDecorator.parseResponse(location, responseText);
-    } else if (location.startsWith("canadia")) {
-      handleCanadiaChange(location, responseText);
     } else if (location.startsWith("choice.php") && location.contains("forceoption=0")) {
       // This can have no active choice options and therefore
       // won't be interpreted by ChoiceManager
@@ -243,6 +241,8 @@ public class QuestManager {
         if (responseText.contains("otherimages/stalktop/beanstalk.gif")) {
           QuestDatabase.setQuestIfBetter(Quest.GARBAGE, "step1");
         }
+      } else if (location.contains("whichplace=canadia")) {
+        handleCanadiaChange(location, responseText);
       } else if (location.contains("whichplace=desertbeach")) {
         if (location.contains("action=db_pyramid1")) {
           handlePyramidChange(location, responseText);
