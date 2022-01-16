@@ -47,6 +47,7 @@ public class QuestManagerTest {
   public void visitingPandamoniumMakesSureAzazelQuestIsStarted() {
     assertTrue(QuestDatabase.isQuestStep(Quest.AZAZEL, "unstarted"));
     var request = new GenericRequest("pandamonium.php");
+    request.responseText = "anything";
     QuestManager.handleQuestChange(request);
     assertTrue(QuestDatabase.isQuestStep(Quest.AZAZEL, "started"));
   }
@@ -55,6 +56,7 @@ public class QuestManagerTest {
   public void visitingPandamoniumDoesNotRevertQuest() {
     QuestDatabase.setQuest(Quest.AZAZEL, "step1");
     var request = new GenericRequest("pandamonium.php");
+    request.responseText = "anything";
     QuestManager.handleQuestChange(request);
     assertTrue(QuestDatabase.isQuestStep(Quest.AZAZEL, "step1"));
   }
