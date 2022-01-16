@@ -215,6 +215,7 @@ public class Modifiers {
   public static final int WATER = 140;
   public static final int SPLEEN_DROP = 141;
   public static final int POTION_DROP = 142;
+  public static final int SAUCE_SPELL_DAMAGE = 143;
   public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
   private static final Object[][] doubleModifiers = {
@@ -806,6 +807,14 @@ public class Modifiers {
       "Potion Drop",
       Pattern.compile("([+-]\\d+)% Potion Drops? [Ff]rom Monsters$"),
       Pattern.compile("Potion Drop: " + EXPR)
+    },
+    {
+      "Sauce Spell Damage",
+      new Object[] {
+        Pattern.compile("Sauce Spell Damage ([+-]\\d+)$"),
+        Pattern.compile("([+-]\\d+) Sauce Spell Damage"),
+      },
+      Pattern.compile("(?:^|, )Sauce Spell Damage: " + EXPR)
     },
   };
 

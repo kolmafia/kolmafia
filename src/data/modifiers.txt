@@ -7838,7 +7838,7 @@ Skill	Inner Sauce	MP Regen Min: [1+2*class(Sauceror)], MP Regen Max: [1+3*class(
 # Insatiable Hunger: +5 Stomach Capacity
 # Intimidating Aura: Gain more blood from the Blood Bank each day
 Skill	Intimidating Aura	Maximum HP: -30
-Skill	Intrinsic Spiciness	Spell Damage: [min(L,10)]
+Skill	Intrinsic Spiciness	Sauce Spell Damage: [min(L,10)]
 Skill	Introspection	Mysticality: +20
 # Ire of the Orca: Fury capacity increases to 5 gallons
 Skill	Irrepressible Spunk	Maximum HP Percent: +5, Maximum MP Percent: +5
