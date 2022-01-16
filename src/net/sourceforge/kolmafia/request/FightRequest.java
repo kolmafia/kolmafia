@@ -9493,7 +9493,7 @@ public class FightRequest extends GenericRequest {
             || responseText.contains("You launch your cosmic bowling ball")
             || skillSuccess) {
           Preferences.increment("_cosmicBowlingSkillsUsed", 1);
-          int combats = Preferences.getInteger("_cosmicBowlingSkillsUsed") * 2 + 3;
+          int combats = Preferences.getInteger("_cosmicBowlingSkillsUsed") * 2 + 3 - 1;
           Preferences.setInteger("cosmicBowlingBallReturnCombats", combats);
           ResultProcessor.removeItem(ItemPool.COSMIC_BOWLING_BALL);
         }
