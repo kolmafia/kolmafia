@@ -2690,6 +2690,8 @@ public class FightRequest extends GenericRequest {
       if (KoLCharacter.hasEquipped(ItemPool.MINIATURE_CRYSTAL_BALL, EquipmentManager.FAMILIAR)) {
         CrystalBallManager.parseCrystalBall(responseText);
       }
+
+      Preferences.decrement("cosmicBowlingBallReturnCombats", 1, -1);
     }
 
     // Figure out various things by examining the responseText. Ideally,
@@ -9490,8 +9492,9 @@ public class FightRequest extends GenericRequest {
             || responseText.contains("You scream like a lunatic")
             || responseText.contains("You launch your cosmic bowling ball")
             || skillSuccess) {
-          Preferences.setBoolean("cosmicBowlingBallActive", true);
           Preferences.increment("_cosmicBowlingSkillsUsed", 1);
+          int combats = Preferences.getInteger("_cosmicBowlingSkillsUsed") * 2 + 3;
+          Preferences.setInteger("cosmicBowlingBallReturnCombats", combats);
           ResultProcessor.removeItem(ItemPool.COSMIC_BOWLING_BALL);
         }
         break;
@@ -9798,7 +9801,7 @@ public class FightRequest extends GenericRequest {
         // Since you've got this cosmic bowling ball, you hurl it down
         // the ancient lanes. You knock over a few pins. You may be
         // getting the hang of this!
-        Preferences.setBoolean("cosmicBowlingBallActive", true);
+        Preferences.setInteger("cosmicBowlingBallReturnCombats", 0);
         if (responseText.contains("you hurl it down the ancient lanes")) {
           Preferences.increment("hiddenBowlingAlleyProgress", 1);
         }

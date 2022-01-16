@@ -3242,7 +3242,7 @@ public class ResultProcessor {
 
       case ItemPool.COSMIC_BOWLING_BALL:
         if (adventureResults) {
-          Preferences.setBoolean("cosmicBowlingBallActive", false);
+          Preferences.setInteger("cosmicBowlingBallReturnCombats", -1);
         }
         break;
     }
