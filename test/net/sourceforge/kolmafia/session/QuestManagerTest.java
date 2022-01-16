@@ -34,7 +34,8 @@ public class QuestManagerTest {
 
   @Test
   public void seeingTheIslandMarksItAsUnlocked() throws IOException {
-    var ascension = KoLCharacter.getAscensions();
+    var ascension = 50;
+    KoLCharacter.setAscensions(ascension);
     assertThat(Preferences.getInteger("lastIslandUnlock"), lessThan(ascension));
     var request = new GenericRequest("main.php");
     request.responseText = Files.readString(Path.of("request/test_main_island.html"));
