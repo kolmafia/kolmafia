@@ -1,6 +1,8 @@
 package internal.helpers;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -35,6 +37,10 @@ public class Player {
     canEquip(item);
   }
 
+  public static void hasFamiliar(int famId) {
+    KoLCharacter.familiars.add(FamiliarData.registerFamiliar(famId, 0));
+  }
+
   public static void addEffect(String effect) {
     KoLConstants.activeEffects.add(EffectPool.get(EffectDatabase.getEffectId(effect)));
   }
@@ -63,5 +69,9 @@ public class Player {
         moxie,
         (long) moxie * moxie);
     KoLCharacter.recalculateAdjustments();
+  }
+
+  public static void inPath(Path path) {
+    KoLCharacter.setPath(path);
   }
 }
