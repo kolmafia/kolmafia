@@ -92,7 +92,17 @@ public class Evaluator {
   private final Set<AdventureResult> negEquip = new HashSet<>();
   private final Set<AdventureResult> uniques = new HashSet<>();
   private final Map<AdventureResult, Double> bonuses = new HashMap<>();
-  private final List<Function<AdventureResult, Double>> bonusFunc = new ArrayList<>();
+  private final List<BonusFunction> bonusFunc = new ArrayList<>();
+
+  static class BonusFunction {
+    public final Function<AdventureResult, Double> bonusFunction;
+    public final Double weight;
+
+    public BonusFunction(Function<AdventureResult, Double> bonusFunction, Double weight) {
+      this.bonusFunction = bonusFunction;
+      this.weight = weight;
+    }
+  }
 
   private static final String TIEBREAKER =
       "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage, 0.1 sixgun damage";
@@ -389,16 +399,17 @@ public class Evaluator {
       if (keyword.startsWith("letter")) {
         keyword = keyword.substring(6).trim();
         if (keyword.equals("")) { // no keyword counts letters
-          this.bonusFunc.add(LetterBonus::letterBonus);
+          this.bonusFunc.add(new BonusFunction(LetterBonus::letterBonus, weight));
         } else {
           String finalKeyword = keyword;
-          this.bonusFunc.add(ar -> LetterBonus.letterBonus(ar, finalKeyword));
+          this.bonusFunc.add(
+              new BonusFunction(ar -> LetterBonus.letterBonus(ar, finalKeyword), weight));
         }
         continue;
       }
 
       if (keyword.equals("number")) {
-        this.bonusFunc.add(LetterBonus::numberBonus);
+        this.bonusFunc.add(new BonusFunction(LetterBonus::numberBonus, weight));
         continue;
       }
 
@@ -802,9 +813,9 @@ public class Evaluator {
       }
     }
     if (!this.bonusFunc.isEmpty()) {
-      for (Function<AdventureResult, Double> func : this.bonusFunc) {
+      for (BonusFunction func : this.bonusFunc) {
         for (AdventureResult item : equipment) {
-          score += func.apply(item);
+          score += func.bonusFunction.apply(item) * func.weight;
         }
       }
     }
