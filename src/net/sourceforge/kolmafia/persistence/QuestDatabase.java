@@ -1047,6 +1047,14 @@ public class QuestDatabase {
     }
   }
 
+  public static String getQuest(Quest quest) {
+    return Preferences.getString(quest.getPref());
+  }
+
+  public static void setQuest(Quest quest, String progress) {
+    Preferences.setString(quest.getPref(), progress);
+  }
+
   public static void setQuestIfBetter(Quest quest, String progress) {
     if (quest == null) {
       return;
@@ -1095,7 +1103,7 @@ public class QuestDatabase {
     if (quest == null) {
       return false;
     }
-    return Preferences.getString(quest.getPref()).equals(second);
+    return getQuest(quest).equals(second);
   }
 
   public static boolean isQuestBefore(Quest quest, String first) {
