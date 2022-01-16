@@ -407,7 +407,7 @@ public class Parser {
 
     Class<? extends Parser> currentClass = this.getClass();
 
-    while (currentClass != Parser.class) {
+    while (true) {
       try {
         Constructor<? extends Parser> childConstructor =
             currentClass.getConstructor(File.class, InputStream.class, Map.class);
@@ -415,14 +415,11 @@ public class Parser {
         return childConstructor.newInstance(scriptFile, stream, this.imports);
       } catch (NoSuchMethodException | IllegalAccessException | InstantiationException e) {
         // Retry with the parent class
-        // asSubclass is only here to correct the generic; we know we're still descendant of Parser
         currentClass = currentClass.getSuperclass().asSubclass(Parser.class);
       } catch (InvocationTargetException e) {
         throw new RuntimeException(e.getCause());
       }
     }
-
-    return new Parser(scriptFile, stream, this.imports);
   }
 
   protected InputStream getInputStream(final File scriptFile) {
