@@ -3316,6 +3316,7 @@ public class ItemPool {
   public static final int REFURBISHED_AIR_FRYER = 10879;
   public static final int ELEVEN_LEAF_CLOVER = 10881;
   public static final int CURSED_MAGNIFYING_GLASS = 10885;
+  public static final int COSMIC_BOWLING_BALL = 10891;
 
   public static final AdventureResult get(String itemName, int count) {
     int itemId = ItemDatabase.getItemId(itemName, 1, false);

@@ -3239,6 +3239,12 @@ public class ResultProcessor {
       case ItemPool.VAMPIRE_VINTNER_WINE:
         ResultProcessor.updateVintner();
         break;
+
+      case ItemPool.COSMIC_BOWLING_BALL:
+        if (adventureResults) {
+          Preferences.setInteger("cosmicBowlingBallReturnCombats", -1);
+        }
+        break;
     }
 
     // Gaining items can achieve goals.

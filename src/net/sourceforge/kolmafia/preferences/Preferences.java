@@ -164,6 +164,7 @@ public class Preferences {
         "commerceGhostItem",
         "copperheadClubHazard",
         "cornucopiasOpened",
+        "cosmicBowlingBallReturnCombats",
         "cozyCounter6332",
         "cozyCounter6333",
         "cozyCounter6334",

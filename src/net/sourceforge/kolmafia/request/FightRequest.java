@@ -2690,6 +2690,8 @@ public class FightRequest extends GenericRequest {
       if (KoLCharacter.hasEquipped(ItemPool.MINIATURE_CRYSTAL_BALL, EquipmentManager.FAMILIAR)) {
         CrystalBallManager.parseCrystalBall(responseText);
       }
+
+      Preferences.decrement("cosmicBowlingBallReturnCombats", 1, -1);
     }
 
     // Figure out various things by examining the responseText. Ideally,
@@ -9405,67 +9407,95 @@ public class FightRequest extends GenericRequest {
         break;
 
       case SkillPool.FIRE_EXTINGUISHER__ZONE_SPECIFIC:
-        boolean success = false;
-        KoLAdventure location = KoLAdventure.lastVisitedLocation();
-        switch (location.getZone()) {
-          case "BatHole":
-            if (responseText.contains(
-                    "You squeeze down the nozzle on your fire extinguisher and release a blast")
-                || skillSuccess) {
-              if (!QuestDatabase.isQuestLaterThan(Quest.BAT, "step2")) {
-                QuestDatabase.advanceQuest(Quest.BAT);
+        {
+          boolean success = false;
+          KoLAdventure location = KoLAdventure.lastVisitedLocation();
+          switch (location.getZone()) {
+            case "BatHole":
+              if (responseText.contains(
+                      "You squeeze down the nozzle on your fire extinguisher and release a blast")
+                  || skillSuccess) {
+                if (!QuestDatabase.isQuestLaterThan(Quest.BAT, "step2")) {
+                  QuestDatabase.advanceQuest(Quest.BAT);
+                }
+                Preferences.setBoolean("fireExtinguisherBatHoleUsed", true);
+                success = true;
               }
-              Preferences.setBoolean("fireExtinguisherBatHoleUsed", true);
-              success = true;
-            }
-            break;
-          case "Cyrpt":
-            if (responseText.contains(
-                    "The chill of the refrigerant quickly replaces some of the chill of evil in the air")
-                || skillSuccess) {
-              String setting = getEvilZoneSetting();
-              if (setting != null) {
-                Preferences.decrement(setting, 10, 0);
-                Preferences.decrement("cyrptTotalEvilness", 10, 0);
+              break;
+            case "Cyrpt":
+              if (responseText.contains(
+                      "The chill of the refrigerant quickly replaces some of the chill of evil in the air")
+                  || skillSuccess) {
+                String setting = getEvilZoneSetting();
+                if (setting != null) {
+                  Preferences.decrement(setting, 10, 0);
+                  Preferences.decrement("cyrptTotalEvilness", 10, 0);
+                }
+                Preferences.setBoolean("fireExtinguisherCyrptUsed", true);
+                success = true;
               }
-              Preferences.setBoolean("fireExtinguisherCyrptUsed", true);
-              success = true;
-            }
-            break;
-        }
+              break;
+          }
 
-        switch (location.getAdventureName()) {
-          case "Cobb's Knob Harem":
-            if (responseText.contains("You fill the harem with foam") || skillSuccess) {
-              Preferences.setBoolean("fireExtinguisherHaremUsed", true);
-              success = true;
-            }
-            break;
-          case "The Smut Orc Logging Camp":
-            if (responseText.contains("You wantonly spray the area with your fire extinguisher")
-                || skillSuccess) {
-              Preferences.increment("smutOrcNoncombatProgress", 11, 15, false);
-              Preferences.setBoolean("fireExtinguisherChasmUsed", true);
-              success = true;
-            }
-            break;
-          case "The Arid, Extra-Dry Desert":
-            if (responseText.contains("You aim the nozzle directly into your mouth")
-                || skillSuccess) {
-              Preferences.setBoolean("fireExtinguisherDesertUsed", true);
-              success = true;
-            }
-            break;
-        }
+          switch (location.getAdventureName()) {
+            case "Cobb's Knob Harem":
+              if (responseText.contains("You fill the harem with foam") || skillSuccess) {
+                Preferences.setBoolean("fireExtinguisherHaremUsed", true);
+                success = true;
+              }
+              break;
+            case "The Smut Orc Logging Camp":
+              if (responseText.contains("You wantonly spray the area with your fire extinguisher")
+                  || skillSuccess) {
+                Preferences.increment("smutOrcNoncombatProgress", 11, 15, false);
+                Preferences.setBoolean("fireExtinguisherChasmUsed", true);
+                success = true;
+              }
+              break;
+            case "The Arid, Extra-Dry Desert":
+              if (responseText.contains("You aim the nozzle directly into your mouth")
+                  || skillSuccess) {
+                Preferences.setBoolean("fireExtinguisherDesertUsed", true);
+                success = true;
+              }
+              break;
+          }
 
-        if (success) {
-          Preferences.decrement("_fireExtinguisherCharge", 20);
+          if (success) {
+            Preferences.decrement("_fireExtinguisherCharge", 20);
+          }
         }
+        break;
+
       case SkillPool.BE_GREGARIOUS:
         if (responseText.contains("You decide to put your best foot forward") || skillSuccess) {
           Preferences.setString("beGregariousMonster", monsterName);
           Preferences.decrement("beGregariousCharges", 1, 0);
           Preferences.setInteger("beGregariousFightsLeft", 3);
+        }
+        break;
+
+      case SkillPool.BOWL_BACKWARDS:
+        // You roll the ball behind you as hard as you can. It crashes
+        // into another enemy in the area, knocking something loose
+        // before draining into the ball return system.
+      case SkillPool.BOWL_A_CURVEBALL:
+        // Your ball clatters into the ball return system.
+      case SkillPool.BOWL_SIDEWAYS:
+        // You scream like a lunatic and hurl your cosmic bowling ball
+        // sideways. It starts ricocheting wildly around the area.
+      case SkillPool.BOWL_STRAIGHT_UP:
+        // You launch your cosmic bowling ball straight up into the air
+        // with a dramatic hook. It starts spinning in the air above you,
+        // glowing and illuminating the area around you.
+        if (responseText.contains("into the ball return system")
+            || responseText.contains("You scream like a lunatic")
+            || responseText.contains("You launch your cosmic bowling ball")
+            || skillSuccess) {
+          Preferences.increment("_cosmicBowlingSkillsUsed", 1);
+          int combats = Preferences.getInteger("_cosmicBowlingSkillsUsed") * 2 + 3 - 1;
+          Preferences.setInteger("cosmicBowlingBallReturnCombats", combats);
+          ResultProcessor.removeItem(ItemPool.COSMIC_BOWLING_BALL);
         }
         break;
     }
@@ -9764,6 +9794,16 @@ public class FightRequest extends GenericRequest {
         if (!usedBasePair) {
           usedBasePair = true;
           QuestManager.updateCyrusAdjective(itemId);
+        }
+        break;
+
+      case ItemPool.COSMIC_BOWLING_BALL:
+        // Since you've got this cosmic bowling ball, you hurl it down
+        // the ancient lanes. You knock over a few pins. You may be
+        // getting the hang of this!
+        Preferences.setInteger("cosmicBowlingBallReturnCombats", 0);
+        if (responseText.contains("you hurl it down the ancient lanes")) {
+          Preferences.increment("hiddenBowlingAlleyProgress", 1);
         }
         break;
     }
