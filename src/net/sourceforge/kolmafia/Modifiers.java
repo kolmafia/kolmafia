@@ -811,7 +811,8 @@ public class Modifiers {
     {
       "Sauce Spell Damage",
       new Object[] {
-        Pattern.compile("Sauce Spell Damage ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Sauce Spell Damage"),
+        Pattern.compile("Sauce Spell Damage ([+-]\\d+)$"),
+        Pattern.compile("([+-]\\d+) Sauce Spell Damage"),
       },
       Pattern.compile("(?:^|, )Sauce Spell Damage: " + EXPR)
     },
