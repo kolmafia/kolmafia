@@ -153,7 +153,7 @@ public class QuestManagerTest {
   }
 
   @Test
-  public void justBeingInAirshipIsStep1() throws IOException {
+  public void justBeingInAirshipIsGarbageStep1() {
     var request = new GenericRequest("adventure.php?snarfblat=81");
     request.responseText = "anything";
     QuestManager.handleQuestChange(request);
@@ -170,7 +170,7 @@ public class QuestManagerTest {
   }
 
   @Test
-  public void justBeingInCastleBasementIsStep7() throws IOException {
+  public void justBeingInCastleBasementIsGarbageStep7() {
     var request = new GenericRequest("adventure.php?snarfblat=322");
     request.responseText = "anything";
     QuestManager.handleQuestChange(request);
@@ -191,7 +191,7 @@ public class QuestManagerTest {
   }
 
   @Test
-  public void justBeingInCastleFirstFloorIsStep7() throws IOException {
+  public void justBeingInCastleFirstFloorIsGarbageStep7() {
     var request = new GenericRequest("adventure.php?snarfblat=322");
     request.responseText = "anything";
     QuestManager.handleQuestChange(request);
