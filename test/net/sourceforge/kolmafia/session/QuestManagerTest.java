@@ -89,4 +89,31 @@ public class QuestManagerTest {
     assertEquals(false, Preferences.getBoolean("_spacegateRuins"));
     assertEquals(20, Preferences.getInteger("_spacegateTurnsLeft"));
   }
+
+  @Test
+  void canDetectCitadelStep1InGrove() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=100");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_whiteys_grove_its_a_sign.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.CITADEL, "step1"));
+  }
+
+  @Test
+  void canDetectCitadelStep2InWhiteCitadel() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=413");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_white_citadel_nc1.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.CITADEL, "step2"));
+  }
+
+  @Test
+  void canDetectCitadelStep3InWhiteCitadel() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=413");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_white_citadel_nc2.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.CITADEL, "step3"));
+  }
 }
