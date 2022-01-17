@@ -1059,7 +1059,8 @@ public class QuestManager {
   }
 
   private static void handleChasmChange(final String responseText) {
-    // You deploy your handy-dandy portable bridge and quickly finish the job.
+    // Using the Pocket Portable Bridge in License to Adventure: "You deploy your handy-dandy
+    // portable bridge and quickly finish the job."
     if (responseText.contains("Huzzah!  The bridge is finished!")
         || responseText.contains("deploy your handy-dandy portable bridge")) {
       ResultProcessor.processItem(
