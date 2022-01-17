@@ -23,15 +23,9 @@ public class QuestManagerTest {
     Preferences.reset("QuestManager");
   }
 
-  @Test
-  public void adventuringInPalindomeAdvancesQuest() {
-    assertTrue(QuestDatabase.isQuestStep(Quest.PALINDOME, "unstarted"));
-    var request = new GenericRequest("adventure.php?snarfblat=386");
-    request.redirectLocation = "fight.php";
-    QuestManager.handleQuestChange(request);
-    assertTrue(QuestDatabase.isQuestStep(Quest.PALINDOME, "started"));
-  }
-
+  /*
+   * Kingdom-Wide Unlocks
+   */
   @Test
   public void seeingTheIslandMarksItAsUnlocked() throws IOException {
     var ascension = 50;
@@ -43,13 +37,16 @@ public class QuestManagerTest {
     assertEquals(ascension, Preferences.getInteger("lastIslandUnlock"));
   }
 
+  /*
+   * Azazel Quest
+   */
   @Test
   public void visitingPandamoniumMakesSureAzazelQuestIsStarted() {
-    assertTrue(QuestDatabase.isQuestStep(Quest.AZAZEL, "unstarted"));
+    assertTrue(QuestDatabase.isQuestStep(Quest.AZAZEL, QuestDatabase.UNSTARTED));
     var request = new GenericRequest("pandamonium.php");
     request.responseText = "anything";
     QuestManager.handleQuestChange(request);
-    assertTrue(QuestDatabase.isQuestStep(Quest.AZAZEL, "started"));
+    assertTrue(QuestDatabase.isQuestStep(Quest.AZAZEL, QuestDatabase.STARTED));
   }
 
   @Test
@@ -61,15 +58,104 @@ public class QuestManagerTest {
     assertTrue(QuestDatabase.isQuestStep(Quest.AZAZEL, "step1"));
   }
 
+  /*
+   * Citadel Quest
+   */
+  @Test
+  void canDetectCitadelStep1InGrove() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=100");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_whiteys_grove_its_a_sign.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.CITADEL, "step1"));
+  }
+
+  @Test
+  void canDetectCitadelStep2InWhiteCitadel() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=413");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_white_citadel_they_arent_blind.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.CITADEL, "step2"));
+  }
+
+  @Test
+  void canDetectCitadelStep3InWhiteCitadel() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=413");
+    request.responseText =
+        Files.readString(
+            Path.of("request/test_adventure_white_citadel_existential_blues_brothers.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.CITADEL, "step3"));
+  }
+
+  /*
+   * Clancy Quest
+   */
+  @Test
+  void canDetectClancyStep1InBarroom() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=233");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_barroom_brawl_jackin_the_jukebox.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.CLANCY, "step1"));
+  }
+
+  @Test
+  void canDetectClancyStep3InKnobShaft() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=101");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_knob_shaft_a_miner_variation.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.CLANCY, "step3"));
+  }
+
+  @Test
+  void canDetectClancyStep7InIcyPeak() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=110");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_icy_peak_mercury_rising.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.CLANCY, "step7"));
+  }
+
+  @Test
+  void canDetectClancyFinishInMiddleChamber() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=407");
+    request.responseText =
+        Files.readString(
+            Path.of("request/test_adventure_middle_chamber_dont_you_know_who_i_am.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.CLANCY, QuestDatabase.FINISHED));
+  }
+
+  /*
+   * Panindome Quest
+   */
+  @Test
+  public void adventuringInPalindomeAdvancesQuest() {
+    assertTrue(QuestDatabase.isQuestStep(Quest.PALINDOME, QuestDatabase.UNSTARTED));
+    var request = new GenericRequest("adventure.php?snarfblat=386");
+    request.redirectLocation = "fight.php";
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.PALINDOME, QuestDatabase.STARTED));
+  }
+
+  /*
+   * Swamp Quest
+   */
   @Test
   public void canStartMartyQuest() throws IOException {
-    assertTrue(QuestDatabase.isQuestStep(Quest.SWAMP, "unstarted"));
+    assertTrue(QuestDatabase.isQuestStep(Quest.SWAMP, QuestDatabase.UNSTARTED));
     var request = new GenericRequest("place.php?whichplace=canadia&action=lc_marty");
     request.responseText = Files.readString(Path.of("request/test_canadia_start_quest.html"));
     QuestManager.handleQuestChange(request);
-    assertTrue(QuestDatabase.isQuestStep(Quest.SWAMP, "started"));
+    assertTrue(QuestDatabase.isQuestStep(Quest.SWAMP, QuestDatabase.STARTED));
   }
 
+  /*
+   * Non-Quest Related
+   */
   @Test
   void canParseSpacegate() throws IOException {
     var request = new GenericRequest("choice.php?forceoption=0");
@@ -88,32 +174,5 @@ public class QuestManagerTest {
     assertEquals(false, Preferences.getBoolean("_spacegateMurderbot"));
     assertEquals(false, Preferences.getBoolean("_spacegateRuins"));
     assertEquals(20, Preferences.getInteger("_spacegateTurnsLeft"));
-  }
-
-  @Test
-  void canDetectCitadelStep1InGrove() throws IOException {
-    var request = new GenericRequest("adventure.php?snarfblat=100");
-    request.responseText =
-        Files.readString(Path.of("request/test_adventure_whiteys_grove_its_a_sign.html"));
-    QuestManager.handleQuestChange(request);
-    assertTrue(QuestDatabase.isQuestStep(Quest.CITADEL, "step1"));
-  }
-
-  @Test
-  void canDetectCitadelStep2InWhiteCitadel() throws IOException {
-    var request = new GenericRequest("adventure.php?snarfblat=413");
-    request.responseText =
-        Files.readString(Path.of("request/test_adventure_white_citadel_nc1.html"));
-    QuestManager.handleQuestChange(request);
-    assertTrue(QuestDatabase.isQuestStep(Quest.CITADEL, "step2"));
-  }
-
-  @Test
-  void canDetectCitadelStep3InWhiteCitadel() throws IOException {
-    var request = new GenericRequest("adventure.php?snarfblat=413");
-    request.responseText =
-        Files.readString(Path.of("request/test_adventure_white_citadel_nc2.html"));
-    QuestManager.handleQuestChange(request);
-    assertTrue(QuestDatabase.isQuestStep(Quest.CITADEL, "step3"));
   }
 }
