@@ -152,6 +152,75 @@ public class QuestManagerTest {
     assertEquals(0, countItem("enchanted bean"));
   }
 
+  @Test
+  public void justBeingInAirshipIsStep1() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=81");
+    request.responseText = "anything";
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.GARBAGE, "step1"));
+  }
+
+  @Test
+  public void canDetectGarbageStep2InAirship() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=81");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_airship_beginning_of_the_end.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.GARBAGE, "step2"));
+  }
+
+  @Test
+  public void justBeingInCastleBasementIsStep7() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=322");
+    request.responseText = "anything";
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.GARBAGE, "step7"));
+  }
+
+  @Test
+  public void canDetectGarbageStep8InCastleBasement() throws IOException {
+    var ascension = 50;
+    KoLCharacter.setAscensions(ascension);
+    assertThat(Preferences.getInteger("lastCastleGroundUnlock"), lessThan(ascension));
+    var request = new GenericRequest("adventure.php?snarfblat=322");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_castle_basement_unlock_ground.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.GARBAGE, "step8"));
+    assertEquals(ascension, Preferences.getInteger("lastCastleGroundUnlock"));
+  }
+
+  @Test
+  public void justBeingInCastleFirstFloorIsStep7() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=322");
+    request.responseText = "anything";
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.GARBAGE, "step7"));
+  }
+
+  @Test
+  public void canDetectGarbageStep9InCastleFirstFloor() throws IOException {
+    var ascension = 50;
+    KoLCharacter.setAscensions(ascension);
+    assertThat(Preferences.getInteger("lastCastleTopUnlock"), lessThan(ascension));
+    var request = new GenericRequest("adventure.php?snarfblat=323");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_castle_first_top_of_the_castle_ma.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.GARBAGE, "step9"));
+    assertEquals(ascension, Preferences.getInteger("lastCastleTopUnlock"));
+  }
+
+  @Test
+  public void failingToAdventureInCastleTopFloorDoesNotAdvanceStep9() throws IOException {
+    QuestDatabase.setQuestIfBetter(Quest.GARBAGE, "step8");
+    var request = new GenericRequest("adventure.php?snarfblat=323");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_castle_top_floor_walk_before_fly.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.GARBAGE, "step8"));
+  }
+
   /*
    * Palindome Quest
    */
