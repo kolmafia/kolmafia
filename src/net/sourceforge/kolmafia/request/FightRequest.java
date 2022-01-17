@@ -7504,6 +7504,7 @@ public class FightRequest extends GenericRequest {
     text.contains("for your scrapbook")
         || text.contains("definitely going in the scrapbook")
         || text.contains("too good to not photograph")
+        ||
         // Start of combat
         text.contains("You snap a picture")
         || text.contains("you just <i>have</i> to take a picture")
