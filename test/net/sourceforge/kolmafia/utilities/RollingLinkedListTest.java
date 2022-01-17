@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.utilities;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -81,10 +80,11 @@ public class RollingLinkedListTest {
   }
 
   @Test
-  @Disabled("RLL needs to implement addAll, not LinkedList")
   public void addAllAndIteratedAddsShouldDoTheSameThing() {
     RollingLinkedList<String> adds = new RollingLinkedList<>(3);
-    adds.addAll(Arrays.asList(testValues).subList(0, 3));
+    for (int i = 0; i < 4; i++) {
+      adds.add(testValues[i]);
+    }
     RollingLinkedList<String> addsAll = new RollingLinkedList<>(3);
     addsAll.addAll(Arrays.asList(testValues));
     assertEquals(adds, addsAll, "addAll not the same.");
