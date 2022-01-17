@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Player.addItem;
+import static internal.helpers.Player.countItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -130,10 +132,31 @@ public class QuestManagerTest {
   }
 
   /*
-   * Panindome Quest
+   * Garbage Quest
    */
   @Test
-  public void adventuringInPalindomeAdvancesQuest() {
+  void canDetectGarbageStep1InPlains() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=plains");
+    request.responseText = Files.readString(Path.of("request/test_place_plains_beanstalk.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.GARBAGE, "step1"));
+  }
+
+  @Test
+  public void deductsEnchantedBeanWhenPlanting() throws IOException {
+    addItem("enchanted bean");
+    assertEquals(1, countItem("enchanted bean"));
+    var request = new GenericRequest("place.php?whichplace=plains");
+    request.responseText = Files.readString(Path.of("request/test_place_plains_beanstalk.html"));
+    QuestManager.handleQuestChange(request);
+    assertEquals(0, countItem("enchanted bean"));
+  }
+
+  /*
+   * Palindome Quest
+   */
+  @Test
+  public void canDetectPalindomeStartInPalindome() {
     assertTrue(QuestDatabase.isQuestStep(Quest.PALINDOME, QuestDatabase.UNSTARTED));
     var request = new GenericRequest("adventure.php?snarfblat=386");
     request.redirectLocation = "fight.php";
