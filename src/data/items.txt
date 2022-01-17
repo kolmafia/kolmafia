@@ -10913,6 +10913,6 @@
 10886	void lager	295960773	voidbeer.gif	drink	d	5
 10887	void burger	594078167	voidburger.gif	food	d	5
 10888	void stone	676671920	voidstone.gif	none	d	500
-10889
+10889	void shard	935741344	voidknife.gif	weapon	t	0
 10890	undrilled cosmic bowling ball	276317641	cosmicball.gif	usable	t	0
 10891	cosmic bowling ball	119596776	cosmicball2.gif	none, combat		0
