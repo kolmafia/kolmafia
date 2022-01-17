@@ -1664,6 +1664,7 @@ velcro paddle ball	200	Mox: 85	1-handed flail
 velour voulge	50	Mus: 0	1-handed polearm
 vibrating cyborg knife	150	Mus: 55	1-handed sword
 villainous scythe	200	Mus: 150	2-handed polearm
+void shard	150	Mus: 25	1-handed knife
 vorpal blade	90	Mus: 30	1-handed sword
 VYKEA hex key	125	Mus: 47	1-handed club
 Wand of Nagamar	30	Mus: 0	1-handed wand
