@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Player.addItem;
 import static internal.helpers.Player.countItem;
+import static internal.helpers.Player.equip;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,6 +18,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class QuestManagerTest {
   @BeforeEach
@@ -233,6 +236,22 @@ public class QuestManagerTest {
     assertTrue(QuestDatabase.isQuestStep(Quest.PALINDOME, QuestDatabase.STARTED));
   }
 
+  @Test
+  void canDetectPalindomeStartedInPlains() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=plains");
+    request.responseText = Files.readString(Path.of("request/test_place_plains_palindome.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.PALINDOME, QuestDatabase.STARTED));
+  }
+
+  @Test
+  void canDetectPalindomeStep3InPalindome() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=palindome&action=pal_mr");
+    request.responseText = Files.readString(Path.of("request/test_place_palindome_palindome.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.PALINDOME, QuestDatabase.STARTED));
+  }
+
   /*
    * Ron Quest
    */
@@ -284,12 +303,130 @@ public class QuestManagerTest {
    * Swamp Quest
    */
   @Test
-  public void canStartMartyQuest() throws IOException {
+  public void canDetectSwapStartedInCanadia() throws IOException {
     assertTrue(QuestDatabase.isQuestStep(Quest.SWAMP, QuestDatabase.UNSTARTED));
     var request = new GenericRequest("place.php?whichplace=canadia&action=lc_marty");
     request.responseText = Files.readString(Path.of("request/test_canadia_start_quest.html"));
     QuestManager.handleQuestChange(request);
     assertTrue(QuestDatabase.isQuestStep(Quest.SWAMP, QuestDatabase.STARTED));
+  }
+
+  /*
+   * Topping Quest
+   */
+  @Test
+  public void canDetectToppingStep1InChasm() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=orc_chasm");
+    request.responseText = Files.readString(Path.of("request/place_orc_chasm_bridge_built.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.TOPPING, "step1"));
+  }
+
+  @Test
+  public void canDetectToppingStep2InHighlands() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=highlands&action=highlands_dude");
+    request.responseText =
+        Files.readString(Path.of("request/place_highlands_meet_highland_lord.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.TOPPING, "step2"));
+  }
+
+  @Test
+  public void canTrackOilPeakProgressFightingSlick() throws IOException {
+    String responseText = Files.readString(Path.of("request/test_fight_oil_slick.html"));
+    QuestManager.updateQuestData(responseText, "oil slick");
+    assertEquals(304.32f, Preferences.getFloat("oilPeakProgress"));
+  }
+
+  @Test
+  public void canTrackOilPeakProgressFightingTycoon() throws IOException {
+    String responseText = Files.readString(Path.of("request/test_fight_oil_tycoon.html"));
+    QuestManager.updateQuestData(responseText, "oil tycoon");
+    assertEquals(291.64f, Preferences.getFloat("oilPeakProgress"));
+  }
+
+  @Test
+  public void canTrackOilPeakProgressFightingBaron() throws IOException {
+    String responseText = Files.readString(Path.of("request/test_fight_oil_baron.html"));
+    QuestManager.updateQuestData(responseText, "oil baron");
+    assertEquals(278.96f, Preferences.getFloat("oilPeakProgress"));
+  }
+
+  @Test
+  public void canTrackOilPeakProgressFightingCartel() throws IOException {
+    String responseText = Files.readString(Path.of("request/test_fight_oil_cartel.html"));
+    QuestManager.updateQuestData(responseText, "oil cartel");
+    assertEquals(247.26f, Preferences.getFloat("oilPeakProgress"));
+  }
+
+  @Test
+  public void canTrackOilPeakProgressWearingDressPants() throws IOException {
+    equip(EquipmentManager.PANTS, "dress pants");
+    String responseText = Files.readString(Path.of("request/test_fight_oil_tycoon.html"));
+    QuestManager.updateQuestData(responseText, "oil tycoon");
+    assertEquals(285.3f, Preferences.getFloat("oilPeakProgress"));
+  }
+
+  @Test
+  public void canTrackOilPeakProgressWithLoveOilBeetle() throws IOException {
+    String responseText =
+        Files.readString(Path.of("request/test_fight_oil_slick_love_oil_beetle_proc.html"));
+    QuestManager.updateQuestData(responseText, "oil slick");
+    assertEquals(297.90f, Preferences.getFloat("oilPeakProgress"));
+  }
+
+  @Test
+  public void canDetectOilPeakFinishedInOilPeak() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=298");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_oil_peak_unimpressed_with_pressure.html"));
+    QuestManager.handleQuestChange(request);
+    assertEquals(0f, Preferences.getFloat("oilPeakProgress"));
+    assertTrue(Preferences.getBoolean("oilPeakLit"));
+  }
+
+  @Test
+  public void canDetectOilPeakFinishedInHighlands() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=highlands");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_highlands_oil_peak_lit.html"));
+    QuestManager.handleQuestChange(request);
+    assertEquals(0f, Preferences.getFloat("oilPeakProgress"));
+    assertTrue(Preferences.getBoolean("oilPeakLit"));
+  }
+
+  @ParameterizedTest
+  @ValueSource(
+      strings = {
+        "Battlie Knight Ghost",
+        "Claybender Sorcerer Ghost",
+        "Dusken Raider Ghost",
+        "Space Tourist Explorer Ghost",
+        "Whatsian Commando Ghost"
+      })
+  public void canTrackBooPeakProgress(String monsterName) throws IOException {
+    QuestManager.updateQuestData("anything", monsterName);
+    assertEquals(98, Preferences.getInteger("booPeakProgress"));
+  }
+
+  @Test
+  public void canDetectBooPeakFinishedInBooPeak() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=296");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_boo_peak_come_on_ghostly.html"));
+    QuestManager.handleQuestChange(request);
+    assertEquals(0, Preferences.getInteger("booPeakProgress"));
+    assertTrue(Preferences.getBoolean("booPeakLit"));
+  }
+
+  @Test
+  public void canDetectBooPeakFinishedInHighlands() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=highlands");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_highlands_boo_peak_lit.html"));
+    QuestManager.handleQuestChange(request);
+    assertEquals(0, Preferences.getInteger("booPeakProgress"));
+    assertTrue(Preferences.getBoolean("booPeakLit"));
   }
 
   /*
