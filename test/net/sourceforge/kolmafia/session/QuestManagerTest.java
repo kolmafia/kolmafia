@@ -234,6 +234,53 @@ public class QuestManagerTest {
   }
 
   /*
+   * Ron Quest
+   */
+  @Test
+  public void justBeingInProtestorsIsRonStep1() {
+    var request = new GenericRequest("adventure.php?snarfblat=384");
+    request.responseText = "anything";
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.RON, "step1"));
+  }
+
+  @Test
+  public void canDetectRonStep2InProtestors() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=384");
+    request.responseText =
+        Files.readString(
+            Path.of("request/test_adventure_protestors_not_so_much_with_the_humanity.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.RON, "step2"));
+  }
+
+  @Test
+  public void seeingClearedProtestorsSetsRonStep2() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=zeppelin");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_zeppelin_cleared_protestors.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.RON, "step2"));
+  }
+
+  @Test
+  public void justBeingInZeppelinIsRonStep2() {
+    var request = new GenericRequest("adventure.php?snarfblat=385");
+    request.responseText = "anything";
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.RON, "step2"));
+  }
+
+  @Test
+  public void canDetectRonStep3InZeppelin() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=385");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_zeppelin_zeppelintro.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.RON, "step3"));
+  }
+
+  /*
    * Swamp Quest
    */
   @Test
