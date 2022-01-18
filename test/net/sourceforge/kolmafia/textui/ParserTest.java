@@ -4,8 +4,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -47,8 +45,10 @@ public class ParserTest {
     // The error that changed the state of the script from "valid" to "invalid"
     final String firstError = script.errors.get(0);
 
-    assertThat(script.desc, firstError, startsWith(script.errorText));
-    assertThat(script.desc, firstError, containsString(" (" + script.errorLocationString + ")"));
+    assertThat(
+        script.desc,
+        firstError,
+        startsWith(script.errorText + " (" + script.errorLocationString + ")"));
 
     if (script instanceof InvalidScriptDataWithErrorFilterTest) {
       final InvalidScriptData filteredScript =
@@ -140,48 +140,35 @@ public class ParserTest {
   }
 
   @Test
-  public void testMultipleDiagnosticsPerParser() throws InterruptedException {
-    final String script =
-        "import fake/path"
-            + "\nstring foobar(string... foo, int bar) {"
-            + "\n    continue;"
-            + "\n}";
-    final ByteArrayInputStream istream =
-        new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8));
-    final Parser parser = new Parser(null, istream, null);
+  public void testMultipleDiagnosticsPerParser() {
+    final ScriptData script =
+        ScriptData.invalid(
+            "multiple diagnostics per parser",
+            "import fake/path\nvoid foobar(string... foo, int bar) {\n    continue;\n}",
+            "fake/path could not be found",
+            "char 1 to char 17");
 
-    parser.parse();
+    ParserTest.testScriptValidity(script);
 
-    final List<Parser.AshDiagnostic> diagnostics = parser.getDiagnostics();
-    assertEquals(4, diagnostics.size());
+    assertEquals(3, script.errors.size());
 
-    assertEquals("fake/path could not be found", diagnostics.get(0).message);
-    ParserTest.assertLocationEquals(1, 1, 1, 17, diagnostics.get(0).location);
+    assertEquals(
+        "The vararg parameter must be the last one (line 2, char 28 to char 31)",
+        script.errors.get(1));
 
-    assertEquals("The vararg parameter must be the last one", diagnostics.get(1).message);
-    ParserTest.assertLocationEquals(2, 30, 2, 33, diagnostics.get(1).location);
-
-    assertEquals("Encountered 'continue' outside of loop", diagnostics.get(2).message);
-    ParserTest.assertLocationEquals(3, 5, 3, 13, diagnostics.get(2).location);
-
-    assertEquals("Missing return value", diagnostics.get(3).message);
-    ParserTest.assertLocationEquals(2, 8, 2, 38, diagnostics.get(3).location);
+    assertEquals(
+        "Encountered 'continue' outside of loop (line 3, char 5 to char 13)", script.errors.get(2));
   }
 
   @Test
-  public void testErrorFilter() throws InterruptedException {
-    final String script = "int a; max(a, b)";
-    final ByteArrayInputStream istream =
-        new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8));
-    final Parser parser = new Parser(null, istream, null);
+  public void testErrorFilter() {
+    final ScriptData script =
+        ScriptData.invalid(
+            "error filter test", "int a; max(a, b)", "Unknown variable 'b'", "char 15 to char 16");
 
-    parser.parse();
+    ParserTest.testScriptValidity(script);
 
-    final List<Parser.AshDiagnostic> diagnostics = parser.getDiagnostics();
-    assertEquals(1, diagnostics.size());
-
-    assertEquals("Unknown variable 'b'", diagnostics.get(0).message);
-    ParserTest.assertLocationEquals(1, 15, 1, 16, diagnostics.get(0).location);
+    assertEquals(1, script.errors.size());
 
     // Note the lack of "Function 'max( int, <unknown> )' undefined."
   }
