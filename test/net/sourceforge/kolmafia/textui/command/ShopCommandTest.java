@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.StoreManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -120,5 +121,45 @@ class ShopCommandTest extends AbstractCommandTestBase {
     String expected =
         "'337' is not an item.  Did you use a comma in the middle of a number?  Quitting..." + LS;
     assertEquals(expected, output, "Item not put.");
+  }
+
+  @Test
+  public void itShouldTakeItem() {
+    int itemID = ItemPool.GUITAR_4D;
+    String itemName = ItemDatabase.getItemDataName(itemID);
+    String output = execute("take 2 " + itemName);
+    String expected =
+        "Requesting store inventory..."
+            + LS
+            + "Store inventory request complete."
+            + LS
+            + "4-dimensional guitar not found in shop."
+            + LS;
+    assertEquals(expected, output, "Items not taken.");
+    StoreManager.addItem(itemID, 5, 1337, 1);
+    output = execute("take 2 " + itemName);
+    expected =
+        "Requesting store inventory..."
+            + LS
+            + "Store inventory request complete."
+            + LS
+            + "Removing 4-dimensional guitar from store..."
+            + LS
+            + "2 4-dimensional guitar removed from your store."
+            + LS;
+    assertEquals(expected, output, "Items not taken.");
+    StoreManager.clearCache();
+    StoreManager.addItem(itemID, 5, 1337, 1);
+    output = execute("take all " + itemName);
+    expected =
+        "Requesting store inventory..."
+            + LS
+            + "Store inventory request complete."
+            + LS
+            + "Removing 4-dimensional guitar from store..."
+            + LS
+            + "5 4-dimensional guitar removed from your store."
+            + LS;
+    assertEquals(expected, output, "Items not taken.");
   }
 }
