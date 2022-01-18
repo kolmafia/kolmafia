@@ -82,8 +82,8 @@ public class ScriptManager {
   private static final LockableListModel<Script> installedScripts = new LockableListModel<Script>();
   private static final LockableListModel<Script> repoScripts = new LockableListModel<Script>();
   private static final String REPO_FILE_LOCATION =
-      "https://raw.githubusercontent.com/kolmafia/kolmafia/main/data/SVN/svnrepo.json"; // this will
-  // change.
+      // this will change
+      "https://raw.githubusercontent.com/kolmafia/kolmafia/main/data/SVN/svnrepo.json";
 
   static {
     ScriptManager.updateRepoScripts(false);
