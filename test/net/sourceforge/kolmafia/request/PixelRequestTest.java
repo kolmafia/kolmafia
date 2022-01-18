@@ -1,46 +1,37 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Player.addItem;
+import static internal.helpers.Player.countItem;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Set;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import org.json.JSONException;
-import org.json.JSONObject;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.Test;
 
 public class PixelRequestTest {
   @Test
   public void whitePixelPurchaseConsumesOtherPixels() {
+    Set<Integer> BASE_PIXELS =
+        Set.of(ItemPool.RED_PIXEL, ItemPool.GREEN_PIXEL, ItemPool.BLUE_PIXEL);
+
     // 1 of each of red / green / blue pixel
-    loadInventory("{\"461\": \"1\", \"462\": \"1\", \"463\": \"1\"}");
-    Concoction whitePixel = ConcoctionPool.get(459);
+    BASE_PIXELS.forEach(itemId -> addItem(itemId));
+
+    Concoction whitePixel = ConcoctionPool.get(ItemPool.WHITE_PIXEL);
     PixelRequest request = new PixelRequest(whitePixel);
 
-    int RED_PIXEL = 461;
-    int GREEN_PIXEL = 462;
-    int BLUE_PIXEL = 463;
-
-    int[] PIXELS = {RED_PIXEL, GREEN_PIXEL, BLUE_PIXEL};
-
     // Check pixel counts.
-    for (int itemId : PIXELS) {
-      assertEquals(1, InventoryManager.getCount(itemId), "item " + itemId + " (before): ");
+    for (int itemId : BASE_PIXELS) {
+      assertEquals(1, countItem(itemId), "item " + itemId + " (before): ");
     }
 
     final String url = "shop.php?whichshop=mystic&action=buyitem&whichrow=26&quantity=1";
     request.parseResponse(url, "");
 
-    for (int itemId : PIXELS) {
-      assertEquals(0, InventoryManager.getCount(itemId), "item " + itemId + " (after): ");
-    }
-  }
-
-  private void loadInventory(String jsonInventory) {
-    try {
-      InventoryManager.parseInventory(new JSONObject(jsonInventory));
-    } catch (JSONException e) {
-      fail("Inventory parsing failed.");
+    for (int itemId : BASE_PIXELS) {
+      assertEquals(0, countItem(itemId), "item " + itemId + " (after): ");
     }
   }
 }

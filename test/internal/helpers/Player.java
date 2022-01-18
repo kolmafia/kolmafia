@@ -6,11 +6,13 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class Player {
   public static void equip(int slot, String item) {
@@ -26,6 +28,23 @@ public class Player {
     for (int i = 0; i < count; i++) {
       AdventureResult.addResultToList(KoLConstants.inventory, parsed);
     }
+  }
+
+  public static void addItem(int itemId) {
+    addItem(itemId, 1);
+  }
+
+  public static void addItem(int itemId, int count) {
+    AdventureResult.addResultToList(KoLConstants.inventory, ItemPool.get(itemId));
+  }
+
+  public static int countItem(int itemId) {
+    return InventoryManager.getCount(itemId);
+  }
+
+  public static int countItem(String item) {
+    AdventureResult parsed = AdventureResult.tallyItem(item);
+    return InventoryManager.getCount(parsed);
   }
 
   public static void canUse(String item) {
