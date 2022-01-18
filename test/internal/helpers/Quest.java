@@ -1,7 +1,10 @@
 package internal.helpers;
 
+import static org.hamcrest.Matchers.equalTo;
+
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import org.hamcrest.Description;
+import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
@@ -24,19 +27,33 @@ public class Quest {
     }
   }
 
+  public static Matcher<QuestDatabase.Quest> isStep(Matcher<? super String> stepMatcher) {
+    return new FeatureMatcher<QuestDatabase.Quest, String>(
+        stepMatcher, "quest step to be", "quest step") {
+      @Override
+      protected String featureValueOf(QuestDatabase.Quest actual) {
+        return QuestDatabase.getQuest(actual);
+      }
+    };
+  }
+
   public static Matcher<QuestDatabase.Quest> isStep(String step) {
-    return new IsStep(step);
+    return isStep(equalTo(step));
+  }
+
+  public static Matcher<QuestDatabase.Quest> isStep(int stepNumber) {
+    return isStep(equalTo("step" + stepNumber));
   }
 
   public static Matcher<QuestDatabase.Quest> isUnstarted() {
-    return new IsStep(QuestDatabase.UNSTARTED);
+    return isStep(QuestDatabase.UNSTARTED);
   }
 
   public static Matcher<QuestDatabase.Quest> isStarted() {
-    return new IsStep(QuestDatabase.STARTED);
+    return isStep(QuestDatabase.STARTED);
   }
 
   public static Matcher<QuestDatabase.Quest> isFinished() {
-    return new IsStep(QuestDatabase.FINISHED);
+    return isStep(QuestDatabase.FINISHED);
   }
 }

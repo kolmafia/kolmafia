@@ -64,7 +64,7 @@ public class QuestManagerTest {
     var request = new GenericRequest("pandamonium.php");
     request.responseText = "anything";
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.AZAZEL, isStep("step1"));
+    assertThat(Quest.AZAZEL, isStep(1));
   }
 
   /*
@@ -76,7 +76,7 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_adventure_whiteys_grove_its_a_sign.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.CITADEL, isStep("step1"));
+    assertThat(Quest.CITADEL, isStep(1));
   }
 
   @Test
@@ -85,7 +85,7 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_adventure_white_citadel_they_arent_blind.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.CITADEL, isStep("step2"));
+    assertThat(Quest.CITADEL, isStep(2));
   }
 
   @Test
@@ -95,7 +95,7 @@ public class QuestManagerTest {
         Files.readString(
             Path.of("request/test_adventure_white_citadel_existential_blues_brothers.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.CITADEL, isStep("step3"));
+    assertThat(Quest.CITADEL, isStep(3));
   }
 
   /*
@@ -107,7 +107,7 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_adventure_barroom_brawl_jackin_the_jukebox.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.CLANCY, isStep("step1"));
+    assertThat(Quest.CLANCY, isStep(1));
   }
 
   @Test
@@ -116,7 +116,7 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_adventure_knob_shaft_a_miner_variation.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.CLANCY, isStep("step3"));
+    assertThat(Quest.CLANCY, isStep(3));
   }
 
   @Test
@@ -125,7 +125,7 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_adventure_icy_peak_mercury_rising.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.CLANCY, isStep("step7"));
+    assertThat(Quest.CLANCY, isStep(7));
   }
 
   @Test
@@ -146,7 +146,7 @@ public class QuestManagerTest {
     var request = new GenericRequest("place.php?whichplace=plains");
     request.responseText = Files.readString(Path.of("request/test_place_plains_beanstalk.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.GARBAGE, isStep("step1"));
+    assertThat(Quest.GARBAGE, isStep(1));
   }
 
   @Test
@@ -164,7 +164,7 @@ public class QuestManagerTest {
     var request = new GenericRequest("adventure.php?snarfblat=81");
     request.responseText = "anything";
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.GARBAGE, isStep("step1"));
+    assertThat(Quest.GARBAGE, isStep(1));
   }
 
   @Test
@@ -173,7 +173,7 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_adventure_airship_beginning_of_the_end.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.GARBAGE, isStep("step2"));
+    assertThat(Quest.GARBAGE, isStep(2));
   }
 
   @Test
@@ -181,7 +181,7 @@ public class QuestManagerTest {
     var request = new GenericRequest("adventure.php?snarfblat=322");
     request.responseText = "anything";
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.GARBAGE, isStep("step7"));
+    assertThat(Quest.GARBAGE, isStep(7));
   }
 
   @Test
@@ -193,7 +193,7 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_adventure_castle_basement_unlock_ground.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.GARBAGE, isStep("step8"));
+    assertThat(Quest.GARBAGE, isStep(8));
     assertEquals(ascension, Preferences.getInteger("lastCastleGroundUnlock"));
   }
 
@@ -202,7 +202,7 @@ public class QuestManagerTest {
     var request = new GenericRequest("adventure.php?snarfblat=322");
     request.responseText = "anything";
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.GARBAGE, isStep("step7"));
+    assertThat(Quest.GARBAGE, isStep(7));
   }
 
   @Test
@@ -214,7 +214,7 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_adventure_castle_first_top_of_the_castle_ma.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.GARBAGE, isStep("step9"));
+    assertThat(Quest.GARBAGE, isStep(9));
     assertEquals(ascension, Preferences.getInteger("lastCastleTopUnlock"));
   }
 
@@ -225,7 +225,7 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_adventure_castle_top_floor_walk_before_fly.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.GARBAGE, isStep("step8"));
+    assertThat(Quest.GARBAGE, isStep(8));
   }
 
   /*
@@ -254,7 +254,7 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_place_palindome_meet_mr_alarm.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.PALINDOME, isStep("step3"));
+    assertThat(Quest.PALINDOME, isStep(3));
   }
 
   /*
@@ -265,7 +265,7 @@ public class QuestManagerTest {
     var request = new GenericRequest("adventure.php?snarfblat=384");
     request.responseText = "anything";
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.RON, isStep("step1"));
+    assertThat(Quest.RON, isStep(1));
   }
 
   @Test
@@ -275,7 +275,7 @@ public class QuestManagerTest {
         Files.readString(
             Path.of("request/test_adventure_protestors_not_so_much_with_the_humanity.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.RON, isStep("step2"));
+    assertThat(Quest.RON, isStep(2));
   }
 
   @Test
@@ -284,7 +284,7 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_place_zeppelin_cleared_protestors.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.RON, isStep("step2"));
+    assertThat(Quest.RON, isStep(2));
   }
 
   @Test
@@ -292,7 +292,7 @@ public class QuestManagerTest {
     var request = new GenericRequest("adventure.php?snarfblat=385");
     request.responseText = "anything";
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.RON, isStep("step2"));
+    assertThat(Quest.RON, isStep(2));
   }
 
   @Test
@@ -325,7 +325,7 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_place_orc_chasm_bridge_built.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.TOPPING, isStep("step1"));
+    assertThat(Quest.TOPPING, isStep(1));
   }
 
   @Test
@@ -334,7 +334,7 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_place_highlands_meet_highland_lord.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.TOPPING, isStep("step2"));
+    assertThat(Quest.TOPPING, isStep(2));
   }
 
   @Test
@@ -442,7 +442,7 @@ public class QuestManagerTest {
         Files.readString(Path.of("request/test_place_highlands_all_fires_lit.html"));
     QuestManager.handleQuestChange(request);
     assertEquals(15, Preferences.getInteger("twinPeakProgress"));
-    assertThat(Quest.TOPPING, isStep("step3"));
+    assertThat(Quest.TOPPING, isStep(3));
   }
 
   @Test
@@ -463,7 +463,7 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_place_mclargehuge_trapper_give_quest.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.TRAPPER, isStep("step1"));
+    assertThat(Quest.TRAPPER, isStep(1));
   }
 
   @Test
@@ -472,7 +472,7 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_place_mclargehuge_trapper_get_cheese_and_ore.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.TRAPPER, isStep("step2"));
+    assertThat(Quest.TRAPPER, isStep(2));
   }
 
   @ParameterizedTest
@@ -493,14 +493,14 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_place_mclargehuge_extreme_peak.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.TRAPPER, isStep("step3"));
+    assertThat(Quest.TRAPPER, isStep(3));
     assertEquals(0, Preferences.getInteger("currentExtremity"));
   }
 
   @Test
   public void canDetectTrapperStep4InIcyPeak() {
     QuestManager.updateQuestData("anything", "panicking Knott Yeti");
-    assertThat(Quest.TRAPPER, isStep("step4"));
+    assertThat(Quest.TRAPPER, isStep(4));
   }
 
   /*
