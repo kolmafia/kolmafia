@@ -2,90 +2,91 @@ package net.sourceforge.kolmafia.utilities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
-import org.junit.jupiter.api.Disabled;
+import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 /**
- * As implemented RollingLinkedList will fail if passed an initial length that is negative. addAll
- * is not implementd and so the list can be longer than the declared length.
+ * A RollingLinkedList is bounded above in size. Items are added to the end of the list until the
+ * size is reached, at which point the first element is deleted. The update method is used as an
+ * alternative to add for the case where the caller needs to know what element was deleted to make
+ * room for the added element. addAll is a convenience method that iterates over a list and adds the
+ * items.
  */
 public class RollingLinkedListTest {
 
   private RollingLinkedList<String> rll;
+  private final String[] testValues = {"a", "b", "c", "d"};
 
   @Test
-  public void itShouldAlwaysReplaceTheOnlyElement() {
-    rll = new RollingLinkedList<>(1);
-    rll.add("Alpha");
-    assertTrue(rll.contains("Alpha"));
-    assertFalse(rll.contains("Beta"));
-    rll.add("Beta");
-    assertFalse(rll.contains("Alpha"));
-    assertTrue(rll.contains("Beta"));
+  public void itShouldHandleNegativeSize() {
+    // A negative size is effectively a RollingLinkedList of unbounded size.  While a negative size
+    // is perhaps an implementation error since a LinkedList is effectively the same thing, there
+    // is no particular reason to prohibit a negative size.
+    rll = new RollingLinkedList<>(-1);
+    assertNotNull(rll, "Negative size list null.");
+    assertEquals(0, rll.size(), "Unexpected list size.");
+    rll.add(testValues[0]);
+    assertEquals(1, rll.size(), "Unexpected list size.");
+    rll.add(testValues[1]);
+    assertEquals(2, rll.size(), "Unexpected list size.");
   }
 
   @Test
   public void itShouldAddToTheEnd() {
-    rll = new RollingLinkedList<>(2);
-    rll.add("Alpha");
-    assertEquals(rll.size(), 1);
-    assertEquals(rll.indexOf("Alpha"), 0);
-    rll.add("Beta");
-    assertEquals(rll.size(), 2);
-    assertEquals(rll.indexOf("Alpha"), 0);
-    assertEquals(rll.indexOf("Beta"), 1);
-    rll.add("Gamma");
-    assertEquals(rll.size(), 2);
-    assertEquals(rll.indexOf("Alpha"), -1);
-    assertEquals(rll.indexOf("Beta"), 0);
-    assertEquals(rll.indexOf("Gamma"), 1);
+    rll = new RollingLinkedList<>(4);
+    for (int i = 0; i < 4; i++) {
+      rll.add(testValues[i]);
+      assertEquals(testValues[i], rll.getLast(), "New element not last.");
+      assertEquals(i + 1, rll.size(), "Unexpected size.");
+    }
   }
 
   @Test
-  public void itShouldUpdateByMovingToTheEnd() {
-    rll = new RollingLinkedList<>(2);
-    rll.add("Alpha");
-    rll.add("Beta");
-    assertEquals(rll.indexOf("Alpha"), 0);
-    assertEquals(rll.indexOf("Beta"), 1);
-    rll.update("Alpha");
-    assertEquals(rll.indexOf("Alpha"), 1);
-    assertEquals(rll.indexOf("Beta"), 0);
+  public void itAllowsDuplicates() {
+    rll = new RollingLinkedList<>(4);
+    for (int i = 0; i < 4; i++) {
+      rll.add(testValues[0]);
+      assertEquals(testValues[0], rll.getLast(), "New element not last.");
+      assertEquals(i + 1, rll.size(), "Unexpected size.");
+    }
   }
 
   @Test
-  public void itShouldUpdateANewItem() {
-    rll = new RollingLinkedList<>(2);
-    rll.add("Alpha");
-    rll.add("Beta");
-    assertEquals(rll.indexOf("Alpha"), 0);
-    assertEquals(rll.indexOf("Beta"), 1);
-    rll.update("Gamma");
-    assertEquals(rll.indexOf("Alpha"), -1);
-    assertEquals(rll.indexOf("Beta"), 0);
-    assertEquals(rll.indexOf("Gamma"), 1);
+  public void itWillDeleteFromTheBeginningToPreserveSize() {
+    rll = new RollingLinkedList<>(3);
+    for (int i = 0; i < 3; i++) {
+      rll.add(testValues[i]);
+      assertEquals(testValues[i], rll.getLast(), "New element not last.");
+      assertEquals(i + 1, rll.size(), "Unexpected size.");
+    }
+    rll.add(testValues[3]);
+    assertEquals(testValues[3], rll.getLast(), "New element not last.");
+    assertEquals(3, rll.size(), "Unexpected size.");
+    for (int i = 1; i < 4; i++) {
+      assertEquals(testValues[i], rll.get(i - 1), "Add did not shift.");
+    }
   }
 
   @Test
-  @Disabled("Class under test needs to be augmented")
-  public void itShouldBehaveForABulkAdd() {
-    rll = new RollingLinkedList<>(2);
-    rll.add("Alpha");
-    rll.add("Beta");
-    assertEquals(rll.indexOf("Alpha"), 0);
-    assertEquals(rll.indexOf("Beta"), 1);
-    assertEquals(rll.size(), 2);
-    ArrayList<String> collection = new ArrayList<>(3);
-    collection.add("A");
-    collection.add("B");
-    collection.add("C");
-    rll.addAll(collection);
-    assertEquals(rll.size(), 2);
-    assertEquals(rll.indexOf("Alpha"), -1);
-    assertEquals(rll.indexOf("Beta"), -1);
-    assertEquals(rll.indexOf("A"), -1);
-    assertEquals(rll.indexOf("B"), 0);
-    assertEquals(rll.indexOf("C"), 1);
+  public void itWillReturnTheDeletedElementForUpdates() {
+    String removedValue;
+    rll = new RollingLinkedList<>(3);
+    for (int i = 0; i < 3; i++) {
+      removedValue = rll.update(testValues[i]);
+      assertNull(removedValue, "Undeleted element returned");
+    }
+    removedValue = rll.update(testValues[3]);
+    assertEquals(testValues[0], removedValue, "Unexpected value for delete element.");
+  }
+
+  @Test
+  public void addAllAndIteratedAddsShouldDoTheSameThing() {
+    RollingLinkedList<String> adds = new RollingLinkedList<>(3);
+    for (int i = 0; i < 4; i++) {
+      adds.add(testValues[i]);
+    }
+    RollingLinkedList<String> addsAll = new RollingLinkedList<>(3);
+    addsAll.addAll(Arrays.asList(testValues));
+    assertEquals(adds, addsAll, "addAll not the same.");
   }
 }

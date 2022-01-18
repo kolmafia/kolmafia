@@ -36,6 +36,7 @@ public class AutoHighlightSpinner extends JSpinner {
       this.changing = false;
     }
 
+    @Override
     public void stateChanged(ChangeEvent evt) {
       if (this.changing) {
         return;
@@ -46,12 +47,15 @@ public class AutoHighlightSpinner extends JSpinner {
     }
 
     private class AutoHighlightNumberEditorDocumentListener implements DocumentListener {
+      @Override
       public void changedUpdate(DocumentEvent e) {}
 
+      @Override
       public void insertUpdate(DocumentEvent e) {
         this.updateSpinnerModel();
       }
 
+      @Override
       public void removeUpdate(DocumentEvent e) {
         this.updateSpinnerModel();
       }

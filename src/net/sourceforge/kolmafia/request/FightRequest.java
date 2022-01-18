@@ -64,7 +64,9 @@ import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
+import net.sourceforge.kolmafia.session.CursedMagnifyingGlassManager;
 import net.sourceforge.kolmafia.session.DadManager;
+import net.sourceforge.kolmafia.session.DaylightShavingsHelmetManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -446,6 +448,7 @@ public class FightRequest extends GenericRequest {
     RAIN("Heavy Rains"),
     SEWER("Sewer Tunnel"),
     TACO_ELF("taco elf"),
+    VOID("void monsters"),
     WAR_FRATBOY("War Fratboy"),
     WAR_HIPPY("War Hippy"),
     WITCHESS("witchess"),
@@ -644,6 +647,10 @@ public class FightRequest extends GenericRequest {
 
     FightRequest.specialMonsters.put("Source Agent", SpecialMonster.PORTSCAN);
     FightRequest.specialMonsters.put("Government agent", SpecialMonster.PORTSCAN);
+
+    FightRequest.specialMonsters.put("void guy", SpecialMonster.VOID);
+    FightRequest.specialMonsters.put("void slab", SpecialMonster.VOID);
+    FightRequest.specialMonsters.put("void spider", SpecialMonster.VOID);
 
     FightRequest.addAreaMonsters("A Maze of Sewer Tunnels", SpecialMonster.SEWER);
     FightRequest.addAreaMonsters("The Battlefield (Frat Uniform)", SpecialMonster.WAR_HIPPY);
@@ -2395,13 +2402,16 @@ public class FightRequest extends GenericRequest {
         TurnCounter.stopCounting("Enamorang unknown monster window begin");
         TurnCounter.stopCounting("Enamorang unknown monster window end");
         Preferences.setString("enamorangMonster", "");
+      } else if (EncounterManager.isGregariousEncounter(responseText, true)) {
+        EncounterManager.ignoreSpecialMonsters();
+        Preferences.decrement("beGregariousFightsLeft", 1, 0);
       } else if (EncounterManager.isSaberForceMonster()) {
         // This is earlier in the chain than the things above, but since
         // there's no message it's easiest to check it after
         Preferences.decrement("_saberForceMonsterCount");
-      } else if (EncounterManager.isGregariousEncounter(responseText, true)) {
-        EncounterManager.ignoreSpecialMonsters();
-        Preferences.decrement("beGregariousFightsLeft", 1, 0);
+      } else if (CrystalBallManager.isCrystalBallMonster()) {
+        // This similarly has no message so can be checked at the end
+        CrystalBallManager.clear();
       }
 
       // Increment stinky cheese counter
@@ -2641,6 +2651,19 @@ public class FightRequest extends GenericRequest {
             }
             break;
 
+          case VOID:
+            if (responseText.contains("Time seems to stop.")) {
+              Preferences.increment("_voidFreeFights", 1, 5, false);
+            } else {
+              Preferences.setInteger("_voidFreeFights", 5);
+            }
+            if (!EncounterManager.ignoreSpecialMonsters
+                && Preferences.getInteger("cursedMagnifyingGlassCount") == 13
+                && KoLCharacter.hasEquipped(ItemPool.CURSED_MAGNIFYING_GLASS)) {
+              Preferences.setInteger("cursedMagnifyingGlassCount", 0);
+            }
+            break;
+
           case WOL:
             if (!EncounterManager.ignoreSpecialMonsters) {
               TurnCounter.stopCounting("WoL Monster window begin");
@@ -2667,6 +2690,8 @@ public class FightRequest extends GenericRequest {
       if (KoLCharacter.hasEquipped(ItemPool.MINIATURE_CRYSTAL_BALL, EquipmentManager.FAMILIAR)) {
         CrystalBallManager.parseCrystalBall(responseText);
       }
+
+      Preferences.decrement("cosmicBowlingBallReturnCombats", 1, -1);
     }
 
     // Figure out various things by examining the responseText. Ideally,
@@ -2888,6 +2913,13 @@ public class FightRequest extends GenericRequest {
     else if (responseText.contains("Your crimbo tree is now 100% naked")) {
       Preferences.setInteger("garbageTreeCharge", 0);
       EquipmentManager.breakEquipment(ItemPool.DECEASED_TREE, "You toss your crimbo tree away.");
+    }
+
+    // Check for magnifying glass messages
+    CursedMagnifyingGlassManager.updatePreference(responseText);
+
+    if (KoLCharacter.hasEquipped(ItemPool.DAYLIGHT_SHAVINGS_HELMET, EquipmentManager.HAT)) {
+      DaylightShavingsHelmetManager.updatePreference(responseText);
     }
 
     // "The Slime draws back and shudders, as if it's about to sneeze.
@@ -6324,12 +6356,11 @@ public class FightRequest extends GenericRequest {
           ||
           // Mr. Cheeng's spectacles
           str.contains("You see a weird thing out of the corner of your eye, and you grab it")
-          || str.contains("You think you see a weird thing out of the corner of your eye")
-          ||
-          // lucky gold ring
-          str.contains("Your lucky gold ring gets warmer for a moment.")) {
+          || str.contains("You think you see a weird thing out of the corner of your eye")) {
         FightRequest.logText(str, status);
       }
+
+      FightRequest.handleLuckyGoldRing(str, status);
 
       // Retrospecs
       if (str.contains("notice an item you missed earlier")) {
@@ -7111,6 +7142,16 @@ public class FightRequest extends GenericRequest {
     }
   }
 
+  private static void handleLuckyGoldRing(String str, TagStatus status) {
+    if (!str.contains("Your lucky gold ring gets warmer for a moment.")) {
+      return;
+    }
+    FightRequest.logText(str, status);
+    if (str.contains("You look down and find a Volcoino!")) {
+      Preferences.setBoolean("_luckyGoldRingVolcoino", true);
+    }
+  }
+
   private static boolean handleProselytization(TagNode node, TagStatus status) {
     String str = node.getText().toString();
 
@@ -7461,6 +7502,8 @@ public class FightRequest extends GenericRequest {
     if (
     // All stages
     text.contains("for your scrapbook")
+        || text.contains("definitely going in the scrapbook")
+        || text.contains("too good to not photograph")
         ||
         // Start of combat
         text.contains("You snap a picture")
@@ -7788,6 +7831,7 @@ public class FightRequest extends GenericRequest {
         && !FightRequest.choiceFollowsFight) {
       Runnable initializeRunner =
           new Runnable() {
+            @Override
             public void run() {
               LoginManager.login(KoLCharacter.getUserName());
               FightRequest.initializeAfterFight = false;
@@ -8167,6 +8211,7 @@ public class FightRequest extends GenericRequest {
             TurnCounter.startCounting(15, "Enamorang Monster loc=* type=wander", "watch.gif");
           }
           Preferences.setString("enamorangMonster", monsterName);
+          Preferences.setInteger("enamorangMonsterTurn", KoLCharacter.getTurnsPlayed());
           Preferences.increment("_enamorangs");
           return true;
         }
@@ -9324,9 +9369,12 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains(
                 "You take out your scrapbook and start showing photos of your familiars to your opponent")
             || responseText.contains("waving your scrapbook")
+            || responseText.contains("prior appointment they have to get to")
+            || responseText.contains("they just leave awkwardly")
+            || responseText.contains("they just give up and leave")
             || responseText.contains("the two of you share a friendly handshake and part ways")
             || responseText.contains("they pass out from pure boredom")
-            || skillSuccess) {
+            || skillRunawaySuccess) {
           BanishManager.banishMonster(monsterName, "Show your boring familiar pictures");
           Preferences.decrement("scrapbookCharges", 100, 0);
         }
@@ -9364,67 +9412,95 @@ public class FightRequest extends GenericRequest {
         break;
 
       case SkillPool.FIRE_EXTINGUISHER__ZONE_SPECIFIC:
-        boolean success = false;
-        KoLAdventure location = KoLAdventure.lastVisitedLocation();
-        switch (location.getZone()) {
-          case "BatHole":
-            if (responseText.contains(
-                    "You squeeze down the nozzle on your fire extinguisher and release a blast")
-                || skillSuccess) {
-              if (!QuestDatabase.isQuestLaterThan(Quest.BAT, "step2")) {
-                QuestDatabase.advanceQuest(Quest.BAT);
+        {
+          boolean success = false;
+          KoLAdventure location = KoLAdventure.lastVisitedLocation();
+          switch (location.getZone()) {
+            case "BatHole":
+              if (responseText.contains(
+                      "You squeeze down the nozzle on your fire extinguisher and release a blast")
+                  || skillSuccess) {
+                if (!QuestDatabase.isQuestLaterThan(Quest.BAT, "step2")) {
+                  QuestDatabase.advanceQuest(Quest.BAT);
+                }
+                Preferences.setBoolean("fireExtinguisherBatHoleUsed", true);
+                success = true;
               }
-              Preferences.setBoolean("fireExtinguisherBatHoleUsed", true);
-              success = true;
-            }
-            break;
-          case "Cyrpt":
-            if (responseText.contains(
-                    "The chill of the refrigerant quickly replaces some of the chill of evil in the air")
-                || skillSuccess) {
-              String setting = getEvilZoneSetting();
-              if (setting != null) {
-                Preferences.decrement(setting, 10, 0);
-                Preferences.decrement("cyrptTotalEvilness", 10, 0);
+              break;
+            case "Cyrpt":
+              if (responseText.contains(
+                      "The chill of the refrigerant quickly replaces some of the chill of evil in the air")
+                  || skillSuccess) {
+                String setting = getEvilZoneSetting();
+                if (setting != null) {
+                  Preferences.decrement(setting, 10, 0);
+                  Preferences.decrement("cyrptTotalEvilness", 10, 0);
+                }
+                Preferences.setBoolean("fireExtinguisherCyrptUsed", true);
+                success = true;
               }
-              Preferences.setBoolean("fireExtinguisherCyrptUsed", true);
-              success = true;
-            }
-            break;
-        }
+              break;
+          }
 
-        switch (location.getAdventureName()) {
-          case "Cobb's Knob Harem":
-            if (responseText.contains("You fill the harem with foam") || skillSuccess) {
-              Preferences.setBoolean("fireExtinguisherHaremUsed", true);
-              success = true;
-            }
-            break;
-          case "The Smut Orc Logging Camp":
-            if (responseText.contains("You wantonly spray the area with your fire extinguisher")
-                || skillSuccess) {
-              Preferences.increment("smutOrcNoncombatProgress", 10, 15, false);
-              Preferences.setBoolean("fireExtinguisherChasmUsed", true);
-              success = true;
-            }
-            break;
-          case "The Arid, Extra-Dry Desert":
-            if (responseText.contains("You aim the nozzle directly into your mouth")
-                || skillSuccess) {
-              Preferences.setBoolean("fireExtinguisherDesertUsed", true);
-              success = true;
-            }
-            break;
-        }
+          switch (location.getAdventureName()) {
+            case "Cobb's Knob Harem":
+              if (responseText.contains("You fill the harem with foam") || skillSuccess) {
+                Preferences.setBoolean("fireExtinguisherHaremUsed", true);
+                success = true;
+              }
+              break;
+            case "The Smut Orc Logging Camp":
+              if (responseText.contains("You wantonly spray the area with your fire extinguisher")
+                  || skillSuccess) {
+                Preferences.increment("smutOrcNoncombatProgress", 11, 15, false);
+                Preferences.setBoolean("fireExtinguisherChasmUsed", true);
+                success = true;
+              }
+              break;
+            case "The Arid, Extra-Dry Desert":
+              if (responseText.contains("You aim the nozzle directly into your mouth")
+                  || skillSuccess) {
+                Preferences.setBoolean("fireExtinguisherDesertUsed", true);
+                success = true;
+              }
+              break;
+          }
 
-        if (success) {
-          Preferences.decrement("_fireExtinguisherCharge", 20);
+          if (success) {
+            Preferences.decrement("_fireExtinguisherCharge", 20);
+          }
         }
+        break;
+
       case SkillPool.BE_GREGARIOUS:
         if (responseText.contains("You decide to put your best foot forward") || skillSuccess) {
           Preferences.setString("beGregariousMonster", monsterName);
           Preferences.decrement("beGregariousCharges", 1, 0);
           Preferences.setInteger("beGregariousFightsLeft", 3);
+        }
+        break;
+
+      case SkillPool.BOWL_BACKWARDS:
+        // You roll the ball behind you as hard as you can. It crashes
+        // into another enemy in the area, knocking something loose
+        // before draining into the ball return system.
+      case SkillPool.BOWL_A_CURVEBALL:
+        // Your ball clatters into the ball return system.
+      case SkillPool.BOWL_SIDEWAYS:
+        // You scream like a lunatic and hurl your cosmic bowling ball
+        // sideways. It starts ricocheting wildly around the area.
+      case SkillPool.BOWL_STRAIGHT_UP:
+        // You launch your cosmic bowling ball straight up into the air
+        // with a dramatic hook. It starts spinning in the air above you,
+        // glowing and illuminating the area around you.
+        if (responseText.contains("into the ball return system")
+            || responseText.contains("You scream like a lunatic")
+            || responseText.contains("You launch your cosmic bowling ball")
+            || skillSuccess) {
+          Preferences.increment("_cosmicBowlingSkillsUsed", 1);
+          int combats = Preferences.getInteger("_cosmicBowlingSkillsUsed") * 2 + 3 - 1;
+          Preferences.setInteger("cosmicBowlingBallReturnCombats", combats);
+          ResultProcessor.removeItem(ItemPool.COSMIC_BOWLING_BALL);
         }
         break;
     }
@@ -9723,6 +9799,16 @@ public class FightRequest extends GenericRequest {
         if (!usedBasePair) {
           usedBasePair = true;
           QuestManager.updateCyrusAdjective(itemId);
+        }
+        break;
+
+      case ItemPool.COSMIC_BOWLING_BALL:
+        // Since you've got this cosmic bowling ball, you hurl it down
+        // the ancient lanes. You knock over a few pins. You may be
+        // getting the hang of this!
+        Preferences.setInteger("cosmicBowlingBallReturnCombats", 0);
+        if (responseText.contains("you hurl it down the ancient lanes")) {
+          Preferences.increment("hiddenBowlingAlleyProgress", 1);
         }
         break;
     }

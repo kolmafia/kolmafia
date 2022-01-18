@@ -397,6 +397,7 @@ public class BuffRequestFrame extends GenericFrame {
   }
 
   private class TotalPriceUpdater implements ActionListener {
+    @Override
     public void actionPerformed(final ActionEvent e) {
       BuffRequestFrame.this.updateSendPrice();
     }

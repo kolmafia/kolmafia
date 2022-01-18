@@ -37,6 +37,7 @@ public class ManaBurn implements Comparable<ManaBurn> {
     return this.getMPCost();
   }
 
+  @Override
   public int compareTo(final ManaBurn o) {
     return this.duration - o.duration;
   }

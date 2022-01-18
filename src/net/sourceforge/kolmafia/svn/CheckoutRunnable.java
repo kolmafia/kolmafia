@@ -15,6 +15,7 @@ public class CheckoutRunnable implements Runnable {
     this.repo = url;
   }
 
+  @Override
   public void run() {
     if (!KoLmafia.permitsContinue()) return;
 

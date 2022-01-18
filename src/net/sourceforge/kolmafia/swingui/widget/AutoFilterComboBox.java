@@ -95,6 +95,7 @@ public class AutoFilterComboBox<E> extends DisabledItemsComboBox<E> implements L
     return this.active;
   }
 
+  @Override
   public boolean isVisible(final Object element) {
     if (!this.active) {
       return true;
@@ -140,6 +141,7 @@ public class AutoFilterComboBox<E> extends DisabledItemsComboBox<E> implements L
       }
     }
 
+    @Override
     public final void itemStateChanged(final ItemEvent e) {
       AutoFilterComboBox.this.currentMatch = AutoFilterComboBox.this.getSelectedItem();
 
@@ -155,6 +157,7 @@ public class AutoFilterComboBox<E> extends DisabledItemsComboBox<E> implements L
       }
     }
 
+    @Override
     public final void focusGained(final FocusEvent e) {
       AutoFilterComboBox.this.getEditor().selectAll();
 
@@ -162,6 +165,7 @@ public class AutoFilterComboBox<E> extends DisabledItemsComboBox<E> implements L
       AutoFilterComboBox.this.currentIndex = AutoFilterComboBox.this.model.getSelectedIndex();
     }
 
+    @Override
     public final void focusLost(final FocusEvent e) {
       if (AutoFilterComboBox.this.currentMatch != null) {
         AutoFilterComboBox.this.setSelectedItem(AutoFilterComboBox.this.currentMatch);

@@ -921,6 +921,7 @@ public abstract class VolcanoMazeManager {
       list.add(square);
     }
 
+    @Override
     public Iterator<Integer> iterator() {
       return this.list.iterator();
     }

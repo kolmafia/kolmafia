@@ -49,6 +49,7 @@ public class CakeArenaFrame extends GenericFrame {
   }
 
   private class FamiliarRefresher implements Runnable {
+    @Override
     public void run() {
       if (CakeArenaFrame.this.familiarTable != null) {
         CakeArenaFrame.this.familiarTable.validate();
@@ -162,6 +163,7 @@ public class CakeArenaFrame extends GenericFrame {
   }
 
   private class OpponentRenderer implements TableCellRenderer {
+    @Override
     public Component getTableCellRendererComponent(
         final JTable table,
         final Object value,

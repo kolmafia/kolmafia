@@ -46,10 +46,10 @@ public class ClosetRequest extends TransferItemRequest {
 
     try {
       // {"1":"1","2":"1" ... }
-      Iterator<?> keys = JSON.keys();
+      Iterator<String> keys = JSON.keys();
 
       while (keys.hasNext()) {
-        String key = (String) keys.next();
+        String key = keys.next();
         int itemId = StringUtilities.parseInt(key);
         int count = JSON.getInt(key);
         String name = ItemDatabase.getItemDataName(itemId);

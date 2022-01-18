@@ -551,6 +551,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
    * Whenever the tab changes, this method is used to change the title to count the coins of the new
    * tab
    */
+  @Override
   public void stateChanged(final ChangeEvent e) {
     CoinmasterPanel current = this.currentPanel();
     if (current != null) {
@@ -1443,6 +1444,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       this.storageInTitle = this.data.getStorageAction() != null;
     }
 
+    @Override
     public void update() {
       // (coinmaster) is fired when tokens change
       this.setTitle();

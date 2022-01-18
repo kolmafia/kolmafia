@@ -94,6 +94,7 @@ public class MaximizerSpeculation extends Speculation
     return this.tiebreaker;
   }
 
+  @Override
   public int compareTo(MaximizerSpeculation o) {
     if (!(o instanceof MaximizerSpeculation)) return 1;
     MaximizerSpeculation other = o;

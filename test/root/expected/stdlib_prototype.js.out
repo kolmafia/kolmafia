@@ -1,0 +1,6 @@
+constructor: true
+call: true
+apply: true
+bind: true
+toString: true
+toSource: true

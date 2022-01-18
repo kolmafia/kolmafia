@@ -15,6 +15,7 @@ public class KoLDatabase {
       this.count = count;
     }
 
+    @Override
     public int compareTo(final ItemCounter o) {
 
       if (this.count != o.count) {

@@ -429,7 +429,7 @@ public abstract class TowerDoorManager {
       return true;
     }
 
-    String message = null;
+    String message;
 
     String action = GenericRequest.getAction(urlString);
     if (action == null) {
@@ -443,10 +443,6 @@ public abstract class TowerDoorManager {
         return true;
       }
       message = "Tower Door: " + lock.name;
-    }
-
-    if (message == null) {
-      return true;
     }
 
     RequestLogger.printLine(message);

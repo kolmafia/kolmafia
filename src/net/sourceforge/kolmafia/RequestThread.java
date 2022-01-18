@@ -86,6 +86,7 @@ public abstract class RequestThread {
       this.pauser = new PauseObject();
     }
 
+    @Override
     public void run() {
       while (KoLmafia.isRefreshing()) {
         this.pauser.pause(100);
@@ -129,6 +130,7 @@ public abstract class RequestThread {
       this.pauser = new PauseObject();
     }
 
+    @Override
     public void run() {
       if (this.method == null) {
         return;
@@ -176,6 +178,7 @@ public abstract class RequestThread {
       }
     }
 
+    @Override
     public void run() {
       if (this.method == null) {
         return;
@@ -338,6 +341,7 @@ public abstract class RequestThread {
       this.sequence = sequence;
     }
 
+    @Override
     public void run() {
       Integer requestId = null;
 

@@ -43,6 +43,10 @@ public class ChoiceUtilities {
       return 798;
     } else if (responseText.contains("<b>The WLF Bunker</b>")) {
       return 1093;
+    } else if (responseText.contains("<b>Lyle, LyleCo CEO</b>")) {
+      return 1309;
+    } else if (responseText.contains("<b>What the Future Holds</b>")) {
+      return 1461;
     }
 
     return 0;

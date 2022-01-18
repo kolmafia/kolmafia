@@ -86,9 +86,9 @@ public abstract class InventoryManager {
 
     try {
       // {"1":"1","2":"1" ... }
-      Iterator<?> keys = JSON.keys();
+      Iterator<String> keys = JSON.keys();
       while (keys.hasNext()) {
-        String key = (String) keys.next();
+        String key = keys.next();
         int itemId = StringUtilities.parseInt(key);
         int count = JSON.getInt(key);
         String name = ItemDatabase.getItemDataName(itemId);
@@ -787,13 +787,14 @@ public abstract class InventoryManager {
       }
     }
 
-    // An eleven-leaf clover can be purchased from the Hermit (if he has any in
+    // An 11-leaf clover can be purchased from the Hermit (if he has any in
     // stock.
 
     if (shouldUseCoinmasters
         && KoLConstants.hermitItems.contains(item)
         && (!shouldUseMall
             || SewerRequest.currentWorthlessItemCost() < StoreManager.getMallPrice(item))) {
+
       int itemCount =
           itemId == ItemPool.ELEVEN_LEAF_CLOVER
               ? HermitRequest.cloverCount()
@@ -1107,7 +1108,7 @@ public abstract class InventoryManager {
     factor -= 1.0f;
     lower = upper;
 
-    int mall = StoreManager.getMallPrice(item, exact ? 0.0f : 7.0f);
+    int mall = exact ? StoreManager.getMallPrice(item) : StoreManager.getMallPrice(item, 7.0f);
     if (mall > Math.max(100, 2 * Math.abs(autosell))) {
       upper = Math.max(lower, mall);
     }
@@ -1146,7 +1147,9 @@ public abstract class InventoryManager {
       }
     }
 
-    int mallPrice = StoreManager.getMallPrice(item, exact ? 0.0f : 7.0f) * quantity;
+    int mallPrice =
+        (exact ? StoreManager.getMallPrice(item) : StoreManager.getMallPrice(item, 7.0f))
+            * quantity;
     if (mallPrice <= 0) {
       mallPrice = Integer.MAX_VALUE;
     } else {
@@ -1599,6 +1602,17 @@ public abstract class InventoryManager {
     }
 
     checkItemDescription(ItemPool.KREMLIN_BRIEFCASE);
+  }
+
+  public static final void checkVampireVintnerWine() {
+    // 1950 Vampire Vintner Wine is a quest item. You can have at most
+    // one in inventory - and nowhere else.
+    if (InventoryManager.getCount(ItemPool.VAMPIRE_VINTNER_WINE) == 0) {
+      return;
+    }
+
+    // ResultProcessor will parse the item description and set properties
+    InventoryManager.checkItemDescription(ItemPool.VAMPIRE_VINTNER_WINE);
   }
 
   public static final void checkCoatOfPaint() {

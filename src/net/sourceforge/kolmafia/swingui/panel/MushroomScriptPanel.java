@@ -313,6 +313,7 @@ public class MushroomScriptPanel extends JPanel {
       this.addActionListener(this);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
       if (this.dayIndex == MushroomScriptPanel.this.currentForecast - 1) {
         return;

@@ -17,6 +17,7 @@ public class ColorChooser extends JLabel implements MouseListener {
     this.addMouseListener(this);
   }
 
+  @Override
   public void mousePressed(final MouseEvent e) {
     Color c = JColorChooser.showDialog(null, "Choose a color:", this.getBackground());
     if (c == null) {
@@ -28,12 +29,16 @@ public class ColorChooser extends JLabel implements MouseListener {
     this.applyChanges();
   }
 
+  @Override
   public void mouseReleased(final MouseEvent e) {}
 
+  @Override
   public void mouseClicked(final MouseEvent e) {}
 
+  @Override
   public void mouseEntered(final MouseEvent e) {}
 
+  @Override
   public void mouseExited(final MouseEvent e) {}
 
   public void applyChanges() {}

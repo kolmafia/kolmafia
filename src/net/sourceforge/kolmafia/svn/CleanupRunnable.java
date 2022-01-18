@@ -10,6 +10,7 @@ import org.tmatesoft.svn.core.wc.SVNClientManager;
 import org.tmatesoft.svn.core.wc.SVNWCClient;
 
 public class CleanupRunnable implements Runnable {
+  @Override
   public void run() {
     if (!KoLmafia.permitsContinue()) return;
 

@@ -143,9 +143,23 @@ public class HermitRequest extends CoinMasterRequest {
     }
 
     int count = 0;
-    for (int i = 0; i < this.attachments.length; ++i) {
-      AdventureResult attachment = this.attachments[i];
+    for (AdventureResult attachment : this.attachments) {
       count += attachment.getCount();
+    }
+
+    return count;
+  }
+
+  private int cloversNeeded() {
+    if (this.attachments == null) {
+      return 0;
+    }
+
+    int count = 0;
+    for (AdventureResult attachment : this.attachments) {
+      if (attachment.getItemId() == ItemPool.ELEVEN_LEAF_CLOVER) {
+        count += attachment.getCount();
+      }
     }
 
     return count;
@@ -161,6 +175,19 @@ public class HermitRequest extends CoinMasterRequest {
     // If we are simply visiting, we need no worthless items
     if (this.attachments == null) {
       super.run();
+      return;
+    }
+
+    int cloversWanted = this.cloversNeeded();
+    int cloversAvailable = HermitRequest.cloverCount();
+    if (cloversWanted > cloversAvailable) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR,
+          "Asking for "
+              + cloversWanted
+              + " 11-leaf clover, but "
+              + cloversAvailable
+              + " left today.");
       return;
     }
 

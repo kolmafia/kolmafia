@@ -110,6 +110,7 @@ public class CardLayoutSelectorPanel extends JPanel {
   }
 
   private class CardSwitchListener implements ListSelectionListener {
+    @Override
     public void valueChanged(final ListSelectionEvent e) {
       int cardIndex = CardLayoutSelectorPanel.this.panelList.getSelectedIndex();
 

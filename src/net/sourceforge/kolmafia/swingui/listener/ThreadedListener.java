@@ -25,6 +25,7 @@ public abstract class ThreadedListener
   protected KeyEvent keyEvent;
   private MouseEvent mouseEvent;
 
+  @Override
   public void actionPerformed(final ActionEvent e) {
     if (!this.isValidEvent(e)) {
       return;
@@ -71,6 +72,7 @@ public abstract class ThreadedListener
     return true;
   }
 
+  @Override
   public void itemStateChanged(ItemEvent e) {
     if (e.getStateChange() == ItemEvent.SELECTED) {
       RequestThread.runInParallel(this);
@@ -81,8 +83,10 @@ public abstract class ThreadedListener
     return keyCode == KeyEvent.VK_ENTER;
   }
 
+  @Override
   public void keyPressed(final KeyEvent e) {}
 
+  @Override
   public void keyReleased(final KeyEvent e) {
     if (e.isConsumed()) {
       return;
@@ -98,30 +102,39 @@ public abstract class ThreadedListener
     e.consume();
   }
 
+  @Override
   public void keyTyped(final KeyEvent e) {}
 
+  @Override
   public void popupMenuCanceled(PopupMenuEvent e) {
     RequestThread.runInParallel(this);
   }
 
+  @Override
   public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
     RequestThread.runInParallel(this);
   }
 
+  @Override
   public void popupMenuWillBecomeVisible(PopupMenuEvent e) {}
 
+  @Override
   public void mouseClicked(MouseEvent e) {}
 
+  @Override
   public void mousePressed(MouseEvent e) {}
 
+  @Override
   public void mouseReleased(MouseEvent e) {
     this.mouseEvent = e;
 
     RequestThread.runInParallel(this);
   }
 
+  @Override
   public void mouseEntered(MouseEvent e) {}
 
+  @Override
   public void mouseExited(MouseEvent e) {}
 
   protected int getMousePositionX() {
@@ -158,6 +171,7 @@ public abstract class ThreadedListener
     return false;
   }
 
+  @Override
   public final void run() {
     this.execute();
 

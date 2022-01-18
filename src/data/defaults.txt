@@ -440,6 +440,7 @@ user	controlPanelOmega	0
 user	copperheadClubHazard	none
 user	cornucopiasOpened	0
 user	corralUnlocked	false
+user	cosmicBowlingBallReturnCombats	-1
 user	cozyCounter6332	0
 user	cozyCounter6333	0
 user	cozyCounter6334	0
@@ -476,7 +477,8 @@ user	currentMood	default
 user	currentNunneryMeat	0
 user	currentPVPSeason	none
 user	currentPvpVictories
-user	currentSpecialBountyItem	
+user	currentSpecialBountyItem
+user	cursedMagnifyingGlassCount	0
 user	customCombatScript	default
 user	cyrptAlcoveEvilness	0
 user	cyrptCrannyEvilness	0
@@ -564,6 +566,7 @@ user	electricKoolAidEaten	0
 user	encountersUntilDMTChoice	5
 user	encountersUntilNEPChoice	7
 user	enamorangMonster
+user	enamorangMonsterTurn
 user	ensorcelee
 user	ensorceleeLevel	0
 user	entauntaunedColdRes	0
@@ -580,6 +583,7 @@ user	falloutShelterChronoUsed	false
 user	falloutShelterCoolingTankUsed	false
 user	falloutShelterLevel	0
 user	familiarScript
+user	lastBeardBuff	0
 user	lastCopyableMonster
 user	fingernailsClipped	0
 user	fireExtinguisherBatHoleUsed	false
@@ -855,7 +859,6 @@ user	lastPorkoExpected
 user	lastQuartetAscension	-1
 user	lastQuartetRequest	0
 user	lastSecondFloorUnlock	-1
-user	lastSemirareReset	-1
 user	lastSkateParkReset	-1
 user	lastSlimeVial3885
 user	lastSlimeVial3886
@@ -1208,8 +1211,6 @@ user	scriptMRUList
 user	seahorseName
 user	seaodesFound	0
 user	SeasoningSwagger	0
-user	semirareCounter	0
-user	semirareLocation
 user	serverAddsCustomCombat	false
 user	sexChanges	0
 user	SHAWARMAInitiativeUnlocked	false
@@ -1411,7 +1412,9 @@ user	valueOfInventory	1.8
 user	valueOfStill	0
 user	valueOfTome	0
 user	verboseMaximizer	false
+user	vintnerWineEffect
 user	vintnerWineLevel	0
+user	vintnerWineName
 user	vintnerWineType
 user	violetFogGoal	0
 user	violetFogLayout
@@ -1558,6 +1561,7 @@ user	_companionshipCasts	0
 user	_confusingLEDClockUsed	false
 user	_controlPanelUsed	false
 user	_corruptedStardustUsed	false
+user	_cosmicBowlingSkillsUsed	0
 user	_cosmicSixPackConjured	false
 user	_crappyCameraUsed	false
 user	_creepyVoodooDollUsed	false
@@ -2070,6 +2074,7 @@ user	_villainLairWebUsed	false
 user	_vitachocCapsulesUsed	0
 user	_vmaskAdv	0
 user	_vmaskBanisherUsed	false
+user	_voidFreeFights	0
 user	_volcanoItem1	0
 user	_volcanoItem2	0
 user	_volcanoItem3	0

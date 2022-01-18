@@ -215,6 +215,7 @@ public class Modifiers {
   public static final int WATER = 140;
   public static final int SPLEEN_DROP = 141;
   public static final int POTION_DROP = 142;
+  public static final int SAUCE_SPELL_DAMAGE = 143;
   public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
   private static final Object[][] doubleModifiers = {
@@ -806,6 +807,14 @@ public class Modifiers {
       "Potion Drop",
       Pattern.compile("([+-]\\d+)% Potion Drops? [Ff]rom Monsters$"),
       Pattern.compile("Potion Drop: " + EXPR)
+    },
+    {
+      "Sauce Spell Damage",
+      new Object[] {
+        Pattern.compile("Sauce Spell Damage ([+-]\\d+)$"),
+        Pattern.compile("([+-]\\d+) Sauce Spell Damage"),
+      },
+      Pattern.compile("(?:^|, )Sauce Spell Damage: " + EXPR)
     },
   };
 
@@ -2131,6 +2140,7 @@ public class Modifiers {
       this.list = new LinkedList<Modifier>();
     }
 
+    @Override
     public Iterator<Modifier> iterator() {
       return this.list.iterator();
     }
@@ -2634,9 +2644,7 @@ public class Modifiers {
     // modifier being set.
 
     if (Modifiers.passiveSkills.isEmpty()) {
-      Object[] keys = Modifiers.modifiersByName.keySet().toArray();
-      for (int i = 0; i < keys.length; ++i) {
-        String lookup = (String) keys[i];
+      for (String lookup : Modifiers.modifiersByName.keySet()) {
         if (!Modifiers.getTypeFromLookup(lookup).equals("Skill")) {
           continue;
         }

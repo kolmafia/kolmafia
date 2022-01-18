@@ -35,6 +35,7 @@ public class WCEventHandler implements ISVNEventHandler {
    * progress  is  currently  reserved  for future purposes and now is always
    * ISVNEventHandler.UNKNOWN
    */
+  @Override
   public void handleEvent(SVNEvent event, double progress) {
     /*
      * Gets the current action. An action is represented by SVNEventAction.
@@ -80,5 +81,6 @@ public class WCEventHandler implements ISVNEventHandler {
    * Should be implemented to check if the current operation is cancelled. If
    * it is, this method should throw an SVNCancelException.
    */
+  @Override
   public void checkCancelled() throws SVNCancelException {}
 }

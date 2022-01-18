@@ -210,6 +210,7 @@ public class AddCustomDeedsPanel extends JPanel {
         this.isIntegerField = isIntegerField;
       }
 
+      @Override
       public void changedUpdate(DocumentEvent e) {
         String fieldText = CustomDeedConstructor.this.fields[this.fieldIndex].getText();
         JLabel label = CustomDeedConstructor.this.labels[this.fieldIndex];
@@ -234,10 +235,12 @@ public class AddCustomDeedsPanel extends JPanel {
         updateButton();
       }
 
+      @Override
       public void insertUpdate(DocumentEvent e) {
         changedUpdate(e);
       }
 
+      @Override
       public void removeUpdate(DocumentEvent e) {
         changedUpdate(e);
       }
@@ -272,6 +275,7 @@ public class AddCustomDeedsPanel extends JPanel {
     }
 
     public class CustomActionRunnable implements Runnable {
+      @Override
       public void run() {
         String deed = "$CUSTOM|" + CustomDeedConstructor.this.kind;
 
