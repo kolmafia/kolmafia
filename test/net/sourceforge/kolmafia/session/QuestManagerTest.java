@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -30,6 +32,7 @@ public class QuestManagerTest {
   public void beforeEach() {
     KoLCharacter.reset("QuestManager");
     Preferences.reset("QuestManager");
+    KoLConstants.inventory.clear();
   }
 
   /*
@@ -258,6 +261,18 @@ public class QuestManagerTest {
   }
 
   /*
+   * Pirate Quest
+   */
+  @Test
+  void canDetectPirateFinishedInPoopDeck() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=159");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_poop_deck_its_always_swordfish.html"));
+    QuestManager.handleQuestChange(request);
+    assertThat(Quest.PIRATE, isFinished());
+  }
+
+  /*
    * Ron Quest
    */
   @Test
@@ -301,7 +316,101 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_adventure_zeppelin_zeppelintro.html"));
     QuestManager.handleQuestChange(request);
-    assertThat(Quest.RON, isStep("step3"));
+    assertThat(Quest.RON, isStep(3));
+  }
+
+  /*
+   * Spookyraven Dance Quest
+   */
+  @Test
+  public void canDetectSpookyravenDanceStep1TalkingToLadyS() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=manor2&action=manor2_ladys");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_spookyraven_second_floor_talk_to_ladys.html"));
+    QuestManager.handleQuestChange(request);
+    assertThat(Quest.SPOOKYRAVEN_DANCE, isStep(1));
+  }
+
+  /*
+   * Spookyraven Necklace Quest
+   */
+  @Test
+  public void canDetectSpookyravenNecklaceStartedInSpookyravenFirstFloor() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=manor1");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_spookyraven_first_floor_quest_started.html"));
+    QuestManager.handleQuestChange(request);
+    assertThat(Quest.SPOOKYRAVEN_NECKLACE, isStarted());
+  }
+
+  @Test
+  public void canDetectSpookyravenNecklaceStep2InBilliardsRoom() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=391");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_billiards_room_thats_your_cue.html"));
+    QuestManager.handleQuestChange(request);
+    assertThat(Quest.SPOOKYRAVEN_NECKLACE, isStep(2));
+  }
+
+  @Test
+  public void canTrackWritingDesksFought() {
+    QuestDatabase.setQuest(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED);
+    QuestManager.updateQuestData("anything", "writing desk");
+    assertEquals(1, Preferences.getInteger("writingDesksDefeated"));
+  }
+
+  @Test
+  public void doesNotTrackWritingDesksFoughtBeforeQuest() {
+    QuestDatabase.setQuest(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.UNSTARTED);
+    QuestManager.updateQuestData("anything", "writing desk");
+    assertEquals(0, Preferences.getInteger("writingDesksDefeated"));
+  }
+
+  @Test
+  public void doesNotTrackWritingDesksFoughtAfterQuest() {
+    QuestDatabase.setQuest(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED);
+    QuestManager.updateQuestData("anything", "writing desk");
+    assertEquals(0, Preferences.getInteger("writingDesksDefeated"));
+  }
+
+  @Test
+  public void doesNotTrackWritingDesksFoughtAfterNecklace() {
+    addItem(ItemPool.SPOOKYRAVEN_NECKLACE);
+    QuestManager.updateQuestData("anything", "writing desk");
+    assertEquals(0, Preferences.getInteger("writingDesksDefeated"));
+  }
+
+  @Test
+  public void canDetectSpookyravenNecklaceFinishedTalkingToLadyS() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=manor1&action=manor1_ladys");
+    request.responseText =
+        Files.readString(
+            Path.of("request/test_place_spookyraven_first_floor_receive_necklace.html"));
+    QuestManager.handleQuestChange(request);
+    assertThat(Quest.SPOOKYRAVEN_NECKLACE, isFinished());
+  }
+
+  @Test
+  public void canDetectSpookyravenNecklaceFinishedInSpookyravenFirstFloor() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=manor1");
+    request.responseText =
+        Files.readString(
+            Path.of("request/test_place_spookyraven_first_floor_second_floor_unlocked.html"));
+    QuestManager.handleQuestChange(request);
+    assertThat(Quest.SPOOKYRAVEN_NECKLACE, isFinished());
+  }
+
+  @Test
+  public void justBeingInSpookyravenSecondFloorIsSpookyravenNecklaceFinished() throws IOException {
+    var ascension = 50;
+    KoLCharacter.setAscensions(ascension);
+    assertThat(Preferences.getInteger("lastSecondFloorUnlock"), lessThan(ascension));
+    var request = new GenericRequest("place.php?whichplace=manor1");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_spookyraven_second_floor_first_visit.html"));
+    QuestManager.handleQuestChange(request);
+    assertThat(Quest.SPOOKYRAVEN_NECKLACE, isFinished());
+    assertEquals(ascension, Preferences.getInteger("lastSecondFloorUnlock"));
   }
 
   /*
