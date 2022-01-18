@@ -247,9 +247,10 @@ public class QuestManagerTest {
   @Test
   void canDetectPalindomeStep3InPalindome() throws IOException {
     var request = new GenericRequest("place.php?whichplace=palindome&action=pal_mr");
-    request.responseText = Files.readString(Path.of("request/test_place_palindome_palindome.html"));
+    request.responseText =
+        Files.readString(Path.of("request/test_place_palindome_meet_mr_alarm.html"));
     QuestManager.handleQuestChange(request);
-    assertTrue(QuestDatabase.isQuestStep(Quest.PALINDOME, QuestDatabase.STARTED));
+    assertTrue(QuestDatabase.isQuestStep(Quest.PALINDOME, "step3"));
   }
 
   /*
@@ -317,7 +318,8 @@ public class QuestManagerTest {
   @Test
   public void canDetectToppingStep1InChasm() throws IOException {
     var request = new GenericRequest("place.php?whichplace=orc_chasm");
-    request.responseText = Files.readString(Path.of("request/place_orc_chasm_bridge_built.html"));
+    request.responseText =
+        Files.readString(Path.of("request/test_place_orc_chasm_bridge_built.html"));
     QuestManager.handleQuestChange(request);
     assertTrue(QuestDatabase.isQuestStep(Quest.TOPPING, "step1"));
   }
@@ -326,7 +328,7 @@ public class QuestManagerTest {
   public void canDetectToppingStep2InHighlands() throws IOException {
     var request = new GenericRequest("place.php?whichplace=highlands&action=highlands_dude");
     request.responseText =
-        Files.readString(Path.of("request/place_highlands_meet_highland_lord.html"));
+        Files.readString(Path.of("request/test_place_highlands_meet_highland_lord.html"));
     QuestManager.handleQuestChange(request);
     assertTrue(QuestDatabase.isQuestStep(Quest.TOPPING, "step2"));
   }
@@ -372,7 +374,7 @@ public class QuestManagerTest {
     String responseText =
         Files.readString(Path.of("request/test_fight_oil_slick_love_oil_beetle_proc.html"));
     QuestManager.updateQuestData(responseText, "oil slick");
-    assertEquals(297.90f, Preferences.getFloat("oilPeakProgress"));
+    assertEquals(297.98f, Preferences.getFloat("oilPeakProgress"));
   }
 
   @Test
@@ -427,6 +429,25 @@ public class QuestManagerTest {
     QuestManager.handleQuestChange(request);
     assertEquals(0, Preferences.getInteger("booPeakProgress"));
     assertTrue(Preferences.getBoolean("booPeakLit"));
+  }
+
+  @Test
+  public void canDetectToppingStep3InHighlands() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=highlands");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_highlands_all_fires_lit.html"));
+    QuestManager.handleQuestChange(request);
+    assertEquals(15, Preferences.getInteger("twinPeakProgress"));
+    assertTrue(QuestDatabase.isQuestStep(Quest.TOPPING, "step3"));
+  }
+
+  @Test
+  public void canDetectToppingFinishedInHighlands() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=highlands");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_highlands_finish_highland_lord.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.TOPPING, QuestDatabase.FINISHED));
   }
 
   /*
