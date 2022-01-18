@@ -4,8 +4,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Player;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.AfterEach;
@@ -81,7 +83,42 @@ class ShopCommandTest extends AbstractCommandTestBase {
     expected = "Transferring items to store..." + LS + "Requests complete." + LS + LS;
     assertEquals(expected, output, "Unexpected results.");
   }
-  
 
+  @Test
+  public void itShouldPutAnItemFromStorage() {
+    int itemID = ItemPool.GUITAR_4D;
+    String itemName = ItemDatabase.getItemDataName(itemID);
+    String output = execute("put using storage " + itemName);
+    String expected = "Skipping '4-dimensional guitar', none found in storage." + LS;
+    assertEquals(expected, output, "Item not in storage.");
+    // Better way to convert item id or name to AdventureResult?
+    KoLConstants.storage.add(ItemFinder.getFirstMatchingItem(itemName));
+    output = execute("put using storage " + itemName);
+    expected = "Adding 4-dimensional guitar to store..." + LS + "Requests complete." + LS + LS;
+    assertEquals(expected, output, "Item not transferred.");
+  }
 
+  @Test
+  public void itShouldPutItemWithPriceAndLimit() {
+    int itemID = ItemPool.GUITAR_4D;
+    String itemName = ItemDatabase.getItemDataName(itemID);
+    Player.addItem(itemID, 3);
+    String output = execute("put " + itemName + "@ 1337");
+    String expected = "Transferring items to store..." + LS + "Requests complete." + LS + LS;
+    assertEquals(expected, output, "Item not put.");
+    output = execute("put " + itemName + "@ 1337 limit 2");
+    expected = "Transferring items to store..." + LS + "Requests complete." + LS + LS;
+    assertEquals(expected, output, "Item not put.");
+  }
+
+  @Test
+  public void itShouldCatchACommonUserTypo() {
+    int itemID = ItemPool.GUITAR_4D;
+    String itemName = ItemDatabase.getItemDataName(itemID);
+    Player.addItem(itemID, 3);
+    String output = execute("put " + itemName + "@ 1,337");
+    String expected =
+        "'337' is not an item.  Did you use a comma in the middle of a number?  Quitting..." + LS;
+    assertEquals(expected, output, "Item not put.");
+  }
 }
