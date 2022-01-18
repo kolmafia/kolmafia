@@ -2,7 +2,10 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.Player;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.AfterEach;
@@ -65,4 +68,20 @@ class ShopCommandTest extends AbstractCommandTestBase {
             + LS;
     assertEquals(expected, output, "Unexpected results.");
   }
+
+  @Test
+  public void itShouldPutAnItem() {
+    int itemID = ItemPool.GUITAR_4D;
+    String itemName = ItemDatabase.getItemDataName(itemID);
+    String output = execute("put " + itemName);
+    String expected = "Skipping '4-dimensional guitar', none found in inventory." + LS;
+    assertEquals(expected, output, "Item not in inventory.");
+    Player.addItem(itemID);
+    output = execute("put " + itemName);
+    expected = "Transferring items to store..." + LS + "Requests complete." + LS + LS;
+    assertEquals(expected, output, "Unexpected results.");
+  }
+  
+
+
 }
