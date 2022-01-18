@@ -331,6 +331,35 @@ public class QuestManagerTest {
     assertThat(Quest.SPOOKYRAVEN_DANCE, isStep(1));
   }
 
+  @Test
+  public void canDetectSpookyravenDanceStep3InSpookyravenSecondFloor() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=manor2");
+    request.responseText =
+        Files.readString(
+            Path.of("request/test_place_spookyraven_second_floor_ballroom_unlocked.html"));
+    QuestManager.handleQuestChange(request);
+    assertThat(Quest.SPOOKYRAVEN_DANCE, isStep(3));
+  }
+
+  @Test
+  public void canDetectSpookyravenDanceStepFinishedInBallroom() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=395");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_spookyraven_ballroom_having_a_ball.html"));
+    QuestManager.handleQuestChange(request);
+    assertThat(Quest.SPOOKYRAVEN_DANCE, isFinished());
+  }
+
+  @Test
+  public void canDetectSpookyravenDanceStepFinishedFromStairsToAttic() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=manor2");
+    request.responseText =
+        Files.readString(
+            Path.of("request/test_place_spookyraven_second_floor_attic_unlocked.html"));
+    QuestManager.handleQuestChange(request);
+    assertThat(Quest.SPOOKYRAVEN_DANCE, isFinished());
+  }
+
   /*
    * Spookyraven Necklace Quest
    */
