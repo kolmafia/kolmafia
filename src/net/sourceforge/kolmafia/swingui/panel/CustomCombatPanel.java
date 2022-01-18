@@ -52,14 +52,14 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
 public class CustomCombatPanel extends JPanel {
-  private JComboBox actionSelect;
+  private JComboBox<String> actionSelect;
   protected JTree combatTree;
   protected JTextArea combatEditor;
   protected DefaultTreeModel combatModel;
 
   protected JPanel combatCardPanel;
   protected CardLayout combatCards;
-  public JComboBox availableScripts;
+  public JComboBox<String> availableScripts;
 
   private static ImageIcon stealImg, stunImg;
   private static ImageIcon potionImg, olfactImg, puttyImg;
@@ -172,7 +172,7 @@ public class CustomCombatPanel extends JPanel {
       super(new Dimension(70, -1), new Dimension(200, -1));
 
       CustomCombatPanel.this.actionSelect =
-          new AutoFilterComboBox(KoLCharacter.getBattleSkillNames(), false);
+          new AutoFilterComboBox<>(KoLCharacter.getBattleSkillNames());
       CustomCombatPanel.this.actionSelect.addActionListener(new BattleActionListener());
 
       JPanel special = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
@@ -304,6 +304,7 @@ public class CustomCombatPanel extends JPanel {
       this.update();
     }
 
+    @Override
     public void update() {
       this.updating = true;
 
@@ -405,6 +406,7 @@ public class CustomCombatPanel extends JPanel {
     public void addStatusLabel() {}
 
     private class BattleActionListener implements ActionListener {
+      @Override
       public void actionPerformed(ActionEvent e) {
         // Don't set preferences from widgets when we
         // are in the middle of loading widgets from
@@ -427,6 +429,7 @@ public class CustomCombatPanel extends JPanel {
         SpecialActionsPanel.this.specialPopup.show(SpecialActionsPanel.this.special, 0, 32);
       }
 
+      @Override
       public void itemStateChanged(final ItemEvent e) {
         // Don't set preferences from widgets when we
         // are in the middle of loading widgets from
@@ -485,13 +488,14 @@ public class CustomCombatPanel extends JPanel {
     }
   }
 
-  public class CombatComboBox extends JComboBox implements ActionListener, Listener {
+  public class CombatComboBox extends JComboBox<String> implements Listener {
     public CombatComboBox() {
       super(CombatActionManager.getAvailableLookups());
       this.addActionListener(this);
       PreferenceListenerRegistry.registerPreferenceListener("customCombatScript", this);
     }
 
+    @Override
     public void update() {
       CustomCombatPanel.this.combatCards.show(CustomCombatPanel.this.combatCardPanel, "tree");
       this.setSelectedItem(Preferences.getString("customCombatScript"));
@@ -507,10 +511,10 @@ public class CustomCombatPanel extends JPanel {
     }
   }
 
-  private class CustomCombatEditorPanel extends ScrollablePanel {
+  private class CustomCombatEditorPanel extends ScrollablePanel<JTextArea> {
     public CustomCombatEditorPanel() {
       super("Editor", "save", "cancel", new JTextArea());
-      CustomCombatPanel.this.combatEditor = (JTextArea) this.scrollComponent;
+      CustomCombatPanel.this.combatEditor = this.scrollComponent;
       CustomCombatPanel.this.combatEditor.setFont(KoLGUIConstants.DEFAULT_FONT);
       CustomCombatPanel.this.refreshCombatTree();
 
@@ -554,7 +558,7 @@ public class CustomCombatPanel extends JPanel {
     public void setEnabled(final boolean isEnabled) {}
   }
 
-  public class CustomCombatTreePanel extends ScrollablePanel {
+  public class CustomCombatTreePanel extends ScrollablePanel<JTree> {
     public CustomCombatTreePanel() {
       super("", "edit", "help", CustomCombatPanel.this.combatTree);
       CustomCombatPanel.this.combatTree.setVisibleRowCount(8);
@@ -588,6 +592,7 @@ public class CustomCombatPanel extends JPanel {
     public void setEnabled(final boolean isEnabled) {}
 
     public class NewScriptRunnable implements Runnable {
+      @Override
       public void run() {
         String name = InputFieldUtilities.input("Give your combat script a name!");
         if (name == null || name.equals("") || name.equals("default")) {
@@ -600,6 +605,7 @@ public class CustomCombatPanel extends JPanel {
     }
 
     public class CopyScriptRunnable implements Runnable {
+      @Override
       public void run() {
         String name = InputFieldUtilities.input("Make a copy of current script called:");
         if (name == null || name.equals("") || name.equals("default")) {
@@ -613,6 +619,7 @@ public class CustomCombatPanel extends JPanel {
     }
 
     public class DeleteScriptRunnable implements Runnable {
+      @Override
       public void run() {
         String strategy = CombatActionManager.getStrategyLookupName();
 

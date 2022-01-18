@@ -52,7 +52,6 @@ import net.sourceforge.kolmafia.swingui.panel.UseItemPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
-import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
 import net.sourceforge.kolmafia.textui.command.AutoMallCommand;
 import net.sourceforge.kolmafia.textui.command.CleanupJunkRequest;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -145,13 +144,13 @@ public class ItemManageFrame extends GenericFrame {
 
     selectorPanel.addPanel(
         "General",
-        new InventoryPanel((SortedListModel<AdventureResult>) KoLConstants.inventory, false));
+        new InventoryPanel<>((SortedListModel<AdventureResult>) KoLConstants.inventory, false));
     selectorPanel.addPanel(
         " - Recent",
-        new InventoryPanel((SortedListModel<AdventureResult>) KoLConstants.tally, false));
+        new InventoryPanel<>((SortedListModel<AdventureResult>) KoLConstants.tally, false));
     selectorPanel.addPanel(
         " - Closet",
-        new InventoryPanel((SortedListModel<AdventureResult>) KoLConstants.closet, false));
+        new InventoryPanel<>((SortedListModel<AdventureResult>) KoLConstants.closet, false));
     selectorPanel.addPanel(" - Storage", new HagnkStoragePanel(false));
     selectorPanel.addPanel(
         " - Unlimited",
@@ -172,7 +171,7 @@ public class ItemManageFrame extends GenericFrame {
 
     selectorPanel.addPanel(
         "Equipment",
-        new InventoryPanel((SortedListModel<AdventureResult>) KoLConstants.inventory, true));
+        new InventoryPanel<>((SortedListModel<AdventureResult>) KoLConstants.inventory, true));
     selectorPanel.addPanel(
         " - Storage ",
         new HagnkStoragePanel(
@@ -213,17 +212,14 @@ public class ItemManageFrame extends GenericFrame {
           s = s.substring(3);
         }
         builder.append(s).append("|");
-        builder.append(
-            ((ShowDescriptionTable) ((InventoryPanel) comp).scrollComponent).collectHeaderStates());
+        builder.append(((InventoryPanel<?>) comp).scrollComponent.collectHeaderStates());
       } else if (comp instanceof RestorativeItemPanel) {
         String s = ItemManageFrame.selectorPanel.panelNames.get(i).toString();
         if (s.startsWith(" - ")) {
           s = s.substring(3);
         }
         builder.append(s).append("|");
-        builder.append(
-            ((ShowDescriptionTable) ((RestorativeItemPanel) comp).scrollComponent)
-                .collectHeaderStates());
+        builder.append(((RestorativeItemPanel) comp).scrollComponent.collectHeaderStates());
       }
     }
 
@@ -261,15 +257,14 @@ public class ItemManageFrame extends GenericFrame {
 
           if (s.contains(panelName)) {
             // set the header states.
-            ((ShowDescriptionTable) ((InventoryPanel) comp).scrollComponent).setHeaderStates(it);
+            ((InventoryPanel<?>) comp).scrollComponent.setHeaderStates(it);
             break;
           }
         } else if (comp instanceof RestorativeItemPanel) {
           String s = ItemManageFrame.selectorPanel.panelNames.get(i).toString();
           if (s.contains(panelName)) {
             // set the header states.
-            ((ShowDescriptionTable) ((RestorativeItemPanel) comp).scrollComponent)
-                .setHeaderStates(it);
+            ((RestorativeItemPanel) comp).scrollComponent.setHeaderStates(it);
             break;
           }
         }
@@ -415,7 +410,7 @@ public class ItemManageFrame extends GenericFrame {
     }
   }
 
-  private class HagnkStoragePanel extends InventoryPanel {
+  private class HagnkStoragePanel extends InventoryPanel<AdventureResult> {
     private boolean isPullingForUse = false;
 
     public HagnkStoragePanel(final boolean isEquipmentOnly) {
@@ -562,7 +557,7 @@ public class ItemManageFrame extends GenericFrame {
     }
   }
 
-  private class FreePullsPanel extends InventoryPanel {
+  private class FreePullsPanel extends InventoryPanel<AdventureResult> {
     public FreePullsPanel() {
       super(
           "pull item",
@@ -607,8 +602,8 @@ public class ItemManageFrame extends GenericFrame {
     }
   }
 
-  private class ViewOnlyPanel extends InventoryPanel {
-    public ViewOnlyPanel(final LockableListModel elementModel) {
+  private class ViewOnlyPanel extends InventoryPanel<AdventureResult> {
+    public ViewOnlyPanel(final LockableListModel<AdventureResult> elementModel) {
       super(elementModel);
     }
   }
@@ -623,6 +618,7 @@ public class ItemManageFrame extends GenericFrame {
       this.changing = false;
     }
 
+    @Override
     public void stateChanged(ChangeEvent e) {
       if (this.changing) {
         return;
@@ -645,12 +641,13 @@ public class ItemManageFrame extends GenericFrame {
       this.desired = desired;
     }
 
+    @Override
     public void run() {
       ConcoctionDatabase.refreshConcoctions();
     }
   }
 
-  public static class PrefPopup extends JComboBox implements ActionListener, Listener {
+  public static class PrefPopup extends JComboBox<String> implements Listener {
     private final String pref;
 
     public PrefPopup(String pref) {
@@ -665,6 +662,7 @@ public class ItemManageFrame extends GenericFrame {
       this.update();
     }
 
+    @Override
     public void update() {
       this.setSelectedItem(Preferences.getString(this.pref));
     }

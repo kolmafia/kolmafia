@@ -270,7 +270,8 @@ public class CharPaneRequest extends GenericRequest {
   // width=60 height=100 border=0></a>
 
   public static final Pattern AVATAR_PATTERN =
-      Pattern.compile("<img +src=[^>]*?(?:images.kingdomofloathing.com|/images)/([^>'\"\\s]+)");
+      Pattern.compile(
+          "<img +src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/([^>'\"\\s]+)");
 
   public static final void parseAvatar(final String responseText) {
     Matcher avatarMatcher = CharPaneRequest.AVATAR_PATTERN.matcher(responseText);
@@ -1097,7 +1098,7 @@ public class CharPaneRequest extends GenericRequest {
 
   private static final Pattern PokeFamPattern =
       Pattern.compile(
-          "img align=\"absmiddle\" src=http://images.kingdomofloathing.com/itemimages/(.*?)>&nbsp;(.*?) \\(Lvl (\\d+)\\)",
+          "img align=\"absmiddle\" src=(?:cloudfront.net|images.kingdomofloathing.com)/itemimages/(.*?)>&nbsp;(.*?) \\(Lvl (\\d+)\\)",
           Pattern.DOTALL);
 
   private static void checkPokeFam(final String responseText) {

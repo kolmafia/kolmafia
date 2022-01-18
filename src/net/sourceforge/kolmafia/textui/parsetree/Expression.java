@@ -1,10 +1,15 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
+import org.eclipse.lsp4j.Location;
 
 public abstract class Expression extends Evaluable {
   Evaluable lhs;
   Evaluable rhs;
+
+  public Expression(final Location location) {
+    super(location);
+  }
 
   public Evaluable getLeftHandSide() {
     return this.lhs;

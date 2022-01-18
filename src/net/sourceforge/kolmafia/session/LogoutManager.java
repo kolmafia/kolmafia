@@ -46,6 +46,7 @@ public class LogoutManager {
   }
 
   private static class ResetGUIRunnable implements Runnable {
+    @Override
     public void run() {
       LogoutManager.resetGUI();
     }

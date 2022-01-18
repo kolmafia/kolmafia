@@ -67,6 +67,7 @@ public class CreateFrameRunnable implements Runnable {
     }
   }
 
+  @Override
   public void run() {
     if (KoLmafia.isSessionEnding() && this.creationType != LoginFrame.class) {
       return;
@@ -258,6 +259,10 @@ public class CreateFrameRunnable implements Runnable {
   }
 
   private static void addMenuItems() {
+    if (!Desktop.isDesktopSupported()) {
+      return;
+    }
+
     Desktop desktop = Desktop.getDesktop();
 
     DesktopHandler handler = new DesktopHandler();
@@ -276,15 +281,18 @@ public class CreateFrameRunnable implements Runnable {
   }
 
   private static class DesktopHandler implements PreferencesHandler, QuitHandler, AboutHandler {
+    @Override
     public void handlePreferences(PreferencesEvent e) {
       KoLmafia.preferences();
     }
 
+    @Override
     public void handleQuitRequestWith(QuitEvent e, QuitResponse r) {
       KoLmafia.quit();
       r.performQuit();
     }
 
+    @Override
     public void handleAbout(AboutEvent e) {
       KoLmafia.about();
     }

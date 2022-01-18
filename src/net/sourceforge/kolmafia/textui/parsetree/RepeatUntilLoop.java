@@ -5,12 +5,13 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public class RepeatUntilLoop extends Loop {
   private final Evaluable condition;
 
-  public RepeatUntilLoop(final Scope scope, final Evaluable condition) {
-    super(scope);
+  public RepeatUntilLoop(final Location location, final Scope scope, final Evaluable condition) {
+    super(location, scope);
     this.condition = condition;
   }
 

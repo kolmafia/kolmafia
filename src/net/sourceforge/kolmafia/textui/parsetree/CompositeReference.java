@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public class CompositeReference extends VariableReference {
   private final List<Evaluable> indices;
@@ -17,12 +18,15 @@ public class CompositeReference extends VariableReference {
   private Value index;
 
   // For runtime error messages
-  String fileName;
-  int lineNumber;
+  private final String fileName;
+  private final int lineNumber;
 
   public CompositeReference(
-      final Variable target, final List<Evaluable> indices, final Parser parser) {
-    super(target);
+      final Location location,
+      final Variable target,
+      final List<Evaluable> indices,
+      final Parser parser) {
+    super(location, target);
     this.indices = indices;
     this.fileName = parser.getShortFileName();
     this.lineNumber = parser.getLineNumber();
@@ -33,7 +37,13 @@ public class CompositeReference extends VariableReference {
     Type type = this.target.getType().getBaseType();
 
     for (Evaluable current : this.indices) {
-      type = ((CompositeType) type.asProxy()).getDataType(current).getBaseType();
+      type = type.asProxy();
+
+      if (type instanceof CompositeType) {
+        type = ((CompositeType) type).getDataType(current).getBaseType();
+      } else if (!type.isBad()) {
+        type = new Type.BadType(null, null);
+      }
     }
     return type;
   }
@@ -41,8 +51,15 @@ public class CompositeReference extends VariableReference {
   @Override
   public Type getRawType() {
     Type type = this.target.getType();
+
     for (Evaluable current : this.indices) {
-      type = ((CompositeType) type.getBaseType().asProxy()).getDataType(current);
+      type = type.getBaseType().asProxy();
+
+      if (type instanceof CompositeType) {
+        type = ((CompositeType) type).getDataType(current);
+      } else if (!type.isBad()) {
+        type = new Type.BadType(null, null);
+      }
     }
     return type;
   }

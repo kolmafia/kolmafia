@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.textui.AshRuntime;
+import org.eclipse.lsp4j.Location;
 
 public abstract class Function extends Symbol {
   protected Type type;
@@ -14,14 +15,17 @@ public abstract class Function extends Symbol {
   private String signature;
 
   public Function(
-      final String name, final Type type, final List<VariableReference> variableReferences) {
-    super(name);
+      final String name,
+      final Type type,
+      final List<VariableReference> variableReferences,
+      final Location location) {
+    super(name, location);
     this.type = type;
     this.variableReferences = variableReferences;
   }
 
   public Function(final String name, final Type type) {
-    this(name, type, new ArrayList<>());
+    this(name, type, new ArrayList<>(), null);
   }
 
   public Type getType() {
@@ -368,6 +372,12 @@ public abstract class Function extends Symbol {
 
     for (VariableReference current : this.variableReferences) {
       current.print(stream, indent + 1);
+    }
+  }
+
+  public static class BadFunction extends UserDefinedFunction implements BadNode {
+    public BadFunction(final String name) {
+      super(name, new Type.BadType(null, null), new ArrayList<>(), null);
     }
   }
 }

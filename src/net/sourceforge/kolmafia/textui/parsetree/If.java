@@ -2,21 +2,32 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public class If extends Conditional {
   private final List<Conditional> elseLoops;
 
-  public If(final Scope scope, final Evaluable condition) {
-    super(scope, condition);
+  public If(final Location location, final Scope scope, final Evaluable condition) {
+    super(location, scope, condition);
     this.elseLoops = new ArrayList<>();
   }
 
   public void addElseLoop(final Conditional elseLoop) {
     this.elseLoops.add(elseLoop);
+    // It would be better if we could separate the "if" from the whole "if/elseif/elseif..."
+    // chain, but currently, If represents the Command all by itself, and needs to have its
+    // Location, so update it.
+    this.setLocation(Parser.mergeLocations(this, elseLoop));
+  }
+
+  Iterator<Conditional> getElseLoopIterator() {
+    return this.elseLoops.iterator();
   }
 
   @Override

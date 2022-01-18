@@ -4,11 +4,13 @@ import java.io.PrintStream;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public abstract class ScriptState extends Command {
   private final ScriptRuntime.State state;
 
-  public ScriptState(final ScriptRuntime.State state) {
+  public ScriptState(final Location location, final ScriptRuntime.State state) {
+    super(location);
     this.state = state;
   }
 
@@ -37,5 +39,21 @@ public abstract class ScriptState extends Command {
   @Override
   public boolean assertBarrier() {
     return true;
+  }
+
+  public static final class BadScriptState extends ScriptState {
+    public BadScriptState(final Location location) {
+      super(location, ScriptRuntime.State.NORMAL);
+    }
+
+    @Override
+    public Value execute(final AshRuntime interpreter) {
+      return null;
+    }
+
+    @Override
+    public boolean assertBarrier() {
+      return false;
+    }
   }
 }

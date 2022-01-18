@@ -22,6 +22,8 @@ class UseItemRequestTest extends RequestTestBase {
     KoLCharacter.reset("milk user");
     // Reset preferences to defaults.
     KoLCharacter.reset(true);
+    // This shouldn't be necessary if reset does what is expected but....
+    Preferences.setBoolean("_milkOfMagnesiumUsed", false);
     AdventureResult.addResultToList(
         KoLConstants.inventory, ItemPool.get(ItemPool.MILK_OF_MAGNESIUM));
   }

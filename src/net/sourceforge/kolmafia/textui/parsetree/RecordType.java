@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.util.List;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptException;
+import org.eclipse.lsp4j.Location;
 
 public class RecordType extends CompositeType {
   private final String[] fieldNames;
@@ -10,7 +11,15 @@ public class RecordType extends CompositeType {
   private final Value[] fieldIndices;
 
   public RecordType(final String name, final String[] fieldNames, final Type[] fieldTypes) {
-    super(name, DataTypes.TYPE_RECORD);
+    this(name, fieldNames, fieldTypes, null);
+  }
+
+  public RecordType(
+      final String name,
+      final String[] fieldNames,
+      final Type[] fieldTypes,
+      final Location location) {
+    super(name, DataTypes.TYPE_RECORD, location);
 
     this.fieldNames = fieldNames;
     this.fieldTypes = fieldTypes;
@@ -24,6 +33,19 @@ public class RecordType extends CompositeType {
     for (int i = 0; i < fieldNames.length; ++i) {
       this.fieldIndices[i] = new Value(fieldNames[i]);
     }
+  }
+
+  private RecordType(
+      final String name,
+      final String[] fieldNames,
+      final Type[] fieldTypes,
+      final Value[] fieldIndices,
+      final Location location) {
+    super(name, DataTypes.TYPE_RECORD, location);
+
+    this.fieldNames = fieldNames;
+    this.fieldTypes = fieldTypes;
+    this.fieldIndices = fieldIndices;
   }
 
   public String[] getFieldNames() {
@@ -61,7 +83,7 @@ public class RecordType extends CompositeType {
     Value value = key instanceof Value.Constant ? ((Value.Constant) key).value : (Value) key;
     int index = this.indexOf(value);
     if (index < 0 || index >= this.fieldTypes.length) {
-      return null;
+      return new BadType(null, null);
     }
     return this.fieldTypes[index];
   }
@@ -158,5 +180,35 @@ public class RecordType extends CompositeType {
       values += value;
     }
     return values;
+  }
+
+  @Override
+  public RecordType reference(final Location location) {
+    return new RecordTypeReference(this, location);
+  }
+
+  private class RecordTypeReference extends RecordType {
+    private RecordTypeReference(final RecordType recordType, final Location location) {
+      super(
+          recordType.name,
+          recordType.fieldNames,
+          recordType.fieldTypes,
+          recordType.fieldIndices,
+          location);
+    }
+
+    @Override
+    public Location getDefinitionLocation() {
+      return RecordType.this.getDefinitionLocation();
+    }
+  }
+
+  public static class BadRecordType extends RecordType implements BadNode {
+    public BadRecordType(final String name, final Location location) {
+      super(name, new String[] {}, new Type[] {}, location);
+    }
+
+    // Don't override isBad(). The fields don't affect whether or not
+    // the record itself is recognized.
   }
 }

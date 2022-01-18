@@ -376,6 +376,7 @@ public class BasementDecorator {
       return this.name != null ? this.name.hashCode() : 0;
     }
 
+    @Override
     public int compareTo(final StatBooster o) {
       if (this.effectiveBoost == 0.0) {
         if (o.effectiveBoost != 0.0) {

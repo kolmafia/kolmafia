@@ -586,9 +586,10 @@ public abstract class UseLinkDecorator {
       case COOK:
       case COOK_FANCY:
         return new UseLink(itemId, itemCount, "cook", "craft.php?mode=cook&a=");
-    }
 
-    return null;
+      default:
+        return null;
+    }
   }
 
   private static UseLink getCouncilLink(int itemId) {

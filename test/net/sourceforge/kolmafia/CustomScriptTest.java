@@ -24,6 +24,7 @@ public class CustomScriptTest {
   private static final File EXPECTED_LOCATION = new File(KoLConstants.ROOT_LOCATION, "expected/");
 
   private static class ScriptNameFilter implements FilenameFilter {
+    @Override
     public boolean accept(File dir, String name) {
       return name.endsWith(".ash")
           || name.endsWith(".txt")
@@ -33,7 +34,7 @@ public class CustomScriptTest {
   }
 
   private static Stream<Arguments> data() {
-    return Arrays.asList(KoLConstants.SCRIPT_LOCATION.list(new ScriptNameFilter())).stream()
+    return Arrays.stream(KoLConstants.SCRIPT_LOCATION.list(new ScriptNameFilter()))
         .map(Arguments::of);
   }
 
@@ -45,7 +46,7 @@ public class CustomScriptTest {
   @ParameterizedTest
   @MethodSource("data")
   void testScript(String script) throws IOException {
-    String expectedOutput = getExpectedOutput(script);
+    String expectedOutput = getExpectedOutput(script).trim();
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
     try (PrintStream out = new PrintStream(ostream, true)) {
       // Inject custom output stream.
@@ -55,7 +56,7 @@ public class CustomScriptTest {
       command.run("call", script);
     }
 
-    String output = ostream.toString();
+    String output = ostream.toString().trim();
     assertEquals(expectedOutput, output, script + " output does not match: ");
   }
 

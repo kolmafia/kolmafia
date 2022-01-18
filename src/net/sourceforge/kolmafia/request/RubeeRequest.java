@@ -104,6 +104,7 @@ public class RubeeRequest extends CoinMasterRequest {
         : "Need access to Fantasy Realm";
   }
 
+  @Override
   public void equip() {
     if (!KoLCharacter.hasEquipped(ItemPool.FANTASY_REALM_GEM)) {
       EquipmentRequest request =

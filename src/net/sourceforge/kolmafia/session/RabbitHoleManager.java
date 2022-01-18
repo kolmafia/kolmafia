@@ -514,7 +514,7 @@ public abstract class RabbitHoleManager {
     }
 
     @Override
-    public Object clone() {
+    public Board clone() {
       return new Board(this);
     }
 
@@ -1034,7 +1034,7 @@ public abstract class RabbitHoleManager {
 
   private static Path solve(final Board board) {
     // Attempt to solve by moving the current piece
-    return RabbitHoleManager.solve((Board) board.clone(), new Path());
+    return RabbitHoleManager.solve(board.clone(), new Path());
   }
 
   private static Path solve(final Board board, final Path path) {
@@ -1199,7 +1199,7 @@ public abstract class RabbitHoleManager {
     }
     index += 8;
 
-    List<AdventureResult> hats = EquipmentManager.getEquipmentLists()[EquipmentManager.HAT];
+    List<AdventureResult> hats = EquipmentManager.getEquipmentLists().get(EquipmentManager.HAT);
     AdventureResult curHat = EquipmentManager.getEquipment(EquipmentManager.HAT);
     TreeMap<Integer, String> options = new TreeMap<Integer, String>();
     for (AdventureResult hat : hats) {
@@ -1236,7 +1236,7 @@ public abstract class RabbitHoleManager {
 
   private static TreeMap<Integer, StringBuffer> getHatMap() {
     // Make a map of all hats indexed by length
-    List<AdventureResult> hats = EquipmentManager.getEquipmentLists()[EquipmentManager.HAT];
+    List<AdventureResult> hats = EquipmentManager.getEquipmentLists().get(EquipmentManager.HAT);
     FamiliarData current = KoLCharacter.getFamiliar();
 
     if (current.getItem() != null && EquipmentDatabase.isHat(current.getItem())) {

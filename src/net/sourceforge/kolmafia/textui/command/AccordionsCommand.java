@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.ArrayList;
+import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -8,7 +10,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AccordionsCommand extends AbstractCommand {
@@ -45,7 +46,7 @@ public class AccordionsCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    AdventureResultArray found = new AdventureResultArray();
+    List<AdventureResult> found = new ArrayList<>();
     String[] itemIds = Preferences.getString("_stolenAccordions").split(",");
     for (int i = 0; i < itemIds.length; ++i) {
       found.add(ItemPool.get(StringUtilities.parseInt(itemIds[i]), 1));

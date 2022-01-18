@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -65,7 +66,7 @@ public class ItemDatabase {
   private static final Map<String, Integer> itemIdByPlural = new HashMap<String, Integer>();
 
   private static final Map<String, Integer> itemIdByDescription = new HashMap<String, Integer>();
-  private static final Map<String, List<Comparable>> foldGroupsByName = new HashMap<>();
+  private static final Map<String, FoldGroup> foldGroupsByName = new HashMap<>();
 
   private static final Map<Integer, int[]> itemSourceByNoobSkillId = new HashMap<Integer, int[]>();
   private static final IntegerArray noobSkillIdByItemSource = new IntegerArray();
@@ -541,6 +542,16 @@ public class ItemDatabase {
         + (plural == null || plural.equals("") ? "" : "\t" + plural);
   }
 
+  public static class FoldGroup {
+    public final int damage;
+    public final List<String> names;
+
+    private FoldGroup(final int damage, final List<String> names) {
+      this.damage = damage;
+      this.names = names;
+    }
+  }
+
   private static void readFoldGroups() {
     BufferedReader reader =
         FileUtilities.getVersionedReader("foldgroups.txt", KoLConstants.FOLDGROUPS_VERSION);
@@ -551,8 +562,9 @@ public class ItemDatabase {
         continue;
       }
 
-      ArrayList<Comparable> group = new ArrayList<Comparable>();
-      group.add(IntegerPool.get(StringUtilities.parseInt(data[0])));
+      int damage = StringUtilities.parseInt(data[0]);
+      ArrayList<String> names = new ArrayList<>();
+      FoldGroup group = new FoldGroup(damage, names);
       for (int i = 1; i < data.length; ++i) {
         String name = StringUtilities.getCanonicalName(data[i]);
         if (ItemDatabase.itemIdSetByName.get(name) == null) {
@@ -560,9 +572,9 @@ public class ItemDatabase {
           continue;
         }
         ItemDatabase.foldGroupsByName.put(name, group);
-        group.add(name);
+        names.add(name);
       }
-      group.trimToSize();
+      names.trimToSize();
     }
 
     try {
@@ -1536,7 +1548,7 @@ public class ItemDatabase {
     return JComponentUtilities.getImage(path);
   }
 
-  public static final List<Comparable> getFoldGroup(final String name) {
+  public static final FoldGroup getFoldGroup(final String name) {
     if (name == null) {
       return null;
     }
@@ -2149,32 +2161,78 @@ public class ItemDatabase {
     }
   }
 
-  public static void parseVampireVintnerWine(final String desc) {
+  public static void resetVampireVintnerWine() {
+    Preferences.setString("vintnerWineName", "");
+    Preferences.setString("vintnerWineEffect", "");
+    Preferences.setInteger("vintnerWineLevel", 0);
+    Preferences.setString("vintnerWineType", "");
+  }
+
+  public static void parseVampireVintnerWine() {
+    // Call desc_item.php for 1950 Vampire Vintner wine
+    String idesc = DebugDatabase.itemDescriptionText(ItemPool.VAMPIRE_VINTNER_WINE, true);
+
+    // GenericRequest calls ResponseTextParser which makes the following call.
+    // No reason to parse the response text twice!
+
+    // ItemDatabase.parseVampireVintnerWine(idesc);
+  }
+
+  public static void parseVampireVintnerWine(final String idesc) {
+    String iEnchantments =
+        DebugDatabase.parseItemEnchantments(
+            idesc, new ArrayList<String>(), KoLConstants.CONSUME_DRINK);
+    String iname = DebugDatabase.parseName(idesc);
+    Modifiers imods = Modifiers.parseModifiers(iname, iEnchantments);
+
+    // Validate this by seeing what effect this wine grants.
+    String effectName = imods.getString("Effect");
+    int effectId = EffectDatabase.getEffectId(effectName);
+
+    // If it doesn't grant one, this is the generic 1950 Vampire Vintner wine
+    if (effectId == -1) {
+      ItemDatabase.resetVampireVintnerWine();
+      return;
+    }
+
+    // The damage type that created this wine is implied by the effect the wine grants.
     String type = "";
-    switch (Modifiers.getStringModifier("Item", ItemPool.VAMPIRE_VINTNER_WINE, "Effect")) {
-      case "Wine-Befouled":
-        type = "stench";
-        break;
-      case "Wine-Cold":
-        type = "cold";
-        break;
-      case "Wine-Dark":
-        type = "spooky";
-        break;
-      case "Wine-Fortified":
+
+    switch (effectId) {
+      case EffectPool.WINE_FORTIFIED:
         type = "physical";
         break;
-      case "Wine-Frisky":
-        type = "sleaze";
-        break;
-      case "Wine-Friendly":
-        type = "familiar";
-        break;
-      case "Wine-Hot":
+      case EffectPool.WINE_HOT:
         type = "hot";
         break;
+      case EffectPool.WINE_COLD:
+        type = "cold";
+        break;
+      case EffectPool.WINE_DARK:
+        type = "spooky";
+        break;
+      case EffectPool.WINE_BEFOULED:
+        type = "stench";
+        break;
+      case EffectPool.WINE_FRISKY:
+        type = "sleaze";
+        break;
+      case EffectPool.WINE_FRIENDLY:
+        type = "familiar";
+        break;
     }
+
+    Preferences.setString("vintnerWineName", iname);
+    Preferences.setString("vintnerWineEffect", effectName);
     Preferences.setString("vintnerWineType", type);
+
+    // Look up the description of the the effect. ResponseTextParser will
+    // examine it and set the vintnerWineLevel property
+    DebugDatabase.readEffectDescriptionText(effectId);
+
+    // Override the modifiers for the 1950 Vampire Vintner wine to include the
+    // effect that drinking this one will provide.
+    Modifiers.overrideModifier(Modifiers.getLookupName("Item", "1950 Vampire Vintner wine"), imods);
   }
 
   public static int parseYearbookCamera(final String desc) {
@@ -2380,11 +2438,7 @@ public class ItemDatabase {
   }
 
   public static int getNoobSkillId(final int itemId) {
-    Integer skillId = ItemDatabase.noobSkillIdByItemSource.get(itemId);
-    if (skillId == null) {
-      return -1;
-    }
-    return skillId.intValue();
+    return ItemDatabase.noobSkillIdByItemSource.get(itemId);
   }
 
   public static int[] getItemListByNoobSkillId(final int skillId) {

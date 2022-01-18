@@ -316,7 +316,7 @@ public class MonsterManuelManager {
   // width=100></td>
   private static final Pattern IMAGE_PATTERN =
       Pattern.compile(
-          "<td rowspan=4 valign=top width=100><img src=[^>]*?(?:images.kingdomofloathing.com|/images)/(?:(adventureimages|otherimages)/(?:\\.\\./)?)?(.*?\\.gif).*?</td>");
+          "<td rowspan=4 valign=top width=100><img src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/(?:(adventureimages|otherimages)/(?:\\.\\./)?)?(.*?\\.gif).*?</td>");
 
   public static String extractMonsterImage(final String text) {
     Matcher matcher = MonsterManuelManager.IMAGE_PATTERN.matcher(text);

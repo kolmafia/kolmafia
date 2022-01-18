@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 public class IntegerArray implements Iterable<Integer> {
   private final ArrayList<Integer> internalList = new ArrayList<>();
 
+  @Override
   public Iterator<Integer> iterator() {
     return this.internalList.iterator();
   }

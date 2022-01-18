@@ -215,8 +215,9 @@ public class MonsterDatabase {
         return element2 == Element.HOT || element2 == Element.STENCH;
       case STENCH:
         return element2 == Element.SLEAZE || element2 == Element.COLD;
+      default:
+        return false;
     }
-    return false;
   }
 
   private static void addMapping(Map<MonsterData, MonsterData> map, String name1, String name2) {
@@ -460,6 +461,7 @@ public class MonsterDatabase {
 
     MonsterData cloned =
         new MonsterData(monster) {
+          @Override
           public String getName() {
             return alias;
           }
@@ -948,8 +950,8 @@ public class MonsterDatabase {
         } else if (option.equals("ULTRARARE")) {
           type.add(EncounterType.ULTRARARE);
           continue;
-        } else if (option.equals("SEMIRARE")) {
-          type.add(EncounterType.SEMIRARE);
+        } else if (option.equals("LUCKY")) {
+          type.add(EncounterType.LUCKY);
           continue;
         } else if (option.equals("SUPERLIKELY")) {
           type.add(EncounterType.SUPERLIKELY);

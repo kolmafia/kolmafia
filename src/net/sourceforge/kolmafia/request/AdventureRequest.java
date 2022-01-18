@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -234,6 +235,21 @@ public class AdventureRequest extends GenericRequest {
     if (index >= 0) {
       String failure = KoLAdventure.adventureFailureMessage(index);
       MafiaState severity = KoLAdventure.adventureFailureSeverity(index);
+
+      // Add more details to the failure message when adventuring in the 2021 crimbo cold resistance
+      // zones.
+      if (this.formSource.equals("adventure.php")) {
+        String zone = AdventureDatabase.getZone(this.adventureName);
+        if ("Crimbo21".equals(zone)) {
+          int required = Preferences.getInteger("_crimbo21ColdResistance");
+          int current = KoLCharacter.getElementalResistanceLevels(MonsterDatabase.Element.COLD);
+          if (current < required) {
+            failure +=
+                " You need " + required + " (" + (required - current) + " more than you have now).";
+          }
+        }
+      }
+
       KoLmafia.updateDisplay(severity, failure);
       this.override = 0;
       return;
@@ -390,7 +406,7 @@ public class AdventureRequest extends GenericRequest {
         if (!EncounterManager.ignoreSpecialMonsters
             && !EncounterManager.isWanderingMonster(encounter)
             && !EncounterManager.isUltrarareMonster(encounter)
-            && !EncounterManager.isSemiRareMonster(encounter)
+            && !EncounterManager.isLuckyMonster(encounter)
             && !EncounterManager.isSuperlikelyMonster(encounter)
             && !EncounterManager.isFreeCombatMonster(encounter)
             && !EncounterManager.isNoWanderMonster(encounter)
@@ -398,7 +414,7 @@ public class AdventureRequest extends GenericRequest {
             && !EncounterManager.isDigitizedEncounter(responseText, false)
             && !EncounterManager.isRomanticEncounter(responseText, false)
             && !EncounterManager.isSaberForceMonster()
-            && !EncounterManager.isCrystalBallMonster()
+            && !CrystalBallManager.isCrystalBallMonster()
             && !FightRequest.edFightInProgress()) {
           AdventureQueueDatabase.enqueue(KoLAdventure.lastVisitedLocation(), encounter);
         }
@@ -414,10 +430,9 @@ public class AdventureRequest extends GenericRequest {
 
     TurnCounter.handleTemporaryCounters(type, encounter);
 
-    // Spending a turn somewhere should wipe the crystal ball monster prediction.
-    // Parsing a new prediction just needs to happen *after* this is called
-    Preferences.setString("crystalBallMonster", "");
-    Preferences.setString("crystalBallLocation", "");
+    if (!Preferences.getString("crystalBallPredictions").isEmpty()) {
+      CrystalBallManager.updateCrystalBallPredictions();
+    }
 
     return encounter;
   }
@@ -988,9 +1003,7 @@ public class AdventureRequest extends GenericRequest {
     if (this.adventureId.equals(AdventurePool.THE_SHORE_ID)) {
       return KoLCharacter.inFistcore() ? 5 : 3;
     }
-    String zone = AdventureDatabase.getZone(this.adventureName);
-    if (zone != null
-        && (zone.equals("The Sea") || this.adventureId.equals(AdventurePool.YACHT_ID))) {
+    if ("underwater".equals(AdventureDatabase.getEnvironment(this.adventureName))) {
       return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.FISHY)) ? 1 : 2;
     }
     return 1;
@@ -1048,6 +1061,12 @@ public class AdventureRequest extends GenericRequest {
       // Submitting a Source Terminal request with a bad
       // option leaves the Source Terminal by redirecting to
       // the campground.
+      AdventureRequest.ZONE_UNLOCK.run();
+      return;
+    }
+
+    if (redirectLocation.startsWith("shop.php")) {
+      // The Shore Inc. can redirect to the gift shop.
       AdventureRequest.ZONE_UNLOCK.run();
       return;
     }

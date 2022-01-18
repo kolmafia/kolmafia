@@ -52,10 +52,10 @@ import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
-import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
@@ -71,6 +71,10 @@ public class AdventureSelectPanel extends JPanel {
 
   private final JList<KoLAdventure> locationSelect;
   private final JComponent zoneSelect;
+
+  // zoneSelect will be either of these
+  private final AutoFilterTextField<KoLAdventure> autoFilterZoneSelect;
+  private final JComboBox<String> comboBoxZoneSelect;
 
   private final LockableListModel<String> locationConditions = new LockableListModel<>();
   private final RedoFreeAdventuresCheckbox redoFreeAdventures;
@@ -93,10 +97,12 @@ public class AdventureSelectPanel extends JPanel {
 
     boolean useZoneComboBox = Preferences.getBoolean("useZoneComboBox");
     if (useZoneComboBox) {
-      this.zoneSelect = new FilterAdventureComboBox();
+      this.zoneSelect = this.comboBoxZoneSelect = new FilterAdventureComboBox();
       this.matchingAdventures.setFilter((FilterAdventureComboBox) this.zoneSelect);
+      this.autoFilterZoneSelect = null;
     } else {
-      this.zoneSelect = new AutoFilterTextField(this.locationSelect);
+      this.zoneSelect = this.autoFilterZoneSelect = new AutoFilterTextField<>(this.locationSelect);
+      this.comboBoxZoneSelect = null;
     }
 
     this.zoneMap = new TreeMap<>();
@@ -114,7 +120,7 @@ public class AdventureSelectPanel extends JPanel {
       this.zoneMap.put(currentZone, zone);
 
       if (useZoneComboBox) {
-        ((JComboBox) this.zoneSelect).addItem(currentZone);
+        this.comboBoxZoneSelect.addItem(currentZone);
       }
     }
 
@@ -213,11 +219,11 @@ public class AdventureSelectPanel extends JPanel {
       return;
     }
 
-    if (this.zoneSelect instanceof AutoFilterTextField) {
+    if (this.zoneSelect == this.autoFilterZoneSelect) {
       this.locationSelect.clearSelection();
-      ((AutoFilterTextField) this.zoneSelect).setText(location.getZone());
+      this.autoFilterZoneSelect.setText(location.getZone());
     } else {
-      ((JComboBox) this.zoneSelect).setSelectedItem(location.getParentZoneDescription());
+      this.comboBoxZoneSelect.setSelectedItem(location.getParentZoneDescription());
     }
 
     this.locationSelect.setSelectedValue(location, true);
@@ -227,7 +233,7 @@ public class AdventureSelectPanel extends JPanel {
     this.locationSelect.addListSelectionListener(listener);
   }
 
-  private class FilterAdventureComboBox extends JComboBox implements ListElementFilter {
+  private class FilterAdventureComboBox extends JComboBox<String> implements ListElementFilter {
     private Object selectedZone;
 
     @Override
@@ -274,11 +280,13 @@ public class AdventureSelectPanel extends JPanel {
       NamedListenerRegistry.registerNamedListener("(adventuring)", this);
     }
 
+    @Override
     public void actionPerformed(final ActionEvent e) {
       KoLmafia.redoSkippedAdventures = this.isSelected();
     }
 
     // called when (adventuring) fires
+    @Override
     public void update() {
       this.setEnabled(!KoLmafia.isAdventuring());
     }
@@ -299,6 +307,7 @@ public class AdventureSelectPanel extends JPanel {
       AdventureSelectPanel.this.fillDefaultConditions();
     }
 
+    @Override
     public void valueChanged(final ListSelectionEvent e) {
       if (KoLmafia.isAdventuring()) {
         return;
@@ -312,14 +321,17 @@ public class AdventureSelectPanel extends JPanel {
       AdventureSelectPanel.this.fillDefaultConditions();
     }
 
+    @Override
     public void intervalAdded(final ListDataEvent e) {
       AdventureSelectPanel.this.fillCurrentConditions();
     }
 
+    @Override
     public void intervalRemoved(final ListDataEvent e) {
       AdventureSelectPanel.this.fillCurrentConditions();
     }
 
+    @Override
     public void contentsChanged(final ListDataEvent e) {
       AdventureSelectPanel.this.fillCurrentConditions();
     }
@@ -332,6 +344,7 @@ public class AdventureSelectPanel extends JPanel {
       this.setToolTipText("Stop after current adventure");
     }
 
+    @Override
     public void actionPerformed(final ActionEvent e) {
       KoLmafia.abortAfter("Manual stop requested.");
     }
@@ -340,6 +353,7 @@ public class AdventureSelectPanel extends JPanel {
   private class ExecuteRunnable implements Runnable {
     private final PauseObject pauser = new PauseObject();
 
+    @Override
     public void run() {
       KoLmafia.updateDisplay("Validating adventure sequence...");
 
@@ -474,7 +488,7 @@ public class AdventureSelectPanel extends JPanel {
 
     CardLayout resultCards = new CardLayout();
     JPanel resultPanel = new JPanel(resultCards);
-    JComboBox resultSelect = new JComboBox();
+    JComboBox<String> resultSelect = new JComboBox<>();
 
     int cardCount = 0;
 
@@ -534,12 +548,12 @@ public class AdventureSelectPanel extends JPanel {
     private final String property;
     private final CardLayout resultCards;
     private final JPanel resultPanel;
-    private final JComboBox resultSelect;
+    private final JComboBox<String> resultSelect;
 
     public ResultSelectListener(
         final CardLayout resultCards,
         final JPanel resultPanel,
-        final JComboBox resultSelect,
+        final JComboBox<String> resultSelect,
         final String property) {
       this.resultCards = resultCards;
       this.resultPanel = resultPanel;
@@ -547,6 +561,7 @@ public class AdventureSelectPanel extends JPanel {
       this.property = property;
     }
 
+    @Override
     public void actionPerformed(final ActionEvent e) {
       String index = String.valueOf(this.resultSelect.getSelectedIndex());
       this.resultCards.show(this.resultPanel, index);
@@ -577,6 +592,7 @@ public class AdventureSelectPanel extends JPanel {
       this.setSafetyString();
     }
 
+    @Override
     public void run() {
       this.setSafetyString();
     }
@@ -604,9 +620,9 @@ public class AdventureSelectPanel extends JPanel {
     }
   }
 
-  private class ConditionsComboBox extends AutoFilterComboBox {
+  private class ConditionsComboBox extends EditableAutoFilterComboBox {
     public ConditionsComboBox() {
-      super(AdventureSelectPanel.this.locationConditions, true);
+      super(AdventureSelectPanel.this.locationConditions);
     }
   }
 
@@ -617,6 +633,7 @@ public class AdventureSelectPanel extends JPanel {
       this.setToolTipText("Number of turns to adventure in the selected zone");
     }
 
+    @Override
     public void stateChanged(final ChangeEvent e) {
       int maximum = KoLCharacter.getAdventuresLeft();
       if (maximum == 0) {

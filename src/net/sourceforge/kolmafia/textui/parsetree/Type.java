@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import org.eclipse.lsp4j.Location;
 
 public class Type extends Symbol {
   public boolean primitive;
@@ -33,7 +34,11 @@ public class Type extends Symbol {
   private Value allValues = null;
 
   public Type(final String name, final int type) {
-    super(name);
+    this(name, type, null);
+  }
+
+  public Type(final String name, final int type, final Location location) {
+    super(name, location);
     this.primitive = true;
     this.type = type;
   }
@@ -497,5 +502,31 @@ public class Type extends Symbol {
   public void print(final PrintStream stream, final int indent) {
     AshRuntime.indentLine(stream, indent);
     stream.println("<TYPE " + this.name + ">");
+  }
+
+  /**
+   * Creates a copy of the current Type with {@code location} as its Location.
+   *
+   * @param location the location of the reference
+   */
+  public Type reference(final Location location) {
+    return new TypeReference(this, location);
+  }
+
+  private class TypeReference extends Type {
+    private TypeReference(final Type type, final Location location) {
+      super(type.name, type.type, location);
+    }
+
+    @Override
+    public Location getDefinitionLocation() {
+      return Type.this.getDefinitionLocation();
+    }
+  }
+
+  public static class BadType extends Type implements BadNode {
+    public BadType(final String name, final Location location) {
+      super(name, DataTypes.TYPE_ANY, location);
+    }
   }
 }

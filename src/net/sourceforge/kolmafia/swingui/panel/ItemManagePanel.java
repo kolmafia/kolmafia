@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.swingui.panel;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -43,7 +44,7 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
-public abstract class ItemManagePanel extends ScrollablePanel {
+public abstract class ItemManagePanel<E, S extends JComponent> extends ScrollablePanel<S> {
   public static final int USE_MULTIPLE = 0;
 
   public static final int TAKE_ALL = 1;
@@ -51,19 +52,18 @@ public abstract class ItemManagePanel extends ScrollablePanel {
   public static final int TAKE_MULTIPLE = 3;
   public static final int TAKE_ONE = 4;
 
-  public JPanel northPanel;
-  public LockableListModel elementModel;
-  public JComponent elementList;
+  public final JPanel northPanel;
+  public final LockableListModel<E> elementModel;
 
   public JButton[] buttons;
   public JCheckBox[] filters;
   public JRadioButton[] movers;
 
-  protected final AutoFilterTextField filterfield;
+  protected final AutoFilterTextField<E> filterField;
   protected JPanel buttonPanel;
   protected ThreadedButton refreshButton;
 
-  protected static boolean shouldAddRefreshButton(final LockableListModel elementModel) {
+  protected static boolean shouldAddRefreshButton(final LockableListModel<?> elementModel) {
     return (elementModel == KoLConstants.tally
         || elementModel == KoLConstants.inventory
         || elementModel == KoLConstants.closet
@@ -76,22 +76,21 @@ public abstract class ItemManagePanel extends ScrollablePanel {
   public ItemManagePanel(
       final String confirmedText,
       final String cancelledText,
-      final LockableListModel elementModel,
-      final JComponent scrollComponent,
+      final LockableListModel<E> elementModel,
+      final S scrollComponent,
       final boolean addFilterField,
       final boolean addRefreshButton) {
     super("", confirmedText, cancelledText, scrollComponent, false);
 
-    this.elementList = this.scrollComponent;
     this.elementModel = elementModel;
 
     this.northPanel = new JPanel(new BorderLayout());
     this.actualPanel.add(this.northPanel, BorderLayout.NORTH);
 
-    this.filterfield = this.getWordFilter();
+    this.filterField = this.getWordFilter();
 
     if (addFilterField) {
-      this.centerPanel.add(this.filterfield, BorderLayout.NORTH);
+      this.centerPanel.add(this.filterField, BorderLayout.NORTH);
     }
 
     if (addRefreshButton) {
@@ -100,18 +99,18 @@ public abstract class ItemManagePanel extends ScrollablePanel {
     }
   }
 
-  public abstract Object[] getSelectedValues();
+  public abstract List<E> getSelectedValues();
 
-  protected AutoFilterTextField getWordFilter() {
+  protected AutoFilterTextField<E> getWordFilter() {
     return new FilterItemField();
   }
 
   protected void listenToCheckBox(final JCheckBox box) {
-    box.addActionListener(this.filterfield);
+    box.addActionListener(this.filterField);
   }
 
   protected void listenToRadioButton(final JRadioButton button) {
-    button.addActionListener(this.filterfield);
+    button.addActionListener(this.filterField);
   }
 
   @Override
@@ -126,14 +125,15 @@ public abstract class ItemManagePanel extends ScrollablePanel {
       final boolean equip,
       final boolean other,
       final boolean notrade) {
-    if (this.filterfield instanceof FilterItemField) {
-      FilterItemField itemfilter = (FilterItemField) this.filterfield;
+    if (this.filterField instanceof ItemManagePanel.FilterItemField) {
+      ItemManagePanel<?, ?>.FilterItemField itemFilter =
+          (ItemManagePanel<?, ?>.FilterItemField) this.filterField;
 
-      itemfilter.food = food;
-      itemfilter.booze = booze;
-      itemfilter.equip = equip;
-      itemfilter.other = other;
-      itemfilter.notrade = notrade;
+      itemFilter.food = food;
+      itemFilter.booze = booze;
+      itemFilter.equip = equip;
+      itemFilter.other = other;
+      itemFilter.notrade = notrade;
     }
 
     this.filterItems();
@@ -160,7 +160,7 @@ public abstract class ItemManagePanel extends ScrollablePanel {
   }
 
   public void filterItems() {
-    this.filterfield.update();
+    this.filterField.update();
   }
 
   public void setButtons(final ActionListener[] buttonListeners) {
@@ -291,7 +291,7 @@ public abstract class ItemManagePanel extends ScrollablePanel {
   }
 
   public AdventureResult[] getDesiredItems(final String message, final int quantityType) {
-    Object[] items = this.getSelectedValues();
+    Object[] items = this.getSelectedValues().toArray();
     if (items.length == 0) {
       return null;
     }
@@ -313,7 +313,7 @@ public abstract class ItemManagePanel extends ScrollablePanel {
         itemName = item.getName();
         itemCount = isTally ? item.getCount(KoLConstants.inventory) : item.getCount();
       } else {
-        Concoction concoction = ((Concoction) items[i]);
+        Concoction concoction = (Concoction) items[i];
         itemName = concoction.getName();
         itemCount = concoction.getAvailable();
         if (concoction.speakeasy) {
@@ -768,7 +768,7 @@ public abstract class ItemManagePanel extends ScrollablePanel {
    * Special instance of a JComboBox which overrides the default key events of a JComboBox to allow
    * you to catch key events.
    */
-  public class FilterItemField extends AutoFilterTextField {
+  public class FilterItemField extends AutoFilterTextField<E> {
     public boolean food, booze, equip, restores, other, notrade, instyle;
 
     public FilterItemField() {
@@ -889,7 +889,7 @@ public abstract class ItemManagePanel extends ScrollablePanel {
     }
   }
 
-  private static InvocationListener getRefreshListener(final LockableListModel elementModel) {
+  private static InvocationListener getRefreshListener(final LockableListModel<?> elementModel) {
     return elementModel == KoLConstants.closet
         ? new InvocationListener(null, ClosetRequest.class, "refresh")
         : (elementModel == KoLConstants.storage || elementModel == KoLConstants.freepulls)
@@ -901,7 +901,7 @@ public abstract class ItemManagePanel extends ScrollablePanel {
   }
 
   protected class RefreshButton extends ThreadedButton {
-    public RefreshButton(LockableListModel elementModel) {
+    public RefreshButton(LockableListModel<E> elementModel) {
       super("refresh", ItemManagePanel.getRefreshListener(elementModel));
     }
   }

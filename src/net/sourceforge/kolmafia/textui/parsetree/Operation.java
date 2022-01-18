@@ -3,11 +3,13 @@ package net.sourceforge.kolmafia.textui.parsetree;
 import java.io.PrintStream;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.Parser;
 
 public class Operation extends Expression {
-  Operator oper;
+  private final Operator oper;
 
   public Operation(final Evaluable lhs, final Evaluable rhs, final Operator oper) {
+    super(rhs == null ? Parser.mergeLocations(oper, lhs) : Parser.mergeLocations(lhs, rhs));
     this.lhs = lhs;
     this.rhs = rhs;
     this.oper = oper;
@@ -15,6 +17,10 @@ public class Operation extends Expression {
 
   public Operation(final Evaluable lhs, final Operator oper) {
     this(lhs, null, oper);
+  }
+
+  Operator getOperator() {
+    return this.oper;
   }
 
   @Override

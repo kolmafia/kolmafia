@@ -342,8 +342,9 @@ public class IslandDecorator {
     }
 
     // Replace all KoL image servers with KoLmafia image cache locations
-    StringUtilities.globalStringReplace(buffer, KoLmafia.AMAZON_IMAGE_SERVER, "/images");
-    StringUtilities.globalStringReplace(buffer, KoLmafia.KOL_IMAGE_SERVER, "/images");
+    for (String path : KoLmafia.IMAGE_SERVER_PATHS) {
+      StringUtilities.globalStringReplace(buffer, path, "/images/");
+    }
 
     // Replace sidequest location images for completed quests
     IslandDecorator.sidequestImage(buffer, "sidequestArenaCompleted", Quest.ARENA);
@@ -504,8 +505,9 @@ public class IslandDecorator {
     IslandDecorator.decorateArena(url, buffer);
 
     // Replace all KoL image servers with KoLmafia image cache locations
-    StringUtilities.globalStringReplace(buffer, KoLmafia.AMAZON_IMAGE_SERVER, "/images");
-    StringUtilities.globalStringReplace(buffer, KoLmafia.KOL_IMAGE_SERVER, "/images");
+    for (String path : KoLmafia.IMAGE_SERVER_PATHS) {
+      StringUtilities.globalStringReplace(buffer, path, "/images/");
+    }
 
     // Replace sidequest location images for completed quests
 

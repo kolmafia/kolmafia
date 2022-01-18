@@ -114,6 +114,7 @@ public class MeatTransferPanel extends LabeledPanel {
   }
 
   private class AmountRefresher implements Runnable {
+    @Override
     public void run() {
       MeatTransferPanel.this.refreshCurrentAmount();
     }

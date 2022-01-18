@@ -15,7 +15,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,10 +46,10 @@ public class ClosetRequest extends TransferItemRequest {
 
     try {
       // {"1":"1","2":"1" ... }
-      Iterator<?> keys = JSON.keys();
+      Iterator<String> keys = JSON.keys();
 
       while (keys.hasNext()) {
-        String key = (String) keys.next();
+        String key = keys.next();
         int itemId = StringUtilities.parseInt(key);
         int count = JSON.getInt(key);
         String name = ItemDatabase.getItemDataName(itemId);
@@ -298,9 +297,7 @@ public class ClosetRequest extends TransferItemRequest {
       }
 
       TransferItemRequest.transferItems(
-          new AdventureResultArray(KoLConstants.closet),
-          KoLConstants.closet,
-          KoLConstants.inventory);
+          new ArrayList<>(KoLConstants.closet), KoLConstants.closet, KoLConstants.inventory);
       success = true;
     }
 

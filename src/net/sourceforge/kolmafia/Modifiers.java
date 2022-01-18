@@ -207,7 +207,15 @@ public class Modifiers {
   public static final int CLOWNINESS = 132;
   public static final int PP = 133;
   public static final int PLUMBER_POWER = 134;
-  public static final int FAMILIAR_ACTION_BONUS = 135;
+  public static final int DRIPPY_DAMAGE = 135;
+  public static final int DRIPPY_RESISTANCE = 136;
+  public static final int ENERGY = 137;
+  public static final int SCRAP = 138;
+  public static final int FAMILIAR_ACTION_BONUS = 139;
+  public static final int WATER = 140;
+  public static final int SPLEEN_DROP = 141;
+  public static final int POTION_DROP = 142;
+  public static final int SAUCE_SPELL_DAMAGE = 143;
   public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
   private static final Object[][] doubleModifiers = {
@@ -790,6 +798,24 @@ public class Modifiers {
       Pattern.compile("Collect (\\d+) water per adventure"),
       Pattern.compile("Water: " + EXPR)
     },
+    {
+      "Spleen Drop",
+      Pattern.compile("([+-]\\d+)% Spleen Item Drops? [Ff]rom Monsters$"),
+      Pattern.compile("Spleen Drop: " + EXPR)
+    },
+    {
+      "Potion Drop",
+      Pattern.compile("([+-]\\d+)% Potion Drops? [Ff]rom Monsters$"),
+      Pattern.compile("Potion Drop: " + EXPR)
+    },
+    {
+      "Sauce Spell Damage",
+      new Object[] {
+        Pattern.compile("Sauce Spell Damage ([+-]\\d+)$"),
+        Pattern.compile("([+-]\\d+) Sauce Spell Damage"),
+      },
+      Pattern.compile("(?:^|, )Sauce Spell Damage: " + EXPR)
+    },
   };
 
   public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
@@ -1293,8 +1319,9 @@ public class Modifiers {
         return Modifiers.SPOOKY_RESISTANCE;
       case STENCH:
         return Modifiers.STENCH_RESISTANCE;
+      default:
+        return -1;
     }
-    return -1;
   }
 
   public static List<AdventureResult> getPotentialChanges(final int index) {
@@ -2113,6 +2140,7 @@ public class Modifiers {
       this.list = new LinkedList<Modifier>();
     }
 
+    @Override
     public Iterator<Modifier> iterator() {
       return this.list.iterator();
     }
@@ -2616,9 +2644,7 @@ public class Modifiers {
     // modifier being set.
 
     if (Modifiers.passiveSkills.isEmpty()) {
-      Object[] keys = Modifiers.modifiersByName.keySet().toArray();
-      for (int i = 0; i < keys.length; ++i) {
-        String lookup = (String) keys[i];
+      for (String lookup : Modifiers.modifiersByName.keySet()) {
         if (!Modifiers.getTypeFromLookup(lookup).equals("Skill")) {
           continue;
         }

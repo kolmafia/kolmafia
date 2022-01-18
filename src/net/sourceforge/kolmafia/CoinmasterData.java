@@ -112,6 +112,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private AdventureResult makeTokenItem() {
     AdventureResult item =
         new AdventureResult(this.token, -1, 1, false) {
+          @Override
           public String getPluralName(final int count) {
             return count == 1 ? CoinmasterData.this.token : CoinmasterData.this.plural;
           }
@@ -390,6 +391,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return this.master != null ? this.master.hashCode() : 0;
   }
 
+  @Override
   public int compareTo(final CoinmasterData cd) {
     return this.master.compareToIgnoreCase(cd.master);
   }

@@ -66,7 +66,6 @@ public abstract class InventoryManager {
   private static final int BULK_PURCHASE_AMOUNT = 30;
 
   private static int askedAboutCrafting = 0;
-  private static boolean cloverProtectionEnabled = true;
 
   public static void resetInventory() {
     KoLConstants.inventory.clear();
@@ -87,9 +86,9 @@ public abstract class InventoryManager {
 
     try {
       // {"1":"1","2":"1" ... }
-      Iterator<?> keys = JSON.keys();
+      Iterator<String> keys = JSON.keys();
       while (keys.hasNext()) {
-        String key = (String) keys.next();
+        String key = keys.next();
         int itemId = StringUtilities.parseInt(key);
         int count = JSON.getInt(key);
         String name = ItemDatabase.getItemDataName(itemId);
@@ -430,18 +429,7 @@ public abstract class InventoryManager {
       final boolean useEquipped,
       final boolean canCreate,
       final boolean sim) {
-    // if we're simulating, we don't need to waste time disabling/enabling clover protection
-    if (sim) {
-      return InventoryManager.doRetrieveItem(item, isAutomated, useEquipped, sim, canCreate);
-    }
-
-    try {
-      InventoryManager.setCloverProtection(false);
-      return InventoryManager.doRetrieveItem(item, isAutomated, useEquipped, false, canCreate);
-    } finally {
-      // Restore clover protection
-      InventoryManager.setCloverProtection(true);
-    }
+    return InventoryManager.doRetrieveItem(item, isAutomated, useEquipped, sim, canCreate);
   }
 
   // When called with sim=true, retrieveItem should return a non-empty string
@@ -799,16 +787,16 @@ public abstract class InventoryManager {
       }
     }
 
-    // A ten-leaf clover can be created (by using a disassembled
-    // clover) or purchased from the Hermit (if he has any in
-    // stock. We tried the former above. Now try the latter.
+    // An 11-leaf clover can be purchased from the Hermit (if he has any in
+    // stock.
 
     if (shouldUseCoinmasters
         && KoLConstants.hermitItems.contains(item)
         && (!shouldUseMall
             || SewerRequest.currentWorthlessItemCost() < StoreManager.getMallPrice(item))) {
+
       int itemCount =
-          itemId == ItemPool.TEN_LEAF_CLOVER
+          itemId == ItemPool.ELEVEN_LEAF_CLOVER
               ? HermitRequest.cloverCount()
               : PurchaseRequest.MAX_QUANTITY;
 
@@ -1120,7 +1108,7 @@ public abstract class InventoryManager {
     factor -= 1.0f;
     lower = upper;
 
-    int mall = StoreManager.getMallPrice(item, exact ? 0.0f : 7.0f);
+    int mall = exact ? StoreManager.getMallPrice(item) : StoreManager.getMallPrice(item, 7.0f);
     if (mall > Math.max(100, 2 * Math.abs(autosell))) {
       upper = Math.max(lower, mall);
     }
@@ -1159,7 +1147,9 @@ public abstract class InventoryManager {
       }
     }
 
-    int mallPrice = StoreManager.getMallPrice(item, exact ? 0.0f : 7.0f) * quantity;
+    int mallPrice =
+        (exact ? StoreManager.getMallPrice(item) : StoreManager.getMallPrice(item, 7.0f))
+            * quantity;
     if (mallPrice <= 0) {
       mallPrice = Integer.MAX_VALUE;
     } else {
@@ -1614,6 +1604,17 @@ public abstract class InventoryManager {
     checkItemDescription(ItemPool.KREMLIN_BRIEFCASE);
   }
 
+  public static final void checkVampireVintnerWine() {
+    // 1950 Vampire Vintner Wine is a quest item. You can have at most
+    // one in inventory - and nowhere else.
+    if (InventoryManager.getCount(ItemPool.VAMPIRE_VINTNER_WINE) == 0) {
+      return;
+    }
+
+    // ResultProcessor will parse the item description and set properties
+    InventoryManager.checkItemDescription(ItemPool.VAMPIRE_VINTNER_WINE);
+  }
+
   public static final void checkCoatOfPaint() {
     AdventureResult COAT_OF_PAINT = ItemPool.get(ItemPool.COAT_OF_PAINT, 1);
     String mod = Preferences.getString("_coatOfPaintModifier");
@@ -1769,17 +1770,5 @@ public abstract class InventoryManager {
     InventoryManager.askedAboutCrafting = KoLCharacter.getUserId();
 
     return true;
-  }
-
-  public static boolean cloverProtectionActive() {
-    return InventoryManager.cloverProtectionEnabled
-        && Preferences.getBoolean("cloverProtectActive");
-  }
-
-  // Accessory function just to _temporarily_ disable clover protection so that messing with
-  // preferences is unnecessary.
-
-  private static void setCloverProtection(boolean enabled) {
-    InventoryManager.cloverProtectionEnabled = enabled;
   }
 }

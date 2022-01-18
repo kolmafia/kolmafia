@@ -19,7 +19,7 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
  * Internal class used to handle everything related to creating items; this allows creating of
  * items, which usually get resold in malls.
  */
-public class CreateItemPanel extends InventoryPanel {
+public class CreateItemPanel extends InventoryPanel<CreateItemRequest> {
   public CreateItemPanel(
       final boolean food, final boolean booze, final boolean equip, boolean other) {
     super("create item", "create & use", ConcoctionDatabase.getCreatables(), equip && !other);
@@ -66,9 +66,7 @@ public class CreateItemPanel extends InventoryPanel {
 
   @Override
   public void actionConfirmed() {
-    Object[] items = this.getSelectedValues();
-    for (int i = 0; i < items.length; ++i) {
-      CreateItemRequest selection = (CreateItemRequest) items[i];
+    for (final CreateItemRequest selection : this.getSelectedValues()) {
       Integer value =
           InputFieldUtilities.getQuantity(
               "Creating multiple "
@@ -108,10 +106,7 @@ public class CreateItemPanel extends InventoryPanel {
 
   @Override
   public void actionCancelled() {
-    Object[] items = this.getSelectedValues();
-    for (int i = 0; i < items.length; ++i) {
-      CreateItemRequest selection = (CreateItemRequest) items[i];
-
+    for (final CreateItemRequest selection : this.getSelectedValues()) {
       int itemId = selection.getItemId();
       int maximum = UseItemRequest.maximumUses(itemId, ItemDatabase.getConsumptionType(itemId));
 

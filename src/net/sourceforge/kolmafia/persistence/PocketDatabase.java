@@ -314,6 +314,7 @@ public class PocketDatabase {
       return this.result2;
     }
 
+    @Override
     public int getCount(String name) {
       return this.result1.getName().equals(name)
           ? this.result1.getCount()

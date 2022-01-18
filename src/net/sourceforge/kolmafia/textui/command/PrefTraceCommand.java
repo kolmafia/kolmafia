@@ -41,6 +41,7 @@ public class PrefTraceCommand extends AbstractCommand {
       this.update();
     }
 
+    @Override
     public void update() {
       String msg = "ptrace: " + this.name + " = " + Preferences.getString(this.name);
       RequestLogger.updateSessionLog(msg);

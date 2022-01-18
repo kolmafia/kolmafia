@@ -23,7 +23,7 @@ public class SwitchScope extends BasicScope {
       this.barrier = BasicScope.BARRIER_SEEN;
     } else if (this.barrier == BasicScope.BARRIER_SEEN) {
       this.barrier = BasicScope.BARRIER_PAST;
-      p.warning("Unreachable code");
+      p.warning("WARNING: Unreachable code");
     }
 
     if (!this.breakable) {

@@ -57,11 +57,11 @@ public class BuffBotFrame extends GenericFrame {
   }
 
   /** Internal class used to handle everything related to operating the buffbot. */
-  private class MainBuffPanel extends ScrollablePanel {
+  private class MainBuffPanel extends ScrollablePanel<JList<?>> {
     public MainBuffPanel() {
       super("BuffBot Activities", "start", "stop", new JList<>(BuffBotHome.getMessages()));
 
-      ((JList<?>) this.scrollComponent).setCellRenderer(BuffBotHome.getMessageRenderer());
+      this.scrollComponent.setCellRenderer(BuffBotHome.getMessageRenderer());
     }
 
     @Override

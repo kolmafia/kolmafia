@@ -43,6 +43,7 @@ public abstract class RestoreItem implements Comparable<RestoreItem> {
   public abstract void recover(final int needed, final boolean purchase);
 
   // This will likely be overridden
+  @Override
   public int compareTo(final RestoreItem o) {
     return this.restoreName.compareTo(o.restoreName);
   }

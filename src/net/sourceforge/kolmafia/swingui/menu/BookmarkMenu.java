@@ -8,7 +8,7 @@ import net.sourceforge.kolmafia.KoLConstants;
  * A special class which renders the menu holding the list of bookmarks. This class also
  * synchronizes with the list of available bookmarks.
  */
-public class BookmarkMenu extends MenuItemList {
+public class BookmarkMenu extends MenuItemList<String> {
   public BookmarkMenu() {
     super("Bookmarks", (LockableListModel<String>) KoLConstants.bookmarks);
   }

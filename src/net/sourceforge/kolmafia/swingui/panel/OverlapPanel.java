@@ -9,14 +9,14 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
-public class OverlapPanel extends ItemListManagePanel {
+public class OverlapPanel extends ItemListManagePanel<AdventureResult> {
   private final boolean isOverlap;
-  private final LockableListModel overlapModel;
+  private final LockableListModel<AdventureResult> overlapModel;
 
   public OverlapPanel(
       final String confirmText,
       final String cancelText,
-      final LockableListModel overlapModel,
+      final LockableListModel<AdventureResult> overlapModel,
       final boolean isOverlap) {
     super(
         confirmText,
@@ -36,7 +36,7 @@ public class OverlapPanel extends ItemListManagePanel {
   }
 
   @Override
-  public AutoFilterTextField getWordFilter() {
+  public AutoFilterTextField<AdventureResult> getWordFilter() {
     return new OverlapFilterField();
   }
 
@@ -61,7 +61,8 @@ public class OverlapPanel extends ItemListManagePanel {
         return;
       }
 
-      Object[] items = OverlapPanel.this.getSelectedValues();
+      AdventureResult[] items =
+          OverlapPanel.this.getSelectedValues().toArray(new AdventureResult[0]);
       OverlapPanel.this.getElementList().clearSelection();
 
       for (int i = 0; i < items.length; ++i) {

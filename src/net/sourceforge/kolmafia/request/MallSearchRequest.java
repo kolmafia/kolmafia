@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -381,6 +382,8 @@ public class MallSearchRequest extends GenericRequest {
       String itemListResult = itemMatcher.group(4);
       Matcher linkMatcher = MallSearchRequest.STOREDETAIL_PATTERN.matcher(itemListResult);
 
+      Set<Integer> forbidden = MallPurchaseRequest.getForbiddenStores();
+
       while (linkMatcher.find()) {
         String linkText = linkMatcher.group();
         Matcher quantityMatcher = MallSearchRequest.LISTQUANTITY_PATTERN.matcher(linkText);
@@ -409,6 +412,11 @@ public class MallSearchRequest extends GenericRequest {
         }
 
         int shopId = StringUtilities.parseInt(detailsMatcher.group(1));
+
+        // If we are ignoring this store, skip it.
+        if (!Preferences.getBoolean("showForbiddenStores") && forbidden.contains(shopId)) {
+          continue;
+        }
 
         // If we have tried to purchase from this store this session
         // and discovered that it is disabled or ignoring you, skip it.

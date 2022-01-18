@@ -461,7 +461,7 @@ public abstract class SorceressLairManager {
       return false;
     }
 
-    String message = null;
+    String message;
 
     if (place.equals("nstower")) {
       String action = GenericRequest.getAction(urlString);
@@ -510,10 +510,6 @@ public abstract class SorceressLairManager {
       return TowerDoorManager.registerTowerDoorRequest(urlString);
     } else {
       // Let any other "place" be claimed by other classes.
-      return false;
-    }
-
-    if (message == null) {
       return false;
     }
 

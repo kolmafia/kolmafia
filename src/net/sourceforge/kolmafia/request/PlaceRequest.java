@@ -567,6 +567,20 @@ public class PlaceRequest extends GenericRequest {
         message = "Confronting your Nemesis";
         turns = true;
       }
+    } else if (place.equals("northpole")) {
+      if (action.equals("np_bonfire")) {
+        message = "Visiting the Bonfire";
+      } else if (action.equals("np_sauna")) {
+        message = "Entering the Sauna";
+      } else if (action.equals("np_foodlab")) {
+        message = "Entering the Food Lab";
+      } else if (action.equals("np_boozelab")) {
+        message = "Entering the Nog Lab";
+      } else if (action.equals("np_spleenlab")) {
+        message = "Entering the Chem Lab";
+      } else if (action.equals("np_toylab")) {
+        message = "Entering the Gift Fabrication Lab";
+      }
     } else if (place.equals("orc_chasm")) {
       if (action.startsWith("bridge") || action.equals("label1") || action.equals("label2")) {
         // Building the bridge. Do we need to log anything?

@@ -265,6 +265,10 @@ public class LicenseDisplay
 	{
 		public void hyperlinkUpdate( final HyperlinkEvent e )
 		{
+			if (!Desktop.isDesktopSupported())
+			{
+				return;
+			}
 			if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED )
 			{
 				String location = e.getDescription();

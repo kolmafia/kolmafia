@@ -212,8 +212,9 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   }
 
   // Need this to retain instance-specific methods
-  protected Object clone() throws CloneNotSupportedException {
-    return super.clone();
+  @Override
+  protected AdventureResult clone() throws CloneNotSupportedException {
+    return (AdventureResult) super.clone();
   }
 
   public void normalizeEffectName() {
@@ -710,12 +711,13 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
           name = name + " [" + monster + "]";
         }
       } else {
+        if (EffectDatabase.isSong(name)) {
+          name = "\u266B " + name;
+        }
+
         String skillName = UneffectRequest.effectToSkill(name);
         if (SkillDatabase.contains(skillName)) {
           int skillId = SkillDatabase.getSkillId(skillName);
-          if (SkillDatabase.isAccordionThiefSong(skillId)) {
-            name = "\u266B " + name;
-          }
           if (SkillDatabase.isExpression(skillId)) {
             name = "\u263A " + name;
           }
@@ -853,6 +855,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    * differences. Return values are consistent with the rules laid out in {@link
    * java.lang.Comparable#compareTo(Object)}.
    */
+  @Override
   public int compareTo(final AdventureResult o) {
     if (o == null) {
       throw new NullPointerException();
@@ -1034,7 +1037,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
 
       AdventureResult item;
       try {
-        item = (AdventureResult) this.clone();
+        item = this.clone();
       } catch (CloneNotSupportedException e) {
         // This should not happen. Hope for the best.
         item = new AdventureResult(AdventureResult.NO_PRIORITY, this.name);
@@ -1049,7 +1052,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     if (this.isStatusEffect()) {
       AdventureResult effect;
       try {
-        effect = (AdventureResult) this.clone();
+        effect = this.clone();
       } catch (CloneNotSupportedException e) {
         // This should not happen. Hope for the best.
         effect = new AdventureResult(AdventureResult.NO_PRIORITY, this.name);

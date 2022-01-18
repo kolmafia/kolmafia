@@ -40,6 +40,7 @@ public class DefaultComponentFocusTraversalPolicy extends LayoutFocusTraversalPo
       this.parent = parent;
     }
 
+    @Override
     public int compare(Component o1, Component o2) {
       Component defaultComponent = DefaultComponentFocusTraversalPolicy.this.component.get();
 

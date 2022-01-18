@@ -163,6 +163,7 @@ public class Mood implements Comparable<Mood> {
     return this.name.hashCode();
   }
 
+  @Override
   public int compareTo(Mood o) {
     if (!(o instanceof Mood)) {
       return 1;

@@ -461,3 +461,9 @@ FDKOL Auxiliary	wildfire	rusty empty nacho cheese can	1000	ROW1259
 FDKOL Auxiliary	wildfire	pump grease	5000	ROW1262
 FDKOL Auxiliary	wildfire	rainproof barrel caulk	5000	ROW1261
 FDKOL Auxiliary	wildfire	literal bucket hat	5000	ROW1260
+
+The Crimbo Cafe	crimbo21cafe	bread pie	50	ROW1263
+The Crimbo Cafe	crimbo21cafe	clear Russian	50	ROW1264
+
+Ornament Stand	crimbo21ornaments	black Crimbo ball	100	ROW1265
+Ornament Stand	crimbo21ornaments	white Crimbo ball	100	ROW1266

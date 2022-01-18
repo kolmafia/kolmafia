@@ -130,6 +130,8 @@ Override	Unsorted	Discoveries
 Events	Events	Events
 Twitch	Town	Time-Twitching Tower
 
+Crimbo21	Holiday	Christmas 2021
+
 Removed	Removed	Removed Areas
 Crimbo05	Removed	Christmas 2005
 Crimbo06	Removed	Christmas 2006

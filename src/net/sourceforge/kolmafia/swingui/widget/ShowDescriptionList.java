@@ -4,6 +4,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,6 +34,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
@@ -46,28 +49,29 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
-public class ShowDescriptionList extends JList {
+public class ShowDescriptionList<E> extends JList<E> {
   public int lastSelectIndex;
   public JPopupMenu contextMenu;
   public ListElementFilter filter;
 
-  private final LockableListModel displayModel, originalModel;
+  private final LockableListModel<E> displayModel, originalModel;
   private static final Pattern PLAYERID_MATCHER = Pattern.compile("\\(#(\\d+)\\)");
 
-  public ShowDescriptionList(final LockableListModel displayModel) {
+  public ShowDescriptionList(final LockableListModel<E> displayModel) {
     this(displayModel, null, 4);
   }
 
-  public ShowDescriptionList(final LockableListModel displayModel, final int visibleRowCount) {
+  public ShowDescriptionList(final LockableListModel<E> displayModel, final int visibleRowCount) {
     this(displayModel, null, visibleRowCount);
   }
 
-  public ShowDescriptionList(final LockableListModel displayModel, final ListElementFilter filter) {
+  public ShowDescriptionList(
+      final LockableListModel<E> displayModel, final ListElementFilter filter) {
     this(displayModel, filter, 4);
   }
 
   public ShowDescriptionList(
-      final LockableListModel displayModel,
+      final LockableListModel<E> displayModel,
       final ListElementFilter filter,
       final int visibleRowCount) {
     this.contextMenu = new JPopupMenu();
@@ -86,6 +90,8 @@ public class ShowDescriptionList extends JList {
     if (displayModel == MallSearchFrame.results) {
       this.contextMenu.add(new JSeparator());
       this.contextMenu.add(new ContextMenuItem("Go To Store...", new StoreLookupRunnable()));
+      this.contextMenu.add(
+          new ContextMenuItem("Toggle Forbidden Store", new ForbidStoreRunnable()));
     }
 
     if (displayModel == KoLConstants.activeEffects) {
@@ -141,29 +147,29 @@ public class ShowDescriptionList extends JList {
 
     this.setVisibleRowCount(visibleRowCount);
     this.setCellRenderer(ListCellRendererFactory.getDefaultRenderer());
-    this.setPrototypeCellValue("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+    ((ShowDescriptionList) this).setPrototypeCellValue("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
   }
 
-  public LockableListModel getOriginalModel() {
+  public LockableListModel<E> getOriginalModel() {
     return this.originalModel;
   }
 
   public AdventureResult[] getSelectedItems() {
     // Obviously, this only works if the model contains AdventureResults
-    Object[] values = this.getSelectedValuesList().toArray();
-    AdventureResult[] result = new AdventureResult[values.length];
-    for (int i = 0; i < values.length; ++i) {
-      result[i] = (AdventureResult) values[i];
+    List<E> values = this.getSelectedValuesList();
+    AdventureResult[] result = new AdventureResult[values.size()];
+    for (int i = 0; i < values.size(); ++i) {
+      result[i] = (AdventureResult) values.get(i);
     }
     return result;
   }
 
   public PurchaseRequest[] getSelectedPurchases() {
     // Obviously, this only works if the model contains PurchaseRequests
-    Object[] values = this.getSelectedValuesList().toArray();
-    PurchaseRequest[] result = new PurchaseRequest[values.length];
-    for (int i = 0; i < values.length; ++i) {
-      result[i] = (PurchaseRequest) values[i];
+    List<E> values = this.getSelectedValuesList();
+    PurchaseRequest[] result = new PurchaseRequest[values.size()];
+    for (int i = 0; i < values.size(); ++i) {
+      result[i] = (PurchaseRequest) values.get(i);
     }
     return result;
   }
@@ -268,7 +274,7 @@ public class ShowDescriptionList extends JList {
 
   private abstract class ContextMenuListener extends ThreadedListener {
     public int index;
-    public Object item;
+    public E item;
 
     @Override
     protected void execute() {
@@ -317,23 +323,43 @@ public class ShowDescriptionList extends JList {
     }
   }
 
+  public class ForbidStoreRunnable extends ContextMenuListener {
+    @Override
+    protected void executeAction() {
+      if (!(this.item instanceof PurchaseRequest)) {
+        return;
+      }
+
+      try {
+        int storeId = Integer.parseInt(((PurchaseRequest) this.item).getFormField("whichstore"));
+        MallPurchaseRequest.toggleForbiddenStore(storeId);
+      } catch (NumberFormatException e) {
+      }
+    }
+  }
+
   public void removeTriggers() {
-    Object[] items = ShowDescriptionList.this.getSelectedValuesList().toArray();
+    List<E> items = ShowDescriptionList.this.getSelectedValuesList();
+    List<MoodTrigger> triggers = new ArrayList<>(items.size());
+
+    for (final E item : items) {
+      triggers.add((MoodTrigger) item);
+    }
+
     ShowDescriptionList.this.clearSelection();
 
-    MoodManager.removeTriggers(items);
+    MoodManager.removeTriggers(triggers);
     MoodManager.saveSettings();
   }
 
   private class ForceExecuteRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] items = ShowDescriptionList.this.getSelectedValuesList().toArray();
-      ShowDescriptionList.this.clearSelection();
-
-      for (int i = 0; i < items.length; ++i) {
-        KoLmafiaCLI.DEFAULT_SHELL.executeLine(((MoodTrigger) items[i]).getAction());
+      for (final E item : ShowDescriptionList.this.getSelectedValuesList()) {
+        KoLmafiaCLI.DEFAULT_SHELL.executeLine(((MoodTrigger) item).getAction());
       }
+
+      ShowDescriptionList.this.clearSelection();
     }
   }
 
@@ -363,42 +389,40 @@ public class ShowDescriptionList extends JList {
   private class CastSkillRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] skills = ShowDescriptionList.this.getSelectedValuesList().toArray();
-      ShowDescriptionList.this.clearSelection();
-
       UseSkillRequest request;
 
-      for (int i = 0; i < skills.length; ++i) {
-        request = (UseSkillRequest) skills[i];
+      for (final E skill : ShowDescriptionList.this.getSelectedValuesList()) {
+        request = (UseSkillRequest) skill;
 
         request.setTarget(null);
         request.setBuffCount(1);
 
         RequestThread.postRequest(request);
       }
+
+      ShowDescriptionList.this.clearSelection();
     }
   }
 
   private class AddToMoodSkillRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] skills = ShowDescriptionList.this.getSelectedValuesList().toArray();
-      ShowDescriptionList.this.clearSelection();
-
       if (Preferences.getString("currentMood").equals("apathetic")) {
         Preferences.setString("currentMood", "default");
       }
 
       String name, action;
 
-      for (int i = 0; i < skills.length; ++i) {
-        name = UneffectRequest.skillToEffect(((UseSkillRequest) skills[i]).getSkillName());
+      for (final E skill : ShowDescriptionList.this.getSelectedValuesList()) {
+        name = UneffectRequest.skillToEffect(((UseSkillRequest) skill).getSkillName());
 
         action = MoodManager.getDefaultAction("lose_effect", name);
         if (!action.equals("")) {
           MoodManager.addTrigger("lose_effect", name, action);
         }
       }
+
+      ShowDescriptionList.this.clearSelection();
       MoodManager.saveSettings();
     }
   }
@@ -406,17 +430,14 @@ public class ShowDescriptionList extends JList {
   private class AddToMoodEffectRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] effects = ShowDescriptionList.this.getSelectedValuesList().toArray();
-      ShowDescriptionList.this.clearSelection();
-
       if (Preferences.getString("currentMood").equals("apathetic")) {
         Preferences.setString("currentMood", "default");
       }
 
       String name, action;
 
-      for (int i = 0; i < effects.length; ++i) {
-        name = ((AdventureResult) effects[i]).getName();
+      for (final E effect : ShowDescriptionList.this.getSelectedValuesList()) {
+        name = ((AdventureResult) effect).getName();
 
         action = MoodManager.getDefaultAction("lose_effect", name);
         if (!action.equals("")) {
@@ -429,6 +450,8 @@ public class ShowDescriptionList extends JList {
           MoodManager.addTrigger("gain_effect", name, action);
         }
       }
+
+      ShowDescriptionList.this.clearSelection();
       MoodManager.saveSettings();
     }
   }
@@ -436,28 +459,26 @@ public class ShowDescriptionList extends JList {
   private class ExtendEffectRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] effects = ShowDescriptionList.this.getSelectedValuesList().toArray();
-      ShowDescriptionList.this.clearSelection();
-
       String name, action;
 
-      for (int i = 0; i < effects.length; ++i) {
-        name = ((AdventureResult) effects[i]).getName();
+      for (final E effect : ShowDescriptionList.this.getSelectedValuesList()) {
+        name = ((AdventureResult) effect).getName();
 
         action = MoodManager.getDefaultAction("lose_effect", name);
         if (!action.equals("")) {
           CommandDisplayFrame.executeCommand(action);
         }
       }
+
+      ShowDescriptionList.this.clearSelection();
     }
   }
 
   private class ShrugOffRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] effects = ShowDescriptionList.this.getSelectedValuesList().toArray();
-      for (int i = 0; i < effects.length; ++i) {
-        RequestThread.postRequest(new UneffectRequest((AdventureResult) effects[i]));
+      for (final E effect : ShowDescriptionList.this.getSelectedValuesList()) {
+        RequestThread.postRequest(new UneffectRequest((AdventureResult) effect));
       }
     }
   }
@@ -465,24 +486,21 @@ public class ShowDescriptionList extends JList {
   private class AddToJunkListRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] items = ShowDescriptionList.this.getSelectedValuesList().toArray();
-      ShowDescriptionList.this.clearSelection();
-
       AdventureResult data;
 
-      for (int i = 0; i < items.length; ++i) {
+      for (final E item : ShowDescriptionList.this.getSelectedValuesList()) {
         data = null;
 
-        if (items[i] instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) items[i]).createdItem;
-        } else if (items[i] instanceof AdventureResult && ((AdventureResult) items[i]).isItem()) {
-          data = (AdventureResult) items[i];
-        } else if (items[i] instanceof String && ItemDatabase.contains((String) items[i])) {
-          int itemId = ItemDatabase.getItemId((String) items[i]);
+        if (item instanceof CreateItemRequest) {
+          data = ((CreateItemRequest) item).createdItem;
+        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
+          data = (AdventureResult) item;
+        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
+          int itemId = ItemDatabase.getItemId((String) item);
           data = ItemPool.get(itemId);
-        } else if (items[i] instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) items[i]).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) items[i]).getValue());
+        } else if (item instanceof Entry
+            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
+          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -494,30 +512,29 @@ public class ShowDescriptionList extends JList {
           KoLConstants.junkList.add(data);
         }
       }
+
+      ShowDescriptionList.this.clearSelection();
     }
   }
 
   private class AddToSingletonListRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] items = ShowDescriptionList.this.getSelectedValuesList().toArray();
-      ShowDescriptionList.this.clearSelection();
-
       AdventureResult data;
 
-      for (int i = 0; i < items.length; ++i) {
+      for (final E item : ShowDescriptionList.this.getSelectedValuesList()) {
         data = null;
 
-        if (items[i] instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) items[i]).createdItem;
-        } else if (items[i] instanceof AdventureResult && ((AdventureResult) items[i]).isItem()) {
-          data = (AdventureResult) items[i];
-        } else if (items[i] instanceof String && ItemDatabase.contains((String) items[i])) {
-          int itemId = ItemDatabase.getItemId((String) items[i]);
+        if (item instanceof CreateItemRequest) {
+          data = ((CreateItemRequest) item).createdItem;
+        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
+          data = (AdventureResult) item;
+        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
+          int itemId = ItemDatabase.getItemId((String) item);
           data = ItemPool.get(itemId);
-        } else if (items[i] instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) items[i]).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) items[i]).getValue());
+        } else if (item instanceof Entry
+            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
+          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -532,30 +549,29 @@ public class ShowDescriptionList extends JList {
           KoLConstants.singletonList.add(data);
         }
       }
+
+      ShowDescriptionList.this.clearSelection();
     }
   }
 
   private class AddToMementoListRunnable extends ContextMenuListener {
     @Override
     public void executeAction() {
-      Object[] items = ShowDescriptionList.this.getSelectedValuesList().toArray();
-      ShowDescriptionList.this.clearSelection();
-
       AdventureResult data;
 
-      for (int i = 0; i < items.length; ++i) {
+      for (final E item : ShowDescriptionList.this.getSelectedValuesList()) {
         data = null;
 
-        if (items[i] instanceof CreateItemRequest) {
-          data = ((CreateItemRequest) items[i]).createdItem;
-        } else if (items[i] instanceof AdventureResult && ((AdventureResult) items[i]).isItem()) {
-          data = (AdventureResult) items[i];
-        } else if (items[i] instanceof String && ItemDatabase.contains((String) items[i])) {
-          int itemId = ItemDatabase.getItemId((String) items[i]);
+        if (item instanceof CreateItemRequest) {
+          data = ((CreateItemRequest) item).createdItem;
+        } else if (item instanceof AdventureResult && ((AdventureResult) item).isItem()) {
+          data = (AdventureResult) item;
+        } else if (item instanceof String && ItemDatabase.contains((String) item)) {
+          int itemId = ItemDatabase.getItemId((String) item);
           data = ItemPool.get(itemId);
-        } else if (items[i] instanceof Entry
-            && ItemDatabase.contains((String) ((Entry) items[i]).getValue())) {
-          int itemId = ItemDatabase.getItemId((String) ((Entry) items[i]).getValue());
+        } else if (item instanceof Entry
+            && ItemDatabase.contains((String) ((Entry) item).getValue())) {
+          int itemId = ItemDatabase.getItemId((String) ((Entry) item).getValue());
           data = ItemPool.get(itemId);
         }
 
@@ -564,6 +580,7 @@ public class ShowDescriptionList extends JList {
         }
       }
 
+      ShowDescriptionList.this.clearSelection();
       Preferences.setBoolean("mementoListActive", true);
     }
   }

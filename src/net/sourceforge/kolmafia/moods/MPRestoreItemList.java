@@ -191,8 +191,7 @@ public abstract class MPRestoreItemList {
    * <p>Due to historical reasons, this class is named "MPRestoreItem" even though it encompasses
    * items, skills, and actions.
    */
-  public abstract static class MPRestoreItem extends RestoreItem
-      implements Comparable<RestoreItem> {
+  public abstract static class MPRestoreItem extends RestoreItem {
     private int manaPerUse;
     private int purchaseCost;
     private final boolean isCombatUsable;
@@ -247,6 +246,7 @@ public abstract class MPRestoreItemList {
       return Math.min(this.manaPerUse, KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP());
     }
 
+    @Override
     public boolean usableInCurrentPath() {
       if (this.itemUsed == null) {
         return true;
@@ -265,6 +265,7 @@ public abstract class MPRestoreItemList {
       return true;
     }
 
+    @Override
     public void recover(final int needed, final boolean purchase) {
       if (!KoLmafia.permitsContinue()) {
         return;

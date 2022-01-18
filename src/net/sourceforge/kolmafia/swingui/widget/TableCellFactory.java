@@ -24,7 +24,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class TableCellFactory {
   public static Object get(
       int columnIndex,
-      LockableListModel model,
+      LockableListModel<?> model,
       Object result,
       boolean[] flags,
       boolean isSelected) {
@@ -33,7 +33,7 @@ public class TableCellFactory {
 
   public static Object get(
       int columnIndex,
-      LockableListModel model,
+      LockableListModel<?> model,
       Object result,
       boolean[] flags,
       boolean isSelected,
@@ -53,7 +53,7 @@ public class TableCellFactory {
       return getGeneralCell(columnIndex, isSelected, advresult, raw);
     }
     if (result instanceof CreateItemRequest) {
-      return getCreationCell(columnIndex, result, isSelected, raw);
+      return getCreationCell(columnIndex, (CreateItemRequest) result, isSelected, raw);
     }
     if (result instanceof LowerCaseEntry) {
       if (model == DatabaseFrame.allItems) {
@@ -215,8 +215,7 @@ public class TableCellFactory {
   }
 
   private static Object getCreationCell(
-      int columnIndex, Object result, boolean isSelected, boolean raw) {
-    CreateItemRequest CIRresult = (CreateItemRequest) result;
+      int columnIndex, CreateItemRequest CIRresult, boolean isSelected, boolean raw) {
     Integer fill;
 
     switch (columnIndex) {
@@ -350,7 +349,7 @@ public class TableCellFactory {
     return price + " meat";
   }
 
-  public static String[] getColumnNames(LockableListModel originalModel, boolean[] flags) {
+  public static String[] getColumnNames(LockableListModel<?> originalModel, boolean[] flags) {
     if (flags[0]) { // Equipment panel
       return new String[] {"item name", "power", "quantity", "mallprice", "autosell"};
     } else if (flags[1]) { // Restores panel

@@ -22,7 +22,9 @@ public abstract class AshStub extends BaseFunction {
   protected final ScriptRuntime controller;
   protected final String ashFunctionName;
 
-  public AshStub(ScriptRuntime controller, String ashFunctionName) {
+  public AshStub(
+      Scriptable scope, Scriptable prototype, ScriptRuntime controller, String ashFunctionName) {
+    super(scope, prototype);
     this.controller = controller;
     this.ashFunctionName = ashFunctionName;
   }

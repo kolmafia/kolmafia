@@ -39,17 +39,19 @@ public class DatabaseFrame extends GenericFrame {
 
     this.tabs.addTab("Items", new ExamineItemsPanel());
     this.tabs.addTab(
-        "Familiars", new ItemLookupPanel(DatabaseFrame.allFamiliars, "familiar", "which"));
-    this.tabs.addTab("Skills", new ItemLookupPanel(DatabaseFrame.allSkills, "skill", "whichskill"));
+        "Familiars", new ItemLookupPanel<>(DatabaseFrame.allFamiliars, "familiar", "which"));
+    this.tabs.addTab(
+        "Skills", new ItemLookupPanel<>(DatabaseFrame.allSkills, "skill", "whichskill"));
     this.tabs.addTab("Effects", new ExamineEffectsPanel());
     this.tabs.addTab(
-        "Outfits", new ItemLookupPanel(DatabaseFrame.allOutfits, "outfit", "whichoutfit"));
+        "Outfits", new ItemLookupPanel<>(DatabaseFrame.allOutfits, "outfit", "whichoutfit"));
     this.tabs.addTab("Monsters", new ExamineMonstersPanel());
 
     this.setCenterComponent(this.tabs);
   }
 
   private static class IntegerEntryKeyComparator implements Comparator<LowerCaseEntry<?, ?>> {
+    @Override
     public int compare(LowerCaseEntry<?, ?> o1, LowerCaseEntry<?, ?> o2) {
       Object key1 = o1.getKey();
       Object key2 = o2.getKey();
@@ -60,11 +62,14 @@ public class DatabaseFrame extends GenericFrame {
     }
   }
 
-  private class ItemLookupPanel extends ItemTableManagePanel {
+  private class ItemLookupPanel<E> extends ItemTableManagePanel<LowerCaseEntry<Integer, E>> {
     public String type;
     public String which;
 
-    public ItemLookupPanel(final LockableListModel list, final String type, final String which) {
+    public ItemLookupPanel(
+        final LockableListModel<LowerCaseEntry<Integer, E>> list,
+        final String type,
+        final String which) {
       super(list);
 
       this.type = type;
@@ -82,8 +87,8 @@ public class DatabaseFrame extends GenericFrame {
     }
 
     @Override
-    public AutoFilterTextField getWordFilter() {
-      return new AutoFilterTextField(this.elementModel);
+    public AutoFilterTextField<LowerCaseEntry<Integer, E>> getWordFilter() {
+      return new AutoFilterTextField<>(this.elementModel);
     }
 
     /** Utility class which shows the description of the item which is currently selected. */
@@ -92,8 +97,8 @@ public class DatabaseFrame extends GenericFrame {
       protected void execute() {
         int index = ItemLookupPanel.this.getElementList().getSelectedIndex();
         if (index != -1) {
-          Entry entry =
-              (Entry) ItemLookupPanel.this.getElementList().getDisplayModel().getElementAt(index);
+          Entry<Integer, E> entry =
+              ItemLookupPanel.this.getElementList().getDisplayModel().getElementAt(index);
           ItemLookupPanel.this.showDescription(entry);
         }
       }
@@ -109,57 +114,58 @@ public class DatabaseFrame extends GenericFrame {
         }
 
         int index = ItemLookupPanel.this.getElementList().locationToIndex(e.getPoint());
-        Object entry = ItemLookupPanel.this.getElementList().getDisplayModel().getElementAt(index);
+        Entry<Integer, E> entry =
+            ItemLookupPanel.this.getElementList().getDisplayModel().getElementAt(index);
 
         if (!(entry instanceof Entry)) {
           return;
         }
 
         ItemLookupPanel.this.getElementList().ensureIndexIsVisible(index);
-        ItemLookupPanel.this.showDescription((Entry) entry);
+        ItemLookupPanel.this.showDescription(entry);
       }
     }
 
-    public void showDescription(final Entry entry) {
+    public void showDescription(final Entry<Integer, E> entry) {
       StaticEntity.openDescriptionFrame(
           "desc_" + this.type + ".php?" + this.which + "=" + this.getId(entry));
     }
 
-    public String getId(final Entry e) {
-      return String.valueOf(((Integer) e.getKey()).intValue());
+    public String getId(final Entry<Integer, E> e) {
+      return String.valueOf(e.getKey().intValue());
     }
   }
 
-  private class ExamineItemsPanel extends ItemLookupPanel {
+  private class ExamineItemsPanel extends ItemLookupPanel<String> {
     public ExamineItemsPanel() {
       super(DatabaseFrame.allItems, "item", "whichitem");
     }
 
     @Override
-    public String getId(final Entry e) {
-      return ItemDatabase.getDescriptionId(((Integer) e.getKey()).intValue());
+    public String getId(final Entry<Integer, String> e) {
+      return ItemDatabase.getDescriptionId(e.getKey().intValue());
     }
   }
 
-  private class ExamineEffectsPanel extends ItemLookupPanel {
+  private class ExamineEffectsPanel extends ItemLookupPanel<String> {
     public ExamineEffectsPanel() {
       super(DatabaseFrame.allEffects, "effect", "whicheffect");
     }
 
     @Override
-    public String getId(final Entry e) {
-      return EffectDatabase.getDescriptionId(((Integer) e.getKey()).intValue());
+    public String getId(final Entry<Integer, String> e) {
+      return EffectDatabase.getDescriptionId(e.getKey().intValue());
     }
   }
 
-  private class ExamineMonstersPanel extends ItemLookupPanel {
+  private class ExamineMonstersPanel extends ItemLookupPanel<MonsterData> {
     public ExamineMonstersPanel() {
       super(DatabaseFrame.allMonsters, "monster", "whichmonster");
     }
 
     @Override
-    public void showDescription(final Entry entry) {
-      MonsterDescriptionFrame.showMonster((MonsterData) entry.getValue());
+    public void showDescription(final Entry<Integer, MonsterData> entry) {
+      MonsterDescriptionFrame.showMonster(entry.getValue());
     }
   }
 }

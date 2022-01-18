@@ -461,6 +461,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     return this.id;
   }
 
+  @Override
   public int compareTo(final PastaThrallData td) {
     return this.id - td.id;
   }

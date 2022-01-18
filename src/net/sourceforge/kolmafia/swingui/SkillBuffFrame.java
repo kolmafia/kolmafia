@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.swingui.panel.RestorativeItemPanel;
 import net.sourceforge.kolmafia.swingui.panel.StatusEffectPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
@@ -37,8 +38,8 @@ public class SkillBuffFrame extends GenericFrame {
   private SkillTypeComboBox typeSelect;
   private SkillSelectComboBox skillSelect;
   private AutoHighlightTextField amountField;
-  private AutoFilterComboBox targetSelect;
-  private final ShowDescriptionList effectList;
+  private EditableAutoFilterComboBox targetSelect;
+  private final ShowDescriptionList<AdventureResult> effectList;
 
   public SkillBuffFrame() {
     this("");
@@ -51,7 +52,7 @@ public class SkillBuffFrame extends GenericFrame {
     skillWrapper.add(new SkillBuffPanel(), BorderLayout.NORTH);
 
     this.effectList =
-        new ShowDescriptionList(
+        new ShowDescriptionList<>(
             (LockableListModel<AdventureResult>) KoLConstants.activeEffects, 12);
     this.effectList.addListSelectionListener(new SkillReselector());
 
@@ -93,8 +94,9 @@ public class SkillBuffFrame extends GenericFrame {
   }
 
   private class SkillReselector implements ListSelectionListener {
+    @Override
     public void valueChanged(final ListSelectionEvent e) {
-      AdventureResult effect = (AdventureResult) SkillBuffFrame.this.effectList.getSelectedValue();
+      AdventureResult effect = SkillBuffFrame.this.effectList.getSelectedValue();
       if (effect == null) {
         return;
       }
@@ -104,9 +106,10 @@ public class SkillBuffFrame extends GenericFrame {
     }
   }
 
-  private class SkillSelectComboBox extends AutoFilterComboBox implements Listener {
+  private class SkillSelectComboBox extends AutoFilterComboBox<UseSkillRequest>
+      implements Listener {
     public SkillSelectComboBox(final LockableListModel<UseSkillRequest> model) {
-      super(model, false);
+      super(model);
       this.update();
       this.setSkillListeners();
     }
@@ -314,7 +317,9 @@ public class SkillBuffFrame extends GenericFrame {
       }
     }
 
+    @Override
     public void update() {
+      super.update();
       this.clearDisabledItems();
 
       for (int i = 0; i < DAILY_LIMITED_SKILLS.length; ++i) {
@@ -361,7 +366,8 @@ public class SkillBuffFrame extends GenericFrame {
       SkillBuffFrame.this.amountField = new AutoHighlightTextField();
 
       SkillBuffFrame.this.contacts = ContactManager.getMailContacts().getMirrorImage();
-      SkillBuffFrame.this.targetSelect = new AutoFilterComboBox(SkillBuffFrame.this.contacts, true);
+      SkillBuffFrame.this.targetSelect =
+          new EditableAutoFilterComboBox(SkillBuffFrame.this.contacts);
 
       VerifiableElement[] elements = new VerifiableElement[4];
       elements[0] = new VerifiableElement("Skill Type: ", SkillBuffFrame.this.typeSelect);
@@ -439,7 +445,7 @@ public class SkillBuffFrame extends GenericFrame {
     }
   }
 
-  private class SkillTypeComboBox extends JComboBox {
+  private class SkillTypeComboBox extends JComboBox<String> {
     public SkillTypeComboBox() {
       super();
       addItem("All Castable Skills");
@@ -454,9 +460,10 @@ public class SkillBuffFrame extends GenericFrame {
     }
 
     private class SkillTypeListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
-        ComboBoxModel oldModel = SkillBuffFrame.this.skillSelect.getModel();
-        ComboBoxModel newModel = oldModel;
+        ComboBoxModel<UseSkillRequest> oldModel = SkillBuffFrame.this.skillSelect.getModel();
+        ComboBoxModel<UseSkillRequest> newModel = oldModel;
         switch (SkillTypeComboBox.this.getSelectedIndex()) {
           case 0:
             // All skills

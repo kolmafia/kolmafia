@@ -12,6 +12,7 @@ public class DebugLogMenuItem extends ThreadedMenuItem implements Listener {
     NamedListenerRegistry.registerNamedListener("(debug)", this);
   }
 
+  @Override
   public void update() {
     DebugLogMenuItem.this.setText(
         RequestLogger.isDebugging() ? "Stop Debug Log" : "Start Debug Log");

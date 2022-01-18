@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,7 +15,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AutoSellRequest extends TransferItemRequest {
@@ -106,8 +106,8 @@ public class AutoSellRequest extends TransferItemRequest {
     // Look at all of the attachments and divide them into groups:
     // all, all but one, another quantity
 
-    AdventureResultArray all = new AdventureResultArray();
-    AdventureResultArray allButOne = new AdventureResultArray();
+    List<AdventureResult> all = new ArrayList<>();
+    List<AdventureResult> allButOne = new ArrayList<>();
     Set<AdventureResult> others = new HashSet<AdventureResult>();
 
     for (int index = 0; index < this.attachments.length; ++index) {
@@ -164,7 +164,7 @@ public class AutoSellRequest extends TransferItemRequest {
     // Iterate over remaining items. Each distinct count goes into
     // its own subinstance
     while (others.size() > 0) {
-      AdventureResultArray sublist = new AdventureResultArray();
+      List<AdventureResult> sublist = new ArrayList<>();
       Iterator<AdventureResult> it = others.iterator();
 
       int count = -1;
@@ -180,19 +180,21 @@ public class AutoSellRequest extends TransferItemRequest {
         }
       }
 
-      TransferItemRequest subinstance = this.getSubInstance(sublist.toArray());
+      TransferItemRequest subinstance =
+          this.getSubInstance(sublist.toArray(new AdventureResult[0]));
       subinstance.isSubInstance = true;
       subinstances.add(subinstance);
     }
 
     if (allButOne.size() > 0) {
-      TransferItemRequest subinstance = this.getSubInstance(allButOne.toArray());
+      TransferItemRequest subinstance =
+          this.getSubInstance(allButOne.toArray(new AdventureResult[0]));
       subinstance.isSubInstance = true;
       subinstances.add(subinstance);
     }
 
     if (all.size() > 0) {
-      TransferItemRequest subinstance = this.getSubInstance(all.toArray());
+      TransferItemRequest subinstance = this.getSubInstance(all.toArray(new AdventureResult[0]));
       subinstance.isSubInstance = true;
       subinstances.add(subinstance);
     }
@@ -241,7 +243,7 @@ public class AutoSellRequest extends TransferItemRequest {
       quantity = 0;
     }
 
-    AdventureResultArray itemList =
+    List<AdventureResult> itemList =
         TransferItemRequest.getItemList(
             urlString, TransferItemRequest.ITEMID_PATTERN, null, KoLConstants.inventory, quantity);
 
@@ -269,7 +271,7 @@ public class AutoSellRequest extends TransferItemRequest {
       quantity = -1;
     }
 
-    AdventureResultArray itemList =
+    List<AdventureResult> itemList =
         TransferItemRequest.getItemList(
             urlString, AutoSellRequest.EMBEDDED_ID_PATTERN, null, KoLConstants.inventory, quantity);
 
@@ -282,7 +284,7 @@ public class AutoSellRequest extends TransferItemRequest {
     return true;
   }
 
-  private static void processMeat(AdventureResultArray itemList, String responseText) {
+  private static void processMeat(List<AdventureResult> itemList, String responseText) {
     if (KoLCharacter.inFistcore()) {
       int donation = 0;
 

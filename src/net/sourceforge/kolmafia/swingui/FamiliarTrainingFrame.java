@@ -165,7 +165,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
   private class FamiliarTrainingPanel extends JPanel {
     private FamiliarData familiar;
-    private final JComboBox familiars;
+    private final JComboBox<FamiliarData> familiars;
     private final JLabel winCount;
     private final JLabel prizeCounter;
     private final JLabel totalWeight;
@@ -246,6 +246,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
         this.run();
       }
 
+      @Override
       public void run() {
         // Arena wins
         int arenaWins = KoLCharacter.getArenaWins();
@@ -456,6 +457,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
           try {
             SwingUtilities.invokeAndWait(
                 new Runnable() {
+                  @Override
                   public void run() {
                     SaveListener.this.output =
                         InputFieldUtilities.chooseOutputFile(
@@ -575,8 +577,8 @@ public class FamiliarTrainingFrame extends GenericFrame {
       }
     }
 
-    private class ChangeComboBox extends JComboBox {
-      public ChangeComboBox(final LockableListModel selector) {
+    private class ChangeComboBox extends JComboBox<FamiliarData> {
+      public ChangeComboBox(final LockableListModel<FamiliarData> selector) {
         super(selector);
         this.addActionListener(new ChangeComboBoxListener());
       }
@@ -1677,12 +1679,12 @@ public class FamiliarTrainingFrame extends GenericFrame {
       this.getItemWeights(weight);
 
       // Make an array to hold values
-      Object[] vals = this.weights.toArray();
+      Integer[] vals = this.weights.toArray(new Integer[0]);
       int[] value = new int[vals.length];
 
       // Read Integers from the set and store ints
       for (int i = 0; i < vals.length; ++i) {
-        value[i] = ((Integer) vals[i]).intValue();
+        value[i] = vals[i].intValue();
       }
 
       return value;
@@ -2592,6 +2594,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
             this.weapon, this.offhand, this.acc1, this.acc2, this.acc3, this.item, this.hat);
       }
 
+      @Override
       public int compareTo(final GearSet o) {
         // Keep in mind that all unequips are considered
         // better than equips, so unequips have a change
@@ -2716,6 +2719,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
       this.addActionListener(this);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
       boolean toggleValue = Preferences.getBoolean(this.property);
       Preferences.setBoolean(this.property, toggleValue);

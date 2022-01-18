@@ -1,10 +1,13 @@
 package net.sourceforge.kolmafia.request;
 
 import java.io.BufferedReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -19,7 +22,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.utilities.BooleanArray;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -28,10 +30,7 @@ public class ZapRequest extends GenericRequest {
   private static final Pattern OPTION_PATTERN =
       Pattern.compile("<option value=(\\d+) descid='.*?'>.*?</option>");
 
-  private static final BooleanArray isZappable = new BooleanArray();
-  private static final SortedListModel<AdventureResult> zappableItems =
-      new SortedListModel<AdventureResult>();
-  private static final Map<Integer, String[]> zapGroups = new HashMap<>();
+  private static final Map<Integer, List<String>> zapGroups = new HashMap<Integer, List<String>>();
 
   private AdventureResult item;
 
@@ -52,7 +51,7 @@ public class ZapRequest extends GenericRequest {
   }
 
   private static void initializeList() {
-    if (!ZapRequest.zappableItems.isEmpty()) {
+    if (!ZapRequest.zapGroups.isEmpty()) {
       return;
     }
 
@@ -62,16 +61,13 @@ public class ZapRequest extends GenericRequest {
           FileUtilities.getVersionedReader("zapgroups.txt", KoLConstants.ZAPGROUPS_VERSION);
 
       while ((line = FileUtilities.readLine(reader)) != null) {
-        String[] list = line.split("\\s*,\\s*");
-        for (int i = 0; i < list.length; ++i) {
-          String name = list[i];
+        List<String> list = StringUtilities.tokenizeString(line);
+        for (String name : list) {
           int itemId = ItemDatabase.getItemId(name, 1, false);
           if (itemId < 0) {
             RequestLogger.printLine("Unknown item in zap group: " + name);
             continue;
           }
-          ZapRequest.zappableItems.add(ItemPool.get(itemId));
-          ZapRequest.isZappable.set(itemId, true);
           ZapRequest.zapGroups.put(IntegerPool.get(itemId), list);
         }
       }
@@ -84,19 +80,21 @@ public class ZapRequest extends GenericRequest {
     ZapRequest.initializeList();
 
     SortedListModel<AdventureResult> matchingItems = new SortedListModel<AdventureResult>();
-    matchingItems.addAll(KoLConstants.inventory);
     if (Preferences.getBoolean("relayTrimsZapList")) {
-      matchingItems.retainAll(ZapRequest.zappableItems);
+      matchingItems.addAll(
+          KoLConstants.inventory.stream()
+              .filter(i -> ZapRequest.zapGroups.containsKey(i.getItemId()))
+              .collect(Collectors.toList()));
+    } else {
+      matchingItems.addAll(KoLConstants.inventory);
     }
     return matchingItems;
   }
 
-  public static final String[] getZapGroup(int itemId) {
+  public static final List<String> getZapGroup(int itemId) {
     ZapRequest.initializeList();
 
-    String[] rv = ZapRequest.zapGroups.get(IntegerPool.get(itemId));
-    if (rv == null) return new String[0];
-    return rv;
+    return ZapRequest.zapGroups.getOrDefault(IntegerPool.get(itemId), new ArrayList<>());
   }
 
   @Override
@@ -188,7 +186,7 @@ public class ZapRequest extends GenericRequest {
     StringBuffer zappableOptions = new StringBuffer();
     while (optionMatcher.find()) {
       itemId = Integer.parseInt(optionMatcher.group(1));
-      if (itemId == 0 || ZapRequest.isZappable.get(itemId)) {
+      if (itemId == 0 || ZapRequest.zapGroups.containsKey(itemId)) {
         zappableOptions.append(optionMatcher.group());
       }
     }

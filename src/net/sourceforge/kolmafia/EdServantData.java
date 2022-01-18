@@ -295,6 +295,7 @@ public class EdServantData implements Comparable<EdServantData> {
     return this.id;
   }
 
+  @Override
   public int compareTo(final EdServantData td) {
     return this.id - td.id;
   }

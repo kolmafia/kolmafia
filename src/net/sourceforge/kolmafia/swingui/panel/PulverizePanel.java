@@ -28,7 +28,7 @@ import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 import net.sourceforge.kolmafia.textui.command.SendMessageCommand;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
-public class PulverizePanel extends ItemListManagePanel {
+public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
   private JTable yields;
 
   public PulverizePanel() {
@@ -132,7 +132,7 @@ public class PulverizePanel extends ItemListManagePanel {
     this.yields
         .getColumnModel()
         .getSelectionModel()
-        .addListSelectionListener((ListSelectionListener) this.filterfield);
+        .addListSelectionListener((ListSelectionListener) this.filterField);
 
     // If the yields list was added directly to northPanel, it would get horizontally
     // stretched, creating useless blank space inside the list frame.  Having an
@@ -149,11 +149,12 @@ public class PulverizePanel extends ItemListManagePanel {
   }
 
   @Override
-  public AutoFilterTextField getWordFilter() {
+  public AutoFilterTextField<AdventureResult> getWordFilter() {
     return new EquipmentFilterField();
   }
 
-  private class EquipmentFilterField extends AutoFilterTextField implements ListSelectionListener {
+  private class EquipmentFilterField extends AutoFilterTextField<AdventureResult>
+      implements ListSelectionListener {
     boolean others = false;
     boolean smiths = false;
     int elemMask = 0;
@@ -163,6 +164,7 @@ public class PulverizePanel extends ItemListManagePanel {
       super(PulverizePanel.this.getElementList());
     }
 
+    @Override
     public void valueChanged(ListSelectionEvent e) {
       this.update();
     }
@@ -223,18 +225,18 @@ public class PulverizePanel extends ItemListManagePanel {
 
     @Override
     protected void execute() {
-      Object[] items = this.initialSetup();
+      AdventureResult[] items = this.initialSetup();
       if (items == null || items.length == 0) {
         return;
       }
 
       for (int i = 0; i < items.length; ++i) {
-        AdventureResult item = (AdventureResult) items[i];
+        AdventureResult item = items[i];
         if (item.getCount() > 0) {
           KoLConstants.pulverizeQueue.remove(item);
           KoLConstants.pulverizeQueue.add(item);
-          LockableListModel inv =
-              (LockableListModel) PulverizePanel.this.getElementList().getModel();
+          LockableListModel<AdventureResult> inv =
+              (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
           int index = inv.indexOf(item);
           inv.fireContentsChanged(inv, index, index);
         }
@@ -254,17 +256,17 @@ public class PulverizePanel extends ItemListManagePanel {
 
     @Override
     protected void execute() {
-      Object[] items = this.initialSetup(ItemManagePanel.TAKE_ALL);
+      AdventureResult[] items = this.initialSetup(ItemManagePanel.TAKE_ALL);
       if (items == null || items.length == 0) {
         return;
       }
 
       for (int i = 0; i < items.length; ++i) {
-        AdventureResult item = (AdventureResult) items[i];
+        AdventureResult item = items[i];
         if (item.getCount() > 0) {
           KoLConstants.pulverizeQueue.remove(item);
-          LockableListModel inv =
-              (LockableListModel) PulverizePanel.this.getElementList().getModel();
+          LockableListModel<AdventureResult> inv =
+              (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
           int index = inv.indexOf(item);
           inv.fireContentsChanged(inv, index, index);
         }
@@ -281,7 +283,8 @@ public class PulverizePanel extends ItemListManagePanel {
     @Override
     protected void execute() {
       KoLConstants.pulverizeQueue.clear();
-      LockableListModel inv = (LockableListModel) PulverizePanel.this.getElementList().getModel();
+      LockableListModel<AdventureResult> inv =
+          (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
       inv.fireContentsChanged(inv, 0, inv.size() - 1);
     }
 
@@ -306,7 +309,8 @@ public class PulverizePanel extends ItemListManagePanel {
       AdventureResult[] items = new AdventureResult[KoLConstants.pulverizeQueue.size()];
       KoLConstants.pulverizeQueue.toArray(items);
       KoLConstants.pulverizeQueue.clear();
-      LockableListModel inv = (LockableListModel) PulverizePanel.this.getElementList().getModel();
+      LockableListModel<AdventureResult> inv =
+          (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
       inv.fireContentsChanged(inv, 0, inv.size() - 1);
       for (int i = 0; i < items.length; ++i) {
         RequestThread.postRequest(new PulverizeRequest(items[i]));
@@ -382,7 +386,8 @@ public class PulverizePanel extends ItemListManagePanel {
       AdventureResult[] items = new AdventureResult[KoLConstants.pulverizeQueue.size()];
       KoLConstants.pulverizeQueue.toArray(items);
       KoLConstants.pulverizeQueue.clear();
-      LockableListModel inv = (LockableListModel) PulverizePanel.this.getElementList().getModel();
+      LockableListModel<AdventureResult> inv =
+          (LockableListModel<AdventureResult>) PulverizePanel.this.getElementList().getModel();
       inv.fireContentsChanged(inv, 0, inv.size() - 1);
       SendMessageCommand.send("smashbot", selected.toMessage(), items, false, true);
     }

@@ -1301,7 +1301,7 @@ public class Maximizer {
         if (item != null) {
           String iname = item.getName();
 
-          if (KoLCharacter.inBeecore() && KoLCharacter.getBeeosity(iname) > 0) {
+          if (KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity(iname)) {
             continue;
           }
 

@@ -42,10 +42,12 @@ public class LowerCaseEntry<K, V> implements Entry<K, V> {
     return false;
   }
 
+  @Override
   public K getKey() {
     return this.key;
   }
 
+  @Override
   public V getValue() {
     return this.value;
   }
@@ -60,6 +62,7 @@ public class LowerCaseEntry<K, V> implements Entry<K, V> {
     return this.key.hashCode();
   }
 
+  @Override
   public V setValue(final V newValue) {
     V returnValue = this.value;
     this.value = newValue;

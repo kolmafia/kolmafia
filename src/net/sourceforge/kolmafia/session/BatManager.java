@@ -802,6 +802,7 @@ public class BatManager {
       }
     }
 
+    @Override
     public String toString() {
       return this.stringform;
     }
@@ -818,10 +819,12 @@ public class BatManager {
       this.description = description;
     }
 
+    @Override
     public int compareTo(final BatUpgrade that) {
       return this.name.compareTo(that.name);
     }
 
+    @Override
     public String toString() {
       return this.name;
     }

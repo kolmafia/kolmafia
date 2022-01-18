@@ -30,8 +30,8 @@ import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
-import net.sourceforge.kolmafia.swingui.widget.AutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
+import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -40,12 +40,11 @@ public class MallSearchFrame extends GenericPanelFrame {
   public static SortedListModel<PurchaseRequest> results;
 
   private static MallSearchFrame INSTANCE = null;
-  private static final SortedListModel<PurchaseRequest> pastSearches =
-      new SortedListModel<PurchaseRequest>();
+  private static final SortedListModel<String> pastSearches = new SortedListModel<>();
 
   private boolean currentlySearching;
   private boolean currentlyBuying;
-  private ShowDescriptionList resultsList;
+  private ShowDescriptionList<PurchaseRequest> resultsList;
   private final MallSearchPanel mallSearch;
 
   public MallSearchFrame() {
@@ -87,7 +86,7 @@ public class MallSearchFrame extends GenericPanelFrame {
 
       this.searchField =
           Preferences.getBoolean("cacheMallSearches")
-              ? new AutoFilterComboBox(MallSearchFrame.pastSearches, true)
+              ? new EditableAutoFilterComboBox(MallSearchFrame.pastSearches)
               : new AutoHighlightTextField();
 
       this.countField = new AutoHighlightTextField();
@@ -154,10 +153,12 @@ public class MallSearchFrame extends GenericPanelFrame {
       this.storageBalanceLabel.setText(buffer.toString());
     }
 
+    @Override
     public void focusGained(FocusEvent e) {
       this.searchField.requestFocus();
     }
 
+    @Override
     public void focusLost(FocusEvent e) {}
 
     @Override
@@ -174,8 +175,8 @@ public class MallSearchFrame extends GenericPanelFrame {
       if (this.searchField instanceof AutoHighlightTextField) {
         searchText = ((AutoHighlightTextField) this.searchField).getText();
       } else {
-        ((AutoFilterComboBox) this.searchField).forceAddition();
-        searchText = (String) ((AutoFilterComboBox) this.searchField).getSelectedItem();
+        ((EditableAutoFilterComboBox) this.searchField).forceAddition();
+        searchText = (String) ((EditableAutoFilterComboBox) this.searchField).getSelectedItem();
       }
 
       MallSearchFrame.this.currentlySearching = true;
@@ -242,13 +243,15 @@ public class MallSearchFrame extends GenericPanelFrame {
       KoLmafiaGUI.constructFrame("MallSearchFrame");
     }
 
+    PurchaseRequest.setUsePriceComparison(INSTANCE.mallSearch.forceSortingCheckBox.isSelected());
+
     MallSearchFrame.results.clear();
     request.setResults(MallSearchFrame.results);
 
     RequestThread.postRequest(request);
   }
 
-  private String getPurchaseSummary(final Object[] purchases) {
+  private String getPurchaseSummary(final PurchaseRequest[] purchases) {
     if (purchases == null || purchases.length == 0) {
       return "";
     }
@@ -258,7 +261,7 @@ public class MallSearchFrame extends GenericPanelFrame {
     PurchaseRequest currentPurchase = null;
 
     for (int i = 0; i < purchases.length; ++i) {
-      currentPurchase = (PurchaseRequest) purchases[i];
+      currentPurchase = purchases[i];
       totalPurchases += currentPurchase.getLimit();
       totalPrice += (long) currentPurchase.getLimit() * (long) currentPurchase.getPrice();
     }
@@ -287,10 +290,11 @@ public class MallSearchFrame extends GenericPanelFrame {
               "Search Results", SwingConstants.CENTER, Color.black, Color.white),
           BorderLayout.NORTH);
 
-      MallSearchFrame.this.resultsList = new ShowDescriptionList(MallSearchFrame.results);
+      MallSearchFrame.this.resultsList = new ShowDescriptionList<>(MallSearchFrame.results);
       MallSearchFrame.this.resultsList.setSelectionMode(
           ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-      MallSearchFrame.this.resultsList.setPrototypeCellValue("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+      ((ShowDescriptionList) MallSearchFrame.this.resultsList)
+          .setPrototypeCellValue("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
       MallSearchFrame.this.resultsList.setVisibleRowCount(11);
 
       MallSearchFrame.this.resultsList.addListSelectionListener(new PurchaseSelectListener());
@@ -302,6 +306,7 @@ public class MallSearchFrame extends GenericPanelFrame {
      * panel.
      */
     private class PurchaseSelectListener implements ListSelectionListener {
+      @Override
       public void valueChanged(final ListSelectionEvent e) {
         if (e.getValueIsAdjusting()) {
           return;
@@ -314,7 +319,10 @@ public class MallSearchFrame extends GenericPanelFrame {
         if (!MallSearchFrame.this.currentlyBuying) {
           MallSearchFrame.this.mallSearch.setStatusMessage(
               MallSearchFrame.this.getPurchaseSummary(
-                  MallSearchFrame.this.resultsList.getSelectedValuesList().toArray()));
+                  MallSearchFrame.this
+                      .resultsList
+                      .getSelectedValuesList()
+                      .toArray(new PurchaseRequest[0])));
         }
       }
     }

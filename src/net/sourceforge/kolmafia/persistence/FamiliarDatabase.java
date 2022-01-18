@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -70,7 +71,7 @@ public class FamiliarDatabase {
   private static final Set<Integer> noneById = new HashSet<>();
   private static final Set<Integer> variableById = new HashSet<>();
 
-  private static final Map<String, Integer>[] eventSkillByName = new HashMap[4];
+  private static List<Map<String, Integer>> eventSkillByName;
   private static final Map<Integer, List<String>> attributesById = new HashMap<>();
 
   public static boolean newFamiliars = false;
@@ -87,8 +88,10 @@ public class FamiliarDatabase {
   public static void reset() {
     FamiliarDatabase.newFamiliars = false;
 
+    FamiliarDatabase.eventSkillByName = new ArrayList<>(4);
+
     for (int i = 0; i < 4; ++i) {
-      FamiliarDatabase.eventSkillByName[i] = new HashMap<String, Integer>();
+      FamiliarDatabase.eventSkillByName.add(new HashMap<String, Integer>());
     }
     FamiliarDatabase.readFamiliars();
     FamiliarDatabase.saveCanonicalNames();
@@ -142,7 +145,7 @@ public class FamiliarDatabase {
       FamiliarDatabase.familiarByItem.put(itemName, id);
 
       for (int i = 0; i < 4; ++i) {
-        FamiliarDatabase.eventSkillByName[i].put(name, Integer.valueOf(data[i + 6]));
+        FamiliarDatabase.eventSkillByName.get(i).put(name, Integer.valueOf(data[i + 6]));
       }
 
       if (data.length == 11) {
@@ -311,7 +314,7 @@ public class FamiliarDatabase {
     FamiliarDatabase.familiarByLarva.put(larvaId, id);
     FamiliarDatabase.familiarItemById.put(id, "");
     for (int i = 0; i < 4; ++i) {
-      FamiliarDatabase.eventSkillByName[i].put(familiarName, FamiliarDatabase.ZERO);
+      FamiliarDatabase.eventSkillByName.get(i).put(familiarName, FamiliarDatabase.ZERO);
     }
     FamiliarDatabase.newFamiliars = true;
     FamiliarDatabase.saveCanonicalNames();
@@ -686,7 +689,7 @@ public class FamiliarDatabase {
   }
 
   public static final Integer getFamiliarSkill(final String name, final int event) {
-    return FamiliarDatabase.eventSkillByName[event - 1].get(name);
+    return FamiliarDatabase.eventSkillByName.get(event - 1).get(name);
   }
 
   public static final int[] getFamiliarSkills(final int id) {
@@ -697,14 +700,14 @@ public class FamiliarDatabase {
     String name = FamiliarDatabase.getFamiliarName(id);
     int[] skills = new int[4];
     for (int i = 0; i < 4; ++i) {
-      skills[i] = FamiliarDatabase.eventSkillByName[i].get(name).intValue();
+      skills[i] = FamiliarDatabase.eventSkillByName.get(i).get(name).intValue();
     }
     return skills;
   }
 
   public static final void setFamiliarSkills(final String name, final int[] skills) {
     for (int i = 0; i < 4; ++i) {
-      FamiliarDatabase.eventSkillByName[i].put(name, IntegerPool.get(skills[i]));
+      FamiliarDatabase.eventSkillByName.get(i).put(name, IntegerPool.get(skills[i]));
     }
     FamiliarDatabase.newFamiliars = true;
     FamiliarDatabase.saveDataOverride();

@@ -7,11 +7,13 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public class Try extends Command {
   private final Scope body, finalClause;
 
-  public Try(final Scope body, final Scope finalClause) {
+  public Try(final Location location, final Scope body, final Scope finalClause) {
+    super(location);
     this.body = body;
     this.finalClause = finalClause;
   }
@@ -33,7 +35,7 @@ public class Try extends Command {
     try {
       result = this.body.execute(interpreter);
     } catch (Exception e) {
-      // *** Here is where we wuld look at catch blocks and find which, if any
+      // *** Here is where we would look at catch blocks and find which, if any
       // *** will handle this exception.
       //
       // If no catch block swallows this error, propagate it upwards

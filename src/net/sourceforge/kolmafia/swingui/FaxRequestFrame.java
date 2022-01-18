@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
@@ -59,7 +61,7 @@ public class FaxRequestFrame extends GenericFrame {
   private class FaxRequestPanel extends GenericPanel {
     private final FaxBot bot;
 
-    public ShowDescriptionList[] monsterLists;
+    public List<ShowDescriptionList<Monster>> monsterLists;
     public int monsterIndex;
     private final MonsterCategoryComboBox categorySelect;
     private final MonsterSelectPanel monsterSelect;
@@ -69,15 +71,15 @@ public class FaxRequestFrame extends GenericFrame {
 
       this.bot = bot;
 
-      LockableListModel<Monster>[] monstersByCategory = bot.getMonstersByCategory();
-      int categories = monstersByCategory.length;
-      this.monsterLists = new ShowDescriptionList[categories];
+      List<LockableListModel<Monster>> monstersByCategory = bot.getMonstersByCategory();
+      int categories = monstersByCategory.size();
+      this.monsterLists = new ArrayList<>(categories);
       for (int i = 0; i < categories; ++i) {
-        this.monsterLists[i] = new ShowDescriptionList(monstersByCategory[i], ROWS);
+        this.monsterLists.add(new ShowDescriptionList<>(monstersByCategory.get(i), ROWS));
       }
 
       this.categorySelect = new MonsterCategoryComboBox(this, bot);
-      this.monsterSelect = new MonsterSelectPanel(this.monsterLists[0]);
+      this.monsterSelect = new MonsterSelectPanel(this.monsterLists.get(0));
       this.monsterIndex = 0;
 
       VerifiableElement[] elements = new VerifiableElement[1];
@@ -106,13 +108,12 @@ public class FaxRequestFrame extends GenericFrame {
     @Override
     public void actionConfirmed() {
       int list = this.monsterIndex;
-      Object value = monsterLists[list].getSelectedValue();
-      if (value == null) {
+      Monster monster = monsterLists.get(list).getSelectedValue();
+      if (monster == null) {
         return;
       }
 
       String botName = this.bot.getName();
-      Monster monster = (Monster) value;
       FaxRequestFrame.requestFax(botName, monster);
     }
 
@@ -366,34 +367,35 @@ public class FaxRequestFrame extends GenericFrame {
     }
 
     private class MonsterCategoryListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         int index = MonsterCategoryComboBox.this.getSelectedIndex();
         MonsterCategoryComboBox.this.panel.monsterIndex = index;
         MonsterCategoryComboBox.this.panel.monsterSelect.setElementList(
-            MonsterCategoryComboBox.this.panel.monsterLists[index]);
+            MonsterCategoryComboBox.this.panel.monsterLists.get(index));
       }
     }
   }
 
-  private class MonsterSelectPanel extends ScrollablePanel {
-    private ShowDescriptionList elementList;
-    private final AutoFilterTextField filterfield;
+  private class MonsterSelectPanel extends ScrollablePanel<ShowDescriptionList<Monster>> {
+    private ShowDescriptionList<Monster> elementList;
+    private final AutoFilterTextField<Monster> filterField;
 
-    public MonsterSelectPanel(final ShowDescriptionList list) {
+    public MonsterSelectPanel(final ShowDescriptionList<Monster> list) {
       super("", null, null, list, false);
 
       this.elementList = list;
       this.elementList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
       this.elementList.setVisibleRowCount(8);
 
-      this.filterfield = new AutoFilterTextField(this.elementList);
-      this.centerPanel.add(this.filterfield, BorderLayout.NORTH);
+      this.filterField = new AutoFilterTextField<>(this.elementList);
+      this.centerPanel.add(this.filterField, BorderLayout.NORTH);
     }
 
-    public void setElementList(final ShowDescriptionList list) {
+    public void setElementList(final ShowDescriptionList<Monster> list) {
       this.elementList = list;
       this.scrollPane.getViewport().setView(list);
-      this.filterfield.setList(list);
+      this.filterField.setList(list);
     }
   }
 }

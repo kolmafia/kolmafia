@@ -456,20 +456,18 @@ public class RelayAgent extends Thread {
     }
   }
 
-  private static final String NOCACHE_IMAGES = "(/memes|/otherimages/zonefont)?";
+  private static final String NOCACHE_IMAGES = "(memes|otherimages/zonefont)?";
 
   private static final Pattern IMAGE_PATTERN =
       Pattern.compile(
           "("
-              + KoLmafia.AMAZON_IMAGE_SERVER
+              + String.join("|", KoLmafia.IMAGE_SERVER_PATHS)
               + "|"
-              + KoLmafia.KOL_IMAGE_SERVER
+              + "/iii/"
               + "|"
-              + "/iii"
+              + "//images.kingdomofloathing.com/"
               + "|"
-              + "//images.kingdomofloathing.com"
-              + "|"
-              + "http://pics.communityofloathing.com/albums"
+              + "http://pics.communityofloathing.com/albums/"
               + ")"
               + RelayAgent.NOCACHE_IMAGES);
 
@@ -489,7 +487,7 @@ public class RelayAgent extends Thread {
           if (matcher.group(2) != null) {
             matcher.appendReplacement(responseBuffer, "$0");
           } else {
-            matcher.appendReplacement(responseBuffer, "/images");
+            matcher.appendReplacement(responseBuffer, "/images/");
           }
         }
 

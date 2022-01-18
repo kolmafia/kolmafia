@@ -6,15 +6,17 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import org.eclipse.lsp4j.Location;
 
 public class Operator extends Command {
-  String operator;
+  final String operator;
 
   // For runtime error messages
-  String fileName;
-  int lineNumber;
+  private final String fileName;
+  private final int lineNumber;
 
-  public Operator(final String operator, final Parser parser) {
+  public Operator(final Location location, final String operator, final Parser parser) {
+    super(location);
     this.operator = operator;
     this.fileName = parser.getShortFileName();
     this.lineNumber = parser.getLineNumber();
@@ -166,6 +168,12 @@ public class Operator extends Command {
     int ltype = lhs.getBaseType().getType();
     int rtype = rhs.getBaseType().getType();
 
+    if (lhs.isBad() || rhs.isBad()) {
+      // BadNode's are only generated through errors, which
+      // means one was already generated about this type.
+      return true;
+    }
+
     if (this.isInteger()) {
       return (ltype == DataTypes.TYPE_INT && rtype == DataTypes.TYPE_INT);
     }
@@ -182,6 +190,12 @@ public class Operator extends Command {
     // Resolve aliases
     lhs = lhs.getBaseType();
     rhs = rhs.getBaseType();
+
+    if (lhs.isBad() || rhs.isBad()) {
+      // BadNode's are only generated through errors, which
+      // means one was already generated about this type.
+      return true;
+    }
 
     if (oper == null) {
       return lhs.getType() == rhs.getType();

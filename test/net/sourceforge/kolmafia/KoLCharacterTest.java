@@ -1,18 +1,29 @@
 package net.sourceforge.kolmafia;
 
-import static net.sourceforge.kolmafia.extensions.ClearSharedState.deleteUserPrefsAndMoodsFiles;
+import static internal.helpers.Player.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import org.junit.jupiter.api.AfterEach;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class KoLCharacterTest {
+  @BeforeEach
+  public void init() {
+    KoLCharacter.reset(true);
+  }
 
   @Test
   public void rejectsUsernameWithTwoPeriods() {
+    KoLCharacter.reset("");
+    KoLCharacter.reset(true);
+    KoLCharacter.setUserId(0);
     KoLCharacter.reset("test..name");
     // Unset value.
     assertEquals("", KoLCharacter.getUserName());
@@ -20,12 +31,18 @@ public class KoLCharacterTest {
 
   @Test
   public void rejectsUsernameWithForwardSlash() {
+    KoLCharacter.reset("");
+    KoLCharacter.reset(true);
+    KoLCharacter.setUserId(0);
     KoLCharacter.reset("test/name");
     assertEquals("", KoLCharacter.getUserName());
   }
 
   @Test
   public void rejectsUsernameWithBackslash() {
+    KoLCharacter.reset("");
+    KoLCharacter.reset(true);
+    KoLCharacter.setUserId(0);
     KoLCharacter.reset("test\\name");
     assertEquals("", KoLCharacter.getUserName());
   }
@@ -69,9 +86,42 @@ public class KoLCharacterTest {
     assertEquals(ZodiacZone.NONE, KoLCharacter.getSignZone());
   }
 
-  @AfterEach
-  void resetUsername() {
-    deleteUserPrefsAndMoodsFiles(KoLCharacter.baseUserName());
-    KoLCharacter.reset("");
+  @Test
+  public void getSongs() {
+    KoLConstants.activeEffects.add(EffectPool.get(EffectPool.ODE));
+    KoLConstants.activeEffects.add(EffectPool.get(2375)); // Paul's Passionate Pop Song
+    KoLConstants.activeEffects.add(EffectPool.get(1495)); // Rolando's Rondo of Resisto
+    KoLConstants.activeEffects.add(EffectPool.get(3)); // Confused (i.e. not a song)
+
+    assertEquals(3, KoLCharacter.getSongs());
+  }
+
+  @Test
+  public void getMaxSongs() {
+    KoLCharacter.setAscensionClass(AscensionClass.ACCORDION_THIEF);
+    equip(EquipmentManager.HAT, "brimstone beret"); // Four Songs (mutex)
+    equip(EquipmentManager.ACCESSORY1, "plexiglass pendant"); // Four Songs (mutex)
+    equip(EquipmentManager.WEAPON, "zombie accordion"); // Additional Song
+    KoLCharacter.addAvailableSkill(SkillPool.MARIACHI_MEMORY); // Additional Song
+
+    KoLCharacter.recalculateAdjustments();
+
+    assertEquals(6, KoLCharacter.getMaxSongs());
+  }
+
+  @Test
+  public void aboveWaterZonesDoNotCheckUnderwaterNegativeCombat() {
+    Modifiers.setLocation(AdventureDatabase.getAdventure("Noob Cave"));
+    addEffect("Colorfully Concealed");
+    KoLCharacter.recalculateAdjustments();
+    assertEquals(0, KoLCharacter.getCombatRateAdjustment());
+  }
+
+  @Test
+  public void underwaterZonesCheckUnderwaterNegativeCombat() {
+    Modifiers.setLocation(AdventureDatabase.getAdventure("The Ice Hole"));
+    addEffect("Colorfully Concealed");
+    KoLCharacter.recalculateAdjustments();
+    assertEquals(-5, KoLCharacter.getCombatRateAdjustment());
   }
 }

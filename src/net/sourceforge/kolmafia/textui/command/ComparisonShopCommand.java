@@ -43,7 +43,7 @@ public class ComparisonShopCommand extends AbstractCommand implements Comparator
         if (item == null) {
           return;
         }
-        names.addAll(Arrays.asList(ZapRequest.getZapGroup(item.getItemId())));
+        names.addAll(ZapRequest.getZapGroup(item.getItemId()));
       } else if (piece.startsWith("-")) {
         names.removeAll(ItemDatabase.getMatchingNames(piece.substring(1).trim()));
       } else {
@@ -93,6 +93,7 @@ public class ComparisonShopCommand extends AbstractCommand implements Comparator
     }
   }
 
+  @Override
   public int compare(final AdventureResult o1, final AdventureResult o2) {
     return StoreManager.getMallPrice(o1) - StoreManager.getMallPrice(o2);
   }

@@ -11,6 +11,7 @@ public class CharacterListener implements Listener {
     this.updater = updater;
   }
 
+  @Override
   public void update() {
     if (this.updater != null) {
       this.updater.run();
