@@ -45,5 +45,9 @@ public class ClearSharedStateAfter implements AfterAllCallback {
         }
       }
     }
+    File pulverizeFile = new File(KoLConstants.ROOT_LOCATION + "/data/pulverize.txt");
+    if (pulverizeFile.exists()) {
+      pulverizeFile.delete();
+    }
   }
 }
