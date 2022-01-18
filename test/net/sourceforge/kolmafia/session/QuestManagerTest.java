@@ -443,9 +443,9 @@ public class QuestManagerTest {
 
   @Test
   public void canDetectToppingFinishedInHighlands() throws IOException {
-    var request = new GenericRequest("place.php?whichplace=highlands");
+    var request = new GenericRequest("place.php?whichplace=highlands&action=highlands_dude");
     request.responseText =
-        Files.readString(Path.of("request/test_place_highlands_finish_highland_lord.html"));
+        Files.readString(Path.of("request/test_place_highlands_revisit_highland_lord.html"));
     QuestManager.handleQuestChange(request);
     assertTrue(QuestDatabase.isQuestStep(Quest.TOPPING, QuestDatabase.FINISHED));
   }
