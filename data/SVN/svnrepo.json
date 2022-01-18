@@ -234,6 +234,15 @@
    "longDesc": "The collaborative continuation of sl_ascend/cc_ascend"
  },
  {
+   "repo": "https://github.com/Loathing-Associates-Scripting-Society-combo-branches-release/",
+   "author": "Loathing Associates Scripting Society",
+   "name": "combo",
+   "forumThread": "http://forums.kingdomofloathing.com/vb/showthread.php?t=248196",
+   "shortDesc": "Comb Beach prioritizing rare tiles",
+   "category": "adventure",
+   "longDesc": "Use your beach comb to visit sections of the Beach that are known to contain rare tiles."
+ },
+ {
    "repo": "https://svn.code.sf.net/p/bumcheekascend/code/bumcheekascend/",
    "author": "bumcheekcity, Winterbay",
    "name": "Bumcheekcend",
@@ -411,7 +420,7 @@
    "forumThread": "https://kolmafia.us/showthread.php?23993",
    "shortDesc": "Automate Combing the Beach with your Beach Comb",
    "category": "adventure",
-   "longDesc": "Configurable script to visit random sections of the Beach to comb your deired patches of sand with your Beach Comb."
+   "longDesc": "Configurable script to visit random sections of the Beach to comb your desired patches of sand with your Beach Comb."
  },
  {
    "repo": "https://svn.code.sf.net/p/veracity0/code/gingerbread/",
