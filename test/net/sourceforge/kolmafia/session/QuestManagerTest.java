@@ -451,6 +451,55 @@ public class QuestManagerTest {
   }
 
   /*
+   * Trapper Quest
+   */
+  @Test
+  public void canDetectTrapperStep1InMcLargeHuge() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=mclargehuge&action=trappercabin");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_mclargehuge_trapper_give_quest.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.TRAPPER, "step1"));
+  }
+
+  @Test
+  public void canDetectTrapperStep2InMcLargeHuge() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=mclargehuge&action=trappercabin");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_mclargehuge_trapper_get_cheese_and_ore.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.TRAPPER, "step2"));
+  }
+
+  @ParameterizedTest
+  @ValueSource(
+      strings = {"discovering_your_extremity", "2_exxtreme_4_u", "3_exxxtreme_4ever_6pack"})
+  public void canDetectExtremityInExtremeSlope(String nonCombat) throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=273");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_extreme_slope_" + nonCombat + ".html"));
+    QuestManager.handleQuestChange(request);
+    assertEquals(1, Preferences.getInteger("currentExtremity"));
+  }
+
+  @Test
+  public void canDetectTrapperStep3InMcLargeHuge() throws IOException {
+    Preferences.setInteger("currentExtremity", 3);
+    var request = new GenericRequest("place.php?whichplace=mclargehuge&action=cloudypeak");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_mclargehuge_extreme_peak.html"));
+    QuestManager.handleQuestChange(request);
+    assertTrue(QuestDatabase.isQuestStep(Quest.TRAPPER, "step3"));
+    assertEquals(0, Preferences.getInteger("currentExtremity"));
+  }
+
+  @Test
+  public void canDetectTrapperStep4InIcyPeak() {
+    QuestManager.updateQuestData("anything", "panicking Knott Yeti");
+    assertTrue(QuestDatabase.isQuestStep(Quest.TRAPPER, "step4"));
+  }
+
+  /*
    * Non-Quest Related
    */
   @Test
