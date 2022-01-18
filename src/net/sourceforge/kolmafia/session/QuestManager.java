@@ -355,7 +355,7 @@ public class QuestManager {
   private static void handleArrrboretumChange(String responseText) {
     if (!responseText.contains("Plant a Tree, Plant a Tree!")
         && !responseText.contains("Stumped")
-        && !responseText.contains("Timbarrr!")) {
+        && !responseText.contains("Timbarrrr!")) {
       Preferences.increment("_saplingsPlanted");
     }
   }
