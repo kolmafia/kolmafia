@@ -100,7 +100,8 @@ public class UserDefinedFunction extends Function {
     Function[] functions = RuntimeLibrary.functions.findFunctions(this.name);
 
     for (Function function : functions) {
-      if (this.paramsMatch(function)) {
+      // Match base types. We don't want an user to override a library function through a typedef.
+      if (this.paramsMatch(function, true)) {
         return true;
       }
     }

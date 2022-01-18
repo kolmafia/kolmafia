@@ -221,7 +221,7 @@ public abstract class BasicScope extends Command {
     for (Function function : options) {
       if (function instanceof UserDefinedFunction) {
         UserDefinedFunction existing = (UserDefinedFunction) function;
-        if (f.paramsMatch(existing)) {
+        if (f.paramsMatch(existing, false)) {
           return existing;
         }
       }

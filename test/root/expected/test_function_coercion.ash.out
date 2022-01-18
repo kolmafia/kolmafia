@@ -1,16 +1,11 @@
-> original format_date_time(string-string-string)
+> original format_date_time_private(string-string-string)
 00
 
 > pre-overload; all coerce to original
 00
 00
-00
 
 > overloaded with str2-str2-str2
 str2-str2-str2
-> str3-str3-str3 -> str2-str2-str2
-str2-str2-str2
-> coercion doesn't work backwards if an exact match exists: string-string-string -> string-string-string
+> str3-str3-str3 -> string-string-string (accessing str2-str2-str2 without an exact match is impossible)
 00
-> coercion DOES work backwards if no exact match was found, as user-defined functions have priority: string-str2-str3 -> str2-str2-str2
-str2-str2-str2
