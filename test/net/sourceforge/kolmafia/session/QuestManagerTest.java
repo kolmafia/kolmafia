@@ -454,6 +454,24 @@ public class QuestManagerTest {
    * Non-Quest Related
    */
   @Test
+  void tracksArrrborDaySaplingsPlanted() {
+    var request = new GenericRequest("adventure.php?snarfblat=174");
+    request.responseText = "anything";
+    QuestManager.handleQuestChange(request);
+    assertEquals(1, Preferences.getInteger("_saplingsPlanted"));
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"timbarrrr", "plant_a_tree"})
+  void doesNotTrackArrrborDayNonCombats(String nonCombat) throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=174");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_arrrboretum_" + nonCombat + ".html"));
+    QuestManager.handleQuestChange(request);
+    assertEquals(0, Preferences.getInteger("_saplingsPlanted"));
+  }
+
+  @Test
   void canParseSpacegate() throws IOException {
     var request = new GenericRequest("choice.php?forceoption=0");
     request.responseText =
