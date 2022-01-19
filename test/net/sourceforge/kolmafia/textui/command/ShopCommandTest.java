@@ -66,8 +66,11 @@ class ShopCommandTest extends AbstractCommandTestBase {
             + LS
             + "Store inventory request complete."
             + LS
-            + "Skipping '', no price provided"
+            + "'' is ambiguous."
+            + LS
+            + "Please check commas and/or resubmit with one item per command."
             + LS;
+
     assertEquals(expected, output, "Unexpected results.");
   }
 
@@ -178,20 +181,6 @@ class ShopCommandTest extends AbstractCommandTestBase {
             + "Store prices updated."
             + LS;
     assertEquals(expected, output, "Item not repriced.");
-    // TODO - this is not the expected result
-    output = execute("reprice " + itemName + " @ 1,337 limit 2");
-    expected =
-        "Requesting store inventory..."
-            + LS
-            + "Store inventory request complete."
-            + LS
-            + "Skipping '337 limit 2', no price provided"
-            + LS
-            + "Updating store prices..."
-            + LS
-            + "Store prices updated."
-            + LS;
-    assertEquals(expected, output, "Item not repriced.");
     output = execute("reprice " + "xyzzy" + " @ 1337");
     expected =
         "Requesting store inventory..."
@@ -214,6 +203,71 @@ class ShopCommandTest extends AbstractCommandTestBase {
             + LS
             + "d20  not found in shop."
             + LS;
-    assertEquals(expected, output, "Unreal item repriced.");
+    assertEquals(expected, output, "Absent item repriced.");
+  }
+
+  @Test
+  public void itShouldDetectErrorAndBail() {
+    int itemID = ItemPool.GUITAR_4D;
+    String itemName = ItemDatabase.getItemDataName(itemID);
+    StoreManager.addItem(itemID, 1, 999999999, 1);
+    String output = execute("reprice " + itemName + " @ 1,337 limit 2");
+    String expected =
+        "Requesting store inventory..."
+            + LS
+            + "Store inventory request complete."
+            + LS
+            + "'4-dimensional guitar @ 1,337 limit 2' is ambiguous."
+            + LS
+            + "Please check commas and/or resubmit with one item per command."
+            + LS;
+    assertEquals(expected, output, "Command not parsed.");
+    int item2 = ItemPool.D20;
+    String itemName2 = ItemDatabase.getItemDataName(item2);
+    StoreManager.addItem(item2, 1, 999999999, 1);
+    output = execute("reprice " + itemName + " @ 1,337 limit 2, " + itemName2 + " @ 7331");
+    expected =
+        "Requesting store inventory..."
+            + LS
+            + "Store inventory request complete."
+            + LS
+            + "'4-dimensional guitar @ 1,337 limit 2, d20 @ 7331' is ambiguous."
+            + LS
+            + "Please check commas and/or resubmit with one item per command."
+            + LS;
+    assertEquals(expected, output, "Command not parsed.");
+    output = execute("reprice " + itemName2 + " @ 1337 limit 2, " + itemName + " @ 7,331");
+    expected =
+        "Requesting store inventory..."
+            + LS
+            + "Store inventory request complete."
+            + LS
+            + "'d20 @ 1337 limit 2, 4-dimensional guitar @ 7,331' is ambiguous."
+            + LS
+            + "Please check commas and/or resubmit with one item per command."
+            + LS;
+    assertEquals(expected, output, "Command not parsed.");
+    output = execute("reprice " + itemName + " @ 1337 limit 2, " + itemName2 + " @ 7331");
+    expected =
+        "Requesting store inventory..."
+            + LS
+            + "Store inventory request complete."
+            + LS
+            + "Updating store prices..."
+            + LS
+            + "Store prices updated."
+            + LS;
+    assertEquals(expected, output, "Command not parsed.");
+    output = execute("reprice " + itemName + " ");
+    expected =
+        "Requesting store inventory..."
+            + LS
+            + "Store inventory request complete."
+            + LS
+            + "'4-dimensional guitar' is ambiguous."
+            + LS
+            + "Please check commas and/or resubmit with one item per command."
+            + LS;
+    assertEquals(expected, output, "Command not parsed.");
   }
 }
