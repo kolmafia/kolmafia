@@ -7,7 +7,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
-import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.StoreManager;
@@ -92,8 +91,7 @@ class ShopCommandTest extends AbstractCommandTestBase {
     String output = execute("put using storage " + itemName);
     String expected = "Skipping '4-dimensional guitar', none found in storage." + LS;
     assertEquals(expected, output, "Item not in storage.");
-    // Better way to convert item id or name to AdventureResult?
-    KoLConstants.storage.add(ItemFinder.getFirstMatchingItem(itemName));
+    KoLConstants.storage.add(ItemPool.get(itemID));
     output = execute("put using storage " + itemName);
     expected = "Adding 4-dimensional guitar to store..." + LS + "Requests complete." + LS + LS;
     assertEquals(expected, output, "Item not transferred.");
