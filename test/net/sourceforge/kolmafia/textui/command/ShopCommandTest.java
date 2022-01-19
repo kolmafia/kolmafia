@@ -162,4 +162,60 @@ class ShopCommandTest extends AbstractCommandTestBase {
             + LS;
     assertEquals(expected, output, "Items not taken.");
   }
+
+  @Test
+  public void itShouldReprice() {
+    int itemID = ItemPool.GUITAR_4D;
+    String itemName = ItemDatabase.getItemDataName(itemID);
+    Player.addItem(itemID, 1);
+    StoreManager.addItem(itemID, 1, 999999999, 1);
+    String output = execute("reprice " + itemName + " @ 1337 limit 2");
+    String expected =
+        "Requesting store inventory..."
+            + LS
+            + "Store inventory request complete."
+            + LS
+            + "Updating store prices..."
+            + LS
+            + "Store prices updated."
+            + LS;
+    assertEquals(expected, output, "Item not repriced.");
+    // TODO - this is not the expected result
+    output = execute("reprice " + itemName + " @ 1,337 limit 2");
+    expected =
+        "Requesting store inventory..."
+            + LS
+            + "Store inventory request complete."
+            + LS
+            + "Skipping '337 limit 2', no price provided"
+            + LS
+            + "Updating store prices..."
+            + LS
+            + "Store prices updated."
+            + LS;
+    assertEquals(expected, output, "Item not repriced.");
+    output = execute("reprice " + "xyzzy" + " @ 1337");
+    expected =
+        "Requesting store inventory..."
+            + LS
+            + "Store inventory request complete."
+            + LS
+            + "[xyzzy] has no matches."
+            + LS
+            + "Skipping 'xyzzy '."
+            + LS;
+    assertEquals(expected, output, "Unreal item repriced.");
+    StoreManager.clearCache();
+    itemID = ItemPool.D20;
+    itemName = ItemDatabase.getItemDataName(itemID);
+    output = execute("reprice " + itemName + " @ 1337");
+    expected =
+        "Requesting store inventory..."
+            + LS
+            + "Store inventory request complete."
+            + LS
+            + "d20  not found in shop."
+            + LS;
+    assertEquals(expected, output, "Unreal item repriced.");
+  }
 }
