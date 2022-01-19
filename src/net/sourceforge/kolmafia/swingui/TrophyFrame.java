@@ -192,20 +192,25 @@ public class TrophyFrame extends GenericFrame {
 
     /* Required methods for DropTargetListener */
 
+    @Override
     public void dragEnter(DropTargetDragEvent dtde) {}
 
+    @Override
     public void dragOver(DropTargetDragEvent dtde) {
       Point xy = dtde.getLocation();
       dtde.acceptDrag(this.findDrop(xy.x, xy.y));
     }
 
+    @Override
     public void dropActionChanged(DropTargetDragEvent dtde) {
       Point xy = dtde.getLocation();
       dtde.acceptDrag(this.findDrop(xy.x, xy.y));
     }
 
+    @Override
     public void dragExit(DropTargetEvent dte) {}
 
+    @Override
     public void drop(DropTargetDropEvent dtde) {
       Point xy = dtde.getLocation();
       dtde.acceptDrop(this.findDrop(xy.x, xy.y));
@@ -248,14 +253,18 @@ public class TrophyFrame extends GenericFrame {
 
     /* Required methods for LayoutManager */
 
+    @Override
     public void addLayoutComponent(String name, Component comp) {}
 
+    @Override
     public void removeLayoutComponent(Component comp) {}
 
+    @Override
     public Dimension minimumLayoutSize(Container parent) {
       return this.preferredLayoutSize(parent);
     }
 
+    @Override
     public Dimension preferredLayoutSize(Container parent) {
       int nc = parent.getComponentCount();
       int height = (nc / 11) * 2;
@@ -269,6 +278,7 @@ public class TrophyFrame extends GenericFrame {
       return new Dimension(600 + ins.left + ins.right, 100 * height + ins.top + ins.bottom);
     }
 
+    @Override
     public void layoutContainer(Container parent) {
       Insets ins = parent.getInsets();
       int nc = parent.getComponentCount();
@@ -391,6 +401,7 @@ public class TrophyFrame extends GenericFrame {
 
     /* Methods required by DragGestureListener */
 
+    @Override
     public void dragGestureRecognized(DragGestureEvent dge) {
       TrophyPanel.source = this;
       TrophyPanel.sourceList = (TrophyPanel) this.getParent();
@@ -402,14 +413,19 @@ public class TrophyFrame extends GenericFrame {
 
     /* Methods required by DragSourceListener */
 
+    @Override
     public void dragEnter(DragSourceDragEvent dsde) {}
 
+    @Override
     public void dragOver(DragSourceDragEvent dsde) {}
 
+    @Override
     public void dropActionChanged(DragSourceDragEvent dsde) {}
 
+    @Override
     public void dragExit(DragSourceEvent dse) {}
 
+    @Override
     public void dragDropEnd(DragSourceDropEvent dsde) {}
   }
 }

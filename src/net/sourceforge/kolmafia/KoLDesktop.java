@@ -94,6 +94,7 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
         : new JTabbedPane();
   }
 
+  @Override
   public void closeOperation(final MouseEvent e, final int overTabIndex) {
     if (overTabIndex == -1) {
       return;
@@ -364,6 +365,7 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
   }
 
   private static class DisplayDesktopFocusRunnable implements Runnable {
+    @Override
     public void run() {
       KoLDesktop.getInstance().setVisible(true);
       KoLDesktop.getInstance().requestFocus();

@@ -618,6 +618,7 @@ public class ItemManageFrame extends GenericFrame {
       this.changing = false;
     }
 
+    @Override
     public void stateChanged(ChangeEvent e) {
       if (this.changing) {
         return;
@@ -640,6 +641,7 @@ public class ItemManageFrame extends GenericFrame {
       this.desired = desired;
     }
 
+    @Override
     public void run() {
       ConcoctionDatabase.refreshConcoctions();
     }
@@ -660,6 +662,7 @@ public class ItemManageFrame extends GenericFrame {
       this.update();
     }
 
+    @Override
     public void update() {
       this.setSelectedItem(Preferences.getString(this.pref));
     }

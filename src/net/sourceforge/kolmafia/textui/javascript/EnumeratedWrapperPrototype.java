@@ -101,6 +101,7 @@ public class EnumeratedWrapperPrototype extends ScriptableObject {
     return JavascriptRuntime.capitalize(type.getName());
   }
 
+  @Override
   public String getClassName() {
     return EnumeratedWrapperPrototype.getClassName(type);
   }

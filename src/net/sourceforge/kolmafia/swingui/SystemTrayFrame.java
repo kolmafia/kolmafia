@@ -129,6 +129,7 @@ public abstract class SystemTrayFrame {
       this.addActionListener(this);
     }
 
+    @Override
     public final void actionPerformed(final ActionEvent e) {
       RequestThread.runInParallel(this, false);
     }
@@ -139,6 +140,7 @@ public abstract class SystemTrayFrame {
       super("Main Interface");
     }
 
+    @Override
     public void run() {
       SystemTrayFrame.showDisplay();
     }
@@ -152,6 +154,7 @@ public abstract class SystemTrayFrame {
       this.frame = frame;
     }
 
+    @Override
     public void run() {
       KoLmafiaGUI.constructFrame(this.frame);
     }
@@ -162,6 +165,7 @@ public abstract class SystemTrayFrame {
       super("Logout of KoL");
     }
 
+    @Override
     public void run() {
       LogoutManager.logout();
     }
@@ -172,6 +176,7 @@ public abstract class SystemTrayFrame {
       super("Exit KoLmafia");
     }
 
+    @Override
     public void run() {
       KoLmafia.quit();
     }

@@ -872,6 +872,7 @@ public class HolidayDatabase {
       this.name = name;
     }
 
+    @Override
     public int compareTo(final HolidayEntry o) {
       if (!(o instanceof HolidayEntry)) {
         return -1;

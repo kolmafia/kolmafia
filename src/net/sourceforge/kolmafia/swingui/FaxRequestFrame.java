@@ -108,13 +108,12 @@ public class FaxRequestFrame extends GenericFrame {
     @Override
     public void actionConfirmed() {
       int list = this.monsterIndex;
-      Object value = monsterLists.get(list).getSelectedValue();
-      if (value == null) {
+      Monster monster = monsterLists.get(list).getSelectedValue();
+      if (monster == null) {
         return;
       }
 
       String botName = this.bot.getName();
-      Monster monster = (Monster) value;
       FaxRequestFrame.requestFax(botName, monster);
     }
 
@@ -368,6 +367,7 @@ public class FaxRequestFrame extends GenericFrame {
     }
 
     private class MonsterCategoryListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         int index = MonsterCategoryComboBox.this.getSelectedIndex();
         MonsterCategoryComboBox.this.panel.monsterIndex = index;

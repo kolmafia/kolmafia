@@ -111,6 +111,7 @@ public class CharSheetFrame extends GenericFrame {
       this.update();
     }
 
+    @Override
     public void update() {
       ImageIcon icon = JComponentUtilities.getImage(KoLCharacter.getAvatar());
       this.setIcon(icon);
@@ -141,6 +142,7 @@ public class CharSheetFrame extends GenericFrame {
   }
 
   private class StatusRefreshRunnable implements Runnable {
+    @Override
     public void run() {
       CharSheetFrame.this.refreshValuePanel(
           0, KoLCharacter.getBaseMuscle(), KoLCharacter.getMuscleTNP(), "Mus: ");

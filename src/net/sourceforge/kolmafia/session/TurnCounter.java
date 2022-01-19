@@ -139,6 +139,7 @@ public class TurnCounter implements Comparable<TurnCounter> {
     return hash;
   }
 
+  @Override
   public int compareTo(final TurnCounter o) {
     if (!(o instanceof TurnCounter)) {
       return -1;

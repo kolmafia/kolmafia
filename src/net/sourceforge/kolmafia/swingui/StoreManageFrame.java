@@ -141,6 +141,7 @@ public class StoreManageFrame extends GenericPanelFrame {
 
     ActionListener bob =
         new ActionListener() {
+          @Override
           public void actionPerformed(ActionEvent e) {
             text.setEnabled(check.isSelected());
             if (text.isEnabled() && text.getText().equals("0")) {
@@ -161,14 +162,17 @@ public class StoreManageFrame extends GenericPanelFrame {
     DocumentListener steve =
         new DocumentListener() {
 
+          @Override
           public void insertUpdate(DocumentEvent e) {
             this.changedUpdate(e);
           }
 
+          @Override
           public void removeUpdate(DocumentEvent e) {
             this.changedUpdate(e);
           }
 
+          @Override
           public void changedUpdate(DocumentEvent e) {
             try {
               long lim =
@@ -326,6 +330,7 @@ public class StoreManageFrame extends GenericPanelFrame {
 
       HighlightPredicate mouseOver =
           new HighlightPredicate() {
+            @Override
             public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
               if (!adapter.getComponent().isEnabled()) return false;
               Point p =
@@ -339,6 +344,7 @@ public class StoreManageFrame extends GenericPanelFrame {
 
       HighlightPredicate valueChanged =
           new HighlightPredicate() {
+            @Override
             public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
               if (!adapter.getComponent().isEnabled()) return false;
               if (convertColumnIndexToModel(adapter.column) == 1) {
@@ -369,6 +375,7 @@ public class StoreManageFrame extends GenericPanelFrame {
 
       HighlightPredicate warning =
           new HighlightPredicate() {
+            @Override
             public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
               if (!adapter.getComponent().isEnabled()) return false;
               if (convertColumnIndexToModel(adapter.column) != 1) return false;
@@ -386,6 +393,7 @@ public class StoreManageFrame extends GenericPanelFrame {
 
       HighlightPredicate auto =
           new HighlightPredicate() {
+            @Override
             public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
               if (!adapter.getComponent().isEnabled()) return false;
               if (convertColumnIndexToModel(adapter.column) != 0) return false;
@@ -472,28 +480,36 @@ public class StoreManageFrame extends GenericPanelFrame {
        * this way.  Sigh.
        */
 
+      @Override
       public Object getCellEditorValue() {
         return null;
       }
 
+      @Override
       public boolean isCellEditable(EventObject anEvent) {
         return true;
       }
 
+      @Override
       public boolean shouldSelectCell(EventObject anEvent) {
         return false;
       }
 
+      @Override
       public boolean stopCellEditing() {
         return false;
       }
 
+      @Override
       public void cancelCellEditing() {}
 
+      @Override
       public void addCellEditorListener(CellEditorListener l) {}
 
+      @Override
       public void removeCellEditorListener(CellEditorListener l) {}
 
+      @Override
       public Component getTableCellEditorComponent(
           JTable table, Object value, boolean isSelected, int row, int column) {
         if (value instanceof Boolean || value instanceof Integer) {
@@ -764,6 +780,7 @@ public class StoreManageFrame extends GenericPanelFrame {
       setHorizontalAlignment(JLabel.CENTER);
     }
 
+    @Override
     public Component getTableCellRendererComponent(
         JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
       if (isSelected) {

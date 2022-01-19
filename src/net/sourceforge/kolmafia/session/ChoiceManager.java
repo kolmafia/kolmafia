@@ -128,15 +128,7 @@ public abstract class ChoiceManager {
   }
 
   public static int extractChoice(final String responseText) {
-    int choice = ChoiceUtilities.extractChoice(responseText);
-
-    if (choice == 0 && responseText.contains("<b>Lyle, LyleCo CEO</b>")) {
-      // We still don't know the choice number, so take action here instead
-      // We will either now, or in the past, have had Favored By Lyle
-      Preferences.setBoolean("_lyleFavored", true);
-    }
-
-    return choice;
+    return ChoiceUtilities.extractChoice(responseText);
   }
 
   public static final Pattern URL_CHOICE_PATTERN = Pattern.compile("whichchoice=(\\d+)");
@@ -569,6 +561,7 @@ public abstract class ChoiceManager {
       return this.spoilers;
     }
 
+    @Override
     public int compareTo(final ChoiceAdventure o) {
       // Choices can have a specified relative ordering
       // within zone regardless of name or choice number
@@ -16498,6 +16491,11 @@ public abstract class ChoiceManager {
           break;
         }
 
+      case 1309:
+        // We will either now, or in the past, have had Favored By Lyle
+        Preferences.setBoolean("_lyleFavored", true);
+        break;
+
       case 1312:
         {
           // Choose a Soundtrack
@@ -16881,6 +16879,9 @@ public abstract class ChoiceManager {
           int remaining = Integer.parseInt(consultations.group(1));
           Preferences.setInteger("_coldMedicineConsults", 5 - remaining);
         }
+        break;
+      case 1461:
+        CrystalBallManager.parsePonder(text);
         break;
     }
 

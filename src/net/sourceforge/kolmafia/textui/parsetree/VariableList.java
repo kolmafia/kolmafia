@@ -25,6 +25,7 @@ public class VariableList implements Iterable<Variable> {
     return null;
   }
 
+  @Override
   public Iterator<Variable> iterator() {
     return list.iterator();
   }

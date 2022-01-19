@@ -181,6 +181,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
   }
 
   // Called when checkbox changes
+  @Override
   public void actionPerformed(final ActionEvent e) {
     this.availableChecked = this.filters[0].isSelected();
     this.chocolateChecked = this.filters[1].isSelected();
@@ -207,6 +208,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
 
   // called when (candy) fires
   // called when "sweetSynthesisBlacklist" fires
+  @Override
   public void update() {
     CandyDatabase.loadBlacklist();
 
@@ -222,6 +224,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
     try {
       SwingUtilities.invokeAndWait(
           new Runnable() {
+            @Override
             public void run() {
               SynthesizePanel.this.filterItems();
 
@@ -274,6 +277,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
       return this.selected == null ? -1 : this.selected.effectId;
     }
 
+    @Override
     public void setEnabled(final boolean isEnabled) {
       this.update();
     }
@@ -346,6 +350,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
         this.setForeground(Color.WHITE);
       }
 
+      @Override
       public void actionPerformed(final ActionEvent e) {
         EffectButton current = EffectPanel.this.selected;
         if (current != null) {
@@ -464,6 +469,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
         return this.table.getSelectedValue();
       }
 
+      @Override
       public abstract void valueChanged(ListSelectionEvent e);
 
       public void loadCandy(Set<Integer> itemIds) {
@@ -544,6 +550,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
         }
       }
 
+      @Override
       public boolean isVisible(final Object o) {
         if (o instanceof Candy) {
           if (SynthesizePanel.this.availableChecked && ((Candy) o).getCount() == 0) {
@@ -599,6 +606,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
         super("Candy A");
       }
 
+      @Override
       public void valueChanged(ListSelectionEvent e) {
         // The selection is cleared at the beginning of a sort.
         // We will restore it when we are done.
@@ -672,6 +680,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
         super("Candy B");
       }
 
+      @Override
       public void valueChanged(ListSelectionEvent e) {
         // The selection is cleared at the beginning of a sort.
         // We will restore it when we are done.
@@ -696,6 +705,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
         }
       }
 
+      @Override
       public boolean isVisible(final Object o) {
         if (o instanceof Candy) {
           Candy candy = (Candy) o;
@@ -879,6 +889,7 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
   }
 
   private class AutomaticListener implements ActionListener {
+    @Override
     public void actionPerformed(final ActionEvent e) {
       int effectId = SynthesizePanel.this.effectId();
       if (effectId == -1) {

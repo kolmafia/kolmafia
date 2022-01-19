@@ -3,7 +3,7 @@
 #
 # Adventure Area Name must match that in adventures.txt
 #
-# Type can be one of the following: STOP, SEMIRARE, CLOVER, GLYPH, TURTLE, SEAL, FIST, BORIS, BADMOON, BUGBEAR
+# Type can be one of the following: STOP, LUCKY, GLYPH, TURTLE, SEAL, FIST, BORIS, BADMOON, BUGBEAR
 #
 
 ### Autostop Adventures
@@ -61,135 +61,102 @@ The Toxic Teacups	STOP	Toxic Teacup Tunnel Time
 Uncle Gator's Country Fun-Time Liquid Waste Sluice	STOP	Swamp Control
 The Neverending Party	STOP	Party's Over
 
-### Semi-rare Adventures
-8-Bit Realm	SEMIRARE	Some Bricks Do, In Fact, Hang in the Air
-A Maze of Sewer Tunnels	SEMIRARE	C. H. U. M. chieftain
-A-Boo Peak	SEMIRARE	Oh, <i>There</i> Have it Gone
-# Since this is both a semirare and a clover adventure, it has special handling in ChoiceManager
-# A Mob of Zeppelin Protesters	SEMIRARE	Methinks the Protesters Doth Protest Too Little
-An Octopus's Garden	SEMIRARE	moister oyster
-Art Class	SEMIRARE	Fran&ccedil;ois Verte, Art Teacher
-Battlefield (Cloaca Uniform)	SEMIRARE	Prior to Always
-Battlefield (Dyspepsi Uniform)	SEMIRARE	Prior to Always
-Battlefield (No Uniform)	SEMIRARE	Prior to Always
-Burnbarrel Blvd.	SEMIRARE	A Tight Squeeze
-Vanya's Castle Chapel	SEMIRARE	The Time This Fire
-Chemistry Class	SEMIRARE	Mrs. K, the Chemistry Teacher
-Cobb's Knob Barracks	SEMIRARE	Knob Goblin Elite Guard Captain
-Cobb's Knob Harem	SEMIRARE	Hands On
-Cobb's Knob Kitchens	SEMIRARE	Knob Goblin Elite Guard Captain
-Cobb's Knob Laboratory	SEMIRARE	You Can Top Our Desserts, But You Can't Beat Our Meats
-Cobb's Knob Menagerie, Level 2	SEMIRARE	Rokay, Raggy!
-Cobb's Knob Treasury	SEMIRARE	Knob Goblin Embezzler
-Elf Alley	SEMIRARE	What a Tosser
-Exposure Esplanade	SEMIRARE	Cold Comfort
-Frat House	SEMIRARE	Sand in the Vaseline
-Frat House In Disguise	SEMIRARE	Sand in the Vaseline
-Guano Junction	SEMIRARE	Le Chauve-Souris du Parfum
-# Hidden City (Encounter)	SEMIRARE	Two Sizes Too Small
-Hippy Camp	SEMIRARE	The Latest Sorcerous Developments
-Hippy Camp In Disguise	SEMIRARE	The Latest Sorcerous Developments
-Itznotyerzitz Mine	SEMIRARE	7-Foot Dwarf Foreman
-Lair of the Ninja Snowmen	SEMIRARE	Not Quite as Cold as Ice
-Madness Reef	SEMIRARE	Dragon the Line
-Oil Peak	SEMIRARE	It's a Gas Gas Gas
-Pandamonium Slums	SEMIRARE	It's The Only Way To Be Sure
-Shop Class	SEMIRARE	X-fingered Shop Teacher
-South of the Border	SEMIRARE	Filth, Filth, and More Filth
-The Ancient Hobo Burial Ground	SEMIRARE	Flowers for You
-The Batrat and Ratbat Burrow	SEMIRARE	How Does He Smell?
-The Brinier Deepers	SEMIRARE	The Haggling
-The Briny Deeps	SEMIRARE	Deeps Impact
-The Castle in the Clouds in the Sky (Basement)	SEMIRARE	Fit and Finish
-The Castle in the Clouds in the Sky (Ground Floor)	SEMIRARE	Ahead of the Game
-The Castle in the Clouds in the Sky (Top Floor)	SEMIRARE	All The Rave
-The Copperhead Club	SEMIRARE	Where There's Smoke...
-The Dark Elbow of the Woods	SEMIRARE	It's The Only Way To Be Sure
-The Dark Heart of the Woods	SEMIRARE	It's The Only Way To Be Sure
-The Dark Neck of the Woods	SEMIRARE	It's The Only Way To Be Sure
-The Dive Bar	SEMIRARE	Razor, Scooter
-The Goatlet	SEMIRARE	Natural Selection
-The Hallowed Halls	SEMIRARE	Through the Locking Glass
-The Haunted Billiards Room	SEMIRARE	A Shark's Chum
-The Haunted Boiler Room	SEMIRARE	Bram the Stoker
-The Haunted Kitchen	SEMIRARE	Play Misty For Me
-The Haunted Library	SEMIRARE	Like the Sunglasses, But Less Comfortable
-The Haunted Pantry	SEMIRARE	The Pilsbury Doughjerk
-The Haunted Storage Room	SEMIRARE	full-length mirror
-The Heap	SEMIRARE	Juicy!
-The Hidden Park	SEMIRARE	Two Sizes Too Small
-The Hidden Temple	SEMIRARE	Baa'baa'bu'ran
-The Limerick Dungeon	SEMIRARE	The Bleary-Eyed Cyclops
-The Mer-Kin Outpost	SEMIRARE	A Drawer of Chests
-The Obligatory Pirate's Cove	SEMIRARE	Yo Ho Ho and a Bottle of Whatever This Is
-The Outskirts of Cobb's Knob	SEMIRARE	Lunchboxing
-The Purple Light District	SEMIRARE	Maybe It's a Sexy Snake!
-The Red Zeppelin	SEMIRARE	Red Fox
-The Sleazy Back Alley	SEMIRARE	In the Still of the Alley
-The Spooky Forest	SEMIRARE	Blaaargh! Blaaargh!
-The Unquiet Garves	SEMIRARE	A Menacing Phantom
-The Valley of Rof L'm Fao	SEMIRARE	Bad ASCII Art
-The VERY Unquiet Garves	SEMIRARE	A Menacing Phantom
-The Wreck of the Edgar Fitzsimmons	SEMIRARE	Camera On, James
-Twin Peak	SEMIRARE	Synecdoche, Twin Peak
-Whitey's Grove	SEMIRARE	Monty of County Crisco
-Ye Olde Medievale Villagee	SEMIRARE	Clay Is Great, But Leather Is Bether
-
-### Clover Adventures
-# Since this is both a semirare and a clover adventure, it has special handling in ChoiceManager
-# A Mob of Zeppelin Protesters	CLOVER	Methinks the Protesters Doth Protest Too Little
-A-Boo Peak	CLOVER	The "Journalist"
-Camp Logging Camp	CLOVER	Oot to Lunch
-Cobb's Knob Kitchens	CLOVER	Luck in the Kitchens
-Cobb's Knob Laboratory	CLOVER	Believe it or Not
-Frat House	CLOVER	Lambda Upsilon Chi Kappa
-Frat House In Disguise	CLOVER	Lambda Upsilon Chi Kappa
-Guano Junction	CLOVER	How I Wonder What You're At
-Guano Junction	CLOVER	What Can You Do?
-Hippy Camp	CLOVER	Batty About Fruit
-Hippy Camp In Disguise	CLOVER	A Case of the Baskets
-Itznotyerzitz Mine	CLOVER	Either Ore
-Lemon Party	CLOVER	Lemon Party Slot
-Oil Peak	CLOVER	Up From the Ground...
-Outskirts of Camp Logging Camp	CLOVER	Best Served Cold
-South of the Border	CLOVER	Forget Not That I am an Ass
-The "Fun" House	CLOVER	The Boxer
-The Black Forest	CLOVER	What the Cluck?
-The Castle in the Clouds in the Sky (Basement)	CLOVER	You Never Know What You're Gonna Find
-The Cheerless Spire (Level 1)	CLOVER	Take Stuff From Work
-The Cheerless Spire (Level 2)	CLOVER	Lucky Breaktime
-The Cheerless Spire (Level 3)	CLOVER	Can't Serum
-The Cheerless Spire (Level 4)	CLOVER	Mime On, Mime In, Mime Out
-The Cheerless Spire (Level 5)	CLOVER	Always Be Miming
-The Copperhead Club	CLOVER	Where There's Smoke...
-The Haunted Ballroom	CLOVER	Forward to the Past
-The Haunted Bathroom	CLOVER	That's a Tidy Bowl, Man!
-The Haunted Billiards Room	CLOVER	Give me Your Nine
-The Bugbear Pen	CLOVER	Faux Fur Pas
-The Haunted Conservatory	CLOVER	Sweeping Up the Skeleton Bones
-The Haunted Gallery	CLOVER	With a Clatter
-The Haunted Kitchen	CLOVER	Nicebox
-The Haunted Library	CLOVER	Dust to Dust
-The Haunted Pantry	CLOVER	It's Your Lucky Day!
-The Icy Peak	CLOVER	Encino Penguin
-The Knob Shaft	CLOVER	Junction in the Trunction
-The Limerick Dungeon	CLOVER	The Weathered Old Chap
-The Oasis	CLOVER	Some Things Never Change
-The Outskirts of Cobb's Knob	CLOVER	Knob Goblin Luck!
-The Poker Room	CLOVER	A Motor in your Head
-The Primordial Soup	CLOVER	Beginner's Luck
-The Roulette Tables	CLOVER	The Luckiest Gambler
-The Sleazy Back Alley	CLOVER	Lucky You, Unlucky Hobo
-The Smut Orc Logging Camp	CLOVER	S&M 4-EVER
-The Spectral Pickle Factory	CLOVER	Wouldn't You Like to be a Pickle Too?
-The Spooky Forest	CLOVER	Lucky, Lucky!
-The Spooky Gravy Burrow	CLOVER	Stage Fright
-The Unquiet Garves	CLOVER	Only Dust and a Plaque
-The VERY Unquiet Garves	CLOVER	Rolling the Bones
-Thugnderdome	CLOVER	Gno More Mr. Gnice Guy
-Tower Ruins	CLOVER	I've Gotta Crow
-Twin Peak	CLOVER	What Kind of Party Is This?
-Ye Olde Medievale Villagee	CLOVER	A Role In the Hay
+### Lucky Adventures
+8-Bit Realm	LUCKY	Some Bricks Do, In Fact, Hang in the Air
+A Maze of Sewer Tunnels	LUCKY	C. H. U. M. chieftain
+A Mob of Zeppelin Protesters	LUCKY	Methinks the Protesters Doth Protest Too Little
+A-Boo Peak	LUCKY	The "Journalist"
+An Octopus's Garden	LUCKY	moister oyster
+Art Class	LUCKY	Fran&ccedil;ois Verte, Art Teacher
+Battlefield (Cloaca Uniform)	LUCKY	Prior to Always
+Battlefield (Dyspepsi Uniform)	LUCKY	Prior to Always
+Battlefield (No Uniform)	LUCKY	Prior to Always
+Burnbarrel Blvd.	LUCKY	A Tight Squeeze
+Camp Logging Camp	LUCKY	Oot to Lunch
+Chemistry Class	LUCKY	Mrs. K, the Chemistry Teacher
+Cobb's Knob Barracks	LUCKY	Knob Goblin Elite Guard Captain
+Cobb's Knob Harem	LUCKY	Hands On
+Cobb's Knob Kitchens	LUCKY	Luck in the Kitchens
+Cobb's Knob Laboratory	LUCKY	You Can Top Our Desserts, But You Can't Beat Our Meats
+Cobb's Knob Menagerie, Level 2	LUCKY	Rokay, Raggy!
+Cobb's Knob Treasury	LUCKY	Knob Goblin Embezzler
+Elf Alley	LUCKY	What a Tosser
+Exposure Esplanade	LUCKY	Cold Comfort
+Frat House	LUCKY	Sand in the Vaseline
+Frat House In Disguise	LUCKY	Lambda Upsilon Chi Kappa
+Guano Junction	LUCKY	Le Chauve-Souris du Parfum
+Hippy Camp	LUCKY	The Latest Sorcerous Developments
+Hippy Camp In Disguise	LUCKY	A Case of the Baskets
+Itznotyerzitz Mine	LUCKY	Either Ore
+Lair of the Ninja Snowmen	LUCKY	Not Quite as Cold as Ice
+Lemon Party	LUCKY	Lemon Party Slot
+Madness Reef	LUCKY	Dragon the Line
+Oil Peak	LUCKY	Up From the Ground...
+Outskirts of Camp Logging Camp	LUCKY	Best Served Cold
+Pandamonium Slums	LUCKY	It's The Only Way To Be Sure
+Shop Class	LUCKY	X-fingered Shop Teacher
+South of the Border	LUCKY	Filth, Filth, and More Filth
+The "Fun" House	LUCKY	The Boxer
+The Ancient Hobo Burial Ground	LUCKY	Flowers for You
+The Batrat and Ratbat Burrow	LUCKY	How Does He Smell?
+The Black Forest	LUCKY	What the Cluck?
+The Brinier Deepers	LUCKY	The Haggling
+The Briny Deeps	LUCKY	Deeps Impact
+The Bugbear Pen	LUCKY	Faux Fur Pas
+The Castle in the Clouds in the Sky (Basement)	LUCKY	You Never Know What You're Gonna Find
+The Castle in the Clouds in the Sky (Ground Floor)	LUCKY	Ahead of the Game
+The Castle in the Clouds in the Sky (Top Floor)	LUCKY	All The Rave
+The Cheerless Spire (Level 1)	LUCKY	Take Stuff From Work
+The Cheerless Spire (Level 2)	LUCKY	Lucky Breaktime
+The Cheerless Spire (Level 3)	LUCKY	Can't Serum
+The Cheerless Spire (Level 4)	LUCKY	Mime On, Mime In, Mime Out
+The Cheerless Spire (Level 5)	LUCKY	Always Be Miming
+The Copperhead Club	LUCKY	Where There's Smoke...
+The Dark Elbow of the Woods	LUCKY	It's The Only Way To Be Sure
+The Dark Heart of the Woods	LUCKY	It's The Only Way To Be Sure
+The Dark Neck of the Woods	LUCKY	It's The Only Way To Be Sure
+The Dive Bar	LUCKY	Razor, Scooter
+The Goatlet	LUCKY	Natural Selection
+The Hallowed Halls	LUCKY	Through the Locking Glass
+The Haunted Ballroom	LUCKY	Forward to the Past
+The Haunted Billiards Room	LUCKY	A Shark's Chum
+The Haunted Boiler Room	LUCKY	Bram the Stoker
+The Haunted Conservatory	LUCKY	Sweeping Up the Skeleton Bones
+The Haunted Gallery	LUCKY	With a Clatter
+The Haunted Kitchen	LUCKY	Play Misty For Me
+The Haunted Library	LUCKY	Like the Sunglasses, But Less Comfortable
+The Haunted Pantry	LUCKY	The Pilsbury Doughjerk
+The Haunted Storage Room	LUCKY	full-length mirror
+The Heap	LUCKY	Juicy!
+The Hidden Park	LUCKY	Two Sizes Too Small
+The Hidden Temple	LUCKY	Baa'baa'bu'ran
+The Icy Peak	LUCKY	Encino Penguin
+The Knob Shaft	LUCKY	Junction in the Trunction
+The Limerick Dungeon	LUCKY	The Bleary-Eyed Cyclops
+The Mer-Kin Outpost	LUCKY	A Drawer of Chests
+The Oasis	LUCKY	Some Things Never Change
+The Obligatory Pirate's Cove	LUCKY	Yo Ho Ho and a Bottle of Whatever This Is
+The Outskirts of Cobb's Knob	LUCKY	Lunchboxing
+The Poker Room	LUCKY	A Motor in your Head
+The Primordial Soup	LUCKY	Beginner's Luck
+The Purple Light District	LUCKY	Maybe It's a Sexy Snake!
+The Red Zeppelin	LUCKY	Red Fox
+The Roulette Tables	LUCKY	The Luckiest Gambler
+The Sleazy Back Alley	LUCKY	In the Still of the Alley
+The Smut Orc Logging Camp	LUCKY	S&M 4-EVER
+The Spectral Pickle Factory	LUCKY	Wouldn't You Like to be a Pickle Too?
+The Spooky Forest	LUCKY	Lucky, Lucky!
+The Spooky Gravy Burrow	LUCKY	Stage Fright
+The Unquiet Garves	LUCKY	A Menacing Phantom
+The VERY Unquiet Garves	LUCKY	Rolling the Bones
+The Valley of Rof L'm Fao	LUCKY	Bad ASCII Art
+The Wreck of the Edgar Fitzsimmons	LUCKY	Camera On, James
+Thugnderdome	LUCKY	Gno More Mr. Gnice Guy
+Tower Ruins	LUCKY	I've Gotta Crow
+Twin Peak	LUCKY	What Kind of Party Is This?
+Vanya's Castle Chapel	LUCKY	The Time This Fire
+Whitey's Grove	LUCKY	Monty of County Crisco
+Ye Olde Medievale Villagee	LUCKY	Clay Is Great, But Leather Is Bether
 
 ### Axecore Clancy Adventures
 A Barroom Brawl	BORIS	Jackin' the Jukebox

@@ -341,6 +341,7 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
     return this.isThiefTrigger;
   }
 
+  @Override
   public int compareTo(final MoodTrigger o) {
     if (!(o instanceof MoodTrigger)) {
       return -1;

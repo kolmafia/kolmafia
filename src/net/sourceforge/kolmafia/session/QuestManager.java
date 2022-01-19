@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.session;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -198,8 +199,6 @@ public class QuestManager {
       }
     } else if (location.startsWith("barrel")) {
       BarrelDecorator.parseResponse(location, responseText);
-    } else if (location.startsWith("canadia")) {
-      handleCanadiaChange(location, responseText);
     } else if (location.startsWith("choice.php") && location.contains("forceoption=0")) {
       // This can have no active choice options and therefore
       // won't be interpreted by ChoiceManager
@@ -243,6 +242,8 @@ public class QuestManager {
         if (responseText.contains("otherimages/stalktop/beanstalk.gif")) {
           QuestDatabase.setQuestIfBetter(Quest.GARBAGE, "step1");
         }
+      } else if (location.contains("whichplace=canadia")) {
+        handleCanadiaChange(location, responseText);
       } else if (location.contains("whichplace=desertbeach")) {
         if (location.contains("action=db_pyramid1")) {
           handlePyramidChange(location, responseText);
@@ -354,7 +355,7 @@ public class QuestManager {
   private static void handleArrrboretumChange(String responseText) {
     if (!responseText.contains("Plant a Tree, Plant a Tree!")
         && !responseText.contains("Stumped")
-        && !responseText.contains("Timbarrr!")) {
+        && !responseText.contains("Timbarrrr!")) {
       Preferences.increment("_saplingsPlanted");
     }
   }
@@ -1059,7 +1060,8 @@ public class QuestManager {
   }
 
   private static void handleChasmChange(final String responseText) {
-    // You deploy your handy-dandy portable bridge and quickly finish the job.
+    // Using the Pocket Portable Bridge in License to Adventure: "You deploy your handy-dandy
+    // portable bridge and quickly finish the job."
     if (responseText.contains("Huzzah!  The bridge is finished!")
         || responseText.contains("deploy your handy-dandy portable bridge")) {
       ResultProcessor.processItem(
@@ -1451,6 +1453,13 @@ public class QuestManager {
     }
   }
 
+  private static Map<String, Float> OIL_MONSTER_PROGRESS =
+      Map.ofEntries(
+          Map.entry("oil slick", 6.34f),
+          Map.entry("oil tycoon", 19.02f),
+          Map.entry("oil baron", 31.7f),
+          Map.entry("oil cartel", 63.4f));
+
   /**
    * After we win a fight, some quests may need to be updated. Centralize handling for it here.
    *
@@ -1500,41 +1509,17 @@ public class QuestManager {
     // oil cartel: 63.4
     // dress pants: 6.34
     // lovebug: 6.34
-    else if (monsterName.equals("oil slick")) {
+    else if (OIL_MONSTER_PROGRESS.containsKey(monsterName)) {
       double pantsBonus = InventoryManager.getEquippedCount(ItemPool.DRESS_PANTS) > 0 ? 6.34 : 0;
       float current = Preferences.getFloat("oilPeakProgress");
       double lovebug = responseText.contains("love oil beetle trundles up") ? 6.34 : 0;
 
       // normalize
       String setTo =
-          String.format(Locale.US, "%.2f", Math.max(0, current - 6.34 - pantsBonus - lovebug));
-
-      Preferences.setString("oilPeakProgress", setTo);
-    } else if (monsterName.equals("oil tycoon")) {
-      double pantsBonus = InventoryManager.getEquippedCount(ItemPool.DRESS_PANTS) > 0 ? 6.34 : 0;
-      float current = Preferences.getFloat("oilPeakProgress");
-      double lovebug = responseText.contains("love oil beetle trundles up") ? 6.34 : 0;
-
-      String setTo =
-          String.format(Locale.US, "%.2f", Math.max(0, current - 19.02 - pantsBonus - lovebug));
-
-      Preferences.setString("oilPeakProgress", setTo);
-    } else if (monsterName.equals("oil baron")) {
-      double pantsBonus = InventoryManager.getEquippedCount(ItemPool.DRESS_PANTS) > 0 ? 6.34 : 0;
-      float current = Preferences.getFloat("oilPeakProgress");
-      double lovebug = responseText.contains("love oil beetle trundles up") ? 6.34 : 0;
-
-      String setTo =
-          String.format(Locale.US, "%.2f", Math.max(0, current - 31.7 - pantsBonus - lovebug));
-
-      Preferences.setString("oilPeakProgress", setTo);
-    } else if (monsterName.equals("oil cartel")) {
-      double pantsBonus = InventoryManager.getEquippedCount(ItemPool.DRESS_PANTS) > 0 ? 6.34 : 0;
-      float current = Preferences.getFloat("oilPeakProgress");
-      double lovebug = responseText.contains("love oil beetle trundles up") ? 6.34 : 0;
-
-      String setTo =
-          String.format(Locale.US, "%.2f", Math.max(0, current - 63.4 - pantsBonus - lovebug));
+          String.format(
+              Locale.US,
+              "%.2f",
+              Math.max(0, current - OIL_MONSTER_PROGRESS.get(monsterName) - pantsBonus - lovebug));
 
       Preferences.setString("oilPeakProgress", setTo);
     } else if (monsterName.equals("Battlie Knight Ghost")

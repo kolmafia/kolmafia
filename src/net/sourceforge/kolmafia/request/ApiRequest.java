@@ -1,11 +1,15 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
@@ -348,6 +352,10 @@ public class ApiRequest extends GenericRequest {
       // Many things from the Char Sheet are available
       CharSheetRequest.parseStatus(JSON);
 
+      // It's not possible to tell if some IotMs are bound to
+      // the player's account or if they've used a one-day ticket without coolitems
+      parseCoolItems(JSON.getString("coolitems"));
+
       String limitmode = KoLCharacter.getLimitmode();
       if (limitmode == Limitmode.SPELUNKY) {
         // Parse Spelunky equipment
@@ -372,6 +380,36 @@ public class ApiRequest extends GenericRequest {
       LockableListFactory.sort(KoLConstants.summoningSkills);
       LockableListFactory.sort(KoLConstants.usableSkills);
     }
+  }
+
+  private static Map<String, String> PREF_TO_COOL_ITEM =
+      Map.ofEntries(
+          Map.entry("sleazeAirportAlways", "airport1"),
+          Map.entry("spookyAirportAlways", "airport2"),
+          Map.entry("stenchAirportAlways", "airport3"),
+          Map.entry("hotAirportAlways", "airport4"),
+          Map.entry("coldAirportAlways", "airport5"),
+          Map.entry("gingerbreadCityAvailable", "gingerbreadcity"),
+          Map.entry("spacegateAlways", "spacegate"),
+          Map.entry("frAlways", "fantasyrealm"),
+          Map.entry("prAlways", "piraterealm"),
+          Map.entry("neverendingPartyAlways", "neverendingparty"),
+          Map.entry("voteAlways", "voterregistered"),
+          Map.entry("daycareOpen", "boxingdaycare"));
+
+  private static final void parseCoolItems(final String coolItems) {
+    if (coolItems == null) {
+      return;
+    }
+
+    List<String> owned = Arrays.asList(coolItems.split(","));
+
+    PREF_TO_COOL_ITEM
+        .entrySet()
+        .forEach(
+            e -> {
+              Preferences.setBoolean(e.getKey(), owned.contains(e.getValue()));
+            });
   }
 
   public static final void parseInventory(final String responseText) {

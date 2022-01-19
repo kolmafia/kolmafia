@@ -19,6 +19,7 @@ public class StickyListener implements AdjustmentListener {
     this.currentlySticky = true;
   }
 
+  @Override
   public void adjustmentValueChanged(AdjustmentEvent event) {
     JScrollBar bar = (JScrollBar) event.getSource();
 

@@ -935,6 +935,7 @@ public abstract class BuffBotManager {
           new AdventureResult(AdventureResult.MEAT, this.price));
     }
 
+    @Override
     public int compareTo(final Offering o) {
       if (!(o instanceof Offering)) {
         return -1;

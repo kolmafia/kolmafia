@@ -80,6 +80,7 @@ public class AscensionHistoryRequest extends GenericRequest
     return stringForm.toString();
   }
 
+  @Override
   public int compareTo(final AscensionHistoryRequest o) {
     return o == null
         ? -1
@@ -673,6 +674,7 @@ public class AscensionHistoryRequest extends GenericRequest
           && (classFilter == null || classFilter == this.ascensionClass);
     }
 
+    @Override
     public int compareTo(final AscensionDataField o) {
       if (o == null) {
         return -1;

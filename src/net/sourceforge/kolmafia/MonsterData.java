@@ -1460,8 +1460,8 @@ public class MonsterData extends AdventureResult {
       buffer.append("<br />This monster is Ultrarare. ");
     }
 
-    if (this.attributes.contains("SEMIRARE")) {
-      buffer.append("<br />This monster is Semirare. ");
+    if (this.attributes.contains("LUCKY")) {
+      buffer.append("<br />This monster is Lucky. ");
     }
 
     if (this.attributes.contains("GHOST")) {

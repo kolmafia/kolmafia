@@ -583,6 +583,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
     }
   }
 
+  @Override
   public int compareTo(final VYKEACompanionData o) {
     if (o == null) {
       throw new NullPointerException();

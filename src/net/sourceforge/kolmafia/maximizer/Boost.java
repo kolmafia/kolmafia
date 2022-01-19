@@ -87,6 +87,7 @@ public class Boost implements Comparable<Boost> {
     return this.text;
   }
 
+  @Override
   public int compareTo(Boost o) {
     if (!(o instanceof Boost)) return -1;
     Boost other = o;

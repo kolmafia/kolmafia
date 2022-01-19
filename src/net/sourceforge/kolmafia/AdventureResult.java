@@ -212,6 +212,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   }
 
   // Need this to retain instance-specific methods
+  @Override
   protected AdventureResult clone() throws CloneNotSupportedException {
     return (AdventureResult) super.clone();
   }
@@ -854,6 +855,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    * differences. Return values are consistent with the rules laid out in {@link
    * java.lang.Comparable#compareTo(Object)}.
    */
+  @Override
   public int compareTo(final AdventureResult o) {
     if (o == null) {
       throw new NullPointerException();

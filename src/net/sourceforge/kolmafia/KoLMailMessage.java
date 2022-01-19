@@ -94,6 +94,7 @@ public class KoLMailMessage implements Comparable<KoLMailMessage> {
     return this.senderName + " @ " + this.messageDate;
   }
 
+  @Override
   public int compareTo(final KoLMailMessage o) {
     return !(o instanceof KoLMailMessage) ? -1 : this.messageId.compareTo(o.messageId);
   }

@@ -418,6 +418,7 @@ public abstract class StoreManager {
       return this.stringForm;
     }
 
+    @Override
     public int compareTo(final StoreLogEntry o) {
       if (o == null) {
         return -1;
@@ -936,6 +937,7 @@ public abstract class StoreManager {
       return this.itemId;
     }
 
+    @Override
     public int compareTo(final Object o) {
       if (!(o instanceof SoldItem)) {
         return -1;

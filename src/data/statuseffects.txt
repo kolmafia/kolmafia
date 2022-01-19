@@ -2676,10 +2676,10 @@
 2675	Friendly Chops	dsstache10.gif	4052b13b7b1351690476fc4f1ccd6025	neutral	none
 2676	Spectacle Moustache	dsstache11.gif	3e53514c96e5971554a64859776333c5	neutral	none
 2677	Anti-Hurt	creamtube.gif	45f1218ead3b3a6ee4b53f741fa41f1e	neutral	none	use 1 anti-pain cream
-2678	Fixed Right Up	rxwine.gif	355ad3e304b2420b662bf8ba899a0531	neutral	none
+2678	Fixed Right Up	rxwine.gif	355ad3e304b2420b662bf8ba899a0531	neutral	none	drink 1 Doc's Special Reserve Wine
 2679	Fixed Up	rxwine.gif	37b3e9d3b318c6b6ce5f97098d7d8b51	neutral	none	drink 1 Doc's Medical-Grade Wine
 2680	Medically Fortified	rxwine.gif	2e2bca2f74dce1f9d6cec95986bb301a	neutral	none	drink 1 Doc's Fortifying Wine
-2681	Medically Smartified	rxwine.gif	27d33b61abb75ef269159f9d87b76507	neutral	none
+2681	Medically Smartified	rxwine.gif	27d33b61abb75ef269159f9d87b76507	neutral	none	drink 1 Doc's Smartifying Wine
 2682	Medically Loosened	rxwine.gif	287f43ba227e420b289ce51878df29f6	neutral	none	drink 1 Doc's Limbering Wine
 2683	Anti-Burning	creamtube.gif	266ac01d4c41914121c08f99f150a3de	neutral	none	use 1 anti-burn cream
 2684	Anti-Freezing	creamtube.gif	87b22fcbece528b8d1b43f7c8613258c	neutral	none	use 1 anti-freeze cream

@@ -379,6 +379,7 @@ public class ClanLogRequest extends GenericRequest {
       this.stringform = stringform;
     }
 
+    @Override
     public int compareTo(final StashLogEntry o) {
       return !(o instanceof StashLogEntry)
           ? -1

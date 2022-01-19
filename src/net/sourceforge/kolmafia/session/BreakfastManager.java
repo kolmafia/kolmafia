@@ -29,7 +29,6 @@ import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenieRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
@@ -554,7 +553,7 @@ public class BreakfastManager {
 
     if (skillCount == 1) {
       // We are casting exactly one skill from this list.
-      String skillName = (String) castable.get(0);
+      String skillName = castable.get(0);
       return BreakfastManager.castSkill(skillName, totalCasts, allowRestore, manaRemaining);
     }
 
@@ -570,7 +569,7 @@ public class BreakfastManager {
     // at a time until we are done.
 
     for (int i = 0; i < skillCount; ++i) {
-      String skillName = (String) castable.get(i);
+      String skillName = castable.get(i);
 
       done &= BreakfastManager.castSkill(skillName, cast, allowRestore, manaRemaining);
       cast = nextCast;
@@ -799,10 +798,10 @@ public class BreakfastManager {
 
     FamiliarData currentFam = KoLCharacter.getFamiliar();
 
-    RequestThread.postRequest(new FamiliarRequest(jellyfish));
+    FamiliarManager.changeFamiliar(jellyfish, false);
     RequestThread.postRequest(new PlaceRequest("thesea", "thesea_left2", false));
     RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1219&option=1"));
-    RequestThread.postRequest(new FamiliarRequest(currentFam));
+    FamiliarManager.changeFamiliar(currentFam);
 
     KoLmafia.forceContinue();
   }

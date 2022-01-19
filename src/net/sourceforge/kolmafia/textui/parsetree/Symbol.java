@@ -28,6 +28,7 @@ public abstract class Symbol implements ParseTreeNode, Comparable<Symbol> {
     return this.name;
   }
 
+  @Override
   public int compareTo(final Symbol o) {
     if (!(o instanceof Symbol)) {
       throw new ClassCastException();
