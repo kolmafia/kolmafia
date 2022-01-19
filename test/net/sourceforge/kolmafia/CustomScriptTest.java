@@ -62,6 +62,7 @@ public class CustomScriptTest {
 
   @BeforeEach
   void setUp() {
+    KoLmafia.forceContinue();
     ContactManager.registerPlayerId("heeheehee", "354981");
     StaticEntity.overrideRevision(10000);
     TurnCounter.clearCounters();
