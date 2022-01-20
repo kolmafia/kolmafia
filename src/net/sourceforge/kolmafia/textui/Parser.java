@@ -409,7 +409,7 @@ public class Parser {
 
     Class<? extends Parser> currentClass = this.getClass();
 
-    while (currentClass != Parser.class) {
+    while (currentClass.getSuperclass() != null) {
       try {
         Constructor<? extends Parser> childConstructor =
             currentClass.getConstructor(File.class, InputStream.class, Map.class);
@@ -424,7 +424,7 @@ public class Parser {
       }
     }
 
-    return new Parser(scriptFile, stream, this.imports);
+    return null;
   }
 
   protected InputStream getInputStream(final File scriptFile) {
