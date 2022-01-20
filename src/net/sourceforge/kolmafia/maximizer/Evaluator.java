@@ -67,7 +67,7 @@ public class Evaluator {
   private boolean retroCapeNeeded = false;
   private boolean backupCameraNeeded = false;
 
-  /** Whether or not we should consider or not consider certain slots when maximizing */
+  /** if slots[i] >= 0 then equipment of type i can be considered for maximization */
   private final int[] slots = new int[EquipmentManager.ALL_SLOTS];
 
   private String weaponType = null;
