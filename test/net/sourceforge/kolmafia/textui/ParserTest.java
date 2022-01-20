@@ -4,11 +4,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.textui.ScriptData.CustomParserScriptData;
 import net.sourceforge.kolmafia.textui.ScriptData.InvalidScriptData;
 import net.sourceforge.kolmafia.textui.ScriptData.InvalidScriptDataWithErrorFilterTest;
 import net.sourceforge.kolmafia.textui.ScriptData.ValidScriptData;
@@ -33,10 +39,9 @@ public class ParserTest {
 
     if (script instanceof InvalidScriptData) {
       testInvalidScript((InvalidScriptData) script);
-      return;
+    } else if (script instanceof ValidScriptData) {
+      testValidScript((ValidScriptData) script);
     }
-
-    testValidScript((ValidScriptData) script);
   }
 
   private static void testInvalidScript(final InvalidScriptData script) {
@@ -121,6 +126,148 @@ public class ParserTest {
     assertEquals(expectedRange, actualRange);
   }
 
+  // Parser.makeChild() tests
+
+  private static final byte[] makeChildBytes =
+      "import test_directives_2.ash".getBytes(StandardCharsets.UTF_8);
+
+  @Test
+  public void testMakeChildDefault() {
+    final InputStream stream = new ByteArrayInputStream(makeChildBytes);
+    final Parser parser = new Parser(null, stream, null);
+
+    final ScriptData script = new CustomParserScriptData("Parser.makeChild() test", parser);
+
+    final Parser[] imports = script.parser.getImports().values().toArray(new Parser[0]);
+
+    // Doesn't contain the parent Parser, since it wasn't submitted a File to map it with
+    assertEquals(1, imports.length);
+    assertNotSame(parser, imports[0]);
+
+    // Imports are of the same class as the parent Parser
+    assertSame(Parser.class, parser.getClass());
+    assertSame(parser.getClass(), imports[0].getClass());
+  }
+
+  private static class ParserSubclass extends Parser {
+    public ParserSubclass(File scriptFile, InputStream stream, Map<File, Parser> imports) {
+      super(scriptFile, stream, imports);
+    }
+  }
+
+  @Test
+  public void testMakeChildProperSubclass() {
+    final InputStream stream = new ByteArrayInputStream(makeChildBytes);
+    final Parser parser = new ParserSubclass(null, stream, null);
+
+    final ScriptData script = new CustomParserScriptData("Parser.makeChild() test", parser);
+
+    final Parser[] imports = script.parser.getImports().values().toArray(new Parser[0]);
+
+    // Doesn't contain the parent Parser, since it wasn't submitted a File to map it with
+    assertEquals(1, imports.length);
+    assertNotSame(parser, imports[0]);
+
+    // Imports are of the same class as the parent Parser
+    assertNotSame(Parser.class, parser.getClass());
+    assertSame(parser.getClass(), imports[0].getClass());
+  }
+
+  @Test
+  public void testMakeChildNoConstructor() {
+    final InputStream stream = new ByteArrayInputStream(makeChildBytes);
+    // Note the braces at the end, causing it to be an anonymous subclass of Parser
+    final Parser parser = new Parser(null, stream, null) {};
+
+    final ScriptData script = new CustomParserScriptData("Parser.makeChild() test", parser);
+
+    final Parser[] imports = script.parser.getImports().values().toArray(new Parser[0]);
+
+    // Doesn't contain the parent Parser, since it wasn't submitted a File to map it with
+    assertEquals(1, imports.length);
+    assertNotSame(parser, imports[0]);
+
+    // Since the parser submitted didn't implement a constructor with File + InputStream + Map, we
+    // didn't use it for the imported files' parsers
+    assertNotSame(Parser.class, parser.getClass());
+    assertSame(Parser.class, imports[0].getClass());
+  }
+
+  private static class ParserNonPublicSubclass extends Parser {
+    // Note how it's not public
+    ParserNonPublicSubclass(File scriptFile, InputStream stream, Map<File, Parser> imports) {
+      super(scriptFile, stream, imports);
+    }
+  }
+
+  @Test
+  public void testMakeChildNonPublicConstructor() {
+    final InputStream stream = new ByteArrayInputStream(makeChildBytes);
+    final Parser parser = new ParserNonPublicSubclass(null, stream, null);
+
+    final ScriptData script = new CustomParserScriptData("Parser.makeChild() test", parser);
+
+    final Parser[] imports = script.parser.getImports().values().toArray(new Parser[0]);
+
+    // Doesn't contain the parent Parser, since it wasn't submitted a File to map it with
+    assertEquals(1, imports.length);
+    assertNotSame(parser, imports[0]);
+
+    // Since the parser submitted didn't implement a public constructor with File + InputStream +
+    // Map, we didn't use it for the imported files' parsers
+    assertNotSame(Parser.class, parser.getClass());
+    assertSame(Parser.class, imports[0].getClass());
+  }
+
+  @Test
+  public void testMakeChildImproperSubclassOfProperSubclass() {
+    final InputStream stream = new ByteArrayInputStream(makeChildBytes);
+    // Note the braces at the end, causing it to be an anonymous subclass of ParserSubclass
+    final Parser parser = new ParserSubclass(null, stream, null) {};
+
+    final ScriptData script = new CustomParserScriptData("Parser.makeChild() test", parser);
+
+    final Parser[] imports = script.parser.getImports().values().toArray(new Parser[0]);
+
+    // Doesn't contain the parent Parser, since it wasn't submitted a File to map it with
+    assertEquals(1, imports.length);
+    assertNotSame(parser, imports[0]);
+
+    // The submitted parser didn't have the expected constructor, but its superclass did, so it was
+    // used
+    assertNotSame(Parser.class, parser.getClass());
+    assertNotSame(ParserSubclass.class, parser.getClass());
+    assertSame(ParserSubclass.class, imports[0].getClass());
+  }
+
+  private static class ParserModifiedSubclass extends Parser {
+    public ParserModifiedSubclass(File scriptFile, InputStream stream, Map<File, Parser> imports) {
+      super(scriptFile, stream, imports);
+    }
+
+    @Override
+    protected InputStream getInputStream(final File scriptFile) {
+      return new ByteArrayInputStream("this_file_was_modified()".getBytes(StandardCharsets.UTF_8));
+    }
+  }
+
+  @Test
+  public void testOverridesGetInputStream() {
+    final InputStream stream = new ByteArrayInputStream(makeChildBytes);
+    final Parser parser = new ParserModifiedSubclass(null, stream, null);
+
+    new CustomParserScriptData("Overrides getInputStream", parser);
+
+    final List<Parser.AshDiagnostic> diagnostics = parser.getDiagnostics();
+    assertEquals(1, diagnostics.size());
+
+    assertEquals(
+        "Function 'this_file_was_modified( )' undefined.  This script may require a more recent version of KoLmafia and/or its supporting scripts.",
+        diagnostics.get(0).message);
+  }
+
+  // Interruption tests
+
   @Test
   public void testInterruption() {
     assertFalse(Thread.currentThread().isInterrupted());
@@ -138,6 +285,8 @@ public class ParserTest {
     // The interrupted state of the thread was cleared
     assertFalse(Thread.currentThread().isInterrupted());
   }
+
+  // What-happens-after-when-we-see-our-first-error tests
 
   @Test
   public void testMultipleDiagnosticsPerParser() {
@@ -172,6 +321,8 @@ public class ParserTest {
 
     // Note the lack of "Function 'max( int, <unknown> )' undefined."
   }
+
+  // Location-related static methods tests
 
   public static Stream<Arguments> mergeLocationsData() {
     return Stream.of(

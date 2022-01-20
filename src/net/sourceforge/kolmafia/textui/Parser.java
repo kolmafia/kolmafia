@@ -9,6 +9,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.io.PrintStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -374,7 +376,7 @@ public class Parser {
       return scope;
     }
 
-    Parser parser = new Parser(scriptFile, null, this.imports);
+    Parser parser = this.makeChild(scriptFile);
     Scope result = parser.parseFile(scope);
 
     for (AshDiagnostic diagnostic : parser.diagnostics) {
@@ -396,6 +398,37 @@ public class Parser {
     }
 
     return result;
+  }
+
+  /**
+   * Makes a new instance of the first class we can find that has a public constructor expecting
+   * File + InputStream + Map
+   */
+  private Parser makeChild(final File scriptFile) {
+    final InputStream stream = this.getInputStream(scriptFile);
+
+    Class<? extends Parser> currentClass = this.getClass();
+
+    while (currentClass != Parser.class) {
+      try {
+        Constructor<? extends Parser> childConstructor =
+            currentClass.getConstructor(File.class, InputStream.class, Map.class);
+
+        return childConstructor.newInstance(scriptFile, stream, this.imports);
+      } catch (NoSuchMethodException | IllegalAccessException | InstantiationException e) {
+        // Retry with the parent class
+        // asSubclass is only here to correct the generic; we know we're still descendant of Parser
+        currentClass = currentClass.getSuperclass().asSubclass(Parser.class);
+      } catch (InvocationTargetException e) {
+        throw new RuntimeException(e.getCause());
+      }
+    }
+
+    return new Parser(scriptFile, stream, this.imports);
+  }
+
+  protected InputStream getInputStream(final File scriptFile) {
+    return null;
   }
 
   private Scope parseCommandOrDeclaration(final Scope result, final Type expectedType)
