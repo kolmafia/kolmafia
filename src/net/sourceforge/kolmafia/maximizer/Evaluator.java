@@ -69,6 +69,7 @@ public class Evaluator {
 
   /** Whether or not we should consider or not consider certain slots when maximizing */
   private final int[] slots = new int[EquipmentManager.ALL_SLOTS];
+
   private String weaponType = null;
   private int hands = 0;
   int melee = 0; // +/-2 or higher: require, +/-1: disallow other type
