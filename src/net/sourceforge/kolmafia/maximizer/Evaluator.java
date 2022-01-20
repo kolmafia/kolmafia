@@ -67,6 +67,7 @@ public class Evaluator {
   private boolean retroCapeNeeded = false;
   private boolean backupCameraNeeded = false;
 
+  /** Whether or not we should consider or not consider certain slots when maximizing */
   private final int[] slots = new int[EquipmentManager.ALL_SLOTS];
   private String weaponType = null;
   private int hands = 0;
