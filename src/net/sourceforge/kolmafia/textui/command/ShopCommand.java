@@ -184,9 +184,20 @@ public class ShopCommand extends AbstractCommand {
     IntegerArray prices = new IntegerArray();
     IntegerArray limits = new IntegerArray();
 
+    String[] x = parameters.split("\\s*,\\s*");
+    // reprice itemName @ 1,337 limit 2 would previously reprice the item with a price of 1 and a
+    // limit of 1. This is an attempt to preemptively prevent that.
+    for (String content : x) {
+      if (!content.contains("@")) {
+        RequestLogger.printLine("'" + parameters + "' is ambiguous.");
+        RequestLogger.printLine("Please check commas and/or resubmit with one item per command.");
+        return;
+      }
+    }
+
     for (String itemName : parameters.split("\\s*,\\s*")) {
-      AdventureResult item = null;
-      int price = 0;
+      AdventureResult item;
+      int price;
       Integer limit = null;
 
       int separatorIndex = itemName.indexOf('@');
