@@ -4929,7 +4929,7 @@ public class Parser {
 
   /**
    * If we have an unread token saved in {@link #currentToken}, null the field, and delete it from
-the tokens list on its {@link Line}, effectively forgetting that we saw it.
+   * the tokens list on its {@link Line}, effectively forgetting that we saw it.
    *
    * <p>This method is made for parsing methods that manipulate lines character-by-character, and
    * need to create Tokens of custom lengths.
