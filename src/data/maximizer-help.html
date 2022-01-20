@@ -5,10 +5,12 @@ The specification of what attributes to maximize is made by a comma-separated li
 The full name of any numeric modifier (as shown by the <b>modref</b> CLI command) is a valid keyword, requesting that its value be maximized.  If multiple modifiers are given, their weights specify their relative importance.  Negative weights mean that smaller values are more desirable for that modifier.
 <p>
 Shorter forms are allowed for many commonly used modifiers.  They can be abbreviated down to just the bold letters:
-<br><b>mus</b>, <b>mys</b>, <b>mox</b>, <b>main</b>stat, <b>HP</b>, <b>MP</b>, <b>ML</b>, <b>DA</b>, <b>DR</b>, <b>com</b>bat rate, <b>item</b> drop, <b>meat</b> drop, <b>exp</b>erience, <b>adv</b>entures
+<br><b>mus</b>, <b>mys</b>, <b>mox</b>, <b>main</b>stat, <b>HP</b>, <b>MP</b>, <b>ML</b>, <b>DA</b>, <b>DR</b>, <b>com</b>bat rate, <b>item</b> drop, <b>meat</b> drop, <b>exp</b>erience, <b>(spell) crit</b>ical, <b>adv</b>entures, <b>fites</b> for "pvp fights"
 <br>Also, resistance (of any type) can be abbreviated as <b>res</b>, and damage can be abbreviated as <b>dmg</b>.  <b>all res</b>istance is a shortcut for giving the same weight to all five basic elements.  Likewise, <b>elemental dmg</b> is a shortcut for the five elemental damage types.
 <p>
 Note that many modifiers come in pairs: a base value, plus a percentage boost (such as Moxie and Moxie Percent), or a penalty value.  In general, you only need to specify the base modifier, and any related modifiers will automatically be taken into account.
+<p>
+<b>ocrs</b> will maximize gear that increases the number of monster modifiers.
 <h3>Limits</h3>
 Any numeric modifier keyword can be followed by one or both of these special keywords:
 <br><b>min</b> - The weight specifies the minimum acceptable value for the preceding modifier.  If the value is lower, the results will be flagged as a failure.
@@ -44,6 +46,8 @@ Slot names can be used as keywords:
 <br><b>bonus <i>item</i></b> - The specified item is given a bonus to its score equivalent to weight.
 <br><b>outfit <i>name</i></b> - The specified standard outfit is required or forbidden.  If the name is omitted, the currently equipped outfit is used.  Multiple uses of <b>+outfit</b> are satisfied by any one of the outfits (since you can't be wearing more than one at a time).
 <br><b>pirate</b> - With positive weight, wear either Swashbuckling outfit or Pirate Fledges.
+<br><b>plumber</b> - If a plumber, require a plumber-specific weapon to be equipped (required to adventure).
+<br><b>cold plumber</b> - If a plumber, require a plumber-specific weapon that can deal cold damage to be equipped. Useful for getting Blech House.
 <br><b>tie</b>breaker - With negative weight, disables the use of a tiebreaker function that tries to choose equipment with generally beneficial attributes, even if not explicitly requested.  There are only a few cases where this would be desirable: maximizing <b>+combat</b> or <b>-combat</b> (since there's usually only one item that can help), <b>adv</b> and/or <b>PvP fights</b> at rollover, and <b>familiar weight</b> when facing the Naughty Sorceress familiars.
 <h3>Familiars</h3>
 By default, the Modifier Maximizer does not recommend familiars, since there are many possible factors in choosing one beyond those that can be expressed via modifiers.  However, you can request that specific familiars be compared with your current one:
