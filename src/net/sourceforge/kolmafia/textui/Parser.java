@@ -466,9 +466,7 @@ public class Parser {
     final ErrorManager fileErrors = new ErrorManager();
 
     final Scope result =
-        startScope == null
-            ? new Scope(null, Parser.getExistingFunctionScope())
-            : startScope;
+        startScope == null ? new Scope(null, Parser.getExistingFunctionScope()) : startScope;
 
     Token firstToken = this.currentToken();
     this.parseScope(result, null, result.getParentScope(), true, false, false);
@@ -1330,8 +1328,7 @@ public class Parser {
           // an aggregate literal as a key
           aggregateLiteralErrors.submitError(
               this.error(
-                  this.currentToken(),
-                  "Expected a key of type " + index + ", found an aggregate"));
+                  this.currentToken(), "Expected a key of type " + index + ", found an aggregate"));
         }
 
         if (dataType instanceof AggregateType) {
@@ -4707,7 +4704,7 @@ public class Parser {
     }
 
     Directive result =
-            new Directive(resultString, Parser.mergeRanges(directiveToken, this.peekPreviousToken()));
+        new Directive(resultString, Parser.mergeRanges(directiveToken, this.peekPreviousToken()));
 
     if (this.currentToken().equals(";")) {
       this.readToken(); // read ;
