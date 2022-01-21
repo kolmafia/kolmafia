@@ -1091,6 +1091,6 @@ public class MonsterDatabase {
   }
 
   public static final boolean contains(final String name) {
-    return MonsterDatabase.findMonster(name) != null;
+    return MonsterDatabase.findMonster(name, false) != null;
   }
 }
