@@ -15,7 +15,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
-import net.sourceforge.kolmafia.utilities.PauseObject;
 import org.eclipse.lsp4j.InitializeParams;
 import org.eclipse.lsp4j.InitializeResult;
 import org.eclipse.lsp4j.InitializedParams;
@@ -34,8 +33,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.ThrowingSupplier;
 
 public class StateCheckWrappersTest extends AshLanguageServerTest {
-
-  private final PauseObject pauser = new PauseObject();
 
   private static class AshLanguageServerNotingIgnoredNotifications
       extends StateCheckWrappers.AshLanguageServer {

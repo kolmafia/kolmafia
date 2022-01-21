@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 import org.eclipse.lsp4j.jsonrpc.Launcher;
 import org.eclipse.lsp4j.launch.LSPLauncher;
 import org.eclipse.lsp4j.services.LanguageClient;
@@ -16,6 +17,9 @@ import org.mockito.Mockito;
 
 public class AshLanguageServerTest {
   private final Closeable[] streams = new Closeable[4];
+
+  // A pauser. We'll need that since interactions between client and server are asynchronous
+  final PauseObject pauser = new PauseObject();
 
   // The two "true" endpoints.
   final LanguageClient client = Mockito.mock(TestLanguageClient.class);
