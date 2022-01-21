@@ -16880,7 +16880,7 @@ public abstract class ChoiceManager {
           Preferences.setInteger("_coldMedicineConsults", 5 - remaining);
         }
         break;
-      case 1461:
+      case 1462:
         CrystalBallManager.parsePonder(text);
         break;
     }
