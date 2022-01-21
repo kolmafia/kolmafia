@@ -1091,7 +1091,11 @@ public class ClanLoungeRequest extends GenericRequest {
     // *** KoL should move this to the second floor as soon as it leaves Standard
     findImage(responseText, "vipfloundry.gif", ItemPool.CLAN_FLOUNDRY);
     findImage(responseText, "fortuneteller.gif", ItemPool.CLAN_CARNIVAL_GAME);
-    findImage(responseText, "fireworks.gif", ItemPool.CLAN_UNDERGROUND_FIREWORKS_SHOP);
+    if (findImage(responseText, "fireworks.gif", ItemPool.CLAN_UNDERGROUND_FIREWORKS_SHOP)
+        && !Preferences.getBoolean("_fireworksShop")) {
+      // We haven't visited it yet today so it is not unlocked yet.
+      new ClanLoungeRequest(ClanLoungeRequest.FIREWORKS).run();
+    }
 
     Matcher hottubMatcher = HOTTUB_PATTERN.matcher(responseText);
     if (hottubMatcher.find()) {

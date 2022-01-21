@@ -18,12 +18,10 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
-import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
-import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -463,13 +461,8 @@ public class NPCStoreDatabase {
         return InventoryManager.hasItem(ItemPool.FISHING_POLE);
       }
     } else if (storeId.equals("fwshop")) {
-      if (!ClanManager.getClanLounge().contains(ClanManager.FIREWORKS_SHOP)) {
+      if (Preferences.getBoolean("_fireworksShop") == false) {
         return false;
-      }
-
-      if (!Preferences.getBoolean("_fireworksShop")) {
-        // We haven't visited it yet today so it is not unlocked yet.
-        new ClanLoungeRequest(ClanLoungeRequest.FIREWORKS).run();
       }
 
       switch (itemId) {
