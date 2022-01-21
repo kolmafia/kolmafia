@@ -1865,21 +1865,19 @@ public class UseItemRequest extends GenericRequest {
       return;
     }
 
-    switch (consumptionType)
-    {
-    case KoLConstants.CONSUME_FOOD_HELPER:
-    case KoLConstants.CONSUME_DRINK_HELPER:
-      // Consumption helpers are removed above when you
-      // successfully eat or drink.
+    switch (consumptionType) {
+      case KoLConstants.CONSUME_FOOD_HELPER:
+      case KoLConstants.CONSUME_DRINK_HELPER:
+        // Consumption helpers are removed above when you
+        // successfully eat or drink.
 
-    case KoLConstants.NO_CONSUME:
-      return;
+      case KoLConstants.NO_CONSUME:
+        return;
 
-    case KoLConstants.MESSAGE_DISPLAY:
-      if ( !Preferences.getBoolean( "suppressNegativeStatusPopup" ) )
-      {
-        UseItemRequest.showItemUsage( showHTML, responseText );
-      }
+      case KoLConstants.MESSAGE_DISPLAY:
+        if (!Preferences.getBoolean("suppressNegativeStatusPopup")) {
+          UseItemRequest.showItemUsage(showHTML, responseText);
+        }
         return;
     }
 
