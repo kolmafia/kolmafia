@@ -675,15 +675,6 @@
    "longDesc": "Adds CLI commands to relay scripts.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
  },
  {
-   "repo": "https://svn.code.sf.net/p/drag-n-drop-inventories/code",
-   "author": "zarqon",
-   "name": "Drag-n-Drop Inventories",
-   "forumThread": "https://kolmafia.us/showthread.php?22910",
-   "shortDesc": "Add an intuitive visual drag-n-drop interface for any item",
-   "category": "library",
-   "longDesc": "Adds a compact interface showing the amount you have in inventory, closet, storage, display case, and stash for each item.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
- },
- {
    "repo": "https://svn.code.sf.net/p/formhtml/code/",
    "author": "jasonharper",
    "name": "Form of...HTML!",
