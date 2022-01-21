@@ -1166,8 +1166,9 @@ public class SVNManager {
     try {
       SVN_LOCK.lock();
       if (!SVNWCUtil.isWorkingCopyRoot(f)) {
-        RequestLogger.printLine(f.getPath() +
-                " selected for repository operation but may not have corresponding remote");
+        RequestLogger.printLine(
+            f.getPath()
+                + " selected for repository operation but may not have corresponding remote");
         return false;
       }
 
@@ -1563,7 +1564,8 @@ public class SVNManager {
     while (it.hasNext()) {
       SVNURL url = it.next();
       if (validateRepo(url, false)) {
-        RequestLogger.printLine("Dependency at " + url + " failed validation.  Won't be processed.");
+        RequestLogger.printLine(
+            "Dependency at " + url + " failed validation.  Won't be processed.");
         it.remove();
       }
     }
