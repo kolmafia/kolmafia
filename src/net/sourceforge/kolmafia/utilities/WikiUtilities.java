@@ -88,6 +88,7 @@ public class WikiUtilities {
     name = StringUtilities.globalStringReplace(name, "<s>", "");
     name = StringUtilities.globalStringReplace(name, "</s>", "");
     name = StringUtilities.globalStringReplace(name, " ", "_");
+    name = StringUtilities.globalStringReplace(name, "?", "%3F");
 
     name = Character.toUpperCase(name.charAt(0)) + name.substring(1);
 
