@@ -12,9 +12,14 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.command.AshSingleLineCommand;
 import net.sourceforge.kolmafia.textui.command.CallScriptCommand;
+import net.sourceforge.kolmafia.textui.parsetree.Type;
+import net.sourceforge.kolmafia.textui.parsetree.Value;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -54,10 +59,46 @@ public class CustomScriptTest {
 
       CallScriptCommand command = new CallScriptCommand();
       command.run("call", script);
+
+      RequestLogger.closeCustom();
     }
 
     String output = ostream.toString().trim();
     assertEquals(expectedOutput, output, script + " output does not match: ");
+  }
+
+  @Test
+  void enumeratedTypesAreCaseInsensitive() {
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+
+    try (PrintStream out = new PrintStream(ostream, true)) {
+      // Inject custom output stream.
+      RequestLogger.openCustom(out);
+
+      for (Type type : DataTypes.enumeratedTypes) {
+        Value[] values = (Value[]) type.allValues().content;
+        String firstValue = values[1].toString();
+
+        var command = new AshSingleLineCommand();
+        String comparisonScript =
+            "($"
+                + type
+                + "["
+                + firstValue.toLowerCase()
+                + "] == $"
+                + type
+                + "["
+                + firstValue.toUpperCase()
+                + "]);";
+        command.run("ash", comparisonScript);
+
+        String output = ostream.toString().trim();
+        assertEquals("Returned: true", output, "Checking case insensitivity for $" + type);
+        ostream.reset();
+      }
+
+      RequestLogger.closeCustom();
+    }
   }
 
   @BeforeEach

@@ -389,7 +389,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
           " *(?:(.*?), the )?level ([12345])(?: (blood|frenzy|lightning))? (bookshelf|ceiling fan|couch|dishrack|dresser|lamp) *");
 
   public static VYKEACompanionData fromString(final String string) {
-    Matcher matcher = COMPANION_PATTERN.matcher(string);
+    Matcher matcher = COMPANION_PATTERN.matcher(string.toLowerCase());
     if (matcher.find()) {
       String name = matcher.group(1);
       int level = StringUtilities.parseInt(matcher.group(2));
