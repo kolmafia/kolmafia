@@ -77,8 +77,6 @@ public abstract class ClanManager {
   public static final AdventureResult HOT_DOG_STAND = ItemPool.get(ItemPool.CLAN_HOT_DOG_STAND, 1);
   public static final AdventureResult SPEAKEASY = ItemPool.get(ItemPool.CLAN_SPEAKEASY, 1);
   public static final AdventureResult FLOUNDRY = ItemPool.get(ItemPool.CLAN_FLOUNDRY, 1);
-  public static final AdventureResult FIREWORKS_SHOP =
-      ItemPool.get(ItemPool.CLAN_UNDERGROUND_FIREWORKS_SHOP, 1);
 
   public static final void clearCache(boolean newCharacter) {
     ProfileSnapshot.clearCache();
