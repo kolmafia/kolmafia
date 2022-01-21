@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -41,6 +42,10 @@ public enum AscensionClass {
   private final String image;
   private final int primeStatIndex;
   private final String stun;
+
+  public static Set<AscensionClass> allClasses() {
+    return Arrays.stream(values()).filter(a -> a.getId() > -1).collect(Collectors.toSet());
+  }
 
   public static AscensionClass nameToClass(String name) {
     if (name.equals("")) {
