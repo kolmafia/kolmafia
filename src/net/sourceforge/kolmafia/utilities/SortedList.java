@@ -50,6 +50,7 @@ public class SortedList<E extends Comparable<E>> extends ArrayList<E> {
    * Please refer to {@link java.util.List#addAll(int,Collection)} for more information regarding
    * this function.
    */
+  @Override
   public boolean addAll(final Collection<? extends E> c) {
     return addAll(size(), c);
   }
@@ -75,6 +76,7 @@ public class SortedList<E extends Comparable<E>> extends ArrayList<E> {
     }
   }
 
+  @Override
   public void sort(final Comparator<? super E> c) {
     synchronized (this) {
       Collections.sort(this, c);

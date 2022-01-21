@@ -27,7 +27,8 @@ ancient protein powder	1	1	good	0	12-14	0	0
 antimatter wad	2	3	awesome	5-7	-20-30	-20-30	-20-30
 antique bottle of cough syrup	1	6	awesome	0	0	18-20	0	10 The Q Is Talking To You (+10% mys)
 armored prawn	1	1	EPIC	0	30-50	30-50	30-50	50 Rushtacean' (+50 Init)
-astral energy drink	8	1	awesome	29-35	0	0	0
+[5140]astral energy drink	8	1	awesome	29-35	0	0	0
+[10882]astral energy drink	5	1		0	0	0	0	Unspaded
 astronaut ice-cream	1	7	EPIC	8-10	0	0	0
 bakelite bits	3	12	awesome	0	1000-2000	1000-2000	1000-2000
 beastly paste	4	4	good	5-10	18-22	18-22	18-22	10 Beastly Flavor (+3 fam weight)

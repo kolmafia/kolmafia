@@ -406,7 +406,7 @@ public class AdventureRequest extends GenericRequest {
         if (!EncounterManager.ignoreSpecialMonsters
             && !EncounterManager.isWanderingMonster(encounter)
             && !EncounterManager.isUltrarareMonster(encounter)
-            && !EncounterManager.isSemiRareMonster(encounter)
+            && !EncounterManager.isLuckyMonster(encounter)
             && !EncounterManager.isSuperlikelyMonster(encounter)
             && !EncounterManager.isFreeCombatMonster(encounter)
             && !EncounterManager.isNoWanderMonster(encounter)
@@ -1061,6 +1061,12 @@ public class AdventureRequest extends GenericRequest {
       // Submitting a Source Terminal request with a bad
       // option leaves the Source Terminal by redirecting to
       // the campground.
+      AdventureRequest.ZONE_UNLOCK.run();
+      return;
+    }
+
+    if (redirectLocation.startsWith("shop.php")) {
+      // The Shore Inc. can redirect to the gift shop.
       AdventureRequest.ZONE_UNLOCK.run();
       return;
     }

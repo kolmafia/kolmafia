@@ -372,6 +372,7 @@ public class SVNManager {
             false,
             10,
             new ISVNLogEntryHandler() {
+              @Override
               public void handleLogEntry(SVNLogEntry logEntry) {
                 RequestLogger.printLine("Commit <b>r" + logEntry.getRevision() + "<b>:");
                 RequestLogger.printLine("Author: " + logEntry.getAuthor());
@@ -1057,6 +1058,7 @@ public class SVNManager {
 
     Runnable runMe =
         new Runnable() {
+          @Override
           public void run() {
             KoLmafia.updateDisplay("Checking all SVN projects...");
             List<File> projectsToUpdate = new ArrayList<>();
@@ -1260,6 +1262,7 @@ public class SVNManager {
       // dispatch a parallel thread that will wait for a little bit then re-try the delete.
       RequestThread.runInParallel(
           new Runnable() {
+            @Override
             public void run() {
               PauseObject p = new PauseObject();
               p.pause(5000);

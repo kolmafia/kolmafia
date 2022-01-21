@@ -525,6 +525,7 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
     this.refreshFields();
   }
 
+  @Override
   public int compareTo(final ProfileRequest o) {
     if (!(o instanceof ProfileRequest)) {
       return -1;

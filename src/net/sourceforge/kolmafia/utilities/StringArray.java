@@ -15,6 +15,7 @@ import java.util.Iterator;
 public class StringArray implements Iterable<String> {
   private final ArrayList<String> internalList = new ArrayList<String>();
 
+  @Override
   public Iterator<String> iterator() {
     return this.internalList.iterator();
   }

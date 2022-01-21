@@ -8,12 +8,14 @@ import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.UserDefinedFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import org.mozilla.javascript.Scriptable;
 
 public class UserDefinedFunctionStub extends AshStub {
   private static final long serialVersionUID = 1L;
 
-  public UserDefinedFunctionStub(AshRuntime interpreter, String ashFunctionName) {
-    super(interpreter, ashFunctionName);
+  public UserDefinedFunctionStub(
+      Scriptable scope, Scriptable prototype, AshRuntime interpreter, String ashFunctionName) {
+    super(scope, prototype, interpreter, ashFunctionName);
   }
 
   @Override

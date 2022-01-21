@@ -336,6 +336,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
     return this.outfitId;
   }
 
+  @Override
   public int compareTo(final SpecialOutfit o) {
     if (!(o instanceof SpecialOutfit)) {
       return -1;
@@ -527,6 +528,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
       }
     }
 
+    @Override
     public void close() {
       if (!this.checking()) {
         // If this checkpoint has been closed, don't restore using it

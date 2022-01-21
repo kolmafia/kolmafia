@@ -224,6 +224,8 @@ Item	fire	Initiative: +10, Hot Damage: +7, Familiar Effect: "hot atk, 1xVolley, 
 Item	fireman's helmet	Hot Resistance: +3, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Familiar Effect: "cold atk"
 Item	fishin' hat	Fishing Skill: +5
 Item	five-gallon hat	Muscle: +5, Mysticality: +5, Moxie: +5, Experience: +3
+# flagstone fez: Unleash dark rituals on your unsuspecting foes
+Item	flagstone fez	Mysticality Percent: +20, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
 Item	floaty rock helmet	Spell Critical Percent: +10, Familiar Effect: "1xGhuol, cap 25"
 Item	foam commodore's hat	Weapon Damage Percent: +25, Spell Damage Percent: +25, Familiar Effect: "atk, 1xVolley"
 Item	foolscap fool's cap	Moxie: +2, Mysticality: -2, Clowniness: 25, Familiar Effect: "3xVolley, cap 10"
@@ -319,6 +321,8 @@ Item	Lens of Violence	Item Drop: +15, Critical Hit Percent: +5, Weapon Damage Pe
 Item	lihc face	Spooky Resistance: +2, Familiar Effect: "spooky atk, 1xBarrr, cap 22"
 Item	linoleum helmet turtle	Maximum HP: +10, Maximum MP: +10, Familiar Effect: "stench atk, 1xFairy, cap 25"
 Item	literal bucket hat	Water: +5
+# loofah lumberjack's hat: Feels good on your head
+Item	loofah lumberjack's hat	Muscle: +10, HP Regen Min: 15, HP Regen Max: 25
 Item	longhaired hippy wig	Stench Damage: +20, Mysticality Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
 Item	lynyrdskin cap	Initiative: +25, Familiar Effect: "1xPotato, 1xVolley, cap 42"
 Item	MAHI fez	Moxie: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, 0.5xLep, 0.5xFairy"
@@ -717,6 +721,8 @@ Item	lemon drop trousers	Candy Drop: +50, Lasts Until Rollover, Familiar Effect:
 Item	leotarrrd	Initiative: +15, Familiar Effect: "2xVolley, 2xPotato, cap 22"
 # liar's pants: +30 to All Attributes.  Yeah, +30.  That's the ticket.
 Item	liar's pants	Hot Damage: +10, Softcore Only, Muscle: +5, Mysticality: +5, Moxie: +5, Familiar Effect: "hot atk, cold atk, cap 25"
+# loofah lederhosen: You often find loose Meat in them
+Item	loofah lederhosen	Mysticality: +10, MP Regen Min: 10, MP Regen Max: 20
 Item	los chinos	Damage Absorption: +20, Familiar Effect: "2xPotato, HP regen, cap 13"
 Item	lynyrdskin breeches	Initiative: +25, Familiar Effect: "1xPotato, 1.5xGhuol, cap 42"
 Item	makeshift skirt	Initiative: +15, Familiar Effect: "2xBarrr, 1xFairy, cap 25"
@@ -944,6 +950,8 @@ Item	famous blue raincoat	Spooky Resistance: +2, Stench Resistance: +2, Hot Resi
 Item	filthy hippy poncho	Mysticality: +3
 Item	First Post shirt - Cir Senam	Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1, Monster Level: +15, PvP Fights: +5
 # fishbone corset: Reduces the level of nearby water
+# flagstone fleece: Lets you flex your muscles
+Item	flagstone fleece	Experience (Moxie): +3, Adventures: +3
 Item	flaming pink shirt	Item Drop: +15, Softcore Only
 Item	floral print shirt	Mysticality: +5
 Item	flyest of shirts	Moxie: +5, Spell Damage: +5
@@ -1338,6 +1346,8 @@ Item	fish bazooka	Moxie Percent: +5, Meat Drop: +10
 Item	fish hatchet	Muscle Percent: +100, Weapon Damage: +50, Familiar Weight: +5, Combat Rate: -10, Lasts Until Rollover
 Item	fish scimitar	Muscle Percent: +5, Weapon Damage Percent: +10
 Item	fish stick	Mysticality Percent: +5, Spell Damage Percent: +15
+# flagstone flail: Lets you clobber your enemies
+Item	flagstone flail	Muscle Percent: +20, Meat Drop: +20
 # Flail of the Seven Aspects: Handle Doubles as a Turtling Rod
 # Flail of the Seven Aspects: Special Attack:  Turtle of Seven Tails
 Item	Flail of the Seven Aspects	Muscle: +15, Never Fumble, Class: "Turtle Tamer"
@@ -1525,6 +1535,8 @@ Item	Loathing Legion flamethrower	Hot Damage: +20, Softcore Only
 # Loathing Legion hammer: Gets the job done
 Item	Loathing Legion hammer	Softcore Only
 Item	logging hatchet	Weapon Damage: +5
+# loofah ladle: Lets you sling cold stew at your enemies
+Item	loofah ladle	Experience (Mysticality): +2, Maximum MP: +30
 Item	love	Pants Drop: +50, HP Regen Min: 8, HP Regen Max: 16, MP Regen Min: 8, MP Regen Max: 16, Familiar Weight: +5
 # lucky ball-and-chain
 Item	lupine sword	Spooky Damage: +9, Synergetic
@@ -1948,6 +1960,7 @@ Item	velcro paddle ball	Moxie Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Ac
 Item	velour voulge	Experience (Muscle): +2, Weapon Drop: +30
 Item	vibrating cyborg knife	Weapon Damage: +20, Fumble: 3
 Item	villainous scythe	Weapon Damage Percent: +30, Critical Hit Percent: +20, Slime Hates It: +2
+Item	void shard	Muscle Percent: +13, Mysticality Percent: +13, Moxie Percent: +13, Item Drop: +13, Monster Level: +13, Spooky Damage: +13
 Item	vorpal blade	Critical Hit Percent: +8
 Item	VYKEA hex key	Muscle: +6, Mysticality: +6, Moxie: +6, HP Regen Min: 6, HP Regen Max: 6, MP Regen Min: 6, MP Regen Max: 6, Weapon Damage: +6
 # Wand of Nagamar
@@ -2117,6 +2130,8 @@ Item	cuddly teddy bear	Monster Level: +10
 # cup of infinite pencils: Never runs out of pencils
 Item	cup of infinite pencils	Meat Drop: +15
 Item	cursed compass	Item Drop: [100*zone(PirateRealm)], Lasts Until Rollover
+# cursed magnifying glass: Reveals things you weren't meant to see
+Item	cursed magnifying glass	Item Drop: +13, Spooky Damage: +13, Initiative: +13
 Item	cyborg doll	Muscle: +3
 Item	Dallas Dynasty Falcon Crest shield	Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Damage Reduction: 15
 # deceased crimbo tree: Blocks damage while needles remain
@@ -2168,6 +2183,8 @@ Item	fancy opera glasses	Meat Drop: +5, Item Drop: +5
 Item	fiberglass fetish	HP Regen Min: 6, HP Regen Max: 10, Stench Resistance: +5
 Item	fireproof megaphone	Monster Level: +10, Hot Resistance: +2
 # fishbone catcher's mitt: Prevents some items from washing away in the Heavy Rains
+# flagstone flag: Lets you hit your enemies with a big heavy flag
+Item	flagstone flag	Experience (Muscle): +3, Item Drop: +10
 Item	flaming talons	Weapon Damage: +5, Hot Damage: +5
 Item	fleshy lump	Maximum HP: +20, HP Regen Min: 2, HP Regen Max: 4, Damage Reduction: 3
 Item	flickering flashlight	Item Drop: +15
@@ -2919,6 +2936,9 @@ Item	fishbone facemask	Monster Level: [-30*path(Heavy Rains)]
 Item	fishbone fins	Single Equip
 # fishbone kneepads: (Heavy Rains only)
 Item	fishbone kneepads	Initiative: [60*path(Heavy Rains)], Single Equip
+# flagstone flip-flops: Lets you kick your enemies
+Item	flagstone flip-flops	Experience (Mysticality): +3, Initiative: +40, Single Equip
+Item	flagstone fringe	Moxie Percent: +20, PvP Fights: +4, Single Equip
 Item	flapper floppers	Mysticality Percent: +25, Experience (Mysticality): +2, Single Equip
 Item	flashing novelty button	Maximum HP: +5, Moxie: -2
 Item	flask flops	Booze Drop: +20, Maximum Hooch: +3, Single Equip
@@ -3112,6 +3132,12 @@ Item	Loathing Legion rollerblades	Initiative: +50, Single Equip, Softcore Only
 Item	Lockenstock&trade; sandals	Mysticality: +7, Stench Damage: +7, Single Equip
 Item	lollipop cufflinks	Mysticality: +5
 Item	long-forgotten necklace	Meat Drop: +15
+# loofah lavalier: Lets you unleash lava on your foes
+Item	loofah lavalier	Experience (Moxie): +2, Maximum HP: +20, Maximum MP: +20, Single Equip
+# loofah lei: Lets you lasso your foes
+Item	loofah lei	Experience (Muscle): +2, Maximum HP: +40, Single Equip
+# loofah legwarmers: They keep your legs warm
+Item	loofah legwarmers	Moxie: +10, HP Regen Min: 5, HP Regen Max: 15, MP Regen Min: 5, MP Regen Max: 15, Single Equip
 Item	Lord Soggyraven's Slippers	Initiative: +20, Pickpocket Chance: +20, Maximum HP: +20, Maximum MP: +20, Single Equip
 Item	Lord Spookyraven's ear trumpet	Initiative: +25, Single Equip
 # Lord Spookyraven's spectacles
@@ -5413,6 +5439,7 @@ Effect	Corona de la Salsa	Hot Damage: +5, Cold Damage: +5, Spooky Damage: +5, St
 Effect	Corroded Weapon	Weapon Damage: -5
 # Corrupted: All Attributes +/- ???
 Effect	Corruption of Wretched Wally	Muscle: +3, Weapon Damage: +3, HP Regen Min: 3, HP Regen Max: 5
+Effect	Cosmic Ball in the Air	Item Drop: +25, Meat Drop: +50
 Effect	Cosmic Flavor	Spell Critical Percent: +10
 # Cotton Mouthed: So dry!  It's from yesterday!
 Effect	Covered in the Rainbow	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
@@ -5537,6 +5564,7 @@ Effect	Disdain of the Storm Tortoise	Initiative: +5, Maximum MP: +10
 Effect	Disdain of the War Snapper	Muscle: +5, Weapon Damage: +5
 Effect	Disguised as a Warehouse Clerk	Avatar: "warehouse clerk"
 Effect	Disquiet Riot	Combat Rate: -20
+Effect	Dizzy	Mysticality Percent: -30
 Effect	Dizzy with Rage	Moxie Percent: -10
 Effect	Do I Know You From Somewhere?	Familiar Weight: +5
 Effect	Do You Crush What I Crush?	Spell Damage Percent: +100, Weapon Damage Percent: +100
@@ -5555,6 +5583,7 @@ Effect	Double-Barreled	Ranged Damage Percent: +150
 Effect	Down With Chow	Familiar Weight: +10
 Effect	Dragged Through the Coals	Hot Damage: +100
 Effect	Draggin' Balls	Moxie: +6, Muscle: -3
+Effect	Drained	Muscle Percent: -30
 Effect	Dreadful Chill	Stench Resistance: +5, Sleaze Resistance: +5
 Effect	Dreadful Fear	Cold Resistance: +5, Sleaze Resistance: +5
 Effect	Dreadful Heat	Cold Resistance: +5, Spooky Resistance: +5
@@ -6949,6 +6978,7 @@ Effect	Slippery Oiliness	Equalize: "Moxie"
 Effect	Slippery Tongue	Sleaze Damage: +20, Sleaze Spell Damage: +20
 Effect	Slithering Mounds	Drippy Damage: +5
 Effect	Sludgesick	Stench Damage: +10, Cold Damage: +10
+Effect	Sluggish	Moxie Percent: -30
 Effect	Slurpee-O'ed	Avatar: "angry tourist"
 Effect	Small	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
 Effect	Smart Drunk	Maximum HP: +120, Familiar Weight: +20
@@ -7809,7 +7839,7 @@ Skill	Inner Sauce	MP Regen Min: [1+2*class(Sauceror)], MP Regen Max: [1+3*class(
 # Insatiable Hunger: +5 Stomach Capacity
 # Intimidating Aura: Gain more blood from the Blood Bank each day
 Skill	Intimidating Aura	Maximum HP: -30
-Skill	Intrinsic Spiciness	Spell Damage: +10
+Skill	Intrinsic Spiciness	Sauce Spell Damage: [min(L,10)]
 Skill	Introspection	Mysticality: +20
 # Ire of the Orca: Fury capacity increases to 5 gallons
 Skill	Irrepressible Spunk	Maximum HP Percent: +5, Maximum MP Percent: +5
@@ -8130,6 +8160,7 @@ Outfit	FantasyRealm Warrior's Outfit	Weapon Damage Percent: +100
 Outfit	FantasyRealm Wizard's Outfit	Spell Damage Percent: +100
 Outfit	Fiberglass Finery	Initiative: +50
 Outfit	Filthy Hippy Disguise	Stench Damage: +5
+Outfit	Flagstone Finery	Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5
 Outfit	Floaty Fatigues	Spell Critical Percent: +10
 Outfit	Frat Boy Ensemble	Sleaze Damage: +5
 Outfit	Frat Warrior Fatigues	Sleaze Damage: +15
@@ -8161,6 +8192,7 @@ Outfit	Legendary Regalia of the Master Squeezeboxer	Pickpocket Chance: +50
 # Legendary Regalia of the Pasta Master: Pasta Ghosts Level Up Faster
 # Legendary Regalia of the Saucemaestro: Better Saucespheres
 # Legendary Regalia of the Seal Crusher: +100% Item Drops from Infernal Seals
+Outfit	Loofah Loungewear	Damage Absorption: +200
 Outfit	Luniform	Weapon Damage Percent: +25, Spell Damage Percent: +25
 Outfit	Marble Materials	Familiar Weight: +10
 Outfit	Mer-kin Gladiatorial Gear	Critical Hit Percent: +3
@@ -8235,8 +8267,7 @@ Outfit	Xiblaxian Stealth Suit	Muscle Percent: +10, Mysticality Percent: +10, Mox
 # Blender: +5 Adventures per day from Booze
 Sign	Blender	Experience Percent (Mysticality): +10
 # Marmot: Unlocks Little Canadia
-# Marmot: Get 1 Free Ten-Leaf Clover per Day
-Sign	Marmot	Experience Percent (Moxie): +10
+Sign	Marmot	Experience Percent (Moxie): +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
 # Mongoose: Unlocks Degrassi Knoll
 Sign	Mongoose	Experience Percent (Muscle): +10, Weapon Damage Percent: +20
 # Opossum: Unlocks Little Canadia
@@ -8987,6 +9018,7 @@ Item	ancient medicinal herbs	Effect: "Ancient Fortitude", Effect Duration: 50
 # ancient pills: Restore 30-40 MP
 Item	antique bottle of cough syrup	Effect: "The Q Is Talking To You", Effect Duration: 10
 Item	armored prawn	Effect: "Rushtacean'", Effect Duration: 50
+# astral energy drink: Gives you good luck
 Item	beastly paste	Effect: "Beastly Flavor", Effect Duration: 10
 Item	beefy pill	Effect: "Beefy", Effect Duration: 30
 Item	beggin' cologne	Effect: "Eau d' Clochard", Effect Duration: 60
@@ -10625,6 +10657,7 @@ Item	Convincing People You Can See The Future	Skill: "Inscrutable Gaze"
 # cool spore pod: Briefly enhances your Moxie
 # cop dollar
 Item	corked genie bottle	Free Pull
+# cosmic bowling ball: Throw it in various ways
 Item	cosmic bucket	Free Pull
 # cotton bandages: Restores 20-40 HP
 # cotton candy bale: Restores 41-82 HP and MP
@@ -11188,6 +11221,7 @@ Item	Merc Core Field Manual: Sanity Maintenance	Skill: "Hypersane"
 # Miniborg strangler: (doesn't go away when used)
 Item	miniscule temporal rip	Free Pull
 Item	mint condition Lil' Doctor&trade; bag	Free Pull
+# mint condition magnifying glass: Helps you solve mysteries and is totally safe
 Item	mint-in-box Powerful Glove	Free Pull
 # Mob Penguin cellular phone: Lets You Talk to Penguins
 # modern picture frame: Put abstractions in it to create abstract art!
@@ -11776,6 +11810,7 @@ Item	Uncle Romulus (used)	Class: "Turtle Tamer", Skill: "Curiosity of Br'er Tarr
 # underwater slingshot: (sometimes more)
 # underwater slingshot: (and only works underwater)
 Item	Underworld acorn	Free Pull
+Item	undrilled cosmic bowling ball	Free Pull
 Item	unearthed volcanic meteoroid	Skill: "Volcanometeor Showeruption"
 Item	unemployed hunchbacked minion	Free Pull
 # unfinished ice sculpture: Makes a copy of a monster to fight later
@@ -11806,6 +11841,7 @@ Item	vampyric cloake pattern	Free Pull
 # vial of holy water: Deals 40-60 <font color=red>Hot Damage</font>
 # vial of patchouli oil: Weakens enemies a little bit
 # viral video: Brainlock an enemy and causes all of its items to drop
+# void stone: I'm sure it's safe to just sell it
 # Volcoino: Spend it at the Towering Inferno Discotheque's Gift Shop
 Item	voter registration form	Free Pull
 Item	walkie-talkie	Free Pull

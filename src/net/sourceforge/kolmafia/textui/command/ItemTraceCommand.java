@@ -43,6 +43,7 @@ public class ItemTraceCommand extends AbstractCommand {
       this.update();
     }
 
+    @Override
     public void update() {
       String msg = "itrace: " + this.item.getName() + " = " + item.getCount(KoLConstants.inventory);
       RequestLogger.updateSessionLog(msg);

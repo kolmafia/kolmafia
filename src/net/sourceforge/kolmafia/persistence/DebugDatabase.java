@@ -7,16 +7,8 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
@@ -92,8 +84,7 @@ public class DebugDatabase {
           byte[] bytes = ByteBufferUtilities.read(istream);
           return StringUtilities.getEncodedString(bytes, "UTF-8");
         }
-
-        if (responseCode >= 301 || responseCode < 308) {
+        if (301 <= responseCode && responseCode <= 308) {
           String redirectLocation = connection.getHeaderField("Location");
           System.out.println(url + " => " + redirectLocation);
           url = redirectLocation;
@@ -812,10 +803,9 @@ public class DebugDatabase {
     report.println();
     report.println("# Level requirements in " + file + ".txt");
 
-    Object[] keys = map.keySet().toArray();
-    for (Object key : keys) {
-      String name = (String) key;
-      String text = map.get(name);
+    for (Entry<String, String> entry : map.entrySet()) {
+      String name = entry.getKey();
+      String text = entry.getValue();
       DebugDatabase.checkConsumableDatum(name, type, text, report);
     }
   }
@@ -908,10 +898,9 @@ public class DebugDatabase {
     report.println("# " + tag + " section of equipment.txt");
     report.println();
 
-    Object[] keys = map.keySet().toArray();
-    for (Object key : keys) {
-      String name = (String) key;
-      String text = map.get(name);
+    for (Entry<String, String> entry : map.entrySet()) {
+      String name = entry.getKey();
+      String text = entry.getValue();
       DebugDatabase.checkEquipmentDatum(name, text, report);
     }
   }
@@ -1097,11 +1086,10 @@ public class DebugDatabase {
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
-    Object[] keys = map.keySet().toArray();
     int type = imap.getType();
-    for (Object key : keys) {
-      String name = (String) key;
-      String text = map.get(name);
+    for (Entry<String, String> entry : map.entrySet()) {
+      String name = entry.getKey();
+      String text = entry.getValue();
       DebugDatabase.checkItemModifierDatum(name, text, type, report, showAll);
     }
   }
@@ -1675,17 +1663,15 @@ public class DebugDatabase {
     DebugDatabase.outfits.put(name, text);
   }
 
-  private static final GenericRequest DESC_OUTFIT_REQUEST = new GenericRequest("desc_outfit.php");
-
   public static final String outfitDescriptionText(final int outfitId) {
     return DebugDatabase.outfitDescriptionText(DebugDatabase.rawOutfitDescriptionText(outfitId));
   }
 
   public static final String readOutfitDescriptionText(final int outfitId) {
-    DebugDatabase.DESC_OUTFIT_REQUEST.clearDataFields();
-    DebugDatabase.DESC_OUTFIT_REQUEST.addFormField("whichoutfit", String.valueOf(outfitId));
-    RequestThread.postRequest(DebugDatabase.DESC_OUTFIT_REQUEST);
-    return DebugDatabase.DESC_OUTFIT_REQUEST.responseText;
+    GenericRequest request = new GenericRequest("desc_outfit.php");
+    request.addFormField("whichoutfit", String.valueOf(outfitId));
+    RequestThread.postRequest(request);
+    return request.responseText;
   }
 
   public static final String rawOutfitDescriptionText(final int outfitId) {
@@ -1728,10 +1714,9 @@ public class DebugDatabase {
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
-    Object[] keys = map.keySet().toArray();
-    for (Object key : keys) {
-      String name = (String) key;
-      String text = map.get(name);
+    for (Entry<String, String> entry : map.entrySet()) {
+      String name = entry.getKey();
+      String text = entry.getValue();
       DebugDatabase.checkOutfitModifierDatum(name, text, report);
     }
   }
@@ -1896,17 +1881,23 @@ public class DebugDatabase {
     return matcher.find() ? matcher.group(1) : "";
   }
 
-  private static final GenericRequest DESC_EFFECT_REQUEST = new GenericRequest("desc_effect.php");
-
   public static final String effectDescriptionText(final int effectId) {
     return DebugDatabase.effectDescriptionText(DebugDatabase.rawEffectDescriptionText(effectId));
   }
 
+  public static String readEffectDescriptionText(final int effectId) {
+    String descId = EffectDatabase.getDescriptionId(effectId);
+    if (descId == null || descId.equals("")) {
+      return null;
+    }
+    return DebugDatabase.readEffectDescriptionText(descId);
+  }
+
   public static final String readEffectDescriptionText(final String descId) {
-    DebugDatabase.DESC_EFFECT_REQUEST.clearDataFields();
-    DebugDatabase.DESC_EFFECT_REQUEST.addFormField("whicheffect", descId);
-    RequestThread.postRequest(DebugDatabase.DESC_EFFECT_REQUEST);
-    return DebugDatabase.DESC_EFFECT_REQUEST.responseText;
+    GenericRequest request = new GenericRequest("desc_effect.php");
+    request.addFormField("whicheffect", descId);
+    RequestThread.postRequest(request);
+    return request.responseText;
   }
 
   private static String rawEffectDescriptionText(final int effectId) {
@@ -1960,10 +1951,9 @@ public class DebugDatabase {
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
-    Object[] keys = map.keySet().toArray();
-    for (Object key : keys) {
-      String name = (String) key;
-      String text = map.get(name);
+    for (Entry<String, String> entry : map.entrySet()) {
+      String name = entry.getKey();
+      String text = entry.getValue();
       DebugDatabase.checkEffectModifierDatum(name, text, report);
     }
   }
@@ -2152,18 +2142,16 @@ public class DebugDatabase {
     return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
   }
 
-  private static final GenericRequest DESC_SKILL_REQUEST = new GenericRequest("desc_skill.php");
-
   public static final String skillDescriptionText(final int skillId) {
     return DebugDatabase.skillDescriptionText(DebugDatabase.rawSkillDescriptionText(skillId));
   }
 
   public static final String readSkillDescriptionText(final int skillId) {
-    DebugDatabase.DESC_SKILL_REQUEST.clearDataFields();
-    DebugDatabase.DESC_SKILL_REQUEST.addFormField("whichskill", String.valueOf(skillId));
-    DebugDatabase.DESC_SKILL_REQUEST.addFormField("self", "true");
-    RequestThread.postRequest(DebugDatabase.DESC_SKILL_REQUEST);
-    return DebugDatabase.DESC_SKILL_REQUEST.responseText;
+    GenericRequest request = new GenericRequest("desc_skill.php");
+    request.addFormField("whichskill", String.valueOf(skillId));
+    request.addFormField("self", "true");
+    RequestThread.postRequest(request);
+    return request.responseText;
   }
 
   private static String rawSkillDescriptionText(final int skillId) {
@@ -2212,10 +2200,9 @@ public class DebugDatabase {
     report.println("# " + tag + " section of modifiers.txt");
     report.println();
 
-    Object[] keys = map.keySet().toArray();
-    for (Object key : keys) {
-      String name = (String) key;
-      String text = map.get(name);
+    for (Entry<String, String> entry : map.entrySet()) {
+      String name = entry.getKey();
+      String text = entry.getValue();
       DebugDatabase.checkSkillModifierDatum(name, text, report);
     }
   }
@@ -3790,5 +3777,41 @@ public class DebugDatabase {
                 + baseMeat);
       }
     }
+  }
+
+  public static void checkLocalSVNRepository(File root) {
+    List<File> theList;
+    theList = new LinkedList<>(curseAgain(root));
+    Collections.sort(theList);
+    RequestLogger.printLine("Found " + theList.size() + " repo files.");
+    Map<String, File> seen = new HashMap<>();
+    for (File p : theList) {
+      String name = p.getName().toLowerCase();
+      if (seen.containsKey(name)) {
+        RequestLogger.printLine("***");
+        RequestLogger.printLine(seen.get(name).toString());
+        RequestLogger.printLine(p.toString());
+        RequestLogger.printLine("***");
+      } else {
+        seen.put(name, p);
+      }
+    }
+  }
+
+  private static List<File> curseAgain(File here) {
+    List<File> theList = new LinkedList<>();
+    File[] contents = here.listFiles();
+    if (contents != null) {
+      for (File f : contents) {
+        if (f.getName().startsWith(".")) continue;
+        if (f.getName().equalsIgnoreCase("dependencies.txt")) continue;
+        if (f.isDirectory()) {
+          theList.addAll(curseAgain(f));
+        } else {
+          theList.add(f);
+        }
+      }
+    }
+    return (theList);
   }
 }

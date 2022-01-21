@@ -169,8 +169,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         new BuffTool(ItemPool.ACCORDION_OF_JORDION, 9, false, AscensionClass.ACCORDION_THIEF),
         new BuffTool(ItemPool.PENTATONIC_ACCORDION, 7, false, AscensionClass.ACCORDION_THIEF),
         new BuffTool(ItemPool.BONE_BANDONEON, 6, false, AscensionClass.ACCORDION_THIEF),
-        new BuffTool(ItemPool.AEROGEL_ACCORDION, 5, false, null),
         new BuffTool(ItemPool.ANTIQUE_ACCORDION, 5, true, null),
+        new BuffTool(ItemPool.AEROGEL_ACCORDION, 5, false, null),
         new BuffTool(ItemPool.ACCORD_ION, 5, false, AscensionClass.ACCORDION_THIEF),
         new BuffTool(ItemPool.ACCORDION_FILE, 5, false, AscensionClass.ACCORDION_THIEF),
         new BuffTool(ItemPool.BAL_MUSETTE_ACCORDION, 5, false, AscensionClass.ACCORDION_THIEF),
@@ -438,6 +438,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     this.buffCount = buffCount;
   }
 
+  @Override
   public int compareTo(final UseSkillRequest o) {
     if (!(o instanceof UseSkillRequest)) {
       return -1;

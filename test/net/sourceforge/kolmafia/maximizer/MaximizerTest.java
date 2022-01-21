@@ -4,7 +4,9 @@ import static internal.helpers.Player.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Optional;
+import java.util.function.Predicate;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.Modifiers;
@@ -108,18 +110,20 @@ public class MaximizerTest {
   @Test
   public void clownosityTriesClownEquipment() {
     canUse("clown wig");
-    assertFalse(maximize("clownosity"));
+    assertFalse(maximize("clownosity -tie"));
     // still provides equipment
     recommendedSlotIs(EquipmentManager.HAT, "clown wig");
+    assertEquals(50, modFor("Clowniness"), 0.01);
   }
 
   @Test
   public void clownositySucceedsWithEnoughEquipment() {
     canUse("clown wig");
     canUse("polka-dot bow tie");
-    assertTrue(maximize("clownosity"));
+    assertTrue(maximize("clownosity -tie"));
     recommendedSlotIs(EquipmentManager.HAT, "clown wig");
     recommendedSlotIs(EquipmentManager.ACCESSORY1, "polka-dot bow tie");
+    assertEquals(125, modFor("Clowniness"), 0.01);
   }
 
   // raveosity
@@ -129,11 +133,12 @@ public class MaximizerTest {
     canUse("rave visor");
     canUse("baggy rave pants");
     canUse("rave whistle");
-    assertFalse(maximize("raveosity"));
+    assertFalse(maximize("raveosity -tie"));
     // still provides equipment
     recommendedSlotIs(EquipmentManager.HAT, "rave visor");
     recommendedSlotIs(EquipmentManager.PANTS, "baggy rave pants");
     recommendedSlotIs(EquipmentManager.WEAPON, "rave whistle");
+    assertEquals(5, modFor("Raveosity"), 0.01);
   }
 
   @Test
@@ -143,12 +148,135 @@ public class MaximizerTest {
     canUse("teddybear backpack");
     canUse("rave visor");
     canUse("baggy rave pants");
-    assertTrue(maximize("raveosity"));
+    assertTrue(maximize("raveosity -tie"));
     recommendedSlotIs(EquipmentManager.HAT, "rave visor");
     recommendedSlotIs(EquipmentManager.PANTS, "baggy rave pants");
     recommendedSlotIs(EquipmentManager.CONTAINER, "teddybear backpack");
     recommendedSlotIs(EquipmentManager.OFFHAND, "glowstick on a string");
-    recommends("blue glowstick");
+    assertEquals(7, modFor("Raveosity"), 0.01);
+  }
+
+  // surgeonosity
+
+  @Test
+  public void surgeonosityTriesSurgeonEquipment() {
+    canUse("head mirror");
+    canUse("bloodied surgical dungarees");
+    canUse("surgical apron");
+    canUse("surgical mask");
+    canUse("half-size scalpel");
+    addSkill("Torso Awareness");
+    assertTrue(maximize("surgeonosity -tie"));
+    recommendedSlotIs(EquipmentManager.PANTS, "bloodied surgical dungarees");
+    recommends("head mirror");
+    recommends("surgical mask");
+    recommends("half-size scalpel");
+    recommendedSlotIs(EquipmentManager.SHIRT, "surgical apron");
+    assertEquals(5, modFor("Surgeonosity"), 0.01);
+  }
+
+  // beecore
+
+  @Test
+  public void itemsCanHaveAtMostTwoBeesByDefault() {
+    inPath(Path.BEES_HATE_YOU);
+    canUse("bubblewrap bottlecap turtleban");
+    maximize("mys");
+    recommendedSlotIsEmpty(EquipmentManager.HAT);
+  }
+
+  @Test
+  public void itemsCanHaveAtMostBeeosityBees() {
+    inPath(Path.BEES_HATE_YOU);
+    canUse("bubblewrap bottlecap turtleban");
+    maximize("mys, 5beeosity");
+    recommendedSlotIs(EquipmentManager.HAT, "bubblewrap bottlecap turtleban");
+  }
+
+  @Test
+  public void beeosityDoesntApplyOutsideBeePath() {
+    canUse("bubblewrap bottlecap turtleban");
+    maximize("mys");
+    recommendedSlotIs(EquipmentManager.HAT, "bubblewrap bottlecap turtleban");
+  }
+
+  // proof for the next test
+  @Test
+  public void canCrownFamiliarsWithBeesOutsideBeecore() {
+    canUse("Crown of Thrones");
+    hasFamiliar(FamiliarPool.LOBSTER); // 15% spell damage
+    hasFamiliar(FamiliarPool.GALLOPING_GRILL); // 10% spell damage
+
+    maximize("spell dmg");
+
+    // used the lobster in the throne.
+    assertTrue(someBoostIs(x -> x.getCmd().startsWith("enthrone Rock Lobster")));
+  }
+
+  @Test
+  public void cannotCrownFamiliarsWithBeesInBeecore() {
+    inPath(Path.BEES_HATE_YOU);
+    canUse("Crown of Thrones");
+    hasFamiliar(FamiliarPool.LOBSTER); // 15% spell damage
+    hasFamiliar(FamiliarPool.GALLOPING_GRILL); // 10% spell damage
+
+    maximize("spell dmg");
+
+    // used the grill in the throne.
+    assertTrue(someBoostIs(x -> x.getCmd().startsWith("enthrone Galloping Grill")));
+  }
+
+  // proof for the next test
+  @Test
+  public void canUsePotionsWithBeesOutsideBeecore() {
+    addItem("baggie of powdered sugar");
+
+    maximize("meat drop");
+
+    assertTrue(someBoostIs(x -> x.getCmd().startsWith("use 1 baggie of powdered sugar")));
+  }
+
+  @Test
+  public void cannotUsePotionsWithBeesInBeecore() {
+    inPath(Path.BEES_HATE_YOU);
+    addItem("baggie of powdered sugar");
+
+    maximize("meat drop");
+
+    assertFalse(someBoostIs(x -> x.getCmd().startsWith("use 1 baggie of powdered sugar")));
+  }
+
+  // plumber
+
+  @Test
+  public void plumberCommandsErrorOutsidePlumber() {
+    inPath(Path.AVATAR_OF_BORIS);
+
+    assertFalse(maximize("plumber"));
+    assertFalse(maximize("cold plumber"));
+  }
+
+  @Test
+  public void plumberCommandForcesSomePlumberItem() {
+    inPath(Path.PATH_OF_THE_PLUMBER);
+    canUse("work boots");
+    canUse("shiny ring", 3);
+
+    assertTrue(maximize("plumber, mox"));
+    recommends("work boots");
+  }
+
+  @Test
+  public void coldPlumberCommandForcesFlowerAndFrostyButton() {
+    inPath(Path.PATH_OF_THE_PLUMBER);
+    canUse("work boots");
+    canUse("bonfire flower");
+    canUse("frosty button");
+    canUse("shiny ring", 3);
+
+    assertTrue(maximize("cold plumber, mox"));
+    recommends("bonfire flower");
+    recommends("frosty button");
   }
 
   // club
@@ -163,8 +291,18 @@ public class MaximizerTest {
     assertTrue(EquipmentManager.canEquip("flaming crutch"), "Can equip flaming crutch");
     assertTrue(maximize("mus, club"));
     // Should equip 1 flaming crutch, 1 white sword.
-    assertEquals(2, modFor("Muscle"), 0.01, "Muscle as expected.");
-    assertEquals(3, modFor("Hot Damage"), 0.01, "Hot damage as expected.");
+    recommendedSlotIs(EquipmentManager.WEAPON, "flaming crutch");
+    recommendedSlotIs(EquipmentManager.OFFHAND, "white sword");
+  }
+
+  // sword
+
+  @Test
+  public void swordModifierFavorsSword() {
+    canUse("sweet ninja sword");
+    canUse("spiked femur");
+    assertTrue(maximize("spooky dmg, sword"));
+    recommendedSlotIs(EquipmentManager.WEAPON, "sweet ninja sword");
   }
 
   // effect limits
@@ -405,7 +543,7 @@ public class MaximizerTest {
   private void recommendedSlotIs(int slot, String item) {
     Optional<AdventureResult> equipment = getSlot(slot);
     assertTrue(equipment.isPresent(), "Expected " + item + " to be recommended, but it was not");
-    assertEquals(equipment.get(), AdventureResult.parseResult(item));
+    assertEquals(AdventureResult.parseResult(item), equipment.get());
   }
 
   private void recommendedSlotIsEmpty(int slot) {
@@ -420,5 +558,9 @@ public class MaximizerTest {
             .filter(b -> item.equals(b.getItem().getName()))
             .findAny();
     assertTrue(found.isPresent(), "Expected " + item + " to be recommended, but it was not");
+  }
+
+  private boolean someBoostIs(Predicate<Boost> predicate) {
+    return Maximizer.boosts.stream().anyMatch(predicate);
   }
 }

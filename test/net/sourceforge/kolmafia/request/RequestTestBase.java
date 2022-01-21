@@ -282,6 +282,7 @@ public abstract class RequestTestBase {
       this.matcher = path -> path.equals(exactPath);
     }
 
+    @Override
     boolean matches(final ParsedUrl url) {
       return this.matcher.matches(url.path);
     }
@@ -301,6 +302,7 @@ public abstract class RequestTestBase {
       this.matcher = val -> valueMatcher.matcher(val).matches();
     }
 
+    @Override
     boolean matches(final ParsedUrl url) {
       return url.params.containsKey(this.param) && this.matcher.matches(url.params.get(this.param));
     }

@@ -213,14 +213,6 @@ public class ValhallaManager {
 
     ValhallaManager.logNewAscension();
 
-    // The semirare counter is set in Valhalla.
-    if (KoLCharacter.inLAR()) {
-      TurnCounter.startCounting(75, "Fortune Cookie", "fortune.gif");
-    } else {
-      TurnCounter.startCounting(70, "Semirare window begin", "lparen.gif");
-      TurnCounter.startCounting(80, "Semirare window end loc=*", "rparen.gif");
-    }
-
     // First Rain monster expected on turns 9-11
     if (KoLCharacter.inRaincore()) {
       TurnCounter.startCounting(8, "Rain Monster window begin loc=*", "lparen.gif");

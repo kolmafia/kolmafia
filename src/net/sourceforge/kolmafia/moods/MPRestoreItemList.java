@@ -246,6 +246,7 @@ public abstract class MPRestoreItemList {
       return Math.min(this.manaPerUse, KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP());
     }
 
+    @Override
     public boolean usableInCurrentPath() {
       if (this.itemUsed == null) {
         return true;
@@ -264,6 +265,7 @@ public abstract class MPRestoreItemList {
       return true;
     }
 
+    @Override
     public void recover(final int needed, final boolean purchase) {
       if (!KoLmafia.permitsContinue()) {
         return;

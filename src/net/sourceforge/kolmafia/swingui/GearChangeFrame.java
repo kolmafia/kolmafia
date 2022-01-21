@@ -928,6 +928,7 @@ public class GearChangeFrame extends GenericFrame {
       this.update();
     }
 
+    @Override
     public void update() {
       FamiliarData enthronedFamiliar = KoLCharacter.getEnthroned();
       FamiliarData selectedThroneFamiliar = (FamiliarData) this.getSelectedItem();
@@ -944,6 +945,7 @@ public class GearChangeFrame extends GenericFrame {
       this.update();
     }
 
+    @Override
     public void update() {
       FamiliarData bjornedFamiliar = KoLCharacter.getBjorned();
       FamiliarData selectedBjornFamiliar = (FamiliarData) this.getSelectedItem();
@@ -1488,6 +1490,7 @@ public class GearChangeFrame extends GenericFrame {
       this.update();
     }
 
+    @Override
     public void stateChanged(final ChangeEvent e) {
       int maximum = this.availableFakeHands;
       if (maximum == 0) {
@@ -1507,6 +1510,7 @@ public class GearChangeFrame extends GenericFrame {
       return this.availableFakeHands;
     }
 
+    @Override
     public void update() {
       int available = EquipmentManager.FAKE_HAND.getCount(KoLConstants.inventory);
       this.currentFakeHands = EquipmentManager.getFakeHands();
@@ -1530,6 +1534,7 @@ public class GearChangeFrame extends GenericFrame {
       }
     }
 
+    @Override
     public void update() {
       this.setSelected(EquipmentManager.familiarItemLocked());
       this.setEnabled(this.isEnabled());

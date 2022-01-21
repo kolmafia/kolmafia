@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.FamiliarManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -43,8 +44,7 @@ public class SummoningChamberRequest extends GenericRequest {
       // This should never happen if you don't have an Intergnat
       // unless you are manually setting demonName12 to break things
       currentFam = KoLCharacter.getFamiliar();
-      RequestThread.postRequest(
-          new FamiliarRequest(KoLCharacter.findFamiliar(FamiliarPool.INTERGNAT)));
+      FamiliarManager.changeFamiliar(FamiliarPool.INTERGNAT, false);
     }
 
     KoLmafia.updateDisplay("Summoning " + this.demon + "...");

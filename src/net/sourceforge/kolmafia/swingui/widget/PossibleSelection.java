@@ -62,6 +62,7 @@ public class PossibleSelection implements ActionListener {
     this.wrapper = wrapper;
   }
 
+  @Override
   public void actionPerformed(ActionEvent e) {
     wrapper.setChoice(value);
   }

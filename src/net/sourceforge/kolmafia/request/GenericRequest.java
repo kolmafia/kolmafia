@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.chat.InternalMessage;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -898,12 +899,7 @@ public class GenericRequest implements Runnable {
         if (also.getTurnsRemaining() < 0) {
           continue;
         }
-        if (also.getLabel().equals("Fortune Cookie")) {
-          KoLmafia.updateDisplay("(" + expired.getLabel() + " counter discarded due to conflict)");
-          expired = also;
-        } else {
-          KoLmafia.updateDisplay("(" + also.getLabel() + " counter discarded due to conflict)");
-        }
+        KoLmafia.updateDisplay("(" + also.getLabel() + " counter discarded due to conflict)");
       }
 
       if (this.invokeCounterScript(expired)) {
@@ -926,9 +922,7 @@ public class GenericRequest implements Runnable {
                 + (remain == 1 ? "." : "s.");
       }
 
-      if (expired.getLabel().equals("Fortune Cookie")) {
-        message += " " + EatItemRequest.lastSemirareMessage();
-      } else if (expired.getLabel().equals("Spookyraven Lights Out")) {
+      if (expired.getLabel().equals("Spookyraven Lights Out")) {
         message += " " + LightsOutManager.message();
       }
 
@@ -1077,6 +1071,7 @@ public class GenericRequest implements Runnable {
    * Loathing, and prepares the input for reading. Because the Kingdom of Loathing has identical
    * page layouts, all page reading and handling will occur through these method calls.
    */
+  @Override
   public void run() {
     if (GenericRequest.sessionId == null
         && !(this instanceof LoginRequest)
@@ -2404,6 +2399,11 @@ public class GenericRequest implements Runnable {
       return;
     }
 
+    // If this is a lucky adventure, then remove the Lucky intrinsic
+    if (this.responseText.contains("You feel less lucky")) {
+      KoLConstants.activeEffects.remove(EffectPool.get(EffectPool.LUCKY));
+    }
+
     if (this.responseText.contains("You break the bottle on the ground")) {
       // You break the bottle on the ground, and stomp it to powder
       ResultProcessor.processItem(ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE, -1);
@@ -3238,6 +3238,7 @@ public class GenericRequest implements Runnable {
       return this.name != null ? this.name.hashCode() : 0;
     }
 
+    @Override
     public int compareTo(final ServerCookie o) {
       return o == null ? -1 : this.getName().compareTo(o.getName());
     }

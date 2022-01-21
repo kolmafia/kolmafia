@@ -153,10 +153,12 @@ public class MallSearchFrame extends GenericPanelFrame {
       this.storageBalanceLabel.setText(buffer.toString());
     }
 
+    @Override
     public void focusGained(FocusEvent e) {
       this.searchField.requestFocus();
     }
 
+    @Override
     public void focusLost(FocusEvent e) {}
 
     @Override
@@ -249,7 +251,7 @@ public class MallSearchFrame extends GenericPanelFrame {
     RequestThread.postRequest(request);
   }
 
-  private String getPurchaseSummary(final Object[] purchases) {
+  private String getPurchaseSummary(final PurchaseRequest[] purchases) {
     if (purchases == null || purchases.length == 0) {
       return "";
     }
@@ -259,7 +261,7 @@ public class MallSearchFrame extends GenericPanelFrame {
     PurchaseRequest currentPurchase = null;
 
     for (int i = 0; i < purchases.length; ++i) {
-      currentPurchase = (PurchaseRequest) purchases[i];
+      currentPurchase = purchases[i];
       totalPurchases += currentPurchase.getLimit();
       totalPrice += (long) currentPurchase.getLimit() * (long) currentPurchase.getPrice();
     }
@@ -304,6 +306,7 @@ public class MallSearchFrame extends GenericPanelFrame {
      * panel.
      */
     private class PurchaseSelectListener implements ListSelectionListener {
+      @Override
       public void valueChanged(final ListSelectionEvent e) {
         if (e.getValueIsAdjusting()) {
           return;
@@ -316,7 +319,10 @@ public class MallSearchFrame extends GenericPanelFrame {
         if (!MallSearchFrame.this.currentlyBuying) {
           MallSearchFrame.this.mallSearch.setStatusMessage(
               MallSearchFrame.this.getPurchaseSummary(
-                  MallSearchFrame.this.resultsList.getSelectedValuesList().toArray()));
+                  MallSearchFrame.this
+                      .resultsList
+                      .getSelectedValuesList()
+                      .toArray(new PurchaseRequest[0])));
         }
       }
     }

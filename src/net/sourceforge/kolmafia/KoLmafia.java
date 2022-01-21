@@ -87,6 +87,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.ContactManager;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
@@ -821,6 +822,7 @@ public abstract class KoLmafia {
 
     // Items that need to be checked every time
     InventoryManager.checkKGB();
+    InventoryManager.checkVampireVintnerWine();
     InventoryManager.checkBirdOfTheDay();
     ResultProcessor.updateEntauntauned();
     CargoCultistShortsRequest.loadPockets();
@@ -872,6 +874,9 @@ public abstract class KoLmafia {
     // Check the Florist to see what is planted
     FloristRequest.reset();
     RequestThread.postRequest(new FloristRequest());
+
+    // Check orb predictions
+    CrystalBallManager.ponder();
 
     // Check some things that are not (yet) in api.php
     EquipmentRequest.checkCowboyBoots();
@@ -1826,6 +1831,7 @@ public abstract class KoLmafia {
   }
 
   private static class UpdateCheckRunnable implements Runnable {
+    @Override
     public void run() {
       // TODO: Check for new version on jenkins\github after migration is complete. See revision
       // history for old release update check.
@@ -1867,6 +1873,7 @@ public abstract class KoLmafia {
   }
 
   private static class QuitRunnable implements Runnable {
+    @Override
     public void run() {
       LogoutManager.logout();
 
@@ -1901,6 +1908,7 @@ public abstract class KoLmafia {
   }
 
   private static class PreferencesRunnable implements Runnable {
+    @Override
     public void run() {
       KoLmafiaGUI.constructFrame("OptionsFrame");
     }

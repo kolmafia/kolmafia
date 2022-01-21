@@ -457,12 +457,15 @@ public abstract class GenericPanel extends ActionVerifyPanel {
       return text;
     }
 
+    @Override
     public void focusLost(final FocusEvent e) {
       GenericPanel.this.actionConfirmed();
     }
 
+    @Override
     public void focusGained(final FocusEvent e) {}
 
+    @Override
     public void actionPerformed(final ActionEvent e) {
       if (this.path != null) {
         try {

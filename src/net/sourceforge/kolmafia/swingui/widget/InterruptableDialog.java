@@ -32,6 +32,7 @@ public class InterruptableDialog {
       this.result = b;
     }
 
+    @Override
     public void run() {
       this.setResult(
           JOptionPane.YES_OPTION
@@ -71,6 +72,7 @@ public class InterruptableDialog {
       this.closed = b;
     }
 
+    @Override
     public void run() {
       String result = JOptionPane.showInputDialog(null, StringUtilities.basicTextWrap(message));
       this.setResult(result);

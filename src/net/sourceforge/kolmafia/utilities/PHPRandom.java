@@ -12,6 +12,7 @@ public class PHPRandom extends Random {
   public static final long serialVersionUID = 0l;
   public ArrayList<Integer> state;
 
+  @Override
   public int next(int bits) {
     int i = state.size();
     int value = state.get(i - 31) + state.get(i - 3);
@@ -19,20 +20,24 @@ public class PHPRandom extends Random {
     return value >>> 1;
   }
 
+  @Override
   public double nextDouble() {
     return nextInt() / (Integer.MAX_VALUE + 1.0);
   }
 
+  @Override
   public int nextInt(final int max) {
     return nextInt(0, max);
   }
 
+  @SuppressWarnings("PMD.MissingOverride")
   public int nextInt(final int min, final int max) {
     double clamped = (max - min + 1.0) * nextDouble();
     int val = min + (int) clamped;
     return val;
   }
 
+  @Override
   public synchronized void setSeed(long seed) {
     if (state == null) {
       state = new ArrayList<Integer>();
