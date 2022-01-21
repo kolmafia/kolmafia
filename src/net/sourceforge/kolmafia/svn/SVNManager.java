@@ -1560,8 +1560,8 @@ public class SVNManager {
     Iterator<SVNURL> it = installMe.iterator();
     while (it.hasNext()) {
       SVNURL url = it.next();
-      if (validateRepo(url, true)) {
-        RequestLogger.printLine("bogus dependency: " + url);
+      if (validateRepo(url, false)) {
+        RequestLogger.printLine("Dependency at " + url + " failed validation.  Won't be processed.");
         it.remove();
       }
     }
