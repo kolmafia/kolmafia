@@ -1166,6 +1166,8 @@ public class SVNManager {
     try {
       SVN_LOCK.lock();
       if (!SVNWCUtil.isWorkingCopyRoot(f)) {
+        RequestLogger.printLine(f.getPath() +
+                " selected for repository operation but may not have corresponding remote");
         return false;
       }
 
