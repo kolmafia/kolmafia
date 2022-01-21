@@ -769,6 +769,10 @@ public class DataTypes {
         DataTypes.CLASS_TYPE, ascensionClass.getId(), ascensionClass.getName(), ascensionClass);
   }
 
+  public static final Value makeClassValue(final int id, boolean returnDefault) {
+    return makeClassValue(AscensionClass.idToClass(id), returnDefault);
+  }
+
   private static Value makeNormalizedSkill(final int num, String name) {
     if (num == -1) {
       return DataTypes.SKILL_INIT;
