@@ -2414,16 +2414,6 @@ public class FightRequest extends GenericRequest {
         CrystalBallManager.clear();
       }
 
-      // Increment stinky cheese counter
-      int stinkyCount = EquipmentManager.getStinkyCheeseLevel();
-      if (stinkyCount > 0) {
-        Preferences.increment("_stinkyCheeseCount", stinkyCount);
-      }
-      // Increment Pantsgiving counter
-      if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.PANTSGIVING, 1), EquipmentManager.PANTS)) {
-        Preferences.increment("_pantsgivingCount", 1);
-      }
-
       // Increment Turtle Blessing counter
       int blessingLevel = KoLCharacter.getBlessingLevel();
       if (blessingLevel > 0 && blessingLevel < 4) {
@@ -3153,6 +3143,17 @@ public class FightRequest extends GenericRequest {
       // The fight is not over, none of the stuff below needs to be checked
       MonsterStatusTracker.applyManuelStats();
       return;
+    }
+
+    // Increment stinky cheese counter
+    int stinkyCount = EquipmentManager.getStinkyCheeseLevel();
+    if (stinkyCount > 0) {
+      Preferences.increment("_stinkyCheeseCount", stinkyCount);
+    }
+
+    // Increment Pantsgiving counter
+    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.PANTSGIVING, 1), EquipmentManager.PANTS)) {
+      Preferences.increment("_pantsgivingCount");
     }
 
     if (responseText.contains("Your sugar chapeau slides")) {
