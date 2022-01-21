@@ -5,7 +5,10 @@ import org.eclipse.lsp4j.DidChangeTextDocumentParams;
 import org.eclipse.lsp4j.DidCloseTextDocumentParams;
 import org.eclipse.lsp4j.DidOpenTextDocumentParams;
 import org.eclipse.lsp4j.DidSaveTextDocumentParams;
+import org.eclipse.lsp4j.SaveOptions;
 import org.eclipse.lsp4j.ServerCapabilities;
+import org.eclipse.lsp4j.TextDocumentSyncKind;
+import org.eclipse.lsp4j.TextDocumentSyncOptions;
 import org.eclipse.lsp4j.services.TextDocumentService;
 
 public abstract class AshTextDocumentService implements TextDocumentService {
@@ -15,7 +18,16 @@ public abstract class AshTextDocumentService implements TextDocumentService {
     this.parent = parent;
   }
 
-  public final void setCapabilities(final ServerCapabilities capabilities) {}
+  public final void setCapabilities(final ServerCapabilities capabilities) {
+    TextDocumentSyncOptions textDocumentSyncOptions = new TextDocumentSyncOptions();
+    textDocumentSyncOptions.setOpenClose(false);
+    textDocumentSyncOptions.setChange(TextDocumentSyncKind.None);
+    textDocumentSyncOptions.setWillSave(false);
+    textDocumentSyncOptions.setWillSaveWaitUntil(false);
+    textDocumentSyncOptions.setSave(new SaveOptions(false));
+
+    capabilities.setTextDocumentSync(textDocumentSyncOptions);
+  }
 
   @Override
   public void didOpen(DidOpenTextDocumentParams params) {}

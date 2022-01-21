@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.textui.parsetree.WhileLoop;
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.Location;
 import org.eclipse.lsp4j.Position;
@@ -5255,6 +5256,30 @@ public class Parser {
       }
 
       return result.toString();
+    }
+
+    public Diagnostic toLspDiagnostic() {
+      StringBuilder message = new StringBuilder();
+
+      message.append(this.message);
+
+      for (final String additionalMessage : this.additionalMessages) {
+        message.append(KoLConstants.LINE_BREAK);
+        message.append(additionalMessage);
+      }
+
+      final Diagnostic diagnostic =
+          new Diagnostic(
+              this.location.getRange(),
+              message.toString(),
+              this.severity,
+              StaticEntity.getVersion());
+
+      return diagnostic;
+    }
+
+    public final boolean originatesFrom(final Parser parser) {
+      return Parser.this == parser;
     }
   }
 
