@@ -379,9 +379,7 @@ public class Parser {
     Parser parser = this.makeChild(scriptFile);
     Scope result = parser.parseFile(scope);
 
-    for (AshDiagnostic diagnostic : parser.diagnostics) {
-      this.diagnostics.add(diagnostic);
-    }
+    this.diagnostics.addAll(parser.diagnostics);
 
     if (parser.mainMethod
         != null) { // Make imported script's main() available under a different name
@@ -468,9 +466,7 @@ public class Parser {
     final ErrorManager fileErrors = new ErrorManager();
 
     final Scope result =
-        startScope == null
-            ? new Scope((VariableList) null, Parser.getExistingFunctionScope())
-            : startScope;
+        startScope == null ? new Scope(null, Parser.getExistingFunctionScope()) : startScope;
 
     Token firstToken = this.currentToken();
     this.parseScope(result, null, result.getParentScope(), true, false, false);
@@ -670,8 +666,8 @@ public class Parser {
     }
 
     // Loop collecting fields
-    List<Type> fieldTypes = new ArrayList<Type>();
-    List<String> fieldNames = new ArrayList<String>();
+    List<Type> fieldTypes = new ArrayList<>();
+    List<String> fieldNames = new ArrayList<>();
 
     Position previousPosition = null;
     while (this.madeProgress(previousPosition, previousPosition = this.getCurrentPosition())) {
@@ -1332,8 +1328,7 @@ public class Parser {
           // an aggregate literal as a key
           aggregateLiteralErrors.submitError(
               this.error(
-                  this.currentToken(),
-                  "Expected a key of type " + index.toString() + ", found an aggregate"));
+                  this.currentToken(), "Expected a key of type " + index + ", found an aggregate"));
         }
 
         if (dataType instanceof AggregateType) {
@@ -1467,7 +1462,7 @@ public class Parser {
             this.error(
                 lhs.getLocation(),
                 "Invalid map literal; cannot assign type "
-                    + index.toString()
+                    + index
                     + " to key of type "
                     + lhs.getType().toString()));
       }
@@ -3246,7 +3241,7 @@ public class Parser {
     }
 
     Token current = this.currentToken();
-    Evaluable name = null;
+    Evaluable name;
 
     if (current.equals("(")) {
       name = this.parseExpression(scope);
@@ -3477,9 +3472,9 @@ public class Parser {
 
     final ErrorManager expressionErrors = new ErrorManager();
 
-    Evaluable lhs = null;
-    Evaluable rhs = null;
-    Operator oper = null;
+    Evaluable lhs;
+    Evaluable rhs;
+    Operator oper;
 
     Token operator = this.currentToken();
     if (operator.equals("!")) {
@@ -3696,7 +3691,7 @@ public class Parser {
 
     Token valueStartToken = this.currentToken();
 
-    Evaluable result = null;
+    Evaluable result;
 
     // Parse parenthesized expressions
     if (valueStartToken.equals("(")) {
@@ -4082,7 +4077,7 @@ public class Parser {
     if (value == null) {
       if (!type.isBad()) {
         literalErrors.submitError(
-            this.error(location, "Bad " + type.toString() + " value: \"" + element + "\""));
+            this.error(location, "Bad " + type + " value: \"" + element + "\""));
       }
 
       return Value.BAD_VALUE;
@@ -4099,7 +4094,7 @@ public class Parser {
             CharacterEntities.escape(
                 StringUtilities.globalStringReplace(fullName, ",", "\\,")
                     .replaceAll("(?<= ) ", "\\\\ "));
-        List<String> names = new ArrayList<String>();
+        List<String> names = new ArrayList<>();
         if (type.equals(DataTypes.ITEM_TYPE)) {
           int itemId = (int) value.contentLong;
           String name = ItemDatabase.getItemName(itemId);
@@ -4621,7 +4616,7 @@ public class Parser {
     return current;
   }
 
-  private class Directive {
+  private static class Directive {
     final String value;
     final Range range;
 
@@ -4909,12 +4904,12 @@ public class Parser {
   }
 
   /** Finds the last token that was *read* */
-  private final Token peekPreviousToken() {
+  private Token peekPreviousToken() {
     return this.currentLine.peekPreviousToken(this.currentToken);
   }
 
   /** Finds the last token that was *discovered* */
-  private final Token peekLastToken() {
+  private Token peekLastToken() {
     return this.currentLine.peekLastToken();
   }
 
@@ -4934,7 +4929,7 @@ public class Parser {
 
   /**
    * If we have an unread token saved in {@link #currentToken}, null the field, and delete it from
-   * its {@link Line#tokens}, effectively forgetting that we saw it.
+   * the tokens list on its {@link Line}, effectively forgetting that we saw it.
    *
    * <p>This method is made for parsing methods that manipulate lines character-by-character, and
    * need to create Tokens of custom lengths.
@@ -5233,9 +5228,7 @@ public class Parser {
       this.severity = severity;
       this.message = message;
       this.additionalMessages = new ArrayList<>();
-      for (final String additionalMessage : additionalMessages) {
-        this.additionalMessages.add(additionalMessage);
-      }
+      Collections.addAll(this.additionalMessages, additionalMessages);
     }
 
     @Override
@@ -5323,7 +5316,6 @@ public class Parser {
         if (currentRevision != 0 && currentRevision < targetRevision) {
           sinceErrors.submitError(
               this.sinceError(String.valueOf(currentRevision), revision, directiveRange));
-          return;
         }
       } else { // version (or syntax error)
         String[] target = revision.split("\\.");
@@ -5339,7 +5331,6 @@ public class Parser {
           sinceErrors.submitError(
               this.error(
                   directiveRange, "invalid 'since' format (21.09 was the final point release)"));
-          return;
         }
       }
     } catch (NumberFormatException e) {
@@ -5417,7 +5408,7 @@ public class Parser {
     return "(" + fileName + ", line " + lineNumber + ")";
   }
 
-  public static final String getFileAndRange(String fileName, final Range range) {
+  public static String getFileAndRange(String fileName, final Range range) {
     if (range == null || Positions.isBefore(range.getEnd(), range.getStart())) {
       throw new IllegalArgumentException();
     }
@@ -5436,26 +5427,26 @@ public class Parser {
       // "ash cli_execute('ash \n')"
       // As such, don't display the start's line if it's '0', because it can easily be assumed.
       if (range.getStart().getLine() > 0) {
-        result.append("line " + (range.getStart().getLine() + 1));
+        result.append("line ").append(range.getStart().getLine() + 1);
         result.append(", ");
       }
     } else {
       result.append(fileName);
-      result.append(", line " + (range.getStart().getLine() + 1));
+      result.append(", line ").append(range.getStart().getLine() + 1);
       result.append(", ");
     }
 
-    result.append("char " + (range.getStart().getCharacter() + 1));
+    result.append("char ").append(range.getStart().getCharacter() + 1);
 
     if (!range.getStart().equals(range.getEnd())) {
       result.append(" to ");
 
       if (range.getStart().getLine() < range.getEnd().getLine()) {
-        result.append("line " + (range.getEnd().getLine() + 1));
+        result.append("line ").append(range.getEnd().getLine() + 1);
         result.append(", ");
       }
 
-      result.append("char " + (range.getEnd().getCharacter() + 1));
+      result.append("char ").append(range.getEnd().getCharacter() + 1);
     }
 
     return result.toString();
