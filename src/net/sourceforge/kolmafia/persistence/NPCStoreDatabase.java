@@ -469,7 +469,7 @@ public class NPCStoreDatabase {
 
       if (!Preferences.getBoolean("_fireworksShop")) {
         // We haven't visited it yet today so it is not unlocked yet.
-	      new ClanLoungeRequest(ClanLoungeRequest.FIREWORKS).run();
+        new ClanLoungeRequest(ClanLoungeRequest.FIREWORKS).run();
       }
 
       switch (itemId) {
