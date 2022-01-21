@@ -10161,7 +10161,7 @@
 10133	loofah ladle	851884840	loof_ladle.gif	weapon		0
 10134	loofah legwarmers	861814172	loof_warmers.gif	accessory		0
 10135	loofah lavalier	742480306	loof_lavalier.gif	accessory		0
-10136
+10136	loofah lumps	141391283	loof_bits.gif	spleen, usable		0
 10137
 10138	flagstone flag	485110859	fs_flag.gif	offhand		0
 10139	flagstone flail	774649175	fs_flail.gif	weapon		0
@@ -10169,7 +10169,7 @@
 10141	flagstone fez	996975363	fs_fez.gif	hat		0
 10142	flagstone fleece	890070574	fs_fleece.gif	container		0
 10143	flagstone fringe	839701459	fs_fringe.gif	accessory		0
-10144
+10144	flagstone flagments	646585503	fs_bits.gif	spleen, usable		0
 10145
 10146	elf sleeper agent	896004413	elfoplarva.gif	grow	t	0
 10147	red-and-green microcamera	537719204	elfopcamera.gif	familiar	t,d	75
