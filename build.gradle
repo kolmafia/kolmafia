@@ -91,6 +91,7 @@ dependencies {
 	implementation 'org.mozilla:rhino:1.7.14'
 	implementation 'org.swinglabs:swingx:1.0'
 	implementation 'org.tmatesoft.svnkit:svnkit:1.10.3'
+	implementation 'com.jgoodies:jgoodies-binding:2.13.0'
 }
 
 application {
