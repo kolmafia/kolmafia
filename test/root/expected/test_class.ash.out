@@ -1,4 +1,5 @@
 Changing "Ed" to "Ed the Undying" would get rid of this message. (test_class.ash, line 6, char 14 to char 16)
-comparison true
-primestat true
-true
+comparison: true
+primestat: true
+substring matching: true
+no astral spirit: true

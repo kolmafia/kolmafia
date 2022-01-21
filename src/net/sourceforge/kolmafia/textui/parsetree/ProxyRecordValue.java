@@ -152,6 +152,10 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public Value get_primestat() {
+      if (this.content == null) {
+        return DataTypes.STAT_INIT;
+      }
+
       int primeIndex = ((AscensionClass) this.content).getPrimeStatIndex();
 
       String name = null;

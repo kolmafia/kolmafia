@@ -348,6 +348,8 @@ public class Type extends Symbol {
       switch (this.type) {
         case DataTypes.TYPE_BOOLEAN:
           return DataTypes.makeBooleanValue(integer);
+        case DataTypes.TYPE_CLASS:
+          return DataTypes.makeClassValue(integer, returnDefault);
         case DataTypes.TYPE_INT:
           return DataTypes.makeIntValue(integer);
         case DataTypes.TYPE_FLOAT:
@@ -383,6 +385,18 @@ public class Type extends Symbol {
       }
       return null;
     }
+    if (object instanceof AscensionClass) {
+      AscensionClass ascensionClass = (AscensionClass) object;
+      switch (this.type) {
+        case DataTypes.TYPE_INT:
+          return DataTypes.makeIntValue(ascensionClass.getId());
+        case DataTypes.TYPE_STRING:
+          return new Value(DataTypes.STRING_TYPE, ascensionClass.getName());
+        case DataTypes.TYPE_CLASS:
+          return DataTypes.makeClassValue(ascensionClass, returnDefault);
+      }
+      return null;
+    }
     return null;
   }
 
@@ -406,9 +420,7 @@ public class Type extends Symbol {
         this.addValues(list, AdventureDatabase.getAsLockableListModel());
         break;
       case DataTypes.TYPE_CLASS:
-        for (AscensionClass ascensionClass : AscensionClass.values()) {
-          list.add(DataTypes.makeClassValue(ascensionClass, true));
-        }
+        this.addValues(list, AscensionClass.allClasses());
         break;
       case DataTypes.TYPE_STAT:
         this.addValues(list, DataTypes.STAT_ARRAY, 0, 3);
