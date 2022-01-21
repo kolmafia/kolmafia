@@ -59,6 +59,8 @@ public class CustomScriptTest {
 
       CallScriptCommand command = new CallScriptCommand();
       command.run("call", script);
+
+      RequestLogger.closeCustom();
     }
 
     String output = ostream.toString().trim();
@@ -94,6 +96,8 @@ public class CustomScriptTest {
         assertEquals("Returned: true", output, "Checking case insensitivity for $" + type);
         ostream.reset();
       }
+
+      RequestLogger.closeCustom();
     }
   }
 
