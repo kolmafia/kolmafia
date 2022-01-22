@@ -54,12 +54,14 @@ public class CompareContractValidator {
       }
     }
     if (!canCompare) {
+      Violator faux = new Violator("bad", "input", "fail");
+      violators.add(faux);
       return violators;
     }
 
     for (i = 0; i < maxIndex; ++i) {
+      @SuppressWarnings("unchecked")
       Comparable<T> objectThatCanCompare = (Comparable<T>) ids.get(i);
-
       for (int j = 0; j < maxIndex; ++j) {
         result[i][j] = sgn(objectThatCanCompare.compareTo(ids.get(j)));
       }
