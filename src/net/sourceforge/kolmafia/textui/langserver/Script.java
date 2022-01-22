@@ -16,7 +16,7 @@ import org.eclipse.lsp4j.PublishDiagnosticsParams;
 /**
  * A file that was recognized as a KoLmafia script in one of the directories under our authority.
  */
-public class Script {
+public final class Script {
   final AshLanguageServer parent;
   final File file;
 
@@ -51,7 +51,7 @@ public class Script {
    *
    * <p>All files imported by this script should also be handled by this object
    */
-  public class Handler {
+  public final class Handler {
     protected Parser parser;
     protected Scope scope;
 
