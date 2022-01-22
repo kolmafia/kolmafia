@@ -7210,7 +7210,11 @@ public abstract class ChoiceManager {
         String mapAction = (haveCoin ? ", gain spooky temple map" : "");
 
         result[2] =
-            "gain a starter item, gain Spooky-Gro fertilizer (" + fertilizer + ")" + mapAction + ", gain fake blood";
+            "gain a starter item, gain Spooky-Gro fertilizer ("
+                + fertilizer
+                + ")"
+                + mapAction
+                + ", gain fake blood";
 
         return result;
 
