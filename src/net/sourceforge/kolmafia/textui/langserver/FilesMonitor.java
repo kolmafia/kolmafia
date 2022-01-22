@@ -14,7 +14,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 public class FilesMonitor {
   final AshLanguageServer parent;
 
-  FilesMonitor(final AshLanguageServer parent) {
+  protected FilesMonitor(final AshLanguageServer parent) {
     this.parent = parent;
   }
 
@@ -73,7 +73,7 @@ public class FilesMonitor {
    * Checks every sub-directory under our authority as a KoLmafia root folder, and ensures that
    * every {@code .ash} file in them has a {@link Script.Handler handler}.
    */
-  void scan() {
+  protected void scan() {
     for (final File directory :
         Arrays.asList(
             KoLConstants.SCRIPT_LOCATION,

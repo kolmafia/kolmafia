@@ -27,14 +27,14 @@ public class Script {
    * <p>When trying to find the handler(s) in charge of a given file, {@link
    * FilesMonitor#findHandlers(File)} should be used.
    */
-  Handler handler;
+  protected Handler handler;
 
-  Script(final AshLanguageServer parent, final File file) {
+  protected Script(final AshLanguageServer parent, final File file) {
     this.parent = parent;
     this.file = file;
   }
 
-  Handler makeHandler() {
+  protected Handler makeHandler() {
     this.handler = new Handler();
 
     this.parent.executor.execute(
@@ -52,8 +52,8 @@ public class Script {
    * <p>All files imported by this script should also be handled by this object
    */
   public class Handler {
-    Parser parser;
-    Scope scope;
+    protected Parser parser;
+    protected Scope scope;
 
     private Thread parserThread;
 
@@ -99,7 +99,7 @@ public class Script {
       }
     }
 
-    void sendDiagnostics() {
+    private void sendDiagnostics() {
       if (Script.this.parent.client == null) {
         return;
       }
@@ -137,7 +137,7 @@ public class Script {
       Thread.currentThread().setName(previousThreadName);
     }
 
-    void close() {
+    protected void close() {
       Script.this.handler = null;
 
       synchronized (this.parserSwapLock) {
