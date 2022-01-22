@@ -278,6 +278,10 @@ public class OptionsFrame extends GenericFrame {
         {"saveSettingsOnSet", "Save options to disk whenever they change"},
         {},
         {"removeMalignantEffects", "Auto-remove malignant status effects"},
+        {
+          "suppressNegativeStatusPopup",
+          "Suppress popup dialog for items which cause harmful effects"
+        },
         {"switchEquipmentForBuffs", "Allow equipment changing when casting buffs"},
         {"allowNonMoodBurning", "Cast buffs not defined in moods during buff balancing"},
         {"allowSummonBurning", "Cast summoning skills during buff balancing"},

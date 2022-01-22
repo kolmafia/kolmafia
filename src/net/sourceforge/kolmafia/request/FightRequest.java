@@ -2414,16 +2414,6 @@ public class FightRequest extends GenericRequest {
         CrystalBallManager.clear();
       }
 
-      // Increment stinky cheese counter
-      int stinkyCount = EquipmentManager.getStinkyCheeseLevel();
-      if (stinkyCount > 0) {
-        Preferences.increment("_stinkyCheeseCount", stinkyCount);
-      }
-      // Increment Pantsgiving counter
-      if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.PANTSGIVING, 1), EquipmentManager.PANTS)) {
-        Preferences.increment("_pantsgivingCount", 1);
-      }
-
       // Increment Turtle Blessing counter
       int blessingLevel = KoLCharacter.getBlessingLevel();
       if (blessingLevel > 0 && blessingLevel < 4) {
@@ -3150,9 +3140,40 @@ public class FightRequest extends GenericRequest {
     KoLAdventure.setNextAdventure(KoLAdventure.lastVisitedLocation);
 
     if (stillInBattle) {
-      // The fight is not over, none of the stuff below needs to be checked
+      // The fight is not over, we do not need to update the final round data
       MonsterStatusTracker.applyManuelStats();
       return;
+    }
+
+    updateFinalRoundData(responseText, won);
+  }
+
+  // This performs checks that are only applied once combat is finished,
+  // and that aren't (yet) part of the processNormalResults loop.
+  // `responseText` will be a fragment of the page; anything that needs
+  // to check something outside of the round should use
+  // FightRequest.lastResponseText instead.
+  // Note that this is not run if the combat is finished by
+  // rollover-runaway, saber, or similar mechanic.
+  private static void updateFinalRoundData(final String responseText, final boolean won) {
+    MonsterData monster = MonsterStatusTracker.getLastMonster();
+    String monsterName = monster != null ? monster.getName() : "";
+    SpecialMonster special = FightRequest.specialMonsterCategory(monsterName);
+
+    KoLAdventure location = KoLAdventure.lastVisitedLocation();
+    String locationName = (location != null) ? location.getAdventureName() : null;
+
+    FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
+
+    // Increment stinky cheese counter
+    int stinkyCount = EquipmentManager.getStinkyCheeseLevel();
+    if (stinkyCount > 0) {
+      Preferences.increment("_stinkyCheeseCount", stinkyCount);
+    }
+
+    // Increment Pantsgiving counter
+    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.PANTSGIVING, 1), EquipmentManager.PANTS)) {
+      Preferences.increment("_pantsgivingCount");
     }
 
     if (responseText.contains("Your sugar chapeau slides")) {
@@ -3409,7 +3430,7 @@ public class FightRequest extends GenericRequest {
 
     // Check for worn-out stickers
     int count = 0;
-    m = WORN_STICKER_PATTERN.matcher(responseText);
+    Matcher m = WORN_STICKER_PATTERN.matcher(responseText);
     while (m.find()) {
       ++count;
     }

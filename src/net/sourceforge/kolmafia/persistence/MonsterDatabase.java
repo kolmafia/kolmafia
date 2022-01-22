@@ -167,8 +167,8 @@ public class MonsterDatabase {
 
     public static final Phylum find(final String name, final boolean checkPlurals) {
       for (Phylum phylum : Phylum.values()) {
-        if (name.replace("-", "").equals(phylum.toString().replace("-", ""))
-            || (checkPlurals && name.equals(phylum.getPlural()))) {
+        if (name.replace("-", "").equalsIgnoreCase(phylum.toString().replace("-", ""))
+            || (checkPlurals && name.equalsIgnoreCase(phylum.getPlural()))) {
           return phylum;
         }
       }
@@ -195,7 +195,7 @@ public class MonsterDatabase {
 
   public static final Element stringToElement(final String name) {
     for (Element elem : Element.values()) {
-      if (name.equals(elem.toString())) {
+      if (name.equalsIgnoreCase(elem.toString())) {
         return elem;
       }
     }
@@ -1091,6 +1091,6 @@ public class MonsterDatabase {
   }
 
   public static final boolean contains(final String name) {
-    return MonsterDatabase.findMonster(name) != null;
+    return MonsterDatabase.findMonster(name, false) != null;
   }
 }

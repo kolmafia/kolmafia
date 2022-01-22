@@ -139,7 +139,6 @@ public abstract class BasicScope extends Command {
       params = Collections.emptyList();
     }
 
-    // We will consider functions from this scope and from the RuntimeLibrary.
     Function[] functions = this.functions.findFunctions(name);
 
     Function result = null;
@@ -202,7 +201,7 @@ public abstract class BasicScope extends Command {
       }
     }
 
-    // We are searching a scope. Search the parent scope.
+    // Search the parent scope.
     BasicScope parent = this.getParentScope();
     if (parent != null) {
       Function[] parentFunctions = parent.functions.findFunctions(name);
