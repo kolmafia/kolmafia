@@ -68,6 +68,8 @@ public abstract class AshLanguageServer implements LanguageClientAware, Language
   public final ExecutorService executor = Executors.newCachedThreadPool();
   public final FilesMonitor monitor = new FilesMonitor(this);
 
+  // We use Hashtable to prevent null values. Otherwise a HashMap would have sufficed, since we do
+  // the synchronization ourselves.
   public final Map<File, Script> scripts = Collections.synchronizedMap(new Hashtable<>(20));
 
   @Override
