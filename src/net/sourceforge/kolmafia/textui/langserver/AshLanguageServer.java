@@ -41,8 +41,12 @@ public abstract class AshLanguageServer implements LanguageClientAware, Language
   /* The Launcher */
 
   public static AshLanguageServer launch(final InputStream in, final OutputStream out) {
-    final AshLanguageServer server = new StateCheckWrappers.AshLanguageServer();
+    return launch(in, out, new StateCheckWrappers.AshLanguageServer());
+  }
 
+  // Only exposed for tests
+  protected static AshLanguageServer launch(
+      final InputStream in, final OutputStream out, final AshLanguageServer server) {
     final Launcher<LanguageClient> launcher =
         LSPLauncher.createServerLauncher(server, in, out, server.executor, null);
     server.connect(launcher.getRemoteProxy());
@@ -166,5 +170,9 @@ public abstract class AshLanguageServer implements LanguageClientAware, Language
   @Override
   public WorkspaceService getWorkspaceService() {
     return this.workspaceService;
+  }
+
+  protected boolean canParse(final File file) {
+    return file.getName().endsWith(".ash");
   }
 }

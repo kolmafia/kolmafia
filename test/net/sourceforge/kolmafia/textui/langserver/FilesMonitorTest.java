@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.textui.langserver;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -19,6 +21,18 @@ public class FilesMonitorTest extends AshLanguageServerTest {
   private static final File goodScript =
       new File(KoLConstants.SCRIPT_LOCATION, "test_function_coercion.ash");
 
+  private static class MonitorAshLanguageServer extends StateCheckWrappers.AshLanguageServer {
+    @Override
+    protected boolean canParse(final File file) {
+      return file.equals(badScript) || file.equals(goodScript);
+    }
+  }
+
+  @Override
+  protected AshLanguageServer launchServer(InputStream in, OutputStream out) {
+    return AshLanguageServer.launch(in, out, new MonitorAshLanguageServer());
+  }
+
   @Test
   public void filesMonitorTest() {
     Assertions.assertTrue(
@@ -32,8 +46,7 @@ public class FilesMonitorTest extends AshLanguageServerTest {
     // Once initialized, the server will automatically scan the root for .ash scripts. Just give it
     // some time.
 
-    // Note: time may need to be increased if big scripts are added to test/root
-    pauser.pause(5000);
+    pauser.pause(3000);
 
     // The server should have autonomously sent some diagnostics to the client
     Mockito.verify(client)

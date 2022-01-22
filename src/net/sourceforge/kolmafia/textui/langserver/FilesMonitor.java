@@ -95,7 +95,7 @@ public class FilesMonitor {
 
       if (file.isDirectory()) {
         this.scan(file);
-      } else if (file.isFile() && file.getName().endsWith(".ash")) {
+      } else if (file.isFile() && this.parent.canParse(file)) {
         this.findOrMakeHandler(file);
       }
     }
