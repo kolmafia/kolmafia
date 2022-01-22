@@ -11,7 +11,7 @@ import net.sourceforge.kolmafia.KoLConstants;
  * Module in charge of the operations regarding our files, {@link Script scripts} and {@link
  * Script.Handler handlers}, such as finding them, making them or traversing them.
  */
-public class FilesMonitor {
+public final class FilesMonitor {
   final AshLanguageServer parent;
 
   protected FilesMonitor(final AshLanguageServer parent) {
