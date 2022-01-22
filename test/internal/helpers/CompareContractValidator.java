@@ -1,95 +1,108 @@
 package internal.helpers;
 
-import net.java.dev.spellcast.utilities.LockableListModel;
-import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CompareContractValidator {
-    // Helper method to force normalize  comparisons to [-1, 0, 1] before testing
-    private static int sgn(int value) {
-        return Integer.compare(value, 0);
+  // Helper method to normalize comparisons to [-1, 0, 1] before testing
+  private static int sgn(int value) {
+    return Integer.compare(value, 0);
+  }
+
+  public static class Violator {
+    final String first;
+    final String second;
+    final String reason;
+
+    public Violator(String a, String b, String c) {
+      first = a;
+      second = b;
+      reason = c;
     }
+  }
 
-    // Helper method to append item id
-    private static String getIString(Concoction con) {
-        return "[" + con.getItemId() + "] " + con;
-    }
+  public enum ViolationType {
+    SYMMETRY,
+    FUNCTION_EQUALITY,
+    OPERATOR_EQUALITY,
+    TRANSITIVITY
+  }
 
-    public static List<Violaters> checkForContractViolations() {
+  // Code intended to verify that compareTo() meets its contract.
+  // public static <T extends Comparable<T>> List<T> checkForContractViolations(List<T> inputList) {
+  public static <T> List<Violator> checkForContractViolations(List<T> inputList) {
 
-    // Code intended to verify that Concoction.compareTo() meets its contract.  Since the
-    // concoctions data is in a file and this is an expensive check, in terms of time,
-    // moved out of unit testing to here.
-    Concoction[] ids;
-    int maxIndex;
-    String msg;
+    List<Violator> violators = new ArrayList<>();
+    ArrayList<T> ids = new ArrayList<>(inputList.size());
+    int i;
+    int maxIndex = inputList.size();
     int[][] result;
-    LockableListModel<Concoction> usables = ConcoctionDatabase.getUsables();
-    // size is all elements.  getSize is visible elements.
-    maxIndex = usables.size();
-    ids = new Concoction[maxIndex];
-    int i = 0;
-    for (Concoction con : usables) {
-        ids[i++] = con;
-    }
+    ids.addAll(inputList);
+    ViolationType vt;
     result = new int[maxIndex][maxIndex];
+
+    Object checker = inputList.get(0);
+    Class[] interfaces = checker.getClass().getInterfaces();
+    Object comp = Comparable.class;
+    boolean canCompare = false;
+
+    // Not sure how to enforce that the type must be Comparable
+    for (i = 0; i < interfaces.length; i++) {
+      if (comp == interfaces[i]) {
+        canCompare = true;
+        break;
+      }
+    }
+    if (!canCompare) {
+      return violators;
+    }
+
     for (i = 0; i < maxIndex; ++i) {
-        for (int j = 0; j < maxIndex; ++j) {
-            result[i][j] = sgn(ids[i].compareTo(ids[j]));
-        }
+      Comparable<T> objectThatCanCompare = (Comparable<T>) ids.get(i);
+
+      for (int j = 0; j < maxIndex; ++j) {
+        result[i][j] = sgn(objectThatCanCompare.compareTo(ids.get(j)));
+      }
     }
     // sgn(x.compareTo(y)) == -sgn(y.compareTo(x)
     for (i = 0; i < maxIndex; ++i) {
-        for (int j = 0; j < maxIndex; ++j) {
-            msg =
-                    "Failed comparing (quasi symmetry) "
-                            + getIString(ids[i])
-                            + " and "
-                            + getIString(ids[j]);
-            if (result[i][j] != -result[j][i]) {
-                KoLmafia.updateDisplay(msg);
-            }
+      for (int j = 0; j < maxIndex; ++j) {
+        vt = ViolationType.SYMMETRY;
+        if (result[i][j] != -result[j][i]) {
+          violators.add(new Violator(ids.get(i).toString(), ids.get(j).toString(), vt.name()));
         }
+      }
     }
     // tests the portion of the contract that says (x.compareTo(y)==0) == (x.equals(y))
     for (i = 0; i < maxIndex; ++i) {
-        for (int j = 0; j < maxIndex; ++j) {
-            if (result[i][j] == 0) {
-                msg = "Failed comparing (equality) " + getIString(ids[i]) + " and " + getIString(ids[j]);
-                if (!(ids[i].equals(ids[j]))) {
-                    KoLmafia.updateDisplay(msg);
-                }
-                msg =
-                        "Failed comparing (other equality) "
-                                + getIString(ids[i])
-                                + " and "
-                                + getIString(ids[j]);
-                if (ids[i] != ids[j]) {
-                    KoLmafia.updateDisplay(msg);
-                }
-            }
+      for (int j = 0; j < maxIndex; ++j) {
+        if (result[i][j] == 0) {
+          vt = ViolationType.FUNCTION_EQUALITY;
+          if (!(ids.get(i).equals(ids.get(j)))) {
+            violators.add(new Violator(ids.get(i).toString(), ids.get(j).toString(), vt.name()));
+          }
+
+          vt = ViolationType.OPERATOR_EQUALITY;
+          if (ids.get(i) != ids.get(j)) {
+            violators.add(new Violator(ids.get(i).toString(), ids.get(j).toString(), vt.name()));
+          }
         }
+      }
     }
     // x.compareTo(y)==0 implies that sgn(x.compareTo(z)) == sgn(y.compareTo(z)), for all z.
     for (i = 0; i < maxIndex; ++i) {
-        // Don't have to check whole matrix
-        for (int j = i; j < maxIndex; ++j) {
-            if (result[i][j] == 0) {
-                for (int k = 1; k < maxIndex; ++k) {
-                    msg =
-                            "Failed comparing (transitive)"
-                                    + getIString(ids[i])
-                                    + " and "
-                                    + getIString(ids[j])
-                                    + " and "
-                                    + getIString(ids[k]);
-                    if (result[i][k] != result[j][k]) {
-                        KoLmafia.updateDisplay(msg);
-                    }
-                }
+      // Don't have to check whole matrix
+      for (int j = i; j < maxIndex; ++j) {
+        if (result[i][j] == 0) {
+          for (int k = 1; k < maxIndex; ++k) {
+            vt = ViolationType.TRANSITIVITY;
+            if (result[i][k] != result[j][k]) {
+              violators.add(new Violator(ids.get(i).toString(), ids.get(j).toString(), vt.name()));
             }
+          }
         }
+      }
     }
-}
+    return violators;
+  }
 }
