@@ -50,7 +50,7 @@ public class AshLanguageServerTest {
     }
   }
 
-  AshLanguageServer launchServer(InputStream in, OutputStream out) {
+  protected AshLanguageServer launchServer(InputStream in, OutputStream out) {
     return AshLanguageServer.launch(in, out);
   }
 }

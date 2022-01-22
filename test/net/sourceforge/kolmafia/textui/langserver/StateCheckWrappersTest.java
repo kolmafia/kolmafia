@@ -50,7 +50,7 @@ public class StateCheckWrappersTest extends AshLanguageServerTest {
   }
 
   @Override
-  AshLanguageServer launchServer(InputStream in, OutputStream out) {
+  protected AshLanguageServer launchServer(InputStream in, OutputStream out) {
     final AshLanguageServer server = new AshLanguageServerNotingIgnoredNotifications();
 
     final Launcher<LanguageClient> launcher =
