@@ -4071,7 +4071,8 @@ public class Parser {
     return i;
   }
 
-  private Value parseLiteral(final Type type, final String element, final Location location) {
+  private synchronized Value parseLiteral(
+      final Type type, final String element, final Location location) {
     final ErrorManager literalErrors = new ErrorManager();
 
     Value value = DataTypes.parseValue(type, element, false);
