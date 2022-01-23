@@ -1,9 +1,6 @@
 package net.sourceforge.kolmafia.textui.javascript;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
