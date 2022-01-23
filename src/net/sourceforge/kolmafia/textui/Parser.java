@@ -4143,7 +4143,8 @@ public class Parser {
                     + String.join(KoLConstants.LINE_BREAK, names));
           } else {
             this.warning(
-                location, "Changing \"" + s1 + "\" to \"" + s2 + "\" would get rid of this message.");
+                location,
+                "Changing \"" + s1 + "\" to \"" + s2 + "\" would get rid of this message.");
           }
         }
       }
