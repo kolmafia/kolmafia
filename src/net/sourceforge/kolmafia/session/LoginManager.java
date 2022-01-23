@@ -33,6 +33,9 @@ import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 public class LoginManager {
+
+  private static boolean svnLoginUpdateRunning = false;
+
   public static void login(String username) {
     try {
       KoLmafia.forceContinue();
@@ -43,7 +46,7 @@ public class LoginManager {
     }
   }
 
-  public static final void timein(final String username) {
+  public static void timein(final String username) {
     // Save the current user settings to disk
     Preferences.reset(null);
 
@@ -101,7 +104,9 @@ public class LoginManager {
     }
 
     if (Preferences.getBoolean("svnUpdateOnLogin") && !Preferences.getBoolean("_svnUpdated")) {
+      svnLoginUpdateRunning = true;
       SVNManager.doUpdate();
+      svnLoginUpdateRunning = false;
     }
 
     if (Preferences.getBoolean(username, "getBreakfast")) {
@@ -243,5 +248,9 @@ public class LoginManager {
     String updateText = (holiday.equals("")) ? moonEffect : holiday + ", " + moonEffect;
 
     KoLmafia.updateDisplay(updateText);
+  }
+
+  public static boolean isSvnLoginUpdateRunning() {
+    return svnLoginUpdateRunning;
   }
 }

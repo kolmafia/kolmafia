@@ -18,6 +18,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.ChatFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
@@ -37,7 +38,7 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
   private static KoLDesktop INSTANCE = null;
   private static boolean isInitializing = false;
 
-  private final List<GenericFrame> tabListing = new ArrayList<GenericFrame>();
+  private final List<GenericFrame> tabListing = new ArrayList<>();
 
   public JPanel compactPane;
 
@@ -117,6 +118,7 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
     String interfaceSetting = Preferences.getString("initialDesktop");
     for (String frameName : interfaceSetting.split("\\s*,\\s*")) {
       if (frameName.equals("LocalRelayServer")) {
+        waitForSVNUpdateToFinish();
         RelayLoader.startRelayServer();
         continue;
       }
@@ -131,7 +133,19 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
     KoLDesktop.isInitializing = false;
   }
 
-  public static final boolean isInitializing() {
+  private void waitForSVNUpdateToFinish() {
+    int triesLeft = 10;
+    while ((triesLeft > 0) && !LoginManager.isSvnLoginUpdateRunning()) {
+      try {
+        wait(5000);
+      } catch (InterruptedException e) {
+        continue;
+      }
+      triesLeft--;
+    }
+  }
+
+  public static boolean isInitializing() {
     return KoLDesktop.isInitializing;
   }
 
@@ -164,11 +178,11 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
     super.dispose();
   }
 
-  public static final boolean instanceExists() {
+  public static boolean instanceExists() {
     return KoLDesktop.INSTANCE != null;
   }
 
-  public static final KoLDesktop getInstance() {
+  public static KoLDesktop getInstance() {
     if (KoLDesktop.INSTANCE == null) {
       new KoLDesktop(StaticEntity.getVersion());
       KoLDesktop.INSTANCE.initializeTabs();
@@ -186,7 +200,7 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
     return KoLDesktop.INSTANCE;
   }
 
-  static final void addTab(final GenericFrame content) {
+  static void addTab(final GenericFrame content) {
     if (KoLDesktop.INSTANCE == null) {
       return;
     }
@@ -213,7 +227,7 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
     super.pack();
   }
 
-  static final boolean showComponent(final GenericFrame content) {
+  static boolean showComponent(final GenericFrame content) {
     if (KoLDesktop.INSTANCE == null) {
       return false;
     }
@@ -234,7 +248,7 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
     return true;
   }
 
-  public static final void setTitle(final GenericFrame content, final String newTitle) {
+  public static void setTitle(final GenericFrame content, final String newTitle) {
     if (KoLDesktop.INSTANCE == null) {
       return;
     }
@@ -245,15 +259,15 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
     }
   }
 
-  static final void updateTitle() {
+  static void updateTitle() {
     if (KoLDesktop.INSTANCE != null) {
       KoLDesktop.INSTANCE.setTitle(KoLDesktop.INSTANCE.lastTitle);
     }
 
     Frame[] frames = Frame.getFrames();
-    for (int i = 0; i < frames.length; ++i) {
-      if (frames[i] instanceof GenericFrame) {
-        GenericFrame frame = (GenericFrame) frames[i];
+    for (Frame value : frames) {
+      if (value instanceof GenericFrame) {
+        GenericFrame frame = (GenericFrame) value;
 
         frame.setTitle(frame.getLastTitle());
       }
@@ -343,7 +357,7 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
     return toolbarPanel;
   }
 
-  static final void removeExtraTabs() {
+  static void removeExtraTabs() {
     if (KoLDesktop.INSTANCE == null) {
       return;
     }
@@ -351,7 +365,7 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
     String setting = Preferences.getString("initialDesktop");
     for (int i = 0; i < KoLDesktop.INSTANCE.tabListing.size(); ++i) {
       GenericFrame frame = KoLDesktop.INSTANCE.tabListing.get(i);
-      if (!(frame instanceof ChatFrame) && setting.indexOf(frame.getFrameName()) == -1) {
+      if (!(frame instanceof ChatFrame) && !setting.contains(frame.getFrameName())) {
         frame.dispose();
       }
     }
