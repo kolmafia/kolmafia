@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.textui.parsetree.WhileLoop;
 import net.sourceforge.kolmafia.utilities.ByteArrayStream;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.Location;
 import org.eclipse.lsp4j.Position;
@@ -4070,80 +4071,86 @@ public class Parser {
     return i;
   }
 
+  private static final Object parseLiteralLock = new Object();
+
   private Value parseLiteral(final Type type, final String element, final Location location) {
     final ErrorManager literalErrors = new ErrorManager();
 
-    Value value = DataTypes.parseValue(type, element, false);
-    if (value == null) {
-      if (!type.isBad()) {
-        literalErrors.submitError(
-            this.error(location, "Bad " + type + " value: \"" + element + "\""));
-      }
-
-      return Value.BAD_VALUE;
-    }
-
-    if (!StringUtilities.isNumeric(element)) {
-      String fullName = value.toString();
-      if (!element.equalsIgnoreCase(fullName)) {
-        String s1 =
-            CharacterEntities.escape(
-                StringUtilities.globalStringReplace(element, ",", "\\,")
-                    .replaceAll("(?<= ) ", "\\\\ "));
-        String s2 =
-            CharacterEntities.escape(
-                StringUtilities.globalStringReplace(fullName, ",", "\\,")
-                    .replaceAll("(?<= ) ", "\\\\ "));
-        List<String> names = new ArrayList<>();
-        if (type.equals(DataTypes.ITEM_TYPE)) {
-          int itemId = (int) value.contentLong;
-          String name = ItemDatabase.getItemName(itemId);
-          int[] ids = ItemDatabase.getItemIds(name, 1, false);
-          for (int id : ids) {
-            String s3 = "$item[[" + id + "]" + name + "]";
-            names.add(s3);
-          }
-        } else if (type.equals(DataTypes.EFFECT_TYPE)) {
-          int effectId = (int) value.contentLong;
-          String name = EffectDatabase.getEffectName(effectId);
-          int[] ids = EffectDatabase.getEffectIds(name, false);
-          for (int id : ids) {
-            String s3 = "$effect[[" + id + "]" + name + "]";
-            names.add(s3);
-          }
-        } else if (type.equals(DataTypes.MONSTER_TYPE)) {
-          int monsterId = (int) value.contentLong;
-          String name = MonsterDatabase.findMonsterById(monsterId).getName();
-          int[] ids = MonsterDatabase.getMonsterIds(name, false);
-          for (int id : ids) {
-            String s3 = "$monster[[" + id + "]" + name + "]";
-            names.add(s3);
-          }
-        } else if (type.equals(DataTypes.SKILL_TYPE)) {
-          int skillId = (int) value.contentLong;
-          String name = SkillDatabase.getSkillName(skillId);
-          int[] ids = SkillDatabase.getSkillIds(name, false);
-          for (int id : ids) {
-            String s3 = "$skill[[" + id + "]" + name + "]";
-            names.add(s3);
-          }
+    // Prevent multiple threads from simultaneously accessing and altering static collections
+    synchronized (parseLiteralLock) {
+      Value value = DataTypes.parseValue(type, element, false);
+      if (value == null) {
+        if (!type.isBad()) {
+          literalErrors.submitError(
+              this.error(location, "Bad " + type + " value: \"" + element + "\""));
         }
 
-        if (names.size() > 1) {
-          this.warning(
-              location,
-              "Multiple matches for \"" + s1 + "\"; using \"" + s2 + "\".",
-              "Clarify by using one of:"
-                  + KoLConstants.LINE_BREAK
-                  + String.join(KoLConstants.LINE_BREAK, names));
-        } else {
-          this.warning(
-              location, "Changing \"" + s1 + "\" to \"" + s2 + "\" would get rid of this message.");
+        return Value.BAD_VALUE;
+      }
+
+      if (!StringUtilities.isNumeric(element)) {
+        String fullName = value.toString();
+        if (!element.equalsIgnoreCase(fullName)) {
+          String s1 =
+              CharacterEntities.escape(
+                  StringUtilities.globalStringReplace(element, ",", "\\,")
+                      .replaceAll("(?<= ) ", "\\\\ "));
+          String s2 =
+              CharacterEntities.escape(
+                  StringUtilities.globalStringReplace(fullName, ",", "\\,")
+                      .replaceAll("(?<= ) ", "\\\\ "));
+          List<String> names = new ArrayList<>();
+          if (type.equals(DataTypes.ITEM_TYPE)) {
+            int itemId = (int) value.contentLong;
+            String name = ItemDatabase.getItemName(itemId);
+            int[] ids = ItemDatabase.getItemIds(name, 1, false);
+            for (int id : ids) {
+              String s3 = "$item[[" + id + "]" + name + "]";
+              names.add(s3);
+            }
+          } else if (type.equals(DataTypes.EFFECT_TYPE)) {
+            int effectId = (int) value.contentLong;
+            String name = EffectDatabase.getEffectName(effectId);
+            int[] ids = EffectDatabase.getEffectIds(name, false);
+            for (int id : ids) {
+              String s3 = "$effect[[" + id + "]" + name + "]";
+              names.add(s3);
+            }
+          } else if (type.equals(DataTypes.MONSTER_TYPE)) {
+            int monsterId = (int) value.contentLong;
+            String name = MonsterDatabase.findMonsterById(monsterId).getName();
+            int[] ids = MonsterDatabase.getMonsterIds(name, false);
+            for (int id : ids) {
+              String s3 = "$monster[[" + id + "]" + name + "]";
+              names.add(s3);
+            }
+          } else if (type.equals(DataTypes.SKILL_TYPE)) {
+            int skillId = (int) value.contentLong;
+            String name = SkillDatabase.getSkillName(skillId);
+            int[] ids = SkillDatabase.getSkillIds(name, false);
+            for (int id : ids) {
+              String s3 = "$skill[[" + id + "]" + name + "]";
+              names.add(s3);
+            }
+          }
+
+          if (names.size() > 1) {
+            this.warning(
+                location,
+                "Multiple matches for \"" + s1 + "\"; using \"" + s2 + "\".",
+                "Clarify by using one of:"
+                    + KoLConstants.LINE_BREAK
+                    + String.join(KoLConstants.LINE_BREAK, names));
+          } else {
+            this.warning(
+                location,
+                "Changing \"" + s1 + "\" to \"" + s2 + "\" would get rid of this message.");
+          }
         }
       }
-    }
 
-    return value;
+      return value;
+    }
   }
 
   private Evaluable parseTypedConstant(final BasicScope scope) throws InterruptedException {
@@ -5248,6 +5255,30 @@ public class Parser {
       }
 
       return result.toString();
+    }
+
+    public Diagnostic toLspDiagnostic() {
+      StringBuilder message = new StringBuilder();
+
+      message.append(this.message);
+
+      for (final String additionalMessage : this.additionalMessages) {
+        message.append(KoLConstants.LINE_BREAK);
+        message.append(additionalMessage);
+      }
+
+      final Diagnostic diagnostic =
+          new Diagnostic(
+              this.location.getRange(),
+              message.toString(),
+              this.severity,
+              StaticEntity.getVersion());
+
+      return diagnostic;
+    }
+
+    public final boolean originatesFrom(final Parser parser) {
+      return Parser.this == parser;
     }
   }
 
