@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +30,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.SortedList;
 import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -827,9 +827,8 @@ public class AdventureDatabase {
   }
 
   public static class AdventureArray {
-    private String[] nameArray = new String[0];
-    private final ArrayList<String> nameList = new ArrayList<String>();
-    private final ArrayList<KoLAdventure> internalList = new ArrayList<KoLAdventure>();
+    private final SortedList<String> nameList = new SortedList<>();
+    private final ArrayList<KoLAdventure> internalList = new ArrayList<>();
 
     public KoLAdventure get(final int index) {
       if (index < 0 || index > this.internalList.size()) {
@@ -845,17 +844,12 @@ public class AdventureDatabase {
     }
 
     public KoLAdventure find(String adventureName) {
-      if (nameArray.length != nameList.size()) {
-        nameArray = new String[nameList.size()];
-        nameList.toArray(nameArray);
-        Arrays.sort(nameArray);
-      }
-
-      List<String> matchingNames = StringUtilities.getMatchingNames(nameArray, adventureName);
+      List<String> matchingNames =
+          StringUtilities.getMatchingNames(nameList.toArray(new String[0]), adventureName);
 
       if (matchingNames.size() > 1) {
-        for (int i = 0; i < matchingNames.size(); ++i) {
-          RequestLogger.printLine(matchingNames.get(i));
+        for (String matchingName : matchingNames) {
+          RequestLogger.printLine(matchingName);
         }
 
         KoLmafia.updateDisplay(MafiaState.ERROR, "Multiple matches against " + adventureName + ".");
@@ -864,7 +858,10 @@ public class AdventureDatabase {
 
       if (matchingNames.size() == 1) {
         String match = matchingNames.get(0);
-        return this.get(nameList.indexOf(match));
+        return this.internalList.stream()
+            .filter(k -> match.equals(StringUtilities.getCanonicalName(k.getAdventureName())))
+            .findFirst()
+            .orElse(null);
       }
 
       return null;
