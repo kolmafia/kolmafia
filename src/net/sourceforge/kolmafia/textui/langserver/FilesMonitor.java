@@ -32,7 +32,7 @@ public final class FilesMonitor {
   }
 
   /** Returns the currently existing {@link Script.Handler handler(s)} for the given file. */
-  List<Script.Handler> findHandlers(final File file) {
+  protected List<Script.Handler> findHandlers(final File file) {
     final List<Script.Handler> handlers = new LinkedList<>();
 
     synchronized (this.parent.scripts) {
@@ -40,6 +40,7 @@ public final class FilesMonitor {
         if (script.handler != null
             && script.handler.parser != null
             && script.handler.parser.getImports().containsKey(file)) {
+          // TODO: currently untested, will be tested after server can update scripts' content
           handlers.add(script.handler);
         }
       }
