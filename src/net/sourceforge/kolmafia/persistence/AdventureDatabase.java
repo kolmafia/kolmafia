@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedMap;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -30,7 +32,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.SortedList;
 import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -826,26 +827,16 @@ public class AdventureDatabase {
     return hasWanderers;
   }
 
-  public static class AdventureArray {
-    private final SortedList<String> nameList = new SortedList<>();
-    private final ArrayList<KoLAdventure> internalList = new ArrayList<>();
-
-    public KoLAdventure get(final int index) {
-      if (index < 0 || index > this.internalList.size()) {
-        return null;
-      }
-
-      return this.internalList.get(index);
-    }
+  private static class AdventureArray {
+    private final SortedMap<String, KoLAdventure> internalList = new TreeMap<>();
 
     public void add(final KoLAdventure value) {
-      this.nameList.add(StringUtilities.getCanonicalName(value.getAdventureName()));
-      this.internalList.add(value);
+      this.internalList.put(StringUtilities.getCanonicalName(value.getAdventureName()), value);
     }
 
     public KoLAdventure find(String adventureName) {
-      List<String> matchingNames =
-          StringUtilities.getMatchingNames(nameList.toArray(new String[0]), adventureName);
+      var names = internalList.keySet().toArray(new String[0]);
+      List<String> matchingNames = StringUtilities.getMatchingNames(names, adventureName);
 
       if (matchingNames.size() > 1) {
         for (String matchingName : matchingNames) {
@@ -858,22 +849,14 @@ public class AdventureDatabase {
 
       if (matchingNames.size() == 1) {
         String match = matchingNames.get(0);
-        return this.internalList.stream()
-            .filter(k -> match.equals(StringUtilities.getCanonicalName(k.getAdventureName())))
-            .findFirst()
-            .orElse(null);
+        return this.internalList.get(match);
       }
 
       return null;
     }
 
     public void clear() {
-      this.nameList.clear();
       this.internalList.clear();
-    }
-
-    public int size() {
-      return this.internalList.size();
     }
 
     public boolean isEmpty() {
