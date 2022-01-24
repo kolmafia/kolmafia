@@ -25,7 +25,20 @@ public class Preference {
     };
   }
 
+  public static Matcher<String> hasFloatValue(Matcher<? super Float> prefMatcher) {
+    return new FeatureMatcher<String, Float>(prefMatcher, "preference to be", "preference") {
+      @Override
+      protected Float featureValueOf(String pref) {
+        return Preferences.getFloat(pref);
+      }
+    };
+  }
+
   public static Matcher<String> isSetTo(Object value) {
     return hasValue(equalTo(value.toString()));
+  }
+
+  public static Matcher<String> isSetTo(float value) {
+    return hasFloatValue(equalTo(value));
   }
 }
