@@ -104,9 +104,11 @@ public class LoginManager {
     }
 
     if (Preferences.getBoolean("svnUpdateOnLogin") && !Preferences.getBoolean("_svnUpdated")) {
+      RequestLogger.printLine("Starting SVN");
       svnLoginUpdateRunning = true;
       SVNManager.doUpdate();
       svnLoginUpdateRunning = false;
+      RequestLogger.printLine("Finished SVN");
     }
 
     if (Preferences.getBoolean(username, "getBreakfast")) {

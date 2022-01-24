@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.net.URI;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public class RelayLoader extends Thread {
@@ -36,11 +38,27 @@ public class RelayLoader extends Thread {
     }
   }
 
+  private void waitForSVNUpdateToFinish() {
+    RequestLogger.printLine("waiting");
+    int triesLeft = 10;
+    while ((triesLeft > 0) && !LoginManager.isSvnLoginUpdateRunning()) {
+      try {
+        wait(1000);
+        RequestLogger.printLine("finished waiting");
+      } catch (InterruptedException e) {
+        continue;
+      }
+      triesLeft--;
+    }
+    RequestLogger.printLine("done waiting");
+  }
+
   @Override
   public void run() {
     String location = this.location;
 
     if (location.startsWith("/")) {
+      waitForSVNUpdateToFinish();
       RelayLoader.startRelayServer();
 
       // Wait for 5 seconds before giving up
