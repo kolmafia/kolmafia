@@ -3,8 +3,6 @@ package net.sourceforge.kolmafia.textui.langserver;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Collections;
 import net.sourceforge.kolmafia.KoLConstants;
 import org.eclipse.lsp4j.DiagnosticSeverity;
@@ -60,29 +58,21 @@ public class FilesMonitorTest extends AshLanguageServerTest {
     Mockito.verify(client)
         .publishDiagnostics(
             ArgumentMatchers.argThat(
-                params -> {
-                  try {
-                    return new File(new URI(params.getUri())).equals(badScript)
+                params ->
+                    params.getUri().equals(badScript.toURI().toString())
                         && params.getDiagnostics().stream()
                             .anyMatch(
-                                diagnostic -> diagnostic.getSeverity() == DiagnosticSeverity.Error);
-                  } catch (URISyntaxException e) {
-                    return false;
-                  }
-                }));
+                                diagnostic ->
+                                    diagnostic.getSeverity() == DiagnosticSeverity.Error)));
     Mockito.verify(client)
         .publishDiagnostics(
             ArgumentMatchers.argThat(
-                params -> {
-                  try {
-                    return new File(new URI(params.getUri())).equals(goodScript)
+                params ->
+                    params.getUri().equals(goodScript.toURI().toString())
                         && params.getDiagnostics().stream()
                             .noneMatch(
-                                diagnostic -> diagnostic.getSeverity() == DiagnosticSeverity.Error);
-                  } catch (URISyntaxException e) {
-                    return false;
-                  }
-                }));
+                                diagnostic ->
+                                    diagnostic.getSeverity() == DiagnosticSeverity.Error)));
 
     // ---------- didOpen() test ----------
 
@@ -100,9 +90,8 @@ public class FilesMonitorTest extends AshLanguageServerTest {
     Mockito.verify(client)
         .publishDiagnostics(
             ArgumentMatchers.argThat(
-                params -> {
-                  try {
-                    return new File(new URI(params.getUri())).equals(badScript)
+                params ->
+                    params.getUri().equals(badScript.toURI().toString())
                         && params.getDiagnostics().stream()
                             .anyMatch(
                                 diagnostic ->
@@ -110,22 +99,12 @@ public class FilesMonitorTest extends AshLanguageServerTest {
                                         && diagnostic
                                             .getMessage()
                                             .startsWith(
-                                                "Function 'unknown_function( )' undefined."));
-                  } catch (URISyntaxException e) {
-                    return false;
-                  }
-                }));
+                                                "Function 'unknown_function( )' undefined."))));
     // goodScript was not changed, and so was not updated.
     Mockito.verify(client, Mockito.never())
         .publishDiagnostics(
             ArgumentMatchers.argThat(
-                params -> {
-                  try {
-                    return new File(new URI(params.getUri())).equals(goodScript);
-                  } catch (URISyntaxException e) {
-                    return false;
-                  }
-                }));
+                params -> params.getUri().equals(goodScript.toURI().toString())));
 
     // ---------- didChange() test ----------
 
@@ -145,24 +124,12 @@ public class FilesMonitorTest extends AshLanguageServerTest {
     Mockito.verify(client)
         .publishDiagnostics(
             ArgumentMatchers.argThat(
-                params -> {
-                  try {
-                    return new File(new URI(params.getUri())).equals(badScript);
-                  } catch (URISyntaxException e) {
-                    return false;
-                  }
-                }));
+                params -> params.getUri().equals(badScript.toURI().toString())));
     // goodScript was *imported* by the new badScript, and so *was* updated.
     Mockito.verify(client)
         .publishDiagnostics(
             ArgumentMatchers.argThat(
-                params -> {
-                  try {
-                    return new File(new URI(params.getUri())).equals(goodScript);
-                  } catch (URISyntaxException e) {
-                    return false;
-                  }
-                }));
+                params -> params.getUri().equals(goodScript.toURI().toString())));
 
     // ---------- didChange() test, obsolete version ----------
 
@@ -199,25 +166,15 @@ public class FilesMonitorTest extends AshLanguageServerTest {
     Mockito.verify(client)
         .publishDiagnostics(
             ArgumentMatchers.argThat(
-                params -> {
-                  try {
-                    return new File(new URI(params.getUri())).equals(badScript)
+                params ->
+                    params.getUri().equals(badScript.toURI().toString())
                         && params.getDiagnostics().stream()
                             .anyMatch(
-                                diagnostic -> diagnostic.getSeverity() == DiagnosticSeverity.Error);
-                  } catch (URISyntaxException e) {
-                    return false;
-                  }
-                }));
+                                diagnostic ->
+                                    diagnostic.getSeverity() == DiagnosticSeverity.Error)));
     Mockito.verify(client)
         .publishDiagnostics(
             ArgumentMatchers.argThat(
-                params -> {
-                  try {
-                    return new File(new URI(params.getUri())).equals(goodScript);
-                  } catch (URISyntaxException e) {
-                    return false;
-                  }
-                }));
+                params -> params.getUri().equals(goodScript.toURI().toString())));
   }
 }
