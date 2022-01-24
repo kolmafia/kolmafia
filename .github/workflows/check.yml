@@ -1,7 +1,7 @@
 name: Check
 
 on:
-  pull_request:
+  push:
 
 jobs:
   check:
@@ -47,3 +47,10 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           check_name: "Test Report (${{ matrix.os }})"
           report_paths: "**/build/test-results/test/TEST-*.xml"
+
+      - name: Publish Coverage Report
+        uses: codecov/codecov-action@v2
+        if: always()
+        with:
+          file: ./build/reports/jacoco/test/jacocoTestReport.xml
+
