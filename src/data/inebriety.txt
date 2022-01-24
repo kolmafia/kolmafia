@@ -202,7 +202,7 @@ Doc Clock's thyme cocktail	4	8	EPIC	26-30	20-40	20-40	20-40	-2 Fullness
 Doc's Fortifying Wine	1	1	awesome	4-5	45-60	5-15	5-15	WINE 40 Medically Fortified (+3 Mus stats/fight, +30% Mus)
 Doc's Limbering Wine	1	1	awesome	4-5	5-15	5-15	45-60	WINE 40 Medically Loosened (+3 Mox stats/fight, +30% Mox)
 Doc's Smartifying Wine	1	1	awesome	4-5	5-15	45-60	5-15	WINE 40 Medically Smartified (+3 Mys stats/fight, +30% Mys)
-Doc's Special Reserve Wine	1	1	good	4-5	0	0	0	WINE 40 Fixed Right Up (+3 stats/fight, +15% Mus, +15% Mys, +15% Mox) 
+Doc's Special Reserve Wine	1	1	good	5	25-30	25-30	25-30	WINE 40 Fixed Right Up (+3 stats/fight, +15% Mus, +15% Mys, +15% Mox) 
 Doc's Medical-Grade Wine	1	1	awesome	4-5	20-35	20-35	20-35	WINE 40 Fixed Up (+2 stats/fight, +10% Mus, +10% Mys, +10% Mox)
 double entendre	1	1	awesome	3-5	0	0	0	40 Space Cadet (+50% MP)
 Doublepunchplanter	2	4	awesome	6-7	10-15	10-15	10-15	10 Fishy
