@@ -831,7 +831,8 @@ public class QuestManagerTest {
     assertThat("_saplingsPlanted", isSetTo(0));
   }
 
-  @Test
+  @ParameterizedTest
+  @ValueSource(strings = {"place.php?whichplace=spacegate", "adventure.php?snarfblat=494"})
   void justBeingInSpacegateWithoutPermanentAccessMeansDaypass() {
     assertThat("spacegateAlways", isSetTo(false));
     assertThat("_spacegateToday", isSetTo(false));
@@ -843,7 +844,8 @@ public class QuestManagerTest {
     assertThat("_spacegateToday", isSetTo(true));
   }
 
-  @Test
+  @ParameterizedTest
+  @ValueSource(strings = {"place.php?whichplace=spacegate", "adventure.php?snarfblat=494"})
   void justBeingInSpacegateWithPermanentAccessDoesNotMeanDaypass() {
     Preferences.setBoolean("spacegateAlways", true);
     assertThat("_spacegateToday", isSetTo(false));
