@@ -779,13 +779,28 @@ public class QuestManagerTest {
   }
 
   @Test
-  public void canDetectTrapperStep3InMcLargeHuge() throws IOException {
+  public void canDetectTrapperStep3ViaExtremeInMcLargeHuge() throws IOException {
     Preferences.setInteger("currentExtremity", 3);
+
     var request = new GenericRequest("place.php?whichplace=mclargehuge&action=cloudypeak");
     request.responseText =
         Files.readString(Path.of("request/test_place_mclargehuge_extreme_peak.html"));
     QuestManager.handleQuestChange(request);
+
     assertThat(Quest.TRAPPER, isStep(3));
+    assertThat("currentExtremity", isSetTo(0));
+  }
+
+  @Test
+  public void canDetectTrapperStep3ViaNinjaInMcLargeHuge() throws IOException {
+    Preferences.setInteger("currentExtremity", 2);
+    var request = new GenericRequest("place.php?whichplace=mclargehuge&action=cloudypeak");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_mclargehuge_ninja_peak.html"));
+    QuestManager.handleQuestChange(request);
+
+    assertThat(Quest.TRAPPER, isStep(3));
+    // The player may have partially completed both quests, so we still check this.
     assertThat("currentExtremity", isSetTo(0));
   }
 
