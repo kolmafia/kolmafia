@@ -1,7 +1,7 @@
 name: Check
 
 on:
-  pull_request:
+  push:
 
 jobs:
   check:
@@ -11,6 +11,10 @@ jobs:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
     name: Run Checks
+
+    env:
+      OS: ${{ matrix.os }}
+      JAVA: '17'
 
     steps:
       - name: Checkout repository
@@ -47,3 +51,11 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           check_name: "Test Report (${{ matrix.os }})"
           report_paths: "**/build/test-results/test/TEST-*.xml"
+
+      - name: Publish Coverage Report
+        uses: codecov/codecov-action@v2
+        if: always()
+        with:
+          env_vars: OS,JAVA
+          file: ./build/reports/jacoco/test/jacocoTestReport.xml
+
