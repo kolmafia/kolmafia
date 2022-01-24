@@ -254,7 +254,4 @@ public class LoginManager {
     return svnLoginUpdateRunning;
   }
 
-  public static void setSvnLoginUpdateRunning(boolean newVal) {
-    svnLoginUpdateRunning = newVal;
-  }
 }
