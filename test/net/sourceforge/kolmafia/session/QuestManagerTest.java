@@ -817,8 +817,34 @@ public class QuestManagerTest {
   }
 
   @Test
-  void canParseSpacegate() throws IOException {
-    var request = new GenericRequest("choice.php?forceoption=0");
+  void justBeingInSpacegateWithoutPermanentAccessMeansDaypass() {
+    assertThat("spacegateAlways", isSetTo(false));
+    assertThat("_spacegateToday", isSetTo(false));
+
+    var request = new GenericRequest("place.php?whichplace=spacegate");
+    request.responseText = "anything";
+    QuestManager.handleQuestChange(request);
+
+    assertThat("_spacegateToday", isSetTo(true));
+  }
+
+  @Test
+  void justBeingInSpacegateWithPermanentAccessDoesNotMeanDaypass() {
+    Preferences.setBoolean("spacegateAlways", true);
+    assertThat("_spacegateToday", isSetTo(false));
+
+    var request = new GenericRequest("place.php?whichplace=spacegate");
+    request.responseText = "anything";
+    QuestManager.handleQuestChange(request);
+
+    assertThat("_spacegateToday", isSetTo(false));
+  }
+
+  @ParameterizedTest
+  @ValueSource(
+      strings = {"choice.php?forceoption=0", "place.php?whichplace=spacegate&action=sg_Terminal"})
+  void canParseSpacegateTerminal(String url) throws IOException {
+    var request = new GenericRequest(url);
     request.responseText =
         Files.readString(Path.of("request/test_spacegate_terminal_earddyk.html"));
     QuestManager.handleQuestChange(request);
