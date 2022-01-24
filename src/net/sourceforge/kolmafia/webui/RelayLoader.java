@@ -38,8 +38,8 @@ public class RelayLoader extends Thread {
   }
 
   private void waitForSVNUpdateToFinish() {
+    // This first loop is to wait for LoginManager to start processing updates, if it is going to
     PauseObject pauser = new PauseObject();
-
     for (int i = 0; i < 50 && !RelayServer.isRunning(); ++i) {
       pauser.pause(200);
     }
@@ -90,7 +90,7 @@ public class RelayLoader extends Thread {
     }
   }
 
-  public static final synchronized void startRelayServer() {
+  public static synchronized void startRelayServer() {
     if (RelayServer.isRunning()) {
       return;
     }
@@ -98,12 +98,12 @@ public class RelayLoader extends Thread {
     RelayServer.startThread();
   }
 
-  public static final void openRelayBrowser() {
+  public static void openRelayBrowser() {
     KoLmafia.forceContinue();
     openSystemBrowser("game.php", true);
   }
 
-  public static final void openSystemBrowser(final File file) {
+  public static void openSystemBrowser(final File file) {
     try {
       String location = file.getCanonicalPath();
       RelayLoader.openSystemBrowser("file://" + location, false);
@@ -111,13 +111,13 @@ public class RelayLoader extends Thread {
     }
   }
 
-  public static final void openSystemBrowser(final String location) {
+  public static void openSystemBrowser(final String location) {
     boolean isRelayLocation = !location.startsWith("http://") && !location.startsWith("https://");
 
     RelayLoader.openSystemBrowser(location, isRelayLocation);
   }
 
-  public static final void openSystemBrowser(final String location, boolean isRelayLocation) {
+  public static void openSystemBrowser(final String location, boolean isRelayLocation) {
     new RelayLoader(location, isRelayLocation).start();
   }
 }

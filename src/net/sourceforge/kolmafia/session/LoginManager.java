@@ -253,5 +253,4 @@ public class LoginManager {
   public static boolean isSvnLoginUpdateRunning() {
     return svnLoginUpdateRunning;
   }
-
 }
