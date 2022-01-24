@@ -253,6 +253,7 @@ public class LoginManager {
   public static boolean isSvnLoginUpdateRunning() {
     return svnLoginUpdateRunning;
   }
+
   public static void setSvnLoginUpdateRunning(boolean newVal) {
     svnLoginUpdateRunning = newVal;
   }

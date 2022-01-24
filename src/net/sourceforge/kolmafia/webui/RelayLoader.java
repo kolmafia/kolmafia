@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.net.URI;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 
@@ -46,9 +45,9 @@ public class RelayLoader extends Thread {
     }
     int triesLeft = 10;
     while ((triesLeft > 0) && LoginManager.isSvnLoginUpdateRunning()) {
-        for (int i = 0; i < 50 && !RelayServer.isRunning(); ++i) {
-          pauser.pause(200);
-        }
+      for (int i = 0; i < 50 && !RelayServer.isRunning(); ++i) {
+        pauser.pause(200);
+      }
       triesLeft--;
     }
   }

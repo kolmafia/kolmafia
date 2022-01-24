@@ -53,7 +53,6 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
