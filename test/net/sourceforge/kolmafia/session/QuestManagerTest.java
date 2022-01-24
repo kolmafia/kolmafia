@@ -274,6 +274,29 @@ public class QuestManagerTest {
   }
 
   /*
+   * Pyramid Quest
+   */
+  @Test
+  void canDetectPyramidStartedFromBeach() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=desertbeach&action=db_pyramid1");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_desert_beach_uncover_pyramid.html"));
+    QuestManager.handleQuestChange(request);
+    assertThat(Quest.PYRAMID, isStarted());
+  }
+
+  @Test
+  void canDetectPyramidStep1FromUpperChamber() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=406");
+    request.responseText =
+        Files.readString(
+            Path.of("request/test_adventure_upper_chamber_down_dooby_doo_down_down.html"));
+    QuestManager.handleQuestChange(request);
+    assertThat(Quest.PYRAMID, isStep(1));
+    assertThat("middleChamberUnlock", isSetTo(true));
+  }
+
+  /*
    * Ron Quest
    */
   @Test
