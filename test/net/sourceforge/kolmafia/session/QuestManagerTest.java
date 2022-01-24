@@ -3,6 +3,8 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Player.addItem;
 import static internal.helpers.Player.countItem;
 import static internal.helpers.Player.equip;
+import static internal.helpers.Preference.hasIntegerValue;
+import static internal.helpers.Preference.isSetTo;
 import static internal.helpers.Quest.isFinished;
 import static internal.helpers.Quest.isStarted;
 import static internal.helpers.Quest.isStep;
@@ -10,7 +12,6 @@ import static internal.helpers.Quest.isUnstarted;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -42,11 +43,11 @@ public class QuestManagerTest {
   public void seeingTheIslandMarksItAsUnlocked() throws IOException {
     var ascension = 50;
     KoLCharacter.setAscensions(ascension);
-    assertThat(Preferences.getInteger("lastIslandUnlock"), lessThan(ascension));
+    assertThat("lastIslandUnlock", hasIntegerValue(lessThan(ascension)));
     var request = new GenericRequest("main.php");
     request.responseText = Files.readString(Path.of("request/test_main_island.html"));
     QuestManager.handleQuestChange(request);
-    assertEquals(ascension, Preferences.getInteger("lastIslandUnlock"));
+    assertThat("lastIslandUnlock", isSetTo(ascension));
   }
 
   /*
@@ -191,13 +192,13 @@ public class QuestManagerTest {
   public void canDetectGarbageStep8InCastleBasement() throws IOException {
     var ascension = 50;
     KoLCharacter.setAscensions(ascension);
-    assertThat(Preferences.getInteger("lastCastleGroundUnlock"), lessThan(ascension));
+    assertThat("lastCastleGroundUnlock", hasIntegerValue(lessThan(ascension)));
     var request = new GenericRequest("adventure.php?snarfblat=322");
     request.responseText =
         Files.readString(Path.of("request/test_adventure_castle_basement_unlock_ground.html"));
     QuestManager.handleQuestChange(request);
     assertThat(Quest.GARBAGE, isStep(8));
-    assertEquals(ascension, Preferences.getInteger("lastCastleGroundUnlock"));
+    assertThat("lastCastleGroundUnlock", isSetTo(ascension));
   }
 
   @Test
@@ -212,13 +213,13 @@ public class QuestManagerTest {
   public void canDetectGarbageStep9InCastleFirstFloor() throws IOException {
     var ascension = 50;
     KoLCharacter.setAscensions(ascension);
-    assertThat(Preferences.getInteger("lastCastleTopUnlock"), lessThan(ascension));
+    assertThat("lastCastleTopUnlock", hasIntegerValue(lessThan(ascension)));
     var request = new GenericRequest("adventure.php?snarfblat=323");
     request.responseText =
         Files.readString(Path.of("request/test_adventure_castle_first_top_of_the_castle_ma.html"));
     QuestManager.handleQuestChange(request);
     assertThat(Quest.GARBAGE, isStep(9));
-    assertEquals(ascension, Preferences.getInteger("lastCastleTopUnlock"));
+    assertThat("lastCastleTopUnlock", isSetTo(ascension));
   }
 
   @Test
@@ -385,28 +386,28 @@ public class QuestManagerTest {
   public void canTrackWritingDesksFought() {
     QuestDatabase.setQuest(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED);
     QuestManager.updateQuestData("anything", "writing desk");
-    assertEquals(1, Preferences.getInteger("writingDesksDefeated"));
+    assertThat("writingDesksDefeated", isSetTo(1));
   }
 
   @Test
   public void doesNotTrackWritingDesksFoughtBeforeQuest() {
     QuestDatabase.setQuest(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.UNSTARTED);
     QuestManager.updateQuestData("anything", "writing desk");
-    assertEquals(0, Preferences.getInteger("writingDesksDefeated"));
+    assertThat("writingDesksDefeated", isSetTo(0));
   }
 
   @Test
   public void doesNotTrackWritingDesksFoughtAfterQuest() {
     QuestDatabase.setQuest(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.FINISHED);
     QuestManager.updateQuestData("anything", "writing desk");
-    assertEquals(0, Preferences.getInteger("writingDesksDefeated"));
+    assertThat("writingDesksDefeated", isSetTo(0));
   }
 
   @Test
   public void doesNotTrackWritingDesksFoughtAfterNecklace() {
     addItem(ItemPool.SPOOKYRAVEN_NECKLACE);
     QuestManager.updateQuestData("anything", "writing desk");
-    assertEquals(0, Preferences.getInteger("writingDesksDefeated"));
+    assertThat("writingDesksDefeated", isSetTo(0));
   }
 
   @Test
@@ -433,13 +434,13 @@ public class QuestManagerTest {
   public void justBeingInSpookyravenSecondFloorIsSpookyravenNecklaceFinished() throws IOException {
     var ascension = 50;
     KoLCharacter.setAscensions(ascension);
-    assertThat(Preferences.getInteger("lastSecondFloorUnlock"), lessThan(ascension));
+    assertThat("lastSecondFloorUnlock", hasIntegerValue(lessThan(ascension)));
     var request = new GenericRequest("place.php?whichplace=manor1");
     request.responseText =
         Files.readString(Path.of("request/test_place_spookyraven_second_floor_first_visit.html"));
     QuestManager.handleQuestChange(request);
     assertThat(Quest.SPOOKYRAVEN_NECKLACE, isFinished());
-    assertEquals(ascension, Preferences.getInteger("lastSecondFloorUnlock"));
+    assertThat("lastSecondFloorUnlock", isSetTo(ascension));
   }
 
   /*
@@ -479,28 +480,28 @@ public class QuestManagerTest {
   public void canTrackOilPeakProgressFightingSlick() throws IOException {
     String responseText = Files.readString(Path.of("request/test_fight_oil_slick.html"));
     QuestManager.updateQuestData(responseText, "oil slick");
-    assertEquals(304.32f, Preferences.getFloat("oilPeakProgress"));
+    assertThat("oilPeakProgress", isSetTo(304.32f));
   }
 
   @Test
   public void canTrackOilPeakProgressFightingTycoon() throws IOException {
     String responseText = Files.readString(Path.of("request/test_fight_oil_tycoon.html"));
     QuestManager.updateQuestData(responseText, "oil tycoon");
-    assertEquals(291.64f, Preferences.getFloat("oilPeakProgress"));
+    assertThat("oilPeakProgress", isSetTo(291.64f));
   }
 
   @Test
   public void canTrackOilPeakProgressFightingBaron() throws IOException {
     String responseText = Files.readString(Path.of("request/test_fight_oil_baron.html"));
     QuestManager.updateQuestData(responseText, "oil baron");
-    assertEquals(278.96f, Preferences.getFloat("oilPeakProgress"));
+    assertThat("oilPeakProgress", isSetTo(278.96f));
   }
 
   @Test
   public void canTrackOilPeakProgressFightingCartel() throws IOException {
     String responseText = Files.readString(Path.of("request/test_fight_oil_cartel.html"));
     QuestManager.updateQuestData(responseText, "oil cartel");
-    assertEquals(247.26f, Preferences.getFloat("oilPeakProgress"));
+    assertThat("oilPeakProgress", isSetTo(247.26f));
   }
 
   @Test
@@ -508,7 +509,7 @@ public class QuestManagerTest {
     equip(EquipmentManager.PANTS, "dress pants");
     String responseText = Files.readString(Path.of("request/test_fight_oil_tycoon.html"));
     QuestManager.updateQuestData(responseText, "oil tycoon");
-    assertEquals(285.3f, Preferences.getFloat("oilPeakProgress"));
+    assertThat("oilPeakProgress", isSetTo(285.3f));
   }
 
   @Test
@@ -516,7 +517,7 @@ public class QuestManagerTest {
     String responseText =
         Files.readString(Path.of("request/test_fight_oil_slick_love_oil_beetle_proc.html"));
     QuestManager.updateQuestData(responseText, "oil slick");
-    assertEquals(297.98f, Preferences.getFloat("oilPeakProgress"));
+    assertThat("oilPeakProgress", isSetTo(297.98f));
   }
 
   @Test
@@ -524,9 +525,10 @@ public class QuestManagerTest {
     var request = new GenericRequest("adventure.php?snarfblat=298");
     request.responseText =
         Files.readString(Path.of("request/test_adventure_oil_peak_unimpressed_with_pressure.html"));
+    Files.readString(Path.of("request/test_adventure_oil_peak_unimpressed_with_pressure.html"));
     QuestManager.handleQuestChange(request);
-    assertEquals(0f, Preferences.getFloat("oilPeakProgress"));
-    assertTrue(Preferences.getBoolean("oilPeakLit"));
+    assertThat("oilPeakProgress", isSetTo(0f));
+    assertThat("oilPeakLit", isSetTo(true));
   }
 
   @Test
@@ -535,8 +537,8 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_place_highlands_oil_peak_lit.html"));
     QuestManager.handleQuestChange(request);
-    assertEquals(0f, Preferences.getFloat("oilPeakProgress"));
-    assertTrue(Preferences.getBoolean("oilPeakLit"));
+    assertThat("oilPeakProgress", isSetTo(0f));
+    assertThat("oilPeakLit", isSetTo(true));
   }
 
   @ParameterizedTest
@@ -548,9 +550,9 @@ public class QuestManagerTest {
         "Space Tourist Explorer Ghost",
         "Whatsian Commando Ghost"
       })
-  public void canTrackBooPeakProgress(String monsterName) throws IOException {
+  public void canTrackBooPeakProgress(String monsterName) {
     QuestManager.updateQuestData("anything", monsterName);
-    assertEquals(98, Preferences.getInteger("booPeakProgress"));
+    assertThat("booPeakProgress", isSetTo(98));
   }
 
   @Test
@@ -559,8 +561,8 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_adventure_boo_peak_come_on_ghostly.html"));
     QuestManager.handleQuestChange(request);
-    assertEquals(0, Preferences.getInteger("booPeakProgress"));
-    assertTrue(Preferences.getBoolean("booPeakLit"));
+    assertThat("booPeakProgress", isSetTo(0));
+    assertThat("booPeakLit", isSetTo(true));
   }
 
   @Test
@@ -569,8 +571,8 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_place_highlands_boo_peak_lit.html"));
     QuestManager.handleQuestChange(request);
-    assertEquals(0, Preferences.getInteger("booPeakProgress"));
-    assertTrue(Preferences.getBoolean("booPeakLit"));
+    assertThat("booPeakProgress", isSetTo(0));
+    assertThat("booPeakLit", isSetTo(true));
   }
 
   @Test
@@ -579,7 +581,7 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_place_highlands_all_fires_lit.html"));
     QuestManager.handleQuestChange(request);
-    assertEquals(15, Preferences.getInteger("twinPeakProgress"));
+    assertThat("twinPeakProgress", isSetTo(15));
     assertThat(Quest.TOPPING, isStep(3));
   }
 
@@ -621,7 +623,7 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_adventure_extreme_slope_" + nonCombat + ".html"));
     QuestManager.handleQuestChange(request);
-    assertEquals(1, Preferences.getInteger("currentExtremity"));
+    assertThat("currentExtremity", isSetTo(1));
   }
 
   @Test
@@ -632,7 +634,7 @@ public class QuestManagerTest {
         Files.readString(Path.of("request/test_place_mclargehuge_extreme_peak.html"));
     QuestManager.handleQuestChange(request);
     assertThat(Quest.TRAPPER, isStep(3));
-    assertEquals(0, Preferences.getInteger("currentExtremity"));
+    assertThat("currentExtremity", isSetTo(0));
   }
 
   @Test
@@ -649,7 +651,7 @@ public class QuestManagerTest {
     var request = new GenericRequest("adventure.php?snarfblat=174");
     request.responseText = "anything";
     QuestManager.handleQuestChange(request);
-    assertEquals(1, Preferences.getInteger("_saplingsPlanted"));
+    assertThat("_saplingsPlanted", isSetTo(1));
   }
 
   @ParameterizedTest
@@ -659,7 +661,7 @@ public class QuestManagerTest {
     request.responseText =
         Files.readString(Path.of("request/test_adventure_arrrboretum_" + nonCombat + ".html"));
     QuestManager.handleQuestChange(request);
-    assertEquals(0, Preferences.getInteger("_saplingsPlanted"));
+    assertThat("_saplingsPlanted", isSetTo(0));
   }
 
   @Test
@@ -669,16 +671,16 @@ public class QuestManagerTest {
         Files.readString(Path.of("request/test_spacegate_terminal_earddyk.html"));
     QuestManager.handleQuestChange(request);
 
-    assertEquals("Diverticulus Isaacson IX", Preferences.getString("_spacegatePlanetName"));
-    assertEquals("EARDDYK", Preferences.getString("_spacegateCoordinates"));
-    assertEquals(4, Preferences.getInteger("_spacegatePlanetIndex"));
-    assertEquals("high winds", Preferences.getString("_spacegateHazards"));
-    assertEquals("primitive", Preferences.getString("_spacegatePlantLife"));
-    assertEquals("primitive (hostile)", Preferences.getString("_spacegateAnimalLife"));
-    assertEquals("none detected", Preferences.getString("_spacegateIntelligentLife"));
-    assertEquals(false, Preferences.getBoolean("_spacegateSpant"));
-    assertEquals(false, Preferences.getBoolean("_spacegateMurderbot"));
-    assertEquals(false, Preferences.getBoolean("_spacegateRuins"));
-    assertEquals(20, Preferences.getInteger("_spacegateTurnsLeft"));
+    assertThat("_spacegatePlanetName", isSetTo("Diverticulus Isaacson IX"));
+    assertThat("_spacegateCoordinates", isSetTo("EARDDYK"));
+    assertThat("_spacegatePlanetIndex", isSetTo(4));
+    assertThat("_spacegateHazards", isSetTo("high winds"));
+    assertThat("_spacegatePlantLife", isSetTo("primitive"));
+    assertThat("_spacegateAnimalLife", isSetTo("primitive (hostile)"));
+    assertThat("_spacegateIntelligentLife", isSetTo("none detected"));
+    assertThat("_spacegateSpant", isSetTo(false));
+    assertThat("_spacegateMurderbot", isSetTo(false));
+    assertThat("_spacegateRuins", isSetTo(false));
+    assertThat("_spacegateTurnsLeft", isSetTo(20));
   }
 }
