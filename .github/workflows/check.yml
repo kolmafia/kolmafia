@@ -12,6 +12,10 @@ jobs:
 
     name: Run Checks
 
+    env:
+      OS: ${{ matrix.os }}
+      JAVA: '17'
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -52,5 +56,6 @@ jobs:
         uses: codecov/codecov-action@v2
         if: always()
         with:
+          env_vars: OS,JAVA
           file: ./build/reports/jacoco/test/jacocoTestReport.xml
 
