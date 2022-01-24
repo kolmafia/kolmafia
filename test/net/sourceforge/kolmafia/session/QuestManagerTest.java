@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -286,14 +287,142 @@ public class QuestManagerTest {
   }
 
   @Test
+  void justBeingInPyramidIsPyramidStarted() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=pyramid");
+    request.responseText = Files.readString(Path.of("request/test_place_pyramid_first_visit.html"));
+    QuestManager.handleQuestChange(request);
+
+    assertThat(Quest.PYRAMID, isStarted());
+  }
+
+  @Test
   void canDetectPyramidStep1FromUpperChamber() throws IOException {
     var request = new GenericRequest("adventure.php?snarfblat=406");
     request.responseText =
         Files.readString(
             Path.of("request/test_adventure_upper_chamber_down_dooby_doo_down_down.html"));
     QuestManager.handleQuestChange(request);
+
     assertThat(Quest.PYRAMID, isStep(1));
     assertThat("middleChamberUnlock", isSetTo(true));
+  }
+
+  @Test
+  void justBeingInMiddleChamberIsPyramidStep1() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=407");
+    request.responseText = "anything";
+    QuestManager.handleQuestChange(request);
+
+    assertThat(Quest.PYRAMID, isStep(1));
+    assertThat("middleChamberUnlock", isSetTo(true));
+  }
+
+  @Test
+  void canDetectPyramidStep1FromPyramid() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=pyramid");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_pyramid_unlocked_middle_chamber.html"));
+    QuestManager.handleQuestChange(request);
+
+    assertThat(Quest.PYRAMID, isStep(1));
+    assertThat("middleChamberUnlock", isSetTo(true));
+    assertThat("lowerChamberUnlock", isSetTo(false));
+    assertThat("controlRoomUnlock", isSetTo(false));
+  }
+
+  @Test
+  void canDetectPyramidStep2FromMiddleChamber() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=407");
+    request.responseText =
+        Files.readString(
+            Path.of("request/test_adventure_middle_chamber_further_down_dooby_doo_down_down.html"));
+    QuestManager.handleQuestChange(request);
+
+    assertThat(Quest.PYRAMID, isStep(2));
+    assertThat("lowerChamberUnlock", isSetTo(true));
+  }
+
+  @Test
+  void canDetectPyramidStep2FromPyramid() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=pyramid");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_pyramid_unlocked_lower_chamber.html"));
+    QuestManager.handleQuestChange(request);
+
+    assertThat(Quest.PYRAMID, isStep(2));
+    assertThat("middleChamberUnlock", isSetTo(true));
+    assertThat("lowerChamberUnlock", isSetTo(true));
+    assertThat("controlRoomUnlock", isSetTo(false));
+  }
+
+  @Test
+  void canDetectPyramidStep3FromMiddleChamber() throws IOException {
+    var request = new GenericRequest("adventure.php?snarfblat=407");
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_middle_chamber_under_control.html"));
+    QuestManager.handleQuestChange(request);
+
+    assertThat(Quest.PYRAMID, isStep(3));
+    assertThat("controlRoomUnlock", isSetTo(true));
+    assertThat("pyramidPosition", isSetTo(1));
+  }
+
+  @Test
+  void canDetectPyramidStep3FromPyramid() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=pyramid");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_pyramid_unlocked_control_room.html"));
+    QuestManager.handleQuestChange(request);
+
+    assertThat(Quest.PYRAMID, isStep(3));
+    assertThat("middleChamberUnlock", isSetTo(true));
+    assertThat("lowerChamberUnlock", isSetTo(true));
+    assertThat("controlRoomUnlock", isSetTo(true));
+  }
+
+  private static Map<String, Integer> PYRAMID_POSITIONS =
+      Map.ofEntries(
+          Map.entry("basket", 4),
+          Map.entry("first_visit", 1),
+          Map.entry("rats_and_basket", 2),
+          Map.entry("rubble_and_vending_machine", 3),
+          Map.entry("vending_machine_and_rats", 5));
+
+  @ParameterizedTest
+  @ValueSource(
+      strings = {
+        "basket",
+        "first_visit",
+        "rats_and_basket",
+        "rubble_and_vending_machine",
+        "vending_machine_and_rats"
+      })
+  void canDetectPyramidPositionFromPyramid(String pyramidState) throws IOException {
+    var request = new GenericRequest("place.php?whichplace=pyramid");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_pyramid_" + pyramidState + ".html"));
+    QuestManager.handleQuestChange(request);
+
+    assertThat("pyramidPosition", isSetTo(PYRAMID_POSITIONS.get(pyramidState)));
+  }
+
+  @Test
+  void canDetectPyramidBombUsedFromPyramidAction() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=pyramid&action=pyramid_state1");
+    request.responseText = Files.readString(Path.of("request/test_place_pyramid_bomb_rubble.html"));
+    QuestManager.handleQuestChange(request);
+
+    assertThat("pyramidBombUsed", isSetTo(true));
+  }
+
+  @Test
+  void canDetectPyramidBombUsedFromPyramid() throws IOException {
+    var request = new GenericRequest("place.php?whichplace=pyramid");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_pyramid_unlocked_tomb.html"));
+    QuestManager.handleQuestChange(request);
+
+    assertThat("pyramidBombUsed", isSetTo(true));
   }
 
   /*
