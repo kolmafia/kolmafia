@@ -23,11 +23,7 @@ public class SVNCommand extends AbstractCommand {
   public void run(final String cmd, final String parameters) {
     if (parameters.trim().equals("update")) {
       // user wants to update everything
-      RequestLogger.printLine("Starting SVN in SVN Command");
-      LoginManager.setSvnLoginUpdateRunning(true);
       SVNManager.doUpdate();
-      LoginManager.setSvnLoginUpdateRunning(false);
-      RequestLogger.printLine("Finished SVN in SVN Command");
       return;
     }
 

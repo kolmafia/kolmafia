@@ -1054,12 +1054,8 @@ public class ShowDescriptionTable<E> extends JXTable {
             new Runnable() {
               @Override
               public void run() {
-                RequestLogger.printLine("Starting SVN in SDT");
-                LoginManager.setSvnLoginUpdateRunning(true);
                 SVNManager.doUpdate();
                 ScriptManager.updateInstalledScripts();
-                LoginManager.setSvnLoginUpdateRunning(false);
-                RequestLogger.printLine("Finished SVN in SDT");
               }
             });
       } else {

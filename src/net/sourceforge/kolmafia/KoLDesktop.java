@@ -18,7 +18,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.ChatFrame;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
@@ -118,7 +117,6 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
     String interfaceSetting = Preferences.getString("initialDesktop");
     for (String frameName : interfaceSetting.split("\\s*,\\s*")) {
       if (frameName.equals("LocalRelayServer")) {
-        waitForSVNUpdateToFinish();
         RelayLoader.startRelayServer();
         continue;
       }
@@ -131,23 +129,6 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
     this.tabs.addChangeListener(new TabFocusingListener());
 
     KoLDesktop.isInitializing = false;
-  }
-
-  private void waitForSVNUpdateToFinish() {
-    RequestLogger.printLine("waiting");
-    int triesLeft = 10;
-    RequestLogger.printLine(triesLeft + " " + LoginManager.isSvnLoginUpdateRunning());
-    while ((triesLeft > 0) && LoginManager.isSvnLoginUpdateRunning()) {
-      try {
-        RequestLogger.printLine(triesLeft + " " + LoginManager.isSvnLoginUpdateRunning());
-        wait(5000);
-        RequestLogger.printLine("finished waiting");
-      } catch (InterruptedException e) {
-        continue;
-      }
-      triesLeft--;
-    }
-    RequestLogger.printLine("done");
   }
 
   public static boolean isInitializing() {

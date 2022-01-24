@@ -39,25 +39,18 @@ public class RelayLoader extends Thread {
   }
 
   private void waitForSVNUpdateToFinish() {
-    RequestLogger.printLine("waiting in relayLoader");
     PauseObject pauser = new PauseObject();
 
-    for (int i = 0; i < 100 && !RelayServer.isRunning(); ++i) {
+    for (int i = 0; i < 50 && !RelayServer.isRunning(); ++i) {
       pauser.pause(200);
     }
     int triesLeft = 10;
-    RequestLogger.printLine(triesLeft + " " + LoginManager.isSvnLoginUpdateRunning());
     while ((triesLeft > 0) && LoginManager.isSvnLoginUpdateRunning()) {
-      try {
-        RequestLogger.printLine(triesLeft + " " + LoginManager.isSvnLoginUpdateRunning());
-        wait(5000);
-        RequestLogger.printLine("finished waiting");
-      } catch (InterruptedException e) {
-        continue;
-      }
+        for (int i = 0; i < 50 && !RelayServer.isRunning(); ++i) {
+          pauser.pause(200);
+        }
       triesLeft--;
     }
-    RequestLogger.printLine("done");
   }
 
   @Override
