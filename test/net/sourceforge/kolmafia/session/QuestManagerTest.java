@@ -810,6 +810,23 @@ public class QuestManagerTest {
     assertThat(Quest.TRAPPER, isStep(4));
   }
 
+  @Test
+  public void canDetectTrapperFinishedInMcLargeHuge() throws IOException {
+    var ascension = 50;
+    KoLCharacter.setAscensions(ascension);
+    addItem("groar's fur");
+    assertThat("lastTr4pz0rQuest", hasIntegerValue(lessThan(ascension)));
+
+    var request = new GenericRequest("place.php?whichplace=mclargehuge&action=trappercabin");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_mclargehuge_trapper_give_fur.html"));
+    QuestManager.handleQuestChange(request);
+
+    assertThat("lastTr4pz0rQuest", isSetTo(ascension));
+    assertThat(Quest.TRAPPER, isFinished());
+    assertEquals(0, countItem("groar's fur"));
+  }
+
   /*
    * Non-Quest Related
    */
