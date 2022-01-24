@@ -41,6 +41,11 @@ public class FilesMonitorTest extends AshLanguageServerTest {
 
   @Test
   public void filesMonitorTest() {
+    // Note: this test is actually 5 tests at once. This was preferred to having 5 different tests
+    // because of how each relies on the state of the server at the end of the previous one, and
+    // making 5 different tests would require doing everything from the previous tests again,
+    // stacking the waiting time from each of them.
+
     Assertions.assertTrue(
         badScript.exists() && goodScript.exists(),
         "This test is currently based on the existence of test_function_coercion_override_builtin.ash and test_function_coercion.ash. If removing them, please update this test.");
