@@ -7,7 +7,7 @@ import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 
 public class Preference {
-  public static Matcher<String> hasValue(Matcher<? super String> prefMatcher) {
+  public static Matcher<String> hasStringValue(Matcher<? super String> prefMatcher) {
     return new FeatureMatcher<String, String>(prefMatcher, "preference to be", "preference") {
       @Override
       protected String featureValueOf(String pref) {
@@ -35,7 +35,7 @@ public class Preference {
   }
 
   public static Matcher<String> isSetTo(Object value) {
-    return hasValue(equalTo(value.toString()));
+    return hasStringValue(equalTo(value.toString()));
   }
 
   public static Matcher<String> isSetTo(float value) {
