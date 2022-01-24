@@ -7,6 +7,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.persistence.ScriptManager;
+import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.svn.SVNManager;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
@@ -21,7 +23,11 @@ public class SVNCommand extends AbstractCommand {
   public void run(final String cmd, final String parameters) {
     if (parameters.trim().equals("update")) {
       // user wants to update everything
+      RequestLogger.printLine("Starting SVN in SVN Command");
+      LoginManager.setSvnLoginUpdateRunning(true);
       SVNManager.doUpdate();
+      LoginManager.setSvnLoginUpdateRunning(false);
+      RequestLogger.printLine("Finished SVN in SVN Command");
       return;
     }
 

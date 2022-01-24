@@ -136,8 +136,10 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
   private void waitForSVNUpdateToFinish() {
     RequestLogger.printLine("waiting");
     int triesLeft = 10;
-    while ((triesLeft > 0) && !LoginManager.isSvnLoginUpdateRunning()) {
+    RequestLogger.printLine(triesLeft + " " + LoginManager.isSvnLoginUpdateRunning());
+    while ((triesLeft > 0) && LoginManager.isSvnLoginUpdateRunning()) {
       try {
+        RequestLogger.printLine(triesLeft + " " + LoginManager.isSvnLoginUpdateRunning());
         wait(5000);
         RequestLogger.printLine("finished waiting");
       } catch (InterruptedException e) {

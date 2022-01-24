@@ -33,13 +33,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
-import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.CreateFrameRunnable;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.MonsterData;
-import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.MoodTrigger;
@@ -59,6 +53,7 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
@@ -1059,8 +1054,12 @@ public class ShowDescriptionTable<E> extends JXTable {
             new Runnable() {
               @Override
               public void run() {
+                RequestLogger.printLine("Starting SVN in SDT");
+                LoginManager.setSvnLoginUpdateRunning(true);
                 SVNManager.doUpdate();
                 ScriptManager.updateInstalledScripts();
+                LoginManager.setSvnLoginUpdateRunning(false);
+                RequestLogger.printLine("Finished SVN in SDT");
               }
             });
       } else {
