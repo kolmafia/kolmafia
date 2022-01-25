@@ -71,7 +71,7 @@ public class QuarkCommand extends AbstractCommand implements Comparator<Adventur
       return;
     }
 
-    Collections.sort(usables, this);
+    usables.sort(this);
     if (KoLmafiaCLI.isExecutingCheckOnlyCommand) {
       RequestLogger.printLine(usables.get(0).toString());
       return;

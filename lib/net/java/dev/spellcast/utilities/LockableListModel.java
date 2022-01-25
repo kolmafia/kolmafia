@@ -160,8 +160,8 @@ public class LockableListModel<E>
 		synchronized ( this.actualElements )
 		{
 			Comparator<E> comparator = this.comparator != null ? this.comparator : c;
-			Collections.sort( this.actualElements, comparator );
-			Collections.sort( this.visibleElements, comparator );
+			this.actualElements.sort(comparator);
+			this.visibleElements.sort(comparator);
 			this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
 
 			Iterator<WeakReference<LockableListModel<E>>> it = this.mirrorList.iterator();
@@ -175,7 +175,7 @@ public class LockableListModel<E>
 
 				// If the mirror has a comparator assigned to it, always use that
 				comparator = mirror.comparator != null ? mirror.comparator : c;
-				Collections.sort( mirror.visibleElements, comparator );
+				mirror.visibleElements.sort(comparator);
 				mirror.fireContentsChanged( this, 0, mirror.visibleElements.size() - 1 );
 			}
 		}

@@ -200,7 +200,7 @@ public class BuffBotDatabase {
       }
     }
 
-    Collections.sort(completeList, String.CASE_INSENSITIVE_ORDER);
+    completeList.sort(String.CASE_INSENSITIVE_ORDER);
     completeList.add(0, "");
 
     return completeList.toArray(new String[0]);

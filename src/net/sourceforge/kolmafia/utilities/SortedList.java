@@ -79,7 +79,7 @@ public class SortedList<E extends Comparable<E>> extends ArrayList<E> {
   @Override
   public void sort(final Comparator<? super E> c) {
     synchronized (this) {
-      Collections.sort(this, c);
+      this.sort(c);
     }
   }
 

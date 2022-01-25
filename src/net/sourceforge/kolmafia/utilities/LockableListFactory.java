@@ -126,7 +126,7 @@ public class LockableListFactory {
         ((SortedList<?>) l).sort();
       } else {
         synchronized (l) {
-          Collections.sort(l, null);
+          l.sort(null);
         }
       }
     }

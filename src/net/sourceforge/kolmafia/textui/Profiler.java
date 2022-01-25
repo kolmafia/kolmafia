@@ -56,26 +56,22 @@ public class Profiler {
 
     buff.append("<br>");
 
-    Collections.sort(
-        list,
-        new Comparator<Profiler>() {
-          @Override
-          public int compare(Profiler left, Profiler right) {
-            return (int) Math.signum(right.total - left.total);
-          }
-        });
+    list.sort(new Comparator<Profiler>() {
+      @Override
+      public int compare(Profiler left, Profiler right) {
+        return (int) Math.signum(right.total - left.total);
+      }
+    });
     Profiler.addTable(buff, list, "(sorted by total time)");
 
     buff.append("<br>");
 
-    Collections.sort(
-        list,
-        new Comparator<Profiler>() {
-          @Override
-          public int compare(Profiler left, Profiler right) {
-            return (int) Math.signum(right.net - left.net);
-          }
-        });
+    list.sort(new Comparator<Profiler>() {
+      @Override
+      public int compare(Profiler left, Profiler right) {
+        return (int) Math.signum(right.net - left.net);
+      }
+    });
     Profiler.addTable(buff, list, "(sorted by net time)");
 
     buff.append("<br>");

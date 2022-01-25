@@ -1160,7 +1160,7 @@ public class ShowDescriptionTable<E> extends JXTable {
       }
     }
 
-    Collections.sort(sortCols, arrayComparator);
+    sortCols.sort(arrayComparator);
 
     // Now, go through and set visibility. The comparator sorts things in descending order, so the
     // first
