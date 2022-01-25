@@ -18,8 +18,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -28,6 +30,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class QuestManagerTest {
@@ -353,7 +357,7 @@ public class QuestManagerTest {
   }
 
   @Test
-  void justBeingInMiddleChamberIsPyramidStep1() throws IOException {
+  void justBeingInMiddleChamberIsPyramidStep1() {
     var request = new GenericRequest("adventure.php?snarfblat=407");
     request.responseText = "anything";
     QuestManager.handleQuestChange(request);
@@ -425,7 +429,7 @@ public class QuestManagerTest {
     assertThat("controlRoomUnlock", isSetTo(true));
   }
 
-  private static Map<String, Integer> PYRAMID_POSITIONS =
+  private static final Map<String, Integer> PYRAMID_POSITIONS =
       Map.ofEntries(
           Map.entry("basket", 4),
           Map.entry("first_visit", 1),
@@ -875,6 +879,10 @@ public class QuestManagerTest {
   /*
    * Non-Quest Related
    */
+
+  /*
+   * Arrrbor Day
+   */
   @Test
   void tracksArrrborDaySaplingsPlanted() {
     var request = new GenericRequest("adventure.php?snarfblat=174");
@@ -893,6 +901,198 @@ public class QuestManagerTest {
     assertThat("_saplingsPlanted", isSetTo(0));
   }
 
+  /*
+   * Airport
+   */
+  private static Stream<Arguments> provideAirportsAndZones() {
+    return Stream.of(
+        Arguments.of(
+            "cold",
+            new int[] {AdventurePool.ICE_HOTEL, AdventurePool.VYKEA, AdventurePool.ICE_HOLE}),
+        Arguments.of(
+            "hot",
+            new int[] {
+              AdventurePool.SMOOCH_ARMY_HQ,
+              AdventurePool.VELVET_GOLD_MINE,
+              AdventurePool.LAVACO_LAMP_FACTORY,
+              AdventurePool.BUBBLIN_CALDERA
+            }),
+        Arguments.of(
+            "sleaze",
+            new int[] {
+              AdventurePool.SLOPPY_SECONDS_DINER, AdventurePool.FUN_GUY_MANSION, AdventurePool.YACHT
+            }),
+        Arguments.of(
+            "spooky",
+            new int[] {
+              AdventurePool.DR_WEIRDEAUX,
+              AdventurePool.SECRET_GOVERNMENT_LAB,
+              AdventurePool.DEEP_DARK_JUNGLE
+            }),
+        Arguments.of(
+            "stench",
+            new int[] {
+              AdventurePool.BARF_MOUNTAIN,
+              AdventurePool.GARBAGE_BARGES,
+              AdventurePool.TOXIC_TEACUPS,
+              AdventurePool.LIQUID_WASTE_SLUICE
+            }));
+  }
+
+  @ParameterizedTest
+  @MethodSource("provideAirportsAndZones")
+  void canParseAFullAirport(String element, int[] zones) throws IOException {
+    assertThat(element + "AirportAlways", isSetTo(false));
+    assertThat("_" + element + "AirportToday", isSetTo(false));
+
+    var request = new GenericRequest("place.php?whichplace=airport");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_airport_all_charters.html"));
+    QuestManager.handleQuestChange(request);
+
+    assertThat("_" + element + "AirportToday", isSetTo(true));
+  }
+
+  @ParameterizedTest
+  @MethodSource("provideAirportsAndZones")
+  void justBeingInAirportLocationWithoutPermanentAccessMeansDaypass(
+      String element, int[] snarfblats) {
+    assertThat(element + "AirportAlways", isSetTo(false));
+    assertThat("_" + element + "AirportToday", isSetTo(false));
+
+    var request = new GenericRequest("adventure.php?snarfblat=" + snarfblats[0]);
+    request.responseText = "anything";
+    QuestManager.handleQuestChange(request);
+
+    assertThat(element, "_" + element + "AirportToday", isSetTo(true));
+  }
+
+  @ParameterizedTest
+  @MethodSource("provideAirportsAndZones")
+  void justBeingInAirportLocationWithPermanentAccessDoesNotMeanDaypass(
+      String element, int[] snarfblats) {
+    Preferences.setBoolean(element + "AirportAlways", true);
+    assertThat(element, "_" + element + "AirportToday", isSetTo(false));
+
+    for (int snarfblat : snarfblats) {
+      var request = new GenericRequest("adventure.php?snarfblat=" + snarfblat);
+      request.responseText = "anything";
+      QuestManager.handleQuestChange(request);
+    }
+
+    assertThat("_" + element + "AirportToday", isSetTo(false));
+  }
+
+  @ParameterizedTest
+  @MethodSource("provideAirportsAndZones")
+  void beingDeniedAccessToAirportLocationDoesNotMeanDaypass(String element, int[] snarfblats)
+      throws IOException {
+    assertThat(element + "AirportAlways", isSetTo(false));
+    assertThat("_" + element + "AirportToday", isSetTo(false));
+
+    var request = new GenericRequest("adventure.php?snarfblat=" + snarfblats[0]);
+    request.responseText =
+        Files.readString(Path.of("request/test_adventure_that_isnt_a_place.html"));
+    QuestManager.handleQuestChange(request);
+
+    assertThat(element, "_" + element + "AirportToday", isSetTo(false));
+  }
+
+  @Test
+  void canDetectUnlockingArmoryInSpookyBunker() throws IOException {
+    addItem("armory keycard");
+    assertThat("armoryUnlocked", isSetTo(false));
+    assertThat("canteenUnlocked", isSetTo(false));
+    assertThat("SHAWARMAInitiativeUnlocked", isSetTo(false));
+
+    var request =
+        new GenericRequest("place.php?whichplace=airport_spooky_bunker&action=si_shop3locked");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_airport_spooky_bunker_unlocking_armory.html"));
+    QuestManager.handleQuestChange(request);
+
+    assertEquals(0, countItem("armory keycard"));
+    assertThat("armoryUnlocked", isSetTo(true));
+    assertThat("canteenUnlocked", isSetTo(false));
+    assertThat("SHAWARMAInitiativeUnlocked", isSetTo(false));
+  }
+
+  @Test
+  void canDetectUnlockingCanteenInSpookyBunker() throws IOException {
+    addItem("bottle-opener keycard");
+    assertThat("armoryUnlocked", isSetTo(false));
+    assertThat("canteenUnlocked", isSetTo(false));
+    assertThat("SHAWARMAInitiativeUnlocked", isSetTo(false));
+
+    var request =
+        new GenericRequest("place.php?whichplace=airport_spooky_bunker&action=si_shop2locked");
+    request.responseText =
+        Files.readString(
+            Path.of("request/test_place_airport_spooky_bunker_unlocking_canteen.html"));
+    QuestManager.handleQuestChange(request);
+
+    assertEquals(0, countItem("bottle-opener keycard"));
+    assertThat("armoryUnlocked", isSetTo(false));
+    assertThat("canteenUnlocked", isSetTo(true));
+    assertThat("SHAWARMAInitiativeUnlocked", isSetTo(false));
+  }
+
+  @Test
+  void canDetectUnlockingShawarmaInSpookyBunker() throws IOException {
+    addItem("SHAWARMA Initiative Keycard");
+    assertThat("armoryUnlocked", isSetTo(false));
+    assertThat("canteenUnlocked", isSetTo(false));
+    assertThat("SHAWARMAInitiativeUnlocked", isSetTo(false));
+
+    var request =
+        new GenericRequest("place.php?whichplace=airport_spooky_bunker&action=si_shop1locked");
+    request.responseText =
+        Files.readString(
+            Path.of("request/test_place_airport_spooky_bunker_unlocking_shawarma.html"));
+    QuestManager.handleQuestChange(request);
+
+    assertEquals(0, countItem("SHAWARMA Initiative keycard"));
+    assertThat("armoryUnlocked", isSetTo(false));
+    assertThat("canteenUnlocked", isSetTo(false));
+    assertThat("SHAWARMAInitiativeUnlocked", isSetTo(true));
+  }
+
+  @Test
+  void canDetectEverythingUnlockedInSpookyBunker() throws IOException {
+    assertThat("armoryUnlocked", isSetTo(false));
+    assertThat("canteenUnlocked", isSetTo(false));
+    assertThat("SHAWARMAInitiativeUnlocked", isSetTo(false));
+
+    var request = new GenericRequest("place.php?whichplace=airport_spooky_bunker");
+    request.responseText =
+        Files.readString(
+            Path.of("request/test_place_airport_spooky_bunker_everything_unlocked.html"));
+    QuestManager.handleQuestChange(request);
+
+    assertThat("armoryUnlocked", isSetTo(true));
+    assertThat("canteenUnlocked", isSetTo(true));
+    assertThat("SHAWARMAInitiativeUnlocked", isSetTo(true));
+  }
+
+  @Test
+  void canDetectNothingUnlockedInSpookyBunker() throws IOException {
+    Preferences.setBoolean("armoryUnlocked", true);
+    Preferences.setBoolean("canteenUnlocked", true);
+    Preferences.setBoolean("SHAWARMAInitiativeUnlocked", true);
+
+    var request = new GenericRequest("place.php?whichplace=airport_spooky_bunker");
+    request.responseText =
+        Files.readString(Path.of("request/test_place_airport_spooky_bunker_nothing_unlocked.html"));
+    QuestManager.handleQuestChange(request);
+
+    assertThat("armoryUnlocked", isSetTo(false));
+    assertThat("canteenUnlocked", isSetTo(false));
+    assertThat("SHAWARMAInitiativeUnlocked", isSetTo(false));
+  }
+
+  /*
+   * Spacegate
+   */
   @ParameterizedTest
   @ValueSource(strings = {"place.php?whichplace=spacegate", "adventure.php?snarfblat=494"})
   void justBeingInSpacegateWithoutPermanentAccessMeansDaypass() {

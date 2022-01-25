@@ -36,6 +36,8 @@ public class LoginManager {
 
   private static boolean svnLoginUpdateRunning = false;
 
+  private LoginManager() {}
+
   public static void login(String username) {
     try {
       KoLmafia.forceContinue();

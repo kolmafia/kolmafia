@@ -30,6 +30,8 @@ import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 public class InputFieldUtilities {
   private static GenericFrame activeWindow = null;
 
+  private InputFieldUtilities() {}
+
   public static void setActiveWindow(GenericFrame activeWindow) {
     InputFieldUtilities.activeWindow = activeWindow;
   }

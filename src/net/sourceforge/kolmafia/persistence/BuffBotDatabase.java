@@ -43,6 +43,8 @@ public class BuffBotDatabase {
   private static final TreeMap<String, LockableListModel<Offering>> freeOfferings =
       new TreeMap<String, LockableListModel<Offering>>();
 
+  private BuffBotDatabase() {}
+
   public static final long getOffering(String name, final long amount) {
     // If you have no idea what the names present in
     // the database are, go ahead and refresh it.

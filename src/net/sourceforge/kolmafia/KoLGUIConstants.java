@@ -171,4 +171,6 @@ public class KoLGUIConstants {
           put("Vuesion", "com.formdev.flatlaf.intellijthemes.FlatVuesionIJTheme");
         }
       };
+
+  private KoLGUIConstants() {}
 }

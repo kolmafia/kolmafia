@@ -219,6 +219,8 @@ public class DataTypes {
     }
   }
 
+  private DataTypes() {}
+
   // For each simple data type X, we supply:
   // public static final ScriptValue parseXValue( String name );
 

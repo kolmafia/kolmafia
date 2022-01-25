@@ -48,6 +48,8 @@ public class TavernManager {
 
   private static int overrideSquare = -1;
 
+  private TavernManager() {}
+
   public static int exploreTavern() {
     return TavernManager.exploreTavern(TavernManager.EXPLORE);
   }

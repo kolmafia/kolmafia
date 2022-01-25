@@ -19,4 +19,6 @@ public class OutfitPool {
   public static final int MUTANT_COUTURE = 49;
   public static final int DWARVISH_UNIFORM = 50;
   public static final int LEGENDARY_PASTA_REGALIA = 66;
+
+  private OutfitPool() {}
 }

@@ -35,6 +35,8 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TCRSDatabase {
+  private TCRSDatabase() {}
+
   // Item attributes that vary by class/sign in a Two Random Crazy Summer run
   public static class TCRS {
     public final String name;

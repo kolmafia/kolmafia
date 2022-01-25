@@ -31,6 +31,8 @@ public class BountyDatabase {
     BountyDatabase.reset();
   }
 
+  private BountyDatabase() {}
+
   public static void reset() {
     BountyDatabase.bountyNames.clear();
     BountyDatabase.bountyByPlural.clear();

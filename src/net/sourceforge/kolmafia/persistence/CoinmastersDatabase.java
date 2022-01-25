@@ -43,6 +43,8 @@ public class CoinmastersDatabase {
   // Map from String -> Map from Integer -> Integer
   public static final Map<String, Map<Integer, Integer>> itemRows = new TreeMap<>();
 
+  private CoinmastersDatabase() {}
+
   public static final LockableListModel<AdventureResult> getItems(final String key) {
     return CoinmastersDatabase.items.get(key);
   }

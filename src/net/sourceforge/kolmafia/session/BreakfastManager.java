@@ -82,6 +82,8 @@ public class BreakfastManager {
 
   private static final AdventureResult VIP_LOUNGE_KEY = ItemPool.get(ItemPool.VIP_LOUNGE_KEY, 1);
 
+  private BreakfastManager() {}
+
   public static void getBreakfast(final boolean runComplete) {
     String limitmode = KoLCharacter.getLimitmode();
     if (limitmode != null) {

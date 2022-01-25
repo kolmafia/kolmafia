@@ -51,6 +51,8 @@ public class HaciendaManager {
     "expensive cigar"
   };
 
+  private HaciendaManager() {}
+
   public static void parseRoom(final int lastChoice, final int lastDecision, final String text) {
     String haciendaLayout = Preferences.getString("haciendaLayout");
     StringBuffer newLayout = new StringBuffer(haciendaLayout);

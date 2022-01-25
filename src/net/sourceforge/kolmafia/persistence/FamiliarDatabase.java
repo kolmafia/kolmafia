@@ -85,6 +85,8 @@ public class FamiliarDatabase {
     FamiliarDatabase.reset();
   }
 
+  private FamiliarDatabase() {}
+
   public static void reset() {
     FamiliarDatabase.newFamiliars = false;
 
