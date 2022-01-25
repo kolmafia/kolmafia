@@ -872,35 +872,33 @@ public class QuestManager {
     if (location.contains("whichplace=airport_spooky_bunker")) {
       if (responseText.contains("action=si_shop1locked")) {
         Preferences.setBoolean("SHAWARMAInitiativeUnlocked", false);
+      } else if (responseText.contains("whichshop=si_shop1")) {
+        Preferences.setBoolean("SHAWARMAInitiativeUnlocked", true);
       }
+
       if (responseText.contains("action=si_shop2locked")) {
         Preferences.setBoolean("canteenUnlocked", false);
+      } else if (responseText.contains("whichshop=si_shop2")) {
+        Preferences.setBoolean("canteenUnlocked", true);
       }
+
       if (responseText.contains("action=si_shop3locked")) {
         Preferences.setBoolean("armoryUnlocked", false);
-      }
-      if (responseText.contains("whichshop=si_shop1")) {
-        Preferences.setBoolean("SHAWARMAInitiativeUnlocked", true);
-      }
-      if (responseText.contains("whichshop=si_shop2")) {
-        Preferences.setBoolean("canteenUnlocked", true);
-      }
-      if (responseText.contains("whichshop=si_shop3")) {
+      } else if (responseText.contains("whichshop=si_shop3")) {
         Preferences.setBoolean("armoryUnlocked", true);
       }
-      if (responseText.contains(
-          "find the door to the secret government sandwich shop and use the keycard")) {
-        Preferences.setBoolean("SHAWARMAInitiativeUnlocked", true);
-        ResultProcessor.removeItem(ItemPool.SHAWARMA_KEYCARD);
-      }
-      if (responseText.contains(
-          "find a door with a bottle-shaped icon on it, zip the keycard through the reader")) {
-        Preferences.setBoolean("canteenUnlocked", true);
-        ResultProcessor.removeItem(ItemPool.BOTTLE_OPENER_KEYCARD);
-      }
+
       if (responseText.contains("insert the keycard and the door slides open")) {
-        Preferences.setBoolean("armoryUnlocked", true);
-        ResultProcessor.removeItem(ItemPool.ARMORY_KEYCARD);
+        if (location.contains("action=si_shop1locked")) {
+          Preferences.setBoolean("SHAWARMAInitiativeUnlocked", true);
+          ResultProcessor.removeItem(ItemPool.SHAWARMA_KEYCARD);
+        } else if (location.contains("action=si_shop2locked")) {
+          Preferences.setBoolean("canteenUnlocked", true);
+          ResultProcessor.removeItem(ItemPool.BOTTLE_OPENER_KEYCARD);
+        } else if (location.contains("action=si_shop3locked")) {
+          Preferences.setBoolean("armoryUnlocked", true);
+          ResultProcessor.removeItem(ItemPool.ARMORY_KEYCARD);
+        }
       }
     }
     return;
