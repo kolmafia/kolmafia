@@ -405,11 +405,7 @@ public class ApiRequest extends GenericRequest {
     List<String> owned = Arrays.asList(coolItems.split(","));
 
     PREF_TO_COOL_ITEM
-        .entrySet()
-        .forEach(
-            e -> {
-              Preferences.setBoolean(e.getKey(), owned.contains(e.getValue()));
-            });
+            .forEach((pref, coolItem) -> Preferences.setBoolean(pref, owned.contains(coolItem)));
   }
 
   public static final void parseInventory(final String responseText) {

@@ -95,7 +95,7 @@ public final class CrystalBallManager {
     List<String> predictions =
         CrystalBallManager.predictions.values().stream()
             .sorted()
-            .map(p -> p.toString())
+            .map(Prediction::toString)
             .collect(Collectors.toList());
 
     Preferences.setString("crystalBallPredictions", String.join("|", predictions));

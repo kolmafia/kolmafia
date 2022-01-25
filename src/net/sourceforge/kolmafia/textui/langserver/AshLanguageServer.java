@@ -86,9 +86,7 @@ public abstract class AshLanguageServer implements LanguageClientAware, Language
     this.clientCapabilities = params.getCapabilities();
 
     this.executor.execute(
-        () -> {
-          this.monitor.scan();
-        });
+            this.monitor::scan);
 
     return CompletableFuture.supplyAsync(
         () -> {

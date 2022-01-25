@@ -38,9 +38,7 @@ public final class Script {
     this.handler = new Handler();
 
     this.parent.executor.execute(
-        () -> {
-          this.handler.parseFile();
-        });
+        () -> this.handler.parseFile());
 
     return this.handler;
   }
@@ -80,9 +78,7 @@ public final class Script {
 
         // If we managed to parse it without interruption, send the diagnostics
         Script.this.parent.executor.execute(
-            () -> {
-              this.sendDiagnostics();
-            });
+                this::sendDiagnostics);
       } catch (InterruptedException e) {
       } finally {
         synchronized (this.parserSwapLock) {
