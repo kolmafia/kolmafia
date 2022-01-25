@@ -9363,7 +9363,7 @@ public abstract class RuntimeLibrary {
             ScrapPocket sp = (ScrapPocket) p;
             Map<Integer, String> knownScraps = CargoCultistShortsRequest.knownScrapPockets();
             String syllable =
-                knownScraps.containsKey(sp.getPocket()) ? knownScraps.get(sp.getPocket()) : "";
+                    knownScraps.getOrDefault(sp.getPocket(), "");
             value.aset(new Value(sp.getScrap()), new Value(syllable));
             break;
           }
