@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.utilities;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -126,7 +125,7 @@ public class LockableListFactory {
         ((SortedList<?>) l).sort();
       } else {
         synchronized (l) {
-          Collections.sort(l, null);
+          l.sort(null);
         }
       }
     }

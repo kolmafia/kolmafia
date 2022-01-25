@@ -278,7 +278,7 @@ public class Value implements TypedNode, Comparable<Value> {
         || this.getType().equals(DataTypes.SLOT_TYPE)
         || this.getType().equals(DataTypes.THRALL_TYPE)
         || this.getType().equals(DataTypes.SERVANT_TYPE)) {
-      return this.contentLong < o.contentLong ? -1 : this.contentLong == o.contentLong ? 0 : 1;
+      return Long.compare(this.contentLong, o.contentLong);
     }
 
     if (this.getType().equals(DataTypes.VYKEA_TYPE)) {
@@ -296,7 +296,7 @@ public class Value implements TypedNode, Comparable<Value> {
     if (this.getType().equals(DataTypes.MONSTER_TYPE)) {
       // If we know a monster ID, compare it
       if (this.contentLong != 0 || o.contentLong != 0) {
-        return this.contentLong < o.contentLong ? -1 : this.contentLong == o.contentLong ? 0 : 1;
+        return Long.compare(this.contentLong, o.contentLong);
       }
       // Otherwise, must compare names
     }

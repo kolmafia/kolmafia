@@ -82,10 +82,7 @@ public final class Script {
         this.scope = this.parser.parse();
 
         // If we managed to parse it without interruption, send the diagnostics
-        Script.this.parent.executor.execute(
-            () -> {
-              this.sendDiagnostics();
-            });
+        Script.this.parent.executor.execute(this::sendDiagnostics);
       } catch (InterruptedException e) {
       } finally {
         synchronized (this.parserSwapLock) {

@@ -483,12 +483,7 @@ public class GenericRequest implements Runnable {
 
     if (!allowDuplicates) {
       synchronized (this.data) {
-        Iterator<String> it = this.data.iterator();
-        while (it.hasNext()) {
-          if (it.next().startsWith(encodedName)) {
-            it.remove();
-          }
-        }
+        this.data.removeIf(s -> s.startsWith(encodedName));
       }
     }
 
@@ -717,12 +712,7 @@ public class GenericRequest implements Runnable {
     String encodedName = name + "=";
 
     synchronized (this.data) {
-      Iterator<String> it = this.data.iterator();
-      while (it.hasNext()) {
-        if (it.next().startsWith(encodedName)) {
-          it.remove();
-        }
-      }
+      this.data.removeIf(s -> s.startsWith(encodedName));
     }
   }
 

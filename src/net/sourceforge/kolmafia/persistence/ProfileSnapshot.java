@@ -183,7 +183,7 @@ public class ProfileSnapshot {
       StaticEntity.printStackTrace(e);
     }
 
-    return compareValue < 0 ? -1 : compareValue > 0 ? 1 : 0;
+    return Integer.compare(compareValue, 0);
   }
 
   public static final String getStandardData(final boolean localProfileLink) {
