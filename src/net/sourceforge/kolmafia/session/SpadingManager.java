@@ -12,6 +12,8 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class SpadingManager {
+  private SpadingManager() {}
+
   public enum SpadingEvent {
     COMBAT_ROUND,
     CHOICE_VISIT,

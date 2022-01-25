@@ -126,6 +126,8 @@ public class ItemDatabase {
   private static final List<String> ACCESS =
       Arrays.asList(QUEST_FLAG, GIFT_FLAG, TRADE_FLAG, DISCARD_FLAG);
 
+  private ItemDatabase() {}
+
   private static String parseAccess(final String data) {
     if (data.equals("")) {
       return data;

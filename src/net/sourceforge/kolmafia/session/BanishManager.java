@@ -16,6 +16,8 @@ public class BanishManager {
   private static final ArrayList<BanishedMonster> banishedMonsters =
       new ArrayList<BanishedMonster>();
 
+  private BanishManager() {}
+
   private enum Reset {
     TURN_RESET,
     TURN_ROLLOVER_RESET,

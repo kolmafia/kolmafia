@@ -261,4 +261,6 @@ public class AdventurePool {
   public static final String ELDRITCH_HORROR_ID = "town_eicfight2";
   public static final int SITE_ALPHA_DORMITORY = 554;
   public static final int SITE_ALPHA_GREENHOUSE = 555;
+
+  private AdventurePool() {}
 }

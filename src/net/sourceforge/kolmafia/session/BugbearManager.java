@@ -6,6 +6,8 @@ import net.sourceforge.kolmafia.session.EncounterManager.Encounter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BugbearManager {
+  private BugbearManager() {}
+
   public static void resetStatus() {
     Preferences.setInteger("statusEngineering", 0);
     Preferences.setInteger("statusGalley", 0);

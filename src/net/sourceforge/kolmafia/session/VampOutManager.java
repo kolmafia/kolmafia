@@ -51,6 +51,8 @@ public class VampOutManager {
   private static final String TORREMOLINOS = "Torremolinos";
   private static final String VENTRILO = "Ventrilo";
 
+  private VampOutManager() {}
+
   public static final String autoVampOut(
       int vampOutGoal, final int stepCount, final String responseText) {
     vampOutGoal = vampOutGoal - 1;

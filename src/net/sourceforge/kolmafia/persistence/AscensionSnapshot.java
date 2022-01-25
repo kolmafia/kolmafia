@@ -35,6 +35,8 @@ public class AscensionSnapshot {
 
   private static final Pattern LINK_PATTERN = Pattern.compile("</?a[^>]+>");
 
+  private AscensionSnapshot() {}
+
   public static final void clearCache() {
     // First, initialize all of the lists and
     // arrays which are used by the request.

@@ -32,6 +32,8 @@ public class CandyDatabase {
   public static AdventureResult[] foodCandies = null;
   public static AdventureResult[] otherCandies = null;
 
+  private CandyDatabase() {}
+
   public static void categorizeCandies() {
     if (potionCandies != null && foodCandies != null && otherCandies != null) {
       return;

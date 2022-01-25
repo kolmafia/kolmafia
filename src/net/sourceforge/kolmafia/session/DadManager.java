@@ -21,6 +21,8 @@ public class DadManager {
           "You shake your head and look above the tank, at the window into space. *([^ ]+) forms ([^ ]+) in the darkness, each more ([^ ]+) than the last. *(?:The )?([^ ]+) ([^,]+), ([^ ]+) revealing (\\d+)-dimensional monstrosities..*?No. *Look again. *There is nothing. *(?:Is|Are) your (.+?) betraying you\\? *As if on cue, (\\d+)-sided triangles materialize and then disappear. *So impossible that your ([^ ]+) throbs.",
           Pattern.DOTALL);
 
+  private DadManager() {}
+
   public enum Element {
     NONE,
     HOT,

@@ -59,6 +59,8 @@ public class QuestManager {
   private static final Pattern DJ_MEAT_PATTERN = Pattern.compile("collect (.*?) Meat for the DJ");
   private static final Pattern TRASH_PATTERN = Pattern.compile("you clean up (\\d+) ");
 
+  private QuestManager() {}
+
   public static final void handleQuestChange(GenericRequest request) {
     // Certain location-specific quest changes are noticed by
     // simply adventuring in a location. Get the location.

@@ -215,6 +215,8 @@ public class FlaggedItems {
     "club necklace",
   };
 
+  private FlaggedItems() {}
+
   private static void initializeList(final List<AdventureResult> model, final String[] defaults) {
     model.clear();
     AdventureResult item;

@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.combat;
 
 public class CombatUtilities {
+  private CombatUtilities() {}
+
   public static final float hitChance(
       final int attack, final int defense, final float critical, final float fumble) {
     // The +d10-d10 in the Hit Chance formula means the distribution is not linear.
