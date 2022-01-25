@@ -51,7 +51,7 @@ public final class CrystalBallManager {
     @Override
     public int compareTo(final Prediction o) {
       if (this.turnCount != o.turnCount) {
-        return Integer.valueOf(this.turnCount).compareTo(o.turnCount);
+        return Integer.compare(this.turnCount, o.turnCount);
       }
 
       return this.location.compareTo(o.location);
