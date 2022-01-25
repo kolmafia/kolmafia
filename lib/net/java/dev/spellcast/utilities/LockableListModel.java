@@ -679,14 +679,7 @@ public class LockableListModel<E>
 		{
 			int originalSize = this.actualElements.size();
 
-			Iterator it = this.iterator();
-			while ( it.hasNext() )
-			{
-				if ( !c.contains( it.next() ) )
-				{
-					it.remove();
-				}
-			}
+          this.removeIf(o -> !c.contains(o));
 
 			return originalSize != this.actualElements.size();
 		}

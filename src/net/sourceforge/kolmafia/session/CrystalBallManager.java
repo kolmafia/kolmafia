@@ -140,15 +140,8 @@ public final class CrystalBallManager {
 
     String lastAdventureName = KoLAdventure.lastLocationName;
 
-    final Iterator<Prediction> it = CrystalBallManager.predictions.values().iterator();
-    while (it.hasNext()) {
-      Prediction prediction = it.next();
-
-      if (!prediction.location.equals(lastAdventureName)
-          && prediction.turnCount + 2 <= KoLCharacter.getCurrentRun()) {
-        it.remove();
-      }
-    }
+    CrystalBallManager.predictions.values().removeIf(prediction -> !prediction.location.equals(lastAdventureName)
+            && prediction.turnCount + 2 <= KoLCharacter.getCurrentRun());
 
     updatePreference();
   }

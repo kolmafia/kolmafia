@@ -190,14 +190,7 @@ public class CoinmastersDatabase {
 
   public static final void clearPurchaseRequests(CoinmasterData data) {
     // Clear all purchase requests for a particular Coin Master
-    Iterator<CoinMasterPurchaseRequest> it =
-        CoinmastersDatabase.COINMASTER_ITEMS.values().iterator();
-    while (it.hasNext()) {
-      CoinMasterPurchaseRequest request = it.next();
-      if (request.getData() == data) {
-        it.remove();
-      }
-    }
+    CoinmastersDatabase.COINMASTER_ITEMS.values().removeIf(request -> request.getData() == data);
   }
 
   public static final void registerPurchaseRequest(

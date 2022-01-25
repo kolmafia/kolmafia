@@ -1424,13 +1424,7 @@ public class DwarfFactoryRequest extends GenericRequest {
       int low = roll.charAt(7) - '0';
       int val = (high * 7) + low;
 
-      Iterator<String> it = this.permutations.iterator();
-      while (it.hasNext()) {
-        String permutation = it.next();
-        if (!this.validPermutation(permutation, d1, d2, d3, d4, val)) {
-          it.remove();
-        }
-      }
+      this.permutations.removeIf(permutation -> !this.validPermutation(permutation, d1, d2, d3, d4, val));
     }
 
     private boolean validPermutation(
