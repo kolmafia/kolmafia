@@ -249,5 +249,4 @@ public class FilesMonitorTest extends AshLanguageServerTest {
     // An encoded URI would read "file://%20a%20b.ash"
     Assertions.assertEquals(new File("/ a b.ash"), FilesMonitor.UriToFile("file:// a b.ash"));
   }
-
 }
