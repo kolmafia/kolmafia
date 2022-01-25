@@ -246,7 +246,15 @@ public class FilesMonitorTest extends AshLanguageServerTest {
 
   @Test
   public void UriToFileNonEncoded() {
-    // An encoded URI would read "file://%20a%20b.ash"
-    Assertions.assertEquals(new File("/ a b.ash"), FilesMonitor.UriToFile("file:// a b.ash"));
+    StringBuilder uri = new StringBuilder("file:/");
+
+    if (!System.getProperty("os.name").toLowerCase().contains("win")) {
+      uri.append('/');
+    }
+
+    // An encoded URI would read "%20a%20b.ash"
+    uri.append(" a b.ash");
+
+    Assertions.assertEquals(new File("/ a b.ash"), FilesMonitor.UriToFile(uri.toString()));
   }
 }
