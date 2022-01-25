@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.maximizer;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 
@@ -17,24 +16,12 @@ public class LetterBonus {
 
     Pattern letterPattern = Pattern.compile(letter, Pattern.CASE_INSENSITIVE);
 
-    int letters = 0;
-    Matcher matcher = letterPattern.matcher(item.getName());
-    while (matcher.find()) {
-      letters++;
-    }
-
-    return letters;
+    return letterPattern.matcher(item.getName()).results().count();
   }
 
   static double numberBonus(AdventureResult item) {
     if (item == null) return 0;
 
-    int numbers = 0;
-    Matcher matcher = NUMBER_PATTERN.matcher(item.getName());
-    while (matcher.find()) {
-      numbers++;
-    }
-
-    return numbers;
+    return NUMBER_PATTERN.matcher(item.getName()).results().count();
   }
 }

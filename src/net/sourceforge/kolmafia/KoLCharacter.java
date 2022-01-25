@@ -2363,14 +2363,7 @@ public abstract class KoLCharacter {
   private static final Pattern B_PATTERN = Pattern.compile("[Bb]");
 
   public static final int getBeeosity(String name) {
-    int bees = 0;
-
-    Matcher bMatcher = KoLCharacter.B_PATTERN.matcher(name);
-    while (bMatcher.find()) {
-      bees++;
-    }
-
-    return bees;
+    return (int) KoLCharacter.B_PATTERN.matcher(name).results().count();
   }
 
   public static final boolean hasBeeosity(String name) {
