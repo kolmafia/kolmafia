@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.Set;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -35,6 +36,50 @@ public class QuestManagerTest {
     KoLCharacter.reset("QuestManager");
     Preferences.reset("QuestManager");
     KoLConstants.inventory.clear();
+  }
+
+  /*
+   * Council
+   */
+  @Test
+  public void canParseABigBusyCouncilPage() throws IOException {
+    var request = new GenericRequest("council.php");
+    request.responseText =
+        Files.readString(Path.of("request/test_council_first_visit_level_13.html"));
+    QuestManager.handleQuestChange(request);
+
+    Set<Quest> started =
+        Set.of(
+            Quest.BAT,
+            Quest.BLACK,
+            Quest.CYRPT,
+            Quest.FRIAR,
+            Quest.GARBAGE,
+            Quest.GOBLIN,
+            Quest.ISLAND_WAR,
+            Quest.LARVA,
+            Quest.MACGUFFIN,
+            Quest.TOPPING,
+            Quest.TRAPPER);
+
+    for (Quest quest : Quest.councilQuests()) {
+      assertThat(
+          "Status of " + quest.name() + " quest",
+          quest,
+          started.contains(quest) ? isStarted() : isUnstarted());
+    }
+  }
+
+  @Test
+  public void canParseLarvaReturn() throws IOException {
+    addItem("mosquito larva");
+
+    var request = new GenericRequest("council.php");
+    request.responseText = Files.readString(Path.of("request/test_council_hand_in_larva.html"));
+    QuestManager.handleQuestChange(request);
+
+    assertThat(Quest.LARVA, isFinished());
+    assertThat(countItem("enchanted bean"), is(0));
   }
 
   /*
