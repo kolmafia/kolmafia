@@ -39,7 +39,10 @@ public final class Script {
 
     this.parent.executor.execute(
         () -> {
-          this.handler.parseFile();
+          // Check in case the handler is closed before we're ran
+          if (this.handler != null) {
+            this.handler.parseFile();
+          }
         });
 
     return this.handler;
