@@ -60,8 +60,10 @@ public class CampAwayRequest extends PlaceRequest {
   public static final void parseResponse(final String urlString, final String responseText) {
     String action = GenericRequest.getAction(urlString);
 
-    // Nothing more to do for a simple visit
+    // Nothing more to do for a simple visit other than update ownership info
     if (action == null) {
+      Preferences.setBoolean(
+          "getawayCampsiteUnlocked", responseText.contains("campaway/campawaybg.gif"));
       return;
     }
 
