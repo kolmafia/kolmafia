@@ -52,6 +52,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
@@ -210,14 +211,7 @@ public class DataUtilities
 
 		try
 		{
-			if ( encoding != null )
-			{
-				reader = new InputStreamReader( istream, encoding );
-			}
-			else
-			{
-				reader = new InputStreamReader( istream, "UTF-8" );
-			}
+			reader = new InputStreamReader(istream, Objects.requireNonNullElse(encoding, "UTF-8"));
 		}
 		catch ( Exception e )
 		{
