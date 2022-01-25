@@ -22,15 +22,18 @@ public class ForLoopTest {
         invalid(
             "For loop, no/bad initial expression",
             "for x from",
-            "Expression for initial value expected"),
+            "Expression for initial value expected",
+            "char 11"),
         invalid(
             "For loop, no/bad ceiling expression",
             "for x from 0 to",
-            "Expression for floor/ceiling value expected"),
+            "Expression for floor/ceiling value expected",
+            "char 16"),
         invalid(
             "For loop, no/bad increment expression",
             "for x from 0 to 1 by",
-            "Expression for increment value expected"),
+            "Expression for increment value expected",
+            "char 21"),
         valid(
             "for-from-to",
             "for i from 1 to 10000;",
@@ -86,18 +89,25 @@ public class ForLoopTest {
         invalid(
             "for with reserved index",
             "for int from 1 upto 10;",
-            "Reserved word 'int' cannot be an index variable"),
+            "Reserved word 'int' cannot be an index variable name",
+            "char 5 to char 8"),
         invalid(
             "for with existing index",
             // Oddly, this is unsupported, when other for loops will create
             // a nested scope.
             "int i; for i from 1 upto 10;",
-            "Index variable 'i' is already defined"),
-        invalid("for without from", "for i in range(10):\n  print(i)", "Expected from, found in"),
+            "Index variable 'i' is already defined",
+            "char 12 to char 13"),
+        invalid(
+            "for without from",
+            "for i in range(10):\n  print(i)",
+            "Expected from, found in",
+            "char 7 to char 9"),
         invalid(
             "for with invalid dest keyword",
             "for i from 1 until 10;",
-            "Expected to, upto, or downto, found until"));
+            "Expected to, upto, or downto, found until",
+            "char 14 to char 19"));
   }
 
   @ParameterizedTest

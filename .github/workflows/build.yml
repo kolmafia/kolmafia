@@ -5,6 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: build-and-tag-release
+
 jobs:
   bin:
     if: github.repository == 'kolmafia/kolmafia'
@@ -105,5 +108,6 @@ jobs:
             releases/*.dmg
           tag_name: r${{ env.KOLMAFIA_VERSION }}
           name: ${{ env.KOLMAFIA_VERSION }}
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

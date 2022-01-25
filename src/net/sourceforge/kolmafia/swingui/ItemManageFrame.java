@@ -52,7 +52,6 @@ import net.sourceforge.kolmafia.swingui.panel.UseItemPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
-import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
 import net.sourceforge.kolmafia.textui.command.AutoMallCommand;
 import net.sourceforge.kolmafia.textui.command.CleanupJunkRequest;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -213,18 +212,14 @@ public class ItemManageFrame extends GenericFrame {
           s = s.substring(3);
         }
         builder.append(s).append("|");
-        builder.append(
-            ((ShowDescriptionTable) ((InventoryPanel<?>) comp).scrollComponent)
-                .collectHeaderStates());
+        builder.append(((InventoryPanel<?>) comp).scrollComponent.collectHeaderStates());
       } else if (comp instanceof RestorativeItemPanel) {
         String s = ItemManageFrame.selectorPanel.panelNames.get(i).toString();
         if (s.startsWith(" - ")) {
           s = s.substring(3);
         }
         builder.append(s).append("|");
-        builder.append(
-            ((ShowDescriptionTable) ((RestorativeItemPanel) comp).scrollComponent)
-                .collectHeaderStates());
+        builder.append(((RestorativeItemPanel) comp).scrollComponent.collectHeaderStates());
       }
     }
 
@@ -262,15 +257,14 @@ public class ItemManageFrame extends GenericFrame {
 
           if (s.contains(panelName)) {
             // set the header states.
-            ((ShowDescriptionTable) ((InventoryPanel<?>) comp).scrollComponent).setHeaderStates(it);
+            ((InventoryPanel<?>) comp).scrollComponent.setHeaderStates(it);
             break;
           }
         } else if (comp instanceof RestorativeItemPanel) {
           String s = ItemManageFrame.selectorPanel.panelNames.get(i).toString();
           if (s.contains(panelName)) {
             // set the header states.
-            ((ShowDescriptionTable) ((RestorativeItemPanel) comp).scrollComponent)
-                .setHeaderStates(it);
+            ((RestorativeItemPanel) comp).scrollComponent.setHeaderStates(it);
             break;
           }
         }
@@ -624,6 +618,7 @@ public class ItemManageFrame extends GenericFrame {
       this.changing = false;
     }
 
+    @Override
     public void stateChanged(ChangeEvent e) {
       if (this.changing) {
         return;
@@ -646,12 +641,13 @@ public class ItemManageFrame extends GenericFrame {
       this.desired = desired;
     }
 
+    @Override
     public void run() {
       ConcoctionDatabase.refreshConcoctions();
     }
   }
 
-  public static class PrefPopup extends JComboBox<String> implements ActionListener, Listener {
+  public static class PrefPopup extends JComboBox<String> implements Listener {
     private final String pref;
 
     public PrefPopup(String pref) {
@@ -666,6 +662,7 @@ public class ItemManageFrame extends GenericFrame {
       this.update();
     }
 
+    @Override
     public void update() {
       this.setSelectedItem(Preferences.getString(this.pref));
     }

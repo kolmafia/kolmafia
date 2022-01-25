@@ -25,9 +25,11 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -39,7 +41,6 @@ import net.sourceforge.kolmafia.textui.command.BackupCameraCommand;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
 import net.sourceforge.kolmafia.textui.command.RetroCapeCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
-import net.sourceforge.kolmafia.utilities.BooleanArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Evaluator {
@@ -66,7 +67,9 @@ public class Evaluator {
   private boolean retroCapeNeeded = false;
   private boolean backupCameraNeeded = false;
 
+  /** if slots[i] >= 0 then equipment of type i can be considered for maximization */
   private final int[] slots = new int[EquipmentManager.ALL_SLOTS];
+
   private String weaponType = null;
   private int hands = 0;
   int melee = 0; // +/-2 or higher: require, +/-1: disallow other type
@@ -559,8 +562,7 @@ public class Evaluator {
           }
         } else if (keyword.startsWith("com")) {
           index = Modifiers.COMBAT_RATE;
-          if (Modifiers.currentZone.equals("The Sea")
-              || Modifiers.currentLocation.equals("The Sunken Party Yacht")) {
+          if ("underwater".equals(AdventureDatabase.getEnvironment(Modifiers.currentLocation))) {
             this.weight[Modifiers.UNDERWATER_COMBAT_RATE] = weight;
           }
         } else if (keyword.startsWith("item")) {
@@ -851,6 +853,10 @@ public class Evaluator {
     return this.tiebreaker.getScore(mods);
   }
 
+  boolean isUsingTiebreaker() {
+    return !this.noTiebreaker;
+  }
+
   int checkConstraints(Modifiers mods) {
     // Return value:
     //	-1: item violates a constraint, don't use it
@@ -962,27 +968,27 @@ public class Evaluator {
 
   void enumerateEquipment(int equipScope, int maxPrice, int priceLevel)
       throws MaximizerInterruptedException {
+    int slots = EquipmentManager.ALL_SLOTS + this.familiars.size();
     // Items automatically considered regardless of their score -
     // synergies, hobo power, brimstone, etc.
-    List<CheckedItem>[] automatic =
-        new ArrayList[EquipmentManager.ALL_SLOTS + this.familiars.size()];
+    List<List<CheckedItem>> automatic = new ArrayList<>(slots);
     // Items to be considered based on their score
-    List<CheckedItem>[] ranked = new ArrayList[EquipmentManager.ALL_SLOTS + this.familiars.size()];
-    for (int i = ranked.length - 1; i >= 0; --i) {
-      automatic[i] = new ArrayList<CheckedItem>();
-      ranked[i] = new ArrayList<CheckedItem>();
+    List<List<CheckedItem>> ranked = new ArrayList<>(slots);
+    for (int i = 0; i < slots; ++i) {
+      automatic.add(new ArrayList<CheckedItem>());
+      ranked.add(new ArrayList<CheckedItem>());
     }
 
     double nullScore = this.getScore(new Modifiers());
 
-    BooleanArray usefulOutfits = new BooleanArray();
+    Map<Integer, Boolean> usefulOutfits = new HashMap<>();
     Map<AdventureResult, AdventureResult> outfitPieces = new HashMap<>();
     for (int i = 1; i < EquipmentDatabase.normalOutfits.size(); ++i) {
       SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get(i);
       if (outfit == null) continue;
       if (this.negOutfits.contains(outfit.getName())) continue;
       if (this.posOutfits.contains(outfit.getName())) {
-        usefulOutfits.set(i, true);
+        usefulOutfits.put(i, true);
         continue;
       }
 
@@ -999,7 +1005,7 @@ public class Evaluator {
           if (delta <= 0.0) continue;
           break;
       }
-      usefulOutfits.set(i, true);
+      usefulOutfits.put(i, true);
     }
 
     int usefulSynergies = 0;
@@ -1107,7 +1113,7 @@ public class Evaluator {
 
         if (item.getCount() != 0
             && (this.getScore(familiarMods) - nullScore > 0.0 || item.automaticFlag == true)) {
-          ranked[EquipmentManager.FAMILIAR].add(item);
+          ranked.get(EquipmentManager.FAMILIAR).add(item);
         }
       }
       for (int f = this.familiars.size() - 1; f >= 0; --f) {
@@ -1139,7 +1145,7 @@ public class Evaluator {
 
         if (item.getCount() != 0
             && (this.getScore(familiarMods) - nullScore > 0.0 || item.automaticFlag == true)) {
-          ranked[EquipmentManager.ALL_SLOTS + f].add(item);
+          ranked.get(EquipmentManager.ALL_SLOTS + f).add(item);
         }
       }
 
@@ -1334,7 +1340,7 @@ public class Evaluator {
           }
         }
 
-        if (usefulOutfits.get(EquipmentDatabase.getOutfitWithItem(id))) {
+        if (usefulOutfits.getOrDefault(EquipmentDatabase.getOutfitWithItem(id), false)) {
           item.validate(maxPrice, priceLevel);
 
           if (item.getCount() == 0) {
@@ -1488,8 +1494,8 @@ public class Evaluator {
         }
       }
       // "break gotItem" goes here
-      if (slot != -1) ranked[slot].add(item);
-      if (auxSlot != -1) ranked[auxSlot].add(item);
+      if (slot != -1) ranked.get(slot).add(item);
+      if (auxSlot != -1) ranked.get(auxSlot).add(item);
     }
 
     // Get best Familiars for Crown of Thrones and Buddy Bjorn
@@ -1555,19 +1561,19 @@ public class Evaluator {
             && !familiar.equals(useCrownFamiliar)
             && !familiar.equals(useBjornFamiliar)
             && !familiar.equals(bestCarriedFamiliar)
-            && !(KoLCharacter.inBeecore() && KoLCharacter.getBeeosity(familiar.getRace()) > 0)) {
+            && !(KoLCharacter.inBeecore() && KoLCharacter.hasBeeosity(familiar.getRace()))) {
           MaximizerSpeculation spec = new MaximizerSpeculation();
           spec.attachment = item;
           spec.equipment[EquipmentManager.HAT] = item;
           spec.setEnthroned(familiar);
           spec.setUnscored();
           if (spec.compareTo(best) > 0) {
-            secondBest = (MaximizerSpeculation) best.clone();
-            best = (MaximizerSpeculation) spec.clone();
+            secondBest = best.clone();
+            best = spec.clone();
             secondBestCarriedFamiliar = bestCarriedFamiliar;
             bestCarriedFamiliar = familiar;
           } else if (spec.compareTo(secondBest) > 0) {
-            secondBest = (MaximizerSpeculation) spec.clone();
+            secondBest = spec.clone();
             secondBestCarriedFamiliar = familiar;
           }
         }
@@ -1597,7 +1603,7 @@ public class Evaluator {
           spec.equipment[EquipmentManager.OFFHAND] = sleeve;
           spec.equipment[EquipmentManager.CARDSLEEVE] = card;
           if (spec.compareTo(best) > 0) {
-            best = (MaximizerSpeculation) spec.clone();
+            best = spec.clone();
             bestCard = card;
           }
         }
@@ -1632,7 +1638,7 @@ public class Evaluator {
           spec.equipment[EquipmentManager.HAT] = edPiece;
           spec.setEdPiece(animal);
           if (spec.compareTo(best) > 0) {
-            best = (MaximizerSpeculation) spec.clone();
+            best = spec.clone();
             bestEdPiece = animal;
           }
         }
@@ -1662,7 +1668,7 @@ public class Evaluator {
         spec.equipment[EquipmentManager.FAMILIAR] = snowsuit;
         spec.setSnowsuit(decoration);
         if (spec.compareTo(best) > 0) {
-          best = (MaximizerSpeculation) spec.clone();
+          best = spec.clone();
           bestSnowsuit = decoration;
         }
       }
@@ -1699,7 +1705,7 @@ public class Evaluator {
           spec.equipment[EquipmentManager.CONTAINER] = retroCape;
           spec.setRetroCape(config);
           if (spec.compareTo(best) > 0) {
-            best = (MaximizerSpeculation) spec.clone();
+            best = spec.clone();
             bestRetroCape = config;
           }
         }
@@ -1731,23 +1737,23 @@ public class Evaluator {
         spec.equipment[EquipmentManager.ACCESSORY3] = backupCamera;
         spec.setBackupCamera(mode);
         if (spec.compareTo(best) > 0) {
-          best = (MaximizerSpeculation) spec.clone();
+          best = spec.clone();
           bestBackupCamera = mode;
         }
       }
     }
 
-    List<MaximizerSpeculation>[] speculationList = new ArrayList[ranked.length];
-    for (int i = ranked.length - 1; i >= 0; --i) {
-      speculationList[i] = new ArrayList<MaximizerSpeculation>();
+    List<List<MaximizerSpeculation>> speculationList = new ArrayList<>(ranked.size());
+    for (int i = 0; i < ranked.size(); ++i) {
+      speculationList.add(new ArrayList<MaximizerSpeculation>());
     }
 
-    for (int slot = 0; slot < ranked.length; ++slot) {
-      List<CheckedItem> checkedItemList = ranked[slot];
+    for (int slot = 0; slot < ranked.size(); ++slot) {
+      List<CheckedItem> checkedItemList = ranked.get(slot);
 
       // If we currently have nothing equipped, also consider leaving nothing equipped
       if (EquipmentManager.getEquipment(Evaluator.toUseSlot(slot)) == EquipmentRequest.UNEQUIP) {
-        ranked[slot].add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
+        ranked.get(slot).add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
       }
 
       for (CheckedItem item : checkedItemList) {
@@ -1825,10 +1831,10 @@ public class Evaluator {
         spec.failed = false; // individual items are not expected
         // to fulfill all requirements
 
-        speculationList[slot].add(spec);
+        speculationList.get(slot).add(spec);
       }
 
-      Collections.sort(speculationList[slot]);
+      Collections.sort(speculationList.get(slot));
     }
 
     // Compare sets which improve with the number of items equipped with the best items in the same
@@ -1863,7 +1869,9 @@ public class Evaluator {
       }
 
       ListIterator<MaximizerSpeculation> sI =
-          speculationList[slot1SpecLookup].listIterator(speculationList[slot1SpecLookup].size());
+          speculationList
+              .get(slot1SpecLookup)
+              .listIterator(speculationList.get(slot1SpecLookup).size());
 
       while (sI.hasPrevious() && item1 == null) {
         CheckedItem checkItem = sI.previous().attachment;
@@ -1873,7 +1881,7 @@ public class Evaluator {
         }
       }
 
-      sI = speculationList[slot2].listIterator(speculationList[slot2].size());
+      sI = speculationList.get(slot2).listIterator(speculationList.get(slot2).size());
 
       while (sI.hasPrevious() && item2 == null) {
         CheckedItem checkItem = sI.previous().attachment;
@@ -1896,15 +1904,16 @@ public class Evaluator {
       int newSlot1 = slot1;
       int compareItemNo =
           slot1 == EquipmentManager.ACCESSORY1
-              ? speculationList[slot1SpecLookup].size() - 3
-              : speculationList[slot1SpecLookup].size() - 1;
+              ? speculationList.get(slot1SpecLookup).size() - 3
+              : speculationList.get(slot1SpecLookup).size() - 1;
       do {
-        CheckedItem compareItem = speculationList[slot1SpecLookup].get(compareItemNo).attachment;
+        CheckedItem compareItem =
+            speculationList.get(slot1SpecLookup).get(compareItemNo).attachment;
         if (compareItem.conditionalFlag) {
           compareItemNo--;
         } else {
           compareSpec.equipment[newSlot1] =
-              speculationList[slot1SpecLookup].get(compareItemNo).attachment;
+              speculationList.get(slot1SpecLookup).get(compareItemNo).attachment;
           break;
         }
         if (compareItemNo < 0) {
@@ -1920,15 +1929,16 @@ public class Evaluator {
       int newSlot2 = slot2 + (slot2 == EquipmentManager.ACCESSORY1 ? accCompared : 0);
       compareItemNo =
           slot2 == EquipmentManager.ACCESSORY1
-              ? speculationList[slot2].size() - 2
-              : speculationList[slot2].size() - 1;
+              ? speculationList.get(slot2).size() - 2
+              : speculationList.get(slot2).size() - 1;
       do {
-        CheckedItem compareItem = speculationList[slot2].get(compareItemNo).attachment;
+        CheckedItem compareItem = speculationList.get(slot2).get(compareItemNo).attachment;
         if (compareItem.conditionalFlag
             || compareItem.getName().equals(compareSpec.equipment[newSlot1].getName())) {
           compareItemNo--;
         } else {
-          compareSpec.equipment[newSlot2] = speculationList[slot2].get(compareItemNo).attachment;
+          compareSpec.equipment[newSlot2] =
+              speculationList.get(slot2).get(compareItemNo).attachment;
           break;
         }
         if (compareItemNo < 0) {
@@ -1941,7 +1951,10 @@ public class Evaluator {
       if (synergySpec.compareTo(compareSpec) <= 0 || synergySpec.failed) {
         // Not useful, so remove it's automatic flag so it won't be put forward unless it's good
         // enough in it's own right
-        sI = speculationList[slot1SpecLookup].listIterator(speculationList[slot1SpecLookup].size());
+        sI =
+            speculationList
+                .get(slot1SpecLookup)
+                .listIterator(speculationList.get(slot1SpecLookup).size());
 
         while (sI.hasPrevious()) {
           MaximizerSpeculation spec = sI.previous();
@@ -1953,7 +1966,7 @@ public class Evaluator {
           }
         }
 
-        sI = speculationList[slot2].listIterator(speculationList[slot2].size());
+        sI = speculationList.get(slot2).listIterator(speculationList.get(slot2).size());
 
         while (sI.hasPrevious()) {
           MaximizerSpeculation spec = sI.previous();
@@ -1993,7 +2006,7 @@ public class Evaluator {
       }
 
       ListIterator<MaximizerSpeculation> sI =
-          speculationList[slot].listIterator(speculationList[slot].size());
+          speculationList.get(slot).listIterator(speculationList.get(slot).size());
 
       while (sI.hasPrevious()) {
         CheckedItem checkItem = sI.previous().attachment;
@@ -2019,15 +2032,15 @@ public class Evaluator {
       MaximizerSpeculation synergySpec = new MaximizerSpeculation();
       MaximizerSpeculation compareSpec = new MaximizerSpeculation();
 
-      int compareItemNo = speculationList[slot].size() - 1;
+      int compareItemNo = speculationList.get(slot).size() - 1;
       compareSpec.equipment[slot] = EquipmentRequest.UNEQUIP;
       compareSpec.equipment[slot + 1] = EquipmentRequest.UNEQUIP;
       compareSpec.equipment[slot + 2] = EquipmentRequest.UNEQUIP;
       int newSlot = slot;
       do {
-        CheckedItem compareItem = speculationList[slot].get(compareItemNo).attachment;
+        CheckedItem compareItem = speculationList.get(slot).get(compareItemNo).attachment;
         if (!compareItem.conditionalFlag) {
-          compareSpec.equipment[newSlot] = speculationList[slot].get(compareItemNo).attachment;
+          compareSpec.equipment[newSlot] = speculationList.get(slot).get(compareItemNo).attachment;
           newSlot++;
         }
         compareItemNo--;
@@ -2038,7 +2051,7 @@ public class Evaluator {
 
       if (synergySpec.compareTo(compareSpec) > 0 && !synergySpec.failed) {
         // Useful, so automatic flag it again
-        sI = speculationList[slot].listIterator(speculationList[slot].size());
+        sI = speculationList.get(slot).listIterator(speculationList.get(slot).size());
 
         int found = 0;
         while (sI.hasPrevious() && found < 3) {
@@ -2064,7 +2077,7 @@ public class Evaluator {
     StringBuilder outfitSummary = new StringBuilder();
     outfitSummary.append("Outfits [");
     int outfitCount = 0;
-    for (int i = 0; i < usefulOutfits.size(); i++) {
+    for (Integer i : usefulOutfits.keySet()) {
       if (usefulOutfits.get(i)) {
         int accCount = 0;
         MaximizerSpeculation outfitSpec = new MaximizerSpeculation();
@@ -2087,10 +2100,10 @@ public class Evaluator {
           // For accessories compare with 3rd best for first accessory, 2nd best for second
           // accessory, best for third
           int newSlot = slot + (slot == EquipmentManager.ACCESSORY1 ? accCount : 0);
-          int compareItemNo = speculationList[slot].size() - 1;
+          int compareItemNo = speculationList.get(slot).size() - 1;
           int accSkip = slot == EquipmentManager.ACCESSORY1 ? 2 - accCount : 0;
           while (compareItemNo >= 0) {
-            CheckedItem compareItem = speculationList[slot].get(compareItemNo).attachment;
+            CheckedItem compareItem = speculationList.get(slot).get(compareItemNo).attachment;
             if (compareItem.conditionalFlag) {
               compareItemNo--;
             } else if (accSkip > 0) {
@@ -2110,7 +2123,7 @@ public class Evaluator {
           outfitSpec.equipment[newSlot] = outfitItem;
         }
         if (outfitSpec.compareTo(compareSpec) <= 0 && !this.posOutfits.contains(outfit.getName())) {
-          usefulOutfits.set(i, false);
+          usefulOutfits.put(i, false);
         } else {
           if (outfitCount > 0) {
             outfitSummary.append(", ");
@@ -2125,22 +2138,22 @@ public class Evaluator {
       RequestLogger.printLine(outfitSummary.toString());
     }
 
-    for (int slot = 0; slot < ranked.length; ++slot) {
-      List<CheckedItem> checkedItemList = ranked[slot];
+    for (int slot = 0; slot < ranked.size(); ++slot) {
+      List<CheckedItem> checkedItemList = ranked.get(slot);
 
       if (this.dump > 0) {
         RequestLogger.printLine("SLOT " + slot);
       }
 
       if (this.dump > 1) {
-        RequestLogger.printLine(speculationList[slot].toString());
+        RequestLogger.printLine(speculationList.get(slot).toString());
       }
 
       // Do we have any required items for the slot?
       int total = 0;
       for (CheckedItem item : checkedItemList) {
         if (item.requiredFlag) {
-          automatic[slot].add(item);
+          automatic.get(slot).add(item);
           // Don't increase total if it's one of the required flagged foldables by Evaluator rather
           // than user
           int itemId = item.getItemId();
@@ -2155,7 +2168,7 @@ public class Evaluator {
       // If slots already handled by required items, we're done with the slot
       if (useful > total) {
         ListIterator<MaximizerSpeculation> speculationIterator =
-            speculationList[slot].listIterator(speculationList[slot].size());
+            speculationList.get(slot).listIterator(speculationList.get(slot).size());
 
         int beeotches = 0;
         int beeosity = 0;
@@ -2167,31 +2180,33 @@ public class Evaluator {
 
           // If we only need as many fold items as we have, then we can
           // count them against the items we need to pass through
-          List group = ItemDatabase.getFoldGroup(item.getName());
+          FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
           int foldItemsNeeded = 0;
           if (group != null && Preferences.getBoolean("maximizerFoldables")) {
             foldItemsNeeded += Math.max(item.getCount(), this.maxUseful(slot));
             // How many times have we already used this fold item?
             for (int checkSlot = 0; checkSlot < slot; ++checkSlot) {
-              List<CheckedItem> checkItemList = automatic[checkSlot];
+              List<CheckedItem> checkItemList = automatic.get(checkSlot);
               if (checkItemList != null) {
                 for (CheckedItem checkItem : checkItemList) {
-                  List checkGroup = ItemDatabase.getFoldGroup(checkItem.getName());
-                  if (checkGroup != null && group.get(1).equals(checkGroup.get(1))) {
+                  FoldGroup checkGroup = ItemDatabase.getFoldGroup(checkItem.getName());
+                  if (checkGroup != null && group.names.get(0).equals(checkGroup.names.get(0))) {
                     foldItemsNeeded += Math.max(checkItem.getCount(), this.maxUseful(checkSlot));
                   }
                 }
               }
             }
             // And how many times do we expect to use them for the rest of the slots?
-            for (int checkSlot = slot + 1; checkSlot < ranked.length; checkSlot++) {
+            for (int checkSlot = slot + 1; checkSlot < ranked.size(); checkSlot++) {
               ListIterator<MaximizerSpeculation> checkIterator =
-                  speculationList[checkSlot].listIterator(speculationList[checkSlot].size());
+                  speculationList
+                      .get(checkSlot)
+                      .listIterator(speculationList.get(checkSlot).size());
               int usefulCheckCount = this.maxUseful(checkSlot);
               while (checkIterator.hasPrevious()) {
                 CheckedItem checkItem = checkIterator.previous().attachment;
-                List checkGroup = ItemDatabase.getFoldGroup(checkItem.getName());
-                if (checkGroup != null && group.get(1).equals(checkGroup.get(1))) {
+                FoldGroup checkGroup = ItemDatabase.getFoldGroup(checkItem.getName());
+                if (checkGroup != null && group.names.get(0).equals(checkGroup.names.get(0))) {
                   if (usefulCheckCount > 0 || checkItem.requiredFlag) {
                     foldItemsNeeded += Math.max(checkItem.getCount(), this.maxUseful(checkSlot));
                   }
@@ -2213,28 +2228,28 @@ public class Evaluator {
             // advantageous to use up all our allowed beeosity on
             // other slots.
             if (item.automaticFlag) {
-              if (!automatic[slot].contains(item)) {
-                automatic[slot].add(item);
+              if (!automatic.get(slot).contains(item)) {
+                automatic.get(slot).add(item);
               }
               beeotches += item.getCount();
               beeosity += b * item.getCount();
             } else if (total < useful && beeotches < useful && beeosity < this.beeosity) {
-              if (!automatic[slot].contains(item)) {
-                automatic[slot].add(item);
+              if (!automatic.get(slot).contains(item)) {
+                automatic.get(slot).add(item);
               }
               beeotches += item.getCount();
               beeosity += b * item.getCount();
             }
           } else if (item.automaticFlag) {
-            if (!automatic[slot].contains(item)) {
-              automatic[slot].add(item);
+            if (!automatic.get(slot).contains(item)) {
+              automatic.get(slot).add(item);
               if (!item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
                 total += item.getCount();
               }
             }
           } else if (total < useful) {
-            if (!automatic[slot].contains(item)) {
-              automatic[slot].add(item);
+            if (!automatic.get(slot).contains(item)) {
+              automatic.get(slot).add(item);
               if (!item.conditionalFlag && item.getCount() >= foldItemsNeeded) {
                 total += item.getCount();
               }
@@ -2244,20 +2259,20 @@ public class Evaluator {
       }
 
       // Blunt object fix for only having a foldable that might be needed elsewhere
-      if (automatic[slot].size() == 1
-          && ItemDatabase.getFoldGroup(automatic[slot].get(0).getName()) != null) {
-        automatic[slot].add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
+      if (automatic.get(slot).size() == 1
+          && ItemDatabase.getFoldGroup(automatic.get(slot).get(0).getName()) != null) {
+        automatic.get(slot).add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
       }
 
       if (this.dump > 0) {
-        RequestLogger.printLine(automatic[slot].toString());
+        RequestLogger.printLine(automatic.get(slot).toString());
       }
     }
 
-    automatic[EquipmentManager.ACCESSORY1].addAll(automatic[Evaluator.WATCHES]);
-    automatic[EquipmentManager.WEAPON].addAll(automatic[Evaluator.WEAPON_1H]);
-    automatic[Evaluator.OFFHAND_MELEE].addAll(automatic[EquipmentManager.OFFHAND]);
-    automatic[Evaluator.OFFHAND_RANGED].addAll(automatic[EquipmentManager.OFFHAND]);
+    automatic.get(EquipmentManager.ACCESSORY1).addAll(automatic.get(Evaluator.WATCHES));
+    automatic.get(EquipmentManager.WEAPON).addAll(automatic.get(Evaluator.WEAPON_1H));
+    automatic.get(Evaluator.OFFHAND_MELEE).addAll(automatic.get(EquipmentManager.OFFHAND));
+    automatic.get(Evaluator.OFFHAND_RANGED).addAll(automatic.get(EquipmentManager.OFFHAND));
 
     MaximizerSpeculation spec = new MaximizerSpeculation();
     // The threshold in the slots array that indicates that a slot
@@ -2277,7 +2292,7 @@ public class Evaluator {
 
     if (spec.equipment[EquipmentManager.OFFHAND] != null) {
       this.hands = 1;
-      automatic[EquipmentManager.WEAPON] = automatic[Evaluator.WEAPON_1H];
+      automatic.set(EquipmentManager.WEAPON, automatic.get(Evaluator.WEAPON_1H));
 
       Iterator<AdventureResult> i = outfitPieces.keySet().iterator();
       while (i.hasNext()) {

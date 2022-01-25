@@ -116,16 +116,19 @@ public class JavascriptRuntime extends AbstractRuntime {
     int permanentReadOnly = ScriptableObject.PERMANENT | ScriptableObject.READONLY;
 
     for (String libraryFunctionName : uniqueFunctionNames) {
+      String jsName = toCamelCase(libraryFunctionName);
       ScriptableObject.defineProperty(
           stdLib,
-          toCamelCase(libraryFunctionName),
-          new LibraryFunctionStub(this, libraryFunctionName),
+          jsName,
+          new LibraryFunctionStub(
+              stdLib, ScriptableObject.getFunctionPrototype(stdLib), this, libraryFunctionName),
           permanentReadOnly);
       if (addToTopScope) {
         ScriptableObject.defineProperty(
             scope,
-            toCamelCase(libraryFunctionName),
-            new LibraryFunctionStub(this, libraryFunctionName),
+            jsName,
+            new LibraryFunctionStub(
+                scope, ScriptableObject.getFunctionPrototype(scope), this, libraryFunctionName),
             ScriptableObject.DONTENUM);
       }
     }
@@ -156,6 +159,7 @@ public class JavascriptRuntime extends AbstractRuntime {
     }
   }
 
+  @Override
   public Value execute(
       final String functionName, final Object[] arguments, final boolean executeTopLevel) {
     if (!executeTopLevel) {

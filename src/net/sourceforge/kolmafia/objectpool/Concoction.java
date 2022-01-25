@@ -203,7 +203,7 @@ public class Concoction implements Comparable<Concoction> {
   }
 
   public void setStatGain() {
-    String range = "+0.0";
+    final String range;
     switch (KoLCharacter.mainStat()) {
       case MUSCLE:
         range = ConsumablesDatabase.getMuscleRange(this.name);
@@ -213,6 +213,9 @@ public class Concoction implements Comparable<Concoction> {
         break;
       case MOXIE:
         range = ConsumablesDatabase.getMoxieRange(this.name);
+        break;
+      default:
+        range = "+0.0";
         break;
     }
     this.mainstatGain = StringUtilities.parseDouble(range);
@@ -399,6 +402,7 @@ public class Concoction implements Comparable<Concoction> {
     zero or positive.
   */
 
+  @Override
   public int compareTo(final Concoction o) {
     // Note that null is not an instance of any class, and
     // e.compareTo(null) should throw a NullPointerException even
@@ -774,7 +778,7 @@ public class Concoction implements Comparable<Concoction> {
       SortedListModel<AdventureResult> uses = ConcoctionDatabase.knownUses.get(itemId);
       if (uses == null) {
         uses = new SortedListModel<>();
-        ConcoctionDatabase.knownUses.set(ingredient.getItemId(), uses);
+        ConcoctionDatabase.knownUses.put(ingredient.getItemId(), uses);
       }
 
       uses.add(this.concoction);

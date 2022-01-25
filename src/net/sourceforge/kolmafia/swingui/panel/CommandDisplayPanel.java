@@ -56,10 +56,12 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
     this.addFocusListener(this);
   }
 
+  @Override
   public void focusGained(FocusEvent e) {
     this.entryField.requestFocus();
   }
 
+  @Override
   public void focusLost(FocusEvent e) {}
 
   private class CommandEntryListener extends ThreadedListener {

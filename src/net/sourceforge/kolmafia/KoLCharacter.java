@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
+import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EventManager;
@@ -374,6 +375,7 @@ public abstract class KoLCharacter {
     MicroBreweryRequest.reset();
     HellKitchenRequest.reset();
 
+    CrystalBallManager.reset();
     DisplayCaseManager.clearCache();
     DwarfFactoryRequest.reset();
     EquipmentManager.resetEquipment();
@@ -1007,6 +1009,18 @@ public abstract class KoLCharacter {
 
   public static final void resetDiscoMomentum() {
     disco_momentum = 0;
+  }
+
+  public static final int getMaxSongs() {
+    return (currentBooleanModifier(Modifiers.FOUR_SONGS) ? 4 : 3)
+        + (int) currentNumericModifier(Modifiers.ADDITIONAL_SONG);
+  }
+
+  public static final int getSongs() {
+    return (int)
+        KoLConstants.activeEffects.stream()
+            .filter(e -> EffectDatabase.isSong(e.getEffectId()))
+            .count();
   }
 
   public static final int getAudience() {
@@ -2057,56 +2071,6 @@ public abstract class KoLCharacter {
     KoLCharacter.daycount = daycount;
   }
 
-  /** Accessor method to record the turn count when a semirare was found. */
-  public static final void registerSemirare() {
-    KoLCharacter.ensureUpdatedAscensionCounters();
-
-    Preferences.setInteger("semirareCounter", KoLCharacter.currentRun + 1);
-    KoLAdventure location = KoLAdventure.lastVisitedLocation();
-
-    String loc = (location == null) ? "" : location.getAdventureName();
-    Preferences.setString("semirareLocation", loc);
-
-    TurnCounter.stopCounting("Fortune Cookie");
-    TurnCounter.stopCounting("Semirare window begin");
-    TurnCounter.stopCounting("Semirare window end");
-
-    if (KoLCharacter.inLAR()) {
-      TurnCounter.startCounting(110, "Fortune Cookie", "fortune.gif");
-      return;
-    }
-
-    int begin = 160;
-    int end = 200;
-
-    if (KoLCharacter.getPath().equals("Oxygenarian")) {
-      begin = 100;
-      end = 120;
-    }
-
-    StringBuilder beginType = new StringBuilder();
-    beginType.append("Semirare window begin");
-
-    if (KoLCharacter.canInteract()) {
-      beginType.append(" loc=*");
-    }
-
-    TurnCounter.startCounting(begin + 1, beginType.toString(), "lparen.gif");
-    TurnCounter.startCounting(end + 1, "Semirare window end loc=*", "rparen.gif");
-  }
-
-  /** Accessor method to return how many turns have passed since the last semirare was found. */
-  public static final int turnsSinceLastSemirare() {
-    KoLCharacter.ensureUpdatedAscensionCounters();
-    int last = Preferences.getInteger("semirareCounter");
-    return KoLCharacter.currentRun - last;
-  }
-
-  public static final int lastSemirareTurn() {
-    KoLCharacter.ensureUpdatedAscensionCounters();
-    return Preferences.getInteger("semirareCounter");
-  }
-
   /** Accessor method to retrieve the current value of a named modifier */
   public static final Modifiers getCurrentModifiers() {
     return KoLCharacter.currentModifiers;
@@ -2192,8 +2156,7 @@ public abstract class KoLCharacter {
   /** Accessor method to retrieve the total current combat percent adjustment */
   public static final double getCombatRateAdjustment() {
     double rate = KoLCharacter.currentModifiers.get(Modifiers.COMBAT_RATE);
-    if (Modifiers.currentZone.contains("The Sea")
-        || Modifiers.currentLocation.equals("The Sunken Party Yacht")) {
+    if ("underwater".equals(AdventureDatabase.getEnvironment(Modifiers.currentLocation))) {
       rate += KoLCharacter.currentModifiers.get(Modifiers.UNDERWATER_COMBAT_RATE);
     }
     return rate;
@@ -2269,14 +2232,42 @@ public abstract class KoLCharacter {
     return (int) KoLCharacter.currentModifiers.get(Modifiers.POOL_SKILL);
   }
 
-  public static int estimatedPoolSkill() {
+  public static int estimatedPoolSkill(boolean verbose) {
+    int drunk = KoLCharacter.getInebriety();
+    int drunkBonus = drunk - (drunk > 10 ? (drunk - 10) * 3 : 0);
     int equip = KoLCharacter.getPoolSkill();
+    int poolsSharked = Preferences.getInteger("poolSharkCount");
+    int poolSharkBonus = 0;
+    if (poolsSharked > 25) {
+      poolSharkBonus = 10;
+    } else if (poolsSharked > 0) {
+      poolSharkBonus = (int) Math.floor(2 * Math.sqrt(poolsSharked));
+    }
     int training = Preferences.getInteger("poolSkill");
-    int semiRare = Preferences.getInteger("poolSharkCount");
-    int semiRareBonus = (int) Math.min(10, Math.floor(2 * Math.sqrt(semiRare)));
-    int inebriety = KoLCharacter.inebriety;
-    int inebrietyBonus = (inebriety > 10 ? 10 - 2 * (inebriety - 10) : inebriety);
-    return equip + training + semiRareBonus + inebrietyBonus;
+    int poolSkill = equip + training + poolSharkBonus + drunkBonus;
+
+    if (verbose) {
+      RequestLogger.printLine("Pool Skill is estimated at : " + poolSkill + ".");
+      RequestLogger.printLine(
+          equip
+              + " from equipment, "
+              + drunkBonus
+              + " from having "
+              + drunk
+              + " inebriety, "
+              + training
+              + " hustling training and "
+              + poolSharkBonus
+              + " learning from "
+              + poolsSharked
+              + " sharks.");
+    }
+
+    return poolSkill;
+  }
+
+  public static int estimatedPoolSkill() {
+    return estimatedPoolSkill(false);
   }
 
   /**
@@ -2789,7 +2780,7 @@ public abstract class KoLCharacter {
 
     switch (oldPath) {
       case AVATAR_OF_WEST_OF_LOATHING:
-        String pref = null;
+        final String pref;
         switch (ascensionClass) {
           case BEANSLINGER:
             pref = "awolPointsBeanslinger";
@@ -2799,6 +2790,9 @@ public abstract class KoLCharacter {
             break;
           case SNAKE_OILER:
             pref = "awolPointsSnakeoiler";
+            break;
+          default:
+            pref = null;
             break;
         }
         if (pref != null) {
@@ -4047,6 +4041,19 @@ public abstract class KoLCharacter {
     return list.contains(skill);
   }
 
+  public static final boolean availableCombatSkill(final int skillId) {
+    UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
+    return KoLCharacter.availableCombatSkill(skill);
+  }
+
+  public static final boolean availableCombatSkill(final UseSkillRequest skill) {
+    if (skill == null) {
+      return false;
+    }
+
+    return KoLConstants.availableCombatSkillsMap.containsKey(skill);
+  }
+
   /**
    * Accessor method to get the current familiar.
    *
@@ -4375,6 +4382,10 @@ public abstract class KoLCharacter {
     }
 
     return null;
+  }
+
+  public static final boolean hasFamiliar(final int familiarId) {
+    return KoLCharacter.findFamiliar(familiarId) != null;
   }
 
   /**
@@ -5641,11 +5652,8 @@ public abstract class KoLCharacter {
   }
 
   public static final void ensureUpdatedAscensionCounters() {
-    int lastAscension = Preferences.getInteger("lastSemirareReset");
+    int lastAscension = Preferences.getInteger("beeCounter");
     if (lastAscension < KoLCharacter.getAscensions()) {
-      Preferences.setInteger("lastSemirareReset", KoLCharacter.getAscensions());
-      Preferences.setInteger("semirareCounter", 0);
-      Preferences.setString("semirareLocation", "");
       Preferences.setInteger("beeCounter", 0);
     }
   }

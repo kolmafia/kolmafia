@@ -94,6 +94,7 @@ public class SkillBuffFrame extends GenericFrame {
   }
 
   private class SkillReselector implements ListSelectionListener {
+    @Override
     public void valueChanged(final ListSelectionEvent e) {
       AdventureResult effect = SkillBuffFrame.this.effectList.getSelectedValue();
       if (effect == null) {
@@ -316,7 +317,9 @@ public class SkillBuffFrame extends GenericFrame {
       }
     }
 
+    @Override
     public void update() {
+      super.update();
       this.clearDisabledItems();
 
       for (int i = 0; i < DAILY_LIMITED_SKILLS.length; ++i) {
@@ -457,6 +460,7 @@ public class SkillBuffFrame extends GenericFrame {
     }
 
     private class SkillTypeListener implements ActionListener {
+      @Override
       public void actionPerformed(final ActionEvent e) {
         ComboBoxModel<UseSkillRequest> oldModel = SkillBuffFrame.this.skillSelect.getModel();
         ComboBoxModel<UseSkillRequest> newModel = oldModel;

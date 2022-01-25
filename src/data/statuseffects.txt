@@ -59,18 +59,18 @@
 57	Rainy Soul Miasma	raincloud.gif	a47ef21c02a4b8ba3b1da929f4566934	neutral	none	use 1 thin black candle
 58	Teleportitis	confused.gif	cb5404472a27b435aa6fad1ba528b1b8	neutral	nopvp	use 1 potion of teleportitis
 59	Wanged	wang.gif	0f35dcc9f22cd0ee2e6ef690c3512a01	neutral	none	# wang used on you
-60	Aloysius' Antiphon of Aptitude	antiphon.gif	3f875f7c9c4cc7b64f4c7d7b7eea1ef6	good	none	cast 1 Aloysius' Antiphon of Aptitude|cargo effect Aloysius' Antiphon of Aptitude
-61	The Moxious Madrigal	madrigal.gif	c77eb3298c1bcba5e0147eba77a5a802	good	none	cast 1 The Moxious Madrigal
-62	Cletus's Canticle of Celerity	celerity.gif	fe25963fb651fc5d81ed5a098b509030	good	none	cast 1 Cletus's Canticle of Celerity
-63	Polka of Plenty	plenty.gif	c26a911b8ec2c57f7eef57f9ff5fdc24	good	none	cast 1 The Polka of Plenty|cargo effect Polka of Plenty
-64	The Magical Mojomuscular Melody	mojomusc.gif	80224f21d262123e7e370d440ce36937	good	none	cast 1 The Magical Mojomuscular Melody
-65	Power Ballad of the Arrowsmith	arrowsmith.gif	695f24467176d2e76738e7c5e1148a42	good	none	cast 1 The Power Ballad of the Arrowsmith|cargo effect Power Ballad of the Arrowsmith
-66	Brawnee's Anthem of Absorption	brawnees.gif	bcbbb5a02c92d158e45fd9c736950380	good	none	cast 1 Brawnee's Anthem of Absorption|cargo effect Brawnee's Anthem of Absorption
-67	Fat Leon's Phat Loot Lyric	fatleons.gif	63e73adb3ecfb0cbf544db435eeeaf00	good	none	cast 1 Fat Leon's Phat Loot Lyric|cargo effect Fat Leon's Phat Loot Lyric
-68	Psalm of Pointiness	psalm.gif	5abc19b33b53e0cb7749472a07311c6a	good	none	cast 1 The Psalm of Pointiness
-69	Jackasses' Symphony of Destruction	jackasses.gif	fca62260f2f750e32f104f868ed1a3a5	good	none	cast 1 Jackasses' Symphony of Destruction
-70	Stevedave's Shanty of Superiority	superiority.gif	2e5a803cf1be5b3d2aaa897e60f29138	good	none	cast 1 Stevedave's Shanty of Superiority|cargo effect Stevedave's Shanty of Superiority
-71	Ode to Booze	odetobooze.gif	626c8ef76cfc003c6ac2e65e9af5fd7a	good	none	cast 1 The Ode to Booze|cargo effect Ode to Booze
+60	Aloysius' Antiphon of Aptitude	antiphon.gif	3f875f7c9c4cc7b64f4c7d7b7eea1ef6	good	song	cast 1 Aloysius' Antiphon of Aptitude|cargo effect Aloysius' Antiphon of Aptitude
+61	The Moxious Madrigal	madrigal.gif	c77eb3298c1bcba5e0147eba77a5a802	good	song	cast 1 The Moxious Madrigal
+62	Cletus's Canticle of Celerity	celerity.gif	fe25963fb651fc5d81ed5a098b509030	good	song	cast 1 Cletus's Canticle of Celerity
+63	Polka of Plenty	plenty.gif	c26a911b8ec2c57f7eef57f9ff5fdc24	good	song	cast 1 The Polka of Plenty|cargo effect Polka of Plenty
+64	The Magical Mojomuscular Melody	mojomusc.gif	80224f21d262123e7e370d440ce36937	good	song	cast 1 The Magical Mojomuscular Melody
+65	Power Ballad of the Arrowsmith	arrowsmith.gif	695f24467176d2e76738e7c5e1148a42	good	song	cast 1 The Power Ballad of the Arrowsmith|cargo effect Power Ballad of the Arrowsmith
+66	Brawnee's Anthem of Absorption	brawnees.gif	bcbbb5a02c92d158e45fd9c736950380	good	song	cast 1 Brawnee's Anthem of Absorption|cargo effect Brawnee's Anthem of Absorption
+67	Fat Leon's Phat Loot Lyric	fatleons.gif	63e73adb3ecfb0cbf544db435eeeaf00	good	song	cast 1 Fat Leon's Phat Loot Lyric|cargo effect Fat Leon's Phat Loot Lyric
+68	Psalm of Pointiness	psalm.gif	5abc19b33b53e0cb7749472a07311c6a	good	song	cast 1 The Psalm of Pointiness
+69	Jackasses' Symphony of Destruction	jackasses.gif	fca62260f2f750e32f104f868ed1a3a5	good	song	cast 1 Jackasses' Symphony of Destruction
+70	Stevedave's Shanty of Superiority	superiority.gif	2e5a803cf1be5b3d2aaa897e60f29138	good	song	cast 1 Stevedave's Shanty of Superiority|cargo effect Stevedave's Shanty of Superiority
+71	Ode to Booze	odetobooze.gif	626c8ef76cfc003c6ac2e65e9af5fd7a	good	song	cast 1 The Ode to Booze|cargo effect Ode to Booze
 72	Sleeping with the Fishes	sleepy.gif	5285075ac41f4e239008e57f0b11e193	neutral	none	# wearing cement shoes
 73	Ticking Clock	clock.gif	6e54ea1584f2410c94c93032c5a038f0	good	none	use 1 cheap wind-up clock
 74	Fresh Scent	happy.gif	a12c86c626c44ecd48540d1e55bf1204	neutral	none	use either 1 chunk of rock salt, 1 deodorant|cargo effect Fresh Scent
@@ -161,9 +161,9 @@
 159	Spooky Weapon	batblade.gif	d774d576335ec8cc8c061e6891ff41c5	good	none	use 1 spooky nuggets
 160	Stinky Weapon	stench.gif	c927edbace02490d4c66ee8271c64e2e	good	none	use 1 stench nuggets
 161	Sleazy Weapon	dripsword.gif	fe75c03d60169594193a0733c513a853	good	none	use 1 sleaze nuggets
-162	The Sonata of Sneakiness	sonata.gif	b757f23feb7f08bd250f63586e03cf4a	neutral	none	cast 1 The Sonata of Sneakiness|cargo effect The Sonata of Sneakiness
-163	Carlweather's Cantata of Confrontation	cantata.gif	06e123f9b46d3d180c97efc5ab0ad150	neutral	none	cast 1 Carlweather's Cantata of Confrontation|cargo effect Carlweather's Cantata of Confrontation
-164	Ur-Kel's Aria of Annoyance	urkels.gif	59a1ac48440e1ea1f869f2b37753f9cc	neutral	none	cast 1 Ur-Kel's Aria of Annoyance|cargo effect Ur-Kel's Aria of Annoyance
+162	The Sonata of Sneakiness	sonata.gif	b757f23feb7f08bd250f63586e03cf4a	neutral	song	cast 1 The Sonata of Sneakiness|cargo effect The Sonata of Sneakiness
+163	Carlweather's Cantata of Confrontation	cantata.gif	06e123f9b46d3d180c97efc5ab0ad150	neutral	song	cast 1 Carlweather's Cantata of Confrontation|cargo effect Carlweather's Cantata of Confrontation
+164	Ur-Kel's Aria of Annoyance	urkels.gif	59a1ac48440e1ea1f869f2b37753f9cc	neutral	song	cast 1 Ur-Kel's Aria of Annoyance|cargo effect Ur-Kel's Aria of Annoyance
 165	Smooth Movements	footprints.gif	173a9c4b4bbef78643fe4ec1a93b1cfc	neutral	none	cast 1 Smooth Movement
 166	Musk of the Moose	stench.gif	5e788aac76c7451c42ce19d2acf6de18	neutral	none	cast 1 Musk of the Moose
 167	Spirit of Cayenne	flame.gif	050dd88888b1ac9a2192cd71fd175a45	good	nohookah	cast 1 Spirit of Cayenne
@@ -224,7 +224,7 @@
 222	Snarl of the Timberwolf	wolfmask.gif	2968e9397d3aa977b8cb3e9817ad8cdd	good	nohookah	cast 1 Snarl of the Timberwolf
 223	Dreams and Lights	snowflakes.gif	360467118bd69ef869a1af2002117e63	good	none	# adv in Haunted Gallery
 224	Scarysauce	skullshld.gif	f7551a889b9c61510fc3f73f96ecc98e	good	none	cast 1 Scarysauce
-225	Dirge of Dreadfulness	dirge.gif	6121ba486d7ad86165d117ea62794d09	good	none	cast 1 Dirge of Dreadfulness
+225	Dirge of Dreadfulness	dirge.gif	6121ba486d7ad86165d117ea62794d09	good	song	cast 1 Dirge of Dreadfulness
 226	Talking Like a Pirate	piratehead.gif	defbfe64c65b2d495dc0133506223c1f	neutral	none	use 1 can of Binarrrca
 227	The 'Tussin	bseye.gif	295f414c903d22c44ec2f92f789cad71	neutral	none	use 1 bottle of Vangoghbitussin
 228	Pie in the Face	pieface.gif	9c9794f2ff9a0fcb1090c281c2c442f1	neutral	none	# being hit with cream pie
@@ -330,7 +330,7 @@
 328	Soul Freeze	iceberglet.gif	ac1584de4a0d6359c4738bf0bae571a1	neutral	none	# Wave of Sauce splashback
 329	Broken Fast	ccheese.gif	1e776d50f7d0c07ae3bf04aa1ea13e49	good	none	eat 1 bowl of Bounty-Os
 330	Hoity Toity	snifter.gif	89a2e36f2f2fa3c6c4053a6a35c2a12a	good	none	drink 1 Oreille Divis&eacute;e brandy
-331	On the Trail	snout.gif	91635be2834f8a07c8ff9e3b47d2e43a	neutral	nopvp	# Transcendent Olfaction
+# 331	On the Trail	snout.gif	91635be2834f8a07c8ff9e3b47d2e43a	neutral	nopvp	# Transcendent Olfaction
 332	Moon'd	moon4.gif	3f23af7d42cd450e5a198ba091a842c1	good	none	concert Moon'd
 333	Dilated Pupils	pupils.gif	dd0d5b24b28fff02cb53607f45d0d220	good	none	concert Dilated Pupils
 334	Optimist Primal	happy.gif	63965c29290f23349477c4199c9b10c3	good	none	concert Optimist Primal
@@ -529,12 +529,12 @@
 527	Carrion' On	bonepile.gif	447b7c96f0e5c93fb9a64f92850f0b3e	good	none	chew 1 glimmering buzzard feather
 528	Melancholy Burden	blackbird1.gif	99d1d6de637d4289842cba0ffc2aec19	good	none	chew 1 glimmering raven feather
 529	The Great Tit's Blessing	wink.gif	429a69b3cdc061390828454dd06b6825	neutral	none	chew 1 glimmering great tit feather
-530	The Ballad of Richie Thingfinder	richie.gif	ff0e9ff0189cea375f60b5860463518d	good	none	cast 1 The Ballad of Richie Thingfinder|use 1 recording of The Ballad of Richie Thingfinder
-531	Benetton's Medley of Diversity	medley.gif	c8d08f07fdafe4308601d97322ca69dd	good	none	cast 1 Benetton's Medley of Diversity|use 1 recording of Benetton's Medley of Diversity
-532	Elron's Explosive Etude	etude.gif	26318ef7c75a6bf1fa80584e2e8941b3	good	none	cast 1 Elron's Explosive Etude|use 1 recording of Elron's Explosive Etude
-533	Chorale of Companionship	chorale.gif	e9227c476b197f54d5fe6be5e52995b5	good	none	cast 1 Chorale of Companionship|use 1 recording of Chorale of Companionship
-534	Prelude of Precision	prelude.gif	3f442b411c8d73c4116db7b89669b852	good	none	cast 1 Prelude of Precision|use 1 recording of Prelude of Precision
-535	Deadly Lampblade	blacksword.gif	32cfd91b38e4cfd44a05d368aec7cf48	good	none	use 1 deadly lampshade
+530	The Ballad of Richie Thingfinder	richie.gif	ff0e9ff0189cea375f60b5860463518d	good	song	cast 1 The Ballad of Richie Thingfinder|use 1 recording of The Ballad of Richie Thingfinder
+531	Benetton's Medley of Diversity	medley.gif	c8d08f07fdafe4308601d97322ca69dd	good	song	cast 1 Benetton's Medley of Diversity|use 1 recording of Benetton's Medley of Diversity
+532	Elron's Explosive Etude	etude.gif	26318ef7c75a6bf1fa80584e2e8941b3	good	song	cast 1 Elron's Explosive Etude|use 1 recording of Elron's Explosive Etude
+533	Chorale of Companionship	chorale.gif	e9227c476b197f54d5fe6be5e52995b5	good	song	cast 1 Chorale of Companionship|use 1 recording of Chorale of Companionship
+534	Prelude of Precision	prelude.gif	3f442b411c8d73c4116db7b89669b852	good	song	cast 1 Prelude of Precision|use 1 recording of Prelude of Precision
+535	Deadly Lampblade	blacksword.gif	32cfd91b38e4cfd44a05d368aec7cf48	good	song	use 1 deadly lampshade
 536	Drenched With Filth	blooddrops.gif	0bae503909ac0e2a21763466adf33d29	good	none	use 1 concentrated garbage juice
 537	Hobonic	hobohead.gif	1a4b9db2f98937c155609f54c14cdf7c	good	none	# resting in Hobo Fortress
 538	Crotchety, Pining	pineneedles.gif	a03720e54550e5757e0e8107c6f842bc	good	none	use 1 handful of Crotchety Pine needles|cargo effect Crotchety, Pining
@@ -613,7 +613,7 @@
 611	Lustful Heart	heart.gif	35a0e93898e18f500d1d0c7eec8e8ef1	good	nohookah	use 1 love song of naughty innuendo
 612	Clumsy	sad.gif	63fa9abd19f2d77636e52d591b54f589	neutral	none	use 1 concoction of clumsiness|cargo effect Clumsy
 613	Spectral	specjelly.gif	810bbc77f3ef220d9d77ed395b9cc70c	neutral	none	use either 1 spectral jelly, 1 ghost protocol
-614	Donho's Bubbly Ballad	bubblyballad.gif	3337ba138b0e4d48f070bca9711139b5	good	none	cast 1 Donho's Bubbly Ballad|use 1 recording of Donho's Bubbly Ballad
+614	Donho's Bubbly Ballad	bubblyballad.gif	3337ba138b0e4d48f070bca9711139b5	good	song	cast 1 Donho's Bubbly Ballad|use 1 recording of Donho's Bubbly Ballad
 615	Antihangover	martini.gif	eadafbbe6d035eb5a36408dfbb1c85cc	good	nohookah	use 1 hair of the fish
 616
 617	Old School Pompadour	pompadour.gif	aff568fdc12724deb962ebcb00e81fb9	good	none	use 1 jellyfish gel|cargo effect Old School Pompadour
@@ -699,7 +699,7 @@
 697	Bruised Jaw	jawbruise.gif	f4959778ae2895efb4c53a2b82a7fe01	neutral	none	eat 1 jawbruiser|cargo effect Bruised Jaw
 698	A Few Extra Pounds	bathroomscale.gif	210aca072eee884be7fe49b03f5098b6	good	none	cast 1 Holiday Weight Gain
 699	Jingle Jangle Jingle	jinglebells.gif	a32acc4a5de83386ae3417140d09bf43	good	none	cast 1 Jingle Bells
-700	Cringle's Curative Carol	curative.gif	943d3ca45c939d9bcd9a92ababb7db08	good	none	cast 1 Cringle's Curative Carol
+700	Cringle's Curative Carol	curative.gif	943d3ca45c939d9bcd9a92ababb7db08	good	song	cast 1 Cringle's Curative Carol
 701	Holiday Bliss	sleepy.gif	31b51f4b07633328937bae282d4baa5f	good	none	use 1 holly-flavored Hob-O
 702	Sugar High	sugarmag.gif	268dcb9173beb3621445fd6931b5a07d	good	none	# elven suicide capsule - 1/3 chance
 703	Sugar Smacks	sugarstr.gif	c78dc8f3ef4be37bcae07851eed778aa	good	none	# elven suicide capsule - 1/3 chance
@@ -715,7 +715,7 @@
 713	Simply Invisible	blank.gif	3563606030d2e7abf29128b1714dc309	neutral	none	use 1 invisibility potion
 714	Simply Irresistible	magnet.gif	cba956179bd0be43eb87e0f80fc6692c	neutral	none	use 1 irresistibility potion
 715	Simply Irritable	angry.gif	78f093b933f55e50f2cf8d8ee23451d6	neutral	none	use 1 irritability potion
-716	Inigo's Incantation of Inspiration	incantation.gif	13a38b36b281484553a9ea836fd3b2d8	good	none	cast 1 Inigo's Incantation of Inspiration|use 1 recording of Inigo's Incantation of Inspiration
+716	Inigo's Incantation of Inspiration	incantation.gif	13a38b36b281484553a9ea836fd3b2d8	good	song	cast 1 Inigo's Incantation of Inspiration|use 1 recording of Inigo's Incantation of Inspiration
 717	Red Misty-Eyed	eyeball.gif	820b089cdb98e5f389fb24448c4d6a37	good	none	use 1 sealhide seal doll
 718	B-b-brr!	sphererough.gif	c7cfec0c1b99f8ab69bdd4dd24dd6735	neutral	none	# snowball
 719	Sealed Brain	realbrain.gif	12fa21a06cde21c7a65f2244cd02dacb	good	none	use 1 seal-brain elixir
@@ -1494,7 +1494,7 @@
 1492	Reassured	reassured.gif	671ff2f265a9a566b00a976180372a3e	good	nohookah	# having Psychokinetic Hug cast on you
 1493	Eyes for Miles	eyes.gif	889ae743a4d0cc14105c135476fa0a66	good	none	use 1 warbear liquid lasers
 1494	New and Improved	light.gif	d09b7ced217029dae850045f1d238d94	good	none	use 1 warbear rejuvenation potion
-1495	Rolando's Rondo of Resisto	resisto.gif	b19edbdc0f692aca0840c72949fefa0b	good	nohookah	use 1 recording of Rolando's Rondo of Resisto
+1495	Rolando's Rondo of Resisto	resisto.gif	b19edbdc0f692aca0840c72949fefa0b	good	song,nohookah	use 1 recording of Rolando's Rondo of Resisto
 1496	Soles of Glass	glassslipper.gif	1b0f0ec668f5f70c96c4f55de8c61fff	good	none	grim init
 1497	Angry like the Wolf	wolfmask.gif	a8f0f79de690532da8d2e80d12b2b83e	good	none	grim hpmp
 1498	Grumpy and Ornery	angry.gif	a7d08fbe7e345a227857cd9135b788a7	good	none	grim damage
@@ -2246,7 +2246,7 @@
 2244
 2245
 2246	Slippery Tongue	tongue.gif	bbfca6078b816c398b444446bd69bd22	good	none	drink 1 extremely slippery nipple
-2247	Orcmouth	breath.gif	143bc680423fefd2f1266ebdd901a2ad	good	none	drink 1 Mysterious Island iced tea
+2247	Orcmouth	breath.gif	143bc680423fefd2f1266ebdd901a2ad	good	nohookah	drink 1 Mysterious Island iced tea
 2248
 2249
 2250	You Drank Fish Wine	whitewine.gif	ca447f558c3dd76c920c785ff7b89a33	good	none	drink 1 piscatini
@@ -2374,7 +2374,7 @@
 2372	Big	getbig.gif	581c62434820bcc318206d2b26888f60	good	none	cast 1 Get Big
 2373	Inscrutable Gaze	psychicgaze.gif	117aebee9518a532e86e92dcf4aa1175	good	none	cast 1 Inscrutable Gaze
 2374	Tainted Love Potion	potion9.gif	75c1c2a807f9e12f6c9e3e9954586d08	good	nohookah	use 1 Love Potion #XYZ
-2375	Paul's Passionate Pop Song	paulssong.gif	f13ebf735337e1109a0d726c968f134f	good	none	cast 1 Paul's Passionate Pop Song
+2375	Paul's Passionate Pop Song	paulssong.gif	f13ebf735337e1109a0d726c968f134f	good	song	cast 1 Paul's Passionate Pop Song
 2376	Rhinestoned	rhinestones.gif	b87601a22d0736c8c6ed9a08518829e0	good	none	use 1 rhinestone
 2377	Berry Critical	berry3.gif	96f738d3eca639e360cf915cffd81e3d	good	none	use 1 Nadsat berry
 2378	Berry Thorny	berry5.gif	ae0eaee783c12d3e6756b796d17dfc0a	good	none	use 1 Jamocha berry
@@ -2457,7 +2457,7 @@
 2455	Frenzied, Bloody	bloodfrenzy.gif	cc775d86f48fe74196f3f6a6c17cf3a5	good	none	cast 1 Blood Frenzy
 2456	Blood Bond	bloodbond.gif	5e3903ce818e16ddaec9167389fc988d	good	none	cast 1 Blood Bond
 2457	Blood Bubble	jarl_choco.gif	03a2694dd77ef8a08db950e036c9c910	neutral	none	cast 1 Blood Bubble
-2458	Bram's Bloody Bagatelle	bloodsong.gif	03c0d20a0a8facdb7da2bdbd76bec8cc	neutral	none	cast 1 Bram's Bloody Bagatelle
+2458	Bram's Bloody Bagatelle	bloodsong.gif	03c0d20a0a8facdb7da2bdbd76bec8cc	neutral	song	cast 1 Bram's Bloody Bagatelle
 2459	The Best a Pirate Can Get	pr_shavingcream.gif	579f7b8ec468f4120a9e9c4efbe44169	good	none	use 1 pirate shaving cream
 2460	Mint-Condition Breath	pr_mintleaf.gif	41aabe6bd233a3239d32834219e5a658	good	none	use 1 huge mint leaf
 2461	Pewtershot	pr_shavings.gif	2ec98f6b5ba231f82d6cf5d4b24f0082	good	none	chew 1 pewter shavings
@@ -2553,7 +2553,7 @@
 2551	Blessing of the Bird	findbird.gif	8de6fb855433dc4b90fb4dbc2a5c919d	neutral	none	cast 1 Seek out a Bird
 2552	Blessing of your favorite Bird	favoritebird.gif	e9c3b4f9a7f9b24166b835481f15c875	neutral	none	cast 1 Visit your Favorite Bird
 2553	Scariersauce	scarysauce.gif	33e4e82db2376879224ab4d8d406325a	good	nohookah
-2554	Dirge of Dreadfulness (Remastered)	dirge.gif	ec4766a15304fe13ca2334dfb41fd494	good	nohookah
+2554	Dirge of Dreadfulness (Remastered)	dirge.gif	ec4766a15304fe13ca2334dfb41fd494	good	song,nohookah
 2555	Snarl of Three Timberwolves	wolfmask.gif	193ef2bbdde7fe95e51e5a527ae4f42e	good	nohookah
 2556	Invisible Avatar	missingavatar.gif	da6f47ae655716b599e530128712c36c	neutral	none	cast 1 CHEAT CODE: Invisible Avatar
 2557	Triple-Sized	triplesize.gif	6be2d9af5964c3bc987c0696ea60eeeb	good	none	cast 1 CHEAT CODE: Triple Size
@@ -2607,7 +2607,7 @@
 2605	Cocoa-Chanel	coffeecup.gif	cb8ef9c54c1c0e652d8ec405efe24d7e	neutral	none	use 1 cool hot cocoa
 2606	Smug of Cocoa	coffeecup.gif	bc02bd4b87acaae9d9dfbca57fc20a39	neutral	none	use 1 overly-fancy hot cocoa
 2607	Cocoa-Buttery	coffeecup.gif	0a6f237d1087c2673d0b8304e3b26a17	neutral	none	use 1 hot cocoa au beurre
-2608	Cocoa-Nuts	coffeecup.gif	2f38dbd438b8c462bc4c402af089ec70	neutral	none 	use 1 hot cocoa with rainbow marshmallows
+2608	Cocoa-Nuts	coffeecup.gif	2f38dbd438b8c462bc4c402af089ec70	neutral	none	use 1 hot cocoa with rainbow marshmallows
 2609	Self-Harmonizing	smallharmonica.gif	344da8cadefc13c273059b97f93b1a31	neutral	none	use 1 candy harmonica
 2610	Festively-Dusted	snowpile.gif	ec397a83385436b3caf2da774864f9d0	neutral	none	use 1 powdered powdered sugar
 2611	Multi-Level Mindset	mlmarzipan.gif	2ad20a3224d74d21c41abe98e63ff5fa	neutral	none
@@ -2624,7 +2624,7 @@
 2622	Grand Theft Candy	lasso.gif	5a17e3c490ce662c5eb3283e868e7081	neutral	none	use 1 Hotwire&trade; brand candy rope
 2623	Jowls Full, and Belly	soupbowl.gif	7a198c6aa6ce89f91144e39b05de5ebb	good	none	eat 1 bowl full of jelly
 2624	Twist and an Eye	bseye.gif	be003502a30404e3e2d43732876f6cbc	good	none	drink 1 Eye and a Twist
-2625	Plump and Chubby	chubbybar.gif	5bb46b48ec5a2449117845bff0c897d3	good	none    	use 1 Chubby and Plump bar
+2625	Plump and Chubby	chubbybar.gif	5bb46b48ec5a2449117845bff0c897d3	good	none	use 1 Chubby and Plump bar
 2626	Stained	sg_candy.gif	31bc709fdf929455aa7f0d1e10fe2614	neutral	none	use 1 stained hard candy
 2627	Feeling Excited	emochip1.gif	7b78b0e96a9d9e28de62d11931ccc389	good	none	cast 1 Feel Excitement
 2628	Feeling Lonely	emochip11.gif	26d83401d58117dd07f65c1a1466368f	neutral	none	cast 1 Feel Lonely
@@ -2675,3 +2675,25 @@
 2674	Cowboy Stache	dsstache9.gif	dc23d0e46b5883aacc81ba236798616a	neutral	none
 2675	Friendly Chops	dsstache10.gif	4052b13b7b1351690476fc4f1ccd6025	neutral	none
 2676	Spectacle Moustache	dsstache11.gif	3e53514c96e5971554a64859776333c5	neutral	none
+2677	Anti-Hurt	creamtube.gif	45f1218ead3b3a6ee4b53f741fa41f1e	neutral	none	use 1 anti-pain cream
+2678	Fixed Right Up	rxwine.gif	355ad3e304b2420b662bf8ba899a0531	neutral	none	drink 1 Doc's Special Reserve Wine
+2679	Fixed Up	rxwine.gif	37b3e9d3b318c6b6ce5f97098d7d8b51	neutral	none	drink 1 Doc's Medical-Grade Wine
+2680	Medically Fortified	rxwine.gif	2e2bca2f74dce1f9d6cec95986bb301a	neutral	none	drink 1 Doc's Fortifying Wine
+2681	Medically Smartified	rxwine.gif	27d33b61abb75ef269159f9d87b76507	neutral	none	drink 1 Doc's Smartifying Wine
+2682	Medically Loosened	rxwine.gif	287f43ba227e420b289ce51878df29f6	neutral	none	drink 1 Doc's Limbering Wine
+2683	Anti-Burning	creamtube.gif	266ac01d4c41914121c08f99f150a3de	neutral	none	use 1 anti-burn cream
+2684	Anti-Freezing	creamtube.gif	87b22fcbece528b8d1b43f7c8613258c	neutral	none	use 1 anti-freeze cream
+2685	Anti-Goosebumped	creamtube.gif	5ef4224b2dca1a2e767c1bda1fd25dc7	neutral	none	use 1 anti-goosebump cream
+2686	Anti-Odored	creamtube.gif	59a4b9e87e0d81c171e8338bd01eab0c	neutral	none	use 1 anti-odor cream
+2687	Anti-Creeped	creamtube.gif	7f1f6e0b45ec819986a953a46df2630c	neutral	none	use 1 anti-creep cream
+2688	Sauna-Fresh	stench.gif	015dd9870949c871d82e971a3a64aa86	neutral	none
+2689	Festively Experimented-Upon	mistletoe.gif	b34d84b3ea1112ac5d9e8be0d9819be5	neutral	none
+2690	Puttied, Fleshly	fleshputty.gif	80ea9b026aaf0d54448990c17613a2f0	neutral	none	use 1 fleshy putty
+2691	Real Meat Craving	synthmeat.gif	d46677458bfe6610d4d0255c031c4a34	neutral	none	eat 1 lab-grown meat
+2692	Well-Ventilated	friedair.gif	9d8854ac085d8cd580399c9540556d17	neutral	none	chew 1 fried air
+2693	Lucky!	11leafclover.gif	de95d62abb71d5221ec6c068c1c72626	neutral	none
+2694	On the Trail	snout.gif	519edacbd99d93658cc2ef05bd6baefb	neutral	none	# Transcendent Olfaction
+2695	Dizzy	dizzy.gif	c9fe57705a1a6d4b2a24e03228e49faf	neutral	none
+2696	Sluggish	slug.gif	f07d57053c4ed45f8523a4ae8dd95495	neutral	none
+2697	Drained	downarrow.gif	661a324f81137062fc3a484a00a7861a	neutral	none
+2698	Cosmic Ball in the Air	bowlup.gif	48f47e7233cc46a1f5e666d429b488bc	neutral	none

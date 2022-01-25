@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.session.StoreManager.StoreLogEntry;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.ItemListManagePanel;
@@ -140,6 +141,7 @@ public class StoreManageFrame extends GenericPanelFrame {
 
     ActionListener bob =
         new ActionListener() {
+          @Override
           public void actionPerformed(ActionEvent e) {
             text.setEnabled(check.isSelected());
             if (text.isEnabled() && text.getText().equals("0")) {
@@ -160,14 +162,17 @@ public class StoreManageFrame extends GenericPanelFrame {
     DocumentListener steve =
         new DocumentListener() {
 
+          @Override
           public void insertUpdate(DocumentEvent e) {
             this.changedUpdate(e);
           }
 
+          @Override
           public void removeUpdate(DocumentEvent e) {
             this.changedUpdate(e);
           }
 
+          @Override
           public void changedUpdate(DocumentEvent e) {
             try {
               long lim =
@@ -266,7 +271,7 @@ public class StoreManageFrame extends GenericPanelFrame {
       "KoLmafia will take items priced at 999,999,999 meat and undercut the current lowest price in the mall.  "
           + "Would you like KoLmafia to avoid 'minimum possible prices' (100 meat, or twice the autosell value of the item) when doing so?";
 
-  protected class StoreManageTable extends ShowDescriptionTable {
+  protected class StoreManageTable extends ShowDescriptionTable<SoldItem> {
     public StoreManageTable() {
       super(StoreManager.getSoldItemList(), 11, 7);
 
@@ -325,6 +330,7 @@ public class StoreManageFrame extends GenericPanelFrame {
 
       HighlightPredicate mouseOver =
           new HighlightPredicate() {
+            @Override
             public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
               if (!adapter.getComponent().isEnabled()) return false;
               Point p =
@@ -338,6 +344,7 @@ public class StoreManageFrame extends GenericPanelFrame {
 
       HighlightPredicate valueChanged =
           new HighlightPredicate() {
+            @Override
             public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
               if (!adapter.getComponent().isEnabled()) return false;
               if (convertColumnIndexToModel(adapter.column) == 1) {
@@ -368,6 +375,7 @@ public class StoreManageFrame extends GenericPanelFrame {
 
       HighlightPredicate warning =
           new HighlightPredicate() {
+            @Override
             public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
               if (!adapter.getComponent().isEnabled()) return false;
               if (convertColumnIndexToModel(adapter.column) != 1) return false;
@@ -385,6 +393,7 @@ public class StoreManageFrame extends GenericPanelFrame {
 
       HighlightPredicate auto =
           new HighlightPredicate() {
+            @Override
             public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
               if (!adapter.getComponent().isEnabled()) return false;
               if (convertColumnIndexToModel(adapter.column) != 0) return false;
@@ -471,28 +480,36 @@ public class StoreManageFrame extends GenericPanelFrame {
        * this way.  Sigh.
        */
 
+      @Override
       public Object getCellEditorValue() {
         return null;
       }
 
+      @Override
       public boolean isCellEditable(EventObject anEvent) {
         return true;
       }
 
+      @Override
       public boolean shouldSelectCell(EventObject anEvent) {
         return false;
       }
 
+      @Override
       public boolean stopCellEditing() {
         return false;
       }
 
+      @Override
       public void cancelCellEditing() {}
 
+      @Override
       public void addCellEditorListener(CellEditorListener l) {}
 
+      @Override
       public void removeCellEditorListener(CellEditorListener l) {}
 
+      @Override
       public Component getTableCellEditorComponent(
           JTable table, Object value, boolean isSelected, int row, int column) {
         if (value instanceof Boolean || value instanceof Integer) {
@@ -532,8 +549,7 @@ public class StoreManageFrame extends GenericPanelFrame {
     }
 
     @Override
-    public Vector<Serializable> constructVector(final Object o) {
-      Vector<Serializable> value = (Vector<Serializable>) o;
+    public SoldItem constructVector(final SoldItem value) {
       if (value.size() < 7) {
         String itemName = (String) value.get(0);
         String displayName = StringUtilities.getDisplayName(itemName);
@@ -735,15 +751,16 @@ public class StoreManageFrame extends GenericPanelFrame {
     }
   }
 
-  private class StoreLogPanel extends ScrollablePanel {
+  private class StoreLogPanel extends ScrollablePanel<JList<StoreLogEntry>> {
     public StoreLogPanel() {
       super("", "refresh", "resort", new JList<>(StoreManager.getStoreLog()), false);
 
       JPanel northPanel = new JPanel(new BorderLayout());
       this.actualPanel.add(northPanel, BorderLayout.NORTH);
 
-      AutoFilterTextField filterfield = new AutoFilterTextField((JList) this.scrollComponent);
-      this.centerPanel.add(filterfield, BorderLayout.NORTH);
+      AutoFilterTextField<StoreLogEntry> filterField =
+          new AutoFilterTextField<>(this.scrollComponent);
+      this.centerPanel.add(filterField, BorderLayout.NORTH);
     }
 
     @Override
@@ -763,6 +780,7 @@ public class StoreManageFrame extends GenericPanelFrame {
       setHorizontalAlignment(JLabel.CENTER);
     }
 
+    @Override
     public Component getTableCellRendererComponent(
         JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
       if (isSelected) {

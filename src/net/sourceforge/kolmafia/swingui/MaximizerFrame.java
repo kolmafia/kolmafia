@@ -93,7 +93,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
       }
     }
     for (KoLConstants.filterType f : KoLConstants.filterType.values()) {
-      activeFilters.put(f, true);
+      activeFilters.put(f, filterButtons.get(f).isSelected());
     }
   }
 
@@ -102,6 +102,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
     return null;
   }
 
+  @Override
   public void valueChanged(final ListSelectionEvent e) {
     double current = Maximizer.eval.getScore(KoLCharacter.getCurrentModifiers());
     boolean failed = Maximizer.eval.failed;
@@ -353,6 +354,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
       this.update();
     }
 
+    @Override
     public void update() {
       int pulls = ConcoctionDatabase.getPullsRemaining();
       StringBuilder buf = new StringBuilder(this.text);
@@ -376,7 +378,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
 
     public BoostsPanel(final ShowDescriptionList<Boost> list) {
       super("Current score: --- \u25CA Predicted: ---", "equip all", "exec selected", list);
-      this.elementList = (ShowDescriptionList<Boost>) this.scrollComponent;
+      this.elementList = this.scrollComponent;
       MaximizerFrame.this.listTitle = this.titleComponent;
     }
 

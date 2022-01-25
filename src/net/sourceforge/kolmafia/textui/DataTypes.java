@@ -100,6 +100,10 @@ public class DataTypes {
   public static final AggregateType ITEM_TO_INT_TYPE =
       new AggregateType(DataTypes.INT_TYPE, DataTypes.ITEM_TYPE);
 
+  // Map from INT -> ITEM
+  public static final AggregateType INT_TO_ITEM_TYPE =
+      new AggregateType(DataTypes.ITEM_TYPE, DataTypes.INT_TYPE);
+
   // Map from STRING -> BOOLEAN
   public static final AggregateType STRING_TO_BOOLEAN_TYPE =
       new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE);
@@ -763,6 +767,10 @@ public class DataTypes {
 
     return new Value(
         DataTypes.CLASS_TYPE, ascensionClass.getId(), ascensionClass.getName(), ascensionClass);
+  }
+
+  public static final Value makeClassValue(final int id, boolean returnDefault) {
+    return makeClassValue(AscensionClass.idToClass(id), returnDefault);
   }
 
   private static Value makeNormalizedSkill(final int num, String name) {

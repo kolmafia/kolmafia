@@ -8,6 +8,7 @@ public class TypeDef extends Type {
 
   public TypeDef(final String name, final Type base, final Location location) {
     super(name, DataTypes.TYPE_TYPEDEF, location);
+    this.primitive = base.isPrimitive();
     this.base = base;
   }
 
@@ -38,17 +39,22 @@ public class TypeDef extends Type {
 
   @Override
   public TypeDef reference(final Location location) {
-    return new TypeDefReference(location);
+    return new TypeDefReference(this, location);
   }
 
   private class TypeDefReference extends TypeDef {
-    public TypeDefReference(final Location location) {
-      super(TypeDef.this.name, TypeDef.this.base, location);
+    private TypeDefReference(final TypeDef typeDef, final Location location) {
+      super(typeDef.name, typeDef.base, location);
     }
 
     @Override
     public Location getDefinitionLocation() {
       return TypeDef.this.getDefinitionLocation();
     }
+  }
+
+  @Override
+  public boolean isBad() {
+    return this.base.isBad();
   }
 }

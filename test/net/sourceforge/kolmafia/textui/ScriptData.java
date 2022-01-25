@@ -1,9 +1,12 @@
 package net.sourceforge.kolmafia.textui;
 
+import static org.eclipse.lsp4j.DiagnosticSeverity.Error;
+
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.textui.parsetree.Scope;
 
 public abstract class ScriptData {
@@ -36,18 +39,80 @@ public abstract class ScriptData {
   }
 
   /** Shortcut method for the creation of an invalid script failing with the given error message. */
-  public static ScriptData invalid(final String desc, final String script, final String errorText) {
-    return new InvalidScriptData(desc, script, errorText);
+  public static ScriptData invalid(
+      final String desc,
+      final String script,
+      final String errorText,
+      final String errorLocationString) {
+    return new InvalidScriptData(desc, script, errorText, errorLocationString);
+  }
+
+  /**
+   * Creates two invalid scripts failing with the given error messages.
+   *
+   * <p>The first script acts normally, in that only the first given error is looked at.
+   *
+   * <p>The <i>second</i> script, however, is meant to test the error filtering behaviour. It is a
+   * script similar to the first, which, in addition to looking at the first given error of {@code
+   * newScript}, looks at <b>all</b> the errors made by the script, asserting that <b>none</b> of
+   * them match {@code errorText}, because it has (allegedly) been filtered due to a prior error.
+   *
+   * @param desc the description of the script
+   * @param script the content of the first script
+   * @param errorText the error message expected from the first script, and <i>not</i> from the
+   *     second
+   * @param errorLocationString the location of the error expected from the first script
+   * @param newScript the content of the second script. Should be similar to the first
+   * @param newErrorText the error message expected from the second script
+   * @param newErrorLocationString the location of the error expected from the second script
+   */
+  public static ScriptData invalid(
+      final String desc,
+      final String script,
+      final String errorText,
+      final String errorLocationString,
+      final String newScript,
+      final String newErrorText,
+      final String newErrorLocationString) {
+    return new InvalidScriptDataWithErrorFilterTest(
+        desc,
+        script,
+        errorText,
+        errorLocationString,
+        newScript,
+        newErrorText,
+        newErrorLocationString);
   }
 
   public final String desc;
   public final Parser parser;
+  public final Scope scope;
+  public final List<String> errors;
 
-  private ScriptData(final String description, final String script) {
+  /** Exception thrown by Parser.parse(), if any */
+  public final Throwable parsingException;
+
+  private ScriptData(final String description, final Parser parser) {
     this.desc = description;
-    ByteArrayInputStream istream =
-        new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8));
-    this.parser = new Parser(/*scriptFile=*/ null, /*stream=*/ istream, /*imports=*/ null);
+    this.parser = parser;
+
+    Scope scope;
+    try {
+      scope = this.parser.parse();
+    } catch (Throwable e) {
+      this.parsingException = e;
+      this.scope = null;
+      this.errors = null;
+      return;
+    }
+
+    this.parsingException = null;
+    this.scope = scope;
+    this.errors =
+        this.parser.getDiagnostics().stream()
+            .filter(diagnostic -> diagnostic.severity == Error)
+            .map(diagnostic -> diagnostic.toString())
+            .collect(Collectors.toList());
   }
 
   @Override
@@ -55,7 +120,18 @@ public abstract class ScriptData {
     return this.desc;
   }
 
-  public static class ValidScriptData extends ScriptData {
+  private abstract static class DefaultParserScriptData extends ScriptData {
+    private DefaultParserScriptData(final String description, final String script) {
+      super(
+          description,
+          new Parser(
+              /*scriptFile=*/ null,
+              /*stream=*/ new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8)),
+              /*imports=*/ null));
+    }
+  }
+
+  public static class ValidScriptData extends DefaultParserScriptData {
     public final List<String> tokens;
     public final List<String> positions;
 
@@ -73,7 +149,7 @@ public abstract class ScriptData {
   public static class ValidScriptDataWithLocationTests extends ValidScriptData {
     final Consumer<Scope> locationTests;
 
-    public ValidScriptDataWithLocationTests(
+    private ValidScriptDataWithLocationTests(
         final String description,
         final String script,
         final List<String> tokens,
@@ -84,13 +160,44 @@ public abstract class ScriptData {
     }
   }
 
-  public static class InvalidScriptData extends ScriptData {
+  public static class InvalidScriptData extends DefaultParserScriptData {
     public final String errorText;
+    public final String errorLocationString;
 
     private InvalidScriptData(
-        final String description, final String script, final String errorText) {
+        final String description,
+        final String script,
+        final String errorText,
+        final String errorLocationString) {
       super(description, script);
       this.errorText = errorText;
+      this.errorLocationString = errorLocationString;
+    }
+  }
+
+  public static class InvalidScriptDataWithErrorFilterTest extends InvalidScriptData {
+    public final InvalidScriptData filteredScript;
+
+    private InvalidScriptDataWithErrorFilterTest(
+        final String description,
+        final String script,
+        final String errorText,
+        final String errorLocationString,
+        final String newScript,
+        final String newErrorText,
+        final String newErrorLocationString) {
+      super(description, script, errorText, errorLocationString);
+      this.filteredScript =
+          new InvalidScriptData(
+              description + " - filtered", newScript, newErrorText, newErrorLocationString);
+    }
+  }
+
+  public static class CustomParserScriptData extends ScriptData {
+    public CustomParserScriptData(final String description, final Parser parser) {
+      super(description, parser);
+      // We're never used for parameterized tests, so we can send throwables straight away
+      ParserTest.testScriptValidity(this);
     }
   }
 }

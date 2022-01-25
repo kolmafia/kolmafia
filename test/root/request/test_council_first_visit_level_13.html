@@ -1,0 +1,76 @@
+
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == -1) location.href="game.php";
+//-->
+</script>
+<script language=Javascript src="/images/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="/images/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script language="javascript">
+	function updateParseItem(iid, field, info) {
+		var tbl = $('#ic'+iid);
+		var data = parseItem(tbl);
+		if (!data) return;
+		data[field] = info;
+		var out = [];
+		for (i in data) {
+			if (!data.hasOwnProperty(i)) continue;
+			out.push(i+'='+data[i]);
+		}
+		tbl.attr('rel', out.join('&'));
+	}
+	function parseItem(tbl) {
+		tbl = $(tbl);
+		var rel = tbl.attr('rel');
+		var data = {};
+		if (!rel) return data;
+		var parts = rel.split('&');
+		for (i in parts) {
+			if (!parts.hasOwnProperty(i)) continue;
+			var kv = parts[i].split('=');
+			tbl.data(kv[0], kv[1]);
+			data[kv[0]] = kv[1];
+		}
+		return data;
+	}
+</script><script language=Javascript src="/images/scripts/jquery-1.3.1.min.js"></script>
+<script type="text/javascript" src="/images/scripts/pop_query.20130705.js"></script>
+<script type="text/javascript"> function pop_ircm(clicked) { return false; } </script>	<link rel="stylesheet" type="text/css" href="/images/styles.20151006.css">
+<style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35;
+    -moz-opacity: 0.35;
+}
+</style>
+
+<script language="Javascript" src="/basics.js"></script><link rel="stylesheet" href="/basics.1.css" /></head>
+
+<body>
+<center><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Council of Loathing</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><center><img src="/images/otherimages/council.gif" width=100 height=100></center><p><p>We require your aid, Adventurer.  We need a mosquito larva.  Don't ask why, because we won't tell you.  In any case, the best place to find a mosquito larva is in the Spooky Forest, which is found in the Distant Woods.  We'll mark it on your map for you.
+
+<P><center><table  width=400  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>New Area Unlocked</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><center><table><tr><td valign=center><a href="adventure.php?snarfblat=15"><img src="/images/adventureimages/forest.gif"></a></td><td valign=center class=small><a class=nounder href="adventure.php?snarfblat=15"><b>The Spooky Forest</b></a>, in the <a class=nounder href=woods.php><b>Distant Woods</b></a>.</td></tr></table></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></center><p><script>parent.menupane.location.href="topmenu.php";</script><br><br><p>The Council requires another task of you, Adventurer.  You must slay the Boss Bat.  He can be found in the deepest part of the Bat Hole, in the Nearby Plains.  Slay him, and return to us with proof of your conquest.<br><br><p>We've gotten word, Adventurer, that the Knob Goblins, who normally keep to themselves over at Cobb's Knob, are planning a major military action against Seaside Town.
+<p>
+We need for you to go deep into the Knob, and nip this problem in the bud, so to speak, by neutralizing the Goblin King.
+<p>
+Our spies have determined that there is a secret entrance that will allow you to access the inside of the Knob.  They recovered this map, but nobody knows how to read it.
+<p>
+You'll need to figure out how to decrypt the symbols on it if you're going to find that entrance.  And be careful with it, Adventurer.  Many Bothans died to... oh, wait, never mind.  That was something else.
+<center><table class="item" style="float: none" rel="id=2442&s=0&q=1&d=0&g=0&t=0&n=1&m=0&p=0&u=u"><tr><td><img src="/images/itemimages/map.gif" alt="Cobb's Knob map" title="Cobb's Knob map" class=hand onClick='descitem(325883819)' ></td><td valign=center class=effect>You acquire an item: <b>Cobb's Knob map</b></td></tr></table></center><br><br><p>The Deep Fat Friars in the Distant Woods are having a problem -- one of the experiments has gone awry, and fey creatures have invaded their grove.  Please, Adventurer, lend them your assistance.<br><br><p>Recently, an aura of extreme Spookiness has begun to emanate from within the Cyrpt, near the Misspelled Cemetary. We fear that some horrible monster has taken up residence there, and begun to rile up the local undead.<p>Would you be so good as to investigate? This device should help: <center><table class="item" style="float: none" rel="id=4964&s=0&q=1&d=0&g=0&t=0&n=1&m=0&p=0&u=u"><tr><td><img src="/images/itemimages/evilometer.gif" alt="Evilometer" title="Evilometer" class=hand onClick='descitem(402664251)' ></td><td valign=center class=effect>You acquire an item: <b>Evilometer</b> <font size=1>[<a href="javascript:singleUse('inv_use.php','which=3&whichitem=4964&pwd=5b4d15e5a55724ef8a54c6741494e81f&ajax=1');void(0);">use</a>]</font></td></tr></table></center><br><br><p>Adventurer!  We've received an urgent letter from the Trapper, requesting our assistance.  We're, like, really busy right now, so we were hoping you could go out to his place and see what he wants.
+<p>
+He lives at the base of Mt. McLargeHuge, the tallest of the Big Mountains.  We'll mark it on your map for you.<br><br><p>Sorry to trouble you with this, Adventurer, but we've gotten a... shall we say... cryptic message from Black Angus -- he's one of Loathing's minor nobles.
+<p>
+It's usually safe to ignore him, but he sounded pretty agitated, and given the current political climate we can scarcely afford to ignore him.
+<p>
+Could you do us a favor and go to his tower, in the Highlands?  The Highlands are just on the other side of the Orc Chasm.  We'll mark it on your map.
+<br><br><p>Something is amiss, Adventurer.  The Nearby Plains are filling up with giant piles of garbage, and despite our best efforts, it keeps falling from the sky faster than we can clean it up.  We need you to figure out where it's coming from, and put a stop to it.<br><br><p>Ah, Beldur, excellent timing. We've just received a message from the Distant Lands -- it seems that your father, the renowned archaeologist, has gone missing. Apparently, his life's work was to track down an ancient relic known only as the Holy MacGuffin. He left behind his diary, with instructions that it was to be delivered to you, but he didn't leave any funds to pay for shipping. So, you'll have to go pick it up yourself.
+<p>
+You can travel there from the Travel Agency at The Shore, but there's a slight hitch -- the area you're going to requires a passport for entry, and our passport offices are temporarily closed due to a tiny photograph shortage. You'll need to acquire some forged identification documents from the Black Market instead, but we're not entirely sure where the Black Market actually is. It's probably near the Black Forest, though, and we'll mark that on your map for you.
+<p>
+Once you've retrieved your father's diary, we request that you use his notes to track down the Holy MacGuffin for us, as an item of such power will obviously be of great help to us in our fight against the Naughty Sorceress and the other evils that plague our land. Good luck!<br><br><p>Adventurer, we have heard rumors that trouble is brewing on the Mysterious Island of Mystery. The hippies and frat boys are agitating for war. I mean, they've always been a little tense with each other, but now it's getting serious. We couldn't be happier.
+<p>
+We'd like you to go over there and make sure that war starts. We don't care how it starts and we don't care who wins, so there's basically no way for you to screw this up, so long as you don't accidentally negotiate a peace accord. Try not to do that.<br><br><p>Your name is Beldur, right?  This came in the mail for you.<center><table class="item" style="float: none" rel="id=520&s=0&q=1&d=0&g=0&t=0&n=1&m=0&p=0&u=a&ou=read"><tr><td><img src="/images/itemimages/guildapp.gif" alt="strange leaflet" title="strange leaflet" class=hand onClick='descitem(787599360)' ></td><td valign=center class=effect>You acquire an item: <b>strange leaflet</b> <font size=1>[<a href="leaflet.php?action=auto&pwd=5b4d15e5a55724ef8a54c6741494e81f">read</a>]</font></td></tr></table></center><p><centeR><a href="town.php">Back to Seaside Town</a></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></centeR><script>parent.charpane.location.href="charpane.php";</script></body><script src="/onfocus.1.js"></script></html>

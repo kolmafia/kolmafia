@@ -60,7 +60,8 @@ public class CatchTest {
         invalid(
             "catch value interrupted",
             "string error_message = catch",
-            "\"catch\" requires a block or an expression"));
+            "\"catch\" requires a block or an expression",
+            "char 29"));
   }
 
   @ParameterizedTest

@@ -18,8 +18,9 @@ import org.mozilla.javascript.Scriptable;
 public class LibraryFunctionStub extends AshStub {
   private static final long serialVersionUID = 1L;
 
-  public LibraryFunctionStub(ScriptRuntime controller, String ashFunctionName) {
-    super(controller, ashFunctionName);
+  public LibraryFunctionStub(
+      Scriptable scope, Scriptable prototype, ScriptRuntime controller, String ashFunctionName) {
+    super(scope, prototype, controller, ashFunctionName);
   }
 
   @Override

@@ -93,6 +93,7 @@ public class ComparisonShopCommand extends AbstractCommand implements Comparator
     }
   }
 
+  @Override
   public int compare(final AdventureResult o1, final AdventureResult o2) {
     return StoreManager.getMallPrice(o1) - StoreManager.getMallPrice(o2);
   }

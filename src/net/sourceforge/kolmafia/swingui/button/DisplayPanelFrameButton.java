@@ -25,6 +25,7 @@ public class DisplayPanelFrameButton extends ThreadedButton {
       this.parameters[1] = panel;
     }
 
+    @Override
     public void run() {
       GenericFrame.createDisplay(GenericPanelFrame.class, this.parameters);
     }

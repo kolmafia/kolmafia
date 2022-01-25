@@ -9,8 +9,11 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 public class DebugDatabaseTest {
+
+  private static final String LS = System.lineSeparator();
 
   /* TODO: implement or delete these tests
   @Test
@@ -343,7 +346,7 @@ public class DebugDatabaseTest {
   }
   */
   @Test
-  @Disabled("fails due to data problems")
+  @Disabled("Accesses Coldfront which is returning malformed XML")
   public void checkPulverizationData() {
     String expectedOutput = "Checking pulverization data...\n";
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
@@ -421,17 +424,99 @@ public class DebugDatabaseTest {
   }
 
   @Test
-  @Disabled("need to figure out if test is reporting valid errors.")
+  @Disabled("Relies on external resources (wiki)")
   public void checkMeat() {
     String expectedOutput = "";
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
     PrintStream out = new PrintStream(ostream);
     // Inject custom output stream.
     RequestLogger.openCustom(out);
-
     DebugDatabase.checkMeat();
-
     String output = ostream.toString();
     assertEquals(expectedOutput, output, "checkMeat variances: \n" + output);
+  }
+
+  @Test
+  public void itShouldFindSVNDuplicatesSimple() {
+    var outputStream = new ByteArrayOutputStream();
+    RequestLogger.openCustom(new PrintStream(outputStream));
+    File svnRoot = mockSimpleSystem();
+    DebugDatabase.checkLocalSVNRepository(svnRoot);
+    String expected = "Found 1 repo files." + LS;
+    assertEquals(expected, outputStream.toString(), "Output off");
+    RequestLogger.closeCustom();
+  }
+
+  private File mockSimpleSystem() {
+    File mockDot = mockFile(".svn");
+    File mockDep = mockFile("dependencies.txt");
+    File mockOne = mockFile("file.txt");
+    File[] contents = {mockDep, mockDot, mockOne};
+    return mockDir("Root", contents);
+  }
+
+  @Test
+  public void itShouldFindSVNDuplicatesMoreComplex() {
+    var outputStream = new ByteArrayOutputStream();
+    RequestLogger.openCustom(new PrintStream(outputStream));
+    File svnRoot = mockMoreComplexSystem();
+    DebugDatabase.checkLocalSVNRepository(svnRoot);
+    String expected = "Found 3 repo files." + LS;
+    assertEquals(expected, outputStream.toString(), "Output off");
+    RequestLogger.closeCustom();
+  }
+
+  private File mockMoreComplexSystem() {
+    File mockDot = mockFile(".svn");
+    File mockDep = mockFile("dependencies.txt");
+    File mockOne = mockFile("file.txt");
+    File a = mockFile("meatfarm.ash");
+    File b = mockFile("farmmeat.ash");
+    File[] moreContents = {a, b};
+    File mockDir = mockDir("scripts", moreContents);
+    File[] contents = {mockDep, mockDot, mockOne, mockDir};
+    return mockDir("root", contents);
+  }
+
+  private File mockFile(String name) {
+    File retVal = Mockito.mock(File.class);
+    Mockito.when(retVal.getName()).thenReturn(name);
+    Mockito.when(retVal.isDirectory()).thenReturn(false);
+    Mockito.when(retVal.toString()).thenReturn(name);
+    return retVal;
+  }
+
+  @Test
+  public void itShouldFindSVNDuplicatesWhenThereAreSome() {
+    var outputStream = new ByteArrayOutputStream();
+    RequestLogger.openCustom(new PrintStream(outputStream));
+    File svnRoot = mockDupes();
+    DebugDatabase.checkLocalSVNRepository(svnRoot);
+    String expected =
+        "Found 2 repo files." + LS + "***" + LS + "test.ash" + LS + "test.ash" + LS + "***" + LS;
+    assertEquals(expected, outputStream.toString(), "Output off");
+    RequestLogger.closeCustom();
+  }
+
+  private File mockDupes() {
+    File a = mockFile("test.ash");
+    File b = mockFile("test.ash");
+    File[] x = {a};
+    File relay = mockDir("relay", x);
+    File[] y = {b};
+    File scripts = mockDir("scripts", y);
+    File[] z = {relay};
+    File one = mockDir("cheeks", z);
+    File[] xx = {scripts};
+    File two = mockDir("bail", xx);
+    File[] yy = {one, two, mockFile(".svn"), mockFile("dependencies.txt")};
+    return mockDir("root", yy);
+  }
+
+  private File mockDir(String dirname, File[] contents) {
+    File retVal = mockFile(dirname);
+    Mockito.when(retVal.isDirectory()).thenReturn(true);
+    Mockito.when(retVal.listFiles()).thenReturn(contents);
+    return retVal;
   }
 }

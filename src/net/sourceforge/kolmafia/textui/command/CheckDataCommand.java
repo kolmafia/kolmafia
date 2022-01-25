@@ -3,11 +3,7 @@ package net.sourceforge.kolmafia.textui.command;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -171,6 +167,12 @@ public class CheckDataCommand extends AbstractCommand {
     if (command.equals("checkpulverization")) {
       DebugDatabase.checkPulverizationData();
       RequestLogger.printLine("Pulverization data checked.");
+      return;
+    }
+
+    if (command.equals("checkrepo")) {
+      DebugDatabase.checkLocalSVNRepository(KoLConstants.SVN_LOCATION);
+      RequestLogger.printLine("Local SVN repos scanned for possible duplicates.");
       return;
     }
 

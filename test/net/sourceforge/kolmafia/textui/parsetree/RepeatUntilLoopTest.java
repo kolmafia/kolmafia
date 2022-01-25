@@ -35,18 +35,33 @@ public class RepeatUntilLoopTest {
               Scope loopScope = repeatLoop.getScope();
               ParserTest.assertLocationEquals(1, 8, 1, 23, loopScope.getLocation());
             }),
-        invalid("repeat without until", "repeat {}", "Expected until, found end of file"),
-        invalid("repeat without condition", "repeat {} until true", "Expected (, found true"),
+        invalid(
+            "repeat without until", "repeat {}", "Expected until, found end of file", "char 10"),
+        invalid(
+            "repeat without condition",
+            "repeat {} until true",
+            "Expected (, found true",
+            "char 17 to char 21"),
         invalid(
             "repeat with empty condition",
+            "repeat {} until ()",
+            "Expression expected",
+            "char 18 to char 19"),
+        invalid(
+            "repeat with incorrect condition",
             "repeat {} until ('done')",
             // This should probably read as "'until' requires a
-            // boolean condition"...
-            "\"repeat\" requires a boolean condition"),
+            // boolean conditional expression"...
+            "\"repeat\" requires a boolean conditional expression",
+            "char 18 to char 24",
+            "repeat {} until (done)",
+            "Unknown variable 'done'",
+            "char 18 to char 22"),
         invalid(
             "repeat with unclosed condition",
             "repeat {} until (true",
-            "Expected ), found end of file"));
+            "Expected ), found end of file",
+            "char 22"));
   }
 
   @ParameterizedTest

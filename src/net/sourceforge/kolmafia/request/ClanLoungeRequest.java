@@ -26,7 +26,6 @@ import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1092,7 +1091,11 @@ public class ClanLoungeRequest extends GenericRequest {
     // *** KoL should move this to the second floor as soon as it leaves Standard
     findImage(responseText, "vipfloundry.gif", ItemPool.CLAN_FLOUNDRY);
     findImage(responseText, "fortuneteller.gif", ItemPool.CLAN_CARNIVAL_GAME);
-    findImage(responseText, "fireworks.gif", ItemPool.CLAN_UNDERGROUND_FIREWORKS_SHOP);
+    if (findImage(responseText, "fireworks.gif", ItemPool.CLAN_UNDERGROUND_FIREWORKS_SHOP)
+        && !Preferences.getBoolean("_fireworksShop")) {
+      // We haven't visited it yet today so it is not unlocked yet.
+      new ClanLoungeRequest(ClanLoungeRequest.FIREWORKS).run();
+    }
 
     Matcher hottubMatcher = HOTTUB_PATTERN.matcher(responseText);
     if (hottubMatcher.find()) {
@@ -1734,13 +1737,6 @@ public class ClanLoungeRequest extends GenericRequest {
       String name = ClanLoungeRequest.hotdogIndexToName(index);
       // Handle food helpers and adjust fullness, if necessary
       EatItemRequest.handleFoodHelper(name, 1, responseText);
-      if (name.equals("optimal dog")) {
-        // Remove existing Fortune Cookie counters and set one to 0.
-        TurnCounter.stopCounting("Fortune Cookie");
-        TurnCounter.stopCounting("Semirare window begin");
-        TurnCounter.stopCounting("Semirare window end");
-        TurnCounter.startCounting(0, "Fortune Cookie", "fortune.gif");
-      }
       if (index > 0) {
         Preferences.setBoolean("_fancyHotDogEaten", true);
       }
@@ -1817,24 +1813,6 @@ public class ClanLoungeRequest extends GenericRequest {
         return;
       }
       int index = ClanLoungeRequest.speakeasyIdToIndex(StringUtilities.parseInt(m.group(1)));
-      if (index < 0) {
-        return;
-      }
-      String name = ClanLoungeRequest.speakeasyIndexToName(index);
-      if (name.equals("Lucky Lindy")) {
-        Matcher ll = LUCKY_LINDY_PATTERN.matcher(responseText);
-        if (ll.find()) {
-          int srCounter = StringUtilities.parseInt(ll.group(1));
-          // Handle setting fortune cookie
-          TurnCounter.stopCounting("Fortune Cookie");
-          TurnCounter.stopCounting("Semirare window begin");
-          TurnCounter.stopCounting("Semirare window end");
-          TurnCounter.startCounting(srCounter, "Fortune Cookie", "fortune.gif");
-          String message = "Lindy burp: " + srCounter;
-          RequestLogger.updateSessionLog(message);
-          RequestLogger.printLine(message);
-        }
-      }
       if (index >= 0) {
         Preferences.increment("_speakeasyDrinksDrunk", 1);
       }

@@ -167,8 +167,8 @@ public class MonsterDatabase {
 
     public static final Phylum find(final String name, final boolean checkPlurals) {
       for (Phylum phylum : Phylum.values()) {
-        if (name.replace("-", "").equals(phylum.toString().replace("-", ""))
-            || (checkPlurals && name.equals(phylum.getPlural()))) {
+        if (name.replace("-", "").equalsIgnoreCase(phylum.toString().replace("-", ""))
+            || (checkPlurals && name.equalsIgnoreCase(phylum.getPlural()))) {
           return phylum;
         }
       }
@@ -195,7 +195,7 @@ public class MonsterDatabase {
 
   public static final Element stringToElement(final String name) {
     for (Element elem : Element.values()) {
-      if (name.equals(elem.toString())) {
+      if (name.equalsIgnoreCase(elem.toString())) {
         return elem;
       }
     }
@@ -215,8 +215,9 @@ public class MonsterDatabase {
         return element2 == Element.HOT || element2 == Element.STENCH;
       case STENCH:
         return element2 == Element.SLEAZE || element2 == Element.COLD;
+      default:
+        return false;
     }
-    return false;
   }
 
   private static void addMapping(Map<MonsterData, MonsterData> map, String name1, String name2) {
@@ -460,6 +461,7 @@ public class MonsterDatabase {
 
     MonsterData cloned =
         new MonsterData(monster) {
+          @Override
           public String getName() {
             return alias;
           }
@@ -948,8 +950,8 @@ public class MonsterDatabase {
         } else if (option.equals("ULTRARARE")) {
           type.add(EncounterType.ULTRARARE);
           continue;
-        } else if (option.equals("SEMIRARE")) {
-          type.add(EncounterType.SEMIRARE);
+        } else if (option.equals("LUCKY")) {
+          type.add(EncounterType.LUCKY);
           continue;
         } else if (option.equals("SUPERLIKELY")) {
           type.add(EncounterType.SUPERLIKELY);
@@ -1089,6 +1091,6 @@ public class MonsterDatabase {
   }
 
   public static final boolean contains(final String name) {
-    return MonsterDatabase.findMonster(name) != null;
+    return MonsterDatabase.findMonster(name, false) != null;
   }
 }

@@ -35,6 +35,7 @@ public class ClanLoungeSwimmingPoolRequest extends GenericRequest {
     this.action = action;
   }
 
+  @Override
   protected boolean shouldFollowRedirect() {
     return true;
   }

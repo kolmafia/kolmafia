@@ -921,12 +921,13 @@ public abstract class VolcanoMazeManager {
       list.add(square);
     }
 
+    @Override
     public Iterator<Integer> iterator() {
       return this.list.iterator();
     }
 
     public Path(final Path prefix, final Integer square) {
-      list = (ArrayList<Integer>) prefix.list.clone();
+      list = new ArrayList<>(prefix.list);
       list.add(square);
     }
 

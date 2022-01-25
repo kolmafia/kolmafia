@@ -1,6 +1,6 @@
 [
  {
-   "repo": "https://svn.code.sf.net/p/acquirebuff/code/",
+   "repo": "https://github.com/Rinn/kolmafia-scripts/trunk/AcquireBuff/",
    "author": "Rinn",
    "name": "acquireBuff",
    "forumThread": "https://kolmafia.us/showthread.php?4048-acquireBuff-Get-a-buff-from-a-buffbot",
@@ -234,6 +234,15 @@
    "longDesc": "The collaborative continuation of sl_ascend/cc_ascend"
  },
  {
+   "repo": "https://github.com/Loathing-Associates-Scripting-Society/combo/branches/release/",
+   "author": "Loathing Associates Scripting Society",
+   "name": "combo",
+   "forumThread": "http://forums.kingdomofloathing.com/vb/showthread.php?t=248196",
+   "shortDesc": "Comb Beach prioritizing rare tiles",
+   "category": "adventure",
+   "longDesc": "Use your beach comb to visit sections of the Beach that are known to contain rare tiles."
+ },
+ {
    "repo": "https://svn.code.sf.net/p/bumcheekascend/code/bumcheekascend/",
    "author": "bumcheekcity, Winterbay",
    "name": "Bumcheekcend",
@@ -411,7 +420,7 @@
    "forumThread": "https://kolmafia.us/showthread.php?23993",
    "shortDesc": "Automate Combing the Beach with your Beach Comb",
    "category": "adventure",
-   "longDesc": "Configurable script to visit random sections of the Beach to comb your deired patches of sand with your Beach Comb."
+   "longDesc": "Configurable script to visit random sections of the Beach to comb your desired patches of sand with your Beach Comb."
  },
  {
    "repo": "https://svn.code.sf.net/p/veracity0/code/gingerbread/",
@@ -666,15 +675,6 @@
    "longDesc": "Adds CLI commands to relay scripts.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
  },
  {
-   "repo": "https://svn.code.sf.net/p/drag-n-drop-inventories/code",
-   "author": "zarqon",
-   "name": "Drag-n-Drop Inventories",
-   "forumThread": "https://kolmafia.us/showthread.php?22910",
-   "shortDesc": "Add an intuitive visual drag-n-drop interface for any item",
-   "category": "library",
-   "longDesc": "Adds a compact interface showing the amount you have in inventory, closet, storage, display case, and stash for each item.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
- },
- {
    "repo": "https://svn.code.sf.net/p/formhtml/code/",
    "author": "jasonharper",
    "name": "Form of...HTML!",
@@ -846,7 +846,7 @@
    "longDesc": "A buttontastic improvement to the interface of mall-stores and (most) NPC stores."
  },
  {
-   "repo": "https://svn.code.sf.net/p/relay-charsheet/code/",
+   "repo": "https://github.com/Rinn/kolmafia-scripts/trunk/RelaySkills/",
    "author": "Heeheehee, Theraze, Rinn",
    "name": "Charsheet: Skills by Class",
    "forumThread": "https://kolmafia.us/showthread.php?1578-charsheet-php-Group-Skills-by-Character-Class",
@@ -1105,5 +1105,14 @@
    "shortDesc": "Help with the VIP Concession Stands",
    "category": "relay",
    "longDesc": "Hot dogs and Speakeasy Drinks from the VIP lounge are totally sweet -- awesome food, great in HC, and they give some totally sweet effects, but I can't remember what any of them do. To find out, first you have to click the item to open up an info box, which has a link to the effect, which you then click to give its description.<p>Or you can skip that process by using this script so you won't have to click <i>anything</i>."
+ },
+ {
+   "repo": "https://github.com/libraryaddict/KolAccountVal/branches/release/",
+   "author": "Irrat",
+   "name": "AccountVal",
+   "forumThread": "https://kolmafia.us/threads/26934/",
+   "shortDesc": "Script to value the worth of your account",
+   "category": "information",
+   "longDesc": "This JS script lets you find the worth of your account, you can have it only show items that are still tradeable, or everything including the iotms you've already bound to your account. This is a rewrite of soolar's accountval.ash script and is heavily inspired by their work."
  }
 ]

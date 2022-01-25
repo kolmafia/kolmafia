@@ -28,6 +28,7 @@ public abstract class Symbol implements ParseTreeNode, Comparable<Symbol> {
     return this.name;
   }
 
+  @Override
   public int compareTo(final Symbol o) {
     if (!(o instanceof Symbol)) {
       throw new ClassCastException();
@@ -36,5 +37,12 @@ public abstract class Symbol implements ParseTreeNode, Comparable<Symbol> {
       return 1;
     }
     return this.name.compareToIgnoreCase(o.name);
+  }
+
+  /** For error propagation only */
+  public static interface BadNode {}
+
+  public boolean isBad() {
+    return this instanceof BadNode;
   }
 }

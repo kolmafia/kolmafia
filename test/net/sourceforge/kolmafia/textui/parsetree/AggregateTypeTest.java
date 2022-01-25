@@ -18,7 +18,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class AggregateTypeTest {
   public static Stream<ScriptData> data() {
     return Stream.of(
-        invalid("unterminated plural aggregate type", "int[", "Missing index token"),
+        invalid("unterminated plural aggregate type", "int[", "Missing index token", "char 5"),
         // TODO: add tests for size == 0, size < 0, which ought to fail.
         valid(
             "array with explicit size",
@@ -45,27 +45,47 @@ public class AggregateTypeTest {
             "int[2, 2] x;",
             Arrays.asList("int", "[", "2", ",", "2", "]", "x", ";"),
             Arrays.asList("1-1", "1-4", "1-5", "1-6", "1-8", "1-9", "1-11", "1-12")),
-        // TODO: `typedef int[] intArray` and aggregate shouldn't be valid keys.
         invalid(
-            "map with non-primitive key type",
+            "map with non-primitive key type - record",
             "record a{int b;}; int[a] x;",
-            "Index type 'a' is not a primitive type"),
+            "Index type 'a' is not a primitive type",
+            "char 23 to char 24"),
+        invalid(
+            "map with non-primitive key type - composite type typedef",
+            "typedef int[] a; int[a] x;",
+            "Index type 'a' is not a primitive type",
+            "char 22 to char 23"),
         invalid(
             "multidimensional map with partially specified comma-separated type",
             "int[2,] x;",
-            "Missing index token"),
+            "Missing index token",
+            "char 7 to char 8"),
         invalid(
             "multidimensional map with unspecified comma-separated type",
             "int[,,,] x;",
-            "Missing index token"),
+            "Missing index token",
+            "char 5 to char 6"),
         invalid(
             "multidimensional map with partially-specified comma-separated type",
             "int[int,] x;",
-            "Missing index token"),
-        invalid("abruptly terminated 1-d map", "int[int", "Expected , or ], found end of file"),
-        invalid("abruptly terminated 1-d array", "int[4", "Expected , or ], found end of file"),
-        invalid("map with unknown type", "int[a] x;", "Invalid type name 'a'"),
-        invalid("map containing aggregate type", "int[int[]] x;", "Expected , or ], found ["),
+            "Missing index token",
+            "char 9 to char 10"),
+        invalid(
+            "abruptly terminated 1-d map",
+            "int[int",
+            "Expected , or ], found end of file",
+            "char 8"),
+        invalid(
+            "abruptly terminated 1-d array",
+            "int[4",
+            "Expected , or ], found end of file",
+            "char 6"),
+        invalid("map with unknown type", "int[a] x;", "Invalid type name 'a'", "char 5 to char 6"),
+        invalid(
+            "map containing aggregate type",
+            "int[int[]] x;",
+            "Expected , or ], found [",
+            "char 8 to char 9"),
         valid(
             "multidimensional map with comma-separated type",
             "int[int, int] x;",

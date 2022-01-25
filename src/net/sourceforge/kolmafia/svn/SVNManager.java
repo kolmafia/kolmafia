@@ -372,6 +372,7 @@ public class SVNManager {
             false,
             10,
             new ISVNLogEntryHandler() {
+              @Override
               public void handleLogEntry(SVNLogEntry logEntry) {
                 RequestLogger.printLine("Commit <b>r" + logEntry.getRevision() + "<b>:");
                 RequestLogger.printLine("Author: " + logEntry.getAuthor());
@@ -1057,6 +1058,7 @@ public class SVNManager {
 
     Runnable runMe =
         new Runnable() {
+          @Override
           public void run() {
             KoLmafia.updateDisplay("Checking all SVN projects...");
             List<File> projectsToUpdate = new ArrayList<>();
@@ -1164,6 +1166,9 @@ public class SVNManager {
     try {
       SVN_LOCK.lock();
       if (!SVNWCUtil.isWorkingCopyRoot(f)) {
+        RequestLogger.printLine(
+            f.getPath()
+                + " selected for repository operation but may not have corresponding remote");
         return false;
       }
 
@@ -1260,6 +1265,7 @@ public class SVNManager {
       // dispatch a parallel thread that will wait for a little bit then re-try the delete.
       RequestThread.runInParallel(
           new Runnable() {
+            @Override
             public void run() {
               PauseObject p = new PauseObject();
               p.pause(5000);
@@ -1557,8 +1563,9 @@ public class SVNManager {
     Iterator<SVNURL> it = installMe.iterator();
     while (it.hasNext()) {
       SVNURL url = it.next();
-      if (validateRepo(url, true)) {
-        RequestLogger.printLine("bogus dependency: " + url);
+      if (validateRepo(url, false)) {
+        RequestLogger.printLine(
+            "Dependency at " + url + " failed validation.  Won't be processed.");
         it.remove();
       }
     }

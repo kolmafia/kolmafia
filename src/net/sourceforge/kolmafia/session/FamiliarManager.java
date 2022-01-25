@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -15,9 +16,24 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
-import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 
 public abstract class FamiliarManager {
+  public static void changeFamiliar(int famId) {
+    changeFamiliar(famId, true);
+  }
+
+  public static void changeFamiliar(int famId, boolean stealEquipment) {
+    changeFamiliar(KoLCharacter.findFamiliar(famId), stealEquipment);
+  }
+
+  public static void changeFamiliar(FamiliarData familiar) {
+    changeFamiliar(familiar, true);
+  }
+
+  public static void changeFamiliar(FamiliarData familiar, boolean stealEquipment) {
+    RequestThread.postRequest(new FamiliarRequest(familiar, stealEquipment));
+  }
+
   public static void equipAllFamiliars() {
     KoLmafia.updateDisplay("Equipping familiars...");
 
@@ -26,8 +42,8 @@ public abstract class FamiliarManager {
     boolean useCloset = Preferences.getBoolean("autoSatisfyWithCloset");
     boolean useStorage = KoLCharacter.canInteract();
 
-    AdventureResultArray closetItems = new AdventureResultArray();
-    AdventureResultArray storageItems = new AdventureResultArray();
+    List<AdventureResult> closetItems = new ArrayList<>();
+    List<AdventureResult> storageItems = new ArrayList<>();
     ArrayList<GenericRequest> requests = new ArrayList<GenericRequest>();
 
     for (FamiliarData familiar : KoLCharacter.getFamiliarList()) {
@@ -74,7 +90,10 @@ public abstract class FamiliarManager {
     // Pull all items that are in storage but not inventory or the closet
     if (storageItems.size() > 0) {
       RequestThread.postRequest(
-          new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, storageItems.toArray(), true));
+          new StorageRequest(
+              StorageRequest.STORAGE_TO_INVENTORY,
+              storageItems.toArray(new AdventureResult[0]),
+              true));
     }
 
     // If you do a "pull all", some items can end up in the
@@ -95,7 +114,8 @@ public abstract class FamiliarManager {
       // *** We'd like to do this transfer without adding the
       // *** items to the session tally
       RequestThread.postRequest(
-          new ClosetRequest(ClosetRequest.CLOSET_TO_INVENTORY, closetItems.toArray()));
+          new ClosetRequest(
+              ClosetRequest.CLOSET_TO_INVENTORY, closetItems.toArray(new AdventureResult[0])));
     }
 
     // Equip all familiars with equipment from inventory

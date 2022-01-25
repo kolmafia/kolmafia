@@ -110,7 +110,7 @@ public class SpelunkyRequest extends GenericRequest {
     ItemPool.get(ItemPool.SPELUNKY_SPIKED_BOOTS, 1),
   };
 
-  private static final HashMap<String, String> adventureImages = new HashMap<String, String>();
+  private static final HashMap<String, String> adventureImages = new HashMap<>();
 
   static {
     SpelunkyRequest.adventureImages.put("The Mines", "mines.gif");
@@ -299,7 +299,7 @@ public class SpelunkyRequest extends GenericRequest {
       ghostWaving = true;
     }
 
-    StringBuffer newUnlocks = new StringBuffer(unlocks);
+    StringBuilder newUnlocks = new StringBuilder(unlocks);
     if (responseText.contains("'Sticky Bombs'") && !unlocks.contains("Sticky Bombs")) {
       newUnlocks.append(", Sticky Bombs");
     }
@@ -373,7 +373,7 @@ public class SpelunkyRequest extends GenericRequest {
     KoLCharacter.updateStatus();
   }
 
-  public static final void parseStatus(final JSONObject JSON) throws JSONException {
+  public static void parseStatus(final JSONObject JSON) throws JSONException {
     // api.php is not a complete replacement for charpane.php in
     // Spelunky, but parse equipment, at least.
 
@@ -498,7 +498,7 @@ public class SpelunkyRequest extends GenericRequest {
     boolean YomamaThroneUnlocked =
         unlocks.contains("Yomama's Throne") || responseText.contains("spelunky/yomama.gif");
 
-    StringBuffer newUnlocks = new StringBuffer(unlocks);
+    StringBuilder newUnlocks = new StringBuilder(unlocks);
     if (jungleUnlocked && !unlocks.contains("Jungle")) {
       if (!unlocks.equals("")) {
         newUnlocks.append(", ");
@@ -825,8 +825,7 @@ public class SpelunkyRequest extends GenericRequest {
   public static String getBuddyName() {
     String spelunkyStatus = Preferences.getString("spelunkyStatus");
     Matcher matcher = SpelunkyRequest.BUDDY_STATUS_PATTERN.matcher(spelunkyStatus);
-    String buddy = matcher.find() ? matcher.group(1) : null;
-    return buddy;
+    return matcher.find() ? matcher.group(1) : null;
   }
 
   public static String getBuddyImageName() {
@@ -893,18 +892,22 @@ public class SpelunkyRequest extends GenericRequest {
       return true;
     }
 
-    String location = null;
+    String location;
 
-    if (action.equals("spelunky_camp")) {
-      location = urlString.contains("ghostyghostghost=clown") ? "Base Camp" : "Rest at Base Camp";
-    } else if (action.equals("spelunky_side6")) {
-      location = "The Altar";
-    } else if (action.equals("spelunky_quit")) {
-      location = "Exit";
-    } else if (action.equals("spelunky_board")) {
-      return true;
-    } else {
-      return false;
+    switch (action) {
+      case "spelunky_camp":
+        location = urlString.contains("ghostyghostghost=clown") ? "Base Camp" : "Rest at Base Camp";
+        break;
+      case "spelunky_side6":
+        location = "The Altar";
+        break;
+      case "spelunky_quit":
+        location = "Exit";
+        break;
+      case "spelunky_board":
+        return true;
+      default:
+        return false;
     }
 
     String message = "{" + SpelunkyRequest.getTurnsLeft() + "} " + location;
@@ -918,7 +921,7 @@ public class SpelunkyRequest extends GenericRequest {
     return true;
   }
 
-  public static final void decorateSpelunkyExit(final StringBuffer buffer) {
+  public static void decorateSpelunkyExit(final StringBuffer buffer) {
     int index = buffer.indexOf("<center><A href=main.php>Back to the Main Map</a></center>");
     if (index == -1) {
       return;
@@ -936,7 +939,7 @@ public class SpelunkyRequest extends GenericRequest {
     buffer.insert(index, section);
   }
 
-  public static final void decorateSpelunkyMonster(final StringBuffer buffer) {
+  public static void decorateSpelunkyMonster(final StringBuffer buffer) {
     // Simplified, since Skills, Elemental Damage, and Bonus
     // Critical Hits are not applicable
 
@@ -1074,7 +1077,7 @@ public class SpelunkyRequest extends GenericRequest {
     return String.valueOf(damage);
   }
 
-  public static final String spelunkyWarning(final KoLAdventure adventure, final String confirm) {
+  public static String spelunkyWarning(final KoLAdventure adventure, final String confirm) {
     // If we have won fewer than 3 combats since the last
     // noncombat, no noncombat is due.
 
@@ -1172,7 +1175,6 @@ public class SpelunkyRequest extends GenericRequest {
         }
         buffer.append(divider);
         buffer.append("use no resources and take 10 damage");
-        divider = "<br>";
       }
       buffer.append("</td>");
       buffer.append("</tr>");
@@ -1294,7 +1296,6 @@ public class SpelunkyRequest extends GenericRequest {
         }
         buffer.append(divider);
         buffer.append("gain 250 gold and take 50 damage");
-        divider = "<br>";
       } else if (phase == 3) {
         String divider = "";
         if (keys > 0 && !cityOfGoooold) {
@@ -1304,7 +1305,6 @@ public class SpelunkyRequest extends GenericRequest {
         }
         buffer.append(divider);
         buffer.append("take 40 damage");
-        divider = "<br>";
       }
       buffer.append("</td>");
       buffer.append("</tr>");
@@ -1421,19 +1421,17 @@ public class SpelunkyRequest extends GenericRequest {
   }
 
   private static String spelunkyLocationLink(String name, final String id, final String confirm) {
-    String link =
-        "<a href=\"adventure.php?snarfblat="
-            + id
-            + "&"
-            + confirm
-            + "=on"
-            + "\"><img src=\"/images/"
-            + SpelunkyRequest.adventureImage(name)
-            + "\" height=105 border=0 alt=\""
-            + name
-            + "\" title=\""
-            + name
-            + "\"></a>";
-    return link;
+    return "<a href=\"adventure.php?snarfblat="
+        + id
+        + "&"
+        + confirm
+        + "=on"
+        + "\"><img src=\"/images/"
+        + SpelunkyRequest.adventureImage(name)
+        + "\" height=105 border=0 alt=\""
+        + name
+        + "\" title=\""
+        + name
+        + "\"></a>";
   }
 }

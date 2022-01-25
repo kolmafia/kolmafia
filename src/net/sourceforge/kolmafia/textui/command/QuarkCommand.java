@@ -96,6 +96,7 @@ public class QuarkCommand extends AbstractCommand implements Comparator<Adventur
     return false;
   }
 
+  @Override
   public int compare(final AdventureResult o1, final AdventureResult o2) {
     return o2.getCount() - o1.getCount();
   }

@@ -48,7 +48,10 @@ public final class Line {
       // We are the "end of file" (or there was an IOException when reading)
       this.content = null;
       this.lineNumber = this.previousLine != null ? this.previousLine.lineNumber : 1;
-      this.offset = this.previousLine != null ? this.previousLine.offset : 0;
+      this.offset =
+          this.previousLine != null
+              ? this.previousLine.offset + this.previousLine.content.length()
+              : 0;
       return;
     }
 
@@ -112,6 +115,7 @@ public final class Line {
 
   Iterable<Token> getTokensIterator() {
     return new Iterable<Token>() {
+      @Override
       public Iterator<Token> iterator() {
         return Line.this.tokens.iterator();
       }

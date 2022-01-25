@@ -125,6 +125,7 @@ public class MallPriceDatabase {
       this.filename = filename;
     }
 
+    @Override
     public void run() {
       MallPriceDatabase.updatePrices(this.filename);
     }

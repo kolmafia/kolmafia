@@ -32,7 +32,11 @@ public class BasicScriptTest {
               // From the "cli_execute" up to the closing "}"
               ParserTest.assertLocationEquals(1, 1, 4, 2, basicScript.getLocation());
             }),
-        invalid("Interrupted cli_execute script", "cli_execute {", "Expected }, found end of file"),
+        invalid(
+            "Interrupted cli_execute script",
+            "cli_execute {",
+            "Expected }, found end of file",
+            "char 14"),
         valid(
             "Non-basic-script cli_execute",
             "int cli_execute; cli_execute++",

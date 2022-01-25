@@ -2,12 +2,13 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedMap;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -30,9 +31,6 @@ import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
-import net.sourceforge.kolmafia.session.EncounterManager;
-import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
-import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -291,7 +289,7 @@ public class AdventureDatabase {
 
   public static final String pirateRealmIslandName() {
     String island = Preferences.getString("_LastPirateRealmIsland");
-    return island == "" ? "PirateRealm Island" : island;
+    return island.isEmpty() ? "PirateRealm Island" : island;
   }
 
   public static final void addAdventure(final KoLAdventure location) {
@@ -799,21 +797,6 @@ public class AdventureDatabase {
     return fistcoreDataSetting(fistcoreLocationToData(location));
   }
 
-  /**
-   * Returns whether or not the user has a ten-leaf clover in inventory.
-   *
-   * @return <code>true</code>
-   */
-  private static boolean hasClover() {
-    return InventoryManager.getCount(ItemPool.TEN_LEAF_CLOVER) > 0;
-  }
-
-  public static boolean isPotentialCloverAdventure(String adventureName) {
-    String encounter =
-        EncounterManager.findEncounterForLocation(adventureName, EncounterType.CLOVER);
-    return AdventureDatabase.hasClover() && encounter != null;
-  }
-
   public static final String getEnvironment(String adventureName) {
     String env = AdventureDatabase.environmentLookup.get(adventureName);
     return env == null ? "none" : env;
@@ -844,36 +827,20 @@ public class AdventureDatabase {
     return hasWanderers;
   }
 
-  public static class AdventureArray {
-    private String[] nameArray = new String[0];
-    private final ArrayList<String> nameList = new ArrayList<String>();
-    private final ArrayList<KoLAdventure> internalList = new ArrayList<KoLAdventure>();
-
-    public KoLAdventure get(final int index) {
-      if (index < 0 || index > this.internalList.size()) {
-        return null;
-      }
-
-      return this.internalList.get(index);
-    }
+  private static class AdventureArray {
+    private final SortedMap<String, KoLAdventure> internalList = new TreeMap<>();
 
     public void add(final KoLAdventure value) {
-      this.nameList.add(StringUtilities.getCanonicalName(value.getAdventureName()));
-      this.internalList.add(value);
+      this.internalList.put(StringUtilities.getCanonicalName(value.getAdventureName()), value);
     }
 
     public KoLAdventure find(String adventureName) {
-      if (nameArray.length != nameList.size()) {
-        nameArray = new String[nameList.size()];
-        nameList.toArray(nameArray);
-        Arrays.sort(nameArray);
-      }
-
-      List<String> matchingNames = StringUtilities.getMatchingNames(nameArray, adventureName);
+      var names = internalList.keySet().toArray(new String[0]);
+      List<String> matchingNames = StringUtilities.getMatchingNames(names, adventureName);
 
       if (matchingNames.size() > 1) {
-        for (int i = 0; i < matchingNames.size(); ++i) {
-          RequestLogger.printLine(matchingNames.get(i));
+        for (String matchingName : matchingNames) {
+          RequestLogger.printLine(matchingName);
         }
 
         KoLmafia.updateDisplay(MafiaState.ERROR, "Multiple matches against " + adventureName + ".");
@@ -882,19 +849,14 @@ public class AdventureDatabase {
 
       if (matchingNames.size() == 1) {
         String match = matchingNames.get(0);
-        return this.get(nameList.indexOf(match));
+        return this.internalList.get(match);
       }
 
       return null;
     }
 
     public void clear() {
-      this.nameList.clear();
       this.internalList.clear();
-    }
-
-    public int size() {
-      return this.internalList.size();
     }
 
     public boolean isEmpty() {

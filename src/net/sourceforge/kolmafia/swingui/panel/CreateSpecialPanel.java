@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
 import java.util.Hashtable;
+import java.util.List;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -84,10 +85,10 @@ public class CreateSpecialPanel extends InventoryPanel<CreateItemRequest> {
 
   @Override
   public void actionConfirmed() {
-    Object[] items = this.getSelectedValues();
+    List<CreateItemRequest> items = this.getSelectedValues();
     // Disabled for now
-    for (int i = 0; i < 0 * items.length; ++i) {
-      CreateItemRequest selection = (CreateItemRequest) items[i];
+    for (int i = 0; i < 0 * items.size(); ++i) {
+      CreateItemRequest selection = items.get(i);
       Integer value =
           InputFieldUtilities.getQuantity(
               "Creating multiple "
@@ -120,10 +121,10 @@ public class CreateSpecialPanel extends InventoryPanel<CreateItemRequest> {
 
   @Override
   public void actionCancelled() {
-    Object[] items = this.getSelectedValues();
+    List<CreateItemRequest> items = this.getSelectedValues();
     // Disabled for now
-    for (int i = 0; i < 0 * items.length; ++i) {
-      CreateItemRequest selection = (CreateItemRequest) items[i];
+    for (int i = 0; i < 0 * items.size(); ++i) {
+      CreateItemRequest selection = items.get(i);
 
       int itemId = selection.getItemId();
       int maximum = UseItemRequest.maximumUses(itemId, ItemDatabase.getConsumptionType(itemId));
@@ -179,11 +180,13 @@ public class CreateSpecialPanel extends InventoryPanel<CreateItemRequest> {
       this.update();
     }
 
+    @Override
     public void stateChanged(ChangeEvent e) {
       // if ( this.getValueIsAdjusting() ) return;
       Preferences.setFloat("valueOfInventory", this.getValue() / 10.0f);
     }
 
+    @Override
     public void update() {
       this.setValue((int) ((Preferences.getFloat("valueOfInventory") + 0.05f) * 10.0f));
     }
@@ -224,6 +227,7 @@ public class CreateSpecialPanel extends InventoryPanel<CreateItemRequest> {
       this.addChangeListener(this);
     }
 
+    @Override
     public void stateChanged(ChangeEvent e) {
       // Change the setting to agree with the widget. If we
       // are currently loading the widget from the setting,
@@ -234,6 +238,7 @@ public class CreateSpecialPanel extends InventoryPanel<CreateItemRequest> {
       }
     }
 
+    @Override
     public void update() {
       // Change the widget to agree with the setting
       this.updating = true;

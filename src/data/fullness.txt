@@ -4,6 +4,8 @@
 
 # Food	Fullness	Level Req	quality	Adv	Musc	Myst	Moxie
 
+[experimental crimbo food]	3	1	EPIC	0	0	0	0	Random
+&quot;caramel&quot; orange	1	1	awesome	0	0	0	0	Unspaded
 &quot;meat&quot; stick	1	5	good	3	15-25	0	0	50 Empty Inside (+50 Food Drop, +50 Booze Drop)
 3vi1 pr0n m4nic0tti	4	3	awesome	11-16	0	0	60-63	10 A Little Bit Evil (+2 ML)
 a dance upon the palate	1	1	crappy	2-4	2-20	2-20	2-20
@@ -78,9 +80,10 @@ blood snowcone	1	1	EPIC	17	15-20	15-20	15-20	Vampyre
 blood-soaked sponge cake	1	1	EPIC	23	25-30	25-30	25-30	Vampyre
 bloodstick	1	1	EPIC	11	5-10	5-10	5-10	Vampyre
 blue velvet cake	3	1	crappy	3	0	0	0
-blueberry-frosted king cake	3	1	crappy	3	0	0	0	blue plastic baby
 blueberry muffin	1	1	awesome	4-5	150	150	150	25 All Blued Up (+60% Meat Drop, 2-3 MP Regen, 5-10 HP Regen)
+blueberry-frosted king cake	3	1	crappy	3	0	0	0	blue plastic baby
 blunt cat claw	1	4	awesome	3-5	45-75	0	0	30 Feline Ferocity (+100% weapon dmg)
+bone broth	1	1	awesome	0	0	0	0	Unspaded
 bone meal	2	6	awesome	7-9	12-20	12-20	12-20
 boring spaghetti	4	5	good	10-14	0	20-25	0
 Boris's key lime pie	4	6	awesome	14-16	28-33	0	0	Boris's key
@@ -96,6 +99,7 @@ bowl of maggots	2	1	EPIC	10-12	10-20	0	0
 bowl of mernudo	3	1	good	0	0	0	0	Unspaded 30 Sea Guts
 bowl of mummy guts	2	1	awesome	7-9	0	0	10-20	30 Guts Feeling (+50% meat drop)
 bowl of oriole's nest soup	3	1	decent	3-9	0	0	0
+bowl of prescription candy	1	1	awesome	0	0	0	0	Unspaded
 bowl of rye sprouts	1	2	crappy	1	10-15	0	0
 bowl of Tastee-Wheet&trade;	1	5	EPIC	5	5	5	5	5 Video... Games? (+5 most modifiers)
 bowl of topioca	3	1	awesome	12	50-60	50-60	50-60
@@ -105,6 +109,8 @@ brain-meltingly-hot chicken wings	1	10	good	2-4	15-30	15-30	0	lose 5-8 HP
 brains casserole	5	1	decent	6-14	0	8-10	0	Zombie Slayer
 bran muffin	1	1	awesome	4-5	150	150	150	25 All Branned Up (+40% Item Drop, 5-7 MP Regen)
 bread line	2	1	good	5-7	10-20	0	0	40 Bread-Lined (+50% Muscle, +25 Weapon damage)
+bread man	1	1	crappy	0	0	0	0	Unspaded
+bread pie	3	1	decent	0	0	0	0	Unspaded
 bread roll	2	1	awesome	8-10	0	0	10-20	leftovers, 20 Thanksgetting (Variable +meat, +item, +familiar weight, +all res)
 breakfast mess	2	2	decent	3-5	1-5	1-5	1-5
 breakfast miracle	2	6	EPIC	12-14	25-50	25-50	25-50
@@ -157,11 +163,11 @@ Children's Meal of the Damned	0	1	crappy	0	0	0	0
 chilly dog	3	1	awesome	11-13	0	0	0	30 Chill Out, Dog (+30 Cold Dam, +3 Sleaze/Stench Res, +10 ML)
 Choco-Mint patty	1	1	good	2-4	5-10	5-10	5-10	25 Alpine Mintiness (+25 HP/MP, +25 Weapon Damage, +25 Spell Damage)
 chocolate &quot;Phoenix&quot;	1	1	decent	2	0	70-90	0
+chocolate chip muffin	1	1	awesome	4-5	150	150	150	25 All Chipped Up (+30% Meat Drop, +20% Item Drop, 4-5 MP Regen, 3-6 HP Regen)
 chocolate Ogre Chieftain	1	1	decent	2	70-90	0	0
 chocolate Spider Queen	1	1	decent	2	0	0	70-90
 chocolate-covered scarab beetle	2	5	awesome	7-10	25-40	25-40	25-40
 chocolate-frosted king cake	3	1	crappy	3	0	0	0	red plastic baby
-chocolate chip muffin	1	1	awesome	4-5	150	150	150	25 All Chipped Up (+30% Meat Drop, +20% Item Drop, 4-5 MP Regen, 3-6 HP Regen)
 chorizo brownies	3	2	decent	3-9	0	0	0
 chorizo taco	1	1	decent	2	3-5	0	0
 cinnamon cannoli	1	4	awesome	4-5	15-25	15-25	15-25
@@ -271,6 +277,7 @@ druidic s'more	2	4	good	5-7	30-50	30-50	30-50
 dwarf bread	3	1	crappy	3-4	0	0	0	lose 10-13 HP
 eagle's milk	2	2	decent	3-4	0	0	0
 edible alien plant bit	1	1	good	3	0	0	0	gain 5 turns of a random positive effect
+eggwater	1	1	crappy	0	0	0	0	Unspaded
 eldritch mushroom	1	1	crappy	3	11	11	11
 eldritch mushroom pizza	3	12	awesome	9-11	333	333	333	gain eldritch effluvium, 1 Eldritch Attunement, PIZZA
 Eldritch snap	1	12	EPIC	7	11	11	11	3 Eldritch Attunement
@@ -328,6 +335,7 @@ filet of The Fish	3	11	EPIC	15-18	40-60	0	0
 fine aged cheddarwurst	3	3	decent	4-5	5-10	0	5-10
 fire crackers	1	1	good	3	5-15	5-15	5-15	20 Fire Cracked (+20 Experience)
 fireman's lunch	2	4	decent	2-4	0	0	0	20 You're Not Cooking (+50 Hot Spell Damage, +100% Spell Damage)
+fishcake	1	1	awesome	0	0	0	0	Unspaded
 fishy fish	2	8	good	3-9	0	0	26-33
 fishy fish casserole	3	9	awesome	8-15	0	0	38-44
 fishy fish lasagna	3	10	awesome	12-16	0	0	46-55	LASAGNA
@@ -336,6 +344,7 @@ flan del mar	1	1	EPIC	0	0	0	0	Unspaded 30 Festively Brined (better diver)
 flask of peppermint oil	0	1	crappy	0	0	0	0
 flavorless gruel	4	4	good	9-11	90-110	0	0
 fleetwood mac 'n' cheese	6	8	awesome	28-33	30-40	30-40	30-40	SAUCY
+flour cookie	3	1	crappy	0	0	0	0	Unspaded
 flower petal pie	3	2	crappy	0	0	0	0	+1 PvP fight, 3 Flower Power (+20% all stats)
 foie gras	1	2	decent	1-3	0	0	0	1 Beaten Up
 forbidden danish	1	4	awesome	3-5	0	45-75	0	30 Danish Cunning (+25% pickpocket)
@@ -346,6 +355,7 @@ fricasseed brains	3	1	decent	3-5	0	4-5	0	Zombie Slayer
 frozen banquet	6	15	EPIC	42-48	100-289	100-289	100-289
 frozen danish	1	4	awesome	3-5	0	0	45-75	30 Danish Cunning (+25% pickpocket)
 frozen mushroom	3	2	decent	3-9	0	0	0	lose 3 HP
+frozen tofu pop	1	1	EPIC	0	0	0	0	Unspaded
 fruitcake	3	1	decent	3-6	17-23	17-23	17-23
 fudge bunny	10	8	EPIC	60-66	50-90	50-90	50-90
 fudgesicle	1	1	decent	2	0	0	0	30 Fudge Headache (+75% Fudge Finding)
@@ -444,6 +454,7 @@ hot buttered roll	1	1	crappy	1	0	0	0
 hot date	2	7	good	4-5	0	0	20-30
 hot hi mein	5	12	EPIC	24-27	70-75	15-20	30-35	5 Hot Breath (combat skill), SAUCY
 hot wing	1	1	crappy	1	0	2-5	0
+huge Crimbo cookie	30	11	good	0	0	0	0	Unspaded
 humble pie	4	4	good	9-11	20-30	20-30	20-30
 Humpty Dumplings	4	5	awesome	13-16	0	70-77	0
 hunter brain	1	1	EPIC	6	9-12	9-12	9-12	Zombie Slayer
@@ -506,6 +517,7 @@ Knoll stir-fry	2	3	good	4-7	14-18	0	0
 knuckle sandwich	3	5	good	7-10	22-40	22-40	22-40	20 Cruisin' for a Bruisin' (+100% weapon dmg)
 Kudzu salad	2	4	EPIC	16-20	10-20	10-20	10-20	SALAD
 kumquat	1	2	decent	2	0	0	0
+lab-grown meat	3	1	awesome	0	0	0	0	Unspaded 20 Real Meat Craving (+30% meat drop)
 large cocoa eggshell fragment	1	1	decent	2	0	0	0
 laser-broiled pear	1	1	awesome	3-4	8-10	8-10	8-10
 lava cake	4	6	awesome	12-18	20-40	0	0	60 Demonic Flavor
@@ -564,6 +576,7 @@ mana-stuffed herbal stuffing	4	7	awesome	0	0	0	0	Unspaded
 Manetwich	2	4	good	3-9	14-30	0	5-18
 maple syrup	1	1	crappy	1	0	0	0	20-30 HP
 mashed potatoes	2	1	awesome	8-10	10-20	0	0	leftovers, 20 Thanksgetting (Variable +meat, +item, +familiar weight, +all res)
+meatball	1	1	awesome	0	0	0	0	Unspaded
 Medical Pastaco	2	3	EPIC	12-14	30-50	0	0	40 Helvella Health (+100 HP, +10-20 HP Regen)
 menudo	2	2	decent	2-7	14-18	0	0
 menudo ravioli	4	4	good	10-14	20-30	0	0
@@ -610,7 +623,7 @@ olive stir-fry	1	3	good	1-5	3-5	0	2-4
 Omega Sundae	7	1	EPIC	32-38	20-30	50-60	20-30
 omniscient Santa roll	3	1		10-15	0	8-16	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
 one with everything	2	1	awesome	6-8	0	10-15	0	50 Inner Dog (+50% Myst, +10% Spell Crit, +50 Damage vs Zombies/Ghosts)
-optimal dog	1	1	awesome	4-5	0	0	0	reset semirare counter to 0
+optimal dog	1	1	awesome	4-5	0	0	0	Grants Lucky! intrinsic
 orange	1	1	crappy	1	0	0	0
 orange popsicle	1	1	decent	2	0	0	0
 overcookie	1	3	decent	2	3-5	3-5	3-5
@@ -654,6 +667,7 @@ pirate fork	4	1		0	0	0	0	Consume one random 4-fullness food
 pixel banana	2	4	awesome	9-11	0	0	0	40 Going Ape (+30% Item drops)
 pixel lemon	2	1	awesome	9-11	0	0	0
 plain bagel	3	1	decent	5-7	0	0	0
+plain candy cane	1	1	crappy	0	0	0	0	Unspaded
 plain pizza	2	1	decent	2-4	0	0	0	PIZZA
 plain snowcone	1	1	good	3	4-5	4-5	4-5
 plate of franks and beans	1	1	decent	2	0	0	0
@@ -722,8 +736,8 @@ root beer	1	1	awesome	4	5-10	5-10	5-10	20-30 MP
 rotting beefsteak	3	1	awesome	9-10	0	0	0	30 Cowrruption (+200% weapon dmg, +200% spell dmg, muscle limited to 30, moxie limited to 30)
 royal jelly	1	1	crappy	1	10-15	0	0
 royal jelly taco	1	1	decent	2	4-20	0	0
-s'more	1	1	crappy	1	0	0	0
 S.T.L.T.	4	4	awesome	10-15	10-30	10-30	13-27
+s'more	1	1	crappy	1	0	0	0
 salacious crumbs	3	1	decent	5-7	0	0	15-20
 salt plum	2	1	good	0	0	0	0	Unspaded
 salty ancient serpent roll	3	1		9-14	0	8-16	20-30	45/55 Fishy, 10 Salty Dogs
@@ -829,6 +843,7 @@ stale Cheer-E-Os	3	1	awesome	11-13	0	0	0	20-30 crystalline cheer
 stalk of asparagus	1	1	crappy	1	0	1-3	0
 standard-issue cupcake	1	1	good	3	2-4	2-4	2-4
 star key lime pie	4	6	awesome	14-16	20-24	20-24	20-24	2-4 lines, 2-4 stars
+star pop	1	1	awesome	0	0	0	0	Unspaded
 steel lasagna	5	5		00	0	0	0	Stomach of Steel skill
 stinky hi mein	5	12	EPIC	24-27	30-35	70-75	15-20	5 Stinky Breath (combat skill), SAUCY
 stinky mushroom	3	2	decent	3-9	0	0	3-5	lose 3 HP
@@ -976,6 +991,7 @@ Vegas Volcano Lava Roll	4	1	decent	6-10	0	0	0	3-5 electrical thingamabobs
 very hot lunch	4	6	awesome	12-18	10-20	10-20	0	100 Inner Warmth (+5 cold res)
 video games hot dog	3	1	awesome	12-14	0	0	0	RGB pixels, 50 Video Game Hot Dog (+25 Item Drop, +25 Meat Drop)
 vinegar-soaked lemon slice	1	2	decent	2	15-20	15-20	15-20
+void burger	1	1	awesome	3-4	0	0	0	
 VYKEA meatballs	2	7	awesome	8-10	5-10	5-10	20-40
 walrus ice cream	2	5	good	4-8	37-38	0	0
 warbear feasting bread	3	1	awesome	12-15	5-10	5-10	5-10	40 Gift of the Warbear (+15% Items from WarBears)

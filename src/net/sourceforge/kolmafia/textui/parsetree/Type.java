@@ -348,6 +348,8 @@ public class Type extends Symbol {
       switch (this.type) {
         case DataTypes.TYPE_BOOLEAN:
           return DataTypes.makeBooleanValue(integer);
+        case DataTypes.TYPE_CLASS:
+          return DataTypes.makeClassValue(integer, returnDefault);
         case DataTypes.TYPE_INT:
           return DataTypes.makeIntValue(integer);
         case DataTypes.TYPE_FLOAT:
@@ -383,6 +385,18 @@ public class Type extends Symbol {
       }
       return null;
     }
+    if (object instanceof AscensionClass) {
+      AscensionClass ascensionClass = (AscensionClass) object;
+      switch (this.type) {
+        case DataTypes.TYPE_INT:
+          return DataTypes.makeIntValue(ascensionClass.getId());
+        case DataTypes.TYPE_STRING:
+          return new Value(DataTypes.STRING_TYPE, ascensionClass.getName());
+        case DataTypes.TYPE_CLASS:
+          return DataTypes.makeClassValue(ascensionClass, returnDefault);
+      }
+      return null;
+    }
     return null;
   }
 
@@ -406,9 +420,7 @@ public class Type extends Symbol {
         this.addValues(list, AdventureDatabase.getAsLockableListModel());
         break;
       case DataTypes.TYPE_CLASS:
-        for (AscensionClass ascensionClass : AscensionClass.values()) {
-          list.add(DataTypes.makeClassValue(ascensionClass, true));
-        }
+        this.addValues(list, AscensionClass.allClasses());
         break;
       case DataTypes.TYPE_STAT:
         this.addValues(list, DataTypes.STAT_ARRAY, 0, 3);
@@ -510,17 +522,23 @@ public class Type extends Symbol {
    * @param location the location of the reference
    */
   public Type reference(final Location location) {
-    return new TypeReference(location);
+    return new TypeReference(this, location);
   }
 
   private class TypeReference extends Type {
-    public TypeReference(final Location location) {
-      super(Type.this.name, Type.this.type, location);
+    private TypeReference(final Type type, final Location location) {
+      super(type.name, type.type, location);
     }
 
     @Override
     public Location getDefinitionLocation() {
       return Type.this.getDefinitionLocation();
+    }
+  }
+
+  public static class BadType extends Type implements BadNode {
+    public BadType(final String name, final Location location) {
+      super(name, DataTypes.TYPE_ANY, location);
     }
   }
 }

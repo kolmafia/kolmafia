@@ -1,10 +1,11 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
+import java.util.List;
 import javax.swing.ListSelectionModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionTable;
 
-public class ItemTableManagePanel<E> extends ItemManagePanel<E> {
+public class ItemTableManagePanel<E> extends ItemManagePanel<E, ShowDescriptionTable<E>> {
   public ItemTableManagePanel(
       final String confirmedText,
       final String cancelledText,
@@ -16,15 +17,15 @@ public class ItemTableManagePanel<E> extends ItemManagePanel<E> {
         confirmedText,
         cancelledText,
         elementModel,
-        new ShowDescriptionTable(elementModel, flags),
+        new ShowDescriptionTable<>(elementModel, flags),
         addFilterField,
         addRefreshButton);
 
-    ShowDescriptionTable elementList = (ShowDescriptionTable) this.scrollComponent;
+    ShowDescriptionTable<E> elementList = this.scrollComponent;
     elementList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     elementList.setVisibleRowCount(8);
     if (addFilterField) {
-      this.filterfield.setModel(elementList.getDisplayModel());
+      this.filterField.setModel(elementList.getDisplayModel());
     }
   }
 
@@ -97,16 +98,16 @@ public class ItemTableManagePanel<E> extends ItemManagePanel<E> {
     this(elementModel, addFilterField, addRefreshButton, new boolean[] {false, false});
   }
 
-  public ShowDescriptionTable getElementList() {
-    return (ShowDescriptionTable) this.scrollComponent;
+  public ShowDescriptionTable<E> getElementList() {
+    return this.scrollComponent;
   }
 
-  public Object getSelectedValue() {
+  public E getSelectedValue() {
     return this.getElementList().getSelectedValue();
   }
 
   @Override
-  public Object[] getSelectedValues() {
+  public List<E> getSelectedValues() {
     return this.getElementList().getSelectedValues();
   }
 }

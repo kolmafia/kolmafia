@@ -49,6 +49,7 @@ public interface KoLConstants extends UtilityConstants {
   DecimalFormat ROUNDED_MODIFIER_FORMAT =
       new DecimalFormat("+#0.00;-#0.00", new DecimalFormatSymbols(Locale.US));
   DecimalFormat CHAT_LASTSEEN_FORMAT = new DecimalFormat("0000000000");
+  DecimalFormat HUMAN_READABLE_FORMAT = new DecimalFormat("#.##");
 
   SimpleDateFormat DAILY_FORMAT = new SimpleDateFormat("yyyyMMdd", Locale.US);
   SimpleDateFormat WEEKLY_FORMAT = new SimpleDateFormat("yyyyMM_'w'W", Locale.US);
@@ -607,6 +608,7 @@ public interface KoLConstants extends UtilityConstants {
 
   Comparator<String> ignoreCaseComparator =
       new Comparator<String>() {
+        @Override
         public int compare(String s1, String s2) {
           return s1.compareToIgnoreCase(s2);
         }

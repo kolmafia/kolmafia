@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -9,7 +10,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
-import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DisplayCaseRequest extends TransferItemRequest {
@@ -157,7 +157,7 @@ public class DisplayCaseRequest extends TransferItemRequest {
         return false;
       }
 
-      AdventureResultArray itemList =
+      List<AdventureResult> itemList =
           TransferItemRequest.getItemList(
               responseText, ITEM_PATTERN2, TransferItemRequest.ITEM_PATTERN1, (Pattern) null);
 
@@ -192,7 +192,7 @@ public class DisplayCaseRequest extends TransferItemRequest {
   // height=100></td><td valign=center>...txt...</td></tr></table>
   public static final Pattern ANNOUNCEMENT_PATTERN =
       Pattern.compile(
-          "<table><tr><td valign=center><img src=[^>]*?(?:images.kingdomofloathing.com|/images)/otherimages/museum/displaycase.gif\" width=100 height=100></td><td[^.]*>(.*?)</td></table>");
+          "<table><tr><td valign=center><img src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/otherimages/museum/displaycase.gif\" width=100 height=100></td><td[^.]*>(.*?)</td></table>");
 
   public static final boolean parseDisplayCase(final String urlString, String responseText) {
     RequestThread.runInParallel(new DisplayCaseParser(responseText), false);
@@ -211,6 +211,7 @@ public class DisplayCaseRequest extends TransferItemRequest {
               : StringUtilities.singleStringReplace(responseText, announcement, "");
     }
 
+    @Override
     public void run() {
       ItemDatabase.parseNewItems(responseText);
     }

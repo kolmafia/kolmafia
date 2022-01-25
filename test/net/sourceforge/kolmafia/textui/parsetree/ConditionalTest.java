@@ -83,9 +83,17 @@ public class ConditionalTest {
               // Zero-width location made at the beginning of the token following the "else"
               ParserTest.assertLocationEquals(1, 58, 1, 58, condition.getLocation());
             }),
-        invalid("Multiple else", "if (false) {} else {} else {}", "Else without if"),
-        invalid("else-if after else", "if (false) {} else {} else if (true) {}", "Else without if"),
-        invalid("else without if", "else {}", "Unknown variable 'else'"),
+        invalid(
+            "Multiple else",
+            "if (false) {} else {} else {}",
+            "Else without if",
+            "char 23 to char 27"),
+        invalid(
+            "else-if after else",
+            "if (false) {} else {} else if (true) {}",
+            "Else without if",
+            "char 23 to char 27"),
+        invalid("else without if", "else {}", "Unknown variable 'else'", "char 1 to char 5"),
         valid(
             "single-command if",
             "if (true) print('msg');",
@@ -96,20 +104,42 @@ public class ConditionalTest {
             "if (true);",
             Arrays.asList("if", "(", "true", ")", ";"),
             Arrays.asList("1-1", "1-4", "1-5", "1-9", "1-10")),
-        invalid("if without condition", "if true", "Expected (, found true"),
-        invalid("if with empty condition", "if ()", "\"if\" requires a boolean condition"),
-        invalid("if with numeric condition", "if (1)", "\"if\" requires a boolean condition"),
-        invalid("if with unclosed condition", "if (true", "Expected ), found end of file"),
+        invalid("if without condition", "if true", "Expected (, found true", "char 4 to char 8"),
+        invalid("if with empty condition", "if ()", "Expression expected", "char 5 to char 6"),
+        invalid(
+            "if with incorrect condition",
+            "if (1)",
+            "\"if\" requires a boolean conditional expression",
+            "char 5 to char 6",
+            "if (1 +)",
+            "Value expected",
+            "char 8 to char 9"),
+        invalid(
+            "if with unclosed condition", "if (true", "Expected ), found end of file", "char 9"),
         // These probably shouldn't need to be separate test cases...
-        invalid("else if without condition", "if (false); else if true", "Expected (, found true"),
+        invalid(
+            "else if without condition",
+            "if (false); else if true",
+            "Expected (, found true",
+            "char 21 to char 25"),
         invalid(
             "else if with empty condition",
             "if (false); else if ()",
-            "\"if\" requires a boolean condition"),
+            "Expression expected",
+            "char 22 to char 23"),
+        invalid(
+            "else if with incorrect condition",
+            "if (false); else if (2)",
+            "\"if\" requires a boolean conditional expression",
+            "char 22 to char 23",
+            "if (false); else if (2 +)",
+            "Value expected",
+            "char 25 to char 26"),
         invalid(
             "else if with unclosed condition",
             "if (false); else if (true",
-            "Expected ), found end of file"));
+            "Expected ), found end of file",
+            "char 26"));
   }
 
   @ParameterizedTest

@@ -48,6 +48,7 @@ public abstract class StaticEntity {
   private static MafiaState globalContinuationState = MafiaState.CONTINUE;
   private static final ThreadLocal<MafiaState> threadLocalContinuationState =
       new ThreadLocal<MafiaState>() {
+        @Override
         protected MafiaState initialValue() {
           return MafiaState.CONTINUE;
         }

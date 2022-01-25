@@ -24,11 +24,14 @@ public abstract class AbstractRuntime implements ScriptRuntime {
     return execute(functionName, parameters, true);
   }
 
+  @Override
   public abstract Value execute(
       final String functionName, final Object[] parameters, final boolean executeTopLevel);
 
+  @Override
   public abstract ScriptException runtimeException(final String message);
 
+  @Override
   public abstract ScriptException runtimeException2(final String message1, final String message2);
 
   @Override

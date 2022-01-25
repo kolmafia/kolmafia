@@ -59,7 +59,8 @@ public class CommentTest {
         invalid(
             "Empty multiline comment on one line, single asterisk",
             "int x =/*/ 5;",
-            "Expression expected"),
+            "Expression expected",
+            "char 14"),
         valid(
             "Script with bom",
             "\ufeff    'hello world'",

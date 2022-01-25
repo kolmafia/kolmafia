@@ -29,6 +29,7 @@ public class HyperlinkAdapter implements HyperlinkListener {
     HyperlinkAdapter.VALUE_PATTERNS[2] = Pattern.compile("value=([^\\s]*?)");
   }
 
+  @Override
   public void hyperlinkUpdate(final HyperlinkEvent e) {
     if (e.getEventType() != HyperlinkEvent.EventType.ACTIVATED) {
       return;
@@ -49,6 +50,7 @@ public class HyperlinkAdapter implements HyperlinkListener {
       this.location = location;
     }
 
+    @Override
     public void run() {
       if (location.indexOf("pics.communityofloathing.com") != -1) {
         HyperlinkAdapter.this.handleInternalLink(location);

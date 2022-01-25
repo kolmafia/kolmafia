@@ -32,7 +32,6 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,9 +84,10 @@ public class EquipmentManager {
       LockableListFactory.getInstance(AdventureResult.class);
   private static final List<AdventureResult> accessories =
       LockableListFactory.getInstance(AdventureResult.class);
-  private static final List<AdventureResult>[] equipmentLists =
-      new List[EquipmentManager.ALL_SLOTS];
-  private static final List<AdventureResult>[] historyLists = new List[EquipmentManager.ALL_SLOTS];
+  private static final List<List<AdventureResult>> equipmentLists =
+      new ArrayList<>(EquipmentManager.ALL_SLOTS);
+  private static final List<List<AdventureResult>> historyLists =
+      new ArrayList<>(EquipmentManager.ALL_SLOTS);
 
   private static int fakeHandCount = 0;
   private static int stinkyCheeseLevel = 0;
@@ -111,28 +111,28 @@ public class EquipmentManager {
   static {
     for (int i = 0; i < EquipmentManager.ALL_SLOTS; ++i) {
       EquipmentManager.equipment.add(EquipmentRequest.UNEQUIP);
-      EquipmentManager.historyLists[i] = new ArrayList<>();
+      EquipmentManager.historyLists.add(new ArrayList<>());
 
       switch (i) {
         case EquipmentManager.ACCESSORY1:
         case EquipmentManager.ACCESSORY2:
         case EquipmentManager.ACCESSORY3:
-          EquipmentManager.equipmentLists[i] =
-              LockableListFactory.getMirror(EquipmentManager.accessories);
+          EquipmentManager.equipmentLists.add(
+              LockableListFactory.getMirror(EquipmentManager.accessories));
           break;
 
         default:
-          EquipmentManager.equipmentLists[i] =
-              LockableListFactory.getSortedInstance(AdventureResult.class);
+          EquipmentManager.equipmentLists.add(
+              LockableListFactory.getSortedInstance(AdventureResult.class));
           break;
       }
     }
   }
 
   public static void resetEquipment() {
-    for (int i = 0; i < EquipmentManager.equipmentLists.length; ++i) {
-      EquipmentManager.equipmentLists[i].clear();
-      EquipmentManager.historyLists[i].clear();
+    for (int i = 0; i < EquipmentManager.equipmentLists.size(); ++i) {
+      EquipmentManager.equipmentLists.get(i).clear();
+      EquipmentManager.historyLists.get(i).clear();
     }
 
     EquipmentManager.accessories.clear();
@@ -195,7 +195,7 @@ public class EquipmentManager {
     // If your current familiar can use this item, add it to familiar item list
     if (KoLCharacter.getFamiliar().canEquip(item)) {
       AdventureResult.addResultToList(
-          EquipmentManager.equipmentLists[EquipmentManager.FAMILIAR], item);
+          EquipmentManager.equipmentLists.get(EquipmentManager.FAMILIAR), item);
       if (ItemDatabase.getConsumptionType(itemId) == KoLConstants.EQUIP_FAMILIAR) {
         return;
       }
@@ -225,9 +225,9 @@ public class EquipmentManager {
 
       for (int slot = EquipmentManager.STICKER1; slot <= EquipmentManager.STICKER3; ++slot) {
         AdventureResult current = EquipmentManager.getEquipment(slot);
-        AdventureResult.addResultToList(EquipmentManager.equipmentLists[slot], item);
-        if (!EquipmentManager.equipmentLists[slot].contains(current)) {
-          EquipmentManager.equipmentLists[slot].add(current);
+        AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(slot), item);
+        if (!EquipmentManager.equipmentLists.get(slot).contains(current)) {
+          EquipmentManager.equipmentLists.get(slot).add(current);
         }
       }
     } else if (consumeType == KoLConstants.CONSUME_FOLDER) {
@@ -235,20 +235,21 @@ public class EquipmentManager {
 
       for (int slot = EquipmentManager.FOLDER1; slot <= EquipmentManager.FOLDER5; ++slot) {
         AdventureResult current = EquipmentManager.getEquipment(slot);
-        AdventureResult.addResultToList(EquipmentManager.equipmentLists[slot], item);
-        if (!EquipmentManager.equipmentLists[slot].contains(current)) {
-          EquipmentManager.equipmentLists[slot].add(current);
+        AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(slot), item);
+        if (!EquipmentManager.equipmentLists.get(slot).contains(current)) {
+          EquipmentManager.equipmentLists.get(slot).add(current);
         }
       }
     } else if (itemId == ItemPool.HATSEAT) {
-      AdventureResult.addResultToList(EquipmentManager.equipmentLists[EquipmentManager.HAT], item);
+      AdventureResult.addResultToList(
+          EquipmentManager.equipmentLists.get(EquipmentManager.HAT), item);
     } else if (itemId == ItemPool.BUDDY_BJORN) {
       AdventureResult.addResultToList(
-          EquipmentManager.equipmentLists[EquipmentManager.CONTAINER], item);
+          EquipmentManager.equipmentLists.get(EquipmentManager.CONTAINER), item);
     } else {
       int equipmentType = EquipmentManager.consumeFilterToEquipmentType(consumeType);
       if (equipmentType != -1) {
-        AdventureResult.addResultToList(EquipmentManager.equipmentLists[equipmentType], item);
+        AdventureResult.addResultToList(EquipmentManager.equipmentLists.get(equipmentType), item);
         GearChangeFrame.updateSlot(equipmentType);
       }
     }
@@ -294,7 +295,7 @@ public class EquipmentManager {
 
   public static final void setEquipment(final int slot, AdventureResult item) {
     // Variable slots do not include the fake hand
-    if (slot >= EquipmentManager.equipmentLists.length) {
+    if (slot >= EquipmentManager.equipmentLists.size()) {
       return;
     }
 
@@ -319,16 +320,16 @@ public class EquipmentManager {
         break;
 
       default:
-        if (!EquipmentManager.equipmentLists[slot].contains(item)) {
-          EquipmentManager.equipmentLists[slot].add(item);
+        if (!EquipmentManager.equipmentLists.get(slot).contains(item)) {
+          EquipmentManager.equipmentLists.get(slot).add(item);
         }
         break;
     }
 
     EquipmentManager.equipment.set(slot, item);
-    LockableListFactory.setSelectedItem(EquipmentManager.equipmentLists[slot], item);
-    EquipmentManager.historyLists[slot].remove(item);
-    EquipmentManager.historyLists[slot].add(item);
+    LockableListFactory.setSelectedItem(EquipmentManager.equipmentLists.get(slot), item);
+    EquipmentManager.historyLists.get(slot).remove(item);
+    EquipmentManager.historyLists.get(slot).add(item);
 
     // Certain equipment slots require special update handling
     // in addition to the above code.
@@ -1294,7 +1295,7 @@ public class EquipmentManager {
       KoLmafia.updateDisplay(MafiaState.PENDING, msg);
       return;
     }
-    List<AdventureResult> list = EquipmentManager.historyLists[slot];
+    List<AdventureResult> list = EquipmentManager.historyLists.get(slot);
     for (int i = list.size() - 1; i >= 0; --i) {
       AdventureResult prev = list.get(i);
       if (prev.equals(EquipmentRequest.UNEQUIP)
@@ -1567,7 +1568,7 @@ public class EquipmentManager {
    * Accessor method to retrieve a list of all available items which can be equipped by familiars.
    * Note this lists items which the current familiar cannot equip.
    */
-  public static final List<AdventureResult>[] getEquipmentLists() {
+  public static final List<List<AdventureResult>> getEquipmentLists() {
     return EquipmentManager.equipmentLists;
   }
 
@@ -1607,7 +1608,7 @@ public class EquipmentManager {
         // on another familiar.
 
         EquipmentManager.updateEquipmentList(
-            consumeFilter, EquipmentManager.equipmentLists[EquipmentManager.FAMILIAR]);
+            consumeFilter, EquipmentManager.equipmentLists.get(EquipmentManager.FAMILIAR));
 
         FamiliarData[] familiarList = new FamiliarData[KoLCharacter.familiars.size()];
         KoLCharacter.familiars.toArray(familiarList);
@@ -1618,7 +1619,7 @@ public class EquipmentManager {
           AdventureResult currentItem = familiarList[i].getItem();
           if (currentItem != EquipmentRequest.UNEQUIP && currentFamiliar.canEquip(currentItem)) {
             AdventureResult.addResultToList(
-                EquipmentManager.equipmentLists[EquipmentManager.FAMILIAR], currentItem);
+                EquipmentManager.equipmentLists.get(EquipmentManager.FAMILIAR), currentItem);
           }
         }
 
@@ -1626,15 +1627,16 @@ public class EquipmentManager {
 
       default:
         EquipmentManager.updateEquipmentList(
-            consumeFilter, EquipmentManager.equipmentLists[listIndex]);
-        if (!EquipmentManager.equipmentLists[listIndex].contains(equippedItem)) {
-          EquipmentManager.equipmentLists[listIndex].add(equippedItem);
+            consumeFilter, EquipmentManager.equipmentLists.get(listIndex));
+        if (!EquipmentManager.equipmentLists.get(listIndex).contains(equippedItem)) {
+          EquipmentManager.equipmentLists.get(listIndex).add(equippedItem);
         }
 
         break;
     }
 
-    LockableListFactory.setSelectedItem(EquipmentManager.equipmentLists[listIndex], equippedItem);
+    LockableListFactory.setSelectedItem(
+        EquipmentManager.equipmentLists.get(listIndex), equippedItem);
   }
 
   private static void updateEquipmentList(
@@ -2241,23 +2243,22 @@ public class EquipmentManager {
       return false;
     }
 
-    String requirement = EquipmentDatabase.getEquipRequirement(itemId);
-    int req;
+    EquipmentRequirement req =
+        new EquipmentRequirement(EquipmentDatabase.getEquipRequirement(itemId));
 
-    if (requirement.startsWith("Mus:")) {
-      req = StringUtilities.parseInt(requirement.substring(5));
-      return KoLCharacter.getBaseMuscle() >= req || KoLCharacter.muscleTrigger(req, itemId);
+    if (req.isMuscle()) {
+      return KoLCharacter.getBaseMuscle() >= req.getAmount()
+          || KoLCharacter.muscleTrigger(req.getAmount(), itemId);
     }
 
-    if (requirement.startsWith("Mys:")) {
-      req = StringUtilities.parseInt(requirement.substring(5));
-      return KoLCharacter.getBaseMysticality() >= req
-          || KoLCharacter.mysticalityTrigger(req, itemId);
+    if (req.isMysticality()) {
+      return KoLCharacter.getBaseMysticality() >= req.getAmount()
+          || KoLCharacter.mysticalityTrigger(req.getAmount(), itemId);
     }
 
-    if (requirement.startsWith("Mox:")) {
-      req = StringUtilities.parseInt(requirement.substring(5));
-      return KoLCharacter.getBaseMoxie() >= req || KoLCharacter.moxieTrigger(req, itemId);
+    if (req.isMoxie()) {
+      return KoLCharacter.getBaseMoxie() >= req.getAmount()
+          || KoLCharacter.moxieTrigger(req.getAmount(), itemId);
     }
 
     return true;

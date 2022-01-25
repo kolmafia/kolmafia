@@ -25,6 +25,8 @@ import org.json.JSONException;
  * as some sort of... hazmat suit..?
  */
 public class Value implements TypedNode, Comparable<Value> {
+  public static final Value BAD_VALUE = new Value(new Type.BadType(null, null));
+
   public Type type;
 
   public long contentLong = 0;
@@ -257,11 +259,13 @@ public class Value implements TypedNode, Comparable<Value> {
 
   public static final Comparator<Value> ignoreCaseComparator =
       new Comparator<Value>() {
+        @Override
         public int compare(Value v1, Value v2) {
           return v1.compareToIgnoreCase(v2);
         }
       };
 
+  @Override
   public int compareTo(final Value o) {
     return this.compareTo(o, false);
   }

@@ -35,7 +35,7 @@ public class MoodOptionsPanel extends JPanel {
     this.add(triggers, BorderLayout.NORTH);
   }
 
-  private class MoodTriggerListPanel extends ScrollablePanel {
+  private class MoodTriggerListPanel extends ScrollablePanel<JList<MoodTrigger>> {
     public JComboBox<Mood> availableMoods;
 
     public MoodTriggerListPanel() {
@@ -44,7 +44,7 @@ public class MoodOptionsPanel extends JPanel {
       this.availableMoods = new MoodComboBox();
 
       this.centerPanel.add(this.availableMoods, BorderLayout.NORTH);
-      MoodOptionsPanel.this.moodList = (JList<MoodTrigger>) this.scrollComponent;
+      MoodOptionsPanel.this.moodList = this.scrollComponent;
 
       JPanel extraButtons = new JPanel(new GridLayout(4, 1, 5, 5));
 
@@ -78,6 +78,7 @@ public class MoodOptionsPanel extends JPanel {
       }
 
       public class MoodComboBoxListener implements ActionListener {
+        @Override
         public void actionPerformed(final ActionEvent e) {
           Mood mood = (Mood) MoodComboBox.this.getSelectedItem();
           if (mood != null) {
@@ -88,6 +89,7 @@ public class MoodOptionsPanel extends JPanel {
     }
 
     private class NewMoodRunnable implements Runnable {
+      @Override
       public void run() {
         String name = InputFieldUtilities.input("Give your list a name!");
         if (name == null) {
@@ -100,6 +102,7 @@ public class MoodOptionsPanel extends JPanel {
     }
 
     private class DeleteMoodRunnable implements Runnable {
+      @Override
       public void run() {
         MoodManager.deleteCurrentMood();
         MoodManager.saveSettings();
@@ -107,6 +110,7 @@ public class MoodOptionsPanel extends JPanel {
     }
 
     private class CopyMoodRunnable implements Runnable {
+      @Override
       public void run() {
         String moodName = InputFieldUtilities.input("Make a copy of current mood list called:");
         if (moodName == null) {
@@ -124,6 +128,7 @@ public class MoodOptionsPanel extends JPanel {
     }
 
     private class ExecuteRunnable implements Runnable {
+      @Override
       public void run() {
         KoLmafiaCLI.DEFAULT_SHELL.executeLine("mood execute");
       }
@@ -162,6 +167,7 @@ public class MoodOptionsPanel extends JPanel {
       this.setContent(elements);
     }
 
+    @Override
     public void valueChanged(final ListSelectionEvent e) {
       MoodTrigger selected = MoodOptionsPanel.this.moodList.getSelectedValue();
       if (selected == null) {
@@ -265,6 +271,7 @@ public class MoodOptionsPanel extends JPanel {
       }
 
       private class TypeComboBoxListener implements ActionListener {
+        @Override
         public void actionPerformed(final ActionEvent e) {
           AddTriggerPanel.this.valueSelect.setModel(
               TypeComboBox.this.getSelectedIndex() == 2

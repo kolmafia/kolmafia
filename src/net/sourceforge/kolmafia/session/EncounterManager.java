@@ -18,7 +18,6 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
@@ -27,8 +26,7 @@ public abstract class EncounterManager {
   public enum EncounterType {
     NONE,
     STOP,
-    SEMIRARE,
-    CLOVER,
+    LUCKY,
     GLYPH,
     TURTLE,
     SEAL,
@@ -256,6 +254,10 @@ public abstract class EncounterManager {
     return isSaberForceZone(Preferences.getString("_saberForceMonster"), zone);
   }
 
+  public static final boolean isSaberForceMonster(MonsterData monster, String zone) {
+    return isSaberForceMonster(monster.getName(), zone);
+  }
+
   public static final boolean isSaberForceMonster(String monsterName, String zone) {
     if (!isSaberForceZone(monsterName, zone)) {
       return false;
@@ -280,16 +282,9 @@ public abstract class EncounterManager {
     return false;
   }
 
-  public static final boolean isCrystalBallMonster() {
-    return isCrystalBallMonster(
-        MonsterStatusTracker.getLastMonsterName(), Preferences.getString("nextAdventure"));
-  }
-
-  public static final boolean isCrystalBallMonster(String monster, String zone) {
-    // There's no message to check for so assume the correct monster in the correct zone is from the
-    // crystal ball
-    return monster.equalsIgnoreCase(Preferences.getString("crystalBallMonster"))
-        && zone.equalsIgnoreCase(Preferences.getString("crystalBallLocation"));
+  public static final boolean isGregariousEncounter(
+      final String responseText, final boolean checkMonster) {
+    return responseText.contains("Looks like it's that friend you gregariously made");
   }
 
   public static final boolean isWanderingMonster(String encounter) {
@@ -297,9 +292,9 @@ public abstract class EncounterManager {
     return monster != null && monster.getType().contains(EncounterType.WANDERER);
   }
 
-  public static boolean isSemiRareMonster(String encounter) {
+  public static boolean isLuckyMonster(String encounter) {
     MonsterData monster = MonsterDatabase.findMonster(encounter);
-    return monster != null && monster.getType().contains(EncounterType.SEMIRARE);
+    return monster != null && monster.getType().contains(EncounterType.LUCKY);
   }
 
   public static boolean isSuperlikelyMonster(String encounter) {
@@ -356,20 +351,6 @@ public abstract class EncounterManager {
     // cold, and hear a wolf whistle from behind you. You spin
     // around and see <monster> that looks suspiciously like the
     // ones you shot with a love arrow earlier.
-
-    // Some semirares can also be clover adventures, if a clover disappears it isn't a semi-rare
-
-    if (encounterType == EncounterType.SEMIRARE
-        && !ignoreSpecialMonsters
-        && !EncounterManager.isRomanticEncounter(responseText, false)
-        && !EncounterManager.isDigitizedEncounter(responseText, false)
-        && !EncounterManager.isEnamorangEncounter(responseText, false)
-        && !responseText.contains("clover disappears")
-        && !FightRequest.edFightInProgress()) {
-      KoLCharacter.registerSemirare();
-      return;
-    }
-
     if (encounterType == EncounterType.NONE) {
       return;
     }
@@ -503,6 +484,7 @@ public abstract class EncounterManager {
       return this.stringform + " (" + this.encounterCount + ")";
     }
 
+    @Override
     public int compareTo(final RegisteredEncounter o) {
       if (o == null) {
         return -1;

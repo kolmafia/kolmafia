@@ -291,10 +291,12 @@ public class ChatFrame extends GenericFrame {
       this.addFocusListener(this);
     }
 
+    @Override
     public void focusGained(FocusEvent e) {
       this.entryField.requestFocus();
     }
 
+    @Override
     public void focusLost(FocusEvent e) {}
 
     public String getAssociatedContact() {
@@ -334,6 +336,7 @@ public class ChatFrame extends GenericFrame {
             text = ChatPanel.this.commandHistory.get(--ChatPanel.this.lastCommandIndex);
           }
           ChatPanel.this.entryField.setText(text);
+          ChatPanel.this.entryField.setCaretPosition(text.length());
         } else if (keyCode == KeyEvent.VK_DOWN) {
           String text;
           if (ChatPanel.this.lastCommandIndex + 1 >= ChatPanel.this.commandHistory.size()) {
@@ -343,6 +346,7 @@ public class ChatFrame extends GenericFrame {
             text = ChatPanel.this.commandHistory.get(++ChatPanel.this.lastCommandIndex);
           }
           ChatPanel.this.entryField.setText(text);
+          ChatPanel.this.entryField.setCaretPosition(text.length());
         } else if (keyCode == KeyEvent.VK_ENTER) {
           this.submitChat();
         }
@@ -517,23 +521,30 @@ public class ChatFrame extends GenericFrame {
       NamedListenerRegistry.registerNamedListener("[chatAway]", this);
     }
 
+    @Override
     public void mouseClicked(MouseEvent arg0) {
       // wake up
       RequestThread.runInParallel(this, false);
     }
 
+    @Override
     public void mouseEntered(MouseEvent arg0) {}
 
+    @Override
     public void mouseExited(MouseEvent arg0) {}
 
+    @Override
     public void mousePressed(MouseEvent arg0) {}
 
+    @Override
     public void mouseReleased(MouseEvent arg0) {}
 
+    @Override
     public void update() {
       this.setCollapsed(!ChatPoller.isPaused());
     }
 
+    @Override
     public void run() {
       ChatSender.sendMessage(null, "/listen", false);
     }

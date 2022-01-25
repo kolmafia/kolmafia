@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -244,8 +245,19 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
       this.buttons[bingeIndex].setEnabled(haveHobo);
 
       // The ode listener is just after the hobo listener
-      boolean haveOde = KoLCharacter.hasSkill("The Ode to Booze");
-      this.buttons[bingeIndex + 1].setEnabled(haveOde);
+      boolean haveOde = KoLCharacter.hasSkill(SkillPool.ODE_TO_BOOZE);
+      boolean roomForSong = KoLCharacter.getSongs() < KoLCharacter.getMaxSongs();
+      if (!haveOde || !roomForSong) {
+        String reason =
+            (!haveOde)
+                ? "You do not know The Ode to Booze"
+                : (!roomForSong) ? "You can't remember any more songs" : "";
+        this.buttons[bingeIndex + 1].setToolTipText(reason);
+        this.buttons[bingeIndex + 1].setEnabled(false);
+      } else {
+        this.buttons[bingeIndex + 1].setEnabled(true);
+        this.buttons[bingeIndex + 1].setToolTipText("");
+      }
 
       // The prayer listener is just after the ode listener
       boolean prayerAvailable =
@@ -278,7 +290,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
   }
 
   @Override
-  public AutoFilterTextField getWordFilter() {
+  public AutoFilterTextField<Concoction> getWordFilter() {
     return new ConsumableFilterField();
   }
 
@@ -295,6 +307,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
   public void actionCancelled() {}
 
   private class ConsumableComparator implements Comparator<Concoction> {
+    @Override
     public int compare(Concoction o1, Concoction o2) {
       if (o1 == null || o2 == null) {
         throw new NullPointerException();
@@ -368,12 +381,14 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
       return o1.compareTo(o2);
     }
 
+    @Override
     public boolean equals(Object o) {
       return o instanceof ConsumableComparator;
     }
   }
 
   private class PotionComparator implements Comparator<Concoction> {
+    @Override
     public int compare(Concoction o1, Concoction o2) {
       if (o1 == null || o2 == null) {
         throw new NullPointerException();
@@ -394,6 +409,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
           : name2 == null ? -1 : name1.compareToIgnoreCase(name2);
     }
 
+    @Override
     public boolean equals(Object o) {
       return o instanceof PotionComparator;
     }
@@ -998,6 +1014,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
       this.addActionListener(this);
     }
 
+    @Override
     public void actionPerformed(final ActionEvent e) {
       if (UseItemEnqueuePanel.this.sortByEffect == this.isSelected()) {
         return;

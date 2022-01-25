@@ -26,6 +26,7 @@ import javax.swing.text.html.ImageView;
 import net.sourceforge.kolmafia.chat.ChatPoller;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -58,7 +59,6 @@ import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.NemesisManager;
 import net.sourceforge.kolmafia.session.OceanManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
-import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
@@ -269,16 +269,6 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    // If clovers were auto-disassembled, show disassembled clovers
-
-    if (ResultProcessor.disassembledClovers(location)) {
-      // Replace not only the bolded item name, but
-      // also alt and title tags of the image
-      StringUtilities.globalStringReplace(buffer, "ten-leaf clover", "disassembled clover");
-      StringUtilities.singleStringReplace(buffer, "clover.gif", "disclover.gif");
-      StringUtilities.singleStringReplace(buffer, "370834526", "328909735");
-    }
-
     // Override images, if requested
     RelayRequest.overrideImages(buffer);
 
@@ -334,11 +324,11 @@ public class RequestEditorKit extends HTMLEditorKit {
     } else if (location.startsWith("bigisland.php")) {
       IslandDecorator.decorateBigIsland(location, buffer);
     } else if (location.startsWith("casino.php")) {
-      if (!InventoryManager.hasItem(ItemPool.TEN_LEAF_CLOVER)) {
+      if (!KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.LUCKY))) {
         StringUtilities.insertAfter(
             buffer,
             "<a href=\"casino.php?action=slot&whichslot=11\"",
-            " onclick=\"return confirm('Are you sure you want to adventure here WITHOUT a ten-leaf clover?');\"");
+            " onclick=\"return confirm('Are you sure you want to adventure here WITHOUT Lucky!?');\"");
       }
     } else if (location.startsWith("cave.php")) {
       NemesisManager.decorate(location, buffer);
@@ -1858,21 +1848,30 @@ public class RequestEditorKit extends HTMLEditorKit {
 
         // If this decision has an item associated with it, annotate it
         if (spoiler instanceof ChoiceManager.Option) {
-          AdventureResult item = ((ChoiceManager.Option) spoiler).getItem();
+          ChoiceManager.Option option = ((ChoiceManager.Option) spoiler);
+          AdventureResult[] items = option.getItems();
 
-          // If this decision leads to an item...
-          if (item != null) {
-            // List # in inventory
-            spoilerBuffer.append(
-                "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('");
-            spoilerBuffer.append(ItemDatabase.getDescriptionId(item.getItemId()));
-            spoilerBuffer.append("');\">");
+          // If this decision leads to one or more item...
+          for (int it = 0; it < items.length; it++) {
+            AdventureResult item = items[it];
+            if (item != null) {
+              if (it > 0) {
+                spoilerBuffer.append(" or ");
+                spoilerBuffer.append(item.getName());
+              }
 
-            int available = KoLCharacter.hasEquipped(item) ? 1 : 0;
-            available += item.getCount(KoLConstants.inventory);
+              // List # in inventory
+              spoilerBuffer.append(
+                  "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('");
+              spoilerBuffer.append(ItemDatabase.getDescriptionId(item.getItemId()));
+              spoilerBuffer.append("');\">");
 
-            spoilerBuffer.append(available);
-            spoilerBuffer.append(" in inventory");
+              int available = KoLCharacter.hasEquipped(item) ? 1 : 0;
+              available += item.getCount(KoLConstants.inventory);
+
+              spoilerBuffer.append(available);
+              spoilerBuffer.append(" in inventory");
+            }
           }
         }
 

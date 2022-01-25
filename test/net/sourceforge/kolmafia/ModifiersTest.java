@@ -50,4 +50,15 @@ public class ModifiersTest {
       assertEquals(manualMask, mask, name);
     }
   }
+
+  @Test
+  public void intrinsicSpicinessModifiers() {
+    KoLCharacter.setAscensionClass(AscensionClass.SAUCEROR);
+    for (int i = 1; i <= 11; i++) {
+      int myst = (i == 1) ? 0 : (i - 1) * (i - 1) + 4;
+      KoLCharacter.setStatPoints(0, 0, myst, myst * myst, 0, 0);
+      Modifiers mods = Modifiers.getModifiers("Skill", "Intrinsic Spiciness");
+      assertEquals(Math.min(i, 10), mods.get(Modifiers.SAUCE_SPELL_DAMAGE));
+    }
+  }
 }

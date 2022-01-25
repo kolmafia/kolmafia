@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -424,6 +425,22 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     RequestLogger.updateSessionLog(printMe);
   }
 
+  public static boolean usesMixedCurrency(final String shopId) {
+    return shopId.equals("airport")
+        || shopId.equals("beergarden")
+        || shopId.equals("crimbo16")
+        || shopId.equals("crimbo19toys")
+        || shopId.equals("grandma")
+        || shopId.equals("junkmagazine")
+        || shopId.startsWith("kolhs_")
+        || shopId.equals("mystic")
+        || shopId.equals("rumple")
+        || shopId.equals("snowgarden")
+        || shopId.equals("spant")
+        || shopId.equals("starchart")
+        || shopId.equals("xo");
+  }
+
   public static final void parseShopResponse(final String urlString, final String responseText) {
     if (!urlString.startsWith("shop.php")) {
       return;
@@ -443,9 +460,27 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       String desc = matcher.group(2);
       String name = matcher.group(3);
       String data = ItemDatabase.getItemDataName(id);
+
       if (data == null || !data.equals(name)) {
-        // Unknown item in shop
-        String currency = matcher.group(4);
+        // Unknown item
+        ItemDatabase.registerItem(id, name, desc);
+      }
+
+      String currency = matcher.group(4);
+      boolean takesMeat = currency.equals("Meat");
+
+      if ((takesMeat && NPCStoreDatabase.getPurchaseRequest(id) == null)
+          || (
+          // Doesnt take meat...
+          !takesMeat
+              // ...and not in coinmasters
+              && CoinmastersDatabase.getPurchaseRequest(id) == null
+              // ...and doesn't use mixed currency (we can't store this currently in our data files)
+              && !usesMixedCurrency(shopId)
+              // ...and doesn't have a mixing method (sometimes things are stored as concoctions
+              // instead of NPC items)
+              && !ConcoctionDatabase.hasMixingMethod(id))) {
+        // Didn't know this was buyable
         String cost = matcher.group(5).replaceAll(",", "");
         String row = matcher.group(6);
         String shopName = "";
@@ -456,12 +491,11 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         if (shopName.equals("Results:") && nameMatcher.find()) {
           shopName = nameMatcher.group(1);
         }
-        if (currency.equals("Meat")) {
+        if (takesMeat) {
           NPCPurchaseRequest.learnNPCStoreItem(shopName, shopId, name, cost, row);
         } else {
           NPCPurchaseRequest.learnCoinmasterItem(shopName, name, cost, row);
         }
-        ItemDatabase.registerItem(id, name, desc);
       }
     }
 
@@ -473,19 +507,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     }
 
     // The following trade collections of ingredients for an item
-    if (shopId.equals("airport")
-        || shopId.equals("beergarden")
-        || shopId.equals("crimbo16")
-        || shopId.equals("crimbo19toys")
-        || shopId.equals("grandma")
-        || shopId.equals("junkmagazine")
-        || shopId.startsWith("kolhs_")
-        || shopId.equals("mystic")
-        || shopId.equals("rumple")
-        || shopId.equals("snowgarden")
-        || shopId.equals("spant")
-        || shopId.equals("starchart")
-        || shopId.equals("xo")) {
+    if (usesMixedCurrency(shopId)) {
       NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
       return;
     }

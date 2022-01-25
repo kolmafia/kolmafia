@@ -45,12 +45,12 @@ import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class ChatManager {
-  private static final LinkedList<Object> clanMessages = new RollingLinkedList<>(20);
+  private static final LinkedList<ChatMessage> clanMessages = new RollingLinkedList<>(20);
   private static final Set<String> validChatReplyRecipients = new HashSet<String>();
 
   private static final TreeMap<String, StyledChatBuffer> instantMessageBuffers =
       new TreeMap<String, StyledChatBuffer>();
-  private static Entry<String, StyledChatBuffer>[] bufferEntries = new Entry[0];
+  private static List<Entry<String, StyledChatBuffer>> bufferEntries = new ArrayList<>(0);
 
   private static boolean isRunning = false;
   private static boolean checkedLiteracy = false;
@@ -79,7 +79,7 @@ public abstract class ChatManager {
 
     ChatManager.clanMessages.clear();
     ChatManager.instantMessageBuffers.clear();
-    ChatManager.bufferEntries = new Entry[0];
+    ChatManager.bufferEntries = new ArrayList<>(0);
     ChatManager.activeChannels.clear();
     ChatManager.currentChannel = null;
 
@@ -236,8 +236,8 @@ public abstract class ChatManager {
 
     synchronized (ChatManager.bufferEntries) {
       ChatManager.instantMessageBuffers.put(bufferKey, buffer);
-      ChatManager.bufferEntries = new Entry[ChatManager.instantMessageBuffers.size()];
-      ChatManager.instantMessageBuffers.entrySet().toArray(ChatManager.bufferEntries);
+      ChatManager.bufferEntries = new ArrayList<>(ChatManager.instantMessageBuffers.size());
+      ChatManager.bufferEntries.addAll(ChatManager.instantMessageBuffers.entrySet());
     }
 
     return buffer;
@@ -573,10 +573,10 @@ public abstract class ChatManager {
 
       StringBuilder mailContent = new StringBuilder();
 
-      Iterator<Object> clanMessageIterator = ChatManager.clanMessages.iterator();
+      Iterator<ChatMessage> clanMessageIterator = ChatManager.clanMessages.iterator();
 
       while (clanMessageIterator.hasNext()) {
-        ChatMessage message = (ChatMessage) clanMessageIterator.next();
+        ChatMessage message = clanMessageIterator.next();
         String cleanMessage =
             KoLConstants.ANYTAG_PATTERN
                 .matcher(ChatFormatter.formatChatMessage(message))

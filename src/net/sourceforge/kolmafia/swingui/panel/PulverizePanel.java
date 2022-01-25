@@ -132,7 +132,7 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
     this.yields
         .getColumnModel()
         .getSelectionModel()
-        .addListSelectionListener((ListSelectionListener) this.filterfield);
+        .addListSelectionListener((ListSelectionListener) this.filterField);
 
     // If the yields list was added directly to northPanel, it would get horizontally
     // stretched, creating useless blank space inside the list frame.  Having an
@@ -149,11 +149,12 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
   }
 
   @Override
-  public AutoFilterTextField getWordFilter() {
+  public AutoFilterTextField<AdventureResult> getWordFilter() {
     return new EquipmentFilterField();
   }
 
-  private class EquipmentFilterField extends AutoFilterTextField implements ListSelectionListener {
+  private class EquipmentFilterField extends AutoFilterTextField<AdventureResult>
+      implements ListSelectionListener {
     boolean others = false;
     boolean smiths = false;
     int elemMask = 0;
@@ -163,6 +164,7 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
       super(PulverizePanel.this.getElementList());
     }
 
+    @Override
     public void valueChanged(ListSelectionEvent e) {
       this.update();
     }

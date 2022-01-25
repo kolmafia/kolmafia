@@ -27,7 +27,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
-import net.sourceforge.kolmafia.utilities.AdventureResultArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CreateItemRequest extends GenericRequest implements Comparable<CreateItemRequest> {
@@ -56,6 +55,8 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
           "That rapid prototyping programming you downloaded is really paying dividends");
   public static final Pattern CORNER_CUTTER_PATTERN =
       Pattern.compile("You really crafted that item the LyleCo way");
+  public static final Pattern HOMEBODYL_PATTERN =
+      Pattern.compile("You are so relaxed that your crafting takes hardly any time at all!");
 
   public static final AdventureResult TENDER_HAMMER = ItemPool.get(ItemPool.TENDER_HAMMER, 1);
   public static final AdventureResult GRIMACITE_HAMMER = ItemPool.get(ItemPool.GRIMACITE_HAMMER, 1);
@@ -108,6 +109,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     return this.yield;
   }
 
+  @Override
   public void reconstructFields() {
     String formSource = "craft.php";
     String action = "craft";
@@ -375,6 +377,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     return this.name != null ? this.name.toLowerCase().hashCode() : 0;
   }
 
+  @Override
   public int compareTo(final CreateItemRequest o) {
     return o == null ? -1 : this.getName().compareToIgnoreCase(o.getName());
   }
@@ -785,7 +788,14 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         }
       }
 
-      // Remove from Rapid Prototyping, then Corner Cutter
+      // Remove from Homebodyl, Rapid Prototyping, then Corner Cutter
+      freeTurn = HOMEBODYL_PATTERN.matcher(craftSection);
+      if (freeTurn.find()) {
+        int homebodylTurnsSaved =
+            Math.min(Preferences.getInteger("homebodylCharges"), created - turnsSaved);
+        Preferences.decrement("homebodylCharges", created - turnsSaved, 0);
+        turnsSaved += homebodylTurnsSaved;
+      }
       freeTurn = RAPID_PROTOTYPING_PATTERN.matcher(craftSection);
       if (freeTurn.find()) {
         int rapidPrototypingTurnsSaved =
@@ -1011,6 +1021,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     Arrays.sort(
         ingredients,
         new Comparator<AdventureResult>() {
+          @Override
           public int compare(AdventureResult o1, AdventureResult o2) {
             Concoction left = ConcoctionPool.get(o1);
             if (left == null) return -1;
@@ -1207,9 +1218,10 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
 
       case MIX_FANCY:
         return KoLCharacter.hasBartender() ? 0 : 1;
-    }
 
-    return 0;
+      default:
+        return 0;
+    }
   }
 
   private static int getAdventuresUsed(final CraftingType mixingMethod, final int quantityNeeded) {
@@ -1226,9 +1238,10 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       case COOK_FANCY:
       case MIX_FANCY:
         return Math.max(0, (quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns()));
-    }
 
-    return 0;
+      default:
+        return 0;
+    }
   }
 
   public static final boolean registerRequest(final boolean isExternal, final String urlString) {
@@ -1428,12 +1441,12 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
             ? CreateItemRequest.CRAFT_PATTERN_1.matcher(urlString)
             : CreateItemRequest.ITEMID_PATTERN.matcher(urlString);
 
-    AdventureResultArray ingredients = new AdventureResultArray();
+    List<AdventureResult> ingredients = new ArrayList<>();
     while (matcher.find()) {
       ingredients.add(CreateItemRequest.getIngredient(matcher.group(1)));
     }
 
-    return ingredients.toArray();
+    return ingredients.toArray(new AdventureResult[0]);
   }
 
   private static AdventureResult getIngredient(final String itemId) {

@@ -15,7 +15,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class StringTest {
   public static Stream<ScriptData> data() {
     return Stream.of(
-        invalid("Multiline string, end of line not escaped", "'\n'", "No closing ' found"),
+        invalid(
+            "Multiline string, end of line not escaped",
+            "'\n'",
+            "No closing ' found",
+            "char 1 to char 2"),
         valid(
             "Multiline string, end of line properly escaped",
             "'\\\n'",
@@ -32,10 +36,22 @@ public class StringTest {
             "'\\\n\n   \n\n\n'",
             Arrays.asList("'\\", "'"),
             Arrays.asList("1-1", "6-1")),
+        valid(
+            "Trailing spaces after string",
+            "'foobar'    //",
+            Arrays.asList("'foobar'", "//"),
+            Arrays.asList("1-1", "1-13"),
+            scope -> {
+              List<Command> commands = scope.getCommandList();
+
+              Value.Constant string = assertInstanceOf(Value.Constant.class, commands.get(0));
+              ParserTest.assertLocationEquals(1, 1, 1, 9, string.getLocation());
+            }),
         invalid(
             "Multiline string, end of line properly escaped + empty lines + comment",
             "'\\\n\n\n//Comment\n\n'",
-            "No closing ' found"));
+            "No closing ' found",
+            "char 1 to line 4, char 10"));
   }
 
   @ParameterizedTest

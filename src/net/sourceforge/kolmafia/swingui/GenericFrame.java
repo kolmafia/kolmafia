@@ -143,10 +143,12 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     this.addFocusListener(this);
   }
 
+  @Override
   public void focusGained(FocusEvent e) {
     this.framePanel.requestFocus();
   }
 
+  @Override
   public void focusLost(FocusEvent e) {}
 
   public void setCenterComponent(Component c) {
@@ -257,12 +259,14 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
   }
 
   private class CloseWindowListener implements ActionListener {
+    @Override
     public void actionPerformed(final ActionEvent e) {
       dispose();
     }
   }
 
   private class TabForwardListener implements ActionListener {
+    @Override
     public void actionPerformed(final ActionEvent e) {
       if (GenericFrame.this.tabs == null) {
         return;
@@ -274,6 +278,7 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
   }
 
   private class TabBackwardListener implements ActionListener {
+    @Override
     public void actionPerformed(final ActionEvent e) {
       if (GenericFrame.this.tabs == null) {
         return;
@@ -494,6 +499,7 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
       this.update(scriptList, scriptButtonPosition);
     }
 
+    @Override
     public void update() {
       this.update(
           Preferences.getString("scriptList"), Preferences.getInteger("scriptButtonPosition"));
@@ -639,6 +645,7 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     }
   }
 
+  @Override
   public void run() {
     super.setVisible(true);
     super.setExtendedState(Frame.NORMAL);
@@ -656,18 +663,32 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
   private void rememberPosition() {
     Point p = this.getLocation();
 
+    // We store the width/height despite not using it outside of TabbedChatFrame in case we change
+    // our mind later
     if (this.tabs == null) {
-      Preferences.setString(this.frameName, (int) p.getX() + "," + (int) p.getY());
+      Preferences.setString(
+          this.frameName,
+          (int) p.getX() + "," + (int) p.getY() + "," + getWidth() + "," + getHeight());
     } else {
       Preferences.setString(
           this.frameName,
-          (int) p.getX() + "," + (int) p.getY() + "," + this.tabs.getSelectedIndex());
+          (int) p.getX()
+              + ","
+              + (int) p.getY()
+              + ","
+              + this.tabs.getSelectedIndex()
+              + ","
+              + getWidth()
+              + ","
+              + getHeight());
     }
   }
 
   private void restorePosition() {
     int xLocation;
     int yLocation;
+    int width;
+    int height;
 
     Rectangle display = new Rectangle();
     GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -714,6 +735,14 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
         this.tabs.setSelectedIndex(tabIndex);
       } else if (this.tabs.getTabCount() > 0) {
         this.tabs.setSelectedIndex(0);
+      }
+
+      // Only TabbedChatFrame has the width/height restored as the other frames feel weird
+      if (location.length > 3 && this instanceof TabbedChatFrame) {
+        width = StringUtilities.parseInt(location[location.length - 2]);
+        height = StringUtilities.parseInt(location[location.length - 1]);
+
+        this.setSize(width, height);
       }
     }
   }
@@ -807,16 +836,19 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
       }
     }
 
+    @Override
     public void focusGained(FocusEvent e) {
       if (this.centerComponent != null) {
         this.centerComponent.requestFocus();
       }
     }
 
+    @Override
     public void focusLost(FocusEvent e) {}
   }
 
   private static class LogoutRunnable implements Runnable {
+    @Override
     public void run() {
       LogoutManager.logout();
     }

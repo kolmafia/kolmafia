@@ -13,20 +13,20 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 
-public class ScrollablePanel extends ActionPanel {
+public class ScrollablePanel<E extends JComponent> extends ActionPanel {
   protected ConfirmedListener CONFIRM_LISTENER = new ConfirmedListener();
   protected CancelledListener CANCEL_LISTENER = new CancelledListener();
 
-  public JPanel actualPanel;
-  public JPanel centerPanel;
+  public final JPanel actualPanel;
+  public final JPanel centerPanel;
 
-  public JPanel eastPanel;
+  public final JPanel eastPanel;
   public VerifyButtonPanel buttonPanel;
-  public JComponent scrollComponent;
+  public final E scrollComponent;
   public JLabel titleComponent;
-  public GenericScrollPane scrollPane;
+  public final GenericScrollPane scrollPane;
 
-  public ScrollablePanel(final String title, final JComponent scrollComponent) {
+  public ScrollablePanel(final String title, final E scrollComponent) {
     this(title, null, null, scrollComponent);
   }
 
@@ -34,7 +34,7 @@ public class ScrollablePanel extends ActionPanel {
       final String title,
       final String confirmedText,
       final String cancelledText,
-      final JComponent scrollComponent) {
+      final E scrollComponent) {
     this(title, confirmedText, cancelledText, scrollComponent, true);
   }
 
@@ -42,7 +42,7 @@ public class ScrollablePanel extends ActionPanel {
       final String title,
       final String confirmedText,
       final String cancelledText,
-      final JComponent scrollComponent,
+      final E scrollComponent,
       final boolean isRootPane) {
     this.scrollComponent = scrollComponent;
 

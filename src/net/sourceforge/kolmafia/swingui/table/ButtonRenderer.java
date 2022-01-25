@@ -8,6 +8,7 @@ import javax.swing.table.TableCellRenderer;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ButtonRenderer implements TableCellRenderer {
+  @Override
   public Component getTableCellRendererComponent(
       final JTable table,
       final Object value,

@@ -1,10 +1,11 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
+import java.util.List;
 import javax.swing.ListSelectionModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 
-public class ItemListManagePanel<E> extends ItemManagePanel<E> {
+public class ItemListManagePanel<E> extends ItemManagePanel<E, ShowDescriptionList<E>> {
   public ItemListManagePanel(
       final String confirmedText,
       final String cancelledText,
@@ -19,11 +20,11 @@ public class ItemListManagePanel<E> extends ItemManagePanel<E> {
         addFilterField,
         addRefreshButton);
 
-    ShowDescriptionList<E> elementList = (ShowDescriptionList<E>) this.elementList;
+    ShowDescriptionList<E> elementList = this.scrollComponent;
     elementList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     elementList.setVisibleRowCount(8);
     if (addFilterField) {
-      this.filterfield.setList(elementList);
+      this.filterField.setList(elementList);
     }
   }
 
@@ -51,11 +52,11 @@ public class ItemListManagePanel<E> extends ItemManagePanel<E> {
   }
 
   public ShowDescriptionList<E> getElementList() {
-    return (ShowDescriptionList<E>) this.scrollComponent;
+    return this.scrollComponent;
   }
 
   @Override
-  public Object[] getSelectedValues() {
-    return this.getElementList().getSelectedValuesList().toArray();
+  public List<E> getSelectedValues() {
+    return this.getElementList().getSelectedValuesList();
   }
 }

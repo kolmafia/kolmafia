@@ -149,17 +149,26 @@ public class AggregateType extends CompositeType {
 
   @Override
   public AggregateType reference(final Location location) {
-    return new AggregateTypeReference(location);
+    return new AggregateTypeReference(this, location);
   }
 
   private class AggregateTypeReference extends AggregateType {
-    public AggregateTypeReference(final Location location) {
-      super(AggregateType.this, location);
+    private AggregateTypeReference(final AggregateType aggregateType, final Location location) {
+      super(aggregateType, location);
     }
 
     @Override
     public Location getDefinitionLocation() {
       return AggregateType.this.getDefinitionLocation();
     }
+  }
+
+  @Override
+  public boolean isBad() {
+    return this.getIndexType().isBad() || this.getDataType().isBad();
+  }
+
+  public static AggregateType badAggregateType() {
+    return new AggregateType(new BadType(null, null), new BadType(null, null));
   }
 }

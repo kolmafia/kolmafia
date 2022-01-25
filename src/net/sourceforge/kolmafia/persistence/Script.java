@@ -37,6 +37,7 @@ public class Script extends Vector<String> implements Comparable<Object> {
     super.add(longDesc);
   }
 
+  @Override
   public int compareTo(Object o) {
     if (!(o instanceof Script)) {
       return -1;

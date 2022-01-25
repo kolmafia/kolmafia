@@ -57,8 +57,9 @@ public class VolcanoIslandRequest extends GenericRequest {
         return "a Protestor";
       case SAUCEROR:
         return "a Boat";
+      default:
+        return null;
     }
-    return null;
   }
 
   private static String visitNPC(final String urlString) {

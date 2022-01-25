@@ -108,6 +108,7 @@ public class MushroomPlotPanel extends JPanel {
     try {
       SwingUtilities.invokeAndWait(
           new Runnable() {
+            @Override
             public void run() {
               MushroomPlotPanel.this.output =
                   InputFieldUtilities.chooseOutputFile(
@@ -233,6 +234,7 @@ public class MushroomPlotPanel extends JPanel {
       this.addActionListener(this);
     }
 
+    @Override
     public void actionPerformed(final ActionEvent e) {
       if (!this.canModify) {
         return;

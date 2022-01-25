@@ -72,16 +72,15 @@ public abstract class Function extends Symbol {
     COERCE
   }
 
-  public boolean paramsMatch(final Function that) {
-    // The types of the other function's parameters must exactly
-    // match the types of this function's parameters
-
+  public boolean paramsMatch(final Function that, final boolean base) {
     Iterator<VariableReference> it1 = this.variableReferences.iterator();
     Iterator<VariableReference> it2 = that.variableReferences.iterator();
 
     while (it1.hasNext() && it2.hasNext()) {
-      Type paramType1 = it1.next().getRawType();
-      Type paramType2 = it2.next().getRawType();
+      VariableReference val1 = it1.next();
+      VariableReference val2 = it2.next();
+      Type paramType1 = base ? val1.getType() : val1.getRawType();
+      Type paramType2 = base ? val2.getType() : val2.getRawType();
       if (!paramType1.equals(paramType2)) {
         return false;
       }
@@ -372,6 +371,12 @@ public abstract class Function extends Symbol {
 
     for (VariableReference current : this.variableReferences) {
       current.print(stream, indent + 1);
+    }
+  }
+
+  public static class BadFunction extends UserDefinedFunction implements BadNode {
+    public BadFunction(final String name) {
+      super(name, new Type.BadType(null, null), new ArrayList<>(), null);
     }
   }
 }
