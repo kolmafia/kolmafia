@@ -33,6 +33,8 @@ import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 public class LoginManager {
+  private LoginManager() {}
+
   public static void login(String username) {
     try {
       KoLmafia.forceContinue();

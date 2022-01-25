@@ -35,6 +35,8 @@ public final class CrystalBallManager {
     Pattern.compile("if you stick around here you're going to run into <b>an? (.*?)</b>")
   };
 
+  private CrystalBallManager() {}
+
   public static class Prediction implements Comparable<Prediction> {
     public final int turnCount;
     public final String location;

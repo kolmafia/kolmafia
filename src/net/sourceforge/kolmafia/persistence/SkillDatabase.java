@@ -102,6 +102,8 @@ public class SkillDatabase {
     SkillDatabase.reset();
   }
 
+  private SkillDatabase() {}
+
   public static final String skillTypeToTypeName(final int type) {
     return type == PASSIVE
         ? "passive"

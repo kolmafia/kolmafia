@@ -162,6 +162,8 @@ public class HolidayDatabase {
     }
   }
 
+  private HolidayDatabase() {}
+
   public static final void guessPhaseStep() {
     try {
       // Use a timezone such that the "day" begins at rollover.

@@ -36,6 +36,8 @@ import net.sourceforge.kolmafia.textui.parsetree.Value;
 public class RecoveryManager {
   private static boolean recoveryActive;
 
+  private RecoveryManager() {}
+
   public static boolean isRecoveryActive() {
     return RecoveryManager.recoveryActive;
   }

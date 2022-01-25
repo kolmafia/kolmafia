@@ -71,6 +71,8 @@ public class IslandDecorator {
     },
   };
 
+  private IslandDecorator() {}
+
   private static Object[] findImages(final Quest quest) {
     for (int i = 0; i < IslandDecorator.IMAGES.length; ++i) {
       Object[] row = IslandDecorator.IMAGES[i];

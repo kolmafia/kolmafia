@@ -40,6 +40,8 @@ public class BeachManager {
   private static final Pattern EFFECT_PATTERN =
       Pattern.compile("You acquire an effect: <b>([^<]+)</b>");
 
+  private BeachManager() {}
+
   public static class BeachHead {
     public final int id;
     public final String effect;

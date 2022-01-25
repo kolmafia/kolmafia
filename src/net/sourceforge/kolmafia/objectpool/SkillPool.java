@@ -454,4 +454,6 @@ public class SkillPool {
   public static final int SPIN_JUMP = 25005;
   public static final int MULTI_BOUNCE = 25006;
   public static final int POWER_PLUS = 25007;
+
+  private SkillPool() {}
 }

@@ -23,6 +23,8 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ItemFinder {
+  private ItemFinder() {}
+
   public enum Match {
     ANY,
     FOOD,

@@ -15,6 +15,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 /** Provides utility functions for dealing with quests. */
 public class QuestDatabase {
+  private QuestDatabase() {}
+
   public enum Quest {
     LARVA("questL02Larva"),
     RAT("questL03Rat"),

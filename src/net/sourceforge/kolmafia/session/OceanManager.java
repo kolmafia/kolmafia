@@ -18,6 +18,8 @@ public class OceanManager {
   private static final GenericRequest OCEAN_HANDLER = new GenericRequest("ocean.php");
   private static final Pattern OCEAN_PATTERN = Pattern.compile("(\\d+),(\\d+)");
 
+  private OceanManager() {}
+
   public static final void processOceanAdventure() {
     OceanManager.processOceanAdventure(OceanManager.OCEAN_HANDLER);
   }

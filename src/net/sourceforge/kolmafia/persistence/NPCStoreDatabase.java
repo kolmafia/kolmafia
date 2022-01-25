@@ -91,6 +91,8 @@ public class NPCStoreDatabase {
     }
   }
 
+  private NPCStoreDatabase() {}
+
   public static final String getStoreName(final String storeId) {
     return storeId.equals("bartlebys")
         ? (KoLCharacter.inBeecore()

@@ -25,6 +25,8 @@ public class MonorailManager {
     MonorailManager.lyleSpoilers.put("Back to the Platform!", new String[] {"", null});
   }
 
+  private MonorailManager() {}
+
   public static void resetMuffinOrder() {
     String muffinOrder = Preferences.getString("muffinOnOrder");
     if (muffinOrder.equals("blueberry muffin")

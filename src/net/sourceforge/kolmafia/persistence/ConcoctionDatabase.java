@@ -150,6 +150,8 @@ public class ConcoctionDatabase {
   private static final EnumSet<CraftingMisc> info = EnumSet.noneOf(CraftingMisc.class);
   private static int row = 0;
 
+  private ConcoctionDatabase() {}
+
   public static final void resetQueue() {
     LockableListModel<QueuedConcoction> queue = ConcoctionDatabase.queuedFood;
     while (queue.size() > 0) {
