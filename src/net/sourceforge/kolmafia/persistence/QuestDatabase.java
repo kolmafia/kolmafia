@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -111,6 +112,12 @@ public class QuestDatabase {
 
     Quest(String pref) {
       this.pref = pref;
+    }
+
+    public static Quest[] councilQuests() {
+      return Arrays.stream(values())
+          .filter(q -> q.getPref().startsWith("questL"))
+          .toArray(Quest[]::new);
     }
 
     public String getPref() {
