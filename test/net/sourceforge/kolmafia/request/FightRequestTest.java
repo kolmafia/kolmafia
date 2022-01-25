@@ -201,7 +201,7 @@ public class FightRequestTest {
     assertEquals(0, Preferences.getInteger("cursedMagnifyingGlassCount"));
 
     MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("lavatory"));
-    parseCombatData("request/test_cursed_magnifying_glass_update.html");
+    parseCombatData("request/test_fight_cursed_magnifying_glass_update.html");
     assertEquals(3, Preferences.getInteger("cursedMagnifyingGlassCount"));
   }
 

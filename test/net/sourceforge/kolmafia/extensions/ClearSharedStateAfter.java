@@ -45,5 +45,10 @@ public class ClearSharedStateAfter implements AfterAllCallback {
         }
       }
     }
+    // Leaked by a disabled test of DebugDatabase
+    File pulverizeFile = new File(KoLConstants.ROOT_LOCATION + "/data/pulvereport.txt");
+    if (pulverizeFile.exists()) {
+      pulverizeFile.delete();
+    }
   }
 }

@@ -82,6 +82,7 @@ fiberglass fibers	3	12	awesome	0	1000-2000	1000-2000	1000-2000
 fish sauce	1	1	good	0	0	0	0	30 Fishy
 fishy paste	4	4	good	5-10	18-22	18-22	18-22	10 Fishy
 Five Second Energy&trade;	3	1	crappy	0	0	0	0	+3 PvP fights
+flagstone flagments	3	12		0	0	0	0	Unspaded
 Fleshazole&trade;	2	1	crappy	0	0	0	0	Unspaded
 fried air	1	1		0	0	0	0	Unspaded
 furry pill	1	3	decent	0	0	0	0	Remove negative effect, Restores 40-50 HP
@@ -127,6 +128,7 @@ lavender polka-dot oyster egg	1	1	awesome	0	0	0	22-30
 lavender striped oyster egg	1	1	awesome	0	11-15	0	11-15
 liquid shifting time weirdness	2	6	awesome	0	50-65	50-65	50-65	10 Liquid Luck (+10% critical, +10% spell critical)
 livid energy	1	1	awesome	0	0	0	0	Unspaded 60 Lividly Energized (+50% MP, +3-5 MP Regen)
+loofah lumps	2	12		0	0	0	0	Unspaded
 LOV Echinacea Bouquet	1	1	crappy	0	20-40	20-40	20-40	20-40 HP, 20-40 MP
 lucky pill	1	7	awesome	0	0	0	0	Get lucky
 lustrous oyster egg	1	5	EPIC	0	0	0	0	50 Lustre After Wealth (+50% meat drop)

@@ -1960,6 +1960,7 @@ Item	velcro paddle ball	Moxie Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Ac
 Item	velour voulge	Experience (Muscle): +2, Weapon Drop: +30
 Item	vibrating cyborg knife	Weapon Damage: +20, Fumble: 3
 Item	villainous scythe	Weapon Damage Percent: +30, Critical Hit Percent: +20, Slime Hates It: +2
+Item	void shard	Muscle Percent: +13, Mysticality Percent: +13, Moxie Percent: +13, Item Drop: +13, Monster Level: +13, Spooky Damage: +13
 Item	vorpal blade	Critical Hit Percent: +8
 Item	VYKEA hex key	Muscle: +6, Mysticality: +6, Moxie: +6, HP Regen Min: 6, HP Regen Max: 6, MP Regen Min: 6, MP Regen Max: 6, Weapon Damage: +6
 # Wand of Nagamar

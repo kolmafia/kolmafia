@@ -110,18 +110,20 @@ public class MaximizerTest {
   @Test
   public void clownosityTriesClownEquipment() {
     canUse("clown wig");
-    assertFalse(maximize("clownosity"));
+    assertFalse(maximize("clownosity -tie"));
     // still provides equipment
     recommendedSlotIs(EquipmentManager.HAT, "clown wig");
+    assertEquals(50, modFor("Clowniness"), 0.01);
   }
 
   @Test
   public void clownositySucceedsWithEnoughEquipment() {
     canUse("clown wig");
     canUse("polka-dot bow tie");
-    assertTrue(maximize("clownosity"));
+    assertTrue(maximize("clownosity -tie"));
     recommendedSlotIs(EquipmentManager.HAT, "clown wig");
     recommendedSlotIs(EquipmentManager.ACCESSORY1, "polka-dot bow tie");
+    assertEquals(125, modFor("Clowniness"), 0.01);
   }
 
   // raveosity
@@ -131,11 +133,12 @@ public class MaximizerTest {
     canUse("rave visor");
     canUse("baggy rave pants");
     canUse("rave whistle");
-    assertFalse(maximize("raveosity"));
+    assertFalse(maximize("raveosity -tie"));
     // still provides equipment
     recommendedSlotIs(EquipmentManager.HAT, "rave visor");
     recommendedSlotIs(EquipmentManager.PANTS, "baggy rave pants");
     recommendedSlotIs(EquipmentManager.WEAPON, "rave whistle");
+    assertEquals(5, modFor("Raveosity"), 0.01);
   }
 
   @Test
@@ -145,21 +148,49 @@ public class MaximizerTest {
     canUse("teddybear backpack");
     canUse("rave visor");
     canUse("baggy rave pants");
-    assertTrue(maximize("raveosity"));
+    assertTrue(maximize("raveosity -tie"));
     recommendedSlotIs(EquipmentManager.HAT, "rave visor");
     recommendedSlotIs(EquipmentManager.PANTS, "baggy rave pants");
     recommendedSlotIs(EquipmentManager.CONTAINER, "teddybear backpack");
     recommendedSlotIs(EquipmentManager.OFFHAND, "glowstick on a string");
-    recommends("blue glowstick");
+    assertEquals(7, modFor("Raveosity"), 0.01);
+  }
+
+  // surgeonosity
+
+  @Test
+  public void surgeonosityTriesSurgeonEquipment() {
+    canUse("head mirror");
+    canUse("bloodied surgical dungarees");
+    canUse("surgical apron");
+    canUse("surgical mask");
+    canUse("half-size scalpel");
+    addSkill("Torso Awareness");
+    assertTrue(maximize("surgeonosity -tie"));
+    recommendedSlotIs(EquipmentManager.PANTS, "bloodied surgical dungarees");
+    recommends("head mirror");
+    recommends("surgical mask");
+    recommends("half-size scalpel");
+    recommendedSlotIs(EquipmentManager.SHIRT, "surgical apron");
+    assertEquals(5, modFor("Surgeonosity"), 0.01);
   }
 
   // beecore
+
   @Test
-  public void itemsCanHaveAtMostTwoBees() {
+  public void itemsCanHaveAtMostTwoBeesByDefault() {
     inPath(Path.BEES_HATE_YOU);
     canUse("bubblewrap bottlecap turtleban");
     maximize("mys");
     recommendedSlotIsEmpty(EquipmentManager.HAT);
+  }
+
+  @Test
+  public void itemsCanHaveAtMostBeeosityBees() {
+    inPath(Path.BEES_HATE_YOU);
+    canUse("bubblewrap bottlecap turtleban");
+    maximize("mys, 5beeosity");
+    recommendedSlotIs(EquipmentManager.HAT, "bubblewrap bottlecap turtleban");
   }
 
   @Test
@@ -213,6 +244,39 @@ public class MaximizerTest {
     maximize("meat drop");
 
     assertFalse(someBoostIs(x -> x.getCmd().startsWith("use 1 baggie of powdered sugar")));
+  }
+
+  // plumber
+
+  @Test
+  public void plumberCommandsErrorOutsidePlumber() {
+    inPath(Path.AVATAR_OF_BORIS);
+
+    assertFalse(maximize("plumber"));
+    assertFalse(maximize("cold plumber"));
+  }
+
+  @Test
+  public void plumberCommandForcesSomePlumberItem() {
+    inPath(Path.PATH_OF_THE_PLUMBER);
+    canUse("work boots");
+    canUse("shiny ring", 3);
+
+    assertTrue(maximize("plumber, mox"));
+    recommends("work boots");
+  }
+
+  @Test
+  public void coldPlumberCommandForcesFlowerAndFrostyButton() {
+    inPath(Path.PATH_OF_THE_PLUMBER);
+    canUse("work boots");
+    canUse("bonfire flower");
+    canUse("frosty button");
+    canUse("shiny ring", 3);
+
+    assertTrue(maximize("cold plumber, mox"));
+    recommends("bonfire flower");
+    recommends("frosty button");
   }
 
   // club

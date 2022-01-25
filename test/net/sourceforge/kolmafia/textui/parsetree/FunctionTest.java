@@ -30,35 +30,36 @@ public class FunctionTest {
                 "1-34", "1-37", "1-38", "1-42", "1-43", "1-45", "1-49", "1-50", "1-52", "1-53",
                 "1-55", "1-58", "1-59", "1-60", "1-62", "1-63", "1-64")),
         valid(
-            "function parameter typedef-to-simple typedef coercion",
-            // Mmh... there's no real way to "prove" the function was used other than
-            // seeing it checked from clover...
-            "typedef int foo; foo a = 1; int to_int(foo x) {return 1;} void bar(int x) {} bar(a);",
+            "function parameter typedef-to-base typedef coercion",
+            "typedef int[] list; typedef list foo; foo a = int[] {1, 2}; list to_list(foo x) {return int[] {1};} void bar(list x) {} bar(a);",
             Arrays.asList(
-                "typedef", "int", "foo", ";", "foo", "a", "=", "1", ";", "int", "to_int", "(",
-                "foo", "x", ")", "{", "return", "1", ";", "}", "void", "bar", "(", "int", "x", ")",
-                "{", "}", "bar", "(", "a", ")", ";"),
+                "typedef", "int", "[", "]", "list", ";", "typedef", "list", "foo", ";", "foo", "a",
+                "=", "int", "[", "]", "{", "1", ",", "2", "}", ";", "list", "to_list", "(", "foo",
+                "x", ")", "{", "return", "int", "[", "]", "{", "1", "}", ";", "}", "void", "bar",
+                "(", "list", "x", ")", "{", "}", "bar", "(", "a", ")", ";"),
             Arrays.asList(
-                "1-1", "1-9", "1-13", "1-16", "1-18", "1-22", "1-24", "1-26", "1-27", "1-29",
-                "1-33", "1-39", "1-40", "1-44", "1-45", "1-47", "1-48", "1-55", "1-56", "1-57",
-                "1-59", "1-64", "1-67", "1-68", "1-72", "1-73", "1-75", "1-76", "1-78", "1-81",
-                "1-82", "1-83", "1-84"),
+                "1-1", "1-9", "1-12", "1-13", "1-15", "1-19", "1-21", "1-29", "1-34", "1-37",
+                "1-39", "1-43", "1-45", "1-47", "1-50", "1-51", "1-53", "1-54", "1-55", "1-57",
+                "1-58", "1-59", "1-61", "1-66", "1-73", "1-74", "1-78", "1-79", "1-81", "1-82",
+                "1-89", "1-92", "1-93", "1-95", "1-96", "1-97", "1-98", "1-99", "1-101", "1-106",
+                "1-109", "1-110", "1-115", "1-116", "1-118", "1-119", "1-121", "1-124", "1-125",
+                "1-126", "1-127"),
             scope -> {
               List<Command> commands = scope.getCommandList();
 
               // Coercion function call location test
               FunctionCall barCall = assertInstanceOf(FunctionCall.class, commands.get(1));
               // Just making sure we have the right one
-              ParserTest.assertLocationEquals(1, 78, 1, 84, barCall.getLocation());
+              ParserTest.assertLocationEquals(1, 121, 1, 127, barCall.getLocation());
               List<Evaluable> barParams = barCall.getParams();
               // Instead of simply being a VariableReference to "a", the parameter is a function
-              // call to to_int()
+              // call to to_list()
               FunctionCall coercionCall = assertInstanceOf(FunctionCall.class, barParams.get(0));
-              ParserTest.assertLocationEquals(1, 82, 1, 83, coercionCall.getLocation());
-              ParserTest.assertLocationEquals(1, 33, 1, 46, coercionCall.getTarget().getLocation());
+              ParserTest.assertLocationEquals(1, 125, 1, 126, coercionCall.getLocation());
+              ParserTest.assertLocationEquals(1, 66, 1, 80, coercionCall.getTarget().getLocation());
             }),
         valid(
-            "function parameter simple-to-typedef typedef coercion",
+            "function parameter base-to-typedef typedef coercion",
             "typedef int foo; foo a = 1; foo to_foo(int x) {return a;} void bar(foo x) {} bar(1);",
             Arrays.asList(
                 "typedef", "int", "foo", ";", "foo", "a", "=", "1", ";", "foo", "to_foo", "(",

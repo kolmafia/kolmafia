@@ -92,11 +92,9 @@ public abstract class ScriptData {
   /** Exception thrown by Parser.parse(), if any */
   public final Throwable parsingException;
 
-  private ScriptData(final String description, final String script) {
+  private ScriptData(final String description, final Parser parser) {
     this.desc = description;
-    ByteArrayInputStream istream =
-        new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8));
-    this.parser = new Parser(/*scriptFile=*/ null, /*stream=*/ istream, /*imports=*/ null);
+    this.parser = parser;
 
     Scope scope;
     try {
@@ -122,7 +120,18 @@ public abstract class ScriptData {
     return this.desc;
   }
 
-  public static class ValidScriptData extends ScriptData {
+  private abstract static class DefaultParserScriptData extends ScriptData {
+    private DefaultParserScriptData(final String description, final String script) {
+      super(
+          description,
+          new Parser(
+              /*scriptFile=*/ null,
+              /*stream=*/ new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8)),
+              /*imports=*/ null));
+    }
+  }
+
+  public static class ValidScriptData extends DefaultParserScriptData {
     public final List<String> tokens;
     public final List<String> positions;
 
@@ -151,7 +160,7 @@ public abstract class ScriptData {
     }
   }
 
-  public static class InvalidScriptData extends ScriptData {
+  public static class InvalidScriptData extends DefaultParserScriptData {
     public final String errorText;
     public final String errorLocationString;
 
@@ -181,6 +190,14 @@ public abstract class ScriptData {
       this.filteredScript =
           new InvalidScriptData(
               description + " - filtered", newScript, newErrorText, newErrorLocationString);
+    }
+  }
+
+  public static class CustomParserScriptData extends ScriptData {
+    public CustomParserScriptData(final String description, final Parser parser) {
+      super(description, parser);
+      // We're never used for parameterized tests, so we can send throwables straight away
+      ParserTest.testScriptValidity(this);
     }
   }
 }

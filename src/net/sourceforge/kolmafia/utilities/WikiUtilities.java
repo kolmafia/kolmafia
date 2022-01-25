@@ -25,10 +25,7 @@ public class WikiUtilities {
   public static final int MONSTER_TYPE = 4;
 
   public static final String getWikiLocation(String name, int type) {
-    boolean inItemTable = ItemDatabase.containsExactly(name);
-    boolean inEffectTable = EffectDatabase.containsExactly(name);
-    boolean inSkillTable = SkillDatabase.contains(name);
-    boolean inMonsterTable = MonsterDatabase.contains(name);
+    boolean checkOtherTables = true;
 
     if (type != ANY_TYPE) {
       String modType =
@@ -41,45 +38,61 @@ public class WikiUtilities {
         String wikiname = mods.getString("Wiki Name");
         if (wikiname != null && wikiname.length() > 0) {
           name = wikiname;
+          checkOtherTables = false;
         }
       }
     }
 
-    switch (type) {
-      case ITEM_TYPE:
-        if (name.equals("sweet tooth")
-            || name.equals("water wings")
-            || name.equals("knuckle sandwich")
-            || name.equals("industrial strength starch")) {
-          // If its not an effect or skill, no disambiguation needed
-        } else if (name.equals("zmobie") || name.equals("ice porter")) {
-          name = name + " (drink)";
-        } else if (name.equals("Bulky Buddy Box")) {
-          name = name + " (hatchling)";
-        } else if (inEffectTable || inSkillTable || inMonsterTable) {
-          name = name + " (item)";
-        }
-        break;
-      case EFFECT_TYPE:
-        if (inItemTable || inSkillTable || inMonsterTable) {
-          name = name + " (effect)";
-        }
-        break;
-      case SKILL_TYPE:
-        if (inItemTable || inEffectTable || inMonsterTable) {
-          name = name + " (skill)";
-        }
-        break;
-      case MONSTER_TYPE:
-        if (name.equals("ice porter")) {
-          // Also a drink.
-        } else if (name.equals("undead elbow macaroni")) {
-          // Also (formerly) a pasta guardian
-          name = name + " (monster)";
-        } else if (inItemTable || inEffectTable || inSkillTable) {
-          name = name + " (monster)";
-        }
-        break;
+    if (checkOtherTables) {
+      boolean inItemTable = ItemDatabase.containsExactly(name);
+      boolean inEffectTable = EffectDatabase.containsExactly(name);
+      boolean inSkillTable = SkillDatabase.contains(name);
+      boolean inMonsterTable = MonsterDatabase.contains(name);
+      switch (type) {
+        case ITEM_TYPE:
+          if (name.equals("sweet tooth")
+              || name.equals("water wings")
+              || name.equals("knuckle sandwich")
+              || name.equals("industrial strength starch")) {
+            // If its not an effect or skill, no disambiguation needed
+          } else if (name.equals("black pudding")) {
+            name = name + " (food)";
+          } else if (name.equals("ice porter")) {
+            name = name + " (drink)";
+          } else if (name.equals("Bulky Buddy Box")) {
+            name = name + " (hatchling)";
+          } else if (name.equals("The Sword in the Steak")) {
+            // Also an adventure
+            name = name + " (item)";
+          } else if (inEffectTable || inSkillTable || inMonsterTable) {
+            name = name + " (item)";
+          }
+          break;
+        case EFFECT_TYPE:
+          if (name.equals("Sweet Tooth")
+              || name.equals("Water Wings")
+              || name.equals("Industrial Strength Starch")) {
+            // all items but the case is different
+          } else if (inItemTable || inSkillTable || inMonsterTable) {
+            name = name + " (effect)";
+          }
+          break;
+        case SKILL_TYPE:
+          if (inItemTable || inEffectTable || inMonsterTable) {
+            name = name + " (skill)";
+          }
+          break;
+        case MONSTER_TYPE:
+          if (name.equals("ice porter")) {
+            // Also a drink.
+          } else if (name.equals("undead elbow macaroni")) {
+            // Also (formerly) a pasta guardian
+            name = name + " (monster)";
+          } else if (inItemTable || inEffectTable || inSkillTable) {
+            name = name + " (monster)";
+          }
+          break;
+      }
     }
 
     name = StringUtilities.globalStringReplace(name, "#", "");
@@ -88,17 +101,16 @@ public class WikiUtilities {
     name = StringUtilities.globalStringReplace(name, "<s>", "");
     name = StringUtilities.globalStringReplace(name, "</s>", "");
     name = StringUtilities.globalStringReplace(name, " ", "_");
+    name = StringUtilities.globalStringReplace(name, "?", "%3F");
 
     name = Character.toUpperCase(name.charAt(0)) + name.substring(1);
 
     // Turn character entities into characters
     name = CharacterEntities.unescape(name);
 
-    switch (type) {
-      case MONSTER_TYPE:
-        name = StringUtilities.getURLEncode(name);
-        name = "Data:" + name;
-        break;
+    if (type == MONSTER_TYPE) {
+      name = StringUtilities.getURLEncode(name);
+      name = "Data:" + name;
     }
 
     return "https://kol.coldfront.net/thekolwiki/index.php/" + name;

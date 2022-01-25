@@ -5,12 +5,16 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.textui.ScriptData.CustomParserScriptData;
 import net.sourceforge.kolmafia.textui.ScriptData.InvalidScriptData;
 import net.sourceforge.kolmafia.textui.ScriptData.InvalidScriptDataWithErrorFilterTest;
 import net.sourceforge.kolmafia.textui.ScriptData.ValidScriptData;
@@ -35,10 +39,9 @@ public class ParserTest {
 
     if (script instanceof InvalidScriptData) {
       testInvalidScript((InvalidScriptData) script);
-      return;
+    } else if (script instanceof ValidScriptData) {
+      testValidScript((ValidScriptData) script);
     }
-
-    testValidScript((ValidScriptData) script);
   }
 
   private static void testInvalidScript(final InvalidScriptData script) {
@@ -47,8 +50,10 @@ public class ParserTest {
     // The error that changed the state of the script from "valid" to "invalid"
     final String firstError = script.errors.get(0);
 
-    assertThat(script.desc, firstError, startsWith(script.errorText));
-    assertThat(script.desc, firstError, containsString(" (" + script.errorLocationString + ")"));
+    assertThat(
+        script.desc,
+        firstError,
+        startsWith(script.errorText + " (" + script.errorLocationString + ")"));
 
     if (script instanceof InvalidScriptDataWithErrorFilterTest) {
       final InvalidScriptData filteredScript =
@@ -121,6 +126,148 @@ public class ParserTest {
     assertEquals(expectedRange, actualRange);
   }
 
+  // Parser.makeChild() tests
+
+  private static final byte[] makeChildBytes =
+      "import test_directives_2.ash".getBytes(StandardCharsets.UTF_8);
+
+  @Test
+  public void testMakeChildDefault() {
+    final InputStream stream = new ByteArrayInputStream(makeChildBytes);
+    final Parser parser = new Parser(null, stream, null);
+
+    final ScriptData script = new CustomParserScriptData("Parser.makeChild() test", parser);
+
+    final Parser[] imports = script.parser.getImports().values().toArray(new Parser[0]);
+
+    // Doesn't contain the parent Parser, since it wasn't submitted a File to map it with
+    assertEquals(1, imports.length);
+    assertNotSame(parser, imports[0]);
+
+    // Imports are of the same class as the parent Parser
+    assertSame(Parser.class, parser.getClass());
+    assertSame(parser.getClass(), imports[0].getClass());
+  }
+
+  private static class ParserSubclass extends Parser {
+    public ParserSubclass(File scriptFile, InputStream stream, Map<File, Parser> imports) {
+      super(scriptFile, stream, imports);
+    }
+  }
+
+  @Test
+  public void testMakeChildProperSubclass() {
+    final InputStream stream = new ByteArrayInputStream(makeChildBytes);
+    final Parser parser = new ParserSubclass(null, stream, null);
+
+    final ScriptData script = new CustomParserScriptData("Parser.makeChild() test", parser);
+
+    final Parser[] imports = script.parser.getImports().values().toArray(new Parser[0]);
+
+    // Doesn't contain the parent Parser, since it wasn't submitted a File to map it with
+    assertEquals(1, imports.length);
+    assertNotSame(parser, imports[0]);
+
+    // Imports are of the same class as the parent Parser
+    assertNotSame(Parser.class, parser.getClass());
+    assertSame(parser.getClass(), imports[0].getClass());
+  }
+
+  @Test
+  public void testMakeChildNoConstructor() {
+    final InputStream stream = new ByteArrayInputStream(makeChildBytes);
+    // Note the braces at the end, causing it to be an anonymous subclass of Parser
+    final Parser parser = new Parser(null, stream, null) {};
+
+    final ScriptData script = new CustomParserScriptData("Parser.makeChild() test", parser);
+
+    final Parser[] imports = script.parser.getImports().values().toArray(new Parser[0]);
+
+    // Doesn't contain the parent Parser, since it wasn't submitted a File to map it with
+    assertEquals(1, imports.length);
+    assertNotSame(parser, imports[0]);
+
+    // Since the parser submitted didn't implement a constructor with File + InputStream + Map, we
+    // didn't use it for the imported files' parsers
+    assertNotSame(Parser.class, parser.getClass());
+    assertSame(Parser.class, imports[0].getClass());
+  }
+
+  private static class ParserNonPublicSubclass extends Parser {
+    // Note how it's not public
+    ParserNonPublicSubclass(File scriptFile, InputStream stream, Map<File, Parser> imports) {
+      super(scriptFile, stream, imports);
+    }
+  }
+
+  @Test
+  public void testMakeChildNonPublicConstructor() {
+    final InputStream stream = new ByteArrayInputStream(makeChildBytes);
+    final Parser parser = new ParserNonPublicSubclass(null, stream, null);
+
+    final ScriptData script = new CustomParserScriptData("Parser.makeChild() test", parser);
+
+    final Parser[] imports = script.parser.getImports().values().toArray(new Parser[0]);
+
+    // Doesn't contain the parent Parser, since it wasn't submitted a File to map it with
+    assertEquals(1, imports.length);
+    assertNotSame(parser, imports[0]);
+
+    // Since the parser submitted didn't implement a public constructor with File + InputStream +
+    // Map, we didn't use it for the imported files' parsers
+    assertNotSame(Parser.class, parser.getClass());
+    assertSame(Parser.class, imports[0].getClass());
+  }
+
+  @Test
+  public void testMakeChildImproperSubclassOfProperSubclass() {
+    final InputStream stream = new ByteArrayInputStream(makeChildBytes);
+    // Note the braces at the end, causing it to be an anonymous subclass of ParserSubclass
+    final Parser parser = new ParserSubclass(null, stream, null) {};
+
+    final ScriptData script = new CustomParserScriptData("Parser.makeChild() test", parser);
+
+    final Parser[] imports = script.parser.getImports().values().toArray(new Parser[0]);
+
+    // Doesn't contain the parent Parser, since it wasn't submitted a File to map it with
+    assertEquals(1, imports.length);
+    assertNotSame(parser, imports[0]);
+
+    // The submitted parser didn't have the expected constructor, but its superclass did, so it was
+    // used
+    assertNotSame(Parser.class, parser.getClass());
+    assertNotSame(ParserSubclass.class, parser.getClass());
+    assertSame(ParserSubclass.class, imports[0].getClass());
+  }
+
+  private static class ParserModifiedSubclass extends Parser {
+    public ParserModifiedSubclass(File scriptFile, InputStream stream, Map<File, Parser> imports) {
+      super(scriptFile, stream, imports);
+    }
+
+    @Override
+    protected InputStream getInputStream(final File scriptFile) {
+      return new ByteArrayInputStream("this_file_was_modified()".getBytes(StandardCharsets.UTF_8));
+    }
+  }
+
+  @Test
+  public void testOverridesGetInputStream() {
+    final InputStream stream = new ByteArrayInputStream(makeChildBytes);
+    final Parser parser = new ParserModifiedSubclass(null, stream, null);
+
+    new CustomParserScriptData("Overrides getInputStream", parser);
+
+    final List<Parser.AshDiagnostic> diagnostics = parser.getDiagnostics();
+    assertEquals(1, diagnostics.size());
+
+    assertEquals(
+        "Function 'this_file_was_modified( )' undefined.  This script may require a more recent version of KoLmafia and/or its supporting scripts.",
+        diagnostics.get(0).message);
+  }
+
+  // Interruption tests
+
   @Test
   public void testInterruption() {
     assertFalse(Thread.currentThread().isInterrupted());
@@ -139,52 +286,43 @@ public class ParserTest {
     assertFalse(Thread.currentThread().isInterrupted());
   }
 
+  // What-happens-after-when-we-see-our-first-error tests
+
   @Test
-  public void testMultipleDiagnosticsPerParser() throws InterruptedException {
-    final String script =
-        "import fake/path"
-            + "\nstring foobar(string... foo, int bar) {"
-            + "\n    continue;"
-            + "\n}";
-    final ByteArrayInputStream istream =
-        new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8));
-    final Parser parser = new Parser(null, istream, null);
+  public void testMultipleDiagnosticsPerParser() {
+    final ScriptData script =
+        ScriptData.invalid(
+            "multiple diagnostics per parser",
+            "import fake/path\nvoid foobar(string... foo, int bar) {\n    continue;\n}",
+            "fake/path could not be found",
+            "char 1 to char 17");
 
-    parser.parse();
+    ParserTest.testScriptValidity(script);
 
-    final List<Parser.AshDiagnostic> diagnostics = parser.getDiagnostics();
-    assertEquals(4, diagnostics.size());
+    assertEquals(3, script.errors.size());
 
-    assertEquals("fake/path could not be found", diagnostics.get(0).message);
-    ParserTest.assertLocationEquals(1, 1, 1, 17, diagnostics.get(0).location);
+    assertEquals(
+        "The vararg parameter must be the last one (line 2, char 28 to char 31)",
+        script.errors.get(1));
 
-    assertEquals("The vararg parameter must be the last one", diagnostics.get(1).message);
-    ParserTest.assertLocationEquals(2, 30, 2, 33, diagnostics.get(1).location);
-
-    assertEquals("Encountered 'continue' outside of loop", diagnostics.get(2).message);
-    ParserTest.assertLocationEquals(3, 5, 3, 13, diagnostics.get(2).location);
-
-    assertEquals("Missing return value", diagnostics.get(3).message);
-    ParserTest.assertLocationEquals(2, 8, 2, 38, diagnostics.get(3).location);
+    assertEquals(
+        "Encountered 'continue' outside of loop (line 3, char 5 to char 13)", script.errors.get(2));
   }
 
   @Test
-  public void testErrorFilter() throws InterruptedException {
-    final String script = "int a; max(a, b)";
-    final ByteArrayInputStream istream =
-        new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8));
-    final Parser parser = new Parser(null, istream, null);
+  public void testErrorFilter() {
+    final ScriptData script =
+        ScriptData.invalid(
+            "error filter test", "int a; max(a, b)", "Unknown variable 'b'", "char 15 to char 16");
 
-    parser.parse();
+    ParserTest.testScriptValidity(script);
 
-    final List<Parser.AshDiagnostic> diagnostics = parser.getDiagnostics();
-    assertEquals(1, diagnostics.size());
-
-    assertEquals("Unknown variable 'b'", diagnostics.get(0).message);
-    ParserTest.assertLocationEquals(1, 15, 1, 16, diagnostics.get(0).location);
+    assertEquals(1, script.errors.size());
 
     // Note the lack of "Function 'max( int, <unknown> )' undefined."
   }
+
+  // Location-related static methods tests
 
   public static Stream<Arguments> mergeLocationsData() {
     return Stream.of(

@@ -2791,7 +2791,8 @@ public abstract class ChoiceManager {
         new Object[] {
           "gain a starter item",
           new Option("gain Spooky-Gro fertilizer", "Spooky-Gro fertilizer"),
-          new Option("gain spooky temple map", "spooky temple map")
+          new Option("gain spooky temple map", "spooky temple map"),
+          new Option("gain fake blood", "fake blood")
         }),
 
     // O Lith, Mon
@@ -7204,12 +7205,16 @@ public abstract class ChoiceManager {
                 + coinAction
                 + ", get stats or fight a vampire";
 
-        // gain a starter item, gain Spooky-Gro fertilizer or gain spooky temple map
+        // gain a starter item, gain Spooky-Gro fertilizer, gain spooky temple map or gain fake bood
         int fertilizer = InventoryManager.getCount(ItemPool.SPOOKY_FERTILIZER);
         String mapAction = (haveCoin ? ", gain spooky temple map" : "");
 
         result[2] =
-            "gain a starter item, gain Spooky-Gro fertilizer (" + fertilizer + ")" + mapAction;
+            "gain a starter item, gain Spooky-Gro fertilizer ("
+                + fertilizer
+                + ")"
+                + mapAction
+                + ", gain fake blood";
 
         return result;
 
@@ -16880,7 +16885,7 @@ public abstract class ChoiceManager {
           Preferences.setInteger("_coldMedicineConsults", 5 - remaining);
         }
         break;
-      case 1461:
+      case 1462:
         CrystalBallManager.parsePonder(text);
         break;
     }
