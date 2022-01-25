@@ -223,4 +223,31 @@ public class FilesMonitorTest extends AshLanguageServerTest {
     // closing a file that doesn't exist causes it to be forgotten
     Mockito.verify(client, Mockito.never()).publishDiagnostics(ArgumentMatchers.any());
   }
+
+  @Test
+  public void UriToFileNullUri() {
+    Assertions.assertNull(FilesMonitor.UriToFile(null));
+  }
+
+  @Test
+  public void UriToFileCorrectUri() {
+    Assertions.assertEquals(goodScript, FilesMonitor.UriToFile(goodScript.toURI().toString()));
+  }
+
+  @Test
+  public void UriToFileNoScheme() {
+    Assertions.assertNull(FilesMonitor.UriToFile("/foo/bar/baz.ash"));
+  }
+
+  @Test
+  public void UriToFileBadScheme() {
+    Assertions.assertNull(FilesMonitor.UriToFile("data:/foo/bar/baz.ash"));
+  }
+
+  @Test
+  public void UriToFileNonEncoded() {
+    // An encoded URI would read "file://%20a%20b.ash"
+    Assertions.assertEquals(new File("/ a b.ash"), FilesMonitor.UriToFile("file:// a b.ash"));
+  }
+
 }
