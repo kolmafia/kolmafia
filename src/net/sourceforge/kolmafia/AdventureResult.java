@@ -1077,7 +1077,10 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    */
   public int getCount(final List<AdventureResult> list) {
     int index = list.indexOf(this);
-    return index == -1 ? 0 : list.get(index).getCount();
+    if (index == -1) return 0;
+    AdventureResult item = list.get(index);
+    if (item == null) return 0;
+    return item.getCount();
   }
 
   public static AdventureResult findItem(final int itemId, final List<AdventureResult> list) {
