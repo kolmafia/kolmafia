@@ -626,15 +626,15 @@ public class ClanLoungeRequest extends GenericRequest {
     return "do something";
   }
 
+  private ClanLoungeRequest() {
+    this(SEARCH);
+  }
+
   /**
    * Constructs a new <code>ClanLoungeRequest</code>.
    *
    * @param action The identifier for the action you're requesting
    */
-  private ClanLoungeRequest() {
-    this(SEARCH);
-  }
-
   public ClanLoungeRequest(final int action) {
     super("clan_viplounge.php");
     this.action = action;
