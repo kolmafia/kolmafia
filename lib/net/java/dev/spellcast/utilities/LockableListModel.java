@@ -160,8 +160,8 @@ public class LockableListModel<E>
 		synchronized ( this.actualElements )
 		{
 			Comparator<E> comparator = this.comparator != null ? this.comparator : c;
-			this.actualElements.sort(comparator);
-			this.visibleElements.sort(comparator);
+			Collections.sort( this.actualElements, comparator );
+			Collections.sort( this.visibleElements, comparator );
 			this.fireContentsChanged( this, 0, this.visibleElements.size() - 1 );
 
 			Iterator<WeakReference<LockableListModel<E>>> it = this.mirrorList.iterator();
@@ -175,7 +175,7 @@ public class LockableListModel<E>
 
 				// If the mirror has a comparator assigned to it, always use that
 				comparator = mirror.comparator != null ? mirror.comparator : c;
-				mirror.visibleElements.sort(comparator);
+				Collections.sort( mirror.visibleElements, comparator );
 				mirror.fireContentsChanged( this, 0, mirror.visibleElements.size() - 1 );
 			}
 		}
@@ -679,7 +679,14 @@ public class LockableListModel<E>
 		{
 			int originalSize = this.actualElements.size();
 
-          this.removeIf(o -> !c.contains(o));
+			Iterator it = this.iterator();
+			while ( it.hasNext() )
+			{
+				if ( !c.contains( it.next() ) )
+				{
+					it.remove();
+				}
+			}
 
 			return originalSize != this.actualElements.size();
 		}
