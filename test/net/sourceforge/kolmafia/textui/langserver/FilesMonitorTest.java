@@ -246,7 +246,7 @@ public class FilesMonitorTest extends AshLanguageServerTest {
 
   @Test
   public void UriToFileNonEncoded() {
-    StringBuilder uri = new StringBuilder("file:/");
+    StringBuilder uri = new StringBuilder("file://");
 
     if (!System.getProperty("os.name").toLowerCase().contains("win")) {
       uri.append('/');
