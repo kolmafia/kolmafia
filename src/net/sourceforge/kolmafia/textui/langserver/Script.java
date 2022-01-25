@@ -37,7 +37,13 @@ public final class Script {
   protected Handler makeHandler() {
     this.handler = new Handler();
 
-    this.parent.executor.execute(() -> this.handler.parseFile());
+    this.parent.executor.execute(
+        () -> {
+          // Check in case the handler is closed before we're ran
+          if (this.handler != null) {
+            this.handler.parseFile();
+          }
+        });
 
     return this.handler;
   }
