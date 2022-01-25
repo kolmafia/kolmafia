@@ -16,7 +16,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import org.eclipse.lsp4j.InitializeParams;
-import org.eclipse.lsp4j.InitializeResult;
 import org.eclipse.lsp4j.InitializedParams;
 import org.eclipse.lsp4j.jsonrpc.ResponseErrorException;
 import org.eclipse.lsp4j.jsonrpc.messages.ResponseError;
@@ -273,9 +272,7 @@ public class StateCheckWrappersTest extends AshLanguageServerTest {
 
   @Test
   public void postInitializationTest() throws IllegalAccessException, InvocationTargetException {
-    Assertions.assertDoesNotThrow(
-        (ThrowingSupplier<InitializeResult>) proxyServer.initialize(new InitializeParams())::get,
-        "Initialization failed");
+    initialize(new InitializeParams());
 
     testWithAllMethods(
         (methodName, requestCaller) -> {
@@ -335,9 +332,7 @@ public class StateCheckWrappersTest extends AshLanguageServerTest {
 
   @Test
   public void postShutdownTest() throws IllegalAccessException, InvocationTargetException {
-    Assertions.assertDoesNotThrow(
-        (ThrowingSupplier<InitializeResult>) proxyServer.initialize(new InitializeParams())::get,
-        "Initialization failed");
+    initialize(new InitializeParams());
 
     Assertions.assertDoesNotThrow(
         (ThrowingSupplier<Object>) proxyServer.shutdown()::get, "Shutdown failed");

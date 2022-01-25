@@ -10,14 +10,12 @@ import org.eclipse.lsp4j.DidChangeTextDocumentParams;
 import org.eclipse.lsp4j.DidCloseTextDocumentParams;
 import org.eclipse.lsp4j.DidOpenTextDocumentParams;
 import org.eclipse.lsp4j.InitializeParams;
-import org.eclipse.lsp4j.InitializeResult;
 import org.eclipse.lsp4j.TextDocumentContentChangeEvent;
 import org.eclipse.lsp4j.TextDocumentIdentifier;
 import org.eclipse.lsp4j.TextDocumentItem;
 import org.eclipse.lsp4j.VersionedTextDocumentIdentifier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.ThrowingSupplier;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
@@ -50,9 +48,7 @@ public class FilesMonitorTest extends AshLanguageServerTest {
         badScript.exists() && goodScript.exists(),
         "This test is currently based on the existence of test_function_coercion_override_builtin.ash and test_function_coercion.ash. If removing them, please update this test.");
 
-    Assertions.assertDoesNotThrow(
-        (ThrowingSupplier<InitializeResult>) proxyServer.initialize(new InitializeParams())::get,
-        "Initialization failed");
+    initialize(new InitializeParams());
 
     // Once initialized, the server will automatically scan the root for .ash scripts. Just give it
     // some time.
