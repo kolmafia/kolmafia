@@ -6,30 +6,57 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.StringJoiner;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
+import java.util.logging.Logger;
 import org.eclipse.lsp4j.InitializeParams;
 import org.eclipse.lsp4j.InitializeResult;
 import org.eclipse.lsp4j.InitializedParams;
+import org.eclipse.lsp4j.jsonrpc.RemoteEndpoint;
 import org.eclipse.lsp4j.jsonrpc.ResponseErrorException;
+import org.eclipse.lsp4j.jsonrpc.json.StreamMessageProducer;
 import org.eclipse.lsp4j.jsonrpc.messages.ResponseError;
 import org.eclipse.lsp4j.jsonrpc.messages.ResponseErrorCode;
 import org.eclipse.lsp4j.jsonrpc.services.JsonDelegate;
 import org.eclipse.lsp4j.jsonrpc.services.JsonNotification;
 import org.eclipse.lsp4j.jsonrpc.services.JsonRequest;
 import org.eclipse.lsp4j.services.LanguageServer;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.ThrowingSupplier;
 
 public class StateCheckWrappersTest extends AshLanguageServerTest {
+  // Maintain an array of references to the loggers we disable
+  // because they are stored as WeakRefs and we need them to last
+  // for the duration of this collection of tests.
+  static Set<Logger> disabledLoggers = new HashSet<>();
+
+  @BeforeAll
+  private static void disableLoggers() {
+    Set.of(StreamMessageProducer.class, RemoteEndpoint.class)
+        .forEach(
+            c -> {
+              var logger = Logger.getLogger(c.getName());
+              logger.setUseParentHandlers(false);
+              disabledLoggers.add(logger);
+            });
+  }
+
+  @AfterAll
+  private static void disposeDisabledLoggers() {
+    disabledLoggers.clear();
+  }
 
   private static class AshLanguageServerNotingIgnoredNotifications
       extends StateCheckWrappers.AshLanguageServer {
