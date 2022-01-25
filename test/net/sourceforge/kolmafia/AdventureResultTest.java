@@ -22,5 +22,4 @@ public class AdventureResultTest {
     var count = helm.getCount(List.of(AdventureResult.tallyItem("seal-skull helmet", 5, true)));
     assertThat(count, equalTo(5));
   }
-
 }
