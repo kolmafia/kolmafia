@@ -93,12 +93,7 @@ public class CoinmastersDatabase {
 
   private static Map<Integer, Integer> getOrMakeMap(
       final String key, final Map<String, Map<Integer, Integer>> map) {
-    Map<Integer, Integer> retval = map.get(key);
-    if (retval == null) {
-      retval = CoinmastersDatabase.getNewMap();
-      map.put(key, retval);
-    }
-    return retval;
+    return map.computeIfAbsent(key, k -> CoinmastersDatabase.getNewMap());
   }
 
   public static final Map<Integer, Integer> invert(final Map<Integer, Integer> map) {

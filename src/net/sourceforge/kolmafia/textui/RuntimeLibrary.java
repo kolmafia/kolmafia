@@ -2602,12 +2602,8 @@ public abstract class RuntimeLibrary {
       return;
     }
 
-    LinkedHashMap<String, StringBuilder> prefixMap = batched.get(cmd);
-    if (prefixMap == null) {
-      // First instance of this command
-      prefixMap = new LinkedHashMap<String, StringBuilder>();
-      batched.put(cmd, prefixMap);
-    }
+    LinkedHashMap<String, StringBuilder> prefixMap = batched.computeIfAbsent(cmd, k -> new LinkedHashMap<>());
+    // First instance of this command
 
     String key = prefix == null ? "" : prefix;
     StringBuilder buf = prefixMap.get(key);
