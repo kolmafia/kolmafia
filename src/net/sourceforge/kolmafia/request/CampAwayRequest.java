@@ -62,7 +62,7 @@ public class CampAwayRequest extends PlaceRequest {
 
     // Nothing more to do for a simple visit other than update ownership info
     if (action == null) {
-      Preferences.setBoolean("getawayCampsiteUnlocked", !responseText.contains("Uh Oh!"));
+      Preferences.setBoolean("getawayCampsiteUnlocked", responseText.contains("campaway/campawaybg.gif"));
       return;
     }
 
