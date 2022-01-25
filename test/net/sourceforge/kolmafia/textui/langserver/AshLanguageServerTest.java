@@ -7,12 +7,16 @@ import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import net.sourceforge.kolmafia.utilities.PauseObject;
+import org.eclipse.lsp4j.InitializeParams;
+import org.eclipse.lsp4j.InitializeResult;
 import org.eclipse.lsp4j.jsonrpc.Launcher;
 import org.eclipse.lsp4j.launch.LSPLauncher;
 import org.eclipse.lsp4j.services.LanguageClient;
 import org.eclipse.lsp4j.services.LanguageServer;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.function.ThrowingSupplier;
 import org.mockito.Mockito;
 
 public class AshLanguageServerTest {
@@ -52,5 +56,11 @@ public class AshLanguageServerTest {
 
   protected AshLanguageServer launchServer(InputStream in, OutputStream out) {
     return AshLanguageServer.launch(in, out);
+  }
+
+  public final InitializeResult initialize(final InitializeParams params) {
+    return Assertions.assertDoesNotThrow(
+        (ThrowingSupplier<InitializeResult>) proxyServer.initialize(params)::get,
+        "Initialization failed");
   }
 }
