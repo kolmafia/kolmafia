@@ -158,14 +158,12 @@ global	syncAfterSvnUpdate	false
 global	toolbarPosition	1
 global	useChatToolbar	true
 global	useContactsFrame	true
-global	useDecoratedTabs
 global	useDevProxyServer	false
 global	useDockIconBadge	false
 global	useHugglerChannel	false
 global	useImageCache	true
 global	useLastUserAgent	false
 global	useNaiveSecureLogin	false
-global	useShinyTabbedChat	true
 global	useSystemTrayIcon	false
 global	useTabbedChatFrame	true
 global	useToolbars	true

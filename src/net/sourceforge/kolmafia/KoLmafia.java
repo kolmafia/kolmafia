@@ -21,7 +21,6 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import net.java.dev.spellcast.utilities.ActionPanel;
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
@@ -415,16 +414,6 @@ public abstract class KoLmafia {
       UIManager.put("ProgressBar.background", Color.lightGray);
       UIManager.put("ProgressBar.selectionBackground", Color.black);
     }
-
-    tab.CloseTabPaneEnhancedUI.selectedA =
-        DataUtilities.toColor(Preferences.getString("innerTabColor"));
-    tab.CloseTabPaneEnhancedUI.selectedB =
-        DataUtilities.toColor(Preferences.getString("outerTabColor"));
-
-    tab.CloseTabPaneEnhancedUI.notifiedA =
-        DataUtilities.toColor(Preferences.getString("innerChatColor"));
-    tab.CloseTabPaneEnhancedUI.notifiedB =
-        DataUtilities.toColor(Preferences.getString("outerChatColor"));
   }
 
   private static void checkDataOverrides() {
