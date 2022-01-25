@@ -9,6 +9,8 @@ public class GameproManager {
       Pattern.compile(
           "You will start out facing(?:\\s)?(\\w+)\\.(?:\\s)?You should go(?:\\s)?(\\w+),(?:\\s)?(\\w+),(?:\\s)?(\\w+),(?:\\s)?(\\w+),(?:\\s)?(\\w+),");
 
+  private GameproManager() {}
+
   public static void parseGameproMagazine(String responseText) {
     if (!responseText.contains("Section I: LEGAL STUFF")) {
       return;

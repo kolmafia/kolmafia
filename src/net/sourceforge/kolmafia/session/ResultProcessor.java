@@ -60,6 +60,8 @@ public class ResultProcessor {
       Pattern.compile(
           "<b>([^<]*)</b>(?: \\((stored in Hagnk's Ancestral Mini-Storage|automatically equipped)\\))?");
 
+  private ResultProcessor() {}
+
   public static String processItems(
       boolean adventureResults, final String results, final List<AdventureResult> items) {
     // Results now come in like this:

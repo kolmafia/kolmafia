@@ -25,6 +25,8 @@ public class DataFileCache {
   private static final Map<String, byte[]> dataFileDataCache =
       Collections.synchronizedMap(new HashMap<>());
 
+  private DataFileCache() {}
+
   public static void clearCache() {
     DataFileCache.recentlyUsedList.clear();
     DataFileCache.dataFileTimestampCache.clear();

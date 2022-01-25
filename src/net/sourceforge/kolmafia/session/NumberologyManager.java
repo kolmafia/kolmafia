@@ -112,6 +112,8 @@ public class NumberologyManager {
     "bottle of booze", // 99
   };
 
+  private NumberologyManager() {}
+
   public static final String numberologyPrize(final int result) {
     return PRIZES[result % PRIZES.length];
   }

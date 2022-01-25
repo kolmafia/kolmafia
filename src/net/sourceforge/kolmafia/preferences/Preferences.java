@@ -420,6 +420,8 @@ public class Preferences {
     Preferences.loadGlobalPreferences();
   }
 
+  private Preferences() {}
+
   private static void initializeMaps() {
     // There are three specific per-user settings that appear in
     // GLOBAL_prefs.txt because the LoginFrame needs them

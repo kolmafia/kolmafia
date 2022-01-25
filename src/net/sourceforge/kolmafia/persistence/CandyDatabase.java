@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +30,8 @@ public class CandyDatabase {
   public static AdventureResult[] potionCandies = null;
   public static AdventureResult[] foodCandies = null;
   public static AdventureResult[] otherCandies = null;
+
+  private CandyDatabase() {}
 
   public static void categorizeCandies() {
     if (potionCandies != null && foodCandies != null && otherCandies != null) {
@@ -494,7 +495,7 @@ public class CandyDatabase {
 
     List<Candy> candy1List =
         CandyDatabase.itemIdSetToCandyList(CandyDatabase.candyForTier(tier, flags));
-    Collections.sort(candy1List, DESCENDING_COUNT_COMPARATOR);
+    candy1List.sort(DESCENDING_COUNT_COMPARATOR);
 
     for (Candy candy : candy1List) {
       if (candy.getCount() == 0) {
@@ -506,7 +507,7 @@ public class CandyDatabase {
       List<Candy> candy2List =
           CandyDatabase.itemIdSetToCandyList(
               CandyDatabase.sweetSynthesisPairing(effectId, itemId, flags));
-      Collections.sort(candy2List, DESCENDING_COUNT_COMPARATOR);
+      candy2List.sort(DESCENDING_COUNT_COMPARATOR);
 
       for (Candy pairing : candy2List) {
         int count = pairing.getCount();
@@ -539,7 +540,7 @@ public class CandyDatabase {
 
     List<Candy> candy1List =
         CandyDatabase.itemIdSetToCandyList(CandyDatabase.candyForTier(tier, flags));
-    Collections.sort(candy1List, ASCENDING_MALL_PRICE_COMPARATOR);
+    candy1List.sort(ASCENDING_MALL_PRICE_COMPARATOR);
 
     for (Candy candy : candy1List) {
       int cost1 = candy.getCost();
@@ -551,7 +552,7 @@ public class CandyDatabase {
       List<Candy> candy2List =
           CandyDatabase.itemIdSetToCandyList(
               CandyDatabase.sweetSynthesisPairing(effectId, itemId, flags));
-      Collections.sort(candy2List, ASCENDING_MALL_PRICE_COMPARATOR);
+      candy2List.sort(ASCENDING_MALL_PRICE_COMPARATOR);
 
       for (Candy pairing : candy2List) {
         int cost2 = pairing.getCost();

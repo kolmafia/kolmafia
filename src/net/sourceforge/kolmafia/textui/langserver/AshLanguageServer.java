@@ -85,10 +85,7 @@ public abstract class AshLanguageServer implements LanguageClientAware, Language
   public CompletableFuture<InitializeResult> initialize(InitializeParams params) {
     this.clientCapabilities = params.getCapabilities();
 
-    this.executor.execute(
-        () -> {
-          this.monitor.scan();
-        });
+    this.executor.execute(this.monitor::scan);
 
     return CompletableFuture.supplyAsync(
         () -> {

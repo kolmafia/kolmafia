@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,6 +41,8 @@ public class BuffBotDatabase {
       new TreeMap<String, LockableListModel<Offering>>();
   private static final TreeMap<String, LockableListModel<Offering>> freeOfferings =
       new TreeMap<String, LockableListModel<Offering>>();
+
+  private BuffBotDatabase() {}
 
   public static final long getOffering(String name, final long amount) {
     // If you have no idea what the names present in
@@ -198,7 +199,7 @@ public class BuffBotDatabase {
       }
     }
 
-    Collections.sort(completeList, String.CASE_INSENSITIVE_ORDER);
+    completeList.sort(String.CASE_INSENSITIVE_ORDER);
     completeList.add(0, "");
 
     return completeList.toArray(new String[0]);

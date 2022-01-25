@@ -110,6 +110,8 @@ public class ConsumablesDatabase {
   private static final Map<String, String> mysticalityByName = new HashMap<String, String>();
   private static final Map<String, String> moxieByName = new HashMap<String, String>();
 
+  private ConsumablesDatabase() {}
+
   public static void reset() {
     ConsumablesDatabase.readConsumptionData(
         "fullness.txt", KoLConstants.FULLNESS_VERSION, ConsumablesDatabase.fullnessByName);

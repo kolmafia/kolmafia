@@ -45,7 +45,10 @@ public final class Script {
 
     this.parent.executor.execute(
         () -> {
-          this.handler.parseFile(true);
+          // Check in case the handler is closed before we're ran
+          if (this.handler != null) {
+            this.handler.parseFile(true);
+          }
         });
 
     return this.handler;
@@ -110,10 +113,7 @@ public final class Script {
         this.scope = this.parser.parse();
 
         // If we managed to parse it without interruption, send the diagnostics
-        Script.this.parent.executor.execute(
-            () -> {
-              this.sendDiagnostics();
-            });
+        Script.this.parent.executor.execute(this::sendDiagnostics);
       } catch (InterruptedException e) {
       } finally {
         synchronized (this.parserSwapLock) {

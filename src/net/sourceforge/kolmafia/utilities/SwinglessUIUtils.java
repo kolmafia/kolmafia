@@ -18,6 +18,8 @@ public class SwinglessUIUtils {
     }
   }
 
+  private SwinglessUIUtils() {}
+
   public static boolean isSwingAvailable() {
     return SwinglessUIUtils.isSwingAvailable;
   }

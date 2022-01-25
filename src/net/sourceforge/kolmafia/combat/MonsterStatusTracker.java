@@ -23,6 +23,8 @@ public class MonsterStatusTracker {
   private static int originalAttack = 0;
   private static int originalDefense = 0;
 
+  private MonsterStatusTracker() {}
+
   public static final void reset() {
     MonsterStatusTracker.healthModifier = 0;
     MonsterStatusTracker.attackModifier = 0;

@@ -352,10 +352,8 @@ public abstract class KoLmafia {
     String defaultLookAndFeel;
 
     // Tell UIManager about Look and Feel files in external jars ( defined in KoLGUIConstants)
-    FLATMAP_LIGHT_LOOKS.forEach(
-        (lookName, lookClass) -> UIManager.installLookAndFeel(lookName, lookClass));
-    FLATMAP_DARK_LOOKS.forEach(
-        (lookName, lookClass) -> UIManager.installLookAndFeel(lookName, lookClass));
+    FLATMAP_LIGHT_LOOKS.forEach(UIManager::installLookAndFeel);
+    FLATMAP_DARK_LOOKS.forEach(UIManager::installLookAndFeel);
 
     if (System.getProperty("os.name").startsWith("Mac")
         || System.getProperty("os.name").startsWith("Win")) {

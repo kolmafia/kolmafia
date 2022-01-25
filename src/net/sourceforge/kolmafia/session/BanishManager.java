@@ -16,6 +16,8 @@ public class BanishManager {
   private static final ArrayList<BanishedMonster> banishedMonsters =
       new ArrayList<BanishedMonster>();
 
+  private BanishManager() {}
+
   private enum Reset {
     TURN_RESET,
     TURN_ROLLOVER_RESET,
@@ -214,30 +216,21 @@ public class BanishManager {
   }
 
   public static final void resetAvatar() {
-    Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
 
-    while (it.hasNext()) {
-      BanishedMonster current = it.next();
-
-      if (BanishManager.findBanisher(current.getBanishName()).getResetType()
-          == Reset.AVATAR_RESET) {
-        it.remove();
-      }
-    }
+    BanishManager.banishedMonsters.removeIf(
+        current ->
+            BanishManager.findBanisher(current.getBanishName()).getResetType()
+                == Reset.AVATAR_RESET);
 
     BanishManager.saveBanishedMonsters();
   }
 
   public static final void resetAscension() {
-    Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
 
-    while (it.hasNext()) {
-      BanishedMonster current = it.next();
-
-      if (BanishManager.findBanisher(current.getBanishName()).getResetType() != Reset.NEVER_RESET) {
-        it.remove();
-      }
-    }
+    BanishManager.banishedMonsters.removeIf(
+        current ->
+            BanishManager.findBanisher(current.getBanishName()).getResetType()
+                != Reset.NEVER_RESET);
 
     BanishManager.saveBanishedMonsters();
   }
@@ -333,27 +326,15 @@ public class BanishManager {
   }
 
   public static final void removeBanishByBanisher(final String banisher) {
-    Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
 
-    while (it.hasNext()) {
-      BanishedMonster current = it.next();
-      if (current.getBanishName().equals(banisher)) {
-        it.remove();
-      }
-    }
+    BanishManager.banishedMonsters.removeIf(current -> current.getBanishName().equals(banisher));
 
     BanishManager.saveBanishedMonsters();
   }
 
   public static final void removeBanishByMonster(final String monster) {
-    Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
 
-    while (it.hasNext()) {
-      BanishedMonster current = it.next();
-      if (current.getMonsterName().equals(monster)) {
-        it.remove();
-      }
-    }
+    BanishManager.banishedMonsters.removeIf(current -> current.getMonsterName().equals(monster));
 
     BanishManager.saveBanishedMonsters();
   }

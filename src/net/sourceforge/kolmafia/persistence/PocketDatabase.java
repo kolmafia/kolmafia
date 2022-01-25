@@ -24,6 +24,8 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PocketDatabase {
+  private PocketDatabase() {}
+
   public enum PocketType {
     STATS("stats"),
     MONSTER("monster"),

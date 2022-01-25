@@ -16,6 +16,8 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DailyLimitDatabase {
+  private DailyLimitDatabase() {}
+
   public enum DailyLimitType {
     USE("use"),
     EAT("eat"),

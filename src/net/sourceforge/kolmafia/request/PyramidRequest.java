@@ -3,6 +3,8 @@ package net.sourceforge.kolmafia.request;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class PyramidRequest {
+  private PyramidRequest() {}
+
   public static final String getPyramidLocationString(final String urlString) {
     if (!urlString.contains("pyramid_state")) {
       return null;

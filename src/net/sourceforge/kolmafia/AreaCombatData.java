@@ -455,7 +455,7 @@ public class AreaCombatData {
   }
 
   public int getJumpChance() {
-    return getJumpChance(m -> m.getJumpChance());
+    return getJumpChance(MonsterData::getJumpChance);
   }
 
   public int getJumpChance(int initiative, int ml) {
