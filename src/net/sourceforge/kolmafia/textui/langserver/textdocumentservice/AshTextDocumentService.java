@@ -81,11 +81,5 @@ public abstract class AshTextDocumentService implements TextDocumentService {
   }
 
   @Override
-  public void didSave(DidSaveTextDocumentParams params) {
-    // What we had in memory should now match the content of the file.
-    // Should we just ignore these notifications?
-    // We could set the Script's text and version back to null and -1, respectively. If so, either
-    // A- the two are indeed identical, and this is just a waste of processing time, or
-    // B- the two are different, which should not happen; the issue to solve would be elsewhere...
-  }
+  public void didSave(DidSaveTextDocumentParams params) {}
 }
