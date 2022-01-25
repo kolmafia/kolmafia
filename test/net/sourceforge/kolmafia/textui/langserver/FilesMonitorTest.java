@@ -178,4 +178,49 @@ public class FilesMonitorTest extends AshLanguageServerTest {
             ArgumentMatchers.argThat(
                 params -> params.getUri().equals(goodScript.toURI().toString())));
   }
+
+  @Test
+  public void filesMonitorNewFileTest() {
+    initialize(new InitializeParams());
+
+    final File newScript = new File("/foo/bar/baz.ash");
+
+    DidOpenTextDocumentParams openParams =
+        new DidOpenTextDocumentParams(
+            new TextDocumentItem(newScript.toURI().toString(), "ash", 1, "unknown_function()"));
+    proxyServer.getTextDocumentService().didOpen(openParams);
+
+    // Wait for diagnostics...
+    pauser.pause(3000);
+
+    // Since the content was supplied, the server doesn't care that the file doesn't exist
+    Mockito.verify(client)
+        .publishDiagnostics(
+            ArgumentMatchers.argThat(
+                params ->
+                    params.getUri().equals(newScript.toURI().toString())
+                        && params.getDiagnostics().stream()
+                            .anyMatch(
+                                diagnostic ->
+                                    diagnostic.getSeverity() == DiagnosticSeverity.Error
+                                        && diagnostic
+                                            .getMessage()
+                                            .startsWith(
+                                                "Function 'unknown_function( )' undefined."))));
+
+    // ---------- didClose() test ----------
+
+    // Reset invocations...
+    Mockito.clearInvocations(client);
+
+    DidCloseTextDocumentParams closeParams =
+        new DidCloseTextDocumentParams(new TextDocumentIdentifier(newScript.toURI().toString()));
+    proxyServer.getTextDocumentService().didClose(closeParams);
+
+    // Wait for diagnostics...
+    pauser.pause(3000);
+
+    // closing a file that doesn't exist causes it to be forgotten
+    Mockito.verify(client, Mockito.never()).publishDiagnostics(ArgumentMatchers.any());
+  }
 }

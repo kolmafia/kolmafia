@@ -29,6 +29,16 @@ public final class FilesMonitor {
     synchronized (this.parent.scripts) {
       final Script script = this.getScript(file);
 
+      // Closing of non-existing files
+      if (!file.exists() && text == null) {
+        if (script.handler != null) {
+          script.handler.close();
+        }
+
+        this.parent.scripts.remove(file);
+        return;
+      }
+
       final List<Script.Handler> handlers = this.findHandlers(file);
 
       if (handlers.size() > 0
