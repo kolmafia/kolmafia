@@ -39,7 +39,7 @@ public final class FilesMonitor {
         return;
       }
 
-      if (script.text == null || script.version < version || script.text != null && text == null) {
+      if (script.text == null || script.version < version || text == null) {
         script.text = text;
         script.version = version;
       }
