@@ -614,7 +614,6 @@ public class FamiliarTrainingFrame extends GenericFrame {
    *
    * @param goal Weight goal for the familiar
    * @param type BASE, BUFF, or TURNS
-   * @param buffs true if should cast buffs during training
    * @param debug true if we are debugging
    */
   public static final boolean levelFamiliar(final int goal, final int type, final boolean debug) {

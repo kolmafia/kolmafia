@@ -65,7 +65,7 @@ public class LockableListFactory {
   }
 
   /**
-   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#setSelectedIndex()} if
+   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#setSelectedIndex(int)} if
    * possible, else no p
    */
   public static void setSelectedIndex(List<?> l, int index) {
@@ -75,7 +75,7 @@ public class LockableListFactory {
   }
 
   /**
-   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#setSelectedItem()} if possible,
+   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#setSelectedItem(Object)} if possible,
    * else no op
    */
   public static void setSelectedItem(List<?> l, Object selection) {
@@ -87,7 +87,7 @@ public class LockableListFactory {
   }
 
   /**
-   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#getMirror()} if possible, else
+   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#getMirrorImage()} if possible, else
    * returns the original list
    */
   public static <T> List<T> getMirror(List<T> l) {
@@ -99,7 +99,7 @@ public class LockableListFactory {
   }
 
   /**
-   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#fireContentsChanged()} if
+   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#fireContentsChanged(Object, int, int)} if
    * possible, else no op
    */
   public static void fireContentsChanged(List<?> l, int index0, int index1) {

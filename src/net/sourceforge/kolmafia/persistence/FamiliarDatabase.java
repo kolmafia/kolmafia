@@ -348,7 +348,7 @@ public class FamiliarDatabase {
   /**
    * Returns the Id number for an familiar, given its name.
    *
-   * @param substring The name of the familiar to lookup
+   * @param name The name of the familiar to lookup
    * @return The Id number of the corresponding familiar
    */
   public static final int getFamiliarId(final String name) {
