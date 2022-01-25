@@ -43,6 +43,8 @@ public class MonsterDatabase {
   private static final Map<String, MonsterData[]> MONSTER_ID_SET = new HashMap<>();
   private static String[] canonicalNames = new String[0];
 
+  private MonsterDatabase() {}
+
   public enum Element {
     NONE("none", "circle.gif", "black", "has no particular elemental alignment"),
     COLD("cold", "snowflake.gif", "blue", "is Cold. Cold is weak against Hot and Spooky."),

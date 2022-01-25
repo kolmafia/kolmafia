@@ -9,6 +9,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DreadScrollManager {
+  private DreadScrollManager() {}
+
   public enum ClueType {
     LIBRARY1,
     HEALSCROLL,

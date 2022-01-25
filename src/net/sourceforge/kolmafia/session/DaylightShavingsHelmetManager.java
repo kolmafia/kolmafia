@@ -16,6 +16,8 @@ public class DaylightShavingsHelmetManager {
 
   public static final Pattern EFFECT_PATTERN = Pattern.compile("onClick='eff\\(\"(.*?)\"\\);'");
 
+  private DaylightShavingsHelmetManager() {}
+
   public static void updatePreference(String responseText) {
     for (String msg : MESSAGES) {
       int position = responseText.indexOf(msg);

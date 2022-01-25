@@ -23,6 +23,8 @@ public class Aliases {
   private static boolean loadedAliases = false;
   private static Set<Entry<String, String>> aliasSet = null;
 
+  private Aliases() {}
+
   private static void load() {
     if (loadedAliases) {
       return;

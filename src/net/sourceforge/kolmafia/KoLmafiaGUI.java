@@ -43,6 +43,8 @@ import net.sourceforge.kolmafia.webui.RelayServer;
 import tab.CloseTabbedPane;
 
 public class KoLmafiaGUI {
+  private KoLmafiaGUI() {}
+
   /**
    * The main method. Currently, it instantiates a single instance of the <code>KoLmafia</code>after
    * setting the default look and feel of all <code>JFrame</code> objects to decorated.

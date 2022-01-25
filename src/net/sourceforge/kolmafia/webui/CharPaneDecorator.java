@@ -68,6 +68,8 @@ public class CharPaneDecorator {
   private static final Pattern ROLLOVER_PATTERN =
       Pattern.compile("rollover = (\\d+).*?rightnow = (\\d+)", Pattern.DOTALL);
 
+  private CharPaneDecorator() {}
+
   public static final void decorate(final StringBuffer buffer) {
     // If you are playing Spelunky or Batfellow, the charpane is
     // entirely different.

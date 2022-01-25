@@ -376,6 +376,8 @@ public class CharacterEntities {
     }
   }
 
+  private CharacterEntities() {}
+
   public static String escape(final String unicodeVersion) {
     // Trap null and return empty string
     if (unicodeVersion == null) {

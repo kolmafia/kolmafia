@@ -15,6 +15,8 @@ import net.java.dev.spellcast.utilities.SortedListModel;
  * @author ajoshi
  */
 public class LockableListFactory {
+  private LockableListFactory() {}
+
   /**
    * Get an instance of LockableListModel if in a Swing environment, else get a List
    *

@@ -18,6 +18,8 @@ public class IntegerPool {
     }
   }
 
+  private IntegerPool() {}
+
   public static final int getCacheHits() {
     return IntegerPool.cacheHits;
   }

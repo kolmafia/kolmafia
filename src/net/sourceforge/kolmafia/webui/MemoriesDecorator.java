@@ -10,6 +10,8 @@ public class MemoriesDecorator {
   private static final Pattern ELEMENT_PATTERN =
       Pattern.compile("<select name=\"slot[12345]\">.*?</select>", Pattern.DOTALL);
 
+  private MemoriesDecorator() {}
+
   public static final void decorateElements(final int choice, final StringBuffer buffer) {
     // Handle only Elements choice adventure
     if (choice != 392) {

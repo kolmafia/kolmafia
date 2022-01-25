@@ -5,6 +5,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StandardRequest;
 
 public class VoteMonsterManager {
+  private VoteMonsterManager() {}
+
   public static void checkCounter() {
     if (!StandardRequest.isAllowed("Items", "voter registration form")) {
       return;

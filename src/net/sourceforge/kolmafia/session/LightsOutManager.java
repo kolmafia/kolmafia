@@ -6,6 +6,8 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class LightsOutManager {
+  private LightsOutManager() {}
+
   public static void checkCounter() {
     if (!Preferences.getBoolean("trackLightsOut")) {
       return;

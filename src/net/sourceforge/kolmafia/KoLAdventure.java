@@ -2164,12 +2164,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Elemental Airport airplanes
     {
-      "You don't know where that is\\.", "You can't get there from here.",
+      "You don't know where that is", "You can't get there from here.",
     },
 
     // That isn't a place you can go.
     {
-      "That isn't a place you can go\\.", "You can't get there from here.",
+      "That isn't a place you can go", "You can't get there from here.",
     },
 
     // Site Alpha Dormitory
