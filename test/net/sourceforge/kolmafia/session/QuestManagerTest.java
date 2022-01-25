@@ -357,7 +357,7 @@ public class QuestManagerTest {
   }
 
   @Test
-  void justBeingInMiddleChamberIsPyramidStep1() throws IOException {
+  void justBeingInMiddleChamberIsPyramidStep1() {
     var request = new GenericRequest("adventure.php?snarfblat=407");
     request.responseText = "anything";
     QuestManager.handleQuestChange(request);
@@ -429,7 +429,7 @@ public class QuestManagerTest {
     assertThat("controlRoomUnlock", isSetTo(true));
   }
 
-  private static Map<String, Integer> PYRAMID_POSITIONS =
+  private static final Map<String, Integer> PYRAMID_POSITIONS =
       Map.ofEntries(
           Map.entry("basket", 4),
           Map.entry("first_visit", 1),
