@@ -277,9 +277,9 @@ The Cursed Village	100	cursed villager
 The Cursed Village Thieves' Guild	100	regular thief
 The Daily Dungeon	-1	apathetic lizardman	dairy ooze	dodecapede	giant giant moth	mayonnaise wasp	pencil golem	sabre-toothed lime	tonic water elemental	vampire clam
 The Dark and Spooky Swamp	-1	smell-o-the-wisp	swamp entity	swamp hag
-The Dark Elbow of the Woods	90	Demoninja	G imp	L imp
-The Dark Heart of the Woods	90	Fallen Archfiend	G imp	P imp
-The Dark Neck of the Woods	90	Hellion	P imp	W imp
+The Dark Elbow of the Woods	95	Demoninja	G imp	L imp
+The Dark Heart of the Woods	95	Fallen Archfiend	G imp	P imp
+The Dark Neck of the Woods	95	Hellion	P imp	W imp
 The Deep Dark Jungle	100	bigface	Mercenary of Fortune	smoke monster	Venus mantrap
 The Deep Machine Tunnels	-1	Performer of Actions	Thinker of Thoughts	Perceiver of Sensations
 The Defiled Alcove	85	corpulent zobmie	grave rober zmobie	modern zmobie: 0	conjoined zmombie: 0
