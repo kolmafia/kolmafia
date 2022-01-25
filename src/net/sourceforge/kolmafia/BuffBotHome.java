@@ -37,6 +37,8 @@ public class BuffBotHome {
   private static PrintStream textLogStream = System.out;
   private static PrintStream hypertextLogStream = System.out;
 
+  private BuffBotHome() {}
+
   /**
    * Constructs a new <code>BuffBotHome</code>. However, note that this does not automatically
    * translate into the messages being displayed; until a chat display is set, this buffer merely

@@ -53,6 +53,8 @@ public class ChatParser {
 
   private static final Pattern CHANNEL_LISTEN_PATTERN = Pattern.compile("&nbsp;&nbsp;(.*?)<br>");
 
+  private ChatParser() {}
+
   public static void parseChannelList(final List<ChatMessage> newMessages, final String content) {
     Matcher channelMatcher = ChatParser.CHANNEL_LISTEN_PATTERN.matcher(content);
 

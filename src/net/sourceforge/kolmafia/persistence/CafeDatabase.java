@@ -12,6 +12,8 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CafeDatabase {
+  private CafeDatabase() {}
+
   static class InverseIntegerOrder implements Comparator<Integer> {
     @Override
     public int compare(Integer o1, Integer o2) {

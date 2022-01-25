@@ -29,6 +29,8 @@ public class ChoiceUtilities {
     Pattern.compile("whichchoice=(\\d+)"),
   };
 
+  private ChoiceUtilities() {}
+
   public static int extractChoice(final String responseText) {
     for (Pattern pattern : ChoiceUtilities.CHOICE_PATTERNS) {
       Matcher matcher = pattern.matcher(responseText);

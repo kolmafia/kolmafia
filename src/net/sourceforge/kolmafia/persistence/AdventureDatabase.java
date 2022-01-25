@@ -79,6 +79,8 @@ public class AdventureDatabase {
   // Some adventures don't actually cost a turn
   public static final String[] FREE_ADVENTURES = {"Rock-a-bye larva", "Cobb's Knob lab key"};
 
+  private AdventureDatabase() {}
+
   public static final void refreshZoneTable() {
     if (!AdventureDatabase.ZONE_DESCRIPTIONS.isEmpty()) {
       return;

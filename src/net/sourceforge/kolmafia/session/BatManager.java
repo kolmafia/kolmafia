@@ -134,6 +134,8 @@ public class BatManager {
   public static final BatUpgrade SNUGGLYBEAR_NIGHTLIGHT =
       BatManager.findOption(BAT_CAVERN_UPGRADES, "Snugglybear Nightlight");
 
+  private BatManager() {}
+
   private static BatUpgrade findOption(final BatUpgrade[] upgrades, final int option) {
     for (BatUpgrade upgrade : upgrades) {
       if (upgrade.option == option) {

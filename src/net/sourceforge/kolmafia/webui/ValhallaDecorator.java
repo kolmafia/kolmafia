@@ -31,6 +31,8 @@ import net.sourceforge.kolmafia.textui.command.EudoraCommand.Correspondent;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ValhallaDecorator {
+  private ValhallaDecorator() {}
+
   public static final void decorateGashJump(final String location, final StringBuffer buffer) {
     // ascend.php
     // ascend.php?alttext=communityservice

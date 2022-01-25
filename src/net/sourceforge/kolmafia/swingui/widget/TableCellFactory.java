@@ -22,6 +22,8 @@ import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TableCellFactory {
+  private TableCellFactory() {}
+
   public static Object get(
       int columnIndex,
       LockableListModel<?> model,

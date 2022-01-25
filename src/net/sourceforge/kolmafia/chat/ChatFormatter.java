@@ -43,6 +43,8 @@ public class ChatFormatter {
 
   private static final HashMap<String, String> chatColors = new HashMap<>();
 
+  private ChatFormatter() {}
+
   public static final String formatInternalMessage(final String originalContent) {
     // This is called once for all of the lines that arrive in a single response
 

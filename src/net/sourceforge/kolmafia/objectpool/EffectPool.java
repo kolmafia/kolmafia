@@ -341,6 +341,8 @@ public class EffectPool {
   public static final AdventureResult CURSE2_EFFECT = EffectPool.get(EffectPool.TWICE_CURSED);
   public static final AdventureResult CURSE3_EFFECT = EffectPool.get(EffectPool.THRICE_CURSED);
 
+  private EffectPool() {}
+
   public static final AdventureResult get(final int effectId) {
     return new AdventureResult(effectId, 1, true);
   }

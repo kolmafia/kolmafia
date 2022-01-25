@@ -42,6 +42,8 @@ public class FaxBotDatabase {
   // List of faxbots named in config files.
   public static final ArrayList<FaxBot> faxbots = new ArrayList<FaxBot>();
 
+  private FaxBotDatabase() {}
+
   public static final void reconfigure() {
     FaxBotDatabase.isInitialized = false;
     FaxBotDatabase.configure();
