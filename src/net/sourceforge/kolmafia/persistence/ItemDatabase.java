@@ -126,6 +126,8 @@ public class ItemDatabase {
   private static final List<String> ACCESS =
       Arrays.asList(QUEST_FLAG, GIFT_FLAG, TRADE_FLAG, DISCARD_FLAG);
 
+  private ItemDatabase() {}
+
   private static String parseAccess(final String data) {
     if (data.equals("")) {
       return data;
@@ -1447,12 +1449,6 @@ public class ItemDatabase {
     return ItemDatabase.nameLength.get(itemId);
   }
 
-  /**
-   * Returns the plural for an item, given its Id number
-   *
-   * @param itemId The Id number of the item to lookup
-   * @return The plural name of the corresponding item
-   */
   public static final String getPluralName(final String name) {
     int itemId = ItemDatabase.getItemId(name);
     if (itemId == -1) {
@@ -1461,6 +1457,12 @@ public class ItemDatabase {
     return ItemDatabase.getPluralName(itemId);
   }
 
+  /**
+   * Returns the plural for an item, given its Id number
+   *
+   * @param itemId The Id number of the item to lookup
+   * @return The plural name of the corresponding item
+   */
   public static final String getPluralName(final int itemId) {
     if (itemId == -1) {
       return "";
@@ -1809,9 +1811,9 @@ public class ItemDatabase {
     return itemName;
   }
   /**
-   * Returns the name for an item, given its Id number.
+   * Returns the name for an item, given its description id number.
    *
-   * @param itemId The Id number of the item to lookup
+   * @param descriptionId The description id number of the item to lookup
    * @return The name of the corresponding item
    */
   public static final String getItemName(final String descriptionId) {
@@ -1822,7 +1824,7 @@ public class ItemDatabase {
   /**
    * Returns the id for an item, given its description id number.
    *
-   * @param itemId The description id number of the item to lookup
+   * @param descriptionId The description id number of the item to lookup
    * @return The item id of the corresponding item
    */
   public static final int getItemIdFromDescription(final String descriptionId) {

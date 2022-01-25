@@ -31,6 +31,8 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 
 public class ListCellRendererFactory {
+  private ListCellRendererFactory() {}
+
   public static final DefaultListCellRenderer getDefaultRenderer() {
     return new DefaultRenderer();
   }

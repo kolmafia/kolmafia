@@ -9,6 +9,8 @@ public class CakeArenaManager {
   private static final LockableListModel<ArenaOpponent> opponentList =
       new LockableListModel<ArenaOpponent>();
 
+  private CakeArenaManager() {}
+
   /**
    * Registers an opponent inside of the arena manager. This should be used to update any
    * information that relates to the arena.

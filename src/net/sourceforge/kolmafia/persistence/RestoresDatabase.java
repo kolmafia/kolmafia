@@ -35,6 +35,8 @@ public class RestoresDatabase {
     RestoresDatabase.reset();
   }
 
+  private RestoresDatabase() {}
+
   public static void reset() {
     RestoresDatabase.restoreNames.clear();
     RestoresDatabase.typeByName.clear();

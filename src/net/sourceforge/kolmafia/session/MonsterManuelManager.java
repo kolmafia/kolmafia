@@ -32,6 +32,8 @@ public class MonsterManuelManager {
     MonsterManuelManager.variableNamedMonsters.add(2108); // Travis Belmont
   }
 
+  private MonsterManuelManager() {}
+
   public static void flushCache() {
     MonsterManuelManager.manuelEntries.clear();
     MonsterManuelManager.manuelFactoidCounts.clear();

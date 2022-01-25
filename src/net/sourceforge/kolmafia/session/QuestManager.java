@@ -59,6 +59,8 @@ public class QuestManager {
   private static final Pattern DJ_MEAT_PATTERN = Pattern.compile("collect (.*?) Meat for the DJ");
   private static final Pattern TRASH_PATTERN = Pattern.compile("you clean up (\\d+) ");
 
+  private QuestManager() {}
+
   public static final void handleQuestChange(GenericRequest request) {
     // Certain location-specific quest changes are noticed by
     // simply adventuring in a location. Get the location.
@@ -870,35 +872,33 @@ public class QuestManager {
     if (location.contains("whichplace=airport_spooky_bunker")) {
       if (responseText.contains("action=si_shop1locked")) {
         Preferences.setBoolean("SHAWARMAInitiativeUnlocked", false);
+      } else if (responseText.contains("whichshop=si_shop1")) {
+        Preferences.setBoolean("SHAWARMAInitiativeUnlocked", true);
       }
+
       if (responseText.contains("action=si_shop2locked")) {
         Preferences.setBoolean("canteenUnlocked", false);
+      } else if (responseText.contains("whichshop=si_shop2")) {
+        Preferences.setBoolean("canteenUnlocked", true);
       }
+
       if (responseText.contains("action=si_shop3locked")) {
         Preferences.setBoolean("armoryUnlocked", false);
-      }
-      if (responseText.contains("whichshop=si_shop1")) {
-        Preferences.setBoolean("SHAWARMAInitiativeUnlocked", true);
-      }
-      if (responseText.contains("whichshop=si_shop2")) {
-        Preferences.setBoolean("canteenUnlocked", true);
-      }
-      if (responseText.contains("whichshop=si_shop3")) {
+      } else if (responseText.contains("whichshop=si_shop3")) {
         Preferences.setBoolean("armoryUnlocked", true);
       }
-      if (responseText.contains(
-          "find the door to the secret government sandwich shop and use the keycard")) {
-        Preferences.setBoolean("SHAWARMAInitiativeUnlocked", true);
-        ResultProcessor.removeItem(ItemPool.SHAWARMA_KEYCARD);
-      }
-      if (responseText.contains(
-          "find a door with a bottle-shaped icon on it, zip the keycard through the reader")) {
-        Preferences.setBoolean("canteenUnlocked", true);
-        ResultProcessor.removeItem(ItemPool.BOTTLE_OPENER_KEYCARD);
-      }
+
       if (responseText.contains("insert the keycard and the door slides open")) {
-        Preferences.setBoolean("armoryUnlocked", true);
-        ResultProcessor.removeItem(ItemPool.ARMORY_KEYCARD);
+        if (location.contains("action=si_shop1locked")) {
+          Preferences.setBoolean("SHAWARMAInitiativeUnlocked", true);
+          ResultProcessor.removeItem(ItemPool.SHAWARMA_KEYCARD);
+        } else if (location.contains("action=si_shop2locked")) {
+          Preferences.setBoolean("canteenUnlocked", true);
+          ResultProcessor.removeItem(ItemPool.BOTTLE_OPENER_KEYCARD);
+        } else if (location.contains("action=si_shop3locked")) {
+          Preferences.setBoolean("armoryUnlocked", true);
+          ResultProcessor.removeItem(ItemPool.ARMORY_KEYCARD);
+        }
       }
     }
     return;
@@ -1093,7 +1093,7 @@ public class QuestManager {
   private static void handleOilPeakChange(final String responseText) {
     if (responseText.contains("Unimpressed with Pressure")) {
       Preferences.setBoolean("oilPeakLit", true);
-      Preferences.setInteger("oilPeakProgress", 0);
+      Preferences.setFloat("oilPeakProgress", 0);
     }
   }
 
@@ -1115,7 +1115,7 @@ public class QuestManager {
     }
     if (responseText.contains("orcchasm/fire3.gif")) {
       Preferences.setBoolean("oilPeakLit", true);
-      Preferences.setInteger("oilPeakProgress", 0);
+      Preferences.setFloat("oilPeakProgress", 0);
     }
 
     if (Preferences.getBoolean("booPeakLit")
@@ -1393,9 +1393,6 @@ public class QuestManager {
 
     if (responseText.contains("Thanks for the larva, Adventurer. We'll put this to good use.")) {
       ResultProcessor.removeItem(ItemPool.MOSQUITO_LARVA);
-    }
-    if (responseText.contains("dragonbone belt buckle")) {
-      ResultProcessor.removeItem(ItemPool.BONERDAGON_SKULL);
     }
     QuestDatabase.handleCouncilText(responseText);
     if (QuestDatabase.isQuestLaterThan(Quest.MACGUFFIN, QuestDatabase.UNSTARTED)) {

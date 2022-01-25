@@ -18,6 +18,8 @@ public class ByteBufferUtilities {
       new ArrayList<ByteArrayOutputStream>();
   private static final ArrayList<Boolean> BYTESTREAMS_STATUS = new ArrayList<Boolean>();
 
+  private ByteBufferUtilities() {}
+
   public static byte[] read(File file) {
     try {
       FileInputStream istream = new FileInputStream(file);

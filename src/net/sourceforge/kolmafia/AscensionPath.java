@@ -5,6 +5,8 @@ import java.util.Map;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class AscensionPath {
+  private AscensionPath() {}
+
   public enum Path {
     // Path Name, Path ID, is Avatar?, image in ascension history, article
     NONE("None", 0, false, "blank", null),

@@ -44,6 +44,8 @@ public class StringUtilities {
     DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
   }
 
+  private StringUtilities() {}
+
   public static final synchronized long parseDate(final String dateString) {
     if (dateString != null) {
       try {

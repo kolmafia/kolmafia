@@ -99,6 +99,8 @@ public class EquipmentDatabase {
     EquipmentDatabase.reset();
   }
 
+  private EquipmentDatabase() {}
+
   public static void reset() {
     EquipmentDatabase.newEquipment = false;
 

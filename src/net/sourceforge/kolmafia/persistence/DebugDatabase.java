@@ -61,6 +61,8 @@ public class DebugDatabase {
   private static final Pattern WIKI_MONSTER_MEAT_PATTERN =
       Pattern.compile("Meat gained - ([\\d,]+)(?:-([\\d,]+))?");
 
+  private DebugDatabase() {}
+
   /** Takes an item name and constructs the likely Wiki equivalent of that item name. */
   private static String readWikiItemData(final String name) {
     String url = WikiUtilities.getWikiLocation(name, WikiUtilities.ITEM_TYPE);

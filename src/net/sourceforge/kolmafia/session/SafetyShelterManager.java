@@ -41,6 +41,8 @@ public class SafetyShelterManager {
     "12221", // E.M.U. Helmet
   };
 
+  private SafetyShelterManager() {}
+
   public static final String autoRonald(
       final String decision, final int stepCount, final String responseText) {
     return SafetyShelterManager.autoShelter(decision, stepCount, responseText, RonaldScript);

@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -14,6 +15,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 /** Provides utility functions for dealing with quests. */
 public class QuestDatabase {
+  private QuestDatabase() {}
+
   public enum Quest {
     LARVA("questL02Larva"),
     RAT("questL03Rat"),
@@ -111,6 +114,12 @@ public class QuestDatabase {
 
     Quest(String pref) {
       this.pref = pref;
+    }
+
+    public static Quest[] councilQuests() {
+      return Arrays.stream(values())
+          .filter(q -> q.getPref().startsWith("questL"))
+          .toArray(Quest[]::new);
     }
 
     public String getPref() {

@@ -50,6 +50,8 @@ public class ProfileSnapshot {
       new LockableListModel<ProfileRequest>();
   private static final ClanMembersRequest request = new ClanMembersRequest(true);
 
+  private ProfileSnapshot() {}
+
   public static final void clearCache() {
     // First, initialize all of the lists and
     // arrays which are used by the request.

@@ -86,6 +86,8 @@ public class SVNManager {
   private static final List<String> permissibles =
       Arrays.asList("scripts", "data", "images", "relay", "ccs", "planting");
 
+  private SVNManager() {}
+
   /** Initializes the library to work with a repository via different protocols. */
   public static synchronized void setupLibrary() {
     if (ourClientManager != null) return;

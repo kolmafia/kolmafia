@@ -8,6 +8,8 @@ public class ActionBarManager {
   private static String initialJSONString = "";
   private static String currentJSONString = "";
 
+  private ActionBarManager() {}
+
   public static final void updateJSONString(RelayRequest request) {
     String action = request.getFormField("action");
 

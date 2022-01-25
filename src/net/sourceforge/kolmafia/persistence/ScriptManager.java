@@ -19,6 +19,8 @@ import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
 
 public class ScriptManager {
+  private ScriptManager() {}
+
   private static class ScriptFactory {
     public static Script fromJSON(JSONObject jObj) throws JSONException {
       String name = jObj.getString("name");
