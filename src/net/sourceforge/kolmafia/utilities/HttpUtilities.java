@@ -5,6 +5,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HttpUtilities {
+  private HttpUtilities() {}
+
   @FunctionalInterface
   public interface ConnectionFactory {
     HttpURLConnection openConnection(URL url) throws IOException;

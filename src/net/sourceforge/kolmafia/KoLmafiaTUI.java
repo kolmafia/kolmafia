@@ -10,6 +10,8 @@ public class KoLmafiaTUI {
   private static final TUIOutputStream out = new TUIOutputStream();
   public static final PrintStream outputStream = out;
 
+  private KoLmafiaTUI() {}
+
   static void initialize() {
     try {
       AnsiConsole.systemInstall();

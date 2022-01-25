@@ -74,6 +74,8 @@ public class Maximizer {
   static int bestChecked;
   static long bestUpdate;
 
+  private Maximizer() {}
+
   public static boolean maximize(
       String maximizerString, int maxPrice, int priceLevel, boolean isSpeculationOnly) {
     MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);

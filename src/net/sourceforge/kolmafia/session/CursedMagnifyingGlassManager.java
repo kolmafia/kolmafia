@@ -32,6 +32,8 @@ public class CursedMagnifyingGlassManager {
               "The hair on the back of your neck stands up.  A feeling of impending dread overwhelms your senses.",
               13));
 
+  private CursedMagnifyingGlassManager() {}
+
   public static final void updatePreference(String resultText) {
     for (Map.Entry<String, Integer> entry : MAGNIFYING_GLASS_MESSAGES.entrySet()) {
       if (resultText.contains(entry.getKey())) {

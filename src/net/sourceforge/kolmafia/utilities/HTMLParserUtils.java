@@ -11,6 +11,8 @@ import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 
 public class HTMLParserUtils {
+  private HTMLParserUtils() {}
+
   public static final HtmlCleaner configureDefaultParser() {
     HtmlCleaner cleaner = new HtmlCleaner();
 

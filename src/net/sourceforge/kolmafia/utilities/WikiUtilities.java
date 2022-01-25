@@ -24,6 +24,8 @@ public class WikiUtilities {
   public static final int SKILL_TYPE = 3;
   public static final int MONSTER_TYPE = 4;
 
+  private WikiUtilities() {}
+
   public static final String getWikiLocation(String name, int type) {
     boolean checkOtherTables = true;
 

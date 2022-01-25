@@ -129,6 +129,8 @@ public class EquipmentManager {
     }
   }
 
+  private EquipmentManager() {}
+
   public static void resetEquipment() {
     for (int i = 0; i < EquipmentManager.equipmentLists.size(); ++i) {
       EquipmentManager.equipmentLists.get(i).clear();

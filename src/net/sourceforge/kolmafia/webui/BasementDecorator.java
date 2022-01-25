@@ -22,6 +22,8 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 
 public class BasementDecorator {
+  private BasementDecorator() {}
+
   public static final void decorate(final StringBuffer buffer) {
     addBasementButtons(buffer);
 

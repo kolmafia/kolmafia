@@ -29,7 +29,7 @@ public class PrefRefCommand extends AbstractCommand {
         output.append("</p></td><td><p>");
         output.append(prefs.get(pref));
         output.append("</p></td><td><p>");
-        output.append(defaults.containsKey(pref) ? defaults.get(pref) : "N/A");
+        output.append(defaults.getOrDefault(pref, "N/A"));
         output.append("</p></td><td>");
         output.append(type);
         output.append("</td></tr>");

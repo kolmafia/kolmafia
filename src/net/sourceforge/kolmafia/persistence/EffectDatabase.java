@@ -53,6 +53,8 @@ public class EffectDatabase {
     EffectDatabase.reset();
   }
 
+  private EffectDatabase() {}
+
   public static void reset() {
     EffectDatabase.newEffects = false;
 

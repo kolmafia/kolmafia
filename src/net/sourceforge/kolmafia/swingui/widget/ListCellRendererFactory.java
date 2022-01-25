@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.Component;
+import java.util.Objects;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -31,6 +32,8 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 
 public class ListCellRendererFactory {
+  private ListCellRendererFactory() {}
+
   public static final DefaultListCellRenderer getDefaultRenderer() {
     return new DefaultRenderer();
   }
@@ -939,11 +942,7 @@ public class ListCellRendererFactory {
 
         if (fullness != null || inebriety != null) {
           stringForm.append(" (");
-          if (fullness != null) {
-            stringForm.append(fullness);
-          } else /*if (inebriety != null)*/ {
-            stringForm.append(inebriety);
-          }
+          stringForm.append(Objects.requireNonNullElse(fullness, inebriety));
 
           this.appendRange(stringForm, ConsumablesDatabase.getAdventureRange(ar.getName()), "adv");
 

@@ -36,6 +36,8 @@ public class MallPriceDatabase {
     MallPriceDatabase.modCount = 0;
   }
 
+  private MallPriceDatabase() {}
+
   private static int updatePrices(String filename, boolean allowOverride) {
     BufferedReader reader = FileUtilities.getReader(filename, allowOverride);
 

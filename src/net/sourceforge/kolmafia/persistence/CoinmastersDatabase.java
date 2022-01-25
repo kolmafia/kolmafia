@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -42,6 +41,8 @@ public class CoinmastersDatabase {
 
   // Map from String -> Map from Integer -> Integer
   public static final Map<String, Map<Integer, Integer>> itemRows = new TreeMap<>();
+
+  private CoinmastersDatabase() {}
 
   public static final LockableListModel<AdventureResult> getItems(final String key) {
     return CoinmastersDatabase.items.get(key);
@@ -91,12 +92,7 @@ public class CoinmastersDatabase {
 
   private static Map<Integer, Integer> getOrMakeMap(
       final String key, final Map<String, Map<Integer, Integer>> map) {
-    Map<Integer, Integer> retval = map.get(key);
-    if (retval == null) {
-      retval = CoinmastersDatabase.getNewMap();
-      map.put(key, retval);
-    }
-    return retval;
+    return map.computeIfAbsent(key, k -> CoinmastersDatabase.getNewMap());
   }
 
   public static final Map<Integer, Integer> invert(final Map<Integer, Integer> map) {
@@ -188,14 +184,7 @@ public class CoinmastersDatabase {
 
   public static final void clearPurchaseRequests(CoinmasterData data) {
     // Clear all purchase requests for a particular Coin Master
-    Iterator<CoinMasterPurchaseRequest> it =
-        CoinmastersDatabase.COINMASTER_ITEMS.values().iterator();
-    while (it.hasNext()) {
-      CoinMasterPurchaseRequest request = it.next();
-      if (request.getData() == data) {
-        it.remove();
-      }
-    }
+    CoinmastersDatabase.COINMASTER_ITEMS.values().removeIf(request -> request.getData() == data);
   }
 
   public static final void registerPurchaseRequest(

@@ -128,6 +128,8 @@ public class ResponseTextParser {
   private static final Pattern DESCITEM_PATTERN = Pattern.compile("whichitem=(\\d+)");
   private static final Pattern DESCEFFECT_PATTERN = Pattern.compile("whicheffect=([0-9a-zA-Z]+)");
 
+  private ResponseTextParser() {}
+
   public static boolean hasResult(final String location) {
     if (location == null) {
       return false;

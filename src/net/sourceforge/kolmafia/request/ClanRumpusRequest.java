@@ -174,16 +174,16 @@ public class ClanRumpusRequest extends GenericRequest {
   private int option;
   private int turnCount;
 
-  /**
-   * Constructs a new <code>ClanRumpusRequest</code>.
-   *
-   * @param action The identifier for the action you're requesting
-   */
   private ClanRumpusRequest() {
     super("clan_rumpus.php");
     this.action = RequestType.VISIT;
   }
 
+  /**
+   * Constructs a new <code>ClanRumpusRequest</code>.
+   *
+   * @param action The identifier for the action you're requesting
+   */
   public ClanRumpusRequest(final RequestType action) {
     super("clan_rumpus.php");
     this.action = action;

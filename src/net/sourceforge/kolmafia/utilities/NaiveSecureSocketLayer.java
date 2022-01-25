@@ -51,6 +51,8 @@ public class NaiveSecureSocketLayer {
     }
   }
 
+  private NaiveSecureSocketLayer() {}
+
   public static void install() {
     if (NaiveSecureSocketLayer.INSTALL_ENABLED) {
       RequestLogger.printLine("Installing naive certificate validation...");

@@ -13,6 +13,8 @@ public class LostKeyManager {
     "131113", // pill bottle
   };
 
+  private LostKeyManager() {}
+
   public static final String autoKey(
       String decision, final int stepCount, final String responseText) {
     int goal = StringUtilities.parseInt(decision) - 1;
