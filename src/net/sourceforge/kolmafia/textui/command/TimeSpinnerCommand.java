@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;

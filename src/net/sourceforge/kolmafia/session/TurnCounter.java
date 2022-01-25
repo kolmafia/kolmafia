@@ -302,7 +302,6 @@ public class TurnCounter implements Comparable<TurnCounter> {
 
   public static final void stopCounting(final String label) {
     synchronized (TurnCounter.relayCounters) {
-
       TurnCounter.relayCounters.removeIf(current -> current.parsedLabel.equals(label));
 
       TurnCounter.saveCounters();
@@ -512,8 +511,8 @@ public class TurnCounter implements Comparable<TurnCounter> {
 
   public static final void deleteByHash(final int hash) {
     synchronized (TurnCounter.relayCounters) {
-
-      TurnCounter.relayCounters.removeIf(turnCounter -> System.identityHashCode(turnCounter) == hash);
+      TurnCounter.relayCounters.removeIf(
+          turnCounter -> System.identityHashCode(turnCounter) == hash);
 
       TurnCounter.saveCounters();
     }

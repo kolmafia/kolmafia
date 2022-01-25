@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.textui;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -56,22 +55,24 @@ public class Profiler {
 
     buff.append("<br>");
 
-    list.sort(new Comparator<Profiler>() {
-      @Override
-      public int compare(Profiler left, Profiler right) {
-        return (int) Math.signum(right.total - left.total);
-      }
-    });
+    list.sort(
+        new Comparator<Profiler>() {
+          @Override
+          public int compare(Profiler left, Profiler right) {
+            return (int) Math.signum(right.total - left.total);
+          }
+        });
     Profiler.addTable(buff, list, "(sorted by total time)");
 
     buff.append("<br>");
 
-    list.sort(new Comparator<Profiler>() {
-      @Override
-      public int compare(Profiler left, Profiler right) {
-        return (int) Math.signum(right.net - left.net);
-      }
-    });
+    list.sort(
+        new Comparator<Profiler>() {
+          @Override
+          public int compare(Profiler left, Profiler right) {
+            return (int) Math.signum(right.net - left.net);
+          }
+        });
     Profiler.addTable(buff, list, "(sorted by net time)");
 
     buff.append("<br>");

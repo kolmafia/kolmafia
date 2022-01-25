@@ -217,15 +217,20 @@ public class BanishManager {
 
   public static final void resetAvatar() {
 
-    BanishManager.banishedMonsters.removeIf(current -> BanishManager.findBanisher(current.getBanishName()).getResetType()
-            == Reset.AVATAR_RESET);
+    BanishManager.banishedMonsters.removeIf(
+        current ->
+            BanishManager.findBanisher(current.getBanishName()).getResetType()
+                == Reset.AVATAR_RESET);
 
     BanishManager.saveBanishedMonsters();
   }
 
   public static final void resetAscension() {
 
-    BanishManager.banishedMonsters.removeIf(current -> BanishManager.findBanisher(current.getBanishName()).getResetType() != Reset.NEVER_RESET);
+    BanishManager.banishedMonsters.removeIf(
+        current ->
+            BanishManager.findBanisher(current.getBanishName()).getResetType()
+                != Reset.NEVER_RESET);
 
     BanishManager.saveBanishedMonsters();
   }

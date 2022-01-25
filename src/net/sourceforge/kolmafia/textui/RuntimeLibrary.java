@@ -2602,7 +2602,8 @@ public abstract class RuntimeLibrary {
       return;
     }
 
-    LinkedHashMap<String, StringBuilder> prefixMap = batched.computeIfAbsent(cmd, k -> new LinkedHashMap<>());
+    LinkedHashMap<String, StringBuilder> prefixMap =
+        batched.computeIfAbsent(cmd, k -> new LinkedHashMap<>());
     // First instance of this command
 
     String key = prefix == null ? "" : prefix;
@@ -9362,8 +9363,7 @@ public abstract class RuntimeLibrary {
           {
             ScrapPocket sp = (ScrapPocket) p;
             Map<Integer, String> knownScraps = CargoCultistShortsRequest.knownScrapPockets();
-            String syllable =
-                    knownScraps.getOrDefault(sp.getPocket(), "");
+            String syllable = knownScraps.getOrDefault(sp.getPocket(), "");
             value.aset(new Value(sp.getScrap()), new Value(syllable));
             break;
           }
