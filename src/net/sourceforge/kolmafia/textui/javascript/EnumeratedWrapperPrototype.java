@@ -1,9 +1,6 @@
 package net.sourceforge.kolmafia.textui.javascript;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
@@ -15,9 +12,6 @@ import org.mozilla.javascript.ScriptableObject;
 
 public class EnumeratedWrapperPrototype extends ScriptableObject {
   private static final long serialVersionUID = 1L;
-
-  private static final Map<Scriptable, TreeMap<Type, EnumeratedWrapperPrototype>> registry =
-      new HashMap<>();
 
   private final Class<?> recordValueClass;
   private final Type type;
@@ -78,11 +72,6 @@ public class EnumeratedWrapperPrototype extends ScriptableObject {
     }
 
     sealObject();
-
-    if (!registry.containsKey(scope)) {
-      registry.put(scope, new TreeMap<>());
-    }
-    registry.get(scope).put(type, this);
   }
 
   public static EnumeratedWrapperPrototype getPrototypeInstance(Scriptable scope, Type type) {

@@ -6,18 +6,23 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import net.sourceforge.kolmafia.utilities.PauseObject;
 import org.eclipse.lsp4j.jsonrpc.Launcher;
 import org.eclipse.lsp4j.launch.LSPLauncher;
 import org.eclipse.lsp4j.services.LanguageClient;
 import org.eclipse.lsp4j.services.LanguageServer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.mockito.Mockito;
 
 public class AshLanguageServerTest {
   private final Closeable[] streams = new Closeable[4];
 
+  // A pauser. We'll need that since interactions between client and server are asynchronous
+  final PauseObject pauser = new PauseObject();
+
   // The two "true" endpoints.
-  LanguageClient client;
+  final LanguageClient client = Mockito.mock(TestLanguageClient.class);
   AshLanguageServer trueServer;
 
   // The way the client has to access the server through the LSP4J implementation
@@ -32,7 +37,10 @@ public class AshLanguageServerTest {
 
     trueServer = launchServer(serverIn, serverOut);
 
-    client = launchClientAndSetProxy(clientIn, clientOut);
+    final Launcher<LanguageServer> clientLauncher =
+        LSPLauncher.createClientLauncher(client, clientIn, clientOut);
+    proxyServer = clientLauncher.getRemoteProxy();
+    clientLauncher.startListening();
   }
 
   @AfterEach
@@ -42,17 +50,7 @@ public class AshLanguageServerTest {
     }
   }
 
-  AshLanguageServer launchServer(InputStream in, OutputStream out) {
+  protected AshLanguageServer launchServer(InputStream in, OutputStream out) {
     return AshLanguageServer.launch(in, out);
-  }
-
-  LanguageClient launchClientAndSetProxy(InputStream in, OutputStream out) {
-    LanguageClient client = new TestLanguageClient();
-
-    final Launcher<LanguageServer> launcher = LSPLauncher.createClientLauncher(client, in, out);
-    proxyServer = launcher.getRemoteProxy();
-    launcher.startListening();
-
-    return client;
   }
 }

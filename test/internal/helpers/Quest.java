@@ -3,30 +3,10 @@ package internal.helpers;
 import static org.hamcrest.Matchers.equalTo;
 
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
-import org.hamcrest.Description;
 import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 
 public class Quest {
-  private static class IsStep extends TypeSafeMatcher<QuestDatabase.Quest> {
-    private String step;
-
-    public IsStep(String step) {
-      this.step = step;
-    }
-
-    @Override
-    protected boolean matchesSafely(QuestDatabase.Quest q) {
-      return QuestDatabase.isQuestStep(q, step);
-    }
-
-    @Override
-    public void describeTo(Description description) {
-      description.appendText("be at step " + step);
-    }
-  }
-
   public static Matcher<QuestDatabase.Quest> isStep(Matcher<? super String> stepMatcher) {
     return new FeatureMatcher<QuestDatabase.Quest, String>(
         stepMatcher, "quest step to be", "quest step") {

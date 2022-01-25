@@ -15,27 +15,21 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
-import net.sourceforge.kolmafia.utilities.PauseObject;
 import org.eclipse.lsp4j.InitializeParams;
 import org.eclipse.lsp4j.InitializeResult;
 import org.eclipse.lsp4j.InitializedParams;
-import org.eclipse.lsp4j.jsonrpc.Launcher;
 import org.eclipse.lsp4j.jsonrpc.ResponseErrorException;
 import org.eclipse.lsp4j.jsonrpc.messages.ResponseError;
 import org.eclipse.lsp4j.jsonrpc.messages.ResponseErrorCode;
 import org.eclipse.lsp4j.jsonrpc.services.JsonDelegate;
 import org.eclipse.lsp4j.jsonrpc.services.JsonNotification;
 import org.eclipse.lsp4j.jsonrpc.services.JsonRequest;
-import org.eclipse.lsp4j.launch.LSPLauncher;
-import org.eclipse.lsp4j.services.LanguageClient;
 import org.eclipse.lsp4j.services.LanguageServer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.ThrowingSupplier;
 
 public class StateCheckWrappersTest extends AshLanguageServerTest {
-
-  private final PauseObject pauser = new PauseObject();
 
   private static class AshLanguageServerNotingIgnoredNotifications
       extends StateCheckWrappers.AshLanguageServer {
@@ -53,15 +47,8 @@ public class StateCheckWrappersTest extends AshLanguageServerTest {
   }
 
   @Override
-  AshLanguageServer launchServer(InputStream in, OutputStream out) {
-    final AshLanguageServer server = new AshLanguageServerNotingIgnoredNotifications();
-
-    final Launcher<LanguageClient> launcher =
-        LSPLauncher.createServerLauncher(server, in, out, server.executor, null);
-    server.connect(launcher.getRemoteProxy());
-    launcher.startListening();
-
-    return server;
+  protected AshLanguageServer launchServer(InputStream in, OutputStream out) {
+    return AshLanguageServer.launch(in, out, new AshLanguageServerNotingIgnoredNotifications());
   }
 
   private static Map<Method[], List<Method>> getRequestsAndNotifications() {

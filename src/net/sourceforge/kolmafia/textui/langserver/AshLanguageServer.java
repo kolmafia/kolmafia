@@ -1,7 +1,12 @@
 package net.sourceforge.kolmafia.textui.langserver;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collections;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -36,8 +41,12 @@ public abstract class AshLanguageServer implements LanguageClientAware, Language
   /* The Launcher */
 
   public static AshLanguageServer launch(final InputStream in, final OutputStream out) {
-    final AshLanguageServer server = new StateCheckWrappers.AshLanguageServer();
+    return launch(in, out, new StateCheckWrappers.AshLanguageServer());
+  }
 
+  // Only exposed for tests
+  protected static AshLanguageServer launch(
+      final InputStream in, final OutputStream out, final AshLanguageServer server) {
     final Launcher<LanguageClient> launcher =
         LSPLauncher.createServerLauncher(server, in, out, server.executor, null);
     server.connect(launcher.getRemoteProxy());
@@ -61,6 +70,11 @@ public abstract class AshLanguageServer implements LanguageClientAware, Language
       new StateCheckWrappers.AshWorkspaceService(this);
 
   public final ExecutorService executor = Executors.newCachedThreadPool();
+  public final FilesMonitor monitor = new FilesMonitor(this);
+
+  // We use Hashtable to prevent null values. Otherwise a HashMap would have sufficed, since we do
+  // the synchronization ourselves.
+  public final Map<File, Script> scripts = Collections.synchronizedMap(new Hashtable<>(20));
 
   @Override
   public void connect(LanguageClient client) {
@@ -70,6 +84,11 @@ public abstract class AshLanguageServer implements LanguageClientAware, Language
   @Override
   public CompletableFuture<InitializeResult> initialize(InitializeParams params) {
     this.clientCapabilities = params.getCapabilities();
+
+    this.executor.execute(
+        () -> {
+          this.monitor.scan();
+        });
 
     return CompletableFuture.supplyAsync(
         () -> {
@@ -87,12 +106,33 @@ public abstract class AshLanguageServer implements LanguageClientAware, Language
 
   @Override
   public CompletableFuture<Object> shutdown() {
-    return CompletableFuture.completedFuture(null);
+    return CompletableFuture.supplyAsync(
+        () -> {
+          this.close();
+          return null;
+        },
+        this.executor);
   }
 
   @Override
   public void exit() {
+    // Call close() in case the client didn't send a shutdown notification
+    this.close();
     this.executor.shutdownNow();
+  }
+
+  private void close() {
+    synchronized (this.scripts) {
+      final Iterator<Script> it = this.scripts.values().iterator();
+      while (it.hasNext()) {
+        final Script script = it.next();
+        if (script.handler != null) {
+          script.handler.close();
+        }
+
+        it.remove();
+      }
+    }
   }
 
   /**
@@ -130,5 +170,9 @@ public abstract class AshLanguageServer implements LanguageClientAware, Language
   @Override
   public WorkspaceService getWorkspaceService() {
     return this.workspaceService;
+  }
+
+  protected boolean canParse(final File file) {
+    return file.getName().endsWith(".ash");
   }
 }
