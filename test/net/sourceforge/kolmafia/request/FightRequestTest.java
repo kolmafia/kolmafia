@@ -94,14 +94,13 @@ public class FightRequestTest {
   }
 
   @Test
-  @Disabled
   public void commerceGhostIncrementsByOneOnFight() throws IOException {
     KoLCharacter.reset("the Tristero");
     FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
     KoLCharacter.setFamiliar(fam);
     assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
     FightRequest.currentRound = 0;
-    // parseCombatData("request/test_fight_gnome_adv.html");
+    parseCombatData("request/test_fight_gnome_adv.html");
     assertEquals(1, Preferences.getInteger("commerceGhostCombats"));
   }
 
