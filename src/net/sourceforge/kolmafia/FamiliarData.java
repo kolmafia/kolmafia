@@ -817,6 +817,10 @@ public class FamiliarData implements Comparable<FamiliarData> {
     return Arrays.stream(FamiliarDatabase.getFamiliarSkills(this.id)).anyMatch(skill -> skill > 0);
   }
 
+  public boolean isUndead() {
+    return FamiliarDatabase.hasAttribute(this.id, "undead");
+  }
+
   public boolean waterBreathing() {
     return FamiliarDatabase.isUnderwaterType(this.id);
   }

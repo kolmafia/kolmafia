@@ -4344,7 +4344,7 @@ public abstract class KoLCharacter {
     if (familiarFilter.test(FamiliarData.NO_FAMILIAR)) return FamiliarData.NO_FAMILIAR;
 
     // Don't even look if you are an Avatar
-    if (KoLCharacter.getPath().isAvatar) return null;
+    if (!KoLCharacter.getPath().canUseFamiliars()) return null;
 
     // In Quantum Terrarium the player only has the familiar that is with them
     if (KoLCharacter.inQuantum()) {
@@ -4356,6 +4356,8 @@ public abstract class KoLCharacter {
     return KoLCharacter.familiars.stream()
         .filter(familiarFilter)
         .filter(StandardRequest::isAllowed)
+        .filter(f -> !KoLCharacter.inZombiecore() || f.isUndead())
+        .filter(f -> !KoLCharacter.inBeecore() || KoLCharacter.hasBeeosity(f.getRace()))
         .filter(f -> !KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()))
         .findAny()
         .orElse(null);
