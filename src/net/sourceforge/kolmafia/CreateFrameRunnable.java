@@ -52,7 +52,7 @@ public class CreateFrameRunnable implements Runnable {
                       .filter(j -> parameterTypes[j] != null)
                       .allMatch(j -> constructorParamTypes[j].isAssignableFrom(parameterTypes[j]));
                 })
-            .reduce((a, b) -> b)
+            .reduce((first, second) -> second)
             .orElse(null);
   }
 
