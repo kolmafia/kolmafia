@@ -41,8 +41,8 @@ public abstract class AshTextDocumentService implements TextDocumentService {
     this.parent.executor.execute(
         () -> {
           TextDocumentItem document = params.getTextDocument();
-
           if (document == null) return;
+
           File file = FilesMonitor.UriToFile(document.getUri());
 
           this.parent.monitor.updateFile(file, document.getText(), document.getVersion());
@@ -74,6 +74,7 @@ public abstract class AshTextDocumentService implements TextDocumentService {
     this.parent.executor.execute(
         () -> {
           TextDocumentIdentifier document = params.getTextDocument();
+          if (document == null) return;
 
           File file = FilesMonitor.UriToFile(document.getUri());
 
