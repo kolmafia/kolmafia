@@ -1338,6 +1338,10 @@ public class Modifiers {
         return Modifiers.SPOOKY_RESISTANCE;
       case STENCH:
         return Modifiers.STENCH_RESISTANCE;
+      case SLIME:
+        return Modifiers.SLIME_RESISTANCE;
+      case SUPERCOLD:
+        return Modifiers.SUPERCOLD_RESISTANCE;
       default:
         return -1;
     }
@@ -1655,6 +1659,14 @@ public class Modifiers {
     for (int index = 0; index < this.strings.length; ++index) {
       if (!this.strings[index].equals(copyStrings[index])) {
         this.strings[index] = copyStrings[index];
+        changed = true;
+      }
+    }
+
+    double[] copyExtras = mods.extras;
+    for (int index = 0; index < this.extras.length; ++index) {
+      if (this.extras[index] != copyExtras[index]) {
+        this.extras[index] = copyExtras[index];
         changed = true;
       }
     }

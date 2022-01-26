@@ -4905,8 +4905,6 @@ public abstract class KoLCharacter {
       newModifiers.add(Modifiers.getModifiers("StatDay", KoLmafia.statDay));
     }
 
-    Modifiers.smithsness = KoLCharacter.getSmithsnessModifier(equipment, effects);
-
     // Certain outfits give benefits to the character
     // Need to do this before the individual items, so that Hobo Power
     // from the outfit counts towards a Hodgman offhand.
@@ -5013,8 +5011,6 @@ public abstract class KoLCharacter {
     for (AdventureResult effect : effects) {
       newModifiers.add(Modifiers.getEffectModifiers(effect.getEffectId()));
     }
-
-    Modifiers.hoboPower = newModifiers.get(Modifiers.HOBO_POWER);
 
     // Add modifiers from campground equipment.
     for (int i = 0; i < KoLConstants.campground.size(); ++i) {
@@ -5123,6 +5119,10 @@ public abstract class KoLCharacter {
     if (custom != null) {
       newModifiers.add(Modifiers.parseModifiers("Generated:custom", custom));
     }
+
+    // Store some modifiers as statics
+    Modifiers.hoboPower = newModifiers.get(Modifiers.HOBO_POWER);
+    Modifiers.smithsness = KoLCharacter.getSmithsnessModifier(equipment, effects);
 
     if (Modifiers.currentLocation.equals("The Slime Tube")) {
       int hatred = (int) newModifiers.get(Modifiers.SLIME_HATES_IT);

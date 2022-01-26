@@ -84,6 +84,10 @@ public class MonsterDatabase {
       return this.name;
     }
 
+    public String toTitle() {
+      return name.substring(0, 1).toUpperCase() + name.substring(1);
+    }
+
     public String getImage() {
       return this.image;
     }
@@ -97,14 +101,11 @@ public class MonsterDatabase {
     }
 
     public static Element fromString(String text) {
-      if (text != null) {
-        for (Element elem : Element.values()) {
-          if (text.equals(elem.name)) {
-            return elem;
-          }
-        }
-      }
-      return Element.NONE;
+      if (text == null || text.isEmpty()) return Element.NONE;
+      return Arrays.stream(values())
+          .filter(e -> e.name.equalsIgnoreCase(text))
+          .findAny()
+          .orElse(Element.NONE);
     }
   }
 
