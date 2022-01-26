@@ -474,7 +474,7 @@ public abstract class StaticEntity {
         sb.append(line);
         sb.append(KoLConstants.LINE_BREAK);
 
-        if (line.indexOf("KoLmafia") != -1) {
+        if (line.contains("KoLmafia")) {
           pid = line.substring(0, line.indexOf(' '));
         }
 

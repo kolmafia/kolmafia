@@ -351,7 +351,7 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
     String setting = Preferences.getString("initialDesktop");
     for (int i = 0; i < KoLDesktop.INSTANCE.tabListing.size(); ++i) {
       GenericFrame frame = KoLDesktop.INSTANCE.tabListing.get(i);
-      if (!(frame instanceof ChatFrame) && setting.indexOf(frame.getFrameName()) == -1) {
+      if (!(frame instanceof ChatFrame) && !setting.contains(frame.getFrameName())) {
         frame.dispose();
       }
     }

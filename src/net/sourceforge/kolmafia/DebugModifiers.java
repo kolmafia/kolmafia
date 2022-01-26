@@ -20,7 +20,7 @@ public class DebugModifiers extends Modifiers {
     DebugModifiers.adjustments = new HashMap<>();
     for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i) {
       String name = Modifiers.getModifierName(i);
-      if (name.toLowerCase().indexOf(parameters) != -1) {
+      if (name.toLowerCase().contains(parameters)) {
         DebugModifiers.wanted.put(IntegerPool.get(i), "<td colspan=3>" + name + "</td>");
         DebugModifiers.adjustments.put(IntegerPool.get(i), "<td colspan=2>" + name + "</td>");
       }

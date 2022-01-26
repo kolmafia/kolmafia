@@ -1427,7 +1427,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       String arName = ar.getName().toLowerCase();
 
       for (int i = 0; i < this.matches.length && !hasMatch; ++i) {
-        hasMatch = arName.indexOf(this.matches[i]) != -1;
+        hasMatch = arName.contains(this.matches[i]);
       }
 
       return hasMatch ^ this.negated;
