@@ -2,13 +2,16 @@ package net.sourceforge.kolmafia;
 
 import static internal.helpers.Player.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +20,7 @@ public class KoLCharacterTest {
   @BeforeEach
   public void init() {
     KoLCharacter.reset(true);
+    StandardRequest.reset();
   }
 
   @Test
@@ -123,5 +127,91 @@ public class KoLCharacterTest {
     addEffect("Colorfully Concealed");
     KoLCharacter.recalculateAdjustments();
     assertEquals(-5, KoLCharacter.getCombatRateAdjustment());
+  }
+
+  @Test
+  public void canFindFamiliarByRace() {
+    hasFamiliar(FamiliarPool.MOSQUITO);
+    hasFamiliar(FamiliarPool.BADGER);
+
+    var fam = KoLCharacter.findFamiliar("mosquito");
+    assertEquals(FamiliarPool.MOSQUITO, fam.getId());
+  }
+
+  @Test
+  public void returnsNullIfFamiliarRaceDoesntExist() {
+    hasFamiliar(FamiliarPool.MOSQUITO);
+    hasFamiliar(FamiliarPool.BADGER);
+
+    var fam = KoLCharacter.findFamiliar("non-existent familiar");
+    assertNull(fam);
+  }
+
+  @Test
+  public void canFindFamiliarById() {
+    hasFamiliar(FamiliarPool.MOSQUITO);
+    hasFamiliar(FamiliarPool.BADGER);
+
+    var fam = KoLCharacter.findFamiliar(FamiliarPool.BADGER);
+    assertEquals(FamiliarPool.BADGER, fam.getId());
+  }
+
+  @Test
+  public void returnsNullIfFamiliarIdDoesntExist() {
+    hasFamiliar(FamiliarPool.MOSQUITO);
+    hasFamiliar(FamiliarPool.BADGER);
+
+    var fam = KoLCharacter.findFamiliar(13);
+    assertNull(fam);
+  }
+
+  @Test
+  public void familiarsWithoutGsDoNotExistInGLover() {
+    hasFamiliar(FamiliarPool.MOSQUITO);
+    hasFamiliar(FamiliarPool.BADGER);
+
+    KoLCharacter.setPath(AscensionPath.Path.GLOVER);
+
+    var fam = KoLCharacter.findFamiliar("mosquito");
+    assertNull(fam);
+  }
+
+  @Test
+  public void familiarsWithGsDoExistInGLover() {
+    hasFamiliar(FamiliarPool.MOSQUITO);
+    hasFamiliar(FamiliarPool.BADGER);
+
+    KoLCharacter.setPath(AscensionPath.Path.GLOVER);
+
+    var fam = KoLCharacter.findFamiliar("astral badger");
+    assertEquals(FamiliarPool.BADGER, fam.getId());
+  }
+
+  @Test
+  public void restrictedFamiliarsDoNotExistInStandard() {
+    hasFamiliar(FamiliarPool.MOSQUITO);
+    hasFamiliar(FamiliarPool.BADGER);
+    KoLCharacter.setRestricted(true);
+
+    var request = new StandardRequest();
+    request.responseText = "<b>Familiars</b><p><span class=\"i\">Astral Badger</span><p>";
+    request.processResults();
+
+    var fam = KoLCharacter.findFamiliar("astral badger");
+    assertNull(fam);
+  }
+
+  @Test
+  public void unrestrictedFamiliarsDoExistInStandard() {
+    hasFamiliar(FamiliarPool.MOSQUITO);
+    hasFamiliar(FamiliarPool.BADGER);
+    KoLCharacter.setRestricted(true);
+
+    var request = new StandardRequest();
+    request.responseText = "<b>Familiars</b><p><span class=\"i\">Astral Badger</span><p>";
+    request.processResults();
+
+    var fam = KoLCharacter.findFamiliar("mosquito");
+    assertEquals(FamiliarPool.MOSQUITO, fam.getId());
   }
 }

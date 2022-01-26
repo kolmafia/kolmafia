@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -51,7 +50,7 @@ public final class CrystalBallManager {
     @Override
     public int compareTo(final Prediction o) {
       if (this.turnCount != o.turnCount) {
-        return Integer.valueOf(this.turnCount).compareTo(o.turnCount);
+        return Integer.compare(this.turnCount, o.turnCount);
       }
 
       return this.location.compareTo(o.location);
@@ -95,7 +94,7 @@ public final class CrystalBallManager {
     List<String> predictions =
         CrystalBallManager.predictions.values().stream()
             .sorted()
-            .map(p -> p.toString())
+            .map(Prediction::toString)
             .collect(Collectors.toList());
 
     Preferences.setString("crystalBallPredictions", String.join("|", predictions));
@@ -140,15 +139,12 @@ public final class CrystalBallManager {
 
     String lastAdventureName = KoLAdventure.lastLocationName;
 
-    final Iterator<Prediction> it = CrystalBallManager.predictions.values().iterator();
-    while (it.hasNext()) {
-      Prediction prediction = it.next();
-
-      if (!prediction.location.equals(lastAdventureName)
-          && prediction.turnCount + 2 <= KoLCharacter.getCurrentRun()) {
-        it.remove();
-      }
-    }
+    CrystalBallManager.predictions
+        .values()
+        .removeIf(
+            prediction ->
+                !prediction.location.equals(lastAdventureName)
+                    && prediction.turnCount + 2 <= KoLCharacter.getCurrentRun());
 
     updatePreference();
   }

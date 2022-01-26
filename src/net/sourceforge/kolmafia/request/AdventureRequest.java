@@ -1071,7 +1071,15 @@ public class AdventureRequest extends GenericRequest {
       return;
     }
 
+    if (redirectLocation.startsWith("council.php") || redirectLocation.startsWith("ascend.php")) {
+      // Community Service can redirect to both council.php and ascend.php
+      AdventureRequest.ZONE_UNLOCK.run();
+      return;
+    }
+
     RequestSynchFrame.showRequest(AdventureRequest.ZONE_UNLOCK);
+    RequestLogger.printLine("Unrecognized choice.php redirect: " + redirectLocation);
+    RequestLogger.updateSessionLog("Unrecognized choice.php redirect: " + redirectLocation);
     KoLmafia.updateDisplay(MafiaState.ABORT, "Unknown adventure type encountered.");
   }
 

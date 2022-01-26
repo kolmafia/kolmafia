@@ -94,20 +94,19 @@ public class FightRequestTest {
   }
 
   @Test
-  @Disabled
   public void commerceGhostIncrementsByOneOnFight() throws IOException {
     KoLCharacter.reset("the Tristero");
     FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
     KoLCharacter.setFamiliar(fam);
     assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
     FightRequest.currentRound = 0;
-    // parseCombatData("request/test_fight_gnome_adv.html");
+    parseCombatData("request/test_fight_gnome_adv.html");
     assertEquals(1, Preferences.getInteger("commerceGhostCombats"));
   }
 
   // If mafia has miscounted we should move our count
   @Test
-  @Disabled
+  @Disabled("Response text does not trigger the code that detects action by ghost.")
   public void commerceGhostResetsTo10() {
     KoLCharacter.reset("the Tristero");
     FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
@@ -122,7 +121,7 @@ public class FightRequestTest {
 
   // When we turn in the quest we should reset
   @Test
-  @Disabled
+  @Disabled("Response text does not trigger the code that detects action by ghost.")
   public void commerceGhostResetsTo0() {
     KoLCharacter.reset("the Tristero");
     FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
@@ -216,8 +215,8 @@ public class FightRequestTest {
 
   @Test
   public void luckyGoldRingVolcoinoDropRecorded() throws IOException {
-    assertEquals(false, Preferences.getBoolean("_luckyGoldRingVolcoino"));
+    assertFalse(Preferences.getBoolean("_luckyGoldRingVolcoino"));
     parseCombatData("request/test_fight_lucky_gold_ring_volcoino.html");
-    assertEquals(true, Preferences.getBoolean("_luckyGoldRingVolcoino"));
+    assertTrue(Preferences.getBoolean("_luckyGoldRingVolcoino"));
   }
 }

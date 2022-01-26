@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.Component;
+import java.util.Objects;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -944,11 +945,7 @@ public class ListCellRendererFactory {
 
         if (fullness != null || inebriety != null) {
           stringForm.append(" (");
-          if (fullness != null) {
-            stringForm.append(fullness);
-          } else /*if (inebriety != null)*/ {
-            stringForm.append(inebriety);
-          }
+          stringForm.append(Objects.requireNonNullElse(fullness, inebriety));
 
           this.appendRange(stringForm, ConsumablesDatabase.getAdventureRange(ar.getName()), "adv");
 
