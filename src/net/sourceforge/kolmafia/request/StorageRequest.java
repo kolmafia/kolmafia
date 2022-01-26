@@ -1,8 +1,10 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -29,6 +31,79 @@ import org.json.JSONObject;
 public class StorageRequest extends TransferItemRequest {
   private int moveType;
   private boolean bulkTransfer;
+
+  public static final Set<Integer> roninStoragePulls = new HashSet<>();
+
+  // Public interface
+  public static void resetRoninStoragePulls() {
+    roninStoragePulls.clear();
+  }
+
+  public static void loadRoninStoragePulls() {
+    if (KoLCharacter.inRonin()) {
+      Set<Integer> set = roninStoragePulls;
+      String value = Preferences.getString("_roninStoragePulls");
+      pullsStringToSet(value, set);
+    }
+  }
+
+  public static void saveRoninStoragePulls() {
+    if (KoLCharacter.inRonin()) {
+      Set<Integer> set = roninStoragePulls;
+      String value = pullsSetToString(set);
+      Preferences.setString("_roninStoragePulls", value);
+    }
+  }
+
+  public static void addPulledItem(AdventureResult item) {
+    addPulledItem(item.getItemId());
+  }
+
+  public static void addPulledItem(int itemId) {
+    if (KoLCharacter.inRonin()) {
+      Set<Integer> set = roninStoragePulls;
+      addPulledItem(set, itemId);
+      saveRoninStoragePulls();
+    }
+  }
+
+  public static boolean itemPulledInRonin(AdventureResult item) {
+    return itemPulledInRonin(item.getItemId());
+  }
+
+  public static boolean itemPulledInRonin(int itemId) {
+    return KoLCharacter.inRonin() && itemPulledInRonin(roninStoragePulls, itemId);
+  }
+
+  // Testable underbelly
+
+  public static void pullsStringToSet(String value, Set<Integer> set) {
+    set.clear();
+    for (String val : value.split("\\s*,\\s*")) {
+      if (StringUtilities.isNumeric(val)) {
+        set.add(StringUtilities.parseInt(val));
+      }
+    }
+  }
+
+  public static String pullsSetToString(Set<Integer> set) {
+    StringBuilder result = new StringBuilder();
+    for (Integer itemId : set) {
+      if (!result.isEmpty()) {
+        result.append(",");
+      }
+      result.append(itemId);
+    }
+    return result.toString();
+  }
+
+  public static void addPulledItem(Set<Integer> set, int itemId) {
+    set.add(itemId);
+  }
+
+  public static boolean itemPulledInRonin(Set<Integer> set, int itemId) {
+    return set.contains(itemId);
+  }
 
   public static final int REFRESH = 0;
   public static final int EMPTY_STORAGE = 1;
@@ -235,6 +310,18 @@ public class StorageRequest extends TransferItemRequest {
             }
           }
           break;
+      }
+    }
+
+    if (KoLCharacter.inRonin()) {
+      // Filter out items that you've already pulled today
+      for (int index = 0; index < this.attachments.length; ++index) {
+        AdventureResult item = this.attachments[index];
+        if (item != null && item.isItem() && itemPulledInRonin(item)) {
+          KoLmafia.updateDisplay(
+              "You've already pulled one '" + item.getName() + "' today. Skipping...");
+          this.attachments[index] = null;
+        }
       }
     }
 
@@ -483,6 +570,17 @@ public class StorageRequest extends TransferItemRequest {
       int count = StringUtilities.parseInt(matcher.group(2));
 
       AdventureResult item = ItemPool.get(name, count);
+
+      if (KoLCharacter.inRonin()) {
+        // In Ronin, if you attempt to pull an item you've already pulled
+        // today, you get
+        //
+        // You already pulled one of those today.
+        //
+        // with no indication about which item failed.
+
+        addPulledItem(item);
+      }
 
       List<AdventureResult> source;
 
