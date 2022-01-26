@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.Player.addItem;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.spy;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -21,7 +20,7 @@ class EatItemRequestTest {
   }
 
   @Nested
-  class MilkOfMagnesium extends RequestTestBase {
+  class MilkOfMagnesium {
     @BeforeEach
     private void milkSetup() {
       addItem(ItemPool.MILK_OF_MAGNESIUM);
@@ -45,10 +44,9 @@ class EatItemRequestTest {
       assertFalse(Preferences.getBoolean("_milkOfMagnesiumUsed"));
       Preferences.setBoolean("milkOfMagnesiumActive", true);
 
-      EatItemRequest req = spy(new EatItemRequest(ItemPool.get(ItemPool.TOMATO)));
-      // Wiki claims that this message is indeed "You stomach ..."
-      expectSuccess(req, "Satisfied, you let loose a nasty magnesium-flavored belch.");
-      req.run();
+      var req = new EatItemRequest(ItemPool.get(ItemPool.TOMATO));
+      req.responseText = "Satisfied, you let loose a nasty magnesium-flavored belch.";
+      req.processResults();
 
       assertFalse(Preferences.getBoolean("_milkOfMagnesiumUsed"));
       assertFalse(Preferences.getBoolean("milkOfMagnesiumActive"));
