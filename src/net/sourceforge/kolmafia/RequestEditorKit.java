@@ -177,7 +177,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       RequestEditorKit.NO_WORTHLESS_ITEM_TEXT
           + " [<a href=\"hermit.php?autoworthless=on\">fish for a worthless item</a>]";
 
-  private static final ArrayList<String> maps = new ArrayList<String>();
+  private static final ArrayList<String> maps = new ArrayList<>();
 
   static {
     RequestEditorKit.maps.add("place.php?whichplace=plains");
@@ -1506,9 +1506,9 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    ArrayList<String> potionNames = new ArrayList<String>();
-    ArrayList<String> pluralNames = new ArrayList<String>();
-    ArrayList<String> potionEffects = new ArrayList<String>();
+    ArrayList<String> potionNames = new ArrayList<>();
+    ArrayList<String> pluralNames = new ArrayList<>();
+    ArrayList<String> potionEffects = new ArrayList<>();
 
     for (int i = 819; i <= 827; ++i) {
       String name = ItemDatabase.getItemName(i);

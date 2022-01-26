@@ -298,7 +298,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   public Set<AdventureResult> currencies() {
-    Set<AdventureResult> currencies = new TreeSet<AdventureResult>();
+    Set<AdventureResult> currencies = new TreeSet<>();
     for (AdventureResult item : this.buyItems) {
       currencies.add(this.itemBuyPrice(item.getItemId()));
     }

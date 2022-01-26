@@ -24,7 +24,7 @@ import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public abstract class RequestThread {
   private static final AtomicInteger nextRequestId = new AtomicInteger();
-  private static final Map<Integer, Thread> threadMap = new HashMap<Integer, Thread>();
+  private static final Map<Integer, Thread> threadMap = new HashMap<>();
   private static final ExecutorService EXECUTOR;
 
   static {

@@ -38,7 +38,7 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
   private static KoLDesktop INSTANCE = null;
   private static boolean isInitializing = false;
 
-  private final List<GenericFrame> tabListing = new ArrayList<GenericFrame>();
+  private final List<GenericFrame> tabListing = new ArrayList<>();
 
   public JPanel compactPane;
 

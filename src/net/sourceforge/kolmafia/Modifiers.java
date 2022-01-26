@@ -821,7 +821,7 @@ public class Modifiers {
 
   public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
 
-  private static final HashSet<String> numericModifiers = new HashSet<String>();
+  private static final HashSet<String> numericModifiers = new HashSet<>();
 
   static {
     for (int i = 0; i < DOUBLE_MODIFIERS; ++i) {
@@ -1343,7 +1343,7 @@ public class Modifiers {
   }
 
   public static List<AdventureResult> getPotentialChanges(final int index) {
-    ArrayList<AdventureResult> available = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> available = new ArrayList<>();
 
     for (String check : Modifiers.modifiersByName.keySet()) {
       String effectName = check.replace("Effect:", "");
@@ -2155,7 +2155,7 @@ public class Modifiers {
     private final LinkedList<Modifier> list;
 
     public ModifierList() {
-      this.list = new LinkedList<Modifier>();
+      this.list = new LinkedList<>();
     }
 
     @Override
@@ -3645,7 +3645,7 @@ public class Modifiers {
           KoLmafia.updateDisplay("Unique items for " + name + " already declared.");
           continue;
         }
-        Modifiers.uniques.put(name, new HashSet<String>(Arrays.asList(modifiers.split("/"))));
+        Modifiers.uniques.put(name, new HashSet<>(Arrays.asList(modifiers.split("/"))));
       }
     }
 
@@ -3989,7 +3989,7 @@ public class Modifiers {
 
   public static final void registerItem(final String name, final String text, final int type) {
     // Examine the item description and decide what it is.
-    ArrayList<String> unknown = new ArrayList<String>();
+    ArrayList<String> unknown = new ArrayList<>();
     String known = DebugDatabase.parseItemEnchantments(text, unknown, type);
     DebugDatabase.parseRestores(name, text);
     Modifiers.registerObject("Item", name, unknown, known);
@@ -3997,21 +3997,21 @@ public class Modifiers {
 
   public static final void registerEffect(final String name, final String text) {
     // Examine the effect description and decide what it is.
-    ArrayList<String> unknown = new ArrayList<String>();
+    ArrayList<String> unknown = new ArrayList<>();
     String known = DebugDatabase.parseEffectEnchantments(text, unknown);
     Modifiers.registerObject("Effect", name, unknown, known);
   }
 
   public static final void registerSkill(final String name, final String text) {
     // Examine the effect description and decide what it is.
-    ArrayList<String> unknown = new ArrayList<String>();
+    ArrayList<String> unknown = new ArrayList<>();
     String known = DebugDatabase.parseSkillEnchantments(text, unknown);
     Modifiers.registerObject("Skill", name, unknown, known);
   }
 
   public static final void registerOutfit(final String name, final String text) {
     // Examine the outfit description and decide what it is.
-    ArrayList<String> unknown = new ArrayList<String>();
+    ArrayList<String> unknown = new ArrayList<>();
     String known = DebugDatabase.parseOutfitEnchantments(text, unknown);
     Modifiers.registerObject("Outfit", name, unknown, known);
   }

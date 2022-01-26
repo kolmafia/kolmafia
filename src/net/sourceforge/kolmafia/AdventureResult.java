@@ -68,9 +68,9 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   public static final String SUBSTATS = "Substats";
   public static final String FULLSTATS = "Fullstats";
 
-  public static final List<String> MUS_SUBSTAT = new ArrayList<String>();
-  public static final List<String> MYS_SUBSTAT = new ArrayList<String>();
-  public static final List<String> MOX_SUBSTAT = new ArrayList<String>();
+  public static final List<String> MUS_SUBSTAT = new ArrayList<>();
+  public static final List<String> MYS_SUBSTAT = new ArrayList<>();
+  public static final List<String> MOX_SUBSTAT = new ArrayList<>();
 
   static {
     AdventureResult.MUS_SUBSTAT.add("Beefiness");

@@ -209,7 +209,7 @@ public class MonsterData extends AdventureResult {
   public static final int DEFAULT_CAP = 10000;
   public static final int DEFAULT_FLOOR = 10;
 
-  public static final ArrayList<String> lastRandomModifiers = new ArrayList<String>();
+  public static final ArrayList<String> lastRandomModifiers = new ArrayList<>();
 
   public static String lastMask = null;
 
@@ -288,8 +288,8 @@ public class MonsterData extends AdventureResult {
     }
     this.beeCount = beeCount;
 
-    this.items = new ArrayList<AdventureResult>();
-    this.pocketRates = new ArrayList<Double>();
+    this.items = new ArrayList<>();
+    this.pocketRates = new ArrayList<>();
 
     // No random modifiers
     this.randomModifiers = new String[0];

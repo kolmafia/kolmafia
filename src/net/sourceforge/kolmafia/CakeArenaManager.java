@@ -6,8 +6,7 @@ import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
 
 public class CakeArenaManager {
-  private static final LockableListModel<ArenaOpponent> opponentList =
-      new LockableListModel<ArenaOpponent>();
+  private static final LockableListModel<ArenaOpponent> opponentList = new LockableListModel<>();
 
   private CakeArenaManager() {}
 

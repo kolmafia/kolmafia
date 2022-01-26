@@ -165,7 +165,7 @@ public abstract class KoLCharacter {
     resetTriggers();
   }
 
-  public static final SortedListModel<String> battleSkillNames = new SortedListModel<String>();
+  public static final SortedListModel<String> battleSkillNames = new SortedListModel<>();
 
   // Status pane data which is rendered whenever
   // the user issues a "status" type command.
@@ -200,7 +200,7 @@ public abstract class KoLCharacter {
 
   // Familiar data
 
-  public static final SortedListModel<FamiliarData> familiars = new SortedListModel<FamiliarData>();
+  public static final SortedListModel<FamiliarData> familiars = new SortedListModel<>();
   public static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
   public static FamiliarData effectiveFamiliar = FamiliarData.NO_FAMILIAR;
   public static String currentFamiliarImage = null;
@@ -223,8 +223,7 @@ public abstract class KoLCharacter {
 
   // Pastamancer Pasta Thralls
 
-  public static final LockableListModel<PastaThrallData> pastaThralls =
-      new LockableListModel<PastaThrallData>();
+  public static final LockableListModel<PastaThrallData> pastaThralls = new LockableListModel<>();
   public static PastaThrallData currentPastaThrall = PastaThrallData.NO_THRALL;
 
   private static int stillsAvailable = 0;

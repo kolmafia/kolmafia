@@ -48,7 +48,7 @@ public abstract class StaticEntity {
   public static boolean userAborted = false;
   private static MafiaState globalContinuationState = MafiaState.CONTINUE;
   private static final ThreadLocal<MafiaState> threadLocalContinuationState =
-      new ThreadLocal<MafiaState>() {
+      new ThreadLocal<>() {
         @Override
         protected MafiaState initialValue() {
           return MafiaState.CONTINUE;

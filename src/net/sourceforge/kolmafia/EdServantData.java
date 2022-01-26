@@ -194,8 +194,7 @@ public class EdServantData implements Comparable<EdServantData> {
   private int experience;
   private int level;
 
-  public static final SortedListModel<EdServantData> edServants =
-      new SortedListModel<EdServantData>();
+  public static final SortedListModel<EdServantData> edServants = new SortedListModel<>();
   public static EdServantData currentEdServant = EdServantData.NO_SERVANT;
 
   public static void initialize() {

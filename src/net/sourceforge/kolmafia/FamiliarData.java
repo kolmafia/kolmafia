@@ -169,8 +169,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
   public static final AdventureResult RAZOR_FANG = ItemPool.get(ItemPool.RAZOR_FANG, 1);
   public static final AdventureResult SMOKE_BALL = ItemPool.get(ItemPool.SMOKE_BALL, 1);
 
-  public static final List<DropInfo> DROP_FAMILIARS = new ArrayList<DropInfo>();
-  public static final List<FightInfo> FIGHT_FAMILIARS = new ArrayList<FightInfo>();
+  public static final List<DropInfo> DROP_FAMILIARS = new ArrayList<>();
+  public static final List<FightInfo> FIGHT_FAMILIARS = new ArrayList<>();
   public static final List<Integer> CRIMBO_GHOSTS =
       Arrays.asList(
           FamiliarPool.GHOST_CAROLS, FamiliarPool.GHOST_CHEER, FamiliarPool.GHOST_COMMERCE);
