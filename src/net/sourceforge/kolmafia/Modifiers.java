@@ -1766,7 +1766,7 @@ public class Modifiers {
     }
 
     // Make sure the modifiers apply to current class
-    AscensionClass ascensionClass = AscensionClass.nameToClass(mods.strings[Modifiers.CLASS]);
+    AscensionClass ascensionClass = AscensionClass.find(mods.strings[Modifiers.CLASS]);
     if (ascensionClass != null && ascensionClass != KoLCharacter.getAscensionClass()) {
       return;
     }

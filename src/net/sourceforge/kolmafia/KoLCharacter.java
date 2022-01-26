@@ -1174,11 +1174,11 @@ public abstract class KoLCharacter {
   }
 
   public static final void setAscensionClass(final int classId) {
-    setAscensionClass(AscensionClass.idToClass(classId));
+    setAscensionClass(AscensionClass.find(classId));
   }
 
   public static final void setAscensionClass(final String className) {
-    setAscensionClass(AscensionClass.nameToClass(className));
+    setAscensionClass(AscensionClass.find(className));
   }
 
   static final int getReagentPotionDuration() {
@@ -5564,7 +5564,7 @@ public abstract class KoLCharacter {
         int itemId = item.getItemId();
         Modifiers imod = Modifiers.getItemModifiers(itemId);
         if (imod != null) {
-          AscensionClass classType = AscensionClass.nameToClass(imod.getString(Modifiers.CLASS));
+          AscensionClass classType = AscensionClass.find(imod.getString(Modifiers.CLASS));
           if (classType == null
               || classType == ascensionClass
                   && (slot != EquipmentManager.FAMILIAR

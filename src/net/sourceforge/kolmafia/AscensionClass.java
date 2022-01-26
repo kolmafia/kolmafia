@@ -47,26 +47,25 @@ public enum AscensionClass {
     return Arrays.stream(values()).filter(a -> a.getId() > -1).collect(Collectors.toSet());
   }
 
-  public static AscensionClass nameToClass(String name) {
-    if (name.equals("")) {
-      return null;
-    }
-
-    for (AscensionClass ascensionClass : AscensionClass.values()) {
-      if (ascensionClass.getName().toLowerCase().contains(name.toLowerCase())) {
-        return ascensionClass;
-      }
-    }
-    return null;
+  public static AscensionClass findByPlural(final String plural) {
+    if (plural == null || plural.isEmpty()) return null;
+    return Arrays.stream(values())
+        .filter(a -> a.getPlural().toLowerCase().contains(plural.toLowerCase()))
+        .findFirst()
+        .orElse(null);
   }
 
-  public static AscensionClass idToClass(int id) {
-    for (AscensionClass ascensionClass : AscensionClass.values()) {
-      if (id == ascensionClass.getId()) {
-        return ascensionClass;
-      }
-    }
-    return null;
+  public static AscensionClass find(String name) {
+    if (name == null || name.equals("")) return null;
+
+    return Arrays.stream(values())
+        .filter(a -> a.getName().toLowerCase().contains(name.toLowerCase()))
+        .findFirst()
+        .orElse(null);
+  }
+
+  public static AscensionClass find(int id) {
+    return Arrays.stream(values()).filter(a -> a.getId() == id).findAny().orElse(null);
   }
 
   AscensionClass(String name, int id, String image, int primeStatIndex, String stun) {
