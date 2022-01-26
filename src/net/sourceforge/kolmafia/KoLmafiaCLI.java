@@ -314,7 +314,7 @@ public class KoLmafiaCLI {
 
       AbstractCommand handler = AbstractCommand.lookup.get(lcommand);
       int flags = handler == null ? 0 : handler.flags;
-      if (flags == KoLmafiaCLI.FULL_LINE_CMD && !line.equals("")) {
+      if (flags == KoLmafiaCLI.FULL_LINE_CMD && !line.isEmpty()) {
         // parameters are un-trimmed original
         // parameters + rest of line
         trimmed = parameters + ";" + line;
@@ -362,7 +362,7 @@ public class KoLmafiaCLI {
           command = line.substring(0, splitIndex).toLowerCase();
           line = line.substring(splitIndex + 1).trim();
         }
-        if (command.equals("")) {
+        if (command.isEmpty()) {
           continue;
         }
         seenCmd = true;

@@ -360,7 +360,7 @@ public abstract class StaticEntity {
     if (message.startsWith("Backtrace")) {
       StaticEntity.backtraceTrigger = null;
       printMsg = "Backtrace triggered, debug log printed.";
-    } else if (!message.equals("")) {
+    } else if (!message.isEmpty()) {
       printMsg = message;
     } else {
       printMsg = "Unexpected error, debug log printed.";

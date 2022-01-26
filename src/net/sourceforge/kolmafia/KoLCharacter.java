@@ -787,7 +787,7 @@ public abstract class KoLCharacter {
    */
   public static final void setAvatar(final String avatar) {
     KoLCharacter.avatar = avatar;
-    if (!avatar.equals("")) {
+    if (!avatar.isEmpty()) {
       String prefix = KoLmafia.imageServerPath();
       FileUtilities.downloadImage(prefix + KoLCharacter.avatar);
     }
@@ -817,7 +817,7 @@ public abstract class KoLCharacter {
     // is meaningless), or are not logged in (ditto), nothing to do
     if (KoLCharacter.gender != 0
         || CharPaneRequest.inValhalla()
-        || GenericRequest.passwordHash.equals("")) {
+        || GenericRequest.passwordHash.isEmpty()) {
       return KoLCharacter.gender;
     }
 
@@ -5651,7 +5651,7 @@ public abstract class KoLCharacter {
 
     for (int i = 819; i <= 827; ++i) {
       String testProperty = Preferences.getString("lastBangPotion" + i);
-      if (!testProperty.equals("")) {
+      if (!testProperty.isEmpty()) {
         String name = ItemDatabase.getItemName(i);
         String testName = name + " of " + testProperty;
         String testPlural = name + "s of " + testProperty;
@@ -5664,7 +5664,7 @@ public abstract class KoLCharacter {
 
     for (int i = ItemPool.VIAL_OF_RED_SLIME; i <= ItemPool.VIAL_OF_PURPLE_SLIME; ++i) {
       String testProperty = Preferences.getString("lastSlimeVial" + i);
-      if (!testProperty.equals("")) {
+      if (!testProperty.isEmpty()) {
         String name = ItemDatabase.getItemName(i);
         String testName = name + ": " + testProperty;
         String testPlural = ItemDatabase.getPluralName(i) + testProperty;

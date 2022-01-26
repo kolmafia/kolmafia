@@ -201,7 +201,7 @@ public class Speculation {
       String cmd = piece[0];
       String params = piece.length > 1 ? piece[1] : "";
 
-      if (cmd.equals("")) {
+      if (cmd.isEmpty()) {
         continue;
       }
 

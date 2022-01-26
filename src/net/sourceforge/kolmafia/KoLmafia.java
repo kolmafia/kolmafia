@@ -359,7 +359,7 @@ public abstract class KoLmafia {
 
     String lookAndFeel = Preferences.getString("swingLookAndFeel");
 
-    if (lookAndFeel.equals("")) {
+    if (lookAndFeel.isEmpty()) {
       lookAndFeel = defaultLookAndFeel;
     }
 
@@ -428,7 +428,7 @@ public abstract class KoLmafia {
 
     String message = null;
 
-    if (lastVersion == null || lastVersion.equals("")) {
+    if (lastVersion == null || lastVersion.isEmpty()) {
       message = "Clearing data overrides: initializing from " + currentVersion;
     } else if (!lastVersion.equals(currentVersion)) {
       message = "Clearing data overrides: upgrade from " + lastVersion + " to " + currentVersion;
@@ -1416,7 +1416,7 @@ public abstract class KoLmafia {
   }
 
   public static boolean executeScript(final String scriptPath) {
-    if (!scriptPath.equals("")) {
+    if (!scriptPath.isEmpty()) {
       KoLmafiaCLI.DEFAULT_SHELL.executeLine(scriptPath);
       return true;
     }
