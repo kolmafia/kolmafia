@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -384,6 +385,7 @@ public abstract class KoLCharacter {
     InventoryManager.resetInventory();
     SkillDatabase.resetCasts();
     SpecialOutfit.forgetCheckpoints();
+    StorageRequest.resetRoninStoragePulls();
     VolcanoMazeManager.reset();
     VYKEACompanionData.initialize(true);
     WumpusManager.reset();
