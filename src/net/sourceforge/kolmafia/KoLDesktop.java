@@ -252,7 +252,7 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
     }
 
     Arrays.stream(Frame.getFrames())
-        .filter(f -> f instanceof GenericFrame)
+        .filter(GenericFrame.class::isInstance)
         .forEach(f -> f.setTitle(((GenericFrame) f).getLastTitle()));
   }
 
