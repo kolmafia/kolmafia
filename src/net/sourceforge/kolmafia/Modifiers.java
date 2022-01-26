@@ -17,6 +17,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.TreeSet;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
@@ -226,7 +227,7 @@ public class Modifiers {
     },
     {
       "Monster Level",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("([+-]\\d+) to Monster Level"), Pattern.compile("Monster Level ([+-]\\d+)"),
       },
       Pattern.compile("Monster Level: " + EXPR)
@@ -234,7 +235,7 @@ public class Modifiers {
     {"Combat Rate", null, Pattern.compile("Combat Rate: " + EXPR)},
     {
       "Initiative",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Combat Initiative ([+-]\\d+)%"),
         Pattern.compile("([+-]\\d+)% Combat Initiative"),
       },
@@ -277,42 +278,42 @@ public class Modifiers {
     },
     {
       "Moxie",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Moxie ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Moxie$"),
       },
       Pattern.compile("Moxie: " + EXPR)
     },
     {
       "Moxie Percent",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Moxie ([+-]\\d+)%"), Pattern.compile("([+-]\\d+)% Moxie"),
       },
       Pattern.compile("Moxie Percent: " + EXPR)
     },
     {
       "Muscle",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Muscle ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Muscle$"),
       },
       Pattern.compile("Muscle: " + EXPR)
     },
     {
       "Muscle Percent",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Muscle ([+-]\\d+)%"), Pattern.compile("([+-]\\d+)% Muscle"),
       },
       Pattern.compile("Muscle Percent: " + EXPR)
     },
     {
       "Mysticality",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Mysticality ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Mysticality$"),
       },
       Pattern.compile("Mysticality: " + EXPR)
     },
     {
       "Mysticality Percent",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Mysticality ([+-]\\d+)%"), Pattern.compile("([+-]\\d+)% Mysticality"),
       },
       Pattern.compile("Mysticality Percent: " + EXPR)
@@ -339,28 +340,28 @@ public class Modifiers {
     },
     {
       "Weapon Damage",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Weapon Damage ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Weapon Damage"),
       },
       Pattern.compile("Weapon Damage: " + EXPR)
     },
     {
       "Ranged Damage",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Ranged Damage ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Ranged Damage"),
       },
       Pattern.compile("Ranged Damage: " + EXPR)
     },
     {
       "Spell Damage",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Spell Damage ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Spell Damage"),
       },
       Pattern.compile("(?:^|, )Spell Damage: " + EXPR)
     },
     {
       "Spell Damage Percent",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Spell Damage ([+-][\\d.]+)%"),
         Pattern.compile("([+-][\\d.]+)% Spell Damage"),
       },
@@ -556,7 +557,7 @@ public class Modifiers {
     },
     {
       "DB Combat Damage",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("([+-]\\d+) damage to Disco Bandit Combat Skills"),
         Pattern.compile("([+-]\\d+) Disco Bandit Skill Damage"),
       },
@@ -617,7 +618,7 @@ public class Modifiers {
     },
     {
       "Minstrel Level",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("([+-]\\d+) to Minstrel Level"),
         Pattern.compile("Minstrel Level ([+-]\\d+)"),
       },
@@ -660,7 +661,7 @@ public class Modifiers {
     },
     {
       "Surgeonosity",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Makes you look like a doctor"),
         Pattern.compile("Makes you look like a gross doctor"),
       },
@@ -668,7 +669,7 @@ public class Modifiers {
     },
     {
       "Familiar Damage",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("([+-]\\d+) to Familiar Damage"),
         Pattern.compile("Familiar Damage ([+-]\\d+)"),
       },
@@ -783,7 +784,7 @@ public class Modifiers {
     {"Plumber Power", null, Pattern.compile("Plumber Power: " + EXPR)},
     {
       "Drippy Damage",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("([+-]\\d+) Damage vs. creatures of The Drip"),
         Pattern.compile("([+-]\\d+) Damage against Drip creatures"),
       },
@@ -810,7 +811,7 @@ public class Modifiers {
     },
     {
       "Sauce Spell Damage",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Sauce Spell Damage ([+-]\\d+)$"),
         Pattern.compile("([+-]\\d+) Sauce Spell Damage"),
       },
@@ -1001,7 +1002,7 @@ public class Modifiers {
   private static final Object[][] stringModifiers = {
     {
       "Class",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Only (.*?) may use this item"),
         Pattern.compile("Bonus for (.*?) only"),
         Pattern.compile("Bonus&nbsp;for&nbsp;(.*?)&nbsp;only"),
@@ -1027,7 +1028,7 @@ public class Modifiers {
     {"Equalize Moxie", null, Pattern.compile("Equalize Moxie: \"(.*?)\"")},
     {
       "Avatar",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Makes you look like (?:a |an |the )?(.++)(?<!doctor|gross doctor)"),
         Pattern.compile("Te hace ver como un (.++)"),
       },
@@ -1236,32 +1237,49 @@ public class Modifiers {
     return Modifiers.modifierName(Modifiers.derivedModifiers, index);
   }
 
-  private static String modifierName(final Object[][] table, final int index) {
+  private static <T> T modifierRow(
+      final Object[][] table, final int index, Function<Object[], T> getter) {
     if (index < 0 || index >= table.length) {
       return null;
     }
-    return (String) table[index][0];
+
+    return getter.apply(table[index]);
   }
 
-  private static Object modifierDescPattern(final Object[][] table, final int index) {
-    if (index < 0 || index >= table.length) {
-      return null;
-    }
-    return table[index][1];
+  private static String modifierName(final Object[][] table, final int index) {
+    return modifierRow(table, index, Modifiers::modifierName);
+  }
+
+  private static String modifierName(final Object[] tableRow) {
+    return (String) tableRow[0];
+  }
+
+  private static Pattern[] modifierDescPattern(final Object[][] table, final int index) {
+    return modifierRow(table, index, Modifiers::modifierDescPattern);
+  }
+
+  private static Pattern[] modifierDescPattern(final Object[] tableRow) {
+    Object patternOrPatterns = tableRow[1];
+
+    return (patternOrPatterns instanceof Pattern)
+        ? new Pattern[] {(Pattern) patternOrPatterns}
+        : (Pattern[]) patternOrPatterns;
   }
 
   private static Pattern modifierTagPattern(final Object[][] table, final int index) {
-    if (index < 0 || index >= table.length) {
-      return null;
-    }
-    return (Pattern) table[index][2];
+    return modifierRow(table, index, Modifiers::modifierTagPattern);
+  }
+
+  private static Pattern modifierTagPattern(final Object[] tableRow) {
+    return (Pattern) tableRow[2];
   }
 
   private static String modifierTag(final Object[][] table, final int index) {
-    if (index < 0 || index >= table.length) {
-      return null;
-    }
-    return table[index].length > 3 ? (String) table[index][3] : (String) table[index][0];
+    return modifierRow(table, index, Modifiers::modifierTag);
+  }
+
+  private static String modifierTag(final Object[] tableRow) {
+    return tableRow.length > 3 ? (String) tableRow[3] : (String) tableRow[0];
   }
 
   private static final String COLD =
@@ -3267,30 +3285,22 @@ public class Modifiers {
   private static String parseModifier(
       final Object[][] table, final String enchantment, final boolean quoted) {
     String quote = quoted ? "\"" : "";
-    for (int i = 0; i < table.length; ++i) {
-      Object object = Modifiers.modifierDescPattern(table, i);
-      if (object == null) {
+
+    for (Object[] tableRow : table) {
+      Pattern[] patterns = Modifiers.modifierDescPattern(tableRow);
+
+      if (patterns == null) {
         continue;
       }
 
-      Object[] patterns;
-
-      if (object instanceof Pattern) {
-        patterns = new Pattern[1];
-        patterns[0] = object;
-      } else {
-        patterns = (Object[]) object;
-      }
-
-      for (int j = 0; j < patterns.length; ++j) {
-        Pattern pattern = (Pattern) patterns[j];
+      for (Pattern pattern : patterns) {
         Matcher matcher = pattern.matcher(enchantment);
         if (!matcher.find()) {
           continue;
         }
 
         if (matcher.groupCount() == 0) {
-          String tag = Modifiers.modifierTag(table, i);
+          String tag = Modifiers.modifierTag(tableRow);
           // Kludge for Sureonosity, which always gives +1
           if (tag.equals("Surgeonosity")) {
             return (tag + ": +1");
@@ -3298,7 +3308,7 @@ public class Modifiers {
           return tag;
         }
 
-        String tag = Modifiers.modifierTag(table, i);
+        String tag = Modifiers.modifierTag(tableRow);
 
         // Kludge for Slime (Really) Hates it
         if (tag.equals("Slime Hates It")) {
