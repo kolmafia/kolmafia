@@ -476,6 +476,9 @@ public class ItemManageFrame extends GenericFrame {
     public void addMovers() {
       if (!this.isEquipmentOnly) {
         super.addMovers();
+        if (KoLCharacter.inRonin()) {
+          this.movers[3].setSelected(true);
+        }
       }
     }
 
