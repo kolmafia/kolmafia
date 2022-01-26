@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.startsWith;
 
 import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +23,6 @@ public class HelpCommandTest extends AbstractCommandTestBase {
     String output = execute("refresh");
 
     assertContinueState();
-    assertThat(output, containsString("refresh all |"));
+    assertThat(output, startsWith("refresh all |"));
   }
 }
