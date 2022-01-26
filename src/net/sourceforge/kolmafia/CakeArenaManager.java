@@ -46,7 +46,7 @@ public class CakeArenaManager {
           RequestThread.postRequest(request);
 
           Matcher victoryMatcher = CakeArenaRequest.WIN_PATTERN.matcher(request.responseText);
-          StringBuffer text = new StringBuffer();
+          StringBuilder text = new StringBuilder();
 
           if (victoryMatcher.find()) {
             text.append("<font color=green><b>Round " + j + " of " + repeatCount + "</b></font>: ");

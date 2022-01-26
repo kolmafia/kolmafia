@@ -273,7 +273,7 @@ public abstract class StaticEntity {
   public static final boolean executeCountdown(final String message, final int seconds) {
     PauseObject pauser = new PauseObject();
 
-    StringBuffer actualMessage = new StringBuffer(message);
+    StringBuilder actualMessage = new StringBuilder(message);
 
     for (int i = seconds; i > 0 && KoLmafia.permitsContinue(); --i) {
       boolean shouldDisplay = false;
@@ -464,7 +464,7 @@ public abstract class StaticEntity {
 
       String line;
 
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
 
       while ((pid == null) && (line = reader.readLine()) != null) {
         sb.append(line);
@@ -518,7 +518,7 @@ public abstract class StaticEntity {
 
     Runtime runtime = Runtime.getRuntime();
 
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
 
     try {
       String[] command = new String[2];
@@ -578,7 +578,7 @@ public abstract class StaticEntity {
 
     Runtime runtime = Runtime.getRuntime();
 
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
 
     try {
       String[] command = new String[3];
