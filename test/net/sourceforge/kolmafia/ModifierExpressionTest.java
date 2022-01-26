@@ -10,6 +10,7 @@ import static internal.helpers.Player.isClass;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
@@ -398,5 +399,13 @@ public class ModifierExpressionTest {
     KoLCharacter.setFuryNoCheck(69);
     var exp = new ModifierExpression("Y", "Fury");
     assertThat(exp.eval(), is(69.0));
+  }
+
+  @Test
+  public void canHandleInvalidBytecode() {
+    var exp = new ModifierExpression("Z", "Invalid");
+    var result = exp.eval();
+    assertThat(result, is(0.0));
+    assertTrue(exp.hasErrors());
   }
 }
