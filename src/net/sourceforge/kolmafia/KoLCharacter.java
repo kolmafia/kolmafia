@@ -3617,9 +3617,7 @@ public abstract class KoLCharacter {
   public static final void setPermedSkills(final List<UseSkillRequest> newSkillSet) {
     KoLConstants.permedSkills.clear();
 
-    for (UseSkillRequest skill : newSkillSet) {
-      KoLConstants.permedSkills.add(skill);
-    }
+    KoLConstants.permedSkills.addAll(newSkillSet);
   }
 
   /** Adds a single skill to the list of known skills possessed by this character. */

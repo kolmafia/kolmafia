@@ -3425,8 +3425,9 @@ public class Modifiers {
   }
 
   public static final void checkModifiers() {
-    for (String lookup : Modifiers.modifiersByName.keySet()) {
-      Object modifiers = Modifiers.modifiersByName.get(lookup);
+    for (Entry<String, Object> entry : Modifiers.modifiersByName.entrySet()) {
+      String lookup = entry.getKey();
+      Object modifiers = entry.getValue();
 
       if (modifiers == null) {
         RequestLogger.printLine("Key \"" + lookup + "\" has no modifiers");
@@ -3828,17 +3829,14 @@ public class Modifiers {
     // Make a map of mutexes
     Set<String> mutexes = new TreeSet<>();
 
-    for (String name : Modifiers.mutexes) {
-      mutexes.add(name);
-    }
+    mutexes.addAll(Modifiers.mutexes);
 
     // Make a map of maximization categories
     Set<String> maximization = new TreeSet<>();
     int maximizationCount = Maximizer.maximizationCategories.length;
 
-    for (int i = 0; i < maximizationCount; ++i) {
-      maximization.add(Maximizer.maximizationCategories[i]);
-    }
+    maximization.addAll(
+        Arrays.asList(Maximizer.maximizationCategories).subList(0, maximizationCount));
 
     // Open the output file
     PrintStream writer = LogStream.openStream(output, true);
