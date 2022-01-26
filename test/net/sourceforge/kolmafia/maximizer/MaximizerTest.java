@@ -334,7 +334,7 @@ public class MaximizerTest {
 
   @Test
   public void aboveWaterZonesDoNotCheckUnderwaterNegativeCombat() {
-    Modifiers.setLocation(AdventureDatabase.getAdventure("Noob Cave"));
+    inLocation("Noob Cave");
     canUse("Mer-kin sneakmask");
     assertTrue(maximize("-combat -tie"));
     assertEquals(0, modFor("Combat Rate"), 0.01);
@@ -344,7 +344,7 @@ public class MaximizerTest {
 
   @Test
   public void underwaterZonesCheckUnderwaterNegativeCombat() {
-    Modifiers.setLocation(AdventureDatabase.getAdventure("The Ice Hole"));
+    inLocation("The Ice Hole");
     canUse("Mer-kin sneakmask");
     assertEquals(AdventureDatabase.getEnvironment(Modifiers.currentLocation), "underwater");
     assertTrue(maximize("-combat -tie"));

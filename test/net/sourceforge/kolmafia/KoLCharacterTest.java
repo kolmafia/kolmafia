@@ -9,7 +9,6 @@ import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -115,7 +114,7 @@ public class KoLCharacterTest {
 
   @Test
   public void aboveWaterZonesDoNotCheckUnderwaterNegativeCombat() {
-    Modifiers.setLocation(AdventureDatabase.getAdventure("Noob Cave"));
+    inLocation("Noob Cave");
     addEffect("Colorfully Concealed");
     KoLCharacter.recalculateAdjustments();
     assertEquals(0, KoLCharacter.getCombatRateAdjustment());
@@ -123,7 +122,7 @@ public class KoLCharacterTest {
 
   @Test
   public void underwaterZonesCheckUnderwaterNegativeCombat() {
-    Modifiers.setLocation(AdventureDatabase.getAdventure("The Ice Hole"));
+    inLocation("The Ice Hole");
     addEffect("Colorfully Concealed");
     KoLCharacter.recalculateAdjustments();
     assertEquals(-5, KoLCharacter.getCombatRateAdjustment());
