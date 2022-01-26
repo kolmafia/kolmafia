@@ -1305,9 +1305,7 @@ public class AreaCombatData {
         break;
       case "An Overgrown Shrine (Northwest)":
         // Assume lianas are dealt with once Apartment opened. Player may leave without doing so,
-        // but
-        // that's
-        // abit niche for me to care!
+        // but that's a bit niche for me to care!
         if (monster.equals("dense liana")
             && Preferences.getInteger("hiddenApartmentProgress") > 0) {
           return 0;
@@ -1315,25 +1313,21 @@ public class AreaCombatData {
         break;
       case "An Overgrown Shrine (Northeast)":
         // Assume lianas are dealt with once Office opened. Player may leave without doing so, but
-        // that's
-        // abit niche for me to care!
+        // that's a bit niche for me to care!
         if (monster.equals("dense liana") && Preferences.getInteger("hiddenOfficeProgress") > 0) {
           return 0;
         }
         break;
       case "An Overgrown Shrine (Southwest)":
         // Assume lianas are dealt with once Hospital opened. Player may leave without doing so, but
-        // that's
-        // abit niche for me to care!
+        // that's a bit niche for me to care!
         if (monster.equals("dense liana") && Preferences.getInteger("hiddenHospitalProgress") > 0) {
           return 0;
         }
         break;
       case "An Overgrown Shrine (Southeast)":
         // Assume lianas are dealt with once Bowling Alley opened. Player may leave without doing
-        // so,
-        // but that's
-        // abit niche for me to care!
+        // so, but that's a bit niche for me to care!
         if (monster.equals("dense liana")
             && Preferences.getInteger("hiddenBowlingAlleyProgress") > 0) {
           return 0;
@@ -1341,8 +1335,7 @@ public class AreaCombatData {
         break;
       case "A Massive Ziggurat":
         // Assume lianas dealt with after 3 turns, won't always be right, but this is a bit niche
-        // for
-        // special tracking
+        // for special tracking
         int zoneTurns = AdventureSpentDatabase.getTurns(zone);
         if (monster.equals("dense liana")
             && (zoneTurns >= 3 || QuestDatabase.isQuestFinished(Quest.WORSHIP))) {
