@@ -8,7 +8,7 @@ public class FamiliarTool {
   // Array of current opponents
   private final Opponent[] opponents;
 
-  // Index of best opponent to fight
+  // Best opponent to fight
   private Opponent bestOpponent;
 
   // Index of best arena match against that opponent
