@@ -17,8 +17,10 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.TreeSet;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -226,7 +228,7 @@ public class Modifiers {
     },
     {
       "Monster Level",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("([+-]\\d+) to Monster Level"), Pattern.compile("Monster Level ([+-]\\d+)"),
       },
       Pattern.compile("Monster Level: " + EXPR)
@@ -234,7 +236,7 @@ public class Modifiers {
     {"Combat Rate", null, Pattern.compile("Combat Rate: " + EXPR)},
     {
       "Initiative",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Combat Initiative ([+-]\\d+)%"),
         Pattern.compile("([+-]\\d+)% Combat Initiative"),
       },
@@ -277,42 +279,42 @@ public class Modifiers {
     },
     {
       "Moxie",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Moxie ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Moxie$"),
       },
       Pattern.compile("Moxie: " + EXPR)
     },
     {
       "Moxie Percent",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Moxie ([+-]\\d+)%"), Pattern.compile("([+-]\\d+)% Moxie"),
       },
       Pattern.compile("Moxie Percent: " + EXPR)
     },
     {
       "Muscle",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Muscle ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Muscle$"),
       },
       Pattern.compile("Muscle: " + EXPR)
     },
     {
       "Muscle Percent",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Muscle ([+-]\\d+)%"), Pattern.compile("([+-]\\d+)% Muscle"),
       },
       Pattern.compile("Muscle Percent: " + EXPR)
     },
     {
       "Mysticality",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Mysticality ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Mysticality$"),
       },
       Pattern.compile("Mysticality: " + EXPR)
     },
     {
       "Mysticality Percent",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Mysticality ([+-]\\d+)%"), Pattern.compile("([+-]\\d+)% Mysticality"),
       },
       Pattern.compile("Mysticality Percent: " + EXPR)
@@ -339,28 +341,28 @@ public class Modifiers {
     },
     {
       "Weapon Damage",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Weapon Damage ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Weapon Damage"),
       },
       Pattern.compile("Weapon Damage: " + EXPR)
     },
     {
       "Ranged Damage",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Ranged Damage ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Ranged Damage"),
       },
       Pattern.compile("Ranged Damage: " + EXPR)
     },
     {
       "Spell Damage",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Spell Damage ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Spell Damage"),
       },
       Pattern.compile("(?:^|, )Spell Damage: " + EXPR)
     },
     {
       "Spell Damage Percent",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Spell Damage ([+-][\\d.]+)%"),
         Pattern.compile("([+-][\\d.]+)% Spell Damage"),
       },
@@ -556,7 +558,7 @@ public class Modifiers {
     },
     {
       "DB Combat Damage",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("([+-]\\d+) damage to Disco Bandit Combat Skills"),
         Pattern.compile("([+-]\\d+) Disco Bandit Skill Damage"),
       },
@@ -617,7 +619,7 @@ public class Modifiers {
     },
     {
       "Minstrel Level",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("([+-]\\d+) to Minstrel Level"),
         Pattern.compile("Minstrel Level ([+-]\\d+)"),
       },
@@ -660,7 +662,7 @@ public class Modifiers {
     },
     {
       "Surgeonosity",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Makes you look like a doctor"),
         Pattern.compile("Makes you look like a gross doctor"),
       },
@@ -668,7 +670,7 @@ public class Modifiers {
     },
     {
       "Familiar Damage",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("([+-]\\d+) to Familiar Damage"),
         Pattern.compile("Familiar Damage ([+-]\\d+)"),
       },
@@ -783,7 +785,7 @@ public class Modifiers {
     {"Plumber Power", null, Pattern.compile("Plumber Power: " + EXPR)},
     {
       "Drippy Damage",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("([+-]\\d+) Damage vs. creatures of The Drip"),
         Pattern.compile("([+-]\\d+) Damage against Drip creatures"),
       },
@@ -810,7 +812,7 @@ public class Modifiers {
     },
     {
       "Sauce Spell Damage",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Sauce Spell Damage ([+-]\\d+)$"),
         Pattern.compile("([+-]\\d+) Sauce Spell Damage"),
       },
@@ -820,7 +822,7 @@ public class Modifiers {
 
   public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
 
-  private static final HashSet<String> numericModifiers = new HashSet<String>();
+  private static final HashSet<String> numericModifiers = new HashSet<>();
 
   static {
     for (int i = 0; i < DOUBLE_MODIFIERS; ++i) {
@@ -1001,7 +1003,7 @@ public class Modifiers {
   private static final Object[][] stringModifiers = {
     {
       "Class",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Only (.*?) may use this item"),
         Pattern.compile("Bonus for (.*?) only"),
         Pattern.compile("Bonus&nbsp;for&nbsp;(.*?)&nbsp;only"),
@@ -1027,7 +1029,7 @@ public class Modifiers {
     {"Equalize Moxie", null, Pattern.compile("Equalize Moxie: \"(.*?)\"")},
     {
       "Avatar",
-      new Object[] {
+      new Pattern[] {
         Pattern.compile("Makes you look like (?:a |an |the )?(.++)(?<!doctor|gross doctor)"),
         Pattern.compile("Te hace ver como un (.++)"),
       },
@@ -1236,32 +1238,49 @@ public class Modifiers {
     return Modifiers.modifierName(Modifiers.derivedModifiers, index);
   }
 
-  private static String modifierName(final Object[][] table, final int index) {
+  private static <T> T modifierRow(
+      final Object[][] table, final int index, Function<Object[], T> getter) {
     if (index < 0 || index >= table.length) {
       return null;
     }
-    return (String) table[index][0];
+
+    return getter.apply(table[index]);
   }
 
-  private static Object modifierDescPattern(final Object[][] table, final int index) {
-    if (index < 0 || index >= table.length) {
-      return null;
-    }
-    return table[index][1];
+  private static String modifierName(final Object[][] table, final int index) {
+    return modifierRow(table, index, Modifiers::modifierName);
+  }
+
+  private static String modifierName(final Object[] tableRow) {
+    return (String) tableRow[0];
+  }
+
+  private static Pattern[] modifierDescPattern(final Object[][] table, final int index) {
+    return modifierRow(table, index, Modifiers::modifierDescPattern);
+  }
+
+  private static Pattern[] modifierDescPattern(final Object[] tableRow) {
+    Object patternOrPatterns = tableRow[1];
+
+    return (patternOrPatterns instanceof Pattern)
+        ? new Pattern[] {(Pattern) patternOrPatterns}
+        : (Pattern[]) patternOrPatterns;
   }
 
   private static Pattern modifierTagPattern(final Object[][] table, final int index) {
-    if (index < 0 || index >= table.length) {
-      return null;
-    }
-    return (Pattern) table[index][2];
+    return modifierRow(table, index, Modifiers::modifierTagPattern);
+  }
+
+  private static Pattern modifierTagPattern(final Object[] tableRow) {
+    return (Pattern) tableRow[2];
   }
 
   private static String modifierTag(final Object[][] table, final int index) {
-    if (index < 0 || index >= table.length) {
-      return null;
-    }
-    return table[index].length > 3 ? (String) table[index][3] : (String) table[index][0];
+    return modifierRow(table, index, Modifiers::modifierTag);
+  }
+
+  private static String modifierTag(final Object[] tableRow) {
+    return tableRow.length > 3 ? (String) tableRow[3] : (String) tableRow[0];
   }
 
   private static final String COLD =
@@ -1325,7 +1344,7 @@ public class Modifiers {
   }
 
   public static List<AdventureResult> getPotentialChanges(final int index) {
-    ArrayList<AdventureResult> available = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> available = new ArrayList<>();
 
     for (String check : Modifiers.modifiersByName.keySet()) {
       String effectName = check.replace("Effect:", "");
@@ -1748,7 +1767,7 @@ public class Modifiers {
     }
 
     // Make sure the modifiers apply to current class
-    AscensionClass ascensionClass = AscensionClass.nameToClass(mods.strings[Modifiers.CLASS]);
+    AscensionClass ascensionClass = AscensionClass.find(mods.strings[Modifiers.CLASS]);
     if (ascensionClass != null && ascensionClass != KoLCharacter.getAscensionClass()) {
       return;
     }
@@ -2137,7 +2156,7 @@ public class Modifiers {
     private final LinkedList<Modifier> list;
 
     public ModifierList() {
-      this.list = new LinkedList<Modifier>();
+      this.list = new LinkedList<>();
     }
 
     @Override
@@ -2337,6 +2356,200 @@ public class Modifiers {
     return list.toString();
   }
 
+  private boolean overrideItem(final int itemId) {
+    switch (itemId) {
+      case ItemPool.TUESDAYS_RUBY:
+        {
+          // Reset to defaults
+
+          this.set(Modifiers.MEATDROP, 0.0);
+          this.set(Modifiers.ITEMDROP, 0.0);
+          this.set(Modifiers.MOX_PCT, 0.0);
+          this.set(Modifiers.MUS_PCT, 0.0);
+          this.set(Modifiers.MYS_PCT, 0.0);
+          this.set(Modifiers.HP_REGEN_MIN, 0.0);
+          this.set(Modifiers.HP_REGEN_MAX, 0.0);
+          this.set(Modifiers.MP_REGEN_MIN, 0.0);
+          this.set(Modifiers.MP_REGEN_MAX, 0.0);
+
+          // Set modifiers depending on what KoL day of the week it is
+
+          Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
+          switch (date.get(Calendar.DAY_OF_WEEK)) {
+            case Calendar.SUNDAY:
+              // +5% Meat from Monsters
+              this.set(Modifiers.MEATDROP, 5.0);
+              break;
+            case Calendar.MONDAY:
+              // Muscle +5%
+              this.set(Modifiers.MUS_PCT, 5.0);
+              break;
+            case Calendar.TUESDAY:
+              // Regenerate 3-7 MP per adventure
+              this.set(Modifiers.MP_REGEN_MIN, 3.0);
+              this.set(Modifiers.MP_REGEN_MAX, 7.0);
+              break;
+            case Calendar.WEDNESDAY:
+              // +5% Mysticality
+              this.set(Modifiers.MYS_PCT, 5.0);
+              break;
+            case Calendar.THURSDAY:
+              // +5% Item Drops from Monsters
+              this.set(Modifiers.ITEMDROP, 5.0);
+              break;
+            case Calendar.FRIDAY:
+              // +5% Moxie
+              this.set(Modifiers.MOX_PCT, 5.0);
+              break;
+            case Calendar.SATURDAY:
+              // Regenerate 3-7 HP per adventure
+              this.set(Modifiers.HP_REGEN_MIN, 3.0);
+              this.set(Modifiers.HP_REGEN_MAX, 7.0);
+              break;
+          }
+          return true;
+        }
+
+      case ItemPool.UNCLE_HOBO_BEARD:
+      case ItemPool.GINGERBEARD:
+        {
+          Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
+          double adventures = date.get(Calendar.MONTH) == Calendar.DECEMBER ? 9.0 : 6.0;
+          this.set(Modifiers.ADVENTURES, adventures);
+          return true;
+        }
+
+      case ItemPool.CRIMBO_CANDLE:
+        {
+          Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
+          double adventures = date.get(Calendar.MONTH) == Calendar.DECEMBER ? 3.0 : 0.0;
+          this.set(Modifiers.ADVENTURES, adventures);
+          return true;
+        }
+
+      case ItemPool.TIME_TWITCHING_TOOLBELT:
+        {
+          this.set(Modifiers.FREE_PULL, Preferences.getBoolean("timeTowerAvailable"));
+          return true;
+        }
+
+      case ItemPool.PANTSGIVING:
+        {
+          this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_pantsgivingCrumbs") < 10);
+          return true;
+        }
+
+      case ItemPool.PATRIOT_SHIELD:
+        {
+          // Muscle classes
+          this.set(Modifiers.HP_REGEN_MIN, 0.0);
+          this.set(Modifiers.HP_REGEN_MAX, 0.0);
+          // Seal clubber
+          this.set(Modifiers.WEAPON_DAMAGE, 0.0);
+          this.set(Modifiers.DAMAGE_REDUCTION, 0.0);
+          // Turtle Tamer
+          this.set(Modifiers.FAMILIAR_WEIGHT, 0.0);
+          // Disco Bandit
+          this.set(Modifiers.RANGED_DAMAGE, 0.0);
+          // Accordion Thief
+          this.set(Modifiers.FOUR_SONGS, false);
+          // Mysticality classes
+          this.set(Modifiers.MP_REGEN_MIN, 0.0);
+          this.set(Modifiers.MP_REGEN_MAX, 0.0);
+          // Pastamancer
+          this.set(Modifiers.COMBAT_MANA_COST, 0.0);
+          // Sauceror
+          this.set(Modifiers.SPELL_DAMAGE, 0.0);
+
+          // Set modifiers depending on Character class
+          AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
+          if (ascensionClass != null) {
+            switch (ascensionClass) {
+              case SEAL_CLUBBER:
+              case ZOMBIE_MASTER:
+              case ED:
+              case COWPUNCHER:
+              case BEANSLINGER:
+              case SNAKE_OILER:
+                this.set(Modifiers.HP_REGEN_MIN, 10.0);
+                this.set(Modifiers.HP_REGEN_MAX, 12.0);
+                this.set(Modifiers.WEAPON_DAMAGE, 15.0);
+                this.set(Modifiers.DAMAGE_REDUCTION, 1.0);
+                break;
+              case TURTLE_TAMER:
+                this.set(Modifiers.HP_REGEN_MIN, 10.0);
+                this.set(Modifiers.HP_REGEN_MAX, 12.0);
+                this.set(Modifiers.FAMILIAR_WEIGHT, 5.0);
+                break;
+              case DISCO_BANDIT:
+              case AVATAR_OF_SNEAKY_PETE:
+                this.set(Modifiers.RANGED_DAMAGE, 20.0);
+                break;
+              case ACCORDION_THIEF:
+                this.set(Modifiers.FOUR_SONGS, true);
+                break;
+              case PASTAMANCER:
+                this.set(Modifiers.MP_REGEN_MIN, 5.0);
+                this.set(Modifiers.MP_REGEN_MAX, 6.0);
+                this.set(Modifiers.COMBAT_MANA_COST, -3.0);
+                break;
+              case SAUCEROR:
+              case AVATAR_OF_JARLSBERG:
+                this.set(Modifiers.MP_REGEN_MIN, 5.0);
+                this.set(Modifiers.MP_REGEN_MAX, 6.0);
+                this.set(Modifiers.SPELL_DAMAGE, 20.0);
+                break;
+            }
+          }
+          return true;
+        }
+    }
+    return false;
+  }
+
+  private boolean overrideSkill(final String name) {
+    switch (name) {
+      case "Ferocity":
+        if (KoLCharacter.isVampyre()) {
+          this.set(Modifiers.HP, -10.0);
+        } else if (KoLCharacter.isAvatarOfBoris()) {
+          this.set(Modifiers.CRITICAL_PCT, 25.0);
+        }
+        return true;
+    }
+    return false;
+  }
+
+  private boolean overrideThrone(final String name) {
+    switch (name) {
+      case "Adventurous Spelunker":
+        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_oreDropsCrown") < 6);
+        return true;
+      case "Garbage Fire":
+        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_garbageFireDropsCrown") < 3);
+        return true;
+      case "Grimstone Golem":
+        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_grimstoneMaskDropsCrown") < 1);
+        return true;
+      case "Grim Brother":
+        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_grimFairyTaleDropsCrown") < 2);
+        return true;
+      case "Machine Elf":
+        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_abstractionDropsCrown") < 25);
+        return true;
+      case "Optimistic Candle":
+        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_optimisticCandleDropsCrown") < 3);
+        return true;
+      case "Trick-or-Treating Tot":
+        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_hoardedCandyDropsCrown") < 3);
+        return true;
+      case "Twitching Space Critter":
+        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_spaceFurDropsCrown") < 1);
+        return true;
+    }
+    return false;
+  }
+
   private boolean override(final String lookup) {
     if (this.expressions != null) {
       for (int i = 0; i < this.expressions.length; ++i) {
@@ -2355,198 +2568,13 @@ public class Modifiers {
     String name = Modifiers.getNameFromLookup(lookup);
     String type = Modifiers.getTypeFromLookup(lookup);
 
-    if (type.equals("Item")) {
-      int itemId = ItemDatabase.getItemId(name);
-
-      switch (itemId) {
-        case ItemPool.TUESDAYS_RUBY:
-          {
-            // Reset to defaults
-
-            this.set(Modifiers.MEATDROP, 0.0);
-            this.set(Modifiers.ITEMDROP, 0.0);
-            this.set(Modifiers.MOX_PCT, 0.0);
-            this.set(Modifiers.MUS_PCT, 0.0);
-            this.set(Modifiers.MYS_PCT, 0.0);
-            this.set(Modifiers.HP_REGEN_MIN, 0.0);
-            this.set(Modifiers.HP_REGEN_MAX, 0.0);
-            this.set(Modifiers.MP_REGEN_MIN, 0.0);
-            this.set(Modifiers.MP_REGEN_MAX, 0.0);
-
-            // Set modifiers depending on what KoL day of the week it is
-
-            Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
-            switch (date.get(Calendar.DAY_OF_WEEK)) {
-              case Calendar.SUNDAY:
-                // +5% Meat from Monsters
-                this.set(Modifiers.MEATDROP, 5.0);
-                break;
-              case Calendar.MONDAY:
-                // Muscle +5%
-                this.set(Modifiers.MUS_PCT, 5.0);
-                break;
-              case Calendar.TUESDAY:
-                // Regenerate 3-7 MP per adventure
-                this.set(Modifiers.MP_REGEN_MIN, 3.0);
-                this.set(Modifiers.MP_REGEN_MAX, 7.0);
-                break;
-              case Calendar.WEDNESDAY:
-                // +5% Mysticality
-                this.set(Modifiers.MYS_PCT, 5.0);
-                break;
-              case Calendar.THURSDAY:
-                // +5% Item Drops from Monsters
-                this.set(Modifiers.ITEMDROP, 5.0);
-                break;
-              case Calendar.FRIDAY:
-                // +5% Moxie
-                this.set(Modifiers.MOX_PCT, 5.0);
-                break;
-              case Calendar.SATURDAY:
-                // Regenerate 3-7 HP per adventure
-                this.set(Modifiers.HP_REGEN_MIN, 3.0);
-                this.set(Modifiers.HP_REGEN_MAX, 7.0);
-                break;
-            }
-            return true;
-          }
-
-        case ItemPool.UNCLE_HOBO_BEARD:
-        case ItemPool.GINGERBEARD:
-          {
-            Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
-            double adventures = date.get(Calendar.MONTH) == Calendar.DECEMBER ? 9.0 : 6.0;
-            this.set(Modifiers.ADVENTURES, adventures);
-            return true;
-          }
-
-        case ItemPool.CRIMBO_CANDLE:
-          {
-            Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
-            double adventures = date.get(Calendar.MONTH) == Calendar.DECEMBER ? 3.0 : 0.0;
-            this.set(Modifiers.ADVENTURES, adventures);
-            return true;
-          }
-
-        case ItemPool.TIME_TWITCHING_TOOLBELT:
-          {
-            this.set(Modifiers.FREE_PULL, Preferences.getBoolean("timeTowerAvailable"));
-            return true;
-          }
-
-        case ItemPool.PANTSGIVING:
-          {
-            this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_pantsgivingCrumbs") < 10);
-            return true;
-          }
-
-        case ItemPool.PATRIOT_SHIELD:
-          {
-            // Muscle classes
-            this.set(Modifiers.HP_REGEN_MIN, 0.0);
-            this.set(Modifiers.HP_REGEN_MAX, 0.0);
-            // Seal clubber
-            this.set(Modifiers.WEAPON_DAMAGE, 0.0);
-            this.set(Modifiers.DAMAGE_REDUCTION, 0.0);
-            // Turtle Tamer
-            this.set(Modifiers.FAMILIAR_WEIGHT, 0.0);
-            // Disco Bandit
-            this.set(Modifiers.RANGED_DAMAGE, 0.0);
-            // Accordion Thief
-            this.set(Modifiers.FOUR_SONGS, false);
-            // Mysticality classes
-            this.set(Modifiers.MP_REGEN_MIN, 0.0);
-            this.set(Modifiers.MP_REGEN_MAX, 0.0);
-            // Pastamancer
-            this.set(Modifiers.COMBAT_MANA_COST, 0.0);
-            // Sauceror
-            this.set(Modifiers.SPELL_DAMAGE, 0.0);
-
-            // Set modifiers depending on Character class
-            AscensionClass ascensionClass = KoLCharacter.getAscensionClass();
-            if (ascensionClass != null) {
-              switch (ascensionClass) {
-                case SEAL_CLUBBER:
-                case ZOMBIE_MASTER:
-                case ED:
-                case COWPUNCHER:
-                case BEANSLINGER:
-                case SNAKE_OILER:
-                  this.set(Modifiers.HP_REGEN_MIN, 10.0);
-                  this.set(Modifiers.HP_REGEN_MAX, 12.0);
-                  this.set(Modifiers.WEAPON_DAMAGE, 15.0);
-                  this.set(Modifiers.DAMAGE_REDUCTION, 1.0);
-                  break;
-                case TURTLE_TAMER:
-                  this.set(Modifiers.HP_REGEN_MIN, 10.0);
-                  this.set(Modifiers.HP_REGEN_MAX, 12.0);
-                  this.set(Modifiers.FAMILIAR_WEIGHT, 5.0);
-                  break;
-                case DISCO_BANDIT:
-                case AVATAR_OF_SNEAKY_PETE:
-                  this.set(Modifiers.RANGED_DAMAGE, 20.0);
-                  break;
-                case ACCORDION_THIEF:
-                  this.set(Modifiers.FOUR_SONGS, true);
-                  break;
-                case PASTAMANCER:
-                  this.set(Modifiers.MP_REGEN_MIN, 5.0);
-                  this.set(Modifiers.MP_REGEN_MAX, 6.0);
-                  this.set(Modifiers.COMBAT_MANA_COST, -3.0);
-                  break;
-                case SAUCEROR:
-                case AVATAR_OF_JARLSBERG:
-                  this.set(Modifiers.MP_REGEN_MIN, 5.0);
-                  this.set(Modifiers.MP_REGEN_MAX, 6.0);
-                  this.set(Modifiers.SPELL_DAMAGE, 20.0);
-                  break;
-              }
-            }
-            return true;
-          }
-      }
-    } else if (type.equals("Skill")) {
-      if (name.equals("Ferocity")) {
-        if (KoLCharacter.isVampyre()) {
-          this.set(Modifiers.HP, -10.0);
-        } else if (KoLCharacter.isAvatarOfBoris()) {
-          this.set(Modifiers.CRITICAL_PCT, 25.0);
-        }
-        return true;
-      }
-    } else if (type.equals("Throne")) {
-      if (name.equals("Adventurous Spelunker")) {
-        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_oreDropsCrown") < 6);
-        return true;
-      }
-      if (name.equals("Garbage Fire")) {
-        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_garbageFireDropsCrown") < 3);
-        return true;
-      }
-      if (name.equals("Grimstone Golem")) {
-        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_grimstoneMaskDropsCrown") < 1);
-        return true;
-      }
-      if (name.equals("Grim Brother")) {
-        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_grimFairyTaleDropsCrown") < 2);
-        return true;
-      }
-      if (name.equals("Machine Elf")) {
-        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_abstractionDropsCrown") < 25);
-        return true;
-      }
-      if (name.equals("Optimistic Candle")) {
-        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_optimisticCandleDropsCrown") < 3);
-        return true;
-      }
-      if (name.equals("Trick-or-Treating Tot")) {
-        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_hoardedCandyDropsCrown") < 3);
-        return true;
-      }
-      if (name.equals("Twitching Space Critter")) {
-        this.set(Modifiers.DROPS_ITEMS, Preferences.getInteger("_spaceFurDropsCrown") < 1);
-        return true;
-      }
+    switch (type) {
+      case "Item":
+        return overrideItem(ItemDatabase.getItemId(name));
+      case "Skill":
+        return overrideSkill(name);
+      case "Throne":
+        return overrideThrone(name);
     }
     return false;
   }
@@ -2704,7 +2732,7 @@ public class Modifiers {
     if (synergetic == 0) return; // nothing possible
     for (Entry<String, Integer> entry : Modifiers.synergies.entrySet()) {
       String name = entry.getKey();
-      int mask = entry.getValue().intValue();
+      int mask = entry.getValue();
       if ((synergetic & mask) == mask) {
         this.add(Modifiers.getModifiers("Synergy", name));
       }
@@ -3116,6 +3144,22 @@ public class Modifiers {
       Pattern.compile("Monsters (?:are|will be) (.*) attracted to you");
   private static final Pattern HP_MP_PATTERN = Pattern.compile("^Maximum HP/MP ([+-]\\d+)$");
 
+  private static final Map<String, String> COMBAT_RATE_DESCRIPTIONS =
+      Map.ofEntries(
+          Map.entry("<i>way</i> more", "+20"),
+          Map.entry("significantly more", "+15"),
+          Map.entry("much more", "+10"),
+          Map.entry("more", "+5"),
+          Map.entry("slightly less", "-3"),
+          Map.entry("less", "-5"),
+          Map.entry("more than a little less", "-7"),
+          Map.entry("quite a bit less", "-9"),
+          Map.entry("much less", "-10"),
+          Map.entry("very much less", "-11"),
+          Map.entry("significantly less", "-15"),
+          Map.entry("very very very much less", "-20"),
+          Map.entry("<i>way</i> less", "-20"));
+
   public static final String parseModifier(final String enchantment) {
     String result;
 
@@ -3173,25 +3217,13 @@ public class Modifiers {
     matcher = Modifiers.CLASS_PATTERN.matcher(enchantment);
     if (matcher.find()) {
       String plural = matcher.group(1);
-      AscensionClass cls = null;
-      if (plural.equals("Accordion&nbsp;Thieves")) {
-        cls = AscensionClass.ACCORDION_THIEF;
-      } else if (plural.equals("Disco&nbsp;Bandits")) {
-        cls = AscensionClass.DISCO_BANDIT;
-      } else if (plural.equals("Pastamancers")) {
-        cls = AscensionClass.PASTAMANCER;
-      } else if (plural.equals("Saucerors")) {
-        cls = AscensionClass.SAUCEROR;
-      } else if (plural.equals("Seal&nbsp;Clubbers")) {
-        cls = AscensionClass.SEAL_CLUBBER;
-      } else if (plural.equals("Turtle&nbsp;Tamers")) {
-        cls = AscensionClass.TURTLE_TAMER;
-      } else {
-        return null;
-      }
+      AscensionClass ascensionClass = AscensionClass.findByPlural(plural.replace("&nbsp;", " "));
+
+      if (ascensionClass == null) return null;
+
       return Modifiers.modifierTag(Modifiers.stringModifiers, Modifiers.CLASS)
           + ": \""
-          + cls.getName()
+          + ascensionClass.getName()
           + "\"";
     }
 
@@ -3202,35 +3234,7 @@ public class Modifiers {
               ? Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.COMBAT_RATE)
               : "Combat Rate (Underwater)";
       String level = matcher.group(1);
-      String rate =
-          level.equals("<i>way</i> more")
-              ? "+20"
-              : level.equals("significantly more")
-                  ? "+15"
-                  : level.equals("much more")
-                      ? "+10"
-                      : level.equals("more")
-                          ? "+5"
-                          : level.equals("slightly less")
-                              ? "-3"
-                              : level.equals("less")
-                                  ? "-5"
-                                  : level.equals("more than a little less")
-                                      ? "-7"
-                                      : level.equals("quite a bit less")
-                                          ? "-9"
-                                          : level.equals("much less")
-                                              ? "-10"
-                                              : level.equals("very much less")
-                                                  ? "-11"
-                                                  : level.equals("significantly less")
-                                                      ? "-15"
-                                                      : level.equals("very very very much less")
-                                                          ? "-20"
-                                                          : level.equals("<i>way</i> less")
-                                                              ? "-20"
-                                                              : "+0";
-
+      String rate = COMBAT_RATE_DESCRIPTIONS.getOrDefault(level, "+0");
       return tag + ": " + rate;
     }
 
@@ -3267,30 +3271,22 @@ public class Modifiers {
   private static String parseModifier(
       final Object[][] table, final String enchantment, final boolean quoted) {
     String quote = quoted ? "\"" : "";
-    for (int i = 0; i < table.length; ++i) {
-      Object object = Modifiers.modifierDescPattern(table, i);
-      if (object == null) {
+
+    for (Object[] tableRow : table) {
+      Pattern[] patterns = Modifiers.modifierDescPattern(tableRow);
+
+      if (patterns == null) {
         continue;
       }
 
-      Object[] patterns;
-
-      if (object instanceof Pattern) {
-        patterns = new Pattern[1];
-        patterns[0] = object;
-      } else {
-        patterns = (Object[]) object;
-      }
-
-      for (int j = 0; j < patterns.length; ++j) {
-        Pattern pattern = (Pattern) patterns[j];
+      for (Pattern pattern : patterns) {
         Matcher matcher = pattern.matcher(enchantment);
         if (!matcher.find()) {
           continue;
         }
 
         if (matcher.groupCount() == 0) {
-          String tag = Modifiers.modifierTag(table, i);
+          String tag = Modifiers.modifierTag(tableRow);
           // Kludge for Sureonosity, which always gives +1
           if (tag.equals("Surgeonosity")) {
             return (tag + ": +1");
@@ -3298,7 +3294,7 @@ public class Modifiers {
           return tag;
         }
 
-        String tag = Modifiers.modifierTag(table, i);
+        String tag = Modifiers.modifierTag(tableRow);
 
         // Kludge for Slime (Really) Hates it
         if (tag.equals("Slime Hates It")) {
@@ -3359,74 +3355,46 @@ public class Modifiers {
 
   private static final Pattern RESISTANCE_PATTERN = Pattern.compile("Resistance \\(([+-]\\d+)\\)");
 
-  private static String parseResistance(final String enchantment) {
-    String level = "";
-
+  private static String parseResistanceLevel(final String enchantment) {
     Matcher matcher = RESISTANCE_PATTERN.matcher(enchantment);
     if (matcher.find()) {
-      level = matcher.group(1);
+      return matcher.group(1);
     } else if (enchantment.contains("Slight")) {
-      level = "+1";
+      return "+1";
     } else if (enchantment.contains("So-So")) {
-      level = "+2";
+      return "+2";
     } else if (enchantment.contains("Serious")) {
-      level = "+3";
+      return "+3";
     } else if (enchantment.contains("Stupendous")) {
-      level = "+4";
+      return "+4";
     } else if (enchantment.contains("Superhuman")) {
-      level = "+5";
+      return "+5";
     } else if (enchantment.contains("Stunning")) {
-      level = "+7";
+      return "+7";
     } else if (enchantment.contains("Sublime")) {
-      level = "+9";
+      return "+9";
     }
+    return "";
+  }
 
-    if (enchantment.contains("All Elements")) {
-      return Modifiers.SPOOKY
-          + level
-          + ", "
-          + Modifiers.STENCH
-          + level
-          + ", "
-          + Modifiers.HOT
-          + level
-          + ", "
-          + Modifiers.COLD
-          + level
-          + ", "
-          + Modifiers.SLEAZE
-          + level;
-    }
+  private static String parseResistance(final String enchantment) {
+    String level = parseResistanceLevel(enchantment);
+    boolean all = enchantment.contains("All Elements");
 
-    if (enchantment.contains("Spooky")) {
-      return Modifiers.SPOOKY + level;
-    }
+    ArrayList<String> mods = new ArrayList<>();
 
-    if (enchantment.contains("Stench")) {
-      return Modifiers.STENCH + level;
-    }
+    if (enchantment.contains("Spooky") || all) mods.add(Modifiers.SPOOKY);
+    if (enchantment.contains("Stench") || all) mods.add(Modifiers.STENCH);
+    if (enchantment.contains("Hot") || all) mods.add(Modifiers.HOT);
+    if (enchantment.contains("Cold") || all) mods.add(Modifiers.COLD);
+    if (enchantment.contains("Sleaze") || all) mods.add(Modifiers.SLEAZE);
+    if (enchantment.contains("Slime")) mods.add(Modifiers.SLIME);
+    if (enchantment.contains("Supercold")) mods.add(Modifiers.SUPERCOLD);
 
-    if (enchantment.contains("Hot")) {
-      return Modifiers.HOT + level;
-    }
-
-    if (enchantment.contains("Cold")) {
-      return Modifiers.COLD + level;
-    }
-
-    if (enchantment.contains("Sleaze")) {
-      return Modifiers.SLEAZE + level;
-    }
-
-    if (enchantment.contains("Slime")) {
-      return Modifiers.SLIME + level;
-    }
-
-    if (enchantment.contains("Supercold")) {
-      return Modifiers.SUPERCOLD + level;
-    }
-
-    return null;
+    return mods.stream()
+        .map(m -> m + level)
+        .collect(
+            Collectors.collectingAndThen(Collectors.joining(", "), m -> m.isEmpty() ? null : m));
   }
 
   private static boolean findModifier(final Object[][] table, final String tag) {
@@ -3598,16 +3566,15 @@ public class Modifiers {
           continue;
         }
         int mask = 0;
-        for (int i = 0; i < pieces.length; ++i) {
-          Modifiers mods = Modifiers.getModifiers("Item", pieces[i]);
+        for (String piece : pieces) {
+          Modifiers mods = Modifiers.getModifiers("Item", piece);
           if (mods == null) {
-            KoLmafia.updateDisplay(name + " contains element " + pieces[i] + " with no modifiers.");
+            KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
             continue loop;
           }
           int emask = mods.bitmaps[Modifiers.SYNERGETIC];
           if (emask == 0) {
-            KoLmafia.updateDisplay(
-                name + " contains element " + pieces[i] + " that isn't Synergetic.");
+            KoLmafia.updateDisplay(name + " contains element " + piece + " that isn't Synergetic.");
             continue loop;
           }
           mask |= emask;
@@ -3620,15 +3587,15 @@ public class Modifiers {
           continue;
         }
         int bit = 1 << Modifiers.mutexes.size();
-        for (int i = 0; i < pieces.length; ++i) {
+        for (String piece : pieces) {
           Modifiers mods = null;
           if (type.equals("MutexI")) {
-            mods = Modifiers.getModifiers("Item", pieces[i]);
+            mods = Modifiers.getModifiers("Item", piece);
           } else if (type.equals("MutexE")) {
-            mods = Modifiers.getModifiers("Effect", pieces[i]);
+            mods = Modifiers.getModifiers("Effect", piece);
           }
           if (mods == null) {
-            KoLmafia.updateDisplay(name + " contains element " + pieces[i] + " with no modifiers.");
+            KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
             continue loop;
           }
           mods.bitmaps[Modifiers.MUTEX] |= bit;
@@ -3639,7 +3606,7 @@ public class Modifiers {
           KoLmafia.updateDisplay("Unique items for " + name + " already declared.");
           continue;
         }
-        Modifiers.uniques.put(name, new HashSet<String>(Arrays.asList(modifiers.split("/"))));
+        Modifiers.uniques.put(name, new HashSet<>(Arrays.asList(modifiers.split("/"))));
       }
     }
 
@@ -3685,7 +3652,7 @@ public class Modifiers {
     for (Entry<Integer, String> entry : ItemDatabase.dataNameEntrySet()) {
       Integer key = entry.getKey();
       String name = entry.getValue();
-      int type = ItemDatabase.getConsumptionType(key.intValue());
+      int type = ItemDatabase.getConsumptionType(key);
 
       switch (type) {
         case KoLConstants.EQUIP_HAT:
@@ -3789,7 +3756,7 @@ public class Modifiers {
     for (Entry<Integer, String> entry : SkillDatabase.entrySet()) {
       Integer key = entry.getKey();
       String name = entry.getValue();
-      if (SkillDatabase.isPassive(key.intValue())) {
+      if (SkillDatabase.isPassive(key)) {
         passives.add(name);
       }
     }
@@ -3842,7 +3809,7 @@ public class Modifiers {
 
     for (Entry<String, Integer> entry : Modifiers.synergies.entrySet()) {
       String name = entry.getKey();
-      int mask = entry.getValue().intValue();
+      int mask = entry.getValue();
       synergies.add(name);
     }
 
@@ -3983,7 +3950,7 @@ public class Modifiers {
 
   public static final void registerItem(final String name, final String text, final int type) {
     // Examine the item description and decide what it is.
-    ArrayList<String> unknown = new ArrayList<String>();
+    ArrayList<String> unknown = new ArrayList<>();
     String known = DebugDatabase.parseItemEnchantments(text, unknown, type);
     DebugDatabase.parseRestores(name, text);
     Modifiers.registerObject("Item", name, unknown, known);
@@ -3991,21 +3958,21 @@ public class Modifiers {
 
   public static final void registerEffect(final String name, final String text) {
     // Examine the effect description and decide what it is.
-    ArrayList<String> unknown = new ArrayList<String>();
+    ArrayList<String> unknown = new ArrayList<>();
     String known = DebugDatabase.parseEffectEnchantments(text, unknown);
     Modifiers.registerObject("Effect", name, unknown, known);
   }
 
   public static final void registerSkill(final String name, final String text) {
     // Examine the effect description and decide what it is.
-    ArrayList<String> unknown = new ArrayList<String>();
+    ArrayList<String> unknown = new ArrayList<>();
     String known = DebugDatabase.parseSkillEnchantments(text, unknown);
     Modifiers.registerObject("Skill", name, unknown, known);
   }
 
   public static final void registerOutfit(final String name, final String text) {
     // Examine the outfit description and decide what it is.
-    ArrayList<String> unknown = new ArrayList<String>();
+    ArrayList<String> unknown = new ArrayList<>();
     String known = DebugDatabase.parseOutfitEnchantments(text, unknown);
     Modifiers.registerObject("Outfit", name, unknown, known);
   }

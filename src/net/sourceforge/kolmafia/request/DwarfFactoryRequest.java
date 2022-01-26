@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.request;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -1424,13 +1423,8 @@ public class DwarfFactoryRequest extends GenericRequest {
       int low = roll.charAt(7) - '0';
       int val = (high * 7) + low;
 
-      Iterator<String> it = this.permutations.iterator();
-      while (it.hasNext()) {
-        String permutation = it.next();
-        if (!this.validPermutation(permutation, d1, d2, d3, d4, val)) {
-          it.remove();
-        }
-      }
+      this.permutations.removeIf(
+          permutation -> !this.validPermutation(permutation, d1, d2, d3, d4, val));
     }
 
     private boolean validPermutation(

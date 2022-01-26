@@ -8,8 +8,8 @@ public class FamiliarTool {
   // Array of current opponents
   private final Opponent[] opponents;
 
-  // Index of best opponent to fight
-  private int bestOpponent;
+  // Best opponent to fight
+  private Opponent bestOpponent;
 
   // Index of best arena match against that opponent
   private int bestMatch;
@@ -57,10 +57,10 @@ public class FamiliarTool {
    *     functions
    */
   public ArenaOpponent bestOpponent(final int[] ownSkills, final int[] possibleOwnWeights) {
-    int opponentCount = this.opponents.length;
     int possibleWeights = possibleOwnWeights.length;
 
-    this.bestMatch = this.bestOpponent = this.bestWeight = -1;
+    this.bestOpponent = null;
+    this.bestMatch = this.bestWeight = -1;
     this.difference = 500; // initialize to worst possible value
 
     for (int match = 0; match < 4; match++) {
@@ -71,12 +71,10 @@ public class FamiliarTool {
         continue;
       }
 
-      for (int opponent = 0; opponent < opponentCount; ++opponent) {
-        Opponent opp = this.opponents[opponent];
+      for (Opponent opp : this.opponents) {
         int opponentWeight = opp.getWeight();
 
-        for (int weightIndex = 0; weightIndex < possibleWeights; ++weightIndex) {
-          int ownWeight = possibleOwnWeights[weightIndex];
+        for (int ownWeight : possibleOwnWeights) {
           int ownPower = ownWeight + ownSkill * 3;
 
           int opponentSkill = opp.getSkill(match);
@@ -90,7 +88,7 @@ public class FamiliarTool {
           // optimal weight for equal skill is +3
           if (this.betterWeightDifference(ownPower - (opponentPower + 3), this.difference)) {
             this.difference = ownPower - (opponentPower + 3);
-            this.bestOpponent = opponent;
+            this.bestOpponent = opp;
             this.bestMatch = match;
             this.bestWeight = ownWeight;
           }
@@ -98,8 +96,8 @@ public class FamiliarTool {
       }
     }
 
-    if (this.bestOpponent >= 0) {
-      return this.opponents[this.bestOpponent].getOpponent();
+    if (this.bestOpponent != null) {
+      return this.bestOpponent.getOpponent();
     }
 
     return null;

@@ -21,8 +21,8 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
   private static final Pattern OPTION_PATTERN =
       Pattern.compile("<option value=['\"]?(.*?)['\"]?>(.*?)</option>");
 
-  private static final Stack<Checkpoint> explicitPoints = new Stack<Checkpoint>();
-  private static final Set<Checkpoint> allCheckpoints = new HashSet<Checkpoint>();
+  private static final Stack<Checkpoint> explicitPoints = new Stack<>();
+  private static final Set<Checkpoint> allCheckpoints = new HashSet<>();
 
   private int outfitId;
   private final String outfitName;
@@ -51,9 +51,9 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
     // and would keep that entire page in memory if not copied.
     this.outfitName = outfitName;
     this.outfitImage = null;
-    this.pieces = new TreeMap<Integer, AdventureResult>();
+    this.pieces = new TreeMap<>();
     this.hash = 0;
-    this.treats = new ArrayList<AdventureResult>();
+    this.treats = new ArrayList<>();
   }
 
   public int pieceCount(AdventureResult piece) {
@@ -249,21 +249,14 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
   }
 
   private void updateDisplayMissing() {
-    ArrayList<AdventureResult> missing = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> missing = new ArrayList<>();
     for (int slot = 0; slot < EquipmentManager.FAMILIAR; slot++) {
       AdventureResult piece = this.pieces.get(slot);
       if (null == piece) {
         continue;
       }
 
-      boolean skip = false;
-      for (int i = 0; i < missing.size(); i++) {
-        if (missing.get(i).getItemId() == piece.getItemId()) {
-          skip = true;
-          break;
-        }
-      }
-      if (skip) {
+      if (missing.stream().anyMatch(a -> a.getItemId() == piece.getItemId())) {
         continue;
       }
 
@@ -275,8 +268,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
       }
     }
 
-    for (int i = 0; i < missing.size(); i++) {
-      AdventureResult item = missing.get(i);
+    for (AdventureResult item : missing) {
       RequestLogger.printLine(
           MafiaState.ERROR,
           "You need " + item.getCount() + " more " + item.getName() + " to continue.");

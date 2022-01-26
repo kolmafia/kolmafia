@@ -12,12 +12,7 @@ import net.sourceforge.kolmafia.objectpool.IntegerPool;
 public class HashMultimap<V> extends HashMap<Integer, ArrayList<V>> {
   public final void put(int key, V value) {
     Integer okey = IntegerPool.get(key);
-    ArrayList<V> curr = super.get(okey);
-
-    if (curr == null) {
-      curr = new ArrayList<V>();
-      super.put(okey, curr);
-    }
+    ArrayList<V> curr = super.computeIfAbsent(okey, k -> new ArrayList<>());
 
     curr.add(value);
     curr.trimToSize(); // minimize wasted space

@@ -14,7 +14,6 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -1160,7 +1159,7 @@ public class ShowDescriptionTable<E> extends JXTable {
       }
     }
 
-    Collections.sort(sortCols, arrayComparator);
+    sortCols.sort(arrayComparator);
 
     // Now, go through and set visibility. The comparator sorts things in descending order, so the
     // first

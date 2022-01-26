@@ -131,7 +131,7 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
         token = st.nextToken();
       }
       token = st.nextToken();
-      AscensionClass ascensionClass = AscensionClass.nameToClass(token.trim());
+      AscensionClass ascensionClass = AscensionClass.find(token.trim());
       this.classType = ascensionClass == null ? token : ascensionClass.getName();
     } else { // no custom title
       if (!cleanHTML.contains("Level")) {
@@ -145,7 +145,7 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
       this.playerLevel = IntegerPool.get(StringUtilities.parseInt(token.substring(5).trim()));
 
       token = st.nextToken();
-      AscensionClass ascensionClass = AscensionClass.nameToClass(token.trim());
+      AscensionClass ascensionClass = AscensionClass.find(token.trim());
       this.classType = ascensionClass == null ? token : ascensionClass.getName();
     }
 

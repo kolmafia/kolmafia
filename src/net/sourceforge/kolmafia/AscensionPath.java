@@ -134,6 +134,20 @@ public class AscensionPath {
       setPoints(getPoints() + points);
     }
 
+    public boolean canUseFamiliars() {
+      switch (this) {
+        case AVATAR_OF_BORIS:
+        case AVATAR_OF_JARLSBERG:
+        case AVATAR_OF_SNEAKY_PETE:
+        case ACTUALLY_ED_THE_UNDYING:
+        case LICENSE_TO_ADVENTURE:
+        case DARK_GYFFTE:
+          return false;
+        default:
+          return true;
+      }
+    }
+
     @Override
     public String toString() {
       return this.name;

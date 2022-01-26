@@ -209,7 +209,7 @@ public class MonsterData extends AdventureResult {
   public static final int DEFAULT_CAP = 10000;
   public static final int DEFAULT_FLOOR = 10;
 
-  public static final ArrayList<String> lastRandomModifiers = new ArrayList<String>();
+  public static final ArrayList<String> lastRandomModifiers = new ArrayList<>();
 
   public static String lastMask = null;
 
@@ -288,8 +288,8 @@ public class MonsterData extends AdventureResult {
     }
     this.beeCount = beeCount;
 
-    this.items = new ArrayList<AdventureResult>();
-    this.pocketRates = new ArrayList<Double>();
+    this.items = new ArrayList<>();
+    this.pocketRates = new ArrayList<>();
 
     // No random modifiers
     this.randomModifiers = new String[0];
@@ -384,9 +384,7 @@ public class MonsterData extends AdventureResult {
     monster.randomModifiers = modifiers;
 
     // Iterate over them and modify the base values
-    for (int i = 0; i < modifiers.length; ++i) {
-      String modifier = modifiers[i];
-
+    for (String modifier : modifiers) {
       if (modifier.equals("askew")) {
         monster.attack = IntegerPool.get(monster.getRawAttack() * 11 / 10);
       } else if (modifier.equals("bouncing")) {
@@ -500,7 +498,7 @@ public class MonsterData extends AdventureResult {
   private int evaluate(Object obj, int value) {
     if (obj != null) {
       if (obj instanceof Integer) {
-        return ((Integer) obj).intValue();
+        return (Integer) obj;
       }
       if (obj instanceof String) {
         obj = compile(obj);
@@ -567,11 +565,11 @@ public class MonsterData extends AdventureResult {
       return 0;
     }
     if (this.health instanceof Integer) {
-      int hp = ((Integer) this.health).intValue();
+      int hp = (Integer) this.health;
 
       if (hp == 0
           && (this.attack == null
-              || (this.attack instanceof Integer && ((Integer) this.attack).intValue() == 0))) {
+              || (this.attack instanceof Integer && (Integer) this.attack == 0))) {
         // The monster is unknown, so do not apply modifiers
         return 0;
       }
@@ -605,9 +603,7 @@ public class MonsterData extends AdventureResult {
   public int getBaseHP() {
     return this.scale != null
         ? -1
-        : this.health == null
-            ? 0
-            : this.health instanceof Integer ? ((Integer) (this.health)).intValue() : -1;
+        : this.health == null ? 0 : this.health instanceof Integer ? (Integer) (this.health) : -1;
   }
 
   public int getAttack() {
@@ -628,8 +624,8 @@ public class MonsterData extends AdventureResult {
       return 0;
     }
     if (this.attack instanceof Integer) {
-      int attack = ((Integer) this.attack).intValue();
-      if (attack == 0 && ((Integer) this.health).intValue() == 0) {
+      int attack = (Integer) this.attack;
+      if (attack == 0 && (Integer) this.health == 0) {
         // The monster is unknown, so do not apply modifiers
         return 0;
       }
@@ -665,9 +661,7 @@ public class MonsterData extends AdventureResult {
   public int getBaseAttack() {
     return this.scale != null
         ? -1
-        : this.attack == null
-            ? 0
-            : this.attack instanceof Integer ? ((Integer) (this.attack)).intValue() : -1;
+        : this.attack == null ? 0 : this.attack instanceof Integer ? (Integer) (this.attack) : -1;
   }
 
   public int getDefense() {
@@ -690,8 +684,8 @@ public class MonsterData extends AdventureResult {
       return 0;
     }
     if (this.defense instanceof Integer) {
-      int defense = ((Integer) this.defense).intValue();
-      if (defense == 0 && ((Integer) this.health).intValue() == 0) {
+      int defense = (Integer) this.defense;
+      if (defense == 0 && (Integer) this.health == 0) {
         // The monster is unknown, so do not apply modifiers
         return 0;
       }
@@ -733,7 +727,7 @@ public class MonsterData extends AdventureResult {
         ? -1
         : this.defense == null
             ? 0
-            : this.defense instanceof Integer ? ((Integer) (this.defense)).intValue() : -1;
+            : this.defense instanceof Integer ? (Integer) (this.defense) : -1;
   }
 
   public int getRawInitiative() {
@@ -743,7 +737,7 @@ public class MonsterData extends AdventureResult {
   public int getBaseInitiative() {
     return this.initiative == null
         ? 0
-        : this.initiative instanceof Integer ? ((Integer) (this.initiative)).intValue() : -1;
+        : this.initiative instanceof Integer ? (Integer) (this.initiative) : -1;
   }
 
   public int getInitiative() {
@@ -974,8 +968,8 @@ public class MonsterData extends AdventureResult {
       return false;
     }
 
-    for (int i = 0; i < subitems.length; ++i) {
-      if (this.shouldStealItem(subitems[i], dropModifier)) {
+    for (AdventureResult subitem : subitems) {
+      if (this.shouldStealItem(subitem, dropModifier)) {
         return true;
       }
     }

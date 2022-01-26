@@ -17,7 +17,7 @@ public class KoLGUIConstants {
   public static final Font DEFAULT_FONT = (new JTextField()).getFont();
   public static final JLabel BLANK_LABEL = new JLabel();
   public static final Toolkit TOOLKIT = Toolkit.getDefaultToolkit();
-  public static final LockableListModel<String> existingFrames = new LockableListModel<String>();
+  public static final LockableListModel<String> existingFrames = new LockableListModel<>();
 
   // Colors which are used to handle the various KoLmafia states.
   // Used when changing the display.
@@ -32,7 +32,7 @@ public class KoLGUIConstants {
 
   // New Look and Feel list goes here.
   public static final Map<String, String> FLATMAP_LIGHT_LOOKS =
-      new TreeMap<String, String>() {
+      new TreeMap<>() {
         {
           put("Arc - Orange", "com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme");
           put("Arc", "com.formdev.flatlaf.intellijthemes.FlatArcIJTheme");
@@ -73,7 +73,7 @@ public class KoLGUIConstants {
       };
 
   public static final Map<String, String> FLATMAP_DARK_LOOKS =
-      new TreeMap<String, String>() {
+      new TreeMap<>() {
         {
           put("Arc Dark - Orange", "com.formdev.flatlaf.intellijthemes.FlatArcDarkOrangeIJTheme");
           put(
