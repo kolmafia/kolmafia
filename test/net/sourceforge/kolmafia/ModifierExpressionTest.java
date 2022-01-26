@@ -366,6 +366,13 @@ public class ModifierExpressionTest {
   }
 
   @Test
+  public void invalidEffectHasNoDuration() {
+    addEffect("Bad Luck", 123);
+    var exp = new ModifierExpression("T", "No effect described here");
+    assertThat(exp.eval(), is(0.0));
+  }
+
+  @Test
   public void canDetectTelescopeUpgrades() {
     KoLCharacter.setTelescopeUpgrades(7);
     var exp = new ModifierExpression("U", "Telescope");
