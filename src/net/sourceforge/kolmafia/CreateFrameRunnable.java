@@ -44,16 +44,17 @@ public class CreateFrameRunnable implements Runnable {
 
     this.creator =
         Arrays.stream(creationType.getConstructors())
-            .filter(
-                c -> {
-                  var constructorParamTypes = c.getParameterTypes();
-                  if (constructorParamTypes.length != parameters.length) return false;
-                  return IntStream.range(0, parameterTypes.length)
-                      .filter(j -> parameterTypes[j] != null)
-                      .allMatch(j -> constructorParamTypes[j].isAssignableFrom(parameterTypes[j]));
-                })
-            .reduce((first, second) -> second)
+            .filter(c -> isValidConstructor(parameterTypes, c))
+            .findAny()
             .orElse(null);
+  }
+
+  public boolean isValidConstructor(Class<?>[] parameterTypes, Constructor<?> cons) {
+    var constructorParamTypes = cons.getParameterTypes();
+    if (constructorParamTypes.length != parameters.length) return false;
+    return IntStream.range(0, parameterTypes.length)
+        .filter(j -> parameterTypes[j] != null)
+        .allMatch(j -> constructorParamTypes[j].isAssignableFrom(parameterTypes[j]));
   }
 
   @Override
