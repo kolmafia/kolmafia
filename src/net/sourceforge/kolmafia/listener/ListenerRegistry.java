@@ -69,12 +69,7 @@ public class ListenerRegistry {
     ArrayList<WeakReference<Listener>> listenerList = null;
 
     synchronized (this.listenerMap) {
-      listenerList = this.listenerMap.get(key);
-
-      if (listenerList == null) {
-        listenerList = new ArrayList<>();
-        this.listenerMap.put(key, listenerList);
-      }
+      listenerList = this.listenerMap.computeIfAbsent(key, k -> new ArrayList<>());
     }
 
     WeakReference<Listener> reference = new WeakReference<>(listener);

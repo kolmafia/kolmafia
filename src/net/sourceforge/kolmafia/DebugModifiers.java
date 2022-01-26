@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Objects;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -46,11 +47,7 @@ public class DebugModifiers extends Modifiers {
     while (i.hasNext()) {
       Integer key = i.next();
       String item = DebugModifiers.adjustments.get(key);
-      if (item != null) {
-        DebugModifiers.buffer.append(item);
-      } else {
-        DebugModifiers.buffer.append("<td></td><td></td>");
-      }
+      DebugModifiers.buffer.append(Objects.requireNonNullElse(item, "<td></td><td></td>"));
     }
     DebugModifiers.buffer.append("</tr>");
     DebugModifiers.adjustments.clear();

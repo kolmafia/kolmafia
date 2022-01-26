@@ -61,12 +61,7 @@ public class AnsiSerializer {
   private void serializeUnknownTag(TagNode tagNode) {
     pushColor(TAG_COLOR);
     ansi.a('<').a(tagNode.getName());
-    tagNode
-        .getAttributes()
-        .forEach(
-            (String k, String v) -> {
-              ansi.a(' ').a(k).a("=\"").a(v).a('"');
-            });
+    tagNode.getAttributes().forEach((String k, String v) -> ansi.a(' ').a(k).a("=\"").a(v).a('"'));
     ansi.a('>');
     popColor();
     serializeChildren(tagNode);

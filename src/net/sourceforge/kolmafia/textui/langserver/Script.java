@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui.langserver;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import org.eclipse.lsp4j.PublishDiagnosticsParams;
 
 /**
  * A file that was recognized as a KoLmafia script in one of the directories under our authority.
+ * Takes care of recording unsaved changes made to it.
  */
 public final class Script {
   final AshLanguageServer parent;
@@ -29,6 +31,10 @@ public final class Script {
    */
   protected Handler handler;
 
+  protected int version = -1;
+  /** The current content of the file. Is {@code null} if the file is currently closed */
+  protected String text;
+
   protected Script(final AshLanguageServer parent, final File file) {
     this.parent = parent;
     this.file = file;
@@ -39,10 +45,21 @@ public final class Script {
 
     this.parent.executor.execute(
         () -> {
-          this.handler.parseFile();
+          // Check in case the handler is closed before we're ran
+          if (this.handler != null) {
+            this.handler.parseFile(true);
+          }
         });
 
     return this.handler;
+  }
+
+  private InputStream getStream() {
+    if (this.text == null) {
+      return null;
+    }
+
+    return new ByteArrayInputStream(this.text.getBytes());
   }
 
   /**
@@ -63,26 +80,40 @@ public final class Script {
     // Public class, private constructor
     private Handler() {}
 
-    private void parseFile() {
+    protected void refreshParsing() {
+      this.parseFile(false);
+    }
+
+    private void parseFile(final boolean initialParsing) {
       final String previousThreadName = Thread.currentThread().getName();
 
+      // If another thread was already parsing this script, kick them out; we're in charge now.
       synchronized (this.parserSwapLock) {
+        if (this.parserThread != null) {
+          // (...but first, quickly make sure it's not due to congestion)
+          if (Script.this.handler != this) {
+            // (oh... never mind, then...)
+            return;
+          }
+
+          this.parserThread.interrupt();
+        }
         this.parserThread = Thread.currentThread();
         this.parserThread.setName(Script.this.file.getName() + " - Parser");
       }
 
       this.parser =
-          new LSParser(Script.this.file, null, Collections.synchronizedMap(new HashMap<>()));
+          new LSParser(
+              Script.this.file,
+              Script.this.getStream(),
+              Collections.synchronizedMap(new HashMap<>()));
 
       try {
         // Parse the script
         this.scope = this.parser.parse();
 
         // If we managed to parse it without interruption, send the diagnostics
-        Script.this.parent.executor.execute(
-            () -> {
-              this.sendDiagnostics();
-            });
+        Script.this.parent.executor.execute(this::sendDiagnostics);
       } catch (InterruptedException e) {
       } finally {
         synchronized (this.parserSwapLock) {
@@ -91,6 +122,12 @@ public final class Script {
 
             synchronized (this.parserThreadWaitingLock) {
               this.parserThreadWaitingLock.notifyAll();
+            }
+
+            if (!initialParsing) {
+              // In case some imports were removed, these scripts are now without a Handler
+              // Trigger a scan to find them and give them one
+              Script.this.parent.monitor.scan();
             }
           }
 
@@ -183,6 +220,8 @@ public final class Script {
               // is now in charge of this file
               script.handler.close();
             }
+
+            return script.getStream();
           }
         }
 

@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.textui;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -56,8 +55,7 @@ public class Profiler {
 
     buff.append("<br>");
 
-    Collections.sort(
-        list,
+    list.sort(
         new Comparator<Profiler>() {
           @Override
           public int compare(Profiler left, Profiler right) {
@@ -68,8 +66,7 @@ public class Profiler {
 
     buff.append("<br>");
 
-    Collections.sort(
-        list,
+    list.sort(
         new Comparator<Profiler>() {
           @Override
           public int compare(Profiler left, Profiler right) {

@@ -76,7 +76,7 @@ public class ComparisonShopCommand extends AbstractCommand implements Comparator
       KoLmafia.updateDisplay(MafiaState.ERROR, "No tradeable items!");
       return;
     }
-    Collections.sort(results, this);
+    results.sort(this);
     if (expensive) {
       Collections.reverse(results);
     }

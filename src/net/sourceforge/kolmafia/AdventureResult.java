@@ -515,7 +515,6 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    * @param s The string suspected of being an <code>AdventureResult</code>
    * @return An <code>AdventureResult</code> with the appropriate data
    * @throws NumberFormatException The string was not a recognized <code>AdventureResult</code>
-   * @throws ParseException The value enclosed within parentheses was not a number.
    */
   public static final AdventureResult parseResult(final String s) {
     // If this result has been screwed up with Rad Libs, can't do anything with it.
@@ -894,7 +893,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    * Utility method used for adding a given <code>AdventureResult</code> to a tally of <code>
    * AdventureResult</code>s.
    *
-   * @param tally The tally accumulating <code>AdventureResult</code>s
+   * @param sourceList The tally accumulating <code>AdventureResult</code>s
    * @param result The result to add to the tally
    */
   public static final void addResultToList(

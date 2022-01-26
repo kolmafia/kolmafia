@@ -3523,7 +3523,7 @@ public class ItemPool {
     }
 
     if (count > 1) {
-      Collections.sort(possible, Collections.reverseOrder());
+      possible.sort(Collections.reverseOrder());
     }
 
     // Identify the item we have the most of

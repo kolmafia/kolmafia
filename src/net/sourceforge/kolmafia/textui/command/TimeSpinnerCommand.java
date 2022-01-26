@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -217,7 +216,7 @@ public class TimeSpinnerCommand extends AbstractCommand {
           }
         }
       }
-      Collections.sort(monsters, String.CASE_INSENSITIVE_ORDER);
+      monsters.sort(String.CASE_INSENSITIVE_ORDER);
       if (monsters.isEmpty()) {
         RequestLogger.printLine("No monsters are available.");
         return;
