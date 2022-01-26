@@ -23,9 +23,6 @@ public class HelpCommandTest extends AbstractCommandTestBase {
     String output = execute("refresh");
 
     assertContinueState();
-    assertThat(
-        output,
-        containsString(
-            "refresh all | [status | effects] | [gear | equip | outfit] | inv | camp | storage | [familiar | terarrium] | stickers | quests | shop - resynchronize with KoL."));
+    assertThat(output, containsString("refresh all |"));
   }
 }
