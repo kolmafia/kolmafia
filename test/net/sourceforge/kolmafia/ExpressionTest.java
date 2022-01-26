@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class ExpressionTest {
   @BeforeEach
@@ -20,6 +21,19 @@ public class ExpressionTest {
   public void canDoBasicArithmetic(String input, String expected) {
     var exp = new Expression(input, input);
     assertEquals(Double.parseDouble(expected), exp.eval());
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"1/0", "-4^0.5", "999^999", "sqrt(-1)"})
+  public void invalidArithmeticReturnsZero(String invalidExpr) {
+    var exp = new Expression(invalidExpr, invalidExpr);
+    assertEquals(0.0, exp.eval());
+  }
+
+  @Test
+  public void invalidExpressionReturnsZero() {
+    var exp = new Expression("@", "Invalid bytecode");
+    assertEquals(0.0, exp.eval());
   }
 
   @ParameterizedTest
