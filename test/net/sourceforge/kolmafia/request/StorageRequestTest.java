@@ -166,7 +166,7 @@ public class StorageRequestTest extends RequestTestBase {
   }
 
   @Test
-  public void itShouldNotindPulledItemsOutOfRonin() {
+  public void itShouldNotFindPulledItemsOutOfRonin() {
     roninStoragePropertySetup();
     KoLCharacter.setRonin(false);
     StorageRequest.addPulledItem(ItemPool.get(57));
