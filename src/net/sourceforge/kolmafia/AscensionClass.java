@@ -49,8 +49,9 @@ public enum AscensionClass {
 
   public static AscensionClass findByPlural(final String plural) {
     if (plural == null || plural.isEmpty()) return null;
+    String lowerCasePlural = plural.toLowerCase();
     return Arrays.stream(values())
-        .filter(a -> a.getPlural().toLowerCase().contains(plural.toLowerCase()))
+        .filter(a -> a.getPlural().toLowerCase().contains(lowerCasePlural))
         .findFirst()
         .orElse(null);
   }
