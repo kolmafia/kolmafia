@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Map.Entry;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class ModifiersTest {
   @Test
@@ -60,5 +62,28 @@ public class ModifiersTest {
       Modifiers mods = Modifiers.getModifiers("Skill", "Intrinsic Spiciness");
       assertEquals(Math.min(i, 10), mods.get(Modifiers.SAUCE_SPELL_DAMAGE));
     }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "+50% Spell Damage, Spell Damage Percent: +50",
+    "Successful hit weakens opponent, Weakens Monster",
+    "Only Accordion Thieves may use this item, Class: \"Accordion Thief\"",
+    "All Attributes +5, 'Muscle: +5, Mysticality: +5, Moxie: +5'",
+    "All Attributes +30%, 'Muscle Percent: +30, Mysticality Percent: +30, Moxie Percent: +30'",
+    "Bonus&nbsp;for&nbsp;Saucerors&nbsp;only, Class: \"Sauceror\"",
+    "Monsters are much more attracted to you., Combat Rate: +10",
+    "Monsters will be significantly less attracted to you. (Underwater only), Combat Rate (Underwater): -15",
+    "Maximum HP/MP +200, 'Maximum HP: +200, Maximum MP: +200'",
+    "Regenerate 100 MP per adventure, 'MP Regen Min: 100, MP Regen Max: 100'",
+    "Regenerate 15-20 HP and MP per adventure, 'HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20'",
+    "Serious Cold Resistance (+3), Cold Resistance: +3",
+    "Sublime Resistance to All Elements (+9), 'Spooky Resistance: +9, Stench Resistance: +9, Hot Resistance: +9, Cold Resistance: +9, Sleaze Resistance: +9'",
+    "So-So Slime Resistance (+2), Slime Resistance: +2",
+    "Slight Supercold Resistance, Supercold Resistance: +1",
+    "Your familiar will always act in combat, Familiar Action Bonus: +100"
+  })
+  public void canParseModifier(String enchantment, String modifier) {
+    assertEquals(modifier, Modifiers.parseModifier(enchantment));
   }
 }

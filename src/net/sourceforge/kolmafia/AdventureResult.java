@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -67,9 +68,9 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   public static final String SUBSTATS = "Substats";
   public static final String FULLSTATS = "Fullstats";
 
-  public static final List<String> MUS_SUBSTAT = new ArrayList<String>();
-  public static final List<String> MYS_SUBSTAT = new ArrayList<String>();
-  public static final List<String> MOX_SUBSTAT = new ArrayList<String>();
+  public static final List<String> MUS_SUBSTAT = new ArrayList<>();
+  public static final List<String> MYS_SUBSTAT = new ArrayList<>();
+  public static final List<String> MOX_SUBSTAT = new ArrayList<>();
 
   static {
     AdventureResult.MUS_SUBSTAT.add("Beefiness");
@@ -1166,7 +1167,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
 
   public static final String punchCardName(final int itemId) {
     for (Object[] punchcard : ItemDatabase.PUNCHCARDS) {
-      if (((Integer) punchcard[0]).intValue() == itemId) {
+      if ((Integer) punchcard[0] == itemId) {
         return (String) punchcard[2];
       }
     }
@@ -1229,11 +1230,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
      */
     @Override
     public int getCount() {
-      int totalCount = 0;
-      for (int i = 0; i < this.counts.length; ++i) {
-        totalCount += this.counts[i];
-      }
-      return totalCount;
+      return Arrays.stream(this.counts).sum();
     }
 
     @Override
@@ -1427,7 +1424,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       String arName = ar.getName().toLowerCase();
 
       for (int i = 0; i < this.matches.length && !hasMatch; ++i) {
-        hasMatch = arName.indexOf(this.matches[i]) != -1;
+        hasMatch = arName.contains(this.matches[i]);
       }
 
       return hasMatch ^ this.negated;

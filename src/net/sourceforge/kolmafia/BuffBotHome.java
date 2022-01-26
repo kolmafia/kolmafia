@@ -32,8 +32,7 @@ public class BuffBotHome {
   /** Past recipients of the buff associated with the given meat amount. */
   private static final TreeMap<Integer, List<BuffRecord>> pastRecipients = new TreeMap<>();
 
-  private static final LockableListModel<BuffMessage> messages =
-      new LockableListModel<BuffMessage>();
+  private static final LockableListModel<BuffMessage> messages = new LockableListModel<>();
   private static PrintStream textLogStream = System.out;
   private static PrintStream hypertextLogStream = System.out;
 

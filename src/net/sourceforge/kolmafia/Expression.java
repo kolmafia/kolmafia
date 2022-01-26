@@ -245,7 +245,7 @@ public class Expression {
           break;
 
         case '#':
-          v = ((Double) this.literals.get((int) s[--sp])).doubleValue();
+          v = (Double) this.literals.get((int) s[--sp]);
           break;
 
           // Valid with ModifierExpression:
@@ -591,7 +591,7 @@ public class Expression {
 
   protected String literal(Object value, char op) {
     if (this.literals == null) {
-      this.literals = new ArrayList<Object>();
+      this.literals = new ArrayList<>();
     }
     this.literals.add(value == null ? "" : value);
     return String.valueOf((char) (this.literals.size() - 1 + 0x8000)) + op;

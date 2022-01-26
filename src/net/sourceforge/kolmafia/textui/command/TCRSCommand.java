@@ -54,7 +54,7 @@ public class TCRSCommand extends AbstractCommand {
         return;
       }
       String className = split[0];
-      AscensionClass ascensionClass = AscensionClass.nameToClass(className);
+      AscensionClass ascensionClass = AscensionClass.find(className);
       String sign = split[1];
       if (!TCRSDatabase.validate(ascensionClass, sign)) {
         KoLmafia.updateDisplay(
@@ -114,7 +114,7 @@ public class TCRSCommand extends AbstractCommand {
       }
 
       String cclass = split[0];
-      AscensionClass ascensionClass = AscensionClass.nameToClass(cclass);
+      AscensionClass ascensionClass = AscensionClass.find(cclass);
       String sign = split[1];
       TCRSDatabase.load(ascensionClass, sign, true);
       TCRSDatabase.loadCafe(ascensionClass, sign, true);
