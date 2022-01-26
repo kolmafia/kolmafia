@@ -42,6 +42,7 @@ public abstract class AshTextDocumentService implements TextDocumentService {
         () -> {
           TextDocumentItem document = params.getTextDocument();
 
+          if (document == null) return;
           File file = FilesMonitor.UriToFile(document.getUri());
 
           this.parent.monitor.updateFile(file, document.getText(), document.getVersion());
