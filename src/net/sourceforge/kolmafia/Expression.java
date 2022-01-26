@@ -51,9 +51,7 @@ public class Expression {
     if (this.error == null) {
       return null;
     }
-    String buf =
-        "Expression syntax errors for '" + name + "':" + KoLConstants.LINE_BREAK + this.error;
-    return buf;
+    return "Expression syntax errors for '" + name + "':" + KoLConstants.LINE_BREAK + this.error;
   }
 
   private static double[] cachedStack;
@@ -280,15 +278,12 @@ public class Expression {
         case 'e':
           String effectName = (String) this.literals.get((int) s[--sp]);
           // If effect name is a number, convert to name
-          AdventureResult eff = null;
-          if (StringUtilities.isNumeric(effectName)) {
-            int effectId = StringUtilities.parseInt(effectName);
-            eff = EffectPool.get(effectId);
-          } else {
-            int effectId = EffectDatabase.getEffectId(effectName);
-            eff = EffectPool.get(effectId);
-          }
-          v = eff == null ? 0.0 : Math.max(0, eff.getCount(KoLConstants.activeEffects));
+          int effectId =
+              (StringUtilities.isNumeric(effectName))
+                  ? StringUtilities.parseInt(effectName)
+                  : EffectDatabase.getEffectId(effectName);
+          AdventureResult eff = EffectPool.get(effectId);
+          v = Math.max(0, eff.getCount(KoLConstants.activeEffects));
           break;
         case 'g':
           String itemName = (String) this.literals.get((int) s[--sp]);
@@ -598,49 +593,49 @@ public class Expression {
   }
 
   private String expr() {
-    String rv = this.term();
+    var rv = new StringBuilder(this.term());
     while (true) {
       switch (this.optional("+", "-")) {
         case '+':
-          rv = this.term() + rv + "+";
+          rv.insert(0, this.term()).append("+");
           break;
         case '-':
-          rv = this.term() + rv + "-";
+          rv.insert(0, this.term()).append("-");
           break;
         default:
-          return rv;
+          return rv.toString();
       }
     }
   }
 
   private String term() {
-    String rv = this.factor();
+    StringBuilder rv = new StringBuilder(this.factor());
     while (true) {
       switch (this.optional("*", "/")) {
         case '*':
-          rv = this.factor() + rv + "*";
+          rv.insert(0, this.factor()).append("*");
           break;
         case '/':
-          rv = this.factor() + rv + "/";
+          rv.insert(0, this.factor()).append("/");
           break;
         default:
-          return rv;
+          return rv.toString();
       }
     }
   }
 
   private String factor() {
-    String rv = this.value();
+    StringBuilder rv = new StringBuilder(this.value());
     while (true) {
       switch (this.optional("^", "%")) {
         case '^':
-          rv = this.value() + rv + "^";
+          rv.insert(0, this.value()).append("^");
           break;
         case '%':
-          rv = this.value() + rv + "%";
+          rv.insert(0, this.value()).append("%");
           break;
         default:
-          return rv;
+          return rv.toString();
       }
     }
   }
