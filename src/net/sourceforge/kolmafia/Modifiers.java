@@ -20,6 +20,7 @@ import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -3143,6 +3144,22 @@ public class Modifiers {
       Pattern.compile("Monsters (?:are|will be) (.*) attracted to you");
   private static final Pattern HP_MP_PATTERN = Pattern.compile("^Maximum HP/MP ([+-]\\d+)$");
 
+  private static final Map<String, String> COMBAT_RATE_DESCRIPTIONS =
+      Map.ofEntries(
+          Map.entry("<i>way</i> more", "+20"),
+          Map.entry("significantly more", "+15"),
+          Map.entry("much more", "+10"),
+          Map.entry("more", "+5"),
+          Map.entry("slightly less", "-3"),
+          Map.entry("less", "-5"),
+          Map.entry("more than a little less", "-7"),
+          Map.entry("quite a bit less", "-9"),
+          Map.entry("much less", "-10"),
+          Map.entry("very much less", "-11"),
+          Map.entry("significantly less", "-15"),
+          Map.entry("very very very much less", "-20"),
+          Map.entry("<i>way</i> less", "-20"));
+
   public static final String parseModifier(final String enchantment) {
     String result;
 
@@ -3217,35 +3234,7 @@ public class Modifiers {
               ? Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.COMBAT_RATE)
               : "Combat Rate (Underwater)";
       String level = matcher.group(1);
-      String rate =
-          level.equals("<i>way</i> more")
-              ? "+20"
-              : level.equals("significantly more")
-                  ? "+15"
-                  : level.equals("much more")
-                      ? "+10"
-                      : level.equals("more")
-                          ? "+5"
-                          : level.equals("slightly less")
-                              ? "-3"
-                              : level.equals("less")
-                                  ? "-5"
-                                  : level.equals("more than a little less")
-                                      ? "-7"
-                                      : level.equals("quite a bit less")
-                                          ? "-9"
-                                          : level.equals("much less")
-                                              ? "-10"
-                                              : level.equals("very much less")
-                                                  ? "-11"
-                                                  : level.equals("significantly less")
-                                                      ? "-15"
-                                                      : level.equals("very very very much less")
-                                                          ? "-20"
-                                                          : level.equals("<i>way</i> less")
-                                                              ? "-20"
-                                                              : "+0";
-
+      String rate = COMBAT_RATE_DESCRIPTIONS.getOrDefault(level, "+0");
       return tag + ": " + rate;
     }
 
@@ -3366,74 +3355,46 @@ public class Modifiers {
 
   private static final Pattern RESISTANCE_PATTERN = Pattern.compile("Resistance \\(([+-]\\d+)\\)");
 
-  private static String parseResistance(final String enchantment) {
-    String level = "";
-
+  private static String parseResistanceLevel(final String enchantment) {
     Matcher matcher = RESISTANCE_PATTERN.matcher(enchantment);
     if (matcher.find()) {
-      level = matcher.group(1);
+      return matcher.group(1);
     } else if (enchantment.contains("Slight")) {
-      level = "+1";
+      return "+1";
     } else if (enchantment.contains("So-So")) {
-      level = "+2";
+      return "+2";
     } else if (enchantment.contains("Serious")) {
-      level = "+3";
+      return "+3";
     } else if (enchantment.contains("Stupendous")) {
-      level = "+4";
+      return "+4";
     } else if (enchantment.contains("Superhuman")) {
-      level = "+5";
+      return "+5";
     } else if (enchantment.contains("Stunning")) {
-      level = "+7";
+      return "+7";
     } else if (enchantment.contains("Sublime")) {
-      level = "+9";
+      return "+9";
     }
+    return "";
+  }
 
-    if (enchantment.contains("All Elements")) {
-      return Modifiers.SPOOKY
-          + level
-          + ", "
-          + Modifiers.STENCH
-          + level
-          + ", "
-          + Modifiers.HOT
-          + level
-          + ", "
-          + Modifiers.COLD
-          + level
-          + ", "
-          + Modifiers.SLEAZE
-          + level;
-    }
+  private static String parseResistance(final String enchantment) {
+    String level = parseResistanceLevel(enchantment);
+    boolean all = enchantment.contains("All Elements");
 
-    if (enchantment.contains("Spooky")) {
-      return Modifiers.SPOOKY + level;
-    }
+    ArrayList<String> mods = new ArrayList<>();
 
-    if (enchantment.contains("Stench")) {
-      return Modifiers.STENCH + level;
-    }
+    if (enchantment.contains("Spooky") || all) mods.add(Modifiers.SPOOKY);
+    if (enchantment.contains("Stench") || all) mods.add(Modifiers.STENCH);
+    if (enchantment.contains("Hot") || all) mods.add(Modifiers.HOT);
+    if (enchantment.contains("Cold") || all) mods.add(Modifiers.COLD);
+    if (enchantment.contains("Sleaze") || all) mods.add(Modifiers.SLEAZE);
+    if (enchantment.contains("Slime")) mods.add(Modifiers.SLIME);
+    if (enchantment.contains("Supercold")) mods.add(Modifiers.SUPERCOLD);
 
-    if (enchantment.contains("Hot")) {
-      return Modifiers.HOT + level;
-    }
-
-    if (enchantment.contains("Cold")) {
-      return Modifiers.COLD + level;
-    }
-
-    if (enchantment.contains("Sleaze")) {
-      return Modifiers.SLEAZE + level;
-    }
-
-    if (enchantment.contains("Slime")) {
-      return Modifiers.SLIME + level;
-    }
-
-    if (enchantment.contains("Supercold")) {
-      return Modifiers.SUPERCOLD + level;
-    }
-
-    return null;
+    return mods.stream()
+        .map(m -> m + level)
+        .collect(
+            Collectors.collectingAndThen(Collectors.joining(", "), m -> m.isEmpty() ? null : m));
   }
 
   private static boolean findModifier(final Object[][] table, final String tag) {

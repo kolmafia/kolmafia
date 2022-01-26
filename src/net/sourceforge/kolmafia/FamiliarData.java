@@ -813,10 +813,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return false;
     }
 
-    int[] skills = FamiliarDatabase.getFamiliarSkills(this.id);
-
     // If any skill is greater than 0, we can train in that event
-    return Arrays.stream(skills).anyMatch(skill -> skill > 0);
+    return Arrays.stream(FamiliarDatabase.getFamiliarSkills(this.id)).anyMatch(skill -> skill > 0);
   }
 
   public boolean waterBreathing() {

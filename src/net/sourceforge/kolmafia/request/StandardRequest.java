@@ -49,15 +49,20 @@ public class StandardRequest extends GenericRequest {
   }
 
   private static Set<String> typeToSet(final String type) {
-    return type.equals("Items")
-        ? StandardRequest.itemSet
-        : type.equals("Bookshelf Books")
-            ? StandardRequest.bookshelfSet
-            : type.equals("Skills")
-                ? StandardRequest.skillSet
-                : type.equals("Familiars")
-                    ? StandardRequest.familiarSet
-                    : type.equals("Clan Items") ? StandardRequest.clanSet : null;
+    switch (type) {
+      case "Items":
+        return itemSet;
+      case "Bookshelf Books":
+        return bookshelfSet;
+      case "Skills":
+        return skillSet;
+      case "Familiars":
+        return familiarSet;
+      case "Clan Items":
+        return clanSet;
+      default:
+        return null;
+    }
   }
 
   private static boolean isNotRestricted(final Set<String> set, final String key) {

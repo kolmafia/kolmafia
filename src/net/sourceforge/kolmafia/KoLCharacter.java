@@ -4326,7 +4326,7 @@ public abstract class KoLCharacter {
    * @return familiar The first familiar matching this race
    */
   public static final FamiliarData findFamiliar(final String race) {
-    return findFamiliar(f -> f.getRace().equals(race));
+    return findFamiliar(f -> f.getRace().equalsIgnoreCase(race));
   }
 
   /**
