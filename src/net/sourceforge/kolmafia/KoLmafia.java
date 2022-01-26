@@ -14,6 +14,7 @@ import java.math.BigInteger;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
@@ -1617,7 +1618,11 @@ public abstract class KoLmafia {
     // retrieving any items which might be inside
     // of a closet somewhere.
 
-    for (AdventureResult adventureResult : requirements) {
+    Iterator<AdventureResult> i = requirements.iterator();
+
+    while (i.hasNext()) {
+      var adventureResult = i.next();
+
       if (adventureResult == null) {
         continue;
       }
@@ -1632,9 +1637,9 @@ public abstract class KoLmafia {
       }
 
       if (actualCount >= adventureResult.getCount()) {
-        requirements.remove(adventureResult);
+        i.remove();
       } else if (actualCount > 0) {
-        AdventureResult.addResultToList(requirements, adventureResult.getInstance(0 - actualCount));
+        AdventureResult.addResultToList(requirements, adventureResult.getInstance(-actualCount));
       }
     }
 
