@@ -585,12 +585,7 @@ public abstract class StoreManager {
     results = StoreManager.searchMall("\"" + name + "\"", 0);
 
     // Flush CoinMasterPurchaseRequests
-    Iterator<PurchaseRequest> it = results.iterator();
-    while (it.hasNext()) {
-      if (it.next() instanceof CoinMasterPurchaseRequest) {
-        it.remove();
-      }
-    }
+    results.removeIf(purchaseRequest -> purchaseRequest instanceof CoinMasterPurchaseRequest);
 
     if (KoLmafia.permitsContinue()) {
       StoreManager.mallSearches.put(id, results);
