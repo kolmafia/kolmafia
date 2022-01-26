@@ -116,16 +116,22 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     this.hasWanderers =
         AdventureDatabase.hasWanderers(adventureName, formSource.equals("adventure.php"));
 
-    if (formSource.equals("dwarffactory.php")) {
-      this.request = new DwarfFactoryRequest("ware");
-    } else if (formSource.equals("clan_gym.php")) {
-      this.request = new ClanRumpusRequest(ClanRumpusRequest.RequestType.fromString(adventureId));
-    } else if (formSource.equals("clan_hobopolis.php")) {
-      this.request = new RichardRequest(StringUtilities.parseInt(adventureId));
-    } else if (formSource.equals("basement.php")) {
-      this.request = new BasementRequest(adventureName);
-    } else {
-      this.request = new AdventureRequest(adventureName, formSource, adventureId);
+    switch (formSource) {
+      case "dwarffactory.php":
+        this.request = new DwarfFactoryRequest("ware");
+        break;
+      case "clan_gym.php":
+        this.request = new ClanRumpusRequest(ClanRumpusRequest.RequestType.fromString(adventureId));
+        break;
+      case "clan_hobopolis.php":
+        this.request = new RichardRequest(StringUtilities.parseInt(adventureId));
+        break;
+      case "basement.php":
+        this.request = new BasementRequest(adventureName);
+        break;
+      default:
+        this.request = new AdventureRequest(adventureName, formSource, adventureId);
+        break;
     }
 
     this.areaSummary = AdventureDatabase.getAreaCombatData(adventureName);

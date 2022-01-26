@@ -62,18 +62,22 @@ public abstract class KoLmafiaASH {
     String field1 = null;
     String field2 = null;
 
-    if (script.equals("place.php")) {
-      field1 = request.getFormField("whichplace");
-    } else if (script.equals("shop.php")) {
-      field1 = request.getFormField("whichshop");
-    } else if (script.equals("campground.php")) {
-      field1 = request.getFormField("action");
-      if (field1 != null && field1.equals("workshed")) {
-        AdventureResult workshed_item = CampgroundRequest.getCurrentWorkshedItem();
-        if (workshed_item != null) {
-          field2 = field1 + "." + workshed_item.getItemId();
+    switch (script) {
+      case "place.php":
+        field1 = request.getFormField("whichplace");
+        break;
+      case "shop.php":
+        field1 = request.getFormField("whichshop");
+        break;
+      case "campground.php":
+        field1 = request.getFormField("action");
+        if (field1 != null && field1.equals("workshed")) {
+          AdventureResult workshed_item = CampgroundRequest.getCurrentWorkshedItem();
+          if (workshed_item != null) {
+            field2 = field1 + "." + workshed_item.getItemId();
+          }
         }
-      }
+        break;
     }
 
     String scriptName = script.substring(0, script.length() - 4);
