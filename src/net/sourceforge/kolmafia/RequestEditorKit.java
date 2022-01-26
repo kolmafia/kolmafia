@@ -1109,12 +1109,16 @@ public class RequestEditorKit extends HTMLEditorKit {
     while (omatcher.find()) {
       String group = omatcher.group(1);
       String options = omatcher.group(2);
-      if (group.equals("Normal Outfits")) {
-        addOutfitGroup(obuffer, "outfit", "Outfits", "an", options);
-      } else if (group.equals("Custom Outfits")) {
-        addOutfitGroup(obuffer, "outfit2", "Custom", "a custom", options);
-      } else if (group.equals("Automatic Outfits")) {
-        addOutfitGroup(obuffer, "outfit3", "Automatic", "an automatic", options);
+      switch (group) {
+        case "Normal Outfits":
+          addOutfitGroup(obuffer, "outfit", "Outfits", "an", options);
+          break;
+        case "Custom Outfits":
+          addOutfitGroup(obuffer, "outfit2", "Custom", "a custom", options);
+          break;
+        case "Automatic Outfits":
+          addOutfitGroup(obuffer, "outfit3", "Automatic", "an automatic", options);
+          break;
       }
     }
 
@@ -1695,42 +1699,54 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     String partyQuest = Preferences.getString("_questPartyFairQuest");
 
-    if (partyQuest.equals("woots")) {
-      Matcher m = RequestEditorKit.WOOTS_PATTERN.matcher(buffer);
-      if (m.find()) {
-        String progress =
-            " (" + Preferences.getString("_questPartyFairProgress") + "/100 megawoots)";
-        buffer.insert(m.end(), progress);
-        return;
-      }
-    } else if (partyQuest.equals("trash")) {
-      Matcher m = RequestEditorKit.TRASH_PATTERN.matcher(buffer);
-      if (m.find()) {
-        String progress =
-            " (~"
-                + Preferences.getString("_questPartyFairProgress")
-                + " pieces of trash remaining)";
-        buffer.insert(m.end(), progress);
-        return;
-      }
-    } else if (partyQuest.equals("dj")) {
-      Matcher m = RequestEditorKit.MEAT_PATTERN.matcher(buffer);
-      if (m.find()) {
-        String progress =
-            " (" + Preferences.getString("_questPartyFairProgress") + " Meat remaining)";
-        buffer.insert(m.end(), progress);
-        return;
-      }
-    }
-    // No special text, just append to You win the fight if on clear the party quest
-    else if (partyQuest.equals("partiers")) {
-      Matcher m = RequestEditorKit.PARTIERS_PATTERN.matcher(buffer);
-      if (m.find()) {
-        String progress =
-            " (" + Preferences.getString("_questPartyFairProgress") + " Partiers remaining)";
-        buffer.insert(m.end(), progress);
-        return;
-      }
+    switch (partyQuest) {
+      case "woots":
+        {
+          Matcher m = RequestEditorKit.WOOTS_PATTERN.matcher(buffer);
+          if (m.find()) {
+            String progress =
+                " (" + Preferences.getString("_questPartyFairProgress") + "/100 megawoots)";
+            buffer.insert(m.end(), progress);
+            return;
+          }
+          break;
+        }
+      case "trash":
+        {
+          Matcher m = RequestEditorKit.TRASH_PATTERN.matcher(buffer);
+          if (m.find()) {
+            String progress =
+                " (~"
+                    + Preferences.getString("_questPartyFairProgress")
+                    + " pieces of trash remaining)";
+            buffer.insert(m.end(), progress);
+            return;
+          }
+          break;
+        }
+      case "dj":
+        {
+          Matcher m = RequestEditorKit.MEAT_PATTERN.matcher(buffer);
+          if (m.find()) {
+            String progress =
+                " (" + Preferences.getString("_questPartyFairProgress") + " Meat remaining)";
+            buffer.insert(m.end(), progress);
+            return;
+          }
+          break;
+        }
+        // No special text, just append to You win the fight if on clear the party quest
+      case "partiers":
+        {
+          Matcher m = RequestEditorKit.PARTIERS_PATTERN.matcher(buffer);
+          if (m.find()) {
+            String progress =
+                " (" + Preferences.getString("_questPartyFairProgress") + " Partiers remaining)";
+            buffer.insert(m.end(), progress);
+            return;
+          }
+          break;
+        }
     }
   }
 
