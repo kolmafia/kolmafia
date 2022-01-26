@@ -3191,25 +3191,13 @@ public class Modifiers {
     matcher = Modifiers.CLASS_PATTERN.matcher(enchantment);
     if (matcher.find()) {
       String plural = matcher.group(1);
-      AscensionClass cls = null;
-      if (plural.equals("Accordion&nbsp;Thieves")) {
-        cls = AscensionClass.ACCORDION_THIEF;
-      } else if (plural.equals("Disco&nbsp;Bandits")) {
-        cls = AscensionClass.DISCO_BANDIT;
-      } else if (plural.equals("Pastamancers")) {
-        cls = AscensionClass.PASTAMANCER;
-      } else if (plural.equals("Saucerors")) {
-        cls = AscensionClass.SAUCEROR;
-      } else if (plural.equals("Seal&nbsp;Clubbers")) {
-        cls = AscensionClass.SEAL_CLUBBER;
-      } else if (plural.equals("Turtle&nbsp;Tamers")) {
-        cls = AscensionClass.TURTLE_TAMER;
-      } else {
-        return null;
-      }
+      AscensionClass ascensionClass = AscensionClass.findByPlural(plural.replace("&nbsp;", " "));
+
+      if (ascensionClass == null) return null;
+
       return Modifiers.modifierTag(Modifiers.stringModifiers, Modifiers.CLASS)
           + ": \""
-          + cls.getName()
+          + ascensionClass.getName()
           + "\"";
     }
 
