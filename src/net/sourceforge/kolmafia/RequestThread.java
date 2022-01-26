@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletionService;
@@ -250,18 +249,10 @@ public abstract class RequestThread {
   }
 
   public static final synchronized void checkOpenRequestSequences(final boolean flush) {
-    int openSequences = 0;
     Thread currentThread = Thread.currentThread();
 
-    Iterator<Thread> threadIterator = RequestThread.threadMap.values().iterator();
-
-    while (threadIterator.hasNext()) {
-      Thread thread = threadIterator.next();
-
-      if (thread != currentThread) {
-        ++openSequences;
-      }
-    }
+    long openSequences =
+        RequestThread.threadMap.values().stream().filter(t -> t != currentThread).count();
 
     if (flush) {
       RequestThread.threadMap.clear();

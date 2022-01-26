@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.Box;
@@ -250,14 +251,9 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
       KoLDesktop.INSTANCE.setTitle(KoLDesktop.INSTANCE.lastTitle);
     }
 
-    Frame[] frames = Frame.getFrames();
-    for (int i = 0; i < frames.length; ++i) {
-      if (frames[i] instanceof GenericFrame) {
-        GenericFrame frame = (GenericFrame) frames[i];
-
-        frame.setTitle(frame.getLastTitle());
-      }
-    }
+    Arrays.stream(Frame.getFrames())
+        .filter(f -> f instanceof GenericFrame)
+        .forEach(f -> f.setTitle(((GenericFrame) f).getLastTitle()));
   }
 
   @Override

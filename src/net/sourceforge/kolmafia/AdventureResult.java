@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -1229,11 +1230,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
      */
     @Override
     public int getCount() {
-      int totalCount = 0;
-      for (int i = 0; i < this.counts.length; ++i) {
-        totalCount += this.counts[i];
-      }
-      return totalCount;
+      return Arrays.stream(this.counts).sum();
     }
 
     @Override

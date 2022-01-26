@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
@@ -202,13 +203,11 @@ public abstract class CoinmasterRegistry {
     }
 
     String name = matchingNames.get(0);
-    for (int i = 0; i < COINMASTERS.length; ++i) {
-      CoinmasterData data = COINMASTERS[i];
-      if (name.equalsIgnoreCase(data.getNickname())) {
-        return data;
-      }
-    }
-    return null;
+
+    return Arrays.stream(COINMASTERS)
+        .filter(data -> name.equalsIgnoreCase(data.getNickname()))
+        .findAny()
+        .orElse(null);
   }
 
   public static CoinmasterData findBuyer(final int itemId) {
@@ -216,23 +215,16 @@ public abstract class CoinmasterRegistry {
       return null;
     }
 
-    for (int i = 0; i < COINMASTERS.length; ++i) {
-      CoinmasterData data = COINMASTERS[i];
-      if (data.canSellItem(itemId)) {
-        return data;
-      }
-    }
-
-    return null;
+    return Arrays.stream(COINMASTERS)
+        .filter(data -> data.canSellItem(itemId))
+        .findAny()
+        .orElse(null);
   }
 
   public static CoinmasterData findSeller(final int itemId) {
-    for (int i = 0; i < COINMASTERS.length; ++i) {
-      CoinmasterData data = COINMASTERS[i];
-      if (data.canBuyItem(itemId)) {
-        return data;
-      }
-    }
-    return null;
+    return Arrays.stream(COINMASTERS)
+        .filter(data -> data.canBuyItem(itemId))
+        .findAny()
+        .orElse(null);
   }
 }

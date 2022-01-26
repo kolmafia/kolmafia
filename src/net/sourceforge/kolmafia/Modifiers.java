@@ -3598,16 +3598,15 @@ public class Modifiers {
           continue;
         }
         int mask = 0;
-        for (int i = 0; i < pieces.length; ++i) {
-          Modifiers mods = Modifiers.getModifiers("Item", pieces[i]);
+        for (String piece : pieces) {
+          Modifiers mods = Modifiers.getModifiers("Item", piece);
           if (mods == null) {
-            KoLmafia.updateDisplay(name + " contains element " + pieces[i] + " with no modifiers.");
+            KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
             continue loop;
           }
           int emask = mods.bitmaps[Modifiers.SYNERGETIC];
           if (emask == 0) {
-            KoLmafia.updateDisplay(
-                name + " contains element " + pieces[i] + " that isn't Synergetic.");
+            KoLmafia.updateDisplay(name + " contains element " + piece + " that isn't Synergetic.");
             continue loop;
           }
           mask |= emask;
@@ -3620,15 +3619,15 @@ public class Modifiers {
           continue;
         }
         int bit = 1 << Modifiers.mutexes.size();
-        for (int i = 0; i < pieces.length; ++i) {
+        for (String piece : pieces) {
           Modifiers mods = null;
           if (type.equals("MutexI")) {
-            mods = Modifiers.getModifiers("Item", pieces[i]);
+            mods = Modifiers.getModifiers("Item", piece);
           } else if (type.equals("MutexE")) {
-            mods = Modifiers.getModifiers("Effect", pieces[i]);
+            mods = Modifiers.getModifiers("Effect", piece);
           }
           if (mods == null) {
-            KoLmafia.updateDisplay(name + " contains element " + pieces[i] + " with no modifiers.");
+            KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
             continue loop;
           }
           mods.bitmaps[Modifiers.MUTEX] |= bit;

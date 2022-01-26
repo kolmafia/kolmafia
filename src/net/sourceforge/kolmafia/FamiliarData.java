@@ -356,8 +356,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
     String[] splitTTPref = rawTTPref.split("\\|");
 
     // Check Familiar Testudinal Teachings experience
-    for (int i = 0; i < splitTTPref.length; ++i) {
-      String[] it = splitTTPref[i].split(":");
+    for (String s : splitTTPref) {
+      String[] it = s.split(":");
       if (it.length == 2) {
         if (this.id == Integer.parseInt(it[0])) {
           int testTeachExp = 0;
@@ -368,8 +368,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
             newCount = 0;
           }
           String newTTProperty = it[0] + ":" + newCount;
-          String newTTPref =
-              StringUtilities.globalStringReplace(rawTTPref, splitTTPref[i], newTTProperty);
+          String newTTPref = StringUtilities.globalStringReplace(rawTTPref, s, newTTProperty);
           Preferences.setString("testudinalTeachings", newTTPref);
           return testTeachExp;
         }
@@ -817,13 +816,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     int[] skills = FamiliarDatabase.getFamiliarSkills(this.id);
 
     // If any skill is greater than 0, we can train in that event
-    for (int i = 0; i < skills.length; ++i) {
-      if (skills[i] > 0) {
-        return true;
-      }
-    }
-
-    return false;
+    return Arrays.stream(skills).anyMatch(skill -> skill > 0);
   }
 
   public boolean waterBreathing() {

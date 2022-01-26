@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
@@ -86,6 +87,10 @@ public class StandardRequest extends GenericRequest {
     }
 
     return StandardRequest.isAllowedInStandard(type, key);
+  }
+
+  public static boolean isAllowed(final FamiliarData familiar) {
+    return isAllowed("Familiars", familiar.getRace());
   }
 
   public static boolean isAllowedInStandard(String type, final String key) {

@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Taskbar;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
@@ -4326,62 +4327,39 @@ public abstract class KoLCharacter {
    * @return familiar The first familiar matching this race
    */
   public static final FamiliarData findFamiliar(final String race) {
-    if (FamiliarData.NO_FAMILIAR.getRace().equals(race)) {
-      return FamiliarData.NO_FAMILIAR;
-    }
-
-    // Don't even look if you are an Avatar
-    if (KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg()) {
-      return null;
-    }
-
-    FamiliarData[] familiarArray = new FamiliarData[KoLCharacter.familiars.size()];
-    KoLCharacter.familiars.toArray(familiarArray);
-
-    for (int i = 0; i < familiarArray.length; ++i) {
-      FamiliarData familiar = familiarArray[i];
-      if (familiar.getRace().equals(race)) {
-        return familiar;
-      }
-    }
-
-    return null;
+    return findFamiliar(f -> f.getRace().equals(race));
   }
 
+  /**
+   * Accessor method to find the specified familiar.
+   *
+   * @param familiarId The id of the familiar to find
+   * @return familiar The first familiar matching this id
+   */
   public static final FamiliarData findFamiliar(final int familiarId) {
-    if (familiarId == -1) {
-      return FamiliarData.NO_FAMILIAR;
-    }
+    return findFamiliar(f -> f.getId() == familiarId);
+  }
+
+  private static final FamiliarData findFamiliar(final Predicate<FamiliarData> familiarFilter) {
+    // Quick check against NO_FAMILIAR
+    if (familiarFilter.test(FamiliarData.NO_FAMILIAR)) return FamiliarData.NO_FAMILIAR;
 
     // Don't even look if you are an Avatar
-    if (KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete()) {
-      return null;
-    }
+    if (KoLCharacter.getPath().isAvatar) return null;
 
     // In Quantum Terrarium the player only has the familiar that is with them
     if (KoLCharacter.inQuantum()) {
-      return (KoLCharacter.currentFamiliar.getId() == familiarId)
+      return familiarFilter.test(KoLCharacter.currentFamiliar)
           ? KoLCharacter.currentFamiliar
           : null;
     }
 
-    FamiliarData[] familiarArray = new FamiliarData[KoLCharacter.familiars.size()];
-    KoLCharacter.familiars.toArray(familiarArray);
-
-    for (int i = 0; i < familiarArray.length; ++i) {
-      FamiliarData familiar = familiarArray[i];
-      if (familiar.getId() == familiarId) {
-        if (!StandardRequest.isAllowed("Familiars", familiar.getRace())) {
-          return null;
-        }
-        if (KoLCharacter.inGLover() && !KoLCharacter.hasGs(familiar.getRace())) {
-          return null;
-        }
-        return familiar;
-      }
-    }
-
-    return null;
+    return KoLCharacter.familiars.stream()
+        .filter(familiarFilter)
+        .filter(StandardRequest::isAllowed)
+        .filter(f -> !KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()))
+        .findAny()
+        .orElse(null);
   }
 
   public static final boolean hasFamiliar(final int familiarId) {
@@ -5031,8 +5009,8 @@ public abstract class KoLCharacter {
     // For the sake of easier maintenance, execute a lot of extra
     // string comparisons when looking at status effects.
 
-    for (int i = 0; i < effects.size(); ++i) {
-      newModifiers.add(Modifiers.getEffectModifiers(effects.get(i).getEffectId()));
+    for (AdventureResult effect : effects) {
+      newModifiers.add(Modifiers.getEffectModifiers(effect.getEffectId()));
     }
 
     Modifiers.hoboPower = newModifiers.get(Modifiers.HOBO_POWER);

@@ -10,6 +10,8 @@ import java.awt.desktop.QuitEvent;
 import java.awt.desktop.QuitHandler;
 import java.awt.desktop.QuitResponse;
 import java.lang.reflect.Constructor;
+import java.util.Arrays;
+import java.util.stream.IntStream;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -36,35 +38,22 @@ public class CreateFrameRunnable implements Runnable {
   public CreateFrameRunnable(final Class<?> creationType, final Object[] parameters) {
     this.creationType = creationType;
     this.parameters = parameters;
-    Class<?>[] parameterTypes = new Class[parameters.length];
-    for (int i = 0; i < parameters.length; ++i) {
-      parameterTypes[i] = parameters[i] == null ? null : parameters[i].getClass();
-    }
 
-    this.creator = null;
-    boolean isValidConstructor;
+    Class<?>[] parameterTypes =
+        Arrays.stream(parameters).map(p -> p == null ? null : p.getClass()).toArray(Class[]::new);
 
-    Class<?>[] constructorParameterTypes;
-    Constructor<?>[] constructors = creationType.getConstructors();
-
-    for (int i = 0; i < constructors.length; ++i) {
-      constructorParameterTypes = constructors[i].getParameterTypes();
-      if (constructorParameterTypes.length != parameters.length) {
-        continue;
-      }
-
-      isValidConstructor = true;
-      for (int j = 0; j < constructorParameterTypes.length && isValidConstructor; ++j) {
-        if (parameterTypes[j] != null
-            && !constructorParameterTypes[j].isAssignableFrom(parameterTypes[j])) {
-          isValidConstructor = false;
-        }
-      }
-
-      if (isValidConstructor) {
-        this.creator = constructors[i];
-      }
-    }
+    this.creator =
+        Arrays.stream(creationType.getConstructors())
+            .filter(
+                c -> {
+                  var constructorParamTypes = c.getParameterTypes();
+                  if (constructorParamTypes.length != parameters.length) return false;
+                  return IntStream.range(0, parameterTypes.length)
+                      .filter(j -> parameterTypes[j] != null)
+                      .allMatch(j -> constructorParamTypes[j].isAssignableFrom(parameterTypes[j]));
+                })
+            .reduce((a, b) -> b)
+            .orElse(null);
   }
 
   @Override
@@ -183,9 +172,7 @@ public class CreateFrameRunnable implements Runnable {
 
     Frame[] frames = Frame.getFrames();
 
-    for (int i = 0; i < frames.length; ++i) {
-      Frame frame = frames[i];
-
+    for (Frame frame : frames) {
       if (frame.getClass() == this.creationType) {
         if (frame instanceof GenericFrame) {
           GenericFrame gframe = (GenericFrame) frame;

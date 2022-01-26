@@ -384,9 +384,7 @@ public class MonsterData extends AdventureResult {
     monster.randomModifiers = modifiers;
 
     // Iterate over them and modify the base values
-    for (int i = 0; i < modifiers.length; ++i) {
-      String modifier = modifiers[i];
-
+    for (String modifier : modifiers) {
       if (modifier.equals("askew")) {
         monster.attack = IntegerPool.get(monster.getRawAttack() * 11 / 10);
       } else if (modifier.equals("bouncing")) {
@@ -970,8 +968,8 @@ public class MonsterData extends AdventureResult {
       return false;
     }
 
-    for (int i = 0; i < subitems.length; ++i) {
-      if (this.shouldStealItem(subitems[i], dropModifier)) {
+    for (AdventureResult subitem : subitems) {
+      if (this.shouldStealItem(subitem, dropModifier)) {
         return true;
       }
     }

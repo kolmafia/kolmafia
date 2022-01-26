@@ -43,9 +43,7 @@ public class DebugModifiers extends Modifiers {
       DebugModifiers.buffer.append(DebugModifiers.currentDesc);
     }
     DebugModifiers.buffer.append("</td>");
-    Iterator<Integer> i = DebugModifiers.wanted.keySet().iterator();
-    while (i.hasNext()) {
-      Integer key = i.next();
+    for (Integer key : DebugModifiers.wanted.keySet()) {
       String item = DebugModifiers.adjustments.get(key);
       DebugModifiers.buffer.append(Objects.requireNonNullElse(item, "<td></td><td></td>"));
     }

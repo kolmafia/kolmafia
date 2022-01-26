@@ -256,14 +256,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
         continue;
       }
 
-      boolean skip = false;
-      for (int i = 0; i < missing.size(); i++) {
-        if (missing.get(i).getItemId() == piece.getItemId()) {
-          skip = true;
-          break;
-        }
-      }
-      if (skip) {
+      if (missing.stream().anyMatch(a -> a.getItemId() == piece.getItemId())) {
         continue;
       }
 
@@ -275,8 +268,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
       }
     }
 
-    for (int i = 0; i < missing.size(); i++) {
-      AdventureResult item = missing.get(i);
+    for (AdventureResult item : missing) {
       RequestLogger.printLine(
           MafiaState.ERROR,
           "You need " + item.getCount() + " more " + item.getName() + " to continue.");

@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.jar.Attributes;
@@ -419,15 +420,10 @@ public abstract class StaticEntity {
       return javaInstallFolder;
     }
 
-    File[] possibleJavaHomes = javaInstallFolder.listFiles();
-
-    for (int i = 0; i < possibleJavaHomes.length; ++i) {
-      if (StaticEntity.hasJDKBinaries(possibleJavaHomes[i])) {
-        return possibleJavaHomes[i];
-      }
-    }
-
-    return null;
+    return Arrays.stream(javaInstallFolder.listFiles())
+        .filter(StaticEntity::hasJDKBinaries)
+        .findAny()
+        .orElse(null);
   }
 
   private static boolean hasJDKBinaries(File javaHome) {
@@ -643,26 +639,12 @@ public abstract class StaticEntity {
   }
 
   public static final String[] getPastUserList() {
-    ArrayList<String> pastUserList = new ArrayList<String>();
-
-    String user;
-    File[] files = DataUtilities.listFiles(KoLConstants.SETTINGS_LOCATION);
-
-    for (int i = 0; i < files.length; ++i) {
-      user = files[i].getName();
-      if (user.startsWith("GLOBAL") || !user.endsWith("_prefs.txt")) {
-        continue;
-      }
-
-      user = user.substring(0, user.length() - 10);
-      if (!user.equals("GLOBAL") && !pastUserList.contains(user)) {
-        pastUserList.add(user);
-      }
-    }
-
-    String[] pastUsers = new String[pastUserList.size()];
-    pastUserList.toArray(pastUsers);
-    return pastUsers;
+    return Arrays.stream(DataUtilities.listFiles(KoLConstants.SETTINGS_LOCATION))
+        .map(f -> f.getName())
+        .filter(u -> !u.startsWith("GLOBAL") && u.endsWith("_prefs.txt"))
+        .map(u -> u.substring(0, u.length() - 10))
+        .distinct()
+        .toArray(String[]::new);
   }
 
   public static final void disable(final String name) {
