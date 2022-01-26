@@ -435,11 +435,6 @@ public class KoLmafiaCLI {
       return;
     }
 
-    if (parameters.equals("refresh")) {
-      parameters = lcommand;
-      lcommand = command = "refresh";
-    }
-
     AbstractCommand handler = AbstractCommand.lookup.get(lcommand);
 
     if (handler == null) {
