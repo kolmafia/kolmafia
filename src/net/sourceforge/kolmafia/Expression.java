@@ -245,7 +245,7 @@ public class Expression {
           break;
 
         case '#':
-          v = ((Double) this.literals.get((int) s[--sp])).doubleValue();
+          v = (Double) this.literals.get((int) s[--sp]);
           break;
 
           // Valid with ModifierExpression:

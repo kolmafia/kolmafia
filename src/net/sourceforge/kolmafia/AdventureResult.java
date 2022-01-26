@@ -1166,7 +1166,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
 
   public static final String punchCardName(final int itemId) {
     for (Object[] punchcard : ItemDatabase.PUNCHCARDS) {
-      if (((Integer) punchcard[0]).intValue() == itemId) {
+      if ((Integer) punchcard[0] == itemId) {
         return (String) punchcard[2];
       }
     }

@@ -115,7 +115,7 @@ public abstract class StaticEntity {
       }
 
       if (StaticEntity.cachedRevisionNumber == null) {
-        StaticEntity.cachedRevisionNumber = Integer.valueOf(0);
+        StaticEntity.cachedRevisionNumber = 0;
       }
     }
 

@@ -2704,7 +2704,7 @@ public class Modifiers {
     if (synergetic == 0) return; // nothing possible
     for (Entry<String, Integer> entry : Modifiers.synergies.entrySet()) {
       String name = entry.getKey();
-      int mask = entry.getValue().intValue();
+      int mask = entry.getValue();
       if ((synergetic & mask) == mask) {
         this.add(Modifiers.getModifiers("Synergy", name));
       }
@@ -3685,7 +3685,7 @@ public class Modifiers {
     for (Entry<Integer, String> entry : ItemDatabase.dataNameEntrySet()) {
       Integer key = entry.getKey();
       String name = entry.getValue();
-      int type = ItemDatabase.getConsumptionType(key.intValue());
+      int type = ItemDatabase.getConsumptionType(key);
 
       switch (type) {
         case KoLConstants.EQUIP_HAT:
@@ -3789,7 +3789,7 @@ public class Modifiers {
     for (Entry<Integer, String> entry : SkillDatabase.entrySet()) {
       Integer key = entry.getKey();
       String name = entry.getValue();
-      if (SkillDatabase.isPassive(key.intValue())) {
+      if (SkillDatabase.isPassive(key)) {
         passives.add(name);
       }
     }
@@ -3842,7 +3842,7 @@ public class Modifiers {
 
     for (Entry<String, Integer> entry : Modifiers.synergies.entrySet()) {
       String name = entry.getKey();
-      int mask = entry.getValue().intValue();
+      int mask = entry.getValue();
       synergies.add(name);
     }
 

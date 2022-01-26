@@ -128,7 +128,7 @@ public class EdServantData implements Comparable<EdServantData> {
   }
 
   public static int dataToId(Object[] data) {
-    return data == null ? 0 : ((Integer) data[2]).intValue();
+    return data == null ? 0 : (Integer) data[2];
   }
 
   public static String dataToImage(Object[] data) {
