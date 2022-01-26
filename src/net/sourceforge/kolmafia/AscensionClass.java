@@ -55,11 +55,13 @@ public enum AscensionClass {
         .orElse(null);
   }
 
-  public static AscensionClass find(String name) {
+  public static AscensionClass find(final String name) {
     if (name == null || name.equals("")) return null;
 
+    String lowerCaseName = name.toLowerCase();
+
     return Arrays.stream(values())
-        .filter(a -> a.getName().toLowerCase().contains(name.toLowerCase()))
+        .filter(a -> a.getName().toLowerCase().contains(lowerCaseName))
         .findFirst()
         .orElse(null);
   }
