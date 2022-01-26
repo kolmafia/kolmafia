@@ -3,6 +3,8 @@ package net.sourceforge.kolmafia;
 import java.io.PrintStream;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -50,28 +52,20 @@ public class RequestLogger extends NullStream {
       return;
     }
 
-    StringBuffer buffer = new StringBuffer();
-
     if (printing != KoLConstants.availableSkills) {
-      Object current;
-      for (int i = 0; i < printing.size(); ++i) {
-        current = printing.get(i);
-        if (current == null) {
-          continue;
-        }
-
-        buffer.append(current.toString());
-        buffer.append(KoLConstants.LINE_BREAK);
-      }
-
-      ostream.println(buffer.toString());
+      ostream.println(
+          printing.stream()
+              .filter(Objects::nonNull)
+              .map(o -> o.toString())
+              .collect(Collectors.joining(KoLConstants.LINE_BREAK)));
       return;
     }
 
+    StringBuffer buffer = new StringBuffer();
     SkillDatabase.generateSkillList(buffer, false);
 
     if (ostream != INSTANCE) {
-      ostream.println(buffer.toString());
+      ostream.println(buffer);
       return;
     }
 

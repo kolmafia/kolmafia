@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.jar.Attributes;
@@ -47,7 +48,7 @@ public abstract class StaticEntity {
   public static boolean userAborted = false;
   private static MafiaState globalContinuationState = MafiaState.CONTINUE;
   private static final ThreadLocal<MafiaState> threadLocalContinuationState =
-      new ThreadLocal<MafiaState>() {
+      new ThreadLocal<>() {
         @Override
         protected MafiaState initialValue() {
           return MafiaState.CONTINUE;
@@ -115,7 +116,7 @@ public abstract class StaticEntity {
       }
 
       if (StaticEntity.cachedRevisionNumber == null) {
-        StaticEntity.cachedRevisionNumber = Integer.valueOf(0);
+        StaticEntity.cachedRevisionNumber = 0;
       }
     }
 
@@ -272,7 +273,7 @@ public abstract class StaticEntity {
   public static final boolean executeCountdown(final String message, final int seconds) {
     PauseObject pauser = new PauseObject();
 
-    StringBuffer actualMessage = new StringBuffer(message);
+    StringBuilder actualMessage = new StringBuilder(message);
 
     for (int i = seconds; i > 0 && KoLmafia.permitsContinue(); --i) {
       boolean shouldDisplay = false;
@@ -419,15 +420,10 @@ public abstract class StaticEntity {
       return javaInstallFolder;
     }
 
-    File[] possibleJavaHomes = javaInstallFolder.listFiles();
-
-    for (int i = 0; i < possibleJavaHomes.length; ++i) {
-      if (StaticEntity.hasJDKBinaries(possibleJavaHomes[i])) {
-        return possibleJavaHomes[i];
-      }
-    }
-
-    return null;
+    return Arrays.stream(javaInstallFolder.listFiles())
+        .filter(StaticEntity::hasJDKBinaries)
+        .findAny()
+        .orElse(null);
   }
 
   private static boolean hasJDKBinaries(File javaHome) {
@@ -468,13 +464,13 @@ public abstract class StaticEntity {
 
       String line;
 
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
 
       while ((pid == null) && (line = reader.readLine()) != null) {
         sb.append(line);
         sb.append(KoLConstants.LINE_BREAK);
 
-        if (line.indexOf("KoLmafia") != -1) {
+        if (line.contains("KoLmafia")) {
           pid = line.substring(0, line.indexOf(' '));
         }
 
@@ -522,7 +518,7 @@ public abstract class StaticEntity {
 
     Runtime runtime = Runtime.getRuntime();
 
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
 
     try {
       String[] command = new String[2];
@@ -582,7 +578,7 @@ public abstract class StaticEntity {
 
     Runtime runtime = Runtime.getRuntime();
 
-    StringBuffer sb = new StringBuffer();
+    StringBuilder sb = new StringBuilder();
 
     try {
       String[] command = new String[3];
@@ -643,26 +639,12 @@ public abstract class StaticEntity {
   }
 
   public static final String[] getPastUserList() {
-    ArrayList<String> pastUserList = new ArrayList<String>();
-
-    String user;
-    File[] files = DataUtilities.listFiles(KoLConstants.SETTINGS_LOCATION);
-
-    for (int i = 0; i < files.length; ++i) {
-      user = files[i].getName();
-      if (user.startsWith("GLOBAL") || !user.endsWith("_prefs.txt")) {
-        continue;
-      }
-
-      user = user.substring(0, user.length() - 10);
-      if (!user.equals("GLOBAL") && !pastUserList.contains(user)) {
-        pastUserList.add(user);
-      }
-    }
-
-    String[] pastUsers = new String[pastUserList.size()];
-    pastUserList.toArray(pastUsers);
-    return pastUsers;
+    return Arrays.stream(DataUtilities.listFiles(KoLConstants.SETTINGS_LOCATION))
+        .map(f -> f.getName())
+        .filter(u -> !u.startsWith("GLOBAL") && u.endsWith("_prefs.txt"))
+        .map(u -> u.substring(0, u.length() - 10))
+        .distinct()
+        .toArray(String[]::new);
   }
 
   public static final void disable(final String name) {
