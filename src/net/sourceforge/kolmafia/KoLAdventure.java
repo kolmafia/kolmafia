@@ -276,7 +276,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     String romanticTarget = Preferences.getString("romanticTarget");
 
-    if (romanticTarget != null && !romanticTarget.equals("")) {
+    if (romanticTarget != null && !romanticTarget.isEmpty()) {
       return true;
     }
 
@@ -1268,7 +1268,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         adventureId = matcher.find() ? matcher.group(1) : "0";
         adventureURL = adventurePage + "?mine=" + adventureId;
       } else if (adventurePage.equals("adventure.php")) {
-        if (adventureId.equals("")) {
+        if (adventureId.isEmpty()) {
           Matcher matcher = KoLAdventure.ADVENTUREID_PATTERN.matcher(adventureURL);
           adventureId = matcher.find() ? matcher.group(1) : "0";
         }
@@ -2343,7 +2343,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       encounter = BasementRequest.getBasementLevelSummary();
     }
 
-    if (!encounter.equals("")) {
+    if (!encounter.isEmpty()) {
       RequestLogger.printLine(encounter);
       RequestLogger.updateSessionLog(encounter);
     }

@@ -789,7 +789,7 @@ public abstract class KoLCharacter {
    */
   public static final void setAvatar(final String avatar) {
     KoLCharacter.avatar = avatar;
-    if (!avatar.equals("")) {
+    if (!avatar.isEmpty()) {
       String prefix = KoLmafia.imageServerPath();
       FileUtilities.downloadImage(prefix + KoLCharacter.avatar);
     }
@@ -819,7 +819,7 @@ public abstract class KoLCharacter {
     // is meaningless), or are not logged in (ditto), nothing to do
     if (KoLCharacter.gender != 0
         || CharPaneRequest.inValhalla()
-        || GenericRequest.passwordHash.equals("")) {
+        || GenericRequest.passwordHash.isEmpty()) {
       return KoLCharacter.gender;
     }
 
@@ -3619,9 +3619,7 @@ public abstract class KoLCharacter {
   public static final void setPermedSkills(final List<UseSkillRequest> newSkillSet) {
     KoLConstants.permedSkills.clear();
 
-    for (UseSkillRequest skill : newSkillSet) {
-      KoLConstants.permedSkills.add(skill);
-    }
+    KoLConstants.permedSkills.addAll(newSkillSet);
   }
 
   /** Adds a single skill to the list of known skills possessed by this character. */
@@ -4907,8 +4905,6 @@ public abstract class KoLCharacter {
       newModifiers.add(Modifiers.getModifiers("StatDay", KoLmafia.statDay));
     }
 
-    Modifiers.smithsness = KoLCharacter.getSmithsnessModifier(equipment, effects);
-
     // Certain outfits give benefits to the character
     // Need to do this before the individual items, so that Hobo Power
     // from the outfit counts towards a Hodgman offhand.
@@ -5015,8 +5011,6 @@ public abstract class KoLCharacter {
     for (AdventureResult effect : effects) {
       newModifiers.add(Modifiers.getEffectModifiers(effect.getEffectId()));
     }
-
-    Modifiers.hoboPower = newModifiers.get(Modifiers.HOBO_POWER);
 
     // Add modifiers from campground equipment.
     for (int i = 0; i < KoLConstants.campground.size(); ++i) {
@@ -5125,6 +5119,10 @@ public abstract class KoLCharacter {
     if (custom != null) {
       newModifiers.add(Modifiers.parseModifiers("Generated:custom", custom));
     }
+
+    // Store some modifiers as statics
+    Modifiers.hoboPower = newModifiers.get(Modifiers.HOBO_POWER);
+    Modifiers.smithsness = KoLCharacter.getSmithsnessModifier(equipment, effects);
 
     if (Modifiers.currentLocation.equals("The Slime Tube")) {
       int hatred = (int) newModifiers.get(Modifiers.SLIME_HATES_IT);
@@ -5653,7 +5651,7 @@ public abstract class KoLCharacter {
 
     for (int i = 819; i <= 827; ++i) {
       String testProperty = Preferences.getString("lastBangPotion" + i);
-      if (!testProperty.equals("")) {
+      if (!testProperty.isEmpty()) {
         String name = ItemDatabase.getItemName(i);
         String testName = name + " of " + testProperty;
         String testPlural = name + "s of " + testProperty;
@@ -5666,7 +5664,7 @@ public abstract class KoLCharacter {
 
     for (int i = ItemPool.VIAL_OF_RED_SLIME; i <= ItemPool.VIAL_OF_PURPLE_SLIME; ++i) {
       String testProperty = Preferences.getString("lastSlimeVial" + i);
-      if (!testProperty.equals("")) {
+      if (!testProperty.isEmpty()) {
         String name = ItemDatabase.getItemName(i);
         String testName = name + ": " + testProperty;
         String testPlural = ItemDatabase.getPluralName(i) + testProperty;

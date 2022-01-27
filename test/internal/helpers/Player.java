@@ -1,12 +1,14 @@
 package internal.helpers;
 
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -64,6 +66,14 @@ public class Player {
     KoLConstants.activeEffects.add(EffectPool.get(EffectDatabase.getEffectId(effect)));
   }
 
+  public static void addEffect(String effect, int turns) {
+    KoLConstants.activeEffects.add(EffectPool.get(EffectDatabase.getEffectId(effect), turns));
+  }
+
+  public static void addIntrinsic(String effect) {
+    addEffect(effect, Integer.MAX_VALUE);
+  }
+
   public static void addSkill(String skill) {
     KoLCharacter.addAvailableSkill(skill);
   }
@@ -90,7 +100,15 @@ public class Player {
     KoLCharacter.recalculateAdjustments();
   }
 
+  public static void isClass(AscensionClass ascensionClass) {
+    KoLCharacter.setAscensionClass(ascensionClass);
+  }
+
   public static void inPath(Path path) {
     KoLCharacter.setPath(path);
+  }
+
+  public static void inLocation(String location) {
+    KoLCharacter.updateSelectedLocation(AdventureDatabase.getAdventure(location));
   }
 }
