@@ -14,6 +14,12 @@ public class Cleanups implements Closeable {
     cleanups.add(r);
   }
 
+  public Cleanups(Cleanups... cleanups) {
+    for (var c : cleanups) {
+      this.cleanups.addAll(c.cleanups);
+    }
+  }
+
   public Cleanups(Collection<Runnable> r) {
     this.addAll(r);
   }
