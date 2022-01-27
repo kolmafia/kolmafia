@@ -1,2 +1,5 @@
 ignore:
   - "lib/" # Ignore the lib folder since we try not to change that code at all
+
+comment:
+  after_n_builds: 6 # Don't post a comment until we've got two Java builds for each of the three supported OSes

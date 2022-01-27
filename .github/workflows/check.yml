@@ -44,6 +44,9 @@ jobs:
           ORG_GRADLE_PROJECT_javaTargetCompatibility: ${{ matrix.java }}
         run: ./gradlew --no-daemon check jacocoTestReport
 
+      - name: Strip complexity from coverage
+        run: sed -i '' -r 's/<counter type="COMPLEXITY"[^>]\+>//g' build/reports/jacoco/test/jacocoTestReport.xml
+
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v2
         if: always()
