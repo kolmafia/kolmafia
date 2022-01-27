@@ -1927,6 +1927,7 @@ user	_riftletAdv	0
 user	_roboDrinks
 user	_rogueProgramCharge	0
 user	_romanticFightsLeft	0
+user	_roninStoragePulls	
 user	_saberForceMonster
 user	_saberForceMonsterCount	0
 user	_saberForceUses	0

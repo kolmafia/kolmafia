@@ -348,7 +348,7 @@ public class DataTypes {
       return DataTypes.CLASS_INIT;
     }
 
-    AscensionClass ascensionClass = AscensionClass.nameToClass(name);
+    AscensionClass ascensionClass = AscensionClass.find(name);
 
     if (ascensionClass == null || ascensionClass.getId() < 0) {
       return returnDefault ? DataTypes.CLASS_INIT : null;
@@ -772,7 +772,7 @@ public class DataTypes {
   }
 
   public static final Value makeClassValue(final int id, boolean returnDefault) {
-    return makeClassValue(AscensionClass.idToClass(id), returnDefault);
+    return makeClassValue(AscensionClass.find(id), returnDefault);
   }
 
   private static Value makeNormalizedSkill(final int num, String name) {

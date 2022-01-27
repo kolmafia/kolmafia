@@ -20,7 +20,7 @@ public class DebugModifiers extends Modifiers {
     DebugModifiers.adjustments = new HashMap<>();
     for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i) {
       String name = Modifiers.getModifierName(i);
-      if (name.toLowerCase().indexOf(parameters) != -1) {
+      if (name.toLowerCase().contains(parameters)) {
         DebugModifiers.wanted.put(IntegerPool.get(i), "<td colspan=3>" + name + "</td>");
         DebugModifiers.adjustments.put(IntegerPool.get(i), "<td colspan=2>" + name + "</td>");
       }
@@ -43,9 +43,7 @@ public class DebugModifiers extends Modifiers {
       DebugModifiers.buffer.append(DebugModifiers.currentDesc);
     }
     DebugModifiers.buffer.append("</td>");
-    Iterator<Integer> i = DebugModifiers.wanted.keySet().iterator();
-    while (i.hasNext()) {
-      Integer key = i.next();
+    for (Integer key : DebugModifiers.wanted.keySet()) {
       String item = DebugModifiers.adjustments.get(key);
       DebugModifiers.buffer.append(Objects.requireNonNullElse(item, "<td></td><td></td>"));
     }
