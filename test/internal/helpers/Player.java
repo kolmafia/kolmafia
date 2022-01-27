@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -21,15 +22,18 @@ public class Player {
     EquipmentManager.setEquipment(slot, AdventureResult.tallyItem(item));
   }
 
-  public static void addItem(String item) {
-    addItem(item, 1);
+  public static Cleanups addItem(String item) {
+    return addItem(item, 1);
   }
 
-  public static void addItem(String item, int count) {
+  public static Cleanups addItem(String item, int count) {
+    var cleanups = new Cleanups();
     AdventureResult parsed = AdventureResult.tallyItem(item);
     for (int i = 0; i < count; i++) {
       AdventureResult.addResultToList(KoLConstants.inventory, parsed);
+      cleanups.add(() -> AdventureResult.removeResultFromList(KoLConstants.inventory, parsed));
     }
+    return cleanups;
   }
 
   public static void addItem(int itemId) {
@@ -49,21 +53,28 @@ public class Player {
     return InventoryManager.getCount(parsed);
   }
 
-  public static void canUse(String item) {
-    canUse(item, 1);
+  public static Cleanups canUse(String item) {
+    return canUse(item, 1);
   }
 
-  public static void canUse(String item, int count) {
-    addItem(item, count);
+  public static Cleanups canUse(String item, int count) {
+    var cleanups = new Cleanups();
+    cleanups.add(addItem(item, count));
     canEquip(item);
+    cleanups.add(() -> setStats(0, 0, 0));
+    return cleanups;
   }
 
-  public static void hasFamiliar(int famId) {
-    KoLCharacter.familiars.add(FamiliarData.registerFamiliar(famId, 0));
+  public static Cleanups hasFamiliar(int famId) {
+    var familiar = FamiliarData.registerFamiliar(famId, 0);
+    KoLCharacter.familiars.add(familiar);
+    return new Cleanups(() -> KoLCharacter.familiars.remove(familiar));
   }
 
-  public static void addEffect(String effect) {
-    KoLConstants.activeEffects.add(EffectPool.get(EffectDatabase.getEffectId(effect)));
+  public static Cleanups addEffect(String effectName) {
+    var effect = EffectPool.get(EffectDatabase.getEffectId(effectName));
+    KoLConstants.activeEffects.add(effect);
+    return new Cleanups(() -> KoLConstants.activeEffects.remove(effect));
   }
 
   public static void addEffect(String effect, int turns) {
@@ -74,8 +85,9 @@ public class Player {
     addEffect(effect, Integer.MAX_VALUE);
   }
 
-  public static void addSkill(String skill) {
+  public static Cleanups addSkill(String skill) {
     KoLCharacter.addAvailableSkill(skill);
+    return new Cleanups(() -> KoLCharacter.removeAvailableSkill(skill));
   }
 
   public static void canEquip(String item) {
@@ -104,11 +116,13 @@ public class Player {
     KoLCharacter.setAscensionClass(ascensionClass);
   }
 
-  public static void inPath(Path path) {
+  public static Cleanups inPath(Path path) {
     KoLCharacter.setPath(path);
+    return new Cleanups(() -> inPath(Path.NONE));
   }
 
-  public static void inLocation(String location) {
-    KoLCharacter.updateSelectedLocation(AdventureDatabase.getAdventure(location));
+  public static Cleanups inLocation(String location) {
+    Modifiers.setLocation(AdventureDatabase.getAdventure(location));
+    return new Cleanups(() -> inLocation(null));
   }
 }
