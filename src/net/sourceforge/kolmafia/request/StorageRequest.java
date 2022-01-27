@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -87,14 +88,7 @@ public class StorageRequest extends TransferItemRequest {
   }
 
   public static String pullsSetToString(Set<Integer> set) {
-    StringBuilder result = new StringBuilder();
-    for (Integer itemId : set) {
-      if (!result.isEmpty()) {
-        result.append(",");
-      }
-      result.append(itemId);
-    }
-    return result.toString();
+    return set.stream().map(String::valueOf).collect(Collectors.joining(","));
   }
 
   public static void addPulledItem(Set<Integer> set, int itemId) {
@@ -409,6 +403,18 @@ public class StorageRequest extends TransferItemRequest {
             }
           }
           break;
+      }
+    }
+
+    if (KoLCharacter.inRonin()) {
+      // Filter out items that you've already pulled today
+      for (int index = 0; index < this.attachments.length; ++index) {
+        AdventureResult item = this.attachments[index];
+        if (item != null && item.isItem() && itemPulledInRonin(item)) {
+          KoLmafia.updateDisplay(
+              "You've already pulled one '" + item.getName() + "' today. Skipping...");
+          this.attachments[index] = null;
+        }
       }
     }
 

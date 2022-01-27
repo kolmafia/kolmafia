@@ -123,7 +123,7 @@ public class RequestLogger extends NullStream {
 
     StringBuffer colorBuffer = new StringBuffer();
 
-    if (message.equals("")) {
+    if (message.isEmpty()) {
       colorBuffer.append("<br>");
     } else {
       boolean addedColor = false;
@@ -176,7 +176,7 @@ public class RequestLogger extends NullStream {
 
   public static final PrintStream openStream(
       final String filename, final PrintStream originalStream, boolean hasLocation) {
-    if (!hasLocation && KoLCharacter.getUserName().equals("")) {
+    if (!hasLocation && KoLCharacter.getUserName().isEmpty()) {
       return NullStream.INSTANCE;
     }
 

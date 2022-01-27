@@ -367,7 +367,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     String levelString = comma == -1 ? setting.trim() : setting.substring(0, comma).trim();
     String name = comma == -1 ? "" : setting.substring(comma + 1).trim();
 
-    this.level = levelString.equals("") ? 0 : StringUtilities.parseInt(levelString);
+    this.level = levelString.isEmpty() ? 0 : StringUtilities.parseInt(levelString);
     this.name = name;
   }
 
@@ -377,7 +377,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     }
 
     String settingName = PastaThrallData.dataToSetting(this.data);
-    if (this.name.equals("")) {
+    if (this.name.isEmpty()) {
       Preferences.setString(settingName, String.valueOf(this.level));
     } else {
       String value = this.level + "," + this.name;

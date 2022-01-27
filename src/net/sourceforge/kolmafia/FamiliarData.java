@@ -1197,7 +1197,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     String others = mods.getString(Modifiers.EQUIPS_ON);
-    if (others == null || others.equals("")) {
+    if (others == null || others.isEmpty()) {
       return false;
     }
 

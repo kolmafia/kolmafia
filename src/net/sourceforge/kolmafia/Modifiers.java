@@ -1338,6 +1338,10 @@ public class Modifiers {
         return Modifiers.SPOOKY_RESISTANCE;
       case STENCH:
         return Modifiers.STENCH_RESISTANCE;
+      case SLIME:
+        return Modifiers.SLIME_RESISTANCE;
+      case SUPERCOLD:
+        return Modifiers.SUPERCOLD_RESISTANCE;
       default:
         return -1;
     }
@@ -1659,6 +1663,14 @@ public class Modifiers {
       }
     }
 
+    double[] copyExtras = mods.extras;
+    for (int index = 0; index < this.extras.length; ++index) {
+      if (this.extras[index] != copyExtras[index]) {
+        this.extras[index] = copyExtras[index];
+        changed = true;
+      }
+    }
+
     return changed;
   }
 
@@ -1798,32 +1810,32 @@ public class Modifiers {
 
     String val;
     val = mods.strings[Modifiers.EQUALIZE];
-    if (!val.equals("") && this.strings[Modifiers.EQUALIZE].equals("")) {
+    if (!val.isEmpty() && this.strings[Modifiers.EQUALIZE].isEmpty()) {
       this.strings[Modifiers.EQUALIZE] = val;
     }
     val = mods.strings[Modifiers.INTRINSIC_EFFECT];
-    if (!val.equals("")) {
+    if (!val.isEmpty()) {
       String prev = this.strings[INTRINSIC_EFFECT];
-      if (prev.equals("")) {
+      if (prev.isEmpty()) {
         this.strings[Modifiers.INTRINSIC_EFFECT] = val;
       } else {
         this.strings[Modifiers.INTRINSIC_EFFECT] = prev + "\t" + val;
       }
     }
     val = mods.strings[Modifiers.STAT_TUNING];
-    if (!val.equals("")) {
+    if (!val.isEmpty()) {
       this.strings[Modifiers.STAT_TUNING] = val;
     }
     val = mods.strings[Modifiers.EQUALIZE_MUSCLE];
-    if (!val.equals("")) {
+    if (!val.isEmpty()) {
       this.strings[Modifiers.EQUALIZE_MUSCLE] = val;
     }
     val = mods.strings[Modifiers.EQUALIZE_MYST];
-    if (!val.equals("")) {
+    if (!val.isEmpty()) {
       this.strings[Modifiers.EQUALIZE_MYST] = val;
     }
     val = mods.strings[Modifiers.EQUALIZE_MOXIE];
-    if (!val.equals("")) {
+    if (!val.isEmpty()) {
       this.strings[Modifiers.EQUALIZE_MOXIE] = val;
     }
 
@@ -1907,7 +1919,7 @@ public class Modifiers {
 
   public static final Modifiers getModifiers(String type, final String name) {
     String changeType = null;
-    if (name == null || name.equals("")) {
+    if (name == null || name.isEmpty()) {
       return null;
     }
 
@@ -2778,7 +2790,7 @@ public class Modifiers {
     // Comma Chameleon acts as if it was something else
     if (familiarId == FamiliarPool.CHAMELEON) {
       String newRace = Preferences.getString("commaFamiliar");
-      if (newRace != null && !newRace.equals("")) {
+      if (newRace != null && !newRace.isEmpty()) {
         race = newRace;
         familiarId = FamiliarDatabase.getFamiliarId(race);
       }
@@ -3328,7 +3340,7 @@ public class Modifiers {
     boolean hp = matcher.group(3).equals("HP");
     boolean both = matcher.group(4) != null;
 
-    if (max.equals("")) {
+    if (max.isEmpty()) {
       max = min;
     }
 
@@ -3413,8 +3425,9 @@ public class Modifiers {
   }
 
   public static final void checkModifiers() {
-    for (String lookup : Modifiers.modifiersByName.keySet()) {
-      Object modifiers = Modifiers.modifiersByName.get(lookup);
+    for (Entry<String, Object> entry : Modifiers.modifiersByName.entrySet()) {
+      String lookup = entry.getKey();
+      Object modifiers = entry.getValue();
 
       if (modifiers == null) {
         RequestLogger.printLine("Key \"" + lookup + "\" has no modifiers");
@@ -3696,11 +3709,11 @@ public class Modifiers {
           if (mods == null) {
             break;
           }
-          if (!mods.getString(Modifiers.EFFECT).equals("")) {
+          if (!mods.getString(Modifiers.EFFECT).isEmpty()) {
             potions.add(name);
           } else if (mods.getBoolean(Modifiers.FREE_PULL)) {
             freepulls.add(name);
-          } else if (!mods.getString(Modifiers.WIKI_NAME).equals("")) {
+          } else if (!mods.getString(Modifiers.WIKI_NAME).isEmpty()) {
             wikiname.add(name);
           }
           break;
@@ -3816,17 +3829,14 @@ public class Modifiers {
     // Make a map of mutexes
     Set<String> mutexes = new TreeSet<>();
 
-    for (String name : Modifiers.mutexes) {
-      mutexes.add(name);
-    }
+    mutexes.addAll(Modifiers.mutexes);
 
     // Make a map of maximization categories
     Set<String> maximization = new TreeSet<>();
     int maximizationCount = Maximizer.maximizationCategories.length;
 
-    for (int i = 0; i < maximizationCount; ++i) {
-      maximization.add(Maximizer.maximizationCategories[i]);
-    }
+    maximization.addAll(
+        Arrays.asList(Maximizer.maximizationCategories).subList(0, maximizationCount));
 
     // Open the output file
     PrintStream writer = LogStream.openStream(output, true);
@@ -3990,7 +4000,7 @@ public class Modifiers {
       RequestLogger.updateSessionLog(printMe);
     }
 
-    if (known.equals("")) {
+    if (known.isEmpty()) {
       if (unknown.size() == 0) {
         String printMe = Modifiers.modifierCommentString(type, name);
         RequestLogger.printLine(printMe);

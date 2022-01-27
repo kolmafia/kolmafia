@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
@@ -51,9 +52,7 @@ public class Expression {
     if (this.error == null) {
       return null;
     }
-    String buf =
-        "Expression syntax errors for '" + name + "':" + KoLConstants.LINE_BREAK + this.error;
-    return buf;
+    return "Expression syntax errors for '" + name + "':" + KoLConstants.LINE_BREAK + this.error;
   }
 
   private static double[] cachedStack;
@@ -251,23 +250,8 @@ public class Expression {
           // Valid with ModifierExpression:
         case 'b':
           String elem = (String) this.literals.get((int) s[--sp]);
-          int element =
-              elem.equalsIgnoreCase("cold")
-                  ? Modifiers.COLD_RESISTANCE
-                  : elem.equalsIgnoreCase("hot")
-                      ? Modifiers.HOT_RESISTANCE
-                      : elem.equalsIgnoreCase("sleaze")
-                          ? Modifiers.SLEAZE_RESISTANCE
-                          : elem.equalsIgnoreCase("spooky")
-                              ? Modifiers.SPOOKY_RESISTANCE
-                              : elem.equalsIgnoreCase("stench")
-                                  ? Modifiers.STENCH_RESISTANCE
-                                  : elem.equalsIgnoreCase("slime")
-                                      ? Modifiers.SLIME_RESISTANCE
-                                      : elem.equalsIgnoreCase("supercold")
-                                          ? Modifiers.SUPERCOLD_RESISTANCE
-                                          : -1;
-          v = KoLCharacter.currentNumericModifier(element);
+          Element element = Element.fromString(elem);
+          v = KoLCharacter.currentNumericModifier(Modifiers.elementalResistance(element));
           break;
         case 'd':
           String skillName = (String) this.literals.get((int) s[--sp]);
@@ -280,15 +264,12 @@ public class Expression {
         case 'e':
           String effectName = (String) this.literals.get((int) s[--sp]);
           // If effect name is a number, convert to name
-          AdventureResult eff = null;
-          if (StringUtilities.isNumeric(effectName)) {
-            int effectId = StringUtilities.parseInt(effectName);
-            eff = EffectPool.get(effectId);
-          } else {
-            int effectId = EffectDatabase.getEffectId(effectName);
-            eff = EffectPool.get(effectId);
-          }
-          v = eff == null ? 0.0 : Math.max(0, eff.getCount(KoLConstants.activeEffects));
+          int effectId =
+              (StringUtilities.isNumeric(effectName))
+                  ? StringUtilities.parseInt(effectName)
+                  : EffectDatabase.getEffectId(effectName);
+          AdventureResult eff = EffectPool.get(effectId);
+          v = Math.max(0, eff.getCount(KoLConstants.activeEffects));
           break;
         case 'g':
           String itemName = (String) this.literals.get((int) s[--sp]);
@@ -330,10 +311,12 @@ public class Expression {
                   : 0;
           break;
         case 'w':
-          v =
-              Modifiers.currentFamiliar.equalsIgnoreCase((String) this.literals.get((int) s[--sp]))
-                  ? 1
-                  : 0;
+          String fam = (String) this.literals.get((int) s[--sp]);
+          String familiarName =
+              (StringUtilities.isNumeric(fam))
+                  ? FamiliarDatabase.getFamiliarName(StringUtilities.parseInt(fam))
+                  : fam;
+          v = Modifiers.currentFamiliar.equalsIgnoreCase(familiarName) ? 1 : 0;
           break;
         case 'z':
           String expressionZone = (String) this.literals.get((int) s[--sp]);
@@ -422,7 +405,9 @@ public class Expression {
           break;
           // Valid with ModifierExpression and MonsterExpression:
         case '\u0092':
-          v = KoLCharacter.getPath().equals(this.literals.get((int) s[--sp])) ? 1 : 0;
+          AscensionPath.Path p =
+              AscensionPath.nameToPath((String) this.literals.get((int) s[--sp]));
+          v = KoLCharacter.getPath().equals(p) ? 1 : 0;
           break;
           // Valid with ModifierExpression:
         case '\u0093':
@@ -457,18 +442,11 @@ public class Expression {
           break;
         case 'E':
           {
-            int size = KoLConstants.activeEffects.size();
-            AdventureResult[] effectsArray = new AdventureResult[size];
-            KoLConstants.activeEffects.toArray(effectsArray);
-
-            v = 0;
-            for (int i = 0; i < size; i++) {
-              AdventureResult effect = effectsArray[i];
-              int duration = effect.getCount();
-              if (duration != Integer.MAX_VALUE) {
-                v++;
-              }
-            }
+            v =
+                KoLConstants.activeEffects.stream()
+                    .map(e -> e.getCount())
+                    .filter(d -> d < Integer.MAX_VALUE)
+                    .count();
             break;
           }
         case 'F':
@@ -598,49 +576,49 @@ public class Expression {
   }
 
   private String expr() {
-    String rv = this.term();
+    var rv = new StringBuilder(this.term());
     while (true) {
       switch (this.optional("+", "-")) {
         case '+':
-          rv = this.term() + rv + "+";
+          rv.insert(0, this.term()).append("+");
           break;
         case '-':
-          rv = this.term() + rv + "-";
+          rv.insert(0, this.term()).append("-");
           break;
         default:
-          return rv;
+          return rv.toString();
       }
     }
   }
 
   private String term() {
-    String rv = this.factor();
+    StringBuilder rv = new StringBuilder(this.factor());
     while (true) {
       switch (this.optional("*", "/")) {
         case '*':
-          rv = this.factor() + rv + "*";
+          rv.insert(0, this.factor()).append("*");
           break;
         case '/':
-          rv = this.factor() + rv + "/";
+          rv.insert(0, this.factor()).append("/");
           break;
         default:
-          return rv;
+          return rv.toString();
       }
     }
   }
 
   private String factor() {
-    String rv = this.value();
+    StringBuilder rv = new StringBuilder(this.value());
     while (true) {
       switch (this.optional("^", "%")) {
         case '^':
-          rv = this.value() + rv + "^";
+          rv.insert(0, this.value()).append("^");
           break;
         case '%':
-          rv = this.value() + rv + "%";
+          rv.insert(0, this.value()).append("%");
           break;
         default:
-          return rv;
+          return rv.toString();
       }
     }
   }

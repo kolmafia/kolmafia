@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -197,7 +198,7 @@ public class StorageRequestTest extends RequestTestBase {
     assertTrue(property.contains("60"));
     Preferences.setString("_roninStoragePulls", "");
   }
-
+  
   // *** Here are tests for how StorageRequest generates subminstances.
   //
   // Which is to say, how it splits up a StorageRequest with potentially

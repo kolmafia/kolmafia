@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -200,9 +201,7 @@ public class MonsterData extends AdventureResult {
   public static final Set<String> extraModifiers = new HashSet<>();
 
   static {
-    for (String name : MonsterData.extraModifierNames) {
-      MonsterData.extraModifiers.add(name);
-    }
+    MonsterData.extraModifiers.addAll(Arrays.asList(MonsterData.extraModifierNames));
   }
 
   public static final int DEFAULT_SCALE = 0;

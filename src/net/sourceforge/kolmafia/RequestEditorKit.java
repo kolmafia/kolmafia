@@ -972,7 +972,7 @@ public class RequestEditorKit extends HTMLEditorKit {
   private static void suppressPowerPixellation(final StringBuffer buffer) {
     boolean suppressPowerPixellation = Preferences.getBoolean("suppressPowerPixellation");
     String extraCosmeticModifiers = Preferences.getString("extraCosmeticModifiers").trim();
-    boolean haveExtraCosmeticModifiers = !extraCosmeticModifiers.equals("");
+    boolean haveExtraCosmeticModifiers = !extraCosmeticModifiers.isEmpty();
 
     if (!suppressPowerPixellation && !haveExtraCosmeticModifiers) {
       return;
@@ -1036,7 +1036,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     if (found) {
       // We had an "ocrs" var. Replace the value
       StringUtilities.singleStringReplace(buffer, find, replace);
-    } else if (!replace.equals("")) {
+    } else if (!replace.isEmpty()) {
       // We did not have an ocrs var but want to add some.
       // Include the appropriate scripts and insert a variable
       buffer.insert(buffer.indexOf("</head>"), OCRS_JS);
@@ -1515,7 +1515,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       String plural = ItemDatabase.getPluralName(i);
       if (buffer.indexOf(name) != -1 || buffer.indexOf(plural) != -1) {
         String effect = Preferences.getString("lastBangPotion" + i);
-        if (!effect.equals("")) {
+        if (!effect.isEmpty()) {
           potionNames.add(name);
           pluralNames.add(plural);
           potionEffects.add(" of " + effect);
@@ -1527,7 +1527,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       String plural = ItemDatabase.getPluralName(i);
       if (buffer.indexOf(name) != -1 || buffer.indexOf(plural) != -1) {
         String effect = Preferences.getString("lastSlimeVial" + i);
-        if (!effect.equals("")) {
+        if (!effect.isEmpty()) {
           potionNames.add(name);
           pluralNames.add(plural);
           potionEffects.add(": " + effect);
@@ -1555,7 +1555,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       String plural = ItemDatabase.getPluralName(i);
       if (buffer.indexOf(name) != -1 || buffer.indexOf(plural) != -1) {
         String effect = Preferences.getString("lastBangPotion" + i);
-        if (effect.equals("")) {
+        if (effect.isEmpty()) {
           continue;
         }
 
@@ -1568,7 +1568,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       String plural = ItemDatabase.getPluralName(i);
       if (buffer.indexOf(name) != -1 || buffer.indexOf(plural) != -1) {
         String effect = Preferences.getString("lastSlimeVial" + i);
-        if (effect.equals("")) {
+        if (effect.isEmpty()) {
           continue;
         }
 

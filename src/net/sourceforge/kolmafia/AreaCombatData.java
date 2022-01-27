@@ -594,7 +594,7 @@ public class AreaCombatData {
             minEvadePercent, minPerfectEvade, maxEvadePercent, maxPerfectEvade, "Mox", fullString));
 
     buffer.append("<br><b>Jump Chance</b>: ");
-    buffer.append(jumpChance + "%");
+    buffer.append(jumpChance).append("%");
 
     buffer.append("<br><b>Combat Rate</b>: ");
 
@@ -602,10 +602,11 @@ public class AreaCombatData {
         averageSuperlikelyExperience
             + averageExperience * (1 - superlikelyChance / 100) * combatFactor;
     if (this.combats > 0) {
-      buffer.append(
-          this.format(superlikelyChance + (1 - superlikelyChance / 100) * combatFactor * 100.0)
-              + "%");
-      buffer.append("<br><b>Combat XP</b>: " + KoLConstants.FLOAT_FORMAT.format(combatXP));
+      buffer
+          .append(
+              this.format(superlikelyChance + (1 - superlikelyChance / 100) * combatFactor * 100.0))
+          .append("%");
+      buffer.append("<br><b>Combat XP</b>: ").append(KoLConstants.FLOAT_FORMAT.format(combatXP));
     } else if (this.combats == 0) {
       buffer.append("0%");
     } else {
@@ -704,7 +705,7 @@ public class AreaCombatData {
 
     if (KoLCharacter.inRaincore()) {
       int waterLevel = KoLCharacter.getWaterLevel();
-      Boolean fixed = AdventureDatabase.getWaterLevel(this.zone) != -1;
+      boolean fixed = AdventureDatabase.getWaterLevel(this.zone) != -1;
       if (environment == null) {
         buffer.append("<br>");
         buffer.append("<b>Water Level:</b> unknown");
@@ -903,7 +904,7 @@ public class AreaCombatData {
     int jumpChance = monster.getJumpChance();
 
     // Color the monster name according to its element
-    buffer.append(" <font color=" + AreaCombatData.elementColor(element) + "><b>");
+    buffer.append(" <font color=").append(AreaCombatData.elementColor(element)).append("><b>");
     if (monster.getPoison() < Integer.MAX_VALUE) {
       buffer.append("\u2620 ");
     }
@@ -924,24 +925,34 @@ public class AreaCombatData {
     } else if (weighting == 0) {
       buffer.append("special");
     } else {
-      buffer.append(this.format(chance) + "%");
+      buffer.append(this.format(chance)).append("%");
     }
 
-    buffer.append(")<br>Hit: <font color=" + AreaCombatData.elementColor(ed) + ">");
+    buffer.append(")<br>Hit: <font color=").append(AreaCombatData.elementColor(ed)).append(">");
     buffer.append(this.format(hitPercent));
-    buffer.append("%</font>, Evade: <font color=" + AreaCombatData.elementColor(ea) + ">");
+    buffer
+        .append("%</font>, Evade: <font color=")
+        .append(AreaCombatData.elementColor(ea))
+        .append(">");
     buffer.append(this.format(evadePercent));
-    buffer.append("%</font>, Jump Chance: <font color=" + AreaCombatData.elementColor(ea) + ">");
+    buffer
+        .append("%</font>, Jump Chance: <font color=")
+        .append(AreaCombatData.elementColor(ea))
+        .append(">");
     buffer.append(this.format(jumpChance));
-    buffer.append("%</font><br>Atk: " + attack + ", Def: " + defense);
-    buffer.append(", HP: " + health + ", XP: " + KoLConstants.FLOAT_FORMAT.format(statGain));
-    buffer.append("<br>Phylum: " + phylum);
+    buffer.append("%</font><br>Atk: ").append(attack).append(", Def: ").append(defense);
+    buffer
+        .append(", HP: ")
+        .append(health)
+        .append(", XP: ")
+        .append(KoLConstants.FLOAT_FORMAT.format(statGain));
+    buffer.append("<br>Phylum: ").append(phylum);
     if (init == -10000) {
       buffer.append(", Never wins initiative");
     } else if (init == 10000) {
       buffer.append(", Always wins initiative");
     } else {
-      buffer.append(", Init: " + init);
+      buffer.append(", Init: ").append(init);
     }
 
     if (fullString) {
@@ -953,7 +964,7 @@ public class AreaCombatData {
 
     String bounty = BountyDatabase.getNameByMonster(monster.getName());
     if (bounty != null) {
-      buffer.append("<br>" + bounty + " (bounty)");
+      buffer.append("<br>").append(bounty).append(" (bounty)");
     }
 
     return buffer.toString();

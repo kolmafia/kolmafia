@@ -56,12 +56,12 @@ public class KoLmafiaGUI {
     // which should occur.
 
     String autoLogin = Preferences.getString("autoLogin");
-    if (!autoLogin.equals("")) {
+    if (!autoLogin.isEmpty()) {
       // Make sure that a password was stored for this
       // character (would fail otherwise):
 
       String password = KoLmafia.getSaveState(autoLogin);
-      if (password != null && !password.equals("")) {
+      if (password != null && !password.isEmpty()) {
         RequestThread.postRequest(new LoginRequest(autoLogin, password));
       }
     }
@@ -74,7 +74,7 @@ public class KoLmafiaGUI {
     // If there is still no data (somehow the global data
     // got emptied), default to relay-browser only).
 
-    if (desktopSetting.equals("") && frameSetting.equals("")) {
+    if (desktopSetting.isEmpty() && frameSetting.isEmpty()) {
       Preferences.setString("initialDesktop", "AdventureFrame,CommandDisplayFrame,GearChangeFrame");
     }
   }
@@ -82,7 +82,7 @@ public class KoLmafiaGUI {
   public static void initializeLoginInterface() {
     KoLmafiaGUI.constructFrame(LoginFrame.class);
 
-    if (Preferences.getString("useDecoratedTabs").equals("")) {
+    if (Preferences.getString("useDecoratedTabs").isEmpty()) {
       Preferences.setBoolean("useDecoratedTabs", !System.getProperty("os.name").startsWith("Mac"));
     }
 
@@ -107,7 +107,7 @@ public class KoLmafiaGUI {
     // Instantiate the appropriate instance of the
     // frame that should be loaded based on the mode.
 
-    if (!desktopSetting.equals("")) {
+    if (!desktopSetting.isEmpty()) {
       if (!Preferences.getBoolean("relayBrowserOnly")) {
         KoLDesktop.getInstance().setVisible(true);
       }
@@ -118,7 +118,7 @@ public class KoLmafiaGUI {
 
     ArrayList<String> initialFrameList = new ArrayList<>();
 
-    if (!frameSetting.equals("")) {
+    if (!frameSetting.isEmpty()) {
       for (String s : frameArray) {
         if (!initialFrameList.contains(s)) {
           initialFrameList.add(s);
@@ -154,7 +154,7 @@ public class KoLmafiaGUI {
   }
 
   public static void constructFrame(final String frameName) {
-    if (frameName.equals("")) {
+    if (frameName.isEmpty()) {
       return;
     }
 
