@@ -472,6 +472,8 @@ public class MaximizerTest {
     }
   }
 
+  // synergy
+
   @Test
   public void considersOutfitPartsIfHelpful() {
     final var cleanups = new Cleanups(canUse("Brimstone Beret"), canUse("Brimstone Boxers"));
@@ -481,6 +483,39 @@ public class MaximizerTest {
       assertEquals(4, modFor("Monster Level"), 0.01);
       recommendedSlotIs(EquipmentManager.HAT, "Brimstone Beret");
       recommendedSlotIs(EquipmentManager.PANTS, "Brimstone Boxers");
+    }
+  }
+
+  @Test
+  public void usesHoboPowerIfPossible() {
+    final var cleanups =
+        new Cleanups(
+            canUse("Hodgman's garbage sticker"),
+            canUse("Hodgman's bow tie"),
+            canUse("Hodgman's lobsterskin pants"),
+            canUse("Hodgman's porkpie hat"),
+            canUse("silver cow creamer"));
+    try (cleanups) {
+      assertTrue(maximize("meat -tie"));
+
+      recommendedSlotIs(EquipmentManager.HAT, "Hodgman's porkpie hat");
+      recommendedSlotIs(EquipmentManager.PANTS, "Hodgman's lobsterskin pants");
+      recommendedSlotIs(EquipmentManager.OFFHAND, "Hodgman's garbage sticker");
+      recommends("Hodgman's bow tie");
+    }
+  }
+
+  @Test
+  public void hoboPowerDoesntCountWithoutOffhand() {
+    final var cleanups = new Cleanups(canUse("Hodgman's bow tie"), canUse("silver cow creamer"));
+    try (cleanups) {
+      assertTrue(maximize("meat -tie"));
+
+      assertEquals(30, modFor("Meat Drop"), 0.01);
+      recommendedSlotIs(EquipmentManager.OFFHAND, "silver cow creamer");
+      recommendedSlotIsEmpty(EquipmentManager.ACCESSORY1);
+      recommendedSlotIsEmpty(EquipmentManager.ACCESSORY2);
+      recommendedSlotIsEmpty(EquipmentManager.ACCESSORY3);
     }
   }
 }
