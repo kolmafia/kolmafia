@@ -15,6 +15,9 @@ public class RelayLoader extends Thread {
 
   private final String location;
 
+  private static final int pauseDurationInMilliseconds = 200;
+  private static final int numberOfIntervalsToPause = 50;
+
   protected RelayLoader(final String location, final boolean isRelayLocation) {
     super("RelayLoader@" + location);
 
@@ -40,13 +43,13 @@ public class RelayLoader extends Thread {
   private void waitForSVNUpdateToFinish() {
     // This first loop is to wait for LoginManager to start processing updates, if it is going to
     PauseObject pauser = new PauseObject();
-    for (int i = 0; i < 50 && !RelayServer.isRunning(); ++i) {
-      pauser.pause(200);
+    for (int i = 0; i < numberOfIntervalsToPause && !RelayServer.isRunning(); ++i) {
+      pauser.pause(pauseDurationInMilliseconds);
     }
     int triesLeft = 10;
     while ((triesLeft > 0) && LoginManager.isSvnLoginUpdateRunning()) {
-      for (int i = 0; i < 50 && !RelayServer.isRunning(); ++i) {
-        pauser.pause(200);
+      for (int i = 0; i < numberOfIntervalsToPause && !RelayServer.isRunning(); ++i) {
+        pauser.pause(pauseDurationInMilliseconds);
       }
       triesLeft--;
     }
@@ -60,13 +63,13 @@ public class RelayLoader extends Thread {
       waitForSVNUpdateToFinish();
       RelayLoader.startRelayServer();
 
-      // Wait for 5 seconds before giving up
-      // on the relay server.
+      // Wait for 5 seconds (numberOfIntervalsToPause of pauseDurationInMilliseconds each)
+      // before giving up on the relay server.
 
       PauseObject pauser = new PauseObject();
 
-      for (int i = 0; i < 50 && !RelayServer.isRunning(); ++i) {
-        pauser.pause(200);
+      for (int i = 0; i < numberOfIntervalsToPause && !RelayServer.isRunning(); ++i) {
+        pauser.pause(pauseDurationInMilliseconds);
       }
 
       location = "http://127.0.0.1:" + RelayServer.getPort() + this.location;
