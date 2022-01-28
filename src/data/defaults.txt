@@ -120,7 +120,7 @@ global	relayAddsUseLinks	true
 global	relayAddsWikiLinks	false
 global	relayAllowRemoteAccess	false
 global	relayBrowserOnly	false
-global  relayDelayForSVN    5
+global	relayDelayForSVN	5
 global	relayFormatsChatText	false
 global	relayHidesJunkMallItems	false
 global	relayMaintainsEffects	false
