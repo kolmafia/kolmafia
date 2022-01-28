@@ -122,9 +122,9 @@ public class StorageRequest extends TransferItemRequest {
       return;
     }
 
-    ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
-    ArrayList<AdventureResult> freepulls = new ArrayList<AdventureResult>();
-    ArrayList<AdventureResult> nopulls = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> items = new ArrayList<>();
+    ArrayList<AdventureResult> freepulls = new ArrayList<>();
+    ArrayList<AdventureResult> nopulls = new ArrayList<>();
 
     try {
       // {"1":"1","2":"1" ... }
@@ -276,8 +276,107 @@ public class StorageRequest extends TransferItemRequest {
   }
 
   @Override
+  public ArrayList<TransferItemRequest> generateSubInstances() {
+    ArrayList<TransferItemRequest> subinstances = new ArrayList<>();
+
+    if (KoLmafia.refusesContinue()) {
+      return subinstances;
+    }
+
+    int capacity = this.getCapacity();
+    long meatAttachment = 0;
+    boolean inRonin = KoLCharacter.inRonin();
+
+    // If we are in Ronin:
+    //
+    // - We can pull as many free-pull items as we want, but one at a time
+    // - We can only pull one per day of non-free-pull items.
+
+    List<AdventureResult> nextAttachments = new ArrayList<>();
+    for (AdventureResult item : this.attachments) {
+      // Add up all requested Meat
+      if (item.isMeat()) {
+        meatAttachment += item.getLongCount();
+        continue;
+      }
+
+      // See how many of the requested item are available
+      int availableCount =
+          item.getCount(KoLConstants.storage) + item.getCount(KoLConstants.freepulls);
+      if (availableCount <= 0) {
+        continue;
+      }
+
+      // If we are in Ronin, skip items that we have already pulled today.
+      if (inRonin && itemPulledInRonin(item)) {
+        KoLmafia.updateDisplay(
+            "You've already pulled one '" + item.getName() + "' today. Skipping...");
+        continue;
+      }
+
+      int desiredCount = Math.min(availableCount, item.getCount());
+      if (inRonin) {
+        // Free Pulls have to go into requests by themself
+        if (StorageRequest.isFreePull(item)) {
+          // You are allowed to pull as many of this item as you want, but
+          // only one per request and not mixed with other items
+          if (!nextAttachments.isEmpty()) {
+            subinstances.add(this.getSubInstance(nextAttachments));
+            nextAttachments.clear();
+          }
+
+          while (desiredCount-- > 0) {
+            nextAttachments.add(item.getInstance(1));
+            subinstances.add(this.getSubInstance(nextAttachments));
+            nextAttachments.clear();
+          }
+          continue;
+        }
+
+        if (desiredCount > 1) {
+          KoLmafia.updateDisplay("You've can only pull one '" + item.getName() + "' today...");
+          desiredCount = 1;
+        }
+        // Fall through to add the single item.
+      }
+
+      nextAttachments.add(item.getInstance(desiredCount));
+
+      if (nextAttachments.size() == capacity) {
+        subinstances.add(this.getSubInstance(nextAttachments));
+        nextAttachments.clear();
+      }
+    }
+
+    if (!nextAttachments.isEmpty()) {
+      subinstances.add(this.getSubInstance(nextAttachments));
+    }
+
+    if (subinstances.size() == 0) {
+      // This can only happen if we are sending no items
+      this.isSubInstance = true;
+      subinstances.add(this);
+    }
+
+    if (meatAttachment > 0) {
+      // Attach all the Meat to the first request
+      TransferItemRequest first = subinstances.get(0);
+      first.addFormField(this.getMeatField(), String.valueOf(meatAttachment));
+    }
+
+    return subinstances;
+  }
+
+  private TransferItemRequest getSubInstance(List<AdventureResult> attachments) {
+    return this.getSubInstance(attachments.toArray(new AdventureResult[0]));
+  }
+
+  @Override
   public TransferItemRequest getSubInstance(final AdventureResult[] attachments) {
-    return new StorageRequest(this.moveType, attachments, this.bulkTransfer);
+    TransferItemRequest subInstance =
+        new StorageRequest(this.moveType, attachments, this.bulkTransfer);
+    subInstance.isSubInstance = true;
+    return subInstance;
   }
 
   @Override
@@ -567,13 +666,16 @@ public class StorageRequest extends TransferItemRequest {
 
       if (KoLCharacter.inRonin()) {
         // In Ronin, if you attempt to pull an item you've already pulled
-        // today, you get
+        // today, KoL simply reports (without identifying the item):
         //
         // You already pulled one of those today.
-        //
-        // with no indication about which item failed.
 
-        addPulledItem(item);
+        // Items that are "free pulls" are not limited in Ronin, although
+        // you must pull them one at a time.
+
+        if (!StorageRequest.isFreePull(item)) {
+          addPulledItem(item);
+        }
       }
 
       List<AdventureResult> source;

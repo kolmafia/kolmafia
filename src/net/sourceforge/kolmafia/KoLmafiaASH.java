@@ -251,7 +251,7 @@ public abstract class KoLmafiaASH {
     }
 
     for (Function func : functions) {
-      boolean matches = filter.equals("");
+      boolean matches = filter.isEmpty();
 
       if (!matches) {
         matches = func.getName().toLowerCase().contains(filter);

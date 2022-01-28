@@ -48,9 +48,17 @@ public class CakeArenaManager {
           StringBuilder text = new StringBuilder();
 
           if (victoryMatcher.find()) {
-            text.append("<font color=green><b>Round " + j + " of " + repeatCount + "</b></font>: ");
+            text.append("<font color=green><b>Round ")
+                .append(j)
+                .append(" of ")
+                .append(repeatCount)
+                .append("</b></font>: ");
           } else {
-            text.append("<font color=red><b>Round " + j + " of " + repeatCount + "</b></font>: ");
+            text.append("<font color=red><b>Round ")
+                .append(j)
+                .append(" of ")
+                .append(repeatCount)
+                .append("</b></font>: ");
           }
 
           int start = request.responseText.indexOf("<body>");

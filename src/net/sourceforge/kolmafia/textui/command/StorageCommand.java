@@ -24,6 +24,7 @@ public class StorageCommand extends AbstractCommand {
   @Override
   public void run(final String cmd, final String parameters) {
     boolean inHardcore = KoLCharacter.isHardcore();
+    boolean inRonin = KoLCharacter.inRonin();
 
     if (parameters.trim().equals("all")) {
       if (inHardcore) {
@@ -65,7 +66,8 @@ public class StorageCommand extends AbstractCommand {
         int availableCount = InventoryManager.getAccessibleCount(piece);
 
         // Count of item in storage
-        int storageCount = piece.getCount(KoLConstants.storage);
+        int storageCount =
+            piece.getCount(KoLConstants.storage) + piece.getCount(KoLConstants.freepulls);
 
         if (InventoryManager.canUseStorage()) {
           // Don't double-count items in storage
@@ -119,8 +121,14 @@ public class StorageCommand extends AbstractCommand {
       items = needed.toArray(new AdventureResult[0]);
     } else if (inHardcore) {
       items = ItemFinder.getMatchingItemList(parameters, KoLConstants.freepulls);
-    } else {
+    } else if (!inRonin) {
       items = ItemFinder.getMatchingItemList(parameters, KoLConstants.storage);
+    } else {
+      // See if in storage. If not, see if in freepulls.
+      items = ItemFinder.getMatchingItemList(parameters, KoLConstants.storage);
+      if (items.length == 0) {
+        items = ItemFinder.getMatchingItemList(parameters, KoLConstants.freepulls);
+      }
     }
 
     if (items.length == 0) {

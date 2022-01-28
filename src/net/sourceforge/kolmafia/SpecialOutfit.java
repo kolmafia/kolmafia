@@ -203,7 +203,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
   }
 
   public AdventureResult[] getPieces() {
-    return this.pieces.values().toArray(new AdventureResult[this.pieces.values().size()]);
+    return this.pieces.values().toArray(new AdventureResult[0]);
   }
 
   public static int pieceHash(final AdventureResult piece) {
