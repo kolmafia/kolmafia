@@ -49,8 +49,8 @@ public class RelayLoader extends Thread {
       waitCount = waitCount + pauseDurationInMilliseconds;
       relayServerIsRunning = RelayServer.isRunning();
       relayInDesiredStatus = waitForStart == relayServerIsRunning;
-      }
     }
+  }
 
   private void waitForSVNUpdateToFinish() {
     int triesLeft = 5;
