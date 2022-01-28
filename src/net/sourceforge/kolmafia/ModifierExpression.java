@@ -76,9 +76,6 @@ public class ModifierExpression extends Expression {
     if (this.optional("path(")) {
       return this.literal(this.until(")"), '\u0092');
     }
-    if (this.optional("mod(")) {
-      return this.literal(this.until(")"), '\u0093');
-    }
     if (this.optional("interact(")) {
       return this.literal(this.until(")"), '\u0094');
     }

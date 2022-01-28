@@ -5007,7 +5007,6 @@ public abstract class KoLCharacter {
 
     // For the sake of easier maintenance, execute a lot of extra
     // string comparisons when looking at status effects.
-
     for (AdventureResult effect : effects) {
       newModifiers.add(Modifiers.getEffectModifiers(effect.getEffectId()));
     }
@@ -5276,94 +5275,7 @@ public abstract class KoLCharacter {
     }
 
     // These depend on the modifiers from everything else, so they must be done last
-    if (effects.contains(EffectPool.get(EffectPool.BENDIN_HELL))) {
-      newModifiers.add(
-          Modifiers.HOT_DAMAGE,
-          newModifiers.getExtra(Modifiers.HOT_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.COLD_DAMAGE,
-          newModifiers.getExtra(Modifiers.COLD_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.STENCH_DAMAGE,
-          newModifiers.getExtra(Modifiers.STENCH_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.SPOOKY_DAMAGE,
-          newModifiers.getExtra(Modifiers.SPOOKY_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.SLEAZE_DAMAGE,
-          newModifiers.getExtra(Modifiers.SLEAZE_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.HOT_SPELL_DAMAGE,
-          newModifiers.getExtra(Modifiers.HOT_SPELL_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.COLD_SPELL_DAMAGE,
-          newModifiers.getExtra(Modifiers.COLD_SPELL_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.STENCH_SPELL_DAMAGE,
-          newModifiers.getExtra(Modifiers.STENCH_SPELL_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.SPOOKY_SPELL_DAMAGE,
-          newModifiers.getExtra(Modifiers.SPOOKY_SPELL_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-      newModifiers.add(
-          Modifiers.SLEAZE_SPELL_DAMAGE,
-          newModifiers.getExtra(Modifiers.SLEAZE_SPELL_DAMAGE),
-          "Effect:[" + EffectPool.BENDIN_HELL + "]");
-    }
-    if (effects.contains(EffectPool.get(EffectPool.BOWLEGGED_SWAGGER))) {
-      newModifiers.add(
-          Modifiers.INITIATIVE,
-          newModifiers.getExtra(Modifiers.INITIATIVE),
-          "Effect:[" + EffectPool.BOWLEGGED_SWAGGER + "]");
-      // Add "Physical Damage" here, when that is properly defined
-    }
-    if (equipment[EquipmentManager.SHIRT].getItemId() == ItemPool.MAKESHIFT_GARBAGE_SHIRT
-        && (Preferences.getInteger("garbageShirtCharge") > 0
-            || (speculation && !Preferences.getBoolean("_garbageItemChanged")))) {
-      newModifiers.add(
-          Modifiers.EXPERIENCE,
-          newModifiers.getExtra(Modifiers.EXPERIENCE),
-          "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
-      newModifiers.add(
-          Modifiers.MUS_EXPERIENCE,
-          newModifiers.getExtra(Modifiers.MUS_EXPERIENCE),
-          "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
-      newModifiers.add(
-          Modifiers.MYS_EXPERIENCE,
-          newModifiers.getExtra(Modifiers.MYS_EXPERIENCE),
-          "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
-      newModifiers.add(
-          Modifiers.MOX_EXPERIENCE,
-          newModifiers.getExtra(Modifiers.MOX_EXPERIENCE),
-          "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
-    }
-    if (effects.contains(EffectPool.get(EffectPool.STEELY_EYED_SQUINT))
-        && !KoLCharacter.inGLover()) {
-      newModifiers.add(
-          Modifiers.ITEMDROP,
-          newModifiers.getExtra(Modifiers.ITEMDROP),
-          "Effect:[" + EffectPool.STEELY_EYED_SQUINT + "]");
-    }
-    if ((equipment[EquipmentManager.OFFHAND].getItemId() == ItemPool.BROKEN_CHAMPAGNE
-            || equipment[EquipmentManager.WEAPON].getItemId() == ItemPool.BROKEN_CHAMPAGNE
-            || equipment[EquipmentManager.FAMILIAR].getItemId() == ItemPool.BROKEN_CHAMPAGNE)
-        && (Preferences.getInteger("garbageChampagneCharge") > 0
-            || (speculation && !Preferences.getBoolean("_garbageItemChanged")))) {
-      newModifiers.add(
-          Modifiers.ITEMDROP,
-          newModifiers.getExtra(Modifiers.ITEMDROP),
-          "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]");
-    }
-
-    // Determine whether or not data has changed
+    newModifiers.applyMultipliers(effects, equipment, speculation);
 
     if (debug) {
       DebugModifiers.finish();

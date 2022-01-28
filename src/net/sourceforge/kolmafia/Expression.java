@@ -410,12 +410,6 @@ public class Expression {
           v = KoLCharacter.getPath().equals(p) ? 1 : 0;
           break;
           // Valid with ModifierExpression:
-        case '\u0093':
-          Modifiers mods = KoLCharacter.getCurrentModifiers();
-          String modName = (String) this.literals.get((int) s[--sp]);
-          v = mods.getExtra(modName);
-          break;
-          // Valid with ModifierExpression:
         case '\u0094':
           v = KoLCharacter.canInteract() ? 1 : 0;
           break;

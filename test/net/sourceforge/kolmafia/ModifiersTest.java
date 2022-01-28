@@ -1,8 +1,14 @@
 package net.sourceforge.kolmafia;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
 import java.util.Map.Entry;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -85,5 +91,67 @@ public class ModifiersTest {
   })
   public void canParseModifier(String enchantment, String modifier) {
     assertEquals(modifier, Modifiers.parseModifier(enchantment));
+  }
+
+  @Test
+  public void bendinHellWorks() {
+    Modifiers mods = new Modifiers();
+    var effects =
+        List.of(
+            EffectPool.get(EffectDatabase.getEffectId("Benetton's Medley of Diversity")),
+            EffectPool.get(EffectDatabase.getEffectId("Fustulent")),
+            EffectPool.get(EffectDatabase.getEffectId("Bendin' Hell")));
+
+    for (var effect : effects) {
+      mods.add(Modifiers.getEffectModifiers(effect.getEffectId()));
+    }
+
+    mods.applyMultipliers(effects, EquipmentManager.allEquipment(), false);
+
+    assertThat(mods.get(Modifiers.HOT_DAMAGE), is(30.0));
+    assertThat(mods.get(Modifiers.COLD_DAMAGE), is(30.0));
+    assertThat(mods.get(Modifiers.SLEAZE_DAMAGE), is(30.0));
+    assertThat(mods.get(Modifiers.SPOOKY_DAMAGE), is(30.0));
+    assertThat(mods.get(Modifiers.STENCH_DAMAGE), is(60.0));
+    assertThat(mods.get(Modifiers.HOT_SPELL_DAMAGE), is(0.0));
+    assertThat(mods.get(Modifiers.COLD_SPELL_DAMAGE), is(0.0));
+    assertThat(mods.get(Modifiers.SLEAZE_SPELL_DAMAGE), is(0.0));
+    assertThat(mods.get(Modifiers.SPOOKY_SPELL_DAMAGE), is(0.0));
+    assertThat(mods.get(Modifiers.STENCH_SPELL_DAMAGE), is(30.0));
+  }
+
+  @Test
+  public void bowLeggedSwaggerWorks() {
+    Modifiers mods = new Modifiers();
+    var effects =
+        List.of(
+            EffectPool.get(EffectDatabase.getEffectId("Bone Springs")),
+            EffectPool.get(EffectDatabase.getEffectId("Bow-Legged Swagger")));
+
+    for (var effect : effects) {
+      mods.add(Modifiers.getEffectModifiers(effect.getEffectId()));
+    }
+
+    mods.applyMultipliers(effects, EquipmentManager.allEquipment(), false);
+
+    assertThat(mods.get(Modifiers.INITIATIVE), is(40.0));
+  }
+
+  @Test
+  public void dirtyPearWorks() {
+    Modifiers mods = new Modifiers();
+    var effects =
+        List.of(
+            EffectPool.get(EffectDatabase.getEffectId("Human-Slime Hybrid")),
+            EffectPool.get(EffectDatabase.getEffectId("Dirty Pear")));
+
+    for (var effect : effects) {
+      mods.add(Modifiers.getEffectModifiers(effect.getEffectId()));
+    }
+
+    mods.applyMultipliers(effects, EquipmentManager.allEquipment(), false);
+
+    assertThat(mods.get(Modifiers.SLEAZE_DAMAGE), is(40.0));
+    assertThat(mods.get(Modifiers.SLEAZE_SPELL_DAMAGE), is(40.0));
   }
 }

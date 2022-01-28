@@ -33,8 +33,6 @@
 #	text can be the skill name or id
 # Interaction: interact()
 #	This has a value of 1 if the player is out of ronin/HC, otherwise 0
-# Modifier: mod(text)
-#	This returns the value of that modifier without including itself.  Used for things that "double" a modifier.
 # Upper-case letters are varying values:
 #	A - number of Ascensions
 #	B - Blood of Wereseal effect
@@ -5106,7 +5104,7 @@ Effect	Beginning at Home	Avatar: "Charity the Zombie Hunter"
 Effect	Behind the Green Curtain	Spooky Resistance: +9
 Effect	Belch the Rainbow&trade;	Hot Damage: [min(L,11)], Cold Damage: [min(L,11)], Stench Damage: [min(L,11)], Spooky Damage: [min(L,11)], Sleaze Damage: [min(L,11)]
 Effect	Bells in the Batfry	Moxie Percent: +10
-Effect	Bendin' Hell	Hot Damage: [mod(Hot Damage)], Cold Damage: [mod(Cold Damage)], Stench Damage: [mod(Stench Damage)], Spooky Damage: [mod(Spooky Damage)], Sleaze Damage: [mod(Sleaze Damage)], Hot Spell Damage: [mod(Hot Spell Damage)], Cold Spell Damage: [mod(Cold Spell Damage)], Stench Spell Damage: [mod(Stench Spell Damage)], Spooky Spell Damage: [mod(Spooky Spell Damage)], Sleaze Spell Damage: [mod(Sleaze Spell Damage)]
+Effect	Bendin' Hell	Multiplies By: 2, Multiplies: "Hot Damage|Cold Damage|Stench Damage|Spooky Damage|Sleaze Damage|Hot Spell Damage|Cold Spell Damage|Stench Spell Damage|Spooky Spell Damage|Sleaze Spell Damage"
 Effect	Benetton's Medley of Diversity	Hot Damage: +15, Cold Damage: +15, Stench Damage: +15, Spooky Damage: +15, Sleaze Damage: +15
 Effect	Bent Knees	Combat Rate: -5
 Effect	Berry Berry Cold	Cold Damage: +10, Cold Spell Damage: +20
@@ -5225,7 +5223,7 @@ Effect	Bottle in front of Me	Spell Damage: +15
 Effect	Bounty of Renenutet	Item Drop: +50
 # Bow-Legged Swagger: Your Physical Damage and Initiative bonuses are doubled
 # Need precise definition for Physical Damage.  Possibly Weapon Damage and Ranged Damage.
-Effect	Bow-Legged Swagger	Initiative: [mod(Initiative)]
+Effect	Bow-Legged Swagger	Multiplies By: 2, Multiplies: "Initiative"
 # Boxing Day Breakfast: Improves yield when scavenging
 Effect	Boxing Day Breakfast	Gear Drop: +50, Weapon Damage Percent: +50, Spell Damage Percent: +50
 # Boxing Day Drinking: Reduces cost of recruiting staff
@@ -5545,7 +5543,7 @@ Effect	Digitally Converted	Monster Level: +30
 Effect	Dilated Pupils	Item Drop: +20
 Effect	Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
 Effect	Dirge of Dreadfulness (Remastered)	Spooky Damage: +36, Spooky Spell Damage: +36
-Effect	Dirty Pear	Sleaze Damage: [mod(Sleaze Damage)], Sleaze Spell Damage: [mod(Sleaze Spell Damage)]
+Effect	Dirty Pear	Multiplies By: 2, Multiplies: "Sleaze Damage|Sleaze Spell Damage"
 # Dis Abled: Grants access to the Suburb of Dis
 # Disavowed reduces a bunch of stuff based on how many times it has been given that day
 Effect	Disavowed	Muscle Percent: [-pref(_disavowed)], Mysticality Percent: [-pref(_disavowed)], Moxie Percent: [-pref(_disavowed)], Item Drop: [-pref(_disavowed)], Meat Drop: [-2*pref(_disavowed)], Experience: [-pref(_disavowed)]
@@ -7125,7 +7123,7 @@ Effect	Started Your Day Right	Experience: +3, Muscle Percent: +25, Mysticality P
 Effect	stats.enq	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Staying Frosty	Cold Damage: +100
 Effect	Steamed	Hot Resistance: +3, Hot Damage: +30, Item Drop: +20
-Effect	Steely-Eyed Squint	Item Drop: [mod(Item Drop)]
+Effect	Steely-Eyed Squint	Multiplies By: 2, Multiplies: "Item Drop"
 Effect	Stemonitis Storm	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 10
 # Stenchform: P. U.
 Effect	Stench Jellied	Item Drop: +30, Stench Damage: +5, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10

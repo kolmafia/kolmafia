@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -218,6 +219,7 @@ public class Modifiers {
   public static final int SPLEEN_DROP = 141;
   public static final int POTION_DROP = 142;
   public static final int SAUCE_SPELL_DAMAGE = 143;
+  public static final int MULTIPLIES_BY = 144;
   public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
   private static final Object[][] doubleModifiers = {
@@ -818,6 +820,7 @@ public class Modifiers {
       },
       Pattern.compile("(?:^|, )Sauce Spell Damage: " + EXPR)
     },
+    {"Multiplies By", null, Pattern.compile("Multiplies By: " + EXPR)}
   };
 
   public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
@@ -999,6 +1002,7 @@ public class Modifiers {
   public static final int FLOOR_BUFFED_MYST = 18;
   public static final int FLOOR_BUFFED_MOXIE = 19;
   public static final int PLUMBER_STAT = 20;
+  public static final int MULTIPLIES = 21;
 
   private static final Object[][] stringModifiers = {
     {
@@ -1045,6 +1049,7 @@ public class Modifiers {
     {"Floor Buffed Mysticality", null, Pattern.compile("Floor Buffed Mysticality: \"(.*?)\"")},
     {"Floor Buffed Moxie", null, Pattern.compile("Floor Buffed Moxie: \"(.*?)\"")},
     {"Plumber Stat", null, Pattern.compile("Plumber Stat: \"(.*?)\"")},
+    {"Multiplies", null, Pattern.compile("Multiplies: \"(.*?)\"")},
   };
 
   public static final int STRING_MODIFIERS = Modifiers.stringModifiers.length;
@@ -1220,6 +1225,16 @@ public class Modifiers {
 
   public static final String getModifierName(final int index) {
     return Modifiers.modifierName(Modifiers.doubleModifiers, index);
+  }
+
+  public static final int getModifierId(final String name) {
+    for (int i = 0; i < Modifiers.doubleModifiers.length; i++) {
+      if (Modifiers.doubleModifiers[i][0].equals(name)) {
+        return i;
+      }
+    }
+
+    return -1;
   }
 
   public static final String getBitmapModifierName(final int index) {
@@ -2988,6 +3003,56 @@ public class Modifiers {
         this.add(Modifiers.ITEMDROP, ensorcelMods.get(Modifiers.ITEMDROP) * 0.25, desc);
         this.add(Modifiers.CANDYDROP, ensorcelMods.get(Modifiers.CANDYDROP) * 0.25, desc);
       }
+    }
+  }
+
+  public void applyMultipliers(
+      List<AdventureResult> effects, AdventureResult[] equipment, boolean speculation) {
+    // Effects can define their modifier multipliers using modifiers
+    effects.stream()
+        .map(e -> Modifiers.getEffectModifiers(e.getEffectId()))
+        .filter(m -> m != null && !m.getString(Modifiers.MULTIPLIES).isEmpty())
+        .forEach(
+            mods -> {
+              String[] modifiersToMultiply = mods.getString("Multiplies").split("\\s*\\|\\s*");
+              double multiplyBy = mods.get(Modifiers.MULTIPLIES_BY);
+
+              for (String modifierName : modifiersToMultiply) {
+                int modifier = Modifiers.getModifierId(modifierName);
+                this.add(modifier, this.getExtra(modifier) * (multiplyBy - 1), mods.getName());
+              }
+            });
+
+    // In order to support speculation, equipment needs to be handled manually.
+    if (equipment[EquipmentManager.SHIRT].getItemId() == ItemPool.MAKESHIFT_GARBAGE_SHIRT
+        && (Preferences.getInteger("garbageShirtCharge") > 0
+            || (speculation && !Preferences.getBoolean("_garbageItemChanged")))) {
+      this.add(
+          Modifiers.EXPERIENCE,
+          this.getExtra(Modifiers.EXPERIENCE),
+          "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
+      this.add(
+          Modifiers.MUS_EXPERIENCE,
+          this.getExtra(Modifiers.MUS_EXPERIENCE),
+          "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
+      this.add(
+          Modifiers.MYS_EXPERIENCE,
+          this.getExtra(Modifiers.MYS_EXPERIENCE),
+          "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
+      this.add(
+          Modifiers.MOX_EXPERIENCE,
+          this.getExtra(Modifiers.MOX_EXPERIENCE),
+          "Item:[" + ItemPool.MAKESHIFT_GARBAGE_SHIRT + "]");
+    }
+    if ((equipment[EquipmentManager.OFFHAND].getItemId() == ItemPool.BROKEN_CHAMPAGNE
+            || equipment[EquipmentManager.WEAPON].getItemId() == ItemPool.BROKEN_CHAMPAGNE
+            || equipment[EquipmentManager.FAMILIAR].getItemId() == ItemPool.BROKEN_CHAMPAGNE)
+        && (Preferences.getInteger("garbageChampagneCharge") > 0
+            || (speculation && !Preferences.getBoolean("_garbageItemChanged")))) {
+      this.add(
+          Modifiers.ITEMDROP,
+          this.getExtra(Modifiers.ITEMDROP),
+          "Item:[" + ItemPool.BROKEN_CHAMPAGNE + "]");
     }
   }
 
