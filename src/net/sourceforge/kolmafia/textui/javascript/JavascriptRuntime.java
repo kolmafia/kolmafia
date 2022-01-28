@@ -139,13 +139,17 @@ public class JavascriptRuntime extends AbstractRuntime {
   }
 
   private static void initEnumeratedType(
-      Context cx, Scriptable scope, Class<?> recordValueClass, Type valueType) {
+      Context cx,
+      Scriptable scope,
+      Scriptable runtimeLibrary,
+      Class<?> recordValueClass,
+      Type valueType) {
     EnumeratedWrapperPrototype prototype =
         new EnumeratedWrapperPrototype(recordValueClass, valueType);
-    prototype.initToScope(cx, scope);
+    prototype.initToScope(cx, scope, runtimeLibrary);
   }
 
-  private static void initEnumeratedTypes(Context cx, Scriptable scope) {
+  private static void initEnumeratedTypes(Context cx, Scriptable scope, Scriptable runtimeLibrary) {
     for (Type valueType : DataTypes.enumeratedTypes) {
       String typeName = capitalize(valueType.getName());
       Class<?> proxyRecordValueClass = Value.class;
@@ -155,7 +159,7 @@ public class JavascriptRuntime extends AbstractRuntime {
         }
       }
 
-      initEnumeratedType(cx, scope, proxyRecordValueClass, valueType);
+      initEnumeratedType(cx, scope, runtimeLibrary, proxyRecordValueClass, valueType);
     }
   }
 
@@ -185,7 +189,7 @@ public class JavascriptRuntime extends AbstractRuntime {
     try {
       // If executing from GCLI (and not file), add std lib to top scope.
       currentStdLib = initRuntimeLibrary(cx, scope, scriptFile == null);
-      initEnumeratedTypes(cx, scope);
+      initEnumeratedTypes(cx, scope, currentStdLib);
 
       setState(State.NORMAL);
 
