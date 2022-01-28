@@ -806,9 +806,6 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         if (ar.getCount() < 0) {
           // return false
         }
-        if (elementModel == KoLConstants.storage && StorageRequest.itemPulledInRonin(ar)) {
-          return false;
-        }
       }
 
       String name = AutoFilterTextField.getResultName(element);

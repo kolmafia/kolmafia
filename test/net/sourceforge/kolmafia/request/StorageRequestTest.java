@@ -308,6 +308,98 @@ public class StorageRequestTest extends RequestTestBase {
   }
 
   @Test
+  public void itShouldGenerateTwoSubInstances() {
+    storageSubInstanceSetup();
+
+    List<AdventureResult> items = new ArrayList<>();
+
+    // Make a list of 17 items to pull.
+
+    items.add(ItemPool.get(ItemPool.MILK_OF_MAGNESIUM, 1));
+    items.add(ItemPool.get(ItemPool.FLAMING_MUSHROOM, 1));
+    items.add(ItemPool.get(ItemPool.FROZEN_MUSHROOM, 1));
+    items.add(ItemPool.get(ItemPool.STINKY_MUSHROOM, 1));
+    items.add(ItemPool.get(ItemPool.CLOCKWORK_BARTENDER, 1));
+    items.add(ItemPool.get(ItemPool.CLOCKWORK_CHEF, 1));
+    items.add(ItemPool.get(ItemPool.CLOCKWORK_MAID, 1));
+    items.add(ItemPool.get(ItemPool.HOT_WAD, 1));
+    items.add(ItemPool.get(ItemPool.COLD_WAD, 1));
+    items.add(ItemPool.get(ItemPool.SPOOKY_WAD, 1));
+    items.add(ItemPool.get(ItemPool.STENCH_WAD, 1));
+    items.add(ItemPool.get(ItemPool.SLEAZE_WAD, 1));
+    items.add(ItemPool.get(ItemPool.HOT_HI_MEIN, 1));
+    items.add(ItemPool.get(ItemPool.COLD_HI_MEIN, 1));
+    items.add(ItemPool.get(ItemPool.SPOOKY_HI_MEIN, 1));
+    items.add(ItemPool.get(ItemPool.STINKY_HI_MEIN, 1));
+    items.add(ItemPool.get(ItemPool.SLEAZY_HI_MEIN, 1));
+
+    // StorageRequest wants an actual Java array
+    AdventureResult[] attachments = items.toArray(new AdventureResult[items.size()]);
+
+    // Test NOT being in Ronin
+    KoLCharacter.setRonin(false);
+
+    // Make a StorageRequest
+    StorageRequest request = new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, attachments);
+
+    // Generate subinstances.
+    ArrayList<TransferItemRequest> subinstances = request.generateSubInstances();
+
+    // We expect there to be two subinstances
+    assertTrue(subinstances.size() == 2);
+
+    TransferItemRequest rq1 = subinstances.get(0);
+
+    // We expect there to be exactly 11 attachments in the first request
+    assertTrue(rq1.attachments != null);
+    assertTrue(rq1.attachments.length == 11);
+
+    // We expect them to be exactly the items that are in storage
+    assertTrue(rq1.attachments[0].getItemId() == ItemPool.MILK_OF_MAGNESIUM);
+    assertTrue(rq1.attachments[0].getCount() == 1);
+    assertTrue(rq1.attachments[1].getItemId() == ItemPool.FLAMING_MUSHROOM);
+    assertTrue(rq1.attachments[1].getCount() == 1);
+    assertTrue(rq1.attachments[2].getItemId() == ItemPool.FROZEN_MUSHROOM);
+    assertTrue(rq1.attachments[2].getCount() == 1);
+    assertTrue(rq1.attachments[3].getItemId() == ItemPool.STINKY_MUSHROOM);
+    assertTrue(rq1.attachments[3].getCount() == 1);
+    assertTrue(rq1.attachments[4].getItemId() == ItemPool.CLOCKWORK_BARTENDER);
+    assertTrue(rq1.attachments[4].getCount() == 1);
+    assertTrue(rq1.attachments[5].getItemId() == ItemPool.CLOCKWORK_CHEF);
+    assertTrue(rq1.attachments[5].getCount() == 1);
+    assertTrue(rq1.attachments[6].getItemId() == ItemPool.CLOCKWORK_MAID);
+    assertTrue(rq1.attachments[6].getCount() == 1);
+    assertTrue(rq1.attachments[7].getItemId() == ItemPool.HOT_WAD);
+    assertTrue(rq1.attachments[7].getCount() == 1);
+    assertTrue(rq1.attachments[8].getItemId() == ItemPool.COLD_WAD);
+    assertTrue(rq1.attachments[8].getCount() == 1);
+    assertTrue(rq1.attachments[9].getItemId() == ItemPool.SPOOKY_WAD);
+    assertTrue(rq1.attachments[9].getCount() == 1);
+    assertTrue(rq1.attachments[10].getItemId() == ItemPool.STENCH_WAD);
+    assertTrue(rq1.attachments[10].getCount() == 1);
+
+    TransferItemRequest rq2 = subinstances.get(1);
+
+    // We expect there to be exactly 6 attachments in the second request
+    assertTrue(rq2.attachments != null);
+    assertTrue(rq2.attachments.length == 6);
+
+    // We expect them to be exactly the items that are in storage
+    assertTrue(rq2.attachments[0].getItemId() == ItemPool.SLEAZE_WAD);
+    assertTrue(rq2.attachments[0].getCount() == 1);
+    assertTrue(rq2.attachments[1].getItemId() == ItemPool.HOT_HI_MEIN);
+    assertTrue(rq2.attachments[1].getCount() == 1);
+    assertTrue(rq2.attachments[2].getItemId() == ItemPool.COLD_HI_MEIN);
+    assertTrue(rq2.attachments[2].getCount() == 1);
+    assertTrue(rq2.attachments[3].getItemId() == ItemPool.SPOOKY_HI_MEIN);
+    assertTrue(rq2.attachments[3].getCount() == 1);
+    assertTrue(rq2.attachments[4].getItemId() == ItemPool.STINKY_HI_MEIN);
+    assertTrue(rq2.attachments[4].getCount() == 1);
+    assertTrue(rq2.attachments[5].getItemId() == ItemPool.SLEAZY_HI_MEIN);
+    assertTrue(rq2.attachments[5].getCount() == 1);
+  }
+
+  @Test
   public void itShouldGenerateOneSubInstanceInRonin() {
     storageSubInstanceSetup();
 
