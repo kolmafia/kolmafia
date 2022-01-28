@@ -208,6 +208,19 @@ public class ModifiersTest {
     assertThat(mods.get(Modifiers.MOX_EXPERIENCE), is(0.0));
   }
 
+  @Test
+  public void doNotConsiderDepletedGarbageShirtWhenSpeculating() {
+    Preferences.setInteger("garbageShirtCharge", 0);
+    Preferences.setBoolean("_garbageItemChanged", true);
+
+    var mods = prepareGarbageShirt(true);
+
+    assertThat(mods.get(Modifiers.EXPERIENCE), is(5.0));
+    assertThat(mods.get(Modifiers.MUS_EXPERIENCE), is(0.0));
+    assertThat(mods.get(Modifiers.MYS_EXPERIENCE), is(0.0));
+    assertThat(mods.get(Modifiers.MOX_EXPERIENCE), is(0.0));
+  }
+
   private Modifiers prepareChampagneBottle(int slot, boolean speculate) {
     // Start building inputs for multiplier
     Modifiers mods = new Modifiers();
@@ -244,5 +257,14 @@ public class ModifiersTest {
     var mods = prepareChampagneBottle(EquipmentManager.WEAPON, true);
 
     assertThat(mods.get(Modifiers.ITEMDROP), is(40.0));
+  }
+
+  @Test
+  public void doNotConsiderDepletedBrokenChampagneBottleWhenSpeculating() {
+    Preferences.setBoolean("_garbageItemChanged", true);
+    Preferences.setInteger("garbageChampagneCharge", 0);
+    var mods = prepareChampagneBottle(EquipmentManager.WEAPON, true);
+
+    assertThat(mods.get(Modifiers.ITEMDROP), is(20.0));
   }
 }
