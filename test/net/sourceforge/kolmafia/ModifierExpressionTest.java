@@ -8,6 +8,7 @@ import static internal.helpers.Player.inLocation;
 import static internal.helpers.Player.inPath;
 import static internal.helpers.Player.isClass;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -198,15 +199,20 @@ public class ModifierExpressionTest {
     assertThat(path.toString(), exp.eval(), is(expected));
   }
 
-  @Disabled("Recalculate adjustments doesn't copy over extras - not sure how to test this or how it works at all")
   @Test
   public void canUseModFunction() {
-    addEffect("Gutterminded");
+    // This special function only returns a meaningful result during the evaluation of
+    // recalculateAdjustments so to test it we need to look at an effect that actually uses the
+    // mod().
+
+    addEffect("Bone Springs");
+    addEffect("Bow-Legged Swagger");
+    assertThat(
+        Modifiers.getStringModifier("Effect", "Bow-Legged Swagger", "Modifiers"),
+        containsString("mod("));
     KoLCharacter.recalculateAdjustments();
 
-    var exp =
-        new ModifierExpression("mod(Sleaze Damage)", "Return mod from mod without including mod");
-    assertThat(exp.eval(), is(50.0));
+    assertThat(KoLCharacter.getCurrentModifiers().get(Modifiers.INITIATIVE), is(40.0));
   }
 
   @ParameterizedTest
