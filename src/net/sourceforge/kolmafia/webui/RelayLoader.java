@@ -11,7 +11,6 @@ import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public class RelayLoader extends Thread {
-  public static String currentBrowser = null;
 
   private final String location;
 
@@ -41,13 +40,9 @@ public class RelayLoader extends Thread {
   }
 
   private void waitForSVNUpdateToFinish() {
-    // This first loop is to wait for LoginManager to start processing updates, if it is going to
     PauseObject pauser = new PauseObject();
-    for (int i = 0; i < numberOfIntervalsToPause && !RelayServer.isRunning(); ++i) {
-      pauser.pause(pauseDurationInMilliseconds);
-    }
-    int triesLeft = 10;
-    while ((triesLeft > 0) && LoginManager.isSvnLoginUpdateRunning()) {
+    int triesLeft = 6;
+    while ((triesLeft > 0) && LoginManager.isSvnLoginUpdateUnfinished()) {
       for (int i = 0; i < numberOfIntervalsToPause && !RelayServer.isRunning(); ++i) {
         pauser.pause(pauseDurationInMilliseconds);
       }
@@ -90,6 +85,8 @@ public class RelayLoader extends Thread {
     try {
       Desktop.getDesktop().browse(uri);
     } catch (IOException e) {
+      KoLmafia.updateDisplay(
+          "Exception: " + e.getMessage() + " for location " + location + " in browser.");
     }
   }
 
@@ -111,6 +108,8 @@ public class RelayLoader extends Thread {
       String location = file.getCanonicalPath();
       RelayLoader.openSystemBrowser("file://" + location, false);
     } catch (IOException e) {
+      KoLmafia.updateDisplay(
+          "Exception: " + e.getMessage() + " for location " + file.getName() + " in browser.");
     }
   }
 

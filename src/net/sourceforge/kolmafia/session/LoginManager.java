@@ -34,7 +34,9 @@ import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 public class LoginManager {
 
-  private static boolean svnLoginUpdateRunning = false;
+  // This exists to delay launch of the relay browser at startup until after SVN updates
+  // have completed.
+  private static boolean svnLoginUpdateNotFinished = true;
 
   private LoginManager() {}
 
@@ -106,10 +108,9 @@ public class LoginManager {
     }
 
     if (Preferences.getBoolean("svnUpdateOnLogin") && !Preferences.getBoolean("_svnUpdated")) {
-      svnLoginUpdateRunning = true;
       SVNManager.doUpdate();
-      svnLoginUpdateRunning = false;
     }
+    svnLoginUpdateNotFinished = false;
 
     if (Preferences.getBoolean(username, "getBreakfast")) {
       int today = HolidayDatabase.getPhaseStep();
@@ -252,7 +253,7 @@ public class LoginManager {
     KoLmafia.updateDisplay(updateText);
   }
 
-  public static boolean isSvnLoginUpdateRunning() {
-    return svnLoginUpdateRunning;
+  public static boolean isSvnLoginUpdateUnfinished() {
+    return svnLoginUpdateNotFinished;
   }
 }
