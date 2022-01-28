@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URI;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 
@@ -53,7 +54,7 @@ public class RelayLoader extends Thread {
   }
 
   private void waitForSVNUpdateToFinish() {
-    int triesLeft = 10;
+    int triesLeft = Math.max(Preferences.getInteger("relayDelayForSVN"), 0);
     while ((triesLeft > 0) && LoginManager.isSvnLoginUpdateUnfinished()) {
       pauseAndWaitForRelayAction(1000, true);
       triesLeft--;
