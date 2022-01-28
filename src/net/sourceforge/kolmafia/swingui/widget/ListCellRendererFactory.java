@@ -27,7 +27,6 @@ import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
-import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.session.EncounterManager.RegisteredEncounter;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
@@ -912,9 +911,7 @@ public class ListCellRendererFactory {
 
       String color = null;
 
-      if (StorageRequest.itemPulledInRonin(ar)) {
-        color = "gray";
-      } else if (isSelected) {
+      if (isSelected) {
         setForeground(UIManager.getColor("List.selectionForeground"));
       } else {
         color = ColorFactory.getStorageColor(ar);
