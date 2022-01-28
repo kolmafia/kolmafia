@@ -1663,14 +1663,6 @@ public class Modifiers {
       }
     }
 
-    double[] copyExtras = mods.extras;
-    for (int index = 0; index < this.extras.length; ++index) {
-      if (this.extras[index] != copyExtras[index]) {
-        this.extras[index] = copyExtras[index];
-        changed = true;
-      }
-    }
-
     return changed;
   }
 
