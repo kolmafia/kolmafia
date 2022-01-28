@@ -1,9 +1,14 @@
 package net.sourceforge.kolmafia.swingui.panel;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -21,10 +26,10 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
-import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 import net.sourceforge.kolmafia.textui.command.SendMessageCommand;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
@@ -44,7 +49,7 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
           new SmashbotListener(),
         });
 
-    this.getElementList().setCellRenderer(ListCellRendererFactory.getPulverizationRenderer());
+    this.getElementList().setCellRenderer(getPulverizationRenderer());
     this.movers[2].setSelected(true);
   }
 
@@ -320,6 +325,134 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
     @Override
     public String toString() {
       return "pulverize";
+    }
+  }
+
+  public static final DefaultListCellRenderer getPulverizationRenderer() {
+    return new PulverizationRenderer();
+  }
+
+  private static class PulverizationRenderer extends DefaultListCellRenderer {
+    public PulverizationRenderer() {
+      this.setOpaque(true);
+    }
+
+    public boolean allowHighlight() {
+      return true;
+    }
+
+    @Override
+    public Component getListCellRendererComponent(
+        final JList<?> list,
+        final Object value,
+        final int index,
+        final boolean isSelected,
+        final boolean cellHasFocus) {
+      Component defaultComponent =
+          super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+
+      if (value == null) {
+        return defaultComponent;
+      }
+
+      if (value instanceof AdventureResult) {
+	      return this.getRenderer(defaultComponent, (AdventureResult) value, isSelected);
+      }
+
+      return defaultComponent;
+    }
+
+    public Component getRenderer(
+        final Component defaultComponent, final AdventureResult ar, final boolean isSelected) {
+      if (!ar.isItem()) {
+        return defaultComponent;
+      }
+
+      StringBuilder stringForm = new StringBuilder();
+      stringForm.append(ar.getName());
+
+      int pulver = EquipmentDatabase.getPulverization(ar.getItemId());
+      boolean HTML = false;
+
+      if (pulver > 0) {
+        stringForm.append(" => ");
+        stringForm.append(ItemDatabase.getItemName(pulver));
+      } else if (pulver < -1) {
+        stringForm.append(" => ");
+        if ((pulver & EquipmentDatabase.ELEM_TWINKLY) != 0) {
+          stringForm.append("Tw");
+        }
+        if ((pulver & EquipmentDatabase.ELEM_HOT) != 0) {
+          stringForm.append("<font color=red>Ho</font>");
+          HTML = true;
+        }
+        if ((pulver & EquipmentDatabase.ELEM_COLD) != 0) {
+          stringForm.append("<font color=blue>Co</font>");
+          HTML = true;
+        }
+        if ((pulver & EquipmentDatabase.ELEM_STENCH) != 0) {
+          stringForm.append("<font color=green>St</font>");
+          HTML = true;
+        }
+        if ((pulver & EquipmentDatabase.ELEM_SPOOKY) != 0) {
+          stringForm.append("<font color=gray>Sp</font>");
+          HTML = true;
+        }
+        if ((pulver & EquipmentDatabase.ELEM_SLEAZE) != 0) {
+          stringForm.append("<font color=purple>Sl</font>");
+          HTML = true;
+        }
+
+        if ((pulver & EquipmentDatabase.YIELD_1C) != 0) {
+          stringForm.append("C");
+        }
+
+        if ((pulver & EquipmentDatabase.MALUS_UPGRADE) != 0) {
+          stringForm.append(" upgrade");
+        } else if ((pulver & EquipmentDatabase.YIELD_3W) != 0) {
+          stringForm.append(" 3W");
+        } else if ((pulver & EquipmentDatabase.YIELD_1W3N_2W) != 0) {
+          stringForm.append("  1W+3N or 2W");
+        } else if ((pulver & EquipmentDatabase.YIELD_4N_1W) != 0) {
+          stringForm.append(" 4N or 1W");
+        } else if ((pulver & EquipmentDatabase.YIELD_3N) != 0) {
+          stringForm.append(" 3N");
+        } else if ((pulver & EquipmentDatabase.YIELD_1N3P_2N) != 0) {
+          stringForm.append(" 1N+3P or 2N");
+        } else if ((pulver & EquipmentDatabase.YIELD_4P_1N) != 0) {
+          stringForm.append(" 4P or 1N");
+        } else if ((pulver & EquipmentDatabase.YIELD_3P) != 0) {
+          stringForm.append(" 3P");
+        } else if ((pulver & EquipmentDatabase.YIELD_2P) != 0) {
+          stringForm.append(" 2P");
+        } else if ((pulver & EquipmentDatabase.YIELD_1P) != 0) {
+          stringForm.append(" 1P");
+        }
+
+        if ((pulver & EquipmentDatabase.YIELD_UNCERTAIN) != 0) {
+          stringForm.append("?");
+        }
+      } else { // this should have been filtered out of the list
+        stringForm.append(" [NOT PULVERIZABLE]");
+      }
+
+      stringForm.append(" (");
+      stringForm.append(KoLConstants.COMMA_FORMAT.format(ar.getCount()));
+      stringForm.append(")");
+
+      int index = KoLConstants.pulverizeQueue.indexOf(ar);
+      if (index != -1) {
+        stringForm.append(", ");
+        stringForm.append(KoLConstants.pulverizeQueue.get(index).getCount());
+        stringForm.append(" queued");
+      }
+
+      if (HTML) {
+        stringForm.insert(0, "<html>");
+        stringForm.append("</html>");
+      }
+      ((JLabel) defaultComponent).setText(stringForm.toString());
+      return defaultComponent;
     }
   }
 
