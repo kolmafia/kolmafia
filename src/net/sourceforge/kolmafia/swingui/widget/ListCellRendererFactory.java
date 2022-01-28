@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.Component;
-import java.util.Objects;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -881,118 +880,6 @@ public class ListCellRendererFactory {
       }
 
       return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-    }
-  }
-
-  public static final DefaultListCellRenderer getStorageRenderer() {
-    return new StorageRenderer();
-  }
-
-  private static class StorageRenderer extends DefaultRenderer {
-    public StorageRenderer() {
-      this.setOpaque(true);
-    }
-
-    @Override
-    public boolean allowHighlight() {
-      return true;
-    }
-
-    @Override
-    public Component getRenderer(
-        final Component defaultComponent, final AdventureResult ar, final boolean isSelected) {
-      if (!ar.isItem()) {
-        return defaultComponent;
-      }
-
-      StringBuffer stringForm = new StringBuffer();
-
-      stringForm.append("<html><nobr>");
-
-      String color = null;
-
-      if (isSelected) {
-        setForeground(UIManager.getColor("List.selectionForeground"));
-      } else {
-        color = ColorFactory.getStorageColor(ar);
-      }
-
-      if (color != null) {
-        stringForm.append("<font color=");
-        stringForm.append(color);
-        stringForm.append(">");
-      }
-
-      String name = ar.getName();
-      stringForm.append(name);
-
-      if (color != null) {
-        stringForm.append("</font>");
-      }
-
-      int power = EquipmentDatabase.getPower(ar.getItemId());
-
-      if (power > 0) {
-        stringForm.append(" (+");
-        stringForm.append(power);
-        stringForm.append(")");
-      } else {
-        Integer fullness = ConsumablesDatabase.getRawFullness(ar.getName());
-        Integer inebriety = ConsumablesDatabase.getRawInebriety(ar.getName());
-
-        if (fullness != null || inebriety != null) {
-          stringForm.append(" (");
-          stringForm.append(Objects.requireNonNullElse(fullness, inebriety));
-
-          this.appendRange(stringForm, ConsumablesDatabase.getAdventureRange(ar.getName()), "adv");
-
-          if (Preferences.getBoolean("showGainsPerUnit")) {
-            if (fullness != null && fullness.intValue() > 0) {
-              stringForm.append("/full");
-            } else if (inebriety != null && inebriety.intValue() > 0) {
-              stringForm.append("/drunk");
-            }
-          }
-          stringForm.append(")");
-        }
-      }
-
-      stringForm.append(" (");
-      stringForm.append(KoLConstants.COMMA_FORMAT.format(ar.getCount()));
-      stringForm.append(")");
-
-      stringForm.append("</nobr></html>");
-
-      ((JLabel) defaultComponent).setText(stringForm.toString());
-      return defaultComponent;
-    }
-  }
-
-  public static final DefaultListCellRenderer getFreePullsRenderer() {
-    return new FreePullsRenderer();
-  }
-
-  private static class FreePullsRenderer extends DefaultRenderer {
-    public FreePullsRenderer() {
-      this.setOpaque(true);
-    }
-
-    @Override
-    public boolean allowHighlight() {
-      return true;
-    }
-
-    @Override
-    public Component getRenderer(
-        final Component defaultComponent, final AdventureResult ar, final boolean isSelected) {
-      if (!ar.isItem()) {
-        return defaultComponent;
-      }
-
-      String stringForm =
-          ar.getName() + " (" + KoLConstants.COMMA_FORMAT.format(ar.getCount()) + ")";
-      ((JLabel) defaultComponent).setText(stringForm);
-      return defaultComponent;
     }
   }
 }

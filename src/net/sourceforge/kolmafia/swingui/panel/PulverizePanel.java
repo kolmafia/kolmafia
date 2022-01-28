@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -356,7 +355,7 @@ public class PulverizePanel extends ItemListManagePanel<AdventureResult> {
       }
 
       if (value instanceof AdventureResult) {
-	      return this.getRenderer(defaultComponent, (AdventureResult) value, isSelected);
+        return this.getRenderer(defaultComponent, (AdventureResult) value, isSelected);
       }
 
       return defaultComponent;
