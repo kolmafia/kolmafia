@@ -53,7 +53,7 @@ public class RelayLoader extends Thread {
   }
 
   private void waitForSVNUpdateToFinish() {
-    int triesLeft = 5;
+    int triesLeft = 10;
     while ((triesLeft > 0) && LoginManager.isSvnLoginUpdateUnfinished()) {
       pauseAndWaitForRelayAction(1000, true);
       triesLeft--;
