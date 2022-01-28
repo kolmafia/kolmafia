@@ -14,9 +14,6 @@ public class RelayLoader extends Thread {
 
   private final String location;
 
-  private static final int pauseDurationInMilliseconds = 200;
-  private static final int numberOfIntervalsToPause = 50;
-
   protected RelayLoader(final String location, final boolean isRelayLocation) {
     super("RelayLoader@" + location);
 
@@ -39,13 +36,26 @@ public class RelayLoader extends Thread {
     }
   }
 
-  private void waitForSVNUpdateToFinish() {
-    PauseObject pauser = new PauseObject();
-    int triesLeft = 6;
-    while ((triesLeft > 0) && LoginManager.isSvnLoginUpdateUnfinished()) {
-      for (int i = 0; i < numberOfIntervalsToPause && !RelayServer.isRunning(); ++i) {
-        pauser.pause(pauseDurationInMilliseconds);
+  private void pauseAndWaitForRelayAction(int timeInMilliseconds, boolean waitForStart) {
+    // Pause for input value of seconds, waking up to check relay server
+    // boolean so can be used to wait for shutdown.
+    boolean relayInDesiredStatus = false;
+    boolean relayServerIsRunning;
+    final int pauseDurationInMilliseconds = 200;
+    int waitCount = 0;
+    PauseObject pauseExecutor = new PauseObject();
+    while ((waitCount < timeInMilliseconds) && !relayInDesiredStatus) {
+      pauseExecutor.pause(pauseDurationInMilliseconds);
+      waitCount = waitCount + pauseDurationInMilliseconds;
+      relayServerIsRunning = RelayServer.isRunning();
+      relayInDesiredStatus = waitForStart == relayServerIsRunning;
       }
+    }
+
+  private void waitForSVNUpdateToFinish() {
+    int triesLeft = 5;
+    while ((triesLeft > 0) && LoginManager.isSvnLoginUpdateUnfinished()) {
+      pauseAndWaitForRelayAction(1000, true);
       triesLeft--;
     }
   }
@@ -58,15 +68,8 @@ public class RelayLoader extends Thread {
       waitForSVNUpdateToFinish();
       RelayLoader.startRelayServer();
 
-      // Wait for 5 seconds (numberOfIntervalsToPause of pauseDurationInMilliseconds each)
-      // before giving up on the relay server.
-
-      PauseObject pauser = new PauseObject();
-
-      for (int i = 0; i < numberOfIntervalsToPause && !RelayServer.isRunning(); ++i) {
-        pauser.pause(pauseDurationInMilliseconds);
-      }
-
+      // Wait for 5 seconds before giving up on the relay server.
+      pauseAndWaitForRelayAction(5000, true);
       location = "http://127.0.0.1:" + RelayServer.getPort() + this.location;
     }
 
