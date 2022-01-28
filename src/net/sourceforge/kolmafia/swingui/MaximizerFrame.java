@@ -46,7 +46,7 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MaximizerFrame extends GenericFrame implements ListSelectionListener {
-  public static final JComboBox<Object> expressionSelect = new JComboBox<>();
+  public static final JComboBox<String> expressionSelect = new JComboBox<>();
 
   static { // This has to be done before the constructor runs, since the
     // CLI "maximize" command can set the selected item prior to the
