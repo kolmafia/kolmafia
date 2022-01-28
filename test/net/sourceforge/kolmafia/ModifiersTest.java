@@ -8,12 +8,21 @@ import java.util.List;
 import java.util.Map.Entry;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class ModifiersTest {
+  @BeforeEach
+  private void beforeEach() {
+    KoLCharacter.reset("ModifiersTest");
+    Preferences.reset("ModifiersTest");
+  }
+
   @Test
   public void patriotShieldClassModifiers() {
     // Wide-reaching unit test for getModifiers
@@ -153,5 +162,87 @@ public class ModifiersTest {
 
     assertThat(mods.get(Modifiers.SLEAZE_DAMAGE), is(40.0));
     assertThat(mods.get(Modifiers.SLEAZE_SPELL_DAMAGE), is(40.0));
+  }
+
+  private Modifiers prepareGarbageShirt(boolean speculate) {
+    // Start building inputs for multiplier
+    Modifiers mods = new Modifiers();
+    var equipment = EquipmentManager.allEquipment();
+
+    // Equip the garbage shirt
+    equipment[EquipmentManager.SHIRT] = AdventureResult.tallyItem("makeshift garbage shirt");
+
+    // Give some experience modifiers to buff
+    var effects = List.of(EffectPool.get(EffectDatabase.getEffectId("Lifted Spirits")));
+    for (var effect : effects) {
+      mods.add(Modifiers.getEffectModifiers(effect.getEffectId()));
+    }
+
+    // Apply the multipliers!
+    mods.applyMultipliers(effects, equipment, speculate);
+
+    return mods;
+  }
+
+  @Test
+  public void garbageShirtWorks() {
+    Preferences.setInteger("garbageShirtCharge", 10);
+
+    var mods = prepareGarbageShirt(false);
+
+    assertThat(mods.get(Modifiers.EXPERIENCE), is(10.0));
+    assertThat(mods.get(Modifiers.MUS_EXPERIENCE), is(0.0));
+    assertThat(mods.get(Modifiers.MYS_EXPERIENCE), is(0.0));
+    assertThat(mods.get(Modifiers.MOX_EXPERIENCE), is(0.0));
+  }
+
+  @Test
+  public void considerUnusedGarbageShirtWhenSpeculating() {
+    Preferences.setBoolean("_garbageItemChanged", false);
+
+    var mods = prepareGarbageShirt(true);
+
+    assertThat(mods.get(Modifiers.EXPERIENCE), is(10.0));
+    assertThat(mods.get(Modifiers.MUS_EXPERIENCE), is(0.0));
+    assertThat(mods.get(Modifiers.MYS_EXPERIENCE), is(0.0));
+    assertThat(mods.get(Modifiers.MOX_EXPERIENCE), is(0.0));
+  }
+
+  private Modifiers prepareChampagneBottle(int slot, boolean speculate) {
+    // Start building inputs for multiplier
+    Modifiers mods = new Modifiers();
+    var equipment = EquipmentManager.allEquipment();
+
+    // Equip the bottle
+    equipment[slot] = AdventureResult.tallyItem("broken champagne bottle");
+
+    // Give some item modifiers to buff
+    var effects = List.of(EffectPool.get(EffectDatabase.getEffectId("Lucky Struck")));
+    for (var effect : effects) {
+      mods.add(Modifiers.getEffectModifiers(effect.getEffectId()));
+    }
+
+    // Apply the multipliers!
+    mods.applyMultipliers(effects, equipment, speculate);
+
+    return mods;
+  }
+
+  @ParameterizedTest
+  @ValueSource(
+      ints = {EquipmentManager.OFFHAND, EquipmentManager.WEAPON, EquipmentManager.FAMILIAR})
+  public void brokenChampagneBottleWorks(int slot) {
+    Preferences.setInteger("garbageChampagneCharge", 10);
+    var mods = prepareChampagneBottle(slot, false);
+
+    assertThat(mods.get(Modifiers.ITEMDROP), is(40.0));
+  }
+
+  @Test
+  public void considerUnusedBrokenChampagneBottleWhenSpeculating() {
+    Preferences.setBoolean("_garbageItemChanged", false);
+    var mods = prepareChampagneBottle(EquipmentManager.WEAPON, true);
+
+    assertThat(mods.get(Modifiers.ITEMDROP), is(40.0));
   }
 }
