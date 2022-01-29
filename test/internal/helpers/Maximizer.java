@@ -8,11 +8,17 @@ import java.util.function.Predicate;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.maximizer.Boost;
+import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 
 public class Maximizer {
 
   public static boolean maximize(String maximizerString) {
     return net.sourceforge.kolmafia.maximizer.Maximizer.maximize(maximizerString, 0, 0, true);
+  }
+
+  public static void maximizeCreatable(String maximizerString) {
+    MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
+    net.sourceforge.kolmafia.maximizer.Maximizer.maximize(1, 0, 0, false, 0);
   }
 
   public static double modFor(String modifier) {
