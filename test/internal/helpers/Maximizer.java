@@ -42,7 +42,9 @@ public class Maximizer {
 
   public static void recommendedSlotIsEmpty(int slot) {
     Optional<AdventureResult> equipment = getSlot(slot);
-    assertTrue(equipment.isEmpty(), () -> "Expected empty slot " + slot + ", but it was " + equipment.get());
+    assertTrue(
+        equipment.isEmpty(),
+        () -> "Expected empty slot " + slot + ", but it was " + equipment.get());
   }
 
   public static void recommends(String item) {

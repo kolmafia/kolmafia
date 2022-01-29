@@ -66,5 +66,4 @@ public class MaximizerCreatableTest {
     recommendedSlotIs(EquipmentManager.WEAPON, "oversized sparkler");
     recommendedSlotIsEmpty(EquipmentManager.OFFHAND);
   }
-
 }
