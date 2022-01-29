@@ -51,7 +51,6 @@ import net.sourceforge.kolmafia.swingui.panel.UseItemEnqueuePanel;
 import net.sourceforge.kolmafia.swingui.panel.UseItemPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
-import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 import net.sourceforge.kolmafia.textui.command.AutoMallCommand;
 import net.sourceforge.kolmafia.textui.command.CleanupJunkRequest;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -436,7 +435,6 @@ public class ItemManageFrame extends GenericFrame {
 
       this.addFilters();
       this.addMovers();
-      this.getElementList().setCellRenderer(ListCellRendererFactory.getStorageRenderer());
 
       Box box = Box.createVerticalBox();
       JLabel budget = new JLabel("Budget:");
@@ -570,7 +568,6 @@ public class ItemManageFrame extends GenericFrame {
 
       this.addFilters();
       this.addMovers();
-      this.getElementList().setCellRenderer(ListCellRendererFactory.getFreePullsRenderer());
     }
 
     @Override
