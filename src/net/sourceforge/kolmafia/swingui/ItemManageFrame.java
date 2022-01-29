@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -411,6 +412,7 @@ public class ItemManageFrame extends GenericFrame {
 
   private class HagnkStoragePanel extends InventoryPanel<AdventureResult> {
     private boolean isPullingForUse = false;
+    private final EmptyStorageButton emptyButton;
 
     public HagnkStoragePanel(final boolean isEquipmentOnly) {
       super(
@@ -425,12 +427,12 @@ public class ItemManageFrame extends GenericFrame {
       JButton mallButton = new JButton(mallListener.toString());
       mallButton.addActionListener(mallListener);
 
+      // Disable if you are in Hardcore or Ronin, enable once you leave Ronin or free the king
+      emptyButton = new EmptyStorageButton();
+
       this.addButtons(
           new JButton[] {
-            this.confirmedButton,
-            this.cancelledButton,
-            mallButton,
-            new InvocationButton("empty", StorageRequest.class, "emptyStorage"),
+            this.confirmedButton, this.cancelledButton, mallButton, emptyButton,
           });
 
       this.addFilters();
@@ -468,6 +470,31 @@ public class ItemManageFrame extends GenericFrame {
       southeastPanel.add(this.refreshButton, BorderLayout.SOUTH);
 
       this.eastPanel.add(southeastPanel, BorderLayout.SOUTH);
+    }
+
+    @Override
+    public void setEnabled(final boolean isEnabled) {
+      if (isEnabled) {
+        this.emptyButton.update();
+      }
+    }
+
+    private class EmptyStorageButton extends InvocationButton implements Listener {
+      public EmptyStorageButton() {
+        super("empty", StorageRequest.class, "emptyStorage");
+        NamedListenerRegistry.registerNamedListener("(hardcore)", this);
+        NamedListenerRegistry.registerNamedListener("(ronin)", this);
+        this.update();
+      }
+
+      @Override
+      public void update() {
+        boolean enabled =
+            !KoLCharacter.isHardcore()
+                && !KoLCharacter.inRonin()
+                && !KoLConstants.storage.isEmpty();
+        this.setEnabled(enabled);
+      }
     }
 
     @Override

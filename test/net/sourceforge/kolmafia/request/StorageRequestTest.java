@@ -11,8 +11,11 @@ import java.util.List;
 import java.util.Set;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.Test;
@@ -712,5 +715,182 @@ public class StorageRequestTest extends RequestTestBase {
 
     // We expect the total of the Meat values to be saved
     assertTrue(rq.getURLString().contains("amt=1234"));
+  }
+
+  // *** Here are tests for all the conditions that StorageRequest should check
+  // *** before submitting a request to KoL. Since these short circuit the
+  // *** run() method, we don't need to mock.
+
+  private void storageRunMethodSetup() {
+    // Simulate logging out and back in again.
+    KoLCharacter.reset("");
+    KoLCharacter.reset("run method user");
+    // Reset preferences to defaults.
+    KoLCharacter.reset(true);
+    // Not in error state
+    StaticEntity.setContinuationState(MafiaState.CONTINUE);
+  }
+
+  private StorageRequest makeZeroItemRequest() {
+    // Make a StorageRequest
+    StorageRequest request =
+        new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, new AdventureResult[0]);
+
+    // Return a subinstance
+    return makeSubinstance(request);
+  }
+
+  private StorageRequest makeSingleItemRequest(int itemId) {
+    // Make a list of 1 item to pull.
+    List<AdventureResult> items = new ArrayList<>();
+    items.add(ItemPool.get(itemId, 1));
+
+    // StorageRequest wants an actual Java array
+    AdventureResult[] attachments = items.toArray(new AdventureResult[items.size()]);
+
+    // Make a StorageRequest
+    StorageRequest request = new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, attachments);
+
+    // Return a subinstance
+    return makeSubinstance(request);
+  }
+
+  private StorageRequest makeMeatRequest() {
+    // Make a list of 1 item to pull.
+    List<AdventureResult> items = new ArrayList<>();
+    items.add(new AdventureResult(AdventureLongCountResult.MEAT, 1000));
+
+    // StorageRequest wants an actual Java array
+    AdventureResult[] attachments = items.toArray(new AdventureResult[items.size()]);
+
+    // Make a StorageRequest
+    StorageRequest request = new StorageRequest(StorageRequest.PULL_MEAT_FROM_STORAGE, attachments);
+
+    // Return a subinstance
+    return makeSubinstance(request);
+  }
+
+  private StorageRequest makeSubinstance(StorageRequest request) {
+    // Make subinstance, just as TransferItemRequest does before calling run()
+    ArrayList<TransferItemRequest> subinstances = request.generateSubInstances();
+
+    // We expect there to be a single subinstance
+    assertTrue(subinstances.size() == 1);
+
+    TransferItemRequest rq = subinstances.get(0);
+
+    // We expect it to be a StorageRequest
+    assertTrue(rq instanceof StorageRequest);
+
+    return (StorageRequest) rq;
+  }
+
+  @Test
+  public void itShouldNotEmptyStorageInHardcore() {
+    storageRunMethodSetup();
+
+    // Test being in Hardcore
+    KoLCharacter.setHardcore(true);
+
+    // Make an request to empty storage
+    StorageRequest request = new StorageRequest(StorageRequest.EMPTY_STORAGE);
+
+    // Run it and verify failure
+    request.run();
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+  }
+
+  @Test
+  public void itShouldNotPullMeatInHardcore() {
+    storageRunMethodSetup();
+
+    // Test being in Hardcore
+    KoLCharacter.setHardcore(true);
+
+    // Make a request with Meat
+    StorageRequest request = makeMeatRequest();
+
+    // Run it and verify failure
+    request.run();
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+  }
+
+  @Test
+  public void itShouldNotPullNonFreePullsInHardcore() {
+    storageRunMethodSetup();
+
+    // Test being in Hardcore
+    KoLCharacter.setHardcore(true);
+
+    // Make a request with an Item
+    StorageRequest request = makeSingleItemRequest(ItemPool.HOT_WAD);
+
+    // Run it and verify failure
+    request.run();
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+  }
+
+  @Test
+  public void itShouldNotEmptyStorageInRonin() {
+    storageRunMethodSetup();
+
+    // Test being in Ronin
+    KoLCharacter.setRonin(true);
+
+    // Make an request to empty storage
+    StorageRequest request = new StorageRequest(StorageRequest.EMPTY_STORAGE);
+
+    // Run it and verify failure
+    request.run();
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+  }
+
+  @Test
+  public void itShouldNotPullTwiceInRonin() {
+    storageRunMethodSetup();
+
+    // Test being in Ronin
+    KoLCharacter.setRonin(true);
+
+    // Make a request with an Item
+    StorageRequest request = makeSingleItemRequest(ItemPool.HOT_WAD);
+
+    // Say that we've already pulled one today
+    StorageRequest.addPulledItem(ItemPool.HOT_WAD);
+
+    // Tested individually above, but why not?
+    assertTrue(StorageRequest.itemPulledInRonin(ItemPool.HOT_WAD));
+
+    // Run it and verify failure
+    request.run();
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+  }
+
+  @Test
+  public void itShouldNotPullMeatInFistcore() {
+    storageRunMethodSetup();
+
+    // Test being in Fistcore
+    KoLCharacter.setKingLiberated(false);
+    KoLCharacter.setPath(Path.SURPRISING_FIST);
+
+    // Make a request with Meat
+    StorageRequest request = makeMeatRequest();
+
+    // Run it and verify failure
+    request.run();
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+  }
+
+  @Test
+  public void itShouldRequestZeroItems() {
+    storageRunMethodSetup();
+
+    // Make a request with no items
+    StorageRequest request = makeZeroItemRequest();
+
+    // Run it and verify failure
+    request.run();
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
   }
 }

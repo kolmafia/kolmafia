@@ -407,35 +407,45 @@ public class StorageRequest extends TransferItemRequest {
     }
 
     if (KoLCharacter.inRonin()) {
-      // Filter out items that you've already pulled today
-      for (int index = 0; index < this.attachments.length; ++index) {
-        AdventureResult item = this.attachments[index];
-        if (item != null && item.isItem() && itemPulledInRonin(item)) {
-          KoLmafia.updateDisplay(
-              "You've already pulled one '" + item.getName() + "' today. Skipping...");
-          this.attachments[index] = null;
-        }
-      }
-    }
-
-    if (KoLCharacter.inFistcore() && this.moveType == PULL_MEAT_FROM_STORAGE) {
-      KoLmafia.updateDisplay(
-          MafiaState.ERROR, "You cannot remove meat from storage while in Fistcore.");
-      return;
-    }
-
-    if (this.moveType == StorageRequest.STORAGE_TO_INVENTORY) {
-      boolean nonNullItems = false;
-      for (AdventureResult attachment : this.attachments) {
-        if (attachment != null) {
-          nonNullItems = true;
+      switch (this.moveType) {
+        case EMPTY_STORAGE:
+          KoLmafia.updateDisplay(MafiaState.ERROR, "You cannot empty storage while in Ronin.");
+          return;
+        case STORAGE_TO_INVENTORY:
+          // Filter out items that you've already pulled today
+          for (int index = 0; index < this.attachments.length; ++index) {
+            AdventureResult item = this.attachments[index];
+            if (item != null && item.isItem() && itemPulledInRonin(item)) {
+              KoLmafia.updateDisplay(
+                  "You've already pulled one '" + item.getName() + "' today. Skipping...");
+              this.attachments[index] = null;
+            }
+          }
           break;
+      }
+    }
+
+    switch (this.moveType) {
+      case PULL_MEAT_FROM_STORAGE:
+        if (KoLCharacter.inFistcore()) {
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR, "You cannot remove meat from storage while in Fistcore.");
+          return;
         }
-      }
-      if (!nonNullItems) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "No items could be removed from storage.");
-        return;
-      }
+        break;
+      case STORAGE_TO_INVENTORY:
+        boolean nonNullItems = false;
+        for (AdventureResult attachment : this.attachments) {
+          if (attachment != null) {
+            nonNullItems = true;
+            break;
+          }
+        }
+        if (!nonNullItems) {
+          KoLmafia.updateDisplay(MafiaState.ERROR, "No items could be removed from storage.");
+          return;
+        }
+        break;
     }
 
     // Let TransferItemRequest handle it
