@@ -229,6 +229,14 @@ public class CheckedItem extends AdventureResult {
       case ItemPool.REFLEX_HAMMER:
       case ItemPool.MAYO_LANCE:
         return Preferences.getBoolean("_mayoDeviceRented") ? 0 : 1;
+      case ItemPool.FEDORA_MOUNTED_FOUNTAIN:
+      case ItemPool.PORKPIE_MOUNTED_POPPER:
+      case ItemPool.SOMBRERO_MOUNTED_SPARKLER:
+        return Preferences.getBoolean("_fireworksShopHatBought") ? 0 : 1;
+      case ItemPool.CATHERINE_WHEEL:
+      case ItemPool.ROCKET_BOOTS:
+      case ItemPool.OVERSIZED_SPARKLER:
+        return Preferences.getBoolean("_fireworksShopEquipmentBought") ? 0 : 1;
     }
     return Integer.MAX_VALUE;
   }
