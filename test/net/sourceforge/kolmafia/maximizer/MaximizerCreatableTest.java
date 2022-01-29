@@ -66,4 +66,13 @@ public class MaximizerCreatableTest {
     recommendedSlotIs(EquipmentManager.WEAPON, "oversized sparkler");
     recommendedSlotIsEmpty(EquipmentManager.OFFHAND);
   }
+
+  @Test
+  public void cannotCreateFireworkHatIfAlreadyHave() {
+    Preferences.setBoolean("_fireworksShop", true);
+    Preferences.setBoolean("_fireworksShopHatBought", true);
+    ConcoctionDatabase.refreshConcoctions();
+    maximizeCreatable("-combat");
+    recommendedSlotIsEmpty(EquipmentManager.HAT);
+  }
 }
