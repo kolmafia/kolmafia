@@ -110,25 +110,23 @@ public class CustomCombatPanel extends JPanel {
   public void refreshCombatEditor() {
     try {
       String script = (String) this.availableScripts.getSelectedItem();
-      BufferedReader reader =
-          FileUtilities.getReader(CombatActionManager.getStrategyLookupFile(script));
+      try (BufferedReader reader =
+          FileUtilities.getReader(CombatActionManager.getStrategyLookupFile(script))) {
 
-      if (reader == null) {
-        return;
+        if (reader == null) {
+          return;
+        }
+
+        StringBuffer buffer = new StringBuffer();
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+          buffer.append(line);
+          buffer.append('\n');
+        }
+
+        this.combatEditor.setText(buffer.toString());
       }
-
-      StringBuffer buffer = new StringBuffer();
-      String line;
-
-      while ((line = reader.readLine()) != null) {
-        buffer.append(line);
-        buffer.append('\n');
-      }
-
-      reader.close();
-      reader = null;
-
-      this.combatEditor.setText(buffer.toString());
     } catch (Exception e) {
       // This should not happen.  Therefore, print
       // a stack trace for debug purposes.

@@ -16,6 +16,7 @@ package net.sourceforge.kolmafia.svn;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1605,9 +1606,8 @@ public class SVNManager {
    * @return a <code>Set</code> of <code>SVNURL</code>s that are dependencies
    */
   private static Set<SVNURL> readDependencies(File dep) {
-    BufferedReader reader = FileUtilities.getReader(dep);
     Set<SVNURL> depURLs = new HashSet<>();
-    try {
+    try (BufferedReader reader = FileUtilities.getReader(dep)) {
       String[] data;
       while ((data = FileUtilities.readData(reader)) != null) {
         // turn it into an SVNURL
@@ -1619,12 +1619,8 @@ public class SVNManager {
           break;
         }
       }
-    } finally {
-      try {
-        reader.close();
-      } catch (Exception e) {
-        StaticEntity.printStackTrace(e);
-      }
+    } catch (IOException e) {
+      StaticEntity.printStackTrace(e);
     }
     return depURLs;
   }

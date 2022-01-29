@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -100,66 +101,62 @@ public class FamiliarDatabase {
   }
 
   private static void readFamiliars() {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("familiars.txt", KoLConstants.FAMILIARS_VERSION);
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("familiars.txt", KoLConstants.FAMILIARS_VERSION)) {
+      String[] data;
 
-    String[] data;
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length != 10 && data.length != 11) {
+          continue;
+        }
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length != 10 && data.length != 11) {
-        continue;
+        int familiarId = StringUtilities.parseInt(data[0]);
+        Integer id = IntegerPool.get(familiarId);
+        if (familiarId > FamiliarDatabase.maxFamiliarId) {
+          FamiliarDatabase.maxFamiliarId = id;
+        }
+
+        String name = data[1];
+        String canonical = StringUtilities.getCanonicalName(name);
+        String display = StringUtilities.getDisplayName(name);
+
+        FamiliarDatabase.familiarById.put(id, display);
+        FamiliarDatabase.familiarByName.put(name, id);
+        FamiliarDatabase.canonicalNameMap.put(canonical, name);
+
+        String image = data[2];
+        FamiliarDatabase.familiarImageById.put(id, image);
+        FamiliarDatabase.familiarByImage.put(image, id);
+        // Kludge: Happy Medium has 4 different images
+        if (id == FamiliarPool.HAPPY_MEDIUM) {
+          FamiliarDatabase.familiarByImage.put("medium_1.gif", id);
+          FamiliarDatabase.familiarByImage.put("medium_2.gif", id);
+          FamiliarDatabase.familiarByImage.put("medium_3.gif", id);
+        }
+
+        String type = data[3];
+        FamiliarDatabase.updateType(type, id);
+
+        String larvaName = data[4];
+        Integer larva = Integer.valueOf(ItemDatabase.getItemId(larvaName));
+        FamiliarDatabase.familiarLarvaById.put(id, larva);
+        FamiliarDatabase.familiarByLarva.put(larva, id);
+
+        String itemName = data[5];
+        FamiliarDatabase.familiarItemById.put(id, itemName);
+        FamiliarDatabase.familiarByItem.put(itemName, id);
+
+        for (int i = 0; i < 4; ++i) {
+          FamiliarDatabase.eventSkillByName.get(i).put(name, Integer.valueOf(data[i + 6]));
+        }
+
+        if (data.length == 11) {
+          String[] list = data[10].split("\\s*,\\s*");
+          List<String> attrs = Arrays.asList(list);
+          FamiliarDatabase.attributesById.put(id, attrs);
+        }
       }
-
-      int familiarId = StringUtilities.parseInt(data[0]);
-      Integer id = IntegerPool.get(familiarId);
-      if (familiarId > FamiliarDatabase.maxFamiliarId) {
-        FamiliarDatabase.maxFamiliarId = id;
-      }
-
-      String name = data[1];
-      String canonical = StringUtilities.getCanonicalName(name);
-      String display = StringUtilities.getDisplayName(name);
-
-      FamiliarDatabase.familiarById.put(id, display);
-      FamiliarDatabase.familiarByName.put(name, id);
-      FamiliarDatabase.canonicalNameMap.put(canonical, name);
-
-      String image = data[2];
-      FamiliarDatabase.familiarImageById.put(id, image);
-      FamiliarDatabase.familiarByImage.put(image, id);
-      // Kludge: Happy Medium has 4 different images
-      if (id == FamiliarPool.HAPPY_MEDIUM) {
-        FamiliarDatabase.familiarByImage.put("medium_1.gif", id);
-        FamiliarDatabase.familiarByImage.put("medium_2.gif", id);
-        FamiliarDatabase.familiarByImage.put("medium_3.gif", id);
-      }
-
-      String type = data[3];
-      FamiliarDatabase.updateType(type, id);
-
-      String larvaName = data[4];
-      Integer larva = Integer.valueOf(ItemDatabase.getItemId(larvaName));
-      FamiliarDatabase.familiarLarvaById.put(id, larva);
-      FamiliarDatabase.familiarByLarva.put(larva, id);
-
-      String itemName = data[5];
-      FamiliarDatabase.familiarItemById.put(id, itemName);
-      FamiliarDatabase.familiarByItem.put(itemName, id);
-
-      for (int i = 0; i < 4; ++i) {
-        FamiliarDatabase.eventSkillByName.get(i).put(name, Integer.valueOf(data[i + 6]));
-      }
-
-      if (data.length == 11) {
-        String[] list = data[10].split("\\s*,\\s*");
-        List<String> attrs = Arrays.asList(list);
-        FamiliarDatabase.attributesById.put(id, attrs);
-      }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }
@@ -213,51 +210,44 @@ public class FamiliarDatabase {
   static {
     // Do the same thing for PokefamData from fambattle.txt
 
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("fambattle.txt", KoLConstants.FAMBATTLE_VERSION);
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("fambattle.txt", KoLConstants.FAMBATTLE_VERSION)) {
+      String[] data;
 
-    String[] data;
-
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length != 8) {
-        continue;
-      }
-
-      try {
-        String race = data[0];
-        String level2 = data[1];
-        String level3 = data[2];
-        String level4 = data[3];
-        String move1 = data[4];
-        String move2 = data[5];
-        String move3 = data[6];
-        String attribute = data[7];
-
-        Integer id = FamiliarDatabase.familiarByName.get(race);
-        if (id == null) {
-          RequestLogger.printLine("Unknown familiar in fambattle.txt: " + race);
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length != 8) {
           continue;
         }
 
-        PokefamData value =
-            new PokefamData(race, level2, level3, level4, move1, move2, move3, attribute);
+        try {
+          String race = data[0];
+          String level2 = data[1];
+          String level3 = data[2];
+          String level4 = data[3];
+          String move1 = data[4];
+          String move2 = data[5];
+          String move3 = data[6];
+          String attribute = data[7];
 
-        FamiliarDatabase.pokefamById.put(id, value);
-        FamiliarDatabase.pokefamByName.put(race, value);
-      } catch (Exception e) {
-        // This should not happen.  Therefore, print
-        // a stack trace for debug purposes.
+          Integer id = FamiliarDatabase.familiarByName.get(race);
+          if (id == null) {
+            RequestLogger.printLine("Unknown familiar in fambattle.txt: " + race);
+            continue;
+          }
 
-        StaticEntity.printStackTrace(e);
+          PokefamData value =
+              new PokefamData(race, level2, level3, level4, move1, move2, move3, attribute);
+
+          FamiliarDatabase.pokefamById.put(id, value);
+          FamiliarDatabase.pokefamByName.put(race, value);
+        } catch (Exception e) {
+          // This should not happen.  Therefore, print
+          // a stack trace for debug purposes.
+
+          StaticEntity.printStackTrace(e);
+        }
       }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }

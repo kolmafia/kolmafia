@@ -552,10 +552,9 @@ public abstract class MushroomManager {
     // the text file which was generated automatically.
 
     int dayIndex = 0;
-    BufferedReader reader =
-        FileUtilities.getReader(new File(KoLConstants.PLOTS_LOCATION, filename + ".txt"));
 
-    try {
+    try (BufferedReader reader =
+        FileUtilities.getReader(new File(KoLConstants.PLOTS_LOCATION, filename + ".txt"))) {
       String line = "";
       String[][] arrayData = new String[4][4];
 
@@ -617,19 +616,9 @@ public abstract class MushroomManager {
       }
     } catch (Exception e) {
       StaticEntity.printStackTrace(e);
-      return Math.max(dayIndex, 2);
     }
 
-    // Make sure to close the reader after you're done reading
-    // all the data in the file.
-
-    try {
-      reader.close();
-      return Math.max(dayIndex, 2);
-    } catch (Exception e) {
-      StaticEntity.printStackTrace(e);
-      return Math.max(dayIndex, 2);
-    }
+    return Math.max(dayIndex, 2);
   }
 
   private static void copyMushroomImage(final String location) {

@@ -532,16 +532,15 @@ public abstract class StaticEntity {
       command[1] = pid;
 
       Process process = runtime.exec(command);
-      BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+      try (BufferedReader reader =
+          new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+        String line;
 
-      String line;
-
-      while ((line = reader.readLine()) != null) {
-        sb.append(line);
-        sb.append(KoLConstants.LINE_BREAK);
+        while ((line = reader.readLine()) != null) {
+          sb.append(line);
+          sb.append(KoLConstants.LINE_BREAK);
+        }
       }
-
-      reader.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -611,16 +610,15 @@ public abstract class StaticEntity {
 
       Process process = runtime.exec(command, new String[0], KoLConstants.ROOT_LOCATION);
 
-      BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+      try (BufferedReader reader =
+          new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+        String line;
 
-      String line;
-
-      while ((line = reader.readLine()) != null) {
-        sb.append(line);
-        sb.append(KoLConstants.LINE_BREAK);
+        while ((line = reader.readLine()) != null) {
+          sb.append(line);
+          sb.append(KoLConstants.LINE_BREAK);
+        }
       }
-
-      reader.close();
     } catch (IOException e) {
       e.printStackTrace();
     }

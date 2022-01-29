@@ -248,12 +248,10 @@ public class FlaggedItems {
     }
 
     AdventureResult item;
-    BufferedReader reader = DataUtilities.getReader(FlaggedItems.itemFlagsFile);
+    try (BufferedReader reader = DataUtilities.getReader(FlaggedItems.itemFlagsFile)) {
+      String line;
+      List<AdventureResult> model = null;
 
-    String line;
-    List<AdventureResult> model = null;
-
-    try {
       while ((line = reader.readLine()) != null) {
         if (line.equals("")) {
           continue;
@@ -287,14 +285,6 @@ public class FlaggedItems {
         }
       }
     } catch (IOException e) {
-    }
-
-    try {
-      reader.close();
-    } catch (IOException e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
       StaticEntity.printStackTrace(e);
     }
   }

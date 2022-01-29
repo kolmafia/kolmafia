@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -50,22 +51,19 @@ public class BuffBotDatabase {
 
     if (!BuffBotDatabase.hasNameList) {
       String[] data;
-      BufferedReader reader =
-          FileUtilities.getVersionedReader("buffbots.txt", KoLConstants.BUFFBOTS_VERSION);
+      try (BufferedReader reader =
+          FileUtilities.getVersionedReader("buffbots.txt", KoLConstants.BUFFBOTS_VERSION)) {
 
-      while ((data = FileUtilities.readData(reader)) != null) {
-        if (data.length >= 2) {
-          ContactManager.registerPlayerId(data[0], data[1]);
+        while ((data = FileUtilities.readData(reader)) != null) {
+          if (data.length >= 2) {
+            ContactManager.registerPlayerId(data[0], data[1]);
 
-          BuffBotDatabase.nameList.add(data[0].toLowerCase());
-          BuffBotDatabase.buffDataMap.put(data[0].toLowerCase(), data);
+            BuffBotDatabase.nameList.add(data[0].toLowerCase());
+            BuffBotDatabase.buffDataMap.put(data[0].toLowerCase(), data);
+          }
         }
-      }
-      BuffBotDatabase.hasNameList = true;
-
-      try {
-        reader.close();
-      } catch (Exception e) {
+        BuffBotDatabase.hasNameList = true;
+      } catch (IOException e) {
         StaticEntity.printStackTrace(e);
       }
     }
@@ -225,18 +223,15 @@ public class BuffBotDatabase {
     KoLmafia.updateDisplay("Configuring dynamic buff prices...");
 
     String[] data = null;
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("buffbots.txt", KoLConstants.BUFFBOTS_VERSION);
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("buffbots.txt", KoLConstants.BUFFBOTS_VERSION)) {
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length == 3) {
-        RequestThread.postRequest(new DynamicBotFetcher(data));
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length == 3) {
+          RequestThread.postRequest(new DynamicBotFetcher(data));
+        }
       }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
 
