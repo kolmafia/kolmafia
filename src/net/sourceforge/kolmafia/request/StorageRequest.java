@@ -396,7 +396,7 @@ public class StorageRequest extends TransferItemRequest {
               continue;
             }
 
-            if (!KoLConstants.freepulls.contains(attachment)) {
+            if (!StorageRequest.isFreePull(attachment)) {
               KoLmafia.updateDisplay(
                   MafiaState.ERROR, "You cannot pull a " + attachment.getName() + " in Hardcore.");
               return;
