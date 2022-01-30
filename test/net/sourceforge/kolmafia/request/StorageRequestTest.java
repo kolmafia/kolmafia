@@ -941,6 +941,13 @@ public class StorageRequestTest extends RequestTestBase {
     AdventureResult.addResultToList(KoLConstants.inventory, ItemPool.get(ItemPool.DIETING_PILL));
     AdventureResult.addResultToList(KoLConstants.inventory, ItemPool.get(ItemPool.SQUEEZE));
 
+    // The other four are in storage.
+    KoLConstants.storage.clear();
+    AdventureResult.addResultToList(KoLConstants.storage, ItemPool.get(ItemPool.BEER_HELMET));
+    AdventureResult.addResultToList(KoLConstants.storage, ItemPool.get(ItemPool.BEJEWELED_PLEDGE_PIN));
+    AdventureResult.addResultToList(KoLConstants.storage, ItemPool.get(ItemPool.BLACKBERRY_GALOSHES));
+    AdventureResult.addResultToList(KoLConstants.storage, ItemPool.get(ItemPool.DISTRESSED_DENIM_PANTS));
+
     // Load the responseText from saved HTML file
     String path = "request/test_request_storage_pulls.html";
     String html = Files.readString(Paths.get(path)).trim();
@@ -970,10 +977,12 @@ public class StorageRequestTest extends RequestTestBase {
     StorageRequest.transferItems(urlString, responseText, false);
     Preferences.setString("_roninStoragePulls", "");
 
-    // Test that each item is now in inventory and is marked as pulled in ronin
+    // Test that each item is now in inventory and not in storage, and is
+    // marked as pulled in ronin
     for (AdventureResult ar : request.attachments) {
       assertTrue(StorageRequest.itemPulledInRonin(ar));
       assertTrue(ar.getCount(KoLConstants.inventory) == 1);
+      assertTrue(ar.getCount(KoLConstants.storage) == 0);
     }
 
     // Test that pulls remaining has been decremented
@@ -1000,10 +1009,12 @@ public class StorageRequestTest extends RequestTestBase {
     StorageRequest.transferItems(urlString, responseText, true);
     Preferences.setString("_roninStoragePulls", "");
 
-    // Test that each item is now in inventory and is marked as pulled in ronin
+    // Test that each item is now in inventory and not in storage, and is
+    // marked as pulled in ronin
     for (AdventureResult ar : request.attachments) {
       assertTrue(StorageRequest.itemPulledInRonin(ar));
       assertTrue(ar.getCount(KoLConstants.inventory) == 1);
+      assertTrue(ar.getCount(KoLConstants.storage) == 0);
     }
 
     // Test that pulls remaining has been decremented
