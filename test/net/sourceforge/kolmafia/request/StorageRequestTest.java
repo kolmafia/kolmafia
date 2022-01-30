@@ -944,9 +944,12 @@ public class StorageRequestTest extends RequestTestBase {
     // The other four are in storage.
     KoLConstants.storage.clear();
     AdventureResult.addResultToList(KoLConstants.storage, ItemPool.get(ItemPool.BEER_HELMET));
-    AdventureResult.addResultToList(KoLConstants.storage, ItemPool.get(ItemPool.BEJEWELED_PLEDGE_PIN));
-    AdventureResult.addResultToList(KoLConstants.storage, ItemPool.get(ItemPool.BLACKBERRY_GALOSHES));
-    AdventureResult.addResultToList(KoLConstants.storage, ItemPool.get(ItemPool.DISTRESSED_DENIM_PANTS));
+    AdventureResult.addResultToList(
+        KoLConstants.storage, ItemPool.get(ItemPool.BEJEWELED_PLEDGE_PIN));
+    AdventureResult.addResultToList(
+        KoLConstants.storage, ItemPool.get(ItemPool.BLACKBERRY_GALOSHES));
+    AdventureResult.addResultToList(
+        KoLConstants.storage, ItemPool.get(ItemPool.DISTRESSED_DENIM_PANTS));
 
     // Load the responseText from saved HTML file
     String path = "request/test_request_storage_pulls.html";
