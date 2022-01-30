@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -153,30 +154,32 @@ public class TCRSDatabase {
   private static boolean load(String fileName, Map<Integer, TCRS> map, final boolean verbose) {
     map.clear();
 
-    BufferedReader reader = FileUtilities.getReader(fileName);
-
-    // No reader, no file
-    if (reader == null) {
-      if (verbose) {
-        RequestLogger.printLine("Could not read file " + fileName);
+    try (BufferedReader reader = FileUtilities.getReader(fileName)) {
+      // No reader, no file
+      if (reader == null) {
+        if (verbose) {
+          RequestLogger.printLine("Could not read file " + fileName);
+        }
+        return false;
       }
-      return false;
-    }
 
-    String[] data;
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length < 5) {
-        continue;
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 5) {
+          continue;
+        }
+        int itemId = StringUtilities.parseInt(data[0]);
+        String name = data[1];
+        int size = StringUtilities.parseInt(data[2]);
+        String quality = data[3];
+        String modifiers = data[4];
+
+        TCRS item = new TCRS(name, size, quality, modifiers);
+        map.put(itemId, item);
       }
-      int itemId = StringUtilities.parseInt(data[0]);
-      String name = data[1];
-      int size = StringUtilities.parseInt(data[2]);
-      String quality = data[3];
-      String modifiers = data[4];
-
-      TCRS item = new TCRS(name, size, quality, modifiers);
-      map.put(itemId, item);
+    } catch (IOException e) {
+      StaticEntity.printStackTrace(e);
     }
 
     if (verbose) {
@@ -839,19 +842,16 @@ public class TCRSDatabase {
     }
 
     // Because we know we want a remote file the directory and override parameters will be ignored.
-    BufferedReader remoteReader = DataUtilities.getReader("", remoteFileName, false);
     File output = new File(KoLConstants.DATA_LOCATION, localFilename);
 
-    try {
-      PrintWriter writer = new PrintWriter(new FileWriter(output));
+    try (BufferedReader remoteReader = DataUtilities.getReader("", remoteFileName, false);
+        PrintWriter writer = new PrintWriter(new FileWriter(output))) {
       String aLine;
       while ((aLine = remoteReader.readLine()) != null) {
         // if the remote copy uses a different EOl than
         // the local OS then this will implicitly convert
         writer.println(aLine);
       }
-      remoteReader.close();
-      writer.close();
       if (verbose) {
         RequestLogger.printLine(
             "Fetched remote version of " + localFilename + " from the repository.");

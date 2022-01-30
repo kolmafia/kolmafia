@@ -264,19 +264,21 @@ public class BuffBotDatabase {
       }
 
       StringBuilder responseText = new StringBuilder();
-      BufferedReader reader = FileUtilities.getReader(this.location);
-
-      if (reader == null) {
-        return;
-      }
-
-      try {
-        String line;
-        while ((line = reader.readLine()) != null) {
-          responseText.append(line);
+      try (BufferedReader reader = FileUtilities.getReader(this.location)) {
+        if (reader == null) {
+          return;
         }
-      } catch (Exception e) {
-        return;
+
+        try {
+          String line;
+          while ((line = reader.readLine()) != null) {
+            responseText.append(line);
+          }
+        } catch (Exception e) {
+          return;
+        }
+      } catch (IOException e) {
+        StaticEntity.printStackTrace(e);
       }
 
       // Now, for the infamous XML parse tree.  Rather than building
