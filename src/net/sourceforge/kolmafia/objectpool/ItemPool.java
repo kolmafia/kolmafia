@@ -579,6 +579,8 @@ public class ItemPool {
   public static final int FORGED_ID_DOCUMENTS = 2064;
   public static final int PADL_PHONE = 2065;
   public static final int TEQUILA_GRENADE = 2068;
+  public static final int BEER_HELMET = 2069;
+  public static final int DISTRESSED_DENIM_PANTS = 2070;
   public static final int NOVELTY_BUTTON = 2072;
   public static final int MAKESHIFT_TURBAN = 2079;
   public static final int MAKESHIFT_CAPE = 2080;
@@ -662,6 +664,7 @@ public class ItemPool {
   public static final int BLACK_PUDDING = 2338;
   public static final int BLACKFLY_CHARDONNAY = 2339;
   public static final int FILTHWORM_QUEEN_HEART = 2347;
+  public static final int BEJEWELED_PLEDGE_PIN = 2353;
   public static final int COMMUNICATIONS_WINDCHIMES = 2354;
   public static final int ZIM_MERMANS_GUITAR = 2364;
   public static final int FILTHY_POULTICE = 2369;
@@ -1420,6 +1423,7 @@ public class ItemPool {
   public static final int METEOID_ICE_BEAM = 4646;
   public static final int DUNGEON_FIST_GAUNTLET = 4647;
   public static final int IRONIC_MOUSTACHE = 4651;
+  public static final int BLACKBERRY_GALOSHES = 4659;
   public static final int ELLSBURY_BOOK = 4663;
   public static final int INSULT_PUPPET = 4667;
   public static final int OBSERVATIONAL_GLASSES = 4668;

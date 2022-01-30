@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -17,6 +20,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.Test;
 
@@ -892,5 +896,117 @@ public class StorageRequestTest extends RequestTestBase {
     // Run it and verify failure
     request.run();
     assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+  }
+
+  // *** Here are tests for StorageRequest.transferItems()
+
+  private StorageRequest storageTransferItemsSetup() throws IOException {
+    // Simulate logging out and back in again.
+    KoLCharacter.reset("");
+    KoLCharacter.reset("transfer items user");
+    // Reset preferences to defaults.
+    KoLCharacter.reset(true);
+    // Not in error state
+    StaticEntity.setContinuationState(MafiaState.CONTINUE);
+
+    // Make a StorageRequest with specific URLstring and responseText
+
+    // Make a list of 7 items to pull.
+    List<AdventureResult> items = new ArrayList<>();
+    items.add(ItemPool.get(ItemPool.EXTREME_AMULET, 1));
+    items.add(ItemPool.get(ItemPool.BEER_HELMET, 1));
+    items.add(ItemPool.get(ItemPool.BEJEWELED_PLEDGE_PIN, 1));
+    items.add(ItemPool.get(ItemPool.BLACKBERRY_GALOSHES, 1));
+    items.add(ItemPool.get(ItemPool.DIETING_PILL, 1));
+    items.add(ItemPool.get(ItemPool.DISTRESSED_DENIM_PANTS, 1));
+    items.add(ItemPool.get(ItemPool.SQUEEZE, 1));
+
+    // StorageRequest wants an actual Java array
+    AdventureResult[] attachments = items.toArray(new AdventureResult[items.size()]);
+
+    // Make a StorageRequest
+    StorageRequest request = new StorageRequest(StorageRequest.STORAGE_TO_INVENTORY, attachments);
+
+    // Return a subinstance
+    StorageRequest subinstance = makeSubinstance(request);
+
+    // Add the items to the URL
+    for (int index = 0; index < attachments.length; index++) {
+      subinstance.attachItem(attachments[index], index + 1);
+    }
+
+    // Three of the items are already in inventory.
+    KoLConstants.inventory.clear();
+    AdventureResult.addResultToList(KoLConstants.inventory, ItemPool.get(ItemPool.EXTREME_AMULET));
+    AdventureResult.addResultToList(KoLConstants.inventory, ItemPool.get(ItemPool.DIETING_PILL));
+    AdventureResult.addResultToList(KoLConstants.inventory, ItemPool.get(ItemPool.SQUEEZE));
+
+    // Load the responseText from saved HTML file
+    String path = "request/test_request_storage_pulls.html";
+    String html = Files.readString(Paths.get(path)).trim();
+    request.responseText = html;
+
+    // Voila! we are ready to test
+    return subinstance;
+  }
+
+  @Test
+  public void itShouldNonBulkTransferItems() throws IOException {
+
+    // Load up our request/response
+    StorageRequest request = storageTransferItemsSetup();
+    String urlString = request.getURLString();
+    String responseText = request.responseText;
+
+    // Test being in Ronin
+    KoLCharacter.setRonin(true);
+
+    // Clear out the set of Ronin Pulls
+    Preferences.setString("_roninStoragePulls", "");
+    StorageRequest.loadRoninStoragePulls();
+
+    // Parse response and move items into inventory
+    ConcoctionDatabase.setPullsRemaining(17);
+    StorageRequest.transferItems(urlString, responseText, false);
+    Preferences.setString("_roninStoragePulls", "");
+
+    // Test that each item is now in inventory and is marked as pulled in ronin
+    for (AdventureResult ar : request.attachments) {
+      assertTrue(StorageRequest.itemPulledInRonin(ar));
+      assertTrue(ar.getCount(KoLConstants.inventory) == 1);
+    }
+
+    // Test that pulls remaining has been decremented
+    assertTrue(ConcoctionDatabase.getPullsRemaining() == 13);
+  }
+
+  @Test
+  public void itShouldBulkTransferItems() throws IOException {
+
+    // Load up our request/response
+    StorageRequest request = storageTransferItemsSetup();
+    String urlString = request.getURLString();
+    String responseText = request.responseText;
+
+    // Test being in Ronin
+    KoLCharacter.setRonin(true);
+
+    // Clear out the set of Ronin Pulls
+    Preferences.setString("_roninStoragePulls", "");
+    StorageRequest.loadRoninStoragePulls();
+
+    // Parse response and move items into inventory
+    ConcoctionDatabase.setPullsRemaining(17);
+    StorageRequest.transferItems(urlString, responseText, true);
+    Preferences.setString("_roninStoragePulls", "");
+
+    // Test that each item is now in inventory and is marked as pulled in ronin
+    for (AdventureResult ar : request.attachments) {
+      assertTrue(StorageRequest.itemPulledInRonin(ar));
+      assertTrue(ar.getCount(KoLConstants.inventory) == 1);
+    }
+
+    // Test that pulls remaining has been decremented
+    assertTrue(ConcoctionDatabase.getPullsRemaining() == 13);
   }
 }
