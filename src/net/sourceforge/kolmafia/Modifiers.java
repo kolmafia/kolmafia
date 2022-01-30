@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -3529,98 +3530,93 @@ public class Modifiers {
     Modifiers.uniques.clear();
     Arrays.fill(Modifiers.bitmapMasks, 1);
 
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("modifiers.txt", KoLConstants.MODIFIERS_VERSION);
-    String[] data;
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("modifiers.txt", KoLConstants.MODIFIERS_VERSION)) {
+      String[] data;
 
-    loop:
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length != 3) {
-        continue;
-      }
+      loop:
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length != 3) {
+          continue;
+        }
 
-      String type = data[0];
-      String name = data[1];
-      String lookup = Modifiers.getLookupName(type, name);
-      if (Modifiers.modifiersByName.containsKey(lookup)) {
-        KoLmafia.updateDisplay("Duplicate modifiers for: " + lookup);
-      }
+        String type = data[0];
+        String name = data[1];
+        String lookup = Modifiers.getLookupName(type, name);
+        if (Modifiers.modifiersByName.containsKey(lookup)) {
+          KoLmafia.updateDisplay("Duplicate modifiers for: " + lookup);
+        }
 
-      String modifiers = data[2];
-      Modifiers.modifiersByName.put(lookup, modifiers);
+        String modifiers = data[2];
+        Modifiers.modifiersByName.put(lookup, modifiers);
 
-      Matcher matcher = FAMILIAR_EFFECT_PATTERN.matcher(modifiers);
-      if (matcher.find()) {
-        String effect = matcher.group(1);
-        Modifiers.familiarEffectByName.put(name, effect);
-        matcher = FAMILIAR_EFFECT_TRANSLATE_PATTERN.matcher(effect);
+        Matcher matcher = FAMILIAR_EFFECT_PATTERN.matcher(modifiers);
         if (matcher.find()) {
-          effect = matcher.replaceAll(FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT);
+          String effect = matcher.group(1);
+          Modifiers.familiarEffectByName.put(name, effect);
+          matcher = FAMILIAR_EFFECT_TRANSLATE_PATTERN.matcher(effect);
+          if (matcher.find()) {
+            effect = matcher.replaceAll(FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT);
+          }
+          matcher = FAMILIAR_EFFECT_TRANSLATE_PATTERN2.matcher(effect);
+          if (matcher.find()) {
+            effect = matcher.replaceAll(FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2);
+          }
+          Modifiers.modifiersByName.put("FamEq:" + name, effect);
         }
-        matcher = FAMILIAR_EFFECT_TRANSLATE_PATTERN2.matcher(effect);
-        if (matcher.find()) {
-          effect = matcher.replaceAll(FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2);
+
+        if (type.equals("Synergy")) {
+          String[] pieces = name.split("/");
+          if (pieces.length < 2) {
+            KoLmafia.updateDisplay(name + " contain less than 2 elements.");
+            continue;
+          }
+          int mask = 0;
+          for (String piece : pieces) {
+            Modifiers mods = Modifiers.getModifiers("Item", piece);
+            if (mods == null) {
+              KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
+              continue loop;
+            }
+            int emask = mods.bitmaps[Modifiers.SYNERGETIC];
+            if (emask == 0) {
+              KoLmafia.updateDisplay(
+                  name + " contains element " + piece + " that isn't Synergetic.");
+              continue loop;
+            }
+            mask |= emask;
+          }
+          Modifiers.synergies.put(name, IntegerPool.get(mask));
+        } else if (type.startsWith("Mutex")) {
+          String[] pieces = name.split("/");
+          if (pieces.length < 2) {
+            KoLmafia.updateDisplay(name + " contain less than 2 elements.");
+            continue;
+          }
+          int bit = 1 << Modifiers.mutexes.size();
+          for (String piece : pieces) {
+            Modifiers mods = null;
+            if (type.equals("MutexI")) {
+              mods = Modifiers.getModifiers("Item", piece);
+            } else if (type.equals("MutexE")) {
+              mods = Modifiers.getModifiers("Effect", piece);
+            }
+            if (mods == null) {
+              KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
+              continue loop;
+            }
+            mods.bitmaps[Modifiers.MUTEX] |= bit;
+          }
+          Modifiers.mutexes.add(name);
+        } else if (type.equals("Unique")) {
+          if (Modifiers.uniques.containsKey(name)) {
+            KoLmafia.updateDisplay("Unique items for " + name + " already declared.");
+            continue;
+          }
+          Modifiers.uniques.put(name, new HashSet<>(Arrays.asList(modifiers.split("/"))));
         }
-        Modifiers.modifiersByName.put("FamEq:" + name, effect);
       }
-
-      if (type.equals("Synergy")) {
-        String[] pieces = name.split("/");
-        if (pieces.length < 2) {
-          KoLmafia.updateDisplay(name + " contain less than 2 elements.");
-          continue;
-        }
-        int mask = 0;
-        for (String piece : pieces) {
-          Modifiers mods = Modifiers.getModifiers("Item", piece);
-          if (mods == null) {
-            KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
-            continue loop;
-          }
-          int emask = mods.bitmaps[Modifiers.SYNERGETIC];
-          if (emask == 0) {
-            KoLmafia.updateDisplay(name + " contains element " + piece + " that isn't Synergetic.");
-            continue loop;
-          }
-          mask |= emask;
-        }
-        Modifiers.synergies.put(name, IntegerPool.get(mask));
-      } else if (type.startsWith("Mutex")) {
-        String[] pieces = name.split("/");
-        if (pieces.length < 2) {
-          KoLmafia.updateDisplay(name + " contain less than 2 elements.");
-          continue;
-        }
-        int bit = 1 << Modifiers.mutexes.size();
-        for (String piece : pieces) {
-          Modifiers mods = null;
-          if (type.equals("MutexI")) {
-            mods = Modifiers.getModifiers("Item", piece);
-          } else if (type.equals("MutexE")) {
-            mods = Modifiers.getModifiers("Effect", piece);
-          }
-          if (mods == null) {
-            KoLmafia.updateDisplay(name + " contains element " + piece + " with no modifiers.");
-            continue loop;
-          }
-          mods.bitmaps[Modifiers.MUTEX] |= bit;
-        }
-        Modifiers.mutexes.add(name);
-      } else if (type.equals("Unique")) {
-        if (Modifiers.uniques.containsKey(name)) {
-          KoLmafia.updateDisplay("Unique items for " + name + " already declared.");
-          continue;
-        }
-        Modifiers.uniques.put(name, new HashSet<>(Arrays.asList(modifiers.split("/"))));
-      }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }

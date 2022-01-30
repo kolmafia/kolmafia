@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -37,21 +38,18 @@ public class Aliases {
 
     Aliases.aliasMap.clear();
 
-    BufferedReader reader = FileUtilities.getReader(Aliases.ALIAS_FILE);
-    if (reader != null) {
-      String[] data;
+    try (BufferedReader reader = FileUtilities.getReader(Aliases.ALIAS_FILE)) {
+      if (reader != null) {
+        String[] data;
 
-      while ((data = FileUtilities.readData(reader)) != null) {
-        if (data.length >= 2) {
-          Aliases.aliasMap.put(" " + data[0] + " ", " " + data[1] + " ");
+        while ((data = FileUtilities.readData(reader)) != null) {
+          if (data.length >= 2) {
+            Aliases.aliasMap.put(" " + data[0] + " ", " " + data[1] + " ");
+          }
         }
       }
-
-      try {
-        reader.close();
-      } catch (Exception e) {
-        StaticEntity.printStackTrace(e);
-      }
+    } catch (IOException e) {
+      StaticEntity.printStackTrace(e);
     }
 
     Aliases.aliasSet = Aliases.aliasMap.entrySet();

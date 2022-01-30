@@ -536,14 +536,12 @@ public class RelayRequest extends PasswordHashRequest {
       return contentBuffer;
     }
 
-    try {
+    try (reader) {
       String line;
       while ((line = reader.readLine()) != null) {
         contentBuffer.append(line);
         contentBuffer.append(KoLConstants.LINE_BREAK);
       }
-
-      reader.close();
     } catch (IOException e) {
     }
 

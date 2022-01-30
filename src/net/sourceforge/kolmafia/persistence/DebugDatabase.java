@@ -2265,27 +2265,26 @@ public class DebugDatabase {
 
       String currentLine;
       StringBuilder currentHTML = new StringBuilder();
-      BufferedReader reader = FileUtilities.getReader(saveData);
-      int lines = 0;
+      try (BufferedReader reader = FileUtilities.getReader(saveData)) {
+        int lines = 0;
 
-      while ((currentLine = reader.readLine()) != null && !currentLine.equals("")) {
-        lines += 1;
-        currentHTML.setLength(0);
-        int currentId = StringUtilities.parseInt(currentLine);
+        while ((currentLine = reader.readLine()) != null && !currentLine.equals("")) {
+          lines += 1;
+          currentHTML.setLength(0);
+          int currentId = StringUtilities.parseInt(currentLine);
 
-        do {
-          currentLine = reader.readLine();
-          currentHTML.append(currentLine);
-          currentHTML.append(KoLConstants.LINE_BREAK);
-        } while (!currentLine.equals("</html>"));
+          do {
+            currentLine = reader.readLine();
+            currentHTML.append(currentLine);
+            currentHTML.append(KoLConstants.LINE_BREAK);
+          } while (!currentLine.equals("</html>"));
 
-        if (array.get(currentId).equals("")) {
-          array.set(currentId, currentHTML.toString());
+          if (array.get(currentId).equals("")) {
+            array.set(currentId, currentHTML.toString());
+          }
+          reader.readLine();
         }
-        reader.readLine();
       }
-
-      reader.close();
     } catch (Exception e) {
       // This shouldn't happen, but if it does, go ahead and
       // fall through.  You're done parsing.

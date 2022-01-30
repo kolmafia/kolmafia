@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -401,43 +402,40 @@ public class PocketDatabase {
   }
 
   private static void reset() {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("cultshorts.txt", KoLConstants.CULTSHORTS_VERSION);
-    String[] data;
     boolean error = false;
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("cultshorts.txt", KoLConstants.CULTSHORTS_VERSION)) {
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length >= 2) {
-        int pocketId = StringUtilities.parseInt(data[0]);
-        if (pocketId < 1 || pocketId > 666) {
-          RequestLogger.printLine("Bogus pocket number: " + pocketId);
-          error = true;
-          continue;
-        }
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length >= 2) {
+          int pocketId = StringUtilities.parseInt(data[0]);
+          if (pocketId < 1 || pocketId > 666) {
+            RequestLogger.printLine("Bogus pocket number: " + pocketId);
+            error = true;
+            continue;
+          }
 
-        String tag = data[1];
-        PocketType type = PocketDatabase.tagToPocketType.get(tag.toLowerCase());
-        if (type == null) {
-          RequestLogger.printLine("Pocket " + pocketId + " has bogus pocket type: " + tag);
-          error = true;
-          continue;
-        }
+          String tag = data[1];
+          PocketType type = PocketDatabase.tagToPocketType.get(tag.toLowerCase());
+          if (type == null) {
+            RequestLogger.printLine("Pocket " + pocketId + " has bogus pocket type: " + tag);
+            error = true;
+            continue;
+          }
 
-        Pocket pocket = parsePocketData(pocketId, type, data);
-        if (pocket == null) {
-          error = true;
-          continue;
-        }
+          Pocket pocket = parsePocketData(pocketId, type, data);
+          if (pocket == null) {
+            error = true;
+            continue;
+          }
 
-        if (!PocketDatabase.addToDatabase(pocket)) {
-          error = true;
+          if (!PocketDatabase.addToDatabase(pocket)) {
+            error = true;
+          }
         }
       }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
       error = true;
     }
