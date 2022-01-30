@@ -4628,7 +4628,7 @@ public abstract class RuntimeLibrary {
     int item = countThenItem ? arg2Value : arg1Value;
 
     if (count <= 0) {
-      return new Value(0);
+      return DataTypes.ZERO_VALUE;
     }
 
     return new Value(
