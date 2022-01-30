@@ -1122,7 +1122,7 @@ public abstract class InventoryManager {
     return lower + (int) ((upper - lower) * factor);
   }
 
-  private static int priceToAcquire(
+  public static final int priceToAcquire(
       final AdventureResult item,
       int quantity,
       final int level,

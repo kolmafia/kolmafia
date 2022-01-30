@@ -542,7 +542,7 @@ pernicious puddle of pesto	659	pestopuddle.gif	Atk: 21 Def: 18 HP: 18 Init: 20 P
 perpendicular bat	47	perpbat.gif	Atk: 18 Def: 16 HP: 12 Init: 60 Meat: 30 P: beast	batgut (15)	bat wing (15)	sonar-in-a-biscuit (10)	perpendicular guano (c0)	guancertina (a0)
 pig	1591	somepig.gif	Atk: [6] Def: [7] HP: [8] Init: -10000 Meat: 5 P: beast	ham steak (0)	piggy tattoo (c0)
 pine bat	149	pinebat.gif	Atk: 14 Def: 10 HP: 8 Init: 60 EA: stench Meat: 22 P: beast	bat wing (15)	Pine-Fresh air freshener (15)	batgut (15)
-piranha plant	2175	piranhaplant.gif	Scale: 20 Cap: 1000 Floor: 30 Init: -10000 P: plant	piranha pollen (0)
+piranha plant	2175	piranhaplant.gif	NOCOPY Scale: 20 Cap: 1000 Floor: 30 Init: -10000 P: plant	piranha pollen (0)
 plaid ghost	1560	plaidghost.gif	Atk: 137 Def: 136 HP: 160 Init: 50 P: undead GHOST	plaid swatch (20)
 plaque of locusts	457	plaque.gif	Atk: 134 Def: 124 HP: 140 Init: 30 P: bug Meat: 25	bronzed locust (20)	honey-dipped locust (20)	handful of sand (20)
 plastered frat orc	994	drunkfrat.gif	Atk: 10 Def: 7 HP: 7 Init: 40 P: orc Meat: 25	ice-cold fotie (20)	ice-cold Sir Schlitz (20)	ice-cold Willer (20)	flask flops (0)
