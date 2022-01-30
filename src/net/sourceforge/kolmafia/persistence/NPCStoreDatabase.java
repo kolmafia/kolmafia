@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -128,12 +129,44 @@ public class NPCStoreDatabase {
     return foundItem;
   }
 
+  public static Optional<Integer> getQuantity(int itemId) {
+    switch (itemId) {
+      case ItemPool.MIRACLE_WHIP:
+        return Optional.of(
+            Preferences.getBoolean("_mayoDeviceRented")
+                    || Preferences.getBoolean("itemBoughtPerAscension8266")
+                ? 0
+                : 1);
+      case ItemPool.SPHYGMAYOMANOMETER:
+      case ItemPool.REFLEX_HAMMER:
+      case ItemPool.MAYO_LANCE:
+        return Optional.of(Preferences.getBoolean("_mayoDeviceRented") ? 0 : 1);
+      case ItemPool.FEDORA_MOUNTED_FOUNTAIN:
+      case ItemPool.PORKPIE_MOUNTED_POPPER:
+      case ItemPool.SOMBRERO_MOUNTED_SPARKLER:
+        return Optional.of(Preferences.getBoolean("_fireworksShopHatBought") ? 0 : 1);
+      case ItemPool.CATHERINE_WHEEL:
+      case ItemPool.ROCKET_BOOTS:
+      case ItemPool.OVERSIZED_SPARKLER:
+        return Optional.of(Preferences.getBoolean("_fireworksShopEquipmentBought") ? 0 : 1);
+      case ItemPool.BLART:
+      case ItemPool.RAINPROOF_BARREL_CAULK:
+      case ItemPool.PUMP_GREASE:
+        return Optional.of(1);
+    }
+    return Optional.empty();
+  }
+
   private static int limitQuantity(int itemId) {
     switch (itemId) {
       case ItemPool.ABRIDGED:
       case ItemPool.ZEPPELIN_TICKET:
       case ItemPool.FORGED_ID_DOCUMENTS:
       case ItemPool.SPARE_KIDNEY:
+      case ItemPool.MIRACLE_WHIP:
+      case ItemPool.SPHYGMAYOMANOMETER:
+      case ItemPool.REFLEX_HAMMER:
+      case ItemPool.MAYO_LANCE:
       case ItemPool.FEDORA_MOUNTED_FOUNTAIN:
       case ItemPool.PORKPIE_MOUNTED_POPPER:
       case ItemPool.SOMBRERO_MOUNTED_SPARKLER:
