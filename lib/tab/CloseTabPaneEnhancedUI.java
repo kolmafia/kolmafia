@@ -7,15 +7,19 @@
 package tab;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.LayoutManager;
 import java.awt.Rectangle;
-
 import javax.swing.JComponent;
+import javax.swing.JViewport;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
@@ -23,7 +27,7 @@ import javax.swing.text.View;
 
 /**
  * This UI displays a different interface, which is independent from the look and feel.
- * 
+ *
  * @author David Bismut, davidou@mageos.com
  */
 public class CloseTabPaneEnhancedUI
@@ -334,4 +338,188 @@ public class CloseTabPaneEnhancedUI
 		return new ScrollableTabButton( direction );
 	}
 
+	@Override
+	protected LayoutManager createLayoutManager() {
+		return new TabbedPaneWrappedLayout();
+	}
+
+	private class TabbedPaneWrappedLayout
+		extends TabbedPaneLayout
+	{
+
+		@Override
+		protected int preferredTabAreaHeight( final int tabPlacement, final int width )
+		{
+			return CloseTabPaneEnhancedUI.this.calculateMaxTabHeight( tabPlacement );
+		}
+
+		@Override
+		protected int preferredTabAreaWidth( final int tabPlacement, final int height )
+		{
+			return CloseTabPaneEnhancedUI.this.calculateMaxTabWidth( tabPlacement );
+		}
+
+		@Override
+		public void layoutContainer( final Container parent )
+		{
+			int tabPlacement = CloseTabPaneEnhancedUI.this.tabPane.getTabPlacement();
+			int tabCount = CloseTabPaneEnhancedUI.this.tabPane.getTabCount();
+			Insets insets = CloseTabPaneEnhancedUI.this.tabPane.getInsets();
+			int selectedIndex = CloseTabPaneEnhancedUI.this.tabPane.getSelectedIndex();
+			Component visibleComponent = CloseTabPaneEnhancedUI.this.getVisibleComponent();
+
+			this.calculateLayoutInfo();
+
+			if ( selectedIndex < 0 )
+			{
+				if ( visibleComponent != null )
+				{
+					// The last tab was removed, so remove the component
+					CloseTabPaneEnhancedUI.this.setVisibleComponent( null );
+				}
+			}
+			else
+			{
+				Component selectedComponent = CloseTabPaneEnhancedUI.this.tabPane.getComponentAt( selectedIndex );
+				boolean shouldChangeFocus = false;
+
+				// In order to allow programs to use a single component
+				// as the display for multiple tabs, we will not change
+				// the visible compnent if the currently selected tab
+				// has a null component. This is a bit dicey, as we don't
+				// explicitly state we support this in the spec, but since
+				// programs are now depending on this, we're making it work.
+				//
+				if ( selectedComponent != null )
+				{
+					CloseTabPaneEnhancedUI.this.setVisibleComponent( selectedComponent );
+				}
+				int tx, ty, tw, th; // tab area bounds
+				int cx, cy, cw, ch; // content area bounds
+				Insets contentInsets = CloseTabPaneEnhancedUI.this.getContentBorderInsets( tabPlacement );
+				Rectangle bounds = CloseTabPaneEnhancedUI.this.tabPane.getBounds();
+				int numChildren = CloseTabPaneEnhancedUI.this.tabPane.getComponentCount();
+
+				if ( numChildren > 0 )
+				{
+					// calculate tab area bounds
+					tw = bounds.width - insets.left - insets.right;
+					th = CloseTabPaneEnhancedUI.this.rects[tabCount - 1].y + CloseTabPaneEnhancedUI.this.rects[tabCount - 1].height;
+					tx = insets.left;
+					ty = insets.top;
+
+					// calculate content area bounds
+					cx = tx + contentInsets.left;
+					cy = ty + th + contentInsets.top;
+					cw = bounds.width - insets.left - insets.right - contentInsets.left - contentInsets.right;
+					ch = bounds.height - insets.top - insets.bottom - th - contentInsets.top - contentInsets.bottom;
+
+					for (int i = 0; i < numChildren; i++) {
+						Component child = CloseTabPaneEnhancedUI.this.tabPane.getComponent(i);
+
+						if (child instanceof JViewport) {
+							child.setBounds(tx, ty, tw, th);
+						} else if (child instanceof ScrollableTabButton) {
+							CloseTabPaneUI.ScrollableTabButton scrollbutton = (CloseTabPaneUI.ScrollableTabButton) child;
+							Dimension bsize = scrollbutton.getPreferredSize();
+							int bx = 0;
+							int by = 0;
+							int bw = bsize.width;
+							int bh = bsize.height;
+							boolean visible = false;
+
+							int totalTabWidth = CloseTabPaneEnhancedUI.this.rects[tabCount - 1].x + CloseTabPaneEnhancedUI.this.rects[tabCount - 1].width;
+
+							if (totalTabWidth > tw) {
+								int dir = scrollbutton.scrollsForward() ? SwingConstants.EAST : SwingConstants.WEST;
+								scrollbutton.setDirection(dir);
+								visible = true;
+								bx = dir == SwingConstants.EAST ? bounds.width - insets.left - bsize.width : bounds.width - insets.left - 2 * bsize.width;
+								by = tabPlacement == SwingConstants.TOP ? ty + th - bsize.height : ty;
+							}
+
+							child.setVisible(visible);
+
+							if (visible) {
+								child.setBounds(bx, by, bw, bh);
+							}
+						} else {
+							// All content children...
+							child.setBounds(cx, cy, cw, ch);
+						}
+					}
+					if ( shouldChangeFocus )
+					{
+						if ( !CloseTabPaneEnhancedUI.this.requestMyFocusForVisibleComponent() )
+						{
+							CloseTabPaneEnhancedUI.this.tabPane.requestFocusInWindow();
+						}
+					}
+				}
+			}
+
+			// Repaint to ensure any tab layout changes are immediately applied
+			CloseTabPaneEnhancedUI.this.tabPane.repaint();
+		}
+
+		@Override
+		protected void calculateTabRects(final int tabPlacement, final int tabCount) {
+			FontMetrics metrics = CloseTabPaneEnhancedUI.this.getFontMetrics();
+			Insets tabAreaInsets = CloseTabPaneEnhancedUI.this.getTabAreaInsets(tabPlacement);
+			int i;
+
+			int x = tabAreaInsets.left - 2;
+			int y = tabAreaInsets.top;
+			int totalWidth = 0;
+			int totalHeight = 0;
+
+			//
+			// Calculate bounds within which a tab run must fit
+			//
+
+			CloseTabPaneEnhancedUI.this.maxTabHeight = CloseTabPaneEnhancedUI.this.calculateMaxTabHeight(tabPlacement);
+
+			CloseTabPaneEnhancedUI.this.runCount = 0;
+			CloseTabPaneEnhancedUI.this.selectedRun = -1;
+
+			if (tabCount == 0) {
+				return;
+			}
+
+			CloseTabPaneEnhancedUI.this.selectedRun = 0;
+			CloseTabPaneEnhancedUI.this.runCount = 1;
+
+			// Run through tabs and lay them out in a single run
+			Rectangle rect;
+			Rectangle previousRect;
+
+			for (i = 0; i < tabCount; i++) {
+				rect = CloseTabPaneEnhancedUI.this.rects[i];
+
+				previousRect = i > 0 ? CloseTabPaneEnhancedUI.this.rects[i - 1] : null;
+
+				// If the tab doesn't go out of bounds
+				if (previousRect != null && (CloseTabPaneEnhancedUI.this.getVisibleComponent() == null ||
+					previousRect.x + previousRect.width + rect.width - 1 < CloseTabPaneEnhancedUI.this.getVisibleComponent().getWidth())) {
+					rect.x = previousRect.x + previousRect.width - 1;
+				} else {
+					CloseTabPaneEnhancedUI.this.tabRuns[0] = 0;
+					CloseTabPaneEnhancedUI.this.maxTabWidth = 0;
+					totalHeight += CloseTabPaneEnhancedUI.this.maxTabHeight;
+					rect.x = x;
+
+					if (i > 0) {
+						y += maxTabHeight;
+					}
+				}
+
+				rect.width = CloseTabPaneEnhancedUI.this.calculateTabWidth(tabPlacement, i, metrics);
+				totalWidth = Math.max(rect.x + rect.width, totalWidth);
+				CloseTabPaneEnhancedUI.this.maxTabWidth = Math.max(CloseTabPaneEnhancedUI.this.maxTabWidth, rect.width);
+
+				rect.y = y;
+				rect.height = CloseTabPaneEnhancedUI.this.maxTabHeight;
+			}
+		}
+	}
 }

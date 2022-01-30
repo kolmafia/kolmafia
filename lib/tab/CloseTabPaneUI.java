@@ -314,7 +314,7 @@ public class CloseTabPaneUI
 	protected Rectangle newCloseRect( final Rectangle rect )
 	{
 		int dx = rect.x + rect.width;
-		int dy = ( rect.y + rect.height ) / 2 - 6;
+		int dy = rect.y + (rect.height / 2) - 6;
 		return new Rectangle(
 			dx - CloseTabPaneUI.BUTTONSIZE - CloseTabPaneUI.WIDTHDELTA, dy, CloseTabPaneUI.BUTTONSIZE,
 			CloseTabPaneUI.BUTTONSIZE );
@@ -737,7 +737,7 @@ public class CloseTabPaneUI
 		{
 
 			int dx = tabRect.x + tabRect.width - CloseTabPaneUI.BUTTONSIZE - CloseTabPaneUI.WIDTHDELTA;
-			int dy = ( tabRect.y + tabRect.height ) / 2 - 6;
+			int dy = tabRect.y + (tabRect.height / 2) - 6;
 
 			if ( isSelected && this.closeIconStyle == CloseTabPaneUI.GRAY_CLOSE_ICON )
 			{
