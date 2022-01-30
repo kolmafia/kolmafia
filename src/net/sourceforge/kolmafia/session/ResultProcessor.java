@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -1424,6 +1425,18 @@ public class ResultProcessor {
 
       case ItemPool.LAW_OF_AVERAGES:
         Preferences.setBoolean("lawOfAveragesAvailable", false);
+        break;
+      case ItemPool.MAGNIFICENT_OYSTER_EGG:
+      case ItemPool.BRILLIANT_OYSTER_EGG:
+      case ItemPool.GLISTENING_OYSTER_EGG:
+      case ItemPool.SCINTILATING_OYSTER_EGG:
+      case ItemPool.PEARLESCENT_OYSTER_EGG:
+      case ItemPool.LUSTROUS_OYSTER_EGG:
+      case ItemPool.GLEAMING_OYSTER_EGG:
+        if (KoLCharacter.hasEquipped(ItemPool.OYSTER_BASKET)
+            && HolidayDatabase.getHoliday().contains("Oyster Egg Day")) {
+          Preferences.increment("_oysterEggsFound");
+        }
         break;
     }
 
