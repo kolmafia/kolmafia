@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -3049,7 +3050,8 @@ public class FightRequest extends GenericRequest {
     }
 
     if (KoLCharacter.hasEquipped(ItemPool.OYSTER_BASKET)) {
-      if (responseText.contains("ou find an Oyster egg")) {
+      if (HolidayDatabase.getHoliday().contains("Oyster Egg Day")
+          && responseText.contains("ou find an Oyster egg")) {
         Preferences.increment("_oysterEggsFound");
       }
     }
