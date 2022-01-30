@@ -39,6 +39,7 @@ public class OysterEggManager {
     "You find an Oyster egg underneath a fireman's hat. That was lying on the ground.",
     "You find an Oyster egg underneath a sleeping Frat Boy.",
     "You find an Oyster egg underneath an annoyed-looking Lavatory Troll.",
+    "After all of that stuff happens, you find an Oyster egg,"
   };
 
   public static void trackEgg(String responseText) {
