@@ -1434,7 +1434,8 @@ public class ResultProcessor {
       case ItemPool.LUSTROUS_OYSTER_EGG:
       case ItemPool.GLEAMING_OYSTER_EGG:
         if (KoLCharacter.hasEquipped(ItemPool.OYSTER_BASKET)
-            && HolidayDatabase.getHoliday().contains("Oyster Egg Day")) {
+            && HolidayDatabase.getHoliday().contains("Oyster Egg Day")
+            && adventureResults) {
           Preferences.increment("_oysterEggsFound");
         }
         break;
