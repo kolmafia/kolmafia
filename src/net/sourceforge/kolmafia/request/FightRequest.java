@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.session.MonsterManuelManager;
+import net.sourceforge.kolmafia.session.OysterEggManager;
 import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -3046,6 +3047,10 @@ public class FightRequest extends GenericRequest {
           Preferences.setInteger("bagOTricksCharges", 3);
         }
       }
+    }
+
+    if (KoLCharacter.hasEquipped(ItemPool.OYSTER_BASKET)) {
+      OysterEggManager.trackEgg(responseText);
     }
 
     FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
