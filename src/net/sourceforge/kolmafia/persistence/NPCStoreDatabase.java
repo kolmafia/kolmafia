@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -39,55 +40,49 @@ public class NPCStoreDatabase {
   private static final Map<String, String> storeNameById = new TreeMap<String, String>();
 
   static {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("npcstores.txt", KoLConstants.NPCSTORES_VERSION);
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("npcstores.txt", KoLConstants.NPCSTORES_VERSION)) {
 
-    String[] data;
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length < 4) {
-        continue;
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 4) {
+          continue;
+        }
+
+        String storeName = data[0];
+        String storeId = data[1];
+        if (!storeId.equals("bartlebys")) {
+          NPCStoreDatabase.storeNameById.put(storeId, storeName);
+        }
+
+        String itemName = data[2];
+        int itemId = ItemDatabase.getItemId(itemName);
+        if (itemId == -1) {
+          RequestLogger.printLine("Unknown item in store \"" + data[0] + "\": " + itemName);
+          continue;
+        }
+
+        int price = StringUtilities.parseInt(data[3]);
+        int row =
+            (data.length > 4 && data[4].startsWith("ROW"))
+                ? IntegerPool.get(StringUtilities.parseInt(data[4].substring(3)))
+                : 0;
+
+        // Make the purchase request for this item
+        int quantity = NPCStoreDatabase.limitQuantity(itemId);
+        NPCPurchaseRequest purchaseRequest =
+            new NPCPurchaseRequest(storeName, storeId, itemId, row, price, quantity);
+
+        // Map from item id -> purchase request
+        NPCStoreDatabase.NPC_ITEMS.put(itemId, purchaseRequest);
+
+        // Map from row -> purchase request
+        if (row != 0) {
+          NPCStoreDatabase.ROW_ITEMS.put(row, purchaseRequest);
+        }
       }
-
-      String storeName = data[0];
-      String storeId = data[1];
-      if (!storeId.equals("bartlebys")) {
-        NPCStoreDatabase.storeNameById.put(storeId, storeName);
-      }
-
-      String itemName = data[2];
-      int itemId = ItemDatabase.getItemId(itemName);
-      if (itemId == -1) {
-        RequestLogger.printLine("Unknown item in store \"" + data[0] + "\": " + itemName);
-        continue;
-      }
-
-      int price = StringUtilities.parseInt(data[3]);
-      int row =
-          (data.length > 4 && data[4].startsWith("ROW"))
-              ? IntegerPool.get(StringUtilities.parseInt(data[4].substring(3)))
-              : 0;
-
-      // Make the purchase request for this item
-      int quantity = NPCStoreDatabase.limitQuantity(itemId);
-      NPCPurchaseRequest purchaseRequest =
-          new NPCPurchaseRequest(storeName, storeId, itemId, row, price, quantity);
-
-      // Map from item id -> purchase request
-      NPCStoreDatabase.NPC_ITEMS.put(itemId, purchaseRequest);
-
-      // Map from row -> purchase request
-      if (row != 0) {
-        NPCStoreDatabase.ROW_ITEMS.put(row, purchaseRequest);
-      }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }

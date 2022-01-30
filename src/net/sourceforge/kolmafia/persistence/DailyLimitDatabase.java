@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -145,27 +146,24 @@ public class DailyLimitDatabase {
   }
 
   public static void reset() {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("dailylimits.txt", KoLConstants.DAILYLIMITS_VERSION);
-    String[] data;
     boolean error = false;
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("dailylimits.txt", KoLConstants.DAILYLIMITS_VERSION)) {
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length >= 2) {
-        String tag = data[0];
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length >= 2) {
+          String tag = data[0];
 
-        DailyLimitType type = DailyLimitDatabase.tagToDailyLimitType.get(tag.toLowerCase());
-        DailyLimit dailyLimit = parseDailyLimit(type, data);
-        if (dailyLimit == null) {
-          RequestLogger.printLine("Daily Limit: " + data[0] + " " + data[1] + " is bogus");
-          error = true;
+          DailyLimitType type = DailyLimitDatabase.tagToDailyLimitType.get(tag.toLowerCase());
+          DailyLimit dailyLimit = parseDailyLimit(type, data);
+          if (dailyLimit == null) {
+            RequestLogger.printLine("Daily Limit: " + data[0] + " " + data[1] + " is bogus");
+            error = true;
+          }
         }
       }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
       error = true;
     }

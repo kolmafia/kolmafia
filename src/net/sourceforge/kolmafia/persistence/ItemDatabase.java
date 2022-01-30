@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -318,24 +319,21 @@ public class ItemDatabase {
   }
 
   private static void miniReset() {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("items.txt", KoLConstants.ITEMS_VERSION);
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("items.txt", KoLConstants.ITEMS_VERSION)) {
 
-    String[] data;
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length < 7) {
-        continue;
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 7) {
+          continue;
+        }
+
+        int itemId = StringUtilities.parseInt(data[0]);
+        String canonicalName = StringUtilities.getCanonicalName(data[1]);
+        ItemDatabase.addIdToName(canonicalName, itemId);
       }
-
-      int itemId = StringUtilities.parseInt(data[0]);
-      String canonicalName = StringUtilities.getCanonicalName(data[1]);
-      ItemDatabase.addIdToName(canonicalName, itemId);
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
 
@@ -360,118 +358,115 @@ public class ItemDatabase {
   }
 
   private static void readItems() {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("items.txt", KoLConstants.ITEMS_VERSION);
-    String[] data;
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("items.txt", KoLConstants.ITEMS_VERSION)) {
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length < 7) {
-        continue;
-      }
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 7) {
+          continue;
+        }
 
-      int itemId = StringUtilities.parseInt(data[0]);
-      Integer id = IntegerPool.get(itemId);
+        int itemId = StringUtilities.parseInt(data[0]);
+        Integer id = IntegerPool.get(itemId);
 
-      String name = data[1];
-      String displayName = StringUtilities.getDisplayName(name);
-      String canonicalName = StringUtilities.getCanonicalName(name);
+        String name = data[1];
+        String displayName = StringUtilities.getDisplayName(name);
+        String canonicalName = StringUtilities.getCanonicalName(name);
 
-      String descId = data[2];
-      if (StringUtilities.isNumeric(descId)) {
-        ItemDatabase.descriptionById.put(id, descId);
-        ItemDatabase.itemIdByDescription.put(descId, id);
-      }
+        String descId = data[2];
+        if (StringUtilities.isNumeric(descId)) {
+          ItemDatabase.descriptionById.put(id, descId);
+          ItemDatabase.itemIdByDescription.put(descId, id);
+        }
 
-      String image = data[3];
-      ItemDatabase.imageById.set(itemId, image);
+        String image = data[3];
+        ItemDatabase.imageById.set(itemId, image);
 
-      String[] usages = data[4].split("\\s*,\\s*");
-      String access = ItemDatabase.parseAccess(data[5]);
-      int price = StringUtilities.parseInt(data[6]);
+        String[] usages = data[4].split("\\s*,\\s*");
+        String access = ItemDatabase.parseAccess(data[5]);
+        int price = StringUtilities.parseInt(data[6]);
 
-      String usage = usages[0];
-      Integer useType = ItemDatabase.PRIMARY_USE.get(usage);
-      if (useType == null) {
-        RequestLogger.printLine("Unknown primary usage for " + name + ": " + usage);
-      } else {
-        ItemDatabase.useTypeById.set(itemId, useType.intValue());
-      }
-
-      int attrs = 0;
-      for (int i = 1; i < usages.length; ++i) {
-        usage = usages[i];
-        useType = ItemDatabase.SECONDARY_USE.get(usage);
+        String usage = usages[0];
+        Integer useType = ItemDatabase.PRIMARY_USE.get(usage);
         if (useType == null) {
-          RequestLogger.printLine("Unknown secondary usage for " + name + ": " + usage);
+          RequestLogger.printLine("Unknown primary usage for " + name + ": " + usage);
         } else {
-          attrs |= useType.intValue();
-          CandyDatabase.registerCandy(id, usage);
+          ItemDatabase.useTypeById.set(itemId, useType.intValue());
+        }
+
+        int attrs = 0;
+        for (int i = 1; i < usages.length; ++i) {
+          usage = usages[i];
+          useType = ItemDatabase.SECONDARY_USE.get(usage);
+          if (useType == null) {
+            RequestLogger.printLine("Unknown secondary usage for " + name + ": " + usage);
+          } else {
+            attrs |= useType.intValue();
+            CandyDatabase.registerCandy(id, usage);
+          }
+        }
+
+        ItemDatabase.priceById.set(itemId, price);
+        ItemDatabase.dataNameById.put(id, name);
+        ItemDatabase.nameById.put(id, displayName);
+
+        ItemDatabase.accessById.put(id, access);
+        attrs |= access.contains(TRADE_FLAG) ? ItemDatabase.ATTR_TRADEABLE : 0;
+        attrs |= access.contains(GIFT_FLAG) ? ItemDatabase.ATTR_GIFT : 0;
+        attrs |= access.contains(QUEST_FLAG) ? ItemDatabase.ATTR_QUEST : 0;
+        attrs |= access.contains(DISCARD_FLAG) ? ItemDatabase.ATTR_DISCARDABLE : 0;
+        ItemDatabase.attributesById.set(itemId, attrs);
+
+        if (itemId > ItemDatabase.maxItemId) {
+          ItemDatabase.maxItemId = itemId;
+        }
+
+        ItemDatabase.addIdToName(canonicalName, itemId);
+
+        ItemDatabase.nameLength.set(itemId, displayName.length());
+
+        if (data.length == 8) {
+          String plural = data[7];
+          ItemDatabase.pluralById.set(itemId, plural);
+          ItemDatabase.itemIdByPlural.put(StringUtilities.getCanonicalName(plural), id);
+        }
+        // Build Noobcore skill source list
+        if ((!ItemDatabase.isEquipment(itemId) || ItemDatabase.isFamiliarEquipment(itemId))
+            && ItemDatabase.isDiscardable(itemId)
+            && (ItemDatabase.isTradeable(itemId)
+                || ItemDatabase.isGiftItem(itemId)
+                || itemId == ItemPool.CLOD_OF_DIRT
+                || itemId == ItemPool.DIRTY_BOTTLECAP
+                || itemId == ItemPool.DISCARDED_BUTTON)) {
+          int intDescId = StringUtilities.parseInt(descId);
+          int skillId = (intDescId % 125) + 23001;
+          // Override Robortender items
+          switch (itemId) {
+            case ItemPool.NOVELTY_HOT_SAUCE:
+              skillId = SkillPool.FROWN_MUSCLES;
+              break;
+            case ItemPool.COCKTAIL_MUSHROOM:
+              skillId = SkillPool.RETRACTABLE_TOES;
+              break;
+            case ItemPool.GRANOLA_LIQUEUR:
+              skillId = SkillPool.INK_GLAND;
+              break;
+            case ItemPool.GREGNADIGNE:
+              skillId = SkillPool.BENDABLE_KNEES;
+              break;
+            case ItemPool.BABY_OIL_SHOOTER:
+              skillId = SkillPool.POWERFUL_VOCAL_CHORDS;
+              break;
+            case ItemPool.LIMEPATCH:
+              skillId = SkillPool.ANGER_GLANDS;
+              break;
+          }
+          ItemDatabase.addIdToNoobSkill(IntegerPool.get(skillId), itemId);
+          ItemDatabase.noobSkillIdByItemSource.set(itemId, skillId);
         }
       }
-
-      ItemDatabase.priceById.set(itemId, price);
-      ItemDatabase.dataNameById.put(id, name);
-      ItemDatabase.nameById.put(id, displayName);
-
-      ItemDatabase.accessById.put(id, access);
-      attrs |= access.contains(TRADE_FLAG) ? ItemDatabase.ATTR_TRADEABLE : 0;
-      attrs |= access.contains(GIFT_FLAG) ? ItemDatabase.ATTR_GIFT : 0;
-      attrs |= access.contains(QUEST_FLAG) ? ItemDatabase.ATTR_QUEST : 0;
-      attrs |= access.contains(DISCARD_FLAG) ? ItemDatabase.ATTR_DISCARDABLE : 0;
-      ItemDatabase.attributesById.set(itemId, attrs);
-
-      if (itemId > ItemDatabase.maxItemId) {
-        ItemDatabase.maxItemId = itemId;
-      }
-
-      ItemDatabase.addIdToName(canonicalName, itemId);
-
-      ItemDatabase.nameLength.set(itemId, displayName.length());
-
-      if (data.length == 8) {
-        String plural = data[7];
-        ItemDatabase.pluralById.set(itemId, plural);
-        ItemDatabase.itemIdByPlural.put(StringUtilities.getCanonicalName(plural), id);
-      }
-      // Build Noobcore skill source list
-      if ((!ItemDatabase.isEquipment(itemId) || ItemDatabase.isFamiliarEquipment(itemId))
-          && ItemDatabase.isDiscardable(itemId)
-          && (ItemDatabase.isTradeable(itemId)
-              || ItemDatabase.isGiftItem(itemId)
-              || itemId == ItemPool.CLOD_OF_DIRT
-              || itemId == ItemPool.DIRTY_BOTTLECAP
-              || itemId == ItemPool.DISCARDED_BUTTON)) {
-        int intDescId = StringUtilities.parseInt(descId);
-        int skillId = (intDescId % 125) + 23001;
-        // Override Robortender items
-        switch (itemId) {
-          case ItemPool.NOVELTY_HOT_SAUCE:
-            skillId = SkillPool.FROWN_MUSCLES;
-            break;
-          case ItemPool.COCKTAIL_MUSHROOM:
-            skillId = SkillPool.RETRACTABLE_TOES;
-            break;
-          case ItemPool.GRANOLA_LIQUEUR:
-            skillId = SkillPool.INK_GLAND;
-            break;
-          case ItemPool.GREGNADIGNE:
-            skillId = SkillPool.BENDABLE_KNEES;
-            break;
-          case ItemPool.BABY_OIL_SHOOTER:
-            skillId = SkillPool.POWERFUL_VOCAL_CHORDS;
-            break;
-          case ItemPool.LIMEPATCH:
-            skillId = SkillPool.ANGER_GLANDS;
-            break;
-        }
-        ItemDatabase.addIdToNoobSkill(IntegerPool.get(skillId), itemId);
-        ItemDatabase.noobSkillIdByItemSource.set(itemId, skillId);
-      }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }
@@ -555,33 +550,30 @@ public class ItemDatabase {
   }
 
   private static void readFoldGroups() {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("foldgroups.txt", KoLConstants.FOLDGROUPS_VERSION);
-    String[] data;
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("foldgroups.txt", KoLConstants.FOLDGROUPS_VERSION)) {
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length <= 2) {
-        continue;
-      }
-
-      int damage = StringUtilities.parseInt(data[0]);
-      ArrayList<String> names = new ArrayList<>();
-      FoldGroup group = new FoldGroup(damage, names);
-      for (int i = 1; i < data.length; ++i) {
-        String name = StringUtilities.getCanonicalName(data[i]);
-        if (ItemDatabase.itemIdSetByName.get(name) == null) {
-          RequestLogger.printLine("Unknown foldable item: " + name);
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length <= 2) {
           continue;
         }
-        ItemDatabase.foldGroupsByName.put(name, group);
-        names.add(name);
-      }
-      names.trimToSize();
-    }
 
-    try {
-      reader.close();
-    } catch (Exception e) {
+        int damage = StringUtilities.parseInt(data[0]);
+        ArrayList<String> names = new ArrayList<>();
+        FoldGroup group = new FoldGroup(damage, names);
+        for (int i = 1; i < data.length; ++i) {
+          String name = StringUtilities.getCanonicalName(data[i]);
+          if (ItemDatabase.itemIdSetByName.get(name) == null) {
+            RequestLogger.printLine("Unknown foldable item: " + name);
+            continue;
+          }
+          ItemDatabase.foldGroupsByName.put(name, group);
+          names.add(name);
+        }
+        names.trimToSize();
+      }
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }

@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -344,61 +345,55 @@ public class MonsterDatabase {
     MonsterDatabase.OLD_MONSTER_DATA.clear();
     MonsterDatabase.MONSTER_IMAGES.clear();
 
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("monsters.txt", KoLConstants.MONSTERS_VERSION);
-    String[] data;
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("monsters.txt", KoLConstants.MONSTERS_VERSION)) {
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length < 1) {
-        continue;
-      }
-
-      String name = data[0];
-      String idString = data.length > 1 ? data[1] : "";
-      String imageString = data.length > 2 ? data[2] : "";
-      String attributes = data.length > 3 ? data[3] : "";
-
-      int id = StringUtilities.isNumeric(idString) ? StringUtilities.parseInt(idString) : 0;
-      String[] images = imageString.split("\\s*,\\s*");
-
-      MonsterData monster = MonsterDatabase.newMonster(name, id, images, attributes);
-      if (monster == null) {
-        continue;
-      }
-
-      boolean bogus = false;
-
-      for (int i = 4; i < data.length; ++i) {
-        String itemString = data[i];
-        AdventureResult item = MonsterDatabase.parseItem(itemString);
-        if (item == null || item.getItemId() == -1 || item.getName() == null) {
-          RequestLogger.printLine("Bad item for monster \"" + name + "\": " + itemString);
-          bogus = true;
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 1) {
           continue;
         }
 
-        monster.addItem(item);
-      }
+        String name = data[0];
+        String idString = data.length > 1 ? data[1] : "";
+        String imageString = data.length > 2 ? data[2] : "";
+        String attributes = data.length > 3 ? data[3] : "";
 
-      if (!bogus) {
-        monster.doneWithItems();
+        int id = StringUtilities.isNumeric(idString) ? StringUtilities.parseInt(idString) : 0;
+        String[] images = imageString.split("\\s*,\\s*");
 
-        MonsterDatabase.saveMonster(name, monster);
-        for (String image : monster.getImages()) {
-          MonsterDatabase.MONSTER_IMAGES.put(image, monster);
+        MonsterData monster = MonsterDatabase.newMonster(name, id, images, attributes);
+        if (monster == null) {
+          continue;
         }
-        MonsterDatabase.registerMonsterId(id, name, monster);
 
-        MonsterDatabase.LEET_MONSTER_DATA.put(StringUtilities.leetify(name), monster);
+        boolean bogus = false;
+
+        for (int i = 4; i < data.length; ++i) {
+          String itemString = data[i];
+          AdventureResult item = MonsterDatabase.parseItem(itemString);
+          if (item == null || item.getItemId() == -1 || item.getName() == null) {
+            RequestLogger.printLine("Bad item for monster \"" + name + "\": " + itemString);
+            bogus = true;
+            continue;
+          }
+
+          monster.addItem(item);
+        }
+
+        if (!bogus) {
+          monster.doneWithItems();
+
+          MonsterDatabase.saveMonster(name, monster);
+          for (String image : monster.getImages()) {
+            MonsterDatabase.MONSTER_IMAGES.put(image, monster);
+          }
+          MonsterDatabase.registerMonsterId(id, name, monster);
+
+          MonsterDatabase.LEET_MONSTER_DATA.put(StringUtilities.leetify(name), monster);
+        }
       }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
 
