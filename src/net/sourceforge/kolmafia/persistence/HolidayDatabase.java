@@ -103,6 +103,7 @@ public class HolidayDatabase {
   // there is no special occasion, and true where there is.
 
   private static final int[] SPECIAL = new int[96];
+  private static final TimeZone ROLLOVER = TimeZone.getTimeZone("GMT-0330");
 
   public static final int SP_NOTHING = 0;
   public static final int SP_HOLIDAY = 1;
@@ -168,7 +169,7 @@ public class HolidayDatabase {
     try {
       // Use a timezone such that the "day" begins at rollover.
 
-      Calendar myCalendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-0330"));
+      Calendar myCalendar = Calendar.getInstance(ROLLOVER);
 
       myCalendar.set(2005, 8, 17, 0, 0, 0);
       HolidayDatabase.NEWYEAR = myCalendar.getTimeInMillis();
@@ -181,7 +182,7 @@ public class HolidayDatabase {
       myCalendar.set(2006, 5, 3, 0, 0, 0);
       HolidayDatabase.COLLISION = myCalendar.getTimeInMillis();
 
-      Date now = new Date();
+      Date now = getDate();
       int calendarDay = HolidayDatabase.getCalendarDay(now);
       int phaseStep = (calendarDay + 16) % 16;
 
@@ -197,7 +198,7 @@ public class HolidayDatabase {
   }
 
   public static final void logMoonStatus(final String label) {
-    Date now = new Date();
+    Date now = getDate();
 
     int calendarDay = HolidayDatabase.getCalendarDay(now);
     int phaseStep = (calendarDay + 16) % 16;
@@ -295,7 +296,7 @@ public class HolidayDatabase {
       HolidayDatabase.BOUNDARY += phaseError * MS_PER_DAY;
       HolidayDatabase.COLLISION += phaseError * MS_PER_DAY;
     }
-    HolidayDatabase.HAMBURGLAR_POSITION = HolidayDatabase.getHamburglarPosition(new Date());
+    HolidayDatabase.HAMBURGLAR_POSITION = HolidayDatabase.getHamburglarPosition(getDate());
   }
 
   public static final int getRonaldPhase() {
@@ -800,7 +801,7 @@ public class HolidayDatabase {
   }
 
   public static final String currentStatDay() {
-    Stat stat = HolidayDatabase.statDay(new Date());
+    Stat stat = HolidayDatabase.statDay(getDate());
     return stat == Stat.MUSCLE
         ? "Muscle Day"
         : stat == Stat.MYSTICALITY ? "Mysticality Day" : stat == Stat.MOXIE ? "Moxie Day" : "None";
@@ -912,12 +913,17 @@ public class HolidayDatabase {
     }
   }
 
+  public static Date getDate() {
+    return new Date();
+  }
+
   public static final String getHoliday() {
-    return HolidayDatabase.getHoliday(new Date(), false);
+    Date d = getDate();
+    return HolidayDatabase.getHoliday(d, false);
   }
 
   public static final String getHoliday(final boolean showPredictions) {
-    return HolidayDatabase.getHoliday(new Date(), showPredictions);
+    return HolidayDatabase.getHoliday(getDate(), showPredictions);
   }
 
   public static final String getHoliday(final Date time) {
@@ -995,7 +1001,7 @@ public class HolidayDatabase {
     if (!currentYear.equals(HolidayDatabase.cachedYear)) {
       HolidayDatabase.cachedYear = currentYear;
       // Calculate holidays for the in-game timezone (days which start at rollover)
-      Calendar holidayFinder = Calendar.getInstance(TimeZone.getTimeZone("GMT-0330"));
+      Calendar holidayFinder = Calendar.getInstance(ROLLOVER);
 
       // Apparently, Easter isn't the second Sunday in April;
       // it actually depends on the occurrence of the first
@@ -1113,6 +1119,16 @@ public class HolidayDatabase {
     }
 
     return null;
+  }
+
+  public static final boolean isDecember() {
+    return isDecember(getDate());
+  }
+
+  public static final boolean isDecember(Date date) {
+    var cal = Calendar.getInstance(ROLLOVER);
+    cal.setTime(date);
+    return cal.get(Calendar.MONTH) == Calendar.DECEMBER;
   }
 
   public static final void addPredictionHTML(
