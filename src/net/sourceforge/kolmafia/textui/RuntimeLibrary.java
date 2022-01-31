@@ -3665,6 +3665,12 @@ public abstract class RuntimeLibrary {
         }
       } catch (Exception e) {
         StaticEntity.printStackTrace(e);
+      } finally {
+        try {
+          reader.close();
+        } catch (IOException e) {
+          StaticEntity.printStackTrace(e);
+        }
       }
     }
     return contents.toString();

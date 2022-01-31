@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,6 +11,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -72,19 +74,22 @@ public abstract class EncounterManager {
   }
 
   private static void resetEncounters() {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("encounters.txt", KoLConstants.ENCOUNTERS_VERSION);
-
     ArrayList<Encounter> encounters = new ArrayList<Encounter>();
-    String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (!AdventureDatabase.validateAdventureArea(data[0])) {
-        RequestLogger.printLine("Invalid adventure area: \"" + data[0] + "\"");
-        continue;
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("encounters.txt", KoLConstants.ENCOUNTERS_VERSION)) {
+      String[] data;
+
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (!AdventureDatabase.validateAdventureArea(data[0])) {
+          RequestLogger.printLine("Invalid adventure area: \"" + data[0] + "\"");
+          continue;
+        }
+
+        encounters.add(new Encounter(data));
       }
-
-      encounters.add(new Encounter(data));
+    } catch (IOException e) {
+      StaticEntity.printStackTrace(e);
     }
 
     specialEncounters = encounters.toArray(new Encounter[encounters.size()]);

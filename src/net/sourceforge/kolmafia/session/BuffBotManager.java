@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.session;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,34 +81,30 @@ public abstract class BuffBotManager {
     BuffBotManager.sendList.clear();
 
     String[] currentBuff;
-    BufferedReader reader =
+    try (BufferedReader reader =
         FileUtilities.getReader(
-            new File(KoLConstants.BUFFBOT_LOCATION, KoLCharacter.baseUserName() + ".txt"));
-
-    if (reader == null) {
-      BuffBotManager.isInitializing = false;
-      BuffBotManager.saveBuffs();
-      return;
-    }
-
-    // It's possible the person is starting from an older release
-    // of KoLmafia.  If that's the case, reload the data from the
-    // properties file, clear it out, and continue.
-
-    while ((currentBuff = FileUtilities.readData(reader)) != null) {
-      if (currentBuff.length < 3) {
-        continue;
+            new File(KoLConstants.BUFFBOT_LOCATION, KoLCharacter.baseUserName() + ".txt"))) {
+      if (reader == null) {
+        BuffBotManager.isInitializing = false;
+        BuffBotManager.saveBuffs();
+        return;
       }
 
-      BuffBotManager.addBuff(
-          SkillDatabase.getSkillName(StringUtilities.parseInt(currentBuff[0])),
-          StringUtilities.parseInt(currentBuff[1]),
-          StringUtilities.parseInt(currentBuff[2]));
-    }
+      // It's possible the person is starting from an older release
+      // of KoLmafia.  If that's the case, reload the data from the
+      // properties file, clear it out, and continue.
 
-    try {
-      reader.close();
-    } catch (Exception e) {
+      while ((currentBuff = FileUtilities.readData(reader)) != null) {
+        if (currentBuff.length < 3) {
+          continue;
+        }
+
+        BuffBotManager.addBuff(
+            SkillDatabase.getSkillName(StringUtilities.parseInt(currentBuff[0])),
+            StringUtilities.parseInt(currentBuff[1]),
+            StringUtilities.parseInt(currentBuff[2]));
+      }
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
 

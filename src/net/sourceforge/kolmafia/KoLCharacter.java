@@ -2964,7 +2964,10 @@ public abstract class KoLCharacter {
 
   /** Accessor method which sets whether or not the player is currently in hardcore. */
   public static final void setHardcore(final boolean isHardcore) {
-    KoLCharacter.isHardcore = isHardcore;
+    if (KoLCharacter.isHardcore != isHardcore) {
+      KoLCharacter.isHardcore = isHardcore;
+      NamedListenerRegistry.fireChange("(hardcore)");
+    }
   }
 
   /** Returns whether or not the character is currently in casual. */
@@ -3003,7 +3006,10 @@ public abstract class KoLCharacter {
 
   /** Accessor method which sets whether or not the player is currently in ronin. */
   public static final void setRonin(final boolean inRonin) {
-    KoLCharacter.inRonin = inRonin;
+    if (KoLCharacter.inRonin != inRonin) {
+      KoLCharacter.inRonin = inRonin;
+      NamedListenerRegistry.fireChange("(ronin)");
+    }
   }
 
   /**

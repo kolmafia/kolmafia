@@ -460,30 +460,31 @@ public abstract class StaticEntity {
       command[1] = "-l";
 
       Process process = runtime.exec(command);
-      BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+      try (BufferedReader reader =
+          new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+        String line;
 
-      String line;
+        StringBuilder sb = new StringBuilder();
 
-      StringBuilder sb = new StringBuilder();
+        while ((pid == null) && (line = reader.readLine()) != null) {
+          sb.append(line);
+          sb.append(KoLConstants.LINE_BREAK);
 
-      while ((pid == null) && (line = reader.readLine()) != null) {
-        sb.append(line);
-        sb.append(KoLConstants.LINE_BREAK);
+          if (line.contains("KoLmafia")) {
+            pid = line.substring(0, line.indexOf(' '));
+          }
 
-        if (line.contains("KoLmafia")) {
-          pid = line.substring(0, line.indexOf(' '));
-        }
+          boolean shouldOpenStream = !RequestLogger.isDebugging();
 
-        boolean shouldOpenStream = !RequestLogger.isDebugging();
+          if (shouldOpenStream) {
+            RequestLogger.openDebugLog();
+          }
 
-        if (shouldOpenStream) {
-          RequestLogger.openDebugLog();
-        }
+          RequestLogger.getDebugStream().println(sb.toString());
 
-        RequestLogger.getDebugStream().println(sb.toString());
-
-        if (shouldOpenStream) {
-          RequestLogger.closeDebugLog();
+          if (shouldOpenStream) {
+            RequestLogger.closeDebugLog();
+          }
         }
       }
     } catch (IOException e) {
@@ -532,16 +533,15 @@ public abstract class StaticEntity {
       command[1] = pid;
 
       Process process = runtime.exec(command);
-      BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+      try (BufferedReader reader =
+          new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+        String line;
 
-      String line;
-
-      while ((line = reader.readLine()) != null) {
-        sb.append(line);
-        sb.append(KoLConstants.LINE_BREAK);
+        while ((line = reader.readLine()) != null) {
+          sb.append(line);
+          sb.append(KoLConstants.LINE_BREAK);
+        }
       }
-
-      reader.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -611,16 +611,15 @@ public abstract class StaticEntity {
 
       Process process = runtime.exec(command, new String[0], KoLConstants.ROOT_LOCATION);
 
-      BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+      try (BufferedReader reader =
+          new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+        String line;
 
-      String line;
-
-      while ((line = reader.readLine()) != null) {
-        sb.append(line);
-        sb.append(KoLConstants.LINE_BREAK);
+        while ((line = reader.readLine()) != null) {
+          sb.append(line);
+          sb.append(KoLConstants.LINE_BREAK);
+        }
       }
-
-      reader.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
