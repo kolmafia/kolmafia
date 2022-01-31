@@ -507,7 +507,9 @@ public class MallPurchaseRequest extends PurchaseRequest {
     AdventureResult item = results.get(0);
     if (storage) {
       // Add the item to storage
-      AdventureResult.addResultToList(KoLConstants.storage, item);
+      List<AdventureResult> list =
+          StorageRequest.isFreePull(item) ? KoLConstants.freepulls : KoLConstants.storage;
+      AdventureResult.addResultToList(list, item);
     } else {
       // Add the item to inventory
       ResultProcessor.processResult(item);
