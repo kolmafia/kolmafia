@@ -100,7 +100,7 @@ public class ScriptMRUList {
     return result;
   }
 
-  public void updateJComboData(JComboBox<Object> jcb) {
+  public void updateJComboData(JComboBox<String> jcb) {
     if (!isInit) {
       init();
     }

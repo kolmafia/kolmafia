@@ -692,6 +692,26 @@ public class TestCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("toggle")) {
+      if (split.length >= 2) {
+        int index = parameters.indexOf(" ");
+        String thing = parameters.substring(index + 1).trim();
+        boolean old = false;
+        switch (thing) {
+          case "hardcore":
+            old = KoLCharacter.isHardcore();
+            KoLCharacter.setHardcore(!old);
+            break;
+          case "ronin":
+            old = KoLCharacter.inRonin();
+            KoLCharacter.setRonin(!old);
+            break;
+        }
+        RequestLogger.printLine(thing + ": " + old + " -> " + !old);
+      }
+      return;
+    }
+
     if (command.equals("vintner")) {
       if (TestCommand.contents != null) {
         ItemDatabase.parseVampireVintnerWine(TestCommand.contents);

@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -52,42 +53,38 @@ public class RestoresDatabase {
   }
 
   private static void readData() {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("restores.txt", KoLConstants.RESTORES_VERSION);
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("restores.txt", KoLConstants.RESTORES_VERSION)) {
+      String[] data;
 
-    String[] data;
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 7) {
+          continue;
+        }
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length < 7) {
-        continue;
+        String name = data[0];
+        RestoresDatabase.restoreNames.add(name);
+        RestoresDatabase.typeByName.put(name, data[1]);
+        RestoresDatabase.hpMinByName.put(name, data[2]);
+        RestoresDatabase.hpMaxByName.put(name, data[3]);
+        RestoresDatabase.mpMinByName.put(name, data[4]);
+        RestoresDatabase.mpMaxByName.put(name, data[5]);
+        int advCost = StringUtilities.parseInt(data[6]);
+        RestoresDatabase.advCostByName.put(name, IntegerPool.get(advCost));
+
+        if (data.length > 7) {
+          RestoresDatabase.usesLeftByName.put(name, data[7]);
+        } else {
+          RestoresDatabase.usesLeftByName.put(name, "unlimited");
+        }
+
+        if (data.length > 8) {
+          RestoresDatabase.notesByName.put(name, data[8]);
+        } else {
+          RestoresDatabase.notesByName.put(name, "");
+        }
       }
-
-      String name = data[0];
-      RestoresDatabase.restoreNames.add(name);
-      RestoresDatabase.typeByName.put(name, data[1]);
-      RestoresDatabase.hpMinByName.put(name, data[2]);
-      RestoresDatabase.hpMaxByName.put(name, data[3]);
-      RestoresDatabase.mpMinByName.put(name, data[4]);
-      RestoresDatabase.mpMaxByName.put(name, data[5]);
-      int advCost = StringUtilities.parseInt(data[6]);
-      RestoresDatabase.advCostByName.put(name, IntegerPool.get(advCost));
-
-      if (data.length > 7) {
-        RestoresDatabase.usesLeftByName.put(name, data[7]);
-      } else {
-        RestoresDatabase.usesLeftByName.put(name, "unlimited");
-      }
-
-      if (data.length > 8) {
-        RestoresDatabase.notesByName.put(name, data[8]);
-      } else {
-        RestoresDatabase.notesByName.put(name, "");
-      }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }

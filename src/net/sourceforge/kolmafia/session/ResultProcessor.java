@@ -3238,6 +3238,18 @@ public class ResultProcessor {
         QuestDatabase.setQuestProgress(Quest.BLACK, "step1");
         break;
 
+      case ItemPool.FEDORA_MOUNTED_FOUNTAIN:
+      case ItemPool.PORKPIE_MOUNTED_POPPER:
+      case ItemPool.SOMBRERO_MOUNTED_SPARKLER:
+        Preferences.setBoolean("_fireworksShopHatBought", true);
+        break;
+
+      case ItemPool.CATHERINE_WHEEL:
+      case ItemPool.ROCKET_BOOTS:
+      case ItemPool.OVERSIZED_SPARKLER:
+        Preferences.setBoolean("_fireworksShopEquipmentBought", true);
+        break;
+
       case ItemPool.VAMPIRE_VINTNER_WINE:
         ResultProcessor.updateVintner();
         break;

@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.EnumSet;
@@ -177,20 +178,14 @@ public class ConcoctionDatabase {
     // examined and float-referenced: once in the name-lookup,
     // and again in the Id lookup.
 
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("concoctions.txt", KoLConstants.CONCOCTIONS_VERSION);
-    String[] data;
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("concoctions.txt", KoLConstants.CONCOCTIONS_VERSION)) {
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      ConcoctionDatabase.addConcoction(data);
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
+      while ((data = FileUtilities.readData(reader)) != null) {
+        ConcoctionDatabase.addConcoction(data);
+      }
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
 

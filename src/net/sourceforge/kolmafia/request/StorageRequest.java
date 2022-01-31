@@ -396,7 +396,7 @@ public class StorageRequest extends TransferItemRequest {
               continue;
             }
 
-            if (!KoLConstants.freepulls.contains(attachment)) {
+            if (!StorageRequest.isFreePull(attachment)) {
               KoLmafia.updateDisplay(
                   MafiaState.ERROR, "You cannot pull a " + attachment.getName() + " in Hardcore.");
               return;
@@ -407,35 +407,45 @@ public class StorageRequest extends TransferItemRequest {
     }
 
     if (KoLCharacter.inRonin()) {
-      // Filter out items that you've already pulled today
-      for (int index = 0; index < this.attachments.length; ++index) {
-        AdventureResult item = this.attachments[index];
-        if (item != null && item.isItem() && itemPulledInRonin(item)) {
-          KoLmafia.updateDisplay(
-              "You've already pulled one '" + item.getName() + "' today. Skipping...");
-          this.attachments[index] = null;
-        }
-      }
-    }
-
-    if (KoLCharacter.inFistcore() && this.moveType == PULL_MEAT_FROM_STORAGE) {
-      KoLmafia.updateDisplay(
-          MafiaState.ERROR, "You cannot remove meat from storage while in Fistcore.");
-      return;
-    }
-
-    if (this.moveType == StorageRequest.STORAGE_TO_INVENTORY) {
-      boolean nonNullItems = false;
-      for (AdventureResult attachment : this.attachments) {
-        if (attachment != null) {
-          nonNullItems = true;
+      switch (this.moveType) {
+        case EMPTY_STORAGE:
+          KoLmafia.updateDisplay(MafiaState.ERROR, "You cannot empty storage while in Ronin.");
+          return;
+        case STORAGE_TO_INVENTORY:
+          // Filter out items that you've already pulled today
+          for (int index = 0; index < this.attachments.length; ++index) {
+            AdventureResult item = this.attachments[index];
+            if (item != null && item.isItem() && itemPulledInRonin(item)) {
+              KoLmafia.updateDisplay(
+                  "You've already pulled one '" + item.getName() + "' today. Skipping...");
+              this.attachments[index] = null;
+            }
+          }
           break;
+      }
+    }
+
+    switch (this.moveType) {
+      case PULL_MEAT_FROM_STORAGE:
+        if (KoLCharacter.inFistcore()) {
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR, "You cannot remove meat from storage while in Fistcore.");
+          return;
         }
-      }
-      if (!nonNullItems) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "No items could be removed from storage.");
-        return;
-      }
+        break;
+      case STORAGE_TO_INVENTORY:
+        boolean nonNullItems = false;
+        for (AdventureResult attachment : this.attachments) {
+          if (attachment != null) {
+            nonNullItems = true;
+            break;
+          }
+        }
+        if (!nonNullItems) {
+          KoLmafia.updateDisplay(MafiaState.ERROR, "No items could be removed from storage.");
+          return;
+        }
+        break;
     }
 
     // Let TransferItemRequest handle it
@@ -590,7 +600,7 @@ public class StorageRequest extends TransferItemRequest {
     } else if (action.equals("pull")) {
       if (responseText.contains("moved from storage to inventory")) {
         // Pull items from storage and/or freepulls
-        StorageRequest.transferItems(responseText, bulkTransfer);
+        StorageRequest.transferItems(urlString, responseText, bulkTransfer);
         transfer = true;
       }
     }
@@ -647,35 +657,46 @@ public class StorageRequest extends TransferItemRequest {
   }
 
   // <b>star hat (1)</b> moved from storage to inventory.
+  private static final Pattern URL_ITEM_PATTERN = Pattern.compile("whichitem\\d+=(\\d+)");
   private static final Pattern PULL_ITEM_PATTERN =
-      Pattern.compile("<b>([^<]*) \\((\\d+)\\)</b> moved from storage to inventory");
+      Pattern.compile(
+          "(You already pulled one of those today|<b>([^<]*) \\((\\d+)\\)</b> moved from storage to inventory)");
 
-  private static void transferItems(final String responseText, final boolean bulkTransfer) {
+  public static void transferItems(
+      final String urlString, final String responseText, final boolean bulkTransfer) {
+
+    // In Ronin, if you attempt to pull an item you've already pulled today,
+    // KoL simply reports (without identifying the item):
+    //
+    // You already pulled one of those today.
+
+    // Items that are "free pulls" are not limited in Ronin, although
+    // you must pull them one at a time.
+
+    // We will walk the URL and the responseText in parallel.
+    // The itemId comes from the URL string
+    // The count comes from the responseText
+
+    Matcher matcher1 = StorageRequest.URL_ITEM_PATTERN.matcher(urlString);
+    Matcher matcher2 = StorageRequest.PULL_ITEM_PATTERN.matcher(responseText);
+
     // Transfer items from storage and/or freepulls
-
-    Matcher matcher = StorageRequest.PULL_ITEM_PATTERN.matcher(responseText);
+    ArrayList<AdventureResult> list = bulkTransfer ? new ArrayList<AdventureResult>() : null;
     int pulls = 0;
 
-    ArrayList<AdventureResult> list = bulkTransfer ? new ArrayList<AdventureResult>() : null;
+    while (matcher1.find() && matcher2.find()) {
+      int itemId = StringUtilities.parseInt(matcher1.group(1));
+      boolean failed = matcher2.group(0).equals("You already pulled one of those today");
+      int count = failed ? 0 : StringUtilities.parseInt(matcher2.group(3));
 
-    while (matcher.find()) {
-      String name = matcher.group(1);
-      int count = StringUtilities.parseInt(matcher.group(2));
+      AdventureResult item = ItemPool.get(itemId, count);
 
-      AdventureResult item = ItemPool.get(name, count);
+      if (KoLCharacter.inRonin() && !StorageRequest.isFreePull(item)) {
+        addPulledItem(item);
+      }
 
-      if (KoLCharacter.inRonin()) {
-        // In Ronin, if you attempt to pull an item you've already pulled
-        // today, KoL simply reports (without identifying the item):
-        //
-        // You already pulled one of those today.
-
-        // Items that are "free pulls" are not limited in Ronin, although
-        // you must pull them one at a time.
-
-        if (!StorageRequest.isFreePull(item)) {
-          addPulledItem(item);
-        }
+      if (failed) {
+        continue;
       }
 
       List<AdventureResult> source;
@@ -687,7 +708,7 @@ public class StorageRequest extends TransferItemRequest {
         pulls += count;
       }
 
-      // Remove from storage
+      // Remove from storage or freepulls list
       AdventureResult.addResultToList(source, item.getNegation());
 
       if (bulkTransfer) {
@@ -698,15 +719,17 @@ public class StorageRequest extends TransferItemRequest {
       }
     }
 
+    if (pulls == 0) {
+      return;
+    }
+
     if (bulkTransfer) {
-      AdventureResult[] array = new AdventureResult[list.size()];
-      array = list.toArray(array);
-      StorageRequest.processBulkItems(array);
+      StorageRequest.processBulkItems(list);
     }
 
     // If remaining is -1, pulls are unlimited.
     int remaining = ConcoctionDatabase.getPullsRemaining();
-    if (pulls > 0 && remaining >= pulls) {
+    if (remaining >= pulls) {
       ConcoctionDatabase.setPullsRemaining(remaining - pulls);
     }
   }
@@ -801,8 +824,8 @@ public class StorageRequest extends TransferItemRequest {
   /**
    * Handle lots of items being received at once, deferring updates to the end as much as possible.
    */
-  private static void processBulkItems(AdventureResult[] items) {
-    if (items.length == 0) {
+  private static void processBulkItems(List<AdventureResult> items) {
+    if (items.size() == 0) {
       return;
     }
 

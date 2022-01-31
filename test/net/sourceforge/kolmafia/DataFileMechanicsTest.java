@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -84,23 +85,21 @@ public class DataFileMechanicsTest {
     // to be edited.
     assertTrue(precheck(lowCount, highCount), fname + " failed precheck.");
     // FileUtilities will log "errors" but tries very hard to return a reader no matter what.
-    BufferedReader reader = FileUtilities.getVersionedReader(fname, version);
-    String[] fields;
-    boolean noLines = true;
-    while ((fields = FileUtilities.readData(reader)) != null) {
-      noLines = false;
-      int fieldsRead = fields.length;
-      if (skipMe(fieldsRead)) continue;
-      String msg = fname + " " + fields[0];
-      // Line has too many or too few fields.
-      assertThat(
-          msg, fieldsRead, allOf(greaterThanOrEqualTo(lowCount), lessThanOrEqualTo(highCount)));
-    }
-    // No lines is sometimes a symptom caused by a bad file name.
-    assertFalse(noLines, "No lines in " + fname);
-    try {
-      reader.close();
-    } catch (Exception e) {
+    try (BufferedReader reader = FileUtilities.getVersionedReader(fname, version)) {
+      String[] fields;
+      boolean noLines = true;
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        noLines = false;
+        int fieldsRead = fields.length;
+        if (skipMe(fieldsRead)) continue;
+        String msg = fname + " " + fields[0];
+        // Line has too many or too few fields.
+        assertThat(
+            msg, fieldsRead, allOf(greaterThanOrEqualTo(lowCount), lessThanOrEqualTo(highCount)));
+      }
+      // No lines is sometimes a symptom caused by a bad file name.
+      assertFalse(noLines, "No lines in " + fname);
+    } catch (IOException e) {
       fail("Exception in tearing down reader:" + e.toString());
     }
   }
