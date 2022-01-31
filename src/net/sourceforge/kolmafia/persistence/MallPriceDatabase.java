@@ -194,11 +194,14 @@ public class MallPriceDatabase {
       w.write(
           "Content-Disposition: form-data; name=\"upload\"; filename=\"mallprices.txt\"\r\n\r\n");
 
-      BufferedReader reader = FileUtilities.getReader("mallprices.txt");
-      String line;
-      while ((line = FileUtilities.readLine(reader)) != null) {
-        w.write(line);
-        w.write('\n');
+      try (BufferedReader reader = FileUtilities.getReader("mallprices.txt")) {
+        String line;
+        while ((line = FileUtilities.readLine(reader)) != null) {
+          w.write(line);
+          w.write('\n');
+        }
+      } catch (IOException e) {
+        StaticEntity.printStackTrace(e);
       }
       w.write("\r\n----blahblahfishcakes--\r\n");
       w.flush();
@@ -208,8 +211,11 @@ public class MallPriceDatabase {
       int responseCode = con.getResponseCode();
       String response = "";
       if (i != null) {
-        response = new BufferedReader(new InputStreamReader(i)).readLine();
-        i.close();
+        try (var reader = new BufferedReader(new InputStreamReader(i))) {
+          response = reader.readLine();
+        } catch (IOException e) {
+          StaticEntity.printStackTrace(e);
+        }
       }
       if (responseCode == 200) {
         RequestLogger.printLine("Success: " + response);

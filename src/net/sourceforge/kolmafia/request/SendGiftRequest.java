@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -9,6 +10,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
@@ -30,19 +32,22 @@ public class SendGiftRequest extends TransferItemRequest {
       new LockableListModel<GiftWrapper>();
 
   static {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("packages.txt", KoLConstants.PACKAGES_VERSION);
-    String[] data;
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("packages.txt", KoLConstants.PACKAGES_VERSION)) {
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length >= 4) {
-        SendGiftRequest.PACKAGES.add(
-            new GiftWrapper(
-                data[0],
-                StringUtilities.parseInt(data[1]),
-                StringUtilities.parseInt(data[2]),
-                StringUtilities.parseInt(data[3])));
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length >= 4) {
+          SendGiftRequest.PACKAGES.add(
+              new GiftWrapper(
+                  data[0],
+                  StringUtilities.parseInt(data[1]),
+                  StringUtilities.parseInt(data[2]),
+                  StringUtilities.parseInt(data[3])));
+        }
       }
+    } catch (IOException e) {
+      StaticEntity.printStackTrace(e);
     }
   }
 
