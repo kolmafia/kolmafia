@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,35 +59,29 @@ public class EffectDatabase {
   public static void reset() {
     EffectDatabase.newEffects = false;
 
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("statuseffects.txt", KoLConstants.STATUSEFFECTS_VERSION);
-    String[] data;
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("statuseffects.txt", KoLConstants.STATUSEFFECTS_VERSION)) {
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length >= 3) {
-        Integer effectId = Integer.valueOf(data[0]);
-        if (effectId.intValue() < 0) {
-          continue;
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length >= 3) {
+          Integer effectId = Integer.valueOf(data[0]);
+          if (effectId.intValue() < 0) {
+            continue;
+          }
+
+          String name = data[1];
+          String image = data[2];
+          String descId = data.length > 3 ? data[3] : null;
+          String quality = data[4];
+          String attributes = data[5];
+          String defaultAction = data.length > 6 ? data[6] : null;
+
+          EffectDatabase.addToDatabase(
+              effectId, name, image, descId, quality, attributes, defaultAction);
         }
-
-        String name = data[1];
-        String image = data[2];
-        String descId = data.length > 3 ? data[3] : null;
-        String quality = data[4];
-        String attributes = data[5];
-        String defaultAction = data.length > 6 ? data[6] : null;
-
-        EffectDatabase.addToDatabase(
-            effectId, name, image, descId, quality, attributes, defaultAction);
       }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
 

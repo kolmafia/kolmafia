@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.persistence.Script;
 import net.sourceforge.kolmafia.persistence.ScriptManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.swingui.DatabaseFrame;
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -176,12 +177,15 @@ public class TableCellFactory {
 
     switch (columnIndex) {
       case 0:
+        boolean ronin = StorageRequest.itemPulledInRonin(advresult);
         if (raw) {
           return advresult.getName();
         }
         return "<html>"
+            + (ronin ? "<s>" : "")
             + addTag(ColorFactory.getStorageColor(advresult), isSelected)
-            + advresult.getName();
+            + advresult.getName()
+            + (ronin ? "</s>" : "");
       case 1:
         return getAutosellString(advresult.getItemId(), raw);
       case 2:

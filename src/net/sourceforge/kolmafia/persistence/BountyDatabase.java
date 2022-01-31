@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -49,31 +50,28 @@ public class BountyDatabase {
   }
 
   private static void readData() {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("bounty.txt", KoLConstants.BOUNTY_VERSION);
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("bounty.txt", KoLConstants.BOUNTY_VERSION)) {
 
-    String[] data;
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length < 7) {
-        continue;
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 7) {
+          continue;
+        }
+
+        String name = data[0];
+        BountyDatabase.bountyNames.add(name);
+        BountyDatabase.bountyByPlural.put(data[1], name);
+        BountyDatabase.pluralByName.put(name, data[1]);
+        BountyDatabase.typeByName.put(name, data[2]);
+        BountyDatabase.imageByName.put(name, data[3]);
+        BountyDatabase.numberByName.put(name, data[4]);
+        BountyDatabase.monsterByName.put(name, data[5]);
+        BountyDatabase.nameByMonster.put(data[5], name);
+        BountyDatabase.locationByName.put(name, data[6]);
       }
-
-      String name = data[0];
-      BountyDatabase.bountyNames.add(name);
-      BountyDatabase.bountyByPlural.put(data[1], name);
-      BountyDatabase.pluralByName.put(name, data[1]);
-      BountyDatabase.typeByName.put(name, data[2]);
-      BountyDatabase.imageByName.put(name, data[3]);
-      BountyDatabase.numberByName.put(name, data[4]);
-      BountyDatabase.monsterByName.put(name, data[5]);
-      BountyDatabase.nameByMonster.put(data[5], name);
-      BountyDatabase.locationByName.put(name, data[6]);
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }

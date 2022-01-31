@@ -55,7 +55,7 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
    * @see net.sourceforge.kolmafia.swingui.menu.ScriptMRUList#updateJComboData(javax.swing.JComboBox)
    */
   @Override
-  public void updateJComboData(JComboBox<Object> jcb) {
+  public void updateJComboData(JComboBox<String> jcb) {
     if (!isInit) {
       init();
     }
@@ -66,7 +66,7 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
 
     int count = mruList.size();
     if (count >= 1) {
-      for (Object ob : mruList) {
+      for (String ob : mruList) {
         jcb.addItem(ob);
       }
     }

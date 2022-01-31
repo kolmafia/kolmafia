@@ -905,6 +905,15 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.INT_TYPE, DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("retrieve_item", DataTypes.BOOLEAN_TYPE, params));
 
+    params = new Type[] {DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.INT_TYPE};
+    functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.INT_TYPE, DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
+
     params = new Type[] {};
     functions.add(new LibraryFunction("receive_fax", DataTypes.VOID_TYPE, params));
 
@@ -3656,6 +3665,12 @@ public abstract class RuntimeLibrary {
         }
       } catch (Exception e) {
         StaticEntity.printStackTrace(e);
+      } finally {
+        try {
+          reader.close();
+        } catch (IOException e) {
+          StaticEntity.printStackTrace(e);
+        }
       }
     }
     return contents.toString();
@@ -4606,6 +4621,28 @@ public abstract class RuntimeLibrary {
 
   public static Value retrieve_item(ScriptRuntime controller, final Value item) {
     return retrieve_item(controller, DataTypes.ONE_VALUE, item);
+  }
+
+  public static Value retrieve_price(ScriptRuntime controller, final Value arg1, final Value arg2) {
+    int arg1Value = (int) arg1.intValue();
+    int arg2Value = (int) arg2.intValue();
+
+    boolean countThenItem =
+        arg1.getType().equals(DataTypes.INT_TYPE) || arg1.getType().equals(DataTypes.FLOAT_TYPE);
+
+    int count = countThenItem ? arg1Value : arg2Value;
+    int item = countThenItem ? arg2Value : arg1Value;
+
+    if (count <= 0) {
+      return DataTypes.ZERO_VALUE;
+    }
+
+    return new Value(
+        InventoryManager.priceToAcquire(ItemPool.get(item, count), count, 0, false, false));
+  }
+
+  public static Value retrieve_price(ScriptRuntime controller, final Value item) {
+    return retrieve_price(controller, DataTypes.ONE_VALUE, item);
   }
 
   public static Value receive_fax(ScriptRuntime controller) {

@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,31 +41,28 @@ public abstract class ConsequenceManager {
   private static final Pattern EXPR_PATTERN = Pattern.compile("\\[(.+?)\\]");
 
   static {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("consequences.txt", KoLConstants.CONSEQUENCES_VERSION);
-    String[] data;
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("consequences.txt", KoLConstants.CONSEQUENCES_VERSION)) {
+      String[] data;
 
-    // Format is: type / spec / regex / action...
+      // Format is: type / spec / regex / action...
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length < 4) {
-        continue;
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 4) {
+          continue;
+        }
+
+        Pattern patt;
+        try {
+          patt = Pattern.compile(data[2]);
+        } catch (PatternSyntaxException e) {
+          RequestLogger.printLine("Consequence " + data[0] + "/" + data[1] + ": " + e);
+          continue;
+        }
+
+        ConsequenceManager.addConsequence(new Consequence(data, patt));
       }
-
-      Pattern patt;
-      try {
-        patt = Pattern.compile(data[2]);
-      } catch (PatternSyntaxException e) {
-        RequestLogger.printLine("Consequence " + data[0] + "/" + data[1] + ": " + e);
-        continue;
-      }
-
-      ConsequenceManager.addConsequence(new Consequence(data, patt));
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }
