@@ -2,9 +2,6 @@ package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -337,20 +334,15 @@ public class Expression {
         case 'v':
           String event = (String) this.literals.get((int) s[--sp]);
 
-          if (HolidayDatabase.getHoliday().contains(event)) {
-            v = 1;
-            break;
-          }
-
-          Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
-          if (event.equals("Crimbo2015")) {
-            // Event ends just after rollover on 3rd January 2016
-            GregorianCalendar eventEnd = new GregorianCalendar(2016, Calendar.JANUARY, 3, 20, 30);
-            eventEnd.setTimeZone(TimeZone.getTimeZone("GMT-0700"));
-            v = date.before(eventEnd) ? 1 : 0;
-          } else if (event.equals("December")) {
-            int month = date.get(Calendar.MONTH);
-            v = (month == Calendar.DECEMBER) ? 1 : 0;
+          switch (event) {
+            case "December":
+              v = HolidayDatabase.isDecember() ? 1 : 0;
+              break;
+            default:
+              if (HolidayDatabase.getHoliday().contains(event)) {
+                v = 1;
+              }
+              break;
           }
 
           break;

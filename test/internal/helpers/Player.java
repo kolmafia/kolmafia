@@ -1,5 +1,8 @@
 package internal.helpers;
 
+import static org.mockito.Mockito.mockStatic;
+
+import java.util.Calendar;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -12,10 +15,12 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import org.mockito.Mockito;
 
 public class Player {
   public static void equip(int slot, String item) {
@@ -124,5 +129,11 @@ public class Player {
   public static Cleanups inLocation(String location) {
     Modifiers.setLocation(AdventureDatabase.getAdventure(location));
     return new Cleanups(() -> inLocation(null));
+  }
+
+  public static Cleanups isDay(Calendar cal) {
+    var mocked = mockStatic(HolidayDatabase.class, Mockito.CALLS_REAL_METHODS);
+    mocked.when(HolidayDatabase::getDate).thenReturn(cal.getTime());
+    return new Cleanups(mocked::close);
   }
 }

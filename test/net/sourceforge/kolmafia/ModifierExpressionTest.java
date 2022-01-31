@@ -7,12 +7,14 @@ import static internal.helpers.Player.equip;
 import static internal.helpers.Player.inLocation;
 import static internal.helpers.Player.inPath;
 import static internal.helpers.Player.isClass;
+import static internal.helpers.Player.isDay;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.GregorianCalendar;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -20,7 +22,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -184,9 +185,24 @@ public class ModifierExpressionTest {
     assertThat(ascensionClass.toString(), exp.eval(), is(expected));
   }
 
-  @Disabled // This is not really possible to test right now
   @Test
-  public void canDetectEvent() {}
+  public void canDetectHoliday() {
+    HolidayDatabase.guessPhaseStep();
+    final var cleanups = isDay(new GregorianCalendar(2008, 1, 17, 12, 0));
+    try (cleanups) {
+      var exp = new ModifierExpression("event(Sneaky Pete's Day)", "Event: Sneaky Pete's day");
+      assertThat(exp.eval(), is(1.0));
+    }
+  }
+
+  @Test
+  public void canDetectDecember() {
+    final var cleanups = isDay(new GregorianCalendar(2021, 11, 3));
+    try (cleanups) {
+      var exp = new ModifierExpression("event(December)", "Event: December");
+      assertThat(exp.eval(), is(1.0));
+    }
+  }
 
   @ParameterizedTest
   @EnumSource(AscensionPath.Path.class)
@@ -300,9 +316,14 @@ public class ModifierExpressionTest {
     assertThat(exp.eval(), is(303.0));
   }
 
-  @Disabled // This is not really possible to test right now
   @Test
-  public void canDetectFestivalOfJarlsberg() {}
+  public void canDetectFestivalOfJarlsberg() {
+    final var cleanups = isDay(new GregorianCalendar(2020, 0, 1));
+    try (cleanups) {
+      var exp = new ModifierExpression("J", "Festival of Jarlsberg");
+      assertThat(exp.eval(), is(1.0));
+    }
+  }
 
   @Test
   public void canDetectSmithness() {
