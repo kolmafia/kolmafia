@@ -188,24 +188,26 @@ public class MallPriceDatabase {
       con.setRequestProperty("Content-Type", "multipart/form-data; boundary=--blahblahfishcakes");
       con.setRequestMethod("POST");
       con.setRequestProperty("Connection", "close");
-      OutputStream o = con.getOutputStream();
-      BufferedWriter w = new BufferedWriter(new OutputStreamWriter(o));
-      w.write("----blahblahfishcakes\r\n");
-      w.write(
-          "Content-Disposition: form-data; name=\"upload\"; filename=\"mallprices.txt\"\r\n\r\n");
+      try (OutputStream o = con.getOutputStream();
+          BufferedWriter w = new BufferedWriter(new OutputStreamWriter(o))) {
+        w.write("----blahblahfishcakes\r\n");
+        w.write(
+            "Content-Disposition: form-data; name=\"upload\"; filename=\"mallprices.txt\"\r\n\r\n");
 
-      try (BufferedReader reader = FileUtilities.getReader("mallprices.txt")) {
-        String line;
-        while ((line = FileUtilities.readLine(reader)) != null) {
-          w.write(line);
-          w.write('\n');
+        try (BufferedReader reader = FileUtilities.getReader("mallprices.txt")) {
+          String line;
+          while ((line = FileUtilities.readLine(reader)) != null) {
+            w.write(line);
+            w.write('\n');
+          }
+        } catch (IOException e) {
+          StaticEntity.printStackTrace(e);
         }
+        w.write("\r\n----blahblahfishcakes--\r\n");
+        w.flush();
       } catch (IOException e) {
         StaticEntity.printStackTrace(e);
       }
-      w.write("\r\n----blahblahfishcakes--\r\n");
-      w.flush();
-      o.close();
 
       InputStream i = con.getInputStream();
       int responseCode = con.getResponseCode();
