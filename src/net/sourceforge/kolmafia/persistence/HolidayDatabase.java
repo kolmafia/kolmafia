@@ -918,8 +918,7 @@ public class HolidayDatabase {
   }
 
   public static final String getHoliday() {
-    Date d = getDate();
-    return HolidayDatabase.getHoliday(d, false);
+    return HolidayDatabase.getHoliday(false);
   }
 
   public static final String getHoliday(final boolean showPredictions) {
