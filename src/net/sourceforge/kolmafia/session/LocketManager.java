@@ -21,16 +21,15 @@ public class LocketManager {
   private static final Pattern REMINISCABLE_MONSTER = Pattern.compile("<option value=\"(\\d+)\"");
 
   private static void addFoughtMonster(int monsterId) {
-    String newPref =
+    // Add monster id to pref ensuring distinct
+    Preferences.setString(
+        "_locketMonsters",
         Stream.concat(
                 Arrays.stream(Preferences.getString("_locketMonsters").split(","))
-                    .filter(i -> !i.isEmpty())
-                    .map(Integer::parseInt),
-                Stream.of(monsterId))
+                    .filter(Predicate.not(String::isBlank)),
+                Stream.of(Integer.toString(monsterId)))
             .distinct()
-            .map(Object::toString)
-            .collect(Collectors.joining(","));
-    Preferences.setString("_locketMonsters", newPref);
+            .collect(Collectors.joining(",")));
   }
 
   private LocketManager() {}
