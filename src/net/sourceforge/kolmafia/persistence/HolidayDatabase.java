@@ -22,6 +22,7 @@ public class HolidayDatabase {
   private static int RONALD_PHASE = -1;
   private static int GRIMACE_PHASE = -1;
   private static int HAMBURGLAR_POSITION = -1;
+  private static final TimeZone ROLLOVER = TimeZone.getTimeZone("GMT-0330");
 
   static {
     HolidayDatabase.guessPhaseStep();
@@ -103,7 +104,6 @@ public class HolidayDatabase {
   // there is no special occasion, and true where there is.
 
   private static final int[] SPECIAL = new int[96];
-  private static final TimeZone ROLLOVER = TimeZone.getTimeZone("GMT-0330");
 
   public static final int SP_NOTHING = 0;
   public static final int SP_HOLIDAY = 1;
