@@ -1244,6 +1244,8 @@ Item	club of the five seasons	Spooky Damage: +5, Stench Damage: +5, Hot Damage: 
 Item	coal shovel	Hot Damage: +20
 Item	Coily&trade;	Moxie Percent: +15, Item Drop: +10, Meat Drop: +25
 Item	combat fan	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
+Item	combat lover's locket	HP Regen Min: 8, HP Regen Max: 10, MP Regen Min: 8, MP Regen Max: 10, Single Equip
+Item	combat lover's locket lockbox	Free Pull
 Item	contract enforcement stick	Critical Hit Percent: +4, Muscle Percent: +5
 # cool whip
 Item	corn holder	Spell Damage: +6

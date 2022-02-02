@@ -10916,3 +10916,5 @@
 10889	void shard	935741344	voidknife.gif	weapon	t	0
 10890	undrilled cosmic bowling ball	276317641	cosmicball.gif	usable	t	0
 10891	cosmic bowling ball	119596776	cosmicball2.gif	none, combat		0
+10892	combat lover's locket lockbox	237536213	lovelocketbox.gif	usable	t	0
+10893	combat lover's locket	634036450	lovelocket.gif	accessory		0
