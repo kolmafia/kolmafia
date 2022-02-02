@@ -11,9 +11,11 @@ import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class LocketManager {
   private static final Set<Integer> knownMonsters = new TreeSet<>();
@@ -121,5 +123,10 @@ public class LocketManager {
     }
 
     Preferences.setString("locketPhylum", phylum);
+  }
+
+  public static void reset() {
+    parseFoughtMonsters();
+    RequestThread.postRequest(new GenericRequest("inventory.php?reminisce=1"));
   }
 }
