@@ -17,6 +17,7 @@ public class LocketManagerTest {
   @BeforeEach
   private void beforeEach() {
     KoLCharacter.reset("LocketManagerTest");
+    Preferences.reset("LocketManagerTest");
   }
 
   @Test

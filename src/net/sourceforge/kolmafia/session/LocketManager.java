@@ -73,7 +73,8 @@ public class LocketManager {
       knownMonsters.add(Integer.parseInt(m.group(1)));
     }
 
-    // Add all the monsters you've foguht today, which will not otherwise show on said page
+    // Add all the monsters you've fought today, which will not otherwise show on said page
+    parseFoughtMonsters();
     knownMonsters.addAll(foughtMonsters);
   }
 
@@ -126,14 +127,17 @@ public class LocketManager {
     Preferences.setString("locketPhylum", phylum);
   }
 
+  public static void clear() {
+    knownMonsters.clear();
+    foughtMonsters.clear();
+  }
+
   public static void reset() {
     if (!KoLConstants.inventory.contains(ItemPool.get(ItemPool.COMBAT_LOVERS_LOCKET, 1))
         && !KoLCharacter.hasEquipped(ItemPool.COMBAT_LOVERS_LOCKET)) {
-      knownMonsters.clear();
-      foughtMonsters.clear();
+      clear();
     }
 
-    parseFoughtMonsters();
     RequestThread.postRequest(new GenericRequest("inventory.php?reminisce=1"));
   }
 }
