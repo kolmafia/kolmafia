@@ -53,4 +53,14 @@ public class GenericRequestTest {
 
     assertThat("spookyPuttyMonster", isSetTo(""));
   }
+
+  @Test
+  public void learnLocketPhylumFromLocketDescription() throws IOException {
+    var req = new GenericRequest("desc_item.php?whichitem=634036450");
+    req.responseText =
+        Files.readString(Paths.get("request/test_desc_item_combat_lovers_locket_beast.html"));
+    req.processResponse();
+
+    assertThat("locketPhylum", isSetTo("beast"));
+  }
 }
