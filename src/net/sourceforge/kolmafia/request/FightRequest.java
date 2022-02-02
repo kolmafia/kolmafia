@@ -6948,10 +6948,14 @@ public class FightRequest extends GenericRequest {
     }
 
     if (image.equals("lovelocket.gif")) {
-      if (str.contains("warm light")) {
+      boolean added = str.contains("warm light");
+      boolean already = str.contains("already a photo");
+      if (added) {
         FightRequest.logText(str, status);
       }
-      LocketManager.rememberMonster(status.monsterId);
+      if (added || already) {
+        LocketManager.rememberMonster(status.monsterId);
+      }
     }
 
     // Combat item usage: process the children of this node
