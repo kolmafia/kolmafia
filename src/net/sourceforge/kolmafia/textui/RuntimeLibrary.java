@@ -2071,6 +2071,11 @@ public abstract class RuntimeLibrary {
     params = new Type[] {};
     functions.add(
         new LibraryFunction(
+            "get_locket_monsters", new AggregateType(DataTypes.MONSTER_TYPE, 0), params));
+
+    params = new Type[] {};
+    functions.add(
+        new LibraryFunction(
             "get_monster_mapping",
             new AggregateType(DataTypes.MONSTER_TYPE, DataTypes.MONSTER_TYPE),
             params));
@@ -8073,6 +8078,19 @@ public abstract class RuntimeLibrary {
     for (int i = 0; i < superlikelyMonsterCount; ++i) {
       MonsterData mon = mapMonster(data.getSuperlikelyMonster(i), mapping);
       value.aset(DataTypes.makeMonsterValue(mon), DataTypes.TRUE_VALUE);
+    }
+
+    return value;
+  }
+
+  public static Value get_locket_monsters(ScriptRuntime controller) {
+    AggregateType type = new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE);
+    MapValue value = new MapValue(type);
+
+    for (var id : LocketManager.getMonsters()) {
+      var monster = MonsterDatabase.findMonsterById(id);
+      var fought = LocketManager.foughtMonster(id);
+      value.aset(DataTypes.makeMonsterValue(monster), DataTypes.makeBooleanValue(fought));
     }
 
     return value;
