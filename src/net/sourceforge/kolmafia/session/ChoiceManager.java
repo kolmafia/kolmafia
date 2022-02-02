@@ -19710,6 +19710,7 @@ public abstract class ChoiceManager {
       case 1458: // Booze Lab
       case 1459: // Chem Lab
       case 1460: // Toy Lab
+      case 1463: // Reminiscing About Those Monsters You Fought
         return true;
 
       default:

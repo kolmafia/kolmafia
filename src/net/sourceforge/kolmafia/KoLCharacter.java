@@ -65,7 +65,6 @@ import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
-import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -384,7 +383,6 @@ public abstract class KoLCharacter {
     EquipmentManager.resetCustomOutfits();
     GearChangeFrame.clearFamiliarList();
     InventoryManager.resetInventory();
-    LocketManager.reset();
     SkillDatabase.resetCasts();
     SpecialOutfit.forgetCheckpoints();
     StorageRequest.resetRoninStoragePulls();

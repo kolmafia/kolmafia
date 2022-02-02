@@ -127,17 +127,22 @@ public class LocketManager {
     Preferences.setString("locketPhylum", phylum);
   }
 
+  public static boolean own() {
+    return KoLConstants.inventory.contains(ItemPool.get(ItemPool.COMBAT_LOVERS_LOCKET, 1))
+        || KoLCharacter.hasEquipped(ItemPool.COMBAT_LOVERS_LOCKET);
+  }
+
   public static void clear() {
     knownMonsters.clear();
     foughtMonsters.clear();
   }
 
   public static void reset() {
-    if (!KoLConstants.inventory.contains(ItemPool.get(ItemPool.COMBAT_LOVERS_LOCKET, 1))
-        && !KoLCharacter.hasEquipped(ItemPool.COMBAT_LOVERS_LOCKET)) {
+    if (!own()) {
       clear();
+      return;
     }
 
-    RequestThread.postRequest(new GenericRequest("inventory.php?reminisce=1"));
+    RequestThread.postRequest(new GenericRequest("inventory.php?reminisce=1", false));
   }
 }
