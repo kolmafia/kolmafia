@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.session.MonsterManuelManager;
 import net.sourceforge.kolmafia.session.QuestManager;
@@ -2682,6 +2683,8 @@ public class FightRequest extends GenericRequest {
       }
 
       Preferences.decrement("cosmicBowlingBallReturnCombats", 1, -1);
+
+      LocketManager.parseFight(monster, responseText);
     }
 
     // Figure out various things by examining the responseText. Ideally,
@@ -6942,6 +6945,13 @@ public class FightRequest extends GenericRequest {
         FightRequest.logText(str, status);
       }
       return false;
+    }
+
+    if (image.equals("lovelocket.gif")) {
+      if (str.contains("warm light")) {
+        FightRequest.logText(str, status);
+      }
+      LocketManager.rememberMonster(status.monsterId);
     }
 
     // Combat item usage: process the children of this node

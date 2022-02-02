@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Preference.isSetTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
@@ -16,6 +18,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.LocketManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -214,9 +217,33 @@ public class FightRequestTest {
   }
 
   @Test
-  public void luckyGoldRingVolcoinoDropRecorded() throws IOException {
-    assertFalse(Preferences.getBoolean("_luckyGoldRingVolcoino"));
-    parseCombatData("request/test_fight_lucky_gold_ring_volcoino.html");
-    assertTrue(Preferences.getBoolean("_luckyGoldRingVolcoino"));
+  public void registersLocketFight() throws IOException {
+    KoLCharacter.reset("gausie");
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("alielf"));
+    parseCombatData("request/test_fight_start_locket_fight.html");
+    assertThat("locketPhylum", isSetTo("horror"));
+    assertThat("_locketMonsters", isSetTo("1092"));
+  }
+
+  @Test
+  public void rememberNewMonsterForLocket() throws IOException {
+    KoLCharacter.reset("gausie");
+    assertFalse(LocketManager.remembersMonster(1568));
+
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Sloppy Seconds Sundae"));
+    parseCombatData("request/test_fight_monster_added_to_locket.html");
+
+    assertTrue(LocketManager.remembersMonster(1568));
+  }
+
+  @Test
+  public void updatesListIfMonsterWasAlreadyInLocket() throws IOException {
+    KoLCharacter.reset("gausie");
+    assertFalse(LocketManager.remembersMonster(155));
+
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Knob Goblin Barbecue Team"));
+    parseCombatData("request/test_fight_monster_already_in_locket.html");
+
+    assertTrue(LocketManager.remembersMonster(155));
   }
 }

@@ -16888,6 +16888,9 @@ public abstract class ChoiceManager {
       case 1462:
         CrystalBallManager.parsePonder(text);
         break;
+      case 1463:
+        LocketManager.parseMonsters(text);
+        break;
     }
 
     // Do this after special classes (like WumpusManager) have a
