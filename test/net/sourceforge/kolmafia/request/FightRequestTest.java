@@ -216,7 +216,7 @@ public class FightRequestTest {
     MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("alielf"));
     parseCombatData("request/test_fight_start_locket_fight.html");
     assertThat("locketPhylum", isSetTo("horror"));
-    assertThat("_locketMonsters", isSetTo("1092"));
+    assertThat("_locketMonstersFought", isSetTo("1092"));
   }
 
   @Test

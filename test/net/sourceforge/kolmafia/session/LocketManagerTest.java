@@ -28,23 +28,23 @@ public class LocketManagerTest {
 
   @Test
   public void addsFightToMonsterList() throws IOException {
-    Preferences.setString("_locketMonsters", "5");
+    Preferences.setString("_locketMonstersFought", "5");
 
     var monster = MonsterDatabase.findMonster("alielf");
     var html = Files.readString(Path.of("request/test_fight_start_locket_fight.html"));
     LocketManager.parseFight(monster, html);
 
-    assertThat("_locketMonsters", isSetTo("5,1092"));
+    assertThat("_locketMonstersFought", isSetTo("5,1092"));
   }
 
   @Test
   public void addsFightToMonsterListWithoutDuplicating() throws IOException {
-    Preferences.setString("_locketMonsters", "5,1092");
+    Preferences.setString("_locketMonstersFought", "5,1092");
 
     var monster = MonsterDatabase.findMonster("alielf");
     var html = Files.readString(Path.of("request/test_fight_start_locket_fight.html"));
     LocketManager.parseFight(monster, html);
 
-    assertThat("_locketMonsters", isSetTo("5,1092"));
+    assertThat("_locketMonstersFought", isSetTo("5,1092"));
   }
 }

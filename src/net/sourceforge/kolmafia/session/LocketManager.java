@@ -19,15 +19,19 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 public class LocketManager {
   private static final Set<Integer> knownMonsters = new TreeSet<>();
   private static final Pattern REMINISCABLE_MONSTER = Pattern.compile("<option value=\"(\\d+)\"");
+  private static final Set<String> CONSTANT_MODS =
+      Set.of("HP Regen Min", "HP Regen Max", "MP Regen Min", "MP Regen Max", "Single Equip");
+
+  private static Stream<String> getFoughtMonsters() {
+    return Arrays.stream(Preferences.getString("_locketMonstersFought").split(","))
+        .filter(Predicate.not(String::isBlank));
+  }
 
   private static void addFoughtMonster(int monsterId) {
     // Add monster id to pref ensuring distinct
     Preferences.setString(
-        "_locketMonsters",
-        Stream.concat(
-                Arrays.stream(Preferences.getString("_locketMonsters").split(","))
-                    .filter(Predicate.not(String::isBlank)),
-                Stream.of(Integer.toString(monsterId)))
+        "_locketMonstersFought",
+        Stream.concat(getFoughtMonsters(), Stream.of(Integer.toString(monsterId)))
             .distinct()
             .collect(Collectors.joining(",")));
   }
@@ -67,9 +71,6 @@ public class LocketManager {
 
     Preferences.setString("locketPhylum", monster.getPhylum().toString());
   }
-
-  private static final Set<String> CONSTANT_MODS =
-      Set.of("HP Regen Min", "HP Regen Max", "MP Regen Min", "MP Regen Max", "Single Equip");
 
   /**
    * Work out the current locket phylum from the locket's item description

@@ -1805,7 +1805,7 @@ user	_legendaryBeat	false
 user	_legionJackhammerCrafting	0
 user	_licenseToChillUsed	false
 user	_llamaCharge	0
-user	_locketMonsters
+user	_locketMonstersFought
 user	_longConUsed	0
 user	_lookingGlass	false
 user	_loveChocolatesUsed	0
