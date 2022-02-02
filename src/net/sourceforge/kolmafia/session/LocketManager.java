@@ -8,6 +8,7 @@ import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
@@ -126,6 +127,12 @@ public class LocketManager {
   }
 
   public static void reset() {
+    if (!KoLConstants.inventory.contains(ItemPool.get(ItemPool.COMBAT_LOVERS_LOCKET, 1))
+        && !KoLCharacter.hasEquipped(ItemPool.COMBAT_LOVERS_LOCKET)) {
+      knownMonsters.clear();
+      foughtMonsters.clear();
+    }
+
     parseFoughtMonsters();
     RequestThread.postRequest(new GenericRequest("inventory.php?reminisce=1"));
   }
