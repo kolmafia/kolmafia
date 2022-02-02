@@ -8090,7 +8090,7 @@ public abstract class RuntimeLibrary {
     for (var id : LocketManager.getMonsters()) {
       var monster = MonsterDatabase.findMonsterById(id);
       var fought = LocketManager.foughtMonster(id);
-      value.aset(DataTypes.makeMonsterValue(monster), DataTypes.makeBooleanValue(fought));
+      value.aset(DataTypes.makeMonsterValue(monster), DataTypes.makeBooleanValue(!fought));
     }
 
     return value;
