@@ -8,7 +8,6 @@ import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
@@ -18,36 +17,47 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class LocketManager {
   private static final Set<Integer> knownMonsters = new TreeSet<>();
+  private static final Set<Integer> foughtMonsters = new TreeSet<>();
   private static final Pattern REMINISCABLE_MONSTER = Pattern.compile("<option value=\"(\\d+)\"");
   private static final Set<String> CONSTANT_MODS =
       Set.of("HP Regen Min", "HP Regen Max", "MP Regen Min", "MP Regen Max", "Single Equip");
 
-  private static Stream<String> getFoughtMonsters() {
-    return Arrays.stream(Preferences.getString("_locketMonstersFought").split(","))
-        .filter(Predicate.not(String::isBlank));
+  private static void parseFoughtMonsters() {
+    foughtMonsters.clear();
+
+    Arrays.stream(Preferences.getString("_locketMonstersFought").split(","))
+        .filter(Predicate.not(String::isBlank))
+        .map(Integer::parseInt)
+        .forEach(foughtMonsters::add);
   }
 
   private static void addFoughtMonster(int monsterId) {
+    parseFoughtMonsters();
+
+    foughtMonsters.add(monsterId);
+
     // Add monster id to pref ensuring distinct
     Preferences.setString(
         "_locketMonstersFought",
-        Stream.concat(getFoughtMonsters(), Stream.of(Integer.toString(monsterId)))
-            .distinct()
-            .collect(Collectors.joining(",")));
+        foughtMonsters.stream().map(Object::toString).distinct().collect(Collectors.joining(",")));
   }
 
   private LocketManager() {}
-
-  public static void rememberMonster(int monsterId) {
-    knownMonsters.add(monsterId);
-  }
 
   public static Set<Integer> getMonsters() {
     return Collections.unmodifiableSet(knownMonsters);
   }
 
+  public static void rememberMonster(int monsterId) {
+    knownMonsters.add(monsterId);
+  }
+
   public static boolean remembersMonster(int monsterId) {
     return knownMonsters.contains(monsterId);
+  }
+
+  public static boolean foughtMonster(int monsterId) {
+    return foughtMonsters.contains(monsterId);
   }
 
   public static void parseMonsters(final String text) {
@@ -61,7 +71,7 @@ public class LocketManager {
     }
 
     // Add all the monsters you've foguht today, which will not otherwise show on said page
-    getFoughtMonsters().map(Integer::parseInt).forEach(knownMonsters::add);
+    knownMonsters.addAll(foughtMonsters);
   }
 
   public static void parseFight(final MonsterData monster, final String text) {
