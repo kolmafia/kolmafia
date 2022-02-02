@@ -23,7 +23,7 @@ public class LocketManagerTest {
   public void canHandleLargeListOfMonsters() throws IOException {
     String html = Files.readString(Path.of("request/test_choice_reminisce_full.html"));
     LocketManager.parseMonsters(html);
-    assertThat(LocketManager.getRememberedMonsters(), hasSize(276));
+    assertThat(LocketManager.getMonsters(), hasSize(276));
   }
 
   @Test

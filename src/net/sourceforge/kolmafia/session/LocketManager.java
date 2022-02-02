@@ -42,7 +42,7 @@ public class LocketManager {
     knownMonsters.add(monsterId);
   }
 
-  public static Set<Integer> getRememberedMonsters() {
+  public static Set<Integer> getMonsters() {
     return Collections.unmodifiableSet(knownMonsters);
   }
 
@@ -54,11 +54,14 @@ public class LocketManager {
     // Visiting the reminisce page is a source of truth
     knownMonsters.clear();
 
+    // Add all monsters from the reminisce page
     var m = REMINISCABLE_MONSTER.matcher(text);
-
     while (m.find()) {
-      rememberMonster(Integer.parseInt(m.group(1)));
+      knownMonsters.add(Integer.parseInt(m.group(1)));
     }
+
+    // Add all the monsters you've foguht today, which will not otherwise show on said page
+    getFoughtMonsters().map(Integer::parseInt).forEach(knownMonsters::add);
   }
 
   public static void parseFight(final MonsterData monster, final String text) {
