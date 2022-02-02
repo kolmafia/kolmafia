@@ -6956,6 +6956,7 @@ public class FightRequest extends GenericRequest {
       if (added || already) {
         LocketManager.rememberMonster(status.monsterId);
       }
+      return false;
     }
 
     // Combat item usage: process the children of this node
