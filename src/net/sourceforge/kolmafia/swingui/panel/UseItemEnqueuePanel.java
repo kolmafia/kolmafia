@@ -706,7 +706,8 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
         }
 
         // no create
-        if (UseItemEnqueuePanel.this.filters[0].isSelected()
+        if (UseItemEnqueuePanel.this.filters != null
+            && UseItemEnqueuePanel.this.filters[0].isSelected()
             && item.getCount(KoLConstants.inventory) == 0) {
           return false;
         }
