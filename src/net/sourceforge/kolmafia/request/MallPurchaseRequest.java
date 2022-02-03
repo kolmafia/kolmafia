@@ -254,7 +254,9 @@ public class MallPurchaseRequest extends PurchaseRequest {
   @Override
   public int getCurrentCount() {
     List<AdventureResult> list =
-        KoLCharacter.canInteract() ? KoLConstants.inventory : KoLConstants.storage;
+        KoLCharacter.canInteract()
+            ? KoLConstants.inventory
+            : StorageRequest.isFreePull(item) ? KoLConstants.freepulls : KoLConstants.storage;
     return this.item.getCount(list);
   }
 
