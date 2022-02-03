@@ -9393,6 +9393,7 @@ public class FightRequest extends GenericRequest {
             || responseText.contains("prior appointment they have to get to")
             || responseText.contains("they just leave awkwardly")
             || responseText.contains("they just give up and leave")
+            || responseText.contains("just turning and running away")
             || responseText.contains("they make some vague excuses and leave")
             || responseText.contains("the two of you share a friendly handshake and part ways")
             || responseText.contains("they pass out from pure boredom")
