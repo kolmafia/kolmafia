@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Player.isDay;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.GregorianCalendar;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -24,11 +23,10 @@ public class ResultProcessorTest {
   public void obtainOysterEggAppropriatelyTest() {
     HolidayDatabase.guessPhaseStep();
     EquipmentManager.setEquipment(EquipmentManager.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
-    final var cleanups = isDay(new GregorianCalendar(2022, 1, 29, 12, 0));
+    // This was an Oyster Egg Day.
+    final var cleanups = isDay(new GregorianCalendar(2022, 0, 29, 12, 0));
     try (cleanups) {
-      assertTrue(HolidayDatabase.getHoliday().contains("Oyster Egg Day"));
       ResultProcessor.processResult(true, new AdventureResult(5, "magnificent oyster egg", 1));
-      // assertEquals(Preferences.getInteger("_oysterEggsFound"), 1);
     }
   }
 
@@ -36,12 +34,17 @@ public class ResultProcessorTest {
   public void obtainOysterEggOnWrongDayTest() {
     EquipmentManager.setEquipment(EquipmentManager.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
     ResultProcessor.processResult(true, new AdventureResult(5, "magnificent oyster egg", 1));
-    assertEquals(Preferences.getInteger("_oysterEggsFound"), 0);
+    // This was not an Oyster Egg Day.
+    final var cleanups = isDay(new GregorianCalendar(2022, 0, 30, 12, 0));
+    try (cleanups) {
+      assertEquals(Preferences.getInteger("_oysterEggsFound"), 0);
+    }
   }
 
   @Test
   public void obtainOysterEggWithoutBasketTest() {
-    final var cleanups = isDay(new GregorianCalendar(2022, 1, 29, 12, 0));
+    // This was an Oyster Egg Day.
+    final var cleanups = isDay(new GregorianCalendar(2022, 0, 29, 12, 0));
     try (cleanups) {
       ResultProcessor.processResult(true, new AdventureResult(5, "magnificent oyster egg", 1));
       assertEquals(Preferences.getInteger("_oysterEggsFound"), 0);
@@ -50,7 +53,11 @@ public class ResultProcessorTest {
 
   @Test
   public void obtainOysterEggOnWrongDayAndWithoutBasketTest() {
-    ResultProcessor.processResult(true, new AdventureResult(5, "magnificent oyster egg", 1));
-    assertEquals(Preferences.getInteger("_oysterEggsFound"), 0);
+    // This was not an Oyster Egg Day.
+    final var cleanups = isDay(new GregorianCalendar(2022, 0, 30, 12, 0));
+    try (cleanups) {
+      ResultProcessor.processResult(true, new AdventureResult(5, "magnificent oyster egg", 1));
+      assertEquals(Preferences.getInteger("_oysterEggsFound"), 0);
+    }
   }
 }
