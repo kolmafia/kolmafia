@@ -1867,6 +1867,7 @@ user	_optimisticCandleDropsCrown	0
 user	_oreDropsCrown	0
 user	_otoscopeUsed	0
 user	_overflowingGiftBasketUsed	false
+user	_oysterEggsFound	0
 user	_pantogramModifier
 user	_pantsgivingBanish	0
 user	_pantsgivingCount	0
