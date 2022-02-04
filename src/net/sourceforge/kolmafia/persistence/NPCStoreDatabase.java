@@ -220,7 +220,7 @@ public class NPCStoreDatabase {
       return ChateauRequest.chateauAvailable();
     } else if (storeId.equals("chinatown")) {
       // Chinatown Shops
-      return KoLConstants.inventory.contains(ItemPool.get(ItemPool.STRANGE_GOGGLES, 1))
+      return InventoryManager.getCount(ItemPool.STRANGE_GOGGLES) > 0
           && KoLConstants.campground.contains(ItemPool.get(ItemPool.SUSPICIOUS_JAR, 1));
     } else if (storeId.startsWith("crimbo18")) {
       return false;

@@ -711,27 +711,25 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         break;
 
       case SkillPool.EGGMAN:
-        boolean haveEgg = KoLConstants.inventory.contains(ItemPool.get(ItemPool.COSMIC_EGG, 1));
+        boolean haveEgg = InventoryManager.getCount(ItemPool.COSMIC_EGG) > 0;
         boolean eggActive = KoLCharacter.getCompanion() == Companion.EGGMAN;
         maximumCast = (haveEgg && !eggActive) ? 1 : 0;
         break;
 
       case SkillPool.RADISH_HORSE:
-        boolean haveVeggie =
-            KoLConstants.inventory.contains(ItemPool.get(ItemPool.COSMIC_VEGETABLE, 1));
+        boolean haveVeggie = InventoryManager.getCount(ItemPool.COSMIC_VEGETABLE) > 0;
         boolean radishActive = KoLCharacter.getCompanion() == Companion.RADISH;
         maximumCast = (haveVeggie && !radishActive) ? 1 : 0;
         break;
 
       case SkillPool.HIPPOTATO:
-        boolean havePotato =
-            KoLConstants.inventory.contains(ItemPool.get(ItemPool.COSMIC_POTATO, 1));
+        boolean havePotato = InventoryManager.getCount(ItemPool.COSMIC_POTATO) > 0;
         boolean hippoActive = KoLCharacter.getCompanion() == Companion.HIPPO;
         maximumCast = (havePotato && !hippoActive) ? 1 : 0;
         break;
 
       case SkillPool.CREAMPUFF:
-        boolean haveCream = KoLConstants.inventory.contains(ItemPool.get(ItemPool.COSMIC_CREAM, 1));
+        boolean haveCream = InventoryManager.getCount(ItemPool.COSMIC_CREAM) > 0;
         boolean creampuffActive = KoLCharacter.getCompanion() == Companion.CREAM;
         maximumCast = (haveCream && !creampuffActive) ? 1 : 0;
         break;

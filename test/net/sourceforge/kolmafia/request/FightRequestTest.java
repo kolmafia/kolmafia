@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Preference.isSetTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
@@ -16,6 +18,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.LocketManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -26,7 +29,9 @@ public class FightRequestTest {
 
   @BeforeEach
   public void beforeEach() {
-    KoLCharacter.reset("Test Character");
+    KoLCharacter.reset("FightRequestTest");
+    Preferences.reset("FightRequestTest");
+    FightRequest.clearInstanceData();
   }
 
   private void parseCombatData(String path, String location, String encounter) throws IOException {
@@ -87,7 +92,6 @@ public class FightRequestTest {
   // Commerce Ghost Tests
   @Test
   public void commerceGhostStartsAtProperValue() {
-    KoLCharacter.reset("the Tristero");
     FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
     KoLCharacter.setFamiliar(fam);
     assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
@@ -95,7 +99,6 @@ public class FightRequestTest {
 
   @Test
   public void commerceGhostIncrementsByOneOnFight() throws IOException {
-    KoLCharacter.reset("the Tristero");
     FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
     KoLCharacter.setFamiliar(fam);
     assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
@@ -108,7 +111,6 @@ public class FightRequestTest {
   @Test
   @Disabled("Response text does not trigger the code that detects action by ghost.")
   public void commerceGhostResetsTo10() {
-    KoLCharacter.reset("the Tristero");
     FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
     KoLCharacter.setFamiliar(fam);
     Preferences.setInteger("commerceGhostCombats", 5);
@@ -123,7 +125,6 @@ public class FightRequestTest {
   @Test
   @Disabled("Response text does not trigger the code that detects action by ghost.")
   public void commerceGhostResetsTo0() {
-    KoLCharacter.reset("the Tristero");
     FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
     KoLCharacter.setFamiliar(fam);
     Preferences.setInteger("commerceGhostCombats", 10);
@@ -183,7 +184,6 @@ public class FightRequestTest {
 
   @Test
   public void voidMonsterIncrementationTest() throws IOException {
-    KoLCharacter.reset("the Tristero");
     MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("void slab"));
     parseCombatData("request/test_fight_void_monster.html");
     assertEquals(5, Preferences.getInteger("_voidFreeFights"));
@@ -191,7 +191,6 @@ public class FightRequestTest {
 
   @Test
   public void cursedMagnifyingGlassTest() throws IOException {
-    KoLCharacter.reset("the Tristero");
     EquipmentManager.setEquipment(
         EquipmentManager.OFFHAND, ItemPool.get(ItemPool.CURSED_MAGNIFYING_GLASS));
     Preferences.setInteger("cursedMagnifyingGlassCount", 13);
@@ -206,7 +205,6 @@ public class FightRequestTest {
 
   @Test
   public void daylightShavingTest() throws IOException {
-    KoLCharacter.reset("the Tristero");
     EquipmentManager.setEquipment(
         EquipmentManager.HAT, ItemPool.get(ItemPool.DAYLIGHT_SHAVINGS_HELMET));
     parseCombatData("request/test_fight_daylight_shavings_buff.html");
@@ -218,5 +216,33 @@ public class FightRequestTest {
     assertFalse(Preferences.getBoolean("_luckyGoldRingVolcoino"));
     parseCombatData("request/test_fight_lucky_gold_ring_volcoino.html");
     assertTrue(Preferences.getBoolean("_luckyGoldRingVolcoino"));
+  }
+
+  @Test
+  public void registersLocketFight() throws IOException {
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("alielf"));
+    parseCombatData("request/test_fight_start_locket_fight.html");
+    assertThat("locketPhylum", isSetTo("horror"));
+    assertThat("_locketMonstersFought", isSetTo("1092"));
+  }
+
+  @Test
+  public void rememberNewMonsterForLocket() throws IOException {
+    assertFalse(LocketManager.remembersMonster(1568));
+
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Sloppy Seconds Sundae"));
+    parseCombatData("request/test_fight_monster_added_to_locket.html");
+
+    assertTrue(LocketManager.remembersMonster(1568));
+  }
+
+  @Test
+  public void updatesListIfMonsterWasAlreadyInLocket() throws IOException {
+    assertFalse(LocketManager.remembersMonster(155));
+
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Knob Goblin Barbecue Team"));
+    parseCombatData("request/test_fight_monster_already_in_locket.html");
+
+    assertTrue(LocketManager.remembersMonster(155));
   }
 }

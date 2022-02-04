@@ -3561,10 +3561,10 @@ public abstract class KoLCharacter {
 
     // Temporary code to allow Mafia to catch up with the fact that unlock is a flag
     if (Preferences.getInteger("lastDesertUnlock") != KoLCharacter.getAscensions()) {
-      if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.BITCHIN_MEATCAR, 1))
-          || KoLConstants.inventory.contains(ItemPool.get(ItemPool.DESERT_BUS_PASS, 1))
-          || KoLConstants.inventory.contains(ItemPool.get(ItemPool.PUMPKIN_CARRIAGE, 1))
-          || KoLConstants.inventory.contains(ItemPool.get(ItemPool.TIN_LIZZIE, 1))
+      if (InventoryManager.getCount(ItemPool.BITCHIN_MEATCAR) > 0
+          || InventoryManager.getCount(ItemPool.DESERT_BUS_PASS) > 0
+          || InventoryManager.getCount(ItemPool.PUMPKIN_CARRIAGE) > 0
+          || InventoryManager.getCount(ItemPool.TIN_LIZZIE) > 0
           || Preferences.getString("peteMotorbikeGasTank").equals("Large Capacity Tank")
           || Preferences.getString("questG01Meatcar").equals("finished")
           || KoLCharacter.kingLiberated()
@@ -5034,7 +5034,7 @@ public abstract class KoLCharacter {
     AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
     newModifiers.add(Modifiers.getItemModifiers(dwelling.getItemId()));
 
-    if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.COMFY_BLANKET, 1))) {
+    if (InventoryManager.getCount(ItemPool.COMFY_BLANKET) > 0) {
       newModifiers.add(Modifiers.getItemModifiers(ItemPool.COMFY_BLANKET));
     }
 
