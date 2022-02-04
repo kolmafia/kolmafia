@@ -1648,7 +1648,7 @@ public class ResultProcessor {
 
       case ItemPool.CONFETTI:
         // If you get the confetti, you lose the Holy MacGuffin
-        if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.HOLY_MACGUFFIN, 1))) {
+        if (InventoryManager.getCount(ItemPool.HOLY_MACGUFFIN) > 0) {
           ResultProcessor.processItem(ItemPool.HOLY_MACGUFFIN, -1);
           QuestDatabase.setQuestProgress(Quest.PYRAMID, QuestDatabase.FINISHED);
           QuestDatabase.setQuestProgress(Quest.MANOR, QuestDatabase.FINISHED);
@@ -1661,8 +1661,7 @@ public class ResultProcessor {
       case ItemPool.MORTAR_DISSOLVING_RECIPE:
         QuestDatabase.setQuestIfBetter(Quest.MANOR, "step2");
         if (Preferences.getBoolean("autoQuest")) {
-          boolean equipSpecs =
-              KoLConstants.inventory.contains(ItemPool.get(ItemPool.SPOOKYRAVEN_SPECTACLES, 1));
+          boolean equipSpecs = InventoryManager.getCount(ItemPool.SPOOKYRAVEN_SPECTACLES) > 0;
           Checkpoint checkpoint = null;
           try {
             if (equipSpecs) {
@@ -1876,22 +1875,22 @@ public class ResultProcessor {
         break;
 
       case ItemPool.DODECAGRAM:
-        if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.CANDLES, 1))
-            && KoLConstants.inventory.contains(ItemPool.get(ItemPool.BUTTERKNIFE, 1))) {
+        if (InventoryManager.getCount(ItemPool.CANDLES) > 0
+            && InventoryManager.getCount(ItemPool.BUTTERKNIFE) > 0) {
           QuestDatabase.setQuestProgress(Quest.FRIAR, "step2");
         }
         break;
 
       case ItemPool.CANDLES:
-        if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.DODECAGRAM, 1))
-            && KoLConstants.inventory.contains(ItemPool.get(ItemPool.BUTTERKNIFE, 1))) {
+        if (InventoryManager.getCount(ItemPool.DODECAGRAM) > 0
+            && InventoryManager.getCount(ItemPool.BUTTERKNIFE) > 0) {
           QuestDatabase.setQuestProgress(Quest.FRIAR, "step2");
         }
         break;
 
       case ItemPool.BUTTERKNIFE:
-        if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.DODECAGRAM, 1))
-            && KoLConstants.inventory.contains(ItemPool.get(ItemPool.CANDLES, 1))) {
+        if (InventoryManager.getCount(ItemPool.DODECAGRAM) > 0
+            && InventoryManager.getCount(ItemPool.CANDLES) > 0) {
           QuestDatabase.setQuestProgress(Quest.FRIAR, "step2");
         }
         break;

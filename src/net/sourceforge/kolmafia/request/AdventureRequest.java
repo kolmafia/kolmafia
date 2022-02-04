@@ -639,6 +639,7 @@ public class AdventureRequest extends GenericRequest {
       case 807: // Breaker Breaker!
       case 1003: // Test Your Might And Also Test Other Things
       case 1086: // Pick a Card
+      case 1463: // Reminiscing About Those Monsters You Fought
         return null;
 
       case 1135: // The Bat-Sedan

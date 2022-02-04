@@ -279,6 +279,7 @@ public class Preferences {
         "latteModifier",
         "latteUnlocks",
         "leafletCompleted",
+        "locketPhylum",
         "lockPicked",
         "louvreLayout",
         "mappingMonsters",

@@ -898,6 +898,7 @@ user	libramSkillsSoftcore	none
 user	libramSummons	0
 user	libraryCardUsed	false
 user	lightsOutAutomation	1
+user	locketPhylum	mer-kin
 user	lockPicked	false
 user	loginRecoveryHardcore	false
 user	loginRecoverySoftcore	true
@@ -1804,6 +1805,7 @@ user	_legendaryBeat	false
 user	_legionJackhammerCrafting	0
 user	_licenseToChillUsed	false
 user	_llamaCharge	0
+user	_locketMonstersFought
 user	_longConUsed	0
 user	_lookingGlass	false
 user	_loveChocolatesUsed	0

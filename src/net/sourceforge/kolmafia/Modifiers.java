@@ -22,6 +22,8 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -2167,6 +2169,10 @@ public class Modifiers {
     @Override
     public Iterator<Modifier> iterator() {
       return this.list.iterator();
+    }
+
+    public Stream<Modifier> stream() {
+      return StreamSupport.stream(spliterator(), false);
     }
 
     public void clear() {

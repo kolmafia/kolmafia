@@ -533,7 +533,7 @@ public class StringUtilities {
   }
 
   public static final boolean isNumeric(String string) {
-    if (string == null || string.length() == 0) {
+    if (string == null || string.isEmpty()) {
       return false;
     }
 

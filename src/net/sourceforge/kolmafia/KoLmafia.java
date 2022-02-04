@@ -95,6 +95,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
 import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
@@ -805,7 +806,7 @@ public abstract class KoLmafia {
     // Load items pulled in Ronin
     StorageRequest.loadRoninStoragePulls();
 
-    if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.KEYOTRON, 1))
+    if (InventoryManager.getCount(ItemPool.KEYOTRON) > 0
         && Preferences.getInteger("lastKeyotronUse") != KoLCharacter.getAscensions()) {
       RequestThread.postRequest(UseItemRequest.getInstance(ItemPool.KEYOTRON));
     }
@@ -872,6 +873,9 @@ public abstract class KoLmafia {
 
     // Check orb predictions
     CrystalBallManager.ponder();
+
+    // Check locket monsters
+    LocketManager.reset();
 
     // Check some things that are not (yet) in api.php
     EquipmentRequest.checkCowboyBoots();
