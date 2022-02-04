@@ -254,7 +254,7 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(youRobotMap, "Dr. Awkward", "Tobias J. Saibot");
     MonsterDatabase.addMapping(youRobotMap, "Lord Spookyraven", "Lord Cyberraven");
     MonsterDatabase.addMapping(youRobotMap, "Protector Spectre", "Protector S. P. E. C. T. R. E.");
-    MonsterDatabase.addMapping(youRobotMap, "The Big Wisniewski", "Artificial Wisniewski");
+    MonsterDatabase.addMapping(youRobotMap, "The Big Wisniewski", "The Artificial Wisniewski");
     MonsterDatabase.addMapping(youRobotMap, "The Man", "The Android");
     MonsterDatabase.addMapping(youRobotMap, "Naughty Sorceress", "Nautomatic Sorceress");
     MonsterDatabase.MONSTER_PATH_MAP.put(Path.YOU_ROBOT.getName(), youRobotMap);

@@ -204,6 +204,7 @@ public class ItemPool {
   public static final int BRIDGE = 535;
   public static final int DICTIONARY = 536;
   public static final int LOWERCASE_N = 539;
+  public static final int ELITE_TROUSERS = 542;
   public static final int SCROLL_334 = 547;
   public static final int SCROLL_668 = 548;
   public static final int SCROLL_30669 = 549;
@@ -1402,6 +1403,7 @@ public class ItemPool {
   public static final int TINY_FLY_GLASSES = 4566;
   public static final int LEGENDARY_BEAT = 4573;
   public static final int BUGGED_BEANIE = 4575;
+  public static final int BUGGED_POTION = 4579;
   public static final int BUGGED_BAIO = 4581;
   public static final int PIXEL_WHIP = 4589;
   public static final int PIXEL_CHAIN_WHIP = 4590;
@@ -1734,6 +1736,7 @@ public class ItemPool {
   public static final int NOTE_FROM_CLANCY = 5682;
   public static final int BURT = 5683;
   public static final int AUTOPSY_TWEEZERS = 5687;
+  public static final int ONE_MEAT = 5697;
   public static final int LOST_GLASSES = 5698;
   public static final int LITTLE_MANNEQUIN = 5702;
   public static final int CRAYON_SHAVINGS = 5703;
@@ -2830,6 +2833,7 @@ public class ItemPool {
   public static final int HOLORECORD_PIGS = 9114;
   public static final int HOLORECORD_DRUNK_UNCLES = 9115;
   public static final int TIME_RESIDUE = 9116;
+  public static final int EARL_GREY = 9122;
   public static final int SCHOOL_OF_HARD_KNOCKS_DIPLOMA = 9123;
   public static final int KOL_COL_13_SNOWGLOBE = 9133;
   public static final int TRICK_TOT_KNIGHT = 9137;

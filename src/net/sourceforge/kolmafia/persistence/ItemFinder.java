@@ -13,13 +13,13 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ItemFinder {
@@ -81,7 +81,7 @@ public class ItemFinder {
     }
 
     // Remove duplicate names that all refer to the same item?
-    Set<Integer> itemIdSet = new HashSet<Integer>();
+    Set<Integer> itemIdSet = new HashSet<>();
     int pseudoItems = 0;
 
     for (int i = 0; i < nameList.size(); ++i) {
@@ -145,7 +145,7 @@ public class ItemFinder {
       // in the list of matches.  If there are, only return
       // the restorative items (the others are irrelevant).
 
-      ArrayList<String> restoreList = new ArrayList<String>();
+      ArrayList<String> restoreList = new ArrayList<>();
 
       for (int i = 0; i < nameList.size(); ++i) {
         String itemName = nameList.get(i);
@@ -264,7 +264,7 @@ public class ItemFinder {
 
     // If this process results in filtering EVERYTHING in our list, that's not helpful.
     // Make a backup of nameList to restore from in such a case.
-    List<String> nameListCopy = new ArrayList<String>(nameList);
+    List<String> nameListCopy = new ArrayList<>(nameList);
 
     nameIterator = nameList.iterator();
 
@@ -388,7 +388,7 @@ public class ItemFinder {
         return null;
       }
 
-      matchList = new ArrayList<String>();
+      matchList = new ArrayList<>();
       if (itemId != -1) {
         matchList.add("[" + itemId + "]");
       } else {
@@ -397,7 +397,7 @@ public class ItemFinder {
     } else if (ItemDatabase.getItemId(parameters, 1) != -1) {
       // The entire parameter is a single item
       itemId = ItemDatabase.getItemId(parameters, 1);
-      matchList = new ArrayList<String>();
+      matchList = new ArrayList<>();
       matchList.add(ItemDatabase.getCanonicalName(itemId));
     } else {
       int spaceIndex = parameters.indexOf(' ');
@@ -513,6 +513,11 @@ public class ItemFinder {
       // Default to number in inventory if count was "*" (all)
       // or negative (all but that many) and no list was given.
       matchCount = itemCount <= 0 ? firstMatch.getCount(KoLConstants.inventory) : 1;
+    } else if (sourceList == KoLConstants.storage) {
+      // Either storage or freepulls; if we can interact, both are on
+      // storage. Otherwise, they are split as appropriate.
+      matchCount =
+          firstMatch.getCount(KoLConstants.storage) + firstMatch.getCount(KoLConstants.freepulls);
     } else {
       matchCount = firstMatch.getCount(sourceList);
     }
@@ -521,7 +526,9 @@ public class ItemFinder {
     // the item count.
 
     if (itemCount <= 0) {
-      if (sourceList == KoLConstants.storage && !KoLCharacter.canInteract()) {
+      if (sourceList == KoLConstants.storage
+          && !KoLCharacter.canInteract()
+          && !StorageRequest.isFreePull(firstMatch)) {
         // Pulls are budgeted.
         itemCount = 0;
         return firstMatch.getInstance(itemCount);
@@ -532,8 +539,7 @@ public class ItemFinder {
     } else if (matchCount < itemCount && sourceList != null) {
       if (errorOnFailure) {
         String message = "";
-        if (sourceList == KoLConstants.freepulls
-            && !Modifiers.getBooleanModifier("Item", firstMatch.getItemId(), "Free Pull")) {
+        if (sourceList == KoLConstants.freepulls && !StorageRequest.isFreePull(firstMatch)) {
           message = "[" + firstMatch.getName() + "] requested, but it's not a Free Pull";
         } else {
           message =
@@ -588,7 +594,7 @@ public class ItemFinder {
     String[] itemNames = itemList.split("\\s*,\\s*");
 
     boolean isMeatMatch = false;
-    ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> items = new ArrayList<>();
 
     for (String name : itemNames) {
       isMeatMatch = false;

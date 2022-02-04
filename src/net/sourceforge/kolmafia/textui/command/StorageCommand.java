@@ -121,14 +121,8 @@ public class StorageCommand extends AbstractCommand {
       items = needed.toArray(new AdventureResult[0]);
     } else if (inHardcore) {
       items = ItemFinder.getMatchingItemList(parameters, KoLConstants.freepulls);
-    } else if (!inRonin) {
-      items = ItemFinder.getMatchingItemList(parameters, KoLConstants.storage);
     } else {
-      // See if in storage. If not, see if in freepulls.
       items = ItemFinder.getMatchingItemList(parameters, KoLConstants.storage);
-      if (items.length == 0) {
-        items = ItemFinder.getMatchingItemList(parameters, KoLConstants.freepulls);
-      }
     }
 
     if (items.length == 0) {
