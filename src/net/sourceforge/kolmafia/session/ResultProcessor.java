@@ -3269,6 +3269,7 @@ public class ResultProcessor {
 
       case ItemPool.COSMIC_BOWLING_BALL:
         if (adventureResults) {
+          BanishManager.resetCosmicBowlingBall();
           Preferences.setInteger("cosmicBowlingBallReturnCombats", -1);
         }
         break;

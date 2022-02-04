@@ -4,7 +4,6 @@ import static internal.helpers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.arrayWithSize;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.*;
 
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -65,7 +64,7 @@ class BanishManagerTest {
   }
 
   @Test
-  void saveBanishedMonsters() {
+  void recalculate() {
     assertThat("banishedMonsters", isSetTo(""));
 
     // This will be removed because its run out.
@@ -78,10 +77,21 @@ class BanishManagerTest {
     KoLCharacter.setCurrentRun(420);
     BanishManager.banishMonster("fruit bat", "Feel Hatred");
 
-    BanishManager.saveBanishedMonsters();
+    BanishManager.recalculate();
 
     assertThat(
         "banishedMonsters", isSetTo("smut orc nailer:Reflex Hammer:419:fruit bat:Feel Hatred:420"));
+  }
+
+  @Test
+  void recalculateSortsNonMatchingPrefs() {
+    KoLCharacter.setCurrentRun(420);
+    BanishManager.banishMonster("smut orc nailer", "Reflex Hammer");
+    Preferences.setString("banishedMonsters", "crate:snokebomb:69");
+
+    BanishManager.recalculate();
+
+    assertThat("banishedMonsters", isSetTo("smut orc nailer:Reflex Hammer:420"));
   }
 
   @Test
@@ -127,19 +137,6 @@ class BanishManagerTest {
     BanishManager.resetAscension();
 
     assertThat("banishedMonsters", isSetTo("spooky vampire:ice house:20"));
-  }
-
-  @Test
-  void update() {
-    // This is hard to test properly because its impossible to add bad banish data.
-    // We can just test it for non-matching prefs.
-    KoLCharacter.setCurrentRun(420);
-    BanishManager.banishMonster("smut orc nailer", "Reflex Hammer");
-    Preferences.setString("banishedMonsters", "crate:snokebomb:69");
-
-    BanishManager.update();
-
-    assertThat("banishedMonsters", isSetTo("smut orc nailer:Reflex Hammer:420"));
   }
 
   @Test
@@ -360,6 +357,6 @@ class BanishManagerTest {
 
     var data = BanishManager.getBanishData();
 
-    assertThat(data, nullValue());
+    assertEquals(0, data.length);
   }
 }
