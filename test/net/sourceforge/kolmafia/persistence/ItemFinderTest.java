@@ -479,7 +479,8 @@ public class ItemFinderTest {
     AdventureResult[] results = null;
 
     // Multiple items, all valid
-    results = ItemFinder.getMatchingItemList("1 seal tooth, 2 toilet paper, 3 milk of magnesium", null);
+    results =
+        ItemFinder.getMatchingItemList("1 seal tooth, 2 toilet paper, 3 milk of magnesium", null);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
     assertTrue(results != null);
     assertTrue(results.length == 3);
@@ -491,7 +492,8 @@ public class ItemFinderTest {
     assertTrue(results[2].getCount() == 3);
 
     // Multiple items, not all valid
-    results = ItemFinder.getMatchingItemList("1 seal tooth, 2 bogus items, 3 milk of magnesium", null);
+    results =
+        ItemFinder.getMatchingItemList("1 seal tooth, 2 bogus items, 3 milk of magnesium", null);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
     assertTrue(results != null);
     assertTrue(results.length == 2);
@@ -516,7 +518,7 @@ public class ItemFinderTest {
     assertTrue(results[3].getCount() == 4);
 
     // Multiple by name, but one has commas. This should fail.
-    results = ItemFinder.getMatchingItemList("seal tooth, A Crimbo Carol, Ch.1", null );
+    results = ItemFinder.getMatchingItemList("seal tooth, A Crimbo Carol, Ch.1", null);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
     assertTrue(results.length == 1);
     assertTrue(results[0].getItemId() == ItemPool.SEAL_TOOTH);
