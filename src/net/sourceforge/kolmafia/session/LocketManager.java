@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LocketManager {
   private static final Set<Integer> knownMonsters = new TreeSet<>();
@@ -29,7 +30,7 @@ public class LocketManager {
     foughtMonsters.clear();
 
     Arrays.stream(Preferences.getString("_locketMonstersFought").split(","))
-        .filter(Predicate.not(String::isBlank))
+        .filter(StringUtilities::isNumeric)
         .map(Integer::parseInt)
         .forEach(foughtMonsters::add);
   }
