@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StandardRequest;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,6 +23,11 @@ class BanishManagerTest {
   private void beforeEach() {
     KoLCharacter.reset("BanishManagerTest");
     Preferences.reset("BanishManagerTest");
+    BanishManager.clearCache();
+  }
+
+  @AfterAll
+  private static void cleanup() {
     BanishManager.clearCache();
   }
 
