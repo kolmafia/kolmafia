@@ -1569,7 +1569,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If they have already have the library key, no problem
-    if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.LIBRARY_KEY, 1))) {
+    if (InventoryManager.getCount(ItemPool.LIBRARY_KEY) > 0) {
       return false;
     }
 
@@ -2485,7 +2485,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If you don't own Drunkula's wineglass, nothing to warn about
-    if (!KoLConstants.inventory.contains(ItemPool.get(ItemPool.DRUNKULA_WINEGLASS, 1))) {
+    if (InventoryManager.getCount(ItemPool.DRUNKULA_WINEGLASS) == 0) {
       return false;
     }
 

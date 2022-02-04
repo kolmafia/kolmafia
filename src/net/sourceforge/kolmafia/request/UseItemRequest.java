@@ -728,7 +728,7 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.CHRONER_CROSS:
-        if (!KoLConstants.inventory.contains(ItemPool.get(ItemPool.CHRONER, 1))) {
+        if (InventoryManager.getCount(ItemPool.CHRONER) == 0) {
           UseItemRequest.limiter = "not having a Chroner";
           return 0;
         }

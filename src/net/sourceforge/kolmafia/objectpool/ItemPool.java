@@ -3038,6 +3038,13 @@ public class ItemPool {
   public static final int RAZOR_FANG = 9825;
   public static final int SMOKE_BALL = 9826;
   public static final int GREEN_ROCKET = 9827;
+  public static final int MAGNIFICENT_OYSTER_EGG = 9828;
+  public static final int BRILLIANT_OYSTER_EGG = 9829;
+  public static final int GLISTENING_OYSTER_EGG = 9830;
+  public static final int SCINTILATING_OYSTER_EGG = 9831;
+  public static final int PEARLESCENT_OYSTER_EGG = 9832;
+  public static final int LUSTROUS_OYSTER_EGG = 9833;
+  public static final int GLEAMING_OYSTER_EGG = 9834;
   public static final int FR_MEMBER = 9835;
   public static final int FR_GUEST = 9836;
   public static final int FANTASY_REALM_GEM = 9837;
@@ -3322,6 +3329,7 @@ public class ItemPool {
   public static final int ELEVEN_LEAF_CLOVER = 10881;
   public static final int CURSED_MAGNIFYING_GLASS = 10885;
   public static final int COSMIC_BOWLING_BALL = 10891;
+  public static final int COMBAT_LOVERS_LOCKET = 10893;
 
   private ItemPool() {}
 
