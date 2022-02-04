@@ -172,11 +172,14 @@ public final class CrystalBallManager {
 
   public static boolean isCrystalBallMonster(final String monster, final String zone) {
     // There's no message to check for so assume the correct monster in the correct zone is from the
-    // crystal ball
-    for (final Prediction prediction : CrystalBallManager.predictions.values()) {
-      if (prediction.monster.equalsIgnoreCase(monster)
-          && prediction.location.equalsIgnoreCase(zone)) {
-        return true;
+    // crystal ball (if it is equipped)
+    AdventureResult ORB = ItemPool.get(ItemPool.MINIATURE_CRYSTAL_BALL, 1);
+    if (KoLCharacter.hasEquipped(ORB, EquipmentManager.FAMILIAR)) {
+      for (final Prediction prediction : CrystalBallManager.predictions.values()) {
+        if (prediction.monster.equalsIgnoreCase(monster)
+            && prediction.location.equalsIgnoreCase(zone)) {
+          return true;
+        }
       }
     }
 
