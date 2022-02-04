@@ -27,7 +27,8 @@ public class BanishManager {
     TURN_ROLLOVER_RESET(true),
     ROLLOVER_RESET(true),
     AVATAR_RESET(),
-    NEVER_RESET();
+    NEVER_RESET(),
+    COSMIC_BOWLING_BALL_RESET(true);
 
     private final boolean rolloverReset;
 
@@ -51,6 +52,7 @@ public class BanishManager {
     BEANCANNON("beancannon", -1, 5, false, Reset.ROLLOVER_RESET),
     BE_A_MIND_MASTER("Be a Mind Master", 80, 1, true, Reset.TURN_RESET),
     BLART_SPRAY_WIDE("B. L. A. R. T. Spray (wide)", -1, 1, true, Reset.ROLLOVER_RESET),
+    BOWL_A_CURVEBALL("Bowl a Curveball", -1, 1, true, Reset.COSMIC_BOWLING_BALL_RESET),
     BREATHE_OUT("breathe out", 20, 1, true, Reset.TURN_ROLLOVER_RESET),
     BUNDLE_OF_FRAGRANT_HERBS(
         "bundle of &quot;fragrant&quot; herbs", -1, 3, true, Reset.ROLLOVER_RESET),
@@ -188,6 +190,10 @@ public class BanishManager {
           return "Until Prism Break";
         case NEVER_RESET:
           return "Until Ice House opened";
+        case COSMIC_BOWLING_BALL_RESET:
+          return "Until your cosmic bowling ball has returned ("
+              + Preferences.getInteger("cosmicBowlingBallReturnCombats")
+              + " more combats)";
         default:
           return "";
       }
@@ -266,6 +272,10 @@ public class BanishManager {
     resetIfType(r -> r != Reset.NEVER_RESET);
   }
 
+  public static final void resetCosmicBowlingBall() {
+    resetIfType(r -> r == Reset.COSMIC_BOWLING_BALL_RESET);
+  }
+
   public static void recalculate() {
     resetIf(
         m -> {
@@ -275,6 +285,8 @@ public class BanishManager {
             case TURN_RESET:
             case TURN_ROLLOVER_RESET:
               return m.getTurnBanished() + duration <= KoLCharacter.getCurrentRun();
+            case COSMIC_BOWLING_BALL_RESET:
+              return Preferences.getInteger("cosmicBowlingBallReturnCombats") < 0;
             default:
               return false;
           }
