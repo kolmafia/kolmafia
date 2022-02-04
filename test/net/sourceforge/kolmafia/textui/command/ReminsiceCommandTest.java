@@ -19,7 +19,6 @@ public class ReminsiceCommandTest extends AbstractCommandTestBase {
   public void initEach() {
     KoLCharacter.reset("ReminisceCommandTest");
     Preferences.reset("ReminisceCommandTest");
-    // new ReminsiceCommandFakeRequest().register("ReminisceCommandTest");
 
     // Stop requests from actually running
     GenericRequest.sessionId = null;
