@@ -212,6 +212,13 @@ public class FightRequestTest {
   }
 
   @Test
+  public void luckyGoldRingVolcoinoDropRecorded() throws IOException {
+    assertFalse(Preferences.getBoolean("_luckyGoldRingVolcoino"));
+    parseCombatData("request/test_fight_lucky_gold_ring_volcoino.html");
+    assertTrue(Preferences.getBoolean("_luckyGoldRingVolcoino"));
+  }
+
+  @Test
   public void registersLocketFight() throws IOException {
     MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("alielf"));
     parseCombatData("request/test_fight_start_locket_fight.html");
