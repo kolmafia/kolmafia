@@ -343,6 +343,10 @@ public class ResponseTextParser {
             break;
           case ItemPool.VAMPIRE_VINTNER_WINE:
             ItemDatabase.parseVampireVintnerWine(responseText);
+            break;
+          case ItemPool.COMBAT_LOVERS_LOCKET:
+            LocketManager.parseLocket(responseText);
+            break;
           default:
             changesFromTimeToTime = false;
             break;

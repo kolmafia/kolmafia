@@ -1,16 +1,21 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.equip;
+import static internal.helpers.Player.setFamiliar;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+import internal.helpers.Cleanups;
 import java.io.File;
 import java.util.Map;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -65,70 +70,88 @@ public class AreaCombatDataTest {
 
   @Test
   public void saberCopy() {
-    Preferences.setString("_saberForceMonster", "smut orc screwer");
-    Preferences.setInteger("_saberForceMonsterCount", 3);
+    var cleanups =
+        new Cleanups(
+            setFamiliar(FamiliarPool.BADGER),
+            equip(EquipmentManager.FAMILIAR, "miniature crystal ball"));
+    try (cleanups) {
+      Preferences.setString("_saberForceMonster", "smut orc screwer");
+      Preferences.setInteger("_saberForceMonsterCount", 3);
 
-    // Should override a crystal ball prediction
-    Preferences.setString(
-        "crystalBallPredictions", "0:" + SMUT_ORC_CAMP.getZone() + ":smut orc jacker");
-    CrystalBallManager.reset();
+      // Should override a crystal ball prediction
+      Preferences.setString(
+          "crystalBallPredictions", "0:" + SMUT_ORC_CAMP.getZone() + ":smut orc jacker");
+      CrystalBallManager.reset();
 
-    Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
+      Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
 
-    assertThat(
-        appearanceRates,
-        allOf(
-            aMapWithSize(7),
-            hasEntry(JACKER, 0.0),
-            hasEntry(NAILER, 0.0),
-            hasEntry(PIPELAYER, 0.0),
-            hasEntry(SCREWER, 100.0),
-            hasEntry(PERVERT, 0.0),
-            hasEntry(SNAKE, 0.0),
-            hasEntry(GHOST, 0.0)));
+      assertThat(
+          appearanceRates,
+          allOf(
+              aMapWithSize(7),
+              hasEntry(JACKER, 0.0),
+              hasEntry(NAILER, 0.0),
+              hasEntry(PIPELAYER, 0.0),
+              hasEntry(SCREWER, 100.0),
+              hasEntry(PERVERT, 0.0),
+              hasEntry(SNAKE, 0.0),
+              hasEntry(GHOST, 0.0)));
+    }
   }
 
   @Test
   public void crystalBallPrediction() {
-    Preferences.setString(
-        "crystalBallPredictions", "0:" + SMUT_ORC_CAMP.getZone() + ":smut orc nailer");
-    CrystalBallManager.reset();
+    var cleanups =
+        new Cleanups(
+            setFamiliar(FamiliarPool.BADGER),
+            equip(EquipmentManager.FAMILIAR, "miniature crystal ball"));
+    try (cleanups) {
+      Preferences.setString(
+          "crystalBallPredictions", "0:" + SMUT_ORC_CAMP.getZone() + ":smut orc nailer");
+      CrystalBallManager.reset();
 
-    Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
+      Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
 
-    assertThat(
-        appearanceRates,
-        allOf(
-            aMapWithSize(7),
-            hasEntry(JACKER, 0.0),
-            hasEntry(NAILER, 100.0),
-            hasEntry(PIPELAYER, 0.0),
-            hasEntry(SCREWER, 0.0),
-            hasEntry(PERVERT, 0.0),
-            hasEntry(SNAKE, 0.0),
-            hasEntry(GHOST, 0.0)));
+      assertThat(
+          appearanceRates,
+          allOf(
+              aMapWithSize(7),
+              hasEntry(JACKER, 0.0),
+              hasEntry(NAILER, 100.0),
+              hasEntry(PIPELAYER, 0.0),
+              hasEntry(SCREWER, 0.0),
+              hasEntry(PERVERT, 0.0),
+              hasEntry(SNAKE, 0.0),
+              hasEntry(GHOST, 0.0)));
+    }
   }
 
   @Test
   public void crystalBallPredictionWhenNCIsUp() {
-    Preferences.setString(
-        "crystalBallPredictions", "0:" + SMUT_ORC_CAMP.getZone() + ":smut orc nailer");
-    CrystalBallManager.reset();
-    Preferences.setInteger("smutOrcNoncombatProgress", 15);
+    var cleanups =
+        new Cleanups(
+            setFamiliar(FamiliarPool.BADGER),
+            equip(EquipmentManager.FAMILIAR, "miniature crystal ball"));
+    try (cleanups) {
+      Preferences.setString(
+          "crystalBallPredictions", "0:" + SMUT_ORC_CAMP.getZone() + ":smut orc nailer");
+      CrystalBallManager.reset();
+      Preferences.setInteger("smutOrcNoncombatProgress", 15);
 
-    Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
+      Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
 
-    assertThat(
-        appearanceRates,
-        allOf(
-            aMapWithSize(7),
-            hasEntry(JACKER, 0.0),
-            hasEntry(NAILER, 0.0),
-            hasEntry(PIPELAYER, 0.0),
-            hasEntry(SCREWER, 0.0),
-            hasEntry(PERVERT, 0.0),
-            hasEntry(SNAKE, 0.0),
-            hasEntry(GHOST, 0.0)));
+      assertThat(
+          appearanceRates,
+          allOf(
+              aMapWithSize(7),
+              hasEntry(JACKER, 0.0),
+              hasEntry(NAILER, 0.0),
+              hasEntry(PIPELAYER, 0.0),
+              hasEntry(SCREWER, 0.0),
+              hasEntry(PERVERT, 0.0),
+              hasEntry(SNAKE, 0.0),
+              hasEntry(GHOST, 0.0)));
+    }
   }
 
   @Test

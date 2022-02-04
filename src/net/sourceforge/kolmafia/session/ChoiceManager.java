@@ -16888,6 +16888,9 @@ public abstract class ChoiceManager {
       case 1462:
         CrystalBallManager.parsePonder(text);
         break;
+      case 1463:
+        LocketManager.parseMonsters(text);
+        break;
     }
 
     // Do this after special classes (like WumpusManager) have a
@@ -19707,6 +19710,7 @@ public abstract class ChoiceManager {
       case 1458: // Booze Lab
       case 1459: // Chem Lab
       case 1460: // Toy Lab
+      case 1463: // Reminiscing About Those Monsters You Fought
         return true;
 
       default:
