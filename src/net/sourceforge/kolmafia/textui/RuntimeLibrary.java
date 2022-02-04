@@ -2071,7 +2071,9 @@ public abstract class RuntimeLibrary {
     params = new Type[] {};
     functions.add(
         new LibraryFunction(
-            "get_locket_monsters", new AggregateType(DataTypes.MONSTER_TYPE, 0), params));
+            "get_locket_monsters",
+            new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE),
+            params));
 
     params = new Type[] {};
     functions.add(
