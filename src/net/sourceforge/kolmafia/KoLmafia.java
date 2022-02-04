@@ -1699,9 +1699,11 @@ public abstract class KoLmafia {
 
     List<AdventureResult> destination =
         // Only NPC stores have an infinite supply
-        (!KoLCharacter.canInteract() && firstRequest.getQuantity() != PurchaseRequest.MAX_QUANTITY)
-            ? KoLConstants.storage
-            : KoLConstants.inventory;
+        (KoLCharacter.canInteract() || firstRequest.getQuantity() == PurchaseRequest.MAX_QUANTITY)
+            ? KoLConstants.inventory
+            : StorageRequest.isFreePull(firstRequest.getItem())
+                ? KoLConstants.freepulls
+                : KoLConstants.storage;
 
     int remaining = maxPurchases;
     int itemId = 0;

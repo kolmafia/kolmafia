@@ -98,7 +98,7 @@ public class CharPaneRequest extends GenericRequest {
 
   public static final void liberateKing() {
     // Set variables without making requests
-    CharPaneRequest.canInteract = true;
+    CharPaneRequest.setCanInteract(true);
     KoLCharacter.setRestricted(false);
   }
 
@@ -116,12 +116,16 @@ public class CharPaneRequest extends GenericRequest {
         RequestThread.postRequest(new FamiliarRequest());
         KoLCharacter.setRestricted(false);
       }
-      CharPaneRequest.canInteract = interaction;
+      CharPaneRequest.setCanInteract(interaction);
       MallSearchFrame.updateMeat();
     }
     if (interaction) {
       ConcoctionDatabase.setPullsRemaining(-1);
     }
+  }
+
+  public static final void setCanInteract(final boolean interaction) {
+    CharPaneRequest.canInteract = interaction;
   }
 
   public static boolean processResults(String responseText) {

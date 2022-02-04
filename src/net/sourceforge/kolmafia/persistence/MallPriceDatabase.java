@@ -188,28 +188,36 @@ public class MallPriceDatabase {
       con.setRequestProperty("Content-Type", "multipart/form-data; boundary=--blahblahfishcakes");
       con.setRequestMethod("POST");
       con.setRequestProperty("Connection", "close");
-      OutputStream o = con.getOutputStream();
-      BufferedWriter w = new BufferedWriter(new OutputStreamWriter(o));
-      w.write("----blahblahfishcakes\r\n");
-      w.write(
-          "Content-Disposition: form-data; name=\"upload\"; filename=\"mallprices.txt\"\r\n\r\n");
+      try (OutputStream o = con.getOutputStream();
+          BufferedWriter w = new BufferedWriter(new OutputStreamWriter(o))) {
+        w.write("----blahblahfishcakes\r\n");
+        w.write(
+            "Content-Disposition: form-data; name=\"upload\"; filename=\"mallprices.txt\"\r\n\r\n");
 
-      BufferedReader reader = FileUtilities.getReader("mallprices.txt");
-      String line;
-      while ((line = FileUtilities.readLine(reader)) != null) {
-        w.write(line);
-        w.write('\n');
+        try (BufferedReader reader = FileUtilities.getReader("mallprices.txt")) {
+          String line;
+          while ((line = FileUtilities.readLine(reader)) != null) {
+            w.write(line);
+            w.write('\n');
+          }
+        } catch (IOException e) {
+          StaticEntity.printStackTrace(e);
+        }
+        w.write("\r\n----blahblahfishcakes--\r\n");
+        w.flush();
+      } catch (IOException e) {
+        StaticEntity.printStackTrace(e);
       }
-      w.write("\r\n----blahblahfishcakes--\r\n");
-      w.flush();
-      o.close();
 
       InputStream i = con.getInputStream();
       int responseCode = con.getResponseCode();
       String response = "";
       if (i != null) {
-        response = new BufferedReader(new InputStreamReader(i)).readLine();
-        i.close();
+        try (var reader = new BufferedReader(new InputStreamReader(i))) {
+          response = reader.readLine();
+        } catch (IOException e) {
+          StaticEntity.printStackTrace(e);
+        }
       }
       if (responseCode == 200) {
         RequestLogger.printLine("Success: " + response);

@@ -89,12 +89,10 @@ public class TestCommand extends AbstractCommand {
 
   private static void dump(final String data) {
     File file = new File(KoLConstants.DATA_LOCATION, "testCommand.html");
-    try {
-      OutputStream o = DataUtilities.getOutputStream(file);
-      BufferedWriter w = new BufferedWriter(new OutputStreamWriter(o));
+    try (OutputStream o = DataUtilities.getOutputStream(file);
+        BufferedWriter w = new BufferedWriter(new OutputStreamWriter(o))) {
       w.write(data);
       w.flush();
-      o.close();
     } catch (Exception e) {
     }
   }

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +19,6 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 class MoodManagerTest {
 
@@ -37,10 +37,9 @@ class MoodManagerTest {
     Preferences.saveSettingsToFile = false;
   }
 
-  public BufferedReader mockedReader() throws IOException {
-    BufferedReader bufferedReader = Mockito.mock(BufferedReader.class);
-    Mockito.when(bufferedReader.readLine())
-        .thenReturn(
+  public BufferedReader mockedReader() {
+    var text =
+        List.of(
             "[ apathetic ]",
             "",
             "[ default ]",
@@ -94,9 +93,8 @@ class MoodManagerTest {
             "lose_effect springy fusilli => cast 1 springy fusilli",
             "lose_effect the sonata of sneakiness => cast 1 the sonata of sneakiness",
             "lose_effect transpondent => use 1 transporter transponder",
-            "",
-            null);
-    return bufferedReader;
+            "");
+    return new BufferedReader(new StringReader(String.join(System.lineSeparator(), text)));
   }
 
   @Test
@@ -175,7 +173,10 @@ class MoodManagerTest {
   public void itShouldLoadFromFile() throws IOException {
     // Load settings and set mood preference
     Preferences.setString("currentMood", "meatdrop");
-    MoodManager.loadSettings(mockedReader());
+    BufferedReader reader = mockedReader();
+    try (reader) {
+      MoodManager.loadSettings(reader);
+    }
     // Give Character skills
     KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("empathy of the newt"));
     KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId("fat leon's phat loot lyric"));
@@ -189,7 +190,10 @@ class MoodManagerTest {
   @Test
   public void itShouldAddAndRemoveTriggers() throws IOException {
     initializeCharPrefs();
-    MoodManager.loadSettings(mockedReader());
+    BufferedReader reader = mockedReader();
+    try (reader) {
+      MoodManager.loadSettings(reader);
+    }
     MoodManager.setMood("meatdrop");
     Preferences.setString("currentMood", "meatdrop");
     List<MoodTrigger> before = MoodManager.getTriggers("meatdrop");
@@ -248,7 +252,10 @@ class MoodManagerTest {
   public void itShouldClearAll() throws IOException {
     // simulate mood clear command
     Preferences.setString("currentMood", "meatdrop");
-    MoodManager.loadSettings(mockedReader());
+    BufferedReader reader = mockedReader();
+    try (reader) {
+      MoodManager.loadSettings(reader);
+    }
     assertEquals(8, MoodManager.getTriggers().size(), "Wrong number of triggers before");
     MoodManager.removeTriggers(MoodManager.getTriggers());
     MoodManager.saveSettings();
@@ -258,7 +265,10 @@ class MoodManagerTest {
   @Test
   public void triggerListsShouldBeTheSame() throws IOException {
     Preferences.setString("currentMood", "meatdrop");
-    MoodManager.loadSettings(mockedReader());
+    BufferedReader reader = mockedReader();
+    try (reader) {
+      MoodManager.loadSettings(reader);
+    }
     LockableListModel<MoodTrigger> moodTriggerLockableListModel = MoodManager.getTriggers();
     List<MoodTrigger> moodTriggerList = MoodManager.getTriggers("meatdrop");
     assertEquals(
@@ -274,7 +284,10 @@ class MoodManagerTest {
   @Test
   public void itShouldRemoveTriggersUsingAListMaintainedElsewhere() throws IOException {
     Preferences.setString("currentMood", "default");
-    MoodManager.loadSettings(mockedReader());
+    BufferedReader reader = mockedReader();
+    try (reader) {
+      MoodManager.loadSettings(reader);
+    }
     assertEquals(4, MoodManager.getTriggers().size(), "Wrong number of triggers");
     // make some triggers
     MoodTrigger aTrigger = MoodManager.addTrigger("gain_effect", "beaten up", "abort");
