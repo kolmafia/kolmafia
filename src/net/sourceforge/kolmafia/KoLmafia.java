@@ -806,7 +806,7 @@ public abstract class KoLmafia {
     // Load items pulled in Ronin
     StorageRequest.loadRoninStoragePulls();
 
-    if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.KEYOTRON, 1))
+    if (InventoryManager.getCount(ItemPool.KEYOTRON) > 0
         && Preferences.getInteger("lastKeyotronUse") != KoLCharacter.getAscensions()) {
       RequestThread.postRequest(UseItemRequest.getInstance(ItemPool.KEYOTRON));
     }

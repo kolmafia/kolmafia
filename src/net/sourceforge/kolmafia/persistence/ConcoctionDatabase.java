@@ -1952,7 +1952,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.COINMASTER, "You have not selected the option to trade with coin masters.");
 
-    if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.SAUSAGE_O_MATIC, 1))
+    if (InventoryManager.getCount(ItemPool.SAUSAGE_O_MATIC) > 0
         || KoLCharacter.hasEquipped(ItemPool.SAUSAGE_O_MATIC, EquipmentManager.OFFHAND)) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SAUSAGE_O_MATIC);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SAUSAGE_O_MATIC, 0);
@@ -1962,7 +1962,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.SAUSAGE_O_MATIC, "You do not have a Kramco Sausage-o-Matic&trade;.");
 
-    if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.FIVE_D_PRINTER, 1))) {
+    if (InventoryManager.getCount(ItemPool.FIVE_D_PRINTER) > 0) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.FIVE_D);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.FIVE_D, 0);
       ConcoctionDatabase.CREATION_COST.put(CraftingType.FIVE_D, 0);

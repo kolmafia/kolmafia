@@ -129,7 +129,7 @@ public class LocketManager {
   }
 
   public static boolean own() {
-    return KoLConstants.inventory.contains(ItemPool.get(ItemPool.COMBAT_LOVERS_LOCKET, 1))
+    return InventoryManager.getCount(ItemPool.COMBAT_LOVERS_LOCKET) > 0
         || KoLCharacter.hasEquipped(ItemPool.COMBAT_LOVERS_LOCKET);
   }
 

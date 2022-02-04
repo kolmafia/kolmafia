@@ -695,7 +695,7 @@ public class StationaryButtonDecorator {
       int itemId =
           KoLCharacter.inBeecore() ? ItemPool.MARAUDER_MOCKERY_MANUAL : ItemPool.PIRATE_INSULT_BOOK;
 
-      if (KoLConstants.inventory.contains(ItemPool.get(itemId, 1))) {
+      if (InventoryManager.getCount(itemId) > 0) {
         actionBuffer.append("useitem&whichitem=");
         actionBuffer.append(itemId);
       } else {

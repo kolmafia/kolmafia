@@ -800,7 +800,7 @@ public class FightRequest extends GenericRequest {
   }
 
   public static final boolean canJamFlyer() {
-    return KoLConstants.inventory.contains(ItemPool.get(ItemPool.JAM_BAND_FLYERS, 1))
+    return InventoryManager.getCount(ItemPool.JAM_BAND_FLYERS) > 0
         && Preferences.getInteger("flyeredML") < 10000
         && usedFlyer == false
         && !IslandManager.isBattlefieldMonster()
@@ -809,7 +809,7 @@ public class FightRequest extends GenericRequest {
   }
 
   public static final boolean canRockFlyer() {
-    return KoLConstants.inventory.contains(ItemPool.get(ItemPool.ROCK_BAND_FLYERS, 1))
+    return InventoryManager.getCount(ItemPool.ROCK_BAND_FLYERS) > 0
         && Preferences.getInteger("flyeredML") < 10000
         && usedFlyer == false
         && !IslandManager.isBattlefieldMonster()
@@ -1575,7 +1575,7 @@ public class FightRequest extends GenericRequest {
       case "Carbohydrate Cudgel":
         // You can only use this skill if you have dry noodles
 
-        if (!KoLConstants.inventory.contains(ItemPool.get(ItemPool.DRY_NOODLES, 1))) {
+        if (InventoryManager.getCount(ItemPool.DRY_NOODLES) == 0) {
           this.skipRound();
           return;
         }
@@ -1583,7 +1583,7 @@ public class FightRequest extends GenericRequest {
       case "Unload Tommy Gun":
         // You can only use this skill if you have ammunition
 
-        if (!KoLConstants.inventory.contains(ItemPool.get(ItemPool.TOMMY_AMMO, 1))) {
+        if (InventoryManager.getCount(ItemPool.TOMMY_AMMO) == 0) {
           this.skipRound();
           return;
         }
@@ -1591,7 +1591,7 @@ public class FightRequest extends GenericRequest {
       case "Shovel Hot Coal":
         // You can only use this skill if you have hot coal
 
-        if (!KoLConstants.inventory.contains(ItemPool.get(ItemPool.HOT_COAL, 1))) {
+        if (InventoryManager.getCount(ItemPool.HOT_COAL) == 0) {
           this.skipRound();
           return;
         }
@@ -1607,7 +1607,7 @@ public class FightRequest extends GenericRequest {
       case "Curse of Fortune":
         // You can only use this skill if you have ka coins
 
-        if (!KoLConstants.inventory.contains(ItemPool.get(ItemPool.KA_COIN, 1))) {
+        if (InventoryManager.getCount(ItemPool.KA_COIN) == 0) {
           this.skipRound();
           return;
         }
@@ -2499,7 +2499,7 @@ public class FightRequest extends GenericRequest {
             break;
 
           case GIANT_OCTOPUS:
-            if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.GRAPPLING_HOOK, 1))) {
+            if (InventoryManager.getCount(ItemPool.GRAPPLING_HOOK) > 0) {
               ResultProcessor.processItem(ItemPool.GRAPPLING_HOOK, -1);
             }
             break;
