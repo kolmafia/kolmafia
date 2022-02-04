@@ -17,14 +17,18 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.mockito.Mockito;
 
 public class Player {
-  public static void equip(int slot, String item) {
+  public static Cleanups equip(int slot, String item) {
+    var cleanups = new Cleanups();
     EquipmentManager.setEquipment(slot, AdventureResult.tallyItem(item));
+    cleanups.add(() -> EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP));
+    return cleanups;
   }
 
   public static Cleanups addItem(String item) {
@@ -74,6 +78,13 @@ public class Player {
     var familiar = FamiliarData.registerFamiliar(famId, 0);
     KoLCharacter.familiars.add(familiar);
     return new Cleanups(() -> KoLCharacter.familiars.remove(familiar));
+  }
+
+  public static Cleanups setFamiliar(int famId) {
+    var cleanups = new Cleanups();
+    KoLCharacter.setFamiliar(FamiliarData.registerFamiliar(famId, 0));
+    cleanups.add(() -> KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR));
+    return cleanups;
   }
 
   public static Cleanups addEffect(String effectName) {
