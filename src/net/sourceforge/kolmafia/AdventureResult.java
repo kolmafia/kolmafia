@@ -456,6 +456,10 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
             : this.id == -1 ? this.getName() + "s" : ItemDatabase.getPluralName(this.id);
   }
 
+  public String getArticle() {
+    return "a" + ((StringUtilities.isVowel(this.getName().charAt(0))) ? "n" : "");
+  }
+
   /**
    * Accessor method to retrieve the item Id associated with the result, if this is an item and the
    * item Id is known.
