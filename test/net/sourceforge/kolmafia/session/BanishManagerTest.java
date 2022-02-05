@@ -67,7 +67,7 @@ class BanishManagerTest {
   void recalculate() {
     assertThat("banishedMonsters", isSetTo(""));
 
-    // This will be removed because its run out.
+    // This will be removed because it's run out.
     KoLCharacter.setCurrentRun(69);
     BanishManager.banishMonster("crate", "snokebomb");
 
