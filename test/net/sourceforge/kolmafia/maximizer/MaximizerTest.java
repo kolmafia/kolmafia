@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class MaximizerTest {
@@ -43,322 +44,333 @@ public class MaximizerTest {
     }
   }
 
-  // max
+  @Nested
+  class Max {
+    @Test
+    public void maxKeywordStopsCountingBeyondTarget() {
+      final var cleanups =
+          new Cleanups(
+              canUse("hardened slime hat"),
+              canUse("bounty-hunting helmet"),
+              addSkill("Refusal to Freeze"));
+      try (cleanups) {
+        assertTrue(maximize("cold res 3 max, 0.1 item drop"));
 
-  @Test
-  public void maxKeywordStopsCountingBeyondTarget() {
-    final var cleanups =
-        new Cleanups(
-            canUse("hardened slime hat"),
-            canUse("bounty-hunting helmet"),
-            addSkill("Refusal to Freeze"));
-    try (cleanups) {
-      assertTrue(maximize("cold res 3 max, 0.1 item drop"));
+        assertEquals(3, modFor("Cold Resistance"), 0.01);
+        assertEquals(20, modFor("Item Drop"), 0.01);
 
-      assertEquals(3, modFor("Cold Resistance"), 0.01);
-      assertEquals(20, modFor("Item Drop"), 0.01);
+        recommendedSlotIs(EquipmentManager.HAT, "bounty-hunting helmet");
+      }
+    }
 
-      recommendedSlotIs(EquipmentManager.HAT, "bounty-hunting helmet");
+    @Test
+    public void startingMaxKeywordTerminatesEarlyIfConditionMet() {
+      final var cleanups =
+          new Cleanups(
+              canUse("hardened slime hat"),
+              canUse("bounty-hunting helmet"),
+              addSkill("Refusal to Freeze"));
+      try (cleanups) {
+        maximize("3 max, cold res");
+
+        assertTrue(
+            Maximizer.boosts.stream()
+                .anyMatch(
+                    b ->
+                        b.toString()
+                            .contains("(maximum achieved, no further combinations checked)")));
+      }
     }
   }
 
-  @Test
-  public void startingMaxKeywordTerminatesEarlyIfConditionMet() {
-    final var cleanups =
-        new Cleanups(
-            canUse("hardened slime hat"),
-            canUse("bounty-hunting helmet"),
-            addSkill("Refusal to Freeze"));
-    try (cleanups) {
-      maximize("3 max, cold res");
+  @Nested
+  class Min {
+    @Test
+    public void minKeywordFailsMaximizationIfNotHit() {
+      final var cleanups = new Cleanups(canUse("helmet turtle"));
+      try (cleanups) {
+        assertFalse(maximize("mus 2 min"));
+        // still provides equipment
+        recommendedSlotIs(EquipmentManager.HAT, "helmet turtle");
+      }
+    }
 
-      assertTrue(
-          Maximizer.boosts.stream()
-              .anyMatch(
-                  b ->
-                      b.toString()
-                          .contains("(maximum achieved, no further combinations checked)")));
+    @Test
+    public void minKeywordPassesMaximizationIfHit() {
+      final var cleanups = new Cleanups(canUse("wreath of laurels"));
+      try (cleanups) {
+        assertTrue(maximize("mus 2 min"));
+      }
+    }
+
+    @Test
+    public void startingMinKeywordFailsMaximizationIfNotHit() {
+      final var cleanups = new Cleanups(canUse("helmet turtle"));
+      try (cleanups) {
+        assertFalse(maximize("2 min, mus"));
+        // still provides equipment
+        recommendedSlotIs(EquipmentManager.HAT, "helmet turtle");
+      }
+    }
+
+    @Test
+    public void startingMinKeywordPassesMaximizationIfHit() {
+      final var cleanups = new Cleanups(canUse("wreath of laurels"));
+      try (cleanups) {
+        assertTrue(maximize("2 min, mus"));
+      }
     }
   }
 
-  // min
+  @Nested
+  class Clownosity {
+    @Test
+    public void clownosityTriesClownEquipment() {
+      final var cleanups = new Cleanups(canUse("clown wig"));
+      try (cleanups) {
+        assertFalse(maximize("clownosity -tie"));
+        // still provides equipment
+        recommendedSlotIs(EquipmentManager.HAT, "clown wig");
+        assertEquals(50, modFor("Clowniness"), 0.01);
+      }
+    }
 
-  @Test
-  public void minKeywordFailsMaximizationIfNotHit() {
-    final var cleanups = new Cleanups(canUse("helmet turtle"));
-    try (cleanups) {
-      assertFalse(maximize("mus 2 min"));
-      // still provides equipment
-      recommendedSlotIs(EquipmentManager.HAT, "helmet turtle");
+    @Test
+    public void clownositySucceedsWithEnoughEquipment() {
+      final var cleanups = new Cleanups(canUse("clown wig"), canUse("polka-dot bow tie"));
+      try (cleanups) {
+        assertTrue(maximize("clownosity -tie"));
+        recommendedSlotIs(EquipmentManager.HAT, "clown wig");
+        recommendedSlotIs(EquipmentManager.ACCESSORY1, "polka-dot bow tie");
+        assertEquals(125, modFor("Clowniness"), 0.01);
+      }
     }
   }
 
-  @Test
-  public void minKeywordPassesMaximizationIfHit() {
-    final var cleanups = new Cleanups(canUse("wreath of laurels"));
-    try (cleanups) {
-      assertTrue(maximize("mus 2 min"));
+  @Nested
+  class Raveosity {
+    @Test
+    public void raveosityTriesRaveEquipment() {
+      final var cleanups =
+          new Cleanups(canUse("rave visor"), canUse("baggy rave pants"), canUse("rave whistle"));
+      try (cleanups) {
+        assertFalse(maximize("raveosity -tie"));
+        // still provides equipment
+        recommendedSlotIs(EquipmentManager.HAT, "rave visor");
+        recommendedSlotIs(EquipmentManager.PANTS, "baggy rave pants");
+        recommendedSlotIs(EquipmentManager.WEAPON, "rave whistle");
+        assertEquals(5, modFor("Raveosity"), 0.01);
+      }
+    }
+
+    @Test
+    public void raveositySucceedsWithEnoughEquipment() {
+      final var cleanups =
+          new Cleanups(
+              canUse("blue glowstick"),
+              canUse("glowstick on a string"),
+              canUse("teddybear backpack"),
+              canUse("rave visor"),
+              canUse("baggy rave pants"));
+      try (cleanups) {
+        assertTrue(maximize("raveosity -tie"));
+        recommendedSlotIs(EquipmentManager.HAT, "rave visor");
+        recommendedSlotIs(EquipmentManager.PANTS, "baggy rave pants");
+        recommendedSlotIs(EquipmentManager.CONTAINER, "teddybear backpack");
+        recommendedSlotIs(EquipmentManager.OFFHAND, "glowstick on a string");
+        assertEquals(7, modFor("Raveosity"), 0.01);
+      }
     }
   }
 
-  @Test
-  public void startingMinKeywordFailsMaximizationIfNotHit() {
-    final var cleanups = new Cleanups(canUse("helmet turtle"));
-    try (cleanups) {
-      assertFalse(maximize("2 min, mus"));
-      // still provides equipment
-      recommendedSlotIs(EquipmentManager.HAT, "helmet turtle");
+  @Nested
+  class Surgeonosity {
+    @Test
+    public void surgeonosityTriesSurgeonEquipment() {
+      final var cleanups =
+          new Cleanups(
+              canUse("head mirror"),
+              canUse("bloodied surgical dungarees"),
+              canUse("surgical apron"),
+              canUse("surgical mask"),
+              canUse("half-size scalpel"),
+              addSkill("Torso Awareness"));
+      try (cleanups) {
+        assertTrue(maximize("surgeonosity -tie"));
+        recommendedSlotIs(EquipmentManager.PANTS, "bloodied surgical dungarees");
+        recommends("head mirror");
+        recommends("surgical mask");
+        recommends("half-size scalpel");
+        recommendedSlotIs(EquipmentManager.SHIRT, "surgical apron");
+        assertEquals(5, modFor("Surgeonosity"), 0.01);
+      }
     }
   }
 
-  @Test
-  public void startingMinKeywordPassesMaximizationIfHit() {
-    final var cleanups = new Cleanups(canUse("wreath of laurels"));
-    try (cleanups) {
-      assertTrue(maximize("2 min, mus"));
+  @Nested
+  class Beecore {
+
+    @Test
+    public void itemsCanHaveAtMostTwoBeesByDefault() {
+      final var cleanups =
+          new Cleanups(inPath(Path.BEES_HATE_YOU), canUse("bubblewrap bottlecap turtleban"));
+      try (cleanups) {
+        maximize("mys");
+        recommendedSlotIsEmpty(EquipmentManager.HAT);
+      }
+    }
+
+    @Test
+    public void itemsCanHaveAtMostBeeosityBees() {
+      final var cleanups =
+          new Cleanups(inPath(Path.BEES_HATE_YOU), canUse("bubblewrap bottlecap turtleban"));
+      try (cleanups) {
+        maximize("mys, 5beeosity");
+        recommendedSlotIs(EquipmentManager.HAT, "bubblewrap bottlecap turtleban");
+      }
+    }
+
+    @Test
+    public void beeosityDoesntApplyOutsideBeePath() {
+      final var cleanups = new Cleanups(canUse("bubblewrap bottlecap turtleban"));
+      try (cleanups) {
+        maximize("mys");
+        recommendedSlotIs(EquipmentManager.HAT, "bubblewrap bottlecap turtleban");
+      }
+    }
+
+    @Nested
+    class Crown {
+      @Test
+      public void canCrownFamiliarsWithBeesOutsideBeecore() {
+        final var cleanups =
+            new Cleanups(
+                canUse("Crown of Thrones"),
+                hasFamiliar(FamiliarPool.LOBSTER), // 15% spell damage
+                hasFamiliar(FamiliarPool.GALLOPING_GRILL)); // 10% spell damage
+
+        try (cleanups) {
+          maximize("spell dmg");
+
+          // used the lobster in the throne.
+          assertTrue(someBoostIs(x -> x.getCmd().startsWith("enthrone Rock Lobster")));
+        }
+      }
+
+      @Test
+      public void cannotCrownFamiliarsWithBeesInBeecore() {
+        final var cleanups =
+            new Cleanups(
+                inPath(Path.BEES_HATE_YOU),
+                canUse("Crown of Thrones"),
+                hasFamiliar(FamiliarPool.LOBSTER), // 15% spell damage
+                hasFamiliar(FamiliarPool.GALLOPING_GRILL)); // 10% spell damage
+
+        try (cleanups) {
+          maximize("spell dmg");
+
+          // used the grill in the throne.
+          assertTrue(someBoostIs(x -> x.getCmd().startsWith("enthrone Galloping Grill")));
+        }
+      }
+    }
+
+    @Nested
+    class Potions {
+      @Test
+      public void canUsePotionsWithBeesOutsideBeecore() {
+        final var cleanups = new Cleanups(addItem("baggie of powdered sugar"));
+
+        try (cleanups) {
+          maximize("meat drop");
+
+          assertTrue(someBoostIs(x -> x.getCmd().startsWith("use 1 baggie of powdered sugar")));
+        }
+      }
+
+      @Test
+      public void cannotUsePotionsWithBeesInBeecore() {
+        final var cleanups =
+            new Cleanups(inPath(Path.BEES_HATE_YOU), addItem("baggie of powdered sugar"));
+
+        try (cleanups) {
+          maximize("meat drop");
+
+          assertFalse(someBoostIs(x -> x.getCmd().startsWith("use 1 baggie of powdered sugar")));
+        }
+      }
     }
   }
 
-  // clownosity
+  @Nested
+  class Plumber {
+    @Test
+    public void plumberCommandsErrorOutsidePlumber() {
+      final var cleanups = new Cleanups(inPath(Path.AVATAR_OF_BORIS));
 
-  @Test
-  public void clownosityTriesClownEquipment() {
-    final var cleanups = new Cleanups(canUse("clown wig"));
-    try (cleanups) {
-      assertFalse(maximize("clownosity -tie"));
-      // still provides equipment
-      recommendedSlotIs(EquipmentManager.HAT, "clown wig");
-      assertEquals(50, modFor("Clowniness"), 0.01);
+      try (cleanups) {
+        assertFalse(maximize("plumber"));
+        assertFalse(maximize("cold plumber"));
+      }
+    }
+
+    @Test
+    public void plumberCommandForcesSomePlumberItem() {
+      final var cleanups =
+          new Cleanups(
+              inPath(Path.PATH_OF_THE_PLUMBER), canUse("work boots"), canUse("shiny ring", 3));
+
+      try (cleanups) {
+        assertTrue(maximize("plumber, mox"));
+        recommends("work boots");
+      }
+    }
+
+    @Test
+    public void coldPlumberCommandForcesFlowerAndFrostyButton() {
+      final var cleanups =
+          new Cleanups(
+              inPath(Path.PATH_OF_THE_PLUMBER),
+              canUse("work boots"),
+              canUse("bonfire flower"),
+              canUse("frosty button"),
+              canUse("shiny ring", 3));
+
+      try (cleanups) {
+        assertTrue(maximize("cold plumber, mox"));
+        recommends("bonfire flower");
+        recommends("frosty button");
+      }
     }
   }
 
-  @Test
-  public void clownositySucceedsWithEnoughEquipment() {
-    final var cleanups = new Cleanups(canUse("clown wig"), canUse("polka-dot bow tie"));
-    try (cleanups) {
-      assertTrue(maximize("clownosity -tie"));
-      recommendedSlotIs(EquipmentManager.HAT, "clown wig");
-      recommendedSlotIs(EquipmentManager.ACCESSORY1, "polka-dot bow tie");
-      assertEquals(125, modFor("Clowniness"), 0.01);
+  @Nested
+  class WeaponModifiers {
+    @Test
+    public void clubModifierDoesntAffectOffhand() {
+      final var cleanups =
+          new Cleanups(
+              addSkill("Double-Fisted Skull Smashing"),
+              canUse("flaming crutch", 2),
+              canUse("white sword", 2),
+              canUse("dense meat sword"));
+      try (cleanups) {
+        assertTrue(EquipmentManager.canEquip("white sword"), "Can equip white sword");
+        assertTrue(EquipmentManager.canEquip("flaming crutch"), "Can equip flaming crutch");
+        assertTrue(maximize("mus, club"));
+        // Should equip 1 flaming crutch, 1 white sword.
+        recommendedSlotIs(EquipmentManager.WEAPON, "flaming crutch");
+        recommendedSlotIs(EquipmentManager.OFFHAND, "white sword");
+      }
     }
-  }
 
-  // raveosity
-
-  @Test
-  public void raveosityTriesRaveEquipment() {
-    final var cleanups =
-        new Cleanups(canUse("rave visor"), canUse("baggy rave pants"), canUse("rave whistle"));
-    try (cleanups) {
-      assertFalse(maximize("raveosity -tie"));
-      // still provides equipment
-      recommendedSlotIs(EquipmentManager.HAT, "rave visor");
-      recommendedSlotIs(EquipmentManager.PANTS, "baggy rave pants");
-      recommendedSlotIs(EquipmentManager.WEAPON, "rave whistle");
-      assertEquals(5, modFor("Raveosity"), 0.01);
-    }
-  }
-
-  @Test
-  public void raveositySucceedsWithEnoughEquipment() {
-    final var cleanups =
-        new Cleanups(
-            canUse("blue glowstick"),
-            canUse("glowstick on a string"),
-            canUse("teddybear backpack"),
-            canUse("rave visor"),
-            canUse("baggy rave pants"));
-    try (cleanups) {
-      assertTrue(maximize("raveosity -tie"));
-      recommendedSlotIs(EquipmentManager.HAT, "rave visor");
-      recommendedSlotIs(EquipmentManager.PANTS, "baggy rave pants");
-      recommendedSlotIs(EquipmentManager.CONTAINER, "teddybear backpack");
-      recommendedSlotIs(EquipmentManager.OFFHAND, "glowstick on a string");
-      assertEquals(7, modFor("Raveosity"), 0.01);
-    }
-  }
-
-  // surgeonosity
-
-  @Test
-  public void surgeonosityTriesSurgeonEquipment() {
-    final var cleanups =
-        new Cleanups(
-            canUse("head mirror"),
-            canUse("bloodied surgical dungarees"),
-            canUse("surgical apron"),
-            canUse("surgical mask"),
-            canUse("half-size scalpel"),
-            addSkill("Torso Awareness"));
-    try (cleanups) {
-      assertTrue(maximize("surgeonosity -tie"));
-      recommendedSlotIs(EquipmentManager.PANTS, "bloodied surgical dungarees");
-      recommends("head mirror");
-      recommends("surgical mask");
-      recommends("half-size scalpel");
-      recommendedSlotIs(EquipmentManager.SHIRT, "surgical apron");
-      assertEquals(5, modFor("Surgeonosity"), 0.01);
-    }
-  }
-
-  // beecore
-
-  @Test
-  public void itemsCanHaveAtMostTwoBeesByDefault() {
-    final var cleanups =
-        new Cleanups(inPath(Path.BEES_HATE_YOU), canUse("bubblewrap bottlecap turtleban"));
-    try (cleanups) {
-      maximize("mys");
-      recommendedSlotIsEmpty(EquipmentManager.HAT);
-    }
-  }
-
-  @Test
-  public void itemsCanHaveAtMostBeeosityBees() {
-    final var cleanups =
-        new Cleanups(inPath(Path.BEES_HATE_YOU), canUse("bubblewrap bottlecap turtleban"));
-    try (cleanups) {
-      maximize("mys, 5beeosity");
-      recommendedSlotIs(EquipmentManager.HAT, "bubblewrap bottlecap turtleban");
-    }
-  }
-
-  @Test
-  public void beeosityDoesntApplyOutsideBeePath() {
-    final var cleanups = new Cleanups(canUse("bubblewrap bottlecap turtleban"));
-    try (cleanups) {
-      maximize("mys");
-      recommendedSlotIs(EquipmentManager.HAT, "bubblewrap bottlecap turtleban");
-    }
-  }
-
-  // proof for the next test
-  @Test
-  public void canCrownFamiliarsWithBeesOutsideBeecore() {
-    final var cleanups =
-        new Cleanups(
-            canUse("Crown of Thrones"),
-            hasFamiliar(FamiliarPool.LOBSTER), // 15% spell damage
-            hasFamiliar(FamiliarPool.GALLOPING_GRILL)); // 10% spell damage
-
-    try (cleanups) {
-      maximize("spell dmg");
-
-      // used the lobster in the throne.
-      assertTrue(someBoostIs(x -> x.getCmd().startsWith("enthrone Rock Lobster")));
-    }
-  }
-
-  @Test
-  public void cannotCrownFamiliarsWithBeesInBeecore() {
-    final var cleanups =
-        new Cleanups(
-            inPath(Path.BEES_HATE_YOU),
-            canUse("Crown of Thrones"),
-            hasFamiliar(FamiliarPool.LOBSTER), // 15% spell damage
-            hasFamiliar(FamiliarPool.GALLOPING_GRILL)); // 10% spell damage
-
-    try (cleanups) {
-      maximize("spell dmg");
-
-      // used the grill in the throne.
-      assertTrue(someBoostIs(x -> x.getCmd().startsWith("enthrone Galloping Grill")));
-    }
-  }
-
-  // proof for the next test
-  @Test
-  public void canUsePotionsWithBeesOutsideBeecore() {
-    final var cleanups = new Cleanups(addItem("baggie of powdered sugar"));
-
-    try (cleanups) {
-      maximize("meat drop");
-
-      assertTrue(someBoostIs(x -> x.getCmd().startsWith("use 1 baggie of powdered sugar")));
-    }
-  }
-
-  @Test
-  public void cannotUsePotionsWithBeesInBeecore() {
-    final var cleanups =
-        new Cleanups(inPath(Path.BEES_HATE_YOU), addItem("baggie of powdered sugar"));
-
-    try (cleanups) {
-      maximize("meat drop");
-
-      assertFalse(someBoostIs(x -> x.getCmd().startsWith("use 1 baggie of powdered sugar")));
-    }
-  }
-
-  // plumber
-
-  @Test
-  public void plumberCommandsErrorOutsidePlumber() {
-    final var cleanups = new Cleanups(inPath(Path.AVATAR_OF_BORIS));
-
-    try (cleanups) {
-      assertFalse(maximize("plumber"));
-      assertFalse(maximize("cold plumber"));
-    }
-  }
-
-  @Test
-  public void plumberCommandForcesSomePlumberItem() {
-    final var cleanups =
-        new Cleanups(
-            inPath(Path.PATH_OF_THE_PLUMBER), canUse("work boots"), canUse("shiny ring", 3));
-
-    try (cleanups) {
-      assertTrue(maximize("plumber, mox"));
-      recommends("work boots");
-    }
-  }
-
-  @Test
-  public void coldPlumberCommandForcesFlowerAndFrostyButton() {
-    final var cleanups =
-        new Cleanups(
-            inPath(Path.PATH_OF_THE_PLUMBER),
-            canUse("work boots"),
-            canUse("bonfire flower"),
-            canUse("frosty button"),
-            canUse("shiny ring", 3));
-
-    try (cleanups) {
-      assertTrue(maximize("cold plumber, mox"));
-      recommends("bonfire flower");
-      recommends("frosty button");
-    }
-  }
-
-  // club
-
-  @Test
-  public void clubModifierDoesntAffectOffhand() {
-    final var cleanups =
-        new Cleanups(
-            addSkill("Double-Fisted Skull Smashing"),
-            canUse("flaming crutch", 2),
-            canUse("white sword", 2),
-            canUse("dense meat sword"));
-    try (cleanups) {
-      assertTrue(EquipmentManager.canEquip("white sword"), "Can equip white sword");
-      assertTrue(EquipmentManager.canEquip("flaming crutch"), "Can equip flaming crutch");
-      assertTrue(maximize("mus, club"));
-      // Should equip 1 flaming crutch, 1 white sword.
-      recommendedSlotIs(EquipmentManager.WEAPON, "flaming crutch");
-      recommendedSlotIs(EquipmentManager.OFFHAND, "white sword");
-    }
-  }
-
-  // sword
-
-  @Test
-  public void swordModifierFavorsSword() {
-    final var cleanups = new Cleanups(canUse("sweet ninja sword"), canUse("spiked femur"));
-    try (cleanups) {
-      assertTrue(maximize("spooky dmg, sword"));
-      recommendedSlotIs(EquipmentManager.WEAPON, "sweet ninja sword");
+    @Test
+    public void swordModifierFavorsSword() {
+      final var cleanups = new Cleanups(canUse("sweet ninja sword"), canUse("spiked femur"));
+      try (cleanups) {
+        assertTrue(maximize("spooky dmg, sword"));
+        recommendedSlotIs(EquipmentManager.WEAPON, "sweet ninja sword");
+      }
     }
   }
 
@@ -393,129 +405,139 @@ public class MaximizerTest {
     }
   }
 
-  @Test
-  public void aboveWaterZonesDoNotCheckUnderwaterNegativeCombat() {
-    final var cleanups = new Cleanups(inLocation("Noob Cave"), canUse("Mer-kin sneakmask"));
-    try (cleanups) {
-      assertTrue(maximize("-combat -tie"));
-      assertEquals(0, modFor("Combat Rate"), 0.01);
+  @Nested
+  class Underwater {
+    @Test
+    public void aboveWaterZonesDoNotCheckUnderwaterNegativeCombat() {
+      final var cleanups = new Cleanups(inLocation("Noob Cave"), canUse("Mer-kin sneakmask"));
+      try (cleanups) {
+        assertTrue(maximize("-combat -tie"));
+        assertEquals(0, modFor("Combat Rate"), 0.01);
 
-      recommendedSlotIsEmpty(EquipmentManager.HAT);
+        recommendedSlotIsEmpty(EquipmentManager.HAT);
+      }
+    }
+
+    @Test
+    public void underwaterZonesCheckUnderwaterNegativeCombat() {
+      final var cleanups = new Cleanups(inLocation("The Ice Hole"), canUse("Mer-kin sneakmask"));
+      try (cleanups) {
+        assertEquals(AdventureDatabase.getEnvironment(Modifiers.currentLocation), "underwater");
+        assertTrue(maximize("-combat -tie"));
+
+        recommendedSlotIs(EquipmentManager.HAT, "Mer-kin sneakmask");
+      }
     }
   }
 
-  @Test
-  public void underwaterZonesCheckUnderwaterNegativeCombat() {
-    final var cleanups = new Cleanups(inLocation("The Ice Hole"), canUse("Mer-kin sneakmask"));
-    try (cleanups) {
-      assertEquals(AdventureDatabase.getEnvironment(Modifiers.currentLocation), "underwater");
-      assertTrue(maximize("-combat -tie"));
+  @Nested
+  class Outfits {
+    @Test
+    public void considersOutfitsIfHelpful() {
+      final var cleanups = new Cleanups(canUse("eldritch hat"), canUse("eldritch pants"));
+      try (cleanups) {
+        assertTrue(maximize("item -tie"));
 
-      recommendedSlotIs(EquipmentManager.HAT, "Mer-kin sneakmask");
+        assertEquals(50, modFor("Item Drop"), 0.01);
+        recommendedSlotIs(EquipmentManager.HAT, "eldritch hat");
+        recommendedSlotIs(EquipmentManager.PANTS, "eldritch pants");
+      }
+    }
+
+    @Test
+    public void avoidsOutfitsIfOtherItemsBetter() {
+      final var cleanups =
+          new Cleanups(
+              canUse("eldritch hat"), canUse("eldritch pants"), canUse("Team Avarice cap"));
+      try (cleanups) {
+        assertTrue(maximize("item -tie"));
+
+        assertEquals(100, modFor("Item Drop"), 0.01);
+        recommendedSlotIs(EquipmentManager.HAT, "Team Avarice cap");
+      }
+    }
+
+    @Test
+    public void forcingOutfitRequiresThatOutfit() {
+      final var cleanups =
+          new Cleanups(
+              canUse("bounty-hunting helmet"),
+              canUse("bounty-hunting rifle"),
+              canUse("bounty-hunting pants"),
+              canUse("eldritch hat"),
+              canUse("eldritch pants"));
+      try (cleanups) {
+        assertTrue(maximize("item -tie"));
+
+        assertEquals(70, modFor("Item Drop"), 0.01);
+        recommendedSlotIs(EquipmentManager.HAT, "bounty-hunting helmet");
+        recommendedSlotIs(EquipmentManager.WEAPON, "bounty-hunting rifle");
+        recommendedSlotIs(EquipmentManager.PANTS, "bounty-hunting pants");
+
+        assertTrue(maximize("item, +outfit Eldritch Equipage -tie"));
+        assertEquals(65, modFor("Item Drop"), 0.01);
+        recommendedSlotIs(EquipmentManager.HAT, "eldritch hat");
+        recommendedSlotIs(EquipmentManager.WEAPON, "bounty-hunting rifle");
+        recommendedSlotIs(EquipmentManager.PANTS, "eldritch pants");
+
+        assertTrue(maximize("item, -outfit Bounty-Hunting Rig -tie"));
+        assertEquals(65, modFor("Item Drop"), 0.01);
+        recommendedSlotIs(EquipmentManager.HAT, "eldritch hat");
+        recommendedSlotIs(EquipmentManager.WEAPON, "bounty-hunting rifle");
+        recommendedSlotIs(EquipmentManager.PANTS, "eldritch pants");
+      }
     }
   }
 
-  // outfits
+  @Nested
+  class Synergy {
+    @Test
+    public void considersBrimstoneIfHelpful() {
+      final var cleanups = new Cleanups(canUse("Brimstone Beret"), canUse("Brimstone Boxers"));
+      try (cleanups) {
+        assertTrue(maximize("ml -tie"));
 
-  @Test
-  public void considersOutfitsIfHelpful() {
-    final var cleanups = new Cleanups(canUse("eldritch hat"), canUse("eldritch pants"));
-    try (cleanups) {
-      assertTrue(maximize("item -tie"));
-
-      assertEquals(50, modFor("Item Drop"), 0.01);
-      recommendedSlotIs(EquipmentManager.HAT, "eldritch hat");
-      recommendedSlotIs(EquipmentManager.PANTS, "eldritch pants");
+        assertEquals(4, modFor("Monster Level"), 0.01);
+        recommendedSlotIs(EquipmentManager.HAT, "Brimstone Beret");
+        recommendedSlotIs(EquipmentManager.PANTS, "Brimstone Boxers");
+      }
     }
-  }
 
-  @Test
-  public void avoidsOutfitsIfOtherItemsBetter() {
-    final var cleanups =
-        new Cleanups(canUse("eldritch hat"), canUse("eldritch pants"), canUse("Team Avarice cap"));
-    try (cleanups) {
-      assertTrue(maximize("item -tie"));
+    @Nested
+    class HoboPower {
+      @Test
+      public void usesHoboPowerIfPossible() {
+        final var cleanups =
+            new Cleanups(
+                canUse("Hodgman's garbage sticker"),
+                canUse("Hodgman's bow tie"),
+                canUse("Hodgman's lobsterskin pants"),
+                canUse("Hodgman's porkpie hat"),
+                canUse("silver cow creamer"));
+        try (cleanups) {
+          assertTrue(maximize("meat -tie"));
 
-      assertEquals(100, modFor("Item Drop"), 0.01);
-      recommendedSlotIs(EquipmentManager.HAT, "Team Avarice cap");
-    }
-  }
+          recommendedSlotIs(EquipmentManager.HAT, "Hodgman's porkpie hat");
+          recommendedSlotIs(EquipmentManager.PANTS, "Hodgman's lobsterskin pants");
+          recommendedSlotIs(EquipmentManager.OFFHAND, "Hodgman's garbage sticker");
+          recommends("Hodgman's bow tie");
+        }
+      }
 
-  @Test
-  public void forcingOutfitRequiresThatOutfit() {
-    final var cleanups =
-        new Cleanups(
-            canUse("bounty-hunting helmet"),
-            canUse("bounty-hunting rifle"),
-            canUse("bounty-hunting pants"),
-            canUse("eldritch hat"),
-            canUse("eldritch pants"));
-    try (cleanups) {
-      assertTrue(maximize("item -tie"));
+      @Test
+      public void hoboPowerDoesntCountWithoutOffhand() {
+        final var cleanups =
+            new Cleanups(canUse("Hodgman's bow tie"), canUse("silver cow creamer"));
+        try (cleanups) {
+          assertTrue(maximize("meat -tie"));
 
-      assertEquals(70, modFor("Item Drop"), 0.01);
-      recommendedSlotIs(EquipmentManager.HAT, "bounty-hunting helmet");
-      recommendedSlotIs(EquipmentManager.WEAPON, "bounty-hunting rifle");
-      recommendedSlotIs(EquipmentManager.PANTS, "bounty-hunting pants");
-
-      assertTrue(maximize("item, +outfit Eldritch Equipage -tie"));
-      assertEquals(65, modFor("Item Drop"), 0.01);
-      recommendedSlotIs(EquipmentManager.HAT, "eldritch hat");
-      recommendedSlotIs(EquipmentManager.WEAPON, "bounty-hunting rifle");
-      recommendedSlotIs(EquipmentManager.PANTS, "eldritch pants");
-
-      assertTrue(maximize("item, -outfit Bounty-Hunting Rig -tie"));
-      assertEquals(65, modFor("Item Drop"), 0.01);
-      recommendedSlotIs(EquipmentManager.HAT, "eldritch hat");
-      recommendedSlotIs(EquipmentManager.WEAPON, "bounty-hunting rifle");
-      recommendedSlotIs(EquipmentManager.PANTS, "eldritch pants");
-    }
-  }
-
-  // synergy
-
-  @Test
-  public void considersOutfitPartsIfHelpful() {
-    final var cleanups = new Cleanups(canUse("Brimstone Beret"), canUse("Brimstone Boxers"));
-    try (cleanups) {
-      assertTrue(maximize("ml -tie"));
-
-      assertEquals(4, modFor("Monster Level"), 0.01);
-      recommendedSlotIs(EquipmentManager.HAT, "Brimstone Beret");
-      recommendedSlotIs(EquipmentManager.PANTS, "Brimstone Boxers");
-    }
-  }
-
-  @Test
-  public void usesHoboPowerIfPossible() {
-    final var cleanups =
-        new Cleanups(
-            canUse("Hodgman's garbage sticker"),
-            canUse("Hodgman's bow tie"),
-            canUse("Hodgman's lobsterskin pants"),
-            canUse("Hodgman's porkpie hat"),
-            canUse("silver cow creamer"));
-    try (cleanups) {
-      assertTrue(maximize("meat -tie"));
-
-      recommendedSlotIs(EquipmentManager.HAT, "Hodgman's porkpie hat");
-      recommendedSlotIs(EquipmentManager.PANTS, "Hodgman's lobsterskin pants");
-      recommendedSlotIs(EquipmentManager.OFFHAND, "Hodgman's garbage sticker");
-      recommends("Hodgman's bow tie");
-    }
-  }
-
-  @Test
-  public void hoboPowerDoesntCountWithoutOffhand() {
-    final var cleanups = new Cleanups(canUse("Hodgman's bow tie"), canUse("silver cow creamer"));
-    try (cleanups) {
-      assertTrue(maximize("meat -tie"));
-
-      assertEquals(30, modFor("Meat Drop"), 0.01);
-      recommendedSlotIs(EquipmentManager.OFFHAND, "silver cow creamer");
-      recommendedSlotIsEmpty(EquipmentManager.ACCESSORY1);
-      recommendedSlotIsEmpty(EquipmentManager.ACCESSORY2);
-      recommendedSlotIsEmpty(EquipmentManager.ACCESSORY3);
+          assertEquals(30, modFor("Meat Drop"), 0.01);
+          recommendedSlotIs(EquipmentManager.OFFHAND, "silver cow creamer");
+          recommendedSlotIsEmpty(EquipmentManager.ACCESSORY1);
+          recommendedSlotIsEmpty(EquipmentManager.ACCESSORY2);
+          recommendedSlotIsEmpty(EquipmentManager.ACCESSORY3);
+        }
+      }
     }
   }
 }
