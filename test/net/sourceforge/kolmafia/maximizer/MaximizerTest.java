@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -253,7 +254,7 @@ public class MaximizerTest {
           maximize("spell dmg");
 
           // used the lobster in the throne.
-          assertTrue(someBoostIs(x -> x.getCmd().startsWith("enthrone Rock Lobster")));
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "enthrone Rock Lobster")));
         }
       }
 
@@ -270,7 +271,7 @@ public class MaximizerTest {
           maximize("spell dmg");
 
           // used the grill in the throne.
-          assertTrue(someBoostIs(x -> x.getCmd().startsWith("enthrone Galloping Grill")));
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "enthrone Galloping Grill")));
         }
       }
     }
@@ -284,7 +285,7 @@ public class MaximizerTest {
         try (cleanups) {
           maximize("meat drop");
 
-          assertTrue(someBoostIs(x -> x.getCmd().startsWith("use 1 baggie of powdered sugar")));
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "use 1 baggie of powdered sugar")));
         }
       }
 
@@ -296,7 +297,7 @@ public class MaximizerTest {
         try (cleanups) {
           maximize("meat drop");
 
-          assertFalse(someBoostIs(x -> x.getCmd().startsWith("use 1 baggie of powdered sugar")));
+          assertFalse(someBoostIs(x -> commandStartsWith(x, "use 1 baggie of powdered sugar")));
         }
       }
     }
@@ -500,6 +501,84 @@ public class MaximizerTest {
         assertEquals(4, modFor("Monster Level"), 0.01);
         recommendedSlotIs(EquipmentManager.HAT, "Brimstone Beret");
         recommendedSlotIs(EquipmentManager.PANTS, "Brimstone Boxers");
+      }
+    }
+
+    @Nested
+    class Smithsness {
+      @Test
+      public void considersSmithsnessIfHelpful() {
+        final var cleanups = new Cleanups(canUse("Half a Purse"), canUse("Hairpiece On Fire"));
+        try (cleanups) {
+          assertTrue(maximize("meat -tie"));
+
+          recommendedSlotIs(EquipmentManager.OFFHAND, "Half a Purse");
+          recommendedSlotIs(EquipmentManager.HAT, "Hairpiece On Fire");
+        }
+      }
+
+      @Test
+      @Disabled("fails to recommend to use the flask")
+      public void usesFlaskfullOfHollowWithSmithsItemEquipped() {
+        final var cleanups =
+            new Cleanups(
+                canUse("Half a Purse"),
+                equip(EquipmentManager.OFFHAND, "Half a Purse"),
+                addItem("Flaskfull of Hollow"));
+        try (cleanups) {
+          assertTrue(maximize("meat -tie"));
+
+          recommendedSlotIs(EquipmentManager.OFFHAND, "Half a Purse");
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "use 1 Flaskfull of Hollow")));
+        }
+      }
+    }
+
+    @Test
+    public void considersCloathingIfHelpful() {
+      final var cleanups = new Cleanups(canUse("Goggles of Loathing"), canUse("Jeans of Loathing"));
+      try (cleanups) {
+        assertTrue(maximize("item -tie"));
+
+        assertEquals(2, modFor("Item Drop"), 0.01);
+        recommendedSlotIs(EquipmentManager.HAT, "Goggles of Loathing");
+        recommendedSlotIs(EquipmentManager.PANTS, "Jeans of Loathing");
+      }
+    }
+
+    @Nested
+    class SlimeHatesIt {
+      @Test
+      public void considersInSlimeTube() {
+        final var cleanups =
+            new Cleanups(
+                inLocation("The Slime Tube"),
+                canUse("pernicious cudgel"),
+                canUse("grisly shield"),
+                canUse("shield of the Skeleton Lord"),
+                addItem("bitter pill"));
+        try (cleanups) {
+          assertTrue(maximize("ml -tie"));
+
+          recommendedSlotIs(EquipmentManager.WEAPON, "pernicious cudgel");
+          recommendedSlotIs(EquipmentManager.OFFHAND, "grisly shield");
+          assertTrue(someBoostIs(x -> commandStartsWith(x, "use 1 bitter pill")));
+        }
+      }
+
+      @Test
+      public void doesntCountIfNotInSlimeTube() {
+        final var cleanups =
+            new Cleanups(
+                inLocation("Noob Cave"),
+                canUse("pernicious cudgel"),
+                canUse("grisly shield"),
+                canUse("shield of the Skeleton Lord"));
+        try (cleanups) {
+          assertTrue(maximize("ml -tie"));
+
+          recommendedSlotIs(EquipmentManager.OFFHAND, "shield of the Skeleton Lord");
+        }
       }
     }
 
