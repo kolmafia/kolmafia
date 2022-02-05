@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -87,14 +88,14 @@ public class Player {
     return cleanups;
   }
 
-  public static Cleanups addEffect(String effectName) {
-    var effect = EffectPool.get(EffectDatabase.getEffectId(effectName));
+  public static Cleanups addEffect(String effectName, int turns) {
+    var effect = EffectPool.get(EffectDatabase.getEffectId(effectName), turns);
     KoLConstants.activeEffects.add(effect);
     return new Cleanups(() -> KoLConstants.activeEffects.remove(effect));
   }
 
-  public static void addEffect(String effect, int turns) {
-    KoLConstants.activeEffects.add(EffectPool.get(EffectDatabase.getEffectId(effect), turns));
+  public static Cleanups addEffect(String effect) {
+    return addEffect(effect, 1);
   }
 
   public static void addIntrinsic(String effect) {
@@ -130,6 +131,16 @@ public class Player {
 
   public static void isClass(AscensionClass ascensionClass) {
     KoLCharacter.setAscensionClass(ascensionClass);
+  }
+
+  public static Cleanups isSign(String sign) {
+    KoLCharacter.setSign(sign);
+    return new Cleanups(() -> isSign(ZodiacSign.NONE));
+  }
+
+  public static Cleanups isSign(ZodiacSign sign) {
+    KoLCharacter.setSign(sign);
+    return new Cleanups(() -> isSign(ZodiacSign.NONE));
   }
 
   public static Cleanups inPath(Path path) {
