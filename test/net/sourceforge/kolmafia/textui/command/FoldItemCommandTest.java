@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.containsString;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,8 +23,6 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void findClosestFoldableTest() {
-    KoLmafiaCLI.isExecutingCheckOnlyCommand = true;
-
     // Spooky Putty mitre > leotard > ball > sheet > snake
     AdventureResult.addResultToList(
         KoLConstants.inventory, ItemPool.get(ItemPool.SPOOKY_PUTTY_MITRE));
@@ -33,17 +30,14 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
     AdventureResult.addResultToList(
         KoLConstants.inventory, ItemPool.get(ItemPool.SPOOKY_PUTTY_SHEET));
 
-    String output = execute("spooky putty ball");
+    String output = execute("spooky putty ball", true);
 
     assertContinueState();
     assertThat(output, containsString("Spooky Putty mitre => Spooky Putty ball"));
-    KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
   }
 
   @Test
   public void loopAroundFoldableListTest() {
-    KoLmafiaCLI.isExecutingCheckOnlyCommand = true;
-
     // Spooky Putty mitre > leotard > ball > sheet > snake
     AdventureResult.addResultToList(
         KoLConstants.inventory, ItemPool.get(ItemPool.SPOOKY_PUTTY_SNAKE));
@@ -51,11 +45,10 @@ public class FoldItemCommandTest extends AbstractCommandTestBase {
     AdventureResult.addResultToList(
         KoLConstants.inventory, ItemPool.get(ItemPool.SPOOKY_PUTTY_BALL));
 
-    String output = execute("spooky putty leotard");
+    String output = execute("spooky putty leotard", true);
 
     assertContinueState();
     assertThat(output, containsString("Spooky Putty snake => Spooky Putty leotard"));
-    KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
   }
 
   @Test

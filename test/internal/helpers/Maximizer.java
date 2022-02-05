@@ -44,7 +44,11 @@ public class Maximizer {
     Optional<AdventureResult> equipment = getSlot(slot);
     assertTrue(
         equipment.isEmpty(),
-        () -> "Expected empty slot " + slot + ", but it was " + equipment.get());
+        () ->
+            "Expected empty slot "
+                + slot
+                + ", but it was "
+                + equipment.map(AdventureResult::toString).orElse(""));
   }
 
   public static void recommends(String item) {
@@ -58,5 +62,9 @@ public class Maximizer {
 
   public static boolean someBoostIs(Predicate<Boost> predicate) {
     return net.sourceforge.kolmafia.maximizer.Maximizer.boosts.stream().anyMatch(predicate);
+  }
+
+  public static boolean commandStartsWith(Boost boost, String prefix) {
+    return boost.getCmd().startsWith(prefix);
   }
 }

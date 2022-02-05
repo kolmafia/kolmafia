@@ -254,7 +254,7 @@ public class BanishManager {
     }
   }
 
-  public static final Banisher findBanisher(final String banisher) {
+  private static final Banisher findBanisher(final String banisher) {
     for (Banisher ban : BANISHER) {
       if (ban.getName().equals(banisher)) {
         return ban;
@@ -272,8 +272,14 @@ public class BanishManager {
   }
 
   public static final void banishMonster(final String monsterName, final String banishName) {
-    if (BanishManager.countBanishes(banishName)
-        >= BanishManager.findBanisher(banishName).getQueueSize()) {
+    var banisher = BanishManager.findBanisher(banishName);
+
+    if (banisher == null) {
+      KoLmafia.updateDisplay("Couldn't find banisher by the name " + banishName + ".");
+      return;
+    }
+
+    if (BanishManager.countBanishes(banishName) >= banisher.getQueueSize()) {
       BanishManager.removeOldestBanish(banishName);
     }
     // Banishes fail in some areas, monsters in them cannot be banished
@@ -339,7 +345,7 @@ public class BanishManager {
     BanishManager.saveBanishedMonsters();
   }
 
-  public static final void removeOldestBanish(final String banisher) {
+  private static final void removeOldestBanish(final String banisher) {
     Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
     String target = null;
     int earliest = -1;

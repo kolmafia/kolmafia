@@ -26,15 +26,6 @@ public class LocketManager {
   private static final Set<String> CONSTANT_MODS =
       Set.of("HP Regen Min", "HP Regen Max", "MP Regen Min", "MP Regen Max", "Single Equip");
 
-  private static void parseFoughtMonsters() {
-    foughtMonsters.clear();
-
-    Arrays.stream(Preferences.getString("_locketMonstersFought").split(","))
-        .filter(StringUtilities::isNumeric)
-        .map(Integer::parseInt)
-        .forEach(foughtMonsters::add);
-  }
-
   private static void addFoughtMonster(int monsterId) {
     parseFoughtMonsters();
 
@@ -48,6 +39,15 @@ public class LocketManager {
 
   private LocketManager() {}
 
+  public static void parseFoughtMonsters() {
+    foughtMonsters.clear();
+
+    Arrays.stream(Preferences.getString("_locketMonstersFought").split(","))
+        .filter(StringUtilities::isNumeric)
+        .map(Integer::parseInt)
+        .forEach(foughtMonsters::add);
+  }
+
   public static Set<Integer> getMonsters() {
     return Collections.unmodifiableSet(knownMonsters);
   }
@@ -60,8 +60,20 @@ public class LocketManager {
     return knownMonsters.contains(monsterId);
   }
 
+  public static boolean remembersMonster(MonsterData monster) {
+    return remembersMonster(monster.getId());
+  }
+
   public static boolean foughtMonster(int monsterId) {
     return foughtMonsters.contains(monsterId);
+  }
+
+  public static boolean foughtMonster(MonsterData monster) {
+    return foughtMonster(monster.getId());
+  }
+
+  public static Set<Integer> getFoughtMonsters() {
+    return Collections.unmodifiableSet(foughtMonsters);
   }
 
   public static void parseMonsters(final String text) {
