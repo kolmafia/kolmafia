@@ -346,6 +346,68 @@ public class MaximizerTest {
   }
 
   @Nested
+  class GelatinousNoob {
+    @Test
+    public void canAbsorbItemsForSkills() {
+      final var cleanups =
+          new Cleanups(
+              inPath(Path.GELATINOUS_NOOB),
+              addItem("Knob mushroom"),
+              addItem("beer lens"),
+              addItem("crossbow string"));
+
+      try (cleanups) {
+        assertTrue(maximize("meat"));
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "absorb ¶303"))); // Knob mushroom
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "absorb ¶443"))); // beer lens
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "absorb ¶109"))); // crossbow string
+      }
+    }
+
+    @Test
+    public void canAbsorbEquipmentForEnchants() {
+      final var cleanups = new Cleanups(inPath(Path.GELATINOUS_NOOB), addItem("disco mask"));
+
+      try (cleanups) {
+        assertTrue(maximize("moxie -tie"));
+        recommendedSlotIsEmpty(EquipmentManager.HAT);
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "absorb ¶9"))); // disco mask
+      }
+    }
+
+    @Test
+    @Disabled(
+        "Doesn't try to absorb the turtle, even though this should use the same code as the mask case above")
+    public void canAbsorbHelmetTurtleForEnchants() {
+      final var cleanups = new Cleanups(inPath(Path.GELATINOUS_NOOB), addItem("helmet turtle"));
+
+      try (cleanups) {
+        assertTrue(maximize("muscle -tie"));
+        recommendedSlotIsEmpty(EquipmentManager.HAT);
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "absorb ¶3"))); // helmet turtle
+      }
+    }
+
+    @Test
+    @Disabled("Bug: doesn't work in Mafia, but should")
+    public void canBenefitFromOutfits() {
+      final var cleanups =
+          new Cleanups(
+              inPath(Path.GELATINOUS_NOOB),
+              addItem("The Jokester's wig"),
+              addItem("The Jokester's gun"),
+              addItem("The Jokester's pants"));
+
+      try (cleanups) {
+        assertTrue(maximize("meat -tie"));
+        recommendedSlotIs(EquipmentManager.HAT, "The Jokester's wig");
+        recommendedSlotIs(EquipmentManager.WEAPON, "The Jokester's gun");
+        recommendedSlotIs(EquipmentManager.PANTS, "The Jokester's pants");
+      }
+    }
+  }
+
+  @Nested
   class WeaponModifiers {
     @Test
     public void clubModifierDoesntAffectOffhand() {
@@ -519,16 +581,11 @@ public class MaximizerTest {
 
       @Test
       @Disabled("fails to recommend to use the flask")
-      public void usesFlaskfullOfHollowWithSmithsItemEquipped() {
-        final var cleanups =
-            new Cleanups(
-                canUse("Half a Purse"),
-                equip(EquipmentManager.OFFHAND, "Half a Purse"),
-                addItem("Flaskfull of Hollow"));
+      public void usesFlaskfullOfHollow() {
+        final var cleanups = new Cleanups(addItem("Flaskfull of Hollow"));
         try (cleanups) {
-          assertTrue(maximize("meat -tie"));
+          assertTrue(maximize("muscle -tie"));
 
-          recommendedSlotIs(EquipmentManager.OFFHAND, "Half a Purse");
           assertTrue(someBoostIs(x -> commandStartsWith(x, "use 1 Flaskfull of Hollow")));
         }
       }
