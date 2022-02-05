@@ -96,7 +96,7 @@ public abstract class EncounterManager {
   }
 
   /** Utility method used to register a given adventure in the running adventure summary. */
-  public void registerAdventure(final KoLAdventure adventureLocation) {
+  public static void registerAdventure(final KoLAdventure adventureLocation) {
     if (adventureLocation == null) {
       return;
     }
@@ -131,8 +131,7 @@ public abstract class EncounterManager {
 
   public static final Encounter findEncounter(
       final String locationName, final String encounterName) {
-    for (int i = 0; i < specialEncounters.length; ++i) {
-      Encounter encounter = specialEncounters[i];
+    for (Encounter encounter : specialEncounters) {
       if (locationName != null && !locationName.equalsIgnoreCase(encounter.location)) {
         continue;
       }
@@ -161,8 +160,7 @@ public abstract class EncounterManager {
 
   public static final String findEncounterForLocation(
       final String locationName, final EncounterType type) {
-    for (int i = 0; i < specialEncounters.length; ++i) {
-      Encounter encounter = specialEncounters[i];
+    for (Encounter encounter : specialEncounters) {
       if (!locationName.equalsIgnoreCase(encounter.location)) {
         continue;
       }
