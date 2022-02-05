@@ -9538,6 +9538,11 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("_cosmicBowlingSkillsUsed", 1);
           int combats = Preferences.getInteger("_cosmicBowlingSkillsUsed") * 2 + 3 - 1;
           Preferences.setInteger("cosmicBowlingBallReturnCombats", combats);
+
+          if (skillId == SkillPool.BOWL_A_CURVEBALL) {
+            BanishManager.banishMonster(monster, "Bowl a Curveball");
+          }
+
           ResultProcessor.removeItem(ItemPool.COSMIC_BOWLING_BALL);
         }
         break;
