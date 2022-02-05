@@ -13,10 +13,16 @@ public abstract class AbstractCommandTestBase {
   protected String command = "abort";
 
   public String execute(final String params) {
+    return execute(params, false);
+  }
+
+  public String execute(final String params, final boolean check) {
     var outputStream = new ByteArrayOutputStream();
     RequestLogger.openCustom(new PrintStream(outputStream));
     var cli = new KoLmafiaCLI(System.in);
+    KoLmafiaCLI.isExecutingCheckOnlyCommand = check;
     cli.executeCommand(this.command, params);
+    KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
     RequestLogger.closeCustom();
     return outputStream.toString();
   }

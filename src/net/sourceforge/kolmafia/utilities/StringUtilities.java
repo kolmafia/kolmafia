@@ -889,6 +889,19 @@ public class StringUtilities {
     return b.toString();
   }
 
+  public static final boolean isVowel(char letter) {
+    switch (Character.toLowerCase(letter)) {
+      case 'a':
+      case 'e':
+      case 'i':
+      case 'o':
+      case 'u':
+        return true;
+      default:
+        return false;
+    }
+  }
+
   public static final int getBracketedId(final String name) {
     if (name.startsWith("[")) {
       int index = name.indexOf("]");
