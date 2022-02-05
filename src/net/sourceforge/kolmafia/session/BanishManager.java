@@ -108,7 +108,7 @@ public class BanishManager {
 
     public static Banisher find(final String banisherName) {
       return Arrays.stream(values())
-          .filter(b -> b.getName().equals(banisherName))
+          .filter(b -> b.getName().equalsIgnoreCase(banisherName))
           .findAny()
           .orElse(null);
     }
