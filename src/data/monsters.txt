@@ -86,6 +86,7 @@ black panther	416	panther.gif	Atk: 133 Def: 112 HP: 128 Init: 50 Meat: 150 P: be
 black pudding	476	blpudding.gif	Atk: 50 Def: 45 HP: 40 Init: 10000 P: slime	black pudding (100)	black pudding (100)
 black widow	415	blackwidow.gif	NOCOPY Atk: 132 Def: 110 HP: 121 Init: 50 Meat: 50 "Really Quite Poisoned" P: bug	black pension check (30)	black picnic basket (15)
 blackberry bush	418	blackbush.gif	Atk: 126 Def: 114 HP: 136 Init: 30 P: plant	blackberry (20)	blackberry (20)	blackberry (20)
+blind snake	2122	pr_snake.gif	Atk: 35 Def: 40 HP: 50 Init: 50 Meat: 250 P: beast
 Blooper	118	squid.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: beast	white pixel (80)	white pixel (70)	white pixel (60)
 Blue Oyster cultist	1528	bluecultist.gif	Atk: 135 Def: 135 HP: 130 Init: 50 P: dude Meat: 100	fire of unknown origin (15)	black blade (5)	cigarette lighter (15)	blue oyster badge (c0)
 blur	460	blur.gif	Atk: 136 Def: 126 HP: 141 Init: 40 Meat: 120 P: dude	drum machine (30)	palm frond (10)	hot date (5)	carbonated water lily (10)	Hugo's Weaving Manual (c100)
