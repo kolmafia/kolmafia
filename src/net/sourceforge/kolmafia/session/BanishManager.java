@@ -45,7 +45,7 @@ public class BanishManager {
     }
   }
 
-  private enum Banisher {
+  public enum Banisher {
     BALEFUL_HOWL("baleful howl", -1, 1, true, Reset.ROLLOVER_RESET),
     BANISHING_SHOUT("banishing shout", -1, 3, false, Reset.AVATAR_RESET),
     BATTER_UP("batter up!", -1, 1, false, Reset.ROLLOVER_RESET),
@@ -309,7 +309,7 @@ public class BanishManager {
     BanishManager.banishMonster(monster, banisher);
   }
 
-  public static final void banishMonster(final String monsterName, final String banisherName) {
+  public static final void banishMonster(final String monsterName, final Banisher banisher) {
     MonsterData monster = MonsterDatabase.findMonster(monsterName);
 
     if (monster == null) {
@@ -317,21 +317,10 @@ public class BanishManager {
       return;
     }
 
-    banishMonster(monster, banisherName);
-  }
-
-  public static final void banishMonster(final MonsterData monster, final String banisherName) {
-    var banisher = Banisher.find(banisherName);
-
-    if (banisher == null) {
-      KoLmafia.updateDisplay("Couldn't find banisher by the name " + banisherName + ".");
-      return;
-    }
-
     banishMonster(monster, banisher);
   }
 
-  private static final void banishMonster(final MonsterData monster, final Banisher banisher) {
+  public static final void banishMonster(final MonsterData monster, final Banisher banisher) {
     if (BanishManager.countBanishes(banisher) >= banisher.getQueueSize()) {
       BanishManager.removeOldestBanish(banisher);
     }

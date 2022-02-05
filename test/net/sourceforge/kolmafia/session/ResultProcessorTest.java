@@ -74,7 +74,7 @@ public class ResultProcessorTest {
   @Test
   public void gettingCosmicBowlingBallInCombatResetsBanishes() {
     Preferences.setInteger("cosmicBowlingBallReturnCombats", 20);
-    BanishManager.banishMonster("zmobie", "Bowl a Curveball");
+    BanishManager.banishMonster("zmobie", BanishManager.Banisher.BOWL_A_CURVEBALL);
     assertTrue(BanishManager.isBanished("zmobie"));
 
     ResultProcessor.processResult(true, COSMIC_BOWLING_BALL);
@@ -85,7 +85,7 @@ public class ResultProcessorTest {
   @Test
   public void gettingCosmicBowlingBallInCombatResetsReturnCombats() {
     Preferences.setInteger("cosmicBowlingBallReturnCombats", 20);
-    BanishManager.banishMonster("zmobie", "Bowl a Curveball");
+    BanishManager.banishMonster("zmobie", BanishManager.Banisher.BOWL_A_CURVEBALL);
     ResultProcessor.processResult(true, COSMIC_BOWLING_BALL);
 
     assertThat("cosmicBowlingBallReturnCombats", isSetTo(-1));

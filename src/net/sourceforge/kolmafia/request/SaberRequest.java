@@ -50,7 +50,7 @@ public class SaberRequest extends GenericRequest {
     }
 
     if (urlString.contains("option=1")) {
-      BanishManager.banishCurrentMonster("Saber Force");
+      BanishManager.banishCurrentMonster(BanishManager.Banisher.SABER_FORCE);
       Preferences.increment("_saberForceUses");
     } else if (urlString.contains("option=2")) {
       Preferences.setString("_saberForceMonster", MonsterStatusTracker.getLastMonsterName());
