@@ -169,6 +169,19 @@ class BanishManagerTest {
   }
 
   @Test
+  void banishMonsterCorrectOnTurnCost() {
+    KoLCharacter.setCurrentRun(123);
+
+    BanishManager.banishMonster("Tan Gnat", "pantsgiving");
+
+    KoLCharacter.setCurrentRun(153);
+    assertTrue(BanishManager.isBanished("Tan Gnat"));
+
+    KoLCharacter.setCurrentRun(154);
+    assertFalse(BanishManager.isBanished("Tan Gnat"));
+  }
+
+  @Test
   void banishMonsterDoesNotApplyNonExistent() {
     KoLCharacter.setCurrentRun(123);
 

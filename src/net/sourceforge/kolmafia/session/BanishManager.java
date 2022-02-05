@@ -232,16 +232,18 @@ public class BanishManager {
     while (tokens.hasMoreTokens()) {
       String monsterName = tokens.nextToken();
       if (!tokens.hasMoreTokens()) break;
-      String banishName = tokens.nextToken();
+      String banisherName = tokens.nextToken();
       if (!tokens.hasMoreTokens()) break;
       int turnBanished = StringUtilities.parseInt(tokens.nextToken());
-      var banisher = Banisher.find(banishName);
-      int banishDuration = banisher.getDuration();
-      Reset resetType = banisher.getResetType();
-      if ((resetType != Reset.TURN_RESET && resetType != Reset.TURN_ROLLOVER_RESET)
-          || (turnBanished + banishDuration >= KoLCharacter.getCurrentRun())) {
-        BanishManager.addBanishedMonster(monsterName, banisher, turnBanished);
+
+      var banisher = Banisher.find(banisherName);
+
+      if (banisher == null) {
+        KoLmafia.updateDisplay("Attempted to parse unknown banisher " + banisherName + ".");
+        continue;
       }
+
+      BanishManager.addBanishedMonster(monsterName, banisher, turnBanished);
     }
   }
 
@@ -292,20 +294,7 @@ public class BanishManager {
   }
 
   public static void recalculate() {
-    resetIf(
-        m -> {
-          var b = m.getBanisher();
-          int duration = b.getDuration();
-          switch (b.getResetType()) {
-            case TURN_RESET:
-            case TURN_ROLLOVER_RESET:
-              return m.getTurnBanished() + duration <= KoLCharacter.getCurrentRun();
-            case COSMIC_BOWLING_BALL_RESET:
-              return Preferences.getInteger("cosmicBowlingBallReturnCombats") < 0;
-            default:
-              return false;
-          }
-        });
+    resetIf(Predicate.not(BanishedMonster::isValid));
   }
 
   public static final void banishCurrentMonster(final String banisherName) {
@@ -388,9 +377,15 @@ public class BanishManager {
     }
   }
 
-  private static void addBanishedMonster(
+  private static boolean addBanishedMonster(
       final String monsterName, final Banisher banisher, final int turnBanished) {
-    banishedMonsters.add(new BanishedMonster(monsterName, banisher, turnBanished));
+    var banishedMonster = new BanishedMonster(monsterName, banisher, turnBanished);
+    if (!banishedMonster.isValid()) {
+      return false;
+    }
+
+    banishedMonsters.add(banishedMonster);
+    return true;
   }
 
   public static final void removeBanishByBanisher(final String banisherName) {
