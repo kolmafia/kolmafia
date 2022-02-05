@@ -297,10 +297,6 @@ public class BanishManager {
     resetIf(Predicate.not(BanishedMonster::isValid));
   }
 
-  public static final void banishCurrentMonster(final String banisherName) {
-    banishCurrentMonster(Banisher.find(banisherName));
-  }
-
   public static final void banishCurrentMonster(final Banisher banisher) {
     MonsterData monster = MonsterStatusTracker.getLastMonster();
     if (monster == null) {
@@ -386,10 +382,6 @@ public class BanishManager {
 
     banishedMonsters.add(banishedMonster);
     return true;
-  }
-
-  public static final void removeBanishByBanisher(final String banisherName) {
-    removeBanishByBanisher(Banisher.find(banisherName));
   }
 
   public static final void removeBanishByBanisher(final Banisher banisher) {
