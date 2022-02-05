@@ -9414,7 +9414,7 @@ public class FightRequest extends GenericRequest {
             || responseText.contains("the two of you share a friendly handshake and part ways")
             || responseText.contains("they pass out from pure boredom")
             || skillRunawaySuccess) {
-          BanishManager.banishMonster(monster, Banisher.SHOW_YOUR_FAMILIAR_BORING_PICTURES);
+          BanishManager.banishMonster(monster, Banisher.SHOW_YOUR_BORING_FAMILIAR_PICTURES);
           Preferences.decrement("scrapbookCharges", 100, 0);
         }
         break;
