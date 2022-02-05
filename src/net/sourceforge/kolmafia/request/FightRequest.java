@@ -8753,59 +8753,59 @@ public class FightRequest extends GenericRequest {
         // Banishing Shout has lots of success messages.  Check for the failure message instead
       case SkillPool.BANISHING_SHOUT:
         if (!responseText.contains("but this foe refuses")) {
-          BanishManager.banishMonster(monsterName, "banishing shout");
+          BanishManager.banishMonster(monster, "banishing shout");
         }
         break;
 
       case SkillPool.HOWL_ALPHA:
         if (responseText.contains("your opponent turns and runs") || skillRunawaySuccess) {
-          BanishManager.banishMonster(monsterName, "howl of the alpha");
+          BanishManager.banishMonster(monster, "howl of the alpha");
         }
         break;
 
       case SkillPool.CREEPY_GRIN:
         if (responseText.contains("an even creepier grin") || skillRunawaySuccess) {
           Preferences.setBoolean("_vmaskBanisherUsed", true);
-          BanishManager.banishMonster(monsterName, "v for vivala mask");
+          BanishManager.banishMonster(monster, "v for vivala mask");
         }
         break;
 
       case SkillPool.STINKEYE:
         if (responseText.contains("You fix an extremely disdainful eye") || skillRunawaySuccess) {
           Preferences.setBoolean("_stinkyCheeseBanisherUsed", true);
-          BanishManager.banishMonster(monsterName, "stinky cheese eye");
+          BanishManager.banishMonster(monster, "stinky cheese eye");
         }
         break;
 
       case SkillPool.UNLEASH_NANITES:
         if (responseText.contains("You roar with sudden power") || skillRunawaySuccess) {
-          BanishManager.banishMonster(monsterName, "nanorhino");
+          BanishManager.banishMonster(monster, "nanorhino");
         }
         break;
 
       case SkillPool.BATTER_UP:
         if (responseText.contains("knocked out of the park") || skillRunawaySuccess) {
-          BanishManager.banishMonster(monsterName, "batter up!");
+          BanishManager.banishMonster(monster, "batter up!");
         }
         break;
 
       case SkillPool.TALK_ABOUT_POLITICS:
         if (responseText.contains("won't be seeing") || skillSuccess) {
           Preferences.increment("_pantsgivingBanish");
-          BanishManager.banishMonster(monsterName, "pantsgiving");
+          BanishManager.banishMonster(monster, "pantsgiving");
         }
         break;
 
       case SkillPool.WALK_AWAY_FROM_EXPLOSION:
         if (responseText.contains("foe is obliterated in a spectacular explosion")
             || skillSuccess) {
-          BanishManager.banishMonster(monsterName, "walk away from explosion");
+          BanishManager.banishMonster(monster, "walk away from explosion");
         }
         break;
 
       case SkillPool.THUNDER_CLAP:
         if (responseText.contains("opponent heads for the hills") || skillRunawaySuccess) {
-          BanishManager.banishMonster(monsterName, "thunder clap");
+          BanishManager.banishMonster(monster, "thunder clap");
         }
         break;
 
@@ -8813,14 +8813,14 @@ public class FightRequest extends GenericRequest {
         // You tie up the gingerbread man and hang him from a conveniently placed gargoyle.
         // You won't be seeing him again today! Or anybody with his same job.
         if (responseText.contains("tie up the gingerbread") || skillSuccess) {
-          BanishManager.banishMonster(monsterName, "licorice rope");
+          BanishManager.banishMonster(monster, "licorice rope");
         }
         break;
 
       case SkillPool.KGB_TRANQUILIZER_DART:
         Preferences.increment("_kgbTranquilizerDartUses");
         if (responseText.contains("press the secret switch") || skillRunawaySuccess) {
-          BanishManager.banishMonster(monsterName, "KGB tranquilizer dart");
+          BanishManager.banishMonster(monster, "KGB tranquilizer dart");
         }
         break;
 
@@ -8842,7 +8842,7 @@ public class FightRequest extends GenericRequest {
             || skillRunawaySuccess) {
           Preferences.increment("_petePeeledOut");
           if (Preferences.getString("peteMotorbikeMuffler").equals("Extra-Smelly Muffler")) {
-            BanishManager.banishMonster(monsterName, "peel out");
+            BanishManager.banishMonster(monster, "peel out");
           }
         }
         break;
@@ -8855,7 +8855,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.SNOKEBOMB:
         if (responseText.contains("throw the smokebomb at your feet") || skillRunawaySuccess) {
-          BanishManager.banishMonster(monsterName, "snokebomb");
+          BanishManager.banishMonster(monster, "snokebomb");
           Preferences.increment("_snokebombUsed");
         }
         break;
@@ -8875,7 +8875,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.BEANCANNON:
         if (responseText.contains("tide of beans") || skillSuccess) {
           Preferences.increment("_beanCannonUses");
-          BanishManager.banishMonster(monsterName, "beancannon");
+          BanishManager.banishMonster(monster, "beancannon");
           EquipmentManager.discardEquipment(
               EquipmentManager.getEquipment(EquipmentManager.OFFHAND));
         }
@@ -8883,7 +8883,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.BREATHE_OUT:
         if (responseText.contains("residual hot jelly heat") || skillSuccess) {
-          BanishManager.banishMonster(monsterName, "breathe out");
+          BanishManager.banishMonster(monster, "breathe out");
           Preferences.decrement("_hotJellyUses");
         }
         break;
@@ -8899,14 +8899,14 @@ public class FightRequest extends GenericRequest {
         // You show them your ring. They aren't impressed.
         if (responseText.contains("Well, I never") || skillRunawaySuccess) {
           Preferences.setBoolean("_mafiaMiddleFingerRingUsed", true);
-          BanishManager.banishMonster(monsterName, "mafia middle finger ring");
+          BanishManager.banishMonster(monster, "mafia middle finger ring");
         }
         break;
 
       case SkillPool.THROW_LATTE:
         if (responseText.contains("They run off") || skillRunawaySuccess) {
           Preferences.setBoolean("_latteBanishUsed", true);
-          BanishManager.banishMonster(monsterName, "Throw Latte on Opponent");
+          BanishManager.banishMonster(monster, "Throw Latte on Opponent");
         }
         break;
 
@@ -9021,7 +9021,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.CURSE_OF_VACATION:
         if (responseText.contains("as the vortex disappears") || skillSuccess) {
-          BanishManager.banishMonster(monsterName, "curse of vacation");
+          BanishManager.banishMonster(monster, "curse of vacation");
         }
         break;
 
@@ -9162,7 +9162,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.AM_FRONT_BUMPER:
         if (responseText.contains("before flying out of sight") || skillRunawaySuccess) {
-          BanishManager.banishMonster(monsterName, "Spring-Loaded Front Bumper");
+          BanishManager.banishMonster(monster, "Spring-Loaded Front Bumper");
           CampgroundRequest.useFuel(SkillDatabase.getFuelCost(SkillPool.AM_FRONT_BUMPER));
         }
         break;
@@ -9219,7 +9219,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.REFLEX_HAMMER:
         if (responseText.contains("short distance into the future") || skillRunawaySuccess) {
           Preferences.increment("_reflexHammerUsed");
-          BanishManager.banishMonster(monsterName, "Reflex Hammer");
+          BanishManager.banishMonster(monster, "Reflex Hammer");
         }
         break;
 
@@ -9237,7 +9237,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.BALEFUL_HOWL:
         if (responseText.contains("spooked by its balefulness") || skillSuccess) {
-          BanishManager.banishMonster(monsterName, "baleful howl");
+          BanishManager.banishMonster(monster, "baleful howl");
           Preferences.increment("_balefulHowlUses");
         }
         break;
@@ -9347,7 +9347,7 @@ public class FightRequest extends GenericRequest {
         break;
       case SkillPool.ULTRA_SMASH_COMBAT:
         if (responseText.contains("knock your opponent into tomorrow") || skillRunawaySuccess) {
-          BanishManager.banishMonster(monsterName, "Ultra Hammer");
+          BanishManager.banishMonster(monster, "Ultra Hammer");
         }
         // Fall through
       case SkillPool.FIREBALL_BARRAGE_COMBAT:
@@ -9364,7 +9364,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.FEEL_HATRED:
         if (responseText.contains("walk away and decide not to see this creature again")
             || skillRunawaySuccess) {
-          BanishManager.banishMonster(monsterName, "Feel Hatred");
+          BanishManager.banishMonster(monster, "Feel Hatred");
           Preferences.increment("_feelHatredUsed", 1, 3, false);
         }
         break;
@@ -9413,14 +9413,14 @@ public class FightRequest extends GenericRequest {
             || responseText.contains("the two of you share a friendly handshake and part ways")
             || responseText.contains("they pass out from pure boredom")
             || skillRunawaySuccess) {
-          BanishManager.banishMonster(monsterName, "Show your boring familiar pictures");
+          BanishManager.banishMonster(monster, "Show your boring familiar pictures");
           Preferences.decrement("scrapbookCharges", 100, 0);
         }
         break;
 
       case SkillPool.BLART_SPRAY_WIDE:
         if (responseText.contains("nozzle all the way and blast it out of sight") || skillSuccess) {
-          BanishManager.banishMonster(monsterName, "B. L. A. R. T. Spray (wide)");
+          BanishManager.banishMonster(monster, "B. L. A. R. T. Spray (wide)");
         }
         break;
 

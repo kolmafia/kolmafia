@@ -306,10 +306,21 @@ public class BanishManager {
     if (monster == null) {
       return;
     }
-    BanishManager.banishMonster(monster.getName(), banisher);
+    BanishManager.banishMonster(monster, banisher);
   }
 
   public static final void banishMonster(final String monsterName, final String banisherName) {
+    MonsterData monster = MonsterDatabase.findMonster(monsterName);
+
+    if (monster == null) {
+      KoLmafia.updateDisplay("Couldn't find monster by the name " + monsterName + ".");
+      return;
+    }
+
+    banishMonster(monster, banisherName);
+  }
+
+  public static final void banishMonster(final MonsterData monster, final String banisherName) {
     var banisher = Banisher.find(banisherName);
 
     if (banisher == null) {
@@ -317,38 +328,38 @@ public class BanishManager {
       return;
     }
 
-    banishMonster(monsterName, banisher);
+    banishMonster(monster, banisher);
   }
 
-  private static final void banishMonster(final String monsterName, final Banisher banisher) {
+  private static final void banishMonster(final MonsterData monster, final Banisher banisher) {
     if (BanishManager.countBanishes(banisher) >= banisher.getQueueSize()) {
       BanishManager.removeOldestBanish(banisher);
     }
 
     // Banishes fail in some areas, monsters in them cannot be banished
-    MonsterData monster = MonsterDatabase.findMonster(monsterName);
-    if (monster != null && monster.isNoBanish()) {
+
+    if (monster.isNoBanish()) {
       KoLmafia.updateDisplay(
           "Banish of "
-              + monsterName
+              + monster.getName()
               + " by "
               + banisher.getName()
               + " failed, as monsters from this area cannot be banished.");
       return;
     }
 
-    KoLmafia.updateDisplay(monsterName + " banished by " + banisher.getName() + ".");
+    KoLmafia.updateDisplay(monster.getName() + " banished by " + banisher.getName() + ".");
 
     int turnCost = banisher.isTurnFree() ? 0 : 1;
     BanishManager.addBanishedMonster(
-        monsterName, banisher, KoLCharacter.getCurrentRun() + turnCost);
+        monster.getName(), banisher, KoLCharacter.getCurrentRun() + turnCost);
 
     BanishManager.recalculate();
 
     // Legacy support
     switch (banisher) {
       case NANORHINO:
-        Preferences.setString("_nanorhinoBanishedMonster", monsterName);
+        Preferences.setString("_nanorhinoBanishedMonster", monster.getName());
         break;
       case BANISHING_SHOUT:
       case HOWL_OF_THE_ALPHA:
@@ -356,7 +367,7 @@ public class BanishManager {
           Preferences.setString(
               "banishingShoutMonsters",
               Stream.concat(
-                      Stream.of(monsterName),
+                      Stream.of(monster.getName()),
                       Arrays.stream(Preferences.getString("banishingShoutMonsters").split("\\|"))
                           .limit(2)
                           .filter(Predicate.not(String::isEmpty)))
@@ -368,7 +379,7 @@ public class BanishManager {
           Preferences.setString(
               "_jiggleCheesedMonsters",
               Stream.concat(
-                      Stream.of(monsterName),
+                      Stream.of(monster.getName()),
                       Arrays.stream(Preferences.getString("_jiggleCheesedMonsters").split("\\|"))
                           .filter(Predicate.not(String::isEmpty)))
                   .collect(Collectors.joining("|")));
