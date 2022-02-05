@@ -61,10 +61,10 @@ public class ItemFinder {
     }
 
     // If there are multiple matches, such that one is a substring of the
-    // others, choose the shorter one, on the grounds that the user would
-    // have included part of the unique section of the longer name if that
-    // was the item they actually intended.	 This makes it easier to refer
-    // to non-clockwork in-a-boxes, and DoD potions by flavor.
+    // others, choose the shorter one, on the grounds that the user would have
+    // included part of the unique section of the longer name if that was the
+    // item they actually intended.  This makes it easier to refer to
+    // non-clockwork in-a-boxes, and DoD potions by flavor.
     while (nameList.size() >= 2) {
       String name0 = nameList.get(0);
       String name1 = nameList.get(1);
@@ -228,7 +228,7 @@ public class ItemFinder {
         case ABSORB:
           ItemFinder.conditionalRemove(
               nameIterator,
-              (ItemDatabase.getNoobSkillId(itemId) == -1
+              (ItemDatabase.getNoobSkillId(itemId) == 0
                   && !(ItemDatabase.isEquipment(itemId)
                       && !ItemDatabase.isFamiliarEquipment(itemId))));
           break;
@@ -322,7 +322,7 @@ public class ItemFinder {
       boolean errorOnFailure,
       List<AdventureResult> sourceList,
       Match filterType) {
-    // Ignore spaces and tabs in front of the parameter string
+    // Ignore spaces and tabs at ends of the parameter string
     parameters = parameters.trim();
 
     // If there are no valid strings passed in, return
@@ -349,13 +349,6 @@ public class ItemFinder {
 
     if (parameters.contains("\u00B6") || parameters.contains("[")) {
       // At least one item is specified by item ID
-      if (parameters.contains(",")) {
-        // We can't parse multiple items of this sort
-        if (errorOnFailure) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "More than one item specified by item ID.");
-        }
-        return null;
-      }
 
       int spaceIndex = parameters.indexOf(' ');
       if (spaceIndex != -1) {
@@ -411,8 +404,6 @@ public class ItemFinder {
         }
       }
 
-      // This is not right for "1 seal tooth, 2 turtle totem, 3 stolen accordion"
-      // since the first count is trimmed off
       matchList = ItemFinder.getMatchingNames(parameters);
     }
 
@@ -493,21 +484,23 @@ public class ItemFinder {
     if (filterType == Match.CREATE) {
       boolean skipNPCs = Preferences.getBoolean("autoSatisfyWithNPCs") && itemCount <= 0;
 
-      if (skipNPCs) {
-        // Let '*' and negative counts be interpreted
-        // relative to the quantity that can be created
-        // with on-hand ingredients.
+      try {
+        if (skipNPCs) {
+          // Let '*' and negative counts be interpreted
+          // relative to the quantity that can be created
+          // with on-hand ingredients.
 
-        Preferences.setBoolean("autoSatisfyWithNPCs", false);
-        ConcoctionDatabase.refreshConcoctionsNow();
-      }
+          Preferences.setBoolean("autoSatisfyWithNPCs", false);
+          ConcoctionDatabase.refreshConcoctionsNow();
+        }
 
-      CreateItemRequest instance = CreateItemRequest.getInstance(firstMatch);
-      matchCount = instance == null ? 0 : instance.getQuantityPossible();
-
-      if (skipNPCs) {
-        Preferences.setBoolean("autoSatisfyWithNPCs", true);
-        ConcoctionDatabase.refreshConcoctionsNow();
+        CreateItemRequest instance = CreateItemRequest.getInstance(firstMatch);
+        matchCount = instance == null ? 0 : instance.getQuantityPossible();
+      } finally {
+        if (skipNPCs) {
+          Preferences.setBoolean("autoSatisfyWithNPCs", true);
+          ConcoctionDatabase.refreshConcoctionsNow();
+        }
       }
     } else if (sourceList == null) {
       // Default to number in inventory if count was "*" (all)
@@ -599,7 +592,7 @@ public class ItemFinder {
     for (String name : itemNames) {
       isMeatMatch = false;
 
-      if (name.endsWith(" meat")) {
+      if (name.toLowerCase().endsWith(" meat")) {
         if (sourceList == KoLConstants.freepulls) {
           continue;
         }
