@@ -174,26 +174,41 @@ public class BanishManager {
       return this.turnBanished;
     }
 
+    public final Integer turnsLeft() {
+      return (turnBanished + banisher.getDuration()) - KoLCharacter.getCurrentRun();
+    }
+
+    public final boolean isValid() {
+      int duration = banisher.getDuration();
+      switch (banisher.getResetType()) {
+        case TURN_RESET:
+        case TURN_ROLLOVER_RESET:
+          return turnsLeft() >= 0;
+        case COSMIC_BOWLING_BALL_RESET:
+          return Preferences.getInteger("cosmicBowlingBallReturnCombats") > 0;
+        default:
+          return true;
+      }
+    }
+
     public final String getDescription() {
-      var banisher = getBanisher();
       int duration = banisher.getDuration();
 
       switch (banisher.getResetType()) {
         case TURN_RESET:
-          return String.valueOf(this.turnBanished + duration - KoLCharacter.getCurrentRun());
+          return turnsLeft().toString();
         case ROLLOVER_RESET:
           return "Until Rollover";
         case TURN_ROLLOVER_RESET:
-          return (this.turnBanished + duration - KoLCharacter.getCurrentRun())
-              + " or Until Rollover";
+          return turnsLeft() + " or Until Rollover";
         case AVATAR_RESET:
           return "Until Prism Break";
         case NEVER_RESET:
           return "Until Ice House opened";
         case COSMIC_BOWLING_BALL_RESET:
-          return "Until your cosmic bowling ball has returned ("
+          return "Until Ball returns ("
               + Preferences.getInteger("cosmicBowlingBallReturnCombats")
-              + " more combats)";
+              + " combats) or Until Rollover";
         default:
           return "";
       }
