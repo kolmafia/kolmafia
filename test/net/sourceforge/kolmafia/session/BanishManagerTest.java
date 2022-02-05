@@ -99,7 +99,7 @@ class BanishManagerTest {
     KoLCharacter.setCurrentRun(128);
     Preferences.setString(
         "banishedMonsters",
-        "spooky vampire:ice house:20:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:batter up!:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128");
+        "spooky vampire:ice house:20:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:batter up!:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128:Taco Cat:Bowl a Curveball:124");
     BanishManager.loadBanishedMonsters();
 
     BanishManager.resetRollover();
@@ -140,6 +140,22 @@ class BanishManagerTest {
   }
 
   @Test
+  public void resetCosmicBowlingBall() {
+    KoLCharacter.setCurrentRun(128);
+    Preferences.setString(
+        "banishedMonsters",
+        "spooky vampire:ice house:20:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:batter up!:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128:Taco Cat:Bowl a Curveball:124");
+    BanishManager.loadBanishedMonsters();
+
+    BanishManager.resetCosmicBowlingBall();
+
+    assertThat(
+        "banishedMonsters",
+        isSetTo(
+            "spooky vampire:ice house:20:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:batter up!:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128"));
+  }
+
+  @Test
   void banishCurrentMonster() {
     var wimp = MonsterDatabase.findMonster("W imp");
     MonsterStatusTracker.setNextMonster(wimp);
@@ -147,7 +163,7 @@ class BanishManagerTest {
 
     BanishManager.banishCurrentMonster("smoke grenade");
 
-    assertTrue(BanishManager.isBanished("W Imp"));
+    assertTrue(BanishManager.isBanished("W imp"));
   }
 
   @Test
