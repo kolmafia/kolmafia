@@ -2041,7 +2041,7 @@ public abstract class KoLCharacter {
         KoLCharacter.currentRun != currentRun && KoLCharacter.currentRun != 0 && currentRun != 0;
     KoLCharacter.currentRun = currentRun;
     if (changed) {
-      BanishManager.update();
+      BanishManager.recalculate();
     }
   }
 
