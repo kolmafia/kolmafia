@@ -546,6 +546,20 @@ public class ItemFinderTest {
     assertTrue(message.equals(KoLmafia.lastMessage));
     StaticEntity.setContinuationState(MafiaState.CONTINUE);
 
+    // Test for requesting a free pull from freepulLs
+    item = ItemFinder.getFirstMatchingItem("toilet paper", true, KoLConstants.freepulls, Match.ANY);
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertTrue(item != null);
+    assertTrue(item.getItemId() == ItemPool.TOILET_PAPER);
+    assertTrue(item.getCount() == 1);
+
+    // Test for requesting a free pull from storage
+    item = ItemFinder.getFirstMatchingItem("toilet paper", true, KoLConstants.storage, Match.ANY);
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertTrue(item != null);
+    assertTrue(item.getItemId() == ItemPool.TOILET_PAPER);
+    assertTrue(item.getCount() == 1);
+
     // Test for requesting too many of an item which is not on a list
     item =
         ItemFinder.getFirstMatchingItem(
