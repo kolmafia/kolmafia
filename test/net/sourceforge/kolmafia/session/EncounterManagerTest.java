@@ -1,10 +1,12 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Player.addEffect;
+import static internal.helpers.Player.addItem;
 import static internal.helpers.Player.equip;
 import static internal.helpers.Player.inPath;
 import static internal.helpers.Player.isSign;
 import static internal.helpers.Preference.isSetTo;
+import static internal.helpers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
@@ -28,8 +30,10 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -625,5 +629,62 @@ class EncounterManagerTest {
   }
 
   @Test
-  void handleSpecialEncounter() {}
+  void handlesCapmCaronchEncounter() {
+    addItem(ItemPool.CARONCH_DENTURES);
+    addItem(ItemPool.FRATHOUSE_BLUEPRINTS);
+
+    EncounterManager.registerEncounter(
+        "Step Up to the Table, Put the Ball in Play", "Noncombat", "");
+
+    assertThat(InventoryManager.getCount(ItemPool.CARONCH_DENTURES), equalTo(0));
+    assertThat(InventoryManager.getCount(ItemPool.FRATHOUSE_BLUEPRINTS), equalTo(0));
+    assertThat(QuestDatabase.Quest.PIRATE, isStep(4));
+  }
+
+  @Test
+  void handlesGrandmaSeaMonkeyUnlockEncounter() {
+    addItem(ItemPool.GRANDMAS_MAP);
+
+    EncounterManager.registerEncounter("Granny, Does Your Dogfish Bite?", "Noncombat", "");
+
+    assertThat(InventoryManager.getCount(ItemPool.GRANDMAS_MAP), equalTo(0));
+  }
+
+  @Test
+  void handlesTreasuryEliteMeatEncounter() {
+    assertThat("_treasuryEliteMeatCollected", isSetTo(false));
+
+    EncounterManager.registerEncounter("Meat For Nothing and the Harem for Free", "Noncombat", "");
+
+    assertThat("_treasuryEliteMeatCollected", isSetTo(true));
+  }
+
+  @Test
+  void handlesHaremEliteMeatEncounter() {
+    assertThat("_treasuryHaremMeatCollected", isSetTo(false));
+
+    EncounterManager.registerEncounter("Finally, the Payoff", "Noncombat", "");
+
+    assertThat("_treasuryHaremMeatCollected", isSetTo(true));
+  }
+
+  @Test
+  void handlesABooPeakInitialEncounter() {
+    assertThat("booPeakProgress", isSetTo(100));
+
+    EncounterManager.registerEncounter("Faction Traction = Inaction", "Noncombat", "");
+
+    assertThat("booPeakProgress", isSetTo(98));
+  }
+
+  @Test
+  void handlesDailyDungeonCompletedEncounter() {
+    assertThat("dailyDungeonDone", isSetTo(false));
+    assertThat("_lastDailyDungeonRoom", isSetTo(0));
+
+    EncounterManager.registerEncounter("Daily Done, John.", "Noncombat", "");
+
+    assertThat("dailyDungeonDone", isSetTo(true));
+    assertThat("_lastDailyDungeonRoom", isSetTo(15));
+  }
 }
