@@ -25,22 +25,37 @@ import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
 public abstract class EncounterManager {
   // Types of special encounters
+
   public enum EncounterType {
     NONE,
-    STOP,
+    STOP(true),
     LUCKY,
-    GLYPH,
+    GLYPH(true),
     TURTLE,
     SEAL,
     FIST,
-    BORIS,
-    BADMOON,
+    BORIS(true),
+    BADMOON(true),
     BUGBEAR,
     WANDERER,
     SUPERLIKELY,
     ULTRARARE,
     FREE_COMBAT,
-    NOWANDER, // Don't start wandering monster counters
+    NOWANDER; // Don't start wandering monster counters
+
+    private final boolean autostop;
+
+    EncounterType(final boolean autostop) {
+      this.autostop = autostop;
+    }
+
+    EncounterType() {
+      this(false);
+    }
+
+    public final boolean isAutostop() {
+      return this.autostop;
+    }
   }
 
   public static class Encounter {
@@ -179,11 +194,7 @@ public abstract class EncounterManager {
       return false;
     }
 
-    EncounterType encounterType = encounterType(encounterName);
-    return encounterType == EncounterType.STOP
-        || encounterType == EncounterType.BORIS
-        || encounterType == EncounterType.GLYPH
-        || encounterType == EncounterType.BADMOON;
+    return encounterType(encounterName).isAutostop();
   }
 
   public static boolean isRomanticEncounter(final String responseText, final boolean checkMonster) {
@@ -328,6 +339,7 @@ public abstract class EncounterManager {
   }
 
   private static final AdventureResult TELEPORTITIS = EffectPool.get(EffectPool.TELEPORTITIS);
+  private static final AdventureResult FEELING_LOST = EffectPool.get(EffectPool.FEELING_LOST);
 
   private static void recognizeEncounter(final String encounterName, final String responseText) {
     Encounter encounter = EncounterManager.findEncounter(encounterName);
@@ -362,15 +374,13 @@ public abstract class EncounterManager {
       BadMoonManager.registerAdventure(encounterName);
     }
 
-    if (encounterType == EncounterType.STOP
-        || encounterType == EncounterType.BORIS
-        || encounterType == EncounterType.GLYPH
-        || encounterType == EncounterType.BADMOON) {
+    if (encounterType.isAutostop()) {
       // Don't autostop if you have teleportisis
       if (KoLCharacter.hasEquipped(ItemPool.RING_OF_TELEPORTATION, EquipmentManager.ACCESSORY1)
           || KoLCharacter.hasEquipped(ItemPool.RING_OF_TELEPORTATION, EquipmentManager.ACCESSORY2)
           || KoLCharacter.hasEquipped(ItemPool.RING_OF_TELEPORTATION, EquipmentManager.ACCESSORY3)
-          || KoLConstants.activeEffects.contains(EncounterManager.TELEPORTITIS)) {
+          || KoLConstants.activeEffects.contains(TELEPORTITIS)
+          || KoLConstants.activeEffects.contains(FEELING_LOST)) {
         return;
       }
 
