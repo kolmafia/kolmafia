@@ -403,66 +403,56 @@ public abstract class EncounterManager {
   }
 
   public static void handleSpecialEncounter(final String encounterName, final String responseText) {
-    if (encounterName.equalsIgnoreCase("Step Up to the Table, Put the Ball in Play")) {
-      if (InventoryManager.hasItem(ItemPool.CARONCH_DENTURES)) {
-        ResultProcessor.processItem(ItemPool.CARONCH_DENTURES, -1);
-        QuestDatabase.setQuestIfBetter(Quest.PIRATE, "step4");
-      }
+    switch (encounterName.toLowerCase()) {
+      case "step up to the table, put the ball in play":
+        if (InventoryManager.hasItem(ItemPool.CARONCH_DENTURES)) {
+          ResultProcessor.processItem(ItemPool.CARONCH_DENTURES, -1);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATE, "step4");
+        }
 
-      if (InventoryManager.hasItem(ItemPool.FRATHOUSE_BLUEPRINTS)) {
-        ResultProcessor.processItem(ItemPool.FRATHOUSE_BLUEPRINTS, -1);
-      }
-      return;
-    }
+        if (InventoryManager.hasItem(ItemPool.FRATHOUSE_BLUEPRINTS)) {
+          ResultProcessor.processItem(ItemPool.FRATHOUSE_BLUEPRINTS, -1);
+        }
+        return;
+      case "granny, does your dogfish bite?":
+        if (InventoryManager.hasItem(ItemPool.GRANDMAS_MAP)) {
+          ResultProcessor.processItem(ItemPool.GRANDMAS_MAP, -1);
+        }
+        return;
+      case "meat for nothing and the harem for free":
+        Preferences.setBoolean("_treasuryEliteMeatCollected", true);
+        return;
+      case "finally, the payoff":
+        Preferences.setBoolean("_treasuryHaremMeatCollected", true);
+        return;
+      case "faction traction = inaction":
+        Preferences.setInteger("booPeakProgress", 98);
+        return;
+      case "daily done, john.":
+        // Daily Dungeon Complete
+        Preferences.setBoolean("dailyDungeonDone", true);
+        Preferences.setInteger("_lastDailyDungeonRoom", 15);
+        return;
+      case "a hidden surprise!":
+        // Since this content is short-lived, create the patterns here every time
+        // the encounter is found instead of globally
+        Pattern GIFT_SENDER_PATTERN = Pattern.compile("nounder><b>(.*?)</b></a>");
+        Pattern NOTE_PATTERN = Pattern.compile("1px solid black;'>(.*?)</td></tr>", Pattern.DOTALL);
 
-    if (encounterName.equalsIgnoreCase("Granny, Does Your Dogfish Bite?")) {
-      if (InventoryManager.hasItem(ItemPool.GRANDMAS_MAP)) {
-        ResultProcessor.processItem(ItemPool.GRANDMAS_MAP, -1);
-      }
-      return;
-    }
+        Matcher senderMatcher = GIFT_SENDER_PATTERN.matcher(responseText);
+        if (senderMatcher.find()) {
+          String sender = senderMatcher.group(1);
+          RequestLogger.printLine("Gift sender: " + sender);
+          RequestLogger.updateSessionLog("Gift sender: " + sender);
+        }
 
-    if (encounterName.equalsIgnoreCase("Meat For Nothing and the Harem for Free")) {
-      Preferences.setBoolean("_treasuryEliteMeatCollected", true);
-      return;
-    }
-
-    if (encounterName.equalsIgnoreCase("Finally, the Payoff")) {
-      Preferences.setBoolean("_treasuryHaremMeatCollected", true);
-      return;
-    }
-
-    if (encounterName.equals("Faction Traction = Inaction")) {
-      Preferences.setInteger("booPeakProgress", 98);
-      return;
-    }
-
-    if (encounterName.equals("Daily Done, John.")) {
-      // Daily Dungeon Complete
-      Preferences.setBoolean("dailyDungeonDone", true);
-      Preferences.setInteger("_lastDailyDungeonRoom", 15);
-      return;
-    }
-
-    if (encounterName.equals("A hidden surprise!")) {
-      // Since this content is short-lived, create the patterns here every time
-      // the encounter is found instead of globally
-      Pattern GIFT_SENDER_PATTERN = Pattern.compile("nounder><b>(.*?)</b></a>");
-      Pattern NOTE_PATTERN = Pattern.compile("1px solid black;'>(.*?)</td></tr>", Pattern.DOTALL);
-
-      Matcher senderMatcher = GIFT_SENDER_PATTERN.matcher(responseText);
-      if (senderMatcher.find()) {
-        String sender = senderMatcher.group(1);
-        RequestLogger.printLine("Gift sender: " + sender);
-        RequestLogger.updateSessionLog("Gift sender: " + sender);
-      }
-
-      Matcher noteMatcher = NOTE_PATTERN.matcher(responseText);
-      if (noteMatcher.find()) {
-        String note = noteMatcher.group(1);
-        RequestLogger.printLine("Gift note: " + note);
-        RequestLogger.updateSessionLog("Gift note: " + note);
-      }
+        Matcher noteMatcher = NOTE_PATTERN.matcher(responseText);
+        if (noteMatcher.find()) {
+          String note = noteMatcher.group(1);
+          RequestLogger.printLine("Gift note: " + note);
+          RequestLogger.updateSessionLog("Gift note: " + note);
+        }
+        return;
     }
   }
 
