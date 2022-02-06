@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -41,11 +42,16 @@ import org.mockito.Mockito;
 
 class EncounterManagerTest {
   @BeforeEach
-  void beforeEach() {
+  private void beforeEach() {
     KoLCharacter.reset("EncounterManagerTest");
     Preferences.reset("EncounterManagerTest");
     KoLmafia.resetSession();
     EncounterManager.ignoreSpecialMonsters = false;
+  }
+
+  @AfterAll
+  private static void cleanup() {
+    TurnCounter.clearCounters();
   }
 
   @Test
