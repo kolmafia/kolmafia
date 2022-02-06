@@ -26,7 +26,7 @@ public class CharPaneDecoratorTest {
 
   @AfterAll
   public static void cleanup() {
-    KoLAdventure.setLastAdventure((KoLAdventure) null);
+    KoLAdventure.setLastAdventure("");
   }
 
   @ParameterizedTest

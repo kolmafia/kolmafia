@@ -47,7 +47,7 @@ class EncounterManagerTest {
     Preferences.reset("EncounterManagerTest");
     KoLmafia.resetSession();
     EncounterManager.ignoreSpecialMonsters = false;
-    KoLAdventure.setLastAdventure((KoLAdventure) null);
+    KoLAdventure.setLastAdventure("");
   }
 
   @AfterAll
