@@ -2862,7 +2862,7 @@ public class GenericRequest implements Runnable {
       KoLAdventure adventure = AdventureDatabase.getAdventure(nextAdventure);
       KoLAdventure.setLastAdventure(adventure);
       KoLAdventure.setNextAdventure(adventure);
-      EncounterManager.registerAdventure(adventure.getAdventureName());
+      EncounterManager.registerAdventure(adventure);
     }
 
     String message = "[" + KoLAdventure.getAdventureCount() + "] " + itemName;
