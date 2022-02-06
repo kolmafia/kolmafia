@@ -156,7 +156,7 @@ class EncounterManagerTest {
         EncounterManager.findEncounterForLocation(
             "Whitey's Grove", EncounterManager.EncounterType.LUCKY);
 
-    assertThat(enc, equalTo("Monty of County Crisco"));
+    assertThat(enc, hasToString(equalTo("Monty of County Crisco")));
   }
 
   @Test

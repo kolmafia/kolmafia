@@ -81,6 +81,11 @@ public abstract class EncounterManager {
     public String getEncounter() {
       return this.encounter;
     }
+
+    @Override
+    public String toString() {
+      return this.encounter;
+    }
   }
 
   private static Encounter[] specialEncounters;
@@ -167,12 +172,11 @@ public abstract class EncounterManager {
             : EncounterType.NONE;
   }
 
-  public static final String findEncounterForLocation(
+  public static final Encounter findEncounterForLocation(
       final String locationName, final EncounterType type) {
     return Arrays.stream(specialEncounters)
         .filter(e -> e.getLocation().equalsIgnoreCase(locationName))
         .filter(e -> e.getEncounterType().equals(type))
-        .map(Encounter::getEncounter)
         .findAny()
         .orElse(null);
   }
