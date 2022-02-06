@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.session;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -145,17 +146,11 @@ public abstract class EncounterManager {
 
   public static final Encounter findEncounter(
       final String locationName, final String encounterName) {
-    for (Encounter encounter : specialEncounters) {
-      if (locationName != null && !locationName.equalsIgnoreCase(encounter.location)) {
-        continue;
-      }
-      if (!encounterName.equalsIgnoreCase(encounter.encounter)) {
-        continue;
-      }
-      return encounter;
-    }
-
-    return null;
+    return Arrays.stream(specialEncounters)
+        .filter(e -> locationName == null || e.getLocation().equalsIgnoreCase(locationName))
+        .filter(e -> e.getEncounter().equalsIgnoreCase(encounterName))
+        .findAny()
+        .orElse(null);
   }
 
   private static EncounterType encounterType(final String encounterName) {
@@ -174,17 +169,12 @@ public abstract class EncounterManager {
 
   public static final String findEncounterForLocation(
       final String locationName, final EncounterType type) {
-    for (Encounter encounter : specialEncounters) {
-      if (!locationName.equalsIgnoreCase(encounter.location)) {
-        continue;
-      }
-      if (!type.equals(encounter.encounterType)) {
-        continue;
-      }
-      return encounter.encounter;
-    }
-
-    return null;
+    return Arrays.stream(specialEncounters)
+        .filter(e -> e.getLocation().equalsIgnoreCase(locationName))
+        .filter(e -> e.getEncounterType().equals(type))
+        .map(Encounter::getEncounter)
+        .findAny()
+        .orElse(null);
   }
 
   public static final boolean isAutoStop(final String encounterName) {
