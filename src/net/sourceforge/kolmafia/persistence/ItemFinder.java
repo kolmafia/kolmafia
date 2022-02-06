@@ -13,13 +13,13 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ItemFinder {
@@ -61,10 +61,10 @@ public class ItemFinder {
     }
 
     // If there are multiple matches, such that one is a substring of the
-    // others, choose the shorter one, on the grounds that the user would
-    // have included part of the unique section of the longer name if that
-    // was the item they actually intended.	 This makes it easier to refer
-    // to non-clockwork in-a-boxes, and DoD potions by flavor.
+    // others, choose the shorter one, on the grounds that the user would have
+    // included part of the unique section of the longer name if that was the
+    // item they actually intended.  This makes it easier to refer to
+    // non-clockwork in-a-boxes, and DoD potions by flavor.
     while (nameList.size() >= 2) {
       String name0 = nameList.get(0);
       String name1 = nameList.get(1);
@@ -81,7 +81,7 @@ public class ItemFinder {
     }
 
     // Remove duplicate names that all refer to the same item?
-    Set<Integer> itemIdSet = new HashSet<Integer>();
+    Set<Integer> itemIdSet = new HashSet<>();
     int pseudoItems = 0;
 
     for (int i = 0; i < nameList.size(); ++i) {
@@ -145,7 +145,7 @@ public class ItemFinder {
       // in the list of matches.  If there are, only return
       // the restorative items (the others are irrelevant).
 
-      ArrayList<String> restoreList = new ArrayList<String>();
+      ArrayList<String> restoreList = new ArrayList<>();
 
       for (int i = 0; i < nameList.size(); ++i) {
         String itemName = nameList.get(i);
@@ -228,7 +228,7 @@ public class ItemFinder {
         case ABSORB:
           ItemFinder.conditionalRemove(
               nameIterator,
-              (ItemDatabase.getNoobSkillId(itemId) == -1
+              (ItemDatabase.getNoobSkillId(itemId) == 0
                   && !(ItemDatabase.isEquipment(itemId)
                       && !ItemDatabase.isFamiliarEquipment(itemId))));
           break;
@@ -264,7 +264,7 @@ public class ItemFinder {
 
     // If this process results in filtering EVERYTHING in our list, that's not helpful.
     // Make a backup of nameList to restore from in such a case.
-    List<String> nameListCopy = new ArrayList<String>(nameList);
+    List<String> nameListCopy = new ArrayList<>(nameList);
 
     nameIterator = nameList.iterator();
 
@@ -322,7 +322,7 @@ public class ItemFinder {
       boolean errorOnFailure,
       List<AdventureResult> sourceList,
       Match filterType) {
-    // Ignore spaces and tabs in front of the parameter string
+    // Ignore spaces and tabs at ends of the parameter string
     parameters = parameters.trim();
 
     // If there are no valid strings passed in, return
@@ -349,13 +349,6 @@ public class ItemFinder {
 
     if (parameters.contains("\u00B6") || parameters.contains("[")) {
       // At least one item is specified by item ID
-      if (parameters.contains(",")) {
-        // We can't parse multiple items of this sort
-        if (errorOnFailure) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "More than one item specified by item ID.");
-        }
-        return null;
-      }
 
       int spaceIndex = parameters.indexOf(' ');
       if (spaceIndex != -1) {
@@ -388,7 +381,7 @@ public class ItemFinder {
         return null;
       }
 
-      matchList = new ArrayList<String>();
+      matchList = new ArrayList<>();
       if (itemId != -1) {
         matchList.add("[" + itemId + "]");
       } else {
@@ -397,7 +390,7 @@ public class ItemFinder {
     } else if (ItemDatabase.getItemId(parameters, 1) != -1) {
       // The entire parameter is a single item
       itemId = ItemDatabase.getItemId(parameters, 1);
-      matchList = new ArrayList<String>();
+      matchList = new ArrayList<>();
       matchList.add(ItemDatabase.getCanonicalName(itemId));
     } else {
       int spaceIndex = parameters.indexOf(' ');
@@ -411,8 +404,6 @@ public class ItemFinder {
         }
       }
 
-      // This is not right for "1 seal tooth, 2 turtle totem, 3 stolen accordion"
-      // since the first count is trimmed off
       matchList = ItemFinder.getMatchingNames(parameters);
     }
 
@@ -493,26 +484,33 @@ public class ItemFinder {
     if (filterType == Match.CREATE) {
       boolean skipNPCs = Preferences.getBoolean("autoSatisfyWithNPCs") && itemCount <= 0;
 
-      if (skipNPCs) {
-        // Let '*' and negative counts be interpreted
-        // relative to the quantity that can be created
-        // with on-hand ingredients.
+      try {
+        if (skipNPCs) {
+          // Let '*' and negative counts be interpreted
+          // relative to the quantity that can be created
+          // with on-hand ingredients.
 
-        Preferences.setBoolean("autoSatisfyWithNPCs", false);
-        ConcoctionDatabase.refreshConcoctionsNow();
-      }
+          Preferences.setBoolean("autoSatisfyWithNPCs", false);
+          ConcoctionDatabase.refreshConcoctionsNow();
+        }
 
-      CreateItemRequest instance = CreateItemRequest.getInstance(firstMatch);
-      matchCount = instance == null ? 0 : instance.getQuantityPossible();
-
-      if (skipNPCs) {
-        Preferences.setBoolean("autoSatisfyWithNPCs", true);
-        ConcoctionDatabase.refreshConcoctionsNow();
+        CreateItemRequest instance = CreateItemRequest.getInstance(firstMatch);
+        matchCount = instance == null ? 0 : instance.getQuantityPossible();
+      } finally {
+        if (skipNPCs) {
+          Preferences.setBoolean("autoSatisfyWithNPCs", true);
+          ConcoctionDatabase.refreshConcoctionsNow();
+        }
       }
     } else if (sourceList == null) {
       // Default to number in inventory if count was "*" (all)
       // or negative (all but that many) and no list was given.
       matchCount = itemCount <= 0 ? firstMatch.getCount(KoLConstants.inventory) : 1;
+    } else if (sourceList == KoLConstants.storage) {
+      // Either storage or freepulls; if we can interact, both are on
+      // storage. Otherwise, they are split as appropriate.
+      matchCount =
+          firstMatch.getCount(KoLConstants.storage) + firstMatch.getCount(KoLConstants.freepulls);
     } else {
       matchCount = firstMatch.getCount(sourceList);
     }
@@ -521,7 +519,9 @@ public class ItemFinder {
     // the item count.
 
     if (itemCount <= 0) {
-      if (sourceList == KoLConstants.storage && !KoLCharacter.canInteract()) {
+      if (sourceList == KoLConstants.storage
+          && !KoLCharacter.canInteract()
+          && !StorageRequest.isFreePull(firstMatch)) {
         // Pulls are budgeted.
         itemCount = 0;
         return firstMatch.getInstance(itemCount);
@@ -532,8 +532,7 @@ public class ItemFinder {
     } else if (matchCount < itemCount && sourceList != null) {
       if (errorOnFailure) {
         String message = "";
-        if (sourceList == KoLConstants.freepulls
-            && !Modifiers.getBooleanModifier("Item", firstMatch.getItemId(), "Free Pull")) {
+        if (sourceList == KoLConstants.freepulls && !StorageRequest.isFreePull(firstMatch)) {
           message = "[" + firstMatch.getName() + "] requested, but it's not a Free Pull";
         } else {
           message =
@@ -588,12 +587,12 @@ public class ItemFinder {
     String[] itemNames = itemList.split("\\s*,\\s*");
 
     boolean isMeatMatch = false;
-    ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> items = new ArrayList<>();
 
     for (String name : itemNames) {
       isMeatMatch = false;
 
-      if (name.endsWith(" meat")) {
+      if (name.toLowerCase().endsWith(" meat")) {
         if (sourceList == KoLConstants.freepulls) {
           continue;
         }
