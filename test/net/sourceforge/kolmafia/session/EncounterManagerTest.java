@@ -538,15 +538,14 @@ class EncounterManagerTest {
     }
   }
 
-  @Disabled("Needs HTML")
   @Test
   void rainManMonsterIgnoresSpecialMonsters() throws IOException {
-    String html = Files.readString(Path.of("request/test_fight_oil_slick.html"));
+    String html = Files.readString(Path.of("request/test_fight_rainman_monster.html"));
 
     var cleanups = inPath(AscensionPath.Path.HEAVY_RAINS);
 
     try (cleanups) {
-      EncounterManager.registerEncounter("oil slick", "Combat", html);
+      EncounterManager.registerEncounter("Knob Goblin Embezzler", "Combat", html);
 
       assertThat(EncounterManager.ignoreSpecialMonsters, equalTo(true));
     }
