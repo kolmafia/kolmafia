@@ -127,8 +127,7 @@ public abstract class EncounterManager {
         LockableListFactory.lastElement(KoLConstants.adventureList);
 
     if (previousAdventure != null && previousAdventure.name.equals(adventureName)) {
-      ++previousAdventure.encounterCount;
-      KoLConstants.adventureList.set(KoLConstants.adventureList.size() - 1, previousAdventure);
+      previousAdventure.increment();
     } else {
       KoLConstants.adventureList.add(new RegisteredEncounter(null, adventureName));
     }
@@ -390,26 +389,20 @@ public abstract class EncounterManager {
 
   /** Utility. The method used to register a given encounter in the running adventure summary. */
   public static void registerEncounter(
-      String encounterName, final String encounterType, final String responseText) {
-    encounterName = encounterName.trim();
+      final String encounterName, final String encounterType, final String responseText) {
+    final String name = encounterName.trim();
 
-    handleSpecialEncounter(encounterName, responseText);
-    recognizeEncounter(encounterName, responseText);
+    handleSpecialEncounter(name, responseText);
+    recognizeEncounter(name, responseText);
 
-    RegisteredEncounter[] encounters = new RegisteredEncounter[KoLConstants.encounterList.size()];
-    KoLConstants.encounterList.toArray(encounters);
-
-    for (int i = 0; i < encounters.length; ++i) {
-      if (encounters[i].name.equals(encounterName)) {
-        ++encounters[i].encounterCount;
-
-        // Manually set to force repainting in GUI
-        KoLConstants.encounterList.set(i, encounters[i]);
-        return;
-      }
-    }
-
-    KoLConstants.encounterList.add(new RegisteredEncounter(encounterType, encounterName));
+    KoLConstants.encounterList.stream()
+        .filter(e -> e.name.equalsIgnoreCase(name))
+        .findFirst()
+        .ifPresentOrElse(
+            RegisteredEncounter::increment,
+            () ->
+                KoLConstants.encounterList.add(
+                    new RegisteredEncounter(encounterType, encounterName)));
   }
 
   public static void handleSpecialEncounter(final String encounterName, final String responseText) {
@@ -485,6 +478,10 @@ public abstract class EncounterManager {
     @Override
     public String toString() {
       return this.stringform + " (" + this.encounterCount + ")";
+    }
+
+    public void increment() {
+      this.encounterCount++;
     }
 
     @Override
