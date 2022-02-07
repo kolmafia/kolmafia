@@ -16,7 +16,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class AbsorbCommand extends AbstractCommand {
   public AbsorbCommand() {
-    this.usage = " <item> - absorb item.";
+    this.usage = "[X] <item> - absorb item(s).";
   }
 
   @Override
@@ -42,6 +42,7 @@ public class AbsorbCommand extends AbstractCommand {
     }
 
     int itemId = match.getItemId();
+    int count = match.getCount();
 
     // If not in inventory, try to retrieve it (if it's in inventory, doesn't matter if outside
     // Standard)
@@ -52,9 +53,11 @@ public class AbsorbCommand extends AbstractCommand {
       return;
     }
 
-    // Absorb the item
-    RequestThread.postRequest(
-        new GenericRequest("inventory.php?absorb=" + itemId + "&ajax=1", false));
+    // Absorb the item(s)
+    for (int i = 0; i < count; i++) {
+      RequestThread.postRequest(
+          new GenericRequest("inventory.php?absorb=" + itemId + "&ajax=1", false));
+    }
 
     // Parse the charpane for updated absorb info
     RequestThread.postRequest(new CharPaneRequest());
