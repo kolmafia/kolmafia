@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.session;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -12,7 +11,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -1129,18 +1127,21 @@ public abstract class InventoryManager {
       final boolean exact,
       final boolean mallPriceOnly) {
     int price = 0;
-    int onhand = Math.min(quantity, item.getCount(KoLConstants.inventory));
+    int needed = quantity;
+    int onhand = Math.min(needed, item.getCount(KoLConstants.inventory));
+
     if (onhand > 0) {
       if (item.getItemId() != ItemPool.PLASTIC_SWORD) {
         price = mallPriceOnly ? 0 : InventoryManager.itemValue(item, exact);
       }
 
       price *= onhand;
-      quantity -= onhand;
+      needed -= onhand;
 
-      if (quantity == 0) {
+      if (needed == 0) {
         if (Preferences.getBoolean("debugBuy")) {
-          RequestLogger.printLine("\u262F " + item.getInstance(onhand) + " onhand=" + price);
+          RequestLogger.printLine(
+              "\u262F " + item.getInstance(onhand) + " onhand=" + onhand + " price = " + price);
         }
 
         return price;
@@ -1148,15 +1149,14 @@ public abstract class InventoryManager {
     }
 
     int mallPrice =
-        (exact ? StoreManager.getMallPrice(item) : StoreManager.getMallPrice(item, 7.0f))
-            * quantity;
+        (exact ? StoreManager.getMallPrice(item) : StoreManager.getMallPrice(item, 7.0f)) * needed;
     if (mallPrice <= 0) {
       mallPrice = Integer.MAX_VALUE;
     } else {
       mallPrice += price;
     }
 
-    int makePrice = InventoryManager.priceToMake(item, quantity, level, exact, mallPriceOnly);
+    int makePrice = InventoryManager.priceToMake(item, needed, level, exact, mallPriceOnly);
     if (makePrice != Integer.MAX_VALUE) {
       makePrice += price;
     }
@@ -1186,12 +1186,16 @@ public abstract class InventoryManager {
       return meatCost * quantity;
     }
 
-    CraftingType method = ConcoctionDatabase.getMixingMethod(item);
-    EnumSet<CraftingRequirements> requirements = ConcoctionDatabase.getRequirements(id);
-    if (level > 10 || !ConcoctionDatabase.isPermittedMethod(method, requirements)) {
+    // Limit recursion depth
+    if (level > 10) {
       return Integer.MAX_VALUE;
     }
 
+    if (!ConcoctionDatabase.checkPermittedMethod(item)) {
+      return Integer.MAX_VALUE;
+    }
+
+    CraftingType method = ConcoctionDatabase.getMixingMethod(item);
     int price = ConcoctionDatabase.getCreationCost(method);
     int yield = ConcoctionDatabase.getYield(id);
     int madeQuantity = (quantity + yield - 1) / yield;
@@ -1203,7 +1207,10 @@ public abstract class InventoryManager {
       int needed = ingredient.getCount() * madeQuantity;
 
       int ingredientPrice =
-          InventoryManager.priceToAcquire(ingredient, needed, level + 1, exact, mallPriceOnly);
+          ingredient.isMeat()
+              ? needed
+              : InventoryManager.priceToAcquire(
+                  ingredient, needed, level + 1, exact, mallPriceOnly);
 
       if (ingredientPrice == Integer.MAX_VALUE) {
         return ingredientPrice;
