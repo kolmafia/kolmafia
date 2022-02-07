@@ -9562,7 +9562,7 @@ public abstract class ChoiceManager {
         // Chatterboxing
         if (ChoiceManager.lastDecision == 2
             && text.contains("find a valuable trinket that looks promising")) {
-          BanishManager.banishMonster("chatty pirate", "chatterboxing");
+          BanishManager.banishMonster("chatty pirate", BanishManager.Banisher.CHATTERBOXING);
         }
         break;
 
@@ -10726,7 +10726,7 @@ public abstract class ChoiceManager {
       case 836:
         // Adventures Who Live in Ice Houses...
         if (ChoiceManager.lastDecision == 1) {
-          BanishManager.removeBanishByBanisher("ice house");
+          BanishManager.removeBanishByBanisher(BanishManager.Banisher.ICE_HOUSE);
         }
         break;
 
@@ -15708,7 +15708,7 @@ public abstract class ChoiceManager {
             String knownBanishes = Preferences.getString("banishedMonsters");
             if (!knownBanishes.contains(icehouseMonster)) {
               // If not already known to be banished, add it
-              BanishManager.banishMonster(icehouseMonster, "ice house");
+              BanishManager.banishMonster(icehouseMonster, BanishManager.Banisher.ICE_HOUSE);
             }
           }
           break;

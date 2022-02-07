@@ -1,7 +1,11 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Player.isDay;
+import static internal.helpers.Preference.isSetTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.GregorianCalendar;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -17,23 +21,27 @@ public class ResultProcessorTest {
   public void beforeEach() {
     KoLCharacter.reset("ResultProcessorTest");
     Preferences.reset("ResultProcessorTest");
+    BanishManager.clearCache();
   }
 
+  private static AdventureResult MAGNIFICENT_OYSTER_EGG =
+      ItemPool.get(ItemPool.MAGNIFICENT_OYSTER_EGG);
+
   @Test
-  public void obtainOysterEggAppropriatelyTest() {
+  public void obtainOysterEggAppropriately() {
     HolidayDatabase.guessPhaseStep();
     EquipmentManager.setEquipment(EquipmentManager.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
     // This was an Oyster Egg Day.
     final var cleanups = isDay(new GregorianCalendar(2022, 0, 29, 12, 0));
     try (cleanups) {
-      ResultProcessor.processResult(true, new AdventureResult(5, "magnificent oyster egg", 1));
+      ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
     }
   }
 
   @Test
-  public void obtainOysterEggOnWrongDayTest() {
+  public void obtainOysterEggOnWrongDay() {
     EquipmentManager.setEquipment(EquipmentManager.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
-    ResultProcessor.processResult(true, new AdventureResult(5, "magnificent oyster egg", 1));
+    ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
     // This was not an Oyster Egg Day.
     final var cleanups = isDay(new GregorianCalendar(2022, 0, 30, 12, 0));
     try (cleanups) {
@@ -42,22 +50,44 @@ public class ResultProcessorTest {
   }
 
   @Test
-  public void obtainOysterEggWithoutBasketTest() {
+  public void obtainOysterEggWithoutBasket() {
     // This was an Oyster Egg Day.
     final var cleanups = isDay(new GregorianCalendar(2022, 0, 29, 12, 0));
     try (cleanups) {
-      ResultProcessor.processResult(true, new AdventureResult(5, "magnificent oyster egg", 1));
+      ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
       assertEquals(Preferences.getInteger("_oysterEggsFound"), 0);
     }
   }
 
   @Test
-  public void obtainOysterEggOnWrongDayAndWithoutBasketTest() {
+  public void obtainOysterEggOnWrongDayAndWithoutBasket() {
     // This was not an Oyster Egg Day.
     final var cleanups = isDay(new GregorianCalendar(2022, 0, 30, 12, 0));
     try (cleanups) {
-      ResultProcessor.processResult(true, new AdventureResult(5, "magnificent oyster egg", 1));
+      ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
       assertEquals(Preferences.getInteger("_oysterEggsFound"), 0);
     }
+  }
+
+  private static AdventureResult COSMIC_BOWLING_BALL = ItemPool.get(ItemPool.COSMIC_BOWLING_BALL);
+
+  @Test
+  public void gettingCosmicBowlingBallInCombatResetsBanishes() {
+    Preferences.setInteger("cosmicBowlingBallReturnCombats", 20);
+    BanishManager.banishMonster("zmobie", BanishManager.Banisher.BOWL_A_CURVEBALL);
+    assertTrue(BanishManager.isBanished("zmobie"));
+
+    ResultProcessor.processResult(true, COSMIC_BOWLING_BALL);
+
+    assertFalse(BanishManager.isBanished("zmobie"));
+  }
+
+  @Test
+  public void gettingCosmicBowlingBallInCombatResetsReturnCombats() {
+    Preferences.setInteger("cosmicBowlingBallReturnCombats", 20);
+    BanishManager.banishMonster("zmobie", BanishManager.Banisher.BOWL_A_CURVEBALL);
+    ResultProcessor.processResult(true, COSMIC_BOWLING_BALL);
+
+    assertThat("cosmicBowlingBallReturnCombats", isSetTo(-1));
   }
 }
