@@ -28,7 +28,7 @@ public class HeistCommandTest extends AbstractCommandTestBase {
     this.command = "heist";
   }
 
-  static void setCatBurglar() {
+  private static void setCatBurglar() {
     var familiar = FamiliarData.registerFamiliar(FamiliarPool.CAT_BURGLAR, 1);
     KoLCharacter.setFamiliar(familiar);
   }
@@ -100,7 +100,7 @@ public class HeistCommandTest extends AbstractCommandTestBase {
     this.command = "heistFake";
     String output = execute("\"meat\" stick");
 
-    assertThat(output, containsString("Heisted \"meat\" stick"));
+    assertThat(output, containsString("Heisted &quot;meat&quot; stick"));
     assertContinueState();
   }
 
@@ -110,7 +110,7 @@ public class HeistCommandTest extends AbstractCommandTestBase {
     this.command = "heistFake";
     String output = execute("13 Purple Beast");
 
-    assertThat(output, containsString("Heisted 13 Purple Beast energy drink"));
+    assertThat(output, containsString("Heisted 13 Purple Beast energy drinks"));
     assertContinueState();
   }
 
