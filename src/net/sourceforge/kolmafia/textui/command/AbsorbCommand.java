@@ -68,7 +68,6 @@ public class AbsorbCommand extends AbstractCommand {
       PreferenceListenerRegistry.firePreferenceChanged("(hats)");
     }
 
-    KoLmafia.updateDisplay(
-        "Absorbed " + (count > 1 ? count + " " : "") + match.getPluralName());
+    KoLmafia.updateDisplay("Absorbed " + (count > 1 ? count + " " : "") + match.getPluralName());
   }
 }

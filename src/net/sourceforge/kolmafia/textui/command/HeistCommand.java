@@ -86,8 +86,7 @@ public class HeistCommand extends AbstractCommand {
       return;
     }
 
-    KoLmafia.updateDisplay(
-        "Heisted " + (count > 1 ? count + " " : "") + item.getPluralName());
+    KoLmafia.updateDisplay("Heisted " + (count > 1 ? count + " " : "") + item.getPluralName());
     KoLCharacter.updateStatus();
   }
 
