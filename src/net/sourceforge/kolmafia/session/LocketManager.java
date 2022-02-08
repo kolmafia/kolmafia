@@ -92,7 +92,9 @@ public class LocketManager {
   }
 
   public static void parseFight(final MonsterData monster, final String text) {
-    if (!text.contains("loverslocketframe.png")) {
+    if (!text.contains("loverslocketframe.png")
+        // Sometimes there's no frame?
+        && !text.contains("your locket changes to reflect")) {
       return;
     }
 
@@ -131,7 +133,7 @@ public class LocketManager {
     // ... and the locket has a phylum at all...
     if (indicativeMod != null) {
       // Weapon Damage: [pref(locketPhylum,weird)*25]
-      int start = locketModString.indexOf(indicativeMod) + indicativeMod.length() + 21;
+      int start = locketModString.indexOf(indicativeMod + ": ") + indicativeMod.length() + 21;
       // ... we find the indicative modifier in the raw mod string and see what phylum it is
       // associated with.
       phylum = locketModString.substring(start, locketModString.indexOf(")", start));

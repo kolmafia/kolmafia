@@ -2033,12 +2033,12 @@ public class EquipmentManager {
    */
   public static final int getAdjustedHitStat() {
     int hitStat;
+    if (KoLCharacter.currentBooleanModifier(Modifiers.ATTACKS_CANT_MISS)) {
+      return Integer.MAX_VALUE;
+    }
     switch (getHitStatType()) {
       default:
       case MUSCLE:
-        if (KoLCharacter.currentBooleanModifier(Modifiers.ATTACKS_CANT_MISS)) {
-          return Integer.MAX_VALUE;
-        }
         hitStat = KoLCharacter.getAdjustedMuscle();
         if (Modifiers.unarmed && KoLCharacter.hasSkill("Master of the Surprising Fist")) {
           hitStat += 20;

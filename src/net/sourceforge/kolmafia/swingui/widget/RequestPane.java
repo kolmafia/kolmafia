@@ -8,15 +8,15 @@ import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.HTMLWriter;
 import javax.swing.text.html.InlineView;
+import net.sourceforge.kolmafia.ImageCachingEditorKit;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RequestPane extends JEditorPane {
-  static class WrappedHtmlEditorKit extends HTMLEditorKit {
+  static class WrappedHtmlEditorKit extends ImageCachingEditorKit {
     private final ViewFactory viewFactory;
 
     public WrappedHtmlEditorKit() {
@@ -29,7 +29,7 @@ public class RequestPane extends JEditorPane {
       return this.viewFactory;
     }
 
-    private static class WrappedHtmlFactory extends HTMLEditorKit.HTMLFactory {
+    private static class WrappedHtmlFactory extends ImageCachingViewFactory {
       @Override
       public View create(Element elem) {
         View view = super.create(elem);
