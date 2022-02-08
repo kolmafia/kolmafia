@@ -38,11 +38,10 @@ public class Player {
 
   public static Cleanups addItem(String item, int count) {
     var cleanups = new Cleanups();
-    AdventureResult parsed = AdventureResult.tallyItem(item);
-    for (int i = 0; i < count; i++) {
-      AdventureResult.addResultToList(KoLConstants.inventory, parsed);
-      cleanups.add(() -> AdventureResult.removeResultFromList(KoLConstants.inventory, parsed));
-    }
+    AdventureResult parsed = AdventureResult.tallyItem(item, count, true);
+    AdventureResult negated = parsed.getNegation();
+    AdventureResult.addResultToList(KoLConstants.inventory, parsed);
+    cleanups.add(() -> AdventureResult.addResultToList(KoLConstants.inventory, negated));
     return cleanups;
   }
 
@@ -51,7 +50,7 @@ public class Player {
   }
 
   public static void addItem(int itemId, int count) {
-    AdventureResult.addResultToList(KoLConstants.inventory, ItemPool.get(itemId));
+    AdventureResult.addResultToList(KoLConstants.inventory, ItemPool.get(itemId, count));
   }
 
   public static int countItem(int itemId) {
