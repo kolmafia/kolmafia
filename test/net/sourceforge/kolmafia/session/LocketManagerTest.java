@@ -32,7 +32,7 @@ public class LocketManagerTest {
     Preferences.setString("_locketMonstersFought", "5");
 
     var monster = MonsterDatabase.findMonster("alielf");
-    var html = Files.readString(Path.of("request/test_fight_start_locket_fight.html"));
+    var html = Files.readString(Path.of("request/test_fight_start_locket_fight_with_horror.html"));
     LocketManager.parseFight(monster, html);
 
     assertThat("_locketMonstersFought", isSetTo("5,1092"));
@@ -43,7 +43,7 @@ public class LocketManagerTest {
     Preferences.setString("_locketMonstersFought", "5,1092");
 
     var monster = MonsterDatabase.findMonster("alielf");
-    var html = Files.readString(Path.of("request/test_fight_start_locket_fight.html"));
+    var html = Files.readString(Path.of("request/test_fight_start_locket_fight_with_horror.html"));
     LocketManager.parseFight(monster, html);
 
     assertThat("_locketMonstersFought", isSetTo("5,1092"));

@@ -14,6 +14,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class GenericRequestTest {
   @BeforeEach
@@ -54,13 +56,15 @@ public class GenericRequestTest {
     assertThat("spookyPuttyMonster", isSetTo(""));
   }
 
-  @Test
-  public void learnLocketPhylumFromLocketDescription() throws IOException {
+  @ParameterizedTest
+  @ValueSource(strings = {"beast", "elf"})
+  public void learnLocketPhylumFromLocketDescription(String phylum) throws IOException {
     var req = new GenericRequest("desc_item.php?whichitem=634036450");
     req.responseText =
-        Files.readString(Paths.get("request/test_desc_item_combat_lovers_locket_beast.html"));
+        Files.readString(
+            Paths.get("request/test_desc_item_combat_lovers_locket_" + phylum + ".html"));
     req.processResponse();
 
-    assertThat("locketPhylum", isSetTo("beast"));
+    assertThat("locketPhylum", isSetTo(phylum));
   }
 }
