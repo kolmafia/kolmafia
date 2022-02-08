@@ -158,4 +158,9 @@ public class Player {
     mocked.when(HolidayDatabase::getDate).thenReturn(cal.getTime());
     return new Cleanups(mocked::close);
   }
+
+  public static Cleanups usedAbsorbs(int absorbs) {
+    KoLCharacter.setAbsorbs(absorbs);
+    return new Cleanups(() -> usedAbsorbs(0));
+  }
 }

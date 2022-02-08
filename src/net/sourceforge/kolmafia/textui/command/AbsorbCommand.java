@@ -38,6 +38,8 @@ public class AbsorbCommand extends AbstractCommand {
 
     AdventureResult match = ItemFinder.getFirstMatchingItem(parameters, Match.ABSORB);
     if (match == null) {
+      // for backwards compatibility: previously no message was displayed, so do not error here
+      KoLmafia.updateDisplay("What item is " + parameters + "?");
       return;
     }
 
@@ -65,5 +67,8 @@ public class AbsorbCommand extends AbstractCommand {
     if (ItemDatabase.isHat(itemId)) {
       PreferenceListenerRegistry.firePreferenceChanged("(hats)");
     }
+
+    KoLmafia.updateDisplay(
+        "Absorbed " + (count > 1 ? count + " " : "") + match.getPluralName());
   }
 }
