@@ -188,6 +188,10 @@ public abstract class PurchaseRequest extends GenericRequest
     return true;
   }
 
+  public String accessible() {
+    return null;
+  }
+
   /**
    * Executes the purchase request. This calculates the number of items which will be purchased and
    * adds it to the list. Note that it marks whether or not it's already been run to avoid problems
