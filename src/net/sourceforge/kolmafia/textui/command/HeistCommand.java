@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -9,6 +8,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.session.FamiliarManager;
 import net.sourceforge.kolmafia.session.HeistManager;
 
@@ -16,8 +16,6 @@ public class HeistCommand extends AbstractCommand {
   public HeistCommand() {
     this.usage = " [[N] ITEM] - display all heistable items, or heist some number of items";
   }
-
-  private static final Pattern ITEM_WITH_COUNT = Pattern.compile("(\\d+)\\s+(.*)");
 
   @Override
   public void run(final String cmd, String parameter) {
@@ -70,22 +68,15 @@ public class HeistCommand extends AbstractCommand {
   }
 
   private void heistItem(String parameter) {
-    int id = ItemDatabase.getItemId(parameter);
-    int count = 1;
-    if (id == -1) {
-      // possibly number first
-      Matcher itemMatcher = ITEM_WITH_COUNT.matcher(parameter);
-      if (itemMatcher.matches()) {
-        count = Integer.parseInt(itemMatcher.group(1));
-        String possibleItemName = itemMatcher.group(2);
-        id = ItemDatabase.getItemId(possibleItemName);
-      }
-      if (id == -1) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "What item is " + parameter + "?");
-        return;
-      }
+    AdventureResult item = ItemFinder.getFirstMatchingItem(parameter);
+
+    if (item == null) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "What item is " + parameter + "?");
+      return;
     }
 
+    int id = item.getItemId();
+    int count = item.getCount();
     var heistManager = heistManager();
     var success = heistManager.heist(count, id);
 
@@ -95,8 +86,7 @@ public class HeistCommand extends AbstractCommand {
       return;
     }
 
-    KoLmafia.updateDisplay(
-        "Heisted " + (count > 1 ? count + " " : "") + ItemDatabase.getItemName(id));
+    KoLmafia.updateDisplay("Heisted " + (count > 1 ? count + " " : "") + item.getPluralName());
     KoLCharacter.updateStatus();
   }
 
