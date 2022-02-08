@@ -354,8 +354,28 @@ public class ConcoctionDatabase {
     return true;
   }
 
-  public static final boolean checkPermittedMethod(AdventureResult item) {
+  public static final boolean isPermittedMethod(AdventureResult item) {
     return ConcoctionDatabase.checkPermittedMethod(ConcoctionPool.get(item));
+  }
+
+  public static final boolean isPermittedMethod(Concoction conc) {
+    // Also checks for Coinmaster accessibilty, since we know the item.
+
+    if (conc == null) {
+      return false;
+    }
+
+    // If this is a Coinmaster creation, the Coinmaster must be accessible
+    CraftingType method = conc.getMixingMethod();
+    if (method == CraftingType.COINMASTER) {
+      String message = conc.getPurchaseRequest().accessible();
+      if (message != null) {
+        return false;
+      }
+    }
+
+    EnumSet<CraftingRequirements> requirements = conc.getRequirements();
+    return ConcoctionDatabase.isPermittedMethod(method, requirements);
   }
 
   public static final boolean checkPermittedMethod(Concoction conc) {
@@ -378,7 +398,7 @@ public class ConcoctionDatabase {
     if (method == CraftingType.COINMASTER) {
       String message = conc.getPurchaseRequest().accessible();
       if (message != null) {
-        ConcoctionDatabase.excuse = ConcoctionDatabase.EXCUSE.get(method);
+        ConcoctionDatabase.excuse = message;
         return false;
       }
     }
