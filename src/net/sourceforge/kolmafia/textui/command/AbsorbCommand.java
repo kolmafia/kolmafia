@@ -55,10 +55,10 @@ public class AbsorbCommand extends AbstractCommand {
       return;
     }
 
+    var request = new GenericRequest("inventory.php?absorb=" + itemId + "&ajax=1", false);
     // Absorb the item(s)
     for (int i = 0; i < count; i++) {
-      RequestThread.postRequest(
-          new GenericRequest("inventory.php?absorb=" + itemId + "&ajax=1", false));
+      RequestThread.postRequest(request);
     }
 
     // Parse the charpane for updated absorb info
