@@ -22,6 +22,8 @@ import net.sourceforge.kolmafia.session.LocketManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /** Coverage driven collection of tests for FightRequest. */
 public class FightRequestTest {
@@ -218,12 +220,14 @@ public class FightRequestTest {
     assertTrue(Preferences.getBoolean("_luckyGoldRingVolcoino"));
   }
 
-  @Test
-  public void registersLocketFight() throws IOException {
-    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("alielf"));
-    parseCombatData("request/test_fight_start_locket_fight.html");
-    assertThat("locketPhylum", isSetTo("horror"));
-    assertThat("_locketMonstersFought", isSetTo("1092"));
+  @ParameterizedTest
+  @ValueSource(strings = {"alielf", "Black Crayon Crimbo Elf"})
+  public void registersLocketFight(String monsterName) throws IOException {
+    var monster = MonsterDatabase.findMonster(monsterName);
+    MonsterStatusTracker.setNextMonster(monster);
+    parseCombatData("request/test_fight_start_locket_fight_with_" + monster.getPhylum() + ".html");
+    assertThat("locketPhylum", isSetTo(monster.getPhylum().toString()));
+    assertThat("_locketMonstersFought", isSetTo(monster.getId()));
   }
 
   @Test
