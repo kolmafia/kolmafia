@@ -1191,7 +1191,7 @@ public abstract class InventoryManager {
       return Integer.MAX_VALUE;
     }
 
-    if (!ConcoctionDatabase.checkPermittedMethod(item)) {
+    if (!ConcoctionDatabase.isPermittedMethod(item)) {
       return Integer.MAX_VALUE;
     }
 
