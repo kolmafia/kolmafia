@@ -100,6 +100,7 @@ public class LocketManager {
 
     // This will not double an existing id so is safe to run at any round
     addFoughtMonster(monster.getId());
+    EncounterManager.ignoreSpecialMonsters();
 
     Preferences.setString("locketPhylum", monster.getPhylum().toString());
   }

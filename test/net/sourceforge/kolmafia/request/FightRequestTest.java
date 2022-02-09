@@ -249,4 +249,14 @@ public class FightRequestTest {
 
     assertTrue(LocketManager.remembersMonster(155));
   }
+
+  @Test
+  public void dontIncrementWitchessIfFromLocket() throws IOException {
+    assertEquals(Preferences.getInteger("_witchessFights"), 0);
+
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
+    parseCombatData("request/test_fight_witchess_with_locket.html");
+
+    assertEquals(Preferences.getInteger("_witchessFights"), 0);
+  }
 }
