@@ -3334,18 +3334,11 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     @Override
     public void update() {
-      boolean borisBan = KoLCharacter.hasSkill("Banishing Shout");
-      boolean zombieBan = KoLCharacter.hasSkill("Howl of the Alpha");
-      boolean jarlBan =
-          InventoryManager.getCount(ItemPool.STAFF_OF_CHEESE) > 0
-              || KoLCharacter.hasEquipped(DailyDeedsPanel.STAFF_OF_CHEESE);
-      boolean nanoBan = KoLCharacter.findFamiliar(FamiliarPool.NANORHINO) != null;
-
-      String list = BanishManager.getBanishList();
-      String text = "Banished monsters: " + list;
+      List<String> list = BanishManager.getBanishedMonsters();
+      String text = "Banished monsters: " + String.join(",", list);
 
       this.setText(text);
-      this.setShown(borisBan || zombieBan || jarlBan || nanoBan || list.length() > 0);
+      this.setShown(list.size() > 0);
     }
   }
 
