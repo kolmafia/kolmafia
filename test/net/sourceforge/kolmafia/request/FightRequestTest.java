@@ -254,7 +254,7 @@ public class FightRequestTest {
   public void dontIncrementWitchessIfFromLocket() throws IOException {
     assertEquals(Preferences.getInteger("_witchessFights"), 0);
 
-    MonsterStatusTracker.setNextMOnster(MonsterDatabase.findMonster("Witchess Knight"));
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
     parseCombatData("request/test_fight_witchess_with_locket.html");
 
     assertEquals(Preferences.getInteger("_witchessFights"), 0);
