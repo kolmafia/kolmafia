@@ -447,7 +447,7 @@ public class BanishManager {
     BanishManager.recalculate();
 
     return banishedMonsters.stream()
-        .filter(m -> m.getBanisher().equals(Banisher.ICE_HOUSE))
+        .filter(m -> m.getBanisher().equals(banisher))
         .map(BanishedMonster::getMonsterName)
         .collect(Collectors.toList());
   }
