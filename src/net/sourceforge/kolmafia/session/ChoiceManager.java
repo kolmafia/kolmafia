@@ -15704,7 +15704,7 @@ public abstract class ChoiceManager {
           // Adventures Who Live in Ice Houses...
           Matcher matcher = ChoiceManager.ICEHOUSE_PATTERN.matcher(text);
           if (matcher.find()) {
-            String icehouseMonster = matcher.group(1).toLowerCase();
+            String icehouseMonster = matcher.group(1);
             String knownBanishes = Preferences.getString("banishedMonsters");
             if (!knownBanishes.contains(icehouseMonster)) {
               // If not already known to be banished, add it
