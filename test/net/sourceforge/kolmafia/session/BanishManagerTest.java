@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.arrayWithSize;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
@@ -194,6 +195,17 @@ class BanishManagerTest {
     BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.HUMAN_MUSK);
 
     assertTrue(BanishManager.isBanished("spooky mummy"));
+  }
+
+  @Test
+  void banishMonsterWorksOnRebanish() {
+    BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.ICE_HOUSE);
+    assertThat(BanishManager.getBanishedMonster(Banisher.ICE_HOUSE), equalTo("spooky mummy"));
+
+    BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.ICE_HOUSE);
+
+    assertThat(BanishManager.getBanishedMonsters(Banisher.ICE_HOUSE), hasSize(1));
+    assertThat(BanishManager.getBanishedMonster(Banisher.ICE_HOUSE), equalTo("spooky mummy"));
   }
 
   @Test
