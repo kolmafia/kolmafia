@@ -4,6 +4,8 @@ import static internal.helpers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.arrayWithSize;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
@@ -339,11 +341,22 @@ class BanishManagerTest {
         "spooky vampire:ice house:20:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128");
     BanishManager.loadBanishedMonsters();
 
-    var list = BanishManager.getBanishList();
+    var list = BanishManager.getBanishedMonsters();
 
-    assertEquals(
-        "spooky vampire,smut orc nailer,gingerbread lawyer,unhinged survivor,grizzled survivor,cat-alien,alielf,whiny survivor,crate,fluffy bunny,paper towelgeist",
-        list);
+    assertThat(
+        list,
+        containsInAnyOrder(
+            equalTo("spooky vampire"),
+            equalTo("smut orc nailer"),
+            equalTo("gingerbread lawyer"),
+            equalTo("unhinged survivor"),
+            equalTo("grizzled survivor"),
+            equalTo("cat-alien"),
+            equalTo("alielf"),
+            equalTo("whiny survivor"),
+            equalTo("crate"),
+            equalTo("fluffy bunny"),
+            equalTo("paper towelgeist")));
   }
 
   @Test
@@ -354,7 +367,7 @@ class BanishManagerTest {
         "spooky vampire:ice house:20:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128");
     BanishManager.loadBanishedMonsters();
 
-    var ice = BanishManager.getIceHouseMonster();
+    var ice = BanishManager.getBanishedMonster(Banisher.ICE_HOUSE);
 
     assertEquals("spooky vampire", ice);
   }
@@ -367,27 +380,23 @@ class BanishManagerTest {
         "smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128");
     BanishManager.loadBanishedMonsters();
 
-    var ice = BanishManager.getIceHouseMonster();
+    var ice = BanishManager.getBanishedMonster(Banisher.ICE_HOUSE);
 
-    assertEquals(null, ice);
+    assertNull(ice);
   }
 
   @Test
-  void getIceHouseDataFromMuseumWorksWhenNoCache() throws IOException {
+  void canDiscoverIceHouseMonsterFromNoncombat() throws IOException {
     KoLCharacter.setCurrentRun(128);
-    Preferences.setString("banishedMonsters", "");
+    assertThat("banishedMonsters", isSetTo(""));
     BanishManager.loadBanishedMonsters();
 
-    ChoiceManager.handlingChoice = true;
     var request = new GenericRequest("choice.php?forceoption=0");
     request.responseText = Files.readString(Path.of("request/test_museum_ice_house.html"));
-    request.processResponse();
+    ChoiceManager.visitChoice(request);
 
-    var ice = BanishManager.getIceHouseMonster();
+    var ice = BanishManager.getBanishedMonster(Banisher.ICE_HOUSE);
     assertEquals("Perceiver of Sensations", ice);
-
-    ChoiceManager.handlingChoice = false;
-    ChoiceManager.lastChoice = 0;
   }
 
   @Test
