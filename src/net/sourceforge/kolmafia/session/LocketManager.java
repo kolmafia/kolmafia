@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.EncounterManager.Encounter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LocketManager {
@@ -100,6 +101,7 @@ public class LocketManager {
 
     // This will not double an existing id so is safe to run at any round
     addFoughtMonster(monster.getId());
+    EncounterManager.ignoreSpecialMonsters();
 
     Preferences.setString("locketPhylum", monster.getPhylum().toString());
   }
