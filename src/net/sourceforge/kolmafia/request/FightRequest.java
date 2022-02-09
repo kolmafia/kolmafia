@@ -2368,6 +2368,8 @@ public class FightRequest extends GenericRequest {
 
       QuestManager.updateQuestFightStarted(responseText, monsterName);
 
+      LocketManager.parseFight(monster, responseText);
+
       // http://kol.coldfront.net/thekolwiki/index.php/Encounter#Encounter_Flowchart (image link
       // there
       // is regularly updated) shows the order is Digitize, Arrow, Enamorang, so check in that order
@@ -2684,8 +2686,6 @@ public class FightRequest extends GenericRequest {
       }
 
       Preferences.decrement("cosmicBowlingBallReturnCombats", 1, -1);
-
-      LocketManager.parseFight(monster, responseText);
     }
 
     // Figure out various things by examining the responseText. Ideally,
