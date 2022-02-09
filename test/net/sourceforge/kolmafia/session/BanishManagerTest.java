@@ -6,11 +6,15 @@ import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.arrayWithSize;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.BanishManager.Banisher;
 import org.junit.jupiter.api.AfterAll;
@@ -36,7 +40,6 @@ class BanishManagerTest {
   private static MonsterData CRATE = MonsterDatabase.findMonster("crate");
   private static MonsterData FLUFFY_BUNNY = MonsterDatabase.findMonster("fluffy bunny");
   private static MonsterData PYGMY_WITCH_LAWYER = MonsterDatabase.findMonster("pygmy witch lawyer");
-  ;
   private static MonsterData SCARY_PIRATE = MonsterDatabase.findMonster("scary pirate");
   private static MonsterData SMUT_ORC_NAILER = MonsterDatabase.findMonster("smut orc nailer");
   private static MonsterData SPOOKY_MUMMY = MonsterDatabase.findMonster("spooky mummy");
@@ -367,6 +370,24 @@ class BanishManagerTest {
     var ice = BanishManager.getIceHouseMonster();
 
     assertEquals(null, ice);
+  }
+
+  @Test
+  void getIceHouseDataFromMuseumWorksWhenNoCache() throws IOException {
+    KoLCharacter.setCurrentRun(128);
+    Preferences.setString("banishedMonsters", "");
+    BanishManager.loadBanishedMonsters();
+
+    ChoiceManager.handlingChoice = true;
+    var request = new GenericRequest("choice.php?forceoption=0");
+    request.responseText = Files.readString(Path.of("request/test_museum_ice_house.html"));
+    request.processResponse();
+
+    var ice = BanishManager.getIceHouseMonster();
+    assertEquals("Perceiver of Sensations", ice);
+
+    ChoiceManager.handlingChoice = false;
+    ChoiceManager.lastChoice = 0;
   }
 
   @Test

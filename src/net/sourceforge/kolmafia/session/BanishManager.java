@@ -306,7 +306,7 @@ public class BanishManager {
   }
 
   public static final void banishMonster(final String monsterName, final Banisher banisher) {
-    MonsterData monster = MonsterDatabase.findMonster(monsterName);
+    MonsterData monster = MonsterDatabase.findMonster(monsterName, false, false);
 
     if (monster == null) {
       KoLmafia.updateDisplay("Couldn't find monster by the name " + monsterName + ".");
