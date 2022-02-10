@@ -1479,9 +1479,8 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   private int safeDowncastLongToInt(long value) {
     int retValue;
     try {
-    retValue = Math.toIntExact(value);
-    }
-    catch (ArithmeticException e) {
+      retValue = Math.toIntExact(value);
+    } catch (ArithmeticException e) {
       if (value < 0) {
         retValue = -1 * Integer.MAX_VALUE;
       } else {
