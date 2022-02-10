@@ -43,9 +43,7 @@ public class NaiveSecureSocketLayer {
 
       NaiveSecureSocketLayer.NAIVE_SOCKET_FACTORY = sslContext.getSocketFactory();
       NaiveSecureSocketLayer.NAIVE_HOSTNAME_VERIFIER = new NaiveHostnameVerifier();
-      NaiveSecureSocketLayer.INSTALL_ENABLED =
-          NaiveSecureSocketLayer.NAIVE_SOCKET_FACTORY != null
-              && NaiveSecureSocketLayer.NAIVE_HOSTNAME_VERIFIER != null;
+      NaiveSecureSocketLayer.INSTALL_ENABLED = NaiveSecureSocketLayer.NAIVE_SOCKET_FACTORY != null;
     } catch (Exception e) {
       StaticEntity.printStackTrace(e);
     }
@@ -79,11 +77,15 @@ public class NaiveSecureSocketLayer {
   private static class NaiveTrustManager implements X509TrustManager {
     @Override
     public void checkClientTrusted(X509Certificate[] chain, String authType)
-        throws CertificateException {}
+        throws CertificateException {
+      throw new CertificateException("This is client unreal");
+    }
 
     @Override
     public void checkServerTrusted(X509Certificate[] chain, String authType)
-        throws CertificateException {}
+        throws CertificateException {
+      throw new CertificateException("This is server unreal");
+    }
 
     @Override
     public X509Certificate[] getAcceptedIssuers() {
