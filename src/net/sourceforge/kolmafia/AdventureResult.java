@@ -1049,7 +1049,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         item.id = this.id;
       }
 
-      item.count = (int) quantity;
+      item.count = safeDowncastLongToInt(quantity);
       return item;
     }
 
@@ -1064,11 +1064,11 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         effect.id = this.id;
       }
 
-      effect.count = (int) quantity;
+      effect.count = safeDowncastLongToInt(quantity);
       return effect;
     }
 
-    return new AdventureResult(this.name, (int) quantity);
+    return new AdventureResult(this.name, safeDowncastLongToInt(quantity));
   }
 
   public AdventureResult getInstance(final int[] quantity) {
@@ -1474,5 +1474,20 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       }
       return null;
     }
+  }
+
+  private int safeDowncastLongToInt(long value) {
+    int retValue;
+    try {
+    retValue = Math.toIntExact(value);
+    }
+    catch (ArithmeticException e) {
+      if (value < 0) {
+        retValue = -1 * Integer.MAX_VALUE;
+      } else {
+        retValue = Integer.MAX_VALUE;
+      }
+    }
+    return retValue;
   }
 }
