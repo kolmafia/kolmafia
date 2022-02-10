@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia;
 
 import java.util.*;
-
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
