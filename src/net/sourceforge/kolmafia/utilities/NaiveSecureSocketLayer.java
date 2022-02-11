@@ -78,13 +78,13 @@ public class NaiveSecureSocketLayer {
     @Override
     public void checkClientTrusted(X509Certificate[] chain, String authType)
         throws CertificateException {
-      throw new CertificateException("This is client unreal");
+      throw new CertificateException("Client certificate is untrusted.");
     }
 
     @Override
     public void checkServerTrusted(X509Certificate[] chain, String authType)
         throws CertificateException {
-      throw new CertificateException("This is server unreal");
+      throw new CertificateException("Server certificate is untrusted.");
     }
 
     @Override
