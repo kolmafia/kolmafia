@@ -189,17 +189,8 @@ public class GenericRequest implements Runnable {
 
     GenericRequest.setLoginServer(GenericRequest.SERVERS[useDevProxyServer ? 0 : 1]);
 
-    // Disable this, since it causes unrecoverable problems in
-    // situations of lag, rather than simply slowing things down
-    boolean allowSocketTimeout = false; // Preferences.getBoolean( "allowSocketTimeout" );
-
-    if (allowSocketTimeout) {
-      systemProperties.put("sun.net.client.defaultConnectTimeout", "10000");
-      systemProperties.put("sun.net.client.defaultReadTimeout", "120000");
-    } else {
-      systemProperties.remove("sun.net.client.defaultConnectTimeout");
-      systemProperties.remove("sun.net.client.defaultReadTimeout");
-    }
+    systemProperties.remove("sun.net.client.defaultConnectTimeout");
+    systemProperties.remove("sun.net.client.defaultReadTimeout");
 
     if (Preferences.getBoolean("useNaiveSecureLogin")
         || Preferences.getBoolean("connectViaAddress")) {
