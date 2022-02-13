@@ -791,7 +791,7 @@ public abstract class InventoryManager {
     if (shouldUseCoinmasters
         && KoLConstants.hermitItems.contains(item)
         && (!shouldUseMall
-            || SewerRequest.currentWorthlessItemCost() < StoreManager.getMallPrice(item))) {
+            || SewerRequest.currentWorthlessItemCost() < MallPriceManager.getMallPrice(item))) {
 
       int itemCount =
           itemId == ItemPool.ELEVEN_LEAF_CLOVER
@@ -845,7 +845,7 @@ public abstract class InventoryManager {
       // If buying from the mall will leave the item in storage, use only NPCs
       boolean onlyNPC = forceNoMall || !InventoryManager.canUseMall();
       ArrayList<PurchaseRequest> results =
-          onlyNPC ? StoreManager.searchNPCs(item) : StoreManager.searchMall(item);
+          onlyNPC ? MallPriceManager.searchNPCs(item) : MallPriceManager.searchMall(item);
       KoLmafia.makePurchases(
           results,
           results.toArray(new PurchaseRequest[0]),
@@ -853,7 +853,7 @@ public abstract class InventoryManager {
           isAutomated,
           0);
       if (!onlyNPC) {
-        StoreManager.updateMallPrice(item, results);
+        MallPriceManager.updateMallPrice(item, results);
       }
 
       missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
@@ -995,14 +995,14 @@ public abstract class InventoryManager {
         return "buy";
       }
 
-      ArrayList<PurchaseRequest> results = StoreManager.searchMall(item);
+      ArrayList<PurchaseRequest> results = MallPriceManager.searchMall(item);
       KoLmafia.makePurchases(
           results,
           results.toArray(new PurchaseRequest[0]),
           InventoryManager.getPurchaseCount(itemId, missingCount),
           isAutomated,
           0);
-      StoreManager.updateMallPrice(item, results);
+      MallPriceManager.updateMallPrice(item, results);
       missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
 
       if (missingCount <= 0) {
@@ -1058,7 +1058,7 @@ public abstract class InventoryManager {
       return false;
     }
 
-    int mallPrice = StoreManager.getMallPrice(item, 7.0f) * quantity;
+    int mallPrice = MallPriceManager.getMallPrice(item, 7.0f) * quantity;
     if (mallPrice <= 0) {
       return false;
     }
@@ -1070,7 +1070,7 @@ public abstract class InventoryManager {
 
     if (mallPrice / 2 < makePrice && makePrice / 2 < mallPrice) {
       // Less than a 2:1 ratio, we should check more carefully
-      mallPrice = StoreManager.getMallPrice(item) * quantity;
+      mallPrice = MallPriceManager.getMallPrice(item) * quantity;
       if (mallPrice <= 0) {
         return false;
       }
@@ -1090,6 +1090,34 @@ public abstract class InventoryManager {
   }
 
   private static int itemValue(final AdventureResult item, final boolean exact) {
+
+    // r9806 | jasonharper | 2011-09-05 00:04:24 -0400 (Mon, 05 Sep 2011) | 29 lines
+    //
+    // The decision to buy a completed item rather than creating it from ingredients
+    // already in inventory requires assigning a value to those ingredients, which
+    // really depends on play style.  Not everyone is going to put in the effort
+    // needed to maximize their Mall profits; they might use only autosell to
+    // dispose of excess items, or just hoard them.  Therefore, a new float
+    // preference "valueOfInventory" allows players to indicate the worth of items,
+    // with these key values:
+    //
+    // 0.0 - Items already in inventory are considered free.
+    // 1.0 - Items are valued at their autosell price.
+    // 2.0 - Items are valued at current Mall price, unless they are min-priced.
+    // 3.0 - Items are always valued at Mall price (not really realistic).
+    //
+    // Intermediate values interpolate between integral values.  The default is 1.8,
+    // reflecting the fact that items won't sell immediately in the Mall without
+    // undercutting or advertising.  This preference, and several previously hidden
+    // prefs affecting create vs. buy decisions, are now exposed on a new Creatable
+    // -> Fine Tuning page in the Item Manager.
+
+    // 0.0 - Items already owned are considered free.
+    // 1.0 - Items are valued at autosell price.
+    // 2.0 - Items are valued at autosell price if min-priced in Mall.
+    // 2.0 - Items are valued at current Mall price, if not min-priced.
+    // 3.0 - Items are always valued at Mall price (not really realistic).
+
     float factor = Preferences.getFloat("valueOfInventory");
     if (factor <= 0.0f) {
       return 0;
@@ -1106,7 +1134,8 @@ public abstract class InventoryManager {
     factor -= 1.0f;
     lower = upper;
 
-    int mall = exact ? StoreManager.getMallPrice(item) : StoreManager.getMallPrice(item, 7.0f);
+    int mall =
+        exact ? MallPriceManager.getMallPrice(item) : MallPriceManager.getMallPrice(item, 7.0f);
     if (mall > Math.max(100, 2 * Math.abs(autosell))) {
       upper = Math.max(lower, mall);
     }
@@ -1128,6 +1157,8 @@ public abstract class InventoryManager {
       final boolean mallPriceOnly) {
     int price = 0;
     int needed = quantity;
+    // *** Not just inventory; include anything our setting allow to be retrieved
+    // int onhand = Math.min(needed, InventoryManager.getAccessibleCount(item));
     int onhand = Math.min(needed, item.getCount(KoLConstants.inventory));
 
     if (onhand > 0) {
@@ -1149,7 +1180,8 @@ public abstract class InventoryManager {
     }
 
     int mallPrice =
-        (exact ? StoreManager.getMallPrice(item) : StoreManager.getMallPrice(item, 7.0f)) * needed;
+        (exact ? MallPriceManager.getMallPrice(item) : MallPriceManager.getMallPrice(item, 7.0f))
+            * needed;
     if (mallPrice <= 0) {
       mallPrice = Integer.MAX_VALUE;
     } else {

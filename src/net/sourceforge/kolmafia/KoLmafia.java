@@ -97,8 +97,8 @@ import net.sourceforge.kolmafia.session.LightsOutManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.LogoutManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
@@ -1788,7 +1788,7 @@ public abstract class KoLmafia {
               + ", got "
               + (maxPurchases - remaining)
               + ")");
-      StoreManager.flushCache(itemId);
+      MallPriceManager.flushCache(itemId);
     }
   }
 

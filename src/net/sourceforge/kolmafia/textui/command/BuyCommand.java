@@ -8,7 +8,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
-import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BuyCommand extends AbstractCommand {
@@ -69,20 +69,20 @@ public class BuyCommand extends AbstractCommand {
       ArrayList<PurchaseRequest> results =
           // Cheapest from Mall or NPC stores
           (interact && !mall)
-              ? StoreManager.searchMall(match)
+              ? MallPriceManager.searchMall(match)
               :
               // Mall stores only
               (storage || mall)
-                  ? StoreManager.searchOnlyMall(match)
+                  ? MallPriceManager.searchOnlyMall(match)
                   :
                   // NPC stores only
-                  StoreManager.searchNPCs(match);
+                  MallPriceManager.searchNPCs(match);
 
       KoLmafia.makePurchases(
           results, results.toArray(new PurchaseRequest[0]), match.getCount(), false, priceLimit);
 
       if (interact && !storage) {
-        StoreManager.updateMallPrice(match, results);
+        MallPriceManager.updateMallPrice(match, results);
       }
     }
   }

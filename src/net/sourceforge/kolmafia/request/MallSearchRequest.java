@@ -12,7 +12,7 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallSearchRequest extends GenericRequest {
@@ -220,7 +220,7 @@ public class MallSearchRequest extends GenericRequest {
     // If an exact match, we can think about updating mall_price().
     if (this.searchString.startsWith("\"") && this.results.size() > 0) {
       AdventureResult item = this.results.get(0).getItem();
-      StoreManager.maybeUpdateMallPrice(item, new ArrayList<PurchaseRequest>(this.results));
+      MallPriceManager.maybeUpdateMallPrice(item, new ArrayList<PurchaseRequest>(this.results));
     }
 
     KoLmafia.updateDisplay("Search complete.");
