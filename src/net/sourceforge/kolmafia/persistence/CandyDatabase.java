@@ -12,7 +12,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 
 public class CandyDatabase {
   public static Set<Integer> NO_CANDY = new HashSet<>(); // No candies
@@ -60,9 +60,9 @@ public class CandyDatabase {
 
   public static void updatePrices() {
     CandyDatabase.categorizeCandies();
-    StoreManager.getMallPrices(CandyDatabase.potionCandies, 0.0f);
-    StoreManager.getMallPrices(CandyDatabase.foodCandies, 0.0f);
-    StoreManager.getMallPrices(CandyDatabase.otherCandies, 0.0f);
+    MallPriceManager.getMallPrices(CandyDatabase.potionCandies, 0.0f);
+    MallPriceManager.getMallPrices(CandyDatabase.foodCandies, 0.0f);
+    MallPriceManager.getMallPrices(CandyDatabase.otherCandies, 0.0f);
   }
 
   public static void registerCandy(final Integer itemId, final String type) {

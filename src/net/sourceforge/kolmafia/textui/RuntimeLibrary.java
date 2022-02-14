@@ -117,8 +117,33 @@ import net.sourceforge.kolmafia.request.*;
 import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.EveryCard;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
-import net.sourceforge.kolmafia.session.*;
+import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ContactManager;
+import net.sourceforge.kolmafia.session.DadManager;
+import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.FamiliarManager;
+import net.sourceforge.kolmafia.session.GoalManager;
+import net.sourceforge.kolmafia.session.GuildUnlockManager;
+import net.sourceforge.kolmafia.session.HeistManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LocketManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
+import net.sourceforge.kolmafia.session.MonsterManuelManager;
+import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.NumberologyManager;
+import net.sourceforge.kolmafia.session.PvpManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.session.TavernManager;
+import net.sourceforge.kolmafia.session.TowerDoorManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.UnusualConstructManager;
+import net.sourceforge.kolmafia.session.VotingBoothManager;
 import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 import net.sourceforge.kolmafia.textui.AshRuntime.CallFrame;
@@ -5068,18 +5093,18 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value mall_price(ScriptRuntime controller, final Value item) {
-    return new Value(StoreManager.getMallPrice(ItemPool.get((int) item.intValue(), 0)));
+    return new Value(MallPriceManager.getMallPrice(ItemPool.get((int) item.intValue(), 0)));
   }
 
   public static Value mall_price(ScriptRuntime controller, final Value item, final Value maxAge) {
     return new Value(
-        StoreManager.getMallPrice(
+        MallPriceManager.getMallPrice(
             ItemPool.get((int) item.intValue(), 0), (float) maxAge.floatValue()));
   }
 
   public static Value mall_prices(ScriptRuntime controller, final Value arg) {
     if (arg.getType().equals(DataTypes.STRING_TYPE)) {
-      return new Value(StoreManager.getMallPrices(arg.toString(), ""));
+      return new Value(MallPriceManager.getMallPrices(arg.toString(), ""));
     }
 
     // It's a set of items
@@ -5095,14 +5120,14 @@ public abstract class RuntimeLibrary {
     }
 
     // Update the mall prices, one by one,
-    int result = StoreManager.getMallPrices(itemIds, 0.0f);
+    int result = MallPriceManager.getMallPrices(itemIds, 0.0f);
 
     return DataTypes.makeIntValue(result);
   }
 
   public static Value mall_prices(
       ScriptRuntime controller, final Value category, final Value tiers) {
-    return new Value(StoreManager.getMallPrices(category.toString(), tiers.toString()));
+    return new Value(MallPriceManager.getMallPrices(category.toString(), tiers.toString()));
   }
 
   public static Value well_stocked(

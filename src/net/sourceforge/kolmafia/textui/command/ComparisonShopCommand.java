@@ -16,7 +16,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.ZapRequest;
-import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 
 public class ComparisonShopCommand extends AbstractCommand implements Comparator<AdventureResult> {
   public ComparisonShopCommand() {
@@ -64,7 +64,7 @@ public class ComparisonShopCommand extends AbstractCommand implements Comparator
     for (String name : names) {
       int itemId = ItemDatabase.getItemId(name);
       AdventureResult item = ItemPool.get(itemId);
-      if (!ItemDatabase.isTradeable(itemId) || StoreManager.getMallPrice(item) <= 0) {
+      if (!ItemDatabase.isTradeable(itemId) || MallPriceManager.getMallPrice(item) <= 0) {
         continue;
       }
       if (!KoLmafia.permitsContinue()) {
@@ -89,12 +89,12 @@ public class ComparisonShopCommand extends AbstractCommand implements Comparator
       RequestLogger.printLine(
           item.getName()
               + " @ "
-              + KoLConstants.COMMA_FORMAT.format(StoreManager.getMallPrice(item)));
+              + KoLConstants.COMMA_FORMAT.format(MallPriceManager.getMallPrice(item)));
     }
   }
 
   @Override
   public int compare(final AdventureResult o1, final AdventureResult o2) {
-    return StoreManager.getMallPrice(o1) - StoreManager.getMallPrice(o2);
+    return MallPriceManager.getMallPrice(o1) - MallPriceManager.getMallPrice(o2);
   }
 }

@@ -15,7 +15,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 
 public class CheckedItem extends AdventureResult {
   public CheckedItem(int itemId, int equipScope, int maxPrice, int priceLevel) {
@@ -200,7 +200,7 @@ public class CheckedItem extends AdventureResult {
     }
 
     // Check mall price
-    int price = StoreManager.getMallPrice(this);
+    int price = MallPriceManager.getMallPrice(this);
 
     // Check if too expensive for max price settings
     if (price <= 0 || price > maxPrice) {

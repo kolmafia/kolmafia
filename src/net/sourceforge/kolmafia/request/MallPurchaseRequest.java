@@ -21,8 +21,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallPurchaseRequest extends PurchaseRequest {
@@ -313,7 +313,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       if (Preferences.getBoolean("autoForbidIgnoringStores")) {
         MallPurchaseRequest.addForbiddenStore(this.shopId);
       }
-      StoreManager.flushCache(-1, this.shopId);
+      MallPriceManager.flushCache(-1, this.shopId);
       return;
     }
 
@@ -325,7 +325,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       RequestLogger.updateSessionLog(
           "This shop's inventory is frozen (#" + this.shopId + "). Skipping...");
       MallPurchaseRequest.disabledStores.add(shopId);
-      StoreManager.flushCache(-1, this.shopId);
+      MallPriceManager.flushCache(-1, this.shopId);
       return;
     }
 
@@ -423,7 +423,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
       // Ignore it for the rest of the session.
       MallPurchaseRequest.ignoringStores.add(shopId);
-      StoreManager.flushCache(-1, shopId);
+      MallPriceManager.flushCache(-1, shopId);
 
       return;
     }
@@ -437,7 +437,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
       // Ignore it for the rest of the session.
       MallPurchaseRequest.disabledStores.add(shopId);
-      StoreManager.flushCache(-1, shopId);
+      MallPriceManager.flushCache(-1, shopId);
 
       return;
     }

@@ -25,8 +25,8 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CreateItemRequest extends GenericRequest implements Comparable<CreateItemRequest> {
@@ -535,7 +535,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       // gracefully.
 
       AdventureResult dough = ItemPool.get(ItemPool.DOUGH, purchase);
-      ArrayList<PurchaseRequest> results = StoreManager.searchNPCs(dough);
+      ArrayList<PurchaseRequest> results = MallPriceManager.searchNPCs(dough);
       KoLmafia.makePurchases(results, results.toArray(new PurchaseRequest[0]), purchase, false, 50);
 
       // And if we are making wads of dough, that reduces how many we need
