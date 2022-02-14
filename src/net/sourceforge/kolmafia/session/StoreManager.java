@@ -87,40 +87,7 @@ public abstract class StoreManager {
   private static final LockableListModel<SoldItem> sortedSoldItemList =
       new LockableListModel<SoldItem>();
 
-  private static final IntegerArray mallPrices = new IntegerArray();
-  private static final LinkedHashMap<Integer, ArrayList<PurchaseRequest>> mallSearches =
-      new LinkedHashMap<Integer, ArrayList<PurchaseRequest>>();
-
   public static boolean soldItemsRetrieved = false;
-
-  public static final String[] CATEGORY_VALUES = {
-    "allitems", // All Categories
-    // Consumables
-    "food", // Food and Beverages
-    "booze", // Booze
-    "othercon", // Other Consumables
-    // Equipment
-    "weapons", // Weapons
-    "hats", // Hats
-    "shirts", // Shirts
-    "container", // Back Items
-    "pants", // Pants
-    "acc", // Accessories
-    "offhand", // Off-hand Items
-    "famequip", // Familiar Equipment
-    // Usable
-    "combat", // Combat Items
-    "potions", // Potions
-    "hprestore", // HP Restorers
-    "mprestore", // MP Restorers
-    "familiars", // Familiars
-    // Miscellaneous
-    "mrstore", // Mr. Store Items
-    "unlockers", // Content Unlockers
-    "new", // New Stuff
-  };
-  public static final Set<String> validCategories =
-      new HashSet<String>(Arrays.asList(CATEGORY_VALUES));
 
   public static final void clearCache() {
     StoreManager.soldItemsRetrieved = false;
