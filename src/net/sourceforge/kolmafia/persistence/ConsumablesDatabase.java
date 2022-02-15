@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -813,8 +812,7 @@ public class ConsumablesDatabase {
     if (ConsumablesDatabase.isLasagna(itemId)) {
       // If we have Gar-ish effect, or can get the effect and have autoGarish set, apply 5 bonus
       // adventures
-      Calendar date = HolidayDatabase.getCalendar();
-      if (date.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY
+      if (!HolidayDatabase.isMonday()
           && (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.GARISH))
               || Preferences.getBoolean("autoGarish")
                   && (KoLCharacter.hasSkill(SkillPool.CLIP_ART)

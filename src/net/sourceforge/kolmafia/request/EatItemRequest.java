@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -550,9 +549,8 @@ public class EatItemRequest extends UseItemRequest {
     }
 
     // If you've got Garish, or it's Monday, no need to ask
-    Calendar date = HolidayDatabase.getCalendar();
     if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.GARISH))
-        || date.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
+        || HolidayDatabase.isMonday()) {
       return true;
     }
 

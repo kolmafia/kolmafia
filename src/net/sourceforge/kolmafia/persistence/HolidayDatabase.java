@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.function.Predicate;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -1129,14 +1130,26 @@ public class HolidayDatabase {
     return null;
   }
 
+  private static final boolean withCalendar(final Date date, Predicate<Calendar> predicate) {
+    var cal = getKoLCalendar();
+    cal.setTime(date);
+    return predicate.test(cal);
+  }
+
+  public static final boolean isMonday() {
+    return isDecember(getDate());
+  }
+
+  public static final boolean isMonday(Date date) {
+    return withCalendar(date, cal -> cal.get(Calendar.DAY_OF_MONTH) == Calendar.MONDAY);
+  }
+
   public static final boolean isDecember() {
     return isDecember(getDate());
   }
 
   public static final boolean isDecember(Date date) {
-    var cal = getKoLCalendar();
-    cal.setTime(date);
-    return cal.get(Calendar.MONTH) == Calendar.DECEMBER;
+    return withCalendar(date, cal -> cal.get(Calendar.MONTH) == Calendar.DECEMBER);
   }
 
   public static final void addPredictionHTML(
