@@ -23,6 +23,7 @@ public class HolidayDatabase {
   private static int GRIMACE_PHASE = -1;
   private static int HAMBURGLAR_POSITION = -1;
   private static final TimeZone ROLLOVER = TimeZone.getTimeZone("GMT-0330");
+  private static final TimeZone ARIZONA = TimeZone.getTimeZone("GMT-0700");
 
   static {
     HolidayDatabase.guessPhaseStep();
@@ -169,7 +170,7 @@ public class HolidayDatabase {
     try {
       // Use a timezone such that the "day" begins at rollover.
 
-      Calendar myCalendar = Calendar.getInstance(ROLLOVER);
+      Calendar myCalendar = getKoLCalendar();
 
       myCalendar.set(2005, 8, 17, 0, 0, 0);
       HolidayDatabase.NEWYEAR = myCalendar.getTimeInMillis();
@@ -917,6 +918,14 @@ public class HolidayDatabase {
     return new Date();
   }
 
+  public static Calendar getCalendar() {
+    return Calendar.getInstance(ARIZONA);
+  }
+
+  public static Calendar getKoLCalendar() {
+    return Calendar.getInstance(ROLLOVER);
+  }
+
   public static final String getHoliday() {
     return HolidayDatabase.getHoliday(false);
   }
@@ -1000,7 +1009,7 @@ public class HolidayDatabase {
     if (!currentYear.equals(HolidayDatabase.cachedYear)) {
       HolidayDatabase.cachedYear = currentYear;
       // Calculate holidays for the in-game timezone (days which start at rollover)
-      Calendar holidayFinder = Calendar.getInstance(ROLLOVER);
+      Calendar holidayFinder = getKoLCalendar();
 
       // Apparently, Easter isn't the second Sunday in April;
       // it actually depends on the occurrence of the first
@@ -1125,7 +1134,7 @@ public class HolidayDatabase {
   }
 
   public static final boolean isDecember(Date date) {
-    var cal = Calendar.getInstance(ROLLOVER);
+    var cal = getKoLCalendar();
     cal.setTime(date);
     return cal.get(Calendar.MONTH) == Calendar.DECEMBER;
   }

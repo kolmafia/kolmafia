@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.Calendar;
-import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -18,6 +17,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -550,7 +550,7 @@ public class EatItemRequest extends UseItemRequest {
     }
 
     // If you've got Garish, or it's Monday, no need to ask
-    Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
+    Calendar date = HolidayDatabase.getCalendar();
     if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.GARISH))
         || date.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
       return true;

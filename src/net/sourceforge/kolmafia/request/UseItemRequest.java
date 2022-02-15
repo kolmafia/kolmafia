@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -499,7 +498,7 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.FIELD_GAR_POTION:
         // Disallow using potion if already Gar-ish
-        Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
+        Calendar date = HolidayDatabase.getCalendar();
         if (date.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
           UseItemRequest.limiter = "uselessness on Mondays";
           return 0;
