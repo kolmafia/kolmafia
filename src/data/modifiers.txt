@@ -7829,7 +7829,7 @@ Skill	Gnomish Hardigness	Maximum HP Percent: +5
 Skill	Golgi Apparatus	Absorb Stats: +25
 # Good Singing Voice: Doubles duration of Boris songs
 # Gourmand: Increases adventures from food
-# Gravitational Compression: +100% Item Drops from Monsters (Scales with your Mysticality)
+Skill	Gravitational Compression	Item Drop: [min(floor(basemys/5)+1,100)] Item Drops from Monsters (Scales with your Mysticality)
 # Hammer Throw: Level 1: Briefly stun your foe and reduce their stats by 10%
 # Hammer Throw: Level 2: Reduction increased to 15%
 # Hammer Throw: Level 3: Reduction increased to 20%
