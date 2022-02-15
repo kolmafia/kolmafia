@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import javax.xml.parsers.ParserConfigurationException;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.request.CharSheetRequest.ParsedSkillInfo;
 import net.sourceforge.kolmafia.request.CharSheetRequest.ParsedSkillInfo.PermStatus;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
@@ -245,5 +246,22 @@ public class CharSheetRequestTest {
     CharSheetRequest.parseStatus(html);
 
     assertThat(KoLCharacter.roninLeft(), equalTo(Integer.parseInt(expected)));
+  }
+
+  @Test
+  public void unascendedCharacterHasNoPathOrSign() throws IOException {
+    String html = Files.readString(Paths.get("request/test_charsheet_unascended.html"));
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.getAscensions(), equalTo(0));
+    assertThat(KoLCharacter.getSign(), equalTo(ZodiacSign.NONE.toString()));
+  }
+
+  @Test
+  public void parsesDrunkenness() throws IOException {
+    String html = Files.readString(Paths.get("request/test_charsheet_unascended.html"));
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.getInebriety(), equalTo(3));
   }
 }
