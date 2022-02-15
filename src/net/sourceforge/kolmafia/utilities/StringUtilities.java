@@ -782,6 +782,10 @@ public class StringUtilities {
 
   public static final String basicTextWrap(String text) {
 
+    if (text == null) {
+      return null;
+    }
+
     if (text.length() < 80 || text.startsWith("<html>")) {
       return text;
     }
