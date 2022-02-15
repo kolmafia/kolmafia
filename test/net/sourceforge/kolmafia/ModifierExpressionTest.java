@@ -436,4 +436,29 @@ public class ModifierExpressionTest {
     assertThat(result, is(0.0));
     assertTrue(exp.hasErrors());
   }
+
+  @Test
+  public void canDetectBaseMuscle() {
+    KoLCharacter.setStatPoints(60, 20, 0, 0, 0, 0);
+
+    var exp = new ModifierExpression("basemus", "Base muscle");
+    assertThat(exp.eval(), is(4.0));
+  }
+
+  @Test
+  public void canDetectBaseMysticality() {
+    KoLCharacter.setStatPoints(0, 0, 50, 10, 0, 0);
+
+    var exp = new ModifierExpression("basemys", "Base mysticality");
+    assertThat(exp.eval(), is(3.0));
+  }
+
+  @Test
+  public void canDetectBaseMoxie() {
+    KoLCharacter.setStatPoints(0, 0, 0, 0, 40, 5);
+
+    var exp = new ModifierExpression("basemox", "Base moxie");
+    assertThat(exp.eval(), is(2.0));
+  }
+
 }
