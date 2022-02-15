@@ -185,7 +185,7 @@
 159	Astute Angler	fishinpole.gif	0	0	0
 161	Eldritch Intellect	dinseybrain.gif	0	0	0
 162	Licorice Rope	whip.gif	5	0	0
-163	Gingerbread Mob Hit		5	30	0
+163	Gingerbread Mob Hit	kneestick.gif	5	30	0
 164	Fifteen Minutes of Flame	fire.gif	3	50	15
 165	Ceci N'Est Pas Un Chapeau	nohat.gif	3	300	0
 166	Sweet Synthesis	pep_patty.gif	3	0	0
@@ -891,7 +891,7 @@
 7362	Feel Envy	emochip12.gif	5	0	0
 7363	Feel Disappointed	emochip2.gif	1	0	0
 7364	Feel Lost	emochip7.gif	3	0	20
-7365	Feel Nostalgic	emochip12.gif	5	0	0
+7365	Feel Nostalgic	emochip6.gif	5	0	0
 7366	Feel Peaceful	emochip10.gif	3	0	20
 7367	Feel Superior	emochip5.gif	5	0	0
 7368	Swing Pound-O-Tron	poundotron.gif	5	0	0
@@ -907,7 +907,7 @@
 7378	Throw Flame	fire.gif	5	0	0
 7379	Shoot Grease	greasebolt.gif	5	0	0
 7380	Shocking Lick	tonguewalrus.gif	5	0	0
-7381	Back-Up to your Last Enemy	backupcamera.gif	5	0	0
+7381	Back-Up to your Last Enemy	backcamera.gif	5	0	0
 7382	Show your boring familiar pictures	dogphoto.gif	5	0	0
 7383	B. L. A. R. T. Spray (medium)	blartspray2.gif	5	0	0
 7384	B. L. A. R. T. Spray (wide)	blartspray3.gif	5	0	0
@@ -931,7 +931,7 @@
 7402	Flagstone Fleece Flex	fs_fleece.gif	5	0	0
 7403	Flagstone Foxtrot	fs_fringe.gif	5	0	0
 7404	Bowl Backwards	bowlback.gif	5	0	0
-7405	Bowl a Curveball	bowlcurv.gif	5	0	0
+7405	Bowl a Curveball	bowlcurve.gif	5	0	0
 7406	Bowl Sideways	bowlside.gif	5	0	0
 7407	Bowl Straight Up	bowlup.gif	5	0	0
 
