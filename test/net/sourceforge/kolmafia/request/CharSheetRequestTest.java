@@ -15,12 +15,18 @@ import net.sourceforge.kolmafia.request.CharSheetRequest.ParsedSkillInfo.PermSta
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import org.htmlcleaner.DomSerializer;
 import org.htmlcleaner.HtmlCleaner;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.w3c.dom.Document;
 
 public class CharSheetRequestTest {
+  @BeforeEach
+  public void setUp() {
+    KoLCharacter.reset(true);
+  }
+
   @Test
   public void parseSkills() throws IOException, ParserConfigurationException {
     String html = Files.readString(Paths.get("request/test_charsheet_normal.html"));
