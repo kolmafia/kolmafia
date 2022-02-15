@@ -1137,11 +1137,11 @@ public class HolidayDatabase {
   }
 
   public static final boolean isMonday() {
-    return isDecember(getDate());
+    return isMonday(getDate());
   }
 
   public static final boolean isMonday(Date date) {
-    return withCalendar(date, cal -> cal.get(Calendar.DAY_OF_MONTH) == Calendar.MONDAY);
+    return withCalendar(date, cal -> cal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY);
   }
 
   public static final boolean isDecember() {
