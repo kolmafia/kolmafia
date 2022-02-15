@@ -244,7 +244,7 @@ public class Expression {
           v = (Double) this.literals.get((int) s[--sp]);
           break;
 
-        // Valid with ModifierExpression:
+          // Valid with ModifierExpression:
         case 'b':
           String elem = (String) this.literals.get((int) s[--sp]);
           Element element = Element.fromString(elem);
@@ -347,88 +347,88 @@ public class Expression {
 
           break;
 
-        // Valid with MonsterExpression:
+          // Valid with MonsterExpression:
         case '\u0080':
           v = KoLCharacter.getAdjustedMuscle();
           break;
-        // Valid with MonsterExpression:
+          // Valid with MonsterExpression:
         case '\u0081':
           v = KoLCharacter.getAdjustedMysticality();
           break;
-        // Valid with MonsterExpression:
+          // Valid with MonsterExpression:
         case '\u0082':
           v = KoLCharacter.getAdjustedMoxie();
           break;
-        // Valid with MonsterExpression:
+          // Valid with MonsterExpression:
         case '\u0083':
           v = KoLCharacter.getMonsterLevelAdjustment();
           break;
-        // Valid with MonsterExpression:
+          // Valid with MonsterExpression:
         case '\u0084':
           v = KoLCharacter.getMindControlLevel();
           break;
-        // Valid with MonsterExpression and RestoreExpression:
+          // Valid with MonsterExpression and RestoreExpression:
         case '\u0085':
           v = KoLCharacter.getMaximumHP();
           break;
-        // Valid with MonsterExpression:
+          // Valid with MonsterExpression:
         case '\u0086':
           v = BasementRequest.getBasementLevel();
           break;
-        // Valid with MonsterExpression:
+          // Valid with MonsterExpression:
         case '\u0087':
           v = FightRequest.dreadKisses("Woods");
           break;
-        // Valid with MonsterExpression:
+          // Valid with MonsterExpression:
         case '\u0088':
           v = FightRequest.dreadKisses("Village");
           break;
-        // Valid with MonsterExpression:
+          // Valid with MonsterExpression:
         case '\u0089':
           v = FightRequest.dreadKisses("Castle");
           break;
-        // Valid with MonsterExpression:
+          // Valid with MonsterExpression:
         case '\u0090':
           v = KoLCharacter.getAdjustedHighestStat();
           break;
-        // Valid with RestoreExpression:
+          // Valid with RestoreExpression:
         case '\u0091':
           v = KoLCharacter.getMaximumMP();
           break;
-        // Valid with ModifierExpression and MonsterExpression:
+          // Valid with ModifierExpression and MonsterExpression:
         case '\u0092':
           AscensionPath.Path p =
               AscensionPath.nameToPath((String) this.literals.get((int) s[--sp]));
           v = KoLCharacter.getPath().equals(p) ? 1 : 0;
           break;
-        // Valid with ModifierExpression:
+          // Valid with ModifierExpression:
         case '\u0093':
           Modifiers mods = KoLCharacter.getCurrentModifiers();
           String modName = (String) this.literals.get((int) s[--sp]);
           v = mods.getExtra(modName);
           break;
-        // Valid with ModifierExpression:
+          // Valid with ModifierExpression:
         case '\u0094':
           v = KoLCharacter.canInteract() ? 1 : 0;
           break;
-        // Valid with RestoreExpression:
+          // Valid with RestoreExpression:
         case '\u0095':
           v = KoLCharacter.getCurrentHP();
           break;
-        // Valid with Modifier Expression:
+          // Valid with Modifier Expression:
         case '\u0096':
           String arg = (String) this.literals.get((int) s[--sp]);
           v = StringUtilities.parseInt(arg.replaceAll(",", ""));
           break;
-        // Valid with Modifier Expression:
+          // Valid with Modifier Expression:
         case '\u0097':
           v = KoLCharacter.getBaseMuscle();
           break;
-        // Valid with Modifier Expression:
+          // Valid with Modifier Expression:
         case '\u0098':
           v = KoLCharacter.getBaseMysticality();
           break;
-        // Valid with Modifier Expression:
+          // Valid with Modifier Expression:
         case '\u0099':
           v = KoLCharacter.getBaseMoxie();
           break;

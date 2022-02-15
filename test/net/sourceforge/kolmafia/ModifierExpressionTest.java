@@ -460,5 +460,4 @@ public class ModifierExpressionTest {
     var exp = new ModifierExpression("basemox", "Base moxie");
     assertThat(exp.eval(), is(2.0));
   }
-
 }
