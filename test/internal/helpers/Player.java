@@ -133,8 +133,10 @@ public class Player {
     KoLCharacter.recalculateAdjustments();
   }
 
-  public static void isClass(AscensionClass ascensionClass) {
+  public static Cleanups isClass(AscensionClass ascensionClass) {
+    var old = KoLCharacter.getAscensionClass();
     KoLCharacter.setAscensionClass(ascensionClass);
+    return new Cleanups(() -> isClass(old));
   }
 
   public static Cleanups isSign(String sign) {
