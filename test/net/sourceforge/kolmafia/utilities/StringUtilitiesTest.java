@@ -27,7 +27,7 @@ class StringUtilitiesTest {
     assertEquals(StringUtilities.basicTextWrap(test), "Short input should remain unchanged.");
     // html
     test = "<html> " + test;
-    assertEquals(StringUtilities.basicTextWrap(test), "Short input should remain unchanged.");
+    assertEquals(StringUtilities.basicTextWrap(test), test, "Short input should remain unchanged.");
   }
 
 
