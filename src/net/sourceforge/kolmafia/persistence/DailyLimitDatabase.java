@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import net.sourceforge.kolmafia.Expression;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -88,7 +89,7 @@ public class DailyLimitDatabase {
     }
 
     public int getUses() {
-      if (this.subType.equals("tome") && !KoLCharacter.canInteract()) {
+      if (Objects.equals(this.subType, "tome") && !KoLCharacter.canInteract()) {
         // Tomes can be used three times per day.  In aftercore, each tome can be used 3 times per
         // day.
         return Preferences.getInteger("tomeSummons");
