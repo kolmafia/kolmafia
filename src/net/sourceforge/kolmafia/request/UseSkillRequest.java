@@ -2019,28 +2019,31 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
     // Now apply daily limits
     var limit = DailyLimitDatabase.DailyLimitType.CAST.getDailyLimit(skillId);
-    var increment = count;
+    if (limit != null) {
+      var increment = count;
 
-    switch (skillId) {
-      case SkillPool.INVISIBLE_AVATAR:
-      case SkillPool.TRIPLE_SIZE:
-        // These skills increment the count 5 by not 1
-        increment *= 5;
-        break;
-      case SkillPool.REQUEST_SANDWICH:
-        // You take a deep breath and prepare for a Boris-style bellow. Then you remember your
-        // manners
-        // and shout, "If it's not too much trouble, I'd really like a sandwich right now! Please!"
-        // To your surprise, it works! Someone wanders by slowly and hands you a sandwich,
-        // grumbling,
-        // "well, since you asked nicely . . ."
-        if (!responseText.contains("well, since you asked nicely")) {
-          increment *= 0;
-        }
-        break;
+      switch (skillId) {
+        case SkillPool.INVISIBLE_AVATAR:
+        case SkillPool.TRIPLE_SIZE:
+          // These skills increment the count 5 by not 1
+          increment *= 5;
+          break;
+        case SkillPool.REQUEST_SANDWICH:
+          // You take a deep breath and prepare for a Boris-style bellow. Then you remember your
+          // manners
+          // and shout, "If it's not too much trouble, I'd really like a sandwich right now!
+          // Please!"
+          // To your surprise, it works! Someone wanders by slowly and hands you a sandwich,
+          // grumbling,
+          // "well, since you asked nicely . . ."
+          if (!responseText.contains("well, since you asked nicely")) {
+            increment = 0;
+          }
+          break;
+      }
+
+      limit.increment(increment);
     }
-
-    limit.increment(increment);
 
     if (SkillDatabase.isLibramSkill(skillId)) {
       int cast = Preferences.getInteger("libramSummons");
