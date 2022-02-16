@@ -1888,6 +1888,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       mpCost = 0L;
     }
 
+    // Deal with secondary effects from skill usage (not daily limitations)
     switch (skillId) {
       case SkillPool.ODE_TO_BOOZE:
         ConcoctionDatabase.getUsables().sort();
@@ -1896,14 +1897,6 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       case SkillPool.WALRUS_TONGUE:
       case SkillPool.DISCO_NAP:
         UneffectRequest.removeEffectsWithSkill(skillId);
-        break;
-
-      case SkillPool.SMILE_OF_MR_A:
-        Preferences.increment("_smilesOfMrA", count);
-        break;
-
-      case SkillPool.RAGE_GLAND:
-        Preferences.setBoolean("rageGlandVented", true);
         break;
 
       case SkillPool.RAINBOW_GRAVITATION:
@@ -1921,22 +1914,6 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         Preferences.increment("prismaticSummons", count);
         break;
 
-      case SkillPool.LUNCH_BREAK:
-        Preferences.setBoolean("_lunchBreak", true);
-        break;
-
-      case SkillPool.SPAGHETTI_BREAKFAST:
-        Preferences.setBoolean("_spaghettiBreakfast", true);
-        break;
-
-      case SkillPool.GRAB_A_COLD_ONE:
-        Preferences.setBoolean("_coldOne", true);
-        break;
-
-      case SkillPool.THATS_NOT_A_KNIFE:
-        Preferences.setBoolean("_discoKnife", true);
-        break;
-
       case SkillPool.TURTLE_POWER:
         Preferences.setBoolean("_turtlePowerCast", true);
         Preferences.setInteger("turtleBlessingTurns", 0);
@@ -1948,138 +1925,18 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         Preferences.setInteger("turtleBlessingTurns", 0);
         break;
 
-      case SkillPool.SUMMON_BONERS:
-        Preferences.setBoolean("_bonersSummoned", true);
-        break;
-
-      case SkillPool.ACQUIRE_RHINESTONES:
-        Preferences.setBoolean("_rhinestonesAcquired", true);
-        break;
-
-      case SkillPool.REQUEST_SANDWICH:
-        // You take a deep breath and prepare for a Boris-style bellow. Then you remember your
-        // manners
-        // and shout, "If it's not too much trouble, I'd really like a sandwich right now! Please!"
-        // To your surprise, it works! Someone wanders by slowly and hands you a sandwich,
-        // grumbling,
-        // "well, since you asked nicely . . ."
-        if (responseText.contains("well, since you asked nicely")) {
-          Preferences.setBoolean("_requestSandwichSucceeded", true);
-        }
-        break;
-
-      case SkillPool.PASTAMASTERY:
-        Preferences.increment("noodleSummons", count);
-        break;
-
       case SkillPool.CARBOLOADING:
         Preferences.setBoolean("_carboLoaded", true);
         Preferences.increment("carboLoading", 1);
         break;
 
-      case SkillPool.ADVANCED_SAUCECRAFTING:
-        Preferences.increment("reagentSummons", count);
-        break;
-
-      case SkillPool.ADVANCED_COCKTAIL:
-        Preferences.increment("cocktailSummons", count);
-        break;
-
-      case SkillPool.DEMAND_SANDWICH:
-        Preferences.increment("_demandSandwich", count);
-        break;
-
       case SkillPool.SNOWCONE:
-        Preferences.increment("_snowconeSummons", count);
-        Preferences.increment("tomeSummons", count);
-        ConcoctionDatabase.setRefreshNeeded(false);
-        break;
-
       case SkillPool.STICKER:
-        Preferences.increment("_stickerSummons", count);
-        Preferences.increment("tomeSummons", count);
-        ConcoctionDatabase.setRefreshNeeded(false);
-        break;
-
       case SkillPool.SUGAR:
-        Preferences.increment("_sugarSummons", count);
-        Preferences.increment("tomeSummons", count);
-        ConcoctionDatabase.setRefreshNeeded(false);
-        break;
-
       case SkillPool.CLIP_ART:
-        Preferences.increment("_clipartSummons", count);
-        Preferences.increment("tomeSummons", count);
-        ConcoctionDatabase.setRefreshNeeded(false);
-        break;
-
       case SkillPool.RAD_LIB:
-        Preferences.increment("_radlibSummons", count);
-        Preferences.increment("tomeSummons", count);
-        ConcoctionDatabase.setRefreshNeeded(false);
-        break;
-
       case SkillPool.SMITHSNESS:
-        Preferences.increment("_smithsnessSummons", count);
-        Preferences.increment("tomeSummons", count);
         ConcoctionDatabase.setRefreshNeeded(false);
-        break;
-
-      case SkillPool.HILARIOUS:
-        Preferences.increment("grimoire1Summons", 1);
-        break;
-
-      case SkillPool.TASTEFUL:
-        Preferences.increment("grimoire2Summons", 1);
-        break;
-
-      case SkillPool.CARDS:
-        Preferences.increment("grimoire3Summons", 1);
-        break;
-
-      case SkillPool.GEEKY:
-        Preferences.increment("_grimoireGeekySummons", 1);
-        break;
-
-      case SkillPool.CONFISCATOR:
-        Preferences.increment("_grimoireConfiscatorSummons", 1);
-        break;
-
-      case SkillPool.CRIMBO_CANDY:
-        Preferences.increment("_candySummons", 1);
-        break;
-
-      case SkillPool.PSYCHOKINETIC_HUG:
-        Preferences.setBoolean("_psychokineticHugUsed", true);
-        break;
-
-      case SkillPool.MANAGERIAL_MANIPULATION:
-        Preferences.setBoolean("_managerialManipulationUsed", true);
-        break;
-
-      case SkillPool.CONJURE_EGGS:
-        Preferences.setBoolean("_jarlsEggsSummoned", true);
-        break;
-      case SkillPool.CONJURE_DOUGH:
-        Preferences.setBoolean("_jarlsDoughSummoned", true);
-        break;
-      case SkillPool.CONJURE_VEGGIES:
-        Preferences.setBoolean("_jarlsVeggiesSummoned", true);
-        break;
-      case SkillPool.CONJURE_CHEESE:
-        Preferences.setBoolean("_jarlsCheeseSummoned", true);
-        break;
-      case SkillPool.CONJURE_MEAT:
-        Preferences.setBoolean("_jarlsMeatSummoned", true);
-        break;
-      case SkillPool.CONJURE_POTATO:
-        Preferences.setBoolean("_jarlsPotatoSummoned", true);
-        break;
-      case SkillPool.CONJURE_CREAM:
-        Preferences.setBoolean("_jarlsCreamSummoned", true);
-        break;
-      case SkillPool.CONJURE_FRUIT:
-        Preferences.setBoolean("_jarlsFruitSummoned", true);
         break;
 
       case SkillPool.EGGMAN:
@@ -2114,32 +1971,9 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         PastaThrallData.handleDismissal(responseText);
         break;
 
-      case SkillPool.THROW_PARTY:
-        Preferences.setBoolean("_petePartyThrown", true);
-        break;
-      case SkillPool.INCITE_RIOT:
-        Preferences.setBoolean("_peteRiotIncited", true);
-        break;
-
       case SkillPool.SUMMON_ANNOYANCE:
         Preferences.setBoolean("_summonAnnoyanceUsed", true);
         Preferences.decrement("availableSwagger", Preferences.getInteger("summonAnnoyanceCost"));
-        break;
-
-      case SkillPool.PIRATE_BELLOW:
-        Preferences.setBoolean("_pirateBellowUsed", true);
-        break;
-
-      case SkillPool.HOLIDAY_FUN:
-        Preferences.setBoolean("_holidayFunUsed", true);
-        break;
-
-      case SkillPool.SUMMON_CARROT:
-        Preferences.setBoolean("_summonCarrotUsed", true);
-        break;
-
-      case SkillPool.SUMMON_KOKOMO_RESORT_PASS:
-        Preferences.setBoolean("_summonResortPassUsed", true);
         break;
 
       case SkillPool.ANCESTRAL_RECALL:
@@ -2151,45 +1985,9 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         ResultProcessor.processResult(ItemPool.get(ItemPool.BLACK_MANA, -count));
         break;
 
-      case SkillPool.PERFECT_FREEZE:
-        Preferences.setBoolean("_perfectFreezeUsed", true);
-        break;
-
-      case SkillPool.COMMUNISM:
-        Preferences.setBoolean("_communismUsed", true);
-        break;
-
-      case SkillPool.BOW_LEGGED_SWAGGER:
-        Preferences.setBoolean("_bowleggedSwaggerUsed", true);
-        break;
-
-      case SkillPool.BEND_HELL:
-        Preferences.setBoolean("_bendHellUsed", true);
-        break;
-
-      case SkillPool.STEELY_EYED_SQUINT:
-        Preferences.setBoolean("_steelyEyedSquintUsed", true);
-        break;
-
-      case SkillPool.CECI_CHAPEAU:
-        Preferences.setBoolean("_ceciHatUsed", true);
-        break;
-
       case SkillPool.STACK_LUMPS:
         Preferences.increment("_stackLumpsUses");
         ResultProcessor.processResult(ItemPool.get(ItemPool.NEGATIVE_LUMP, -100));
-        break;
-
-      case SkillPool.EVOKE_ELDRITCH_HORROR:
-        Preferences.setBoolean("_eldritchHorrorEvoked", true);
-        break;
-
-      case SkillPool.INCREDIBLE_SELF_ESTEEM:
-        Preferences.setBoolean("_incredibleSelfEsteemCast", true);
-        break;
-
-      case SkillPool.PREVENT_SCURVY:
-        Preferences.setBoolean("_preventScurvy", true);
         break;
 
       case SkillPool.LOVE_MIXOLOGY:
@@ -2214,71 +2012,35 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           break;
         }
 
-      case SkillPool.VISIT_YOUR_FAVORITE_BIRD:
-        Preferences.setBoolean("_favoriteBirdVisited", true);
-        break;
-
-      case SkillPool.INVISIBLE_AVATAR:
-      case SkillPool.TRIPLE_SIZE:
-        Preferences.increment("_powerfulGloveBatteryPowerUsed", 5, 100, false);
-        break;
-
       case SkillPool.MAP_THE_MONSTERS:
-        Preferences.increment("_monstersMapped", 1, 3, false);
         Preferences.setBoolean("mappingMonsters", true);
         break;
+    }
 
-      case SkillPool.BOWL_FULL_OF_JELLY:
-        Preferences.setBoolean("_bowlFullOfJellyUsed", true);
+    // Now apply daily limits
+    var limit = DailyLimitDatabase.DailyLimitType.CAST.getDailyLimit(skillId);
+    var increment = count;
+
+    switch(skillId) {
+      case SkillPool.INVISIBLE_AVATAR:
+      case SkillPool.TRIPLE_SIZE:
+        // These skills increment the count 5 by not 1
+        increment *= 5;
         break;
-
-      case SkillPool.EYE_AND_A_TWIST:
-        Preferences.setBoolean("_eyeAndATwistUsed", true);
-        break;
-
-      case SkillPool.CHUBBY_AND_PLUMP:
-        Preferences.setBoolean("_chubbyAndPlumpUsed", true);
-        break;
-
-      case SkillPool.FEEL_EXCITEMENT:
-        Preferences.increment("_feelExcitementUsed", count, 3, false);
-        break;
-
-      case SkillPool.FEEL_LONELY:
-        Preferences.increment("_feelLonelyUsed", count, 3, false);
-        break;
-
-      case SkillPool.FEEL_NERVOUS:
-        Preferences.increment("_feelNervousUsed", count, 3, false);
-        break;
-
-      case SkillPool.FEEL_DISAPPOINTED:
-        Preferences.increment("_feelDisappointedUsed", count, 3, false);
-        break;
-
-      case SkillPool.FEEL_LOST:
-        Preferences.increment("_feelLostUsed", count, 3, false);
-        break;
-
-      case SkillPool.FEEL_PEACEFUL:
-        Preferences.increment("_feelPeacefulUsed", count, 3, false);
-        break;
-
-      case SkillPool.MAKE_SWEATADE:
-      case SkillPool.DRENCH_YOURSELF_IN_SWEAT:
-      case SkillPool.SIP_SOME_SWEAT:
-        Matcher sweatCheck = SWEAT_PATTERN.matcher(responseText);
-        if (sweatCheck.find()) {
-          int sweatCost = Integer.parseInt(sweatCheck.group(1));
-          Preferences.decrement("sweat", sweatCost);
+      case SkillPool.REQUEST_SANDWICH:
+        // You take a deep breath and prepare for a Boris-style bellow. Then you remember your
+        // manners
+        // and shout, "If it's not too much trouble, I'd really like a sandwich right now! Please!"
+        // To your surprise, it works! Someone wanders by slowly and hands you a sandwich,
+        // grumbling,
+        // "well, since you asked nicely . . ."
+        if (!responseText.contains("well, since you asked nicely")) {
+          increment *= 0;
         }
         break;
-
-      case SkillPool.SWEAT_OUT_BOOZE:
-        Preferences.decrement("sweat", count * 25);
-        Preferences.increment("_sweatOutSomeBoozeUsed", count, 3, false);
-        break;
     }
+
+    limit.increment(increment);
 
     if (SkillDatabase.isLibramSkill(skillId)) {
       int cast = Preferences.getInteger("libramSummons");

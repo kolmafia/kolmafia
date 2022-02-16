@@ -141,16 +141,20 @@ public class DailyLimitDatabase {
     }
 
     public int increment() {
+      return increment(1);
+    }
+
+    public int increment(final int delta) {
       if (getMax() == 1 && Preferences.getDefault(this.uses).equals("false")) {
         Preferences.setBoolean(this.uses, true);
         return 1;
       }
 
       if (isTome()) {
-        Preferences.increment("tomeSummons", 1, getMax(), false);
+        Preferences.increment("tomeSummons", delta, getMax(), false);
       }
 
-      return Preferences.increment(this.uses, 1, getMax(), false);
+      return Preferences.increment(this.uses, delta, getMax(), false);
     }
   }
 

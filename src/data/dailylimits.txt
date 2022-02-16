@@ -200,3 +200,4 @@ Cast	Feel Superior	_feelSuperiorUsed	3
 Cast	Feel Lost	_feelLostUsed	3
 Cast	Feel Nostalgic	_feelNostalgicUsed	3
 Cast	Feel Peaceful	_feelPeacefulUsed	3
+Cast	Map the Monsters	_monstersMapped	3
