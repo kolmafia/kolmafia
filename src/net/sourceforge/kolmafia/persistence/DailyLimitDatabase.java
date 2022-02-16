@@ -86,8 +86,12 @@ public class DailyLimitDatabase {
       return this.uses;
     }
 
+    private boolean isTome() {
+      return Objects.equals(this.subType, "tome");
+    }
+
     public int getUses() {
-      if (Objects.equals(this.subType, "tome") && !KoLCharacter.canInteract()) {
+      if (isTome() && !KoLCharacter.canInteract()) {
         // Tomes can be used three times per day.  In aftercore, each tome can be used 3 times per
         // day.
         return Preferences.getInteger("tomeSummons");
@@ -140,6 +144,10 @@ public class DailyLimitDatabase {
       if (getMax() == 1 && Preferences.getDefault(this.uses).equals("false")) {
         Preferences.setBoolean(this.uses, true);
         return 1;
+      }
+
+      if (isTome()) {
+        Preferences.increment("tomeSummons", 1, getMax(), false);
       }
 
       return Preferences.increment(this.uses, 1, getMax(), false);

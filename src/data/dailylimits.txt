@@ -187,7 +187,7 @@ Tome	Summon Sugar Sheets	_sugarSummons	3
 Tome	Summon Clip Art	_clipartSummons	3
 Tome	Summon Rad Libs	_radlibSummons	3
 Tome	Summon Smithsness	_smithsnessSummons	3
-Cast	Visit Your Favourite Bird	_favoriteBirdVisited
+Cast	Visit Your Favorite Bird	_favoriteBirdVisited
 Cast	Lock Picking	lockPicked
 Cast	Feel Pride	_feelPrideUsed	3
 Cast	Feel Excitement	_feelExcitementUsed	3
