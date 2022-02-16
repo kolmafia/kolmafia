@@ -106,14 +106,16 @@ public abstract class MallPriceManager {
       Iterator<PurchaseRequest> i2 = search.iterator();
       while (i2.hasNext()) {
         PurchaseRequest purchase = i2.next();
-        if (purchase instanceof MallPurchaseRequest
-            && shopId == ((MallPurchaseRequest) purchase).getShopId()) {
-          i2.remove();
-          MallPriceManager.updateMallPrice(ItemPool.get(itemId), search);
-          if (itemId != -1) {
-            return;
+        if (purchase instanceof MallPurchaseRequest) {
+          MallPurchaseRequest mallPurchase = (MallPurchaseRequest) purchase;
+          if (shopId == mallPurchase.getShopId()) {
+            i2.remove();
+            MallPriceManager.updateMallPrice(ItemPool.get(itemId), search);
+            if (itemId != -1) {
+              return;
+            }
+            break;
           }
-          break;
         }
       }
     }
@@ -159,8 +161,12 @@ public abstract class MallPriceManager {
     }
   }
 
+  public static final void saveMallSearch(int itemId, List<PurchaseRequest> results) {
+    MallPriceManager.mallSearches.put(itemId, results);
+  }
+
   /** Utility method used to search the mall for a specific item. */
-  private static List<PurchaseRequest> getSavedSearch(Integer id, final int needed) {
+  public static List<PurchaseRequest> getSavedSearch(Integer id, final int needed) {
     // Remove search results that are too old
     MallPriceManager.flushCache();
 
