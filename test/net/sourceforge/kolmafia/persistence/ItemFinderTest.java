@@ -355,6 +355,24 @@ public class ItemFinderTest {
     assertEquals(KoLmafia.lastMessage, message);
     StaticEntity.setContinuationState(MafiaState.CONTINUE);
 
+    // Test for multiple items whose name contain a pilcrow
+    parameter = "4 ¶8207, 28 ¶8206, 5 ¶8209";
+    item = ItemFinder.getFirstMatchingItem(parameter, true, null, Match.ANY);
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+    assertTrue(item == null);
+    message = "More than one item specified by item ID.";
+    assertEquals(KoLmafia.lastMessage, message);
+    StaticEntity.setContinuationState(MafiaState.CONTINUE);
+
+    // Test for multiple items specified by item ID
+    parameter = "4 [8207], 28 [8206], 5 [8209]";
+    item = ItemFinder.getFirstMatchingItem(parameter, true, null, Match.ANY);
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
+    assertTrue(item == null);
+    message = "More than one item specified by item ID.";
+    assertEquals(KoLmafia.lastMessage, message);
+    StaticEntity.setContinuationState(MafiaState.CONTINUE);
+
     // Test for item with too many matches
     item = ItemFinder.getFirstMatchingItem("tea", true, null, Match.ANY);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.ERROR);
