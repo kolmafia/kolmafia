@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
+import java.time.Clock;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,9 +29,35 @@ import net.sourceforge.kolmafia.utilities.IntegerArray;
 
 public abstract class MallPriceManager {
 
+  // Mall prices are timestamped. We use System.currentTimeMillis() to generate them.
+  // Unfortunately, this makes it difficult to write tests that allow us to inject the timestamp of
+  // our choice.
+  //
+  // The solution is to use a Java Clock object (introduced in Java 8) which can be referenced by:
+  //
+  // MallPriceManager
+  // MallPriceDatabase
+  // MallPurchaseRequest
+
+  private static Clock clock = Clock.systemUTC();
+
+  public static Clock getSystemClock() {
+    return MallPriceManager.clock;
+  }
+
+  public static long currentTimeMillis() {
+    return MallPriceManager.getSystemClock().millis();
+  }
+
   private static final IntegerArray mallPrices = new IntegerArray();
   private static final LinkedHashMap<Integer, ArrayList<PurchaseRequest>> mallSearches =
       new LinkedHashMap<>();
+
+  // For testing
+  public static void reset() {
+    // mallPrices.clear();
+    mallSearches.clear();
+  }
 
   public static final String[] CATEGORY_VALUES = {
     "allitems", // All Categories
@@ -113,7 +140,7 @@ public abstract class MallPriceManager {
 
   public static final void flushCache() {
     long t0, t1;
-    t1 = System.currentTimeMillis();
+    t1 = MallPriceManager.currentTimeMillis();
     t0 = t1 - 15 * 1000;
 
     Iterator<ArrayList<PurchaseRequest>> i = MallPriceManager.mallSearches.values().iterator();
