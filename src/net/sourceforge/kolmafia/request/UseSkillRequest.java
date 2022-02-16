@@ -2021,7 +2021,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     var limit = DailyLimitDatabase.DailyLimitType.CAST.getDailyLimit(skillId);
     var increment = count;
 
-    switch(skillId) {
+    switch (skillId) {
       case SkillPool.INVISIBLE_AVATAR:
       case SkillPool.TRIPLE_SIZE:
         // These skills increment the count 5 by not 1
