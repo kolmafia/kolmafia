@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.Expression;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -63,12 +64,14 @@ public class DailyLimitDatabase {
     protected final String uses;
     protected final String max;
     protected final int id;
+    protected final String subType;
 
-    public DailyLimit(DailyLimitType type, String uses, String max, int id) {
+    public DailyLimit(DailyLimitType type, String uses, String max, int id, String subType) {
       this.type = type;
       this.uses = uses;
       this.max = max;
       this.id = id;
+      this.subType = subType;
 
       // Add to map of all limits
       DailyLimitDatabase.allDailyLimits.add(this);
@@ -80,18 +83,25 @@ public class DailyLimitDatabase {
       return this.type;
     }
 
+    public String getPref() {
+      return this.uses;
+    }
+
     public int getUses() {
-      String stringValue = Preferences.getString(this.uses);
-
-      if (stringValue.equals("true")) {
-        return 1;
+      if (this.subType.equals("tome") && !KoLCharacter.canInteract()) {
+        // Tomes can be used three times per day.  In aftercore, each tome can be used 3 times per
+        // day.
+        return Preferences.getInteger("tomeSummons");
       }
 
-      if (stringValue.equals("false")) {
-        return 0;
+      switch (Preferences.getString(this.uses)) {
+        case "true":
+          return 1;
+        case "false":
+          return 0;
+        default:
+          return Preferences.getInteger(this.uses);
       }
-
-      return Preferences.getInteger(this.uses);
     }
 
     public int getMax() {
@@ -141,6 +151,8 @@ public class DailyLimitDatabase {
     for (DailyLimitType type : DailyLimitType.values()) {
       DailyLimitDatabase.tagToDailyLimitType.put(type.toString(), type);
     }
+
+    tagToDailyLimitType.put("tome", DailyLimitType.CAST);
 
     DailyLimitDatabase.reset();
   }
@@ -196,6 +208,8 @@ public class DailyLimitDatabase {
       return null;
     }
 
-    return new DailyLimit(type, uses, max, id);
+    var subType = (data[0].equalsIgnoreCase("tome")) ? "tome" : null;
+
+    return new DailyLimit(type, uses, max, id, subType);
   }
 }

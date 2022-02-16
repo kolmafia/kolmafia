@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.DailyLimitDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
@@ -474,8 +475,6 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       EffectPool.get(EffectPool.TAINTED_LOVE_POTION);
 
   public long getMaximumCast() {
-    long maximumCast = Long.MAX_VALUE;
-
     boolean canCastHoboSong = KoLCharacter.isAccordionThief() && KoLCharacter.getLevel() > 14;
 
     if (KoLCharacter.inGLover() && !KoLCharacter.hasGs(this.getSkillName())) {
@@ -483,129 +482,11 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     }
 
     switch (this.skillId) {
-        // The Smile of Mr. A can be used five times per day per Golden
-        // Mr. Accessory you own
-      case SkillPool.SMILE_OF_MR_A:
-        maximumCast =
-            Preferences.getInteger("goldenMrAccessories") * 5
-                - Preferences.getInteger("_smilesOfMrA");
-        break;
-
-        // Vent Rage Gland can be used once per day
-      case SkillPool.RAGE_GLAND:
-        maximumCast = Preferences.getBoolean("rageGlandVented") ? 0 : 1;
-        break;
-
-        // You can take a Lunch Break once a day
-      case SkillPool.LUNCH_BREAK:
-        maximumCast = Preferences.getBoolean("_lunchBreak") ? 0 : 1;
-        break;
-
-        // Spaghetti Breakfast once a day
-      case SkillPool.SPAGHETTI_BREAKFAST:
-        maximumCast = Preferences.getBoolean("_spaghettiBreakfast") ? 0 : 1;
-        break;
-
-        // Grab a Cold One once a day
-      case SkillPool.GRAB_A_COLD_ONE:
-        maximumCast = Preferences.getBoolean("_coldOne") ? 0 : 1;
-        break;
-
-        // That's Not a Knife once a day
-      case SkillPool.THATS_NOT_A_KNIFE:
-        maximumCast = Preferences.getBoolean("_discoKnife") ? 0 : 1;
-        break;
-
-        // Summon "Boner Battalion" can be used once per day
-      case SkillPool.SUMMON_BONERS:
-        maximumCast = Preferences.getBoolean("_bonersSummoned") ? 0 : 1;
-        break;
-
-        // Acquire Rhinestones can be used once a day
-      case SkillPool.ACQUIRE_RHINESTONES:
-        maximumCast = Preferences.getBoolean("_rhinestonesAcquired") ? 0 : 1;
-        break;
-
-      case SkillPool.REQUEST_SANDWICH:
-        maximumCast = Preferences.getBoolean("_requestSandwichSucceeded") ? 0 : 1;
-        break;
-
-        // Tomes can be used three times per day.  In aftercore, each tome can be used 3 times per
-        // day.
-
-      case SkillPool.SNOWCONE:
-        maximumCast =
-            KoLCharacter.canInteract()
-                ? Math.max(3 - Preferences.getInteger("_snowconeSummons"), 0)
-                : Math.max(3 - Preferences.getInteger("tomeSummons"), 0);
-        break;
-
-      case SkillPool.STICKER:
-        maximumCast =
-            KoLCharacter.canInteract()
-                ? Math.max(3 - Preferences.getInteger("_stickerSummons"), 0)
-                : Math.max(3 - Preferences.getInteger("tomeSummons"), 0);
-        break;
-
-      case SkillPool.SUGAR:
-        maximumCast =
-            KoLCharacter.canInteract()
-                ? Math.max(3 - Preferences.getInteger("_sugarSummons"), 0)
-                : Math.max(3 - Preferences.getInteger("tomeSummons"), 0);
-        break;
-
-      case SkillPool.CLIP_ART:
-        maximumCast =
-            KoLCharacter.canInteract()
-                ? Math.max(3 - Preferences.getInteger("_clipartSummons"), 0)
-                : Math.max(3 - Preferences.getInteger("tomeSummons"), 0);
-        break;
-
-      case SkillPool.RAD_LIB:
-        maximumCast =
-            KoLCharacter.canInteract()
-                ? Math.max(3 - Preferences.getInteger("_radlibSummons"), 0)
-                : Math.max(3 - Preferences.getInteger("tomeSummons"), 0);
-        break;
-
-      case SkillPool.SMITHSNESS:
-        maximumCast =
-            KoLCharacter.canInteract()
-                ? Math.max(3 - Preferences.getInteger("_smithsnessSummons"), 0)
-                : Math.max(3 - Preferences.getInteger("tomeSummons"), 0);
-        break;
-
-        // Grimoire items can only be summoned once per day.
-      case SkillPool.HILARIOUS:
-        maximumCast = Math.max(1 - Preferences.getInteger("grimoire1Summons"), 0);
-        break;
-
-      case SkillPool.TASTEFUL:
-        maximumCast = Math.max(1 - Preferences.getInteger("grimoire2Summons"), 0);
-        break;
-
-      case SkillPool.CARDS:
-        maximumCast = Math.max(1 - Preferences.getInteger("grimoire3Summons"), 0);
-        break;
-
-      case SkillPool.GEEKY:
-        maximumCast = Math.max(1 - Preferences.getInteger("_grimoireGeekySummons"), 0);
-        break;
-
-      case SkillPool.CONFISCATOR:
-        maximumCast = Math.max(1 - Preferences.getInteger("_grimoireConfiscatorSummons"), 0);
-        break;
-
-        // You can summon Crimbo candy once a day
-      case SkillPool.CRIMBO_CANDY:
-        maximumCast = Math.max(1 - Preferences.getInteger("_candySummons"), 0);
-        break;
-
         // Rainbow Gravitation can be cast 3 times per day.  Each
         // casting consumes five elemental wads and a twinkly wad
 
       case SkillPool.RAINBOW_GRAVITATION:
-        maximumCast = Math.max(3 - Preferences.getInteger("prismaticSummons"), 0);
+        var maximumCast = Math.max(3 - Preferences.getInteger("prismaticSummons"), 0);
         maximumCast = Math.min(InventoryManager.getAccessibleCount(ItemPool.COLD_WAD), maximumCast);
         maximumCast = Math.min(InventoryManager.getAccessibleCount(ItemPool.HOT_WAD), maximumCast);
         maximumCast =
@@ -614,185 +495,64 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
             Math.min(InventoryManager.getAccessibleCount(ItemPool.SPOOKY_WAD), maximumCast);
         maximumCast =
             Math.min(InventoryManager.getAccessibleCount(ItemPool.STENCH_WAD), maximumCast);
-        maximumCast =
-            Math.min(InventoryManager.getAccessibleCount(ItemPool.TWINKLY_WAD), maximumCast);
-        break;
-
-      case SkillPool.PASTAMASTERY:
-        maximumCast = (Preferences.getInteger("noodleSummons") == 0) ? 1 : 0;
-        break;
-
-        // Canticle of Carboloading can be cast once per day.
-      case SkillPool.CARBOLOADING:
-        maximumCast = Preferences.getBoolean("_carboLoaded") ? 0 : 1;
-        break;
-
-      case SkillPool.ADVANCED_SAUCECRAFTING:
-        maximumCast = (Preferences.getInteger("reagentSummons") == 0) ? 1 : 0;
-        break;
-
-      case SkillPool.ADVANCED_COCKTAIL:
-        maximumCast = (Preferences.getInteger("cocktailSummons") == 0) ? 1 : 0;
-        break;
-
-      case SkillPool.THINGFINDER:
-        maximumCast =
-            canCastHoboSong ? Math.max(10 - Preferences.getInteger("_thingfinderCasts"), 0) : 0;
-        break;
-
-      case SkillPool.BENETTONS:
-        maximumCast =
-            canCastHoboSong ? Math.max(10 - Preferences.getInteger("_benettonsCasts"), 0) : 0;
-        break;
-
-      case SkillPool.ELRONS:
-        maximumCast =
-            canCastHoboSong ? Math.max(10 - Preferences.getInteger("_elronsCasts"), 0) : 0;
-        break;
-
-      case SkillPool.COMPANIONSHIP:
-        maximumCast =
-            canCastHoboSong ? Math.max(10 - Preferences.getInteger("_companionshipCasts"), 0) : 0;
-        break;
-
-      case SkillPool.PRECISION:
-        maximumCast =
-            canCastHoboSong ? Math.max(10 - Preferences.getInteger("_precisionCasts"), 0) : 0;
-        break;
-
-      case SkillPool.DONHOS:
-        maximumCast = Math.max(50 - Preferences.getInteger("_donhosCasts"), 0);
-        break;
-
-      case SkillPool.INIGOS:
-        maximumCast = Math.max(5 - Preferences.getInteger("_inigosCasts"), 0);
-        break;
-
-        // Avatar of Boris skill
-      case SkillPool.DEMAND_SANDWICH:
-        maximumCast = Math.max(3 - Preferences.getInteger("_demandSandwich"), 0);
-        break;
+        return Math.min(InventoryManager.getAccessibleCount(ItemPool.TWINKLY_WAD), maximumCast);
 
         // Zombie Master skills
       case SkillPool.SUMMON_MINION:
-        maximumCast = KoLCharacter.getAvailableMeat() / 100;
-        break;
+        return KoLCharacter.getAvailableMeat() / 100;
 
       case SkillPool.SUMMON_HORDE:
-        maximumCast = KoLCharacter.getAvailableMeat() / 1000;
-        break;
+        return KoLCharacter.getAvailableMeat() / 1000;
 
         // Avatar of Jarlsberg skills
-      case SkillPool.CONJURE_EGGS:
-        maximumCast = Preferences.getBoolean("_jarlsEggsSummoned") ? 0 : 1;
-        break;
-
-      case SkillPool.CONJURE_DOUGH:
-        maximumCast = Preferences.getBoolean("_jarlsDoughSummoned") ? 0 : 1;
-        break;
-
-      case SkillPool.CONJURE_VEGGIES:
-        maximumCast = Preferences.getBoolean("_jarlsVeggiesSummoned") ? 0 : 1;
-        break;
-
-      case SkillPool.CONJURE_CHEESE:
-        maximumCast = Preferences.getBoolean("_jarlsCheeseSummoned") ? 0 : 1;
-        break;
-
-      case SkillPool.CONJURE_MEAT:
-        maximumCast = Preferences.getBoolean("_jarlsMeatSummoned") ? 0 : 1;
-        break;
-
-      case SkillPool.CONJURE_POTATO:
-        maximumCast = Preferences.getBoolean("_jarlsPotatoSummoned") ? 0 : 1;
-        break;
-
-      case SkillPool.CONJURE_CREAM:
-        maximumCast = Preferences.getBoolean("_jarlsCreamSummoned") ? 0 : 1;
-        break;
-
-      case SkillPool.CONJURE_FRUIT:
-        maximumCast = Preferences.getBoolean("_jarlsFruitSummoned") ? 0 : 1;
-        break;
-
       case SkillPool.EGGMAN:
         boolean haveEgg = InventoryManager.getCount(ItemPool.COSMIC_EGG) > 0;
         boolean eggActive = KoLCharacter.getCompanion() == Companion.EGGMAN;
-        maximumCast = (haveEgg && !eggActive) ? 1 : 0;
-        break;
+        return (haveEgg && !eggActive) ? 1 : 0;
 
       case SkillPool.RADISH_HORSE:
         boolean haveVeggie = InventoryManager.getCount(ItemPool.COSMIC_VEGETABLE) > 0;
         boolean radishActive = KoLCharacter.getCompanion() == Companion.RADISH;
-        maximumCast = (haveVeggie && !radishActive) ? 1 : 0;
-        break;
+        return (haveVeggie && !radishActive) ? 1 : 0;
 
       case SkillPool.HIPPOTATO:
         boolean havePotato = InventoryManager.getCount(ItemPool.COSMIC_POTATO) > 0;
         boolean hippoActive = KoLCharacter.getCompanion() == Companion.HIPPO;
-        maximumCast = (havePotato && !hippoActive) ? 1 : 0;
-        break;
+        return (havePotato && !hippoActive) ? 1 : 0;
 
       case SkillPool.CREAMPUFF:
         boolean haveCream = InventoryManager.getCount(ItemPool.COSMIC_CREAM) > 0;
         boolean creampuffActive = KoLCharacter.getCompanion() == Companion.CREAM;
-        maximumCast = (haveCream && !creampuffActive) ? 1 : 0;
-        break;
+        return (haveCream && !creampuffActive) ? 1 : 0;
 
       case SkillPool.DEEP_VISIONS:
-        maximumCast = KoLCharacter.getMaximumHP() >= 500 ? 1 : 0;
-        break;
+        return KoLCharacter.getMaximumHP() >= 500 ? 1 : 0;
 
       case SkillPool.WAR_BLESSING:
-        maximumCast =
-            (KoLCharacter.getBlessingLevel() != -1
-                    || KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING)
-                ? 1
-                : 0;
-        break;
+        return (KoLCharacter.getBlessingLevel() != -1
+                || KoLCharacter.getBlessingType() == KoLCharacter.WAR_BLESSING)
+            ? 1
+            : 0;
 
       case SkillPool.SHE_WHO_WAS_BLESSING:
-        maximumCast =
-            (KoLCharacter.getBlessingLevel() != -1
-                    || KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING)
-                ? 1
-                : 0;
-        break;
+        return (KoLCharacter.getBlessingLevel() != -1
+                || KoLCharacter.getBlessingType() == KoLCharacter.SHE_WHO_WAS_BLESSING)
+            ? 1
+            : 0;
 
       case SkillPool.STORM_BLESSING:
-        maximumCast =
-            (KoLCharacter.getBlessingLevel() != -1
-                    || KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING)
-                ? 1
-                : 0;
-        break;
+        return (KoLCharacter.getBlessingLevel() != -1
+                || KoLCharacter.getBlessingType() == KoLCharacter.STORM_BLESSING)
+            ? 1
+            : 0;
 
       case SkillPool.SPIRIT_BOON:
-        maximumCast = KoLCharacter.getBlessingLevel() != 0 ? Integer.MAX_VALUE : 0;
-        break;
+        return KoLCharacter.getBlessingLevel() != 0 ? Integer.MAX_VALUE : 0;
 
       case SkillPool.TURTLE_POWER:
-        maximumCast =
-            KoLCharacter.getBlessingLevel() == 3 && !Preferences.getBoolean("_turtlePowerCast")
-                ? 1
-                : 0;
-        break;
-
-      case SkillPool.PSYCHOKINETIC_HUG:
-        maximumCast = Preferences.getBoolean("_psychokineticHugUsed") ? 0 : 1;
-        break;
-
-      case SkillPool.MANAGERIAL_MANIPULATION:
-        maximumCast = Preferences.getBoolean("_managerialManipulationUsed") ? 0 : 1;
-        break;
-
-      case SkillPool.THROW_PARTY:
-        maximumCast = Preferences.getBoolean("_petePartyThrown") ? 0 : 1;
-        break;
-
-      case SkillPool.INCITE_RIOT:
-        maximumCast = Preferences.getBoolean("_peteRiotIncited") ? 0 : 1;
-        break;
+        return KoLCharacter.getBlessingLevel() == 3 && !Preferences.getBoolean("_turtlePowerCast")
+            ? 1
+            : 0;
 
       case SkillPool.SUMMON_ANNOYANCE:
         if (Preferences.getInteger("summonAnnoyanceCost") == 11) {
@@ -803,109 +563,45 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           RequestThread.postRequest(req);
         }
         if (Preferences.getBoolean("_summonAnnoyanceUsed")) {
-          maximumCast = 0;
-          break;
+          return 0;
         }
         if (Preferences.getInteger("availableSwagger")
             < Preferences.getInteger("summonAnnoyanceCost")) {
-          maximumCast = 0;
-          break;
+          return 0;
         }
-        maximumCast = 1;
-        break;
-
-      case SkillPool.PIRATE_BELLOW:
-        maximumCast = Preferences.getBoolean("_pirateBellowUsed") ? 0 : 1;
-        break;
-
-      case SkillPool.HOLIDAY_FUN:
-        maximumCast = Preferences.getBoolean("_holidayFunUsed") ? 0 : 1;
-        break;
-
-      case SkillPool.SUMMON_CARROT:
-        maximumCast = Preferences.getBoolean("_summonCarrotUsed") ? 0 : 1;
-        break;
-
-      case SkillPool.SUMMON_KOKOMO_RESORT_PASS:
-        maximumCast = Preferences.getBoolean("_summonResortPassUsed") ? 0 : 1;
-        break;
+        return 1;
 
       case SkillPool.CALCULATE_THE_UNIVERSE:
         if (KoLCharacter.getAdventuresLeft() == 0) {
-          maximumCast = 0;
-          break;
+          return 0;
         }
-        maximumCast =
-            Preferences.getInteger("skillLevel144") > Preferences.getInteger("_universeCalculated")
-                ? 1
-                : 0;
-        break;
+        return Preferences.getInteger("skillLevel144")
+                > Preferences.getInteger("_universeCalculated")
+            ? 1
+            : 0;
 
       case SkillPool.ANCESTRAL_RECALL:
-        maximumCast =
-            Math.min(
-                10 - Preferences.getInteger("_ancestralRecallCasts"),
-                InventoryManager.getAccessibleCount(ItemPool.BLUE_MANA));
-        break;
+        return Math.min(
+            10 - Preferences.getInteger("_ancestralRecallCasts"),
+            InventoryManager.getAccessibleCount(ItemPool.BLUE_MANA));
 
       case SkillPool.DARK_RITUAL:
-        maximumCast = InventoryManager.getAccessibleCount(ItemPool.BLACK_MANA);
-        break;
-
-      case SkillPool.PERFECT_FREEZE:
-        maximumCast = Preferences.getBoolean("_perfectFreezeUsed") ? 0 : 1;
-        break;
-
-      case SkillPool.COMMUNISM:
-        maximumCast = Preferences.getBoolean("_communismUsed") ? 0 : 1;
-        break;
-
-      case SkillPool.BOW_LEGGED_SWAGGER:
-        maximumCast = Preferences.getBoolean("_bowleggedSwaggerUsed") ? 0 : 1;
-        break;
-
-      case SkillPool.BEND_HELL:
-        maximumCast = Preferences.getBoolean("_bendHellUsed") ? 0 : 1;
-        break;
-
-      case SkillPool.STEELY_EYED_SQUINT:
-        maximumCast = Preferences.getBoolean("_steelyEyedSquintUsed") ? 0 : 1;
-        break;
+        return InventoryManager.getAccessibleCount(ItemPool.BLACK_MANA);
 
       case SkillPool.INTERNAL_SODA_MACHINE:
         long meatLimit = KoLCharacter.getAvailableMeat() / 20;
         long mpLimit =
             (int) Math.ceil((KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP()) / 10.0);
-        maximumCast = Math.min(meatLimit, mpLimit);
-        break;
-
-      case SkillPool.CECI_CHAPEAU:
-        maximumCast = Preferences.getBoolean("_ceciHatUsed") ? 0 : 1;
-        break;
-
-      case SkillPool.EVOKE_ELDRITCH_HORROR:
-        maximumCast = Preferences.getBoolean("_eldritchHorrorEvoked") ? 0 : 1;
-        break;
+        return Math.min(meatLimit, mpLimit);
 
       case SkillPool.STACK_LUMPS:
-        maximumCast = 1;
-        break;
-
-      case SkillPool.INCREDIBLE_SELF_ESTEEM:
-        maximumCast = Preferences.getBoolean("_incredibleSelfEsteemCast") ? 0 : 1;
-        break;
-
-      case SkillPool.PREVENT_SCURVY:
-        maximumCast = Preferences.getBoolean("_preventScurvy") ? 0 : 1;
-        break;
+        return 1;
 
       case SkillPool.LOVE_MIXOLOGY:
-        maximumCast =
-            InventoryManager.getAccessibleCount(ItemPool.LOVE_POTION_XYZ) > 0
-                    || KoLConstants.activeEffects.contains(UseSkillRequest.TAINTED_LOVE_POTION)
-                ? 0
-                : 1;
-        break;
+        return InventoryManager.getAccessibleCount(ItemPool.LOVE_POTION_XYZ) > 0
+                || KoLConstants.activeEffects.contains(UseSkillRequest.TAINTED_LOVE_POTION)
+            ? 0
+            : 1;
 
       case SkillPool.SEEK_OUT_A_BIRD:
         {
@@ -926,15 +622,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
           int option = Preferences.getInteger("choiceAdventure1399");
           int birds = Preferences.getInteger("_birdsSoughtToday");
-          if (birds < 7 && option != 1) {
-            maximumCast = 6 - birds;
-          }
-          break;
+          return (birds < 7 && option != 1) ? 6 - birds : Long.MAX_VALUE;
         }
-
-      case SkillPool.VISIT_YOUR_FAVORITE_BIRD:
-        maximumCast = Preferences.getBoolean("_favoriteBirdVisited") ? 0 : 1;
-        break;
 
       case SkillPool.INVISIBLE_AVATAR:
       case SkillPool.TRIPLE_SIZE:
@@ -946,80 +635,17 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           // The combat skills cost 5 or 10%
           int cost = (this.skillId == SkillPool.REPLACE_ENEMY) ? 10 : 5;
           int powerAvailable = EquipmentManager.powerfulGloveAvailableBatteryPower();
-          maximumCast = powerAvailable / cost;
-          break;
+          return powerAvailable / cost;
         }
-
-      case SkillPool.LOCK_PICKING:
-        maximumCast = Preferences.getBoolean("lockPicked") ? 0 : 1;
-        break;
-
-      case SkillPool.BOWL_FULL_OF_JELLY:
-        maximumCast = Preferences.getBoolean("_bowlFullOfJellyUsed") ? 0 : 1;
-        break;
-
-      case SkillPool.EYE_AND_A_TWIST:
-        maximumCast = Preferences.getBoolean("_eyeAndATwistUsed") ? 0 : 1;
-        break;
-
-      case SkillPool.CHUBBY_AND_PLUMP:
-        maximumCast = Preferences.getBoolean("_chubbyAndPlumpUsed") ? 0 : 1;
-        break;
-
-      case SkillPool.FEEL_PRIDE:
-        maximumCast = Math.max(0, 3 - Preferences.getInteger("_feelPrideUsed"));
-        break;
-
-      case SkillPool.FEEL_EXCITEMENT:
-        maximumCast = Math.max(0, 3 - Preferences.getInteger("_feelExcitementUsed"));
-        break;
-
-      case SkillPool.FEEL_HATRED:
-        maximumCast = Math.max(0, 3 - Preferences.getInteger("_feelHatredUsed"));
-        break;
-
-      case SkillPool.FEEL_LONELY:
-        maximumCast = Math.max(0, 3 - Preferences.getInteger("_feelLonelyUsed"));
-        break;
-
-      case SkillPool.FEEL_NERVOUS:
-        maximumCast = Math.max(0, 3 - Preferences.getInteger("_feelNervousUsed"));
-        break;
-
-      case SkillPool.FEEL_ENVY:
-        maximumCast = Math.max(0, 3 - Preferences.getInteger("_feelEnvyUsed"));
-        break;
-
-      case SkillPool.FEEL_DISAPPOINTED:
-        maximumCast = Math.max(0, 3 - Preferences.getInteger("_feelDisappointedUsed"));
-        break;
-
-      case SkillPool.FEEL_SUPERIOR:
-        maximumCast = Math.max(0, 3 - Preferences.getInteger("_feelSuperiorUsed"));
-        break;
-
-      case SkillPool.FEEL_LOST:
-        maximumCast = Math.max(0, 3 - Preferences.getInteger("_feelLostUsed"));
-        break;
-
-      case SkillPool.FEEL_NOSTALGIC:
-        maximumCast = Math.max(0, 3 - Preferences.getInteger("_feelNostalgicUsed"));
-        break;
-
-      case SkillPool.FEEL_PEACEFUL:
-        maximumCast = Math.max(0, 3 - Preferences.getInteger("_feelPeacefulUsed"));
-        break;
-
-      case SkillPool.MEATIFY_MATTER:
-        maximumCast = Preferences.getBoolean("_meatifyMatterUsed") ? 0 : 1;
-        break;
-
-      case SkillPool.SWEAT_OUT_BOOZE:
-        maximumCast = Math.max(0, 3 - Preferences.getInteger("_sweatOutSomeBoozeUsed"));
-        break;
     }
 
-    return maximumCast;
+    DailyLimitDatabase.DailyLimit dailyLimit =
+        DailyLimitDatabase.DailyLimitType.CAST.getDailyLimit(this.skillId);
+    if (dailyLimit != null) {
+      return dailyLimit.getUsesRemaining();
+    }
+
+    return Long.MAX_VALUE;
   }
 
   @Override
