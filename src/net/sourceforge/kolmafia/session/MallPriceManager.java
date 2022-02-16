@@ -50,7 +50,7 @@ public abstract class MallPriceManager {
   }
 
   private static final IntegerArray mallPrices = new IntegerArray();
-  private static final LinkedHashMap<Integer, ArrayList<PurchaseRequest>> mallSearches =
+  private static final LinkedHashMap<Integer, List<PurchaseRequest>> mallSearches =
       new LinkedHashMap<>();
 
   // For testing
@@ -89,9 +89,9 @@ public abstract class MallPriceManager {
   public static final Set<String> validCategories = new HashSet<>(Arrays.asList(CATEGORY_VALUES));
 
   public static final void flushCache(final int itemId, final int shopId) {
-    Iterator<ArrayList<PurchaseRequest>> i1 = MallPriceManager.mallSearches.values().iterator();
+    Iterator<List<PurchaseRequest>> i1 = MallPriceManager.mallSearches.values().iterator();
     while (i1.hasNext()) {
-      ArrayList<PurchaseRequest> search = i1.next();
+      List<PurchaseRequest> search = i1.next();
 
       // Always remove empty searches
       if (search == null || search.size() == 0) {
@@ -120,9 +120,9 @@ public abstract class MallPriceManager {
   }
 
   public static final void flushCache(final int itemId) {
-    Iterator<ArrayList<PurchaseRequest>> i = MallPriceManager.mallSearches.values().iterator();
+    Iterator<List<PurchaseRequest>> i = MallPriceManager.mallSearches.values().iterator();
     while (i.hasNext()) {
-      ArrayList<PurchaseRequest> search = i.next();
+      List<PurchaseRequest> search = i.next();
       // Always remove empty searches
       if (search == null || search.size() == 0) {
         i.remove();
@@ -143,9 +143,9 @@ public abstract class MallPriceManager {
     t1 = MallPriceManager.currentTimeMillis();
     t0 = t1 - 15 * 1000;
 
-    Iterator<ArrayList<PurchaseRequest>> i = MallPriceManager.mallSearches.values().iterator();
+    Iterator<List<PurchaseRequest>> i = MallPriceManager.mallSearches.values().iterator();
     while (i.hasNext()) {
-      ArrayList<PurchaseRequest> search = i.next();
+      List<PurchaseRequest> search = i.next();
       if (search == null || search.size() == 0) {
         i.remove();
         continue;
@@ -160,12 +160,12 @@ public abstract class MallPriceManager {
   }
 
   /** Utility method used to search the mall for a specific item. */
-  private static ArrayList<PurchaseRequest> getSavedSearch(Integer id, final int needed) {
+  private static List<PurchaseRequest> getSavedSearch(Integer id, final int needed) {
     // Remove search results that are too old
     MallPriceManager.flushCache();
 
     // See if we have a saved search for this id
-    ArrayList<PurchaseRequest> results = MallPriceManager.mallSearches.get(id);
+    List<PurchaseRequest> results = MallPriceManager.mallSearches.get(id);
 
     if (results == null) {
       // Nothing saved
@@ -215,7 +215,7 @@ public abstract class MallPriceManager {
     return null;
   }
 
-  public static final ArrayList<PurchaseRequest> searchMall(final AdventureResult item) {
+  public static final List<PurchaseRequest> searchMall(final AdventureResult item) {
     int itemId = item.getItemId();
     int needed = item.getCount();
 
@@ -227,7 +227,7 @@ public abstract class MallPriceManager {
     Integer id = IntegerPool.get(itemId);
     String name = ItemDatabase.getItemDataName(id);
 
-    ArrayList<PurchaseRequest> results = MallPriceManager.getSavedSearch(id, needed);
+    List<PurchaseRequest> results = MallPriceManager.getSavedSearch(id, needed);
     if (results != null) {
       KoLmafia.updateDisplay("Using cached search results for " + name + "...");
       return results;
@@ -245,13 +245,13 @@ public abstract class MallPriceManager {
     return results;
   }
 
-  public static final ArrayList<PurchaseRequest> searchOnlyMall(final AdventureResult item) {
+  public static final List<PurchaseRequest> searchOnlyMall(final AdventureResult item) {
     // Get a potentially cached list of search request from both PC and NPC stores,
     // Coinmaster Requests have already been filtered out
-    ArrayList<PurchaseRequest> allResults = MallPriceManager.searchMall(item);
+    List<PurchaseRequest> allResults = MallPriceManager.searchMall(item);
 
     // Filter out NPC stores
-    ArrayList<PurchaseRequest> results = new ArrayList<>();
+    List<PurchaseRequest> results = new ArrayList<>();
 
     for (PurchaseRequest result : allResults) {
       if (result.isMallStore) {
@@ -262,8 +262,8 @@ public abstract class MallPriceManager {
     return results;
   }
 
-  public static final ArrayList<PurchaseRequest> searchNPCs(final AdventureResult item) {
-    ArrayList<PurchaseRequest> results = new ArrayList<>();
+  public static final List<PurchaseRequest> searchNPCs(final AdventureResult item) {
+    List<PurchaseRequest> results = new ArrayList<>();
 
     int itemId = item.getItemId();
     if (itemId <= 0) {
@@ -281,9 +281,9 @@ public abstract class MallPriceManager {
   }
 
   /** Utility method used to search the mall for a search string */
-  public static final ArrayList<PurchaseRequest> searchMall(
+  public static final List<PurchaseRequest> searchMall(
       final String searchString, final int maximumResults) {
-    ArrayList<PurchaseRequest> results = new ArrayList<>();
+    List<PurchaseRequest> results = new ArrayList<>();
 
     if (searchString == null) {
       return results;
@@ -315,7 +315,7 @@ public abstract class MallPriceManager {
       return;
     }
 
-    ArrayList<PurchaseRequest> results = MallPriceManager.searchMall(searchString, maximumResults);
+    List<PurchaseRequest> results = MallPriceManager.searchMall(searchString, maximumResults);
     PurchaseRequest[] resultsArray = results.toArray(new PurchaseRequest[0]);
     TreeMap<Integer, Integer> prices = new TreeMap<>();
 
@@ -350,21 +350,19 @@ public abstract class MallPriceManager {
   }
 
   public static final void maybeUpdateMallPrice(
-      final AdventureResult item, final ArrayList<PurchaseRequest> results) {
+      final AdventureResult item, final List<PurchaseRequest> results) {
     if (MallPriceManager.mallPrices.get(item.getItemId()) == 0) {
       MallPriceManager.updateMallPrice(item, results);
     }
   }
 
   public static final int updateMallPrice(
-      final AdventureResult item, final ArrayList<PurchaseRequest> results) {
+      final AdventureResult item, final List<PurchaseRequest> results) {
     return MallPriceManager.updateMallPrice(item, results, false);
   }
 
   public static final int updateMallPrice(
-      final AdventureResult item,
-      final ArrayList<PurchaseRequest> results,
-      final boolean deferred) {
+      final AdventureResult item, final List<PurchaseRequest> results, final boolean deferred) {
     if (item.getItemId() < 1) {
       return 0;
     }
@@ -396,7 +394,7 @@ public abstract class MallPriceManager {
       return 0;
     }
     if (MallPriceManager.mallPrices.get(itemId) == 0) {
-      ArrayList<PurchaseRequest> results = MallPriceManager.searchMall(item.getInstance(5));
+      List<PurchaseRequest> results = MallPriceManager.searchMall(item.getInstance(5));
       MallPriceManager.updateMallPrice(item, results);
     }
     return MallPriceManager.mallPrices.get(itemId);
@@ -432,7 +430,7 @@ public abstract class MallPriceManager {
           continue;
         }
         if (MallPriceManager.mallPrices.get(itemId) == 0) {
-          ArrayList<PurchaseRequest> results = MallPriceManager.searchMall(item.getInstance(5));
+          List<PurchaseRequest> results = MallPriceManager.searchMall(item.getInstance(5));
           MallPriceManager.flushCache(itemId);
           MallPriceManager.updateMallPrice(item, results, true);
           MallPriceManager.mallSearches.put(itemId, results);
@@ -480,7 +478,7 @@ public abstract class MallPriceManager {
     try {
       // Iterate over results and handle by item
       int itemId = -1;
-      ArrayList<PurchaseRequest> itemResults = null;
+      List<PurchaseRequest> itemResults = null;
 
       for (PurchaseRequest pr : results) {
         if (pr instanceof CoinMasterPurchaseRequest) {

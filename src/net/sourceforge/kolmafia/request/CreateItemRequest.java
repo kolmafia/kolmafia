@@ -535,7 +535,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       // gracefully.
 
       AdventureResult dough = ItemPool.get(ItemPool.DOUGH, purchase);
-      ArrayList<PurchaseRequest> results = MallPriceManager.searchNPCs(dough);
+      List<PurchaseRequest> results = MallPriceManager.searchNPCs(dough);
       KoLmafia.makePurchases(results, results.toArray(new PurchaseRequest[0]), purchase, false, 50);
 
       // And if we are making wads of dough, that reduces how many we need

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -79,8 +80,8 @@ public abstract class InventoryManager {
       return;
     }
 
-    ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
-    ArrayList<AdventureResult> unlimited = new ArrayList<AdventureResult>();
+    List<AdventureResult> items = new ArrayList<>();
+    List<AdventureResult> unlimited = new ArrayList<>();
 
     try {
       // {"1":"1","2":"1" ... }
@@ -844,7 +845,7 @@ public abstract class InventoryManager {
 
       // If buying from the mall will leave the item in storage, use only NPCs
       boolean onlyNPC = forceNoMall || !InventoryManager.canUseMall();
-      ArrayList<PurchaseRequest> results =
+      List<PurchaseRequest> results =
           onlyNPC ? MallPriceManager.searchNPCs(item) : MallPriceManager.searchMall(item);
       KoLmafia.makePurchases(
           results,
@@ -995,7 +996,7 @@ public abstract class InventoryManager {
         return "buy";
       }
 
-      ArrayList<PurchaseRequest> results = MallPriceManager.searchMall(item);
+      List<PurchaseRequest> results = MallPriceManager.searchMall(item);
       KoLmafia.makePurchases(
           results,
           results.toArray(new PurchaseRequest[0]),
@@ -1277,7 +1278,7 @@ public abstract class InventoryManager {
     return InventoryManager.hasAnyIngredient(itemId, null);
   }
 
-  private static boolean hasAnyIngredient(final int itemId, HashSet<Integer> seen) {
+  private static boolean hasAnyIngredient(final int itemId, Set<Integer> seen) {
     if (itemId < 0) {
       return false;
     }

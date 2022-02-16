@@ -74,8 +74,8 @@ public class MallPriceManagerTest {
     return item;
   }
 
-  private ArrayList<PurchaseRequest> createSearchResults(int itemId, long timestamp) {
-    ArrayList<PurchaseRequest> results = new ArrayList<>();
+  private List<PurchaseRequest> createSearchResults(int itemId, long timestamp) {
+    List<PurchaseRequest> results = new ArrayList<>();
 
     try (var cleanups = mockClock()) {
       Mockito.when(clock.millis()).thenReturn(timestamp);
@@ -97,7 +97,7 @@ public class MallPriceManagerTest {
     int itemId = ItemPool.DINGY_PLANKS;
     AdventureResult item = ItemPool.get(itemId, 1);
     long timestamp = 1_000_000;
-    ArrayList<PurchaseRequest> results = createSearchResults(itemId, timestamp);
+    List<PurchaseRequest> results = createSearchResults(itemId, timestamp);
     MallPriceManager.updateMallPrice(item, results);
     int mallPrice = MallPriceManager.getMallPrice(item);
     // This item is a NPC item available for the 5th cheapest price
