@@ -133,8 +133,10 @@ public class Player {
     KoLCharacter.recalculateAdjustments();
   }
 
-  public static void isClass(AscensionClass ascensionClass) {
+  public static Cleanups isClass(AscensionClass ascensionClass) {
+    var old = KoLCharacter.getAscensionClass();
     KoLCharacter.setAscensionClass(ascensionClass);
+    return new Cleanups(() -> isClass(old));
   }
 
   public static Cleanups isSign(String sign) {
@@ -160,6 +162,8 @@ public class Player {
   public static Cleanups isDay(Calendar cal) {
     var mocked = mockStatic(HolidayDatabase.class, Mockito.CALLS_REAL_METHODS);
     mocked.when(HolidayDatabase::getDate).thenReturn(cal.getTime());
+    mocked.when(HolidayDatabase::getCalendar).thenReturn(cal);
+    mocked.when(HolidayDatabase::getKoLCalendar).thenReturn(cal);
     return new Cleanups(mocked::close);
   }
 

@@ -1392,6 +1392,7 @@ public class SkillDatabase {
       case 23: // Gelatinous Noob skills
       case 24: // Vampyre skills
       case 25: // Plumber skills
+      case 27: // Grey Goo skills
         return false;
     }
 

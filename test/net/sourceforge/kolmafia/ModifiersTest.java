@@ -1,36 +1,65 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.isClass;
+import static internal.helpers.Player.isDay;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Map.Entry;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class ModifiersTest {
   @Test
   public void patriotShieldClassModifiers() {
     // Wide-reaching unit test for getModifiers
-    KoLCharacter.setAscensionClass(AscensionClass.AVATAR_OF_JARLSBERG);
-    Modifiers mods = Modifiers.getModifiers("Item", "Patriot Shield");
+    var cleanup = isClass(AscensionClass.AVATAR_OF_JARLSBERG);
+    try (cleanup) {
+      Modifiers mods = Modifiers.getModifiers("Item", "Patriot Shield");
 
-    // Always has
-    assertEquals(3, mods.get(Modifiers.EXPERIENCE));
+      // Always has
+      assertEquals(3, mods.get(Modifiers.EXPERIENCE));
 
-    // Has because of class
-    assertEquals(5.0, mods.get(Modifiers.MP_REGEN_MIN));
-    assertEquals(6.0, mods.get(Modifiers.MP_REGEN_MAX));
-    assertEquals(20.0, mods.get(Modifiers.SPELL_DAMAGE));
+      // Has because of class
+      assertEquals(5.0, mods.get(Modifiers.MP_REGEN_MIN));
+      assertEquals(6.0, mods.get(Modifiers.MP_REGEN_MAX));
+      assertEquals(20.0, mods.get(Modifiers.SPELL_DAMAGE));
 
-    // Does not have because of class
-    assertEquals(0, mods.get(Modifiers.HP_REGEN_MAX));
-    assertEquals(0, mods.get(Modifiers.HP_REGEN_MIN));
-    assertEquals(0, mods.get(Modifiers.WEAPON_DAMAGE));
-    assertEquals(0, mods.get(Modifiers.DAMAGE_REDUCTION));
-    assertEquals(0, mods.get(Modifiers.FAMILIAR_WEIGHT));
-    assertEquals(0, mods.get(Modifiers.RANGED_DAMAGE));
-    assertEquals(false, mods.getBoolean(Modifiers.FOUR_SONGS));
-    assertEquals(0, mods.get(Modifiers.COMBAT_MANA_COST));
+      // Does not have because of class
+      assertEquals(0, mods.get(Modifiers.HP_REGEN_MAX));
+      assertEquals(0, mods.get(Modifiers.HP_REGEN_MIN));
+      assertEquals(0, mods.get(Modifiers.WEAPON_DAMAGE));
+      assertEquals(0, mods.get(Modifiers.DAMAGE_REDUCTION));
+      assertEquals(0, mods.get(Modifiers.FAMILIAR_WEIGHT));
+      assertEquals(0, mods.get(Modifiers.RANGED_DAMAGE));
+      assertEquals(false, mods.getBoolean(Modifiers.FOUR_SONGS));
+      assertEquals(0, mods.get(Modifiers.COMBAT_MANA_COST));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7})
+  public void tuesdayRubyModifiers(int dotw) {
+    // Wide-reaching unit test for getModifiers
+    var cleanup = isDay(new GregorianCalendar(2017, Calendar.JANUARY, dotw));
+    try (cleanup) {
+      Modifiers mods = Modifiers.getModifiers("Item", "Tuesday's Ruby");
+
+      assertThat(mods.get(Modifiers.MEATDROP), equalTo(dotw == Calendar.SUNDAY ? 5.0 : 0.0));
+      assertThat(mods.get(Modifiers.MUS_PCT), equalTo(dotw == Calendar.MONDAY ? 5.0 : 0.0));
+      assertThat(mods.get(Modifiers.MP_REGEN_MIN), equalTo(dotw == Calendar.TUESDAY ? 3.0 : 0.0));
+      assertThat(mods.get(Modifiers.MP_REGEN_MAX), equalTo(dotw == Calendar.TUESDAY ? 7.0 : 0.0));
+      assertThat(mods.get(Modifiers.MYS_PCT), equalTo(dotw == Calendar.WEDNESDAY ? 5.0 : 0.0));
+      assertThat(mods.get(Modifiers.ITEMDROP), equalTo(dotw == Calendar.THURSDAY ? 5.0 : 0.0));
+      assertThat(mods.get(Modifiers.MOX_PCT), equalTo(dotw == Calendar.FRIDAY ? 5.0 : 0.0));
+      assertThat(mods.get(Modifiers.HP_REGEN_MIN), equalTo(dotw == Calendar.SATURDAY ? 3.0 : 0.0));
+      assertThat(mods.get(Modifiers.HP_REGEN_MAX), equalTo(dotw == Calendar.SATURDAY ? 7.0 : 0.0));
+    }
   }
 
   @Test
