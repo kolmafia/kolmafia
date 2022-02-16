@@ -2697,3 +2697,6 @@
 2696	Sluggish	slug.gif	f07d57053c4ed45f8523a4ae8dd95495	neutral	none
 2697	Drained	downarrow.gif	661a324f81137062fc3a484a00a7861a	neutral	none
 2698	Cosmic Ball in the Air	bowlup.gif	48f47e7233cc46a1f5e666d429b488bc	neutral	none
+2699	Shifted Phase	goocon31.gif	ab69049d57f4169be06e7eede432c728	neutral	none
+2700	Hooooooooonk!	goocon32.gif	30aa72118d7cd78067cbbf56bc6ef240	neutral	none
+2701	Darkened Photons	goocon45.gif	7bb8929bf51b4629e9ccb113b3cdefff	neutral	none

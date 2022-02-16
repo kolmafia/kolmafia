@@ -4,8 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -134,6 +136,10 @@ public abstract class EncounterManager {
 
     if (previousAdventure != null && previousAdventure.name.equals(adventureName)) {
       previousAdventure.increment();
+      // Even though the RegisteredEncounter is mutated above, this runs
+      // [LockableListModel.fireContentsChanged]
+      // which will result in the pane being updated in a Swing context.
+      KoLConstants.adventureList.set(KoLConstants.adventureList.size() - 1, previousAdventure);
     } else {
       KoLConstants.adventureList.add(new RegisteredEncounter(null, adventureName));
     }
@@ -389,11 +395,19 @@ public abstract class EncounterManager {
     handleSpecialEncounter(name, responseText);
     recognizeEncounter(name, responseText);
 
-    KoLConstants.encounterList.stream()
-        .filter(e -> e.name.equalsIgnoreCase(name))
+    IntStream.range(0, KoLConstants.encounterList.size())
+        .mapToObj(i -> Map.entry(i, KoLConstants.encounterList.get(i)))
+        .filter(e -> e.getValue().name.equalsIgnoreCase(name))
         .findFirst()
         .ifPresentOrElse(
-            RegisteredEncounter::increment,
+            e -> {
+              var encounter = e.getValue();
+              encounter.increment();
+              // Even though RegisteredEncounter is mutated above, this runs
+              // [LockableListModel.fireContentsChanged]
+              // which will result in the pane being updated in a Swing context
+              KoLConstants.encounterList.set(e.getKey(), encounter);
+            },
             () ->
                 KoLConstants.encounterList.add(
                     new RegisteredEncounter(encounterType, encounterName)));

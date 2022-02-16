@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
@@ -2245,66 +2244,6 @@ public class GenericRequest implements Runnable {
   }
 
   public void formatResponse() {}
-
-  /**
-   * Utility method used to skip the given number of tokens within the provided <code>
-   * StringTokenizer</code>. This method is used in order to clarify what's being done, rather than
-   * calling <code>st.nextToken()</code> repeatedly.
-   *
-   * @param st The <code>StringTokenizer</code> whose tokens are to be skipped
-   * @param tokenCount The number of tokens to skip
-   */
-  public static final void skipTokens(final StringTokenizer st, final int tokenCount) {
-    for (int i = 0; i < tokenCount; ++i) {
-      st.nextToken();
-    }
-  }
-
-  /**
-   * Utility method used to transform the next token on the given <code>StringTokenizer</code> into
-   * an integer. Because this is used repeatedly in parsing, its functionality is provided globally
-   * to all instances of <code>GenericRequest</code>.
-   *
-   * @param st The <code>StringTokenizer</code> whose next token is to be retrieved
-   * @return The integer token, if it exists, or 0, if the token was not a number
-   */
-  public static final int intToken(final StringTokenizer st) {
-    return GenericRequest.intToken(st, 0);
-  }
-
-  /**
-   * Utility method used to transform the next token on the given <code>StringTokenizer</code> into
-   * an integer; however, this differs in the single-argument version in that only a part of the
-   * next token is needed. Because this is also used repeatedly in parsing, its functionality is
-   * provided globally to all instances of <code>GenericRequest</code>.
-   *
-   * @param st The <code>StringTokenizer</code> whose next token is to be retrieved
-   * @param fromStart The index at which the integer to parse begins
-   * @return The integer token, if it exists, or 0, if the token was not a number
-   */
-  public static final int intToken(final StringTokenizer st, final int fromStart) {
-    String token = st.nextToken().substring(fromStart);
-    return StringUtilities.parseInt(token);
-  }
-
-  /**
-   * Utility method used to transform part of the next token on the given <code>StringTokenizer
-   * </code> into an integer. This differs from the two-argument in that part of the end of the
-   * string is expected to contain non-numeric values as well. Because this is also repeatedly in
-   * parsing, its functionality is provided globally to all instances of <code>GenericRequest</code>
-   * .
-   *
-   * @param st The <code>StringTokenizer</code> whose next token is to be retrieved
-   * @param fromStart The index at which the integer to parse begins
-   * @param fromEnd The distance from the end at which the first non-numeric character is found
-   * @return The integer token, if it exists, or 0, if the token was not a number
-   */
-  public static final int intToken(
-      final StringTokenizer st, final int fromStart, final int fromEnd) {
-    String token = st.nextToken();
-    token = token.substring(fromStart, token.length() - fromEnd);
-    return StringUtilities.parseInt(token);
-  }
 
   /**
    * An alternative method to doing adventure calculation is determining how many adventures are
