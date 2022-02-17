@@ -9731,7 +9731,7 @@
 9703	beefy pill	630574018	pill2.gif	spleen, usable	t,d	60
 9704	excitement pill	498109333	pill3.gif	spleen, usable	t,d	60
 9705	vitamin G pill	627968432	pill4.gif	spleen, usable	t,d	60
-9706	lucky pill	839340181	pill5.gif	spleen, usable	t,d	60
+9706	lucky-ish pill	839340181	pill5.gif	spleen, usable	t,d	60
 9707	dieting pill	682913922	pill5.gif	spleen, usable	t,d	60
 9708
 9709

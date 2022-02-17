@@ -204,17 +204,22 @@ public class MallSearchRequest extends GenericRequest {
         break;
       }
 
-      if (limit == 0) {
-        int total = StringUtilities.parseInt(matcher.group(3));
-        limit = (total + 9) / 10;
-      }
+      int start = StringUtilities.parseInt(matcher.group(1));
+      int end = StringUtilities.parseInt(matcher.group(2));
+      int total = StringUtilities.parseInt(matcher.group(3));
 
-      if (++page > limit) {
+      if (end >= total) {
         break;
       }
 
-      int end = StringUtilities.parseInt(matcher.group(2));
+      if (limit == 0) {
+        int size = (end - start) + 1;
+        limit = (total + size - 1) / size;
+      }
+
       this.addFormField("start", String.valueOf(end));
+
+      page++;
     }
 
     // If an exact match, we can think about updating mall_price().

@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mockStatic;
 
 import internal.helpers.Cleanups;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Clock;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +21,7 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
+import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -251,5 +255,33 @@ public class MallPriceManagerTest {
       search = MallPriceManager.getSavedSearch(itemId, 0);
       assertNull(search);
     }
+  }
+
+  static String loadHTMLResponse(String path) throws IOException {
+    // Load the responseText from saved HTML file
+    return Files.readString(Paths.get(path)).trim();
+  }
+
+  @Test
+  public void canGetMallPricesByCategory() throws IOException {
+    // Test with category = "unlockers" since that only has two pages of results
+    MallSearchRequest request = new MallSearchRequest("unlockers", "");
+
+    // Process the first page of search results;
+    request.responseText = loadHTMLResponse("request/test_mall_search_unlockers_page_1.html");
+    request.processResults();
+
+    // Process the second page of search results;
+    request.responseText = loadHTMLResponse("request/test_mall_search_unlockers_page_2.html");
+    request.processResults();
+
+    // MallSearchRequest accumulated all of the PurchaseRequests seen on either
+    // responseText onto the "results" field of the request
+    List<PurchaseRequest> results = request.getResults();
+
+    // Let the MallPriceManager do what it needs to do with the responses.
+    int count = MallPriceManager.processMallSearchResults(results);
+
+    assertEquals(count, 32);
   }
 }
