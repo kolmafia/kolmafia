@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.ArrayList;
+import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -66,7 +66,7 @@ public class BuyCommand extends AbstractCommand {
 
       int priceLimit = pieces.length < 2 ? 0 : StringUtilities.parseInt(pieces[1]);
 
-      ArrayList<PurchaseRequest> results =
+      List<PurchaseRequest> results =
           // Cheapest from Mall or NPC stores
           (interact && !mall)
               ? MallPriceManager.searchMall(match)
