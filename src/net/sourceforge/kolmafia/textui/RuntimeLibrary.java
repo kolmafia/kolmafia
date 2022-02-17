@@ -8206,12 +8206,12 @@ public abstract class RuntimeLibrary {
     double elementAbsorb =
         1.0 - KoLCharacter.getElementalResistance(monster.getAttackElement()) / 100.0;
 
-  // https://kol.coldfront.net/thekolwiki/index.php/Ninja_snowman_assassin
-  if (monster.getName().equals("ninja snowman assassin")){
-    baseValue = Math.max(0, attack - defenseStat) + 120;
-    int modifiedRes = Math.max(0,KoLCharacter.getElementalResistanceLevels(Element.COLD) - 5);
-    elementAbsorb = 1.0 - KoLCharacter.elementalResistanceByLevel(modifiedRes, true) / 100.0;
-  }
+    // https://kol.coldfront.net/thekolwiki/index.php/Ninja_snowman_assassin
+    if (monster.getName().equals("ninja snowman assassin")){
+      baseValue = Math.max(0, attack - defenseStat) + 120;
+      int modifiedRes = Math.max(0,KoLCharacter.getElementalResistanceLevels(Element.COLD) - 5);
+      elementAbsorb = 1.0 - KoLCharacter.elementalResistanceByLevel(modifiedRes, true) / 100.0;
+    }
 
     return new Value((int) Math.ceil(baseValue * damageAbsorb * elementAbsorb));
   }
