@@ -3,6 +3,9 @@ package net.sourceforge.kolmafia.session;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mockStatic;
 
 import internal.helpers.Cleanups;
@@ -29,7 +32,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 public class MallPriceManagerTest {
@@ -98,12 +100,7 @@ public class MallPriceManagerTest {
   private static Cleanups mockMallSearchRequest(MallSearchRequest request) {
     var mocked = mockStatic(MallPriceManager.class, Mockito.CALLS_REAL_METHODS);
     mocked
-        .when(
-            () ->
-                MallPriceManager.newMallSearchRequest(
-                    ArgumentMatchers.anyString(),
-                    ArgumentMatchers.anyInt(),
-                    ArgumentMatchers.anyList()))
+        .when(() -> MallPriceManager.newMallSearchRequest(anyString(), anyInt(), anyList()))
         .thenAnswer(
             invocation -> {
               Object[] arguments = invocation.getArguments();
@@ -116,10 +113,7 @@ public class MallPriceManagerTest {
               return request;
             });
     mocked
-        .when(
-            () ->
-                MallPriceManager.newMallCategoryRequest(
-                    ArgumentMatchers.anyString(), ArgumentMatchers.anyString()))
+        .when(() -> MallPriceManager.newMallSearchRequest(anyString(), anyString()))
         .thenAnswer(
             invocation -> {
               Object[] arguments = invocation.getArguments();

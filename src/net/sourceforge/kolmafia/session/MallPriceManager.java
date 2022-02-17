@@ -122,7 +122,7 @@ public abstract class MallPriceManager {
   // comma-separated names works well. The following "tiers" are recognized:
   // crappy, decent, good, awesome, EPIC
 
-  public static MallSearchRequest newMallCategoryRequest(String category, String tiers) {
+  public static MallSearchRequest newMallSearchRequest(String category, String tiers) {
     return new MallSearchRequest(category, tiers);
   }
 
@@ -541,7 +541,7 @@ public abstract class MallPriceManager {
     }
 
     // Issue the search request
-    MallSearchRequest request = newMallCategoryRequest(category, tiers);
+    MallSearchRequest request = newMallSearchRequest(category, tiers);
     RequestThread.postRequest(request);
 
     List<PurchaseRequest> results = request.getResults();
