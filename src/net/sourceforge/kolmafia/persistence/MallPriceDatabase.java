@@ -25,6 +25,9 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallPriceDatabase {
+  // If false, blocks saving of mall prices. Do not modify outside of tests.
+  public static boolean savePricesToFile = true;
+
   private static final PriceArray prices = new PriceArray();
   private static final HashSet<String> updated = new HashSet<String>();
   private static final HashSet<String> submitted = new HashSet<String>();
@@ -152,6 +155,10 @@ public class MallPriceDatabase {
   }
 
   public static void writePrices() {
+    if (!MallPriceDatabase.savePricesToFile) {
+      return;
+    }
+
     File output = new File(KoLConstants.DATA_LOCATION, "mallprices.txt");
     PrintStream writer = LogStream.openStream(output, true);
     writer.println(KoLConstants.MALLPRICES_VERSION);

@@ -30,10 +30,10 @@ import net.sourceforge.kolmafia.utilities.IntegerArray;
 public abstract class MallPriceManager {
 
   // Mall prices are timestamped. We use System.currentTimeMillis() to generate them.
-  // Unfortunately, this makes it difficult to write tests that allow us to inject the timestamp of
-  // our choice.
+  // This makes it difficult to write tests that allow us to inject the
+  // timestamp of our choice.
   //
-  // The solution is to use a Java Clock object (introduced in Java 8) which can be referenced by:
+  // Solution: use a Java Clock object (introduced in Java 8) which can be referenced by:
   //
   // MallPriceManager
   // MallPriceDatabase
@@ -49,15 +49,13 @@ public abstract class MallPriceManager {
     return MallPriceManager.getSystemClock().millis();
   }
 
-  private static final IntegerArray mallPrices = new IntegerArray();
-  private static final LinkedHashMap<Integer, List<PurchaseRequest>> mallSearches =
-      new LinkedHashMap<>();
+  // KoL allows users to search the mall in several ways.
+  //
+  // - Single items with exact name in quotes
+  // - Multiple items with a substring
+  // - All the items in a category
 
-  // For testing
-  public static void reset() {
-    // mallPrices.clear();
-    mallSearches.clear();
-  }
+  // Here are the values of "category" that KoL supports
 
   public static final String[] CATEGORY_VALUES = {
     "allitems", // All Categories
@@ -87,6 +85,78 @@ public abstract class MallPriceManager {
   };
 
   public static final Set<String> validCategories = new HashSet<>(Arrays.asList(CATEGORY_VALUES));
+
+  // This package makes MallSearchRequests and executes them.  This makes
+  // testing difficult; we have testing infrastructure for testing
+  // request classes, but that's not what we want to test here.
+  //
+  // Provide methods to create a MallSearchRequest which can be mocked.
+
+  // A Mall search in which you supply:
+  //
+  // searchString - The string (including wildcards) for the item to be found
+  // maximumResults - How many stores to show; non-positive number to show all
+  // results -  The list in which to store the results
+  //
+  // The searchString can be a substring, resulting in results for multiple
+  // items, or an exact name (in quotes), giving results for just one item
+  //
+  // The results list should initially be empty, but since KoL can return
+  // multiple pages of results, KoLmafia will reuse the request to fetch all of
+  // the pages and will add all of them to the list.
+
+  public static MallSearchRequest newMallSearchRequest(
+      String searchString, int maximumResults, List<PurchaseRequest> results) {
+    return new MallSearchRequest(searchString, maximumResults, results, true);
+  }
+
+  // A Mall search in which you supply:
+  //
+  // category - The category of items to search for.
+  // tiers - The set of quality "tiers" to include.
+  //
+  // We validate the category name, since, if invalid, it results in a search
+  // for "allitems".
+  //
+  // We don't validate the "tiers" string. It's free format - although
+  // comma-separated names works well. The following "tiers" are recognized:
+  // crappy, decent, good, awesome, EPIC
+
+  public static MallSearchRequest newMallCategoryRequest(String category, String tiers) {
+    return new MallSearchRequest(category, tiers);
+  }
+
+  // The data structures that this package "manages".
+
+  // a Map from itemId -> current mall price (as visible to a scripter.)
+  private static final IntegerArray mallPrices = new IntegerArray();
+
+  // a Map from itemId -> the most resent mall search results.
+  private static final LinkedHashMap<Integer, List<PurchaseRequest>> mallSearches =
+      new LinkedHashMap<>();
+
+  // Constants controlling how we manage those data
+
+  // In order to inhibit the writing of "mallbots" - processes which
+  // repeatedly search for the cheapest offer of a valuable item (like a
+  // Mr. Accessory) in order to snatch up an erroneous mispriced item -
+  // mall_price() returns the price you'd pay for the Nth item of the
+  // sort you could buy. In particular, the 5th cheapest.
+  public static int NTH_CHEAPEST_PRICE = 5;
+
+  // How many stores to request results for in a mall search.  It should be at
+  // least NTH_CHEAPEST_PRICE, but stores can have limits and can ignore you
+  // (or vice versa), it could be higher.
+  public static int MALL_SEARCH_RESULTS = 5;
+
+  // How many seconds before a before a "saved search" is "stale"
+  public static int MALL_SEARCH_FRESHNESS = 15;
+
+  // For testing
+  public static void reset() {
+    // mallPrices.clear();
+    mallSearches.clear();
+  }
 
   public static final void flushCache(final int itemId, final int shopId) {
     Iterator<List<PurchaseRequest>> i1 = MallPriceManager.mallSearches.values().iterator();
@@ -143,7 +213,7 @@ public abstract class MallPriceManager {
   public static final void flushCache() {
     long t0, t1;
     t1 = MallPriceManager.currentTimeMillis();
-    t0 = t1 - 15 * 1000;
+    t0 = t1 - MALL_SEARCH_FRESHNESS * 1000;
 
     Iterator<List<PurchaseRequest>> i = MallPriceManager.mallSearches.values().iterator();
     while (i.hasNext()) {
@@ -303,7 +373,7 @@ public abstract class MallPriceManager {
     String formatted = MallSearchRequest.getSearchString(searchString);
 
     // Issue the search request
-    MallSearchRequest request = new MallSearchRequest(formatted, maximumResults, results, true);
+    MallSearchRequest request = newMallSearchRequest(formatted, maximumResults, results);
     RequestThread.postRequest(request);
 
     // Sort the results by price, so that NPC stores are in the
@@ -373,7 +443,7 @@ public abstract class MallPriceManager {
       return 0;
     }
     int price = -1;
-    int qty = 5;
+    int qty = NTH_CHEAPEST_PRICE;
     for (PurchaseRequest req : results) {
       if (req instanceof CoinMasterPurchaseRequest || !req.canPurchaseIgnoringMeat()) {
         continue;
@@ -400,7 +470,8 @@ public abstract class MallPriceManager {
       return 0;
     }
     if (MallPriceManager.mallPrices.get(itemId) == 0) {
-      List<PurchaseRequest> results = MallPriceManager.searchMall(item.getInstance(5));
+      List<PurchaseRequest> results =
+          MallPriceManager.searchMall(item.getInstance(NTH_CHEAPEST_PRICE));
       MallPriceManager.updateMallPrice(item, results);
     }
     return MallPriceManager.mallPrices.get(itemId);
@@ -436,7 +507,8 @@ public abstract class MallPriceManager {
           continue;
         }
         if (MallPriceManager.mallPrices.get(itemId) == 0) {
-          List<PurchaseRequest> results = MallPriceManager.searchMall(item.getInstance(5));
+          List<PurchaseRequest> results =
+              MallPriceManager.searchMall(item.getInstance(NTH_CHEAPEST_PRICE));
           MallPriceManager.flushCache(itemId);
           MallPriceManager.updateMallPrice(item, results, true);
           MallPriceManager.mallSearches.put(itemId, results);
@@ -456,10 +528,10 @@ public abstract class MallPriceManager {
   }
 
   public static int getMallPrices(String category, String tiers) {
-    // Validate the category. KoL will accept any category, but unknown categories are the same as
-    // "allItems"
-    // That takes a LONG time - and if the caller really wants it, so be it - but don't do it for
-    // typos
+    // Validate the category. KoL will accept any category, but unknown
+    // categories are the same as "allItems"
+    // That takes a long time - and if the caller really wants it, so be it -
+    // but don't do it for typos
     if (!MallPriceManager.validCategories.contains(category)) {
       return 0;
     }
@@ -469,7 +541,7 @@ public abstract class MallPriceManager {
     }
 
     // Issue the search request
-    MallSearchRequest request = new MallSearchRequest(category, tiers);
+    MallSearchRequest request = newMallCategoryRequest(category, tiers);
     RequestThread.postRequest(request);
 
     return processMallSearchResults(request.getResults());

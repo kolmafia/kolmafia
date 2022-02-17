@@ -55,8 +55,8 @@ public class MallSearchRequest extends GenericRequest {
 
   /**
    * Constructs a new <code>MallSearchRequest</code> which searches for the given item, storing the
-   * results in the given <code>ListModel</code>. Note that the search string is exactly the same as
-   * the way KoL does it at the current time.
+   * results in the given <code>List</code>. Note that the search string is exactly the same as the
+   * way KoL does it at the current time.
    *
    * @param searchString The string (including wildcards) for the item to be found
    * @param cheapestCount The number of stores to show; use a non-positive number to show all
@@ -157,6 +157,17 @@ public class MallSearchRequest extends GenericRequest {
 
   public void setResults(final List<PurchaseRequest> results) {
     this.results = results;
+  }
+
+  // *** For testing
+  public void setSearchString(final String searchString) {
+    this.searchString = searchString;
+    this.addFormField("pudnuggler", this.searchString);
+  }
+
+  // *** For testing
+  public void setCheapestCount(final int cheapestCount) {
+    this.addFormField("x_cheapest", String.valueOf(cheapestCount));
   }
 
   /**

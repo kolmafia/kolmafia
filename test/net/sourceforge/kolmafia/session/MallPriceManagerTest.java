@@ -17,15 +17,19 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.MallSearchRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 public class MallPriceManagerTest {
@@ -48,12 +52,66 @@ public class MallPriceManagerTest {
     return new Cleanups(mocked::close);
   }
 
+  // MallPriceManager wants to use MallSearchRequest. We need a mock
+  // version of that class which will not actually do network I/O.
+  //
+  // We need to be able to set its responseText and call processResults()
+  // on it to convert the search results into a list of PurchaseRequests
+
+  private class MockMallSearchRequest extends MallSearchRequest {
+
+    public MockMallSearchRequest(
+        final String searchString, final int cheapestCount, final List<PurchaseRequest> results) {
+      super(searchString, cheapestCount, results, true);
+    }
+
+    public MockMallSearchRequest(final String category, final String tiers) {
+      super(category, tiers);
+    }
+
+    @Override
+    public void run() {
+      this.processResults();
+    }
+  }
+
+  private static Cleanups mockMallSearchRequest(MallSearchRequest request) {
+    var mocked = mockStatic(MallPriceManager.class, Mockito.CALLS_REAL_METHODS);
+    mocked
+        .when(
+            () ->
+                MallPriceManager.newMallSearchRequest(
+                    ArgumentMatchers.anyString(),
+                    ArgumentMatchers.anyInt(),
+                    ArgumentMatchers.anyList()))
+        .thenAnswer(
+            invocation -> {
+              Object[] arguments = invocation.getArguments();
+              String searchString = (String) arguments[0];
+              int cheapestCount = (int) arguments[1];
+              List<PurchaseRequest> results = (List<PurchaseRequest>) arguments[2];
+              request.setSearchString(searchString);
+              request.setCheapestCount(cheapestCount);
+              request.setResults(results);
+              return request;
+            });
+    return new Cleanups(mocked::close);
+  }
+
   @BeforeAll
   private static void beforeAll() {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("mall price manager user");
     CharPaneRequest.setCanInteract(true);
+    MallPriceDatabase.savePricesToFile = false;
+    Preferences.saveSettingsToFile = false;
+  }
+
+  @AfterAll
+  private static void afterAll() {
+    MallPriceDatabase.savePricesToFile = true;
+    Preferences.saveSettingsToFile = true;
   }
 
   @BeforeEach
@@ -244,8 +302,8 @@ public class MallPriceManagerTest {
       search = MallPriceManager.getSavedSearch(itemId, 1);
       assertNull(search);
 
-      // Advance time by 20 seconds :)
-      long now = timestamp + (20 * 1000);
+      // Advance time such that the timestamp is now 5 seconds stale :)
+      long now = timestamp + (MallPriceManager.MALL_SEARCH_FRESHNESS + 5) * 1000;
       Mockito.when(clock.millis()).thenReturn(now);
 
       // Flush the PurchaseRequests that are more than 15 seconds old
@@ -283,5 +341,24 @@ public class MallPriceManagerTest {
     int count = MallPriceManager.processMallSearchResults(results);
 
     assertEquals(count, 32);
+  }
+
+  @Test
+  public void canGetMallPricesByCategoryViaMallSearch() throws IOException {
+
+    // Test with Hell ramen.
+    AdventureResult item = ItemPool.get(ItemPool.HELL_RAMEN);
+
+    // Make a mocked MallSearchResponse with the responseText preloaded
+
+    MallSearchRequest request = new MockMallSearchRequest("Hell ramen", 0, null);
+    request.responseText = loadHTMLResponse("request/test_mall_search_hell_ramen.html");
+
+    try (var cleanups = mockMallSearchRequest(request)) {
+      List<PurchaseRequest> results = MallPriceManager.searchMall(item);
+
+      // The MallSearchRequest found a bunch of PurchaseRequests from the responseText
+      assertEquals(results.size(), 60);
+    }
   }
 }
