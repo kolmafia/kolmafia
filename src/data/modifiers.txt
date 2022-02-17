@@ -9124,7 +9124,7 @@ Item	Knob Goblin nasal spray	Effect: "Wasabi Sinuses", Effect Duration: 30
 Item	Knob Goblin pet-buffing spray	Effect: "Heavy Petting", Effect Duration: 30
 Item	liquid shifting time weirdness	Effect: "Liquid Luck", Effect Duration: 10
 Item	livid energy	Effect: "Lividly Energized", Effect Duration: 60
-# lucky pill: Lucky!
+# lucky-ish pill: Lucky!
 Item	lustrous oyster egg	Effect: "Lustre After Wealth", Effect Duration: 50
 Item	magnificent oyster egg	Effect: "Eggstraordinary Strength", Effect Duration: 20
 Item	Mansquito Serum	Effect: "More Mansquito Than Man", Effect Duration: 400

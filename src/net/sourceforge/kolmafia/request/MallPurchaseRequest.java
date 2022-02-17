@@ -160,7 +160,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
     this.addFormField("ajax", "1");
     this.addFormField("whichitem", MallPurchaseRequest.getStoreString(item.getItemId(), price));
 
-    this.timestamp = System.currentTimeMillis();
+    this.timestamp = MallPriceManager.currentTimeMillis();
   }
 
   public static String getStoreString(final int itemId, final int price) {

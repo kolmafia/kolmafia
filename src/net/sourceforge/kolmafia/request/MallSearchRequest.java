@@ -55,8 +55,8 @@ public class MallSearchRequest extends GenericRequest {
 
   /**
    * Constructs a new <code>MallSearchRequest</code> which searches for the given item, storing the
-   * results in the given <code>ListModel</code>. Note that the search string is exactly the same as
-   * the way KoL does it at the current time.
+   * results in the given <code>List</code>. Note that the search string is exactly the same as the
+   * way KoL does it at the current time.
    *
    * @param searchString The string (including wildcards) for the item to be found
    * @param cheapestCount The number of stores to show; use a non-positive number to show all
@@ -125,6 +125,23 @@ public class MallSearchRequest extends GenericRequest {
     this.addFormField("consumable_tier_5", tiers.contains("EPIC") ? "1" : "0");
   }
 
+  // *** For testing
+  public void setCategory(final String category) {
+    this.addFormField("category", category);
+  }
+
+  // *** For testing
+  public void setTiers(final String tiers) {
+    this.addFormField("consumable_tier_1", tiers.contains("crappy") ? "1" : "0");
+    this.addFormField("consumable_tier_2", tiers.contains("decent") ? "1" : "0");
+    this.addFormField("consumable_tier_3", tiers.contains("good") ? "1" : "0");
+    this.addFormField("consumable_tier_4", tiers.contains("awesome") ? "1" : "0");
+    this.addFormField("consumable_tier_5", tiers.contains("EPIC") ? "1" : "0");
+  }
+
+  // *** For testing
+  public void setResponseTexts(String... responseTexts) {}
+
   @Override
   protected boolean retryOnTimeout() {
     return true;
@@ -157,6 +174,17 @@ public class MallSearchRequest extends GenericRequest {
 
   public void setResults(final List<PurchaseRequest> results) {
     this.results = results;
+  }
+
+  // *** For testing
+  public void setSearchString(final String searchString) {
+    this.searchString = searchString;
+    this.addFormField("pudnuggler", this.searchString);
+  }
+
+  // *** For testing
+  public void setCheapestCount(final int cheapestCount) {
+    this.addFormField("x_cheapest", String.valueOf(cheapestCount));
   }
 
   /**
@@ -204,17 +232,22 @@ public class MallSearchRequest extends GenericRequest {
         break;
       }
 
-      if (limit == 0) {
-        int total = StringUtilities.parseInt(matcher.group(3));
-        limit = (total + 9) / 10;
-      }
+      int start = StringUtilities.parseInt(matcher.group(1));
+      int end = StringUtilities.parseInt(matcher.group(2));
+      int total = StringUtilities.parseInt(matcher.group(3));
 
-      if (++page > limit) {
+      if (end >= total) {
         break;
       }
 
-      int end = StringUtilities.parseInt(matcher.group(2));
+      if (limit == 0) {
+        int size = (end - start) + 1;
+        limit = (total + size - 1) / size;
+      }
+
       this.addFormField("start", String.valueOf(end));
+
+      page++;
     }
 
     // If an exact match, we can think about updating mall_price().
