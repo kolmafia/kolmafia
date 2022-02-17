@@ -125,6 +125,23 @@ public class MallSearchRequest extends GenericRequest {
     this.addFormField("consumable_tier_5", tiers.contains("EPIC") ? "1" : "0");
   }
 
+  // *** For testing
+  public void setCategory(final String category) {
+    this.addFormField("category", category);
+  }
+
+  // *** For testing
+  public void setTiers(final String tiers) {
+    this.addFormField("consumable_tier_1", tiers.contains("crappy") ? "1" : "0");
+    this.addFormField("consumable_tier_2", tiers.contains("decent") ? "1" : "0");
+    this.addFormField("consumable_tier_3", tiers.contains("good") ? "1" : "0");
+    this.addFormField("consumable_tier_4", tiers.contains("awesome") ? "1" : "0");
+    this.addFormField("consumable_tier_5", tiers.contains("EPIC") ? "1" : "0");
+  }
+
+  // *** For testing
+  public void setResponseTexts(String... responseTexts) {}
+
   @Override
   protected boolean retryOnTimeout() {
     return true;

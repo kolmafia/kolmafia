@@ -544,14 +544,7 @@ public abstract class MallPriceManager {
     MallSearchRequest request = newMallCategoryRequest(category, tiers);
     RequestThread.postRequest(request);
 
-    return processMallSearchResults(request.getResults());
-  }
-
-  public static int processMallSearchResults(List<PurchaseRequest> results) {
-
-    // This extracted from getMallPrices so it can be unit tested without
-    // mocking an actual request
-
+    List<PurchaseRequest> results = request.getResults();
     if (results.size() == 0) {
       // None found
       return 0;

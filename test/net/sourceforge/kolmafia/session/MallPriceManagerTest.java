@@ -60,6 +60,8 @@ public class MallPriceManagerTest {
 
   private class MockMallSearchRequest extends MallSearchRequest {
 
+    private String[] responseTexts = null;
+
     public MockMallSearchRequest(
         final String searchString, final int cheapestCount, final List<PurchaseRequest> results) {
       super(searchString, cheapestCount, results, true);
@@ -70,8 +72,26 @@ public class MallPriceManagerTest {
     }
 
     @Override
+    public void setResponseTexts(String... responseTexts) {
+      this.responseTexts = responseTexts;
+    }
+
+    @Override
     public void run() {
-      this.processResults();
+      // If the mall search response has multiple pages, KoLmafia will fetch
+      // and parse them all
+      if (this.responseTexts != null) {
+        for (String responseText : this.responseTexts) {
+          this.responseText = responseText;
+          this.processResults();
+        }
+        return;
+      }
+
+      // Perhaps there is only a single page response
+      if (this.responseText != null) {
+        this.processResults();
+      }
     }
   }
 
@@ -93,6 +113,20 @@ public class MallPriceManagerTest {
               request.setSearchString(searchString);
               request.setCheapestCount(cheapestCount);
               request.setResults(results);
+              return request;
+            });
+    mocked
+        .when(
+            () ->
+                MallPriceManager.newMallCategoryRequest(
+                    ArgumentMatchers.anyString(), ArgumentMatchers.anyString()))
+        .thenAnswer(
+            invocation -> {
+              Object[] arguments = invocation.getArguments();
+              String category = (String) arguments[0];
+              String tiers = (String) arguments[1];
+              request.setCategory(category);
+              request.setTiers(tiers);
               return request;
             });
     return new Cleanups(mocked::close);
@@ -323,24 +357,18 @@ public class MallPriceManagerTest {
   @Test
   public void canGetMallPricesByCategory() throws IOException {
     // Test with category = "unlockers" since that only has two pages of results
-    MallSearchRequest request = new MallSearchRequest("unlockers", "");
+    MallSearchRequest request = new MockMallSearchRequest("unlockers", "");
+    request.setResponseTexts(
+        loadHTMLResponse("request/test_mall_search_unlockers_page_1.html"),
+        loadHTMLResponse("request/test_mall_search_unlockers_page_2.html"));
 
-    // Process the first page of search results;
-    request.responseText = loadHTMLResponse("request/test_mall_search_unlockers_page_1.html");
-    request.processResults();
-
-    // Process the second page of search results;
-    request.responseText = loadHTMLResponse("request/test_mall_search_unlockers_page_2.html");
-    request.processResults();
-
-    // MallSearchRequest accumulated all of the PurchaseRequests seen on either
-    // responseText onto the "results" field of the request
-    List<PurchaseRequest> results = request.getResults();
-
-    // Let the MallPriceManager do what it needs to do with the responses.
-    int count = MallPriceManager.processMallSearchResults(results);
-
-    assertEquals(count, 32);
+    try (var cleanups = mockMallSearchRequest(request)) {
+      // MallSearchRequest will accumulate all of the PurchaseRequests seen on
+      // all responseTexts into the "results" field of the request.
+      // It will then update prices and return how many
+      int count = MallPriceManager.getMallPrices("unlockers", "");
+      assertEquals(count, 32);
+    }
   }
 
   @Test
