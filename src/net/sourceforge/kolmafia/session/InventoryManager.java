@@ -1054,7 +1054,7 @@ public abstract class InventoryManager {
     return defaultBuy;
   }
 
-  private static boolean cheaperToBuy(final AdventureResult item, final int quantity) {
+  public static boolean cheaperToBuy(final AdventureResult item, final int quantity) {
     if (!ItemDatabase.isTradeable(item.getItemId())) {
       return false;
     }
@@ -1090,7 +1090,7 @@ public abstract class InventoryManager {
     return mallPrice < makePrice;
   }
 
-  private static int itemValue(final AdventureResult item, final boolean exact) {
+  public static int itemValue(final AdventureResult item, final boolean exact) {
 
     // r9806 | jasonharper | 2011-09-05 00:04:24 -0400 (Mon, 05 Sep 2011) | 29 lines
     //
@@ -1207,7 +1207,7 @@ public abstract class InventoryManager {
     return Math.min(mallPrice, makePrice);
   }
 
-  private static int priceToMake(
+  public static int priceToMake(
       final AdventureResult item,
       final int quantity,
       final int level,
