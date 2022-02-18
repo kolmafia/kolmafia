@@ -3,15 +3,16 @@ package net.sourceforge.kolmafia.swingui.panel;
 import static internal.helpers.Player.addCampgroundItem;
 import static internal.helpers.Player.addItem;
 import static internal.helpers.Player.hasFamiliar;
+import static internal.helpers.Player.inPath;
 import static internal.helpers.Player.isClass;
 import static internal.helpers.Player.isHardcore;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.startsWith;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -50,10 +51,10 @@ public class DailyDeedsPanelTest {
     public void panelCountsFights() {
       var ff = new FreeFightsDaily();
       ff.update();
-      assertThat(ff.getText(), startsWith("<html>Fights: 0/10 BRICKO"));
+      assertThat(ff.getText(), containsString("0/10 BRICKO"));
       Preferences.setInteger("_brickoFights", 5);
       ff.update();
-      assertThat(ff.getText(), startsWith("<html>Fights: 5/10 BRICKO"));
+      assertThat(ff.getText(), containsString("5/10 BRICKO"));
     }
 
     @Test
@@ -70,7 +71,7 @@ public class DailyDeedsPanelTest {
         assertThat(
             ff.getText(),
             is(
-                "<html>Fights: 0/10 BRICKO, 0/7 hipster+goth, 0/5 machine elf, 0/3 god lobster<br>Fights: tentacle</html>"));
+                "<html>Fights: 0/3 lynyrd, 0/10 BRICKO, 0/7 hipster+goth, 0/5 machine elf<br>Fights: 0/3 god lobster, tentacle</html>"));
       }
     }
 
@@ -167,6 +168,68 @@ public class DailyDeedsPanelTest {
       Preferences.setBoolean("_voteToday", true);
       ff.update();
       assertThat(ff.getText(), containsString("0/3 vote"));
+    }
+
+    @Test
+    public void showsLynyrd() {
+      var ff = new FreeFightsDaily();
+      var cleanups = new Cleanups(addItem(ItemPool.LYNYRD_SNARE));
+      try (cleanups) {
+        ff.update();
+        assertThat(ff.getText(), containsString("0/3 lynyrd"));
+      }
+    }
+
+    @Test
+    public void showsKramco() {
+      var ff = new FreeFightsDaily();
+      var cleanups = new Cleanups(addItem(ItemPool.SAUSAGE_O_MATIC));
+      try (cleanups) {
+        ff.update();
+        assertThat(ff.getText(), containsString("0 sausage goblin"));
+      }
+    }
+
+    @Test
+    public void showsGlitchMonster() {
+      var ff = new FreeFightsDaily();
+      var cleanups = new Cleanups(addItem(ItemPool.GLITCH_ITEM));
+      try (cleanups) {
+        ff.update();
+        assertThat(ff.getText(), containsString("%monster%"));
+      }
+    }
+
+    @Test
+    public void showsMushroom() {
+      var ff = new FreeFightsDaily();
+      var cleanups = addCampgroundItem(ItemPool.MUSHROOM_SPORES);
+      try (cleanups) {
+        ff.update();
+        assertThat(ff.getText(), containsString("0/1 piranha plant"));
+      }
+    }
+
+    @Test
+    public void showsMushroomGivingFiveFightsInPlumber() {
+      var ff = new FreeFightsDaily();
+      var cleanups =
+          new Cleanups(
+              addCampgroundItem(ItemPool.MUSHROOM_SPORES), inPath(Path.PATH_OF_THE_PLUMBER));
+      try (cleanups) {
+        ff.update();
+        assertThat(ff.getText(), containsString("0/5 piranha plant"));
+      }
+    }
+
+    @Test
+    public void showsVoid() {
+      var ff = new FreeFightsDaily();
+      var cleanups = new Cleanups(addItem(ItemPool.CURSED_MAGNIFYING_GLASS));
+      try (cleanups) {
+        ff.update();
+        assertThat(ff.getText(), containsString("0/5 void"));
+      }
     }
   }
 }
