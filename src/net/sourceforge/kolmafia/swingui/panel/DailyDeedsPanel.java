@@ -1096,6 +1096,11 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.label.setText(text);
     }
 
+    // for testing
+    String getText() {
+      return this.label.getText();
+    }
+
     @Override
     public void setEnabled(boolean enabled) {
       if (this.buttons != null) {
@@ -2590,7 +2595,8 @@ public class DailyDeedsPanel extends Box implements Listener {
               && !Limitmode.limitZone("Town")
               && !KoLCharacter.inBadMoon();
       boolean np =
-          Preferences.getBoolean("neverendingPartyAlways")
+          (Preferences.getBoolean("_neverendingPartyToday")
+                  || Preferences.getBoolean("neverendingPartyAlways"))
               && StandardRequest.isAllowed("Items", "Neverending Party invitation envelope")
               && !Limitmode.limitZone("Town")
               && !KoLCharacter.inBadMoon();
