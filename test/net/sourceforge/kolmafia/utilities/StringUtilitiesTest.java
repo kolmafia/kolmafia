@@ -2,7 +2,10 @@ package net.sourceforge.kolmafia.utilities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class StringUtilitiesTest {
   @Test
@@ -18,37 +21,74 @@ class StringUtilitiesTest {
   }
 
   // Tests for basicTestWrap
-
   private static final String BREAK = "\n";
+  private static final String HTML_PREFIX = "<html>";
 
   @Test
-  public void itShouldDoNothingForVariousInputs() {
-    // null
+  public void itShouldDoNothingForVariousSimpleInputs() {
+    int testLength = 10;
     assertNull(StringUtilities.basicTextWrap(null), "Null should neither wrap nor error.");
-    // short
-    String test = "1234567890";
+    String test = buildTestString(testLength);
     assertEquals(StringUtilities.basicTextWrap(test), test, "Short input should remain unchanged.");
-    // html
-    test = "<html> " + test;
-    assertEquals(StringUtilities.basicTextWrap(test), test, "Short input should remain unchanged.");
+    test = HTML_PREFIX + test;
+    assertEquals(
+        StringUtilities.basicTextWrap(test), test, "Short html input should remain unchanged.");
+    testLength = 123;
+    test = buildTestString(testLength);
+    test = HTML_PREFIX + test;
+    assertEquals(
+        StringUtilities.basicTextWrap(test), test, "Long html input should remain unchanged.");
   }
 
   @Test
-  public void itShouldWrapForVariousInputs() {
+  public void itShouldWrapForVariousSimpleInputs() {
     int testLength = 90;
     String testMe = buildTestString(testLength);
-    assertEquals(testLength, testMe.length(), "Incorrectly constructed test string.");
     String expected = manuallyInsertBreak(testMe, 80);
     assertEquals(StringUtilities.basicTextWrap(testMe), expected, "Break not where expected.");
+    testLength = 200;
+    testMe = buildTestString(testLength);
+    expected = manuallyInsertBreak(testMe, 80);
+    expected = manuallyInsertBreak(expected, 161);
+    assertEquals(StringUtilities.basicTextWrap(testMe), expected, "Breaks not where expected.");
+  }
+
+  @Test
+  @Disabled("Testing for wrong behavior?")
+  /*
+  Suppose the user input is of sufficient length and contains a user inserted break after 40 characters.  Should the
+  result have a break at 40 and the next breaks at ~120, ~200 etc.  or should it have breaks at 40, 80, 160 and so
+  on?  This test assumes the former but the code is written to do the latter.
+   */
+  public void itShouldHandleUserInsertedBreaksOneWay() {
+    String testMe = buildTestString(159);
+    testMe = manuallyInsertBreak(testMe, 40);
+    String expected = manuallyInsertBreak(testMe, 121);
+    assertEquals(StringUtilities.basicTextWrap(testMe), expected, "Breaks not where expected.");
+  }
+
+  @Test
+  @Disabled
+  public void itShouldHandleUserInsertedBreaks() {
+    String testMe = buildTestString(159);
+    testMe = manuallyInsertBreak(testMe, 40);
+    String expected = manuallyInsertBreak(testMe, 80);
+    assertEquals(StringUtilities.basicTextWrap(testMe), expected, "Breaks not where expected.");
+  }
+
+  @ParameterizedTest
+  @CsvSource({"12345, 12345"})
+  public void itShouldBeShort(String input, String expected) {
+    assertEquals(expected, StringUtilities.basicTextWrap(input, 5));
   }
 
   /*
-  This builds a string of the specified length.  It uses the repeating pattern "0123456789" to
+  This builds a string of the specified length.  It uses the repeating pattern "1234567891" to
   make it easier for humans to debug.  The modulo 10 is just to get a single digit as a string;
    */
   private String buildTestString(int length) {
     StringBuilder retVal = new StringBuilder();
-    for (int i = 0; i < length; i++) {
+    for (int i = 1; i <= length; i++) {
       retVal.append(i % 10);
     }
     return retVal.toString();

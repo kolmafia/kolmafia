@@ -781,24 +781,31 @@ public class StringUtilities {
   }
 
   public static final String basicTextWrap(String text) {
+    return basicTextWrap(text, 80);
+  }
+  /*
+  Overloaded to facilitate hand crafted test strings where it is easier to follow what is happening with
+  shorter strings
+   */
+  public static final String basicTextWrap(String text, int breakPosition) {
 
     if (text == null) {
       return null;
     }
 
-    if (text.length() < 80 || text.startsWith("<html>")) {
+    if (text.length() < breakPosition || text.startsWith("<html>")) {
       return text;
     }
 
     StringBuilder result = new StringBuilder();
 
     while (text.length() > 0) {
-      if (text.length() < 80) {
+      if (text.length() < breakPosition) {
         result.append(text);
         break;
       }
 
-      int spaceIndex = text.lastIndexOf(" ", 80);
+      int spaceIndex = text.lastIndexOf(" ", breakPosition);
       int breakIndex = text.lastIndexOf("\n", spaceIndex);
 
       if (breakIndex != -1) {
@@ -810,9 +817,9 @@ public class StringUtilities {
         result.append("\n");
         text = text.substring(spaceIndex).trim();
       } else {
-        result.append(text.substring(0, 80).trim());
+        result.append(text.substring(0, breakPosition).trim());
         result.append("\n");
-        text = text.substring(80).trim();
+        text = text.substring(breakPosition).trim();
       }
     }
 
