@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -1094,6 +1095,11 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     public void setText(String text) {
       this.label.setText(text);
+    }
+
+    // for testing
+    String getText() {
+      return this.label.getText();
     }
 
     @Override
@@ -2554,6 +2560,9 @@ public class DailyDeedsPanel extends Box implements Listener {
     @Override
     public void update() {
       boolean limited = Limitmode.limitMall();
+      boolean ly =
+          (!KoLCharacter.isHardcore() && !limited)
+              || InventoryManager.hasItem(ItemPool.LYNYRD_SNARE);
       boolean bf =
           (!KoLCharacter.isHardcore()
                   && !limited
@@ -2590,7 +2599,8 @@ public class DailyDeedsPanel extends Box implements Listener {
               && !Limitmode.limitZone("Town")
               && !KoLCharacter.inBadMoon();
       boolean np =
-          Preferences.getBoolean("neverendingPartyAlways")
+          (Preferences.getBoolean("_neverendingPartyToday")
+                  || Preferences.getBoolean("neverendingPartyAlways"))
               && StandardRequest.isAllowed("Items", "Neverending Party invitation envelope")
               && !Limitmode.limitZone("Town")
               && !KoLCharacter.inBadMoon();
@@ -2599,6 +2609,21 @@ public class DailyDeedsPanel extends Box implements Listener {
               && StandardRequest.isAllowed("Items", "voter registration form")
               && !Limitmode.limitZone("Town")
               && !KoLCharacter.inBadMoon();
+      boolean sg =
+          StandardRequest.isAllowed("Items", "Kramco Sausage-o-Matic™")
+              && InventoryManager.hasItem(ItemPool.SAUSAGE_O_MATIC);
+      boolean gm =
+          StandardRequest.isAllowed("Items", "[glitch season reward name]")
+              && InventoryManager.hasItem(ItemPool.GLITCH_ITEM)
+              && !Preferences.getBoolean("_glitchMonsterFights");
+      boolean pp =
+          (KoLConstants.campground.contains(ItemPool.get(ItemPool.MUSHROOM_SPORES, 1))
+                  || InventoryManager.hasItem(ItemPool.MUSHROOM_SPORES))
+              && StandardRequest.isAllowed("Items", "packet of mushroom spores")
+              && !Limitmode.limitCampground();
+      boolean vm =
+          StandardRequest.isAllowed("Items", "cursed magnifying glass")
+              && InventoryManager.hasItem(ItemPool.CURSED_MAGNIFYING_GLASS);
 
       StringBuilder buffer = new StringBuilder();
       count = 0;
@@ -2606,17 +2631,17 @@ public class DailyDeedsPanel extends Box implements Listener {
 
       buffer.append("<html>");
 
-      int maxSummons = 5;
+      int maxSeals = 5;
       if (KoLCharacter.hasEquipped(DailyDeedsPanel.INFERNAL_SEAL_CLAW)
           || DailyDeedsPanel.INFERNAL_SEAL_CLAW.getCount(KoLConstants.inventory) > 0) {
-        maxSummons = 10;
+        maxSeals = 10;
       }
+      if (ly) addFightCounter(buffer, Preferences.getInteger("_lynyrdSnareUses") + "/3 lynyrd");
       if (bf) addFightCounter(buffer, Preferences.getInteger("_brickoFights") + "/10 BRICKO");
       if (hf) addFightCounter(buffer, Preferences.getInteger("_hipsterAdv") + "/7 " + ff);
       if (sc)
         addFightCounter(
-            buffer,
-            Preferences.getInteger("_sealsSummoned") + "/" + maxSummons + " seals summoned");
+            buffer, Preferences.getInteger("_sealsSummoned") + "/" + maxSeals + " seals summoned");
       if (me)
         addFightCounter(buffer, Preferences.getInteger("_machineTunnelsAdv") + "/5 machine elf");
       if (sj) addFightCounter(buffer, Preferences.getInteger("_snojoFreeFights") + "/10 snojo");
@@ -2628,7 +2653,15 @@ public class DailyDeedsPanel extends Box implements Listener {
       if (np)
         addFightCounter(buffer, Preferences.getInteger("_neverendingPartyFreeTurns") + "/10 party");
       if (vb) addFightCounter(buffer, Preferences.getInteger("_voteFreeFights") + "/3 vote");
+      if (sg) addFightCounter(buffer, Preferences.getInteger("_sausageFights") + " sausage goblin");
+      int maxPlants = KoLCharacter.getPath() == Path.PATH_OF_THE_PLUMBER ? 5 : 1;
+      if (pp)
+        addFightCounter(
+            buffer,
+            Preferences.getInteger("_mushroomGardenFights") + "/" + maxPlants + " piranha plant");
+      if (vm) addFightCounter(buffer, Preferences.getInteger("_voidFreeFights") + "/5 void");
       if (et) addFightCounter(buffer, "tentacle");
+      if (gm) addFightCounter(buffer, "%monster%");
       buffer.append("</html>");
 
       this.setShown(shown);
