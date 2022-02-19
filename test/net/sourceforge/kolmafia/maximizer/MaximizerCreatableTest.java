@@ -22,7 +22,6 @@ public class MaximizerCreatableTest {
     Preferences.setInteger("autoBuyPriceLimit", 1_000_000);
     Preferences.setBoolean("autoSatisfyWithNPCs", true);
     KoLCharacter.setAvailableMeat(1_000_000);
-    ConcoctionDatabase.refreshConcoctions();
   }
 
   @Test
@@ -39,10 +38,10 @@ public class MaximizerCreatableTest {
   }
 
   @Test
-  @Disabled("doesn't try to paste things")
   public void canPasteAsshat() {
     addItem("bum cheek", 2);
     addItem("meat paste", 1);
+    ConcoctionDatabase.refreshConcoctions();
     maximizeCreatable("sleaze dmg");
     recommendedSlotIs(EquipmentManager.HAT, "asshat");
   }
