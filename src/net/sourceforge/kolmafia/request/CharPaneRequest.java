@@ -1669,9 +1669,7 @@ public class CharPaneRequest extends GenericRequest {
     } else if (KoLCharacter.isEd()) {
       // No familiar, but may have a servant.  Unfortunately,
       // details of such are not in api.php
-    } else if (!KoLCharacter.isSneakyPete()
-        && !KoLCharacter.inBondcore()
-        && !KoLCharacter.isVampyre()) {
+    } else if (KoLCharacter.getPath().canUseFamiliars()) {
       int famId = JSON.getInt("familiar");
       int famExp = JSON.getInt("familiarexp");
       FamiliarData familiar = FamiliarData.registerFamiliar(famId, famExp);
