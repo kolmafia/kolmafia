@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.utilities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -54,20 +53,6 @@ class StringUtilitiesTest {
   }
 
   @Test
-  @Disabled("Testing for wrong behavior?")
-  /*
-  Suppose the user input is of sufficient length and contains a user inserted break after 40 characters.  Should the
-  result have a break at 40 and the next breaks at ~120, ~200 etc.  or should it have breaks at 40, 80, 160 and so
-  on?  This test assumes the former but the code is written to do the latter.
-   */
-  public void itShouldHandleUserInsertedBreaksOneWay() {
-    String testMe = buildTestString(159);
-    testMe = manuallyInsertBreak(testMe, 40);
-    String expected = manuallyInsertBreak(testMe, 121);
-    assertEquals(expected, StringUtilities.basicTextWrap(testMe), "Breaks not where expected.");
-  }
-
-  @Test
   public void itShouldHandleUserInsertedBreaks() {
     String testMe = buildTestString(159);
     testMe = manuallyInsertBreak(testMe, 40);
@@ -87,7 +72,7 @@ class StringUtilitiesTest {
     "'1 3 5 7 9 1', '1 3 5\n7 9\n1'",
     "'1 2  \n  4 5\n 6 \n', '1 2\n4 5\n6'"
   })
-  public void exerciseTextWrapWithShortWrap(String input, String expected) {
+  public void exerciseTextWrapWithShortWrapLength(String input, String expected) {
     assertEquals(expected, StringUtilities.basicTextWrap(input, 5));
   }
 
@@ -102,12 +87,44 @@ class StringUtilitiesTest {
     }
     return retVal.toString();
   }
-
+  /*
+  This inserts a break into a string
+   */
   private String manuallyInsertBreak(String input, int breakPos) {
     if (breakPos >= input.length()) {
       return input;
     } else {
       return input.subSequence(0, breakPos) + BREAK + input.subSequence(breakPos, input.length());
     }
+  }
+  // End tests for basicTestWrap
+
+  @ParameterizedTest
+  @CsvSource({
+    "'not an id', '-1'",
+    "'[not an id]', '-1'",
+    "'123','-1'",
+    "'[123', '-1'",
+    "'123[', '-1'",
+    "'123', '-1'",
+    "'[1337]2468 googles', '1337'",
+    "'[123]unreal item', '123'"
+  })
+  public void itShouldExerciseGetBracketedID(String name, String id) {
+    assertEquals(Integer.parseInt(id), StringUtilities.getBracketedId(name));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "'not an id', 'not an id'",
+    "'[not an id]', '[not an id]'",
+    "'[123', '[123'",
+    "'123]', '123]'",
+    "'123', '123'",
+    "'[123]unreal item', 'unreal item'",
+    "'[1337]2468 goggles', '2468 goggles'",
+  })
+  public void itShouldExerciseRemoveBracketedID(String name, String id) {
+    assertEquals(id, StringUtilities.removeBracketedId(name));
   }
 }
