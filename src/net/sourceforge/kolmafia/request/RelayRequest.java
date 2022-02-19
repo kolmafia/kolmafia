@@ -1909,13 +1909,8 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    if (KoLCharacter.inAxecore()
-        || KoLCharacter.isJarlsberg()
-        || KoLCharacter.isSneakyPete()
-        || KoLCharacter.isEd()
-        || KoLCharacter.inBondcore()
+    if (!KoLCharacter.getPath().canUseFamiliars()
         || KoLCharacter.inPokefam()
-        || KoLCharacter.isVampyre()
         || KoLCharacter.inQuantum()) {
       return false;
     }
