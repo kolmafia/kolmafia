@@ -70,7 +70,8 @@ class StringUtilitiesTest {
     "'123\n4567890123456789', '123\n4\n56789\n01234\n56789\n'",
     "'12 45', '12\n45'",
     "'1 3 5 7 9 1', '1 3 5\n7 9\n1'",
-    "'1 2  \n  4 5\n 6 \n', '1 2\n4 5\n6'"
+    "'1 2  \n  4 5\n 6 \n', '1 2\n4 5\n6'",
+          "'1234 67', '1234\n67'",
   })
   public void exerciseTextWrapWithShortWrapLength(String input, String expected) {
     assertEquals(expected, StringUtilities.basicTextWrap(input, 5));
