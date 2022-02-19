@@ -77,8 +77,14 @@ class StringUtilitiesTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"12345, 12345"})
-  public void itShouldBeShort(String input, String expected) {
+  @CsvSource({
+    "'1234', '1234'",
+    "'12345', '12345\n'",
+    "'1234567890', '12345\n67890\n'",
+    "'123456789012', '12345\n67890\n12'",
+    "'123\n4567890123456789', '123\n4\n56789\n01234\n56789\n'"
+  })
+  public void exerciseTextWrapWithShortWrap(String input, String expected) {
     assertEquals(expected, StringUtilities.basicTextWrap(input, 5));
   }
 
