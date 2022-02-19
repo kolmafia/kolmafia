@@ -365,7 +365,7 @@ public class ItemFinder {
       String name = parameters;
 
       // If the pilcrow character is first, it is followed by an item ID
-      if (name.startsWith("\u00B6")) {
+      if (name.startsWith("\u00B6") && parameters.substring(1).trim().matches("^[-+]?[0-9]+$")) {
         itemId = StringUtilities.parseInt(parameters.substring(1));
       } else if (name.startsWith("[")) {
         int index = name.indexOf("]");
