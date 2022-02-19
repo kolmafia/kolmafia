@@ -110,8 +110,6 @@ public class PriceToAcquireTest {
 
   @BeforeEach
   private void beforeEach() {
-    Preferences.setFloat("valueOfInventory", 1.8f);
-
     CharPaneRequest.setCanInteract(true);
   }
 
@@ -119,6 +117,7 @@ public class PriceToAcquireTest {
   private void afterEach() {
     // Prevent leakage; reset to initial state
 
+    Preferences.setFloat("valueOfInventory", 1.8f);
     Preferences.setBoolean("autoSatisfyWithStorage", true);
     Preferences.setBoolean("autoSatisfyWithCloset", false);
     Preferences.setBoolean("autoSatisfyWithStash", false);
@@ -173,9 +172,8 @@ public class PriceToAcquireTest {
   // *** Test for basic test infrastructure: we can mock getting a mall price
   // *** from each of the possible ways provided by MallPriceManager
   //
-  // getMallPrice(item, 7.0f) - price must be less than 7 days old
-  // getMallPrice(item, 0.0f) - price must be less than 0 days old. I.e., current
-  // getMallPrice(item) - something. How is this different than 0.0f? ***TBD***
+  // getMallPrice(item, InventoryManager.MALL_PRICE_AGE) - price must be less than 7 days old
+  // getMallPrice(item) - Current mall price. How is this different than maxAge = 0.0f?
 
   @Test
   public void canMockGetMallPrice() {
@@ -197,7 +195,7 @@ public class PriceToAcquireTest {
         int itemid = entry.getKey();
         AdventureResult item = ItemPool.get(itemid, 1);
         int price = entry.getValue();
-        int test = MallPriceManager.getMallPrice(item, 7.0f);
+        int test = MallPriceManager.getMallPrice(item, InventoryManager.MALL_PRICE_AGE);
         assertEquals(price, test);
       }
     }
@@ -218,11 +216,43 @@ public class PriceToAcquireTest {
 
   // *** Tests for itemValue(item, exact)
   //
+  // The only documentation for this is Jason Harper's commit message from 2011:
+  //
+  // r9806 | jasonharper | 2011-09-05 00:04:24 -0400 (Mon, 05 Sep 2011) | 29 lines
+  //
+  // The decision to buy a completed item rather than creating it from ingredients
+  // already in inventory requires assigning a value to those ingredients, which
+  // really depends on play style.  Not everyone is going to put in the effort
+  // needed to maximize their Mall profits; they might use only autosell to
+  // dispose of excess items, or just hoard them.  Therefore, a new float
+  // preference "valueOfInventory" allows players to indicate the worth of items,
+  // with these key values:
+  //
+  // 0.0 - Items already in inventory are considered free.
+  // 1.0 - Items are valued at their autosell price.
+  // 2.0 - Items are valued at current Mall price, unless they are min-priced.
+  // 3.0 - Items are always valued at Mall price (not really realistic).
+  //
+  // Intermediate values interpolate between integral values.  The default is 1.8,
+  // reflecting the fact that items won't sell immediately in the Mall without
+  // undercutting or advertising.  This preference, and several previously hidden
+  // prefs affecting create vs. buy decisions, are now exposed on a new Creatable
+  // -> Fine Tuning page in the Item Manager.
+  //
+  // "Items are valued at current Mall price, unless they are min-priced."
+  // Examination of the code tells me this:
+  //
+  // 0.0 - Items already owned are considered free.
+  // 1.0 - Items are valued at autosell price.
+  // 2.0 - Items are valued at autosell price if min-priced in Mall.
+  // 2.0 - Items are valued at current Mall price, if not min-priced.
+  // 3.0 - Items are always valued at Mall price (not really realistic).
+  //
   // Dependencies:
   //
   // ItemDatabase.getPriceById(itemId) - autosell price
   // MallPriceManager.getMallPrice(item) - current mall price
-  // MallPriceManager.getMallPrice(item, 7.0f) - not "too old" mall price
+  // MallPriceManager.getMallPrice(item, InventoryManager.MALL_PRICE_AGE) - not "too old" mall price
   // Preferences.getFloat("valueOfInventory");
 
   // *** Tests for priceToAcquire(item, quantity, exact, mallPriceOnly)
@@ -235,7 +265,7 @@ public class PriceToAcquireTest {
   //
   // InventoryManager.itemValue(item, exact)
   // MallPriceManager.getMallPrice(item) - current mall price
-  // MallPriceManager.getMallPrice(item, 7.0f) - not "too old" mall price
+  // MallPriceManager.getMallPrice(item, InventoryManager.MALL_PRICE_AGE) - not "too old" mall price
   // InventoryManager.priceToMake(item, quantity, exact, mallPriceOnly)
 
   @Test
@@ -297,7 +327,7 @@ public class PriceToAcquireTest {
   //
   // Dependencies:
   //
-  // MallPriceManager.getMallPrice(item, 7.0f)
+  // MallPriceManager.getMallPrice(item, InventoryManager.MALL_PRICE_AGE)
   // InventoryManager.priceToMake(item, quantity, false)
   // MallPriceManager.getMallPrice(item)
   // InventoryManager.priceToMake(item, quantity, true)

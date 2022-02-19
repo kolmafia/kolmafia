@@ -64,6 +64,9 @@ import org.json.JSONObject;
 public abstract class InventoryManager {
   private static final int BULK_PURCHASE_AMOUNT = 30;
 
+  // Number of days which is considered "too old" for a cached mall price.
+  public static final float MALL_PRICE_AGE = 7.0f;
+
   private static int askedAboutCrafting = 0;
 
   public static void resetInventory() {
@@ -1059,7 +1062,7 @@ public abstract class InventoryManager {
       return false;
     }
 
-    int mallPrice = MallPriceManager.getMallPrice(item, 7.0f) * quantity;
+    int mallPrice = MallPriceManager.getMallPrice(item, MALL_PRICE_AGE) * quantity;
     if (mallPrice <= 0) {
       return false;
     }
@@ -1136,7 +1139,9 @@ public abstract class InventoryManager {
     lower = upper;
 
     int mall =
-        exact ? MallPriceManager.getMallPrice(item) : MallPriceManager.getMallPrice(item, 7.0f);
+        exact
+            ? MallPriceManager.getMallPrice(item)
+            : MallPriceManager.getMallPrice(item, MALL_PRICE_AGE);
     if (mall > Math.max(100, 2 * Math.abs(autosell))) {
       upper = Math.max(lower, mall);
     }
@@ -1190,7 +1195,9 @@ public abstract class InventoryManager {
     }
 
     int mallPrice =
-        (exact ? MallPriceManager.getMallPrice(item) : MallPriceManager.getMallPrice(item, 7.0f))
+        (exact
+                ? MallPriceManager.getMallPrice(item)
+                : MallPriceManager.getMallPrice(item, MALL_PRICE_AGE))
             * needed;
     if (mallPrice <= 0) {
       mallPrice = Integer.MAX_VALUE;
