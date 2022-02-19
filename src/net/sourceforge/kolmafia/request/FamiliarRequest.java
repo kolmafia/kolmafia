@@ -364,12 +364,7 @@ public class FamiliarRequest extends GenericRequest {
     // Familiars weren't cool enough for Pete.
     // Ed already has more than enough servants.
     // In Quantum Terrarium, familiar sets you.
-    if (KoLCharacter.inAxecore()
-        || KoLCharacter.isJarlsberg()
-        || KoLCharacter.isSneakyPete()
-        || KoLCharacter.isEd()
-        || KoLCharacter.inBondcore()
-        || KoLCharacter.isVampyre()
+    if (!KoLCharacter.getPath().canUseFamiliars()
         || KoLCharacter.inQuantum()) {
       return;
     }
