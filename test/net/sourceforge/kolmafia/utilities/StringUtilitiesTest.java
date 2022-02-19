@@ -32,12 +32,12 @@ class StringUtilitiesTest {
     assertEquals(StringUtilities.basicTextWrap(test), test, "Short input should remain unchanged.");
     test = HTML_PREFIX + test;
     assertEquals(
-        StringUtilities.basicTextWrap(test), test, "Short html input should remain unchanged.");
+        test, StringUtilities.basicTextWrap(test), "Short html input should remain unchanged.");
     testLength = 123;
     test = buildTestString(testLength);
     test = HTML_PREFIX + test;
     assertEquals(
-        StringUtilities.basicTextWrap(test), test, "Long html input should remain unchanged.");
+        test, StringUtilities.basicTextWrap(test), "Long html input should remain unchanged.");
   }
 
   @Test
@@ -45,12 +45,12 @@ class StringUtilitiesTest {
     int testLength = 90;
     String testMe = buildTestString(testLength);
     String expected = manuallyInsertBreak(testMe, 80);
-    assertEquals(StringUtilities.basicTextWrap(testMe), expected, "Break not where expected.");
+    assertEquals(expected, StringUtilities.basicTextWrap(testMe), "Break not where expected.");
     testLength = 200;
     testMe = buildTestString(testLength);
     expected = manuallyInsertBreak(testMe, 80);
     expected = manuallyInsertBreak(expected, 161);
-    assertEquals(StringUtilities.basicTextWrap(testMe), expected, "Breaks not where expected.");
+    assertEquals(expected, StringUtilities.basicTextWrap(testMe), "Breaks not where expected.");
   }
 
   @Test
@@ -64,16 +64,16 @@ class StringUtilitiesTest {
     String testMe = buildTestString(159);
     testMe = manuallyInsertBreak(testMe, 40);
     String expected = manuallyInsertBreak(testMe, 121);
-    assertEquals(StringUtilities.basicTextWrap(testMe), expected, "Breaks not where expected.");
+    assertEquals(expected, StringUtilities.basicTextWrap(testMe), "Breaks not where expected.");
   }
 
   @Test
-  @Disabled
   public void itShouldHandleUserInsertedBreaks() {
     String testMe = buildTestString(159);
     testMe = manuallyInsertBreak(testMe, 40);
     String expected = manuallyInsertBreak(testMe, 80);
-    assertEquals(StringUtilities.basicTextWrap(testMe), expected, "Breaks not where expected.");
+    expected = expected + BREAK;
+    assertEquals(expected, StringUtilities.basicTextWrap(testMe), "Breaks not where expected.");
   }
 
   @ParameterizedTest
@@ -104,6 +104,10 @@ class StringUtilitiesTest {
   }
 
   private String manuallyInsertBreak(String input, int breakPos) {
-    return input.subSequence(0, breakPos) + BREAK + input.subSequence(breakPos, input.length());
+    if (breakPos >= input.length()) {
+      return input;
+    } else {
+      return input.subSequence(0, breakPos) + BREAK + input.subSequence(breakPos, input.length());
+    }
   }
 }
