@@ -123,7 +123,7 @@ public class Player {
         Math.max(req.isMoxie() ? req.getAmount() : 0, KoLCharacter.getBaseMoxie()));
   }
 
-  public static void setStats(int muscle, int mysticality, int moxie) {
+  public static Cleanups setStats(int muscle, int mysticality, int moxie) {
     KoLCharacter.setStatPoints(
         muscle,
         (long) muscle * muscle,
@@ -132,6 +132,7 @@ public class Player {
         moxie,
         (long) moxie * moxie);
     KoLCharacter.recalculateAdjustments();
+    return new Cleanups(() -> setStats(0, 0, 0));
   }
 
   public static Cleanups isClass(AscensionClass ascensionClass) {
