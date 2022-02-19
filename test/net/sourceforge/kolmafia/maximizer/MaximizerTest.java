@@ -581,7 +581,11 @@ public class MaximizerTest {
 
       @Test
       public void usesFlaskfullOfHollowWithSmithsness() {
-        final var cleanups = new Cleanups(addItem("Flaskfull of Hollow"), setStats(100, 100, 100), equip(EquipmentManager.PANTS, "Vicar's Tutu"));
+        final var cleanups =
+            new Cleanups(
+                addItem("Flaskfull of Hollow"),
+                setStats(100, 100, 100),
+                equip(EquipmentManager.PANTS, "Vicar's Tutu"));
         try (cleanups) {
           assertTrue(maximize("muscle -tie"));
 
@@ -592,7 +596,7 @@ public class MaximizerTest {
       @Test
       @Disabled("fails to recommend to use the flask")
       public void usesFlaskfullOfHollow() {
-        final var cleanups = new Cleanups(addItem("Flaskfull of Hollow"));
+        final var cleanups = new Cleanups(addItem("Flaskfull of Hollow"), setStats(100, 100, 100));
         try (cleanups) {
           assertTrue(maximize("muscle -tie"));
 
