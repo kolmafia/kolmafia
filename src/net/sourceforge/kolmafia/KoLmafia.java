@@ -755,14 +755,9 @@ public abstract class KoLmafia {
     // Refresh fire levels
     WildfireCampRequest.refresh();
 
-    if (!(KoLCharacter.inAxecore()
-        || KoLCharacter.isJarlsberg()
-        || KoLCharacter.isSneakyPete()
-        || KoLCharacter.inBondcore()
-        || KoLCharacter.isVampyre()
-        || KoLCharacter.isEd()
-        || KoLCharacter.inPokefam()
-        || KoLCharacter.inQuantum())) {
+    if (KoLCharacter.getPath().canUseFamiliars()
+        && !KoLCharacter.inPokefam()
+        && !KoLCharacter.inQuantum()) {
       // Retrieve the Terrarium
       RequestThread.postRequest(new FamiliarRequest());
     }
