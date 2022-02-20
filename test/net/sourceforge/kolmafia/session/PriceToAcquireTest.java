@@ -39,7 +39,6 @@ public class PriceToAcquireTest {
   // int itemValue(AdventureResult item, boolean exact)
   // int priceToAcquire(AdventureResult item, int quantity, boolean exact)
   // int priceToMake(AdventureResult item, int quantity, boolean exact)
-  // boolean cheaperToBuy(AdventureResult item, int quantity)
   //
   // And the following variation, used exactly once in retrieveItem:
   // (or should I say, "called exactly once with mallPriceOnly = true)
@@ -597,13 +596,4 @@ public class PriceToAcquireTest {
       assertEquals(price, one);
     }
   }
-
-  // *** Tests for cheaperToBuy(item, quantity)
-  //
-  // Dependencies:
-  //
-  // MallPriceManager.getMallPrice(item, InventoryManager.MALL_PRICE_AGE)
-  // InventoryManager.priceToMake(item, quantity, false)
-  // MallPriceManager.getMallPrice(item)
-  // InventoryManager.priceToMake(item, quantity, true)
 }
