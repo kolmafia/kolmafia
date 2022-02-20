@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
@@ -239,21 +240,221 @@ public class PriceToAcquireTest {
   // prefs affecting create vs. buy decisions, are now exposed on a new Creatable
   // -> Fine Tuning page in the Item Manager.
   //
-  // "Items are valued at current Mall price, unless they are min-priced."
-  // Examination of the code tells me this:
+  // "Items already in inventory are considered free."
+  // This method is only called for items "already in inventory". It does not check.
   //
-  // 0.0 - Items already owned are considered free.
+  // "Items are valued at current Mall price, unless they are min-priced."
+  // And what if they are min-priced? Examination of the code tells me this:
+  //
+  // 0.0 - Items are considered free.
   // 1.0 - Items are valued at autosell price.
   // 2.0 - Items are valued at autosell price if min-priced in Mall.
   // 2.0 - Items are valued at current Mall price, if not min-priced.
   // 3.0 - Items are always valued at Mall price (not really realistic).
   //
-  // Dependencies:
+  // "Intermediate values interpolate between integral values"
   //
-  // ItemDatabase.getPriceById(itemId) - autosell price
-  // MallPriceManager.getMallPrice(item) - current mall price
-  // MallPriceManager.getMallPrice(item, InventoryManager.MALL_PRICE_AGE) - not "too old" mall price
-  // Preferences.getFloat("valueOfInventory");
+
+  private float setValueOfInventory(float valueOfInventory) {
+    Preferences.setFloat("valueOfInventory", valueOfInventory);
+    return valueOfInventory;
+  }
+
+  private int getAutosellPrice(AdventureResult item) {
+    return ItemDatabase.getPriceById(item.getItemId());
+  }
+
+  private int getMallPrice(AdventureResult item, boolean exact) {
+    // *** Note that MallPriceManager must be mocked by caller.
+    return exact
+        ? MallPriceManager.getMallPrice(item)
+        : MallPriceManager.getMallPrice(item, InventoryManager.MALL_PRICE_AGE);
+  }
+
+  // *** Simulation of InventoryManager.itemValue
+  // "factor" is the "valueOfInventory" property
+  // MallPriceManager must be mocked by caller
+
+  private int interpolate(AdventureResult item, boolean exact, float factor) {
+    int retval =
+        (factor <= 0.0f)
+            ? 0
+            : (factor <= 1.0f)
+                ? interpolate1(item, factor)
+                : (factor <= 2.0f)
+                    ? interpolate2(item, exact, factor - 1.0f)
+                    : interpolate3(item, exact, factor - 2.0f);
+    return retval;
+  }
+
+  private int interpolate1(AdventureResult item, float factor) {
+    // 0.0 < factor <= 1.0
+    //   fraction of autosell price
+    int autosell = getAutosellPrice(item);
+    return (0 + (int) ((autosell - 0) * factor));
+  }
+
+  private int interpolate2(AdventureResult item, boolean exact, float factor) {
+    // 1.0 < factor <= 2.0:
+    //   if mall price <= mall min: autosell price
+    //   (can be < if from NPC store)
+    //   if mall price > mall min: autosell + fraction between autosell and mall)
+    int autosell = getAutosellPrice(item);
+    int mallmin = Math.max(100, 2 * autosell);
+    int mall = getMallPrice(item, exact);
+    return (mall <= mallmin) ? autosell : (autosell + (int) ((mall - autosell) * factor));
+  }
+
+  private int interpolate3(AdventureResult item, boolean exact, float factor) {
+    // 2.0 < factor
+    //   autosell + fraction between autosell and mall)
+    int autosell = getAutosellPrice(item);
+    int mall = getMallPrice(item, exact);
+    return (autosell + (int) ((mall - autosell) * factor));
+  }
+
+  @Test
+  public void canValueItems() {
+
+    // NPC item; autosell = 35
+    AdventureResult GRAPEFRUIT = ItemPool.get(ItemPool.GRAPEFRUIT, 1);
+    // Mall minimum; autosell = 35
+    AdventureResult BOXED_WINE = ItemPool.get(ItemPool.BOXED_WINE, 1);
+    // Mall minimum; autosell = 65
+    AdventureResult BUNCH_OF_SQUARE_GRAPES = ItemPool.get(ItemPool.BUNCH_OF_SQUARE_GRAPES, 1);
+    // Expensive mall item; autosell = 5
+    AdventureResult FISH_HEAD = ItemPool.get(ItemPool.FISH_HEAD, 1);
+
+    // Price map for current ("exact") mall prices
+    Map<Integer, Integer> priceMap = new HashMap<>();
+    priceMap.put(ItemPool.GRAPEFRUIT, 70);
+    priceMap.put(ItemPool.BOXED_WINE, 100);
+    priceMap.put(ItemPool.BUNCH_OF_SQUARE_GRAPES, 130);
+    priceMap.put(ItemPool.FISH_HEAD, 1000);
+
+    // Price map for old ("not exact") mall prices
+    Map<Integer, Integer> oldPriceMap = new HashMap<>();
+    oldPriceMap.put(ItemPool.GRAPEFRUIT, 70);
+    oldPriceMap.put(ItemPool.BOXED_WINE, 105);
+    oldPriceMap.put(ItemPool.BUNCH_OF_SQUARE_GRAPES, 130);
+    oldPriceMap.put(ItemPool.FISH_HEAD, 2000);
+
+    Cleanups cleanups = new Cleanups(mockGetMallPrice(priceMap, oldPriceMap));
+    try (cleanups) {
+      // valueOfInventory = 0; everything is free
+      float factor = setValueOfInventory(0.0f);
+      boolean exact = false; // use "old" mall prices
+
+      assertEquals(0, InventoryManager.itemValue(GRAPEFRUIT, false));
+      assertEquals(0, InventoryManager.itemValue(BOXED_WINE, false));
+      assertEquals(0, InventoryManager.itemValue(BUNCH_OF_SQUARE_GRAPES, false));
+      assertEquals(0, InventoryManager.itemValue(FISH_HEAD, false));
+
+      // valueOfInventory = 1; everything is at autosell price
+      factor = setValueOfInventory(1.0f);
+
+      // Test my simulated calculation
+      assertEquals(35, interpolate(GRAPEFRUIT, false, factor));
+      assertEquals(35, interpolate(BOXED_WINE, false, factor));
+      assertEquals(65, interpolate(BUNCH_OF_SQUARE_GRAPES, false, factor));
+      assertEquals(5, interpolate(FISH_HEAD, false, factor));
+
+      assertEquals(35, InventoryManager.itemValue(GRAPEFRUIT, false));
+      assertEquals(35, InventoryManager.itemValue(BOXED_WINE, false));
+      assertEquals(65, InventoryManager.itemValue(BUNCH_OF_SQUARE_GRAPES, false));
+      assertEquals(5, InventoryManager.itemValue(FISH_HEAD, false));
+
+      // valueOfInventory = 1.8 (the default); Like 2.0, but items priced above
+      // mall minimum "interpolate" between autosell price and mall price
+      // Which is to say: autosell + (int)((mall - autosell) * factor)
+
+      factor = setValueOfInventory(1.8f);
+
+      exact = false; // use "old" mall prices
+
+      // Test my simulated calculation
+      assertEquals(35, interpolate(GRAPEFRUIT, exact, factor));
+      assertEquals(90, interpolate(BOXED_WINE, exact, factor));
+      assertEquals(65, interpolate(BUNCH_OF_SQUARE_GRAPES, exact, factor));
+      assertEquals(1600, interpolate(FISH_HEAD, exact, factor));
+
+      assertEquals(35, InventoryManager.itemValue(GRAPEFRUIT, exact));
+      assertEquals(90, InventoryManager.itemValue(BOXED_WINE, exact));
+      assertEquals(65, InventoryManager.itemValue(BUNCH_OF_SQUARE_GRAPES, exact));
+      assertEquals(1600, InventoryManager.itemValue(FISH_HEAD, exact));
+
+      exact = true; // use "current" mall prices
+
+      // Test my simulated calculation
+      assertEquals(35, interpolate(GRAPEFRUIT, exact, factor));
+      assertEquals(35, interpolate(BOXED_WINE, exact, factor));
+      assertEquals(65, interpolate(BUNCH_OF_SQUARE_GRAPES, exact, factor));
+      assertEquals(800, interpolate(FISH_HEAD, exact, factor));
+
+      assertEquals(35, InventoryManager.itemValue(GRAPEFRUIT, true));
+      assertEquals(35, InventoryManager.itemValue(BOXED_WINE, true));
+      assertEquals(65, InventoryManager.itemValue(BUNCH_OF_SQUARE_GRAPES, true));
+      assertEquals(800, InventoryManager.itemValue(FISH_HEAD, true));
+
+      // valueOfInventory = 2; everything is at autosell price unless mall price above mall minimum
+      factor = setValueOfInventory(2.0f);
+
+      exact = false; // use "old" mall prices
+
+      // Test my simulated calculation
+      assertEquals(35, interpolate(GRAPEFRUIT, exact, factor));
+      assertEquals(105, interpolate(BOXED_WINE, exact, factor));
+      assertEquals(65, interpolate(BUNCH_OF_SQUARE_GRAPES, exact, factor));
+      assertEquals(2000, interpolate(FISH_HEAD, exact, factor));
+
+      assertEquals(35, InventoryManager.itemValue(GRAPEFRUIT, exact));
+      assertEquals(105, InventoryManager.itemValue(BOXED_WINE, exact));
+      assertEquals(65, InventoryManager.itemValue(BUNCH_OF_SQUARE_GRAPES, exact));
+      assertEquals(2000, InventoryManager.itemValue(FISH_HEAD, exact));
+
+      exact = true; // use "current" mall prices
+
+      // Test my simulated calculation
+      assertEquals(35, interpolate(GRAPEFRUIT, exact, factor));
+      assertEquals(35, interpolate(BOXED_WINE, exact, factor));
+      assertEquals(65, interpolate(BUNCH_OF_SQUARE_GRAPES, exact, factor));
+      assertEquals(1000, interpolate(FISH_HEAD, exact, factor));
+
+      assertEquals(35, InventoryManager.itemValue(GRAPEFRUIT, true));
+      assertEquals(35, InventoryManager.itemValue(BOXED_WINE, true));
+      assertEquals(65, InventoryManager.itemValue(BUNCH_OF_SQUARE_GRAPES, true));
+      assertEquals(1000, InventoryManager.itemValue(FISH_HEAD, true));
+
+      // valueOfInventory = 3; everything is at mall price
+      factor = setValueOfInventory(3.0f);
+
+      exact = false; // use "old" mall prices
+
+      // Test my simulated calculation
+      assertEquals(70, interpolate(GRAPEFRUIT, exact, factor));
+      assertEquals(105, interpolate(BOXED_WINE, exact, factor));
+      assertEquals(130, interpolate(BUNCH_OF_SQUARE_GRAPES, exact, factor));
+      assertEquals(2000, interpolate(FISH_HEAD, exact, factor));
+
+      assertEquals(70, InventoryManager.itemValue(GRAPEFRUIT, exact));
+      assertEquals(105, InventoryManager.itemValue(BOXED_WINE, exact));
+      assertEquals(130, InventoryManager.itemValue(BUNCH_OF_SQUARE_GRAPES, exact));
+      assertEquals(2000, InventoryManager.itemValue(FISH_HEAD, exact));
+
+      exact = true; // use "current" mall prices
+
+      // Test my simulated calculation
+      assertEquals(70, interpolate(GRAPEFRUIT, exact, factor));
+      assertEquals(100, interpolate(BOXED_WINE, exact, factor));
+      assertEquals(130, interpolate(BUNCH_OF_SQUARE_GRAPES, exact, factor));
+      assertEquals(1000, interpolate(FISH_HEAD, exact, factor));
+
+      assertEquals(70, InventoryManager.itemValue(GRAPEFRUIT, exact));
+      assertEquals(100, InventoryManager.itemValue(BOXED_WINE, exact));
+      assertEquals(130, InventoryManager.itemValue(BUNCH_OF_SQUARE_GRAPES, exact));
+      assertEquals(1000, InventoryManager.itemValue(FISH_HEAD, exact));
+    }
+  }
 
   // *** Tests for priceToAcquire(item, quantity, exact, mallPriceOnly)
   //
