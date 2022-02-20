@@ -131,7 +131,7 @@ public class PriceToAcquireTest {
   // Test with this concoction
   //
   // drive-by shooting = piscatini + grapefruit
-  // grapfruit = (NPC item)
+  // grapefruit = (NPC item)
   // piscatini = boxed wine + fish head
   // fish head = (mall item)
   // boxed wine (3) = fermenting powder + bunch of square grapes
@@ -269,6 +269,10 @@ public class PriceToAcquireTest {
     return exact
         ? MallPriceManager.getMallPrice(item)
         : MallPriceManager.getMallPrice(item, InventoryManager.MALL_PRICE_AGE);
+  }
+
+  private int getPrice(AdventureResult item, Map<Integer, Integer> map) {
+    return map.getOrDefault(item.getItemId(), Integer.MAX_VALUE);
   }
 
   // *** Simulation of InventoryManager.itemValue
@@ -456,6 +460,84 @@ public class PriceToAcquireTest {
     }
   }
 
+  // *** Tests for priceToMake(item, quantity, exact, mallPriceOnly)
+  //
+  // Dependencies:
+  //
+  // ConcoctionDatabase.isPermittedMethod(item)
+  // (mixing method and prerequisites must be available)
+  // InventoryManager.priceToAcquire(item, quantity, exact, mallPriceOnly)
+  // (for pricing ingredients)
+
+  @Test
+  public void canPriceConcoctions() {
+    // We'll be testing with the following concoction:
+    //
+    // drive-by shooting = piscatini + grapefruit
+    // grapefruit = (NPC item)
+    // piscatini = boxed wine + fish head
+    // fish head = (mall item)
+    // boxed wine (3) = fermenting powder + bunch of square grapes
+    // fermenting powder = (NPC item)
+    // bunch of square grapes = (mall item)
+
+    AdventureResult DRIVE_BY_SHOOTING = ItemPool.get(ItemPool.DRIVE_BY_SHOOTING, 1);
+    AdventureResult GRAPEFRUIT = ItemPool.get(ItemPool.GRAPEFRUIT, 1);
+    AdventureResult PISCATINI = ItemPool.get(ItemPool.PISCATINI, 1);
+    AdventureResult FISH_HEAD = ItemPool.get(ItemPool.FISH_HEAD, 1);
+    AdventureResult BOXED_WINE = ItemPool.get(ItemPool.BOXED_WINE, 1);
+    AdventureResult FERMENTING_POWDER = ItemPool.get(ItemPool.FERMENTING_POWDER, 1);
+    AdventureResult BUNCH_OF_SQUARE_GRAPES = ItemPool.get(ItemPool.BUNCH_OF_SQUARE_GRAPES, 1);
+
+    Map<Integer, Integer> priceMap = makePriceMap();
+    Set<Integer> unpermitted = new HashSet<>();
+
+    Cleanups mockedMallPrices = mockGetMallPrice(priceMap, priceMap);
+    Cleanups mockedPermittedMethods = mockIsPermittedMethod(unpermitted);
+
+    Cleanups cleanups = new Cleanups(mockedMallPrices, mockedPermittedMethods);
+    try (cleanups) {
+      // We will be testing with no items in inventory.
+      // Therefore, we will need to purchase everything from mall or NPCs.
+
+      // Simple tests: Items made with Meat cost that much Meat
+      assertEquals(10, InventoryManager.priceToMake(ItemPool.get(ItemPool.MEAT_PASTE), 1, true));
+      assertEquals(100, InventoryManager.priceToMake(ItemPool.get(ItemPool.MEAT_STACK), 1, true));
+      assertEquals(1000, InventoryManager.priceToMake(ItemPool.get(ItemPool.DENSE_STACK), 1, true));
+
+      // Test with "exact" prices - i.e. "current mall prices, from "priceMap"
+      // Verify that we cannot make NOCREATE items
+
+      assertEquals(Integer.MAX_VALUE, InventoryManager.priceToMake(FERMENTING_POWDER, 1, true));
+      assertEquals(
+          Integer.MAX_VALUE, InventoryManager.priceToMake(BUNCH_OF_SQUARE_GRAPES, 1, true));
+      assertEquals(Integer.MAX_VALUE, InventoryManager.priceToMake(FISH_HEAD, 1, true));
+      assertEquals(Integer.MAX_VALUE, InventoryManager.priceToMake(GRAPEFRUIT, 1, true));
+
+      int boxedWineBuyPrice = getPrice(BOXED_WINE, priceMap);
+      int fermentingPowderPrice = getPrice(FERMENTING_POWDER, priceMap);
+      int squareGrapesPrice = getPrice(BUNCH_OF_SQUARE_GRAPES, priceMap);
+
+      // This recipe yields three boxes of wine
+      int boxedWineMakePrice = (fermentingPowderPrice + squareGrapesPrice);
+      int boxedWinePrice = Math.min(boxedWineBuyPrice, boxedWineMakePrice / 3);
+      int threeBoxedWinePrice = Math.min(3 * boxedWineBuyPrice, boxedWineMakePrice);
+      assertEquals(boxedWinePrice, InventoryManager.priceToMake(BOXED_WINE, 1, true));
+      assertEquals(threeBoxedWinePrice, InventoryManager.priceToMake(BOXED_WINE, 3, true));
+
+      int piscatiniBuyPrice = getPrice(PISCATINI, priceMap);
+      int piscatiniMakePrice = boxedWinePrice + getPrice(FISH_HEAD, priceMap);
+      int piscatiniPrice = Math.min(piscatiniBuyPrice, piscatiniMakePrice);
+      assertEquals(piscatiniMakePrice, InventoryManager.priceToMake(PISCATINI, 1, true));
+      int threePiscatiniPrice = threeBoxedWinePrice + 3 * getPrice(FISH_HEAD, priceMap);
+      assertEquals(threePiscatiniPrice, InventoryManager.priceToMake(PISCATINI, 3, true));
+
+      int driveByShootingMakePrice = piscatiniPrice + getPrice(GRAPEFRUIT, priceMap);
+      assertEquals(
+          driveByShootingMakePrice, InventoryManager.priceToMake(DRIVE_BY_SHOOTING, 1, true));
+    }
+  }
+
   // *** Tests for priceToAcquire(item, quantity, exact, mallPriceOnly)
   //
   // Dependencies:
@@ -515,14 +597,6 @@ public class PriceToAcquireTest {
       assertEquals(price, one);
     }
   }
-
-  // *** Tests for priceToMake(item, quantity, exact, mallPriceOnly)
-  //
-  // Dependencies:
-  //
-  // ConcoctionDatabase.isPermittedMethod(item)
-  // (mixing method and prerequisites must be available)
-  // InventoryManager.priceToAcquire(item, quantity, exact, mallPriceOnly)
 
   // *** Tests for cheaperToBuy(item, quantity)
   //
