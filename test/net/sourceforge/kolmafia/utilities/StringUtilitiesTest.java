@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class StringUtilitiesTest {
   @Test
   void isVowel() {
@@ -127,5 +130,35 @@ class StringUtilitiesTest {
   })
   public void itShouldExerciseRemoveBracketedID(String name, String id) {
     assertEquals(id, StringUtilities.removeBracketedId(name));
+  }
+
+  @Test
+  public void itShouldTokenizeStringsUnderVariousConditions() {
+    // simple comma separated list
+    String testString = "folder (cyan), folder (magenta), folder (yellow)";
+    List<String> expected = new ArrayList<>();
+    expected.add("folder (cyan)");
+    expected.add("folder (magenta)");
+    expected.add("folder (yellow)");
+    try {
+      List<String> result = StringUtilities.tokenizeString(testString);
+      assertEquals(expected, result, "Lists are not the same.");
+    } catch (Exception e) {
+      assertTrue(false, e.getMessage());
+    }
+    // with and without valid escape sequence
+    testString = "folder (cyan), folder \\magenta\\, folder (yellow)";
+    expected.clear();
+    expected.add("folder (cyan)");
+    expected.add("folder \\magenta\\");
+    expected.add("folder (yellow)");
+    try {
+      List<String> result = StringUtilities.tokenizeString(testString);
+      assertEquals(expected, result, "Lists are not the same.");
+    } catch (Exception e) {
+      assertTrue(false, e.getMessage());
+    }
+
+
   }
 }
