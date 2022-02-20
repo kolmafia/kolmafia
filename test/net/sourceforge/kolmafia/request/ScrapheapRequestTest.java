@@ -12,7 +12,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ScrapheapRequestTest extends RequestTestBase {
+public class ScrapheapRequestTest {
 
   @BeforeEach
   protected void initEach() {
