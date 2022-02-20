@@ -54,6 +54,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
+import net.sourceforge.kolmafia.utilities.HttpUtilities;
 
 /**
  * Formed after the same idea as <code>SwingUtilities</code>, this contains common functions needed by many of the
@@ -167,7 +168,7 @@ public class DataUtilities
 		{
 			if ( filename.startsWith( "http://" ) || filename.startsWith( "https://" ))
 			{
-				HttpURLConnection connection = (HttpURLConnection) new URL( null, filename ).openConnection();
+				HttpURLConnection connection = HttpUtilities.openConnection(new URL( null, filename ));
 				connection.setRequestProperty( "Connection", "close" ); // no need to keep-alive
 				InputStream istream = connection.getInputStream();
 
