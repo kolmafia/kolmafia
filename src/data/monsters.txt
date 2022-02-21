@@ -115,7 +115,7 @@ Buzzy Beetle	273	buzzy.gif	Atk: 20 Def: 18 HP: 15 Init: 60 P: bug	black pixel (5
 C.A.R.N.I.V.O.R.E. Operative	514	carnivore.gif	NOCOPY Atk: 210 Def: 189 HP: 320 Init: 80 Meat: 300 ED: stench P: hippy	C.A.R.N.I.V.O.R.E. button (100)	green clay bead (30)	Lockenstock&trade; sandals (0)
 cabinet of Dr. Limpieza	1561	laundrycabinet.gif	Atk: 142 Def: 148 HP: 150 Init: 25 P: undead	fabric softener (15)	bottle of laundry sherry (15)	bloodstain stick (20)	fabric hardener (15)	blasting soda (c0)
 cactuary	465	cactuary.gif	Atk: 137 Def: 126 HP: 139 Init: 10 Meat: 100 P: plant	bit-o-cactus (27)	giant cactus quill (5)	cactus fruit (20)	handful of sand (20)
-Cake Lord	1756	cakelord.gif	Atk: 5 Def: 5 HP: 10 Init: -10000 P: construct
+Cake Lord	1756	cakelord.gif	NOCOPY Atk: 5 Def: 5 HP: 10 Init: -10000 P: construct
 Camel's Toe	541	cameltoe.gif	Atk: 158 Def: 142 HP: 150 Init: 70 E: sleaze P: constellation	line (30)	line (30)	star (30)	star (30)
 Carbuncle Top	985	carbuncletop.gif	NOCOPY BOSS Atk: 70 Def: 63 HP: 70 Init: 50 P: demon	hilarious comedy prop (100)
 cargo crab	743	cargocrab.gif	Atk: 450 Def: 360 HP: 500 Init: 150 Meat: 200 P: fish	imitation crab crate (n30)
@@ -184,7 +184,7 @@ dirty old lihc	1071	dirtyoldlihc.gif	Atk: 60 Def: 54 HP: 50 Init: 50 E: spooky P
 dirty thieving brigand	475	bandit.gif	Atk: 169 Def: 153 HP: 185 Init: 50 Meat: 1000 P: dude	brigand brittle (c0)
 disease-in-the-box	110	dinbox.gif	Atk: 18 Def: 16 HP: 14 Init: 80 P: construct	box (30)	disease (40)
 diving belle	762	divingbelle.gif	Atk: 400 Def: 450 HP: 750 Init: 50 E: spooky P: undead	diving muff (n3)	salinated mint julep (32)	water-polo mitt (c0)	comb jelly (0)
-Doctor Oh, the Junksprite Boss	1439	js_oh.gif	Atk: 40 Def: 40 HP: 60 Init: -10000 P: humanoid	eternal car battery (n100)
+Doctor Oh, the Junksprite Boss	1439	js_oh.gif	NOCOPY Atk: 40 Def: 40 HP: 60 Init: -10000 P: humanoid	eternal car battery (n100)
 dopey 7-Foot Dwarf	1150	dwarf_dopey.gif	Atk: 53 Def: 47 HP: 40 Init: 50 Meat: 40 P: humanoid	miner's helmet (9)
 doughbat	42	doughbat.gif	Atk: 14 Def: 12 HP: 8 Init: 60 EA: sleaze Meat: 20 P: beast	sonar-in-a-biscuit (10)	wad of dough (30)
 Dr. Awkward	453	drawkward.gif	NOCOPY BOSS Atk: 175 Def: 157 HP: 200 Init: -10000 P: dude	Drowsy Sword (n100)	Staff of Fats (n100)	fumble formula (p5)
@@ -393,7 +393,7 @@ lobsterfrogman	529	lobsterman.gif	Atk: 171 Def: 152 HP: 190 Init: 40 Meat: 60 P:
 lonely construct	668	vib5.gif	Atk: 300 Def: 315 HP: 350 Init: 80 P: construct	El Vibrato punchcard (213 holes) (1)	El Vibrato punchcard (182 holes) (1)
 lonely construct (translated)	674	vib5.gif	Atk: 300 Def: 315 HP: 350 Init: 80 P: construct Manuel: "lonely construct" Wiki: "lonely construct"	El Vibrato punchcard (213 holes) (1)	El Vibrato punchcard (182 holes) (1)
 Lord Spookyraven	464	lordspooky.gif	NOCOPY BOSS Atk: 165 Def: 148 HP: 200 Exp: [120+ML/3] Init: 10000 ED: spooky P: undead	Eye of Ed (n100)	Lord Spookyraven's ear trumpet (n100)
-Lot's Wife	1757	lotswife.gif	Atk: 3 Def: 3 HP: 10 P: beast Init: -10000	The Lot's engagement ring (n100)
+Lot's Wife	1757	lotswife.gif	NOCOPY Atk: 3 Def: 3 HP: 10 P: beast Init: -10000	The Lot's engagement ring (n100)
 lounge lizardfish	770	lizardfish.gif	Atk: 400 Def: 630 HP: 550 Init: 100 Meat: 200 P: fish	amber aviator shades (n5)	hair of the fish (c7)	rough fish scale (n4)	slug of shochu (21)
 lowercase B	934	lower_b.gif	Atk: 58 Def: 52 HP: 70 Init: 40 P: slime	left parenthesis (15)
 lowercase H	936	lower_h.gif	Atk: 59 Def: 54 HP: 77 Init: 75 P: horror	left bracket (15)	left parenthesis (20)	percent sign (25)
@@ -673,7 +673,7 @@ The Barrelmech of Diogenes	1840	otherimages/barrelbeast.gif	Atk: 200 Def: 250 HP
 The Big Wisniewski	545	thisdude.gif	NOCOPY BOSS Atk: 250 Def: 225 HP: 2000 Init: 60 ED: stench P: hippy	solid gold bowling ball (100)
 The Clownlord Beelzebozo	569	beelzebozo.gif	NOCOPY BOSS Atk: 27 Def: 27 HP: 40 Init: 85 P: horror
 the darkness (blind)	0	darkness.gif	NOMANUEL
-the former owner of the Skeleton Store	1755	skelmanager.gif	Atk: 5 Def: 5 HP: 8 Init: -10000 E: spooky P: undead	check to the Meatsmith (c100)	invisibility cream (c0)
+the former owner of the Skeleton Store	1755	NOCOPY skelmanager.gif	Atk: 5 Def: 5 HP: 8 Init: -10000 E: spooky P: undead	check to the Meatsmith (c100)	invisibility cream (c0)
 the ghost of Phil Bunion	1352	bunionghost.gif	Atk: 72 Def: 68 HP: 60 Init: 40 Phys: 100 P: undead E: spooky Meat: 30 GHOST	spectral axe (c100)	Phil Bunion's axe (c100)
 the gunk	1548	thegunk.gif	Atk: 81 Def: 81 HP: 80 Init: -10000 Meat: 50 P: slime	gunky chicken (0)	the funk (0)	half-melted spoon (0)
 The Man	555	theman.gif	NOCOPY BOSS Atk: 250 Def: 225 HP: 2000 Init: 60 ED: sleaze P: dude	really dense meat stack (100)
