@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
@@ -81,8 +82,8 @@ public class Player {
 
   public static Cleanups hasFamiliar(int famId) {
     var familiar = FamiliarData.registerFamiliar(famId, 0);
-    KoLCharacter.familiars.add(familiar);
-    return new Cleanups(() -> KoLCharacter.familiars.remove(familiar));
+    KoLCharacter.addFamiliar(familiar);
+    return new Cleanups(() -> KoLCharacter.removeFamiliar(familiar));
   }
 
   public static Cleanups setFamiliar(int famId) {
@@ -122,7 +123,7 @@ public class Player {
         Math.max(req.isMoxie() ? req.getAmount() : 0, KoLCharacter.getBaseMoxie()));
   }
 
-  public static void setStats(int muscle, int mysticality, int moxie) {
+  public static Cleanups setStats(int muscle, int mysticality, int moxie) {
     KoLCharacter.setStatPoints(
         muscle,
         (long) muscle * muscle,
@@ -131,6 +132,7 @@ public class Player {
         moxie,
         (long) moxie * moxie);
     KoLCharacter.recalculateAdjustments();
+    return new Cleanups(() -> setStats(0, 0, 0));
   }
 
   public static Cleanups isClass(AscensionClass ascensionClass) {
@@ -170,5 +172,20 @@ public class Player {
   public static Cleanups usedAbsorbs(int absorbs) {
     KoLCharacter.setAbsorbs(absorbs);
     return new Cleanups(() -> usedAbsorbs(0));
+  }
+
+  public static Cleanups isHardcore() {
+    return isHardcore(true);
+  }
+
+  public static Cleanups isHardcore(boolean hardcore) {
+    var wasHardcore = KoLCharacter.isHardcore();
+    KoLCharacter.setHardcore(hardcore);
+    return new Cleanups(() -> isHardcore(wasHardcore));
+  }
+
+  public static Cleanups addCampgroundItem(int id) {
+    CampgroundRequest.setCampgroundItem(id, 1);
+    return new Cleanups(() -> CampgroundRequest.removeCampgroundItem(ItemPool.get(id, 1)));
   }
 }

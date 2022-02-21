@@ -70,7 +70,6 @@ import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.NaiveSecureSocketLayer;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -112,7 +111,6 @@ public class GenericRequest implements Runnable {
     "devproxy.kingdomofloathing.com", "www.kingdomofloathing.com"
   };
 
-  public static final String KOL_IP = "69.16.150.211";
   public static String KOL_HOST = GenericRequest.SERVERS[1];
   public static URL KOL_SECURE_ROOT = null;
 
@@ -190,13 +188,6 @@ public class GenericRequest implements Runnable {
 
     systemProperties.remove("sun.net.client.defaultConnectTimeout");
     systemProperties.remove("sun.net.client.defaultReadTimeout");
-
-    if (Preferences.getBoolean("useNaiveSecureLogin")
-        || Preferences.getBoolean("connectViaAddress")) {
-      NaiveSecureSocketLayer.install();
-    } else {
-      NaiveSecureSocketLayer.uninstall();
-    }
 
     systemProperties.put("http.referer", "https://" + GenericRequest.KOL_HOST + "/game.php");
   }
@@ -278,11 +269,7 @@ public class GenericRequest implements Runnable {
     GenericRequest.KOL_HOST = GenericRequest.SERVERS[serverIndex];
 
     try {
-      if (Preferences.getBoolean("connectViaAddress")) {
-        GenericRequest.KOL_SECURE_ROOT = new URL("https", GenericRequest.KOL_IP, 443, "/");
-      } else {
-        GenericRequest.KOL_SECURE_ROOT = new URL("https", GenericRequest.KOL_HOST, 443, "/");
-      }
+      GenericRequest.KOL_SECURE_ROOT = new URL("https", GenericRequest.KOL_HOST, 443, "/");
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }

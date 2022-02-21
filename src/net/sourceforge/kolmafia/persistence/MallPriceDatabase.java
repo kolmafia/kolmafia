@@ -18,12 +18,16 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallPriceDatabase {
+  // If false, blocks saving of mall prices. Do not modify outside of tests.
+  public static boolean savePricesToFile = true;
+
   private static final PriceArray prices = new PriceArray();
   private static final HashSet<String> updated = new HashSet<String>();
   private static final HashSet<String> submitted = new HashSet<String>();
@@ -55,7 +59,7 @@ public class MallPriceDatabase {
       }
 
       String[] data;
-      long now = System.currentTimeMillis() / 1000L;
+      long now = MallPriceManager.currentTimeMillis() / 1000L;
 
       while ((data = FileUtilities.readData(reader)) != null) {
         if (data.length < 3) {
@@ -136,7 +140,7 @@ public class MallPriceDatabase {
   }
 
   public static void recordPrice(int itemId, int price, boolean deferred) {
-    long timestamp = System.currentTimeMillis() / 1000L;
+    long timestamp = MallPriceManager.currentTimeMillis() / 1000L;
     Price p = MallPriceDatabase.prices.get(itemId);
     if (p == null) {
       MallPriceDatabase.prices.set(itemId, new Price(price, timestamp));
@@ -151,6 +155,10 @@ public class MallPriceDatabase {
   }
 
   public static void writePrices() {
+    if (!MallPriceDatabase.savePricesToFile) {
+      return;
+    }
+
     File output = new File(KoLConstants.DATA_LOCATION, "mallprices.txt");
     PrintStream writer = LogStream.openStream(output, true);
     writer.println(KoLConstants.MALLPRICES_VERSION);
@@ -242,7 +250,7 @@ public class MallPriceDatabase {
   // Return age of price data, in fractional days
   public static float getAge(int itemId) {
     Price p = MallPriceDatabase.prices.get(itemId);
-    long now = System.currentTimeMillis() / 1000L;
+    long now = MallPriceManager.currentTimeMillis() / 1000L;
     return p == null ? Float.POSITIVE_INFINITY : (now - p.timestamp) / 86400.0f;
   }
 

@@ -4670,7 +4670,7 @@ public abstract class RuntimeLibrary {
     }
 
     return new Value(
-        InventoryManager.priceToAcquire(ItemPool.get(item, count), count, 0, false, false));
+        InventoryManager.priceToAcquire(ItemPool.get(item, count), count, false, false));
   }
 
   public static Value retrieve_price(ScriptRuntime controller, final Value item) {
