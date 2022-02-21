@@ -6951,7 +6951,8 @@ public class FightRequest extends GenericRequest {
     if (image.equals("lovelocket.gif")) {
       boolean added = str.contains("warm light");
       boolean already = str.contains("already a photo");
-      if (added) {
+      boolean scary = str.contains("too painful");
+      if (added || scary) {
         FightRequest.logText(str, status);
       }
       if (added || already) {
