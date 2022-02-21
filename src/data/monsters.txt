@@ -445,7 +445,6 @@ mind flayer	222	lower_h.gif	Atk: 59 Def: 54 HP: 77 Init: 75 P: horror	mind flaye
 mine crab	746	minecrab.gif	Atk: 700 Def: 540 HP: 850 Init: 50 Meat: 250 P: fish	live nautical mine (n20)
 Mismatched Twins	1242	twins_mism.gif	Atk: 91 Def: 85 HP: 100 Init: 50 Meat: 60 P: dude	artisanal limoncello (15)	giant motorcycle boots (5)
 Mob Penguin Capo	1511	mobcapo.gif	Atk: 155 Def: 145 HP: 160 Init: 50 P: penguin Meat: 200	tommy gun (5)	drum of tommy ammo (30)	drum of tommy ammo (20)
-Mob Penguin hitman	683	pengthug.gif	WANDERER Atk: 75 Def: 67 HP: 90 Init: 40 Meat: 200 P: penguin	kneecapping stick (0)
 Mobile Armored Sweat Lodge	488	warhipar2.gif	Atk: 180 Def: 162 HP: 300 Init: 20 E: stench Phys: 50 P: hippy	communications windchimes (3)	didgeridooka (33)	gas balloon (20)
 model skeleton	1547	modelskeleton.gif	Atk: 76 Def: 81 HP: 85 Init: 25 P: construct E: spooky GHOST	synthetic marrow (0)	rubber ribcage (0)	funny bone (0)
 modern zmobie	1070	modernzombie.gif	SUPERLIKELY Atk: 60 Def: 54 HP: 50 Init: 300 Meat: 60 E: spooky P: undead
