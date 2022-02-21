@@ -10,7 +10,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.Test;
 
-public class MallPurchaseRequestTest extends RequestTestBase {
+public class MallPurchaseRequestTest {
   private MallPurchaseRequest mallPurchaseRequestSetup(AdventureResult item) {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");

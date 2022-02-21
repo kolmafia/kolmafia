@@ -4670,7 +4670,7 @@ public abstract class RuntimeLibrary {
     }
 
     return new Value(
-        InventoryManager.priceToAcquire(ItemPool.get(item, count), count, 0, false, false));
+        InventoryManager.priceToAcquire(ItemPool.get(item, count), count, false, false));
   }
 
   public static Value retrieve_price(ScriptRuntime controller, final Value item) {
@@ -8197,14 +8197,25 @@ public abstract class RuntimeLibrary {
         && KoLCharacter.getAdjustedMuscle() > defenseStat) {
       defenseStat = KoLCharacter.getAdjustedMuscle();
     }
+    int baseValue;
+    double damageAbsorb;
+    double elementAbsorb;
 
-    int baseValue =
-        Math.max(0, attack - defenseStat) + attack / 4 - KoLCharacter.getDamageReduction();
+    // https://kol.coldfront.net/thekolwiki/index.php/Ninja_snowman_assassin
+    if (monster.getName().equals("ninja snowman assassin")) {
+      baseValue = Math.max(0, attack - defenseStat) + 120;
+      damageAbsorb =
+          1.0 - (Math.sqrt(Math.min(1000, KoLCharacter.getDamageAbsorption()) / 10.0) - 1.0) / 10.0;
+      int modifiedRes = Math.max(0, KoLCharacter.getElementalResistanceLevels(Element.COLD) - 5);
+      elementAbsorb = 1.0 - KoLCharacter.elementalResistanceByLevel(modifiedRes, true) / 100.0;
+    } else {
+      baseValue =
+          Math.max(0, attack - defenseStat) + attack / 4 - KoLCharacter.getDamageReduction();
+      damageAbsorb =
+          1.0 - (Math.sqrt(Math.min(1000, KoLCharacter.getDamageAbsorption()) / 10.0) - 1.0) / 10.0;
+      elementAbsorb = 1.0 - KoLCharacter.getElementalResistance(monster.getAttackElement()) / 100.0;
+    }
 
-    double damageAbsorb =
-        1.0 - (Math.sqrt(Math.min(1000, KoLCharacter.getDamageAbsorption()) / 10.0) - 1.0) / 10.0;
-    double elementAbsorb =
-        1.0 - KoLCharacter.getElementalResistance(monster.getAttackElement()) / 100.0;
     return new Value((int) Math.ceil(baseValue * damageAbsorb * elementAbsorb));
   }
 
