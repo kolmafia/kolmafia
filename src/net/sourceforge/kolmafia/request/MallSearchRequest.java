@@ -631,7 +631,6 @@ public class MallSearchRequest extends GenericRequest {
       String storeName = shopId != -1 ? ("shop #" + shopId) : "a PC store";
 
       String message = "mallsearch " + storeName;
-      RequestLogger.updateSessionLog();
       RequestLogger.updateSessionLog(message);
       return true;
     }
