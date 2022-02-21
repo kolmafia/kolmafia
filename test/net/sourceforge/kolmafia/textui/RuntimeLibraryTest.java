@@ -11,32 +11,32 @@ import org.junit.jupiter.api.Test;
 
 public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
-    @BeforeEach
-    public void initEach() {
-        KoLCharacter.reset("testUser");
-        KoLCharacter.reset(true);
+  @BeforeEach
+  public void initEach() {
+    KoLCharacter.reset("testUser");
+    KoLCharacter.reset(true);
 
-        // Stop requests from actually running
-        GenericRequest.sessionId = null;
-    }
+    // Stop requests from actually running
+    GenericRequest.sessionId = null;
+  }
 
-    public RuntimeLibraryTest() {
-        this.command = "ash";
-    }
+  public RuntimeLibraryTest() {
+    this.command = "ash";
+  }
 
-    @Test
-    void normalMonsterExpectedDamage() {
-        String output = execute("expected_damage($monster[blooper])");
+  @Test
+  void normalMonsterExpectedDamage() {
+    String output = execute("expected_damage($monster[blooper])");
 
-        assertContinueState();
-        assertThat(output, containsString("Returned: 35"));
-    }
+    assertContinueState();
+    assertThat(output, containsString("Returned: 35"));
+  }
 
-    @Test
-    void ninjaSnowmanAssassinExpectedDamage() {
-        String output = execute("expected_damage($monster[ninja snowman assassin])");
+  @Test
+  void ninjaSnowmanAssassinExpectedDamage() {
+    String output = execute("expected_damage($monster[ninja snowman assassin])");
 
-        assertContinueState();
-        assertThat(output, containsString("Returned: 297"));
-    }
+    assertContinueState();
+    assertThat(output, containsString("Returned: 297"));
+  }
 }
