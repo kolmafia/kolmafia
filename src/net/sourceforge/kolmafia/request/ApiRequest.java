@@ -406,24 +406,25 @@ public class ApiRequest extends GenericRequest {
 
     List<String> owned = Arrays.asList(coolItems.split(","));
 
-    PREF_TO_COOL_ITEM.forEach((coolItem, entry) -> {
-      String alwaysPref = entry.getKey();
-      String todayPref = entry.getValue();
-      boolean haveAccess = owned.contains(coolItem);
+    PREF_TO_COOL_ITEM.forEach(
+        (coolItem, entry) -> {
+          String alwaysPref = entry.getKey();
+          String todayPref = entry.getValue();
+          boolean haveAccess = owned.contains(coolItem);
 
-      // If they have access to the iotm
-      if (haveAccess) {
-        // If they have used a day pass
-        boolean usedDayPass = Preferences.getBoolean(todayPref);
+          // If they have access to the iotm
+          if (haveAccess) {
+            // If they have used a day pass
+            boolean usedDayPass = Preferences.getBoolean(todayPref);
 
-        // They always have access, if they have not used a day pass
-        Preferences.setBoolean(alwaysPref, !usedDayPass);
-      } else {
-        // No access to the iotm, so set both preferences to false
-        Preferences.setBoolean(todayPref, false);
-        Preferences.setBoolean(alwaysPref, false);
-      }
-    });
+            // If they have used a day pass, they do not always have access
+            Preferences.setBoolean(alwaysPref, !usedDayPass);
+          } else {
+            // No access to the iotm, so set both preferences to false
+            Preferences.setBoolean(todayPref, false);
+            Preferences.setBoolean(alwaysPref, false);
+          }
+        });
   }
 
   public static final void parseInventory(final String responseText) {
