@@ -783,10 +783,7 @@ public class StringUtilities {
   public static final String basicTextWrap(String text) {
     return basicTextWrap(text, 80);
   }
-  /*
-  Overloaded to facilitate hand crafted test strings where it is easier to follow what is happening with
-  shorter strings
-   */
+
   public static final String basicTextWrap(String text, int breakPosition) {
 
     if (text == null) {
