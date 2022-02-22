@@ -2,12 +2,11 @@ package net.sourceforge.kolmafia.utilities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.util.ArrayList;
-import java.util.List;
 
 class StringUtilitiesTest {
   @Test
@@ -133,7 +132,7 @@ class StringUtilitiesTest {
   }
 
   @Test
-  public void itShouldTokenizeStringsUnderVariousConditions() {
+  public void itShouldTokenizeStringsWithDefaults() {
     // simple comma separated list
     String testString = "folder (cyan), folder (magenta), folder (yellow)";
     List<String> expected = new ArrayList<>();
@@ -144,21 +143,49 @@ class StringUtilitiesTest {
       List<String> result = StringUtilities.tokenizeString(testString);
       assertEquals(expected, result, "Lists are not the same.");
     } catch (Exception e) {
-      assertTrue(false, e.getMessage());
+      fail(e.getMessage());
     }
-    // with and without valid escape sequence
-    testString = "folder (cyan), folder \\magenta\\, folder (yellow)";
+  }
+
+  @Test
+  public void itShouldHandleGoodAndBadEscape() {
+    String testString = "a,\tb";
+    List<String> expected = new ArrayList<>();
+    expected.add("a");
+    expected.add("\tb");
+    try {
+      List<String> result = StringUtilities.tokenizeString(testString, ',', '\\', false);
+      assertEquals(expected, result, "Lists are not the same.");
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+    char[] test = new char[4];
+    test[0] = 'a';
+    test[1] = ',';
+    test[2] = '\\';
+    test[3] = 'g';
+    testString = String.valueOf(test);
     expected.clear();
-    expected.add("folder (cyan)");
-    expected.add("folder \\magenta\\");
-    expected.add("folder (yellow)");
+    expected.add("a");
+    expected.add("g");
     try {
       List<String> result = StringUtilities.tokenizeString(testString);
       assertEquals(expected, result, "Lists are not the same.");
     } catch (Exception e) {
-      assertTrue(false, e.getMessage());
+      fail(e.getMessage());
     }
-
-
+    test[2] = 'g';
+    test[3] = '\\';
+    testString = String.valueOf(test);
+    expected.clear();
+    expected.add("a");
+    expected.add("g");
+    try {
+      List<String> result = StringUtilities.tokenizeString(testString);
+      fail("Expected exception not thrown.");
+      assertEquals(expected, result, "Lists are not the same.");
+    } catch (Exception e) {
+      assertEquals("Invalid terminal escape", e.getMessage(), "Wrong exception.");
+    }
   }
 }
