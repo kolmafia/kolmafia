@@ -67,6 +67,9 @@ public class MallPriceManagerTest {
     public MockMallSearchRequest(
         final String searchString, final int cheapestCount, final List<PurchaseRequest> results) {
       super(searchString, cheapestCount, results, true);
+      if (results == null) {
+        this.setResults(new ArrayList<PurchaseRequest>());
+      }
     }
 
     public MockMallSearchRequest(final String category, final String tiers) {
@@ -107,6 +110,10 @@ public class MallPriceManagerTest {
               String searchString = (String) arguments[0];
               int cheapestCount = (int) arguments[1];
               List<PurchaseRequest> results = (List<PurchaseRequest>) arguments[2];
+              List<PurchaseRequest> requestResults = request.getResults();
+              if (requestResults != null) {
+                results.addAll(requestResults);
+              }
               request.setSearchString(searchString);
               request.setCheapestCount(cheapestCount);
               request.setResults(results);
@@ -256,13 +263,13 @@ public class MallPriceManagerTest {
 
   @Test
   public void canFlushPurchaseRequestsByItem() {
+    List<PurchaseRequest> results = new ArrayList<>();
+
+    // This is not available from an NPC store
+    int itemId = ItemPool.REAGENT;
+    AdventureResult item = ItemPool.get(itemId, 1);
+
     try (var cleanups = mockClock()) {
-      List<PurchaseRequest> results = new ArrayList<>();
-
-      // This is not available from an NPC store
-      int itemId = ItemPool.REAGENT;
-      AdventureResult item = ItemPool.get(itemId, 1);
-
       // Add 5 Mall stores that carry the item
       long timestamp = 1_000_000;
 
@@ -281,12 +288,23 @@ public class MallPriceManagerTest {
       List<PurchaseRequest> search = MallPriceManager.getSavedSearch(itemId, 1);
       assertNotNull(search);
 
+      // Verify that we have a saved "5th lowest" mall price
+      int price = MallPriceManager.getMallPrice(item);
+      assertEquals(500, price);
+
       // Flush the PurchaseRequests for this item
       MallPriceManager.flushCache(itemId);
 
       // Verify that there is no longer a saved mall search
       search = MallPriceManager.getSavedSearch(itemId, 0);
       assertNull(search);
+    }
+
+    // Verify that asking for price will do another mall search
+    MallSearchRequest request = new MockMallSearchRequest(item.getName(), 0, results);
+    try (var cleanups = mockMallSearchRequest(request)) {
+      int price = MallPriceManager.getMallPrice(item);
+      assertEquals(500, price);
     }
   }
 
@@ -333,9 +351,6 @@ public class MallPriceManagerTest {
       // Advance time such that the timestamp is now 5 seconds stale :)
       long now = timestamp + (MallPriceManager.MALL_SEARCH_FRESHNESS + 5) * 1000;
       Mockito.when(clock.millis()).thenReturn(now);
-
-      // Flush the PurchaseRequests that are more than 15 seconds old
-      MallPriceManager.flushCache();
 
       // Verify that there is no longer a saved mall search
       search = MallPriceManager.getSavedSearch(itemId, 0);
