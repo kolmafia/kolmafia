@@ -349,24 +349,7 @@ public class MallPriceManagerTest {
   }
 
   @Test
-  public void canGetMallPricesByCategory() throws IOException {
-    // Test with category = "unlockers" since that only has two pages of results
-    MallSearchRequest request = new MockMallSearchRequest("unlockers", "");
-    request.setResponseTexts(
-        loadHTMLResponse("request/test_mall_search_unlockers_page_1.html"),
-        loadHTMLResponse("request/test_mall_search_unlockers_page_2.html"));
-
-    try (var cleanups = mockMallSearchRequest(request)) {
-      // MallSearchRequest will accumulate all of the PurchaseRequests seen on
-      // all responseTexts into the "results" field of the request.
-      // It will then update prices and return how many
-      int count = MallPriceManager.getMallPrices("unlockers", "");
-      assertEquals(count, 32);
-    }
-  }
-
-  @Test
-  public void canGetMallPricesByCategoryViaMallSearch() throws IOException {
+  public void canGetMallPricesViaMallSearch() throws IOException {
 
     // Test with Hell ramen.
     AdventureResult item = ItemPool.get(ItemPool.HELL_RAMEN);
@@ -381,6 +364,23 @@ public class MallPriceManagerTest {
 
       // The MallSearchRequest found a bunch of PurchaseRequests from the responseText
       assertEquals(results.size(), 60);
+    }
+  }
+
+  @Test
+  public void canGetMallPricesByCategory() throws IOException {
+    // Test with category = "unlockers" since that only has two pages of results
+    MallSearchRequest request = new MockMallSearchRequest("unlockers", "");
+    request.setResponseTexts(
+        loadHTMLResponse("request/test_mall_search_unlockers_page_1.html"),
+        loadHTMLResponse("request/test_mall_search_unlockers_page_2.html"));
+
+    try (var cleanups = mockMallSearchRequest(request)) {
+      // MallSearchRequest will accumulate all of the PurchaseRequests seen on
+      // all responseTexts into the "results" field of the request.
+      // It will then update prices and return how many
+      int count = MallPriceManager.getMallPrices("unlockers", "");
+      assertEquals(count, 32);
     }
   }
 }

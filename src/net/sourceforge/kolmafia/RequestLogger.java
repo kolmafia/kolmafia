@@ -1162,6 +1162,12 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    if ((request instanceof MallSearchRequest || isExternal)
+        && MallSearchRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = true;
+      return;
+    }
+
     if ((request instanceof ManageStoreRequest || isExternal)
         && ManageStoreRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
