@@ -73,7 +73,7 @@ class StringUtilitiesTest {
     "'12 45', '12\n45'",
     "'1 3 5 7 9 1', '1 3 5\n7 9\n1'",
     "'1 2  \n  4 5\n 6 \n', '1 2\n4 5\n6'",
-    "'1234 67', '1234\n67'",
+    "'1234 67', '1234\n67'"
   })
   public void exerciseTextWrapWithShortWrapLength(String input, String expected) {
     assertEquals(expected, StringUtilities.basicTextWrap(input, 5));
@@ -125,7 +125,7 @@ class StringUtilitiesTest {
     "'123]', '123]'",
     "'123', '123'",
     "'[123]unreal item', 'unreal item'",
-    "'[1337]2468 goggles', '2468 goggles'",
+    "'[1337]2468 goggles', '2468 goggles'"
   })
   public void itShouldExerciseRemoveBracketedID(String name, String id) {
     assertEquals(id, StringUtilities.removeBracketedId(name));
@@ -223,7 +223,8 @@ class StringUtilitiesTest {
     "'not a title', 'Not A Title'",
     "'nOt a tItLe', 'Not A Title'",
     "'123NotmE yet', '123Notme Yet'",
-    "'123NotmE     yet     ', '123Notme     Yet     '"
+    "'123NotmE     yet     ', '123Notme     Yet     '",
+    "'123 456', '123 456'"
   })
   public void itShouldConvertToTitleCase(String input, String expected) {
     assertEquals(expected, StringUtilities.toTitleCase(input));
