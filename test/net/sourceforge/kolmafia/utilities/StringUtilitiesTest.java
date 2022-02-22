@@ -183,9 +183,49 @@ class StringUtilitiesTest {
     try {
       List<String> result = StringUtilities.tokenizeString(testString);
       fail("Expected exception not thrown.");
-      assertEquals(expected, result, "Lists are not the same.");
     } catch (Exception e) {
       assertEquals("Invalid terminal escape", e.getMessage(), "Wrong exception.");
     }
+  }
+
+  @Test
+  public void itShouldHandleParameterVariations() {
+    String testString = "first, second\\, and third";
+    List<String> expected = new ArrayList<>();
+    expected.add("first");
+    expected.add("second, and third");
+    try {
+      List<String> result = StringUtilities.tokenizeString(testString);
+      assertEquals(expected, result, "Lists are not the same.");
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+    testString = "first : second, and third";
+    try {
+      List<String> result = StringUtilities.tokenizeString(testString, ':');
+      assertEquals(expected, result, "Lists are not the same.");
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+    expected.clear();
+    expected.add("first ");
+    expected.add(" second, and third");
+    try {
+      List<String> result = StringUtilities.tokenizeString(testString, ':', '\\', false);
+      assertEquals(expected, result, "Lists are not the same.");
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "'not a title', 'Not A Title'",
+    "'nOt a tItLe', 'Not A Title'",
+    "'123NotmE yet', '123Notme Yet'",
+    "'123NotmE     yet     ', '123Notme     Yet     '"
+  })
+  public void itShouldConvertToTitleCase(String input, String expected) {
+    assertEquals(expected, StringUtilities.toTitleCase(input));
   }
 }
