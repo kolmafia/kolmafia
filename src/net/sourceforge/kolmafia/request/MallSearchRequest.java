@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -581,5 +582,93 @@ public class MallSearchRequest extends GenericRequest {
           matcher.start() + nobuyersMatcher.end(),
           buyers);
     }
+  }
+
+  private static String tierName(int tier) {
+    switch (tier) {
+      case 1:
+        return "crappy";
+      case 2:
+        return "decent";
+      case 3:
+        return "good";
+      case 4:
+        return "awesome";
+      case 5:
+        return "EPIC";
+      default:
+        return "???";
+    }
+  }
+
+  private static String extractTiers(String urlString) {
+    StringBuilder tiers = new StringBuilder();
+    for (int i = 1; i <= 5; ++i) {
+      String name = "consumable_tier_" + i;
+      String field = GenericRequest.extractValueOrDefault(urlString, name, "0");
+      if (!field.equals("0")) {
+        tiers.append(tiers.length() == 0 ? "[" : ", ");
+        tiers.append(tierName(i));
+      }
+    }
+    if (tiers.length() > 0) {
+      tiers.append("]");
+    }
+    return tiers.toString();
+  }
+
+  public static boolean registerRequest(final String urlString) {
+
+    // mallstore.php?whichstore=294980
+    // Without buying=1, this is a search, not a purchase
+    if (urlString.startsWith("mallstore.php")) {
+      // It's a purchase. Defer to MallPurchaseRequest
+      if (urlString.contains("buying=1")) {
+        return false;
+      }
+
+      int shopId = MallPurchaseRequest.getStoreId(urlString);
+      String storeName = shopId != -1 ? ("shop #" + shopId) : "a PC store";
+
+      String message = "mallsearch " + storeName;
+      RequestLogger.updateSessionLog(message);
+      return true;
+    }
+
+    if (!urlString.startsWith("mall.php")) {
+      return false;
+    }
+
+    StringBuilder message = new StringBuilder();
+    message.append("mallsearch ");
+
+    String searchString =
+        GenericRequest.decodeField(GenericRequest.extractValueOrDefault(urlString, "pudnuggler"));
+    String category = GenericRequest.extractValueOrDefault(urlString, "category");
+    String start = GenericRequest.extractValueOrDefault(urlString, "start");
+    int page = start.equals("") ? 1 : (Integer.parseInt(start) / 30 + 1);
+
+    if (searchString.equals("")) {
+      message.append("category ");
+      message.append(category);
+    } else {
+      message.append(searchString);
+    }
+
+    String tiers = MallSearchRequest.extractTiers(urlString);
+    if (!tiers.equals("")) {
+      message.append(" ");
+      message.append(tiers);
+    }
+
+    if (page > 1) {
+      message.append(" (page ");
+      message.append(page);
+      message.append(")");
+    }
+
+    RequestLogger.updateSessionLog(message.toString());
+
+    return true;
   }
 }
