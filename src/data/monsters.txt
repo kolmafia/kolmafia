@@ -1560,7 +1560,7 @@ Cookie Cutter of Loneliness	1296	pa_cutter.gif	Atk: 10 Def: 10 HP: 12 Init: 50 P
 Creme Brulee Torch of Fury	1297	pa_torch.gif	Atk: 12 Def: 8 HP: 12 Init: 50 E: hot P: weird	Artist's Cr&egrave;me Brul&eacute;e Torch of Fury (0)
 bag of Potatoes of Security	1300	pa_potatoes.gif	NOCOPY Atk: 30 Def: 100 HP: 100 Init: 100 P: weird
 box of Batter Mix of Hope	1302	pa_muffin.gif	NOCOPY Atk: 30 Def: 100 HP: 100 Init: 100 P: weird
-carton of Eggs of Confidence	1298	NOCOPY pa_eggs.gif	Atk: 30 Def: 100 HP: 100 Init: 100 P: weird
+carton of Eggs of Confidence	1298	pa_eggs.gif	NOCOPY Atk: 30 Def: 100 HP: 100 Init: 100 P: weird
 loaf of Bread of Wonder	1299	pa_bread.gif	NOCOPY Atk: 30 Def: 100 HP: 100 Init: 100 P: weird
 bundle of Meat of Happiness	1301	pa_meat.gif	NOCOPY Atk: 30 Def: 100 HP: 100 Init: 100 Meat: 100 P: weird	the kindest cold cut (c0)
 groast	1289	groast.gif	Atk: 200 Def: 200 HP: 300 Init: 50 E: spooky P: undead Meat: 250	ectoplasm <i>au jus</i> (c0)
