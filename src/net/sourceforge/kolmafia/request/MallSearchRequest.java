@@ -315,6 +315,23 @@ public class MallSearchRequest extends GenericRequest {
     return true;
   }
 
+  private static final Pattern FAVORITES_PATTERN =
+      Pattern.compile("&action=unfave&whichstore=(\\d+)\">");
+
+  private void searchFavoriteStores() {
+    MallSearchRequest individualStore;
+    Matcher storeMatcher = MallSearchRequest.FAVORITES_PATTERN.matcher(this.responseText);
+
+    int lastFindIndex = 0;
+    while (storeMatcher.find(lastFindIndex)) {
+      lastFindIndex = storeMatcher.end();
+      individualStore = new MallSearchRequest(StringUtilities.parseInt(storeMatcher.group(1)));
+      individualStore.run();
+
+      this.results.addAll(individualStore.results);
+    }
+  }
+
   private static final Pattern STOREID_PATTERN = Pattern.compile("<b>(.*?) \\(<a.*?who=(\\d+)\"");
   private static final Pattern STOREPRICE_PATTERN =
       Pattern.compile("radio value=(\\d+).*?<b>(.*?)</b> \\(([\\d,]+)\\)(.*?)</td>");
@@ -354,23 +371,6 @@ public class MallSearchRequest extends GenericRequest {
       int price = StringUtilities.parseInt(priceId.substring(priceId.length() - 9));
       this.results.add(
           new MallPurchaseRequest(itemId, quantity, shopId, shopName, price, limit, true));
-    }
-  }
-
-  private static final Pattern FAVORITES_PATTERN =
-      Pattern.compile("&action=unfave&whichstore=(\\d+)\">");
-
-  private void searchFavoriteStores() {
-    MallSearchRequest individualStore;
-    Matcher storeMatcher = MallSearchRequest.FAVORITES_PATTERN.matcher(this.responseText);
-
-    int lastFindIndex = 0;
-    while (storeMatcher.find(lastFindIndex)) {
-      lastFindIndex = storeMatcher.end();
-      individualStore = new MallSearchRequest(StringUtilities.parseInt(storeMatcher.group(1)));
-      individualStore.run();
-
-      this.results.addAll(individualStore.results);
     }
   }
 
