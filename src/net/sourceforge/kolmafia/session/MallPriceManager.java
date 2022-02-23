@@ -108,7 +108,7 @@ public abstract class MallPriceManager {
 
   public static MallSearchRequest newMallSearchRequest(
       String searchString, int maximumResults, List<PurchaseRequest> results) {
-    return new MallSearchRequest(searchString, maximumResults, results, true);
+    return new MallSearchRequest(searchString, maximumResults, results);
   }
 
   // A Mall search in which you supply:
@@ -237,13 +237,7 @@ public abstract class MallPriceManager {
       return null;
     }
 
-    if (results.size() == 0) {
-      // Nothing found last time we looked
-      MallPriceManager.mallSearches.remove(id);
-      return null;
-    }
-
-    if (MallPriceManager.searchIsTooOld(results)) {
+    if (results.size() == 0 || MallPriceManager.searchIsTooOld(results)) {
       // Not current
       MallPriceManager.mallSearches.remove(id);
       return null;

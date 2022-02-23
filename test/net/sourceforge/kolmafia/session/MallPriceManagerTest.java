@@ -66,10 +66,8 @@ public class MallPriceManagerTest {
 
     public MockMallSearchRequest(
         final String searchString, final int cheapestCount, final List<PurchaseRequest> results) {
-      super(searchString, cheapestCount, results, true);
-      if (results == null) {
-        this.setResults(new ArrayList<PurchaseRequest>());
-      }
+      super(searchString, cheapestCount);
+      this.setResults(results == null ? new ArrayList<PurchaseRequest>() : results);
     }
 
     public MockMallSearchRequest(final String category, final String tiers) {
@@ -110,10 +108,9 @@ public class MallPriceManagerTest {
               String searchString = (String) arguments[0];
               int cheapestCount = (int) arguments[1];
               List<PurchaseRequest> results = (List<PurchaseRequest>) arguments[2];
-              List<PurchaseRequest> requestResults = request.getResults();
-              if (requestResults != null) {
-                results.addAll(requestResults);
-              }
+              // Caller will supply empty results. If mocked request has
+              // preloaded results, hand them over.
+              results.addAll(request.getResults());
               request.setSearchString(searchString);
               request.setCheapestCount(cheapestCount);
               request.setResults(results);
@@ -258,6 +255,12 @@ public class MallPriceManagerTest {
       // Find the fifth cheapest price
       mallPrice = MallPriceManager.getMallPrice(item);
       assertEquals(mallPrice, 500);
+
+      // *** Need to test flushing last shop with a purchase request
+      // *** Need to test flushing all items for a shop
+      // MallPriceManager.flushCache(-1, shopId);
+      // *** Need to test flushing shop with no purchase requests
+      //     Both when flushing single item or all items
     }
   }
 
@@ -357,6 +360,8 @@ public class MallPriceManagerTest {
       assertNull(search);
     }
   }
+
+  // *** Need tests for getMallPrice(AdventureResult item, float maxAge)
 
   static String loadHTMLResponse(String path) throws IOException {
     // Load the responseText from saved HTML file
