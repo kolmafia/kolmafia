@@ -229,4 +229,25 @@ class StringUtilitiesTest {
   public void itShouldConvertToTitleCase(String input, String expected) {
     assertEquals(expected, StringUtilities.toTitleCase(input));
   }
+
+  @ParameterizedTest
+  @CsvSource({
+    "'No prepositions here.', 'No prepositions here.'",
+    "'Afterwards, he walked behind her.', 'Afterwards, he walked behind her.'"
+  })
+  public void itShouldLookupPrepositions(String input, String expected) {
+    assertEquals(expected, StringUtilities.lookupPrepositions(input));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+          "'No prepositions here.', 'No prepositions here.'",
+          "'Afterwards, he walked behind her.', 'Afterwards, he walked behind her.'",
+          "' before ', ' @before '"
+  })
+  public void itShouldRegisterPrepositions(String input, String expected) {
+    StringUtilities.registerPrepositions(input);
+    assertEquals(expected, input);
+  }
+
 }
