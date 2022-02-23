@@ -64,10 +64,17 @@ public class MallPriceManagerTest {
 
     private String[] responseTexts = null;
 
+    public MockMallSearchRequest(final int storeId) {
+      super(storeId);
+    }
+
+    public MockMallSearchRequest(final String searchString, final int cheapestCount) {
+      super(searchString, cheapestCount);
+    }
+
     public MockMallSearchRequest(
         final String searchString, final int cheapestCount, final List<PurchaseRequest> results) {
-      super(searchString, cheapestCount);
-      this.setResults(results == null ? new ArrayList<PurchaseRequest>() : results);
+      super(searchString, cheapestCount, results);
     }
 
     public MockMallSearchRequest(final String category, final String tiers) {
@@ -376,7 +383,7 @@ public class MallPriceManagerTest {
 
     // Make a mocked MallSearchResponse with the responseText preloaded
 
-    MallSearchRequest request = new MockMallSearchRequest("Hell ramen", 0, null);
+    MallSearchRequest request = new MockMallSearchRequest("Hell ramen", 0);
     request.responseText = loadHTMLResponse("request/test_mall_search_hell_ramen.html");
 
     try (var cleanups = mockMallSearchRequest(request)) {
@@ -402,5 +409,20 @@ public class MallPriceManagerTest {
       int count = MallPriceManager.getMallPrices("unlockers", "");
       assertEquals(count, 32);
     }
+  }
+
+  @Test
+  public void canSearchMallStore() throws IOException {
+    // Not actually used in MallPriceManager, but may as well test the fourth (last) form of a
+    // MallSearchRequest
+
+    // This is Clerk's - one of the bigger stores. :)
+    MallSearchRequest request = new MockMallSearchRequest(1053259);
+    request.setResponseTexts(loadHTMLResponse("request/test_mall_search_store.html"));
+    // Process the response text into PurchaseRequests
+    request.run();
+
+    List<PurchaseRequest> results = request.getResults();
+    assertEquals(4521, results.size());
   }
 }
