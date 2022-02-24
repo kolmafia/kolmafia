@@ -206,8 +206,6 @@ public abstract class MallPriceManager {
     List<PurchaseRequest> search = MallPriceManager.mallSearches.get(itemId);
     if (search != null) {
       MallPriceManager.mallSearches.remove(itemId);
-      // *** Previous code had this. Really?
-      // MallPriceManager.updateMallPrice(ItemPool.get(itemId), search);
       MallPriceManager.mallPrices.put(itemId, 0);
     }
   }
@@ -216,10 +214,10 @@ public abstract class MallPriceManager {
     if (search == null || search.size() == 0) {
       return true;
     }
-    long t1 = MallPriceManager.currentTimeMillis();
-    long t0 = t1 - MALL_SEARCH_FRESHNESS * 1000;
+    long now = MallPriceManager.currentTimeMillis();
+    long freshnessLimit = now - MALL_SEARCH_FRESHNESS * 1000;
     long t = search.get(0).getTimestamp();
-    return (t < t0 || t > t1);
+    return (t < freshnessLimit);
   }
 
   // For testing

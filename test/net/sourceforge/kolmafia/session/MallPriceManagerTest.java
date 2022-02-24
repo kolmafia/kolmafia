@@ -396,6 +396,8 @@ public class MallPriceManagerTest {
 
       // Verify that asking for price will do another mall search
       price = MallPriceManager.getMallPrice(item);
+      search = MallPriceManager.getSavedSearch(itemId, 0);
+      assertNotNull(search);
       assertEquals(500, price);
     }
   }
@@ -501,19 +503,22 @@ public class MallPriceManagerTest {
 
   @Test
   public void canSearchMallStore() throws IOException {
-    // Not actually used in MallPriceManager, but may as well test the fourth (last) form of a
-    // MallSearchRequest
+    // Not actually used in MallPriceManager, but may as well test the fourth
+    // (last) form of a MallSearchRequest
 
     // This is Clerk's - one of the bigger stores. :)
     MallSearchRequest request = new MockMallSearchRequest(1053259);
     request.setResponseTexts(loadHTMLResponse("request/test_mall_search_store.html"));
-    long timestamp = 1_000_000;
-    Mockito.when(clock.millis()).thenReturn(timestamp);
 
-    // Process the response text into PurchaseRequests
-    request.run();
+    try (var cleanups = mockMallSearchRequest(request)) {
+      long timestamp = 1_000_000;
+      Mockito.when(clock.millis()).thenReturn(timestamp);
 
-    List<PurchaseRequest> results = request.getResults();
-    assertEquals(4521, results.size());
+      // Process the response text into PurchaseRequests
+      request.run();
+
+      List<PurchaseRequest> results = request.getResults();
+      assertEquals(4521, results.size());
+    }
   }
 }

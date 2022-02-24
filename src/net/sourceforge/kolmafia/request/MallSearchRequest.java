@@ -233,9 +233,6 @@ public class MallSearchRequest extends GenericRequest {
     // If an exact match, we can think about updating mall_price().
     if (this.searchString.startsWith("\"") && this.results.size() > 0) {
       AdventureResult item = this.results.get(0).getItem();
-      // This was "maybe" updateMallPrice - i.e., only do so if there is not
-      // already a saved price from a previous search in this session. I can't
-      // see why that should make the search more trustworthy.
       MallPriceManager.updateMallPrice(item, new ArrayList<PurchaseRequest>(this.results));
     }
 
