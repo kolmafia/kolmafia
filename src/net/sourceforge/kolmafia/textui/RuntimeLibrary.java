@@ -5144,7 +5144,7 @@ public abstract class RuntimeLibrary {
     if (checkPrice < (2 * ItemDatabase.getPriceById(itemID))) return DataTypes.FALSE_VALUE;
     // get some data
     SortedListModel<PurchaseRequest> results = new SortedListModel<PurchaseRequest>();
-    MallSearchRequest msr = new MallSearchRequest(item, 20, results, false);
+    MallSearchRequest msr = new MallSearchRequest(item, 20, results);
     msr.run();
     // Now iterate over results
     // Assume sorted by price so can bail at first failure
