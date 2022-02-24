@@ -415,13 +415,6 @@ public abstract class MallPriceManager {
     }
   }
 
-  public static final void maybeUpdateMallPrice(
-      final AdventureResult item, final List<PurchaseRequest> results) {
-    if (MallPriceManager.mallPrices.getOrDefault(item.getItemId(), 0) == 0) {
-      MallPriceManager.updateMallPrice(item, results);
-    }
-  }
-
   public static final int updateMallPrice(
       final AdventureResult item, final List<PurchaseRequest> results) {
     return MallPriceManager.updateMallPrice(item, results, false);
@@ -432,7 +425,7 @@ public abstract class MallPriceManager {
     if (item.getItemId() < 1) {
       return 0;
     }
-    int price = -1;
+    int price = 0;
     int qty = NTH_CHEAPEST_PRICE;
     for (PurchaseRequest req : results) {
       if (req instanceof CoinMasterPurchaseRequest || !req.canPurchaseIgnoringMeat()) {
@@ -444,6 +437,9 @@ public abstract class MallPriceManager {
         break;
       }
     }
+
+    // Note that if qty > 0, we went through the entire list of results but did
+    // not find 5 items for sale. We'll save the highest price we saw, if so.
     MallPriceManager.mallPrices.put(item.getItemId(), price);
     if (price > 0) {
       MallPriceDatabase.recordPrice(item.getItemId(), price, deferred);
