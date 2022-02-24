@@ -343,7 +343,7 @@ public class MallPriceManagerTest {
       MallPriceManager.flushCache(itemId1, shopId2);
       assertNull(MallPriceManager.getSavedSearch(itemId1, 1));
 
-      // Test flushing all malll prices for a shop
+      // Test flushing all mall prices for a shop
       MallPriceManager.flushCache(-1, shopId1);
 
       // Verify that item2 and item3 have saved mall searches without shop1
