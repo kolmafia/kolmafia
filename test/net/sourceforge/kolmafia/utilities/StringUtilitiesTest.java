@@ -2,8 +2,7 @@ package net.sourceforge.kolmafia.utilities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -230,24 +229,24 @@ class StringUtilitiesTest {
     assertEquals(expected, StringUtilities.toTitleCase(input));
   }
 
-  @ParameterizedTest
-  @CsvSource({
-    "'No prepositions here.', 'No prepositions here.'",
-    "'Afterwards, he walked behind her.', 'Afterwards, he walked behind her.'"
-  })
-  public void itShouldLookupPrepositions(String input, String expected) {
-    assertEquals(expected, StringUtilities.lookupPrepositions(input));
+  @Test
+  public void itShouldRegisterAndReplacePrepositions() {
+    List<String> inputs = new ArrayList<>();
+    inputs.add("No prepositions here.");
+    inputs.add("Afterwards, he walked behind her.");
+    inputs.add("They were leaning, across the street and against the wall.");
+    for (String input : inputs) {
+      StringUtilities.registerPrepositions(input);
+    }
+    Map<String, String> prepMap = StringUtilities.getCopyOfPrepositionsMap();
+    Map<String, String> expected = new HashMap<>();
+    expected.put("Afterwards, he walked @ her.", "Afterwards, he walked behind her.");
+    expected.put(
+        "They were leaning, @ the street and @ the wall.",
+        "They were leaning, across the street and against the wall.");
+    assertEquals(expected, prepMap);
+    String test = "They were leaning, beyond the street and by the wall.";
+    String returned = StringUtilities.lookupPrepositions(test);
+    assertEquals("They were leaning, across the street and against the wall.", returned);
   }
-
-  @ParameterizedTest
-  @CsvSource({
-          "'No prepositions here.', 'No prepositions here.'",
-          "'Afterwards, he walked behind her.', 'Afterwards, he walked behind her.'",
-          "' before ', ' @before '"
-  })
-  public void itShouldRegisterPrepositions(String input, String expected) {
-    StringUtilities.registerPrepositions(input);
-    assertEquals(expected, input);
-  }
-
 }
