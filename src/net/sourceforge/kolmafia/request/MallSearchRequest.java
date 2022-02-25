@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -16,32 +17,10 @@ import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallSearchRequest extends GenericRequest {
-  private static final Pattern FAVORITES_PATTERN =
-      Pattern.compile("&action=unfave&whichstore=(\\d+)\">");
-  private static final Pattern STOREID_PATTERN = Pattern.compile("<b>(.*?) \\(<a.*?who=(\\d+)\"");
-  private static final Pattern STORELIMIT_PATTERN = Pattern.compile("Limit ([\\d,]+) /");
-  private static final Pattern STOREPRICE_PATTERN =
-      Pattern.compile("radio value=(\\d+).*?<b>(.*?)</b> \\(([\\d,]+)\\)(.*?)</td>");
-  private static final Pattern ITEMDETAIL_PATTERN =
-      Pattern.compile(
-          "<table class=\"itemtable\".*?item_(\\d+).*?descitem\\((\\d+)\\).*?<a[^>]*>(.*?)</a>(.*?)</table>");
-  private static final Pattern STOREDETAIL_PATTERN =
-      Pattern.compile("<tr class=\"graybelow.+?</tr>");
-
-  private static final Pattern LISTQUANTITY_PATTERN = Pattern.compile("stock\">([\\d,]+)<");
-  private static final Pattern LISTLIMIT_PATTERN =
-      Pattern.compile("([\\d,]+)\\&nbsp;\\/\\&nbsp;day");
-  private static final Pattern LISTDETAIL_PATTERN =
-      Pattern.compile("whichstore=(\\d+)\\&searchitem=(\\d+)\\&searchprice=(\\d+)\"><b>(.*?)</b>");
-
-  // (Items 1-10 of 45)
-  private static final Pattern ITERATION_PATTERN =
-      Pattern.compile("\\(Items (\\d+)-(\\d+) of (\\d+)\\)");
 
   private String searchString;
   private final int storeId;
   private List<PurchaseRequest> results;
-  private final boolean retainAll;
 
   public MallSearchRequest(final int storeId) {
     super("mallstore.php");
@@ -50,7 +29,10 @@ public class MallSearchRequest extends GenericRequest {
     this.searchString = "";
     this.storeId = storeId;
     this.results = new ArrayList<PurchaseRequest>();
-    this.retainAll = true;
+  }
+
+  public MallSearchRequest(final String searchString, final int cheapestCount) {
+    this(searchString, cheapestCount, new ArrayList<PurchaseRequest>());
   }
 
   /**
@@ -61,19 +43,14 @@ public class MallSearchRequest extends GenericRequest {
    * @param searchString The string (including wildcards) for the item to be found
    * @param cheapestCount The number of stores to show; use a non-positive number to show all
    * @param results The list in which to store the results
-   * @param retainAll Whether the result list should be cleared before searching
    */
   public MallSearchRequest(
-      final String searchString,
-      final int cheapestCount,
-      final List<PurchaseRequest> results,
-      final boolean retainAll) {
+      final String searchString, final int cheapestCount, final List<PurchaseRequest> results) {
     super("mall.php");
 
     this.searchString = searchString == null ? "" : searchString.trim();
     this.storeId = 0;
     this.results = results;
-    this.retainAll = retainAll;
 
     this.addFormField("pudnuggler", this.searchString);
     this.addFormField("category", "allitems");
@@ -94,7 +71,6 @@ public class MallSearchRequest extends GenericRequest {
     this.searchString = "";
     this.storeId = 0;
     this.results = new ArrayList<PurchaseRequest>();
-    this.retainAll = true;
 
     this.addFormField("pudnuggler", this.searchString);
     this.addFormField("category", category);
@@ -192,12 +168,16 @@ public class MallSearchRequest extends GenericRequest {
    * will be notified. Otherwise, all items are stored inside of the results list. Note also that
    * the results will be cleared before being stored.
    */
+
+  // (Items 1-10 of 45)
+  private static final Pattern ITERATION_PATTERN =
+      Pattern.compile("\\(Items (\\d+)-(\\d+) of (\\d+)\\)");
+
   @Override
   public void run() {
     boolean items;
     if (this.searchString.length() == 0) {
-      KoLmafia.updateDisplay(
-          this.retainAll ? "Scanning store inventories..." : "Looking up favorite stores list...");
+      KoLmafia.updateDisplay("Scanning store inventories...");
       items = false;
     } else {
       // If only NPC items, no mall search needed
@@ -253,7 +233,7 @@ public class MallSearchRequest extends GenericRequest {
     // If an exact match, we can think about updating mall_price().
     if (this.searchString.startsWith("\"") && this.results.size() > 0) {
       AdventureResult item = this.results.get(0).getItem();
-      MallPriceManager.maybeUpdateMallPrice(item, new ArrayList<PurchaseRequest>(this.results));
+      MallPriceManager.updateMallPrice(item, new ArrayList<PurchaseRequest>(this.results));
     }
 
     KoLmafia.updateDisplay("Search complete.");
@@ -335,57 +315,75 @@ public class MallSearchRequest extends GenericRequest {
     return true;
   }
 
-  private void searchStore() {
-    Pattern mangledEntityPattern = Pattern.compile("\\s+;");
+  private static final Pattern FAVORITES_PATTERN =
+      Pattern.compile("&action=unfave&whichstore=(\\d+)\">");
 
-    if (this.retainAll) {
-      Matcher shopMatcher = MallSearchRequest.STOREID_PATTERN.matcher(this.responseText);
-      if (!shopMatcher.find()) {
-        return; // no mall store
-      }
+  private void searchFavoriteStores() {
+    MallSearchRequest individualStore;
+    Matcher storeMatcher = MallSearchRequest.FAVORITES_PATTERN.matcher(this.responseText);
 
-      int shopId = StringUtilities.parseInt(shopMatcher.group(2));
+    int lastFindIndex = 0;
+    while (storeMatcher.find(lastFindIndex)) {
+      lastFindIndex = storeMatcher.end();
+      individualStore = new MallSearchRequest(StringUtilities.parseInt(storeMatcher.group(1)));
+      individualStore.run();
 
-      // Handle character entities mangled by KoL.
-
-      String shopName = mangledEntityPattern.matcher(shopMatcher.group(1)).replaceAll(";");
-
-      int lastFindIndex = 0;
-      Matcher priceMatcher = MallSearchRequest.STOREPRICE_PATTERN.matcher(this.responseText);
-
-      while (priceMatcher.find(lastFindIndex)) {
-        lastFindIndex = priceMatcher.end();
-        String priceId = priceMatcher.group(1);
-
-        String itemName = priceMatcher.group(2);
-
-        int itemId = StringUtilities.parseInt(priceId.substring(0, priceId.length() - 9));
-        int quantity = StringUtilities.parseInt(priceMatcher.group(3));
-        int limit = quantity;
-
-        Matcher limitMatcher = MallSearchRequest.STORELIMIT_PATTERN.matcher(priceMatcher.group(4));
-        if (limitMatcher.find()) {
-          limit = StringUtilities.parseInt(limitMatcher.group(1));
-        }
-
-        int price = StringUtilities.parseInt(priceId.substring(priceId.length() - 9));
-        this.results.add(
-            new MallPurchaseRequest(itemId, quantity, shopId, shopName, price, limit, true));
-      }
-    } else {
-      MallSearchRequest individualStore;
-      Matcher storeMatcher = MallSearchRequest.FAVORITES_PATTERN.matcher(this.responseText);
-
-      int lastFindIndex = 0;
-      while (storeMatcher.find(lastFindIndex)) {
-        lastFindIndex = storeMatcher.end();
-        individualStore = new MallSearchRequest(StringUtilities.parseInt(storeMatcher.group(1)));
-        individualStore.run();
-
-        this.results.addAll(individualStore.results);
-      }
+      this.results.addAll(individualStore.results);
     }
   }
+
+  private static final Pattern STOREID_PATTERN = Pattern.compile("<b>(.*?) \\(<a.*?who=(\\d+)\"");
+  private static final Pattern STOREPRICE_PATTERN =
+      Pattern.compile("radio value=(\\d+).*?<b>(.*?)</b> \\(([\\d,]+)\\)(.*?)</td>");
+  private static final Pattern STORELIMIT_PATTERN = Pattern.compile("Limit ([\\d,]+) /");
+  private static final Pattern mangledEntityPattern = Pattern.compile("\\s+;");
+
+  private void searchStore() {
+    Matcher shopMatcher = MallSearchRequest.STOREID_PATTERN.matcher(this.responseText);
+    if (!shopMatcher.find()) {
+      return; // no mall store
+    }
+
+    int shopId = StringUtilities.parseInt(shopMatcher.group(2));
+
+    // Handle character entities mangled by KoL.
+
+    String shopName = mangledEntityPattern.matcher(shopMatcher.group(1)).replaceAll(";");
+
+    int lastFindIndex = 0;
+    Matcher priceMatcher = MallSearchRequest.STOREPRICE_PATTERN.matcher(this.responseText);
+
+    while (priceMatcher.find(lastFindIndex)) {
+      lastFindIndex = priceMatcher.end();
+      String priceId = priceMatcher.group(1);
+
+      String itemName = priceMatcher.group(2);
+
+      int itemId = StringUtilities.parseInt(priceId.substring(0, priceId.length() - 9));
+      int quantity = StringUtilities.parseInt(priceMatcher.group(3));
+      int limit = quantity;
+
+      Matcher limitMatcher = MallSearchRequest.STORELIMIT_PATTERN.matcher(priceMatcher.group(4));
+      if (limitMatcher.find()) {
+        limit = StringUtilities.parseInt(limitMatcher.group(1));
+      }
+
+      int price = StringUtilities.parseInt(priceId.substring(priceId.length() - 9));
+      this.results.add(
+          new MallPurchaseRequest(itemId, quantity, shopId, shopName, price, limit, true));
+    }
+  }
+
+  private static final Pattern ITEMDETAIL_PATTERN =
+      Pattern.compile(
+          "<table class=\"itemtable\".*?item_(\\d+).*?descitem\\((\\d+)\\).*?<a[^>]*>(.*?)</a>(.*?)</table>");
+  private static final Pattern STOREDETAIL_PATTERN =
+      Pattern.compile("<tr class=\"graybelow.+?</tr>");
+  private static final Pattern LISTQUANTITY_PATTERN = Pattern.compile("stock\">([\\d,]+)<");
+  private static final Pattern LISTLIMIT_PATTERN =
+      Pattern.compile("([\\d,]+)\\&nbsp;\\/\\&nbsp;day");
+  private static final Pattern LISTDETAIL_PATTERN =
+      Pattern.compile("whichstore=(\\d+)\\&searchitem=(\\d+)\\&searchprice=(\\d+)\"><b>(.*?)</b>");
 
   private void searchMall() {
     List<String> itemNames =
@@ -581,5 +579,93 @@ public class MallSearchRequest extends GenericRequest {
           matcher.start() + nobuyersMatcher.end(),
           buyers);
     }
+  }
+
+  private static String tierName(int tier) {
+    switch (tier) {
+      case 1:
+        return "crappy";
+      case 2:
+        return "decent";
+      case 3:
+        return "good";
+      case 4:
+        return "awesome";
+      case 5:
+        return "EPIC";
+      default:
+        return "???";
+    }
+  }
+
+  private static String extractTiers(String urlString) {
+    StringBuilder tiers = new StringBuilder();
+    for (int i = 1; i <= 5; ++i) {
+      String name = "consumable_tier_" + i;
+      String field = GenericRequest.extractValueOrDefault(urlString, name, "0");
+      if (!field.equals("0")) {
+        tiers.append(tiers.length() == 0 ? "[" : ", ");
+        tiers.append(tierName(i));
+      }
+    }
+    if (tiers.length() > 0) {
+      tiers.append("]");
+    }
+    return tiers.toString();
+  }
+
+  public static boolean registerRequest(final String urlString) {
+
+    // mallstore.php?whichstore=294980
+    // Without buying=1, this is a search, not a purchase
+    if (urlString.startsWith("mallstore.php")) {
+      // It's a purchase. Defer to MallPurchaseRequest
+      if (urlString.contains("buying=1")) {
+        return false;
+      }
+
+      int shopId = MallPurchaseRequest.getStoreId(urlString);
+      String storeName = shopId != -1 ? ("shop #" + shopId) : "a PC store";
+
+      String message = "mallsearch " + storeName;
+      RequestLogger.updateSessionLog(message);
+      return true;
+    }
+
+    if (!urlString.startsWith("mall.php")) {
+      return false;
+    }
+
+    StringBuilder message = new StringBuilder();
+    message.append("mallsearch ");
+
+    String searchString =
+        GenericRequest.decodeField(GenericRequest.extractValueOrDefault(urlString, "pudnuggler"));
+    String category = GenericRequest.extractValueOrDefault(urlString, "category");
+    String start = GenericRequest.extractValueOrDefault(urlString, "start");
+    int page = start.equals("") ? 1 : (Integer.parseInt(start) / 30 + 1);
+
+    if (searchString.equals("")) {
+      message.append("category ");
+      message.append(category);
+    } else {
+      message.append(searchString);
+    }
+
+    String tiers = MallSearchRequest.extractTiers(urlString);
+    if (!tiers.equals("")) {
+      message.append(" ");
+      message.append(tiers);
+    }
+
+    if (page > 1) {
+      message.append(" (page ");
+      message.append(page);
+      message.append(")");
+    }
+
+    RequestLogger.updateSessionLog(message.toString());
+
+    return true;
   }
 }
