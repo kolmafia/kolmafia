@@ -21,8 +21,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallPurchaseRequest extends PurchaseRequest {
@@ -160,7 +160,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
     this.addFormField("ajax", "1");
     this.addFormField("whichitem", MallPurchaseRequest.getStoreString(item.getItemId(), price));
 
-    this.timestamp = System.currentTimeMillis();
+    this.timestamp = MallPriceManager.currentTimeMillis();
   }
 
   public static String getStoreString(final int itemId, final int price) {
@@ -254,7 +254,9 @@ public class MallPurchaseRequest extends PurchaseRequest {
   @Override
   public int getCurrentCount() {
     List<AdventureResult> list =
-        KoLCharacter.canInteract() ? KoLConstants.inventory : KoLConstants.storage;
+        KoLCharacter.canInteract()
+            ? KoLConstants.inventory
+            : StorageRequest.isFreePull(item) ? KoLConstants.freepulls : KoLConstants.storage;
     return this.item.getCount(list);
   }
 
@@ -311,7 +313,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       if (Preferences.getBoolean("autoForbidIgnoringStores")) {
         MallPurchaseRequest.addForbiddenStore(this.shopId);
       }
-      StoreManager.flushCache(-1, this.shopId);
+      MallPriceManager.flushCache(-1, this.shopId);
       return;
     }
 
@@ -323,7 +325,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       RequestLogger.updateSessionLog(
           "This shop's inventory is frozen (#" + this.shopId + "). Skipping...");
       MallPurchaseRequest.disabledStores.add(shopId);
-      StoreManager.flushCache(-1, this.shopId);
+      MallPriceManager.flushCache(-1, this.shopId);
       return;
     }
 
@@ -421,7 +423,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
       // Ignore it for the rest of the session.
       MallPurchaseRequest.ignoringStores.add(shopId);
-      StoreManager.flushCache(-1, shopId);
+      MallPriceManager.flushCache(-1, shopId);
 
       return;
     }
@@ -435,7 +437,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
       // Ignore it for the rest of the session.
       MallPurchaseRequest.disabledStores.add(shopId);
-      StoreManager.flushCache(-1, shopId);
+      MallPriceManager.flushCache(-1, shopId);
 
       return;
     }
@@ -507,7 +509,9 @@ public class MallPurchaseRequest extends PurchaseRequest {
     AdventureResult item = results.get(0);
     if (storage) {
       // Add the item to storage
-      AdventureResult.addResultToList(KoLConstants.storage, item);
+      List<AdventureResult> list =
+          StorageRequest.isFreePull(item) ? KoLConstants.freepulls : KoLConstants.storage;
+      AdventureResult.addResultToList(list, item);
     } else {
       // Add the item to inventory
       ResultProcessor.processResult(item);

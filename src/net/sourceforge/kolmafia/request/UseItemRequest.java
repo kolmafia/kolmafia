@@ -1,10 +1,8 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -498,12 +496,12 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.FIELD_GAR_POTION:
-        // Disallow using potion if already Gar-ish
-        Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
-        if (date.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
+        // Disallow using potion on Monday
+        if (HolidayDatabase.isMonday()) {
           UseItemRequest.limiter = "uselessness on Mondays";
           return 0;
         }
+        // Disallow using potion if already Gar-ish
         if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.GARISH))) {
           UseItemRequest.limiter = "existing effect";
           return 0;
@@ -728,7 +726,7 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.CHRONER_CROSS:
-        if (!KoLConstants.inventory.contains(ItemPool.get(ItemPool.CHRONER, 1))) {
+        if (InventoryManager.getCount(ItemPool.CHRONER) == 0) {
           UseItemRequest.limiter = "not having a Chroner";
           return 0;
         }

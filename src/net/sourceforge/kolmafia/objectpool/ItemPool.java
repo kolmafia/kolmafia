@@ -113,7 +113,9 @@ public class ItemPool {
   public static final int EYEPATCH = 224;
   public static final int PUNGENT_UNGUENT = 231;
   public static final int COCKTAIL_KIT = 236;
+  public static final int GRAPEFRUIT = 243;
   public static final int TOMATO = 246;
+  public static final int FERMENTING_POWDER = 247;
   public static final int MARTINI = 251;
   public static final int DENSE_STACK = 258;
   public static final int MULLET_WIG = 267;
@@ -204,6 +206,7 @@ public class ItemPool {
   public static final int BRIDGE = 535;
   public static final int DICTIONARY = 536;
   public static final int LOWERCASE_N = 539;
+  public static final int ELITE_TROUSERS = 542;
   public static final int SCROLL_334 = 547;
   public static final int SCROLL_668 = 548;
   public static final int SCROLL_30669 = 549;
@@ -268,6 +271,7 @@ public class ItemPool {
   public static final int DRAGONBONE_BELT_BUCKLE = 676;
   public static final int BADASS_BELT = 677;
   public static final int BONERDAGON_CHEST = 678;
+  public static final int SUMP_M_SUMP_M = 682;
   public static final int DIGITAL_KEY = 691;
   public static final int HAMETHYST = 704;
   public static final int BACONSTONE = 705;
@@ -329,6 +333,7 @@ public class ItemPool {
   public static final int WHITE_CHOCOLATE_AND_TOMATO_PIZZA = 958;
   public static final int MAID = 1000;
   public static final int TEQUILA = 1004;
+  public static final int BOXED_WINE = 1005;
   public static final int VODKA_MARTINI = 1009;
   public static final int DRY_VODKA_MARTINI = 1019;
   public static final int VESPER = 1023;
@@ -579,6 +584,8 @@ public class ItemPool {
   public static final int FORGED_ID_DOCUMENTS = 2064;
   public static final int PADL_PHONE = 2065;
   public static final int TEQUILA_GRENADE = 2068;
+  public static final int BEER_HELMET = 2069;
+  public static final int DISTRESSED_DENIM_PANTS = 2070;
   public static final int NOVELTY_BUTTON = 2072;
   public static final int MAKESHIFT_TURBAN = 2079;
   public static final int MAKESHIFT_CAPE = 2080;
@@ -662,6 +669,7 @@ public class ItemPool {
   public static final int BLACK_PUDDING = 2338;
   public static final int BLACKFLY_CHARDONNAY = 2339;
   public static final int FILTHWORM_QUEEN_HEART = 2347;
+  public static final int BEJEWELED_PLEDGE_PIN = 2353;
   public static final int COMMUNICATIONS_WINDCHIMES = 2354;
   public static final int ZIM_MERMANS_GUITAR = 2364;
   public static final int FILTHY_POULTICE = 2369;
@@ -769,6 +777,7 @@ public class ItemPool {
   public static final int HAND_CARVED_BOW = 2720;
   public static final int HAND_CARVED_STAFF = 2721;
   public static final int PLUM_WINE = 2730;
+  public static final int BUNCH_OF_SQUARE_GRAPES = 2733;
   public static final int STEEL_STOMACH = 2742;
   public static final int STEEL_LIVER = 2743;
   public static final int STEEL_SPLEEN = 2744;
@@ -1398,6 +1407,7 @@ public class ItemPool {
   public static final int TINY_FLY_GLASSES = 4566;
   public static final int LEGENDARY_BEAT = 4573;
   public static final int BUGGED_BEANIE = 4575;
+  public static final int BUGGED_POTION = 4579;
   public static final int BUGGED_BAIO = 4581;
   public static final int PIXEL_WHIP = 4589;
   public static final int PIXEL_CHAIN_WHIP = 4590;
@@ -1420,6 +1430,7 @@ public class ItemPool {
   public static final int METEOID_ICE_BEAM = 4646;
   public static final int DUNGEON_FIST_GAUNTLET = 4647;
   public static final int IRONIC_MOUSTACHE = 4651;
+  public static final int BLACKBERRY_GALOSHES = 4659;
   public static final int ELLSBURY_BOOK = 4663;
   public static final int INSULT_PUPPET = 4667;
   public static final int OBSERVATIONAL_GLASSES = 4668;
@@ -1729,6 +1740,7 @@ public class ItemPool {
   public static final int NOTE_FROM_CLANCY = 5682;
   public static final int BURT = 5683;
   public static final int AUTOPSY_TWEEZERS = 5687;
+  public static final int ONE_MEAT = 5697;
   public static final int LOST_GLASSES = 5698;
   public static final int LITTLE_MANNEQUIN = 5702;
   public static final int CRAYON_SHAVINGS = 5703;
@@ -2825,6 +2837,7 @@ public class ItemPool {
   public static final int HOLORECORD_PIGS = 9114;
   public static final int HOLORECORD_DRUNK_UNCLES = 9115;
   public static final int TIME_RESIDUE = 9116;
+  public static final int EARL_GREY = 9122;
   public static final int SCHOOL_OF_HARD_KNOCKS_DIPLOMA = 9123;
   public static final int KOL_COL_13_SNOWGLOBE = 9133;
   public static final int TRICK_TOT_KNIGHT = 9137;
@@ -2895,9 +2908,12 @@ public class ItemPool {
   public static final int COCKTAIL_MUSHROOM = 9353;
   public static final int GRANOLA_LIQUEUR = 9354;
   public static final int GREGNADIGNE = 9357;
+  public static final int FISH_HEAD = 9360;
   public static final int BABY_OIL_SHOOTER = 9359;
   public static final int LIMEPATCH = 9361;
   public static final int LITERAL_GRASSHOPPER = 9365;
+  public static final int PISCATINI = 9378;
+  public static final int DRIVE_BY_SHOOTING = 9396;
   public static final int PHIL_COLLINS = 9400;
   public static final int TOGGLE_SWITCH_BARTEND = 9402;
   public static final int TOGGLE_SWITCH_BOUNCE = 9403;
@@ -3033,6 +3049,13 @@ public class ItemPool {
   public static final int RAZOR_FANG = 9825;
   public static final int SMOKE_BALL = 9826;
   public static final int GREEN_ROCKET = 9827;
+  public static final int MAGNIFICENT_OYSTER_EGG = 9828;
+  public static final int BRILLIANT_OYSTER_EGG = 9829;
+  public static final int GLISTENING_OYSTER_EGG = 9830;
+  public static final int SCINTILATING_OYSTER_EGG = 9831;
+  public static final int PEARLESCENT_OYSTER_EGG = 9832;
+  public static final int LUSTROUS_OYSTER_EGG = 9833;
+  public static final int GLEAMING_OYSTER_EGG = 9834;
   public static final int FR_MEMBER = 9835;
   public static final int FR_GUEST = 9836;
   public static final int FANTASY_REALM_GEM = 9837;
@@ -3317,6 +3340,7 @@ public class ItemPool {
   public static final int ELEVEN_LEAF_CLOVER = 10881;
   public static final int CURSED_MAGNIFYING_GLASS = 10885;
   public static final int COSMIC_BOWLING_BALL = 10891;
+  public static final int COMBAT_LOVERS_LOCKET = 10893;
 
   private ItemPool() {}
 

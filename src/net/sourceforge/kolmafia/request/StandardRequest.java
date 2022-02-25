@@ -5,9 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 
 public class StandardRequest extends GenericRequest {
   // Types: "Items", "Bookshelf Books", "Skills", "Familiars", "Clan Items".
@@ -48,15 +50,20 @@ public class StandardRequest extends GenericRequest {
   }
 
   private static Set<String> typeToSet(final String type) {
-    return type.equals("Items")
-        ? StandardRequest.itemSet
-        : type.equals("Bookshelf Books")
-            ? StandardRequest.bookshelfSet
-            : type.equals("Skills")
-                ? StandardRequest.skillSet
-                : type.equals("Familiars")
-                    ? StandardRequest.familiarSet
-                    : type.equals("Clan Items") ? StandardRequest.clanSet : null;
+    switch (type) {
+      case "Items":
+        return itemSet;
+      case "Bookshelf Books":
+        return bookshelfSet;
+      case "Skills":
+        return skillSet;
+      case "Familiars":
+        return familiarSet;
+      case "Clan Items":
+        return clanSet;
+      default:
+        return null;
+    }
   }
 
   private static boolean isNotRestricted(final Set<String> set, final String key) {
@@ -88,6 +95,10 @@ public class StandardRequest extends GenericRequest {
     return StandardRequest.isAllowedInStandard(type, key);
   }
 
+  public static boolean isAllowed(final FamiliarData familiar) {
+    return isAllowed("Familiars", familiar.getRace());
+  }
+
   public static boolean isAllowedInStandard(String type, final String key) {
     if (type.equals("Bookshelf")) {
       type = "Bookshelf Books";
@@ -110,7 +121,7 @@ public class StandardRequest extends GenericRequest {
   public StandardRequest() {
     super("standard.php");
     // Two years before current year
-    Calendar calendar = Calendar.getInstance();
+    Calendar calendar = HolidayDatabase.getCalendar();
     int year = calendar.get(Calendar.YEAR);
     this.addFormField("date", (year - 2) + "-01-02");
     // Must use GET

@@ -125,21 +125,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
   @Override
   public int getQuantity() {
-    switch (this.getItemId()) {
-      case ItemPool.FEDORA_MOUNTED_FOUNTAIN:
-      case ItemPool.PORKPIE_MOUNTED_POPPER:
-      case ItemPool.SOMBRERO_MOUNTED_SPARKLER:
-        return Preferences.getBoolean("_fireworksShopHatBought") ? 0 : 1;
-      case ItemPool.CATHERINE_WHEEL:
-      case ItemPool.ROCKET_BOOTS:
-      case ItemPool.OVERSIZED_SPARKLER:
-        return Preferences.getBoolean("_fireworksShopEquipmentBought") ? 0 : 1;
-      case ItemPool.BLART:
-      case ItemPool.RAINPROOF_BARREL_CAULK:
-      case ItemPool.PUMP_GREASE:
-        return 1;
-    }
-    return super.getQuantity();
+    var possibleQuantity = NPCStoreDatabase.getQuantity(this.getItemId());
+    return possibleQuantity.orElseGet(super::getQuantity);
   }
 
   /**

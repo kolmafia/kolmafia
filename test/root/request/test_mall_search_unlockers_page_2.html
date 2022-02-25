@@ -1,0 +1,407 @@
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+//-->
+</script>
+<script language=Javascript src="https://s3.amazonaws.com/images.kingdomofloathing.com/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://s3.amazonaws.com/images.kingdomofloathing.com/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script language=Javascript src="https://s3.amazonaws.com/images.kingdomofloathing.com/scripts/jquery-1.3.1.min.js"></script>
+<script type="text/javascript" src="https://s3.amazonaws.com/images.kingdomofloathing.com/scripts/pop_query.20130705.js"></script>
+<script language="javascript">
+	function number_format(num) {
+		num = '' + num;
+		if (num.length < 4) { return num; }
+		var pts = num.split('');
+		var out ='';
+		for (i=0; i<pts.length; i++) {
+			indx = pts.length - (i + 1);
+			out = ((i < (pts.length-1) && (i%3 == 2)) ? ',' :'') + pts[indx] + out;
+		}
+		return out;
+	}
+</script><script language="javascript">
+	function updateParseItem(iid, field, info) {
+		var tbl = $('#ic'+iid);
+		var data = parseItem(tbl);
+		if (!data) return;
+		data[field] = info;
+		var out = [];
+		for (i in data) {
+			if (!data.hasOwnProperty(i)) continue;
+			out.push(i+'='+data[i]);
+		}
+		tbl.attr('rel', out.join('&'));
+	}
+	function parseItem(tbl) {
+		tbl = $(tbl);
+		var rel = tbl.attr('rel');
+		var data = {};
+		if (!rel) return data;
+		var parts = rel.split('&');
+		for (i in parts) {
+			if (!parts.hasOwnProperty(i)) continue;
+			var kv = parts[i].split('=');
+			tbl.data(kv[0], kv[1]);
+			data[kv[0]] = kv[1];
+		}
+		return data;
+	}
+</script><script type="text/javascript" src="https://s3.amazonaws.com/images.kingdomofloathing.com/scripts/ircm.20161111.js"></script>
+<script type="text/javascript">
+var tp = top;
+function pop_ircm_contents(i, some) {
+	var contents = '',
+		shown = 0,
+		da = '&nbsp;<a href="#" rel="?" class="small dojaxy">[some]</a>&nbsp;<a href="#" rel="',
+		db = '" class="small dojaxy">[all]</a>',
+		dc = '<div style="width:100%; padding-bottom: 3px;" rel="',
+		dd = '<a href="#" rel="1" class="small dojaxy">[';
+	one = 'one'; ss=some;
+if (i.d==1 && i.s>0) { shown++; 
+contents += dc + 'sellstuff.php?action=sell&ajax=1&type=quant&whichitem%5B%5D=IID&howmany=NUM&pwd=c30fa2423adacd1c4bac3c7295e47c36" id="pircm_'+i.id+'"><b>Auto-Sell ('+i.s+' meat):</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0) { shown++; 
+contents += dc + 'inventory.php?action=closetpush&ajax=1&whichitem=IID&qty=NUM&pwd=c30fa2423adacd1c4bac3c7295e47c36" id="pircm_'+i.id+'"><b>Closet:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0 && i.g==0 && i.t==1) { shown++; 
+contents += dc + 'managestore.php?action=additem&qty1=NUM&item1=IID&price1=&limit1=&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36" id="pircm_'+i.id+'"><b>Stock in Mall:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0) { shown++; 
+contents += dc + 'managecollection.php?action=put&ajax=1&whichitem1=IID&howmany1=NUM&pwd=c30fa2423adacd1c4bac3c7295e47c36" id="pircm_'+i.id+'"><b>Add to Display Case:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0 && i.t==1) { shown++; 
+contents += dc + 'clan_stash.php?action=addgoodies&ajax=1&item1=IID&qty1=NUM&pwd=c30fa2423adacd1c4bac3c7295e47c36" id="pircm_'+i.id+'"><b>Contribute to Clan:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && !i.ac) { shown++; 
+contents += dc + 'inv_'+(i.u=="a"?"redir":(lab=(i.u=="u"?"use":(i.u=="e"?"eat":(i.u=="b"?"booze":(i.u=="s"?"spleen":"equip"))))))+'.php?ajax=1&whichitem=IID&itemquantity=NUM&quantity=NUM'+(i.u=="q"?"&action=equip":"")+'&pwd=c30fa2423adacd1c4bac3c7295e47c36" id="pircm_'+i.id+'"><b>'+ucfirst(unescape(i.ou ? i.ou.replace(/\+/g," ") : (lab=="booze"?"drink":lab)))+':</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=1&ajax=1&whichitem=IID&action=equip&pwd=c30fa2423adacd1c4bac3c7295e47c36" id="pircm_'+i.id+'"><b>Equip (slot 1):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=2&ajax=1&whichitem=IID&action=equip&pwd=c30fa2423adacd1c4bac3c7295e47c36" id="pircm_'+i.id+'"><b>Equip (slot 2):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=3&ajax=1&whichitem=IID&action=equip&pwd=c30fa2423adacd1c4bac3c7295e47c36" id="pircm_'+i.id+'"><b>Equip (slot 3):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+
+	return [contents, shown];
+}
+tp=top
+var todo = [];
+function nextAction() {
+	var next_todo = todo.shift();
+	if (next_todo) {
+		eval(next_todo);
+	}
+}
+function dojax(dourl, afterFunc, hoverCaller, failureFunc, method, params) {
+	$.ajax({
+		type: method || 'GET', url: dourl, cache: false,
+		data: params || null,
+		global: false,
+		success: function (out) {
+			nextAction();
+			if (out.match(/no\|/)) {
+				var parts = out.split(/\|/);
+				if (failureFunc) failureFunc(parts[1]);
+				else if (window.dojaxFailure) window.dojaxFailure(parts[1]);
+				else if (tp.chatpane.handleMessage) tp.chatpane.handleMessage({type: 'event', msg: 'Oops!  Sorry, Dave, you appear to be ' + parts[1]});
+				else  $('#ChatWindow').append('<font color="green">Oops!  Sorry, Dave, you appear to be ' + parts[1] + '.</font><br />' + "\n");
+				return;
+			}
+
+			if (hoverCaller)  {
+				float_results(hoverCaller, out);
+				if (afterFunc) { afterFunc(out); }
+				return;
+			}
+$(tp.mainpane.document).find("#effdiv").remove(); if(!window.dontscroll || (window.dontscroll && dontscroll==0)) { window.scroll(0,0);}
+			var $eff = $(tp.mainpane.document).find('#effdiv');
+			if ($eff.length == 0) {
+				var d = tp.mainpane.document.createElement('DIV');
+				d.id = 'effdiv';
+				var b = tp.mainpane.document.body;
+				if ($('#content_').length > 0) {
+					b = $('#content_ div:first')[0];
+				}
+				b.insertBefore(d, b.firstChild);
+				$eff = $(d);
+			}
+			$eff.find('a[name="effdivtop"]').remove().end()
+				.prepend('<a name="effdivtop"></a><center>' + out + '</center>').css('display','block');
+			if (!window.dontscroll || (window.dontscroll && dontscroll==0)) {
+				tp.mainpane.document.location = tp.mainpane.document.location + "#effdivtop";
+			}
+			if (afterFunc) { afterFunc(out); }
+		}
+	});
+}
+</script><style type="text/css">
+.jumplinks { position: absolute; left: -30000px; }
+.itemtable { width: 95%; padding-bottom: 30px; }
+.itemtable .price { width: 15%; }
+.itemtable .store { width: 45%; }
+.cat_options { display: none; }
+tr.blackabove td {border-top: 2px solid black; }
+tr.graybelow td { border-bottom: 1px solid gray; }
+.buyers { font-size: .75em;}
+.limited, .limited a.nounder, .limited a.buyone, .limited a.buysome { color: gray; }
+#searchresults { position: relative; }
+td.small { text-align: right; }
+td.stock { padding-right: 2em; }
+</style>
+
+<script type="text/javascript">
+var changed_price = false;
+var all_items = '(all items)';
+
+function toggle_adv() {
+	var label = $('#advsearchlink a').text();
+	if (label.match(/show/)) { 
+		label = label.replace(/show/,'hide'); 
+		$('#advsearch').show();
+		$('input[name="didadv"]').val("1");
+	}
+	else { 
+		label = label.replace(/hide/,'show'); 
+		$('#advsearch').hide();
+		$('input[name="didadv"]').val("0");
+	}
+	$('#advsearchlink a').text(label);
+}
+
+function toggle_category() {
+	$('.cat_options').hide();
+	$('#' + $('#category').val() + '_options').show();
+	$('.' + $('#category').val()).show();
+}
+
+function handle_blank_search() {
+	$('.nosearch')
+		.css('color', 'gray')
+		.val(all_items)
+		.click(function () {
+			$(this).css('color', '');
+			$(this).val($(this).val().replace(all_items, ''));
+			$(this).unbind('click').unbind('keydown');
+		})
+		.keydown(function () { $(this).click();});
+}
+
+
+function do_buy_some() {
+	var url = $(this).attr('rel');
+	pop_query($(this), 'How Many?', 'Buy', function (res) {
+		dojax(url + res);
+	});
+	return false;
+}
+
+function do_submit() {
+	var sk = $('#pudnuggler');
+	if (sk.css('color') == '#808080' || sk.css('color') == 'gray') {
+		sk.val(sk.val().replace(all_items, ''));
+	}
+	return true;
+}
+
+function update_stock(pid, iid, qty) {
+	var $store = $('#stock_' + pid + '_' + iid);
+	var stock = $store.find('td.stock').text().replace(/[^0-9]/g,'');
+	if (qty >= stock) { $store.remove(); }
+	else {
+		stock -= qty;
+		$store.find('td.stock').text(number_format(stock));
+	}
+}
+
+function do_more() {
+	$('#morestores td').html('<font size="-1"><b>Loading...</b></font>');
+	$.get($(this).attr('rel'), function (res) {
+		$('#morestores').remove();
+		$('#searchresults table').append(res);
+	});
+	return false;
+}
+
+$(document).ready(function () {
+	$('#category').change(toggle_category);
+	$('#searchform').submit(do_submit);
+	$('#advsearchlink a').click(toggle_adv);
+	$('#morestores a').live('click', do_more);
+	
+	toggle_category();
+	$('.buyone').live('click', function () { 
+		dojax($(this).attr('href')); return false; 
+	});
+	$('.buysome').live('click', do_buy_some);
+	handle_blank_search();
+	$('input[name="max_price"]').change(function () { changed_price = true; });
+	$('#pudnuggler:first')
+		.keyup(function () { 
+			if (!changed_price) { $('input[name="max_price"]').val(0); }
+		}).focus();
+});
+
+</script>	<link rel="stylesheet" type="text/css" href="https://s3.amazonaws.com/images.kingdomofloathing.com/styles.20151006.css">
+<style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+<center>
+<table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Search for Items in the Mall</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><center>
+<form id="searchform" action="mall.php" method="post">
+Search for :
+<input type="hidden" name="didadv" value="0" />
+<input class="text nosearch " type="text" name="pudnuggler" id="pudnuggler" value="" size="30" />
+in <select name="category" id="category">
+<option  value=allitems>All Categories</option><optgroup label="Consumables"><option  value=food>Food and Beverages</option><option  value=booze>Booze</option><option  value=othercon>Other Consumables</option></optgroup><optgroup label="Equipment"><option  value=weapons>Weapons</option><option  value=hats>Hats</option><option  value=shirts>Shirts</option><option  value=container>Back Items</option><option  value=pants>Pants</option><option  value=acc>Accessories</option><option  value=offhand>Off-hand Items</option><option  value=famequip>Familiar Equipment</option></optgroup><optgroup label="Usable"><option  value=combat>Combat Items</option><option  value=potions>Potions</option><option  value=hprestore>HP Restorers</option><option  value=mprestore>MP Restorers</option><option  value=familiars>Familiars</option></optgroup><optgroup label="Miscellaneous"><option  value=mrstore>Mr. Store Items</option><option selected value=unlockers>Content Unlockers</option><option  value=new>New Stuff</option></select>
+
+<input class=button type=submit value="Search">
+<div id="advsearchlink"><p><font size=-1>[<a href="#">show advanced search options</a>]</font></div>
+
+<div style='display: none;' id=advsearch>
+	<p>
+	<table style='border: 1px solid black;' cellpadding=10><tr><td class=small>
+
+	<div id='allitems_options' style='display: inline'>
+	</div>
+
+
+	<div id='food_options' class="cat_options">
+	Sort food and beverages by: 
+	<select name="food_sortitemsby"><option value="name" >name</option><option value="levelreq" >level requirement</option><option value="levelreqdesc" >level requirement (highest to lowest)</option></select>	</div>
+	
+	<div id='booze_options' class="cat_options">
+	Sort booze items by:
+	<select name="booze_sortitemsby"><option value="name" >name</option><option value="levelreq" >level requirement</option><option value="levelreqdesc" >level requirement (highest to lowest)</option></select>	</div>
+	
+	<div id='othercon_options' class="cat_options">
+	Sort consumables by:
+	<select name="othercon_sortitemsby"><option value="name" >name</option><option value="levelreq" >level requirement</option><option value="levelreqdesc" >level requirement (highest to lowest)</option></select>	</div>
+
+	<div class="cat_options othercon booze food">
+	<br /><input type="hidden" name="consumable_byme" value="0" /><input type="checkbox" name="consumable_byme" value="1" /><label for="consumable_byme">show only items I can consume</label>	</div>
+
+	<div id='hats_options' class="cat_options">
+	Sort hats by: 
+	<select name="hats_sortitemsby"><option value="name" >name</option><option value="power" >power</option><option value="powerdesc" >power (highest to lowest)</option><option value="statreq" >stat requirement</option><option value="statreqdesc" >stat requirement (highest to lowest)</option></select>	</div>
+
+	<div id='shirts_options' class="cat_options">
+	Sort shirts by: 
+	<select name="shirts_sortitemsby"><option value="name" >name</option><option value="power" >power</option><option value="powerdesc" >power (highest to lowest)</option><option value="statreq" >stat requirement</option><option value="statreqdesc" >stat requirement (highest to lowest)</option></select>	</div>
+	
+	<div id='pants_options' class="cat_options">
+	Sort pants by: 
+	<select name="pants_sortitemsby"><option value="name" >name</option><option value="power" >power</option><option value="powerdesc" >power (highest to lowest)</option><option value="statreq" >stat requirement</option><option value="statreqdesc" >stat requirement (highest to lowest)</option></select>	</div>
+	
+	<div id='weapons_options' class="cat_options">
+	Sort weapons by: 
+	<select name="weapons_sortitemsby"><option value="name" >name</option><option value="power" >power</option><option value="powerdesc" >power (highest to lowest)</option><option value="statreq" >stat requirement</option><option value="statreqdesc" >stat requirement (highest to lowest)</option></select>	<p>Show <select name="weaponattribute"><option value="3" selected="selected">Melee and Ranged weapons</option><option value="1" >Melee only</option><option value="2" >Ranged only</option></select>	<p>Show <select name="weaponhands"><option value="3" >1- and 2-handed weapons</option><option value="1" >1-handed only</option><option value="2" >2-handed only</option></select>	</div>
+	
+	<div id='acc_options' class="cat_options">
+	Sort accessories by: 
+	<select name="acc_sortitemsby"><option value="name" >name</option><option value="statreq" >stat requirement</option><option value="statreqdesc" >stat requirement (highest to lowest)</option></select>	</div>
+
+	<div id='offhand_options' class="cat_options">
+	Sort offhand items by: 
+	<select name="offhand_sortitemsby"><option value="name" >name</option><option value="statreq" >stat requirement</option><option value="statreqdesc" >stat requirement (highest to lowest)</option></select>	</div>
+
+	<div class="cat_options shirts hats weapons pants acc offhand">
+	<br /><input type="hidden" name="wearable_byme" value="0" /><input type="checkbox" name="wearable_byme" value="1" /><label for="wearable_byme">show only items I can equip (by stat req)</label>	</div>
+	
+	
+	<div id='famequip_options' class="cat_options">
+	Sort familiar equipment by: 
+	<select name="famequip_sortitemsby"><option value="name" >name</option><option value="fam" >applicable familiar</option></select>	</div>
+	
+	<div id='combat_options' class="cat_options">
+	</div>
+	
+	<div id='potions_options' class="cat_options">
+	</div>
+	
+	<div id='hprestore_options' class="cat_options">
+	</div>
+	
+	<div id='mprestore_options' class="cat_options">
+	</div>
+	
+	<div id='familiars_options' class="cat_options">
+	</div>
+
+	<p><input type="hidden" name="nolimits" value="0" /><input type=checkbox name="nolimits" value="1" > only show stores with no limits
+	</p>
+
+	<p><input type="hidden" name="justitems" value="0" /><input type=checkbox name="justitems" value="1" > only show items, don't show stores
+	</p>
+
+	<p>Sort store results by:
+	<select name="sortresultsby"><option value="price" selected="selected">Price (lowest to highest)</option><option value="stock" >Store Stock (highest to lowest)</option></select>	</p>
+
+	<p>Maximum price:
+	<input type="text" size="10" name="max_price" value="0" />
+	</p>
+
+	<p>Show the first
+	<input type="text" size="2" name="x_cheapest" value="5" />
+		results, per item
+	</p>
+
+	<div class="cat_options booze food">
+	<table width="100%" cellpadding="2">
+		<tr><td class="small" colspan="6" align="right">Quality:</td></tr>
+		<tr>
+			<td width="100%">&nbsp;</td>
+			<td class="small" nowrap><input type="hidden" name="consumable_tier_1" value="0" /><input type="checkbox" name="consumable_tier_1" value="1" /><label for="consumable_tier_1">crappy</label></td>
+			<td class="small" nowrap><input type="hidden" name="consumable_tier_2" value="0" /><input type="checkbox" name="consumable_tier_2" value="1" /><label for="consumable_tier_2">decent</label></td>
+			<td class="small" nowrap><input type="hidden" name="consumable_tier_3" value="0" /><input type="checkbox" name="consumable_tier_3" value="1" /><label for="consumable_tier_3">good</label></td>
+			<td class="small" nowrap><input type="hidden" name="consumable_tier_4" value="0" /><input type="checkbox" name="consumable_tier_4" value="1" /><label for="consumable_tier_4">awesome</label></td>
+			<td class="small" nowrap><input type="hidden" name="consumable_tier_5" value="0" /><input type="checkbox" name="consumable_tier_5" value="1" /><label for="consumable_tier_5">EPIC</label></td>
+		</tr>
+	</table>
+	</div>
+
+
+	</td></tr></table>
+</div>
+</form>
+<center><b>Search Results:</b> &nbsp;&nbsp;&nbsp;&nbsp;<font size=-1>[<a href='/mall.php?pudnuggler=&category=unlockers&consumable_byme=0&weaponattribute=3&wearable_byme=0&nolimits=0&sortresultsby=price&justitems=0&max_price=0&x_cheapest=5&consumable_tier_1=0&consumable_tier_2=0&consumable_tier_3=0&consumable_tier_4=0&consumable_tier_5=0&pwd=c30fa2423adacd1c4bac3c7295e47c36&start=0'>prev</a>]</font>&nbsp;&nbsp;&nbsp;&nbsp;<b>(Items 31-33 of 33)</b></center><div id='searchresults'><a name="searchresults"></a><div class="jumplinks"><a href="#results_8063">Tales of Spelunking Results</a> <a href="#results_2655">tiny bottle of absinthe Results</a> <a href="#results_5170">transporter transponder Results</a> </div><br /><a name="results_8063"></a><table class="itemtable" cellpadding="2" cellspacing="0" summary="Stores selling Tales of Spelunking" ><tr class="blackabove" id="item_8063"><td width=30 height=30 align=center valign=center><img style='vertical-align: middle' class=hand src='https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/speltales.gif' onclick='descitem(875497902)' alt="Tales of Spelunking" title="Tales of Spelunking"></td><td><b><a href="/mall.php?justitems=0&pudnuggler=%22Tales+of+Spelunking%22">Tales of Spelunking</a></b>&nbsp;&nbsp;</td><td valign=center class=small colspan=5 align=right>&nbsp;Usable Item, no level requirement</td><td>&nbsp;</td></tr><tr class="blackabove graybelow"><td style='border-bottom: 0px;'>&nbsp;</td><td class=tiny align=center><b><u>Store:</u></b></td><td class=tiny align=center><b><u>Stock:</u></b></td><td class=tiny align=center><b><u>Limit:</u></b></td><td class=tiny align=center><b><u>Price:</u></b></td><td colspan="2">&nbsp;</td></tr><tr class="graybelow" id="stock_892618_8063"><td style="border:none"></td><td class="small store"><a class=nounder href="mallstore.php?whichstore=892618&searchitem=8063&searchprice=9200"><b>Rever Store</b></a>&nbsp;&nbsp;&nbsp;</td><td class="small stock">1</td><td class="small">&nbsp;</td><td class="small price"><a class=nounder href="mallstore.php?whichstore=892618&searchitem=8063&searchprice=9200">9,200&nbsp;Meat</a></td><td valign="center" class="buyers">[<a href="mallstore.php?buying=1&quantity=1&whichitem=8063000009200&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=892618" class="buyone">buy</a>]&nbsp;[<a href="#" rel="mallstore.php?buying=1&whichitem=8063000009200&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=892618&quantity=" class="buysome">buy&nbsp;some</a>]</td></tr><tr class="graybelow" id="stock_1230819_8063"><td style="border:none"></td><td class="small store"><a class=nounder href="mallstore.php?whichstore=1230819&searchitem=8063&searchprice=15000"><b>A Miserable Store</b></a>&nbsp;&nbsp;&nbsp;</td><td class="small stock">1</td><td class="small">&nbsp;</td><td class="small price"><a class=nounder href="mallstore.php?whichstore=1230819&searchitem=8063&searchprice=15000">15,000&nbsp;Meat</a></td><td valign="center" class="buyers">[<a href="mallstore.php?buying=1&quantity=1&whichitem=8063000015000&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=1230819" class="buyone">buy</a>]&nbsp;[<a href="#" rel="mallstore.php?buying=1&whichitem=8063000015000&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=1230819&quantity=" class="buysome">buy&nbsp;some</a>]</td></tr><tr class="graybelow" id="stock_2463557_8063"><td style="border:none"></td><td class="small store"><a class=nounder href="mallstore.php?whichstore=2463557&searchitem=8063&searchprice=15000"><b>Store Awarded the Prestigious &quot;Is A Store&quot; Award</b></a>&nbsp;&nbsp;&nbsp;</td><td class="small stock">1</td><td class="small">&nbsp;</td><td class="small price"><a class=nounder href="mallstore.php?whichstore=2463557&searchitem=8063&searchprice=15000">15,000&nbsp;Meat</a></td><td valign="center" class="buyers">[<a href="mallstore.php?buying=1&quantity=1&whichitem=8063000015000&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=2463557" class="buyone">buy</a>]&nbsp;[<a href="#" rel="mallstore.php?buying=1&whichitem=8063000015000&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=2463557&quantity=" class="buysome">buy&nbsp;some</a>]</td></tr><tr class="graybelow" id="stock_352230_8063"><td style="border:none"></td><td class="small store"><a class=nounder href="mallstore.php?whichstore=352230&searchitem=8063&searchprice=15000"><b>Pentacle's Store of Almost Anything</b></a>&nbsp;&nbsp;&nbsp;</td><td class="small stock">2</td><td class="small">&nbsp;</td><td class="small price"><a class=nounder href="mallstore.php?whichstore=352230&searchitem=8063&searchprice=15000">15,000&nbsp;Meat</a></td><td valign="center" class="buyers">[<a href="mallstore.php?buying=1&quantity=1&whichitem=8063000015000&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=352230" class="buyone">buy</a>]&nbsp;[<a href="#" rel="mallstore.php?buying=1&whichitem=8063000015000&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=352230&quantity=" class="buysome">buy&nbsp;some</a>]</td></tr><tr class="graybelow" id="stock_1298882_8063"><td style="border:none"></td><td class="small store"><a class=nounder href="mallstore.php?whichstore=1298882&searchitem=8063&searchprice=15000"><b>Boxes and Boxes... Now with Extra Box Power!</b></a>&nbsp;&nbsp;&nbsp;</td><td class="small stock">3</td><td class="small">&nbsp;</td><td class="small price"><a class=nounder href="mallstore.php?whichstore=1298882&searchitem=8063&searchprice=15000">15,000&nbsp;Meat</a></td><td valign="center" class="buyers">[<a href="mallstore.php?buying=1&quantity=1&whichitem=8063000015000&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=1298882" class="buyone">buy</a>]&nbsp;[<a href="#" rel="mallstore.php?buying=1&whichitem=8063000015000&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=1298882&quantity=" class="buysome">buy&nbsp;some</a>]</td></tr></table><a name="results_2655"></a><table class="itemtable" cellpadding="2" cellspacing="0" summary="Stores selling tiny bottle of absinthe" ><tr class="blackabove" id="item_2655"><td width=30 height=30 align=center valign=center><img style='vertical-align: middle' class=hand src='https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/tinybottle.gif' onclick='descitem(689551675)' alt="tiny bottle of absinthe" title="tiny bottle of absinthe"></td><td><b><a href="/mall.php?justitems=0&pudnuggler=%22tiny+bottle+of+absinthe%22">tiny bottle of absinthe</a></b>&nbsp;&nbsp;</td><td valign=center class=small colspan=5 align=right>&nbsp;Potion</td><td>&nbsp;</td></tr><tr class="blackabove graybelow"><td style='border-bottom: 0px;'>&nbsp;</td><td class=tiny align=center><b><u>Store:</u></b></td><td class=tiny align=center><b><u>Stock:</u></b></td><td class=tiny align=center><b><u>Limit:</u></b></td><td class=tiny align=center><b><u>Price:</u></b></td><td colspan="2">&nbsp;</td></tr><tr class="graybelow" id="stock_352230_2655"><td style="border:none"></td><td class="small store"><a class=nounder href="mallstore.php?whichstore=352230&searchitem=2655&searchprice=2378"><b>Pentacle's Store of Almost Anything</b></a>&nbsp;&nbsp;&nbsp;</td><td class="small stock">7</td><td class="small">&nbsp;</td><td class="small price"><a class=nounder href="mallstore.php?whichstore=352230&searchitem=2655&searchprice=2378">2,378&nbsp;Meat</a></td><td valign="center" class="buyers">[<a href="mallstore.php?buying=1&quantity=1&whichitem=2655000002378&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=352230" class="buyone">buy</a>]&nbsp;[<a href="#" rel="mallstore.php?buying=1&whichitem=2655000002378&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=352230&quantity=" class="buysome">buy&nbsp;some</a>]</td></tr><tr class="graybelow" id="stock_2088230_2655"><td style="border:none"></td><td class="small store"><a class=nounder href="mallstore.php?whichstore=2088230&searchitem=2655&searchprice=2380"><b>Uncle Toko's Shrunken Headshop</b></a>&nbsp;&nbsp;&nbsp;</td><td class="small stock">34</td><td class="small">&nbsp;</td><td class="small price"><a class=nounder href="mallstore.php?whichstore=2088230&searchitem=2655&searchprice=2380">2,380&nbsp;Meat</a></td><td valign="center" class="buyers">[<a href="mallstore.php?buying=1&quantity=1&whichitem=2655000002380&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=2088230" class="buyone">buy</a>]&nbsp;[<a href="#" rel="mallstore.php?buying=1&whichitem=2655000002380&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=2088230&quantity=" class="buysome">buy&nbsp;some</a>]</td></tr><tr class="graybelow" id="stock_1313503_2655"><td style="border:none"></td><td class="small store"><a class=nounder href="mallstore.php?whichstore=1313503&searchitem=2655&searchprice=2380"><b>Super Sale Mega Store of Loathing</b></a>&nbsp;&nbsp;&nbsp;</td><td class="small stock">1</td><td class="small">&nbsp;</td><td class="small price"><a class=nounder href="mallstore.php?whichstore=1313503&searchitem=2655&searchprice=2380">2,380&nbsp;Meat</a></td><td valign="center" class="buyers">[<a href="mallstore.php?buying=1&quantity=1&whichitem=2655000002380&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=1313503" class="buyone">buy</a>]&nbsp;[<a href="#" rel="mallstore.php?buying=1&whichitem=2655000002380&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=1313503&quantity=" class="buysome">buy&nbsp;some</a>]</td></tr><tr class="graybelow" id="stock_2114568_2655"><td style="border:none"></td><td class="small store"><a class=nounder href="mallstore.php?whichstore=2114568&searchitem=2655&searchprice=2380"><b>The items are virtual but the value is real</b></a>&nbsp;&nbsp;&nbsp;</td><td class="small stock">67</td><td class="small">&nbsp;</td><td class="small price"><a class=nounder href="mallstore.php?whichstore=2114568&searchitem=2655&searchprice=2380">2,380&nbsp;Meat</a></td><td valign="center" class="buyers">[<a href="mallstore.php?buying=1&quantity=1&whichitem=2655000002380&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=2114568" class="buyone">buy</a>]&nbsp;[<a href="#" rel="mallstore.php?buying=1&whichitem=2655000002380&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=2114568&quantity=" class="buysome">buy&nbsp;some</a>]</td></tr><tr class="graybelow" id="stock_1469700_2655"><td style="border:none"></td><td class="small store"><a class=nounder href="mallstore.php?whichstore=1469700&searchitem=2655&searchprice=2390"><b>Marge's Market of Mediocre Merchandise</b></a>&nbsp;&nbsp;&nbsp;</td><td class="small stock">144</td><td class="small">&nbsp;</td><td class="small price"><a class=nounder href="mallstore.php?whichstore=1469700&searchitem=2655&searchprice=2390">2,390&nbsp;Meat</a></td><td valign="center" class="buyers">[<a href="mallstore.php?buying=1&quantity=1&whichitem=2655000002390&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=1469700" class="buyone">buy</a>]&nbsp;[<a href="#" rel="mallstore.php?buying=1&whichitem=2655000002390&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=1469700&quantity=" class="buysome">buy&nbsp;some</a>]</td></tr></table><a name="results_5170"></a><table class="itemtable" cellpadding="2" cellspacing="0" summary="Stores selling transporter transponder" ><tr class="blackabove" id="item_5170"><td width=30 height=30 align=center valign=center><img style='vertical-align: middle' class=hand src='https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/transponder.gif' onclick='descitem(971091385)' alt="transporter transponder" title="transporter transponder"></td><td><b><a href="/mall.php?justitems=0&pudnuggler=%22transporter+transponder%22">transporter transponder</a></b>&nbsp;&nbsp;</td><td valign=center class=small colspan=5 align=right>&nbsp;Potion</td><td>&nbsp;</td></tr><tr class="blackabove graybelow"><td style='border-bottom: 0px;'>&nbsp;</td><td class=tiny align=center><b><u>Store:</u></b></td><td class=tiny align=center><b><u>Stock:</u></b></td><td class=tiny align=center><b><u>Limit:</u></b></td><td class=tiny align=center><b><u>Price:</u></b></td><td colspan="2">&nbsp;</td></tr><tr class="graybelow" id="stock_901966_5170"><td style="border:none"></td><td class="small store"><a class=nounder href="mallstore.php?whichstore=901966&searchitem=5170&searchprice=4400"><b>Bizjeff's Useless Store</b></a>&nbsp;&nbsp;&nbsp;</td><td class="small stock">9</td><td class="small">5&nbsp;/&nbsp;day&nbsp;&nbsp;&nbsp;</td><td class="small price"><a class=nounder href="mallstore.php?whichstore=901966&searchitem=5170&searchprice=4400">4,400&nbsp;Meat</a></td><td valign="center" class="buyers">[<a href="mallstore.php?buying=1&quantity=1&whichitem=5170000004400&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=901966" class="buyone">buy</a>]&nbsp;[<a href="#" rel="mallstore.php?buying=1&whichitem=5170000004400&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=901966&quantity=" class="buysome">buy&nbsp;some</a>]</td></tr><tr class="graybelow" id="stock_992064_5170"><td style="border:none"></td><td class="small store"><a class=nounder href="mallstore.php?whichstore=992064&searchitem=5170&searchprice=4498"><b>The 667th Level of the Abyss</b></a>&nbsp;&nbsp;&nbsp;</td><td class="small stock">27</td><td class="small">&nbsp;</td><td class="small price"><a class=nounder href="mallstore.php?whichstore=992064&searchitem=5170&searchprice=4498">4,498&nbsp;Meat</a></td><td valign="center" class="buyers">[<a href="mallstore.php?buying=1&quantity=1&whichitem=5170000004498&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=992064" class="buyone">buy</a>]&nbsp;[<a href="#" rel="mallstore.php?buying=1&whichitem=5170000004498&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=992064&quantity=" class="buysome">buy&nbsp;some</a>]</td></tr><tr class="graybelow" id="stock_658121_5170"><td style="border:none"></td><td class="small store"><a class=nounder href="mallstore.php?whichstore=658121&searchitem=5170&searchprice=4500"><b>Plumbing Supplies</b></a>&nbsp;&nbsp;&nbsp;</td><td class="small stock">668</td><td class="small">&nbsp;</td><td class="small price"><a class=nounder href="mallstore.php?whichstore=658121&searchitem=5170&searchprice=4500">4,500&nbsp;Meat</a></td><td valign="center" class="buyers">[<a href="mallstore.php?buying=1&quantity=1&whichitem=5170000004500&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=658121" class="buyone">buy</a>]&nbsp;[<a href="#" rel="mallstore.php?buying=1&whichitem=5170000004500&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=658121&quantity=" class="buysome">buy&nbsp;some</a>]</td></tr><tr class="graybelow" id="stock_817382_5170"><td style="border:none"></td><td class="small store"><a class=nounder href="mallstore.php?whichstore=817382&searchitem=5170&searchprice=4500"><b>Can't get the hang of Thursdays</b></a>&nbsp;&nbsp;&nbsp;</td><td class="small stock">11</td><td class="small">&nbsp;</td><td class="small price"><a class=nounder href="mallstore.php?whichstore=817382&searchitem=5170&searchprice=4500">4,500&nbsp;Meat</a></td><td valign="center" class="buyers">[<a href="mallstore.php?buying=1&quantity=1&whichitem=5170000004500&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=817382" class="buyone">buy</a>]&nbsp;[<a href="#" rel="mallstore.php?buying=1&whichitem=5170000004500&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=817382&quantity=" class="buysome">buy&nbsp;some</a>]</td></tr><tr class="graybelow" id="stock_745569_5170"><td style="border:none"></td><td class="small store"><a class=nounder href="mallstore.php?whichstore=745569&searchitem=5170&searchprice=4500"><b>Roadside Cracker Shack</b></a>&nbsp;&nbsp;&nbsp;</td><td class="small stock">31</td><td class="small">1&nbsp;/&nbsp;day&nbsp;&nbsp;&nbsp;</td><td class="small price"><a class=nounder href="mallstore.php?whichstore=745569&searchitem=5170&searchprice=4500">4,500&nbsp;Meat</a></td><td valign="center" class="buyers">[<a href="mallstore.php?buying=1&quantity=1&whichitem=5170000004500&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=745569" class="buyone">buy</a>]&nbsp;[<a href="#" rel="mallstore.php?buying=1&whichitem=5170000004500&ajax=1&pwd=c30fa2423adacd1c4bac3c7295e47c36&whichstore=745569&quantity=" class="buysome">buy&nbsp;some</a>]</td></tr></table></table><center>&nbsp;&nbsp;&nbsp;&nbsp;<font size=-1>[<a href='/mall.php?pudnuggler=&category=unlockers&consumable_byme=0&weaponattribute=3&wearable_byme=0&nolimits=0&sortresultsby=price&justitems=0&max_price=0&x_cheapest=5&consumable_tier_1=0&consumable_tier_2=0&consumable_tier_3=0&consumable_tier_4=0&consumable_tier_5=0&pwd=c30fa2423adacd1c4bac3c7295e47c36&start=0'>prev</a>]</font>&nbsp;&nbsp;&nbsp;&nbsp;<b>(Items 31-33 of 33)</b></center></div><p><a href="bordertown.php">Back to Bordertown</a></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></center><center><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Your Mall Store</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><Table><tr><td><a href="mallstore.php?whichstore=121572"><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/mall/newstore3.gif" width=80 height=80 border=0></a></td><td><a href="mallstore.php?whichstore=121572">Veracity's Little Shop of Truth</a>&nbsp;&nbsp;&nbsp;</td><td valign=center><font size=1>[<a href="managestore.php">manage your store</a>]</font></td></tr></table></td></tr></table></center></td></tr><tr><td height=4></td></tr></table><center><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Top 10 Stores</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><table><tr><td><a href="mallstore.php?whichstore=1053259"><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/mall/newstore5.gif" width=80 height=80 border=0></a></td><td><a href="mallstore.php?whichstore=1053259">Clerk's</a></td></tr></table><table><tr><td><a href="mallstore.php?whichstore=246794"><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/mall/newstore6.gif" width=80 height=80 border=0></a></td><td><a href="mallstore.php?whichstore=246794">Jimbo's #2</a></td></tr></table><table><tr><td><a href="mallstore.php?whichstore=580773"><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/mall/newstore3.gif" width=80 height=80 border=0></a></td><td><a href="mallstore.php?whichstore=580773">The Store Company</a></td></tr></table><table><tr><td><a href="mallstore.php?whichstore=2057719"><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/mall/newstore6.gif" width=80 height=80 border=0></a></td><td><a href="mallstore.php?whichstore=2057719">Godly Ham</a></td></tr></table><table><tr><td><a href="mallstore.php?whichstore=845708"><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/mall/newstore6.gif" width=80 height=80 border=0></a></td><td><a href="mallstore.php?whichstore=845708">Moxiously Delicious!!!</a></td></tr></table><table><tr><td><a href="mallstore.php?whichstore=1448799"><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/mall/newstore5.gif" width=80 height=80 border=0></a></td><td><a href="mallstore.php?whichstore=1448799">Dezi's</a></td></tr></table><table><tr><td><a href="mallstore.php?whichstore=3438990"><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/mall/newstore6.gif" width=80 height=80 border=0></a></td><td><a href="mallstore.php?whichstore=3438990">Scurvy's Stupendous Store O' Stuff</a></td></tr></table><table><tr><td><a href="mallstore.php?whichstore=2089211"><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/mall/newstore3.gif" width=80 height=80 border=0></a></td><td><a href="mallstore.php?whichstore=2089211">Things from dead chickens</a></td></tr></table><table><tr><td><a href="mallstore.php?whichstore=1392999"><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/mall/newstore2.gif" width=80 height=80 border=0></a></td><td><a href="mallstore.php?whichstore=1392999">#1 Donkey Punch</a></td></tr></table><table><tr><td><a href="mallstore.php?whichstore=1355419"><img src="https://s3.amazonaws.com/images.kingdomofloathing.com/otherimages/mall/newstore1.gif" width=80 height=80 border=0></a></td><td><a href="mallstore.php?whichstore=1355419">Shokpeep's Srote.</a></td></tr></table><form name=searchform2 action=mall.php method=post><input type=hidden name=action value=searchstores><p>Search for a store: <input class=text type=text name=searchstore size=20> <input class=button type=submit value="Search"></form></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></center></body></html>

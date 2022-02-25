@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
@@ -180,39 +181,32 @@ public class QuestDatabase {
   }
 
   public static void reset() {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("questslog.txt", KoLConstants.QUESTSLOG_VERSION);
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("questslog.txt", KoLConstants.QUESTSLOG_VERSION)) {
+      ArrayList<String[]> quests = new ArrayList<String[]>();
+      String[] data;
 
-    ArrayList<String[]> quests = new ArrayList<String[]>();
-    String[] data;
+      while ((data = FileUtilities.readData(reader)) != null) {
+        data[1] = data[1].replaceAll("<Player\\sName>", KoLCharacter.getUserName());
+        quests.add(data);
+      }
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      data[1] = data[1].replaceAll("<Player\\sName>", KoLCharacter.getUserName());
-      quests.add(data);
-    }
-
-    questLogData = quests.toArray(new String[quests.size()][]);
-
-    try {
-      reader.close();
-    } catch (Exception e) {
+      questLogData = quests.toArray(new String[quests.size()][]);
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
 
-    reader =
-        FileUtilities.getVersionedReader("questscouncil.txt", KoLConstants.QUESTSCOUNCIL_VERSION);
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("questscouncil.txt", KoLConstants.QUESTSCOUNCIL_VERSION)) {
+      ArrayList<String[]> quests = new ArrayList<String[]>();
+      String[] data;
 
-    quests = new ArrayList<String[]>();
+      while ((data = FileUtilities.readData(reader)) != null) {
+        quests.add(data);
+      }
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      quests.add(data);
-    }
-
-    councilData = quests.toArray(new String[quests.size()][]);
-
-    try {
-      reader.close();
-    } catch (Exception e) {
+      councilData = quests.toArray(new String[quests.size()][]);
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }

@@ -2,17 +2,16 @@ package net.sourceforge.kolmafia.session;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -65,6 +64,9 @@ import org.json.JSONObject;
 public abstract class InventoryManager {
   private static final int BULK_PURCHASE_AMOUNT = 30;
 
+  // Number of days which is considered "too old" for a cached mall price.
+  public static final float MALL_PRICE_AGE = 7.0f;
+
   private static int askedAboutCrafting = 0;
 
   public static void resetInventory() {
@@ -81,8 +83,8 @@ public abstract class InventoryManager {
       return;
     }
 
-    ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
-    ArrayList<AdventureResult> unlimited = new ArrayList<AdventureResult>();
+    List<AdventureResult> items = new ArrayList<>();
+    List<AdventureResult> unlimited = new ArrayList<>();
 
     try {
       // {"1":"1","2":"1" ... }
@@ -793,7 +795,7 @@ public abstract class InventoryManager {
     if (shouldUseCoinmasters
         && KoLConstants.hermitItems.contains(item)
         && (!shouldUseMall
-            || SewerRequest.currentWorthlessItemCost() < StoreManager.getMallPrice(item))) {
+            || SewerRequest.currentWorthlessItemCost() < MallPriceManager.getMallPrice(item))) {
 
       int itemCount =
           itemId == ItemPool.ELEVEN_LEAF_CLOVER
@@ -846,8 +848,8 @@ public abstract class InventoryManager {
 
       // If buying from the mall will leave the item in storage, use only NPCs
       boolean onlyNPC = forceNoMall || !InventoryManager.canUseMall();
-      ArrayList<PurchaseRequest> results =
-          onlyNPC ? StoreManager.searchNPCs(item) : StoreManager.searchMall(item);
+      List<PurchaseRequest> results =
+          onlyNPC ? MallPriceManager.searchNPCs(item) : MallPriceManager.searchMall(item);
       KoLmafia.makePurchases(
           results,
           results.toArray(new PurchaseRequest[0]),
@@ -855,7 +857,7 @@ public abstract class InventoryManager {
           isAutomated,
           0);
       if (!onlyNPC) {
-        StoreManager.updateMallPrice(item, results);
+        MallPriceManager.updateMallPrice(item, results);
       }
 
       missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
@@ -926,7 +928,7 @@ public abstract class InventoryManager {
         // exceeds the user's autoBuyPriceLimit.
 
         float meatSpend =
-            InventoryManager.priceToMake(item, missingCount, 0, true, true) / missingCount;
+            InventoryManager.priceToMake(item, missingCount, true, true) / missingCount;
         int autoBuyPriceLimit = Preferences.getInteger("autoBuyPriceLimit");
         if (meatSpend > autoBuyPriceLimit) {
           makeFromComponents = false;
@@ -997,14 +999,14 @@ public abstract class InventoryManager {
         return "buy";
       }
 
-      ArrayList<PurchaseRequest> results = StoreManager.searchMall(item);
+      List<PurchaseRequest> results = MallPriceManager.searchMall(item);
       KoLmafia.makePurchases(
           results,
           results.toArray(new PurchaseRequest[0]),
           InventoryManager.getPurchaseCount(itemId, missingCount),
           isAutomated,
           0);
-      StoreManager.updateMallPrice(item, results);
+      MallPriceManager.updateMallPrice(item, results);
       missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
 
       if (missingCount <= 0) {
@@ -1055,29 +1057,29 @@ public abstract class InventoryManager {
     return defaultBuy;
   }
 
-  private static boolean cheaperToBuy(final AdventureResult item, final int quantity) {
+  public static boolean cheaperToBuy(final AdventureResult item, final int quantity) {
     if (!ItemDatabase.isTradeable(item.getItemId())) {
       return false;
     }
 
-    int mallPrice = StoreManager.getMallPrice(item, 7.0f) * quantity;
+    int mallPrice = MallPriceManager.getMallPrice(item, MALL_PRICE_AGE) * quantity;
     if (mallPrice <= 0) {
       return false;
     }
 
-    int makePrice = InventoryManager.priceToMake(item, quantity, 0, false);
+    int makePrice = InventoryManager.priceToMake(item, quantity, false);
     if (makePrice == Integer.MAX_VALUE) {
       return true;
     }
 
     if (mallPrice / 2 < makePrice && makePrice / 2 < mallPrice) {
       // Less than a 2:1 ratio, we should check more carefully
-      mallPrice = StoreManager.getMallPrice(item) * quantity;
+      mallPrice = MallPriceManager.getMallPrice(item) * quantity;
       if (mallPrice <= 0) {
         return false;
       }
 
-      makePrice = InventoryManager.priceToMake(item, quantity, 0, true);
+      makePrice = InventoryManager.priceToMake(item, quantity, true);
       if (makePrice == Integer.MAX_VALUE) {
         return true;
       }
@@ -1091,7 +1093,35 @@ public abstract class InventoryManager {
     return mallPrice < makePrice;
   }
 
-  private static int itemValue(final AdventureResult item, final boolean exact) {
+  public static int itemValue(final AdventureResult item, final boolean exact) {
+
+    // r9806 | jasonharper | 2011-09-05 00:04:24 -0400 (Mon, 05 Sep 2011) | 29 lines
+    //
+    // The decision to buy a completed item rather than creating it from ingredients
+    // already in inventory requires assigning a value to those ingredients, which
+    // really depends on play style.  Not everyone is going to put in the effort
+    // needed to maximize their Mall profits; they might use only autosell to
+    // dispose of excess items, or just hoard them.  Therefore, a new float
+    // preference "valueOfInventory" allows players to indicate the worth of items,
+    // with these key values:
+    //
+    // 0.0 - Items already in inventory are considered free.
+    // 1.0 - Items are valued at their autosell price.
+    // 2.0 - Items are valued at current Mall price, unless they are min-priced.
+    // 3.0 - Items are always valued at Mall price (not really realistic).
+    //
+    // Intermediate values interpolate between integral values.  The default is 1.8,
+    // reflecting the fact that items won't sell immediately in the Mall without
+    // undercutting or advertising.  This preference, and several previously hidden
+    // prefs affecting create vs. buy decisions, are now exposed on a new Creatable
+    // -> Fine Tuning page in the Item Manager.
+
+    // 0.0 - Items already owned are considered free.
+    // 1.0 - Items are valued at autosell price.
+    // 2.0 - Items are valued at autosell price if min-priced in Mall.
+    // 2.0 - Items are valued at current Mall price, if not min-priced.
+    // 3.0 - Items are always valued at Mall price (not really realistic).
+
     float factor = Preferences.getFloat("valueOfInventory");
     if (factor <= 0.0f) {
       return 0;
@@ -1108,7 +1138,10 @@ public abstract class InventoryManager {
     factor -= 1.0f;
     lower = upper;
 
-    int mall = exact ? StoreManager.getMallPrice(item) : StoreManager.getMallPrice(item, 7.0f);
+    int mall =
+        exact
+            ? MallPriceManager.getMallPrice(item)
+            : MallPriceManager.getMallPrice(item, MALL_PRICE_AGE);
     if (mall > Math.max(100, 2 * Math.abs(autosell))) {
       upper = Math.max(lower, mall);
     }
@@ -1122,25 +1155,39 @@ public abstract class InventoryManager {
     return lower + (int) ((upper - lower) * factor);
   }
 
-  private static int priceToAcquire(
+  public static final int priceToAcquire(
+      final AdventureResult item, int quantity, final boolean exact) {
+    return InventoryManager.priceToAcquire(item, quantity, exact, false, 0);
+  }
+
+  public static final int priceToAcquire(
+      final AdventureResult item, int quantity, final boolean exact, final boolean mallPriceOnly) {
+    return InventoryManager.priceToAcquire(item, quantity, exact, mallPriceOnly, 0);
+  }
+
+  private static final int priceToAcquire(
       final AdventureResult item,
       int quantity,
-      final int level,
       final boolean exact,
-      final boolean mallPriceOnly) {
+      final boolean mallPriceOnly,
+      final int level) {
     int price = 0;
-    int onhand = Math.min(quantity, item.getCount(KoLConstants.inventory));
+    int needed = quantity;
+    // Not just inventory; include anything our setting allow to be retrieved
+    int onhand = Math.min(needed, InventoryManager.getAccessibleCount(item));
+
     if (onhand > 0) {
       if (item.getItemId() != ItemPool.PLASTIC_SWORD) {
         price = mallPriceOnly ? 0 : InventoryManager.itemValue(item, exact);
       }
 
       price *= onhand;
-      quantity -= onhand;
+      needed -= onhand;
 
-      if (quantity == 0) {
+      if (needed == 0) {
         if (Preferences.getBoolean("debugBuy")) {
-          RequestLogger.printLine("\u262F " + item.getInstance(onhand) + " onhand=" + price);
+          RequestLogger.printLine(
+              "\u262F " + item.getInstance(onhand) + " onhand=" + onhand + " price = " + price);
         }
 
         return price;
@@ -1148,22 +1195,24 @@ public abstract class InventoryManager {
     }
 
     int mallPrice =
-        (exact ? StoreManager.getMallPrice(item) : StoreManager.getMallPrice(item, 7.0f))
-            * quantity;
+        (exact
+                ? MallPriceManager.getMallPrice(item)
+                : MallPriceManager.getMallPrice(item, MALL_PRICE_AGE))
+            * needed;
     if (mallPrice <= 0) {
       mallPrice = Integer.MAX_VALUE;
     } else {
       mallPrice += price;
     }
 
-    int makePrice = InventoryManager.priceToMake(item, quantity, level, exact, mallPriceOnly);
+    int makePrice = InventoryManager.priceToMake(item, needed, exact, mallPriceOnly, level);
     if (makePrice != Integer.MAX_VALUE) {
       makePrice += price;
     }
 
     if (!exact && mallPrice / 2 < makePrice && makePrice / 2 < mallPrice) {
       // Less than a 2:1 ratio, we should check more carefully
-      return InventoryManager.priceToAcquire(item, quantity, level, true, mallPriceOnly);
+      return InventoryManager.priceToAcquire(item, quantity, true, mallPriceOnly, level);
     }
 
     if (Preferences.getBoolean("debugBuy")) {
@@ -1174,24 +1223,37 @@ public abstract class InventoryManager {
     return Math.min(mallPrice, makePrice);
   }
 
+  public static int priceToMake(final AdventureResult item, final int qty, final boolean exact) {
+    return InventoryManager.priceToMake(item, qty, exact, false, 0);
+  }
+
+  public static int priceToMake(
+      final AdventureResult item, final int qty, final boolean exact, final boolean mallPriceOnly) {
+    return InventoryManager.priceToMake(item, qty, exact, mallPriceOnly, 0);
+  }
+
   private static int priceToMake(
       final AdventureResult item,
       final int quantity,
-      final int level,
       final boolean exact,
-      final boolean mallPriceOnly) {
+      final boolean mallPriceOnly,
+      final int level) {
     int id = item.getItemId();
     int meatCost = CombineMeatRequest.getCost(id);
     if (meatCost > 0) {
       return meatCost * quantity;
     }
 
-    CraftingType method = ConcoctionDatabase.getMixingMethod(item);
-    EnumSet<CraftingRequirements> requirements = ConcoctionDatabase.getRequirements(id);
-    if (level > 10 || !ConcoctionDatabase.isPermittedMethod(method, requirements)) {
+    // Limit recursion depth
+    if (level > 10) {
       return Integer.MAX_VALUE;
     }
 
+    if (!ConcoctionDatabase.isPermittedMethod(item)) {
+      return Integer.MAX_VALUE;
+    }
+
+    CraftingType method = ConcoctionDatabase.getMixingMethod(item);
     int price = ConcoctionDatabase.getCreationCost(method);
     int yield = ConcoctionDatabase.getYield(id);
     int madeQuantity = (quantity + yield - 1) / yield;
@@ -1203,7 +1265,10 @@ public abstract class InventoryManager {
       int needed = ingredient.getCount() * madeQuantity;
 
       int ingredientPrice =
-          InventoryManager.priceToAcquire(ingredient, needed, level + 1, exact, mallPriceOnly);
+          ingredient.isMeat()
+              ? needed
+              : InventoryManager.priceToAcquire(
+                  ingredient, needed, exact, mallPriceOnly, level + 1);
 
       if (ingredientPrice == Integer.MAX_VALUE) {
         return ingredientPrice;
@@ -1213,11 +1278,6 @@ public abstract class InventoryManager {
     }
 
     return price * quantity / (yield * madeQuantity);
-  }
-
-  private static int priceToMake(
-      final AdventureResult item, final int qty, final int level, final boolean exact) {
-    return InventoryManager.priceToMake(item, qty, level, exact, false);
   }
 
   private static int getPurchaseCount(final int itemId, final int missingCount) {
@@ -1238,7 +1298,7 @@ public abstract class InventoryManager {
     return InventoryManager.hasAnyIngredient(itemId, null);
   }
 
-  private static boolean hasAnyIngredient(final int itemId, HashSet<Integer> seen) {
+  private static boolean hasAnyIngredient(final int itemId, Set<Integer> seen) {
     if (itemId < 0) {
       return false;
     }

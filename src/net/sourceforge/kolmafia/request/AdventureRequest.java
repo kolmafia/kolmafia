@@ -639,6 +639,7 @@ public class AdventureRequest extends GenericRequest {
       case 807: // Breaker Breaker!
       case 1003: // Test Your Might And Also Test Other Things
       case 1086: // Pick a Card
+      case 1463: // Reminiscing About Those Monsters You Fought
         return null;
 
       case 1135: // The Bat-Sedan
@@ -1071,7 +1072,15 @@ public class AdventureRequest extends GenericRequest {
       return;
     }
 
+    if (redirectLocation.startsWith("council.php") || redirectLocation.startsWith("ascend.php")) {
+      // Community Service can redirect to both council.php and ascend.php
+      AdventureRequest.ZONE_UNLOCK.run();
+      return;
+    }
+
     RequestSynchFrame.showRequest(AdventureRequest.ZONE_UNLOCK);
+    RequestLogger.printLine("Unrecognized choice.php redirect: " + redirectLocation);
+    RequestLogger.updateSessionLog("Unrecognized choice.php redirect: " + redirectLocation);
     KoLmafia.updateDisplay(MafiaState.ABORT, "Unknown adventure type encountered.");
   }
 

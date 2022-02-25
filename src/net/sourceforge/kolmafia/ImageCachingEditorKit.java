@@ -20,7 +20,7 @@ public class ImageCachingEditorKit extends HTMLEditorKit {
     return ImageCachingEditorKit.DEFAULT_FACTORY;
   }
 
-  private static class ImageCachingViewFactory extends HTMLFactory {
+  protected static class ImageCachingViewFactory extends HTMLFactory {
     @Override
     public View create(final Element elem) {
       if (elem.getAttributes().getAttribute(StyleConstants.NameAttribute) == HTML.Tag.IMG) {

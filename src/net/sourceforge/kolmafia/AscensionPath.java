@@ -56,6 +56,7 @@ public class AscensionPath {
     // Not yet implemented
     QUANTUM("Quantum Terrarium", 42, false, "quantum", "a", "quantumPoints", 11, false),
     WILDFIRE("Wildfire", 43, false, "brushfire", "a"),
+    GREY_YOU("Grey You", 44, true, "greygoo", "a"),
     // A "sign" rather than a "path" for some reason
     BAD_MOON("Bad Moon", 999, false, "badmoon", null),
     ;
@@ -132,6 +133,20 @@ public class AscensionPath {
 
     public void incrementPoints(int points) {
       setPoints(getPoints() + points);
+    }
+
+    public boolean canUseFamiliars() {
+      switch (this) {
+        case AVATAR_OF_BORIS:
+        case AVATAR_OF_JARLSBERG:
+        case AVATAR_OF_SNEAKY_PETE:
+        case ACTUALLY_ED_THE_UNDYING:
+        case LICENSE_TO_ADVENTURE:
+        case DARK_GYFFTE:
+          return false;
+        default:
+          return true;
+      }
     }
 
     @Override

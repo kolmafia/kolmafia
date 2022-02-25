@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -17,12 +18,16 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallPriceDatabase {
+  // If false, blocks saving of mall prices. Do not modify outside of tests.
+  public static boolean savePricesToFile = true;
+
   private static final PriceArray prices = new PriceArray();
   private static final HashSet<String> updated = new HashSet<String>();
   private static final HashSet<String> submitted = new HashSet<String>();
@@ -39,56 +44,53 @@ public class MallPriceDatabase {
   private MallPriceDatabase() {}
 
   private static int updatePrices(String filename, boolean allowOverride) {
-    BufferedReader reader = FileUtilities.getReader(filename, allowOverride);
-
-    String line = FileUtilities.readLine(reader);
-    if (line == null) {
-      RequestLogger.printLine("(file not found)");
-      return 0;
-    }
-
-    if (StringUtilities.parseInt(line) != KoLConstants.MALLPRICES_VERSION) {
-      RequestLogger.printLine("(incompatible price file format)");
-      return 0;
-    }
-
-    String[] data;
     int count = 0;
-    long now = System.currentTimeMillis() / 1000L;
+    try (BufferedReader reader = FileUtilities.getReader(filename, allowOverride)) {
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length < 3) {
-        continue;
+      String line = FileUtilities.readLine(reader);
+      if (line == null) {
+        RequestLogger.printLine("(file not found)");
+        return 0;
       }
 
-      int id = StringUtilities.parseInt(data[0]);
-      long timestamp = Math.min(now, Long.parseLong(data[1]));
-      int price = StringUtilities.parseInt(data[2]);
-      if (id < 1
-          || id > ItemDatabase.maxItemId()
-          || price < 1
-          || price > 999999999
-          || timestamp <= 0) { // Something's fishy with this file...
-        continue;
+      if (StringUtilities.parseInt(line) != KoLConstants.MALLPRICES_VERSION) {
+        RequestLogger.printLine("(incompatible price file format)");
+        return 0;
       }
 
-      if (!ItemDatabase.isTradeable(id)) continue;
-      Price p = MallPriceDatabase.prices.get(id);
-      if (p == null) {
-        MallPriceDatabase.prices.set(id, new Price(price, timestamp));
-        ++count;
-        ++MallPriceDatabase.modCount;
-      } else if (timestamp > p.timestamp) {
-        p.price = price;
-        p.timestamp = timestamp;
-        ++count;
-        ++MallPriceDatabase.modCount;
-      }
-    }
+      String[] data;
+      long now = MallPriceManager.currentTimeMillis() / 1000L;
 
-    try {
-      reader.close();
-    } catch (Exception e) {
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 3) {
+          continue;
+        }
+
+        int id = StringUtilities.parseInt(data[0]);
+        long timestamp = Math.min(now, Long.parseLong(data[1]));
+        int price = StringUtilities.parseInt(data[2]);
+        if (id < 1
+            || id > ItemDatabase.maxItemId()
+            || price < 1
+            || price > 999999999
+            || timestamp <= 0) { // Something's fishy with this file...
+          continue;
+        }
+
+        if (!ItemDatabase.isTradeable(id)) continue;
+        Price p = MallPriceDatabase.prices.get(id);
+        if (p == null) {
+          MallPriceDatabase.prices.set(id, new Price(price, timestamp));
+          ++count;
+          ++MallPriceDatabase.modCount;
+        } else if (timestamp > p.timestamp) {
+          p.price = price;
+          p.timestamp = timestamp;
+          ++count;
+          ++MallPriceDatabase.modCount;
+        }
+      }
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
     return count;
@@ -138,7 +140,7 @@ public class MallPriceDatabase {
   }
 
   public static void recordPrice(int itemId, int price, boolean deferred) {
-    long timestamp = System.currentTimeMillis() / 1000L;
+    long timestamp = MallPriceManager.currentTimeMillis() / 1000L;
     Price p = MallPriceDatabase.prices.get(itemId);
     if (p == null) {
       MallPriceDatabase.prices.set(itemId, new Price(price, timestamp));
@@ -153,6 +155,10 @@ public class MallPriceDatabase {
   }
 
   public static void writePrices() {
+    if (!MallPriceDatabase.savePricesToFile) {
+      return;
+    }
+
     File output = new File(KoLConstants.DATA_LOCATION, "mallprices.txt");
     PrintStream writer = LogStream.openStream(output, true);
     writer.println(KoLConstants.MALLPRICES_VERSION);
@@ -190,28 +196,36 @@ public class MallPriceDatabase {
       con.setRequestProperty("Content-Type", "multipart/form-data; boundary=--blahblahfishcakes");
       con.setRequestMethod("POST");
       con.setRequestProperty("Connection", "close");
-      OutputStream o = con.getOutputStream();
-      BufferedWriter w = new BufferedWriter(new OutputStreamWriter(o));
-      w.write("----blahblahfishcakes\r\n");
-      w.write(
-          "Content-Disposition: form-data; name=\"upload\"; filename=\"mallprices.txt\"\r\n\r\n");
+      try (OutputStream o = con.getOutputStream();
+          BufferedWriter w = new BufferedWriter(new OutputStreamWriter(o))) {
+        w.write("----blahblahfishcakes\r\n");
+        w.write(
+            "Content-Disposition: form-data; name=\"upload\"; filename=\"mallprices.txt\"\r\n\r\n");
 
-      BufferedReader reader = FileUtilities.getReader("mallprices.txt");
-      String line;
-      while ((line = FileUtilities.readLine(reader)) != null) {
-        w.write(line);
-        w.write('\n');
+        try (BufferedReader reader = FileUtilities.getReader("mallprices.txt")) {
+          String line;
+          while ((line = FileUtilities.readLine(reader)) != null) {
+            w.write(line);
+            w.write('\n');
+          }
+        } catch (IOException e) {
+          StaticEntity.printStackTrace(e);
+        }
+        w.write("\r\n----blahblahfishcakes--\r\n");
+        w.flush();
+      } catch (IOException e) {
+        StaticEntity.printStackTrace(e);
       }
-      w.write("\r\n----blahblahfishcakes--\r\n");
-      w.flush();
-      o.close();
 
       InputStream i = con.getInputStream();
       int responseCode = con.getResponseCode();
       String response = "";
       if (i != null) {
-        response = new BufferedReader(new InputStreamReader(i)).readLine();
-        i.close();
+        try (var reader = new BufferedReader(new InputStreamReader(i))) {
+          response = reader.readLine();
+        } catch (IOException e) {
+          StaticEntity.printStackTrace(e);
+        }
       }
       if (responseCode == 200) {
         RequestLogger.printLine("Success: " + response);
@@ -236,7 +250,7 @@ public class MallPriceDatabase {
   // Return age of price data, in fractional days
   public static float getAge(int itemId) {
     Price p = MallPriceDatabase.prices.get(itemId);
-    long now = System.currentTimeMillis() / 1000L;
+    long now = MallPriceManager.currentTimeMillis() / 1000L;
     return p == null ? Float.POSITIVE_INFINITY : (now - p.timestamp) / 86400.0f;
   }
 

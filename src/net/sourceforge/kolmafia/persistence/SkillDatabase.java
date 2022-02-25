@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
 import net.sourceforge.kolmafia.*;
@@ -158,31 +159,25 @@ public class SkillDatabase {
       SkillDatabase.skillsByCategory.put(category, new ArrayList<>());
     }
 
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("classskills.txt", KoLConstants.CLASSSKILLS_VERSION);
-    String[] data;
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("classskills.txt", KoLConstants.CLASSSKILLS_VERSION)) {
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length < 6) {
-        continue;
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 6) {
+          continue;
+        }
+
+        Integer skillId = Integer.valueOf(data[0]);
+        String name = data[1];
+        String image = data[2];
+        Integer type = Integer.valueOf(data[3]);
+        Long mp = Long.valueOf(data[4]);
+        Integer duration = Integer.valueOf(data[5]);
+        Integer level = (data.length > 6) ? Integer.valueOf(data[6]) : null;
+        SkillDatabase.addSkill(skillId, name, image, type, mp, duration, level);
       }
-
-      Integer skillId = Integer.valueOf(data[0]);
-      String name = data[1];
-      String image = data[2];
-      Integer type = Integer.valueOf(data[3]);
-      Long mp = Long.valueOf(data[4]);
-      Integer duration = Integer.valueOf(data[5]);
-      Integer level = (data.length > 6) ? Integer.valueOf(data[6]) : null;
-      SkillDatabase.addSkill(skillId, name, image, type, mp, duration, level);
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
 
@@ -1397,6 +1392,7 @@ public class SkillDatabase {
       case 23: // Gelatinous Noob skills
       case 24: // Vampyre skills
       case 25: // Plumber skills
+      case 27: // Grey Goo skills
         return false;
     }
 

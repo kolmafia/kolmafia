@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
@@ -71,7 +70,6 @@ import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.NaiveSecureSocketLayer;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -113,7 +111,6 @@ public class GenericRequest implements Runnable {
     "devproxy.kingdomofloathing.com", "www.kingdomofloathing.com"
   };
 
-  public static final String KOL_IP = "69.16.150.211";
   public static String KOL_HOST = GenericRequest.SERVERS[1];
   public static URL KOL_SECURE_ROOT = null;
 
@@ -189,24 +186,8 @@ public class GenericRequest implements Runnable {
 
     GenericRequest.setLoginServer(GenericRequest.SERVERS[useDevProxyServer ? 0 : 1]);
 
-    // Disable this, since it causes unrecoverable problems in
-    // situations of lag, rather than simply slowing things down
-    boolean allowSocketTimeout = false; // Preferences.getBoolean( "allowSocketTimeout" );
-
-    if (allowSocketTimeout) {
-      systemProperties.put("sun.net.client.defaultConnectTimeout", "10000");
-      systemProperties.put("sun.net.client.defaultReadTimeout", "120000");
-    } else {
-      systemProperties.remove("sun.net.client.defaultConnectTimeout");
-      systemProperties.remove("sun.net.client.defaultReadTimeout");
-    }
-
-    if (Preferences.getBoolean("useNaiveSecureLogin")
-        || Preferences.getBoolean("connectViaAddress")) {
-      NaiveSecureSocketLayer.install();
-    } else {
-      NaiveSecureSocketLayer.uninstall();
-    }
+    systemProperties.remove("sun.net.client.defaultConnectTimeout");
+    systemProperties.remove("sun.net.client.defaultReadTimeout");
 
     systemProperties.put("http.referer", "https://" + GenericRequest.KOL_HOST + "/game.php");
   }
@@ -288,11 +269,7 @@ public class GenericRequest implements Runnable {
     GenericRequest.KOL_HOST = GenericRequest.SERVERS[serverIndex];
 
     try {
-      if (Preferences.getBoolean("connectViaAddress")) {
-        GenericRequest.KOL_SECURE_ROOT = new URL("https", GenericRequest.KOL_IP, 443, "/");
-      } else {
-        GenericRequest.KOL_SECURE_ROOT = new URL("https", GenericRequest.KOL_HOST, 443, "/");
-      }
+      GenericRequest.KOL_SECURE_ROOT = new URL("https", GenericRequest.KOL_HOST, 443, "/");
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
@@ -846,13 +823,27 @@ public class GenericRequest implements Runnable {
   }
 
   public static final String extractField(final String urlString, final String field) {
-    int start = urlString.indexOf(field);
+    int start = urlString.lastIndexOf(field);
     if (start == -1) {
       return null;
     }
 
     int end = urlString.indexOf("&", start);
     return (end == -1) ? urlString.substring(start) : urlString.substring(start, end);
+  }
+
+  public static final String extractValueOrDefault(final String urlString, final String field) {
+    return GenericRequest.extractValueOrDefault(urlString, field, "");
+  }
+
+  public static final String extractValueOrDefault(
+      final String urlString, final String field, String def) {
+    String value = GenericRequest.extractField(urlString, field);
+    if (value == null) {
+      return def;
+    }
+    int equals = value.indexOf("=");
+    return (equals == -1) ? value.trim() : value.substring(equals + 1).trim();
   }
 
   private boolean shouldUpdateDebugLog() {
@@ -2256,66 +2247,6 @@ public class GenericRequest implements Runnable {
   public void formatResponse() {}
 
   /**
-   * Utility method used to skip the given number of tokens within the provided <code>
-   * StringTokenizer</code>. This method is used in order to clarify what's being done, rather than
-   * calling <code>st.nextToken()</code> repeatedly.
-   *
-   * @param st The <code>StringTokenizer</code> whose tokens are to be skipped
-   * @param tokenCount The number of tokens to skip
-   */
-  public static final void skipTokens(final StringTokenizer st, final int tokenCount) {
-    for (int i = 0; i < tokenCount; ++i) {
-      st.nextToken();
-    }
-  }
-
-  /**
-   * Utility method used to transform the next token on the given <code>StringTokenizer</code> into
-   * an integer. Because this is used repeatedly in parsing, its functionality is provided globally
-   * to all instances of <code>GenericRequest</code>.
-   *
-   * @param st The <code>StringTokenizer</code> whose next token is to be retrieved
-   * @return The integer token, if it exists, or 0, if the token was not a number
-   */
-  public static final int intToken(final StringTokenizer st) {
-    return GenericRequest.intToken(st, 0);
-  }
-
-  /**
-   * Utility method used to transform the next token on the given <code>StringTokenizer</code> into
-   * an integer; however, this differs in the single-argument version in that only a part of the
-   * next token is needed. Because this is also used repeatedly in parsing, its functionality is
-   * provided globally to all instances of <code>GenericRequest</code>.
-   *
-   * @param st The <code>StringTokenizer</code> whose next token is to be retrieved
-   * @param fromStart The index at which the integer to parse begins
-   * @return The integer token, if it exists, or 0, if the token was not a number
-   */
-  public static final int intToken(final StringTokenizer st, final int fromStart) {
-    String token = st.nextToken().substring(fromStart);
-    return StringUtilities.parseInt(token);
-  }
-
-  /**
-   * Utility method used to transform part of the next token on the given <code>StringTokenizer
-   * </code> into an integer. This differs from the two-argument in that part of the end of the
-   * string is expected to contain non-numeric values as well. Because this is also repeatedly in
-   * parsing, its functionality is provided globally to all instances of <code>GenericRequest</code>
-   * .
-   *
-   * @param st The <code>StringTokenizer</code> whose next token is to be retrieved
-   * @param fromStart The index at which the integer to parse begins
-   * @param fromEnd The distance from the end at which the first non-numeric character is found
-   * @return The integer token, if it exists, or 0, if the token was not a number
-   */
-  public static final int intToken(
-      final StringTokenizer st, final int fromStart, final int fromEnd) {
-    String token = st.nextToken();
-    token = token.substring(fromStart, token.length() - fromEnd);
-    return StringUtilities.parseInt(token);
-  }
-
-  /**
    * An alternative method to doing adventure calculation is determining how many adventures are
    * used by the given request, and subtract them after the request is done. This number defaults to
    * <code>zero</code>; overriding classes should change this value to the appropriate amount.
@@ -2862,7 +2793,7 @@ public class GenericRequest implements Runnable {
       KoLAdventure adventure = AdventureDatabase.getAdventure(nextAdventure);
       KoLAdventure.setLastAdventure(adventure);
       KoLAdventure.setNextAdventure(adventure);
-      EncounterManager.registerAdventure(adventure.getAdventureName());
+      EncounterManager.registerAdventure(adventure);
     }
 
     String message = "[" + KoLAdventure.getAdventureCount() + "] " + itemName;

@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.EnumSet;
@@ -177,20 +178,14 @@ public class ConcoctionDatabase {
     // examined and float-referenced: once in the name-lookup,
     // and again in the Id lookup.
 
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("concoctions.txt", KoLConstants.CONCOCTIONS_VERSION);
-    String[] data;
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("concoctions.txt", KoLConstants.CONCOCTIONS_VERSION)) {
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      ConcoctionDatabase.addConcoction(data);
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
+      while ((data = FileUtilities.readData(reader)) != null) {
+        ConcoctionDatabase.addConcoction(data);
+      }
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
 
@@ -359,15 +354,53 @@ public class ConcoctionDatabase {
     return true;
   }
 
+  public static final boolean isPermittedMethod(AdventureResult item) {
+    return ConcoctionDatabase.checkPermittedMethod(ConcoctionPool.get(item));
+  }
+
+  public static final boolean isPermittedMethod(Concoction conc) {
+    // Also checks for Coinmaster accessibilty, since we know the item.
+
+    if (conc == null) {
+      return false;
+    }
+
+    // If this is a Coinmaster creation, the Coinmaster must be accessible
+    CraftingType method = conc.getMixingMethod();
+    if (method == CraftingType.COINMASTER) {
+      String message = conc.getPurchaseRequest().accessible();
+      if (message != null) {
+        return false;
+      }
+    }
+
+    EnumSet<CraftingRequirements> requirements = conc.getRequirements();
+    return ConcoctionDatabase.isPermittedMethod(method, requirements);
+  }
+
   public static final boolean checkPermittedMethod(Concoction conc) {
     // Same as isPermittedMethod(), but sets excuse.
+    // Also checks for Coinmaster accessibilty, since we know the item.
     ConcoctionDatabase.excuse = null;
+
+    if (conc == null) {
+      return false;
+    }
 
     CraftingType method = conc.getMixingMethod();
 
     if (!ConcoctionDatabase.PERMIT_METHOD.contains(method)) {
       ConcoctionDatabase.excuse = ConcoctionDatabase.EXCUSE.get(method);
       return false;
+    }
+
+    // If this is a Coinmaster creation, the Coinmaster must be accessible
+    if (method == CraftingType.COINMASTER) {
+      String message = conc.getPurchaseRequest().accessible();
+      if (message != null) {
+        ConcoctionDatabase.excuse = message;
+        return false;
+      }
     }
 
     EnumSet<CraftingRequirements> requirements = conc.getRequirements();
@@ -1957,7 +1990,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.COINMASTER, "You have not selected the option to trade with coin masters.");
 
-    if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.SAUSAGE_O_MATIC, 1))
+    if (InventoryManager.getCount(ItemPool.SAUSAGE_O_MATIC) > 0
         || KoLCharacter.hasEquipped(ItemPool.SAUSAGE_O_MATIC, EquipmentManager.OFFHAND)) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SAUSAGE_O_MATIC);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SAUSAGE_O_MATIC, 0);
@@ -1967,7 +2000,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.SAUSAGE_O_MATIC, "You do not have a Kramco Sausage-o-Matic&trade;.");
 
-    if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.FIVE_D_PRINTER, 1))) {
+    if (InventoryManager.getCount(ItemPool.FIVE_D_PRINTER) > 0) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.FIVE_D);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.FIVE_D, 0);
       ConcoctionDatabase.CREATION_COST.put(CraftingType.FIVE_D, 0);

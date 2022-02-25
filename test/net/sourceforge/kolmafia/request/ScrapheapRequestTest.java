@@ -12,7 +12,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ScrapheapRequestTest extends RequestTestBase {
+public class ScrapheapRequestTest {
 
   @BeforeEach
   protected void initEach() {
@@ -46,10 +46,9 @@ public class ScrapheapRequestTest extends RequestTestBase {
   public void parseCPUUpgrades() throws IOException {
     String html = Files.readString(Paths.get("request/test_scrapheap_cpu_upgrades.html"));
 
-    ChoiceManager.handlingChoice = true;
     var req = new GenericRequest("choice.php?whichchoice=1445&show=cpus");
     req.responseText = html;
-    req.processResponse();
+    ChoiceManager.visitChoice(req);
 
     var expected =
         new String[] {

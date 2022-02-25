@@ -1,8 +1,14 @@
 package net.sourceforge.kolmafia.session;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
@@ -13,8 +19,7 @@ import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BanishManager {
-  private static final ArrayList<BanishedMonster> banishedMonsters =
-      new ArrayList<BanishedMonster>();
+  private static final Set<BanishedMonster> banishedMonsters = new LinkedHashSet<>();
 
   private BanishManager() {}
 
@@ -24,16 +29,100 @@ public class BanishManager {
     ROLLOVER_RESET,
     AVATAR_RESET,
     NEVER_RESET,
+    COSMIC_BOWLING_BALL_RESET;
+
+    private Boolean rolloverReset;
+    private Boolean turnReset;
+
+    final boolean isRolloverReset() {
+      if (rolloverReset == null) {
+        this.rolloverReset =
+            this == TURN_ROLLOVER_RESET
+                || this == ROLLOVER_RESET
+                || this == COSMIC_BOWLING_BALL_RESET;
+      }
+
+      return rolloverReset;
+    }
+
+    final boolean isTurnReset() {
+      if (turnReset == null) {
+        this.turnReset = this == TURN_RESET || this == TURN_ROLLOVER_RESET;
+      }
+
+      return turnReset;
+    }
   }
 
-  private static class Banisher {
+  public enum Banisher {
+    BALEFUL_HOWL("baleful howl", -1, 1, true, Reset.ROLLOVER_RESET),
+    BANISHING_SHOUT("banishing shout", -1, 3, false, Reset.AVATAR_RESET),
+    BATTER_UP("batter up!", -1, 1, false, Reset.ROLLOVER_RESET),
+    BEANCANNON("beancannon", -1, 5, false, Reset.ROLLOVER_RESET),
+    BE_A_MIND_MASTER("Be a Mind Master", 80, 1, true, Reset.TURN_RESET),
+    BLART_SPRAY_WIDE("B. L. A. R. T. Spray (wide)", -1, 1, true, Reset.ROLLOVER_RESET),
+    BOWL_A_CURVEBALL("Bowl a Curveball", -1, 1, true, Reset.COSMIC_BOWLING_BALL_RESET),
+    BREATHE_OUT("breathe out", 20, 1, true, Reset.TURN_ROLLOVER_RESET),
+    BUNDLE_OF_FRAGRANT_HERBS(
+        "bundle of &quot;fragrant&quot; herbs", -1, 3, true, Reset.ROLLOVER_RESET),
+    CHATTERBOXING("chatterboxing", 20, 1, true, Reset.TURN_ROLLOVER_RESET),
+    CLASSY_MONKEY("classy monkey", 20, 1, false, Reset.TURN_RESET),
+    COCKTAIL_NAPKIN("cocktail napkin", 20, 1, true, Reset.TURN_RESET),
+    CRYSTAL_SKULL("crystal skull", 20, 1, false, Reset.TURN_RESET),
+    CURSE_OF_VACATION("curse of vacation", -1, 1, false, Reset.ROLLOVER_RESET),
+    DEATHCHUCKS("deathchucks", -1, 1, true, Reset.ROLLOVER_RESET),
+    DIRTY_STINKBOMB("dirty stinkbomb", -1, 1, true, Reset.ROLLOVER_RESET),
+    DIVINE_CHAMPAGNE_POPPER("divine champagne popper", 5, 1, true, Reset.TURN_RESET),
+    FEEL_HATRED("Feel Hatred", 50, 1, true, Reset.TURN_ROLLOVER_RESET),
+    GINGERBREAD_RESTRAINING_ORDER(
+        "gingerbread restraining order", -1, 1, false, Reset.ROLLOVER_RESET),
+    HAROLDS_BELL("harold's bell", 20, 1, false, Reset.TURN_RESET),
+    HOWL_OF_THE_ALPHA("howl of the alpha", -1, 3, false, Reset.AVATAR_RESET),
+    HUMAN_MUSK("human musk", -1, 1, true, Reset.ROLLOVER_RESET),
+    ICE_HOTEL_BELL("ice hotel bell", -1, 1, true, Reset.ROLLOVER_RESET),
+    ICE_HOUSE("ice house", -1, 1, false, Reset.NEVER_RESET),
+    KGB_TRANQUILIZER_DART("KGB tranquilizer dart", 20, 1, true, Reset.TURN_ROLLOVER_RESET),
+    LICORICE_ROPE("licorice rope", -1, 1, false, Reset.ROLLOVER_RESET),
+    LOUDER_THAN_BOMB("louder than bomb", 20, 1, true, Reset.TURN_ROLLOVER_RESET),
+    MAFIA_MIDDLEFINGER_RING("mafia middle finger ring", 60, 1, true, Reset.TURN_ROLLOVER_RESET),
+    NANORHINO("nanorhino", -1, 1, false, Reset.ROLLOVER_RESET),
+    PANTSGIVING("pantsgiving", 30, 1, false, Reset.TURN_ROLLOVER_RESET),
+    PEEL_OUT("peel out", -1, 1, true, Reset.AVATAR_RESET),
+    PULLED_INDIGO_TAFFY("pulled indigo taffy", 40, 1, true, Reset.TURN_RESET),
+    REFLEX_HAMMER("Reflex Hammer", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
+    SABER_FORCE("Saber Force", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
+    SHOW_YOUR_BORING_FAMILIAR_PICTURES(
+        "Show your boring familiar pictures", 100, 1, true, Reset.TURN_RESET),
+    SMOKE_GRENADE("smoke grenade", 20, 1, false, Reset.TURN_RESET),
+    SNOKEBOMB("snokebomb", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
+    SPOOKY_MUSIC_BOX_MECHANISM("spooky music box mechanism", -1, 1, false, Reset.ROLLOVER_RESET),
+    SPRING_LOADED_FRONT_BUMPER(
+        "Spring-Loaded Front Bumper", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
+    STAFF_OF_THE_STANDALONE_CHEESE(
+        "staff of the standalone cheese", -1, 5, false, Reset.AVATAR_RESET),
+    STINKY_CHEESE_EYE("stinky cheese eye", 10, 1, true, Reset.TURN_RESET),
+    TENNIS_BALL("tennis ball", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
+    THROW_LATTE_ON_OPPONENT("Throw Latte on Opponent", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
+    THUNDER_CLAP("thunder clap", 40, 1, false, Reset.TURN_RESET),
+    TRYPTOPHAN_DART("tryptophan dart", -1, 1, false, Reset.ROLLOVER_RESET),
+    ULTRA_HAMMER("Ultra Hammer", -1, 1, false, Reset.ROLLOVER_RESET),
+    V_FOR_VIVALA_MASK("v for vivala mask", 10, 1, true, Reset.TURN_RESET),
+    WALK_AWAY_FROM_EXPLOSION("walk away from explosion", 30, 1, false, Reset.TURN_RESET);
+
     final String name;
     final int duration;
     final int queueSize;
     final boolean isTurnFree;
     final Reset resetType;
 
-    public Banisher(
+    public static Banisher find(final String banisherName) {
+      return Arrays.stream(values())
+          .filter(b -> b.getName().equalsIgnoreCase(banisherName))
+          .findAny()
+          .orElse(null);
+    }
+
+    Banisher(
         final String name,
         final int duration,
         final int queueSize,
@@ -70,69 +159,15 @@ public class BanishManager {
     }
   }
 
-  // Format is name of banisher, duration of banisher, how many monsters can be banished at once
-  // from this source,
-  // whether banish is turn free, type of reset.
-  private static final Banisher[] BANISHER =
-      new Banisher[] {
-        new Banisher("Be a Mind Master", 80, 1, true, Reset.TURN_RESET),
-        new Banisher("Feel Hatred", 50, 1, true, Reset.TURN_ROLLOVER_RESET),
-        new Banisher("Show your boring familiar pictures", 100, 1, true, Reset.TURN_RESET),
-        new Banisher("KGB tranquilizer dart", 20, 1, true, Reset.TURN_ROLLOVER_RESET),
-        new Banisher("Reflex Hammer", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
-        new Banisher("Saber Force", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
-        new Banisher("Spring-Loaded Front Bumper", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
-        new Banisher("Throw Latte on Opponent", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
-        new Banisher("Ultra Hammer", -1, 1, false, Reset.ROLLOVER_RESET),
-        new Banisher("B. L. A. R. T. Spray (wide)", -1, 1, true, Reset.ROLLOVER_RESET),
-        new Banisher("baleful howl", -1, 1, true, Reset.ROLLOVER_RESET),
-        new Banisher("banishing shout", -1, 3, false, Reset.AVATAR_RESET),
-        new Banisher("batter up!", -1, 1, false, Reset.ROLLOVER_RESET),
-        new Banisher("beancannon", -1, 5, false, Reset.ROLLOVER_RESET),
-        new Banisher("breathe out", 20, 1, true, Reset.TURN_ROLLOVER_RESET),
-        new Banisher("bundle of &quot;fragrant&quot; herbs", -1, 3, true, Reset.ROLLOVER_RESET),
-        new Banisher("chatterboxing", 20, 1, true, Reset.TURN_ROLLOVER_RESET),
-        new Banisher("classy monkey", 20, 1, false, Reset.TURN_RESET),
-        new Banisher("cocktail napkin", 20, 1, true, Reset.TURN_RESET),
-        new Banisher("crystal skull", 20, 1, false, Reset.TURN_RESET),
-        new Banisher("curse of vacation", -1, 1, false, Reset.ROLLOVER_RESET),
-        new Banisher("deathchucks", -1, 1, true, Reset.ROLLOVER_RESET),
-        new Banisher("dirty stinkbomb", -1, 1, true, Reset.ROLLOVER_RESET),
-        new Banisher("divine champagne popper", 5, 1, true, Reset.TURN_RESET),
-        new Banisher("gingerbread restraining order", -1, 1, false, Reset.ROLLOVER_RESET),
-        new Banisher("harold's bell", 20, 1, false, Reset.TURN_RESET),
-        new Banisher("howl of the alpha", -1, 3, false, Reset.AVATAR_RESET),
-        new Banisher("human musk", -1, 1, true, Reset.ROLLOVER_RESET),
-        new Banisher("ice hotel bell", -1, 1, true, Reset.ROLLOVER_RESET),
-        new Banisher("ice house", -1, 1, false, Reset.NEVER_RESET),
-        new Banisher("licorice rope", -1, 1, false, Reset.ROLLOVER_RESET),
-        new Banisher("louder than bomb", 20, 1, true, Reset.TURN_ROLLOVER_RESET),
-        new Banisher("mafia middle finger ring", 60, 1, true, Reset.TURN_ROLLOVER_RESET),
-        new Banisher("nanorhino", -1, 1, false, Reset.ROLLOVER_RESET),
-        new Banisher("pantsgiving", 30, 1, false, Reset.TURN_ROLLOVER_RESET),
-        new Banisher("peel out", -1, 1, true, Reset.AVATAR_RESET),
-        new Banisher("pulled indigo taffy", 40, 1, true, Reset.TURN_RESET),
-        new Banisher("smoke grenade", 20, 1, false, Reset.TURN_RESET),
-        new Banisher("snokebomb", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
-        new Banisher("spooky music box mechanism", -1, 1, false, Reset.ROLLOVER_RESET),
-        new Banisher("staff of the standalone cheese", -1, 5, false, Reset.AVATAR_RESET),
-        new Banisher("stinky cheese eye", 10, 1, true, Reset.TURN_RESET),
-        new Banisher("tennis ball", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
-        new Banisher("thunder clap", 40, 1, false, Reset.TURN_RESET),
-        new Banisher("tryptophan dart", -1, 1, false, Reset.ROLLOVER_RESET),
-        new Banisher("v for vivala mask", 10, 1, true, Reset.TURN_RESET),
-        new Banisher("walk away from explosion", 30, 1, false, Reset.TURN_RESET),
-      };
-
   private static class BanishedMonster {
-    final String monsterName;
-    final String banishName;
-    final int turnBanished;
+    private final String monsterName;
+    private final Banisher banisher;
+    private final int turnBanished;
 
     public BanishedMonster(
-        final String monsterName, final String banishName, final int turnBanished) {
+        final String monsterName, final Banisher banisher, final int turnBanished) {
       this.monsterName = monsterName;
-      this.banishName = banishName;
+      this.banisher = banisher;
       this.turnBanished = turnBanished;
     }
 
@@ -140,12 +175,52 @@ public class BanishManager {
       return this.monsterName;
     }
 
-    public final String getBanishName() {
-      return this.banishName;
+    public final Banisher getBanisher() {
+      return this.banisher;
     }
 
     public final int getTurnBanished() {
       return this.turnBanished;
+    }
+
+    public final Integer turnsLeft() {
+      return (turnBanished + banisher.getDuration()) - KoLCharacter.getCurrentRun();
+    }
+
+    public final boolean isValid() {
+      int duration = banisher.getDuration();
+      switch (banisher.getResetType()) {
+        case TURN_RESET:
+        case TURN_ROLLOVER_RESET:
+          return turnsLeft() >= 0;
+        case COSMIC_BOWLING_BALL_RESET:
+          return Preferences.getInteger("cosmicBowlingBallReturnCombats") > 0;
+        default:
+          return true;
+      }
+    }
+
+    public final String getDescription() {
+      int duration = banisher.getDuration();
+
+      switch (banisher.getResetType()) {
+        case TURN_RESET:
+          return turnsLeft().toString();
+        case ROLLOVER_RESET:
+          return "Until Rollover";
+        case TURN_ROLLOVER_RESET:
+          return turnsLeft() + " or Until Rollover";
+        case AVATAR_RESET:
+          return "Until Prism Break";
+        case NEVER_RESET:
+          return "Until Ice House opened";
+        case COSMIC_BOWLING_BALL_RESET:
+          return "Until Ball returns ("
+              + Preferences.getInteger("cosmicBowlingBallReturnCombats")
+              + " combats) or Until Rollover";
+        default:
+          return "";
+      }
     }
   }
 
@@ -162,306 +237,238 @@ public class BanishManager {
     }
 
     StringTokenizer tokens = new StringTokenizer(banishes, ":");
+
     while (tokens.hasMoreTokens()) {
       String monsterName = tokens.nextToken();
       if (!tokens.hasMoreTokens()) break;
-      String banishName = tokens.nextToken();
+      String banisherName = tokens.nextToken();
       if (!tokens.hasMoreTokens()) break;
       int turnBanished = StringUtilities.parseInt(tokens.nextToken());
-      int banishDuration = BanishManager.findBanisher(banishName).getDuration();
-      Reset resetType = BanishManager.findBanisher(banishName).getResetType();
-      if ((resetType != Reset.TURN_RESET && resetType != Reset.TURN_ROLLOVER_RESET)
-          || (turnBanished + banishDuration >= KoLCharacter.getCurrentRun())) {
-        BanishManager.addBanishedMonster(monsterName, banishName, turnBanished);
+
+      var banisher = Banisher.find(banisherName);
+
+      if (banisher == null) {
+        KoLmafia.updateDisplay("Attempted to parse unknown banisher " + banisherName + ".");
+        continue;
       }
+
+      BanishManager.addBanishedMonster(monsterName, banisher, turnBanished);
     }
   }
 
-  public static final void saveBanishedMonsters() {
-    BanishManager.recalculate();
+  private static final void saveBanishedMonsters() {
+    Preferences.setString(
+        "banishedMonsters",
+        banishedMonsters.stream()
+            .flatMap(
+                m -> Stream.of(m.getMonsterName(), m.getBanisher().getName(), m.getTurnBanished()))
+            .map(Object::toString)
+            .collect(Collectors.joining(":")));
+  }
 
-    StringBuilder banishString = new StringBuilder();
-    Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
+  /**
+   * Iterate through all banished monsters removing entries if the supplied predicate matches.
+   *
+   * @param predicate Predicate dictating removal
+   */
+  private static final void resetIf(Predicate<BanishedMonster> predicate) {
+    BanishManager.banishedMonsters.removeIf(predicate);
+    BanishManager.saveBanishedMonsters();
+  }
 
-    while (it.hasNext()) {
-      BanishedMonster current = it.next();
-
-      if (banishString.length() > 0) {
-        banishString.append(":");
-      }
-
-      banishString.append(current.monsterName);
-      banishString.append(":");
-      banishString.append(current.banishName);
-      banishString.append(":");
-      banishString.append(current.turnBanished);
-    }
-
-    Preferences.setString("banishedMonsters", banishString.toString());
+  /**
+   * Iterate through all banished monsters removing entries if the supplied predicate matches their
+   * Reset type.
+   *
+   * @param predicate Predicate dictating removal
+   */
+  private static final void resetIfType(Predicate<Reset> predicate) {
+    resetIf(m -> predicate.test(m.getBanisher().getResetType()));
   }
 
   public static final void resetRollover() {
-    Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
-
-    while (it.hasNext()) {
-      BanishedMonster current = it.next();
-
-      Reset type = BanishManager.findBanisher(current.getBanishName()).getResetType();
-      if (type == Reset.ROLLOVER_RESET || type == Reset.TURN_ROLLOVER_RESET) {
-        it.remove();
-      }
-    }
-
-    BanishManager.saveBanishedMonsters();
+    resetIfType(Reset::isRolloverReset);
   }
 
   public static final void resetAvatar() {
-
-    BanishManager.banishedMonsters.removeIf(
-        current ->
-            BanishManager.findBanisher(current.getBanishName()).getResetType()
-                == Reset.AVATAR_RESET);
-
-    BanishManager.saveBanishedMonsters();
+    resetIfType(r -> r == Reset.AVATAR_RESET);
   }
 
   public static final void resetAscension() {
-
-    BanishManager.banishedMonsters.removeIf(
-        current ->
-            BanishManager.findBanisher(current.getBanishName()).getResetType()
-                != Reset.NEVER_RESET);
-
-    BanishManager.saveBanishedMonsters();
+    resetIfType(r -> r != Reset.NEVER_RESET);
   }
 
-  public static final void update() {
-    BanishManager.recalculate();
-    BanishManager.saveBanishedMonsters();
+  public static final void resetCosmicBowlingBall() {
+    resetIfType(r -> r == Reset.COSMIC_BOWLING_BALL_RESET);
   }
 
-  private static void recalculate() {
-    Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
-
-    while (it.hasNext()) {
-      BanishedMonster current = it.next();
-      int banisherDuration = BanishManager.findBanisher(current.getBanishName()).getDuration();
-      Reset resetType = BanishManager.findBanisher(current.getBanishName()).getResetType();
-      if ((resetType == Reset.TURN_RESET || resetType == Reset.TURN_ROLLOVER_RESET)
-          && (current.getTurnBanished() + banisherDuration <= KoLCharacter.getCurrentRun())) {
-        it.remove();
-      }
-    }
+  public static void recalculate() {
+    resetIf(Predicate.not(BanishedMonster::isValid));
   }
 
-  public static final Banisher findBanisher(final String banisher) {
-    for (Banisher ban : BANISHER) {
-      if (ban.getName().equals(banisher)) {
-        return ban;
-      }
-    }
-    return null;
-  }
-
-  public static final void banishCurrentMonster(final String banishName) {
+  public static final void banishCurrentMonster(final Banisher banisher) {
     MonsterData monster = MonsterStatusTracker.getLastMonster();
     if (monster == null) {
       return;
     }
-    BanishManager.banishMonster(monster.getName(), banishName);
+    BanishManager.banishMonster(monster, banisher);
   }
 
-  public static final void banishMonster(final String monsterName, final String banishName) {
-    if (BanishManager.countBanishes(banishName)
-        >= BanishManager.findBanisher(banishName).getQueueSize()) {
-      BanishManager.removeOldestBanish(banishName);
+  public static final void banishMonster(final String monsterName, final Banisher banisher) {
+    MonsterData monster = MonsterDatabase.findMonster(monsterName, false, false);
+
+    if (monster == null) {
+      KoLmafia.updateDisplay("Couldn't find monster by the name " + monsterName + ".");
+      return;
     }
+
+    banishMonster(monster, banisher);
+  }
+
+  public static final void banishMonster(final MonsterData monster, final Banisher banisher) {
+    int queueSize = banisher.getQueueSize();
+
+    if (BanishManager.countBanishes(banisher) >= queueSize) {
+      // If we've rebanished a monster that wasn't going to run out anyway, there's nothing to do.
+      if (queueSize == 1
+          && monster.getName().equals(getBanishedMonster(banisher))
+          && !banisher.getResetType().isTurnReset()) {
+        return;
+      }
+
+      BanishManager.removeOldestBanish(banisher);
+    }
+
     // Banishes fail in some areas, monsters in them cannot be banished
-    MonsterData monster = MonsterDatabase.findMonster(monsterName);
-    if (monster != null && monster.isNoBanish()) {
+
+    if (monster.isNoBanish()) {
       KoLmafia.updateDisplay(
           "Banish of "
-              + monsterName
+              + monster.getName()
               + " by "
-              + banishName
+              + banisher.getName()
               + " failed, as monsters from this area cannot be banished.");
       return;
     }
-    KoLmafia.updateDisplay(monsterName + " banished by " + banishName + ".");
-    int turnCost = BanishManager.findBanisher(banishName).isTurnFree() ? 0 : 1;
+
+    KoLmafia.updateDisplay(monster.getName() + " banished by " + banisher.getName() + ".");
+
+    int turnCost = banisher.isTurnFree() ? 0 : 1;
     BanishManager.addBanishedMonster(
-        monsterName, banishName, KoLCharacter.getCurrentRun() + turnCost);
-    BanishManager.saveBanishedMonsters();
+        monster.getName(), banisher, KoLCharacter.getCurrentRun() + turnCost);
+
+    BanishManager.recalculate();
 
     // Legacy support
-    if (banishName.equals("nanorhino")) {
-      Preferences.setString("_nanorhinoBanishedMonster", monsterName);
-    } else if (banishName.equals("banishing shout") || banishName.equals("howl of the alpha")) {
-      String pref = monsterName;
-      String[] monsters = Preferences.getString("banishingShoutMonsters").split("\\|");
-      for (int i = 0; i < monsters.length && i < 2; ++i) {
-        if (monsters[i].length() > 0) {
-          pref += "|" + monsters[i];
+    switch (banisher) {
+      case NANORHINO:
+        Preferences.setString("_nanorhinoBanishedMonster", monster.getName());
+        break;
+      case BANISHING_SHOUT:
+      case HOWL_OF_THE_ALPHA:
+        {
+          Preferences.setString(
+              "banishingShoutMonsters",
+              Stream.concat(
+                      Stream.of(monster.getName()),
+                      Arrays.stream(Preferences.getString("banishingShoutMonsters").split("\\|"))
+                          .limit(2)
+                          .filter(Predicate.not(String::isEmpty)))
+                  .collect(Collectors.joining("|")));
+          break;
         }
-      }
-      Preferences.setString("banishingShoutMonsters", pref);
-    } else if (banishName.equals("staff of the standalone cheese")) {
-      String pref = monsterName;
-      String[] monsters = Preferences.getString("_jiggleCheesedMonsters").split("\\|");
-      for (int i = 0; i < monsters.length; ++i) {
-        if (monsters[i].length() > 0) {
-          pref += "|" + monsters[i];
+      case STAFF_OF_THE_STANDALONE_CHEESE:
+        {
+          Preferences.setString(
+              "_jiggleCheesedMonsters",
+              Stream.concat(
+                      Stream.of(monster.getName()),
+                      Arrays.stream(Preferences.getString("_jiggleCheesedMonsters").split("\\|"))
+                          .filter(Predicate.not(String::isEmpty)))
+                  .collect(Collectors.joining("|")));
+          break;
         }
-      }
-      Preferences.setString("_jiggleCheesedMonsters", pref);
     }
   }
 
-  private static void addBanishedMonster(
-      final String monsterName, final String banishName, final int turnBanished) {
-    BanishedMonster newBanishedMonster = new BanishedMonster(monsterName, banishName, turnBanished);
-    if (!BanishManager.banishedMonsters.contains(newBanishedMonster)) {
-      BanishManager.banishedMonsters.add(newBanishedMonster);
+  private static boolean addBanishedMonster(
+      final String monsterName, final Banisher banisher, final int turnBanished) {
+    var banishedMonster = new BanishedMonster(monsterName, banisher, turnBanished);
+    if (!banishedMonster.isValid()) {
+      return false;
     }
+
+    banishedMonsters.add(banishedMonster);
+    return true;
   }
 
-  public static final void removeBanishByBanisher(final String banisher) {
-
-    BanishManager.banishedMonsters.removeIf(current -> current.getBanishName().equals(banisher));
-
-    BanishManager.saveBanishedMonsters();
+  public static final void removeBanishByBanisher(final Banisher banisher) {
+    resetIf(m -> m.getBanisher().equals(banisher));
   }
 
   public static final void removeBanishByMonster(final String monster) {
-
-    BanishManager.banishedMonsters.removeIf(current -> current.getMonsterName().equals(monster));
-
-    BanishManager.saveBanishedMonsters();
+    resetIf(m -> m.getMonsterName().equals(monster));
   }
 
-  public static final void removeOldestBanish(final String banisher) {
-    Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
-    String target = null;
-    int earliest = -1;
-
-    while (it.hasNext()) {
-      BanishedMonster current = it.next();
-      if (current.getBanishName().equals(banisher)) {
-        if (earliest == -1 || current.getTurnBanished() < earliest) {
-          target = current.getMonsterName();
-          earliest = current.getTurnBanished();
-        }
-      }
-    }
-
-    if (target != null) {
-      BanishManager.removeBanishByMonster(target);
-    }
+  private static final void removeOldestBanish(final Banisher banisher) {
+    banishedMonsters.stream()
+        .filter(b -> b.getBanisher().equals(banisher))
+        .min(Comparator.comparingInt(BanishedMonster::getTurnBanished))
+        .map(BanishedMonster::getMonsterName)
+        .ifPresent(BanishManager::removeBanishByMonster);
   }
 
   public static final boolean isBanished(final String monster) {
     BanishManager.recalculate();
 
-    Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
+    boolean iceHouseEffective = StandardRequest.isAllowed("Items", "ice house");
 
-    while (it.hasNext()) {
-      BanishedMonster current = it.next();
-      if (current.getMonsterName().equalsIgnoreCase(monster)) {
-        if (current.getBanishName().equals("ice house")
-            && !StandardRequest.isAllowed("Items", "ice house")) {
-          continue;
-        }
-        return true;
-      }
-    }
-    return false;
+    return banishedMonsters.stream()
+        .anyMatch(
+            m -> {
+              if (!m.getMonsterName().equalsIgnoreCase(monster)) return false;
+              return (!m.getBanisher().equals(Banisher.ICE_HOUSE) || iceHouseEffective);
+            });
   }
 
-  private static int countBanishes(final String banisher) {
-    int banishCount = 0;
-    Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
-
-    while (it.hasNext()) {
-      BanishedMonster current = it.next();
-      if (current.getBanishName().equals(banisher)) {
-        banishCount++;
-      }
-    }
-    return banishCount;
+  private static int countBanishes(final Banisher banisher) {
+    return (int) banishedMonsters.stream().filter(m -> m.getBanisher().equals(banisher)).count();
   }
 
-  public static final String getBanishList() {
+  public static final List<String> getBanishedMonsters() {
     BanishManager.recalculate();
 
-    StringBuilder banishList = new StringBuilder();
-    Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
-
-    while (it.hasNext()) {
-      BanishedMonster current = it.next();
-
-      if (banishList.length() > 0) {
-        banishList.append(",");
-      }
-
-      banishList.append(current.monsterName);
-    }
-
-    return banishList.toString();
+    return banishedMonsters.stream()
+        .map(BanishedMonster::getMonsterName)
+        .collect(Collectors.toList());
   }
 
-  public static final String getIceHouseMonster() {
+  public static final List<String> getBanishedMonsters(Banisher banisher) {
     BanishManager.recalculate();
 
-    Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
+    return banishedMonsters.stream()
+        .filter(m -> m.getBanisher().equals(banisher))
+        .map(BanishedMonster::getMonsterName)
+        .collect(Collectors.toList());
+  }
 
-    while (it.hasNext()) {
-      BanishedMonster current = it.next();
-
-      if (current.banishName.equals("ice house")) {
-        return current.monsterName;
-      }
-    }
-
-    return null;
+  public static final String getBanishedMonster(Banisher banisher) {
+    var monsters = getBanishedMonsters(banisher);
+    return (monsters.size() > 0) ? monsters.get(0) : null;
   }
 
   public static final String[][] getBanishData() {
     BanishManager.recalculate();
 
-    Iterator<BanishedMonster> it = BanishManager.banishedMonsters.iterator();
-
-    int banish = 0;
-    int count = BanishManager.banishedMonsters.size();
-
-    if (count > 0) {
-      String[][] banishData = new String[count][4];
-      while (it.hasNext()) {
-        BanishedMonster current = it.next();
-        banishData[banish][0] = current.monsterName;
-        banishData[banish][1] = current.banishName;
-        banishData[banish][2] = String.valueOf(current.turnBanished);
-        int banisherDuration = BanishManager.findBanisher(current.banishName).getDuration();
-        Reset resetType = BanishManager.findBanisher(current.banishName).getResetType();
-        if (resetType == Reset.TURN_RESET) {
-          banishData[banish][3] =
-              String.valueOf(
-                  current.turnBanished + banisherDuration - KoLCharacter.getCurrentRun());
-        } else if (resetType == Reset.ROLLOVER_RESET) {
-          banishData[banish][3] = "Until Rollover";
-        } else if (resetType == Reset.TURN_ROLLOVER_RESET) {
-          banishData[banish][3] =
-              (current.turnBanished + banisherDuration - KoLCharacter.getCurrentRun())
-                  + " or Until Rollover";
-        } else if (resetType == Reset.AVATAR_RESET) {
-          banishData[banish][3] = "Until Prism Break";
-        } else if (resetType == Reset.NEVER_RESET) {
-          banishData[banish][3] = "Until Ice House opened";
-        }
-        banish++;
-      }
-      return banishData;
-    }
-
-    return null;
+    return banishedMonsters.stream()
+        .map(
+            b ->
+                new String[] {
+                  b.getMonsterName(),
+                  b.getBanisher().getName(),
+                  String.valueOf(b.getTurnBanished()),
+                  b.getDescription()
+                })
+        .toArray(String[][]::new);
   }
 }

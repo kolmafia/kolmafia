@@ -7,7 +7,6 @@ global	allowNegativeTally	true
 global	allowNonMoodBurning	true
 global	allowSummonBurning	true
 global	autoLogin
-global	allowSocketTimeout	false
 global	autoHighlightOnFocus	true
 global	broadcastEvents	true
 global	browserBookmarks
@@ -30,7 +29,6 @@ global	combatHotkey8
 global	combatHotkey9
 global	commandLineNamespace
 global	compactChessboard	false
-global	connectViaAddress	false
 global	cookies.inventory
 global	copyAsHTML	false
 global	customizedTabs	false
@@ -120,6 +118,7 @@ global	relayAddsUseLinks	true
 global	relayAddsWikiLinks	false
 global	relayAllowRemoteAccess	false
 global	relayBrowserOnly	false
+global	relayDelayForSVN	5
 global	relayFormatsChatText	false
 global	relayHidesJunkMallItems	false
 global	relayMaintainsEffects	false
@@ -163,7 +162,7 @@ global	useDockIconBadge	false
 global	useHugglerChannel	false
 global	useImageCache	true
 global	useLastUserAgent	false
-global	useNaiveSecureLogin	false
+global	useShinyTabbedChat	true
 global	useSystemTrayIcon	false
 global	useTabbedChatFrame	true
 global	useToolbars	true
@@ -895,6 +894,7 @@ user	libramSkillsSoftcore	none
 user	libramSummons	0
 user	libraryCardUsed	false
 user	lightsOutAutomation	1
+user	locketPhylum	mer-kin
 user	lockPicked	false
 user	loginRecoveryHardcore	false
 user	loginRecoverySoftcore	true
@@ -1801,6 +1801,7 @@ user	_legendaryBeat	false
 user	_legionJackhammerCrafting	0
 user	_licenseToChillUsed	false
 user	_llamaCharge	0
+user	_locketMonstersFought
 user	_longConUsed	0
 user	_lookingGlass	false
 user	_loveChocolatesUsed	0
@@ -1864,6 +1865,7 @@ user	_optimisticCandleDropsCrown	0
 user	_oreDropsCrown	0
 user	_otoscopeUsed	0
 user	_overflowingGiftBasketUsed	false
+user	_oysterEggsFound	0
 user	_pantogramModifier
 user	_pantsgivingBanish	0
 user	_pantsgivingCount	0
@@ -1925,6 +1927,7 @@ user	_riftletAdv	0
 user	_roboDrinks
 user	_rogueProgramCharge	0
 user	_romanticFightsLeft	0
+user	_roninStoragePulls	
 user	_saberForceMonster
 user	_saberForceMonsterCount	0
 user	_saberForceUses	0

@@ -16,7 +16,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class AbsorbCommand extends AbstractCommand {
   public AbsorbCommand() {
-    this.usage = " <item> - absorb item.";
+    this.usage = "[X] <item> - absorb item(s).";
   }
 
   @Override
@@ -38,10 +38,13 @@ public class AbsorbCommand extends AbstractCommand {
 
     AdventureResult match = ItemFinder.getFirstMatchingItem(parameters, Match.ABSORB);
     if (match == null) {
+      // for backwards compatibility: previously no message was displayed, so do not error here
+      KoLmafia.updateDisplay("What item is " + parameters + "?");
       return;
     }
 
     int itemId = match.getItemId();
+    int count = match.getCount();
 
     // If not in inventory, try to retrieve it (if it's in inventory, doesn't matter if outside
     // Standard)
@@ -52,9 +55,11 @@ public class AbsorbCommand extends AbstractCommand {
       return;
     }
 
-    // Absorb the item
-    RequestThread.postRequest(
-        new GenericRequest("inventory.php?absorb=" + itemId + "&ajax=1", false));
+    var request = new GenericRequest("inventory.php?absorb=" + itemId + "&ajax=1", false);
+    // Absorb the item(s)
+    for (int i = 0; i < count; i++) {
+      RequestThread.postRequest(request);
+    }
 
     // Parse the charpane for updated absorb info
     RequestThread.postRequest(new CharPaneRequest());
@@ -62,5 +67,7 @@ public class AbsorbCommand extends AbstractCommand {
     if (ItemDatabase.isHat(itemId)) {
       PreferenceListenerRegistry.firePreferenceChanged("(hats)");
     }
+
+    KoLmafia.updateDisplay("Absorbed " + (count > 1 ? count + " " : "") + match.getPluralName());
   }
 }

@@ -55,10 +55,9 @@ public class ZapRequest extends GenericRequest {
       return;
     }
 
-    try {
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("zapgroups.txt", KoLConstants.ZAPGROUPS_VERSION)) {
       String line;
-      BufferedReader reader =
-          FileUtilities.getVersionedReader("zapgroups.txt", KoLConstants.ZAPGROUPS_VERSION);
 
       while ((line = FileUtilities.readLine(reader)) != null) {
         List<String> list = StringUtilities.tokenizeString(line);

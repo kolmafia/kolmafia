@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.function.Predicate;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -22,6 +23,8 @@ public class HolidayDatabase {
   private static int RONALD_PHASE = -1;
   private static int GRIMACE_PHASE = -1;
   private static int HAMBURGLAR_POSITION = -1;
+  private static final TimeZone ROLLOVER = TimeZone.getTimeZone("GMT-0330");
+  private static final TimeZone ARIZONA = TimeZone.getTimeZone("GMT-0700");
 
   static {
     HolidayDatabase.guessPhaseStep();
@@ -168,7 +171,7 @@ public class HolidayDatabase {
     try {
       // Use a timezone such that the "day" begins at rollover.
 
-      Calendar myCalendar = Calendar.getInstance(TimeZone.getTimeZone("GMT-0330"));
+      Calendar myCalendar = getKoLCalendar();
 
       myCalendar.set(2005, 8, 17, 0, 0, 0);
       HolidayDatabase.NEWYEAR = myCalendar.getTimeInMillis();
@@ -181,7 +184,7 @@ public class HolidayDatabase {
       myCalendar.set(2006, 5, 3, 0, 0, 0);
       HolidayDatabase.COLLISION = myCalendar.getTimeInMillis();
 
-      Date now = new Date();
+      Date now = getDate();
       int calendarDay = HolidayDatabase.getCalendarDay(now);
       int phaseStep = (calendarDay + 16) % 16;
 
@@ -197,7 +200,7 @@ public class HolidayDatabase {
   }
 
   public static final void logMoonStatus(final String label) {
-    Date now = new Date();
+    Date now = getDate();
 
     int calendarDay = HolidayDatabase.getCalendarDay(now);
     int phaseStep = (calendarDay + 16) % 16;
@@ -295,7 +298,7 @@ public class HolidayDatabase {
       HolidayDatabase.BOUNDARY += phaseError * MS_PER_DAY;
       HolidayDatabase.COLLISION += phaseError * MS_PER_DAY;
     }
-    HolidayDatabase.HAMBURGLAR_POSITION = HolidayDatabase.getHamburglarPosition(new Date());
+    HolidayDatabase.HAMBURGLAR_POSITION = HolidayDatabase.getHamburglarPosition(getDate());
   }
 
   public static final int getRonaldPhase() {
@@ -800,7 +803,7 @@ public class HolidayDatabase {
   }
 
   public static final String currentStatDay() {
-    Stat stat = HolidayDatabase.statDay(new Date());
+    Stat stat = HolidayDatabase.statDay(getDate());
     return stat == Stat.MUSCLE
         ? "Muscle Day"
         : stat == Stat.MYSTICALITY ? "Mysticality Day" : stat == Stat.MOXIE ? "Moxie Day" : "None";
@@ -912,12 +915,24 @@ public class HolidayDatabase {
     }
   }
 
+  public static Date getDate() {
+    return new Date();
+  }
+
+  public static Calendar getCalendar() {
+    return Calendar.getInstance(ARIZONA);
+  }
+
+  public static Calendar getKoLCalendar() {
+    return Calendar.getInstance(ROLLOVER);
+  }
+
   public static final String getHoliday() {
-    return HolidayDatabase.getHoliday(new Date(), false);
+    return HolidayDatabase.getHoliday(false);
   }
 
   public static final String getHoliday(final boolean showPredictions) {
-    return HolidayDatabase.getHoliday(new Date(), showPredictions);
+    return HolidayDatabase.getHoliday(getDate(), showPredictions);
   }
 
   public static final String getHoliday(final Date time) {
@@ -995,7 +1010,7 @@ public class HolidayDatabase {
     if (!currentYear.equals(HolidayDatabase.cachedYear)) {
       HolidayDatabase.cachedYear = currentYear;
       // Calculate holidays for the in-game timezone (days which start at rollover)
-      Calendar holidayFinder = Calendar.getInstance(TimeZone.getTimeZone("GMT-0330"));
+      Calendar holidayFinder = getKoLCalendar();
 
       // Apparently, Easter isn't the second Sunday in April;
       // it actually depends on the occurrence of the first
@@ -1113,6 +1128,28 @@ public class HolidayDatabase {
     }
 
     return null;
+  }
+
+  private static final boolean withCalendar(final Date date, Predicate<Calendar> predicate) {
+    var cal = getKoLCalendar();
+    cal.setTime(date);
+    return predicate.test(cal);
+  }
+
+  public static final boolean isMonday() {
+    return isMonday(getDate());
+  }
+
+  public static final boolean isMonday(Date date) {
+    return withCalendar(date, cal -> cal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY);
+  }
+
+  public static final boolean isDecember() {
+    return isDecember(getDate());
+  }
+
+  public static final boolean isDecember(Date date) {
+    return withCalendar(date, cal -> cal.get(Calendar.MONTH) == Calendar.DECEMBER);
   }
 
   public static final void addPredictionHTML(

@@ -533,7 +533,7 @@ public class StringUtilities {
   }
 
   public static final boolean isNumeric(String string) {
-    if (string == null || string.length() == 0) {
+    if (string == null || string.isEmpty()) {
       return false;
     }
 
@@ -887,6 +887,19 @@ public class StringUtilities {
       }
     }
     return b.toString();
+  }
+
+  public static final boolean isVowel(char letter) {
+    switch (Character.toLowerCase(letter)) {
+      case 'a':
+      case 'e':
+      case 'i':
+      case 'o':
+      case 'u':
+        return true;
+      default:
+        return false;
+    }
   }
 
   public static final int getBracketedId(final String name) {

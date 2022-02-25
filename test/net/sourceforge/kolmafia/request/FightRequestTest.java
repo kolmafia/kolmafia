@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Preference.isSetTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
@@ -16,9 +18,12 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.LocketManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /** Coverage driven collection of tests for FightRequest. */
 public class FightRequestTest {
@@ -26,7 +31,9 @@ public class FightRequestTest {
 
   @BeforeEach
   public void beforeEach() {
-    KoLCharacter.reset("Test Character");
+    KoLCharacter.reset("FightRequestTest");
+    Preferences.reset("FightRequestTest");
+    FightRequest.clearInstanceData();
   }
 
   private void parseCombatData(String path, String location, String encounter) throws IOException {
@@ -87,29 +94,25 @@ public class FightRequestTest {
   // Commerce Ghost Tests
   @Test
   public void commerceGhostStartsAtProperValue() {
-    KoLCharacter.reset("the Tristero");
     FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
     KoLCharacter.setFamiliar(fam);
     assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
   }
 
   @Test
-  @Disabled
   public void commerceGhostIncrementsByOneOnFight() throws IOException {
-    KoLCharacter.reset("the Tristero");
     FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
     KoLCharacter.setFamiliar(fam);
     assertEquals(0, Preferences.getInteger("commerceGhostCombats"));
     FightRequest.currentRound = 0;
-    // parseCombatData("request/test_fight_gnome_adv.html");
+    parseCombatData("request/test_fight_gnome_adv.html");
     assertEquals(1, Preferences.getInteger("commerceGhostCombats"));
   }
 
   // If mafia has miscounted we should move our count
   @Test
-  @Disabled
+  @Disabled("Response text does not trigger the code that detects action by ghost.")
   public void commerceGhostResetsTo10() {
-    KoLCharacter.reset("the Tristero");
     FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
     KoLCharacter.setFamiliar(fam);
     Preferences.setInteger("commerceGhostCombats", 5);
@@ -122,9 +125,8 @@ public class FightRequestTest {
 
   // When we turn in the quest we should reset
   @Test
-  @Disabled
+  @Disabled("Response text does not trigger the code that detects action by ghost.")
   public void commerceGhostResetsTo0() {
-    KoLCharacter.reset("the Tristero");
     FamiliarData fam = new FamiliarData(FamiliarPool.GHOST_COMMERCE);
     KoLCharacter.setFamiliar(fam);
     Preferences.setInteger("commerceGhostCombats", 10);
@@ -184,7 +186,6 @@ public class FightRequestTest {
 
   @Test
   public void voidMonsterIncrementationTest() throws IOException {
-    KoLCharacter.reset("the Tristero");
     MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("void slab"));
     parseCombatData("request/test_fight_void_monster.html");
     assertEquals(5, Preferences.getInteger("_voidFreeFights"));
@@ -192,7 +193,6 @@ public class FightRequestTest {
 
   @Test
   public void cursedMagnifyingGlassTest() throws IOException {
-    KoLCharacter.reset("the Tristero");
     EquipmentManager.setEquipment(
         EquipmentManager.OFFHAND, ItemPool.get(ItemPool.CURSED_MAGNIFYING_GLASS));
     Preferences.setInteger("cursedMagnifyingGlassCount", 13);
@@ -207,7 +207,6 @@ public class FightRequestTest {
 
   @Test
   public void daylightShavingTest() throws IOException {
-    KoLCharacter.reset("the Tristero");
     EquipmentManager.setEquipment(
         EquipmentManager.HAT, ItemPool.get(ItemPool.DAYLIGHT_SHAVINGS_HELMET));
     parseCombatData("request/test_fight_daylight_shavings_buff.html");
@@ -216,8 +215,48 @@ public class FightRequestTest {
 
   @Test
   public void luckyGoldRingVolcoinoDropRecorded() throws IOException {
-    assertEquals(false, Preferences.getBoolean("_luckyGoldRingVolcoino"));
+    assertFalse(Preferences.getBoolean("_luckyGoldRingVolcoino"));
     parseCombatData("request/test_fight_lucky_gold_ring_volcoino.html");
-    assertEquals(true, Preferences.getBoolean("_luckyGoldRingVolcoino"));
+    assertTrue(Preferences.getBoolean("_luckyGoldRingVolcoino"));
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"alielf", "Black Crayon Crimbo Elf"})
+  public void registersLocketFight(String monsterName) throws IOException {
+    var monster = MonsterDatabase.findMonster(monsterName);
+    MonsterStatusTracker.setNextMonster(monster);
+    parseCombatData("request/test_fight_start_locket_fight_with_" + monster.getPhylum() + ".html");
+    assertThat("locketPhylum", isSetTo(monster.getPhylum().toString()));
+    assertThat("_locketMonstersFought", isSetTo(monster.getId()));
+  }
+
+  @Test
+  public void rememberNewMonsterForLocket() throws IOException {
+    assertFalse(LocketManager.remembersMonster(1568));
+
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Sloppy Seconds Sundae"));
+    parseCombatData("request/test_fight_monster_added_to_locket.html");
+
+    assertTrue(LocketManager.remembersMonster(1568));
+  }
+
+  @Test
+  public void updatesListIfMonsterWasAlreadyInLocket() throws IOException {
+    assertFalse(LocketManager.remembersMonster(155));
+
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Knob Goblin Barbecue Team"));
+    parseCombatData("request/test_fight_monster_already_in_locket.html");
+
+    assertTrue(LocketManager.remembersMonster(155));
+  }
+
+  @Test
+  public void dontIncrementWitchessIfFromLocket() throws IOException {
+    assertEquals(Preferences.getInteger("_witchessFights"), 0);
+
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
+    parseCombatData("request/test_fight_witchess_with_locket.html");
+
+    assertEquals(Preferences.getInteger("_witchessFights"), 0);
   }
 }

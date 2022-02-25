@@ -13,6 +13,8 @@ import java.io.RandomAccessFile;
 import java.math.BigInteger;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
@@ -92,9 +94,10 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
 import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.LogoutManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
@@ -208,8 +211,8 @@ public abstract class KoLmafia {
     System.out.println();
     StaticEntity.setGUIRequired(true);
 
-    for (int i = 0; i < args.length; ++i) {
-      if (args[i].equalsIgnoreCase("--HELP") || args[i].equalsIgnoreCase("/?")) {
+    for (String arg : args) {
+      if (arg.equalsIgnoreCase("--HELP") || arg.equalsIgnoreCase("/?")) {
         System.out.println("An interface for the online adventure game, The Kingdom of Loathing.");
         System.out.println("Please visit https://kolmafia.us for more information.");
         System.out.println();
@@ -223,11 +226,11 @@ public abstract class KoLmafia {
         System.out.println("  script        Specifies a script to call when starting KoLmafia.");
 
         System.exit(0);
-      } else if (args[i].equalsIgnoreCase("--VERSION")) {
+      } else if (arg.equalsIgnoreCase("--VERSION")) {
         System.exit(0);
-      } else if (args[i].equalsIgnoreCase("--CLI")) {
+      } else if (arg.equalsIgnoreCase("--CLI")) {
         StaticEntity.setGUIRequired(false);
-      } else if (args[i].equalsIgnoreCase("--GUI")) {
+      } else if (arg.equalsIgnoreCase("--GUI")) {
         StaticEntity.setGUIRequired(true);
       }
     }
@@ -244,21 +247,14 @@ public abstract class KoLmafia {
     Preferences.setBoolean("useDevProxyServer", false);
     Preferences.setBoolean("relayBrowserOnly", false);
 
-    String actualName;
-    String[] pastUsers = StaticEntity.getPastUserList();
-
-    for (int i = 0; i < pastUsers.length; ++i) {
-      if (pastUsers[i].startsWith("devster")) {
-        continue;
-      }
-
-      actualName = Preferences.getString(pastUsers[i], "displayName");
-      if (actualName.equals("")) {
-        actualName = StringUtilities.globalStringReplace(pastUsers[i], "_", " ");
-      }
-
-      KoLConstants.saveStateNames.add(actualName);
-    }
+    Arrays.stream(StaticEntity.getPastUserList())
+        .filter(u -> !u.startsWith("devster"))
+        .map(
+            u -> {
+              String name = Preferences.getString(u, "displayName");
+              return !name.isEmpty() ? name : StringUtilities.globalStringReplace(u, "_", " ");
+            })
+        .forEach(KoLConstants.saveStateNames::add);
 
     // Set a user agent preemptively.  Workaround to allow https support for file_to_map and price
     // updates to coexist.
@@ -363,7 +359,7 @@ public abstract class KoLmafia {
 
     String lookAndFeel = Preferences.getString("swingLookAndFeel");
 
-    if (lookAndFeel.equals("")) {
+    if (lookAndFeel.isEmpty()) {
       lookAndFeel = defaultLookAndFeel;
     }
 
@@ -422,7 +418,7 @@ public abstract class KoLmafia {
 
     String message = null;
 
-    if (lastVersion == null || lastVersion.equals("")) {
+    if (lastVersion == null || lastVersion.isEmpty()) {
       message = "Clearing data overrides: initializing from " + currentVersion;
     } else if (!lastVersion.equals(currentVersion)) {
       message = "Clearing data overrides: upgrade from " + lastVersion + " to " + currentVersion;
@@ -494,23 +490,22 @@ public abstract class KoLmafia {
       String unicodeMessage = StringUtilities.getEntityDecode(message, false);
       ActionPanel[] panels = StaticEntity.getExistingPanels();
 
-      for (int i = 0; i < panels.length; ++i) {
-        if (panels[i] instanceof GenericPanel) {
-          ((GenericPanel) panels[i]).setStatusMessage(unicodeMessage);
+      for (ActionPanel panel : panels) {
+        if (panel instanceof GenericPanel) {
+          ((GenericPanel) panel).setStatusMessage(unicodeMessage);
         }
 
-        panels[i].setEnabled(state != MafiaState.CONTINUE);
+        panel.setEnabled(state != MafiaState.CONTINUE);
       }
 
-      Frame[] frames = Frame.getFrames();
-      for (int i = 0; i < frames.length; ++i) {
-        if (frames[i] instanceof GenericFrame) {
-          GenericFrame frame = (GenericFrame) frames[i];
-
-          frame.setStatusMessage(unicodeMessage);
-          frame.updateDisplayState(state);
-        }
-      }
+      Arrays.stream(Frame.getFrames())
+          .filter(GenericFrame.class::isInstance)
+          .map(GenericFrame.class::cast)
+          .forEach(
+              f -> {
+                f.setStatusMessage(unicodeMessage);
+                f.updateDisplayState(state);
+              });
 
       if (KoLDesktop.instanceExists()) {
         KoLDesktop.getInstance().updateDisplayState(state);
@@ -749,14 +744,9 @@ public abstract class KoLmafia {
     // Refresh fire levels
     WildfireCampRequest.refresh();
 
-    if (!(KoLCharacter.inAxecore()
-        || KoLCharacter.isJarlsberg()
-        || KoLCharacter.isSneakyPete()
-        || KoLCharacter.inBondcore()
-        || KoLCharacter.isVampyre()
-        || KoLCharacter.isEd()
-        || KoLCharacter.inPokefam()
-        || KoLCharacter.inQuantum())) {
+    if (KoLCharacter.getPath().canUseFamiliars()
+        && !KoLCharacter.inPokefam()
+        && !KoLCharacter.inQuantum()) {
       // Retrieve the Terrarium
       RequestThread.postRequest(new FamiliarRequest());
     }
@@ -797,7 +787,10 @@ public abstract class KoLmafia {
       CafeRequest.pullLARPCard();
     }
 
-    if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.KEYOTRON, 1))
+    // Load items pulled in Ronin
+    StorageRequest.loadRoninStoragePulls();
+
+    if (InventoryManager.getCount(ItemPool.KEYOTRON) > 0
         && Preferences.getInteger("lastKeyotronUse") != KoLCharacter.getAscensions()) {
       RequestThread.postRequest(UseItemRequest.getInstance(ItemPool.KEYOTRON));
     }
@@ -864,6 +857,9 @@ public abstract class KoLmafia {
 
     // Check orb predictions
     CrystalBallManager.ponder();
+
+    // Check locket monsters
+    LocketManager.reset();
 
     // Check some things that are not (yet) in api.php
     EquipmentRequest.checkCowboyBoots();
@@ -1411,7 +1407,7 @@ public abstract class KoLmafia {
   }
 
   public static boolean executeScript(final String scriptPath) {
-    if (!scriptPath.equals("")) {
+    if (!scriptPath.isEmpty()) {
       KoLmafiaCLI.DEFAULT_SHELL.executeLine(scriptPath);
       return true;
     }
@@ -1607,37 +1603,34 @@ public abstract class KoLmafia {
 
   public static final boolean checkRequirements(
       final List<AdventureResult> requirements, final boolean retrieveItem) {
-    AdventureResult[] requirementsArray = new AdventureResult[requirements.size()];
-    requirements.toArray(requirementsArray);
-
     long actualCount = 0;
 
     // Check the items required for this quest,
     // retrieving any items which might be inside
     // of a closet somewhere.
 
-    for (int i = 0; i < requirementsArray.length; ++i) {
-      if (requirementsArray[i] == null) {
+    Iterator<AdventureResult> i = requirements.iterator();
+
+    while (i.hasNext()) {
+      var adventureResult = i.next();
+
+      if (adventureResult == null) {
         continue;
       }
 
-      if (requirementsArray[i].isItem() && retrieveItem) {
-        InventoryManager.retrieveItem(requirementsArray[i]);
-      }
-
-      if (requirementsArray[i].isItem()) {
-        actualCount = requirementsArray[i].getCount(KoLConstants.inventory);
-      } else if (requirementsArray[i].isStatusEffect()) {
-        actualCount = requirementsArray[i].getCount(KoLConstants.activeEffects);
-      } else if (requirementsArray[i].getName().equals(AdventureResult.MEAT)) {
+      if (adventureResult.isItem()) {
+        if (retrieveItem) InventoryManager.retrieveItem(adventureResult);
+        actualCount = adventureResult.getCount(KoLConstants.inventory);
+      } else if (adventureResult.isStatusEffect()) {
+        actualCount = adventureResult.getCount(KoLConstants.activeEffects);
+      } else if (adventureResult.getName().equals(AdventureResult.MEAT)) {
         actualCount = KoLCharacter.getAvailableMeat();
       }
 
-      if (actualCount >= requirementsArray[i].getCount()) {
-        requirements.remove(requirementsArray[i]);
+      if (actualCount >= adventureResult.getCount()) {
+        i.remove();
       } else if (actualCount > 0) {
-        AdventureResult.addResultToList(
-            requirements, requirementsArray[i].getInstance(0 - actualCount));
+        AdventureResult.addResultToList(requirements, adventureResult.getInstance(-actualCount));
       }
     }
 
@@ -1694,9 +1687,11 @@ public abstract class KoLmafia {
 
     List<AdventureResult> destination =
         // Only NPC stores have an infinite supply
-        (!KoLCharacter.canInteract() && firstRequest.getQuantity() != PurchaseRequest.MAX_QUANTITY)
-            ? KoLConstants.storage
-            : KoLConstants.inventory;
+        (KoLCharacter.canInteract() || firstRequest.getQuantity() == PurchaseRequest.MAX_QUANTITY)
+            ? KoLConstants.inventory
+            : StorageRequest.isFreePull(firstRequest.getItem())
+                ? KoLConstants.freepulls
+                : KoLConstants.storage;
 
     int remaining = maxPurchases;
     int itemId = 0;
@@ -1777,7 +1772,7 @@ public abstract class KoLmafia {
               + ", got "
               + (maxPurchases - remaining)
               + ")");
-      StoreManager.flushCache(itemId);
+      MallPriceManager.flushCache(itemId);
     }
   }
 

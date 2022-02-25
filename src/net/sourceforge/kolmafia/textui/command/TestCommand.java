@@ -89,12 +89,10 @@ public class TestCommand extends AbstractCommand {
 
   private static void dump(final String data) {
     File file = new File(KoLConstants.DATA_LOCATION, "testCommand.html");
-    try {
-      OutputStream o = DataUtilities.getOutputStream(file);
-      BufferedWriter w = new BufferedWriter(new OutputStreamWriter(o));
+    try (OutputStream o = DataUtilities.getOutputStream(file);
+        BufferedWriter w = new BufferedWriter(new OutputStreamWriter(o))) {
       w.write(data);
       w.flush();
-      o.close();
     } catch (Exception e) {
     }
   }
@@ -688,6 +686,26 @@ public class TestCommand extends AbstractCommand {
             KoLCharacter.getAdjustedMysticality(), stat,
             KoLCharacter.getAdjustedMoxie(), stat);
         KoLCharacter.updateStatus();
+      }
+      return;
+    }
+
+    if (command.equals("toggle")) {
+      if (split.length >= 2) {
+        int index = parameters.indexOf(" ");
+        String thing = parameters.substring(index + 1).trim();
+        boolean old = false;
+        switch (thing) {
+          case "hardcore":
+            old = KoLCharacter.isHardcore();
+            KoLCharacter.setHardcore(!old);
+            break;
+          case "ronin":
+            old = KoLCharacter.inRonin();
+            KoLCharacter.setRonin(!old);
+            break;
+        }
+        RequestLogger.printLine(thing + ": " + old + " -> " + !old);
       }
       return;
     }

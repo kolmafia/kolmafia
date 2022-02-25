@@ -26,7 +26,8 @@ public enum AscensionClass {
   SNAKE_OILER("Snake Oiler", 20, "tinysnake", 2),
   GELATINOUS_NOOB("Gelatinous Noob", 23, "gelatinousicon", 2),
   VAMPYRE("Vampyre", 24, "vampirefangs", 1, "Chill of the Tomb"),
-  PLUMBER("Plumber", 25, "mario_hammer2", -1);
+  PLUMBER("Plumber", 25, "mario_hammer2", -1),
+  GREY_GOO("Grey Goo", 27, "goovatar", -1);
 
   public static final List<AscensionClass> standardClasses =
       Arrays.asList(
@@ -47,26 +48,28 @@ public enum AscensionClass {
     return Arrays.stream(values()).filter(a -> a.getId() > -1).collect(Collectors.toSet());
   }
 
-  public static AscensionClass nameToClass(String name) {
-    if (name.equals("")) {
-      return null;
-    }
-
-    for (AscensionClass ascensionClass : AscensionClass.values()) {
-      if (ascensionClass.getName().toLowerCase().contains(name.toLowerCase())) {
-        return ascensionClass;
-      }
-    }
-    return null;
+  public static AscensionClass findByPlural(final String plural) {
+    if (plural == null || plural.isEmpty()) return null;
+    String lowerCasePlural = plural.toLowerCase();
+    return Arrays.stream(values())
+        .filter(a -> a.getPlural().toLowerCase().contains(lowerCasePlural))
+        .findFirst()
+        .orElse(null);
   }
 
-  public static AscensionClass idToClass(int id) {
-    for (AscensionClass ascensionClass : AscensionClass.values()) {
-      if (id == ascensionClass.getId()) {
-        return ascensionClass;
-      }
-    }
-    return null;
+  public static AscensionClass find(final String name) {
+    if (name == null || name.equals("")) return null;
+
+    String lowerCaseName = name.toLowerCase();
+
+    return Arrays.stream(values())
+        .filter(a -> a.getName().toLowerCase().contains(lowerCaseName))
+        .findFirst()
+        .orElse(null);
+  }
+
+  public static AscensionClass find(int id) {
+    return Arrays.stream(values()).filter(a -> a.getId() == id).findAny().orElse(null);
   }
 
   AscensionClass(String name, int id, String image, int primeStatIndex, String stun) {
@@ -91,6 +94,18 @@ public enum AscensionClass {
 
   public final int getId() {
     return this.id;
+  }
+
+  public final String getPlural() {
+    switch (this) {
+      case ACCORDION_THIEF:
+        return "Accordion Thieves";
+      case ED:
+        return "Eds the Undying";
+      default:
+        if (getName().startsWith("Avatar of ")) return "Avatars of " + getName().substring(6);
+        return getName() + "s";
+    }
   }
 
   public final String getImage() {
@@ -125,14 +140,16 @@ public enum AscensionClass {
   }
 
   public final int getPrimeStatIndex() {
-    if (this == AscensionClass.PLUMBER) {
-      long mus = KoLCharacter.getTotalMuscle();
-      long mys = KoLCharacter.getTotalMysticality();
-      long mox = KoLCharacter.getTotalMoxie();
-      return (mus >= mys) ? (mus >= mox ? 0 : 2) : (mys >= mox) ? 1 : 2;
+    switch (this) {
+      case PLUMBER:
+      case GREY_GOO:
+        long mus = KoLCharacter.getTotalMuscle();
+        long mys = KoLCharacter.getTotalMysticality();
+        long mox = KoLCharacter.getTotalMoxie();
+        return (mus >= mys) ? (mus >= mox ? 0 : 2) : (mys >= mox) ? 1 : 2;
+      default:
+        return this.primeStatIndex;
     }
-
-    return this.primeStatIndex;
   }
 
   public final Stat getMainStat() {

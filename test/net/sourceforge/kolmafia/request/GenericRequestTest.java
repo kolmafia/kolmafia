@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Player.*;
+import static internal.helpers.Preference.isSetTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
@@ -12,13 +14,14 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class GenericRequestTest {
   @BeforeEach
   public void beforeEach() {
-    // Simulate logging out and back in again.
-    KoLCharacter.reset("");
     KoLCharacter.reset("GenericRequestTest");
+    Preferences.reset("GenericRequestTest");
   }
 
   @Test
@@ -39,5 +42,29 @@ public class GenericRequestTest {
 
     assertEquals("Lava Dogs", Preferences.getString("lastEncounter"));
     assertEquals(false, Preferences.getBoolean("_luckyGoldRingVolcoino"));
+  }
+
+  @Test
+  public void seeingEmptySpookyPuttyMonsterSetsProperty() throws IOException {
+    Preferences.setString("spookyPuttyMonster", "zmobie");
+
+    var req = new GenericRequest("desc_item.php?whichitem=324375100");
+    req.responseText =
+        Files.readString(Paths.get("request/test_desc_item_spooky_putty_monster_empty.html"));
+    req.processResponse();
+
+    assertThat("spookyPuttyMonster", isSetTo(""));
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"beast", "elf"})
+  public void learnLocketPhylumFromLocketDescription(String phylum) throws IOException {
+    var req = new GenericRequest("desc_item.php?whichitem=634036450");
+    req.responseText =
+        Files.readString(
+            Paths.get("request/test_desc_item_combat_lovers_locket_" + phylum + ".html"));
+    req.processResponse();
+
+    assertThat("locketPhylum", isSetTo(phylum));
   }
 }

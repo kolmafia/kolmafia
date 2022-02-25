@@ -49,6 +49,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.session.StoreManager.StoreLogEntry;
@@ -596,7 +597,7 @@ public class StoreManageFrame extends GenericPanelFrame {
       }
 
       StoreManageFrame.searchLabel.setText(searchName);
-      StoreManager.searchMall("\"" + searchName + "\"", 10, StoreManageFrame.priceSummary);
+      MallPriceManager.searchMall("\"" + searchName + "\"", 10, StoreManageFrame.priceSummary);
 
       KoLmafia.updateDisplay("Price analysis complete.");
     }

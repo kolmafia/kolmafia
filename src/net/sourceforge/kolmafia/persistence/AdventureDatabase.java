@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,136 +87,124 @@ public class AdventureDatabase {
       return;
     }
 
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("zonelist.txt", KoLConstants.ZONELIST_VERSION);
-    if (reader == null) {
-      return;
-    }
-
-    String[] data;
-
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length >= 3) {
-        String zone = data[0];
-        String parent = data[1];
-        String description = data[2];
-
-        AdventureDatabase.PARENT_ZONES.put(zone, parent);
-        if (!AdventureDatabase.PARENT_LIST.contains(parent)) {
-          AdventureDatabase.PARENT_LIST.add(parent);
-        }
-
-        AdventureDatabase.ZONE_DESCRIPTIONS.put(zone, description);
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("zonelist.txt", KoLConstants.ZONELIST_VERSION)) {
+      if (reader == null) {
+        return;
       }
-    }
 
-    try {
-      reader.close();
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
+      String[] data;
 
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length >= 3) {
+          String zone = data[0];
+          String parent = data[1];
+          String description = data[2];
+
+          AdventureDatabase.PARENT_ZONES.put(zone, parent);
+          if (!AdventureDatabase.PARENT_LIST.contains(parent)) {
+            AdventureDatabase.PARENT_LIST.add(parent);
+          }
+
+          AdventureDatabase.ZONE_DESCRIPTIONS.put(zone, description);
+        }
+      }
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }
 
   public static final void refreshAdventureTable() {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("adventures.txt", KoLConstants.ADVENTURES_VERSION);
-    if (reader == null) {
-      return;
-    }
-
-    for (int i = 0; i < AdventureDatabase.adventureTable.length; ++i) {
-      AdventureDatabase.adventureTable[i].clear();
-    }
-
-    String[] data;
-
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length <= 3) {
-        continue;
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("adventures.txt", KoLConstants.ADVENTURES_VERSION)) {
+      if (reader == null) {
+        return;
       }
 
-      String zone = data[0];
-      String[] location = data[1].split("=");
+      for (int i = 0; i < AdventureDatabase.adventureTable.length; ++i) {
+        AdventureDatabase.adventureTable[i].clear();
+      }
 
-      String environment = null;
-      int stat = -1;
-      int waterLevel = -1;
-      boolean hasWanderers = true;
-      StringTokenizer tokens = new StringTokenizer(data[2], " ");
-      while (tokens.hasMoreTokens()) {
-        String option = tokens.nextToken();
-        if (option.equals("Env:")) {
-          environment = tokens.nextToken();
-        } else if (option.equals("Stat:")) {
-          stat = StringUtilities.parseInt(tokens.nextToken());
-        } else if (option.equals("Level:")) {
-          waterLevel = StringUtilities.parseInt(tokens.nextToken());
-        } else if (option.equals("nowander")) {
-          hasWanderers = false;
+      String[] data;
+
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length <= 3) {
+          continue;
+        }
+
+        String zone = data[0];
+        String[] location = data[1].split("=");
+
+        String environment = null;
+        int stat = -1;
+        int waterLevel = -1;
+        boolean hasWanderers = true;
+        StringTokenizer tokens = new StringTokenizer(data[2], " ");
+        while (tokens.hasMoreTokens()) {
+          String option = tokens.nextToken();
+          if (option.equals("Env:")) {
+            environment = tokens.nextToken();
+          } else if (option.equals("Stat:")) {
+            stat = StringUtilities.parseInt(tokens.nextToken());
+          } else if (option.equals("Level:")) {
+            waterLevel = StringUtilities.parseInt(tokens.nextToken());
+          } else if (option.equals("nowander")) {
+            hasWanderers = false;
+          }
+        }
+
+        String name = data[3];
+
+        if (environment == null) {
+          RequestLogger.printLine("Adventure area \"" + name + "\" is missing environment data");
+        }
+
+        if (AdventureDatabase.PARENT_ZONES.get(zone) == null) {
+          RequestLogger.printLine(
+              "Adventure area \"" + name + "\" has invalid zone: \"" + zone + "\"");
+          continue;
+        }
+
+        AdventureDatabase.zoneLookup.put(name, zone);
+        AdventureDatabase.adventureTable[0].add(zone);
+        AdventureDatabase.adventureTable[1].add(location[0] + ".php");
+        AdventureDatabase.adventureTable[2].add(location[1]);
+        AdventureDatabase.adventureTable[3].add(name);
+        AdventureDatabase.environmentLookup.put(name, environment);
+
+        AdventureDatabase.statLookup.put(name, stat);
+
+        hasWanderers = hasWanderers && location[0].equals("adventure");
+        AdventureDatabase.wandererLookup.put(name, hasWanderers);
+
+        // Build base water level if not specified
+        if (waterLevel == -1) {
+          if (environment == null || environment.equals("outdoor") || environment.equals("none")) {
+            waterLevel = 1;
+          } else if (environment.equals("indoor")) {
+            waterLevel = 3;
+          } else if (environment.equals("underground")) {
+            waterLevel = 5;
+          }
+          if (stat >= 40) {
+            waterLevel++;
+          }
+          if ("underwater".equals(environment)) {
+            waterLevel = 0;
+          }
+        }
+
+        AdventureDatabase.waterLevelLookup.put(name, waterLevel);
+
+        if (data.length <= 4) {
+          continue;
+        }
+
+        if (!data[4].equals("")) {
+          AdventureDatabase.conditionLookup.put(name, data[4]);
         }
       }
-
-      String name = data[3];
-
-      if (environment == null) {
-        RequestLogger.printLine("Adventure area \"" + name + "\" is missing environment data");
-      }
-
-      if (AdventureDatabase.PARENT_ZONES.get(zone) == null) {
-        RequestLogger.printLine(
-            "Adventure area \"" + name + "\" has invalid zone: \"" + zone + "\"");
-        continue;
-      }
-
-      AdventureDatabase.zoneLookup.put(name, zone);
-      AdventureDatabase.adventureTable[0].add(zone);
-      AdventureDatabase.adventureTable[1].add(location[0] + ".php");
-      AdventureDatabase.adventureTable[2].add(location[1]);
-      AdventureDatabase.adventureTable[3].add(name);
-      AdventureDatabase.environmentLookup.put(name, environment);
-
-      AdventureDatabase.statLookup.put(name, stat);
-
-      hasWanderers = hasWanderers && location[0].equals("adventure");
-      AdventureDatabase.wandererLookup.put(name, hasWanderers);
-
-      // Build base water level if not specified
-      if (waterLevel == -1) {
-        if (environment == null || environment.equals("outdoor") || environment.equals("none")) {
-          waterLevel = 1;
-        } else if (environment.equals("indoor")) {
-          waterLevel = 3;
-        } else if (environment.equals("underground")) {
-          waterLevel = 5;
-        }
-        if (stat >= 40) {
-          waterLevel++;
-        }
-        if ("underwater".equals(environment)) {
-          waterLevel = 0;
-        }
-      }
-
-      AdventureDatabase.waterLevelLookup.put(name, waterLevel);
-
-      if (data.length <= 4) {
-        continue;
-      }
-
-      if (!data[4].equals("")) {
-        AdventureDatabase.conditionLookup.put(name, data[4]);
-      }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }
@@ -223,53 +212,47 @@ public class AdventureDatabase {
   public static final void refreshCombatsTable() {
     AdventureDatabase.areaCombatData.clear();
 
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("combats.txt", KoLConstants.COMBATS_VERSION);
-    if (reader == null) {
-      return;
-    }
-
-    String[] data;
-
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length > 1) {
-        String area = data[0];
-        if (!AdventureDatabase.validateAdventureArea(area)) {
-          RequestLogger.printLine("Invalid adventure area: \"" + area + "\"");
-          continue;
-        }
-
-        int combats = StringUtilities.parseInt(data[1]);
-        // There can be an ultra-rare monster even if
-        // there are no other combats
-        AreaCombatData combat = new AreaCombatData(area, combats);
-        for (int i = 2; i < data.length; ++i) {
-          String monsterName = data[i];
-          if (!combat.addMonster(monsterName)) {
-            KoLmafia.updateDisplay("(In area '" + area + "')");
-          }
-          // Does it drop a bounty, if so add it to the bounty lookup by area
-          // Trim any trailing ":" and following text
-          int colonIndex = data[i].indexOf(":");
-          if (colonIndex > 0) {
-            monsterName = monsterName.substring(0, colonIndex);
-          }
-          String bountyName = BountyDatabase.getNameByMonster(monsterName);
-          if (bountyName != null) {
-            AdventureDatabase.bountyLookup.put(area, bountyName);
-          }
-        }
-
-        AdventureDatabase.areaCombatData.put(area, combat);
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("combats.txt", KoLConstants.COMBATS_VERSION)) {
+      if (reader == null) {
+        return;
       }
-    }
 
-    try {
-      reader.close();
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
+      String[] data;
 
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length > 1) {
+          String area = data[0];
+          if (!AdventureDatabase.validateAdventureArea(area)) {
+            RequestLogger.printLine("Invalid adventure area: \"" + area + "\"");
+            continue;
+          }
+
+          int combats = StringUtilities.parseInt(data[1]);
+          // There can be an ultra-rare monster even if
+          // there are no other combats
+          AreaCombatData combat = new AreaCombatData(area, combats);
+          for (int i = 2; i < data.length; ++i) {
+            String monsterName = data[i];
+            if (!combat.addMonster(monsterName)) {
+              KoLmafia.updateDisplay("(In area '" + area + "')");
+            }
+            // Does it drop a bounty, if so add it to the bounty lookup by area
+            // Trim any trailing ":" and following text
+            int colonIndex = data[i].indexOf(":");
+            if (colonIndex > 0) {
+              monsterName = monsterName.substring(0, colonIndex);
+            }
+            String bountyName = BountyDatabase.getNameByMonster(monsterName);
+            if (bountyName != null) {
+              AdventureDatabase.bountyLookup.put(area, bountyName);
+            }
+          }
+
+          AdventureDatabase.areaCombatData.put(area, combat);
+        }
+      }
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }

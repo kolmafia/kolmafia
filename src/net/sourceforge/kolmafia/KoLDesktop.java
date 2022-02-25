@@ -6,6 +6,7 @@ import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.Box;
@@ -33,7 +34,7 @@ public class KoLDesktop extends GenericFrame {
   private static KoLDesktop INSTANCE = null;
   private static boolean isInitializing = false;
 
-  private final List<GenericFrame> tabListing = new ArrayList<GenericFrame>();
+  private final List<GenericFrame> tabListing = new ArrayList<>();
 
   public JPanel compactPane;
 
@@ -223,14 +224,9 @@ public class KoLDesktop extends GenericFrame {
       KoLDesktop.INSTANCE.setTitle(KoLDesktop.INSTANCE.lastTitle);
     }
 
-    Frame[] frames = Frame.getFrames();
-    for (int i = 0; i < frames.length; ++i) {
-      if (frames[i] instanceof GenericFrame) {
-        GenericFrame frame = (GenericFrame) frames[i];
-
-        frame.setTitle(frame.getLastTitle());
-      }
-    }
+    Arrays.stream(Frame.getFrames())
+        .filter(GenericFrame.class::isInstance)
+        .forEach(f -> f.setTitle(((GenericFrame) f).getLastTitle()));
   }
 
   @Override
@@ -324,7 +320,7 @@ public class KoLDesktop extends GenericFrame {
     String setting = Preferences.getString("initialDesktop");
     for (int i = 0; i < KoLDesktop.INSTANCE.tabListing.size(); ++i) {
       GenericFrame frame = KoLDesktop.INSTANCE.tabListing.get(i);
-      if (!(frame instanceof ChatFrame) && setting.indexOf(frame.getFrameName()) == -1) {
+      if (!(frame instanceof ChatFrame) && !setting.contains(frame.getFrameName())) {
         frame.dispose();
       }
     }

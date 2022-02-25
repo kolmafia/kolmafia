@@ -1,8 +1,10 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -38,55 +40,49 @@ public class NPCStoreDatabase {
   private static final Map<String, String> storeNameById = new TreeMap<String, String>();
 
   static {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("npcstores.txt", KoLConstants.NPCSTORES_VERSION);
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("npcstores.txt", KoLConstants.NPCSTORES_VERSION)) {
 
-    String[] data;
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length < 4) {
-        continue;
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 4) {
+          continue;
+        }
+
+        String storeName = data[0];
+        String storeId = data[1];
+        if (!storeId.equals("bartlebys")) {
+          NPCStoreDatabase.storeNameById.put(storeId, storeName);
+        }
+
+        String itemName = data[2];
+        int itemId = ItemDatabase.getItemId(itemName);
+        if (itemId == -1) {
+          RequestLogger.printLine("Unknown item in store \"" + data[0] + "\": " + itemName);
+          continue;
+        }
+
+        int price = StringUtilities.parseInt(data[3]);
+        int row =
+            (data.length > 4 && data[4].startsWith("ROW"))
+                ? IntegerPool.get(StringUtilities.parseInt(data[4].substring(3)))
+                : 0;
+
+        // Make the purchase request for this item
+        int quantity = NPCStoreDatabase.limitQuantity(itemId);
+        NPCPurchaseRequest purchaseRequest =
+            new NPCPurchaseRequest(storeName, storeId, itemId, row, price, quantity);
+
+        // Map from item id -> purchase request
+        NPCStoreDatabase.NPC_ITEMS.put(itemId, purchaseRequest);
+
+        // Map from row -> purchase request
+        if (row != 0) {
+          NPCStoreDatabase.ROW_ITEMS.put(row, purchaseRequest);
+        }
       }
-
-      String storeName = data[0];
-      String storeId = data[1];
-      if (!storeId.equals("bartlebys")) {
-        NPCStoreDatabase.storeNameById.put(storeId, storeName);
-      }
-
-      String itemName = data[2];
-      int itemId = ItemDatabase.getItemId(itemName);
-      if (itemId == -1) {
-        RequestLogger.printLine("Unknown item in store \"" + data[0] + "\": " + itemName);
-        continue;
-      }
-
-      int price = StringUtilities.parseInt(data[3]);
-      int row =
-          (data.length > 4 && data[4].startsWith("ROW"))
-              ? IntegerPool.get(StringUtilities.parseInt(data[4].substring(3)))
-              : 0;
-
-      // Make the purchase request for this item
-      int quantity = NPCStoreDatabase.limitQuantity(itemId);
-      NPCPurchaseRequest purchaseRequest =
-          new NPCPurchaseRequest(storeName, storeId, itemId, row, price, quantity);
-
-      // Map from item id -> purchase request
-      NPCStoreDatabase.NPC_ITEMS.put(itemId, purchaseRequest);
-
-      // Map from row -> purchase request
-      if (row != 0) {
-        NPCStoreDatabase.ROW_ITEMS.put(row, purchaseRequest);
-      }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }
@@ -128,12 +124,44 @@ public class NPCStoreDatabase {
     return foundItem;
   }
 
+  public static Optional<Integer> getQuantity(int itemId) {
+    switch (itemId) {
+      case ItemPool.MIRACLE_WHIP:
+        return Optional.of(
+            Preferences.getBoolean("_mayoDeviceRented")
+                    || Preferences.getBoolean("itemBoughtPerAscension8266")
+                ? 0
+                : 1);
+      case ItemPool.SPHYGMAYOMANOMETER:
+      case ItemPool.REFLEX_HAMMER:
+      case ItemPool.MAYO_LANCE:
+        return Optional.of(Preferences.getBoolean("_mayoDeviceRented") ? 0 : 1);
+      case ItemPool.FEDORA_MOUNTED_FOUNTAIN:
+      case ItemPool.PORKPIE_MOUNTED_POPPER:
+      case ItemPool.SOMBRERO_MOUNTED_SPARKLER:
+        return Optional.of(Preferences.getBoolean("_fireworksShopHatBought") ? 0 : 1);
+      case ItemPool.CATHERINE_WHEEL:
+      case ItemPool.ROCKET_BOOTS:
+      case ItemPool.OVERSIZED_SPARKLER:
+        return Optional.of(Preferences.getBoolean("_fireworksShopEquipmentBought") ? 0 : 1);
+      case ItemPool.BLART:
+      case ItemPool.RAINPROOF_BARREL_CAULK:
+      case ItemPool.PUMP_GREASE:
+        return Optional.of(1);
+    }
+    return Optional.empty();
+  }
+
   private static int limitQuantity(int itemId) {
     switch (itemId) {
       case ItemPool.ABRIDGED:
       case ItemPool.ZEPPELIN_TICKET:
       case ItemPool.FORGED_ID_DOCUMENTS:
       case ItemPool.SPARE_KIDNEY:
+      case ItemPool.MIRACLE_WHIP:
+      case ItemPool.SPHYGMAYOMANOMETER:
+      case ItemPool.REFLEX_HAMMER:
+      case ItemPool.MAYO_LANCE:
       case ItemPool.FEDORA_MOUNTED_FOUNTAIN:
       case ItemPool.PORKPIE_MOUNTED_POPPER:
       case ItemPool.SOMBRERO_MOUNTED_SPARKLER:
@@ -192,7 +220,7 @@ public class NPCStoreDatabase {
       return ChateauRequest.chateauAvailable();
     } else if (storeId.equals("chinatown")) {
       // Chinatown Shops
-      return KoLConstants.inventory.contains(ItemPool.get(ItemPool.STRANGE_GOGGLES, 1))
+      return InventoryManager.getCount(ItemPool.STRANGE_GOGGLES) > 0
           && KoLConstants.campground.contains(ItemPool.get(ItemPool.SUSPICIOUS_JAR, 1));
     } else if (storeId.startsWith("crimbo18")) {
       return false;

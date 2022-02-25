@@ -9731,7 +9731,7 @@
 9703	beefy pill	630574018	pill2.gif	spleen, usable	t,d	60
 9704	excitement pill	498109333	pill3.gif	spleen, usable	t,d	60
 9705	vitamin G pill	627968432	pill4.gif	spleen, usable	t,d	60
-9706	lucky pill	839340181	pill5.gif	spleen, usable	t,d	60
+9706	lucky-ish pill	839340181	pill5.gif	spleen, usable	t,d	60
 9707	dieting pill	682913922	pill5.gif	spleen, usable	t,d	60
 9708
 9709
@@ -10916,3 +10916,5 @@
 10889	void shard	935741344	voidknife.gif	weapon	t	0
 10890	undrilled cosmic bowling ball	276317641	cosmicball.gif	usable	t	0
 10891	cosmic bowling ball	119596776	cosmicball2.gif	none, combat		0
+10892	combat lover's locket lockbox	237536213	lovelocketbox.gif	usable	t	0
+10893	combat lover's locket	634036450	lovelocket.gif	accessory		0

@@ -177,7 +177,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       RequestEditorKit.NO_WORTHLESS_ITEM_TEXT
           + " [<a href=\"hermit.php?autoworthless=on\">fish for a worthless item</a>]";
 
-  private static final ArrayList<String> maps = new ArrayList<String>();
+  private static final ArrayList<String> maps = new ArrayList<>();
 
   static {
     RequestEditorKit.maps.add("place.php?whichplace=plains");
@@ -972,7 +972,7 @@ public class RequestEditorKit extends HTMLEditorKit {
   private static void suppressPowerPixellation(final StringBuffer buffer) {
     boolean suppressPowerPixellation = Preferences.getBoolean("suppressPowerPixellation");
     String extraCosmeticModifiers = Preferences.getString("extraCosmeticModifiers").trim();
-    boolean haveExtraCosmeticModifiers = !extraCosmeticModifiers.equals("");
+    boolean haveExtraCosmeticModifiers = !extraCosmeticModifiers.isEmpty();
 
     if (!suppressPowerPixellation && !haveExtraCosmeticModifiers) {
       return;
@@ -1036,7 +1036,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     if (found) {
       // We had an "ocrs" var. Replace the value
       StringUtilities.singleStringReplace(buffer, find, replace);
-    } else if (!replace.equals("")) {
+    } else if (!replace.isEmpty()) {
       // We did not have an ocrs var but want to add some.
       // Include the appropriate scripts and insert a variable
       buffer.insert(buffer.indexOf("</head>"), OCRS_JS);
@@ -1109,12 +1109,16 @@ public class RequestEditorKit extends HTMLEditorKit {
     while (omatcher.find()) {
       String group = omatcher.group(1);
       String options = omatcher.group(2);
-      if (group.equals("Normal Outfits")) {
-        addOutfitGroup(obuffer, "outfit", "Outfits", "an", options);
-      } else if (group.equals("Custom Outfits")) {
-        addOutfitGroup(obuffer, "outfit2", "Custom", "a custom", options);
-      } else if (group.equals("Automatic Outfits")) {
-        addOutfitGroup(obuffer, "outfit3", "Automatic", "an automatic", options);
+      switch (group) {
+        case "Normal Outfits":
+          addOutfitGroup(obuffer, "outfit", "Outfits", "an", options);
+          break;
+        case "Custom Outfits":
+          addOutfitGroup(obuffer, "outfit2", "Custom", "a custom", options);
+          break;
+        case "Automatic Outfits":
+          addOutfitGroup(obuffer, "outfit3", "Automatic", "an automatic", options);
+          break;
       }
     }
 
@@ -1502,16 +1506,16 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    ArrayList<String> potionNames = new ArrayList<String>();
-    ArrayList<String> pluralNames = new ArrayList<String>();
-    ArrayList<String> potionEffects = new ArrayList<String>();
+    ArrayList<String> potionNames = new ArrayList<>();
+    ArrayList<String> pluralNames = new ArrayList<>();
+    ArrayList<String> potionEffects = new ArrayList<>();
 
     for (int i = 819; i <= 827; ++i) {
       String name = ItemDatabase.getItemName(i);
       String plural = ItemDatabase.getPluralName(i);
       if (buffer.indexOf(name) != -1 || buffer.indexOf(plural) != -1) {
         String effect = Preferences.getString("lastBangPotion" + i);
-        if (!effect.equals("")) {
+        if (!effect.isEmpty()) {
           potionNames.add(name);
           pluralNames.add(plural);
           potionEffects.add(" of " + effect);
@@ -1523,7 +1527,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       String plural = ItemDatabase.getPluralName(i);
       if (buffer.indexOf(name) != -1 || buffer.indexOf(plural) != -1) {
         String effect = Preferences.getString("lastSlimeVial" + i);
-        if (!effect.equals("")) {
+        if (!effect.isEmpty()) {
           potionNames.add(name);
           pluralNames.add(plural);
           potionEffects.add(": " + effect);
@@ -1551,7 +1555,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       String plural = ItemDatabase.getPluralName(i);
       if (buffer.indexOf(name) != -1 || buffer.indexOf(plural) != -1) {
         String effect = Preferences.getString("lastBangPotion" + i);
-        if (effect.equals("")) {
+        if (effect.isEmpty()) {
           continue;
         }
 
@@ -1564,7 +1568,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       String plural = ItemDatabase.getPluralName(i);
       if (buffer.indexOf(name) != -1 || buffer.indexOf(plural) != -1) {
         String effect = Preferences.getString("lastSlimeVial" + i);
-        if (effect.equals("")) {
+        if (effect.isEmpty()) {
           continue;
         }
 
@@ -1695,42 +1699,54 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     String partyQuest = Preferences.getString("_questPartyFairQuest");
 
-    if (partyQuest.equals("woots")) {
-      Matcher m = RequestEditorKit.WOOTS_PATTERN.matcher(buffer);
-      if (m.find()) {
-        String progress =
-            " (" + Preferences.getString("_questPartyFairProgress") + "/100 megawoots)";
-        buffer.insert(m.end(), progress);
-        return;
-      }
-    } else if (partyQuest.equals("trash")) {
-      Matcher m = RequestEditorKit.TRASH_PATTERN.matcher(buffer);
-      if (m.find()) {
-        String progress =
-            " (~"
-                + Preferences.getString("_questPartyFairProgress")
-                + " pieces of trash remaining)";
-        buffer.insert(m.end(), progress);
-        return;
-      }
-    } else if (partyQuest.equals("dj")) {
-      Matcher m = RequestEditorKit.MEAT_PATTERN.matcher(buffer);
-      if (m.find()) {
-        String progress =
-            " (" + Preferences.getString("_questPartyFairProgress") + " Meat remaining)";
-        buffer.insert(m.end(), progress);
-        return;
-      }
-    }
-    // No special text, just append to You win the fight if on clear the party quest
-    else if (partyQuest.equals("partiers")) {
-      Matcher m = RequestEditorKit.PARTIERS_PATTERN.matcher(buffer);
-      if (m.find()) {
-        String progress =
-            " (" + Preferences.getString("_questPartyFairProgress") + " Partiers remaining)";
-        buffer.insert(m.end(), progress);
-        return;
-      }
+    switch (partyQuest) {
+      case "woots":
+        {
+          Matcher m = RequestEditorKit.WOOTS_PATTERN.matcher(buffer);
+          if (m.find()) {
+            String progress =
+                " (" + Preferences.getString("_questPartyFairProgress") + "/100 megawoots)";
+            buffer.insert(m.end(), progress);
+            return;
+          }
+          break;
+        }
+      case "trash":
+        {
+          Matcher m = RequestEditorKit.TRASH_PATTERN.matcher(buffer);
+          if (m.find()) {
+            String progress =
+                " (~"
+                    + Preferences.getString("_questPartyFairProgress")
+                    + " pieces of trash remaining)";
+            buffer.insert(m.end(), progress);
+            return;
+          }
+          break;
+        }
+      case "dj":
+        {
+          Matcher m = RequestEditorKit.MEAT_PATTERN.matcher(buffer);
+          if (m.find()) {
+            String progress =
+                " (" + Preferences.getString("_questPartyFairProgress") + " Meat remaining)";
+            buffer.insert(m.end(), progress);
+            return;
+          }
+          break;
+        }
+        // No special text, just append to You win the fight if on clear the party quest
+      case "partiers":
+        {
+          Matcher m = RequestEditorKit.PARTIERS_PATTERN.matcher(buffer);
+          if (m.find()) {
+            String progress =
+                " (" + Preferences.getString("_questPartyFairProgress") + " Partiers remaining)";
+            buffer.insert(m.end(), progress);
+            return;
+          }
+          break;
+        }
     }
   }
 

@@ -1,12 +1,11 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -173,16 +172,13 @@ public class ConsumablesDatabase {
   private static void readConsumptionData(String filename, int version, Map<String, Integer> map) {
     map.clear();
 
-    BufferedReader reader = FileUtilities.getVersionedReader(filename, version);
-    String[] data;
+    try (BufferedReader reader = FileUtilities.getVersionedReader(filename, version)) {
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      ConsumablesDatabase.saveConsumptionValues(data, map);
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
+      while ((data = FileUtilities.readData(reader)) != null) {
+        ConsumablesDatabase.saveConsumptionValues(data, map);
+      }
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }
@@ -272,28 +268,24 @@ public class ConsumablesDatabase {
   }
 
   private static void readNonfillingData() {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("nonfilling.txt", KoLConstants.NONFILLING_VERSION);
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("nonfilling.txt", KoLConstants.NONFILLING_VERSION)) {
+      String[] data;
 
-    String[] data;
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 2) continue;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length < 2) continue;
+        String name = data[0];
+        ConsumablesDatabase.levelReqByName.put(name, Integer.valueOf(data[1]));
 
-      String name = data[0];
-      ConsumablesDatabase.levelReqByName.put(name, Integer.valueOf(data[1]));
+        if (data.length < 3) continue;
 
-      if (data.length < 3) continue;
-
-      String notes = data[2];
-      if (notes.length() > 0) {
-        ConsumablesDatabase.notesByName.put(name, notes);
+        String notes = data[2];
+        if (notes.length() > 0) {
+          ConsumablesDatabase.notesByName.put(name, notes);
+        }
       }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }
@@ -820,8 +812,7 @@ public class ConsumablesDatabase {
     if (ConsumablesDatabase.isLasagna(itemId)) {
       // If we have Gar-ish effect, or can get the effect and have autoGarish set, apply 5 bonus
       // adventures
-      Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
-      if (date.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY
+      if (!HolidayDatabase.isMonday()
           && (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.GARISH))
               || Preferences.getBoolean("autoGarish")
                   && (KoLCharacter.hasSkill(SkillPool.CLIP_ART)

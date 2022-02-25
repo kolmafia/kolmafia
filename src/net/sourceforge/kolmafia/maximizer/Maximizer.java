@@ -48,8 +48,8 @@ import net.sourceforge.kolmafia.session.BeachManager.BeachHead;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
-import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -258,13 +258,13 @@ public class Maximizer {
           } else if (checkedItem.mallBuyable > 0) {
             text = "acquire & " + text;
             if (priceLevel > 0) {
-              price = StoreManager.getMallPrice(item);
+              price = MallPriceManager.getMallPrice(item);
             }
           } else if (checkedItem.pullBuyable > 0) {
             text = "buy & pull & " + text;
             cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
             if (priceLevel > 0) {
-              price = StoreManager.getMallPrice(item);
+              price = MallPriceManager.getMallPrice(item);
             }
           } else {
             continue;
@@ -363,13 +363,13 @@ public class Maximizer {
         } else if (checkedItem.mallBuyable > 0) {
           text = "acquire & " + text;
           if (priceLevel > 0) {
-            price = StoreManager.getMallPrice(item);
+            price = MallPriceManager.getMallPrice(item);
           }
         } else if (checkedItem.pullBuyable > 0) {
           text = "buy & pull & " + text;
           cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
           if (priceLevel > 0) {
-            price = StoreManager.getMallPrice(item);
+            price = MallPriceManager.getMallPrice(item);
           }
         } else {
           continue;
@@ -1379,9 +1379,9 @@ public class Maximizer {
 
                 // Depending on preference, either get historical mall price or look it up
                 if (Preferences.getBoolean("maximizerCurrentMallPrices")) {
-                  price = StoreManager.getMallPrice(item);
+                  price = MallPriceManager.getMallPrice(item);
                 } else {
-                  price = StoreManager.getMallPrice(item, 7.0f);
+                  price = MallPriceManager.getMallPrice(item, 7.0f);
                 }
               }
             } else if (checkedItem.pullBuyable > 0) {
@@ -1394,9 +1394,9 @@ public class Maximizer {
 
                 // Depending on preference, either get historical mall price or look it up
                 if (Preferences.getBoolean("maximizerCurrentMallPrices")) {
-                  price = StoreManager.getMallPrice(item);
+                  price = MallPriceManager.getMallPrice(item);
                 } else {
-                  price = StoreManager.getMallPrice(item, 7.0f);
+                  price = MallPriceManager.getMallPrice(item, 7.0f);
                 }
               }
             } else {
@@ -1417,9 +1417,9 @@ public class Maximizer {
 
                 // Depending on preference, either get historical mall price or look it up
                 if (Preferences.getBoolean("maximizerCurrentMallPrices")) {
-                  price = StoreManager.getMallPrice(item);
+                  price = MallPriceManager.getMallPrice(item);
                 } else {
-                  price = StoreManager.getMallPrice(item, 7.0f);
+                  price = MallPriceManager.getMallPrice(item, 7.0f);
                 }
               }
             }
@@ -1857,12 +1857,12 @@ public class Maximizer {
         text = "buy & pull & " + text;
         cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
         if (priceLevel > 0) {
-          price = StoreManager.getMallPrice(item);
+          price = MallPriceManager.getMallPrice(item);
         }
       } else { // Mall buyable
         text = "acquire & " + text;
         if (priceLevel > 0) {
-          price = StoreManager.getMallPrice(item);
+          price = MallPriceManager.getMallPrice(item);
         }
       }
 

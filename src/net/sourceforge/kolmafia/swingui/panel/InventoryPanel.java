@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
-import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
 public class InventoryPanel<E> extends ItemTableManagePanel<E> {
   protected boolean isEquipmentOnly;
@@ -30,7 +29,6 @@ public class InventoryPanel<E> extends ItemTableManagePanel<E> {
   public InventoryPanel(final LockableListModel<E> elementModel) {
     super(elementModel);
 
-    this.getElementList().setCellRenderer(ListCellRendererFactory.getDefaultRenderer());
     this.addFilters();
   }
 
@@ -53,12 +51,6 @@ public class InventoryPanel<E> extends ItemTableManagePanel<E> {
     if (isEquipmentOnly) listeners.add(new FamiliarFeedListener());
     this.setButtons(true, listeners.toArray(new ActionListener[listeners.size()]));
 
-    if (this.isEquipmentOnly) {
-      this.getElementList().setCellRenderer(ListCellRendererFactory.getEquipmentPowerRenderer());
-    } else {
-      this.getElementList().setCellRenderer(ListCellRendererFactory.getDefaultRenderer());
-    }
-
     if (this.movers != null) {
       this.movers[2].setSelected(true);
     }
@@ -73,12 +65,6 @@ public class InventoryPanel<E> extends ItemTableManagePanel<E> {
     this.isEquipmentOnly = isEquipmentOnly;
 
     this.addFilters();
-
-    if (this.isEquipmentOnly) {
-      this.getElementList().setCellRenderer(ListCellRendererFactory.getEquipmentPowerRenderer());
-    } else {
-      this.getElementList().setCellRenderer(ListCellRendererFactory.getDefaultRenderer());
-    }
   }
 
   @Override

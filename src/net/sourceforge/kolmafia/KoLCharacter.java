@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Taskbar;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
@@ -48,6 +49,7 @@ import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -63,6 +65,7 @@ import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -164,7 +167,7 @@ public abstract class KoLCharacter {
     resetTriggers();
   }
 
-  public static final SortedListModel<String> battleSkillNames = new SortedListModel<String>();
+  public static final SortedListModel<String> battleSkillNames = new SortedListModel<>();
 
   // Status pane data which is rendered whenever
   // the user issues a "status" type command.
@@ -199,7 +202,7 @@ public abstract class KoLCharacter {
 
   // Familiar data
 
-  public static final SortedListModel<FamiliarData> familiars = new SortedListModel<FamiliarData>();
+  public static final SortedListModel<FamiliarData> familiars = new SortedListModel<>();
   public static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
   public static FamiliarData effectiveFamiliar = FamiliarData.NO_FAMILIAR;
   public static String currentFamiliarImage = null;
@@ -222,8 +225,7 @@ public abstract class KoLCharacter {
 
   // Pastamancer Pasta Thralls
 
-  public static final LockableListModel<PastaThrallData> pastaThralls =
-      new LockableListModel<PastaThrallData>();
+  public static final LockableListModel<PastaThrallData> pastaThralls = new LockableListModel<>();
   public static PastaThrallData currentPastaThrall = PastaThrallData.NO_THRALL;
 
   private static int stillsAvailable = 0;
@@ -382,8 +384,10 @@ public abstract class KoLCharacter {
     EquipmentManager.resetCustomOutfits();
     GearChangeFrame.clearFamiliarList();
     InventoryManager.resetInventory();
+    LocketManager.clear();
     SkillDatabase.resetCasts();
     SpecialOutfit.forgetCheckpoints();
+    StorageRequest.resetRoninStoragePulls();
     VolcanoMazeManager.reset();
     VYKEACompanionData.initialize(true);
     WumpusManager.reset();
@@ -787,7 +791,7 @@ public abstract class KoLCharacter {
    */
   public static final void setAvatar(final String avatar) {
     KoLCharacter.avatar = avatar;
-    if (!avatar.equals("")) {
+    if (!avatar.isEmpty()) {
       String prefix = KoLmafia.imageServerPath();
       FileUtilities.downloadImage(prefix + KoLCharacter.avatar);
     }
@@ -817,7 +821,7 @@ public abstract class KoLCharacter {
     // is meaningless), or are not logged in (ditto), nothing to do
     if (KoLCharacter.gender != 0
         || CharPaneRequest.inValhalla()
-        || GenericRequest.passwordHash.equals("")) {
+        || GenericRequest.passwordHash.isEmpty()) {
       return KoLCharacter.gender;
     }
 
@@ -1173,11 +1177,11 @@ public abstract class KoLCharacter {
   }
 
   public static final void setAscensionClass(final int classId) {
-    setAscensionClass(AscensionClass.idToClass(classId));
+    setAscensionClass(AscensionClass.find(classId));
   }
 
   public static final void setAscensionClass(final String className) {
-    setAscensionClass(AscensionClass.nameToClass(className));
+    setAscensionClass(AscensionClass.find(className));
   }
 
   static final int getReagentPotionDuration() {
@@ -2037,7 +2041,7 @@ public abstract class KoLCharacter {
         KoLCharacter.currentRun != currentRun && KoLCharacter.currentRun != 0 && currentRun != 0;
     KoLCharacter.currentRun = currentRun;
     if (changed) {
-      BanishManager.update();
+      BanishManager.recalculate();
     }
   }
 
@@ -2962,7 +2966,10 @@ public abstract class KoLCharacter {
 
   /** Accessor method which sets whether or not the player is currently in hardcore. */
   public static final void setHardcore(final boolean isHardcore) {
-    KoLCharacter.isHardcore = isHardcore;
+    if (KoLCharacter.isHardcore != isHardcore) {
+      KoLCharacter.isHardcore = isHardcore;
+      NamedListenerRegistry.fireChange("(hardcore)");
+    }
   }
 
   /** Returns whether or not the character is currently in casual. */
@@ -3001,7 +3008,10 @@ public abstract class KoLCharacter {
 
   /** Accessor method which sets whether or not the player is currently in ronin. */
   public static final void setRonin(final boolean inRonin) {
-    KoLCharacter.inRonin = inRonin;
+    if (KoLCharacter.inRonin != inRonin) {
+      KoLCharacter.inRonin = inRonin;
+      NamedListenerRegistry.fireChange("(ronin)");
+    }
   }
 
   /**
@@ -3553,10 +3563,10 @@ public abstract class KoLCharacter {
 
     // Temporary code to allow Mafia to catch up with the fact that unlock is a flag
     if (Preferences.getInteger("lastDesertUnlock") != KoLCharacter.getAscensions()) {
-      if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.BITCHIN_MEATCAR, 1))
-          || KoLConstants.inventory.contains(ItemPool.get(ItemPool.DESERT_BUS_PASS, 1))
-          || KoLConstants.inventory.contains(ItemPool.get(ItemPool.PUMPKIN_CARRIAGE, 1))
-          || KoLConstants.inventory.contains(ItemPool.get(ItemPool.TIN_LIZZIE, 1))
+      if (InventoryManager.getCount(ItemPool.BITCHIN_MEATCAR) > 0
+          || InventoryManager.getCount(ItemPool.DESERT_BUS_PASS) > 0
+          || InventoryManager.getCount(ItemPool.PUMPKIN_CARRIAGE) > 0
+          || InventoryManager.getCount(ItemPool.TIN_LIZZIE) > 0
           || Preferences.getString("peteMotorbikeGasTank").equals("Large Capacity Tank")
           || Preferences.getString("questG01Meatcar").equals("finished")
           || KoLCharacter.kingLiberated()
@@ -3617,9 +3627,7 @@ public abstract class KoLCharacter {
   public static final void setPermedSkills(final List<UseSkillRequest> newSkillSet) {
     KoLConstants.permedSkills.clear();
 
-    for (UseSkillRequest skill : newSkillSet) {
-      KoLConstants.permedSkills.add(skill);
-    }
+    KoLConstants.permedSkills.addAll(newSkillSet);
   }
 
   /** Adds a single skill to the list of known skills possessed by this character. */
@@ -4326,62 +4334,41 @@ public abstract class KoLCharacter {
    * @return familiar The first familiar matching this race
    */
   public static final FamiliarData findFamiliar(final String race) {
-    if (FamiliarData.NO_FAMILIAR.getRace().equals(race)) {
-      return FamiliarData.NO_FAMILIAR;
-    }
-
-    // Don't even look if you are an Avatar
-    if (KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg()) {
-      return null;
-    }
-
-    FamiliarData[] familiarArray = new FamiliarData[KoLCharacter.familiars.size()];
-    KoLCharacter.familiars.toArray(familiarArray);
-
-    for (int i = 0; i < familiarArray.length; ++i) {
-      FamiliarData familiar = familiarArray[i];
-      if (familiar.getRace().equals(race)) {
-        return familiar;
-      }
-    }
-
-    return null;
+    return findFamiliar(f -> f.getRace().equalsIgnoreCase(race));
   }
 
+  /**
+   * Accessor method to find the specified familiar.
+   *
+   * @param familiarId The id of the familiar to find
+   * @return familiar The first familiar matching this id
+   */
   public static final FamiliarData findFamiliar(final int familiarId) {
-    if (familiarId == -1) {
-      return FamiliarData.NO_FAMILIAR;
-    }
+    return findFamiliar(f -> f.getId() == familiarId);
+  }
+
+  private static final FamiliarData findFamiliar(final Predicate<FamiliarData> familiarFilter) {
+    // Quick check against NO_FAMILIAR
+    if (familiarFilter.test(FamiliarData.NO_FAMILIAR)) return FamiliarData.NO_FAMILIAR;
 
     // Don't even look if you are an Avatar
-    if (KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete()) {
-      return null;
-    }
+    if (!KoLCharacter.getPath().canUseFamiliars()) return null;
 
     // In Quantum Terrarium the player only has the familiar that is with them
     if (KoLCharacter.inQuantum()) {
-      return (KoLCharacter.currentFamiliar.getId() == familiarId)
+      return familiarFilter.test(KoLCharacter.currentFamiliar)
           ? KoLCharacter.currentFamiliar
           : null;
     }
 
-    FamiliarData[] familiarArray = new FamiliarData[KoLCharacter.familiars.size()];
-    KoLCharacter.familiars.toArray(familiarArray);
-
-    for (int i = 0; i < familiarArray.length; ++i) {
-      FamiliarData familiar = familiarArray[i];
-      if (familiar.getId() == familiarId) {
-        if (!StandardRequest.isAllowed("Familiars", familiar.getRace())) {
-          return null;
-        }
-        if (KoLCharacter.inGLover() && !KoLCharacter.hasGs(familiar.getRace())) {
-          return null;
-        }
-        return familiar;
-      }
-    }
-
-    return null;
+    return KoLCharacter.familiars.stream()
+        .filter(familiarFilter)
+        .filter(StandardRequest::isAllowed)
+        .filter(f -> !KoLCharacter.inZombiecore() || f.isUndead())
+        .filter(f -> !KoLCharacter.inBeecore() || !KoLCharacter.hasBeeosity(f.getRace()))
+        .filter(f -> !KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()))
+        .findAny()
+        .orElse(null);
   }
 
   public static final boolean hasFamiliar(final int familiarId) {
@@ -4926,8 +4913,6 @@ public abstract class KoLCharacter {
       newModifiers.add(Modifiers.getModifiers("StatDay", KoLmafia.statDay));
     }
 
-    Modifiers.smithsness = KoLCharacter.getSmithsnessModifier(equipment, effects);
-
     // Certain outfits give benefits to the character
     // Need to do this before the individual items, so that Hobo Power
     // from the outfit counts towards a Hodgman offhand.
@@ -5031,11 +5016,9 @@ public abstract class KoLCharacter {
     // For the sake of easier maintenance, execute a lot of extra
     // string comparisons when looking at status effects.
 
-    for (int i = 0; i < effects.size(); ++i) {
-      newModifiers.add(Modifiers.getEffectModifiers(effects.get(i).getEffectId()));
+    for (AdventureResult effect : effects) {
+      newModifiers.add(Modifiers.getEffectModifiers(effect.getEffectId()));
     }
-
-    Modifiers.hoboPower = newModifiers.get(Modifiers.HOBO_POWER);
 
     // Add modifiers from campground equipment.
     for (int i = 0; i < KoLConstants.campground.size(); ++i) {
@@ -5053,7 +5036,7 @@ public abstract class KoLCharacter {
     AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
     newModifiers.add(Modifiers.getItemModifiers(dwelling.getItemId()));
 
-    if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.COMFY_BLANKET, 1))) {
+    if (InventoryManager.getCount(ItemPool.COMFY_BLANKET) > 0) {
       newModifiers.add(Modifiers.getItemModifiers(ItemPool.COMFY_BLANKET));
     }
 
@@ -5144,6 +5127,10 @@ public abstract class KoLCharacter {
     if (custom != null) {
       newModifiers.add(Modifiers.parseModifiers("Generated:custom", custom));
     }
+
+    // Store some modifiers as statics
+    Modifiers.hoboPower = newModifiers.get(Modifiers.HOBO_POWER);
+    Modifiers.smithsness = KoLCharacter.getSmithsnessModifier(equipment, effects);
 
     if (Modifiers.currentLocation.equals("The Slime Tube")) {
       int hatred = (int) newModifiers.get(Modifiers.SLIME_HATES_IT);
@@ -5586,7 +5573,7 @@ public abstract class KoLCharacter {
         int itemId = item.getItemId();
         Modifiers imod = Modifiers.getItemModifiers(itemId);
         if (imod != null) {
-          AscensionClass classType = AscensionClass.nameToClass(imod.getString(Modifiers.CLASS));
+          AscensionClass classType = AscensionClass.find(imod.getString(Modifiers.CLASS));
           if (classType == null
               || classType == ascensionClass
                   && (slot != EquipmentManager.FAMILIAR
@@ -5672,7 +5659,7 @@ public abstract class KoLCharacter {
 
     for (int i = 819; i <= 827; ++i) {
       String testProperty = Preferences.getString("lastBangPotion" + i);
-      if (!testProperty.equals("")) {
+      if (!testProperty.isEmpty()) {
         String name = ItemDatabase.getItemName(i);
         String testName = name + " of " + testProperty;
         String testPlural = name + "s of " + testProperty;
@@ -5685,7 +5672,7 @@ public abstract class KoLCharacter {
 
     for (int i = ItemPool.VIAL_OF_RED_SLIME; i <= ItemPool.VIAL_OF_PURPLE_SLIME; ++i) {
       String testProperty = Preferences.getString("lastSlimeVial" + i);
-      if (!testProperty.equals("")) {
+      if (!testProperty.isEmpty()) {
         String name = ItemDatabase.getItemName(i);
         String testName = name + ": " + testProperty;
         String testPlural = ItemDatabase.getPluralName(i) + testProperty;

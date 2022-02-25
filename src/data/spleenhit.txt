@@ -130,7 +130,7 @@ liquid shifting time weirdness	2	6	awesome	0	50-65	50-65	50-65	10 Liquid Luck (+
 livid energy	1	1	awesome	0	0	0	0	Unspaded 60 Lividly Energized (+50% MP, +3-5 MP Regen)
 loofah lumps	2	12		0	0	0	0	Unspaded
 LOV Echinacea Bouquet	1	1	crappy	0	20-40	20-40	20-40	20-40 HP, 20-40 MP
-lucky pill	1	7	awesome	0	0	0	0	Get lucky
+lucky-ish pill	1	7		0	0	0	0	Get Lucky!
 lustrous oyster egg	1	5	EPIC	0	0	0	0	50 Lustre After Wealth (+50% meat drop)
 magicalness-in-a-can	1	1	crappy	0	0	1-3	0
 magnificent oyster egg	1	5	EPIC	0	50-60	0	0	20 Eggstraordinary Strength (+5 mus stats/fight)

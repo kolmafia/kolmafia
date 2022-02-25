@@ -10,11 +10,12 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 
 public class CheckedItem extends AdventureResult {
   public CheckedItem(int itemId, int equipScope, int maxPrice, int priceLevel) {
@@ -199,7 +200,7 @@ public class CheckedItem extends AdventureResult {
     }
 
     // Check mall price
-    int price = StoreManager.getMallPrice(this);
+    int price = MallPriceManager.getMallPrice(this);
 
     // Check if too expensive for max price settings
     if (price <= 0 || price > maxPrice) {
@@ -219,18 +220,8 @@ public class CheckedItem extends AdventureResult {
   }
 
   private static int limitBuyable(final int itemId) {
-    switch (itemId) {
-      case ItemPool.MIRACLE_WHIP:
-        return Preferences.getBoolean("_mayoDeviceRented")
-                || Preferences.getBoolean("itemBoughtPerAscension8266")
-            ? 0
-            : 1;
-      case ItemPool.SPHYGMAYOMANOMETER:
-      case ItemPool.REFLEX_HAMMER:
-      case ItemPool.MAYO_LANCE:
-        return Preferences.getBoolean("_mayoDeviceRented") ? 0 : 1;
-    }
-    return Integer.MAX_VALUE;
+    var possibleQuantity = NPCStoreDatabase.getQuantity(itemId);
+    return possibleQuantity.orElse(Integer.MAX_VALUE);
   }
 
   public static final int TOTAL_MASK = 0xFF;

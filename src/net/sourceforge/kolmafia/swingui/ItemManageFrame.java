@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -51,7 +52,6 @@ import net.sourceforge.kolmafia.swingui.panel.UseItemEnqueuePanel;
 import net.sourceforge.kolmafia.swingui.panel.UseItemPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
-import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 import net.sourceforge.kolmafia.textui.command.AutoMallCommand;
 import net.sourceforge.kolmafia.textui.command.CleanupJunkRequest;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -412,6 +412,7 @@ public class ItemManageFrame extends GenericFrame {
 
   private class HagnkStoragePanel extends InventoryPanel<AdventureResult> {
     private boolean isPullingForUse = false;
+    private final EmptyStorageButton emptyButton;
 
     public HagnkStoragePanel(final boolean isEquipmentOnly) {
       super(
@@ -426,17 +427,16 @@ public class ItemManageFrame extends GenericFrame {
       JButton mallButton = new JButton(mallListener.toString());
       mallButton.addActionListener(mallListener);
 
+      // Disable if you are in Hardcore or Ronin, enable once you leave Ronin or free the king
+      emptyButton = new EmptyStorageButton();
+
       this.addButtons(
           new JButton[] {
-            this.confirmedButton,
-            this.cancelledButton,
-            mallButton,
-            new InvocationButton("empty", StorageRequest.class, "emptyStorage"),
+            this.confirmedButton, this.cancelledButton, mallButton, emptyButton,
           });
 
       this.addFilters();
       this.addMovers();
-      this.getElementList().setCellRenderer(ListCellRendererFactory.getStorageRenderer());
 
       Box box = Box.createVerticalBox();
       JLabel budget = new JLabel("Budget:");
@@ -473,9 +473,37 @@ public class ItemManageFrame extends GenericFrame {
     }
 
     @Override
+    public void setEnabled(final boolean isEnabled) {
+      if (isEnabled) {
+        this.emptyButton.update();
+      }
+    }
+
+    private class EmptyStorageButton extends InvocationButton implements Listener {
+      public EmptyStorageButton() {
+        super("empty", StorageRequest.class, "emptyStorage");
+        NamedListenerRegistry.registerNamedListener("(hardcore)", this);
+        NamedListenerRegistry.registerNamedListener("(ronin)", this);
+        this.update();
+      }
+
+      @Override
+      public void update() {
+        boolean enabled =
+            !KoLCharacter.isHardcore()
+                && !KoLCharacter.inRonin()
+                && !KoLConstants.storage.isEmpty();
+        this.setEnabled(enabled);
+      }
+    }
+
+    @Override
     public void addMovers() {
       if (!this.isEquipmentOnly) {
         super.addMovers();
+        if (KoLCharacter.inRonin()) {
+          this.movers[3].setSelected(true);
+        }
       }
     }
 
@@ -567,7 +595,6 @@ public class ItemManageFrame extends GenericFrame {
 
       this.addFilters();
       this.addMovers();
-      this.getElementList().setCellRenderer(ListCellRendererFactory.getFreePullsRenderer());
     }
 
     @Override
