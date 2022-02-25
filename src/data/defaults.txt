@@ -157,7 +157,6 @@ global	syncAfterSvnUpdate	false
 global	toolbarPosition	1
 global	useChatToolbar	true
 global	useContactsFrame	true
-global	useDecoratedTabs
 global	useDevProxyServer	false
 global	useDockIconBadge	false
 global	useHugglerChannel	false
