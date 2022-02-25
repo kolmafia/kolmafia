@@ -823,13 +823,27 @@ public class GenericRequest implements Runnable {
   }
 
   public static final String extractField(final String urlString, final String field) {
-    int start = urlString.indexOf(field);
+    int start = urlString.lastIndexOf(field);
     if (start == -1) {
       return null;
     }
 
     int end = urlString.indexOf("&", start);
     return (end == -1) ? urlString.substring(start) : urlString.substring(start, end);
+  }
+
+  public static final String extractValueOrDefault(final String urlString, final String field) {
+    return GenericRequest.extractValueOrDefault(urlString, field, "");
+  }
+
+  public static final String extractValueOrDefault(
+      final String urlString, final String field, String def) {
+    String value = GenericRequest.extractField(urlString, field);
+    if (value == null) {
+      return def;
+    }
+    int equals = value.indexOf("=");
+    return (equals == -1) ? value.trim() : value.substring(equals + 1).trim();
   }
 
   private boolean shouldUpdateDebugLog() {

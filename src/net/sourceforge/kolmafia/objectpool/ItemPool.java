@@ -113,7 +113,9 @@ public class ItemPool {
   public static final int EYEPATCH = 224;
   public static final int PUNGENT_UNGUENT = 231;
   public static final int COCKTAIL_KIT = 236;
+  public static final int GRAPEFRUIT = 243;
   public static final int TOMATO = 246;
+  public static final int FERMENTING_POWDER = 247;
   public static final int MARTINI = 251;
   public static final int DENSE_STACK = 258;
   public static final int MULLET_WIG = 267;
@@ -331,6 +333,7 @@ public class ItemPool {
   public static final int WHITE_CHOCOLATE_AND_TOMATO_PIZZA = 958;
   public static final int MAID = 1000;
   public static final int TEQUILA = 1004;
+  public static final int BOXED_WINE = 1005;
   public static final int VODKA_MARTINI = 1009;
   public static final int DRY_VODKA_MARTINI = 1019;
   public static final int VESPER = 1023;
@@ -774,6 +777,7 @@ public class ItemPool {
   public static final int HAND_CARVED_BOW = 2720;
   public static final int HAND_CARVED_STAFF = 2721;
   public static final int PLUM_WINE = 2730;
+  public static final int BUNCH_OF_SQUARE_GRAPES = 2733;
   public static final int STEEL_STOMACH = 2742;
   public static final int STEEL_LIVER = 2743;
   public static final int STEEL_SPLEEN = 2744;
@@ -2904,9 +2908,12 @@ public class ItemPool {
   public static final int COCKTAIL_MUSHROOM = 9353;
   public static final int GRANOLA_LIQUEUR = 9354;
   public static final int GREGNADIGNE = 9357;
+  public static final int FISH_HEAD = 9360;
   public static final int BABY_OIL_SHOOTER = 9359;
   public static final int LIMEPATCH = 9361;
   public static final int LITERAL_GRASSHOPPER = 9365;
+  public static final int PISCATINI = 9378;
+  public static final int DRIVE_BY_SHOOTING = 9396;
   public static final int PHIL_COLLINS = 9400;
   public static final int TOGGLE_SWITCH_BARTEND = 9402;
   public static final int TOGGLE_SWITCH_BOUNCE = 9403;

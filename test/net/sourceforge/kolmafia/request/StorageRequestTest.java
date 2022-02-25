@@ -24,7 +24,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.Test;
 
-public class StorageRequestTest extends RequestTestBase {
+public class StorageRequestTest {
 
   private Set<Integer> pulledItemSet = new HashSet<>();
   private String pulledItemProperty = "";
