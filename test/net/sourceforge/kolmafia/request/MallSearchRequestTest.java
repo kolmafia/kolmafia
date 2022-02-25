@@ -19,6 +19,13 @@ public class MallSearchRequestTest {
   private static Cleanups mockRequestLogger() {
     var mocked = mockStatic(RequestLogger.class, Mockito.CALLS_REAL_METHODS);
     mocked
+        .when(() -> RequestLogger.updateSessionLog())
+        .thenAnswer(
+            invocation -> {
+              lastSessionLogLine = "";
+              return false;
+            });
+    mocked
         .when(() -> RequestLogger.updateSessionLog(anyString()))
         .thenAnswer(
             invocation -> {
@@ -36,6 +43,10 @@ public class MallSearchRequestTest {
 
       String url;
       boolean result;
+
+      url = "nope.php";
+      result = MallSearchRequest.registerRequest(url);
+      assertFalse(result);
 
       url = "mallstore.php?whichstore=1053259&buying=1";
       result = MallSearchRequest.registerRequest(url);
@@ -99,6 +110,11 @@ public class MallSearchRequestTest {
       result = MallSearchRequest.registerRequest(url);
       assertTrue(result);
       assertEquals("mallsearch category food [awesome, EPIC] (page 2)", lastSessionLogLine);
+
+      MallSearchRequest request = new MallSearchRequest("booze", "EPIC awesome good decent crappy");
+      RequestLogger.registerRequest(request, request.getURLString());
+      assertEquals(
+          "mallsearch category booze [crappy, decent, good, awesome, EPIC]", lastSessionLogLine);
     }
   }
 }

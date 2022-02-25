@@ -182,7 +182,7 @@ public class MallSearchFrame extends GenericPanelFrame {
       MallSearchFrame.this.currentlySearching = true;
 
       MallSearchFrame.searchMall(
-          new MallSearchRequest(searchText, searchCount, MallSearchFrame.results, false));
+          new MallSearchRequest(searchText, searchCount, MallSearchFrame.results));
 
       MallSearchFrame.this.currentlySearching = false;
 

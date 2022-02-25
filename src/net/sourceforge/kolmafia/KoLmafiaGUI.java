@@ -40,7 +40,6 @@ import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 import net.sourceforge.kolmafia.webui.RelayServer;
-import tab.CloseTabbedPane;
 
 public class KoLmafiaGUI {
   private KoLmafiaGUI() {}
@@ -275,7 +274,7 @@ public class KoLmafiaGUI {
   }
 
   public static JTabbedPane getTabbedPane() {
-    return Preferences.getBoolean("useDecoratedTabs") ? new CloseTabbedPane() : new JTabbedPane();
+    return new JTabbedPane();
   }
 
   public static Boolean isDarkTheme() {
