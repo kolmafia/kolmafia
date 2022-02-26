@@ -14,7 +14,6 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.BuffBotHome;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.EdServantData;
@@ -32,7 +31,6 @@ import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ChannelColorsRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.SendMailRequest;
-import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.swingui.ChatFrame;
@@ -443,22 +441,7 @@ public abstract class ChatManager {
     }
 
     if (content.contains(" has ")) {
-      // This is a nice idea, but if we are doing other
-      // things, we may already have seen api.php or
-      // charpane.php and have up-to-date effects
-      if (false) {
-        Matcher buffMatcher = BUFF_PATTERN.matcher(content);
-        if (buffMatcher.find()) {
-          String skillName = buffMatcher.group(1);
-          String effectName = UneffectRequest.skillToEffect(skillName);
-          int duration = StringUtilities.parseInt(buffMatcher.group(2));
-          AdventureResult effect = new AdventureResult(effectName, duration, true);
-          AdventureResult.addResultToList(KoLConstants.activeEffects, effect);
-          return;
-        }
-      }
-
-      // If we can't figure it out, refresh effects via api.php
+      // Refresh effects via api.php
       ApiRequest.updateStatus(true);
     }
   }

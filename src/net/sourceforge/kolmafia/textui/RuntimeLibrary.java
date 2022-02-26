@@ -252,7 +252,6 @@ public abstract class RuntimeLibrary {
     for (String[] frame : KoLConstants.FRAME_NAMES) {
       RuntimeLibrary.frameNames.add(frame[1]);
     }
-    RuntimeLibrary.frameNames.add("AnnouncementFrame");
     RuntimeLibrary.frameNames.add("CakeArenaFrame");
     RuntimeLibrary.frameNames.add("ChatFrame");
     RuntimeLibrary.frameNames.add("CouncilFrame");
