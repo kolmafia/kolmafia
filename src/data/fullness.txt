@@ -355,7 +355,7 @@ fricasseed brains	3	1	decent	3-5	0	4-5	0	Zombie Slayer
 frozen banquet	6	15	EPIC	42-48	100-289	100-289	100-289
 frozen danish	1	4	awesome	3-5	0	0	45-75	30 Danish Cunning (+25% pickpocket)
 frozen mushroom	3	2	decent	3-9	0	0	0	lose 3 HP
-frozen tofu pop	1	1	EPIC	0	0	0	0	Unspaded
+frozen tofu pop	1	1	EPIC	5-6	0	0	0
 fruitcake	3	1	decent	3-6	17-23	17-23	17-23
 fudge bunny	10	8	EPIC	60-66	50-90	50-90	50-90
 fudgesicle	1	1	decent	2	0	0	0	30 Fudge Headache (+75% Fudge Finding)
