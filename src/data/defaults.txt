@@ -143,7 +143,6 @@ global	scriptButtonPosition	0
 global	scriptList	restore hp | restore mp
 global	sharePriceData	false
 global	showAllRequests	false
-global	showAnnouncements	true
 global	showExceptionalRequests	false
 global	statusDropdown	0
 global	stealthLogin	true
