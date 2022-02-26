@@ -65,9 +65,6 @@ public class CharPaneDecorator {
     {"birdformRoc", "<span title=\"Talon Slash/Wing Buffet->roc->adventures\">", "/15</span>, "},
   };
 
-  private static final Pattern ROLLOVER_PATTERN =
-      Pattern.compile("rollover = (\\d+).*?rightnow = (\\d+)", Pattern.DOTALL);
-
   private CharPaneDecorator() {}
 
   public static final void decorate(final StringBuffer buffer) {
@@ -122,17 +119,6 @@ public class CharPaneDecorator {
         buffer,
         "</body>",
         "<center><font size=1>[<a href=\"charpane.php\">refresh</a>]</font></center></body>");
-
-    // debug rollover timer
-    if (false) {
-      Matcher matcher = CharPaneDecorator.ROLLOVER_PATTERN.matcher(buffer);
-      if (matcher.find()) {
-        StringUtilities.singleStringReplace(
-            buffer,
-            matcher.group(1),
-            String.valueOf(StringUtilities.parseLong(matcher.group(2)) + 120));
-      }
-    }
   }
 
   private static void decorateStatus(final StringBuffer buffer) {
