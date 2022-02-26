@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
@@ -32,26 +33,30 @@ public class Player {
     return cleanups;
   }
 
-  public static Cleanups addItem(String item) {
-    return addItem(item, 1);
+  public static Cleanups addItem(String name) {
+    return addItem(name, 1);
   }
 
-  public static Cleanups addItem(String item, int count) {
+  public static Cleanups addItem(String name, int count) {
+    int itemId = ItemDatabase.getItemId(name, count, false);
+    return addItem(ItemPool.get(itemId, count));
+  }
+
+  public static Cleanups addItem(int itemId) {
+    return addItem(itemId, 1);
+  }
+
+  public static Cleanups addItem(int itemId, int count) {
+    return addItem(ItemPool.get(itemId, count));
+  }
+
+  public static Cleanups addItem(AdventureResult item) {
     var cleanups = new Cleanups();
-    AdventureResult parsed = AdventureResult.tallyItem(item);
-    for (int i = 0; i < count; i++) {
-      AdventureResult.addResultToList(KoLConstants.inventory, parsed);
-      cleanups.add(() -> AdventureResult.removeResultFromList(KoLConstants.inventory, parsed));
-    }
+    AdventureResult.addResultToList(KoLConstants.inventory, item);
+    // Per midglec: "All the cleanups I wrote assume you're reverting back to a reset character"
+    // Therefore, simply remove this item from inventory.
+    cleanups.add(() -> AdventureResult.removeResultFromList(KoLConstants.inventory, item));
     return cleanups;
-  }
-
-  public static void addItem(int itemId) {
-    addItem(itemId, 1);
-  }
-
-  public static void addItem(int itemId, int count) {
-    AdventureResult.addResultToList(KoLConstants.inventory, ItemPool.get(itemId));
   }
 
   public static int countItem(int itemId) {
@@ -77,8 +82,8 @@ public class Player {
 
   public static Cleanups hasFamiliar(int famId) {
     var familiar = FamiliarData.registerFamiliar(famId, 0);
-    KoLCharacter.familiars.add(familiar);
-    return new Cleanups(() -> KoLCharacter.familiars.remove(familiar));
+    KoLCharacter.addFamiliar(familiar);
+    return new Cleanups(() -> KoLCharacter.removeFamiliar(familiar));
   }
 
   public static Cleanups setFamiliar(int famId) {
@@ -118,7 +123,7 @@ public class Player {
         Math.max(req.isMoxie() ? req.getAmount() : 0, KoLCharacter.getBaseMoxie()));
   }
 
-  public static void setStats(int muscle, int mysticality, int moxie) {
+  public static Cleanups setStats(int muscle, int mysticality, int moxie) {
     KoLCharacter.setStatPoints(
         muscle,
         (long) muscle * muscle,
@@ -127,10 +132,13 @@ public class Player {
         moxie,
         (long) moxie * moxie);
     KoLCharacter.recalculateAdjustments();
+    return new Cleanups(() -> setStats(0, 0, 0));
   }
 
-  public static void isClass(AscensionClass ascensionClass) {
+  public static Cleanups isClass(AscensionClass ascensionClass) {
+    var old = KoLCharacter.getAscensionClass();
     KoLCharacter.setAscensionClass(ascensionClass);
+    return new Cleanups(() -> isClass(old));
   }
 
   public static Cleanups isSign(String sign) {
@@ -156,6 +164,28 @@ public class Player {
   public static Cleanups isDay(Calendar cal) {
     var mocked = mockStatic(HolidayDatabase.class, Mockito.CALLS_REAL_METHODS);
     mocked.when(HolidayDatabase::getDate).thenReturn(cal.getTime());
+    mocked.when(HolidayDatabase::getCalendar).thenReturn(cal);
+    mocked.when(HolidayDatabase::getKoLCalendar).thenReturn(cal);
     return new Cleanups(mocked::close);
+  }
+
+  public static Cleanups usedAbsorbs(int absorbs) {
+    KoLCharacter.setAbsorbs(absorbs);
+    return new Cleanups(() -> usedAbsorbs(0));
+  }
+
+  public static Cleanups isHardcore() {
+    return isHardcore(true);
+  }
+
+  public static Cleanups isHardcore(boolean hardcore) {
+    var wasHardcore = KoLCharacter.isHardcore();
+    KoLCharacter.setHardcore(hardcore);
+    return new Cleanups(() -> isHardcore(wasHardcore));
+  }
+
+  public static Cleanups addCampgroundItem(int id) {
+    CampgroundRequest.setCampgroundItem(id, 1);
+    return new Cleanups(() -> CampgroundRequest.removeCampgroundItem(ItemPool.get(id, 1)));
   }
 }

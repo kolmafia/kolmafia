@@ -1,25 +1,35 @@
 package net.sourceforge.kolmafia.request;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import javax.xml.parsers.ParserConfigurationException;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.request.CharSheetRequest.ParsedSkillInfo;
 import net.sourceforge.kolmafia.request.CharSheetRequest.ParsedSkillInfo.PermStatus;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import org.htmlcleaner.DomSerializer;
 import org.htmlcleaner.HtmlCleaner;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.w3c.dom.Document;
 
 public class CharSheetRequestTest {
+  @BeforeEach
+  public void setUp() {
+    KoLCharacter.reset(true);
+  }
+
   @Test
   public void parseSkills() throws IOException, ParserConfigurationException {
-    byte[] fileData = Files.readAllBytes(Paths.get("request/test_charsheet.html"));
-    String html = new String(fileData, StandardCharsets.UTF_8);
+    String html = Files.readString(Paths.get("request/test_charsheet_normal.html"));
 
     HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
     DomSerializer domSerializer = new DomSerializer(cleaner.getProperties());
@@ -105,5 +115,159 @@ public class CharSheetRequestTest {
     };
 
     assertArrayEquals(expected, skillInfos);
+  }
+
+  @ParameterizedTest
+  @CsvSource({"normal, 123", "unbuffed_stats, 1199739", "grey_you, 2395753"})
+  public void parsePlayerId(String page, String expected) throws IOException {
+    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.getPlayerId(), equalTo(expected));
+  }
+
+  @ParameterizedTest
+  @CsvSource({"normal, 394, 394, 394", "unbuffed_stats, 162, 243, 243", "grey_you, 25, 25, 25"})
+  public void parseHP(
+      String page, String expectedCurrentHP, String expectedMaxHP, String expectedBaseMaxHP)
+      throws IOException {
+    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.getCurrentHP(), equalTo(Long.parseLong(expectedCurrentHP)));
+    assertThat(KoLCharacter.getMaximumHP(), equalTo(Long.parseLong(expectedMaxHP)));
+    assertThat(KoLCharacter.getBaseMaxHP(), equalTo(Long.parseLong(expectedBaseMaxHP)));
+  }
+
+  @ParameterizedTest
+  @CsvSource({"normal, 359, 1221, 1221", "unbuffed_stats, 225, 225, 225", "grey_you, 5, 5, 5"})
+  public void parseMP(
+      String page, String expectedCurrentMP, String expectedMaxMP, String expectedBaseMaxMP)
+      throws IOException {
+    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.getCurrentMP(), equalTo(Long.parseLong(expectedCurrentMP)));
+    assertThat(KoLCharacter.getMaximumMP(), equalTo(Long.parseLong(expectedMaxMP)));
+    assertThat(KoLCharacter.getBaseMaxMP(), equalTo(Long.parseLong(expectedBaseMaxMP)));
+  }
+
+  @Test
+  public void parseUnbuffedStats() throws IOException {
+    String html = Files.readString(Paths.get("request/test_charsheet_unbuffed_stats.html"));
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.getTotalMuscle(), equalTo(25313L));
+    assertThat(KoLCharacter.getAdjustedMuscle(), equalTo(159));
+    assertThat(KoLCharacter.getTotalMysticality(), equalTo(50625L));
+    assertThat(KoLCharacter.getAdjustedMysticality(), equalTo(225));
+    assertThat(KoLCharacter.getTotalMoxie(), equalTo(25313L));
+    assertThat(KoLCharacter.getAdjustedMoxie(), equalTo(159));
+  }
+
+  @Test
+  public void parseBuffedStats() throws IOException {
+    String html = Files.readString(Paths.get("request/test_charsheet_normal.html"));
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.getTotalMuscle(), equalTo(29492L));
+    assertThat(KoLCharacter.getAdjustedMuscle(), equalTo(229));
+    assertThat(KoLCharacter.getTotalMysticality(), equalTo(205776L));
+    assertThat(KoLCharacter.getAdjustedMysticality(), equalTo(581));
+    assertThat(KoLCharacter.getTotalMoxie(), equalTo(25158L));
+    assertThat(KoLCharacter.getAdjustedMoxie(), equalTo(164));
+  }
+
+  @Test
+  public void parseGreyYouStats() throws IOException {
+    String html = Files.readString(Paths.get("request/test_charsheet_grey_you.html"));
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.getTotalMuscle(), equalTo(9L));
+    assertThat(KoLCharacter.getAdjustedMuscle(), equalTo(3));
+    assertThat(KoLCharacter.getTotalMysticality(), equalTo(9L));
+    assertThat(KoLCharacter.getAdjustedMysticality(), equalTo(3));
+    assertThat(KoLCharacter.getTotalMoxie(), equalTo(9L));
+    assertThat(KoLCharacter.getAdjustedMoxie(), equalTo(3));
+  }
+
+  @ParameterizedTest
+  @CsvSource({"normal, 44", "unbuffed_stats, 494", "grey_you, 20"})
+  public void parseAscensions(String page, String expected) throws IOException {
+    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.getAscensions(), equalTo(Integer.parseInt(expected)));
+  }
+
+  @ParameterizedTest
+  @CsvSource({"normal, 8621947", "unbuffed_stats, 593", "grey_you, 0"})
+  public void parseAvailableMeat(String page, String expected) throws IOException {
+    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.getAvailableMeat(), equalTo(Long.parseLong(expected)));
+  }
+
+  @ParameterizedTest
+  @CsvSource({"normal, 2979", "unbuffed_stats, 30", "grey_you, 0"})
+  public void parseCurrentRun(String page, String expected) throws IOException {
+    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.getCurrentRun(), equalTo(Integer.parseInt(expected)));
+  }
+
+  @ParameterizedTest
+  @CsvSource({"normal, 14", "unbuffed_stats, 5", "grey_you, 1"})
+  public void parseCurrentDays(String page, String expected) throws IOException {
+    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.getCurrentDays(), equalTo(Integer.parseInt(expected)));
+  }
+
+  @ParameterizedTest
+  @CsvSource({"normal, Mongoose", "unbuffed_stats, Mongoose", "grey_you, Vole"})
+  public void parseSign(String page, String expected) throws IOException {
+    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.getSign(), equalTo(expected));
+  }
+
+  @ParameterizedTest
+  @CsvSource({"normal, false", "unbuffed_stats, false", "grey_you, false"})
+  public void parseHardcore(String page, String expected) throws IOException {
+    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.isHardcore(), equalTo(Boolean.parseBoolean(expected)));
+  }
+
+  @ParameterizedTest
+  @CsvSource({"normal, 0", "unbuffed_stats, 970", "grey_you, 1000"})
+  public void parseRonin(String page, String expected) throws IOException {
+    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.roninLeft(), equalTo(Integer.parseInt(expected)));
+  }
+
+  @Test
+  public void unascendedCharacterHasNoPathOrSign() throws IOException {
+    String html = Files.readString(Paths.get("request/test_charsheet_unascended.html"));
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.getAscensions(), equalTo(0));
+    assertThat(KoLCharacter.getSign(), equalTo(ZodiacSign.NONE.toString()));
+  }
+
+  @Test
+  public void parsesDrunkenness() throws IOException {
+    String html = Files.readString(Paths.get("request/test_charsheet_unascended.html"));
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.getInebriety(), equalTo(3));
   }
 }

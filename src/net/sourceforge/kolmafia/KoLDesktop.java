@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia;
 import com.sun.java.forums.CloseableTabbedPane;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -29,11 +28,8 @@ import net.sourceforge.kolmafia.swingui.button.RelayBrowserButton;
 import net.sourceforge.kolmafia.swingui.listener.TabFocusingListener;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.webui.RelayLoader;
-import tab.CloseListener;
-import tab.CloseTabPaneUI;
-import tab.CloseTabbedPane;
 
-public class KoLDesktop extends GenericFrame implements CloseListener {
+public class KoLDesktop extends GenericFrame {
   private final MinimizeListener minimizeListener = new MinimizeListener();
   private static KoLDesktop INSTANCE = null;
   private static boolean isInitializing = false;
@@ -79,32 +75,9 @@ public class KoLDesktop extends GenericFrame implements CloseListener {
 
   @Override
   public JTabbedPane getTabbedPane() {
-    if (Preferences.getBoolean("useDecoratedTabs")) {
-      CloseTabbedPane tabs = new CloseTabbedPane();
-
-      if (Preferences.getBoolean("allowCloseableDesktopTabs")) {
-        tabs.setCloseIconStyle(CloseTabPaneUI.RED_CLOSE_ICON);
-        tabs.addCloseListener(this);
-      }
-
-      return tabs;
-    }
-
     return Preferences.getBoolean("allowCloseableDesktopTabs")
         ? new CloseableTabbedPane()
         : new JTabbedPane();
-  }
-
-  @Override
-  public void closeOperation(final MouseEvent e, final int overTabIndex) {
-    if (overTabIndex == -1) {
-      return;
-    }
-
-    GenericFrame gframe = this.tabListing.remove(overTabIndex);
-    gframe.dispose();
-
-    this.tabs.removeTabAt(overTabIndex);
   }
 
   private void initializeTabs() {

@@ -3595,6 +3595,7 @@ Item	Time Lord Badge of Honor	Muscle Limit: 50, Mysticality Limit: 50, Moxie Lim
 # time-twitching toolbelt: +60% Item Drops in the Time-Twitching Tower
 # time-twitching toolbelt: Reveals various Time-Forgotten Secrets
 # time-twitching toolbelt: (also in the Time-Twitching Tower)
+# time-twitching toolbelt	Muscle: +15, Mysticality: +15, Moxie: +15, Single Equip, Item Drop: [60*zone(Twitch)], Free Pull: [pref(timeTowerAvailable,true)]
 Item	time-twitching toolbelt	Muscle: +15, Mysticality: +15, Moxie: +15, Single Equip, Item Drop: [60*zone(Twitch)], Variable
 Item	tin star	Monster Level: +5, Moxie: +3
 Item	tiny die-cast arc-welding Elfborg	Meat Drop: +10
@@ -5519,6 +5520,7 @@ Effect	Dang Near Cut In Half	Muscle Percent: -50
 Effect	Dangerous Zone Song	Meat Drop: +25
 Effect	Danish Cunning	Pickpocket Chance: +25
 Effect	Dark Orchestral Song	Moxie: +5
+Effect	Darkened Photons	Combat Rate: -10
 Effect	Dawn of the Goblin	Avatar: "tribal goblin"
 Effect	Dazed, Confused	Avatar: "wastoid"
 # Dazzling Smile: Increases your ability to spread Crimbo cheer
@@ -6072,6 +6074,7 @@ Effect	Hombre Muerto Caminando	Initiative: +20, Spooky Resistance: +1, Maximum M
 Effect	Hood Ridin'	Hot Damage: +40, Hot Spell Damage: +40
 # Hooked Up: Continually gain MP
 Effect	Hooked Up	Moxie Percent: -100, MP Regen Min: 10, MP Regen Max: 15
+Effect	Hooooooooonk!	Combat Rate: +10
 Effect	Hopped Up on Goofballs	Muscle Percent: +20, Moxie Percent: +20
 Effect	Hoppyness	Initiative: +100
 Effect	Hornswaggled	Moxie Percent: +50, Muscle Percent: -50
@@ -6892,6 +6895,7 @@ Effect	Shelter of Shed	Combat Rate: -20
 Effect	Shepherd's Breath	Stench Damage: +30
 # Shield of the Pastalord: Reduces physical damage taken by 30%
 Effect	Shielded Unit	Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5
+Effect	Shifted Phase	Combat Rate: -10
 Effect	Shiny and Chrome	Avatar: "T-9000"
 Effect	Shiny Happy Cupcake	Experience: +3
 Effect	Shiny Happy Gladiator	Avatar: "Gladiator"
@@ -7656,6 +7660,7 @@ Skill	Abstract Reasoning	Mysticality: +10
 Skill	Achilles Tendons	Initiative: +40
 Skill	Adipose Polymers	Damage Absorption: +100, Damage Reduction: 10
 Skill	Adrenal Gland	Spooky Resistance: +2
+Skill	Advanced Exo-Alloy	Damage Absorption: +100
 # Adventurer of Leisure: Disco Napping is much more effective
 # Adventurer of Leisure: Rest Without Spending an Adventure
 # Adventurer of Leisure: (2x / day)
@@ -7670,6 +7675,7 @@ Skill	Animal Magnetism	Moxie Controls MP, MP Regen Min: 8, MP Regen Max: 10
 Skill	Ankle Joints	Initiative: +20
 # Another Extra Spleen: Another +5 spleen capacity
 Skill	Anterior Cruciate Ligaments	Initiative: +50
+Skill	Anti-Sleaze Recursion	Sleaze Resistance: +3
 Skill	Arm Blade	Weapon Damage: +5, Critical Hit Percent: +20
 Skill	Armor Plating	Damage Reduction: 10
 # Armorcraftiness: Allows the crafting of advanced armor
@@ -7680,6 +7686,9 @@ Skill	Arteries	Maximum HP Percent: +30
 Skill	Asbestos Heart	Hot Resistance: +3
 Skill	Astute Angler	Fishing Skill: +10
 # Audacity of the Otter: Critical Hits do 3x damage
+Skill	Autochrony	Adventures: +10
+Skill	AUTOEXEC.BAT	Stench Damage: +15
+Skill	Autovampirism Routines	Spooky Resistance: +3
 Skill	Backwards Knees	Initiative: +20
 Skill	Bad Breath	Stench Damage: +3
 Skill	Baleful Howl	Maximum HP: -30
@@ -7715,6 +7724,7 @@ Skill	Buoyancy of the Beluga	HP Regen Min: [Y], HP Regen Max: [Y]
 Skill	Business Acumen	Meat Drop: +50
 # Butts of Steel: Improves the accuracy and damage of your Butt skills
 Skill	Calluses	Damage Reduction: 5
+Skill	Camp Subroutines	Sleaze Damage: +5
 Skill	Cartilage	Damage Reduction: 5
 Skill	Ceaseless Snarl	Maximum HP: -15
 Skill	Central Hypothalamus	Absorb Adventures: +1
@@ -7722,6 +7732,7 @@ Skill	Chatterable Teeth	Cold Resistance: +2
 Skill	Chill of the Tomb	Maximum HP: -10
 Skill	Chip on your Shoulder	PvP Fights: +5
 Skill	Choleric Humours	Hot Damage: +9
+Skill	Clammy Microcilia	Stench Resistance: +2
 Skill	Claws of the Walrus	Weapon Damage: +7
 # Cocktail Magic: Mix cocktails without spending Adventures
 # Code Block: Lets you block 3 melee attacks from Source Agents
@@ -7729,12 +7740,16 @@ Skill	Cold Feet	Cold Damage: +7
 Skill	Cold Heart	Cold Damage: +9
 # Cold Shoulder: Your Smack skills will deal 5 additional Cold Damage
 Skill	Cold-Blooded Fearlessness	Spooky Resistance: +2
+Skill	Conifer Polymers	Stench Resistance: +3
 Skill	Constrictable Capillaries	Cold Resistance: +1
 Skill	Cool Head	Cold Damage: +3
 Skill	Cool Heels	Cold Damage: +5
+Skill	Cooling Tubules	Cold Damage: +10
 Skill	Cosmic Ugnderstanding	Maximum MP Percent: +5
 # Crab Claw Technique: Makes your accordion attacks significantly more accurate
 Skill	Crush	Maximum HP: -20
+Skill	Cryocurrency	Cold Damage: +5
+Skill	Curses Library	Spooky Damage: +5
 Skill	Dark Circles Under Your Eyes	Spooky Damage: +7
 # Data Siphon: Makes Source Punches and Source Kicks restore MP
 # Skill Dead Nostrils: Stay fresh a little longer
@@ -7758,6 +7773,7 @@ Skill	Double-Eidetic Memory	Experience Percent (Muscle): +10, Experience Percent
 # Drippy Eye-Stone: It is irritating!
 # Early Riser: +1 Food Conjuration
 Skill	Easy Riding	Experience (Moxie): +5
+Skill	Ectogenesis	Spooky Resistance: +2
 Skill	Elbows	Weapon Damage: +11
 # Eldritch Intellect Unlocks Eldritch Knowledge
 Skill	Eldritch Intellect	Spooky Spell Damage: +1, Spooky Resistance: +1
@@ -7769,6 +7785,7 @@ Skill	Ensorcel	Maximum HP: -20
 Skill	Eternal Flame	Hot Spell Damage: +1, Hot Resistance: +1
 Skill	Even More Elemental Wards	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3
 # Executive Narcolepsy: +1 Free Rest per Day
+Skill	Exhaust Tubules	Stench Damage: +5
 Skill	Expert Panhandling	Meat Drop: [10+5*mainhand(saucepan)]
 Skill	Extra Brain	Mysticality Percent: +50
 # Extra Gall Bladder: Food gives 100% more Adventures
@@ -7783,6 +7800,7 @@ Skill	Fashionably Late	Adventures: +1
 # Ferocity (Vampyre)	Your combat skills do 50% more damage
 Skill	Ferocity	Variable
 Skill	Financial Ambition	Meat Drop: +40
+Skill	Financial Spreadsheets	Meat Drop: +40
 Skill	Fingernails	Weapon Damage: +7
 # Fireball Barrage: Level 1: Deal 200% of your Mysticality as Hot Damage
 # Fireball Barrage: Level 2: Damage increased to 300%
@@ -7791,6 +7809,7 @@ Skill	Fingernails	Weapon Damage: +7
 # Flashy Dancer Opponents cannot act during Disco Dances
 # Flavour of Magic: Allows you to tune the element of your pasta spells.
 Skill	Flesh Scent	Meat Drop: +100, Maximum HP: -5
+Skill	Fluid Dynamics Simulation	HP Regen Min: 100, HP Regen Max: 100
 Skill	Flock of Bats Form	Maximum HP: -20
 Skill	Flop Sweat	Sleaze Damage: +9
 # Food Coma: Rest Without Spending an Adventure (10x / day)
@@ -7811,6 +7830,7 @@ Skill	Gnomish Hardigness	Maximum HP Percent: +5
 Skill	Golgi Apparatus	Absorb Stats: +25
 # Good Singing Voice: Doubles duration of Boris songs
 # Gourmand: Increases adventures from food
+Skill	Gravitational Compression	Item Drop: [min(floor(basemys/5)+1,100)] Item Drops from Monsters (Scales with your Mysticality)
 # Hammer Throw: Level 1: Briefly stun your foe and reduce their stats by 10%
 # Hammer Throw: Level 2: Reduction increased to 15%
 # Hammer Throw: Level 3: Reduction increased to 20%
@@ -7823,6 +7843,7 @@ Skill	Heart of Polyester	Sleaze Resistance: +2
 Skill	Hide of the Walrus	Damage Absorption: +50
 Skill	High Water Content	Hot Resistance: +2
 Skill	His Master's Voice	Familiar Weight: +5
+# Hivemindedness: Regenerate 100 MP per Adventure (Scales with your Mysticality)
 # Hollow Leg: +1 Liver Capacity
 Skill	Hot Headedness	Hot Damage: +11
 Skill	Hungry Eyes	Food Drop: +100
@@ -7837,13 +7858,16 @@ Skill	Ice Water In Your Veins	Cold Damage: +11
 # Impetuous Sauciness: +5 reagent potion duration
 Skill	Indefatigable	HP Regen Min: +16, HP Regen Max: +20
 Skill	Index Fingers	Pickpocket Chance: +40
+Skill	Infernal Automata	Hot Damage: +10
 Skill	Inner Sauce	MP Regen Min: [1+2*class(Sauceror)], MP Regen Max: [1+3*class(Sauceror)]
+Skill	Innuendo Circuitry	Sleaze Damage: +15
 # Insatiable Hunger: +5 Stomach Capacity
 # Intimidating Aura: Gain more blood from the Blood Bank each day
 Skill	Intimidating Aura	Maximum HP: -30
 Skill	Intrinsic Spiciness	Sauce Spell Damage: [min(L,10)]
 Skill	Introspection	Mysticality: +20
 # Ire of the Orca: Fury capacity increases to 5 gallons
+Skill	Ire Proof	Hot Resistance: +3
 Skill	Irrepressible Spunk	Maximum HP Percent: +5, Maximum MP Percent: +5
 # Itchy Curse Finger: Your curses take hold too quickly for your opponents to react
 # Juggle Fireballs: Level 1: Briefly stun enemy and increase your stats by 100%
@@ -7859,15 +7883,18 @@ Skill	Larger Than Life	Maximum MP Percent: +100, Maximum HP Percent: +100
 Skill	Left Brain Hemisphere	Maximum MP Percent: +20
 Skill	Left Eyeball	Item Drop: +20
 Skill	Left Eyelid	Spooky Resistance: +1
+Skill	Legacy Code	Spooky Damage: +15
 # Legendary Appetite: Stomach Capacity +5
 Skill	Legendary Bravado	Muscle: +10, Mysticality: +10, Moxie: +10
 Skill	Legendary Girth	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 Skill	Legendary Impatience	Initiative: +100
 # Legendary Luck: Critical hits are even criticaler!
 # Liver of Steel: Lets you hold more liquor
+Skill	Localized Vacuum	Hot Resistance: +2
 # Louder Bellows: You can bellow louder
 # Louder Bellows: (bellow delevels by 30%, and also stuns the monster for one round)
 Skill	Lower Hypothalamus	Cold Resistance: +1
+Skill	Lubricant Layer	Sleaze Resistance: +2
 Skill	Lucky Brooch	Item Drop: +30
 # Lucky Buckle: Find more coins after combat
 Skill	Lucky Insignia	Item Drop: +30
@@ -7884,6 +7911,8 @@ Skill	Master of the Surprising Fist	Weapon Damage: +10, Damage Reduction: 10, Un
 Skill	Master Saucier	Spell Damage Percent: +10
 Skill	Metallic Skin	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
 # Meteor Lore: You know everything about meteors
+Skill	Microburner	Hot Damage: +5
+Skill	Microweave	Cold Resistance: +2
 Skill	Middle Fingers	Pickpocket Chance: +30
 Skill	Mist Form	Maximum HP: -30
 Skill	Mitochondria	Absorb Stats: +10
@@ -7894,6 +7923,7 @@ Skill	More to Love	Minstrel Level: +3
 # Multi-Bounce: Level 1: Deal 50% of your Moxie as Physical Damage 3 times
 # Multi-Bounce: Level 2: 4 times
 # Multi-Bounce: Level 3: 5 times, knocking some coins loose with the fifth.
+Skill	Nanofur	Cold Resistance: +3
 Skill	Nasal Lamina Propria	Stench Resistance: +2
 Skill	Nasal Septum	Stench Resistance: +2
 Skill	Natural Born Scrabbler	Item Drop: +5
@@ -7911,10 +7941,12 @@ Skill	Oily Scalp	Sleaze Damage: +7
 # Okay Seriously, This is the Last Spleen: Another +5 spleen capacity. That's it, for real.
 Skill	Olfactory Burnout	Stench Resistance: +3
 Skill	Olfactory Cortex	Stench Resistance: +3
+Skill	Ominous Substrate	Spooky Damage: +10
 Skill	Optic Nerves	Item Drop: +30
 Skill	Overactive Pheromones	Familiar Weight: +10
 Skill	Overalls	Damage Reduction: 20
 Skill	Overclocked	Initiative: +200
+Skill	Overclocking	Initiative: +300
 Skill	Overdeveloped Sense of Self Preservation	Initiative: +20
 Skill	Oversized Right Kidney	Maximum HP Percent: +50
 Skill	Pallid Skin	Spooky Damage: +5
@@ -7929,13 +7961,16 @@ Skill	Piercing Gaze	Maximum HP: -20
 Skill	Pinky Fingers	Pickpocket Chance: +10
 # Pizza Lover: You really, really like pizza
 Skill	Politeness	Sleaze Resistance: +2
+Skill	Ponzi Apparatus	Meat Drop: +200
 Skill	Power Plus	Maximum PP: +1
 Skill	Powers of Observatiogn	Item Drop: +10
 # Precision of the Penguin: +1% chance of Critical Hit for each gallon of Fury
 Skill	Precision of the Penguin	Critical Hit Percent: [Y]
 Skill	Preternatural Strength	Floor Buffed Muscle: "Mysticality", Maximum HP: -15
+Skill	Procgen Ribaldry	Sleaze Damage: +10
 # Prodigious Appetite: +5 Stomach Capacity
 Skill	Profound Shame	Sleaze Resistance: +3
+Skill	Propagation Drive	Item Drop: +20
 # Pulverize: Lets you smash equipment
 Skill	Quantum Movement	Initiative: +20
 Skill	Rain Delay	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
@@ -7966,6 +8001,7 @@ Skill	Saccade Reflex	Item Drop: +40
 Skill	Sanguine Magnetism	Maximum HP: -15
 # Saucemaven: Get more Adventures from the saucy food you eat
 Skill	Savage Bite	Maximum HP: -10
+Skill	Secondary Fermentation	Stench Damage: +10
 # Secret Eye: Sometimes find hidden blocks after fights
 # Seething of the Snow Leopard: Gain additional bonus damage from Fury
 Skill	Seething of the Snow Leopard	Weapon Damage: [2*Y]
@@ -7995,6 +8031,8 @@ Skill	Slimy Synapses	Maximum MP: [pref(skillLevel47)]
 # Sloppy Secrets: You get more bang (huh huh) for your buck at the diner
 Skill	Small Intestine	Absorb Adventures: +2
 Skill	Small Left Kidney	Maximum HP Percent: +40
+Skill	Snow-Cooling System	Cold Damage: +15
+Skill	Solid Fuel	Adventures: +10
 # Soul Saucery: Allows you to gather Soulsauce from defeated foes
 Skill	Spectral Awareness	Maximum HP: -10
 Skill	Speluck	Item Drop: [5*env(underground)], Meat Drop: [10*env(underground)]
@@ -8008,10 +8046,13 @@ Skill	Spirit of Ravioli	Maximum HP Percent: +25
 # Spleen of Steel: Makes your spleen stronger
 # Spot Weakness: Weakens foes at the start of combat
 Skill	Spot Weakness	Maximum HP: -15
+Skill	Steam Mycelia	Hot Damage: +15
 # Sticky Fingers: Pickpocketing also gives Meat
 # Still Another Extra Spleen: Still another +5 spleen capacity
 # Stomach of Steel: Lets you eat more
 Skill	Stomach-Like Thing	Absorb Adventures: +2
+Skill	Subatomic Hardening	Damage Reduction: 30
+Skill	Subatomic Tango	Adventures: +20
 Skill	Subcutaneous Fat	Cold Resistance: +3
 Skill	Subtle and Quick to Anger	Spell Damage Percent: +10
 Skill	Sucker Fingers	Item Drop: +15
@@ -8024,6 +8065,7 @@ Skill	Sweat Glands	Hot Resistance: +3
 Skill	Sweaty Palms	Sleaze Damage: +3
 Skill	Sympathetic Nervous System	Maximum MP Percent: +50
 # Tao of the Terrapin: Doubles Hat/Pants power
+Skill	Temporal Hyperextension	Adventures: +10
 # Tempuramancy: Lets you cook tempura dishes
 # Testudinal Teachings: Your familiars gain weight faster
 Skill	The Concept of Property	Meat Drop: +30
@@ -9083,7 +9125,7 @@ Item	Knob Goblin nasal spray	Effect: "Wasabi Sinuses", Effect Duration: 30
 Item	Knob Goblin pet-buffing spray	Effect: "Heavy Petting", Effect Duration: 30
 Item	liquid shifting time weirdness	Effect: "Liquid Luck", Effect Duration: 10
 Item	livid energy	Effect: "Lividly Energized", Effect Duration: 60
-# lucky pill: Lucky!
+# lucky-ish pill: Lucky!
 Item	lustrous oyster egg	Effect: "Lustre After Wealth", Effect Duration: 50
 Item	magnificent oyster egg	Effect: "Eggstraordinary Strength", Effect Duration: 20
 Item	Mansquito Serum	Effect: "More Mansquito Than Man", Effect Duration: 400

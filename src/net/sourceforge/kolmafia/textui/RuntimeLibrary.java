@@ -117,8 +117,33 @@ import net.sourceforge.kolmafia.request.*;
 import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.EveryCard;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
-import net.sourceforge.kolmafia.session.*;
+import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ContactManager;
+import net.sourceforge.kolmafia.session.DadManager;
+import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.FamiliarManager;
+import net.sourceforge.kolmafia.session.GoalManager;
+import net.sourceforge.kolmafia.session.GuildUnlockManager;
+import net.sourceforge.kolmafia.session.HeistManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LocketManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
+import net.sourceforge.kolmafia.session.MonsterManuelManager;
+import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.NumberologyManager;
+import net.sourceforge.kolmafia.session.PvpManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.session.TavernManager;
+import net.sourceforge.kolmafia.session.TowerDoorManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.UnusualConstructManager;
+import net.sourceforge.kolmafia.session.VotingBoothManager;
 import net.sourceforge.kolmafia.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 import net.sourceforge.kolmafia.textui.AshRuntime.CallFrame;
@@ -4645,7 +4670,7 @@ public abstract class RuntimeLibrary {
     }
 
     return new Value(
-        InventoryManager.priceToAcquire(ItemPool.get(item, count), count, 0, false, false));
+        InventoryManager.priceToAcquire(ItemPool.get(item, count), count, false, false));
   }
 
   public static Value retrieve_price(ScriptRuntime controller, final Value item) {
@@ -5068,18 +5093,18 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value mall_price(ScriptRuntime controller, final Value item) {
-    return new Value(StoreManager.getMallPrice(ItemPool.get((int) item.intValue(), 0)));
+    return new Value(MallPriceManager.getMallPrice(ItemPool.get((int) item.intValue(), 0)));
   }
 
   public static Value mall_price(ScriptRuntime controller, final Value item, final Value maxAge) {
     return new Value(
-        StoreManager.getMallPrice(
+        MallPriceManager.getMallPrice(
             ItemPool.get((int) item.intValue(), 0), (float) maxAge.floatValue()));
   }
 
   public static Value mall_prices(ScriptRuntime controller, final Value arg) {
     if (arg.getType().equals(DataTypes.STRING_TYPE)) {
-      return new Value(StoreManager.getMallPrices(arg.toString(), ""));
+      return new Value(MallPriceManager.getMallPrices(arg.toString(), ""));
     }
 
     // It's a set of items
@@ -5095,14 +5120,14 @@ public abstract class RuntimeLibrary {
     }
 
     // Update the mall prices, one by one,
-    int result = StoreManager.getMallPrices(itemIds, 0.0f);
+    int result = MallPriceManager.getMallPrices(itemIds, 0.0f);
 
     return DataTypes.makeIntValue(result);
   }
 
   public static Value mall_prices(
       ScriptRuntime controller, final Value category, final Value tiers) {
-    return new Value(StoreManager.getMallPrices(category.toString(), tiers.toString()));
+    return new Value(MallPriceManager.getMallPrices(category.toString(), tiers.toString()));
   }
 
   public static Value well_stocked(
@@ -5119,7 +5144,7 @@ public abstract class RuntimeLibrary {
     if (checkPrice < (2 * ItemDatabase.getPriceById(itemID))) return DataTypes.FALSE_VALUE;
     // get some data
     SortedListModel<PurchaseRequest> results = new SortedListModel<PurchaseRequest>();
-    MallSearchRequest msr = new MallSearchRequest(item, 20, results, false);
+    MallSearchRequest msr = new MallSearchRequest(item, 20, results);
     msr.run();
     // Now iterate over results
     // Assume sorted by price so can bail at first failure
@@ -8172,14 +8197,25 @@ public abstract class RuntimeLibrary {
         && KoLCharacter.getAdjustedMuscle() > defenseStat) {
       defenseStat = KoLCharacter.getAdjustedMuscle();
     }
+    int baseValue;
+    double damageAbsorb;
+    double elementAbsorb;
 
-    int baseValue =
-        Math.max(0, attack - defenseStat) + attack / 4 - KoLCharacter.getDamageReduction();
+    // https://kol.coldfront.net/thekolwiki/index.php/Ninja_snowman_assassin
+    if (monster.getName().equals("ninja snowman assassin")) {
+      baseValue = Math.max(0, attack - defenseStat) + 120;
+      damageAbsorb =
+          1.0 - (Math.sqrt(Math.min(1000, KoLCharacter.getDamageAbsorption()) / 10.0) - 1.0) / 10.0;
+      int modifiedRes = Math.max(0, KoLCharacter.getElementalResistanceLevels(Element.COLD) - 5);
+      elementAbsorb = 1.0 - KoLCharacter.elementalResistanceByLevel(modifiedRes, true) / 100.0;
+    } else {
+      baseValue =
+          Math.max(0, attack - defenseStat) + attack / 4 - KoLCharacter.getDamageReduction();
+      damageAbsorb =
+          1.0 - (Math.sqrt(Math.min(1000, KoLCharacter.getDamageAbsorption()) / 10.0) - 1.0) / 10.0;
+      elementAbsorb = 1.0 - KoLCharacter.getElementalResistance(monster.getAttackElement()) / 100.0;
+    }
 
-    double damageAbsorb =
-        1.0 - (Math.sqrt(Math.min(1000, KoLCharacter.getDamageAbsorption()) / 10.0) - 1.0) / 10.0;
-    double elementAbsorb =
-        1.0 - KoLCharacter.getElementalResistance(monster.getAttackElement()) / 100.0;
     return new Value((int) Math.ceil(baseValue * damageAbsorb * elementAbsorb));
   }
 

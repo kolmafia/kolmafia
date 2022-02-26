@@ -1,9 +1,13 @@
 package net.sourceforge.kolmafia;
 
 import static internal.helpers.Player.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -184,6 +188,29 @@ public class KoLCharacterTest {
 
     var fam = KoLCharacter.findFamiliar("astral badger");
     assertEquals(FamiliarPool.BADGER, fam.getId());
+  }
+
+  @Test
+  public void familiarsWithoutBsDoExistInBeesHateYou() {
+    var cleanups =
+        new Cleanups(inPath(AscensionPath.Path.BEES_HATE_YOU), hasFamiliar(FamiliarPool.MU));
+
+    try (cleanups) {
+      var mu = KoLCharacter.findFamiliar(FamiliarPool.MU);
+      assertThat(mu, not(nullValue()));
+    }
+  }
+
+  @Test
+  public void familiarsWithBsDoNotExistInBeesHateYou() {
+    var cleanups =
+        new Cleanups(
+            inPath(AscensionPath.Path.BEES_HATE_YOU), hasFamiliar(FamiliarPool.CAT_BURGLAR));
+
+    try (cleanups) {
+      var mu = KoLCharacter.findFamiliar(FamiliarPool.CAT_BURGLAR);
+      assertThat(mu, nullValue());
+    }
   }
 
   @Test

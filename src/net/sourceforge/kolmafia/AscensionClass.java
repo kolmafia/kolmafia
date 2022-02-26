@@ -26,7 +26,8 @@ public enum AscensionClass {
   SNAKE_OILER("Snake Oiler", 20, "tinysnake", 2),
   GELATINOUS_NOOB("Gelatinous Noob", 23, "gelatinousicon", 2),
   VAMPYRE("Vampyre", 24, "vampirefangs", 1, "Chill of the Tomb"),
-  PLUMBER("Plumber", 25, "mario_hammer2", -1);
+  PLUMBER("Plumber", 25, "mario_hammer2", -1),
+  GREY_GOO("Grey Goo", 27, "goovatar", -1);
 
   public static final List<AscensionClass> standardClasses =
       Arrays.asList(
@@ -139,14 +140,16 @@ public enum AscensionClass {
   }
 
   public final int getPrimeStatIndex() {
-    if (this == AscensionClass.PLUMBER) {
-      long mus = KoLCharacter.getTotalMuscle();
-      long mys = KoLCharacter.getTotalMysticality();
-      long mox = KoLCharacter.getTotalMoxie();
-      return (mus >= mys) ? (mus >= mox ? 0 : 2) : (mys >= mox) ? 1 : 2;
+    switch (this) {
+      case PLUMBER:
+      case GREY_GOO:
+        long mus = KoLCharacter.getTotalMuscle();
+        long mys = KoLCharacter.getTotalMysticality();
+        long mox = KoLCharacter.getTotalMoxie();
+        return (mus >= mys) ? (mus >= mox ? 0 : 2) : (mys >= mox) ? 1 : 2;
+      default:
+        return this.primeStatIndex;
     }
-
-    return this.primeStatIndex;
   }
 
   public final Stat getMainStat() {

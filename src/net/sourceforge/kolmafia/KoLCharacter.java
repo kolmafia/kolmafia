@@ -4365,7 +4365,7 @@ public abstract class KoLCharacter {
         .filter(familiarFilter)
         .filter(StandardRequest::isAllowed)
         .filter(f -> !KoLCharacter.inZombiecore() || f.isUndead())
-        .filter(f -> !KoLCharacter.inBeecore() || KoLCharacter.hasBeeosity(f.getRace()))
+        .filter(f -> !KoLCharacter.inBeecore() || !KoLCharacter.hasBeeosity(f.getRace()))
         .filter(f -> !KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()))
         .findAny()
         .orElse(null);

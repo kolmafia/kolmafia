@@ -185,7 +185,7 @@
 159	Astute Angler	fishinpole.gif	0	0	0
 161	Eldritch Intellect	dinseybrain.gif	0	0	0
 162	Licorice Rope	whip.gif	5	0	0
-163	Gingerbread Mob Hit		5	30	0
+163	Gingerbread Mob Hit	kneestick.gif	5	30	0
 164	Fifteen Minutes of Flame	fire.gif	3	50	15
 165	Ceci N'Est Pas Un Chapeau	nohat.gif	3	300	0
 166	Sweet Synthesis	pep_patty.gif	3	0	0
@@ -891,7 +891,7 @@
 7362	Feel Envy	emochip12.gif	5	0	0
 7363	Feel Disappointed	emochip2.gif	1	0	0
 7364	Feel Lost	emochip7.gif	3	0	20
-7365	Feel Nostalgic	emochip12.gif	5	0	0
+7365	Feel Nostalgic	emochip6.gif	5	0	0
 7366	Feel Peaceful	emochip10.gif	3	0	20
 7367	Feel Superior	emochip5.gif	5	0	0
 7368	Swing Pound-O-Tron	poundotron.gif	5	0	0
@@ -907,7 +907,7 @@
 7378	Throw Flame	fire.gif	5	0	0
 7379	Shoot Grease	greasebolt.gif	5	0	0
 7380	Shocking Lick	tonguewalrus.gif	5	0	0
-7381	Back-Up to your Last Enemy	backupcamera.gif	5	0	0
+7381	Back-Up to your Last Enemy	backcamera.gif	5	0	0
 7382	Show your boring familiar pictures	dogphoto.gif	5	0	0
 7383	B. L. A. R. T. Spray (medium)	blartspray2.gif	5	0	0
 7384	B. L. A. R. T. Spray (wide)	blartspray3.gif	5	0	0
@@ -931,7 +931,7 @@
 7402	Flagstone Fleece Flex	fs_fleece.gif	5	0	0
 7403	Flagstone Foxtrot	fs_fringe.gif	5	0	0
 7404	Bowl Backwards	bowlback.gif	5	0	0
-7405	Bowl a Curveball	bowlcurv.gif	5	0	0
+7405	Bowl a Curveball	bowlcurve.gif	5	0	0
 7406	Bowl Sideways	bowlside.gif	5	0	0
 7407	Bowl Straight Up	bowlup.gif	5	0	0
 
@@ -1518,3 +1518,58 @@
 25012	Lucky Brooch	mario_luck2.gif	0	0	0	12
 25013	Lucky Insignia	mario_luck3.gif	0	0	0	13
 25014	Health Symbol	mario_health.gif	0	0	0	14
+
+# Grey Goo
+27000	Pseudopod Slap	goocon10.gif	5	1	0
+27001	Hardslab	goocon2.gif	5	1	0
+27002	Telekinetic Murder	goocon3.gif	5	1	0
+27003	Snakesmack	goocon4.gif	5	1	0
+27004	Ire Proof	goocon5.gif	0	0	0
+27005	Nanofur	goocon6.gif	0	0	0
+27006	Autovampirism Routines	goocon7.gif	0	0	0
+27007	Conifer Polymers	goocon8.gif	0	0	0
+27008	Anti-Sleaze Recursion	goocon9.gif	0	0	0
+27009	Microburner	goocon1.gif	0	0	0
+27010	Cryocurrency	goocon10.gif	0	0	0
+27011	Curses Library	goocon11.gif	0	0	0
+27012	Exhaust Tubules	goocon12.gif	0	0	0
+27013	Camp Subroutines	goocon13.gif	0	0	0
+27014	Grey Noise	goocon14.gif	5	3	0
+27015	Advanced Exo-Alloy	goocon15.gif	0	0	0
+27016	Localized Vacuum	goocon16.gif	0	0	0
+27017	Microweave	goocon17.gif	0	0	0
+27018	Ectogenesis	goocon18.gif	0	0	0
+27019	Clammy Microcilia	goocon19.gif	0	0	0
+27020	Lubricant Layer	goocon20.gif	0	0	0
+27021	Infernal Automata	goocon21.gif	0	0	0
+27022	Cooling Tubules	goocon22.gif	0	0	0
+27023	Ominous Substrate	goocon23.gif	0	0	0
+27024	Secondary Fermentation	goocon24.gif	0	0	0
+27025	Procgen Ribaldry	goocon25.gif	0	0	0
+27026	Solid Fuel	goocon26.gif	0	0	0
+27027	Autochrony	goocon27.gif	0	0	0
+27028	Temporal Hyperextension	goocon28.gif	0	0	0
+27029	Propagation Drive	goocon29.gif	0	0	0
+27030	Financial Spreadsheets	goocon30.gif	0	0	0
+27031	Phase Shift	goocon31.gif	3	50	10
+27032	Piezoelectric Honk	goocon32.gif	3	50	10
+27033	Overclocking	goocon33.gif	0	0	0
+27034	Subatomic Hardening	goocon34.gif	0	0	0
+27035	Gravitational Compression	goocon25.gif	0	0	0
+27036	Hivemindedness	goocon36.gif	0	0	0
+27037	Ponzi Apparatus	goocon37.gif	0	0	0
+27038	Fluid Dynamics Simulation	goocon38.gif	0	0	0
+27039	Nantlers	goocon39.gif	5	5	0
+27040	Nanoshock	goocon40.gif	5	5	0
+27041	Audioclasm	goocon41.gif	5	5	0
+27042	System Sweep	goocon42.gif	5	20	0
+27043	Double Nanovision	goocon43.gif	5	20	0
+27044	Infinite Loop	goocon44.gif	5	20	0
+27045	Photonic Shroud	goocon45.gif	3	40	10
+27046	Unused Combat Selfbuff	goocon46.gif	3	40	0
+27047	Steam Mycelia	goocon47.gif	0	0	0
+27048	Snow-Cooling System	goocon48.gif	0	0	0
+27049	Legacy Code	goocon49.gif	0	0	0
+27050	AUTOEXEC.BAT	goocon50.gif	0	0	0
+27051	Innuendo Circuitry	goocon51.gif	0	0	0
+27052	Subatomic Tango	goocon52.gif	0	0	0

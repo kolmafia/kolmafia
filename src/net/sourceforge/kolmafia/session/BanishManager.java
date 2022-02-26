@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.session;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.function.Predicate;
@@ -23,25 +24,33 @@ public class BanishManager {
   private BanishManager() {}
 
   private enum Reset {
-    TURN_RESET(),
-    TURN_ROLLOVER_RESET(true),
-    ROLLOVER_RESET(true),
-    AVATAR_RESET(),
-    NEVER_RESET(),
-    COSMIC_BOWLING_BALL_RESET(true);
+    TURN_RESET,
+    TURN_ROLLOVER_RESET,
+    ROLLOVER_RESET,
+    AVATAR_RESET,
+    NEVER_RESET,
+    COSMIC_BOWLING_BALL_RESET;
 
-    private final boolean rolloverReset;
-
-    Reset() {
-      this(false);
-    }
-
-    Reset(final boolean rolloverReset) {
-      this.rolloverReset = rolloverReset;
-    }
+    private Boolean rolloverReset;
+    private Boolean turnReset;
 
     final boolean isRolloverReset() {
+      if (rolloverReset == null) {
+        this.rolloverReset =
+            this == TURN_ROLLOVER_RESET
+                || this == ROLLOVER_RESET
+                || this == COSMIC_BOWLING_BALL_RESET;
+      }
+
       return rolloverReset;
+    }
+
+    final boolean isTurnReset() {
+      if (turnReset == null) {
+        this.turnReset = this == TURN_RESET || this == TURN_ROLLOVER_RESET;
+      }
+
+      return turnReset;
     }
   }
 
@@ -306,7 +315,7 @@ public class BanishManager {
   }
 
   public static final void banishMonster(final String monsterName, final Banisher banisher) {
-    MonsterData monster = MonsterDatabase.findMonster(monsterName);
+    MonsterData monster = MonsterDatabase.findMonster(monsterName, false, false);
 
     if (monster == null) {
       KoLmafia.updateDisplay("Couldn't find monster by the name " + monsterName + ".");
@@ -317,7 +326,16 @@ public class BanishManager {
   }
 
   public static final void banishMonster(final MonsterData monster, final Banisher banisher) {
-    if (BanishManager.countBanishes(banisher) >= banisher.getQueueSize()) {
+    int queueSize = banisher.getQueueSize();
+
+    if (BanishManager.countBanishes(banisher) >= queueSize) {
+      // If we've rebanished a monster that wasn't going to run out anyway, there's nothing to do.
+      if (queueSize == 1
+          && monster.getName().equals(getBanishedMonster(banisher))
+          && !banisher.getResetType().isTurnReset()) {
+        return;
+      }
+
       BanishManager.removeOldestBanish(banisher);
     }
 
@@ -417,22 +435,26 @@ public class BanishManager {
     return (int) banishedMonsters.stream().filter(m -> m.getBanisher().equals(banisher)).count();
   }
 
-  public static final String getBanishList() {
+  public static final List<String> getBanishedMonsters() {
     BanishManager.recalculate();
 
     return banishedMonsters.stream()
         .map(BanishedMonster::getMonsterName)
-        .collect(Collectors.joining(","));
+        .collect(Collectors.toList());
   }
 
-  public static final String getIceHouseMonster() {
+  public static final List<String> getBanishedMonsters(Banisher banisher) {
     BanishManager.recalculate();
 
     return banishedMonsters.stream()
-        .filter(m -> m.getBanisher().equals(Banisher.ICE_HOUSE))
+        .filter(m -> m.getBanisher().equals(banisher))
         .map(BanishedMonster::getMonsterName)
-        .findAny()
-        .orElse(null);
+        .collect(Collectors.toList());
+  }
+
+  public static final String getBanishedMonster(Banisher banisher) {
+    var monsters = getBanishedMonsters(banisher);
+    return (monsters.size() > 0) ? monsters.get(0) : null;
   }
 
   public static final String[][] getBanishData() {

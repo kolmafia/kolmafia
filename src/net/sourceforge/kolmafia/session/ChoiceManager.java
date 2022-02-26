@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -45,6 +44,7 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -8616,13 +8616,13 @@ public abstract class ChoiceManager {
         // Yachtzee
         result = new String[3];
         // Is it 7 or more days since the last time you got the Ultimate Mind Destroyer?
-        Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
+        Calendar date = HolidayDatabase.getCalendar();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String lastUMDDateString = Preferences.getString("umdLastObtained");
         if (lastUMDDateString != null && lastUMDDateString != "") {
           try {
             Date lastUMDDate = sdf.parse(lastUMDDateString);
-            Calendar compareDate = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
+            Calendar compareDate = HolidayDatabase.getCalendar();
             compareDate.setTime(lastUMDDate);
             compareDate.add(Calendar.DAY_OF_MONTH, 7);
             if (date.compareTo(compareDate) >= 0) {
@@ -14398,7 +14398,7 @@ public abstract class ChoiceManager {
       case 918:
         // Yachtzee!
         if (text.contains("Ultimate Mind Destroyer")) {
-          Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
+          Calendar date = HolidayDatabase.getCalendar();
           SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
           String today = sdf.format(date.getTime());
           Preferences.setString("umdLastObtained", today);
@@ -15704,12 +15704,8 @@ public abstract class ChoiceManager {
           // Adventures Who Live in Ice Houses...
           Matcher matcher = ChoiceManager.ICEHOUSE_PATTERN.matcher(text);
           if (matcher.find()) {
-            String icehouseMonster = matcher.group(1).toLowerCase();
-            String knownBanishes = Preferences.getString("banishedMonsters");
-            if (!knownBanishes.contains(icehouseMonster)) {
-              // If not already known to be banished, add it
-              BanishManager.banishMonster(icehouseMonster, BanishManager.Banisher.ICE_HOUSE);
-            }
+            String icehouseMonster = matcher.group(1);
+            BanishManager.banishMonster(icehouseMonster, BanishManager.Banisher.ICE_HOUSE);
           }
           break;
         }

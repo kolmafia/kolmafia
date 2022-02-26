@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.xml.parsers.ParserConfigurationException;
@@ -95,82 +94,94 @@ public class CharSheetRequest extends GenericRequest {
     // Strip all of the HTML from the server reply
     // and then figure out what to do from there.
 
-    String token = "";
-    StringTokenizer cleanContent =
-        new StringTokenizer(responseText.replaceAll("><", "").replaceAll("<.*?>", "\n"), "\n");
+    var pos = 0;
+    var tokens = responseText.replaceAll("><", "").replaceAll("<.*?>", "\n").split("\n");
 
-    while (!token.startsWith(" (#")) {
-      token = cleanContent.nextToken();
+    while (!tokens[pos].startsWith(" (#")) {
+      pos++;
     }
 
-    KoLCharacter.setUserId(StringUtilities.parseInt(token.substring(3, token.length() - 1)));
-    GenericRequest.skipTokens(cleanContent, 1);
+    var id = tokens[pos];
+    KoLCharacter.setUserId(StringUtilities.parseInt(id.substring(3, id.length() - 1)));
+    pos++;
 
-    String className = cleanContent.nextToken().trim();
+    String className = tokens[++pos].trim();
 
     // Hit point parsing begins with the first index of
     // the words indicating that the upcoming token will
     // show the HP values (Current, Maximum).
 
-    while (!token.startsWith("Current")) {
-      token = cleanContent.nextToken();
+    while (!tokens[pos].startsWith("Current")) {
+      pos++;
     }
 
-    int currentHP = GenericRequest.intToken(cleanContent);
-    while (!token.startsWith("Maximum")) {
-      token = cleanContent.nextToken();
+    int currentHP = StringUtilities.parseInt(tokens[++pos]);
+    while (!tokens[pos].startsWith("Maximum")) {
+      pos++;
     }
 
-    int maximumHP = GenericRequest.intToken(cleanContent);
-    token = cleanContent.nextToken();
-    KoLCharacter.setHP(currentHP, maximumHP, CharSheetRequest.retrieveBase(token, maximumHP));
+    int maximumHP = StringUtilities.parseInt(tokens[++pos]);
+    KoLCharacter.setHP(
+        currentHP, maximumHP, CharSheetRequest.retrieveBase(tokens[++pos], maximumHP));
 
-    // Mana point parsing is exactly the same as hit point
-    // parsing - so this is just a copy-paste of the code.
+    // Allow a null class to fall through to the default case
+    var ascensionClass = KoLCharacter.getAscensionClass();
+    switch (ascensionClass == null ? AscensionClass.SEAL_CLUBBER : ascensionClass) {
+      case ZOMBIE_MASTER:
+        // Zombie Masters have a Horde.
+        while (!tokens[pos].startsWith("Zombie Horde")) {
+          pos++;
+        }
 
-    if (KoLCharacter.inZombiecore()) {
-      // Zombie Masters have a Horde.
-      while (!token.startsWith("Zombie Horde")) {
-        token = cleanContent.nextToken();
-      }
+        int horde = StringUtilities.parseInt(tokens[++pos]);
+        KoLCharacter.setMP(horde, horde, horde);
+        break;
+      case VAMPYRE:
+        // Vampyres have no MP
+        break;
+      default:
+        // Mana point parsing is exactly the same as hit point
+        // parsing - so this is just a copy-paste of the code.
 
-      int horde = GenericRequest.intToken(cleanContent);
-      KoLCharacter.setMP(horde, horde, horde);
-    } else if (!KoLCharacter.isVampyre()) {
-      // Vampyres have no MP
-      while (!token.startsWith("Current")) {
-        token = cleanContent.nextToken();
-      }
+        while (!tokens[pos].startsWith("Current")) {
+          pos++;
+        }
 
-      int currentMP = GenericRequest.intToken(cleanContent);
-      while (!token.startsWith("Maximum")) {
-        token = cleanContent.nextToken();
-      }
+        int currentMP = StringUtilities.parseInt(tokens[++pos]);
+        while (!tokens[pos].startsWith("Maximum")) {
+          pos++;
+        }
 
-      int maximumMP = GenericRequest.intToken(cleanContent);
-      token = cleanContent.nextToken();
-
-      KoLCharacter.setMP(currentMP, maximumMP, CharSheetRequest.retrieveBase(token, maximumMP));
+        int maximumMP = StringUtilities.parseInt(tokens[++pos]);
+        KoLCharacter.setMP(
+            currentMP, maximumMP, CharSheetRequest.retrieveBase(tokens[++pos], maximumMP));
+        break;
     }
 
     // Players with a custom title will have their actual class shown in this area.
 
-    while (!token.startsWith("Mus")) {
-      if (token.equals("Class:")) {
-        className = cleanContent.nextToken().trim();
+    while (!tokens[pos].startsWith("Mus")) {
+      if (tokens[pos].equals("Class:")) {
+        className = tokens[++pos].trim();
         break;
       }
-      token = cleanContent.nextToken();
+      pos++;
     }
+
+    // Set the ascension class that we've seen
+    KoLCharacter.setAscensionClass(className);
 
     // Next, you begin parsing the different stat points;
     // this involves hunting for the stat point's name,
     // skipping the appropriate number of tokens, and then
     // reading in the numbers.
 
-    long[] mus = CharSheetRequest.findStatPoints(cleanContent, token, "Mus");
-    long[] mys = CharSheetRequest.findStatPoints(cleanContent, token, "Mys");
-    long[] mox = CharSheetRequest.findStatPoints(cleanContent, token, "Mox");
+    long[] mus = CharSheetRequest.findStatPoints(tokens, pos, "Mus");
+    pos = (int) mus[2];
+    long[] mys = CharSheetRequest.findStatPoints(tokens, pos, "Mys");
+    pos = (int) mys[2];
+    long[] mox = CharSheetRequest.findStatPoints(tokens, pos, "Mox");
+    pos = (int) mox[2];
 
     KoLCharacter.setStatPoints((int) mus[0], mus[1], (int) mys[0], mys[1], (int) mox[0], mox[1]);
 
@@ -179,18 +190,18 @@ public class CharSheetRequest extends GenericRequest {
     // up). Therefore, parse it if it exists; otherwise,
     // parse until the "Adventures remaining:" token.
 
-    while (!token.startsWith("Temul")
-        && !token.startsWith("Inebr")
-        && !token.startsWith("Tipsi")
-        && !token.startsWith("Drunk")
-        && !token.startsWith("Adven")) {
-      token = cleanContent.nextToken();
+    while (!tokens[pos].startsWith("Temul")
+        && !tokens[pos].startsWith("Inebr")
+        && !tokens[pos].startsWith("Tipsi")
+        && !tokens[pos].startsWith("Drunk")
+        && !tokens[pos].startsWith("Adven")) {
+      pos++;
     }
 
-    if (!token.startsWith("Adven")) {
-      KoLCharacter.setInebriety(GenericRequest.intToken(cleanContent));
-      while (!token.startsWith("Adven")) {
-        token = cleanContent.nextToken();
+    if (!tokens[pos].startsWith("Adven")) {
+      KoLCharacter.setInebriety(StringUtilities.parseInt(tokens[++pos]));
+      while (!tokens[pos].startsWith("Adven")) {
+        pos++;
       }
     } else {
       KoLCharacter.setInebriety(0);
@@ -201,47 +212,49 @@ public class CharSheetRequest extends GenericRequest {
     // and the number of turns accumulated.
 
     int oldAdventures = KoLCharacter.getAdventuresLeft();
-    int newAdventures = GenericRequest.intToken(cleanContent);
+    int newAdventures = StringUtilities.parseInt(tokens[++pos]);
     ResultProcessor.processAdventuresLeft(newAdventures - oldAdventures);
 
-    while (!token.startsWith("Meat")) {
-      token = cleanContent.nextToken();
+    while (!tokens[pos].startsWith("Meat")) {
+      pos++;
     }
-    KoLCharacter.setAvailableMeat(GenericRequest.intToken(cleanContent));
+    KoLCharacter.setAvailableMeat(StringUtilities.parseInt(tokens[++pos]));
 
     // Determine the player's ascension count, if any.
     // This is seen by whether or not the word "Ascensions"
     // appears in their player profile.
 
-    if (responseText.indexOf("Ascensions:") != -1) {
-      while (!token.startsWith("Ascensions")) {
-        token = cleanContent.nextToken();
+    if (responseText.contains("Ascensions:")) {
+      while (!tokens[pos].startsWith("Ascensions")) {
+        pos++;
       }
-      KoLCharacter.setAscensions(GenericRequest.intToken(cleanContent));
+      KoLCharacter.setAscensions(StringUtilities.parseInt(tokens[++pos]));
     }
 
     // There may also be a "turns this run" field which
     // allows you to have a Ronin countdown.
-    boolean runStats = responseText.indexOf("(this run)") != -1;
+    boolean runStats = responseText.contains("(this run)");
 
-    while (!token.startsWith("Turns") || (runStats && token.indexOf("(this run)") == -1)) {
-      token = cleanContent.nextToken();
+    while (!tokens[pos].startsWith("Turns") || (runStats && !tokens[pos].contains("(this run)"))) {
+      pos++;
     }
 
-    KoLCharacter.setCurrentRun(GenericRequest.intToken(cleanContent));
-    while (!token.startsWith("Days") || (runStats && token.indexOf("(this run)") == -1)) {
-      token = cleanContent.nextToken();
+    KoLCharacter.setCurrentRun(StringUtilities.parseInt(tokens[++pos]));
+    while (!tokens[pos].startsWith("Days") || (runStats && !tokens[pos].contains("(this run)"))) {
+      pos++;
     }
 
-    KoLCharacter.setCurrentDays(GenericRequest.intToken(cleanContent));
+    KoLCharacter.setCurrentDays(StringUtilities.parseInt(tokens[++pos]));
 
     // Determine the player's zodiac sign, if any. We
     // could read the path in next, but it's easier to
     // read it from the full response text.
 
     if (responseText.contains("Sign:")) {
-      while (!cleanContent.nextToken().startsWith("Sign:")) {}
-      KoLCharacter.setSign(cleanContent.nextToken());
+      while (!tokens[pos].startsWith("Sign:")) {
+        pos++;
+      }
+      KoLCharacter.setSign(tokens[++pos]);
     }
 
     // This is where Path: optionally appears
@@ -278,18 +291,14 @@ public class CharSheetRequest extends GenericRequest {
     // See if the player has a display case
     KoLCharacter.setDisplayCase(responseText.contains("in the Museum"));
 
-    while (!token.startsWith("Skill")) {
-      token = cleanContent.nextToken();
+    while (!tokens[pos].startsWith("Skill")) {
+      pos++;
     }
 
     // The first token says "(click the skill name for more
     // information)" which is not really a skill.
-
-    GenericRequest.skipTokens(cleanContent, 1);
-    token = cleanContent.nextToken();
-
-    List<UseSkillRequest> newSkillSet = new ArrayList<UseSkillRequest>();
-    List<UseSkillRequest> permedSkillSet = new ArrayList<UseSkillRequest>();
+    List<UseSkillRequest> newSkillSet = new ArrayList<>();
+    List<UseSkillRequest> permedSkillSet = new ArrayList<>();
 
     List<ParsedSkillInfo> parsedSkillInfos = parseSkills(doc);
     for (ParsedSkillInfo skillInfo : parsedSkillInfos) {
@@ -367,9 +376,6 @@ public class CharSheetRequest extends GenericRequest {
     KoLCharacter.setAvailableSkills(newSkillSet);
     KoLCharacter.setPermedSkills(permedSkillSet);
 
-    // Finally, set the class name that we figured out.
-    KoLCharacter.setAscensionClass(className);
-
     // Update uneffect methods and heal amounts for updated skills
     UneffectRequest.reset();
     HPRestoreItemList.updateHealthRestored();
@@ -379,37 +385,49 @@ public class CharSheetRequest extends GenericRequest {
    * Helper method used to find the statistic points. This method was created because
    * statistic-point finding is exactly the same for every statistic point.
    *
-   * @param tokenizer The <code>StringTokenizer</code> containing the tokens to be parsed
+   * @param tokens The array containing the tokens to be parsed
+   * @param pos The current position in the array
    * @param searchString The search string indicating the beginning of the statistic
-   * @return The 2-element array containing the parsed statistics
+   * @return The 3-element array containing the parsed statistics and the next position
    */
-  private static long[] findStatPoints(
-      final StringTokenizer tokenizer, String token, final String searchString) {
-    long[] stats = new long[2];
+  private static long[] findStatPoints(final String[] tokens, int pos, final String searchString) {
+    long[] stats = new long[3];
 
-    while (!token.startsWith(searchString)) {
-      token = tokenizer.nextToken();
+    while (!tokens[pos].startsWith(searchString)) {
+      pos++;
     }
 
-    stats[0] = GenericRequest.intToken(tokenizer);
-    token = tokenizer.nextToken();
-    int base = CharSheetRequest.retrieveBase(token, (int) stats[0]);
+    stats[0] = StringUtilities.parseInt(tokens[++pos]);
+    int base = CharSheetRequest.retrieveBase(tokens[++pos], (int) stats[0]);
 
-    while (!token.startsWith("(")) {
-      token = tokenizer.nextToken();
+    int subPoints = 0;
+
+    // Grey Goo class does not have stat subpoints
+    if (KoLCharacter.getAscensionClass() != AscensionClass.GREY_GOO) {
+      while (!tokens[pos].startsWith("(")) {
+        pos++;
+      }
+      subPoints = StringUtilities.parseInt(tokens[++pos]);
     }
 
-    stats[1] = KoLCharacter.calculateSubpoints(base, GenericRequest.intToken(tokenizer));
+    stats[1] = KoLCharacter.calculateSubpoints(base, subPoints);
+
+    // If we've advanced straight to the next stat (probaby because of Grey You), roll back one
+    if (tokens[pos].startsWith("M")) {
+      pos--;
+    }
+
+    stats[2] = pos;
+
     return stats;
   }
 
   /**
    * Utility method for retrieving the base value for a statistic, given the tokenizer, and assuming
    * that the base might be located in the next token. If it isn't, the default value is returned
-   * instead. Note that this advances the <code>StringTokenizer</code> one token ahead of the base
-   * value for the statistic.
+   * instead.
    *
-   * @param token The <code>StringTokenizer</code> possibly containing the base value
+   * @param token The string possibly containing the base value
    * @param defaultBase The value to return, if no base value is found
    * @return The parsed base value, or the default value if no base value is found
    */

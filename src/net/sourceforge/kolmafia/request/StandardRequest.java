@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 
 public class StandardRequest extends GenericRequest {
   // Types: "Items", "Bookshelf Books", "Skills", "Familiars", "Clan Items".
@@ -120,7 +121,7 @@ public class StandardRequest extends GenericRequest {
   public StandardRequest() {
     super("standard.php");
     // Two years before current year
-    Calendar calendar = Calendar.getInstance();
+    Calendar calendar = HolidayDatabase.getCalendar();
     int year = calendar.get(Calendar.YEAR);
     this.addFormField("date", (year - 2) + "-01-02");
     // Must use GET

@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TimeZone;
 import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -34,6 +33,7 @@ import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -2371,76 +2371,19 @@ public class Modifiers {
     switch (itemId) {
       case ItemPool.TUESDAYS_RUBY:
         {
-          // Reset to defaults
-
-          this.set(Modifiers.MEATDROP, 0.0);
-          this.set(Modifiers.ITEMDROP, 0.0);
-          this.set(Modifiers.MOX_PCT, 0.0);
-          this.set(Modifiers.MUS_PCT, 0.0);
-          this.set(Modifiers.MYS_PCT, 0.0);
-          this.set(Modifiers.HP_REGEN_MIN, 0.0);
-          this.set(Modifiers.HP_REGEN_MAX, 0.0);
-          this.set(Modifiers.MP_REGEN_MIN, 0.0);
-          this.set(Modifiers.MP_REGEN_MAX, 0.0);
-
           // Set modifiers depending on what KoL day of the week it is
+          Calendar date = HolidayDatabase.getCalendar();
+          int dotw = date.get(Calendar.DAY_OF_WEEK);
 
-          Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
-          switch (date.get(Calendar.DAY_OF_WEEK)) {
-            case Calendar.SUNDAY:
-              // +5% Meat from Monsters
-              this.set(Modifiers.MEATDROP, 5.0);
-              break;
-            case Calendar.MONDAY:
-              // Muscle +5%
-              this.set(Modifiers.MUS_PCT, 5.0);
-              break;
-            case Calendar.TUESDAY:
-              // Regenerate 3-7 MP per adventure
-              this.set(Modifiers.MP_REGEN_MIN, 3.0);
-              this.set(Modifiers.MP_REGEN_MAX, 7.0);
-              break;
-            case Calendar.WEDNESDAY:
-              // +5% Mysticality
-              this.set(Modifiers.MYS_PCT, 5.0);
-              break;
-            case Calendar.THURSDAY:
-              // +5% Item Drops from Monsters
-              this.set(Modifiers.ITEMDROP, 5.0);
-              break;
-            case Calendar.FRIDAY:
-              // +5% Moxie
-              this.set(Modifiers.MOX_PCT, 5.0);
-              break;
-            case Calendar.SATURDAY:
-              // Regenerate 3-7 HP per adventure
-              this.set(Modifiers.HP_REGEN_MIN, 3.0);
-              this.set(Modifiers.HP_REGEN_MAX, 7.0);
-              break;
-          }
-          return true;
-        }
-
-      case ItemPool.UNCLE_HOBO_BEARD:
-      case ItemPool.GINGERBEARD:
-        {
-          Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
-          double adventures = date.get(Calendar.MONTH) == Calendar.DECEMBER ? 9.0 : 6.0;
-          this.set(Modifiers.ADVENTURES, adventures);
-          return true;
-        }
-
-      case ItemPool.CRIMBO_CANDLE:
-        {
-          Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
-          double adventures = date.get(Calendar.MONTH) == Calendar.DECEMBER ? 3.0 : 0.0;
-          this.set(Modifiers.ADVENTURES, adventures);
-          return true;
-        }
-
-      case ItemPool.TIME_TWITCHING_TOOLBELT:
-        {
-          this.set(Modifiers.FREE_PULL, Preferences.getBoolean("timeTowerAvailable"));
+          this.set(Modifiers.MEATDROP, dotw == Calendar.SUNDAY ? 5.0 : 0.0);
+          this.set(Modifiers.MUS_PCT, dotw == Calendar.MONDAY ? 5.0 : 0.0);
+          this.set(Modifiers.MP_REGEN_MIN, dotw == Calendar.TUESDAY ? 3.0 : 0.0);
+          this.set(Modifiers.MP_REGEN_MAX, dotw == Calendar.TUESDAY ? 7.0 : 0.0);
+          this.set(Modifiers.MYS_PCT, dotw == Calendar.WEDNESDAY ? 5.0 : 0.0);
+          this.set(Modifiers.ITEMDROP, dotw == Calendar.THURSDAY ? 5.0 : 0.0);
+          this.set(Modifiers.MOX_PCT, dotw == Calendar.FRIDAY ? 5.0 : 0.0);
+          this.set(Modifiers.HP_REGEN_MIN, dotw == Calendar.SATURDAY ? 3.0 : 0.0);
+          this.set(Modifiers.HP_REGEN_MAX, dotw == Calendar.SATURDAY ? 7.0 : 0.0);
           return true;
         }
 

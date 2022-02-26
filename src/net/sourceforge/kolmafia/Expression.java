@@ -415,9 +415,22 @@ public class Expression {
         case '\u0095':
           v = KoLCharacter.getCurrentHP();
           break;
+          // Valid with Modifier Expression:
         case '\u0096':
           String arg = (String) this.literals.get((int) s[--sp]);
           v = StringUtilities.parseInt(arg.replaceAll(",", ""));
+          break;
+          // Valid with Modifier Expression:
+        case '\u0097':
+          v = KoLCharacter.getBaseMuscle();
+          break;
+          // Valid with Modifier Expression:
+        case '\u0098':
+          v = KoLCharacter.getBaseMysticality();
+          break;
+          // Valid with Modifier Expression:
+        case '\u0099':
+          v = KoLCharacter.getBaseMoxie();
           break;
 
         case 'A':

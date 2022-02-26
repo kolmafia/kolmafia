@@ -10,7 +10,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class MaximizerCreatableTest {
@@ -22,7 +21,6 @@ public class MaximizerCreatableTest {
     Preferences.setInteger("autoBuyPriceLimit", 1_000_000);
     Preferences.setBoolean("autoSatisfyWithNPCs", true);
     KoLCharacter.setAvailableMeat(1_000_000);
-    ConcoctionDatabase.refreshConcoctions();
   }
 
   @Test
@@ -39,10 +37,10 @@ public class MaximizerCreatableTest {
   }
 
   @Test
-  @Disabled("doesn't try to paste things")
   public void canPasteAsshat() {
     addItem("bum cheek", 2);
     addItem("meat paste", 1);
+    ConcoctionDatabase.refreshConcoctions();
     maximizeCreatable("sleaze dmg");
     recommendedSlotIs(EquipmentManager.HAT, "asshat");
   }

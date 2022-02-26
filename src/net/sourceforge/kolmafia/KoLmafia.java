@@ -23,7 +23,6 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import net.java.dev.spellcast.utilities.ActionPanel;
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
@@ -97,8 +96,8 @@ import net.sourceforge.kolmafia.session.LightsOutManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.LogoutManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
@@ -409,16 +408,6 @@ public abstract class KoLmafia {
       UIManager.put("ProgressBar.background", Color.lightGray);
       UIManager.put("ProgressBar.selectionBackground", Color.black);
     }
-
-    tab.CloseTabPaneEnhancedUI.selectedA =
-        DataUtilities.toColor(Preferences.getString("innerTabColor"));
-    tab.CloseTabPaneEnhancedUI.selectedB =
-        DataUtilities.toColor(Preferences.getString("outerTabColor"));
-
-    tab.CloseTabPaneEnhancedUI.notifiedA =
-        DataUtilities.toColor(Preferences.getString("innerChatColor"));
-    tab.CloseTabPaneEnhancedUI.notifiedB =
-        DataUtilities.toColor(Preferences.getString("outerChatColor"));
   }
 
   private static void checkDataOverrides() {
@@ -755,14 +744,9 @@ public abstract class KoLmafia {
     // Refresh fire levels
     WildfireCampRequest.refresh();
 
-    if (!(KoLCharacter.inAxecore()
-        || KoLCharacter.isJarlsberg()
-        || KoLCharacter.isSneakyPete()
-        || KoLCharacter.inBondcore()
-        || KoLCharacter.isVampyre()
-        || KoLCharacter.isEd()
-        || KoLCharacter.inPokefam()
-        || KoLCharacter.inQuantum())) {
+    if (KoLCharacter.getPath().canUseFamiliars()
+        && !KoLCharacter.inPokefam()
+        && !KoLCharacter.inQuantum()) {
       // Retrieve the Terrarium
       RequestThread.postRequest(new FamiliarRequest());
     }
@@ -1788,7 +1772,7 @@ public abstract class KoLmafia {
               + ", got "
               + (maxPurchases - remaining)
               + ")");
-      StoreManager.flushCache(itemId);
+      MallPriceManager.flushCache(itemId);
     }
   }
 
