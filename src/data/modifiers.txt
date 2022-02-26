@@ -7693,6 +7693,7 @@ Skill	Backwards Knees	Initiative: +20
 Skill	Bad Breath	Stench Damage: +3
 Skill	Baleful Howl	Maximum HP: -30
 Skill	Barrel Chested	Muscle Percent: +50
+Skill	Basic Improvements	Adventures: +5
 Skill	Basic Self-Worth	Experience: +3
 Skill	Batlike Reflexes	Initiative: +75, Maximum HP: -15
 Skill	Bean Runner	Initiative: +75
@@ -7789,6 +7790,7 @@ Skill	Exhaust Tubules	Stench Damage: +5
 Skill	Expert Panhandling	Meat Drop: [10+5*mainhand(saucepan)]
 Skill	Extra Brain	Mysticality Percent: +50
 # Extra Gall Bladder: Food gives 100% more Adventures
+Skill	Extra Innings	Adventures: +5
 # Extra Kidney: Booze gives 100% more Adventures
 Skill	Extra Muscles	Muscle Percent: +50
 # Extra Spleen: +5 spleen capacity
@@ -7836,6 +7838,7 @@ Skill	Gravitational Compression	Item Drop: [min(floor(basemys/5)+1,100)] Item Dr
 # Hammer Throw: Level 3: Reduction increased to 20%
 Skill	Hamstrings	Initiative: +10
 # Hard Drinker: +5 Liver Capacity
+Skill	Harried	Adventures: +5
 Skill	Healing Scarabs	HP Regen Min: +2, HP Regen Max: +4
 Skill	Health Symbol	HP Regen Min: +5, HP Regen Max: +5
 Skill	Heart of Polyester	Sleaze Resistance: +2
@@ -7971,6 +7974,7 @@ Skill	Procgen Ribaldry	Sleaze Damage: +10
 # Prodigious Appetite: +5 Stomach Capacity
 Skill	Profound Shame	Sleaze Resistance: +3
 Skill	Propagation Drive	Item Drop: +20
+Skill	Provably Efficient	Adventures: +5
 # Pulverize: Lets you smash equipment
 Skill	Quantum Movement	Initiative: +20
 Skill	Rain Delay	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
@@ -7978,6 +7982,7 @@ Skill	Rainbow Shield	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance:
 # Rapid Prototyping: Craft up to 5 items per day without using an Adventure
 # Really Expensive Jewelrycrafting: Lets you use fancy jewelrycrafting ingredients
 Skill	Refusal to Freeze	Cold Resistance: +3
+Skill	Reloading	Adventures: +5
 # Replacement Liver: +5 liver capacity
 # Replacement Stomach: +5 stomach capacity
 Skill	Ribosomes	Absorb Stats: +15
@@ -8005,6 +8010,7 @@ Skill	Secondary Fermentation	Stench Damage: +10
 # Secret Eye: Sometimes find hidden blocks after fights
 # Seething of the Snow Leopard: Gain additional bonus damage from Fury
 Skill	Seething of the Snow Leopard	Weapon Damage: [2*Y]
+Skill	Self-Actualized	Adventures: +5
 Skill	Self-Lubricating Feet	Initiative: +20
 Skill	Sense of Decorum	Sleaze Resistance: +1
 Skill	Sense of Entitlement	Meat Drop: +60
@@ -8015,7 +8021,9 @@ Skill	Sense of Purpose	Experience: +5
 Skill	Sense of Sarcasm	Moxie: +20
 Skill	Sense of Style	Moxie: +5
 Skill	Sensitive Fingers	Pickpocket Chance: +10
+Skill	Seven Foot Feelings	Adventures: +5
 Skill	Sharp Eyes	Item Drop: +100, Maximum HP: -30
+Skill	Shifted About	Adventures: +5
 Skill	Shiver Reflex	Cold Resistance: +2
 Skill	Shivering Monkey Technique	Initiative: +15
 Skill	Shock-Absorbing Joints	Damage Reduction: 10
@@ -8044,6 +8052,7 @@ Skill	Spinal Discs	Damage Reduction: 10
 Skill	Spirit of Ravioli	Maximum HP Percent: +25
 # Spirit of Rigatoni: Lets you equip Chefstaves
 # Spleen of Steel: Makes your spleen stronger
+Skill	Spooky Veins	Adventures: +10
 # Spot Weakness: Weakens foes at the start of combat
 Skill	Spot Weakness	Maximum HP: -15
 Skill	Steam Mycelia	Hot Damage: +15
@@ -8052,7 +8061,7 @@ Skill	Steam Mycelia	Hot Damage: +15
 # Stomach of Steel: Lets you eat more
 Skill	Stomach-Like Thing	Absorb Adventures: +2
 Skill	Subatomic Hardening	Damage Reduction: 30
-Skill	Subatomic Tango	Adventures: +20
+Skill	Subatomic Tango	Adventures: +15
 Skill	Subcutaneous Fat	Cold Resistance: +3
 Skill	Subtle and Quick to Anger	Spell Damage Percent: +10
 Skill	Sucker Fingers	Item Drop: +15
@@ -8065,6 +8074,7 @@ Skill	Sweat Glands	Hot Resistance: +3
 Skill	Sweaty Palms	Sleaze Damage: +3
 Skill	Sympathetic Nervous System	Maximum MP Percent: +50
 # Tao of the Terrapin: Doubles Hat/Pants power
+Skill	Temporal Bent	Adventures: +5
 Skill	Temporal Hyperextension	Adventures: +10
 # Tempuramancy: Lets you cook tempura dishes
 # Testudinal Teachings: Your familiars gain weight faster

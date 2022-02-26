@@ -42,6 +42,9 @@ public class GenieRequest extends GenericRequest {
   }
 
   public static int parseWish(final String wish) {
+    if (wish == null) {
+      return -1;
+    }
     switch (wish) {
       case "you were free":
         return GenieRequest.COMBAT;
