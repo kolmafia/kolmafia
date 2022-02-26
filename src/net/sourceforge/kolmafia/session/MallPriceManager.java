@@ -423,7 +423,8 @@ public abstract class MallPriceManager {
     if (item.getItemId() < 1) {
       return 0;
     }
-    int price = 0;
+    // If there are no PurchaseRequests for this item, save price as -1
+    int price = -1;
     int qty = NTH_CHEAPEST_PRICE;
     for (PurchaseRequest req : results) {
       if (req instanceof CoinMasterPurchaseRequest || !req.canPurchaseIgnoringMeat()) {
