@@ -286,7 +286,7 @@ public abstract class PurchaseRequest extends GenericRequest
       // stores has an artificial limit. Reward those that don't do
       // that by sorting low to high on quantity.
       if (o1.quantity != o2.quantity) {
-        return o2.quantity - o1.quantity;
+        return o1.quantity - o2.quantity;
       }
 
       // All else being equal, order by shop name. *shrug*
