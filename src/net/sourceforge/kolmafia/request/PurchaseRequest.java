@@ -326,34 +326,7 @@ public abstract class PurchaseRequest extends GenericRequest
       return -1;
     }
 
-    // Order first by item name
-    int nameComparison = this.item.getName().compareToIgnoreCase(pr.item.getName());
-    if (nameComparison != 0) {
-      return nameComparison;
-    }
-
-    // Order next by price, low to high.
-    int thisPrice = this.getPrice();
-    int thatPrice = pr.getPrice();
-    if (thisPrice != thatPrice) {
-      return thisPrice - thatPrice;
-    }
-
-    // limit is how many items you can actually buy
-    // Order next by limit, high to low
-    if (this.limit != pr.limit) {
-      return pr.limit - this.limit;
-    }
-
-    // If limits are equal but quantity is not, one or the other
-    // stores has an artificial limit. Reward those that don't do
-    // that by sorting low to high on quantity.
-    if (this.quantity != pr.quantity) {
-      return this.quantity - pr.quantity;
-    }
-
-    // All else being equal, order by shop name. *shrug*
-    return this.shopName.compareToIgnoreCase(pr.shopName);
+    return PurchaseRequest.nameComparator.compare(this, pr);
   }
 
   public boolean ensureProperAttire() {
