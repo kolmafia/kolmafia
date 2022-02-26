@@ -1357,7 +1357,6 @@ user	sugarCounter4191	0
 user	summonAnnoyanceCost	11
 user	superficiallyInterestedMonster
 user	suppressInappropriateNags	false
-user	suppressPotentialMalware	false
 user	suppressPowerPixellation	false
 user	sweetSynthesisBlacklist	chocolate cigar,fudge bunny,gummi ammonite,gummi belemnite,gummi trilobite,powdered candy sushi set,radio button candy,Ultra Mega Sour Ball,vitachoconutriment capsule
 user	tacoDanCocktailSauce	0
