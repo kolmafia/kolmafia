@@ -364,9 +364,9 @@ public abstract class MallPriceManager {
     MallSearchRequest request = newMallSearchRequest(formatted, maximumResults, results);
     RequestThread.postRequest(request);
 
-    // Sort the results by price, so that NPC stores are in the
+    // Sort the results by price within name, so that NPC stores are in the
     // appropriate place
-    Collections.sort(results);
+    Collections.sort(results, PurchaseRequest.nameComparator);
 
     return results;
   }
@@ -551,7 +551,7 @@ public abstract class MallPriceManager {
           // Handle previous item, if any
           if (itemResults != null) {
             MallPriceManager.flushCache(itemId);
-            Collections.sort(itemResults);
+            Collections.sort(itemResults, PurchaseRequest.priceComparator);
             MallPriceManager.updateMallPrice(ItemPool.get(itemId), itemResults, true);
             MallPriceManager.mallSearches.put(itemId, itemResults);
             ++count;
@@ -568,7 +568,7 @@ public abstract class MallPriceManager {
       // Handle final item
       if (itemResults != null) {
         MallPriceManager.flushCache(itemId);
-        Collections.sort(itemResults);
+        Collections.sort(itemResults, PurchaseRequest.priceComparator);
         MallPriceManager.updateMallPrice(ItemPool.get(itemId), itemResults, true);
         MallPriceManager.mallSearches.put(itemId, itemResults);
         ++count;
