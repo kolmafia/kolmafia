@@ -3602,7 +3602,7 @@ public class DebugDatabase {
   }
 
   private static final Pattern ZAPGROUP_PATTERN =
-      Pattern.compile("Template:ZAP .*?</a>.*?<td>.*?<td>");
+      Pattern.compile("Template:ZAP .*?</a>.*?<td>.*?<td>", Pattern.DOTALL);
   private static final Pattern ZAPITEM_PATTERN = Pattern.compile(">([^<]+)</a>");
 
   public static final void checkZapGroups() {
