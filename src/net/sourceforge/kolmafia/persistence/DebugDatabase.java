@@ -3,10 +3,13 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -75,29 +78,26 @@ public class DebugDatabase {
   }
 
   private static String readWikiData(String url) {
-    while (true) {
-      try {
-        HttpURLConnection connection = HttpUtilities.openConnection(new URL(null, url));
-        connection.setRequestProperty("Connection", "close"); // no need to keep-alive
-        InputStream istream = connection.getInputStream();
+    URI uri;
+    try {
+      uri = new URI(url.replace("\"", "%22"));
+    } catch (URISyntaxException e) {
+      return "";
+    }
 
-        int responseCode = connection.getResponseCode();
-        if (responseCode == 200) {
-          byte[] bytes = ByteBufferUtilities.read(istream);
-          return StringUtilities.getEncodedString(bytes, "UTF-8");
-        }
-        if (301 <= responseCode && responseCode <= 308) {
-          String redirectLocation = connection.getHeaderField("Location");
-          System.out.println(url + " => " + redirectLocation);
-          url = redirectLocation;
-          continue;
-        }
+    var client = HttpUtilities.getClientBuilder().build();
+    var request = HttpRequest.newBuilder(uri).build();
+    HttpResponse<String> response;
+    try {
+      response = client.send(request, BodyHandlers.ofString(StandardCharsets.UTF_8));
+    } catch (IOException | InterruptedException e) {
+      return "";
+    }
 
-        return "";
-
-      } catch (IOException e) {
-        return "";
-      }
+    if (response.statusCode() == 200) {
+      return response.body();
+    } else {
+      return "";
     }
   }
 

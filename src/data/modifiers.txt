@@ -2075,7 +2075,7 @@ Item	borg sock monkey	Moxie: +3
 Item	botanical sample kit	Lasts Until Rollover
 Item	bottle of Goldschn&ouml;ckered	Hot Damage: +5, Cold Resistance: +2
 Item	bowl of petunias	Muscle: +4, Mysticality: +4, Moxie: +4, Experience: +4, PvP Fights: +4, HP Regen Min: 4, HP Regen Max: 8, MP Regen Min: 4, MP Regen Max: 8
-Item	box	Meat Drop: +1
+Item	box	Meat Drop: +1, Wiki Name: "box"
 Item	box turtle	Muscle: +1, Damage Reduction: 3
 Item	box-in-the-box	Meat Drop: +2
 Item	box-in-the-box-in-the-box	Meat Drop: +3
@@ -8704,7 +8704,7 @@ Item	thanksgiving turkey	Effect: "Thanksgetting", Effect Duration: 20
 Item	They liver popsicle	Effect: "You Liver", Effect Duration: 100
 Item	thyme jelly donut	Effect Duration: 5
 Item	Tiger-lily's milk	Effect: "Grrrrrrreat!", Effect Duration: 5
-Item	tin of submardines	Effect: "Appeteyes", Effect Duration: 50
+Item	tin of submardines	Effect: "Appeteyes", Effect Duration: 50, Wiki Name: "tin of submardines"
 Item	toast with jam	Effect: "Jammin'", Effect Duration: 5
 # toast with cold jelly: Freezes your liver
 Item	toast with cold jelly	Effect: "Cold Jellied", Effect Duration: 25
@@ -10069,7 +10069,7 @@ Item	small gummi fin	Effect: "Sweet Taste", Effect Duration: 10
 Item	smart watch	Effect: "Watch Out!", Effect Duration: 50
 Item	Smoldering Clover&trade; candle	Effect: "Good Things Are Coming, You Can Smell It", Effect Duration: 40
 Item	smudge stick	Effect: "Wreathed in Smoke", Effect Duration: 10
-Item	snake	Effect: "Sneaky Serpentine Subtlety", Effect Duration: 50
+Item	snake	Effect: "Sneaky Serpentine Subtlety", Effect Duration: 50, Wiki Name: "snake"
 Item	snow cleats	Effect: "Snow Shoes", Effect Duration: 30
 Item	sodium pentasomething	Effect: "Truthful", Effect Duration: 20
 Item	sorority brain	Effect: "Let's Go Shopping!", Effect Duration: 20
