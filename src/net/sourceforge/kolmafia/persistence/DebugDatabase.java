@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
@@ -53,31 +54,25 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class DebugDatabase {
-  // private static final Pattern WIKI_ITEMID_PATTERN = Pattern.compile( "Item number</a>:</b>
-  // (\\d+)<br />" );
-  // private static final Pattern WIKI_DESCID_PATTERN = Pattern.compile( "<b>Description ID:</b>
-  // (\\d+)<br />" );
   private static final Pattern WIKI_PLURAL_PATTERN =
       Pattern.compile("\\(.*?In-game plural</a>: <i>(.*?)</i>\\)", Pattern.DOTALL);
-  // private static final Pattern WIKI_AUTOSELL_PATTERN = Pattern.compile( "Selling Price: <b>(\\d+)
-  // Meat.</b>" );
   private static final Pattern WIKI_MONSTER_MEAT_PATTERN =
       Pattern.compile("Meat gained - ([\\d,]+)(?:-([\\d,]+))?");
 
   private DebugDatabase() {}
 
   /** Takes an item name and constructs the likely Wiki equivalent of that item name. */
-  private static String readWikiItemData(final String name) {
+  private static String readWikiItemData(final String name, final HttpClient client) {
     String url = WikiUtilities.getWikiLocation(name, WikiUtilities.ITEM_TYPE);
-    return DebugDatabase.readWikiData(url);
+    return DebugDatabase.readWikiData(url, client);
   }
 
-  private static String readWikiMonsterData(final MonsterData monster) {
+  private static String readWikiMonsterData(final MonsterData monster, final HttpClient client) {
     String url = WikiUtilities.getWikiLocation(monster);
-    return DebugDatabase.readWikiData(url);
+    return DebugDatabase.readWikiData(url, client);
   }
 
-  private static String readWikiData(String url) {
+  private static String readWikiData(String url, final HttpClient client) {
     URI uri;
     try {
       uri = new URI(url.replace("\"", "%22"));
@@ -85,7 +80,6 @@ public class DebugDatabase {
       return "";
     }
 
-    var client = HttpUtilities.getClientBuilder().build();
     var request = HttpRequest.newBuilder(uri).build();
     HttpResponse<String> response;
     try {
@@ -124,40 +118,6 @@ public class DebugDatabase {
   }
 
   /** Utility method which searches for the plural version of the item on the KoL wiki. */
-
-  /*public static final void determineWikiData( final String name )
-  {
-    String wikiData = DebugDatabase.readWikiItemData( name );
-
-    Matcher itemMatcher = DebugDatabase.WIKI_ITEMID_PATTERN.matcher( wikiData );
-    if ( !itemMatcher.find() )
-    {
-      RequestLogger.printLine( name + " did not match a valid an item entry." );
-      return;
-    }
-
-    Matcher descMatcher = DebugDatabase.WIKI_DESCID_PATTERN.matcher( wikiData );
-    if ( !descMatcher.find() )
-    {
-      RequestLogger.printLine( name + " did not match a valid an item entry." );
-      return;
-    }
-
-    RequestLogger.printLine( "item: " + name + " (#" + itemMatcher.group( 1 ) + ")" );
-    RequestLogger.printLine( "desc: " + descMatcher.group( 1 ) );
-
-    Matcher pluralMatcher = DebugDatabase.WIKI_PLURAL_PATTERN.matcher( wikiData );
-    if ( pluralMatcher.find() )
-    {
-      RequestLogger.printLine( "plural: " + pluralMatcher.group( 1 ) );
-    }
-
-    Matcher sellMatcher = DebugDatabase.WIKI_AUTOSELL_PATTERN.matcher( wikiData );
-    if ( sellMatcher.find() )
-    {
-      RequestLogger.printLine( "autosell: " + sellMatcher.group( 1 ) );
-    }
-  }*/
 
   // **********************************************************
 
@@ -2315,6 +2275,8 @@ public class DebugDatabase {
   // **********************************************************
 
   public static final void checkPlurals(final String parameters) {
+    var client = HttpUtilities.getClientBuilder().build();
+
     RequestLogger.printLine("Checking plurals...");
     PrintStream report =
         LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "plurals.txt"), true);
@@ -2331,10 +2293,10 @@ public class DebugDatabase {
           while (++itemId < id) {
             report.println(itemId);
           }
-          DebugDatabase.checkPlural(id, report);
+          DebugDatabase.checkPlural(id, client, report);
         }
       } else {
-        DebugDatabase.checkPlural(itemId, report);
+        DebugDatabase.checkPlural(itemId, client, report);
       }
     } else {
       String[] points = parameters.split("-");
@@ -2344,13 +2306,14 @@ public class DebugDatabase {
       start = Math.max(0, start);
       end = Math.min(end, ItemDatabase.maxItemId());
       for (int i = start; i < end; i++) {
-        DebugDatabase.checkPlural(i, report);
+        DebugDatabase.checkPlural(i, client, report);
       }
     }
     report.close();
   }
 
-  private static void checkPlural(final int itemId, final PrintStream report) {
+  private static void checkPlural(
+      final int itemId, final HttpClient client, final PrintStream report) {
     Integer id = IntegerPool.get(itemId);
 
     String name = ItemDatabase.getItemDataName(id);
@@ -2398,7 +2361,7 @@ public class DebugDatabase {
           plural = otherPlural;
         }
       } else {
-        String wikiData = DebugDatabase.readWikiItemData(name);
+        String wikiData = DebugDatabase.readWikiItemData(name, client);
         Matcher matcher = DebugDatabase.WIKI_PLURAL_PATTERN.matcher(wikiData);
         otherPlural = matcher.find() ? matcher.group(1) : "";
         otherPlural = CharacterEntities.unescape(otherPlural);
@@ -3639,16 +3602,18 @@ public class DebugDatabase {
   }
 
   private static final Pattern ZAPGROUP_PATTERN =
-      Pattern.compile("Template:ZAP .*?</a>.*?<td>.*?<td>");
+      Pattern.compile("Template:ZAP .*?</a>.*?<td>.*?<td>", Pattern.DOTALL);
   private static final Pattern ZAPITEM_PATTERN = Pattern.compile(">([^<]+)</a>");
 
   public static final void checkZapGroups() {
+    var client = HttpUtilities.getClientBuilder().build();
+
     RequestLogger.printLine("Checking zap groups...");
     PrintStream report =
         LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "zapreport.txt"), true);
 
     String[] groups =
-        DebugDatabase.ZAPGROUP_PATTERN.split(DebugDatabase.readWikiItemData("Zapping"));
+        DebugDatabase.ZAPGROUP_PATTERN.split(DebugDatabase.readWikiItemData("Zapping", client));
     for (int i = 1; i < groups.length; ++i) {
       String group = groups[i];
       int pos = group.indexOf("</td>");
@@ -3751,11 +3716,13 @@ public class DebugDatabase {
   // Check Monster Meat from wiki
 
   public static final void checkMeat() {
+    var client = HttpUtilities.getClientBuilder().build();
+
     for (MonsterData monster : MonsterDatabase.valueSet()) {
       if (!KoLmafia.permitsContinue()) {
         break;
       }
-      String wikiData = DebugDatabase.readWikiMonsterData(monster);
+      String wikiData = DebugDatabase.readWikiMonsterData(monster, client);
       int meatDrop = monster.getBaseMeat();
       int baseMeat = 0;
       Matcher matcher = WIKI_MONSTER_MEAT_PATTERN.matcher(wikiData);
