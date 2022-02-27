@@ -70,14 +70,16 @@ public class FakeHttpClient extends HttpClient {
   }
 
   @Override
-  public <T> CompletableFuture<HttpResponse<T>> sendAsync(HttpRequest request,
-      BodyHandler<T> responseBodyHandler) {
+  public <T> CompletableFuture<HttpResponse<T>> sendAsync(
+      HttpRequest request, BodyHandler<T> responseBodyHandler) {
     return null;
   }
 
   @Override
-  public <T> CompletableFuture<HttpResponse<T>> sendAsync(HttpRequest request,
-      BodyHandler<T> responseBodyHandler, PushPromiseHandler<T> pushPromiseHandler) {
+  public <T> CompletableFuture<HttpResponse<T>> sendAsync(
+      HttpRequest request,
+      BodyHandler<T> responseBodyHandler,
+      PushPromiseHandler<T> pushPromiseHandler) {
     return null;
   }
 }

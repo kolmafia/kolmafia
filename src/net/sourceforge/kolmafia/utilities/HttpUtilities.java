@@ -30,8 +30,8 @@ public class HttpUtilities {
     HttpClient.Builder getClientBuilder();
   }
 
-  private static ClientFactory clientFactory = () -> HttpClient.newBuilder().followRedirects(
-      Redirect.ALWAYS);
+  private static ClientFactory clientFactory =
+      () -> HttpClient.newBuilder().followRedirects(Redirect.ALWAYS);
 
   // Injects custom URL handling logic, especially in tests.
   public static void setClientBuilder(ClientFactory function) {
