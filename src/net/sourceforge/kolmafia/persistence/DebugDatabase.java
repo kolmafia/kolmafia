@@ -2312,7 +2312,8 @@ public class DebugDatabase {
     report.close();
   }
 
-  private static void checkPlural(final int itemId, final HttpClient client, final PrintStream report) {
+  private static void checkPlural(
+      final int itemId, final HttpClient client, final PrintStream report) {
     Integer id = IntegerPool.get(itemId);
 
     String name = ItemDatabase.getItemDataName(id);
