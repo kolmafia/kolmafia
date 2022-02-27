@@ -82,7 +82,7 @@ public class DebugDatabase {
   private static String readWikiData(String url) {
     URI uri;
     try {
-      uri = new URI(url);
+      uri = new URI(url.replace("\"", "%22"));
     } catch (URISyntaxException e) {
       return "";
     }

@@ -6081,7 +6081,7 @@
 6053	Taco Dan's Taco Stand Chimichangarita	224117850	daquiri.gif	drink	t,d	15
 6054	Taco Dan's Taco Stand Chillacious Churro	127551554	blintz.gif	potion, multiple	t,d	15
 6055	psychoanalytic jar	782318443	analjar_empty.gif	none		0
-6056	The Sword in the Steak	700732940	swordinthesteak.gif	usable	t	0
+6056	The Sword in the Steak	700732940	swordinthesteak.gif	usable	t	0	Swords in Steaks
 6057	Meatcleaver	992124594	meatcleaver.gif	weapon		0
 6058	Crimbo Elf creepy bobble-head	359431553	elfbobble.gif	offhand, usable		0
 6059	Crimbo stogie-scented room odorizer	221399329	offhandcigar.gif	offhand, usable		0
