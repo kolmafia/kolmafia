@@ -269,4 +269,18 @@ class StringUtilitiesTest {
     // Confirm a variant maps back to the original
     assertEquals(original, StringUtilities.lookupPrepositions(variant));
   }
+
+  public void itShouldHandleAnPrepositionalEdgeCase() {
+    String original = "@ before @ after itself";
+    String expectedTemplate = "@ @ @ @ itself";
+    StringUtilities.registerPrepositions(original);
+    Map<String, String> prepMap = StringUtilities.getCopyOfPrepositionsMap();
+    assertTrue(prepMap.containsKey(expectedTemplate));
+    String aTest = "@ behind @ within itself";
+    assertEquals(original, StringUtilities.lookupPrepositions(aTest));
+    String anotherTest = "over under sideways down itself";
+    assertEquals(anotherTest, StringUtilities.lookupPrepositions(anotherTest));
+    String oneMoreTest = "over under inside down itself";
+    assertEquals(oneMoreTest, StringUtilities.lookupPrepositions(oneMoreTest));
+  }
 }
