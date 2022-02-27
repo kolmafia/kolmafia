@@ -87,7 +87,7 @@ public class DebugDatabase {
       return "";
     }
 
-    var client = HttpClient.newBuilder().followRedirects(Redirect.ALWAYS).build();
+    var client = HttpUtilities.getClientBuilder().build();
     var request = HttpRequest.newBuilder(uri).build();
     HttpResponse<String> response;
     try {
