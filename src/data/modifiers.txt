@@ -6152,7 +6152,7 @@ Effect	Inappropriate Spirit	Sleaze Damage: +20, Sleaze Spell Damage: +20
 Effect	Incensed	Mysticality: +10
 Effect	Incredibly Hulking	Muscle Percent: +200
 Effect	Indescribable Flavor	Spell Damage: +30
-Effect	Industrial Strength Starch	Muscle: +20, Mysticality: +20, Moxie: +20
+Effect	Industrial Strength Starch	Muscle: +20, Mysticality: +20, Moxie: +20, Wiki Name: "Industrial Strength Starch"
 Effect	Industrially Frosted	Damage Reduction: 50, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Sprinkle Drop: +250
 Effect	Industrially Lubricated	Initiative: +150
 Effect	Inebriate Pride	Experience: [min(4,ceil(D/5))]
@@ -7216,7 +7216,7 @@ Effect	Sweet Incentive	Familiar Weight: +5
 Effect	Sweet Nostalgia	Candy Drop: +20
 Effect	Sweet Pirate Curse	Critical Hit Percent: +5, Spell Critical Percent: +5
 Effect	Sweet Taste	Candy Drop: +10
-Effect	Sweet Tooth	Candy Drop: +40
+Effect	Sweet Tooth	Candy Drop: +40, Wiki Name: "Sweet Tooth"
 Effect	Sweet, Nuts	Mysticality: +5
 Effect	Sweetbreads Flamb&eacute;	Monster Level: +25, Experience: +10
 Effect	Sweetened and Fattened	Maximum MP: +10, Damage Absorption: +30
@@ -7523,6 +7523,7 @@ Effect	Watch Out!	Mysticality Percent: +100, Maximum MP Percent: +50, MP Regen M
 Effect	Watched Over	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Waterborne	Avatar: "giant tardigrade"
 # Water Wings: You believe you can float!
+Effect	Water Wings	Wiki Name: "Water Wings"
 Effect	Wax On Your Shoes	Moxie: +15, Initiative: +25
 Effect	Waxing	Maximum HP Percent: +100, Maximum MP Percent: +50, Initiative: +50
 Effect	Waxing Mystical	MP Regen Min: 3, MP Regen Max: 5
@@ -8459,6 +8460,7 @@ Item	bell-shaped Crimbo cookie	Effect: "Fury of the Bells", Effect Duration: 10
 Item	bishop cookie	Effect: "Mitre Cut", Effect Duration: 30
 Item	Black Angus blackburger	Effect: "The Power of Negative Thinking", Effect Duration: 100
 Item	black forest cake	Effect: "Sugar Rush", Effect Duration: 5
+Item	black pudding	Wiki Name: "black pudding (food)"
 Item	blob-shaped Crimbo cookie	Effect: "Amorphous Cheer", Effect Duration: 10
 Item	blueberry muffin	Effect: "All Blued Up", Effect Duration: 25
 Item	blunt cat claw	Effect: "Feline Ferocity", Effect Duration: 30
@@ -8610,7 +8612,7 @@ Item	jungle floor wax	Effect: "Wax On Your Shoes", Effect Duration: 20
 Item	junkyard dog	Effect: "Dog Breath", Effect Duration: 30
 Item	king cookie	Effect: "The Royal We", Effect Duration: 30
 Item	knight cookie	Effect: "Knightlife", Effect Duration: 30
-Item	knuckle sandwich	Effect: "Cruisin' for a Bruisin'", Effect Duration: 20
+Item	knuckle sandwich	Effect: "Cruisin' for a Bruisin'", Effect Duration: 20, Wiki Name: "knuckle sandwich"
 # Kudzu salad
 Item	lab-grown meat	Effect: "Real Meat Craving", Effect Duration: 20
 Item	lava cake	Effect: "Demonic Flavor", Effect Duration: 60
@@ -8917,6 +8919,7 @@ Item	hot mint schnocolate	Effect: "Alpine Mintiness", Effect Duration: 25
 Item	Hot Socks	Effect: "[1701]Hip to the Jive", Effect Duration: 50
 Item	Hundred Headed IPA	Effect: "Hoppyness", Effect Duration: 20
 Item	ice wine	Effect: "Brain Freeze", Effect Duration: 50
+Item	ice porter	Wiki Name: "ice porter (drink)"
 Item	Irish Coffee, English Heart	Effect: "Smithsness Cheer", Effect Duration: 100
 Item	Ish Kabibble	Effect: "Feeling No Pain", Effect Duration: 25
 Item	Island Hurricane	Effect: "Tiki Temerity", Effect Duration: 20
@@ -9695,7 +9698,7 @@ Item	hyperinflated seal lung	Effect: "Really Deep Breath", Effect Duration: 20
 Item	imported lemon lozenge	Effect: "Hypersoothed Throat", Effect Duration: 15
 Item	incense bath ball	Effect: "Incensed", Effect Duration: 10
 Item	industrial frosting	Effect: "Industrially Frosted", Effect Duration: 5
-Item	industrial strength starch	Effect: "Industrial Strength Starch", Effect Duration: 20
+Item	industrial strength starch	Effect: "Industrial Strength Starch", Effect Duration: 20, Wiki Name: "industrial strength starch"
 Item	infernal snowball	Effect: "Good Chance of Surviving Hell", Effect Duration: 20
 Item	Inner Strength	Effect: "Innately Strong", Effect Duration: 20
 Item	Inner Truth	Effect: "Innately Truthy", Effect Duration: 20
@@ -10622,6 +10625,7 @@ Item	BRICKO octopus	Wiki Name: "BRICKO octopus (item)"
 # buckyball: Lets you escape from combat
 # Build-a-City Gingerbread kit: Unlocks a Gingerbread City in the Big Mountains
 Item	Build-a-City Gingerbread kit	Free Pull
+Item	Bulky Buddy Box	Wiki Name: "Bulky Buddy Box (hatchling)"
 # bundle of &quot;fragrant&quot; herbs: Banish a monster for the rest of the day
 # bundle of &quot;fragrant&quot; herbs: (up to 10 times per day)
 # bundle of &quot;fragrant&quot; herbs: (during the Crimbo 2015 event only)
@@ -11710,6 +11714,7 @@ Item	Summer Nights	Skill: "Grease Lightning"
 Item	suspicious package	Free Pull
 Item	suspicious stocking	Free Pull
 Item	sweet nutcracker	Free Pull
+Item	sweet tooth	Wiki Name: "sweet tooth"
 # T.U.R.D.S. Key: Lets you escape from combat without spending an Adventure
 # T.U.R.D.S. Key: (Maybe)
 # tabletop candy dispenser: Produces some random candy items (1x/day, costs 10 Meat)
@@ -11794,6 +11799,7 @@ Item	The Smith's Tome	Free Pull, Skill: "Summon Smithsness"
 Item	The Snitch's Manifesto	Skill: "Tattle"
 Item	The Spirit of Giving	Skill: "The Spirit of Taking"
 Item	The Spirit of Giving (used)	Skill: "The Spirit of Taking"
+Item	The Sword in the Steak	Wiki Name: "The Sword in the Steak (item)"
 Item	The Thorax's Codex of Tormenting Plants	Skill: "Torment Plant"
 Item	The Western Look	Skill: "Steely-Eyed Squint"
 Item	They'll Love You In Rhinestones	Skill: "Acquire Rhinestones"
@@ -11913,6 +11919,7 @@ Item	warbear metalworking primer (used)	Skill: "Shrap"
 Item	warbear procedural hilarity drone	Free Pull
 Item	Wart Dinsey: An Afterlife	Skill: "Rotten Memories"
 # water pipe bomb: Deals 55-75 Physical Damage
+Item	water wings	Wiki Name: "water wings"
 # Way More Tears&trade; pepper spray: Deals 12-15 <font color=red>Hot Damage</font> and weakens enemies somewhat
 # Way More Tears&trade; pepper spray: (can be used 8-10 times before the can is empty)
 # Western Slang Vol. 1: Violence: Unlocks advanced Cow Puncher skills in the Avatar of West of Loathing Challenge Path
