@@ -4454,7 +4454,7 @@ public abstract class RuntimeLibrary {
     if (controller.getBatched() != null) {
       String cmd = "shop";
       String prefix = "take";
-      String params = "all \u00B6" + itemId;
+      String params = "* \u00B6" + itemId;
       RuntimeLibrary.batchCommand(controller, cmd, prefix, params);
     } else {
       List<SoldItem> list = StoreManager.getSoldItemList();
