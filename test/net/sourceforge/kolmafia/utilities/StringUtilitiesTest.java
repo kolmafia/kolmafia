@@ -270,6 +270,7 @@ class StringUtilitiesTest {
     assertEquals(original, StringUtilities.lookupPrepositions(variant));
   }
 
+  @Test
   public void itShouldHandleAnPrepositionalEdgeCase() {
     String original = "@ before @ after itself";
     String expectedTemplate = "@ @ @ @ itself";
@@ -281,6 +282,29 @@ class StringUtilitiesTest {
     String anotherTest = "over under sideways down itself";
     assertEquals(anotherTest, StringUtilities.lookupPrepositions(anotherTest));
     String oneMoreTest = "over under inside down itself";
-    assertEquals(oneMoreTest, StringUtilities.lookupPrepositions(oneMoreTest));
+    assertEquals(original, StringUtilities.lookupPrepositions(oneMoreTest));
+  }
+
+  @Test
+  public void itShouldHandleAnUnregisteredEdgeCase() {
+    String test = "over under sideways down itself";
+    assertEquals(test, StringUtilities.lookupPrepositions(test));
+  }
+
+  @Test
+  public void itShouldExerciseSomeParseDoubleEdgeCases() {
+    assertEquals(0.0, StringUtilities.parseDouble(null));
+    String test = "+123,456";
+    assertEquals(123456., StringUtilities.parseDouble(test));
+    test = "123,456";
+    assertEquals(123456., StringUtilities.parseDouble(test));
+    test = "+123456";
+    assertEquals(123456., StringUtilities.parseDouble(test));
+    test = "+123, 456 ";
+    assertEquals(123456., StringUtilities.parseDouble(test));
+    test = " , ";
+    assertEquals(0.0, StringUtilities.parseDouble(test));
+    test = " a,bc ";
+    assertEquals(0.0, StringUtilities.parseDouble(test));
   }
 }
