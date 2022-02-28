@@ -10,7 +10,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class AscensionHistoryRequestTest extends RequestTestBase {
+public class AscensionHistoryRequestTest {
 
   @BeforeAll
   protected static void init() {

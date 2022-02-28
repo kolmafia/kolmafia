@@ -30,7 +30,7 @@ Aye Aye	2	1	good	4-5	0	0	10-20	5 Arresistible (+50 Mox)
 Aye Aye, Captain	2	4	awesome	6-7	0	0	20-30	10 Arresistible (+50 Mox)
 Aye Aye, Tooth Tooth	2	8	awesome	8-9	0	0	30-40	15 Arresistible (+50 Mox)
 backwoods screwdriver	3	4	good	7-8	20-25	0	0
-bad rum and good cola	1	1	awesome	3-5	5-10	5-10	5-10	Faerie Fortune (+1 Rubee drop)
+bad rum and good cola	1	1	awesome	3-5	5-10	5-10	5-10	Fanatical Fortune (+1 Rubee drop)
 banana daiquiri	3	3	good	6-10	10-26	10-26	17-43
 bark rootbeer	2	1	good	5-7	0	0	10-20	40 Bark of the Dog (+2 Moxie stats/fight, +50 Init), BEER
 barrel-aged eggnog	2	13	EPIC	0	0	0	0	Unspaded

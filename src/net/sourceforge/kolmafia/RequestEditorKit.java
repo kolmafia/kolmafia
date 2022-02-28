@@ -886,10 +886,6 @@ public class RequestEditorKit extends HTMLEditorKit {
 
   private static void suppressPotentialMalware(final StringBuffer buffer) {
     // Always remove lag-inducing Javascript
-    if (false && !Preferences.getBoolean("suppressPotentialMalware")) {
-      return;
-    }
-
     if (buffer.indexOf("GoogleAnalyticsObject") != -1) {
       Matcher matcher = RequestEditorKit.MALWARE1_PATTERN.matcher(buffer);
       if (matcher.find()) {

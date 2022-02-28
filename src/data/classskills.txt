@@ -1573,3 +1573,13 @@
 27050	AUTOEXEC.BAT	goocon50.gif	0	0	0
 27051	Innuendo Circuitry	goocon51.gif	0	0	0
 27052	Subatomic Tango	goocon52.gif	0	0	0
+27053	Extra Innings	goocon2.gif	0	0	0
+27054	Reloading	goocon16.gif	0	0	0
+27055	Harried	goocon50.gif	0	0	0
+27056	Temporal Bent	goocon5.gif	0	0	0
+27057	Provably Efficient	goocon25.gif	0	0	0
+27058	Basic Improvements	goocon27.gif	0	0	0
+27059	Shifted About	goocon33.gif	0	0	0
+27060	Spooky Veins	goocon40.gif	0	0	0
+27061	Seven Foot Feelings	goocon32.gif	0	0	0
+27062	Self-Actualized	goocon49.gif	0	0	0
