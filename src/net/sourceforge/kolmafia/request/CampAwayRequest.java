@@ -173,7 +173,7 @@ public class CampAwayRequest extends PlaceRequest {
     cloudLetters.put("asterisk.png", '*');
     cloudLetters.put("hyphen.png", '-');
     cloudLetters.put("equals.png", '=');
-    cloudLetters.put("underscore.png", '=');
+    cloudLetters.put("underscore.png", '_');
     cloudLetters.put("slash.png", '/');
     cloudLetters.put("backslash.png", '\\');
     cloudLetters.put("ampersand.png", '&');
