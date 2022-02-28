@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
@@ -202,6 +203,7 @@ public class MallPriceDatabase {
         HttpUtilities.getClientBuilder().connectTimeout(Duration.ofMillis(CONNECT_TIMEOUT)).build();
     HttpRequest req =
         HttpRequest.newBuilder(uri)
+            .header("User-Agent", GenericRequest.getUserAgent())
             .header("Content-Type", "multipart/form-data; boundary=--blahblahfishcakes")
             .POST(BodyPublishers.ofString(getPostData()))
             .build();
