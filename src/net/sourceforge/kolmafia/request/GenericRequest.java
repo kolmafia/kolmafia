@@ -2993,6 +2993,10 @@ public class GenericRequest implements Runnable {
     GenericRequest.setUserAgent(agent);
   }
 
+  public static final String getUserAgent() {
+    return GenericRequest.userAgent;
+  }
+
   public static final void setUserAgent(final String agent) {
     if (!agent.equals(GenericRequest.userAgent)) {
       GenericRequest.userAgent = agent;

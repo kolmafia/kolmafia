@@ -80,7 +80,8 @@ public class DebugDatabase {
       return "";
     }
 
-    var request = HttpRequest.newBuilder(uri).build();
+    var request =
+        HttpRequest.newBuilder(uri).header("User-Agent", GenericRequest.getUserAgent()).build();
     HttpResponse<String> response;
     try {
       response = client.send(request, BodyHandlers.ofString(StandardCharsets.UTF_8));
