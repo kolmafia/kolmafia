@@ -605,15 +605,15 @@ public class CharSheetRequest extends GenericRequest {
     long rawmuscle = 0;
     long rawmysticality = 0;
     long rawmoxie = 0;
-    if ( KoLCharacter.inGreyYou() ) {
+    if (KoLCharacter.inGreyYou()) {
       // Raw values are more precise, but they don't exist in Grey You
-      long basemuscle = JSON.getLong( "basemuscle" );
+      long basemuscle = JSON.getLong("basemuscle");
       rawmuscle = basemuscle * basemuscle;
 
-      long basemysticality = JSON.getLong( "basemysticality" );
+      long basemysticality = JSON.getLong("basemysticality");
       rawmysticality = basemysticality * basemysticality;
 
-      long basemoxie = JSON.getLong( "basemoxie" );
+      long basemoxie = JSON.getLong("basemoxie");
       rawmoxie = basemoxie * basemoxie;
     }
     else {
