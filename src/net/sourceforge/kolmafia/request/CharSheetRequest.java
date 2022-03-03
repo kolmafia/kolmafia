@@ -615,8 +615,7 @@ public class CharSheetRequest extends GenericRequest {
 
       long basemoxie = JSON.getLong("basemoxie");
       rawmoxie = basemoxie * basemoxie;
-    }
-    else {
+    } else {
       rawmuscle = JSON.getLong("rawmuscle");
       rawmysticality = JSON.getLong("rawmysticality");
       rawmoxie = JSON.getLong("rawmoxie");
