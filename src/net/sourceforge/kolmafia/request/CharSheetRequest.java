@@ -600,13 +600,27 @@ public class CharSheetRequest extends GenericRequest {
 
   public static final void parseStatus(final JSONObject JSON) throws JSONException {
     int muscle = JSON.getInt("muscle");
-    long rawmuscle = JSON.getLong("rawmuscle");
-
     int mysticality = JSON.getInt("mysticality");
-    long rawmysticality = JSON.getLong("rawmysticality");
-
     int moxie = JSON.getInt("moxie");
-    long rawmoxie = JSON.getLong("rawmoxie");
+    long rawmuscle = 0;
+    long rawmysticality = 0;
+    long rawmoxie = 0;
+    if ( KoLCharacter.inGreyYou() ) {
+      // Raw values are more precise, but they don't exist in Grey You
+      long basemuscle = JSON.getLong( "basemuscle" );
+      rawmuscle = basemuscle * basemuscle;
+
+      long basemysticality = JSON.getLong( "basemysticality" );
+      rawmysticality = basemysticality * basemysticality;
+
+      long basemoxie = JSON.getLong( "basemoxie" );
+      rawmoxie = basemoxie * basemoxie;
+    }
+    else {
+      rawmuscle = JSON.getLong("rawmuscle");
+      rawmysticality = JSON.getLong("rawmysticality");
+      rawmoxie = JSON.getLong("rawmoxie");
+    }
 
     KoLCharacter.setStatPoints(muscle, rawmuscle, mysticality, rawmysticality, moxie, rawmoxie);
   }
