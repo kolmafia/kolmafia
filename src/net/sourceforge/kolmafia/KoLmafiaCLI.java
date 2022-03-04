@@ -644,6 +644,7 @@ public class KoLmafiaCLI {
     new GardenCommand().register("garden");
     new GenieCommand().register("genie");
     new GongCommand().register("gong");
+    new GooSkillsCommand().register("gooskills");
     new GrandpaCommand().register("grandpa");
     new GrayGUICommand().register("graygui").register("greygui").register("jstack");
     new GrimCommand().register("grim");
