@@ -144,11 +144,6 @@ public class GooSkillsCommand extends AbstractCommand {
       }
     }
 
-    if (!all) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "You are not in a Grey You run.");
-      return;
-    }
-
     GooSkill[] skills = sortGooSkills(order);
 
     StringBuilder output = new StringBuilder();
