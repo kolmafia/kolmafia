@@ -87,7 +87,7 @@ public class GooSkillsCommand extends AbstractCommand {
         "10 turns of Darkened Photons (Combat Rate -10)"),
     // new GooSkill(SkillPool.UNUSED_COMBAT_SELFBUFF, ""),
     new GooSkill(SkillPool.STEAM_MYCELIA, "steam elemental"),
-    new GooSkill(SkillPool.SNOW_COOLING_System, "Snow Queen"),
+    new GooSkill(SkillPool.SNOW_COOLING_SYSTEM, "Snow Queen"),
     new GooSkill(SkillPool.LEGACY_CODE, "possessed wine rack"),
     new GooSkill(SkillPool.AUTOEXEC_BAT, "Flock of Stab-bats"),
     new GooSkill(SkillPool.INNUENDO_CIRCUITRY, "Astronomer"),

@@ -502,7 +502,7 @@ public class SkillPool {
   public static final int PHOTONIC_SHROUD = 27045;
   public static final int UNUSED_COMBAT_SELFBUFF = 27046;
   public static final int STEAM_MYCELIA = 27047;
-  public static final int SNOW_COOLING_System = 27048;
+  public static final int SNOW_COOLING_SYSTEM = 27048;
   public static final int LEGACY_CODE = 27049;
   public static final int AUTOEXEC_BAT = 27050;
   public static final int INNUENDO_CIRCUITRY = 27051;
