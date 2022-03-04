@@ -74,13 +74,13 @@ public class GooSkillsCommand extends AbstractCommand {
         SkillPool.NANOSHOCK, "Jacob's adder", "Deals Mysticality in damage + bonus damage"),
     new GooSkill(SkillPool.AUDIOCLASM, "spooky music box", "Deals Moxie in damage + bonus damage"),
     new GooSkill(
-        SkillPool.SYSTEM_SWEEP, "pygmy janitor", "Deals Muscle in physical sweep & banish"),
+        SkillPool.SYSTEM_SWEEP, "pygmy janitor", "Deals Muscle in physical damage & banish"),
     new GooSkill(
         SkillPool.DOUBLE_NANOVISION,
         "drunk pygmy",
         "Deals Mysticality in physical damage, +100% Item Drop"),
     new GooSkill(
-        SkillPool.INFINITE_LOOP, "pygmy witch lawyer", "Deals Muscle in physical sweep & +3 exp"),
+        SkillPool.INFINITE_LOOP, "pygmy witch lawyer", "Deals Muscle in physical damage & +3 exp"),
     new GooSkill(
         SkillPool.PHOTONIC_SHROUD,
         "black panther",
