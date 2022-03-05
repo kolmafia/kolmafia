@@ -50,10 +50,9 @@ public class GreyYouManager {
     }
   }
 
-  // When Grey You absorbs a monster, you gain stats.  Each zone has
-  // special monsters that grant an addition boon the first time you
-  // absorb them. They can grant you immediate adventures or extra stats
-  // or a new skill.
+  // When Grey You absorbs a monster, you gain stats.  Each zone has monsters
+  // that grant an additional boon the first time you absorb them. They can
+  // grant you immediate adventures or extra stats or a new skill.
 
   public enum AbsorptionType {
     SKILL("Skill"),
