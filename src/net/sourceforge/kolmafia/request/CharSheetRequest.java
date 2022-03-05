@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -379,6 +380,11 @@ public class CharSheetRequest extends GenericRequest {
     // Update uneffect methods and heal amounts for updated skills
     UneffectRequest.reset();
     HPRestoreItemList.updateHealthRestored();
+
+    // Grey You path has absorptions
+    if (KoLCharacter.inGreyYou()) {
+      GreyYouManager.parseAbsorptions(responseText);
+    }
   }
 
   /**
