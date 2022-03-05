@@ -452,6 +452,33 @@ public class MallPriceManagerTest {
     }
   }
 
+  @Test
+  public void canHandleMallSearchesWithNoResults() {
+    List<PurchaseRequest> results = new ArrayList<>();
+    MallSearchRequest request = new MockMallSearchRequest("", 0, results);
+
+    try (var cleanups = mockMallSearchRequest(request)) {
+      long timestamp = 1_000_000;
+      Mockito.when(clock.millis()).thenReturn(timestamp);
+
+      // Any old item will do; our mocked MallSearchRequest will not find it.
+      int itemId = ItemPool.REAGENT;
+      AdventureResult item = ItemPool.get(itemId, 1);
+
+      // Sort the results and update the mall prices
+      addSearchResults(item, results);
+
+      // Verify that there is no saved mall search
+      // (1 means "we have to be able to afford 1 item")
+      List<PurchaseRequest> search = MallPriceManager.getSavedSearch(itemId, 1);
+      assertNull(search);
+
+      // Verify that the saved price is -1, which means "not in the mall"
+      int price = MallPriceManager.getMallPrice(item);
+      assertEquals(-1, price);
+    }
+  }
+
   // *** Need tests for getMallPrice(AdventureResult item, float maxAge)
 
   static String loadHTMLResponse(String path) throws IOException {

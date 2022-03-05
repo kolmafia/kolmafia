@@ -62,6 +62,7 @@ public class SkillDatabase {
   private static final String GELATINOUS_NOOB = "Gelatinous Noob";
   private static final String VAMPYRE = "Vampyre";
   private static final String PLUMBER = "Plumber";
+  private static final String GREY_YOU = "Grey You";
   private static final String[] CATEGORIES =
       new String[] {
         SkillDatabase.UNCATEGORIZED,
@@ -90,6 +91,8 @@ public class SkillDatabase {
         SkillDatabase.GELATINOUS_NOOB, // 23xxx
         SkillDatabase.VAMPYRE, // 24xxx
         SkillDatabase.PLUMBER, // 25xxx
+        "26XXX", // 26xxx
+        SkillDatabase.GREY_YOU, // 27xxx
         // The following are convenience categories, not implied by skill id
         SkillDatabase.GNOME_SKILLS,
         SkillDatabase.BAD_MOON
@@ -232,9 +235,12 @@ public class SkillDatabase {
       SkillDatabase.levelById.put(skillId, level);
     }
 
-    String category;
     int categoryId = skillId.intValue() / 1000;
+    if (categoryId >= SkillDatabase.CATEGORIES.length) {
+      return;
+    }
 
+    String category;
     switch (skillId.intValue()) {
       case SkillPool.SMILE_OF_MR_A:
       case SkillPool.SNOWCONE:
