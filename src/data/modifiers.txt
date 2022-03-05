@@ -7833,7 +7833,8 @@ Skill	Gnomish Hardigness	Maximum HP Percent: +5
 Skill	Golgi Apparatus	Absorb Stats: +25
 # Good Singing Voice: Doubles duration of Boris songs
 # Gourmand: Increases adventures from food
-Skill	Gravitational Compression	Item Drop: [min(floor(basemys/5)+1,100)] Item Drops from Monsters (Scales with your Mysticality)
+# Gravitational Compression: +100% Item Drops from Monsters (Scales with your Mysticality)
+Skill	Gravitational Compression	Item Drop: [min(ceil(basemys/5),100)]
 # Hammer Throw: Level 1: Briefly stun your foe and reduce their stats by 10%
 # Hammer Throw: Level 2: Reduction increased to 15%
 # Hammer Throw: Level 3: Reduction increased to 20%
@@ -7848,6 +7849,7 @@ Skill	Hide of the Walrus	Damage Absorption: +50
 Skill	High Water Content	Hot Resistance: +2
 Skill	His Master's Voice	Familiar Weight: +5
 # Hivemindedness: Regenerate 100 MP per Adventure (Scales with your Mysticality)
+Skill	Hivemindedness	MP Regen Min: [min(ceil(basemys/10),100)], MP Regen Max: [min(ceil(basemys/10),100)]
 # Hollow Leg: +1 Liver Capacity
 Skill	Hot Headedness	Hot Damage: +11
 Skill	Hungry Eyes	Food Drop: +100

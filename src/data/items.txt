@@ -10853,10 +10853,10 @@
 10825	Doc's Smartifying Wine	747053412	rxwine.gif	drink	t,d	10	bottles of Doc's Smartifying Wine
 10826	Doc's Limbering Wine	975820765	rxwine.gif	drink	t,d	10	bottles of Doc's Limbering Wine
 10827	Doc's Medical-Grade Wine	237098811	rxwine.gif	drink	t,d	10	bottles of Doc's Medical-Grade Wine
-10828	Homebodyl&trade;	972999798	pill3.gif	spleen, usable	t,d	10
-10829	Extrovermectin&trade;	411068914	stimpill.gif	spleen, usable	t,d	10
-10830	Breathitin&trade;	910011561	pill2.gif	spleen, usable	t,d	10
-10831	Fleshazole&trade;	711958772	meatpill.gif	spleen, usable	t,d	10
+10828	Homebodyl&trade;	972999798	pill3.gif	spleen, multiple	t,d	10
+10829	Extrovermectin&trade;	411068914	stimpill.gif	spleen, multiple	t,d	10
+10830	Breathitin&trade;	910011561	pill2.gif	spleen, multiple	t,d	10
+10831	Fleshazole&trade;	711958772	meatpill.gif	spleen, multiple	t,d	10
 10832	anti-burn cream	912342957	creamtube.gif	potion, usable	t,d	10
 10833	anti-freeze cream	866330910	creamtube.gif	potion, usable	t,d	10
 10834	anti-goosebump cream	287944320	creamtube.gif	potion, usable	t,d	10

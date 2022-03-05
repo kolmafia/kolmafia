@@ -25,13 +25,12 @@ public class GooSkillsCommand extends AbstractCommand {
 
   public static final GooSkill[] GOO_SKILLS = {
     new GooSkill(SkillPool.PSEUDOPOD_SLAP, "", "Deals 10 damage"),
-    new GooSkill(SkillPool.HARDSLAB, "remaindered skeleton", "Deals Muscle in physical damage"),
-    new GooSkill(
-        SkillPool.TELEKINETIC_MURDER, "cr&ecirc;ep", "Deals Mysticality in physical damage"),
+    new GooSkill(SkillPool.HARDSLAB, "remaindered skeleton", "Deals Mus in physical damage"),
+    new GooSkill(SkillPool.TELEKINETIC_MURDER, "cr&ecirc;ep", "Deals Mys in physical damage"),
     new GooSkill(
         SkillPool.SNAKESMACK,
         "sewer snake with a sewer snake in it",
-        "Deals Moxie in physical damage"),
+        "Deals Mox in physical damage"),
     new GooSkill(SkillPool.IRE_PROOF, "raging bull"),
     new GooSkill(SkillPool.NANOFUR, "ratbat"),
     new GooSkill(SkillPool.AUTOVAMPIRISM_ROUTINES, "spooky vampire"),
@@ -69,18 +68,19 @@ public class GooSkillsCommand extends AbstractCommand {
     new GooSkill(SkillPool.HIVEMINDEDNESS, "mind flayer"),
     new GooSkill(SkillPool.PONZI_APPARATUS, "anglerbush"),
     new GooSkill(SkillPool.FLUID_DYNAMICS_SIMULATION, "Carnivorous Moxie Weed"),
-    new GooSkill(SkillPool.NANTLERS, "stuffed moose head", "Deals Muscle in damage + bonus damage"),
+    new GooSkill(SkillPool.NANTLERS, "stuffed moose head", "Deals Mus in damage + bonus damage"),
+    new GooSkill(SkillPool.NANOSHOCK, "Jacob's adder", "Deals Mys in damage + bonus damage"),
+    new GooSkill(SkillPool.AUDIOCLASM, "spooky music box", "Deals Mox in damage + bonus damage"),
     new GooSkill(
-        SkillPool.NANOSHOCK, "Jacob's adder", "Deals Mysticality in damage + bonus damage"),
-    new GooSkill(SkillPool.AUDIOCLASM, "spooky music box", "Deals Moxie in damage + bonus damage"),
-    new GooSkill(
-        SkillPool.SYSTEM_SWEEP, "pygmy janitor", "Deals Muscle in physical damage & banish"),
+        SkillPool.SYSTEM_SWEEP, "pygmy janitor", "Deals Mus in physical damage & banish on win"),
     new GooSkill(
         SkillPool.DOUBLE_NANOVISION,
         "drunk pygmy",
-        "Deals Mysticality in physical damage, +100% Item Drop"),
+        "Deals Mys in physical damage & +100% Item Drop on win"),
     new GooSkill(
-        SkillPool.INFINITE_LOOP, "pygmy witch lawyer", "Deals Muscle in physical damage & +3 exp"),
+        SkillPool.INFINITE_LOOP,
+        "pygmy witch lawyer",
+        "Deals Mus in physical damage & +3 exp on win"),
     new GooSkill(
         SkillPool.PHOTONIC_SHROUD,
         "black panther",
@@ -120,7 +120,7 @@ public class GooSkillsCommand extends AbstractCommand {
     String[] params = parameters.trim().split("\\s+");
 
     boolean all = true;
-    String order = "id";
+    String order = "name";
 
     for (String keyword : params) {
       switch (keyword) {
@@ -343,7 +343,7 @@ public class GooSkillsCommand extends AbstractCommand {
         throw new NullPointerException();
       }
 
-      return o1.name.compareTo(o2.name);
+      return o1.name.compareToIgnoreCase(o2.name);
     }
 
     @Override
