@@ -291,15 +291,15 @@ public class GreyYouManager {
     ADVENTURES("Rollover Adventures", 18);
 
     String name;
-    int sortOrder;
+    int value;
 
-    PassiveEffect(String name, int sortOrder) {
+    PassiveEffect(String name, int value) {
       this.name = name;
-      this.sortOrder = sortOrder;
+      this.value = value;
     }
 
-    public int getSortOrder() {
-      return this.sortOrder;
+    public int value() {
+      return this.value;
     }
 
     @Override
@@ -316,25 +316,28 @@ public class GreyYouManager {
     private final String skillTypeName;
     private final long mpCost;
     private final PassiveEffect passiveEffect;
+    private final int level;
 
     private final String enchantments;
     private final String modsLookup;
 
-    public GooSkill(final int skillId, final String monsterName, PassiveEffect passiveEffect) {
+    public GooSkill(
+        final int skillId, final String monsterName, PassiveEffect passiveEffect, int level) {
       // This is for passive skills; we will look up the enchantments
-      this(skillId, monsterName, "", passiveEffect);
+      this(skillId, monsterName, "", passiveEffect, level);
     }
 
     public GooSkill(final int skillId, final String monsterName, final String effects) {
       // This is for non-passive skills
-      this(skillId, monsterName, effects, null);
+      this(skillId, monsterName, effects, null, 0);
     }
 
     private GooSkill(
         final int skillId,
         final String monsterName,
         final String effects,
-        PassiveEffect passiveEffect) {
+        PassiveEffect passiveEffect,
+        int level) {
       super(AbsorptionType.SKILL, monsterName);
 
       this.skillId = skillId;
@@ -342,6 +345,7 @@ public class GreyYouManager {
       this.skillType = SkillDatabase.getSkillType(skillId);
       this.skillTypeName = SkillDatabase.getSkillTypeName(skillId);
       this.passiveEffect = passiveEffect;
+      this.level = level;
 
       Modifiers mods = null;
       if (this.skillType == SkillDatabase.PASSIVE) {
@@ -404,6 +408,10 @@ public class GreyYouManager {
       return this.passiveEffect;
     }
 
+    public int getLevel() {
+      return this.level;
+    }
+
     @Override
     public String toString() {
       return this.name;
@@ -420,51 +428,55 @@ public class GreyYouManager {
         SkillPool.SNAKESMACK,
         "sewer snake with a sewer snake in it",
         "Deals Mox in physical damage"),
-    new GooSkill(SkillPool.IRE_PROOF, "raging bull", PassiveEffect.HOT_RESISTANCE),
-    new GooSkill(SkillPool.NANOFUR, "ratbat", PassiveEffect.COLD_RESISTANCE),
+    new GooSkill(SkillPool.IRE_PROOF, "raging bull", PassiveEffect.HOT_RESISTANCE, 3),
+    new GooSkill(SkillPool.NANOFUR, "ratbat", PassiveEffect.COLD_RESISTANCE, 3),
     new GooSkill(
-        SkillPool.AUTOVAMPIRISM_ROUTINES, "spooky vampire", PassiveEffect.SPOOKY_RESISTANCE),
-    new GooSkill(SkillPool.CONIFER_POLYMERS, "pine bat", PassiveEffect.STENCH_RESISTANCE),
-    new GooSkill(SkillPool.ANTI_SLEAZE_RECURSION, "werecougar", PassiveEffect.SLEAZE_RESISTANCE),
-    new GooSkill(SkillPool.MICROBURNER, "Cobb's Knob oven", PassiveEffect.HOT_DAMAGE),
-    new GooSkill(SkillPool.CRYOCURRENCY, "Knob Goblin MBA", PassiveEffect.COLD_DAMAGE),
-    new GooSkill(SkillPool.CURSES_LIBRARY, "lihc", PassiveEffect.SPOOKY_DAMAGE),
-    new GooSkill(SkillPool.EXHAUST_TUBULES, "beanbat", PassiveEffect.STENCH_DAMAGE),
-    new GooSkill(SkillPool.CAMP_SUBROUTINES, "Knob Goblin Harem Girl", PassiveEffect.SLEAZE_DAMAGE),
+        SkillPool.AUTOVAMPIRISM_ROUTINES, "spooky vampire", PassiveEffect.SPOOKY_RESISTANCE, 3),
+    new GooSkill(SkillPool.CONIFER_POLYMERS, "pine bat", PassiveEffect.STENCH_RESISTANCE, 3),
+    new GooSkill(SkillPool.ANTI_SLEAZE_RECURSION, "werecougar", PassiveEffect.SLEAZE_RESISTANCE, 3),
+    new GooSkill(SkillPool.MICROBURNER, "Cobb's Knob oven", PassiveEffect.HOT_DAMAGE, 5),
+    new GooSkill(SkillPool.CRYOCURRENCY, "Knob Goblin MBA", PassiveEffect.COLD_DAMAGE, 5),
+    new GooSkill(SkillPool.CURSES_LIBRARY, "lihc", PassiveEffect.SPOOKY_DAMAGE, 5),
+    new GooSkill(SkillPool.EXHAUST_TUBULES, "beanbat", PassiveEffect.STENCH_DAMAGE, 5),
+    new GooSkill(
+        SkillPool.CAMP_SUBROUTINES, "Knob Goblin Harem Girl", PassiveEffect.SLEAZE_DAMAGE, 5),
     new GooSkill(SkillPool.GREY_NOISE, "Boss Bat", "Deals 5 damage + bonus elemental damage"),
     new GooSkill(
-        SkillPool.ADVANCED_EXO_ALLOY, "Knob Goblin Elite Guard", PassiveEffect.DAMAGE_ABSORPTION),
-    new GooSkill(SkillPool.LOCALIZED_VACUUM, "cubist bull", PassiveEffect.HOT_RESISTANCE),
+        SkillPool.ADVANCED_EXO_ALLOY,
+        "Knob Goblin Elite Guard",
+        PassiveEffect.DAMAGE_ABSORPTION,
+        100),
+    new GooSkill(SkillPool.LOCALIZED_VACUUM, "cubist bull", PassiveEffect.HOT_RESISTANCE, 2),
     new GooSkill(
-        SkillPool.MICROWEAVE, "eXtreme cross-country hippy", PassiveEffect.COLD_RESISTANCE),
+        SkillPool.MICROWEAVE, "eXtreme cross-country hippy", PassiveEffect.COLD_RESISTANCE, 2),
     new GooSkill(
-        SkillPool.ECTOGENESIS, "Claybender Sorcerer Ghost", PassiveEffect.SPOOKY_RESISTANCE),
+        SkillPool.ECTOGENESIS, "Claybender Sorcerer Ghost", PassiveEffect.SPOOKY_RESISTANCE, 2),
     new GooSkill(
-        SkillPool.CLAMMY_MICROCILIA, "malevolent hair clog", PassiveEffect.STENCH_RESISTANCE),
-    new GooSkill(SkillPool.LUBRICANT_LAYER, "oil slick", PassiveEffect.SLEAZE_RESISTANCE),
-    new GooSkill(SkillPool.INFERNAL_AUTOMATA, "demonic icebox", PassiveEffect.HOT_DAMAGE),
+        SkillPool.CLAMMY_MICROCILIA, "malevolent hair clog", PassiveEffect.STENCH_RESISTANCE, 2),
+    new GooSkill(SkillPool.LUBRICANT_LAYER, "oil slick", PassiveEffect.SLEAZE_RESISTANCE, 2),
+    new GooSkill(SkillPool.INFERNAL_AUTOMATA, "demonic icebox", PassiveEffect.HOT_DAMAGE, 10),
     new GooSkill(
-        SkillPool.COOLING_TUBULES, "Ninja Snowman Weaponmaster", PassiveEffect.COLD_DAMAGE),
+        SkillPool.COOLING_TUBULES, "Ninja Snowman Weaponmaster", PassiveEffect.COLD_DAMAGE, 10),
     new GooSkill(
-        SkillPool.OMINOUS_SUBSTRATE, "animated ornate nightstand", PassiveEffect.SPOOKY_DAMAGE),
-    new GooSkill(SkillPool.SECONDARY_FERMENTATION, "drunk goat", PassiveEffect.STENCH_DAMAGE),
-    new GooSkill(SkillPool.PROCGEN_RIBALDRY, "smut orc screwer", PassiveEffect.SLEAZE_DAMAGE),
-    new GooSkill(SkillPool.SOLID_FUEL, "Knob Goblin Alchemist", PassiveEffect.ADVENTURES),
-    new GooSkill(SkillPool.AUTOCHRONY, "zombie waltzers", PassiveEffect.ADVENTURES),
-    new GooSkill(SkillPool.TEMPORAL_HYPEREXTENSION, "Pr Imp", PassiveEffect.ADVENTURES),
-    new GooSkill(SkillPool.PROPAGATION_DRIVE, "junksprite bender", PassiveEffect.ITEM_DROP),
-    new GooSkill(SkillPool.FINANCIAL_SPREADSHEETS, "me4t begZ0r", PassiveEffect.MEAT_DROP),
+        SkillPool.OMINOUS_SUBSTRATE, "animated ornate nightstand", PassiveEffect.SPOOKY_DAMAGE, 10),
+    new GooSkill(SkillPool.SECONDARY_FERMENTATION, "drunk goat", PassiveEffect.STENCH_DAMAGE, 10),
+    new GooSkill(SkillPool.PROCGEN_RIBALDRY, "smut orc screwer", PassiveEffect.SLEAZE_DAMAGE, 10),
+    new GooSkill(SkillPool.SOLID_FUEL, "Knob Goblin Alchemist", PassiveEffect.ADVENTURES, 10),
+    new GooSkill(SkillPool.AUTOCHRONY, "zombie waltzers", PassiveEffect.ADVENTURES, 10),
+    new GooSkill(SkillPool.TEMPORAL_HYPEREXTENSION, "Pr Imp", PassiveEffect.ADVENTURES, 10),
+    new GooSkill(SkillPool.PROPAGATION_DRIVE, "junksprite bender", PassiveEffect.ITEM_DROP, 20),
+    new GooSkill(SkillPool.FINANCIAL_SPREADSHEETS, "me4t begZ0r", PassiveEffect.MEAT_DROP, 40),
     new GooSkill(
         SkillPool.PHASE_SHIFT, "Spectral Jellyfish", "10 turns of Shifted Phase (Combat Rate -10)"),
     new GooSkill(
         SkillPool.PIEZOELECTRIC_HONK, "white lion", "10 turns of Hooooooooonk! (Combat Rate +10)"),
-    new GooSkill(SkillPool.OVERCLOCKING, "Big Wheelin' Twins", PassiveEffect.INITIATIVE),
-    new GooSkill(SkillPool.SUBATOMIC_HARDENING, "pooltergeist", PassiveEffect.DAMAGE_REDUCTION),
-    new GooSkill(SkillPool.GRAVITATIONAL_COMPRESSION, "suckubus", PassiveEffect.ITEM_DROP),
-    new GooSkill(SkillPool.HIVEMINDEDNESS, "mind flayer", PassiveEffect.MP_REGEN),
-    new GooSkill(SkillPool.PONZI_APPARATUS, "anglerbush", PassiveEffect.MEAT_DROP),
+    new GooSkill(SkillPool.OVERCLOCKING, "Big Wheelin' Twins", PassiveEffect.INITIATIVE, 300),
+    new GooSkill(SkillPool.SUBATOMIC_HARDENING, "pooltergeist", PassiveEffect.DAMAGE_REDUCTION, 30),
+    new GooSkill(SkillPool.GRAVITATIONAL_COMPRESSION, "suckubus", PassiveEffect.ITEM_DROP, 100),
+    new GooSkill(SkillPool.HIVEMINDEDNESS, "mind flayer", PassiveEffect.MP_REGEN, 100),
+    new GooSkill(SkillPool.PONZI_APPARATUS, "anglerbush", PassiveEffect.MEAT_DROP, 200),
     new GooSkill(
-        SkillPool.FLUID_DYNAMICS_SIMULATION, "Carnivorous Moxie Weed", PassiveEffect.HP_REGEN),
+        SkillPool.FLUID_DYNAMICS_SIMULATION, "Carnivorous Moxie Weed", PassiveEffect.HP_REGEN, 100),
     new GooSkill(SkillPool.NANTLERS, "stuffed moose head", "Deals Mus in damage + bonus damage"),
     new GooSkill(SkillPool.NANOSHOCK, "Jacob's adder", "Deals Mys in damage + bonus damage"),
     new GooSkill(SkillPool.AUDIOCLASM, "spooky music box", "Deals Mox in damage + bonus damage"),
@@ -483,23 +495,26 @@ public class GreyYouManager {
         "black panther",
         "10 turns of Darkened Photons (Combat Rate -10)"),
     // new GooSkill(SkillPool.UNUSED_COMBAT_SELFBUFF, ""),
-    new GooSkill(SkillPool.STEAM_MYCELIA, "steam elemental", PassiveEffect.HOT_DAMAGE),
-    new GooSkill(SkillPool.SNOW_COOLING_SYSTEM, "Snow Queen", PassiveEffect.COLD_DAMAGE),
-    new GooSkill(SkillPool.LEGACY_CODE, "possessed wine rack", PassiveEffect.SPOOKY_DAMAGE),
-    new GooSkill(SkillPool.AUTOEXEC_BAT, "Flock of Stab-bats", PassiveEffect.STENCH_DAMAGE),
-    new GooSkill(SkillPool.INNUENDO_CIRCUITRY, "Astronomer", PassiveEffect.SLEAZE_DAMAGE),
-    new GooSkill(SkillPool.SUBATOMIC_TANGO, "fan dancer", PassiveEffect.ADVENTURES),
-    new GooSkill(SkillPool.EXTRA_INNINGS, "baseball bat", PassiveEffect.ADVENTURES),
-    new GooSkill(SkillPool.RELOADING, "Bullet Bill", PassiveEffect.ADVENTURES),
-    new GooSkill(SkillPool.HARRIED, "rushing bum", PassiveEffect.ADVENTURES),
-    new GooSkill(SkillPool.TEMPORAL_BENT, "undead elbow macaroni", PassiveEffect.ADVENTURES),
+    new GooSkill(SkillPool.STEAM_MYCELIA, "steam elemental", PassiveEffect.HOT_DAMAGE, 15),
+    new GooSkill(SkillPool.SNOW_COOLING_SYSTEM, "Snow Queen", PassiveEffect.COLD_DAMAGE, 15),
+    new GooSkill(SkillPool.LEGACY_CODE, "possessed wine rack", PassiveEffect.SPOOKY_DAMAGE, 15),
+    new GooSkill(SkillPool.AUTOEXEC_BAT, "Flock of Stab-bats", PassiveEffect.STENCH_DAMAGE, 15),
+    new GooSkill(SkillPool.INNUENDO_CIRCUITRY, "Astronomer", PassiveEffect.SLEAZE_DAMAGE, 15),
+    new GooSkill(SkillPool.SUBATOMIC_TANGO, "fan dancer", PassiveEffect.ADVENTURES, 15),
+    new GooSkill(SkillPool.EXTRA_INNINGS, "baseball bat", PassiveEffect.ADVENTURES, 5),
+    new GooSkill(SkillPool.RELOADING, "Bullet Bill", PassiveEffect.ADVENTURES, 5),
+    new GooSkill(SkillPool.HARRIED, "rushing bum", PassiveEffect.ADVENTURES, 5),
+    new GooSkill(SkillPool.TEMPORAL_BENT, "undead elbow macaroni", PassiveEffect.ADVENTURES, 5),
     new GooSkill(
-        SkillPool.PROVABLY_EFFICIENT, "Sub-Assistant Knob Mad Scientist", PassiveEffect.ADVENTURES),
-    new GooSkill(SkillPool.BASIC_IMPROVEMENTS, "BASIC Elemental", PassiveEffect.ADVENTURES),
-    new GooSkill(SkillPool.SHIFTED_ABOUT, "shifty pirate", PassiveEffect.ADVENTURES),
-    new GooSkill(SkillPool.SPOOKY_VEINS, "ghost miner", PassiveEffect.ADVENTURES),
-    new GooSkill(SkillPool.SEVEN_FOOT_FEELINGS, "dopey 7-Foot Dwarf", PassiveEffect.ADVENTURES),
-    new GooSkill(SkillPool.SELF_ACTUALIZED, "banshee librarian", PassiveEffect.ADVENTURES),
+        SkillPool.PROVABLY_EFFICIENT,
+        "Sub-Assistant Knob Mad Scientist",
+        PassiveEffect.ADVENTURES,
+        5),
+    new GooSkill(SkillPool.BASIC_IMPROVEMENTS, "BASIC Elemental", PassiveEffect.ADVENTURES, 5),
+    new GooSkill(SkillPool.SHIFTED_ABOUT, "shifty pirate", PassiveEffect.ADVENTURES, 5),
+    new GooSkill(SkillPool.SPOOKY_VEINS, "ghost miner", PassiveEffect.ADVENTURES, 10),
+    new GooSkill(SkillPool.SEVEN_FOOT_FEELINGS, "dopey 7-Foot Dwarf", PassiveEffect.ADVENTURES, 5),
+    new GooSkill(SkillPool.SELF_ACTUALIZED, "banshee librarian", PassiveEffect.ADVENTURES, 5),
   };
 
   // *** GooSkills can be sorted in various ways.
@@ -595,7 +610,12 @@ public class GreyYouManager {
           PassiveEffect passiveEffect1 = o1.getPassiveEffect();
           PassiveEffect passiveEffect2 = o2.getPassiveEffect();
           if (passiveEffect1 != passiveEffect2) {
-            return passiveEffect1.getSortOrder() - passiveEffect2.getSortOrder();
+            return passiveEffect1.value() - passiveEffect2.value();
+          }
+          int level1 = o1.getLevel();
+          int level2 = o2.getLevel();
+          if (level1 != level2) {
+            return level1 - level2;
           }
         }
         return super.compare(o1, o2);
