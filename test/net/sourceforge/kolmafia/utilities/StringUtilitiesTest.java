@@ -292,7 +292,7 @@ class StringUtilitiesTest {
   }
 
   @Test
-  public void itShouldExerciseSomeParseDoubleEdgeCases() {
+  public void itShouldExerciseSomeParseDoubleEdgeCasesx() {
     assertEquals(0.0, StringUtilities.parseDouble(null));
     String test = "+123,456";
     assertEquals(123456., StringUtilities.parseDouble(test));
@@ -307,4 +307,13 @@ class StringUtilitiesTest {
     test = " a,bc ";
     assertEquals(0.0, StringUtilities.parseDouble(test));
   }
+  @ParameterizedTest
+  @CsvSource({
+ "'+123,456', 123456"
+  })
+  public void itShouldExerciseSomeParseDoubleEdgeCases(String input, double expected) {
+    assertEquals(expected, StringUtilities.parseDouble(input));
+  }
+
+
 }
