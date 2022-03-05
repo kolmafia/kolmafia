@@ -228,28 +228,6 @@ class StringUtilitiesTest {
   public void itShouldConvertToTitleCase(String input, String expected) {
     assertEquals(expected, StringUtilities.toTitleCase(input));
   }
-  /*
-   @Test
-   public void itShouldRegisterAndReplacePrepositions() {
-     List<String> inputs = new ArrayList<>();
-     inputs.add("No prepositions here.");
-     inputs.add("Afterwards, he walked behind her.");
-     inputs.add("They were leaning, across the street and against the wall.");
-     for (String input : inputs) {
-       StringUtilities.registerPrepositions(input);
-     }
-     Map<String, String> prepMap = StringUtilities.getCopyOfPrepositionsMap();
-     Map<String, String> expected = new HashMap<>();
-     expected.put("Afterwards, he walked @ her.", "Afterwards, he walked behind her.");
-     expected.put(
-         "They were leaning, @ the street and @ the wall.",
-         "They were leaning, across the street and against the wall.");
-     assertEquals(expected, prepMap);
-     String test = "They were leaning, beyond the street and by the wall.";
-     String returned = StringUtilities.lookupPrepositions(test);
-     assertEquals("They were leaning, across the street and against the wall.", returned);
-   }
-  */
 
   @ParameterizedTest
   @CsvSource({
@@ -287,33 +265,42 @@ class StringUtilitiesTest {
 
   @Test
   public void itShouldHandleAnUnregisteredEdgeCase() {
+    StringUtilities.unregisterPrepositions();
     String test = "over under sideways down itself";
     assertEquals(test, StringUtilities.lookupPrepositions(test));
   }
 
-  @Test
-  public void itShouldExerciseSomeParseDoubleEdgeCasesx() {
-    assertEquals(0.0, StringUtilities.parseDouble(null));
-    String test = "+123,456";
-    assertEquals(123456., StringUtilities.parseDouble(test));
-    test = "123,456";
-    assertEquals(123456., StringUtilities.parseDouble(test));
-    test = "+123456";
-    assertEquals(123456., StringUtilities.parseDouble(test));
-    test = "+123, 456 ";
-    assertEquals(123456., StringUtilities.parseDouble(test));
-    test = " , ";
-    assertEquals(0.0, StringUtilities.parseDouble(test));
-    test = " a,bc ";
-    assertEquals(0.0, StringUtilities.parseDouble(test));
-  }
   @ParameterizedTest
   @CsvSource({
- "'+123,456', 123456"
+    "'+123,456', 123456",
+    "'123,456', 123456",
+    "'+123456', 123456",
+    "'123456', 123456",
+    "'+123, 456', 123456",
+    "' , ', 0.0",
+    "' a,bc ', 0.0"
   })
   public void itShouldExerciseSomeParseDoubleEdgeCases(String input, double expected) {
     assertEquals(expected, StringUtilities.parseDouble(input));
   }
 
+  @ParameterizedTest
+  @CsvSource({
+    "'+123,456', 123456f",
+    "'123,456', 123456f",
+    "'+123456', 123456f",
+    "'123456', 123456f",
+    "'+123, 456', 123456f",
+    "' , ', 0.0f",
+    "' a,bc ', 0.0f"
+  })
+  public void itShouldExerciseSomeParseFloatEdgeCases(String input, float expected) {
+    assertEquals(expected, StringUtilities.parseFloat(input));
+  }
 
+  @Test
+  public void itShouldParseNullAsZero() {
+    assertEquals(0.0f, StringUtilities.parseFloat(null));
+    assertEquals(0.0, StringUtilities.parseDouble(null));
+  }
 }

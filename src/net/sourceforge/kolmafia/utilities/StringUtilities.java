@@ -844,6 +844,10 @@ public class StringUtilities {
     return (HashMap<String, String>) prepositionsMap.clone();
   }
 
+  public static void unregisterPrepositions() {
+    prepositionsMap.clear();
+  }
+
   public static final String toTitleCase(final String s) {
     boolean found = false;
     char[] chars = s.toLowerCase().toCharArray();
