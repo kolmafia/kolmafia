@@ -79,6 +79,66 @@ public class GreyYouManager {
   // Here is a map from monster => Absorption
   public static final Map<MonsterData, Absorption> allAbsorptions = new HashMap<>();
 
+  // Some monsters appear in multiple zones. Pick one.
+  private static Map<String, String> monsterZone = new HashMap<>();
+
+  static {
+    // The following appear in Friars zone, until you complete the quest and
+    // they move to Pandemonium Slums
+    monsterZone.put("G imp", "The Dark Elbow of the Woods");
+    // or The Dark Heart of the Woods
+    monsterZone.put("L imp", "The Dark Elbow of the Woods");
+    monsterZone.put("P imp", "The Dark Heart of the Woods");
+    // or The Dark Neck of the Woods
+    monsterZone.put("Fallen Archfiend", "The Dark Heart of the Woods");
+    monsterZone.put("Hellion", "The Dark Neck of the Woods");
+    monsterZone.put("W imp", "The Dark Neck of the Woods");
+
+    // The following monsters appear in the Cyrpt, until you complete the quest
+    // and they move to The VERY Unquiet Garves
+    monsterZone.put("gaunt ghuol", "The Defiled Cranny");
+    monsterZone.put("gluttonous ghuol", "The Defiled Cranny");
+    monsterZone.put("corpulent zobmie", "The Defiled Alcove");
+    monsterZone.put("toothy sklelton", "The Defiled Nook");
+    monsterZone.put("senile lihc", "The Defiled Niche");
+
+    // pygmies can appear in multiple zones or be <banished to the park. Assume
+    // the latter, if possible.
+    monsterZone.put("pygmy orderlies", "The Hidden Hospital");
+    // or The Hidden Bowling Alley
+    monsterZone.put("pygmy janitor", "The Hidden Park");
+    // or The Hidden Apartment Building
+    // or The Hidden Bowling Alley
+    // or The Hidden Hospital
+    // or The Hidden Office Building
+    monsterZone.put("pygmy witch lawyer", "The Hidden Apartment Building");
+    // or The Hidden Park
+    // or The Hidden Office Building
+
+    // This really doesn't matter, but you pass through the Upper Chamber
+    // before unlocking the Middle Chamber
+    monsterZone.put("tomb servant", "The Upper Chamber");
+    // or The Middle Chamber
+
+    // This also appears on the Road to the White Citadel, which is part of
+    // a guild quest.
+    monsterZone.put("Knob Goblin Alchemist", "Cobb's Knob Laboratory");
+  }
+
+  private static String monsterZone(MonsterData monster) {
+    if (monster == null) {
+      return "";
+    }
+
+    String zone = monsterZone.get(monster.getName());
+    if (zone != null) {
+      return zone;
+    }
+
+    List<String> zones = AdventureDatabase.getAreasWithMonster(monster);
+    return (zones.size() > 0) ? zones.get(0) : "";
+  }
+
   // This is the class which associates a monster with a particular type of absorption
 
   public abstract static class Absorption {
@@ -89,8 +149,7 @@ public class GreyYouManager {
     public Absorption(final AbsorptionType type, final String monsterName) {
       this.type = type;
       this.monster = MonsterDatabase.findMonster(monsterName);
-      List<String> zones = AdventureDatabase.getAreasWithMonster(this.monster);
-      this.zone = (zones.size() > 0) ? zones.get(0) : "";
+      this.zone = monsterZone(monster);
       allAbsorptions.put(this.monster, this);
     }
 
