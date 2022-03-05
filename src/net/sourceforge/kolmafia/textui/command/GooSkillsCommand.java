@@ -11,7 +11,7 @@ public class GooSkillsCommand extends AbstractCommand {
 
   public GooSkillsCommand() {
     this.usage =
-        " [all | needed] [id | name | monster | zone] - Grey You skills, either all (default) or 'needed' (not yet unlocked).";
+        " [all | needed] [id | name | monster | type | zone] - Grey You skills, either all (default) or 'needed' (not yet unlocked).";
   }
 
   @Override
@@ -25,7 +25,7 @@ public class GooSkillsCommand extends AbstractCommand {
     String[] params = parameters.trim().split("\\s+");
 
     boolean all = true;
-    String order = "name";
+    String order = "type";
 
     for (String keyword : params) {
       switch (keyword) {
@@ -38,6 +38,7 @@ public class GooSkillsCommand extends AbstractCommand {
         case "id":
         case "name":
         case "monster":
+        case "type":
         case "zone":
           order = keyword;
           break;
