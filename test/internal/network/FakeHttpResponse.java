@@ -10,6 +10,12 @@ import javax.net.ssl.SSLSession;
 
 public class FakeHttpResponse<T> implements HttpResponse<T> {
 
+  private final T body;
+
+  public FakeHttpResponse(T body) {
+    this.body = body;
+  }
+
   @Override
   public int statusCode() {
     return 0;
@@ -32,7 +38,7 @@ public class FakeHttpResponse<T> implements HttpResponse<T> {
 
   @Override
   public T body() {
-    return null;
+    return body;
   }
 
   @Override

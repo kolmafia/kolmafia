@@ -13,6 +13,8 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -3018,11 +3020,20 @@ public class GenericRequest implements Runnable {
   }
 
   public static synchronized void printRequestProperties(
+      final String URL, final HttpRequest request) {
+    printRequestProperties(URL, request.headers().map());
+  }
+
+  public static synchronized void printRequestProperties(
       final String URL, final HttpURLConnection formConnection) {
+    printRequestProperties(URL, formConnection.getRequestProperties());
+  }
+
+  private static synchronized void printRequestProperties(
+      final String URL, final Map<String, List<String>> requestProperties) {
     RequestLogger.updateDebugLog();
     RequestLogger.updateDebugLog("Requesting: " + URL);
 
-    Map<String, List<String>> requestProperties = formConnection.getRequestProperties();
     RequestLogger.updateDebugLog(requestProperties.size() + " request properties");
 
     for (Entry<String, List<String>> entry : requestProperties.entrySet()) {
@@ -3036,12 +3047,21 @@ public class GenericRequest implements Runnable {
     GenericRequest.printHeaderFields(this.requestURL(), this.formConnection);
   }
 
+  public static synchronized <T> void printHeaderFields(
+      final String URL, final HttpResponse<T> response) {
+    printHeaderFields(URL, response.headers().map());
+  }
+
   public static synchronized void printHeaderFields(
       final String URL, final HttpURLConnection formConnection) {
+    printHeaderFields(URL, formConnection.getHeaderFields());
+  }
+
+  private static synchronized void printHeaderFields(
+      final String URL, final Map<String, List<String>> headerFields) {
     RequestLogger.updateDebugLog();
     RequestLogger.updateDebugLog("Retrieved: " + URL);
 
-    Map<String, List<String>> headerFields = formConnection.getHeaderFields();
     RequestLogger.updateDebugLog(headerFields.size() + " header fields");
 
     for (Entry<String, List<String>> entry : headerFields.entrySet()) {
