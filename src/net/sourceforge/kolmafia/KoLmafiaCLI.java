@@ -495,6 +495,7 @@ public class KoLmafiaCLI {
   public static void registerCommands() {
     new AbortCommand().register("abort");
     new AbsorbCommand().register("absorb");
+    new AbsorptionsCommand().register("absorptions");
     new AccordionsCommand().register("accordions");
     new AcquireCommand().register("acquire").register("find").register("retrieve");
     new AdventureCommand().register("adv").register("adventure");
