@@ -50,7 +50,7 @@ public class GooSkillsCommand extends AbstractCommand {
       }
     }
 
-    GooSkill[] skills = GreyYouManager.sortGooSkills(order);
+    GooSkill[] skills = GreyYouManager.sortedGooSkills(order);
 
     StringBuilder output = new StringBuilder();
 

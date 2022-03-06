@@ -11,43 +11,105 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
-import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class GreyYouManager {
 
+  // Here is a map from monster => Absorption
+  public static final Map<Integer, Absorption> allAbsorptions = new HashMap<>();
+
   // Every monster you absorb is listed on the Charsheet
 
-  public static final Set<MonsterData> absorbedMonsters = new HashSet<>();
+  public static final Set<Integer> absorbedMonsters = new HashSet<>();
+  public static final Map<Integer, String> unknownAbsorptions = new HashMap<>();
+
+  // Every skill you know is also on the Charsheet
+  public static final Set<Integer> learnedSkills = new HashSet<>();
+
+  // For testing
+  public static void resetAbsorptions() {
+    absorbedMonsters.clear();
+    unknownAbsorptions.clear();
+    learnedSkills.clear();
+  }
 
   public static void refreshAbsorptions() {
     CharSheetRequest request = new CharSheetRequest();
     request.run();
   }
 
-  // Absorbed 5 adventures from a warwelf.<!-- 199 -->
-  private static final Pattern ABSORPTION_PATTERN =
-      Pattern.compile(
-          "Absorbed (.*?) from (?: an?| the |)(.*?)\\.<!-- ([\\d]+) -->", Pattern.DOTALL);
-
   public static void parseAbsorptions(String responseText) {
     absorbedMonsters.clear();
+    unknownAbsorptions.clear();
     if (!responseText.contains("Absorptions:")) {
       return;
     }
+    parseMonsterAbsorptions(responseText);
+    parseSkillAbsorptions(responseText);
+  }
+
+  // Absorbed 5 adventures from a warwelf.<!-- 199 -->
+  private static final Pattern ABSORPTION_PATTERN =
+      Pattern.compile("Absorbed (.*?) from (.*?)\\.<!-- ([\\d]+) -->", Pattern.DOTALL);
+
+  public static void parseMonsterAbsorptions(String responseText) {
     Matcher matcher = ABSORPTION_PATTERN.matcher(responseText);
     while (matcher.find()) {
       int monsterId = StringUtilities.parseInt(matcher.group(3));
-      MonsterData monster = MonsterDatabase.findMonsterById(monsterId);
-      absorbedMonsters.add(monster);
+      if (allAbsorptions.containsKey(monsterId)) {
+        absorbedMonsters.add(monsterId);
+      } else {
+        RequestLogger.printLine(
+            "Unknown Grey You absorption: '"
+                + matcher.group(1)
+                + "' from monster id = "
+                + monsterId);
+        unknownAbsorptions.put(monsterId, matcher.group(1));
+      }
+    }
+  }
+
+  // "desc_skill.php?whichskill=27000&self=true"
+  private static final Pattern SKILL_PATTERN =
+      Pattern.compile("desc_skill.php\\?whichskill=([\\d]+)&self=true", Pattern.DOTALL);
+
+  public static void parseSkillAbsorptions(String responseText) {
+    Matcher matcher = SKILL_PATTERN.matcher(responseText);
+    while (matcher.find()) {
+      int skillId = StringUtilities.parseInt(matcher.group(1));
+      if ((skillId / 1000) != 27) {
+        // There should only be Goo Skills visible, but other permed skills are
+        // present but hidden.
+        continue;
+      }
+      learnSkill(skillId);
+    }
+  }
+
+  public static void learnSkill(int skillId) {
+    if (!KoLCharacter.inGreyYou()) {
+      return;
+    }
+    // There should only be Goo Skills learned, but...
+    if ((skillId / 1000) != 27) {
+      return;
+    }
+    learnedSkills.add(skillId);
+    GooSkill skill = allGooSkills.get(skillId);
+    if (skill == null) {
+      RequestLogger.printLine("Unknown Grey You skill with id = " + skillId);
+      return;
+    }
+    if (skill.getMonster() != null) {
+      absorbedMonsters.add(skill.getMonsterId());
     }
   }
 
@@ -77,14 +139,12 @@ public class GreyYouManager {
   }
 
   // Each monster gives at most one absorption.
-  // Here is a map from monster => Absorption
-  public static final Map<MonsterData, Absorption> allAbsorptions = new HashMap<>();
 
   // Some monsters appear in multiple zones. Pick one.
   private static Map<String, String> monsterZone = new HashMap<>();
 
   static {
-    // The following appear in Friars zone, until you complete the quest and
+    // The following appear in a Friars zone, until you complete the quest and
     // they move to Pandemonium Slums
     monsterZone.put("G imp", "The Dark Elbow of the Woods");
     // or The Dark Heart of the Woods
@@ -100,11 +160,12 @@ public class GreyYouManager {
     monsterZone.put("gaunt ghuol", "The Defiled Cranny");
     monsterZone.put("gluttonous ghuol", "The Defiled Cranny");
     monsterZone.put("corpulent zobmie", "The Defiled Alcove");
+    monsterZone.put("grave rober zmobie", "The Defiled Alcove");
     monsterZone.put("toothy sklelton", "The Defiled Nook");
     monsterZone.put("senile lihc", "The Defiled Niche");
 
     // pygmies can appear in multiple zones or be <banished to the park. Assume
-    // the latter, if possible.
+    // the latter, for janitors, but just pick one, for the others.
     monsterZone.put("pygmy orderlies", "The Hidden Hospital");
     // or The Hidden Bowling Alley
     monsterZone.put("pygmy janitor", "The Hidden Park");
@@ -112,9 +173,9 @@ public class GreyYouManager {
     // or The Hidden Bowling Alley
     // or The Hidden Hospital
     // or The Hidden Office Building
-    monsterZone.put("pygmy witch lawyer", "The Hidden Apartment Building");
+    monsterZone.put("pygmy witch lawyer", "The Hidden Office Building");
     // or The Hidden Park
-    // or The Hidden Office Building
+    // or The Hidden Apartment Building
 
     // This really doesn't matter, but you pass through the Upper Chamber
     // before unlocking the Middle Chamber
@@ -122,7 +183,7 @@ public class GreyYouManager {
     // or The Middle Chamber
 
     // This also appears on the Road to the White Citadel, which is part of
-    // a guild quest.
+    // a guild quest. Grey You cannot join a guild.
     monsterZone.put("Knob Goblin Alchemist", "Cobb's Knob Laboratory");
   }
 
@@ -151,11 +212,21 @@ public class GreyYouManager {
       this.type = type;
       this.monster = MonsterDatabase.findMonster(monsterName);
       this.zone = monsterZone(monster);
-      allAbsorptions.put(this.monster, this);
+      if (this.monster != null) {
+        allAbsorptions.put(this.monster.getId(), this);
+      }
     }
 
     public AbsorptionType getType() {
       return this.type;
+    }
+
+    public MonsterData getMonster() {
+      return this.monster;
+    }
+
+    public int getMonsterId() {
+      return (this.monster == null) ? -1 : this.monster.getId();
     }
 
     public String getMonsterName() {
@@ -208,7 +279,7 @@ public class GreyYouManager {
 
     @Override
     public boolean haveAbsorbed() {
-      return absorbedMonsters.contains(this.monster);
+      return absorbedMonsters.contains(this.getMonsterId());
     }
 
     @Override
@@ -247,7 +318,7 @@ public class GreyYouManager {
     new GooAbsorption(AbsorptionType.ADVENTURES, "eXtreme Orcish snowboarder", 7),
     new GooAbsorption(AbsorptionType.ADVENTURES, "gluttonous ghuol", 7),
     new GooAbsorption(AbsorptionType.ADVENTURES, "Grass Elemental", 7),
-    new GooAbsorption(AbsorptionType.ADVENTURES, "grave rober smobie", 7),
+    new GooAbsorption(AbsorptionType.ADVENTURES, "grave rober zmobie", 7),
     new GooAbsorption(AbsorptionType.ADVENTURES, "guy with a pitchfork, and his wife", 7),
     new GooAbsorption(AbsorptionType.ADVENTURES, "junksprite sharpener", 7),
     new GooAbsorption(AbsorptionType.ADVENTURES, "Knob Goblin Very Mad Scientist", 7),
@@ -275,10 +346,10 @@ public class GreyYouManager {
     new GooAbsorption(AbsorptionType.ADVENTURES, "blur", 10),
     new GooAbsorption(AbsorptionType.ADVENTURES, "Bob Racecar", 10),
     new GooAbsorption(AbsorptionType.ADVENTURES, "coaltergeist", 10),
-    new GooAbsorption(AbsorptionType.ADVENTURES, "fleet woodman", 10),
+    new GooAbsorption(AbsorptionType.ADVENTURES, "fleet woodsman", 10),
     new GooAbsorption(AbsorptionType.ADVENTURES, "Iiti Kitty", 10),
     new GooAbsorption(AbsorptionType.ADVENTURES, "Irritating Series of Random Encounters", 10),
-    new GooAbsorption(AbsorptionType.ADVENTURES, "Little Man in a Canoe", 10),
+    new GooAbsorption(AbsorptionType.ADVENTURES, "Little Man in the Canoe", 10),
     new GooAbsorption(AbsorptionType.ADVENTURES, "mad wino", 10),
     new GooAbsorption(AbsorptionType.ADVENTURES, "Mob Penguin Capo", 10),
     new GooAbsorption(AbsorptionType.ADVENTURES, "One-Eyed Willie", 10),
@@ -287,7 +358,7 @@ public class GreyYouManager {
     new GooAbsorption(AbsorptionType.ADVENTURES, "pygmy orderlies", 10),
     new GooAbsorption(AbsorptionType.ADVENTURES, "pygmy shaman", 10),
     new GooAbsorption(AbsorptionType.ADVENTURES, "Racecar Bob", 10),
-    new GooAbsorption(AbsorptionType.ADVENTURES, "Raver giant", 10),
+    new GooAbsorption(AbsorptionType.ADVENTURES, "Raver Giant", 10),
     new GooAbsorption(AbsorptionType.ADVENTURES, "Renaissance Giant", 10),
     new GooAbsorption(AbsorptionType.ADVENTURES, "swarm of fire ants", 10),
     new GooAbsorption(AbsorptionType.ADVENTURES, "tomb asp", 10),
@@ -302,7 +373,7 @@ public class GreyYouManager {
     new GooAbsorption(AbsorptionType.MYSTICALITY, "baa-relief sheep", 3),
     new GooAbsorption(AbsorptionType.MYSTICALITY, "fiendish can of asparagus", 5),
     new GooAbsorption(AbsorptionType.MYSTICALITY, "Quiet Healer", 5),
-    new GooAbsorption(AbsorptionType.MYSTICALITY, "Blue Oyster Cultist", 10),
+    new GooAbsorption(AbsorptionType.MYSTICALITY, "Blue Oyster cultist", 10),
     new GooAbsorption(AbsorptionType.MYSTICALITY, "bookbat", 10),
     new GooAbsorption(AbsorptionType.MYSTICALITY, "forest spirit", 10),
     new GooAbsorption(AbsorptionType.MYSTICALITY, "Hellion", 10),
@@ -314,17 +385,17 @@ public class GreyYouManager {
     new GooAbsorption(AbsorptionType.MOXIE, "hung-over half-orc hobo", 5),
     new GooAbsorption(AbsorptionType.MOXIE, "sassy pirate", 5),
     new GooAbsorption(AbsorptionType.MOXIE, "Spunky Princess", 5),
-    new GooAbsorption(AbsorptionType.MOXIE, "demoninja", 10),
+    new GooAbsorption(AbsorptionType.MOXIE, "Demoninja", 10),
     new GooAbsorption(AbsorptionType.MOXIE, "gaunt ghuol", 10),
-    new GooAbsorption(AbsorptionType.MOXIE, "Gnefarious gnome", 10),
+    new GooAbsorption(AbsorptionType.MOXIE, "gnefarious gnome", 10),
     new GooAbsorption(AbsorptionType.MOXIE, "Punk Rock Giant", 10),
     new GooAbsorption(AbsorptionType.MOXIE, "swarm of scarab beatles", 10),
     new GooAbsorption(AbsorptionType.MAX_HP, "fluffy bunny", 5),
-    new GooAbsorption(AbsorptionType.MAX_HP, "bodyguard bat", 10),
+    new GooAbsorption(AbsorptionType.MAX_HP, "beefy bodyguard bat", 10),
     new GooAbsorption(AbsorptionType.MAX_HP, "vampire bat", 10),
     new GooAbsorption(AbsorptionType.MAX_HP, "corpulent zobmie", 20),
     new GooAbsorption(AbsorptionType.MAX_MP, "Zol", 5),
-    new GooAbsorption(AbsorptionType.MAX_MP, "7-Foot Dwarf", 10),
+    new GooAbsorption(AbsorptionType.MAX_MP, "grumpy 7-Foot Dwarf", 10),
     new GooAbsorption(AbsorptionType.MAX_MP, "plaque of locusts", 10),
   };
 
@@ -368,6 +439,9 @@ public class GreyYouManager {
     }
   }
 
+  // Here is a map from skill => Absorption
+  public static final Map<Integer, GooSkill> allGooSkills = new HashMap<>();
+
   public static class GooSkill extends Absorption {
     private final int skillId;
 
@@ -378,8 +452,8 @@ public class GreyYouManager {
     private final PassiveEffect passiveEffect;
     private final int level;
 
-    private final String enchantments;
-    private final String modsLookup;
+    private String enchantments = "";
+    private String modsLookup = "";
 
     public GooSkill(
         final int skillId, final String monsterName, PassiveEffect passiveEffect, int level) {
@@ -410,27 +484,27 @@ public class GreyYouManager {
       Modifiers mods = null;
       if (this.skillType == SkillDatabase.PASSIVE) {
         mods = Modifiers.getModifiers("Skill", this.name);
-      }
-
-      if (mods != null) {
-        this.enchantments = mods.getString("Modifiers");
-        this.modsLookup = mods.getName();
+        if (mods != null) {
+          this.enchantments = mods.getString("Modifiers");
+          this.modsLookup = mods.getName();
+        } else {
+          // This would be a KoLmafia bug.
+          RequestLogger.printLine(
+              "*** Grey You skill '" + this.name + "' not in Passive section of modifiers.txt.");
+        }
+        this.mpCost = 0;
       } else {
+        this.mpCost = SkillDatabase.getMPConsumptionById(skillId);
         this.enchantments = effects;
         this.modsLookup = "";
       }
 
-      this.mpCost =
-          (this.skillType != SkillDatabase.PASSIVE)
-              ? SkillDatabase.getMPConsumptionById(skillId)
-              : 0;
+      allGooSkills.put(skillId, this);
     }
 
     @Override
     public boolean haveAbsorbed() {
-      UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(this.skillId);
-      return KoLCharacter.hasSkill(skill, KoLConstants.availableSkills)
-          || KoLCharacter.hasSkill(skill, KoLConstants.availableCombatSkills);
+      return learnedSkills.contains(this.skillId);
     }
 
     public int getSkillId() {
@@ -585,7 +659,7 @@ public class GreyYouManager {
   private static final Comparator<GooSkill> skillTypeComparator = new SkillTypeComparator();
   private static final Comparator<GooSkill> zoneComparator = new ZoneComparator();
 
-  public static GooSkill[] sortGooSkills(String order) {
+  public static GooSkill[] sortedGooSkills(String order) {
     Comparator<GooSkill> comparator =
         order.equals("id")
             ? idComparator
@@ -597,12 +671,11 @@ public class GreyYouManager {
                         ? skillTypeComparator
                         : order.equals("zone") ? zoneComparator : null;
 
-    if (comparator == null) {
-      return GOO_SKILLS;
-    }
-
+    // Always return a copy of the skill array; the caller might modify it.
     GooSkill[] skills = Arrays.copyOf(GOO_SKILLS, GOO_SKILLS.length);
-    Arrays.sort(skills, comparator);
+    if (comparator != null) {
+      Arrays.sort(skills, comparator);
+    }
 
     return skills;
   }
