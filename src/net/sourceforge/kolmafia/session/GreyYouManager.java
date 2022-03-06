@@ -35,7 +35,8 @@ public class GreyYouManager {
 
   // Absorbed 5 adventures from a warwelf.<!-- 199 -->
   private static final Pattern ABSORPTION_PATTERN =
-      Pattern.compile("Absorbed (.*?) from (?: an?| the |)(.*?)\\.<!-- ([\\d]+) -->", Pattern.DOTALL);
+      Pattern.compile(
+          "Absorbed (.*?) from (?: an?| the |)(.*?)\\.<!-- ([\\d]+) -->", Pattern.DOTALL);
 
   public static void parseAbsorptions(String responseText) {
     absorbedMonsters.clear();
