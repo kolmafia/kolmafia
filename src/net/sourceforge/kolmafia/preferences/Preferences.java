@@ -305,7 +305,7 @@ public class Preferences {
         "nextQuantumFamiliarTurn",
         "nextSpookyravenElizabethRoom",
         "nextSpookyravenStephenRoom",
-	"noobDeferredPoints",
+        "noobDeferredPoints",
         "nosyNoseMonster",
         "optimisticCandleProgress",
         "parasolUsed",
