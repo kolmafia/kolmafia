@@ -71,8 +71,6 @@ public class AbsorptionsCommand extends AbstractCommand {
       }
     }
 
-    GreyYouManager.refreshAbsorptions();
-
     StringBuilder output = new StringBuilder();
     output.append("<table border=2 cols=4>");
     output.append("<tr>");

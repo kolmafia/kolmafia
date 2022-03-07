@@ -72,6 +72,7 @@ import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
+import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.Limitmode;
@@ -3168,6 +3169,10 @@ public class FightRequest extends GenericRequest {
     String locationName = (location != null) ? location.getAdventureName() : null;
 
     FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
+
+    if (won && KoLCharacter.inGreyYou()) {
+      GreyYouManager.absorbMonster(monster);
+    }
 
     // Increment stinky cheese counter
     int stinkyCount = EquipmentManager.getStinkyCheeseLevel();
