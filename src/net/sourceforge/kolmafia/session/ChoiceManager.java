@@ -15216,6 +15216,7 @@ public abstract class ChoiceManager {
         // Your Quest is Over
         ChoiceManager.handleAfterAvatar();
         break;
+
       case 1449:
         // If you change the mode with the item equipped, you need to un-equip and re-equip it to
         // get the modifiers
@@ -15307,6 +15308,11 @@ public abstract class ChoiceManager {
             Preferences.setBoolean("primaryLabCheerCoreGrabbed", true);
             break;
         }
+        break;
+
+      case 1465:
+        // No More Grey You
+        ChoiceManager.handleAfterAvatar();
         break;
     }
 
