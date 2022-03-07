@@ -305,6 +305,7 @@ public class Preferences {
         "nextQuantumFamiliarTurn",
         "nextSpookyravenElizabethRoom",
         "nextSpookyravenStephenRoom",
+	"noobDeferredPoints",
         "nosyNoseMonster",
         "optimisticCandleProgress",
         "parasolUsed",
@@ -1103,14 +1104,6 @@ public class Preferences {
   }
 
   public static void resetPerAscension() {
-    // Most prefs that get reset on ascension just return to their default value
-    for (String pref : resetOnAscension) {
-      resetToDefault(pref);
-    }
-
-    // Some need special treatment
-    MonorailManager.resetMuffinOrder();
-
     // Deferred ascension rewards
     Preferences.setInteger(
         "yearbookCameraUpgrades", Preferences.getInteger("yearbookCameraAscensions"));
@@ -1121,6 +1114,14 @@ public class Preferences {
     Preferences.increment(
         "awolPointsSnakeoiler", Preferences.getInteger("awolDeferredPointsSnakeoiler"));
     Preferences.increment("noobPoints", Preferences.getInteger("noobDeferredPoints"));
+
+    // Most prefs that get reset on ascension just return to their default value
+    for (String pref : resetOnAscension) {
+      resetToDefault(pref);
+    }
+
+    // Some need special treatment
+    MonorailManager.resetMuffinOrder();
   }
 
   public static void resetDailies() {
