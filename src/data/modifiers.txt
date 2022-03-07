@@ -4192,6 +4192,7 @@ Item	God Lobster's Rod	Equips On: "God Lobster", Familiar Effect: "whelp"
 Item	God Lobster's Scepter	Leprechaun: 0.5, Fairy: 0.5, Equips On: "God Lobster", Familiar Effect: "small fairy/lep"
 Item	golden banana	Familiar Weight: +5
 Item	green pixie spog	Familiar Weight: +5
+Item	grey down vest	Experience (familiar): +2
 Item	Grim Brothers' story book	Familiar Weight: +5
 Item	grimstone galoshes	Familiar Weight: +5
 Item	guard turtle collar	Familiar Damage: +10, Generic
@@ -11018,6 +11019,7 @@ Item	green face paint	Free Pull
 # green pixel potion: Restores 40-60 HP and 30-40 MP
 # green smoke bomb: Lets you escape from combat without spending an Adventure
 # green smoke bomb: (Probably)
+Item	grey gosling	Free Pull
 # grizzled bearskin Adds +50% Muscle to your cowboy boots
 # grody jug: Deals a Buttload of <font color=green>Stench Damage</font>
 # grogpagne: Restores 30-50 MP

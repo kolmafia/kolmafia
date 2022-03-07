@@ -55,7 +55,7 @@ public class AscensionPath {
     YOU_ROBOT("You, Robot", 41, false, "robobattery", "a", "youRobotPoints", 37, false),
     QUANTUM("Quantum Terrarium", 42, false, "quantum", "a", "quantumPoints", 11, false),
     WILDFIRE("Wildfire", 43, false, "brushfire", "a"),
-    GREY_YOU("Grey You", 44, true, "greygoo", "a", "greyYouPoints", 11, false),
+    GREY_YOU("Grey You", 44, true, "greygooring", "a", "greyYouPoints", 11, false),
     // A "sign" rather than a "path" for some reason
     BAD_MOON("Bad Moon", 999, false, "badmoon", null),
     ;
