@@ -104,7 +104,7 @@ public class GreyYouManagerTest {
     String name2 = "Baiowulf";
     MonsterData monster2 = MonsterDatabase.findMonster(name2);
     assertNotNull(monster2);
-    GreyYouManager.absorbMonster(monster1);
+    GreyYouManager.absorbMonster(monster2);
     assertEquals(1, GreyYouManager.absorbedMonsters.size());
     assertFalse(GreyYouManager.absorbedMonsters.contains(monster2.getId()));
   }
