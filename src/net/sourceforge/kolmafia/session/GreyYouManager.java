@@ -18,38 +18,32 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class GreyYouManager {
 
-  // Here is a map from monster => Absorption
+  // Map from monsterId => Absorption of all known Absorptions.
   public static final Map<Integer, Absorption> allAbsorptions = new HashMap<>();
 
-  // Every monster you absorb is listed on the Charsheet
-
+  // Set of absorbed monsterIds from CharSheet, either Absorptions or Skills.
   public static final Set<Integer> absorbedMonsters = new HashSet<>();
-  public static final Map<Integer, String> unknownAbsorptions = new HashMap<>();
 
-  // Every skill you know is also on the Charsheet
+  // Set of known skillIds from Charsheet.
   public static final Set<Integer> learnedSkills = new HashSet<>();
 
-  // For testing
+  // Map from monsterId => (unknown) Absorption description from CharSheet
+  public static final Map<Integer, String> unknownAbsorptions = new HashMap<>();
+
   public static void resetAbsorptions() {
     absorbedMonsters.clear();
-    unknownAbsorptions.clear();
     learnedSkills.clear();
-  }
-
-  public static void refreshAbsorptions() {
-    CharSheetRequest request = new CharSheetRequest();
-    request.run();
+    unknownAbsorptions.clear();
   }
 
   public static void parseAbsorptions(String responseText) {
-    absorbedMonsters.clear();
-    unknownAbsorptions.clear();
-    if (!responseText.contains("Absorptions:")) {
+    // This called from CharSheetRequest
+    if (!KoLCharacter.inGreyYou() || !responseText.contains("Absorptions:")) {
+      resetAbsorptions();
       return;
     }
     parseMonsterAbsorptions(responseText);
@@ -67,12 +61,17 @@ public class GreyYouManager {
       if (allAbsorptions.containsKey(monsterId)) {
         absorbedMonsters.add(monsterId);
       } else {
-        RequestLogger.printLine(
-            "Unknown Grey You absorption: '"
-                + matcher.group(1)
-                + "' from monster id = "
-                + monsterId);
         unknownAbsorptions.put(monsterId, matcher.group(1));
+        String message =
+            "*** Unknown Grey You absorption: '"
+                + matcher.group(1)
+                + "' from '"
+                + matcher.group(2)
+                + " (id = "
+                + monsterId
+                + ")";
+        RequestLogger.printLine(message);
+        RequestLogger.updateSessionLog(message);
       }
     }
   }
@@ -90,26 +89,41 @@ public class GreyYouManager {
         // present but hidden.
         continue;
       }
-      learnSkill(skillId);
+      GooSkill skill = learnSkill(skillId);
+      if (skill != null && skill.getMonster() != null) {
+        absorbedMonsters.add(skill.getMonsterId());
+      }
     }
   }
 
-  public static void learnSkill(int skillId) {
+  public static GooSkill learnSkill(int skillId) {
+    // This called from ResponseTextParser when we learn a skill.
     if (!KoLCharacter.inGreyYou()) {
-      return;
+      return null;
     }
     // There should only be Goo Skills learned, but...
     if ((skillId / 1000) != 27) {
-      return;
+      return null;
     }
     learnedSkills.add(skillId);
     GooSkill skill = allGooSkills.get(skillId);
     if (skill == null) {
-      RequestLogger.printLine("Unknown Grey You skill with id = " + skillId);
+      String message = "*** Unknown Grey You skill with id = " + skillId;
+      RequestLogger.printLine(message);
+      RequestLogger.updateSessionLog(message);
+    }
+    return skill;
+  }
+
+  public static void absorbMonster(MonsterData monster) {
+    // This called from FightRequest after a win
+    if (monster == null || !KoLCharacter.inGreyYou()) {
       return;
     }
-    if (skill.getMonster() != null) {
-      absorbedMonsters.add(skill.getMonsterId());
+    // All absorbed monsters give a stat, but only save "special" monsters.
+    int monsterId = monster.getId();
+    if (allAbsorptions.containsKey(monsterId)) {
+      absorbedMonsters.add(monsterId);
     }
   }
 
@@ -489,8 +503,10 @@ public class GreyYouManager {
           this.modsLookup = mods.getName();
         } else {
           // This would be a KoLmafia bug.
-          RequestLogger.printLine(
-              "*** Grey You skill '" + this.name + "' not in Passive section of modifiers.txt.");
+          String message =
+              "*** Grey You skill '" + this.name + "' not in Passive section of modifiers.txt.";
+          RequestLogger.printLine(message);
+          RequestLogger.updateSessionLog(message);
         }
         this.mpCost = 0;
       } else {

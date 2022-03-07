@@ -669,6 +669,7 @@ user	goreCollected	0
 user	gourdItemCount	5
 user	grabCloversHardcore	false
 user	grabCloversSoftcore	true
+user	greyYouPoints	0
 user	grimoire1Summons	0
 user	grimoire2Summons	0
 user	grimoire3Summons	0
