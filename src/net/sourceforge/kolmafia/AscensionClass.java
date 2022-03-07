@@ -27,7 +27,7 @@ public enum AscensionClass {
   GELATINOUS_NOOB("Gelatinous Noob", 23, "gelatinousicon", 2),
   VAMPYRE("Vampyre", 24, "vampirefangs", 1, "Chill of the Tomb"),
   PLUMBER("Plumber", 25, "mario_hammer2", -1),
-  GREY_GOO("Grey Goo", 27, "goovatar", -1);
+  GREY_GOO("Grey Goo", 27, "greygooring", -1);
 
   public static final List<AscensionClass> standardClasses =
       Arrays.asList(
