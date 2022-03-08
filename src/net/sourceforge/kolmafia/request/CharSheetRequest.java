@@ -32,9 +32,6 @@ import org.w3c.dom.NodeList;
 
 public class CharSheetRequest extends GenericRequest {
   private static final Pattern BASE_PATTERN = Pattern.compile(" \\(base: ([\\d,]+)\\)");
-  private static final Pattern AVATAR_PATTERN =
-      Pattern.compile(
-          "<img src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/([^>'\"\\s]+)");
 
   private static final HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
   private static final DomSerializer domSerializer = new DomSerializer(cleaner.getProperties());
@@ -76,13 +73,6 @@ public class CharSheetRequest extends GenericRequest {
   }
 
   public static final void parseStatus(final String responseText) {
-    // Set the character's avatar.
-    Matcher avatarMatcher = CharSheetRequest.AVATAR_PATTERN.matcher(responseText);
-
-    if (avatarMatcher.find()) {
-      KoLCharacter.setAvatar(avatarMatcher.group(1));
-    }
-
     // Currently, this is used only for parsing the list of skills
     Document doc = null;
     try {
@@ -384,6 +374,55 @@ public class CharSheetRequest extends GenericRequest {
     // Grey You path has absorptions
     if (KoLCharacter.inGreyYou()) {
       GreyYouManager.parseAbsorptions(responseText);
+    }
+
+    // Set the character's avatar.
+    CharSheetRequest.parseAvatar(responseText);
+  }
+
+  // <div style="position: relative; height: 150px; width: 150px"><img
+  // src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/robot/left4.png" height="150"
+  // width="150" style="position: absolute; top: 0; left: 0" /><img
+  // src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/robot/right4.png" height="150"
+  // width="150" style="position: absolute; top: 0; left: 0" /><img
+  // src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/robot/top4.png" height="150" width="150"
+  // style="position: absolute; top: 0; left: 0" /><img
+  // src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/robot/bottom4.png" height="150"
+  // width="150" style="position: absolute; top: 0; left: 0" /><img
+  // src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/robot/body6.png" height="150"
+  // width="150" style="position: absolute; top: 0; left: 0" /></div>
+
+  private static final Pattern ROBOT_AVATAR_PATTERN =
+      Pattern.compile("<div.*?>(<img .*? />)</div>");
+
+  // <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/robot/left4.png" height="150"
+  // width="150" style="position: absolute; top: 0; left: 0" />
+
+  private static final Pattern ROBOT_IMAGE_PATTERN =
+      Pattern.compile("<img .*?(otherimages/robot/.*?.png).*? />");
+
+  private static final Pattern AVATAR_PATTERN =
+      Pattern.compile(
+          "<img src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/([^>'\"\\s]+)");
+
+  public static final void parseAvatar(final String responseText) {
+    // You, Robot has an Avatar consisting of five overlaid .png files
+    if (KoLCharacter.inRobocore()) {
+      List<String> images = new ArrayList<>();
+      Matcher divMatcher = CharSheetRequest.ROBOT_AVATAR_PATTERN.matcher(responseText);
+      if (divMatcher.find()) {
+        Matcher imgMatcher = CharSheetRequest.ROBOT_IMAGE_PATTERN.matcher(divMatcher.group(1));
+        while (imgMatcher.find()) {
+          images.add(imgMatcher.group(1));
+        }
+      }
+      KoLCharacter.setAvatar(images.toArray(new String[images.size()]));
+      return;
+    }
+
+    Matcher avatarMatcher = CharSheetRequest.AVATAR_PATTERN.matcher(responseText);
+    if (avatarMatcher.find()) {
+      KoLCharacter.setAvatar(avatarMatcher.group(1));
     }
   }
 

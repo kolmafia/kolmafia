@@ -121,7 +121,7 @@ public abstract class KoLCharacter {
 
   // Things which can change over the course of playing
 
-  private static String avatar = "";
+  private static String[] avatar = new String[0];
   private static AscensionClass ascensionClass = null;
   private static int gender = 0;
   public static int AWOLtattoo = 0;
@@ -790,14 +790,25 @@ public abstract class KoLCharacter {
    * @param avatar The avatar for this character
    */
   public static final void setAvatar(final String avatar) {
-    KoLCharacter.avatar = avatar;
-    if (!avatar.isEmpty()) {
-      String prefix = KoLmafia.imageServerPath();
-      FileUtilities.downloadImage(prefix + KoLCharacter.avatar);
+    String[] array = new String[] {avatar};
+    KoLCharacter.setAvatar(array);
+  }
+
+  public static final void setAvatar(final String[] images) {
+    KoLCharacter.avatar = images;
+
+    String prefix = KoLmafia.imageServerPath();
+    boolean female = false;
+
+    for (String image : images) {
+      if (image.endsWith("_f.gif")) {
+        female = true;
+      }
+      FileUtilities.downloadImage(prefix + image);
     }
     NamedListenerRegistry.fireChange("(avatar)");
 
-    if (avatar.endsWith("_f.gif")) {
+    if (female) {
       KoLCharacter.setGender(KoLCharacter.FEMALE);
     } else {
       // Unfortunately, lack of '_f' in the avatar doesn't
@@ -812,7 +823,7 @@ public abstract class KoLCharacter {
    *
    * @return The avatar for this character
    */
-  public static final String getAvatar() {
+  public static final String[] getAvatar() {
     return KoLCharacter.avatar;
   }
 

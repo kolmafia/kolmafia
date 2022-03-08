@@ -2,10 +2,12 @@ package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -104,17 +106,47 @@ public class CharSheetFrame extends GenericFrame {
     }
   }
 
-  public class AvatarLabel extends JLabel implements Listener {
+  public class AvatarLabel extends JLayeredPane implements Listener {
+    private static final int LAYERS = 5;
+    private JLabel[] labels = new JLabel[LAYERS];
+    private int width = 0;
+    private int height = 0;
+
     public AvatarLabel() {
       super();
+      for (int i = 0; i < LAYERS; ++i) {
+        JLabel label = new JLabel();
+        this.labels[i] = label;
+        this.add(label, i);
+      }
       NamedListenerRegistry.registerNamedListener("(avatar)", this);
       this.update();
     }
 
     @Override
     public void update() {
-      ImageIcon icon = JComponentUtilities.getImage(KoLCharacter.getAvatar());
-      this.setIcon(icon);
+      String[] images = KoLCharacter.getAvatar();
+      int size = images.length;
+      int newWidth = 60;
+      int newHeight = 100;
+      for (int i = 0; i < LAYERS; ++i) {
+        if (i < images.length && images[i] != null) {
+          ImageIcon icon = JComponentUtilities.getImage(images[i]);
+          int iconWidth = icon.getIconWidth();
+          int iconHeight = icon.getIconHeight();
+          newWidth = Math.max(width, iconWidth);
+          newHeight = Math.max(height, iconHeight);
+          this.labels[i].setIcon(icon);
+          this.labels[i].setBounds(0, 0, iconWidth, iconHeight);
+        } else {
+          this.labels[i].setIcon(null);
+        }
+      }
+      if (newWidth != width || height != newHeight) {
+        width = newWidth;
+        height = newHeight;
+        this.setPreferredSize(new Dimension(width, height));
+      }
     }
   }
 
@@ -152,7 +184,7 @@ public class CharSheetFrame extends GenericFrame {
           2, KoLCharacter.getBaseMoxie(), KoLCharacter.getMoxieTNP(), "Mox: ");
 
       // Set the current avatar
-      CharSheetFrame.this.avatar.setIcon(JComponentUtilities.getImage(KoLCharacter.getAvatar()));
+      CharSheetFrame.this.avatar.update();
     }
   }
 }
