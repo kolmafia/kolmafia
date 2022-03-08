@@ -3329,6 +3329,26 @@ public abstract class KoLCharacter {
     return true;
   }
 
+  public static final boolean canSpleen() {
+    if (Limitmode.limitSpleening()) {
+      return false;
+    }
+
+    if (KoLCharacter.inNoobcore() || KoLCharacter.inRobocore()) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public static final boolean canUsePotions() {
+    if (KoLCharacter.inRobocore()) {
+      return Preferences.getString("youRobotCPUUpgrades").contains("robot_potions");
+    }
+
+    return true;
+  }
+
   /**
    * Accessor method for the current mind control setting
    *

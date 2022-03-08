@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -74,6 +75,39 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> {
 
     this.setEnabled(true);
     this.filterItems();
+  }
+
+  @Override
+  public void setEnabled(final boolean isEnabled) {
+    // Disable all buttons if false, otherwise allow buttons to only be lit
+    // when they are valid to stop flashing buttons
+    if (!isEnabled) {
+      super.setEnabled(false);
+      return;
+    }
+
+    // The "consume" listener is the first button
+    // The "create" listener is the second button
+
+    int index = 0;
+
+    if (this.food) {
+      boolean canEat = KoLCharacter.canEat();
+      this.buttons[index++].setEnabled(canEat);
+    } else if (this.booze) {
+      boolean canDrink = KoLCharacter.canDrink();
+      this.buttons[index++].setEnabled(canDrink);
+    } else if (this.spleen) {
+      boolean canSpleen = KoLCharacter.canSpleen();
+      this.buttons[index++].setEnabled(canSpleen);
+    } else {
+      // Potions.
+      boolean canUsePotions = KoLCharacter.canUsePotions();
+      this.buttons[index++].setEnabled(canUsePotions);
+    }
+
+    // You may not be able to consume the item, but you may wish to create it
+    this.buttons[index++].setEnabled(true);
   }
 
   @Override

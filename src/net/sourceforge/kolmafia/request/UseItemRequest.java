@@ -414,7 +414,8 @@ public class UseItemRequest extends GenericRequest {
 
     if (KoLCharacter.inRobocore()
         && ItemDatabase.isPotion(itemId)
-        && !Preferences.getString("youRobotCPUUpgrades").contains("robot_potions")) {
+        && !KoLCharacter.canUsePotions()) {
+      UseItemRequest.limiter = "lack of necessary CPU upgrade";
       return 0;
     }
 
@@ -1643,8 +1644,6 @@ public class UseItemRequest extends GenericRequest {
       return;
     }
 
-    // If you are in Beecore, certain items can't B used
-    // "You are too scared of Bs to xxx that item."
     if (responseText.contains("You don't have the item you're trying to use.")) {
       UseItemRequest.lastUpdate = "You don't have that item.";
       // If we think we do, then Mafia has the wrong information about inventory, so update it
@@ -1656,14 +1655,26 @@ public class UseItemRequest extends GenericRequest {
       KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
       return;
     }
+
+    // If you are in Beecore, certain items can't B used
+    // "You are too scared of Bs to xxx that item."
     if (KoLCharacter.inBeecore() && responseText.contains("You are too scared of Bs")) {
       UseItemRequest.lastUpdate = "You are too scared of Bs.";
       KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
       return;
     }
+
     if (KoLCharacter.inGLover()
         && responseText.contains("You are too in love with G to use that item right now.")) {
       UseItemRequest.lastUpdate = "You are too in love with G.";
+      KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
+      return;
+    }
+
+    if (KoLCharacter.inRobocore()
+        && responseText.contains("You can't figure out where to put that potion.")) {
+      UseItemRequest.lastUpdate =
+          "You need the Biomass Processing Function CPU upgrade to use potions.";
       KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
       return;
     }

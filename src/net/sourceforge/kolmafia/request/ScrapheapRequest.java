@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.*;
@@ -8,15 +9,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ScrapheapRequest extends PlaceRequest {
-  private static final Pattern CHRONOLITH_COST = Pattern.compile("title=\"\\((\\d+) Energy\\)\"");
-  private static final Pattern ENERGY_GAIN = Pattern.compile("You gain (\\d+) Energy.");
-  private static final Pattern STATBOT_COST =
-      Pattern.compile("Current upgrade cost: <b>(\\d+) energy</b>");
-  private static final Pattern CONFIGURATION =
-      Pattern.compile("robot/(left|right|top|bottom|body)(\\d+).png\"");
-  private static final Pattern CPU_UPGRADE_INSTALLED =
-      Pattern.compile("<button.*?value=\"([a-z0-9_]+)\"[^\\(]+\\(already installed\\)");
-
   public ScrapheapRequest() {
     super("scrapheap");
   }
@@ -55,6 +47,8 @@ public class ScrapheapRequest extends PlaceRequest {
     }
   }
 
+  private static final Pattern CHRONOLITH_COST = Pattern.compile("title=\"\\((\\d+) Energy\\)\"");
+
   private static void parseChronolith(final String responseText) {
     Matcher m = CHRONOLITH_COST.matcher(responseText);
 
@@ -73,6 +67,8 @@ public class ScrapheapRequest extends PlaceRequest {
     }
   }
 
+  private static final Pattern ENERGY_GAIN = Pattern.compile("You gain (\\d+) Energy.");
+
   private static void parseCollectEnergy(final String responseText) {
     Matcher m = ENERGY_GAIN.matcher(responseText);
 
@@ -83,6 +79,9 @@ public class ScrapheapRequest extends PlaceRequest {
     }
   }
 
+  private static final Pattern STATBOT_COST =
+      Pattern.compile("Current upgrade cost: <b>(\\d+) energy</b>");
+
   public static void parseStatbotCost(final String responseText) {
     Matcher m = STATBOT_COST.matcher(responseText);
 
@@ -91,6 +90,53 @@ public class ScrapheapRequest extends PlaceRequest {
       Preferences.setInteger("statbotUses", cost - 10);
     }
   }
+
+  //        Top             Left               Right               Bottom
+  // 1 = Pea Shooter    Pound-O-Tron       Slab-O-Matic         Bald Tires
+  // 2 = Bird Cage      Reflective Shard   Junk Shield          Rocket Crotch
+  // 3 = Solar Panel    Metal Detector     Horseshoe Magnet     Motorcycle Wheel
+  // 4 = Mannequin Head Vice Grips         Omni-Claw            Robo-Legs
+  // 5 = Meat Radar     Sniper Rifle       Mammal Prod          Magno-Lev
+  // 6 = Junk Cannon    Junk Mace          Solenoid Piston      Tank Treads
+  // 7 = Tesla Blaster  Camouflage Curtain Blaring Speaker      Snowplow
+  // 8 = Snow Blower    Grease Gun         Surplus Flamethrower
+
+  // Pound-O-Tron -> Swing Pound-O-Tron
+  // Pea Shooter -> Shoot Pea
+  // Rocket Crotch -> Crotch Burn
+  // Junk Cannon -> Junk Blast
+  // Tesla Blaster -> Tesla Blast
+  // Sniper Rifle -> Snipe
+  // Junk Mace -> Junk Mace Smash
+  // Mammal Prod -> Prod
+  // Solenoid Piston -> Solenoid Slam
+  // Snowblower -> Blow Snow
+  // Surplus Flamethrower -> Throw Flame
+  // Grease Gun -> Shoot Grease
+
+  // Bird Cage - can use familiars
+  // Mannequin Head - can equip hats
+  // Vice Grips -> can equip (1 or 2 handed) weapons
+  // Omni-Claw -> can equip offhand items (unless 2-handed weapon in Vice Grips)
+  // Robo Legs -> can equip pants
+
+  // Solar Panel -> Energy: +1
+  // Meat Radar -> Meat Drop: +50
+  // Reflective Shard -> Resist All: +3
+  // Metal Detector -> Item Drop: +30
+  // Camouflage Curtain -> Combat Rate: -15
+  // Slab-O-Matic -> Maximum HP: +30
+  // Junk Shield -> Damage Reduction: +10, Damage Absorption: +50
+  // Horseshoe Magnet -> Scrap: +1
+  // Blaring Speakers -> Monster Level: +30
+  // Bald Tires -> Maximum HP: +10
+  // Motorcycle Wheels -> Initiative: +30
+  // Magno-Lex -> Item Drop: +30
+  // Tank Treads -> Maximum HP: +50, Damage Reduction: +10
+  // Snowplow -> Scrap: +1
+
+  private static final Pattern CONFIGURATION =
+      Pattern.compile("robot/(left|right|top|bottom|body)(\\d+).png\"");
 
   public static void parseConfiguration(final String text) {
     Matcher m = CONFIGURATION.matcher(text);
@@ -102,8 +148,24 @@ public class ScrapheapRequest extends PlaceRequest {
     }
   }
 
+  // robot_muscle -> Leverage Coprocessing -> Muscle: +15
+  // robot_mysticality -> Dynamic Arcane Flux Modeling -> Mysticality: +15
+  // robot_moxie -> Upgraded Fashion Sensor -> Moxie: +15
+  // robot_meat -> Finance Neural Net -> Meat Drop: +20
+  // robot_hp1 -> Spatial Compression Functions -> Maximum HP: +30
+  // robot_regen -> Self-Repair Routines -> HP Regen Min: +10, HP Regen Max: +10
+  // robot_resist -> Weather Control Algorithms -> Resist All: +2
+  // robot_items -> Improved Optical Processing -> Item Drop: +20
+  // robot_shirt -> Topology Grid -> can equip shirts
+  // robot_energy -> Overclocking -> Energy: +1
+  // robot_potions -> Biomass Processing Function -> can use potions
+  // robot_hp2 -> Holographic Deflector Projection -> Maximum HP: +30
+
+  private static final Pattern CPU_UPGRADE_INSTALLED =
+      Pattern.compile("<button.*?value=\"([a-z0-9_]+)\"[^\\(]+\\(already installed\\)");
+
   public static void parseCPUUpgrades(final String text) {
-    ArrayList<String> cpuUpgrades = new ArrayList<>();
+    List<String> cpuUpgrades = new ArrayList<>();
     Matcher m = CPU_UPGRADE_INSTALLED.matcher(text);
 
     while (m.find()) {

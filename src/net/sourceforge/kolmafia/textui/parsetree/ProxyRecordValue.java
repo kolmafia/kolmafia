@@ -207,6 +207,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("candy", DataTypes.BOOLEAN_TYPE)
             .add("candy_type", DataTypes.STRING_TYPE)
             .add("chocolate", DataTypes.BOOLEAN_TYPE)
+            .add("potion", DataTypes.BOOLEAN_TYPE)
             .add("seller", DataTypes.COINMASTER_TYPE)
             .add("buyer", DataTypes.COINMASTER_TYPE)
             .add("name_length", DataTypes.INT_TYPE)
@@ -588,6 +589,15 @@ public class ProxyRecordValue extends RecordValue {
      */
     public boolean get_chocolate() {
       return ItemDatabase.isChocolateItem((int) this.contentLong);
+    }
+
+    /**
+     * Returns `true` if the Item is a potion, else `false`.
+     *
+     * @return Whether the Item is a potion
+     */
+    public boolean get_potion() {
+      return ItemDatabase.isPotion((int) this.contentLong);
     }
 
     /**
