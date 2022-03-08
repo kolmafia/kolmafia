@@ -188,14 +188,13 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
       return;
     }
 
-    boolean addCreationQueue = Preferences.getBoolean("addCreationQueue");
-    int index = 0;
-
     this.getElementList().setEnabled(true);
+
+    int index = 0;
 
     // Always enable the "enqueue" button. You may not be able to consume the
     // item, but you may wish to create it
-    if (addCreationQueue) {
+    if (Preferences.getBoolean("addCreationQueue")) {
       this.buttons[index++].setEnabled(true);
     }
 
