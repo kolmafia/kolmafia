@@ -13472,7 +13472,7 @@ public abstract class ChoiceManager {
             }
           }
 
-          ScrapheapRequest.parseConfiguration(text);
+          ScrapheapRequest.parseAvatar(text);
 
           if (urlString.contains("show=cpus")) {
             ScrapheapRequest.parseCPUUpgrades(text);
@@ -16840,13 +16840,15 @@ public abstract class ChoiceManager {
         // Cargo Cultist Shorts
         CargoCultistShortsRequest.parseAvailablePockets(text);
         break;
+
       case 1445:
-        ScrapheapRequest.parseConfiguration(text);
+        ScrapheapRequest.parseAvatar(text);
 
         if (request.getURLString().contains("show=cpus")) {
           ScrapheapRequest.parseCPUUpgrades(text);
         }
         break;
+
       case 1447:
         {
           ScrapheapRequest.parseStatbotCost(text);

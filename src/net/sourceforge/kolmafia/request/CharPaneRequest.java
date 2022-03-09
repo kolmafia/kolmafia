@@ -1518,7 +1518,7 @@ public class CharPaneRequest extends GenericRequest {
     }
 
     if (!CharPaneRequest.compactCharacterPane) {
-      ScrapheapRequest.parseConfiguration(responseText);
+      ScrapheapRequest.parseAvatar(responseText);
     }
 
     // Energy is handled in the handleMiscPoints function as it replaces MP

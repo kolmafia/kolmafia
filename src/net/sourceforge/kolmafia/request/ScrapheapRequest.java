@@ -135,12 +135,12 @@ public class ScrapheapRequest extends PlaceRequest {
   // Tank Treads -> Maximum HP: +50, Damage Reduction: +10
   // Snowplow -> Scrap: +1
 
-  private static final Pattern CONFIGURATION =
+  private static final Pattern AVATAR =
       Pattern.compile("(otherimages/robot/(left|right|top|bottom|body)(\\d+).png)\"");
 
-  public static void parseConfiguration(final String text) {
+  public static void parseAvatar(final String text) {
     List<String> images = new ArrayList<>();
-    Matcher m = CONFIGURATION.matcher(text);
+    Matcher m = AVATAR.matcher(text);
     while (m.find()) {
       images.add(m.group(1));
       String section = m.group(2);

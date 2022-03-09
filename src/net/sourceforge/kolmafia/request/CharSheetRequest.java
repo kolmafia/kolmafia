@@ -380,27 +380,6 @@ public class CharSheetRequest extends GenericRequest {
     CharSheetRequest.parseAvatar(responseText);
   }
 
-  // <div style="position: relative; height: 150px; width: 150px"><img
-  // src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/robot/left4.png" height="150"
-  // width="150" style="position: absolute; top: 0; left: 0" /><img
-  // src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/robot/right4.png" height="150"
-  // width="150" style="position: absolute; top: 0; left: 0" /><img
-  // src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/robot/top4.png" height="150" width="150"
-  // style="position: absolute; top: 0; left: 0" /><img
-  // src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/robot/bottom4.png" height="150"
-  // width="150" style="position: absolute; top: 0; left: 0" /><img
-  // src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/robot/body6.png" height="150"
-  // width="150" style="position: absolute; top: 0; left: 0" /></div>
-
-  private static final Pattern ROBOT_AVATAR_PATTERN =
-      Pattern.compile("<div.*?>(<img .*? />)</div>");
-
-  // <img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/robot/left4.png" height="150"
-  // width="150" style="position: absolute; top: 0; left: 0" />
-
-  private static final Pattern ROBOT_IMAGE_PATTERN =
-      Pattern.compile("<img .*?(otherimages/robot/.*?.png).*? />");
-
   private static final Pattern AVATAR_PATTERN =
       Pattern.compile(
           "<img src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/([^>'\"\\s]+)");
@@ -408,15 +387,7 @@ public class CharSheetRequest extends GenericRequest {
   public static final void parseAvatar(final String responseText) {
     // You, Robot has an Avatar consisting of five overlaid .png files
     if (KoLCharacter.inRobocore()) {
-      List<String> images = new ArrayList<>();
-      Matcher divMatcher = CharSheetRequest.ROBOT_AVATAR_PATTERN.matcher(responseText);
-      if (divMatcher.find()) {
-        Matcher imgMatcher = CharSheetRequest.ROBOT_IMAGE_PATTERN.matcher(divMatcher.group(1));
-        while (imgMatcher.find()) {
-          images.add(imgMatcher.group(1));
-        }
-      }
-      KoLCharacter.setAvatar(images.toArray(new String[images.size()]));
+      ScrapheapRequest.parseAvatar(responseText);
       return;
     }
 
