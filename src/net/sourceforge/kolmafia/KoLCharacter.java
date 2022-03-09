@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Taskbar;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -804,7 +805,7 @@ public abstract class KoLCharacter {
 
     if (KoLCharacter.avatar.length == images.length) {
       boolean changed = false;
-      Set<String> currentImages = new HashSet<>();
+      Set<String> currentImages = new HashSet<>(Arrays.asList(KoLCharacter.avatar));
       for (String image : images) {
         if (!currentImages.contains(image)) {
           changed = true;

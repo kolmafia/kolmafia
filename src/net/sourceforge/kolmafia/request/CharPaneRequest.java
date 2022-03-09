@@ -278,9 +278,11 @@ public class CharPaneRequest extends GenericRequest {
           "<img +src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/([^>'\"\\s]+)");
 
   public static final void parseAvatar(final String responseText) {
-    Matcher avatarMatcher = CharPaneRequest.AVATAR_PATTERN.matcher(responseText);
-    if (avatarMatcher.find()) {
-      KoLCharacter.setAvatar(avatarMatcher.group(1));
+    if (!KoLCharacter.inRobocore()) {
+      Matcher avatarMatcher = CharPaneRequest.AVATAR_PATTERN.matcher(responseText);
+      if (avatarMatcher.find()) {
+        KoLCharacter.setAvatar(avatarMatcher.group(1));
+      }
     }
   }
 
