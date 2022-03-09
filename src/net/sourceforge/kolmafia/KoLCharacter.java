@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Taskbar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -795,6 +797,25 @@ public abstract class KoLCharacter {
   }
 
   public static final void setAvatar(final String[] images) {
+    // Only set the avatar if the set of images has changed.
+    //
+    // Note that we assume that a "set" will do; the images will be overlaid
+    // upon each other, rather than being arranged in a specific order.
+
+    if (KoLCharacter.avatar.length == images.length) {
+      boolean changed = false;
+      Set<String> currentImages = new HashSet<>();
+      for (String image : images) {
+        if (!currentImages.contains(image)) {
+          changed = true;
+          break;
+        }
+      }
+      if (!changed) {
+        return;
+      }
+    }
+
     KoLCharacter.avatar = images;
 
     String prefix = KoLmafia.imageServerPath();
@@ -806,7 +827,6 @@ public abstract class KoLCharacter {
       }
       FileUtilities.downloadImage(prefix + image);
     }
-    NamedListenerRegistry.fireChange("(avatar)");
 
     if (female) {
       KoLCharacter.setGender(KoLCharacter.FEMALE);
@@ -816,6 +836,8 @@ public abstract class KoLCharacter {
       // avatar, or a special avatar such as Birdform that's unisex.
       KoLCharacter.setGender();
     }
+
+    NamedListenerRegistry.fireChange("(avatar)");
   }
 
   /**
@@ -836,7 +858,7 @@ public abstract class KoLCharacter {
       return KoLCharacter.gender;
     }
 
-    // Can't tell?	Look at their vinyl boots!
+    // Can't tell? Look at their vinyl boots!
     String descId = ItemDatabase.getDescriptionId(ItemPool.VINYL_BOOTS);
     GenericRequest req = new GenericRequest("desc_item.php?whichitem=" + descId);
     RequestThread.postRequest(req);
