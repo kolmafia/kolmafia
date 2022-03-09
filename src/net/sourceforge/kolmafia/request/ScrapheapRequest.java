@@ -136,16 +136,18 @@ public class ScrapheapRequest extends PlaceRequest {
   // Snowplow -> Scrap: +1
 
   private static final Pattern CONFIGURATION =
-      Pattern.compile("robot/(left|right|top|bottom|body)(\\d+).png\"");
+      Pattern.compile("(otherimages/robot/(left|right|top|bottom|body)(\\d+).png)\"");
 
   public static void parseConfiguration(final String text) {
+    List<String> images = new ArrayList<>();
     Matcher m = CONFIGURATION.matcher(text);
-
     while (m.find()) {
-      String section = m.group(1);
-      int config = StringUtilities.parseInt(m.group(2));
+      images.add(m.group(1));
+      String section = m.group(2);
+      int config = StringUtilities.parseInt(m.group(3));
       Preferences.setInteger("youRobot" + StringUtilities.toTitleCase(section), config);
     }
+    KoLCharacter.setAvatar(images.toArray(new String[images.size()]));
   }
 
   // robot_muscle -> Leverage Coprocessing -> Muscle: +15
