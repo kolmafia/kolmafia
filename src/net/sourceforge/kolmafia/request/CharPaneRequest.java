@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
@@ -1518,7 +1519,7 @@ public class CharPaneRequest extends GenericRequest {
     }
 
     if (!CharPaneRequest.compactCharacterPane) {
-      ScrapheapRequest.parseAvatar(responseText);
+      YouRobotManager.parseAvatar(responseText);
     }
 
     // Energy is handled in the handleMiscPoints function as it replaces MP

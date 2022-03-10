@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.htmlcleaner.DomSerializer;
@@ -387,7 +388,7 @@ public class CharSheetRequest extends GenericRequest {
   public static final void parseAvatar(final String responseText) {
     // You, Robot has an Avatar consisting of five overlaid .png files
     if (KoLCharacter.inRobocore()) {
-      ScrapheapRequest.parseAvatar(responseText);
+      YouRobotManager.parseAvatar(responseText);
       return;
     }
 
