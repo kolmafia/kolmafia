@@ -11680,6 +11680,7 @@ Item	Spelunker of Fortune (used)	Skill: "Speluck"
 # spice melange: Makes you less full and more sober
 # spices: Deals 1 Physical Damage
 # spider web: Weakens enemies very slightly
+Item	spinal-fluid-covered emotion chip	Skill: "Emotionally Chipped"
 # spinning wheel: Turns air into Meat (once per day)
 # spirit beer: Restores 40-50 MP
 Item	spirit beer	Effect: "Spiritually Aware", Effect Duration: 10
