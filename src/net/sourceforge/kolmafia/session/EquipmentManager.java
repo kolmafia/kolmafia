@@ -2191,37 +2191,16 @@ public class EquipmentManager {
       return KoLCharacter.isAWoLClass();
     }
 
-    if (KoLCharacter.inRobocore()) {
-      switch (type) {
-        case KoLConstants.EQUIP_HAT:
-          if (Preferences.getInteger("youRobotTop") != 4) {
-            return false;
-          }
-          break;
-        case KoLConstants.EQUIP_WEAPON:
-          if (Preferences.getInteger("youRobotLeft") != 4) {
-            return false;
-          }
-          break;
-        case KoLConstants.EQUIP_OFFHAND:
-          if (Preferences.getInteger("youRobotRight") != 4) {
-            return false;
-          }
-          break;
-        case KoLConstants.EQUIP_PANTS:
-          if (Preferences.getInteger("youRobotBottom") != 4) {
-            return false;
-          }
-          break;
-      }
-    }
-
     if (type == KoLConstants.EQUIP_SHIRT && !KoLCharacter.isTorsoAware()) {
       return false;
     }
 
     if (type == KoLConstants.EQUIP_FAMILIAR) {
       return KoLCharacter.getFamiliar().canEquip(ItemPool.get(itemId, 1));
+    }
+
+    if (KoLCharacter.inRobocore() && !YouRobotManager.canEquip(type)) {
+      return false;
     }
 
     if (KoLCharacter.inFistcore()

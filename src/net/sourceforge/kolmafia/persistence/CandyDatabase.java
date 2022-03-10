@@ -58,6 +58,31 @@ public class CandyDatabase {
     CandyDatabase.otherCandies = others.toArray(new AdventureResult[others.size()]);
   }
 
+  // As of 2022-03-08, there are 69 "candy1" and 151 "candy2" = 220 spaded candies
+  // (There are also 6 "unspaded" candies - unknown complexity)
+  // Of these, there are 144 "potions", 25 "foods", and 57 "other" candies
+  //
+  // Searching the mall by page returns 30 items per page.
+  // "potions" -> 1116 items on 38 pages
+  // "food" -> 739 items on 25 pages
+  //
+  // There are 38 pages of "potions", which is fewer than 144 potions updated individually
+  // There are 25 pages of "foods", which is the same as 25 foods updated individually
+  // There is no category that contains non-potion, non-food candies.
+  //
+  // Therefore, by bulk updating potions and foods, it would take
+  //    38 + 25 + 57 = 120 pages hits
+  // to update the mall prices for all individually
+  //    144 + 25 + 57 = 226 candies.
+  //
+  // If there were a "candies" category, all candies could be done in 8 server
+  // hits. Instead, it takes 120 server hits.  I submitted a Feature Request to
+  // KoL for that, but no joy so far
+  //
+  // On the other hand, if we update all candies individually, it will take
+  // more server hits the first time, but subsequent searches in a short enough
+  // time will find cached prices. We'll do that.
+
   public static void updatePrices() {
     CandyDatabase.categorizeCandies();
     MallPriceManager.getMallPrices(CandyDatabase.potionCandies, 0.0f);

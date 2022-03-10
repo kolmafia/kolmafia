@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.htmlcleaner.DomSerializer;
@@ -32,9 +33,6 @@ import org.w3c.dom.NodeList;
 
 public class CharSheetRequest extends GenericRequest {
   private static final Pattern BASE_PATTERN = Pattern.compile(" \\(base: ([\\d,]+)\\)");
-  private static final Pattern AVATAR_PATTERN =
-      Pattern.compile(
-          "<img src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/([^>'\"\\s]+)");
 
   private static final HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
   private static final DomSerializer domSerializer = new DomSerializer(cleaner.getProperties());
@@ -76,13 +74,6 @@ public class CharSheetRequest extends GenericRequest {
   }
 
   public static final void parseStatus(final String responseText) {
-    // Set the character's avatar.
-    Matcher avatarMatcher = CharSheetRequest.AVATAR_PATTERN.matcher(responseText);
-
-    if (avatarMatcher.find()) {
-      KoLCharacter.setAvatar(avatarMatcher.group(1));
-    }
-
     // Currently, this is used only for parsing the list of skills
     Document doc = null;
     try {
@@ -384,6 +375,26 @@ public class CharSheetRequest extends GenericRequest {
     // Grey You path has absorptions
     if (KoLCharacter.inGreyYou()) {
       GreyYouManager.parseAbsorptions(responseText);
+    }
+
+    // Set the character's avatar.
+    CharSheetRequest.parseAvatar(responseText);
+  }
+
+  private static final Pattern AVATAR_PATTERN =
+      Pattern.compile(
+          "<img src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/([^>'\"\\s]+)");
+
+  public static final void parseAvatar(final String responseText) {
+    // You, Robot has an Avatar consisting of five overlaid .png files
+    if (KoLCharacter.inRobocore()) {
+      YouRobotManager.parseAvatar(responseText);
+      return;
+    }
+
+    Matcher avatarMatcher = CharSheetRequest.AVATAR_PATTERN.matcher(responseText);
+    if (avatarMatcher.find()) {
+      KoLCharacter.setAvatar(avatarMatcher.group(1));
     }
   }
 

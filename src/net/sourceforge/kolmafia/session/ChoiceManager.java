@@ -80,7 +80,6 @@ import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SaberRequest;
-import net.sourceforge.kolmafia.request.ScrapheapRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
@@ -13431,61 +13430,12 @@ public abstract class ChoiceManager {
           }
           break;
         }
-      case 1445:
-        {
-          // KoL may have unequipped some items based on our selection
-          Matcher partMatcher = Pattern.compile("part=([^&]*)").matcher(urlString);
-          Matcher chosenPartMatcher = Pattern.compile("p=([^&]*)").matcher(urlString);
-          String part = partMatcher.find() ? partMatcher.group(1) : null;
-          int chosenPart =
-              chosenPartMatcher.find() ? StringUtilities.parseInt(chosenPartMatcher.group(1)) : 0;
 
-          if (part != null && !part.equals("cpus") && chosenPart != 0) {
-            // If we have set our "top" to anything other than 2, we now have no familiar
-            if (part.equals("top") && chosenPart != 2) {
-              KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR);
-            }
+      case 1445: // Reassembly Station
+      case 1447: // Statbot 5000
+        YouRobotManager.postChoice1(urlString, request);
+        break;
 
-            // If we've set any part of the main body to anything other than 4, we are now missing
-            // an equip
-            if (chosenPart != 4) {
-              int slot = -1;
-
-              switch (part) {
-                case "top":
-                  slot = EquipmentManager.HAT;
-                  break;
-                case "right":
-                  slot = EquipmentManager.OFFHAND;
-                  break;
-                case "bottom":
-                  slot = EquipmentManager.PANTS;
-                  break;
-                case "left":
-                  slot = EquipmentManager.WEAPON;
-                  break;
-              }
-
-              if (slot != -1) {
-                EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
-              }
-            }
-          }
-
-          ScrapheapRequest.parseConfiguration(text);
-
-          if (urlString.contains("show=cpus")) {
-            ScrapheapRequest.parseCPUUpgrades(text);
-          }
-
-          KoLCharacter.updateStatus();
-          break;
-        }
-      case 1447:
-        {
-          KoLCharacter.updateStatus();
-          break;
-        }
       case 1448:
         {
           if (text.contains("You acquire an item:")) {
@@ -16840,18 +16790,12 @@ public abstract class ChoiceManager {
         // Cargo Cultist Shorts
         CargoCultistShortsRequest.parseAvailablePockets(text);
         break;
-      case 1445:
-        ScrapheapRequest.parseConfiguration(text);
 
-        if (request.getURLString().contains("show=cpus")) {
-          ScrapheapRequest.parseCPUUpgrades(text);
-        }
+      case 1445: // Reassembly Station
+      case 1447: // Statbot 5000
+        YouRobotManager.visitChoice(request);
         break;
-      case 1447:
-        {
-          ScrapheapRequest.parseStatbotCost(text);
-          break;
-        }
+
       case 1448:
         {
           String[] stalkStatus = new String[7];
@@ -19137,7 +19081,7 @@ public abstract class ChoiceManager {
     return request.responseText;
   }
 
-  private static String choiceDescription(final int choice, final int decision) {
+  public static String choiceDescription(final int choice, final int decision) {
     // If we have spoilers for this choice, use that
     Object[][] spoilers = ChoiceManager.choiceSpoilers(choice, null);
     if (spoilers != null && spoilers.length > 2) {
@@ -19330,6 +19274,10 @@ public abstract class ChoiceManager {
           {
             return BeachCombRequest.registerRequest(urlString);
           }
+
+        case 1445: // Reassembly Station
+        case 1447: // Statbot 5000
+          return YouRobotManager.registerRequest(urlString);
       }
 
       if (decision != 0) {
