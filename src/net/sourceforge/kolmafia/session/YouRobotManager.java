@@ -16,49 +16,163 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class YouRobotManager {
 
-  //        Top             Left               Right               Bottom
-  // 1 = Pea Shooter    Pound-O-Tron       Slab-O-Matic         Bald Tires
-  // 2 = Bird Cage      Reflective Shard   Junk Shield          Rocket Crotch
-  // 3 = Solar Panel    Metal Detector     Horseshoe Magnet     Motorcycle Wheel
-  // 4 = Mannequin Head Vice Grips         Omni-Claw            Robo-Legs
-  // 5 = Meat Radar     Sniper Rifle       Mammal Prod          Magno-Lev
-  // 6 = Junk Cannon    Junk Mace          Solenoid Piston      Tank Treads
-  // 7 = Tesla Blaster  Camouflage Curtain Blaring Speaker      Snowplow
-  // 8 = Snow Blower    Grease Gun         Surplus Flamethrower
+  public enum Slot {
+    TOP,
+    LEFT,
+    RIGHT,
+    BOTTOM,
+    CPU;
+  }
 
-  // Pound-O-Tron -> Swing Pound-O-Tron
-  // Pea Shooter -> Shoot Pea
-  // Rocket Crotch -> Crotch Burn
-  // Junk Cannon -> Junk Blast
-  // Tesla Blaster -> Tesla Blast
-  // Sniper Rifle -> Snipe
-  // Junk Mace -> Junk Mace Smash
-  // Mammal Prod -> Prod
-  // Solenoid Piston -> Solenoid Slam
-  // Snowblower -> Blow Snow
-  // Surplus Flamethrower -> Throw Flame
-  // Grease Gun -> Shoot Grease
+  public enum Effect {
+    PASSIVE,
+    COMBAT,
+    EQUIP;
+  }
 
-  // Bird Cage - can use familiars
-  // Mannequin Head - can equip hats
-  // Vice Grips -> can equip (1 or 2 handed) weapons
-  // Omni-Claw -> can equip offhand items (unless 2-handed weapon in Vice Grips)
-  // Robo Legs -> can equip pants
+  public enum Usable {
+    NONE("no special effect"),
+    HAT("can equip hats"),
+    WEAPON("can equip weapons"),
+    OFFHAND("can equip offhands"),
+    SHIRT("can equip shirts"),
+    PANTS("can equip pants"),
+    FAMILIAR("can use familiars"),
+    POTIONS("can use potions hats");
 
-  // Solar Panel -> Energy: +1
-  // Meat Radar -> Meat Drop: +50
-  // Reflective Shard -> Resist All: +3
-  // Metal Detector -> Item Drop: +30
-  // Camouflage Curtain -> Combat Rate: -15
-  // Slab-O-Matic -> Maximum HP: +30
-  // Junk Shield -> Damage Reduction: +10, Damage Absorption: +50
-  // Horseshoe Magnet -> Scrap: +1
-  // Blaring Speakers -> Monster Level: +30
-  // Bald Tires -> Maximum HP: +10
-  // Motorcycle Wheels -> Initiative: +30
-  // Magno-Lex -> Item Drop: +30
-  // Tank Treads -> Maximum HP: +50, Damage Reduction: +10
-  // Snowplow -> Scrap: +1
+    String description;
+
+    Usable(String description) {
+      this.description = description;
+    }
+
+    @Override
+    public String toString() {
+      return this.description;
+    }
+  }
+
+  public enum RobotUpgrade {
+    PEA_SHOOTER("Pea Shooter", Slot.TOP, 1, Effect.COMBAT, "Shoot Pea"),
+    BIRD_CAGE("Bird Cage", Slot.TOP, 2, Effect.EQUIP, Usable.FAMILIAR),
+    SOLAR_PANEL("Solar Panel", Slot.TOP, 3, Effect.PASSIVE, "Energy: +1"),
+    MANNEQUIN_HEAD("Mannequin Head", Slot.TOP, 4, Effect.EQUIP, Usable.HAT),
+    MEAT_RADAR("Meat Radar", Slot.TOP, 5, Effect.PASSIVE, "Meat Drop: +50"),
+    JUNK_CANNON("Junk Cannon", Slot.TOP, 6, Effect.COMBAT, "Junk Blast"),
+    TESLA_BLASTER("Tesla Blaster", Slot.TOP, 7, Effect.COMBAT, "Tesla Blast"),
+    SNOW_BLOWER("Snow Blower", Slot.TOP, 8, Effect.COMBAT, "Blow Snow"),
+
+    POUND_O_TRON("Pound-O-Tron", Slot.LEFT, 1, Effect.COMBAT, "Swing Pound-O-Tron"),
+    REFLECTIVE_SHARD("Reflective Shard", Slot.LEFT, 2, Effect.PASSIVE, "Resist All: +3"),
+    METAL_DETECTOR("Metal Detector", Slot.LEFT, 3, Effect.PASSIVE, "Item Drop: +30"),
+    VICE_GRIPS("Vice Grips", Slot.LEFT, 4, Effect.EQUIP, Usable.WEAPON),
+    SNIPER_RIFLE("Sniper Rifle", Slot.LEFT, 5, Effect.COMBAT, "Snipe"),
+    JUNK_MACE("Junk Mace", Slot.LEFT, 6, Effect.COMBAT, "Junk Mace Smash"),
+    CAMOUFLAGE_CURTAIN("Camouflage Curtain", Slot.LEFT, 7, Effect.PASSIVE, "Combat Rate: -15"),
+    GREASE_GUN("Grease Gun", Slot.LEFT, 8, Effect.COMBAT, "Shoot Grease"),
+
+    SLAB_O_MATIC("Slab-O-Matic", Slot.RIGHT, 1, Effect.PASSIVE, "Maximum HP: +30"),
+    JUNK_SHIELD(
+        "Junk Shield",
+        Slot.RIGHT,
+        2,
+        Effect.PASSIVE,
+        "Damage Reduction: +10, Damage Absorption: +50"),
+    HORSESHOE_MAGNET("Horseshoe Magnet", Slot.RIGHT, 3, Effect.PASSIVE, "Scrap: +1"),
+    OMNI_CLAW("Omni-Claw", Slot.RIGHT, 4, Effect.EQUIP, Usable.OFFHAND),
+    MAMMAL_PROD("Mammal Prod", Slot.RIGHT, 5, Effect.COMBAT, "Prod"),
+    SOLENOID_PISTON("Solenoid Piston", Slot.RIGHT, 6, Effect.COMBAT, "Solenoid Slam"),
+    BLARING_SPEAKER("Blaring Speaker", Slot.RIGHT, 7, Effect.PASSIVE, "Monster Level: +30"),
+    SURPLUS_FLAMETHROWER("Surplus Flamethrower", Slot.RIGHT, 8, Effect.COMBAT, "Throw Flame"),
+
+    BALD_TIRES("Bald Tires", Slot.BOTTOM, 1, Effect.PASSIVE, "Maximum HP: +10"),
+    ROCKET_CROTCH("Rocket Crotch", Slot.BOTTOM, 2, Effect.COMBAT, "Crotch Burn"),
+    MOTORCYCLE_WHEEL("Motorcycle Wheel", Slot.BOTTOM, 3, Effect.PASSIVE, "Initiative: +30"),
+    ROBO_LEGS("Robo-Legs", Slot.BOTTOM, 4, Effect.EQUIP, Usable.PANTS),
+    MAGNO_LEV("Magno-Lev", Slot.BOTTOM, 5, Effect.PASSIVE, "Item Drop: +30"),
+    TANK_TREADS(
+        "Tank Treads", Slot.BOTTOM, 6, Effect.PASSIVE, "Maximum HP: +50, Damage Reduction: +10"),
+    SNOWPLOW("Snowplow", Slot.BOTTOM, 7, Effect.PASSIVE, "Scrap: +1"),
+
+    CPU1("Leverage Coprocessing", "robot_muscle", "Muscle: +15"),
+    CPU2("Dynamic Arcane Flux Modeling", "robot_mysticality", "Mysticality: +15"),
+    CPU3("Upgraded Fashion Sensor", "robot_moxie", "Moxie: +15"),
+    CPU4("Finance Neural Net", "robot_meat", "Meat Drop: +20"),
+    CPU5("Spatial Compression Functions", "robot_hp1", "Maximum HP: +30"),
+    CPU6("Self-Repair Routines", "robot_regen", "HP Regen Min: +10, HP Regen Max: +10"),
+    CPU7("Weather Control Algorithms", "robot_resist", "Resist All: +2"),
+    CPU8("Improved Optical Processing", "robot_items", "Item Drop: +20"),
+    CPU9("Topology Grid", "robot_shirt", Usable.SHIRT),
+    CPU10("Overclocking Coprocessing", "robot_energy", "Energy: +1"),
+    CPU11("Biomass Processing Function", "robot_potions", Usable.POTIONS),
+    CPU12("Holographic Deflector Projection", "robot_hp2", "Maximum HP: +30");
+
+    String name;
+
+    // For body parts
+    Slot slot;
+    int index;
+
+    // For CPU upgrade
+    String keyword;
+
+    // PASSIVE, COMBAT, EQUIP
+    Effect effect;
+
+    // modifiers, skill
+    String string;
+    // usable
+    Usable usable;
+
+    // COMBAT or PASSIVE
+    RobotUpgrade(String name, Slot slot, int index, Effect effect, String skill) {
+      this.name = name;
+      this.slot = slot;
+      this.index = index;
+      this.keyword = "";
+      this.effect = effect;
+      this.string = skill;
+      this.usable = Usable.NONE;
+    }
+
+    // EQUIP
+    RobotUpgrade(String name, Slot slot, int index, Effect effect, Usable thing) {
+      this.name = name;
+      this.slot = slot;
+      this.index = index;
+      this.keyword = "";
+      this.effect = effect;
+      this.string = thing.toString();
+      this.usable = thing;
+    }
+
+    // PASSIVE
+    RobotUpgrade(String name, String keyword, String string) {
+      this.name = name;
+      this.slot = Slot.CPU;
+      this.index = 0;
+      this.keyword = keyword;
+      this.effect = Effect.PASSIVE;
+      this.string = string;
+      this.usable = Usable.NONE;
+    }
+
+    // PASSIVE
+    RobotUpgrade(String name, String keyword, Usable thing) {
+      this.name = name;
+      this.slot = Slot.CPU;
+      this.index = 0;
+      this.keyword = keyword;
+      this.effect = Effect.PASSIVE;
+      this.string = thing.toString();
+      this.usable = thing;
+    }
+
+    @Override
+    public String toString() {
+      return this.name;
+    }
+  }
 
   private static final Pattern AVATAR =
       Pattern.compile("(otherimages/robot/(left|right|top|bottom|body)(\\d+).png)\"");
@@ -74,19 +188,6 @@ public class YouRobotManager {
     }
     KoLCharacter.setAvatar(images.toArray(new String[images.size()]));
   }
-
-  // robot_muscle -> Leverage Coprocessing -> Muscle: +15
-  // robot_mysticality -> Dynamic Arcane Flux Modeling -> Mysticality: +15
-  // robot_moxie -> Upgraded Fashion Sensor -> Moxie: +15
-  // robot_meat -> Finance Neural Net -> Meat Drop: +20
-  // robot_hp1 -> Spatial Compression Functions -> Maximum HP: +30
-  // robot_regen -> Self-Repair Routines -> HP Regen Min: +10, HP Regen Max: +10
-  // robot_resist -> Weather Control Algorithms -> Resist All: +2
-  // robot_items -> Improved Optical Processing -> Item Drop: +20
-  // robot_shirt -> Topology Grid -> can equip shirts
-  // robot_energy -> Overclocking -> Energy: +1
-  // robot_potions -> Biomass Processing Function -> can use potions
-  // robot_hp2 -> Holographic Deflector Projection -> Maximum HP: +30
 
   private static final Pattern CPU_UPGRADE_INSTALLED =
       Pattern.compile("<button.*?value=\"([a-z0-9_]+)\"[^\\(]+\\(already installed\\)");
