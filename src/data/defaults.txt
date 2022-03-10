@@ -175,7 +175,7 @@ global	_g9Effect	0
 global	_svnRepoFileFetched	false
 global	_svnUpdated	false
 
-user	addingScrolls	-1
+user	addingScrolls	1
 user	affirmationCookiesEaten	0
 user	afterAdventureScript
 user	aminoAcidsUsed	0
