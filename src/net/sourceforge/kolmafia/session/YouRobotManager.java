@@ -6,6 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -110,6 +112,49 @@ public class YouRobotManager {
       int cost = StringUtilities.parseInt(m.group(1));
       Preferences.setInteger("statbotUses", cost - 10);
     }
+  }
+
+  // *** Public methods to hide internal implementation, which currently
+  // *** depends on use of user-visible properties.
+
+  // Used by KoLCharacter.recalculateAdjustments
+  public static void addRobotModifiers(Modifiers mods) {
+    mods.add(Modifiers.getModifiers("RobotTop", Preferences.getString("youRobotTop")));
+    mods.add(Modifiers.getModifiers("RobotRight", Preferences.getString("youRobotRight")));
+    mods.add(Modifiers.getModifiers("RobotBottom", Preferences.getString("youRobotBottom")));
+    mods.add(Modifiers.getModifiers("RobotLeft", Preferences.getString("youRobotLeft")));
+
+    for (String cpuUpgrade : Preferences.getString("youRobotCPUUpgrades").split(",")) {
+      mods.add(Modifiers.getModifiers("RobotCPU", cpuUpgrade));
+    }
+  }
+
+  // Used by FamiliarData.canEquip
+  public static boolean canUseFamiliars() {
+    return Preferences.getInteger("youRobotTop") == 2;
+  }
+
+  // Used by EquipmentManager.canEquip
+  // Used by KoLCharacter.isTorsoAware
+  public static boolean canEquip(final int type) {
+    switch (type) {
+      case KoLConstants.EQUIP_HAT:
+        return Preferences.getInteger("youRobotTop") == 4;
+      case KoLConstants.EQUIP_WEAPON:
+        return Preferences.getInteger("youRobotLeft") == 4;
+      case KoLConstants.EQUIP_OFFHAND:
+        return Preferences.getInteger("youRobotRight") == 4;
+      case KoLConstants.EQUIP_PANTS:
+        return Preferences.getInteger("youRobotBottom") == 4;
+      case KoLConstants.EQUIP_SHIRT:
+        return Preferences.getString("youRobotCPUUpgrades").contains("robot_shirt");
+    }
+    return true;
+  }
+
+  // Used by KoLCharacter.canUsePotions
+  public static boolean canUsePotions() {
+    return Preferences.getString("youRobotCPUUpgrades").contains("robot_potions");
   }
 
   // *** Interface for ChoiceManager

@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
+import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
@@ -3377,7 +3378,7 @@ public abstract class KoLCharacter {
 
   public static final boolean canUsePotions() {
     if (KoLCharacter.inRobocore()) {
-      return Preferences.getString("youRobotCPUUpgrades").contains("robot_potions");
+      return YouRobotManager.canUsePotions();
     }
 
     return true;
@@ -4372,8 +4373,7 @@ public abstract class KoLCharacter {
   public static final boolean isTorsoAware() {
     return KoLCharacter.hasSkill("Torso Awareness")
         || KoLCharacter.hasSkill("Best Dressed")
-        || (KoLCharacter.inRobocore()
-            && Preferences.getString("youRobotCPUUpgrades").contains("robot_shirt"));
+        || (KoLCharacter.inRobocore() && YouRobotManager.canEquip(KoLConstants.EQUIP_SHIRT));
   }
 
   /**
@@ -5259,16 +5259,7 @@ public abstract class KoLCharacter {
     }
 
     if (KoLCharacter.inRobocore()) {
-      newModifiers.add(Modifiers.getModifiers("RobotTop", Preferences.getString("youRobotTop")));
-      newModifiers.add(
-          Modifiers.getModifiers("RobotRight", Preferences.getString("youRobotRight")));
-      newModifiers.add(
-          Modifiers.getModifiers("RobotBottom", Preferences.getString("youRobotBottom")));
-      newModifiers.add(Modifiers.getModifiers("RobotLeft", Preferences.getString("youRobotLeft")));
-
-      for (String cpuUpgrade : Preferences.getString("youRobotCPUUpgrades").split(",")) {
-        newModifiers.add(Modifiers.getModifiers("RobotCPU", cpuUpgrade));
-      }
+      YouRobotManager.addRobotModifiers(newModifiers);
     }
 
     if (VYKEACompanionData.currentCompanion() != VYKEACompanionData.NO_COMPANION) {
