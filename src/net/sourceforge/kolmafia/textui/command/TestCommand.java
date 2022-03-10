@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.session.NumberologyManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.RumpleManager;
+import net.sourceforge.kolmafia.session.YouRobotManager.RobotUpgrade;
 import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
@@ -580,6 +581,18 @@ public class TestCommand extends AbstractCommand {
       boolean result = ResultProcessor.processResults(false, text, null);
       RequestLogger.printLine("returned " + result);
       ConcoctionDatabase.refreshConcoctionsNow();
+      return;
+    }
+
+    if (command.equals("robot")) {
+      StringBuilder buf = new StringBuilder();
+      for (RobotUpgrade upgrade : RobotUpgrade.values()) {
+        buf.append(upgrade);
+        buf.append(": ");
+        buf.append(upgrade.getString());
+        RequestLogger.printLine(buf.toString());
+        buf.setLength(0);
+      }
       return;
     }
 

@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -38,7 +40,7 @@ public class YouRobotManager {
     SHIRT("can equip shirts"),
     PANTS("can equip pants"),
     FAMILIAR("can use familiars"),
-    POTIONS("can use potions hats");
+    POTIONS("can use potions");
 
     String description;
 
@@ -53,61 +55,58 @@ public class YouRobotManager {
   }
 
   public enum RobotUpgrade {
-    PEA_SHOOTER("Pea Shooter", Slot.TOP, 1, Effect.COMBAT, "Shoot Pea"),
-    BIRD_CAGE("Bird Cage", Slot.TOP, 2, Effect.EQUIP, Usable.FAMILIAR),
-    SOLAR_PANEL("Solar Panel", Slot.TOP, 3, Effect.PASSIVE, "Energy: +1"),
-    MANNEQUIN_HEAD("Mannequin Head", Slot.TOP, 4, Effect.EQUIP, Usable.HAT),
-    MEAT_RADAR("Meat Radar", Slot.TOP, 5, Effect.PASSIVE, "Meat Drop: +50"),
-    JUNK_CANNON("Junk Cannon", Slot.TOP, 6, Effect.COMBAT, "Junk Blast"),
-    TESLA_BLASTER("Tesla Blaster", Slot.TOP, 7, Effect.COMBAT, "Tesla Blast"),
-    SNOW_BLOWER("Snow Blower", Slot.TOP, 8, Effect.COMBAT, "Blow Snow"),
+    PEA_SHOOTER("Pea Shooter", Slot.TOP, 1, 5, Effect.COMBAT, "Shoot Pea"),
+    BIRD_CAGE("Bird Cage", Slot.TOP, 2, 5, Usable.FAMILIAR),
+    SOLAR_PANEL("Solar Panel", Slot.TOP, 3, 5),
+    MANNEQUIN_HEAD("Mannequin Head", Slot.TOP, 4, 15, Usable.HAT),
+    MEAT_RADAR("Meat Radar", Slot.TOP, 5, 30),
+    JUNK_CANNON("Junk Cannon", Slot.TOP, 6, 30, Effect.COMBAT, "Junk Blast"),
+    TESLA_BLASTER("Tesla Blaster", Slot.TOP, 7, 30, Effect.COMBAT, "Tesla Blast"),
+    SNOW_BLOWER("Snow Blower", Slot.TOP, 8, 40, Effect.COMBAT, "Blow Snow"),
 
-    POUND_O_TRON("Pound-O-Tron", Slot.LEFT, 1, Effect.COMBAT, "Swing Pound-O-Tron"),
-    REFLECTIVE_SHARD("Reflective Shard", Slot.LEFT, 2, Effect.PASSIVE, "Resist All: +3"),
-    METAL_DETECTOR("Metal Detector", Slot.LEFT, 3, Effect.PASSIVE, "Item Drop: +30"),
-    VICE_GRIPS("Vice Grips", Slot.LEFT, 4, Effect.EQUIP, Usable.WEAPON),
-    SNIPER_RIFLE("Sniper Rifle", Slot.LEFT, 5, Effect.COMBAT, "Snipe"),
-    JUNK_MACE("Junk Mace", Slot.LEFT, 6, Effect.COMBAT, "Junk Mace Smash"),
-    CAMOUFLAGE_CURTAIN("Camouflage Curtain", Slot.LEFT, 7, Effect.PASSIVE, "Combat Rate: -15"),
-    GREASE_GUN("Grease Gun", Slot.LEFT, 8, Effect.COMBAT, "Shoot Grease"),
+    POUND_O_TRON("Pound-O-Tron", Slot.LEFT, 1, 5, Effect.COMBAT, "Swing Pound-O-Tron"),
+    REFLECTIVE_SHARD("Reflective Shard", Slot.LEFT, 2, 5, "Resist All: +3"),
+    METAL_DETECTOR("Metal Detector", Slot.LEFT, 3, 5),
+    VICE_GRIPS("Vice Grips", Slot.LEFT, 4, 15, Usable.WEAPON),
+    SNIPER_RIFLE("Sniper Rifle", Slot.LEFT, 5, 30, Effect.COMBAT, "Snipe"),
+    JUNK_MACE("Junk Mace", Slot.LEFT, 6, 30, Effect.COMBAT, "Junk Mace Smash"),
+    CAMOUFLAGE_CURTAIN("Camouflage Curtain", Slot.LEFT, 7, 30),
+    GREASE_GUN("Grease Gun", Slot.LEFT, 8, 40, Effect.COMBAT, "Shoot Grease"),
 
-    SLAB_O_MATIC("Slab-O-Matic", Slot.RIGHT, 1, Effect.PASSIVE, "Maximum HP: +30"),
-    JUNK_SHIELD(
-        "Junk Shield",
-        Slot.RIGHT,
-        2,
-        Effect.PASSIVE,
-        "Damage Reduction: +10, Damage Absorption: +50"),
-    HORSESHOE_MAGNET("Horseshoe Magnet", Slot.RIGHT, 3, Effect.PASSIVE, "Scrap: +1"),
-    OMNI_CLAW("Omni-Claw", Slot.RIGHT, 4, Effect.EQUIP, Usable.OFFHAND),
-    MAMMAL_PROD("Mammal Prod", Slot.RIGHT, 5, Effect.COMBAT, "Prod"),
-    SOLENOID_PISTON("Solenoid Piston", Slot.RIGHT, 6, Effect.COMBAT, "Solenoid Slam"),
-    BLARING_SPEAKER("Blaring Speaker", Slot.RIGHT, 7, Effect.PASSIVE, "Monster Level: +30"),
-    SURPLUS_FLAMETHROWER("Surplus Flamethrower", Slot.RIGHT, 8, Effect.COMBAT, "Throw Flame"),
+    SLAB_O_MATIC("Slab-O-Matic", Slot.RIGHT, 1, 5),
+    JUNK_SHIELD("Junk Shield", Slot.RIGHT, 2, 5),
+    HORSESHOE_MAGNET("Horseshoe Magnet", Slot.RIGHT, 3, 5),
+    OMNI_CLAW("Omni-Claw", Slot.RIGHT, 4, 15, Usable.OFFHAND),
+    MAMMAL_PROD("Mammal Prod", Slot.RIGHT, 5, 30, Effect.COMBAT, "Prod"),
+    SOLENOID_PISTON("Solenoid Piston", Slot.RIGHT, 6, 30, Effect.COMBAT, "Solenoid Slam"),
+    BLARING_SPEAKER("Blaring Speaker", Slot.RIGHT, 7, 30),
+    SURPLUS_FLAMETHROWER("Surplus Flamethrower", Slot.RIGHT, 8, 40, Effect.COMBAT, "Throw Flame"),
 
-    BALD_TIRES("Bald Tires", Slot.BOTTOM, 1, Effect.PASSIVE, "Maximum HP: +10"),
-    ROCKET_CROTCH("Rocket Crotch", Slot.BOTTOM, 2, Effect.COMBAT, "Crotch Burn"),
-    MOTORCYCLE_WHEEL("Motorcycle Wheel", Slot.BOTTOM, 3, Effect.PASSIVE, "Initiative: +30"),
-    ROBO_LEGS("Robo-Legs", Slot.BOTTOM, 4, Effect.EQUIP, Usable.PANTS),
-    MAGNO_LEV("Magno-Lev", Slot.BOTTOM, 5, Effect.PASSIVE, "Item Drop: +30"),
-    TANK_TREADS(
-        "Tank Treads", Slot.BOTTOM, 6, Effect.PASSIVE, "Maximum HP: +50, Damage Reduction: +10"),
-    SNOWPLOW("Snowplow", Slot.BOTTOM, 7, Effect.PASSIVE, "Scrap: +1"),
+    BALD_TIRES("Bald Tires", Slot.BOTTOM, 1, 5),
+    ROCKET_CROTCH("Rocket Crotch", Slot.BOTTOM, 2, 5, Effect.COMBAT, "Crotch Burn"),
+    MOTORCYCLE_WHEEL("Motorcycle Wheel", Slot.BOTTOM, 3, 5),
+    ROBO_LEGS("Robo-Legs", Slot.BOTTOM, 4, 15, Usable.PANTS),
+    MAGNO_LEV("Magno-Lev", Slot.BOTTOM, 5, 30),
+    TANK_TREADS("Tank Treads", Slot.BOTTOM, 6, 30),
+    SNOWPLOW("Snowplow", Slot.BOTTOM, 7, 30),
 
-    CPU1("Leverage Coprocessing", "robot_muscle", "Muscle: +15"),
-    CPU2("Dynamic Arcane Flux Modeling", "robot_mysticality", "Mysticality: +15"),
-    CPU3("Upgraded Fashion Sensor", "robot_moxie", "Moxie: +15"),
-    CPU4("Finance Neural Net", "robot_meat", "Meat Drop: +20"),
-    CPU5("Spatial Compression Functions", "robot_hp1", "Maximum HP: +30"),
-    CPU6("Self-Repair Routines", "robot_regen", "HP Regen Min: +10, HP Regen Max: +10"),
-    CPU7("Weather Control Algorithms", "robot_resist", "Resist All: +2"),
-    CPU8("Improved Optical Processing", "robot_items", "Item Drop: +20"),
-    CPU9("Topology Grid", "robot_shirt", Usable.SHIRT),
-    CPU10("Overclocking Coprocessing", "robot_energy", "Energy: +1"),
-    CPU11("Biomass Processing Function", "robot_potions", Usable.POTIONS),
-    CPU12("Holographic Deflector Projection", "robot_hp2", "Maximum HP: +30");
+    LEVERAGE_COPROCESSNG("Leverage Coprocessing", "robot_muscle", 30),
+    DYNAMIC_ARCANE_FLUX_MODELING("Dynamic Arcane Flux Modeling", "robot_mysticality", 30),
+    UPGRADED_FASHION_SENSE("Upgraded Fashion Sensor", "robot_moxie", 30),
+    FINANCE_NEURAL_NET("Finance Neural Net", "robot_meat", 30),
+    SPATIAL_COMPRESSION_FNCTION("Spatial Compression Functions", "robot_hp1", 40),
+    SELF_REPAIR_ROUTINES("Self-Repair Routines", "robot_regen", 40),
+    WEATHER_CONTROL_ALGORITHMS("Weather Control Algorithms", "robot_resist", 40, "Resist All: +2"),
+    IMPROVED_OPTICAL_PROCESSING("Improved Optical Processing", "robot_items", 40),
+    TOPOLOGY_GRID("Topology Grid", "robot_shirt", 50, Usable.SHIRT),
+    OVERCLOCKING("Overclocking", "robot_energy", 50),
+    BIOMASS_PROCESSING_FUNCTION("Biomass Processing Function", "robot_potions", 50, Usable.POTIONS),
+    HOLOGRAPHIC_DEFLECTOR_PROJECTION("Holographic Deflector Projection", "robot_hp2", 50);
 
     String name;
+
+    // Energy or scraps
+    int cost;
 
     // For body parts
     Slot slot;
@@ -119,58 +118,166 @@ public class YouRobotManager {
     // PASSIVE, COMBAT, EQUIP
     Effect effect;
 
-    // modifiers, skill
+    // PASSIVE
+    Modifiers mods;
+
+    // modifiers, skill name
     String string;
     // usable
     Usable usable;
 
-    // COMBAT or PASSIVE
-    RobotUpgrade(String name, Slot slot, int index, Effect effect, String skill) {
+    RobotUpgrade(String name, Slot slot, Effect effect, int cost) {
       this.name = name;
       this.slot = slot;
+      this.effect = effect;
+      this.cost = cost;
+      this.mods = Modifiers.getModifiers("Robot", name);
+    }
+
+    // COMBAT
+    RobotUpgrade(String name, Slot slot, int index, int cost, Effect effect, String skill) {
+      this(name, slot, effect, cost);
       this.index = index;
       this.keyword = "";
-      this.effect = effect;
       this.string = skill;
       this.usable = Usable.NONE;
     }
 
-    // EQUIP
-    RobotUpgrade(String name, Slot slot, int index, Effect effect, Usable thing) {
+    // PASSIVE
+    RobotUpgrade(String name, Slot slot, int index, int cost, String description) {
+      this(name, slot, Effect.PASSIVE, cost);
       this.name = name;
-      this.slot = slot;
       this.index = index;
       this.keyword = "";
-      this.effect = effect;
-      this.string = thing.toString();
-      this.usable = thing;
-    }
-
-    // PASSIVE
-    RobotUpgrade(String name, String keyword, String string) {
-      this.name = name;
-      this.slot = Slot.CPU;
-      this.index = 0;
-      this.keyword = keyword;
-      this.effect = Effect.PASSIVE;
-      this.string = string;
+      this.string = description;
       this.usable = Usable.NONE;
     }
 
     // PASSIVE
-    RobotUpgrade(String name, String keyword, Usable thing) {
-      this.name = name;
-      this.slot = Slot.CPU;
-      this.index = 0;
-      this.keyword = keyword;
-      this.effect = Effect.PASSIVE;
+    RobotUpgrade(String name, Slot slot, int index, int cost) {
+      this(name, slot, Effect.PASSIVE, cost);
+      this.index = index;
+      this.keyword = "";
+      this.string = this.mods.getString("Modifiers");
+      this.usable = Usable.NONE;
+    }
+
+    // EQUIP
+    RobotUpgrade(String name, Slot slot, int index, int cost, Usable thing) {
+      this(name, slot, Effect.EQUIP, cost);
+      this.index = index;
+      this.keyword = "";
       this.string = thing.toString();
       this.usable = thing;
+    }
+
+    // CPU PASSIVE
+    RobotUpgrade(String name, String keyword, int cost, String string) {
+      this(name, Slot.CPU, Effect.PASSIVE, cost);
+      this.index = 0;
+      this.keyword = keyword;
+      this.string = string;
+      this.usable = Usable.NONE;
+    }
+
+    // CPU PASSIVE
+    RobotUpgrade(String name, String keyword, int cost) {
+      this(name, Slot.CPU, Effect.PASSIVE, cost);
+      this.index = 0;
+      this.keyword = keyword;
+      this.string = this.mods.getString("Modifiers");
+      ;
+      this.usable = Usable.NONE;
+    }
+
+    // CPU EQUIP
+    RobotUpgrade(String name, String keyword, int cost, Usable thing) {
+      this(name, Slot.CPU, Effect.EQUIP, cost);
+      this.index = 0;
+      this.keyword = keyword;
+      this.string = thing.toString();
+      this.usable = thing;
+    }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public Slot getSlot() {
+      return this.slot;
+    }
+
+    public Effect getEffect() {
+      return this.effect;
+    }
+
+    public int getIndex() {
+      return this.index;
+    }
+
+    public String getKeyword() {
+      return this.keyword;
+    }
+
+    public int getCost() {
+      return this.cost;
+    }
+
+    public String getString() {
+      return this.string;
     }
 
     @Override
     public String toString() {
       return this.name;
+    }
+  }
+
+  private static Set<RobotUpgrade> allUpgrades = new HashSet<>();
+  private static Set<RobotUpgrade> allLeftUpgrades = new HashSet<>();
+  private static Set<RobotUpgrade> allRightUpgrades = new HashSet<>();
+  private static Set<RobotUpgrade> allTopUpgrades = new HashSet<>();
+  private static Set<RobotUpgrade> allBottomUpgrades = new HashSet<>();
+  private static Set<RobotUpgrade> allCPUUpgrades = new HashSet<>();
+  private static Set<RobotUpgrade> allPassiveUpgrades = new HashSet<>();
+  private static Set<RobotUpgrade> allCombatUpgrades = new HashSet<>();
+  private static Set<RobotUpgrade> allEquipUpgrades = new HashSet<>();
+
+  private static void addToUpgradeSets(RobotUpgrade upgrade) {
+    allUpgrades.add(upgrade);
+    switch (upgrade.getSlot()) {
+      case TOP:
+        allTopUpgrades.add(upgrade);
+        break;
+      case LEFT:
+        allLeftUpgrades.add(upgrade);
+        break;
+      case RIGHT:
+        allRightUpgrades.add(upgrade);
+        break;
+      case BOTTOM:
+        allBottomUpgrades.add(upgrade);
+        break;
+      case CPU:
+        allCPUUpgrades.add(upgrade);
+        break;
+    }
+    switch (upgrade.getEffect()) {
+      case PASSIVE:
+        allPassiveUpgrades.add(upgrade);
+        break;
+      case COMBAT:
+        allCombatUpgrades.add(upgrade);
+        break;
+      case EQUIP:
+        allEquipUpgrades.add(upgrade);
+        break;
+    }
+  }
+
+  static {
+    for (RobotUpgrade upgrade : RobotUpgrade.values()) {
+      addToUpgradeSets(upgrade);
     }
   }
 
