@@ -83,7 +83,6 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
 import org.jdesktop.swingx.JXPanel;
-import tab.CloseTabPaneEnhancedUI;
 
 public class OptionsFrame extends GenericFrame {
   public OptionsFrame() {
@@ -849,8 +848,10 @@ public class OptionsFrame extends GenericFrame {
     public void actionCancelled() {
       super.actionCancelled();
 
-      this.innerGradient.setBackground(tab.CloseTabPaneEnhancedUI.notifiedA);
-      this.outerGradient.setBackground(tab.CloseTabPaneEnhancedUI.notifiedB);
+      this.innerGradient.setBackground(
+          DataUtilities.toColor(Preferences.getString("innerChatColor")));
+      this.outerGradient.setBackground(
+          DataUtilities.toColor(Preferences.getString("outerChatColor")));
 
       String fontSize = Preferences.getString("chatFontSize");
       this.fontSizes[fontSize.equals("large") ? 2 : fontSize.equals("medium") ? 1 : 0].setSelected(
@@ -865,9 +866,13 @@ public class OptionsFrame extends GenericFrame {
       @Override
       public void applyChanges() {
         if (this.property.equals("innerChatColor")) {
-          CloseTabPaneEnhancedUI.notifiedA = ChatOptionsPanel.this.innerGradient.getBackground();
+          Preferences.setString(
+              "innerChatColor",
+              DataUtilities.toHexString(ChatOptionsPanel.this.innerGradient.getBackground()));
         } else {
-          CloseTabPaneEnhancedUI.notifiedB = ChatOptionsPanel.this.outerGradient.getBackground();
+          Preferences.setString(
+              "outerChatColor",
+              DataUtilities.toHexString(ChatOptionsPanel.this.outerGradient.getBackground()));
         }
       }
     }
@@ -1816,8 +1821,10 @@ public class OptionsFrame extends GenericFrame {
           optionBox.setSelected(Preferences.getBoolean(option[0]));
         }
 
-        this.innerGradient.setBackground(tab.CloseTabPaneEnhancedUI.selectedA);
-        this.outerGradient.setBackground(tab.CloseTabPaneEnhancedUI.selectedB);
+        this.innerGradient.setBackground(
+            DataUtilities.toColor(Preferences.getString("innerTabColor")));
+        this.outerGradient.setBackground(
+            DataUtilities.toColor(Preferences.getString("outerTabColor")));
       }
 
       @Override
@@ -1831,11 +1838,15 @@ public class OptionsFrame extends GenericFrame {
         @Override
         public void applyChanges() {
           if (this.property.equals("innerTabColor")) {
-            CloseTabPaneEnhancedUI.selectedA =
-                InterfaceCheckboxPanel.this.innerGradient.getBackground();
+            Preferences.setString(
+                "innerTabColor",
+                DataUtilities.toHexString(
+                    InterfaceCheckboxPanel.this.innerGradient.getBackground()));
           } else {
-            CloseTabPaneEnhancedUI.selectedB =
-                InterfaceCheckboxPanel.this.outerGradient.getBackground();
+            Preferences.setString(
+                "outerTabColor",
+                DataUtilities.toHexString(
+                    InterfaceCheckboxPanel.this.outerGradient.getBackground()));
           }
         }
       }

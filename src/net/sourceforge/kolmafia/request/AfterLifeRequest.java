@@ -376,6 +376,9 @@ public class AfterLifeRequest extends GenericRequest {
         case 25:
           builder.append("Plumber");
           break;
+        case 27:
+          builder.append("Grey Goo");
+          break;
         default:
           builder.append("(Class ");
           builder.append(pclass);

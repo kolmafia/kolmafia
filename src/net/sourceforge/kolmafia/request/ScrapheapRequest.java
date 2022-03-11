@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.*;
@@ -8,15 +7,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ScrapheapRequest extends PlaceRequest {
-  private static final Pattern CHRONOLITH_COST = Pattern.compile("title=\"\\((\\d+) Energy\\)\"");
-  private static final Pattern ENERGY_GAIN = Pattern.compile("You gain (\\d+) Energy.");
-  private static final Pattern STATBOT_COST =
-      Pattern.compile("Current upgrade cost: <b>(\\d+) energy</b>");
-  private static final Pattern CONFIGURATION =
-      Pattern.compile("robot/(left|right|top|bottom|body)(\\d+).png\"");
-  private static final Pattern CPU_UPGRADE_INSTALLED =
-      Pattern.compile("<button.*?value=\"([a-z0-9_]+)\"[^\\(]+\\(already installed\\)");
-
   public ScrapheapRequest() {
     super("scrapheap");
   }
@@ -55,6 +45,8 @@ public class ScrapheapRequest extends PlaceRequest {
     }
   }
 
+  private static final Pattern CHRONOLITH_COST = Pattern.compile("title=\"\\((\\d+) Energy\\)\"");
+
   private static void parseChronolith(final String responseText) {
     Matcher m = CHRONOLITH_COST.matcher(responseText);
 
@@ -73,6 +65,8 @@ public class ScrapheapRequest extends PlaceRequest {
     }
   }
 
+  private static final Pattern ENERGY_GAIN = Pattern.compile("You gain (\\d+) Energy.");
+
   private static void parseCollectEnergy(final String responseText) {
     Matcher m = ENERGY_GAIN.matcher(responseText);
 
@@ -81,36 +75,6 @@ public class ScrapheapRequest extends PlaceRequest {
       // int gain = StringUtilities.parseInt( m.group( 1 ) );
       Preferences.increment("_energyCollected");
     }
-  }
-
-  public static void parseStatbotCost(final String responseText) {
-    Matcher m = STATBOT_COST.matcher(responseText);
-
-    if (m.find()) {
-      int cost = StringUtilities.parseInt(m.group(1));
-      Preferences.setInteger("statbotUses", cost - 10);
-    }
-  }
-
-  public static void parseConfiguration(final String text) {
-    Matcher m = CONFIGURATION.matcher(text);
-
-    while (m.find()) {
-      String section = m.group(1);
-      int config = StringUtilities.parseInt(m.group(2));
-      Preferences.setInteger("youRobot" + StringUtilities.toTitleCase(section), config);
-    }
-  }
-
-  public static void parseCPUUpgrades(final String text) {
-    ArrayList<String> cpuUpgrades = new ArrayList<>();
-    Matcher m = CPU_UPGRADE_INSTALLED.matcher(text);
-
-    while (m.find()) {
-      cpuUpgrades.add(m.group(1));
-    }
-
-    Preferences.setString("youRobotCPUUpgrades", String.join(",", cpuUpgrades));
   }
 
   public static boolean registerRequest(final String urlString) {
@@ -130,6 +94,7 @@ public class ScrapheapRequest extends PlaceRequest {
       message = "Activating the Chronolith";
     }
     if (action.startsWith("sh_upgrade")) {
+      // Visiting the Reassembly Station
       return true;
     }
     if (action.startsWith("sh_getpower")) {

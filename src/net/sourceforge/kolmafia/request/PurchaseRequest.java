@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.Comparator;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -10,7 +11,9 @@ public abstract class PurchaseRequest extends GenericRequest
     implements Comparable<PurchaseRequest> {
   public static final int MAX_QUANTITY = 16777215;
 
-  protected static boolean usePriceComparison;
+  public static final Comparator<PurchaseRequest> nameComparator = new NameComparator();
+  public static final Comparator<PurchaseRequest> priceComparator = new PriceComparator();
+
   protected String hashField;
 
   protected String shopName;
@@ -259,8 +262,62 @@ public abstract class PurchaseRequest extends GenericRequest
     return this.item.getCount(KoLConstants.inventory);
   }
 
-  public static void setUsePriceComparison(final boolean usePriceComparison) {
-    PurchaseRequest.usePriceComparison = usePriceComparison;
+  public static class PriceComparator implements Comparator<PurchaseRequest> {
+    @Override
+    public int compare(PurchaseRequest o1, PurchaseRequest o2) {
+      if (o1 == null || o2 == null) {
+        throw new NullPointerException();
+      }
+
+      // Order first by price, low to high.
+      int thisPrice = o1.getPrice();
+      int thatPrice = o2.getPrice();
+      if (thisPrice != thatPrice) {
+        return thisPrice - thatPrice;
+      }
+
+      // limit is how many items you can actually buy
+      // Order next by limit, high to low
+      if (o1.limit != o2.limit) {
+        return o2.limit - o1.limit;
+      }
+
+      // If limits are equal but quantity is not, one or the other
+      // stores has an artificial limit. Reward those that don't do
+      // that by sorting low to high on quantity.
+      if (o1.quantity != o2.quantity) {
+        return o1.quantity - o2.quantity;
+      }
+
+      // All else being equal, order by shop name. *shrug*
+      return o1.shopName.compareToIgnoreCase(o2.shopName);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      return o instanceof PriceComparator;
+    }
+  }
+
+  public static class NameComparator extends PriceComparator
+      implements Comparator<PurchaseRequest> {
+    @Override
+    public int compare(PurchaseRequest o1, PurchaseRequest o2) {
+      if (o1 == null || o2 == null) {
+        throw new NullPointerException();
+      }
+
+      // Order first by item name
+      int result = o1.item.getName().compareToIgnoreCase(o2.item.getName());
+
+      // Names being equal, order using price comparator
+      return (result != 0) ? result : super.compare(o1, o2);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      return o instanceof NameComparator;
+    }
   }
 
   @Override
@@ -269,36 +326,7 @@ public abstract class PurchaseRequest extends GenericRequest
       return -1;
     }
 
-    if (!PurchaseRequest.usePriceComparison) {
-      int nameComparison = this.item.getName().compareToIgnoreCase(pr.item.getName());
-      if (nameComparison != 0) {
-        return nameComparison;
-      }
-    }
-
-    // Sort first in order of price
-    int thisPrice = this.getPrice();
-    int thatPrice = pr.getPrice();
-    if (thisPrice != thatPrice) {
-      return thisPrice - thatPrice;
-    }
-
-    // limit is how many items you can actually buy
-    // sort high to low on limit
-
-    if (this.limit != pr.limit) {
-      return pr.limit - this.limit;
-    }
-
-    // If limits are equal but quantity is not, one or the other
-    // stores has an artificial limit. Reward those that don't do
-    // that by sorting low to high on quantity.
-
-    if (this.quantity != pr.quantity) {
-      return this.quantity - pr.quantity;
-    }
-
-    return this.shopName.compareToIgnoreCase(pr.shopName);
+    return PurchaseRequest.nameComparator.compare(this, pr);
   }
 
   public boolean ensureProperAttire() {

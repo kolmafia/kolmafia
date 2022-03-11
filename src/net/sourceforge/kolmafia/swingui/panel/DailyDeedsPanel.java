@@ -2615,7 +2615,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       boolean gm =
           StandardRequest.isAllowed("Items", "[glitch season reward name]")
               && InventoryManager.hasItem(ItemPool.GLITCH_ITEM)
-              && !Preferences.getBoolean("_glitchMonsterFights");
+              && Preferences.getInteger("_glitchMonsterFights") == 0;
       boolean pp =
           (KoLConstants.campground.contains(ItemPool.get(ItemPool.MUSHROOM_SPORES, 1))
                   || InventoryManager.hasItem(ItemPool.MUSHROOM_SPORES))

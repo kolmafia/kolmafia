@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.Test;
 
-public class ProcessAcquiredItemsTest extends RequestTestBase {
+public class ProcessAcquiredItemsTest {
 
   // This package tests acquisition of items from either a Mall purchase or from pulling from your
   // store.

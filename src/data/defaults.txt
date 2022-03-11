@@ -143,7 +143,6 @@ global	scriptButtonPosition	0
 global	scriptList	restore hp | restore mp
 global	sharePriceData	false
 global	showAllRequests	false
-global	showAnnouncements	true
 global	showExceptionalRequests	false
 global	statusDropdown	0
 global	stealthLogin	true
@@ -157,7 +156,6 @@ global	syncAfterSvnUpdate	false
 global	toolbarPosition	1
 global	useChatToolbar	true
 global	useContactsFrame	true
-global	useDecoratedTabs
 global	useDevProxyServer	false
 global	useDockIconBadge	false
 global	useHugglerChannel	false
@@ -177,7 +175,7 @@ global	_g9Effect	0
 global	_svnRepoFileFetched	false
 global	_svnUpdated	false
 
-user	addingScrolls	-1
+user	addingScrolls	1
 user	affirmationCookiesEaten	0
 user	afterAdventureScript
 user	aminoAcidsUsed	0
@@ -671,6 +669,7 @@ user	goreCollected	0
 user	gourdItemCount	5
 user	grabCloversHardcore	false
 user	grabCloversSoftcore	true
+user	greyYouPoints	0
 user	grimoire1Summons	0
 user	grimoire2Summons	0
 user	grimoire3Summons	0
@@ -1358,7 +1357,6 @@ user	sugarCounter4191	0
 user	summonAnnoyanceCost	11
 user	superficiallyInterestedMonster
 user	suppressInappropriateNags	false
-user	suppressPotentialMalware	false
 user	suppressPowerPixellation	false
 user	sweetSynthesisBlacklist	chocolate cigar,fudge bunny,gummi ammonite,gummi belemnite,gummi trilobite,powdered candy sushi set,radio button candy,Ultra Mega Sour Ball,vitachoconutriment capsule
 user	tacoDanCocktailSauce	0

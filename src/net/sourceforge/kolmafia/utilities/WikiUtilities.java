@@ -52,30 +52,12 @@ public class WikiUtilities {
       boolean inMonsterTable = MonsterDatabase.contains(name);
       switch (type) {
         case ITEM_TYPE:
-          if (name.equals("sweet tooth")
-              || name.equals("water wings")
-              || name.equals("knuckle sandwich")
-              || name.equals("industrial strength starch")) {
-            // If its not an effect or skill, no disambiguation needed
-          } else if (name.equals("black pudding")) {
-            name = name + " (food)";
-          } else if (name.equals("ice porter")) {
-            name = name + " (drink)";
-          } else if (name.equals("Bulky Buddy Box")) {
-            name = name + " (hatchling)";
-          } else if (name.equals("The Sword in the Steak")) {
-            // Also an adventure
-            name = name + " (item)";
-          } else if (inEffectTable || inSkillTable || inMonsterTable) {
+          if (inEffectTable || inSkillTable || inMonsterTable) {
             name = name + " (item)";
           }
           break;
         case EFFECT_TYPE:
-          if (name.equals("Sweet Tooth")
-              || name.equals("Water Wings")
-              || name.equals("Industrial Strength Starch")) {
-            // all items but the case is different
-          } else if (inItemTable || inSkillTable || inMonsterTable) {
+          if (inItemTable || inSkillTable || inMonsterTable) {
             name = name + " (effect)";
           }
           break;
