@@ -2,12 +2,29 @@ package net.sourceforge.kolmafia.utilities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class StringUtilitiesTest {
+
+  @Test
+  void formatsDateFitForLastModified() {
+    var formatted = StringUtilities.formatDate(0L);
+    assertEquals("Thu, 01 Jan 1970 00:00:00 GMT", formatted);
+  }
+
+  @Test
+  void readsLastModifiedDate() {
+    var parsed = StringUtilities.parseDate("Wed, 21 Oct 2015 07:28:00 GMT");
+    var date = ZonedDateTime.of(2015, 10, 21, 7, 28, 0, 0, ZoneId.of("GMT"));
+    assertEquals(Instant.from(date).toEpochMilli(), parsed);
+  }
+
   @Test
   void isVowel() {
     assertTrue(StringUtilities.isVowel('a'));
@@ -20,7 +37,6 @@ class StringUtilitiesTest {
     assertFalse(StringUtilities.isVowel('p'));
   }
 
-  // Tests for basicTestWrap
   private static final String BREAK = "\n";
   private static final String HTML_PREFIX = "<html>";
 
@@ -99,7 +115,6 @@ class StringUtilitiesTest {
       return input.subSequence(0, breakPos) + BREAK + input.subSequence(breakPos, input.length());
     }
   }
-  // End tests for basicTestWrap
 
   @ParameterizedTest
   @CsvSource({
@@ -126,7 +141,7 @@ class StringUtilitiesTest {
     "'[123]unreal item', 'unreal item'",
     "'[1337]2468 goggles', '2468 goggles'"
   })
-  public void itShouldExerciseRemoveBracketedID(String name, String id) {
+  public void itShouldParseIDsWithBrackets(String name, String id) {
     assertEquals(id, StringUtilities.removeBracketedId(name));
   }
 
