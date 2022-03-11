@@ -1,7 +1,10 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Taskbar;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -72,6 +75,7 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
+import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
@@ -121,7 +125,7 @@ public abstract class KoLCharacter {
 
   // Things which can change over the course of playing
 
-  private static String avatar = "";
+  private static String[] avatar = new String[0];
   private static AscensionClass ascensionClass = null;
   private static int gender = 0;
   public static int AWOLtattoo = 0;
@@ -790,14 +794,43 @@ public abstract class KoLCharacter {
    * @param avatar The avatar for this character
    */
   public static final void setAvatar(final String avatar) {
-    KoLCharacter.avatar = avatar;
-    if (!avatar.isEmpty()) {
-      String prefix = KoLmafia.imageServerPath();
-      FileUtilities.downloadImage(prefix + KoLCharacter.avatar);
-    }
-    NamedListenerRegistry.fireChange("(avatar)");
+    String[] array = new String[] {avatar};
+    KoLCharacter.setAvatar(array);
+  }
 
-    if (avatar.endsWith("_f.gif")) {
+  public static final void setAvatar(final String[] images) {
+    // Only set the avatar if the set of images has changed.
+    //
+    // Note that we assume that a "set" will do; the images will be overlaid
+    // upon each other, rather than being arranged in a specific order.
+
+    if (KoLCharacter.avatar.length == images.length) {
+      boolean changed = false;
+      Set<String> currentImages = new HashSet<>(Arrays.asList(KoLCharacter.avatar));
+      for (String image : images) {
+        if (!currentImages.contains(image)) {
+          changed = true;
+          break;
+        }
+      }
+      if (!changed) {
+        return;
+      }
+    }
+
+    KoLCharacter.avatar = images;
+
+    String prefix = KoLmafia.imageServerPath();
+    boolean female = false;
+
+    for (String image : images) {
+      if (image.endsWith("_f.gif")) {
+        female = true;
+      }
+      FileUtilities.downloadImage(prefix + image);
+    }
+
+    if (female) {
       KoLCharacter.setGender(KoLCharacter.FEMALE);
     } else {
       // Unfortunately, lack of '_f' in the avatar doesn't
@@ -805,6 +838,8 @@ public abstract class KoLCharacter {
       // avatar, or a special avatar such as Birdform that's unisex.
       KoLCharacter.setGender();
     }
+
+    NamedListenerRegistry.fireChange("(avatar)");
   }
 
   /**
@@ -812,7 +847,7 @@ public abstract class KoLCharacter {
    *
    * @return The avatar for this character
    */
-  public static final String getAvatar() {
+  public static final String[] getAvatar() {
     return KoLCharacter.avatar;
   }
 
@@ -825,7 +860,7 @@ public abstract class KoLCharacter {
       return KoLCharacter.gender;
     }
 
-    // Can't tell?	Look at their vinyl boots!
+    // Can't tell? Look at their vinyl boots!
     String descId = ItemDatabase.getDescriptionId(ItemPool.VINYL_BOOTS);
     GenericRequest req = new GenericRequest("desc_item.php?whichitem=" + descId);
     RequestThread.postRequest(req);
@@ -3329,6 +3364,26 @@ public abstract class KoLCharacter {
     return true;
   }
 
+  public static final boolean canSpleen() {
+    if (Limitmode.limitSpleening()) {
+      return false;
+    }
+
+    if (KoLCharacter.inNoobcore() || KoLCharacter.inRobocore()) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public static final boolean canUsePotions() {
+    if (KoLCharacter.inRobocore()) {
+      return YouRobotManager.canUsePotions();
+    }
+
+    return true;
+  }
+
   /**
    * Accessor method for the current mind control setting
    *
@@ -4318,8 +4373,7 @@ public abstract class KoLCharacter {
   public static final boolean isTorsoAware() {
     return KoLCharacter.hasSkill("Torso Awareness")
         || KoLCharacter.hasSkill("Best Dressed")
-        || (KoLCharacter.inRobocore()
-            && Preferences.getString("youRobotCPUUpgrades").contains("robot_shirt"));
+        || (KoLCharacter.inRobocore() && YouRobotManager.canEquip(KoLConstants.EQUIP_SHIRT));
   }
 
   /**
@@ -5205,16 +5259,7 @@ public abstract class KoLCharacter {
     }
 
     if (KoLCharacter.inRobocore()) {
-      newModifiers.add(Modifiers.getModifiers("RobotTop", Preferences.getString("youRobotTop")));
-      newModifiers.add(
-          Modifiers.getModifiers("RobotRight", Preferences.getString("youRobotRight")));
-      newModifiers.add(
-          Modifiers.getModifiers("RobotBottom", Preferences.getString("youRobotBottom")));
-      newModifiers.add(Modifiers.getModifiers("RobotLeft", Preferences.getString("youRobotLeft")));
-
-      for (String cpuUpgrade : Preferences.getString("youRobotCPUUpgrades").split(",")) {
-        newModifiers.add(Modifiers.getModifiers("RobotCPU", cpuUpgrade));
-      }
+      YouRobotManager.addRobotModifiers(newModifiers);
     }
 
     if (VYKEACompanionData.currentCompanion() != VYKEACompanionData.NO_COMPANION) {

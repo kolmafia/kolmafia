@@ -4192,6 +4192,7 @@ Item	God Lobster's Rod	Equips On: "God Lobster", Familiar Effect: "whelp"
 Item	God Lobster's Scepter	Leprechaun: 0.5, Fairy: 0.5, Equips On: "God Lobster", Familiar Effect: "small fairy/lep"
 Item	golden banana	Familiar Weight: +5
 Item	green pixie spog	Familiar Weight: +5
+Item	grey down vest	Experience (familiar): +2
 Item	Grim Brothers' story book	Familiar Weight: +5
 Item	grimstone galoshes	Familiar Weight: +5
 Item	guard turtle collar	Familiar Damage: +10, Generic
@@ -7833,7 +7834,8 @@ Skill	Gnomish Hardigness	Maximum HP Percent: +5
 Skill	Golgi Apparatus	Absorb Stats: +25
 # Good Singing Voice: Doubles duration of Boris songs
 # Gourmand: Increases adventures from food
-Skill	Gravitational Compression	Item Drop: [min(floor(basemys/5)+1,100)] Item Drops from Monsters (Scales with your Mysticality)
+# Gravitational Compression: +100% Item Drops from Monsters (Scales with your Mysticality)
+Skill	Gravitational Compression	Item Drop: [min(ceil(basemys/5),100)]
 # Hammer Throw: Level 1: Briefly stun your foe and reduce their stats by 10%
 # Hammer Throw: Level 2: Reduction increased to 15%
 # Hammer Throw: Level 3: Reduction increased to 20%
@@ -7848,6 +7850,7 @@ Skill	Hide of the Walrus	Damage Absorption: +50
 Skill	High Water Content	Hot Resistance: +2
 Skill	His Master's Voice	Familiar Weight: +5
 # Hivemindedness: Regenerate 100 MP per Adventure (Scales with your Mysticality)
+Skill	Hivemindedness	MP Regen Min: [min(ceil(basemys/10),100)], MP Regen Max: [min(ceil(basemys/10),100)]
 # Hollow Leg: +1 Liver Capacity
 Skill	Hot Headedness	Hot Damage: +11
 Skill	Hungry Eyes	Food Drop: +100
@@ -11016,6 +11019,7 @@ Item	green face paint	Free Pull
 # green pixel potion: Restores 40-60 HP and 30-40 MP
 # green smoke bomb: Lets you escape from combat without spending an Adventure
 # green smoke bomb: (Probably)
+Item	grey gosling	Free Pull
 # grizzled bearskin Adds +50% Muscle to your cowboy boots
 # grody jug: Deals a Buttload of <font color=green>Stench Damage</font>
 # grogpagne: Restores 30-50 MP
@@ -11676,6 +11680,7 @@ Item	Spelunker of Fortune (used)	Skill: "Speluck"
 # spice melange: Makes you less full and more sober
 # spices: Deals 1 Physical Damage
 # spider web: Weakens enemies very slightly
+Item	spinal-fluid-covered emotion chip	Skill: "Emotionally Chipped"
 # spinning wheel: Turns air into Meat (once per day)
 # spirit beer: Restores 40-50 MP
 Item	spirit beer	Effect: "Spiritually Aware", Effect Duration: 10

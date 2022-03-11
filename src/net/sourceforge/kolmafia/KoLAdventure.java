@@ -2188,6 +2188,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     {
       "extreme cold makes it impossible", "You need more cold resistance.",
     },
+    {
+      "This zone is too old to visit on this path.", "That zone is out of Standard.",
+    },
   };
 
   private static Pattern CRIMBO21_COLD_RES =

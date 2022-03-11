@@ -925,24 +925,6 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
   private class PriceCheckListener extends ThreadedListener {
     @Override
     protected void execute() {
-      // As of 2019-07-21, there are 140 "potions", 23 "foods", and 55 "other" candies
-      //
-      // There are 105 pages of "potions", which is fewer than 140 potions updated individually
-      // There are 70 pages of "foods", which is more than 23 foods updated individually
-      // There is  no category that contains non-potion, non-food candies.
-      //
-      // Therefore, by bulk updating all potions, it will take
-      //    105 + 23 + 55 = 183 pages hits
-      // to update the mall prices for all
-      //    140 + 23 + 55 = 218 candies.
-      //
-      // If there were a "candies" category, all candies could be done in
-      // 22 server hits. Instead, it takes 183 server hits.  I submitted a
-      // Feature Request to KoL for that, but no joy so far
-      //
-      // On the other hand, if we update all candies individually, it will
-      // take more server hits, but cached prices will not require a hit.
-
       CandyDatabase.updatePrices();
       SynthesizePanel.this.update();
 

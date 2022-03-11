@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FamiliarData implements Comparable<FamiliarData> {
@@ -281,7 +282,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     // Familiars are only allowed with the right hat in You, Robot
-    if (KoLCharacter.inRobocore() && Preferences.getInteger("youRobotTop") != 2) {
+    if (KoLCharacter.inRobocore() && !YouRobotManager.canUseFamiliars()) {
       return false;
     }
 

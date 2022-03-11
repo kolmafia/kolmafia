@@ -175,7 +175,7 @@ global	_g9Effect	0
 global	_svnRepoFileFetched	false
 global	_svnUpdated	false
 
-user	addingScrolls	-1
+user	addingScrolls	1
 user	affirmationCookiesEaten	0
 user	afterAdventureScript
 user	aminoAcidsUsed	0
@@ -669,6 +669,7 @@ user	goreCollected	0
 user	gourdItemCount	5
 user	grabCloversHardcore	false
 user	grabCloversSoftcore	true
+user	greyYouPoints	0
 user	grimoire1Summons	0
 user	grimoire2Summons	0
 user	grimoire3Summons	0
