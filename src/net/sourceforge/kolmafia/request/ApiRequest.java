@@ -382,20 +382,22 @@ public class ApiRequest extends GenericRequest {
     }
   }
 
-  private static Map<String, String> PREF_TO_COOL_ITEM =
+  private static Map<String, Map.Entry<String, String>> PREF_TO_COOL_ITEM =
       Map.ofEntries(
-          Map.entry("sleazeAirportAlways", "airport1"),
-          Map.entry("spookyAirportAlways", "airport2"),
-          Map.entry("stenchAirportAlways", "airport3"),
-          Map.entry("hotAirportAlways", "airport4"),
-          Map.entry("coldAirportAlways", "airport5"),
-          Map.entry("gingerbreadCityAvailable", "gingerbreadcity"),
-          Map.entry("spacegateAlways", "spacegate"),
-          Map.entry("frAlways", "fantasyrealm"),
-          Map.entry("prAlways", "piraterealm"),
-          Map.entry("neverendingPartyAlways", "neverendingparty"),
-          Map.entry("voteAlways", "voterregistered"),
-          Map.entry("daycareOpen", "boxingdaycare"));
+          Map.entry("airport1", Map.entry("sleazeAirportAlways", "_sleazeAirportToday")),
+          Map.entry("airport2", Map.entry("spookyAirportAlways", "_spookyAirportToday")),
+          Map.entry("airport3", Map.entry("stenchAirportAlways", "_stenchAirportToday")),
+          Map.entry("airport4", Map.entry("hotAirportAlways", "_hotAirportToday")),
+          Map.entry("airport5", Map.entry("coldAirportAlways", "_coldAirportToday")),
+          Map.entry(
+              "gingerbreadcity", Map.entry("gingerbreadCityAvailable", "_gingerbreadCityToday")),
+          Map.entry("spacegate", Map.entry("spacegateAlways", "_spacegateToday")),
+          Map.entry("fantasyrealm", Map.entry("frAlways", "_frToday")),
+          Map.entry("piraterealm", Map.entry("prAlways", "_prToday")),
+          Map.entry(
+              "neverendingparty", Map.entry("neverendingPartyAlways", "_neverendingPartyToday")),
+          Map.entry("voterregistered", Map.entry("voteAlways", "_voteToday")),
+          Map.entry("boxingdaycare", Map.entry("daycareOpen", "_daycareToday")));
 
   private static final void parseCoolItems(final String coolItems) {
     if (coolItems == null) {
@@ -405,7 +407,24 @@ public class ApiRequest extends GenericRequest {
     List<String> owned = Arrays.asList(coolItems.split(","));
 
     PREF_TO_COOL_ITEM.forEach(
-        (pref, coolItem) -> Preferences.setBoolean(pref, owned.contains(coolItem)));
+        (coolItem, entry) -> {
+          String alwaysPref = entry.getKey();
+          String todayPref = entry.getValue();
+          boolean haveAccess = owned.contains(coolItem);
+
+          // If they have access to the iotm
+          if (haveAccess) {
+            // If they have used a day pass
+            boolean usedDayPass = Preferences.getBoolean(todayPref);
+
+            // If they have used a day pass, they do not always have access
+            Preferences.setBoolean(alwaysPref, !usedDayPass);
+          } else {
+            // No access to the iotm, so set both preferences to false
+            Preferences.setBoolean(todayPref, false);
+            Preferences.setBoolean(alwaysPref, false);
+          }
+        });
   }
 
   public static final void parseInventory(final String responseText) {
