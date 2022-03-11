@@ -1,11 +1,14 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -34,18 +37,32 @@ public class YouRobotManager {
 
   public enum Usable {
     NONE("no special effect"),
-    HAT("can equip hats"),
-    WEAPON("can equip weapons"),
-    OFFHAND("can equip offhands"),
-    SHIRT("can equip shirts"),
-    PANTS("can equip pants"),
+    HAT("can equip hats", EquipmentManager.HAT),
+    WEAPON("can equip weapons", EquipmentManager.WEAPON),
+    OFFHAND("can equip offhands", EquipmentManager.OFFHAND),
+    SHIRT("can equip shirts", EquipmentManager.SHIRT),
+    PANTS("can equip pants", EquipmentManager.PANTS),
     FAMILIAR("can use familiars"),
     POTIONS("can use potions");
 
     String description;
+    int slot;
 
     Usable(String description) {
+      this(description, EquipmentManager.NONE);
+    }
+
+    Usable(String description, int slot) {
       this.description = description;
+      this.slot = slot;
+    }
+
+    public String getDescription() {
+      return this.description;
+    }
+
+    public int getSlot() {
+      return this.slot;
     }
 
     @Override
@@ -123,6 +140,7 @@ public class YouRobotManager {
 
     // modifiers, skill name
     String string;
+
     // usable
     Usable usable;
 
@@ -243,23 +261,34 @@ public class YouRobotManager {
   private static Set<RobotUpgrade> allCombatUpgrades = new HashSet<>();
   private static Set<RobotUpgrade> allEquipUpgrades = new HashSet<>();
 
+  private static Map<Integer, RobotUpgrade> indexToLeft = new HashMap<>();
+  private static Map<Integer, RobotUpgrade> indexToRight = new HashMap<>();
+  private static Map<Integer, RobotUpgrade> indexToTop = new HashMap<>();
+  private static Map<Integer, RobotUpgrade> indexToBottom = new HashMap<>();
+  private static Map<String, RobotUpgrade> keywordToCPU = new HashMap<>();
+
   private static void addToUpgradeSets(RobotUpgrade upgrade) {
     allUpgrades.add(upgrade);
     switch (upgrade.getSlot()) {
       case TOP:
         allTopUpgrades.add(upgrade);
+        indexToTop.put(upgrade.getIndex(), upgrade);
         break;
       case LEFT:
         allLeftUpgrades.add(upgrade);
+        indexToLeft.put(upgrade.getIndex(), upgrade);
         break;
       case RIGHT:
         allRightUpgrades.add(upgrade);
+        indexToRight.put(upgrade.getIndex(), upgrade);
         break;
       case BOTTOM:
         allBottomUpgrades.add(upgrade);
+        indexToBottom.put(upgrade.getIndex(), upgrade);
         break;
       case CPU:
         allCPUUpgrades.add(upgrade);
+        keywordToCPU.put(upgrade.getKeyword(), upgrade);
         break;
     }
     switch (upgrade.getEffect()) {
@@ -280,6 +309,53 @@ public class YouRobotManager {
       addToUpgradeSets(upgrade);
     }
   }
+  ;
+
+  // *** Current state of Configuration
+
+  private static RobotUpgrade currentLeft = null;
+  private static RobotUpgrade currentTop = null;
+  private static RobotUpgrade currentRight = null;
+  private static RobotUpgrade currentBottom = null;
+  private static Set<RobotUpgrade> currentCPU = new HashSet<>();
+
+  public static void reset() {
+    currentLeft = null;
+    currentTop = null;
+    currentRight = null;
+    currentBottom = null;
+    currentCPU.clear();
+  }
+
+  public static void loadConfiguration() {
+    currentLeft = indexToLeft.get(Preferences.getInteger("youRobotLeft"));
+    currentRight = indexToLeft.get(Preferences.getInteger("youRobotRight"));
+    currentTop = indexToLeft.get(Preferences.getInteger("youRobotTop"));
+    currentBottom = indexToLeft.get(Preferences.getInteger("youRobotBottom"));
+    for (String keyword : Preferences.getString("youRobotCPUUpgrades").split(",")) {
+      RobotUpgrade upgrade = keywordToCPU.get(keyword);
+      if (upgrade != null) {
+        currentCPU.add(upgrade);
+      }
+    }
+  }
+
+  public static void saveConfiguration() {
+    Preferences.setInteger("youRobotLeft", currentLeft == null ? 0 : currentLeft.getIndex());
+    Preferences.setInteger("youRobotRight", currentRight == null ? 0 : currentRight.getIndex());
+    Preferences.setInteger("youRobotTop", currentTop == null ? 0 : currentTop.getIndex());
+    Preferences.setInteger("youRobotBottom", currentBottom == null ? 0 : currentBottom.getIndex());
+    String value =
+        currentCPU.stream().map(RobotUpgrade::getKeyword).sorted().collect(Collectors.joining(","));
+    Preferences.setString("youRobotCPUUpgrades", value);
+  }
+
+  // *** Public methods to parse robot info from KoL responses
+
+  // Parse avatar from:
+  //     CharSheetRequest
+  //     CharPaneRequest
+  //     ChoiceManager (Reassembly Station)
 
   private static final Pattern AVATAR =
       Pattern.compile("(otherimages/robot/(left|right|top|bottom|body)(\\d+).png)\"");
@@ -296,6 +372,9 @@ public class YouRobotManager {
     KoLCharacter.setAvatar(images.toArray(new String[images.size()]));
   }
 
+  // Parse CPU upgrades from:
+  //     ChoiceManager (Reassembly Station)
+
   private static final Pattern CPU_UPGRADE_INSTALLED =
       Pattern.compile("<button.*?value=\"([a-z0-9_]+)\"[^\\(]+\\(already installed\\)");
 
@@ -309,6 +388,9 @@ public class YouRobotManager {
 
     Preferences.setString("youRobotCPUUpgrades", String.join(",", cpuUpgrades));
   }
+
+  // Parse Statbot cost from:
+  //     ChoiceManager (Statbot 5000)
 
   private static final Pattern STATBOT_COST =
       Pattern.compile("Current upgrade cost: <b>(\\d+) energy</b>");
