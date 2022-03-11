@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 import java.util.WeakHashMap;
 import java.util.regex.Matcher;
@@ -38,7 +39,7 @@ public class StringUtilities {
               + "under|up|upon|with|within|without)\\b");
 
   private static final SimpleDateFormat DATE_FORMAT =
-      new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz");
+      new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
 
   static {
     DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
