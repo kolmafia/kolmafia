@@ -67,7 +67,7 @@ import net.sourceforge.kolmafia.session.NumberologyManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.RumpleManager;
-import net.sourceforge.kolmafia.session.YouRobotManager.RobotUpgrade;
+import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
@@ -585,14 +585,8 @@ public class TestCommand extends AbstractCommand {
     }
 
     if (command.equals("robot")) {
-      StringBuilder buf = new StringBuilder();
-      for (RobotUpgrade upgrade : RobotUpgrade.values()) {
-        buf.append(upgrade);
-        buf.append(": ");
-        buf.append(upgrade.getString());
-        RequestLogger.printLine(buf.toString());
-        buf.setLength(0);
-      }
+      String urlString = "choice.php?pwd&whichchoice=1445&part=cpus&show=cpus&option=2&p=robot_hp1";
+      YouRobotManager.registerRequest(urlString);
       return;
     }
 

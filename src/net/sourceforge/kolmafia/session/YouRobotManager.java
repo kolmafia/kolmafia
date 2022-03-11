@@ -21,12 +21,41 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class YouRobotManager {
 
-  public enum Slot {
-    TOP,
-    LEFT,
-    RIGHT,
-    BOTTOM,
-    CPU;
+  public enum Part {
+    TOP("top", "Top Attachment"),
+    LEFT("left", "Left Arm"),
+    RIGHT("right", "Right Arm"),
+    BOTTOM("bottom", "Propulsion System"),
+    CPU("cpus", "CPU Upgrade");
+
+    String keyword;
+    String name;
+
+    Part(String keyword, String name) {
+      this.keyword = keyword;
+      this.name = name;
+    }
+
+    String getKeyword() {
+      return this.keyword;
+    }
+
+    String getName() {
+      return this.name;
+    }
+
+    @Override
+    public String toString() {
+      return this.name;
+    }
+  }
+
+  private static Map<String, Part> keywordToPart = new HashMap<>();
+
+  static {
+    for (Part part : Part.values()) {
+      keywordToPart.put(part.getKeyword(), part);
+    }
   }
 
   public enum Effect {
@@ -72,40 +101,40 @@ public class YouRobotManager {
   }
 
   public enum RobotUpgrade {
-    PEA_SHOOTER("Pea Shooter", Slot.TOP, 1, 5, Effect.COMBAT, "Shoot Pea"),
-    BIRD_CAGE("Bird Cage", Slot.TOP, 2, 5, Usable.FAMILIAR),
-    SOLAR_PANEL("Solar Panel", Slot.TOP, 3, 5),
-    MANNEQUIN_HEAD("Mannequin Head", Slot.TOP, 4, 15, Usable.HAT),
-    MEAT_RADAR("Meat Radar", Slot.TOP, 5, 30),
-    JUNK_CANNON("Junk Cannon", Slot.TOP, 6, 30, Effect.COMBAT, "Junk Blast"),
-    TESLA_BLASTER("Tesla Blaster", Slot.TOP, 7, 30, Effect.COMBAT, "Tesla Blast"),
-    SNOW_BLOWER("Snow Blower", Slot.TOP, 8, 40, Effect.COMBAT, "Blow Snow"),
+    PEA_SHOOTER("Pea Shooter", Part.TOP, 1, 5, Effect.COMBAT, "Shoot Pea"),
+    BIRD_CAGE("Bird Cage", Part.TOP, 2, 5, Usable.FAMILIAR),
+    SOLAR_PANEL("Solar Panel", Part.TOP, 3, 5),
+    MANNEQUIN_HEAD("Mannequin Head", Part.TOP, 4, 15, Usable.HAT),
+    MEAT_RADAR("Meat Radar", Part.TOP, 5, 30),
+    JUNK_CANNON("Junk Cannon", Part.TOP, 6, 30, Effect.COMBAT, "Junk Blast"),
+    TESLA_BLASTER("Tesla Blaster", Part.TOP, 7, 30, Effect.COMBAT, "Tesla Blast"),
+    SNOW_BLOWER("Snow Blower", Part.TOP, 8, 40, Effect.COMBAT, "Blow Snow"),
 
-    POUND_O_TRON("Pound-O-Tron", Slot.LEFT, 1, 5, Effect.COMBAT, "Swing Pound-O-Tron"),
-    REFLECTIVE_SHARD("Reflective Shard", Slot.LEFT, 2, 5, "Resist All: +3"),
-    METAL_DETECTOR("Metal Detector", Slot.LEFT, 3, 5),
-    VICE_GRIPS("Vice Grips", Slot.LEFT, 4, 15, Usable.WEAPON),
-    SNIPER_RIFLE("Sniper Rifle", Slot.LEFT, 5, 30, Effect.COMBAT, "Snipe"),
-    JUNK_MACE("Junk Mace", Slot.LEFT, 6, 30, Effect.COMBAT, "Junk Mace Smash"),
-    CAMOUFLAGE_CURTAIN("Camouflage Curtain", Slot.LEFT, 7, 30),
-    GREASE_GUN("Grease Gun", Slot.LEFT, 8, 40, Effect.COMBAT, "Shoot Grease"),
+    POUND_O_TRON("Pound-O-Tron", Part.LEFT, 1, 5, Effect.COMBAT, "Swing Pound-O-Tron"),
+    REFLECTIVE_SHARD("Reflective Shard", Part.LEFT, 2, 5, "Resist All: +3"),
+    METAL_DETECTOR("Metal Detector", Part.LEFT, 3, 5),
+    VICE_GRIPS("Vice Grips", Part.LEFT, 4, 15, Usable.WEAPON),
+    SNIPER_RIFLE("Sniper Rifle", Part.LEFT, 5, 30, Effect.COMBAT, "Snipe"),
+    JUNK_MACE("Junk Mace", Part.LEFT, 6, 30, Effect.COMBAT, "Junk Mace Smash"),
+    CAMOUFLAGE_CURTAIN("Camouflage Curtain", Part.LEFT, 7, 30),
+    GREASE_GUN("Grease Gun", Part.LEFT, 8, 40, Effect.COMBAT, "Shoot Grease"),
 
-    SLAB_O_MATIC("Slab-O-Matic", Slot.RIGHT, 1, 5),
-    JUNK_SHIELD("Junk Shield", Slot.RIGHT, 2, 5),
-    HORSESHOE_MAGNET("Horseshoe Magnet", Slot.RIGHT, 3, 5),
-    OMNI_CLAW("Omni-Claw", Slot.RIGHT, 4, 15, Usable.OFFHAND),
-    MAMMAL_PROD("Mammal Prod", Slot.RIGHT, 5, 30, Effect.COMBAT, "Prod"),
-    SOLENOID_PISTON("Solenoid Piston", Slot.RIGHT, 6, 30, Effect.COMBAT, "Solenoid Slam"),
-    BLARING_SPEAKER("Blaring Speaker", Slot.RIGHT, 7, 30),
-    SURPLUS_FLAMETHROWER("Surplus Flamethrower", Slot.RIGHT, 8, 40, Effect.COMBAT, "Throw Flame"),
+    SLAB_O_MATIC("Slab-O-Matic", Part.RIGHT, 1, 5),
+    JUNK_SHIELD("Junk Shield", Part.RIGHT, 2, 5),
+    HORSESHOE_MAGNET("Horseshoe Magnet", Part.RIGHT, 3, 5),
+    OMNI_CLAW("Omni-Claw", Part.RIGHT, 4, 15, Usable.OFFHAND),
+    MAMMAL_PROD("Mammal Prod", Part.RIGHT, 5, 30, Effect.COMBAT, "Prod"),
+    SOLENOID_PISTON("Solenoid Piston", Part.RIGHT, 6, 30, Effect.COMBAT, "Solenoid Slam"),
+    BLARING_SPEAKER("Blaring Speaker", Part.RIGHT, 7, 30),
+    SURPLUS_FLAMETHROWER("Surplus Flamethrower", Part.RIGHT, 8, 40, Effect.COMBAT, "Throw Flame"),
 
-    BALD_TIRES("Bald Tires", Slot.BOTTOM, 1, 5),
-    ROCKET_CROTCH("Rocket Crotch", Slot.BOTTOM, 2, 5, Effect.COMBAT, "Crotch Burn"),
-    MOTORCYCLE_WHEEL("Motorcycle Wheel", Slot.BOTTOM, 3, 5),
-    ROBO_LEGS("Robo-Legs", Slot.BOTTOM, 4, 15, Usable.PANTS),
-    MAGNO_LEV("Magno-Lev", Slot.BOTTOM, 5, 30),
-    TANK_TREADS("Tank Treads", Slot.BOTTOM, 6, 30),
-    SNOWPLOW("Snowplow", Slot.BOTTOM, 7, 30),
+    BALD_TIRES("Bald Tires", Part.BOTTOM, 1, 5),
+    ROCKET_CROTCH("Rocket Crotch", Part.BOTTOM, 2, 5, Effect.COMBAT, "Crotch Burn"),
+    MOTORCYCLE_WHEEL("Motorcycle Wheel", Part.BOTTOM, 3, 5),
+    ROBO_LEGS("Robo-Legs", Part.BOTTOM, 4, 15, Usable.PANTS),
+    MAGNO_LEV("Magno-Lev", Part.BOTTOM, 5, 30),
+    TANK_TREADS("Tank Treads", Part.BOTTOM, 6, 30),
+    SNOWPLOW("Snowplow", Part.BOTTOM, 7, 30),
 
     LEVERAGE_COPROCESSNG("Leverage Coprocessing", "robot_muscle", 30),
     DYNAMIC_ARCANE_FLUX_MODELING("Dynamic Arcane Flux Modeling", "robot_mysticality", 30),
@@ -126,7 +155,7 @@ public class YouRobotManager {
     int cost;
 
     // For body parts
-    Slot slot;
+    Part part;
     int index;
 
     // For CPU upgrade
@@ -144,17 +173,17 @@ public class YouRobotManager {
     // usable
     Usable usable;
 
-    RobotUpgrade(String name, Slot slot, Effect effect, int cost) {
+    RobotUpgrade(String name, Part part, Effect effect, int cost) {
       this.name = name;
-      this.slot = slot;
+      this.part = part;
       this.effect = effect;
       this.cost = cost;
       this.mods = Modifiers.getModifiers("Robot", name);
     }
 
     // COMBAT
-    RobotUpgrade(String name, Slot slot, int index, int cost, Effect effect, String skill) {
-      this(name, slot, effect, cost);
+    RobotUpgrade(String name, Part part, int index, int cost, Effect effect, String skill) {
+      this(name, part, effect, cost);
       this.index = index;
       this.keyword = "";
       this.string = skill;
@@ -162,9 +191,8 @@ public class YouRobotManager {
     }
 
     // PASSIVE
-    RobotUpgrade(String name, Slot slot, int index, int cost, String description) {
-      this(name, slot, Effect.PASSIVE, cost);
-      this.name = name;
+    RobotUpgrade(String name, Part part, int index, int cost, String description) {
+      this(name, part, Effect.PASSIVE, cost);
       this.index = index;
       this.keyword = "";
       this.string = description;
@@ -172,8 +200,8 @@ public class YouRobotManager {
     }
 
     // PASSIVE
-    RobotUpgrade(String name, Slot slot, int index, int cost) {
-      this(name, slot, Effect.PASSIVE, cost);
+    RobotUpgrade(String name, Part part, int index, int cost) {
+      this(name, part, Effect.PASSIVE, cost);
       this.index = index;
       this.keyword = "";
       this.string = this.mods.getString("Modifiers");
@@ -181,8 +209,8 @@ public class YouRobotManager {
     }
 
     // EQUIP
-    RobotUpgrade(String name, Slot slot, int index, int cost, Usable thing) {
-      this(name, slot, Effect.EQUIP, cost);
+    RobotUpgrade(String name, Part part, int index, int cost, Usable thing) {
+      this(name, part, Effect.EQUIP, cost);
       this.index = index;
       this.keyword = "";
       this.string = thing.toString();
@@ -191,7 +219,7 @@ public class YouRobotManager {
 
     // CPU PASSIVE
     RobotUpgrade(String name, String keyword, int cost, String string) {
-      this(name, Slot.CPU, Effect.PASSIVE, cost);
+      this(name, Part.CPU, Effect.PASSIVE, cost);
       this.index = 0;
       this.keyword = keyword;
       this.string = string;
@@ -200,17 +228,16 @@ public class YouRobotManager {
 
     // CPU PASSIVE
     RobotUpgrade(String name, String keyword, int cost) {
-      this(name, Slot.CPU, Effect.PASSIVE, cost);
+      this(name, Part.CPU, Effect.PASSIVE, cost);
       this.index = 0;
       this.keyword = keyword;
       this.string = this.mods.getString("Modifiers");
-      ;
       this.usable = Usable.NONE;
     }
 
     // CPU EQUIP
     RobotUpgrade(String name, String keyword, int cost, Usable thing) {
-      this(name, Slot.CPU, Effect.EQUIP, cost);
+      this(name, Part.CPU, Effect.EQUIP, cost);
       this.index = 0;
       this.keyword = keyword;
       this.string = thing.toString();
@@ -221,8 +248,8 @@ public class YouRobotManager {
       return this.name;
     }
 
-    public Slot getSlot() {
-      return this.slot;
+    public Part getPart() {
+      return this.part;
     }
 
     public Effect getEffect() {
@@ -266,10 +293,28 @@ public class YouRobotManager {
   private static Map<Integer, RobotUpgrade> indexToTop = new HashMap<>();
   private static Map<Integer, RobotUpgrade> indexToBottom = new HashMap<>();
   private static Map<String, RobotUpgrade> keywordToCPU = new HashMap<>();
+  private static Map<String, RobotUpgrade> nameToUpgrade = new HashMap<>();
+
+  static final Map<Part, Map<Integer, RobotUpgrade>> partToIndexMap = new HashMap<>();
+
+  static {
+    partToIndexMap.put(Part.TOP, indexToTop);
+    partToIndexMap.put(Part.LEFT, indexToLeft);
+    partToIndexMap.put(Part.RIGHT, indexToRight);
+    partToIndexMap.put(Part.BOTTOM, indexToBottom);
+  }
+
+  private static RobotUpgrade urlFieldsToUpgrade(Part part, String chosenPart) {
+    if (part == Part.CPU) {
+      return keywordToCPU.get(chosenPart);
+    }
+    return partToIndexMap.get(part).get(StringUtilities.parseInt(chosenPart));
+  }
 
   private static void addToUpgradeSets(RobotUpgrade upgrade) {
     allUpgrades.add(upgrade);
-    switch (upgrade.getSlot()) {
+    nameToUpgrade.put(upgrade.getName(), upgrade);
+    switch (upgrade.getPart()) {
       case TOP:
         allTopUpgrades.add(upgrade);
         indexToTop.put(upgrade.getIndex(), upgrade);
@@ -309,7 +354,6 @@ public class YouRobotManager {
       addToUpgradeSets(upgrade);
     }
   }
-  ;
 
   // *** Current state of Configuration
 
@@ -348,6 +392,27 @@ public class YouRobotManager {
     String value =
         currentCPU.stream().map(RobotUpgrade::getKeyword).sorted().collect(Collectors.joining(","));
     Preferences.setString("youRobotCPUUpgrades", value);
+  }
+
+  public static boolean hasEquipped(String name) {
+    RobotUpgrade upgrade = nameToUpgrade.get(name);
+    return (upgrade == null) ? false : hasEquipped(upgrade);
+  }
+
+  public static boolean hasEquipped(RobotUpgrade upgrade) {
+    switch (upgrade.getPart()) {
+      case TOP:
+        return currentTop == upgrade;
+      case LEFT:
+        return currentLeft == upgrade;
+      case RIGHT:
+        return currentRight == upgrade;
+      case BOTTOM:
+        return currentBottom == upgrade;
+      case CPU:
+        return currentCPU.contains(upgrade);
+    }
+    return false;
   }
 
   // *** Public methods to parse robot info from KoL responses
@@ -405,7 +470,7 @@ public class YouRobotManager {
   }
 
   // *** Public methods to hide internal implementation, which currently
-  // *** depends on use of user-visible properties.
+  // *** depend on use of user-visible properties.
 
   // Used by KoLCharacter.recalculateAdjustments
   public static void addRobotModifiers(Modifiers mods) {
@@ -530,18 +595,125 @@ public class YouRobotManager {
     }
   }
 
+  private static Map<Integer, String> optionToStat = new HashMap<>();
+
+  static {
+    optionToStat.put(1, "Muscle");
+    optionToStat.put(2, "Mysticality");
+    optionToStat.put(3, "Moxie");
+  }
+
+  // Why not use GenericRequest.extractField?
+  //
+  // Answer: It searches for last instance of the field name, which
+  // REALLY does not work for "p=robot_hp"
+  //
+  // GenericRequest.extractField should have a test written and fixed
+
+  public static final String extractField(String urlString, final String field) {
+    // We need to find the last instance of a field, since KoL URLs can
+    // have duplicate field names and only the last counts.
+    //
+    // We also only want to match the field name against a field name,
+    // not a value
+
+    int start = urlString.indexOf("?");
+    while (start > 0) {
+      int end = urlString.indexOf("&", start + 1);
+      String extracted =
+          (end == -1) ? urlString.substring(start + 1) : urlString.substring(start + 1, end);
+      int equals = extracted.indexOf("=");
+      String name = (equals == -1) ? extracted : extracted.substring(0, equals);
+      if (name.equals(field)) {
+        return extracted;
+      }
+      start = end;
+    }
+    return null;
+  }
+
+  public static final String extractFieldValue(final String urlString, final String field) {
+    String extracted = extractField(urlString, field);
+    if (extracted == null) {
+      return "";
+    }
+    int equals = extracted.indexOf("=");
+    if (equals == -1) {
+      return extracted;
+    }
+    return extracted.substring(equals + 1);
+  }
+
   public static final boolean registerRequest(final String urlString) {
-    // *** This how Choice Manager logs non-special choices. Fix this to
-    // *** log something more meaningful.
+    // This is called from ChoiceManager to handle the following choices:
+    //   1445 - Reassembly Station
+    //   1447 - Statbot 5000
 
     int choice = ChoiceManager.extractChoiceFromURL(urlString);
     int decision = ChoiceManager.extractOptionFromURL(urlString);
-    if (decision != 0) {
-      // Figure out which decision we took
-      String desc = ChoiceManager.choiceDescription(choice, decision);
-      RequestLogger.updateSessionLog("Took choice " + choice + "/" + decision + ": " + desc);
+
+    String message;
+
+    // choice.php?whichchoice=1445&show=top
+    // choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=7
+    // choice.php?whichchoice=1445&show=cpus
+    // choice.php?pwd&whichchoice=1445&part=cpus&show=cpus&option=2&p=robot_resist
+
+    if (choice == 1445) {
+      String showKeyword = extractFieldValue(urlString, "show");
+      Part part = keywordToPart.get(showKeyword);
+      if (decision == 0) {
+        message = "Inspecting " + part + " options at the Reassembly Station.";
+        RequestLogger.printLine(message);
+        RequestLogger.updateSessionLog(message);
+        return true;
+      }
+
+      // We are buying an attachment.
+      String chosenPart = extractFieldValue(urlString, "p");
+      if (chosenPart != null) {
+        RobotUpgrade upgrade = urlFieldsToUpgrade(part, chosenPart);
+        if (upgrade != null) {
+          if (part == Part.CPU) {
+            message =
+                "Upgrading your CPU with " + upgrade + " for " + upgrade.getCost() + " energy.";
+          } else {
+            message =
+                "Installing "
+                    + upgrade
+                    + " as your "
+                    + part
+                    + " for "
+                    + upgrade.getCost()
+                    + " scrap.";
+          }
+          RequestLogger.printLine(message);
+          RequestLogger.updateSessionLog(message);
+          return true;
+        }
+      }
+
+      // We don't expect to get here, but log something, at least.
+      RequestLogger.updateSessionLog(urlString);
+      return true;
     }
-    RequestLogger.updateSessionLog(urlString);
+
+    // choice.php?whichchoice=1447&option=1
+    // choice.php?whichchoice=1447&option=2
+    // choice.php?whichchoice=1447&option=3
+
+    if (choice == 1447) {
+      if (decision != 0) {
+        String stat = optionToStat.get(decision);
+        if (stat != null) {
+          int cost = Preferences.getInteger("statbotUses") + 10;
+          message = "Spending " + cost + " energy to upgrade " + stat + " by 5 points.";
+          RequestLogger.printLine(message);
+          RequestLogger.updateSessionLog(message);
+        }
+      }
+      return true;
+    }
 
     return true;
   }
