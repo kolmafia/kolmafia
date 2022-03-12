@@ -26,6 +26,8 @@ import javax.net.ssl.SSLParameters;
 
 public class FakeHttpClient extends HttpClient {
 
+  public HttpRequest request;
+
   @Override
   public Optional<CookieHandler> cookieHandler() {
     return Optional.empty();
@@ -74,6 +76,8 @@ public class FakeHttpClient extends HttpClient {
   @Override
   public <T> HttpResponse<T> send(HttpRequest request, BodyHandler<T> responseBodyHandler)
       throws IOException, InterruptedException {
+    this.request = request;
+
     T body;
 
     var response = "";
