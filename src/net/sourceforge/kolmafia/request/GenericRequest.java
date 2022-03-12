@@ -4,11 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
-import java.net.ProxySelector;
 import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -186,7 +183,9 @@ public class GenericRequest implements Runnable {
   }
 
   private Builder getRequestBuilder(URI uri) {
-    var builder = HttpRequest.newBuilder(uri).header("Referer", "https://" + GenericRequest.KOL_HOST + "/game.php");
+    var builder =
+        HttpRequest.newBuilder(uri)
+            .header("Referer", "https://" + GenericRequest.KOL_HOST + "/game.php");
 
     if (!this.isExternalRequest && GenericRequest.sessionId != null) {
       builder.header("Cookie", this.getCookies());
@@ -220,7 +219,8 @@ public class GenericRequest implements Runnable {
     GenericRequest.applyProxySettings();
 
     if (!System.getProperty("os.name").startsWith("Mac")) {
-      PreferenceListenerRegistry.registerPreferenceListener("proxySet", GenericRequest::resetClient);
+      PreferenceListenerRegistry.registerPreferenceListener(
+          "proxySet", GenericRequest::resetClient);
       registerProxyListeners("http");
       registerProxyListeners("https");
     }
@@ -231,10 +231,14 @@ public class GenericRequest implements Runnable {
   }
 
   private static void registerProxyListeners(String protocol) {
-    PreferenceListenerRegistry.registerPreferenceListener(protocol + ".proxyHost", GenericRequest::resetClient);
-    PreferenceListenerRegistry.registerPreferenceListener(protocol + ".proxyPort", GenericRequest::resetClient);
-    PreferenceListenerRegistry.registerPreferenceListener(protocol + ".proxyUser", GenericRequest::resetClient);
-    PreferenceListenerRegistry.registerPreferenceListener(protocol + ".proxyPassword", GenericRequest::resetClient);
+    PreferenceListenerRegistry.registerPreferenceListener(
+        protocol + ".proxyHost", GenericRequest::resetClient);
+    PreferenceListenerRegistry.registerPreferenceListener(
+        protocol + ".proxyPort", GenericRequest::resetClient);
+    PreferenceListenerRegistry.registerPreferenceListener(
+        protocol + ".proxyUser", GenericRequest::resetClient);
+    PreferenceListenerRegistry.registerPreferenceListener(
+        protocol + ".proxyPassword", GenericRequest::resetClient);
   }
 
   private static void applyProxySettings() {
@@ -1563,9 +1567,8 @@ public class GenericRequest implements Runnable {
   }
 
   /**
-   * Utility method used to send the request to the Kingdom of Loathing server. The method
-   * grabs all form fields added so far and posts them using the traditional ampersand style of HTTP
-   * requests.
+   * Utility method used to send the request to the Kingdom of Loathing server. The method grabs all
+   * form fields added so far and posts them using the traditional ampersand style of HTTP requests.
    *
    * @return <code>false</code> if request was successfully sent
    */
@@ -1635,9 +1638,7 @@ public class GenericRequest implements Runnable {
         istream = new GZIPInputStream(istream);
       } catch (IOException e) {
         if (this.responseCode != 0) {
-          String message =
-              "Failed to decode GZIP for "
-                  + this.baseURLString;
+          String message = "Failed to decode GZIP for " + this.baseURLString;
           KoLmafia.updateDisplay(MafiaState.ERROR, message);
         }
 
@@ -1663,36 +1664,33 @@ public class GenericRequest implements Runnable {
           // FALL THROUGH!
         case 301:
         case 307:
-        case 308: {
-          var location = response.headers().firstValue("Location").orElse(null);
-          if (this instanceof RelayRequest
-              || this.redirectMethod.equals("GET")
-              || this.redirectMethod.equals("HEAD")) {
-            // RelayRequests are handled later. Allow GET/HEAD, redirects by default.
-            this.redirectLocation = location;
-          } else {
-            // RFC 2616: For requests other than GET or HEAD, the user agent MUST NOT
-            // automatically redirect the request unless it can be confirmed by the user.
-            if (this.allowRedirect == null) {
-              String message =
-                  "You are being redirected to \""
-                      + location
-                      + "\".\n"
-                      + "Would you like KoLmafia to resend the form data?";
-              this.allowRedirect = InputFieldUtilities.confirm(message);
-            }
+        case 308:
+          {
+            var location = response.headers().firstValue("Location").orElse(null);
+            if (this instanceof RelayRequest
+                || this.redirectMethod.equals("GET")
+                || this.redirectMethod.equals("HEAD")) {
+              // RelayRequests are handled later. Allow GET/HEAD, redirects by default.
+              this.redirectLocation = location;
+            } else {
+              // RFC 2616: For requests other than GET or HEAD, the user agent MUST NOT
+              // automatically redirect the request unless it can be confirmed by the user.
+              if (this.allowRedirect == null) {
+                String message =
+                    "You are being redirected to \""
+                        + location
+                        + "\".\n"
+                        + "Would you like KoLmafia to resend the form data?";
+                this.allowRedirect = InputFieldUtilities.confirm(message);
+              }
 
-            if (this.allowRedirect.booleanValue()) {
-              this.redirectLocation =
-                  this.data.isEmpty()
-                      ? location
-                      : location
-                          + "?"
-                          + this.getDisplayDataString();
+              if (this.allowRedirect.booleanValue()) {
+                this.redirectLocation =
+                    this.data.isEmpty() ? location : location + "?" + this.getDisplayDataString();
+              }
             }
+            break;
           }
-          break;
-        }
         default:
           this.redirectLocation = null;
           break;
@@ -1731,9 +1729,9 @@ public class GenericRequest implements Runnable {
       } else {
         if (this.responseCode == 504
             && (this.baseURLString.equals("storage.php")
-            || this.baseURLString.equals("inventory.php"))
+                || this.baseURLString.equals("inventory.php"))
             && (this.formURLString.contains("action=pullall")
-            || this.getFormField("action") != null)) {
+                || this.getFormField("action") != null)) {
           // Likely a pullall request that timed out
           PauseObject pauser = new PauseObject();
           KoLmafia.updateDisplay("Waiting 40 seconds for KoL to finish processing...");
@@ -1744,10 +1742,7 @@ public class GenericRequest implements Runnable {
 
         if (this.responseCode != 0 && this.redirectLocation == null) {
           String message =
-              "Server returned response code "
-                  + this.responseCode
-                  + " for "
-                  + this.baseURLString;
+              "Server returned response code " + this.responseCode + " for " + this.baseURLString;
           KoLmafia.updateDisplay(MafiaState.ERROR, message);
         }
 
@@ -2145,7 +2140,12 @@ public class GenericRequest implements Runnable {
 
     String urlString = this.getURLString();
     if (urlString.startsWith("charpane.php")) {
-      long responseTimestamp = response.headers().firstValue("Date").map(StringUtilities::parseDate).orElse(System.currentTimeMillis());
+      long responseTimestamp =
+          response
+              .headers()
+              .firstValue("Date")
+              .map(StringUtilities::parseDate)
+              .orElse(System.currentTimeMillis());
 
       if (!CharPaneRequest.processResults(responseTimestamp, this.responseText)) {
         this.responseCode = 304;
