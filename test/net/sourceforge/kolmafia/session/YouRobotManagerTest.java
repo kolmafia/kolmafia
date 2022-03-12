@@ -10,14 +10,17 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -275,5 +278,36 @@ public class YouRobotManagerTest {
     YouRobotManager.postChoice1(urlString, request);
     assertEquals(3, Preferences.getInteger("youRobotTop"));
     assertFalse(KoLCharacter.availableCombatSkill(SkillPool.TESLA_BLAST));
+  }
+
+  @Test
+  public void willUnequipWhenSwapOutEquipPart() throws IOException {
+    // Look at Top Attachments
+    String urlString = "choice.php?whichchoice=1445&show=top;";
+    String responseText = loadHTMLResponse("request/test_scrapheap_show_top.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1445;
+    YouRobotManager.visitChoice(request);
+    assertEquals(4, Preferences.getInteger("youRobotTop"));
+
+    // That is a Mannequin Head, which allows you to equip hats.
+    assertTrue(EquipmentManager.canEquip(ItemPool.HELMET_TURTLE));
+
+    // Put one on
+    AdventureResult hat = ItemPool.get(ItemPool.HELMET_TURTLE, 1);
+    EquipmentManager.setEquipment(EquipmentManager.HAT, hat);
+    assertTrue(hat.equals(EquipmentManager.getEquipment(EquipmentManager.HAT)));
+
+    // Install Pea Shooter
+    urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=1";
+    responseText = loadHTMLResponse("request/test_scrapheap_add_skill.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1445;
+    YouRobotManager.postChoice1(urlString, request);
+
+    // Verify that we are no longer wearing a hat
+    assertEquals(EquipmentRequest.UNEQUIP, EquipmentManager.getEquipment(EquipmentManager.HAT));
   }
 }
