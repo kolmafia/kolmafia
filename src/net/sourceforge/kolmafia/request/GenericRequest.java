@@ -1666,9 +1666,6 @@ public class GenericRequest implements Runnable {
       }
 
       boolean shouldRetry = this.retryOnTimeout();
-      if (!shouldRetry && this.processOnFailure()) {
-        this.processResponse();
-      }
 
       GenericRequest.forceClose(istream);
 
@@ -1705,11 +1702,6 @@ public class GenericRequest implements Runnable {
       if (this.shouldUpdateDebugLog()) {
         String message = "IOException retrieving server reply (" + this.getURLString() + ").";
         StaticEntity.printStackTrace(e, message);
-      }
-
-      if (this.processOnFailure()) {
-        this.responseText = "";
-        this.processResponse();
       }
 
       GenericRequest.forceClose(istream);
@@ -1798,10 +1790,6 @@ public class GenericRequest implements Runnable {
   protected boolean retryOnTimeout() {
     return this.formURLString.endsWith(".php")
         && (this.data.isEmpty() || this.getClass() == GenericRequest.class);
-  }
-
-  protected boolean processOnFailure() {
-    return false;
   }
 
   private boolean handleServerRedirect() {
