@@ -13,8 +13,10 @@ import java.util.Set;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -56,7 +58,7 @@ public class YouRobotManagerTest {
     YouRobotManager.reset();
     KoLCharacter.setAvatar("");
     ChoiceManager.lastChoice = 0;
-    ChoiceManager.lastChoice = 0;
+    ChoiceManager.lastDecision = 0;
   }
 
   static String loadHTMLResponse(String path) throws IOException {
@@ -166,6 +168,18 @@ public class YouRobotManagerTest {
     assertEquals(0, Preferences.getInteger("statbotUses"));
     YouRobotManager.postChoice1(responseText, request);
     assertEquals(11, Preferences.getInteger("statbotUses"));
+  }
+
+  @Test
+  public void canDiscoverStatbotCostOnFailedActivation() throws IOException {
+    String urlString = "choice.php?pwd&whichchoice=1447&option=3";
+    String responseText = loadHTMLResponse("request/test_scrapheap_activate_statbot_fails.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1447;
+    assertEquals(0, Preferences.getInteger("statbotUses"));
+    YouRobotManager.postChoice1(responseText, request);
+    assertEquals(24, Preferences.getInteger("statbotUses"));
   }
 
   @Test
@@ -308,6 +322,38 @@ public class YouRobotManagerTest {
 
     // Verify that we are no longer wearing a hat
     assertEquals(EquipmentRequest.UNEQUIP, EquipmentManager.getEquipment(EquipmentManager.HAT));
+  }
+
+  @Test
+  public void willUnsetFamiliarWhenUnequipBirdCage() throws IOException {
+    // Look at Top Attachments
+    String urlString = "choice.php?whichchoice=1445&show=top";
+    String responseText = loadHTMLResponse("request/test_scrapheap_show_top_bird_cage.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1445;
+    YouRobotManager.visitChoice(request);
+    assertEquals(2, Preferences.getInteger("youRobotTop"));
+
+    // That is a Bird Cage, which allows you to equip familiars.
+    FamiliarData familiar = new FamiliarData(FamiliarPool.EMO_SQUID);
+    assertTrue(familiar.canEquip());
+
+    // Take it with you!
+    KoLCharacter.setFamiliar(familiar);
+    assertEquals(familiar, KoLCharacter.getFamiliar());
+
+    // Install Mannequin Head
+    urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=4";
+    responseText = loadHTMLResponse("request/test_scrapheap_unequip_bird_cage.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1445;
+    YouRobotManager.postChoice1(urlString, request);
+    assertEquals(4, Preferences.getInteger("youRobotTop"));
+
+    // Verify that we no longer have our familiar
+    assertEquals(FamiliarData.NO_FAMILIAR, KoLCharacter.getFamiliar());
   }
 
   @Test

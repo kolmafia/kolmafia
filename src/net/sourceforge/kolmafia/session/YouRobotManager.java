@@ -679,7 +679,9 @@ public class YouRobotManager {
       case 1447: // Statbot 5000
         {
           parseStatbotCost(text);
-          KoLCharacter.updateStatus();
+          if (!text.contains("You don't have enough Energy to do that.")) {
+            KoLCharacter.updateStatus();
+          }
           break;
         }
     }
