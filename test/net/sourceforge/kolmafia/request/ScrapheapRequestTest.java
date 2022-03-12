@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -65,7 +66,10 @@ public class ScrapheapRequestTest {
           "robot_potions",
           "robot_hp2"
         };
+    Arrays.sort(expected);
+
     var actual = Preferences.getString("youRobotCPUUpgrades").split(",");
+    Arrays.sort(actual);
 
     assertArrayEquals(expected, actual);
   }
