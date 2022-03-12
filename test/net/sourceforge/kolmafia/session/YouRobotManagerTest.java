@@ -138,6 +138,22 @@ public class YouRobotManagerTest {
   }
 
   @Test
+  public void canDiscoverStatbotCostOnVisit() throws IOException {
+    String responseText = loadHTMLResponse("request/test_scrapheap_visit_statbot.html");
+
+    ChoiceManager.lastChoice = 1447;
+    GenericRequest request = new GenericRequest("choice.php?forceoption=0");
+    request.responseText = responseText;
+    assertEquals(0, Preferences.getInteger("statbotUses"));
+    YouRobotManager.visitChoice(request);
+    assertEquals(10, Preferences.getInteger("statbotUses"));
+
+    // choice.php?pwd&whichchoice=1447&option=3
+    // request/test_scrapheap_activate_statbot.html
+    // *** We do not update statbotUses after a successful activation
+  }
+
+  @Test
   public void canRegisterRequests() throws IOException {
     String urlString = "choice.php?whichchoice=1445&show=cpus";
     String expected = "Inspecting CPU Upgrade options at the Reassembly Station.";
@@ -186,6 +202,12 @@ public class YouRobotManagerTest {
 
     urlString = "choice.php?pwd&whichchoice=1445&part=bottom&show=bottom&option=1&p=7";
     expected = "Installing Snowplow as your Propulsion System for 30 scrap.";
+    assertTrue(YouRobotManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+
+    urlString = "choice.php?pwd&whichchoice=1447&option=3";
+    expected = "Spending 20 energy to upgrade Moxie by 5 points.";
+    Preferences.setInteger("statbotUses", 10);
     assertTrue(YouRobotManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
   }
