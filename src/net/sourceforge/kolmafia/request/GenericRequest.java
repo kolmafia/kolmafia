@@ -1502,7 +1502,7 @@ public class GenericRequest implements Runnable {
 
       for (Entry<String, List<String>> entry : headerFields.entrySet()) {
         String key = entry.getKey();
-        if (key == null || !key.equals("Set-Cookie")) {
+        if (key == null || !key.equalsIgnoreCase("Set-Cookie")) {
           continue;
         }
 
@@ -1542,7 +1542,7 @@ public class GenericRequest implements Runnable {
   }
 
   public static boolean specialCookie(final String name) {
-    return name.equals("PHPSESSID") || name.equals("AWSALB");
+    return name.equals("PHPSESSID") || name.equals("AWSALB") || name.equals("AWSALBCORS");
   }
 
   private URL buildURL() throws MalformedURLException {
@@ -1742,7 +1742,7 @@ public class GenericRequest implements Runnable {
           return true;
         }
 
-        if (this.responseCode != 0) {
+        if (this.responseCode != 0 && this.redirectLocation == null) {
           String message =
               "Server returned response code "
                   + this.responseCode
