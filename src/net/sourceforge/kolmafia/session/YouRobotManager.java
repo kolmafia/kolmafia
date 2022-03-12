@@ -21,19 +21,36 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class YouRobotManager {
 
-  public enum Part {
-    TOP("top", "Top Attachment"),
-    LEFT("left", "Left Arm"),
-    RIGHT("right", "Right Arm"),
-    BOTTOM("bottom", "Propulsion System"),
+  private static final Map<String, Part> keywordToPart = new HashMap<>();
+
+  // Index upgrade maps
+  private static final Map<Integer, RobotUpgrade> indexToLeft = new HashMap<>();
+  private static final Map<Integer, RobotUpgrade> indexToRight = new HashMap<>();
+  private static final Map<Integer, RobotUpgrade> indexToTop = new HashMap<>();
+  private static final Map<Integer, RobotUpgrade> indexToBottom = new HashMap<>();
+  private static final Map<String, RobotUpgrade> keywordToCPU = new HashMap<>();
+
+  private static final Map<Part, Map<Integer, RobotUpgrade>> partToIndexMap = new HashMap<>();
+
+  public static enum Part {
+    TOP("top", "Top Attachment", indexToTop),
+    LEFT("left", "Left Arm", indexToLeft),
+    RIGHT("right", "Right Arm", indexToRight),
+    BOTTOM("bottom", "Propulsion System", indexToBottom),
     CPU("cpus", "CPU Upgrade");
 
     String keyword;
     String name;
 
     Part(String keyword, String name) {
+      this(keyword, name, null);
+    }
+
+    Part(String keyword, String name, Map<Integer, RobotUpgrade> indexMap) {
       this.keyword = keyword;
       this.name = name;
+      keywordToPart.put(keyword, this);
+      partToIndexMap.put(this, indexMap);
     }
 
     String getKeyword() {
@@ -50,21 +67,13 @@ public class YouRobotManager {
     }
   }
 
-  private static Map<String, Part> keywordToPart = new HashMap<>();
-
-  static {
-    for (Part part : Part.values()) {
-      keywordToPart.put(part.getKeyword(), part);
-    }
-  }
-
-  public enum Effect {
+  public static enum Effect {
     PASSIVE,
     COMBAT,
     EQUIP;
   }
 
-  public enum Usable {
+  public static enum Usable {
     NONE("no special effect"),
     HAT("can equip hats", EquipmentManager.HAT),
     WEAPON("can equip weapons", EquipmentManager.WEAPON),
@@ -100,7 +109,22 @@ public class YouRobotManager {
     }
   }
 
-  public enum RobotUpgrade {
+  private static final Set<RobotUpgrade> allUpgrades = new HashSet<>();
+  private static final Map<String, RobotUpgrade> nameToUpgrade = new HashMap<>();
+
+  // Part upgrade sets
+  private static final Set<RobotUpgrade> allLeftUpgrades = new HashSet<>();
+  private static final Set<RobotUpgrade> allRightUpgrades = new HashSet<>();
+  private static final Set<RobotUpgrade> allTopUpgrades = new HashSet<>();
+  private static final Set<RobotUpgrade> allBottomUpgrades = new HashSet<>();
+  private static final Set<RobotUpgrade> allCPUUpgrades = new HashSet<>();
+
+  // Effect upgrade sets
+  private static final Set<RobotUpgrade> allPassiveUpgrades = new HashSet<>();
+  private static final Set<RobotUpgrade> allCombatUpgrades = new HashSet<>();
+  private static final Set<RobotUpgrade> allEquipUpgrades = new HashSet<>();
+
+  public static enum RobotUpgrade {
     PEA_SHOOTER("Pea Shooter", Part.TOP, 1, 5, Effect.COMBAT, "Shoot Pea"),
     BIRD_CAGE("Bird Cage", Part.TOP, 2, 5, Usable.FAMILIAR),
     SOLAR_PANEL("Solar Panel", Part.TOP, 3, 5),
@@ -179,6 +203,7 @@ public class YouRobotManager {
       this.effect = effect;
       this.cost = cost;
       this.mods = Modifiers.getModifiers("Robot", name);
+      addToUpgradeSets();
     }
 
     // COMBAT
@@ -188,6 +213,7 @@ public class YouRobotManager {
       this.keyword = "";
       this.string = skill;
       this.usable = Usable.NONE;
+      addToIndexMaps();
     }
 
     // PASSIVE
@@ -197,6 +223,7 @@ public class YouRobotManager {
       this.keyword = "";
       this.string = description;
       this.usable = Usable.NONE;
+      addToIndexMaps();
     }
 
     // PASSIVE
@@ -206,6 +233,7 @@ public class YouRobotManager {
       this.keyword = "";
       this.string = this.mods.getString("Modifiers");
       this.usable = Usable.NONE;
+      addToIndexMaps();
     }
 
     // EQUIP
@@ -215,6 +243,7 @@ public class YouRobotManager {
       this.keyword = "";
       this.string = thing.toString();
       this.usable = thing;
+      addToIndexMaps();
     }
 
     // CPU PASSIVE
@@ -224,6 +253,7 @@ public class YouRobotManager {
       this.keyword = keyword;
       this.string = string;
       this.usable = Usable.NONE;
+      addToIndexMaps();
     }
 
     // CPU PASSIVE
@@ -233,6 +263,7 @@ public class YouRobotManager {
       this.keyword = keyword;
       this.string = this.mods.getString("Modifiers");
       this.usable = Usable.NONE;
+      addToIndexMaps();
     }
 
     // CPU EQUIP
@@ -242,6 +273,7 @@ public class YouRobotManager {
       this.keyword = keyword;
       this.string = thing.toString();
       this.usable = thing;
+      addToIndexMaps();
     }
 
     public String getName() {
@@ -254,6 +286,14 @@ public class YouRobotManager {
 
     public Effect getEffect() {
       return this.effect;
+    }
+
+    public Modifiers getMods() {
+      return this.mods;
+    }
+
+    public Usable getUsable() {
+      return this.usable;
     }
 
     public int getIndex() {
@@ -276,32 +316,73 @@ public class YouRobotManager {
     public String toString() {
       return this.name;
     }
+
+    private void addToUpgradeSets() {
+      allUpgrades.add(this);
+      nameToUpgrade.put(this.name, this);
+      addToPartUpgradeSets();
+      addToEffectUpgradeSets();
+    }
+
+    private void addToPartUpgradeSets() {
+      switch (this.part) {
+        case TOP:
+          allTopUpgrades.add(this);
+          break;
+        case LEFT:
+          allLeftUpgrades.add(this);
+          break;
+        case RIGHT:
+          allRightUpgrades.add(this);
+          break;
+        case BOTTOM:
+          allBottomUpgrades.add(this);
+          break;
+        case CPU:
+          allCPUUpgrades.add(this);
+          break;
+      }
+    }
+
+    private void addToEffectUpgradeSets() {
+      switch (this.effect) {
+        case PASSIVE:
+          allPassiveUpgrades.add(this);
+          break;
+        case COMBAT:
+          allCombatUpgrades.add(this);
+          break;
+        case EQUIP:
+          allEquipUpgrades.add(this);
+          break;
+      }
+    }
+
+    private void addToIndexMaps() {
+      switch (this.part) {
+        case TOP:
+          indexToTop.put(this.index, this);
+          break;
+        case LEFT:
+          indexToLeft.put(this.index, this);
+          break;
+        case RIGHT:
+          indexToRight.put(this.index, this);
+          break;
+        case BOTTOM:
+          indexToBottom.put(this.index, this);
+          break;
+        case CPU:
+          keywordToCPU.put(this.keyword, this);
+          break;
+      }
+    }
   }
 
-  private static Set<RobotUpgrade> allUpgrades = new HashSet<>();
-  private static Set<RobotUpgrade> allLeftUpgrades = new HashSet<>();
-  private static Set<RobotUpgrade> allRightUpgrades = new HashSet<>();
-  private static Set<RobotUpgrade> allTopUpgrades = new HashSet<>();
-  private static Set<RobotUpgrade> allBottomUpgrades = new HashSet<>();
-  private static Set<RobotUpgrade> allCPUUpgrades = new HashSet<>();
-  private static Set<RobotUpgrade> allPassiveUpgrades = new HashSet<>();
-  private static Set<RobotUpgrade> allCombatUpgrades = new HashSet<>();
-  private static Set<RobotUpgrade> allEquipUpgrades = new HashSet<>();
-
-  private static Map<Integer, RobotUpgrade> indexToLeft = new HashMap<>();
-  private static Map<Integer, RobotUpgrade> indexToRight = new HashMap<>();
-  private static Map<Integer, RobotUpgrade> indexToTop = new HashMap<>();
-  private static Map<Integer, RobotUpgrade> indexToBottom = new HashMap<>();
-  private static Map<String, RobotUpgrade> keywordToCPU = new HashMap<>();
-  private static Map<String, RobotUpgrade> nameToUpgrade = new HashMap<>();
-
-  static final Map<Part, Map<Integer, RobotUpgrade>> partToIndexMap = new HashMap<>();
-
   static {
-    partToIndexMap.put(Part.TOP, indexToTop);
-    partToIndexMap.put(Part.LEFT, indexToLeft);
-    partToIndexMap.put(Part.RIGHT, indexToRight);
-    partToIndexMap.put(Part.BOTTOM, indexToBottom);
+    // This forces the RobotUpgrade enum to be initialized, which will populate
+    // all the various sets and maps from the constructors.
+    RobotUpgrade[] values = RobotUpgrade.values();
   }
 
   private static RobotUpgrade urlFieldsToUpgrade(Part part, String chosenPart) {
@@ -311,71 +392,31 @@ public class YouRobotManager {
     return partToIndexMap.get(part).get(StringUtilities.parseInt(chosenPart));
   }
 
-  private static void addToUpgradeSets(RobotUpgrade upgrade) {
-    allUpgrades.add(upgrade);
-    nameToUpgrade.put(upgrade.getName(), upgrade);
-    switch (upgrade.getPart()) {
-      case TOP:
-        allTopUpgrades.add(upgrade);
-        indexToTop.put(upgrade.getIndex(), upgrade);
-        break;
-      case LEFT:
-        allLeftUpgrades.add(upgrade);
-        indexToLeft.put(upgrade.getIndex(), upgrade);
-        break;
-      case RIGHT:
-        allRightUpgrades.add(upgrade);
-        indexToRight.put(upgrade.getIndex(), upgrade);
-        break;
-      case BOTTOM:
-        allBottomUpgrades.add(upgrade);
-        indexToBottom.put(upgrade.getIndex(), upgrade);
-        break;
-      case CPU:
-        allCPUUpgrades.add(upgrade);
-        keywordToCPU.put(upgrade.getKeyword(), upgrade);
-        break;
-    }
-    switch (upgrade.getEffect()) {
-      case PASSIVE:
-        allPassiveUpgrades.add(upgrade);
-        break;
-      case COMBAT:
-        allCombatUpgrades.add(upgrade);
-        break;
-      case EQUIP:
-        allEquipUpgrades.add(upgrade);
-        break;
-    }
-  }
-
-  static {
-    for (RobotUpgrade upgrade : RobotUpgrade.values()) {
-      addToUpgradeSets(upgrade);
-    }
-  }
-
   // *** Current state of Configuration
 
-  private static RobotUpgrade currentLeft = null;
-  private static RobotUpgrade currentTop = null;
-  private static RobotUpgrade currentRight = null;
-  private static RobotUpgrade currentBottom = null;
-  private static Set<RobotUpgrade> currentCPU = new HashSet<>();
+  private static final Map<Part, RobotUpgrade> currentParts = new HashMap<>();
+  private static final Set<RobotUpgrade> currentCPU = new HashSet<>();
 
-  public static void reset() {
-    currentLeft = null;
-    currentTop = null;
-    currentRight = null;
-    currentBottom = null;
-    currentCPU.clear();
+  public static boolean hasEquipped(String name) {
+    RobotUpgrade upgrade = nameToUpgrade.get(name);
+    return (upgrade == null) ? false : hasEquipped(upgrade);
+  }
+
+  public static boolean hasEquipped(RobotUpgrade upgrade) {
+    Part part = upgrade.getPart();
+    switch (part) {
+      case TOP:
+      case LEFT:
+      case RIGHT:
+      case BOTTOM:
+        return currentParts.get(part) == upgrade;
+      case CPU:
+        return currentCPU.contains(upgrade);
+    }
+    return false;
   }
 
   public static void loadConfiguration() {
-    currentLeft = indexToLeft.get(Preferences.getInteger("youRobotLeft"));
-    currentRight = indexToLeft.get(Preferences.getInteger("youRobotRight"));
-    currentTop = indexToLeft.get(Preferences.getInteger("youRobotTop"));
-    currentBottom = indexToLeft.get(Preferences.getInteger("youRobotBottom"));
     for (String keyword : Preferences.getString("youRobotCPUUpgrades").split(",")) {
       RobotUpgrade upgrade = keywordToCPU.get(keyword);
       if (upgrade != null) {
@@ -385,34 +426,9 @@ public class YouRobotManager {
   }
 
   public static void saveConfiguration() {
-    Preferences.setInteger("youRobotLeft", currentLeft == null ? 0 : currentLeft.getIndex());
-    Preferences.setInteger("youRobotRight", currentRight == null ? 0 : currentRight.getIndex());
-    Preferences.setInteger("youRobotTop", currentTop == null ? 0 : currentTop.getIndex());
-    Preferences.setInteger("youRobotBottom", currentBottom == null ? 0 : currentBottom.getIndex());
     String value =
         currentCPU.stream().map(RobotUpgrade::getKeyword).sorted().collect(Collectors.joining(","));
     Preferences.setString("youRobotCPUUpgrades", value);
-  }
-
-  public static boolean hasEquipped(String name) {
-    RobotUpgrade upgrade = nameToUpgrade.get(name);
-    return (upgrade == null) ? false : hasEquipped(upgrade);
-  }
-
-  public static boolean hasEquipped(RobotUpgrade upgrade) {
-    switch (upgrade.getPart()) {
-      case TOP:
-        return currentTop == upgrade;
-      case LEFT:
-        return currentLeft == upgrade;
-      case RIGHT:
-        return currentRight == upgrade;
-      case BOTTOM:
-        return currentBottom == upgrade;
-      case CPU:
-        return currentCPU.contains(upgrade);
-    }
-    return false;
   }
 
   // *** Public methods to parse robot info from KoL responses
@@ -426,14 +442,29 @@ public class YouRobotManager {
       Pattern.compile("(otherimages/robot/(left|right|top|bottom|body)(\\d+).png)\"");
 
   public static void parseAvatar(final String text) {
+
+    // Not all parts are necessarily present, since a newly ascended character has only three.
+    currentParts.clear();
+
     List<String> images = new ArrayList<>();
     Matcher m = AVATAR.matcher(text);
     while (m.find()) {
       images.add(m.group(1));
       String section = m.group(2);
-      int config = StringUtilities.parseInt(m.group(3));
-      Preferences.setInteger("youRobot" + StringUtilities.toTitleCase(section), config);
+      int index = StringUtilities.parseInt(m.group(3));
+
+      if (!section.equals("body")) {
+        // Set the "current" configuration variables
+        Part part = keywordToPart.get(section);
+        RobotUpgrade upgrade = partToIndexMap.get(part).get(index);
+        currentParts.put(part, upgrade);
+      }
+
+      // Set the legacy properties for use by scripts
+      Preferences.setInteger("youRobot" + StringUtilities.toTitleCase(section), index);
     }
+
+    // Save the avatar so you can admire it on the Daily Deeds frame
     KoLCharacter.setAvatar(images.toArray(new String[images.size()]));
   }
 
@@ -474,10 +505,9 @@ public class YouRobotManager {
 
   // Used by KoLCharacter.recalculateAdjustments
   public static void addRobotModifiers(Modifiers mods) {
-    mods.add(Modifiers.getModifiers("RobotTop", Preferences.getString("youRobotTop")));
-    mods.add(Modifiers.getModifiers("RobotRight", Preferences.getString("youRobotRight")));
-    mods.add(Modifiers.getModifiers("RobotBottom", Preferences.getString("youRobotBottom")));
-    mods.add(Modifiers.getModifiers("RobotLeft", Preferences.getString("youRobotLeft")));
+    for (RobotUpgrade upgrade : currentParts.values()) {
+      mods.add(upgrade.getMods());
+    }
 
     for (String cpuUpgrade : Preferences.getString("youRobotCPUUpgrades").split(",")) {
       mods.add(Modifiers.getModifiers("RobotCPU", cpuUpgrade));
@@ -486,20 +516,20 @@ public class YouRobotManager {
 
   // Used by FamiliarData.canEquip
   public static boolean canUseFamiliars() {
-    return Preferences.getInteger("youRobotTop") == 2;
+    return currentParts.get(Part.TOP).getUsable() == Usable.FAMILIAR;
   }
 
   // Used by EquipmentManager.canEquip
   public static boolean canEquip(final int type) {
     switch (type) {
       case KoLConstants.EQUIP_HAT:
-        return Preferences.getInteger("youRobotTop") == 4;
+        return currentParts.get(Part.TOP).getUsable() == Usable.HAT;
       case KoLConstants.EQUIP_WEAPON:
-        return Preferences.getInteger("youRobotLeft") == 4;
+        return currentParts.get(Part.LEFT).getUsable() == Usable.WEAPON;
       case KoLConstants.EQUIP_OFFHAND:
-        return Preferences.getInteger("youRobotRight") == 4;
+        return currentParts.get(Part.RIGHT).getUsable() == Usable.OFFHAND;
       case KoLConstants.EQUIP_PANTS:
-        return Preferences.getInteger("youRobotBottom") == 4;
+        return currentParts.get(Part.BOTTOM).getUsable() == Usable.PANTS;
       case KoLConstants.EQUIP_SHIRT:
         return Preferences.getString("youRobotCPUUpgrades").contains("robot_shirt");
     }
