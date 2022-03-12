@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,6 +41,7 @@ public class YouRobotManager {
     CPU("cpus", "CPU Upgrade");
 
     String keyword;
+    String section;
     String name;
 
     Part(String keyword, String name) {
@@ -48,6 +50,7 @@ public class YouRobotManager {
 
     Part(String keyword, String name, Map<Integer, RobotUpgrade> indexMap) {
       this.keyword = keyword;
+      this.section = StringUtilities.toTitleCase(keyword);
       this.name = name;
       keywordToPart.put(keyword, this);
       partToIndexMap.put(this, indexMap);
@@ -55,6 +58,10 @@ public class YouRobotManager {
 
     String getKeyword() {
       return this.keyword;
+    }
+
+    String getSection() {
+      return this.section;
     }
 
     String getName() {
@@ -396,6 +403,16 @@ public class YouRobotManager {
 
   private static final Map<Part, RobotUpgrade> currentParts = new HashMap<>();
   private static final Set<RobotUpgrade> currentCPU = new HashSet<>();
+  private static boolean canUseShirts = false;
+  private static boolean canUsePotions = false;
+
+  // For testing
+  public static void reset() {
+    currentParts.clear();
+    currentCPU.clear();
+    canUseShirts = false;
+    canUsePotions = false;
+  }
 
   public static boolean hasEquipped(String name) {
     RobotUpgrade upgrade = nameToUpgrade.get(name);
@@ -416,21 +433,6 @@ public class YouRobotManager {
     return false;
   }
 
-  public static void loadConfiguration() {
-    for (String keyword : Preferences.getString("youRobotCPUUpgrades").split(",")) {
-      RobotUpgrade upgrade = keywordToCPU.get(keyword);
-      if (upgrade != null) {
-        currentCPU.add(upgrade);
-      }
-    }
-  }
-
-  public static void saveConfiguration() {
-    String value =
-        currentCPU.stream().map(RobotUpgrade::getKeyword).sorted().collect(Collectors.joining(","));
-    Preferences.setString("youRobotCPUUpgrades", value);
-  }
-
   // *** Public methods to parse robot info from KoL responses
 
   // Parse avatar from:
@@ -442,9 +444,7 @@ public class YouRobotManager {
       Pattern.compile("(otherimages/robot/(left|right|top|bottom|body)(\\d+).png)\"");
 
   public static void parseAvatar(final String text) {
-
-    // Not all parts are necessarily present, since a newly ascended character has only three.
-    currentParts.clear();
+    Map<Part, RobotUpgrade> parts = new HashMap<>();
 
     List<String> images = new ArrayList<>();
     Matcher m = AVATAR.matcher(text);
@@ -457,15 +457,34 @@ public class YouRobotManager {
         // Set the "current" configuration variables
         Part part = keywordToPart.get(section);
         RobotUpgrade upgrade = partToIndexMap.get(part).get(index);
-        currentParts.put(part, upgrade);
+        parts.put(part, upgrade);
+      } else {
+        // This never changes, but make sure it is set once, at least
+        Preferences.setInteger("youRobotBody", index);
       }
-
-      // Set the legacy properties for use by scripts
-      Preferences.setInteger("youRobot" + StringUtilities.toTitleCase(section), index);
     }
 
-    // Save the avatar so you can admire it on the Daily Deeds frame
-    KoLCharacter.setAvatar(images.toArray(new String[images.size()]));
+    boolean changed = false;
+    for (Entry<Part, RobotUpgrade> entry : parts.entrySet()) {
+      Part part = entry.getKey();
+      RobotUpgrade previous = currentParts.get(part);
+      RobotUpgrade upgrade = entry.getValue();
+      if (upgrade != previous) {
+        // Add to current configuration
+        currentParts.put(part, upgrade);
+        // Set the legacy properties for use by scripts
+        Preferences.setInteger("youRobot" + part.getSection(), upgrade.getIndex());
+        // *** Fire listeners?
+        // *** Adjust combat skills?
+        changed = true;
+      }
+    }
+
+    if (changed) {
+      // Save the avatar so you can admire it on the Daily Deeds frame
+      KoLCharacter.setAvatar(images.toArray(new String[images.size()]));
+      KoLCharacter.recalculateAdjustments();
+    }
   }
 
   // Parse CPU upgrades from:
@@ -475,14 +494,57 @@ public class YouRobotManager {
       Pattern.compile("<button.*?value=\"([a-z0-9_]+)\"[^\\(]+\\(already installed\\)");
 
   public static void parseCPUUpgrades(final String text) {
-    List<String> cpuUpgrades = new ArrayList<>();
+    Set<RobotUpgrade> upgrades = new HashSet<>();
+    boolean useShirts = false;
+    boolean usePotions = false;
+
     Matcher m = CPU_UPGRADE_INSTALLED.matcher(text);
 
     while (m.find()) {
-      cpuUpgrades.add(m.group(1));
+      String keyword = m.group(1);
+      RobotUpgrade upgrade = keywordToCPU.get(keyword);
+      if (upgrade != null) {
+        upgrades.add(upgrade);
+        if (keyword.equals("robot_shirts")) {
+          useShirts = true;
+        }
+        if (keyword.equals("robot_potions")) {
+          usePotions = true;
+        }
+      }
     }
 
-    Preferences.setString("youRobotCPUUpgrades", String.join(",", cpuUpgrades));
+    // See if anything has changed. If not, we can punt now.
+    boolean changed = false;
+
+    if (canUseShirts != useShirts) {
+      canUseShirts = useShirts;
+      // *** fire (shirts)
+      changed = true;
+    }
+
+    if (canUsePotions != usePotions) {
+      canUsePotions = usePotions;
+      // *** fire (potions)
+      changed = true;
+    }
+
+    if (upgrades.size() != currentCPU.size()) {
+      currentCPU.clear();
+      currentCPU.addAll(upgrades);
+      KoLCharacter.recalculateAdjustments();
+      changed = true;
+    }
+
+    if (changed) {
+      // Set the legacy property for use by scripts
+      String value =
+          currentCPU.stream()
+              .map(RobotUpgrade::getKeyword)
+              .sorted()
+              .collect(Collectors.joining(","));
+      Preferences.setString("youRobotCPUUpgrades", value);
+    }
   }
 
   // Parse Statbot cost from:
@@ -509,8 +571,8 @@ public class YouRobotManager {
       mods.add(upgrade.getMods());
     }
 
-    for (String cpuUpgrade : Preferences.getString("youRobotCPUUpgrades").split(",")) {
-      mods.add(Modifiers.getModifiers("RobotCPU", cpuUpgrade));
+    for (RobotUpgrade upgrade : currentCPU) {
+      mods.add(upgrade.getMods());
     }
   }
 
@@ -531,14 +593,14 @@ public class YouRobotManager {
       case KoLConstants.EQUIP_PANTS:
         return currentParts.get(Part.BOTTOM).getUsable() == Usable.PANTS;
       case KoLConstants.EQUIP_SHIRT:
-        return Preferences.getString("youRobotCPUUpgrades").contains("robot_shirt");
+        return canUseShirts;
     }
     return true;
   }
 
   // Used by KoLCharacter.canUsePotions
   public static boolean canUsePotions() {
-    return Preferences.getString("youRobotCPUUpgrades").contains("robot_potions");
+    return canUsePotions;
   }
 
   // *** Interface for ChoiceManager

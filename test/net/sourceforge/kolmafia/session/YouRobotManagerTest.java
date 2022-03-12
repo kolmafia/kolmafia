@@ -53,6 +53,7 @@ public class YouRobotManagerTest {
     Preferences.setInteger("youRobotRight", 0);
     Preferences.setInteger("youRobotBottom", 0);
     Preferences.setString("youRobotCPUUpgrades", "");
+    YouRobotManager.reset();
     KoLCharacter.setAvatar("");
     ChoiceManager.lastChoice = 0;
     ChoiceManager.lastChoice = 0;
@@ -236,7 +237,7 @@ public class YouRobotManagerTest {
     assertEquals(0, Preferences.getInteger("youRobotTop"));
 
     // Look at Top Attachments
-    String urlString = "choice.php?whichchoice=1445&show=top;";
+    String urlString = "choice.php?whichchoice=1445&show=top";
     String responseText = loadHTMLResponse("request/test_scrapheap_show_top.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
@@ -281,7 +282,7 @@ public class YouRobotManagerTest {
   @Test
   public void willUnequipWhenSwapOutEquipPart() throws IOException {
     // Look at Top Attachments
-    String urlString = "choice.php?whichchoice=1445&show=top;";
+    String urlString = "choice.php?whichchoice=1445&show=top";
     String responseText = loadHTMLResponse("request/test_scrapheap_show_top.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
@@ -307,5 +308,47 @@ public class YouRobotManagerTest {
 
     // Verify that we are no longer wearing a hat
     assertEquals(EquipmentRequest.UNEQUIP, EquipmentManager.getEquipment(EquipmentManager.HAT));
+  }
+
+  @Test
+  public void willAddCPUUpgrades() throws IOException {
+    // Look at CPU Upgrades
+    String urlString = "choice.php?whichchoice=1445&show=cpus";
+    String responseText = loadHTMLResponse("request/test_scrapheap_show_cpus.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1445;
+    YouRobotManager.visitChoice(request);
+
+    String[] keywords = Preferences.getString("youRobotCPUUpgrades").split(",");
+    Set<String> cpus = new HashSet<>(Arrays.asList(keywords));
+    assertEquals(7, cpus.size());
+    assertTrue(cpus.contains("robot_energy"));
+    assertTrue(cpus.contains("robot_potions"));
+    assertTrue(cpus.contains("robot_meat"));
+    assertTrue(cpus.contains("robot_items"));
+    assertTrue(cpus.contains("robot_shirt"));
+    assertTrue(cpus.contains("robot_hp1"));
+    assertTrue(cpus.contains("robot_hp2"));
+
+    // Buy a CPU Upgrade
+    urlString = "choice.php?pwd&whichchoice=1445&part=cpus&show=cpus&option=2&p=robot_resist";
+    responseText = loadHTMLResponse("request/test_scrapheap_cpu_upgrade.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1445;
+    YouRobotManager.postChoice1(urlString, request);
+
+    keywords = Preferences.getString("youRobotCPUUpgrades").split(",");
+    cpus = new HashSet<>(Arrays.asList(keywords));
+    assertEquals(8, cpus.size());
+    assertTrue(cpus.contains("robot_energy"));
+    assertTrue(cpus.contains("robot_potions"));
+    assertTrue(cpus.contains("robot_meat"));
+    assertTrue(cpus.contains("robot_items"));
+    assertTrue(cpus.contains("robot_shirt"));
+    assertTrue(cpus.contains("robot_hp1"));
+    assertTrue(cpus.contains("robot_hp2"));
+    assertTrue(cpus.contains("robot_resist"));
   }
 }
