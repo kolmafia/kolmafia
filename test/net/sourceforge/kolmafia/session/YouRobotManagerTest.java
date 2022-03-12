@@ -142,18 +142,28 @@ public class YouRobotManagerTest {
 
   @Test
   public void canDiscoverStatbotCostOnVisit() throws IOException {
+    String urlString = "choice.php?forceoption=0";
     String responseText = loadHTMLResponse("request/test_scrapheap_visit_statbot.html");
-
-    ChoiceManager.lastChoice = 1447;
-    GenericRequest request = new GenericRequest("choice.php?forceoption=0");
+    GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
+    ChoiceManager.lastChoice = 1447;
     assertEquals(0, Preferences.getInteger("statbotUses"));
     YouRobotManager.visitChoice(request);
     assertEquals(10, Preferences.getInteger("statbotUses"));
+  }
 
-    // choice.php?pwd&whichchoice=1447&option=3
-    // request/test_scrapheap_activate_statbot.html
-    // *** We do not update statbotUses after a successful activation
+  @Disabled("Bug needs fixing")
+  @Test
+  public void canDiscoverStatbotCostOnActivation() throws IOException {
+    String urlString = "choice.php?pwd&whichchoice=1447&option=3";
+    String responseText = loadHTMLResponse("request/test_scrapheap_activate_statbot.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1447;
+    assertEquals(0, Preferences.getInteger("statbotUses"));
+    YouRobotManager.postChoice1(responseText, request);
+    // *** Failure! YouRobotManager does not update statbotUses after an activation
+    assertEquals(11, Preferences.getInteger("statbotUses"));
   }
 
   @Test
@@ -222,14 +232,25 @@ public class YouRobotManagerTest {
 
     assertFalse(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
     assertFalse(KoLCharacter.availableCombatSkill(SkillPool.TESLA_BLAST));
+    assertEquals(0, Preferences.getInteger("youRobotTop"));
 
-    // Install Pea Shooter, learn Shoot Pea
-    String urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=1";
-    String responseText = loadHTMLResponse("request/test_scrapheap_add_skill.html");
+    // Look at Top Attachments
+    String urlString = "choice.php?whichchoice=1445&show=top;";
+    String responseText = loadHTMLResponse("request/test_scrapheap_show_top.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1445;
+    YouRobotManager.visitChoice(request);
+    assertEquals(4, Preferences.getInteger("youRobotTop"));
+
+    // Install Pea Shooter, learn Shoot Pea
+    urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=1";
+    responseText = loadHTMLResponse("request/test_scrapheap_add_skill.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1445;
     YouRobotManager.postChoice1(urlString, request);
+    assertEquals(1, Preferences.getInteger("youRobotTop"));
     // *** Failure! YouRobotManager does not learn combat skills
     assertTrue(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
 
@@ -240,6 +261,7 @@ public class YouRobotManagerTest {
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1445;
     YouRobotManager.postChoice1(urlString, request);
+    assertEquals(7, Preferences.getInteger("youRobotTop"));
     assertFalse(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
     // *** Failure! YouRobotManager does not learn combat skills
     assertTrue(KoLCharacter.availableCombatSkill(SkillPool.TESLA_BLAST));
@@ -251,6 +273,7 @@ public class YouRobotManagerTest {
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1445;
     YouRobotManager.postChoice1(urlString, request);
+    assertEquals(3, Preferences.getInteger("youRobotTop"));
     assertFalse(KoLCharacter.availableCombatSkill(SkillPool.TESLA_BLAST));
   }
 }
