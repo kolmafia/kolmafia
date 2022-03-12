@@ -403,15 +403,11 @@ public class YouRobotManager {
 
   private static final Map<Part, RobotUpgrade> currentParts = new HashMap<>();
   private static final Set<RobotUpgrade> currentCPU = new HashSet<>();
-  private static boolean canUseShirts = false;
-  private static boolean canUsePotions = false;
 
   // For testing
   public static void reset() {
     currentParts.clear();
     currentCPU.clear();
-    canUseShirts = false;
-    canUsePotions = false;
   }
 
   public static boolean hasEquipped(String name) {
@@ -517,14 +513,12 @@ public class YouRobotManager {
     // See if anything has changed. If not, we can punt now.
     boolean changed = false;
 
-    if (canUseShirts != useShirts) {
-      canUseShirts = useShirts;
+    if (useShirts != canUseShirts()) {
       // *** fire (shirts)
       changed = true;
     }
 
-    if (canUsePotions != usePotions) {
-      canUsePotions = usePotions;
+    if (usePotions != canUsePotions()) {
       // *** fire (potions)
       changed = true;
     }
@@ -593,14 +587,18 @@ public class YouRobotManager {
       case KoLConstants.EQUIP_PANTS:
         return currentParts.get(Part.BOTTOM).getUsable() == Usable.PANTS;
       case KoLConstants.EQUIP_SHIRT:
-        return canUseShirts;
+        return canUseShirts();
     }
     return true;
   }
 
+  private static boolean canUseShirts() {
+    return currentCPU.contains(RobotUpgrade.TOPOLOGY_GRID);
+  }
+
   // Used by KoLCharacter.canUsePotions
   public static boolean canUsePotions() {
-    return canUsePotions;
+    return currentCPU.contains(RobotUpgrade.BIOMASS_PROCESSING_FUNCTION);
   }
 
   // *** Interface for ChoiceManager

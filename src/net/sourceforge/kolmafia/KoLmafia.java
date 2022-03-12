@@ -102,6 +102,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
+import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
@@ -737,6 +738,7 @@ public abstract class KoLmafia {
     } else if (KoLCharacter.isPlumber()) {
       KoLCharacter.resetCurrentPP();
     } else if (KoLCharacter.inRobocore()) {
+      YouRobotManager.reset();
       RequestThread.postRequest(new ScrapheapRequest("sh_configure"));
       RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1445&show=cpus"));
     }
