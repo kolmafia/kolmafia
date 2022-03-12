@@ -490,7 +490,6 @@ public class YouRobotManager {
   }
 
   // Used by EquipmentManager.canEquip
-  // Used by KoLCharacter.isTorsoAware
   public static boolean canEquip(final int type) {
     switch (type) {
       case KoLConstants.EQUIP_HAT:
@@ -589,6 +588,7 @@ public class YouRobotManager {
         }
       case 1447: // Statbot 5000
         {
+          parseStatbotCost(text);
           KoLCharacter.updateStatus();
           break;
         }

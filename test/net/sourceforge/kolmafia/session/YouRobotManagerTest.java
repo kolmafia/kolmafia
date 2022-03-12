@@ -155,7 +155,6 @@ public class YouRobotManagerTest {
     assertEquals(10, Preferences.getInteger("statbotUses"));
   }
 
-  @Disabled("Bug needs fixing")
   @Test
   public void canDiscoverStatbotCostOnActivation() throws IOException {
     String urlString = "choice.php?pwd&whichchoice=1447&option=3";
@@ -165,7 +164,6 @@ public class YouRobotManagerTest {
     ChoiceManager.lastChoice = 1447;
     assertEquals(0, Preferences.getInteger("statbotUses"));
     YouRobotManager.postChoice1(responseText, request);
-    // *** Failure! YouRobotManager does not update statbotUses after an activation
     assertEquals(11, Preferences.getInteger("statbotUses"));
   }
 
