@@ -114,6 +114,7 @@ public class YouRobotManagerTest {
     // Verify that the properties and avatar are not set
     verifyNoAvatarOrProperties();
 
+    CharPaneRequest.compactCharacterPane = false;
     CharPaneRequest.checkYouRobot(responseText);
 
     // Verify that the properties and avatar are now set
