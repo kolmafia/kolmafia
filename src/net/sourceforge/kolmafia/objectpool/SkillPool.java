@@ -322,6 +322,8 @@ public class SkillPool {
   public static final int FEEL_NOSTALGIC = 7365;
   public static final int FEEL_PEACEFUL = 7366;
   public static final int FEEL_SUPERIOR = 7367;
+  public static final int SHOOT_PEA = 7369;
+  public static final int TESLA_BLAST = 7372;
   public static final int SHOCKING_LICK = 7380;
   public static final int BACK_UP = 7381;
   public static final int SHOW_SCRAPBOOK = 7382;

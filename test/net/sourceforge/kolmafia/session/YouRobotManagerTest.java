@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
@@ -20,6 +22,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class YouRobotManagerTest {
@@ -210,5 +213,44 @@ public class YouRobotManagerTest {
     Preferences.setInteger("statbotUses", 10);
     assertTrue(YouRobotManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
+  }
+
+  @Disabled("Bug needs fixing")
+  @Test
+  public void canTrackChangesInCombatSkills() throws IOException {
+    // Start with no known combat skills.
+
+    assertFalse(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
+    assertFalse(KoLCharacter.availableCombatSkill(SkillPool.TESLA_BLAST));
+
+    // Install Pea Shooter, learn Shoot Pea
+    String urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=1";
+    String responseText = loadHTMLResponse("request/test_scrapheap_add_skill.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1445;
+    YouRobotManager.postChoice1(urlString, request);
+    // *** Failure! YouRobotManager does not learn combat skills
+    assertTrue(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
+
+    // Install Tesla Blaster, lose Shoot Pea, gain Tesla Blast
+    urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=7";
+    responseText = loadHTMLResponse("request/test_scrapheap_add_skill_lose_skill.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1445;
+    YouRobotManager.postChoice1(urlString, request);
+    assertFalse(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
+    // *** Failure! YouRobotManager does not learn combat skills
+    assertTrue(KoLCharacter.availableCombatSkill(SkillPool.TESLA_BLAST));
+
+    // Install Solar Panel, lost Tesla Blast
+    urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=3";
+    responseText = loadHTMLResponse("request/test_scrapheap_lose_skill.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1445;
+    YouRobotManager.postChoice1(urlString, request);
+    assertFalse(KoLCharacter.availableCombatSkill(SkillPool.TESLA_BLAST));
   }
 }
