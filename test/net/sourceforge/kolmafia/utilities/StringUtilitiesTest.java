@@ -166,9 +166,7 @@ class StringUtilitiesTest {
   @Test
   public void itShouldHandleGoodAndBadEscape() {
     String testString = "a,\tb";
-    List<String> expected = new ArrayList<>();
-    expected.add("a");
-    expected.add("\tb");
+    List<String> expected = List.of("a", "\tb");
     try {
       List<String> result = StringUtilities.tokenizeString(testString, ',', '\\', false);
       assertEquals(expected, result, "Lists are not the same.");
@@ -181,9 +179,7 @@ class StringUtilitiesTest {
     test[2] = '\\';
     test[3] = 'g';
     testString = String.valueOf(test);
-    expected.clear();
-    expected.add("a");
-    expected.add("g");
+    expected = List.of("a", "g");
     try {
       List<String> result = StringUtilities.tokenizeString(testString);
       assertEquals(expected, result, "Lists are not the same.");
@@ -193,9 +189,6 @@ class StringUtilitiesTest {
     test[2] = 'g';
     test[3] = '\\';
     testString = String.valueOf(test);
-    expected.clear();
-    expected.add("a");
-    expected.add("g");
     try {
       List<String> result = StringUtilities.tokenizeString(testString);
       fail("Expected exception not thrown.");
