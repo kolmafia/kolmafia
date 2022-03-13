@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -221,6 +222,9 @@ public class YouRobotManager {
       this.effect = effect;
       this.cost = cost;
       this.mods = Modifiers.getModifiers("Robot", name);
+      this.index = 0;
+      this.keyword = "";
+      this.usable = Usable.NONE;
       addToUpgradeSets();
     }
 
@@ -228,9 +232,7 @@ public class YouRobotManager {
     RobotUpgrade(String name, Part part, int index, int cost, Effect effect, String skill) {
       this(name, part, effect, cost);
       this.index = index;
-      this.keyword = "";
       this.string = skill;
-      this.usable = Usable.NONE;
       addToIndexMaps();
     }
 
@@ -238,9 +240,7 @@ public class YouRobotManager {
     RobotUpgrade(String name, Part part, int index, int cost, String description) {
       this(name, part, Effect.PASSIVE, cost);
       this.index = index;
-      this.keyword = "";
       this.string = description;
-      this.usable = Usable.NONE;
       addToIndexMaps();
     }
 
@@ -248,9 +248,7 @@ public class YouRobotManager {
     RobotUpgrade(String name, Part part, int index, int cost) {
       this(name, part, Effect.PASSIVE, cost);
       this.index = index;
-      this.keyword = "";
       this.string = this.mods.getString("Modifiers");
-      this.usable = Usable.NONE;
       addToIndexMaps();
     }
 
@@ -258,7 +256,6 @@ public class YouRobotManager {
     RobotUpgrade(String name, Part part, int index, int cost, Usable thing) {
       this(name, part, Effect.EQUIP, cost);
       this.index = index;
-      this.keyword = "";
       this.string = thing.toString();
       this.usable = thing;
       addToIndexMaps();
@@ -267,27 +264,22 @@ public class YouRobotManager {
     // CPU PASSIVE
     RobotUpgrade(String name, String keyword, int cost, String string) {
       this(name, Part.CPU, Effect.PASSIVE, cost);
-      this.index = 0;
       this.keyword = keyword;
       this.string = string;
-      this.usable = Usable.NONE;
       addToIndexMaps();
     }
 
     // CPU PASSIVE
     RobotUpgrade(String name, String keyword, int cost) {
       this(name, Part.CPU, Effect.PASSIVE, cost);
-      this.index = 0;
       this.keyword = keyword;
       this.string = this.mods.getString("Modifiers");
-      this.usable = Usable.NONE;
       addToIndexMaps();
     }
 
     // CPU EQUIP
     RobotUpgrade(String name, String keyword, int cost, Usable thing) {
       this(name, Part.CPU, Effect.EQUIP, cost);
-      this.index = 0;
       this.keyword = keyword;
       this.string = thing.toString();
       this.usable = thing;
@@ -333,6 +325,18 @@ public class YouRobotManager {
     @Override
     public String toString() {
       return this.name;
+    }
+
+    public void addCombatSkill() {
+      if (this.effect == Effect.COMBAT) {
+        KoLCharacter.addAvailableCombatSkill(this.string);
+      }
+    }
+
+    public void removeCombatSkill() {
+      if (this.effect == Effect.COMBAT) {
+        KoLCharacter.removeAvailableCombatSkill(this.string);
+      }
     }
 
     private void addToUpgradeSets() {
@@ -447,8 +451,10 @@ public class YouRobotManager {
         currentParts.put(part, upgrade);
         // Set the legacy properties for use by scripts
         Preferences.setInteger("youRobot" + part.getSection(), upgrade.getIndex());
+        if (upgrade.getEffect() == Effect.COMBAT) {
+          upgrade.addCombatSkill();
+        }
         // *** Fire listeners?
-        // *** Adjust combat skills?
         changed = true;
       }
     }
@@ -559,8 +565,8 @@ public class YouRobotManager {
       return canUseShirts();
     }
 
-    Part part = consumeToPart.get(type);
     // Ability to equip hats, weapons, offhands, pants is bestowed by a part
+    Part part = consumeToPart.get(type);
     if (part != null) {
       RobotUpgrade current = currentParts.get(part);
       if (current == null) {
@@ -627,6 +633,8 @@ public class YouRobotManager {
             // If replacing another equipment part, drop the equipment
             int slot = part.getSlot();
             EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
+          } else if (current.getEffect() == Effect.COMBAT) {
+            current.removeCombatSkill();
           }
         }
       }

@@ -28,7 +28,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class YouRobotManagerTest {
@@ -58,6 +57,7 @@ public class YouRobotManagerTest {
     Preferences.setString("youRobotCPUUpgrades", "");
     YouRobotManager.reset();
     KoLCharacter.setAvatar("");
+    KoLCharacter.resetSkills();
     ChoiceManager.lastChoice = 0;
     ChoiceManager.lastDecision = 0;
   }
@@ -185,6 +185,9 @@ public class YouRobotManagerTest {
     assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_OFFHAND));
     assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_PANTS));
     assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_SHIRT));
+
+    // Verify that our Pea Shooter is active.
+    assertTrue(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
   }
 
   @Test
@@ -282,7 +285,6 @@ public class YouRobotManagerTest {
     assertEquals(expected, RequestLogger.previousUpdateString);
   }
 
-  @Disabled("Bug needs fixing")
   @Test
   public void canTrackChangesInCombatSkills() throws IOException {
     // Start with no known combat skills.
