@@ -1513,7 +1513,7 @@ public class CharPaneRequest extends GenericRequest {
   private static final Pattern YOU_ROBOT_SCRAPS_COMPACT =
       Pattern.compile("Scrap.*?<b>([\\d,]+)</b>");
 
-  private static void checkYouRobot(final String responseText) {
+  public static void checkYouRobot(final String responseText) {
     if (!KoLCharacter.inRobocore()) {
       return;
     }

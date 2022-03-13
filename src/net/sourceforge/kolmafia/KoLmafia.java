@@ -76,6 +76,7 @@ import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
+import net.sourceforge.kolmafia.request.ScrapheapRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
@@ -101,6 +102,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
+import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.DescriptionFrame;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
@@ -736,8 +738,8 @@ public abstract class KoLmafia {
     } else if (KoLCharacter.isPlumber()) {
       KoLCharacter.resetCurrentPP();
     } else if (KoLCharacter.inRobocore()) {
-      RequestThread.postRequest(
-          new GenericRequest("place.php?whichplace=scrapheap&action=sh_configure"));
+      YouRobotManager.reset();
+      RequestThread.postRequest(new ScrapheapRequest("sh_configure"));
       RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1445&show=cpus"));
     }
 

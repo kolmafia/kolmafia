@@ -12,7 +12,7 @@ public class ScrapheapRequest extends PlaceRequest {
   }
 
   public ScrapheapRequest(final String action) {
-    super("scrapheap", action);
+    super("scrapheap", action, true);
   }
 
   public static void refresh() {

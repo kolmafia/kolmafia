@@ -28,7 +28,7 @@ public class RequestLogger extends NullStream {
   private static PrintStream traceStream = NullStream.INSTANCE;
 
   private static String lastURLString = "";
-  private static String previousUpdateString = "";
+  public static String previousUpdateString = "";
   private static boolean wasLastRequestSimple = false;
 
   private RequestLogger() {}
