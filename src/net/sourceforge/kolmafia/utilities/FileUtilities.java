@@ -32,6 +32,17 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class FileUtilities {
   private static final Pattern FILEID_PATTERN = Pattern.compile("(\\d+)\\.");
+  private static HttpClient client;
+
+  private static HttpClient getClient() {
+    if (client != null) {
+      return client;
+    }
+
+    var built = HttpUtilities.getClientBuilder().build();
+    client = built;
+    return built;
+  }
 
   private FileUtilities() {}
 
@@ -194,7 +205,7 @@ public class FileUtilities {
       RequestLogger.trace("Requesting: " + remote);
     }
 
-    HttpClient client = HttpUtilities.getClientBuilder().build();
+    HttpClient client = getClient();
     HttpResponse<InputStream> response;
     try {
       response = client.send(request, BodyHandlers.ofInputStream());
