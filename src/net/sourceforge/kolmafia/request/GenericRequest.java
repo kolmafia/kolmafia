@@ -119,7 +119,6 @@ public class GenericRequest implements Runnable {
   };
 
   public static String KOL_HOST = GenericRequest.SERVERS[1];
-  public static URL KOL_SECURE_ROOT = null;
 
   private URL formURL;
   private String currentHost;
@@ -166,6 +165,16 @@ public class GenericRequest implements Runnable {
   private static boolean suppressUpdate = false;
   private static boolean ignoreChatRequest = false;
 
+  public static URL getSecureRoot() {
+    try {
+      return new URL("https", GenericRequest.KOL_HOST, 443, "/");
+    } catch (MalformedURLException e) {
+      // impossible: protocol and port are valid
+      StaticEntity.printStackTrace(e);
+      return null;
+    }
+  }
+
   private static HttpClient getClient() {
     if (GenericRequest.client != null) {
       return client;
@@ -178,7 +187,7 @@ public class GenericRequest implements Runnable {
     return built;
   }
 
-  private static void resetClient() {
+  public static void resetClient() {
     GenericRequest.client = null;
   }
 
@@ -316,12 +325,6 @@ public class GenericRequest implements Runnable {
 
   private static void setLoginServer(final int serverIndex) {
     GenericRequest.KOL_HOST = GenericRequest.SERVERS[serverIndex];
-
-    try {
-      GenericRequest.KOL_SECURE_ROOT = new URL("https", GenericRequest.KOL_HOST, 443, "/");
-    } catch (IOException e) {
-      StaticEntity.printStackTrace(e);
-    }
 
     Preferences.setString("loginServerName", GenericRequest.KOL_HOST);
   }
@@ -1560,7 +1563,7 @@ public class GenericRequest implements Runnable {
     URL context = null;
 
     if (!this.isExternalRequest) {
-      context = GenericRequest.KOL_SECURE_ROOT;
+      context = getSecureRoot();
     }
 
     return new URL(context, urlString);
@@ -1602,11 +1605,12 @@ public class GenericRequest implements Runnable {
       ++this.timeoutCount;
       return !shouldRetry || KoLmafia.refusesContinue();
     } catch (IOException e) {
+      String message = "IOException retrieving server reply (" + this.getURLString() + ").";
       if (this.shouldUpdateDebugLog()) {
-        String message = "IOException retrieving server reply (" + this.getURLString() + ").";
         StaticEntity.printStackTrace(e, message);
       }
 
+      RequestLogger.printLine(MafiaState.ERROR, message);
       this.timeoutCount = TIMEOUT_LIMIT;
       return true;
     }
