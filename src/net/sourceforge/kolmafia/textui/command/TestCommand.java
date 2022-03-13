@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.session.NumberologyManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.RumpleManager;
+import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
@@ -580,6 +581,12 @@ public class TestCommand extends AbstractCommand {
       boolean result = ResultProcessor.processResults(false, text, null);
       RequestLogger.printLine("returned " + result);
       ConcoctionDatabase.refreshConcoctionsNow();
+      return;
+    }
+
+    if (command.equals("robot")) {
+      String urlString = "choice.php?pwd&whichchoice=1445&part=cpus&show=cpus&option=2&p=robot_hp1";
+      YouRobotManager.registerRequest(urlString);
       return;
     }
 
