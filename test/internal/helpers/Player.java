@@ -193,6 +193,7 @@ public class Player {
   }
 
   public static Cleanups setupFakeResponse(int id, String response) {
+    GenericRequest.resetClient();
     var builder = new FakeHttpClientBuilder();
     HttpUtilities.setClientBuilder(() -> builder);
     GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
