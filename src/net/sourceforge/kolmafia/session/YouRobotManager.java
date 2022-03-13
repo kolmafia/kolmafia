@@ -116,20 +116,7 @@ public class YouRobotManager {
     }
   }
 
-  private static final Set<RobotUpgrade> allUpgrades = new HashSet<>();
   private static final Map<String, RobotUpgrade> nameToUpgrade = new HashMap<>();
-
-  // Part upgrade sets
-  private static final Set<RobotUpgrade> allLeftUpgrades = new HashSet<>();
-  private static final Set<RobotUpgrade> allRightUpgrades = new HashSet<>();
-  private static final Set<RobotUpgrade> allTopUpgrades = new HashSet<>();
-  private static final Set<RobotUpgrade> allBottomUpgrades = new HashSet<>();
-  private static final Set<RobotUpgrade> allCPUUpgrades = new HashSet<>();
-
-  // Effect upgrade sets
-  private static final Set<RobotUpgrade> allPassiveUpgrades = new HashSet<>();
-  private static final Set<RobotUpgrade> allCombatUpgrades = new HashSet<>();
-  private static final Set<RobotUpgrade> allEquipUpgrades = new HashSet<>();
 
   public static enum RobotUpgrade {
     PEA_SHOOTER("Pea Shooter", Part.TOP, 1, 5, Effect.COMBAT, "Shoot Pea"),
@@ -325,44 +312,7 @@ public class YouRobotManager {
     }
 
     private void addToUpgradeSets() {
-      allUpgrades.add(this);
       nameToUpgrade.put(this.name, this);
-      addToPartUpgradeSets();
-      addToEffectUpgradeSets();
-    }
-
-    private void addToPartUpgradeSets() {
-      switch (this.part) {
-        case TOP:
-          allTopUpgrades.add(this);
-          break;
-        case LEFT:
-          allLeftUpgrades.add(this);
-          break;
-        case RIGHT:
-          allRightUpgrades.add(this);
-          break;
-        case BOTTOM:
-          allBottomUpgrades.add(this);
-          break;
-        case CPU:
-          allCPUUpgrades.add(this);
-          break;
-      }
-    }
-
-    private void addToEffectUpgradeSets() {
-      switch (this.effect) {
-        case PASSIVE:
-          allPassiveUpgrades.add(this);
-          break;
-        case COMBAT:
-          allCombatUpgrades.add(this);
-          break;
-        case EQUIP:
-          allEquipUpgrades.add(this);
-          break;
-      }
     }
 
     private void addToIndexMaps() {
