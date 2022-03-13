@@ -1,8 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Player.setupFakeResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -10,7 +9,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.session.ContactManager;
 import org.junit.jupiter.api.Test;
 
-class UseSkillRequestTest extends RequestTestBase {
+class UseSkillRequestTest {
 
   private static int EXPERIENCE_SAFARI = SkillDatabase.getSkillId("Experience Safari");
 
@@ -21,14 +20,14 @@ class UseSkillRequestTest extends RequestTestBase {
     KoLCharacter.addAvailableSkill(EXPERIENCE_SAFARI);
     int startingCasts = SkillDatabase.getCasts(EXPERIENCE_SAFARI);
 
-    // We only want to mock network activity, not the rest of UseSkillRequest behavior.
-    UseSkillRequest req = spy(UseSkillRequest.getInstance(EXPERIENCE_SAFARI, "targetPlayer", 1));
+    UseSkillRequest req = UseSkillRequest.getInstance(EXPERIENCE_SAFARI, "targetPlayer", 1);
 
-    expectSuccess(req, "You don't have enough mana to cast that skill.");
+    var cleanups = setupFakeResponse(200, "You don't have enough mana to cast that skill.");
 
-    req.run();
+    try (cleanups) {
+      req.run();
+    }
 
-    verify(req).externalExecute();
     assertEquals("Not enough mana to cast Experience Safari.", UseSkillRequest.lastUpdate);
     assertEquals(startingCasts, SkillDatabase.getCasts(EXPERIENCE_SAFARI));
 
@@ -42,14 +41,14 @@ class UseSkillRequestTest extends RequestTestBase {
     KoLCharacter.addAvailableSkill(EXPERIENCE_SAFARI);
     int startingCasts = SkillDatabase.getCasts(EXPERIENCE_SAFARI);
 
-    UseSkillRequest req = spy(UseSkillRequest.getInstance(EXPERIENCE_SAFARI, "targetPlayer", 1));
-    expectSuccess(
-        req,
-        "You bless your friend, targetPlayer, with the ability to experience a safari adventure.");
+    UseSkillRequest req = UseSkillRequest.getInstance(EXPERIENCE_SAFARI, "targetPlayer", 1);
 
-    req.run();
+    var cleanups = setupFakeResponse(200, "You bless your friend, targetPlayer, with the ability to experience a safari adventure.");
 
-    verify(req).externalExecute();
+    try (cleanups) {
+      req.run();
+    }
+
     assertEquals("", UseSkillRequest.lastUpdate);
     assertEquals(startingCasts + 1, SkillDatabase.getCasts(EXPERIENCE_SAFARI));
   }

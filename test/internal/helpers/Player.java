@@ -192,12 +192,12 @@ public class Player {
     return new Cleanups(() -> CampgroundRequest.removeCampgroundItem(ItemPool.get(id, 1)));
   }
 
-  public static Cleanups setupFakeResponse(int id, String response) {
+  public static Cleanups setupFakeResponse(int code, String response) {
     GenericRequest.resetClient();
     var builder = new FakeHttpClientBuilder();
     HttpUtilities.setClientBuilder(() -> builder);
     GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
-    builder.client.setResponse(id, response);
+    builder.client.setResponse(code, response);
 
     return new Cleanups(
         () -> {
