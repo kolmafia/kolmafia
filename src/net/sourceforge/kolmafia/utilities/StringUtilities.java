@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.WeakHashMap;
 import java.util.regex.Matcher;
@@ -841,8 +842,9 @@ public class StringUtilities {
     return rv == null ? text : rv;
   }
 
-  public static HashMap<String, String> getCopyOfPrepositionsMap() {
-    return (HashMap<String, String>) prepositionsMap.clone();
+  public static Map<String, String> getCopyOfPrepositionsMap() {
+    Map<String, String> retVal = new HashMap<>(prepositionsMap);
+    return retVal;
   }
 
   public static void unregisterPrepositions() {
