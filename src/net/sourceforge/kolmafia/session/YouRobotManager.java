@@ -34,24 +34,26 @@ public class YouRobotManager {
   private static final Map<Part, Map<Integer, RobotUpgrade>> partToIndexMap = new HashMap<>();
 
   public static enum Part {
-    TOP("top", "Top Attachment", indexToTop),
-    LEFT("left", "Left Arm", indexToLeft),
-    RIGHT("right", "Right Arm", indexToRight),
-    BOTTOM("bottom", "Propulsion System", indexToBottom),
+    TOP("top", "Top Attachment", EquipmentManager.HAT, indexToTop),
+    LEFT("left", "Left Arm", EquipmentManager.WEAPON, indexToLeft),
+    RIGHT("right", "Right Arm", EquipmentManager.OFFHAND, indexToRight),
+    BOTTOM("bottom", "Propulsion System", EquipmentManager.PANTS, indexToBottom),
     CPU("cpus", "CPU Upgrade");
 
     String keyword;
     String section;
     String name;
+    int slot;
 
     Part(String keyword, String name) {
-      this(keyword, name, null);
+      this(keyword, name, 0, null);
     }
 
-    Part(String keyword, String name, Map<Integer, RobotUpgrade> indexMap) {
+    Part(String keyword, String name, int slot, Map<Integer, RobotUpgrade> indexMap) {
       this.keyword = keyword;
       this.section = StringUtilities.toTitleCase(keyword);
       this.name = name;
+      this.slot = slot;
       keywordToPart.put(keyword, this);
       partToIndexMap.put(this, indexMap);
     }
@@ -66,6 +68,10 @@ public class YouRobotManager {
 
     String getName() {
       return this.name;
+    }
+
+    int getSlot() {
+      return this.slot;
     }
 
     @Override
@@ -343,6 +349,9 @@ public class YouRobotManager {
   }
 
   private static RobotUpgrade urlFieldsToUpgrade(Part part, String chosenPart) {
+    if (part == null || chosenPart == null) {
+      return null;
+    }
     if (part == Part.CPU) {
       return keywordToCPU.get(chosenPart);
     }
@@ -573,67 +582,50 @@ public class YouRobotManager {
   }
 
   public static void postChoice1(final String urlString, final GenericRequest request) {
+
+    int choice = ChoiceManager.lastChoice;
     String text = request.responseText;
 
-    switch (ChoiceManager.lastChoice) {
-      case 1445: // Reassembly Station
-        {
-          // KoL may have unequipped some items based on our selection
-          Matcher partMatcher = Pattern.compile("part=([^&]*)").matcher(urlString);
-          Matcher chosenPartMatcher = Pattern.compile("p=([^&]*)").matcher(urlString);
-          String part = partMatcher.find() ? partMatcher.group(1) : null;
-          int chosenPart =
-              chosenPartMatcher.find() ? StringUtilities.parseInt(chosenPartMatcher.group(1)) : 0;
+    if (choice == 1445) {
+      // Reassembly Station
 
-          if (part != null && !part.equals("cpus") && chosenPart != 0) {
-            // If we have set our "top" to anything other than 2, we now have no familiar
-            if (part.equals("top") && chosenPart != 2) {
-              KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR);
-            }
+      String showKeyword = extractFieldValue(urlString, "show");
+      Part part = keywordToPart.get(showKeyword);
+      String chosenPart = extractFieldValue(urlString, "p");
+      RobotUpgrade upgrade = urlFieldsToUpgrade(part, chosenPart);
 
-            // If we've set any part of the main body to anything other than 4, we are now missing
-            // an equip
-            if (chosenPart != 4) {
-              int slot = -1;
-
-              switch (part) {
-                case "top":
-                  slot = EquipmentManager.HAT;
-                  break;
-                case "right":
-                  slot = EquipmentManager.OFFHAND;
-                  break;
-                case "bottom":
-                  slot = EquipmentManager.PANTS;
-                  break;
-                case "left":
-                  slot = EquipmentManager.WEAPON;
-                  break;
-              }
-
-              if (slot != -1) {
-                EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
-              }
-            }
+      if (upgrade != null && part != Part.CPU) {
+        // If we are swapping out a Bird Cage, we no longer have a familiar
+        RobotUpgrade current = currentParts.get(part);
+        if (current != null) {
+          if (current == RobotUpgrade.BIRD_CAGE) {
+            // If replacing a Bird Cage, drop familiar
+            KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR);
+          } else if (current.getEffect() == Effect.EQUIP) {
+            // If replacing another equipment part, drop the equipment
+            int slot = part.getSlot();
+            EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
           }
-
-          parseAvatar(text);
-
-          if (urlString.contains("show=cpus")) {
-            parseCPUUpgrades(text);
-          }
-
-          KoLCharacter.updateStatus();
-          break;
         }
-      case 1447: // Statbot 5000
-        {
-          parseStatbotCost(text);
-          if (!text.contains("You don't have enough Energy to do that.")) {
-            KoLCharacter.updateStatus();
-          }
-          break;
-        }
+      }
+
+      parseAvatar(text);
+
+      if (part == Part.CPU) {
+        parseCPUUpgrades(text);
+      }
+
+      KoLCharacter.updateStatus();
+      return;
+    }
+
+    if (choice == 1447) {
+      // Statbot 5000
+      parseStatbotCost(text);
+      if (!text.contains("You don't have enough Energy to do that.")) {
+        KoLCharacter.updateStatus();
+      }
+      return;
     }
   }
 
@@ -677,7 +669,7 @@ public class YouRobotManager {
   public static final String extractFieldValue(final String urlString, final String field) {
     String extracted = extractField(urlString, field);
     if (extracted == null) {
-      return "";
+      return null;
     }
     int equals = extracted.indexOf("=");
     if (equals == -1) {
@@ -704,6 +696,11 @@ public class YouRobotManager {
     if (choice == 1445) {
       String showKeyword = extractFieldValue(urlString, "show");
       Part part = keywordToPart.get(showKeyword);
+      if (part == null) {
+        RequestLogger.updateSessionLog(urlString);
+        return true;
+      }
+
       if (decision == 0) {
         message = "Inspecting " + part + " options at the Reassembly Station.";
         RequestLogger.printLine(message);
@@ -713,26 +710,23 @@ public class YouRobotManager {
 
       // We are buying an attachment.
       String chosenPart = extractFieldValue(urlString, "p");
-      if (chosenPart != null) {
-        RobotUpgrade upgrade = urlFieldsToUpgrade(part, chosenPart);
-        if (upgrade != null) {
-          if (part == Part.CPU) {
-            message =
-                "Upgrading your CPU with " + upgrade + " for " + upgrade.getCost() + " energy.";
-          } else {
-            message =
-                "Installing "
-                    + upgrade
-                    + " as your "
-                    + part
-                    + " for "
-                    + upgrade.getCost()
-                    + " scrap.";
-          }
-          RequestLogger.printLine(message);
-          RequestLogger.updateSessionLog(message);
-          return true;
+      RobotUpgrade upgrade = urlFieldsToUpgrade(part, chosenPart);
+      if (upgrade != null) {
+        if (part == Part.CPU) {
+          message = "Upgrading your CPU with " + upgrade + " for " + upgrade.getCost() + " energy.";
+        } else {
+          message =
+              "Installing "
+                  + upgrade
+                  + " as your "
+                  + part
+                  + " for "
+                  + upgrade.getCost()
+                  + " scrap.";
         }
+        RequestLogger.printLine(message);
+        RequestLogger.updateSessionLog(message);
+        return true;
       }
 
       // We don't expect to get here, but log something, at least.
