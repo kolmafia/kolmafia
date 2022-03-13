@@ -43,7 +43,10 @@ class UseSkillRequestTest {
 
     UseSkillRequest req = UseSkillRequest.getInstance(EXPERIENCE_SAFARI, "targetPlayer", 1);
 
-    var cleanups = setupFakeResponse(200, "You bless your friend, targetPlayer, with the ability to experience a safari adventure.");
+    var cleanups =
+        setupFakeResponse(
+            200,
+            "You bless your friend, targetPlayer, with the ability to experience a safari adventure.");
 
     try (cleanups) {
       req.run();

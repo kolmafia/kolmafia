@@ -13,7 +13,6 @@ public class ForbidNetworkAccess implements BeforeAllCallback {
   }
 
   public static void blockNetwork() {
-    HttpUtilities.setOpen((url) -> null);
     HttpUtilities.setClientBuilder(FakeHttpClientBuilder::new);
   }
 }
