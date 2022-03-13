@@ -4371,9 +4371,7 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean isTorsoAware() {
-    return KoLCharacter.hasSkill("Torso Awareness")
-        || KoLCharacter.hasSkill("Best Dressed")
-        || (KoLCharacter.inRobocore() && YouRobotManager.canEquip(KoLConstants.EQUIP_SHIRT));
+    return KoLCharacter.hasSkill("Torso Awareness") || KoLCharacter.hasSkill("Best Dressed");
   }
 
   /**

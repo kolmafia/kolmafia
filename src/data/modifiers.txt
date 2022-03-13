@@ -12122,6 +12122,34 @@ Ensorcel	plant	Monster Level: [max(10,ceil(pref(ensorceleeLevel)/10.0))]
 Ensorcel	slime	Initiative: [pref(ensorceleeLevel)/2.5]
 
 # You, Robot
+
+Robot	Bald Tires	Maximum HP: +10
+Robot	Blaring Speaker	Monster Level: +30
+Robot	Camouflage Curtain	Combat Rate: -15
+Robot	Dynamic Arcane Flux Modeling	Mysticality: +15
+Robot	Finance Neural Net	Meat Drop: +20
+Robot	Holographic Deflector Projection	Maximum HP: +30
+Robot	Horseshoe Magnet	Scrap: +1
+Robot	Improved Optical Processing	Item Drop: +20
+Robot	Junk Shield	Damage Reduction: +10, Damage Absorption: +50
+Robot	Leverage Coprocessing	Muscle: +15
+Robot	Magno-Lev	Item Drop: +30
+Robot	Meat Radar	Meat Drop: +50
+Robot	Metal Detector	Item Drop: +30
+Robot	Motorcycle Wheel	Initiative: +30
+Robot	Overclocking	Energy: +1
+Robot	Reflective Shard	Cold Resistance: +3, Hot Resistance: +3, Sleaze Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3
+Robot	Self-Repair Routines	HP Regen Min: +10, HP Regen Max: +10
+Robot	Slab-O-Matic	Maximum HP: +30
+Robot	Snowplow	Scrap: +1
+Robot	Solar Panel	Energy: +1
+Robot	Spatial Compression Functions	Maximum HP: +30
+Robot	Tank Treads	Maximum HP: +50, Damage Reduction: +10
+Robot	Upgraded Fashion Sensor	Moxie: +15
+Robot	Weather Control Algorithms	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
+
+# You, Robot legacy modifiers. Not used internally by KoLmafia.
+
 RobotTop	3	Energy: +1
 RobotTop	5	Meat Drop: +50
 RobotRight	1	Maximum HP: +30

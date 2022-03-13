@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
@@ -65,8 +66,9 @@ public class ScrapheapRequestTest {
           "robot_potions",
           "robot_hp2"
         };
+
     var actual = Preferences.getString("youRobotCPUUpgrades").split(",");
 
-    assertArrayEquals(expected, actual);
+    assertThat(actual, arrayContainingInAnyOrder(expected));
   }
 }
