@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Player.setupFakeResponse;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.never;
@@ -13,7 +14,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.Test;
 
-class UseItemRequestTest extends RequestTestBase {
+class UseItemRequestTest {
 
   // We don't use @BeforeEach here because it's specific to milk-related tests.
   private void milkSetup() {
@@ -29,7 +30,7 @@ class UseItemRequestTest extends RequestTestBase {
   }
 
   private UseItemRequest getUseMilkRequest() {
-    return spy(UseItemRequest.getInstance(ItemPool.MILK_OF_MAGNESIUM));
+    return UseItemRequest.getInstance(ItemPool.MILK_OF_MAGNESIUM);
   }
 
   @Test
@@ -39,8 +40,10 @@ class UseItemRequestTest extends RequestTestBase {
 
     UseItemRequest req = getUseMilkRequest();
     // Wiki claims that this message is indeed "You stomach ..."
-    expectSuccess(req, "You stomach immediately begins to churn");
-    req.run();
+    var cleanups = setupFakeResponse(200, "You stomach immediately begins to churn");
+    try (cleanups) {
+      req.run();
+    }
 
     assertTrue(Preferences.getBoolean("_milkOfMagnesiumUsed"));
     assertTrue(Preferences.getBoolean("milkOfMagnesiumActive"));
@@ -53,8 +56,10 @@ class UseItemRequestTest extends RequestTestBase {
     assertFalse(Preferences.getBoolean("_milkOfMagnesiumUsed"));
 
     UseItemRequest req = getUseMilkRequest();
-    expectSuccess(req, "it was pretty hard on the old gullet.");
-    req.run();
+    var cleanups = setupFakeResponse(200, "it was pretty hard on the old gullet.");
+    try (cleanups) {
+      req.run();
+    }
 
     assertTrue(Preferences.getBoolean("_milkOfMagnesiumUsed"));
   }
@@ -67,7 +72,6 @@ class UseItemRequestTest extends RequestTestBase {
     UseItemRequest req = getUseMilkRequest();
     req.run();
 
-    verify(req, never()).externalExecute();
     assertTrue(Preferences.getBoolean("_milkOfMagnesiumUsed"));
   }
 }
