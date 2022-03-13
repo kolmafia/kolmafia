@@ -1505,44 +1505,38 @@ public class GenericRequest implements Runnable {
       // Field: Set-Cookie = [PHPSESSID=i9tr5te1hhk7084d7do6s877h3; path=/,
       // AWSALB=1HOUaMRO89JYkb8nBfrsK6maRGcdoJpTOmxa/LEVbQsBnwi1jPq7jvG2jw1m4p1SR7Y35Wq/dUKVBG5RcvMu7Zw89U1RAeBkZlIkGP/8hVnXCmkWUxfEvuveJZfB; Expires=Fri, 16-Sep-2016 15:43:04 GMT; Path=/]
 
-      Map<String, List<String>> headerFields = response.headers().map();
+      List<String> cookies = response.headers().map().get("Set-Cookie");
 
-      for (Entry<String, List<String>> entry : headerFields.entrySet()) {
-        String key = entry.getKey();
-        if (key == null || !key.equalsIgnoreCase("Set-Cookie")) {
-          continue;
-        }
+      if (cookies == null) return;
 
-        List<String> cookies = entry.getValue();
-        for (String cookie : cookies) {
-          while (cookie != null && !cookie.equals("")) {
-            int comma = cookie.indexOf(",");
-            int expires = cookie.toLowerCase().indexOf("expires=");
-            if (expires != -1 && expires < comma) {
-              comma = cookie.indexOf(",", comma + 1);
-            }
-
-            ServerCookie serverCookie =
-                new ServerCookie(comma == -1 ? cookie : cookie.substring(0, comma));
-            String name = serverCookie.getName();
-
-            if (GenericRequest.specialCookie(name)) {
-              // We've defined cookie equality as same name
-              // Since the value has changed, remove the old cookie first
-              GenericRequest.serverCookies.remove(serverCookie);
-              GenericRequest.serverCookies.add(serverCookie);
-
-              if (name.equals("PHPSESSID")) {
-                GenericRequest.sessionId = serverCookie.toString();
-              }
-            }
-
-            if (comma == -1) {
-              break;
-            }
-
-            cookie = cookie.substring(comma + 1);
+      for (String cookie : cookies) {
+        while (cookie != null && !cookie.equals("")) {
+          int comma = cookie.indexOf(",");
+          int expires = cookie.toLowerCase().indexOf("expires=");
+          if (expires != -1 && expires < comma) {
+            comma = cookie.indexOf(",", comma + 1);
           }
+
+          ServerCookie serverCookie =
+              new ServerCookie(comma == -1 ? cookie : cookie.substring(0, comma));
+          String name = serverCookie.getName();
+
+          if (GenericRequest.specialCookie(name)) {
+            // We've defined cookie equality as same name
+            // Since the value has changed, remove the old cookie first
+            GenericRequest.serverCookies.remove(serverCookie);
+            GenericRequest.serverCookies.add(serverCookie);
+
+            if (name.equals("PHPSESSID")) {
+              GenericRequest.sessionId = serverCookie.toString();
+            }
+          }
+
+          if (comma == -1) {
+            break;
+          }
+
+          cookie = cookie.substring(comma + 1);
         }
       }
     }
