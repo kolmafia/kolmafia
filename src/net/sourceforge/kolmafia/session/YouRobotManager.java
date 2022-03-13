@@ -595,7 +595,6 @@ public class YouRobotManager {
       RobotUpgrade upgrade = urlFieldsToUpgrade(part, chosenPart);
 
       if (upgrade != null && part != Part.CPU) {
-        // If we are swapping out a Bird Cage, we no longer have a familiar
         RobotUpgrade current = currentParts.get(part);
         if (current != null) {
           if (current == RobotUpgrade.BIRD_CAGE) {
@@ -621,6 +620,7 @@ public class YouRobotManager {
 
     if (choice == 1447) {
       // Statbot 5000
+
       parseStatbotCost(text);
       if (!text.contains("You don't have enough Energy to do that.")) {
         KoLCharacter.updateStatus();
