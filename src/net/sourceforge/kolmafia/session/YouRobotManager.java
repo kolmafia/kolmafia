@@ -591,21 +591,22 @@ public class YouRobotManager {
   // *** Interface for ChoiceManager
 
   public static void visitChoice(final GenericRequest request) {
+    int choice = ChoiceManager.lastChoice;
     String text = request.responseText;
-    switch (ChoiceManager.lastChoice) {
-      case 1445: // Reassembly Station
-        parseAvatar(text);
 
-        if (request.getURLString().contains("show=cpus")) {
-          parseCPUUpgrades(text);
-        }
-        break;
+    if (choice == 1445) {
+      // Reassembly Station
+      parseAvatar(text);
+      if (request.getURLString().contains("show=cpus")) {
+        parseCPUUpgrades(text);
+      }
+      return;
+    }
 
-      case 1447: // Statbot 5000
-        {
-          parseStatbotCost(text);
-          break;
-        }
+    if (choice == 1447) {
+      // Statbot 5000
+      parseStatbotCost(text);
+      return;
     }
   }
 
