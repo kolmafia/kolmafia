@@ -859,7 +859,6 @@ public class RelayRequest extends PasswordHashRequest {
 
     // In You, Robot, you will lose access to the Scrapheap.
     // You might want to spend Energy on Adventures or Stats.
-    // Isotopes
 
     if (KoLCharacter.inRobocore()) {
       int energy = KoLCharacter.getYouRobotEnergy();
