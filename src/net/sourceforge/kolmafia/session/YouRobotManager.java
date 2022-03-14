@@ -23,6 +23,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class YouRobotManager {
 
   private static final Map<String, Part> keywordToPart = new HashMap<>();
+  private static final Map<Integer, Part> slotToPart = new HashMap<>();
+  private static final Map<Integer, Part> consumeToPart = new HashMap<>();
 
   // Index upgrade maps
   private static final Map<Integer, RobotUpgrade> indexToLeft = new HashMap<>();
@@ -34,28 +36,34 @@ public class YouRobotManager {
   private static final Map<Part, Map<Integer, RobotUpgrade>> partToIndexMap = new HashMap<>();
 
   public static enum Part {
-    TOP("top", "Top Attachment", EquipmentManager.HAT, indexToTop),
-    LEFT("left", "Left Arm", EquipmentManager.WEAPON, indexToLeft),
-    RIGHT("right", "Right Arm", EquipmentManager.OFFHAND, indexToRight),
-    BOTTOM("bottom", "Propulsion System", EquipmentManager.PANTS, indexToBottom),
+    TOP("top", "Top Attachment", Usable.HAT, indexToTop),
+    LEFT("left", "Left Arm", Usable.WEAPON, indexToLeft),
+    RIGHT("right", "Right Arm", Usable.OFFHAND, indexToRight),
+    BOTTOM("bottom", "Propulsion System", Usable.PANTS, indexToBottom),
     CPU("cpus", "CPU Upgrade");
 
     String keyword;
     String section;
     String name;
-    int slot;
+    Usable usable;
 
     Part(String keyword, String name) {
-      this(keyword, name, 0, null);
+      this(keyword, name, Usable.NONE, null);
     }
 
-    Part(String keyword, String name, int slot, Map<Integer, RobotUpgrade> indexMap) {
+    Part(String keyword, String name, Usable usable, Map<Integer, RobotUpgrade> indexMap) {
       this.keyword = keyword;
       this.section = StringUtilities.toTitleCase(keyword);
       this.name = name;
-      this.slot = slot;
+      this.usable = usable;
       keywordToPart.put(keyword, this);
-      partToIndexMap.put(this, indexMap);
+      if (indexMap != null) {
+        partToIndexMap.put(this, indexMap);
+      }
+      if (usable != Usable.NONE) {
+        slotToPart.put(usable.getSlot(), this);
+        consumeToPart.put(usable.getConsume(), this);
+      }
     }
 
     String getKeyword() {
@@ -70,8 +78,12 @@ public class YouRobotManager {
       return this.name;
     }
 
+    Usable getUsable() {
+      return this.usable;
+    }
+
     int getSlot() {
-      return this.slot;
+      return this.usable.getSlot();
     }
 
     @Override
@@ -88,28 +100,34 @@ public class YouRobotManager {
 
   public static enum Usable {
     NONE("no special effect"),
-    HAT("can equip hats", EquipmentManager.HAT),
-    WEAPON("can equip weapons", EquipmentManager.WEAPON),
-    OFFHAND("can equip offhands", EquipmentManager.OFFHAND),
-    SHIRT("can equip shirts", EquipmentManager.SHIRT),
-    PANTS("can equip pants", EquipmentManager.PANTS),
+    HAT("can equip hats", KoLConstants.EQUIP_HAT, EquipmentManager.HAT),
+    WEAPON("can equip weapons", KoLConstants.EQUIP_WEAPON, EquipmentManager.WEAPON),
+    OFFHAND("can equip offhands", KoLConstants.EQUIP_OFFHAND, EquipmentManager.OFFHAND),
+    SHIRT("can equip shirts", KoLConstants.EQUIP_SHIRT, EquipmentManager.SHIRT),
+    PANTS("can equip pants", KoLConstants.EQUIP_PANTS, EquipmentManager.PANTS),
     FAMILIAR("can use familiars"),
     POTIONS("can use potions");
 
     String description;
+    int consume;
     int slot;
 
     Usable(String description) {
-      this(description, EquipmentManager.NONE);
+      this(description, KoLConstants.NO_CONSUME, EquipmentManager.NONE);
     }
 
-    Usable(String description, int slot) {
+    Usable(String description, int consume, int slot) {
       this.description = description;
+      this.consume = consume;
       this.slot = slot;
     }
 
     public String getDescription() {
       return this.description;
+    }
+
+    public int getConsume() {
+      return this.consume;
     }
 
     public int getSlot() {
@@ -203,6 +221,9 @@ public class YouRobotManager {
       this.effect = effect;
       this.cost = cost;
       this.mods = Modifiers.getModifiers("Robot", name);
+      this.index = 0;
+      this.keyword = "";
+      this.usable = Usable.NONE;
       addToUpgradeSets();
     }
 
@@ -210,9 +231,7 @@ public class YouRobotManager {
     RobotUpgrade(String name, Part part, int index, int cost, Effect effect, String skill) {
       this(name, part, effect, cost);
       this.index = index;
-      this.keyword = "";
       this.string = skill;
-      this.usable = Usable.NONE;
       addToIndexMaps();
     }
 
@@ -220,9 +239,7 @@ public class YouRobotManager {
     RobotUpgrade(String name, Part part, int index, int cost, String description) {
       this(name, part, Effect.PASSIVE, cost);
       this.index = index;
-      this.keyword = "";
       this.string = description;
-      this.usable = Usable.NONE;
       addToIndexMaps();
     }
 
@@ -230,9 +247,7 @@ public class YouRobotManager {
     RobotUpgrade(String name, Part part, int index, int cost) {
       this(name, part, Effect.PASSIVE, cost);
       this.index = index;
-      this.keyword = "";
       this.string = this.mods.getString("Modifiers");
-      this.usable = Usable.NONE;
       addToIndexMaps();
     }
 
@@ -240,7 +255,6 @@ public class YouRobotManager {
     RobotUpgrade(String name, Part part, int index, int cost, Usable thing) {
       this(name, part, Effect.EQUIP, cost);
       this.index = index;
-      this.keyword = "";
       this.string = thing.toString();
       this.usable = thing;
       addToIndexMaps();
@@ -249,27 +263,22 @@ public class YouRobotManager {
     // CPU PASSIVE
     RobotUpgrade(String name, String keyword, int cost, String string) {
       this(name, Part.CPU, Effect.PASSIVE, cost);
-      this.index = 0;
       this.keyword = keyword;
       this.string = string;
-      this.usable = Usable.NONE;
       addToIndexMaps();
     }
 
     // CPU PASSIVE
     RobotUpgrade(String name, String keyword, int cost) {
       this(name, Part.CPU, Effect.PASSIVE, cost);
-      this.index = 0;
       this.keyword = keyword;
       this.string = this.mods.getString("Modifiers");
-      this.usable = Usable.NONE;
       addToIndexMaps();
     }
 
     // CPU EQUIP
     RobotUpgrade(String name, String keyword, int cost, Usable thing) {
       this(name, Part.CPU, Effect.EQUIP, cost);
-      this.index = 0;
       this.keyword = keyword;
       this.string = thing.toString();
       this.usable = thing;
@@ -315,6 +324,18 @@ public class YouRobotManager {
     @Override
     public String toString() {
       return this.name;
+    }
+
+    public void addCombatSkill() {
+      if (this.effect == Effect.COMBAT) {
+        KoLCharacter.addAvailableCombatSkill(this.string);
+      }
+    }
+
+    public void removeCombatSkill() {
+      if (this.effect == Effect.COMBAT) {
+        KoLCharacter.removeAvailableCombatSkill(this.string);
+      }
     }
 
     private void addToUpgradeSets() {
@@ -429,8 +450,10 @@ public class YouRobotManager {
         currentParts.put(part, upgrade);
         // Set the legacy properties for use by scripts
         Preferences.setInteger("youRobot" + part.getSection(), upgrade.getIndex());
+        if (upgrade.getEffect() == Effect.COMBAT) {
+          upgrade.addCombatSkill();
+        }
         // *** Fire listeners?
-        // *** Adjust combat skills?
         changed = true;
       }
     }
@@ -536,18 +559,23 @@ public class YouRobotManager {
 
   // Used by EquipmentManager.canEquip
   public static boolean canEquip(final int type) {
-    switch (type) {
-      case KoLConstants.EQUIP_HAT:
-        return currentParts.get(Part.TOP).getUsable() == Usable.HAT;
-      case KoLConstants.EQUIP_WEAPON:
-        return currentParts.get(Part.LEFT).getUsable() == Usable.WEAPON;
-      case KoLConstants.EQUIP_OFFHAND:
-        return currentParts.get(Part.RIGHT).getUsable() == Usable.OFFHAND;
-      case KoLConstants.EQUIP_PANTS:
-        return currentParts.get(Part.BOTTOM).getUsable() == Usable.PANTS;
-      case KoLConstants.EQUIP_SHIRT:
-        return canUseShirts();
+    // Ability to equip shirts is not bestowed by a part.
+    if (type == KoLConstants.EQUIP_SHIRT) {
+      return canUseShirts();
     }
+
+    // Ability to equip hats, weapons, offhands, pants is bestowed by a part
+    Part part = consumeToPart.get(type);
+    if (part != null) {
+      RobotUpgrade current = currentParts.get(part);
+      if (current == null) {
+        // Brand new characters do not have all four parts
+        return false;
+      }
+      return current.getUsable().getSlot() == part.getSlot();
+    }
+
+    // Any other slot is allowed
     return true;
   }
 
@@ -563,21 +591,22 @@ public class YouRobotManager {
   // *** Interface for ChoiceManager
 
   public static void visitChoice(final GenericRequest request) {
+    int choice = ChoiceManager.lastChoice;
     String text = request.responseText;
-    switch (ChoiceManager.lastChoice) {
-      case 1445: // Reassembly Station
-        parseAvatar(text);
 
-        if (request.getURLString().contains("show=cpus")) {
-          parseCPUUpgrades(text);
-        }
-        break;
+    if (choice == 1445) {
+      // Reassembly Station
+      parseAvatar(text);
+      if (request.getURLString().contains("show=cpus")) {
+        parseCPUUpgrades(text);
+      }
+      return;
+    }
 
-      case 1447: // Statbot 5000
-        {
-          parseStatbotCost(text);
-          break;
-        }
+    if (choice == 1447) {
+      // Statbot 5000
+      parseStatbotCost(text);
+      return;
     }
   }
 
@@ -604,6 +633,8 @@ public class YouRobotManager {
             // If replacing another equipment part, drop the equipment
             int slot = part.getSlot();
             EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
+          } else if (current.getEffect() == Effect.COMBAT) {
+            current.removeCombatSkill();
           }
         }
       }
