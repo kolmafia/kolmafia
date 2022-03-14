@@ -1504,6 +1504,11 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
+    // If they can't equip Wig, no problem
+    if (!EquipmentManager.canEquip(ItemPool.MOHAWK_WIG)) {
+      return false;
+    }
+
     // If they are already wearing the Wig, no problem
     if (KoLCharacter.hasEquipped(ItemPool.MOHAWK_WIG, EquipmentManager.HAT)) {
       return false;

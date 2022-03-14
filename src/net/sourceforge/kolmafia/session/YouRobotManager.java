@@ -450,10 +450,16 @@ public class YouRobotManager {
         currentParts.put(part, upgrade);
         // Set the legacy properties for use by scripts
         Preferences.setInteger("youRobot" + part.getSection(), upgrade.getIndex());
-        if (upgrade.getEffect() == Effect.COMBAT) {
-          upgrade.addCombatSkill();
+        switch (upgrade.getEffect()) {
+          case COMBAT:
+            upgrade.addCombatSkill();
+            break;
+          case EQUIP:
+            EquipmentManager.updateEquipmentList(part.getSlot());
+            EquipmentManager.updateNormalOutfits();
+            break;
         }
-        // *** Fire listeners?
+
         changed = true;
       }
     }
@@ -496,7 +502,8 @@ public class YouRobotManager {
     boolean changed = false;
 
     if (useShirts != canUseShirts()) {
-      // *** fire (shirts)
+      EquipmentManager.updateEquipmentList(EquipmentManager.SHIRT);
+      EquipmentManager.updateNormalOutfits();
       changed = true;
     }
 
@@ -633,6 +640,8 @@ public class YouRobotManager {
             // If replacing another equipment part, drop the equipment
             int slot = part.getSlot();
             EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
+            EquipmentManager.updateEquipmentList(slot);
+            EquipmentManager.updateNormalOutfits();
           } else if (current.getEffect() == Effect.COMBAT) {
             current.removeCombatSkill();
           }
