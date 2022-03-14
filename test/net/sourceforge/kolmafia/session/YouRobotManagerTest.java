@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -27,7 +28,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class YouRobotManagerTest {
@@ -57,6 +57,7 @@ public class YouRobotManagerTest {
     Preferences.setString("youRobotCPUUpgrades", "");
     YouRobotManager.reset();
     KoLCharacter.setAvatar("");
+    KoLCharacter.resetSkills();
     ChoiceManager.lastChoice = 0;
     ChoiceManager.lastDecision = 0;
   }
@@ -78,7 +79,6 @@ public class YouRobotManagerTest {
   }
 
   private void verifyAvatarFromProperties() {
-
     String prefix = "otherimages/robot/";
     int top = Preferences.getInteger("youRobotTop");
     String topImage = prefix + "top" + top + ".png";
@@ -93,13 +93,25 @@ public class YouRobotManagerTest {
     int ascensionClass = AscensionClass.ACCORDION_THIEF.getId();
     String bodyImage = prefix + "body" + ascensionClass + ".png";
 
+    // Parts that are missing (newly ascended character) do not have an image.
+    int count =
+        1 + (top == 0 ? 0 : 1) + (left == 0 ? 0 : 1) + (right == 0 ? 0 : 1) + (bottom == 0 ? 0 : 1);
+
     String[] avatar = KoLCharacter.getAvatar();
     Set<String> images = new HashSet<>(Arrays.asList(avatar));
-    assertEquals(5, images.size());
-    assertTrue(images.contains(topImage));
-    assertTrue(images.contains(leftImage));
-    assertTrue(images.contains(rightImage));
-    assertTrue(images.contains(bottomImage));
+    assertEquals(count, images.size());
+    if (top != 0) {
+      assertTrue(images.contains(topImage));
+    }
+    if (left != 0) {
+      assertTrue(images.contains(leftImage));
+    }
+    if (right != 0) {
+      assertTrue(images.contains(rightImage));
+    }
+    if (bottom != 0) {
+      assertTrue(images.contains(bottomImage));
+    }
     assertTrue(images.contains(bodyImage));
   }
 
@@ -144,6 +156,38 @@ public class YouRobotManagerTest {
 
     // Verify that the properties and avatar are now set
     verifyAvatarFromProperties();
+  }
+
+  @Test
+  public void canHandleThreePartAvatar() throws IOException {
+    // This is a newly ascended Accordion Thief
+    String responseText = loadHTMLResponse("request/test_scrapheap_three_part_avatar.html");
+
+    // Verify that the properties and avatar are not set
+    verifyNoAvatarOrProperties();
+
+    ChoiceManager.lastChoice = 1445;
+    GenericRequest request = new GenericRequest("choice.php?forceoption=0");
+    request.responseText = responseText;
+    YouRobotManager.visitChoice(request);
+
+    // Verify that the properties and avatar are now set
+    assertEquals(1, Preferences.getInteger("youRobotTop"));
+    assertEquals(0, Preferences.getInteger("youRobotLeft"));
+    assertEquals(3, Preferences.getInteger("youRobotRight"));
+    assertEquals(3, Preferences.getInteger("youRobotBottom"));
+    assertEquals(6, Preferences.getInteger("youRobotBody"));
+    verifyAvatarFromProperties();
+
+    // Verify that we can't equip any items
+    assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_HAT));
+    assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_WEAPON));
+    assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_OFFHAND));
+    assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_PANTS));
+    assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_SHIRT));
+
+    // Verify that our Pea Shooter is active.
+    assertTrue(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
   }
 
   @Test
@@ -241,7 +285,6 @@ public class YouRobotManagerTest {
     assertEquals(expected, RequestLogger.previousUpdateString);
   }
 
-  @Disabled("Bug needs fixing")
   @Test
   public void canTrackChangesInCombatSkills() throws IOException {
     // Start with no known combat skills.

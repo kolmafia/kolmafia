@@ -857,6 +857,49 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
+    // In You, Robot, you will lose access to the Scrapheap.
+    // You might want to spend Energy on Adventures or Stats.
+
+    if (KoLCharacter.inRobocore()) {
+      int energy = KoLCharacter.getYouRobotEnergy();
+      int chronolithCost = Preferences.getInteger("_chronolithActivations") + 10;
+      int statbotCost = Preferences.getInteger("statbotUses") + 10;
+
+      if (energy < chronolithCost && energy < statbotCost) {
+        return false;
+      }
+
+      StringBuilder buf = new StringBuilder();
+      buf.append("You are about to free King Ralph and stop being a Robot.");
+      buf.append(" Before you do so, you might want to spend your remaining ");
+      buf.append(energy);
+      buf.append(" energy in the Scrapheap,");
+      buf.append(" since you will not be able to do so after you free the king.");
+      if (energy >= chronolithCost) {
+        buf.append(" You can gain 10 Adventures at the Chronolith for ");
+        buf.append(chronolithCost);
+        buf.append(" energy.");
+      }
+      if (energy >= statbotCost) {
+        buf.append(" You can gain 5 points of the stat of your choice at Statbot 5000 for ");
+        buf.append(statbotCost);
+        buf.append(" energy.");
+      }
+      buf.append(" If you are ready to break the prism, click on the icon on the left.");
+      buf.append(" If you wish to visit the Scrapheap, click on icon on the right.");
+
+      String warning = buf.toString();
+      this.sendOptionalWarning(
+          CONFIRM_RALPH,
+          warning,
+          "hand.gif",
+          "lightning.gif",
+          "\"place.php?whichplace=scrapheap\"",
+          null,
+          null);
+      return true;
+    }
+
     return false;
   }
 
@@ -2092,7 +2135,10 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // Some paths replace the usual bosses with other monsters
-    if (KoLCharacter.inRaincore() || KoLCharacter.isVampyre() || KoLCharacter.isPlumber()) {
+    if (KoLCharacter.inRaincore()
+        || KoLCharacter.isVampyre()
+        || KoLCharacter.isPlumber()
+        || KoLCharacter.inRobocore()) {
       return false;
     }
 
