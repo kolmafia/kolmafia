@@ -2092,7 +2092,10 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // Some paths replace the usual bosses with other monsters
-    if (KoLCharacter.inRaincore() || KoLCharacter.isVampyre() || KoLCharacter.isPlumber()) {
+    if (KoLCharacter.inRaincore()
+        || KoLCharacter.isVampyre()
+        || KoLCharacter.isPlumber()
+        || KoLCharacter.inRobocore()) {
       return false;
     }
 
