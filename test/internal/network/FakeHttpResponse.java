@@ -5,20 +5,23 @@ import java.net.http.HttpClient.Version;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashMap;
 import java.util.Optional;
 import javax.net.ssl.SSLSession;
 
 public class FakeHttpResponse<T> implements HttpResponse<T> {
 
+  private final int statusCode;
   private final T body;
 
-  public FakeHttpResponse(T body) {
+  public FakeHttpResponse(int statusCode, T body) {
+    this.statusCode = statusCode;
     this.body = body;
   }
 
   @Override
   public int statusCode() {
-    return 0;
+    return statusCode;
   }
 
   @Override
@@ -33,7 +36,7 @@ public class FakeHttpResponse<T> implements HttpResponse<T> {
 
   @Override
   public HttpHeaders headers() {
-    return null;
+    return HttpHeaders.of(new HashMap<>(), (a, b) -> true);
   }
 
   @Override
