@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.util.Arrays;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.Concoction.ConcoctionType;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -42,7 +43,7 @@ public class UseItemEnqueuePanelTest {
     Preferences.setInteger("_universalSeasoningsUsed", 0);
     loadInventory("{\"10640\": \"1\"}");
 
-    var panel = new UseItemEnqueuePanel(true, false, false, null);
+    var panel = new UseItemEnqueuePanel(ConcoctionType.FOOD, null);
     var buttonSearch =
         Arrays.stream(panel.buttons)
             .filter(b -> b.getText().equals("universal seasoning"))
@@ -58,7 +59,7 @@ public class UseItemEnqueuePanelTest {
     Preferences.setInteger("_universalSeasoningsUsed", 0);
     loadInventory("{\"10640\": \"0\"}");
 
-    var panel = new UseItemEnqueuePanel(true, false, false, null);
+    var panel = new UseItemEnqueuePanel(ConcoctionType.FOOD, null);
     var buttonSearch =
         Arrays.stream(panel.buttons)
             .filter(b -> b.getText().equals("universal seasoning"))
@@ -74,7 +75,7 @@ public class UseItemEnqueuePanelTest {
     Preferences.setInteger("_universalSeasoningsUsed", 1);
     loadInventory("{\"10640\": \"1\"}");
 
-    var panel = new UseItemEnqueuePanel(true, false, false, null);
+    var panel = new UseItemEnqueuePanel(ConcoctionType.FOOD, null);
     var buttonSearch =
         Arrays.stream(panel.buttons)
             .filter(b -> b.getText().equals("universal seasoning"))
@@ -86,7 +87,7 @@ public class UseItemEnqueuePanelTest {
 
   @Test
   public void odeToBoozeDisabledWithNoSkill() {
-    var panel = new UseItemEnqueuePanel(false, true, false, null);
+    var panel = new UseItemEnqueuePanel(ConcoctionType.BOOZE, null);
     var buttonSearch =
         Arrays.stream(panel.buttons).filter(b -> b.getText().equals("cast ode")).findFirst();
     assertTrue(buttonSearch.isPresent());
@@ -99,7 +100,7 @@ public class UseItemEnqueuePanelTest {
   public void odeToBoozeEnabledWithSkill() {
     KoLCharacter.addAvailableSkill(SkillPool.ODE_TO_BOOZE);
 
-    var panel = new UseItemEnqueuePanel(false, true, false, null);
+    var panel = new UseItemEnqueuePanel(ConcoctionType.BOOZE, null);
     var buttonSearch =
         Arrays.stream(panel.buttons).filter(b -> b.getText().equals("cast ode")).findFirst();
     assertTrue(buttonSearch.isPresent());
@@ -115,7 +116,7 @@ public class UseItemEnqueuePanelTest {
     KoLConstants.activeEffects.add(EffectPool.get(531)); // Benetton's Medley of Diversity
     KoLConstants.activeEffects.add(EffectPool.get(532)); // Elron's Explosive Etude
 
-    var panel = new UseItemEnqueuePanel(false, true, false, null);
+    var panel = new UseItemEnqueuePanel(ConcoctionType.BOOZE, null);
     var buttonSearch =
         Arrays.stream(panel.buttons).filter(b -> b.getText().equals("cast ode")).findFirst();
     assertTrue(buttonSearch.isPresent());
@@ -130,7 +131,7 @@ public class UseItemEnqueuePanelTest {
     KoLConstants.activeEffects.add(EffectPool.get(531)); // Benetton's Medley of Diversity
     KoLConstants.activeEffects.add(EffectPool.get(532)); // Elron's Explosive Etude
 
-    var panel = new UseItemEnqueuePanel(false, true, false, null);
+    var panel = new UseItemEnqueuePanel(ConcoctionType.BOOZE, null);
     var buttonSearch =
         Arrays.stream(panel.buttons).filter(b -> b.getText().equals("cast ode")).findFirst();
     assertTrue(buttonSearch.isPresent());
