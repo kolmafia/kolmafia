@@ -27,7 +27,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.objectpool.Concoction.ConcoctionType;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -57,6 +56,15 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ConcoctionDatabase {
+
+  // Used for handling queued concoctions.
+  public static enum ConcoctionType {
+    FOOD,
+    BOOZE,
+    SPLEEN,
+    POTION;
+  }
+
   private static final SortedListModel<AdventureResult> EMPTY_LIST =
       new SortedListModel<AdventureResult>();
   private static final SortedListModel<CreateItemRequest> creatableList =
