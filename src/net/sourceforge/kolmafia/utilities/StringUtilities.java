@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.utilities;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,17 +17,17 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.RequestLogger;
 
 public class StringUtilities {
-  private static final HashMap<String, String> entityEncodeCache = new HashMap<>();
-  private static final HashMap<String, String> entityDecodeCache = new HashMap<>();
+  private static final HashMap<String, String> entityEncodeCache = new HashMap<String, String>();
+  private static final HashMap<String, String> entityDecodeCache = new HashMap<String, String>();
 
-  private static final HashMap<String, String> urlEncodeCache = new HashMap<>();
-  private static final HashMap<String, String> urlDecodeCache = new HashMap<>();
+  private static final HashMap<String, String> urlEncodeCache = new HashMap<String, String>();
+  private static final HashMap<String, String> urlDecodeCache = new HashMap<String, String>();
 
-  private static final HashMap<String, String> displayNameCache = new HashMap<>();
-  private static final HashMap<String, String> canonicalNameCache = new HashMap<>();
+  private static final HashMap<String, String> displayNameCache = new HashMap<String, String>();
+  private static final HashMap<String, String> canonicalNameCache = new HashMap<String, String>();
 
-  private static final HashMap<String, String> prepositionsMap = new HashMap<>();
-  private static final WeakHashMap<String[], int[]> hashCache = new WeakHashMap<>();
+  private static final HashMap<String, String> prepositionsMap = new HashMap<String, String>();
+  private static final WeakHashMap<String[], int[]> hashCache = new WeakHashMap<String[], int[]>();
 
   private static final Pattern NONINTEGER_PATTERN = Pattern.compile("[^0-9\\-]+");
 
@@ -48,22 +47,21 @@ public class StringUtilities {
 
   private StringUtilities() {}
 
-  public static synchronized long parseDate(final String dateString) {
+  public static final synchronized long parseDate(final String dateString) {
     if (dateString != null) {
       try {
         return StringUtilities.DATE_FORMAT.parse(dateString).getTime();
       } catch (Exception e) {
-        return 0;
       }
     }
     return 0;
   }
 
-  public static String formatDate(final long date) {
+  public static final String formatDate(final long date) {
     return StringUtilities.formatDate(new Date(date));
   }
 
-  public static synchronized String formatDate(final Date date) {
+  public static final synchronized String formatDate(final Date date) {
     try {
       return StringUtilities.DATE_FORMAT.format(date);
     } catch (Exception e) {
@@ -71,7 +69,7 @@ public class StringUtilities {
     }
   }
 
-  public static String getEncodedString(final byte[] bytes, final String encoding) {
+  public static final String getEncodedString(final byte[] bytes, final String encoding) {
     try {
       return new String(bytes, encoding);
     } catch (UnsupportedEncodingException e) {
@@ -79,7 +77,7 @@ public class StringUtilities {
     }
   }
 
-  public static byte[] getEncodedBytes(final String string, final String encoding) {
+  public static final byte[] getEncodedBytes(final String string, final String encoding) {
     try {
       return string.getBytes(encoding);
     } catch (UnsupportedEncodingException e) {
@@ -88,11 +86,11 @@ public class StringUtilities {
   }
 
   /** Returns the encoded-encoded version of the provided UTF-8 string. */
-  public static String getEntityEncode(final String utf8String) {
+  public static final String getEntityEncode(final String utf8String) {
     return StringUtilities.getEntityEncode(utf8String, true);
   }
 
-  public static String getEntityEncode(String utf8String, final boolean cache) {
+  public static final String getEntityEncode(String utf8String, final boolean cache) {
     if (utf8String == null) {
       return utf8String;
     }
@@ -123,11 +121,11 @@ public class StringUtilities {
   }
 
   /** Returns the UTF-8 version of the provided character entity string. */
-  public static String getEntityDecode(final String entityString) {
+  public static final String getEntityDecode(final String entityString) {
     return StringUtilities.getEntityDecode(entityString, true);
   }
 
-  public static String getEntityDecode(String entityString, final boolean cache) {
+  public static final String getEntityDecode(String entityString, final boolean cache) {
     if (entityString == null) {
       return entityString;
     }
@@ -150,7 +148,7 @@ public class StringUtilities {
   }
 
   /** Returns the URL-encoded version of the provided URL string. */
-  public static String getURLEncode(final String url) {
+  public static final String getURLEncode(final String url) {
     if (url == null) {
       return url;
     }
@@ -158,7 +156,11 @@ public class StringUtilities {
     String encodedURL = StringUtilities.urlEncodeCache.get(url);
 
     if (encodedURL == null) {
-      encodedURL = URLEncoder.encode(url, StandardCharsets.UTF_8);
+      try {
+        encodedURL = URLEncoder.encode(url, "UTF-8");
+      } catch (UnsupportedEncodingException e) {
+        encodedURL = url;
+      }
 
       StringUtilities.urlEncodeCache.put(url, encodedURL);
     }
@@ -167,7 +169,7 @@ public class StringUtilities {
   }
 
   /** Returns the URL-decoded version of the provided URL string. */
-  public static String getURLDecode(final String url) {
+  public static final String getURLDecode(final String url) {
     if (url == null) {
       return url;
     }
@@ -175,7 +177,11 @@ public class StringUtilities {
     String encodedURL = StringUtilities.urlDecodeCache.get(url);
 
     if (encodedURL == null) {
-      encodedURL = URLDecoder.decode(url, StandardCharsets.UTF_8);
+      try {
+        encodedURL = URLDecoder.decode(url, "UTF-8");
+      } catch (UnsupportedEncodingException e) {
+        encodedURL = url;
+      }
 
       StringUtilities.urlDecodeCache.put(url, encodedURL);
     }
@@ -184,7 +190,7 @@ public class StringUtilities {
   }
 
   /** Returns the display name for the provided canonical name. */
-  public static String getDisplayName(String name) {
+  public static final String getDisplayName(String name) {
     if (name == null) {
       return name;
     }
@@ -200,7 +206,7 @@ public class StringUtilities {
   }
 
   /** Returns the canonicalized name for the provided display name. */
-  public static String getCanonicalName(String name) {
+  public static final String getCanonicalName(String name) {
     if (name == null) {
       return null;
     }
@@ -223,7 +229,7 @@ public class StringUtilities {
    * @param names The map in which to search for the string
    * @param searchString The substring for which to search
    */
-  public static List<String> getMatchingNames(final String[] names, String searchString) {
+  public static final List<String> getMatchingNames(final String[] names, String searchString) {
     if (searchString == null) {
       searchString = "";
     }
@@ -231,7 +237,7 @@ public class StringUtilities {
     searchString = searchString.trim();
 
     boolean isExactMatch = searchString.startsWith("\"");
-    List<String> matchList = new ArrayList<>();
+    List<String> matchList = new ArrayList<String>();
 
     if (isExactMatch) {
       String fullString = StringUtilities.getCanonicalName(searchString);
@@ -316,7 +322,7 @@ public class StringUtilities {
     return hash;
   }
 
-  public static boolean substringMatches(
+  public static final boolean substringMatches(
       final String source, final String substring, final boolean checkBoundaries) {
     if (source == null) {
       return false;
@@ -338,7 +344,7 @@ public class StringUtilities {
     return !Character.isLetterOrDigit(source.charAt(index - 1));
   }
 
-  public static boolean fuzzyMatches(final String sourceString, final String searchString) {
+  public static final boolean fuzzyMatches(final String sourceString, final String searchString) {
     if (sourceString == null) {
       return false;
     }
@@ -400,7 +406,7 @@ public class StringUtilities {
     return ch != '#' && !Character.isLetterOrDigit(ch);
   }
 
-  public static void insertBefore(
+  public static final void insertBefore(
       final StringBuffer buffer, final String searchString, final String insertString) {
     int searchIndex = buffer.indexOf(searchString);
     if (searchIndex == -1) {
@@ -410,7 +416,7 @@ public class StringUtilities {
     buffer.insert(searchIndex, insertString);
   }
 
-  public static void insertAfter(
+  public static final void insertAfter(
       final StringBuffer buffer, final String searchString, final String insertString) {
     int searchIndex = buffer.indexOf(searchString);
     if (searchIndex == -1) {
@@ -420,12 +426,12 @@ public class StringUtilities {
     buffer.insert(searchIndex + searchString.length(), insertString);
   }
 
-  public static String singleStringDelete(
+  public static final String singleStringDelete(
       final String originalString, final String searchString) {
     return StringUtilities.singleStringReplace(originalString, searchString, "");
   }
 
-  public static String singleStringReplace(
+  public static final String singleStringReplace(
       final String originalString, final String searchString, final String replaceString) {
     if (originalString == null) {
       return null;
@@ -440,17 +446,19 @@ public class StringUtilities {
       return originalString;
     }
 
-    return originalString.substring(0, lastIndex)
-        + replaceString
-        + originalString.substring(lastIndex + searchString.length());
+    String buffer =
+        originalString.substring(0, lastIndex)
+            + replaceString
+            + originalString.substring(lastIndex + searchString.length());
+    return buffer;
   }
 
-  public static void singleStringDelete(
+  public static final void singleStringDelete(
       final StringBuffer buffer, final String searchString) {
     StringUtilities.singleStringReplace(buffer, searchString, "");
   }
 
-  public static void singleStringReplace(
+  public static final void singleStringReplace(
       final StringBuffer buffer, final String searchString, final String replaceString) {
     int index = buffer.indexOf(searchString);
     if (index != -1) {
@@ -458,12 +466,12 @@ public class StringUtilities {
     }
   }
 
-  public static String globalStringDelete(
+  public static final String globalStringDelete(
       final String originalString, final String searchString) {
     return StringUtilities.globalStringReplace(originalString, searchString, "");
   }
 
-  public static String globalStringReplace(
+  public static final String globalStringReplace(
       final String originalString, final String searchString, final String replaceString) {
     if (originalString == null) {
       return null;
@@ -491,16 +499,16 @@ public class StringUtilities {
     return buffer.toString();
   }
 
-  public static void globalStringReplace(
+  public static final void globalStringReplace(
       final StringBuffer buffer, final String tag, final int replaceWith) {
     StringUtilities.globalStringReplace(buffer, tag, String.valueOf(replaceWith));
   }
 
-  public static void globalStringDelete(final StringBuffer buffer, final String tag) {
+  public static final void globalStringDelete(final StringBuffer buffer, final String tag) {
     StringUtilities.globalStringReplace(buffer, tag, "");
   }
 
-  public static void globalStringReplace(
+  public static final void globalStringReplace(
       final StringBuffer buffer, final String tag, String replaceWith) {
     if (buffer == null) {
       return;
@@ -525,7 +533,7 @@ public class StringUtilities {
     }
   }
 
-  public static boolean isNumeric(String string) {
+  public static final boolean isNumeric(String string) {
     if (string == null || string.isEmpty()) {
       return false;
     }
@@ -547,7 +555,7 @@ public class StringUtilities {
     return true;
   }
 
-  public static boolean isFloat(String string) {
+  public static final boolean isFloat(String string) {
     if (string == null || string.length() == 0) {
       return false;
     }
@@ -581,11 +589,11 @@ public class StringUtilities {
     return true;
   }
 
-  public static int parseInt(String string) {
+  public static final int parseInt(String string) {
     return StringUtilities.parseIntInternal1(string, false);
   }
 
-  public static int parseIntInternal1(String string, boolean throwException)
+  public static final int parseIntInternal1(String string, boolean throwException)
       throws NumberFormatException {
     if (string == null) {
       return 0;
@@ -639,7 +647,7 @@ public class StringUtilities {
     return StringUtilities.parseIntInternal2(string);
   }
 
-  public static int parseIntInternal2(String string) throws NumberFormatException {
+  public static final int parseIntInternal2(String string) throws NumberFormatException {
     string = NONINTEGER_PATTERN.matcher(string).replaceAll("");
 
     if (string.length() == 0) {
@@ -654,11 +662,11 @@ public class StringUtilities {
     }
   }
 
-  public static long parseLong(String string) {
+  public static final long parseLong(String string) {
     return StringUtilities.parseLongInternal1(string, false);
   }
 
-  public static long parseLongInternal1(String string, boolean throwException)
+  public static final long parseLongInternal1(String string, boolean throwException)
       throws NumberFormatException {
     if (string == null) {
       return 0L;
@@ -712,7 +720,7 @@ public class StringUtilities {
     return StringUtilities.parseLongInternal2(string);
   }
 
-  public static long parseLongInternal2(String string) throws NumberFormatException {
+  public static final long parseLongInternal2(String string) throws NumberFormatException {
     string = NONINTEGER_PATTERN.matcher(string).replaceAll("");
 
     if (string.length() == 0) {
@@ -727,7 +735,7 @@ public class StringUtilities {
     }
   }
 
-  public static float parseFloat(String string) {
+  public static final float parseFloat(String string) {
     if (string == null) {
       return 0.0f;
     }
@@ -750,7 +758,7 @@ public class StringUtilities {
     return Float.parseFloat(string);
   }
 
-  public static double parseDouble(String string) {
+  public static final double parseDouble(String string) {
     if (string == null) {
       return 0.0;
     }
@@ -773,7 +781,7 @@ public class StringUtilities {
     return Double.parseDouble(string);
   }
 
-  public static String basicTextWrap(String text) {
+  public static final String basicTextWrap(String text) {
 
     if (text.length() < 80 || text.startsWith("<html>")) {
       return text;
@@ -808,7 +816,7 @@ public class StringUtilities {
     return result.toString();
   }
 
-  public static void registerPrepositions(final String text) {
+  public static final void registerPrepositions(final String text) {
     Matcher m = StringUtilities.PREPOSITIONS_PATTERN.matcher(text);
     if (!m.find()) {
       return;
@@ -816,7 +824,7 @@ public class StringUtilities {
     StringUtilities.prepositionsMap.put(m.replaceAll("@"), text);
   }
 
-  public static String lookupPrepositions(final String text) {
+  public static final String lookupPrepositions(final String text) {
     Matcher m = StringUtilities.PREPOSITIONS_PATTERN.matcher(text);
     if (!m.find()) {
       return text;
@@ -825,7 +833,7 @@ public class StringUtilities {
     return rv == null ? text : rv;
   }
 
-  public static String toTitleCase(final String s) {
+  public static final String toTitleCase(final String s) {
     boolean found = false;
     char[] chars = s.toLowerCase().toCharArray();
 
@@ -841,7 +849,7 @@ public class StringUtilities {
     return String.valueOf(chars);
   }
 
-  public static String leetify(final String text) {
+  public static final String leetify(final String text) {
     // It makes no sense to leetify character entities, so convert
     // them to UTF-8 characters.
     String decoded = StringUtilities.getEntityDecode(text);
@@ -882,7 +890,7 @@ public class StringUtilities {
     return b.toString();
   }
 
-  public static boolean isVowel(char letter) {
+  public static final boolean isVowel(char letter) {
     switch (Character.toLowerCase(letter)) {
       case 'a':
       case 'e':
@@ -895,7 +903,7 @@ public class StringUtilities {
     }
   }
 
-  public static int getBracketedId(final String name) {
+  public static final int getBracketedId(final String name) {
     if (name.startsWith("[")) {
       int index = name.indexOf("]");
       if (index > 0) {
@@ -908,7 +916,7 @@ public class StringUtilities {
     return -1;
   }
 
-  public static String removeBracketedId(final String name) {
+  public static final String removeBracketedId(final String name) {
     if (name.startsWith("[")) {
       int index = name.indexOf("]");
       if (index > 0) {
