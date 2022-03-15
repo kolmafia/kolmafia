@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.WeakHashMap;
 import java.util.regex.Matcher;
@@ -782,20 +783,28 @@ public class StringUtilities {
   }
 
   public static final String basicTextWrap(String text) {
+    return basicTextWrap(text, 80);
+  }
 
-    if (text.length() < 80 || text.startsWith("<html>")) {
+  public static final String basicTextWrap(String text, int breakPosition) {
+
+    if (text == null) {
+      return null;
+    }
+
+    if (text.length() < breakPosition || text.startsWith("<html>")) {
       return text;
     }
 
     StringBuilder result = new StringBuilder();
 
     while (text.length() > 0) {
-      if (text.length() < 80) {
+      if (text.length() < breakPosition) {
         result.append(text);
         break;
       }
 
-      int spaceIndex = text.lastIndexOf(" ", 80);
+      int spaceIndex = text.lastIndexOf(" ", breakPosition);
       int breakIndex = text.lastIndexOf("\n", spaceIndex);
 
       if (breakIndex != -1) {
@@ -807,9 +816,9 @@ public class StringUtilities {
         result.append("\n");
         text = text.substring(spaceIndex).trim();
       } else {
-        result.append(text.substring(0, 80).trim());
+        result.append(text.substring(0, breakPosition).trim());
         result.append("\n");
-        text = text.substring(80).trim();
+        text = text.substring(breakPosition).trim();
       }
     }
 
@@ -831,6 +840,15 @@ public class StringUtilities {
     }
     String rv = StringUtilities.prepositionsMap.get(m.replaceAll("@"));
     return rv == null ? text : rv;
+  }
+
+  public static Map<String, String> getCopyOfPrepositionsMap() {
+    Map<String, String> retVal = new HashMap<>(prepositionsMap);
+    return retVal;
+  }
+
+  public static void unregisterPrepositions() {
+    prepositionsMap.clear();
   }
 
   public static final String toTitleCase(final String s) {
