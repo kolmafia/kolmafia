@@ -755,15 +755,18 @@ public abstract class KoLmafia {
 
     ChateauRequest.refresh();
 
-    // Retrieve campground data to see if the user has box servants
-    // or a bookshelf
+    // Always reset the campground data. If our current path has access to a
+    // campground, we will refresh it. If not, we won't. This only matters if
+    // you continue in the same session after ascending to such a path.
+    CampgroundRequest.reset();
 
+    // If the path allows, retrieve campground data to see if the user has box
+    // servants or a bookshelf
     if (!Limitmode.limitCampground()
         && !KoLCharacter.isEd()
         && !KoLCharacter.inNuclearAutumn()
         && !KoLCharacter.inRobocore()) {
       KoLmafia.updateDisplay("Retrieving campground data...");
-      CampgroundRequest.reset();
       if (!KoLCharacter.isVampyre()) {
         RequestThread.postRequest(new CampgroundRequest("inspectdwelling"));
       }
