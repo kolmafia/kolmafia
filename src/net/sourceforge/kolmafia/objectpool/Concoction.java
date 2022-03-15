@@ -29,6 +29,14 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
  * actually make the item.
  */
 public class Concoction implements Comparable<Concoction> {
+  // For queueing
+  public static enum ConcoctionType {
+    FOOD,
+    BOOZE,
+    SPLEEN,
+    POTION;
+  }
+
   public static final int FOOD_PRIORITY = 1;
   public static final int BOOZE_PRIORITY = 2;
   public static final int SPLEEN_PRIORITY = 3;
