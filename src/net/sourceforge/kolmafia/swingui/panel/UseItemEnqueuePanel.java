@@ -181,9 +181,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     // Restore the 10px border that we removed from the bottom.
     this.actualPanel.add(Box.createVerticalStrut(10), BorderLayout.SOUTH);
 
-    if (potions) {
-      NamedListenerRegistry.registerNamedListener("(potions)", this);
-    }
+    NamedListenerRegistry.registerNamedListener(type.getSignal(), this);
 
     this.filterItems();
   }

@@ -19,6 +19,8 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -37,6 +39,30 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class YouRobotManagerTest {
+
+  private class TestListener implements Listener {
+    private int calls = 0;
+
+    public TestListener(String signal) {
+      NamedListenerRegistry.registerNamedListener(signal, this);
+
+      // Note that there is no need to provide a way to clean up once you're
+      // done. a ListenerRegistry uses WeakReferences to Listeners, so as soon
+      // as the object goes out of scope, the pointer is broken
+    }
+
+    public void reset() {
+      this.calls = 0;
+    }
+
+    public void update() {
+      this.calls++;
+    }
+
+    public int getCalls() {
+      return this.calls;
+    }
+  }
 
   @BeforeAll
   private static void beforeAll() {
@@ -456,6 +482,7 @@ public class YouRobotManagerTest {
 
   @Test
   public void willAllowPotionUsage() throws IOException {
+    TestListener potionListener = new TestListener("(potions)");
 
     // Start with no CPU upgrades. We cannot use potions.
     assertFalse(YouRobotManager.canUsePotions());
@@ -477,11 +504,67 @@ public class YouRobotManagerTest {
     ChoiceManager.lastChoice = 1445;
     YouRobotManager.visitChoice(request);
 
+    // Verify that our listener fired
+    assertEquals(1, potionListener.getCalls());
+
     // Now we can use potions
     assertTrue(YouRobotManager.canUsePotions());
 
     // And the ItemManager GUI knows it.
     assertTrue(enqueueButton.isEnabled());
     assertTrue(dequeueButton.isEnabled());
+
+    // Parse the same CPU Upgrade page
+    YouRobotManager.visitChoice(request);
+
+    // Verify that our listener did not fire
+    assertEquals(1, potionListener.getCalls());
+  }
+
+  @Test
+  public void canSetAvatarAndGetSignal() throws IOException {
+    TestListener avatarListener = new TestListener("(avatar)");
+
+    // We started out with an avatar = ""
+    // Verify that if we set the same avatar, our listener doesn't fire.
+    KoLCharacter.setAvatar("");
+    assertEquals(0, avatarListener.getCalls());
+
+    // Female Accordion Thief
+    KoLCharacter.setAvatar("otherimages/classav6b_f.gif");
+    assertEquals(1, avatarListener.getCalls());
+
+    // Load a 3-part robot
+    String responseText = loadHTMLResponse("request/test_scrapheap_three_part_avatar.html");
+
+    ChoiceManager.lastChoice = 1445;
+    GenericRequest request = new GenericRequest("choice.php?forceoption=0");
+    request.responseText = responseText;
+    YouRobotManager.visitChoice(request);
+
+    // Our Listener fired
+    assertEquals(2, avatarListener.getCalls());
+
+    // Do it again with the same image
+    YouRobotManager.visitChoice(request);
+    assertEquals(2, avatarListener.getCalls());
+
+    // Load a 4-part robot
+    responseText = loadHTMLResponse("request/test_scrapheap_reassembly_station.html");
+    ChoiceManager.lastChoice = 1445;
+    request = new GenericRequest("choice.php?forceoption=0");
+    request.responseText = responseText;
+    YouRobotManager.visitChoice(request);
+
+    // Our Listener fired
+    assertEquals(3, avatarListener.getCalls());
+
+    // Do it again with the same image
+    YouRobotManager.visitChoice(request);
+    assertEquals(3, avatarListener.getCalls());
+
+    // Call setAvatar directly with the current images
+    KoLCharacter.setAvatar(KoLCharacter.getAvatar());
+    assertEquals(3, avatarListener.getCalls());
   }
 }

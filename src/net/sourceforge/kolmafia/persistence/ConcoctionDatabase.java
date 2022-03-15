@@ -59,10 +59,20 @@ public class ConcoctionDatabase {
 
   // Used for handling queued concoctions.
   public static enum ConcoctionType {
-    FOOD,
-    BOOZE,
-    SPLEEN,
-    POTION;
+    FOOD("(food)"),
+    BOOZE("(booze)"),
+    SPLEEN("(spleen)"),
+    POTION("(potions)");
+
+    private String signal;
+
+    ConcoctionType(String signal) {
+      this.signal = signal;
+    }
+
+    public String getSignal() {
+      return this.signal;
+    }
   }
 
   private static final SortedListModel<AdventureResult> EMPTY_LIST =

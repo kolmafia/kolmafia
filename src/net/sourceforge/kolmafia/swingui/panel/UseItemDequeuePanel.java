@@ -80,9 +80,7 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> i
 
     this.eastPanel.add(new ThreadedButton("undo", new UndoQueueRunnable()), BorderLayout.SOUTH);
 
-    if (type == ConcoctionType.POTION) {
-      NamedListenerRegistry.registerNamedListener("(potions)", this);
-    }
+    NamedListenerRegistry.registerNamedListener(type.getSignal(), this);
 
     this.setEnabled(true);
     this.filterItems();
