@@ -420,8 +420,7 @@ public class StringUtilities {
     buffer.insert(searchIndex + searchString.length(), insertString);
   }
 
-  public static String singleStringDelete(
-      final String originalString, final String searchString) {
+  public static String singleStringDelete(final String originalString, final String searchString) {
     return StringUtilities.singleStringReplace(originalString, searchString, "");
   }
 
@@ -445,8 +444,7 @@ public class StringUtilities {
         + originalString.substring(lastIndex + searchString.length());
   }
 
-  public static void singleStringDelete(
-      final StringBuffer buffer, final String searchString) {
+  public static void singleStringDelete(final StringBuffer buffer, final String searchString) {
     StringUtilities.singleStringReplace(buffer, searchString, "");
   }
 
@@ -458,8 +456,7 @@ public class StringUtilities {
     }
   }
 
-  public static String globalStringDelete(
-      final String originalString, final String searchString) {
+  public static String globalStringDelete(final String originalString, final String searchString) {
     return StringUtilities.globalStringReplace(originalString, searchString, "");
   }
 
