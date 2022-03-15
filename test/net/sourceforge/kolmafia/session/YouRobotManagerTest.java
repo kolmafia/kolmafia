@@ -9,7 +9,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
+import javax.swing.JButton;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -20,11 +22,15 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.ConcoctionType;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
+import net.sourceforge.kolmafia.swingui.panel.UseItemDequeuePanel;
+import net.sourceforge.kolmafia.swingui.panel.UseItemEnqueuePanel;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -439,5 +445,43 @@ public class YouRobotManagerTest {
     assertTrue(cpus.contains("robot_hp1"));
     assertTrue(cpus.contains("robot_hp2"));
     assertTrue(cpus.contains("robot_resist"));
+  }
+
+  private JButton findItemManagePanelButton(ItemManagePanel panel, String name) {
+    Optional<JButton> buttonSearch =
+        Arrays.stream(panel.buttons).filter(b -> b.getText().equals(name)).findFirst();
+    assertTrue(buttonSearch.isPresent());
+    return buttonSearch.get();
+  }
+
+  @Test
+  public void willAllowPotionUsage() throws IOException {
+
+    // Start with no CPU upgrades. We cannot use potions.
+    assertFalse(YouRobotManager.canUsePotions());
+
+    // Make ItemManager potion panels
+    UseItemEnqueuePanel enqueue = new UseItemEnqueuePanel(ConcoctionType.POTION, null);
+    JButton enqueueButton = findItemManagePanelButton(enqueue, "consume");
+    assertFalse(enqueueButton.isEnabled());
+
+    UseItemDequeuePanel dequeue = new UseItemDequeuePanel(ConcoctionType.POTION);
+    JButton dequeueButton = findItemManagePanelButton(dequeue, "consume");
+    assertFalse(dequeueButton.isEnabled());
+
+    // Look at CPU Upgrades
+    String urlString = "choice.php?whichchoice=1445&show=cpus";
+    String responseText = loadHTMLResponse("request/test_scrapheap_show_cpus.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1445;
+    YouRobotManager.visitChoice(request);
+
+    // Now we can use potions
+    assertTrue(YouRobotManager.canUsePotions());
+
+    // And the ItemManager GUI knows it.
+    assertTrue(enqueueButton.isEnabled());
+    assertTrue(dequeueButton.isEnabled());
   }
 }

@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -479,7 +480,9 @@ public class YouRobotManager {
 
   public static void parseCPUUpgrades(final String text) {
     Set<RobotUpgrade> upgrades = new HashSet<>();
+    boolean canUseShirts = canUseShirts();
     boolean useShirts = false;
+    boolean canUsePotions = canUsePotions();
     boolean usePotions = false;
 
     Matcher m = CPU_UPGRADE_INSTALLED.matcher(text);
@@ -501,21 +504,21 @@ public class YouRobotManager {
     // See if anything has changed. If not, we can punt now.
     boolean changed = false;
 
-    if (useShirts != canUseShirts()) {
+    if (upgrades.size() != currentCPU.size()) {
+      currentCPU.clear();
+      currentCPU.addAll(upgrades);
+      KoLCharacter.recalculateAdjustments();
+      changed = true;
+    }
+
+    if (useShirts != canUseShirts) {
       EquipmentManager.updateEquipmentList(EquipmentManager.SHIRT);
       EquipmentManager.updateNormalOutfits();
       changed = true;
     }
 
-    if (usePotions != canUsePotions()) {
-      // *** fire (potions)
-      changed = true;
-    }
-
-    if (upgrades.size() != currentCPU.size()) {
-      currentCPU.clear();
-      currentCPU.addAll(upgrades);
-      KoLCharacter.recalculateAdjustments();
+    if (usePotions != canUsePotions) {
+      NamedListenerRegistry.fireChange("(potions)");
       changed = true;
     }
 

@@ -23,6 +23,8 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -45,7 +47,7 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
-public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
+public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> implements Listener {
   private final JCheckBox[] filters;
   private final JTabbedPane queueTabs;
   private final ConcoctionType type;
@@ -179,7 +181,15 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> {
     // Restore the 10px border that we removed from the bottom.
     this.actualPanel.add(Box.createVerticalStrut(10), BorderLayout.SOUTH);
 
+    if (potions) {
+      NamedListenerRegistry.registerNamedListener("(potions)", this);
+    }
+
     this.filterItems();
+  }
+
+  public void update() {
+    this.setEnabled(true);
   }
 
   @Override
