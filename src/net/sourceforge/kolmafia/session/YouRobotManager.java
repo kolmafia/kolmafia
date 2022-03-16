@@ -467,7 +467,7 @@ public class YouRobotManager {
 
     if (changed) {
       // Save the avatar so you can admire it on the Daily Deeds frame
-      KoLCharacter.setAvatar(images.toArray(new String[images.size()]));
+      KoLCharacter.setAvatar(images);
       KoLCharacter.recalculateAdjustments();
     }
   }

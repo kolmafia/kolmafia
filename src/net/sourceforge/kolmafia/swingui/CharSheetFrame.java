@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -125,13 +126,13 @@ public class CharSheetFrame extends GenericFrame {
 
     @Override
     public void update() {
-      String[] images = KoLCharacter.getAvatar();
-      int size = images.length;
+      List<String> images = KoLCharacter.getAvatar();
+      int size = images.size();
       int newWidth = 60;
       int newHeight = 100;
       for (int i = 0; i < LAYERS; ++i) {
-        if (i < images.length && images[i] != null) {
-          ImageIcon icon = JComponentUtilities.getImage(images[i]);
+        if (i < size && images.get(i) != null) {
+          ImageIcon icon = JComponentUtilities.getImage(images.get(i));
           int iconWidth = icon.getIconWidth();
           int iconHeight = icon.getIconHeight();
           newWidth = Math.max(width, iconWidth);

@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import javax.swing.JButton;
@@ -105,9 +106,9 @@ public class YouRobotManagerTest {
     assertEquals(0, Preferences.getInteger("youRobotLeft"));
     assertEquals(0, Preferences.getInteger("youRobotRight"));
     assertEquals(0, Preferences.getInteger("youRobotBottom"));
-    String[] avatar = KoLCharacter.getAvatar();
-    assertEquals(1, KoLCharacter.getAvatar().length);
-    assertEquals("", avatar[0]);
+    List<String> avatar = KoLCharacter.getAvatar();
+    assertEquals(1, KoLCharacter.getAvatar().size());
+    assertEquals("", avatar.get(0));
   }
 
   private void verifyAvatarFromProperties() {
@@ -129,8 +130,8 @@ public class YouRobotManagerTest {
     int count =
         1 + (top == 0 ? 0 : 1) + (left == 0 ? 0 : 1) + (right == 0 ? 0 : 1) + (bottom == 0 ? 0 : 1);
 
-    String[] avatar = KoLCharacter.getAvatar();
-    Set<String> images = new HashSet<>(Arrays.asList(avatar));
+    List<String> avatar = KoLCharacter.getAvatar();
+    Set<String> images = new HashSet<>(avatar);
     assertEquals(count, images.size());
     if (top != 0) {
       assertTrue(images.contains(topImage));
