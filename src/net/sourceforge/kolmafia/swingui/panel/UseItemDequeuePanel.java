@@ -81,9 +81,7 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> i
     this.eastPanel.add(new ThreadedButton("undo", new UndoQueueRunnable()), BorderLayout.SOUTH);
 
     NamedListenerRegistry.registerNamedListener(type.getSignal(), this);
-
-    this.setEnabled(true);
-    this.filterItems();
+    this.update();
   }
 
   public void update() {

@@ -182,9 +182,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     this.actualPanel.add(Box.createVerticalStrut(10), BorderLayout.SOUTH);
 
     NamedListenerRegistry.registerNamedListener(type.getSignal(), this);
-
-    this.setEnabled(true);
-    this.filterItems();
+    this.update();
   }
 
   public void update() {
