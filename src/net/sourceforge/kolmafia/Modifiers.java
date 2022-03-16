@@ -1180,7 +1180,7 @@ public class Modifiers {
       hp = hpbase + (int) this.get(Modifiers.HP);
       buffedHP = Math.max(hp, mus);
     } else if (KoLCharacter.inRobocore()) {
-      hpbase = 50;
+      hpbase = 30;
       hp = hpbase + (int) this.get(Modifiers.HP);
       buffedHP = hp;
     } else {
