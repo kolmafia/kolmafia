@@ -234,7 +234,7 @@ public class YouRobotManagerTest {
     ChoiceManager.lastChoice = 1447;
     assertEquals(0, Preferences.getInteger("statbotUses"));
     YouRobotManager.visitChoice(request);
-    assertEquals(11, Preferences.getInteger("statbotUses"));
+    assertEquals(10, Preferences.getInteger("statbotUses"));
   }
 
   @Test
@@ -605,7 +605,7 @@ public class YouRobotManagerTest {
     ChoiceManager.lastChoice = 1447;
     assertEquals(0, Preferences.getInteger("statbotUses"));
     YouRobotManager.visitChoice(request);
-    assertEquals(11, Preferences.getInteger("statbotUses"));
+    assertEquals(10, Preferences.getInteger("statbotUses"));
 
     urlString = "choice.php?pwd&whichchoice=1447&option=1";
     responseText = loadHTMLResponse("request/test_scrapheap_activate_statbot.html");
