@@ -649,12 +649,14 @@ public class YouRobotManager {
             current.removeCombatSkill();
           }
         }
+        KoLCharacter.setYouRobotScraps(KoLCharacter.getYouRobotScraps() - upgrade.getCost());
       }
 
       parseAvatar(text);
 
       if (part == Part.CPU) {
         parseCPUUpgrades(text);
+        KoLCharacter.setYouRobotEnergy(KoLCharacter.getYouRobotEnergy() - upgrade.getCost());
       }
 
       KoLCharacter.updateStatus();
@@ -666,6 +668,10 @@ public class YouRobotManager {
 
       parseStatbotCost(text);
       if (!text.contains("You don't have enough Energy to do that.")) {
+        // Cost starts at 10 and goes up by one each time.
+        // If we are here, we have just parsed the NEXT cost.
+        int cost = Preferences.getInteger("statbotUses") + 10 - 1;
+        KoLCharacter.setYouRobotEnergy(KoLCharacter.getYouRobotEnergy() - cost);
         KoLCharacter.updateStatus();
       }
       return;

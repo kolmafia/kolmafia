@@ -91,6 +91,8 @@ public class YouRobotManagerTest {
     YouRobotManager.reset();
     KoLCharacter.setAvatar("");
     KoLCharacter.resetSkills();
+    KoLCharacter.setYouRobotEnergy(0);
+    KoLCharacter.setYouRobotScraps(0);
     ChoiceManager.lastChoice = 0;
     ChoiceManager.lastDecision = 0;
   }
@@ -232,7 +234,7 @@ public class YouRobotManagerTest {
     ChoiceManager.lastChoice = 1447;
     assertEquals(0, Preferences.getInteger("statbotUses"));
     YouRobotManager.visitChoice(request);
-    assertEquals(10, Preferences.getInteger("statbotUses"));
+    assertEquals(11, Preferences.getInteger("statbotUses"));
   }
 
   @Test
@@ -316,6 +318,29 @@ public class YouRobotManagerTest {
     Preferences.setInteger("statbotUses", 10);
     assertTrue(YouRobotManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
+  }
+
+  @Test
+  public void canPayUpgradeCosts() throws IOException {
+    KoLCharacter.setYouRobotEnergy(100);
+    KoLCharacter.setYouRobotScraps(100);
+
+    // Install Tesla Blaster, lose Shoot Pea, gain Tesla Blast
+    String urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=7";
+    String responseText = loadHTMLResponse("request/test_scrapheap_add_skill.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1445;
+    YouRobotManager.postChoice1(urlString, request);
+    assertEquals(70, KoLCharacter.getYouRobotScraps());
+
+    urlString = "choice.php?pwd&whichchoice=1445&part=cpus&show=cpus&option=2&p=robot_resist";
+    responseText = loadHTMLResponse("request/test_scrapheap_cpu_upgrade.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1445;
+    YouRobotManager.postChoice1(urlString, request);
+    assertEquals(60, KoLCharacter.getYouRobotEnergy());
   }
 
   @Test
@@ -567,5 +592,28 @@ public class YouRobotManagerTest {
     // Call setAvatar directly with the current images
     KoLCharacter.setAvatar(KoLCharacter.getAvatar());
     assertEquals(3, avatarListener.getCalls());
+  }
+
+  @Test
+  public void canTrackStatbotEnergyCost() throws IOException {
+    KoLCharacter.setYouRobotEnergy(100);
+
+    String urlString = "choice.php?forceoption=0";
+    String responseText = loadHTMLResponse("request/test_scrapheap_visit_statbot.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1447;
+    assertEquals(0, Preferences.getInteger("statbotUses"));
+    YouRobotManager.visitChoice(request);
+    assertEquals(11, Preferences.getInteger("statbotUses"));
+
+    urlString = "choice.php?pwd&whichchoice=1447&option=1";
+    responseText = loadHTMLResponse("request/test_scrapheap_activate_statbot.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1447;
+    YouRobotManager.postChoice1(responseText, request);
+    assertEquals(11, Preferences.getInteger("statbotUses"));
+    assertEquals(100 - 20, KoLCharacter.getYouRobotEnergy());
   }
 }

@@ -739,6 +739,8 @@ public abstract class KoLmafia {
       KoLCharacter.resetCurrentPP();
     } else if (KoLCharacter.inRobocore()) {
       YouRobotManager.reset();
+      // Get current Energy and Scraps
+      RequestThread.postRequest(new CharPaneRequest());
       RequestThread.postRequest(new ScrapheapRequest("sh_configure"));
       RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1445&show=cpus"));
     }

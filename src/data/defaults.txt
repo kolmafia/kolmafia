@@ -1539,6 +1539,7 @@ user	_chocolatesUsed	0
 user	_chronerCrossUsed	false
 user	_chronerTriggerUsed	false
 user	_chronolithActivations	0
+user	_chronolithNextCost	10
 user	_chubbyAndPlumpUsed	false
 user	_circleDrumUsed	false
 user	_clanFortuneBuffUsed	false
