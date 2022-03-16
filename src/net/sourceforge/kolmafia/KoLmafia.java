@@ -959,6 +959,17 @@ public abstract class KoLmafia {
     FloristRequest.reset();
     RequestThread.postRequest(new FloristRequest());
 
+    // If you have the ItemManagerFrame open, there are four panels which
+    // display food, booze, spleen items, and potions. These enable buttons and
+    // filter what is shown based on character state: whether your character
+    // can eat or drink, whether items are out of standard, and so on.
+    //
+    // All of that is moot, now. Signal the various GUI panels to update.
+    NamedListenerRegistry.fireChange("(food)");
+    NamedListenerRegistry.fireChange("(booze)");
+    NamedListenerRegistry.fireChange("(spleen)");
+    NamedListenerRegistry.fireChange("(potions)");
+
     // Run a user-supplied script
     KoLmafiaCLI.DEFAULT_SHELL.executeLine(Preferences.getString("kingLiberatedScript"));
   }
