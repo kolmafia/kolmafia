@@ -489,6 +489,11 @@ public abstract class KoLCharacter {
       return 0;
     }
 
+    if (KoLCharacter.inRobocore()) {
+      // Robots can eat size-0 magical sausages but have no fullness
+      return 0;
+    }
+
     // Default stomach size, overridden below for various paths
     int limit = 15;
 
@@ -3333,7 +3338,7 @@ public abstract class KoLCharacter {
       return false;
     }
 
-    if (KoLCharacter.inNoobcore() || KoLCharacter.inBondcore() || KoLCharacter.inRobocore()) {
+    if (KoLCharacter.inNoobcore() || KoLCharacter.inBondcore()) {
       return false;
     }
 

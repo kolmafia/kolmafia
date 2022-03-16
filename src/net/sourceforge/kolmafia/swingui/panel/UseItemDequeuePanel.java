@@ -88,6 +88,7 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> i
 
   public void update() {
     this.setEnabled(true);
+    this.filterItems();
   }
 
   @Override

@@ -183,11 +183,13 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
     NamedListenerRegistry.registerNamedListener(type.getSignal(), this);
 
+    this.setEnabled(true);
     this.filterItems();
   }
 
   public void update() {
     this.setEnabled(true);
+    this.filterItems();
   }
 
   @Override
