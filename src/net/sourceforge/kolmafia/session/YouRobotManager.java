@@ -672,6 +672,7 @@ public class YouRobotManager {
         // If we are here, we have just parsed the NEXT cost.
         int cost = Preferences.getInteger("statbotUses") + 10 - 1;
         KoLCharacter.setYouRobotEnergy(KoLCharacter.getYouRobotEnergy() - cost);
+        EquipmentManager.updateEquipmentLists();
         KoLCharacter.updateStatus();
       }
       return;

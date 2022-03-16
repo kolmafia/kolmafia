@@ -10146,7 +10146,7 @@
 10118	velour valise	217953676	vel_valise.gif	offhand		0
 10119	velour vaqueros	441211726	vel_vaqueros.gif	pants		0
 10120	velour veneer	806757439	vel_veneer.gif	spleen, usable		0
-10121	Velougats&trade;	711521938	velougat.gif	potion, usable		0
+10121	Velougats&trade;	711521938	velougat.gif	potion, usable	d	15
 10122	stained glass suspenders	622632255	sg_suspenders.gif	accessory		0
 10123	stained glass shield	399459418	sg_shield.gif	offhand		0
 10124	stained glass stetson	701584101	sg_stetson.gif	hat		0
@@ -10915,7 +10915,7 @@
 10888	void stone	676671920	voidstone.gif	none	d	500
 10889	void shard	935741344	voidknife.gif	weapon	t	0
 10890	undrilled cosmic bowling ball	276317641	cosmicball.gif	usable	t	0
-10891	cosmic bowling ball	119596776	cosmicball2.gif	none, combat		0
+10891	cosmic bowling ball	119596776	cosmicball2.gif	none, combat	q	0
 10892	combat lover's locket lockbox	237536213	lovelocketbox.gif	usable	t	0
 10893	combat lover's locket	634036450	lovelocket.gif	accessory		0
 10894	Thwaitgold protozoa statuette	575626986	thwaitprotozoa.gif	none		0
