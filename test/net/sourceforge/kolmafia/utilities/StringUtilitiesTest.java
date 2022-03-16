@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -148,83 +148,60 @@ class StringUtilitiesTest {
   }
 
   @Test
-  public void itShouldTokenizeStringsWithDefaults() {
+  public void itShouldTokenizeStringsWithDefaults() throws Exception {
     // simple comma separated list
     String testString = "folder (cyan), folder (magenta), folder (yellow)";
-    List<String> expected = new ArrayList<>();
-    expected.add("folder (cyan)");
-    expected.add("folder (magenta)");
-    expected.add("folder (yellow)");
-    try {
-      List<String> result = StringUtilities.tokenizeString(testString);
-      assertEquals(expected, result, "Lists are not the same.");
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
+    List<String> expected = List.of("folder (cyan)", "folder (magenta)", "folder (yellow)");
+    List<String> result = StringUtilities.tokenizeString(testString);
+    assertEquals(expected, result, "Lists are not the same.");
   }
 
   @Test
-  public void itShouldHandleGoodAndBadEscape() {
+  public void itShouldHandleStringWithTab() throws Exception {
     String testString = "a,\tb";
     List<String> expected = List.of("a", "\tb");
-    try {
-      List<String> result = StringUtilities.tokenizeString(testString, ',', '\\', false);
-      assertEquals(expected, result, "Lists are not the same.");
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
-    char[] test = new char[4];
-    test[0] = 'a';
-    test[1] = ',';
-    test[2] = '\\';
-    test[3] = 'g';
-    testString = String.valueOf(test);
-    expected = List.of("a", "g");
-    try {
-      List<String> result = StringUtilities.tokenizeString(testString);
-      assertEquals(expected, result, "Lists are not the same.");
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
-    test[2] = 'g';
-    test[3] = '\\';
-    testString = String.valueOf(test);
-    try {
-      List<String> result = StringUtilities.tokenizeString(testString);
-      fail("Expected exception not thrown.");
-    } catch (Exception e) {
-      assertEquals("Invalid terminal escape", e.getMessage(), "Wrong exception.");
-    }
+    List<String> result = StringUtilities.tokenizeString(testString, ',', '\\', false);
+    assertEquals(expected, result, "Lists are not the same.");
   }
 
   @Test
-  public void itShouldHandleParameterVariations() {
+  public void itShouldHandleStringWithEscapedLetter() throws Exception {
+    String testString = "a,\\g";
+    List<String> expected = List.of("a", "g");
+    List<String> result = StringUtilities.tokenizeString(testString);
+    assertEquals(expected, result, "Lists are not the same.");
+  }
+
+  @Test
+  public void itShouldThrowOnInvalidEscape() {
+    String testString = "a,g\\";
+    Exception thrown =
+        Assertions.assertThrows(Exception.class, () -> StringUtilities.tokenizeString(testString));
+    assertEquals("Invalid terminal escape", thrown.getMessage(), "Wrong exception.");
+  }
+
+  @Test
+  public void itShouldHandleStringWithEscapedComma() throws Exception {
     String testString = "first, second\\, and third";
-    List<String> expected = new ArrayList<>();
-    expected.add("first");
-    expected.add("second, and third");
-    try {
-      List<String> result = StringUtilities.tokenizeString(testString);
-      assertEquals(expected, result, "Lists are not the same.");
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
-    testString = "first : second, and third";
-    try {
-      List<String> result = StringUtilities.tokenizeString(testString, ':');
-      assertEquals(expected, result, "Lists are not the same.");
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
-    expected.clear();
-    expected.add("first ");
-    expected.add(" second, and third");
-    try {
-      List<String> result = StringUtilities.tokenizeString(testString, ':', '\\', false);
-      assertEquals(expected, result, "Lists are not the same.");
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
+    List<String> expected = List.of("first", "second, and third");
+    List<String> result = StringUtilities.tokenizeString(testString);
+    assertEquals(expected, result, "Lists are not the same.");
+  }
+
+  @Test
+  public void itShouldHandleCustomSeparator() throws Exception {
+    String testString = "first : second, and third";
+    List<String> expected = List.of("first", "second, and third");
+    List<String> result = StringUtilities.tokenizeString(testString, ':');
+    assertEquals(expected, result, "Lists are not the same.");
+  }
+
+  @Test
+  public void itShouldHandleNotTrimmingString() throws Exception {
+    String testString = "first : second, and third";
+    List<String> expected = List.of("first ", " second, and third");
+    List<String> result = StringUtilities.tokenizeString(testString, ':', '\\', false);
+    assertEquals(expected, result, "Lists are not the same.");
   }
 
   @ParameterizedTest
