@@ -8,6 +8,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -325,7 +326,7 @@ class StringUtilitiesTest {
     "'1M', 1000000",
     "'1 m', 1",
     "'1 meg', 1",
-    "'9,223,372,036,854,775,807k', -1000",
+    "'9,223,372,036,854,775,807k', -1000", // This is existing behavior but almost certainly wrong
     "'9,223,372,036,854,775,808k', 0"
   })
   public void itShouldExerciseSomeIntegerParsing(String input, long expected) {
@@ -336,5 +337,14 @@ class StringUtilitiesTest {
   public void exerciseParseLongWithNull() {
     assertEquals(0L, StringUtilities.parseLongInternal1(null, false));
     assertEquals(0L, StringUtilities.parseLongInternal2(null));
+  }
+
+  @Test
+  public void itShouldThrowAParsingExceptionWhenAllowedTo() {
+    String test = "This is not a number but does appear in the exception message.";
+    Exception thrown =
+        Assertions.assertThrows(
+            Exception.class, () -> StringUtilities.parseIntInternal1(test, true));
+    assertEquals(test, thrown.getMessage(), "Wrong exception.");
   }
 }
