@@ -349,7 +349,6 @@ class StringUtilitiesTest {
 
   @ParameterizedTest
   @CsvSource({
-    "'null', false",
     "'   ', false",
     "'+1', true",
     "'-1', true",
@@ -361,5 +360,10 @@ class StringUtilitiesTest {
   })
   public void itShouldParseFloats(String test, boolean expected) {
     assertEquals(expected, StringUtilities.isFloat(test));
+  }
+
+  @Test
+  public void itShouldKnowNullIsNotAFloat() {
+    assertFalse(StringUtilities.isFloat(null));
   }
 }
