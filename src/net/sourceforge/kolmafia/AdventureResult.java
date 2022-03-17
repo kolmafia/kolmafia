@@ -63,6 +63,10 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   public static final String HP = "HP";
   public static final String MP = "MP";
 
+  // You, Robot has Scrap and Energy
+  public static final String ENERGY = "Energy";
+  public static final String SCRAP = "Scrap";
+
   // Sub/full stats have multiple values and should be delegated
   // to AdventureMultiResult.
   public static final String SUBSTATS = "Substats";
@@ -168,7 +172,9 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         || name.equals(AdventureResult.MP)
         || name.equals(AdventureResult.DRUNK)
         || name.equals(AdventureResult.FULL)
-        || name.equals(AdventureResult.PVP)) {
+        || name.equals(AdventureResult.PVP)
+        || name.equals(AdventureResult.ENERGY)
+        || name.equals(AdventureResult.SCRAP)) {
       return AdventureResult.NO_PRIORITY;
     }
     if (name.equals(AdventureResult.SUBSTATS)) {
@@ -357,6 +363,14 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
 
   public boolean isMP() {
     return this.name.equals(AdventureResult.MP);
+  }
+
+  public boolean isEnergy() {
+    return this.name.equals(AdventureResult.ENERGY);
+  }
+
+  public boolean isScrap() {
+    return this.name.equals(AdventureResult.SCRAP);
   }
 
   public boolean isMonster() {
@@ -576,6 +590,14 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
 
       if (statname.startsWith("addit")) {
         statname = parsedGain.nextToken();
+      }
+
+      if (statname.startsWith("energy") || statname.startsWith("Energy")) {
+        return new AdventureResult(AdventureResult.ENERGY, (int) modifier);
+      }
+
+      if (statname.startsWith("scrap") || statname.startsWith("Scrap")) {
+        return new AdventureResult(AdventureResult.SCRAP, (int) modifier);
       }
 
       if (statname.startsWith("PvP")) {

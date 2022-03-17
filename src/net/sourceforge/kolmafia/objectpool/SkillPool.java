@@ -323,7 +323,16 @@ public class SkillPool {
   public static final int FEEL_PEACEFUL = 7366;
   public static final int FEEL_SUPERIOR = 7367;
   public static final int SHOOT_PEA = 7369;
+  public static final int CROTCH_BURN = 7370;
+  public static final int JUNK_BLAST = 7371;
   public static final int TESLA_BLAST = 7372;
+  public static final int SNIPE = 7373;
+  public static final int JUNK_MACE_SMASH = 7374;
+  public static final int PROD = 7375;
+  public static final int SOLENOID_SLAM = 7376;
+  public static final int BLOW_SNOW = 7377;
+  public static final int THROW_FLAME = 7378;
+  public static final int SHOOT_GREASE = 7379;
   public static final int SHOCKING_LICK = 7380;
   public static final int BACK_UP = 7381;
   public static final int SHOW_SCRAPBOOK = 7382;
