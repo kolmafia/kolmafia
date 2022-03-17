@@ -868,6 +868,7 @@ public class ResponseTextParser {
     KoLCharacter.updateStatus();
     LockableListFactory.sort(KoLConstants.usableSkills);
     DiscoCombatHelper.learnSkill(skill.getSkillName());
+    GreyYouManager.learnSkill(skill.getSkillId());
     ConcoctionDatabase.setRefreshNeeded(true);
     if (SkillDatabase.isBookshelfSkill(skillId)) {
       KoLCharacter.setBookshelf(true);

@@ -4,15 +4,22 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
+import java.net.http.HttpClient;
+import java.net.http.HttpClient.Redirect;
+import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpRequest.Builder;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -112,7 +119,6 @@ public class GenericRequest implements Runnable {
   };
 
   public static String KOL_HOST = GenericRequest.SERVERS[1];
-  public static URL KOL_SECURE_ROOT = null;
 
   private URL formURL;
   private String currentHost;
@@ -135,11 +141,13 @@ public class GenericRequest implements Runnable {
   private byte[] dataString = null;
 
   public int responseCode;
-  public String responseMessage;
   public String responseText;
-  public HttpURLConnection formConnection;
   public String redirectLocation;
   public String redirectMethod;
+
+  private static HttpClient client;
+  private HttpRequest request;
+  protected HttpResponse<InputStream> response;
 
   // Per-login data
 
@@ -156,6 +164,47 @@ public class GenericRequest implements Runnable {
   public static String itemMonster = null;
   private static boolean suppressUpdate = false;
   private static boolean ignoreChatRequest = false;
+
+  public static URL getSecureRoot() {
+    try {
+      return new URL("https", GenericRequest.KOL_HOST, 443, "/");
+    } catch (MalformedURLException e) {
+      // impossible: protocol and port are valid
+      StaticEntity.printStackTrace(e);
+      return null;
+    }
+  }
+
+  private static HttpClient getClient() {
+    if (GenericRequest.client != null) {
+      return client;
+    }
+
+    var builder = HttpUtilities.getClientBuilder();
+    builder.followRedirects(Redirect.NEVER);
+    var built = builder.build();
+    client = built;
+    return built;
+  }
+
+  public static void resetClient() {
+    GenericRequest.client = null;
+  }
+
+  private Builder getRequestBuilder(URI uri) {
+    var builder =
+        HttpRequest.newBuilder(uri)
+            .header("Referer", "https://" + GenericRequest.KOL_HOST + "/game.php");
+
+    if (!this.isExternalRequest && GenericRequest.sessionId != null) {
+      builder.header("Cookie", this.getCookies());
+    }
+
+    builder.header("User-Agent", GenericRequest.userAgent);
+    builder.header("Accept-Encoding", "gzip");
+
+    return builder;
+  }
 
   public static void reset() {
     GenericRequest.setUserAgent();
@@ -176,20 +225,29 @@ public class GenericRequest implements Runnable {
    * settings, as well as initializes the user's proxy settings.
    */
   public static final void applySettings() {
-    Properties systemProperties = System.getProperties();
-
-    systemProperties.put("java.net.preferIPv4Stack", "true");
-
     GenericRequest.applyProxySettings();
+
+    if (!System.getProperty("os.name").startsWith("Mac")) {
+      PreferenceListenerRegistry.registerPreferenceListener(
+          "proxySet", GenericRequest::resetClient);
+      registerProxyListeners("http");
+      registerProxyListeners("https");
+    }
 
     boolean useDevProxyServer = Preferences.getBoolean("useDevProxyServer");
 
     GenericRequest.setLoginServer(GenericRequest.SERVERS[useDevProxyServer ? 0 : 1]);
+  }
 
-    systemProperties.remove("sun.net.client.defaultConnectTimeout");
-    systemProperties.remove("sun.net.client.defaultReadTimeout");
-
-    systemProperties.put("http.referer", "https://" + GenericRequest.KOL_HOST + "/game.php");
+  private static void registerProxyListeners(String protocol) {
+    PreferenceListenerRegistry.registerPreferenceListener(
+        protocol + ".proxyHost", GenericRequest::resetClient);
+    PreferenceListenerRegistry.registerPreferenceListener(
+        protocol + ".proxyPort", GenericRequest::resetClient);
+    PreferenceListenerRegistry.registerPreferenceListener(
+        protocol + ".proxyUser", GenericRequest::resetClient);
+    PreferenceListenerRegistry.registerPreferenceListener(
+        protocol + ".proxyPassword", GenericRequest::resetClient);
   }
 
   private static void applyProxySettings() {
@@ -267,12 +325,6 @@ public class GenericRequest implements Runnable {
 
   private static void setLoginServer(final int serverIndex) {
     GenericRequest.KOL_HOST = GenericRequest.SERVERS[serverIndex];
-
-    try {
-      GenericRequest.KOL_SECURE_ROOT = new URL("https", GenericRequest.KOL_HOST, 443, "/");
-    } catch (IOException e) {
-      StaticEntity.printStackTrace(e);
-    }
 
     Preferences.setString("loginServerName", GenericRequest.KOL_HOST);
   }
@@ -1347,10 +1399,10 @@ public class GenericRequest implements Runnable {
 
   public void externalExecute() {
     do {
-      if (!this.prepareConnection()) {
+      if (!this.prepareRequest()) {
         break;
       }
-    } while (!this.postClientData()
+    } while (!this.sendRequest()
         && !this.retrieveServerReply()
         && this.timeoutCount < GenericRequest.TIMEOUT_LIMIT
         && this.redirectCount < GenericRequest.REDIRECT_LIMIT);
@@ -1370,30 +1422,30 @@ public class GenericRequest implements Runnable {
   }
 
   /**
-   * Utility method used to prepare the connection for input and output (if output is necessary).
-   * The method attempts to open the connection, and then apply the needed settings.
+   * Utility method used to prepare the request for sending.
    *
-   * @return <code>true</code> if the connection was successfully prepared
+   * @return <code>true</code> if the request was successfully created
    */
-  private boolean prepareConnection() {
+  private boolean prepareRequest() {
     if (this.shouldUpdateDebugLog()) {
       RequestLogger.updateDebugLog("Connecting to " + this.baseURLString + "...");
     }
 
-    // Make sure that all variables are reset before you reopen
-    // the connection.
+    // Make sure that all variables are reset
 
     this.responseCode = 0;
-    this.responseMessage = null;
     this.responseText = null;
     this.redirectLocation = null;
     this.redirectMethod = null;
-    this.formConnection = null;
+    this.request = null;
+    this.response = null;
+
+    Builder requestBuilder;
 
     try {
       this.formURL = this.buildURL();
-      this.formConnection = HttpUtilities.openConnection(this.formURL);
-    } catch (IOException e) {
+      requestBuilder = getRequestBuilder(this.formURL.toURI());
+    } catch (IOException | URISyntaxException e) {
       if (this.shouldUpdateDebugLog()) {
         String message =
             "IOException opening connection (" + this.getURLString() + "). Retrying...";
@@ -1403,29 +1455,17 @@ public class GenericRequest implements Runnable {
       return false;
     }
 
-    this.formConnection.setDoInput(true);
-
-    this.formConnection.setDoOutput(!this.data.isEmpty());
-    this.formConnection.setUseCaches(false);
-    this.formConnection.setInstanceFollowRedirects(false);
-
-    if (!this.isExternalRequest && GenericRequest.sessionId != null) {
-      this.formConnection.addRequestProperty("Cookie", this.getCookies());
-    }
-
-    this.formConnection.setRequestProperty("User-Agent", GenericRequest.userAgent);
-    this.formConnection.setRequestProperty("Accept-Encoding", "gzip");
-
     if (!this.data.isEmpty()) {
       if (this.dataChanged) {
         this.dataChanged = false;
         this.dataString = this.getDataString().getBytes();
       }
 
-      this.formConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-      this.formConnection.setRequestProperty(
-          "Content-Length", String.valueOf(this.dataString.length));
+      requestBuilder.header("Content-Type", "application/x-www-form-urlencoded");
+      requestBuilder.POST(BodyPublishers.ofByteArray(this.dataString));
     }
+
+    request = requestBuilder.build();
 
     return true;
   }
@@ -1465,51 +1505,45 @@ public class GenericRequest implements Runnable {
       // Field: Set-Cookie = [PHPSESSID=i9tr5te1hhk7084d7do6s877h3; path=/,
       // AWSALB=1HOUaMRO89JYkb8nBfrsK6maRGcdoJpTOmxa/LEVbQsBnwi1jPq7jvG2jw1m4p1SR7Y35Wq/dUKVBG5RcvMu7Zw89U1RAeBkZlIkGP/8hVnXCmkWUxfEvuveJZfB; Expires=Fri, 16-Sep-2016 15:43:04 GMT; Path=/]
 
-      Map<String, List<String>> headerFields = this.formConnection.getHeaderFields();
+      List<String> cookies = response.headers().map().get("Set-Cookie");
 
-      for (Entry<String, List<String>> entry : headerFields.entrySet()) {
-        String key = entry.getKey();
-        if (key == null || !key.equals("Set-Cookie")) {
-          continue;
-        }
+      if (cookies == null) return;
 
-        List<String> cookies = entry.getValue();
-        for (String cookie : cookies) {
-          while (cookie != null & !cookie.equals("")) {
-            int comma = cookie.indexOf(",");
-            int expires = cookie.toLowerCase().indexOf("expires=");
-            if (expires != -1 && expires < comma) {
-              comma = cookie.indexOf(",", comma + 1);
-            }
-
-            ServerCookie serverCookie =
-                new ServerCookie(comma == -1 ? cookie : cookie.substring(0, comma));
-            String name = serverCookie.getName();
-
-            if (GenericRequest.specialCookie(name)) {
-              // We've defined cookie equality as same name
-              // Since the value has changed, remove the old cookie first
-              GenericRequest.serverCookies.remove(serverCookie);
-              GenericRequest.serverCookies.add(serverCookie);
-
-              if (name.equals("PHPSESSID")) {
-                GenericRequest.sessionId = serverCookie.toString();
-              }
-            }
-
-            if (comma == -1) {
-              break;
-            }
-
-            cookie = cookie.substring(comma + 1);
+      for (String cookie : cookies) {
+        while (cookie != null && !cookie.equals("")) {
+          int comma = cookie.indexOf(",");
+          int expires = cookie.toLowerCase().indexOf("expires=");
+          if (expires != -1 && expires < comma) {
+            comma = cookie.indexOf(",", comma + 1);
           }
+
+          ServerCookie serverCookie =
+              new ServerCookie(comma == -1 ? cookie : cookie.substring(0, comma));
+          String name = serverCookie.getName();
+
+          if (GenericRequest.specialCookie(name)) {
+            // We've defined cookie equality as same name
+            // Since the value has changed, remove the old cookie first
+            GenericRequest.serverCookies.remove(serverCookie);
+            GenericRequest.serverCookies.add(serverCookie);
+
+            if (name.equals("PHPSESSID")) {
+              GenericRequest.sessionId = serverCookie.toString();
+            }
+          }
+
+          if (comma == -1) {
+            break;
+          }
+
+          cookie = cookie.substring(comma + 1);
         }
       }
     }
   }
 
   public static boolean specialCookie(final String name) {
-    return name.equals("PHPSESSID") || name.equals("AWSALB");
+    return name.equals("PHPSESSID") || name.equals("AWSALB") || name.equals("AWSALBCORS");
   }
 
   private URL buildURL() throws MalformedURLException {
@@ -1523,20 +1557,19 @@ public class GenericRequest implements Runnable {
     URL context = null;
 
     if (!this.isExternalRequest) {
-      context = GenericRequest.KOL_SECURE_ROOT;
+      context = getSecureRoot();
     }
 
     return new URL(context, urlString);
   }
 
   /**
-   * Utility method used to post the client's data to the Kingdom of Loathing server. The method
-   * grabs all form fields added so far and posts them using the traditional ampersand style of HTTP
-   * requests.
+   * Utility method used to send the request to the Kingdom of Loathing server. The method grabs all
+   * form fields added so far and posts them using the traditional ampersand style of HTTP requests.
    *
-   * @return <code>true</code> if all data was successfully posted
+   * @return <code>false</code> if request was successfully sent
    */
-  private boolean postClientData() {
+  private boolean sendRequest() {
     if (this.shouldUpdateDebugLog() || RequestLogger.isTracing() || ScriptRuntime.isTracing()) {
       if (this.shouldUpdateDebugLog()) {
         this.printRequestProperties();
@@ -1549,37 +1582,24 @@ public class GenericRequest implements Runnable {
       }
     }
 
-    // Only attempt to post something if there's actually data to
-    // post - otherwise, opening an input stream should be enough
-
-    if (this.data.isEmpty()) {
-      return false;
-    }
-
     try {
-      this.formConnection.setRequestMethod("POST");
-      OutputStream ostream = this.formConnection.getOutputStream();
-      ostream.write(this.dataString);
-
-      ostream.flush();
-      ostream.close();
-
-      ostream = null;
+      response = getClient().send(request, BodyHandlers.ofInputStream());
       return false;
-    } catch (SocketTimeoutException e) {
-      ++this.timeoutCount;
-
+    } catch (SocketTimeoutException | InterruptedException e) {
       if (this.shouldUpdateDebugLog()) {
-        String message =
-            "Time out during data post (" + this.formURLString + "). This could be bad...";
+        String message = "Time out retrieving server reply (" + this.formURLString + ").";
         RequestLogger.printLine(message);
       }
 
-      return KoLmafia.refusesContinue();
-    } catch (IOException e) {
-      String message =
-          "IOException during data post (" + this.getURLString() + "): " + e.getMessage() + ".";
+      boolean shouldRetry = this.retryOnTimeout();
+      if (!shouldRetry && this.processOnFailure()) {
+        this.processResponse();
+      }
 
+      ++this.timeoutCount;
+      return !shouldRetry || KoLmafia.refusesContinue();
+    } catch (IOException e) {
+      String message = "IOException retrieving server reply (" + this.getURLString() + ").";
       if (this.shouldUpdateDebugLog()) {
         StaticEntity.printStackTrace(e, message);
       }
@@ -1607,36 +1627,56 @@ public class GenericRequest implements Runnable {
 
     this.responseText = "";
 
-    try {
-      istream = this.formConnection.getInputStream();
-      if ("gzip".equals(this.formConnection.getContentEncoding())) {
-        istream = new GZIPInputStream(istream);
-      }
-      this.responseCode = this.formConnection.getResponseCode();
+    this.responseCode = response.statusCode();
 
-      // Handle HTTP 3xx Redirections
-      if (this.responseCode > 300 && this.responseCode < 309) {
-        this.redirectMethod = this.formConnection.getRequestMethod();
-        switch (this.responseCode) {
-          case 302: // Treat 302 as a 303, like all modern browsers.
-          case 303:
-            this.redirectMethod = "GET";
-            // FALL THROUGH!
-          case 301:
-          case 307:
-          case 308:
+    istream = response.body();
+    var encoding = response.headers().firstValue("Content-Encoding").orElse("");
+    if ("gzip".equals(encoding)) {
+      try {
+        istream = new GZIPInputStream(istream);
+      } catch (IOException e) {
+        if (this.responseCode != 0) {
+          String message = "Failed to decode GZIP for " + this.baseURLString;
+          KoLmafia.updateDisplay(MafiaState.ERROR, message);
+        }
+
+        if (this.shouldUpdateDebugLog()) {
+          String message = "IOException retrieving server reply (" + this.getURLString() + ").";
+          StaticEntity.printStackTrace(e, message);
+        }
+
+        forceClose(istream);
+
+        this.timeoutCount = TIMEOUT_LIMIT;
+        return true;
+      }
+    }
+
+    // Handle HTTP 3xx Redirections
+    if (this.responseCode > 300 && this.responseCode < 309) {
+      this.redirectMethod = request.method();
+      switch (this.responseCode) {
+        case 302: // Treat 302 as a 303, like all modern browsers.
+        case 303:
+          this.redirectMethod = "GET";
+          // FALL THROUGH!
+        case 301:
+        case 307:
+        case 308:
+          {
+            var location = response.headers().firstValue("Location").orElse(null);
             if (this instanceof RelayRequest
                 || this.redirectMethod.equals("GET")
                 || this.redirectMethod.equals("HEAD")) {
               // RelayRequests are handled later. Allow GET/HEAD, redirects by default.
-              this.redirectLocation = this.formConnection.getHeaderField("Location");
+              this.redirectLocation = location;
             } else {
               // RFC 2616: For requests other than GET or HEAD, the user agent MUST NOT
               // automatically redirect the request unless it can be confirmed by the user.
               if (this.allowRedirect == null) {
                 String message =
                     "You are being redirected to \""
-                        + this.formConnection.getHeaderField("Location")
+                        + location
                         + "\".\n"
                         + "Would you like KoLmafia to resend the form data?";
                 this.allowRedirect = InputFieldUtilities.confirm(message);
@@ -1644,76 +1684,15 @@ public class GenericRequest implements Runnable {
 
               if (this.allowRedirect.booleanValue()) {
                 this.redirectLocation =
-                    this.data.isEmpty()
-                        ? this.formConnection.getHeaderField("Location")
-                        : this.formConnection.getHeaderField("Location")
-                            + "?"
-                            + this.getDisplayDataString();
+                    this.data.isEmpty() ? location : location + "?" + this.getDisplayDataString();
               }
             }
             break;
-          default:
-            this.redirectLocation = null;
-            break;
-        }
+          }
+        default:
+          this.redirectLocation = null;
+          break;
       }
-    } catch (SocketTimeoutException e) {
-      if (this.shouldUpdateDebugLog()) {
-        String message = "Time out retrieving server reply (" + this.formURLString + ").";
-        RequestLogger.printLine(message);
-      }
-
-      boolean shouldRetry = this.retryOnTimeout();
-      if (!shouldRetry && this.processOnFailure()) {
-        this.processResponse();
-      }
-
-      GenericRequest.forceClose(istream);
-
-      ++this.timeoutCount;
-      return !shouldRetry || KoLmafia.refusesContinue();
-    } catch (IOException e) {
-      this.responseCode = this.getResponseCode();
-      this.responseMessage = this.getResponseMessage();
-
-      if (this.responseCode == 504
-          && (this.baseURLString.equals("storage.php")
-              || this.baseURLString.equals("inventory.php"))
-          && (this.formURLString.contains("action=pullall")
-              || this.getFormField("action") != null)) {
-        // Likely a pullall request that timed out
-        PauseObject pauser = new PauseObject();
-        KoLmafia.updateDisplay("Waiting 40 seconds for KoL to finish processing...");
-        pauser.pause(40 * 1000);
-        StorageRequest.emptyStorage(this.formURLString);
-        return true;
-      }
-
-      if (this.responseCode != 0) {
-        String message =
-            "Server returned response code "
-                + this.responseCode
-                + " ("
-                + this.responseMessage
-                + ") for "
-                + this.baseURLString;
-        KoLmafia.updateDisplay(MafiaState.ERROR, message);
-      }
-
-      if (this.shouldUpdateDebugLog()) {
-        String message = "IOException retrieving server reply (" + this.getURLString() + ").";
-        StaticEntity.printStackTrace(e, message);
-      }
-
-      if (this.processOnFailure()) {
-        this.responseText = "";
-        this.processResponse();
-      }
-
-      GenericRequest.forceClose(istream);
-
-      this.timeoutCount = TIMEOUT_LIMIT;
-      return true;
     }
 
     if (istream == null) {
@@ -1746,9 +1725,29 @@ public class GenericRequest implements Runnable {
         shouldStop = this.retrieveServerReply(istream);
         istream.close();
       } else {
-        // If the response code is not 200, then you've
-        // read all the information you need.  Close
-        // the input stream.
+        if (this.responseCode == 504
+            && (this.baseURLString.equals("storage.php")
+                || this.baseURLString.equals("inventory.php"))
+            && (this.formURLString.contains("action=pullall")
+                || this.getFormField("action") != null)) {
+          // Likely a pullall request that timed out
+          PauseObject pauser = new PauseObject();
+          KoLmafia.updateDisplay("Waiting 40 seconds for KoL to finish processing...");
+          pauser.pause(40 * 1000);
+          StorageRequest.emptyStorage(this.formURLString);
+          return true;
+        }
+
+        if (this.responseCode != 0 && this.redirectLocation == null) {
+          String message =
+              "Server returned response code " + this.responseCode + " for " + this.baseURLString;
+          KoLmafia.updateDisplay(MafiaState.ERROR, message);
+        }
+
+        if (this.processOnFailure()) {
+          this.responseText = "";
+          this.processResponse();
+        }
 
         istream.close();
         shouldStop = (this.redirectLocation != null) ? this.handleServerRedirect() : true;
@@ -1760,28 +1759,6 @@ public class GenericRequest implements Runnable {
 
     istream = null;
     return shouldStop || KoLmafia.refusesContinue();
-  }
-
-  private int getResponseCode() {
-    if (this.formConnection != null) {
-      try {
-        return this.formConnection.getResponseCode();
-      } catch (IOException e) {
-      }
-    }
-
-    return 0;
-  }
-
-  private String getResponseMessage() {
-    if (this.formConnection != null) {
-      try {
-        return this.formConnection.getResponseMessage();
-      } catch (IOException e) {
-      }
-    }
-
-    return "";
   }
 
   private static void forceClose(final InputStream stream) {
@@ -2162,7 +2139,11 @@ public class GenericRequest implements Runnable {
     String urlString = this.getURLString();
     if (urlString.startsWith("charpane.php")) {
       long responseTimestamp =
-          this.formConnection.getHeaderFieldDate("Date", System.currentTimeMillis());
+          response
+              .headers()
+              .firstValue("Date")
+              .map(StringUtilities::parseDate)
+              .orElse(System.currentTimeMillis());
 
       if (!CharPaneRequest.processResults(responseTimestamp, this.responseText)) {
         this.responseCode = 304;
@@ -2993,6 +2974,10 @@ public class GenericRequest implements Runnable {
     GenericRequest.setUserAgent(agent);
   }
 
+  public static final String getUserAgent() {
+    return GenericRequest.userAgent;
+  }
+
   public static final void setUserAgent(final String agent) {
     if (!agent.equals(GenericRequest.userAgent)) {
       GenericRequest.userAgent = agent;
@@ -3010,15 +2995,19 @@ public class GenericRequest implements Runnable {
   }
 
   public void printRequestProperties() {
-    GenericRequest.printRequestProperties(this.requestURL(), this.formConnection);
+    GenericRequest.printRequestProperties(this.requestURL(), this.request);
   }
 
   public static synchronized void printRequestProperties(
-      final String URL, final HttpURLConnection formConnection) {
+      final String URL, final HttpRequest request) {
+    printRequestProperties(URL, request.headers().map());
+  }
+
+  private static synchronized void printRequestProperties(
+      final String URL, final Map<String, List<String>> requestProperties) {
     RequestLogger.updateDebugLog();
     RequestLogger.updateDebugLog("Requesting: " + URL);
 
-    Map<String, List<String>> requestProperties = formConnection.getRequestProperties();
     RequestLogger.updateDebugLog(requestProperties.size() + " request properties");
 
     for (Entry<String, List<String>> entry : requestProperties.entrySet()) {
@@ -3029,15 +3018,19 @@ public class GenericRequest implements Runnable {
   }
 
   public void printHeaderFields() {
-    GenericRequest.printHeaderFields(this.requestURL(), this.formConnection);
+    GenericRequest.printHeaderFields(this.requestURL(), this.response);
   }
 
-  public static synchronized void printHeaderFields(
-      final String URL, final HttpURLConnection formConnection) {
+  public static synchronized <T> void printHeaderFields(
+      final String URL, final HttpResponse<T> response) {
+    printHeaderFields(URL, response.headers().map());
+  }
+
+  private static synchronized void printHeaderFields(
+      final String URL, final Map<String, List<String>> headerFields) {
     RequestLogger.updateDebugLog();
     RequestLogger.updateDebugLog("Retrieved: " + URL);
 
-    Map<String, List<String>> headerFields = formConnection.getHeaderFields();
     RequestLogger.updateDebugLog(headerFields.size() + " header fields");
 
     for (Entry<String, List<String>> entry : headerFields.entrySet()) {

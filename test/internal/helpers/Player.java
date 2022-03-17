@@ -2,6 +2,7 @@ package internal.helpers;
 
 import static org.mockito.Mockito.mockStatic;
 
+import internal.network.FakeHttpClientBuilder;
 import java.util.Calendar;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -20,9 +21,11 @@ import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import org.mockito.Mockito;
 
 public class Player {
@@ -187,5 +190,20 @@ public class Player {
   public static Cleanups addCampgroundItem(int id) {
     CampgroundRequest.setCampgroundItem(id, 1);
     return new Cleanups(() -> CampgroundRequest.removeCampgroundItem(ItemPool.get(id, 1)));
+  }
+
+  public static Cleanups setupFakeResponse(int code, String response) {
+    GenericRequest.resetClient();
+    var builder = new FakeHttpClientBuilder();
+    HttpUtilities.setClientBuilder(() -> builder);
+    GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
+    builder.client.setResponse(code, response);
+
+    return new Cleanups(
+        () -> {
+          GenericRequest.sessionId = null;
+          HttpUtilities.setClientBuilder(FakeHttpClientBuilder::new);
+          GenericRequest.resetClient();
+        });
   }
 }

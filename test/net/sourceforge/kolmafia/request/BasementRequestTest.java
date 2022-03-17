@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Player.setupFakeResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.spy;
 
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -11,7 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class BasementRequestTest extends RequestTestBase {
+class BasementRequestTest {
 
   @BeforeAll
   protected static void injectPreferences() {
@@ -59,10 +59,13 @@ class BasementRequestTest extends RequestTestBase {
   @ParameterizedTest
   @MethodSource("statTests")
   void matchesImpassableStatTestFromResponse(String encounter, String summary) {
-    var req = spy(new BasementRequest("Fernswarthy's Basement, Level 499"));
-    expectSuccess(req, "Fernswarthy's Basement, Level 499: " + encounter);
+    var req = new BasementRequest("Fernswarthy's Basement, Level 499");
 
-    req.run();
+    var cleanups = setupFakeResponse(200, "Fernswarthy's Basement, Level 499: " + encounter);
+
+    try (cleanups) {
+      req.run();
+    }
 
     // Clear the error state, since we can't pass any of these tests.
     KoLmafia.forceContinue();

@@ -6,6 +6,9 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import javax.swing.Box;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
@@ -17,6 +20,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -37,7 +41,14 @@ import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class MallSearchFrame extends GenericPanelFrame {
-  public static SortedListModel<PurchaseRequest> results;
+
+  public static LockableListModel<PurchaseRequest> results;
+
+  private static Comparator<PurchaseRequest> chooseComparator(MallSearchFrame frame) {
+    return frame.mallSearch.forceSortingCheckBox.isSelected()
+        ? PurchaseRequest.priceComparator
+        : PurchaseRequest.nameComparator;
+  }
 
   private static MallSearchFrame INSTANCE = null;
   private static final SortedListModel<String> pastSearches = new SortedListModel<>();
@@ -168,8 +179,6 @@ public class MallSearchFrame extends GenericPanelFrame {
         Preferences.setInteger("defaultLimit", searchCount);
       }
 
-      PurchaseRequest.setUsePriceComparison(this.forceSortingCheckBox.isSelected());
-
       String searchText = null;
 
       if (this.searchField instanceof AutoHighlightTextField) {
@@ -180,10 +189,7 @@ public class MallSearchFrame extends GenericPanelFrame {
       }
 
       MallSearchFrame.this.currentlySearching = true;
-
-      MallSearchFrame.searchMall(
-          new MallSearchRequest(searchText, searchCount, MallSearchFrame.results));
-
+      MallSearchFrame.searchMall(new MallSearchRequest(searchText, searchCount));
       MallSearchFrame.this.currentlySearching = false;
 
       this.searchField.requestFocus();
@@ -243,12 +249,15 @@ public class MallSearchFrame extends GenericPanelFrame {
       KoLmafiaGUI.constructFrame("MallSearchFrame");
     }
 
-    PurchaseRequest.setUsePriceComparison(INSTANCE.mallSearch.forceSortingCheckBox.isSelected());
-
-    MallSearchFrame.results.clear();
-    request.setResults(MallSearchFrame.results);
+    // Use our List Model to hold the results.
+    List<PurchaseRequest> results = MallSearchFrame.results;
+    results.clear();
+    request.setResults(results);
 
     RequestThread.postRequest(request);
+
+    Comparator<PurchaseRequest> comparator = MallSearchFrame.chooseComparator(INSTANCE);
+    Collections.sort(results, comparator);
   }
 
   private String getPurchaseSummary(final PurchaseRequest[] purchases) {

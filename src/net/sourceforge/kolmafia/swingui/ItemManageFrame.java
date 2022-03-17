@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.objectpool.Concoction.ConcoctionType;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -87,12 +88,12 @@ public class ItemManageFrame extends GenericFrame {
     queueTabs = null;
 
     if (Preferences.getBoolean("addCreationQueue")) {
-      dequeuePanel = new UseItemDequeuePanel(true, false, false);
+      dequeuePanel = new UseItemDequeuePanel(ConcoctionType.FOOD);
       foodPanel.add(dequeuePanel, BorderLayout.NORTH);
       queueTabs = dequeuePanel.getQueueTabs();
     }
 
-    foodPanel.add(new UseItemEnqueuePanel(true, false, false, queueTabs), BorderLayout.CENTER);
+    foodPanel.add(new UseItemEnqueuePanel(ConcoctionType.FOOD, queueTabs), BorderLayout.CENTER);
 
     selectorPanel.addPanel(" - Food", foodPanel);
 
@@ -101,12 +102,12 @@ public class ItemManageFrame extends GenericFrame {
     queueTabs = null;
 
     if (Preferences.getBoolean("addCreationQueue")) {
-      dequeuePanel = new UseItemDequeuePanel(false, true, false);
+      dequeuePanel = new UseItemDequeuePanel(ConcoctionType.BOOZE);
       boozePanel.add(dequeuePanel, BorderLayout.NORTH);
       queueTabs = dequeuePanel.getQueueTabs();
     }
 
-    boozePanel.add(new UseItemEnqueuePanel(false, true, false, queueTabs), BorderLayout.CENTER);
+    boozePanel.add(new UseItemEnqueuePanel(ConcoctionType.BOOZE, queueTabs), BorderLayout.CENTER);
 
     selectorPanel.addPanel(" - Booze", boozePanel);
 
@@ -115,12 +116,12 @@ public class ItemManageFrame extends GenericFrame {
     queueTabs = null;
 
     if (Preferences.getBoolean("addCreationQueue")) {
-      dequeuePanel = new UseItemDequeuePanel(false, false, true);
+      dequeuePanel = new UseItemDequeuePanel(ConcoctionType.SPLEEN);
       spleenPanel.add(dequeuePanel, BorderLayout.NORTH);
       queueTabs = dequeuePanel.getQueueTabs();
     }
 
-    spleenPanel.add(new UseItemEnqueuePanel(false, false, true, queueTabs), BorderLayout.CENTER);
+    spleenPanel.add(new UseItemEnqueuePanel(ConcoctionType.SPLEEN, queueTabs), BorderLayout.CENTER);
 
     selectorPanel.addPanel(" - Spleen", spleenPanel);
 
@@ -129,12 +130,12 @@ public class ItemManageFrame extends GenericFrame {
     queueTabs = null;
 
     if (Preferences.getBoolean("addCreationQueue")) {
-      dequeuePanel = new UseItemDequeuePanel(false, false, false);
+      dequeuePanel = new UseItemDequeuePanel(ConcoctionType.POTION);
       potionPanel.add(dequeuePanel, BorderLayout.NORTH);
       queueTabs = dequeuePanel.getQueueTabs();
     }
 
-    potionPanel.add(new UseItemEnqueuePanel(false, false, false, queueTabs), BorderLayout.CENTER);
+    potionPanel.add(new UseItemEnqueuePanel(ConcoctionType.POTION, queueTabs), BorderLayout.CENTER);
 
     selectorPanel.addPanel(" - Potions", potionPanel);
 

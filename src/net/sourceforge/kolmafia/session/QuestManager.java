@@ -1564,6 +1564,8 @@ public class QuestManager {
         || monsterName.equals("The Rain King")
         || monsterName.equals("One Thousand Source Agents")
         || monsterName.equals("\"Blofeld\"")
+        || monsterName.equals("Nautomatic Sorceress")
+        || monsterName.equals("%alucard%")
         || (monsterName.startsWith("Jerry Bradford") && monsterName.contains("World Champion"))
         || responseText.contains("Thwaitgold bee statuette")) {
       QuestDatabase.setQuestProgress(Quest.FINAL, "step13");
@@ -1826,13 +1828,21 @@ public class QuestManager {
           RequestLogger.updateSessionLog(message);
         }
       }
-    } else if (monsterName.equals("Steve Belmont") || monsterName.equals("Koopa Paratroopa")) {
+    } else if (monsterName.equals("Steve Belmont")
+        || monsterName.equals("Koopa Paratroopa")
+        || monsterName.equals("Boss Bot")) {
       QuestDatabase.setQuestProgress(Quest.BAT, "step4");
-    } else if (monsterName.equals("Ricardo Belmont") || monsterName.equals("Hammer Brother")) {
+    } else if (monsterName.equals("Ricardo Belmont")
+        || monsterName.equals("Hammer Brother")
+        || monsterName.equals("Gobot King")) {
       QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
-    } else if (monsterName.equals("Jayden Belmont") || monsterName.equals("Very Dry Bones")) {
+    } else if (monsterName.equals("Jayden Belmont")
+        || monsterName.equals("Very Dry Bones")
+        || monsterName.equals("Robonerdagon")) {
       QuestDatabase.setQuestProgress(Quest.CYRPT, "step1");
-    } else if (monsterName.equals("Sharona") || monsterName.equals("Angry Sun")) {
+    } else if (monsterName.equals("Sharona")
+        || monsterName.equals("Angry Sun")
+        || monsterName.equals("Groarbot")) {
       QuestDatabase.setQuestProgress(Quest.TRAPPER, "step5");
     } else if (monsterName.equals("smut orc jacker")
         || monsterName.equals("smut orc nailer")
