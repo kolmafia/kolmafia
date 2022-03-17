@@ -8,6 +8,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -339,6 +340,7 @@ class StringUtilitiesTest {
   }
 
   @Test
+  @Disabled()
   public void itShouldThrowAParsingExceptionWhenAllowedTo() {
     String test = "This is not a number but does appear in the exception message.";
     Exception thrown =
@@ -346,6 +348,17 @@ class StringUtilitiesTest {
             Exception.class, () -> StringUtilities.parseIntInternal1(test, true));
     assertEquals(test, thrown.getMessage(), "Wrong exception.");
   }
+
+  @Test
+  public void itShouldThrowAParsingExceptionWhenAllowedToDoSo() {
+    String test = "This is not a number but does appear in the exception message.";
+    try {
+      assertEquals(0, StringUtilities.parseIntInternal1(test, true) );
+    }
+    catch (Exception thrown) {
+      assertEquals(test, thrown.getMessage(), "Wrong exception.");
+    }
+   }
 
   @ParameterizedTest
   @CsvSource({
