@@ -862,7 +862,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     if (KoLCharacter.inRobocore()) {
       int energy = KoLCharacter.getYouRobotEnergy();
-      int chronolithCost = Preferences.getInteger("_chronolithActivations") + 10;
+      int chronolithCost = Preferences.getInteger("_chronolithNextCost");
       int statbotCost = Preferences.getInteger("statbotUses") + 10;
 
       if (energy < chronolithCost && energy < statbotCost) {
