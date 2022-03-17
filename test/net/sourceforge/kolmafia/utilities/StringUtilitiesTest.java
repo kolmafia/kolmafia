@@ -286,8 +286,55 @@ class StringUtilitiesTest {
   }
 
   @Test
-  public void itShouldParseNullAsZero() {
+  public void theyShouldParseNullAsZero() {
     assertEquals(0.0f, StringUtilities.parseFloat(null));
     assertEquals(0.0, StringUtilities.parseDouble(null));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "'',0",
+    "'   ',0",
+    "'12345', 12345",
+    "'-12345', -12345",
+    "'not a number', 0",
+    "'not1a2 number', 12",
+    "'9,223,372,036,854,775,807', 9223372036854775807",
+    "'9,223,372,036,854,775,808', 0"
+  })
+  public void itShouldExerciseSomeLaxIntegerParsing(String input, long expected) {
+    assertEquals(expected, StringUtilities.parseLongInternal2(input));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "'',0",
+    "'   ',0",
+    "'12345', 12345",
+    "'-12345', -12345",
+    "'not a number', 0",
+    "'not1a2 number', 12",
+    "'9,223,372,036,854,775,807', 9223372036854775807",
+    "'9,223,372,036,854,775,808', 0",
+    "'+', 0",
+    "' +  , , , ', 0",
+    "' + 12,345', 12345",
+    "' +1,337k', 1337000",
+    "' +1,337K', 1337000",
+    "'1m', 1000000",
+    "'1M', 1000000",
+    "'1 m', 1",
+    "'1 meg', 1",
+    "'9,223,372,036,854,775,807k', -1000",
+    "'9,223,372,036,854,775,808k', 0"
+  })
+  public void itShouldExerciseSomeIntegerParsing(String input, long expected) {
+    assertEquals(expected, StringUtilities.parseLongInternal1(input, false));
+  }
+
+  @Test
+  public void exerciseParseLongWithNull() {
+    assertEquals(0L, StringUtilities.parseLongInternal1(null, false));
+    assertEquals(0L, StringUtilities.parseLongInternal2(null));
   }
 }
