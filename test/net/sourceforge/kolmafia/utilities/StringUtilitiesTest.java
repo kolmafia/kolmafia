@@ -8,7 +8,6 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -346,5 +345,21 @@ class StringUtilitiesTest {
         Assertions.assertThrows(
             Exception.class, () -> StringUtilities.parseIntInternal1(test, true));
     assertEquals(test, thrown.getMessage(), "Wrong exception.");
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "'null', false",
+    "'   ', false",
+    "'+1', true",
+    "'-1', true",
+    "'.1', true",
+    "'1.234', true",
+    "'1.23a', false",
+    "'1.2.3', false",
+    "'1,234', true"
+  })
+  public void itShouldParseFloats(String test, boolean expected) {
+    assertEquals(expected, StringUtilities.isFloat(test));
   }
 }
