@@ -2,7 +2,10 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.sourceforge.kolmafia.*;
+import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -48,10 +51,16 @@ public class ScrapheapRequest extends PlaceRequest {
   private static final Pattern CHRONOLITH_COST = Pattern.compile("title=\"\\((\\d+) Energy\\)\"");
 
   private static void parseChronolith(final String responseText) {
+    int lastCost = Preferences.getInteger("_chronolithNextCost");
+    if (responseText.contains("You gain 10 Adventures")) {
+      KoLCharacter.setYouRobotEnergy(KoLCharacter.getYouRobotEnergy() - lastCost);
+    }
+
     Matcher m = CHRONOLITH_COST.matcher(responseText);
 
     if (m.find()) {
       int cost = StringUtilities.parseInt(m.group(1));
+      Preferences.setInteger("_chronolithNextCost", cost);
 
       if (cost > 148) {
         cost /= 10;

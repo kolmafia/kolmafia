@@ -1240,6 +1240,10 @@ public class ResultProcessor {
           KoLCharacter.getCurrentMP() + result.getLongCount(),
           KoLCharacter.getMaximumMP(),
           KoLCharacter.getBaseMaxMP());
+    } else if (resultName.equals(AdventureResult.ENERGY)) {
+      KoLCharacter.setYouRobotEnergy(KoLCharacter.getYouRobotEnergy() + result.getCount());
+    } else if (resultName.equals(AdventureResult.SCRAP)) {
+      KoLCharacter.setYouRobotScraps(KoLCharacter.getYouRobotScraps() + result.getCount());
     } else if (resultName.equals(AdventureResult.MEAT)) {
       KoLCharacter.setAvailableMeat(KoLCharacter.getAvailableMeat() + result.getLongCount());
       if (updateCalculatedLists) {

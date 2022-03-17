@@ -51,11 +51,6 @@ public class ApiRequest extends GenericRequest {
     this(what, String.valueOf(id));
   }
 
-  public static String updateStatusFromCharpane() {
-    ApiRequest.CHARPANE.run();
-    return ApiRequest.CHARPANE.redirectLocation;
-  }
-
   public static String updateStatus() {
     return ApiRequest.updateStatus(false);
   }
@@ -69,17 +64,21 @@ public class ApiRequest extends GenericRequest {
 
     // If in limitmode, Noobcore, PokeFam, and Disguises Delimit,
     // API status doesn't contain the full information, so use
-    // Character Sheet instead.
+    // Character Pane instead.
     if (KoLCharacter.getLimitmode() != null
         || KoLCharacter.inNoobcore()
         || KoLCharacter.inPokefam()
-        || KoLCharacter.inDisguise()
-        || KoLCharacter.inRobocore()) {
+        || KoLCharacter.inDisguise()) {
       return ApiRequest.updateStatusFromCharpane();
     }
     ApiRequest.INSTANCE.silent = silent;
     ApiRequest.INSTANCE.run();
     return ApiRequest.INSTANCE.redirectLocation;
+  }
+
+  public static String updateStatusFromCharpane() {
+    ApiRequest.CHARPANE.run();
+    return ApiRequest.CHARPANE.redirectLocation;
   }
 
   public static String updateInventory() {

@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -450,17 +451,23 @@ public class YouRobotManager {
         currentParts.put(part, upgrade);
         // Set the legacy properties for use by scripts
         Preferences.setInteger("youRobot" + part.getSection(), upgrade.getIndex());
-        if (upgrade.getEffect() == Effect.COMBAT) {
-          upgrade.addCombatSkill();
+        switch (upgrade.getEffect()) {
+          case COMBAT:
+            upgrade.addCombatSkill();
+            break;
+          case EQUIP:
+            EquipmentManager.updateEquipmentList(part.getSlot());
+            EquipmentManager.updateNormalOutfits();
+            break;
         }
-        // *** Fire listeners?
+
         changed = true;
       }
     }
 
     if (changed) {
       // Save the avatar so you can admire it on the Daily Deeds frame
-      KoLCharacter.setAvatar(images.toArray(new String[images.size()]));
+      KoLCharacter.setAvatar(images);
       KoLCharacter.recalculateAdjustments();
     }
   }
@@ -473,7 +480,9 @@ public class YouRobotManager {
 
   public static void parseCPUUpgrades(final String text) {
     Set<RobotUpgrade> upgrades = new HashSet<>();
+    boolean canUseShirts = canUseShirts();
     boolean useShirts = false;
+    boolean canUsePotions = canUsePotions();
     boolean usePotions = false;
 
     Matcher m = CPU_UPGRADE_INSTALLED.matcher(text);
@@ -495,20 +504,21 @@ public class YouRobotManager {
     // See if anything has changed. If not, we can punt now.
     boolean changed = false;
 
-    if (useShirts != canUseShirts()) {
-      // *** fire (shirts)
-      changed = true;
-    }
-
-    if (usePotions != canUsePotions()) {
-      // *** fire (potions)
-      changed = true;
-    }
-
     if (upgrades.size() != currentCPU.size()) {
       currentCPU.clear();
       currentCPU.addAll(upgrades);
       KoLCharacter.recalculateAdjustments();
+      changed = true;
+    }
+
+    if (useShirts != canUseShirts) {
+      EquipmentManager.updateEquipmentList(EquipmentManager.SHIRT);
+      EquipmentManager.updateNormalOutfits();
+      changed = true;
+    }
+
+    if (usePotions != canUsePotions) {
+      NamedListenerRegistry.fireChange("(potions)");
       changed = true;
     }
 
@@ -633,16 +643,20 @@ public class YouRobotManager {
             // If replacing another equipment part, drop the equipment
             int slot = part.getSlot();
             EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
+            EquipmentManager.updateEquipmentList(slot);
+            EquipmentManager.updateNormalOutfits();
           } else if (current.getEffect() == Effect.COMBAT) {
             current.removeCombatSkill();
           }
         }
+        KoLCharacter.setYouRobotScraps(KoLCharacter.getYouRobotScraps() - upgrade.getCost());
       }
 
       parseAvatar(text);
 
       if (part == Part.CPU) {
         parseCPUUpgrades(text);
+        KoLCharacter.setYouRobotEnergy(KoLCharacter.getYouRobotEnergy() - upgrade.getCost());
       }
 
       KoLCharacter.updateStatus();
@@ -654,6 +668,11 @@ public class YouRobotManager {
 
       parseStatbotCost(text);
       if (!text.contains("You don't have enough Energy to do that.")) {
+        // Cost starts at 10 and goes up by one each time.
+        // If we are here, we have just parsed the NEXT cost.
+        int cost = Preferences.getInteger("statbotUses") + 10 - 1;
+        KoLCharacter.setYouRobotEnergy(KoLCharacter.getYouRobotEnergy() - cost);
+        EquipmentManager.updateEquipmentLists();
         KoLCharacter.updateStatus();
       }
       return;

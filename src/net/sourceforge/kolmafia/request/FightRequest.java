@@ -9553,6 +9553,23 @@ public class FightRequest extends GenericRequest {
           ResultProcessor.removeItem(ItemPool.COSMIC_BOWLING_BALL);
         }
         break;
+
+      case SkillPool.JUNK_BLAST:
+      case SkillPool.SNIPE:
+      case SkillPool.JUNK_MACE_SMASH:
+        // These skills consume 1 scrap per use
+        KoLCharacter.setYouRobotScraps(KoLCharacter.getYouRobotScraps() - 1);
+        break;
+
+      case SkillPool.TESLA_BLAST:
+      case SkillPool.BLOW_SNOW:
+      case SkillPool.SHOOT_GREASE:
+      case SkillPool.PROD:
+      case SkillPool.SOLENOID_SLAM:
+      case SkillPool.THROW_FLAME:
+        // These skills consume 1 energy per use
+        KoLCharacter.setYouRobotEnergy(KoLCharacter.getYouRobotEnergy() - 1);
+        break;
     }
   }
 

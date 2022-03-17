@@ -739,6 +739,8 @@ public abstract class KoLmafia {
       KoLCharacter.resetCurrentPP();
     } else if (KoLCharacter.inRobocore()) {
       YouRobotManager.reset();
+      // Get current Energy and Scraps
+      RequestThread.postRequest(new CharPaneRequest());
       RequestThread.postRequest(new ScrapheapRequest("sh_configure"));
       RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1445&show=cpus"));
     }
@@ -755,15 +757,18 @@ public abstract class KoLmafia {
 
     ChateauRequest.refresh();
 
-    // Retrieve campground data to see if the user has box servants
-    // or a bookshelf
+    // Always reset the campground data. If our current path has access to a
+    // campground, we will refresh it. If not, we won't. This only matters if
+    // you continue in the same session after ascending to such a path.
+    CampgroundRequest.reset();
 
+    // If the path allows, retrieve campground data to see if the user has box
+    // servants or a bookshelf
     if (!Limitmode.limitCampground()
         && !KoLCharacter.isEd()
         && !KoLCharacter.inNuclearAutumn()
         && !KoLCharacter.inRobocore()) {
       KoLmafia.updateDisplay("Retrieving campground data...");
-      CampgroundRequest.reset();
       if (!KoLCharacter.isVampyre()) {
         RequestThread.postRequest(new CampgroundRequest("inspectdwelling"));
       }
@@ -955,6 +960,17 @@ public abstract class KoLmafia {
     // Check the Florist
     FloristRequest.reset();
     RequestThread.postRequest(new FloristRequest());
+
+    // If you have the ItemManagerFrame open, there are four panels which
+    // display food, booze, spleen items, and potions. These enable buttons and
+    // filter what is shown based on character state: whether your character
+    // can eat or drink, whether items are out of standard, and so on.
+    //
+    // All of that is moot, now. Signal the various GUI panels to update.
+    NamedListenerRegistry.fireChange("(food)");
+    NamedListenerRegistry.fireChange("(booze)");
+    NamedListenerRegistry.fireChange("(spleen)");
+    NamedListenerRegistry.fireChange("(potions)");
 
     // Run a user-supplied script
     KoLmafiaCLI.DEFAULT_SHELL.executeLine(Preferences.getString("kingLiberatedScript"));

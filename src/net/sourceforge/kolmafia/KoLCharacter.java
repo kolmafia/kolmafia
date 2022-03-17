@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Taskbar;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -125,7 +125,7 @@ public abstract class KoLCharacter {
 
   // Things which can change over the course of playing
 
-  private static String[] avatar = new String[0];
+  private static List<String> avatar = Collections.emptyList();
   private static AscensionClass ascensionClass = null;
   private static int gender = 0;
   public static int AWOLtattoo = 0;
@@ -489,6 +489,11 @@ public abstract class KoLCharacter {
       return 0;
     }
 
+    if (KoLCharacter.inRobocore()) {
+      // Robots can eat size-0 magical sausages but have no fullness
+      return 0;
+    }
+
     // Default stomach size, overridden below for various paths
     int limit = 15;
 
@@ -794,19 +799,18 @@ public abstract class KoLCharacter {
    * @param avatar The avatar for this character
    */
   public static final void setAvatar(final String avatar) {
-    String[] array = new String[] {avatar};
-    KoLCharacter.setAvatar(array);
+    KoLCharacter.setAvatar(Collections.singletonList(avatar));
   }
 
-  public static final void setAvatar(final String[] images) {
+  public static final void setAvatar(final List<String> images) {
     // Only set the avatar if the set of images has changed.
     //
     // Note that we assume that a "set" will do; the images will be overlaid
     // upon each other, rather than being arranged in a specific order.
 
-    if (KoLCharacter.avatar.length == images.length) {
+    if (KoLCharacter.avatar.size() == images.size()) {
       boolean changed = false;
-      Set<String> currentImages = new HashSet<>(Arrays.asList(KoLCharacter.avatar));
+      Set<String> currentImages = new HashSet<>(KoLCharacter.avatar);
       for (String image : images) {
         if (!currentImages.contains(image)) {
           changed = true;
@@ -847,7 +851,7 @@ public abstract class KoLCharacter {
    *
    * @return The avatar for this character
    */
-  public static final String[] getAvatar() {
+  public static final List<String> getAvatar() {
     return KoLCharacter.avatar;
   }
 
@@ -2967,6 +2971,17 @@ public abstract class KoLCharacter {
     FloristRequest.reset();
     RequestThread.postRequest(new FloristRequest());
 
+    // If you have the ItemManagerFrame open, there are four panels which
+    // display food, booze, spleen items, and potions. These enable buttons and
+    // filter what is shown based on character state: whether your character
+    // can eat or drink, whether items are out of standard, and so on.
+    //
+    // All of that is moot, now. Signal the various GUI panels to update.
+    NamedListenerRegistry.fireChange("(food)");
+    NamedListenerRegistry.fireChange("(booze)");
+    NamedListenerRegistry.fireChange("(spleen)");
+    NamedListenerRegistry.fireChange("(potions)");
+
     // Run a user-supplied script
     KoLmafiaCLI.DEFAULT_SHELL.executeLine(Preferences.getString("kingLiberatedScript"));
   }
@@ -3333,7 +3348,7 @@ public abstract class KoLCharacter {
       return false;
     }
 
-    if (KoLCharacter.inNoobcore() || KoLCharacter.inBondcore() || KoLCharacter.inRobocore()) {
+    if (KoLCharacter.inNoobcore() || KoLCharacter.inBondcore()) {
       return false;
     }
 
