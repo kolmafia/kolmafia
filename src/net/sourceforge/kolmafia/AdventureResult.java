@@ -592,11 +592,11 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         statname = parsedGain.nextToken();
       }
 
-      if (statname.startsWith("energy") || statname.startsWith("Energy")) {
+      if (statname.toLowerCase().startsWith("energy")) {
         return new AdventureResult(AdventureResult.ENERGY, (int) modifier);
       }
 
-      if (statname.startsWith("scrap") || statname.startsWith("Scrap")) {
+      if (statname.startsWith("scrap")) {
         return new AdventureResult(AdventureResult.SCRAP, (int) modifier);
       }
 
