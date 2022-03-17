@@ -124,7 +124,7 @@ public class RelayRequest extends PasswordHashRequest {
   private static final String CONFIRM_GREMLINS = "confirm14";
   private static final String CONFIRM_HARDCOREPVP = "confirm15";
   private static final String CONFIRM_DESERT_UNHYDRATED = "confirm16";
-  private static final String CONFIRM_MOHAWK_WIG = "confirm17";
+  public static final String CONFIRM_MOHAWK_WIG = "confirm17";
   private static final String CONFIRM_CELLAR = "confirm18";
   private static final String CONFIRM_BOILER = "confirm19";
   private static final String CONFIRM_DIARY = "confirm20";
@@ -142,10 +142,13 @@ public class RelayRequest extends PasswordHashRequest {
   private static boolean ignoreBoringDoorsWarning = false;
   private static boolean ignoreDesertWarning = false;
   private static boolean ignoreDesertOffhandWarning = false;
-  private static boolean ignoreMacheteWarning = false;
-  private static boolean ignoreMohawkWigWarning = false;
+  public static boolean ignoreMacheteWarning = false;
+  public static boolean ignoreMohawkWigWarning = false;
   private static boolean ignorePoolSkillWarning = false;
   private static boolean ignoreFullnessWarning = false;
+
+  // For testing
+  public String lastWarning = "";
 
   public static final void reset() {
     RelayRequest.ignoreBoringDoorsWarning = false;
@@ -1482,7 +1485,7 @@ public class RelayRequest extends PasswordHashRequest {
     return true;
   }
 
-  private boolean sendMohawkWigWarning() {
+  public boolean sendMohawkWigWarning() {
     // Only send this warning once per session
     if (RelayRequest.ignoreMohawkWigWarning) {
       return false;
@@ -1504,11 +1507,6 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    // If they can't equip Wig, no problem
-    if (!EquipmentManager.canEquip(ItemPool.MOHAWK_WIG)) {
-      return false;
-    }
-
     // If they are already wearing the Wig, no problem
     if (KoLCharacter.hasEquipped(ItemPool.MOHAWK_WIG, EquipmentManager.HAT)) {
       return false;
@@ -1519,22 +1517,74 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    String warning =
-        "You are about to adventure without your Mohawk Wig in the Castle. "
-            + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
-            + "If you want to put the hat on first, click the icon on the right. ";
-    this.sendOptionalWarning(
-        CONFIRM_MOHAWK_WIG,
-        warning,
-        "hand.gif",
-        "mohawk.gif",
-        "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
-            + ItemPool.MOHAWK_WIG
-            + "&pwd="
-            + GenericRequest.passwordHash
-            + "&ajax=1');void(0);\"",
-        null,
-        null);
+    StringBuilder buf = new StringBuilder();
+    buf.append("You are about to adventure without your Mohawk Wig in the Castle.");
+
+    // Message when there is no suggested remedy
+    String ok1 = " If you are sure you wish to adventure without it, click the icon to adventure.";
+    // Message when there is a suggested remedy
+    String ok2 =
+        " If you are sure you wish to adventure without it, click the icon on the left to adventure.";
+
+    // If they can equip it, give them the option to do so.
+    if (EquipmentManager.canEquip(ItemPool.MOHAWK_WIG)) {
+      buf.append(ok2);
+      buf.append(" If you want to put the hat on first, click the icon on the right.");
+
+      this.sendOptionalWarning(
+          CONFIRM_MOHAWK_WIG,
+          buf.toString(),
+          "hand.gif",
+          "mohawk.gif",
+          "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
+              + ItemPool.MOHAWK_WIG
+              + "&pwd="
+              + GenericRequest.passwordHash
+              + "&ajax=1');void(0);\"",
+          null,
+          null);
+
+      return true;
+    }
+
+    // If they can't equip it:
+    //   perhaps they don't meet the stat requirements
+    //   perhaps they can't wear a hat (as a Robot)
+
+    boolean lowStats = !EquipmentManager.meetsStatRequirements(ItemPool.MOHAWK_WIG);
+    if (lowStats) {
+      buf.append(" It requires base Moxie of 55, but yours is only ");
+      buf.append(KoLCharacter.getBaseMoxie());
+      buf.append(".");
+    }
+
+    if (KoLCharacter.inRobocore()) {
+      String image;
+      if (lowStats) {
+        buf.append(" Perhaps it is time to visit Statbot 5000.");
+        image = "jigawatts.gif";
+      } else {
+        buf.append(" You need to attach a Mannequin Head in order to wear a hat.");
+        image = "scrap.gif";
+      }
+
+      buf.append(ok2);
+      buf.append(" If you want to visit the Scrapheap, click the icon on the right.");
+
+      this.sendOptionalWarning(
+          CONFIRM_MOHAWK_WIG,
+          buf.toString(),
+          "hand.gif",
+          image,
+          "\"place.php?whichplace=scrapheap\"",
+          null,
+          null);
+
+      return true;
+    }
+
+    buf.append(ok1);
+    this.sendGeneralWarning("hand.gif", buf.toString(), CONFIRM_MOHAWK_WIG);
 
     return true;
   }
@@ -2646,6 +2696,9 @@ public class RelayRequest extends PasswordHashRequest {
       final String confirm,
       final String extra,
       final boolean usePostMethod) {
+    // Save for testing
+    this.lastWarning = message;
+
     StringBuilder warning = new StringBuilder();
 
     warning.append(
@@ -2734,6 +2787,9 @@ public class RelayRequest extends PasswordHashRequest {
       final String action2,
       final String image3,
       final String action3) {
+    // Save for testing
+    this.lastWarning = message;
+
     StringBuilder warning = new StringBuilder();
 
     warning.append("<html><head><script language=Javascript src=\"/");
