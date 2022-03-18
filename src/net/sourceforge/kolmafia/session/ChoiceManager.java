@@ -15610,6 +15610,11 @@ public abstract class ChoiceManager {
         }
         break;
 
+      case 791:
+        // Legend of the Temple in the Hidden City
+        Preferences.setInteger("zigguratLianas", 1);
+        break;
+
       case 798:
         // Hippy Talkin'
         if (text.contains("You should totally keep it!")) {
@@ -15868,6 +15873,11 @@ public abstract class ChoiceManager {
           QuestDatabase.setQuestProgress(Quest.SMOKES, QuestDatabase.UNSTARTED);
           QuestDatabase.setQuestProgress(Quest.OUT_OF_ORDER, QuestDatabase.UNSTARTED);
         }
+        break;
+
+      case 1002:
+        // Legend of the Temple in the Hidden City
+        Preferences.setInteger("zigguratLianas", 1);
         break;
 
       case 1003:

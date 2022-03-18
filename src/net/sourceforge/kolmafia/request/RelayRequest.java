@@ -134,7 +134,7 @@ public class RelayRequest extends PasswordHashRequest {
   private static final String CONFIRM_OVERDRUNK_ADVENTURE = "confirm24";
   private static final String CONFIRM_STICKER = "confirm25";
   private static final String CONFIRM_DESERT_OFFHAND = "confirm26";
-  private static final String CONFIRM_MACHETE = "confirm27";
+  public static final String CONFIRM_MACHETE = "confirm27";
   private static final String CONFIRM_RALPH = "confirm28";
   private static final String CONFIRM_RALPH1 = "confirm29";
   private static final String CONFIRM_RALPH2 = "confirm30";
@@ -1349,7 +1349,36 @@ public class RelayRequest extends PasswordHashRequest {
     return true;
   }
 
-  private boolean sendMacheteWarning() {
+  private void sendMacheteWarning(int itemId) {
+    String name = ItemDatabase.getItemDataName(itemId);
+    String image = ItemDatabase.getImage(itemId);
+
+    StringBuilder warning = new StringBuilder();
+
+    warning.append("You are about to adventure without your ");
+    warning.append(name);
+    warning.append(" to fight dense lianas.");
+    warning.append(
+        " If you are sure you wish to adventure without it, click the icon on the left to adventure.");
+    warning.append(" If you want to equip the ");
+    warning.append(name);
+    warning.append(" first, click the icon on the right.");
+
+    this.sendOptionalWarning(
+        CONFIRM_MACHETE,
+        warning.toString(),
+        "hand.gif",
+        image,
+        "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
+            + itemId
+            + "&pwd="
+            + GenericRequest.passwordHash
+            + "&ajax=1');void(0);\"",
+        null,
+        null);
+  }
+
+  public boolean sendMacheteWarning() {
     // Only send this warning once per session
     if (RelayRequest.ignoreMacheteWarning) {
       return false;
@@ -1366,6 +1395,13 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
+    // New property added to allow scripts to track whether the lianas guarding
+    // the Massive Ziggurat are clear without having to look at turns spent at
+    // the location.
+    if (AdventureSpentDatabase.getTurns("A Massive Ziggurat") >= 3) {
+      Preferences.setInteger("zigguratLianas", 1);
+    }
+
     // If they aren't in a liana location, or the lianas are defeated, no problem
     String location = this.getFormField("snarfblat");
     if (!((AdventurePool.NE_SHRINE_ID.equals(location)
@@ -1377,7 +1413,7 @@ public class RelayRequest extends PasswordHashRequest {
         || (AdventurePool.SW_SHRINE_ID.equals(location)
             && Preferences.getInteger("hiddenHospitalProgress") == 0)
         || (AdventurePool.ZIGGURAT_ID.equals(location)
-            && AdventureSpentDatabase.getTurns("A Massive Ziggurat") < 3))) {
+            && Preferences.getInteger("zigguratLianas") == 0))) {
       return false;
     }
 
@@ -1394,93 +1430,38 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
+    // These checks are ordered from lowest Base Muscle to highest.  If you
+    // have more than one kind of machete, if you can't equip one, you can't
+    // equip the heftier ones either.
+
+    // If you have muculent machete, suggest it
+    if (InventoryManager.getCount(ItemPool.MUCULENT_MACHETE) > 0) {
+      sendMacheteWarning(ItemPool.MUCULENT_MACHETE);
+      return true;
+    }
+
     // If you have papier machete, suggest it
     if (InventoryManager.getCount(ItemPool.PAPIER_MACHETE) > 0) {
-
-      String warning =
-          "You are about to adventure without your papier-m&acirc;ch&eacute;te to fight dense lianas. "
-              + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
-              + "If you want to equip the papier-m&acirc;ch&eacute;te first, click the icon on the right. ";
-      this.sendOptionalWarning(
-          CONFIRM_MACHETE,
-          warning,
-          "hand.gif",
-          "machemachete.gif",
-          "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
-              + ItemPool.PAPIER_MACHETE
-              + "&pwd="
-              + GenericRequest.passwordHash
-              + "&ajax=1');void(0);\"",
-          null,
-          null);
+      sendMacheteWarning(ItemPool.PAPIER_MACHETE);
+      return true;
     }
-    // If you have muculent machete, suggest it
-    else if (InventoryManager.getCount(ItemPool.MUCULENT_MACHETE) > 0) {
 
-      String warning =
-          "You are about to adventure without your muculent machete to fight dense lianas. "
-              + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
-              + "If you want to equip the muculent machete first, click the icon on the right. ";
-      this.sendOptionalWarning(
-          CONFIRM_MACHETE,
-          warning,
-          "hand.gif",
-          "machete.gif",
-          "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
-              + ItemPool.MUCULENT_MACHETE
-              + "&pwd="
-              + GenericRequest.passwordHash
-              + "&ajax=1');void(0);\"",
-          null,
-          null);
-    }
     // If you have machetito, suggest it
-    else if (InventoryManager.getCount(ItemPool.MACHETITO) > 0) {
-
-      String warning =
-          "You are about to adventure without your machetito to fight dense lianas. "
-              + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
-              + "If you want to equip the machetito first, click the icon on the right. ";
-      this.sendOptionalWarning(
-          CONFIRM_MACHETE,
-          warning,
-          "hand.gif",
-          "machetito.gif",
-          "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
-              + ItemPool.MACHETITO
-              + "&pwd="
-              + GenericRequest.passwordHash
-              + "&ajax=1');void(0);\"",
-          null,
-          null);
+    if (InventoryManager.getCount(ItemPool.MACHETITO) > 0) {
+      sendMacheteWarning(ItemPool.MACHETITO);
+      return true;
     }
+
     // If you have antique machete, suggest it
-    else if (InventoryManager.getCount(ItemPool.ANTIQUE_MACHETE) > 0) {
-
-      String warning =
-          "You are about to adventure without your antique machete to fight dense lianas. "
-              + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
-              + "If you want to equip the antique machete first, click the icon on the right. ";
-      this.sendOptionalWarning(
-          CONFIRM_MACHETE,
-          warning,
-          "hand.gif",
-          "machetwo.gif",
-          "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
-              + ItemPool.ANTIQUE_MACHETE
-              + "&pwd="
-              + GenericRequest.passwordHash
-              + "&ajax=1');void(0);\"",
-          null,
-          null);
+    if (InventoryManager.getCount(ItemPool.ANTIQUE_MACHETE) > 0) {
+      sendMacheteWarning(ItemPool.ANTIQUE_MACHETE);
+      return true;
     }
+
     // Otherwise just ask if you want to adventure
-    else {
-      String message =
-          "You are about to adventure without a machete to fight dense lianas. If you are sure you want to do this, click on the image to proceed.";
-
-      this.sendGeneralWarning("machetwo.gif", message, CONFIRM_MACHETE);
-    }
+    String message =
+        "You are about to adventure without a machete to fight dense lianas. If you are sure you want to do this, click on the image to proceed.";
+    this.sendGeneralWarning("machetwo.gif", message, CONFIRM_MACHETE);
 
     return true;
   }
