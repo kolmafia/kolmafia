@@ -17,8 +17,6 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 import javax.swing.ImageIcon;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -31,7 +29,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class FileUtilities {
-  private static final Pattern FILEID_PATTERN = Pattern.compile("(\\d+)\\.");
   private static HttpClient client;
 
   private static HttpClient getClient() {
@@ -351,14 +348,6 @@ public class FileUtilities {
       // than nothing.
       var header = StringUtilities.formatDate(local.lastModified());
       requestBuilder.setHeader("If-Modified-Since", header);
-    }
-
-    if (remote.startsWith("http://pics.communityofloathing.com")) {
-      Matcher idMatcher = FileUtilities.FILEID_PATTERN.matcher(local.getPath());
-      if (idMatcher.find()) {
-        requestBuilder.setHeader(
-            "Referer", "http://www.kingdomofloathing.com/showplayer.php?who=" + idMatcher.group(1));
-      }
     }
 
     HttpResponse<InputStream> response = getResponseFromRequest(remote, requestBuilder.build());
