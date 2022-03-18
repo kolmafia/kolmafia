@@ -775,7 +775,7 @@ public class RelayRequest extends PasswordHashRequest {
     return false;
   }
 
-  private boolean sendBreakPrismWarning(final String urlString) {
+  public boolean sendBreakPrismWarning(final String urlString) {
     // place.php?whichplace=nstower&action=ns_11_prism
 
     if (!urlString.startsWith("place.php")
@@ -892,12 +892,11 @@ public class RelayRequest extends PasswordHashRequest {
       buf.append(" If you are ready to break the prism, click on the icon on the left.");
       buf.append(" If you wish to visit the Scrapheap, click on icon on the right.");
 
-      String warning = buf.toString();
       this.sendOptionalWarning(
           CONFIRM_RALPH,
-          warning,
+          buf.toString(),
           "hand.gif",
-          "lightning.gif",
+          "jigawatts.gif",
           "\"place.php?whichplace=scrapheap\"",
           null,
           null);

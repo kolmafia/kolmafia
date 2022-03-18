@@ -278,7 +278,9 @@ public class RelayRequestWarningsTest {
             + name
             + " first, click the icon on the right.";
     assertEquals(expected, request.lastWarning);
+
     YouRobotManager.reset();
+    KoLCharacter.setPath(Path.NONE);
 
     // Remove the machete from inventory
     KoLConstants.inventory.clear();
@@ -346,5 +348,64 @@ public class RelayRequestWarningsTest {
     testMacheteZone(request, AdventurePool.NE_SHRINE, "hiddenOfficeProgress");
     testMacheteZone(request, AdventurePool.SE_SHRINE, "hiddenBowlingAlleyProgress");
     testMacheteZone(request, AdventurePool.ZIGGURAT, "zigguratLianas");
+  }
+
+  @Test
+  public void thatBreakPrismWarningWorks() {
+    RelayRequest request = new RelayRequest(false);
+
+    // No warning needed if you are not about to break the prism
+    String URL = "place.php?whichplace=scrapheap";
+    request.constructURLString(URL, true);
+    assertFalse(request.sendBreakPrismWarning(URL));
+
+    // Set path to You, Robot
+    KoLCharacter.setPath(Path.YOU_ROBOT);
+    URL = "place.php?whichplace=nstower&action=ns_11_prism";
+    request.constructURLString(URL, true);
+
+    // energy < Statbot < Chronolith
+    KoLCharacter.setYouRobotEnergy(10);
+    Preferences.setInteger("statbotUses", 10);
+    Preferences.setInteger("_chronolithNextCost", 30);
+    assertFalse(request.sendBreakPrismWarning(URL));
+
+    // Statbot < energy < Chronolith
+    KoLCharacter.setYouRobotEnergy(25);
+    assertTrue(request.sendBreakPrismWarning(URL));
+    String expected =
+        "You are about to free King Ralph and stop being a Robot."
+            + " Before you do so, you might want to spend your remaining 25 energy in the Scrapheap,"
+            + " since you will not be able to do so after you free the king."
+            + " You can gain 5 points of the stat of your choice at Statbot 5000 for 20 energy."
+            + " If you are ready to break the prism, click on the icon on the left."
+            + " If you wish to visit the Scrapheap, click on icon on the right.";
+    assertEquals(expected, request.lastWarning);
+
+    // Chronolith < energy < Statbot
+    Preferences.setInteger("statbotUses", 20);
+    Preferences.setInteger("_chronolithNextCost", 20);
+    assertTrue(request.sendBreakPrismWarning(URL));
+    expected =
+        "You are about to free King Ralph and stop being a Robot."
+            + " Before you do so, you might want to spend your remaining 25 energy in the Scrapheap,"
+            + " since you will not be able to do so after you free the king."
+            + " You can gain 10 Adventures at the Chronolith for 20 energy."
+            + " If you are ready to break the prism, click on the icon on the left."
+            + " If you wish to visit the Scrapheap, click on icon on the right.";
+    assertEquals(expected, request.lastWarning);
+
+    // Chronolith < Statbot < energy
+    KoLCharacter.setYouRobotEnergy(50);
+    assertTrue(request.sendBreakPrismWarning(URL));
+    expected =
+        "You are about to free King Ralph and stop being a Robot."
+            + " Before you do so, you might want to spend your remaining 50 energy in the Scrapheap,"
+            + " since you will not be able to do so after you free the king."
+            + " You can gain 10 Adventures at the Chronolith for 20 energy."
+            + " You can gain 5 points of the stat of your choice at Statbot 5000 for 30 energy."
+            + " If you are ready to break the prism, click on the icon on the left."
+            + " If you wish to visit the Scrapheap, click on icon on the right.";
+    assertEquals(expected, request.lastWarning);
   }
 }
