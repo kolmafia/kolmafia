@@ -407,12 +407,59 @@ class StringUtilitiesTest {
     "'1.2.3', false",
     "'1,234', true"
   })
-  public void itShouldParseFloats(String test, boolean expected) {
+  public void itShouldRecognizeFloats(String test, boolean expected) {
     assertEquals(expected, StringUtilities.isFloat(test), test);
   }
 
   @Test
   public void itShouldKnowNullIsNotAFloat() {
     assertFalse(StringUtilities.isFloat(null));
+  }
+
+  @Test
+  public void itShouldKnowEmptyIsNotAFloat() {
+    assertFalse(StringUtilities.isFloat(""));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "'1,234', true",
+    "'+1,234', true",
+    "'-1,234', true",
+    "'1234', true",
+    "'+1234', true",
+    "'-1234', true",
+    "'+not', false",
+    "'-not', false",
+    "'not', false"
+  })
+  public void itShouldRecognizeNumericStrings(String test, boolean expected) {
+    assertEquals(expected, StringUtilities.isNumeric(test), test);
+  }
+
+  @ParameterizedTest
+  @CsvSource({"'not*not', 'not*not'", "'string with blanks', 'string_with_blanks'"})
+  public void itShouldReplaceInStrings(String test, String expected) {
+    // For test, just replace space with underscore even though code supports more.
+    // Note that the first parameter is returned with the changed string
+    StringBuffer testBuffer = new StringBuffer();
+    testBuffer.append(test);
+    StringUtilities.globalStringReplace(testBuffer, " ", "_");
+    assertEquals(expected, testBuffer.toString(), test);
+  }
+
+  @Test
+  public void itShouldHandleInvalidParametersForStringReplacement() {
+    StringBuffer input = null;
+    StringUtilities.globalStringReplace(input, "", null);
+    assertEquals(null, input);
+    input = new StringBuffer();
+    input.append("test string");
+    StringUtilities.globalStringReplace(input, "", null);
+    assertEquals(input, input);
+    StringUtilities.globalStringReplace(input, "", null);
+    assertEquals(input, input);
+    StringUtilities.globalStringReplace(input, " ", null);
+    assertEquals("teststring", input.toString());
   }
 }
