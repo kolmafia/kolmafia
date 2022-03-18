@@ -113,7 +113,7 @@ public class MaximizerRegressionTest {
   }
 
   @Test
-  public void equipBjornWhenEmpty() {
+  public void equipEmptyBjornNoSlot() {
     equip(EquipmentManager.CONTAINER, "Buddy Bjorn");
     KoLCharacter.addFamiliar(new FamiliarData(FamiliarPool.MOSQUITO));
     KoLCharacter.setBjorned(FamiliarData.NO_FAMILIAR);
