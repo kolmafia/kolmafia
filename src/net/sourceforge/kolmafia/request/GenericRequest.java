@@ -192,9 +192,7 @@ public class GenericRequest implements Runnable {
   }
 
   private Builder getRequestBuilder(URI uri) {
-    var builder =
-        HttpRequest.newBuilder(uri)
-            .header("Referer", "https://" + GenericRequest.KOL_HOST + "/game.php");
+    var builder = HttpRequest.newBuilder(uri);
 
     if (!this.isExternalRequest && GenericRequest.sessionId != null) {
       builder.header("Cookie", this.getCookies());
