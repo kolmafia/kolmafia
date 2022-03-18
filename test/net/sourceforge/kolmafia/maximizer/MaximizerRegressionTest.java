@@ -8,9 +8,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.beans.Transient;
+
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -107,6 +110,15 @@ public class MaximizerRegressionTest {
     assertEquals(25, modFor("Buffed Muscle"), 0.01);
     // Actually equipped the buddy bjorn
     assertEquals(25, modFor("Meat Drop"), 0.01);
+  }
+
+  @Test
+  public void equipBjornWhenEmpty() {
+    equip(EquipmentManager.CONTAINER, "Buddy Bjorn");
+    KoLCharacter.addFamiliar(new FamiliarData(FamiliarPool.MOSQUITO));
+    KoLCharacter.setBjorned(FamiliarData.NO_FAMILIAR);
+    
+    assertTrue(maximize("item, -buddy-bjorn, +equip buddy bjorn"));
   }
 
   // https://kolmafia.us/threads/27073/
