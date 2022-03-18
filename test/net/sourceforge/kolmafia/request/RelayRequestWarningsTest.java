@@ -12,6 +12,8 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.YouRobotManager;
+import net.sourceforge.kolmafia.session.YouRobotManager.RobotUpgrade;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,6 +53,8 @@ public class RelayRequestWarningsTest {
     RelayRequest.ignoreMacheteWarning = false;
     RelayRequest.ignoreMohawkWigWarning = false;
     KoLConstants.inventory.clear();
+    EquipmentManager.resetEquipment();
+    YouRobotManager.reset();
   }
 
   @AfterAll
@@ -58,6 +62,9 @@ public class RelayRequestWarningsTest {
     Preferences.saveSettingsToFile = true;
     RelayRequest.ignoreMacheteWarning = false;
     RelayRequest.ignoreMohawkWigWarning = false;
+    KoLConstants.inventory.clear();
+    EquipmentManager.resetEquipment();
+    YouRobotManager.reset();
   }
 
   private String adventureURL(int adventureId, String confirmation) {
@@ -153,7 +160,7 @@ public class RelayRequestWarningsTest {
             + " If you want to put the hat on first, click the icon on the right.";
     assertEquals(expected, request.lastWarning);
 
-    // One last time with You, Robot
+    // Again in You, Robot, no Mannequin Head
     KoLCharacter.setPath(Path.YOU_ROBOT);
     assertTrue(request.sendMohawkWigWarning());
     expected =
@@ -161,6 +168,15 @@ public class RelayRequestWarningsTest {
             + " You need to attach a Mannequin Head in order to wear a hat."
             + " If you are sure you wish to adventure without it, click the icon on the left to adventure."
             + " If you want to visit the Scrapheap, click the icon on the right.";
+    assertEquals(expected, request.lastWarning);
+
+    // Again in You, Robot, with Mannequin Head
+    YouRobotManager.testInstallUpgrade(RobotUpgrade.MANNEQUIN_HEAD);
+    assertTrue(request.sendMohawkWigWarning());
+    expected =
+        "You are about to adventure without your Mohawk Wig in the Castle."
+            + " If you are sure you wish to adventure without it, click the icon on the left to adventure."
+            + " If you want to put the hat on first, click the icon on the right.";
     assertEquals(expected, request.lastWarning);
   }
 }

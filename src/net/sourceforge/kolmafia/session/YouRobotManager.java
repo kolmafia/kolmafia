@@ -551,6 +551,58 @@ public class YouRobotManager {
   // *** Public methods to hide internal implementation, which currently
   // *** depend on use of user-visible properties.
 
+  // *** For use by tests
+  public static void testInstallUpgrade(RobotUpgrade upgrade) {
+    Part part = upgrade.getPart();
+    if (part != Part.CPU) {
+      RobotUpgrade previous = currentParts.get(part);
+      uninstallUpgrade(part, previous);
+      installUpgrade(part, upgrade);
+    } else {
+      installCPUUpgrade(upgrade);
+    }
+  }
+
+  private static void installUpgrade(Part part, RobotUpgrade upgrade) {
+    // Add to current configuration
+    currentParts.put(part, upgrade);
+    // Set the legacy properties for use by scripts
+    switch (upgrade.getEffect()) {
+      case COMBAT:
+        upgrade.addCombatSkill();
+        break;
+      case EQUIP:
+        EquipmentManager.updateEquipmentList(part.getSlot());
+        EquipmentManager.updateNormalOutfits();
+        break;
+    }
+    Preferences.setInteger("youRobot" + part.getSection(), upgrade.getIndex());
+  }
+
+  private static void uninstallUpgrade(Part part, RobotUpgrade upgrade) {
+    if (upgrade != null) {
+      if (upgrade == RobotUpgrade.BIRD_CAGE) {
+        // If replacing a Bird Cage, drop familiar
+        KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR);
+      } else if (upgrade.getEffect() == Effect.EQUIP) {
+        // If replacing another equipment part, drop the equipment
+        int slot = part.getSlot();
+        EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
+        EquipmentManager.updateEquipmentList(slot);
+        EquipmentManager.updateNormalOutfits();
+      } else if (upgrade.getEffect() == Effect.COMBAT) {
+        upgrade.removeCombatSkill();
+      }
+    }
+  }
+
+  private static void installCPUUpgrade(RobotUpgrade upgrade) {
+    currentCPU.add(upgrade);
+    String value =
+        currentCPU.stream().map(RobotUpgrade::getKeyword).sorted().collect(Collectors.joining(","));
+    Preferences.setString("youRobotCPUUpgrades", value);
+  }
+
   // Used by KoLCharacter.recalculateAdjustments
   public static void addRobotModifiers(Modifiers mods) {
     for (RobotUpgrade upgrade : currentParts.values()) {
@@ -634,21 +686,7 @@ public class YouRobotManager {
       RobotUpgrade upgrade = urlFieldsToUpgrade(part, chosenPart);
 
       if (upgrade != null && part != Part.CPU) {
-        RobotUpgrade current = currentParts.get(part);
-        if (current != null) {
-          if (current == RobotUpgrade.BIRD_CAGE) {
-            // If replacing a Bird Cage, drop familiar
-            KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR);
-          } else if (current.getEffect() == Effect.EQUIP) {
-            // If replacing another equipment part, drop the equipment
-            int slot = part.getSlot();
-            EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
-            EquipmentManager.updateEquipmentList(slot);
-            EquipmentManager.updateNormalOutfits();
-          } else if (current.getEffect() == Effect.COMBAT) {
-            current.removeCombatSkill();
-          }
-        }
+        uninstallUpgrade(part, currentParts.get(part));
         KoLCharacter.setYouRobotScraps(KoLCharacter.getYouRobotScraps() - upgrade.getCost());
       }
 
