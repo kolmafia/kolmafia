@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest.ServerCookie;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
@@ -1353,29 +1354,80 @@ public class RelayRequest extends PasswordHashRequest {
     String name = ItemDatabase.getItemDataName(itemId);
     String image = ItemDatabase.getImage(itemId);
 
-    StringBuilder warning = new StringBuilder();
+    StringBuilder buf = new StringBuilder();
 
-    warning.append("You are about to adventure without your ");
-    warning.append(name);
-    warning.append(" to fight dense lianas.");
-    warning.append(
-        " If you are sure you wish to adventure without it, click the icon on the left to adventure.");
-    warning.append(" If you want to equip the ");
-    warning.append(name);
-    warning.append(" first, click the icon on the right.");
+    buf.append("You are about to adventure without your ");
+    buf.append(name);
+    buf.append(" to fight dense lianas.");
 
-    this.sendOptionalWarning(
-        CONFIRM_MACHETE,
-        warning.toString(),
-        "hand.gif",
-        image,
-        "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
-            + itemId
-            + "&pwd="
-            + GenericRequest.passwordHash
-            + "&ajax=1');void(0);\"",
-        null,
-        null);
+    // Message when there is no suggested remedy
+    String ok1 = " If you are sure you wish to adventure without it, click the icon to adventure.";
+    // Message when there is a suggested remedy
+    String ok2 =
+        " If you are sure you wish to adventure without it, click the icon on the left to adventure.";
+
+    if (EquipmentManager.canEquip(itemId)) {
+      buf.append(ok2);
+      buf.append(" If you want to equip the ");
+      buf.append(name);
+      buf.append(" first, click the icon on the right.");
+
+      this.sendOptionalWarning(
+          CONFIRM_MACHETE,
+          buf.toString(),
+          "hand.gif",
+          image,
+          "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
+              + itemId
+              + "&pwd="
+              + GenericRequest.passwordHash
+              + "&ajax=1');void(0);\"",
+          null,
+          null);
+      return;
+    }
+
+    // If they can't equip it:
+    //   perhaps they don't meet the stat requirements
+    //   perhaps they can't wield a weapon (as a Robot)
+
+    boolean lowStats = !EquipmentManager.meetsStatRequirements(itemId);
+    if (lowStats) {
+      EquipmentRequirement req =
+          new EquipmentRequirement(EquipmentDatabase.getEquipRequirement(itemId));
+      buf.append(" It requires base Muscle of ");
+      buf.append(req.getAmount());
+      buf.append(", but yours is only ");
+      buf.append(KoLCharacter.getBaseMuscle());
+      buf.append(".");
+    }
+
+    if (KoLCharacter.inRobocore()) {
+      String resource;
+      if (lowStats) {
+        buf.append(" Perhaps it is time to visit Statbot 5000.");
+        resource = "jigawatts.gif";
+      } else {
+        buf.append(" You need to attach Vice Grips in order to wield a weapon.");
+        resource = "scrap.gif";
+      }
+
+      buf.append(ok2);
+      buf.append(" If you want to visit the Scrapheap, click the icon on the right.");
+      this.sendOptionalWarning(
+          CONFIRM_MACHETE,
+          buf.toString(),
+          "hand.gif",
+          resource,
+          "\"place.php?whichplace=scrapheap\"",
+          null,
+          null);
+
+      return;
+    }
+
+    buf.append(ok1);
+    this.sendGeneralWarning("hand.gif", buf.toString(), CONFIRM_MACHETE);
   }
 
   public boolean sendMacheteWarning() {

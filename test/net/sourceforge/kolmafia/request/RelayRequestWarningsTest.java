@@ -8,10 +8,12 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.session.YouRobotManager.RobotUpgrade;
 import org.junit.jupiter.api.AfterAll;
@@ -190,9 +192,59 @@ public class RelayRequestWarningsTest {
     // Put the machete in inventory
     AdventureResult.addResultToList(KoLConstants.inventory, machete);
 
-    // Expect a warning
+    // Machetes have an Muscle requirement.
+    EquipmentRequirement req =
+          new EquipmentRequirement(EquipmentDatabase.getEquipRequirement(itemId));
+    int required = req.getAmount();
+
+    // Set Base Muscle to 5 below required and Buffed Muscle to 10 above required
+    int muscle = required - 5;
+    long base = KoLCharacter.calculatePointSubpoints(muscle);
+    long buffed = KoLCharacter.calculatePointSubpoints(required + 10);
+    KoLCharacter.setStatPoints((int) buffed, (int) base, 0, 0, 0, 0);
+    assertEquals(muscle, KoLCharacter.getBaseMuscle());
+
+    // Try it with no special path
+    KoLCharacter.setPath(Path.NONE);
     assertTrue(request.sendMacheteWarning());
     String expected =
+        "You are about to adventure without your "
+            + name
+            + " to fight dense lianas."
+	    + " It requires base Muscle of "
+	    + required
+	    + ", but yours is only "
+	    + muscle
+	    + "."
+	    + " If you are sure you wish to adventure without it, click the icon to adventure.";
+    assertEquals(expected, request.lastWarning);
+
+    // Try it in You, Robot
+    KoLCharacter.setPath(Path.YOU_ROBOT);
+    assertTrue(request.sendMacheteWarning());
+    expected =
+        "You are about to adventure without your "
+            + name
+            + " to fight dense lianas."
+	    + " It requires base Muscle of "
+	    + required
+	    + ", but yours is only "
+	    + muscle
+	    + "."
+            + " Perhaps it is time to visit Statbot 5000."
+            + " If you are sure you wish to adventure without it, click the icon on the left to adventure."
+            + " If you want to visit the Scrapheap, click the icon on the right.";
+    assertEquals(expected, request.lastWarning);
+
+    // Set your stats to make the item equippable
+    base = KoLCharacter.calculatePointSubpoints(required);
+    KoLCharacter.setStatPoints((int) buffed, (int) base, 0, 0, 0, 0);
+    assertEquals(required, KoLCharacter.getBaseMuscle());
+
+    // Try again with no path
+    KoLCharacter.setPath(Path.NONE);
+    assertTrue(request.sendMacheteWarning());
+    expected =
         "You are about to adventure without your "
             + name
             + " to fight dense lianas."
@@ -201,6 +253,32 @@ public class RelayRequestWarningsTest {
             + name
             + " first, click the icon on the right.";
     assertEquals(expected, request.lastWarning);
+
+    // Again in You, Robot, no Vice Grips
+    KoLCharacter.setPath(Path.YOU_ROBOT);
+    assertTrue(request.sendMacheteWarning());
+    expected =
+        "You are about to adventure without your "
+            + name
+            + " to fight dense lianas."
+            + " You need to attach Vice Grips in order to wield a weapon."
+            + " If you are sure you wish to adventure without it, click the icon on the left to adventure."
+            + " If you want to visit the Scrapheap, click the icon on the right.";
+    assertEquals(expected, request.lastWarning);
+
+    // Again in You, Robot, with Vice Grips
+    YouRobotManager.testInstallUpgrade(RobotUpgrade.VICE_GRIPS);
+    assertTrue(request.sendMacheteWarning());
+    expected =
+        "You are about to adventure without your "
+            + name
+            + " to fight dense lianas."
+            + " If you are sure you wish to adventure without it, click the icon on the left to adventure."
+            + " If you want to equip the "
+            + name
+            + " first, click the icon on the right.";
+    assertEquals(expected, request.lastWarning);
+    YouRobotManager.reset();
 
     // Remove the machete from inventory
     KoLConstants.inventory.clear();
