@@ -194,7 +194,7 @@ public class RelayRequestWarningsTest {
 
     // Machetes have an Muscle requirement.
     EquipmentRequirement req =
-          new EquipmentRequirement(EquipmentDatabase.getEquipRequirement(itemId));
+        new EquipmentRequirement(EquipmentDatabase.getEquipRequirement(itemId));
     int required = req.getAmount();
 
     // Set Base Muscle to 5 below required and Buffed Muscle to 10 above required
@@ -211,12 +211,12 @@ public class RelayRequestWarningsTest {
         "You are about to adventure without your "
             + name
             + " to fight dense lianas."
-	    + " It requires base Muscle of "
-	    + required
-	    + ", but yours is only "
-	    + muscle
-	    + "."
-	    + " If you are sure you wish to adventure without it, click the icon to adventure.";
+            + " It requires base Muscle of "
+            + required
+            + ", but yours is only "
+            + muscle
+            + "."
+            + " If you are sure you wish to adventure without it, click the icon to adventure.";
     assertEquals(expected, request.lastWarning);
 
     // Try it in You, Robot
@@ -226,11 +226,11 @@ public class RelayRequestWarningsTest {
         "You are about to adventure without your "
             + name
             + " to fight dense lianas."
-	    + " It requires base Muscle of "
-	    + required
-	    + ", but yours is only "
-	    + muscle
-	    + "."
+            + " It requires base Muscle of "
+            + required
+            + ", but yours is only "
+            + muscle
+            + "."
             + " Perhaps it is time to visit Statbot 5000."
             + " If you are sure you wish to adventure without it, click the icon on the left to adventure."
             + " If you want to visit the Scrapheap, click the icon on the right.";
