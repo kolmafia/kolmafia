@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.request.GenericRequest.ServerCookie;
 import net.sourceforge.kolmafia.request.MonsterManuelRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
+import net.sourceforge.kolmafia.request.ScrapheapRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.session.BeachManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -67,7 +68,6 @@ import net.sourceforge.kolmafia.session.NumberologyManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.RumpleManager;
-import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
@@ -585,8 +585,42 @@ public class TestCommand extends AbstractCommand {
     }
 
     if (command.equals("robot")) {
-      String urlString = "choice.php?pwd&whichchoice=1445&part=cpus&show=cpus&option=2&p=robot_hp1";
-      YouRobotManager.registerRequest(urlString);
+      if (split.length < 2) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Do what as a robot?");
+        return;
+      }
+      if (!KoLCharacter.inRobocore()) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "You are not a robot.");
+        return;
+      }
+      if (split[1].startsWith("chrono")) {
+        int originalEnergy = KoLCharacter.getYouRobotEnergy();
+        int cost = Preferences.getInteger("_chronolithNextCost");
+        RequestLogger.printLine(
+            "You have "
+                + originalEnergy
+                + " energy and the Chronolith will use "
+                + cost
+                + " to activate.");
+        ScrapheapRequest request = new ScrapheapRequest("sh_chronobo");
+        request.run();
+        int currentEnergy = KoLCharacter.getYouRobotEnergy();
+        int currentCost = Preferences.getInteger("_chronolithNextCost");
+        RequestLogger.printLine(
+            "You now have "
+                + currentEnergy
+                + " energy and the Chronolith will use "
+                + cost
+                + " to activate.");
+      }
+      if (split[1].startsWith("power")) {
+        int originalEnergy = KoLCharacter.getYouRobotEnergy();
+        RequestLogger.printLine("You have " + originalEnergy + " energy");
+        ScrapheapRequest request = new ScrapheapRequest("sh_getpower");
+        request.run();
+        int currentEnergy = KoLCharacter.getYouRobotEnergy();
+        RequestLogger.printLine("You now have " + currentEnergy + " energy");
+      }
       return;
     }
 

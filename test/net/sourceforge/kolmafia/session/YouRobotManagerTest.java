@@ -9,7 +9,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import javax.swing.JButton;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -17,20 +20,50 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.ConcoctionType;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
+import net.sourceforge.kolmafia.swingui.panel.UseItemDequeuePanel;
+import net.sourceforge.kolmafia.swingui.panel.UseItemEnqueuePanel;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class YouRobotManagerTest {
+
+  private class TestListener implements Listener {
+    private int calls = 0;
+
+    public TestListener(String signal) {
+      NamedListenerRegistry.registerNamedListener(signal, this);
+
+      // Note that there is no need to provide a way to clean up once you're
+      // done. a ListenerRegistry uses WeakReferences to Listeners, so as soon
+      // as the object goes out of scope, the pointer is broken
+    }
+
+    public void reset() {
+      this.calls = 0;
+    }
+
+    public void update() {
+      this.calls++;
+    }
+
+    public int getCalls() {
+      return this.calls;
+    }
+  }
 
   @BeforeAll
   private static void beforeAll() {
@@ -58,6 +91,8 @@ public class YouRobotManagerTest {
     YouRobotManager.reset();
     KoLCharacter.setAvatar("");
     KoLCharacter.resetSkills();
+    KoLCharacter.setYouRobotEnergy(0);
+    KoLCharacter.setYouRobotScraps(0);
     ChoiceManager.lastChoice = 0;
     ChoiceManager.lastDecision = 0;
   }
@@ -73,9 +108,9 @@ public class YouRobotManagerTest {
     assertEquals(0, Preferences.getInteger("youRobotLeft"));
     assertEquals(0, Preferences.getInteger("youRobotRight"));
     assertEquals(0, Preferences.getInteger("youRobotBottom"));
-    String[] avatar = KoLCharacter.getAvatar();
-    assertEquals(1, KoLCharacter.getAvatar().length);
-    assertEquals("", avatar[0]);
+    List<String> avatar = KoLCharacter.getAvatar();
+    assertEquals(1, KoLCharacter.getAvatar().size());
+    assertEquals("", avatar.get(0));
   }
 
   private void verifyAvatarFromProperties() {
@@ -97,8 +132,8 @@ public class YouRobotManagerTest {
     int count =
         1 + (top == 0 ? 0 : 1) + (left == 0 ? 0 : 1) + (right == 0 ? 0 : 1) + (bottom == 0 ? 0 : 1);
 
-    String[] avatar = KoLCharacter.getAvatar();
-    Set<String> images = new HashSet<>(Arrays.asList(avatar));
+    List<String> avatar = KoLCharacter.getAvatar();
+    Set<String> images = new HashSet<>(avatar);
     assertEquals(count, images.size());
     if (top != 0) {
       assertTrue(images.contains(topImage));
@@ -286,6 +321,29 @@ public class YouRobotManagerTest {
   }
 
   @Test
+  public void canPayUpgradeCosts() throws IOException {
+    KoLCharacter.setYouRobotEnergy(100);
+    KoLCharacter.setYouRobotScraps(100);
+
+    // Install Tesla Blaster, lose Shoot Pea, gain Tesla Blast
+    String urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=7";
+    String responseText = loadHTMLResponse("request/test_scrapheap_add_skill.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1445;
+    YouRobotManager.postChoice1(urlString, request);
+    assertEquals(70, KoLCharacter.getYouRobotScraps());
+
+    urlString = "choice.php?pwd&whichchoice=1445&part=cpus&show=cpus&option=2&p=robot_resist";
+    responseText = loadHTMLResponse("request/test_scrapheap_cpu_upgrade.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1445;
+    YouRobotManager.postChoice1(urlString, request);
+    assertEquals(60, KoLCharacter.getYouRobotEnergy());
+  }
+
+  @Test
   public void canTrackChangesInCombatSkills() throws IOException {
     // Start with no known combat skills.
 
@@ -439,5 +497,123 @@ public class YouRobotManagerTest {
     assertTrue(cpus.contains("robot_hp1"));
     assertTrue(cpus.contains("robot_hp2"));
     assertTrue(cpus.contains("robot_resist"));
+  }
+
+  private JButton findItemManagePanelButton(ItemManagePanel panel, String name) {
+    Optional<JButton> buttonSearch =
+        Arrays.stream(panel.buttons).filter(b -> b.getText().equals(name)).findFirst();
+    assertTrue(buttonSearch.isPresent());
+    return buttonSearch.get();
+  }
+
+  @Test
+  public void willAllowPotionUsage() throws IOException {
+    TestListener potionListener = new TestListener("(potions)");
+
+    // Start with no CPU upgrades. We cannot use potions.
+    assertFalse(YouRobotManager.canUsePotions());
+
+    // Make ItemManager potion panels
+    UseItemEnqueuePanel enqueue = new UseItemEnqueuePanel(ConcoctionType.POTION, null);
+    JButton enqueueButton = findItemManagePanelButton(enqueue, "consume");
+    assertFalse(enqueueButton.isEnabled());
+
+    UseItemDequeuePanel dequeue = new UseItemDequeuePanel(ConcoctionType.POTION);
+    JButton dequeueButton = findItemManagePanelButton(dequeue, "consume");
+    assertFalse(dequeueButton.isEnabled());
+
+    // Look at CPU Upgrades
+    String urlString = "choice.php?whichchoice=1445&show=cpus";
+    String responseText = loadHTMLResponse("request/test_scrapheap_show_cpus.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1445;
+    YouRobotManager.visitChoice(request);
+
+    // Verify that our listener fired
+    assertEquals(1, potionListener.getCalls());
+
+    // Now we can use potions
+    assertTrue(YouRobotManager.canUsePotions());
+
+    // And the ItemManager GUI knows it.
+    assertTrue(enqueueButton.isEnabled());
+    assertTrue(dequeueButton.isEnabled());
+
+    // Parse the same CPU Upgrade page
+    YouRobotManager.visitChoice(request);
+
+    // Verify that our listener did not fire
+    assertEquals(1, potionListener.getCalls());
+  }
+
+  @Test
+  public void canSetAvatarAndGetSignal() throws IOException {
+    TestListener avatarListener = new TestListener("(avatar)");
+
+    // We started out with an avatar = ""
+    // Verify that if we set the same avatar, our listener doesn't fire.
+    KoLCharacter.setAvatar("");
+    assertEquals(0, avatarListener.getCalls());
+
+    // Female Accordion Thief
+    KoLCharacter.setAvatar("otherimages/classav6b_f.gif");
+    assertEquals(1, avatarListener.getCalls());
+
+    // Load a 3-part robot
+    String responseText = loadHTMLResponse("request/test_scrapheap_three_part_avatar.html");
+
+    ChoiceManager.lastChoice = 1445;
+    GenericRequest request = new GenericRequest("choice.php?forceoption=0");
+    request.responseText = responseText;
+    YouRobotManager.visitChoice(request);
+
+    // Our Listener fired
+    assertEquals(2, avatarListener.getCalls());
+
+    // Do it again with the same image
+    YouRobotManager.visitChoice(request);
+    assertEquals(2, avatarListener.getCalls());
+
+    // Load a 4-part robot
+    responseText = loadHTMLResponse("request/test_scrapheap_reassembly_station.html");
+    ChoiceManager.lastChoice = 1445;
+    request = new GenericRequest("choice.php?forceoption=0");
+    request.responseText = responseText;
+    YouRobotManager.visitChoice(request);
+
+    // Our Listener fired
+    assertEquals(3, avatarListener.getCalls());
+
+    // Do it again with the same image
+    YouRobotManager.visitChoice(request);
+    assertEquals(3, avatarListener.getCalls());
+
+    // Call setAvatar directly with the current images
+    KoLCharacter.setAvatar(KoLCharacter.getAvatar());
+    assertEquals(3, avatarListener.getCalls());
+  }
+
+  @Test
+  public void canTrackStatbotEnergyCost() throws IOException {
+    KoLCharacter.setYouRobotEnergy(100);
+
+    String urlString = "choice.php?forceoption=0";
+    String responseText = loadHTMLResponse("request/test_scrapheap_visit_statbot.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1447;
+    assertEquals(0, Preferences.getInteger("statbotUses"));
+    YouRobotManager.visitChoice(request);
+    assertEquals(10, Preferences.getInteger("statbotUses"));
+
+    urlString = "choice.php?pwd&whichchoice=1447&option=1";
+    responseText = loadHTMLResponse("request/test_scrapheap_activate_statbot.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1447;
+    YouRobotManager.postChoice1(responseText, request);
+    assertEquals(11, Preferences.getInteger("statbotUses"));
+    assertEquals(100 - 20, KoLCharacter.getYouRobotEnergy());
   }
 }

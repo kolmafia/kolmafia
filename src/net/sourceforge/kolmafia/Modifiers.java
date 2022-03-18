@@ -1172,28 +1172,34 @@ public class Modifiers {
       }
     }
 
-    int hpbase =
-        KoLCharacter.isVampyre() ? KoLCharacter.getBaseMuscle() : rv[Modifiers.BUFFED_MUS] + 3;
-    double C = KoLCharacter.isMuscleClass() ? 1.5 : 1.0;
-    int hp =
-        (int) Math.ceil(hpbase * (C + this.get(Modifiers.HP_PCT) / 100.0))
-            + (int) this.get(Modifiers.HP);
+    int hpbase;
+    int hp;
+    int buffedHP;
     if (KoLCharacter.isVampyre()) {
-      // This block could be merged into the previous calculation, but that
-      // would result in a significant reduction in readability
+      hpbase = KoLCharacter.getBaseMuscle();
       hp = hpbase + (int) this.get(Modifiers.HP);
+      buffedHP = Math.max(hp, mus);
+    } else if (KoLCharacter.inRobocore()) {
+      hpbase = 30;
+      hp = hpbase + (int) this.get(Modifiers.HP);
+      buffedHP = hp;
+    } else {
+      hpbase = rv[Modifiers.BUFFED_MUS] + 3;
+      double C = KoLCharacter.isMuscleClass() ? 1.5 : 1.0;
+      double hpPercent = this.get(Modifiers.HP_PCT);
+      hp = (int) Math.ceil(hpbase * (C + hpPercent / 100.0)) + (int) this.get(Modifiers.HP);
+      buffedHP = Math.max(hp, mus);
     }
-    rv[Modifiers.BUFFED_HP] = Math.max(hp, mus);
+    rv[Modifiers.BUFFED_HP] = buffedHP;
 
     int mpbase = rv[Modifiers.BUFFED_MYS];
     if (this.getBoolean(Modifiers.MOXIE_CONTROLS_MP)
         || (this.getBoolean(Modifiers.MOXIE_MAY_CONTROL_MP) && rv[Modifiers.BUFFED_MOX] > mpbase)) {
       mpbase = rv[Modifiers.BUFFED_MOX];
     }
-    C = KoLCharacter.isMysticalityClass() ? 1.5 : 1.0;
-    int mp =
-        (int) Math.ceil(mpbase * (C + this.get(Modifiers.MP_PCT) / 100.0))
-            + (int) this.get(Modifiers.MP);
+    double C = KoLCharacter.isMysticalityClass() ? 1.5 : 1.0;
+    double mpPercent = this.get(Modifiers.MP_PCT);
+    int mp = (int) Math.ceil(mpbase * (C + mpPercent / 100.0)) + (int) this.get(Modifiers.MP);
     rv[Modifiers.BUFFED_MP] = Math.max(mp, mys);
 
     return rv;

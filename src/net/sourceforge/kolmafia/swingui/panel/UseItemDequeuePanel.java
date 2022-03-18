@@ -11,15 +11,17 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
-import net.sourceforge.kolmafia.objectpool.Concoction.ConcoctionType;
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.ConcoctionType;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
-public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> {
+public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> implements Listener {
   private final JTabbedPane queueTabs;
   private final LockableListModel<QueuedConcoction> queue;
   private final ConcoctionType type;
@@ -78,6 +80,11 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> {
 
     this.eastPanel.add(new ThreadedButton("undo", new UndoQueueRunnable()), BorderLayout.SOUTH);
 
+    NamedListenerRegistry.registerNamedListener(type.getSignal(), this);
+    this.update();
+  }
+
+  public void update() {
     this.setEnabled(true);
     this.filterItems();
   }

@@ -862,7 +862,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     if (KoLCharacter.inRobocore()) {
       int energy = KoLCharacter.getYouRobotEnergy();
-      int chronolithCost = Preferences.getInteger("_chronolithActivations") + 10;
+      int chronolithCost = Preferences.getInteger("_chronolithNextCost");
       int statbotCost = Preferences.getInteger("statbotUses") + 10;
 
       if (energy < chronolithCost && energy < statbotCost) {
@@ -1501,6 +1501,11 @@ public class RelayRequest extends PasswordHashRequest {
 
     // If they have already turned the chore wheel, no problem
     if (QuestDatabase.isQuestLaterThan(Quest.GARBAGE, "step9")) {
+      return false;
+    }
+
+    // If they can't equip Wig, no problem
+    if (!EquipmentManager.canEquip(ItemPool.MOHAWK_WIG)) {
       return false;
     }
 
