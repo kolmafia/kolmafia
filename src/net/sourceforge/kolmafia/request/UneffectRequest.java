@@ -145,6 +145,7 @@ public class UneffectRequest extends GenericRequest {
       case EffectPool.TIMER10:
       case EffectPool.JUST_THE_BEST_ANAPESTS:
       case EffectPool.REASSURED:
+      case EffectPool.HARE_BRAINED:
       case EffectPool.RECORD_HUNGER:
       case EffectPool.DRUNK_AVUNCULAR:
       case EffectPool.SHRIEKING_WEASEL:

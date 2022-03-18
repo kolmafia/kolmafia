@@ -253,6 +253,7 @@ public class EffectPool {
   public static final int BLOOD_SUGAR_SAUCE_MAGIC = 1458;
   public static final int SOULERSKATES = 1465;
   public static final int REASSURED = 1492;
+  public static final int HARE_BRAINED = 1515;
   public static final int UNMUFFLED = 1545;
   public static final int MUFFLED = 1546;
   public static final int BORED_WITH_EXPLOSIONS = 1557;
