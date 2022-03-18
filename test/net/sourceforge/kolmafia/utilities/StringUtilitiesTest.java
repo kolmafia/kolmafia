@@ -8,7 +8,6 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -94,7 +93,7 @@ class StringUtilitiesTest {
     "'1234 67', '1234\n67'"
   })
   public void exerciseTextWrapWithShortWrapLength(String input, String expected) {
-    assertEquals(expected, StringUtilities.basicTextWrap(input, 5));
+    assertEquals(expected, StringUtilities.basicTextWrap(input, 5), input);
   }
 
   /*
@@ -131,7 +130,7 @@ class StringUtilitiesTest {
     "'[123]unreal item', '123'"
   })
   public void itShouldExerciseGetBracketedID(String name, String id) {
-    assertEquals(Integer.parseInt(id), StringUtilities.getBracketedId(name));
+    assertEquals(Integer.parseInt(id), StringUtilities.getBracketedId(name), name);
   }
 
   @ParameterizedTest
@@ -145,7 +144,7 @@ class StringUtilitiesTest {
     "'[1337]2468 goggles', '2468 goggles'"
   })
   public void itShouldParseIDsWithBrackets(String name, String id) {
-    assertEquals(id, StringUtilities.removeBracketedId(name));
+    assertEquals(id, StringUtilities.removeBracketedId(name), name);
   }
 
   @Test
@@ -214,7 +213,7 @@ class StringUtilitiesTest {
     "'123 456', '123 456'"
   })
   public void itShouldConvertToTitleCase(String input, String expected) {
-    assertEquals(expected, StringUtilities.toTitleCase(input));
+    assertEquals(expected, StringUtilities.toTitleCase(input), input);
   }
 
   @ParameterizedTest
@@ -269,7 +268,7 @@ class StringUtilitiesTest {
     "' a,bc ', 0.0"
   })
   public void itShouldExerciseSomeParseDoubleEdgeCases(String input, double expected) {
-    assertEquals(expected, StringUtilities.parseDouble(input));
+    assertEquals(expected, StringUtilities.parseDouble(input), input);
   }
 
   @ParameterizedTest
@@ -283,7 +282,7 @@ class StringUtilitiesTest {
     "' a,bc ', 0.0f"
   })
   public void itShouldExerciseSomeParseFloatEdgeCases(String input, float expected) {
-    assertEquals(expected, StringUtilities.parseFloat(input));
+    assertEquals(expected, StringUtilities.parseFloat(input), input);
   }
 
   @Test
@@ -303,8 +302,8 @@ class StringUtilitiesTest {
     "'9,223,372,036,854,775,807', 9223372036854775807",
     "'9,223,372,036,854,775,808', 0"
   })
-  public void itShouldExerciseSomeLaxIntegerParsing(String input, long expected) {
-    assertEquals(expected, StringUtilities.parseLongInternal2(input));
+  public void itShouldExerciseSomeLaxLongParsing(String input, long expected) {
+    assertEquals(expected, StringUtilities.parseLongInternal2(input), input);
   }
 
   @ParameterizedTest
@@ -329,8 +328,34 @@ class StringUtilitiesTest {
     "'9,223,372,036,854,775,807k', -1000", // This is existing behavior but almost certainly wrong
     "'9,223,372,036,854,775,808k', 0"
   })
-  public void itShouldExerciseSomeIntegerParsing(String input, long expected) {
-    assertEquals(expected, StringUtilities.parseLongInternal1(input, false));
+  public void itShouldExerciseSomeLongParsing(String input, long expected) {
+    assertEquals(expected, StringUtilities.parseLongInternal1(input, false), input);
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "'',0",
+    "'   ',0",
+    "'12345', 12345",
+    "'-12345', -12345",
+    "'not a number', 0",
+    "'not1a2 number', 12",
+    "'2,147,483,647', 2147483647",
+    "'2147483648', 0",
+    "'+', 0",
+    "' +  , , , ', 0",
+    "' + 12,345', 12345",
+    "' +1,337k', 1337000",
+    "' +1,337K', 1337000",
+    "'1m', 1000000",
+    "'1M', 1000000",
+    "'1 m', 1",
+    "'1 meg', 1",
+    "'2147483647k', -1000", // This is existing behavior but almost certainly wrong
+    "'2147483648k', 0"
+  })
+  public void itShouldExerciseSomeIntParsing(String input, long expected) {
+    assertEquals(expected, StringUtilities.parseIntInternal1(input, false), input);
   }
 
   @Test
@@ -340,8 +365,7 @@ class StringUtilitiesTest {
   }
 
   @Test
-  @Disabled()
-  public void itShouldThrowAParsingExceptionWhenAllowedTo() {
+  public void itShouldThrowAnIntParsingExceptionWhenAllowedTo() {
     String test = "This is not a number but does appear in the exception message.";
     Exception thrown =
         Assertions.assertThrows(
@@ -350,15 +374,27 @@ class StringUtilitiesTest {
   }
 
   @Test
-  public void itShouldThrowAParsingExceptionWhenAllowedToDoSo() {
+  public void itShouldThrowAnLongParsingExceptionWhenAllowedTo() {
     String test = "This is not a number but does appear in the exception message.";
-    try {
-      assertEquals(0, StringUtilities.parseIntInternal1(test, true) );
-    }
-    catch (Exception thrown) {
-      assertEquals(test, thrown.getMessage(), "Wrong exception.");
-    }
-   }
+    Exception thrown =
+        Assertions.assertThrows(
+            Exception.class, () -> StringUtilities.parseLongInternal1(test, true));
+    assertEquals(test, thrown.getMessage(), "Wrong exception.");
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "'',0",
+    "'   ',0",
+    "'12345', 12345",
+    "'-12345', -12345",
+    "'not a number', 0",
+    "'not1a2 number', 12",
+    "'9,223,372,036,854,775,808', 0"
+  })
+  public void itShouldExerciseSomeLaxIntegerParsing(String input, long expected) {
+    assertEquals(expected, StringUtilities.parseIntInternal2(input), input);
+  }
 
   @ParameterizedTest
   @CsvSource({
@@ -372,7 +408,7 @@ class StringUtilitiesTest {
     "'1,234', true"
   })
   public void itShouldParseFloats(String test, boolean expected) {
-    assertEquals(expected, StringUtilities.isFloat(test));
+    assertEquals(expected, StringUtilities.isFloat(test), test);
   }
 
   @Test
