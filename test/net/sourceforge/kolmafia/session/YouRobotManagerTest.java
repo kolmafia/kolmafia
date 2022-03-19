@@ -111,6 +111,18 @@ public class YouRobotManagerTest {
 
     // We start with no upgrades, neither body parts nor CPU enhancements.
 
+    assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_HAT));
+    assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_WEAPON));
+    assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_OFFHAND));
+    assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_SHIRT));
+    assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_PANTS));
+
+    // For historical reasons, "back items" are "containers"
+    assertTrue(YouRobotManager.canEquip(KoLConstants.EQUIP_CONTAINER));
+    assertTrue(YouRobotManager.canEquip(KoLConstants.EQUIP_ACCESSORY));
+    // Probably only if you have an active familiar, but that's not our call to enforce
+    assertTrue(YouRobotManager.canEquip(KoLConstants.EQUIP_FAMILIAR));
+
     // Install a Pea Shooter as your Top Attachment.
     assertFalse(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
     YouRobotManager.testInstallUpgrade(RobotUpgrade.PEA_SHOOTER);

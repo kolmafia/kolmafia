@@ -24,8 +24,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class YouRobotManager {
 
   private static final Map<String, Part> keywordToPart = new HashMap<>();
-  private static final Map<Integer, Part> slotToPart = new HashMap<>();
-  private static final Map<Integer, Part> consumeToPart = new HashMap<>();
 
   // Index upgrade maps
   private static final Map<Integer, RobotUpgrade> indexToLeft = new HashMap<>();
@@ -60,10 +58,6 @@ public class YouRobotManager {
       keywordToPart.put(keyword, this);
       if (indexMap != null) {
         partToIndexMap.put(this, indexMap);
-      }
-      if (usable != Usable.NONE) {
-        slotToPart.put(usable.getSlot(), this);
-        consumeToPart.put(usable.getConsume(), this);
       }
     }
 
@@ -101,11 +95,11 @@ public class YouRobotManager {
 
   public static enum Usable {
     NONE("no special effect"),
-    HAT("can equip hats", KoLConstants.EQUIP_HAT, EquipmentManager.HAT),
-    WEAPON("can equip weapons", KoLConstants.EQUIP_WEAPON, EquipmentManager.WEAPON),
-    OFFHAND("can equip offhands", KoLConstants.EQUIP_OFFHAND, EquipmentManager.OFFHAND),
-    SHIRT("can equip shirts", KoLConstants.EQUIP_SHIRT, EquipmentManager.SHIRT),
-    PANTS("can equip pants", KoLConstants.EQUIP_PANTS, EquipmentManager.PANTS),
+    HAT("can equip hats", EquipmentManager.HAT),
+    WEAPON("can equip weapons", EquipmentManager.WEAPON),
+    OFFHAND("can equip offhands", EquipmentManager.OFFHAND),
+    SHIRT("can equip shirts", EquipmentManager.SHIRT),
+    PANTS("can equip pants", EquipmentManager.PANTS),
     FAMILIAR("can use familiars"),
     POTIONS("can use potions");
 
@@ -114,21 +108,16 @@ public class YouRobotManager {
     int slot;
 
     Usable(String description) {
-      this(description, KoLConstants.NO_CONSUME, EquipmentManager.NONE);
+      this(description, EquipmentManager.NONE);
     }
 
-    Usable(String description, int consume, int slot) {
+    Usable(String description, int slot) {
       this.description = description;
-      this.consume = consume;
       this.slot = slot;
     }
 
     public String getDescription() {
       return this.description;
-    }
-
-    public int getConsume() {
-      return this.consume;
     }
 
     public int getSlot() {
@@ -596,28 +585,21 @@ public class YouRobotManager {
 
   // Used by EquipmentManager.canEquip
   public static boolean canEquip(final int type) {
-    // Ability to equip shirts is not bestowed by a part.
-    if (type == KoLConstants.EQUIP_SHIRT) {
-      return canUseShirts();
-    }
-
-    // Ability to equip hats, weapons, offhands, pants is bestowed by a part
-    Part part = consumeToPart.get(type);
-    if (part != null) {
-      RobotUpgrade current = currentParts.get(part);
-      if (current == null) {
-        // Brand new characters do not have all four parts
-        return false;
-      }
-      return current.getUsable().getSlot() == part.getSlot();
+    switch (type) {
+      case KoLConstants.EQUIP_HAT:
+        return hasEquipped(RobotUpgrade.MANNEQUIN_HEAD);
+      case KoLConstants.EQUIP_WEAPON:
+        return hasEquipped(RobotUpgrade.VICE_GRIPS);
+      case KoLConstants.EQUIP_OFFHAND:
+        return hasEquipped(RobotUpgrade.OMNI_CLAW);
+      case KoLConstants.EQUIP_SHIRT:
+        return hasEquipped(RobotUpgrade.TOPOLOGY_GRID);
+      case KoLConstants.EQUIP_PANTS:
+        return hasEquipped(RobotUpgrade.ROBO_LEGS);
     }
 
     // Any other slot is allowed
     return true;
-  }
-
-  private static boolean canUseShirts() {
-    return hasEquipped(RobotUpgrade.TOPOLOGY_GRID);
   }
 
   // Used by KoLCharacter.canUsePotions
