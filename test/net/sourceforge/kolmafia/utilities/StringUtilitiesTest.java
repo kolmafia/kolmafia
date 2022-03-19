@@ -452,7 +452,7 @@ class StringUtilitiesTest {
   public void itShouldHandleInvalidParametersForStringReplacement() {
     StringBuffer input = null;
     StringUtilities.globalStringReplace(input, "", null);
-    assertEquals(null, input);
+    assertNull(input);
     input = new StringBuffer();
     input.append("test string");
     StringUtilities.globalStringReplace(input, "", null);
@@ -461,5 +461,31 @@ class StringUtilitiesTest {
     assertEquals(input, input);
     StringUtilities.globalStringReplace(input, " ", null);
     assertEquals("teststring", input.toString());
+  }
+
+  @Test
+  public void itShouldReplaceWithAnInteger() {
+    StringBuffer input = new StringBuffer();
+    input.append("Substitute in me.");
+    StringUtilities.globalStringReplace(input, "e", 3);
+    assertEquals(input.toString(), "Substitut3 in m3.");
+  }
+
+  @ParameterizedTest
+  @CsvSource({"'not*not', 'not*not'", "'string with blanks', 'string_with_blanks'"})
+  public void itShouldReplaceInStringsWithDifferentSignature(String test, String expected) {
+    // For test, just replace space with underscore even though code supports more.
+    String result = StringUtilities.globalStringReplace(test, " ", "_");
+    assertEquals(expected, result, test);
+  }
+
+  @Test
+  public void itShouldRespondToUnexpectedInputs() {
+    String arg = null;
+    String result = StringUtilities.globalStringReplace(arg, " ", "_");
+    assertNull(result);
+    arg = "Something with characters.";
+    result = StringUtilities.globalStringReplace(arg, "", "_");
+    assertEquals(arg, result);
   }
 }
