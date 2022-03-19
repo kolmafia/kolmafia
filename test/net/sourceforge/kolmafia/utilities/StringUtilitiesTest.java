@@ -482,11 +482,9 @@ class StringUtilitiesTest {
   @Test
   public void itShouldRespondToUnexpectedInputs() {
     String arg = null;
-    String result = StringUtilities.globalStringReplace(arg, " ", "_");
-    assertNull(result);
+    assertNull(StringUtilities.globalStringReplace(arg, " ", "_"));
     arg = "Something with characters.";
-    result = StringUtilities.globalStringReplace(arg, "", "_");
-    assertEquals(arg, result);
+    assertEquals(arg, StringUtilities.globalStringReplace(arg, "", "_"));
   }
 
   @ParameterizedTest
