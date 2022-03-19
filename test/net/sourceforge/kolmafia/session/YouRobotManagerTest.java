@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.YouRobotManager.RobotUpgrade;
 import net.sourceforge.kolmafia.swingui.panel.ItemManagePanel;
 import net.sourceforge.kolmafia.swingui.panel.UseItemDequeuePanel;
 import net.sourceforge.kolmafia.swingui.panel.UseItemEnqueuePanel;
@@ -95,6 +96,61 @@ public class YouRobotManagerTest {
     KoLCharacter.setYouRobotScraps(0);
     ChoiceManager.lastChoice = 0;
     ChoiceManager.lastDecision = 0;
+  }
+
+  @Test
+  public void thatTestAPIWorks() {
+    // The bulk of this test package verifies that HTML pages from KoL trigger
+    // the correct actions: save and change configuration, recognize and parse
+    // the character Avatar, and so on.
+    //
+    // However, we provide an API for tests. It has a single entry: install a
+    // RobotUpgrade.  There is no entry point for removing an upgrade, since
+    // KoL itself does not have that concept; all you can do is replace an
+    // existing upgrade.
+
+    // We start with no upgrades, neither body parts nor CPU enhancements.
+
+    // Install a Pea Shooter as your Top Attachment.
+    assertFalse(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
+    YouRobotManager.testInstallUpgrade(RobotUpgrade.PEA_SHOOTER);
+    assertEquals(1, Preferences.getInteger("youRobotTop"));
+    assertTrue(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
+
+    // Install a Bird Cage as your Top Attachment.
+    YouRobotManager.testInstallUpgrade(RobotUpgrade.BIRD_CAGE);
+    assertFalse(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
+    assertTrue(YouRobotManager.canUseFamiliars());
+
+    // Install a Mannequin Head as your Top Attachment.
+    assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_HAT));
+    YouRobotManager.testInstallUpgrade(RobotUpgrade.MANNEQUIN_HEAD);
+    assertTrue(YouRobotManager.canEquip(KoLConstants.EQUIP_HAT));
+
+    // Install Vice Grips as your Left Hand
+    assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_WEAPON));
+    YouRobotManager.testInstallUpgrade(RobotUpgrade.VICE_GRIPS);
+    assertTrue(YouRobotManager.canEquip(KoLConstants.EQUIP_WEAPON));
+
+    // Install Omni Claw as your Right Hand
+    assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_OFFHAND));
+    YouRobotManager.testInstallUpgrade(RobotUpgrade.OMNI_CLAW);
+    assertTrue(YouRobotManager.canEquip(KoLConstants.EQUIP_OFFHAND));
+
+    // Install Robo-Legs as your Propulsion System
+    assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_PANTS));
+    YouRobotManager.testInstallUpgrade(RobotUpgrade.ROBO_LEGS);
+    assertTrue(YouRobotManager.canEquip(KoLConstants.EQUIP_PANTS));
+
+    // Install Topology Grid CPU Upgrade
+    assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_SHIRT));
+    YouRobotManager.testInstallUpgrade(RobotUpgrade.TOPOLOGY_GRID);
+    assertTrue(YouRobotManager.canEquip(KoLConstants.EQUIP_SHIRT));
+
+    // Install Biomass Processing Function CPU Upgrade
+    assertFalse(YouRobotManager.canUsePotions());
+    YouRobotManager.testInstallUpgrade(RobotUpgrade.BIOMASS_PROCESSING_FUNCTION);
+    assertTrue(YouRobotManager.canUsePotions());
   }
 
   static String loadHTMLResponse(String path) throws IOException {
@@ -368,7 +424,6 @@ public class YouRobotManagerTest {
     ChoiceManager.lastChoice = 1445;
     YouRobotManager.postChoice1(urlString, request);
     assertEquals(1, Preferences.getInteger("youRobotTop"));
-    // *** Failure! YouRobotManager does not learn combat skills
     assertTrue(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
 
     // Install Tesla Blaster, lose Shoot Pea, gain Tesla Blast
@@ -380,7 +435,6 @@ public class YouRobotManagerTest {
     YouRobotManager.postChoice1(urlString, request);
     assertEquals(7, Preferences.getInteger("youRobotTop"));
     assertFalse(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
-    // *** Failure! YouRobotManager does not learn combat skills
     assertTrue(KoLCharacter.availableCombatSkill(SkillPool.TESLA_BLAST));
 
     // Install Solar Panel, lost Tesla Blast
