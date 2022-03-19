@@ -526,8 +526,6 @@ public class RelayRequest extends PasswordHashRequest {
     } else {
       this.responseText = " ";
     }
-
-    this.headers.add("Connection: close");
   }
 
   private StringBuffer readContents(final BufferedReader reader) {
