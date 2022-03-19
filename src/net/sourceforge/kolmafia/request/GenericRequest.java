@@ -1597,7 +1597,13 @@ public class GenericRequest implements Runnable {
       ++this.timeoutCount;
       return !shouldRetry || KoLmafia.refusesContinue();
     } catch (IOException e) {
-      String message = "IOException retrieving server reply (" + this.getURLString() + ").";
+      String errorMessage = e.getMessage();
+      String message =
+          "IOException retrieving server reply ("
+              + this.getURLString()
+              + ")"
+              + (errorMessage == null ? "" : " -- " + errorMessage)
+              + ".";
       if (this.shouldUpdateDebugLog()) {
         StaticEntity.printStackTrace(e, message);
       }
@@ -1639,7 +1645,7 @@ public class GenericRequest implements Runnable {
         }
 
         if (this.shouldUpdateDebugLog()) {
-          String message = "IOException retrieving server reply (" + this.getURLString() + ").";
+          String message = "IOException decoding server reply (" + this.getURLString() + ").";
           StaticEntity.printStackTrace(e, message);
         }
 
