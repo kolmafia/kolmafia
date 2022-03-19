@@ -488,4 +488,21 @@ class StringUtilitiesTest {
     result = StringUtilities.globalStringReplace(arg, "", "_");
     assertEquals(arg, result);
   }
+
+  @ParameterizedTest
+  @CsvSource({"'not*not', 'not', '*not'", "'string with blanks', ' ', 'stringwith blanks'"})
+  public void itShouldDeleteInStrings(String test, String delete, String expected) {
+    StringBuffer testBuffer = new StringBuffer();
+    testBuffer.append(test);
+    StringUtilities.singleStringDelete(testBuffer, delete);
+    assertEquals(expected, testBuffer.toString(), test);
+  }
+
+  @ParameterizedTest
+  @CsvSource({"'not*not', 'not', '*not'", "'string with blanks', ' ', 'stringwith blanks'"})
+  public void itShouldDeleteInStringsUsingDifferentSignature(
+      String test, String delete, String expected) {
+    String returnValue = StringUtilities.singleStringDelete(test, delete);
+    assertEquals(expected, returnValue, test);
+  }
 }
