@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -563,6 +564,9 @@ public class YouRobotManager {
     if (upgrade == RobotUpgrade.BIOMASS_PROCESSING_FUNCTION) {
       NamedListenerRegistry.fireChange("(potions)");
     } else if (upgrade == RobotUpgrade.TOPOLOGY_GRID) {
+      // This was detected on the charsheet when you log in, but tests do not
+      // parse the charasheet
+      KoLCharacter.addAvailableSkill(SkillPool.TORSO);
       EquipmentManager.updateEquipmentList(EquipmentManager.SHIRT);
       EquipmentManager.updateNormalOutfits();
     } else {

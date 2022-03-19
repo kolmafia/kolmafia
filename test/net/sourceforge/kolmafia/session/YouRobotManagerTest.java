@@ -144,8 +144,11 @@ public class YouRobotManagerTest {
 
     // Install Topology Grid CPU Upgrade
     assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_SHIRT));
+    assertFalse(KoLCharacter.hasSkill(SkillPool.TORSO));
     YouRobotManager.testInstallUpgrade(RobotUpgrade.TOPOLOGY_GRID);
     assertTrue(YouRobotManager.canEquip(KoLConstants.EQUIP_SHIRT));
+    assertTrue(KoLCharacter.hasSkill(SkillPool.TORSO));
+    KoLCharacter.removeAvailableSkill(SkillPool.TORSO);
 
     // Install Biomass Processing Function CPU Upgrade
     assertFalse(YouRobotManager.canUsePotions());
