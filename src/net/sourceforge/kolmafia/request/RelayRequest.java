@@ -495,7 +495,7 @@ public class RelayRequest extends PasswordHashRequest {
   public void pseudoResponse(final String status, final String responseText) {
     this.statusLine = status;
 
-    this.headers.add("Date: " + new Date());
+    this.headers.add("Date: " + StringUtilities.formatDate(new Date()));
     this.headers.add("Server: " + StaticEntity.getVersion());
 
     if (status.contains("302")) {
@@ -530,8 +530,6 @@ public class RelayRequest extends PasswordHashRequest {
     } else {
       this.responseText = " ";
     }
-
-    this.headers.add("Connection: close");
   }
 
   private StringBuffer readContents(final BufferedReader reader) {
