@@ -484,8 +484,7 @@ public class YouRobotManager {
     }
   }
 
-  // *** Public methods to hide internal implementation, which currently
-  // *** depend on use of user-visible properties.
+  // *** Public methods to hide internal implementation.
 
   // *** For use by tests
   public static void testInstallUpgrade(RobotUpgrade upgrade) {
@@ -547,8 +546,8 @@ public class YouRobotManager {
       upgrade.removeCombatSkill();
     }
 
-    // We could set the legacy property, but this is only called when installing an upgrade to
-    // replace the current one
+    // We could reset the legacy property, but this method is only called when
+    // installing an upgrade to replace the current one
   }
 
   private static boolean installCPUUpgrade(RobotUpgrade upgrade) {
@@ -592,7 +591,7 @@ public class YouRobotManager {
 
   // Used by FamiliarData.canEquip
   public static boolean canUseFamiliars() {
-    return currentParts.get(Part.TOP).getUsable() == Usable.FAMILIAR;
+    return hasEquipped(RobotUpgrade.BIRD_CAGE);
   }
 
   // Used by EquipmentManager.canEquip
@@ -618,12 +617,12 @@ public class YouRobotManager {
   }
 
   private static boolean canUseShirts() {
-    return currentCPU.contains(RobotUpgrade.TOPOLOGY_GRID);
+    return hasEquipped(RobotUpgrade.TOPOLOGY_GRID);
   }
 
   // Used by KoLCharacter.canUsePotions
   public static boolean canUsePotions() {
-    return currentCPU.contains(RobotUpgrade.BIOMASS_PROCESSING_FUNCTION);
+    return hasEquipped(RobotUpgrade.BIOMASS_PROCESSING_FUNCTION);
   }
 
   // *** Interface for ChoiceManager
