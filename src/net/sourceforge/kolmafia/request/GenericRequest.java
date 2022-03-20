@@ -1595,6 +1595,14 @@ public class GenericRequest implements Runnable {
         StaticEntity.printStackTrace(e, message);
       }
 
+      if (errorMessage != null
+          && (errorMessage.contains("GOAWAY")
+              || errorMessage.contains("parser received no bytes"))) {
+        ++this.timeoutCount;
+        if (this.timeoutCount < TIMEOUT_LIMIT) {
+          return this.sendRequest();
+        }
+      }
       RequestLogger.printLine(MafiaState.ERROR, message);
       this.timeoutCount = TIMEOUT_LIMIT;
       return true;
