@@ -17676,7 +17676,7 @@ public abstract class ChoiceManager {
     return true;
   }
 
-  private static String specialChoiceDecision1(
+  public static String specialChoiceDecision1(
       final int choice, String decision, final int stepCount, final String responseText) {
     // A few choices have non-standard options: 0 is not Manual Control
     switch (choice) {
