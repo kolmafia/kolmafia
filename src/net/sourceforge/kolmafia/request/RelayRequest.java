@@ -416,6 +416,11 @@ public class RelayRequest extends PasswordHashRequest {
           continue;
         }
 
+        // ignore psuedo-headers
+        if (key.startsWith(":")) {
+          continue;
+        }
+
         // KoL is known to send back CONTENT-LENGTH headers.
         // Since there is no built-in startsWithIgnoreCase,
         // upper-case the key when using startsWith.
