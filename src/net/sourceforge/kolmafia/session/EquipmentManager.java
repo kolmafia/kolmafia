@@ -2224,6 +2224,10 @@ public class EquipmentManager {
       return false;
     }
 
+    return EquipmentManager.meetsStatRequirements(itemId);
+  }
+
+  public static final boolean meetsStatRequirements(final int itemId) {
     EquipmentRequirement req =
         new EquipmentRequirement(EquipmentDatabase.getEquipRequirement(itemId));
 
