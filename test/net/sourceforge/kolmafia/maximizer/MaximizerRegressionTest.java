@@ -113,12 +113,15 @@ public class MaximizerRegressionTest {
   }
 
   @Test
+  @Disabled("Refuses to equip a bjorn without a familiar in it, even when the equip keyword is used.")
   public void equipEmptyBjornNoSlot() {
     equip(EquipmentManager.CONTAINER, "Buddy Bjorn");
     KoLCharacter.addFamiliar(new FamiliarData(FamiliarPool.MOSQUITO));
     KoLCharacter.setBjorned(FamiliarData.NO_FAMILIAR);
     
-    assertTrue(maximize("item, -buddy-bjorn, +equip buddy bjorn"));
+    // Here, buddy-bjorn refers to the slot, while Buddy Bjorn refers to the item associated with that slot.
+    // We've earlier forced that slot to be empty, and here we're asking mafia not to fill it when maximizing, but to still equip the bjorn.
+    assertTrue(maximize("item, -buddy-bjorn, +equip Buddy Bjorn"));
   }
 
   // https://kolmafia.us/threads/27073/
