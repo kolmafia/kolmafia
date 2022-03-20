@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +15,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -24,8 +24,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class YouRobotManager {
 
   private static final Map<String, Part> keywordToPart = new HashMap<>();
-  private static final Map<Integer, Part> slotToPart = new HashMap<>();
-  private static final Map<Integer, Part> consumeToPart = new HashMap<>();
 
   // Index upgrade maps
   private static final Map<Integer, RobotUpgrade> indexToLeft = new HashMap<>();
@@ -60,10 +58,6 @@ public class YouRobotManager {
       keywordToPart.put(keyword, this);
       if (indexMap != null) {
         partToIndexMap.put(this, indexMap);
-      }
-      if (usable != Usable.NONE) {
-        slotToPart.put(usable.getSlot(), this);
-        consumeToPart.put(usable.getConsume(), this);
       }
     }
 
@@ -101,11 +95,11 @@ public class YouRobotManager {
 
   public static enum Usable {
     NONE("no special effect"),
-    HAT("can equip hats", KoLConstants.EQUIP_HAT, EquipmentManager.HAT),
-    WEAPON("can equip weapons", KoLConstants.EQUIP_WEAPON, EquipmentManager.WEAPON),
-    OFFHAND("can equip offhands", KoLConstants.EQUIP_OFFHAND, EquipmentManager.OFFHAND),
-    SHIRT("can equip shirts", KoLConstants.EQUIP_SHIRT, EquipmentManager.SHIRT),
-    PANTS("can equip pants", KoLConstants.EQUIP_PANTS, EquipmentManager.PANTS),
+    HAT("can equip hats", EquipmentManager.HAT),
+    WEAPON("can equip weapons", EquipmentManager.WEAPON),
+    OFFHAND("can equip offhands", EquipmentManager.OFFHAND),
+    SHIRT("can equip shirts", EquipmentManager.SHIRT),
+    PANTS("can equip pants", EquipmentManager.PANTS),
     FAMILIAR("can use familiars"),
     POTIONS("can use potions");
 
@@ -114,21 +108,16 @@ public class YouRobotManager {
     int slot;
 
     Usable(String description) {
-      this(description, KoLConstants.NO_CONSUME, EquipmentManager.NONE);
+      this(description, EquipmentManager.NONE);
     }
 
-    Usable(String description, int consume, int slot) {
+    Usable(String description, int slot) {
       this.description = description;
-      this.consume = consume;
       this.slot = slot;
     }
 
     public String getDescription() {
       return this.description;
-    }
-
-    public int getConsume() {
-      return this.consume;
     }
 
     public int getSlot() {
@@ -374,10 +363,9 @@ public class YouRobotManager {
     if (part == null || chosenPart == null) {
       return null;
     }
-    if (part == Part.CPU) {
-      return keywordToCPU.get(chosenPart);
-    }
-    return partToIndexMap.get(part).get(StringUtilities.parseInt(chosenPart));
+    return (part != Part.CPU)
+        ? partToIndexMap.get(part).get(StringUtilities.parseInt(chosenPart))
+        : keywordToCPU.get(chosenPart);
   }
 
   // *** Current state of Configuration
@@ -422,51 +410,28 @@ public class YouRobotManager {
 
   public static void parseAvatar(final String text) {
     Map<Part, RobotUpgrade> parts = new HashMap<>();
-
     List<String> images = new ArrayList<>();
+    boolean changed = false;
+
     Matcher m = AVATAR.matcher(text);
     while (m.find()) {
       images.add(m.group(1));
       String section = m.group(2);
       int index = StringUtilities.parseInt(m.group(3));
 
-      if (!section.equals("body")) {
+      if (section.equals("body")) {
+        // This never changes, but make sure it is set once, at least
+        Preferences.setInteger("youRobotBody", index);
+      } else {
         // Set the "current" configuration variables
         Part part = keywordToPart.get(section);
         RobotUpgrade upgrade = partToIndexMap.get(part).get(index);
-        parts.put(part, upgrade);
-      } else {
-        // This never changes, but make sure it is set once, at least
-        Preferences.setInteger("youRobotBody", index);
+        changed |= installUpgrade(part, upgrade);
       }
     }
 
-    boolean changed = false;
-    for (Entry<Part, RobotUpgrade> entry : parts.entrySet()) {
-      Part part = entry.getKey();
-      RobotUpgrade previous = currentParts.get(part);
-      RobotUpgrade upgrade = entry.getValue();
-      if (upgrade != previous) {
-        // Add to current configuration
-        currentParts.put(part, upgrade);
-        // Set the legacy properties for use by scripts
-        Preferences.setInteger("youRobot" + part.getSection(), upgrade.getIndex());
-        switch (upgrade.getEffect()) {
-          case COMBAT:
-            upgrade.addCombatSkill();
-            break;
-          case EQUIP:
-            EquipmentManager.updateEquipmentList(part.getSlot());
-            EquipmentManager.updateNormalOutfits();
-            break;
-        }
-
-        changed = true;
-      }
-    }
-
+    // Save the avatar so you can admire it on the Daily Deeds frame
     if (changed) {
-      // Save the avatar so you can admire it on the Daily Deeds frame
       KoLCharacter.setAvatar(images);
       KoLCharacter.recalculateAdjustments();
     }
@@ -479,57 +444,17 @@ public class YouRobotManager {
       Pattern.compile("<button.*?value=\"([a-z0-9_]+)\"[^\\(]+\\(already installed\\)");
 
   public static void parseCPUUpgrades(final String text) {
-    Set<RobotUpgrade> upgrades = new HashSet<>();
-    boolean canUseShirts = canUseShirts();
-    boolean useShirts = false;
-    boolean canUsePotions = canUsePotions();
-    boolean usePotions = false;
-
     Matcher m = CPU_UPGRADE_INSTALLED.matcher(text);
+    boolean changed = false;
 
     while (m.find()) {
       String keyword = m.group(1);
       RobotUpgrade upgrade = keywordToCPU.get(keyword);
-      if (upgrade != null) {
-        upgrades.add(upgrade);
-        if (keyword.equals("robot_shirts")) {
-          useShirts = true;
-        }
-        if (keyword.equals("robot_potions")) {
-          usePotions = true;
-        }
-      }
-    }
-
-    // See if anything has changed. If not, we can punt now.
-    boolean changed = false;
-
-    if (upgrades.size() != currentCPU.size()) {
-      currentCPU.clear();
-      currentCPU.addAll(upgrades);
-      KoLCharacter.recalculateAdjustments();
-      changed = true;
-    }
-
-    if (useShirts != canUseShirts) {
-      EquipmentManager.updateEquipmentList(EquipmentManager.SHIRT);
-      EquipmentManager.updateNormalOutfits();
-      changed = true;
-    }
-
-    if (usePotions != canUsePotions) {
-      NamedListenerRegistry.fireChange("(potions)");
-      changed = true;
+      changed |= installCPUUpgrade(upgrade);
     }
 
     if (changed) {
-      // Set the legacy property for use by scripts
-      String value =
-          currentCPU.stream()
-              .map(RobotUpgrade::getKeyword)
-              .sorted()
-              .collect(Collectors.joining(","));
-      Preferences.setString("youRobotCPUUpgrades", value);
+      KoLCharacter.recalculateAdjustments();
     }
   }
 
@@ -548,8 +473,99 @@ public class YouRobotManager {
     }
   }
 
-  // *** Public methods to hide internal implementation, which currently
-  // *** depend on use of user-visible properties.
+  // *** Public methods to hide internal implementation.
+
+  // *** For use by tests
+  public static void testInstallUpgrade(RobotUpgrade upgrade) {
+    Part part = upgrade.getPart();
+    if (part != Part.CPU) {
+      installUpgrade(part, upgrade);
+    } else {
+      installCPUUpgrade(upgrade);
+    }
+  }
+
+  private static boolean installUpgrade(Part part, RobotUpgrade upgrade) {
+    if (upgrade == null) {
+      return false;
+    }
+
+    // Remove current part, if any.
+    RobotUpgrade previous = currentParts.get(part);
+    if (upgrade == previous) {
+      return false;
+    }
+
+    uninstallUpgrade(part, previous);
+
+    // Add new part to current configuration
+    currentParts.put(part, upgrade);
+
+    switch (upgrade.getEffect()) {
+      case COMBAT:
+        upgrade.addCombatSkill();
+        break;
+      case EQUIP:
+        EquipmentManager.updateEquipmentList(part.getSlot());
+        EquipmentManager.updateNormalOutfits();
+        break;
+    }
+
+    // Set the legacy properties for use by scripts
+    Preferences.setInteger("youRobot" + part.getSection(), upgrade.getIndex());
+
+    return true;
+  }
+
+  private static void uninstallUpgrade(Part part, RobotUpgrade upgrade) {
+    if (upgrade == null) {
+      return;
+    }
+
+    if (upgrade == RobotUpgrade.BIRD_CAGE) {
+      // If replacing a Bird Cage, drop familiar
+      KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR);
+    } else if (upgrade.getEffect() == Effect.EQUIP) {
+      // If replacing another equipment part, drop the equipment
+      int slot = part.getSlot();
+      EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
+      EquipmentManager.updateEquipmentList(slot);
+      EquipmentManager.updateNormalOutfits();
+    } else if (upgrade.getEffect() == Effect.COMBAT) {
+      upgrade.removeCombatSkill();
+    }
+
+    // We could reset the legacy property, but this method is only called when
+    // installing an upgrade to replace the current one
+  }
+
+  private static boolean installCPUUpgrade(RobotUpgrade upgrade) {
+    if (upgrade == null) {
+      return false;
+    }
+
+    if (currentCPU.contains(upgrade)) {
+      return false;
+    }
+    currentCPU.add(upgrade);
+
+    if (upgrade == RobotUpgrade.BIOMASS_PROCESSING_FUNCTION) {
+      NamedListenerRegistry.fireChange("(potions)");
+    } else if (upgrade == RobotUpgrade.TOPOLOGY_GRID) {
+      // This was detected on the charsheet when you log in, but tests do not
+      // parse the charasheet
+      KoLCharacter.addAvailableSkill(SkillPool.TORSO);
+      EquipmentManager.updateEquipmentList(EquipmentManager.SHIRT);
+      EquipmentManager.updateNormalOutfits();
+    } else {
+      KoLCharacter.recalculateAdjustments();
+    }
+
+    String value =
+        currentCPU.stream().map(RobotUpgrade::getKeyword).sorted().collect(Collectors.joining(","));
+    Preferences.setString("youRobotCPUUpgrades", value);
+    return true;
+  }
 
   // Used by KoLCharacter.recalculateAdjustments
   public static void addRobotModifiers(Modifiers mods) {
@@ -564,38 +580,31 @@ public class YouRobotManager {
 
   // Used by FamiliarData.canEquip
   public static boolean canUseFamiliars() {
-    return currentParts.get(Part.TOP).getUsable() == Usable.FAMILIAR;
+    return hasEquipped(RobotUpgrade.BIRD_CAGE);
   }
 
   // Used by EquipmentManager.canEquip
   public static boolean canEquip(final int type) {
-    // Ability to equip shirts is not bestowed by a part.
-    if (type == KoLConstants.EQUIP_SHIRT) {
-      return canUseShirts();
-    }
-
-    // Ability to equip hats, weapons, offhands, pants is bestowed by a part
-    Part part = consumeToPart.get(type);
-    if (part != null) {
-      RobotUpgrade current = currentParts.get(part);
-      if (current == null) {
-        // Brand new characters do not have all four parts
-        return false;
-      }
-      return current.getUsable().getSlot() == part.getSlot();
+    switch (type) {
+      case KoLConstants.EQUIP_HAT:
+        return hasEquipped(RobotUpgrade.MANNEQUIN_HEAD);
+      case KoLConstants.EQUIP_WEAPON:
+        return hasEquipped(RobotUpgrade.VICE_GRIPS);
+      case KoLConstants.EQUIP_OFFHAND:
+        return hasEquipped(RobotUpgrade.OMNI_CLAW);
+      case KoLConstants.EQUIP_SHIRT:
+        return hasEquipped(RobotUpgrade.TOPOLOGY_GRID);
+      case KoLConstants.EQUIP_PANTS:
+        return hasEquipped(RobotUpgrade.ROBO_LEGS);
     }
 
     // Any other slot is allowed
     return true;
   }
 
-  private static boolean canUseShirts() {
-    return currentCPU.contains(RobotUpgrade.TOPOLOGY_GRID);
-  }
-
   // Used by KoLCharacter.canUsePotions
   public static boolean canUsePotions() {
-    return currentCPU.contains(RobotUpgrade.BIOMASS_PROCESSING_FUNCTION);
+    return hasEquipped(RobotUpgrade.BIOMASS_PROCESSING_FUNCTION);
   }
 
   // *** Interface for ChoiceManager
@@ -632,31 +641,22 @@ public class YouRobotManager {
       Part part = keywordToPart.get(showKeyword);
       String chosenPart = extractFieldValue(urlString, "p");
       RobotUpgrade upgrade = urlFieldsToUpgrade(part, chosenPart);
+      boolean changed = false;
 
-      if (upgrade != null && part != Part.CPU) {
-        RobotUpgrade current = currentParts.get(part);
-        if (current != null) {
-          if (current == RobotUpgrade.BIRD_CAGE) {
-            // If replacing a Bird Cage, drop familiar
-            KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR);
-          } else if (current.getEffect() == Effect.EQUIP) {
-            // If replacing another equipment part, drop the equipment
-            int slot = part.getSlot();
-            EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
-            EquipmentManager.updateEquipmentList(slot);
-            EquipmentManager.updateNormalOutfits();
-          } else if (current.getEffect() == Effect.COMBAT) {
-            current.removeCombatSkill();
-          }
-        }
+      if (upgrade == null) {
+        return;
+      }
+
+      if (part == Part.CPU) {
+        changed = installCPUUpgrade(upgrade);
+        KoLCharacter.setYouRobotEnergy(KoLCharacter.getYouRobotEnergy() - upgrade.getCost());
+      } else {
+        changed = installUpgrade(part, upgrade);
         KoLCharacter.setYouRobotScraps(KoLCharacter.getYouRobotScraps() - upgrade.getCost());
       }
 
-      parseAvatar(text);
-
-      if (part == Part.CPU) {
-        parseCPUUpgrades(text);
-        KoLCharacter.setYouRobotEnergy(KoLCharacter.getYouRobotEnergy() - upgrade.getCost());
+      if (changed) {
+        parseAvatar(text);
       }
 
       KoLCharacter.updateStatus();

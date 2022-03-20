@@ -22,8 +22,8 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -103,7 +103,7 @@ public class GenericRequest implements Runnable {
   private Boolean allowRedirect = null;
 
   public static final Pattern REDIRECT_PATTERN =
-      Pattern.compile("([^\\/]*)\\/(login\\.php.*)", Pattern.DOTALL);
+      Pattern.compile("([^/]*)/(login\\.php.*)", Pattern.DOTALL);
   public static final Pattern JS_REDIRECT_PATTERN =
       Pattern.compile(">\\s*top.mainpane.document.location\\s*=\\s*\"(.*?)\";");
 
@@ -152,7 +152,7 @@ public class GenericRequest implements Runnable {
   // Per-login data
 
   private static String userAgent = "";
-  public static final Set<ServerCookie> serverCookies = new LinkedHashSet<ServerCookie>();
+  public static final Set<ServerCookie> serverCookies = new LinkedHashSet<>();
   public static String sessionId = null;
   public static String passwordHash = "";
   public static String passwordHashValue = "";
@@ -343,7 +343,7 @@ public class GenericRequest implements Runnable {
    * @param newURLString The form to be used in posting data
    */
   public GenericRequest(final String newURLString, final boolean usePostMethod) {
-    this.data = Collections.synchronizedList(new ArrayList<String>());
+    this.data = Collections.synchronizedList(new ArrayList<>());
     if (!newURLString.equals("")) {
       this.constructURLString(newURLString, usePostMethod);
     }
@@ -473,9 +473,9 @@ public class GenericRequest implements Runnable {
     }
 
     String[] tokens = fields.split("&");
-    for (int i = 0; i < tokens.length; ++i) {
-      if (tokens[i].length() > 0) {
-        this.addFormField(tokens[i], encoded);
+    for (String token : tokens) {
+      if (token.length() > 0) {
+        this.addFormField(token, encoded);
       }
     }
   }
@@ -614,9 +614,8 @@ public class GenericRequest implements Runnable {
     }
 
     synchronized (this.data) {
-      Iterator<String> it = this.data.iterator();
-      while (it.hasNext()) {
-        if (it.next().equals(element)) {
+      for (String datum : this.data) {
+        if (datum.equals(element)) {
           return;
         }
       }
@@ -636,11 +635,7 @@ public class GenericRequest implements Runnable {
     }
 
     String[] tokens = this.formURLString.substring(index + 1).split("&");
-    List<String> fields = new ArrayList<String>();
-    for (int i = 0; i < tokens.length; ++i) {
-      fields.add(tokens[i]);
-    }
-    return fields;
+    return Arrays.asList(tokens);
   }
 
   public String getFormField(final String key) {
@@ -652,9 +647,7 @@ public class GenericRequest implements Runnable {
   }
 
   private String findField(final List<String> data, final String key, final boolean decode) {
-    for (int i = 0; i < data.size(); ++i) {
-      String datum = data.get(i);
-
+    for (String datum : data) {
       int splitIndex = datum.indexOf("=");
       if (splitIndex == -1) {
         continue;
@@ -683,16 +676,13 @@ public class GenericRequest implements Runnable {
       return null;
     }
 
-    String oldURLString = null;
+    String oldURLString;
     String newURLString = urlString;
 
-    try {
-      do {
-        oldURLString = newURLString;
-        newURLString = URLDecoder.decode(oldURLString, "UTF-8");
-      } while (!oldURLString.equals(newURLString));
-    } catch (IOException e) {
-    }
+    do {
+      oldURLString = newURLString;
+      newURLString = URLDecoder.decode(oldURLString, StandardCharsets.UTF_8);
+    } while (!oldURLString.equals(newURLString));
 
     return newURLString;
   }
@@ -781,9 +771,7 @@ public class GenericRequest implements Runnable {
     String hashField = this.getHashField();
 
     synchronized (this.data) {
-      for (int i = 0; i < this.data.size(); ++i) {
-        String element = this.data.get(i);
-
+      for (String element : this.data) {
         if (element.equals("")) {
           continue;
         }
@@ -827,9 +815,7 @@ public class GenericRequest implements Runnable {
     StringBuilder dataBuffer = new StringBuilder();
 
     synchronized (this.data) {
-      for (int i = 0; i < this.data.size(); ++i) {
-        String element = this.data.get(i);
-
+      for (String element : this.data) {
         if (element.equals("")) {
           continue;
         }
@@ -863,8 +849,7 @@ public class GenericRequest implements Runnable {
 
     int end = urlString.indexOf("&", start);
     if (end == -1) {
-      String prefix = urlString.substring(0, start - 1);
-      return prefix;
+      return urlString.substring(0, start - 1);
     }
 
     String prefix = urlString.substring(0, start);
@@ -1291,7 +1276,9 @@ public class GenericRequest implements Runnable {
       AdventureResult comedyItem = ItemPool.get(comedyItemID, 1);
       String text = null;
 
-      try (Checkpoint checkpoint = new Checkpoint()) {
+      Checkpoint checkpoint = new Checkpoint();
+
+      try (checkpoint) {
         if (KoLConstants.inventory.contains(comedyItem)) {
           // Unequip any 2-handed weapon before equipping an offhand
           if (offhand) {
@@ -1489,7 +1476,7 @@ public class GenericRequest implements Runnable {
           if (delim) {
             cookies.append("; ");
           }
-          cookies.append(cookie.toString());
+          cookies.append(cookie);
           delim = true;
         }
       }
@@ -1597,11 +1584,25 @@ public class GenericRequest implements Runnable {
       ++this.timeoutCount;
       return !shouldRetry || KoLmafia.refusesContinue();
     } catch (IOException e) {
-      String message = "IOException retrieving server reply (" + this.getURLString() + ").";
+      String errorMessage = e.getMessage();
+      String message =
+          "IOException retrieving server reply ("
+              + this.getURLString()
+              + ")"
+              + (errorMessage == null ? "" : " -- " + errorMessage)
+              + ".";
       if (this.shouldUpdateDebugLog()) {
         StaticEntity.printStackTrace(e, message);
       }
 
+      if (errorMessage != null
+          && (errorMessage.contains("GOAWAY")
+              || errorMessage.contains("parser received no bytes"))) {
+        ++this.timeoutCount;
+        if (this.timeoutCount < TIMEOUT_LIMIT) {
+          return this.sendRequest();
+        }
+      }
       RequestLogger.printLine(MafiaState.ERROR, message);
       this.timeoutCount = TIMEOUT_LIMIT;
       return true;
@@ -1617,7 +1618,7 @@ public class GenericRequest implements Runnable {
    * @return <code>true</code> if the data was successfully retrieved
    */
   private boolean retrieveServerReply() {
-    InputStream istream = null;
+    InputStream istream;
 
     if (this.shouldUpdateDebugLog()) {
       RequestLogger.updateDebugLog("Retrieving server reply...");
@@ -1639,7 +1640,7 @@ public class GenericRequest implements Runnable {
         }
 
         if (this.shouldUpdateDebugLog()) {
-          String message = "IOException retrieving server reply (" + this.getURLString() + ").";
+          String message = "IOException decoding server reply (" + this.getURLString() + ").";
           StaticEntity.printStackTrace(e, message);
         }
 
@@ -1680,7 +1681,7 @@ public class GenericRequest implements Runnable {
                 this.allowRedirect = InputFieldUtilities.confirm(message);
               }
 
-              if (this.allowRedirect.booleanValue()) {
+              if (this.allowRedirect) {
                 this.redirectLocation =
                     this.data.isEmpty() ? location : location + "?" + this.getDisplayDataString();
               }
@@ -1716,7 +1717,7 @@ public class GenericRequest implements Runnable {
       this.setCookies();
     }
 
-    boolean shouldStop = false;
+    boolean shouldStop;
 
     try {
       if (this.responseCode == 200) {
@@ -1733,6 +1734,7 @@ public class GenericRequest implements Runnable {
           KoLmafia.updateDisplay("Waiting 40 seconds for KoL to finish processing...");
           pauser.pause(40 * 1000);
           StorageRequest.emptyStorage(this.formURLString);
+          istream.close();
           return true;
         }
 
@@ -1748,14 +1750,13 @@ public class GenericRequest implements Runnable {
         }
 
         istream.close();
-        shouldStop = (this.redirectLocation != null) ? this.handleServerRedirect() : true;
+        shouldStop = this.redirectLocation == null || this.handleServerRedirect();
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
       return true;
     }
 
-    istream = null;
     return shouldStop || KoLmafia.refusesContinue();
   }
 
@@ -1990,9 +1991,7 @@ public class GenericRequest implements Runnable {
       // You have been redirected to a fight! Here, you need
       // to complete the fight before you can continue.
 
-      if (this == ChoiceManager.CHOICE_HANDLER
-          || this instanceof AdventureRequest
-          || this instanceof BasementRequest) {
+      if (this == ChoiceManager.CHOICE_HANDLER || this instanceof AdventureRequest) {
         this.redirectHandled = true;
         FightRequest.INSTANCE.run(this.redirectLocation);
         return !LoginRequest.isInstanceRunning();
@@ -2397,7 +2396,7 @@ public class GenericRequest implements Runnable {
     }
 
     int itemId = item.getItemId();
-    String itemName = null;
+    String itemName;
     boolean consumed = false;
     String nextAdventure = null;
 
@@ -2791,7 +2790,7 @@ public class GenericRequest implements Runnable {
     }
 
     int choice = ChoiceManager.lastChoice;
-    String name = null;
+    String name;
 
     switch (choice) {
       case 1201:
@@ -2832,7 +2831,7 @@ public class GenericRequest implements Runnable {
     }
 
     int skillId = UseSkillRequest.getSkillId(location);
-    String skillName = null;
+    String skillName;
 
     switch (skillId) {
       case SkillPool.RAIN_MAN:
@@ -3051,7 +3050,7 @@ public class GenericRequest implements Runnable {
         : value;
   }
 
-  public class ServerCookie implements Comparable<ServerCookie> {
+  public static class ServerCookie implements Comparable<ServerCookie> {
     private String name = "";
     private String value = "";
     private String path = "";
