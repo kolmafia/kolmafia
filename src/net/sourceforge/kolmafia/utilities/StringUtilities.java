@@ -711,6 +711,9 @@ public class StringUtilities {
   }
 
   public static long parseLongInternal2(String string) throws NumberFormatException {
+    if (string == null) {
+      return 0L;
+    }
     string = NONINTEGER_PATTERN.matcher(string).replaceAll("");
 
     if (string.length() == 0) {
