@@ -93,7 +93,7 @@ class StringUtilitiesTest {
     "'1234 67', '1234\n67'"
   })
   public void exerciseTextWrapWithShortWrapLength(String input, String expected) {
-    assertEquals(expected, StringUtilities.basicTextWrap(input, 5));
+    assertEquals(expected, StringUtilities.basicTextWrap(input, 5), input);
   }
 
   /*
@@ -130,7 +130,7 @@ class StringUtilitiesTest {
     "'[123]unreal item', '123'"
   })
   public void itShouldExerciseGetBracketedID(String name, String id) {
-    assertEquals(Integer.parseInt(id), StringUtilities.getBracketedId(name));
+    assertEquals(Integer.parseInt(id), StringUtilities.getBracketedId(name), name);
   }
 
   @ParameterizedTest
@@ -144,7 +144,7 @@ class StringUtilitiesTest {
     "'[1337]2468 goggles', '2468 goggles'"
   })
   public void itShouldParseIDsWithBrackets(String name, String id) {
-    assertEquals(id, StringUtilities.removeBracketedId(name));
+    assertEquals(id, StringUtilities.removeBracketedId(name), name);
   }
 
   @Test
@@ -213,7 +213,7 @@ class StringUtilitiesTest {
     "'123 456', '123 456'"
   })
   public void itShouldConvertToTitleCase(String input, String expected) {
-    assertEquals(expected, StringUtilities.toTitleCase(input));
+    assertEquals(expected, StringUtilities.toTitleCase(input), input);
   }
 
   @ParameterizedTest
@@ -268,7 +268,7 @@ class StringUtilitiesTest {
     "' a,bc ', 0.0"
   })
   public void itShouldExerciseSomeParseDoubleEdgeCases(String input, double expected) {
-    assertEquals(expected, StringUtilities.parseDouble(input));
+    assertEquals(expected, StringUtilities.parseDouble(input), input);
   }
 
   @ParameterizedTest
@@ -282,12 +282,225 @@ class StringUtilitiesTest {
     "' a,bc ', 0.0f"
   })
   public void itShouldExerciseSomeParseFloatEdgeCases(String input, float expected) {
-    assertEquals(expected, StringUtilities.parseFloat(input));
+    assertEquals(expected, StringUtilities.parseFloat(input), input);
   }
 
   @Test
-  public void itShouldParseNullAsZero() {
+  public void theyShouldParseNullAsZero() {
     assertEquals(0.0f, StringUtilities.parseFloat(null));
     assertEquals(0.0, StringUtilities.parseDouble(null));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "'',0",
+    "'   ',0",
+    "'12345', 12345",
+    "'-12345', -12345",
+    "'not a number', 0",
+    "'not1a2 number', 12",
+    "'9,223,372,036,854,775,807', 9223372036854775807",
+    "'9,223,372,036,854,775,808', 0"
+  })
+  public void itShouldExerciseSomeLaxLongParsing(String input, long expected) {
+    assertEquals(expected, StringUtilities.parseLongInternal2(input), input);
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "'',0",
+    "'   ',0",
+    "'12345', 12345",
+    "'-12345', -12345",
+    "'not a number', 0",
+    "'not1a2 number', 12",
+    "'9,223,372,036,854,775,807', 9223372036854775807",
+    "'9,223,372,036,854,775,808', 0",
+    "'+', 0",
+    "' +  , , , ', 0",
+    "' + 12,345', 12345",
+    "' +1,337k', 1337000",
+    "' +1,337K', 1337000",
+    "'1m', 1000000",
+    "'1M', 1000000",
+    "'1 m', 1",
+    "'1 meg', 1",
+    "'9,223,372,036,854,775,807k', -1000", // This is existing behavior but almost certainly wrong
+    "'9,223,372,036,854,775,808k', 0"
+  })
+  public void itShouldExerciseSomeLongParsing(String input, long expected) {
+    assertEquals(expected, StringUtilities.parseLongInternal1(input, false), input);
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "'',0",
+    "'   ',0",
+    "'12345', 12345",
+    "'-12345', -12345",
+    "'not a number', 0",
+    "'not1a2 number', 12",
+    "'2,147,483,647', 2147483647",
+    "'2147483648', 0",
+    "'+', 0",
+    "' +  , , , ', 0",
+    "' + 12,345', 12345",
+    "' +1,337k', 1337000",
+    "' +1,337K', 1337000",
+    "'1m', 1000000",
+    "'1M', 1000000",
+    "'1 m', 1",
+    "'1 meg', 1",
+    "'2147483647k', -1000", // This is existing behavior but almost certainly wrong
+    "'2147483648k', 0"
+  })
+  public void itShouldExerciseSomeIntParsing(String input, long expected) {
+    assertEquals(expected, StringUtilities.parseIntInternal1(input, false), input);
+  }
+
+  @Test
+  public void exerciseParseLongWithNull() {
+    assertEquals(0L, StringUtilities.parseLongInternal1(null, false));
+    assertEquals(0L, StringUtilities.parseLongInternal2(null));
+  }
+
+  @Test
+  public void itShouldThrowAnIntParsingExceptionWhenAllowedTo() {
+    String test = "This is not a number but does appear in the exception message.";
+    Exception thrown =
+        Assertions.assertThrows(
+            Exception.class, () -> StringUtilities.parseIntInternal1(test, true));
+    assertEquals(test, thrown.getMessage(), "Wrong exception.");
+  }
+
+  @Test
+  public void itShouldThrowAnLongParsingExceptionWhenAllowedTo() {
+    String test = "This is not a number but does appear in the exception message.";
+    Exception thrown =
+        Assertions.assertThrows(
+            Exception.class, () -> StringUtilities.parseLongInternal1(test, true));
+    assertEquals(test, thrown.getMessage(), "Wrong exception.");
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "'',0",
+    "'   ',0",
+    "'12345', 12345",
+    "'-12345', -12345",
+    "'not a number', 0",
+    "'not1a2 number', 12",
+    "'9,223,372,036,854,775,808', 0"
+  })
+  public void itShouldExerciseSomeLaxIntegerParsing(String input, long expected) {
+    assertEquals(expected, StringUtilities.parseIntInternal2(input), input);
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "'   ', false",
+    "'+1', true",
+    "'-1', true",
+    "'.1', true",
+    "'1.234', true",
+    "'1.23a', false",
+    "'1.2.3', false",
+    "'1,234', true"
+  })
+  public void itShouldRecognizeFloats(String test, boolean expected) {
+    assertEquals(expected, StringUtilities.isFloat(test), test);
+  }
+
+  @Test
+  public void itShouldKnowNullIsNotAFloat() {
+    assertFalse(StringUtilities.isFloat(null));
+  }
+
+  @Test
+  public void itShouldKnowEmptyIsNotAFloat() {
+    assertFalse(StringUtilities.isFloat(""));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "'1,234', true",
+    "'+1,234', true",
+    "'-1,234', true",
+    "'1234', true",
+    "'+1234', true",
+    "'-1234', true",
+    "'+not', false",
+    "'-not', false",
+    "'not', false"
+  })
+  public void itShouldRecognizeNumericStrings(String test, boolean expected) {
+    assertEquals(expected, StringUtilities.isNumeric(test), test);
+  }
+
+  @ParameterizedTest
+  @CsvSource({"'not*not', 'not*not'", "'string with blanks', 'string_with_blanks'"})
+  public void itShouldReplaceInStrings(String test, String expected) {
+    // For test, just replace space with underscore even though code supports more.
+    // Note that the first parameter is returned with the changed string
+    StringBuffer testBuffer = new StringBuffer();
+    testBuffer.append(test);
+    StringUtilities.globalStringReplace(testBuffer, " ", "_");
+    assertEquals(expected, testBuffer.toString(), test);
+  }
+
+  @Test
+  public void itShouldHandleInvalidParametersForStringReplacement() {
+    StringBuffer input = null;
+    StringUtilities.globalStringReplace(input, "", null);
+    assertNull(input);
+    input = new StringBuffer();
+    input.append("test string");
+    StringUtilities.globalStringReplace(input, "", null);
+    assertEquals(input, input);
+    StringUtilities.globalStringReplace(input, "", null);
+    assertEquals(input, input);
+    StringUtilities.globalStringReplace(input, " ", null);
+    assertEquals("teststring", input.toString());
+  }
+
+  @Test
+  public void itShouldReplaceWithAnInteger() {
+    StringBuffer input = new StringBuffer();
+    input.append("Substitute in me.");
+    StringUtilities.globalStringReplace(input, "e", 3);
+    assertEquals(input.toString(), "Substitut3 in m3.");
+  }
+
+  @ParameterizedTest
+  @CsvSource({"'not*not', 'not*not'", "'string with blanks', 'string_with_blanks'"})
+  public void itShouldReplaceInStringsWithDifferentSignature(String test, String expected) {
+    // For test, just replace space with underscore even though code supports more.
+    String result = StringUtilities.globalStringReplace(test, " ", "_");
+    assertEquals(expected, result, test);
+  }
+
+  @Test
+  public void itShouldRespondToUnexpectedInputs() {
+    String arg = null;
+    assertNull(StringUtilities.globalStringReplace(arg, " ", "_"));
+    arg = "Something with characters.";
+    assertEquals(arg, StringUtilities.globalStringReplace(arg, "", "_"));
+  }
+
+  @ParameterizedTest
+  @CsvSource({"'not*not', 'not', '*not'", "'string with blanks', ' ', 'stringwith blanks'"})
+  public void itShouldDeleteInStrings(String test, String delete, String expected) {
+    StringBuffer testBuffer = new StringBuffer();
+    testBuffer.append(test);
+    StringUtilities.singleStringDelete(testBuffer, delete);
+    assertEquals(expected, testBuffer.toString(), test);
+  }
+
+  @ParameterizedTest
+  @CsvSource({"'not*not', 'not', '*not'", "'string with blanks', ' ', 'stringwith blanks'"})
+  public void itShouldDeleteInStringsUsingDifferentSignature(
+      String test, String delete, String expected) {
+    String returnValue = StringUtilities.singleStringDelete(test, delete);
+    assertEquals(expected, returnValue, test);
   }
 }
