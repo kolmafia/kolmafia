@@ -2,9 +2,11 @@ package net.sourceforge.kolmafia.utilities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
@@ -502,5 +504,42 @@ class StringUtilitiesTest {
       String test, String delete, String expected) {
     String returnValue = StringUtilities.singleStringDelete(test, delete);
     assertEquals(expected, returnValue, test);
+  }
+
+  @Test
+  public void itShouldHandleVariousArgumentsForDateParsing() {
+    assertEquals(0L, StringUtilities.parseDate(null));
+    assertEquals(0L, StringUtilities.parseDate("Not a date string."));
+    assertEquals(1445412480000L, StringUtilities.parseDate("Wed, 21 Oct 2015 07:28:00 GMT"));
+  }
+
+  @Test
+  public void itShouldHandleVariousArgumentsForDateFormatting() {
+    Date testMe = new Date(1445412480000L);
+    assertEquals("", StringUtilities.formatDate(null));
+    assertEquals("Wed, 21 Oct 2015 07:28:00 GMT", StringUtilities.formatDate(testMe));
+  }
+
+  @Test
+  public void itShouldNotAttemptAnInvalidStringEncoding() {
+    byte[] testMe = new byte[0];
+    assertEquals("", StringUtilities.getEncodedString(testMe, "NotARealEncoding"));
+  }
+
+  @Test
+  public void itShouldNotAttemptAnInvalidByteEncoding() {
+    byte[] result = StringUtilities.getEncodedBytes("Just a string.", "NotARealEncoding");
+    assertEquals(0, result.length);
+  }
+
+  @Test
+  public void itShouldEncodeAValidEncoding() {
+    String test = "Just a string.";
+    byte[] expected = test.getBytes(StandardCharsets.UTF_8);
+    byte[] result = StringUtilities.getEncodedBytes(test, "UTF-8");
+    assertEquals(expected.length, result.length);
+    for (int i = 0; i < expected.length; i++) {
+      assertEquals(expected[i], result[i], "Not a match at element " + i);
+    }
   }
 }
