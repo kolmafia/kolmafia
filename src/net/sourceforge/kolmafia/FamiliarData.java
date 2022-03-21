@@ -847,6 +847,10 @@ public class FamiliarData implements Comparable<FamiliarData> {
     return this.race;
   }
 
+  public boolean getActive() {
+    return this.active;
+  }
+
   public int getPokeLevel() {
     return this.pokeLevel;
   }
