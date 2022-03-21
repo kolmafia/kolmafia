@@ -347,6 +347,12 @@ public class SkillPool {
   public static final int BOWL_A_CURVEBALL = 7405;
   public static final int BOWL_SIDEWAYS = 7406;
   public static final int BOWL_STRAIGHT_UP = 7407;
+  public static final int RE_PROCESS_MATTER = 7408;
+  public static final int MEATIFY_MATTER = 7409;
+  public static final int EMIT_MATTER_DUPLICATING_DRONES = 7410;
+  public static final int CONVERT_MATTER_TO_PROTEIN = 7411;
+  public static final int CONVERT_MATTER_TO_ENERGY = 7412;
+  public static final int CONVERT_MATTER_TO_POMADE = 7413;
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
   public static final int DEMAND_SANDWICH = 11021;
