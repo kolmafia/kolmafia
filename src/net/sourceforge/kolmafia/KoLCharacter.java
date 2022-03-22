@@ -3926,6 +3926,10 @@ public abstract class KoLCharacter {
     KoLConstants.availableCombatSkillsMap.put(skill, null);
   }
 
+  public static final void removeAvailableCombatSkill(final int skillId) {
+    KoLCharacter.removeAvailableCombatSkill(UseSkillRequest.getUnmodifiedInstance(skillId));
+  }
+
   public static final void removeAvailableCombatSkill(final String name) {
     // *** Skills can have ambiguous names. Best to use the methods that deal with skill id
     KoLCharacter.removeAvailableCombatSkill(UseSkillRequest.getUnmodifiedInstance(name));
@@ -4464,7 +4468,13 @@ public abstract class KoLCharacter {
       EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
     }
 
+    if (KoLCharacter.currentFamiliar != FamiliarData.NO_FAMILIAR) {
+      KoLCharacter.currentFamiliar.deactivate();
+    }
     KoLCharacter.currentFamiliar = KoLCharacter.addFamiliar(familiar);
+    if (KoLCharacter.currentFamiliar != FamiliarData.NO_FAMILIAR) {
+      KoLCharacter.currentFamiliar.activate();
+    }
 
     if (KoLCharacter.currentFamiliar.equals(KoLCharacter.currentEnthroned)) {
       KoLCharacter.currentEnthroned = FamiliarData.NO_FAMILIAR;
