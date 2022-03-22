@@ -5841,10 +5841,8 @@ public abstract class RuntimeLibrary {
 
   public static Value have_skill(ScriptRuntime controller, final Value arg) {
     int skillId = (int) arg.intValue();
-    UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
     return DataTypes.makeBooleanValue(
-        KoLCharacter.hasSkill(skill, KoLConstants.availableSkills)
-            || KoLCharacter.hasSkill(skill, KoLConstants.availableCombatSkills));
+        KoLCharacter.hasAvailableSkill(skillId) || KoLCharacter.hasCombatSkill(skillId));
   }
 
   public static Value combat_skill_available(ScriptRuntime controller, final Value arg) {

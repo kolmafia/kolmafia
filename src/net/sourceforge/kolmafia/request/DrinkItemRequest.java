@@ -517,7 +517,7 @@ public class DrinkItemRequest extends UseItemRequest {
     UseSkillRequest ode = UseSkillRequest.getInstance("The Ode to Booze");
     boolean canOde =
         !KoLCharacter.inGLover()
-            && KoLConstants.availableSkills.contains(ode)
+            && KoLCharacter.hasAvailableSkill(SkillPool.ODE_TO_BOOZE)
             && UseSkillRequest.hasAccordion();
     boolean shouldOde = canOde && KoLCharacter.canInteract();
 

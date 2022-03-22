@@ -4676,8 +4676,9 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
-    KoLConstants.availableCombatSkills.clear();
-    KoLConstants.availableCombatSkillsMap.clear();
+    // The following is for the benefit of Stationary Buttons
+    KoLConstants.availableCombatSkillsList.clear();
+    KoLConstants.availableCombatSkillsSet.clear();
 
     Matcher m =
         FightRequest.AVAILABLE_COMBATSKILL_PATTERN.matcher(
@@ -4692,10 +4693,11 @@ public class FightRequest extends GenericRequest {
       // If Grey Goose skills are present, they may not actually be available;
       // KoL erroneously leaves them in the dropdown after you have cast them
       // and thereby deleveled your Grey Goose. Bug Reported.
-      if (skillId >= 7408 && skillId <= 7413) {
+      if (skillId >= 7408 && skillId <= 7413 && KoLCharacter.getFamiliar().getWeight() < 6) {
         continue;
       }
       KoLCharacter.addAvailableCombatSkill(skillId);
+      KoLConstants.availableCombatSkillsList.add(skillId);
       // If lovebug skills present, they've been unlocked
       if (skillId >= 7245 && skillId <= 7247) {
         Preferences.setBoolean("lovebugsUnlocked", true);
