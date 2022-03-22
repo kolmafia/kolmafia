@@ -648,7 +648,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
         if (this.active) {
           if (weight >= 6) {
             addGreyGooseSkills();
-          } else if (weight < 6) {
+          } else {
             removeGreyGooseSkills();
           }
         }
