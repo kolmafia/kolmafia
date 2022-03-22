@@ -3,8 +3,8 @@ package net.sourceforge.kolmafia.objectpool;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
-import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.SortedListModel;
+import java.util.Set;
+import java.util.TreeSet;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -84,6 +84,9 @@ public class Concoction implements Comparable<Concoction> {
   private String effectName;
   private double mainstatGain;
 
+  private static final Set<String> steelOrgans =
+      Set.of("steel margarita", "steel lasagna", "steel-scented air freshener");
+
   public Concoction(
       final AdventureResult concoction,
       final CraftingType mixingMethod,
@@ -131,11 +134,7 @@ public class Concoction implements Comparable<Concoction> {
     this.price = -1;
     this.property = null;
     this.special = false;
-    this.steelOrgan =
-        this.name != null
-            && (this.name.equals("steel margarita")
-                || this.name.equals("steel lasagna")
-                || this.name.equals("steel-scented air freshener"));
+    this.steelOrgan = steelOrgans.contains(this.name);
 
     this.resetCalculations();
   }
@@ -605,15 +604,15 @@ public class Concoction implements Comparable<Concoction> {
   }
 
   public void queue(
-      final LockableListModel<AdventureResult> globalChanges,
-      final ArrayList<AdventureResult> localChanges,
+      final List<AdventureResult> globalChanges,
+      final List<AdventureResult> localChanges,
       final int amount) {
     this.queue(globalChanges, localChanges, amount, true);
   }
 
   public void queue(
-      final LockableListModel<AdventureResult> globalChanges,
-      final ArrayList<AdventureResult> localChanges,
+      final List<AdventureResult> globalChanges,
+      final List<AdventureResult> localChanges,
       final int amount,
       boolean adjust) {
     if (amount <= 0) {
@@ -776,9 +775,9 @@ public class Concoction implements Comparable<Concoction> {
   public void addIngredient(final AdventureResult ingredient) {
     int itemId = ingredient.getItemId();
     if (itemId >= 0) {
-      SortedListModel<AdventureResult> uses = ConcoctionDatabase.knownUses.get(itemId);
+      Set<AdventureResult> uses = ConcoctionDatabase.knownUses.get(itemId);
       if (uses == null) {
-        uses = new SortedListModel<>();
+        uses = new TreeSet<>();
         ConcoctionDatabase.knownUses.put(ingredient.getItemId(), uses);
       }
 
