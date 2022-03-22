@@ -2066,7 +2066,8 @@ public class ResultProcessor {
         break;
 
       case ItemPool.GOBLIN_WATER:
-        if (adventureResults) {
+        if (adventureResults
+            && KoLCharacter.inRaincore()) { // because you can now get the Goblin Water otherwise...
           QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
         }
         break;
