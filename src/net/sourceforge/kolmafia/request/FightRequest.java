@@ -9577,7 +9577,6 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("reconfigures the whole mess into Meat")) {
           // This skill can only be used once per day.
           Preferences.setBoolean("_meatifyMatterUsed", true);
-          KoLCharacter.addAvailableCombatSkill(SkillPool.MEATIFY_MATTER);
           // It resets the weight of the Grey Goose to 5 lb.
           KoLCharacter.getFamiliar().setExperience(25);
         }

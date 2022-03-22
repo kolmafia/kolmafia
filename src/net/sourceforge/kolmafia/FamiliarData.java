@@ -641,16 +641,14 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
   }
 
-  private void changeWeight(int oldWeight, int newWeight) {
-    if (oldWeight == newWeight) {
-      return;
-    }
+  public void setWeight(final int weight) {
+    this.weight = weight;
     switch (this.id) {
       case FamiliarPool.GREY_GOOSE:
         if (this.active) {
-          if (oldWeight < 6 && newWeight >= 6) {
+          if (weight >= 6) {
             addGreyGooseSkills();
-          } else if (oldWeight >= 6 && newWeight < 6) {
+          } else if (weight < 6) {
             removeGreyGooseSkills();
           }
         }
@@ -741,11 +739,6 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   public AdventureResult getItem() {
     return this.item == null ? EquipmentRequest.UNEQUIP : this.item;
-  }
-
-  public void setWeight(final int weight) {
-    this.changeWeight(this.weight, weight);
-    this.weight = weight;
   }
 
   public int getWeight() {
@@ -847,7 +840,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     return this.race;
   }
 
-  public boolean getActive() {
+  public boolean isActive() {
     return this.active;
   }
 

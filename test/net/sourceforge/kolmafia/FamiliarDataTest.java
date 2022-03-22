@@ -48,7 +48,7 @@ public class FamiliarDataTest {
 
     // Activate it. (i.e., take out of the terrarium)
     fam.activate();
-    assertTrue(fam.getActive());
+    assertTrue(fam.isActive());
 
     // Verify that no combat skills are available
     assertFalse(KoLCharacter.availableCombatSkill(SkillPool.RE_PROCESS_MATTER));
@@ -108,7 +108,7 @@ public class FamiliarDataTest {
 
     // Deactivate it. (i.e., put back into the terrarium)
     fam.deactivate();
-    assertFalse(fam.getActive());
+    assertFalse(fam.isActive());
 
     // Verify that no combat skills are available
     assertFalse(KoLCharacter.availableCombatSkill(SkillPool.RE_PROCESS_MATTER));
