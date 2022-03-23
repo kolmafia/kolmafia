@@ -5842,12 +5842,12 @@ public abstract class RuntimeLibrary {
   public static Value have_skill(ScriptRuntime controller, final Value arg) {
     int skillId = (int) arg.intValue();
     return DataTypes.makeBooleanValue(
-        KoLCharacter.hasAvailableSkill(skillId) || KoLCharacter.hasCombatSkill(skillId));
+        KoLCharacter.hasSkill(skillId) || KoLCharacter.hasCombatSkill(skillId));
   }
 
   public static Value combat_skill_available(ScriptRuntime controller, final Value arg) {
     int skillId = (int) arg.intValue();
-    return DataTypes.makeBooleanValue(KoLCharacter.availableCombatSkill(skillId));
+    return DataTypes.makeBooleanValue(KoLCharacter.hasCombatSkill(skillId));
   }
 
   public static Value mp_cost(ScriptRuntime controller, final Value skill) {

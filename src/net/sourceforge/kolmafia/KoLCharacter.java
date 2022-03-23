@@ -3905,9 +3905,7 @@ public abstract class KoLCharacter {
 
   /** Adds a single skill to the list of skills temporarily possessed by this character. */
   public static final void addAvailableCombatSkill(final int skillId) {
-    if (!KoLConstants.availableCombatSkillsSet.contains(skillId)) {
-      KoLConstants.availableCombatSkillsSet.add(skillId);
-    }
+    KoLConstants.availableCombatSkillsSet.add(skillId);
   }
 
   public static final void addAvailableCombatSkill(final String skillName) {
@@ -3916,9 +3914,7 @@ public abstract class KoLCharacter {
   }
 
   public static final void removeAvailableCombatSkill(final int skillId) {
-    if (KoLConstants.availableCombatSkillsSet.contains(skillId)) {
-      KoLConstants.availableCombatSkillsSet.remove(skillId);
-    }
+    KoLConstants.availableCombatSkillsSet.remove(skillId);
   }
 
   public static final void removeAvailableCombatSkill(final String skillName) {
@@ -4068,16 +4064,8 @@ public abstract class KoLCharacter {
   }
 
   /** Utility methods which looks up whether or not the character has a particular skill. */
-  public static final boolean hasAvailableSkill(final int skillId) {
-    return KoLConstants.availableSkillsSet.contains(skillId);
-  }
-
-  public static final boolean hasCombatSkill(final int skillId) {
-    return KoLConstants.availableCombatSkillsSet.contains(skillId);
-  }
-
   public static final boolean hasSkill(final int skillId) {
-    return hasAvailableSkill(skillId);
+    return KoLConstants.availableSkillsSet.contains(skillId);
   }
 
   public static final boolean hasSkill(final String skillName) {
@@ -4086,7 +4074,7 @@ public abstract class KoLCharacter {
     return KoLCharacter.hasSkill(skillId);
   }
 
-  public static final boolean availableCombatSkill(final int skillId) {
+  public static final boolean hasCombatSkill(final int skillId) {
     return KoLConstants.availableCombatSkillsSet.contains(skillId);
   }
 

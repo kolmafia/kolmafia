@@ -498,7 +498,7 @@ public class StationaryButtonDecorator {
     int classStunId = SkillDatabase.getSkillId(classStun);
     if (!inBirdForm && KoLCharacter.hasSkill(classStunId)) {
       boolean enabled =
-          FightRequest.getCurrentRound() > 0 && KoLCharacter.availableCombatSkill(classStunId);
+          FightRequest.getCurrentRound() > 0 && KoLCharacter.hasCombatSkill(classStunId);
       // Only enable Club Foot when character has Fury, as it's only a stun then.
       enabled &= !(classStun.equals("Club Foot") && KoLCharacter.getFury() == 0);
       // Only enable Soul Bubble when character has 5 Soulsauce, as it's only a stun then.
@@ -702,7 +702,7 @@ public class StationaryButtonDecorator {
       actionBuffer.append("skill&whichskill=");
       actionBuffer.append(action);
       int skillID = StringUtilities.parseInt(action);
-      isEnabled &= KoLCharacter.availableCombatSkill(skillID);
+      isEnabled &= KoLCharacter.hasCombatSkill(skillID);
       // Some skills cannot be used but KoL does not remove them
       switch (skillID) {
         case SkillPool.LASH_OF_COBRA:

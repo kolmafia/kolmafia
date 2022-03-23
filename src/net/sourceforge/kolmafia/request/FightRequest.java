@@ -768,7 +768,7 @@ public class FightRequest extends GenericRequest {
   public static final boolean canOlfact() {
     return FightRequest.canOlfact
         && !KoLCharacter.inGLover()
-        && KoLCharacter.availableCombatSkill(SkillPool.OLFACTION);
+        && KoLCharacter.hasCombatSkill(SkillPool.OLFACTION);
   }
 
   public static final boolean isSourceAgent() {
@@ -1370,7 +1370,7 @@ public class FightRequest extends GenericRequest {
         // your skills.
 
         if ((KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled())
-            || !KoLCharacter.availableCombatSkill(SkillPool.OLFACTION)) {
+            || !KoLCharacter.hasCombatSkill(SkillPool.OLFACTION)) {
           this.skipRound();
           return;
         }
