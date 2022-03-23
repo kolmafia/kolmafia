@@ -111,8 +111,6 @@ public class MaximizerRegressionTest {
   }
 
   @Test
-  @Disabled(
-      "Refuses to equip a bjorn without a familiar in it, even when the equip keyword is used.")
   public void equipEmptyBjornNoSlot() {
     equip(EquipmentManager.CONTAINER, "Buddy Bjorn");
     KoLCharacter.addFamiliar(new FamiliarData(FamiliarPool.MOSQUITO));

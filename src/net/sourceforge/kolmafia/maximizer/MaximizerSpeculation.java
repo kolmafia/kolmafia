@@ -368,7 +368,7 @@ public class MaximizerSpeculation extends Speculation
       List<CheckedItem> possible = possibles.get(EquipmentManager.CONTAINER);
       boolean any = false;
       for (int pos = 0; pos < possible.size(); ++pos) {
-        AdventureResult item = possible.get(pos);
+        CheckedItem item = possible.get(pos);
         int count = item.getCount();
         FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
         if (group != null && this.foldables) {
@@ -385,7 +385,7 @@ public class MaximizerSpeculation extends Speculation
         if (count <= 0) continue;
         this.equipment[EquipmentManager.CONTAINER] = item;
         if (item.getItemId() == ItemPool.BUDDY_BJORN) {
-          if (useBjornFamiliar != FamiliarData.NO_FAMILIAR) {
+          if (useBjornFamiliar != FamiliarData.NO_FAMILIAR || item.requiredFlag) {
             this.setBjorned(useBjornFamiliar);
             this.tryAccessories(enthronedFamiliars, possibles, 0, bestCard, useCrownFamiliar);
             any = true;
