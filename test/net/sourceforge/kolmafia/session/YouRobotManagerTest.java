@@ -124,14 +124,14 @@ public class YouRobotManagerTest {
     assertTrue(YouRobotManager.canEquip(KoLConstants.EQUIP_FAMILIAR));
 
     // Install a Pea Shooter as your Top Attachment.
-    assertFalse(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
+    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.SHOOT_PEA));
     YouRobotManager.testInstallUpgrade(RobotUpgrade.PEA_SHOOTER);
     assertEquals(1, Preferences.getInteger("youRobotTop"));
-    assertTrue(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
+    assertTrue(KoLCharacter.hasCombatSkill(SkillPool.SHOOT_PEA));
 
     // Install a Bird Cage as your Top Attachment.
     YouRobotManager.testInstallUpgrade(RobotUpgrade.BIRD_CAGE);
-    assertFalse(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
+    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.SHOOT_PEA));
     assertTrue(YouRobotManager.canUseFamiliars());
 
     // Install a Mannequin Head as your Top Attachment.
@@ -293,7 +293,7 @@ public class YouRobotManagerTest {
     assertFalse(YouRobotManager.canEquip(KoLConstants.EQUIP_SHIRT));
 
     // Verify that our Pea Shooter is active.
-    assertTrue(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
+    assertTrue(KoLCharacter.hasCombatSkill(SkillPool.SHOOT_PEA));
   }
 
   @Test
@@ -418,8 +418,8 @@ public class YouRobotManagerTest {
   public void canTrackChangesInCombatSkills() throws IOException {
     // Start with no known combat skills.
 
-    assertFalse(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
-    assertFalse(KoLCharacter.availableCombatSkill(SkillPool.TESLA_BLAST));
+    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.SHOOT_PEA));
+    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.TESLA_BLAST));
     assertEquals(0, Preferences.getInteger("youRobotTop"));
 
     // Look at Top Attachments
@@ -439,7 +439,7 @@ public class YouRobotManagerTest {
     ChoiceManager.lastChoice = 1445;
     YouRobotManager.postChoice1(urlString, request);
     assertEquals(1, Preferences.getInteger("youRobotTop"));
-    assertTrue(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
+    assertTrue(KoLCharacter.hasCombatSkill(SkillPool.SHOOT_PEA));
 
     // Install Tesla Blaster, lose Shoot Pea, gain Tesla Blast
     urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=7";
@@ -449,8 +449,8 @@ public class YouRobotManagerTest {
     ChoiceManager.lastChoice = 1445;
     YouRobotManager.postChoice1(urlString, request);
     assertEquals(7, Preferences.getInteger("youRobotTop"));
-    assertFalse(KoLCharacter.availableCombatSkill(SkillPool.SHOOT_PEA));
-    assertTrue(KoLCharacter.availableCombatSkill(SkillPool.TESLA_BLAST));
+    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.SHOOT_PEA));
+    assertTrue(KoLCharacter.hasCombatSkill(SkillPool.TESLA_BLAST));
 
     // Install Solar Panel, lost Tesla Blast
     urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=3";
@@ -460,7 +460,7 @@ public class YouRobotManagerTest {
     ChoiceManager.lastChoice = 1445;
     YouRobotManager.postChoice1(urlString, request);
     assertEquals(3, Preferences.getInteger("youRobotTop"));
-    assertFalse(KoLCharacter.availableCombatSkill(SkillPool.TESLA_BLAST));
+    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.TESLA_BLAST));
   }
 
   @Test

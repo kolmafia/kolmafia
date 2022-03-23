@@ -416,7 +416,7 @@ public class Macrofier {
         // your skills.
 
         if ((KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled())
-            || !KoLCharacter.availableCombatSkill(SkillPool.OLFACTION)) { // ignore
+            || !KoLCharacter.hasCombatSkill(SkillPool.OLFACTION)) { // ignore
         } else {
           Macrofier.macroSkill(macro, skillId);
         }
