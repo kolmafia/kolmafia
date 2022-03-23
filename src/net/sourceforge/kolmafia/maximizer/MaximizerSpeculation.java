@@ -503,7 +503,7 @@ public class MaximizerSpeculation extends Speculation
       List<CheckedItem> possible = possibles.get(EquipmentManager.HAT);
       boolean any = false;
       for (int pos = 0; pos < possible.size(); ++pos) {
-        AdventureResult item = possible.get(pos);
+        CheckedItem item = possible.get(pos);
         int count = item.getCount();
         if (item.equals(this.equipment[EquipmentManager.FAMILIAR])) {
           --count;
@@ -523,7 +523,7 @@ public class MaximizerSpeculation extends Speculation
         if (count <= 0) continue;
         this.equipment[EquipmentManager.HAT] = item;
         if (item.getItemId() == ItemPool.HATSEAT) {
-          if (useCrownFamiliar != FamiliarData.NO_FAMILIAR) {
+          if (useCrownFamiliar != FamiliarData.NO_FAMILIAR || item.requiredFlag) {
             this.setEnthroned(useCrownFamiliar);
             this.tryShirts(possibles, bestCard);
             any = true;
