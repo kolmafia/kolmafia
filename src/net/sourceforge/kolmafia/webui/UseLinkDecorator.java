@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -362,7 +362,7 @@ public abstract class UseLinkDecorator {
     }
 
     // Retrieve the known ingredient uses for the item.
-    SortedListModel<AdventureResult> creations = ConcoctionDatabase.getKnownUses(itemId);
+    Set<AdventureResult> creations = ConcoctionDatabase.getKnownUses(itemId);
     if (creations.isEmpty()) {
       return CraftingType.NOCREATE;
     }
@@ -414,8 +414,7 @@ public abstract class UseLinkDecorator {
         break;
     }
 
-    for (int i = 0; i < creations.size(); ++i) {
-      AdventureResult creation = creations.get(i);
+    for (AdventureResult creation : creations) {
       CraftingType mixingMethod = ConcoctionDatabase.getMixingMethod(creation);
       EnumSet<CraftingRequirements> requirements =
           ConcoctionDatabase.getRequirements(creation.getItemId());
