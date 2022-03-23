@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -188,6 +189,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
   private boolean favorite;
   private int charges;
   private int pokeLevel;
+  private boolean active = false;
 
   public FamiliarData(final int id) {
     this(id, "", 1, EquipmentRequest.UNEQUIP);
@@ -344,12 +346,11 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   public final void loseExperience(int exp) {
-    setExperience(this.experience - exp);
-    setWeight();
+    this.setExperience(this.experience - exp);
   }
 
   public final void loseExperience() {
-    loseExperience(this.experience);
+    this.loseExperience(this.experience);
   }
 
   public final int determineTestTeachExperience() {
@@ -441,7 +442,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   private void setWeight() {
-    this.weight = Math.max(Math.min(this.getMaxBaseWeight(), (int) Math.sqrt(this.experience)), 1);
+    this.setWeight(
+        Math.max(Math.min(this.getMaxBaseWeight(), (int) Math.sqrt(this.experience)), 1));
   }
 
   public final void checkWeight(final int weight, final boolean feasted) {
@@ -617,6 +619,65 @@ public class FamiliarData implements Comparable<FamiliarData> {
     return this.feasted;
   }
 
+  public void deactivate() {
+    // Do anything necessary when this familiar is banished to the Terrarium
+    this.active = false;
+    switch (this.id) {
+      case FamiliarPool.GREY_GOOSE:
+        removeGreyGooseSkills();
+        break;
+    }
+  }
+
+  public void activate() {
+    // Do anything necessary when this familiar is removed from the Terrarium
+    this.active = true;
+    switch (this.id) {
+      case FamiliarPool.GREY_GOOSE:
+        if (this.weight >= 6) {
+          addGreyGooseSkills();
+        }
+        break;
+    }
+  }
+
+  public void setWeight(final int weight) {
+    this.weight = weight;
+    switch (this.id) {
+      case FamiliarPool.GREY_GOOSE:
+        if (this.active) {
+          if (weight >= 6) {
+            addGreyGooseSkills();
+          } else {
+            removeGreyGooseSkills();
+          }
+        }
+        break;
+    }
+  }
+
+  private void addGreyGooseSkills() {
+    if (KoLCharacter.inGreyYou()) {
+      KoLCharacter.addAvailableCombatSkill(SkillPool.RE_PROCESS_MATTER);
+    }
+    if (!Preferences.getBoolean("_meatifyMatterUsed")) {
+      KoLCharacter.addAvailableCombatSkill(SkillPool.MEATIFY_MATTER);
+    }
+    KoLCharacter.addAvailableCombatSkill(SkillPool.EMIT_MATTER_DUPLICATING_DRONES);
+    KoLCharacter.addAvailableCombatSkill(SkillPool.CONVERT_MATTER_TO_PROTEIN);
+    KoLCharacter.addAvailableCombatSkill(SkillPool.CONVERT_MATTER_TO_ENERGY);
+    KoLCharacter.addAvailableCombatSkill(SkillPool.CONVERT_MATTER_TO_POMADE);
+  }
+
+  private void removeGreyGooseSkills() {
+    KoLCharacter.removeAvailableCombatSkill(SkillPool.RE_PROCESS_MATTER);
+    KoLCharacter.removeAvailableCombatSkill(SkillPool.MEATIFY_MATTER);
+    KoLCharacter.removeAvailableCombatSkill(SkillPool.EMIT_MATTER_DUPLICATING_DRONES);
+    KoLCharacter.removeAvailableCombatSkill(SkillPool.CONVERT_MATTER_TO_PROTEIN);
+    KoLCharacter.removeAvailableCombatSkill(SkillPool.CONVERT_MATTER_TO_ENERGY);
+    KoLCharacter.removeAvailableCombatSkill(SkillPool.CONVERT_MATTER_TO_POMADE);
+  }
+
   public void setItem(final AdventureResult item) {
     if (this.id < 1) {
       return;
@@ -678,10 +739,6 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   public AdventureResult getItem() {
     return this.item == null ? EquipmentRequest.UNEQUIP : this.item;
-  }
-
-  public void setWeight(final int weight) {
-    this.weight = weight;
   }
 
   public int getWeight() {
@@ -781,6 +838,10 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   public String getRace() {
     return this.race;
+  }
+
+  public boolean isActive() {
+    return this.active;
   }
 
   public int getPokeLevel() {

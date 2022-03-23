@@ -4689,6 +4689,12 @@ public class FightRequest extends GenericRequest {
         skillName = m.group(2);
         SkillDatabase.registerSkill(skillId, skillName);
       }
+      // If Grey Goose skills are present, they may not actually be available;
+      // KoL erroneously leaves them in the dropdown after you have cast them
+      // and thereby deleveled your Grey Goose. Bug Reported.
+      if (skillId >= 7408 && skillId <= 7413) {
+        continue;
+      }
       KoLCharacter.addAvailableCombatSkill(skillId);
       // If lovebug skills present, they've been unlocked
       if (skillId >= 7245 && skillId <= 7247) {
@@ -9551,6 +9557,47 @@ public class FightRequest extends GenericRequest {
           }
 
           ResultProcessor.removeItem(ItemPool.COSMIC_BOWLING_BALL);
+        }
+        break;
+
+      case SkillPool.RE_PROCESS_MATTER:
+        // NAME launches almost all of its body mass at your foe. The blob
+        // careens off of THEM and then reforms into an identical copy, which
+        // is so surprised to exist that it immediately keels over.
+        if (responseText.contains("launches almost all of its body mass at your foe")) {
+          // This skill adds this monster to list of goose-absorption
+          // It resets the weight of the Grey Goose to 1 lb.
+          KoLCharacter.getFamiliar().setExperience(0);
+        }
+        break;
+
+      case SkillPool.MEATIFY_MATTER:
+        // NAME detaches a big chunk of itself, slaps it onto your opponent's
+        // torso, and atomically reconfigures the whole mess into Meat.
+        if (responseText.contains("reconfigures the whole mess into Meat")) {
+          // This skill can only be used once per day.
+          Preferences.setBoolean("_meatifyMatterUsed", true);
+          // It resets the weight of the Grey Goose to 5 lb.
+          KoLCharacter.getFamiliar().setExperience(25);
+        }
+        break;
+
+      case SkillPool.EMIT_MATTER_DUPLICATING_DRONES:
+        // X bits of goo emerge from NAME and begin hovering about, moving probingly around various
+        // objects.
+      case SkillPool.CONVERT_MATTER_TO_PROTEIN:
+        // NAME detaches a big chunk of itself, slaps it onto your elbow, and converts the resultant
+        // slurry into pure muscle.
+      case SkillPool.CONVERT_MATTER_TO_ENERGY:
+        // NAME detaches a big chunk of itself, slaps it onto your calf, and converts the resultant
+        // slurry into pure brain energy.
+      case SkillPool.CONVERT_MATTER_TO_POMADE:
+        // NAME detaches a big chunk of itself and plops it onto your head, making your hair look
+        // absolutely <i>incredible</i>.
+        if (responseText.contains("bits of goo emerge from")
+            || responseText.contains("detaches a big chunk of itself")) {
+          // These skills reset the weight of the Grey Goose to 5 lb.
+          KoLCharacter.getFamiliar().setExperience(25);
         }
         break;
 
