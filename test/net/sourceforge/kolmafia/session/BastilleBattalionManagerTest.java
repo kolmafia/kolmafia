@@ -11,8 +11,8 @@ import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.session.BastilleBattalionManager.Setting;
-import net.sourceforge.kolmafia.session.BastilleBattalionManager.Type;
+import net.sourceforge.kolmafia.session.BastilleBattalionManager.Style;
+import net.sourceforge.kolmafia.session.BastilleBattalionManager.Upgrade;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,14 +47,14 @@ public class BastilleBattalionManagerTest {
   }
 
   static void validateConfiguration() {
-    Map<Type, Setting> settings = BastilleBattalionManager.getCurrentSettings();
+    Map<Upgrade, Style> styles = BastilleBattalionManager.getCurrentStyles();
 
-    // Ensure we parsed all four settings
-    assertEquals(4, settings.size());
-    assertFalse(settings.get(Type.BARBICAN) == null);
-    assertFalse(settings.get(Type.DRAWBRIDGE) == null);
-    assertFalse(settings.get(Type.MURDER_HOLES) == null);
-    assertFalse(settings.get(Type.MOAT) == null);
+    // Ensure we parsed all four styles
+    assertEquals(4, styles.size());
+    assertFalse(styles.get(Upgrade.BARBICAN) == null);
+    assertFalse(styles.get(Upgrade.DRAWBRIDGE) == null);
+    assertFalse(styles.get(Upgrade.MURDER_HOLES) == null);
+    assertFalse(styles.get(Upgrade.MOAT) == null);
 
     // Ensure that we have set all the properties.
     // *** currently, these are the "x" value of the needles, rather than
@@ -66,7 +66,7 @@ public class BastilleBattalionManagerTest {
     assertTrue(Preferences.getInteger("_bastillePsychologicalAttack") > 0);
     assertTrue(Preferences.getInteger("_bastillePsychologicalDefense") > 0);
 
-    // Ensure that the stats all agree with what the settings indicate
+    // Ensure that the stats all agree with what the styles indicate
     assertTrue(BastilleBattalionManager.checkPredictions());
   }
 

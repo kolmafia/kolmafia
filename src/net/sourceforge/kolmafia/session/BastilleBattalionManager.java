@@ -15,25 +15,25 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BastilleBattalionManager {
 
-  private static final Map<String, Setting> imageToSetting = new HashMap<>();
-  private static final Map<Integer, Type> optionToType = new HashMap<>();
+  private static final Map<String, Style> imageToStyle = new HashMap<>();
+  private static final Map<Integer, Upgrade> optionToUpgrade = new HashMap<>();
   private static final int[] baseStats = new int[] {124, 240, 124, 240, 125, 240};
 
-  public static enum Type {
+  public static enum Upgrade {
     BARBICAN(1, "Barbican", "barb"),
     DRAWBRIDGE(2, "Drawbridge", "bridge"),
-    MURDER_HOLES(3, "Murder holes", "holes"),
+    MURDER_HOLES(3, "Murder Holes", "holes"),
     MOAT(4, "Moat", "moat");
 
     String name;
     String prefix;
     int option;
 
-    private Type(int option, String name, String prefix) {
+    private Upgrade(int option, String name, String prefix) {
       this.option = option;
       this.name = name;
       this.prefix = prefix;
-      optionToType.put(this.option, this);
+      optionToUpgrade.put(this.option, this);
     }
 
     public String getPrefix() {
@@ -46,35 +46,35 @@ public class BastilleBattalionManager {
     }
   }
 
-  public static enum Setting {
-    BARBEQUE("Barbecue", 1, Type.BARBICAN, 3, 2, 0, 0, 0, 0),
-    BABAR("Babar", 2, Type.BARBICAN, 0, 0, 2, 3, 0, 0),
-    BARBERSHOP("Barbershop", 3, Type.BARBICAN, 0, 0, 0, 0, 2, 3),
+  public static enum Style {
+    BARBEQUE("Barbecue", 1, Upgrade.BARBICAN, 3, 2, 0, 0, 0, 0),
+    BABAR("Babar", 2, Upgrade.BARBICAN, 0, 0, 2, 3, 0, 0),
+    BARBERSHOP("Barbershop", 3, Upgrade.BARBICAN, 0, 0, 0, 0, 2, 3),
 
-    SHARKS("Sharks", 1, Type.MOAT, 0, 1, 0, 0, 2, 0),
-    LAVA("Lava", 2, Type.MOAT, 2, 0, 0, 1, 0, 0),
-    TRUTH_SERUM("Truth Serum", 3, Type.MOAT, 0, 0, 2, 0, 0, 1),
+    SHARKS("Sharks", 1, Upgrade.MOAT, 0, 1, 0, 0, 2, 0),
+    LAVA("Lava", 2, Upgrade.MOAT, 2, 0, 0, 1, 0, 0),
+    TRUTH_SERUM("Truth Serum", 3, Upgrade.MOAT, 0, 0, 2, 0, 0, 1),
 
-    BRUTALIST("Brutalist", 1, Type.DRAWBRIDGE, 2, 0, 1, 0, 2, 0),
-    DRAFTSMAN("Draftsman", 2, Type.DRAWBRIDGE, 0, 3, 0, 3, 0, 3),
-    ART_NOUVEAU("Art Nouveau", 3, Type.DRAWBRIDGE, 0, 0, 0, 0, 2, 2),
+    BRUTALIST("Brutalist", 1, Upgrade.DRAWBRIDGE, 2, 0, 1, 0, 2, 0),
+    DRAFTSMAN("Draftsman", 2, Upgrade.DRAWBRIDGE, 0, 3, 0, 3, 0, 3),
+    ART_NOUVEAU("Art Nouveau", 3, Upgrade.DRAWBRIDGE, 0, 0, 0, 0, 2, 2),
 
-    CANNON("Cannon", 1, Type.MURDER_HOLES, 2, 1, 0, 0, 0, 1),
-    CATAPULT("Catapult", 2, Type.MURDER_HOLES, 0, 1, 1, 1, 0, 0),
-    GESTURE("Gesture", 3, Type.MURDER_HOLES, 0, 0, 0, 1, 1, 1);
+    CANNON("Cannon", 1, Upgrade.MURDER_HOLES, 2, 1, 0, 0, 0, 1),
+    CATAPULT("Catapult", 2, Upgrade.MURDER_HOLES, 0, 1, 1, 1, 0, 0),
+    GESTURE("Gesture", 3, Upgrade.MURDER_HOLES, 0, 0, 0, 1, 1, 1);
 
-    private Type type;
+    private Upgrade upgrade;
     private String image;
     private int[] stats;
     private String name;
 
-    private Setting(String name, int index, Type type, int... stats) {
-      this.type = type;
-      this.image = type.getPrefix() + index + ".png";
+    private Style(String name, int index, Upgrade upgrade, int... stats) {
+      this.upgrade = upgrade;
+      this.image = upgrade.getPrefix() + index + ".png";
       this.stats = stats;
       assert (stats.length == 6);
-      this.name = type + " " + name;
-      imageToSetting.put(this.image, this);
+      this.name = upgrade + " " + name;
+      imageToStyle.put(this.image, this);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class BastilleBattalionManager {
     }
 
     public void apply() {
-      currentSettings.put(this.type, this);
+      currentStyles.put(this.upgrade, this);
     }
 
     public void apply(int[] stats) {
@@ -126,25 +126,25 @@ public class BastilleBattalionManager {
   }
 
   static {
-    // This forces the Setting enum to be initialized, which will populate
+    // This forces the Style enum to be initialized, which will populate
     // all the various sets and maps from the constructors.
-    Setting[] settings = Setting.values();
+    Style[] styles = Style.values();
     Castle[] castles = Castle.values();
   }
 
   // *** Cached state. This resets when you visit the Bastille Battalion
   // *** control console
 
-  private static final Map<Type, Setting> currentSettings = new HashMap<>();
+  private static final Map<Upgrade, Style> currentStyles = new HashMap<>();
 
   // For testing
-  public static Map<Type, Setting> getCurrentSettings() {
-    return currentSettings;
+  public static Map<Upgrade, Style> getCurrentStyles() {
+    return currentStyles;
   }
 
   public static void reset() {
     // Configuration
-    currentSettings.clear();
+    currentStyles.clear();
 
     // Set by initial setup, which is locked in place as soon as you start your
     // first game, since you get the prizes at the end of that
@@ -176,7 +176,7 @@ public class BastilleBattalionManager {
     Preferences.setInteger("_bastilleGames", 0);
   }
 
-  private static final Pattern BASTILLE_PATTERN = Pattern.compile("You can play <b>(\\d+)</b>");
+  private static final Pattern GAMES_PATTERN = Pattern.compile("You can play <b>(\\d+)</b>");
 
   // <img style='position: absolute; top: 233; left: 124;'
   // src=https://d2uyhvukfffg5a.cloudfront.net/otherimages/bbatt/needle.png>
@@ -205,7 +205,7 @@ public class BastilleBattalionManager {
     }
   }
 
-  public static void parseSettings(String text) {
+  public static void parseStyles(String text) {
     Matcher matcher = IMAGE_PATTERN.matcher(text);
     while (matcher.find()) {
       String image = matcher.group(4);
@@ -213,9 +213,9 @@ public class BastilleBattalionManager {
         parseNeedle(matcher.group(2), matcher.group(3));
         continue;
       }
-      Setting setting = imageToSetting.get(image);
-      if (setting != null) {
-        setting.apply();
+      Style style = imageToStyle.get(image);
+      if (style != null) {
+        style.apply();
         continue;
       }
     }
@@ -327,8 +327,8 @@ public class BastilleBattalionManager {
 
   public static int[] getCurrentStats() {
     int[] stats = new int[] {124, 240, 124, 240, 125, 240};
-    for (Setting setting : currentSettings.values()) {
-      setting.apply(stats);
+    for (Style style : currentStyles.values()) {
+      style.apply(stats);
     }
     if (KoLConstants.activeEffects.contains(SHARK_TOOTH_GRIN)) {
       // Boosts military attack and defense in Bastille Battalion.
@@ -416,7 +416,7 @@ public class BastilleBattalionManager {
         if (!text.contains("option=5")) {
           Preferences.setInteger("_bastilleGames", 5);
         }
-        parseSettings(text);
+        parseStyles(text);
         return;
 
       case 1314: // Bastille Battalion (Master of None)
@@ -439,7 +439,7 @@ public class BastilleBattalionManager {
         return;
 
       case 1316: // GAME OVER
-        Matcher matcher = BASTILLE_PATTERN.matcher(text);
+        Matcher matcher = GAMES_PATTERN.matcher(text);
         if (matcher.find()) {
           Preferences.setInteger("_bastilleGames", 5 - StringUtilities.parseInt(matcher.group(1)));
         }
@@ -462,8 +462,8 @@ public class BastilleBattalionManager {
     switch (choice) {
       case 1313: // Bastille Battalion
         if (decision >= 1 && decision <= 4) {
-          parseSettings(text);
-          logLine(currentSettings.get(optionToType.get(decision)).toString());
+          parseStyles(text);
+          logLine(currentStyles.get(optionToUpgrade.get(decision)).toString());
           logStrength();
         } else if (decision == 5) {
           logStrength();
