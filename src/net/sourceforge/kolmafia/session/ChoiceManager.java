@@ -265,7 +265,6 @@ public abstract class ChoiceManager {
   private static final Pattern SHEN_PATTERN =
       Pattern.compile(
           "(?:Bring me|artifact known only as) <b>(.*?)</b>, hidden away for centuries");
-  private static final Pattern BASTILLE_PATTERN = Pattern.compile("You can play <b>(\\d+)</b>");
   private static final Pattern GERALD_PATTERN =
       Pattern.compile("Gerald wants (\\d+)<table>.*?descitem\\((\\d+)\\)");
   private static final Pattern GERALDINE_PATTERN =
@@ -12645,6 +12644,16 @@ public abstract class ChoiceManager {
           break;
         }
 
+      case 1313: // Bastille Battalion
+      case 1314: // Bastille Battalion (Master of None)
+      case 1315: // Castle vs. Castle
+      case 1316: // GAME OVER
+      case 1317: // A Hello to Arms (Battalion)
+      case 1318: // Defensive Posturing
+      case 1319: // Cheese Seeking Behavior
+        BastilleBattalionManager.postChoice1(urlString, request);
+        break;
+
       case 1322:
         {
           // The Beginning of the Neverend
@@ -16480,23 +16489,15 @@ public abstract class ChoiceManager {
           break;
         }
 
-      case 1313:
-        // Bastille Battalion
-        if (!text.contains("option=5")) {
-          Preferences.setInteger("_bastilleGames", 5);
-        }
+      case 1313: // Bastille Battalion
+      case 1314: // Bastille Battalion (Master of None)
+      case 1315: // Castle vs. Castle
+      case 1316: // GAME OVER
+      case 1317: // A Hello to Arms (Battalion)
+      case 1318: // Defensive Posturing
+      case 1319: // Cheese Seeking Behavior
+        BastilleBattalionManager.visitChoice(request);
         break;
-
-      case 1316:
-        {
-          // GAME OVER
-          Matcher matcher = ChoiceManager.BASTILLE_PATTERN.matcher(text);
-          if (matcher.find()) {
-            Preferences.setInteger(
-                "_bastilleGames", 5 - StringUtilities.parseInt(matcher.group(1)));
-          }
-          break;
-        }
 
       case 1322:
         // The Beginning of the Neverend

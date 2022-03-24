@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.ScrapheapRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
+import net.sourceforge.kolmafia.session.BastilleBattalionManager;
 import net.sourceforge.kolmafia.session.BeachManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DadManager;
@@ -877,9 +878,17 @@ public class TestCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("bastille")) {
+      BastilleBattalionManager.parseSettings(TestCommand.contents);
+      BastilleBattalionManager.parseNeedles(TestCommand.contents);
+      TestCommand.contents = null;
+      return;
+    }
+
     if (command.equals("beach")) {
       BeachManager.parseBeachMap(TestCommand.contents);
       TestCommand.contents = null;
+      return;
     }
 
     if (command.equals("charpane")) {

@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.BastilleBattalionManager;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
@@ -641,6 +642,15 @@ public class AdventureRequest extends GenericRequest {
       case 1086: // Pick a Card
       case 1463: // Reminiscing About Those Monsters You Fought
         return null;
+
+      case 1314: // Bastille Battalion (Master of None)
+      case 1315: // Castle vs. Castle
+      case 1317: // A Hello to Arms (Battalion)
+      case 1318: // Defensive Posturing
+      case 1319: // Cheese Seeking Behavior
+        // Print cheese gain from previous encounter before logging this one.
+        BastilleBattalionManager.gainCheese(responseText);
+        break;
 
       case 1135: // The Bat-Sedan
         return BatManager.parseBatSedan(responseText);
