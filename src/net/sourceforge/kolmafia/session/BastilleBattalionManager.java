@@ -4,7 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -39,21 +42,21 @@ public class BastilleBattalionManager {
   }
 
   public static enum Setting {
-    BARBEQUE("Barbeque", 1, Type.BARBICAN, 2, 2, 0, 0, 0, 0),
-    BABAR("Babar", 2, Type.BARBICAN, 0, 0, 2, 2, 0, 0),
-    BARBERSHOP("Barbershop", 3, Type.BARBICAN, 0, 0, 0, 0, 2, 2),
+    BARBEQUE("Barbecue", 1, Type.BARBICAN, 3, 2, 0, 0, 0, 0),
+    BABAR("Babar", 2, Type.BARBICAN, 0, 0, 2, 3, 0, 0),
+    BARBERSHOP("Barbershop", 3, Type.BARBICAN, 0, 0, 0, 0, 2, 3),
 
-    SHARKS("Sharks", 1, Type.MOAT, 0, 1, 0, 0, 1, 0),
-    LAVA("Lava", 2, Type.MOAT, 1, 0, 0, 1, 0, 0),
-    TRUTH_SERUM("Truth Serum", 3, Type.MOAT, 0, 0, 1, 0, 0, 1),
+    SHARKS("Sharks", 1, Type.MOAT, 0, 1, 0, 0, 2, 0),
+    LAVA("Lava", 2, Type.MOAT, 2, 0, 0, 1, 0, 0),
+    TRUTH_SERUM("Truth Serum", 3, Type.MOAT, 0, 0, 2, 0, 0, 1),
 
-    BRUTALIST("Brutalist", 1, Type.DRAWBRIDGE, 1, 0, 1, 0, 1, 0),
-    DRAFTSMAN("Draftsman", 2, Type.DRAWBRIDGE, 0, 2, 0, 2, 0, 2),
-    ART_NOUVEAU("Art Nouveau", 3, Type.DRAWBRIDGE, 0, 0, 0, 0, 2, 1),
+    BRUTALIST("Brutalist", 1, Type.DRAWBRIDGE, 2, 0, 1, 0, 2, 0),
+    DRAFTSMAN("Draftsman", 2, Type.DRAWBRIDGE, 0, 3, 0, 3, 0, 3),
+    ART_NOUVEAU("Art Nouveau", 3, Type.DRAWBRIDGE, 0, 0, 0, 0, 2, 2),
 
-    CANNON("Cannon", 1, Type.MURDER_HOLE, 1, 0, 0, 0, 0, 0),
-    CATAPULT("Catapult", 2, Type.MURDER_HOLE, 0, 0, 1, 0, 0, 0),
-    GESTURE("Gesture", 3, Type.MURDER_HOLE, 0, 0, 0, 0, 1, 0);
+    CANNON("Cannon", 1, Type.MURDER_HOLE, 2, 1, 0, 0, 0, 1),
+    CATAPULT("Catapult", 2, Type.MURDER_HOLE, 0, 1, 1, 1, 0, 0),
+    GESTURE("Gesture", 3, Type.MURDER_HOLE, 0, 0, 0, 1, 1, 1);
 
     private Type type;
     private String image;
@@ -86,6 +89,17 @@ public class BastilleBattalionManager {
 
     public void apply() {
       currentSettings.put(this.type, this);
+    }
+
+    public void apply(int[] stats) {
+      if (stats.length >= 6) {
+        stats[0] += this.MA;
+        stats[1] += this.MD;
+        stats[2] += this.CA;
+        stats[3] += this.CD;
+        stats[4] += this.PA;
+        stats[5] += this.PD;
+      }
     }
   }
 
@@ -124,6 +138,22 @@ public class BastilleBattalionManager {
     }
   }
 
+  public static void parseSettings(String text) {
+    Matcher matcher = IMAGE_PATTERN.matcher(text);
+    while (matcher.find()) {
+      String image = matcher.group(4);
+      if (image.startsWith("needle")) {
+        parseNeedle(matcher.group(2), matcher.group(3));
+        continue;
+      }
+      Setting setting = imageToSetting.get(image);
+      if (setting != null) {
+        setting.apply();
+        continue;
+      }
+    }
+  }
+
   public static void parseNeedles(String text) {
     Matcher matcher = IMAGE_PATTERN.matcher(text);
     while (matcher.find()) {
@@ -135,19 +165,40 @@ public class BastilleBattalionManager {
     }
   }
 
-  public static void parseSettings(String text) {
-    Matcher matcher = IMAGE_PATTERN.matcher(text);
-    while (matcher.find()) {
-      String image = matcher.group(4);
-      if (!image.startsWith("needle")) {
-        continue;
-      }
-      Setting setting = imageToSetting.get(image);
-      if (setting != null) {
-        setting.apply();
-        continue;
-      }
+  private static void checkStat(int calculated, String name, String property) {
+    int expected = Preferences.getInteger(property);
+    if (calculated != expected) {
+      RequestLogger.printLine(
+          name + " was calculated to be " + calculated + " but is actually " + expected);
     }
+  }
+
+  private static AdventureResult SHARK_TOOTH_GRIN = EffectPool.get(EffectPool.SHARK_TOOTH_GRIN);
+  private static AdventureResult BOILING_DETERMINATION =
+      EffectPool.get(EffectPool.BOILING_DETERMINATION);
+  private static AdventureResult ENHANCED_INTERROGATION =
+      EffectPool.get(EffectPool.ENHANCED_INTERROGATION);
+
+  public static void checkPredictions() {
+    int[] stats = new int[] {124, 240, 124, 240, 125, 240};
+    for (Setting setting : currentSettings.values()) {
+      setting.apply(stats);
+    }
+    if (KoLConstants.activeEffects.contains(SHARK_TOOTH_GRIN)) {
+      // Boosts military attack and defense in Bastille Battalion.
+    }
+    if (KoLConstants.activeEffects.contains(BOILING_DETERMINATION)) {
+      // Boosts castle attack and defense in Bastille Battalion
+    }
+    if (KoLConstants.activeEffects.contains(ENHANCED_INTERROGATION)) {
+      // Boosts psychological attack and defense in Bastille Battalion.
+    }
+    checkStat(stats[0], "Military Attack", "_bastilleMilitaryAttack");
+    checkStat(stats[1], "Military Defense", "_bastilleMilitaryDefense");
+    checkStat(stats[2], "Castle Attack", "_bastilleCastleAttack");
+    checkStat(stats[3], "Castle Defense", "_bastilleCastleDefense");
+    checkStat(stats[4], "Psychological Attack", "_bastillePsychologicalAttack");
+    checkStat(stats[5], "Psychological Defense", "_bastillePsychologicalDefense");
   }
 
   private static void logStrength() {
@@ -181,7 +232,7 @@ public class BastilleBattalionManager {
           Preferences.setInteger("_bastilleGames", 5);
         }
         parseSettings(text);
-        parseNeedles(text);
+        checkPredictions();
         return;
 
       case 1314: // Bastille Battalion (Master of None)
@@ -220,7 +271,7 @@ public class BastilleBattalionManager {
       case 1313: // Bastille Battalion
         if (decision >= 1 && decision <= 4) {
           parseSettings(text);
-          parseNeedles(text);
+          checkPredictions();
         }
         return;
 

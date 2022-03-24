@@ -880,7 +880,7 @@ public class TestCommand extends AbstractCommand {
 
     if (command.equals("bastille")) {
       BastilleBattalionManager.parseSettings(TestCommand.contents);
-      BastilleBattalionManager.parseNeedles(TestCommand.contents);
+      BastilleBattalionManager.checkPredictions();
       TestCommand.contents = null;
       return;
     }
