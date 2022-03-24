@@ -10,25 +10,30 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BastilleBattalionManager {
 
   private static Map<String, Setting> imageToSetting = new HashMap<>();
   private static Map<Type, Setting> currentSettings = new HashMap<>();
+  private static Map<Integer, Type> optionToType = new HashMap<>();
 
   public static enum Type {
-    BARBICAN("Barbican", "barb"),
-    DRAWBRIDGE("Drawbridge", "bridge"),
-    MOAT("Moat", "moat"),
-    MURDER_HOLE("Murder holes", "holes");
+    BARBICAN(1, "Barbican", "barb"),
+    DRAWBRIDGE(2, "Drawbridge", "bridge"),
+    MURDER_HOLE(3, "Murder holes", "holes"),
+    MOAT(4, "Moat", "moat");
 
     String name;
     String prefix;
+    int option;
 
-    private Type(String name, String prefix) {
+    private Type(int option, String name, String prefix) {
+      this.option = option;
       this.name = name;
       this.prefix = prefix;
+      optionToType.put(this.option, this);
     }
 
     public String getPrefix() {
@@ -103,10 +108,42 @@ public class BastilleBattalionManager {
     }
   }
 
+  private static Map<String, Castle> imageToCastle = new HashMap<>();
+
+  public static enum Castle {
+    ART("frenchcastle", "an avant-garde rt castle"),
+    BORING("masterofnone", "a boring, run-of-the-mill castle"),
+    CHATEAU("bigcastle", "a sprawling chateau"),
+    CITADEL("berserker", "a dark and menacing citadel"),
+    FORTIFIED("shieldmaster", "a fortress that puts the 'fort' in 'fortified'"),
+    MILITARY("barracks", "an imposing military fortress");
+
+    String prefix;
+    String description;
+
+    private Castle(String prefix, String description) {
+      this.prefix = prefix;
+      this.description = description;
+      imageToCastle.put(prefix + "_1.png", this);
+      imageToCastle.put(prefix + "_2.png", this);
+      imageToCastle.put(prefix + "_3.png", this);
+    }
+
+    public String getPrefix() {
+      return this.prefix;
+    }
+
+    @Override
+    public String toString() {
+      return this.description;
+    }
+  }
+
   static {
     // This forces the Setting enum to be initialized, which will populate
     // all the various sets and maps from the constructors.
-    Setting[] values = Setting.values();
+    Setting[] settings = Setting.values();
+    Castle[] castles = Castle.values();
   }
 
   private static final Pattern BASTILLE_PATTERN = Pattern.compile("You can play <b>(\\d+)</b>");
@@ -165,11 +202,87 @@ public class BastilleBattalionManager {
     }
   }
 
+  public static void parseCastleImage(String text) {
+    Matcher matcher = IMAGE_PATTERN.matcher(text);
+    while (matcher.find()) {
+      String image = matcher.group(4);
+      Castle castle = imageToCastle.get(image);
+      if (castle != null) {
+        Preferences.setString("_bastilleEnemyCastle", castle.getPrefix());
+        return;
+      }
+    }
+  }
+
+  // *** Game control flow
+
+  private static void startGame() {
+    Preferences.setInteger("_bastilleCheeseCollected", 0);
+  }
+
+  private static void nextTurn() {
+    Preferences.increment("_bastilleGameTurn", 1);
+    Preferences.setString("_bastilleChoice1", "");
+    Preferences.setString("_bastilleChoice2", "");
+    Preferences.setString("_bastilleChoice3", "");
+  }
+
+  private static void nextCastle() {
+    Preferences.setString("_bastilleEnemyCastle", "");
+    Preferences.setString("_bastilleEnemyName", "");
+  }
+
+  private static void getChoices(String responseText) {
+    Map<Integer, String> choices = ChoiceUtilities.parseChoices(responseText);
+    if (choices.size() == 3) {
+      Preferences.setString("_bastilleChoice1", choices.get(1));
+      Preferences.setString("_bastilleChoice2", choices.get(2));
+      Preferences.setString("_bastilleChoice3", choices.get(3));
+    }
+  }
+
+  private static void endGame() {
+    Preferences.setInteger("_bastilleGameTurn", 0);
+  }
+
+  // *** Logging
+
+  private static void logLine(String message) {
+    RequestLogger.printLine(message);
+    RequestLogger.updateSessionLog(message);
+  }
+
+  private static void logLine() {
+    logLine("");
+  }
+
+  private static void logStrength() {
+    StringBuilder buf = new StringBuilder();
+    buf.append("Military ");
+    buf.append(Preferences.getInteger("_bastilleMilitaryAttack"));
+    buf.append("/");
+    buf.append(Preferences.getInteger("_bastilleMilitaryDefense"));
+    buf.append(" ");
+    buf.append("Castle ");
+    buf.append(Preferences.getInteger("_bastilleCastleAttack"));
+    buf.append("/");
+    buf.append(Preferences.getInteger("_bastilleCastleDefense"));
+    buf.append(" ");
+    buf.append("Psychological ");
+    buf.append(Preferences.getInteger("_bastillePsychologicalAttack"));
+    buf.append("/");
+    buf.append(Preferences.getInteger("_bastillePsychologicalDefense"));
+    String message = buf.toString();
+    RequestLogger.printLine(message);
+    RequestLogger.updateSessionLog(message);
+  }
+
+  // *** Interface for TestCommand (test bastille)
+
   private static void checkStat(int calculated, String name, String property) {
     int expected = Preferences.getInteger(property);
     if (calculated != expected) {
-      RequestLogger.printLine(
-          name + " was calculated to be " + calculated + " but is actually " + expected);
+      logLine(name + " was calculated to be " + calculated + " but is actually " + expected);
     }
   }
 
@@ -201,28 +314,45 @@ public class BastilleBattalionManager {
     checkStat(stats[5], "Psychological Defense", "_bastillePsychologicalDefense");
   }
 
-  private static void logStrength() {
-    StringBuilder buf = new StringBuilder();
-    buf.append("Military ");
-    buf.append(Preferences.getInteger("_bastilleMilitaryAttack"));
-    buf.append("/");
-    buf.append(Preferences.getInteger("_bastilleMilitaryDefense"));
-    buf.append(" ");
-    buf.append("Castle ");
-    buf.append(Preferences.getInteger("_bastilleCastleAttack"));
-    buf.append("/");
-    buf.append(Preferences.getInteger("_bastilleCastleDefense"));
-    buf.append(" ");
-    buf.append("Psychological ");
-    buf.append(Preferences.getInteger("_bastillePsychologicalAttack"));
-    buf.append("/");
-    buf.append(Preferences.getInteger("_bastillePsychologicalDefense"));
-    String message = buf.toString();
-    RequestLogger.printLine(message);
-    RequestLogger.updateSessionLog(message);
+  // *** Interface for AdventureRequest.parseChoiceEncounter
+
+  private static final Pattern CHEESE_PATTERN = Pattern.compile("You gain (\\d+) cheese!");
+
+  public static void gainCheese(final String text) {
+    Matcher matcher = CHEESE_PATTERN.matcher(text);
+    if (matcher.find()) {
+      String message = matcher.group(0);
+      RequestLogger.printLine(message);
+      RequestLogger.updateSessionLog(message);
+      int cheese = StringUtilities.parseInt(matcher.group(1));
+      Preferences.increment("_bastilleCheeseCollected", cheese);
+    }
   }
 
+  public static String parseChoiceEncounter(final int choice, final String responseText) {
+    switch (choice) {
+      case 1314: // Bastille Battalion (Master of None)
+      case 1315: // Castle vs. Castle
+      case 1317: // A Hello to Arms (Battalion)
+      case 1318: // Defensive Posturing
+      case 1319: // Cheese Seeking Behavior
+        // Print cheese gain from previous encounter before logging this one.
+        BastilleBattalionManager.gainCheese(responseText);
+    }
+    return null;
+  }
+
+  // *** Interface for ChoiceManager
+
+  // According to your scanners, the nearest enemy castle is Humongous Craine, a sprawling chateau.
+  private static final Pattern CASTLE_PATTERN =
+      Pattern.compile("the nearest enemy castle is (.*?), an? (.*?)\\.");
+
   public static void visitChoice(final GenericRequest request) {
+    if (request.getURLString().equals("choice.php?forceoption=0")) {
+      logLine("Entering your Bastille Battalion");
+    }
+
     int choice = ChoiceManager.lastChoice;
     String text = request.responseText;
 
@@ -236,15 +366,22 @@ public class BastilleBattalionManager {
         return;
 
       case 1314: // Bastille Battalion (Master of None)
-        // *** Parse castle type
+        if (Preferences.getInteger("_bastilleGameTurn") == 0) {
+          startGame();
+        }
+        nextTurn();
+        Matcher castleMatcher = CASTLE_PATTERN.matcher(text);
+        if (castleMatcher.find()) {
+          Preferences.setString("_bastilleEnemyName", castleMatcher.group(1));
+          parseCastleImage(text);
+        }
+
         parseNeedles(text);
         logStrength();
         return;
 
       case 1315: // Castle vs. Castle
-        // Chateau - Castle: bigcastle
-        // Boring - Castle: masterofnone
-        // Fortress - Castle: barracks
+        nextTurn();
         return;
 
       case 1316: // GAME OVER
@@ -252,12 +389,13 @@ public class BastilleBattalionManager {
         if (matcher.find()) {
           Preferences.setInteger("_bastilleGames", 5 - StringUtilities.parseInt(matcher.group(1)));
         }
+        endGame();
         return;
 
       case 1317: // A Hello to Arms (Battalion)
       case 1318: // Defensive Posturing
       case 1319: // Cheese Seeking Behavior
-        // *** Parse choices?
+        getChoices(text);
         return;
     }
   }
@@ -269,16 +407,20 @@ public class BastilleBattalionManager {
 
     switch (choice) {
       case 1313: // Bastille Battalion
-        if (decision >= 1 && decision <= 4) {
-          parseSettings(text);
-          checkPredictions();
+        if (decision == 0 || decision > 4) {
+          return;
         }
+        parseSettings(text);
+        logLine(currentSettings.get(optionToType.get(decision)).toString());
+        logStrength();
+        checkPredictions();
         return;
 
       case 1314: // Bastille Battalion (Master of None)
         return;
 
       case 1315: // Castle vs. Castle
+        nextCastle();
         return;
 
       case 1316: // GAME OVER
@@ -288,20 +430,93 @@ public class BastilleBattalionManager {
       case 1318: // Defensive Posturing
       case 1319: // Cheese Seeking Behavior
         parseNeedles(text);
+        logStrength();
         return;
     }
   }
 
-  private static final Pattern CHEESE_PATTERN = Pattern.compile("You gain (\\d+) cheese!");
+  public static final boolean registerRequest(final String urlString) {
+    int choice = ChoiceManager.extractChoiceFromURL(urlString);
+    int decision = ChoiceManager.extractOptionFromURL(urlString);
 
-  public static void gainCheese(final String text) {
-    Matcher matcher = CHEESE_PATTERN.matcher(text);
-    if (matcher.find()) {
-      String message = matcher.group(0);
-      RequestLogger.printLine(message);
-      RequestLogger.updateSessionLog(message);
-      int cheese = StringUtilities.parseInt(matcher.group(1));
-      Preferences.increment("_bastilleCheeseCollected", cheese);
+    StringBuilder buf = new StringBuilder();
+    switch (choice) {
+      case 1313: // Bastille Battalion
+        switch (decision) {
+          case 1:
+            buf.append("Decorating the Barbican");
+            break;
+          case 2:
+            buf.append("Changing the Drawbridge");
+            break;
+          case 3:
+            buf.append("Sizing the Murder Holes");
+            break;
+          case 4:
+            buf.append("Filling the Moat");
+            break;
+          case 5:
+            buf.append("Starting game #");
+            buf.append(Preferences.getInteger("_bastilleGames") + 1);
+            break;
+          case 6:
+            // Hi Scores
+            return true;
+          case 8:
+            logLine("Walking away from the game");
+            logLine();
+            return true;
+        }
+        break;
+      case 1314: // Bastille Battalion (Master of None)
+        switch (decision) {
+          case 1:
+            buf.append("Improving offense.");
+            break;
+          case 2:
+            buf.append("Focusing on defense.");
+            break;
+          case 3:
+            buf.append("Looking for cheese.");
+            break;
+        }
+        break;
+      case 1315: // Castle vs. Castle
+        switch (decision) {
+          case 1:
+            buf.append("Charge!");
+            break;
+          case 2:
+            buf.append("Watch warily.");
+            break;
+          case 3:
+            buf.append("Wait to be attacked.");
+            break;
+        }
+        break;
+      case 1316: // GAME OVER
+        break;
+      case 1317: // A Hello to Arms (Battalion)
+      case 1318: // Defensive Posturing
+      case 1319: // Cheese Seeking Behavior
+        switch (decision) {
+          case 1:
+            buf.append(Preferences.getString("_bastilleChoice1"));
+            break;
+          case 2:
+            buf.append(Preferences.getString("_bastilleChoice2"));
+            break;
+          case 3:
+            buf.append(Preferences.getString("_bastilleChoice3"));
+            break;
+        }
+        break;
     }
+
+    if (buf.length() > 0) {
+      logLine(buf.toString());
+    }
+
+    return true;
   }
 }

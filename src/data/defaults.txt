@@ -1490,7 +1490,13 @@ user	_barrelPrayer	false
 user	_bastilleCastleAttack	0
 user	_bastilleCastleDefense	0
 user	_bastilleCheeseCollected	0
+user	_bastilleChoice1
+user	_bastilleChoice2
+user	_bastilleChoice3
+user	_bastilleEnemyCastle	
+user	_bastilleEnemyName	
 user	_bastilleGames	0
+user	_bastilleGameTurn	0
 user	_bastilleMilitaryAttack	0
 user	_bastilleMilitaryDefense	0
 user	_bastillePsychologicalAttack	0

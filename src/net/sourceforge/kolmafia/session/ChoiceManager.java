@@ -19251,6 +19251,15 @@ public abstract class ChoiceManager {
           }
           return true;
 
+        case 1313: // Bastille Battalion
+        case 1314: // Bastille Battalion (Master of None)
+        case 1315: // Castle vs. Castle
+        case 1316: // GAME OVER
+        case 1317: // A Hello to Arms (Battalion)
+        case 1318: // Defensive Posturing
+        case 1319: // Cheese Seeking Behavior
+          return BastilleBattalionManager.registerRequest(urlString);
+
         case 1334: // Boxing Daycare (Lobby)
         case 1335: // Boxing Daycare Spa
         case 1336: // Boxing Daycare

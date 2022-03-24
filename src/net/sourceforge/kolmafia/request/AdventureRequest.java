@@ -643,14 +643,14 @@ public class AdventureRequest extends GenericRequest {
       case 1463: // Reminiscing About Those Monsters You Fought
         return null;
 
+      case 1313: // Bastille Battalion
       case 1314: // Bastille Battalion (Master of None)
       case 1315: // Castle vs. Castle
+      case 1316: // GAME OVER
       case 1317: // A Hello to Arms (Battalion)
       case 1318: // Defensive Posturing
       case 1319: // Cheese Seeking Behavior
-        // Print cheese gain from previous encounter before logging this one.
-        BastilleBattalionManager.gainCheese(responseText);
-        break;
+        return BastilleBattalionManager.parseChoiceEncounter(choice, responseText);
 
       case 1135: // The Bat-Sedan
         return BatManager.parseBatSedan(responseText);
