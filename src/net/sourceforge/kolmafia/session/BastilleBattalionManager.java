@@ -191,9 +191,9 @@ public class BastilleBattalionManager {
         return;
 
       case 1315: // Castle vs. Castle
-	      // Chateau - Castle: bigcastle
-	      // Boring - Castle: masterofnone
-	      // Fortress - Castle: barracks
+        // Chateau - Castle: bigcastle
+        // Boring - Castle: masterofnone
+        // Fortress - Castle: barracks
         return;
 
       case 1316: // GAME OVER
