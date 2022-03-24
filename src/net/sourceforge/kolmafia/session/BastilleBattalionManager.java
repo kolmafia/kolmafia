@@ -15,14 +15,14 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BastilleBattalionManager {
 
-  private static Map<String, Setting> imageToSetting = new HashMap<>();
-  private static Map<Type, Setting> currentSettings = new HashMap<>();
-  private static Map<Integer, Type> optionToType = new HashMap<>();
+  private static final Map<String, Setting> imageToSetting = new HashMap<>();
+  private static final Map<Integer, Type> optionToType = new HashMap<>();
+  private static final int[] baseStats = new int[] {124, 240, 124, 240, 125, 240};
 
   public static enum Type {
     BARBICAN(1, "Barbican", "barb"),
     DRAWBRIDGE(2, "Drawbridge", "bridge"),
-    MURDER_HOLE(3, "Murder holes", "holes"),
+    MURDER_HOLES(3, "Murder holes", "holes"),
     MOAT(4, "Moat", "moat");
 
     String name;
@@ -59,30 +59,20 @@ public class BastilleBattalionManager {
     DRAFTSMAN("Draftsman", 2, Type.DRAWBRIDGE, 0, 3, 0, 3, 0, 3),
     ART_NOUVEAU("Art Nouveau", 3, Type.DRAWBRIDGE, 0, 0, 0, 0, 2, 2),
 
-    CANNON("Cannon", 1, Type.MURDER_HOLE, 2, 1, 0, 0, 0, 1),
-    CATAPULT("Catapult", 2, Type.MURDER_HOLE, 0, 1, 1, 1, 0, 0),
-    GESTURE("Gesture", 3, Type.MURDER_HOLE, 0, 0, 0, 1, 1, 1);
+    CANNON("Cannon", 1, Type.MURDER_HOLES, 2, 1, 0, 0, 0, 1),
+    CATAPULT("Catapult", 2, Type.MURDER_HOLES, 0, 1, 1, 1, 0, 0),
+    GESTURE("Gesture", 3, Type.MURDER_HOLES, 0, 0, 0, 1, 1, 1);
 
     private Type type;
     private String image;
-    private int MA;
-    private int MD;
-    private int CA;
-    private int CD;
-    private int PA;
-    private int PD;
+    private int[] stats;
     private String name;
 
-    private Setting(
-        String name, int index, Type type, int MA, int MD, int CA, int CD, int PA, int PD) {
+    private Setting(String name, int index, Type type, int... stats) {
       this.type = type;
       this.image = type.getPrefix() + index + ".png";
-      this.MA = MA;
-      this.MD = MD;
-      this.CA = CA;
-      this.CD = CD;
-      this.PA = PA;
-      this.PD = PD;
+      this.stats = stats;
+      assert (stats.length == 6);
       this.name = type + " " + name;
       imageToSetting.put(this.image, this);
     }
@@ -97,13 +87,9 @@ public class BastilleBattalionManager {
     }
 
     public void apply(int[] stats) {
-      if (stats.length >= 6) {
-        stats[0] += this.MA;
-        stats[1] += this.MD;
-        stats[2] += this.CA;
-        stats[3] += this.CD;
-        stats[4] += this.PA;
-        stats[5] += this.PD;
+      assert (stats.length == 6);
+      for (int i = 0; i < stats.length; ++i) {
+        stats[i] += this.stats[i];
       }
     }
   }
@@ -144,6 +130,50 @@ public class BastilleBattalionManager {
     // all the various sets and maps from the constructors.
     Setting[] settings = Setting.values();
     Castle[] castles = Castle.values();
+  }
+
+  // *** Cached state. This resets when you visit the Bastille Battalion
+  // *** control console
+
+  private static final Map<Type, Setting> currentSettings = new HashMap<>();
+
+  // For testing
+  public static Map<Type, Setting> getCurrentSettings() {
+    return currentSettings;
+  }
+
+  public static void reset() {
+    // Configuration
+    currentSettings.clear();
+
+    // Set by initial setup, which is locked in place as soon as you start your
+    // first game, since you get the prizes at the end of that
+    // game. Thereafter, offensive/defensive training modify them.
+    Preferences.setInteger("_bastilleMilitaryAttack", 0);
+    Preferences.setInteger("_bastilleMilitaryDefense", 0);
+    Preferences.setInteger("_bastilleCastleAttack", 0);
+    Preferences.setInteger("_bastilleCastleDefense", 0);
+    Preferences.setInteger("_bastillePsychologicalAttack", 0);
+    Preferences.setInteger("_bastillePsychologicalDefense", 0);
+
+    // Game progress settings.
+
+    // Two turns of offense/defense/cheese following by a castle battle The
+    // game ends when you lose or beat your fifth castle
+    Preferences.setInteger("_bastilleGameTurn", 0);
+    Preferences.setInteger("_bastilleCheeseCollected", 0);
+
+    // Presumably, the type of castle might influence your training choices.
+    Preferences.setString("_bastilleEnemyCastle", "");
+    Preferences.setString("_bastilleEnemyName", "");
+
+    // Once you have selected offense/defense/cheese, these are your choice
+    // options for that turn.
+    Preferences.setString("_bastilleChoice1", "");
+    Preferences.setString("_bastilleChoice2", "");
+    Preferences.setString("_bastilleChoice3", "");
+
+    Preferences.setInteger("_bastilleGames", 0);
   }
 
   private static final Pattern BASTILLE_PATTERN = Pattern.compile("You can play <b>(\\d+)</b>");
@@ -214,6 +244,16 @@ public class BastilleBattalionManager {
     }
   }
 
+  // (turn #1)
+  private static final Pattern TURN_PATTERN = Pattern.compile("\\(turn #(\\d+)\\)");
+
+  public static void parseTurn(String text) {
+    Matcher matcher = TURN_PATTERN.matcher(text);
+    if (matcher.find()) {
+      Preferences.setInteger("_bastilleGameTurn", StringUtilities.parseInt(matcher.group(1)));
+    }
+  }
+
   // *** Game control flow
 
   private static void startGame() {
@@ -277,14 +317,7 @@ public class BastilleBattalionManager {
     RequestLogger.updateSessionLog(message);
   }
 
-  // *** Interface for TestCommand (test bastille)
-
-  private static void checkStat(int calculated, String name, String property) {
-    int expected = Preferences.getInteger(property);
-    if (calculated != expected) {
-      logLine(name + " was calculated to be " + calculated + " but is actually " + expected);
-    }
-  }
+  // *** Interface for testing
 
   private static AdventureResult SHARK_TOOTH_GRIN = EffectPool.get(EffectPool.SHARK_TOOTH_GRIN);
   private static AdventureResult BOILING_DETERMINATION =
@@ -292,26 +325,48 @@ public class BastilleBattalionManager {
   private static AdventureResult ENHANCED_INTERROGATION =
       EffectPool.get(EffectPool.ENHANCED_INTERROGATION);
 
-  public static void checkPredictions() {
+  public static int[] getCurrentStats() {
     int[] stats = new int[] {124, 240, 124, 240, 125, 240};
     for (Setting setting : currentSettings.values()) {
       setting.apply(stats);
     }
     if (KoLConstants.activeEffects.contains(SHARK_TOOTH_GRIN)) {
       // Boosts military attack and defense in Bastille Battalion.
+      // Or so it claims; it doesn't show up on the needles
     }
     if (KoLConstants.activeEffects.contains(BOILING_DETERMINATION)) {
       // Boosts castle attack and defense in Bastille Battalion
+      // Or so it claims; it doesn't show up on the needles
     }
     if (KoLConstants.activeEffects.contains(ENHANCED_INTERROGATION)) {
       // Boosts psychological attack and defense in Bastille Battalion.
+      // Or so it claims; it doesn't show up on the needles
     }
-    checkStat(stats[0], "Military Attack", "_bastilleMilitaryAttack");
-    checkStat(stats[1], "Military Defense", "_bastilleMilitaryDefense");
-    checkStat(stats[2], "Castle Attack", "_bastilleCastleAttack");
-    checkStat(stats[3], "Castle Defense", "_bastilleCastleDefense");
-    checkStat(stats[4], "Psychological Attack", "_bastillePsychologicalAttack");
-    checkStat(stats[5], "Psychological Defense", "_bastillePsychologicalDefense");
+    return stats;
+  }
+
+  private static boolean checkStat(int calculated, String name, String property) {
+    int expected = Preferences.getInteger(property);
+    if (calculated != expected) {
+      logLine(name + " was calculated to be " + calculated + " but is actually " + expected);
+      return false;
+    }
+    return true;
+  }
+
+  public static boolean checkPredictions() {
+    return checkPredictions(getCurrentStats());
+  }
+
+  public static boolean checkPredictions(int[] stats) {
+    boolean retval = true;
+    retval &= checkStat(stats[0], "Military Attack", "_bastilleMilitaryAttack");
+    retval &= checkStat(stats[1], "Military Defense", "_bastilleMilitaryDefense");
+    retval &= checkStat(stats[2], "Castle Attack", "_bastilleCastleAttack");
+    retval &= checkStat(stats[3], "Castle Defense", "_bastilleCastleDefense");
+    retval &= checkStat(stats[4], "Psychological Attack", "_bastillePsychologicalAttack");
+    retval &= checkStat(stats[5], "Psychological Defense", "_bastillePsychologicalDefense");
+    return retval;
   }
 
   // *** Interface for AdventureRequest.parseChoiceEncounter
@@ -350,7 +405,7 @@ public class BastilleBattalionManager {
 
   public static void visitChoice(final GenericRequest request) {
     if (request.getURLString().equals("choice.php?forceoption=0")) {
-      logLine("Entering your Bastille Battalion");
+      logLine("Entering your Bastille Battalion control console.");
     }
 
     int choice = ChoiceManager.lastChoice;
@@ -362,7 +417,6 @@ public class BastilleBattalionManager {
           Preferences.setInteger("_bastilleGames", 5);
         }
         parseSettings(text);
-        checkPredictions();
         return;
 
       case 1314: // Bastille Battalion (Master of None)
@@ -376,8 +430,8 @@ public class BastilleBattalionManager {
           parseCastleImage(text);
         }
 
+        parseTurn(text);
         parseNeedles(text);
-        logStrength();
         return;
 
       case 1315: // Castle vs. Castle
@@ -407,13 +461,13 @@ public class BastilleBattalionManager {
 
     switch (choice) {
       case 1313: // Bastille Battalion
-        if (decision == 0 || decision > 4) {
-          return;
+        if (decision >= 1 && decision <= 4) {
+          parseSettings(text);
+          logLine(currentSettings.get(optionToType.get(decision)).toString());
+          logStrength();
+        } else if (decision == 5) {
+          logStrength();
         }
-        parseSettings(text);
-        logLine(currentSettings.get(optionToType.get(decision)).toString());
-        logStrength();
-        checkPredictions();
         return;
 
       case 1314: // Bastille Battalion (Master of None)
