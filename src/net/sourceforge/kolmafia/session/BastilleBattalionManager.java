@@ -69,7 +69,7 @@ public class BastilleBattalionManager {
   // can be used to determine the current level of boostage.
   //
   // (Ezandora's relay script displays that pixel value as the value of your
-  // stats. That's pretty funny; they do show how your stats copare to each
+  // stats. That's pretty funny; they do show how your stats compare to each
   // other, but I am sure the stats are not internally measured in pixels.
 
   private static Map<String, Stat> enumNameToStat = new HashMap<>();
@@ -248,7 +248,6 @@ public class BastilleBattalionManager {
 
   private static final Map<String, Style> imageToStyle = new HashMap<>();
   private static final Map<Integer, Upgrade> optionToUpgrade = new HashMap<>();
-  private static final int[] baseStats = new int[] {124, 240, 124, 240, 125, 240};
 
   public static enum Upgrade {
     BARBICAN(1, "Barbican", "barb"),
@@ -308,8 +307,8 @@ public class BastilleBattalionManager {
     private Style(String name, int index, Upgrade upgrade, int... stats) {
       this.upgrade = upgrade;
       this.image = upgrade.getPrefix() + index + ".png";
-      this.stats = new Stats(stats);
       assert (stats.length == 6);
+      this.stats = new Stats(stats);
       this.name = upgrade + " " + name;
       imageToStyle.put(this.image, this);
     }
@@ -401,13 +400,13 @@ public class BastilleBattalionManager {
     Preferences.setInteger("_bastilleGames", 0);
   }
 
-  private static final Pattern GAMES_PATTERN = Pattern.compile("You can play <b>(\\d+)</b>");
-
   // <img style='position: absolute; top: 233; left: 124;'
   // src=https://d2uyhvukfffg5a.cloudfront.net/otherimages/bbatt/needle.png>
   private static final Pattern IMAGE_PATTERN =
       Pattern.compile(
           "<img style='(.*?top: (\\d+).*?; left: (\\d+).*?;.*?)'[^>]*otherimages/bbatt/([^>]*)>");
+
+  public static final Stats PIXELS = new Stats(124, 240, 124, 240, 125, 240);
 
   private static void parseNeedle(String topString, String leftString) {
     int top = StringUtilities.parseInt(topString);
@@ -426,11 +425,15 @@ public class BastilleBattalionManager {
       default:
         return;
     }
-    currentStatMap.put(stat, left);
-    currentStats.set(stat, left);
+
+    int value = left - PIXELS.get(stat);
+    currentStatMap.put(stat, value);
+    currentStats.set(stat, value);
   }
 
   public static void parseStyles(String text) {
+    currentStatMap.clear();
+    currentStats.clear();
     Matcher matcher = IMAGE_PATTERN.matcher(text);
     while (matcher.find()) {
       String image = matcher.group(4);
@@ -449,6 +452,7 @@ public class BastilleBattalionManager {
 
   public static void parseNeedles(String text) {
     currentStatMap.clear();
+    currentStats.clear();
     Matcher matcher = IMAGE_PATTERN.matcher(text);
     while (matcher.find()) {
       String image = matcher.group(4);
@@ -547,8 +551,6 @@ public class BastilleBattalionManager {
 
   // *** Interface for testing
 
-  public static final Stats PIXELS = new Stats(124, 240, 124, 240, 125, 240);
-
   private static AdventureResult SHARK_TOOTH_GRIN = EffectPool.get(EffectPool.SHARK_TOOTH_GRIN);
   private static AdventureResult BOILING_DETERMINATION =
       EffectPool.get(EffectPool.BOILING_DETERMINATION);
@@ -556,7 +558,7 @@ public class BastilleBattalionManager {
       EffectPool.get(EffectPool.ENHANCED_INTERROGATION);
 
   public static Stats getCurrentStats() {
-    Stats stats = PIXELS.copy();
+    Stats stats = new Stats();
     for (Style style : currentStyles.values()) {
       style.apply(stats);
     }
@@ -632,6 +634,8 @@ public class BastilleBattalionManager {
   }
 
   // *** Interface for ChoiceManager
+
+  private static final Pattern GAMES_PATTERN = Pattern.compile("You can play <b>(\\d+)</b>");
 
   // According to your scanners, the nearest enemy castle is Humongous Craine, a sprawling chateau.
   private static final Pattern CASTLE_PATTERN =
