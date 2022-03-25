@@ -7,10 +7,11 @@ import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.IdentityHashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Set;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
@@ -577,10 +578,10 @@ public interface KoLConstants extends UtilityConstants {
   List<UseSkillRequest> expressionSkills = LockableListFactory.getInstance(UseSkillRequest.class);
   List<UseSkillRequest> walkSkills = LockableListFactory.getInstance(UseSkillRequest.class);
   List<UseSkillRequest> availableSkills = LockableListFactory.getInstance(UseSkillRequest.class);
-  IdentityHashMap<UseSkillRequest, Object> availableSkillsMap = new IdentityHashMap<>();
-  List<UseSkillRequest> availableCombatSkills =
-      LockableListFactory.getInstance(UseSkillRequest.class);
-  IdentityHashMap<UseSkillRequest, Object> availableCombatSkillsMap = new IdentityHashMap<>();
+  Set<Integer> availableSkillsSet = new HashSet<>();
+  // The list of combat skills displayed in skills dropdown from the current (last) fight.php
+  List<Integer> availableCombatSkillsList = new ArrayList<>();
+  Set<Integer> availableCombatSkillsSet = new HashSet<>();
   List<UseSkillRequest> permedSkills = LockableListFactory.getInstance(UseSkillRequest.class);
   List<UseSkillRequest> combatSkills = LockableListFactory.getInstance(UseSkillRequest.class);
 

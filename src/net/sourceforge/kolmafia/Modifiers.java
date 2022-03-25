@@ -2649,7 +2649,7 @@ public class Modifiers {
 
     for (int i = Modifiers.passiveSkills.size() - 1; i >= 0; --i) {
       UseSkillRequest skill = Modifiers.passiveSkills.get(i);
-      if (KoLCharacter.hasSkill(skill)) {
+      if (KoLCharacter.hasSkill(skill.getSkillId())) {
         String name = skill.getSkillName();
 
         // G-Lover shows passives on the char sheet,

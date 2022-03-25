@@ -468,8 +468,7 @@ public class EatItemRequest extends UseItemRequest {
     }
 
     // See if the character can cast Song of the Glorious Lunch
-    UseSkillRequest lunch = UseSkillRequest.getInstance("Song of the Glorious Lunch");
-    boolean canLunch = KoLCharacter.inAxecore() && KoLConstants.availableSkills.contains(lunch);
+    boolean canLunch = KoLCharacter.inAxecore() && KoLCharacter.hasSkill(SkillPool.GLORIOUS_LUNCH);
 
     // See if the character has (or can buy) a milk of magnesium.
     boolean canMilk = InventoryManager.itemAvailable(ItemPool.MILK_OF_MAGNESIUM);
