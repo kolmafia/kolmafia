@@ -59,12 +59,7 @@ public class BastilleBattalionManagerTest {
     // Ensure that we have set all the properties.
     // *** currently, these are the "x" value of the needles, rather than
     // *** being the actual adjustment.
-    assertTrue(Preferences.getInteger("_bastilleMilitaryAttack") > 0);
-    assertTrue(Preferences.getInteger("_bastilleMilitaryDefense") > 0);
-    assertTrue(Preferences.getInteger("_bastilleCastleAttack") > 0);
-    assertTrue(Preferences.getInteger("_bastilleCastleDefense") > 0);
-    assertTrue(Preferences.getInteger("_bastillePsychologicalAttack") > 0);
-    assertTrue(Preferences.getInteger("_bastillePsychologicalDefense") > 0);
+    assertFalse(Preferences.getString("_bastilleStats").equals(""));
 
     // Ensure that the stats all agree with what the styles indicate
     assertTrue(BastilleBattalionManager.checkPredictions());

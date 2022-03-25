@@ -1,9 +1,12 @@
 package net.sourceforge.kolmafia.session;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -69,7 +72,9 @@ public class BastilleBattalionManager {
   // stats. That's pretty funny; they do show how your stats copare to each
   // other, but I am sure the stats are not internally measured in pixels.
 
-  public static enum Stat {
+  private static Map<String, Stat> enumNameToStat = new HashMap<>();
+
+  public enum Stat {
     MA("Military Attack", 0),
     MD("Military Defense", 1),
     CA("Castle Attack", 2),
@@ -83,6 +88,11 @@ public class BastilleBattalionManager {
     private Stat(String name, int index) {
       this.name = name;
       this.index = index;
+      enumNameToStat.put(this.name(), this);
+    }
+
+    public String getShortName() {
+      return this.name();
     }
 
     public String getName() {
@@ -102,6 +112,10 @@ public class BastilleBattalionManager {
   public static class Stats {
     private final int[] stats;
 
+    public Stats() {
+      this.stats = new int[6];
+    }
+
     public Stats(int... stats) {
       assert stats.length == 6;
       this.stats = stats;
@@ -109,6 +123,14 @@ public class BastilleBattalionManager {
 
     public int get(Stat stat) {
       return stats[stat.getIndex()];
+    }
+
+    public void set(Stat stat, int value) {
+      stats[stat.getIndex()] = value;
+    }
+
+    public void clear() {
+      Arrays.fill(this.stats, 0);
     }
 
     public Stats copy() {
@@ -317,6 +339,33 @@ public class BastilleBattalionManager {
   // *** control console
 
   private static final Map<Upgrade, Style> currentStyles = new HashMap<>();
+  private static final Map<Stat, Integer> currentStatMap = new TreeMap<>();
+  private static Stats currentStats = new Stats();
+
+  private static final Pattern STAT_PATTERN = Pattern.compile("([A-Z][A-Z])=(\\d+)");
+
+  private static void loadStats() {
+    currentStatMap.clear();
+    currentStats.clear();
+    String setting = Preferences.getString("_bastilleStats");
+    Matcher matcher = STAT_PATTERN.matcher(setting);
+    while (matcher.find()) {
+      Stat stat = enumNameToStat.get(matcher.group(1));
+      if (stat != null) {
+        int value = Integer.valueOf(matcher.group(2));
+        currentStatMap.put(stat, value);
+        currentStats.set(stat, value);
+      }
+    }
+  }
+
+  private static void saveStats() {
+    String value =
+        currentStatMap.entrySet().stream()
+            .map(e -> e.getKey().getShortName() + "=" + e.getValue())
+            .collect(Collectors.joining(","));
+    Preferences.setString("_bastilleStats", value);
+  }
 
   // For testing
   public static Map<Upgrade, Style> getCurrentStyles() {
@@ -330,12 +379,7 @@ public class BastilleBattalionManager {
     // Set by initial setup, which is locked in place as soon as you start your
     // first game, since you get the prizes at the end of that
     // game. Thereafter, offensive/defensive training modify them.
-    Preferences.setInteger("_bastilleMilitaryAttack", 0);
-    Preferences.setInteger("_bastilleMilitaryDefense", 0);
-    Preferences.setInteger("_bastilleCastleAttack", 0);
-    Preferences.setInteger("_bastilleCastleDefense", 0);
-    Preferences.setInteger("_bastillePsychologicalAttack", 0);
-    Preferences.setInteger("_bastillePsychologicalDefense", 0);
+    Preferences.setString("_bastilleStats", "");
 
     // Game progress settings.
 
@@ -368,22 +412,22 @@ public class BastilleBattalionManager {
   private static void parseNeedle(String topString, String leftString) {
     int top = StringUtilities.parseInt(topString);
     int left = StringUtilities.parseInt(leftString);
+    Stat stat;
     switch (top) {
       case 233:
-        Preferences.setInteger(
-            left < 200 ? "_bastilleMilitaryAttack" : "_bastilleMilitaryDefense", left);
+        stat = left < 200 ? Stat.MA : Stat.MD;
         break;
       case 252:
-        Preferences.setInteger(
-            left < 200 ? "_bastilleCastleAttack" : "_bastilleCastleDefense", left);
+        stat = left < 200 ? Stat.CA : Stat.CD;
         break;
       case 270:
-        Preferences.setInteger(
-            left < 200 ? "_bastillePsychologicalAttack" : "_bastillePsychologicalDefense", left);
+        stat = left < 200 ? Stat.PA : Stat.PD;
         break;
       default:
-        break;
+        return;
     }
+    currentStatMap.put(stat, left);
+    currentStats.set(stat, left);
   }
 
   public static void parseStyles(String text) {
@@ -400,9 +444,11 @@ public class BastilleBattalionManager {
         continue;
       }
     }
+    saveStats();
   }
 
   public static void parseNeedles(String text) {
+    currentStatMap.clear();
     Matcher matcher = IMAGE_PATTERN.matcher(text);
     while (matcher.find()) {
       String image = matcher.group(4);
@@ -411,6 +457,7 @@ public class BastilleBattalionManager {
       }
       parseNeedle(matcher.group(2), matcher.group(3));
     }
+    saveStats();
   }
 
   public static void parseCastleImage(String text) {
@@ -480,19 +527,19 @@ public class BastilleBattalionManager {
   private static void logStrength() {
     StringBuilder buf = new StringBuilder();
     buf.append("Military ");
-    buf.append(Preferences.getInteger("_bastilleMilitaryAttack"));
+    buf.append(currentStats.get(Stat.MA));
     buf.append("/");
-    buf.append(Preferences.getInteger("_bastilleMilitaryDefense"));
+    buf.append(currentStats.get(Stat.MD));
     buf.append(" ");
     buf.append("Castle ");
-    buf.append(Preferences.getInteger("_bastilleCastleAttack"));
+    buf.append(currentStats.get(Stat.CA));
     buf.append("/");
-    buf.append(Preferences.getInteger("_bastilleCastleDefense"));
+    buf.append(currentStats.get(Stat.CD));
     buf.append(" ");
     buf.append("Psychological ");
-    buf.append(Preferences.getInteger("_bastillePsychologicalAttack"));
+    buf.append(currentStats.get(Stat.PA));
     buf.append("/");
-    buf.append(Preferences.getInteger("_bastillePsychologicalDefense"));
+    buf.append(currentStats.get(Stat.PD));
     String message = buf.toString();
     RequestLogger.printLine(message);
     RequestLogger.updateSessionLog(message);
@@ -528,11 +575,14 @@ public class BastilleBattalionManager {
     return stats;
   }
 
-  private static boolean checkStat(Stats stats, Stat stat, String property) {
+  private static boolean checkStat(Stats stats, Stat stat) {
     int calculated = stats.get(stat);
-    int expected = Preferences.getInteger(property);
+    int expected = currentStats.get(stat);
     if (calculated != expected) {
-      logLine(stat + " was calculated to be " + calculated + " but is actually " + expected);
+      String message =
+          stat + " was calculated to be " + calculated + " but is actually " + expected;
+      System.out.println(message);
+      logLine(message);
       return false;
     }
     return true;
@@ -544,12 +594,12 @@ public class BastilleBattalionManager {
 
   public static boolean checkPredictions(Stats stats) {
     boolean retval = true;
-    retval &= checkStat(stats, Stat.MA, "_bastilleMilitaryAttack");
-    retval &= checkStat(stats, Stat.MD, "_bastilleMilitaryDefense");
-    retval &= checkStat(stats, Stat.CA, "_bastilleCastleAttack");
-    retval &= checkStat(stats, Stat.CD, "_bastilleCastleDefense");
-    retval &= checkStat(stats, Stat.PA, "_bastillePsychologicalAttack");
-    retval &= checkStat(stats, Stat.PD, "_bastillePsychologicalDefense");
+    retval &= checkStat(stats, Stat.MA);
+    retval &= checkStat(stats, Stat.MD);
+    retval &= checkStat(stats, Stat.CA);
+    retval &= checkStat(stats, Stat.CD);
+    retval &= checkStat(stats, Stat.PA);
+    retval &= checkStat(stats, Stat.PD);
     return retval;
   }
 
