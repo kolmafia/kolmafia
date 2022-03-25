@@ -122,6 +122,15 @@ public class MaximizerRegressionTest {
     assertTrue(maximize("item, -buddy-bjorn, +equip Buddy Bjorn"));
   }
 
+  @Test
+  public void equipEmptyCrownNoSlot() {
+    equip(EquipmentManager.HAT, "Crown of Thrones");
+    KoLCharacter.addFamiliar(new FamiliarData(FamiliarPool.MOSQUITO));
+    KoLCharacter.setEnthroned(FamiliarData.NO_FAMILIAR);
+
+    assertTrue(maximize("item, -crown-of-thrones, +equip Crown of Thrones"));
+  }
+
   // https://kolmafia.us/threads/27073/
   @Test
   public void noTiePrefersCurrentGear() {
