@@ -15,6 +15,215 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BastilleBattalionManager {
 
+  // Bastille Battalion is a simulation of a video game in which your castle
+  // engages in a combat with another castle in order to accumulate cheese.
+  //
+  // A Game has up to five Battles. You play until you are defeated or until
+  // your fifth battle. Your score is the total cheese you gained.
+  //
+  // Each Battle has two turns of preparation, where you attempt to improve
+  // stats and/or gather cheese, and one round of combat.
+  //
+  // Your stats are Military Attack/Defense, Castle Attack/Defense, and
+  // Psychological Attack/Defense. These are supervised by your generals,
+  // engineers, and artisans, respectively.
+  //
+  // You can play up to 5 games per day.
+  //
+  // This module is intended to track the state over the course of a game:
+  // initial stats, changes as you train them, cheese accumulated, and so
+  // on. These will be made available in properties so that scripts can use
+  // them without having to parse the response text for themselves. These
+  // properties will be reset at the beginning of each game and will only be
+  // valid while a game is underway.
+  //
+  // Additionally, it is intended to record the results of games in other
+  // properties, which will persist until rollover, in other scripts wish to
+  // analyze them.
+
+  // *** Stats
+
+  // We don't actually know what your stats start at,
+  //
+  // Each of the four castle Upgrades will provide bonuses to one or more
+  // stats.
+  //
+  // There are three potions which are rewards you can get from your first game
+  // (won or lost) of the day which affect your stats.
+  //
+  // sharkfin gumbo grants 1 turn of Shark Tooth Grin
+  //    Boosts military attack and defense in Bastille Battalion.
+  // boiling broth grants 1 turn of Boiling Determination
+  //    Boosts castle attack and defense in Bastille Battalion.
+  // interrogative elixir grants 1 turn of Enhanced Interrogation
+  //    Boosts psychological attack and defense in Bastille Battalion.
+  //
+  // The image of the console has six indicators ("needles") at the bottom
+  // which show your upgrade-granted boosts to your six stats. The potions are
+  // not accounted for in those.
+  //
+  // The "needles" each have a horizontal location (measured in pixels) which
+  // can be used to determine the current level of boostage.
+  //
+  // (Ezandora's relay script displays that pixel value as the value of your
+  // stats. That's pretty funny; they do show how your stats copare to each
+  // other, but I am sure the stats are not internally measured in pixels.
+
+  public static enum Stat {
+    MA("Military Attack", 0),
+    MD("Military Defense", 1),
+    CA("Castle Attack", 2),
+    CD("Castle Defense", 3),
+    PA("Psychological Attack", 4),
+    PD("Psychological Defense", 5);
+
+    private final String name;
+    private final int index;
+
+    private Stat(String name, int index) {
+      this.name = name;
+      this.index = index;
+    }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public int getIndex() {
+      return this.index;
+    }
+
+    @Override
+    public String toString() {
+      return this.name;
+    }
+  }
+
+  public static class Stats {
+    private final int[] stats;
+
+    public Stats(int... stats) {
+      assert stats.length == 6;
+      this.stats = stats;
+    }
+
+    public int get(Stat stat) {
+      return stats[stat.getIndex()];
+    }
+
+    public Stats copy() {
+      return copy(this);
+    }
+
+    public Stats copy(Stats stats) {
+      return new Stats(stats.stats);
+    }
+
+    public Stats add(Stats stats) {
+      for (int i = 0; i < 6; ++i) {
+        this.stats[i] += stats.stats[i];
+      }
+      return this;
+    }
+  }
+
+  // *** Castles
+
+  // There are six kinds of castle that can appear as an opponent.
+  //
+  // Each castle has its own set of stats. We don't know what they are,
+  // just as we don't know what your initial stats are.
+  //
+  // Erosionseeker posted on G_D about this:
+  //
+  //     Avant-Garde - higher psychological defense?
+  //     Imposing Citadel - higher psychological attack
+  //     Generic - higher military defense??
+  //     Military Fortress - higher military attack
+  //     Fortified Stronghold - higher castle defense?
+  //     Sprawling Chateau - higher castle attack?
+
+  private static Map<String, Castle> imageToCastle = new HashMap<>();
+
+  public static enum Castle {
+    ART("frenchcastle", "an avant-garde art castle"),
+    BORING("masterofnone", "a boring, run-of-the-mill castle"),
+    CHATEAU("bigcastle", "a sprawling chateau"),
+    CITADEL("berserker", "a dark and menacing citadel"),
+    FORTIFIED("shieldmaster", "a fortress that puts the 'fort' in 'fortified'"),
+    MILITARY("barracks", "an imposing military fortress");
+
+    String prefix;
+    String description;
+
+    private Castle(String prefix, String description) {
+      this.prefix = prefix;
+      this.description = description;
+      imageToCastle.put(prefix + "_1.png", this);
+      imageToCastle.put(prefix + "_2.png", this);
+      imageToCastle.put(prefix + "_3.png", this);
+    }
+
+    public String getPrefix() {
+      return this.prefix;
+    }
+
+    @Override
+    public String toString() {
+      return this.description;
+    }
+  }
+
+  // *** Stances
+
+  // When you enter battle with a castle, you have three choices:
+  //
+  // Try to get the jump on them
+  // Bide your time
+  // Ready your defenses and wait for them.
+  //
+  // A fortress never initiates battle, so that last one is useless against
+  // such.
+  //
+  // In a battle, either (all of) your Attack stats are compared to your foe's
+  // Defense stats, or vice versa. From what I have seen, even if you choose
+  // the Offensive stance, you are not guaranteed to be the Attacker
+
+  public static enum Stance {
+    OFFENSE("offense"),
+    BIDE("bide"),
+    DEFENSE("defense");
+
+    String name;
+
+    private Stance(String name) {
+      this.name = name;
+    }
+
+    @Override
+    public String toString() {
+      return this.name;
+    }
+  }
+
+  // *** Upgrades
+
+  // You can upgrade four areas of your castle
+  //
+  // Each upgrade provides a reward at the end of your first game, depending on
+  // the style you selected for the upgrade.
+  //
+  // Each upgrade/style also provides a boost to specific attack/defense game stats
+  //
+  // The Barbican is the fortified gateway.
+  //    The reward is {Muscle, Mysticality, Moxie} substats
+  // The Drawbridge crosses the Moat
+  //    The reward is a (Disappears at Rollover) accessory
+  // The Moat surrounds your castle and is filled with something hazardous
+  //    The reward is a potion which can be used to enhance future games.
+  // Murder Holes are slits in walls or ceilings for launching projectiles
+  //    The reward is 100 turns of a useful status effect
+
   private static final Map<String, Style> imageToStyle = new HashMap<>();
   private static final Map<Integer, Upgrade> optionToUpgrade = new HashMap<>();
   private static final int[] baseStats = new int[] {124, 240, 124, 240, 125, 240};
@@ -46,8 +255,14 @@ public class BastilleBattalionManager {
     }
   }
 
+  // *** Styles
+
+  // There are three possible styles for each upgrade. In addition to providing
+  // attack/defense boosts for the game, they provide a {Muscle, Mysticality,
+  // Moxie} inspired reward at the end of your first game of the day.
+
   public static enum Style {
-    BARBEQUE("Barbecue", 1, Upgrade.BARBICAN, 3, 2, 0, 0, 0, 0),
+    BARBEQUE("Barbarian Barbecue", 1, Upgrade.BARBICAN, 3, 2, 0, 0, 0, 0),
     BABAR("Babar", 2, Upgrade.BARBICAN, 0, 0, 2, 3, 0, 0),
     BARBERSHOP("Barbershop", 3, Upgrade.BARBICAN, 0, 0, 0, 0, 2, 3),
 
@@ -65,13 +280,13 @@ public class BastilleBattalionManager {
 
     private Upgrade upgrade;
     private String image;
-    private int[] stats;
+    private Stats stats;
     private String name;
 
     private Style(String name, int index, Upgrade upgrade, int... stats) {
       this.upgrade = upgrade;
       this.image = upgrade.getPrefix() + index + ".png";
-      this.stats = stats;
+      this.stats = new Stats(stats);
       assert (stats.length == 6);
       this.name = upgrade + " " + name;
       imageToStyle.put(this.image, this);
@@ -86,42 +301,8 @@ public class BastilleBattalionManager {
       currentStyles.put(this.upgrade, this);
     }
 
-    public void apply(int[] stats) {
-      assert (stats.length == 6);
-      for (int i = 0; i < stats.length; ++i) {
-        stats[i] += this.stats[i];
-      }
-    }
-  }
-
-  private static Map<String, Castle> imageToCastle = new HashMap<>();
-
-  public static enum Castle {
-    ART("frenchcastle", "an avant-garde rt castle"),
-    BORING("masterofnone", "a boring, run-of-the-mill castle"),
-    CHATEAU("bigcastle", "a sprawling chateau"),
-    CITADEL("berserker", "a dark and menacing citadel"),
-    FORTIFIED("shieldmaster", "a fortress that puts the 'fort' in 'fortified'"),
-    MILITARY("barracks", "an imposing military fortress");
-
-    String prefix;
-    String description;
-
-    private Castle(String prefix, String description) {
-      this.prefix = prefix;
-      this.description = description;
-      imageToCastle.put(prefix + "_1.png", this);
-      imageToCastle.put(prefix + "_2.png", this);
-      imageToCastle.put(prefix + "_3.png", this);
-    }
-
-    public String getPrefix() {
-      return this.prefix;
-    }
-
-    @Override
-    public String toString() {
-      return this.description;
+    public void apply(Stats stats) {
+      stats.add(this.stats);
     }
   }
 
@@ -319,14 +500,16 @@ public class BastilleBattalionManager {
 
   // *** Interface for testing
 
+  public static final Stats PIXELS = new Stats(124, 240, 124, 240, 125, 240);
+
   private static AdventureResult SHARK_TOOTH_GRIN = EffectPool.get(EffectPool.SHARK_TOOTH_GRIN);
   private static AdventureResult BOILING_DETERMINATION =
       EffectPool.get(EffectPool.BOILING_DETERMINATION);
   private static AdventureResult ENHANCED_INTERROGATION =
       EffectPool.get(EffectPool.ENHANCED_INTERROGATION);
 
-  public static int[] getCurrentStats() {
-    int[] stats = new int[] {124, 240, 124, 240, 125, 240};
+  public static Stats getCurrentStats() {
+    Stats stats = PIXELS.copy();
     for (Style style : currentStyles.values()) {
       style.apply(stats);
     }
@@ -345,10 +528,11 @@ public class BastilleBattalionManager {
     return stats;
   }
 
-  private static boolean checkStat(int calculated, String name, String property) {
+  private static boolean checkStat(Stats stats, Stat stat, String property) {
+    int calculated = stats.get(stat);
     int expected = Preferences.getInteger(property);
     if (calculated != expected) {
-      logLine(name + " was calculated to be " + calculated + " but is actually " + expected);
+      logLine(stat + " was calculated to be " + calculated + " but is actually " + expected);
       return false;
     }
     return true;
@@ -358,14 +542,14 @@ public class BastilleBattalionManager {
     return checkPredictions(getCurrentStats());
   }
 
-  public static boolean checkPredictions(int[] stats) {
+  public static boolean checkPredictions(Stats stats) {
     boolean retval = true;
-    retval &= checkStat(stats[0], "Military Attack", "_bastilleMilitaryAttack");
-    retval &= checkStat(stats[1], "Military Defense", "_bastilleMilitaryDefense");
-    retval &= checkStat(stats[2], "Castle Attack", "_bastilleCastleAttack");
-    retval &= checkStat(stats[3], "Castle Defense", "_bastilleCastleDefense");
-    retval &= checkStat(stats[4], "Psychological Attack", "_bastillePsychologicalAttack");
-    retval &= checkStat(stats[5], "Psychological Defense", "_bastillePsychologicalDefense");
+    retval &= checkStat(stats, Stat.MA, "_bastilleMilitaryAttack");
+    retval &= checkStat(stats, Stat.MD, "_bastilleMilitaryDefense");
+    retval &= checkStat(stats, Stat.CA, "_bastilleCastleAttack");
+    retval &= checkStat(stats, Stat.CD, "_bastilleCastleDefense");
+    retval &= checkStat(stats, Stat.PA, "_bastillePsychologicalAttack");
+    retval &= checkStat(stats, Stat.PD, "_bastillePsychologicalDefense");
     return retval;
   }
 
