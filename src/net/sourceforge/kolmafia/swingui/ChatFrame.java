@@ -388,7 +388,7 @@ public class ChatFrame extends GenericFrame {
 
         if (message.startsWith("/?") || message.startsWith("/help")) {
           RelayLoader.openSystemBrowser(
-              "http://www.kingdomofloathing.com/doc.php?topic=chat_commands");
+              "https://www.kingdomofloathing.com/doc.php?topic=chat_commands");
           return;
         }
 

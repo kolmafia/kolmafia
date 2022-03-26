@@ -616,7 +616,7 @@ public class RelayRequest extends PasswordHashRequest {
 
   private static String localImagePath(final String filename) {
     return filename.endsWith("favicon.ico")
-        ? "http://www.kingdomofloathing.com/favicon.ico"
+        ? "https://www.kingdomofloathing.com/favicon.ico"
         : filename.startsWith("images")
             ? KoLmafia.imageServerPrefix() + filename.substring(6)
             : filename.startsWith("iii")
@@ -683,7 +683,7 @@ public class RelayRequest extends PasswordHashRequest {
       // If the file is not in the file system, it's probably a KoL
       // file which is not in the image directory for some reason.
       // Download it from KoL.
-      replyBuffer = FileUtilities.downloadFile("http://www.kingdomofloathing.com/" + filename);
+      replyBuffer = FileUtilities.downloadFile("https://www.kingdomofloathing.com/" + filename);
     }
 
     // If it is a KoLmafia built-in file, as opposed to the
