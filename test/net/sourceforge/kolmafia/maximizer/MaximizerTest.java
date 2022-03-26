@@ -392,9 +392,7 @@ public class MaximizerTest {
     public void canBenefitFromOutfits() {
       final var cleanups =
           new Cleanups(
-              inPath(Path.GELATINOUS_NOOB),
-              canUse("bugbear beanie"),
-              canUse("bugbear bungguard"));
+              inPath(Path.GELATINOUS_NOOB), canUse("bugbear beanie"), canUse("bugbear bungguard"));
 
       try (cleanups) {
         assertTrue(maximize("spell dmg -tie"));
