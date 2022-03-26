@@ -458,19 +458,22 @@ public class BastilleBattalionManager {
 
   // According to your scanners, the nearest enemy castle is Humongous Craine, a sprawling chateau.
   private static final Pattern CASTLE_PATTERN =
-      Pattern.compile("the nearest enemy castle is (.*?), (an? .*?)\\.");
+      Pattern.compile("the nearest enemy castle is ((.*?), (an? .*?)\\.)");
 
-  public static void parseCastle(String text) {
+  public static void parseCastle(String text, boolean logit) {
     Matcher matcher = CASTLE_PATTERN.matcher(text);
     if (!matcher.find()) {
       return;
     }
-    Castle castle = descriptionToCastle.get(matcher.group(2));
+    Castle castle = descriptionToCastle.get(matcher.group(3));
     if (castle == null) {
       return;
     }
-    Preferences.setString("_bastilleEnemyName", matcher.group(1));
+    Preferences.setString("_bastilleEnemyName", matcher.group(2));
     Preferences.setString("_bastilleEnemyCastle", castle.getPrefix());
+    if (logit) {
+      logLine("Your next foe is " + matcher.group(1) + ".");
+    }
   }
 
   // (turn #1)
@@ -495,19 +498,24 @@ public class BastilleBattalionManager {
   // Psychological results:  Your attack strength is lower than their defense .<br /><p>
   // Unfortunately, you have been razed.
 
+  // Military results:  Your defense is lower than their attack strength.<br />
+  // Castle results:  Your defense is higher than their attack strength.<br />
+  // Psychological results:  Your defense is higher than their attack strength.<br /><p>
+  // You have razed your foe!
+
   private static final Pattern BATTLE_PATTERN =
       Pattern.compile(
-          "(Military|Castle|Psychological) results:.*?(Your|Their) attack strength is (higher|lower) than (your|their) defense");
+          "(Military|Castle|Psychological) results:.*?(Your|Their) (attack strength|defense) is (higher|lower) than (your|their) (defense|attack strength)");
 
-  public static boolean parseBattle(String text) {
+  public static boolean logBattle(String text) {
     StringBuilder buf = new StringBuilder();
     Matcher matcher = BATTLE_PATTERN.matcher(text);
     while (matcher.find()) {
       logLine(matcher.group(0) + ".");
       String stat = matcher.group(1);
       char c1 = stat.charAt(0);
-      boolean aggressor = matcher.group(2).equals("Your");
-      char direction = matcher.group(3).equals("higher") ? '>' : '<';
+      boolean aggressor = matcher.group(3).equals("attack strength");
+      char direction = matcher.group(4).equals("higher") ? '>' : '<';
       if (buf.length() > 0) {
         buf.append(",");
       }
@@ -518,11 +526,13 @@ public class BastilleBattalionManager {
       buf.append(aggressor ? 'D' : 'A');
     }
 
+    boolean won = text.contains("You have razed your foe!");
+    Preferences.setBoolean("_bastilleLastBattleWon", won);
+    logLine(won ? "You won!" : "You lost.");
+
     String results = buf.toString();
     Preferences.setString("_bastilleLastBattleStats", results);
 
-    boolean won = text.contains("You have razed your foe!");
-    Preferences.setBoolean("_bastilleLastBattleWon", won);
     return won;
   }
 
@@ -601,6 +611,19 @@ public class BastilleBattalionManager {
     String message = buf.toString();
     RequestLogger.printLine(message);
     RequestLogger.updateSessionLog(message);
+  }
+
+  private static void logAction(String action) {
+    String message = logAction(new StringBuilder(), action).toString();
+    logLine(message);
+  }
+
+  private static StringBuilder logAction(StringBuilder buf, String action) {
+    buf.append("Turn #");
+    buf.append(Preferences.getInteger("_bastilleGameTurn"));
+    buf.append(": ");
+    buf.append(action);
+    return buf;
   }
 
   // *** Interface for testing
@@ -706,7 +729,7 @@ public class BastilleBattalionManager {
         }
         parseTurn(text);
         clearChoices();
-        parseCastle(text);
+        parseCastle(text, Preferences.getInteger("_bastilleGameTurn") == 1);
         parseNeedles(text);
         return;
 
@@ -751,9 +774,9 @@ public class BastilleBattalionManager {
         return;
 
       case 1315: // Castle vs. Castle
-        if (parseBattle(text)) {
+        if (logBattle(text)) {
           parseTurn(text);
-          parseCastle(text);
+          parseCastle(text, true);
         }
         return;
 
@@ -775,6 +798,7 @@ public class BastilleBattalionManager {
   public static final boolean registerRequest(final String urlString) {
     int choice = ChoiceManager.extractChoiceFromURL(urlString);
     int decision = ChoiceManager.extractOptionFromURL(urlString);
+    int turn = Preferences.getInteger("_bastilleGameTurn");
 
     StringBuilder buf = new StringBuilder();
     switch (choice) {
@@ -808,26 +832,26 @@ public class BastilleBattalionManager {
       case 1314: // Bastille Battalion (Master of None)
         switch (decision) {
           case 1:
-            buf.append("Improving offense.");
+            logAction(buf, "Improving offense.");
             break;
           case 2:
-            buf.append("Focusing on defense.");
+            logAction(buf, "Focusing on defense.");
             break;
           case 3:
-            buf.append("Looking for cheese.");
+            logAction(buf, "Looking for cheese.");
             break;
         }
         break;
       case 1315: // Castle vs. Castle
         switch (decision) {
           case 1:
-            buf.append("Charge!");
+            logAction(buf, "Charge!");
             break;
           case 2:
-            buf.append("Watch warily.");
+            logAction(buf, "Watch warily.");
             break;
           case 3:
-            buf.append("Wait to be attacked.");
+            logAction(buf, "Wait to be attacked.");
             break;
         }
         break;

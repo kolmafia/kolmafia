@@ -283,7 +283,7 @@ public class BastilleBattalionManagerTest {
 
     // Turn #1: Choose to improve offense
     urlString = "choice.php?whichchoice=1314&option=1";
-    expected = "Improving offense.";
+    expected = "Turn #1: Improving offense.";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
     responseText = loadHTMLResponse("request/test_bastille_game1_1.html");
@@ -327,7 +327,7 @@ public class BastilleBattalionManagerTest {
 
     // Turn #2: Choose to improve offense
     urlString = "choice.php?whichchoice=1314&option=1";
-    expected = "Improving offense.";
+    expected = "Turn #2: Improving offense.";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
     responseText = loadHTMLResponse("request/test_bastille_game1_2.html");
@@ -371,7 +371,7 @@ public class BastilleBattalionManagerTest {
 
     // Turn #3: Select a stance
     urlString = "choice.php?whichchoice=1315&option=1";
-    expected = "Charge!";
+    expected = "Turn #3: Charge!";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
     responseText = loadHTMLResponse("request/test_bastille_game1_3_4.html");
@@ -397,7 +397,7 @@ public class BastilleBattalionManagerTest {
 
     // Turn #4: Choose to improve defense
     urlString = "choice.php?whichchoice=1314&option=2";
-    expected = "Focusing on defense.";
+    expected = "Turn #4: Focusing on defense.";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
     responseText = loadHTMLResponse("request/test_bastille_game1_4.html");
@@ -441,7 +441,7 @@ public class BastilleBattalionManagerTest {
 
     // Turn #5: Choose to improve defense
     urlString = "choice.php?whichchoice=1314&option=2";
-    expected = "Focusing on defense.";
+    expected = "Turn #5: Focusing on defense.";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
     responseText = loadHTMLResponse("request/test_bastille_game1_5.html");
@@ -485,7 +485,7 @@ public class BastilleBattalionManagerTest {
 
     // Turn #6: Select a stance
     urlString = "choice.php?whichchoice=1315&option=1";
-    expected = "Charge!";
+    expected = "Turn #6: Charge!";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
     responseText = loadHTMLResponse("request/test_bastille_game1_6_7.html");
@@ -511,7 +511,7 @@ public class BastilleBattalionManagerTest {
 
     // Turn #7: Choose to improve offense
     urlString = "choice.php?whichchoice=1314&option=1";
-    expected = "Improving offense.";
+    expected = "Turn #7: Improving offense.";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
     responseText = loadHTMLResponse("request/test_bastille_game1_7.html");
@@ -555,7 +555,7 @@ public class BastilleBattalionManagerTest {
 
     // Turn #8: Choose to improve offense
     urlString = "choice.php?whichchoice=1314&option=1";
-    expected = "Improving offense.";
+    expected = "Turn #8: Improving offense.";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
     responseText = loadHTMLResponse("request/test_bastille_game1_8.html");
@@ -599,7 +599,7 @@ public class BastilleBattalionManagerTest {
 
     // Turn #9: Select a stance
     urlString = "choice.php?whichchoice=1315&option=1";
-    expected = "Charge!";
+    expected = "Turn #9: Charge!";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
     responseText = loadHTMLResponse("request/test_bastille_game1_9_10.html");
@@ -625,7 +625,7 @@ public class BastilleBattalionManagerTest {
 
     // Turn #10: Choose to improve offense
     urlString = "choice.php?whichchoice=1314&option=1";
-    expected = "Improving offense.";
+    expected = "Turn #10: Improving offense.";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
     responseText = loadHTMLResponse("request/test_bastille_game1_10.html");
@@ -669,7 +669,7 @@ public class BastilleBattalionManagerTest {
 
     // Turn #11: Look for cheese
     urlString = "choice.php?whichchoice=1314&option=3";
-    expected = "Looking for cheese.";
+    expected = "Turn #11: Looking for cheese.";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
     responseText = loadHTMLResponse("request/test_bastille_game1_11.html");
@@ -713,7 +713,7 @@ public class BastilleBattalionManagerTest {
 
     // Turn #12: Select a stance
     urlString = "choice.php?whichchoice=1315&option=1";
-    expected = "Charge!";
+    expected = "Turn #12: Charge!";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
     responseText = loadHTMLResponse("request/test_bastille_game1_12_loss.html");
