@@ -283,7 +283,7 @@ public class BastilleBattalionManager {
   // Moxie} inspired reward at the end of your first game of the day.
 
   public static enum Style {
-    BARBEQUE("Barbarian Barbecue", 1, Upgrade.BARBICAN, 3, 2, 0, 0, 0, 0),
+    BARBECUE("Barbarian Barbecue", 1, Upgrade.BARBICAN, 3, 2, 0, 0, 0, 0),
     BABAR("Babar", 2, Upgrade.BARBICAN, 0, 0, 2, 3, 0, 0),
     BARBERSHOP("Barbershop", 3, Upgrade.BARBICAN, 0, 0, 0, 0, 2, 3),
 
@@ -364,11 +364,6 @@ public class BastilleBattalionManager {
             .map(e -> e.getKey().getShortName() + "=" + e.getValue())
             .collect(Collectors.joining(","));
     Preferences.setString("_bastilleStats", value);
-  }
-
-  // For testing
-  public static Map<Upgrade, Style> getCurrentStyles() {
-    return currentStyles;
   }
 
   public static void reset() {
@@ -551,6 +546,14 @@ public class BastilleBattalionManager {
 
   // *** Interface for testing
 
+  public static Map<Upgrade, Style> getCurrentStyles() {
+    return currentStyles;
+  }
+
+  public static Style getCurrentStyle(Upgrade upgrade) {
+    return currentStyles.get(upgrade);
+  }
+
   private static AdventureResult SHARK_TOOTH_GRIN = EffectPool.get(EffectPool.SHARK_TOOTH_GRIN);
   private static AdventureResult BOILING_DETERMINATION =
       EffectPool.get(EffectPool.BOILING_DETERMINATION);
@@ -583,7 +586,6 @@ public class BastilleBattalionManager {
     if (calculated != expected) {
       String message =
           stat + " was calculated to be " + calculated + " but is actually " + expected;
-      System.out.println(message);
       logLine(message);
       return false;
     }
@@ -642,19 +644,19 @@ public class BastilleBattalionManager {
       Pattern.compile("the nearest enemy castle is (.*?), an? (.*?)\\.");
 
   public static void visitChoice(final GenericRequest request) {
-    if (request.getURLString().equals("choice.php?forceoption=0")) {
-      logLine("Entering your Bastille Battalion control console.");
-    }
-
-    int choice = ChoiceManager.lastChoice;
     String text = request.responseText;
 
-    switch (choice) {
+    if (request.getURLString().equals("choice.php?forceoption=0")) {
+      logLine("Entering your Bastille Battalion control console.");
+      parseStyles(text);
+      logStrength();
+    }
+
+    switch (ChoiceManager.lastChoice) {
       case 1313: // Bastille Battalion
         if (!text.contains("option=5")) {
           Preferences.setInteger("_bastilleGames", 5);
         }
-        parseStyles(text);
         return;
 
       case 1314: // Bastille Battalion (Master of None)
