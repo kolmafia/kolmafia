@@ -333,7 +333,7 @@ public class BastilleBattalionManager {
   private static final Map<Stat, Integer> currentStatMap = new TreeMap<>();
   private static Stats currentStats = new Stats();
 
-  private static final Pattern STAT_PATTERN = Pattern.compile("([A-Z][A-Z])=(\\d+)");
+  private static final Pattern STAT_PATTERN = Pattern.compile("([MCP][AD])=(\\d+)");
 
   public static void loadStats() {
     loadStats(Preferences.getString("_bastilleStats"));
