@@ -542,4 +542,34 @@ class StringUtilitiesTest {
       assertEquals(expected[i], result[i], "Not a match at element " + i);
     }
   }
+
+  @Test
+  public void itShouldNotTryAndReplaceInANullString() {
+    String test = null;
+    assertNull(StringUtilities.singleStringReplace(test, "cat", "dog"));
+  }
+
+  @Test
+  public void itShouldNotInsertAfterSomethingThatIsNotThere() {
+    String test = "exotic marigold";
+    StringBuffer testBuffer = new StringBuffer();
+    testBuffer.append(test);
+    StringUtilities.insertAfter(testBuffer, "ecstatic", " blue");
+    assertEquals(test, testBuffer.toString(), test);
+    StringUtilities.insertAfter(testBuffer, "exotic", " blue");
+    String expected = "exotic blue marigold";
+    assertEquals(expected, testBuffer.toString(), test);
+  }
+
+  @Test
+  public void itShouldNotInsertBeforeSomethingThatIsNotThere() {
+    String test = "exotic marigold";
+    StringBuffer testBuffer = new StringBuffer();
+    testBuffer.append(test);
+    StringUtilities.insertBefore(testBuffer, "ecstatic", "blue ");
+    assertEquals(test, testBuffer.toString(), test);
+    StringUtilities.insertBefore(testBuffer, "exotic", "blue ");
+    String expected = "blue exotic marigold";
+    assertEquals(expected, testBuffer.toString(), test);
+  }
 }
