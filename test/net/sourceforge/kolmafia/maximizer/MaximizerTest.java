@@ -402,7 +402,6 @@ public class MaximizerTest {
     }
 
     @Test
-    @Disabled("Bug: doesn't work in Mafia, but should")
     public void canBenefitFromOutfitsWithWeapons() {
       final var cleanups =
           new Cleanups(
