@@ -1495,6 +1495,8 @@ user	_bastilleEnemyCastle
 user	_bastilleEnemyName	
 user	_bastilleGames	0
 user	_bastilleGameTurn	0
+user	_bastilleLastBattleStats
+user	_bastilleLastBattleWon	false
 user	_bastilleStats	
 user	_beachCombing	false
 user	_beachHeadsUsed

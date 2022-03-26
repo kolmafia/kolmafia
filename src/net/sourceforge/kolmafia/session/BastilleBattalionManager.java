@@ -158,6 +158,7 @@ public class BastilleBattalionManager {
   //     Sprawling Chateau - higher castle attack?
 
   private static Map<String, Castle> imageToCastle = new HashMap<>();
+  private static Map<String, Castle> descriptionToCastle = new HashMap<>();
 
   public static enum Castle {
     ART("frenchcastle", "an avant-garde art castle"),
@@ -173,6 +174,7 @@ public class BastilleBattalionManager {
     private Castle(String prefix, String description) {
       this.prefix = prefix;
       this.description = description;
+      descriptionToCastle.put(description, this);
       imageToCastle.put(prefix + "_1.png", this);
       imageToCastle.put(prefix + "_2.png", this);
       imageToCastle.put(prefix + "_3.png", this);
@@ -454,26 +456,74 @@ public class BastilleBattalionManager {
     saveStats();
   }
 
-  public static void parseCastleImage(String text) {
-    Matcher matcher = IMAGE_PATTERN.matcher(text);
-    while (matcher.find()) {
-      String image = matcher.group(4);
-      Castle castle = imageToCastle.get(image);
-      if (castle != null) {
-        Preferences.setString("_bastilleEnemyCastle", castle.getPrefix());
-        return;
-      }
+  // According to your scanners, the nearest enemy castle is Humongous Craine, a sprawling chateau.
+  private static final Pattern CASTLE_PATTERN =
+      Pattern.compile("the nearest enemy castle is (.*?), (an? .*?)\\.");
+
+  public static void parseCastle(String text) {
+    Matcher matcher = CASTLE_PATTERN.matcher(text);
+    if (!matcher.find()) {
+      return;
     }
+    Castle castle = descriptionToCastle.get(matcher.group(2));
+    if (castle == null) {
+      return;
+    }
+    Preferences.setString("_bastilleEnemyName", matcher.group(1));
+    Preferences.setString("_bastilleEnemyCastle", castle.getPrefix());
   }
 
   // (turn #1)
   private static final Pattern TURN_PATTERN = Pattern.compile("\\(turn #(\\d+)\\)");
 
-  public static void parseTurn(String text) {
+  public static boolean parseTurn(String text) {
     Matcher matcher = TURN_PATTERN.matcher(text);
     if (matcher.find()) {
       Preferences.setInteger("_bastilleGameTurn", StringUtilities.parseInt(matcher.group(1)));
+      return true;
     }
+    return false;
+  }
+
+  // Military results:  Your attack strength is higher than their defense.<br />
+  // Castle results:  Your attack strength is lower than their defense .<br />
+  // Psychological results:  Your attack strength is higher than their defense.<br /><p>
+  // You have razed your foe!
+
+  // Military results:  Your attack strength is higher than their defense.<br />
+  // Castle results:  Your attack strength is lower than their defense .<br />
+  // Psychological results:  Your attack strength is lower than their defense .<br /><p>
+  // Unfortunately, you have been razed.
+
+  private static final Pattern BATTLE_PATTERN =
+      Pattern.compile(
+          "(Military|Castle|Psychological) results:.*?(Your|Their) attack strength is (higher|lower) than (your|their) defense");
+
+  public static boolean parseBattle(String text) {
+    StringBuilder buf = new StringBuilder();
+    Matcher matcher = BATTLE_PATTERN.matcher(text);
+    while (matcher.find()) {
+      logLine(matcher.group(0) + ".");
+      String stat = matcher.group(1);
+      char c1 = stat.charAt(0);
+      boolean aggressor = matcher.group(2).equals("Your");
+      char direction = matcher.group(3).equals("higher") ? '>' : '<';
+      if (buf.length() > 0) {
+        buf.append(",");
+      }
+      buf.append(c1);
+      buf.append(aggressor ? 'A' : 'D');
+      buf.append(direction);
+      buf.append(c1);
+      buf.append(aggressor ? 'D' : 'A');
+    }
+
+    String results = buf.toString();
+    Preferences.setString("_bastilleLastBattleStats", results);
+
+    boolean won = text.contains("You have razed your foe!");
+    Preferences.setBoolean("_bastilleLastBattleWon", won);
+    return won;
   }
 
   // *** Game control flow
@@ -484,14 +534,12 @@ public class BastilleBattalionManager {
 
   private static void nextTurn() {
     Preferences.increment("_bastilleGameTurn", 1);
+  }
+
+  private static void clearChoices() {
     Preferences.setString("_bastilleChoice1", "");
     Preferences.setString("_bastilleChoice2", "");
     Preferences.setString("_bastilleChoice3", "");
-  }
-
-  private static void nextCastle() {
-    Preferences.setString("_bastilleEnemyCastle", "");
-    Preferences.setString("_bastilleEnemyName", "");
   }
 
   private static void getChoices(String responseText) {
@@ -503,9 +551,7 @@ public class BastilleBattalionManager {
     }
   }
 
-  private static void endGame() {
-    Preferences.setInteger("_bastilleGameTurn", 0);
-  }
+  private static void endGame() {}
 
   // *** Logging
 
@@ -516,6 +562,24 @@ public class BastilleBattalionManager {
 
   private static void logLine() {
     logLine("");
+  }
+
+  private static AdventureResult SHARK_TOOTH_GRIN = EffectPool.get(EffectPool.SHARK_TOOTH_GRIN);
+  private static AdventureResult BOILING_DETERMINATION =
+      EffectPool.get(EffectPool.BOILING_DETERMINATION);
+  private static AdventureResult ENHANCED_INTERROGATION =
+      EffectPool.get(EffectPool.ENHANCED_INTERROGATION);
+
+  private static void logPotions() {
+    if (KoLConstants.activeEffects.contains(SHARK_TOOTH_GRIN)) {
+      logLine("(Military attack and defense boosted from Shark Tooth Grin)");
+    }
+    if (KoLConstants.activeEffects.contains(BOILING_DETERMINATION)) {
+      logLine("(Castle attack and defense boosted from Boiling Determination)");
+    }
+    if (KoLConstants.activeEffects.contains(ENHANCED_INTERROGATION)) {
+      logLine("(Psychological attack and defense boosted from Enhanced Interrogation)");
+    }
   }
 
   private static void logStrength() {
@@ -553,28 +617,10 @@ public class BastilleBattalionManager {
     return currentStats.get(stat);
   }
 
-  private static AdventureResult SHARK_TOOTH_GRIN = EffectPool.get(EffectPool.SHARK_TOOTH_GRIN);
-  private static AdventureResult BOILING_DETERMINATION =
-      EffectPool.get(EffectPool.BOILING_DETERMINATION);
-  private static AdventureResult ENHANCED_INTERROGATION =
-      EffectPool.get(EffectPool.ENHANCED_INTERROGATION);
-
   public static Stats getCurrentStats() {
     Stats stats = new Stats();
     for (Style style : currentStyles.values()) {
       style.apply(stats);
-    }
-    if (KoLConstants.activeEffects.contains(SHARK_TOOTH_GRIN)) {
-      // Boosts military attack and defense in Bastille Battalion.
-      // Or so it claims; it doesn't show up on the needles
-    }
-    if (KoLConstants.activeEffects.contains(BOILING_DETERMINATION)) {
-      // Boosts castle attack and defense in Bastille Battalion
-      // Or so it claims; it doesn't show up on the needles
-    }
-    if (KoLConstants.activeEffects.contains(ENHANCED_INTERROGATION)) {
-      // Boosts psychological attack and defense in Bastille Battalion.
-      // Or so it claims; it doesn't show up on the needles
     }
     return stats;
   }
@@ -638,10 +684,6 @@ public class BastilleBattalionManager {
 
   private static final Pattern GAMES_PATTERN = Pattern.compile("You can play <b>(\\d+)</b>");
 
-  // According to your scanners, the nearest enemy castle is Humongous Craine, a sprawling chateau.
-  private static final Pattern CASTLE_PATTERN =
-      Pattern.compile("the nearest enemy castle is (.*?), an? (.*?)\\.");
-
   public static void visitChoice(final GenericRequest request) {
     String text = request.responseText;
 
@@ -662,19 +704,14 @@ public class BastilleBattalionManager {
         if (Preferences.getInteger("_bastilleGameTurn") == 0) {
           startGame();
         }
-        nextTurn();
-        Matcher castleMatcher = CASTLE_PATTERN.matcher(text);
-        if (castleMatcher.find()) {
-          Preferences.setString("_bastilleEnemyName", castleMatcher.group(1));
-          parseCastleImage(text);
-        }
-
         parseTurn(text);
+        clearChoices();
+        parseCastle(text);
         parseNeedles(text);
         return;
 
       case 1315: // Castle vs. Castle
-        nextTurn();
+        clearChoices();
         return;
 
       case 1316: // GAME OVER
@@ -705,6 +742,7 @@ public class BastilleBattalionManager {
           logLine(currentStyles.get(optionToUpgrade.get(decision)).toString());
           logStrength();
         } else if (decision == 5) {
+          logPotions();
           logStrength();
         }
         return;
@@ -713,7 +751,10 @@ public class BastilleBattalionManager {
         return;
 
       case 1315: // Castle vs. Castle
-        nextCastle();
+        if (parseBattle(text)) {
+          parseTurn(text);
+          parseCastle(text);
+        }
         return;
 
       case 1316: // GAME OVER
@@ -722,6 +763,9 @@ public class BastilleBattalionManager {
       case 1317: // A Hello to Arms (Battalion)
       case 1318: // Defensive Posturing
       case 1319: // Cheese Seeking Behavior
+        if (!parseTurn(text)) {
+          nextTurn();
+        }
         parseNeedles(text);
         logStrength();
         return;

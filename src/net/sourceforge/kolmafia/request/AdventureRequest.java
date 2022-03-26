@@ -592,7 +592,7 @@ public class AdventureRequest extends GenericRequest {
     return monster;
   }
 
-  private static String parseChoiceEncounter(
+  public static String parseChoiceEncounter(
       final String urlString, final int choice, final String responseText) {
     if (LouvreManager.louvreChoice(choice)) {
       return LouvreManager.encounterName(choice);

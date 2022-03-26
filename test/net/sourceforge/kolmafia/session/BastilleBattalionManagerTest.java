@@ -2,15 +2,16 @@ package net.sourceforge.kolmafia.session;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.BastilleBattalionManager.Stat;
 import net.sourceforge.kolmafia.session.BastilleBattalionManager.Style;
@@ -48,23 +49,6 @@ public class BastilleBattalionManagerTest {
     return Files.readString(Paths.get(path)).trim();
   }
 
-  static void validateConfiguration() {
-    Map<Upgrade, Style> styles = BastilleBattalionManager.getCurrentStyles();
-
-    // Ensure we parsed all four styles
-    assertEquals(4, styles.size());
-    assertFalse(styles.get(Upgrade.BARBICAN) == null);
-    assertFalse(styles.get(Upgrade.DRAWBRIDGE) == null);
-    assertFalse(styles.get(Upgrade.MURDER_HOLES) == null);
-    assertFalse(styles.get(Upgrade.MOAT) == null);
-
-    // Ensure that we have set all the properties.
-    assertFalse(Preferences.getString("_bastilleStats").equals(""));
-
-    // Ensure that the stats all agree with what the styles indicate
-    assertTrue(BastilleBattalionManager.checkPredictions());
-  }
-
   @Test
   public void canLoadStats() {
     String value = "";
@@ -84,20 +68,6 @@ public class BastilleBattalionManagerTest {
     assertEquals(4, BastilleBattalionManager.getCurrentStat(Stat.CD));
     assertEquals(3, BastilleBattalionManager.getCurrentStat(Stat.PA));
     assertEquals(8, BastilleBattalionManager.getCurrentStat(Stat.PD));
-  }
-
-  @Test
-  public void canLoadConfigurationFromVisit() throws IOException {
-    String responseText = loadHTMLResponse("request/test_bastille_battalion_visit.html");
-    GenericRequest request = new GenericRequest("choice.php?forceoption=0");
-    request.responseText = responseText;
-    ChoiceManager.lastChoice = 1313;
-
-    // "Visit" the choice.
-    BastilleBattalionManager.visitChoice(request);
-
-    // Verify that we have a valid configuration.
-    validateConfiguration();
   }
 
   @Test
@@ -273,5 +243,499 @@ public class BastilleBattalionManagerTest {
     assertEquals(Style.TRUTH_SERUM, BastilleBattalionManager.getCurrentStyle(Upgrade.MOAT));
     assertEquals("MA=0,MD=3,CA=2,CD=4,PA=3,PD=8", Preferences.getString("_bastilleStats"));
     assertTrue(BastilleBattalionManager.checkPredictions());
+  }
+
+  @Test
+  public void canProcessGame() throws IOException {
+    // This is 12-turn game, ending in a loss.
+
+    // Enter the control console
+    String urlString = "choice.php?forceoption=0";
+    String responseText = loadHTMLResponse("request/test_bastille_game1_0.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1313;
+    BastilleBattalionManager.visitChoice(request);
+
+    // Start a game
+    urlString = "choice.php?whichchoice=1313&option=5";
+    String expected = "Starting game #1";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_0_1.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1313;
+    ChoiceManager.lastDecision = 5;
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+    assertEquals("MA=0,MD=3,CA=2,CD=4,PA=3,PD=8", Preferences.getString("_bastilleStats"));
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1314;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals(0, Preferences.getInteger("_bastilleCheeseCollected"));
+    assertEquals(1, Preferences.getInteger("_bastilleGameTurn"));
+    assertEquals("Shield Uriah", Preferences.getString("_bastilleEnemyName"));
+    assertEquals("shieldmaster", Preferences.getString("_bastilleEnemyCastle"));
+    assertEquals("", Preferences.getString("_bastilleChoice1"));
+    assertEquals("", Preferences.getString("_bastilleChoice2"));
+    assertEquals("", Preferences.getString("_bastilleChoice3"));
+
+    // Turn #1: Choose to improve offense
+    urlString = "choice.php?whichchoice=1314&option=1";
+    expected = "Improving offense.";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_1.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1314;
+    ChoiceManager.lastDecision = 1;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1314, responseText));
+    assertEquals(0, Preferences.getInteger("_bastilleCheeseCollected"));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1317;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals("Let the citizens hurl cheese at you", Preferences.getString("_bastilleChoice1"));
+    assertEquals("Adopt the radical combat style", Preferences.getString("_bastilleChoice2"));
+    assertEquals("Commission some art", Preferences.getString("_bastilleChoice3"));
+
+    // Select an option
+    urlString = "choice.php?whichchoice=1317&option=2";
+    expected = "Adopt the radical combat style";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_1_2.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1317;
+    ChoiceManager.lastDecision = 2;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1314, responseText));
+    assertEquals(0, Preferences.getInteger("_bastilleCheeseCollected"));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+    assertEquals("MA=2,MD=1,CA=4,CD=2,PA=5,PD=6", Preferences.getString("_bastilleStats"));
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1314;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals(2, Preferences.getInteger("_bastilleGameTurn"));
+    assertEquals("", Preferences.getString("_bastilleChoice1"));
+    assertEquals("", Preferences.getString("_bastilleChoice2"));
+    assertEquals("", Preferences.getString("_bastilleChoice3"));
+
+    // Turn #2: Choose to improve offense
+    urlString = "choice.php?whichchoice=1314&option=1";
+    expected = "Improving offense.";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_2.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1314;
+    ChoiceManager.lastDecision = 1;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1314, responseText));
+    assertEquals(0, Preferences.getInteger("_bastilleCheeseCollected"));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1317;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals("Pick up the boulders", Preferences.getString("_bastilleChoice1"));
+    assertEquals("Draft those artists", Preferences.getString("_bastilleChoice2"));
+    assertEquals("Improve the keep", Preferences.getString("_bastilleChoice3"));
+
+    // Select an option
+    urlString = "choice.php?whichchoice=1317&option=2";
+    expected = "Draft those artists";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_2_3.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1317;
+    ChoiceManager.lastDecision = 3;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1314, responseText));
+    assertEquals(0, Preferences.getInteger("_bastilleCheeseCollected"));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+    assertEquals("MA=4,MD=1,CA=4,CD=2,PA=5,PD=5", Preferences.getString("_bastilleStats"));
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1314;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals(3, Preferences.getInteger("_bastilleGameTurn"));
+    assertEquals("", Preferences.getString("_bastilleChoice1"));
+    assertEquals("", Preferences.getString("_bastilleChoice2"));
+    assertEquals("", Preferences.getString("_bastilleChoice3"));
+
+    // Turn #3: Select a stance
+    urlString = "choice.php?whichchoice=1315&option=1";
+    expected = "Charge!";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_3_4.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1315;
+    ChoiceManager.lastDecision = 1;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1315, responseText));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+    assertEquals("MA>MD,CA<CD,PA>PD", Preferences.getString("_bastilleLastBattleStats"));
+    assertTrue(Preferences.getBoolean("_bastilleLastBattleWon"));
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1314;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals(38, Preferences.getInteger("_bastilleCheeseCollected"));
+    assertEquals(4, Preferences.getInteger("_bastilleGameTurn"));
+    assertEquals("Mace Lilly", Preferences.getString("_bastilleEnemyName"));
+    assertEquals("berserker", Preferences.getString("_bastilleEnemyCastle"));
+    assertEquals("", Preferences.getString("_bastilleChoice1"));
+    assertEquals("", Preferences.getString("_bastilleChoice2"));
+    assertEquals("", Preferences.getString("_bastilleChoice3"));
+
+    // Turn #4: Choose to improve defense
+    urlString = "choice.php?whichchoice=1314&option=2";
+    expected = "Focusing on defense.";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_4.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1314;
+    ChoiceManager.lastDecision = 2;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1314, responseText));
+    assertEquals(38, Preferences.getInteger("_bastilleCheeseCollected"));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1318;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals("Convert the galleries", Preferences.getString("_bastilleChoice1"));
+    assertEquals("Cut military spending", Preferences.getString("_bastilleChoice2"));
+    assertEquals("Do the plowshares thing", Preferences.getString("_bastilleChoice3"));
+
+    // Select an option
+    urlString = "choice.php?whichchoice=1318&option=1";
+    expected = "Convert the galleries";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_4_5.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1318;
+    ChoiceManager.lastDecision = 1;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1318, responseText));
+    assertEquals(38, Preferences.getInteger("_bastilleCheeseCollected"));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+    assertEquals("MA=4,MD=2,CA=4,CD=2,PA=5,PD=5", Preferences.getString("_bastilleStats"));
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1314;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals(5, Preferences.getInteger("_bastilleGameTurn"));
+    assertEquals("", Preferences.getString("_bastilleChoice1"));
+    assertEquals("", Preferences.getString("_bastilleChoice2"));
+    assertEquals("", Preferences.getString("_bastilleChoice3"));
+
+    // Turn #5: Choose to improve defense
+    urlString = "choice.php?whichchoice=1314&option=2";
+    expected = "Focusing on defense.";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_5.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1314;
+    ChoiceManager.lastDecision = 2;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1314, responseText));
+    assertEquals(38, Preferences.getInteger("_bastilleCheeseCollected"));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1318;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals("Repurpose the statues", Preferences.getString("_bastilleChoice1"));
+    assertEquals("Add more murals", Preferences.getString("_bastilleChoice2"));
+    assertEquals("Build the weird statue", Preferences.getString("_bastilleChoice3"));
+
+    // Select an option
+    urlString = "choice.php?whichchoice=1318&option=1";
+    expected = "Repurpose the statues";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_5_6.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1318;
+    ChoiceManager.lastDecision = 1;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1318, responseText));
+    assertEquals(38, Preferences.getInteger("_bastilleCheeseCollected"));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+    assertEquals("MA=4,MD=3,CA=4,CD=3,PA=5,PD=4", Preferences.getString("_bastilleStats"));
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1314;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals(6, Preferences.getInteger("_bastilleGameTurn"));
+    assertEquals("", Preferences.getString("_bastilleChoice1"));
+    assertEquals("", Preferences.getString("_bastilleChoice2"));
+    assertEquals("", Preferences.getString("_bastilleChoice3"));
+
+    // Turn #6: Select a stance
+    urlString = "choice.php?whichchoice=1315&option=1";
+    expected = "Charge!";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_6_7.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1315;
+    ChoiceManager.lastDecision = 1;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1315, responseText));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+    assertEquals("MA>MD,CA>CD,PA>PD", Preferences.getString("_bastilleLastBattleStats"));
+    assertTrue(Preferences.getBoolean("_bastilleLastBattleWon"));
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1314;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals(118, Preferences.getInteger("_bastilleCheeseCollected"));
+    assertEquals(7, Preferences.getInteger("_bastilleGameTurn"));
+    assertEquals("Sergeant Ludwig", Preferences.getString("_bastilleEnemyName"));
+    assertEquals("barracks", Preferences.getString("_bastilleEnemyCastle"));
+    assertEquals("", Preferences.getString("_bastilleChoice1"));
+    assertEquals("", Preferences.getString("_bastilleChoice2"));
+    assertEquals("", Preferences.getString("_bastilleChoice3"));
+
+    // Turn #7: Choose to improve offense
+    urlString = "choice.php?whichchoice=1314&option=1";
+    expected = "Improving offense.";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_7.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1314;
+    ChoiceManager.lastDecision = 1;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1314, responseText));
+    assertEquals(118, Preferences.getInteger("_bastilleCheeseCollected"));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1317;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals("Build the memorial", Preferences.getString("_bastilleChoice1"));
+    assertEquals("Improve the keep", Preferences.getString("_bastilleChoice2"));
+    assertEquals("Add more windows", Preferences.getString("_bastilleChoice3"));
+
+    // Select an option
+    urlString = "choice.php?whichchoice=1317&option=1";
+    expected = "Build the memorial";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_7_8.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1317;
+    ChoiceManager.lastDecision = 1;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1317, responseText));
+    assertEquals(118, Preferences.getInteger("_bastilleCheeseCollected"));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+    assertEquals("MA=4,MD=3,CA=4,CD=3,PA=6,PD=4", Preferences.getString("_bastilleStats"));
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1314;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals(8, Preferences.getInteger("_bastilleGameTurn"));
+    assertEquals("", Preferences.getString("_bastilleChoice1"));
+    assertEquals("", Preferences.getString("_bastilleChoice2"));
+    assertEquals("", Preferences.getString("_bastilleChoice3"));
+
+    // Turn #8: Choose to improve offense
+    urlString = "choice.php?whichchoice=1314&option=1";
+    expected = "Improving offense.";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_8.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1314;
+    ChoiceManager.lastDecision = 1;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1314, responseText));
+    assertEquals(118, Preferences.getInteger("_bastilleCheeseCollected"));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1317;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals("Let the citizens hurl cheese at you", Preferences.getString("_bastilleChoice1"));
+    assertEquals("Approve the retrofit", Preferences.getString("_bastilleChoice2"));
+    assertEquals("Build the memorial", Preferences.getString("_bastilleChoice3"));
+
+    // Select an option
+    urlString = "choice.php?whichchoice=1317&option=2";
+    expected = "Approve the retrofit";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_8_9.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1317;
+    ChoiceManager.lastDecision = 2;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1317, responseText));
+    assertEquals(118, Preferences.getInteger("_bastilleCheeseCollected"));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+    assertEquals("MA=4,MD=3,CA=4,CD=3,PA=7,PD=4", Preferences.getString("_bastilleStats"));
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1314;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals(9, Preferences.getInteger("_bastilleGameTurn"));
+    assertEquals("", Preferences.getString("_bastilleChoice1"));
+    assertEquals("", Preferences.getString("_bastilleChoice2"));
+    assertEquals("", Preferences.getString("_bastilleChoice3"));
+
+    // Turn #9: Select a stance
+    urlString = "choice.php?whichchoice=1315&option=1";
+    expected = "Charge!";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_9_10.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1315;
+    ChoiceManager.lastDecision = 1;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1315, responseText));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+    assertEquals("MA<MD,CA>CD,PA>PD", Preferences.getString("_bastilleLastBattleStats"));
+    assertTrue(Preferences.getBoolean("_bastilleLastBattleWon"));
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1314;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals(257, Preferences.getInteger("_bastilleCheeseCollected"));
+    assertEquals(10, Preferences.getInteger("_bastilleGameTurn"));
+    assertEquals("Bradley the Samey", Preferences.getString("_bastilleEnemyName"));
+    assertEquals("masterofnone", Preferences.getString("_bastilleEnemyCastle"));
+    assertEquals("", Preferences.getString("_bastilleChoice1"));
+    assertEquals("", Preferences.getString("_bastilleChoice2"));
+    assertEquals("", Preferences.getString("_bastilleChoice3"));
+
+    // Turn #10: Choose to improve offense
+    urlString = "choice.php?whichchoice=1314&option=1";
+    expected = "Improving offense.";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_10.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1314;
+    ChoiceManager.lastDecision = 1;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1314, responseText));
+    assertEquals(257, Preferences.getInteger("_bastilleCheeseCollected"));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1317;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals("Pick up the boulders", Preferences.getString("_bastilleChoice1"));
+    assertEquals("Conscript the soldiers", Preferences.getString("_bastilleChoice2"));
+    assertEquals("Strengthen the walls", Preferences.getString("_bastilleChoice3"));
+
+    // Select an option
+    urlString = "choice.php?whichchoice=1317&option=3";
+    expected = "Strengthen the walls";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_10_11.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1317;
+    ChoiceManager.lastDecision = 3;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1317, responseText));
+    assertEquals(257, Preferences.getInteger("_bastilleCheeseCollected"));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+    assertEquals("MA=6,MD=3,CA=6,CD=3,PA=5,PD=4", Preferences.getString("_bastilleStats"));
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1314;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals(11, Preferences.getInteger("_bastilleGameTurn"));
+    assertEquals("", Preferences.getString("_bastilleChoice1"));
+    assertEquals("", Preferences.getString("_bastilleChoice2"));
+    assertEquals("", Preferences.getString("_bastilleChoice3"));
+
+    // Turn #11: Look for cheese
+    urlString = "choice.php?whichchoice=1314&option=3";
+    expected = "Looking for cheese.";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_11.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1314;
+    ChoiceManager.lastDecision = 3;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1314, responseText));
+    assertEquals(257, Preferences.getInteger("_bastilleCheeseCollected"));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1319;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals("Raid the cave", Preferences.getString("_bastilleChoice1"));
+    assertEquals("Have the cheese contest", Preferences.getString("_bastilleChoice2"));
+    assertEquals("Let the cheese horse in", Preferences.getString("_bastilleChoice3"));
+
+    // Select an option
+    urlString = "choice.php?whichchoice=1319&option=1";
+    expected = "Raid the cave";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_11_12.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1319;
+    ChoiceManager.lastDecision = 1;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1319, responseText));
+    assertEquals(390, Preferences.getInteger("_bastilleCheeseCollected"));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+    assertEquals("MA=6,MD=3,CA=6,CD=3,PA=5,PD=4", Preferences.getString("_bastilleStats"));
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1314;
+    BastilleBattalionManager.visitChoice(request);
+    assertEquals(12, Preferences.getInteger("_bastilleGameTurn"));
+    assertEquals("", Preferences.getString("_bastilleChoice1"));
+    assertEquals("", Preferences.getString("_bastilleChoice2"));
+    assertEquals("", Preferences.getString("_bastilleChoice3"));
+
+    // Turn #12: Select a stance
+    urlString = "choice.php?whichchoice=1315&option=1";
+    expected = "Charge!";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_game1_12_loss.html");
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1315;
+    ChoiceManager.lastDecision = 1;
+    assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1315, responseText));
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+    assertEquals("MA>MD,CA<CD,PA<PD", Preferences.getString("_bastilleLastBattleStats"));
+    assertFalse(Preferences.getBoolean("_bastilleLastBattleWon"));
+
+    // The response is the "visit" to a new choice
+    ChoiceManager.lastChoice = 1316;
+    BastilleBattalionManager.visitChoice(request);
+
+    // We lost, but details of the last battle remain
+    assertEquals("Bradley the Samey", Preferences.getString("_bastilleEnemyName"));
+    assertEquals("masterofnone", Preferences.getString("_bastilleEnemyCastle"));
+    assertEquals("MA=6,MD=3,CA=6,CD=3,PA=5,PD=4", Preferences.getString("_bastilleStats"));
+    assertEquals("MA>MD,CA<CD,PA<PD", Preferences.getString("_bastilleLastBattleStats"));
+    assertEquals(390, Preferences.getInteger("_bastilleCheeseCollected"));
+    assertEquals(12, Preferences.getInteger("_bastilleGameTurn"));
   }
 }
