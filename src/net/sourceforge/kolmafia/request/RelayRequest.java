@@ -600,12 +600,14 @@ public class RelayRequest extends PasswordHashRequest {
 
   private static void clearImageDirectory(File directory, FilenameFilter filter) {
     File[] files = directory.listFiles(filter);
-    for (File file : files) {
-      if (file.isDirectory()) {
-        RelayRequest.clearImageDirectory(file, null);
-      }
+    if (files != null) {
+      for (File file : files) {
+        if (file.isDirectory()) {
+          RelayRequest.clearImageDirectory(file, null);
+        }
 
-      file.delete();
+        file.delete();
+      }
     }
   }
 
