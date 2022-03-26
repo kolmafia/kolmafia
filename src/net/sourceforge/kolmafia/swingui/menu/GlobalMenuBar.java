@@ -213,7 +213,7 @@ public class GlobalMenuBar extends JMenuBar {
 
     helperMenu.add(
         new RelayBrowserMenuItem(
-            "The KoL Wiki", "http://kol.coldfront.net/thekolwiki/index.php/Main_Page"));
+            "The KoL Wiki", "https://kol.coldfront.net/thekolwiki/index.php/Main_Page"));
     helperMenu.add(
         new InvocationMenuItem("Violet Fog Mapper", VioletFogManager.class, "showGemelliMap"));
     helperMenu.add(new InvocationMenuItem("Wumpinator", WumpusManager.class, "invokeWumpinator"));
