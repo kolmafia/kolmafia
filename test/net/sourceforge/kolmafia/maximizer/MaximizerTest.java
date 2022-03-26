@@ -389,14 +389,29 @@ public class MaximizerTest {
     }
 
     @Test
-    @Disabled("Bug: doesn't work in Mafia, but should")
     public void canBenefitFromOutfits() {
       final var cleanups =
           new Cleanups(
               inPath(Path.GELATINOUS_NOOB),
-              addItem("The Jokester's wig"),
-              addItem("The Jokester's gun"),
-              addItem("The Jokester's pants"));
+              canUse("bugbear beanie"),
+              canUse("bugbear bungguard"));
+
+      try (cleanups) {
+        assertTrue(maximize("spell dmg -tie"));
+        recommendedSlotIs(EquipmentManager.HAT, "bugbear beanie");
+        recommendedSlotIs(EquipmentManager.PANTS, "bugbear bungguard");
+      }
+    }
+
+    @Test
+    @Disabled("Bug: doesn't work in Mafia, but should")
+    public void canBenefitFromOutfitsWithWeapons() {
+      final var cleanups =
+          new Cleanups(
+              inPath(Path.GELATINOUS_NOOB),
+              canUse("The Jokester's wig"),
+              canUse("The Jokester's gun"),
+              canUse("The Jokester's pants"));
 
       try (cleanups) {
         assertTrue(maximize("meat -tie"));
