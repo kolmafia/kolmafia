@@ -133,14 +133,6 @@ public class BastilleBattalionManager {
       Arrays.fill(this.stats, 0);
     }
 
-    public Stats copy() {
-      return copy(this);
-    }
-
-    public Stats copy(Stats stats) {
-      return new Stats(stats.stats);
-    }
-
     public Stats add(Stats stats) {
       for (int i = 0; i < 6; ++i) {
         this.stats[i] += stats.stats[i];
@@ -343,10 +335,13 @@ public class BastilleBattalionManager {
 
   private static final Pattern STAT_PATTERN = Pattern.compile("([A-Z][A-Z])=(\\d+)");
 
-  private static void loadStats() {
+  public static void loadStats() {
+    loadStats(Preferences.getString("_bastilleStats"));
+  }
+
+  public static void loadStats(String setting) {
     currentStatMap.clear();
     currentStats.clear();
-    String setting = Preferences.getString("_bastilleStats");
     Matcher matcher = STAT_PATTERN.matcher(setting);
     while (matcher.find()) {
       Stat stat = enumNameToStat.get(matcher.group(1));
@@ -552,6 +547,10 @@ public class BastilleBattalionManager {
 
   public static Style getCurrentStyle(Upgrade upgrade) {
     return currentStyles.get(upgrade);
+  }
+
+  public static int getCurrentStat(Stat stat) {
+    return currentStats.get(stat);
   }
 
   private static AdventureResult SHARK_TOOTH_GRIN = EffectPool.get(EffectPool.SHARK_TOOTH_GRIN);

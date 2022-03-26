@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.BastilleBattalionManager.Stat;
 import net.sourceforge.kolmafia.session.BastilleBattalionManager.Style;
 import net.sourceforge.kolmafia.session.BastilleBattalionManager.Upgrade;
 import org.junit.jupiter.api.AfterAll;
@@ -62,6 +63,27 @@ public class BastilleBattalionManagerTest {
 
     // Ensure that the stats all agree with what the styles indicate
     assertTrue(BastilleBattalionManager.checkPredictions());
+  }
+
+  @Test
+  public void canLoadStats() {
+    String value = "";
+    BastilleBattalionManager.loadStats(value);
+    assertEquals(0, BastilleBattalionManager.getCurrentStat(Stat.MA));
+    assertEquals(0, BastilleBattalionManager.getCurrentStat(Stat.MD));
+    assertEquals(0, BastilleBattalionManager.getCurrentStat(Stat.CA));
+    assertEquals(0, BastilleBattalionManager.getCurrentStat(Stat.CD));
+    assertEquals(0, BastilleBattalionManager.getCurrentStat(Stat.PA));
+    assertEquals(0, BastilleBattalionManager.getCurrentStat(Stat.PD));
+
+    value = "MA=0,MD=3,CA=2,CD=4,PA=3,PD=8";
+    BastilleBattalionManager.loadStats(value);
+    assertEquals(0, BastilleBattalionManager.getCurrentStat(Stat.MA));
+    assertEquals(3, BastilleBattalionManager.getCurrentStat(Stat.MD));
+    assertEquals(2, BastilleBattalionManager.getCurrentStat(Stat.CA));
+    assertEquals(4, BastilleBattalionManager.getCurrentStat(Stat.CD));
+    assertEquals(3, BastilleBattalionManager.getCurrentStat(Stat.PA));
+    assertEquals(8, BastilleBattalionManager.getCurrentStat(Stat.PD));
   }
 
   @Test
