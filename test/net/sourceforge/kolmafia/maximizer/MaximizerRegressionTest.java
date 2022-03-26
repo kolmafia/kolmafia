@@ -109,6 +109,28 @@ public class MaximizerRegressionTest {
     assertEquals(25, modFor("Meat Drop"), 0.01);
   }
 
+  @Test
+  public void equipEmptyBjornNoSlot() {
+    equip(EquipmentManager.CONTAINER, "Buddy Bjorn");
+    KoLCharacter.addFamiliar(new FamiliarData(FamiliarPool.MOSQUITO));
+    KoLCharacter.setBjorned(FamiliarData.NO_FAMILIAR);
+
+    // Here, buddy-bjorn refers to the slot, while Buddy Bjorn refers to the item associated with
+    // that slot.
+    // We've earlier forced that slot to be empty, and here we're asking mafia not to fill it when
+    // maximizing, but to still equip the bjorn.
+    assertTrue(maximize("item, -buddy-bjorn, +equip Buddy Bjorn"));
+  }
+
+  @Test
+  public void equipEmptyCrownNoSlot() {
+    equip(EquipmentManager.HAT, "Crown of Thrones");
+    KoLCharacter.addFamiliar(new FamiliarData(FamiliarPool.MOSQUITO));
+    KoLCharacter.setEnthroned(FamiliarData.NO_FAMILIAR);
+
+    assertTrue(maximize("item, -crown-of-thrones, +equip Crown of Thrones"));
+  }
+
   // https://kolmafia.us/threads/27073/
   @Test
   public void noTiePrefersCurrentGear() {
