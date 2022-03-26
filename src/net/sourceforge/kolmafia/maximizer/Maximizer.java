@@ -224,60 +224,16 @@ public class Maximizer {
         // Iterate over items to see if we have access to them
         int count = 0;
         for (int itemId : itemList) {
-          CheckedItem checkedItem = new CheckedItem(itemId, equipScope, maxPrice, priceLevel);
-          // We won't include unavailable items, as this just gets far too large
-          String cmd, text;
-          int price = 0;
-          AdventureResult item = ItemPool.get(itemId);
-          cmd = "absorb \u00B6" + itemId;
-          text = "absorb " + item.getName() + " (" + name + ", ";
-          if (checkedItem.inventory > 0) {
-          } else if (checkedItem.initial > 0) {
-            String method = InventoryManager.simRetrieveItem(item, equipScope == -1, false);
-            if (!method.equals("have")) {
-              text = method + " & " + text;
-            }
-            if (method.equals("uncloset")) {
-              cmd = "closet take 1 \u00B6" + itemId + ";" + cmd;
-            }
-            // Should be only hitting this after Ronin I think
-            else if (method.equals("pull")) {
-              cmd = "pull 1 \u00B6" + itemId + ";" + cmd;
-            }
-          } else if (checkedItem.creatable > 0) {
-            text = "make & " + text;
-            cmd = "make \u00B6" + itemId + ";" + cmd;
-            price = ConcoctionPool.get(item).price;
-          } else if (checkedItem.npcBuyable > 0) {
-            text = "buy & " + text;
-            cmd = "buy 1 \u00B6" + itemId + ";" + cmd;
-            price = ConcoctionPool.get(item).price;
-          } else if (checkedItem.pullable > 0) {
-            text = "pull & " + text;
-            cmd = "pull \u00B6" + itemId + ";" + cmd;
-          } else if (checkedItem.mallBuyable > 0) {
-            text = "acquire & " + text;
-            if (priceLevel > 0) {
-              price = MallPriceManager.getMallPrice(item);
-            }
-          } else if (checkedItem.pullBuyable > 0) {
-            text = "buy & pull & " + text;
-            cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
-            if (priceLevel > 0) {
-              price = MallPriceManager.getMallPrice(item);
-            }
-          } else {
-            continue;
-          }
-          if (price > 0) {
-            text = text + KoLConstants.COMMA_FORMAT.format(price) + " meat, ";
-          }
+          var makeable = getAbsorbable(itemId, equipScope, maxPrice, priceLevel);
+          if (!makeable.canMake) continue;
+          String cmd = makeable.cmd;
+          String text = makeable.txt;
           text = text + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
           text = text + " [" + absorbsLeft + " absorbs remaining]";
           if (count > 0) {
             text = "  or " + text;
           }
-          Maximizer.boosts.add(new Boost(cmd, text, item, delta));
+          Maximizer.boosts.add(new Boost(cmd, text, ItemPool.get(itemId), delta));
           count++;
         }
       }
@@ -328,55 +284,11 @@ public class Maximizer {
         if (delta <= 0.0) {
           continue;
         }
-        // Check if we have access to item
-        CheckedItem checkedItem = new CheckedItem(itemId, equipScope, maxPrice, priceLevel);
-        // We won't include unavailable items, as this just gets far too large
-        String cmd, text;
-        int price = 0;
-        AdventureResult item = ItemPool.get(itemId);
-        cmd = "absorb \u00B6" + itemId;
-        text = "absorb " + item.getName() + " (";
-        if (checkedItem.inventory > 0) {
-        } else if (checkedItem.initial > 0) {
-          String method = InventoryManager.simRetrieveItem(item, equipScope == -1, false);
-          if (!method.equals("have")) {
-            text = method + " & " + text;
-          }
-          if (method.equals("uncloset")) {
-            cmd = "closet take 1 \u00B6" + itemId + ";" + cmd;
-          }
-          // Should be only hitting this after Ronin I think
-          else if (method.equals("pull")) {
-            cmd = "pull 1 \u00B6" + itemId + ";" + cmd;
-          }
-        } else if (checkedItem.creatable > 0) {
-          text = "make & " + text;
-          cmd = "make \u00B6" + itemId + ";" + cmd;
-          price = ConcoctionPool.get(item).price;
-        } else if (checkedItem.npcBuyable > 0) {
-          text = "buy & " + text;
-          cmd = "buy 1 \u00B6" + itemId + ";" + cmd;
-          price = ConcoctionPool.get(item).price;
-        } else if (checkedItem.pullable > 0) {
-          text = "pull & " + text;
-          cmd = "pull \u00B6" + itemId + ";" + cmd;
-        } else if (checkedItem.mallBuyable > 0) {
-          text = "acquire & " + text;
-          if (priceLevel > 0) {
-            price = MallPriceManager.getMallPrice(item);
-          }
-        } else if (checkedItem.pullBuyable > 0) {
-          text = "buy & pull & " + text;
-          cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
-          if (priceLevel > 0) {
-            price = MallPriceManager.getMallPrice(item);
-          }
-        } else {
-          continue;
-        }
-        if (price > 0) {
-          text = text + KoLConstants.COMMA_FORMAT.format(price) + " meat, ";
-        }
+        var makeable = getAbsorbable(itemId, equipScope, maxPrice, priceLevel);
+        if (!makeable.canMake) continue;
+        String cmd = makeable.cmd;
+        String text = makeable.txt;
+        CheckedItem checkedItem = makeable.checkedItem;
         text = text + "lasts til end of day, ";
         text = text + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
         text = text + " [" + absorbsLeft + " absorbs remaining";
@@ -396,7 +308,7 @@ public class Maximizer {
           text = text + ", " + checkedItem.pullable + " pullable";
         }
         text = text + "]";
-        Maximizer.boosts.add(new Boost(cmd, text, item, delta));
+        Maximizer.boosts.add(new Boost(cmd, text, ItemPool.get(itemId), delta));
       }
 
       if (lookup.startsWith("Horsery:")
@@ -1921,5 +1833,73 @@ public class Maximizer {
         return true;
     }
     return false;
+  }
+
+  private static class Makeable {
+    final String cmd;
+    final String txt;
+    final boolean canMake;
+    final CheckedItem checkedItem;
+
+    private Makeable(String cmd, String txt, boolean canMake, CheckedItem checkedItem) {
+      this.cmd = cmd;
+      this.txt = txt;
+      this.canMake = canMake;
+      this.checkedItem = checkedItem;
+    }
+  }
+
+  private static Makeable getAbsorbable(int itemId, int equipScope, int maxPrice, int priceLevel) {
+    // Check if we have access to item
+    CheckedItem checkedItem = new CheckedItem(itemId, equipScope, maxPrice, priceLevel);
+    // We won't include unavailable items, as this just gets far too large
+    String cmd, text;
+    int price = 0;
+    boolean canMake = true;
+    AdventureResult item = ItemPool.get(itemId);
+    cmd = "absorb \u00B6" + itemId;
+    text = "absorb " + item.getName() + " (";
+    if (checkedItem.inventory > 0) {
+    } else if (checkedItem.initial > 0) {
+      String method = InventoryManager.simRetrieveItem(item, equipScope == -1, false);
+      if (!method.equals("have")) {
+        text = method + " & " + text;
+      }
+      if (method.equals("uncloset")) {
+        cmd = "closet take 1 \u00B6" + itemId + ";" + cmd;
+      }
+      // Should be only hitting this after Ronin I think
+      else if (method.equals("pull")) {
+        cmd = "pull 1 \u00B6" + itemId + ";" + cmd;
+      }
+    } else if (checkedItem.creatable > 0) {
+      text = "make & " + text;
+      cmd = "make \u00B6" + itemId + ";" + cmd;
+      price = ConcoctionPool.get(item).price;
+    } else if (checkedItem.npcBuyable > 0) {
+      text = "buy & " + text;
+      cmd = "buy 1 \u00B6" + itemId + ";" + cmd;
+      price = ConcoctionPool.get(item).price;
+    } else if (checkedItem.pullable > 0) {
+      text = "pull & " + text;
+      cmd = "pull \u00B6" + itemId + ";" + cmd;
+    } else if (checkedItem.mallBuyable > 0) {
+      text = "acquire & " + text;
+      if (priceLevel > 0) {
+        price = MallPriceManager.getMallPrice(item);
+      }
+    } else if (checkedItem.pullBuyable > 0) {
+      text = "buy & pull & " + text;
+      cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
+      if (priceLevel > 0) {
+        price = MallPriceManager.getMallPrice(item);
+      }
+    } else {
+      canMake = false;
+    }
+    if (price > 0) {
+      text = text + KoLConstants.COMMA_FORMAT.format(price) + " meat, ";
+    }
+    return new Makeable(cmd, text, canMake, checkedItem);
   }
 }
