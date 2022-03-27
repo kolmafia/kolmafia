@@ -2100,6 +2100,8 @@ public class Evaluator {
           // For accessories compare with 3rd best for first accessory, 2nd best for second
           // accessory, best for third
           int newSlot = slot + (slot == EquipmentManager.ACCESSORY1 ? accCount : 0);
+          // if we're comparing 1-handed weapons, assign the spec slot as weapon
+          newSlot = newSlot == Evaluator.WEAPON_1H ? EquipmentManager.WEAPON : newSlot;
           int compareItemNo = speculationList.get(slot).size() - 1;
           int accSkip = slot == EquipmentManager.ACCESSORY1 ? 2 - accCount : 0;
           while (compareItemNo >= 0) {
