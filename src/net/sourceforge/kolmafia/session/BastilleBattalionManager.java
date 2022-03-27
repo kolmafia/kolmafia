@@ -409,7 +409,7 @@ public class BastilleBattalionManager {
   }
 
   private static void saveStats() {
-    saveStats(generateSetting(currentStatMap));
+    saveStats(generateSetting(currentStats));
   }
 
   private static void saveStats(String value) {
@@ -530,7 +530,7 @@ public class BastilleBattalionManager {
   private static final Pattern CASTLE_PATTERN =
       Pattern.compile("the nearest enemy castle is ((.*?), (an? .*?)\\.)");
 
-  public static void parseCastle(String text, boolean logit) {
+  public static void parseCastle(String text) {
     Matcher matcher = CASTLE_PATTERN.matcher(text);
     if (!matcher.find()) {
       return;
@@ -541,9 +541,7 @@ public class BastilleBattalionManager {
     }
     Preferences.setString("_bastilleEnemyName", matcher.group(2));
     Preferences.setString("_bastilleEnemyCastle", castle.getPrefix());
-    if (logit) {
-      logLine("Your next foe is " + matcher.group(1));
-    }
+    logLine("Your next foe is " + matcher.group(1));
   }
 
   // (turn #1)
@@ -610,6 +608,7 @@ public class BastilleBattalionManager {
 
   private static void startGame() {
     Preferences.setInteger("_bastilleCheese", 0);
+    clearChoices();
   }
 
   private static void nextTurn() {
@@ -797,9 +796,6 @@ public class BastilleBattalionManager {
         return;
 
       case 1314: // Bastille Battalion (Master of None)
-        if (Preferences.getInteger("_bastilleGameTurn") == 0) {
-          startGame();
-        }
         parseTurn(text);
         clearChoices();
         return;
@@ -833,8 +829,8 @@ public class BastilleBattalionManager {
         } else if (decision == 5) {
           // Your stats reset to those provided by your styles at the start of
           // each game.
-          clearChoices();
-          parseCastle(text, Preferences.getInteger("_bastilleGameTurn") == 1);
+          startGame();
+          parseCastle(text);
           parseTurn(text);
           parseStyles(text);
           logBoosts();
@@ -850,7 +846,7 @@ public class BastilleBattalionManager {
         switch (ChoiceManager.extractChoice(text)) {
           case 1314:
             // We won and it wasn't the last battle.
-            parseCastle(text, true);
+            parseCastle(text);
             logStrength();
             break;
           case 1316:

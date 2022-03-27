@@ -804,6 +804,7 @@ public class BastilleBattalionManagerTest {
     // We are presumed to have parsed these before
     Preferences.setInteger("_bastilleGames", 0);
     Preferences.setInteger("_bastilleGameTurn", 5);
+    Preferences.setInteger("_bastilleCheese", 5005);
     Preferences.setString("_bastilleEnemyName", "Lew the Vast");
     Preferences.setString("_bastilleEnemyCastle", "bigcastle");
     Preferences.setString("_bastilleChoice1", "Blunt everything");
@@ -884,5 +885,6 @@ public class BastilleBattalionManagerTest {
     assertEquals("", Preferences.getString("_bastilleChoice2"));
     assertEquals("", Preferences.getString("_bastilleChoice3"));
     assertEquals("MA=3,MD=7,CA=0,CD=4,PA=2,PD=4", Preferences.getString("_bastilleStats"));
+    assertEquals(0, Preferences.getInteger("_bastilleCheese"));
   }
 }
