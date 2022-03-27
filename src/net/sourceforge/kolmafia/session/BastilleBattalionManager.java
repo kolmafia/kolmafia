@@ -156,6 +156,14 @@ public class BastilleBattalionManager {
   //     Military Fortress - higher military attack
   //     Fortified Stronghold - higher castle defense?
   //     Sprawling Chateau - higher castle attack?
+  //
+  // Observations:
+  //
+  // "berserker" - the Imposing Citadel - will always attack first, even if you
+  // selected an offensive Stance
+  //
+  // "shieldmaster" - the Fortified Stronghold - will never attack, even if you
+  // selected a defensive Stance
 
   private static Map<String, Castle> imageToCastle = new HashMap<>();
   private static Map<String, Castle> descriptionToCastle = new HashMap<>();
@@ -198,17 +206,13 @@ public class BastilleBattalionManager {
   // Bide your time
   // Ready your defenses and wait for them.
   //
-  // A fortress never initiates battle, so that last one is useless against
-  // such.
-  //
   // In a battle, either (all of) your Attack stats are compared to your foe's
-  // Defense stats, or vice versa. From what I have seen, even if you choose
-  // the Offensive stance, you are not guaranteed to be the Attacker
+  // Defense stats, or vice versa.
 
   public static enum Stance {
-    OFFENSE("offense"),
-    BIDE("bide"),
-    DEFENSE("defense");
+    OFFENSE("offensive"),
+    BIDE("waiting"),
+    DEFENSE("defensive");
 
     String name;
 
@@ -364,20 +368,30 @@ public class BastilleBattalionManager {
   }
 
   public static void reset() {
-    // Configuration
+    // Cached configuration
     currentStyles.clear();
+    currentStatMap.clear();
+    currentStats.clear();
+
+    // You can play up to five games a day
+    Preferences.setInteger("_bastilleGames", 0);
+
+    // Three (reward) potions grant one turn of an effect which will boost your
+    // in initial stats. If you are smart, you play all five games in a row...
+    Preferences.setString("_bastilleBoosts", "");
 
     // Set by initial setup, which is locked in place as soon as you start your
-    // first game, since you get the prizes at the end of that
-    // game. Thereafter, offensive/defensive training modify them.
+    // first game, since you get the prizes at the end of that game.
+    // Thereafter, offensive/defensive training modify them.  We don't know
+    // what your actual stats are; this is the user visible bonuses.
     Preferences.setString("_bastilleStats", "");
 
     // Game progress settings.
 
-    // Two turns of offense/defense/cheese following by a castle battle The
-    // game ends when you lose or beat your fifth castle
+    // Two turns of offense/defense/cheese following by a castle battle.
+    // The game ends when you lose or beat your fifth castle
     Preferences.setInteger("_bastilleGameTurn", 0);
-    Preferences.setInteger("_bastilleCheeseCollected", 0);
+    Preferences.setInteger("_bastilleCheese", 0);
 
     // Presumably, the type of castle might influence your training choices.
     Preferences.setString("_bastilleEnemyCastle", "");
@@ -393,8 +407,6 @@ public class BastilleBattalionManager {
     // over across tests.
     Preferences.setString("_bastilleLastBattleResults", "");
     Preferences.setBoolean("_bastilleLastBattleWon", false);
-
-    Preferences.setInteger("_bastilleGames", 0);
   }
 
   // <img style='position: absolute; top: 233; left: 124;'
@@ -477,7 +489,7 @@ public class BastilleBattalionManager {
     Preferences.setString("_bastilleEnemyName", matcher.group(2));
     Preferences.setString("_bastilleEnemyCastle", castle.getPrefix());
     if (logit) {
-      logLine("Your next foe is " + matcher.group(1) + ".");
+      logLine("Your next foe is " + matcher.group(1));
     }
   }
 
@@ -544,7 +556,7 @@ public class BastilleBattalionManager {
   // *** Game control flow
 
   private static void startGame() {
-    Preferences.setInteger("_bastilleCheeseCollected", 0);
+    Preferences.setInteger("_bastilleCheese", 0);
   }
 
   private static void nextTurn() {
@@ -593,16 +605,21 @@ public class BastilleBattalionManager {
   private static AdventureResult ENHANCED_INTERROGATION =
       EffectPool.get(EffectPool.ENHANCED_INTERROGATION);
 
-  private static void logPotions() {
+  public static void logBoosts() {
+    StringBuilder buf = new StringBuilder();
     if (KoLConstants.activeEffects.contains(SHARK_TOOTH_GRIN)) {
       logLine("(Military attack and defense boosted from Shark Tooth Grin)");
+      buf.append('M');
     }
     if (KoLConstants.activeEffects.contains(BOILING_DETERMINATION)) {
       logLine("(Castle attack and defense boosted from Boiling Determination)");
+      buf.append('C');
     }
     if (KoLConstants.activeEffects.contains(ENHANCED_INTERROGATION)) {
       logLine("(Psychological attack and defense boosted from Enhanced Interrogation)");
+      buf.append('P');
     }
+    Preferences.setString("_bastilleBoosts", buf.toString());
   }
 
   private static void logStrength() {
@@ -699,7 +716,7 @@ public class BastilleBattalionManager {
       RequestLogger.printLine(message);
       RequestLogger.updateSessionLog(message);
       int cheese = StringUtilities.parseInt(matcher.group(1));
-      Preferences.increment("_bastilleCheeseCollected", cheese);
+      Preferences.increment("_bastilleCheese", cheese);
     }
   }
 
@@ -772,7 +789,7 @@ public class BastilleBattalionManager {
           logLine(currentStyles.get(optionToUpgrade.get(decision)).toString());
           logStrength();
         } else if (decision == 5) {
-          logPotions();
+          logBoosts();
           logStrength();
         }
         return;

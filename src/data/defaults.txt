@@ -1487,7 +1487,8 @@ user	_ballInACupUsed	false
 user	_ballpit	false
 user	_banderRunaways	0
 user	_barrelPrayer	false
-user	_bastilleCheeseCollected	0
+user	_bastilleCheese	0
+user	_bastilleBoosts	
 user	_bastilleChoice1
 user	_bastilleChoice2
 user	_bastilleChoice3
