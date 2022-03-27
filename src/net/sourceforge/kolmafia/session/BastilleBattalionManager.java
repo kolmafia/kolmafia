@@ -389,6 +389,11 @@ public class BastilleBattalionManager {
     Preferences.setString("_bastilleChoice2", "");
     Preferences.setString("_bastilleChoice3", "");
 
+    // The attributes of the last battle are interesting, but should not carry
+    // over across tests.
+    Preferences.setString("_bastilleLastBattleResults", "");
+    Preferences.setBoolean("_bastilleLastBattleWon", false);
+
     Preferences.setInteger("_bastilleGames", 0);
   }
 
@@ -531,7 +536,7 @@ public class BastilleBattalionManager {
     logLine(won ? "You won!" : "You lost.");
 
     String results = buf.toString();
-    Preferences.setString("_bastilleLastBattleStats", results);
+    Preferences.setString("_bastilleLastBattleResults", results);
 
     return won;
   }

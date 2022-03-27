@@ -381,7 +381,7 @@ public class BastilleBattalionManagerTest {
     assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1315, responseText));
     BastilleBattalionManager.visitChoice(request);
     BastilleBattalionManager.postChoice1(urlString, request);
-    assertEquals("MA>MD,CA<CD,PA>PD", Preferences.getString("_bastilleLastBattleStats"));
+    assertEquals("MA>MD,CA<CD,PA>PD", Preferences.getString("_bastilleLastBattleResults"));
     assertTrue(Preferences.getBoolean("_bastilleLastBattleWon"));
 
     // The response is the "visit" to a new choice
@@ -495,7 +495,7 @@ public class BastilleBattalionManagerTest {
     assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1315, responseText));
     BastilleBattalionManager.visitChoice(request);
     BastilleBattalionManager.postChoice1(urlString, request);
-    assertEquals("MA>MD,CA>CD,PA>PD", Preferences.getString("_bastilleLastBattleStats"));
+    assertEquals("MA>MD,CA>CD,PA>PD", Preferences.getString("_bastilleLastBattleResults"));
     assertTrue(Preferences.getBoolean("_bastilleLastBattleWon"));
 
     // The response is the "visit" to a new choice
@@ -609,7 +609,7 @@ public class BastilleBattalionManagerTest {
     assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1315, responseText));
     BastilleBattalionManager.visitChoice(request);
     BastilleBattalionManager.postChoice1(urlString, request);
-    assertEquals("MA<MD,CA>CD,PA>PD", Preferences.getString("_bastilleLastBattleStats"));
+    assertEquals("MA<MD,CA>CD,PA>PD", Preferences.getString("_bastilleLastBattleResults"));
     assertTrue(Preferences.getBoolean("_bastilleLastBattleWon"));
 
     // The response is the "visit" to a new choice
@@ -723,7 +723,7 @@ public class BastilleBattalionManagerTest {
     assertNull(AdventureRequest.parseChoiceEncounter(urlString, 1315, responseText));
     BastilleBattalionManager.visitChoice(request);
     BastilleBattalionManager.postChoice1(urlString, request);
-    assertEquals("MA>MD,CA<CD,PA<PD", Preferences.getString("_bastilleLastBattleStats"));
+    assertEquals("MA>MD,CA<CD,PA<PD", Preferences.getString("_bastilleLastBattleResults"));
     assertFalse(Preferences.getBoolean("_bastilleLastBattleWon"));
 
     // The response is the "visit" to a new choice, but KoL will not "visit" it
@@ -739,7 +739,7 @@ public class BastilleBattalionManagerTest {
     assertEquals("Bradley the Samey", Preferences.getString("_bastilleEnemyName"));
     assertEquals("masterofnone", Preferences.getString("_bastilleEnemyCastle"));
     assertEquals("MA=6,MD=3,CA=6,CD=3,PA=5,PD=4", Preferences.getString("_bastilleStats"));
-    assertEquals("MA>MD,CA<CD,PA<PD", Preferences.getString("_bastilleLastBattleStats"));
+    assertEquals("MA>MD,CA<CD,PA<PD", Preferences.getString("_bastilleLastBattleResults"));
     assertEquals(390, Preferences.getInteger("_bastilleCheeseCollected"));
   }
 }
