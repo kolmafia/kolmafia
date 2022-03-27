@@ -361,7 +361,6 @@ public class BastilleBattalionManager {
   // *** control rig
 
   private static final Map<Upgrade, Style> currentStyles = new HashMap<>();
-  private static final Map<Stat, Integer> currentStatMap = new TreeMap<>();
   private static Stats currentStats = new Stats();
 
   public static boolean debugStats = false;
@@ -373,14 +372,12 @@ public class BastilleBattalionManager {
   }
 
   public static void loadStats(String setting) {
-    currentStatMap.clear();
     currentStats.clear();
     Matcher matcher = STAT_PATTERN.matcher(setting);
     while (matcher.find()) {
       Stat stat = enumNameToStat.get(matcher.group(1));
       if (stat != null) {
         int value = Integer.valueOf(matcher.group(2));
-        currentStatMap.put(stat, value);
         currentStats.set(stat, value);
       }
     }
@@ -397,10 +394,7 @@ public class BastilleBattalionManager {
   }
 
   private static String generateSetting(Stats stats) {
-    return generateSetting(stats.toStatMap());
-  }
-
-  private static String generateSetting(Map<Stat, Integer> statMap) {
+    Map<Stat, Integer> statMap = stats.toStatMap();
     String value =
         statMap.entrySet().stream()
             .map(e -> e.getKey().getShortName() + "=" + e.getValue())
@@ -419,7 +413,6 @@ public class BastilleBattalionManager {
   public static void reset() {
     // Cached configuration
     currentStyles.clear();
-    currentStatMap.clear();
     currentStats.clear();
 
     // You can play up to five games a day
@@ -485,13 +478,11 @@ public class BastilleBattalionManager {
     }
 
     int value = left - PIXELS.get(stat);
-    currentStatMap.put(stat, value);
     currentStats.set(stat, value);
   }
 
   public static void parseStyles(String text) {
     Stats old = currentStats.copy();
-    currentStatMap.clear();
     currentStats.clear();
     Matcher matcher = IMAGE_PATTERN.matcher(text);
     while (matcher.find()) {
@@ -512,7 +503,6 @@ public class BastilleBattalionManager {
 
   public static void parseNeedles(String text) {
     Stats old = currentStats.copy();
-    currentStatMap.clear();
     currentStats.clear();
     Matcher matcher = IMAGE_PATTERN.matcher(text);
     while (matcher.find()) {
