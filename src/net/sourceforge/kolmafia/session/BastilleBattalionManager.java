@@ -858,8 +858,8 @@ public class BastilleBattalionManager {
         switch (ChoiceManager.extractChoice(text)) {
           case 1314:
             // We won and it wasn't the last battle.
-            // parseTurn(text);
             parseCastle(text, true);
+            logStrength();
             break;
           case 1316:
             // We lost or it was the last choice
