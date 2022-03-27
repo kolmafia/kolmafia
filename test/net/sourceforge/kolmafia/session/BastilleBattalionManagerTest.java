@@ -795,4 +795,94 @@ public class BastilleBattalionManagerTest {
     assertEquals("MA>MD,CA<CD,PA<PD", Preferences.getString("_bastilleLastBattleResults"));
     assertEquals(390, Preferences.getInteger("_bastilleCheese"));
   }
+
+  @Test
+  public void thatStartingNewGameResetsStats() throws IOException {
+    // When you lose a battle, the game ends and your stats are reset to
+    // only what your upgrades provide to you.
+
+    // We are presumed to have parsed these before
+    Preferences.setInteger("_bastilleGames", 0);
+    Preferences.setInteger("_bastilleGameTurn", 5);
+    Preferences.setString("_bastilleEnemyName", "Lew the Vast");
+    Preferences.setString("_bastilleEnemyCastle", "bigcastle");
+    Preferences.setString("_bastilleChoice1", "Blunt everything");
+    Preferences.setString("_bastilleChoice2", "Lower the walls");
+    Preferences.setString("_bastilleChoice3", "Make the soldiers masons");
+
+    // Finish upgrading just before the battle
+    String urlString = "choice.php?pwd&whichchoice=1318&option=3";
+    String expected = "Make the soldiers masons";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    String responseText = loadHTMLResponse("request/test_bastille_end_game_start_game_1.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1318;
+    ChoiceManager.lastDecision = 3;
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+    assertEquals("MA=6,MD=5,CA=6,CD=5,PA=3,PD=4", Preferences.getString("_bastilleStats"));
+
+    // Enter into battle with your foe.
+    urlString = "choice.php?pwd&whichchoice=1315&option=1";
+    expected = "Turn #6: Charge!";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_end_game_start_game_2.html");
+    request.constructURLString(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1315;
+    ChoiceManager.lastDecision = 1;
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+
+    // We advanced a turn and lost the battle, but have not yet rest stats and
+    // such; a script might want to look at them.
+    assertEquals("MA<MD,CA<CD,PA>PD", Preferences.getString("_bastilleLastBattleResults"));
+    assertEquals(false, Preferences.getBoolean("_bastilleLastBattleWon"));
+    assertEquals(0, Preferences.getInteger("_bastilleGameTurn"));
+    assertEquals("Lew the Vast", Preferences.getString("_bastilleEnemyName"));
+    assertEquals("bigcastle", Preferences.getString("_bastilleEnemyCastle"));
+    assertEquals("", Preferences.getString("_bastilleChoice1"));
+    assertEquals("", Preferences.getString("_bastilleChoice2"));
+    assertEquals("", Preferences.getString("_bastilleChoice3"));
+    assertEquals("MA=6,MD=5,CA=6,CD=5,PA=3,PD=4", Preferences.getString("_bastilleStats"));
+
+    // Choose not to simply Walk Away
+    urlString = "choice.php?pwd&whichchoice=1316&option=2";
+    // We don't log returning to the console
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    responseText = loadHTMLResponse("request/test_bastille_end_game_start_game_3.html");
+    request.constructURLString(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1316;
+    ChoiceManager.lastDecision = 2;
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+    // But we do increment games played
+    assertEquals(1, Preferences.getInteger("_bastilleGames"));
+    assertEquals(0, Preferences.getInteger("_bastilleGameTurn"));
+
+    // Start a new game.
+    urlString = "choice.php?whichchoice=1313&option=5&pwd";
+    expected = "Starting game #2";
+    assertTrue(BastilleBattalionManager.registerRequest(urlString));
+    assertEquals(expected, RequestLogger.previousUpdateString);
+    responseText = loadHTMLResponse("request/test_bastille_end_game_start_game_4.html");
+    request.constructURLString(urlString);
+    request.responseText = responseText;
+    ChoiceManager.lastChoice = 1313;
+    ChoiceManager.lastDecision = 5;
+    BastilleBattalionManager.visitChoice(request);
+    BastilleBattalionManager.postChoice1(urlString, request);
+    // Reset stats, upcoming foe, and turn
+    assertEquals(1, Preferences.getInteger("_bastilleGameTurn"));
+    assertEquals("Murderous Moore", Preferences.getString("_bastilleEnemyName"));
+    assertEquals("berserker", Preferences.getString("_bastilleEnemyCastle"));
+    assertEquals("", Preferences.getString("_bastilleChoice1"));
+    assertEquals("", Preferences.getString("_bastilleChoice2"));
+    assertEquals("", Preferences.getString("_bastilleChoice3"));
+    assertEquals("MA=3,MD=7,CA=0,CD=4,PA=2,PD=4", Preferences.getString("_bastilleStats"));
+  }
 }

@@ -631,13 +631,8 @@ public class BastilleBattalionManager {
     }
   }
 
-  private static final Pattern GAMES_PATTERN = Pattern.compile("You can play <b>(\\d+)</b>");
-
   private static void endGame(String text) {
-    Matcher matcher = GAMES_PATTERN.matcher(text);
-    if (matcher.find()) {
-      Preferences.setInteger("_bastilleGames", 5 - StringUtilities.parseInt(matcher.group(1)));
-    }
+    Preferences.increment("_bastilleGames");
     Preferences.setInteger("_bastilleGameTurn", 0);
   }
 
@@ -799,9 +794,6 @@ public class BastilleBattalionManager {
 
     switch (ChoiceManager.lastChoice) {
       case 1313: // Bastille Battalion
-        if (!text.contains("option=5")) {
-          Preferences.setInteger("_bastilleGames", 5);
-        }
         return;
 
       case 1314: // Bastille Battalion (Master of None)
@@ -810,8 +802,6 @@ public class BastilleBattalionManager {
         }
         parseTurn(text);
         clearChoices();
-        parseCastle(text, Preferences.getInteger("_bastilleGameTurn") == 1);
-        parseNeedles(text);
         return;
 
       case 1315: // Castle vs. Castle
@@ -819,7 +809,6 @@ public class BastilleBattalionManager {
         return;
 
       case 1316: // GAME OVER
-        endGame(text);
         return;
 
       case 1317: // A Hello to Arms (Battalion)
@@ -844,6 +833,9 @@ public class BastilleBattalionManager {
         } else if (decision == 5) {
           // Your stats reset to those provided by your styles at the start of
           // each game.
+          clearChoices();
+          parseCastle(text, Preferences.getInteger("_bastilleGameTurn") == 1);
+          parseTurn(text);
           parseStyles(text);
           logBoosts();
           logStrength();
