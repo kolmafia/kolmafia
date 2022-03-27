@@ -44,6 +44,8 @@ public class BastilleBattalionManager {
   // properties, which will persist until rollover, in other scripts wish to
   // analyze them.
 
+  private BastilleBattalionManager() {}
+
   // *** Stats
 
   // We don't actually know what your stats start at,
@@ -61,7 +63,7 @@ public class BastilleBattalionManager {
   // interrogative elixir grants 1 turn of Enhanced Interrogation
   //    Boosts psychological attack and defense in Bastille Battalion.
   //
-  // The image of the console has six indicators ("needles") at the bottom
+  // The image of the rig has six indicators ("needles") at the bottom
   // which show your upgrade-granted boosts to your six stats. The potions are
   // not accounted for in those.
   //
@@ -133,11 +135,34 @@ public class BastilleBattalionManager {
       Arrays.fill(this.stats, 0);
     }
 
+    public Map<Stat, Integer> toStatMap() {
+      Map<Stat, Integer> statMap = new TreeMap<>();
+      for (Stat stat : Stat.values()) {
+        statMap.put(stat, this.stats[stat.getIndex()]);
+      }
+      return statMap;
+    }
+
     public Stats add(Stats stats) {
       for (int i = 0; i < 6; ++i) {
         this.stats[i] += stats.stats[i];
       }
       return this;
+    }
+
+    public Stats subtract(Stats stats) {
+      for (int i = 0; i < 6; ++i) {
+        this.stats[i] -= stats.stats[i];
+      }
+      return this;
+    }
+
+    public Stats copy() {
+      return new Stats().add(this);
+    }
+
+    public Stats diff(Stats stats) {
+      return stats.copy().subtract(this);
     }
   }
 
@@ -333,11 +358,13 @@ public class BastilleBattalionManager {
   }
 
   // *** Cached state. This resets when you visit the Bastille Battalion
-  // *** control console
+  // *** control rig
 
   private static final Map<Upgrade, Style> currentStyles = new HashMap<>();
   private static final Map<Stat, Integer> currentStatMap = new TreeMap<>();
   private static Stats currentStats = new Stats();
+
+  public static boolean debugStats = false;
 
   private static final Pattern STAT_PATTERN = Pattern.compile("([MCP][AD])=(\\d+)");
 
@@ -359,11 +386,33 @@ public class BastilleBattalionManager {
     }
   }
 
-  private static void saveStats() {
+  private static Stats logStatsDiff(Stats old, Stats updated) {
+    Stats diff = old.diff(updated);
+    if (debugStats) {
+      System.out.println("old: " + generateSetting(old));
+      System.out.println("new: " + generateSetting(updated));
+      System.out.println("diff: " + generateSetting(diff));
+    }
+    return diff;
+  }
+
+  private static String generateSetting(Stats stats) {
+    return generateSetting(stats.toStatMap());
+  }
+
+  private static String generateSetting(Map<Stat, Integer> statMap) {
     String value =
-        currentStatMap.entrySet().stream()
+        statMap.entrySet().stream()
             .map(e -> e.getKey().getShortName() + "=" + e.getValue())
             .collect(Collectors.joining(","));
+    return value;
+  }
+
+  private static void saveStats() {
+    saveStats(generateSetting(currentStatMap));
+  }
+
+  private static void saveStats(String value) {
     Preferences.setString("_bastilleStats", value);
   }
 
@@ -377,7 +426,7 @@ public class BastilleBattalionManager {
     Preferences.setInteger("_bastilleGames", 0);
 
     // Three (reward) potions grant one turn of an effect which will boost your
-    // in initial stats. If you are smart, you play all five games in a row...
+    // initial stats. If you are smart, you play all five games in a row...
     Preferences.setString("_bastilleBoosts", "");
 
     // Set by initial setup, which is locked in place as soon as you start your
@@ -441,6 +490,7 @@ public class BastilleBattalionManager {
   }
 
   public static void parseStyles(String text) {
+    Stats old = currentStats.copy();
     currentStatMap.clear();
     currentStats.clear();
     Matcher matcher = IMAGE_PATTERN.matcher(text);
@@ -456,10 +506,12 @@ public class BastilleBattalionManager {
         continue;
       }
     }
+    logStatsDiff(old, currentStats);
     saveStats();
   }
 
   public static void parseNeedles(String text) {
+    Stats old = currentStats.copy();
     currentStatMap.clear();
     currentStats.clear();
     Matcher matcher = IMAGE_PATTERN.matcher(text);
@@ -470,6 +522,7 @@ public class BastilleBattalionManager {
       }
       parseNeedle(matcher.group(2), matcher.group(3));
     }
+    logStatsDiff(old, currentStats);
     saveStats();
   }
 
@@ -739,7 +792,7 @@ public class BastilleBattalionManager {
     String text = request.responseText;
 
     if (request.getURLString().equals("choice.php?forceoption=0")) {
-      logLine("Entering your Bastille Battalion control console.");
+      logLine("Entering your Bastille Battalion control rig.");
       parseStyles(text);
       logStrength();
     }
@@ -789,6 +842,9 @@ public class BastilleBattalionManager {
           logLine(currentStyles.get(optionToUpgrade.get(decision)).toString());
           logStrength();
         } else if (decision == 5) {
+          // Your stats reset to those provided by your styles at the start of
+          // each game.
+          parseStyles(text);
           logBoosts();
           logStrength();
         }
