@@ -561,7 +561,15 @@ public class BastilleBattalionManager {
     }
   }
 
-  private static void endGame() {}
+  private static final Pattern GAMES_PATTERN = Pattern.compile("You can play <b>(\\d+)</b>");
+
+  private static void endGame(String text) {
+    Matcher matcher = GAMES_PATTERN.matcher(text);
+    if (matcher.find()) {
+      Preferences.setInteger("_bastilleGames", 5 - StringUtilities.parseInt(matcher.group(1)));
+    }
+    Preferences.setInteger("_bastilleGameTurn", 0);
+  }
 
   // *** Logging
 
@@ -705,8 +713,6 @@ public class BastilleBattalionManager {
 
   // *** Interface for ChoiceManager
 
-  private static final Pattern GAMES_PATTERN = Pattern.compile("You can play <b>(\\d+)</b>");
-
   public static void visitChoice(final GenericRequest request) {
     String text = request.responseText;
 
@@ -738,11 +744,7 @@ public class BastilleBattalionManager {
         return;
 
       case 1316: // GAME OVER
-        Matcher matcher = GAMES_PATTERN.matcher(text);
-        if (matcher.find()) {
-          Preferences.setInteger("_bastilleGames", 5 - StringUtilities.parseInt(matcher.group(1)));
-        }
-        endGame();
+        endGame(text);
         return;
 
       case 1317: // A Hello to Arms (Battalion)
@@ -774,9 +776,17 @@ public class BastilleBattalionManager {
         return;
 
       case 1315: // Castle vs. Castle
-        if (logBattle(text)) {
-          parseTurn(text);
-          parseCastle(text, true);
+        logBattle(text);
+        switch (ChoiceManager.extractChoice(text)) {
+          case 1314:
+            // We won and it wasn't the last battle.
+            // parseTurn(text);
+            parseCastle(text, true);
+            break;
+          case 1316:
+            // We lost or it was the last choice
+            endGame(text);
+            break;
         }
         return;
 

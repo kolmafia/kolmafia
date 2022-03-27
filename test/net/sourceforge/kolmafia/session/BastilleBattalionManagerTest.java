@@ -60,8 +60,8 @@ public class BastilleBattalionManagerTest {
     assertEquals(0, BastilleBattalionManager.getCurrentStat(Stat.PA));
     assertEquals(0, BastilleBattalionManager.getCurrentStat(Stat.PD));
 
-    value = "MA=0,MD=3,CA=2,CD=4,PA=3,PD=8";
-    BastilleBattalionManager.loadStats(value);
+    Preferences.setString("_bastilleStats", "MA=0,MD=3,CA=2,CD=4,PA=3,PD=8");
+    BastilleBattalionManager.loadStats();
     assertEquals(0, BastilleBattalionManager.getCurrentStat(Stat.MA));
     assertEquals(3, BastilleBattalionManager.getCurrentStat(Stat.MD));
     assertEquals(2, BastilleBattalionManager.getCurrentStat(Stat.CA));
@@ -726,9 +726,14 @@ public class BastilleBattalionManagerTest {
     assertEquals("MA>MD,CA<CD,PA<PD", Preferences.getString("_bastilleLastBattleStats"));
     assertFalse(Preferences.getBoolean("_bastilleLastBattleWon"));
 
-    // The response is the "visit" to a new choice
-    ChoiceManager.lastChoice = 1316;
-    BastilleBattalionManager.visitChoice(request);
+    // The response is the "visit" to a new choice, but KoL will not "visit" it
+    // until the user clicks a button and submits a request to choice 1316.
+    //
+    // ChoiceManager.lastChoice = 1316;
+    // BastilleBattalionManager.visitChoice(request);
+
+    // The game is over. If we start another, beginning-of-game actions need to happen.
+    assertEquals(0, Preferences.getInteger("_bastilleGameTurn"));
 
     // We lost, but details of the last battle remain
     assertEquals("Bradley the Samey", Preferences.getString("_bastilleEnemyName"));
@@ -736,6 +741,5 @@ public class BastilleBattalionManagerTest {
     assertEquals("MA=6,MD=3,CA=6,CD=3,PA=5,PD=4", Preferences.getString("_bastilleStats"));
     assertEquals("MA>MD,CA<CD,PA<PD", Preferences.getString("_bastilleLastBattleStats"));
     assertEquals(390, Preferences.getInteger("_bastilleCheeseCollected"));
-    assertEquals(12, Preferences.getInteger("_bastilleGameTurn"));
   }
 }
