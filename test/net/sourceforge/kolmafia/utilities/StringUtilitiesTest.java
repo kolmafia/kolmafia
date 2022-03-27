@@ -572,4 +572,21 @@ class StringUtilitiesTest {
     String expected = "blue exotic marigold";
     assertEquals(expected, testBuffer.toString(), test);
   }
+
+  @Test
+  public void itShouldNotTryToFuzzyMatchWithNoRealInput() {
+    String source = null;
+    String match = null;
+    assertFalse(StringUtilities.fuzzyMatches(source, match));
+    source = "There is lint, not fuzz, here";
+    assertTrue(StringUtilities.fuzzyMatches(source, match));
+    match = "";
+    assertTrue(StringUtilities.fuzzyMatches(source, match));
+  }
+
+  @ParameterizedTest
+  @CsvSource({"'regal', 'gal', false", "'1 234 34 & 999', 'a', false"})
+  public void itShouldExerciseSomeFuzzyMatching(String source, String match, boolean expected) {
+    assertEquals(expected, StringUtilities.fuzzyMatches(source, match));
+  }
 }
