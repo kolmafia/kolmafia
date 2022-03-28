@@ -773,7 +773,7 @@ public class BastilleBattalionManagerTest {
     // until the user clicks a button and submits a request to choice 1316.
 
     // GAME OVER
-    urlString = "choice.php?pwd&whichchoice=1316&option=3";
+    urlString = "choice.php?whichchoice=1316&option=3";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     responseText = loadHTMLResponse("request/test_bastille_game1_done.html");
     request.constructURLString(urlString);
@@ -812,7 +812,7 @@ public class BastilleBattalionManagerTest {
     Preferences.setString("_bastilleChoice3", "Make the soldiers masons");
 
     // Finish upgrading just before the battle
-    String urlString = "choice.php?pwd&whichchoice=1318&option=3";
+    String urlString = "choice.php?whichchoice=1318&option=3";
     String expected = "Make the soldiers masons";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
@@ -826,7 +826,7 @@ public class BastilleBattalionManagerTest {
     assertEquals("MA=6,MD=5,CA=6,CD=5,PA=3,PD=4", Preferences.getString("_bastilleStats"));
 
     // Enter into battle with your foe.
-    urlString = "choice.php?pwd&whichchoice=1315&option=1";
+    urlString = "choice.php?whichchoice=1315&option=1";
     expected = "Turn #6: Charge!";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
@@ -851,7 +851,7 @@ public class BastilleBattalionManagerTest {
     assertEquals("MA=6,MD=5,CA=6,CD=5,PA=3,PD=4", Preferences.getString("_bastilleStats"));
 
     // Choose not to simply Walk Away
-    urlString = "choice.php?pwd&whichchoice=1316&option=2";
+    urlString = "choice.php?whichchoice=1316&option=2";
     // We don't log returning to the console
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     responseText = loadHTMLResponse("request/test_bastille_end_game_start_game_3.html");
@@ -866,7 +866,7 @@ public class BastilleBattalionManagerTest {
     assertEquals(0, Preferences.getInteger("_bastilleGameTurn"));
 
     // Start a new game.
-    urlString = "choice.php?whichchoice=1313&option=5&pwd";
+    urlString = "choice.php?whichchoice=1313&option=5";
     expected = "Starting game #2";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
