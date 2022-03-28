@@ -385,12 +385,15 @@ public class MaximizerSpeculation extends Speculation
         if (count <= 0) continue;
         this.equipment[EquipmentManager.CONTAINER] = item;
         if (item.getItemId() == ItemPool.BUDDY_BJORN) {
-          if (useBjornFamiliar != FamiliarData.NO_FAMILIAR || item.requiredFlag) {
+          if (useBjornFamiliar != FamiliarData.NO_FAMILIAR) {
             this.setBjorned(useBjornFamiliar);
             this.tryAccessories(enthronedFamiliars, possibles, 0, bestCard, useCrownFamiliar);
             any = true;
             this.restore(mark);
           } else {
+            if (enthronedFamiliars.indexOf(FamiliarData.NO_FAMILIAR) == -1) {
+              enthronedFamiliars.add(FamiliarData.NO_FAMILIAR);
+            }
             for (FamiliarData f : enthronedFamiliars) {
               this.setBjorned(f);
               this.tryAccessories(enthronedFamiliars, possibles, 0, bestCard, useCrownFamiliar);
@@ -523,12 +526,15 @@ public class MaximizerSpeculation extends Speculation
         if (count <= 0) continue;
         this.equipment[EquipmentManager.HAT] = item;
         if (item.getItemId() == ItemPool.HATSEAT) {
-          if (useCrownFamiliar != FamiliarData.NO_FAMILIAR || item.requiredFlag) {
+          if (useCrownFamiliar != FamiliarData.NO_FAMILIAR) {
             this.setEnthroned(useCrownFamiliar);
             this.tryShirts(possibles, bestCard);
             any = true;
             this.restore(mark);
           } else {
+            if (enthronedFamiliars.indexOf(FamiliarData.NO_FAMILIAR) == -1) {
+              enthronedFamiliars.add(FamiliarData.NO_FAMILIAR);
+            }
             for (FamiliarData f : enthronedFamiliars) {
               // Cannot use same familiar for this and Bjorn
               if (f != this.getBjorned()) {
