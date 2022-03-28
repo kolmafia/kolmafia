@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.session;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -133,14 +132,6 @@ public class BastilleBattalionManager {
 
     public void clear() {
       Arrays.fill(this.stats, 0);
-    }
-
-    public Map<Stat, Integer> toStatMap() {
-      Map<Stat, Integer> statMap = new TreeMap<>();
-      for (Stat stat : Stat.values()) {
-        statMap.put(stat, this.stats[stat.getIndex()]);
-      }
-      return statMap;
     }
 
     public Stats add(Stats stats) {
@@ -394,10 +385,9 @@ public class BastilleBattalionManager {
   }
 
   private static String generateSetting(Stats stats) {
-    Map<Stat, Integer> statMap = stats.toStatMap();
     String value =
-        statMap.entrySet().stream()
-            .map(e -> e.getKey().getShortName() + "=" + e.getValue())
+        Arrays.stream(Stat.values())
+            .map(stat -> stat.name() + "=" + stats.get(stat))
             .collect(Collectors.joining(","));
     return value;
   }
