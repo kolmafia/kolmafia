@@ -9,6 +9,8 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import net.sourceforge.kolmafia.CoinmasterRegistry;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -606,4 +608,26 @@ class StringUtilitiesTest {
     match = "";
     assertTrue(StringUtilities.substringMatches(input, match, bound));
   }
+
+  @Test
+  public void itShouldFindSomeMatchesInAMap() {
+    String [] nameList = CoinmasterRegistry.MASTERS;
+    assertEquals(74, nameList.length);
+    List<String> results;
+    String search = null;
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertTrue(results.isEmpty());
+    search = "Altar of Bones";
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(1, results.size(), "Unexpected results");
+    assertTrue(results.contains("altar of bones"));
+    search = "shop";
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(11, results.size());
+    assertTrue(results.contains("game shoppe"));
+    search = "Shop";
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(11, results.size());
+    assertTrue(results.contains("game shoppe"));
+   }
 }
