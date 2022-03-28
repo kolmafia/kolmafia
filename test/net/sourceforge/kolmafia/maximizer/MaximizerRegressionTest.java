@@ -131,6 +131,32 @@ public class MaximizerRegressionTest {
     assertTrue(maximize("item, -crown-of-thrones, +equip Crown of Thrones"));
   }
 
+  @Test
+  public void keepFilledBjornEquippedWithBonus() {
+    canUse("Vampyric Cloake");
+    equip(EquipmentManager.CONTAINER, "Buddy Bjorn");
+    KoLCharacter.setBjorned(new FamiliarData(FamiliarPool.DICE));
+
+    assertTrue(maximize("adventures, -buddy-bjorn, +25 bonus Buddy Bjorn"));
+    recommendedSlotIs(EquipmentManager.CONTAINER, "Buddy bjorn");
+  }
+
+  @Test
+  public void keepEmptyBjornEquippedAndUnchangedWithCrownAndBonus() {
+    canUse("Crown of Thrones");
+    canUse("time helmet");
+
+    KoLCharacter.addFamiliar(new FamiliarData(FamiliarPool.DICE));
+    equip(EquipmentManager.CONTAINER, "Buddy Bjorn");
+
+    assertTrue(maximize("adventures, -buddy-bjorn, +25 bonus Buddy Bjorn"));
+
+    recommendedSlotIs(EquipmentManager.HAT, "time helmet");
+    recommendedSlotIs(EquipmentManager.CONTAINER, "Buddy Bjorn");
+    // Fuzzy dice adds +10 to all stats. Make sure we didn't just equip it.
+    assertEquals(0, modFor("Muscle"), 0.01);
+  }
+
   // https://kolmafia.us/threads/27073/
   @Test
   public void noTiePrefersCurrentGear() {
