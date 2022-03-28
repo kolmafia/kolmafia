@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.session;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -347,7 +348,7 @@ public class BastilleBattalionManager {
   // *** Cached state. This resets when you visit the Bastille Battalion
   // *** control rig
 
-  private static final Map<Upgrade, Style> currentStyles = new HashMap<>();
+  private static final Map<Upgrade, Style> currentStyles = new TreeMap<>();
   private static Stats currentStats = new Stats();
 
   private static final Pattern STAT_PATTERN = Pattern.compile("([MCP][AD])=(\\d+)");
@@ -393,6 +394,11 @@ public class BastilleBattalionManager {
     Preferences.setString("_bastilleStats", value);
   }
 
+  private static void saveStyles(Map<Upgrade, Style> styleMap) {
+    String value = styleMap.values().stream().map(Style::name).collect(Collectors.joining(","));
+    Preferences.setString("_bastilleCurrentStyles", value);
+  }
+
   public static void reset() {
     // Cached configuration
     currentStyles.clear();
@@ -405,10 +411,20 @@ public class BastilleBattalionManager {
     // initial stats. If you are smart, you play all five games in a row...
     Preferences.setString("_bastilleBoosts", "");
 
-    // Set by initial setup, which is locked in place as soon as you start your
-    // first game, since you get the prizes at the end of that game.
-    // Thereafter, offensive/defensive training modify them.  We don't know
-    // what your actual stats are; this is the user visible bonuses.
+    // When you initially visit the control rig, you can select the "style" of
+    // the four available upgrades: barbican, drawbridge, murder holes, moat.
+    // You can fiddle with them to your heart's content until you start your
+    // first game of the day. At that point they are locked in and you will
+    // receive the appropriate prizes at the end of that game, win or lose.
+    Preferences.setString("_bastilleCurrentStyles", "");
+
+    // Each configured style grants a specific bonus to the set of stats.  That
+    // is locked in once you start your first game. As you progress through the
+    // game, you perform actions to add or subtract to specific (or all) attack
+    // or defense stats. Stats revert to your style-provided bonuses at the
+    // start of each game.
+    //
+    // Since we don't know your actual stats; this is user visible bonuses.
     Preferences.setString("_bastilleStats", "");
 
     // Game progress settings.
@@ -481,6 +497,7 @@ public class BastilleBattalionManager {
       }
     }
     logStatsDiff(old, currentStats);
+    saveStyles(currentStyles);
     saveStats(currentStats);
   }
 
@@ -668,14 +685,6 @@ public class BastilleBattalionManager {
   }
 
   // *** Interface for testing
-
-  public static Map<Upgrade, Style> getCurrentStyles() {
-    return currentStyles;
-  }
-
-  public static Style getCurrentStyle(Upgrade upgrade) {
-    return currentStyles.get(upgrade);
-  }
 
   public static int getCurrentStat(Stat stat) {
     return currentStats.get(stat);
