@@ -585,8 +585,25 @@ class StringUtilitiesTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"'regal', 'gal', false", "'1 234 34 & 999', 'a', false"})
+  @CsvSource({
+    "'regal', 'gal', false",
+    "'A & string', '           &   ', true",
+    "'1 234 34 & a b999', 'a b', true",
+    "'1 234 34 & 999', 'a', false"
+  })
   public void itShouldExerciseSomeFuzzyMatching(String source, String match, boolean expected) {
     assertEquals(expected, StringUtilities.fuzzyMatches(source, match));
+  }
+
+  @Test
+  public void itShouldNotSubstringMatchWithNoRealInput() {
+    String input = null;
+    String match = null;
+    boolean bound = false;
+    assertFalse(StringUtilities.substringMatches(input, match, bound));
+    input = "A non-null string";
+    assertTrue(StringUtilities.substringMatches(input, match, bound));
+    match = "";
+    assertTrue(StringUtilities.substringMatches(input, match, bound));
   }
 }
