@@ -92,10 +92,6 @@ public class BastilleBattalionManager {
       enumNameToStat.put(this.name(), this);
     }
 
-    public String getShortName() {
-      return this.name();
-    }
-
     public String getName() {
       return this.name;
     }
@@ -354,8 +350,6 @@ public class BastilleBattalionManager {
   private static final Map<Upgrade, Style> currentStyles = new HashMap<>();
   private static Stats currentStats = new Stats();
 
-  public static boolean debugStats = false;
-
   private static final Pattern STAT_PATTERN = Pattern.compile("([MCP][AD])=(\\d+)");
 
   public static void loadStats() {
@@ -374,6 +368,8 @@ public class BastilleBattalionManager {
     }
   }
 
+  public static boolean debugStats = false;
+
   private static Stats logStatsDiff(Stats old, Stats updated) {
     Stats diff = old.diff(updated);
     if (debugStats) {
@@ -384,7 +380,7 @@ public class BastilleBattalionManager {
     return diff;
   }
 
-  private static String generateSetting(Stats stats) {
+  public static String generateSetting(Stats stats) {
     String value =
         Arrays.stream(Stat.values())
             .map(stat -> stat.name() + "=" + stats.get(stat))
@@ -392,11 +388,8 @@ public class BastilleBattalionManager {
     return value;
   }
 
-  private static void saveStats() {
-    saveStats(generateSetting(currentStats));
-  }
-
-  private static void saveStats(String value) {
+  private static void saveStats(Stats stats) {
+    String value = generateSetting(stats);
     Preferences.setString("_bastilleStats", value);
   }
 
@@ -488,7 +481,7 @@ public class BastilleBattalionManager {
       }
     }
     logStatsDiff(old, currentStats);
-    saveStats();
+    saveStats(currentStats);
   }
 
   public static void parseNeedles(String text) {
@@ -503,7 +496,7 @@ public class BastilleBattalionManager {
       parseNeedle(matcher.group(2), matcher.group(3));
     }
     logStatsDiff(old, currentStats);
-    saveStats();
+    saveStats(currentStats);
   }
 
   // According to your scanners, the nearest enemy castle is Humongous Craine, a sprawling chateau.
@@ -622,10 +615,6 @@ public class BastilleBattalionManager {
     RequestLogger.updateSessionLog(message);
   }
 
-  private static void logLine() {
-    logLine("");
-  }
-
   private static AdventureResult SHARK_TOOTH_GRIN = EffectPool.get(EffectPool.SHARK_TOOTH_GRIN);
   private static AdventureResult BOILING_DETERMINATION =
       EffectPool.get(EffectPool.BOILING_DETERMINATION);
@@ -670,11 +659,6 @@ public class BastilleBattalionManager {
     RequestLogger.updateSessionLog(message);
   }
 
-  private static void logAction(String action) {
-    String message = logAction(new StringBuilder(), action).toString();
-    logLine(message);
-  }
-
   private static StringBuilder logAction(StringBuilder buf, String action) {
     buf.append("Turn #");
     buf.append(Preferences.getInteger("_bastilleGameTurn"));
@@ -708,13 +692,12 @@ public class BastilleBattalionManager {
   private static boolean checkStat(Stats stats, Stat stat) {
     int calculated = stats.get(stat);
     int expected = currentStats.get(stat);
-    if (calculated != expected) {
-      String message =
-          stat + " was calculated to be " + calculated + " but is actually " + expected;
-      logLine(message);
-      return false;
+    if (calculated == expected) {
+      return true;
     }
-    return true;
+    String message = stat + " was calculated to be " + calculated + " but is actually " + expected;
+    logLine(message);
+    return false;
   }
 
   public static boolean checkPredictions() {
@@ -881,7 +864,7 @@ public class BastilleBattalionManager {
             return true;
           case 8:
             logLine("Walking away from the game");
-            logLine();
+            logLine("");
             return true;
         }
         break;
