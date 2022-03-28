@@ -138,7 +138,7 @@ public class MaximizerRegressionTest {
     KoLCharacter.setBjorned(new FamiliarData(FamiliarPool.DICE));
 
     assertTrue(maximize("adventures, -buddy-bjorn, +25 bonus Buddy Bjorn"));
-    recommendedSlotIs(EquipmentManager.CONTAINER, "Buddy bjorn");
+    recommendedSlotIs(EquipmentManager.CONTAINER, "Buddy Bjorn");
   }
 
   @Test
