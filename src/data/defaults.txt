@@ -1487,7 +1487,19 @@ user	_ballInACupUsed	false
 user	_ballpit	false
 user	_banderRunaways	0
 user	_barrelPrayer	false
+user	_bastilleBoosts	
+user	_bastilleCheese	0
+user	_bastilleChoice1
+user	_bastilleChoice2
+user	_bastilleChoice3
+user	_bastilleCurrentStyles	
+user	_bastilleEnemyCastle	
+user	_bastilleEnemyName	
 user	_bastilleGames	0
+user	_bastilleGameTurn	0
+user	_bastilleLastBattleResults
+user	_bastilleLastBattleWon	false
+user	_bastilleStats	
 user	_beachCombing	false
 user	_beachHeadsUsed
 user	_beachLayout
