@@ -134,10 +134,10 @@ public class MaximizerRegressionTest {
   @Test
   public void keepBjornEquippedWithBonus() {
     // Provide a helpful alternative to the bjorn.
-    canUse("makeshift cape");
+    canUse("vampyric cloake");
     equip(EquipmentManager.CONTAINER, "Buddy Bjorn");
 
-    assertTrue(maximize("-item, -buddy-bjorn, +25 bonus Buddy Bjorn"));
+    assertTrue(maximize("adventures, -buddy-bjorn, +25 bonus Buddy Bjorn"));
     recommendedSlotIsUnchanged(EquipmentManager.CONTAINER);
   }
 
