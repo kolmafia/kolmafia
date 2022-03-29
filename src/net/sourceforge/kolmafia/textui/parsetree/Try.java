@@ -54,14 +54,27 @@ public class Try extends Command {
           interpreter.trace("Entering finally, saved state: " + oldState);
         }
 
-        this.finalClause.execute(interpreter);
+        Value fresult = this.finalClause.execute(interpreter);
 
-        // Unless the finally block aborted, restore previous state
-        if (!KoLmafia.refusesContinue()) {
-          interpreter.setState(oldState);
-          StaticEntity.setContinuationState(continuationState);
-          StaticEntity.userAborted = userAborted;
+        // The finally clause can abort.
+        if (!KoLmafia.permitsContinue()) {
+          interpreter.setState(ScriptRuntime.State.EXIT);
         }
+
+        if (interpreter.getState() == ScriptRuntime.State.EXIT) {
+          interpreter.traceUnindent();
+          return null;
+        }
+
+        if (interpreter.getState() == ScriptRuntime.State.RETURN) {
+          interpreter.traceUnindent();
+          return fresult;
+        }
+
+        // Restore original state.
+        interpreter.setState(oldState);
+        StaticEntity.setContinuationState(continuationState);
+        StaticEntity.userAborted = userAborted;
       }
     }
 
