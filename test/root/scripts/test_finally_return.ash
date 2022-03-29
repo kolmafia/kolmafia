@@ -8,6 +8,9 @@ int test( int input )
             print("I prefer " + output);
             return output;
         }
+	if (input == 200) {
+	    abort("No way!");
+	}
     }
     print("Good enough!");
     return input;
@@ -15,3 +18,4 @@ int test( int input )
 
 print("I received " + test(50));
 print("I received " + test(100));
+print("I received " + test(200));
