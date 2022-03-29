@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -614,7 +615,10 @@ class StringUtilitiesTest {
     "crimbo shop",
     "the other crimbo shop",
     "do you believe there is a third crimbo shop",
+    "\"dairy\" farm",
+    "&quot;dairy&quot; barn",
     "provider of bone altars",
+    "&quot;debbie",
     "game shoppe"
   };
 
@@ -655,5 +659,15 @@ class StringUtilitiesTest {
     search = "Crimbo";
     results = StringUtilities.getMatchingNames(nameList, search);
     assertEquals(3, results.size(), "Unexpected matches");
+  }
+
+  @Test
+  public void itShouldHelpExploreWhatAnExactMatchIs() {
+    List<String> results;
+    String search = "\"Debbie";
+    Arrays.sort(nameList);
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(1, results.size(), "Unexpected matches");
+    assertTrue(results.contains("&quot;debbie"));
   }
 }
