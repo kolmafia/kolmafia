@@ -9,7 +9,6 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import net.sourceforge.kolmafia.CoinmasterRegistry;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -608,11 +607,19 @@ class StringUtilitiesTest {
     assertTrue(StringUtilities.substringMatches(input, match, bound));
   }
 
+  private static String[] nameList = {
+    "altar of bones",
+    "game shop",
+    "bone shop",
+    "crimbo shop",
+    "the other crimbo shop",
+    "do you believe there is a third crimbo shop",
+    "provider of bone altars",
+    "game shoppe"
+  };
+
   @Test
   public void itShouldFindSomeMatchesInAMap() {
-    // Need to not use Coinmasters since test leaks.
-    String[] nameList = CoinmasterRegistry.MASTERS;
-    assertEquals(74, nameList.length);
     List<String> results;
     String search = null;
     results = StringUtilities.getMatchingNames(nameList, search);
@@ -623,18 +630,16 @@ class StringUtilitiesTest {
     assertTrue(results.contains("altar of bones"));
     search = "shop";
     results = StringUtilities.getMatchingNames(nameList, search);
-    assertEquals(11, results.size());
+    assertEquals(6, results.size());
     assertTrue(results.contains("game shoppe"));
     search = "Shop";
     results = StringUtilities.getMatchingNames(nameList, search);
-    assertEquals(11, results.size());
+    assertEquals(6, results.size());
     assertTrue(results.contains("game shoppe"));
   }
 
   @Test
   public void itShouldFindExactMatchesOrNot() {
-    String[] nameList = CoinmasterRegistry.MASTERS;
-    assertEquals(74, nameList.length);
     List<String> results;
     String search = "\"altar of bones\"";
     results = StringUtilities.getMatchingNames(nameList, search);
@@ -644,10 +649,6 @@ class StringUtilitiesTest {
     results = StringUtilities.getMatchingNames(nameList, search);
     assertEquals(1, results.size(), "Unexpected matches");
     assertTrue(results.contains("altar of bones"));
-    // search = "\"Crimbo Cartel\"";
-    // results = StringUtilities.getMatchingNames(nameList, search);
-    // assertEquals(1, results.size(), "Unexpected matches");
-    // assertTrue(results.contains("crimbo cartel"));
     search = "\"Crimbo\"";
     results = StringUtilities.getMatchingNames(nameList, search);
     assertEquals(0, results.size(), "Unexpected matches");
