@@ -531,7 +531,7 @@ public class MaximizerSpeculation extends Speculation
           } else {
             for (FamiliarData f : enthronedFamiliars) {
               // Cannot use same familiar for this and Bjorn
-              if (f != this.getBjorned()) {
+              if (f != this.getBjorned() || f == FamiliarData.NO_FAMILIAR) {
                 this.setEnthroned(f);
                 this.tryShirts(possibles, bestCard);
                 any = true;

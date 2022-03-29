@@ -155,6 +155,17 @@ public class MaximizerRegressionTest {
     recommendedSlotIsUnchanged(EquipmentManager.CONTAINER);
   }
 
+  @Test
+  public void bjornAndCrownCanBothBeEmpty() {
+    canUse("Crown of Thrones");
+    canUse("Buddy Bjorn");
+
+    assertTrue(maximize("+25 bonus Buddy Bjorn, +25 bonus Crown of Thrones"));
+
+    recommendedSlotIs(EquipmentManager.HAT, "Crown of Thrones");
+    recommendedSlotIs(EquipmentManager.CONTAINER, "Buddy Bjorn");
+  }
+
   // https://kolmafia.us/threads/27073/
   @Test
   public void noTiePrefersCurrentGear() {
