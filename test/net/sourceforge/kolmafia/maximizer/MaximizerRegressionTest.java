@@ -132,30 +132,27 @@ public class MaximizerRegressionTest {
   }
 
   @Test
-  public void keepFilledBjornEquippedWithBonus() {
-    canUse("vampyric cloake");
+  public void keepBjornEquippedWithBonus() {
+    // Provide a helpful alternative to the bjorn.
+    canUse("makeshift cape");
     equip(EquipmentManager.CONTAINER, "Buddy Bjorn");
-    KoLCharacter.setBjorned(new FamiliarData(FamiliarPool.DICE));
 
-    assertTrue(maximize("adventures, -buddy-bjorn, +25 bonus Buddy Bjorn"));
-    // Fuzzy Dice adds +10 to all stats. Make sure it's still on.
-    assertEquals(10, modFor("Muscle"), 0.01);
+    assertTrue(maximize("-item, -buddy-bjorn, +25 bonus Buddy Bjorn"));
+    recommendedSlotIsUnchanged(EquipmentManager.CONTAINER);
   }
 
   @Test
-  public void keepEmptyBjornEquippedAndUnchangedWithCrownAndBonus() {
+  public void keepBjornEquippedAndUnchangedWithCrownAndBonus() {
     canUse("Crown of Thrones");
     canUse("time helmet");
-    canUse("vampyric cloake");
+
     KoLCharacter.addFamiliar(new FamiliarData(FamiliarPool.DICE));
     equip(EquipmentManager.CONTAINER, "Buddy Bjorn");
 
     assertTrue(maximize("adventures, -buddy-bjorn, +25 bonus Buddy Bjorn"));
 
-    // Fuzzy dice adds +10 to all stats. Make sure we didn't just equip it.
-    assertEquals(0, modFor("Muscle"), 0.01);
-    // Cloake adds +4 adventures. Make sure we didn't just equip it.
-    assertEquals(3, modFor("adventures"), 0.01);
+    recommendedSlotIs(EquipmentManager.HAT, "time helmet");
+    recommendedSlotIsUnchanged(EquipmentManager.CONTAINER);
   }
 
   // https://kolmafia.us/threads/27073/
