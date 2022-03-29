@@ -9,7 +9,6 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -611,7 +610,7 @@ class StringUtilitiesTest {
 
   @Test
   public void itShouldFindSomeMatchesInAMap() {
-    String [] nameList = CoinmasterRegistry.MASTERS;
+    String[] nameList = CoinmasterRegistry.MASTERS;
     assertEquals(74, nameList.length);
     List<String> results;
     String search = null;
@@ -629,5 +628,30 @@ class StringUtilitiesTest {
     results = StringUtilities.getMatchingNames(nameList, search);
     assertEquals(11, results.size());
     assertTrue(results.contains("game shoppe"));
-   }
+  }
+
+  @Test
+  public void itShouldFindExactMatchesOrNot() {
+    String[] nameList = CoinmasterRegistry.MASTERS;
+    assertEquals(74, nameList.length);
+    List<String> results;
+    String search = "\"altar of bones\"";
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(1, results.size(), "Unexpected matches");
+    assertTrue(results.contains("altar of bones"));
+    search = "\"Altar of Bones\"";
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(1, results.size(), "Unexpected matches");
+    assertTrue(results.contains("altar of bones"));
+    search = "\"Crimbo Cartel\"";
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(1, results.size(), "Unexpected matches");
+    assertTrue(results.contains("crimbo cartel"));
+    search = "\"Crimbo\"";
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(0, results.size(), "Unexpected matches");
+    search = "Crimbo";
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(3, results.size(), "Unexpected matches");
+  }
 }

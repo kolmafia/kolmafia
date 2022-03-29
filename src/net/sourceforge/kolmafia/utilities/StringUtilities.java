@@ -250,7 +250,7 @@ public class StringUtilities {
     if (searchString.length() == 0) {
       return matchList;
     }
-
+    Arrays.sort(names);
     if (Arrays.binarySearch(names, searchString) >= 0) {
       matchList.add(searchString);
       return matchList;
