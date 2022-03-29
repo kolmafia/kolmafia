@@ -131,6 +131,41 @@ public class MaximizerRegressionTest {
     assertTrue(maximize("item, -crown-of-thrones, +equip Crown of Thrones"));
   }
 
+  @Test
+  public void keepBjornEquippedWithBonus() {
+    // Provide a helpful alternative to the bjorn.
+    canUse("vampyric cloake");
+    equip(EquipmentManager.CONTAINER, "Buddy Bjorn");
+
+    assertTrue(maximize("adventures, -buddy-bjorn, +25 bonus Buddy Bjorn"));
+    recommendedSlotIsUnchanged(EquipmentManager.CONTAINER);
+  }
+
+  @Test
+  public void keepBjornEquippedAndUnchangedWithCrownAndBonus() {
+    canUse("Crown of Thrones");
+    canUse("time helmet");
+
+    KoLCharacter.addFamiliar(new FamiliarData(FamiliarPool.DICE));
+    equip(EquipmentManager.CONTAINER, "Buddy Bjorn");
+
+    assertTrue(maximize("adventures, -buddy-bjorn, +25 bonus Buddy Bjorn"));
+
+    recommendedSlotIs(EquipmentManager.HAT, "time helmet");
+    recommendedSlotIsUnchanged(EquipmentManager.CONTAINER);
+  }
+
+  @Test
+  public void bjornAndCrownCanBothBeEmpty() {
+    canUse("Crown of Thrones");
+    canUse("Buddy Bjorn");
+
+    assertTrue(maximize("+25 bonus Buddy Bjorn, +25 bonus Crown of Thrones"));
+
+    recommendedSlotIs(EquipmentManager.HAT, "Crown of Thrones");
+    recommendedSlotIs(EquipmentManager.CONTAINER, "Buddy Bjorn");
+  }
+
   // https://kolmafia.us/threads/27073/
   @Test
   public void noTiePrefersCurrentGear() {
