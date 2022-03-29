@@ -217,7 +217,7 @@ public class MaximizerTest {
           new Cleanups(inPath(Path.BEES_HATE_YOU), canUse("bubblewrap bottlecap turtleban"));
       try (cleanups) {
         maximize("mys");
-        recommendedSlotIsEmpty(EquipmentManager.HAT);
+        recommendedSlotIsUnchanged(EquipmentManager.HAT);
       }
     }
 
@@ -370,7 +370,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("moxie -tie"));
-        recommendedSlotIsEmpty(EquipmentManager.HAT);
+        recommendedSlotIsUnchanged(EquipmentManager.HAT);
         assertTrue(someBoostIs(x -> commandStartsWith(x, "absorb ¶9"))); // disco mask
       }
     }
@@ -383,7 +383,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("muscle -tie"));
-        recommendedSlotIsEmpty(EquipmentManager.HAT);
+        recommendedSlotIsUnchanged(EquipmentManager.HAT);
         assertTrue(someBoostIs(x -> commandStartsWith(x, "absorb ¶3"))); // helmet turtle
       }
     }
@@ -489,7 +489,7 @@ public class MaximizerTest {
         assertTrue(maximize("-combat -tie"));
         assertEquals(0, modFor("Combat Rate"), 0.01);
 
-        recommendedSlotIsEmpty(EquipmentManager.HAT);
+        recommendedSlotIsUnchanged(EquipmentManager.HAT);
       }
     }
 
@@ -695,9 +695,9 @@ public class MaximizerTest {
 
           assertEquals(30, modFor("Meat Drop"), 0.01);
           recommendedSlotIs(EquipmentManager.OFFHAND, "silver cow creamer");
-          recommendedSlotIsEmpty(EquipmentManager.ACCESSORY1);
-          recommendedSlotIsEmpty(EquipmentManager.ACCESSORY2);
-          recommendedSlotIsEmpty(EquipmentManager.ACCESSORY3);
+          recommendedSlotIsUnchanged(EquipmentManager.ACCESSORY1);
+          recommendedSlotIsUnchanged(EquipmentManager.ACCESSORY2);
+          recommendedSlotIsUnchanged(EquipmentManager.ACCESSORY3);
         }
       }
     }

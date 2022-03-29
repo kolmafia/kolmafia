@@ -1502,8 +1502,8 @@ public class Evaluator {
     // Assume current ones are best if in use
     FamiliarData bestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
     FamiliarData secondBestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
-    FamiliarData useBjornFamiliar = FamiliarData.NO_FAMILIAR;
-    FamiliarData useCrownFamiliar = FamiliarData.NO_FAMILIAR;
+    FamiliarData useBjornFamiliar = null;
+    FamiliarData useCrownFamiliar = null;
 
     // If we're not allowed to change the current familiar, lock it
     if (this.slots[EquipmentManager.BUDDYBJORN] < 0) {
