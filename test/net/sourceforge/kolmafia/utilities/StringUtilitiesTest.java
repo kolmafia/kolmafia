@@ -669,5 +669,46 @@ class StringUtilitiesTest {
     results = StringUtilities.getMatchingNames(nameList, search);
     assertEquals(1, results.size(), "Unexpected matches");
     assertTrue(results.contains("&quot;debbie"));
+    search = "\"Dabbie";
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(0, results.size(), "Unexpected matches");
+  }
+
+  @Test
+  public void itShouldNotHavACanonicalNameForNull() {
+    assertNull(StringUtilities.getCanonicalName(null));
+  }
+
+  @Test
+  public void itShouldNotURLEncodeNull() {
+    assertNull(StringUtilities.getURLEncode(null));
+  }
+
+  @Test
+  public void itShouldNotEntityDecodeNull() {
+    assertNull(StringUtilities.getEntityDecode(null));
+  }
+
+  @Test
+  public void itShouldNotEntityEncodeNull() {
+    assertNull(StringUtilities.getEntityEncode(null));
+  }
+
+  @Test
+  public void itCanExerciseEntityEncoding() {
+    String test = "\" starts with a quote";
+    String expected = "&quot; starts with a quote";
+    String returned = StringUtilities.getEntityEncode(test, false);
+    assertEquals(expected, returned);
+    returned = StringUtilities.getEntityEncode(test, true);
+    assertEquals(expected, returned);
+    test = "&1&2&3&4&5&6&7&8&9&0&1&2&3&4&5&6&7&8&9&0";
+    expected =
+        "&amp;1&amp;2&amp;3&amp;4&amp;5&amp;6&amp;7&amp;8&amp;9&amp;"
+            + "0&amp;1&amp;2&amp;3&amp;4&amp;5&amp;6&amp;7&amp;8&amp;9&amp;0";
+    returned = StringUtilities.getEntityEncode(test, false);
+    assertEquals(expected, returned);
+    returned = StringUtilities.getEntityEncode(test, true);
+    assertEquals(expected, returned);
   }
 }
