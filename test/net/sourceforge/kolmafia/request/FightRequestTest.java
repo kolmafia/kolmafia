@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -258,5 +259,24 @@ public class FightRequestTest {
     parseCombatData("request/test_fight_witchess_with_locket.html");
 
     assertEquals(Preferences.getInteger("_witchessFights"), 0);
+  }
+
+  @Test
+  public void shouldWorkAroundGreyGooseKoLBug() throws IOException {
+    String html =
+        Files.readString(Paths.get("request/test_fight_grey_goose_combat_skills.html")).trim();
+    FightRequest.currentRound = 1;
+    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+    KoLCharacter.setFamiliar(fam);
+    fam.setWeight(6);
+    // If we have a 6-lb. Grey Goose, the Grey Goose combat skills on the fight
+    // page are valid.
+    FightRequest.parseAvailableCombatSkills(html);
+    assertTrue(KoLCharacter.hasCombatSkill(SkillPool.EMIT_MATTER_DUPLICATING_DRONES));
+    // If it is less than 6-lbs., a KoL bug still shows them on the combat page,
+    // but if you try to use them, "You don't know that skill."
+    fam.setWeight(1);
+    FightRequest.parseAvailableCombatSkills(html);
+    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.EMIT_MATTER_DUPLICATING_DRONES));
   }
 }
