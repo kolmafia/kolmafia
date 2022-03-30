@@ -608,7 +608,7 @@ class StringUtilitiesTest {
     assertTrue(StringUtilities.substringMatches(input, match, bound));
   }
 
-  private static String[] nameList = {
+  private static final String[] nameList = {
     "altar of bones",
     "game shop",
     "bone shop",
@@ -702,13 +702,25 @@ class StringUtilitiesTest {
     assertEquals(expected, returned);
     returned = StringUtilities.getEntityEncode(test, true);
     assertEquals(expected, returned);
-    test = "&1&2&3&4&5&6&7&8&9&0&1&2&3&4&5&6&7&8&9&0";
+    test = "&1&2&3&4&5&6&7&8&9&0&1&2&3&4&5&6&7&8&9&0&";
     expected =
         "&amp;1&amp;2&amp;3&amp;4&amp;5&amp;6&amp;7&amp;8&amp;9&amp;"
-            + "0&amp;1&amp;2&amp;3&amp;4&amp;5&amp;6&amp;7&amp;8&amp;9&amp;0";
+            + "0&amp;1&amp;2&amp;3&amp;4&amp;5&amp;6&amp;7&amp;8&amp;9&amp;0&amp;";
     returned = StringUtilities.getEntityEncode(test, false);
     assertEquals(expected, returned);
     returned = StringUtilities.getEntityEncode(test, true);
     assertEquals(expected, returned);
+  }
+
+  @Test
+  public void itShouldExerciseURLDecoding() {
+    String input = null;
+    String expected = null;
+    assertEquals(expected, StringUtilities.getURLDecode(input));
+    input = "https://www.kingdomofloathing.com";
+    expected = "https://www.kingdomofloathing.com";
+    assertEquals(expected, StringUtilities.getURLDecode(input));
+    // For coverage - first call caches it, second finds it there
+    assertEquals(expected, StringUtilities.getURLDecode(input));
   }
 }
