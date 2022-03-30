@@ -2,9 +2,12 @@ package net.sourceforge.kolmafia.utilities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
@@ -502,5 +505,222 @@ class StringUtilitiesTest {
       String test, String delete, String expected) {
     String returnValue = StringUtilities.singleStringDelete(test, delete);
     assertEquals(expected, returnValue, test);
+  }
+
+  @Test
+  public void itShouldHandleVariousArgumentsForDateParsing() {
+    assertEquals(0L, StringUtilities.parseDate(null));
+    assertEquals(0L, StringUtilities.parseDate("Not a date string."));
+    assertEquals(1445412480000L, StringUtilities.parseDate("Wed, 21 Oct 2015 07:28:00 GMT"));
+  }
+
+  @Test
+  public void itShouldHandleVariousArgumentsForDateFormatting() {
+    Date testMe = new Date(1445412480000L);
+    assertEquals("", StringUtilities.formatDate(null));
+    assertEquals("Wed, 21 Oct 2015 07:28:00 GMT", StringUtilities.formatDate(testMe));
+  }
+
+  @Test
+  public void itShouldNotAttemptAnInvalidStringEncoding() {
+    byte[] testMe = new byte[0];
+    assertEquals("", StringUtilities.getEncodedString(testMe, "NotARealEncoding"));
+  }
+
+  @Test
+  public void itShouldNotAttemptAnInvalidByteEncoding() {
+    byte[] result = StringUtilities.getEncodedBytes("Just a string.", "NotARealEncoding");
+    assertEquals(0, result.length);
+  }
+
+  @Test
+  public void itShouldEncodeAValidEncoding() {
+    String test = "Just a string.";
+    byte[] expected = test.getBytes(StandardCharsets.UTF_8);
+    byte[] result = StringUtilities.getEncodedBytes(test, "UTF-8");
+    assertEquals(expected.length, result.length);
+    for (int i = 0; i < expected.length; i++) {
+      assertEquals(expected[i], result[i], "Not a match at element " + i);
+    }
+  }
+
+  @Test
+  public void itShouldNotTryAndReplaceInANullString() {
+    String test = null;
+    assertNull(StringUtilities.singleStringReplace(test, "cat", "dog"));
+  }
+
+  @Test
+  public void itShouldNotInsertAfterSomethingThatIsNotThere() {
+    String test = "exotic marigold";
+    StringBuffer testBuffer = new StringBuffer();
+    testBuffer.append(test);
+    StringUtilities.insertAfter(testBuffer, "ecstatic", " blue");
+    assertEquals(test, testBuffer.toString(), test);
+    StringUtilities.insertAfter(testBuffer, "exotic", " blue");
+    String expected = "exotic blue marigold";
+    assertEquals(expected, testBuffer.toString(), test);
+  }
+
+  @Test
+  public void itShouldNotInsertBeforeSomethingThatIsNotThere() {
+    String test = "exotic marigold";
+    StringBuffer testBuffer = new StringBuffer();
+    testBuffer.append(test);
+    StringUtilities.insertBefore(testBuffer, "ecstatic", "blue ");
+    assertEquals(test, testBuffer.toString(), test);
+    StringUtilities.insertBefore(testBuffer, "exotic", "blue ");
+    String expected = "blue exotic marigold";
+    assertEquals(expected, testBuffer.toString(), test);
+  }
+
+  @Test
+  public void itShouldNotTryToFuzzyMatchWithNoRealInput() {
+    String source = null;
+    String match = null;
+    assertFalse(StringUtilities.fuzzyMatches(source, match));
+    source = "There is lint, not fuzz, here";
+    assertTrue(StringUtilities.fuzzyMatches(source, match));
+    match = "";
+    assertTrue(StringUtilities.fuzzyMatches(source, match));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "'regal', 'gal', false",
+    "'A & string', '           &   ', true",
+    "'1 234 34 & a b999', 'a b', true",
+    "'1 234 34 & 999', 'a', false"
+  })
+  public void itShouldExerciseSomeFuzzyMatching(String source, String match, boolean expected) {
+    assertEquals(expected, StringUtilities.fuzzyMatches(source, match));
+  }
+
+  @Test
+  public void itShouldNotSubstringMatchWithNoRealInput() {
+    String input = null;
+    String match = null;
+    boolean bound = false;
+    assertFalse(StringUtilities.substringMatches(input, match, bound));
+    input = "A non-null string";
+    assertTrue(StringUtilities.substringMatches(input, match, bound));
+    match = "";
+    assertTrue(StringUtilities.substringMatches(input, match, bound));
+  }
+
+  private static final String[] nameList = {
+    "altar of bones",
+    "game shop",
+    "bone shop",
+    "crimbo shop",
+    "the other crimbo shop",
+    "do you believe there is a third crimbo shop",
+    "\"dairy\" farm",
+    "&quot;dairy&quot; barn",
+    "provider of bone altars",
+    "&quot;debbie",
+    "game shoppe"
+  };
+
+  @Test
+  public void itShouldFindSomeMatchesInAMap() {
+    List<String> results;
+    String search = null;
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertTrue(results.isEmpty());
+    search = "Altar of Bones";
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(1, results.size(), "Unexpected results");
+    assertTrue(results.contains("altar of bones"));
+    search = "shop";
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(6, results.size());
+    assertTrue(results.contains("game shoppe"));
+    search = "Shop";
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(6, results.size());
+    assertTrue(results.contains("game shoppe"));
+  }
+
+  @Test
+  public void itShouldFindExactMatchesOrNot() {
+    List<String> results;
+    String search = "\"altar of bones\"";
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(1, results.size(), "Unexpected matches");
+    assertTrue(results.contains("altar of bones"));
+    search = "\"Altar of Bones\"";
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(1, results.size(), "Unexpected matches");
+    assertTrue(results.contains("altar of bones"));
+    search = "\"Crimbo\"";
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(0, results.size(), "Unexpected matches");
+    search = "Crimbo";
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(3, results.size(), "Unexpected matches");
+  }
+
+  @Test
+  public void itShouldHelpExploreWhatAnExactMatchIs() {
+    List<String> results;
+    String search = "\"Debbie";
+    Arrays.sort(nameList);
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(1, results.size(), "Unexpected matches");
+    assertTrue(results.contains("&quot;debbie"));
+    search = "\"Dabbie";
+    results = StringUtilities.getMatchingNames(nameList, search);
+    assertEquals(0, results.size(), "Unexpected matches");
+  }
+
+  @Test
+  public void itShouldNotHavACanonicalNameForNull() {
+    assertNull(StringUtilities.getCanonicalName(null));
+  }
+
+  @Test
+  public void itShouldNotURLEncodeNull() {
+    assertNull(StringUtilities.getURLEncode(null));
+  }
+
+  @Test
+  public void itShouldNotEntityDecodeNull() {
+    assertNull(StringUtilities.getEntityDecode(null));
+  }
+
+  @Test
+  public void itShouldNotEntityEncodeNull() {
+    assertNull(StringUtilities.getEntityEncode(null));
+  }
+
+  @Test
+  public void itCanExerciseEntityEncoding() {
+    String test = "\" starts with a quote";
+    String expected = "&quot; starts with a quote";
+    String returned = StringUtilities.getEntityEncode(test, false);
+    assertEquals(expected, returned);
+    returned = StringUtilities.getEntityEncode(test, true);
+    assertEquals(expected, returned);
+    test = "&1&2&3&4&5&6&7&8&9&0&1&2&3&4&5&6&7&8&9&0&";
+    expected =
+        "&amp;1&amp;2&amp;3&amp;4&amp;5&amp;6&amp;7&amp;8&amp;9&amp;"
+            + "0&amp;1&amp;2&amp;3&amp;4&amp;5&amp;6&amp;7&amp;8&amp;9&amp;0&amp;";
+    returned = StringUtilities.getEntityEncode(test, false);
+    assertEquals(expected, returned);
+    returned = StringUtilities.getEntityEncode(test, true);
+    assertEquals(expected, returned);
+  }
+
+  @Test
+  public void itShouldExerciseURLDecoding() {
+    String input = null;
+    String expected = null;
+    assertEquals(expected, StringUtilities.getURLDecode(input));
+    input = "https://www.kingdomofloathing.com";
+    expected = "https://www.kingdomofloathing.com";
+    assertEquals(expected, StringUtilities.getURLDecode(input));
+    // For coverage - first call caches it, second finds it there
+    assertEquals(expected, StringUtilities.getURLDecode(input));
   }
 }
