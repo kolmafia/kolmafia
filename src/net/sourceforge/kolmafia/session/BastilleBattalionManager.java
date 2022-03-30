@@ -16,7 +16,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class BastilleBattalionManager {
+public abstract class BastilleBattalionManager {
 
   // Bastille Battalion is a simulation of a video game in which your castle
   // engages in a combat with another castle in order to accumulate cheese.
@@ -43,8 +43,6 @@ public class BastilleBattalionManager {
   // Additionally, it is intended to record the results of games in other
   // properties, which will persist until rollover, in other scripts wish to
   // analyze them.
-
-  private BastilleBattalionManager() {}
 
   // *** Stats
 

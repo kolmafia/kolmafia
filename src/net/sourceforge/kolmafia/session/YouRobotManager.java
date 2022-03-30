@@ -21,7 +21,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class YouRobotManager {
+public abstract class YouRobotManager {
 
   private static final Map<String, Part> keywordToPart = new HashMap<>();
 
