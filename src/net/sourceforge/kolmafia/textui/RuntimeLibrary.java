@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -7975,7 +7976,7 @@ public abstract class RuntimeLibrary {
 
     ByteArrayOutputStream cacheStream = new ByteArrayOutputStream();
 
-    PrintStream writer = LogStream.openStream(cacheStream, "UTF-8");
+    PrintStream writer = LogStream.openStream(cacheStream, StandardCharsets.UTF_8);
     map_variable.dump(writer, "", compact);
     writer.close();
 
@@ -8017,7 +8018,7 @@ public abstract class RuntimeLibrary {
   public static Value file_to_buffer(ScriptRuntime controller, final Value var1) {
     String location = var1.toString();
     byte[] bytes = DataFileCache.getBytes(location);
-    String string = StringUtilities.getEncodedString(bytes, "UTF-8");
+    String string = new String(bytes, StandardCharsets.UTF_8);
     StringBuffer buffer = new StringBuffer(string);
     return new Value(DataTypes.BUFFER_TYPE, "", buffer);
   }
@@ -8025,7 +8026,7 @@ public abstract class RuntimeLibrary {
   public static Value buffer_to_file(ScriptRuntime controller, final Value var1, final Value var2) {
     StringBuffer buffer = (StringBuffer) var1.rawValue();
     String string = buffer.toString();
-    byte[] bytes = StringUtilities.getEncodedBytes(string, "UTF-8");
+    byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
     String location = var2.toString();
     return DataFileCache.printBytes(location, bytes);
   }
