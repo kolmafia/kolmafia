@@ -44,6 +44,8 @@ public abstract class BastilleBattalionManager {
   // properties, which will persist until rollover, in other scripts wish to
   // analyze them.
 
+  private BastilleBattalionManager() {}
+
   // *** Stats
 
   // We don't actually know what your stats start at,

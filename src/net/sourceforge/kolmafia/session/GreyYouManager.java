@@ -22,6 +22,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class GreyYouManager {
 
+  private GreyYouManager() {}
+
   // Map from monsterId => Absorption of all known Absorptions.
   public static final Map<Integer, Absorption> allAbsorptions = new HashMap<>();
 

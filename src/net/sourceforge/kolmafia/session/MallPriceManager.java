@@ -30,6 +30,8 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 
 public abstract class MallPriceManager {
 
+  private MallPriceManager() {}
+
   // Mall prices are timestamped. We use System.currentTimeMillis() to generate them.
   // This makes it difficult to write tests that allow us to inject the
   // timestamp of our choice.

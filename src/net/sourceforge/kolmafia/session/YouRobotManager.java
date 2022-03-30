@@ -23,6 +23,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class YouRobotManager {
 
+  private YouRobotManager() {}
+
   private static final Map<String, Part> keywordToPart = new HashMap<>();
 
   // Index upgrade maps
