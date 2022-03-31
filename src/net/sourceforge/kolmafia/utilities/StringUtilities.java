@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.utilities;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -69,22 +68,6 @@ public class StringUtilities {
       return StringUtilities.DATE_FORMAT.format(date);
     } catch (Exception e) {
       return "";
-    }
-  }
-
-  public static String getEncodedString(final byte[] bytes, final String encoding) {
-    try {
-      return new String(bytes, encoding);
-    } catch (UnsupportedEncodingException e) {
-      return "";
-    }
-  }
-
-  public static byte[] getEncodedBytes(final String string, final String encoding) {
-    try {
-      return string.getBytes(encoding);
-    } catch (UnsupportedEncodingException e) {
-      return new byte[0];
     }
   }
 

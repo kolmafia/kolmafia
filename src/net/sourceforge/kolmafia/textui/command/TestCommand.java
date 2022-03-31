@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -129,7 +130,7 @@ public class TestCommand extends AbstractCommand {
       }
 
       byte[] bytes = ByteBufferUtilities.read(file);
-      String string = StringUtilities.getEncodedString(bytes, "UTF-8");
+      String string = new String(bytes, StandardCharsets.UTF_8);
       TestCommand.contents = string;
 
       KoLmafia.updateDisplay(

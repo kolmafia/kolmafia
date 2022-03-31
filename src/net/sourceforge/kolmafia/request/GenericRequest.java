@@ -20,6 +20,7 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpRequest.Builder;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -500,7 +501,7 @@ public class GenericRequest implements Runnable {
   public void addFormField(final String name, final String value, final boolean allowDuplicates) {
     this.dataChanged = true;
 
-    String charset = this.isChatRequest ? "ISO-8859-1" : "UTF-8";
+    Charset charset = this.isChatRequest ? StandardCharsets.ISO_8859_1 : StandardCharsets.UTF_8;
 
     String encodedName = name + "=";
     String encodedValue = value == null ? "" : GenericRequest.encodeURL(value, charset);
@@ -601,10 +602,10 @@ public class GenericRequest implements Runnable {
     if (equalIndex != -1) {
       String name = element.substring(0, equalIndex).trim();
       String value = element.substring(equalIndex + 1).trim();
-      String charset = this.isChatRequest ? "ISO-8859-1" : "UTF-8";
+      Charset charset = this.isChatRequest ? StandardCharsets.ISO_8859_1 : StandardCharsets.UTF_8;
 
       // The name may or may not be encoded.
-      name = GenericRequest.decodeField(name, "UTF-8");
+      name = GenericRequest.decodeField(name, StandardCharsets.UTF_8);
       value = GenericRequest.decodeField(value, charset);
 
       // But we want to always submit value encoded.
@@ -662,7 +663,7 @@ public class GenericRequest implements Runnable {
 
       if (decode) {
         // Chat was encoded as ISO-8859-1, so decode it that way.
-        String charset = this.isChatRequest ? "ISO-8859-1" : "UTF-8";
+        Charset charset = this.isChatRequest ? StandardCharsets.ISO_8859_1 : StandardCharsets.UTF_8;
         return GenericRequest.decodeField(value, charset);
       }
       return value;
@@ -688,35 +689,27 @@ public class GenericRequest implements Runnable {
   }
 
   public static String decodeField(final String urlString) {
-    return GenericRequest.decodeField(urlString, "UTF-8");
+    return GenericRequest.decodeField(urlString, StandardCharsets.UTF_8);
   }
 
-  public static String decodeField(final String value, final String charset) {
+  public static String decodeField(final String value, final Charset charset) {
     if (value == null) {
       return null;
     }
 
-    try {
-      return URLDecoder.decode(value, charset);
-    } catch (IOException e) {
-      return value;
-    }
+    return URLDecoder.decode(value, charset);
   }
 
   public static String encodeURL(final String urlString) {
-    return GenericRequest.encodeURL(urlString, "UTF-8");
+    return GenericRequest.encodeURL(urlString, StandardCharsets.UTF_8);
   }
 
-  public static String encodeURL(final String urlString, final String charset) {
+  public static String encodeURL(final String urlString, final Charset charset) {
     if (urlString == null) {
       return null;
     }
 
-    try {
-      return URLEncoder.encode(urlString, charset);
-    } catch (IOException e) {
-      return urlString;
-    }
+    return URLEncoder.encode(urlString, charset);
   }
 
   public void removeFormField(final String name) {
