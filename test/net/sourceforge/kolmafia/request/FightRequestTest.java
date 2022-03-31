@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -32,9 +33,13 @@ public class FightRequestTest {
 
   @BeforeEach
   public void beforeEach() {
+    GenericRequest.passwordHash = "";
+    Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("FightRequestTest");
     Preferences.reset("FightRequestTest");
     FightRequest.clearInstanceData();
+    KoLConstants.availableCombatSkillsList.clear();
+    KoLConstants.availableCombatSkillsSet.clear();
   }
 
   private void parseCombatData(String path, String location, String encounter) throws IOException {
@@ -261,10 +266,14 @@ public class FightRequestTest {
     assertEquals(Preferences.getInteger("_witchessFights"), 0);
   }
 
+  static String loadHTMLResponse(String path) throws IOException {
+    // Load the responseText from saved HTML file
+    return Files.readString(Paths.get(path)).trim();
+  }
+
   @Test
   public void shouldWorkAroundGreyGooseKoLBug() throws IOException {
-    String html =
-        Files.readString(Paths.get("request/test_fight_grey_goose_combat_skills.html")).trim();
+    String html = loadHTMLResponse("request/test_fight_grey_goose_combat_skills.html");
     FightRequest.currentRound = 1;
     FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
     KoLCharacter.setFamiliar(fam);
@@ -278,5 +287,36 @@ public class FightRequestTest {
     fam.setWeight(1);
     FightRequest.parseAvailableCombatSkills(html);
     assertFalse(KoLCharacter.hasCombatSkill(SkillPool.EMIT_MATTER_DUPLICATING_DRONES));
+  }
+
+  @Test
+  public void canTrackCosmicBowlingBall() throws IOException {
+    FightRequest.currentRound = 1;
+
+    // Off in the distance, you hear your cosmic bowling ball rattling around in the ball return
+    // system.
+    String html = loadHTMLResponse("request/test_fight_bowling_ball_1.html");
+    FightRequest.parseAvailableCombatSkills(html);
+    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
+
+    // You hear your cosmic bowling ball rattling around in the ball return system.
+    html = loadHTMLResponse("request/test_fight_bowling_ball_2.html");
+    FightRequest.parseAvailableCombatSkills(html);
+    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
+
+    // You hear your cosmic bowling ball rattling around in the ball return system nearby.
+    html = loadHTMLResponse("request/test_fight_bowling_ball_3.html");
+    FightRequest.parseAvailableCombatSkills(html);
+    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
+
+    // You hear your cosmic bowling ball approaching.
+    html = loadHTMLResponse("request/test_fight_bowling_ball_4.html");
+    FightRequest.parseAvailableCombatSkills(html);
+    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
+
+    // Your cosmic bowling ball clatters into the closest ball return and you grab it.
+    html = loadHTMLResponse("request/test_fight_bowling_ball_5.html");
+    FightRequest.parseAvailableCombatSkills(html);
+    assertTrue(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
   }
 }
