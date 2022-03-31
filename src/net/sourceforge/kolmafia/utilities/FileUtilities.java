@@ -15,6 +15,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
@@ -302,7 +303,7 @@ public class FileUtilities {
 
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
     downloadFileToStream(remote, istream, ostream);
-    return new StringBuffer(StringUtilities.getEncodedString(ostream.toByteArray(), "UTF-8"));
+    return new StringBuffer(ostream.toString(StandardCharsets.UTF_8));
   }
 
   private static InputStream getInputStream(HttpResponse<InputStream> response) {
