@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.LocketManager;
@@ -271,6 +272,7 @@ public class FightRequestTest {
     return Files.readString(Paths.get(path)).trim();
   }
 
+  // Grey Goose Tests
   @Test
   public void shouldWorkAroundGreyGooseKoLBug() throws IOException {
     String html = loadHTMLResponse("request/test_fight_grey_goose_combat_skills.html");
@@ -289,6 +291,22 @@ public class FightRequestTest {
     assertFalse(KoLCharacter.hasCombatSkill(SkillPool.EMIT_MATTER_DUPLICATING_DRONES));
   }
 
+  @Test
+  public void canTrackMeatifyMatterCast() throws IOException {
+    String html = loadHTMLResponse("request/test_fight_meatify_matter.html");
+    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+    KoLCharacter.setFamiliar(fam);
+    KoLCharacter.getFamiliar().setWeight(6);
+    FightRequest.currentRound = 1;
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("angry tourist"));
+    FightRequest.registerRequest(true, "fight.php?action=skill&whichskill=7409");
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(5, KoLCharacter.getFamiliar().getWeight());
+    assertTrue(Preferences.getBoolean("_meatifyMatterUsed"));
+    assertEquals(0, SkillDatabase.getMaxCasts(SkillPool.MEATIFY_MATTER));
+  }
+
+  // Cosmic Bowling Ball Tests
   @Test
   public void canTrackCosmicBowlingBall() throws IOException {
     FightRequest.currentRound = 1;
