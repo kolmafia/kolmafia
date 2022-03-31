@@ -306,6 +306,83 @@ public class FightRequestTest {
     assertEquals(0, SkillDatabase.getMaxCasts(SkillPool.MEATIFY_MATTER));
   }
 
+  // X bits of goo emerge from <name> and begin hovering about, moving probingly around various
+  // objects.
+  // One of the matter duplicating drones seems to coalesce around the <item> and then transforms
+  // into an exact replica. <X-1> more drones are still circling around.
+  // One of the matter duplicating drones seems to coalesce around the <item> and then transforms
+  // into an exact replica. That was the last drone.
+
+  @Test
+  public void canTrackGooseDrones() throws IOException {
+    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+    KoLCharacter.setFamiliar(fam);
+    KoLCharacter.getFamiliar().setWeight(6);
+
+    assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
+
+    String html = loadHTMLResponse("request/test_fight_goose_drones_1.html");
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("angry tourist"));
+    FightRequest.registerRequest(true, "fight.php?action=skill&whichskill=7410");
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(6, Preferences.getInteger("gooseDronesRemaining"));
+
+    html = loadHTMLResponse("request/test_fight_goose_drones_2.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 2;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(5, Preferences.getInteger("gooseDronesRemaining"));
+
+    html = loadHTMLResponse("request/test_fight_goose_drones_3.html");
+    FightRequest.registerRequest(true, "fight.php?action=skill&whichskill=7410");
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(9, Preferences.getInteger("gooseDronesRemaining"));
+
+    html = loadHTMLResponse("request/test_fight_goose_drones_4.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 2;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(7, Preferences.getInteger("gooseDronesRemaining"));
+
+    html = loadHTMLResponse("request/test_fight_goose_drones_5.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(6, Preferences.getInteger("gooseDronesRemaining"));
+
+    html = loadHTMLResponse("request/test_fight_goose_drones_6.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(4, Preferences.getInteger("gooseDronesRemaining"));
+
+    html = loadHTMLResponse("request/test_fight_goose_drones_7.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(3, Preferences.getInteger("gooseDronesRemaining"));
+
+    html = loadHTMLResponse("request/test_fight_goose_drones_8.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(2, Preferences.getInteger("gooseDronesRemaining"));
+
+    html = loadHTMLResponse("request/test_fight_goose_drones_9.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(1, Preferences.getInteger("gooseDronesRemaining"));
+
+    html = loadHTMLResponse("request/test_fight_goose_drones_10.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
+  }
+
   // Cosmic Bowling Ball Tests
   @Test
   public void canTrackCosmicBowlingBall() throws IOException {

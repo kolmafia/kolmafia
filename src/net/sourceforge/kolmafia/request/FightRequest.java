@@ -5565,6 +5565,7 @@ public class FightRequest extends GenericRequest {
     public String horse;
     public boolean hookah = false;
     public boolean meteors;
+    public int drones;
     public String location;
     public int monsterId;
 
@@ -5633,6 +5634,9 @@ public class FightRequest extends GenericRequest {
 
       // If we have the Meteor Lore skill
       this.meteors = KoLCharacter.hasSkill("Meteor Lore");
+
+      // If goose drones are active
+      this.drones = Preferences.getInteger("gooseDronesRemaining");
 
       this.ghost = null;
 
@@ -7320,6 +7324,10 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    if (FightRequest.handleGooseDrones(str, status)) {
+      return;
+    }
+
     if (FightRequest.handleFamiliarScrapbook(str, status)) {
       return;
     }
@@ -7547,6 +7555,39 @@ public class FightRequest extends GenericRequest {
       }
     }
     return false;
+  }
+
+  // One of the matter duplicating drones seems to coalesce around the bag of park garbage and then
+  // transforms into an exact replica.  5 more drones are still circling around.
+  // 1 more drone is still circling around.
+  // That was the last drone.
+
+  private static final Pattern DRONE_ACTIVATION_PATTERN =
+      Pattern.compile("(\\d+) more drones are still circling around");
+
+  private static boolean handleGooseDrones(final String text, TagStatus status) {
+    if (status.drones == 0 || !text.contains("matter duplicating drones")) {
+      return false;
+    }
+
+    if (text.contains("That was the last drone")) {
+      Preferences.setInteger("gooseDronesRemaining", 0);
+      status.drones = 0;
+    }
+    if (text.contains("1 more drone is still circling around")) {
+      Preferences.setInteger("gooseDronesRemaining", 1);
+      status.drones = 1;
+    } else {
+      Matcher matcher = DRONE_ACTIVATION_PATTERN.matcher(text);
+      if (!matcher.find()) {
+        return false;
+      }
+      int drones = StringUtilities.parseInt(matcher.group(1));
+      Preferences.setInteger("gooseDronesRemaining", drones);
+      status.drones = drones;
+    }
+    FightRequest.logText(text, status);
+    return true;
   }
 
   private static boolean handleFamiliarScrapbook(final String text, TagStatus status) {
@@ -8385,6 +8426,10 @@ public class FightRequest extends GenericRequest {
     }
     return false;
   }
+
+  // X bits of goo emerge from <name> and begin hovering about, moving probingly around various
+  // objects.
+  private static final Pattern GOOSE_DRONE_PATTERN = Pattern.compile("(\\d+) bits of goo emerge");
 
   private static void payActionCost(final String responseText) {
     // If we don't know what we tried, punt now.
@@ -9587,6 +9632,16 @@ public class FightRequest extends GenericRequest {
       case SkillPool.EMIT_MATTER_DUPLICATING_DRONES:
         // X bits of goo emerge from NAME and begin hovering about, moving probingly around various
         // objects.
+        Matcher droneMatcher = GOOSE_DRONE_PATTERN.matcher(responseText);
+        if (droneMatcher.find()) {
+          // Drones add to existing drones
+          int drones = StringUtilities.parseInt(droneMatcher.group(1));
+          Preferences.increment("gooseDronesRemaining", drones);
+          // It resets the weight of the Grey Goose to 5 lb.
+          KoLCharacter.getFamiliar().setExperience(25);
+        }
+        break;
+
       case SkillPool.CONVERT_MATTER_TO_PROTEIN:
         // NAME detaches a big chunk of itself, slaps it onto your elbow, and converts the resultant
         // slurry into pure muscle.
