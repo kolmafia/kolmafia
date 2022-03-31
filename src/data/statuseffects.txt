@@ -2267,8 +2267,8 @@
 2265
 2266	Nothing Happened	nontini.gif	4ea39859915bf5e160d3e3010d18f37b	neutral	none	drink 1 nothingtini
 2267	Hello, I Must Be Going	petejacket.gif	de2fd12e4cc01c737679abb75caf96dc	neutral	none	drink 1 Phil Collins
-2268
-2269
+2268	Aloofah	loof_candy.gif	4e1b19f13f36d4e3d03aa14f51e55414	neutral	none	use 1 chocolate-covered loofah
+2269	One Foot Heavier	fs_candy.gif	5a26995fdbca9e91a81e788a76f7b4ba	neutral	none	use 1 Flag by the Foot&trade;
 2270	Bent Knees	knee.gif	a91c3d843c0ed51e7c9a0a751a5833cb	neutral	none	cast 1 Bendable Knees
 2271	Extended Toes	manglefinger.gif	f3e6dac40e7b543b8c62aa136cd82442	neutral	none	cast 1 Retractable Toes
 2272	Ink Cloud	darkness.gif	7c98336be37dcfe90cb25a1d64234546	neutral	none	cast 1 Ink Gland
