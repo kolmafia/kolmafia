@@ -40,7 +40,6 @@ public class MallPriceDatabase {
   private static final int CONNECT_TIMEOUT = 15 * 1000;
 
   static {
-    updatePrices("mallprices.txt", false);
     updatePrices("mallprices.txt", true);
     MallPriceDatabase.modCount = 0;
   }

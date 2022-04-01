@@ -163,7 +163,6 @@ public interface KoLConstants extends UtilityConstants {
     "fullness.txt",
     "inebriety.txt",
     "items.txt",
-    "mallprices.txt",
     "modifiers.txt",
     "monsters.txt",
     "nonfilling.txt",
