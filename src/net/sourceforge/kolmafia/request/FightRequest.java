@@ -7597,7 +7597,7 @@ public class FightRequest extends GenericRequest {
 
   private static boolean handleGreyYou(final String text, TagStatus status) {
     // Your nanites vibrate as they absorb the creature. It must have had a lot of potential energy!
-<    if (text.contains("they absorb the creature.")) {
+    if (text.contains("they absorb the creature.")) {
       GreyYouManager.absorbMonster(status.monster);
       FightRequest.logText(text, status);
       return true;
