@@ -295,14 +295,18 @@ class StringUtilitiesTest {
 
   @ParameterizedTest
   @CsvSource({
-    "'',0",
     "'   ',0",
+    "' +  , , , ', 0",
+    "' + 12,345', 12345",
+    "'',0",
+    "'+', 0",
     "'12345', 12345",
     "'-12345', -12345",
-    "'not a number', 0",
-    "'not1a2 number', 12",
     "'9,223,372,036,854,775,807', 9223372036854775807",
-    "'9,223,372,036,854,775,808', 0"
+    "'9,223,372,036,854,775,808', 0",
+    "'-9,223,372,036,854,775,808', -9223372036854775808",
+    "'not a number', 0",
+    "'not1a2 number', 12"
   })
   public void itShouldExerciseSomeLaxLongParsing(String input, long expected) {
     assertEquals(expected, StringUtilities.parseLongInternal2(input), input);
@@ -310,25 +314,29 @@ class StringUtilitiesTest {
 
   @ParameterizedTest
   @CsvSource({
-    "'',0",
     "'   ',0",
-    "'12345', 12345",
-    "'-12345', -12345",
-    "'not a number', 0",
-    "'not1a2 number', 12",
-    "'9,223,372,036,854,775,807', 9223372036854775807",
-    "'9,223,372,036,854,775,808', 0",
-    "'+', 0",
     "' +  , , , ', 0",
     "' + 12,345', 12345",
     "' +1,337k', 1337000",
     "' +1,337K', 1337000",
-    "'1m', 1000000",
-    "'1M', 1000000",
+    "'',0",
+    "'+', 0",
     "'1 m', 1",
     "'1 meg', 1",
-    "'9,223,372,036,854,775,807k', -1000", // This is existing behavior but almost certainly wrong
-    "'9,223,372,036,854,775,808k', 0"
+    "'12345', 12345",
+    "'-12345', -12345",
+    "'1m', 1000000",
+    "'1M', 1000000",
+    "'9,223,372,036,854,775,807', 9223372036854775807",
+    "'9,223,372,036,854,775,807k', 0",
+    "'9,223,372,036,854,775,808', 0",
+    "'-9,223,372,036,854,775,808', -9223372036854775808",
+    "'9,223,372,036,854,775,808k', 0",
+    "'-9,223,372,036,854,775,808k', 0",
+    "'-9,223,372,036,854,775k', -9223372036854775000",
+    "'9223372036854775k', 9223372036854775000",
+    "'not a number', 0",
+    "'not1a2 number', 12"
   })
   public void itShouldExerciseSomeLongParsing(String input, long expected) {
     assertEquals(expected, StringUtilities.parseLongInternal1(input, false), input);
@@ -353,11 +361,12 @@ class StringUtilitiesTest {
     "'1M', 1000000",
     "'1 m', 1",
     "'1 meg', 1",
-    "'2147483647k', -1000", // This is existing behavior but almost certainly wrong
+    "'2147483647k', 0",
+    "'-2147483647k', 0",
     "'2147483648k', 0"
   })
-  public void itShouldExerciseSomeIntParsing(String input, long expected) {
-    assertEquals(expected, StringUtilities.parseIntInternal1(input, false), input);
+  public void itShouldExerciseSomeIntParsing(String input, int expected) {
+    assertEquals(expected, StringUtilities.parseInt(input), input);
   }
 
   @Test
@@ -367,16 +376,7 @@ class StringUtilitiesTest {
   }
 
   @Test
-  public void itShouldThrowAnIntParsingExceptionWhenAllowedTo() {
-    String test = "This is not a number but does appear in the exception message.";
-    Exception thrown =
-        Assertions.assertThrows(
-            Exception.class, () -> StringUtilities.parseIntInternal1(test, true));
-    assertEquals(test, thrown.getMessage(), "Wrong exception.");
-  }
-
-  @Test
-  public void itShouldThrowAnLongParsingExceptionWhenAllowedTo() {
+  public void itShouldThrowALongParsingExceptionWhenAllowedTo() {
     String test = "This is not a number but does appear in the exception message.";
     Exception thrown =
         Assertions.assertThrows(
@@ -392,7 +392,8 @@ class StringUtilitiesTest {
     "'-12345', -12345",
     "'not a number', 0",
     "'not1a2 number', 12",
-    "'9,223,372,036,854,775,808', 0"
+    "'-2147483649', 0",
+    "'21474836489', 0"
   })
   public void itShouldExerciseSomeLaxIntegerParsing(String input, long expected) {
     assertEquals(expected, StringUtilities.parseIntInternal2(input), input);
