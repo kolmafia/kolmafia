@@ -386,7 +386,7 @@ public class FightRequestTest {
   }
 
   @Test
-  public void canTrackGooseAbsorptions() throws IOException {
+  public void canTrackGreyYouAbsorptions() throws IOException {
     FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
     KoLCharacter.setFamiliar(fam);
     KoLCharacter.getFamiliar().setExperience(36);
@@ -417,6 +417,34 @@ public class FightRequestTest {
     FightRequest.updateCombatData(null, null, html);
     assertTrue(GreyYouManager.absorbedMonsters.contains(monsterId));
     assertEquals(1, KoLCharacter.getFamiliar().getWeight());
+
+    GreyYouManager.resetAbsorptions();
+
+    // Absorbing a Passive Skill
+    urlString = "fight.php?action=skill&whichskill=27000";
+    html = loadHTMLResponse("request/test_fight_goo_absorption_3.html");
+    monster = MonsterDatabase.findMonster("rushing bum");
+    monsterId = monster.getId();
+    MonsterStatusTracker.setNextMonster(monster);
+    FightRequest.currentRound = 2;
+    assertFalse(KoLCharacter.hasSkill(SkillPool.HARRIED));
+    FightRequest.registerRequest(true, urlString);
+    FightRequest.updateCombatData(null, null, html);
+    assertTrue(GreyYouManager.absorbedMonsters.contains(monsterId));
+    assertTrue(KoLCharacter.hasSkill(SkillPool.HARRIED));
+
+    GreyYouManager.resetAbsorptions();
+
+    // Absorbing a non-special monster
+    urlString = "fight.php?action=skill&whichskill=27000";
+    html = loadHTMLResponse("request/test_fight_goo_absorption_4.html");
+    monster = MonsterDatabase.findMonster("regular old bat");
+    monsterId = monster.getId();
+    MonsterStatusTracker.setNextMonster(monster);
+    FightRequest.currentRound = 2;
+    FightRequest.registerRequest(true, urlString);
+    FightRequest.updateCombatData(null, null, html);
+    assertFalse(GreyYouManager.absorbedMonsters.contains(monsterId));
   }
 
   // Cosmic Bowling Ball Tests

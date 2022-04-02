@@ -6980,7 +6980,7 @@ public class FightRequest extends GenericRequest {
 
     if (status.greyYou && image.equals("greygooball.gif")) {
       FightRequest.handleGreyYou(str, status);
-      return false;
+      return true;
     }
 
     // Combat item usage: process the children of this node
@@ -7608,7 +7608,7 @@ public class FightRequest extends GenericRequest {
     // But, it only seems to happen when you've won the combat.
     if (FightRequest.won) {
       GreyYouManager.absorbMonster(status.monster);
-      FightRequest.logText(text, status);
+      FightRequest.logText(text.trim(), status);
       return true;
     }
     return false;
