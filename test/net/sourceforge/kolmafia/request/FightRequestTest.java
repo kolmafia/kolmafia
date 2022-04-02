@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -21,6 +22,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.LocketManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -381,6 +383,40 @@ public class FightRequestTest {
     FightRequest.currentRound = 1;
     FightRequest.updateCombatData(null, null, html);
     assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
+  }
+
+  @Test
+  public void canTrackGooseAbsorptions() throws IOException {
+    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+    KoLCharacter.setFamiliar(fam);
+    KoLCharacter.getFamiliar().setExperience(36);
+
+    KoLCharacter.setPath(Path.GREY_YOU);
+    GreyYouManager.resetAbsorptions();
+
+    // Initial absorption of an albino bat
+    String urlString = "fight.php?action=skill&whichskill=27000";
+    String html = loadHTMLResponse("request/test_fight_goo_absorption_1.html");
+    MonsterData monster = MonsterDatabase.findMonster("albino bat");
+    int monsterId = monster.getId();
+    MonsterStatusTracker.setNextMonster(monster);
+
+    FightRequest.currentRound = 2;
+    FightRequest.registerRequest(true, urlString);
+    FightRequest.updateCombatData(null, null, html);
+    assertTrue(GreyYouManager.absorbedMonsters.contains(monsterId));
+    assertEquals(6, KoLCharacter.getFamiliar().getWeight());
+
+    GreyYouManager.resetAbsorptions();
+
+    // Subsequent absorption of an albino bat via Re-Process Matter
+    urlString = "fight.php?action=skill&whichskill=7408";
+    html = loadHTMLResponse("request/test_fight_goo_absorption_2.html");
+    FightRequest.currentRound = 2;
+    FightRequest.registerRequest(true, urlString);
+    FightRequest.updateCombatData(null, null, html);
+    assertTrue(GreyYouManager.absorbedMonsters.contains(monsterId));
+    assertEquals(1, KoLCharacter.getFamiliar().getWeight());
   }
 
   // Cosmic Bowling Ball Tests

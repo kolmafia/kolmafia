@@ -3170,10 +3170,6 @@ public class FightRequest extends GenericRequest {
 
     FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
 
-    if (won && KoLCharacter.inGreyYou()) {
-      GreyYouManager.absorbMonster(monster);
-    }
-
     // Increment stinky cheese counter
     int stinkyCount = EquipmentManager.getStinkyCheeseLevel();
     if (stinkyCount > 0) {
@@ -5565,9 +5561,10 @@ public class FightRequest extends GenericRequest {
     public String horse;
     public boolean hookah = false;
     public boolean meteors;
-    public int drones;
     public String location;
     public int monsterId;
+    public boolean greyYou;
+    public int drones;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5637,6 +5634,9 @@ public class FightRequest extends GenericRequest {
 
       // If goose drones are active
       this.drones = Preferences.getInteger("gooseDronesRemaining");
+
+      // If we are in Grey You and thus can absorb monsters
+      this.greyYou = KoLCharacter.inGreyYou();
 
       this.ghost = null;
 
@@ -6978,6 +6978,11 @@ public class FightRequest extends GenericRequest {
       return false;
     }
 
+    if (status.greyYou && image.equals("greygooball.gif")) {
+      FightRequest.handleGreyYou(str, status);
+      return false;
+    }
+
     // Combat item usage: process the children of this node
     // to pick up damage to the monster and stat gains
     return true;
@@ -7588,6 +7593,16 @@ public class FightRequest extends GenericRequest {
     }
     FightRequest.logText(text, status);
     return true;
+  }
+
+  private static boolean handleGreyYou(final String text, TagStatus status) {
+    // Your nanites vibrate as they absorb the creature. It must have had a lot of potential energy!
+<    if (text.contains("they absorb the creature.")) {
+      GreyYouManager.absorbMonster(status.monster);
+      FightRequest.logText(text, status);
+      return true;
+    }
+    return false;
   }
 
   private static boolean handleFamiliarScrapbook(final String text, TagStatus status) {
@@ -9612,7 +9627,6 @@ public class FightRequest extends GenericRequest {
         // careens off of THEM and then reforms into an identical copy, which
         // is so surprised to exist that it immediately keels over.
         if (responseText.contains("launches almost all of its body mass at your foe")) {
-          // This skill adds this monster to list of goose-absorption
           // It resets the weight of the Grey Goose to 1 lb.
           KoLCharacter.getFamiliar().setExperience(0);
         }
