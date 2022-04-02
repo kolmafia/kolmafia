@@ -7596,8 +7596,17 @@ public class FightRequest extends GenericRequest {
   }
 
   private static boolean handleGreyYou(final String text, TagStatus status) {
-    // Your nanites vibrate as they absorb the creature. It must have had a lot of potential energy!
-    if (text.contains("they absorb the creature.")) {
+    // There are lots of messages when your nanites absorb your fallen foe. Examples:
+    //
+    // Your nanites hurry to absorb the bum and then thrum with an increased pace.
+    // Your nanites smell nicer after incorporating this creature.
+    // Your nanites vibrate as they absorb the creature.  It must have had a lot of potential
+    // energy!
+    // Your nanites absorb your fallen enemy.  Cool.
+    // Your nanites absorb the remains and become more stylish.
+    //
+    // But, it only seems to happen when you've won the combat.
+    if (FightRequest.won) {
       GreyYouManager.absorbMonster(status.monster);
       FightRequest.logText(text, status);
       return true;
