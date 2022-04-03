@@ -7597,7 +7597,11 @@ public class FightRequest extends GenericRequest {
     return true;
   }
 
-  private static boolean handleGreyYou(final String text, TagStatus status) {
+  // Your nanites absorb the remains and become more stylish.<br><b>+ 1 Moxie</b>
+  private static final Pattern GOO_GAIN_PATTERN =
+      Pattern.compile("\\+ (\\d+ (?:Muscle|Mysticality|Moxie))");
+
+  private static boolean handleGreyYou(String text, TagStatus status) {
     // There are lots of messages when your nanites absorb your fallen foe. Examples:
     //
     // Your nanites hurry to absorb the bum and then thrum with an increased pace.
@@ -7610,7 +7614,16 @@ public class FightRequest extends GenericRequest {
     // But, it only seems to happen when you've won the combat.
     if (FightRequest.won) {
       GreyYouManager.absorbMonster(status.monster);
+      Matcher matcher = GOO_GAIN_PATTERN.matcher(text);
+      String gain = null;
+      if (matcher.find()) {
+        gain = "You gain " + matcher.group(1);
+        text = StringUtilities.singleStringDelete(text, matcher.group(0));
+      }
       FightRequest.logText(text, status);
+      if (gain != null) {
+        logPlayerAttribute(status, gain);
+      }
       return true;
     }
     return false;
