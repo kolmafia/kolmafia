@@ -934,6 +934,12 @@
 7405	Bowl a Curveball	bowlcurve.gif	5	0	0
 7406	Bowl Sideways	bowlside.gif	5	0	0
 7407	Bowl Straight Up	bowlup.gif	5	0	0
+7408	Re-Process Matter	greygoosesk1.gif	5	0	0
+7409	Meatify Matter	greygoosesk2.gif	5	0	0
+7410	Emit Matter Duplicating Drones	greygoosesk6.gif	5	0	0
+7411	Convert Matter to Protein	greygoosesk3.gif	5	0	0
+7412	Convert Matter to Energy	greygoosesk4.gif	5	0	0
+7413	Convert Matter to Pomade	greygosesk5.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

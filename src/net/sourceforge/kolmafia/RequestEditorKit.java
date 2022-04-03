@@ -7,6 +7,7 @@ import java.awt.Frame;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -2516,7 +2517,7 @@ public class RequestEditorKit extends HTMLEditorKit {
         }
 
         formSubmitter.constructURLString(
-            GenericRequest.decodeField(actionString.toString(), "ISO-8859-1"));
+            GenericRequest.decodeField(actionString.toString(), StandardCharsets.ISO_8859_1));
       } else {
         // For normal URLs, the form data can be submitted
         // just like in every other request.

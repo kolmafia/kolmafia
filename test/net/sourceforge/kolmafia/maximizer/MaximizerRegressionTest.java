@@ -109,6 +109,63 @@ public class MaximizerRegressionTest {
     assertEquals(25, modFor("Meat Drop"), 0.01);
   }
 
+  @Test
+  public void equipEmptyBjornNoSlot() {
+    equip(EquipmentManager.CONTAINER, "Buddy Bjorn");
+    KoLCharacter.addFamiliar(new FamiliarData(FamiliarPool.MOSQUITO));
+    KoLCharacter.setBjorned(FamiliarData.NO_FAMILIAR);
+
+    // Here, buddy-bjorn refers to the slot, while Buddy Bjorn refers to the item associated with
+    // that slot.
+    // We've earlier forced that slot to be empty, and here we're asking mafia not to fill it when
+    // maximizing, but to still equip the bjorn.
+    assertTrue(maximize("item, -buddy-bjorn, +equip Buddy Bjorn"));
+  }
+
+  @Test
+  public void equipEmptyCrownNoSlot() {
+    equip(EquipmentManager.HAT, "Crown of Thrones");
+    KoLCharacter.addFamiliar(new FamiliarData(FamiliarPool.MOSQUITO));
+    KoLCharacter.setEnthroned(FamiliarData.NO_FAMILIAR);
+
+    assertTrue(maximize("item, -crown-of-thrones, +equip Crown of Thrones"));
+  }
+
+  @Test
+  public void keepBjornEquippedWithBonus() {
+    // Provide a helpful alternative to the bjorn.
+    canUse("vampyric cloake");
+    equip(EquipmentManager.CONTAINER, "Buddy Bjorn");
+
+    assertTrue(maximize("adventures, -buddy-bjorn, +25 bonus Buddy Bjorn"));
+    recommendedSlotIsUnchanged(EquipmentManager.CONTAINER);
+  }
+
+  @Test
+  public void keepBjornEquippedAndUnchangedWithCrownAndBonus() {
+    canUse("Crown of Thrones");
+    canUse("time helmet");
+
+    KoLCharacter.addFamiliar(new FamiliarData(FamiliarPool.DICE));
+    equip(EquipmentManager.CONTAINER, "Buddy Bjorn");
+
+    assertTrue(maximize("adventures, -buddy-bjorn, +25 bonus Buddy Bjorn"));
+
+    recommendedSlotIs(EquipmentManager.HAT, "time helmet");
+    recommendedSlotIsUnchanged(EquipmentManager.CONTAINER);
+  }
+
+  @Test
+  public void bjornAndCrownCanBothBeEmpty() {
+    canUse("Crown of Thrones");
+    canUse("Buddy Bjorn");
+
+    assertTrue(maximize("+25 bonus Buddy Bjorn, +25 bonus Crown of Thrones"));
+
+    recommendedSlotIs(EquipmentManager.HAT, "Crown of Thrones");
+    recommendedSlotIs(EquipmentManager.CONTAINER, "Buddy Bjorn");
+  }
+
   // https://kolmafia.us/threads/27073/
   @Test
   public void noTiePrefersCurrentGear() {

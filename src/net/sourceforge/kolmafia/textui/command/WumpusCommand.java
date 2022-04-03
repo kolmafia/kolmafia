@@ -1,13 +1,13 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class WumpusCommand extends AbstractCommand {
   public WumpusCommand() {
@@ -54,7 +54,7 @@ public class WumpusCommand extends AbstractCommand {
       }
 
       byte[] bytes = ByteBufferUtilities.read(file);
-      String text = StringUtilities.getEncodedString(bytes, "UTF-8");
+      String text = new String(bytes, StandardCharsets.UTF_8);
 
       KoLmafia.updateDisplay(
           "Read "

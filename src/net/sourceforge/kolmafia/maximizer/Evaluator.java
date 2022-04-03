@@ -1502,8 +1502,8 @@ public class Evaluator {
     // Assume current ones are best if in use
     FamiliarData bestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
     FamiliarData secondBestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
-    FamiliarData useBjornFamiliar = FamiliarData.NO_FAMILIAR;
-    FamiliarData useCrownFamiliar = FamiliarData.NO_FAMILIAR;
+    FamiliarData useBjornFamiliar = null;
+    FamiliarData useCrownFamiliar = null;
 
     // If we're not allowed to change the current familiar, lock it
     if (this.slots[EquipmentManager.BUDDYBJORN] < 0) {
@@ -2100,6 +2100,8 @@ public class Evaluator {
           // For accessories compare with 3rd best for first accessory, 2nd best for second
           // accessory, best for third
           int newSlot = slot + (slot == EquipmentManager.ACCESSORY1 ? accCount : 0);
+          // if we're comparing 1-handed weapons, assign the spec slot as weapon
+          newSlot = newSlot == Evaluator.WEAPON_1H ? EquipmentManager.WEAPON : newSlot;
           int compareItemNo = speculationList.get(slot).size() - 1;
           int accSkip = slot == EquipmentManager.ACCESSORY1 ? 2 - accCount : 0;
           while (compareItemNo >= 0) {

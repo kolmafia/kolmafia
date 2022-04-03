@@ -1455,6 +1455,7 @@ user	youRobotRight	0
 user	youRobotScavenged	false
 user	youRobotTop	0
 user	zeppelinProtestors	0
+user	zigguratLianas	0
 user	zombiePoints	0
 user	_absintheDrops	0
 user	_abstractionDropsCrown	0
@@ -1486,7 +1487,19 @@ user	_ballInACupUsed	false
 user	_ballpit	false
 user	_banderRunaways	0
 user	_barrelPrayer	false
+user	_bastilleBoosts	
+user	_bastilleCheese	0
+user	_bastilleChoice1
+user	_bastilleChoice2
+user	_bastilleChoice3
+user	_bastilleCurrentStyles	
+user	_bastilleEnemyCastle	
+user	_bastilleEnemyName	
 user	_bastilleGames	0
+user	_bastilleGameTurn	0
+user	_bastilleLastBattleResults
+user	_bastilleLastBattleWon	false
+user	_bastilleStats	
 user	_beachCombing	false
 user	_beachHeadsUsed
 user	_beachLayout
@@ -1825,6 +1838,7 @@ user	_mayflySummons	0
 user	_mayoDeviceRented	false
 user	_mayoTankSoaked	false
 user	_meatballMachineUsed	false
+user	_meatifyMatterUsed	false
 user	_mediumSiphons	0
 user	_meteoriteAdesUsed	0
 user	_meteorShowerUses	0

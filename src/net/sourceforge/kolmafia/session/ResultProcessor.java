@@ -823,6 +823,11 @@ public class ResultProcessor {
   }
 
   public static boolean processGainLoss(String lastToken, final List<AdventureResult> data) {
+    // BastilleBattalionManager already handled this.
+    if (lastToken.endsWith("cheese!")) {
+      return true;
+    }
+
     int periodIndex = lastToken.indexOf(".");
     if (periodIndex != -1) {
       lastToken = lastToken.substring(0, periodIndex);
