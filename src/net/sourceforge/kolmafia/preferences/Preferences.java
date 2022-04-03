@@ -246,6 +246,7 @@ public class Preferences {
         "gladiatorBladeMovesKnown",
         "gladiatorNetMovesKnown",
         "gnasirProgress",
+        "gooseDronesRemaining",
         "grimstoneCharge",
         "grimstoneMaskPath",
         "guardTurtlesFreed",

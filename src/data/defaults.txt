@@ -665,6 +665,7 @@ user	gloverPoints	0
 user	gnasirProgress	0
 user	goldenMrAccessories	0
 user	gongPath	0
+user	gooseDronesRemaining	0
 user	goreCollected	0
 user	gourdItemCount	5
 user	grabCloversHardcore	false
