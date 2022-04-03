@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest.ServerCookie;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.LightsOutManager;
@@ -124,7 +125,7 @@ public class RelayRequest extends PasswordHashRequest {
   private static final String CONFIRM_GREMLINS = "confirm14";
   private static final String CONFIRM_HARDCOREPVP = "confirm15";
   private static final String CONFIRM_DESERT_UNHYDRATED = "confirm16";
-  private static final String CONFIRM_MOHAWK_WIG = "confirm17";
+  public static final String CONFIRM_MOHAWK_WIG = "confirm17";
   private static final String CONFIRM_CELLAR = "confirm18";
   private static final String CONFIRM_BOILER = "confirm19";
   private static final String CONFIRM_DIARY = "confirm20";
@@ -134,7 +135,7 @@ public class RelayRequest extends PasswordHashRequest {
   private static final String CONFIRM_OVERDRUNK_ADVENTURE = "confirm24";
   private static final String CONFIRM_STICKER = "confirm25";
   private static final String CONFIRM_DESERT_OFFHAND = "confirm26";
-  private static final String CONFIRM_MACHETE = "confirm27";
+  public static final String CONFIRM_MACHETE = "confirm27";
   private static final String CONFIRM_RALPH = "confirm28";
   private static final String CONFIRM_RALPH1 = "confirm29";
   private static final String CONFIRM_RALPH2 = "confirm30";
@@ -142,10 +143,13 @@ public class RelayRequest extends PasswordHashRequest {
   private static boolean ignoreBoringDoorsWarning = false;
   private static boolean ignoreDesertWarning = false;
   private static boolean ignoreDesertOffhandWarning = false;
-  private static boolean ignoreMacheteWarning = false;
-  private static boolean ignoreMohawkWigWarning = false;
+  public static boolean ignoreMacheteWarning = false;
+  public static boolean ignoreMohawkWigWarning = false;
   private static boolean ignorePoolSkillWarning = false;
   private static boolean ignoreFullnessWarning = false;
+
+  // For testing
+  public String lastWarning = "";
 
   public static final void reset() {
     RelayRequest.ignoreBoringDoorsWarning = false;
@@ -412,6 +416,11 @@ public class RelayRequest extends PasswordHashRequest {
           continue;
         }
 
+        // ignore psuedo-headers
+        if (key.startsWith(":")) {
+          continue;
+        }
+
         // KoL is known to send back CONTENT-LENGTH headers.
         // Since there is no built-in startsWithIgnoreCase,
         // upper-case the key when using startsWith.
@@ -591,12 +600,14 @@ public class RelayRequest extends PasswordHashRequest {
 
   private static void clearImageDirectory(File directory, FilenameFilter filter) {
     File[] files = directory.listFiles(filter);
-    for (File file : files) {
-      if (file.isDirectory()) {
-        RelayRequest.clearImageDirectory(file, null);
-      }
+    if (files != null) {
+      for (File file : files) {
+        if (file.isDirectory()) {
+          RelayRequest.clearImageDirectory(file, null);
+        }
 
-      file.delete();
+        file.delete();
+      }
     }
   }
 
@@ -607,7 +618,7 @@ public class RelayRequest extends PasswordHashRequest {
 
   private static String localImagePath(final String filename) {
     return filename.endsWith("favicon.ico")
-        ? "http://www.kingdomofloathing.com/favicon.ico"
+        ? "https://www.kingdomofloathing.com/favicon.ico"
         : filename.startsWith("images")
             ? KoLmafia.imageServerPrefix() + filename.substring(6)
             : filename.startsWith("iii")
@@ -674,7 +685,7 @@ public class RelayRequest extends PasswordHashRequest {
       // If the file is not in the file system, it's probably a KoL
       // file which is not in the image directory for some reason.
       // Download it from KoL.
-      replyBuffer = FileUtilities.downloadFile("http://www.kingdomofloathing.com/" + filename);
+      replyBuffer = FileUtilities.downloadFile("https://www.kingdomofloathing.com/" + filename);
     }
 
     // If it is a KoLmafia built-in file, as opposed to the
@@ -769,7 +780,7 @@ public class RelayRequest extends PasswordHashRequest {
     return false;
   }
 
-  private boolean sendBreakPrismWarning(final String urlString) {
+  public boolean sendBreakPrismWarning(final String urlString) {
     // place.php?whichplace=nstower&action=ns_11_prism
 
     if (!urlString.startsWith("place.php")
@@ -886,12 +897,11 @@ public class RelayRequest extends PasswordHashRequest {
       buf.append(" If you are ready to break the prism, click on the icon on the left.");
       buf.append(" If you wish to visit the Scrapheap, click on icon on the right.");
 
-      String warning = buf.toString();
       this.sendOptionalWarning(
           CONFIRM_RALPH,
-          warning,
+          buf.toString(),
           "hand.gif",
-          "lightning.gif",
+          "jigawatts.gif",
           "\"place.php?whichplace=scrapheap\"",
           null,
           null);
@@ -1344,7 +1354,87 @@ public class RelayRequest extends PasswordHashRequest {
     return true;
   }
 
-  private boolean sendMacheteWarning() {
+  private void sendMacheteWarning(int itemId) {
+    String name = ItemDatabase.getItemDataName(itemId);
+    String image = ItemDatabase.getImage(itemId);
+
+    StringBuilder buf = new StringBuilder();
+
+    buf.append("You are about to adventure without your ");
+    buf.append(name);
+    buf.append(" to fight dense lianas.");
+
+    // Message when there is no suggested remedy
+    String ok1 = " If you are sure you wish to adventure without it, click the icon to adventure.";
+    // Message when there is a suggested remedy
+    String ok2 =
+        " If you are sure you wish to adventure without it, click the icon on the left to adventure.";
+
+    if (EquipmentManager.canEquip(itemId)) {
+      buf.append(ok2);
+      buf.append(" If you want to equip the ");
+      buf.append(name);
+      buf.append(" first, click the icon on the right.");
+
+      this.sendOptionalWarning(
+          CONFIRM_MACHETE,
+          buf.toString(),
+          "hand.gif",
+          image,
+          "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
+              + itemId
+              + "&pwd="
+              + GenericRequest.passwordHash
+              + "&ajax=1');void(0);\"",
+          null,
+          null);
+      return;
+    }
+
+    // If they can't equip it:
+    //   perhaps they don't meet the stat requirements
+    //   perhaps they can't wield a weapon (as a Robot)
+
+    boolean lowStats = !EquipmentManager.meetsStatRequirements(itemId);
+    if (lowStats) {
+      EquipmentRequirement req =
+          new EquipmentRequirement(EquipmentDatabase.getEquipRequirement(itemId));
+      buf.append(" It requires base Muscle of ");
+      buf.append(req.getAmount());
+      buf.append(", but yours is only ");
+      buf.append(KoLCharacter.getBaseMuscle());
+      buf.append(".");
+    }
+
+    if (KoLCharacter.inRobocore()) {
+      String resource;
+      if (lowStats) {
+        buf.append(" Perhaps it is time to visit Statbot 5000.");
+        resource = "jigawatts.gif";
+      } else {
+        buf.append(" You need to attach Vice Grips in order to wield a weapon.");
+        resource = "scrap.gif";
+      }
+
+      buf.append(ok2);
+      buf.append(" If you want to visit the Scrapheap, click the icon on the right.");
+      this.sendOptionalWarning(
+          CONFIRM_MACHETE,
+          buf.toString(),
+          "hand.gif",
+          resource,
+          "\"place.php?whichplace=scrapheap\"",
+          null,
+          null);
+
+      return;
+    }
+
+    buf.append(ok1);
+    this.sendGeneralWarning("hand.gif", buf.toString(), CONFIRM_MACHETE);
+  }
+
+  public boolean sendMacheteWarning() {
     // Only send this warning once per session
     if (RelayRequest.ignoreMacheteWarning) {
       return false;
@@ -1361,6 +1451,13 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
+    // New property added to allow scripts to track whether the lianas guarding
+    // the Massive Ziggurat are clear without having to look at turns spent at
+    // the location.
+    if (AdventureSpentDatabase.getTurns("A Massive Ziggurat") >= 3) {
+      Preferences.setInteger("zigguratLianas", 1);
+    }
+
     // If they aren't in a liana location, or the lianas are defeated, no problem
     String location = this.getFormField("snarfblat");
     if (!((AdventurePool.NE_SHRINE_ID.equals(location)
@@ -1372,7 +1469,7 @@ public class RelayRequest extends PasswordHashRequest {
         || (AdventurePool.SW_SHRINE_ID.equals(location)
             && Preferences.getInteger("hiddenHospitalProgress") == 0)
         || (AdventurePool.ZIGGURAT_ID.equals(location)
-            && AdventureSpentDatabase.getTurns("A Massive Ziggurat") < 3))) {
+            && Preferences.getInteger("zigguratLianas") == 0))) {
       return false;
     }
 
@@ -1389,98 +1486,43 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
+    // These checks are ordered from lowest Base Muscle to highest.  If you
+    // have more than one kind of machete, if you can't equip one, you can't
+    // equip the heftier ones either.
+
+    // If you have muculent machete, suggest it
+    if (InventoryManager.getCount(ItemPool.MUCULENT_MACHETE) > 0) {
+      sendMacheteWarning(ItemPool.MUCULENT_MACHETE);
+      return true;
+    }
+
     // If you have papier machete, suggest it
     if (InventoryManager.getCount(ItemPool.PAPIER_MACHETE) > 0) {
-
-      String warning =
-          "You are about to adventure without your papier-m&acirc;ch&eacute;te to fight dense lianas. "
-              + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
-              + "If you want to equip the papier-m&acirc;ch&eacute;te first, click the icon on the right. ";
-      this.sendOptionalWarning(
-          CONFIRM_MACHETE,
-          warning,
-          "hand.gif",
-          "machemachete.gif",
-          "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
-              + ItemPool.PAPIER_MACHETE
-              + "&pwd="
-              + GenericRequest.passwordHash
-              + "&ajax=1');void(0);\"",
-          null,
-          null);
+      sendMacheteWarning(ItemPool.PAPIER_MACHETE);
+      return true;
     }
-    // If you have muculent machete, suggest it
-    else if (InventoryManager.getCount(ItemPool.MUCULENT_MACHETE) > 0) {
 
-      String warning =
-          "You are about to adventure without your muculent machete to fight dense lianas. "
-              + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
-              + "If you want to equip the muculent machete first, click the icon on the right. ";
-      this.sendOptionalWarning(
-          CONFIRM_MACHETE,
-          warning,
-          "hand.gif",
-          "machete.gif",
-          "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
-              + ItemPool.MUCULENT_MACHETE
-              + "&pwd="
-              + GenericRequest.passwordHash
-              + "&ajax=1');void(0);\"",
-          null,
-          null);
-    }
     // If you have machetito, suggest it
-    else if (InventoryManager.getCount(ItemPool.MACHETITO) > 0) {
-
-      String warning =
-          "You are about to adventure without your machetito to fight dense lianas. "
-              + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
-              + "If you want to equip the machetito first, click the icon on the right. ";
-      this.sendOptionalWarning(
-          CONFIRM_MACHETE,
-          warning,
-          "hand.gif",
-          "machetito.gif",
-          "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
-              + ItemPool.MACHETITO
-              + "&pwd="
-              + GenericRequest.passwordHash
-              + "&ajax=1');void(0);\"",
-          null,
-          null);
+    if (InventoryManager.getCount(ItemPool.MACHETITO) > 0) {
+      sendMacheteWarning(ItemPool.MACHETITO);
+      return true;
     }
+
     // If you have antique machete, suggest it
-    else if (InventoryManager.getCount(ItemPool.ANTIQUE_MACHETE) > 0) {
-
-      String warning =
-          "You are about to adventure without your antique machete to fight dense lianas. "
-              + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
-              + "If you want to equip the antique machete first, click the icon on the right. ";
-      this.sendOptionalWarning(
-          CONFIRM_MACHETE,
-          warning,
-          "hand.gif",
-          "machetwo.gif",
-          "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
-              + ItemPool.ANTIQUE_MACHETE
-              + "&pwd="
-              + GenericRequest.passwordHash
-              + "&ajax=1');void(0);\"",
-          null,
-          null);
+    if (InventoryManager.getCount(ItemPool.ANTIQUE_MACHETE) > 0) {
+      sendMacheteWarning(ItemPool.ANTIQUE_MACHETE);
+      return true;
     }
+
     // Otherwise just ask if you want to adventure
-    else {
-      String message =
-          "You are about to adventure without a machete to fight dense lianas. If you are sure you want to do this, click on the image to proceed.";
-
-      this.sendGeneralWarning("machetwo.gif", message, CONFIRM_MACHETE);
-    }
+    String message =
+        "You are about to adventure without a machete to fight dense lianas. If you are sure you want to do this, click on the image to proceed.";
+    this.sendGeneralWarning("machetwo.gif", message, CONFIRM_MACHETE);
 
     return true;
   }
 
-  private boolean sendMohawkWigWarning() {
+  public boolean sendMohawkWigWarning() {
     // Only send this warning once per session
     if (RelayRequest.ignoreMohawkWigWarning) {
       return false;
@@ -1502,11 +1544,6 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    // If they can't equip Wig, no problem
-    if (!EquipmentManager.canEquip(ItemPool.MOHAWK_WIG)) {
-      return false;
-    }
-
     // If they are already wearing the Wig, no problem
     if (KoLCharacter.hasEquipped(ItemPool.MOHAWK_WIG, EquipmentManager.HAT)) {
       return false;
@@ -1517,22 +1554,74 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    String warning =
-        "You are about to adventure without your Mohawk Wig in the Castle. "
-            + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
-            + "If you want to put the hat on first, click the icon on the right. ";
-    this.sendOptionalWarning(
-        CONFIRM_MOHAWK_WIG,
-        warning,
-        "hand.gif",
-        "mohawk.gif",
-        "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
-            + ItemPool.MOHAWK_WIG
-            + "&pwd="
-            + GenericRequest.passwordHash
-            + "&ajax=1');void(0);\"",
-        null,
-        null);
+    StringBuilder buf = new StringBuilder();
+    buf.append("You are about to adventure without your Mohawk Wig in the Castle.");
+
+    // Message when there is no suggested remedy
+    String ok1 = " If you are sure you wish to adventure without it, click the icon to adventure.";
+    // Message when there is a suggested remedy
+    String ok2 =
+        " If you are sure you wish to adventure without it, click the icon on the left to adventure.";
+
+    // If they can equip it, give them the option to do so.
+    if (EquipmentManager.canEquip(ItemPool.MOHAWK_WIG)) {
+      buf.append(ok2);
+      buf.append(" If you want to put the hat on first, click the icon on the right.");
+
+      this.sendOptionalWarning(
+          CONFIRM_MOHAWK_WIG,
+          buf.toString(),
+          "hand.gif",
+          "mohawk.gif",
+          "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
+              + ItemPool.MOHAWK_WIG
+              + "&pwd="
+              + GenericRequest.passwordHash
+              + "&ajax=1');void(0);\"",
+          null,
+          null);
+
+      return true;
+    }
+
+    // If they can't equip it:
+    //   perhaps they don't meet the stat requirements
+    //   perhaps they can't wear a hat (as a Robot)
+
+    boolean lowStats = !EquipmentManager.meetsStatRequirements(ItemPool.MOHAWK_WIG);
+    if (lowStats) {
+      buf.append(" It requires base Moxie of 55, but yours is only ");
+      buf.append(KoLCharacter.getBaseMoxie());
+      buf.append(".");
+    }
+
+    if (KoLCharacter.inRobocore()) {
+      String image;
+      if (lowStats) {
+        buf.append(" Perhaps it is time to visit Statbot 5000.");
+        image = "jigawatts.gif";
+      } else {
+        buf.append(" You need to attach a Mannequin Head in order to wear a hat.");
+        image = "scrap.gif";
+      }
+
+      buf.append(ok2);
+      buf.append(" If you want to visit the Scrapheap, click the icon on the right.");
+
+      this.sendOptionalWarning(
+          CONFIRM_MOHAWK_WIG,
+          buf.toString(),
+          "hand.gif",
+          image,
+          "\"place.php?whichplace=scrapheap\"",
+          null,
+          null);
+
+      return true;
+    }
+
+    buf.append(ok1);
+    this.sendGeneralWarning("hand.gif", buf.toString(), CONFIRM_MOHAWK_WIG);
 
     return true;
   }
@@ -2644,6 +2733,9 @@ public class RelayRequest extends PasswordHashRequest {
       final String confirm,
       final String extra,
       final boolean usePostMethod) {
+    // Save for testing
+    this.lastWarning = message;
+
     StringBuilder warning = new StringBuilder();
 
     warning.append(
@@ -2732,6 +2824,9 @@ public class RelayRequest extends PasswordHashRequest {
       final String action2,
       final String image3,
       final String action3) {
+    // Save for testing
+    this.lastWarning = message;
+
     StringBuilder warning = new StringBuilder();
 
     warning.append("<html><head><script language=Javascript src=\"/");

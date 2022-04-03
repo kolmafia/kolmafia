@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.utilities;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -69,22 +68,6 @@ public class StringUtilities {
       return StringUtilities.DATE_FORMAT.format(date);
     } catch (Exception e) {
       return "";
-    }
-  }
-
-  public static String getEncodedString(final byte[] bytes, final String encoding) {
-    try {
-      return new String(bytes, encoding);
-    } catch (UnsupportedEncodingException e) {
-      return "";
-    }
-  }
-
-  public static byte[] getEncodedBytes(final String string, final String encoding) {
-    try {
-      return string.getBytes(encoding);
-    } catch (UnsupportedEncodingException e) {
-      return new byte[0];
     }
   }
 
@@ -580,74 +563,19 @@ public class StringUtilities {
   }
 
   public static int parseInt(String string) {
-    return StringUtilities.parseIntInternal1(string, false);
-  }
-
-  public static int parseIntInternal1(String string, boolean throwException)
-      throws NumberFormatException {
-    if (string == null) {
+    long ret = StringUtilities.parseLongInternal1(string, false);
+    if ((Integer.MIN_VALUE <= ret) && (ret <= Integer.MAX_VALUE)) {
+      return (int) ret;
+    } else {
       return 0;
     }
-
-    // Remove commas anywhere in the string
-    string = StringUtilities.globalStringDelete(string, ",");
-
-    // Remove whitespace from front and end of string
-    string = string.trim();
-
-    // Remove + sign from start of string
-    if (string.startsWith("+")) {
-      string = string.substring(1);
-    }
-
-    if (string.length() == 0) {
-      return 0;
-    }
-
-    String tstring = string.substring(0, string.length() - 1);
-    char ch = string.charAt(string.length() - 1);
-    int multiplier = (ch == 'k' || ch == 'K') ? 1000 : (ch == 'm' || ch == 'M') ? 1000000 : 1;
-
-    if (multiplier > 1 && StringUtilities.isNumeric(tstring)) {
-      try {
-        return Integer.parseInt(tstring) * multiplier;
-      } catch (NumberFormatException e) {
-        RequestLogger.printLine(string + " is out of range, returning 0");
-        return 0;
-      }
-    }
-
-    if (StringUtilities.isNumeric(string)) {
-      try {
-        return Integer.parseInt(string);
-      } catch (NumberFormatException e) {
-        RequestLogger.printLine(string + " is out of range, returning 0");
-        return 0;
-      }
-    }
-
-    if (StringUtilities.isFloat(tstring)) {
-      return (int) (StringUtilities.parseFloat(tstring) * multiplier);
-    }
-
-    if (throwException) {
-      throw new NumberFormatException(string);
-    }
-
-    return StringUtilities.parseIntInternal2(string);
   }
 
   public static int parseIntInternal2(String string) throws NumberFormatException {
-    string = NONINTEGER_PATTERN.matcher(string).replaceAll("");
-
-    if (string.length() == 0) {
-      return 0;
-    }
-
-    try {
-      return Integer.parseInt(string);
-    } catch (NumberFormatException e) {
-      RequestLogger.printLine(string + " is out of range, returning 0");
+    long ret = StringUtilities.parseLongInternal2(string);
+    if ((Integer.MIN_VALUE <= ret) && (ret <= Integer.MAX_VALUE)) {
+      return (int) ret;
+    } else {
       return 0;
     }
   }
@@ -683,7 +611,13 @@ public class StringUtilities {
 
     if (multiplier > 1 && StringUtilities.isNumeric(tstring)) {
       try {
-        return Long.parseLong(tstring) * multiplier;
+        long rVal = Long.parseLong(tstring);
+        if ((Long.MIN_VALUE / multiplier <= rVal) && (rVal <= Long.MAX_VALUE / multiplier)) {
+          return rVal * multiplier;
+        } else {
+          RequestLogger.printLine(string + " is out of range, returning 0");
+          return 0;
+        }
       } catch (NumberFormatException e) {
         RequestLogger.printLine(string + " is out of range, returning 0");
         return 0;

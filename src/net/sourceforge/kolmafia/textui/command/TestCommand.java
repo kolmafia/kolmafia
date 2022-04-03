@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -58,6 +59,7 @@ import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.ScrapheapRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
+import net.sourceforge.kolmafia.session.BastilleBattalionManager;
 import net.sourceforge.kolmafia.session.BeachManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DadManager;
@@ -128,7 +130,7 @@ public class TestCommand extends AbstractCommand {
       }
 
       byte[] bytes = ByteBufferUtilities.read(file);
-      String string = StringUtilities.getEncodedString(bytes, "UTF-8");
+      String string = new String(bytes, StandardCharsets.UTF_8);
       TestCommand.contents = string;
 
       KoLmafia.updateDisplay(
@@ -877,9 +879,17 @@ public class TestCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("bastille")) {
+      BastilleBattalionManager.parseStyles(TestCommand.contents);
+      BastilleBattalionManager.checkPredictions();
+      TestCommand.contents = null;
+      return;
+    }
+
     if (command.equals("beach")) {
       BeachManager.parseBeachMap(TestCommand.contents);
       TestCommand.contents = null;
+      return;
     }
 
     if (command.equals("charpane")) {

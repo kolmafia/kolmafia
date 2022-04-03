@@ -4986,6 +4986,7 @@ Effect	Almond Allemande	Moxie: +5
 Effect	Almost Cool	Moxie: +5, Experience (Moxie): +1
 Effect	Amplified Fabulousness	Moxie Percent: +50
 Effect	Analog Drunk	Experience: +3
+Effect	Aloofah	Damage Absorption: +100, Damage Reduction: 10
 # Aloysius' Antiphon of Aptitude: +1 Muscle, Mysticality and Moxie Stat Per Fight
 Effect	Aloysius' Antiphon of Aptitude	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 Effect	Alpine Mintiness	Maximum HP: +25, Maximum MP: +25, Weapon Damage: +25, Spell Damage: +25
@@ -6566,6 +6567,7 @@ Effect	On the Trolley	Muscle Percent: +100, Mysticality Percent: +100, Moxie Per
 Effect	Once Bitten Twice Fried	Maximum MP: +25, MP Regen Min: 2, MP Regen Max: 5
 Effect	Once Bitten, Twice Shy	Moxie: +40, Familiar Weight Percent: -50
 Effect	Once-Cursed	Muscle: -10, Mysticality: -10, Moxie: -10
+Effect	One Foot Heavier	Maximum HP Percent: +50, Familiar Weight: +5
 Effect	One For Tea	MP Regen Min: 10, MP Regen Max: 15
 Effect	One Lip in the Grave	Avatar: "Miss Graves"
 Effect	One Very Clear Eye	Item Drop: +100
@@ -9357,6 +9359,7 @@ Item	children of the candy corn	Effect: "Sugar Rush", Effect Duration: 5
 Item	chocolate bath ball	Effect: "[800]Chocolate Reign", Effect Duration: 10
 Item	chocolate filthy lucre	Effect: "Gelded", Effect Duration: 10
 Item	chocolate-covered caviar	Effect: "Sugar Rush", Effect Duration: 10
+Item	chocolate-covered loofah	Effect: "Aloofah", Effect Duration: 20
 Item	Chubby and Plump bar	Effect: "Plump and Chubby", Effect Duration: 60
 Item	chunk of rock salt	Effect: "Fresh Scent", Effect Duration: 10
 Item	cigar box turtle	Effect: "Colorful Gratitude", Effect Duration: 15
@@ -9552,6 +9555,7 @@ Item	fish juice box	Effect: "Fishy", Effect Duration: 20
 Item	fish-liver oil	Effect: "Fishy Fortification", Effect Duration: 5
 Item	fitness wristband	Effect: "Fitter, Bitter", Effect Duration: 50
 Item	fizzy soda	Effect: "Fizzy Fizzy", Effect Duration: 20
+Item	Flag by the Foot&trade;	Effect: "One Foot Heavier", Effect Duration: 20
 Item	Flan in the Moon	Effect: "Heal Thy Nanoself", Effect Duration: 50
 Item	flask of baconstone juice	Effect: "Baconstoned", Effect Duration: 10
 Item	flask of hamethyst juice	Effect: "Ham-Fisted", Effect Duration: 10

@@ -368,7 +368,7 @@ public class MaximizerSpeculation extends Speculation
       List<CheckedItem> possible = possibles.get(EquipmentManager.CONTAINER);
       boolean any = false;
       for (int pos = 0; pos < possible.size(); ++pos) {
-        AdventureResult item = possible.get(pos);
+        CheckedItem item = possible.get(pos);
         int count = item.getCount();
         FoldGroup group = ItemDatabase.getFoldGroup(item.getName());
         if (group != null && this.foldables) {
@@ -385,7 +385,7 @@ public class MaximizerSpeculation extends Speculation
         if (count <= 0) continue;
         this.equipment[EquipmentManager.CONTAINER] = item;
         if (item.getItemId() == ItemPool.BUDDY_BJORN) {
-          if (useBjornFamiliar != FamiliarData.NO_FAMILIAR) {
+          if (useBjornFamiliar != null) {
             this.setBjorned(useBjornFamiliar);
             this.tryAccessories(enthronedFamiliars, possibles, 0, bestCard, useCrownFamiliar);
             any = true;
@@ -503,7 +503,7 @@ public class MaximizerSpeculation extends Speculation
       List<CheckedItem> possible = possibles.get(EquipmentManager.HAT);
       boolean any = false;
       for (int pos = 0; pos < possible.size(); ++pos) {
-        AdventureResult item = possible.get(pos);
+        CheckedItem item = possible.get(pos);
         int count = item.getCount();
         if (item.equals(this.equipment[EquipmentManager.FAMILIAR])) {
           --count;
@@ -523,7 +523,7 @@ public class MaximizerSpeculation extends Speculation
         if (count <= 0) continue;
         this.equipment[EquipmentManager.HAT] = item;
         if (item.getItemId() == ItemPool.HATSEAT) {
-          if (useCrownFamiliar != FamiliarData.NO_FAMILIAR) {
+          if (useCrownFamiliar != null) {
             this.setEnthroned(useCrownFamiliar);
             this.tryShirts(possibles, bestCard);
             any = true;
@@ -531,7 +531,7 @@ public class MaximizerSpeculation extends Speculation
           } else {
             for (FamiliarData f : enthronedFamiliars) {
               // Cannot use same familiar for this and Bjorn
-              if (f != this.getBjorned()) {
+              if (f != this.getBjorned() || f == FamiliarData.NO_FAMILIAR) {
                 this.setEnthroned(f);
                 this.tryShirts(possibles, bestCard);
                 any = true;
