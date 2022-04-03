@@ -2067,6 +2067,7 @@ public class ResultProcessor {
 
       case ItemPool.GOBLIN_WATER:
         if (adventureResults
+            && RequestLogger.getLastURLString().contains("action=throneroom")
             && KoLCharacter.inRaincore()) { // because you can now get the Goblin Water otherwise...
           QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
         }
