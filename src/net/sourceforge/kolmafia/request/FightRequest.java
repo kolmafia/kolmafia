@@ -6506,6 +6506,7 @@ public class FightRequest extends GenericRequest {
           TagNode bnode = node.findElementByName("b", true);
           if (bnode != null) {
             String skill = bnode.getText().toString();
+            FightRequest.logSkillAcquisition(skill, status);
             ResponseTextParser.learnSkill(skill);
           }
           continue;
@@ -6676,6 +6677,7 @@ public class FightRequest extends GenericRequest {
           TagNode bnode = node.findElementByName("b", true);
           if (bnode != null) {
             String skill = bnode.getText().toString();
+            FightRequest.logSkillAcquisition(skill, status);
             ResponseTextParser.learnSkill(skill);
           }
           return false;
@@ -7608,7 +7610,7 @@ public class FightRequest extends GenericRequest {
     // But, it only seems to happen when you've won the combat.
     if (FightRequest.won) {
       GreyYouManager.absorbMonster(status.monster);
-      FightRequest.logText(text.trim(), status);
+      FightRequest.logText(text, status);
       return true;
     }
     return false;
@@ -7844,6 +7846,10 @@ public class FightRequest extends GenericRequest {
     return false;
   }
 
+  private static void logSkillAcquisition(String skillName, final TagStatus status) {
+    FightRequest.logText("You acquire a skill: " + skillName, status);
+  }
+
   private static void logText(StringBuilder buffer, final TagStatus status) {
     FightRequest.logText(buffer.toString(), status);
   }
@@ -7876,6 +7882,7 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    text = text.trim();
     text = StringUtilities.globalStringReplace(text, "<br>", " / ");
     text = KoLConstants.ANYTAG_PATTERN.matcher(text).replaceAll(" ");
     text = StringUtilities.globalStringDelete(text, "&nbsp;");
