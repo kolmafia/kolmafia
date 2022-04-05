@@ -101,6 +101,7 @@ public class BanishManager {
     STAFF_OF_THE_STANDALONE_CHEESE(
         "staff of the standalone cheese", -1, 5, false, Reset.AVATAR_RESET),
     STINKY_CHEESE_EYE("stinky cheese eye", 10, 1, true, Reset.TURN_RESET),
+    SYSTEM_SWEEP("System Sweep", -1, 1, false, Reset.ROLLOVER_RESET),
     TENNIS_BALL("tennis ball", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
     THROW_LATTE_ON_OPPONENT("Throw Latte on Opponent", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
     THUNDER_CLAP("thunder clap", 40, 1, false, Reset.TURN_RESET),

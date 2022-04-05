@@ -386,6 +386,19 @@ public class FightRequestTest {
   }
 
   @Test
+  public void canTrackDronesWithDramadery() throws IOException {
+    FamiliarData fam = new FamiliarData(FamiliarPool.MELODRAMEDARY);
+    KoLCharacter.setFamiliar(fam);
+
+    String html = loadHTMLResponse("request/test_fight_drama_drones_1.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 1;
+    Preferences.setInteger("gooseDronesRemaining", 2);
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(1, Preferences.getInteger("gooseDronesRemaining"));
+  }
+
+  @Test
   public void canTrackGreyYouAbsorptions() throws IOException {
     FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
     KoLCharacter.setFamiliar(fam);

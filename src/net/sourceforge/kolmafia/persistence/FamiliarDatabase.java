@@ -133,6 +133,12 @@ public class FamiliarDatabase {
           FamiliarDatabase.familiarByImage.put("medium_2.gif", id);
           FamiliarDatabase.familiarByImage.put("medium_3.gif", id);
         }
+        // Kludge: Melodramadary has multiple different images
+        if (id == FamiliarPool.MELODRAMEDARY) {
+          FamiliarDatabase.familiarByImage.put("camelfam_left.gif", id);
+          FamiliarDatabase.familiarByImage.put("camelfam_middle.gif", id);
+          FamiliarDatabase.familiarByImage.put("camelfam_right.gif", id);
+        }
 
         String type = data[3];
         FamiliarDatabase.updateType(type, id);
@@ -632,6 +638,13 @@ public class FamiliarDatabase {
   public static final String getFamiliarImageLocation(final int familiarId) {
     String location = FamiliarDatabase.familiarImageById.get(IntegerPool.get(familiarId));
     return (location != null) ? location : "debug.gif";
+  }
+
+  public static final String getFamiliarFightImageLocation(final int familiarId) {
+    // Melodramadery' image is composed of three images
+    return (familiarId == FamiliarPool.MELODRAMEDARY)
+        ? "camelfam_left.gif"
+        : getFamiliarImageLocation(familiarId);
   }
 
   public static final int getFamiliarByImageLocation(final String image) {
