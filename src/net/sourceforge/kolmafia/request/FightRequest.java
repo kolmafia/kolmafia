@@ -5569,7 +5569,7 @@ public class FightRequest extends GenericRequest {
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
       int familiarId = current.getId();
-      this.familiar = current.getImageLocation();
+      this.familiar = current.getFightImageLocation();
       this.familiarName = current.getName();
       this.camel = (familiarId == FamiliarPool.MELODRAMEDARY);
       this.doppel =
@@ -8858,6 +8858,13 @@ public class FightRequest extends GenericRequest {
       case SkillPool.BANISHING_SHOUT:
         if (!responseText.contains("but this foe refuses")) {
           BanishManager.banishMonster(monster, Banisher.BANISHING_SHOUT);
+        }
+        break;
+
+      case SkillPool.SYSTEM_SWEEP:
+        if (responseText.contains(
+            "Your nanites remember the molecular structure of your enemy, and learn to avoid it in the future.")) {
+          BanishManager.banishMonster(monster, Banisher.SYSTEM_SWEEP);
         }
         break;
 
