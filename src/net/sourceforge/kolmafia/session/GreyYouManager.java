@@ -20,7 +20,9 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class GreyYouManager {
+public abstract class GreyYouManager {
+
+  private GreyYouManager() {}
 
   // Map from monsterId => Absorption of all known Absorptions.
   public static final Map<Integer, Absorption> allAbsorptions = new HashMap<>();
