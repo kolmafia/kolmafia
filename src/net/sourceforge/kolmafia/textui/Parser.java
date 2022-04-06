@@ -204,7 +204,15 @@ public class Parser {
   }
 
   public String getStringUri() {
-    return this.fileUri != null ? this.fileUri.toString() : this.istream.toString();
+    if (this.fileUri != null) {
+      return this.fileUri.toString();
+    }
+
+    if (this.istream != null) {
+      return this.istream.toString();
+    }
+
+    return "";
   }
 
   public String getScriptName() {
