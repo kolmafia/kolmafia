@@ -6488,12 +6488,6 @@ public class FightRequest extends GenericRequest {
           FightRequest.logText(str, status);
         }
 
-        boolean camelAction = status.camel && str.contains(status.familiarName);
-        if (camelAction && status.logFamiliar) {
-          // Melodramedary action
-          FightRequest.handleMelodramedary(str, status);
-        }
-
         int damage = FightRequest.parseNormalDamage(str);
         if (damage != 0) {
           FightRequest.logSpecialDamage(str, status);
@@ -7331,6 +7325,10 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    if (status.camel && FightRequest.handleMelodramedary(str, status)) {
+      return;
+    }
+
     if (FightRequest.handleGooseDrones(str, status)) {
       return;
     }
@@ -7420,12 +7418,16 @@ public class FightRequest extends GenericRequest {
 
   public static final Pattern SPIT_PATTERN = Pattern.compile("\\((\\d+)% full\\)");
 
-  private static void handleMelodramedary(String str, TagStatus status) {
+  private static boolean handleMelodramedary(String str, TagStatus status) {
+    if (!str.contains(status.familiarName)) {
+      return false;
+    }
+
     // You hear a loud <i>schlurrrrrk!</i> noise, and turn to see Gogarth sucking the liquid out of
     // a dented beer keg he found somewhere. (20% full)
     if (str.contains("smiles at you")) {
       // Don't log stat gain bonus
-      return;
+      return true;
     }
 
     if (str.contains("spits a tremendous globule of saliva at your foe")) {
@@ -7444,7 +7446,12 @@ public class FightRequest extends GenericRequest {
         Preferences.setInteger("camelSpit", StringUtilities.parseInt(m.group(1)));
       }
     }
-    FightRequest.logText(str, status);
+
+    if (status.logFamiliar) {
+      FightRequest.logText(str, status);
+    }
+
+    return true;
   }
 
   private static boolean processFumble(String text, TagStatus status) {
