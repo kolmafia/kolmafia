@@ -7,17 +7,22 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.LocketManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -31,9 +36,13 @@ public class FightRequestTest {
 
   @BeforeEach
   public void beforeEach() {
+    GenericRequest.passwordHash = "";
+    Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("FightRequestTest");
     Preferences.reset("FightRequestTest");
     FightRequest.clearInstanceData();
+    KoLConstants.availableCombatSkillsList.clear();
+    KoLConstants.availableCombatSkillsSet.clear();
   }
 
   private void parseCombatData(String path, String location, String encounter) throws IOException {
@@ -258,5 +267,228 @@ public class FightRequestTest {
     parseCombatData("request/test_fight_witchess_with_locket.html");
 
     assertEquals(Preferences.getInteger("_witchessFights"), 0);
+  }
+
+  static String loadHTMLResponse(String path) throws IOException {
+    // Load the responseText from saved HTML file
+    return Files.readString(Paths.get(path)).trim();
+  }
+
+  // Grey Goose Tests
+  @Test
+  public void shouldWorkAroundGreyGooseKoLBug() throws IOException {
+    String html = loadHTMLResponse("request/test_fight_grey_goose_combat_skills.html");
+    FightRequest.currentRound = 1;
+    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+    KoLCharacter.setFamiliar(fam);
+    fam.setWeight(6);
+    // If we have a 6-lb. Grey Goose, the Grey Goose combat skills on the fight
+    // page are valid.
+    FightRequest.parseAvailableCombatSkills(html);
+    assertTrue(KoLCharacter.hasCombatSkill(SkillPool.EMIT_MATTER_DUPLICATING_DRONES));
+    // If it is less than 6-lbs., a KoL bug still shows them on the combat page,
+    // but if you try to use them, "You don't know that skill."
+    fam.setWeight(1);
+    FightRequest.parseAvailableCombatSkills(html);
+    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.EMIT_MATTER_DUPLICATING_DRONES));
+  }
+
+  @Test
+  public void canTrackMeatifyMatterCast() throws IOException {
+    String html = loadHTMLResponse("request/test_fight_meatify_matter.html");
+    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+    KoLCharacter.setFamiliar(fam);
+    KoLCharacter.getFamiliar().setWeight(6);
+    FightRequest.currentRound = 1;
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("angry tourist"));
+    FightRequest.registerRequest(true, "fight.php?action=skill&whichskill=7409");
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(5, KoLCharacter.getFamiliar().getWeight());
+    assertTrue(Preferences.getBoolean("_meatifyMatterUsed"));
+    assertEquals(0, SkillDatabase.getMaxCasts(SkillPool.MEATIFY_MATTER));
+  }
+
+  // X bits of goo emerge from <name> and begin hovering about, moving probingly around various
+  // objects.
+  // One of the matter duplicating drones seems to coalesce around the <item> and then transforms
+  // into an exact replica. <X-1> more drones are still circling around.
+  // One of the matter duplicating drones seems to coalesce around the <item> and then transforms
+  // into an exact replica. That was the last drone.
+
+  @Test
+  public void canTrackGooseDrones() throws IOException {
+    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+    KoLCharacter.setFamiliar(fam);
+    KoLCharacter.getFamiliar().setWeight(6);
+
+    assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
+
+    String html = loadHTMLResponse("request/test_fight_goose_drones_1.html");
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("angry tourist"));
+    FightRequest.registerRequest(true, "fight.php?action=skill&whichskill=7410");
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(6, Preferences.getInteger("gooseDronesRemaining"));
+
+    html = loadHTMLResponse("request/test_fight_goose_drones_2.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 2;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(5, Preferences.getInteger("gooseDronesRemaining"));
+
+    html = loadHTMLResponse("request/test_fight_goose_drones_3.html");
+    FightRequest.registerRequest(true, "fight.php?action=skill&whichskill=7410");
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(9, Preferences.getInteger("gooseDronesRemaining"));
+
+    html = loadHTMLResponse("request/test_fight_goose_drones_4.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 2;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(7, Preferences.getInteger("gooseDronesRemaining"));
+
+    html = loadHTMLResponse("request/test_fight_goose_drones_5.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(6, Preferences.getInteger("gooseDronesRemaining"));
+
+    html = loadHTMLResponse("request/test_fight_goose_drones_6.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(4, Preferences.getInteger("gooseDronesRemaining"));
+
+    html = loadHTMLResponse("request/test_fight_goose_drones_7.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(3, Preferences.getInteger("gooseDronesRemaining"));
+
+    html = loadHTMLResponse("request/test_fight_goose_drones_8.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(2, Preferences.getInteger("gooseDronesRemaining"));
+
+    html = loadHTMLResponse("request/test_fight_goose_drones_9.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(1, Preferences.getInteger("gooseDronesRemaining"));
+
+    html = loadHTMLResponse("request/test_fight_goose_drones_10.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
+  }
+
+  @Test
+  public void canTrackDronesWithDramadery() throws IOException {
+    FamiliarData fam = new FamiliarData(FamiliarPool.MELODRAMEDARY);
+    KoLCharacter.setFamiliar(fam);
+
+    String html = loadHTMLResponse("request/test_fight_drama_drones_1.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 1;
+    Preferences.setInteger("gooseDronesRemaining", 2);
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(1, Preferences.getInteger("gooseDronesRemaining"));
+  }
+
+  @Test
+  public void canTrackGreyYouAbsorptions() throws IOException {
+    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+    KoLCharacter.setFamiliar(fam);
+    KoLCharacter.getFamiliar().setExperience(36);
+
+    KoLCharacter.setPath(Path.GREY_YOU);
+    GreyYouManager.resetAbsorptions();
+
+    // Initial absorption of an albino bat
+    String urlString = "fight.php?action=skill&whichskill=27000";
+    String html = loadHTMLResponse("request/test_fight_goo_absorption_1.html");
+    MonsterData monster = MonsterDatabase.findMonster("albino bat");
+    int monsterId = monster.getId();
+    MonsterStatusTracker.setNextMonster(monster);
+
+    FightRequest.currentRound = 2;
+    FightRequest.registerRequest(true, urlString);
+    FightRequest.updateCombatData(null, null, html);
+    assertTrue(GreyYouManager.absorbedMonsters.contains(monsterId));
+    assertEquals(6, KoLCharacter.getFamiliar().getWeight());
+
+    GreyYouManager.resetAbsorptions();
+
+    // Subsequent absorption of an albino bat via Re-Process Matter
+    urlString = "fight.php?action=skill&whichskill=7408";
+    html = loadHTMLResponse("request/test_fight_goo_absorption_2.html");
+    FightRequest.currentRound = 2;
+    FightRequest.registerRequest(true, urlString);
+    FightRequest.updateCombatData(null, null, html);
+    assertTrue(GreyYouManager.absorbedMonsters.contains(monsterId));
+    assertEquals(1, KoLCharacter.getFamiliar().getWeight());
+
+    GreyYouManager.resetAbsorptions();
+
+    // Absorbing a Passive Skill
+    urlString = "fight.php?action=skill&whichskill=27000";
+    html = loadHTMLResponse("request/test_fight_goo_absorption_3.html");
+    monster = MonsterDatabase.findMonster("rushing bum");
+    monsterId = monster.getId();
+    MonsterStatusTracker.setNextMonster(monster);
+    FightRequest.currentRound = 2;
+    assertFalse(KoLCharacter.hasSkill(SkillPool.HARRIED));
+    FightRequest.registerRequest(true, urlString);
+    FightRequest.updateCombatData(null, null, html);
+    assertTrue(GreyYouManager.absorbedMonsters.contains(monsterId));
+    assertTrue(KoLCharacter.hasSkill(SkillPool.HARRIED));
+
+    GreyYouManager.resetAbsorptions();
+
+    // Absorbing a non-special monster
+    urlString = "fight.php?action=skill&whichskill=27000";
+    html = loadHTMLResponse("request/test_fight_goo_absorption_4.html");
+    monster = MonsterDatabase.findMonster("regular old bat");
+    monsterId = monster.getId();
+    MonsterStatusTracker.setNextMonster(monster);
+    FightRequest.currentRound = 2;
+    FightRequest.registerRequest(true, urlString);
+    FightRequest.updateCombatData(null, null, html);
+    assertFalse(GreyYouManager.absorbedMonsters.contains(monsterId));
+  }
+
+  // Cosmic Bowling Ball Tests
+  @Test
+  public void canTrackCosmicBowlingBall() throws IOException {
+    FightRequest.currentRound = 1;
+
+    // Off in the distance, you hear your cosmic bowling ball rattling around in the ball return
+    // system.
+    String html = loadHTMLResponse("request/test_fight_bowling_ball_1.html");
+    FightRequest.parseAvailableCombatSkills(html);
+    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
+
+    // You hear your cosmic bowling ball rattling around in the ball return system.
+    html = loadHTMLResponse("request/test_fight_bowling_ball_2.html");
+    FightRequest.parseAvailableCombatSkills(html);
+    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
+
+    // You hear your cosmic bowling ball rattling around in the ball return system nearby.
+    html = loadHTMLResponse("request/test_fight_bowling_ball_3.html");
+    FightRequest.parseAvailableCombatSkills(html);
+    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
+
+    // You hear your cosmic bowling ball approaching.
+    html = loadHTMLResponse("request/test_fight_bowling_ball_4.html");
+    FightRequest.parseAvailableCombatSkills(html);
+    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
+
+    // Your cosmic bowling ball clatters into the closest ball return and you grab it.
+    html = loadHTMLResponse("request/test_fight_bowling_ball_5.html");
+    FightRequest.parseAvailableCombatSkills(html);
+    assertTrue(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
   }
 }
