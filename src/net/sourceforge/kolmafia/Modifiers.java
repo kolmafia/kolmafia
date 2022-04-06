@@ -221,6 +221,7 @@ public class Modifiers {
   public static final int SPLEEN_DROP = 141;
   public static final int POTION_DROP = 142;
   public static final int SAUCE_SPELL_DAMAGE = 143;
+  public static final int MONSTER_LEVEL_PERCENT = 144;
   public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
   private static final Object[][] doubleModifiers = {
@@ -820,6 +821,11 @@ public class Modifiers {
         Pattern.compile("([+-]\\d+) Sauce Spell Damage"),
       },
       Pattern.compile("(?:^|, )Sauce Spell Damage: " + EXPR)
+    },
+    {
+      "Monster Level Percent",
+      Pattern.compile("([+-]\\d+)% Monster Level"),
+      Pattern.compile("Monster Level Percent: " + EXPR)
     },
   };
 
