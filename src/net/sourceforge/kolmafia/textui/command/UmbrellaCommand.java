@@ -11,7 +11,8 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class UmbrellaCommand extends AbstractCommand {
   public UmbrellaCommand() {
-    this.usage = "[ml | item | dr | weapon | spell | nc | broken | forward | bucket | pitchfork | twirling | cocoon] - fold your Umbrella";
+    this.usage =
+        "[ml | item | dr | weapon | spell | nc | broken | forward | bucket | pitchfork | twirling | cocoon] - fold your Umbrella";
   }
 
   @Override

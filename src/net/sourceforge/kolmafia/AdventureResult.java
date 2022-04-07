@@ -436,7 +436,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       case ItemPool.PUNCHCARD_WALL:
       case ItemPool.PUNCHCARD_SPHERE:
         return AdventureResult.punchCardName(this.id);
-      
+
       case ItemPool.UNBREAKABLE_UMBRELLA:
         return this.name + "(" + Preferences.getString("umbrellaState") + ")";
 
