@@ -7,54 +7,48 @@ public class UmbrellaRequest extends GenericRequest {
     super("choice.php");
   }
 
+  public static enum Form {
+    // You attempt to operate the umbrella normally, which causes it to explode into a howling mass
+    // of chaos.
+    BROKEN(1, "broken", "howling mass of chaos"),
+    // You carefully open the umbrella and point it towards the stuff in front of you.
+    FORWARD(2, "forward", "the stuff in front of you"),
+    // You open the umbrella and let it dangle by the handle.
+    BUCKET(3, "bucket", "dangle by the handle"),
+    // You open the umbrella so hard it pops inside out.
+    PITCHFORK(4, "pitchfork", "pops inside out"),
+    // You open the umbrella inside, which causes it to become cursed. Then you begin twirling it,
+    // which evenly distributes the curse throughout the umbrella's metal skeleton.
+    TWIRL(5, "twirl", "evenly distributes the curse"),
+    // You open the umbrella, step inside it, and close it.
+    COCOON(6, "cocoon", "step inside it");
+
+    public final int id;
+    public final String name;
+    public final String descriptionSnippet;
+
+    Form(int id, String name, String descriptionSnippet) {
+      this.id = id;
+      this.name = name;
+      this.descriptionSnippet = descriptionSnippet;
+    }
+
+    public void set() {
+      Preferences.setString("umbrellaState", this.name);
+    }
+  }
+
   public static final void parseUmbrella(final String urlString, final String responseText) {
     if (!urlString.contains("whichchoice=1466")) {
       return;
     }
 
-    // Choice 7, walk away
-    // You decide to stop messing with your umbrella, lest you break it.
-    if (urlString.contains("option=7")) {
-      return;
-    }
-
-    // Choice 1, +25% ML
-    // You attempt to operate the umbrella normally, which causes it to explode into a howling mass
-    // of chaos.
-    if (urlString.contains("option=1") && responseText.contains("howling mass of chaos")) {
-      Preferences.setInteger("umbrellaState", 1);
-    }
-
-    // Choice 2, makes it a shield with +25 DR
-    // You carefully open the umbrella and point it towards the stuff in front of you.
-    else if (urlString.contains("option=2") && responseText.contains("the stuff in front of you")) {
-      Preferences.setInteger("umbrellaState", 2);
-    }
-
-    // Choice 3, +25% Item Drop
-    // You open the umbrella and let it dangle by the handle.
-    else if (urlString.contains("option=3") && responseText.contains("dangle by the handle")) {
-      Preferences.setInteger("umbrellaState", 3);
-    }
-
-    // Choice 4, +25 Weapon Damage
-    // You open the umbrella so hard it pops inside out.
-    else if (urlString.contains("option=4") && responseText.contains("pops inside out")) {
-      Preferences.setInteger("umbrellaState", 4);
-    }
-
-    // Choice 5, +25 Spell Damage
-    // You open the umbrella inside, which causes it to become cursed. Then you begin twirling it,
-    // which evenly distributes the curse throughout the umbrella's metal skeleton.
-    else if (urlString.contains("option=5")
-        && responseText.contains("evenly distributes the curse")) {
-      Preferences.setInteger("umbrellaState", 5);
-    }
-
-    // Choice 6, -10% Combat
-    // You open the umbrella, step inside it, and close it.
-    else if (urlString.contains("option=6") && responseText.contains("step inside it")) {
-      Preferences.setInteger("umbrellaState", 6);
+    for (Form form : Form.values()) {
+      if (urlString.contains("option=" + form.id)
+          && responseText.contains(form.descriptionSnippet)) {
+        form.set();
+        return;
+      }
     }
   }
 }

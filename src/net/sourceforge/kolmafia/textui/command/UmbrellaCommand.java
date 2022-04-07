@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.UmbrellaRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class UmbrellaCommand extends AbstractCommand {
@@ -30,17 +31,17 @@ public class UmbrellaCommand extends AbstractCommand {
 
     Integer umbrellaState = null;
     if (parameter.equals("ml")) {
-      umbrellaState = 1;
+      umbrellaState = UmbrellaRequest.Form.BROKEN.id;
     } else if (parameter.equals("dr")) {
-      umbrellaState = 2;
+      umbrellaState = UmbrellaRequest.Form.FORWARD.id;
     } else if (parameter.equals("item")) {
-      umbrellaState = 3;
+      umbrellaState = UmbrellaRequest.Form.BUCKET.id;
     } else if (parameter.equals("weapon")) {
-      umbrellaState = 4;
+      umbrellaState = UmbrellaRequest.Form.PITCHFORK.id;
     } else if (parameter.equals("spell")) {
-      umbrellaState = 5;
+      umbrellaState = UmbrellaRequest.Form.TWIRL.id;
     } else if (parameter.equals("nc")) {
-      umbrellaState = 6;
+      umbrellaState = UmbrellaRequest.Form.COCOON.id;
     }
 
     if (umbrellaState == null) {
