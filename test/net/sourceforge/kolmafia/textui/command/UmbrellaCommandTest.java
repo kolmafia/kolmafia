@@ -17,7 +17,7 @@ public class UmbrellaCommandTest extends AbstractCommandTestBase {
   public void initEach() {
     KoLCharacter.reset("testUser");
     KoLCharacter.reset(true);
-    Preferences.setToDefault("umbrellaState");
+    Preferences.resetToDefault("umbrellaState");
 
     // Stop requests from actually running
     GenericRequest.sessionId = null;
