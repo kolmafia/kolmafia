@@ -11,7 +11,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class UmbrellaCommand extends AbstractCommand {
   public UmbrellaCommand() {
-    this.usage = "[ml | item | dr | weapon | spell | nc] - fold your Umbrella";
+    this.usage = "[ml | item | dr | weapon | spell | nc | broken | forward | bucket | pitchfork | twirling | cocoon] - fold your Umbrella";
   }
 
   @Override
@@ -30,17 +30,17 @@ public class UmbrellaCommand extends AbstractCommand {
     }
 
     Integer umbrellaState = null;
-    if (parameter.equals("ml")) {
+    if (parameter.equals("ml") || "broken".startsWith(parameter)) {
       umbrellaState = UmbrellaRequest.Form.BROKEN.id;
-    } else if (parameter.equals("dr")) {
+    } else if (parameter.equals("dr") || "forward".startsWith(parameter)) {
       umbrellaState = UmbrellaRequest.Form.FORWARD.id;
-    } else if (parameter.equals("item")) {
+    } else if (parameter.equals("item") || "bucket".startsWith(parameter)) {
       umbrellaState = UmbrellaRequest.Form.BUCKET.id;
-    } else if (parameter.equals("weapon")) {
+    } else if (parameter.equals("weapon") || "pitchfork".startsWith(parameter)) {
       umbrellaState = UmbrellaRequest.Form.PITCHFORK.id;
-    } else if (parameter.equals("spell")) {
+    } else if (parameter.equals("spell") || "twirling".startsWith(parameter)) {
       umbrellaState = UmbrellaRequest.Form.TWIRL.id;
-    } else if (parameter.equals("nc")) {
+    } else if (parameter.equals("nc") || "cocoon".startsWith(parameter)) {
       umbrellaState = UmbrellaRequest.Form.COCOON.id;
     }
 
