@@ -2155,6 +2155,23 @@ public class ItemDatabase {
     }
   }
 
+  public static void parseUmbrella(final String desc) {
+    if (desc.contains("Monster Level")) {
+      Preferences.setInteger("umbrellaState", 1);
+    }
+    else if (desc.contains("Damage Reduction")) {
+      Preferences.setInteger("umbrellaState", 2);
+    } else if (desc.contains("Item Drops")) {
+      Preferences.setInteger("umbrellaState", 3);
+    } else if (desc.contains("Weapon Damage")) {
+      Preferences.setInteger("umbrellaState", 4);
+    } else if (desc.contains("Spell Damage")) {
+      Preferences.setInteger("umbrellaState", 5);
+    } else if (desc.contains("much less attracted")) {
+      Preferences.setInteger("umbrellaState", 6);
+    }
+  }
+
   public static void resetVampireVintnerWine() {
     Preferences.setString("vintnerWineName", "");
     Preferences.setString("vintnerWineEffect", "");

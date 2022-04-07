@@ -781,6 +781,7 @@ public class KoLmafiaCLI {
     new TowerDoorCommand().register("tower").register("lowkey");
     new TrainFamiliarCommand().register("train");
     new TryStatement().register("try");
+    new UmbrellaCommand().register("umbrella");
     new UnaliasCommand().register("unalias");
     new UneffectCommand().register("shrug").register("uneffect").register("remedy");
     new UnequipCommand().register("unequip").register("remove");

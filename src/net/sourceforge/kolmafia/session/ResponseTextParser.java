@@ -347,6 +347,8 @@ public class ResponseTextParser {
           case ItemPool.COMBAT_LOVERS_LOCKET:
             LocketManager.parseLocket(responseText);
             break;
+          case ItemPool.UNBREAKABLE_UMBRELLA:
+            ItemDatabase.parseUmbrella(responseText);
           default:
             changesFromTimeToTime = false;
             break;
