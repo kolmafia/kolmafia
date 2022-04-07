@@ -19,7 +19,7 @@ public class UmbrellaRequest extends GenericRequest {
     PITCHFORK(4, "pitchfork", "pops inside out"),
     // You open the umbrella inside, which causes it to become cursed. Then you begin twirling it,
     // which evenly distributes the curse throughout the umbrella's metal skeleton.
-    TWIRL(5, "twirl", "evenly distributes the curse"),
+    TWIRL(5, "constantly twirling", "evenly distributes the curse"),
     // You open the umbrella, step inside it, and close it.
     COCOON(6, "cocoon", "step inside it");
 
