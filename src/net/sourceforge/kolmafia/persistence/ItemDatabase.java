@@ -2158,8 +2158,7 @@ public class ItemDatabase {
   public static void parseUmbrella(final String desc) {
     if (desc.contains("Monster Level")) {
       Preferences.setInteger("umbrellaState", 1);
-    }
-    else if (desc.contains("Damage Reduction")) {
+    } else if (desc.contains("Damage Reduction")) {
       Preferences.setInteger("umbrellaState", 2);
     } else if (desc.contains("Item Drops")) {
       Preferences.setInteger("umbrellaState", 3);
