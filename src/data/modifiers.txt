@@ -2607,7 +2607,7 @@ Item	turtle wax shield	Maximum HP: +10, Damage Reduction: 2
 # turtling rod: Helps You Tame Turtles
 Item	turtling rod	Class: "Turtle Tamer"
 # Item unbreakable umbrella (broken): Can alter final enchantment by reconfiguring umbrella
-Item	unbreakable umbrella (broken)	Maximum HP: +25, Maximum MP: +25, Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Initiative: +25, Meat Drop: +25, Monster Level Percent: +25
+Item	unbreakable umbrella (broken)	Maximum HP: +25, Maximum MP: +25, Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Initiative: +25, Meat Drop: +25, Monster Level Percent: [25*pref(umbrellaState,1)], Damage Resistance: [25*pref(umbrellaState,2)], Item Drop: [25*pref(umbrellaState,3)], Weapon Damage: [25*pref(umbrellaState,4)], Spell Damage: [25*pref(umbrellaState,5)], Combat Rate: [-10*pref(umbrellaState,6)]
 # Unkillable Skeleton's shield: Deals damage to attackers
 Item	Unkillable Skeleton's shield	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Maximum MP: -300, Damage Reduction: 23
 # unstable fulminate
