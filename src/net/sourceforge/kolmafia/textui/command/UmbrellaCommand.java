@@ -28,22 +28,22 @@ public class UmbrellaCommand extends AbstractCommand {
       return;
     }
 
-    Integer umbrellaForm = null;
+    Integer umbrellaState = null;
     if (parameter.equals("ml")) {
-      umbrellaForm = 1;
+      umbrellaState = 1;
     } else if (parameter.equals("dr")) {
-      umbrellaForm = 2;
+      umbrellaState = 2;
     } else if (parameter.equals("item")) {
-      umbrellaForm = 3;
+      umbrellaState = 3;
     } else if (parameter.equals("weapon")) {
-      umbrellaForm = 4;
+      umbrellaState = 4;
     } else if (parameter.equals("spell")) {
-      umbrellaForm = 5;
+      umbrellaState = 5;
     } else if (parameter.equals("nc")) {
-      umbrellaForm = 6;
+      umbrellaState = 6;
     }
 
-    if (umbrellaForm == null) {
+    if (umbrellaState == null) {
       KoLmafia.updateDisplay(
           MafiaState.ERROR, "I don't understand what Umbrella form " + parameter + " is.");
       return;
@@ -55,7 +55,7 @@ public class UmbrellaCommand extends AbstractCommand {
 
     request = new GenericRequest("choice.php");
     request.addFormField("whichchoice", "1466");
-    request.addFormField("option", Integer.toString(umbrellaForm));
+    request.addFormField("option", Integer.toString(umbrellaState));
     request.addFormField("pwd", GenericRequest.passwordHash);
     RequestThread.postRequest(request);
 
