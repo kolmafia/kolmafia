@@ -12,11 +12,11 @@ public class UmbrellaRequest extends GenericRequest {
     // of chaos.
     BROKEN(1, "broken", "howling mass of chaos"),
     // You carefully open the umbrella and point it towards the stuff in front of you.
-    FORWARD(2, "forward", "the stuff in front of you"),
+    FORWARD(2, "forward-facing", "the stuff in front of you"),
     // You open the umbrella and let it dangle by the handle.
-    BUCKET(3, "bucket", "dangle by the handle"),
+    BUCKET(3, "bucket style", "dangle by the handle"),
     // You open the umbrella so hard it pops inside out.
-    PITCHFORK(4, "pitchfork", "pops inside out"),
+    PITCHFORK(4, "pitchfork style", "pops inside out"),
     // You open the umbrella inside, which causes it to become cursed. Then you begin twirling it,
     // which evenly distributes the curse throughout the umbrella's metal skeleton.
     TWIRL(5, "constantly twirling", "evenly distributes the curse"),
