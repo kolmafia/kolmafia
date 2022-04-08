@@ -294,6 +294,13 @@ public class ItemFinderTest {
     assertEquals(item.getItemId(), ItemPool.TOILET_PAPER);
     assertEquals(item.getCount(), 1);
 
+    // Zero
+    item = ItemFinder.getFirstMatchingItem("0 toilet paper", false, null, Match.ANY);
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertTrue(item != null);
+    assertEquals(item.getItemId(), ItemPool.TOILET_PAPER);
+    assertEquals(item.getCount(), 0);
+
     // All available (using inventory)
     item =
         ItemFinder.getFirstMatchingItem("* toilet paper", false, KoLConstants.inventory, Match.ANY);

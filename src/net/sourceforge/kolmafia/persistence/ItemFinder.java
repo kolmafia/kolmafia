@@ -336,12 +336,13 @@ public class ItemFinder {
 
     // Find the item id
 
+    boolean returnAll = false;
     int itemCount = 1;
     int itemId = -1;
 
     // Allow the person to ask for all of the item from the source
     if (parameters.charAt(0) == '*') {
-      itemCount = 0;
+      returnAll = true;
       parameters = parameters.substring(1).trim();
     }
 
@@ -482,6 +483,11 @@ public class ItemFinder {
     } else {
       firstMatch = ItemPool.get(itemName, itemCount);
     }
+
+    // if the user asked for zero, give them zero
+    if (itemCount == 0) return firstMatch;
+
+    if (returnAll) itemCount = 0;
 
     // The result also depends on the number of items which
     // are available in the given match area.
