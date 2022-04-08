@@ -43,9 +43,7 @@ public class UmbrellaCommand extends AbstractCommand {
       umbrellaState = UmbrellaRequest.Form.TWIRL.id;
     } else if (parameter.equals("nc") || "cocoon".startsWith(parameter)) {
       umbrellaState = UmbrellaRequest.Form.COCOON.id;
-    }
-
-    if (umbrellaState == null) {
+    } else {
       KoLmafia.updateDisplay(
           MafiaState.ERROR, "I don't understand what Umbrella form " + parameter + " is.");
       return;
