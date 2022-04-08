@@ -2215,7 +2215,7 @@ tropical paperweight	20	none
 Tuesday's ruby	120	Mys: 45
 turtle wax shield	40	Mus: 5	shield
 turtling rod	10	none
-unbreakable umbrella (broken)	100	none
+unbreakable umbrella	100	none
 Unkillable Skeleton's shield	350	Mus: 100	shield
 unstable fulminate	0	none
 UV-resistant compass	0	none
