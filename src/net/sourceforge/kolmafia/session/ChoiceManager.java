@@ -15277,6 +15277,7 @@ public abstract class ChoiceManager {
 
       case 1466: // Configure Your Unbreakable Umbrella
         UmbrellaRequest.parseUmbrella(urlString, text);
+        break;
     }
 
     SpadingManager.processChoice(urlString, text);

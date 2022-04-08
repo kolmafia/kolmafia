@@ -349,6 +349,7 @@ public class ResponseTextParser {
             break;
           case ItemPool.UNBREAKABLE_UMBRELLA:
             ItemDatabase.parseUmbrella(responseText);
+            break;
           default:
             changesFromTimeToTime = false;
             break;
