@@ -615,7 +615,7 @@ public class ItemFinder {
             amount = StringUtilities.parseInt(amountString);
           }
 
-          if (amount <= 0) {
+          if (amount < 0 || amountString.equals("*")) {
             amount +=
                 sourceList == KoLConstants.storage
                     ? KoLCharacter.getStorageMeat()

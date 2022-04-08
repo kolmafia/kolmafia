@@ -744,6 +744,14 @@ public class ItemFinderTest {
     assertTrue(results[0].isMeat());
     assertEquals(results[0].getCount(), 2000);
 
+    // 0 Meat
+    results = ItemFinder.getMatchingItemList("0 meat", null);
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertTrue(results != null);
+    assertEquals(results.length, 1);
+    assertTrue(results[0].isMeat());
+    assertEquals(results[0].getCount(), 0);
+
     // All available Meat from inventory
     results = ItemFinder.getMatchingItemList("* meat", KoLConstants.inventory);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
@@ -759,6 +767,14 @@ public class ItemFinderTest {
     assertEquals(results.length, 1);
     assertTrue(results[0].isMeat());
     assertEquals(results[0].getCount(), 2000);
+
+    // 0 Meat from inventory
+    results = ItemFinder.getMatchingItemList("0 meat", KoLConstants.inventory);
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertTrue(results != null);
+    assertEquals(results.length, 1);
+    assertTrue(results[0].isMeat());
+    assertEquals(results[0].getCount(), 0);
 
     // Add meat to closet
     KoLCharacter.setClosetMeat(20_000);
@@ -779,6 +795,14 @@ public class ItemFinderTest {
     assertTrue(results[0].isMeat());
     assertEquals(results[0].getCount(), 10000);
 
+    // 0 Meat from closet
+    results = ItemFinder.getMatchingItemList("0 meat", KoLConstants.closet);
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertTrue(results != null);
+    assertEquals(results.length, 1);
+    assertTrue(results[0].isMeat());
+    assertEquals(results[0].getCount(), 0);
+
     // Add meat to storage
     KoLCharacter.setStorageMeat(1_000_000);
 
@@ -790,13 +814,21 @@ public class ItemFinderTest {
     assertTrue(results[0].isMeat());
     assertEquals(results[0].getCount(), 1000000);
 
-    // All but 10000 Meat from closet
+    // All but 10000 Meat from storage
     results = ItemFinder.getMatchingItemList("-10000 meat", KoLConstants.storage);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
     assertTrue(results != null);
     assertEquals(results.length, 1);
     assertTrue(results[0].isMeat());
     assertEquals(results[0].getCount(), 990000);
+
+    // 0 Meat from storage
+    results = ItemFinder.getMatchingItemList("0 meat", KoLConstants.storage);
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertTrue(results != null);
+    assertEquals(results.length, 1);
+    assertTrue(results[0].isMeat());
+    assertEquals(results[0].getCount(), 0);
 
     // There is no Meat in the freepulls list
 
