@@ -2606,6 +2606,8 @@ Item	Tuesday's ruby	Variable
 Item	turtle wax shield	Maximum HP: +10, Damage Reduction: 2
 # turtling rod: Helps You Tame Turtles
 Item	turtling rod	Class: "Turtle Tamer"
+# Item unbreakable umbrella (broken): Can alter final enchantment by reconfiguring umbrella
+Item	unbreakable umbrella (broken)	Maximum HP: +25, Maximum MP: +25, Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Initiative: +25, Meat Drop: +25, Monster Level Percent: +25
 # Unkillable Skeleton's shield: Deals damage to attackers
 Item	Unkillable Skeleton's shield	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Maximum MP: -300, Damage Reduction: 23
 # unstable fulminate
@@ -11877,6 +11879,7 @@ Item	Unagnimated Gnome	Free Pull
 # unbearable light: Vaporizes an enemy and causes all of its items to drop
 Item	Uncle Romulus	Class: "Turtle Tamer", Skill: "Curiosity of Br'er Tarrypin"
 Item	Uncle Romulus (used)	Class: "Turtle Tamer", Skill: "Curiosity of Br'er Tarrypin"
+Item	undamaged Unbreakable Umbrella	Free Pull
 # underwater slingshot: Deals 50-100 Physical Damage
 # underwater slingshot: (sometimes more)
 # underwater slingshot: (and only works underwater)

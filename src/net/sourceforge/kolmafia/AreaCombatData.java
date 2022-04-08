@@ -480,7 +480,8 @@ public class AreaCombatData {
             .filter(m -> getWeighting(m) > 0)
             .map(
                 m ->
-                    (double) getWeighting(m)
+                    (double) m.getAttack()
+                        * (double) getWeighting(m)
                         * (1 - (double) this.getRejection(m) / 100)
                         / this.totalWeighting())
             .reduce(0.0, Double::sum);

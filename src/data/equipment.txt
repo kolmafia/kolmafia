@@ -2215,6 +2215,7 @@ tropical paperweight	20	none
 Tuesday's ruby	120	Mys: 45
 turtle wax shield	40	Mus: 5	shield
 turtling rod	10	none
+unbreakable umbrella (broken)	100	none
 Unkillable Skeleton's shield	350	Mus: 100	shield
 unstable fulminate	0	none
 UV-resistant compass	0	none
@@ -2281,7 +2282,7 @@ astral bracer	50	none
 astral mask	50	none
 astral ring	50	none
 attorney's badge	170	Mys: 70
-backup camera	0	none
+backup camera	100	none
 baconstone bracelet	50	Mys: 10
 baconstone earring	50	Mys: 10
 baconstone pendant	50	Mys: 10
