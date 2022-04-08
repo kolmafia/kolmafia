@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
+import net.sourceforge.kolmafia.request.UmbrellaRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
@@ -15272,6 +15273,10 @@ public abstract class ChoiceManager {
       case 1465:
         // No More Grey You
         ChoiceManager.handleAfterAvatar();
+        break;
+
+      case 1466: // Configure Your Unbreakable Umbrella
+        UmbrellaRequest.parseUmbrella(urlString, text);
         break;
     }
 

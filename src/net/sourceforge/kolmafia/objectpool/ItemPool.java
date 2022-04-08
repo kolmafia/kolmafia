@@ -3342,6 +3342,7 @@ public class ItemPool {
   public static final int CURSED_MAGNIFYING_GLASS = 10885;
   public static final int COSMIC_BOWLING_BALL = 10891;
   public static final int COMBAT_LOVERS_LOCKET = 10893;
+  public static final int UNBREAKABLE_UMBRELLA = 10899;
 
   private ItemPool() {}
 

@@ -1387,6 +1387,7 @@ user	trackVoteMonster	false
 user	turtleBlessingTurns	0
 user	trapperOre
 user	twinPeakProgress	0
+user	umbrellaState	broken
 user	umdLastObtained	
 user	uneffectWithHotTub	true
 user	unicornHornInflation	0
