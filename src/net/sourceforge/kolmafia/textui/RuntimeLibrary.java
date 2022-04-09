@@ -6408,7 +6408,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value equipped_item(ScriptRuntime controller, final Value slot) {
-    return DataTypes.makeItemValue(EquipmentManager.getEquipment((int) slot.intValue()).getName());
+    return DataTypes.makeItemValue(EquipmentManager.getEquipment((int) slot.intValue()));
   }
 
   public static Value have_equipped(ScriptRuntime controller, final Value item) {

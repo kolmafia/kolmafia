@@ -242,7 +242,7 @@ public abstract class TransferItemRequest extends GenericRequest {
 
     for (int i = 1; i <= this.attachments.length; ++i) {
       AdventureResult it = this.attachments[i - 1];
-      if (it != null && it.isItem()) {
+      if (it != null && it.isItem() && it.getCount() > 0) {
         this.attachItem(it, i);
       }
     }
