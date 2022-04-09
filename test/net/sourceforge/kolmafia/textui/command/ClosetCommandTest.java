@@ -58,5 +58,4 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
 
     assertThat(request, nullValue());
   }
-
 }
