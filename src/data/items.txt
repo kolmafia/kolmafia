@@ -10923,4 +10923,4 @@
 10896	grey down vest	994210569	greygoovest.gif	familiar	t,d	75
 10897
 10898	undamaged Unbreakable Umbrella	591888584	unbrella1.gif	usable	t	0
-10899	unbreakable umbrella (broken)	712482724	unbrella7.gif	offhand		0
+10899	unbreakable umbrella	712482724	unbrella7.gif	offhand		0
