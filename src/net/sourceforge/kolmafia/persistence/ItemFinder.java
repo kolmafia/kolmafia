@@ -618,7 +618,7 @@ public class ItemFinder {
           long amount = 0;
 
           if (!amountString.equals("*")) {
-            amount = StringUtilities.parseInt(amountString);
+            amount = StringUtilities.parseLong(amountString);
           }
 
           if (amount < 0 || amountString.equals("*")) {
