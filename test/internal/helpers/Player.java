@@ -74,6 +74,18 @@ public class Player {
     return cleanups;
   }
 
+  public static Cleanups setMeat(long meat) {
+    var oldMeat = KoLCharacter.getAvailableMeat();
+    KoLCharacter.setAvailableMeat(meat);
+    return new Cleanups(() -> KoLCharacter.setAvailableMeat(oldMeat));
+  }
+
+  public static Cleanups setClosetMeat(long meat) {
+    var oldMeat = KoLCharacter.getClosetMeat();
+    KoLCharacter.setClosetMeat(meat);
+    return new Cleanups(() -> KoLCharacter.setClosetMeat(oldMeat));
+  }
+
   public static int countItem(int itemId) {
     return InventoryManager.getCount(itemId);
   }
