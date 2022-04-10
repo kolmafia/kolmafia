@@ -134,6 +134,15 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
     }
 
     @Test
+    public void doesNotStoreItemsNotInInventory() {
+      execute("put 1 seal tooth");
+
+      var requests = getRequests();
+
+      assertThat(requests, empty());
+    }
+
+    @Test
     public void doesNotStoreZeroItemsInCloset() {
       var cleanups = Player.addItem("seal tooth");
 
