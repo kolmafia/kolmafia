@@ -42,14 +42,10 @@ public class RequestBodyReader {
     }
 
     @Override
-    public void onError(Throwable throwable) {
-
-    }
+    public void onError(Throwable throwable) {}
 
     @Override
-    public void onComplete() {
-
-    }
+    public void onComplete() {}
 
     private byte[] concatArrs(byte[] first, byte[] second) {
       int fal = first.length;
@@ -60,5 +56,4 @@ public class RequestBodyReader {
       return result;
     }
   }
-
 }
