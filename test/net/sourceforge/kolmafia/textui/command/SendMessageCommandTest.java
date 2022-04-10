@@ -2,10 +2,14 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
+import internal.helpers.Player;
 import internal.network.FakeHttpClientBuilder;
-import net.sourceforge.kolmafia.KoLCharacter;
+import internal.network.RequestBodyReader;
+import java.net.http.HttpRequest;
+import java.util.List;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,37 +21,40 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     this.command = "csend";
   }
 
+  private final FakeHttpClientBuilder fakeClientBuilder = new FakeHttpClientBuilder();
+
+  private List<HttpRequest> getRequests() {
+    return fakeClientBuilder.client.getRequests();
+  }
+
   @BeforeEach
   public void initializeState() {
-    KoLCharacter.reset("csender");
-    KoLCharacter.reset(true);
     GenericRequest.sessionId = "csend";
+    HttpUtilities.setClientBuilder(() -> fakeClientBuilder);
+    GenericRequest.resetClient();
+    fakeClientBuilder.client.clear();
+    StaticEntity.setContinuationState(KoLConstants.MafiaState.CONTINUE);
   }
 
   @Test
-  public void itShouldParseMeatWithCommas() {
-    var fakeClientBuilder = new FakeHttpClientBuilder();
-    HttpUtilities.setClientBuilder(() -> fakeClientBuilder);
-    String output = execute(" 1,000,000 meat to buffy");
+  public void itShouldSendMeatWithOutCommas() {
+    String output;
+    var cleanups = Player.setMeat(1000000);
+    try (cleanups) {
+      output = execute(" 1000000 meat to buffy");
+    }
     assertThat(output, containsString("Sending kmail to buffy..."));
     assertContinueState();
-    var fakeClient = fakeClientBuilder.client;
-    var request = fakeClient.request;
-    assertNull(request);
-  }
-
-  @Test
-  public void itShouldParseMeatWithoutCommas() {
-    var fakeClientBuilder = new FakeHttpClientBuilder();
-    HttpUtilities.setClientBuilder(() -> fakeClientBuilder);
-    String output = execute(" 1000000 meat to buffy");
-    assertThat(output, containsString("Sending kmail to buffy..."));
-    assertContinueState();
-    var fakeClient = fakeClientBuilder.client;
-    var request = fakeClient.request;
-    assertThat(request, notNullValue());
+    var requests = getRequests();
+    assertThat(requests, not(empty()));
+    var request = requests.get(0);
     var uri = request.uri();
     assertThat(uri.getPath(), equalTo("/sendmessage.php"));
-    // assertThat(uri.getQuery(), equalTo("action=closetpush&ajax=1&whichitem=2&qty=1"));
+    assertThat(request.method(), equalTo("POST"));
+    var body = new RequestBodyReader().bodyAsString(request);
+    assertThat(
+        body,
+        equalTo(
+            "action=send&towho=buffy&message=Keep+the+contents+of+this+message+top-sekrit%2C+ultra+hush-hush.&sendmeat=1000000"));
   }
 }
