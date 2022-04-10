@@ -7,6 +7,7 @@ import internal.helpers.Cleanups;
 import internal.helpers.Player;
 import internal.listeners.FakeListener;
 import internal.network.FakeHttpClientBuilder;
+import internal.network.RequestBodyReader;
 import java.net.http.HttpRequest;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -170,6 +171,8 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
       var uri = request.uri();
       assertThat(uri.getPath(), equalTo("/closet.php"));
       assertThat(request.method(), equalTo("POST"));
+      var body = new RequestBodyReader().bodyAsString(request);
+      assertThat(body, equalTo("action=addtakeclosetmeat&addtake=add&quantity=100"));
     }
 
     @Test
@@ -187,6 +190,8 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
       var uri = request.uri();
       assertThat(uri.getPath(), equalTo("/closet.php"));
       assertThat(request.method(), equalTo("POST"));
+      var body = new RequestBodyReader().bodyAsString(request);
+      assertThat(body, equalTo("action=addtakeclosetmeat&addtake=add&quantity=3000000000"));
     }
 
     @Test
@@ -250,6 +255,8 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
       var uri = request.uri();
       assertThat(uri.getPath(), equalTo("/closet.php"));
       assertThat(request.method(), equalTo("POST"));
+      var body = new RequestBodyReader().bodyAsString(request);
+      assertThat(body, equalTo("action=addtakeclosetmeat&addtake=take&quantity=100"));
     }
 
     @Test
