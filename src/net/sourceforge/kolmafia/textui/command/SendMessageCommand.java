@@ -74,7 +74,7 @@ public class SendMessageCommand extends AbstractCommand {
 
     for (AdventureResult attachment : attachments) {
       if (attachment.getName().equals(AdventureResult.MEAT)) {
-        meatAmount += attachment.getCount();
+        meatAmount += attachment.getLongCount();
       } else {
         AdventureResult.addResultToList(attachmentList, attachment);
       }

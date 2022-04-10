@@ -57,4 +57,49 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
         equalTo(
             "action=send&towho=buffy&message=Keep+the+contents+of+this+message+top-sekrit%2C+ultra+hush-hush.&sendmeat=1000000"));
   }
+
+  @Test
+  public void itShouldNotSendMeatWithCommas() {
+    String output;
+    var cleanups = Player.setMeat(1000000);
+    try (cleanups) {
+      output = execute(" 1,000,000 meat to buffy");
+    }
+    assertThat(output, containsString("Sending kmail to buffy..."));
+    assertContinueState();
+    var requests = getRequests();
+    assertThat(requests, not(empty()));
+    var request = requests.get(0);
+    var uri = request.uri();
+    assertThat(uri.getPath(), equalTo("/sendmessage.php"));
+    assertThat(request.method(), equalTo("POST"));
+    var body = new RequestBodyReader().bodyAsString(request);
+    // Note - the message is sent but not the meat
+    assertThat(
+        body,
+        equalTo(
+            "action=send&towho=buffy&message=Keep+the+contents+of+this+message+top-sekrit%2C+ultra+hush-hush."));
+  }
+
+  @Test
+  public void itShouldSendALongAmountOfMeat() {
+    String output;
+    var cleanups = Player.setMeat(3000000000l);
+    try (cleanups) {
+      output = execute(" 3000000000 meat to buffy");
+    }
+    assertThat(output, containsString("Sending kmail to buffy..."));
+    assertContinueState();
+    var requests = getRequests();
+    assertThat(requests, not(empty()));
+    var request = requests.get(0);
+    var uri = request.uri();
+    assertThat(uri.getPath(), equalTo("/sendmessage.php"));
+    assertThat(request.method(), equalTo("POST"));
+    var body = new RequestBodyReader().bodyAsString(request);
+    assertThat(
+        body,
+        equalTo(
+            "action=send&towho=buffy&message=Keep+the+contents+of+this+message+top-sekrit%2C+ultra+hush-hush.&sendmeat=3000000000"));
+  }
 }
