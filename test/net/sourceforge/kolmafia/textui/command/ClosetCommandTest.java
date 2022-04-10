@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.command;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+import internal.helpers.Cleanups;
 import internal.helpers.Player;
 import internal.listeners.FakeListener;
 import internal.network.FakeHttpClientBuilder;
@@ -36,6 +37,80 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
     GenericRequest.resetClient();
     fakeClientBuilder.client.clear();
     StaticEntity.setContinuationState(MafiaState.CONTINUE);
+  }
+
+  @Test
+  void mustMakeValidCommand() {
+    String output = execute("foobar");
+
+    assertErrorState();
+    assertThat(output, containsString("Invalid closet command."));
+  }
+
+  @Test
+  void lessThanFourChars() {
+    String output;
+    var cleanups = Player.addItemToCloset("seal tooth");
+
+    try (cleanups) {
+      output = execute("ls");
+    }
+
+    assertContinueState();
+    assertThat(output, notNullValue());
+    assertThat(output, containsString("seal tooth"));
+  }
+
+  @Nested
+  class Filter {
+    @Test
+    public void listsCloset() {
+      String output;
+      var cleanups = Player.addItemToCloset("seal tooth");
+
+      try (cleanups) {
+        output = execute("");
+      }
+
+      assertContinueState();
+      assertThat(output, notNullValue());
+      assertThat(output, containsString("seal tooth"));
+    }
+
+    @Test
+    public void listsClosetWithFilter() {
+      String output;
+      var cleanups = new Cleanups(Player.addItemToCloset("seal tooth"), Player.addItemToCloset("disco mask"));
+
+      try (cleanups) {
+        output = execute("list seal");
+      }
+
+      assertContinueState();
+      assertThat(output, notNullValue());
+      assertThat(output, containsString("seal tooth"));
+      assertThat(output, not(containsString("disco mask")));
+    }
+  }
+
+  @Nested
+  class Empty {
+    @Test
+    public void emptiesCloset() {
+      var cleanups = Player.addItemToCloset("seal tooth");
+
+      try (cleanups) {
+        execute("empty");
+      }
+
+      var requests = getRequests();
+
+      assertThat(requests, not(empty()));
+      var request = requests.get(0);
+      var uri = request.uri();
+      assertThat(uri.getPath(), equalTo("/closet.php"));
+      assertThat(request.method(), equalTo("POST"));
+    }
   }
 
   @Nested
