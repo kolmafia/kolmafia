@@ -1185,52 +1185,37 @@ public abstract class BastilleBattalionManager {
 
   private static final String BATTLE_FILE_NAME = "Bastille.battles.txt";
 
-  private static final String TAB = "\t";
+  private static String joinFields(String separator, String... fields) {
+    return Arrays.stream(fields).collect(Collectors.joining(separator));
+  }
 
   private static String generateKey(int game, int number) {
-    StringBuilder buf = new StringBuilder();
-    buf.append(KoLConstants.DAILY_FORMAT.format(new Date()));
-    buf.append(".");
-    buf.append(KoLCharacter.getPlayerId());
-    buf.append(".");
-    buf.append(game);
-    buf.append(".");
-    buf.append(number);
-    return buf.toString();
+    return joinFields(
+        ".",
+        KoLConstants.DAILY_FORMAT.format(new Date()),
+        KoLCharacter.getPlayerId(),
+        String.valueOf(game),
+        String.valueOf(number));
   }
 
   private static String generateFields(Battle battle) {
-    StringBuilder buf = new StringBuilder();
-    buf.append(battle.number);
-    buf.append(TAB);
-    buf.append(battle.stats.get(Stat.MA));
-    buf.append(TAB);
-    buf.append(battle.stats.get(Stat.MD));
-    buf.append(TAB);
-    buf.append(battle.stats.get(Stat.CA));
-    buf.append(TAB);
-    buf.append(battle.stats.get(Stat.CD));
-    buf.append(TAB);
-    buf.append(battle.stats.get(Stat.PA));
-    buf.append(TAB);
-    buf.append(battle.stats.get(Stat.PD));
-    buf.append(TAB);
-    buf.append(battle.boosts.toString());
-    buf.append(TAB);
-    buf.append(battle.enemy.getPrefix());
-    buf.append(TAB);
-    buf.append(battle.stance.toString());
-    buf.append(TAB);
-    buf.append(battle.results.aggressor);
-    buf.append(TAB);
-    buf.append(battle.results.military);
-    buf.append(TAB);
-    buf.append(battle.results.castle);
-    buf.append(TAB);
-    buf.append(battle.results.psychological);
-    buf.append(TAB);
-    buf.append(battle.cheese);
-    return buf.toString();
+    return joinFields(
+        "\t",
+        String.valueOf(battle.number),
+        String.valueOf(battle.stats.get(Stat.MA)),
+        String.valueOf(battle.stats.get(Stat.MD)),
+        String.valueOf(battle.stats.get(Stat.CA)),
+        String.valueOf(battle.stats.get(Stat.CD)),
+        String.valueOf(battle.stats.get(Stat.PA)),
+        String.valueOf(battle.stats.get(Stat.PD)),
+        battle.boosts.toString(),
+        battle.enemy.getPrefix(),
+        battle.stance.toString(),
+        String.valueOf(battle.results.aggressor),
+        String.valueOf(battle.results.military),
+        String.valueOf(battle.results.castle),
+        String.valueOf(battle.results.psychological),
+        String.valueOf(battle.cheese));
   }
 
   private static void saveBattle(Battle battle) {
@@ -1245,7 +1230,7 @@ public abstract class BastilleBattalionManager {
 
     StringBuilder buf = new StringBuilder();
     buf.append(key);
-    buf.append(TAB);
+    buf.append("\t");
     buf.append(fields);
     String line = buf.toString();
 
