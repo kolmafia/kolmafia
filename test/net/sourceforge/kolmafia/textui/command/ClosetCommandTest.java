@@ -80,7 +80,8 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
     @Test
     public void listsClosetWithFilter() {
       String output;
-      var cleanups = new Cleanups(Player.addItemToCloset("seal tooth"), Player.addItemToCloset("disco mask"));
+      var cleanups =
+          new Cleanups(Player.addItemToCloset("seal tooth"), Player.addItemToCloset("disco mask"));
 
       try (cleanups) {
         output = execute("list seal");
