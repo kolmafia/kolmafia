@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.session;
 
+import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -8,12 +10,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
+import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class BastilleBattalionManager {
@@ -152,6 +156,71 @@ public abstract class BastilleBattalionManager {
     public Stats diff(Stats stats) {
       return stats.copy().subtract(this);
     }
+
+    public String toStrengthString() {
+      StringBuilder buf = new StringBuilder();
+      buf.append("Military ");
+      buf.append(this.get(Stat.MA));
+      buf.append("/");
+      buf.append(this.get(Stat.MD));
+      buf.append(" ");
+      buf.append("Castle ");
+      buf.append(this.get(Stat.CA));
+      buf.append("/");
+      buf.append(this.get(Stat.CD));
+      buf.append(" ");
+      buf.append("Psychological ");
+      buf.append(this.get(Stat.PA));
+      buf.append("/");
+      buf.append(this.get(Stat.PD));
+      return buf.toString();
+    }
+  }
+
+  // *** Boosts
+
+  // Three potions give you 1 turn of increased (by some amount) attack and
+  // defense for one of military, castle, or psychological
+
+  private static AdventureResult SHARK_TOOTH_GRIN = EffectPool.get(EffectPool.SHARK_TOOTH_GRIN);
+  private static AdventureResult BOILING_DETERMINATION =
+      EffectPool.get(EffectPool.BOILING_DETERMINATION);
+  private static AdventureResult ENHANCED_INTERROGATION =
+      EffectPool.get(EffectPool.ENHANCED_INTERROGATION);
+
+  public static class Boosts {
+    private final String boosts;
+
+    public Boosts() {
+      StringBuilder buf = new StringBuilder();
+      if (KoLConstants.activeEffects.contains(SHARK_TOOTH_GRIN)) {
+        buf.append('M');
+      }
+      if (KoLConstants.activeEffects.contains(BOILING_DETERMINATION)) {
+        buf.append('C');
+      }
+      if (KoLConstants.activeEffects.contains(ENHANCED_INTERROGATION)) {
+        buf.append('P');
+      }
+      this.boosts = buf.toString();
+    }
+
+    public void log() {
+      if (boosts.contains("M")) {
+        logLine("(Military attack and defense boosted from Shark Tooth Grin)");
+      }
+      if (boosts.contains("C")) {
+        logLine("(Castle attack and defense boosted from Boiling Determination)");
+      }
+      if (boosts.contains("P")) {
+        logLine("(Psychological attack and defense boosted from Enhanced Interrogation)");
+      }
+    }
+
+    @Override
+    public String toString() {
+      return this.boosts;
+    }
   }
 
   // *** Castles
@@ -171,9 +240,6 @@ public abstract class BastilleBattalionManager {
   //     Sprawling Chateau - higher castle attack?
   //
   // Observations:
-  //
-  // "berserker" - the Imposing Citadel - will always attack first, even if you
-  // selected an offensive Stance
   //
   // "shieldmaster" - the Fortified Stronghold - will never attack, even if you
   // selected a defensive Stance
@@ -208,34 +274,6 @@ public abstract class BastilleBattalionManager {
     @Override
     public String toString() {
       return this.description;
-    }
-  }
-
-  // *** Stances
-
-  // When you enter battle with a castle, you have three choices:
-  //
-  // Try to get the jump on them
-  // Bide your time
-  // Ready your defenses and wait for them.
-  //
-  // In a battle, either (all of) your Attack stats are compared to your foe's
-  // Defense stats, or vice versa.
-
-  public static enum Stance {
-    OFFENSE("offensive"),
-    BIDE("waiting"),
-    DEFENSE("defensive");
-
-    String name;
-
-    private Stance(String name) {
-      this.name = name;
-    }
-
-    @Override
-    public String toString() {
-      return this.name;
     }
   }
 
@@ -338,18 +376,173 @@ public abstract class BastilleBattalionManager {
     }
   }
 
-  static {
-    // This forces the Style enum to be initialized, which will populate
-    // all the various sets and maps from the constructors.
-    Style[] styles = Style.values();
-    Castle[] castles = Castle.values();
-  }
-
   // *** Cached state. This resets when you visit the Bastille Battalion
   // *** control rig
 
   private static final Map<Upgrade, Style> currentStyles = new TreeMap<>();
   private static Stats currentStats = new Stats();
+  private static Castle currentCastle = null;
+  private static Battle currentBattle = null;
+
+  // *** Battle
+
+  // One of the reasons I started this project was to collect data that could be analyzed to
+  // understand how to do well at this game. The already released improved logging has made the game
+  // play much more enjoyable, but I have been manually making observations and taking notes that
+  // could much more usefully be recorded automatically.
+  //
+  // Some observations so far:
+  //
+  // Each kind of castle has particular strengths and weaknesses. There are six kinds of castle. I
+  // believe that each is stronger in one of the six stats.
+  //
+  // A "game" has 5 rounds. Your foes increase in power depending on which round you encounter them.
+  // For example, if I attack castle type A on round one, my attack vs. his defense may be 3:0, but
+  // on rounds 2 - 5, attack vs. defense may decrease to 2:1, 1:2, and eventually 0:3. Your rewards
+  // for beating a foe go up correspondingly to the difficulty.
+  //
+  // The role of "stance" is unclear: none of offense, bide, and defense guarantees that you will be
+  // the aggressor or the defender.
+
+  // *** Stances
+
+  // When you enter battle with a castle, you have three choices:
+  //
+  // Try to get the jump on them
+  // Bide your time
+  // Ready your defenses and wait for them.
+  //
+  // In a battle, either (all of) your Attack stats are compared to your foe's
+  // Defense stats, or vice versa.
+
+  private static final Map<Integer, Stance> optionToStance = new HashMap<>();
+
+  public static enum Stance {
+    OFFENSE(1, "offensive"),
+    BIDE(2, "waiting"),
+    DEFENSE(3, "defensive");
+
+    String name;
+
+    private Stance(int option, String name) {
+      this.name = name;
+      optionToStance.put(option, this);
+    }
+
+    @Override
+    public String toString() {
+      return this.name;
+    }
+  }
+
+  // *** Results
+
+  // Your Stance may indicate your desire to attack vs. defend, but it's not entirely up to you.
+  // Even if you charge in, your foe may attack first. Even if you try to defend, you may end up
+  // attacking first.
+  //
+  // The aggressor's attacks are compared against the defender's defense.
+  // You can win from 0 to 3 of these comparisons.
+  // If you win 2 or 3, you win the battle and loot some cheese.
+  // If you win 0 or 1, the game is over.
+
+  public static class Results {
+    // If you are the aggressor, it is your attack vs. their defense
+    // If they are the aggressor, it is their attack vs. your defense
+    public final boolean aggressor;
+
+    // True if your (stat) beat their (stat)
+    public final boolean military;
+    public final boolean castle;
+    public final boolean psychological;
+
+    private final String value;
+
+    public Results(boolean aggressor, boolean military, boolean castle, boolean psychological) {
+      this.aggressor = aggressor;
+      this.military = military;
+      this.castle = castle;
+      this.psychological = psychological;
+      this.value = setValue();
+    }
+
+    private String setValue() {
+      StringBuilder buf = new StringBuilder();
+      buf.append('M');
+      buf.append(this.aggressor ? 'A' : 'D');
+      buf.append(this.military ? '>' : '<');
+      buf.append('M');
+      buf.append(this.aggressor ? 'D' : 'A');
+      buf.append(",");
+      buf.append('C');
+      buf.append(this.aggressor ? 'A' : 'D');
+      buf.append(this.castle ? '>' : '<');
+      buf.append('C');
+      buf.append(this.aggressor ? 'D' : 'A');
+      buf.append(",");
+      buf.append('P');
+      buf.append(this.aggressor ? 'A' : 'D');
+      buf.append(this.psychological ? '>' : '<');
+      buf.append('P');
+      buf.append(this.aggressor ? 'D' : 'A');
+      return buf.toString();
+    }
+
+    public String getValue() {
+      return this.value;
+    }
+
+    public boolean won() {
+      return winCount() >= 2;
+    }
+
+    public int winCount() {
+      int wins = 0;
+      wins += this.military ? 1 : 0;
+      wins += this.castle ? 1 : 0;
+      wins += this.psychological ? 1 : 0;
+      return wins;
+    }
+  }
+
+  public static class Battle {
+    public int number;
+    public Stats stats;
+    public Boosts boosts;
+    public Castle enemy;
+    public Stance stance;
+    public Results results;
+    public int cheese;
+
+    // This is constructed when we are about to enter battle.
+    // Everything except the results and cheese won is known.
+
+    public Battle(int turn, int option) {
+      this.number = (turn + 2) / 3;
+      this.stats = currentStats.copy();
+      this.boosts = new Boosts();
+      this.enemy = currentCastle;
+      this.stance = optionToStance.get(option);
+      this.results = null;
+      this.cheese = 0;
+    }
+
+    public void setResults(Results results) {
+      this.results = results;
+    }
+
+    public void setCheese(int cheese) {
+      this.cheese = cheese;
+    }
+  }
+
+  static {
+    // This forces the Style enum to be initialized, which will populate
+    // all the various sets and maps from the constructors.
+    Style[] styles = Style.values();
+    Castle[] castles = Castle.values();
+    Stance[] stances = Stance.values();
+  }
 
   private static final Pattern STAT_PATTERN = Pattern.compile("([MCP][AD])=(\\d+)");
 
@@ -403,6 +596,8 @@ public abstract class BastilleBattalionManager {
     // Cached configuration
     currentStyles.clear();
     currentStats.clear();
+    currentCastle = null;
+    currentBattle = null;
 
     // You can play up to five games a day
     Preferences.setInteger("_bastilleGames", 0);
@@ -448,6 +643,7 @@ public abstract class BastilleBattalionManager {
     // over across tests.
     Preferences.setString("_bastilleLastBattleResults", "");
     Preferences.setBoolean("_bastilleLastBattleWon", false);
+    Preferences.setInteger("_bastilleLastCheese", 0);
   }
 
   // <img style='position: absolute; top: 233; left: 124;'
@@ -456,6 +652,7 @@ public abstract class BastilleBattalionManager {
       Pattern.compile(
           "<img style='(.*?top: (\\d+).*?; left: (\\d+).*?;.*?)'[^>]*otherimages/bbatt/([^>]*)>");
 
+  // Yes. the x-offset for Psychological is 1 pixel higher.
   public static final Stats PIXELS = new Stats(124, 240, 124, 240, 125, 240);
 
   private static void parseNeedle(String topString, String leftString) {
@@ -529,9 +726,28 @@ public abstract class BastilleBattalionManager {
     if (castle == null) {
       return;
     }
+    currentCastle = castle;
     Preferences.setString("_bastilleEnemyName", matcher.group(2));
     Preferences.setString("_bastilleEnemyCastle", castle.getPrefix());
     logLine("Your next foe is " + matcher.group(1));
+  }
+
+  // <img style='position: absolute; top: 79; left: 116;'
+  // src=https://d2uyhvukfffg5a.cloudfront.net/otherimages/bbatt/bigcastle_3.png></div></center>
+  // The time has come for battle.  Lew the Vast is nearby, and conflict is inevitable.
+  private static final Pattern LOOMING_CASTLE_PATTERN =
+      Pattern.compile("otherimages/bbatt/([a-z]+_3.png)");
+
+  public static void parseLoomingCastle(String text) {
+    Matcher matcher = LOOMING_CASTLE_PATTERN.matcher(text);
+    if (!matcher.find()) {
+      return;
+    }
+    Castle castle = imageToCastle.get(matcher.group(1));
+    if (castle == null) {
+      return;
+    }
+    currentCastle = castle;
   }
 
   // (turn #1)
@@ -565,33 +781,33 @@ public abstract class BastilleBattalionManager {
       Pattern.compile(
           "(Military|Castle|Psychological) results:.*?(Your|Their) (attack strength|defense) is (higher|lower) than (your|their) (defense|attack strength)");
 
-  public static boolean logBattle(String text) {
-    StringBuilder buf = new StringBuilder();
+  public static Results logBattle(String text) {
+    boolean aggressor = false;
+    boolean military = false;
+    boolean castle = false;
+    boolean psychological = false;
+
     Matcher matcher = BATTLE_PATTERN.matcher(text);
     while (matcher.find()) {
       logLine(matcher.group(0) + ".");
-      String stat = matcher.group(1);
-      char c1 = stat.charAt(0);
-      boolean aggressor = matcher.group(3).equals("attack strength");
-      char direction = matcher.group(4).equals("higher") ? '>' : '<';
-      if (buf.length() > 0) {
-        buf.append(",");
+      aggressor = matcher.group(3).equals("attack strength");
+      boolean won = matcher.group(4).equals("higher");
+      switch (matcher.group(1)) {
+        case "Military":
+          military = won;
+          break;
+        case "Castle":
+          castle = won;
+          break;
+        case "Psychological":
+          psychological = won;
+          break;
       }
-      buf.append(c1);
-      buf.append(aggressor ? 'A' : 'D');
-      buf.append(direction);
-      buf.append(c1);
-      buf.append(aggressor ? 'D' : 'A');
     }
 
-    boolean won = text.contains("You have razed your foe!");
-    Preferences.setBoolean("_bastilleLastBattleWon", won);
-    logLine(won ? "You won!" : "You lost.");
-
-    String results = buf.toString();
-    Preferences.setString("_bastilleLastBattleResults", results);
-
-    return won;
+    Results results = new Results(aggressor, military, castle, psychological);
+    logLine(results.won() ? "You won!" : "You lost.");
+    return results;
   }
 
   // *** Game control flow
@@ -620,6 +836,23 @@ public abstract class BastilleBattalionManager {
     }
   }
 
+  private static void startBattle(int option) {
+    int turn = Preferences.getInteger("_bastilleGameTurn");
+    currentBattle = new Battle(turn, option);
+  }
+
+  private static void endBattle(String text) {
+    Results results = logBattle(text);
+    Preferences.setBoolean("_bastilleLastBattleWon", results.won());
+    Preferences.setString("_bastilleLastBattleResults", results.getValue());
+
+    if (currentBattle != null) {
+      currentBattle.setResults(results);
+      currentBattle.setCheese(Preferences.getInteger("_bastilleLastCheese"));
+      saveBattle(currentBattle);
+    }
+  }
+
   private static void endGame(String text) {
     Preferences.increment("_bastilleGames");
     Preferences.setInteger("_bastilleGameTurn", 0);
@@ -632,46 +865,14 @@ public abstract class BastilleBattalionManager {
     RequestLogger.updateSessionLog(message);
   }
 
-  private static AdventureResult SHARK_TOOTH_GRIN = EffectPool.get(EffectPool.SHARK_TOOTH_GRIN);
-  private static AdventureResult BOILING_DETERMINATION =
-      EffectPool.get(EffectPool.BOILING_DETERMINATION);
-  private static AdventureResult ENHANCED_INTERROGATION =
-      EffectPool.get(EffectPool.ENHANCED_INTERROGATION);
-
   public static void logBoosts() {
-    StringBuilder buf = new StringBuilder();
-    if (KoLConstants.activeEffects.contains(SHARK_TOOTH_GRIN)) {
-      logLine("(Military attack and defense boosted from Shark Tooth Grin)");
-      buf.append('M');
-    }
-    if (KoLConstants.activeEffects.contains(BOILING_DETERMINATION)) {
-      logLine("(Castle attack and defense boosted from Boiling Determination)");
-      buf.append('C');
-    }
-    if (KoLConstants.activeEffects.contains(ENHANCED_INTERROGATION)) {
-      logLine("(Psychological attack and defense boosted from Enhanced Interrogation)");
-      buf.append('P');
-    }
-    Preferences.setString("_bastilleBoosts", buf.toString());
+    Boosts boosts = new Boosts();
+    boosts.log();
+    Preferences.setString("_bastilleBoosts", boosts.toString());
   }
 
   private static void logStrength() {
-    StringBuilder buf = new StringBuilder();
-    buf.append("Military ");
-    buf.append(currentStats.get(Stat.MA));
-    buf.append("/");
-    buf.append(currentStats.get(Stat.MD));
-    buf.append(" ");
-    buf.append("Castle ");
-    buf.append(currentStats.get(Stat.CA));
-    buf.append("/");
-    buf.append(currentStats.get(Stat.CD));
-    buf.append(" ");
-    buf.append("Psychological ");
-    buf.append(currentStats.get(Stat.PA));
-    buf.append("/");
-    buf.append(currentStats.get(Stat.PD));
-    String message = buf.toString();
+    String message = currentStats.toStrengthString();
     RequestLogger.printLine(message);
     RequestLogger.updateSessionLog(message);
   }
@@ -728,15 +929,18 @@ public abstract class BastilleBattalionManager {
 
   private static final Pattern CHEESE_PATTERN = Pattern.compile("You gain (\\d+) cheese!");
 
-  public static void gainCheese(final String text) {
+  public static int gainCheese(final String text) {
     Matcher matcher = CHEESE_PATTERN.matcher(text);
+    int cheese = 0;
     if (matcher.find()) {
       String message = matcher.group(0);
       RequestLogger.printLine(message);
       RequestLogger.updateSessionLog(message);
-      int cheese = StringUtilities.parseInt(matcher.group(1));
+      cheese = StringUtilities.parseInt(matcher.group(1));
       Preferences.increment("_bastilleCheese", cheese);
     }
+    Preferences.setInteger("_bastilleLastCheese", cheese);
+    return cheese;
   }
 
   public static String parseChoiceEncounter(final int choice, final String responseText) {
@@ -773,6 +977,7 @@ public abstract class BastilleBattalionManager {
         return;
 
       case 1315: // Castle vs. Castle
+        parseLoomingCastle(text);
         clearChoices();
         return;
 
@@ -783,6 +988,20 @@ public abstract class BastilleBattalionManager {
       case 1318: // Defensive Posturing
       case 1319: // Cheese Seeking Behavior
         getChoices(text);
+        return;
+    }
+  }
+
+  public static void preChoice(final String urlString, final GenericRequest request) {
+    int choice = ChoiceManager.lastChoice;
+    int decision = ChoiceManager.lastDecision;
+
+    switch (choice) {
+      case 1315: // Castle vs. Castle
+        // If we are about to take  a stance and battle...
+        if (decision != 0) {
+          startBattle(decision);
+        }
         return;
     }
   }
@@ -814,7 +1033,7 @@ public abstract class BastilleBattalionManager {
         return;
 
       case 1315: // Castle vs. Castle
-        logBattle(text);
+        endBattle(text);
         switch (ChoiceManager.extractChoice(text)) {
           case 1314:
             // We won and it wasn't the last battle.
@@ -927,5 +1146,112 @@ public abstract class BastilleBattalionManager {
     }
 
     return true;
+  }
+
+  // *** Game Logging for Analysis
+
+  //
+  // Since I am not (yet) working on a script to automate this, I want the data to be automatically
+  // saved to a file in a format which can be read by an analysis script via file_to_map().
+  //
+  // This is the proposed format.
+  //
+  // The file is a tab delimited file in "data" named Bastille.battles.txt
+  //
+  // Note that this is not user specific; you and all of your multis will contribute to the results
+  //
+  // The "key" is DATE.PLAYERID.GAME.ROUND
+  //
+  // The fields are designed to be easily loaded into an ASH record.
+  //
+  // 20220409.ID.1.1	1	1	4	-1	6	0	5	MCP	bigcastle	offense	true	true	false	true	142
+  //
+  // record battle {
+  //     int number;         // Affects strength of enemy
+  //     int [6] stats;      // MA/MD/CA/CD/PA/PD
+  //     string boosts;      // MCP
+  //     string enemy;       // frenchcastle,masterofnone,bigcastle,
+  //                         // berserker,shieldmaster,barracks
+  //     string stance;      // {offensive,waiting,defensive}
+  //     boolean aggressor;  // as opposed to defender
+  //     boolean military;   // true if won
+  //     boolean castle;     // true if won
+  //     boolean psych;      // true if won
+  //     int cheese;         // if won
+  // };
+  //
+  // battle [string] battles;
+  // file_to_map( FILENAME, battles );
+
+  private static final String BATTLE_FILE_NAME = "Bastille.battles.txt";
+
+  private static final String TAB = "\t";
+
+  private static String generateKey(int game, int number) {
+    StringBuilder buf = new StringBuilder();
+    buf.append(KoLConstants.DAILY_FORMAT.format(new Date()));
+    buf.append(".");
+    buf.append(KoLCharacter.getPlayerId());
+    buf.append(".");
+    buf.append(game);
+    buf.append(".");
+    buf.append(number);
+    return buf.toString();
+  }
+
+  private static String generateFields(Battle battle) {
+    StringBuilder buf = new StringBuilder();
+    buf.append(battle.number);
+    buf.append(TAB);
+    buf.append(battle.stats.get(Stat.MA));
+    buf.append(TAB);
+    buf.append(battle.stats.get(Stat.MD));
+    buf.append(TAB);
+    buf.append(battle.stats.get(Stat.CA));
+    buf.append(TAB);
+    buf.append(battle.stats.get(Stat.CD));
+    buf.append(TAB);
+    buf.append(battle.stats.get(Stat.PA));
+    buf.append(TAB);
+    buf.append(battle.stats.get(Stat.PD));
+    buf.append(TAB);
+    buf.append(battle.boosts.toString());
+    buf.append(TAB);
+    buf.append(battle.enemy.getPrefix());
+    buf.append(TAB);
+    buf.append(battle.stance.toString());
+    buf.append(TAB);
+    buf.append(battle.results.aggressor);
+    buf.append(TAB);
+    buf.append(battle.results.military);
+    buf.append(TAB);
+    buf.append(battle.results.castle);
+    buf.append(TAB);
+    buf.append(battle.results.psychological);
+    buf.append(TAB);
+    buf.append(battle.cheese);
+    return buf.toString();
+  }
+
+  private static void saveBattle(Battle battle) {
+    if (!Preferences.getBoolean("logBastilleBattalionBattles")) {
+      return;
+    }
+
+    int game = Preferences.getInteger("_bastilleGames") + 1;
+    int number = battle.number;
+    String key = generateKey(game, number);
+    String fields = generateFields(battle);
+
+    StringBuilder buf = new StringBuilder();
+    buf.append(key);
+    buf.append(TAB);
+    buf.append(fields);
+    String line = buf.toString();
+
+    String path = KoLConstants.DATA_DIRECTORY + BATTLE_FILE_NAME;
+    try (PrintStream stream = LogStream.openStream(path, false)) {
+      stream.println(line);
+    }
   }
 }
