@@ -4,6 +4,7 @@ import static org.mockito.Mockito.mockStatic;
 
 import internal.network.FakeHttpClientBuilder;
 import java.util.Calendar;
+import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -54,11 +55,22 @@ public class Player {
   }
 
   public static Cleanups addItem(AdventureResult item) {
+    return addToList(item, KoLConstants.inventory);
+  }
+
+  public static Cleanups addItemToCloset(String name) {
+    int count = 1;
+    int itemId = ItemDatabase.getItemId(name, count, false);
+    AdventureResult item = ItemPool.get(itemId, count);
+    return addToList(item, KoLConstants.closet);
+  }
+
+  private static Cleanups addToList(AdventureResult item, List<AdventureResult> list) {
     var cleanups = new Cleanups();
-    AdventureResult.addResultToList(KoLConstants.inventory, item);
-    // Per midglec: "All the cleanups I wrote assume you're reverting back to a reset character"
+    AdventureResult.addResultToList(list, item);
+    // Per midgleyc: "All the cleanups I wrote assume you're reverting back to a reset character"
     // Therefore, simply remove this item from inventory.
-    cleanups.add(() -> AdventureResult.removeResultFromList(KoLConstants.inventory, item));
+    cleanups.add(() -> AdventureResult.removeResultFromList(list, item));
     return cleanups;
   }
 

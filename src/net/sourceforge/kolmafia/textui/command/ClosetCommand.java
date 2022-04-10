@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -78,6 +79,10 @@ public class ClosetCommand extends AbstractCommand {
     }
 
     if (meatAttachmentCount == itemList.length) {
+      return;
+    }
+
+    if (Arrays.stream(itemList).allMatch(x -> x.getCount() <= 0)) {
       return;
     }
 
