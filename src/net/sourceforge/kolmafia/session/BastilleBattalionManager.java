@@ -1198,9 +1198,10 @@ public abstract class BastilleBattalionManager {
         String.valueOf(number));
   }
 
-  private static String generateFields(Battle battle) {
+  private static String generateFields(String key, Battle battle) {
     return joinFields(
         "\t",
+        key,
         String.valueOf(battle.number),
         String.valueOf(battle.stats.get(Stat.MA)),
         String.valueOf(battle.stats.get(Stat.MD)),
@@ -1225,14 +1226,7 @@ public abstract class BastilleBattalionManager {
 
     int game = Preferences.getInteger("_bastilleGames") + 1;
     int number = battle.number;
-    String key = generateKey(game, number);
-    String fields = generateFields(battle);
-
-    StringBuilder buf = new StringBuilder();
-    buf.append(key);
-    buf.append("\t");
-    buf.append(fields);
-    String line = buf.toString();
+    String line = generateFields(generateKey(game, number), battle);
 
     String path = KoLConstants.DATA_DIRECTORY + BATTLE_FILE_NAME;
     try (PrintStream stream = LogStream.openStream(path, false)) {
