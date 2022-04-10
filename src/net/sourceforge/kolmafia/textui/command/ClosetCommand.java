@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -57,27 +59,20 @@ public class ClosetCommand extends AbstractCommand {
       return;
     }
 
-    int meatAttachmentCount = 0;
-    long meatCount = 0;
-    int hatCount = 0;
+    var split = Arrays.stream(itemList).collect(Collectors.partitioningBy(AdventureResult::isMeat));
+    var meat = split.get(true);
+    var items = split.get(false);
 
-    for (int i = 0; i < itemList.length; ++i) {
-      AdventureResult item = itemList[i];
-      if (item.getName().equals(AdventureResult.MEAT)) {
-        meatCount += item.getLongCount();
-        meatAttachmentCount += 1;
-        itemList[i] = null;
-      } else if (EquipmentDatabase.isHat(item)) {
-        hatCount += 1;
+    if (meat.size() > 0) {
+      long meatCount =
+          meat.stream().map(AdventureResult::getLongCount).mapToLong(Long::longValue).sum();
+      if (meatCount > 0) {
+        int moveType = isTake ? ClosetRequest.MEAT_TO_INVENTORY : ClosetRequest.MEAT_TO_CLOSET;
+        RequestThread.postRequest(new ClosetRequest(moveType, meatCount));
       }
     }
 
-    if (meatCount > 0) {
-      int moveType = isTake ? ClosetRequest.MEAT_TO_INVENTORY : ClosetRequest.MEAT_TO_CLOSET;
-      RequestThread.postRequest(new ClosetRequest(moveType, meatCount));
-    }
-
-    if (meatAttachmentCount == itemList.length) {
+    if (items.stream().allMatch(x -> x.getCount() <= 0)) {
       return;
     }
 
@@ -85,7 +80,7 @@ public class ClosetCommand extends AbstractCommand {
     RequestThread.postRequest(new ClosetRequest(moveType, itemList));
 
     // update "Hatter" daily deed
-    if (hatCount > 0) {
+    if (items.stream().anyMatch(EquipmentDatabase::isHat)) {
       PreferenceListenerRegistry.firePreferenceChanged("(hats)");
     }
   }
