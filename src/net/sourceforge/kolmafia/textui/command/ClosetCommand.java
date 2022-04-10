@@ -64,8 +64,8 @@ public class ClosetCommand extends AbstractCommand {
     var items = split.get(false);
 
     if (meat.size() > 0) {
-      int meatCount =
-          meat.stream().map(AdventureResult::getCount).mapToInt(Integer::intValue).sum();
+      long meatCount =
+          meat.stream().map(AdventureResult::getLongCount).mapToLong(Long::longValue).sum();
       if (meatCount > 0) {
         int moveType = isTake ? ClosetRequest.MEAT_TO_INVENTORY : ClosetRequest.MEAT_TO_CLOSET;
         RequestThread.postRequest(new ClosetRequest(moveType, meatCount));

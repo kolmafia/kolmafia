@@ -173,6 +173,23 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
     }
 
     @Test
+    public void storesMoreThanIntMaxMeatInCloset() {
+      var cleanups = Player.setMeat(3_000_000_000L);
+
+      try (cleanups) {
+        execute("put 3000000000 meat");
+      }
+
+      var requests = getRequests();
+
+      assertThat(requests, not(empty()));
+      var request = requests.get(0);
+      var uri = request.uri();
+      assertThat(uri.getPath(), equalTo("/closet.php"));
+      assertThat(request.method(), equalTo("POST"));
+    }
+
+    @Test
     public void doesNotStoreZeroMeatInCloset() {
       var cleanups = Player.setMeat(100);
 
