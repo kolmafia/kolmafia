@@ -43,6 +43,7 @@ public class FightRequestTest {
     FightRequest.clearInstanceData();
     KoLConstants.availableCombatSkillsList.clear();
     KoLConstants.availableCombatSkillsSet.clear();
+    KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR);
   }
 
   private void parseCombatData(String path, String location, String encounter) throws IOException {
@@ -386,7 +387,28 @@ public class FightRequestTest {
   }
 
   @Test
-  public void canTrackDronesWithDramadery() throws IOException {
+  public void canTrackDramederyActions() throws IOException {
+    FamiliarData fam =
+        new FamiliarData(FamiliarPool.MELODRAMEDARY, "Gogarth", 1, EquipmentRequest.UNEQUIP);
+    KoLCharacter.setFamiliar(fam);
+
+    String html = loadHTMLResponse("request/test_fight_drama_drones_1.html");
+    FightRequest.registerRequest(true, "fight.php?action=attack");
+    FightRequest.currentRound = 1;
+    Preferences.setInteger("camelSpit", 60);
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(63, Preferences.getInteger("camelSpit"));
+
+    html = loadHTMLResponse("request/test_fight_drama_spit_1.html");
+    FightRequest.registerRequest(true, "fight.php?action=skill&whichskill=7340");
+    FightRequest.currentRound = 1;
+    Preferences.setInteger("camelSpit", 1000);
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(0, Preferences.getInteger("camelSpit"));
+  }
+
+  @Test
+  public void canTrackDronesWithDramedery() throws IOException {
     FamiliarData fam = new FamiliarData(FamiliarPool.MELODRAMEDARY);
     KoLCharacter.setFamiliar(fam);
 

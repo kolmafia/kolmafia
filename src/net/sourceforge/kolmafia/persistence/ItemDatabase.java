@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
+import net.sourceforge.kolmafia.request.UmbrellaRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
@@ -101,6 +102,12 @@ public class ItemDatabase {
     {IntegerPool.get(4579), "bugged Knob Goblin love potion"},
     {IntegerPool.get(4580), "bugged old school Mafia knickerbockers"},
     {IntegerPool.get(4581), "bugged Talisman of Baio"},
+    {IntegerPool.get(ItemPool.UNBREAKABLE_UMBRELLA), "unbreakable umbrella (broken)"},
+    {IntegerPool.get(ItemPool.UNBREAKABLE_UMBRELLA), "unbreakable umbrella (forward-facing)"},
+    {IntegerPool.get(ItemPool.UNBREAKABLE_UMBRELLA), "unbreakable umbrella (bucket style)"},
+    {IntegerPool.get(ItemPool.UNBREAKABLE_UMBRELLA), "unbreakable umbrella (pitchfork style)"},
+    {IntegerPool.get(ItemPool.UNBREAKABLE_UMBRELLA), "unbreakable umbrella (constantly twirling)"},
+    {IntegerPool.get(ItemPool.UNBREAKABLE_UMBRELLA), "unbreakable umbrella (cocoon)"},
     {IntegerPool.get(-1), "potion of inebriety"},
     {IntegerPool.get(-1), "potion of healing"},
     {IntegerPool.get(-1), "potion of confusion"},
@@ -2152,6 +2159,22 @@ public class ItemDatabase {
       Preferences.setInteger("_saberMod", 3);
     } else if (desc.contains("Familiar Weight")) {
       Preferences.setInteger("_saberMod", 4);
+    }
+  }
+
+  public static void parseUmbrella(final String desc) {
+    if (desc.contains("Monster Level")) {
+      UmbrellaRequest.Form.BROKEN.set();
+    } else if (desc.contains("Damage Reduction")) {
+      UmbrellaRequest.Form.FORWARD.set();
+    } else if (desc.contains("Item Drops")) {
+      UmbrellaRequest.Form.BUCKET.set();
+    } else if (desc.contains("Weapon Damage")) {
+      UmbrellaRequest.Form.PITCHFORK.set();
+    } else if (desc.contains("Spell Damage")) {
+      UmbrellaRequest.Form.TWIRL.set();
+    } else if (desc.contains("much less attracted")) {
+      UmbrellaRequest.Form.COCOON.set();
     }
   }
 

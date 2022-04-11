@@ -823,6 +823,7 @@ public abstract class KoLmafia {
     InventoryManager.checkLatte();
     InventoryManager.checkSaber();
     InventoryManager.checkCoatOfPaint();
+    InventoryManager.checkUmbrella();
 
     // Items that conditionally grant skills
     InventoryManager.checkPowerfulGlove();

@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
+import net.sourceforge.kolmafia.request.UmbrellaRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
@@ -9436,6 +9437,17 @@ public abstract class ChoiceManager {
           }
           break;
         }
+
+      case 1313: // Bastille Battalion
+      case 1314: // Bastille Battalion (Master of None)
+      case 1315: // Castle vs. Castle
+      case 1316: // GAME OVER
+      case 1317: // A Hello to Arms (Battalion)
+      case 1318: // Defensive Posturing
+      case 1319: // Cheese Seeking Behavior
+        BastilleBattalionManager.preChoice(urlString, request);
+        break;
+
       case 1451:
         // Fire Captain Hagnk
         WildfireCampRequest.parseCaptain(text);
@@ -15272,6 +15284,10 @@ public abstract class ChoiceManager {
       case 1465:
         // No More Grey You
         ChoiceManager.handleAfterAvatar();
+        break;
+
+      case 1466: // Configure Your Unbreakable Umbrella
+        UmbrellaRequest.parseUmbrella(urlString, text);
         break;
     }
 

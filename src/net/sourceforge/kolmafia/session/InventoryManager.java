@@ -1650,6 +1650,17 @@ public abstract class InventoryManager {
     checkItemDescription(ItemPool.FOURTH_SABER);
   }
 
+  public static final void checkUmbrella() {
+    AdventureResult UMBRELLA = ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA, 1);
+    if (!KoLCharacter.hasEquipped(UMBRELLA)
+        && UMBRELLA.getCount(KoLConstants.inventory) == 0
+        && UMBRELLA.getCount(KoLConstants.closet) == 0) {
+      return;
+    }
+
+    checkItemDescription(ItemPool.UNBREAKABLE_UMBRELLA);
+  }
+
   public static final void checkKGB() {
     AdventureResult KGB = ItemPool.get(ItemPool.KREMLIN_BRIEFCASE, 1);
     // See if we have a Kremlin's Greatest Briefcase

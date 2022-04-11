@@ -727,6 +727,8 @@ public class TCRSDatabase {
     InventoryManager.checkPantogram();
     InventoryManager.checkLatte();
     InventoryManager.checkSaber();
+    InventoryManager.checkCoatOfPaint();
+    InventoryManager.checkUmbrella();
 
     deriveApplyItem(ItemPool.RING);
 
