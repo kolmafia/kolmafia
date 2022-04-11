@@ -6488,6 +6488,11 @@ public class FightRequest extends GenericRequest {
           FightRequest.logText(str, status);
         }
 
+        if (status.camel && str.contains(status.familiarName)) {
+          // Melodramedary action
+          FightRequest.handleMelodramedary(str, status);
+        }
+
         int damage = FightRequest.parseNormalDamage(str);
         if (damage != 0) {
           FightRequest.logSpecialDamage(str, status);
