@@ -8485,7 +8485,7 @@ public class FightRequest extends GenericRequest {
 
   // X bits of goo emerge from <name> and begin hovering about, moving probingly around various
   // objects.
-  private static final Pattern GOOSE_DRONE_PATTERN = Pattern.compile("(\\d+) bits of goo emerge");
+  private static final Pattern GOOSE_DRONE_PATTERN = Pattern.compile("(\\d+) bits\? of goo emerge");
 
   private static void payActionCost(final String responseText) {
     // If we don't know what we tried, punt now.
