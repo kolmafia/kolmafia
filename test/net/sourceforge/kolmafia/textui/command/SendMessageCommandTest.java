@@ -143,4 +143,34 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     assertContinueState();
     RecoveryManager.setRecoveryActive(false);
   }
+
+  @Test
+  public void itShouldFailWithMissingParameters() {
+    String output;
+    output = execute(" buffy");
+    assertThat(output, containsString("Invalid send request."));
+    assertErrorState();
+  }
+
+  @Test
+  public void itShouldSendAlternateMessageText() {
+    String output;
+    var cleanups = Player.setMeat(3000000000L);
+    try (cleanups) {
+      output = execute(" 3000000000 meat to buffy || This is Blackmail!!!");
+    }
+    assertThat(output, containsString("Sending kmail to buffy ..."));
+
+    assertContinueState();
+    var requests = getRequests();
+    assertThat(requests, not(empty()));
+    var request = requests.get(0);
+    var uri = request.uri();
+    assertThat(uri.getPath(), equalTo("/sendmessage.php"));
+    assertThat(request.method(), equalTo("POST"));
+    var body = new RequestBodyReader().bodyAsString(request);
+    assertThat(
+        body,
+        equalTo("action=send&towho=buffy+&message=This+is+Blackmail%21%21%21&sendmeat=3000000000"));
+  }
 }
