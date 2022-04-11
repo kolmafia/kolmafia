@@ -9437,6 +9437,17 @@ public abstract class ChoiceManager {
           }
           break;
         }
+
+      case 1313: // Bastille Battalion
+      case 1314: // Bastille Battalion (Master of None)
+      case 1315: // Castle vs. Castle
+      case 1316: // GAME OVER
+      case 1317: // A Hello to Arms (Battalion)
+      case 1318: // Defensive Posturing
+      case 1319: // Cheese Seeking Behavior
+        BastilleBattalionManager.preChoice(urlString, request);
+        break;
+
       case 1451:
         // Fire Captain Hagnk
         WildfireCampRequest.parseCaptain(text);

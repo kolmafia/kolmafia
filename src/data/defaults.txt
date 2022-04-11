@@ -579,8 +579,6 @@ user	falloutShelterChronoUsed	false
 user	falloutShelterCoolingTankUsed	false
 user	falloutShelterLevel	0
 user	familiarScript
-user	lastBeardBuff	0
-user	lastCopyableMonster
 user	fingernailsClipped	0
 user	fireExtinguisherBatHoleUsed	false
 user	fireExtinguisherChasmUsed	false
@@ -768,6 +766,7 @@ user	lastBangPotion827
 user	lastBangPotionReset	-1
 user	lastBarrelSmashed	0
 user	lastBattlefieldReset	-1
+user	lastBeardBuff	0
 user	lastBreakfast	-1
 user	lastCastleGroundUnlock	-1
 user	lastCastleTopUnlock	-1
@@ -777,6 +776,7 @@ user	lastChanceThreshold	100
 user	lastChessboard
 user	lastChasmReset	-1
 user	lastColosseumRoundWon	0
+user	lastCopyableMonster
 user	lastCouncilVisit	0
 user	lastCounterDay	-1
 user	lastDesertUnlock	-1
@@ -897,6 +897,7 @@ user	libraryCardUsed	false
 user	lightsOutAutomation	1
 user	locketPhylum	mer-kin
 user	lockPicked	false
+user	logBastilleBattalionBattles	false
 user	loginRecoveryHardcore	false
 user	loginRecoverySoftcore	true
 user	longConMonster	
@@ -1501,6 +1502,7 @@ user	_bastilleGames	0
 user	_bastilleGameTurn	0
 user	_bastilleLastBattleResults
 user	_bastilleLastBattleWon	false
+user	_bastilleLastCheese	0
 user	_bastilleStats	
 user	_beachCombing	false
 user	_beachHeadsUsed
