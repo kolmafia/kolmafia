@@ -280,6 +280,7 @@ tasks.jpackage {
 	input = 'dist'
 	destination = 'build/releases'
 	mainClass = mainClassName
+	appName = 'KoLmafia'
 	appVersion = new Date().format('yy.MM')
 	linux {
 		icon = 'util/linux/KoLmafia.ico'
@@ -298,9 +299,8 @@ tasks.jpackage {
 	}
 	doFirst {
 		mainJar = tasks.shadowJar.archiveFileName.get()
-		appVersion += '.' + version
-		appName = 'KoLmafia-r' + version + "${isDirty() ? 'M' : ''}"
-		println 'Packaging app ' + appName + '...'
+		appVersion += '.' + version + "${isDirty() ? 'M' : ''}"
+		println 'Packaging app ' + appName + '-r' + appVersion + '...'
 		if (System.properties['os.name'] != 'Linux') {
 			return
 		}
