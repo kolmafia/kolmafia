@@ -300,7 +300,7 @@ tasks.jpackage {
 	doFirst {
 		mainJar = tasks.shadowJar.archiveFileName.get()
 		appVersion += '.' + version + "${isDirty() ? 'M' : ''}"
-		println 'Packaging app ' + appName + '-r' + appVersion + '...'
+		println 'Packaging app ' + appName + '.' + appVersion + '...'
 		if (System.properties['os.name'] != 'Linux') {
 			return
 		}
