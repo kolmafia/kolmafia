@@ -289,11 +289,11 @@ tasks.jpackage {
 		icon = 'util/macosx/limeglass.icns'
 
 	}
-	windows{
+	windows {
 		type = 'exe'
 		icon = 'util/windows/KoLmafia.ico'
-		winShortcut = 'true'
-		winDirChooser = 'true'
+		winShortcut = true
+		winPerUserInstall = true
 		javaOptions = ["-DuseCWDasROOT=true"]
 	}
 	doFirst {
