@@ -244,7 +244,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
-  public void itShouldRecognizeItem() {
+  public void itShouldNotRecognizeItem() {
     String output;
     var cleanups = Player.addItem("seal tooth", 3);
     try (cleanups) {
@@ -253,6 +253,18 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     assertThat(output, containsString("[soiled dove] has no matches."));
     assertErrorState();
   }
+
+  @Test
+  public void itShouldAlsoNotRecognizeItem() {
+    String output;
+    var cleanups = Player.addItem("seal tooth", 3);
+    try (cleanups) {
+      output = execute(" 1 soiled dove to buffy || Wash me.");
+    }
+    assertThat(output, containsString("[soiled dove] has no matches."));
+    assertErrorState();
+  }
+
 
   @Test
   public void itShouldHandleFuzzyItem() {
