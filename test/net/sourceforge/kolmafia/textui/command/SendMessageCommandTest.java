@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.command;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+import internal.helpers.Cleanups;
 import internal.helpers.Player;
 import internal.network.FakeHttpClientBuilder;
 import internal.network.RequestBodyReader;
@@ -262,5 +263,28 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     }
     assertThat(output, containsString("[potion] has too many matches."));
     assertErrorState();
+  }
+
+  @Test
+  public void itShouldHandleDifferentItems() {
+    String output;
+    var cleanups =
+        new Cleanups(Player.addItem("seal tooth", 3), Player.addItem("seal-clubbing club", 3));
+    try (cleanups) {
+      output = execute(" 1 seal tooth, 1 seal-clubbing club to buffy");
+    }
+    assertThat(output, containsString("Sending kmail to buffy..."));
+    assertContinueState();
+    var requests = getRequests();
+    assertThat(requests, not(empty()));
+    var request = requests.get(0);
+    var uri = request.uri();
+    assertThat(uri.getPath(), equalTo("/sendmessage.php"));
+    assertThat(request.method(), equalTo("POST"));
+    var body = new RequestBodyReader().bodyAsString(request);
+    assertThat(
+        body,
+        equalTo(
+            "action=send&towho=buffy&message=Keep+the+contents+of+this+message+top-sekrit%2C+ultra+hush-hush.&whichitem1=2&howmany1=1&whichitem2=1&howmany2=1"));
   }
 }
