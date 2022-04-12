@@ -265,7 +265,6 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     assertErrorState();
   }
 
-
   @Test
   public void itShouldHandleFuzzyItem() {
     String output;
