@@ -266,6 +266,17 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
+  public void itShouldAlsoRecognizeNoItem() {
+    String output;
+    var cleanups = Player.addItem("seal tooth", 3);
+    try (cleanups) {
+      output = execute("  to buffy || Wash me.");
+    }
+    assertThat(output, containsString("Sending kmail to buffy ..."));
+    assertContinueState();
+  }
+
+  @Test
   public void itShouldHandleFuzzyItem() {
     String output;
     var cleanups = Player.addItem("seal tooth", 3);

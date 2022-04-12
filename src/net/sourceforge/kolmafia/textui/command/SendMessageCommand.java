@@ -68,6 +68,19 @@ public class SendMessageCommand extends AbstractCommand {
         && (itemList.length() > 1 || message.equals(KoLConstants.DEFAULT_KMAIL))) {
       return;
     }
+    /*
+    The above does not get 100% coverage.  The below is identical, as far as I can figure, and does get
+    full coverage.  Something is wrong.  My assertion of equivalence?  Jacoco?
+    if (attachments.length == 0) {
+      if (message.equals(KoLConstants.DEFAULT_KMAIL)) {
+        return;
+      } else {
+        if (itemList.length() > 1) {
+          return;
+        }
+      }
+    }
+     */
 
     long meatAmount = 0;
     ArrayList<AdventureResult> attachmentList = new ArrayList<>();
