@@ -344,9 +344,9 @@ public abstract class BastilleBattalionManager {
     DRAFTSMAN("Draftsman", 2, Upgrade.DRAWBRIDGE, 0, 3, 0, 3, 0, 3),
     ART_NOUVEAU("Art Nouveau", 3, Upgrade.DRAWBRIDGE, 0, 0, 0, 0, 2, 2),
 
-    CANNON("Cannon", 1, Upgrade.MURDER_HOLES, 2, 1, 0, 0, 0, 1),
-    CATAPULT("Catapult", 2, Upgrade.MURDER_HOLES, 0, 1, 1, 1, 0, 0),
-    GESTURE("Gesture", 3, Upgrade.MURDER_HOLES, 0, 0, 0, 1, 1, 1);
+    CANNON("Cannon", 1, Upgrade.MURDER_HOLES, 2, 1, 0, 0, 1, 1),
+    CATAPULT("Catapult", 2, Upgrade.MURDER_HOLES, 0, 1, 1, 1, 1, 0),
+    GESTURE("Gesture", 3, Upgrade.MURDER_HOLES, 0, 0, 0, 1, 2, 1);
 
     private Upgrade upgrade;
     private String image;
@@ -652,8 +652,7 @@ public abstract class BastilleBattalionManager {
       Pattern.compile(
           "<img style='(.*?top: (\\d+).*?; left: (\\d+).*?;.*?)'[^>]*otherimages/bbatt/([^>]*)>");
 
-  // Yes. the x-offset for Psychological is 1 pixel higher.
-  public static final Stats PIXELS = new Stats(124, 240, 124, 240, 125, 240);
+  public static final Stats PIXELS = new Stats(124, 240, 124, 240, 124, 240);
 
   private static void parseNeedle(String topString, String leftString) {
     int top = StringUtilities.parseInt(topString);
