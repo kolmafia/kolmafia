@@ -173,4 +173,94 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
         body,
         equalTo("action=send&towho=buffy+&message=This+is+Blackmail%21%21%21&sendmeat=3000000000"));
   }
+
+  @Test
+  public void itShouldRequireCsendForMeat() {
+    String output;
+    this.command = "send";
+    var cleanups = Player.setMeat(1000000);
+    try (cleanups) {
+      output = execute(" 1000000 meat to buffy");
+    }
+    assertThat(output, containsString("Please use 'csend' if you need to transfer meat."));
+    assertErrorState();
+    this.command = "csend";
+  }
+
+  @Test
+  public void itShouldSendThingsBesidesMeat() {
+    String output;
+    var cleanups = Player.addItem("seal tooth", 3);
+    try (cleanups) {
+      output = execute(" 1 seal tooth to buffy");
+    }
+    assertThat(output, containsString("Sending kmail to buffy..."));
+    assertContinueState();
+    var requests = getRequests();
+    assertThat(requests, not(empty()));
+    var request = requests.get(0);
+    var uri = request.uri();
+    assertThat(uri.getPath(), equalTo("/sendmessage.php"));
+    assertThat(request.method(), equalTo("POST"));
+    var body = new RequestBodyReader().bodyAsString(request);
+    assertThat(
+        body,
+        equalTo(
+            "action=send&towho=buffy&message=Keep+the+contents+of+this+message+top-sekrit%2C+ultra+hush-hush.&whichitem1=2&howmany1=1"));
+  }
+
+  @Test
+  public void itShouldParseItemCount() {
+    String output;
+    var cleanups = Player.addItem("seal tooth", 3);
+    try (cleanups) {
+      output = execute(" seal tooth to buffy");
+    }
+    assertThat(output, containsString("Sending kmail to buffy..."));
+    assertContinueState();
+    var requests = getRequests();
+    assertThat(requests, not(empty()));
+    var request = requests.get(0);
+    var uri = request.uri();
+    assertThat(uri.getPath(), equalTo("/sendmessage.php"));
+    assertThat(request.method(), equalTo("POST"));
+    var body = new RequestBodyReader().bodyAsString(request);
+    assertThat(
+        body,
+        equalTo(
+            "action=send&towho=buffy&message=Keep+the+contents+of+this+message+top-sekrit%2C+ultra+hush-hush.&whichitem1=2&howmany1=1"));
+  }
+
+  @Test
+  public void itShouldLimitItemCount() {
+    String output;
+    var cleanups = Player.addItem("seal tooth", 3);
+    try (cleanups) {
+      output = execute(" 5 seal tooth to buffy");
+    }
+    assertThat(output, containsString("[5 seal tooth] requested, but only 3 available."));
+    assertErrorState();
+  }
+
+  @Test
+  public void itShouldRecognizeItem() {
+    String output;
+    var cleanups = Player.addItem("seal tooth", 3);
+    try (cleanups) {
+      output = execute(" 1 soiled dove to buffy");
+    }
+    assertThat(output, containsString("[soiled dove] has no matches."));
+    assertErrorState();
+  }
+
+  @Test
+  public void itShouldHandleFuzzyItem() {
+    String output;
+    var cleanups = Player.addItem("seal tooth", 3);
+    try (cleanups) {
+      output = execute(" 1 potion to buffy");
+    }
+    assertThat(output, containsString("[potion] has too many matches."));
+    assertErrorState();
+  }
 }
