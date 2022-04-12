@@ -271,9 +271,10 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     var cleanups =
         new Cleanups(Player.addItem("seal tooth", 3), Player.addItem("seal-clubbing club", 3));
     try (cleanups) {
-      output = execute(" 1 seal tooth, 1 seal-clubbing club to buffy");
+      output =
+          execute(" 1 seal tooth, 1 seal-clubbing club to buffy || Signed.  Sealed.  Delivered.");
     }
-    assertThat(output, containsString("Sending kmail to buffy..."));
+    assertThat(output, containsString("Sending kmail to buffy ..."));
     assertContinueState();
     var requests = getRequests();
     assertThat(requests, not(empty()));
@@ -285,6 +286,6 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     assertThat(
         body,
         equalTo(
-            "action=send&towho=buffy&message=Keep+the+contents+of+this+message+top-sekrit%2C+ultra+hush-hush.&whichitem1=2&howmany1=1&whichitem2=1&howmany2=1"));
+            "action=send&towho=buffy+&message=Signed.++Sealed.++Delivered.&whichitem1=2&howmany1=1&whichitem2=1&howmany2=1"));
   }
 }
