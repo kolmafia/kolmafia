@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.mockStatic;
 
 import internal.helpers.Cleanups;
 import internal.helpers.Player;
@@ -11,11 +12,16 @@ import java.net.http.HttpRequest;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
 class SendMessageCommandTest extends AbstractCommandTestBase {
 
@@ -36,6 +42,39 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     GenericRequest.resetClient();
     fakeClientBuilder.client.clear();
     StaticEntity.setContinuationState(KoLConstants.MafiaState.CONTINUE);
+  }
+
+  @Nested
+  class MoodManager {
+
+    private MockedStatic<net.sourceforge.kolmafia.moods.MoodManager> mockery;
+
+    @BeforeEach
+    public void setUp() {
+      mockery = mockMoodManager();
+    }
+
+    @AfterEach
+    public void tearDown() {
+      mockery.close();
+    }
+
+    private MockedStatic<net.sourceforge.kolmafia.moods.MoodManager> mockMoodManager() {
+      var mocked = mockStatic(net.sourceforge.kolmafia.moods.MoodManager.class, Mockito.CALLS_REAL_METHODS);
+      mocked.when(net.sourceforge.kolmafia.moods.MoodManager::isExecuting).thenReturn(true);
+      return mocked;
+    }
+
+    @Test
+    public void itShouldNotSendDuringMoodSwings() {
+      String output;
+      output = execute(" 1000000 meat to buffy");
+      assertThat(
+          output,
+          containsString(
+              "Send request \" 1000000 meat to buffy\" ignored in between-battle execution."));
+      assertContinueState();
+    }
   }
 
   @Test
