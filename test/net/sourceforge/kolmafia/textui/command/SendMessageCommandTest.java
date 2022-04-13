@@ -154,6 +154,13 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
+  public void itShouldNotSendWithNoItemsAndEmptyMessage() {
+    String output;
+    output = execute("to buffy");
+    assertThat(output, not(containsString("Sending kmail")));
+  }
+
+  @Test
   public void itShouldSendAlternateMessageText() {
     String output;
     var cleanups = Player.setMeat(3000000000L);
@@ -230,6 +237,13 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
         body,
         equalTo(
             "action=send&towho=buffy&message=Keep+the+contents+of+this+message+top-sekrit%2C+ultra+hush-hush.&whichitem1=2&howmany1=1"));
+  }
+
+  @Test
+  public void itShouldNotSendItemsPlayerDoesNotHave() {
+    String output = execute(" 5 seal tooth to buffy");
+    assertThat(output, containsString("[5 seal tooth] requested, but none available."));
+    assertErrorState();
   }
 
   @Test
