@@ -142,19 +142,8 @@ public abstract class BastilleBattalionManager {
       return this;
     }
 
-    public Stats subtract(Stats stats) {
-      for (int i = 0; i < 6; ++i) {
-        this.stats[i] -= stats.stats[i];
-      }
-      return this;
-    }
-
     public Stats copy() {
       return new Stats().add(this);
-    }
-
-    public Stats diff(Stats stats) {
-      return stats.copy().subtract(this);
     }
 
     public String toStrengthString() {
@@ -304,19 +293,25 @@ public abstract class BastilleBattalionManager {
     MURDER_HOLES(3, "Murder Holes", "holes"),
     MOAT(4, "Moat", "moat");
 
-    String name;
-    String prefix;
-    int option;
+    final String name;
+    final String prefix;
+    final int option;
+    final int scale;
 
     private Upgrade(int option, String name, String prefix) {
-      this.option = option;
       this.name = name;
       this.prefix = prefix;
+      this.option = option;
       optionToUpgrade.put(this.option, this);
+      this.scale = (int) Math.pow(3, option - 1);
     }
 
     public String getPrefix() {
       return this.prefix;
+    }
+
+    public int getScale() {
+      return this.scale;
     }
 
     @Override
@@ -332,34 +327,37 @@ public abstract class BastilleBattalionManager {
   // Moxie} inspired reward at the end of your first game of the day.
 
   public static enum Style {
-    BARBECUE("Barbarian Barbecue", 1, Upgrade.BARBICAN, 3, 2, 0, 0, 0, 0),
-    BABAR("Babar", 2, Upgrade.BARBICAN, 0, 0, 2, 3, 0, 0),
-    BARBERSHOP("Barbershop", 3, Upgrade.BARBICAN, 0, 0, 0, 0, 2, 3),
+    BARBECUE("Barbarian Barbecue", 1, Upgrade.BARBICAN),
+    BABAR("Babar", 2, Upgrade.BARBICAN),
+    BARBERSHOP("Barbershop", 3, Upgrade.BARBICAN),
 
-    SHARKS("Sharks", 1, Upgrade.MOAT, 0, 1, 0, 0, 2, 0),
-    LAVA("Lava", 2, Upgrade.MOAT, 2, 0, 0, 1, 0, 0),
-    TRUTH_SERUM("Truth Serum", 3, Upgrade.MOAT, 0, 0, 2, 0, 0, 1),
+    SHARKS("Sharks", 1, Upgrade.MOAT),
+    LAVA("Lava", 2, Upgrade.MOAT),
+    TRUTH("Truth Serum", 3, Upgrade.MOAT),
 
-    BRUTALIST("Brutalist", 1, Upgrade.DRAWBRIDGE, 2, 0, 1, 0, 2, 0),
-    DRAFTSMAN("Draftsman", 2, Upgrade.DRAWBRIDGE, 0, 3, 0, 3, 0, 3),
-    ART_NOUVEAU("Art Nouveau", 3, Upgrade.DRAWBRIDGE, 0, 0, 0, 0, 2, 2),
+    BRUTALIST("Brutalist", 1, Upgrade.DRAWBRIDGE),
+    DRAFTSMAN("Draftsman", 2, Upgrade.DRAWBRIDGE),
+    NOUVEAU("Art Nouveau", 3, Upgrade.DRAWBRIDGE),
 
-    CANNON("Cannon", 1, Upgrade.MURDER_HOLES, 2, 1, 0, 0, 1, 1),
-    CATAPULT("Catapult", 2, Upgrade.MURDER_HOLES, 0, 1, 1, 1, 1, 0),
-    GESTURE("Gesture", 3, Upgrade.MURDER_HOLES, 0, 0, 0, 1, 2, 1);
+    CANNON("Cannon", 1, Upgrade.MURDER_HOLES),
+    CATAPULT("Catapult", 2, Upgrade.MURDER_HOLES),
+    GESTURE("Gesture", 3, Upgrade.MURDER_HOLES);
 
-    private Upgrade upgrade;
-    private String image;
-    private Stats stats;
-    private String name;
+    private final Upgrade upgrade;
+    private final String image;
+    private final String name;
+    private final int scaledIndex;
 
-    private Style(String name, int index, Upgrade upgrade, int... stats) {
+    private Style(String name, int index, Upgrade upgrade) {
       this.upgrade = upgrade;
       this.image = upgrade.getPrefix() + index + ".png";
-      assert (stats.length == 6);
-      this.stats = new Stats(stats);
       this.name = upgrade + " " + name;
       imageToStyle.put(this.image, this);
+      this.scaledIndex = (index - 1) * upgrade.getScale();
+    }
+
+    public int getScaledIndex() {
+      return scaledIndex;
     }
 
     @Override
@@ -370,10 +368,129 @@ public abstract class BastilleBattalionManager {
     public void apply() {
       currentStyles.put(this.upgrade, this);
     }
+  }
 
-    public void apply(Stats stats) {
-      stats.add(this.stats);
-    }
+  // *** Style Sets
+
+  // I experimented a lot transitioning between one upgrade and another and observing
+  // how my stat bonuses changed.
+  //
+  // It turns out that those values depend on what the other upgrades happen to be;
+  // the same upgrade swap might grant +1 or +2 Castle Attack, say, depending on which
+  // other upgrades are in place.
+  //
+  // There are three Styles for each of four Upgrades, so there are a total of 81 = (3 ^ 4)
+  // configurations.
+  //
+  // We'll number them from 0 - 80.
+
+  public static int stylesToKey(Style... styles) {
+    assert styles.length == 4;
+    return Arrays.stream(styles).mapToInt(style -> style.getScaledIndex()).sum();
+  }
+
+  private static final Map<Integer, Stats> styleSetToStats = new TreeMap<>();
+
+  private static void addStyleSet(Style s1, Style s2, Style s3, Style s4, int... stats) {
+    assert stats.length == 6;
+    int key = stylesToKey(s1, s2, s3, s4);
+    assert !styleSetToStats.containsKey(key);
+    Stats value = new Stats(stats);
+    styleSetToStats.put(key, value);
+  }
+
+  static {
+    addStyleSet(Style.BABAR, Style.BRUTALIST, Style.CANNON, Style.SHARKS, 3, 3, 4, 3, 3, 1);
+    addStyleSet(Style.BABAR, Style.BRUTALIST, Style.CANNON, Style.LAVA, 4, 1, 4, 4, 2, 1);
+    addStyleSet(Style.BABAR, Style.BRUTALIST, Style.CANNON, Style.TRUTH, 3, 1, 6, 3, 2, 3);
+    addStyleSet(Style.BABAR, Style.BRUTALIST, Style.CATAPULT, Style.SHARKS, 2, 3, 6, 4, 3, 0);
+    addStyleSet(Style.BABAR, Style.BRUTALIST, Style.CATAPULT, Style.LAVA, 3, 1, 6, 5, 2, 0);
+    addStyleSet(Style.BABAR, Style.BRUTALIST, Style.CATAPULT, Style.TRUTH, 2, 1, 7, 4, 2, 1);
+    addStyleSet(Style.BABAR, Style.BRUTALIST, Style.GESTURE, Style.SHARKS, 2, 1, 4, 4, 4, 1);
+    addStyleSet(Style.BABAR, Style.BRUTALIST, Style.GESTURE, Style.LAVA, 3, 0, 4, 5, 3, 1);
+    addStyleSet(Style.BABAR, Style.BRUTALIST, Style.GESTURE, Style.TRUTH, 2, 0, 6, 4, 3, 3);
+
+    addStyleSet(Style.BABAR, Style.DRAFTSMAN, Style.CANNON, Style.SHARKS, 2, 5, 3, 5, 2, 4);
+    addStyleSet(Style.BABAR, Style.DRAFTSMAN, Style.CANNON, Style.LAVA, 3, 4, 3, 7, 0, 4);
+    addStyleSet(Style.BABAR, Style.DRAFTSMAN, Style.CANNON, Style.TRUTH, 2, 4, 4, 5, 0, 5);
+    addStyleSet(Style.BABAR, Style.DRAFTSMAN, Style.CATAPULT, Style.SHARKS, 0, 5, 4, 7, 2, 3);
+    addStyleSet(Style.BABAR, Style.DRAFTSMAN, Style.CATAPULT, Style.LAVA, 2, 4, 4, 8, 0, 3);
+    addStyleSet(Style.BABAR, Style.DRAFTSMAN, Style.CATAPULT, Style.TRUTH, 0, 4, 6, 7, 0, 4);
+    addStyleSet(Style.BABAR, Style.DRAFTSMAN, Style.GESTURE, Style.SHARKS, 0, 4, 3, 7, 3, 4);
+    addStyleSet(Style.BABAR, Style.DRAFTSMAN, Style.GESTURE, Style.LAVA, 2, 3, 3, 8, 2, 4);
+    addStyleSet(Style.BABAR, Style.DRAFTSMAN, Style.GESTURE, Style.TRUTH, 0, 3, 4, 7, 2, 5);
+
+    addStyleSet(Style.BABAR, Style.NOUVEAU, Style.CANNON, Style.SHARKS, 2, 3, 3, 3, 4, 3);
+    addStyleSet(Style.BABAR, Style.NOUVEAU, Style.CANNON, Style.LAVA, 3, 1, 3, 4, 2, 3);
+    addStyleSet(Style.BABAR, Style.NOUVEAU, Style.CANNON, Style.TRUTH, 2, 1, 4, 3, 2, 5);
+    addStyleSet(Style.BABAR, Style.NOUVEAU, Style.CATAPULT, Style.SHARKS, 0, 3, 4, 4, 4, 2);
+    addStyleSet(Style.BABAR, Style.NOUVEAU, Style.CATAPULT, Style.LAVA, 2, 1, 4, 5, 2, 2);
+    addStyleSet(Style.BABAR, Style.NOUVEAU, Style.CATAPULT, Style.TRUTH, 0, 1, 6, 4, 2, 3);
+    addStyleSet(Style.BABAR, Style.NOUVEAU, Style.GESTURE, Style.SHARKS, 0, 1, 3, 4, 5, 3);
+    addStyleSet(Style.BABAR, Style.NOUVEAU, Style.GESTURE, Style.LAVA, 2, 0, 3, 5, 4, 3);
+    addStyleSet(Style.BABAR, Style.NOUVEAU, Style.GESTURE, Style.TRUTH, 0, 0, 4, 4, 4, 5);
+
+    addStyleSet(Style.BARBECUE, Style.BRUTALIST, Style.CANNON, Style.SHARKS, 6, 5, 2, 0, 3, 1);
+    addStyleSet(Style.BARBECUE, Style.BRUTALIST, Style.CANNON, Style.LAVA, 7, 4, 2, 1, 2, 1);
+    addStyleSet(Style.BARBECUE, Style.BRUTALIST, Style.CANNON, Style.TRUTH, 6, 4, 3, 0, 2, 3);
+    addStyleSet(Style.BARBECUE, Style.BRUTALIST, Style.CATAPULT, Style.SHARKS, 4, 5, 3, 1, 3, 0);
+    addStyleSet(Style.BARBECUE, Style.BRUTALIST, Style.CATAPULT, Style.LAVA, 6, 4, 3, 3, 2, 0);
+    addStyleSet(Style.BARBECUE, Style.BRUTALIST, Style.CATAPULT, Style.TRUTH, 4, 4, 4, 1, 2, 1);
+    addStyleSet(Style.BARBECUE, Style.BRUTALIST, Style.GESTURE, Style.SHARKS, 4, 4, 2, 1, 4, 1);
+    addStyleSet(Style.BARBECUE, Style.BRUTALIST, Style.GESTURE, Style.LAVA, 6, 3, 2, 3, 3, 1);
+    addStyleSet(Style.BARBECUE, Style.BRUTALIST, Style.GESTURE, Style.TRUTH, 4, 3, 3, 1, 3, 3);
+
+    addStyleSet(Style.BARBECUE, Style.DRAFTSMAN, Style.CANNON, Style.SHARKS, 4, 8, 0, 3, 2, 4);
+    addStyleSet(Style.BARBECUE, Style.DRAFTSMAN, Style.CANNON, Style.LAVA, 6, 7, 0, 4, 0, 4);
+    addStyleSet(Style.BARBECUE, Style.DRAFTSMAN, Style.CANNON, Style.TRUTH, 4, 7, 2, 3, 0, 5);
+    addStyleSet(Style.BARBECUE, Style.DRAFTSMAN, Style.CATAPULT, Style.SHARKS, 3, 8, 2, 4, 2, 3);
+    addStyleSet(Style.BARBECUE, Style.DRAFTSMAN, Style.CATAPULT, Style.LAVA, 4, 7, 2, 5, 0, 3);
+    addStyleSet(Style.BARBECUE, Style.DRAFTSMAN, Style.CATAPULT, Style.TRUTH, 3, 7, 3, 4, 0, 4);
+    addStyleSet(Style.BARBECUE, Style.DRAFTSMAN, Style.GESTURE, Style.SHARKS, 3, 7, 0, 4, 3, 4);
+    addStyleSet(Style.BARBECUE, Style.DRAFTSMAN, Style.GESTURE, Style.LAVA, 4, 5, 0, 5, 2, 4);
+    addStyleSet(Style.BARBECUE, Style.DRAFTSMAN, Style.GESTURE, Style.TRUTH, 3, 5, 2, 4, 2, 5);
+
+    addStyleSet(Style.BARBECUE, Style.NOUVEAU, Style.CANNON, Style.SHARKS, 4, 5, 0, 0, 4, 3);
+    addStyleSet(Style.BARBECUE, Style.NOUVEAU, Style.CANNON, Style.LAVA, 6, 4, 0, 1, 2, 3);
+    addStyleSet(Style.BARBECUE, Style.NOUVEAU, Style.CANNON, Style.TRUTH, 4, 4, 2, 0, 2, 5);
+    addStyleSet(Style.BARBECUE, Style.NOUVEAU, Style.CATAPULT, Style.SHARKS, 3, 5, 2, 1, 4, 2);
+    addStyleSet(Style.BARBECUE, Style.NOUVEAU, Style.CATAPULT, Style.LAVA, 4, 4, 2, 3, 2, 2);
+    addStyleSet(Style.BARBECUE, Style.NOUVEAU, Style.CATAPULT, Style.TRUTH, 3, 4, 3, 1, 2, 3);
+    addStyleSet(Style.BARBECUE, Style.NOUVEAU, Style.GESTURE, Style.SHARKS, 3, 4, 0, 1, 5, 3);
+    addStyleSet(Style.BARBECUE, Style.NOUVEAU, Style.GESTURE, Style.LAVA, 4, 3, 0, 3, 4, 3);
+    addStyleSet(Style.BARBECUE, Style.NOUVEAU, Style.GESTURE, Style.TRUTH, 3, 3, 2, 1, 4, 5);
+
+    addStyleSet(Style.BARBERSHOP, Style.BRUTALIST, Style.CANNON, Style.SHARKS, 3, 3, 2, 0, 6, 4);
+    addStyleSet(Style.BARBERSHOP, Style.BRUTALIST, Style.CANNON, Style.LAVA, 4, 1, 2, 1, 4, 4);
+    addStyleSet(Style.BARBERSHOP, Style.BRUTALIST, Style.CANNON, Style.TRUTH, 3, 1, 3, 0, 4, 5);
+    addStyleSet(Style.BARBERSHOP, Style.BRUTALIST, Style.CATAPULT, Style.SHARKS, 2, 3, 3, 1, 6, 3);
+    addStyleSet(Style.BARBERSHOP, Style.BRUTALIST, Style.CATAPULT, Style.LAVA, 3, 1, 3, 3, 4, 3);
+    addStyleSet(Style.BARBERSHOP, Style.BRUTALIST, Style.CATAPULT, Style.TRUTH, 2, 1, 4, 1, 4, 4);
+    addStyleSet(Style.BARBERSHOP, Style.BRUTALIST, Style.GESTURE, Style.SHARKS, 2, 1, 2, 1, 7, 4);
+    addStyleSet(Style.BARBERSHOP, Style.BRUTALIST, Style.GESTURE, Style.LAVA, 3, 0, 2, 3, 6, 4);
+    addStyleSet(Style.BARBERSHOP, Style.BRUTALIST, Style.GESTURE, Style.TRUTH, 2, 0, 3, 1, 6, 5);
+
+    addStyleSet(Style.BARBERSHOP, Style.DRAFTSMAN, Style.CANNON, Style.SHARKS, 2, 5, 0, 3, 4, 7);
+    addStyleSet(Style.BARBERSHOP, Style.DRAFTSMAN, Style.CANNON, Style.LAVA, 3, 4, 0, 4, 3, 7);
+    addStyleSet(Style.BARBERSHOP, Style.DRAFTSMAN, Style.CANNON, Style.TRUTH, 2, 4, 2, 3, 3, 8);
+    addStyleSet(Style.BARBERSHOP, Style.DRAFTSMAN, Style.CATAPULT, Style.SHARKS, 0, 5, 2, 4, 4, 5);
+    addStyleSet(Style.BARBERSHOP, Style.DRAFTSMAN, Style.CATAPULT, Style.LAVA, 2, 4, 2, 5, 3, 5);
+    addStyleSet(Style.BARBERSHOP, Style.DRAFTSMAN, Style.CATAPULT, Style.TRUTH, 0, 4, 3, 4, 3, 7);
+    addStyleSet(Style.BARBERSHOP, Style.DRAFTSMAN, Style.GESTURE, Style.SHARKS, 0, 4, 0, 4, 6, 7);
+    addStyleSet(Style.BARBERSHOP, Style.DRAFTSMAN, Style.GESTURE, Style.LAVA, 2, 3, 0, 5, 4, 7);
+    addStyleSet(Style.BARBERSHOP, Style.DRAFTSMAN, Style.GESTURE, Style.TRUTH, 0, 3, 2, 4, 4, 8);
+
+    addStyleSet(Style.BARBERSHOP, Style.NOUVEAU, Style.CANNON, Style.SHARKS, 2, 3, 0, 0, 6, 6);
+    addStyleSet(Style.BARBERSHOP, Style.NOUVEAU, Style.CANNON, Style.LAVA, 3, 1, 0, 1, 5, 6);
+    addStyleSet(Style.BARBERSHOP, Style.NOUVEAU, Style.CANNON, Style.TRUTH, 2, 1, 2, 0, 5, 7);
+    addStyleSet(Style.BARBERSHOP, Style.NOUVEAU, Style.CATAPULT, Style.SHARKS, 0, 3, 2, 1, 6, 5);
+    addStyleSet(Style.BARBERSHOP, Style.NOUVEAU, Style.CATAPULT, Style.LAVA, 2, 1, 2, 3, 5, 5);
+    addStyleSet(Style.BARBERSHOP, Style.NOUVEAU, Style.CATAPULT, Style.TRUTH, 0, 1, 3, 1, 5, 6);
+    addStyleSet(Style.BARBERSHOP, Style.NOUVEAU, Style.GESTURE, Style.SHARKS, 0, 1, 0, 1, 8, 6);
+    addStyleSet(Style.BARBERSHOP, Style.NOUVEAU, Style.GESTURE, Style.LAVA, 2, 0, 0, 3, 6, 6);
+    addStyleSet(Style.BARBERSHOP, Style.NOUVEAU, Style.GESTURE, Style.TRUTH, 0, 0, 2, 1, 6, 7);
+
+    assert styleSetToStats.size() == 81;
   }
 
   // *** Cached state. This resets when you visit the Bastille Battalion
@@ -537,8 +654,8 @@ public abstract class BastilleBattalionManager {
   }
 
   static {
-    // This forces the Style enum to be initialized, which will populate
-    // all the various sets and maps from the constructors.
+    // This forces the enums to be initialized, which will populate
+    // the various sets and maps initialized in the constructors.
     Style[] styles = Style.values();
     Castle[] castles = Castle.values();
     Stance[] stances = Stance.values();
@@ -562,19 +679,7 @@ public abstract class BastilleBattalionManager {
     }
   }
 
-  public static boolean debugStats = false;
-
-  private static Stats logStatsDiff(Stats old, Stats updated) {
-    Stats diff = old.diff(updated);
-    if (debugStats) {
-      System.out.println("old: " + generateSetting(old));
-      System.out.println("new: " + generateSetting(updated));
-      System.out.println("diff: " + generateSetting(diff));
-    }
-    return diff;
-  }
-
-  public static String generateSetting(Stats stats) {
+  public static String generateStatSetting(Stats stats) {
     String value =
         Arrays.stream(Stat.values())
             .map(stat -> stat.name() + "=" + stats.get(stat))
@@ -583,7 +688,7 @@ public abstract class BastilleBattalionManager {
   }
 
   private static void saveStats(Stats stats) {
-    String value = generateSetting(stats);
+    String value = generateStatSetting(stats);
     Preferences.setString("_bastilleStats", value);
   }
 
@@ -677,7 +782,6 @@ public abstract class BastilleBattalionManager {
   }
 
   public static void parseStyles(String text) {
-    Stats old = currentStats.copy();
     currentStats.clear();
     Matcher matcher = IMAGE_PATTERN.matcher(text);
     while (matcher.find()) {
@@ -692,13 +796,11 @@ public abstract class BastilleBattalionManager {
         continue;
       }
     }
-    logStatsDiff(old, currentStats);
     saveStyles(currentStyles);
     saveStats(currentStats);
   }
 
   public static void parseNeedles(String text) {
-    Stats old = currentStats.copy();
     currentStats.clear();
     Matcher matcher = IMAGE_PATTERN.matcher(text);
     while (matcher.find()) {
@@ -708,7 +810,6 @@ public abstract class BastilleBattalionManager {
       }
       parseNeedle(matcher.group(2), matcher.group(3));
     }
-    logStatsDiff(old, currentStats);
     saveStats(currentStats);
   }
 
@@ -890,27 +991,14 @@ public abstract class BastilleBattalionManager {
     return currentStats.get(stat);
   }
 
-  public static Stats getCurrentStats() {
-    Stats stats = new Stats();
-    for (Style style : currentStyles.values()) {
-      style.apply(stats);
-    }
-    return stats;
-  }
-
-  private static boolean checkStat(Stats stats, Stat stat) {
-    int calculated = stats.get(stat);
-    int expected = currentStats.get(stat);
-    if (calculated == expected) {
-      return true;
-    }
-    String message = stat + " was calculated to be " + calculated + " but is actually " + expected;
-    logLine(message);
-    return false;
-  }
-
   public static boolean checkPredictions() {
-    return checkPredictions(getCurrentStats());
+    return checkPredictions(getPredictedStats());
+  }
+
+  public static Stats getPredictedStats() {
+    Style[] styles = new Style[4];
+    int key = stylesToKey(currentStyles.values().toArray(styles));
+    return styleSetToStats.get(key);
   }
 
   public static boolean checkPredictions(Stats stats) {
@@ -922,6 +1010,17 @@ public abstract class BastilleBattalionManager {
     retval &= checkStat(stats, Stat.PA);
     retval &= checkStat(stats, Stat.PD);
     return retval;
+  }
+
+  private static boolean checkStat(Stats stats, Stat stat) {
+    int calculated = stats.get(stat);
+    int expected = currentStats.get(stat);
+    if (calculated == expected) {
+      return true;
+    }
+    String message = stat + " was calculated to be " + calculated + " but is actually " + expected;
+    logLine(message);
+    return false;
   }
 
   // *** Interface for AdventureRequest.parseChoiceEncounter
@@ -1015,6 +1114,7 @@ public abstract class BastilleBattalionManager {
         if (decision >= 1 && decision <= 4) {
           parseStyles(text);
           logLine(currentStyles.get(optionToUpgrade.get(decision)).toString());
+          checkPredictions();
           logStrength();
         } else if (decision == 5) {
           // Your stats reset to those provided by your styles at the start of
