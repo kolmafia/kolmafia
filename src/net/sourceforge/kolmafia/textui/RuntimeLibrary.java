@@ -8135,7 +8135,8 @@ public abstract class RuntimeLibrary {
     for (var permedSkill : KoLConstants.permedSkills) {
       var skill = DataTypes.makeSkillValue(permedSkill.getSkillId(), true);
       var hardcore =
-          DataTypes.makeBooleanValue(KoLConstants.hardcorePermedSkills.contains(permedSkill));
+          DataTypes.makeBooleanValue(
+              KoLConstants.hardcorePermedSkills.contains(permedSkill.getSkillId()));
       value.aset(skill, hardcore);
     }
     return value;

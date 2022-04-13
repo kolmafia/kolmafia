@@ -3703,7 +3703,7 @@ public abstract class KoLCharacter {
     KoLConstants.permedSkills.addAll(newSkillSet);
   }
 
-  public static final void setHardcorePermedSkills(final List<UseSkillRequest> newSkillSet) {
+  public static final void setHardcorePermedSkills(final Set<Integer> newSkillSet) {
     KoLConstants.hardcorePermedSkills.clear();
 
     KoLConstants.hardcorePermedSkills.addAll(newSkillSet);
