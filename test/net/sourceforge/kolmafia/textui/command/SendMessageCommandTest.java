@@ -77,6 +77,44 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     }
   }
 
+  @Nested
+  class Send {
+
+    @BeforeEach
+    public void setUp() {
+      command = "send";
+    }
+
+    @AfterEach
+    public void tearDown() {
+      command = "csend";
+    }
+
+    @Test
+    public void itShouldRequireCsendForMeat() {
+      String output;
+      var cleanups = Player.setMeat(1000000);
+      try (cleanups) {
+        output = execute(" 1000000 meat to buffy");
+      }
+      assertThat(output, containsString("Please use 'csend' if you need to transfer meat."));
+      assertErrorState();
+    }
+
+    @Test
+    public void itShouldNotRequireCsendForItems() {
+      String output;
+      var cleanups = Player.addItem("seal tooth", 3);
+      try (cleanups) {
+        output = execute(" 1 seal tooth to buffy");
+      }
+      assertThat(output, containsString("Sending kmail to buffy..."));
+      assertContinueState();
+      var requests = getRequests();
+      assertThat(requests, not(empty()));
+    }
+  }
+
   @Test
   public void itShouldSendMeatWithOutCommas() {
     String output;
@@ -219,19 +257,6 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     assertThat(
         body,
         equalTo("action=send&towho=buffy+&message=This+is+Blackmail%21%21%21&sendmeat=3000000000"));
-  }
-
-  @Test
-  public void itShouldRequireCsendForMeat() {
-    String output;
-    this.command = "send";
-    var cleanups = Player.setMeat(1000000);
-    try (cleanups) {
-      output = execute(" 1000000 meat to buffy");
-    }
-    assertThat(output, containsString("Please use 'csend' if you need to transfer meat."));
-    assertErrorState();
-    this.command = "csend";
   }
 
   @Test
