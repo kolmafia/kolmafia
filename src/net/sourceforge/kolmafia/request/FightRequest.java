@@ -4151,7 +4151,7 @@ public class FightRequest extends GenericRequest {
           }
           break;
 
-          case FamiliarPool.ROBORTENDER:
+        case FamiliarPool.ROBORTENDER:
           String[] robortDropMessages =
               new String[] {
                 "Allow Me To Recommend A Local Specialty",
@@ -4175,7 +4175,7 @@ public class FightRequest extends GenericRequest {
             if (!responseText.contains(s)) continue;
             Preferences.increment("_robortDrops", 1);
             break;
-
+          }
       }
 
       if (KoLCharacter.inRaincore()) {
