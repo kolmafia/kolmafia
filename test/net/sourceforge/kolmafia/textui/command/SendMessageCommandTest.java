@@ -12,7 +12,6 @@ import java.net.http.HttpRequest;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
@@ -60,7 +59,8 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     }
 
     private MockedStatic<net.sourceforge.kolmafia.moods.MoodManager> mockMoodManager() {
-      var mocked = mockStatic(net.sourceforge.kolmafia.moods.MoodManager.class, Mockito.CALLS_REAL_METHODS);
+      var mocked =
+          mockStatic(net.sourceforge.kolmafia.moods.MoodManager.class, Mockito.CALLS_REAL_METHODS);
       mocked.when(net.sourceforge.kolmafia.moods.MoodManager::isExecuting).thenReturn(true);
       return mocked;
     }
