@@ -4152,7 +4152,7 @@ public class FightRequest extends GenericRequest {
           break;
 
         case FamiliarPool.ROBORTENDER:
-          String[] robortDropMessages =
+          String[] roboDropMessages =
               new String[] {
                 "Allow Me To Recommend A Local Specialty",
                 "Perhaps You Would Enjoy A Drink Relevant To The Current Circumstances",
@@ -4171,9 +4171,9 @@ public class FightRequest extends GenericRequest {
                 "How About This Weather We're Having, Eh"
               };
 
-          for (String s : robortDropMessages) {
+          for (String s : roboDropMessages) {
             if (!responseText.contains(s)) continue;
-            Preferences.increment("_robortDrops", 1);
+            Preferences.increment("_roboDrops", 1);
             break;
           }
       }

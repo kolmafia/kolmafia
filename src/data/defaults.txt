@@ -1943,7 +1943,7 @@ user	_resolutionRareSummons	0
 user	_rhinestonesAcquired	false
 user	_riftletAdv	0
 user	_roboDrinks
-user	_robortDrops	0
+user	_roboDrops	0
 user	_rogueProgramCharge	0
 user	_romanticFightsLeft	0
 user	_roninStoragePulls	

@@ -516,18 +516,18 @@ public class FightRequestTest {
 
   // Robort drop tracking preference tests
   @Test
-  public void canTrackRobortDrops() throws IOException {
+  public void canTrackRoboDrops() throws IOException {
     FamiliarData fam = new FamiliarData(FamiliarPool.ROBORTENDER);
     KoLCharacter.setFamiliar(fam);
 
-    assertEquals(0, Preferences.getInteger("_robortDrops"));
+    assertEquals(0, Preferences.getInteger("_roboDrops"));
     parseCombatData("request/test_fight_robort_drops_1.html");
-    assertEquals(1, Preferences.getInteger("_robortDrops"));
+    assertEquals(1, Preferences.getInteger("_roboDrops"));
 
-    Preferences.setInteger("_robortDrops", 0);
+    Preferences.setInteger("_roboDrops", 0);
 
-    assertEquals(0, Preferences.getInteger("_robortDrops"));
+    assertEquals(0, Preferences.getInteger("_roboDrops"));
     parseCombatData("request/test_fight_robort_drops_2.html");
-    assertEquals(0, Preferences.getInteger("_robortDrops"));
+    assertEquals(0, Preferences.getInteger("_roboDrops"));
   }
 }
