@@ -582,7 +582,8 @@ public interface KoLConstants extends UtilityConstants {
   List<Integer> availableCombatSkillsList = new ArrayList<>();
   Set<Integer> availableCombatSkillsSet = new HashSet<>();
   List<UseSkillRequest> permedSkills = LockableListFactory.getInstance(UseSkillRequest.class);
-  List<UseSkillRequest> hardcorePermedSkills = LockableListFactory.getInstance(UseSkillRequest.class);
+  List<UseSkillRequest> hardcorePermedSkills =
+      LockableListFactory.getInstance(UseSkillRequest.class);
   List<UseSkillRequest> combatSkills = LockableListFactory.getInstance(UseSkillRequest.class);
 
   List<AdventureResult> activeEffects = LockableListFactory.getInstance(AdventureResult.class);
