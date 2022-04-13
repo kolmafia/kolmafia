@@ -103,8 +103,7 @@ public class BastilleBattalionManagerTest {
     ChoiceManager.lastChoice = 1313;
     BastilleBattalionManager.visitChoice(request);
     assertEquals(
-        "BARBERSHOP,DRAFTSMAN,GESTURE,TRUTH_SERUM",
-        Preferences.getString("_bastilleCurrentStyles"));
+        "BARBERSHOP,DRAFTSMAN,GESTURE,TRUTH", Preferences.getString("_bastilleCurrentStyles"));
     assertEquals("MA=0,MD=3,CA=2,CD=4,PA=4,PD=8", Preferences.getString("_bastilleStats"));
     assertTrue(BastilleBattalionManager.checkPredictions());
 
@@ -118,7 +117,7 @@ public class BastilleBattalionManagerTest {
     ChoiceManager.lastDecision = 1;
     BastilleBattalionManager.postChoice1(urlString, request);
     assertEquals(
-        "BARBECUE,DRAFTSMAN,GESTURE,TRUTH_SERUM", Preferences.getString("_bastilleCurrentStyles"));
+        "BARBECUE,DRAFTSMAN,GESTURE,TRUTH", Preferences.getString("_bastilleCurrentStyles"));
     assertEquals("MA=3,MD=5,CA=2,CD=4,PA=2,PD=5", Preferences.getString("_bastilleStats"));
     assertTrue(BastilleBattalionManager.checkPredictions());
 
@@ -131,8 +130,7 @@ public class BastilleBattalionManagerTest {
     ChoiceManager.lastChoice = 1313;
     ChoiceManager.lastDecision = 1;
     BastilleBattalionManager.postChoice1(urlString, request);
-    assertEquals(
-        "BABAR,DRAFTSMAN,GESTURE,TRUTH_SERUM", Preferences.getString("_bastilleCurrentStyles"));
+    assertEquals("BABAR,DRAFTSMAN,GESTURE,TRUTH", Preferences.getString("_bastilleCurrentStyles"));
     assertEquals("MA=0,MD=3,CA=4,CD=7,PA=2,PD=5", Preferences.getString("_bastilleStats"));
     assertTrue(BastilleBattalionManager.checkPredictions());
 
@@ -146,8 +144,7 @@ public class BastilleBattalionManagerTest {
     ChoiceManager.lastDecision = 1;
     BastilleBattalionManager.postChoice1(urlString, request);
     assertEquals(
-        "BARBERSHOP,DRAFTSMAN,GESTURE,TRUTH_SERUM",
-        Preferences.getString("_bastilleCurrentStyles"));
+        "BARBERSHOP,DRAFTSMAN,GESTURE,TRUTH", Preferences.getString("_bastilleCurrentStyles"));
     assertEquals("MA=0,MD=3,CA=2,CD=4,PA=4,PD=8", Preferences.getString("_bastilleStats"));
     assertTrue(BastilleBattalionManager.checkPredictions());
 
@@ -161,8 +158,7 @@ public class BastilleBattalionManagerTest {
     ChoiceManager.lastDecision = 2;
     BastilleBattalionManager.postChoice1(urlString, request);
     assertEquals(
-        "BARBERSHOP,ART_NOUVEAU,GESTURE,TRUTH_SERUM",
-        Preferences.getString("_bastilleCurrentStyles"));
+        "BARBERSHOP,NOUVEAU,GESTURE,TRUTH", Preferences.getString("_bastilleCurrentStyles"));
     assertEquals("MA=0,MD=0,CA=2,CD=1,PA=6,PD=7", Preferences.getString("_bastilleStats"));
     assertTrue(BastilleBattalionManager.checkPredictions());
 
@@ -176,8 +172,7 @@ public class BastilleBattalionManagerTest {
     ChoiceManager.lastDecision = 2;
     BastilleBattalionManager.postChoice1(urlString, request);
     assertEquals(
-        "BARBERSHOP,BRUTALIST,GESTURE,TRUTH_SERUM",
-        Preferences.getString("_bastilleCurrentStyles"));
+        "BARBERSHOP,BRUTALIST,GESTURE,TRUTH", Preferences.getString("_bastilleCurrentStyles"));
     assertEquals("MA=2,MD=0,CA=3,CD=1,PA=6,PD=5", Preferences.getString("_bastilleStats"));
     assertTrue(BastilleBattalionManager.checkPredictions());
 
@@ -191,8 +186,7 @@ public class BastilleBattalionManagerTest {
     ChoiceManager.lastDecision = 2;
     BastilleBattalionManager.postChoice1(urlString, request);
     assertEquals(
-        "BARBERSHOP,DRAFTSMAN,GESTURE,TRUTH_SERUM",
-        Preferences.getString("_bastilleCurrentStyles"));
+        "BARBERSHOP,DRAFTSMAN,GESTURE,TRUTH", Preferences.getString("_bastilleCurrentStyles"));
     assertEquals("MA=0,MD=3,CA=2,CD=4,PA=4,PD=8", Preferences.getString("_bastilleStats"));
     assertTrue(BastilleBattalionManager.checkPredictions());
 
@@ -206,7 +200,7 @@ public class BastilleBattalionManagerTest {
     ChoiceManager.lastDecision = 3;
     BastilleBattalionManager.postChoice1(urlString, request);
     assertEquals(
-        "BARBERSHOP,DRAFTSMAN,CANNON,TRUTH_SERUM", Preferences.getString("_bastilleCurrentStyles"));
+        "BARBERSHOP,DRAFTSMAN,CANNON,TRUTH", Preferences.getString("_bastilleCurrentStyles"));
     assertEquals("MA=2,MD=4,CA=2,CD=3,PA=3,PD=8", Preferences.getString("_bastilleStats"));
     assertTrue(BastilleBattalionManager.checkPredictions());
 
@@ -220,8 +214,7 @@ public class BastilleBattalionManagerTest {
     ChoiceManager.lastDecision = 3;
     BastilleBattalionManager.postChoice1(urlString, request);
     assertEquals(
-        "BARBERSHOP,DRAFTSMAN,CATAPULT,TRUTH_SERUM",
-        Preferences.getString("_bastilleCurrentStyles"));
+        "BARBERSHOP,DRAFTSMAN,CATAPULT,TRUTH", Preferences.getString("_bastilleCurrentStyles"));
     assertEquals("MA=0,MD=4,CA=3,CD=4,PA=3,PD=7", Preferences.getString("_bastilleStats"));
     assertTrue(BastilleBattalionManager.checkPredictions());
 
@@ -235,8 +228,7 @@ public class BastilleBattalionManagerTest {
     ChoiceManager.lastDecision = 3;
     BastilleBattalionManager.postChoice1(urlString, request);
     assertEquals(
-        "BARBERSHOP,DRAFTSMAN,GESTURE,TRUTH_SERUM",
-        Preferences.getString("_bastilleCurrentStyles"));
+        "BARBERSHOP,DRAFTSMAN,GESTURE,TRUTH", Preferences.getString("_bastilleCurrentStyles"));
     assertEquals("MA=0,MD=3,CA=2,CD=4,PA=4,PD=8", Preferences.getString("_bastilleStats"));
     assertTrue(BastilleBattalionManager.checkPredictions());
 
@@ -278,8 +270,7 @@ public class BastilleBattalionManagerTest {
     ChoiceManager.lastDecision = 4;
     BastilleBattalionManager.postChoice1(urlString, request);
     assertEquals(
-        "BARBERSHOP,DRAFTSMAN,GESTURE,TRUTH_SERUM",
-        Preferences.getString("_bastilleCurrentStyles"));
+        "BARBERSHOP,DRAFTSMAN,GESTURE,TRUTH", Preferences.getString("_bastilleCurrentStyles"));
     assertEquals("MA=0,MD=3,CA=2,CD=4,PA=4,PD=8", Preferences.getString("_bastilleStats"));
     assertTrue(BastilleBattalionManager.checkPredictions());
   }
