@@ -291,6 +291,7 @@ public class CharSheetRequest extends GenericRequest {
     // information)" which is not really a skill.
     List<UseSkillRequest> newSkillSet = new ArrayList<>();
     List<UseSkillRequest> permedSkillSet = new ArrayList<>();
+    List<UseSkillRequest> hardcorePermedSkillSet = new ArrayList<>();
 
     List<ParsedSkillInfo> parsedSkillInfos = parseSkills(doc);
     for (ParsedSkillInfo skillInfo : parsedSkillInfos) {
@@ -332,9 +333,12 @@ public class CharSheetRequest extends GenericRequest {
         newSkillSet.add(currentSkill);
       }
 
-      if (skillInfo.permStatus == ParsedSkillInfo.PermStatus.SOFTCORE
-          || skillInfo.permStatus == ParsedSkillInfo.PermStatus.HARDCORE) {
+      if (skillInfo.permStatus == ParsedSkillInfo.PermStatus.SOFTCORE) {
         permedSkillSet.add(currentSkill);
+      }
+      if (skillInfo.permStatus == ParsedSkillInfo.PermStatus.HARDCORE) {
+        permedSkillSet.add(currentSkill);
+        hardcorePermedSkillSet.add(currentSkill);
       }
     }
 
@@ -367,6 +371,7 @@ public class CharSheetRequest extends GenericRequest {
     // Set the skills that we saw
     KoLCharacter.setAvailableSkills(newSkillSet);
     KoLCharacter.setPermedSkills(permedSkillSet);
+    KoLCharacter.setHardcorePermedSkills(hardcorePermedSkillSet);
 
     // Update uneffect methods and heal amounts for updated skills
     UneffectRequest.reset();
