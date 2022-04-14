@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.xml.parsers.ParserConfigurationException;
@@ -291,6 +293,7 @@ public class CharSheetRequest extends GenericRequest {
     // information)" which is not really a skill.
     List<UseSkillRequest> newSkillSet = new ArrayList<>();
     List<UseSkillRequest> permedSkillSet = new ArrayList<>();
+    Set<Integer> hardcorePermedSkillSet = new HashSet<>();
 
     List<ParsedSkillInfo> parsedSkillInfos = parseSkills(doc);
     for (ParsedSkillInfo skillInfo : parsedSkillInfos) {
@@ -332,9 +335,12 @@ public class CharSheetRequest extends GenericRequest {
         newSkillSet.add(currentSkill);
       }
 
-      if (skillInfo.permStatus == ParsedSkillInfo.PermStatus.SOFTCORE
-          || skillInfo.permStatus == ParsedSkillInfo.PermStatus.HARDCORE) {
+      if (skillInfo.permStatus == ParsedSkillInfo.PermStatus.SOFTCORE) {
         permedSkillSet.add(currentSkill);
+      }
+      if (skillInfo.permStatus == ParsedSkillInfo.PermStatus.HARDCORE) {
+        permedSkillSet.add(currentSkill);
+        hardcorePermedSkillSet.add(currentSkill.getSkillId());
       }
     }
 
@@ -367,6 +373,7 @@ public class CharSheetRequest extends GenericRequest {
     // Set the skills that we saw
     KoLCharacter.setAvailableSkills(newSkillSet);
     KoLCharacter.setPermedSkills(permedSkillSet);
+    KoLCharacter.setHardcorePermedSkills(hardcorePermedSkillSet);
 
     // Update uneffect methods and heal amounts for updated skills
     UneffectRequest.reset();
