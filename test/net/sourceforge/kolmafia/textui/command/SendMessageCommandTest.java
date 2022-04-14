@@ -10,9 +10,11 @@ import internal.network.FakeHttpClientBuilder;
 import internal.network.RequestBodyReader;
 import java.net.http.HttpRequest;
 import java.util.List;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import org.junit.jupiter.api.AfterEach;
@@ -74,6 +76,56 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
           containsString(
               "Send request \" 1000000 meat to buffy\" ignored in between-battle execution."));
       assertContinueState();
+    }
+  }
+
+  @Nested
+  class TransferItemRequest {
+
+    private MockedStatic<net.sourceforge.kolmafia.request.TransferItemRequest> mockery;
+
+    @BeforeEach
+    public void setUp() {
+      mockery = mockTransferItemRequest();
+    }
+
+    @AfterEach
+    public void tearDown() {
+      mockery.close();
+    }
+
+    private MockedStatic<net.sourceforge.kolmafia.request.TransferItemRequest>
+        mockTransferItemRequest() {
+      var mocked =
+          mockStatic(
+              net.sourceforge.kolmafia.request.TransferItemRequest.class,
+              Mockito.CALLS_REAL_METHODS);
+      mocked
+          .when(net.sourceforge.kolmafia.request.TransferItemRequest::hadSendMessageFailure)
+          .thenReturn(true);
+      return mocked;
+    }
+
+    @Test
+    public void itShouldRespondToATransferItemRequestFailure() {
+      String output;
+      var cleanups = Player.addItem("seal tooth", 3);
+      try (cleanups) {
+        output = execute(" 1 seal tooth to buffy");
+      }
+      assertThat(output, containsString("Sending kmail to buffy..."));
+      assertContinueState();
+      var requests = getRequests();
+      assertThat(requests, not(empty()));
+      var request = requests.get(0);
+      var uri = request.uri();
+      assertThat(uri.getPath(), equalTo("/sendmessage.php"));
+      assertThat(request.method(), equalTo("POST"));
+      var body = new RequestBodyReader().bodyAsString(request);
+      assertThat(
+          body,
+          equalTo(
+              "action=send&towho=buffy&message=Keep+the+contents+of+this+message+top-sekrit%2C+ultra+hush-hush.&whichitem1=2&howmany1=1"));
     }
   }
 
@@ -387,5 +439,15 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
         body,
         equalTo(
             "action=send&towho=buffy+&message=Signed.++Sealed.++Delivered.&whichitem1=2&howmany1=1&whichitem2=1&howmany2=1"));
+  }
+
+  @Test
+  public void itShouldTryWhenUsingStorage() {
+    AdventureResult[] itemz = new AdventureResult[1];
+    itemz[0] = ItemPool.get("seal club", 1);
+    SendMessageCommand.send("Buffy", "None", itemz, true, false);
+    // This test actually send a GiftMessage and all that is really being tested is c coverage
+    // branch.
+    assertContinueState();
   }
 }
