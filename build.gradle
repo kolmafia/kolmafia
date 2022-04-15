@@ -280,6 +280,7 @@ tasks.jpackage {
 	input = 'dist'
 	destination = 'build/releases'
 	mainClass = mainClassName
+	appName = 'KoLmafia'
 	appVersion = new Date().format('yy.MM')
 	linux {
 		icon = 'util/linux/KoLmafia.ico'
@@ -289,18 +290,17 @@ tasks.jpackage {
 		icon = 'util/macosx/limeglass.icns'
 
 	}
-	windows{
+	windows {
 		type = 'exe'
 		icon = 'util/windows/KoLmafia.ico'
-		winShortcut = 'true'
-		winDirChooser = 'true'
+		winShortcut = true
+		winPerUserInstall = true
 		javaOptions = ["-DuseCWDasROOT=true"]
 	}
 	doFirst {
 		mainJar = tasks.shadowJar.archiveFileName.get()
-		appVersion += '.' + version
-		appName = 'KoLmafia-r' + version + "${isDirty() ? 'M' : ''}"
-		println 'Packaging app ' + appName + '...'
+		appVersion += '.' + version + "${isDirty() ? 'M' : ''}"
+		println 'Packaging app ' + appName + '.' + appVersion + '...'
 		if (System.properties['os.name'] != 'Linux') {
 			return
 		}

@@ -156,6 +156,11 @@ public class TestCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("bastille")) {
+      BastilleBattalionManager.saveStyleSets();
+      return;
+    }
+
     if (command.equals("canonical")) {
       String string;
       if (TestCommand.contents == null) {
@@ -876,13 +881,6 @@ public class TestCommand extends AbstractCommand {
       TestCommand.contents = null;
       BarrelDecorator.decorate(buffer);
       TestCommand.dump(buffer.toString());
-      return;
-    }
-
-    if (command.equals("bastille")) {
-      BastilleBattalionManager.parseStyles(TestCommand.contents);
-      BastilleBattalionManager.checkPredictions();
-      TestCommand.contents = null;
       return;
     }
 

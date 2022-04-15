@@ -1,11 +1,16 @@
 package net.sourceforge.kolmafia.session;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -13,10 +18,12 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -142,19 +149,8 @@ public abstract class BastilleBattalionManager {
       return this;
     }
 
-    public Stats subtract(Stats stats) {
-      for (int i = 0; i < 6; ++i) {
-        this.stats[i] -= stats.stats[i];
-      }
-      return this;
-    }
-
     public Stats copy() {
       return new Stats().add(this);
-    }
-
-    public Stats diff(Stats stats) {
-      return stats.copy().subtract(this);
     }
 
     public String toStrengthString() {
@@ -304,19 +300,31 @@ public abstract class BastilleBattalionManager {
     MURDER_HOLES(3, "Murder Holes", "holes"),
     MOAT(4, "Moat", "moat");
 
-    String name;
-    String prefix;
-    int option;
+    final String name;
+    final String prefix;
+    final int option;
+    final int digitIndex;
+    final int scale;
 
     private Upgrade(int option, String name, String prefix) {
-      this.option = option;
       this.name = name;
       this.prefix = prefix;
+      this.option = option;
       optionToUpgrade.put(this.option, this);
+      this.digitIndex = 4 - option;
+      this.scale = (int) Math.pow(3, this.digitIndex);
     }
 
     public String getPrefix() {
       return this.prefix;
+    }
+
+    public int getDigitIndex() {
+      return this.digitIndex;
+    }
+
+    public int getScale() {
+      return this.scale;
     }
 
     @Override
@@ -332,34 +340,41 @@ public abstract class BastilleBattalionManager {
   // Moxie} inspired reward at the end of your first game of the day.
 
   public static enum Style {
-    BARBECUE("Barbarian Barbecue", 1, Upgrade.BARBICAN, 3, 2, 0, 0, 0, 0),
-    BABAR("Babar", 2, Upgrade.BARBICAN, 0, 0, 2, 3, 0, 0),
-    BARBERSHOP("Barbershop", 3, Upgrade.BARBICAN, 0, 0, 0, 0, 2, 3),
+    BARBECUE("Barbarian Barbecue", 1, Upgrade.BARBICAN),
+    BABAR("Babar", 2, Upgrade.BARBICAN),
+    BARBERSHOP("Barbershop", 3, Upgrade.BARBICAN),
 
-    SHARKS("Sharks", 1, Upgrade.MOAT, 0, 1, 0, 0, 2, 0),
-    LAVA("Lava", 2, Upgrade.MOAT, 2, 0, 0, 1, 0, 0),
-    TRUTH_SERUM("Truth Serum", 3, Upgrade.MOAT, 0, 0, 2, 0, 0, 1),
+    BRUTALIST("Brutalist", 1, Upgrade.DRAWBRIDGE),
+    DRAFTSMAN("Draftsman", 2, Upgrade.DRAWBRIDGE),
+    NOUVEAU("Art Nouveau", 3, Upgrade.DRAWBRIDGE),
 
-    BRUTALIST("Brutalist", 1, Upgrade.DRAWBRIDGE, 2, 0, 1, 0, 2, 0),
-    DRAFTSMAN("Draftsman", 2, Upgrade.DRAWBRIDGE, 0, 3, 0, 3, 0, 3),
-    ART_NOUVEAU("Art Nouveau", 3, Upgrade.DRAWBRIDGE, 0, 0, 0, 0, 2, 2),
+    CANNON("Cannon", 1, Upgrade.MURDER_HOLES),
+    CATAPULT("Catapult", 2, Upgrade.MURDER_HOLES),
+    GESTURE("Gesture", 3, Upgrade.MURDER_HOLES),
 
-    CANNON("Cannon", 1, Upgrade.MURDER_HOLES, 2, 1, 0, 0, 0, 1),
-    CATAPULT("Catapult", 2, Upgrade.MURDER_HOLES, 0, 1, 1, 1, 0, 0),
-    GESTURE("Gesture", 3, Upgrade.MURDER_HOLES, 0, 0, 0, 1, 1, 1);
+    SHARKS("Sharks", 1, Upgrade.MOAT),
+    LAVA("Lava", 2, Upgrade.MOAT),
+    TRUTH("Truth Serum", 3, Upgrade.MOAT);
 
-    private Upgrade upgrade;
-    private String image;
-    private Stats stats;
-    private String name;
+    private final Upgrade upgrade;
+    private final String image;
+    private final String name;
+    private final int scaledDigit;
 
-    private Style(String name, int index, Upgrade upgrade, int... stats) {
+    private Style(String name, int index, Upgrade upgrade) {
       this.upgrade = upgrade;
       this.image = upgrade.getPrefix() + index + ".png";
-      assert (stats.length == 6);
-      this.stats = new Stats(stats);
       this.name = upgrade + " " + name;
       imageToStyle.put(this.image, this);
+      this.scaledDigit = (index - 1) * upgrade.getScale();
+    }
+
+    public Upgrade getUpgrade() {
+      return this.upgrade;
+    }
+
+    public int getScaledDigit() {
+      return this.scaledDigit;
     }
 
     @Override
@@ -370,10 +385,137 @@ public abstract class BastilleBattalionManager {
     public void apply() {
       currentStyles.put(this.upgrade, this);
     }
+  }
 
-    public void apply(Stats stats) {
-      stats.add(this.stats);
+  // *** Style Sets
+
+  // I experimented a lot transitioning between one upgrade and another and observing
+  // how my stat bonuses changed.
+  //
+  // It turns out that those values depend on what the other upgrades happen to be;
+  // the same upgrade swap might grant +1 or +2 Castle Attack, say, depending on which
+  // other upgrades are in place.
+  //
+  // There are three Styles for each of four Upgrades, so there are a total of 81 = (3 ^ 4)
+  // configurations.
+  //
+  // We'll number them from 0 - 80 (0000 - 2222, in base 3)
+
+  public static Style[] styleSetToArray(Collection<Style> styleSet) {
+    return styleSet.toArray(new Style[4]);
+  }
+
+  public static int styleSetToKey(Collection<Style> styleSet) {
+    return stylesToKey(styleSetToArray(styleSet));
+  }
+
+  public static int stylesToKey(Style... styles) {
+    assert styles.length == 4;
+    return Arrays.stream(styles).mapToInt(style -> style.getScaledDigit()).sum();
+  }
+
+  public static Collection<Style> keyToStyleSet(int key) {
+    // Base 3 digits: [barbican][drawbridge][murder holes][moat]
+    int[] digits = {key % 3, (key / 3) % 3 * 3, (key / 9) % 3 * 9, (key / 27) % 3 * 27};
+
+    Set<Style> styleSet = new TreeSet<>();
+    for (Style style : Style.values()) {
+      int digit = style.getUpgrade().getDigitIndex();
+      if (digits[digit] == style.getScaledDigit()) {
+        styleSet.add(style);
+      }
     }
+
+    return styleSet;
+  }
+
+  // ***  Data File: Style Set -> Stats
+
+  private static final Map<Integer, Stats> styleSetToStats = new TreeMap<>();
+
+  private static final String BASTILLE_FILE_NAME = "bastille.txt";
+  private static final int BASTILLE_FILE_VERSION = 1;
+
+  // Load data file
+
+  private static void readStyleSets() {
+    styleSetToStats.clear();
+
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader(BASTILLE_FILE_NAME, BASTILLE_FILE_VERSION)) {
+      String[] data;
+
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length != 11) {
+          continue;
+        }
+
+        int key = StringUtilities.parseInt(data[0]) - 1;
+
+        if (styleSetToStats.containsKey(key)) {
+          continue;
+        }
+
+        // Ignore the style names; they are for human use
+        // String styleName1 = data[1];
+        // String styleName2 = data[2];
+        // String styleName3 = data[3];
+        // String styleName4 = data[4];
+
+        Collection<Style> styleSet = keyToStyleSet(key);
+
+        int MA = StringUtilities.parseInt(data[5]);
+        int MD = StringUtilities.parseInt(data[6]);
+        int CA = StringUtilities.parseInt(data[7]);
+        int CD = StringUtilities.parseInt(data[8]);
+        int PA = StringUtilities.parseInt(data[9]);
+        int PD = StringUtilities.parseInt(data[10]);
+
+        Stats stats = new Stats(MA, MD, CA, CD, PA, PD);
+
+        styleSetToStats.put(key, stats);
+      }
+    } catch (IOException e) {
+      StaticEntity.printStackTrace(e);
+    }
+  }
+
+  // Write data file: only for testing. Or for generating it the first time.
+
+  private static String generateStyleSetFields(int key) {
+    Collection<Style> styleSet = keyToStyleSet(key);
+    Style[] styles = styleSetToArray(styleSet);
+    assert styles.length == 4;
+    Stats stats = styleSetToStats.get(key);
+    return joinFields(
+        "\t",
+        String.valueOf(key + 1),
+        styles[0].name(),
+        styles[1].name(),
+        styles[2].name(),
+        styles[3].name(),
+        String.valueOf(stats.get(Stat.MA)),
+        String.valueOf(stats.get(Stat.MD)),
+        String.valueOf(stats.get(Stat.CA)),
+        String.valueOf(stats.get(Stat.CD)),
+        String.valueOf(stats.get(Stat.PA)),
+        String.valueOf(stats.get(Stat.PD)));
+  }
+
+  public static void saveStyleSets() {
+    String path = KoLConstants.DATA_DIRECTORY + BASTILLE_FILE_NAME;
+    try (PrintStream stream = LogStream.openStream(path, true)) {
+      stream.println(String.valueOf(BASTILLE_FILE_VERSION));
+      for (int key = 0; key < 81; key++) {
+        String line = generateStyleSetFields(key);
+        stream.println(line);
+      }
+    }
+  }
+
+  static {
+    readStyleSets();
+    assert styleSetToStats.size() == 81;
   }
 
   // *** Cached state. This resets when you visit the Bastille Battalion
@@ -537,8 +679,8 @@ public abstract class BastilleBattalionManager {
   }
 
   static {
-    // This forces the Style enum to be initialized, which will populate
-    // all the various sets and maps from the constructors.
+    // This forces the enums to be initialized, which will populate
+    // the various sets and maps initialized in the constructors.
     Style[] styles = Style.values();
     Castle[] castles = Castle.values();
     Stance[] stances = Stance.values();
@@ -562,19 +704,7 @@ public abstract class BastilleBattalionManager {
     }
   }
 
-  public static boolean debugStats = false;
-
-  private static Stats logStatsDiff(Stats old, Stats updated) {
-    Stats diff = old.diff(updated);
-    if (debugStats) {
-      System.out.println("old: " + generateSetting(old));
-      System.out.println("new: " + generateSetting(updated));
-      System.out.println("diff: " + generateSetting(diff));
-    }
-    return diff;
-  }
-
-  public static String generateSetting(Stats stats) {
+  public static String generateStatSetting(Stats stats) {
     String value =
         Arrays.stream(Stat.values())
             .map(stat -> stat.name() + "=" + stats.get(stat))
@@ -583,7 +713,7 @@ public abstract class BastilleBattalionManager {
   }
 
   private static void saveStats(Stats stats) {
-    String value = generateSetting(stats);
+    String value = generateStatSetting(stats);
     Preferences.setString("_bastilleStats", value);
   }
 
@@ -652,8 +782,7 @@ public abstract class BastilleBattalionManager {
       Pattern.compile(
           "<img style='(.*?top: (\\d+).*?; left: (\\d+).*?;.*?)'[^>]*otherimages/bbatt/([^>]*)>");
 
-  // Yes. the x-offset for Psychological is 1 pixel higher.
-  public static final Stats PIXELS = new Stats(124, 240, 124, 240, 125, 240);
+  public static final Stats PIXELS = new Stats(124, 240, 124, 240, 124, 240);
 
   private static void parseNeedle(String topString, String leftString) {
     int top = StringUtilities.parseInt(topString);
@@ -678,7 +807,6 @@ public abstract class BastilleBattalionManager {
   }
 
   public static void parseStyles(String text) {
-    Stats old = currentStats.copy();
     currentStats.clear();
     Matcher matcher = IMAGE_PATTERN.matcher(text);
     while (matcher.find()) {
@@ -693,13 +821,11 @@ public abstract class BastilleBattalionManager {
         continue;
       }
     }
-    logStatsDiff(old, currentStats);
     saveStyles(currentStyles);
     saveStats(currentStats);
   }
 
   public static void parseNeedles(String text) {
-    Stats old = currentStats.copy();
     currentStats.clear();
     Matcher matcher = IMAGE_PATTERN.matcher(text);
     while (matcher.find()) {
@@ -709,7 +835,6 @@ public abstract class BastilleBattalionManager {
       }
       parseNeedle(matcher.group(2), matcher.group(3));
     }
-    logStatsDiff(old, currentStats);
     saveStats(currentStats);
   }
 
@@ -891,27 +1016,12 @@ public abstract class BastilleBattalionManager {
     return currentStats.get(stat);
   }
 
-  public static Stats getCurrentStats() {
-    Stats stats = new Stats();
-    for (Style style : currentStyles.values()) {
-      style.apply(stats);
-    }
-    return stats;
-  }
-
-  private static boolean checkStat(Stats stats, Stat stat) {
-    int calculated = stats.get(stat);
-    int expected = currentStats.get(stat);
-    if (calculated == expected) {
-      return true;
-    }
-    String message = stat + " was calculated to be " + calculated + " but is actually " + expected;
-    logLine(message);
-    return false;
-  }
-
   public static boolean checkPredictions() {
-    return checkPredictions(getCurrentStats());
+    return checkPredictions(getPredictedStats());
+  }
+
+  public static Stats getPredictedStats() {
+    return styleSetToStats.get(styleSetToKey(currentStyles.values()));
   }
 
   public static boolean checkPredictions(Stats stats) {
@@ -923,6 +1033,17 @@ public abstract class BastilleBattalionManager {
     retval &= checkStat(stats, Stat.PA);
     retval &= checkStat(stats, Stat.PD);
     return retval;
+  }
+
+  private static boolean checkStat(Stats stats, Stat stat) {
+    int calculated = stats.get(stat);
+    int expected = currentStats.get(stat);
+    if (calculated == expected) {
+      return true;
+    }
+    String message = stat + " was calculated to be " + calculated + " but is actually " + expected;
+    logLine(message);
+    return false;
   }
 
   // *** Interface for AdventureRequest.parseChoiceEncounter
@@ -1016,6 +1137,7 @@ public abstract class BastilleBattalionManager {
         if (decision >= 1 && decision <= 4) {
           parseStyles(text);
           logLine(currentStyles.get(optionToUpgrade.get(decision)).toString());
+          checkPredictions();
           logStrength();
         } else if (decision == 5) {
           // Your stats reset to those provided by your styles at the start of
