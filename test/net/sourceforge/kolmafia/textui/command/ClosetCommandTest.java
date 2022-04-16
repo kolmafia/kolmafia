@@ -135,6 +135,28 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
     }
 
     @Test
+    public void storesManyItemsInCloset() {
+      var cleanups = new Cleanups(Player.addItem("seal tooth"), Player.addItem("helmet turtle"));
+
+      try (cleanups) {
+        execute("put 1 seal tooth, 1 helmet turtle");
+      }
+
+      var requests = getRequests();
+
+      assertThat(requests, not(empty()));
+      assertThat(requests.size(), equalTo(2));
+      var request = requests.get(0);
+      var uri = request.uri();
+      assertThat(uri.getPath(), equalTo("/inventory.php"));
+      assertThat(uri.getQuery(), equalTo("action=closetpush&ajax=1&whichitem=2&qty=1"));
+      request = requests.get(1);
+      uri = request.uri();
+      assertThat(uri.getPath(), equalTo("/inventory.php"));
+      assertThat(uri.getQuery(), equalTo("action=closetpush&ajax=1&whichitem=3&qty=1"));
+    }
+
+    @Test
     public void doesNotStoreItemsNotInInventory() {
       execute("put 1 seal tooth");
 

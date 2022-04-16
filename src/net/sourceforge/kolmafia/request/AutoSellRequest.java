@@ -117,6 +117,10 @@ public class AutoSellRequest extends TransferItemRequest {
         continue;
       }
 
+      if (item.getCount() == 0L) {
+        continue;
+      }
+
       if (ItemDatabase.getPriceById(item.getItemId()) <= 0) {
         continue;
       }
