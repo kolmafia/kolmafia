@@ -742,11 +742,12 @@ public abstract class InventoryManager {
 
     if (creator != null && creator.getQuantityPossible() > 0) {
       if (!forceNoMall) {
-        boolean defaultBuy = shouldUseMall && InventoryManager.cheaperToBuy(item, missingCount);
+        AdventureResult instance = item.getInstance(missingCount);
+        boolean defaultBuy = shouldUseMall && InventoryManager.cheaperToBuy(instance);
         if (sim && haveBuyScript) {
           return defaultBuy ? "create or buy" : "create";
         }
-        scriptSaysBuy = InventoryManager.invokeBuyScript(item, missingCount, 2, defaultBuy);
+        scriptSaysBuy = InventoryManager.invokeBuyScript(instance, 2, defaultBuy);
         missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
 
         if (missingCount <= 0) {
@@ -795,7 +796,7 @@ public abstract class InventoryManager {
     if (shouldUseCoinmasters
         && KoLConstants.hermitItems.contains(item)
         && (!shouldUseMall
-            || SewerRequest.currentWorthlessItemCost() < MallPriceManager.getMallPrice(item))) {
+            || SewerRequest.currentWorthlessItemCost() < MallPriceManager.getMallPrice(itemId))) {
 
       int itemCount =
           itemId == ItemPool.ELEVEN_LEAF_CLOVER
@@ -828,11 +829,12 @@ public abstract class InventoryManager {
         }
         scriptSaysBuy = true;
       } else {
-        boolean defaultBuy = InventoryManager.cheaperToBuy(item, missingCount);
+        AdventureResult instance = item.getInstance(missingCount);
+        boolean defaultBuy = InventoryManager.cheaperToBuy(instance);
         if (sim && haveBuyScript) {
           return defaultBuy ? "create or buy" : "create";
         }
-        scriptSaysBuy = InventoryManager.invokeBuyScript(item, missingCount, 0, defaultBuy);
+        scriptSaysBuy = InventoryManager.invokeBuyScript(instance, 0, defaultBuy);
         missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
 
         if (missingCount <= 0) {
@@ -847,9 +849,10 @@ public abstract class InventoryManager {
       }
 
       // If buying from the mall will leave the item in storage, use only NPCs
+      AdventureResult instance = item.getInstance(missingCount);
       boolean onlyNPC = forceNoMall || !InventoryManager.canUseMall();
       List<PurchaseRequest> results =
-          onlyNPC ? MallPriceManager.searchNPCs(item) : MallPriceManager.searchMall(item);
+          onlyNPC ? MallPriceManager.searchNPCs(item) : MallPriceManager.searchMall(instance);
       KoLmafia.makePurchases(
           results,
           results.toArray(new PurchaseRequest[0]),
@@ -857,7 +860,7 @@ public abstract class InventoryManager {
           isAutomated,
           0);
       if (!onlyNPC) {
-        MallPriceManager.updateMallPrice(item, results);
+        MallPriceManager.updateMallPrice(instance, results);
       }
 
       missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
@@ -904,12 +907,13 @@ public abstract class InventoryManager {
           break;
       }
 
+      AdventureResult instance = item.getInstance(missingCount);
       boolean defaultBuy =
-          scriptSaysBuy || shouldUseMall && InventoryManager.cheaperToBuy(item, missingCount);
+          scriptSaysBuy || shouldUseMall && InventoryManager.cheaperToBuy(instance);
       if (sim && haveBuyScript) {
         return defaultBuy ? "create or buy" : "create";
       }
-      scriptSaysBuy = InventoryManager.invokeBuyScript(item, missingCount, 1, defaultBuy);
+      scriptSaysBuy = InventoryManager.invokeBuyScript(instance, 1, defaultBuy);
       missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
 
       if (missingCount <= 0) {
@@ -927,8 +931,8 @@ public abstract class InventoryManager {
         // Do not retrieve if the average meat spend to make one of the item
         // exceeds the user's autoBuyPriceLimit.
 
-        float meatSpend =
-            InventoryManager.priceToMake(item, missingCount, true, true) / missingCount;
+        AdventureResult instance = item.getInstance(missingCount);
+        float meatSpend = InventoryManager.priceToMake(instance, true, true) / missingCount;
         int autoBuyPriceLimit = Preferences.getInteger("autoBuyPriceLimit");
         if (meatSpend > autoBuyPriceLimit) {
           makeFromComponents = false;
@@ -999,14 +1003,15 @@ public abstract class InventoryManager {
         return "buy";
       }
 
-      List<PurchaseRequest> results = MallPriceManager.searchMall(item);
+      AdventureResult instance = item.getInstance(missingCount);
+      List<PurchaseRequest> results = MallPriceManager.searchMall(instance);
       KoLmafia.makePurchases(
           results,
           results.toArray(new PurchaseRequest[0]),
           InventoryManager.getPurchaseCount(itemId, missingCount),
           isAutomated,
           0);
-      MallPriceManager.updateMallPrice(item, results);
+      MallPriceManager.updateMallPrice(instance, results);
       missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
 
       if (missingCount <= 0) {
@@ -1028,10 +1033,7 @@ public abstract class InventoryManager {
   }
 
   private static boolean invokeBuyScript(
-      final AdventureResult item,
-      final int quantity,
-      final int ingredientLevel,
-      final boolean defaultBuy) {
+      final AdventureResult item, final int ingredientLevel, final boolean defaultBuy) {
     String scriptName = Preferences.getString("buyScript").trim();
     if (scriptName.length() == 0) {
       return defaultBuy;
@@ -1047,7 +1049,7 @@ public abstract class InventoryManager {
               "main",
               new String[] {
                 item.getName(),
-                String.valueOf(quantity),
+                String.valueOf(item.getCount()),
                 String.valueOf(ingredientLevel),
                 String.valueOf(defaultBuy)
               });
@@ -1057,37 +1059,36 @@ public abstract class InventoryManager {
     return defaultBuy;
   }
 
-  public static boolean cheaperToBuy(final AdventureResult item, final int quantity) {
+  public static boolean cheaperToBuy(final AdventureResult item) {
     if (!ItemDatabase.isTradeable(item.getItemId())) {
       return false;
     }
 
-    int mallPrice = MallPriceManager.getMallPrice(item, MALL_PRICE_AGE) * quantity;
+    int mallPrice = MallPriceManager.getMallPrice(item, MALL_PRICE_AGE);
     if (mallPrice <= 0) {
       return false;
     }
 
-    int makePrice = InventoryManager.priceToMake(item, quantity, false);
+    int makePrice = InventoryManager.priceToMake(item, false);
     if (makePrice == Integer.MAX_VALUE) {
       return true;
     }
 
     if (mallPrice / 2 < makePrice && makePrice / 2 < mallPrice) {
       // Less than a 2:1 ratio, we should check more carefully
-      mallPrice = MallPriceManager.getMallPrice(item) * quantity;
+      mallPrice = MallPriceManager.getMallPrice(item);
       if (mallPrice <= 0) {
         return false;
       }
 
-      makePrice = InventoryManager.priceToMake(item, quantity, true);
+      makePrice = InventoryManager.priceToMake(item, true);
       if (makePrice == Integer.MAX_VALUE) {
         return true;
       }
     }
 
     if (Preferences.getBoolean("debugBuy")) {
-      RequestLogger.printLine(
-          "\u262F " + item.getInstance(quantity) + " mall=" + mallPrice + " make=" + makePrice);
+      RequestLogger.printLine("\u262F " + item + " mall=" + mallPrice + " make=" + makePrice);
     }
 
     return mallPrice < makePrice;
@@ -1155,33 +1156,34 @@ public abstract class InventoryManager {
     return lower + (int) ((upper - lower) * factor);
   }
 
-  public static final int priceToAcquire(
-      final AdventureResult item, int quantity, final boolean exact) {
-    return InventoryManager.priceToAcquire(item, quantity, exact, false, 0);
+  public static final int priceToAcquire(final AdventureResult item, final boolean exact) {
+    return InventoryManager.priceToAcquire(item, exact, false, 0);
   }
 
   public static final int priceToAcquire(
-      final AdventureResult item, int quantity, final boolean exact, final boolean mallPriceOnly) {
-    return InventoryManager.priceToAcquire(item, quantity, exact, mallPriceOnly, 0);
+      final AdventureResult item, final boolean exact, final boolean mallPriceOnly) {
+    return InventoryManager.priceToAcquire(item, exact, mallPriceOnly, 0);
   }
 
   private static final int priceToAcquire(
       final AdventureResult item,
-      int quantity,
       final boolean exact,
       final boolean mallPriceOnly,
       final int level) {
-    int price = 0;
-    int needed = quantity;
+
+    int itemId = item.getItemId();
+    int needed = item.getCount();
+
     // Not just inventory; include anything our setting allow to be retrieved
     int onhand = Math.min(needed, InventoryManager.getAccessibleCount(item));
+    int price = 0;
 
     if (onhand > 0) {
-      if (item.getItemId() != ItemPool.PLASTIC_SWORD) {
+      if (itemId != ItemPool.PLASTIC_SWORD) {
         price = mallPriceOnly ? 0 : InventoryManager.itemValue(item, exact);
+        price *= onhand;
       }
 
-      price *= onhand;
       needed -= onhand;
 
       if (needed == 0) {
@@ -1194,52 +1196,51 @@ public abstract class InventoryManager {
       }
     }
 
+    AdventureResult instance = item.getInstance(needed);
     int mallPrice =
         (exact
-                ? MallPriceManager.getMallPrice(item)
-                : MallPriceManager.getMallPrice(item, MALL_PRICE_AGE))
-            * needed;
+            ? MallPriceManager.getMallPrice(instance)
+            : MallPriceManager.getMallPrice(instance, MALL_PRICE_AGE));
     if (mallPrice <= 0) {
       mallPrice = Integer.MAX_VALUE;
     } else {
       mallPrice += price;
     }
 
-    int makePrice = InventoryManager.priceToMake(item, needed, exact, mallPriceOnly, level);
+    int makePrice = InventoryManager.priceToMake(instance, exact, mallPriceOnly, level);
     if (makePrice != Integer.MAX_VALUE) {
       makePrice += price;
     }
 
     if (!exact && mallPrice / 2 < makePrice && makePrice / 2 < mallPrice) {
       // Less than a 2:1 ratio, we should check more carefully
-      return InventoryManager.priceToAcquire(item, quantity, true, mallPriceOnly, level);
+      return InventoryManager.priceToAcquire(item, true, mallPriceOnly, level);
     }
 
     if (Preferences.getBoolean("debugBuy")) {
-      RequestLogger.printLine(
-          "\u262F " + item.getInstance(quantity) + " mall=" + mallPrice + " make=" + makePrice);
+      RequestLogger.printLine("\u262F " + item + " mall=" + mallPrice + " make=" + makePrice);
     }
 
     return Math.min(mallPrice, makePrice);
   }
 
-  public static int priceToMake(final AdventureResult item, final int qty, final boolean exact) {
-    return InventoryManager.priceToMake(item, qty, exact, false, 0);
+  public static int priceToMake(final AdventureResult item, final boolean exact) {
+    return InventoryManager.priceToMake(item, exact, false, 0);
   }
 
   public static int priceToMake(
-      final AdventureResult item, final int qty, final boolean exact, final boolean mallPriceOnly) {
-    return InventoryManager.priceToMake(item, qty, exact, mallPriceOnly, 0);
+      final AdventureResult item, final boolean exact, final boolean mallPriceOnly) {
+    return InventoryManager.priceToMake(item, exact, mallPriceOnly, 0);
   }
 
   private static int priceToMake(
       final AdventureResult item,
-      final int quantity,
       final boolean exact,
       final boolean mallPriceOnly,
       final int level) {
-    int id = item.getItemId();
-    int meatCost = CombineMeatRequest.getCost(id);
+    int itemId = item.getItemId();
+    int quantity = item.getCount();
+    int meatCost = CombineMeatRequest.getCost(itemId);
     if (meatCost > 0) {
       return meatCost * quantity;
     }
@@ -1255,10 +1256,10 @@ public abstract class InventoryManager {
 
     CraftingType method = ConcoctionDatabase.getMixingMethod(item);
     int price = ConcoctionDatabase.getCreationCost(method);
-    int yield = ConcoctionDatabase.getYield(id);
+    int yield = ConcoctionDatabase.getYield(itemId);
     int madeQuantity = (quantity + yield - 1) / yield;
 
-    AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(id);
+    AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId);
 
     for (int i = 0; i < ingredients.length; ++i) {
       AdventureResult ingredient = ingredients[i];
@@ -1268,7 +1269,7 @@ public abstract class InventoryManager {
           ingredient.isMeat()
               ? needed
               : InventoryManager.priceToAcquire(
-                  ingredient, needed, exact, mallPriceOnly, level + 1);
+                  ingredient.getInstance(needed), exact, mallPriceOnly, level + 1);
 
       if (ingredientPrice == Integer.MAX_VALUE) {
         return ingredientPrice;

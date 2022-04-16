@@ -57,7 +57,7 @@ public class PriceToAcquireTest {
               int itemId = item.getItemId();
               int count = item.getCount();
               int price = prices.get(itemId);
-              return price;
+              return price * count;
             });
     mocked
         .when(() -> MallPriceManager.getMallPrice(any(AdventureResult.class), anyFloat()))
@@ -69,7 +69,7 @@ public class PriceToAcquireTest {
               int itemId = item.getItemId();
               int count = item.getCount();
               int price = maxAge > 0.0 ? oldPrices.get(itemId) : prices.get(itemId);
-              return price;
+              return price * count;
             });
     return new Cleanups(mocked::close);
   }
@@ -500,18 +500,17 @@ public class PriceToAcquireTest {
       // Therefore, we will need to purchase everything from mall or NPCs.
 
       // Simple tests: Items made with Meat cost that much Meat
-      assertEquals(10, InventoryManager.priceToMake(ItemPool.get(ItemPool.MEAT_PASTE), 1, true));
-      assertEquals(100, InventoryManager.priceToMake(ItemPool.get(ItemPool.MEAT_STACK), 1, true));
-      assertEquals(1000, InventoryManager.priceToMake(ItemPool.get(ItemPool.DENSE_STACK), 1, true));
+      assertEquals(10, InventoryManager.priceToMake(ItemPool.get(ItemPool.MEAT_PASTE, 1), true));
+      assertEquals(100, InventoryManager.priceToMake(ItemPool.get(ItemPool.MEAT_STACK, 1), true));
+      assertEquals(1000, InventoryManager.priceToMake(ItemPool.get(ItemPool.DENSE_STACK, 1), true));
 
       // Test with "exact" prices - i.e. "current mall prices, from "priceMap"
       // Verify that we cannot make NOCREATE items
 
-      assertEquals(Integer.MAX_VALUE, InventoryManager.priceToMake(FERMENTING_POWDER, 1, true));
-      assertEquals(
-          Integer.MAX_VALUE, InventoryManager.priceToMake(BUNCH_OF_SQUARE_GRAPES, 1, true));
-      assertEquals(Integer.MAX_VALUE, InventoryManager.priceToMake(FISH_HEAD, 1, true));
-      assertEquals(Integer.MAX_VALUE, InventoryManager.priceToMake(GRAPEFRUIT, 1, true));
+      assertEquals(Integer.MAX_VALUE, InventoryManager.priceToMake(FERMENTING_POWDER, true));
+      assertEquals(Integer.MAX_VALUE, InventoryManager.priceToMake(BUNCH_OF_SQUARE_GRAPES, true));
+      assertEquals(Integer.MAX_VALUE, InventoryManager.priceToMake(FISH_HEAD, true));
+      assertEquals(Integer.MAX_VALUE, InventoryManager.priceToMake(GRAPEFRUIT, true));
 
       int boxedWineBuyPrice = getPrice(BOXED_WINE, priceMap);
       int fermentingPowderPrice = getPrice(FERMENTING_POWDER, priceMap);
@@ -521,19 +520,20 @@ public class PriceToAcquireTest {
       int boxedWineMakePrice = (fermentingPowderPrice + squareGrapesPrice);
       int boxedWinePrice = Math.min(boxedWineBuyPrice, boxedWineMakePrice / 3);
       int threeBoxedWinePrice = Math.min(3 * boxedWineBuyPrice, boxedWineMakePrice);
-      assertEquals(boxedWinePrice, InventoryManager.priceToMake(BOXED_WINE, 1, true));
-      assertEquals(threeBoxedWinePrice, InventoryManager.priceToMake(BOXED_WINE, 3, true));
+      assertEquals(boxedWinePrice, InventoryManager.priceToMake(BOXED_WINE, true));
+      assertEquals(
+          threeBoxedWinePrice, InventoryManager.priceToMake(BOXED_WINE.getInstance(3), true));
 
       int piscatiniBuyPrice = getPrice(PISCATINI, priceMap);
       int piscatiniMakePrice = boxedWinePrice + getPrice(FISH_HEAD, priceMap);
       int piscatiniPrice = Math.min(piscatiniBuyPrice, piscatiniMakePrice);
-      assertEquals(piscatiniMakePrice, InventoryManager.priceToMake(PISCATINI, 1, true));
+      assertEquals(piscatiniMakePrice, InventoryManager.priceToMake(PISCATINI, true));
       int threePiscatiniPrice = threeBoxedWinePrice + 3 * getPrice(FISH_HEAD, priceMap);
-      assertEquals(threePiscatiniPrice, InventoryManager.priceToMake(PISCATINI, 3, true));
+      assertEquals(
+          threePiscatiniPrice, InventoryManager.priceToMake(PISCATINI.getInstance(3), true));
 
       int driveByShootingMakePrice = piscatiniPrice + getPrice(GRAPEFRUIT, priceMap);
-      assertEquals(
-          driveByShootingMakePrice, InventoryManager.priceToMake(DRIVE_BY_SHOOTING, 1, true));
+      assertEquals(driveByShootingMakePrice, InventoryManager.priceToMake(DRIVE_BY_SHOOTING, true));
     }
   }
 
@@ -567,32 +567,32 @@ public class PriceToAcquireTest {
       Preferences.setFloat("valueOfInventory", 0.0f);
 
       // Test that acquiring an item with no items costs Meat
-      int one = InventoryManager.priceToAcquire(item, 1, false);
+      int one = InventoryManager.priceToAcquire(item.getInstance(1), false);
       assertTrue(one > 0);
-      int two = InventoryManager.priceToAcquire(item, 2, false);
+      int two = InventoryManager.priceToAcquire(item.getInstance(2), false);
       assertEquals(two, 2 * one);
 
       // Put enough of the item into inventory.
       AdventureResult.addResultToList(KoLConstants.inventory, item);
-      int price = InventoryManager.priceToAcquire(item, 2, false);
+      int price = InventoryManager.priceToAcquire(item.getInstance(2), false);
       assertEquals(price, 0);
 
       // Move the items to the closet.
       AdventureResult.addResultToList(KoLConstants.inventory, item.getNegation());
       AdventureResult.addResultToList(KoLConstants.closet, item);
       Preferences.setBoolean("autoSatisfyWithCloset", false);
-      price = InventoryManager.priceToAcquire(item, 2, false);
+      price = InventoryManager.priceToAcquire(item.getInstance(2), false);
       assertTrue(price > 0);
 
       // Move the items to storage.
       AdventureResult.addResultToList(KoLConstants.closet, item.getNegation());
       AdventureResult.addResultToList(KoLConstants.storage, item);
       Preferences.setBoolean("autoSatisfyWithStorage", true);
-      price = InventoryManager.priceToAcquire(item, 2, false);
+      price = InventoryManager.priceToAcquire(item.getInstance(2), false);
       assertTrue(price == 0);
 
       // Test that asking for an extra item accounts for available items
-      price = InventoryManager.priceToAcquire(item, 3, false);
+      price = InventoryManager.priceToAcquire(item.getInstance(3), false);
       assertEquals(price, one);
     }
   }

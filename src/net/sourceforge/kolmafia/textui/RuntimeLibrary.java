@@ -4676,8 +4676,7 @@ public abstract class RuntimeLibrary {
       return DataTypes.ZERO_VALUE;
     }
 
-    return new Value(
-        InventoryManager.priceToAcquire(ItemPool.get(item, count), count, false, false));
+    return new Value(InventoryManager.priceToAcquire(ItemPool.get(item, count), false, false));
   }
 
   public static Value retrieve_price(ScriptRuntime controller, final Value item) {
@@ -5100,13 +5099,12 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value mall_price(ScriptRuntime controller, final Value item) {
-    return new Value(MallPriceManager.getMallPrice(ItemPool.get((int) item.intValue(), 0)));
+    return new Value(MallPriceManager.getMallPrice((int) item.intValue()));
   }
 
   public static Value mall_price(ScriptRuntime controller, final Value item, final Value maxAge) {
     return new Value(
-        MallPriceManager.getMallPrice(
-            ItemPool.get((int) item.intValue(), 0), (float) maxAge.floatValue()));
+        MallPriceManager.getMallPrice((int) item.intValue(), (float) maxAge.floatValue()));
   }
 
   public static Value mall_prices(ScriptRuntime controller, final Value arg) {
@@ -5127,6 +5125,7 @@ public abstract class RuntimeLibrary {
     }
 
     // Update the mall prices, one by one,
+    // Note that the AdventureResults all have "count" of 1
     int result = MallPriceManager.getMallPrices(itemIds, 0.0f);
 
     return DataTypes.makeIntValue(result);
