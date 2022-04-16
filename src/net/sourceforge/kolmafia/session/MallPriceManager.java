@@ -508,7 +508,7 @@ public abstract class MallPriceManager {
       return 0;
     }
 
-    int count = Math.min(1, item.getCount());
+    int count = Math.max(1, item.getCount());
 
     // If we want to know the price of no more than the "n" of an item, use a cached mall price
     if (count <= NTH_CHEAPEST_PRICE) {
@@ -527,7 +527,7 @@ public abstract class MallPriceManager {
 
   public static int getMallPrice(AdventureResult item, float maxAge) {
     int itemId = item.getItemId();
-    int count = Math.min(1, item.getCount());
+    int count = Math.max(1, item.getCount());
     return MallPriceManager.getMallPrice(itemId, maxAge) * count;
   }
 
