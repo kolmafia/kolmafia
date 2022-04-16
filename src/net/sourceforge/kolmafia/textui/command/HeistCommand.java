@@ -14,7 +14,8 @@ import net.sourceforge.kolmafia.session.HeistManager;
 
 public class HeistCommand extends AbstractCommand {
   public HeistCommand() {
-    this.usage = " [ [<count>] <item> ] - display all heistable items, or heist some number of items";
+    this.usage =
+        " [ [<count>] <item> ] - display all heistable items, or heist some number of items";
   }
 
   @Override

@@ -130,5 +130,4 @@ public class AutoSellCommandTest extends AbstractCommandTestBase {
     var body = new RequestBodyReader().bodyAsString(request);
     assertThat(body, equalTo("action=sell&ajax=1&type=allbutone&howmany=1&whichitem[]=2"));
   }
-
 }
