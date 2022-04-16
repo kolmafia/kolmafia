@@ -35,6 +35,11 @@ public class SendMessageCommand extends AbstractCommand {
   }
 
   public static void send(final String parameters, final boolean isConvertible) {
+    SendMessageCommand.send(parameters, isConvertible, false);
+  }
+
+  public static void send(
+      final String parameters, final boolean isConvertible, boolean useStorage) {
     String[] splitParameters = parameters.replaceFirst("(?:^| )[tT][oO] ", " => ").split(" => ");
 
     if (splitParameters.length != 2) {
@@ -96,7 +101,7 @@ public class SendMessageCommand extends AbstractCommand {
     }
 
     AdventureResult[] items = new AdventureResult[attachmentList.size()];
-    SendMessageCommand.send(recipient, message, attachmentList.toArray(items), false, true);
+    SendMessageCommand.send(recipient, message, attachmentList.toArray(items), useStorage, true);
   }
 
   public static void send(
