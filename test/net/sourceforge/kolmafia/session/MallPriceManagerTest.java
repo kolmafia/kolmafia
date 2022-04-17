@@ -234,13 +234,34 @@ public class MallPriceManagerTest {
   }
 
   @Test
-  public void canFindNthCheapestPrice() {
+  public void canFindPriceForMultipleItems() {
     AdventureResult item = ItemPool.get(ItemPool.REAGENT);
     int[] prices = getTestPrices();
-    List<PurchaseRequest> results = generateSearchResults(item, prices);
-    assertEquals(15, results.size());
-    addSearchResults(item, results);
-    assertEquals(500, MallPriceManager.getMallPrice(item));
+    try (var cleanups = mockClock()) {
+      long timestamp = 1_000_000;
+      Mockito.when(clock.millis()).thenReturn(timestamp);
+
+      List<PurchaseRequest> results = generateSearchResults(item, prices);
+      assertEquals(15, results.size());
+      addSearchResults(item, results);
+
+      // Get mall price for buying from 1 to 15 of the item.
+      assertEquals(500, MallPriceManager.getMallPrice(item.getInstance(1)));
+      assertEquals(1000, MallPriceManager.getMallPrice(item.getInstance(2)));
+      assertEquals(1500, MallPriceManager.getMallPrice(item.getInstance(3)));
+      assertEquals(2000, MallPriceManager.getMallPrice(item.getInstance(4)));
+      assertEquals(2500, MallPriceManager.getMallPrice(item.getInstance(5)));
+      assertEquals(3500, MallPriceManager.getMallPrice(item.getInstance(6)));
+      assertEquals(4500, MallPriceManager.getMallPrice(item.getInstance(7)));
+      assertEquals(5500, MallPriceManager.getMallPrice(item.getInstance(8)));
+      assertEquals(6500, MallPriceManager.getMallPrice(item.getInstance(9)));
+      assertEquals(7500, MallPriceManager.getMallPrice(item.getInstance(10)));
+      assertEquals(12500, MallPriceManager.getMallPrice(item.getInstance(11)));
+      assertEquals(17500, MallPriceManager.getMallPrice(item.getInstance(12)));
+      assertEquals(22500, MallPriceManager.getMallPrice(item.getInstance(13)));
+      assertEquals(27500, MallPriceManager.getMallPrice(item.getInstance(14)));
+      assertEquals(32500, MallPriceManager.getMallPrice(item.getInstance(15)));
+    }
   }
 
   @Test

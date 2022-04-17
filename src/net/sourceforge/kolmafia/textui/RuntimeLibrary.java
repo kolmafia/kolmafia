@@ -939,6 +939,12 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.INT_TYPE, DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
 
+    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE};
+    functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.BOOLEAN_TYPE};
+    functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
+
     params = new Type[] {};
     functions.add(new LibraryFunction("receive_fax", DataTypes.VOID_TYPE, params));
 
@@ -4662,7 +4668,8 @@ public abstract class RuntimeLibrary {
     return retrieve_item(controller, DataTypes.ONE_VALUE, item);
   }
 
-  public static Value retrieve_price(ScriptRuntime controller, final Value arg1, final Value arg2) {
+  public static Value retrieve_price(
+      ScriptRuntime controller, final Value arg1, final Value arg2, final Value arg3) {
     int arg1Value = (int) arg1.intValue();
     int arg2Value = (int) arg2.intValue();
 
@@ -4676,7 +4683,13 @@ public abstract class RuntimeLibrary {
       return DataTypes.ZERO_VALUE;
     }
 
-    return new Value(InventoryManager.priceToAcquire(ItemPool.get(item, count), true, false));
+    boolean exact = arg3.intValue() == 1;
+
+    return new Value(InventoryManager.priceToAcquire(ItemPool.get(item, count), exact, false));
+  }
+
+  public static Value retrieve_price(ScriptRuntime controller, final Value arg1, final Value arg2) {
+    return retrieve_price(controller, arg1, arg2, DataTypes.FALSE_VALUE);
   }
 
   public static Value retrieve_price(ScriptRuntime controller, final Value item) {
