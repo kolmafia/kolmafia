@@ -1064,13 +1064,13 @@ public abstract class InventoryManager {
       return false;
     }
 
-    int mallPrice = MallPriceManager.getMallPrice(item, MALL_PRICE_AGE);
+    long mallPrice = MallPriceManager.getMallPrice(item, MALL_PRICE_AGE);
     if (mallPrice <= 0) {
       return false;
     }
 
-    int makePrice = InventoryManager.priceToMake(item, false);
-    if (makePrice == Integer.MAX_VALUE) {
+    long makePrice = InventoryManager.priceToMake(item, false);
+    if (makePrice == Long.MAX_VALUE) {
       return true;
     }
 
@@ -1082,7 +1082,7 @@ public abstract class InventoryManager {
       }
 
       makePrice = InventoryManager.priceToMake(item, true);
-      if (makePrice == Integer.MAX_VALUE) {
+      if (makePrice == Long.MAX_VALUE) {
         return true;
       }
     }
@@ -1094,7 +1094,7 @@ public abstract class InventoryManager {
     return mallPrice < makePrice;
   }
 
-  public static int itemValue(final AdventureResult item, final boolean exact) {
+  public static long itemValue(final AdventureResult item, final boolean exact) {
 
     // r9806 | jasonharper | 2011-09-05 00:04:24 -0400 (Mon, 05 Sep 2011) | 29 lines
     //
@@ -1128,9 +1128,9 @@ public abstract class InventoryManager {
       return 0;
     }
 
-    int lower = 0;
+    long lower = 0;
     int autosell = ItemDatabase.getPriceById(item.getItemId());
-    int upper = Math.max(0, autosell);
+    long upper = Math.max(0, autosell);
 
     if (factor <= 1.0f) {
       return lower + (int) ((upper - lower) * factor);
@@ -1139,7 +1139,7 @@ public abstract class InventoryManager {
     factor -= 1.0f;
     lower = upper;
 
-    int mall =
+    long mall =
         exact
             ? MallPriceManager.getMallPrice(item)
             : MallPriceManager.getMallPrice(item, MALL_PRICE_AGE);
@@ -1156,16 +1156,16 @@ public abstract class InventoryManager {
     return lower + (int) ((upper - lower) * factor);
   }
 
-  public static final int priceToAcquire(final AdventureResult item, final boolean exact) {
+  public static final long priceToAcquire(final AdventureResult item, final boolean exact) {
     return InventoryManager.priceToAcquire(item, exact, false, 0);
   }
 
-  public static final int priceToAcquire(
+  public static final long priceToAcquire(
       final AdventureResult item, final boolean exact, final boolean mallPriceOnly) {
     return InventoryManager.priceToAcquire(item, exact, mallPriceOnly, 0);
   }
 
-  private static final int priceToAcquire(
+  private static final long priceToAcquire(
       final AdventureResult item,
       final boolean exact,
       final boolean mallPriceOnly,
@@ -1176,7 +1176,7 @@ public abstract class InventoryManager {
 
     // Not just inventory; include anything our setting allow to be retrieved
     int onhand = Math.min(needed, InventoryManager.getAccessibleCount(item));
-    int price = 0;
+    long price = 0;
 
     if (onhand > 0) {
       if (itemId != ItemPool.PLASTIC_SWORD) {
@@ -1197,18 +1197,18 @@ public abstract class InventoryManager {
     }
 
     AdventureResult instance = item.getInstance(needed);
-    int mallPrice =
+    long mallPrice =
         (exact
             ? MallPriceManager.getMallPrice(instance)
             : MallPriceManager.getMallPrice(instance, MALL_PRICE_AGE));
     if (mallPrice <= 0) {
-      mallPrice = Integer.MAX_VALUE;
+      mallPrice = Long.MAX_VALUE;
     } else {
       mallPrice += price;
     }
 
-    int makePrice = InventoryManager.priceToMake(instance, exact, mallPriceOnly, level);
-    if (makePrice != Integer.MAX_VALUE) {
+    long makePrice = InventoryManager.priceToMake(instance, exact, mallPriceOnly, level);
+    if (makePrice != Long.MAX_VALUE) {
       makePrice += price;
     }
 
@@ -1224,16 +1224,16 @@ public abstract class InventoryManager {
     return Math.min(mallPrice, makePrice);
   }
 
-  public static int priceToMake(final AdventureResult item, final boolean exact) {
+  public static long priceToMake(final AdventureResult item, final boolean exact) {
     return InventoryManager.priceToMake(item, exact, false, 0);
   }
 
-  public static int priceToMake(
+  public static long priceToMake(
       final AdventureResult item, final boolean exact, final boolean mallPriceOnly) {
     return InventoryManager.priceToMake(item, exact, mallPriceOnly, 0);
   }
 
-  private static int priceToMake(
+  private static long priceToMake(
       final AdventureResult item,
       final boolean exact,
       final boolean mallPriceOnly,
@@ -1247,15 +1247,15 @@ public abstract class InventoryManager {
 
     // Limit recursion depth
     if (level > 10) {
-      return Integer.MAX_VALUE;
+      return Long.MAX_VALUE;
     }
 
     if (!ConcoctionDatabase.isPermittedMethod(item)) {
-      return Integer.MAX_VALUE;
+      return Long.MAX_VALUE;
     }
 
     CraftingType method = ConcoctionDatabase.getMixingMethod(item);
-    int price = ConcoctionDatabase.getCreationCost(method);
+    long price = ConcoctionDatabase.getCreationCost(method);
     int yield = ConcoctionDatabase.getYield(itemId);
     int madeQuantity = (quantity + yield - 1) / yield;
 
@@ -1265,13 +1265,13 @@ public abstract class InventoryManager {
       AdventureResult ingredient = ingredients[i];
       int needed = ingredient.getCount() * madeQuantity;
 
-      int ingredientPrice =
+      long ingredientPrice =
           ingredient.isMeat()
               ? needed
               : InventoryManager.priceToAcquire(
                   ingredient.getInstance(needed), exact, mallPriceOnly, level + 1);
 
-      if (ingredientPrice == Integer.MAX_VALUE) {
+      if (ingredientPrice == Long.MAX_VALUE) {
         return ingredientPrice;
       }
 

@@ -267,7 +267,7 @@ public class MallPriceManagerTest {
       addSearchResults(item, results);
 
       // This item is a NPC item available for the 5th cheapest price
-      int mallPrice = MallPriceManager.getMallPrice(item);
+      long mallPrice = MallPriceManager.getMallPrice(item);
       assertEquals(mallPrice, 400);
     }
   }
@@ -301,7 +301,7 @@ public class MallPriceManagerTest {
       addSearchResults(item, results);
 
       // Find the fifth cheapest price
-      int mallPrice = MallPriceManager.getMallPrice(item);
+      long mallPrice = MallPriceManager.getMallPrice(item);
       assertEquals(mallPrice, 400);
 
       // Flush the first shop's PurchaseRequest
@@ -429,7 +429,7 @@ public class MallPriceManagerTest {
       assertNotNull(search);
 
       // Verify that we have a saved "5th lowest" mall price
-      int price = MallPriceManager.getMallPrice(item);
+      long price = MallPriceManager.getMallPrice(item);
       assertEquals(500, price);
 
       // Flush the PurchaseRequests for this item
@@ -519,7 +519,7 @@ public class MallPriceManagerTest {
       assertNull(search);
 
       // Verify that the saved price is -1, which means "not in the mall"
-      int price = MallPriceManager.getMallPrice(item);
+      long price = MallPriceManager.getMallPrice(item);
       assertEquals(-1, price);
     }
   }

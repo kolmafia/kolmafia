@@ -4676,7 +4676,7 @@ public abstract class RuntimeLibrary {
       return DataTypes.ZERO_VALUE;
     }
 
-    return new Value(InventoryManager.priceToAcquire(ItemPool.get(item, count), false, false));
+    return new Value(InventoryManager.priceToAcquire(ItemPool.get(item, count), true, false));
   }
 
   public static Value retrieve_price(ScriptRuntime controller, final Value item) {

@@ -146,13 +146,16 @@ public abstract class MallPriceManager {
   // sort you could buy. In particular, the 5th cheapest.
   public static int NTH_CHEAPEST_PRICE = 5;
 
-  // How many stores to request results for in a mall search.  It should be at
-  // least NTH_CHEAPEST_PRICE, but stores can have limits and can ignore you
-  // (or vice versa), it could be higher.
-  public static int MALL_SEARCH_RESULTS = 5;
+  // How many stores to request results for in a mall search. We'd like enough to find at least
+  // NTH_CHEAPEST results. Stores frequently have more than one of an item for sael, but stores also
+  // frequently have limits - especially if they are offering bargain prices.
+  //
+  // I've observed that KoL seems to give you 30 search results if you do not request a specific
+  // count. That seems likely to be enough. A count of 0 gets you the default count.
+  public static int MALL_SEARCH_RESULTS = 0;
 
   // How many seconds before a before a "saved search" is "stale"
-  public static int MALL_SEARCH_FRESHNESS = 15;
+  public static int MALL_SEARCH_FRESHNESS = 60;
 
   // For testing
   public static void reset() {
@@ -299,7 +302,7 @@ public abstract class MallPriceManager {
       return results;
     }
 
-    results = MallPriceManager.searchMall("\"" + name + "\"", 0);
+    results = MallPriceManager.searchMall("\"" + name + "\"", MALL_SEARCH_RESULTS);
 
     // Flush CoinMasterPurchaseRequests
     results.removeIf(purchaseRequest -> purchaseRequest instanceof CoinMasterPurchaseRequest);
@@ -500,23 +503,78 @@ public abstract class MallPriceManager {
   //
   // If we need to make a mall search to get enough items, we will do so - and save the search and
   // the calculated "nth cheapest" price for subsequent calls.
+  //
+  // Note that this method returns a "long" value, since the cost to acquire multiple items can
+  // exceed an int.
 
-  public static int getMallPrice(final AdventureResult item) {
+  public static long getMallPrice(final AdventureResult item) {
     // Don't waste time if the item is not purchasable.
     int itemId = item.getItemId();
     if (!validMallItem(itemId)) {
       return 0;
     }
 
-    int count = Math.max(1, item.getCount());
-
     // If we want to know the price of no more than the "n" of an item, use a cached mall price
+    int count = Math.max(1, item.getCount());
     if (count <= NTH_CHEAPEST_PRICE) {
-      return MallPriceManager.getMallPrice(itemId) * count;
+      return (long) MallPriceManager.getMallPrice(itemId) * count;
     }
 
-    // *** Look at saved mall searches.
-    return MallPriceManager.getMallPrice(itemId) * count;
+    // Do a mall search. If there is a cached result that has enough available, that will be used.
+    List<PurchaseRequest> results = MallPriceManager.searchMall(item);
+
+    // Iterate through the PurchaseRequests accumulating prices.
+    int needed = count;
+    int found = 0;
+    int price = -1;
+
+    long total = 0;
+
+    for (PurchaseRequest req : results) {
+      price = req.getPrice();
+      int available = req.getLimit();
+
+      // If we are still looking for the "nth-cheapest price" ...
+      if (found < NTH_CHEAPEST_PRICE) {
+        // If this store does not have it, simply account for available inventory
+        if ((found + available) < NTH_CHEAPEST_PRICE) {
+          // Don't add price until we have at least 5
+          found += available;
+          continue;
+        }
+
+        // Otherwise, we have found the 5th-cheapest price!
+        // Tally the total cost of the first five items.
+        available -= NTH_CHEAPEST_PRICE - found;
+        found = NTH_CHEAPEST_PRICE;
+        total = price * NTH_CHEAPEST_PRICE;
+        needed -= NTH_CHEAPEST_PRICE;
+      }
+
+      // If we exhausted the available inventory of this shop, move to next shop.
+      if (available <= 0) {
+        continue;
+      }
+
+      // Calculate how much of the remaining inventory we will use
+      int used = Math.min(available, needed);
+      needed -= used;
+      found += used;
+      total += (long) price * used;
+
+      // If we have found enough for sale, we're done
+      if (needed <= 0) {
+        return total;
+      }
+    }
+
+    // If we went through the entire list of results but didn't find enough items for sale, use the
+    // last price we saw to fulfill the remainder.
+    if (needed > 0) {
+      total += (long) price * needed;
+    }
+
+    return total;
   }
 
   // Look for the shared Mall price from the MallPriceDatabase. If present and
@@ -524,11 +582,14 @@ public abstract class MallPriceManager {
   //
   // If it is too old or not present, look in the prices cached from local mall searches,
   // possibly resulting in a new mall search and an updated cached "nth cheapest" price.
+  //
+  // Again, this method returns a "long" value, since the cost to acquire multiple items can
+  // exceed an int.
 
-  public static int getMallPrice(AdventureResult item, float maxAge) {
+  public static long getMallPrice(AdventureResult item, float maxAge) {
     int itemId = item.getItemId();
     int count = Math.max(1, item.getCount());
-    return MallPriceManager.getMallPrice(itemId, maxAge) * count;
+    return (long) MallPriceManager.getMallPrice(itemId, maxAge) * count;
   }
 
   public static int getMallPrice(int itemId, float maxAge) {
