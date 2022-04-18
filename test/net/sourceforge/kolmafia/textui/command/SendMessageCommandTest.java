@@ -446,7 +446,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     AdventureResult[] itemz = new AdventureResult[1];
     itemz[0] = ItemPool.get("seal club", 1);
     SendMessageCommand.send("Buffy", "None", itemz, true, false);
-    // This test actually send a GiftMessage and all that is really being tested is c coverage
+    // This test actually send a GiftMessage and all that is really being tested is a coverage
     // branch.
     assertContinueState();
   }
