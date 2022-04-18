@@ -1259,51 +1259,6 @@ public class Modifiers {
     return Modifiers.derivedModifiers[index].getName();
   }
 
-  private static <T> T modifierRow(
-      final Object[][] table, final int index, Function<Object[], T> getter) {
-    if (index < 0 || index >= table.length) {
-      return null;
-    }
-
-    return getter.apply(table[index]);
-  }
-
-  private static String modifierName(final Object[][] table, final int index) {
-    return modifierRow(table, index, Modifiers::modifierName);
-  }
-
-  private static String modifierName(final Object[] tableRow) {
-    return (String) tableRow[0];
-  }
-
-  private static Pattern[] modifierDescPattern(final Object[][] table, final int index) {
-    return modifierRow(table, index, Modifiers::modifierDescPattern);
-  }
-
-  private static Pattern[] modifierDescPattern(final Object[] tableRow) {
-    Object patternOrPatterns = tableRow[1];
-
-    return (patternOrPatterns instanceof Pattern)
-        ? new Pattern[] {(Pattern) patternOrPatterns}
-        : (Pattern[]) patternOrPatterns;
-  }
-
-  private static Pattern modifierTagPattern(final Object[][] table, final int index) {
-    return modifierRow(table, index, Modifiers::modifierTagPattern);
-  }
-
-  private static Pattern modifierTagPattern(final Object[] tableRow) {
-    return (Pattern) tableRow[2];
-  }
-
-  private static String modifierTag(final Object[][] table, final int index) {
-    return modifierRow(table, index, Modifiers::modifierTag);
-  }
-
-  private static String modifierTag(final Object[] tableRow) {
-    return tableRow.length > 3 ? (String) tableRow[3] : (String) tableRow[0];
-  }
-
   private static final String COLD =
       Modifiers.doubleModifiers[Modifiers.COLD_RESISTANCE].getTag() + ": ";
   private static final String HOT =
