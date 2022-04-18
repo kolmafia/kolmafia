@@ -1468,9 +1468,26 @@ public class Modifiers {
     return damage;
   }
 
+  private double cappedCombatRate() {
+    // Combat Rate has diminishing returns beyond + or - 25%
+    double rate = this.doubles[Modifiers.COMBAT_RATE];
+    if (rate > 25.0) {
+      double extra = rate - 25.0;
+      return 25.0 + Math.floor(extra / 5.0);
+    }
+    if (rate < -25.0) {
+      double extra = rate + 25.0;
+      return -25.0 + Math.ceil(extra / 5.0);
+    }
+    return rate;
+  }
+
   public double get(final int index) {
     if (index == Modifiers.PRISMATIC_DAMAGE) {
       return this.derivePrismaticDamage();
+    }
+    if (index == Modifiers.COMBAT_RATE) {
+      return this.cappedCombatRate();
     }
 
     if (index < 0 || index >= this.doubles.length) {
@@ -1483,6 +1500,9 @@ public class Modifiers {
   public double get(final String name) {
     if (name.equals("Prismatic Damage")) {
       return this.derivePrismaticDamage();
+    }
+    if (name.equals("Combat Rate")) {
+      return this.cappedCombatRate();
     }
 
     int index = Modifiers.findName(Modifiers.doubleModifiers, name);
@@ -1683,26 +1703,6 @@ public class Modifiers {
 
   public void add(final int index, final double mod, final String desc) {
     switch (index) {
-      case COMBAT_RATE:
-        // Combat Rate has diminishing returns beyond + or - 25%
-
-        // Assume that all the sources of Combat Rate modifiers are of + or - 5%,
-        // and start by obtaining the current value without the diminishing returns taken into
-        // account
-        double rate = this.doubles[index];
-        double extra = Math.abs(rate) - 25.0;
-        if (extra > 0.0) {
-          rate = (25.0 + Math.ceil(extra) * 5.0) * (rate < 0.0 ? -1.0 : 1.0);
-        }
-
-        // Add mod and calculate the new value with the diminishing returns taken into account
-        rate += mod;
-        extra = Math.abs(rate) - 25.0;
-        if (extra > 0.0) {
-          rate = (25.0 + Math.floor(extra / 5.0)) * (rate < 0.0 ? -1.0 : 1.0);
-        }
-        this.doubles[index] = rate;
-        break;
       case MANA_COST:
         // Total Mana Cost reduction cannot exceed 3
         this.doubles[index] += mod;
