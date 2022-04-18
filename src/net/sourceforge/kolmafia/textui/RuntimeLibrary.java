@@ -939,6 +939,12 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.INT_TYPE, DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
 
+    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE};
+    functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.BOOLEAN_TYPE};
+    functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
+
     params = new Type[] {};
     functions.add(new LibraryFunction("receive_fax", DataTypes.VOID_TYPE, params));
 
@@ -2098,6 +2104,13 @@ public abstract class RuntimeLibrary {
         new LibraryFunction(
             "get_locket_monsters",
             new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE),
+            params));
+
+    params = new Type[] {};
+    functions.add(
+        new LibraryFunction(
+            "get_permed_skills",
+            new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.SKILL_TYPE),
             params));
 
     params = new Type[] {};
@@ -4655,7 +4668,8 @@ public abstract class RuntimeLibrary {
     return retrieve_item(controller, DataTypes.ONE_VALUE, item);
   }
 
-  public static Value retrieve_price(ScriptRuntime controller, final Value arg1, final Value arg2) {
+  public static Value retrieve_price(
+      ScriptRuntime controller, final Value arg1, final Value arg2, final Value arg3) {
     int arg1Value = (int) arg1.intValue();
     int arg2Value = (int) arg2.intValue();
 
@@ -4669,8 +4683,13 @@ public abstract class RuntimeLibrary {
       return DataTypes.ZERO_VALUE;
     }
 
-    return new Value(
-        InventoryManager.priceToAcquire(ItemPool.get(item, count), count, false, false));
+    boolean exact = arg3.intValue() == 1;
+
+    return new Value(InventoryManager.priceToAcquire(ItemPool.get(item, count), exact, false));
+  }
+
+  public static Value retrieve_price(ScriptRuntime controller, final Value arg1, final Value arg2) {
+    return retrieve_price(controller, arg1, arg2, DataTypes.FALSE_VALUE);
   }
 
   public static Value retrieve_price(ScriptRuntime controller, final Value item) {
@@ -5093,13 +5112,12 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value mall_price(ScriptRuntime controller, final Value item) {
-    return new Value(MallPriceManager.getMallPrice(ItemPool.get((int) item.intValue(), 0)));
+    return new Value(MallPriceManager.getMallPrice((int) item.intValue()));
   }
 
   public static Value mall_price(ScriptRuntime controller, final Value item, final Value maxAge) {
     return new Value(
-        MallPriceManager.getMallPrice(
-            ItemPool.get((int) item.intValue(), 0), (float) maxAge.floatValue()));
+        MallPriceManager.getMallPrice((int) item.intValue(), (float) maxAge.floatValue()));
   }
 
   public static Value mall_prices(ScriptRuntime controller, final Value arg) {
@@ -5120,6 +5138,7 @@ public abstract class RuntimeLibrary {
     }
 
     // Update the mall prices, one by one,
+    // Note that the AdventureResults all have "count" of 1
     int result = MallPriceManager.getMallPrices(itemIds, 0.0f);
 
     return DataTypes.makeIntValue(result);
@@ -8118,6 +8137,20 @@ public abstract class RuntimeLibrary {
       value.aset(DataTypes.makeMonsterValue(monster), DataTypes.makeBooleanValue(!fought));
     }
 
+    return value;
+  }
+
+  public static Value get_permed_skills(ScriptRuntime controller) {
+    AggregateType type = new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.SKILL_TYPE);
+    MapValue value = new MapValue(type);
+
+    for (var permedSkill : KoLConstants.permedSkills) {
+      var skill = DataTypes.makeSkillValue(permedSkill.getSkillId(), true);
+      var hardcore =
+          DataTypes.makeBooleanValue(
+              KoLConstants.hardcorePermedSkills.contains(permedSkill.getSkillId()));
+      value.aset(skill, hardcore);
+    }
     return value;
   }
 

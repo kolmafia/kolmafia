@@ -3703,6 +3703,12 @@ public abstract class KoLCharacter {
     KoLConstants.permedSkills.addAll(newSkillSet);
   }
 
+  public static final void setHardcorePermedSkills(final Set<Integer> newSkillSet) {
+    KoLConstants.hardcorePermedSkills.clear();
+
+    KoLConstants.hardcorePermedSkills.addAll(newSkillSet);
+  }
+
   /** Adds a single skill to the list of known skills possessed by this character. */
   public static final void addAvailableSkill(final int skillId) {
     KoLCharacter.addAvailableSkill(skillId, false);

@@ -533,7 +533,7 @@ public class ResponseTextParser {
     } else if (location.startsWith("sea_skatepark.php")) {
       SkateParkRequest.parseResponse(location, responseText);
     } else if (location.startsWith("sellstuff.php")) {
-      AutoSellRequest.parseCompactAutoSell(location, responseText);
+      AutoSellRequest.parseCompactAutoSell(location);
     } else if (location.startsWith("sellstuff_ugly.php")) {
       AutoSellRequest.parseDetailedAutoSell(location, responseText);
     } else if (location.startsWith("sendmessage.php")) {
