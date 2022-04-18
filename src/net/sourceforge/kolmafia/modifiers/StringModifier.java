@@ -8,11 +8,11 @@ public class StringModifier implements Modifier {
   private final Pattern tagPattern;
 
   public StringModifier(String name, Pattern tagPattern) {
-    this(name, (Pattern[])null, tagPattern);
+    this(name, (Pattern[]) null, tagPattern);
   }
 
   public StringModifier(String name, Pattern descPattern, Pattern tagPattern) {
-    this(name, new Pattern[]{descPattern}, tagPattern);
+    this(name, new Pattern[] {descPattern}, tagPattern);
   }
 
   public StringModifier(String name, Pattern[] descPatterns, Pattern tagPattern) {
@@ -40,5 +40,4 @@ public class StringModifier implements Modifier {
   public String getTag() {
     return name;
   }
-
 }

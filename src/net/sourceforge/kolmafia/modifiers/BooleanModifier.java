@@ -8,11 +8,11 @@ public class BooleanModifier implements Modifier {
   private final Pattern tagPattern;
 
   public BooleanModifier(String name, Pattern tagPattern) {
-    this(name, (Pattern[])null, tagPattern);
+    this(name, (Pattern[]) null, tagPattern);
   }
 
   public BooleanModifier(String name, Pattern descPattern, Pattern tagPattern) {
-    this(name, new Pattern[]{descPattern}, tagPattern);
+    this(name, new Pattern[] {descPattern}, tagPattern);
   }
 
   public BooleanModifier(String name, Pattern[] descPattern, Pattern tagPattern) {
@@ -40,5 +40,4 @@ public class BooleanModifier implements Modifier {
   public String getTag() {
     return name;
   }
-
 }

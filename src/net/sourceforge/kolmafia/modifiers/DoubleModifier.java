@@ -9,11 +9,11 @@ public class DoubleModifier implements Modifier {
   private final String tag;
 
   public DoubleModifier(String name, Pattern tagPattern) {
-    this(name, (Pattern[])null, tagPattern, name);
+    this(name, (Pattern[]) null, tagPattern, name);
   }
 
   public DoubleModifier(String name, Pattern tagPattern, String tag) {
-    this(name, (Pattern[])null, tagPattern, tag);
+    this(name, (Pattern[]) null, tagPattern, tag);
   }
 
   public DoubleModifier(String name, Pattern descPattern, Pattern tagPattern) {
