@@ -125,7 +125,6 @@ public class SynthesizeCommand extends AbstractCommand {
 
     int count = InventoryManager.getAccessibleCount(candy);
     boolean tradeable = ItemDatabase.isTradeable(itemId);
-    int cost = !tradeable ? 0 : MallPriceManager.getMallPrice(candy, AGE_LIMIT);
 
     message.append("Item '");
     message.append(candy.getName());
@@ -140,6 +139,7 @@ public class SynthesizeCommand extends AbstractCommand {
     if (!tradeable) {
       message.append(".");
     } else {
+      int cost = MallPriceManager.getMallPrice(itemId, AGE_LIMIT);
       message.append(" without using the mall, where it costs ");
       message.append(cost);
       message.append(" Meat.");

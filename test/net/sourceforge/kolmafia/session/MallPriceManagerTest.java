@@ -234,13 +234,37 @@ public class MallPriceManagerTest {
   }
 
   @Test
-  public void canFindNthCheapestPrice() {
+  public void canFindPriceForMultipleItems() {
     AdventureResult item = ItemPool.get(ItemPool.REAGENT);
     int[] prices = getTestPrices();
-    List<PurchaseRequest> results = generateSearchResults(item, prices);
-    assertEquals(15, results.size());
-    addSearchResults(item, results);
-    assertEquals(500, MallPriceManager.getMallPrice(item));
+    try (var cleanups = mockClock()) {
+      long timestamp = 1_000_000;
+      Mockito.when(clock.millis()).thenReturn(timestamp);
+
+      List<PurchaseRequest> results = generateSearchResults(item, prices);
+      assertEquals(15, results.size());
+      addSearchResults(item, results);
+
+      // Get mall price for buying from 1 to 15 of the item.
+      assertEquals(500, MallPriceManager.getMallPrice(item.getInstance(1)));
+      assertEquals(1000, MallPriceManager.getMallPrice(item.getInstance(2)));
+      assertEquals(1500, MallPriceManager.getMallPrice(item.getInstance(3)));
+      assertEquals(2000, MallPriceManager.getMallPrice(item.getInstance(4)));
+      assertEquals(2500, MallPriceManager.getMallPrice(item.getInstance(5)));
+      assertEquals(3500, MallPriceManager.getMallPrice(item.getInstance(6)));
+      assertEquals(4500, MallPriceManager.getMallPrice(item.getInstance(7)));
+      assertEquals(5500, MallPriceManager.getMallPrice(item.getInstance(8)));
+      assertEquals(6500, MallPriceManager.getMallPrice(item.getInstance(9)));
+      assertEquals(7500, MallPriceManager.getMallPrice(item.getInstance(10)));
+      assertEquals(12500, MallPriceManager.getMallPrice(item.getInstance(11)));
+      assertEquals(17500, MallPriceManager.getMallPrice(item.getInstance(12)));
+      assertEquals(22500, MallPriceManager.getMallPrice(item.getInstance(13)));
+      assertEquals(27500, MallPriceManager.getMallPrice(item.getInstance(14)));
+      assertEquals(32500, MallPriceManager.getMallPrice(item.getInstance(15)));
+
+      // Counts greater than available extrapolate using highest price
+      assertEquals(37500, MallPriceManager.getMallPrice(item.getInstance(16)));
+    }
   }
 
   @Test
@@ -267,7 +291,7 @@ public class MallPriceManagerTest {
       addSearchResults(item, results);
 
       // This item is a NPC item available for the 5th cheapest price
-      int mallPrice = MallPriceManager.getMallPrice(item);
+      long mallPrice = MallPriceManager.getMallPrice(item);
       assertEquals(mallPrice, 400);
     }
   }
@@ -301,7 +325,7 @@ public class MallPriceManagerTest {
       addSearchResults(item, results);
 
       // Find the fifth cheapest price
-      int mallPrice = MallPriceManager.getMallPrice(item);
+      long mallPrice = MallPriceManager.getMallPrice(item);
       assertEquals(mallPrice, 400);
 
       // Flush the first shop's PurchaseRequest
@@ -429,7 +453,7 @@ public class MallPriceManagerTest {
       assertNotNull(search);
 
       // Verify that we have a saved "5th lowest" mall price
-      int price = MallPriceManager.getMallPrice(item);
+      long price = MallPriceManager.getMallPrice(item);
       assertEquals(500, price);
 
       // Flush the PurchaseRequests for this item
@@ -519,7 +543,7 @@ public class MallPriceManagerTest {
       assertNull(search);
 
       // Verify that the saved price is -1, which means "not in the mall"
-      int price = MallPriceManager.getMallPrice(item);
+      long price = MallPriceManager.getMallPrice(item);
       assertEquals(-1, price);
     }
   }
