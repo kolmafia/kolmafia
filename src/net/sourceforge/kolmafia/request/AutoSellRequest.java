@@ -108,12 +108,14 @@ public class AutoSellRequest extends TransferItemRequest {
 
     List<AdventureResult> all = new ArrayList<>();
     List<AdventureResult> allButOne = new ArrayList<>();
-    Set<AdventureResult> others = new HashSet<AdventureResult>();
+    Set<AdventureResult> others = new HashSet<>();
 
-    for (int index = 0; index < this.attachments.length; ++index) {
-      AdventureResult item = this.attachments[index];
-
+    for (AdventureResult item : this.attachments) {
       if (item == null) {
+        continue;
+      }
+
+      if (item.getCount() == 0) {
         continue;
       }
 
@@ -220,7 +222,7 @@ public class AutoSellRequest extends TransferItemRequest {
 
   public static final boolean parseTransfer(final String urlString, final String responseText) {
     if (urlString.startsWith("sellstuff.php")) {
-      return AutoSellRequest.parseCompactAutoSell(urlString, responseText);
+      return AutoSellRequest.parseCompactAutoSell(urlString);
     }
     if (urlString.startsWith("sellstuff_ugly.php")) {
       return AutoSellRequest.parseDetailedAutoSell(urlString, responseText);
@@ -228,8 +230,7 @@ public class AutoSellRequest extends TransferItemRequest {
     return false;
   }
 
-  public static final boolean parseCompactAutoSell(
-      final String urlString, final String responseText) {
+  public static final boolean parseCompactAutoSell(final String urlString) {
     int quantity = 1;
 
     Matcher quantityMatcher = TransferItemRequest.HOWMANY_PATTERN.matcher(urlString);
@@ -237,9 +238,9 @@ public class AutoSellRequest extends TransferItemRequest {
       quantity = StringUtilities.parseInt(quantityMatcher.group(1));
     }
 
-    if (urlString.indexOf("type=allbutone") != -1) {
+    if (urlString.contains("type=allbutone")) {
       quantity = -1;
-    } else if (urlString.indexOf("type=all") != -1) {
+    } else if (urlString.contains("type=all")) {
       quantity = 0;
     }
 
@@ -265,9 +266,9 @@ public class AutoSellRequest extends TransferItemRequest {
       quantity = StringUtilities.parseInt(quantityMatcher.group(1));
     }
 
-    if (urlString.indexOf("mode=1") != -1) {
+    if (urlString.contains("mode=1")) {
       quantity = 0;
-    } else if (urlString.indexOf("mode=2") != -1) {
+    } else if (urlString.contains("mode=2")) {
       quantity = -1;
     }
 
@@ -288,8 +289,7 @@ public class AutoSellRequest extends TransferItemRequest {
     if (KoLCharacter.inFistcore()) {
       int donation = 0;
 
-      for (int i = 0; i < itemList.size(); ++i) {
-        AdventureResult item = itemList.get(i);
+      for (AdventureResult item : itemList) {
         int price = ItemDatabase.getPriceById(item.getItemId());
         int count = item.getCount();
         donation += price * count;
@@ -350,8 +350,7 @@ public class AutoSellRequest extends TransferItemRequest {
   }
 
   public static final boolean registerRequest(final String urlString) {
-    Pattern itemPattern = null;
-    Pattern quantityPattern = null;
+    Pattern itemPattern;
     int quantity = 1;
 
     if (urlString.startsWith("sellstuff.php")) {
@@ -360,9 +359,9 @@ public class AutoSellRequest extends TransferItemRequest {
         quantity = StringUtilities.parseInt(quantityMatcher.group(1));
       }
 
-      if (urlString.indexOf("type=allbutone") != -1) {
+      if (urlString.contains("type=allbutone")) {
         quantity = -1;
-      } else if (urlString.indexOf("type=all") != -1) {
+      } else if (urlString.contains("type=all")) {
         quantity = 0;
       }
 
@@ -373,9 +372,9 @@ public class AutoSellRequest extends TransferItemRequest {
         quantity = StringUtilities.parseInt(quantityMatcher.group(1));
       }
 
-      if (urlString.indexOf("mode=1") != -1) {
+      if (urlString.contains("mode=1")) {
         quantity = 0;
-      } else if (urlString.indexOf("mode=2") != -1) {
+      } else if (urlString.contains("mode=2")) {
         quantity = -1;
       }
 
@@ -385,6 +384,6 @@ public class AutoSellRequest extends TransferItemRequest {
     }
 
     return TransferItemRequest.registerRequest(
-        "autosell", urlString, itemPattern, quantityPattern, KoLConstants.inventory, quantity);
+        "autosell", urlString, itemPattern, null, KoLConstants.inventory, quantity);
   }
 }
