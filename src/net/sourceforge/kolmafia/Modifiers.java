@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -28,7 +27,6 @@ import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
-import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -1859,14 +1857,12 @@ public class Modifiers {
   public static final Modifiers getItemModifiersInFamiliarSlot(final int id) {
     Modifiers mods = new Modifiers(getItemModifiers(id));
 
-    if (mods != null) {
-      mods.set(Modifiers.SLIME_HATES_IT, 0.0f);
-      mods.set(Modifiers.BRIMSTONE, 0);
-      mods.set(Modifiers.CLOATHING, 0);
-      mods.set(Modifiers.SYNERGETIC, 0);
-      mods.set(Modifiers.MOXIE_MAY_CONTROL_MP, false);
-      mods.set(Modifiers.MOXIE_CONTROLS_MP, false);
-    }
+    mods.set(Modifiers.SLIME_HATES_IT, 0.0f);
+    mods.set(Modifiers.BRIMSTONE, 0);
+    mods.set(Modifiers.CLOATHING, 0);
+    mods.set(Modifiers.SYNERGETIC, 0);
+    mods.set(Modifiers.MOXIE_MAY_CONTROL_MP, false);
+    mods.set(Modifiers.MOXIE_CONTROLS_MP, false);
 
     return mods;
   }
@@ -1938,7 +1934,6 @@ public class Modifiers {
     String[] newStrings = newMods.strings;
 
     newMods.name = lookup;
-    String name = Modifiers.getNameFromLookup(lookup);
 
     for (int i = 0; i < newDoubles.length; ++i) {
       Pattern pattern = Modifiers.doubleModifiers[i].getTagPattern();
@@ -3325,8 +3320,8 @@ public class Modifiers {
   }
 
   private static <T extends net.sourceforge.kolmafia.modifiers.Modifier> boolean findModifier(final T[] table, final String tag) {
-    for (int i = 0; i < table.length; ++i) {
-      Pattern pattern = table[i].getTagPattern();
+    for (T modifier : table) {
+      Pattern pattern = modifier.getTagPattern();
       if (pattern == null) {
         continue;
       }
@@ -3667,7 +3662,6 @@ public class Modifiers {
     Set<String> effects = new TreeSet<>();
 
     for (Entry<Integer, String> entry : EffectDatabase.entrySet()) {
-      Integer key = entry.getKey();
       String name = entry.getValue();
       // Skip effect which is also an item
       effects.add(name);
@@ -3737,15 +3731,13 @@ public class Modifiers {
     }
 
     // Make a map of mutexes
-    Set<String> mutexes = new TreeSet<>();
 
-    mutexes.addAll(Modifiers.mutexes);
+    Set<String> mutexes = new TreeSet<>(Modifiers.mutexes);
 
     // Make a map of maximization categories
-    Set<String> maximization = new TreeSet<>();
     int maximizationCount = Maximizer.maximizationCategories.length;
 
-    maximization.addAll(
+    Set<String> maximization = new TreeSet<>(
         Arrays.asList(Maximizer.maximizationCategories).subList(0, maximizationCount));
 
     // Open the output file
