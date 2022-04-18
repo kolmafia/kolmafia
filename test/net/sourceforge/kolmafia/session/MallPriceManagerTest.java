@@ -261,6 +261,9 @@ public class MallPriceManagerTest {
       assertEquals(22500, MallPriceManager.getMallPrice(item.getInstance(13)));
       assertEquals(27500, MallPriceManager.getMallPrice(item.getInstance(14)));
       assertEquals(32500, MallPriceManager.getMallPrice(item.getInstance(15)));
+
+      // Counts greater than available extrapolate using highest price
+      assertEquals(37500, MallPriceManager.getMallPrice(item.getInstance(16)));
     }
   }
 
