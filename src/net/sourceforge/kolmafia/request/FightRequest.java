@@ -2407,7 +2407,7 @@ public class FightRequest extends GenericRequest {
         TurnCounter.stopCounting("Enamorang unknown monster window begin");
         TurnCounter.stopCounting("Enamorang unknown monster window end");
         Preferences.setString("enamorangMonster", "");
-      } else if (EncounterManager.isGregariousEncounter(responseText, true)) {
+      } else if (EncounterManager.isGregariousEncounter(responseText)) {
         EncounterManager.ignoreSpecialMonsters();
         Preferences.decrement("beGregariousFightsLeft", 1, 0);
       } else if (EncounterManager.isSaberForceMonster()) {

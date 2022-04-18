@@ -404,7 +404,8 @@ public class AdventureRequest extends GenericRequest {
 
         encounter = monster.getName();
         // Only queue normal monster encounters
-        if (!EncounterManager.ignoreSpecialMonsters
+        if ((!EncounterManager.ignoreSpecialMonsters
+                || EncounterManager.isGregariousEncounter(responseText))
             && !EncounterManager.isWanderingMonster(encounter)
             && !EncounterManager.isUltrarareMonster(encounter)
             && !EncounterManager.isLuckyMonster(encounter)
