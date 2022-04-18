@@ -8,6 +8,14 @@ public class DoubleModifier implements Modifier {
   private final Pattern tagPattern;
   private final String tag;
 
+  public DoubleModifier(String name, Pattern tagPattern) {
+    this(name, (Pattern[])null, tagPattern, name);
+  }
+
+  public DoubleModifier(String name, Pattern tagPattern, String tag) {
+    this(name, (Pattern[])null, tagPattern, tag);
+  }
+
   public DoubleModifier(String name, Pattern descPattern, Pattern tagPattern) {
     this(name, new Pattern[] {descPattern}, tagPattern, name);
   }

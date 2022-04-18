@@ -7,9 +7,17 @@ public class BooleanModifier implements Modifier {
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;
 
+  public BooleanModifier(String name, Pattern tagPattern) {
+    this(name, (Pattern[])null, tagPattern);
+  }
+
   public BooleanModifier(String name, Pattern descPattern, Pattern tagPattern) {
+    this(name, new Pattern[]{descPattern}, tagPattern);
+  }
+
+  public BooleanModifier(String name, Pattern[] descPattern, Pattern tagPattern) {
     this.name = name;
-    this.descPatterns = new Pattern[]{descPattern};
+    this.descPatterns = descPattern;
     this.tagPattern = tagPattern;
   }
 

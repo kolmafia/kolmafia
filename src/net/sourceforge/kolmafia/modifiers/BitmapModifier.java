@@ -4,12 +4,10 @@ import java.util.regex.Pattern;
 
 public class BitmapModifier implements Modifier {
   private final String name;
-  private final Pattern[] descPatterns;
   private final Pattern tagPattern;
 
-  public BitmapModifier(String name, Pattern[] descPatterns, Pattern tagPattern) {
+  public BitmapModifier(String name, Pattern tagPattern) {
     this.name = name;
-    this.descPatterns = descPatterns;
     this.tagPattern = tagPattern;
   }
 
@@ -20,7 +18,7 @@ public class BitmapModifier implements Modifier {
 
   @Override
   public Pattern[] getDescPatterns() {
-    return descPatterns;
+    return null;
   }
 
   @Override
