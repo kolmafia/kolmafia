@@ -115,7 +115,7 @@ public class AutoSellRequest extends TransferItemRequest {
         continue;
       }
 
-      if (item.getCount() == 0L) {
+      if (item.getCount() == 0) {
         continue;
       }
 
