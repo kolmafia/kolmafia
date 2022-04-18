@@ -1179,6 +1179,14 @@ public abstract class InventoryManager {
     long price = 0;
 
     if (onhand > 0) {
+
+      // r8873 | jasonharper | 2011-01-04 00:07:09 -0500 (Tue, 04 Jan 2011) | 9 lines
+      //
+      // Added a special case to the create vs. buy decision-making code: an on-hand
+      // tiny plastic sword is valued at 0 meat, since you get it back from the drink.
+      // This should avoid undesirable behavior if the historical price of the TPS is
+      // ever greater than one of the items containing a TPS.
+
       if (itemId != ItemPool.PLASTIC_SWORD) {
         price = mallPriceOnly ? 0 : InventoryManager.itemValue(item, exact);
         price *= onhand;

@@ -144,11 +144,11 @@ public abstract class MallPriceManager {
   // Mr. Accessory) in order to snatch up an erroneous mispriced item -
   // mall_price() returns the price you'd pay for the Nth item of the
   // sort you could buy. In particular, the 5th cheapest.
-  public static int NTH_CHEAPEST_PRICE = 5;
+  public static int NTH_CHEAPEST_COUNT = 5;
 
   // How many stores to request results for in a mall search. We'd like enough to find at least
-  // NTH_CHEAPEST results. Stores frequently have more than one of an item for sael, but stores also
-  // frequently have limits - especially if they are offering bargain prices.
+  // NTH_CHEAPEST_COUNT results. Stores frequently have more than one of an item for sale, but
+  // stores also frequently have limits - especially if they are offering bargain prices.
   //
   // I've observed that KoL seems to give you 30 search results if you do not request a specific
   // count. That seems likely to be enough. A count of 0 gets you the default count.
@@ -450,7 +450,7 @@ public abstract class MallPriceManager {
       return 0;
     }
 
-    int price = MallPriceManager.nthCheapestPrice(NTH_CHEAPEST_PRICE, results);
+    int price = MallPriceManager.nthCheapestPrice(NTH_CHEAPEST_COUNT, results);
     MallPriceManager.mallPrices.put(itemId, price);
     if (price > 0) {
       MallPriceDatabase.recordPrice(itemId, price, deferred);
@@ -482,7 +482,7 @@ public abstract class MallPriceManager {
     int price = MallPriceManager.mallPrices.getOrDefault(itemId, 0);
 
     if (price == 0) {
-      AdventureResult search = ItemPool.get(itemId, NTH_CHEAPEST_PRICE);
+      AdventureResult search = ItemPool.get(itemId, NTH_CHEAPEST_COUNT);
       List<PurchaseRequest> results = MallPriceManager.searchMall(search);
       MallPriceManager.updateMallPrice(itemId, results);
       price = MallPriceManager.mallPrices.getOrDefault(itemId, 0);
@@ -493,16 +493,16 @@ public abstract class MallPriceManager {
 
   // Get the up-to-date "nth cheapest" mall price from cached local mall searches.
   //
-  // The "count" field of the AdventureResult is meaningful; if it is no greater than "n",
-  // we'll use a cached mall price, which is the "nth cheapest" price,
-  // and return the price to buy "count" items.
+  // The "count" field of the AdventureResult is meaningful; if it is no greater than
+  // NTH_CHEAPEST_COUNT, we'll use a cached mall price, which is the "nth cheapest"
+  // price, and return the price to buy "count" items.
   //
-  // If it is greater than "n", and we have a saved mall search which will accommodate that, we'll
-  // calculate the total price using the "nth cheapest" price for the first 5 and the actual price
-  // for additional items.
+  // If it is greater than NTH_CHEAPEST_COUNT, and we have a saved mall search, we'll calculate the
+  // total price using the "nth cheapest" price for the first N and the actual price for additional
+  // items.
   //
-  // If we need to make a mall search to get enough items, we will do so - and save the search and
-  // the calculated "nth cheapest" price for subsequent calls.
+  // If we need to make a mall search to get current results, we will do so - and save the
+  // search and the calculated "nth cheapest" price for subsequent calls.
   //
   // Note that this method returns a "long" value, since the cost to acquire multiple items can
   // exceed an int.
@@ -516,7 +516,7 @@ public abstract class MallPriceManager {
 
     // If we want to know the price of no more than the "n" of an item, use a cached mall price
     int count = Math.max(1, item.getCount());
-    if (count <= NTH_CHEAPEST_PRICE) {
+    if (count <= NTH_CHEAPEST_COUNT) {
       return (long) MallPriceManager.getMallPrice(itemId) * count;
     }
 
@@ -535,20 +535,20 @@ public abstract class MallPriceManager {
       int available = req.getLimit();
 
       // If we are still looking for the "nth-cheapest price" ...
-      if (found < NTH_CHEAPEST_PRICE) {
+      if (found < NTH_CHEAPEST_COUNT) {
         // If this store does not have it, simply account for available inventory
-        if ((found + available) < NTH_CHEAPEST_PRICE) {
-          // Don't add price until we have at least 5
+        if ((found + available) < NTH_CHEAPEST_COUNT) {
+          // Don't add price until we have at least N
           found += available;
           continue;
         }
 
-        // Otherwise, we have found the 5th-cheapest price!
-        // Tally the total cost of the first five items.
-        available -= NTH_CHEAPEST_PRICE - found;
-        found = NTH_CHEAPEST_PRICE;
-        total = price * NTH_CHEAPEST_PRICE;
-        needed -= NTH_CHEAPEST_PRICE;
+        // Otherwise, we have found the nth-cheapest price!
+        // Tally the total cost of the first N items.
+        available -= NTH_CHEAPEST_COUNT - found;
+        found = NTH_CHEAPEST_COUNT;
+        total = (long) price * NTH_CHEAPEST_COUNT;
+        needed -= NTH_CHEAPEST_COUNT;
       }
 
       // If we exhausted the available inventory of this shop, move to next shop.
@@ -626,7 +626,7 @@ public abstract class MallPriceManager {
           continue;
         }
         if (MallPriceManager.mallPrices.getOrDefault(itemId, 0) == 0) {
-          AdventureResult search = item.getInstance(NTH_CHEAPEST_PRICE);
+          AdventureResult search = item.getInstance(NTH_CHEAPEST_COUNT);
           List<PurchaseRequest> results = MallPriceManager.searchMall(search);
           MallPriceManager.flushCache(itemId);
           MallPriceManager.updateMallPrice(itemId, results, true);
