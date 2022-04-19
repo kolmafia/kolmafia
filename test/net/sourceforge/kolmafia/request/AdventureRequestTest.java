@@ -2,15 +2,18 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Player.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLAdventure;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.equalTo;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -41,25 +44,16 @@ public class AdventureRequestTest {
   }
 
   @Test
-  void enqueueGregariousMonsters() throws IOException {
-    String html = Files.readString(Path.of("request/test_fight_gregarious_monster.html"));
-    AdventureRequest request = new AdventureRequest("Noob Cave", "adventure.php", "240");
-    request.responseText = html;
-    AdventureRequest.registerEncounter(request);
-    assertThat(
-        AdventureQueueDatabase.getZoneQueue(KoLAdventure.lastVisitedLocation()),
-        contains("Knob Goblin Embezzler"));
-  }
+  public void gregariousMonstersAreQueued() throws IOException {
+    KoLAdventure.setLastAdventure(AdventureDatabase.getAdventure("Barf Mountain"));
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Knob Goblin Embezzler"));
 
-  @Test
-  void dontEnqueueNongregariousSpecialMonsters() throws IOException {
-    String html = Files.readString(Path.of("request/test_fight_digitized_monster.html"));
-    AdventureRequest request = new AdventureRequest("Noob Cave", "adventure.php", "240");
-    request.responseText = html;
-    AdventureRequest.registerEncounter(request);
+    var req = new GenericRequest("fight.php");
+    req.setHasResult(true);
+    req.responseText = Files.readString(Path.of("request/test_fight_gregarious_monster.html"));
+    req.processResponse();
+
     assertThat(
-        AdventureQueueDatabase.getZoneQueue(KoLAdventure.lastVisitedLocation())
-            .contains("Knob Goblin Embezzler"),
-        equalTo(false));
+        AdventureQueueDatabase.getZoneQueue("Barf Mountain"), contains("Knob Goblin Embezzler"));
   }
 }
