@@ -12,11 +12,10 @@ public class ModRefCommand extends AbstractCommand {
   @Override
   public void run(final String cmd, final String parameters) {
     Modifiers mods = Modifiers.getModifiers("Item", parameters);
-    StringBuffer buf =
-        new StringBuffer("<table border=2>" + "<tr><td colspan=2>NUMERIC MODIFIERS</td></tr>");
-    String mod;
-    int i = 0;
-    while ((mod = Modifiers.getModifierName(i++)) != null) {
+    StringBuilder buf =
+        new StringBuilder("<table border=2>" + "<tr><td colspan=2>NUMERIC MODIFIERS</td></tr>");
+    for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; i++) {
+      String mod = Modifiers.getModifierName(i);
       buf.append("<tr><td>");
       buf.append(mod);
       buf.append("</td><td>");
@@ -28,8 +27,8 @@ public class ModRefCommand extends AbstractCommand {
       buf.append("</td></tr>");
     }
     buf.append("<tr><td colspan=2>BITMAP MODIFIERS</td></tr>");
-    i = 1;
-    while ((mod = Modifiers.getBitmapModifierName(i++)) != null) {
+    for (int i = 1; i < Modifiers.BITMAP_MODIFIERS; i++) {
+      String mod = Modifiers.getBitmapModifierName(i);
       buf.append("<tr><td>");
       buf.append(mod);
       buf.append("</td><td>0x");
@@ -47,8 +46,8 @@ public class ModRefCommand extends AbstractCommand {
       buf.append("</td></tr>");
     }
     buf.append("<tr><td colspan=2>BOOLEAN MODIFIERS</td></tr>");
-    i = 0;
-    while ((mod = Modifiers.getBooleanModifierName(i++)) != null) {
+    for (int i = 0; i < Modifiers.BOOLEAN_MODIFIERS; i++) {
+      String mod = Modifiers.getBooleanModifierName(i);
       buf.append("<tr><td>");
       buf.append(mod);
       buf.append("</td><td>");
@@ -60,8 +59,8 @@ public class ModRefCommand extends AbstractCommand {
       buf.append("</td></tr>");
     }
     buf.append("<tr><td colspan=2>STRING MODIFIERS</td></tr>");
-    i = 0;
-    while ((mod = Modifiers.getStringModifierName(i++)) != null) {
+    for (int i = 0; i < Modifiers.STRING_MODIFIERS; i++) {
+      String mod = Modifiers.getStringModifierName(i);
       buf.append("<tr><td>");
       buf.append(mod);
       buf.append("</td><td>");
