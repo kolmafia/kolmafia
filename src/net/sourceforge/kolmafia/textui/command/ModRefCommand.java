@@ -14,7 +14,8 @@ public class ModRefCommand extends AbstractCommand {
     Modifiers mods = Modifiers.getModifiers("Item", parameters);
     String colSpan = mods == null ? "2" : "3";
     StringBuilder buf =
-        new StringBuilder("<table border=2>" + "<tr><td colspan=" + colSpan + ">NUMERIC MODIFIERS</td></tr>");
+        new StringBuilder(
+            "<table border=2>" + "<tr><td colspan=" + colSpan + ">NUMERIC MODIFIERS</td></tr>");
     for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; i++) {
       String mod = Modifiers.getModifierName(i);
       buf.append("<tr><td>");

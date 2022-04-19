@@ -28,5 +28,4 @@ public class ModRefCommandTest extends AbstractCommandTestBase {
     // a selection
     assertThat(mods, containsString("Muscle: +6, Mysticality: +6, Moxie: +6"));
   }
-
 }

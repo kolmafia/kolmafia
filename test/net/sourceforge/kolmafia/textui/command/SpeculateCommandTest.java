@@ -18,5 +18,4 @@ public class SpeculateCommandTest extends AbstractCommandTestBase {
     assertThat(spec, containsString("Moxie"));
     assertThat(spec, containsString("Buffed Moxie"));
   }
-
 }
