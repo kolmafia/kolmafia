@@ -12,8 +12,9 @@ public class ModRefCommand extends AbstractCommand {
   @Override
   public void run(final String cmd, final String parameters) {
     Modifiers mods = Modifiers.getModifiers("Item", parameters);
+    String colSpan = mods == null ? "2" : "3";
     StringBuilder buf =
-        new StringBuilder("<table border=2>" + "<tr><td colspan=2>NUMERIC MODIFIERS</td></tr>");
+        new StringBuilder("<table border=2>" + "<tr><td colspan=" + colSpan + ">NUMERIC MODIFIERS</td></tr>");
     for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; i++) {
       String mod = Modifiers.getModifierName(i);
       buf.append("<tr><td>");
@@ -26,7 +27,7 @@ public class ModRefCommand extends AbstractCommand {
       }
       buf.append("</td></tr>");
     }
-    buf.append("<tr><td colspan=2>BITMAP MODIFIERS</td></tr>");
+    buf.append("<tr><td colspan=").append(colSpan).append(">BITMAP MODIFIERS</td></tr>");
     for (int i = 1; i < Modifiers.BITMAP_MODIFIERS; i++) {
       String mod = Modifiers.getBitmapModifierName(i);
       buf.append("<tr><td>");
@@ -45,7 +46,7 @@ public class ModRefCommand extends AbstractCommand {
       }
       buf.append("</td></tr>");
     }
-    buf.append("<tr><td colspan=2>BOOLEAN MODIFIERS</td></tr>");
+    buf.append("<tr><td colspan=").append(colSpan).append(">BOOLEAN MODIFIERS</td></tr>");
     for (int i = 0; i < Modifiers.BOOLEAN_MODIFIERS; i++) {
       String mod = Modifiers.getBooleanModifierName(i);
       buf.append("<tr><td>");
@@ -58,7 +59,7 @@ public class ModRefCommand extends AbstractCommand {
       }
       buf.append("</td></tr>");
     }
-    buf.append("<tr><td colspan=2>STRING MODIFIERS</td></tr>");
+    buf.append("<tr><td colspan=").append(colSpan).append(">STRING MODIFIERS</td></tr>");
     for (int i = 0; i < Modifiers.STRING_MODIFIERS; i++) {
       String mod = Modifiers.getStringModifierName(i);
       buf.append("<tr><td>");
