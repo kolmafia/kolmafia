@@ -404,20 +404,20 @@ public class AdventureRequest extends GenericRequest {
 
         encounter = monster.getName();
         // Only queue normal monster encounters
-        if ((!EncounterManager.ignoreSpecialMonsters
-                || EncounterManager.isGregariousEncounter(responseText))
-            && !EncounterManager.isWanderingMonster(encounter)
-            && !EncounterManager.isUltrarareMonster(encounter)
-            && !EncounterManager.isLuckyMonster(encounter)
-            && !EncounterManager.isSuperlikelyMonster(encounter)
-            && !EncounterManager.isFreeCombatMonster(encounter)
-            && !EncounterManager.isNoWanderMonster(encounter)
-            && !EncounterManager.isEnamorangEncounter(responseText, false)
-            && !EncounterManager.isDigitizedEncounter(responseText, false)
-            && !EncounterManager.isRomanticEncounter(responseText, false)
-            && !EncounterManager.isSaberForceMonster()
-            && !CrystalBallManager.isCrystalBallMonster()
-            && !FightRequest.edFightInProgress()) {
+        if (EncounterManager.isGregariousEncounter(responseText)
+            || (!EncounterManager.ignoreSpecialMonsters
+                && !EncounterManager.isWanderingMonster(encounter)
+                && !EncounterManager.isUltrarareMonster(encounter)
+                && !EncounterManager.isLuckyMonster(encounter)
+                && !EncounterManager.isSuperlikelyMonster(encounter)
+                && !EncounterManager.isFreeCombatMonster(encounter)
+                && !EncounterManager.isNoWanderMonster(encounter)
+                && !EncounterManager.isEnamorangEncounter(responseText, false)
+                && !EncounterManager.isDigitizedEncounter(responseText, false)
+                && !EncounterManager.isRomanticEncounter(responseText, false)
+                && !EncounterManager.isSaberForceMonster()
+                && !CrystalBallManager.isCrystalBallMonster()
+                && !FightRequest.edFightInProgress())) {
           AdventureQueueDatabase.enqueue(KoLAdventure.lastVisitedLocation(), encounter);
         }
       } else if (type.equals("Noncombat")) {
