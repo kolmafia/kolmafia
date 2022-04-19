@@ -418,7 +418,7 @@ class EncounterManagerTest {
   void isGregariousEncounter(String file, String expected) throws IOException {
     String html = Files.readString(Path.of("request/test_fight_" + file + ".html"));
 
-    boolean actual = EncounterManager.isGregariousEncounter(html, false);
+    boolean actual = EncounterManager.isGregariousEncounter(html);
 
     assertThat(actual, equalTo(Boolean.parseBoolean(expected)));
   }
