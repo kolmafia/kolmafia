@@ -8,11 +8,17 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-class Skeleton {
+enum Skeleton {
+  WARRIOR("warrior", 1),
+  CLERIC("cleric", 2),
+  WIZARD("wizard", 3),
+  ROGUE("rogue", 4),
+  BUDDY("buddy", 5);
+
   private final String name;
   private final int num;
 
-  public Skeleton(String name, int num) {
+  Skeleton(String name, int num) {
     this.name = name;
     this.num = num;
   }
@@ -31,23 +37,8 @@ public class SkeletonCommand extends AbstractCommand {
     this.usage = " warrior | cleric | wizard | rogue | buddy";
   }
 
-  public static final int WARRIOR = 1;
-  public static final int CLERIC = 2;
-  public static final int WIZARD = 3;
-  public static final int ROGUE = 4;
-  public static final int BUDDY = 5;
-
-  public static final Skeleton[] SKELETONS =
-      new Skeleton[] {
-        new Skeleton("warrior", WARRIOR),
-        new Skeleton("cleric", CLERIC),
-        new Skeleton("wizard", WIZARD),
-        new Skeleton("rogue", ROGUE),
-        new Skeleton("buddy", BUDDY),
-      };
-
   public static final int findSkeleton(final String name) {
-    for (Skeleton skeleton : SKELETONS) {
+    for (Skeleton skeleton : Skeleton.values()) {
       if (name.equals(skeleton.getName())) {
         return skeleton.getNum();
       }
