@@ -1354,10 +1354,10 @@ public class Modifiers {
   }
 
   public double get(final String name) {
-    if (name.equals("Prismatic Damage")) {
+    if (name.equalsIgnoreCase("Prismatic Damage")) {
       return this.derivePrismaticDamage();
     }
-    if (name.equals("Combat Rate")) {
+    if (name.equalsIgnoreCase("Combat Rate")) {
       return this.cappedCombatRate();
     }
 
