@@ -36,14 +36,14 @@ public class PriceToAcquireTest {
 
   // Unit tests for the following methods from InventoryManager:
   //
-  // int itemValue(AdventureResult item, boolean exact)
-  // int priceToAcquire(AdventureResult item, int quantity, boolean exact)
-  // int priceToMake(AdventureResult item, int quantity, boolean exact)
+  // long itemValue(AdventureResult item, boolean exact)
+  // long priceToAcquire(AdventureResult item, boolean exact)
+  // long priceToMake(AdventureResult item, boolean exact)
   //
   // And the following variation, used exactly once in retrieveItem:
   // (or should I say, "called exactly once with mallPriceOnly = true)
   //
-  // int priceToMake(AdventureResult item, int quantity, boolean exact, boolean mallPriceOnly)
+  // long priceToMake(AdventureResult item, boolean exact, boolean mallPriceOnly)
 
   private static Cleanups mockGetMallPrice(
       Map<Integer, Integer> prices, Map<Integer, Integer> oldPrices) {
@@ -56,8 +56,8 @@ public class PriceToAcquireTest {
               AdventureResult item = (AdventureResult) arguments[0];
               int itemId = item.getItemId();
               int count = item.getCount();
-              int price = prices.get(itemId);
-              return price;
+              long price = prices.get(itemId);
+              return price * count;
             });
     mocked
         .when(() -> MallPriceManager.getMallPrice(any(AdventureResult.class), anyFloat()))
@@ -68,8 +68,8 @@ public class PriceToAcquireTest {
               float maxAge = (Float) arguments[1];
               int itemId = item.getItemId();
               int count = item.getCount();
-              int price = maxAge > 0.0 ? oldPrices.get(itemId) : prices.get(itemId);
-              return price;
+              long price = maxAge > 0.0 ? oldPrices.get(itemId) : prices.get(itemId);
+              return price * count;
             });
     return new Cleanups(mocked::close);
   }
@@ -186,16 +186,16 @@ public class PriceToAcquireTest {
         int itemid = entry.getKey();
         AdventureResult item = ItemPool.get(itemid, 1);
         int price = entry.getValue();
-        int test1 = MallPriceManager.getMallPrice(item);
+        long test1 = MallPriceManager.getMallPrice(item);
         assertEquals(price, test1);
-        int test2 = MallPriceManager.getMallPrice(item, 0.0f);
+        long test2 = MallPriceManager.getMallPrice(item, 0.0f);
         assertEquals(price, test2);
       }
       for (Entry<Integer, Integer> entry : oldPriceMap.entrySet()) {
         int itemid = entry.getKey();
         AdventureResult item = ItemPool.get(itemid, 1);
         int price = entry.getValue();
-        int test = MallPriceManager.getMallPrice(item, InventoryManager.MALL_PRICE_AGE);
+        long test = MallPriceManager.getMallPrice(item, InventoryManager.MALL_PRICE_AGE);
         assertEquals(price, test);
       }
     }
@@ -263,7 +263,7 @@ public class PriceToAcquireTest {
     return ItemDatabase.getPriceById(item.getItemId());
   }
 
-  private int getMallPrice(AdventureResult item, boolean exact) {
+  private long getMallPrice(AdventureResult item, boolean exact) {
     // *** Note that MallPriceManager must be mocked by caller.
     return exact
         ? MallPriceManager.getMallPrice(item)
@@ -278,8 +278,8 @@ public class PriceToAcquireTest {
   // "factor" is the "valueOfInventory" property
   // MallPriceManager must be mocked by caller
 
-  private int interpolate(AdventureResult item, boolean exact, float factor) {
-    int retval =
+  private long interpolate(AdventureResult item, boolean exact, float factor) {
+    long retval =
         (factor <= 0.0f)
             ? 0
             : (factor <= 1.0f)
@@ -290,30 +290,30 @@ public class PriceToAcquireTest {
     return retval;
   }
 
-  private int interpolate1(AdventureResult item, float factor) {
+  private long interpolate1(AdventureResult item, float factor) {
     // 0.0 < factor <= 1.0
     //   fraction of autosell price
-    int autosell = getAutosellPrice(item);
-    return (0 + (int) ((autosell - 0) * factor));
+    long autosell = getAutosellPrice(item);
+    return (0 + (long) ((autosell - 0) * factor));
   }
 
-  private int interpolate2(AdventureResult item, boolean exact, float factor) {
+  private long interpolate2(AdventureResult item, boolean exact, float factor) {
     // 1.0 < factor <= 2.0:
     //   if mall price <= mall min: autosell price
     //   (can be < if from NPC store)
     //   if mall price > mall min: autosell + fraction between autosell and mall)
     int autosell = getAutosellPrice(item);
-    int mallmin = Math.max(100, 2 * autosell);
-    int mall = getMallPrice(item, exact);
-    return (mall <= mallmin) ? autosell : (autosell + (int) ((mall - autosell) * factor));
+    long mallmin = Math.max(100, 2 * autosell);
+    long mall = getMallPrice(item, exact);
+    return (mall <= mallmin) ? autosell : (autosell + (long) ((mall - autosell) * factor));
   }
 
-  private int interpolate3(AdventureResult item, boolean exact, float factor) {
+  private long interpolate3(AdventureResult item, boolean exact, float factor) {
     // 2.0 < factor
     //   autosell + fraction between autosell and mall)
     int autosell = getAutosellPrice(item);
-    int mall = getMallPrice(item, exact);
-    return (autosell + (int) ((mall - autosell) * factor));
+    long mall = getMallPrice(item, exact);
+    return (autosell + (long) ((mall - autosell) * factor));
   }
 
   @Test
@@ -500,18 +500,17 @@ public class PriceToAcquireTest {
       // Therefore, we will need to purchase everything from mall or NPCs.
 
       // Simple tests: Items made with Meat cost that much Meat
-      assertEquals(10, InventoryManager.priceToMake(ItemPool.get(ItemPool.MEAT_PASTE), 1, true));
-      assertEquals(100, InventoryManager.priceToMake(ItemPool.get(ItemPool.MEAT_STACK), 1, true));
-      assertEquals(1000, InventoryManager.priceToMake(ItemPool.get(ItemPool.DENSE_STACK), 1, true));
+      assertEquals(10, InventoryManager.priceToMake(ItemPool.get(ItemPool.MEAT_PASTE, 1), true));
+      assertEquals(100, InventoryManager.priceToMake(ItemPool.get(ItemPool.MEAT_STACK, 1), true));
+      assertEquals(1000, InventoryManager.priceToMake(ItemPool.get(ItemPool.DENSE_STACK, 1), true));
 
       // Test with "exact" prices - i.e. "current mall prices, from "priceMap"
       // Verify that we cannot make NOCREATE items
 
-      assertEquals(Integer.MAX_VALUE, InventoryManager.priceToMake(FERMENTING_POWDER, 1, true));
-      assertEquals(
-          Integer.MAX_VALUE, InventoryManager.priceToMake(BUNCH_OF_SQUARE_GRAPES, 1, true));
-      assertEquals(Integer.MAX_VALUE, InventoryManager.priceToMake(FISH_HEAD, 1, true));
-      assertEquals(Integer.MAX_VALUE, InventoryManager.priceToMake(GRAPEFRUIT, 1, true));
+      assertEquals(Long.MAX_VALUE, InventoryManager.priceToMake(FERMENTING_POWDER, true));
+      assertEquals(Long.MAX_VALUE, InventoryManager.priceToMake(BUNCH_OF_SQUARE_GRAPES, true));
+      assertEquals(Long.MAX_VALUE, InventoryManager.priceToMake(FISH_HEAD, true));
+      assertEquals(Long.MAX_VALUE, InventoryManager.priceToMake(GRAPEFRUIT, true));
 
       int boxedWineBuyPrice = getPrice(BOXED_WINE, priceMap);
       int fermentingPowderPrice = getPrice(FERMENTING_POWDER, priceMap);
@@ -521,19 +520,20 @@ public class PriceToAcquireTest {
       int boxedWineMakePrice = (fermentingPowderPrice + squareGrapesPrice);
       int boxedWinePrice = Math.min(boxedWineBuyPrice, boxedWineMakePrice / 3);
       int threeBoxedWinePrice = Math.min(3 * boxedWineBuyPrice, boxedWineMakePrice);
-      assertEquals(boxedWinePrice, InventoryManager.priceToMake(BOXED_WINE, 1, true));
-      assertEquals(threeBoxedWinePrice, InventoryManager.priceToMake(BOXED_WINE, 3, true));
+      assertEquals(boxedWinePrice, InventoryManager.priceToMake(BOXED_WINE, true));
+      assertEquals(
+          threeBoxedWinePrice, InventoryManager.priceToMake(BOXED_WINE.getInstance(3), true));
 
       int piscatiniBuyPrice = getPrice(PISCATINI, priceMap);
       int piscatiniMakePrice = boxedWinePrice + getPrice(FISH_HEAD, priceMap);
       int piscatiniPrice = Math.min(piscatiniBuyPrice, piscatiniMakePrice);
-      assertEquals(piscatiniMakePrice, InventoryManager.priceToMake(PISCATINI, 1, true));
+      assertEquals(piscatiniMakePrice, InventoryManager.priceToMake(PISCATINI, true));
       int threePiscatiniPrice = threeBoxedWinePrice + 3 * getPrice(FISH_HEAD, priceMap);
-      assertEquals(threePiscatiniPrice, InventoryManager.priceToMake(PISCATINI, 3, true));
+      assertEquals(
+          threePiscatiniPrice, InventoryManager.priceToMake(PISCATINI.getInstance(3), true));
 
       int driveByShootingMakePrice = piscatiniPrice + getPrice(GRAPEFRUIT, priceMap);
-      assertEquals(
-          driveByShootingMakePrice, InventoryManager.priceToMake(DRIVE_BY_SHOOTING, 1, true));
+      assertEquals(driveByShootingMakePrice, InventoryManager.priceToMake(DRIVE_BY_SHOOTING, true));
     }
   }
 
@@ -567,32 +567,32 @@ public class PriceToAcquireTest {
       Preferences.setFloat("valueOfInventory", 0.0f);
 
       // Test that acquiring an item with no items costs Meat
-      int one = InventoryManager.priceToAcquire(item, 1, false);
+      long one = InventoryManager.priceToAcquire(item.getInstance(1), false);
       assertTrue(one > 0);
-      int two = InventoryManager.priceToAcquire(item, 2, false);
+      long two = InventoryManager.priceToAcquire(item.getInstance(2), false);
       assertEquals(two, 2 * one);
 
       // Put enough of the item into inventory.
       AdventureResult.addResultToList(KoLConstants.inventory, item);
-      int price = InventoryManager.priceToAcquire(item, 2, false);
+      long price = InventoryManager.priceToAcquire(item.getInstance(2), false);
       assertEquals(price, 0);
 
       // Move the items to the closet.
       AdventureResult.addResultToList(KoLConstants.inventory, item.getNegation());
       AdventureResult.addResultToList(KoLConstants.closet, item);
       Preferences.setBoolean("autoSatisfyWithCloset", false);
-      price = InventoryManager.priceToAcquire(item, 2, false);
+      price = InventoryManager.priceToAcquire(item.getInstance(2), false);
       assertTrue(price > 0);
 
       // Move the items to storage.
       AdventureResult.addResultToList(KoLConstants.closet, item.getNegation());
       AdventureResult.addResultToList(KoLConstants.storage, item);
       Preferences.setBoolean("autoSatisfyWithStorage", true);
-      price = InventoryManager.priceToAcquire(item, 2, false);
+      price = InventoryManager.priceToAcquire(item.getInstance(2), false);
       assertTrue(price == 0);
 
       // Test that asking for an extra item accounts for available items
-      price = InventoryManager.priceToAcquire(item, 3, false);
+      price = InventoryManager.priceToAcquire(item.getInstance(3), false);
       assertEquals(price, one);
     }
   }

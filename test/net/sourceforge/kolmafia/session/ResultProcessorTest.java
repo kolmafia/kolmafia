@@ -41,10 +41,10 @@ public class ResultProcessorTest {
   @Test
   public void obtainOysterEggOnWrongDay() {
     EquipmentManager.setEquipment(EquipmentManager.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
-    ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
     // This was not an Oyster Egg Day.
     final var cleanups = isDay(new GregorianCalendar(2022, 0, 30, 12, 0));
     try (cleanups) {
+      ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
       assertEquals(Preferences.getInteger("_oysterEggsFound"), 0);
     }
   }
