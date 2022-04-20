@@ -47,7 +47,18 @@ public class TacoDanRequest extends CoinMasterRequest {
           GenericRequest.QUANTITY_PATTERN,
           null,
           null,
-          true);
+          true) {
+        @Override
+        public final boolean canBuyItem(final int itemId) {
+          if (itemId == 7451) {
+            return Preferences.getString("questESlFish") == "finished";
+          }
+          if (itemId == 7452) {
+            return Preferences.getString("questESlSprinkles") == "finished";
+          }
+          return super.canBuyItem(itemId);
+        }
+      };
 
   public TacoDanRequest() {
     super(TacoDanRequest.TACO_DAN);

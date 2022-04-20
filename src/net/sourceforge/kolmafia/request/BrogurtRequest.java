@@ -47,7 +47,15 @@ public class BrogurtRequest extends CoinMasterRequest {
           GenericRequest.QUANTITY_PATTERN,
           null,
           null,
-          true);
+          true) {
+        @Override
+        public final boolean canBuyItem(final int itemId) {
+          if (7455 <= itemId && itemId <= 7457) {
+            return Preferences.getString("questESlBacteria") == "finished";
+          }
+          return super.canBuyItem(itemId);
+        }
+      };
 
   public BrogurtRequest() {
     super(BrogurtRequest.BROGURT);
