@@ -47,7 +47,20 @@ public class BrogurtRequest extends CoinMasterRequest {
           GenericRequest.QUANTITY_PATTERN,
           null,
           null,
-          true);
+          true) {
+        @Override
+        public final boolean canBuyItem(final int itemId) {
+          switch (itemId) {
+            case ItemPool.BROBERRY_BROGURT:
+            case ItemPool.BROCOLATE_BROGURT:
+            case ItemPool.FRENCH_BRONILLA_BROGURT:
+              return Preferences.getString("questESlBacteria") == "finished";
+
+            default:
+              return super.canBuyItem(itemId);
+          }
+        }
+      };
 
   public BrogurtRequest() {
     super(BrogurtRequest.BROGURT);
