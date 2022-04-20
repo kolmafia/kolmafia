@@ -113,7 +113,7 @@ public abstract class TransferItemRequest extends GenericRequest {
   }
 
   public ArrayList<TransferItemRequest> generateSubInstances() {
-    ArrayList<TransferItemRequest> subinstances = new ArrayList<TransferItemRequest>();
+    ArrayList<TransferItemRequest> subinstances = new ArrayList<>();
 
     if (KoLmafia.refusesContinue()) {
       return subinstances;
@@ -269,8 +269,7 @@ public abstract class TransferItemRequest extends GenericRequest {
       return;
     }
 
-    for (int i = 0; i < this.attachments.length; ++i) {
-      AdventureResult item = this.attachments[i];
+    for (AdventureResult item : this.attachments) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Transfer failed for " + item.toString());
     }
 
@@ -347,8 +346,7 @@ public abstract class TransferItemRequest extends GenericRequest {
       final List<AdventureResult> source,
       final List<AdventureResult> destination) {
     int count = 0;
-    for (int i = 0; i < itemList.size(); ++i) {
-      AdventureResult item = itemList.get(i);
+    for (AdventureResult item : itemList) {
       count += item.getCount();
       if (source != null) {
         AdventureResult remove = item.getNegation();
@@ -618,8 +616,7 @@ public abstract class TransferItemRequest extends GenericRequest {
     }
 
     boolean addedItem = false;
-    for (int i = 0; i < itemList.size(); ++i) {
-      AdventureResult item = itemList.get(i);
+    for (AdventureResult item : itemList) {
       String name = item.getName();
       int quantity = item.getCount();
 

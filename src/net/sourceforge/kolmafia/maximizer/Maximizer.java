@@ -1285,30 +1285,30 @@ public class Maximizer {
             } else if (checkedItem.mallBuyable > 0) {
               text = "acquire & " + text;
               if (priceLevel > 0) {
-                if (MallPriceDatabase.getPrice(item.getItemId()) > maxPrice * 2) {
+                if (MallPriceDatabase.getPrice(itemId) > maxPrice * 2) {
                   continue;
                 }
 
                 // Depending on preference, either get historical mall price or look it up
                 if (Preferences.getBoolean("maximizerCurrentMallPrices")) {
-                  price = MallPriceManager.getMallPrice(item);
+                  price = MallPriceManager.getMallPrice(itemId);
                 } else {
-                  price = MallPriceManager.getMallPrice(item, 7.0f);
+                  price = MallPriceManager.getMallPrice(itemId, 7.0f);
                 }
               }
             } else if (checkedItem.pullBuyable > 0) {
               text = "buy & pull & " + text;
               cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
               if (priceLevel > 0) {
-                if (MallPriceDatabase.getPrice(item.getItemId()) > maxPrice * 2) {
+                if (MallPriceDatabase.getPrice(itemId) > maxPrice * 2) {
                   continue;
                 }
 
                 // Depending on preference, either get historical mall price or look it up
                 if (Preferences.getBoolean("maximizerCurrentMallPrices")) {
-                  price = MallPriceManager.getMallPrice(item);
+                  price = MallPriceManager.getMallPrice(itemId);
                 } else {
-                  price = MallPriceManager.getMallPrice(item, 7.0f);
+                  price = MallPriceManager.getMallPrice(itemId, 7.0f);
                 }
               }
             } else {
@@ -1329,9 +1329,9 @@ public class Maximizer {
 
                 // Depending on preference, either get historical mall price or look it up
                 if (Preferences.getBoolean("maximizerCurrentMallPrices")) {
-                  price = MallPriceManager.getMallPrice(item);
+                  price = MallPriceManager.getMallPrice(itemId);
                 } else {
-                  price = MallPriceManager.getMallPrice(item, 7.0f);
+                  price = MallPriceManager.getMallPrice(itemId, 7.0f);
                 }
               }
             }
@@ -1769,12 +1769,12 @@ public class Maximizer {
         text = "buy & pull & " + text;
         cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
         if (priceLevel > 0) {
-          price = MallPriceManager.getMallPrice(item);
+          price = MallPriceManager.getMallPrice(itemId);
         }
       } else { // Mall buyable
         text = "acquire & " + text;
         if (priceLevel > 0) {
-          price = MallPriceManager.getMallPrice(item);
+          price = MallPriceManager.getMallPrice(itemId);
         }
       }
 
@@ -1886,13 +1886,13 @@ public class Maximizer {
     } else if (checkedItem.mallBuyable > 0) {
       text = "acquire & " + text;
       if (priceLevel > 0) {
-        price = MallPriceManager.getMallPrice(item);
+        price = MallPriceManager.getMallPrice(itemId);
       }
     } else if (checkedItem.pullBuyable > 0) {
       text = "buy & pull & " + text;
       cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
       if (priceLevel > 0) {
-        price = MallPriceManager.getMallPrice(item);
+        price = MallPriceManager.getMallPrice(itemId);
       }
     } else {
       canMake = false;
