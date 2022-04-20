@@ -8,6 +8,24 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
+class Skeleton {
+  private final String name;
+  private final int num;
+
+  public Skeleton(String name, int num) {
+    this.name = name;
+    this.num = num;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public int getNum() {
+    return num;
+  }
+}
+
 public class SkeletonCommand extends AbstractCommand {
   public SkeletonCommand() {
     this.usage = " warrior | cleric | wizard | rogue | buddy";
@@ -19,21 +37,19 @@ public class SkeletonCommand extends AbstractCommand {
   public static final int ROGUE = 4;
   public static final int BUDDY = 5;
 
-  public static final Object[][] SKELETONS =
-      new Object[][] {
-        {"warrior", WARRIOR},
-        {"cleric", CLERIC},
-        {"wizard", WIZARD},
-        {"rogue", ROGUE},
-        {"buddy", BUDDY},
+  public static final Skeleton[] SKELETONS =
+      new Skeleton[] {
+        new Skeleton("warrior", WARRIOR),
+        new Skeleton("cleric", CLERIC),
+        new Skeleton("wizard", WIZARD),
+        new Skeleton("rogue", ROGUE),
+        new Skeleton("buddy", BUDDY),
       };
 
   public static final int findSkeleton(final String name) {
-    for (int i = 0; i < SKELETONS.length; ++i) {
-      String skeleton = (String) SKELETONS[i][0];
-      if (name.equals(skeleton)) {
-        Integer index = (Integer) SKELETONS[i][1];
-        return index.intValue();
+    for (Skeleton skeleton : SKELETONS) {
+      if (name.equals(skeleton.getName())) {
+        return skeleton.getNum();
       }
     }
 
