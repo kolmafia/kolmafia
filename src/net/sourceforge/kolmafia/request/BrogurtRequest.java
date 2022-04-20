@@ -50,10 +50,15 @@ public class BrogurtRequest extends CoinMasterRequest {
           true) {
         @Override
         public final boolean canBuyItem(final int itemId) {
-          if (7455 <= itemId && itemId <= 7457) {
-            return Preferences.getString("questESlBacteria") == "finished";
+          switch (itemId) {
+            case ItemPool.BROBERRY_BROGURT:
+            case ItemPool.BROCOLATE_BROGURT:
+            case ItemPool.FRENCH_BRONILLA_BROGURT:
+              return Preferences.getString("questESlBacteria") == "finished";
+
+            default:
+              return super.canBuyItem(itemId);
           }
-          return super.canBuyItem(itemId);
         }
       };
 

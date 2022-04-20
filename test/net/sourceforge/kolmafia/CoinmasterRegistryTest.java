@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.BrogurtRequest;
@@ -33,25 +34,25 @@ public class CoinmasterRegistryTest {
 
   @Test
   public void canFindBuyerForItem() {
-    var cm = CoinmasterRegistry.findBuyer(2065);
+    var cm = CoinmasterRegistry.findBuyer(ItemPool.PADL_PHONE);
     assertEquals(DimemasterRequest.HIPPY, cm);
   }
 
   @Test
   public void returnsNulLWhenBuyerDoesntExist() {
-    var cm = CoinmasterRegistry.findBuyer(1);
+    var cm = CoinmasterRegistry.findBuyer(ItemPool.SEAL_CLUB);
     assertNull(cm);
   }
 
   @Test
   public void canFindSellerForItem() {
-    var cm = CoinmasterRegistry.findSeller(7972);
+    var cm = CoinmasterRegistry.findSeller(ItemPool.MUMMIFIED_FIG);
     assertEquals(EdShopRequest.EDSHOP, cm);
   }
 
   @Test
   public void returnsNulLWhenSellerDoesntExist() {
-    var cm = CoinmasterRegistry.findSeller(1);
+    var cm = CoinmasterRegistry.findSeller(ItemPool.SEAL_CLUB);
     assertNull(cm);
   }
 
@@ -59,10 +60,11 @@ public class CoinmasterRegistryTest {
   public void brogurtQuestTest() {
     Preferences.setString("questESlBacteria", "unstarted");
 
-    assertNull(CoinmasterRegistry.findSeller(7457));
+    assertNull(CoinmasterRegistry.findSeller(ItemPool.FRENCH_BRONILLA_BROGURT));
 
     Preferences.setString("questESlBacteria", "finished");
-    assertEquals(BrogurtRequest.BROGURT, CoinmasterRegistry.findSeller(7457));
+    assertEquals(
+        BrogurtRequest.BROGURT, CoinmasterRegistry.findSeller(ItemPool.FRENCH_BRONILLA_BROGURT));
   }
 
   @Test
@@ -70,14 +72,16 @@ public class CoinmasterRegistryTest {
     Preferences.setString("questESlFish", "unstarted");
     Preferences.setString("questESlSprinkles", "unstarted");
 
-    assertNull(CoinmasterRegistry.findSeller(7451));
-    assertNull(CoinmasterRegistry.findSeller(7452));
+    assertNull(CoinmasterRegistry.findSeller(ItemPool.TACO_DAN_FISH_TACO));
+    assertNull(CoinmasterRegistry.findSeller(ItemPool.TACO_DAN_TACO_SAUCE));
 
     Preferences.setString("questESlFish", "finished");
-    assertEquals(TacoDanRequest.TACO_DAN, CoinmasterRegistry.findSeller(7451));
-    assertNull(CoinmasterRegistry.findSeller(7452));
+    assertEquals(
+        TacoDanRequest.TACO_DAN, CoinmasterRegistry.findSeller(ItemPool.TACO_DAN_FISH_TACO));
+    assertNull(CoinmasterRegistry.findSeller(ItemPool.TACO_DAN_TACO_SAUCE));
 
     Preferences.setString("questESlSprinkles", "finished");
-    assertEquals(TacoDanRequest.TACO_DAN, CoinmasterRegistry.findSeller(7452));
+    assertEquals(
+        TacoDanRequest.TACO_DAN, CoinmasterRegistry.findSeller(ItemPool.TACO_DAN_TACO_SAUCE));
   }
 }

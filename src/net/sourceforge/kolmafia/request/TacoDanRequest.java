@@ -50,13 +50,14 @@ public class TacoDanRequest extends CoinMasterRequest {
           true) {
         @Override
         public final boolean canBuyItem(final int itemId) {
-          if (itemId == 7451) {
-            return Preferences.getString("questESlFish") == "finished";
+          switch (itemId) {
+            case ItemPool.TACO_DAN_FISH_TACO:
+              return Preferences.getString("questESlFish") == "finished";
+            case ItemPool.TACO_DAN_TACO_SAUCE:
+              return Preferences.getString("questESlSprinkles") == "finished";
+            default:
+              return super.canBuyItem(itemId);
           }
-          if (itemId == 7452) {
-            return Preferences.getString("questESlSprinkles") == "finished";
-          }
-          return super.canBuyItem(itemId);
         }
       };
 

@@ -2268,6 +2268,11 @@ public class ItemPool {
   public static final int BLOOD_RED_MUSHROOM_WINE = 7447;
   public static final int BUZZING_MUSHROOM_WINE = 7448;
   public static final int SWIRLING_MUSHROOM_WINE = 7449;
+  public static final int TACO_DAN_FISH_TACO = 7451;
+  public static final int TACO_DAN_TACO_SAUCE = 7452;
+  public static final int BROBERRY_BROGURT = 7455;
+  public static final int BROCOLATE_BROGURT = 7456;
+  public static final int FRENCH_BRONILLA_BROGURT = 7457;
   public static final int OFFENSIVE_JOKE_BOOK = 7458;
   public static final int COOKING_WITH_GREASE_BOOK = 7459;
   public static final int DINER_HANDBOOK = 7460;
@@ -2430,6 +2435,7 @@ public class ItemPool {
   public static final int TOPIARY_NUGGLET = 7968;
   public static final int BEEHIVE = 7969;
   public static final int ELECTRIC_BONING_KNIFE = 7970;
+  public static final int MUMMIFIED_FIG = 7972;
   public static final int ANCIENT_CURE_ALL = 7982;
   public static final int CHOCO_CRIMBOT = 7999;
   public static final int TOY_CRIMBOT_FACE = 8002;
