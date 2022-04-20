@@ -33,25 +33,24 @@ public class SpeculateCommand extends AbstractCommand {
   }
 
   public static String getHTML(Modifiers mods, String attribs) {
-    StringBuffer buf = new StringBuffer("<table border=2 ");
+    StringBuilder buf = new StringBuilder("<table border=2 ");
     buf.append(attribs);
     buf.append(">");
     int len = buf.length();
-    String mod;
-    int i = 0;
-    while ((mod = Modifiers.getModifierName(i++)) != null) {
+    for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; i++) {
+      String mod = Modifiers.getModifierName(i);
       doNumeric(mod, mods, buf);
     }
-    i = 0;
-    while ((mod = Modifiers.getDerivedModifierName(i++)) != null) {
+    for (int i = 0; i < Modifiers.DERIVED_MODIFIERS; i++) {
+      String mod = Modifiers.getDerivedModifierName(i);
       doNumeric(mod, mods, buf);
     }
-    i = 1;
-    while ((mod = Modifiers.getBitmapModifierName(i++)) != null) {
+    for (int i = 1; i < Modifiers.BITMAP_MODIFIERS; i++) {
+      String mod = Modifiers.getBitmapModifierName(i);
       doNumeric(mod, mods, buf);
     }
-    i = 0;
-    while ((mod = Modifiers.getBooleanModifierName(i++)) != null) {
+    for (int i = 0; i < Modifiers.BOOLEAN_MODIFIERS; i++) {
+      String mod = Modifiers.getBooleanModifierName(i);
       boolean was = KoLCharacter.currentBooleanModifier(mod);
       boolean now = mods.getBoolean(mod);
       if (now == was) {
@@ -63,8 +62,8 @@ public class SpeculateCommand extends AbstractCommand {
       buf.append(now);
       buf.append("</td></tr>");
     }
-    i = 0;
-    while ((mod = Modifiers.getStringModifierName(i++)) != null) {
+    for (int i = 0; i < Modifiers.STRING_MODIFIERS; i++) {
+      String mod = Modifiers.getStringModifierName(i);
       String was = KoLCharacter.currentStringModifier(mod);
       String now = mods.getString(mod);
       if (now.equals(was)) {
@@ -93,7 +92,7 @@ public class SpeculateCommand extends AbstractCommand {
     return null;
   }
 
-  private static void doNumeric(final String mod, final Modifiers mods, final StringBuffer buf) {
+  private static void doNumeric(final String mod, final Modifiers mods, final StringBuilder buf) {
     double was = KoLCharacter.currentNumericModifier(mod);
     double now = mods.get(mod);
     if (now == was) {
