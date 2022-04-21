@@ -146,7 +146,7 @@ public class TableCellFactory {
         return (price > 0) ? price : null;
       case 4:
         int power = EquipmentDatabase.getPower(advresult.getItemId());
-        return (power > 0) ? (Integer) power : null;
+        return (power > 0) ? power : null;
       case 5:
         fill =
             ConsumablesDatabase.getFullness(advresult.getName())
@@ -192,7 +192,7 @@ public class TableCellFactory {
         return (price > 0) ? price : null;
       case 4:
         int power = EquipmentDatabase.getPower(advresult.getItemId());
-        return (power > 0) ? (Integer) power : null;
+        return (power > 0) ? power : null;
       case 5:
         fill =
             ConsumablesDatabase.getFullness(advresult.getName())

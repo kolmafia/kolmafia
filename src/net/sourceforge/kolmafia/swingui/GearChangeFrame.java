@@ -1514,7 +1514,7 @@ public class GearChangeFrame extends GenericFrame {
       int available = EquipmentManager.FAKE_HAND.getCount(KoLConstants.inventory);
       this.currentFakeHands = EquipmentManager.getFakeHands();
       this.availableFakeHands = this.currentFakeHands + available;
-      this.setValue((Integer) this.currentFakeHands);
+      this.setValue(this.currentFakeHands);
     }
   }
 

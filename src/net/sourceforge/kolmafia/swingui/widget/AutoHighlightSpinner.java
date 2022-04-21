@@ -60,7 +60,7 @@ public class AutoHighlightSpinner extends JSpinner {
           String text = AutoHighlightNumberEditor.this.getText();
           int value = StringUtilities.parseInt(text);
           AutoHighlightNumberEditor.this.changing = true;
-          AutoHighlightSpinner.this.setValue((Integer) value);
+          AutoHighlightSpinner.this.setValue(value);
           AutoHighlightNumberEditor.this.changing = false;
         } catch (NumberFormatException e) {
         }
