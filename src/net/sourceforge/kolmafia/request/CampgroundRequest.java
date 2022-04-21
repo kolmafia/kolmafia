@@ -1431,7 +1431,9 @@ public class CampgroundRequest extends GenericRequest {
       }
     } else if (findImage(responseText, "horadricoven.gif", ItemPool.DIABOLIC_PIZZA_CUBE)) {
       CampgroundRequest.setCurrentWorkshedItem(ItemPool.DIABOLIC_PIZZA_CUBE);
-    } else if (findImage(responseText, "cmcabinet.gif", ItemPool.COLD_MEDICINE_CABINET)) {
+    } else if (findImage(responseText, "cmcabinet.gif", ItemPool.COLD_MEDICINE_CABINET)
+        || responseText.contains("Looks like the doctors are out for the day.")) {
+      CampgroundRequest.setCurrentWorkshedItem(ItemPool.COLD_MEDICINE_CABINET);
       // Cold Medicine Cabinet usually redirects to choice.php, so this is also handled in
       // ChoiceManager
       Matcher cabinetMatcher = COLD_MEDICINE_CABINET_PATTERN.matcher(responseText);
