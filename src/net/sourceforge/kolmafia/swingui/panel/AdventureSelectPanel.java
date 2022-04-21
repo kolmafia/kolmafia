@@ -636,15 +636,15 @@ public class AdventureSelectPanel extends JPanel {
     public void stateChanged(final ChangeEvent e) {
       int maximum = KoLCharacter.getAdventuresLeft();
       if (maximum == 0) {
-        this.setValue((Integer) 0);
+        this.setValue(0);
         return;
       }
 
       int desired = InputFieldUtilities.getValue(this, maximum);
       if (desired == maximum + 1) {
-        this.setValue((Integer) 1);
+        this.setValue(1);
       } else if (desired <= 0 || desired > maximum) {
-        this.setValue((Integer) maximum);
+        this.setValue(maximum);
       }
     }
   }

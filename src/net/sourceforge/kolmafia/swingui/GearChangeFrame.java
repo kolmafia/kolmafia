@@ -1493,15 +1493,15 @@ public class GearChangeFrame extends GenericFrame {
     public void stateChanged(final ChangeEvent e) {
       int maximum = this.availableFakeHands;
       if (maximum == 0) {
-        this.setValue((Integer) 0);
+        this.setValue(0);
         return;
       }
 
       int desired = InputFieldUtilities.getValue(this, maximum);
       if (desired == maximum + 1) {
-        this.setValue((Integer) 0);
+        this.setValue(0);
       } else if (desired < 0 || desired > maximum) {
-        this.setValue((Integer) maximum);
+        this.setValue(maximum);
       }
     }
 

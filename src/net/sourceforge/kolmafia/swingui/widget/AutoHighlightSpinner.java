@@ -16,10 +16,6 @@ public class AutoHighlightSpinner extends JSpinner {
     this.setEditor(editor);
   }
 
-  public void setValue(int value) {
-    this.setValue((Integer) value);
-  }
-
   public void setHorizontalAlignment(int alignment) {
     this.editor.setHorizontalAlignment(alignment);
   }

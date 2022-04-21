@@ -5001,24 +5001,19 @@ public abstract class RuntimeLibrary {
       ArrayList<Integer> elems = new ArrayList<Integer>();
       boolean clusters = (pulver & EquipmentDatabase.YIELD_1C) != 0;
       if ((pulver & EquipmentDatabase.ELEM_HOT) != 0) {
-        int i = clusters ? ItemPool.HOT_CLUSTER : ItemPool.HOT_WAD;
-        elems.add(i);
+        elems.add(clusters ? ItemPool.HOT_CLUSTER : ItemPool.HOT_WAD);
       }
       if ((pulver & EquipmentDatabase.ELEM_COLD) != 0) {
-        int i = clusters ? ItemPool.COLD_CLUSTER : ItemPool.COLD_WAD;
-        elems.add(i);
+        elems.add(clusters ? ItemPool.COLD_CLUSTER : ItemPool.COLD_WAD);
       }
       if ((pulver & EquipmentDatabase.ELEM_STENCH) != 0) {
-        int i = clusters ? ItemPool.STENCH_CLUSTER : ItemPool.STENCH_WAD;
-        elems.add(i);
+        elems.add(clusters ? ItemPool.STENCH_CLUSTER : ItemPool.STENCH_WAD);
       }
       if ((pulver & EquipmentDatabase.ELEM_SPOOKY) != 0) {
-        int i = clusters ? ItemPool.SPOOKY_CLUSTER : ItemPool.SPOOKY_WAD;
-        elems.add(i);
+        elems.add(clusters ? ItemPool.SPOOKY_CLUSTER : ItemPool.SPOOKY_WAD);
       }
       if ((pulver & EquipmentDatabase.ELEM_SLEAZE) != 0) {
-        int i = clusters ? ItemPool.SLEAZE_CLUSTER : ItemPool.SLEAZE_WAD;
-        elems.add(i);
+        elems.add(clusters ? ItemPool.SLEAZE_CLUSTER : ItemPool.SLEAZE_WAD);
       }
       if ((pulver & EquipmentDatabase.ELEM_TWINKLY) != 0) { // Important: twinkly must be last
         elems.add(ItemPool.TWINKLY_WAD);
