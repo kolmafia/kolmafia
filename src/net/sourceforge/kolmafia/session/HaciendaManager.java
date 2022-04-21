@@ -378,25 +378,25 @@ public class HaciendaManager {
 
   private static final Object[][] RECORDINGS = {
     {
-      (Integer) EffectPool.THE_BALLAD_OF_RICHIE_THINGFINDER, "_thingfinderCasts",
+        EffectPool.THE_BALLAD_OF_RICHIE_THINGFINDER, "_thingfinderCasts",
     },
     {
-      (Integer) EffectPool.BENETTONS_MEDLEY_OF_DIVERSITY, "_benettonsCasts",
+        EffectPool.BENETTONS_MEDLEY_OF_DIVERSITY, "_benettonsCasts",
     },
     {
-      (Integer) EffectPool.ELRONS_EXPLOSIVE_ETUDE, "_elronsCasts",
+        EffectPool.ELRONS_EXPLOSIVE_ETUDE, "_elronsCasts",
     },
     {
-      (Integer) EffectPool.CHORALE_OF_COMPANIONSHIP, "_companionshipCasts",
+        EffectPool.CHORALE_OF_COMPANIONSHIP, "_companionshipCasts",
     },
     {
-      (Integer) EffectPool.PRELUDE_OF_PRECISION, "_precisionCasts",
+        EffectPool.PRELUDE_OF_PRECISION, "_precisionCasts",
     },
     {
-      (Integer) EffectPool.DONHOS_BUBBLY_BALLAD, "_donhosCasts",
+        EffectPool.DONHOS_BUBBLY_BALLAD, "_donhosCasts",
     },
     {
-      (Integer) EffectPool.INIGOS, "_inigosCasts",
+        EffectPool.INIGOS, "_inigosCasts",
     },
   };
 
