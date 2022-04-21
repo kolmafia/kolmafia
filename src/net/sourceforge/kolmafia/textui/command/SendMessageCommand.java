@@ -65,17 +65,16 @@ public class SendMessageCommand extends AbstractCommand {
         ItemFinder.getMatchingItemList(itemList, KoLConstants.inventory);
 
     if (attachments.length == 0
-        && (itemList.length() > 1 || message == KoLConstants.DEFAULT_KMAIL)) {
+        && (itemList.length() > 1 || message.equals(KoLConstants.DEFAULT_KMAIL))) {
       return;
     }
 
     long meatAmount = 0;
-    ArrayList<AdventureResult> attachmentList = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> attachmentList = new ArrayList<>();
 
-    for (int i = 0; i < attachments.length; ++i) {
-      AdventureResult attachment = attachments[i];
+    for (AdventureResult attachment : attachments) {
       if (attachment.getName().equals(AdventureResult.MEAT)) {
-        meatAmount += attachment.getCount();
+        meatAmount += attachment.getLongCount();
       } else {
         AdventureResult.addResultToList(attachmentList, attachment);
       }

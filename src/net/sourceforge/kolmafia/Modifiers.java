@@ -17,13 +17,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 import net.sourceforge.kolmafia.maximizer.Maximizer;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.DerivedModifier;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.IntegerPool;
@@ -224,609 +228,515 @@ public class Modifiers {
   public static final int MONSTER_LEVEL_PERCENT = 144;
   public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
-  private static final Object[][] doubleModifiers = {
-    {
-      "Familiar Weight",
-      Pattern.compile("([+-]\\d+) (to )?Familiar Weight"),
-      Pattern.compile("Familiar Weight: " + EXPR)
-    },
-    {
-      "Monster Level",
-      new Pattern[] {
-        Pattern.compile("([+-]\\d+) to Monster Level"), Pattern.compile("Monster Level ([+-]\\d+)"),
-      },
-      Pattern.compile("Monster Level: " + EXPR)
-    },
-    {"Combat Rate", null, Pattern.compile("Combat Rate: " + EXPR)},
-    {
-      "Initiative",
-      new Pattern[] {
-        Pattern.compile("Combat Initiative ([+-]\\d+)%"),
-        Pattern.compile("([+-]\\d+)% Combat Initiative"),
-      },
-      Pattern.compile("Initiative: " + EXPR)
-    },
-    {
-      "Experience",
-      Pattern.compile("([+-]\\d+) Stat.*Per Fight"),
-      Pattern.compile("Experience: " + EXPR)
-    },
-    {
-      "Item Drop",
-      Pattern.compile("([+-]\\d+)% Item Drops? [Ff]rom Monsters$"),
-      Pattern.compile("Item Drop: " + EXPR)
-    },
-    {
-      "Meat Drop",
-      Pattern.compile("([+-]\\d+)% Meat from Monsters"),
-      Pattern.compile("Meat Drop: " + EXPR)
-    },
-    {
-      "Damage Absorption",
-      Pattern.compile("Damage Absorption ([+-]\\d+)"),
-      Pattern.compile("Damage Absorption: " + EXPR)
-    },
-    {
-      "Damage Reduction",
-      Pattern.compile("Damage Reduction: ([+-]?\\d+)"),
-      Pattern.compile("Damage Reduction: " + EXPR)
-    },
-    {"Cold Resistance", null, Pattern.compile("Cold Resistance: " + EXPR)},
-    {"Hot Resistance", null, Pattern.compile("Hot Resistance: " + EXPR)},
-    {"Sleaze Resistance", null, Pattern.compile("Sleaze Resistance: " + EXPR)},
-    {"Spooky Resistance", null, Pattern.compile("Spooky Resistance: " + EXPR)},
-    {"Stench Resistance", null, Pattern.compile("Stench Resistance: " + EXPR)},
-    {
-      "Mana Cost",
-      Pattern.compile("([+-]\\d+) MP to use Skills$"),
-      Pattern.compile("Mana Cost: " + EXPR)
-    },
-    {
-      "Moxie",
-      new Pattern[] {
-        Pattern.compile("Moxie ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Moxie$"),
-      },
-      Pattern.compile("Moxie: " + EXPR)
-    },
-    {
-      "Moxie Percent",
-      new Pattern[] {
-        Pattern.compile("Moxie ([+-]\\d+)%"), Pattern.compile("([+-]\\d+)% Moxie"),
-      },
-      Pattern.compile("Moxie Percent: " + EXPR)
-    },
-    {
-      "Muscle",
-      new Pattern[] {
-        Pattern.compile("Muscle ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Muscle$"),
-      },
-      Pattern.compile("Muscle: " + EXPR)
-    },
-    {
-      "Muscle Percent",
-      new Pattern[] {
-        Pattern.compile("Muscle ([+-]\\d+)%"), Pattern.compile("([+-]\\d+)% Muscle"),
-      },
-      Pattern.compile("Muscle Percent: " + EXPR)
-    },
-    {
-      "Mysticality",
-      new Pattern[] {
-        Pattern.compile("Mysticality ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Mysticality$"),
-      },
-      Pattern.compile("Mysticality: " + EXPR)
-    },
-    {
-      "Mysticality Percent",
-      new Pattern[] {
-        Pattern.compile("Mysticality ([+-]\\d+)%"), Pattern.compile("([+-]\\d+)% Mysticality"),
-      },
-      Pattern.compile("Mysticality Percent: " + EXPR)
-    },
-    {
-      "Maximum HP",
-      Pattern.compile("Maximum HP ([+-]\\d+)$"),
-      Pattern.compile("Maximum HP: " + EXPR)
-    },
-    {
-      "Maximum HP Percent",
-      Pattern.compile("Maximum HP ([+-]\\d+)%"),
-      Pattern.compile("Maximum HP Percent: " + EXPR)
-    },
-    {
-      "Maximum MP",
-      Pattern.compile("Maximum MP ([+-]\\d+)$"),
-      Pattern.compile("Maximum MP: " + EXPR)
-    },
-    {
-      "Maximum MP Percent",
-      Pattern.compile("Maximum MP ([+-]\\d+)%"),
-      Pattern.compile("Maximum MP Percent: " + EXPR)
-    },
-    {
-      "Weapon Damage",
-      new Pattern[] {
-        Pattern.compile("Weapon Damage ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Weapon Damage"),
-      },
-      Pattern.compile("Weapon Damage: " + EXPR)
-    },
-    {
-      "Ranged Damage",
-      new Pattern[] {
-        Pattern.compile("Ranged Damage ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Ranged Damage"),
-      },
-      Pattern.compile("Ranged Damage: " + EXPR)
-    },
-    {
-      "Spell Damage",
-      new Pattern[] {
-        Pattern.compile("Spell Damage ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Spell Damage"),
-      },
-      Pattern.compile("(?:^|, )Spell Damage: " + EXPR)
-    },
-    {
-      "Spell Damage Percent",
-      new Pattern[] {
-        Pattern.compile("Spell Damage ([+-][\\d.]+)%"),
-        Pattern.compile("([+-][\\d.]+)% Spell Damage"),
-      },
-      Pattern.compile("Spell Damage Percent: " + EXPR)
-    },
-    {
-      "Cold Damage",
-      Pattern.compile("^([+-]\\d+) <font color=blue>Cold Damage<"),
-      Pattern.compile("Cold Damage: " + EXPR)
-    },
-    {
-      "Hot Damage",
-      Pattern.compile("^([+-]\\d+) <font color=red>Hot Damage<"),
-      Pattern.compile("Hot Damage: " + EXPR)
-    },
-    {
-      "Sleaze Damage",
-      Pattern.compile("^([+-]\\d+) <font color=blueviolet>Sleaze Damage<"),
-      Pattern.compile("Sleaze Damage: " + EXPR)
-    },
-    {
-      "Spooky Damage",
-      Pattern.compile("^([+-]\\d+) <font color=gray>Spooky Damage<"),
-      Pattern.compile("Spooky Damage: " + EXPR)
-    },
-    {
-      "Stench Damage",
-      Pattern.compile("^([+-]\\d+) <font color=green>Stench Damage<"),
-      Pattern.compile("Stench Damage: " + EXPR)
-    },
-    {
-      "Cold Spell Damage",
-      Pattern.compile("^([+-]\\d+) (Damage )?to <font color=blue>Cold Spells</font>"),
-      Pattern.compile("Cold Spell Damage: " + EXPR)
-    },
-    {
-      "Hot Spell Damage",
-      Pattern.compile("^([+-]\\d+) (Damage )?to (<font color=red>)?Hot Spells(</font>)?"),
-      Pattern.compile("Hot Spell Damage: " + EXPR)
-    },
-    {
-      "Sleaze Spell Damage",
-      Pattern.compile("^([+-]\\d+) (Damage )?to <font color=blueviolet>Sleaze Spells</font>"),
-      Pattern.compile("Sleaze Spell Damage: " + EXPR)
-    },
-    {
-      "Spooky Spell Damage",
-      Pattern.compile("^([+-]\\d+) (Damage )?to <font color=gray>Spooky Spells</font>"),
-      Pattern.compile("Spooky Spell Damage: " + EXPR)
-    },
-    {
-      "Stench Spell Damage",
-      Pattern.compile("^([+-]\\d+) (Damage )?to <font color=green>Stench Spells</font>"),
-      Pattern.compile("Stench Spell Damage: " + EXPR)
-    },
-    {"Underwater Combat Rate", null, Pattern.compile("Combat Rate \\(Underwater\\): " + EXPR)},
-    {"Fumble", Pattern.compile("(\\d+)x chance of Fumble"), Pattern.compile("Fumble: " + EXPR)},
-    {"HP Regen Min", null, Pattern.compile("HP Regen Min: " + EXPR)},
-    {"HP Regen Max", null, Pattern.compile("HP Regen Max: " + EXPR)},
-    {"MP Regen Min", null, Pattern.compile("MP Regen Min: " + EXPR)},
-    {"MP Regen Max", null, Pattern.compile("MP Regen Max: " + EXPR)},
-    {
-      "Adventures",
-      Pattern.compile("([+-]\\d+) Adventure\\(s\\) per day( when equipped)?"),
-      Pattern.compile("Adventures: " + EXPR)
-    },
-    {
-      "Familiar Weight Percent",
-      Pattern.compile("([+-]\\d+)% Familiar Weight"),
-      Pattern.compile("Familiar Weight Percent: " + EXPR)
-    },
-    {
-      "Weapon Damage Percent",
-      Pattern.compile("Weapon Damage ([+-]\\d+)%"),
-      Pattern.compile("Weapon Damage Percent: " + EXPR)
-    },
-    {
-      "Ranged Damage Percent",
-      Pattern.compile("Ranged Damage ([+-]\\d+)%"),
-      Pattern.compile("Ranged Damage Percent: " + EXPR)
-    },
-    {
-      "Stackable Mana Cost",
-      Pattern.compile("([+-]\\d+) MP to use Skills$"),
-      Pattern.compile("Mana Cost \\(stackable\\): " + EXPR)
-    },
-    {
-      "Hobo Power", Pattern.compile("([+-]\\d+) Hobo Power"), Pattern.compile("Hobo Power: " + EXPR)
-    },
-    {"Base Resting HP", null, Pattern.compile("Base Resting HP: " + EXPR)},
-    {"Resting HP Percent", null, Pattern.compile("Resting HP Percent: " + EXPR)},
-    {"Bonus Resting HP", null, Pattern.compile("Bonus Resting HP: " + EXPR)},
-    {"Base Resting MP", null, Pattern.compile("Base Resting MP: " + EXPR)},
-    {"Resting MP Percent", null, Pattern.compile("Resting MP Percent: " + EXPR)},
-    {"Bonus Resting MP", null, Pattern.compile("Bonus Resting MP: " + EXPR)},
-    {
-      "Critical Hit Percent",
-      Pattern.compile("([+-]\\d+)% [Cc]hance of Critical Hit"),
-      Pattern.compile("Critical Hit Percent: " + EXPR)
-    },
-    {
-      "PvP Fights",
-      Pattern.compile("([+-]\\d+) PvP [Ff]ight\\(s\\) per day( when equipped)?"),
-      Pattern.compile("PvP Fights: " + EXPR)
-    },
-    {"Volleyball", null, Pattern.compile("Volley(?:ball)?: " + EXPR)},
-    {"Sombrero", null, Pattern.compile("Somb(?:rero)?: " + EXPR)},
-    {"Leprechaun", null, Pattern.compile("Lep(?:rechaun)?: " + EXPR)},
-    {"Fairy", null, Pattern.compile("Fairy: " + EXPR)},
-    {"Meat Drop Penalty", null, Pattern.compile("Meat Drop Penalty: " + EXPR)},
-    {"Hidden Familiar Weight", null, Pattern.compile("Familiar Weight \\(hidden\\): " + EXPR)},
-    {"Item Drop Penalty", null, Pattern.compile("Item Drop Penalty: " + EXPR)},
-    {"Initiative Penalty", null, Pattern.compile("Initiative Penalty: " + EXPR)},
-    {
-      "Food Drop",
-      Pattern.compile("([+-]\\d+)% Food Drops? [Ff]rom Monsters$"),
-      Pattern.compile("Food Drop: " + EXPR)
-    },
-    {
-      "Booze Drop",
-      Pattern.compile("([+-]\\d+)% Booze Drops? [Ff]rom Monsters$"),
-      Pattern.compile("Booze Drop: " + EXPR)
-    },
-    {
-      "Hat Drop",
-      Pattern.compile("([+-]\\d+)% Hat(?:/Pants)? Drops? [Ff]rom Monsters$"),
-      Pattern.compile("Hat Drop: " + EXPR)
-    },
-    {
-      "Weapon Drop",
-      Pattern.compile("([+-]\\d+)% Weapon Drops? [Ff]rom Monsters$"),
-      Pattern.compile("Weapon Drop: " + EXPR)
-    },
-    {
-      "Offhand Drop",
-      Pattern.compile("([+-]\\d+)% Off-[Hh]and Drops? [Ff]rom Monsters$"),
-      Pattern.compile("Offhand Drop: " + EXPR)
-    },
-    {
-      "Shirt Drop",
-      Pattern.compile("([+-]\\d+)% Shirt Drops? [Ff]rom Monsters$"),
-      Pattern.compile("Shirt Drop: " + EXPR)
-    },
-    {
-      "Pants Drop",
-      Pattern.compile("([+-]\\d+)% (?:Hat/)?Pants Drops? [Ff]rom Monsters$"),
-      Pattern.compile("Pants Drop: " + EXPR)
-    },
-    {
-      "Accessory Drop",
-      Pattern.compile("([+-]\\d+)% Accessory Drops? [Ff]rom Monsters$"),
-      Pattern.compile("Accessory Drop: " + EXPR)
-    },
-    {"Volleyball Effectiveness", null, Pattern.compile("Volleyball Effectiveness: " + EXPR)},
-    {"Sombrero Effectiveness", null, Pattern.compile("Sombrero Effectiveness: " + EXPR)},
-    {"Leprechaun Effectiveness", null, Pattern.compile("Leprechaun Effectiveness: " + EXPR)},
-    {"Fairy Effectiveness", null, Pattern.compile("Fairy Effectiveness: " + EXPR)},
-    {"Familiar Weight Cap", null, Pattern.compile("Familiar Weight Cap: " + EXPR)},
-    {"Slime Resistance", null, Pattern.compile("Slime Resistance: " + EXPR)},
-    {
-      "Slime Hates It",
-      Pattern.compile("Slime( Really)? Hates (It|You)"),
-      Pattern.compile("Slime Hates It: " + EXPR)
-    },
-    {
-      "Spell Critical Percent",
-      Pattern.compile("([+-]\\d+)% [cC]hance of Spell Critical Hit"),
-      Pattern.compile("Spell Critical Percent: " + EXPR)
-    },
-    {
-      "Muscle Experience",
-      Pattern.compile("([+-]\\d+) Muscle Stat.*Per Fight"),
-      Pattern.compile("Experience \\(Muscle\\): " + EXPR),
-      "Experience (Muscle)"
-    },
-    {
-      "Mysticality Experience",
-      Pattern.compile("([+-]\\d+) Mysticality Stat.*Per Fight"),
-      Pattern.compile("Experience \\(Mysticality\\): " + EXPR),
-      "Experience (Mysticality)"
-    },
-    {
-      "Moxie Experience",
-      Pattern.compile("([+-]\\d+) Moxie Stat.*Per Fight"),
-      Pattern.compile("Experience \\(Moxie\\): " + EXPR),
-      "Experience (Moxie)"
-    },
-    {"Effect Duration", null, Pattern.compile("(?:^|, )Effect Duration: " + EXPR)},
-    {
-      "Candy Drop",
-      Pattern.compile("([+-]\\d+)% Candy Drops? [Ff]rom Monsters$"),
-      Pattern.compile("Candy Drop: " + EXPR)
-    },
-    {
-      "DB Combat Damage",
-      new Pattern[] {
-        Pattern.compile("([+-]\\d+) damage to Disco Bandit Combat Skills"),
-        Pattern.compile("([+-]\\d+) Disco Bandit Skill Damage"),
-      },
-      Pattern.compile("DB Combat Damage: " + EXPR)
-    },
-    {
-      "Sombrero Bonus",
-      Pattern.compile("([+-]\\d+) lbs?\\. of Sombrero"),
-      Pattern.compile("Sombrero Bonus: " + EXPR)
-    },
-    {
-      "Familiar Experience",
-      Pattern.compile("([+-]\\d+) Familiar Experience"),
-      Pattern.compile("Experience \\(familiar\\): " + EXPR),
-      "Experience (familiar)"
-    },
-    {
-      "Sporadic Meat Drop",
-      null,
-      Pattern.compile("Meat Drop \\(sporadic\\): " + EXPR),
-      "Meat Drop (sporadic)"
-    },
-    {
-      "Sporadic Item Drop",
-      null,
-      Pattern.compile("Item Drop \\(sporadic\\): " + EXPR),
-      "Item Drop (sporadic)"
-    },
-    {"Meat Bonus", null, Pattern.compile("Meat Bonus: " + EXPR)},
-    {
-      "Pickpocket Chance",
-      Pattern.compile("([+-]\\d+)% Pickpocket Chance"),
-      Pattern.compile("Pickpocket Chance: " + EXPR)
-    },
-    {
-      "Combat Mana Cost",
-      Pattern.compile("([+-]\\d+) MP to use Skills \\(in-combat only\\)"),
-      Pattern.compile("Mana Cost \\(combat\\): " + EXPR),
-      "Mana Cost (combat)"
-    },
-    {
-      "Muscle Experience Percent",
-      Pattern.compile("([+-]\\d+)% to all Muscle Gains"),
-      Pattern.compile("Experience Percent \\(Muscle\\): " + EXPR),
-      "Experience Percent (Muscle)"
-    },
-    {
-      "Mysticality Experience Percent",
-      Pattern.compile("([+-]\\d+)% to all Mysticality Gains"),
-      Pattern.compile("Experience Percent \\(Mysticality\\): " + EXPR),
-      "Experience Percent (Mysticality)"
-    },
-    {
-      "Moxie Experience Percent",
-      Pattern.compile("([+-]\\d+)% to all Moxie Gains"),
-      Pattern.compile("Experience Percent \\(Moxie\\): " + EXPR),
-      "Experience Percent (Moxie)"
-    },
-    {
-      "Minstrel Level",
-      new Pattern[] {
-        Pattern.compile("([+-]\\d+) to Minstrel Level"),
-        Pattern.compile("Minstrel Level ([+-]\\d+)"),
-      },
-      Pattern.compile("Minstrel Level: " + EXPR)
-    },
-    {
-      "Muscle Limit",
-      Pattern.compile("Base Muscle Limited to (\\d+)"),
-      Pattern.compile("Muscle Limit: " + EXPR)
-    },
-    {
-      "Mysticality Limit",
-      Pattern.compile("Base Mysticality Limited to (\\d+)"),
-      Pattern.compile("Mysticality Limit: " + EXPR)
-    },
-    {
-      "Moxie Limit",
-      Pattern.compile("Base Moxie Limited to (\\d+)"),
-      Pattern.compile("Moxie Limit: " + EXPR)
-    },
-    {
-      "Song Duration",
-      Pattern.compile("Song Duration: ([+-]\\d+) Adventures"),
-      Pattern.compile("Song Duration: " + EXPR)
-    },
-    {
-      "Prismatic Damage", null, null,
-    },
-    {
-      "Smithsness", Pattern.compile("([+-]\\d+) Smithsness"), Pattern.compile("Smithsness: " + EXPR)
-    },
-    {"Supercold Resistance", null, Pattern.compile("Supercold Resistance: " + EXPR)},
-    {
-      "Reduce Enemy Defense",
-      Pattern.compile("Reduce enemy defense by (\\d+)%"),
-      Pattern.compile("Reduce Enemy Defense: " + EXPR)
-    },
-    {
-      "Pool Skill", Pattern.compile("([+-]\\d+) Pool Skill"), Pattern.compile("Pool Skill: " + EXPR)
-    },
-    {
-      "Surgeonosity",
-      new Pattern[] {
-        Pattern.compile("Makes you look like a doctor"),
-        Pattern.compile("Makes you look like a gross doctor"),
-      },
-      Pattern.compile("Surgeonosity: (\\+?\\d+)")
-    },
-    {
-      "Familiar Damage",
-      new Pattern[] {
-        Pattern.compile("([+-]\\d+) to Familiar Damage"),
-        Pattern.compile("Familiar Damage ([+-]\\d+)"),
-      },
-      Pattern.compile("Familiar Damage: " + EXPR)
-    },
-    {
-      "Gear Drop",
-      Pattern.compile("([+-]\\d+)% Gear Drops? [Ff]rom Monsters$"),
-      Pattern.compile("Gear Drop: " + EXPR)
-    },
-    {
-      "Maximum Hooch",
-      Pattern.compile("([+-]\\d+) Maximum Hooch"),
-      Pattern.compile("Maximum Hooch: " + EXPR)
-    },
-    {"Water Level", null, Pattern.compile("Water Level: " + EXPR)},
-    {
-      "Crimbot Outfit Power",
-      Pattern.compile("([+-]\\d+) Crimbot Outfit Power"),
-      Pattern.compile("Crimbot Outfit Power: " + EXPR)
-    },
-    {
-      "Familiar Tuning Muscle",
-      null,
-      Pattern.compile("Familiar Tuning \\(Muscle\\): " + EXPR),
-      "Familiar Tuning (Muscle)"
-    },
-    {
-      "Familiar Tuning Mysticality",
-      null,
-      Pattern.compile("Familiar Tuning \\(Mysticality\\): " + EXPR),
-      "Familiar Tuning (Mysticality)"
-    },
-    {
-      "Familiar Tuning Moxie",
-      null,
-      Pattern.compile("Familiar Tuning \\(Moxie\\): " + EXPR),
-      "Familiar Tuning (Moxie)"
-    },
-    {
-      "Random Monster Modifiers",
-      Pattern.compile("([+-]\\d+) Random Monster Modifier"),
-      Pattern.compile("Random Monster Modifiers: " + EXPR)
-    },
-    {"Luck", Pattern.compile("([+-]\\d+) Luck"), Pattern.compile("Luck: " + EXPR)},
-    {
-      "Othello Skill",
-      Pattern.compile("([+-]\\d+) Othello Skill"),
-      Pattern.compile("Othello Skill: " + EXPR)
-    },
-    {
-      "Disco Style",
-      Pattern.compile("([+-]\\d+) Disco Style"),
-      Pattern.compile("Disco Style: " + EXPR)
-    },
-    {
-      "Rollover Effect Duration",
-      Pattern.compile("Grants (\\d+) Adventures of <b>.*?</b> at Rollover"),
-      Pattern.compile("Rollover Effect Duration: " + EXPR)
-    },
-    {"Sixgun Damage", null, Pattern.compile("Sixgun Damage: " + EXPR)},
-    {
-      "Fishing Skill",
-      Pattern.compile("([+-]\\d+) Fishing Skill"),
-      Pattern.compile("Fishing Skill: " + EXPR)
-    },
-    {
-      "Additional Song",
-      Pattern.compile("Keep (\\d+) additional song in your head"),
-      Pattern.compile("Additional Song: " + EXPR)
-    },
-    {
-      "Sprinkle Drop",
-      Pattern.compile("([+-]\\d+)% Sprinkles from Monsters"),
-      Pattern.compile("Sprinkle Drop: " + EXPR)
-    },
-    {
-      "Absorb Adventures",
-      Pattern.compile("([+-]\\d+) Adventures when you absorb an item"),
-      Pattern.compile("Absorb Adventures: " + EXPR)
-    },
-    {
-      "Absorb Stats",
-      Pattern.compile("([+-]\\d+) Stats when you absorb an item"),
-      Pattern.compile("Absorb Stats: " + EXPR)
-    },
-    {
-      "Rubee Drop",
-      Pattern.compile("FantasyRealm enemies will drop (\\d+) extra Rubee"),
-      Pattern.compile("Rubee Drop: " + EXPR)
-    },
-    {
-      "Kruegerand Drop",
-      Pattern.compile("Lets you find (\\d+)% more Kruegerands"),
-      Pattern.compile("Kruegerand Drop: " + EXPR)
-    },
-    {
-      "WarBear Armor Penetration",
-      Pattern.compile("([+-]\\d+) WarBear Armor Penetration"),
-      Pattern.compile("WarBear Armor Penetration: " + EXPR)
-    },
-    {
-      "Clowniness",
-      Pattern.compile("Makes you look (\\d+)% clowny"),
-      Pattern.compile("Clowniness: " + EXPR)
-    },
-    {
-      "Maximum PP",
-      Pattern.compile("([+-]\\d+) Max(imum)? Power Point"),
-      Pattern.compile("Maximum PP: " + EXPR)
-    },
-    {"Plumber Power", null, Pattern.compile("Plumber Power: " + EXPR)},
-    {
-      "Drippy Damage",
-      new Pattern[] {
-        Pattern.compile("([+-]\\d+) Damage vs. creatures of The Drip"),
-        Pattern.compile("([+-]\\d+) Damage against Drip creatures"),
-      },
-      Pattern.compile("Drippy Damage: " + EXPR)
-    },
-    {"Drippy Resistance", null, Pattern.compile("Drippy Resistance: " + EXPR)},
-    {"Energy", null, Pattern.compile("Energy: " + EXPR)},
-    {"Scrap", null, Pattern.compile("Scrap: " + EXPR)},
-    {"Familiar Action Bonus", null, Pattern.compile("Familiar Action Bonus: " + EXPR)},
-    {
-      "Water",
-      Pattern.compile("Collect (\\d+) water per adventure"),
-      Pattern.compile("Water: " + EXPR)
-    },
-    {
-      "Spleen Drop",
-      Pattern.compile("([+-]\\d+)% Spleen Item Drops? [Ff]rom Monsters$"),
-      Pattern.compile("Spleen Drop: " + EXPR)
-    },
-    {
-      "Potion Drop",
-      Pattern.compile("([+-]\\d+)% Potion Drops? [Ff]rom Monsters$"),
-      Pattern.compile("Potion Drop: " + EXPR)
-    },
-    {
-      "Sauce Spell Damage",
-      new Pattern[] {
-        Pattern.compile("Sauce Spell Damage ([+-]\\d+)$"),
-        Pattern.compile("([+-]\\d+) Sauce Spell Damage"),
-      },
-      Pattern.compile("(?:^|, )Sauce Spell Damage: " + EXPR)
-    },
-    {
-      "Monster Level Percent",
-      Pattern.compile("([+-]\\d+)% Monster Level"),
-      Pattern.compile("Monster Level Percent: " + EXPR)
-    },
+  private static final DoubleModifier[] doubleModifiers = {
+    new DoubleModifier(
+        "Familiar Weight",
+        Pattern.compile("([+-]\\d+) (to )?Familiar Weight"),
+        Pattern.compile("Familiar Weight: " + EXPR)),
+    new DoubleModifier(
+        "Monster Level",
+        new Pattern[] {
+          Pattern.compile("([+-]\\d+) to Monster Level"),
+          Pattern.compile("Monster Level ([+-]\\d+)"),
+        },
+        Pattern.compile("Monster Level: " + EXPR)),
+    new DoubleModifier("Combat Rate", Pattern.compile("Combat Rate: " + EXPR)),
+    new DoubleModifier(
+        "Initiative",
+        new Pattern[] {
+          Pattern.compile("Combat Initiative ([+-]\\d+)%"),
+          Pattern.compile("([+-]\\d+)% Combat Initiative"),
+        },
+        Pattern.compile("Initiative: " + EXPR)),
+    new DoubleModifier(
+        "Experience",
+        Pattern.compile("([+-]\\d+) Stat.*Per Fight"),
+        Pattern.compile("Experience: " + EXPR)),
+    new DoubleModifier(
+        "Item Drop",
+        Pattern.compile("([+-]\\d+)% Item Drops? [Ff]rom Monsters$"),
+        Pattern.compile("Item Drop: " + EXPR)),
+    new DoubleModifier(
+        "Meat Drop",
+        Pattern.compile("([+-]\\d+)% Meat from Monsters"),
+        Pattern.compile("Meat Drop: " + EXPR)),
+    new DoubleModifier(
+        "Damage Absorption",
+        Pattern.compile("Damage Absorption ([+-]\\d+)"),
+        Pattern.compile("Damage Absorption: " + EXPR)),
+    new DoubleModifier(
+        "Damage Reduction",
+        Pattern.compile("Damage Reduction: ([+-]?\\d+)"),
+        Pattern.compile("Damage Reduction: " + EXPR)),
+    new DoubleModifier("Cold Resistance", Pattern.compile("Cold Resistance: " + EXPR)),
+    new DoubleModifier("Hot Resistance", Pattern.compile("Hot Resistance: " + EXPR)),
+    new DoubleModifier("Sleaze Resistance", Pattern.compile("Sleaze Resistance: " + EXPR)),
+    new DoubleModifier("Spooky Resistance", Pattern.compile("Spooky Resistance: " + EXPR)),
+    new DoubleModifier("Stench Resistance", Pattern.compile("Stench Resistance: " + EXPR)),
+    new DoubleModifier(
+        "Mana Cost",
+        Pattern.compile("([+-]\\d+) MP to use Skills$"),
+        Pattern.compile("Mana Cost: " + EXPR)),
+    new DoubleModifier(
+        "Moxie",
+        new Pattern[] {
+          Pattern.compile("Moxie ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Moxie$"),
+        },
+        Pattern.compile("Moxie: " + EXPR)),
+    new DoubleModifier(
+        "Moxie Percent",
+        new Pattern[] {
+          Pattern.compile("Moxie ([+-]\\d+)%"), Pattern.compile("([+-]\\d+)% Moxie"),
+        },
+        Pattern.compile("Moxie Percent: " + EXPR)),
+    new DoubleModifier(
+        "Muscle",
+        new Pattern[] {
+          Pattern.compile("Muscle ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Muscle$"),
+        },
+        Pattern.compile("Muscle: " + EXPR)),
+    new DoubleModifier(
+        "Muscle Percent",
+        new Pattern[] {
+          Pattern.compile("Muscle ([+-]\\d+)%"), Pattern.compile("([+-]\\d+)% Muscle"),
+        },
+        Pattern.compile("Muscle Percent: " + EXPR)),
+    new DoubleModifier(
+        "Mysticality",
+        new Pattern[] {
+          Pattern.compile("Mysticality ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Mysticality$"),
+        },
+        Pattern.compile("Mysticality: " + EXPR)),
+    new DoubleModifier(
+        "Mysticality Percent",
+        new Pattern[] {
+          Pattern.compile("Mysticality ([+-]\\d+)%"), Pattern.compile("([+-]\\d+)% Mysticality"),
+        },
+        Pattern.compile("Mysticality Percent: " + EXPR)),
+    new DoubleModifier(
+        "Maximum HP",
+        Pattern.compile("Maximum HP ([+-]\\d+)$"),
+        Pattern.compile("Maximum HP: " + EXPR)),
+    new DoubleModifier(
+        "Maximum HP Percent",
+        Pattern.compile("Maximum HP ([+-]\\d+)%"),
+        Pattern.compile("Maximum HP Percent: " + EXPR)),
+    new DoubleModifier(
+        "Maximum MP",
+        Pattern.compile("Maximum MP ([+-]\\d+)$"),
+        Pattern.compile("Maximum MP: " + EXPR)),
+    new DoubleModifier(
+        "Maximum MP Percent",
+        Pattern.compile("Maximum MP ([+-]\\d+)%"),
+        Pattern.compile("Maximum MP Percent: " + EXPR)),
+    new DoubleModifier(
+        "Weapon Damage",
+        new Pattern[] {
+          Pattern.compile("Weapon Damage ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Weapon Damage"),
+        },
+        Pattern.compile("Weapon Damage: " + EXPR)),
+    new DoubleModifier(
+        "Ranged Damage",
+        new Pattern[] {
+          Pattern.compile("Ranged Damage ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Ranged Damage"),
+        },
+        Pattern.compile("Ranged Damage: " + EXPR)),
+    new DoubleModifier(
+        "Spell Damage",
+        new Pattern[] {
+          Pattern.compile("Spell Damage ([+-]\\d+)$"), Pattern.compile("([+-]\\d+) Spell Damage"),
+        },
+        Pattern.compile("(?:^|, )Spell Damage: " + EXPR)),
+    new DoubleModifier(
+        "Spell Damage Percent",
+        new Pattern[] {
+          Pattern.compile("Spell Damage ([+-][\\d.]+)%"),
+          Pattern.compile("([+-][\\d.]+)% Spell Damage"),
+        },
+        Pattern.compile("Spell Damage Percent: " + EXPR)),
+    new DoubleModifier(
+        "Cold Damage",
+        Pattern.compile("^([+-]\\d+) <font color=blue>Cold Damage<"),
+        Pattern.compile("Cold Damage: " + EXPR)),
+    new DoubleModifier(
+        "Hot Damage",
+        Pattern.compile("^([+-]\\d+) <font color=red>Hot Damage<"),
+        Pattern.compile("Hot Damage: " + EXPR)),
+    new DoubleModifier(
+        "Sleaze Damage",
+        Pattern.compile("^([+-]\\d+) <font color=blueviolet>Sleaze Damage<"),
+        Pattern.compile("Sleaze Damage: " + EXPR)),
+    new DoubleModifier(
+        "Spooky Damage",
+        Pattern.compile("^([+-]\\d+) <font color=gray>Spooky Damage<"),
+        Pattern.compile("Spooky Damage: " + EXPR)),
+    new DoubleModifier(
+        "Stench Damage",
+        Pattern.compile("^([+-]\\d+) <font color=green>Stench Damage<"),
+        Pattern.compile("Stench Damage: " + EXPR)),
+    new DoubleModifier(
+        "Cold Spell Damage",
+        Pattern.compile("^([+-]\\d+) (Damage )?to <font color=blue>Cold Spells</font>"),
+        Pattern.compile("Cold Spell Damage: " + EXPR)),
+    new DoubleModifier(
+        "Hot Spell Damage",
+        Pattern.compile("^([+-]\\d+) (Damage )?to (<font color=red>)?Hot Spells(</font>)?"),
+        Pattern.compile("Hot Spell Damage: " + EXPR)),
+    new DoubleModifier(
+        "Sleaze Spell Damage",
+        Pattern.compile("^([+-]\\d+) (Damage )?to <font color=blueviolet>Sleaze Spells</font>"),
+        Pattern.compile("Sleaze Spell Damage: " + EXPR)),
+    new DoubleModifier(
+        "Spooky Spell Damage",
+        Pattern.compile("^([+-]\\d+) (Damage )?to <font color=gray>Spooky Spells</font>"),
+        Pattern.compile("Spooky Spell Damage: " + EXPR)),
+    new DoubleModifier(
+        "Stench Spell Damage",
+        Pattern.compile("^([+-]\\d+) (Damage )?to <font color=green>Stench Spells</font>"),
+        Pattern.compile("Stench Spell Damage: " + EXPR)),
+    new DoubleModifier(
+        "Underwater Combat Rate", Pattern.compile("Combat Rate \\(Underwater\\): " + EXPR)),
+    new DoubleModifier(
+        "Fumble", Pattern.compile("(\\d+)x chance of Fumble"), Pattern.compile("Fumble: " + EXPR)),
+    new DoubleModifier("HP Regen Min", Pattern.compile("HP Regen Min: " + EXPR)),
+    new DoubleModifier("HP Regen Max", Pattern.compile("HP Regen Max: " + EXPR)),
+    new DoubleModifier("MP Regen Min", Pattern.compile("MP Regen Min: " + EXPR)),
+    new DoubleModifier("MP Regen Max", Pattern.compile("MP Regen Max: " + EXPR)),
+    new DoubleModifier(
+        "Adventures",
+        Pattern.compile("([+-]\\d+) Adventure\\(s\\) per day( when equipped)?"),
+        Pattern.compile("Adventures: " + EXPR)),
+    new DoubleModifier(
+        "Familiar Weight Percent",
+        Pattern.compile("([+-]\\d+)% Familiar Weight"),
+        Pattern.compile("Familiar Weight Percent: " + EXPR)),
+    new DoubleModifier(
+        "Weapon Damage Percent",
+        Pattern.compile("Weapon Damage ([+-]\\d+)%"),
+        Pattern.compile("Weapon Damage Percent: " + EXPR)),
+    new DoubleModifier(
+        "Ranged Damage Percent",
+        Pattern.compile("Ranged Damage ([+-]\\d+)%"),
+        Pattern.compile("Ranged Damage Percent: " + EXPR)),
+    new DoubleModifier(
+        "Stackable Mana Cost",
+        Pattern.compile("([+-]\\d+) MP to use Skills$"),
+        Pattern.compile("Mana Cost \\(stackable\\): " + EXPR)),
+    new DoubleModifier(
+        "Hobo Power",
+        Pattern.compile("([+-]\\d+) Hobo Power"),
+        Pattern.compile("Hobo Power: " + EXPR)),
+    new DoubleModifier("Base Resting HP", Pattern.compile("Base Resting HP: " + EXPR)),
+    new DoubleModifier("Resting HP Percent", Pattern.compile("Resting HP Percent: " + EXPR)),
+    new DoubleModifier("Bonus Resting HP", Pattern.compile("Bonus Resting HP: " + EXPR)),
+    new DoubleModifier("Base Resting MP", Pattern.compile("Base Resting MP: " + EXPR)),
+    new DoubleModifier("Resting MP Percent", Pattern.compile("Resting MP Percent: " + EXPR)),
+    new DoubleModifier("Bonus Resting MP", Pattern.compile("Bonus Resting MP: " + EXPR)),
+    new DoubleModifier(
+        "Critical Hit Percent",
+        Pattern.compile("([+-]\\d+)% [Cc]hance of Critical Hit"),
+        Pattern.compile("Critical Hit Percent: " + EXPR)),
+    new DoubleModifier(
+        "PvP Fights",
+        Pattern.compile("([+-]\\d+) PvP [Ff]ight\\(s\\) per day( when equipped)?"),
+        Pattern.compile("PvP Fights: " + EXPR)),
+    new DoubleModifier("Volleyball", Pattern.compile("Volley(?:ball)?: " + EXPR)),
+    new DoubleModifier("Sombrero", Pattern.compile("Somb(?:rero)?: " + EXPR)),
+    new DoubleModifier("Leprechaun", Pattern.compile("Lep(?:rechaun)?: " + EXPR)),
+    new DoubleModifier("Fairy", Pattern.compile("Fairy: " + EXPR)),
+    new DoubleModifier("Meat Drop Penalty", Pattern.compile("Meat Drop Penalty: " + EXPR)),
+    new DoubleModifier(
+        "Hidden Familiar Weight", Pattern.compile("Familiar Weight \\(hidden\\): " + EXPR)),
+    new DoubleModifier("Item Drop Penalty", Pattern.compile("Item Drop Penalty: " + EXPR)),
+    new DoubleModifier("Initiative Penalty", Pattern.compile("Initiative Penalty: " + EXPR)),
+    new DoubleModifier(
+        "Food Drop",
+        Pattern.compile("([+-]\\d+)% Food Drops? [Ff]rom Monsters$"),
+        Pattern.compile("Food Drop: " + EXPR)),
+    new DoubleModifier(
+        "Booze Drop",
+        Pattern.compile("([+-]\\d+)% Booze Drops? [Ff]rom Monsters$"),
+        Pattern.compile("Booze Drop: " + EXPR)),
+    new DoubleModifier(
+        "Hat Drop",
+        Pattern.compile("([+-]\\d+)% Hat(?:/Pants)? Drops? [Ff]rom Monsters$"),
+        Pattern.compile("Hat Drop: " + EXPR)),
+    new DoubleModifier(
+        "Weapon Drop",
+        Pattern.compile("([+-]\\d+)% Weapon Drops? [Ff]rom Monsters$"),
+        Pattern.compile("Weapon Drop: " + EXPR)),
+    new DoubleModifier(
+        "Offhand Drop",
+        Pattern.compile("([+-]\\d+)% Off-[Hh]and Drops? [Ff]rom Monsters$"),
+        Pattern.compile("Offhand Drop: " + EXPR)),
+    new DoubleModifier(
+        "Shirt Drop",
+        Pattern.compile("([+-]\\d+)% Shirt Drops? [Ff]rom Monsters$"),
+        Pattern.compile("Shirt Drop: " + EXPR)),
+    new DoubleModifier(
+        "Pants Drop",
+        Pattern.compile("([+-]\\d+)% (?:Hat/)?Pants Drops? [Ff]rom Monsters$"),
+        Pattern.compile("Pants Drop: " + EXPR)),
+    new DoubleModifier(
+        "Accessory Drop",
+        Pattern.compile("([+-]\\d+)% Accessory Drops? [Ff]rom Monsters$"),
+        Pattern.compile("Accessory Drop: " + EXPR)),
+    new DoubleModifier(
+        "Volleyball Effectiveness", Pattern.compile("Volleyball Effectiveness: " + EXPR)),
+    new DoubleModifier(
+        "Sombrero Effectiveness", Pattern.compile("Sombrero Effectiveness: " + EXPR)),
+    new DoubleModifier(
+        "Leprechaun Effectiveness", Pattern.compile("Leprechaun Effectiveness: " + EXPR)),
+    new DoubleModifier("Fairy Effectiveness", Pattern.compile("Fairy Effectiveness: " + EXPR)),
+    new DoubleModifier("Familiar Weight Cap", Pattern.compile("Familiar Weight Cap: " + EXPR)),
+    new DoubleModifier("Slime Resistance", Pattern.compile("Slime Resistance: " + EXPR)),
+    new DoubleModifier(
+        "Slime Hates It",
+        Pattern.compile("Slime( Really)? Hates (It|You)"),
+        Pattern.compile("Slime Hates It: " + EXPR)),
+    new DoubleModifier(
+        "Spell Critical Percent",
+        Pattern.compile("([+-]\\d+)% [cC]hance of Spell Critical Hit"),
+        Pattern.compile("Spell Critical Percent: " + EXPR)),
+    new DoubleModifier(
+        "Muscle Experience",
+        Pattern.compile("([+-]\\d+) Muscle Stat.*Per Fight"),
+        Pattern.compile("Experience \\(Muscle\\): " + EXPR),
+        "Experience (Muscle)"),
+    new DoubleModifier(
+        "Mysticality Experience",
+        Pattern.compile("([+-]\\d+) Mysticality Stat.*Per Fight"),
+        Pattern.compile("Experience \\(Mysticality\\): " + EXPR),
+        "Experience (Mysticality)"),
+    new DoubleModifier(
+        "Moxie Experience",
+        Pattern.compile("([+-]\\d+) Moxie Stat.*Per Fight"),
+        Pattern.compile("Experience \\(Moxie\\): " + EXPR),
+        "Experience (Moxie)"),
+    new DoubleModifier("Effect Duration", Pattern.compile("(?:^|, )Effect Duration: " + EXPR)),
+    new DoubleModifier(
+        "Candy Drop",
+        Pattern.compile("([+-]\\d+)% Candy Drops? [Ff]rom Monsters$"),
+        Pattern.compile("Candy Drop: " + EXPR)),
+    new DoubleModifier(
+        "DB Combat Damage",
+        new Pattern[] {
+          Pattern.compile("([+-]\\d+) damage to Disco Bandit Combat Skills"),
+          Pattern.compile("([+-]\\d+) Disco Bandit Skill Damage"),
+        },
+        Pattern.compile("DB Combat Damage: " + EXPR)),
+    new DoubleModifier(
+        "Sombrero Bonus",
+        Pattern.compile("([+-]\\d+) lbs?\\. of Sombrero"),
+        Pattern.compile("Sombrero Bonus: " + EXPR)),
+    new DoubleModifier(
+        "Familiar Experience",
+        Pattern.compile("([+-]\\d+) Familiar Experience"),
+        Pattern.compile("Experience \\(familiar\\): " + EXPR),
+        "Experience (familiar)"),
+    new DoubleModifier(
+        "Sporadic Meat Drop",
+        Pattern.compile("Meat Drop \\(sporadic\\): " + EXPR),
+        "Meat Drop (sporadic)"),
+    new DoubleModifier(
+        "Sporadic Item Drop",
+        Pattern.compile("Item Drop \\(sporadic\\): " + EXPR),
+        "Item Drop (sporadic)"),
+    new DoubleModifier("Meat Bonus", Pattern.compile("Meat Bonus: " + EXPR)),
+    new DoubleModifier(
+        "Pickpocket Chance",
+        Pattern.compile("([+-]\\d+)% Pickpocket Chance"),
+        Pattern.compile("Pickpocket Chance: " + EXPR)),
+    new DoubleModifier(
+        "Combat Mana Cost",
+        Pattern.compile("([+-]\\d+) MP to use Skills \\(in-combat only\\)"),
+        Pattern.compile("Mana Cost \\(combat\\): " + EXPR),
+        "Mana Cost (combat)"),
+    new DoubleModifier(
+        "Muscle Experience Percent",
+        Pattern.compile("([+-]\\d+)% to all Muscle Gains"),
+        Pattern.compile("Experience Percent \\(Muscle\\): " + EXPR),
+        "Experience Percent (Muscle)"),
+    new DoubleModifier(
+        "Mysticality Experience Percent",
+        Pattern.compile("([+-]\\d+)% to all Mysticality Gains"),
+        Pattern.compile("Experience Percent \\(Mysticality\\): " + EXPR),
+        "Experience Percent (Mysticality)"),
+    new DoubleModifier(
+        "Moxie Experience Percent",
+        Pattern.compile("([+-]\\d+)% to all Moxie Gains"),
+        Pattern.compile("Experience Percent \\(Moxie\\): " + EXPR),
+        "Experience Percent (Moxie)"),
+    new DoubleModifier(
+        "Minstrel Level",
+        new Pattern[] {
+          Pattern.compile("([+-]\\d+) to Minstrel Level"),
+          Pattern.compile("Minstrel Level ([+-]\\d+)"),
+        },
+        Pattern.compile("Minstrel Level: " + EXPR)),
+    new DoubleModifier(
+        "Muscle Limit",
+        Pattern.compile("Base Muscle Limited to (\\d+)"),
+        Pattern.compile("Muscle Limit: " + EXPR)),
+    new DoubleModifier(
+        "Mysticality Limit",
+        Pattern.compile("Base Mysticality Limited to (\\d+)"),
+        Pattern.compile("Mysticality Limit: " + EXPR)),
+    new DoubleModifier(
+        "Moxie Limit",
+        Pattern.compile("Base Moxie Limited to (\\d+)"),
+        Pattern.compile("Moxie Limit: " + EXPR)),
+    new DoubleModifier(
+        "Song Duration",
+        Pattern.compile("Song Duration: ([+-]\\d+) Adventures"),
+        Pattern.compile("Song Duration: " + EXPR)),
+    new DoubleModifier("Prismatic Damage", null),
+    new DoubleModifier(
+        "Smithsness",
+        Pattern.compile("([+-]\\d+) Smithsness"),
+        Pattern.compile("Smithsness: " + EXPR)),
+    new DoubleModifier("Supercold Resistance", Pattern.compile("Supercold Resistance: " + EXPR)),
+    new DoubleModifier(
+        "Reduce Enemy Defense",
+        Pattern.compile("Reduce enemy defense by (\\d+)%"),
+        Pattern.compile("Reduce Enemy Defense: " + EXPR)),
+    new DoubleModifier(
+        "Pool Skill",
+        Pattern.compile("([+-]\\d+) Pool Skill"),
+        Pattern.compile("Pool Skill: " + EXPR)),
+    new DoubleModifier(
+        "Surgeonosity",
+        new Pattern[] {
+          Pattern.compile("Makes you look like a doctor"),
+          Pattern.compile("Makes you look like a gross doctor"),
+        },
+        Pattern.compile("Surgeonosity: (\\+?\\d+)")),
+    new DoubleModifier(
+        "Familiar Damage",
+        new Pattern[] {
+          Pattern.compile("([+-]\\d+) to Familiar Damage"),
+          Pattern.compile("Familiar Damage ([+-]\\d+)"),
+        },
+        Pattern.compile("Familiar Damage: " + EXPR)),
+    new DoubleModifier(
+        "Gear Drop",
+        Pattern.compile("([+-]\\d+)% Gear Drops? [Ff]rom Monsters$"),
+        Pattern.compile("Gear Drop: " + EXPR)),
+    new DoubleModifier(
+        "Maximum Hooch",
+        Pattern.compile("([+-]\\d+) Maximum Hooch"),
+        Pattern.compile("Maximum Hooch: " + EXPR)),
+    new DoubleModifier("Water Level", Pattern.compile("Water Level: " + EXPR)),
+    new DoubleModifier(
+        "Crimbot Outfit Power",
+        Pattern.compile("([+-]\\d+) Crimbot Outfit Power"),
+        Pattern.compile("Crimbot Outfit Power: " + EXPR)),
+    new DoubleModifier(
+        "Familiar Tuning Muscle",
+        Pattern.compile("Familiar Tuning \\(Muscle\\): " + EXPR),
+        "Familiar Tuning (Muscle)"),
+    new DoubleModifier(
+        "Familiar Tuning Mysticality",
+        Pattern.compile("Familiar Tuning \\(Mysticality\\): " + EXPR),
+        "Familiar Tuning (Mysticality)"),
+    new DoubleModifier(
+        "Familiar Tuning Moxie",
+        Pattern.compile("Familiar Tuning \\(Moxie\\): " + EXPR),
+        "Familiar Tuning (Moxie)"),
+    new DoubleModifier(
+        "Random Monster Modifiers",
+        Pattern.compile("([+-]\\d+) Random Monster Modifier"),
+        Pattern.compile("Random Monster Modifiers: " + EXPR)),
+    new DoubleModifier(
+        "Luck", Pattern.compile("([+-]\\d+) Luck"), Pattern.compile("Luck: " + EXPR)),
+    new DoubleModifier(
+        "Othello Skill",
+        Pattern.compile("([+-]\\d+) Othello Skill"),
+        Pattern.compile("Othello Skill: " + EXPR)),
+    new DoubleModifier(
+        "Disco Style",
+        Pattern.compile("([+-]\\d+) Disco Style"),
+        Pattern.compile("Disco Style: " + EXPR)),
+    new DoubleModifier(
+        "Rollover Effect Duration",
+        Pattern.compile("Grants (\\d+) Adventures of <b>.*?</b> at Rollover"),
+        Pattern.compile("Rollover Effect Duration: " + EXPR)),
+    new DoubleModifier("Sixgun Damage", Pattern.compile("Sixgun Damage: " + EXPR)),
+    new DoubleModifier(
+        "Fishing Skill",
+        Pattern.compile("([+-]\\d+) Fishing Skill"),
+        Pattern.compile("Fishing Skill: " + EXPR)),
+    new DoubleModifier(
+        "Additional Song",
+        Pattern.compile("Keep (\\d+) additional song in your head"),
+        Pattern.compile("Additional Song: " + EXPR)),
+    new DoubleModifier(
+        "Sprinkle Drop",
+        Pattern.compile("([+-]\\d+)% Sprinkles from Monsters"),
+        Pattern.compile("Sprinkle Drop: " + EXPR)),
+    new DoubleModifier(
+        "Absorb Adventures",
+        Pattern.compile("([+-]\\d+) Adventures when you absorb an item"),
+        Pattern.compile("Absorb Adventures: " + EXPR)),
+    new DoubleModifier(
+        "Absorb Stats",
+        Pattern.compile("([+-]\\d+) Stats when you absorb an item"),
+        Pattern.compile("Absorb Stats: " + EXPR)),
+    new DoubleModifier(
+        "Rubee Drop",
+        Pattern.compile("FantasyRealm enemies will drop (\\d+) extra Rubee"),
+        Pattern.compile("Rubee Drop: " + EXPR)),
+    new DoubleModifier(
+        "Kruegerand Drop",
+        Pattern.compile("Lets you find (\\d+)% more Kruegerands"),
+        Pattern.compile("Kruegerand Drop: " + EXPR)),
+    new DoubleModifier(
+        "WarBear Armor Penetration",
+        Pattern.compile("([+-]\\d+) WarBear Armor Penetration"),
+        Pattern.compile("WarBear Armor Penetration: " + EXPR)),
+    new DoubleModifier(
+        "Clowniness",
+        Pattern.compile("Makes you look (\\d+)% clowny"),
+        Pattern.compile("Clowniness: " + EXPR)),
+    new DoubleModifier(
+        "Maximum PP",
+        Pattern.compile("([+-]\\d+) Max(imum)? Power Point"),
+        Pattern.compile("Maximum PP: " + EXPR)),
+    new DoubleModifier("Plumber Power", Pattern.compile("Plumber Power: " + EXPR)),
+    new DoubleModifier(
+        "Drippy Damage",
+        new Pattern[] {
+          Pattern.compile("([+-]\\d+) Damage vs. creatures of The Drip"),
+          Pattern.compile("([+-]\\d+) Damage against Drip creatures"),
+        },
+        Pattern.compile("Drippy Damage: " + EXPR)),
+    new DoubleModifier("Drippy Resistance", Pattern.compile("Drippy Resistance: " + EXPR)),
+    new DoubleModifier("Energy", Pattern.compile("Energy: " + EXPR)),
+    new DoubleModifier("Scrap", Pattern.compile("Scrap: " + EXPR)),
+    new DoubleModifier("Familiar Action Bonus", Pattern.compile("Familiar Action Bonus: " + EXPR)),
+    new DoubleModifier(
+        "Water",
+        Pattern.compile("Collect (\\d+) water per adventure"),
+        Pattern.compile("Water: " + EXPR)),
+    new DoubleModifier(
+        "Spleen Drop",
+        Pattern.compile("([+-]\\d+)% Spleen Item Drops? [Ff]rom Monsters$"),
+        Pattern.compile("Spleen Drop: " + EXPR)),
+    new DoubleModifier(
+        "Potion Drop",
+        Pattern.compile("([+-]\\d+)% Potion Drops? [Ff]rom Monsters$"),
+        Pattern.compile("Potion Drop: " + EXPR)),
+    new DoubleModifier(
+        "Sauce Spell Damage",
+        new Pattern[] {
+          Pattern.compile("Sauce Spell Damage ([+-]\\d+)$"),
+          Pattern.compile("([+-]\\d+) Sauce Spell Damage"),
+        },
+        Pattern.compile("(?:^|, )Sauce Spell Damage: " + EXPR)),
+    new DoubleModifier(
+        "Monster Level Percent",
+        Pattern.compile("([+-]\\d+)% Monster Level"),
+        Pattern.compile("Monster Level Percent: " + EXPR)),
   };
 
   public static final int DOUBLE_MODIFIERS = Modifiers.doubleModifiers.length;
@@ -835,9 +745,9 @@ public class Modifiers {
 
   static {
     for (int i = 0; i < DOUBLE_MODIFIERS; ++i) {
-      Object[] modifier = Modifiers.doubleModifiers[i];
-      modifierIndicesByName.put((String) modifier[0], i);
-      String tag = modifier.length > 3 ? (String) modifier[3] : (String) modifier[0];
+      DoubleModifier modifier = Modifiers.doubleModifiers[i];
+      modifierIndicesByName.put(modifier.getName(), i);
+      String tag = modifier.getTag();
       Modifiers.numericModifiers.add(tag);
     }
   }
@@ -854,14 +764,14 @@ public class Modifiers {
   public static final int MUTEX = 5;
   public static final int MUTEX_VIOLATIONS = 6;
 
-  private static final Object[][] bitmapModifiers = {
-    {"(booleans)", null, null},
-    {"Brimstone", null, Pattern.compile("Brimstone")},
-    {"Cloathing", null, Pattern.compile("Cloathing")},
-    {"Synergetic", null, Pattern.compile("Synergetic")},
-    {"Raveosity", null, Pattern.compile("Raveosity: (\\+?\\d+)")},
-    {"Mutually Exclusive", null, null},
-    {"Mutex Violations", null, null},
+  private static final BitmapModifier[] bitmapModifiers = {
+    new BitmapModifier("(booleans)", null),
+    new BitmapModifier("Brimstone", Pattern.compile("Brimstone")),
+    new BitmapModifier("Cloathing", Pattern.compile("Cloathing")),
+    new BitmapModifier("Synergetic", Pattern.compile("Synergetic")),
+    new BitmapModifier("Raveosity", Pattern.compile("Raveosity: (\\+?\\d+)")),
+    new BitmapModifier("Mutually Exclusive", null),
+    new BitmapModifier("Mutex Violations", null),
   };
 
   public static final int BITMAP_MODIFIERS = Modifiers.bitmapModifiers.length;
@@ -871,8 +781,8 @@ public class Modifiers {
     Arrays.fill(bitmapMasks, 1);
 
     for (int i = 0; i < BITMAP_MODIFIERS; ++i) {
-      Object[] modifier = Modifiers.bitmapModifiers[i];
-      modifierIndicesByName.put((String) modifier[0], DOUBLE_MODIFIERS + i);
+      BitmapModifier modifier = Modifiers.bitmapModifiers[i];
+      modifierIndicesByName.put(modifier.getName(), DOUBLE_MODIFIERS + i);
     }
   }
 
@@ -908,70 +818,63 @@ public class Modifiers {
   public static final int DROPS_ITEMS = 29;
   public static final int DROPS_MEAT = 30;
 
-  private static final Object[][] booleanModifiers = {
-    {
-      "Softcore Only",
-      Pattern.compile("This item cannot be equipped while in Hardcore"),
-      Pattern.compile("Softcore Only")
-    },
-    {"Single Equip", null, Pattern.compile("Single Equip")},
-    {"Never Fumble", Pattern.compile("Never Fumble"), Pattern.compile("Never Fumble")},
-    {
-      "Weakens Monster",
-      Pattern.compile("Successful hit weakens opponent"),
-      Pattern.compile("Weakens Monster")
-    },
-    {"Free Pull", null, Pattern.compile("Free Pull")},
-    {"Variable", null, Pattern.compile("Variable")},
-    {"Nonstackable Watch", null, Pattern.compile("Nonstackable Watch")},
-    {"Cold Immunity", null, Pattern.compile("Cold Immunity")},
-    {"Hot Immunity", null, Pattern.compile("Hot Immunity")},
-    {"Sleaze Immunity", null, Pattern.compile("Sleaze Immunity")},
-    {"Spooky Immunity", null, Pattern.compile("Spooky Immunity")},
-    {"Stench Immunity", null, Pattern.compile("Stench Immunity")},
-    {"Cold Vulnerability", null, Pattern.compile("Cold Vulnerability")},
-    {"Hot Vulnerability", null, Pattern.compile("Hot Vulnerability")},
-    {"Sleaze Vulnerability", null, Pattern.compile("Sleaze Vulnerability")},
-    {"Spooky Vulnerability", null, Pattern.compile("Spooky Vulnerability")},
-    {"Stench Vulnerability", null, Pattern.compile("Stench Vulnerability")},
-    {"Moxie Controls MP", null, Pattern.compile("Moxie Controls MP")},
-    {"Moxie May Control MP", null, Pattern.compile("Moxie May Control MP")},
-    {
-      "Four Songs",
-      Pattern.compile("Allows you to keep 4 songs in your head instead of 3"),
-      Pattern.compile("Four Songs")
-    },
-    {
-      "Adventure Underwater",
-      Pattern.compile("Lets you [bB]reathe [uU]nderwater"),
-      Pattern.compile("Adventure Underwater")
-    },
-    {
-      "Underwater Familiar",
-      Pattern.compile("Lets your Familiar Breathe Underwater"),
-      Pattern.compile("Underwater Familiar")
-    },
-    {"Generic", null, Pattern.compile("Generic")},
-    {
-      "Unarmed",
-      Pattern.compile("Bonus&nbsp;for&nbsp;Unarmed&nbsp;Characters&nbsp;only"),
-      Pattern.compile("Unarmed")
-    },
-    {"No Pull", null, Pattern.compile("No Pull")},
-    {
-      "Lasts Until Rollover",
-      Pattern.compile("This item will disappear at the end of the day"),
-      Pattern.compile("Lasts Until Rollover")
-    },
-    {
-      "Attacks Can't Miss",
-      Pattern.compile("Regular Attacks Can't Miss"),
-      Pattern.compile("Attacks Can't Miss")
-    },
-    {"Pirate", null, Pattern.compile("Look like a Pirate")},
-    {"Breakable", null, Pattern.compile("Breakable")},
-    {"Drops Items", null, Pattern.compile("Drops Items")},
-    {"Drops Meat", null, Pattern.compile("Drops Meat")},
+  private static final BooleanModifier[] booleanModifiers = {
+    new BooleanModifier(
+        "Softcore Only",
+        Pattern.compile("This item cannot be equipped while in Hardcore"),
+        Pattern.compile("Softcore Only")),
+    new BooleanModifier("Single Equip", Pattern.compile("Single Equip")),
+    new BooleanModifier(
+        "Never Fumble", Pattern.compile("Never Fumble"), Pattern.compile("Never Fumble")),
+    new BooleanModifier(
+        "Weakens Monster",
+        Pattern.compile("Successful hit weakens opponent"),
+        Pattern.compile("Weakens Monster")),
+    new BooleanModifier("Free Pull", Pattern.compile("Free Pull")),
+    new BooleanModifier("Variable", Pattern.compile("Variable")),
+    new BooleanModifier("Nonstackable Watch", Pattern.compile("Nonstackable Watch")),
+    new BooleanModifier("Cold Immunity", Pattern.compile("Cold Immunity")),
+    new BooleanModifier("Hot Immunity", Pattern.compile("Hot Immunity")),
+    new BooleanModifier("Sleaze Immunity", Pattern.compile("Sleaze Immunity")),
+    new BooleanModifier("Spooky Immunity", Pattern.compile("Spooky Immunity")),
+    new BooleanModifier("Stench Immunity", Pattern.compile("Stench Immunity")),
+    new BooleanModifier("Cold Vulnerability", Pattern.compile("Cold Vulnerability")),
+    new BooleanModifier("Hot Vulnerability", Pattern.compile("Hot Vulnerability")),
+    new BooleanModifier("Sleaze Vulnerability", Pattern.compile("Sleaze Vulnerability")),
+    new BooleanModifier("Spooky Vulnerability", Pattern.compile("Spooky Vulnerability")),
+    new BooleanModifier("Stench Vulnerability", Pattern.compile("Stench Vulnerability")),
+    new BooleanModifier("Moxie Controls MP", Pattern.compile("Moxie Controls MP")),
+    new BooleanModifier("Moxie May Control MP", Pattern.compile("Moxie May Control MP")),
+    new BooleanModifier(
+        "Four Songs",
+        Pattern.compile("Allows you to keep 4 songs in your head instead of 3"),
+        Pattern.compile("Four Songs")),
+    new BooleanModifier(
+        "Adventure Underwater",
+        Pattern.compile("Lets you [bB]reathe [uU]nderwater"),
+        Pattern.compile("Adventure Underwater")),
+    new BooleanModifier(
+        "Underwater Familiar",
+        Pattern.compile("Lets your Familiar Breathe Underwater"),
+        Pattern.compile("Underwater Familiar")),
+    new BooleanModifier("Generic", Pattern.compile("Generic")),
+    new BooleanModifier(
+        "Unarmed",
+        Pattern.compile("Bonus&nbsp;for&nbsp;Unarmed&nbsp;Characters&nbsp;only"),
+        Pattern.compile("Unarmed")),
+    new BooleanModifier("No Pull", Pattern.compile("No Pull")),
+    new BooleanModifier(
+        "Lasts Until Rollover",
+        Pattern.compile("This item will disappear at the end of the day"),
+        Pattern.compile("Lasts Until Rollover")),
+    new BooleanModifier(
+        "Attacks Can't Miss",
+        Pattern.compile("Regular Attacks Can't Miss"),
+        Pattern.compile("Attacks Can't Miss")),
+    new BooleanModifier("Pirate", Pattern.compile("Look like a Pirate")),
+    new BooleanModifier("Breakable", Pattern.compile("Breakable")),
+    new BooleanModifier("Drops Items", Pattern.compile("Drops Items")),
+    new BooleanModifier("Drops Meat", Pattern.compile("Drops Meat")),
   };
 
   public static final int BOOLEAN_MODIFIERS = Modifiers.booleanModifiers.length;
@@ -982,8 +885,8 @@ public class Modifiers {
           "Too many boolean modifiers to fit into bitmaps[0].  Will have to store bitmaps as longs, or use two bitmaps to hold the booleans.");
     }
     for (int i = 0; i < BOOLEAN_MODIFIERS; ++i) {
-      Object[] modifier = Modifiers.booleanModifiers[i];
-      modifierIndicesByName.put((String) modifier[0], DOUBLE_MODIFIERS + BITMAP_MODIFIERS + i);
+      BooleanModifier modifier = Modifiers.booleanModifiers[i];
+      modifierIndicesByName.put(modifier.getName(), DOUBLE_MODIFIERS + BITMAP_MODIFIERS + i);
     }
   }
 
@@ -1009,60 +912,61 @@ public class Modifiers {
   public static final int FLOOR_BUFFED_MOXIE = 19;
   public static final int PLUMBER_STAT = 20;
 
-  private static final Object[][] stringModifiers = {
-    {
-      "Class",
-      new Pattern[] {
-        Pattern.compile("Only (.*?) may use this item"),
-        Pattern.compile("Bonus for (.*?) only"),
-        Pattern.compile("Bonus&nbsp;for&nbsp;(.*?)&nbsp;only"),
-      },
-      Pattern.compile("Class: \"(.*?)\"")
-    },
-    {
-      "Intrinsic Effect",
-      Pattern.compile("Intrinsic Effect: <a.*?><font color=blue>(.*)</font></a>"),
-      Pattern.compile("Intrinsic Effect: \"(.*?)\"")
-    },
-    {"Equalize", null, Pattern.compile("Equalize: \"(.*?)\"")},
-    {"Wiki Name", null, Pattern.compile("Wiki Name: \"(.*?)\"")},
-    {"Modifiers", null, Pattern.compile("^(none)$")},
-    {"Outfit", null, null},
-    {"Stat Tuning", null, Pattern.compile("Stat Tuning: \"(.*?)\"")},
-    {"Effect", null, Pattern.compile("(?:^|, )Effect: \"(.*?)\"")},
-    {"Equips On", null, Pattern.compile("Equips On: \"(.*?)\"")},
-    {"Familiar Effect", null, Pattern.compile("Familiar Effect: \"(.*?)\"")},
-    {"Jiggle", Pattern.compile("Jiggle: *(.*?)$"), Pattern.compile("Jiggle: \"(.*?)\"")},
-    {"Equalize Muscle", null, Pattern.compile("Equalize Muscle: \"(.*?)\"")},
-    {"Equalize Mysticality", null, Pattern.compile("Equalize Mysticality: \"(.*?)\"")},
-    {"Equalize Moxie", null, Pattern.compile("Equalize Moxie: \"(.*?)\"")},
-    {
-      "Avatar",
-      new Pattern[] {
-        Pattern.compile("Makes you look like (?:a |an |the )?(.++)(?<!doctor|gross doctor)"),
-        Pattern.compile("Te hace ver como un (.++)"),
-      },
-      Pattern.compile("Avatar: \"(.*?)\"")
-    },
-    {
-      "Rollover Effect",
-      Pattern.compile("Adventures of <b><a.*?>(.*)</a></b> at Rollover"),
-      Pattern.compile("Rollover Effect: \"(.*?)\"")
-    },
-    {"Skill", Pattern.compile("Grants Skill:.*?<b>(.*?)</b>"), Pattern.compile("Skill: \"(.*?)\"")},
-    {"Floor Buffed Muscle", null, Pattern.compile("Floor Buffed Muscle: \"(.*?)\"")},
-    {"Floor Buffed Mysticality", null, Pattern.compile("Floor Buffed Mysticality: \"(.*?)\"")},
-    {"Floor Buffed Moxie", null, Pattern.compile("Floor Buffed Moxie: \"(.*?)\"")},
-    {"Plumber Stat", null, Pattern.compile("Plumber Stat: \"(.*?)\"")},
+  private static final StringModifier[] stringModifiers = {
+    new StringModifier(
+        "Class",
+        new Pattern[] {
+          Pattern.compile("Only (.*?) may use this item"),
+          Pattern.compile("Bonus for (.*?) only"),
+          Pattern.compile("Bonus&nbsp;for&nbsp;(.*?)&nbsp;only"),
+        },
+        Pattern.compile("Class: \"(.*?)\"")),
+    new StringModifier(
+        "Intrinsic Effect",
+        Pattern.compile("Intrinsic Effect: <a.*?><font color=blue>(.*)</font></a>"),
+        Pattern.compile("Intrinsic Effect: \"(.*?)\"")),
+    new StringModifier("Equalize", Pattern.compile("Equalize: \"(.*?)\"")),
+    new StringModifier("Wiki Name", Pattern.compile("Wiki Name: \"(.*?)\"")),
+    new StringModifier("Modifiers", Pattern.compile("^(none)$")),
+    new StringModifier("Outfit", null),
+    new StringModifier("Stat Tuning", Pattern.compile("Stat Tuning: \"(.*?)\"")),
+    new StringModifier("Effect", Pattern.compile("(?:^|, )Effect: \"(.*?)\"")),
+    new StringModifier("Equips On", Pattern.compile("Equips On: \"(.*?)\"")),
+    new StringModifier("Familiar Effect", Pattern.compile("Familiar Effect: \"(.*?)\"")),
+    new StringModifier(
+        "Jiggle", Pattern.compile("Jiggle: *(.*?)$"), Pattern.compile("Jiggle: \"(.*?)\"")),
+    new StringModifier("Equalize Muscle", Pattern.compile("Equalize Muscle: \"(.*?)\"")),
+    new StringModifier("Equalize Mysticality", Pattern.compile("Equalize Mysticality: \"(.*?)\"")),
+    new StringModifier("Equalize Moxie", Pattern.compile("Equalize Moxie: \"(.*?)\"")),
+    new StringModifier(
+        "Avatar",
+        new Pattern[] {
+          Pattern.compile("Makes you look like (?:a |an |the )?(.++)(?<!doctor|gross doctor)"),
+          Pattern.compile("Te hace ver como un (.++)"),
+        },
+        Pattern.compile("Avatar: \"(.*?)\"")),
+    new StringModifier(
+        "Rollover Effect",
+        Pattern.compile("Adventures of <b><a.*?>(.*)</a></b> at Rollover"),
+        Pattern.compile("Rollover Effect: \"(.*?)\"")),
+    new StringModifier(
+        "Skill",
+        Pattern.compile("Grants Skill:.*?<b>(.*?)</b>"),
+        Pattern.compile("Skill: \"(.*?)\"")),
+    new StringModifier("Floor Buffed Muscle", Pattern.compile("Floor Buffed Muscle: \"(.*?)\"")),
+    new StringModifier(
+        "Floor Buffed Mysticality", Pattern.compile("Floor Buffed Mysticality: \"(.*?)\"")),
+    new StringModifier("Floor Buffed Moxie", Pattern.compile("Floor Buffed Moxie: \"(.*?)\"")),
+    new StringModifier("Plumber Stat", Pattern.compile("Plumber Stat: \"(.*?)\"")),
   };
 
   public static final int STRING_MODIFIERS = Modifiers.stringModifiers.length;
 
   static {
     for (int i = 0; i < STRING_MODIFIERS; ++i) {
-      Object[] modifier = Modifiers.stringModifiers[i];
+      StringModifier modifier = Modifiers.stringModifiers[i];
       modifierIndicesByName.put(
-          (String) modifier[0], DOUBLE_MODIFIERS + BITMAP_MODIFIERS + BOOLEAN_MODIFIERS + i);
+          modifier.getName(), DOUBLE_MODIFIERS + BITMAP_MODIFIERS + BOOLEAN_MODIFIERS + i);
     }
   }
 
@@ -1073,12 +977,12 @@ public class Modifiers {
   public static final int BUFFED_HP = 3;
   public static final int BUFFED_MP = 4;
 
-  private static final Object[][] derivedModifiers = {
-    {"Buffed Muscle"},
-    {"Buffed Mysticality"},
-    {"Buffed Moxie"},
-    {"Buffed HP Maximum"},
-    {"Buffed MP Maximum"},
+  private static final DerivedModifier[] derivedModifiers = {
+    new DerivedModifier("Buffed Muscle"),
+    new DerivedModifier("Buffed Mysticality"),
+    new DerivedModifier("Buffed Moxie"),
+    new DerivedModifier("Buffed HP Maximum"),
+    new DerivedModifier("Buffed MP Maximum"),
   };
 
   public static final int DERIVED_MODIFIERS = Modifiers.derivedModifiers.length;
@@ -1234,112 +1138,63 @@ public class Modifiers {
   }
 
   public static final String getModifierName(final int index) {
-    return Modifiers.modifierName(Modifiers.doubleModifiers, index);
+    return Modifiers.doubleModifiers[index].getName();
   }
 
   public static final String getBitmapModifierName(final int index) {
-    return Modifiers.modifierName(Modifiers.bitmapModifiers, index);
+    return Modifiers.bitmapModifiers[index].getName();
   }
 
   public static final String getBooleanModifierName(final int index) {
-    return Modifiers.modifierName(Modifiers.booleanModifiers, index);
+    return Modifiers.booleanModifiers[index].getName();
   }
 
   public static final String getStringModifierName(final int index) {
-    return Modifiers.modifierName(Modifiers.stringModifiers, index);
+    return Modifiers.stringModifiers[index].getName();
   }
 
   public static final String getDerivedModifierName(final int index) {
-    return Modifiers.modifierName(Modifiers.derivedModifiers, index);
-  }
-
-  private static <T> T modifierRow(
-      final Object[][] table, final int index, Function<Object[], T> getter) {
-    if (index < 0 || index >= table.length) {
-      return null;
-    }
-
-    return getter.apply(table[index]);
-  }
-
-  private static String modifierName(final Object[][] table, final int index) {
-    return modifierRow(table, index, Modifiers::modifierName);
-  }
-
-  private static String modifierName(final Object[] tableRow) {
-    return (String) tableRow[0];
-  }
-
-  private static Pattern[] modifierDescPattern(final Object[][] table, final int index) {
-    return modifierRow(table, index, Modifiers::modifierDescPattern);
-  }
-
-  private static Pattern[] modifierDescPattern(final Object[] tableRow) {
-    Object patternOrPatterns = tableRow[1];
-
-    return (patternOrPatterns instanceof Pattern)
-        ? new Pattern[] {(Pattern) patternOrPatterns}
-        : (Pattern[]) patternOrPatterns;
-  }
-
-  private static Pattern modifierTagPattern(final Object[][] table, final int index) {
-    return modifierRow(table, index, Modifiers::modifierTagPattern);
-  }
-
-  private static Pattern modifierTagPattern(final Object[] tableRow) {
-    return (Pattern) tableRow[2];
-  }
-
-  private static String modifierTag(final Object[][] table, final int index) {
-    return modifierRow(table, index, Modifiers::modifierTag);
-  }
-
-  private static String modifierTag(final Object[] tableRow) {
-    return tableRow.length > 3 ? (String) tableRow[3] : (String) tableRow[0];
+    return Modifiers.derivedModifiers[index].getName();
   }
 
   private static final String COLD =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.COLD_RESISTANCE) + ": ";
+      Modifiers.doubleModifiers[Modifiers.COLD_RESISTANCE].getTag() + ": ";
   private static final String HOT =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.HOT_RESISTANCE) + ": ";
+      Modifiers.doubleModifiers[Modifiers.HOT_RESISTANCE].getTag() + ": ";
   private static final String SLEAZE =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.SLEAZE_RESISTANCE) + ": ";
+      Modifiers.doubleModifiers[Modifiers.SLEAZE_RESISTANCE].getTag() + ": ";
   private static final String SPOOKY =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.SPOOKY_RESISTANCE) + ": ";
+      Modifiers.doubleModifiers[Modifiers.SPOOKY_RESISTANCE].getTag() + ": ";
   private static final String STENCH =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.STENCH_RESISTANCE) + ": ";
+      Modifiers.doubleModifiers[Modifiers.STENCH_RESISTANCE].getTag() + ": ";
   private static final String SLIME =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.SLIME_RESISTANCE) + ": ";
+      Modifiers.doubleModifiers[Modifiers.SLIME_RESISTANCE].getTag() + ": ";
   private static final String SUPERCOLD =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.SUPERCOLD_RESISTANCE) + ": ";
+      Modifiers.doubleModifiers[Modifiers.SUPERCOLD_RESISTANCE].getTag() + ": ";
 
-  private static final String MOXIE =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.MOX) + ": ";
-  private static final String MUSCLE =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.MUS) + ": ";
+  private static final String MOXIE = Modifiers.doubleModifiers[Modifiers.MOX].getTag() + ": ";
+  private static final String MUSCLE = Modifiers.doubleModifiers[Modifiers.MUS].getTag() + ": ";
   private static final String MYSTICALITY =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.MYS) + ": ";
+      Modifiers.doubleModifiers[Modifiers.MYS].getTag() + ": ";
 
   private static final String MOXIE_PCT =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.MOX_PCT) + ": ";
+      Modifiers.doubleModifiers[Modifiers.MOX_PCT].getTag() + ": ";
   private static final String MUSCLE_PCT =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.MUS_PCT) + ": ";
+      Modifiers.doubleModifiers[Modifiers.MUS_PCT].getTag() + ": ";
   private static final String MYSTICALITY_PCT =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.MYS_PCT) + ": ";
+      Modifiers.doubleModifiers[Modifiers.MYS_PCT].getTag() + ": ";
 
-  private static final String HP_TAG =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.HP) + ": ";
-  private static final String MP_TAG =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.MP) + ": ";
+  private static final String HP_TAG = Modifiers.doubleModifiers[Modifiers.HP].getTag() + ": ";
+  private static final String MP_TAG = Modifiers.doubleModifiers[Modifiers.MP].getTag() + ": ";
 
   private static final String HP_REGEN_MIN_TAG =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.HP_REGEN_MIN) + ": ";
+      Modifiers.doubleModifiers[Modifiers.HP_REGEN_MIN].getTag() + ": ";
   private static final String HP_REGEN_MAX_TAG =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.HP_REGEN_MAX) + ": ";
+      Modifiers.doubleModifiers[Modifiers.HP_REGEN_MAX].getTag() + ": ";
   private static final String MP_REGEN_MIN_TAG =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.MP_REGEN_MIN) + ": ";
+      Modifiers.doubleModifiers[Modifiers.MP_REGEN_MIN].getTag() + ": ";
   private static final String MP_REGEN_MAX_TAG =
-      Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.MP_REGEN_MAX) + ": ";
+      Modifiers.doubleModifiers[Modifiers.MP_REGEN_MAX].getTag() + ": ";
 
   public static int elementalResistance(final Element element) {
     switch (element) {
@@ -1393,9 +1248,10 @@ public class Modifiers {
     return available;
   }
 
-  private static int findName(final Object[][] table, final String name) {
+  private static <T extends net.sourceforge.kolmafia.modifiers.Modifier> int findName(
+      final T[] table, final String name) {
     for (int i = 0; i < table.length; ++i) {
-      if (name.equalsIgnoreCase((String) table[i][0])) {
+      if (name.equalsIgnoreCase(table[i].getName())) {
         return i;
       }
     }
@@ -1498,14 +1354,14 @@ public class Modifiers {
   }
 
   public double get(final String name) {
-    if (name.equals("Prismatic Damage")) {
+    if (name.equalsIgnoreCase("Prismatic Damage")) {
       return this.derivePrismaticDamage();
     }
-    if (name.equals("Combat Rate")) {
+    if (name.equalsIgnoreCase("Combat Rate")) {
       return this.cappedCombatRate();
     }
 
-    int index = Modifiers.findName(Modifiers.doubleModifiers, name);
+    int index = Modifiers.findName(name);
     if (index < 0 || index >= this.doubles.length) {
       index = Modifiers.findName(Modifiers.derivedModifiers, name);
       if (index < 0 || index >= Modifiers.DERIVED_MODIFIERS) {
@@ -1603,7 +1459,7 @@ public class Modifiers {
 
   public double getExtra(final String name) {
     // extras uses the same indexes as doubles, so the same lookup will work
-    int index = Modifiers.findName(Modifiers.doubleModifiers, name);
+    int index = findName(name);
     if (index < 0 || index >= this.extras.length) {
       // For now, make it obvious that something went wrong
       return -9999.0;
@@ -1898,14 +1754,12 @@ public class Modifiers {
   public static final Modifiers getItemModifiersInFamiliarSlot(final int id) {
     Modifiers mods = new Modifiers(getItemModifiers(id));
 
-    if (mods != null) {
-      mods.set(Modifiers.SLIME_HATES_IT, 0.0f);
-      mods.set(Modifiers.BRIMSTONE, 0);
-      mods.set(Modifiers.CLOATHING, 0);
-      mods.set(Modifiers.SYNERGETIC, 0);
-      mods.set(Modifiers.MOXIE_MAY_CONTROL_MP, false);
-      mods.set(Modifiers.MOXIE_CONTROLS_MP, false);
-    }
+    mods.set(Modifiers.SLIME_HATES_IT, 0.0f);
+    mods.set(Modifiers.BRIMSTONE, 0);
+    mods.set(Modifiers.CLOATHING, 0);
+    mods.set(Modifiers.SYNERGETIC, 0);
+    mods.set(Modifiers.MOXIE_MAY_CONTROL_MP, false);
+    mods.set(Modifiers.MOXIE_CONTROLS_MP, false);
 
     return mods;
   }
@@ -1977,10 +1831,9 @@ public class Modifiers {
     String[] newStrings = newMods.strings;
 
     newMods.name = lookup;
-    String name = Modifiers.getNameFromLookup(lookup);
 
     for (int i = 0; i < newDoubles.length; ++i) {
-      Pattern pattern = Modifiers.modifierTagPattern(Modifiers.doubleModifiers, i);
+      Pattern pattern = Modifiers.doubleModifiers[i].getTagPattern();
       if (pattern == null) {
         continue;
       }
@@ -2001,7 +1854,7 @@ public class Modifiers {
     }
 
     for (int i = 0; i < newBitmaps.length; ++i) {
-      Pattern pattern = Modifiers.modifierTagPattern(Modifiers.bitmapModifiers, i);
+      Pattern pattern = Modifiers.bitmapModifiers[i].getTagPattern();
       if (pattern == null) {
         continue;
       }
@@ -2030,7 +1883,7 @@ public class Modifiers {
       if (Modifiers.bitmapMasks[i] == 0) {
         KoLmafia.updateDisplay(
             "ERROR: too many sources for bitmap modifier "
-                + Modifiers.modifierName(Modifiers.bitmapModifiers, i)
+                + Modifiers.bitmapModifiers[i].getName()
                 + ", consider using longs.");
       }
 
@@ -2038,7 +1891,7 @@ public class Modifiers {
     }
 
     for (int i = 0; i < Modifiers.BOOLEAN_MODIFIERS; ++i) {
-      Pattern pattern = Modifiers.modifierTagPattern(Modifiers.booleanModifiers, i);
+      Pattern pattern = Modifiers.booleanModifiers[i].getTagPattern();
       if (pattern == null) {
         continue;
       }
@@ -2052,7 +1905,7 @@ public class Modifiers {
     }
 
     for (int i = 0; i < newStrings.length; ++i) {
-      Pattern pattern = Modifiers.modifierTagPattern(Modifiers.stringModifiers, i);
+      Pattern pattern = Modifiers.stringModifiers[i].getTagPattern();
       if (pattern == null) {
         continue;
       }
@@ -2062,7 +1915,7 @@ public class Modifiers {
         continue;
       }
 
-      String key = Modifiers.modifierName(Modifiers.stringModifiers, i);
+      String key = Modifiers.stringModifiers[i].getName();
       String value = matcher.group(1);
 
       if (key.equals("Class")) {
@@ -2960,10 +2813,7 @@ public class Modifiers {
   public static final String parseSkill(final String text) {
     Matcher matcher = Modifiers.SKILL_PATTERN.matcher(text);
     if (matcher.find()) {
-      return Modifiers.modifierTag(Modifiers.stringModifiers, Modifiers.SKILL)
-          + ": \""
-          + matcher.group(1)
-          + "\"";
+      return Modifiers.stringModifiers[Modifiers.SKILL].getTag() + ": \"" + matcher.group(1) + "\"";
     }
 
     return null;
@@ -2984,7 +2834,7 @@ public class Modifiers {
       dr += StringUtilities.parseInt(matcher.group(2));
     }
 
-    return Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.DAMAGE_REDUCTION) + ": " + dr;
+    return Modifiers.doubleModifiers[Modifiers.DAMAGE_REDUCTION].getTag() + ": " + dr;
   }
 
   private static final Pattern SINGLE_PATTERN =
@@ -2993,7 +2843,7 @@ public class Modifiers {
   public static final String parseSingleEquip(final String text) {
     Matcher matcher = Modifiers.SINGLE_PATTERN.matcher(text);
     if (matcher.find()) {
-      return Modifiers.modifierTag(Modifiers.booleanModifiers, Modifiers.SINGLE);
+      return Modifiers.booleanModifiers[Modifiers.SINGLE].getTag();
     }
 
     return null;
@@ -3005,7 +2855,7 @@ public class Modifiers {
   public static final String parseSoftcoreOnly(final String text) {
     Matcher matcher = Modifiers.SOFTCORE_PATTERN.matcher(text);
     if (matcher.find()) {
-      return Modifiers.modifierTag(Modifiers.booleanModifiers, Modifiers.SOFTCORE);
+      return Modifiers.booleanModifiers[Modifiers.SOFTCORE].getTag();
     }
 
     return null;
@@ -3016,7 +2866,7 @@ public class Modifiers {
   public static final String parseDropsItems(final String text) {
     Matcher matcher = Modifiers.ITEM_DROPPER_PATTERN.matcher(text);
     if (matcher.find()) {
-      return Modifiers.modifierTag(Modifiers.booleanModifiers, Modifiers.DROPS_ITEMS);
+      return Modifiers.booleanModifiers[Modifiers.DROPS_ITEMS].getTag();
     }
 
     return null;
@@ -3028,7 +2878,7 @@ public class Modifiers {
   public static final String parseLastsOneDay(final String text) {
     Matcher matcher = Modifiers.LASTS_ONE_DAY_PATTERN.matcher(text);
     if (matcher.find()) {
-      return Modifiers.modifierTag(Modifiers.booleanModifiers, Modifiers.LASTS_ONE_DAY);
+      return Modifiers.booleanModifiers[Modifiers.LASTS_ONE_DAY].getTag();
     }
 
     return null;
@@ -3039,7 +2889,7 @@ public class Modifiers {
   public static final String parseFreePull(final String text) {
     Matcher matcher = Modifiers.FREE_PULL_PATTERN.matcher(text);
     if (matcher.find()) {
-      return Modifiers.modifierTag(Modifiers.booleanModifiers, Modifiers.FREE_PULL);
+      return Modifiers.booleanModifiers[Modifiers.FREE_PULL].getTag();
     }
 
     return null;
@@ -3064,10 +2914,7 @@ public class Modifiers {
           name = "[" + effectId + "]" + name;
         }
       }
-      return Modifiers.modifierTag(Modifiers.stringModifiers, Modifiers.EFFECT)
-          + ": \""
-          + name
-          + "\"";
+      return Modifiers.stringModifiers[Modifiers.EFFECT].getTag() + ": \"" + name + "\"";
     }
 
     return null;
@@ -3079,7 +2926,7 @@ public class Modifiers {
   public static final String parseEffectDuration(final String text) {
     Matcher matcher = Modifiers.EFFECT_DURATION_PATTERN.matcher(text);
     if (matcher.find()) {
-      return Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.EFFECT_DURATION)
+      return Modifiers.doubleModifiers[Modifiers.EFFECT_DURATION].getTag()
           + ": "
           + matcher.group(1);
     }
@@ -3093,9 +2940,7 @@ public class Modifiers {
   public static final String parseSongDuration(final String text) {
     Matcher matcher = Modifiers.SONG_DURATION_PATTERN.matcher(text);
     if (matcher.find()) {
-      return Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.SONG_DURATION)
-          + ": "
-          + matcher.group(1);
+      return Modifiers.doubleModifiers[Modifiers.SONG_DURATION].getTag() + ": " + matcher.group(1);
     }
 
     return null;
@@ -3187,7 +3032,7 @@ public class Modifiers {
 
       if (ascensionClass == null) return null;
 
-      return Modifiers.modifierTag(Modifiers.stringModifiers, Modifiers.CLASS)
+      return Modifiers.stringModifiers[Modifiers.CLASS].getTag()
           + ": \""
           + ascensionClass.getName()
           + "\"";
@@ -3197,7 +3042,7 @@ public class Modifiers {
     if (matcher.find()) {
       String tag =
           !enchantment.contains("Underwater only")
-              ? Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.COMBAT_RATE)
+              ? Modifiers.doubleModifiers[Modifiers.COMBAT_RATE].getTag()
               : "Combat Rate (Underwater)";
       String level = matcher.group(1);
       String rate = COMBAT_RATE_DESCRIPTIONS.getOrDefault(level, "+0");
@@ -3219,8 +3064,7 @@ public class Modifiers {
     }
 
     if (enchantment.contains("Your familiar will always act in combat")) {
-      return Modifiers.modifierTag(Modifiers.doubleModifiers, Modifiers.FAMILIAR_ACTION_BONUS)
-          + ": +100";
+      return Modifiers.doubleModifiers[Modifiers.FAMILIAR_ACTION_BONUS].getTag() + ": +100";
     }
 
     return null;
@@ -3234,12 +3078,12 @@ public class Modifiers {
     return Modifiers.parseModifier(Modifiers.doubleModifiers, enchantment, false);
   }
 
-  private static String parseModifier(
-      final Object[][] table, final String enchantment, final boolean quoted) {
+  private static <T extends net.sourceforge.kolmafia.modifiers.Modifier> String parseModifier(
+      final T[] table, final String enchantment, final boolean quoted) {
     String quote = quoted ? "\"" : "";
 
-    for (Object[] tableRow : table) {
-      Pattern[] patterns = Modifiers.modifierDescPattern(tableRow);
+    for (net.sourceforge.kolmafia.modifiers.Modifier tableRow : table) {
+      Pattern[] patterns = tableRow.getDescPatterns();
 
       if (patterns == null) {
         continue;
@@ -3252,7 +3096,7 @@ public class Modifiers {
         }
 
         if (matcher.groupCount() == 0) {
-          String tag = Modifiers.modifierTag(tableRow);
+          String tag = tableRow.getTag();
           // Kludge for Sureonosity, which always gives +1
           if (tag.equals("Surgeonosity")) {
             return (tag + ": +1");
@@ -3260,7 +3104,7 @@ public class Modifiers {
           return tag;
         }
 
-        String tag = Modifiers.modifierTag(tableRow);
+        String tag = tableRow.getTag();
 
         // Kludge for Slime (Really) Hates it
         if (tag.equals("Slime Hates It")) {
@@ -3363,9 +3207,10 @@ public class Modifiers {
             Collectors.collectingAndThen(Collectors.joining(", "), m -> m.isEmpty() ? null : m));
   }
 
-  private static boolean findModifier(final Object[][] table, final String tag) {
-    for (int i = 0; i < table.length; ++i) {
-      Pattern pattern = Modifiers.modifierTagPattern(table, i);
+  private static <T extends net.sourceforge.kolmafia.modifiers.Modifier> boolean findModifier(
+      final T[] table, final String tag) {
+    for (T modifier : table) {
+      Pattern pattern = modifier.getTagPattern();
       if (pattern == null) {
         continue;
       }
@@ -3706,7 +3551,6 @@ public class Modifiers {
     Set<String> effects = new TreeSet<>();
 
     for (Entry<Integer, String> entry : EffectDatabase.entrySet()) {
-      Integer key = entry.getKey();
       String name = entry.getValue();
       // Skip effect which is also an item
       effects.add(name);
@@ -3776,16 +3620,15 @@ public class Modifiers {
     }
 
     // Make a map of mutexes
-    Set<String> mutexes = new TreeSet<>();
 
-    mutexes.addAll(Modifiers.mutexes);
+    Set<String> mutexes = new TreeSet<>(Modifiers.mutexes);
 
     // Make a map of maximization categories
-    Set<String> maximization = new TreeSet<>();
     int maximizationCount = Maximizer.maximizationCategories.length;
 
-    maximization.addAll(
-        Arrays.asList(Maximizer.maximizationCategories).subList(0, maximizationCount));
+    Set<String> maximization =
+        new TreeSet<>(
+            Arrays.asList(Maximizer.maximizationCategories).subList(0, maximizationCount));
 
     // Open the output file
     PrintStream writer = LogStream.openStream(output, true);
