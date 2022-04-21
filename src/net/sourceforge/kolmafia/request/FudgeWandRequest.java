@@ -56,11 +56,11 @@ public class FudgeWandRequest extends CoinMasterRequest {
   private static String lastURL = null;
 
   private static final Object[][] OPTIONS = {
-    {"1", (Integer) ItemPool.FUDGIE_ROLL},
-    {"2", (Integer) ItemPool.FUDGE_SPORK},
-    {"3", (Integer) ItemPool.FUDGE_CUBE},
-    {"4", (Integer) ItemPool.FUDGE_BUNNY},
-    {"5", (Integer) ItemPool.FUDGECYCLE},
+    {"1", ItemPool.FUDGIE_ROLL},
+    {"2", ItemPool.FUDGE_SPORK},
+    {"3", ItemPool.FUDGE_CUBE},
+    {"4", ItemPool.FUDGE_BUNNY},
+    {"5", ItemPool.FUDGECYCLE},
   };
 
   private static String idToOption(final int id) {

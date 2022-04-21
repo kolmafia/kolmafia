@@ -12,22 +12,22 @@ public class CrimboCafeRequest extends CafeRequest {
   public static final Object[][] MENU_DATA = {
     // Item, itemID, price
     {
-      "Peppermint Nutrition Block", (Integer) - 104, (Integer) 50,
+      "Peppermint Nutrition Block", -104, 50,
     },
     {
-      "Gingerbread Nutrition Block", (Integer) - 105, (Integer) 75,
+      "Gingerbread Nutrition Block", -105, 75,
     },
     {
-      "Cinnamon Nutrition Block", (Integer) - 106, (Integer) 100,
+      "Cinnamon Nutrition Block", -106, 100,
     },
     {
-      "Fortified Eggnog Slurry", (Integer) - 107, (Integer) 50,
+      "Fortified Eggnog Slurry", -107, 50,
     },
     {
-      "Hot Buttered Rum", (Integer) - 108, (Integer) 75,
+      "Hot Buttered Rum", -108, 75,
     },
     {
-      "Spicy Hot Chocolate", (Integer) - 109, (Integer) 100,
+      "Spicy Hot Chocolate", -109, 100,
     },
   };
 

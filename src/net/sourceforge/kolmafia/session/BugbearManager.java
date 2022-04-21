@@ -22,69 +22,52 @@ public class BugbearManager {
 
   public static final Object[][] BUGBEAR_DATA = {
     {
-      "Medbay", (Integer) 1, "hypodermic bugbear", "The Spooky Forest", (Integer) 1, "statusMedbay",
+      "Medbay", 1, "hypodermic bugbear", "The Spooky Forest", 1, "statusMedbay",
     },
     {
       "Waste Processing",
-      (Integer) 2,
+      2,
       "scavenger bugbear",
       "The Sleazy Back Alley",
-      (Integer) 1,
+      1,
       "statusWasteProcessing",
     },
     {
-      "Sonar", (Integer) 3, "batbugbear", "Guano Junction", (Integer) 1, "statusSonar",
+      "Sonar", 3, "batbugbear", "Guano Junction", 1, "statusSonar",
     },
-    {
-      "Science Lab",
-      (Integer) 4,
-      "bugbear scientist",
-      "Cobb's Knob Laboratory",
-      (Integer) 2,
-      "statusScienceLab"
-    },
+    {"Science Lab", 4, "bugbear scientist", "Cobb's Knob Laboratory", 2, "statusScienceLab"},
     {
       "Morgue",
-      (Integer) 5,
+      5,
       "bugaboo",
       new String[] {
         "The Defiled Nook", "Post-Cyrpt Cemetary",
       },
-      (Integer) 2,
+      2,
       "statusMorgue",
     },
     {
-      "Special Ops",
-      (Integer) 6,
-      "black ops bugbear",
-      "Lair of the Ninja Snowmen",
-      (Integer) 2,
-      "statusSpecialOps",
+      "Special Ops", 6, "black ops bugbear", "Lair of the Ninja Snowmen", 2, "statusSpecialOps",
     },
     {
       "Engineering",
-      (Integer) 7,
+      7,
       "battlesuit bugbear type",
       "The Penultimate Fantasy Airship",
-      (Integer) 3,
+      3,
       "statusEngineering",
     },
     {
-      "Navigation",
-      (Integer) 8,
-      "ancient unspeakable bugbear",
-      "The Haunted Gallery",
-      (Integer) 3,
-      "statusNavigation",
+      "Navigation", 8, "ancient unspeakable bugbear", "The Haunted Gallery", 3, "statusNavigation",
     },
     {
       "Galley",
-      (Integer) 9,
+      9,
       "trendy bugbear chef",
       new String[] {
         "The Battlefield (Frat Uniform)", "The Battlefield (Hippy Uniform)",
       },
-      (Integer) 3,
+      3,
       "statusGalley",
     }
   };

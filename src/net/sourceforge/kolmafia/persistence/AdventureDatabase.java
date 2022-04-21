@@ -712,45 +712,37 @@ public class AdventureDatabase {
     // Adventure ID
     // Setting
     {
-      "The Haiku Dungeon", (Integer) AdventurePool.HAIKU_DUNGEON, "fistTeachingsHaikuDungeon",
+      "The Haiku Dungeon", AdventurePool.HAIKU_DUNGEON, "fistTeachingsHaikuDungeon",
     },
     {
-      "The Poker Room", (Integer) AdventurePool.POKER_ROOM, "fistTeachingsPokerRoom",
+      "The Poker Room", AdventurePool.POKER_ROOM, "fistTeachingsPokerRoom",
     },
     {
-      "A Barroom Brawl", (Integer) AdventurePool.BARROOM_BRAWL, "fistTeachingsBarroomBrawl",
+      "A Barroom Brawl", AdventurePool.BARROOM_BRAWL, "fistTeachingsBarroomBrawl",
     },
     {
-      "The Haunted Conservatory",
-      (Integer) AdventurePool.HAUNTED_CONSERVATORY,
-      "fistTeachingsConservatory",
+      "The Haunted Conservatory", AdventurePool.HAUNTED_CONSERVATORY, "fistTeachingsConservatory",
     },
     {
-      "The Bat Hole Entrance", (Integer) AdventurePool.BAT_HOLE_ENTRYWAY, "fistTeachingsBatHole",
+      "The Bat Hole Entrance", AdventurePool.BAT_HOLE_ENTRYWAY, "fistTeachingsBatHole",
     },
     {
-      "The \"Fun\" House", (Integer) AdventurePool.FUN_HOUSE, "fistTeachingsFunHouse",
+      "The \"Fun\" House", AdventurePool.FUN_HOUSE, "fistTeachingsFunHouse",
     },
     {
-      "Cobb's Knob Menagerie Level 2",
-      (Integer) AdventurePool.MENAGERIE_LEVEL_2,
-      "fistTeachingsMenagerie",
+      "Cobb's Knob Menagerie Level 2", AdventurePool.MENAGERIE_LEVEL_2, "fistTeachingsMenagerie",
     },
     {
-      "Pandamonium Slums", (Integer) AdventurePool.PANDAMONIUM_SLUMS, "fistTeachingsSlums",
+      "Pandamonium Slums", AdventurePool.PANDAMONIUM_SLUMS, "fistTeachingsSlums",
     },
     {
-      "Frat House", (Integer) AdventurePool.FRAT_HOUSE, "fistTeachingsFratHouse",
+      "Frat House", AdventurePool.FRAT_HOUSE, "fistTeachingsFratHouse",
     },
     {
-      "Road to the White Citadel",
-      (Integer) AdventurePool.ROAD_TO_WHITE_CITADEL,
-      "fistTeachingsRoad",
+      "Road to the White Citadel", AdventurePool.ROAD_TO_WHITE_CITADEL, "fistTeachingsRoad",
     },
     {
-      "Lair of the Ninja Snowmen",
-      (Integer) AdventurePool.NINJA_SNOWMEN,
-      "fistTeachingsNinjaSnowmen",
+      "Lair of the Ninja Snowmen", AdventurePool.NINJA_SNOWMEN, "fistTeachingsNinjaSnowmen",
     },
   };
 

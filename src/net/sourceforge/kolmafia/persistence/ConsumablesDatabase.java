@@ -73,34 +73,26 @@ public class ConsumablesDatabase {
 
   public static Object[][] DUSTY_BOTTLES = {
     {
-      (Integer) ItemPool.DUSTY_BOTTLE_OF_MERLOT,
-      "dusty bottle of Merlot",
-      "dusty bottle of average Merlot",
+      ItemPool.DUSTY_BOTTLE_OF_MERLOT, "dusty bottle of Merlot", "dusty bottle of average Merlot",
     },
     {
-      (Integer) ItemPool.DUSTY_BOTTLE_OF_PORT,
-      "dusty bottle of Port",
-      "dusty bottle of vinegar Port",
+      ItemPool.DUSTY_BOTTLE_OF_PORT, "dusty bottle of Port", "dusty bottle of vinegar Port",
     },
     {
-      (Integer) ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR,
+      ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR,
       "dusty bottle of Pinot Noir",
       "dusty bottle of spooky Pinot Noir",
     },
     {
-      (Integer) ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL,
+      ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL,
       "dusty bottle of Zinfandel",
       "dusty bottle of great Zinfandel",
     },
     {
-      (Integer) ItemPool.DUSTY_BOTTLE_OF_MARSALA,
-      "dusty bottle of Marsala",
-      "dusty bottle of glassy Marsala",
+      ItemPool.DUSTY_BOTTLE_OF_MARSALA, "dusty bottle of Marsala", "dusty bottle of glassy Marsala",
     },
     {
-      (Integer) ItemPool.DUSTY_BOTTLE_OF_MUSCAT,
-      "dusty bottle of Muscat",
-      "dusty bottle of bad Muscat",
+      ItemPool.DUSTY_BOTTLE_OF_MUSCAT, "dusty bottle of Muscat", "dusty bottle of bad Muscat",
     }
   };
 

@@ -71,26 +71,26 @@ public abstract class MushroomManager {
 
   public static final Object[][] MUSHROOMS = {
     // Sprout and emptiness
-    {(Integer) EMPTY, "dirt1.gif", "__", "__", (Integer) 0, "empty"},
-    {(Integer) SPROUT, "mushsprout.gif", "..", "..", (Integer) 0, "unknown"},
+    {EMPTY, "dirt1.gif", "__", "__", 0, "empty"},
+    {SPROUT, "mushsprout.gif", "..", "..", 0, "unknown"},
 
     // First generation mushrooms
-    {(Integer) KNOB, "mushroom.gif", "kb", "KB", (Integer) 1, "knob"},
-    {(Integer) KNOLL, "bmushroom.gif", "kn", "KN", (Integer) 2, "knoll"},
-    {(Integer) SPOOKY, "spooshroom.gif", "sp", "SP", (Integer) 3, "spooky"},
+    {KNOB, "mushroom.gif", "kb", "KB", 1, "knob"},
+    {KNOLL, "bmushroom.gif", "kn", "KN", 2, "knoll"},
+    {SPOOKY, "spooshroom.gif", "sp", "SP", 3, "spooky"},
 
     // Second generation mushrooms
-    {(Integer) WARM, "flatshroom.gif", "wa", "WA", (Integer) 4, "warm"},
-    {(Integer) COOL, "plaidroom.gif", "co", "CO", (Integer) 5, "cool"},
-    {(Integer) POINTY, "tallshroom.gif", "po", "PO", (Integer) 6, "pointy"},
+    {WARM, "flatshroom.gif", "wa", "WA", 4, "warm"},
+    {COOL, "plaidroom.gif", "co", "CO", 5, "cool"},
+    {POINTY, "tallshroom.gif", "po", "PO", 6, "pointy"},
 
     // Third generation mushrooms
-    {(Integer) FLAMING, "fireshroom.gif", "fl", "FL", (Integer) 7, "flaming"},
-    {(Integer) FROZEN, "iceshroom.gif", "fr", "FR", (Integer) 8, "frozen"},
-    {(Integer) STINKY, "stinkshroo.gif", "st", "ST", (Integer) 9, "stinky"},
+    {FLAMING, "fireshroom.gif", "fl", "FL", 7, "flaming"},
+    {FROZEN, "iceshroom.gif", "fr", "FR", 8, "frozen"},
+    {STINKY, "stinkshroo.gif", "st", "ST", 9, "stinky"},
 
     // Special mushrooms
-    {(Integer) GLOOMY, "blackshroo.gif", "gl", "GL", (Integer) 10, "gloomy"},
+    {GLOOMY, "blackshroo.gif", "gl", "GL", 10, "gloomy"},
   };
 
   public static final int[][] BREEDING = {

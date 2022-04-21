@@ -181,13 +181,13 @@ public class SushiRequest extends CreateItemRequest {
   }
 
   private static final Object[][] BASE_SUSHI = {
-    {(Integer) 1, "beefy nigiri"},
-    {(Integer) 2, "glistening nigiri"},
-    {(Integer) 3, "slick nigiri"},
-    {(Integer) 4, "beefy maki"},
-    {(Integer) 5, "glistening maki"},
-    {(Integer) 6, "slick maki"},
-    {(Integer) 7, "bento box"},
+    {1, "beefy nigiri"},
+    {2, "glistening nigiri"},
+    {3, "slick nigiri"},
+    {4, "beefy maki"},
+    {5, "glistening maki"},
+    {6, "slick maki"},
+    {7, "bento box"},
   };
 
   private static String idToName(final int id) {
@@ -239,10 +239,10 @@ public class SushiRequest extends CreateItemRequest {
   }
 
   private static final Object[][] TOPPING = {
-    {"salty", (Integer) ItemPool.SEA_SALT_CRYSTAL},
-    {"magical", (Integer) ItemPool.DRAGONFISH_CAVIAR},
-    {"electric", (Integer) ItemPool.EEL_SAUCE},
-    {"Yuletide", (Integer) ItemPool.PEPPERMINT_EEL_SAUCE},
+    {"salty", ItemPool.SEA_SALT_CRYSTAL},
+    {"magical", ItemPool.DRAGONFISH_CAVIAR},
+    {"electric", ItemPool.EEL_SAUCE},
+    {"Yuletide", ItemPool.PEPPERMINT_EEL_SAUCE},
   };
 
   private static String toppingToName(final String baseName, final int topping) {
@@ -268,21 +268,21 @@ public class SushiRequest extends CreateItemRequest {
   }
 
   private static final Object[][] FILLING1 = {
-    {"giant dragon roll", "beefy maki", (Integer) ItemPool.SEA_CUCUMBER},
-    {"musclebound rabbit roll", "beefy maki", (Integer) ItemPool.SEA_CARROT},
-    {"python roll", "beefy maki", (Integer) ItemPool.SEA_AVOCADO},
-    {"Jack LaLanne roll", "beefy maki", (Integer) ItemPool.SEA_RADISH},
-    {"jacked Santa roll", "beefy maki", (Integer) ItemPool.GREEN_AND_RED_BEAN},
-    {"wise dragon roll", "glistening maki", (Integer) ItemPool.SEA_CUCUMBER},
-    {"white rabbit roll", "glistening maki", (Integer) ItemPool.SEA_CARROT},
-    {"ancient serpent roll", "glistening maki", (Integer) ItemPool.SEA_AVOCADO},
-    {"wizened master roll", "glistening maki", (Integer) ItemPool.SEA_RADISH},
-    {"omniscient Santa roll", "glistening maki", (Integer) ItemPool.GREEN_AND_RED_BEAN},
-    {"tricky dragon roll", "slick maki", (Integer) ItemPool.SEA_CUCUMBER},
-    {"sneaky rabbit roll", "slick maki", (Integer) ItemPool.SEA_CARROT},
-    {"slippery snake roll", "slick maki", (Integer) ItemPool.SEA_AVOCADO},
-    {"eleven oceans roll", "slick maki", (Integer) ItemPool.SEA_RADISH},
-    {"sneaky Santa roll", "slick maki", (Integer) ItemPool.GREEN_AND_RED_BEAN},
+    {"giant dragon roll", "beefy maki", ItemPool.SEA_CUCUMBER},
+    {"musclebound rabbit roll", "beefy maki", ItemPool.SEA_CARROT},
+    {"python roll", "beefy maki", ItemPool.SEA_AVOCADO},
+    {"Jack LaLanne roll", "beefy maki", ItemPool.SEA_RADISH},
+    {"jacked Santa roll", "beefy maki", ItemPool.GREEN_AND_RED_BEAN},
+    {"wise dragon roll", "glistening maki", ItemPool.SEA_CUCUMBER},
+    {"white rabbit roll", "glistening maki", ItemPool.SEA_CARROT},
+    {"ancient serpent roll", "glistening maki", ItemPool.SEA_AVOCADO},
+    {"wizened master roll", "glistening maki", ItemPool.SEA_RADISH},
+    {"omniscient Santa roll", "glistening maki", ItemPool.GREEN_AND_RED_BEAN},
+    {"tricky dragon roll", "slick maki", ItemPool.SEA_CUCUMBER},
+    {"sneaky rabbit roll", "slick maki", ItemPool.SEA_CARROT},
+    {"slippery snake roll", "slick maki", ItemPool.SEA_AVOCADO},
+    {"eleven oceans roll", "slick maki", ItemPool.SEA_RADISH},
+    {"sneaky Santa roll", "slick maki", ItemPool.GREEN_AND_RED_BEAN},
   };
 
   private static String filling1ToName(final String baseName, final int filling1) {
@@ -308,13 +308,13 @@ public class SushiRequest extends CreateItemRequest {
   }
 
   private static final Object[][] VEGGIE = {
-    {"tempura avocado", (Integer) ItemPool.TEMPURA_AVOCADO},
-    {"tempura broccoli", (Integer) ItemPool.TEMPURA_BROCCOLI},
-    {"tempura carrot", (Integer) ItemPool.TEMPURA_CARROT},
-    {"tempura cauliflower", (Integer) ItemPool.TEMPURA_CAULIFLOWER},
-    {"tempura cucumber", (Integer) ItemPool.TEMPURA_CUCUMBER},
-    {"tempura green and red bean", (Integer) ItemPool.TEMPURA_GREEN_AND_RED_BEAN},
-    {"tempura radish", (Integer) ItemPool.TEMPURA_RADISH},
+    {"tempura avocado", ItemPool.TEMPURA_AVOCADO},
+    {"tempura broccoli", ItemPool.TEMPURA_BROCCOLI},
+    {"tempura carrot", ItemPool.TEMPURA_CARROT},
+    {"tempura cauliflower", ItemPool.TEMPURA_CAULIFLOWER},
+    {"tempura cucumber", ItemPool.TEMPURA_CUCUMBER},
+    {"tempura green and red bean", ItemPool.TEMPURA_GREEN_AND_RED_BEAN},
+    {"tempura radish", ItemPool.TEMPURA_RADISH},
   };
 
   private static String veggieToName(final String baseName, final int veggie) {
@@ -340,12 +340,12 @@ public class SushiRequest extends CreateItemRequest {
   }
 
   private static final Object[][] DIPPING = {
-    {"anemone sauce", (Integer) ItemPool.ANEMONE_SAUCE},
-    {"eel sauce", (Integer) ItemPool.EEL_SAUCE},
-    {"inky squid sauce", (Integer) ItemPool.INKY_SQUID_SAUCE},
-    {"Mer-kin weaksauce", (Integer) ItemPool.MERKIN_WEAKSAUCE},
-    {"peanut sauce", (Integer) ItemPool.PEANUT_SAUCE},
-    {"peppermint eel sauce", (Integer) ItemPool.PEPPERMINT_EEL_SAUCE},
+    {"anemone sauce", ItemPool.ANEMONE_SAUCE},
+    {"eel sauce", ItemPool.EEL_SAUCE},
+    {"inky squid sauce", ItemPool.INKY_SQUID_SAUCE},
+    {"Mer-kin weaksauce", ItemPool.MERKIN_WEAKSAUCE},
+    {"peanut sauce", ItemPool.PEANUT_SAUCE},
+    {"peppermint eel sauce", ItemPool.PEPPERMINT_EEL_SAUCE},
   };
 
   private static String dippingToName(final String baseName, final int dipping) {

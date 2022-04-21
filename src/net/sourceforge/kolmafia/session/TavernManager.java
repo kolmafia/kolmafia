@@ -30,14 +30,14 @@ public class TavernManager {
 
   private static final Integer[] searchOrder = {
     // 5,
-    (Integer) 4, (Integer) 3, (Integer) 2,
-    (Integer) 1, (Integer) 6, (Integer) 11,
-    (Integer) 16, (Integer) 21, (Integer) 22,
-    (Integer) 17, (Integer) 23, (Integer) 24,
-    (Integer) 25, (Integer) 12, (Integer) 7,
-    (Integer) 8, (Integer) 13, (Integer) 18,
-    (Integer) 19, (Integer) 14, (Integer) 9,
-    (Integer) 10, (Integer) 15, (Integer) 20,
+    4, 3, 2,
+    1, 6, 11,
+    16, 21, 22,
+    17, 23, 24,
+    25, 12, 7,
+    8, 13, 18,
+    19, 14, 9,
+    10, 15, 20,
   };
 
   private static final int EXPLORE = 1;
