@@ -9,7 +9,6 @@ import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -243,7 +242,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
         }
       }
 
-      this.pieces.put(IntegerPool.get(type), piece);
+      this.pieces.put(type, piece);
       this.hash |= SpecialOutfit.pieceHash(piece);
     }
   }

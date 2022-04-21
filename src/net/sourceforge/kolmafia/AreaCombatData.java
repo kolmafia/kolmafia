@@ -9,7 +9,6 @@ import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
@@ -304,9 +303,9 @@ public class AreaCombatData {
       this.superlikelyMonsters.add(monster);
     } else {
       this.monsters.add(monster);
-      this.baseWeightings.put(monster, IntegerPool.get((weighting << WEIGHT_SHIFT) | flags));
-      this.currentWeightings.put(monster, IntegerPool.get((weighting << WEIGHT_SHIFT) | flags));
-      this.rejection.put(monster, IntegerPool.get(rejection));
+      this.baseWeightings.put(monster, (weighting << WEIGHT_SHIFT) | flags);
+      this.currentWeightings.put(monster, (weighting << WEIGHT_SHIFT) | flags);
+      this.rejection.put(monster, rejection);
     }
 
     this.poison = Math.min(this.poison, monster.getPoison());

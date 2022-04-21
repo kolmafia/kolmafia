@@ -4,7 +4,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -22,11 +21,11 @@ public class SkeletonCommand extends AbstractCommand {
 
   public static final Object[][] SKELETONS =
       new Object[][] {
-        {"warrior", IntegerPool.get(WARRIOR)},
-        {"cleric", IntegerPool.get(CLERIC)},
-        {"wizard", IntegerPool.get(WIZARD)},
-        {"rogue", IntegerPool.get(ROGUE)},
-        {"buddy", IntegerPool.get(BUDDY)},
+        {"warrior", WARRIOR},
+        {"cleric", CLERIC},
+        {"wizard", WIZARD},
+        {"rogue", ROGUE},
+        {"buddy", BUDDY},
       };
 
   public static final int findSkeleton(final String name) {

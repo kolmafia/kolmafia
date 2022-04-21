@@ -25,7 +25,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.MoodManager;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.session.MonorailManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -879,7 +878,7 @@ public class Preferences {
     }
 
     if (!(value instanceof Integer)) {
-      value = IntegerPool.get(StringUtilities.parseInt(value.toString()));
+      value = StringUtilities.parseInt(value.toString());
       map.put(name, value);
     }
 
@@ -978,7 +977,7 @@ public class Preferences {
   public static void setInteger(final String user, final String name, final int value) {
     int old = Preferences.getInteger(user, name);
     if (old != value) {
-      Preferences.setObject(user, name, String.valueOf(value), IntegerPool.get(value));
+      Preferences.setObject(user, name, String.valueOf(value), value);
     }
   }
 

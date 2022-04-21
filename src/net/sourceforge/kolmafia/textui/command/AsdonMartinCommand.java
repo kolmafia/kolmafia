@@ -8,7 +8,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
@@ -19,15 +18,15 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 public class AsdonMartinCommand extends AbstractCommand {
   private static final Object[][] DRIVESTYLE =
       new Object[][] {
-        {"Obnoxiously", IntegerPool.get(0), EffectPool.get(EffectPool.OBNOXIOUSLY)},
-        {"Stealthily", IntegerPool.get(1), EffectPool.get(EffectPool.STEALTHILY)},
-        {"Wastefully", IntegerPool.get(2), EffectPool.get(EffectPool.WASTEFULLY)},
-        {"Safely", IntegerPool.get(3), EffectPool.get(EffectPool.SAFELY)},
-        {"Recklessly", IntegerPool.get(4), EffectPool.get(EffectPool.RECKLESSLY)},
-        {"Quickly", IntegerPool.get(5), EffectPool.get(EffectPool.QUICKLY)},
-        {"Intimidatingly", IntegerPool.get(6), EffectPool.get(EffectPool.INTIMIDATINGLY)},
-        {"Observantly", IntegerPool.get(7), EffectPool.get(EffectPool.OBSERVANTLY)},
-        {"Waterproofly", IntegerPool.get(8), EffectPool.get(EffectPool.WATERPROOFLY)},
+        {"Obnoxiously", 0, EffectPool.get(EffectPool.OBNOXIOUSLY)},
+        {"Stealthily", 1, EffectPool.get(EffectPool.STEALTHILY)},
+        {"Wastefully", 2, EffectPool.get(EffectPool.WASTEFULLY)},
+        {"Safely", 3, EffectPool.get(EffectPool.SAFELY)},
+        {"Recklessly", 4, EffectPool.get(EffectPool.RECKLESSLY)},
+        {"Quickly", 5, EffectPool.get(EffectPool.QUICKLY)},
+        {"Intimidatingly", 6, EffectPool.get(EffectPool.INTIMIDATINGLY)},
+        {"Observantly", 7, EffectPool.get(EffectPool.OBSERVANTLY)},
+        {"Waterproofly", 8, EffectPool.get(EffectPool.WATERPROOFLY)},
       };
 
   public AsdonMartinCommand() {

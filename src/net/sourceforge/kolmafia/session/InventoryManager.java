@@ -27,7 +27,6 @@ import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
@@ -1338,7 +1337,7 @@ public abstract class InventoryManager {
       }
     }
 
-    Integer key = IntegerPool.get(itemId);
+    Integer key = itemId;
 
     if (seen == null) {
       seen = new HashSet<Integer>();

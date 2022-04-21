@@ -3544,7 +3544,7 @@ public class ItemPool {
         continue; // can't identify yet
       }
 
-      possible.add(IntegerPool.get(i | Math.min(count, 127) << 24));
+      possible.add(i | Math.min(count, 127) << 24);
     }
 
     int count = possible.size();

@@ -37,7 +37,6 @@ import javax.swing.JSplitPane;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.request.TrophyRequest;
 import net.sourceforge.kolmafia.request.TrophyRequest.Trophy;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
@@ -357,7 +356,8 @@ public class TrophyFrame extends GenericFrame {
       Integer key, rv;
       int id1 = this.trophy.id;
       int id2 = other.trophy.id;
-      key = IntegerPool.get(id1 < id2 ? (id1 << 16) | id2 : (id2 << 16) | id1);
+      int i1 = id1 < id2 ? (id1 << 16) | id2 : (id2 << 16) | id1;
+      key = i1;
       rv = this.similarities.get(key);
       if (rv != null) return rv.intValue();
       int[] img1 = this.grab();
@@ -367,7 +367,7 @@ public class TrophyFrame extends GenericFrame {
         score += Math.abs((img1[i] & 0xFF) - (img2[i] & 0xFF));
       }
 
-      this.similarities.put(key, IntegerPool.get(score));
+      this.similarities.put(key, score);
       return score;
     }
 

@@ -26,7 +26,6 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -189,14 +188,14 @@ public class EquipmentDatabase {
             }
           }
 
-          Integer id = IntegerPool.get(outfitId);
+          Integer id = outfitId;
 
           EquipmentDatabase.outfitById.put(id, name);
 
           for (String piece : pieces) {
             int pieceId = ItemDatabase.getItemId(piece);
             if (pieceId != -1) {
-              EquipmentDatabase.outfitPieces.put(IntegerPool.get(pieceId), id);
+              EquipmentDatabase.outfitPieces.put(pieceId, id);
               outfit.addPiece(ItemPool.get(pieceId));
             }
           }
@@ -445,7 +444,7 @@ public class EquipmentDatabase {
     // be on an outfit, register it.
 
     if (EquipmentDatabase.normalOutfits.get(outfitId) == null
-        || EquipmentDatabase.outfitPieces.get(IntegerPool.get(itemId)) == null) {
+        || EquipmentDatabase.outfitPieces.get(itemId) == null) {
       EquipmentDatabase.registerOutfit(outfitId, outfitName, itemId);
     }
   }
@@ -453,7 +452,7 @@ public class EquipmentDatabase {
   public static final void registerOutfit(
       final int outfitId, final String outfitName, final int itemId) {
     SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get(outfitId);
-    Integer id = IntegerPool.get(outfitId);
+    Integer id = outfitId;
 
     if (outfit == null) {
       outfit = new SpecialOutfit(outfitId, outfitName);
@@ -462,7 +461,7 @@ public class EquipmentDatabase {
     }
 
     if (itemId != -1) {
-      EquipmentDatabase.outfitPieces.put(IntegerPool.get(itemId), id);
+      EquipmentDatabase.outfitPieces.put(itemId, id);
       outfit.addPiece(ItemPool.get(itemId));
     }
 
@@ -507,7 +506,7 @@ public class EquipmentDatabase {
       return -1;
     }
 
-    Integer result = EquipmentDatabase.outfitPieces.get(IntegerPool.get(itemId));
+    Integer result = EquipmentDatabase.outfitPieces.get(itemId);
     return result == null ? -1 : result.intValue();
   }
 

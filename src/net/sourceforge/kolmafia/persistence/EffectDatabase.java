@@ -24,7 +24,6 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.textui.command.UseItemCommand;
 import net.sourceforge.kolmafia.textui.command.UseSkillCommand;
@@ -200,7 +199,7 @@ public class EffectDatabase {
     }
     String rv =
         StringUtilities.getDisplayName(
-            EffectDatabase.defaultActions.get(IntegerPool.get(effectId)));
+            EffectDatabase.defaultActions.get(effectId));
     if (rv == null) {
       return null;
     }
@@ -235,7 +234,7 @@ public class EffectDatabase {
     }
     String actions =
         StringUtilities.getDisplayName(
-            EffectDatabase.defaultActions.get(IntegerPool.get(effectId)));
+            EffectDatabase.defaultActions.get(effectId));
     if (actions == null) {
       return Collections.emptyIterator();
     }
@@ -261,7 +260,7 @@ public class EffectDatabase {
   }
 
   public static final String getActions(final int effectId) {
-    return (effectId == -1) ? null : EffectDatabase.getActions(IntegerPool.get(effectId));
+    return (effectId == -1) ? null : EffectDatabase.getActions((Integer) effectId);
   }
 
   public static final String getActions(final Integer effectId) {
@@ -269,7 +268,7 @@ public class EffectDatabase {
   }
 
   public static final void setActions(final int effectId, final String actions) {
-    EffectDatabase.setActions(IntegerPool.get(effectId), actions);
+    EffectDatabase.setActions((Integer) effectId, actions);
   }
 
   public static final void setActions(final Integer effectId, final String actions) {
@@ -282,7 +281,7 @@ public class EffectDatabase {
     }
     String rv =
         StringUtilities.getDisplayName(
-            EffectDatabase.defaultActions.get(IntegerPool.get(effectId)));
+            EffectDatabase.defaultActions.get(effectId));
     if (rv != null && rv.startsWith("#")) {
       return rv.substring(1).trim();
     }
@@ -296,7 +295,7 @@ public class EffectDatabase {
    * @return The name of the corresponding effect
    */
   public static final String getEffectName(final int effectId) {
-    return effectId == -1 ? null : EffectDatabase.nameById.get(IntegerPool.get(effectId));
+    return effectId == -1 ? null : EffectDatabase.nameById.get(effectId);
   }
 
   public static final String getEffectName(final String descriptionId) {
@@ -321,7 +320,7 @@ public class EffectDatabase {
   }
 
   public static final String getDescriptionId(final int effectId) {
-    return EffectDatabase.descriptionById.get(IntegerPool.get(effectId));
+    return EffectDatabase.descriptionById.get(effectId);
   }
 
   static final Set<Integer> descriptionIdKeySet() {
@@ -432,7 +431,7 @@ public class EffectDatabase {
    */
   public static final String getImageName(final int effectId) {
     String imageName =
-        effectId == -1 ? null : EffectDatabase.imageById.get(IntegerPool.get(effectId));
+        effectId == -1 ? null : EffectDatabase.imageById.get(effectId);
     return imageName == null ? "" : imageName;
   }
 
@@ -478,7 +477,7 @@ public class EffectDatabase {
     if (effectId == -1) {
       return false;
     }
-    return EffectDatabase.nameById.get(IntegerPool.get(effectId)) != null;
+    return EffectDatabase.nameById.get(effectId) != null;
   }
 
   /**
@@ -527,7 +526,7 @@ public class EffectDatabase {
     String image = DebugDatabase.parseImage(text);
 
     String canonicalName = StringUtilities.getCanonicalName(name);
-    Integer id = IntegerPool.get(effectId);
+    Integer id = effectId;
 
     EffectDatabase.nameById.put(id, name);
     EffectDatabase.addIdToName(canonicalName, id);

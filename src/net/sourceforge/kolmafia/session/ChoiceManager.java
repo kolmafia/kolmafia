@@ -38,7 +38,6 @@ import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -613,7 +612,7 @@ public abstract class ChoiceManager {
           new Option("denim axe", "denim axe"), new Option("skip adventure", "rubber axe")
         }),
     // Denim Axes Examined
-    new Object[] {IntegerPool.get(2), IntegerPool.get(1), ItemPool.get(ItemPool.RUBBER_AXE, -1)},
+    new Object[] {2, 1, ItemPool.get(ItemPool.RUBBER_AXE, -1)},
 
     // The Oracle Will See You Now
     new ChoiceSpoiler(
@@ -631,10 +630,10 @@ public abstract class ChoiceManager {
         }),
     // Finger-Lickin'... Death.
     new Object[] {
-      IntegerPool.get(4), IntegerPool.get(1), new AdventureResult(AdventureResult.MEAT, -500)
+        4, 1, new AdventureResult(AdventureResult.MEAT, -500)
     },
     new Object[] {
-      IntegerPool.get(4), IntegerPool.get(2), new AdventureResult(AdventureResult.MEAT, -500)
+        4, 2, new AdventureResult(AdventureResult.MEAT, -500)
     },
 
     // Heart of Very, Very Dark Darkness
@@ -774,7 +773,7 @@ public abstract class ChoiceManager {
         new Object[] {"switch genders", "skip adventure"}),
     // Under the Knife
     new Object[] {
-      IntegerPool.get(21), IntegerPool.get(1), new AdventureResult(AdventureResult.MEAT, -500)
+        21, 1, new AdventureResult(AdventureResult.MEAT, -500)
     },
 
     // The Arrrbitrator
@@ -825,10 +824,10 @@ public abstract class ChoiceManager {
         }),
     // Ouch! You bump into a door!
     new Object[] {
-      IntegerPool.get(25), IntegerPool.get(1), new AdventureResult(AdventureResult.MEAT, -50)
+        25, 1, new AdventureResult(AdventureResult.MEAT, -50)
     },
     new Object[] {
-      IntegerPool.get(25), IntegerPool.get(2), new AdventureResult(AdventureResult.MEAT, -5000)
+        25, 2, new AdventureResult(AdventureResult.MEAT, -5000)
     },
 
     // A Three-Tined Fork
@@ -926,7 +925,7 @@ public abstract class ChoiceManager {
     // Have a Heart
     // This trades all vampire hearts for an equal number of
     // bottles of used blood.
-    new Object[] {IntegerPool.get(47), IntegerPool.get(1), ItemPool.get(ItemPool.VAMPIRE_HEART, 1)},
+    new Object[] {47, 1, ItemPool.get(ItemPool.VAMPIRE_HEART, 1)},
 
     // Choices 48 - 70 are violet fog adventures
     // Choice 71 is A Journey to the Center of Your Mind
@@ -943,7 +942,7 @@ public abstract class ChoiceManager {
     // Lording Over The Flies
     // This trades all Spanish flies for around the worlds,
     // in multiples of 5.  Excess flies are left in inventory.
-    new Object[] {IntegerPool.get(72), IntegerPool.get(1), ItemPool.get(ItemPool.SPANISH_FLY, 5)},
+    new Object[] {72, 1, ItemPool.get(ItemPool.SPANISH_FLY, 5)},
 
     // Don't Fence Me In
     new ChoiceAdventure(
@@ -1173,7 +1172,7 @@ public abstract class ChoiceManager {
         "Palindome",
         new Object[] {new Option("3 papayas", "papaya"), "trade 3 papayas for stats", "stats"}),
     // No sir, away!  A papaya war is on!
-    new Object[] {IntegerPool.get(127), IntegerPool.get(2), ItemPool.get(ItemPool.PAPAYA, -3)},
+    new Object[] {127, 2, ItemPool.get(ItemPool.PAPAYA, -3)},
 
     // Choice 128 is unknown
 
@@ -1185,7 +1184,7 @@ public abstract class ChoiceManager {
         new Object[] {new Option("photograph of God", "photograph of God"), "skip adventure"}),
     // Do Geese See God?
     new Object[] {
-      IntegerPool.get(129), IntegerPool.get(1), new AdventureResult(AdventureResult.MEAT, -500)
+        129, 1, new AdventureResult(AdventureResult.MEAT, -500)
     },
 
     // Choice 133 is unknown
@@ -1541,7 +1540,7 @@ public abstract class ChoiceManager {
     // Chieftain of the Flies
     // This trades all Spanish flies for around the worlds,
     // in multiples of 5.  Excess flies are left in inventory.
-    new Object[] {IntegerPool.get(181), IntegerPool.get(1), ItemPool.get(ItemPool.SPANISH_FLY, 5)},
+    new Object[] {181, 1, ItemPool.get(ItemPool.SPANISH_FLY, 5)},
 
     // Random Lack of an Encounter
     new ChoiceAdventure(
@@ -1584,7 +1583,7 @@ public abstract class ChoiceManager {
 
     //  O Cap'm, My Cap'm
     new Object[] {
-      IntegerPool.get(189), IntegerPool.get(1), new AdventureResult(AdventureResult.MEAT, -977)
+        189, 1, new AdventureResult(AdventureResult.MEAT, -977)
     },
 
     // Choice 190 is unknown
@@ -1605,7 +1604,7 @@ public abstract class ChoiceManager {
           "use valuable trinket to banish, or mainstat"
         }),
     new Object[] {
-      IntegerPool.get(191), IntegerPool.get(2), ItemPool.get(ItemPool.VALUABLE_TRINKET, -1)
+        191, 2, ItemPool.get(ItemPool.VALUABLE_TRINKET, -1)
     },
 
     // Choice 192 is unknown
@@ -1821,7 +1820,7 @@ public abstract class ChoiceManager {
         new Object[] {new Option("hobo code binder", "hobo code binder"), "skip adventure"}),
     // Mind Yer Binder
     new Object[] {
-      IntegerPool.get(230), IntegerPool.get(1), ItemPool.get(ItemPool.HOBO_NICKEL, -30)
+        230, 1, ItemPool.get(ItemPool.HOBO_NICKEL, -30)
     },
 
     // Choices 231-271 are subchoices of Choice 272
@@ -1840,7 +1839,7 @@ public abstract class ChoiceManager {
 
     // The Guy Who Carves Driftwood Animals
     new Object[] {
-      IntegerPool.get(247), IntegerPool.get(1), ItemPool.get(ItemPool.HOBO_NICKEL, -10)
+        247, 1, ItemPool.get(ItemPool.HOBO_NICKEL, -10)
     },
 
     // A Hattery
@@ -1854,13 +1853,13 @@ public abstract class ChoiceManager {
         }),
     // A Hattery
     new Object[] {
-      IntegerPool.get(250), IntegerPool.get(1), ItemPool.get(ItemPool.HOBO_NICKEL, -250)
+        250, 1, ItemPool.get(ItemPool.HOBO_NICKEL, -250)
     },
     new Object[] {
-      IntegerPool.get(250), IntegerPool.get(2), ItemPool.get(ItemPool.HOBO_NICKEL, -150)
+        250, 2, ItemPool.get(ItemPool.HOBO_NICKEL, -150)
     },
     new Object[] {
-      IntegerPool.get(250), IntegerPool.get(3), ItemPool.get(ItemPool.HOBO_NICKEL, -200)
+        250, 3, ItemPool.get(ItemPool.HOBO_NICKEL, -200)
     },
 
     // A Pantry
@@ -1874,13 +1873,13 @@ public abstract class ChoiceManager {
         }),
     // A Pantry
     new Object[] {
-      IntegerPool.get(251), IntegerPool.get(1), ItemPool.get(ItemPool.HOBO_NICKEL, -200)
+        251, 1, ItemPool.get(ItemPool.HOBO_NICKEL, -200)
     },
     new Object[] {
-      IntegerPool.get(251), IntegerPool.get(2), ItemPool.get(ItemPool.HOBO_NICKEL, -150)
+        251, 2, ItemPool.get(ItemPool.HOBO_NICKEL, -150)
     },
     new Object[] {
-      IntegerPool.get(251), IntegerPool.get(3), ItemPool.get(ItemPool.HOBO_NICKEL, -250)
+        251, 3, ItemPool.get(ItemPool.HOBO_NICKEL, -250)
     },
 
     // Hobo Blanket Bingo
@@ -1894,13 +1893,13 @@ public abstract class ChoiceManager {
         }),
     // Hobo Blanket Bingo
     new Object[] {
-      IntegerPool.get(252), IntegerPool.get(1), ItemPool.get(ItemPool.HOBO_NICKEL, -250)
+        252, 1, ItemPool.get(ItemPool.HOBO_NICKEL, -250)
     },
     new Object[] {
-      IntegerPool.get(252), IntegerPool.get(2), ItemPool.get(ItemPool.HOBO_NICKEL, -200)
+        252, 2, ItemPool.get(ItemPool.HOBO_NICKEL, -200)
     },
     new Object[] {
-      IntegerPool.get(252), IntegerPool.get(3), ItemPool.get(ItemPool.HOBO_NICKEL, -150)
+        252, 3, ItemPool.get(ItemPool.HOBO_NICKEL, -150)
     },
 
     // Black-and-Blue-and-Decker
@@ -1914,18 +1913,18 @@ public abstract class ChoiceManager {
         }),
     // Black-and-Blue-and-Decker
     new Object[] {
-      IntegerPool.get(255), IntegerPool.get(1), ItemPool.get(ItemPool.HOBO_NICKEL, -10)
+        255, 1, ItemPool.get(ItemPool.HOBO_NICKEL, -10)
     },
     new Object[] {
-      IntegerPool.get(255), IntegerPool.get(2), ItemPool.get(ItemPool.HOBO_NICKEL, -10)
+        255, 2, ItemPool.get(ItemPool.HOBO_NICKEL, -10)
     },
     new Object[] {
-      IntegerPool.get(255), IntegerPool.get(3), ItemPool.get(ItemPool.HOBO_NICKEL, -10)
+        255, 3, ItemPool.get(ItemPool.HOBO_NICKEL, -10)
     },
 
     // Instru-mental
     new Object[] {
-      IntegerPool.get(258), IntegerPool.get(1), ItemPool.get(ItemPool.HOBO_NICKEL, -99)
+        258, 1, ItemPool.get(ItemPool.HOBO_NICKEL, -99)
     },
 
     // We'll Make Great...
@@ -1936,7 +1935,7 @@ public abstract class ChoiceManager {
 
     // Everybody's Got Something To Hide
     new Object[] {
-      IntegerPool.get(261), IntegerPool.get(1), ItemPool.get(ItemPool.HOBO_NICKEL, -1000)
+        261, 1, ItemPool.get(ItemPool.HOBO_NICKEL, -1000)
     },
 
     // Tanning Salon
@@ -1945,8 +1944,8 @@ public abstract class ChoiceManager {
         "Hobopolis Marketplace",
         new Object[] {"20 adv of +50% moxie", "20 adv of +50% mysticality"}),
     // Tanning Salon
-    new Object[] {IntegerPool.get(264), IntegerPool.get(1), ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
-    new Object[] {IntegerPool.get(264), IntegerPool.get(2), ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
+    new Object[] {264, 1, ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
+    new Object[] {264, 2, ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
 
     // Let's All Go To The Movies
     new ChoiceSpoiler(
@@ -1954,8 +1953,8 @@ public abstract class ChoiceManager {
         "Hobopolis Marketplace",
         new Object[] {"20 adv of +5 spooky resistance", "20 adv of +5 sleaze resistance"}),
     // Let's All Go To The Movies
-    new Object[] {IntegerPool.get(267), IntegerPool.get(1), ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
-    new Object[] {IntegerPool.get(267), IntegerPool.get(2), ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
+    new Object[] {267, 1, ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
+    new Object[] {267, 2, ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
 
     // It's Fun To Stay There
     new ChoiceSpoiler(
@@ -1963,8 +1962,8 @@ public abstract class ChoiceManager {
         "Hobopolis Marketplace",
         new Object[] {"20 adv of +5 stench resistance", "20 adv of +50% muscle"}),
     // It's Fun To Stay There
-    new Object[] {IntegerPool.get(268), IntegerPool.get(1), ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
-    new Object[] {IntegerPool.get(268), IntegerPool.get(2), ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
+    new Object[] {268, 1, ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
+    new Object[] {268, 2, ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
 
     // Marketplace Entrance
     new ChoiceAdventure(
@@ -1991,7 +1990,7 @@ public abstract class ChoiceManager {
     // you've already purchased your class instrument
     // Triangle, Man
     new Object[] {
-      IntegerPool.get(275), IntegerPool.get(1), ItemPool.get(ItemPool.HOBO_NICKEL, -10)
+        275, 1, ItemPool.get(ItemPool.HOBO_NICKEL, -10)
     },
 
     // Choices 278-290 are llama lama gong related choices
@@ -2083,7 +2082,7 @@ public abstract class ChoiceManager {
         "Burnbarrel Blvd.",
         new Object[] {new Option("jar of squeeze", "jar of squeeze"), "skip adventure"}),
     // A Tight Squeeze - jar of squeeze
-    new Object[] {IntegerPool.get(291), IntegerPool.get(1), ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
+    new Object[] {291, 1, ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
 
     // Cold Comfort
     new ChoiceAdventure(
@@ -2092,7 +2091,7 @@ public abstract class ChoiceManager {
         "Exposure Esplanade",
         new Object[] {new Option("bowl of fishysoisse", "bowl of fishysoisse"), "skip adventure"}),
     // Cold Comfort - bowl of fishysoisse
-    new Object[] {IntegerPool.get(292), IntegerPool.get(1), ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
+    new Object[] {292, 1, ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
 
     // Flowers for You
     new ChoiceAdventure(
@@ -2101,7 +2100,7 @@ public abstract class ChoiceManager {
         "The Ancient Hobo Burial Ground",
         new Object[] {new Option("deadly lampshade", "deadly lampshade"), "skip adventure"}),
     // Flowers for You - deadly lampshade
-    new Object[] {IntegerPool.get(293), IntegerPool.get(1), ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
+    new Object[] {293, 1, ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
 
     // Maybe It's a Sexy Snake!
     new ChoiceAdventure(
@@ -2110,7 +2109,7 @@ public abstract class ChoiceManager {
         "The Purple Light District",
         new Object[] {new Option("lewd playing card", "lewd playing card"), "skip adventure"}),
     // Maybe It's a Sexy Snake! - lewd playing card
-    new Object[] {IntegerPool.get(294), IntegerPool.get(1), ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
+    new Object[] {294, 1, ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
 
     // Juicy!
     new ChoiceAdventure(
@@ -2121,7 +2120,7 @@ public abstract class ChoiceManager {
           new Option("concentrated garbage juice", "concentrated garbage juice"), "skip adventure"
         }),
     // Juicy! - concentrated garbage juice
-    new Object[] {IntegerPool.get(295), IntegerPool.get(1), ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
+    new Object[] {295, 1, ItemPool.get(ItemPool.HOBO_NICKEL, -5)},
 
     // Choice 296 is Pop!
 
@@ -2165,8 +2164,8 @@ public abstract class ChoiceManager {
         }),
     // A Vent Horizon
     new Object[] {
-      IntegerPool.get(304),
-      IntegerPool.get(1),
+        304,
+        1,
       new AdventureLongCountResult(AdventureResult.MP, -200)
     },
 
@@ -2178,7 +2177,7 @@ public abstract class ChoiceManager {
         new Object[] {new Option("globe of Deep Sauce", "globe of Deep Sauce"), "skip adventure"}),
     // There is Sauce at the Bottom of the Ocean
     new Object[] {
-      IntegerPool.get(305), IntegerPool.get(1), ItemPool.get(ItemPool.MERKIN_PRESSUREGLOBE, -1)
+        305, 1, ItemPool.get(ItemPool.MERKIN_PRESSUREGLOBE, -1)
     },
 
     // Choice 306 is [Grandpa Mine Choice]
@@ -2207,16 +2206,16 @@ public abstract class ChoiceManager {
     // The Economist of Scales
     // This trades 10 dull fish scales in.
     new Object[] {
-      IntegerPool.get(310), IntegerPool.get(1), ItemPool.get(ItemPool.DULL_FISH_SCALE, -10)
+        310, 1, ItemPool.get(ItemPool.DULL_FISH_SCALE, -10)
     },
     new Object[] {
-      IntegerPool.get(310), IntegerPool.get(2), ItemPool.get(ItemPool.ROUGH_FISH_SCALE, -10)
+        310, 2, ItemPool.get(ItemPool.ROUGH_FISH_SCALE, -10)
     },
     new Object[] {
-      IntegerPool.get(310), IntegerPool.get(4), ItemPool.get(ItemPool.DULL_FISH_SCALE, 10)
+        310, 4, ItemPool.get(ItemPool.DULL_FISH_SCALE, 10)
     },
     new Object[] {
-      IntegerPool.get(310), IntegerPool.get(5), ItemPool.get(ItemPool.ROUGH_FISH_SCALE, 10)
+        310, 5, ItemPool.get(ItemPool.ROUGH_FISH_SCALE, 10)
     },
 
     // Heavily Invested in Pun Futures
@@ -2568,7 +2567,7 @@ public abstract class ChoiceManager {
 
     // From Little Acorns...
     new Object[] {
-      IntegerPool.get(438), IntegerPool.get(1), ItemPool.get(ItemPool.UNDERWORLD_ACORN, -1)
+        438, 1, ItemPool.get(ItemPool.UNDERWORLD_ACORN, -1)
     },
 
     // Choice 439 is unknown
@@ -2767,10 +2766,10 @@ public abstract class ChoiceManager {
           "skip adventure"
         }),
     // Tree's Last Stand
-    new Object[] {IntegerPool.get(504), IntegerPool.get(1), ItemPool.get(ItemPool.BAR_SKIN, -1)},
-    new Object[] {IntegerPool.get(504), IntegerPool.get(2), ItemPool.get(ItemPool.BAR_SKIN, 1)},
+    new Object[] {504, 1, ItemPool.get(ItemPool.BAR_SKIN, -1)},
+    new Object[] {504, 2, ItemPool.get(ItemPool.BAR_SKIN, 1)},
     new Object[] {
-      IntegerPool.get(504), IntegerPool.get(3), new AdventureResult(AdventureResult.MEAT, -100)
+        504, 3, new AdventureResult(AdventureResult.MEAT, -100)
     },
 
     // Consciousness of a Stream
@@ -2801,7 +2800,7 @@ public abstract class ChoiceManager {
         new Object[] {"gain Spooky Temple map", "skip adventure", "skip adventure"}),
     // O Lith, Mon
     new Object[] {
-      IntegerPool.get(507), IntegerPool.get(1), ItemPool.get(ItemPool.TREE_HOLED_COIN, -1)
+        507, 1, ItemPool.get(ItemPool.TREE_HOLED_COIN, -1)
     },
 
     // Choice 508 is Pants-Gazing
@@ -2844,7 +2843,7 @@ public abstract class ChoiceManager {
         new Object[] {new Option("gift-a-pult", "gift-a-pult"), "skip adventure"}),
     // What a Tosser - gift-a-pult
     new Object[] {
-      IntegerPool.get(519), IntegerPool.get(1), ItemPool.get(ItemPool.HOBO_NICKEL, -50)
+        519, 1, ItemPool.get(ItemPool.HOBO_NICKEL, -50)
     },
 
     // Choice 520 is A Show-ho-ho-down
@@ -3971,7 +3970,7 @@ public abstract class ChoiceManager {
         }),
     // Rod Nevada, Vendor
     new Object[] {
-      IntegerPool.get(873), IntegerPool.get(1), new AdventureResult(AdventureResult.MEAT, -500)
+        873, 1, new AdventureResult(AdventureResult.MEAT, -500)
     },
 
     // Welcome To Our ool Table
@@ -5948,7 +5947,7 @@ public abstract class ChoiceManager {
           new Option("drippy candy bar", 1, "drippy candy bar"), new Option("Driplets", 2)
         }),
     new Object[] {
-      IntegerPool.get(1415), IntegerPool.get(1), new AdventureResult(AdventureResult.MEAT, -10000)
+        1415, 1, new AdventureResult(AdventureResult.MEAT, -10000)
     },
 
     // Choice 1427 is The Hidden Junction

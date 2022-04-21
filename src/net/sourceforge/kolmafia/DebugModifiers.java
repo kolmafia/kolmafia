@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Objects;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -21,8 +20,8 @@ public class DebugModifiers extends Modifiers {
     for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i) {
       String name = Modifiers.getModifierName(i);
       if (name.toLowerCase().contains(parameters)) {
-        DebugModifiers.wanted.put(IntegerPool.get(i), "<td colspan=3>" + name + "</td>");
-        DebugModifiers.adjustments.put(IntegerPool.get(i), "<td colspan=2>" + name + "</td>");
+        DebugModifiers.wanted.put(i, "<td colspan=3>" + name + "</td>");
+        DebugModifiers.adjustments.put(i, "<td colspan=2>" + name + "</td>");
       }
     }
     DebugModifiers.currentType = "type";
@@ -59,7 +58,7 @@ public class DebugModifiers extends Modifiers {
 
     super.add(index, mod, desc);
 
-    Integer key = IntegerPool.get(index);
+    Integer key = index;
     if (!DebugModifiers.wanted.containsKey(key)) {
       return;
     }

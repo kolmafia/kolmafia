@@ -12,7 +12,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
@@ -259,7 +258,7 @@ public class CargoCultistShortsRequest extends GenericRequest {
     Map<Integer, String> map = knownScrapPockets();
 
     // Add the current pocket to the map
-    map.put(IntegerPool.get(pocket), syllable);
+    map.put(pocket, syllable);
 
     // Rebuild the value of the property
     saveScrapPockets(map);

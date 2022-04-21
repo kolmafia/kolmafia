@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.request;
 import java.util.regex.Matcher;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -13,22 +12,22 @@ public class CrimboCafeRequest extends CafeRequest {
   public static final Object[][] MENU_DATA = {
     // Item, itemID, price
     {
-      "Peppermint Nutrition Block", IntegerPool.get(-104), IntegerPool.get(50),
+      "Peppermint Nutrition Block", (Integer) -104, (Integer) 50,
     },
     {
-      "Gingerbread Nutrition Block", IntegerPool.get(-105), IntegerPool.get(75),
+      "Gingerbread Nutrition Block", (Integer) -105, (Integer) 75,
     },
     {
-      "Cinnamon Nutrition Block", IntegerPool.get(-106), IntegerPool.get(100),
+      "Cinnamon Nutrition Block", (Integer) -106, (Integer) 100,
     },
     {
-      "Fortified Eggnog Slurry", IntegerPool.get(-107), IntegerPool.get(50),
+      "Fortified Eggnog Slurry", (Integer) -107, (Integer) 50,
     },
     {
-      "Hot Buttered Rum", IntegerPool.get(-108), IntegerPool.get(75),
+      "Hot Buttered Rum", (Integer) -108, (Integer) 75,
     },
     {
-      "Spicy Hot Chocolate", IntegerPool.get(-109), IntegerPool.get(100),
+      "Spicy Hot Chocolate", (Integer) -109, (Integer) 100,
     },
   };
 

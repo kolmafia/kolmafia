@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -63,7 +62,7 @@ public class MerchTableRequest extends CoinMasterRequest {
           true) {
         @Override
         public AdventureResult itemBuyPrice(final int itemId) {
-          return MerchTableRequest.buyCosts.get(IntegerPool.get(itemId));
+          return MerchTableRequest.buyCosts.get(itemId);
         }
       };
 
@@ -135,7 +134,7 @@ public class MerchTableRequest extends CoinMasterRequest {
     Matcher matcher = ITEM_PATTERN.matcher(responseText);
     while (matcher.find()) {
       int itemId = StringUtilities.parseInt(matcher.group(1));
-      Integer iitemId = IntegerPool.get(itemId);
+      Integer iitemId = itemId;
       String descId = matcher.group(2);
       String itemName = matcher.group(3);
       String currency = matcher.group(4);
@@ -151,7 +150,7 @@ public class MerchTableRequest extends CoinMasterRequest {
       items.add(item);
       AdventureResult cost = ItemPool.get(currency, price);
       costs.put(iitemId, cost);
-      rows.put(iitemId, IntegerPool.get(row));
+      rows.put(iitemId, row);
     }
 
     MerchTableRequest.buyItems.clear();
