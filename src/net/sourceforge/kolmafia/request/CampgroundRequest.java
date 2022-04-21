@@ -132,6 +132,7 @@ public class CampgroundRequest extends GenericRequest {
     ItemPool.MAYO_CLINIC,
     ItemPool.ASDON_MARTIN,
     ItemPool.DIABOLIC_PIZZA_CUBE,
+    ItemPool.COLD_MEDICINE_CABINET,
 
     // Outside dwelling
     ItemPool.MEAT_GOLEM,
