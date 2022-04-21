@@ -396,7 +396,8 @@ public class ApiRequest extends GenericRequest {
           Map.entry(
               "neverendingparty", Map.entry("neverendingPartyAlways", "_neverendingPartyToday")),
           Map.entry("voterregistered", Map.entry("voteAlways", "_voteToday")),
-          Map.entry("boxingdaycare", Map.entry("daycareOpen", "_daycareToday")));
+          Map.entry("boxingdaycare", Map.entry("daycareOpen", "_daycareToday")),
+          Map.entry("hascosmicball", Map.entry("hasCosmicBowlingBall", "_null")));
 
   private static final void parseCoolItems(final String coolItems) {
     if (coolItems == null) {
@@ -420,7 +421,10 @@ public class ApiRequest extends GenericRequest {
             Preferences.setBoolean(alwaysPref, !usedDayPass);
           } else {
             // No access to the iotm, so set both preferences to false
-            Preferences.setBoolean(todayPref, false);
+            if (coolItem != "hascosmicball") {
+              // cosmic bowling ball has no daily access pass
+              Preferences.setBoolean(todayPref, false);
+            }
             Preferences.setBoolean(alwaysPref, false);
           }
         });
