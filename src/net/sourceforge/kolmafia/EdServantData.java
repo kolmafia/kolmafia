@@ -37,7 +37,7 @@ public class EdServantData implements Comparable<EdServantData> {
     {
       "Cat",
       StringUtilities.getCanonicalName("Cat"),
-        (Integer) 1,
+      (Integer) 1,
       "edserv1.gif",
       "Gives unpleasant gifts",
       "Helps find items",
@@ -47,7 +47,7 @@ public class EdServantData implements Comparable<EdServantData> {
     {
       "Belly-Dancer",
       StringUtilities.getCanonicalName("Belly-Dancer"),
-        (Integer) 2,
+      (Integer) 2,
       "edserv2.gif",
       "Lowers enemy stats",
       "Restores MP",
@@ -57,7 +57,7 @@ public class EdServantData implements Comparable<EdServantData> {
     {
       "Maid",
       StringUtilities.getCanonicalName("Maid"),
-        (Integer) 3,
+      (Integer) 3,
       "edserv3.gif",
       "Helps find meat",
       "Attacks enemies",
@@ -67,7 +67,7 @@ public class EdServantData implements Comparable<EdServantData> {
     {
       "Bodyguard",
       StringUtilities.getCanonicalName("Bodyguard"),
-        (Integer) 4,
+      (Integer) 4,
       "edserv4.gif",
       "Prevents enemy attacks",
       "Attacks enemies",
@@ -77,7 +77,7 @@ public class EdServantData implements Comparable<EdServantData> {
     {
       "Scribe",
       StringUtilities.getCanonicalName("Scribe"),
-        (Integer) 5,
+      (Integer) 5,
       "edserv5.gif",
       "Improves stat gains",
       "Improves spell crit",
@@ -87,7 +87,7 @@ public class EdServantData implements Comparable<EdServantData> {
     {
       "Priest",
       StringUtilities.getCanonicalName("Priest"),
-        (Integer) 6,
+      (Integer) 6,
       "edserv6.gif",
       "Attacks undead enemies",
       "Improves evocation spells",
@@ -97,7 +97,7 @@ public class EdServantData implements Comparable<EdServantData> {
     {
       "Assassin",
       StringUtilities.getCanonicalName("Assassin"),
-        (Integer) 7,
+      (Integer) 7,
       "edserv7.gif",
       "Attacks enemies",
       "Lowers enemy stats",

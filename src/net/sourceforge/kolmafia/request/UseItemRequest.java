@@ -113,8 +113,7 @@ public class UseItemRequest extends GenericRequest {
     UseItemRequest.LIMITED_USES.put(
         ItemPool.ASTRAL_MUSHROOM, EffectPool.get(EffectPool.HALF_ASTRAL));
 
-    UseItemRequest.LIMITED_USES.put(
-        ItemPool.ABSINTHE, EffectPool.get(EffectPool.ABSINTHE));
+    UseItemRequest.LIMITED_USES.put(ItemPool.ABSINTHE, EffectPool.get(EffectPool.ABSINTHE));
   }
 
   public static String lastUpdate = "";

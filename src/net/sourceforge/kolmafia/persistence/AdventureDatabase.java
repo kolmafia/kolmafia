@@ -712,9 +712,7 @@ public class AdventureDatabase {
     // Adventure ID
     // Setting
     {
-      "The Haiku Dungeon",
-        (Integer) AdventurePool.HAIKU_DUNGEON,
-      "fistTeachingsHaikuDungeon",
+      "The Haiku Dungeon", (Integer) AdventurePool.HAIKU_DUNGEON, "fistTeachingsHaikuDungeon",
     },
     {
       "The Poker Room", (Integer) AdventurePool.POKER_ROOM, "fistTeachingsPokerRoom",
@@ -724,20 +722,18 @@ public class AdventureDatabase {
     },
     {
       "The Haunted Conservatory",
-        (Integer) AdventurePool.HAUNTED_CONSERVATORY,
+      (Integer) AdventurePool.HAUNTED_CONSERVATORY,
       "fistTeachingsConservatory",
     },
     {
-      "The Bat Hole Entrance",
-        (Integer) AdventurePool.BAT_HOLE_ENTRYWAY,
-      "fistTeachingsBatHole",
+      "The Bat Hole Entrance", (Integer) AdventurePool.BAT_HOLE_ENTRYWAY, "fistTeachingsBatHole",
     },
     {
       "The \"Fun\" House", (Integer) AdventurePool.FUN_HOUSE, "fistTeachingsFunHouse",
     },
     {
       "Cobb's Knob Menagerie Level 2",
-        (Integer) AdventurePool.MENAGERIE_LEVEL_2,
+      (Integer) AdventurePool.MENAGERIE_LEVEL_2,
       "fistTeachingsMenagerie",
     },
     {
@@ -748,12 +744,12 @@ public class AdventureDatabase {
     },
     {
       "Road to the White Citadel",
-        (Integer) AdventurePool.ROAD_TO_WHITE_CITADEL,
+      (Integer) AdventurePool.ROAD_TO_WHITE_CITADEL,
       "fistTeachingsRoad",
     },
     {
       "Lair of the Ninja Snowmen",
-        (Integer) AdventurePool.NINJA_SNOWMEN,
+      (Integer) AdventurePool.NINJA_SNOWMEN,
       "fistTeachingsNinjaSnowmen",
     },
   };

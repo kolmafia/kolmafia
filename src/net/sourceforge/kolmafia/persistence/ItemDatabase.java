@@ -901,8 +901,7 @@ public class ItemDatabase {
 
   public static final void registerPlural(final int itemId, final String plural) {
     ItemDatabase.pluralById.set(itemId, plural);
-    ItemDatabase.itemIdByPlural.put(
-        StringUtilities.getCanonicalName(plural), itemId);
+    ItemDatabase.itemIdByPlural.put(StringUtilities.getCanonicalName(plural), itemId);
   }
 
   public static final void registerMultiUsability(final int itemId, final boolean multi) {

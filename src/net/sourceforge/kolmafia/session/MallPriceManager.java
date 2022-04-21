@@ -399,8 +399,7 @@ public abstract class MallPriceManager {
       if (currentQuantity == null) {
         prices.put(currentPrice, resultsArray[i].getLimit());
       } else {
-        prices.put(
-            currentPrice, currentQuantity.intValue() + resultsArray[i].getLimit());
+        prices.put(currentPrice, currentQuantity.intValue() + resultsArray[i].getLimit());
       }
     }
 

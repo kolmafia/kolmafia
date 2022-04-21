@@ -26,9 +26,9 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
 
     {
       "Vampieroghi",
-        (Integer) 1,
+      (Integer) 1,
       "pastaThrall1",
-        (Integer) SkillPool.BIND_VAMPIEROGHI,
+      (Integer) SkillPool.BIND_VAMPIEROGHI,
       // My name is written in blood across the history of
       // time . . . but you can call me <name>.
       Pattern.compile("but you can call me ([^.]*)\\."),
@@ -44,9 +44,9 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     },
     {
       "Vermincelli",
-        (Integer) 2,
+      (Integer) 2,
       "pastaThrall2",
-        (Integer) SkillPool.BIND_VERMINCELLI,
+      (Integer) SkillPool.BIND_VERMINCELLI,
       // I think little <name> will be the best helper.
       Pattern.compile("I think little (.*?) will be the best helper\\."),
       // You summon a tangled mass of noodles. There is a
@@ -62,9 +62,9 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     },
     {
       "Angel Hair Wisp",
-        (Integer) 3,
+      (Integer) 3,
       "pastaThrall3",
-        (Integer) SkillPool.BIND_ANGEL_HAIR_WISP,
+      (Integer) SkillPool.BIND_ANGEL_HAIR_WISP,
       // "You must call me <name>. You must give me form. I
       // must live."
       Pattern.compile("You must call me ([^.]*])\\."),
@@ -81,9 +81,9 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     },
     {
       "Elbow Macaroni",
-        (Integer) 4,
+      (Integer) 4,
       "pastaThrall4",
-        (Integer) SkillPool.BIND_UNDEAD_ELBOW_MACARONI,
+      (Integer) SkillPool.BIND_UNDEAD_ELBOW_MACARONI,
       // "<name>. My name is <name>."
       Pattern.compile("My name is ([^.]*)\\."),
       // You focus your thoughts and call out to <name>. He
@@ -99,9 +99,9 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     },
     {
       "Penne Dreadful",
-        (Integer) 5,
+      (Integer) 5,
       "pastaThrall5",
-        (Integer) SkillPool.BIND_PENNE_DREADFUL,
+      (Integer) SkillPool.BIND_PENNE_DREADFUL,
       // "All right, palookah," the private eye says, opening
       // his mouth for the first time, "the name's
       // <name>. I'm a gumshoe. You know, a shamus, a
@@ -120,9 +120,9 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     },
     {
       "Lasagmbie",
-        (Integer) 6,
+      (Integer) 6,
       "pastaThrall6",
-        (Integer) SkillPool.BIND_LASAGMBIE,
+      (Integer) SkillPool.BIND_LASAGMBIE,
       // Okay. See you on the other side, <name>.
       Pattern.compile("See you on the other side, (.*?)\\."),
       // You conjure up a good-sized sheet of lasagna, and
@@ -137,9 +137,9 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     },
     {
       "Spice Ghost",
-        (Integer) 7,
+      (Integer) 7,
       "pastaThrall7",
-        (Integer) SkillPool.BIND_SPICE_GHOST,
+      (Integer) SkillPool.BIND_SPICE_GHOST,
       // My name is <name>, and I am in your debt.
       Pattern.compile("My name is ([^,]*), and I am in your debt\\."),
       // You conjure up a swirling cloud of spicy dried
@@ -155,9 +155,9 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     },
     {
       "Spaghetti Elemental",
-        (Integer) 8,
+      (Integer) 8,
       "pastaThrall8",
-        (Integer) SkillPool.BIND_SPAGHETTI_ELEMENTAL,
+      (Integer) SkillPool.BIND_SPAGHETTI_ELEMENTAL,
       // "I guess you need a name, huh?" you reply. "I'll
       // call you... um... SshoKodo. That'll do."
       Pattern.compile("I'll call you... *um... *([^.]*). * That'll do."),

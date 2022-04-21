@@ -37,11 +37,7 @@ public class BangPotionsCommand extends AbstractCommand {
         {"vial of violet slime", "violet", ItemPool.VIAL_OF_VIOLET_SLIME},
         {"vial of vermilion slime", "vermilion", ItemPool.VIAL_OF_VERMILION_SLIME},
         {"vial of amber slime", "amber", ItemPool.VIAL_OF_AMBER_SLIME},
-        {
-          "vial of chartreuse slime",
-          "chartreuse",
-            ItemPool.VIAL_OF_CHARTREUSE_SLIME
-        },
+        {"vial of chartreuse slime", "chartreuse", ItemPool.VIAL_OF_CHARTREUSE_SLIME},
         {"vial of teal slime", "teal", ItemPool.VIAL_OF_TEAL_SLIME},
         {"vial of indigo slime", "indigo", ItemPool.VIAL_OF_INDIGO_SLIME},
         {"vial of purple slime", "purple", ItemPool.VIAL_OF_PURPLE_SLIME},

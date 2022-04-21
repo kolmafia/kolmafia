@@ -16,21 +16,21 @@ public class ShrineRequest extends GenericRequest {
 
   public static final Object[][] SHRINE_DATA = {
     {
-        (Integer) ShrineRequest.BORIS,
+      (Integer) ShrineRequest.BORIS,
       "boris",
       "Statue of Boris",
       "heroDonationBoris",
       ItemPool.get(ItemPool.BORIS_KEY, 1),
     },
     {
-        (Integer) ShrineRequest.JARLSBERG,
+      (Integer) ShrineRequest.JARLSBERG,
       "jarlsberg",
       "Statue of Jarlsberg",
       "heroDonationJarlsberg",
       ItemPool.get(ItemPool.JARLSBERG_KEY, 1),
     },
     {
-        (Integer) ShrineRequest.PETE,
+      (Integer) ShrineRequest.PETE,
       "sneakypete",
       "Statue of Sneaky Pete",
       "heroDonationSneakyPete",

@@ -197,9 +197,7 @@ public class EffectDatabase {
     if (effectId == -1) {
       return null;
     }
-    String rv =
-        StringUtilities.getDisplayName(
-            EffectDatabase.defaultActions.get(effectId));
+    String rv = StringUtilities.getDisplayName(EffectDatabase.defaultActions.get(effectId));
     if (rv == null) {
       return null;
     }
@@ -232,9 +230,7 @@ public class EffectDatabase {
     if (effectId == -1) {
       return Collections.emptyIterator();
     }
-    String actions =
-        StringUtilities.getDisplayName(
-            EffectDatabase.defaultActions.get(effectId));
+    String actions = StringUtilities.getDisplayName(EffectDatabase.defaultActions.get(effectId));
     if (actions == null) {
       return Collections.emptyIterator();
     }
@@ -279,9 +275,7 @@ public class EffectDatabase {
     if (effectId == -1) {
       return null;
     }
-    String rv =
-        StringUtilities.getDisplayName(
-            EffectDatabase.defaultActions.get(effectId));
+    String rv = StringUtilities.getDisplayName(EffectDatabase.defaultActions.get(effectId));
     if (rv != null && rv.startsWith("#")) {
       return rv.substring(1).trim();
     }
@@ -430,8 +424,7 @@ public class EffectDatabase {
    * @return The name of the corresponding effect
    */
   public static final String getImageName(final int effectId) {
-    String imageName =
-        effectId == -1 ? null : EffectDatabase.imageById.get(effectId);
+    String imageName = effectId == -1 ? null : EffectDatabase.imageById.get(effectId);
     return imageName == null ? "" : imageName;
   }
 
