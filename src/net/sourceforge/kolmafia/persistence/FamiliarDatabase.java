@@ -323,10 +323,6 @@ public class FamiliarDatabase {
    * @param familiarId The Id of the familiar to lookup
    * @return The name of the corresponding familiar
    */
-  public static final String getFamiliarName(final int familiarId) {
-    return FamiliarDatabase.getFamiliarName((Integer) familiarId);
-  }
-
   public static final String getFamiliarName(final Integer familiarId) {
     return FamiliarDatabase.familiarById.get(familiarId);
   }
@@ -480,16 +476,8 @@ public class FamiliarDatabase {
     return FamiliarDatabase.variableById.contains(familiarId);
   }
 
-  public static final String getFamiliarItem(final int familiarId) {
-    return FamiliarDatabase.getFamiliarItem((Integer) familiarId);
-  }
-
   public static final String getFamiliarItem(final Integer familiarId) {
     return FamiliarDatabase.familiarItemById.get(familiarId);
-  }
-
-  public static final int getFamiliarItemId(final int familiarId) {
-    return FamiliarDatabase.getFamiliarItemId((Integer) familiarId);
   }
 
   public static final int getFamiliarItemId(final Integer familiarId) {
@@ -500,10 +488,6 @@ public class FamiliarDatabase {
   public static final int getFamiliarByItem(final String item) {
     Integer familiarId = FamiliarDatabase.familiarByItem.get(item);
     return familiarId == null ? -1 : familiarId.intValue();
-  }
-
-  public static final int getFamiliarLarva(final int familiarId) {
-    return FamiliarDatabase.getFamiliarLarva((Integer) familiarId);
   }
 
   public static final int getFamiliarLarva(final Integer familiarId) {
@@ -694,10 +678,6 @@ public class FamiliarDatabase {
 
   public static final Integer getFamiliarSkill(final String name, final int event) {
     return FamiliarDatabase.eventSkillByName.get(event - 1).get(name);
-  }
-
-  public static final int[] getFamiliarSkills(final int id) {
-    return FamiliarDatabase.getFamiliarSkills((Integer) id);
   }
 
   public static final int[] getFamiliarSkills(final Integer id) {

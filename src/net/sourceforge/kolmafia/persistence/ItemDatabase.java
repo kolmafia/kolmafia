@@ -1155,24 +1155,12 @@ public class ItemDatabase {
     return itemIds;
   }
 
-  public static String getDataName(final int itemId) {
-    return ItemDatabase.getDataName((Integer) itemId);
-  }
-
   public static String getDataName(final Integer itemId) {
     return ItemDatabase.dataNameById.get(itemId);
   }
 
-  public static String getDisplayName(final int itemId) {
-    return ItemDatabase.getDisplayName((Integer) itemId);
-  }
-
   public static String getDisplayName(final Integer itemId) {
     return ItemDatabase.nameById.get(itemId);
-  }
-
-  public static String getCanonicalName(final int itemId) {
-    return ItemDatabase.getCanonicalName((Integer) itemId);
   }
 
   public static String getCanonicalName(final Integer itemId) {
@@ -1203,7 +1191,7 @@ public class ItemDatabase {
     if (itemName.startsWith("[")) {
       itemId = ItemDatabase.getBracketedItemId(itemName);
       if (itemId != -1) {
-        return ItemDatabase.getCanonicalName((Integer) itemId);
+        return ItemDatabase.getCanonicalName(itemId);
       }
     }
     // See if it's a weird pluralization with a pattern we can't
@@ -1290,7 +1278,7 @@ public class ItemDatabase {
     itemId =
         ItemDatabase.getExactItemId(StringUtilities.singleStringReplace(canonicalName, "-", " "));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // The word right before the dash may also be pluralized,
@@ -1299,13 +1287,13 @@ public class ItemDatabase {
     itemId =
         ItemDatabase.getExactItemId(StringUtilities.singleStringReplace(canonicalName, "es-", "-"));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     itemId =
         ItemDatabase.getExactItemId(StringUtilities.singleStringReplace(canonicalName, "s-", "-"));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // If it's a plural form of "tooth", then make
@@ -1316,7 +1304,7 @@ public class ItemDatabase {
     itemId =
         ItemDatabase.getExactItemId(StringUtilities.singleStringReplace(canonicalName, "ee", "oo"));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // Also handle the plural of vortex, which is
@@ -1327,7 +1315,7 @@ public class ItemDatabase {
         ItemDatabase.getExactItemId(
             StringUtilities.singleStringReplace(canonicalName, "ices", "ex"));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // Handling of appendices (which is the plural
@@ -1338,7 +1326,7 @@ public class ItemDatabase {
         ItemDatabase.getExactItemId(
             StringUtilities.singleStringReplace(canonicalName, "ices", "ix"));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // Also add in a special handling for knives
@@ -1348,7 +1336,7 @@ public class ItemDatabase {
         ItemDatabase.getExactItemId(
             StringUtilities.singleStringReplace(canonicalName, "ives", "ife"));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // Also add in a special handling for elves
@@ -1357,7 +1345,7 @@ public class ItemDatabase {
     itemId =
         ItemDatabase.getExactItemId(StringUtilities.singleStringReplace(canonicalName, "ves", "f"));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // Also add in a special handling for staves
@@ -1367,7 +1355,7 @@ public class ItemDatabase {
         ItemDatabase.getExactItemId(
             StringUtilities.singleStringReplace(canonicalName, "aves", "aff"));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // If it's a pluralized form of something that
@@ -1378,7 +1366,7 @@ public class ItemDatabase {
       itemId =
           ItemDatabase.getExactItemId(canonicalName.substring(0, canonicalName.length() - 3) + "y");
       if (itemId != -1) {
-        return ItemDatabase.getCanonicalName((Integer) itemId);
+        return ItemDatabase.getCanonicalName(itemId);
       }
     }
 
@@ -1386,7 +1374,7 @@ public class ItemDatabase {
         ItemDatabase.getExactItemId(
             StringUtilities.singleStringReplace(canonicalName, "ies ", "y "));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // If it's a pluralized form of something that
@@ -1396,14 +1384,14 @@ public class ItemDatabase {
     if (canonicalName.endsWith("es")) {
       itemId = ItemDatabase.getExactItemId(canonicalName.substring(0, canonicalName.length() - 2));
       if (itemId != -1) {
-        return ItemDatabase.getCanonicalName((Integer) itemId);
+        return ItemDatabase.getCanonicalName(itemId);
       }
     }
 
     itemId =
         ItemDatabase.getExactItemId(StringUtilities.singleStringReplace(canonicalName, "es ", " "));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // If it's a pluralized form of something that
@@ -1414,7 +1402,7 @@ public class ItemDatabase {
         ItemDatabase.getExactItemId(
             StringUtilities.singleStringReplace(canonicalName, "en ", "an "));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // If it's a standard pluralized forms, then
@@ -1422,7 +1410,7 @@ public class ItemDatabase {
 
     itemId = ItemDatabase.getExactItemId(canonicalName.replaceFirst("([A-Za-z])s ", "$1 "));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // If it's something that ends with 'i', then
@@ -1433,7 +1421,7 @@ public class ItemDatabase {
           ItemDatabase.getExactItemId(
               canonicalName.substring(0, canonicalName.length() - 1) + "us");
       if (itemId != -1) {
-        return ItemDatabase.getCanonicalName((Integer) itemId);
+        return ItemDatabase.getCanonicalName(itemId);
       }
     }
 
@@ -2090,10 +2078,6 @@ public class ItemDatabase {
    *
    * @return The description Id associated with the item
    */
-  public static final String getDescriptionId(final int itemId) {
-    return ItemDatabase.getDescriptionId((Integer) itemId);
-  }
-
   public static final String getDescriptionId(final Integer itemId) {
     return ItemDatabase.descriptionById.get(itemId);
   }
