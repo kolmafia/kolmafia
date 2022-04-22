@@ -78,9 +78,7 @@ public abstract class TransferItemRequest extends GenericRequest {
     return false;
   }
 
-  /**
-   * Whether to send a request with no meat or items.
-   */
+  /** Whether to send a request with no meat or items. */
   public boolean sendEmpty() {
     return true;
   }
@@ -514,8 +512,7 @@ public abstract class TransferItemRequest extends GenericRequest {
     return itemList;
   }
 
-  public static void getItemCount(
-      List<AdventureResult> list, String text, final Pattern pattern) {
+  public static void getItemCount(List<AdventureResult> list, String text, final Pattern pattern) {
     if (pattern == null) {
       return;
     }
@@ -530,8 +527,7 @@ public abstract class TransferItemRequest extends GenericRequest {
     }
   }
 
-  public static void getCountItem(
-      List<AdventureResult> list, String text, final Pattern pattern) {
+  public static void getCountItem(List<AdventureResult> list, String text, final Pattern pattern) {
     if (pattern == null) {
       return;
     }
