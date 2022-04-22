@@ -80,14 +80,20 @@ public class ItemDatabase {
 
   public static Object[][] PUNCHCARDS = {
     // Verbs
-    {ItemPool.PUNCHCARD_ATTACK, "El Vibrato punchcard (115 holes)", "El Vibrato punchcard (ATTACK)"},
+    {
+      ItemPool.PUNCHCARD_ATTACK, "El Vibrato punchcard (115 holes)", "El Vibrato punchcard (ATTACK)"
+    },
     {ItemPool.PUNCHCARD_REPAIR, "El Vibrato punchcard (97 holes)", "El Vibrato punchcard (REPAIR)"},
     {ItemPool.PUNCHCARD_BUFF, "El Vibrato punchcard (129 holes)", "El Vibrato punchcard (BUFF)"},
-    {ItemPool.PUNCHCARD_MODIFY, "El Vibrato punchcard (213 holes)", "El Vibrato punchcard (MODIFY)"},
+    {
+      ItemPool.PUNCHCARD_MODIFY, "El Vibrato punchcard (213 holes)", "El Vibrato punchcard (MODIFY)"
+    },
     {ItemPool.PUNCHCARD_BUILD, "El Vibrato punchcard (165 holes)", "El Vibrato punchcard (BUILD)"},
 
     // Objects
-    {ItemPool.PUNCHCARD_TARGET, "El Vibrato punchcard (142 holes)", "El Vibrato punchcard (TARGET)"},
+    {
+      ItemPool.PUNCHCARD_TARGET, "El Vibrato punchcard (142 holes)", "El Vibrato punchcard (TARGET)"
+    },
     {ItemPool.PUNCHCARD_SELF, "El Vibrato punchcard (216 holes)", "El Vibrato punchcard (SELF)"},
     {ItemPool.PUNCHCARD_FLOOR, "El Vibrato punchcard (88 holes)", "El Vibrato punchcard (FLOOR)"},
     {ItemPool.PUNCHCARD_DRONE, "El Vibrato punchcard (182 holes)", "El Vibrato punchcard (DRONE)"},
