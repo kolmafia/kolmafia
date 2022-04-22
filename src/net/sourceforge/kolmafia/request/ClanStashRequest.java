@@ -81,6 +81,11 @@ public class ClanStashRequest extends TransferItemRequest {
   }
 
   @Override
+  public boolean sendEmpty() {
+    return false;
+  }
+
+  @Override
   public String getItemField() {
     return this.moveType == ClanStashRequest.ITEMS_TO_STASH ? "item" : "whichitem";
   }

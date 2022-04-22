@@ -78,6 +78,13 @@ public abstract class TransferItemRequest extends GenericRequest {
     return false;
   }
 
+  /**
+   * Whether to send a request with no meat or items.
+   */
+  public boolean sendEmpty() {
+    return true;
+  }
+
   public abstract String getItemField();
 
   public abstract String getQuantityField();
@@ -142,6 +149,10 @@ public abstract class TransferItemRequest extends GenericRequest {
           continue;
         }
 
+        if (item.getCount() == 0) {
+          continue;
+        }
+
         if (item.getName().equals(AdventureResult.MEAT)) {
           meatAttachment += item.getLongCount();
           continue;
@@ -187,7 +198,7 @@ public abstract class TransferItemRequest extends GenericRequest {
       }
     }
 
-    if (subinstances.size() == 0) {
+    if (subinstances.size() == 0 && (this.sendEmpty() || meatAttachment > 0)) {
       // This can only happen if we are sending no items
       this.isSubInstance = true;
       subinstances.add(this);
