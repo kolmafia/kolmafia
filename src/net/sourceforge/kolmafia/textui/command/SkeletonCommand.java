@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.HashMap;
+import java.util.Map;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -8,43 +10,23 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-enum Skeleton {
-  WARRIOR("warrior", 1),
-  CLERIC("cleric", 2),
-  WIZARD("wizard", 3),
-  ROGUE("rogue", 4),
-  BUDDY("buddy", 5);
-
-  private final String name;
-  private final int num;
-
-  Skeleton(String name, int num) {
-    this.name = name;
-    this.num = num;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public int getNum() {
-    return num;
-  }
-}
-
 public class SkeletonCommand extends AbstractCommand {
   public SkeletonCommand() {
     this.usage = " warrior | cleric | wizard | rogue | buddy";
   }
 
-  public static final int findSkeleton(final String name) {
-    for (Skeleton skeleton : Skeleton.values()) {
-      if (name.equals(skeleton.getName())) {
-        return skeleton.getNum();
-      }
+  private static final Map<String, Integer> skeletons = new HashMap<>() {
+    {
+      put("warrior", 1);
+      put("cleric", 2);
+      put("wizard", 3);
+      put("rogue", 4);
+      put("buddy", 5);
     }
+  };
 
-    return 0;
+  public static int findSkeleton(final String name) {
+    return skeletons.getOrDefault(name, 0);
   }
 
   @Override
