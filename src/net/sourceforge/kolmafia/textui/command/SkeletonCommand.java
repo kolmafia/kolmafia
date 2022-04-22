@@ -15,15 +15,16 @@ public class SkeletonCommand extends AbstractCommand {
     this.usage = " warrior | cleric | wizard | rogue | buddy";
   }
 
-  private static final Map<String, Integer> skeletons = new HashMap<>() {
-    {
-      put("warrior", 1);
-      put("cleric", 2);
-      put("wizard", 3);
-      put("rogue", 4);
-      put("buddy", 5);
-    }
-  };
+  private static final Map<String, Integer> skeletons =
+      new HashMap<>() {
+        {
+          put("warrior", 1);
+          put("cleric", 2);
+          put("wizard", 3);
+          put("rogue", 4);
+          put("buddy", 5);
+        }
+      };
 
   public static int findSkeleton(final String name) {
     return skeletons.getOrDefault(name, 0);
