@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.utilities;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 
 /**
  * Internal class which functions exactly an array of integers, except it uses "sets" and "gets"
@@ -31,10 +30,10 @@ public class IntegerArray implements Iterable<Integer> {
 
   public void set(final int index, final int value) {
     while (index >= this.internalList.size()) {
-      this.internalList.add(IntegerPool.get(0));
+      this.internalList.add(0);
     }
 
-    this.internalList.set(index, IntegerPool.get(value));
+    this.internalList.set(index, value);
   }
 
   public int size() {
@@ -42,7 +41,7 @@ public class IntegerArray implements Iterable<Integer> {
   }
 
   public boolean contains(final int value) {
-    return this.internalList.contains(IntegerPool.get(value));
+    return this.internalList.contains(value);
   }
 
   public int[] toArray() {

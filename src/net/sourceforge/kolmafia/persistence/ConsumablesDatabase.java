@@ -19,7 +19,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -74,34 +73,26 @@ public class ConsumablesDatabase {
 
   public static Object[][] DUSTY_BOTTLES = {
     {
-      IntegerPool.get(ItemPool.DUSTY_BOTTLE_OF_MERLOT),
-      "dusty bottle of Merlot",
-      "dusty bottle of average Merlot",
+      ItemPool.DUSTY_BOTTLE_OF_MERLOT, "dusty bottle of Merlot", "dusty bottle of average Merlot",
     },
     {
-      IntegerPool.get(ItemPool.DUSTY_BOTTLE_OF_PORT),
-      "dusty bottle of Port",
-      "dusty bottle of vinegar Port",
+      ItemPool.DUSTY_BOTTLE_OF_PORT, "dusty bottle of Port", "dusty bottle of vinegar Port",
     },
     {
-      IntegerPool.get(ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR),
+      ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR,
       "dusty bottle of Pinot Noir",
       "dusty bottle of spooky Pinot Noir",
     },
     {
-      IntegerPool.get(ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL),
+      ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL,
       "dusty bottle of Zinfandel",
       "dusty bottle of great Zinfandel",
     },
     {
-      IntegerPool.get(ItemPool.DUSTY_BOTTLE_OF_MARSALA),
-      "dusty bottle of Marsala",
-      "dusty bottle of glassy Marsala",
+      ItemPool.DUSTY_BOTTLE_OF_MARSALA, "dusty bottle of Marsala", "dusty bottle of glassy Marsala",
     },
     {
-      IntegerPool.get(ItemPool.DUSTY_BOTTLE_OF_MUSCAT),
-      "dusty bottle of Muscat",
-      "dusty bottle of bad Muscat",
+      ItemPool.DUSTY_BOTTLE_OF_MUSCAT, "dusty bottle of Muscat", "dusty bottle of bad Muscat",
     }
   };
 
@@ -369,9 +360,9 @@ public class ConsumablesDatabase {
     int start = StringUtilities.parseInt(dashIndex == -1 ? range : range.substring(0, dashIndex));
     int end = dashIndex == -1 ? start : StringUtilities.parseInt(range.substring(dashIndex + 1));
     ConsumablesDatabase.advRangeByName.put(name, range);
-    ConsumablesDatabase.unitCostByName.put(name, IntegerPool.get(unitCost));
-    ConsumablesDatabase.advStartByName.put(name, IntegerPool.get(start));
-    ConsumablesDatabase.advEndByName.put(name, IntegerPool.get(end));
+    ConsumablesDatabase.unitCostByName.put(name, unitCost);
+    ConsumablesDatabase.advStartByName.put(name, start);
+    ConsumablesDatabase.advEndByName.put(name, end);
     ConsumablesDatabase.advNames = null;
   }
 

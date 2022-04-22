@@ -9,7 +9,6 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -57,11 +56,11 @@ public class FudgeWandRequest extends CoinMasterRequest {
   private static String lastURL = null;
 
   private static final Object[][] OPTIONS = {
-    {"1", IntegerPool.get(ItemPool.FUDGIE_ROLL)},
-    {"2", IntegerPool.get(ItemPool.FUDGE_SPORK)},
-    {"3", IntegerPool.get(ItemPool.FUDGE_CUBE)},
-    {"4", IntegerPool.get(ItemPool.FUDGE_BUNNY)},
-    {"5", IntegerPool.get(ItemPool.FUDGECYCLE)},
+    {"1", ItemPool.FUDGIE_ROLL},
+    {"2", ItemPool.FUDGE_SPORK},
+    {"3", ItemPool.FUDGE_CUBE},
+    {"4", ItemPool.FUDGE_BUNNY},
+    {"5", ItemPool.FUDGECYCLE},
   };
 
   private static String idToOption(final int id) {

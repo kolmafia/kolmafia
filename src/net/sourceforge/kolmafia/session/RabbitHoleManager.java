@@ -15,7 +15,6 @@ import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -765,7 +764,7 @@ public abstract class RabbitHoleManager {
       }
 
       // Otherwise, tally the move and succeed
-      list.add(IntegerPool.get(square));
+      list.add(square);
       return true;
     }
 
@@ -1106,7 +1105,7 @@ public abstract class RabbitHoleManager {
     }
 
     public void add(final int square) {
-      list.add(IntegerPool.get(square));
+      list.add(square);
     }
 
     public void remove() {
@@ -1218,7 +1217,7 @@ public abstract class RabbitHoleManager {
       buf.append(": ");
       buf.append(RabbitHoleManager.getHatDescription(len));
       buf.append("</option>");
-      options.put(IntegerPool.get((len << 24) | hat.getItemId()), buf.toString());
+      options.put((len << 24) | hat.getItemId(), buf.toString());
     }
 
     String ending = buffer.substring(index);
@@ -1256,7 +1255,7 @@ public abstract class RabbitHoleManager {
 
       String name = hat.getName();
 
-      Integer len = IntegerPool.get(hatLength(name));
+      Integer len = hatLength(name);
       StringBuffer buffer = lengths.get(len);
 
       if (buffer == null) {
@@ -1365,7 +1364,7 @@ public abstract class RabbitHoleManager {
     if (RabbitHoleManager.hatLengthAvailable(desiredHatLength)) {
       TreeMap<Integer, StringBuffer> lengths = getHatMap();
 
-      String hat = lengths.get(IntegerPool.get(desiredHatLength)).toString().split("\\|")[0];
+      String hat = lengths.get(desiredHatLength).toString().split("\\|")[0];
       RabbitHoleManager.getHatBuff(ItemFinder.getFirstMatchingItem(hat));
     } else {
       KoLmafia.updateDisplay(MafiaState.ERROR, "No matching hat length found.");
@@ -1379,7 +1378,7 @@ public abstract class RabbitHoleManager {
       return false;
     }
 
-    if (lengths.containsKey(IntegerPool.get(desiredHatLength))) {
+    if (lengths.containsKey(desiredHatLength)) {
       return true;
     }
 

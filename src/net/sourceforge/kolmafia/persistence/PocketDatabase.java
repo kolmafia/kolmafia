@@ -18,7 +18,6 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -94,7 +93,7 @@ public class PocketDatabase {
     }
 
     public Pocket getPocket(int pocket) {
-      return this.pockets.get(IntegerPool.get(pocket));
+      return this.pockets.get(pocket);
     }
 
     @Override
@@ -119,7 +118,7 @@ public class PocketDatabase {
     protected final PocketType type;
 
     public Pocket(int pocket, PocketType type) {
-      this.pocket = IntegerPool.get(pocket);
+      this.pocket = pocket;
       this.type = type;
       // Add to map of all pockets
       PocketDatabase.allPockets.put(this.pocket, this);
@@ -943,7 +942,7 @@ public class PocketDatabase {
     if (pockets != null) {
       Set<Integer> picked = CargoCultistShortsRequest.pickedPockets;
       for (Pocket pocket : pockets) {
-        if (!picked.contains(IntegerPool.get(pocket.getPocket()))) {
+        if (!picked.contains(pocket.getPocket())) {
           return pocket;
         }
       }
@@ -963,7 +962,7 @@ public class PocketDatabase {
   }
 
   public static Pocket pocketByNumber(int pocket) {
-    return PocketDatabase.allPockets.get(IntegerPool.get(pocket));
+    return PocketDatabase.allPockets.get(pocket);
   }
 
   public static MonsterData monsterByNumber(int pocket) {

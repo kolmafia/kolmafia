@@ -27,7 +27,6 @@ import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -1594,14 +1593,14 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
         }
 
         AdventureResult cost = data.itemBuyPrice(itemId);
-        Integer currency = IntegerPool.get(cost.getItemId());
+        Integer currency = cost.getItemId();
         int price = cost.getCount();
 
         Integer value = originalBalances.get(currency);
         if (value == null) {
           int newValue =
               fromStorage ? data.availableStorageTokens(cost) : data.availableTokens(cost);
-          value = IntegerPool.get(newValue);
+          value = newValue;
           originalBalances.put(currency, value);
           balances.put(currency, value);
         }
@@ -1644,7 +1643,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
         items[i] = item.getInstance(quantity);
         balance -= quantity * price;
-        balances.put(currency, IntegerPool.get(balance));
+        balances.put(currency, balance);
       }
 
       // Shrink the array which will be returned so

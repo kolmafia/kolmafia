@@ -33,7 +33,6 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -1494,15 +1493,15 @@ public class GearChangeFrame extends GenericFrame {
     public void stateChanged(final ChangeEvent e) {
       int maximum = this.availableFakeHands;
       if (maximum == 0) {
-        this.setValue(IntegerPool.get(0));
+        this.setValue(0);
         return;
       }
 
       int desired = InputFieldUtilities.getValue(this, maximum);
       if (desired == maximum + 1) {
-        this.setValue(IntegerPool.get(0));
+        this.setValue(0);
       } else if (desired < 0 || desired > maximum) {
-        this.setValue(IntegerPool.get(maximum));
+        this.setValue(maximum);
       }
     }
 
@@ -1515,7 +1514,7 @@ public class GearChangeFrame extends GenericFrame {
       int available = EquipmentManager.FAKE_HAND.getCount(KoLConstants.inventory);
       this.currentFakeHands = EquipmentManager.getFakeHands();
       this.availableFakeHands = this.currentFakeHands + available;
-      this.setValue(IntegerPool.get(this.currentFakeHands));
+      this.setValue(this.currentFakeHands);
     }
   }
 

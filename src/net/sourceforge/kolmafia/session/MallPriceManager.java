@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
@@ -293,7 +292,7 @@ public abstract class MallPriceManager {
       return new ArrayList<PurchaseRequest>();
     }
 
-    Integer id = IntegerPool.get(itemId);
+    Integer id = itemId;
     String name = ItemDatabase.getItemDataName(id);
 
     List<PurchaseRequest> results = MallPriceManager.getSavedSearch(id, needed);
@@ -394,14 +393,13 @@ public abstract class MallPriceManager {
         continue;
       }
 
-      Integer currentPrice = IntegerPool.get(result.getPrice());
+      Integer currentPrice = result.getPrice();
       Integer currentQuantity = prices.get(currentPrice);
 
       if (currentQuantity == null) {
-        prices.put(currentPrice, IntegerPool.get(resultsArray[i].getLimit()));
+        prices.put(currentPrice, resultsArray[i].getLimit());
       } else {
-        prices.put(
-            currentPrice, IntegerPool.get(currentQuantity.intValue() + resultsArray[i].getLimit()));
+        prices.put(currentPrice, currentQuantity.intValue() + resultsArray[i].getLimit());
       }
     }
 

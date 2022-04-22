@@ -16,7 +16,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -67,7 +66,7 @@ public class ZapRequest extends GenericRequest {
             RequestLogger.printLine("Unknown item in zap group: " + name);
             continue;
           }
-          ZapRequest.zapGroups.put(IntegerPool.get(itemId), list);
+          ZapRequest.zapGroups.put(itemId, list);
         }
       }
     } catch (Exception e) {
@@ -93,7 +92,7 @@ public class ZapRequest extends GenericRequest {
   public static final List<String> getZapGroup(int itemId) {
     ZapRequest.initializeList();
 
-    return ZapRequest.zapGroups.getOrDefault(IntegerPool.get(itemId), new ArrayList<>());
+    return ZapRequest.zapGroups.getOrDefault(itemId, new ArrayList<>());
   }
 
   @Override

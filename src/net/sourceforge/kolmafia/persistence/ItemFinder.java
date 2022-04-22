@@ -14,7 +14,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
@@ -89,7 +88,7 @@ public class ItemFinder {
       if (itemId == -1) {
         pseudoItems += 1;
       } else {
-        itemIdSet.add(IntegerPool.get(itemId));
+        itemIdSet.add(itemId);
       }
     }
 

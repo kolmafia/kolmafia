@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.chat.ChatManager;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -101,7 +100,7 @@ public class QuestLogRequest extends GenericRequest {
     HashMap<Integer, String> map = new HashMap<Integer, String>();
 
     while (headers.find()) {
-      map.put(IntegerPool.get(headers.end()), headers.group(1));
+      map.put(headers.end(), headers.group(1));
     }
 
     if (!map.isEmpty() && source == 1) {

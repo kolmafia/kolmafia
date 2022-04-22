@@ -10,7 +10,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.Limitmode;
@@ -53,17 +52,17 @@ public class ClanRumpusRequest extends GenericRequest {
 
   public static final Object[][] CHIP_FLAVORS =
       new Object[][] {
-        {"radium", IntegerPool.get(RADIUM)},
-        {"wintergreen", IntegerPool.get(WINTERGREEN)},
-        {"ennui", IntegerPool.get(ENNUI)},
+        {"radium", RADIUM},
+        {"wintergreen", WINTERGREEN},
+        {"ennui", ENNUI},
       };
 
   public static final Object[][] SONGS =
       new Object[][] {
-        {"meat", "Material Witness", IntegerPool.get(1)},
-        {"stats", "No Worries", IntegerPool.get(2)},
-        {"item", "Techno Bliss", IntegerPool.get(3)},
-        {"initiative", "Metal Speed", IntegerPool.get(4)},
+        {"meat", "Material Witness", 1},
+        {"stats", "No Worries", 2},
+        {"item", "Techno Bliss", 3},
+        {"initiative", "Metal Speed", 4},
       };
 
   public static final int findChips(final String name) {

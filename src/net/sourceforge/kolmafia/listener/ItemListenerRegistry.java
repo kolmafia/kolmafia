@@ -1,7 +1,5 @@
 package net.sourceforge.kolmafia.listener;
 
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
-
 public class ItemListenerRegistry extends ListenerRegistry {
   // The registry of listeners:
   private static final ListenerRegistry INSTANCE = new ListenerRegistry();
@@ -11,12 +9,12 @@ public class ItemListenerRegistry extends ListenerRegistry {
       return;
     }
 
-    Integer key = IntegerPool.get(itemId);
+    Integer key = itemId;
     ItemListenerRegistry.INSTANCE.registerListener(key, listener);
   }
 
   public static final void fireItemChanged(final int itemId) {
-    Integer key = IntegerPool.get(itemId);
+    Integer key = itemId;
     ItemListenerRegistry.INSTANCE.fireListener(key);
   }
 }

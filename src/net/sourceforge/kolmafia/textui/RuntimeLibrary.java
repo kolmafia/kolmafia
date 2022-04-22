@@ -80,7 +80,6 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
@@ -5002,22 +5001,22 @@ public abstract class RuntimeLibrary {
       ArrayList<Integer> elems = new ArrayList<Integer>();
       boolean clusters = (pulver & EquipmentDatabase.YIELD_1C) != 0;
       if ((pulver & EquipmentDatabase.ELEM_HOT) != 0) {
-        elems.add(IntegerPool.get(clusters ? ItemPool.HOT_CLUSTER : ItemPool.HOT_WAD));
+        elems.add(clusters ? ItemPool.HOT_CLUSTER : ItemPool.HOT_WAD);
       }
       if ((pulver & EquipmentDatabase.ELEM_COLD) != 0) {
-        elems.add(IntegerPool.get(clusters ? ItemPool.COLD_CLUSTER : ItemPool.COLD_WAD));
+        elems.add(clusters ? ItemPool.COLD_CLUSTER : ItemPool.COLD_WAD);
       }
       if ((pulver & EquipmentDatabase.ELEM_STENCH) != 0) {
-        elems.add(IntegerPool.get(clusters ? ItemPool.STENCH_CLUSTER : ItemPool.STENCH_WAD));
+        elems.add(clusters ? ItemPool.STENCH_CLUSTER : ItemPool.STENCH_WAD);
       }
       if ((pulver & EquipmentDatabase.ELEM_SPOOKY) != 0) {
-        elems.add(IntegerPool.get(clusters ? ItemPool.SPOOKY_CLUSTER : ItemPool.SPOOKY_WAD));
+        elems.add(clusters ? ItemPool.SPOOKY_CLUSTER : ItemPool.SPOOKY_WAD);
       }
       if ((pulver & EquipmentDatabase.ELEM_SLEAZE) != 0) {
-        elems.add(IntegerPool.get(clusters ? ItemPool.SLEAZE_CLUSTER : ItemPool.SLEAZE_WAD));
+        elems.add(clusters ? ItemPool.SLEAZE_CLUSTER : ItemPool.SLEAZE_WAD);
       }
       if ((pulver & EquipmentDatabase.ELEM_TWINKLY) != 0) { // Important: twinkly must be last
-        elems.add(IntegerPool.get(ItemPool.TWINKLY_WAD));
+        elems.add(ItemPool.TWINKLY_WAD);
       }
       int nelems = elems.size();
       if (nelems == 0) {
