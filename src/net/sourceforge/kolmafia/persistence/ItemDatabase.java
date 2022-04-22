@@ -80,27 +80,27 @@ public class ItemDatabase {
 
   public static Object[][] PUNCHCARDS = {
     // Verbs
-    {3146, "El Vibrato punchcard (115 holes)", "El Vibrato punchcard (ATTACK)"},
-    {3147, "El Vibrato punchcard (97 holes)", "El Vibrato punchcard (REPAIR)"},
-    {3148, "El Vibrato punchcard (129 holes)", "El Vibrato punchcard (BUFF)"},
-    {3149, "El Vibrato punchcard (213 holes)", "El Vibrato punchcard (MODIFY)"},
-    {3150, "El Vibrato punchcard (165 holes)", "El Vibrato punchcard (BUILD)"},
+    {ItemPool.PUNCHCARD_ATTACK, "El Vibrato punchcard (115 holes)", "El Vibrato punchcard (ATTACK)"},
+    {ItemPool.PUNCHCARD_REPAIR, "El Vibrato punchcard (97 holes)", "El Vibrato punchcard (REPAIR)"},
+    {ItemPool.PUNCHCARD_BUFF, "El Vibrato punchcard (129 holes)", "El Vibrato punchcard (BUFF)"},
+    {ItemPool.PUNCHCARD_MODIFY, "El Vibrato punchcard (213 holes)", "El Vibrato punchcard (MODIFY)"},
+    {ItemPool.PUNCHCARD_BUILD, "El Vibrato punchcard (165 holes)", "El Vibrato punchcard (BUILD)"},
 
     // Objects
-    {3151, "El Vibrato punchcard (142 holes)", "El Vibrato punchcard (TARGET)"},
-    {3152, "El Vibrato punchcard (216 holes)", "El Vibrato punchcard (SELF)"},
-    {3153, "El Vibrato punchcard (88 holes)", "El Vibrato punchcard (FLOOR)"},
-    {3154, "El Vibrato punchcard (182 holes)", "El Vibrato punchcard (DRONE)"},
-    {3155, "El Vibrato punchcard (176 holes)", "El Vibrato punchcard (WALL)"},
-    {3156, "El Vibrato punchcard (104 holes)", "El Vibrato punchcard (SPHERE)"}
+    {ItemPool.PUNCHCARD_TARGET, "El Vibrato punchcard (142 holes)", "El Vibrato punchcard (TARGET)"},
+    {ItemPool.PUNCHCARD_SELF, "El Vibrato punchcard (216 holes)", "El Vibrato punchcard (SELF)"},
+    {ItemPool.PUNCHCARD_FLOOR, "El Vibrato punchcard (88 holes)", "El Vibrato punchcard (FLOOR)"},
+    {ItemPool.PUNCHCARD_DRONE, "El Vibrato punchcard (182 holes)", "El Vibrato punchcard (DRONE)"},
+    {ItemPool.PUNCHCARD_WALL, "El Vibrato punchcard (176 holes)", "El Vibrato punchcard (WALL)"},
+    {ItemPool.PUNCHCARD_SPHERE, "El Vibrato punchcard (104 holes)", "El Vibrato punchcard (SPHERE)"}
   };
 
   private static final Object[][] ALIASES = {
-    {4577, "bugged bonnet"},
-    {4578, "bugged meat stabbing club"},
-    {4579, "bugged Knob Goblin love potion"},
-    {4580, "bugged old school Mafia knickerbockers"},
-    {4581, "bugged Talisman of Baio"},
+    {ItemPool.BUGGED_BONNET, "bugged bonnet"},
+    {ItemPool.BUGGED_MEAT_CLUB, "bugged meat stabbing club"},
+    {ItemPool.BUGGED_POTION, "bugged Knob Goblin love potion"},
+    {ItemPool.BUGGED_KNICKERBOCKERS, "bugged old school Mafia knickerbockers"},
+    {ItemPool.BUGGED_BAIO, "bugged Talisman of Baio"},
     {ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (broken)"},
     {ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (forward-facing)"},
     {ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (bucket style)"},
