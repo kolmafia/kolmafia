@@ -48,8 +48,17 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
+  void mustMakeCommand() {
+    execute("");
+
+    assertContinueState();
+    var requests = getRequests();
+    assertThat(requests, empty());
+  }
+
+  @Test
   void mustMakeValidCommand() {
-    execute("foobar");
+    execute("foo bar");
 
     assertContinueState();
     var requests = getRequests();
