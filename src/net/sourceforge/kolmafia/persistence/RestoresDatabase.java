@@ -11,7 +11,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RestoreExpression;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StandardRequest;
@@ -70,7 +69,7 @@ public class RestoresDatabase {
         RestoresDatabase.mpMinByName.put(name, data[4]);
         RestoresDatabase.mpMaxByName.put(name, data[5]);
         int advCost = StringUtilities.parseInt(data[6]);
-        RestoresDatabase.advCostByName.put(name, IntegerPool.get(advCost));
+        RestoresDatabase.advCostByName.put(name, advCost);
 
         if (data.length > 7) {
           RestoresDatabase.usesLeftByName.put(name, data[7]);
@@ -104,7 +103,7 @@ public class RestoresDatabase {
     RestoresDatabase.hpMaxByName.put(name, hpMax);
     RestoresDatabase.mpMinByName.put(name, mpMin);
     RestoresDatabase.mpMaxByName.put(name, mpMax);
-    RestoresDatabase.advCostByName.put(name, IntegerPool.get(advCost));
+    RestoresDatabase.advCostByName.put(name, advCost);
     if (usesLeft != -1) {
       RestoresDatabase.usesLeftByName.put(name, Integer.toString(usesLeft));
     }

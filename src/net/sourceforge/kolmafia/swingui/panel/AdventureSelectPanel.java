@@ -41,7 +41,6 @@ import net.sourceforge.kolmafia.listener.CharacterListener;
 import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -637,15 +636,15 @@ public class AdventureSelectPanel extends JPanel {
     public void stateChanged(final ChangeEvent e) {
       int maximum = KoLCharacter.getAdventuresLeft();
       if (maximum == 0) {
-        this.setValue(IntegerPool.get(0));
+        this.setValue(0);
         return;
       }
 
       int desired = InputFieldUtilities.getValue(this, maximum);
       if (desired == maximum + 1) {
-        this.setValue(IntegerPool.get(1));
+        this.setValue(1);
       } else if (desired <= 0 || desired > maximum) {
-        this.setValue(IntegerPool.get(maximum));
+        this.setValue(maximum);
       }
     }
   }

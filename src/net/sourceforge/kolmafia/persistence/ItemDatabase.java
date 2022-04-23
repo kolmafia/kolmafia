@@ -30,7 +30,6 @@ import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -81,54 +80,60 @@ public class ItemDatabase {
 
   public static Object[][] PUNCHCARDS = {
     // Verbs
-    {IntegerPool.get(3146), "El Vibrato punchcard (115 holes)", "El Vibrato punchcard (ATTACK)"},
-    {IntegerPool.get(3147), "El Vibrato punchcard (97 holes)", "El Vibrato punchcard (REPAIR)"},
-    {IntegerPool.get(3148), "El Vibrato punchcard (129 holes)", "El Vibrato punchcard (BUFF)"},
-    {IntegerPool.get(3149), "El Vibrato punchcard (213 holes)", "El Vibrato punchcard (MODIFY)"},
-    {IntegerPool.get(3150), "El Vibrato punchcard (165 holes)", "El Vibrato punchcard (BUILD)"},
+    {
+      ItemPool.PUNCHCARD_ATTACK, "El Vibrato punchcard (115 holes)", "El Vibrato punchcard (ATTACK)"
+    },
+    {ItemPool.PUNCHCARD_REPAIR, "El Vibrato punchcard (97 holes)", "El Vibrato punchcard (REPAIR)"},
+    {ItemPool.PUNCHCARD_BUFF, "El Vibrato punchcard (129 holes)", "El Vibrato punchcard (BUFF)"},
+    {
+      ItemPool.PUNCHCARD_MODIFY, "El Vibrato punchcard (213 holes)", "El Vibrato punchcard (MODIFY)"
+    },
+    {ItemPool.PUNCHCARD_BUILD, "El Vibrato punchcard (165 holes)", "El Vibrato punchcard (BUILD)"},
 
     // Objects
-    {IntegerPool.get(3151), "El Vibrato punchcard (142 holes)", "El Vibrato punchcard (TARGET)"},
-    {IntegerPool.get(3152), "El Vibrato punchcard (216 holes)", "El Vibrato punchcard (SELF)"},
-    {IntegerPool.get(3153), "El Vibrato punchcard (88 holes)", "El Vibrato punchcard (FLOOR)"},
-    {IntegerPool.get(3154), "El Vibrato punchcard (182 holes)", "El Vibrato punchcard (DRONE)"},
-    {IntegerPool.get(3155), "El Vibrato punchcard (176 holes)", "El Vibrato punchcard (WALL)"},
-    {IntegerPool.get(3156), "El Vibrato punchcard (104 holes)", "El Vibrato punchcard (SPHERE)"}
+    {
+      ItemPool.PUNCHCARD_TARGET, "El Vibrato punchcard (142 holes)", "El Vibrato punchcard (TARGET)"
+    },
+    {ItemPool.PUNCHCARD_SELF, "El Vibrato punchcard (216 holes)", "El Vibrato punchcard (SELF)"},
+    {ItemPool.PUNCHCARD_FLOOR, "El Vibrato punchcard (88 holes)", "El Vibrato punchcard (FLOOR)"},
+    {ItemPool.PUNCHCARD_DRONE, "El Vibrato punchcard (182 holes)", "El Vibrato punchcard (DRONE)"},
+    {ItemPool.PUNCHCARD_WALL, "El Vibrato punchcard (176 holes)", "El Vibrato punchcard (WALL)"},
+    {ItemPool.PUNCHCARD_SPHERE, "El Vibrato punchcard (104 holes)", "El Vibrato punchcard (SPHERE)"}
   };
 
   private static final Object[][] ALIASES = {
-    {IntegerPool.get(4577), "bugged bonnet"},
-    {IntegerPool.get(4578), "bugged meat stabbing club"},
-    {IntegerPool.get(4579), "bugged Knob Goblin love potion"},
-    {IntegerPool.get(4580), "bugged old school Mafia knickerbockers"},
-    {IntegerPool.get(4581), "bugged Talisman of Baio"},
-    {IntegerPool.get(ItemPool.UNBREAKABLE_UMBRELLA), "unbreakable umbrella (broken)"},
-    {IntegerPool.get(ItemPool.UNBREAKABLE_UMBRELLA), "unbreakable umbrella (forward-facing)"},
-    {IntegerPool.get(ItemPool.UNBREAKABLE_UMBRELLA), "unbreakable umbrella (bucket style)"},
-    {IntegerPool.get(ItemPool.UNBREAKABLE_UMBRELLA), "unbreakable umbrella (pitchfork style)"},
-    {IntegerPool.get(ItemPool.UNBREAKABLE_UMBRELLA), "unbreakable umbrella (constantly twirling)"},
-    {IntegerPool.get(ItemPool.UNBREAKABLE_UMBRELLA), "unbreakable umbrella (cocoon)"},
-    {IntegerPool.get(-1), "potion of inebriety"},
-    {IntegerPool.get(-1), "potion of healing"},
-    {IntegerPool.get(-1), "potion of confusion"},
-    {IntegerPool.get(-1), "potion of blessing"},
-    {IntegerPool.get(-1), "potion of detection"},
-    {IntegerPool.get(-1), "potion of sleepiness"},
-    {IntegerPool.get(-1), "potion of mental acuity"},
-    {IntegerPool.get(-1), "potion of ettin strength"},
-    {IntegerPool.get(-1), "potion of teleportitis"},
-    {IntegerPool.get(-1), "vial of slime: strong"},
-    {IntegerPool.get(-1), "vial of slime: sagacious"},
-    {IntegerPool.get(-1), "vial of slime: speedy"},
-    {IntegerPool.get(-1), "vial of slime: brawn"},
-    {IntegerPool.get(-1), "vial of slime: brains"},
-    {IntegerPool.get(-1), "vial of slime: briskness"},
-    {IntegerPool.get(-1), "vial of slime: slimeform"},
-    {IntegerPool.get(-1), "vial of slime: eyesight"},
-    {IntegerPool.get(-1), "vial of slime: intensity"},
-    {IntegerPool.get(-1), "vial of slime: muscle"},
-    {IntegerPool.get(-1), "vial of slime: mentalism"},
-    {IntegerPool.get(-1), "vial of slime: moxiousness"},
+    {ItemPool.BUGGED_BONNET, "bugged bonnet"},
+    {ItemPool.BUGGED_MEAT_CLUB, "bugged meat stabbing club"},
+    {ItemPool.BUGGED_POTION, "bugged Knob Goblin love potion"},
+    {ItemPool.BUGGED_KNICKERBOCKERS, "bugged old school Mafia knickerbockers"},
+    {ItemPool.BUGGED_BAIO, "bugged Talisman of Baio"},
+    {ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (broken)"},
+    {ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (forward-facing)"},
+    {ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (bucket style)"},
+    {ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (pitchfork style)"},
+    {ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (constantly twirling)"},
+    {ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (cocoon)"},
+    {-1, "potion of inebriety"},
+    {-1, "potion of healing"},
+    {-1, "potion of confusion"},
+    {-1, "potion of blessing"},
+    {-1, "potion of detection"},
+    {-1, "potion of sleepiness"},
+    {-1, "potion of mental acuity"},
+    {-1, "potion of ettin strength"},
+    {-1, "potion of teleportitis"},
+    {-1, "vial of slime: strong"},
+    {-1, "vial of slime: sagacious"},
+    {-1, "vial of slime: speedy"},
+    {-1, "vial of slime: brawn"},
+    {-1, "vial of slime: brains"},
+    {-1, "vial of slime: briskness"},
+    {-1, "vial of slime: slimeform"},
+    {-1, "vial of slime: eyesight"},
+    {-1, "vial of slime: intensity"},
+    {-1, "vial of slime: muscle"},
+    {-1, "vial of slime: mentalism"},
+    {-1, "vial of slime: moxiousness"},
   };
 
   private static final List<String> ACCESS =
@@ -184,13 +189,13 @@ public class ItemDatabase {
       new TreeMap<Integer, String>();
 
   private static void definePrimaryUse(final String key, final int usage) {
-    Integer val = IntegerPool.get(usage);
+    Integer val = usage;
     PRIMARY_USE.put(key, val);
     INVERSE_PRIMARY_USE.put(val, key);
   }
 
   private static void defineSecondaryUse(final String key, final int usage) {
-    Integer val = IntegerPool.get(usage);
+    Integer val = usage;
     SECONDARY_USE.put(key, val);
     INVERSE_SECONDARY_USE.put(val, key);
   }
@@ -375,7 +380,7 @@ public class ItemDatabase {
         }
 
         int itemId = StringUtilities.parseInt(data[0]);
-        Integer id = IntegerPool.get(itemId);
+        Integer id = itemId;
 
         String name = data[1];
         String displayName = StringUtilities.getDisplayName(name);
@@ -469,7 +474,7 @@ public class ItemDatabase {
               skillId = SkillPool.ANGER_GLANDS;
               break;
           }
-          ItemDatabase.addIdToNoobSkill(IntegerPool.get(skillId), itemId);
+          ItemDatabase.addIdToNoobSkill(skillId, itemId);
           ItemDatabase.noobSkillIdByItemSource.set(itemId, skillId);
         }
       }
@@ -586,7 +591,7 @@ public class ItemDatabase {
   }
 
   private static void addPseudoItems() {
-    Integer id = IntegerPool.get(13);
+    Integer id = 13;
 
     ItemDatabase.dataNameById.put(id, "worthless item");
     ItemDatabase.nameById.put(id, "worthless item");
@@ -613,14 +618,14 @@ public class ItemDatabase {
     }
 
     // Add names of all the sushi
-    id = IntegerPool.get(-1);
+    id = -1;
     for (String sushi : SushiRequest.SUSHI) {
       String name = StringUtilities.getCanonicalName(sushi);
       ItemDatabase.addIdToName(name, id);
     }
 
     // Add names of all the VYKEA companions
-    id = IntegerPool.get(-1);
+    id = -1;
     for (String VYKEA : VYKEACompanionData.VYKEA) {
       String name = StringUtilities.getCanonicalName(VYKEA);
       ItemDatabase.addIdToName(name, id);
@@ -794,7 +799,7 @@ public class ItemDatabase {
     int itemId = DebugDatabase.parseItemId(text);
 
     // Link this itemId and descId
-    Integer id = IntegerPool.get(itemId);
+    Integer id = itemId;
     ItemDatabase.descriptionById.put(id, descId);
     ItemDatabase.itemIdByDescription.put(descId, id);
 
@@ -860,7 +865,7 @@ public class ItemDatabase {
       ItemDatabase.maxItemId = itemId;
     }
 
-    Integer id = IntegerPool.get(itemId);
+    Integer id = itemId;
 
     ItemDatabase.nameById.put(id, StringUtilities.getDisplayName(itemName));
     ItemDatabase.dataNameById.put(id, itemName);
@@ -886,7 +891,7 @@ public class ItemDatabase {
             || itemId == ItemPool.DISCARDED_BUTTON)) {
       int intDescId = StringUtilities.parseInt(descId);
       int skillId = (intDescId % 125) + 23001;
-      ItemDatabase.addIdToNoobSkill(IntegerPool.get(skillId), itemId);
+      ItemDatabase.addIdToNoobSkill(skillId, itemId);
       ItemDatabase.noobSkillIdByItemSource.set(itemId, skillId);
     }
 
@@ -902,8 +907,7 @@ public class ItemDatabase {
 
   public static final void registerPlural(final int itemId, final String plural) {
     ItemDatabase.pluralById.set(itemId, plural);
-    ItemDatabase.itemIdByPlural.put(
-        StringUtilities.getCanonicalName(plural), IntegerPool.get(itemId));
+    ItemDatabase.itemIdByPlural.put(StringUtilities.getCanonicalName(plural), itemId);
   }
 
   public static final void registerMultiUsability(final int itemId, final boolean multi) {
@@ -1047,7 +1051,7 @@ public class ItemDatabase {
 
   public static void registerItemAlias(
       final int itemId, final String itemName, final String plural) {
-    Integer id = IntegerPool.get(itemId);
+    Integer id = itemId;
 
     String canonical = StringUtilities.getCanonicalName(itemName);
     ItemDatabase.addIdToName(canonical, id);
@@ -1157,24 +1161,12 @@ public class ItemDatabase {
     return itemIds;
   }
 
-  public static String getDataName(final int itemId) {
-    return ItemDatabase.getDataName(IntegerPool.get(itemId));
-  }
-
   public static String getDataName(final Integer itemId) {
     return ItemDatabase.dataNameById.get(itemId);
   }
 
-  public static String getDisplayName(final int itemId) {
-    return ItemDatabase.getDisplayName(IntegerPool.get(itemId));
-  }
-
   public static String getDisplayName(final Integer itemId) {
     return ItemDatabase.nameById.get(itemId);
-  }
-
-  public static String getCanonicalName(final int itemId) {
-    return ItemDatabase.getCanonicalName(IntegerPool.get(itemId));
   }
 
   public static String getCanonicalName(final Integer itemId) {
@@ -1205,7 +1197,7 @@ public class ItemDatabase {
     if (itemName.startsWith("[")) {
       itemId = ItemDatabase.getBracketedItemId(itemName);
       if (itemId != -1) {
-        return ItemDatabase.getCanonicalName((Integer) itemId);
+        return ItemDatabase.getCanonicalName(itemId);
       }
     }
     // See if it's a weird pluralization with a pattern we can't
@@ -1292,7 +1284,7 @@ public class ItemDatabase {
     itemId =
         ItemDatabase.getExactItemId(StringUtilities.singleStringReplace(canonicalName, "-", " "));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // The word right before the dash may also be pluralized,
@@ -1301,13 +1293,13 @@ public class ItemDatabase {
     itemId =
         ItemDatabase.getExactItemId(StringUtilities.singleStringReplace(canonicalName, "es-", "-"));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     itemId =
         ItemDatabase.getExactItemId(StringUtilities.singleStringReplace(canonicalName, "s-", "-"));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // If it's a plural form of "tooth", then make
@@ -1318,7 +1310,7 @@ public class ItemDatabase {
     itemId =
         ItemDatabase.getExactItemId(StringUtilities.singleStringReplace(canonicalName, "ee", "oo"));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // Also handle the plural of vortex, which is
@@ -1329,7 +1321,7 @@ public class ItemDatabase {
         ItemDatabase.getExactItemId(
             StringUtilities.singleStringReplace(canonicalName, "ices", "ex"));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // Handling of appendices (which is the plural
@@ -1340,7 +1332,7 @@ public class ItemDatabase {
         ItemDatabase.getExactItemId(
             StringUtilities.singleStringReplace(canonicalName, "ices", "ix"));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // Also add in a special handling for knives
@@ -1350,7 +1342,7 @@ public class ItemDatabase {
         ItemDatabase.getExactItemId(
             StringUtilities.singleStringReplace(canonicalName, "ives", "ife"));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // Also add in a special handling for elves
@@ -1359,7 +1351,7 @@ public class ItemDatabase {
     itemId =
         ItemDatabase.getExactItemId(StringUtilities.singleStringReplace(canonicalName, "ves", "f"));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // Also add in a special handling for staves
@@ -1369,7 +1361,7 @@ public class ItemDatabase {
         ItemDatabase.getExactItemId(
             StringUtilities.singleStringReplace(canonicalName, "aves", "aff"));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // If it's a pluralized form of something that
@@ -1380,7 +1372,7 @@ public class ItemDatabase {
       itemId =
           ItemDatabase.getExactItemId(canonicalName.substring(0, canonicalName.length() - 3) + "y");
       if (itemId != -1) {
-        return ItemDatabase.getCanonicalName((Integer) itemId);
+        return ItemDatabase.getCanonicalName(itemId);
       }
     }
 
@@ -1388,7 +1380,7 @@ public class ItemDatabase {
         ItemDatabase.getExactItemId(
             StringUtilities.singleStringReplace(canonicalName, "ies ", "y "));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // If it's a pluralized form of something that
@@ -1398,14 +1390,14 @@ public class ItemDatabase {
     if (canonicalName.endsWith("es")) {
       itemId = ItemDatabase.getExactItemId(canonicalName.substring(0, canonicalName.length() - 2));
       if (itemId != -1) {
-        return ItemDatabase.getCanonicalName((Integer) itemId);
+        return ItemDatabase.getCanonicalName(itemId);
       }
     }
 
     itemId =
         ItemDatabase.getExactItemId(StringUtilities.singleStringReplace(canonicalName, "es ", " "));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // If it's a pluralized form of something that
@@ -1416,7 +1408,7 @@ public class ItemDatabase {
         ItemDatabase.getExactItemId(
             StringUtilities.singleStringReplace(canonicalName, "en ", "an "));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // If it's a standard pluralized forms, then
@@ -1424,7 +1416,7 @@ public class ItemDatabase {
 
     itemId = ItemDatabase.getExactItemId(canonicalName.replaceFirst("([A-Za-z])s ", "$1 "));
     if (itemId != -1) {
-      return ItemDatabase.getCanonicalName((Integer) itemId);
+      return ItemDatabase.getCanonicalName(itemId);
     }
 
     // If it's something that ends with 'i', then
@@ -1435,7 +1427,7 @@ public class ItemDatabase {
           ItemDatabase.getExactItemId(
               canonicalName.substring(0, canonicalName.length() - 1) + "us");
       if (itemId != -1) {
-        return ItemDatabase.getCanonicalName((Integer) itemId);
+        return ItemDatabase.getCanonicalName(itemId);
       }
     }
 
@@ -1785,11 +1777,11 @@ public class ItemDatabase {
    * @return The name of the corresponding item
    */
   public static final String getItemName(final int itemId) {
-    return ItemDatabase.nameById.get(IntegerPool.get(itemId));
+    return ItemDatabase.nameById.get(itemId);
   }
 
   public static final String getItemDataName(final int itemId) {
-    return ItemDatabase.dataNameById.get(IntegerPool.get(itemId));
+    return ItemDatabase.dataNameById.get(itemId);
   }
 
   public static final String getItemDataName(final Integer itemId) {
@@ -2084,7 +2076,7 @@ public class ItemDatabase {
   }
 
   public static final String typeToPrimaryUsage(final int type) {
-    return ItemDatabase.INVERSE_PRIMARY_USE.get(IntegerPool.get(type));
+    return ItemDatabase.INVERSE_PRIMARY_USE.get(type);
   }
 
   /**
@@ -2092,10 +2084,6 @@ public class ItemDatabase {
    *
    * @return The description Id associated with the item
    */
-  public static final String getDescriptionId(final int itemId) {
-    return ItemDatabase.getDescriptionId(IntegerPool.get(itemId));
-  }
-
   public static final String getDescriptionId(final Integer itemId) {
     return ItemDatabase.descriptionById.get(itemId);
   }

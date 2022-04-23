@@ -1592,7 +1592,7 @@ public class GenericRequest implements Runnable {
           && (errorMessage.contains("GOAWAY")
               || errorMessage.contains("parser received no bytes"))) {
         ++this.timeoutCount;
-        if (this.timeoutCount < TIMEOUT_LIMIT) {
+        if (this.timeoutCount < TIMEOUT_LIMIT && this.retryOnTimeout()) {
           return this.sendRequest();
         }
       }

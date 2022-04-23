@@ -8,7 +8,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -379,25 +378,25 @@ public class HaciendaManager {
 
   private static final Object[][] RECORDINGS = {
     {
-      IntegerPool.get(EffectPool.THE_BALLAD_OF_RICHIE_THINGFINDER), "_thingfinderCasts",
+      EffectPool.THE_BALLAD_OF_RICHIE_THINGFINDER, "_thingfinderCasts",
     },
     {
-      IntegerPool.get(EffectPool.BENETTONS_MEDLEY_OF_DIVERSITY), "_benettonsCasts",
+      EffectPool.BENETTONS_MEDLEY_OF_DIVERSITY, "_benettonsCasts",
     },
     {
-      IntegerPool.get(EffectPool.ELRONS_EXPLOSIVE_ETUDE), "_elronsCasts",
+      EffectPool.ELRONS_EXPLOSIVE_ETUDE, "_elronsCasts",
     },
     {
-      IntegerPool.get(EffectPool.CHORALE_OF_COMPANIONSHIP), "_companionshipCasts",
+      EffectPool.CHORALE_OF_COMPANIONSHIP, "_companionshipCasts",
     },
     {
-      IntegerPool.get(EffectPool.PRELUDE_OF_PRECISION), "_precisionCasts",
+      EffectPool.PRELUDE_OF_PRECISION, "_precisionCasts",
     },
     {
-      IntegerPool.get(EffectPool.DONHOS_BUBBLY_BALLAD), "_donhosCasts",
+      EffectPool.DONHOS_BUBBLY_BALLAD, "_donhosCasts",
     },
     {
-      IntegerPool.get(EffectPool.INIGOS), "_inigosCasts",
+      EffectPool.INIGOS, "_inigosCasts",
     },
   };
 

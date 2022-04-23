@@ -18,7 +18,6 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -2146,7 +2145,7 @@ public class Parser {
         }
 
         if (currentInteger == null) {
-          currentInteger = IntegerPool.get(currentIndex);
+          currentInteger = currentIndex;
         }
 
         if (test instanceof Constant && ((Constant) test).value.getClass() == Value.class) {

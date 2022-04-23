@@ -30,7 +30,6 @@ import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
@@ -3392,7 +3391,7 @@ public class Modifiers {
             }
             mask |= emask;
           }
-          Modifiers.synergies.put(name, IntegerPool.get(mask));
+          Modifiers.synergies.put(name, mask);
         } else if (type.startsWith("Mutex")) {
           String[] pieces = name.split("/");
           if (pieces.length < 2) {

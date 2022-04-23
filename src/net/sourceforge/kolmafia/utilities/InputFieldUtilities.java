@@ -22,7 +22,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
@@ -305,7 +304,7 @@ public class InputFieldUtilities {
     }
 
     if (maximumValue == 1 && maximumValue == defaultValue) {
-      return IntegerPool.get(1);
+      return 1;
     }
 
     String currentValue =
@@ -316,15 +315,15 @@ public class InputFieldUtilities {
     }
 
     if (currentValue.equals("*")) {
-      return IntegerPool.get(maximumValue);
+      return maximumValue;
     }
 
     int desiredValue = StringUtilities.parseIntInternal2(currentValue);
     if (desiredValue < 0) {
-      return IntegerPool.get(maximumValue - desiredValue);
+      return maximumValue - desiredValue;
     }
 
-    return IntegerPool.get(Math.min(desiredValue, maximumValue));
+    return Math.min(desiredValue, maximumValue);
   }
 
   public static boolean finalizeTable(final JTable table) {

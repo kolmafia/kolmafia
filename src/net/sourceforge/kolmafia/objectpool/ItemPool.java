@@ -1407,7 +1407,10 @@ public class ItemPool {
   public static final int TINY_FLY_GLASSES = 4566;
   public static final int LEGENDARY_BEAT = 4573;
   public static final int BUGGED_BEANIE = 4575;
+  public static final int BUGGED_BONNET = 4577;
+  public static final int BUGGED_MEAT_CLUB = 4578;
   public static final int BUGGED_POTION = 4579;
+  public static final int BUGGED_KNICKERBOCKERS = 4580;
   public static final int BUGGED_BAIO = 4581;
   public static final int PIXEL_WHIP = 4589;
   public static final int PIXEL_CHAIN_WHIP = 4590;
@@ -3544,7 +3547,7 @@ public class ItemPool {
         continue; // can't identify yet
       }
 
-      possible.add(IntegerPool.get(i | Math.min(count, 127) << 24));
+      possible.add(i | Math.min(count, 127) << 24);
     }
 
     int count = possible.size();

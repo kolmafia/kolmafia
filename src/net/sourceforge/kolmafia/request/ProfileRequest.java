@@ -12,7 +12,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -66,10 +65,10 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
 
     this.addFormField("who", this.playerId);
 
-    this.muscle = IntegerPool.get(0);
-    this.mysticism = IntegerPool.get(0);
-    this.moxie = IntegerPool.get(0);
-    this.karma = IntegerPool.get(0);
+    this.muscle = 0;
+    this.mysticism = 0;
+    this.moxie = 0;
+    this.karma = 0;
   }
 
   @Override
@@ -97,16 +96,16 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
 
     String token = st.nextToken();
 
-    this.playerLevel = IntegerPool.get(0);
+    this.playerLevel = 0;
     this.classType = "Recent Ascension";
-    this.currentMeat = IntegerPool.get(0);
-    this.ascensionCount = IntegerPool.get(0);
-    this.turnsPlayed = IntegerPool.get(0);
+    this.currentMeat = 0;
+    this.ascensionCount = 0;
+    this.turnsPlayed = 0;
     this.created = new Date();
     this.lastLogin = new Date();
     this.food = "none";
     this.drink = "none";
-    this.pvpRank = IntegerPool.get(0);
+    this.pvpRank = 0;
 
     if (cleanHTML.contains("\nClass:")) { // has custom title
       while (!st.nextToken().startsWith(" (#")) {}
@@ -117,13 +116,13 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
       //	Class:,	if neither of the above applies
       token = st.nextToken();
       if (token.startsWith("(Level")) {
-        this.playerLevel = IntegerPool.get(StringUtilities.parseInt(token.substring(6).trim()));
+        this.playerLevel = StringUtilities.parseInt(token.substring(6).trim());
       } else { // Must attempt to parse the level out of the custom title.
         // This is inherently inaccurate, since the title can contain other digits,
         // before, after, or adjacent to the level.
         Matcher m = ProfileRequest.NUMERIC_PATTERN.matcher(title);
         if (m.find() && m.group().length() < 5) {
-          this.playerLevel = IntegerPool.get(StringUtilities.parseInt(m.group()));
+          this.playerLevel = StringUtilities.parseInt(m.group());
         }
       }
 
@@ -142,7 +141,7 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
         token = st.nextToken();
       }
 
-      this.playerLevel = IntegerPool.get(StringUtilities.parseInt(token.substring(5).trim()));
+      this.playerLevel = StringUtilities.parseInt(token.substring(5).trim());
 
       token = st.nextToken();
       AscensionClass ascensionClass = AscensionClass.find(token.trim());
@@ -158,23 +157,23 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
 
     if (cleanHTML.contains("\nMeat:")) {
       while (!st.nextToken().startsWith("Meat")) {}
-      this.currentMeat = IntegerPool.get(StringUtilities.parseInt(st.nextToken().trim()));
+      this.currentMeat = StringUtilities.parseInt(st.nextToken().trim());
     }
 
     if (cleanHTML.contains("\nAscensions")) {
       while (!st.nextToken().startsWith("Ascensions")) {}
       st.nextToken();
-      this.ascensionCount = IntegerPool.get(StringUtilities.parseInt(st.nextToken().trim()));
+      this.ascensionCount = StringUtilities.parseInt(st.nextToken().trim());
     } else {
-      this.ascensionCount = IntegerPool.get(0);
+      this.ascensionCount = 0;
     }
 
     while (!st.nextToken().startsWith("Turns")) {}
-    this.turnsPlayed = IntegerPool.get(StringUtilities.parseInt(st.nextToken().trim()));
+    this.turnsPlayed = StringUtilities.parseInt(st.nextToken().trim());
 
     if (cleanHTML.contains("\nAscensions")) {
       while (!st.nextToken().startsWith("Turns")) {}
-      this.currentRun = IntegerPool.get(StringUtilities.parseInt(st.nextToken().trim()));
+      this.currentRun = StringUtilities.parseInt(st.nextToken().trim());
     } else {
       this.currentRun = this.turnsPlayed;
     }
@@ -215,9 +214,9 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
 
     if (cleanHTML.contains("\nFame")) {
       while (!st.nextToken().startsWith("Fame")) {}
-      this.pvpRank = IntegerPool.get(StringUtilities.parseInt(st.nextToken().trim()));
+      this.pvpRank = StringUtilities.parseInt(st.nextToken().trim());
     } else {
-      this.pvpRank = IntegerPool.get(0);
+      this.pvpRank = 0;
     }
 
     this.equipmentPower = 0;
@@ -281,7 +280,7 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
     // current player.
 
     if (playerLevel == null) {
-      instance.playerLevel = IntegerPool.get(0);
+      instance.playerLevel = 0;
     } else {
       instance.playerLevel = Integer.valueOf(playerLevel);
     }
@@ -297,12 +296,12 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
     // row of the detail roster table.
 
     if (rosterRow == null) {
-      instance.muscle = IntegerPool.get(0);
-      instance.mysticism = IntegerPool.get(0);
-      instance.moxie = IntegerPool.get(0);
+      instance.muscle = 0;
+      instance.mysticism = 0;
+      instance.moxie = 0;
 
       instance.rank = "";
-      instance.karma = IntegerPool.get(0);
+      instance.karma = 0;
     } else {
       Matcher dataMatcher = ProfileRequest.DATA_PATTERN.matcher(rosterRow);
 
@@ -321,13 +320,13 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
       // the next three fields of the table.
 
       dataMatcher.find();
-      instance.muscle = IntegerPool.get(StringUtilities.parseInt(dataMatcher.group(1)));
+      instance.muscle = StringUtilities.parseInt(dataMatcher.group(1));
 
       dataMatcher.find();
-      instance.mysticism = IntegerPool.get(StringUtilities.parseInt(dataMatcher.group(1)));
+      instance.mysticism = StringUtilities.parseInt(dataMatcher.group(1));
 
       dataMatcher.find();
-      instance.moxie = IntegerPool.get(StringUtilities.parseInt(dataMatcher.group(1)));
+      instance.moxie = StringUtilities.parseInt(dataMatcher.group(1));
 
       // The next field contains the total power,
       // and since this is calculated, it can be
@@ -353,7 +352,7 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
       // accumulated by this player.
 
       dataMatcher.find();
-      instance.karma = IntegerPool.get(StringUtilities.parseInt(dataMatcher.group(1)));
+      instance.karma = StringUtilities.parseInt(dataMatcher.group(1));
     }
 
     return instance;
@@ -479,13 +478,12 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
 
   public Integer getPower() {
     this.initialize();
-    return IntegerPool.get(
-        this.muscle.intValue() + this.mysticism.intValue() + this.moxie.intValue());
+    return this.muscle.intValue() + this.mysticism.intValue() + this.moxie.intValue();
   }
 
   public Integer getEquipmentPower() {
     this.initialize();
-    return IntegerPool.get(this.equipmentPower);
+    return this.equipmentPower;
   }
 
   public String getTitle() {

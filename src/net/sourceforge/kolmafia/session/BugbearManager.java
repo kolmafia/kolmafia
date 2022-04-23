@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.session;
 
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EncounterManager.Encounter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -23,79 +22,52 @@ public class BugbearManager {
 
   public static final Object[][] BUGBEAR_DATA = {
     {
-      "Medbay",
-      IntegerPool.get(1),
-      "hypodermic bugbear",
-      "The Spooky Forest",
-      IntegerPool.get(1),
-      "statusMedbay",
+      "Medbay", 1, "hypodermic bugbear", "The Spooky Forest", 1, "statusMedbay",
     },
     {
       "Waste Processing",
-      IntegerPool.get(2),
+      2,
       "scavenger bugbear",
       "The Sleazy Back Alley",
-      IntegerPool.get(1),
+      1,
       "statusWasteProcessing",
     },
     {
-      "Sonar",
-      IntegerPool.get(3),
-      "batbugbear",
-      "Guano Junction",
-      IntegerPool.get(1),
-      "statusSonar",
+      "Sonar", 3, "batbugbear", "Guano Junction", 1, "statusSonar",
     },
-    {
-      "Science Lab",
-      IntegerPool.get(4),
-      "bugbear scientist",
-      "Cobb's Knob Laboratory",
-      IntegerPool.get(2),
-      "statusScienceLab"
-    },
+    {"Science Lab", 4, "bugbear scientist", "Cobb's Knob Laboratory", 2, "statusScienceLab"},
     {
       "Morgue",
-      IntegerPool.get(5),
+      5,
       "bugaboo",
       new String[] {
         "The Defiled Nook", "Post-Cyrpt Cemetary",
       },
-      IntegerPool.get(2),
+      2,
       "statusMorgue",
     },
     {
-      "Special Ops",
-      IntegerPool.get(6),
-      "black ops bugbear",
-      "Lair of the Ninja Snowmen",
-      IntegerPool.get(2),
-      "statusSpecialOps",
+      "Special Ops", 6, "black ops bugbear", "Lair of the Ninja Snowmen", 2, "statusSpecialOps",
     },
     {
       "Engineering",
-      IntegerPool.get(7),
+      7,
       "battlesuit bugbear type",
       "The Penultimate Fantasy Airship",
-      IntegerPool.get(3),
+      3,
       "statusEngineering",
     },
     {
-      "Navigation",
-      IntegerPool.get(8),
-      "ancient unspeakable bugbear",
-      "The Haunted Gallery",
-      IntegerPool.get(3),
-      "statusNavigation",
+      "Navigation", 8, "ancient unspeakable bugbear", "The Haunted Gallery", 3, "statusNavigation",
     },
     {
       "Galley",
-      IntegerPool.get(9),
+      9,
       "trendy bugbear chef",
       new String[] {
         "The Battlefield (Frat Uniform)", "The Battlefield (Hippy Uniform)",
       },
-      IntegerPool.get(3),
+      3,
       "statusGalley",
     }
   };

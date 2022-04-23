@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -27,9 +26,9 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
 
     {
       "Vampieroghi",
-      IntegerPool.get(1),
+      1,
       "pastaThrall1",
-      IntegerPool.get(SkillPool.BIND_VAMPIEROGHI),
+      SkillPool.BIND_VAMPIEROGHI,
       // My name is written in blood across the history of
       // time . . . but you can call me <name>.
       Pattern.compile("but you can call me ([^.]*)\\."),
@@ -45,9 +44,9 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     },
     {
       "Vermincelli",
-      IntegerPool.get(2),
+      2,
       "pastaThrall2",
-      IntegerPool.get(SkillPool.BIND_VERMINCELLI),
+      SkillPool.BIND_VERMINCELLI,
       // I think little <name> will be the best helper.
       Pattern.compile("I think little (.*?) will be the best helper\\."),
       // You summon a tangled mass of noodles. There is a
@@ -63,9 +62,9 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     },
     {
       "Angel Hair Wisp",
-      IntegerPool.get(3),
+      3,
       "pastaThrall3",
-      IntegerPool.get(SkillPool.BIND_ANGEL_HAIR_WISP),
+      SkillPool.BIND_ANGEL_HAIR_WISP,
       // "You must call me <name>. You must give me form. I
       // must live."
       Pattern.compile("You must call me ([^.]*])\\."),
@@ -82,9 +81,9 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     },
     {
       "Elbow Macaroni",
-      IntegerPool.get(4),
+      4,
       "pastaThrall4",
-      IntegerPool.get(SkillPool.BIND_UNDEAD_ELBOW_MACARONI),
+      SkillPool.BIND_UNDEAD_ELBOW_MACARONI,
       // "<name>. My name is <name>."
       Pattern.compile("My name is ([^.]*)\\."),
       // You focus your thoughts and call out to <name>. He
@@ -100,9 +99,9 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     },
     {
       "Penne Dreadful",
-      IntegerPool.get(5),
+      5,
       "pastaThrall5",
-      IntegerPool.get(SkillPool.BIND_PENNE_DREADFUL),
+      SkillPool.BIND_PENNE_DREADFUL,
       // "All right, palookah," the private eye says, opening
       // his mouth for the first time, "the name's
       // <name>. I'm a gumshoe. You know, a shamus, a
@@ -121,9 +120,9 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     },
     {
       "Lasagmbie",
-      IntegerPool.get(6),
+      6,
       "pastaThrall6",
-      IntegerPool.get(SkillPool.BIND_LASAGMBIE),
+      SkillPool.BIND_LASAGMBIE,
       // Okay. See you on the other side, <name>.
       Pattern.compile("See you on the other side, (.*?)\\."),
       // You conjure up a good-sized sheet of lasagna, and
@@ -138,9 +137,9 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     },
     {
       "Spice Ghost",
-      IntegerPool.get(7),
+      7,
       "pastaThrall7",
-      IntegerPool.get(SkillPool.BIND_SPICE_GHOST),
+      SkillPool.BIND_SPICE_GHOST,
       // My name is <name>, and I am in your debt.
       Pattern.compile("My name is ([^,]*), and I am in your debt\\."),
       // You conjure up a swirling cloud of spicy dried
@@ -156,9 +155,9 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     },
     {
       "Spaghetti Elemental",
-      IntegerPool.get(8),
+      8,
       "pastaThrall8",
-      IntegerPool.get(SkillPool.BIND_SPAGHETTI_ELEMENTAL),
+      SkillPool.BIND_SPAGHETTI_ELEMENTAL,
       // "I guess you need a name, huh?" you reply. "I'll
       // call you... um... SshoKodo. That'll do."
       Pattern.compile("I'll call you... *um... *([^.]*). * That'll do."),
@@ -178,7 +177,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     /*
     {
       "Boba Fettucini",
-      IntegerPool.get( ItemPool.TWITCHING_TRIGGER_FINGER ),
+      ItemPool.TWITCHING_TRIGGER_FINGER,
       // You decide to name it <name>.
       Pattern.compile( "You decide to name it ([^.]*)\\." ),
       // <i>pew pew pew!&quot;</i> <name> shouts excitedly,
@@ -189,7 +188,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
     },
     {
       "Bow Tie Bat",
-      IntegerPool.get( ItemPool.SMOKING_TALON ),
+      ItemPool.SMOKING_TALON,
       // Ugh. I'll take that guano as a yes? You'll need a
       // name. Let's call you..." You glance around, hoping
       // for some inspiration. "How about... <name>."

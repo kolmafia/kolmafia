@@ -1,10 +1,11 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.HashMap;
+import java.util.Map;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -14,31 +15,19 @@ public class SkeletonCommand extends AbstractCommand {
     this.usage = " warrior | cleric | wizard | rogue | buddy";
   }
 
-  public static final int WARRIOR = 1;
-  public static final int CLERIC = 2;
-  public static final int WIZARD = 3;
-  public static final int ROGUE = 4;
-  public static final int BUDDY = 5;
-
-  public static final Object[][] SKELETONS =
-      new Object[][] {
-        {"warrior", IntegerPool.get(WARRIOR)},
-        {"cleric", IntegerPool.get(CLERIC)},
-        {"wizard", IntegerPool.get(WIZARD)},
-        {"rogue", IntegerPool.get(ROGUE)},
-        {"buddy", IntegerPool.get(BUDDY)},
+  private static final Map<String, Integer> skeletons =
+      new HashMap<>() {
+        {
+          put("warrior", 1);
+          put("cleric", 2);
+          put("wizard", 3);
+          put("rogue", 4);
+          put("buddy", 5);
+        }
       };
 
-  public static final int findSkeleton(final String name) {
-    for (int i = 0; i < SKELETONS.length; ++i) {
-      String skeleton = (String) SKELETONS[i][0];
-      if (name.equals(skeleton)) {
-        Integer index = (Integer) SKELETONS[i][1];
-        return index.intValue();
-      }
-    }
-
-    return 0;
+  public static int findSkeleton(final String name) {
+    return skeletons.getOrDefault(name, 0);
   }
 
   @Override
