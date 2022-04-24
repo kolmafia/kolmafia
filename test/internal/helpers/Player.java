@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -63,6 +64,13 @@ public class Player {
     int itemId = ItemDatabase.getItemId(name, count, false);
     AdventureResult item = ItemPool.get(itemId, count);
     return addToList(item, KoLConstants.closet);
+  }
+
+  public static Cleanups addItemToStash(String name) {
+    int count = 1;
+    int itemId = ItemDatabase.getItemId(name, count, false);
+    AdventureResult item = ItemPool.get(itemId, count);
+    return addToList(item, ClanManager.getStash());
   }
 
   private static Cleanups addToList(AdventureResult item, List<AdventureResult> list) {
