@@ -36,8 +36,7 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
         final String level1Power,
         final String level5Power,
         final String level10Power,
-        final String canonicalName)
-    {
+        final String canonicalName) {
       this.name = name;
       this.id = id;
       this.settingName = settingName;
@@ -54,155 +53,147 @@ public class PastaThrallData implements Comparable<PastaThrallData> {
   }
 
   public static final PastaThrallType[] PASTA_THRALLS = {
-      new PastaThrallType(
-          "Vampieroghi",
-          1,
-          "pastaThrall1",
-          SkillPool.BIND_VAMPIEROGHI,
-          // My name is written in blood across the history of
-          // time . . . but you can call me <name>.
-          Pattern.compile("but you can call me ([^.]*)\\."),
-          // You conjure a pieroghi, and there is a hiss as it
-          // becomes inflated with <name>'s presence.
-          Pattern.compile("inflated with ([^']*)'s presence"),
-          "vampieroghi.gif",
-          "t_vampieroghi.gif",
-          "Damage and restore HP during combat",
-          "Dispel negative effects after combat",
-          "Maximum HP: +60",
-          StringUtilities.getCanonicalName("Vampieroghi")
-      ),
-      new PastaThrallType(
-          "Vermincelli",
-          2,
-          "pastaThrall2",
-          SkillPool.BIND_VERMINCELLI,
-          // I think little <name> will be the best helper.
-          Pattern.compile("I think little (.*?) will be the best helper\\."),
-          // You summon a tangled mass of noodles. There is a
-          // rustling sound as <name> chews his way into the
-          // world to occupy his new body.
-          Pattern.compile("rustling sound as (.*?) chews his way into the world"),
-          "vermincelli.gif",
-          "t_vermincelli.gif",
-          "Damage and restore MP during combat",
-          "Attack and poison foe during combat",
-          "Maximum MP: +30",
-          StringUtilities.getCanonicalName("Vermincelli")
-      ),
-      new PastaThrallType(
-          "Angel Hair Wisp",
-          3,
-          "pastaThrall3",
-          SkillPool.BIND_ANGEL_HAIR_WISP,
-          // "You must call me <name>. You must give me form. I
-          // must live."
-          Pattern.compile("You must call me ([^.]*])\\."),
-          // You concentrate, and summon a mass of writhing angel
-          // hair. A chill perm eates the air as <name>'s spirit
-          // enters it. "I live..."
-          Pattern.compile("A chill perm ?eates the air as (.*?)'s spirit enters it\\."),
-          "angelwisp.gif",
-          "t_wisp.gif",
-          "Initiative: +5 per level",
-          "Prevent enemy critical hits",
-          "Blocks enemy attacks",
-          StringUtilities.getCanonicalName("Angel Hair Wisp")
-      ),
-      new PastaThrallType(
-          "Elbow Macaroni",
-          4,
-          "pastaThrall4",
-          SkillPool.BIND_UNDEAD_ELBOW_MACARONI,
-          // "<name>. My name is <name>."
-          Pattern.compile("My name is ([^.]*)\\."),
-          // You focus your thoughts and call out to <name>. He
-          // claws his way up from beneath the ground at your
-          // feet.
-          Pattern.compile("You focus your thoughts and call out to (.*?)\\."),
-          "macaroni.gif",
-          "t_elbowmac.gif",
-          "Muscle can't be lower than Mysticality",
-          "Weapon Damage: +2 per level",
-          "Critical Hit Percentage: +10",
-          StringUtilities.getCanonicalName("Elbow Macaroni")
-      ),
-      new PastaThrallType(
-          "Penne Dreadful",
-          5,
-          "pastaThrall5",
-          SkillPool.BIND_PENNE_DREADFUL,
-          // "All right, palookah," the private eye says, opening
-          // his mouth for the first time, "the name's
-          // <name>. I'm a gumshoe. You know, a shamus, a
-          // flatfoot, a sleuth.
-          Pattern.compile("the name's ([^.]*)\\."),
-          // You calm your mind, and imagine a skeletal assembly
-          // of penne. A lone saxophone breaks the night's
-          // stillness as it appears and <name> possesses it.
-          Pattern.compile("it appears and (.*?) possesses it"),
-          "pennedreadful.gif",
-          "t_dreadful.gif",
-          "Moxie can't be lower than Mysticality",
-          "Delevel at start of combat",
-          "Damage Reduction: +10",
-          StringUtilities.getCanonicalName("Penne Dreadful")
-      ),
-      new PastaThrallType(
-          "Lasagmbie",
-          6,
-          "pastaThrall6",
-          SkillPool.BIND_LASAGMBIE,
-          // Okay. See you on the other side, <name>.
-          Pattern.compile("See you on the other side, (.*?)\\."),
-          // You conjure up a good-sized sheet of lasagna, and
-          // there is a wet thud as <name>'s spirit lands in it.
-          Pattern.compile("a wet thud as ([^']*)'s spirit lands in it"),
-          "lasagmbie.gif",
-          "t_lasagmbie.gif",
-          "Meat Drop: +20 + 2 per level",
-          "Attacks for Spooky Damage",
-          "Spooky Spell Damage: +10",
-          StringUtilities.getCanonicalName("Lasagmbie")
-      ),
-      new PastaThrallType(
-          "Spice Ghost",
-          7,
-          "pastaThrall7",
-          SkillPool.BIND_SPICE_GHOST,
-          // My name is <name>, and I am in your debt.
-          Pattern.compile("My name is ([^,]*), and I am in your debt\\."),
-          // You conjure up a swirling cloud of spicy dried
-          // couscous, and there is a crackle of psychokinetic
-          // energy as <name> possesses it.
-          Pattern.compile("crackle of psychokinetic energy as (.*?) possesses it\\."),
-          "spiceghost.gif",
-          "t_spiceghost.gif",
-          "Item Drop: +10 + 1 per level",
-          "spice drop 10/day",
-          "Increases duration of Entangling Noodles",
-          StringUtilities.getCanonicalName("Spice Ghost")
-      ),
-      new PastaThrallType(
-          "Spaghetti Elemental",
-          8,
-          "pastaThrall8",
-          SkillPool.BIND_SPAGHETTI_ELEMENTAL,
-          // "I guess you need a name, huh?" you reply. "I'll
-          // call you... um... SshoKodo. That'll do."
-          Pattern.compile("I'll call you... *um... *([^.]*). * That'll do."),
-          // You close your eyes and reach out across the border
-          // between worlds, to the Elemental Plane of
-          // Spaghetti. Soon you feel a familiar presence, and
-          // pull SshoKodo into the material world.
-          Pattern.compile("and pull (.*?) into the material world\\."),
-          "spagelem1.gif",
-          "t_spagdemon.gif",
-          "Experience: 1-ceil(level/3)",
-          "Prevents first attack",
-          "Spell Damage: +5",
-          StringUtilities.getCanonicalName("Spaghetti Elemental")
-      ),
+    new PastaThrallType(
+        "Vampieroghi",
+        1,
+        "pastaThrall1",
+        SkillPool.BIND_VAMPIEROGHI,
+        // My name is written in blood across the history of
+        // time . . . but you can call me <name>.
+        Pattern.compile("but you can call me ([^.]*)\\."),
+        // You conjure a pieroghi, and there is a hiss as it
+        // becomes inflated with <name>'s presence.
+        Pattern.compile("inflated with ([^']*)'s presence"),
+        "vampieroghi.gif",
+        "t_vampieroghi.gif",
+        "Damage and restore HP during combat",
+        "Dispel negative effects after combat",
+        "Maximum HP: +60",
+        StringUtilities.getCanonicalName("Vampieroghi")),
+    new PastaThrallType(
+        "Vermincelli",
+        2,
+        "pastaThrall2",
+        SkillPool.BIND_VERMINCELLI,
+        // I think little <name> will be the best helper.
+        Pattern.compile("I think little (.*?) will be the best helper\\."),
+        // You summon a tangled mass of noodles. There is a
+        // rustling sound as <name> chews his way into the
+        // world to occupy his new body.
+        Pattern.compile("rustling sound as (.*?) chews his way into the world"),
+        "vermincelli.gif",
+        "t_vermincelli.gif",
+        "Damage and restore MP during combat",
+        "Attack and poison foe during combat",
+        "Maximum MP: +30",
+        StringUtilities.getCanonicalName("Vermincelli")),
+    new PastaThrallType(
+        "Angel Hair Wisp",
+        3,
+        "pastaThrall3",
+        SkillPool.BIND_ANGEL_HAIR_WISP,
+        // "You must call me <name>. You must give me form. I
+        // must live."
+        Pattern.compile("You must call me ([^.]*])\\."),
+        // You concentrate, and summon a mass of writhing angel
+        // hair. A chill perm eates the air as <name>'s spirit
+        // enters it. "I live..."
+        Pattern.compile("A chill perm ?eates the air as (.*?)'s spirit enters it\\."),
+        "angelwisp.gif",
+        "t_wisp.gif",
+        "Initiative: +5 per level",
+        "Prevent enemy critical hits",
+        "Blocks enemy attacks",
+        StringUtilities.getCanonicalName("Angel Hair Wisp")),
+    new PastaThrallType(
+        "Elbow Macaroni",
+        4,
+        "pastaThrall4",
+        SkillPool.BIND_UNDEAD_ELBOW_MACARONI,
+        // "<name>. My name is <name>."
+        Pattern.compile("My name is ([^.]*)\\."),
+        // You focus your thoughts and call out to <name>. He
+        // claws his way up from beneath the ground at your
+        // feet.
+        Pattern.compile("You focus your thoughts and call out to (.*?)\\."),
+        "macaroni.gif",
+        "t_elbowmac.gif",
+        "Muscle can't be lower than Mysticality",
+        "Weapon Damage: +2 per level",
+        "Critical Hit Percentage: +10",
+        StringUtilities.getCanonicalName("Elbow Macaroni")),
+    new PastaThrallType(
+        "Penne Dreadful",
+        5,
+        "pastaThrall5",
+        SkillPool.BIND_PENNE_DREADFUL,
+        // "All right, palookah," the private eye says, opening
+        // his mouth for the first time, "the name's
+        // <name>. I'm a gumshoe. You know, a shamus, a
+        // flatfoot, a sleuth.
+        Pattern.compile("the name's ([^.]*)\\."),
+        // You calm your mind, and imagine a skeletal assembly
+        // of penne. A lone saxophone breaks the night's
+        // stillness as it appears and <name> possesses it.
+        Pattern.compile("it appears and (.*?) possesses it"),
+        "pennedreadful.gif",
+        "t_dreadful.gif",
+        "Moxie can't be lower than Mysticality",
+        "Delevel at start of combat",
+        "Damage Reduction: +10",
+        StringUtilities.getCanonicalName("Penne Dreadful")),
+    new PastaThrallType(
+        "Lasagmbie",
+        6,
+        "pastaThrall6",
+        SkillPool.BIND_LASAGMBIE,
+        // Okay. See you on the other side, <name>.
+        Pattern.compile("See you on the other side, (.*?)\\."),
+        // You conjure up a good-sized sheet of lasagna, and
+        // there is a wet thud as <name>'s spirit lands in it.
+        Pattern.compile("a wet thud as ([^']*)'s spirit lands in it"),
+        "lasagmbie.gif",
+        "t_lasagmbie.gif",
+        "Meat Drop: +20 + 2 per level",
+        "Attacks for Spooky Damage",
+        "Spooky Spell Damage: +10",
+        StringUtilities.getCanonicalName("Lasagmbie")),
+    new PastaThrallType(
+        "Spice Ghost",
+        7,
+        "pastaThrall7",
+        SkillPool.BIND_SPICE_GHOST,
+        // My name is <name>, and I am in your debt.
+        Pattern.compile("My name is ([^,]*), and I am in your debt\\."),
+        // You conjure up a swirling cloud of spicy dried
+        // couscous, and there is a crackle of psychokinetic
+        // energy as <name> possesses it.
+        Pattern.compile("crackle of psychokinetic energy as (.*?) possesses it\\."),
+        "spiceghost.gif",
+        "t_spiceghost.gif",
+        "Item Drop: +10 + 1 per level",
+        "spice drop 10/day",
+        "Increases duration of Entangling Noodles",
+        StringUtilities.getCanonicalName("Spice Ghost")),
+    new PastaThrallType(
+        "Spaghetti Elemental",
+        8,
+        "pastaThrall8",
+        SkillPool.BIND_SPAGHETTI_ELEMENTAL,
+        // "I guess you need a name, huh?" you reply. "I'll
+        // call you... um... SshoKodo. That'll do."
+        Pattern.compile("I'll call you... *um... *([^.]*). * That'll do."),
+        // You close your eyes and reach out across the border
+        // between worlds, to the Elemental Plane of
+        // Spaghetti. Soon you feel a familiar presence, and
+        // pull SshoKodo into the material world.
+        Pattern.compile("and pull (.*?) into the material world\\."),
+        "spagelem1.gif",
+        "t_spagdemon.gif",
+        "Experience: 1-ceil(level/3)",
+        "Prevents first attack",
+        "Spell Damage: +5",
+        StringUtilities.getCanonicalName("Spaghetti Elemental")),
   };
 
   public static final String[] THRALL_ARRAY = new String[PastaThrallData.PASTA_THRALLS.length];
