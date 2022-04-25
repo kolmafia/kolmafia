@@ -83,7 +83,7 @@ public class ClanStashRequest extends TransferItemRequest {
 
   @Override
   public boolean sendEmpty() {
-    return false;
+    return this.moveType == ClanStashRequest.REFRESH_ONLY;
   }
 
   @Override
