@@ -24,5 +24,4 @@ public class HttpClientWrapper {
     GenericRequest.resetClient();
     fakeClientBuilder.client.clear();
   }
-
 }

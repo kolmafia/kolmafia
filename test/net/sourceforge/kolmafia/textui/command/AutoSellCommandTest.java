@@ -9,14 +9,9 @@ import static org.hamcrest.Matchers.not;
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import internal.helpers.Player;
-import internal.network.FakeHttpClientBuilder;
 import internal.network.RequestBodyReader;
-import java.net.http.HttpRequest;
-import java.util.List;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -94,7 +94,11 @@ public class ZapCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void zapManyItems() {
-    var cleanups = new Cleanups(addItem("hexagonal wand"), addItem("bugbear beanie"), addItem("cursed swash buckle", 2));
+    var cleanups =
+        new Cleanups(
+            addItem("hexagonal wand"),
+            addItem("bugbear beanie"),
+            addItem("cursed swash buckle", 2));
 
     try (cleanups) {
       execute("1 bugbear beanie, 2 cursed swash buckle");
@@ -103,5 +107,4 @@ public class ZapCommandTest extends AbstractCommandTestBase {
     var requests = getRequests();
     assertThat(requests.size(), equalTo(3));
   }
-
 }
