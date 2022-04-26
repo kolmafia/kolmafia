@@ -7468,9 +7468,11 @@ public abstract class ChoiceManager {
         // The Fast and the Furry-ous
         result = new Object[4];
         result[0] =
-            KoLCharacter.hasEquipped(ItemPool.get(ItemPool.TITANIUM_UMBRELLA, 1))
+            KoLCharacter.hasEquipped(ItemPool.get(ItemPool.TITANIUM_UMBRELLA))
                 ? "open Ground Floor (titanium umbrella equipped)"
-                : "Neckbeard Choice (titanium umbrella not equipped)";
+                : KoLCharacter.hasEquipped(ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA))
+                    ? "open Ground Floor (unbreakable umbrella equipped)"
+                    : "Neckbeard Choice (titanium/unbreakable umbrella not equipped)";
         result[1] = "200 Moxie substats";
         result[2] = "";
         result[3] = "skip adventure and guarantees this adventure will reoccur";
