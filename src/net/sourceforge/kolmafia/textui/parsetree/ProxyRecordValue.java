@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
+import net.sourceforge.kolmafia.PastaThrallData.PastaThrallType;
 import net.sourceforge.kolmafia.PokefamData;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.persistence.*;
@@ -933,7 +934,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public int get_id() {
-      Object[] data = (Object[]) this.content;
+      PastaThrallType data = (PastaThrallType) this.content;
       return data == null ? 0 : PastaThrallData.dataToId(data);
     }
 
@@ -948,17 +949,17 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_image() {
-      Object[] data = (Object[]) this.content;
+      PastaThrallType data = (PastaThrallType) this.content;
       return data == null ? "" : PastaThrallData.dataToImage(data);
     }
 
     public String get_tinyimage() {
-      Object[] data = (Object[]) this.content;
+      PastaThrallType data = (PastaThrallType) this.content;
       return data == null ? "" : PastaThrallData.dataToTinyImage(data);
     }
 
     public Value get_skill() {
-      Object[] data = (Object[]) this.content;
+      PastaThrallType data = (PastaThrallType) this.content;
       return DataTypes.makeSkillValue(data == null ? 0 : PastaThrallData.dataToSkillId(data), true);
     }
 
