@@ -263,7 +263,8 @@ public class LoginManager {
     var version = Runtime.version();
     if (version.feature() < 17) {
       KoLmafia.updateDisplay("Java versions lower than 17 will stop being supported by KoLMafia.");
-      KoLmafia.updateDisplay("You are running a version of Java lower than 17. Visit https://adoptium.net/ to download a newer version of Java.");
+      KoLmafia.updateDisplay(
+          "You are running a version of Java lower than 17. Visit https://adoptium.net/ to download a newer version of Java.");
     }
   }
 }
