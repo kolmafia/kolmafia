@@ -7515,6 +7515,8 @@ public class FightRequest extends GenericRequest {
       return false;
     }
 
+    boolean retval = true;
+
     int evilness =
         text.contains("a single beep")
             ? 1
@@ -7534,9 +7536,14 @@ public class FightRequest extends GenericRequest {
       evilness++;
     }
 
+    // Casting Slay the Dead while wearing a Vampire Slicer trench code decreases evilness.
+    // Subsequent familiar actions and item drops appear in the same "p" node, for some reason.
+    // Therefore, return false to allow subsequent nodes to be processed.
+
     // You trench cape ripples as an evil draft blows and then quiets, it feels less evil in here!
     if (text.contains("an evil draft blows")) {
       evilness++;
+      retval = false;
     }
 
     // The evil of the nightmare fuel in your system is in a different phase
@@ -7557,7 +7564,7 @@ public class FightRequest extends GenericRequest {
     Preferences.decrement(setting, evilness, 0);
     Preferences.decrement("cyrptTotalEvilness", evilness, 0);
 
-    return true;
+    return retval;
   }
 
   private static String getEvilZoneSetting(final Function<String, Boolean> isLocation) {

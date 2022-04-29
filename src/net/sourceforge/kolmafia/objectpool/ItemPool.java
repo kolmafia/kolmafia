@@ -1126,6 +1126,7 @@ public class ItemPool {
   public static final int HALF_GUITAR = 3852;
   public static final int BASS_DRUM = 3853;
   public static final int SMALLEST_VIOLIN = 3855;
+  public static final int BONE_FLUTE = 3858;
   public static final int PLASTIC_GUITAR = 3863;
   public static final int FINGER_CYMBALS = 3864;
   public static final int KETTLE_DRUM = 3865;
