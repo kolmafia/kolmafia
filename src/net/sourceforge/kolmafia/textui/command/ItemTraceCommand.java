@@ -10,7 +10,8 @@ import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 
 public class ItemTraceCommand extends AbstractCommand {
-  private static final ArrayList<Listener> audience = new ArrayList<>(); // keeps listeners from being GC'd
+  private static final ArrayList<Listener> audience =
+      new ArrayList<>(); // keeps listeners from being GC'd
 
   public ItemTraceCommand() {
     this.usage = " <item> [, <item>]... - watch changes to inventory count of items";

@@ -37,5 +37,4 @@ public class ItemTraceCommandTest extends AbstractCommandTestBase {
 
     assertThat(output, containsString("Previously watched items have been cleared"));
   }
-
 }
