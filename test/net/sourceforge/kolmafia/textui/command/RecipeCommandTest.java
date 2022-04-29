@@ -36,22 +36,32 @@ public class RecipeCommandTest extends AbstractCommandTestBase {
   public void simpleRecipe() {
     String output = execute("one-winged stab bat");
 
-    assertThat(output, containsString("<b>one-winged stab bat</b>: <i>[Meatpasting]</i> batblade + bat wing"));
+    assertThat(
+        output,
+        containsString("<b>one-winged stab bat</b>: <i>[Meatpasting]</i> batblade + bat wing"));
   }
 
   @Test
   public void pizzaRecipe() {
     String output = execute("plain pizza");
 
-    assertThat(output, containsString("<b>plain pizza</b>: <i>[Cooking]</i> wad of dough + tomato<br>\u00a0\u00a0\u00a0<b>wad of dough</b>: <i>[rolling pin/unrolling pin]</i> flat dough<br>\u00a0\u00a0\u00a0<b>tomato</b>"));
+    assertThat(
+        output,
+        containsString(
+            "<b>plain pizza</b>: <i>[Cooking]</i> wad of dough + tomato<br>\u00a0\u00a0\u00a0<b>wad of dough</b>: <i>[rolling pin/unrolling pin]</i> flat dough<br>\u00a0\u00a0\u00a0<b>tomato</b>"));
   }
 
   @Test
   public void multipleRecursiveRecipes() {
     String output = execute("stick of firewood, bundle of firewood");
 
-    assertThat(output, containsString("1. <b>stick of firewood (10)</b>: <i>[single-use]</i> bundle of firewood"));
-    assertThat(output, containsString("2. <b>bundle of firewood</b>: <i>[Coin Master purchase]</i> stick of firewood (10)"));
+    assertThat(
+        output,
+        containsString("1. <b>stick of firewood (10)</b>: <i>[single-use]</i> bundle of firewood"));
+    assertThat(
+        output,
+        containsString(
+            "2. <b>bundle of firewood</b>: <i>[Coin Master purchase]</i> stick of firewood (10)"));
   }
 
   @Test

@@ -17,7 +17,9 @@ public class IngredientsCommandTest extends AbstractCommandTestBase {
   public void simpleIngredientsCase() {
     String output = execute("one-winged stab bat");
 
-    assertThat(output, containsString("<b>one-winged stab bat</b>: <i>bat wing (0/1)</i>, <i>batblade (0/1)</i>"));
+    assertThat(
+        output,
+        containsString("<b>one-winged stab bat</b>: <i>bat wing (0/1)</i>, <i>batblade (0/1)</i>"));
   }
 
   @Test
@@ -34,8 +36,11 @@ public class IngredientsCommandTest extends AbstractCommandTestBase {
   public void multipleRecursiveIngredients() {
     String output = execute("stick of firewood, bundle of firewood");
 
-    assertThat(output, containsString("1. <b>stick of firewood (10)</b>: <i>bundle of firewood (0/1)</i>"));
-    assertThat(output, containsString("2. <b>bundle of firewood</b>: <i>stick of firewood (0/10)</i>"));
+    assertThat(
+        output,
+        containsString("1. <b>stick of firewood (10)</b>: <i>bundle of firewood (0/1)</i>"));
+    assertThat(
+        output, containsString("2. <b>bundle of firewood</b>: <i>stick of firewood (0/10)</i>"));
   }
 
   @Test
@@ -44,5 +49,4 @@ public class IngredientsCommandTest extends AbstractCommandTestBase {
 
     assertThat(output, containsString("2. This item cannot be created: <b>wad of Crovacite</b>"));
   }
-
 }

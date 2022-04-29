@@ -38,7 +38,7 @@ public class RecipeCommand extends AbstractCommand {
       String name = item.getName();
       String startNumber = "";
       if (concoctions.length > 1) {
-        startNumber =  (i + 1) + ". ";
+        startNumber = (i + 1) + ". ";
       }
 
       if (ConcoctionDatabase.getMixingMethod(itemId) == CraftingType.NOCREATE) {
