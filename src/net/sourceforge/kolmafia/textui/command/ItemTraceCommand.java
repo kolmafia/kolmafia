@@ -10,7 +10,7 @@ import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 
 public class ItemTraceCommand extends AbstractCommand {
-  private static ArrayList<Listener> audience = null; // keeps listeners from being GC'd
+  private static final ArrayList<Listener> audience = new ArrayList<>(); // keeps listeners from being GC'd
 
   public ItemTraceCommand() {
     this.usage = " <item> [, <item>]... - watch changes to inventory count of items";
@@ -18,8 +18,8 @@ public class ItemTraceCommand extends AbstractCommand {
 
   @Override
   public synchronized void run(String command, final String parameters) {
-    if (audience != null) {
-      audience = null;
+    if (audience.size() != 0) {
+      audience.clear();
       RequestLogger.printLine("Previously watched items have been cleared.");
     }
 
@@ -27,8 +27,7 @@ public class ItemTraceCommand extends AbstractCommand {
       return;
     }
 
-    AdventureResult[] items = ItemFinder.getMatchingItemList(parameters, KoLConstants.inventory);
-    audience = new ArrayList<Listener>();
+    AdventureResult[] items = ItemFinder.getMatchingItemList(parameters);
     for (AdventureResult item : items) {
       audience.add(new ItemListener(item));
     }
