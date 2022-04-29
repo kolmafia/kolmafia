@@ -26,7 +26,7 @@ public class RecipeCommand extends AbstractCommand {
       return;
     }
 
-    StringBuffer buffer = new StringBuffer();
+    StringBuilder buffer = new StringBuilder();
 
     for (int i = 0; i < concoctions.length; ++i) {
       AdventureResult item = ItemFinder.getFirstMatchingItem(concoctions[i]);
@@ -58,7 +58,7 @@ public class RecipeCommand extends AbstractCommand {
     }
   }
 
-  private static void getIngredients(final AdventureResult ar, final StringBuffer sb) {
+  private static void getIngredients(final AdventureResult ar, final StringBuilder sb) {
     sb.append("<b>");
     sb.append(ar.getInstance(ConcoctionDatabase.getYield(ar.getItemId())).toString());
     sb.append("</b>: ");
@@ -82,7 +82,7 @@ public class RecipeCommand extends AbstractCommand {
       first = false;
 
       if (missing < 1) {
-        sb.append(ingredient.toString());
+        sb.append(ingredient);
         continue;
       }
 
@@ -99,8 +99,7 @@ public class RecipeCommand extends AbstractCommand {
   private static List<AdventureResult> getFlattenedIngredients(
       AdventureResult ar, List<AdventureResult> list, boolean deep) {
     AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(ar.getItemId());
-    for (int i = 0; i < ingredients.length; ++i) {
-      AdventureResult ingredient = ingredients[i];
+    for (AdventureResult ingredient : ingredients) {
       if (ConcoctionDatabase.getMixingMethod(ingredient.getItemId()) != CraftingType.NOCREATE) {
         int have = InventoryManager.getAccessibleCount(ingredient);
         if (!RecipeCommand.isRecursing(ar, ingredient) && (deep || have == 0)) {
@@ -125,8 +124,8 @@ public class RecipeCommand extends AbstractCommand {
     }
 
     AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(child.getItemId());
-    for (int i = 0; i < ingredients.length; ++i) {
-      if (ingredients[i].equals(parent)) {
+    for (AdventureResult ingredient : ingredients) {
+      if (ingredient.equals(parent)) {
         return true;
       }
     }
@@ -134,12 +133,10 @@ public class RecipeCommand extends AbstractCommand {
     return false;
   }
 
-  private static void getRecipe(final AdventureResult ar, final StringBuffer sb, final int depth) {
+  private static void getRecipe(final AdventureResult ar, final StringBuilder sb, final int depth) {
     if (depth > 0) {
       sb.append("<br>");
-      for (int i = 0; i < depth; i++) {
-        sb.append("\u00a0\u00a0\u00a0");
-      }
+      sb.append("\u00a0\u00a0\u00a0".repeat(depth));
     }
 
     int itemId = ar.getItemId();
@@ -164,8 +161,7 @@ public class RecipeCommand extends AbstractCommand {
         sb.append(ingredient.toString());
       }
 
-      for (int i = 0; i < ingredients.length; ++i) {
-        AdventureResult ingredient = ingredients[i];
+      for (AdventureResult ingredient : ingredients) {
         if (RecipeCommand.isRecursing(ar, ingredient)) {
           continue;
         }
