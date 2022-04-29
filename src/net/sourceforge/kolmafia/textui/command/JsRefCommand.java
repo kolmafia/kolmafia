@@ -27,6 +27,7 @@ public class JsRefCommand extends AbstractCommand {
     }
 
     if (type instanceof AggregateType) {
+      // FIXME: PluralValues are mapped to arrays, but there is no good way to distinguish them here
       if (((AggregateType) type).getSize() < 0) {
         return "{ ["
             + toObjectKeyType(((AggregateType) type).getIndexType())
