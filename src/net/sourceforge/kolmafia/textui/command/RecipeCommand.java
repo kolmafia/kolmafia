@@ -36,16 +36,19 @@ public class RecipeCommand extends AbstractCommand {
 
       int itemId = item.getItemId();
       String name = item.getName();
+      String startNumber = "";
+      if (concoctions.length > 1) {
+        startNumber =  (i + 1) + ". ";
+      }
 
       if (ConcoctionDatabase.getMixingMethod(itemId) == CraftingType.NOCREATE) {
-        RequestLogger.printLine("This item cannot be created: <b>" + name + "</b>");
+        RequestLogger.printLine(startNumber + "This item cannot be created: <b>" + name + "</b>");
         continue;
       }
 
       buffer.setLength(0);
       if (concoctions.length > 1) {
-        buffer.append((i + 1));
-        buffer.append(". ");
+        buffer.append(startNumber);
       }
 
       if (cmd.equals("ingredients")) {
@@ -148,7 +151,7 @@ public class RecipeCommand extends AbstractCommand {
     CraftingType mixingMethod = ConcoctionDatabase.getMixingMethod(itemId);
     EnumSet<CraftingRequirements> requirements = ConcoctionDatabase.getRequirements(itemId);
     if (mixingMethod != CraftingType.NOCREATE) {
-      sb.append("<b>:</b> <i>[");
+      sb.append(": <i>[");
       sb.append(ConcoctionDatabase.mixingMethodDescription(mixingMethod, requirements));
       sb.append("]</i> ");
 
