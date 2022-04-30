@@ -16,6 +16,21 @@ public class ItemTraceCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
+  public void doesNotTraceFakeItems() {
+    execute("beefy nigiri");
+
+    RequestLoggerOutput.startStream();
+    Cleanups cleanups = Player.addItem("beefy nigiri");
+    try (cleanups) {
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(text, not(containsString("itrace")));
+    }
+
+    String output = execute("");
+    assertThat(output, containsString("Previously watched items have been cleared"));
+  }
+
+  @Test
   public void tracesItemsAddedToInventory() {
     execute("hair spray");
 
