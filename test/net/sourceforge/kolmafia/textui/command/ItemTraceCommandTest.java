@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.StringContains.containsString;
 
 import internal.helpers.Cleanups;
@@ -32,5 +33,12 @@ public class ItemTraceCommandTest extends AbstractCommandTestBase {
     String output = execute("");
 
     assertThat(output, containsString("Previously watched items have been cleared"));
+
+    RequestLoggerOutput.startStream();
+    Cleanups cleanups = Player.addItem("hair spray");
+    try (cleanups) {
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(text, not(containsString("itrace")));
+    }
   }
 }
