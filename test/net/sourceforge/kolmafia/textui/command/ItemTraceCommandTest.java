@@ -5,9 +5,7 @@ import static org.hamcrest.core.StringContains.containsString;
 
 import internal.helpers.Cleanups;
 import internal.helpers.Player;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import net.sourceforge.kolmafia.RequestLogger;
+import internal.helpers.RequestLoggerOutput;
 import org.junit.jupiter.api.Test;
 
 public class ItemTraceCommandTest extends AbstractCommandTestBase {
@@ -20,12 +18,10 @@ public class ItemTraceCommandTest extends AbstractCommandTestBase {
   public void tracesItemsAddedToInventory() {
     execute("hair spray");
 
-    var outputStream = new ByteArrayOutputStream();
-    RequestLogger.openCustom(new PrintStream(outputStream));
+    RequestLoggerOutput.startStream();
     Cleanups cleanups = Player.addItem("hair spray");
     try (cleanups) {
-      RequestLogger.closeCustom();
-      var text = outputStream.toString();
+      var text = RequestLoggerOutput.stopStream();
       assertThat(text, containsString("itrace: hair spray = 1"));
     }
   }
