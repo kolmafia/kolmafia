@@ -4,17 +4,19 @@ public class ItemListenerRegistry extends ListenerRegistry {
   // The registry of listeners:
   private static final ListenerRegistry INSTANCE = new ListenerRegistry();
 
-  public static final void registerItemListener(final int itemId, final Listener listener) {
+  public static void registerItemListener(final int itemId, final Listener listener) {
     if (itemId < 1) {
       return;
     }
 
-    Integer key = itemId;
-    ItemListenerRegistry.INSTANCE.registerListener(key, listener);
+    ItemListenerRegistry.INSTANCE.registerListener(itemId, listener);
   }
 
-  public static final void fireItemChanged(final int itemId) {
-    Integer key = itemId;
-    ItemListenerRegistry.INSTANCE.fireListener(key);
+  public static void unregisterItemListener(final int itemId, final Listener listener) {
+    ItemListenerRegistry.INSTANCE.unregisterListener(itemId, listener);
+  }
+
+  public static void fireItemChanged(final int itemId) {
+    ItemListenerRegistry.INSTANCE.fireListener(itemId);
   }
 }

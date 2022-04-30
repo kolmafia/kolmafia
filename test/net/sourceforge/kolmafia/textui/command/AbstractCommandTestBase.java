@@ -2,11 +2,9 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import internal.helpers.RequestLoggerOutput;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 public abstract class AbstractCommandTestBase {
@@ -17,14 +15,12 @@ public abstract class AbstractCommandTestBase {
   }
 
   public String execute(final String params, final boolean check) {
-    var outputStream = new ByteArrayOutputStream();
-    RequestLogger.openCustom(new PrintStream(outputStream));
+    RequestLoggerOutput.startStream();
     var cli = new KoLmafiaCLI(System.in);
     KoLmafiaCLI.isExecutingCheckOnlyCommand = check;
     cli.executeCommand(this.command, params);
     KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
-    RequestLogger.closeCustom();
-    return outputStream.toString();
+    return RequestLoggerOutput.stopStream();
   }
 
   public static void assertState(final MafiaState state) {

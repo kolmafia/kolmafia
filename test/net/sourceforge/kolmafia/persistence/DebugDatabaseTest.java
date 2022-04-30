@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.RequestLoggerOutput;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
@@ -438,13 +439,12 @@ public class DebugDatabaseTest {
 
   @Test
   public void itShouldFindSVNDuplicatesSimple() {
-    var outputStream = new ByteArrayOutputStream();
-    RequestLogger.openCustom(new PrintStream(outputStream));
+    RequestLoggerOutput.startStream();
     File svnRoot = mockSimpleSystem();
     DebugDatabase.checkLocalSVNRepository(svnRoot);
     String expected = "Found 1 repo files." + LS;
-    assertEquals(expected, outputStream.toString(), "Output off");
-    RequestLogger.closeCustom();
+    String output = RequestLoggerOutput.stopStream();
+    assertEquals(expected, output, "Output off");
   }
 
   private File mockSimpleSystem() {
@@ -457,13 +457,12 @@ public class DebugDatabaseTest {
 
   @Test
   public void itShouldFindSVNDuplicatesMoreComplex() {
-    var outputStream = new ByteArrayOutputStream();
-    RequestLogger.openCustom(new PrintStream(outputStream));
+    RequestLoggerOutput.startStream();
     File svnRoot = mockMoreComplexSystem();
     DebugDatabase.checkLocalSVNRepository(svnRoot);
     String expected = "Found 3 repo files." + LS;
-    assertEquals(expected, outputStream.toString(), "Output off");
-    RequestLogger.closeCustom();
+    String output = RequestLoggerOutput.stopStream();
+    assertEquals(expected, output, "Output off");
   }
 
   private File mockMoreComplexSystem() {
@@ -488,14 +487,13 @@ public class DebugDatabaseTest {
 
   @Test
   public void itShouldFindSVNDuplicatesWhenThereAreSome() {
-    var outputStream = new ByteArrayOutputStream();
-    RequestLogger.openCustom(new PrintStream(outputStream));
+    RequestLoggerOutput.startStream();
     File svnRoot = mockDupes();
     DebugDatabase.checkLocalSVNRepository(svnRoot);
     String expected =
         "Found 2 repo files." + LS + "***" + LS + "test.ash" + LS + "test.ash" + LS + "***" + LS;
-    assertEquals(expected, outputStream.toString(), "Output off");
-    RequestLogger.closeCustom();
+    String output = RequestLoggerOutput.stopStream();
+    assertEquals(expected, output, "Output off");
   }
 
   private File mockDupes() {
