@@ -17,5 +17,4 @@ public class RequestLoggerOutput {
     RequestLogger.closeCustom();
     return baos.toString();
   }
-
 }
