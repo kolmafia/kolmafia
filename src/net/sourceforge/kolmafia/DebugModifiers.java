@@ -12,7 +12,7 @@ public class DebugModifiers extends Modifiers {
   private static HashMap<Integer, String> wanted, adjustments;
   private static String currentType;
   private static String currentDesc;
-  private static StringBuffer buffer;
+  private static StringBuilder buffer;
 
   public static int setup(String parameters) {
     DebugModifiers.wanted = new HashMap<>();
@@ -26,7 +26,7 @@ public class DebugModifiers extends Modifiers {
     }
     DebugModifiers.currentType = "type";
     DebugModifiers.currentDesc = "source";
-    DebugModifiers.buffer = new StringBuffer("<table border=2>");
+    DebugModifiers.buffer = new StringBuilder("<table border=2>");
     return DebugModifiers.wanted.size();
   }
 
@@ -63,13 +63,12 @@ public class DebugModifiers extends Modifiers {
       return;
     }
 
-    String lookup = desc;
-    String type = null;
-    String name = null;
-    int ind = lookup.indexOf(":");
+    String type;
+    String name;
+    int ind = desc.indexOf(":");
     if (ind > 0) {
-      type = lookup.substring(0, ind);
-      name = lookup.replace(type + ":", "");
+      type = desc.substring(0, ind);
+      name = desc.replace(type + ":", "");
     } else {
       type = "";
       name = desc;
@@ -108,8 +107,8 @@ public class DebugModifiers extends Modifiers {
       Iterator<String> allmods = Modifiers.getAllModifiers();
       while (allmods.hasNext()) {
         String lookup = allmods.next();
-        String type = null;
-        String name = null;
+        String type;
+        String name;
         int ind = lookup.indexOf(":");
         if (ind > 0) {
           type = lookup.substring(0, ind);
@@ -201,10 +200,9 @@ public class DebugModifiers extends Modifiers {
 
     @Override
     public int compareTo(Change o) {
-      Change other = o;
-      if (this.value < other.value) return 1;
-      if (this.value > other.value) return -1;
-      return this.name.compareTo(other.name);
+      if (this.value < o.value) return 1;
+      if (this.value > o.value) return -1;
+      return this.name.compareTo(o.name);
     }
   }
 }
