@@ -7,12 +7,18 @@ import static org.hamcrest.core.StringContains.containsString;
 import internal.helpers.Cleanups;
 import internal.helpers.Player;
 import internal.helpers.RequestLoggerOutput;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 public class ItemTraceCommandTest extends AbstractCommandTestBase {
 
   public ItemTraceCommandTest() {
     this.command = "itrace";
+  }
+
+  @AfterEach
+  public void tearDown() {
+    execute("");
   }
 
   @Test
