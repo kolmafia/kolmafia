@@ -9,6 +9,7 @@ import internal.helpers.Player;
 import internal.helpers.RequestLoggerOutput;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,6 +23,11 @@ public class PrefTraceCommandTest extends AbstractCommandTestBase {
   public void setup() {
     KoLCharacter.reset("ptrace");
     Preferences.reset("ptrace");
+  }
+
+  @AfterEach
+  public void tearDown() {
+    execute("");
   }
 
   @Test
