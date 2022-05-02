@@ -1777,8 +1777,6 @@ public class Evaluator {
           bestUmbrella = state;
         }
       }
-
-
     }
 
     List<List<MaximizerSpeculation>> speculationList = new ArrayList<>(ranked.size());
