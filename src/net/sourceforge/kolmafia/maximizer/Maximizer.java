@@ -1597,6 +1597,7 @@ public class Maximizer {
         && !changeSnowSuit
         && !(changeRetroCape)
         && !(changeBackupCamera)
+        && !(changeUmbrella)
         && !(itemId == ItemPool.BROKEN_CHAMPAGNE
             && Preferences.getInteger("garbageChampagneCharge") == 0
             && !Preferences.getBoolean("_garbageItemChanged"))

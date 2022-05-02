@@ -2358,6 +2358,10 @@ public class Evaluator {
       spec.setBackupCamera(bestBackupCamera);
     }
 
+    if (spec.equipment[EquipmentManager.OFFHAND] == null) {
+      spec.setUnbreakableUmbrella(bestUmbrella);
+    }
+
     if (spec.equipment[EquipmentManager.FAMILIAR] == null) {
       spec.setSnowsuit(bestSnowsuit);
     }
