@@ -1187,8 +1187,8 @@ public abstract class InventoryManager {
       // ever greater than one of the items containing a TPS.
 
       if (itemId != ItemPool.PLASTIC_SWORD) {
-        price = mallPriceOnly ? 0 : InventoryManager.itemValue(item, exact);
-        price *= onhand;
+        AdventureResult instance = item.getInstance(onhand);
+        price = mallPriceOnly ? 0 : InventoryManager.itemValue(instance, exact);
       }
 
       needed -= onhand;
