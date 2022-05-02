@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
+import net.sourceforge.kolmafia.request.UmbrellaRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.textui.command.BackupCameraCommand;
@@ -66,6 +67,7 @@ public class Evaluator {
   private boolean snowsuitNeeded = false;
   private boolean retroCapeNeeded = false;
   private boolean backupCameraNeeded = false;
+  private boolean unbreakableUmbrellaNeeded = false;
 
   /** if slots[i] >= 0 then equipment of type i can be considered for maximization */
   private final int[] slots = new int[EquipmentManager.ALL_SLOTS];
@@ -1414,6 +1416,12 @@ public class Evaluator {
           this.backupCameraNeeded = true;
         }
 
+        if (id == ItemPool.UNBREAKABLE_UMBRELLA
+            && (this.slots[EquipmentManager.OFFHAND] + this.slots[EquipmentManager.FAMILIAR]
+                >= 0)) {
+          this.unbreakableUmbrellaNeeded = true;
+        }
+
         if (id == ItemPool.VAMPYRIC_CLOAKE) {
           mods = new Modifiers(mods);
           mods.applyVampyricCloakeModifiers();
@@ -1743,6 +1751,34 @@ public class Evaluator {
       }
     }
 
+    String bestUmbrella = null;
+
+    if (this.unbreakableUmbrellaNeeded) {
+      MaximizerSpeculation best = new MaximizerSpeculation();
+      CheckedItem unbreakableUmbrella =
+          new CheckedItem(ItemPool.UNBREAKABLE_UMBRELLA, equipScope, maxPrice, priceLevel);
+      best.attachment = unbreakableUmbrella;
+      bestUmbrella = Preferences.getString("umbrellaState");
+      best.equipment[EquipmentManager.OFFHAND] = unbreakableUmbrella;
+      best.setUnbreakableUmbrella(bestUmbrella);
+
+      for (UmbrellaRequest.Form x : UmbrellaRequest.Form.values()) {
+        String state = x.name;
+        if (state.equals(bestUmbrella)) {
+          continue;
+        }
+
+        MaximizerSpeculation spec = new MaximizerSpeculation();
+        spec.attachment = unbreakableUmbrella;
+        spec.equipment[EquipmentManager.OFFHAND] = unbreakableUmbrella;
+        spec.setUnbreakableUmbrella(state);
+        if (spec.compareTo(best) > 0) {
+          best = spec.clone();
+          bestUmbrella = state;
+        }
+      }
+    }
+
     List<List<MaximizerSpeculation>> speculationList = new ArrayList<>(ranked.size());
     for (int i = 0; i < ranked.size(); ++i) {
       speculationList.add(new ArrayList<MaximizerSpeculation>());
@@ -1821,6 +1857,10 @@ public class Evaluator {
         } else if (itemId == ItemPool.BACKUP_CAMERA) {
           if (bestBackupCamera != null) {
             spec.setBackupCamera(bestBackupCamera);
+          }
+        } else if (itemId == ItemPool.UNBREAKABLE_UMBRELLA) {
+          if (bestUmbrella != null) {
+            spec.setUnbreakableUmbrella(bestUmbrella);
           }
         } else if (itemId == ItemPool.COWBOY_BOOTS) {
           MaximizerSpeculation current = new MaximizerSpeculation();
@@ -2316,6 +2356,10 @@ public class Evaluator {
 
     if (spec.equipment[EquipmentManager.ACCESSORY3] == null) {
       spec.setBackupCamera(bestBackupCamera);
+    }
+
+    if (spec.equipment[EquipmentManager.OFFHAND] == null) {
+      spec.setUnbreakableUmbrella(bestUmbrella);
     }
 
     if (spec.equipment[EquipmentManager.FAMILIAR] == null) {

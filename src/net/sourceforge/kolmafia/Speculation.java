@@ -22,7 +22,14 @@ public class Speculation {
   public AdventureResult[] equipment;
   private final ArrayList<AdventureResult> effects;
   private FamiliarData familiar, enthroned, bjorned;
-  private String edPiece, snowsuit, custom, horsery, boomBox, retroCape, backupCamera;
+  private String edPiece,
+      snowsuit,
+      custom,
+      horsery,
+      boomBox,
+      retroCape,
+      backupCamera,
+      unbreakableUmbrella;
   protected boolean calculated = false;
   protected Modifiers mods;
 
@@ -58,6 +65,7 @@ public class Speculation {
             + " "
             + Preferences.getString("retroCapeWashingInstructions");
     this.backupCamera = Preferences.getString("backupCameraMode");
+    this.unbreakableUmbrella = Preferences.getString("umbrellaState");
   }
 
   public void setMindControlLevel(int MCD) {
@@ -86,6 +94,10 @@ public class Speculation {
 
   public void setBackupCamera(String backupCamera) {
     this.backupCamera = backupCamera;
+  }
+
+  public void setUnbreakableUmbrella(String unbreakableUmbrella) {
+    this.unbreakableUmbrella = unbreakableUmbrella;
   }
 
   public void setSnowsuit(String snowsuit) {
@@ -126,6 +138,10 @@ public class Speculation {
 
   public String getBackupCamera() {
     return this.backupCamera;
+  }
+
+  public String getUnbreakableUmbrella() {
+    return this.unbreakableUmbrella;
   }
 
   public String getSnowsuit() {
@@ -183,6 +199,7 @@ public class Speculation {
             this.boomBox,
             this.retroCape,
             this.backupCamera,
+            this.unbreakableUmbrella,
             true);
     this.calculated = true;
     return this.mods;
@@ -293,6 +310,18 @@ public class Speculation {
         }
         this.setBackupCamera(params);
         this.equip(EquipmentManager.ACCESSORY3, ItemPool.get(ItemPool.BACKUP_CAMERA));
+      } else if (cmd.equals("umbrella")) {
+        if (!params.equals("broken")
+            && !params.equals("forward-facing")
+            && !params.equals("bucket style")
+            && !params.equals("pitchfork style")
+            && !params.equals("constantly twirling")
+            && !params.equals("cocoon")) {
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR, "Unknown unbreakable umbrella setting:" + params);
+        }
+        this.setUnbreakableUmbrella(params);
+        this.equip(EquipmentManager.OFFHAND, ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA));
       } else if (cmd.equals("snowsuit")) {
         if (!params.equals("eyebrows")
             && !params.equals("smirk")
