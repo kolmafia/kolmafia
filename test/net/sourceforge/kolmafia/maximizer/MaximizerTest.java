@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -701,5 +702,13 @@ public class MaximizerTest {
         }
       }
     }
+  }
+
+  @Test
+  public void canFoldUmbrella() {
+    canUse("unbreakable umbrella");
+    Preferences.setString("umbrellaState", "cocoon");
+    assertTrue(maximize("Monster Level Percent"));
+    recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
   }
 }
