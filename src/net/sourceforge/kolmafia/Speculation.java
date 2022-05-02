@@ -317,7 +317,7 @@ public class Speculation {
             && !params.equals("pitchfork style")
             && !params.equals("constantly twirling")
             && !params.equals("cocoon")) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unkown unbreakable umbrella setting:" + params);
+          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown unbreakable umbrella setting:" + params);
         }
         this.setUnbreakableUmbrella(params);
         this.equip(EquipmentManager.OFFHAND, ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA));
