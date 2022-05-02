@@ -5543,7 +5543,7 @@ public abstract class KoLCharacter {
         case ItemPool.BACKUP_CAMERA:
           newModifiers.add(Modifiers.getModifiers("BackupCamera", backupCamera));
           break;
-        
+
         case ItemPool.UNBREAKABLE_UMBRELLA:
           newModifiers.add(Modifiers.getModifiers("UnbreakableUmbrella", unbreakableUmbrella));
           break;

@@ -247,6 +247,13 @@ public class GearChangeFrame extends GenericFrame {
               }
               break;
             }
+          case ItemPool.UNBREAKABLE_UMBRELLA:
+            {
+              newMods.add(
+                  Modifiers.getModifiers(
+                      "UnbreakableUmbrella", Preferences.getString("umbrellaState")));
+              break;
+            }
           case ItemPool.VAMPYRIC_CLOAKE:
             newMods.applyVampyricCloakeModifiers();
         }
