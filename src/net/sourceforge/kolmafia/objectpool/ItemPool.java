@@ -113,6 +113,7 @@ public class ItemPool {
   public static final int EYEPATCH = 224;
   public static final int PUNGENT_UNGUENT = 231;
   public static final int COCKTAIL_KIT = 236;
+  public static final int BOTTLE_OF_GIN = 237;
   public static final int GRAPEFRUIT = 243;
   public static final int TOMATO = 246;
   public static final int FERMENTING_POWDER = 247;
@@ -776,6 +777,7 @@ public class ItemPool {
   public static final int HAND_CARVED_BOKKEN = 2719;
   public static final int HAND_CARVED_BOW = 2720;
   public static final int HAND_CARVED_STAFF = 2721;
+  public static final int JUNIPER_BERRIES = 2726;
   public static final int PLUM_WINE = 2730;
   public static final int BUNCH_OF_SQUARE_GRAPES = 2733;
   public static final int STEEL_STOMACH = 2742;
@@ -2653,6 +2655,7 @@ public class ItemPool {
   public static final int TO_BUILD_AN_IGLOO = 8682;
   public static final int CHILL_OF_THE_WILD = 8683;
   public static final int COLD_FANG = 8684;
+  public static final int PERFECT_ICE_CUBE = 8686;
   public static final int COLD_WEATHER_BARTENDER_GUIDE = 8687;
   public static final int ICE_HOTEL_BELL = 8694;
   public static final int ANCIENT_MEDICINAL_HERBS = 8696;
@@ -2680,6 +2683,7 @@ public class ItemPool {
   public static final int VYKEA_DOWEL = 8728;
   public static final int VYKEA_HEX_KEY = 8729;
   public static final int VYKEA_INSTRUCTIONS = 8730;
+  public static final int PERFECT_NEGRONI = 8738;
   public static final int MACHINE_SNOWGLOBE = 8749;
   public static final int BACON = 8763;
   public static final int BUNDLE_OF_FRAGRANT_HERBS = 8777;
