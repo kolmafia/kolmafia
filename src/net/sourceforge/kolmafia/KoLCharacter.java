@@ -4896,6 +4896,7 @@ public abstract class KoLCharacter {
                 + " "
                 + Preferences.getString("retroCapeWashingInstructions"),
             Preferences.getString("backupCameraMode"),
+            Preferences.getString("umbrellaState"),
             false));
   }
 
@@ -4914,6 +4915,7 @@ public abstract class KoLCharacter {
       String boomBox,
       String retroCape,
       String backupCamera,
+      String unbreakableUmbrella,
       boolean speculation) {
     int taoFactor = KoLCharacter.hasSkill("Tao of the Terrapin") ? 2 : 1;
 
@@ -5006,6 +5008,7 @@ public abstract class KoLCharacter {
           snowsuit,
           retroCape,
           backupCamera,
+          unbreakableUmbrella,
           speculation,
           taoFactor);
     }
@@ -5409,6 +5412,7 @@ public abstract class KoLCharacter {
       String snowsuit,
       String retroCape,
       String backupCamera,
+      String unbreakableUmbrella,
       boolean speculation,
       int taoFactor) {
     if (item == null || item == EquipmentRequest.UNEQUIP) {
@@ -5538,6 +5542,10 @@ public abstract class KoLCharacter {
 
         case ItemPool.BACKUP_CAMERA:
           newModifiers.add(Modifiers.getModifiers("BackupCamera", backupCamera));
+          break;
+
+        case ItemPool.UNBREAKABLE_UMBRELLA:
+          newModifiers.add(Modifiers.getModifiers("UnbreakableUmbrella", unbreakableUmbrella));
           break;
 
         case ItemPool.SNOW_SUIT:
