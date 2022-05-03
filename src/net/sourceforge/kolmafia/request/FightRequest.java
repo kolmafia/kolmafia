@@ -916,9 +916,9 @@ public class FightRequest extends GenericRequest {
     MonsterData monster = MonsterStatusTracker.getLastMonster();
     String monsterName = monster != null ? monster.getName() : "";
 
-    // Always let the user see rare monsters
-
-    if (EncounterManager.isUltrarareMonster(monsterName)) {
+    // Let the user see rare monsters
+    if (EncounterManager.isUltrarareMonster(monsterName)
+        && Preferences.getBoolean("stopForUltraRare")) {
       KoLmafia.updateDisplay(MafiaState.ABORT, "You have encountered the " + this.encounter);
       FightRequest.nextAction = "abort";
       return;
