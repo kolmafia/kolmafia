@@ -9712,6 +9712,20 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("launches almost all of its body mass at your foe")) {
           // It resets the weight of the Grey Goose to 1 lb.
           KoLCharacter.getFamiliar().setExperience(0);
+
+          // Load the monsters that we've already reprocessed
+          String reprocessed = Preferences.getString("gooseReprocessed");
+
+          // If string isn't empty, append a comma
+          if (!reprocessed.isEmpty()) {
+            reprocessed += ",";
+          }
+
+          // Add the current monster to the monsters we've reprocessed
+          reprocessed += MonsterStatusTracker.getLastMonster().getId();
+
+          // Save the reprocessed monsters
+          Preferences.setString("gooseReprocessed", reprocessed);
         }
         break;
 
