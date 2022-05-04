@@ -1347,6 +1347,7 @@ user	statusWasteProcessing	0
 user	stenchAirportAlways	false
 user	stenchCursedMonster	
 user	stopForFixedWanderer	false
+user	stopForUltraRare	true
 user	streamCrossDefaultTarget	ProtonicBot
 user	styxPixieVisited	false
 user	sugarCounter4178	0
