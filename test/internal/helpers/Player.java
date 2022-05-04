@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -222,6 +223,12 @@ public class Player {
   public static Cleanups addCampgroundItem(int id) {
     CampgroundRequest.setCampgroundItem(id, 1);
     return new Cleanups(() -> CampgroundRequest.removeCampgroundItem(ItemPool.get(id, 1)));
+  }
+
+  public static Cleanups setProperty(String key, String value) {
+    var oldValue = Preferences.getString(key);
+    Preferences.setString(key, value);
+    return new Cleanups(() -> Preferences.setString(key, oldValue));
   }
 
   public static Cleanups setupFakeResponse(int code, String response) {
