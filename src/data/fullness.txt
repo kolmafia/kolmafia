@@ -6,8 +6,8 @@
 
 [experimental crimbo food]	3	1	EPIC	0	0	0	0	Random
 &quot;caramel&quot; orange	1	1	awesome	0	0	0	0	Unspaded
-&quot;meat&quot; stick	1	5	good	3	15-25	0	0	50 Empty Inside (+50 Food Drop, +50 Booze Drop)
-20-lb can of rice and beans	15	1	good	45	0	0	0 100 Stuffed (+100 HP)
+&quot;meat&quot; stick	1	5	good	3	15-25	0	0 50 Empty Inside (+50 Food Drop, +50 Booze Drop)
+20-lb can of rice and beans	15	1	good	45	0	0	0	100 Stuffed (+100 HP)
 3vi1 pr0n m4nic0tti	4	3	awesome	11-16	0	0	60-63	10 A Little Bit Evil (+2 ML)
 a dance upon the palate	1	1	crappy	2-4	2-20	2-20	2-20
 abominable snowcone	2	1	decent	2-5	5-15	5-15	5-15
