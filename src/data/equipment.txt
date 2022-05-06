@@ -176,6 +176,7 @@ hangman's hood	250	Mus: 200
 hardened slime hat	200	Mox: 200
 Hat O' Nine Tails	10	none
 hazmat helmet	200	Mox: 85
+headlamp	100	none
 heavy crown	110	Mox: 40
 Helm of the Scream Emperor	120	none
 helm of the white knight	60	Mox: 15
@@ -1606,6 +1607,7 @@ sugar shotgun	100	Mox: 0	1-handed pistol
 Super Crimboman Ultra Mega Hypersword	100	Mus: 35	2-handed sword
 Super Magic Power Sword X	100	Mus: 35	1-handed sword
 super-sweet boom box	200	Mox: 75	1-handed radio
+survival knife	30	Mus: 0	1-handed knife
 sweet ninja sword	20	Mus: 0	1-handed sword
 sword behind inappropriate prepositions	130	Mus: 45	2-handed sword
 Sword of Dark Omens	120	Mus: 0	1-handed sword
@@ -2281,6 +2283,7 @@ astral belt	50	none
 astral bracer	50	none
 astral mask	50	none
 astral ring	50	none
+atlas of local maps	0	none
 attorney's badge	170	Mys: 70
 backup camera	100	none
 baconstone bracelet	50	Mys: 10
@@ -2406,6 +2409,7 @@ copper ha'penny charrrm bracelet	190	Mys: 80
 corncob pipe	200	Mys: 200
 Counterclockwise Watch	200	none
 cozy scarf	50	none
+crank-powered radio on a lanyard	0	none
 CRIMBCO lanyard	0	none
 Crimbolex watch	200	Mys: 20
 Crimbomega drive chain	100	none
@@ -3449,6 +3453,7 @@ super-absorbent tarp	50	none
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	200	Mus: 85
 teddybear backpack	150	Mox: 75
 terra cotta train	120	Mys: 40
+thermal blanket	0	none
 Time Bandit Time Towel	10	none
 Time Cape	100	none
 Time Cloak	100	none

@@ -10924,3 +10924,20 @@
 10897
 10898	undamaged Unbreakable Umbrella	591888584	unbrella1.gif	usable	t	0
 10899	unbreakable umbrella	712482724	unbrella7.gif	offhand		0
+10900	MayDay&trade; contract	536141141	maydaycontract.gif	usable	t	0
+10901	MayDay&trade; supply package	553211944	maydaypackage.gif	usable	q	0
+10902	emergency glowstick	177725411	maydayglowstick.gif	potion, usable	t,d	10
+10903	survival knife	486525726	maydayknife.gif	weapon	q	0
+10904	crank-powered radio on a lanyard	165573911	maydayradio.gif	accessory	q	0
+10905	headlamp	847104238	maydayheadlamp.gif	hat	q	0
+10906	thermal blanket	341518349	maydayblanket.gif	container	q	0
+10907	atlas of local maps	489238716	maydayatlas.gif	accessory	q	0
+10908	spare battery	133495777	maydaybattery.gif	potion, usable	t,d	10
+10909	space blanket	459795439	maydayblanket2.gif	none	t,d	5000
+10910	single-use dust mask	181045054	maydaymask.gif	potion, usable	t,d	10
+10911	gaffer's tape	975019349	maydaytape.gif	potion, usable	t,d	10
+10912	20-lb can of rice and beans	612048631	maydaycan.gif	food	t,d	10
+10913	bar of freeze-dried water	860292955	maydaywater.gif	food	t,d	10
+10914	expired MRE	120160347	maydaymre.gif	food	t,d	10
+10915	cool mint precipice bar	646996512	maydaybar.gif	food	t,d	10
+10916	carrot cake precipice bar	709552696	maydaybar.gif	food	t,d	10

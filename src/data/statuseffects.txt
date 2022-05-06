@@ -2700,3 +2700,11 @@
 2699	Shifted Phase	goocon31.gif	ab69049d57f4169be06e7eede432c728	neutral	none	cast 1 Phase Shift
 2700	Hooooooooonk!	goocon32.gif	30aa72118d7cd78067cbbf56bc6ef240	neutral	none	cast 1 Piezoelectric Honk
 2701	Darkened Photons	goocon45.gif	7bb8929bf51b4629e9ccb113b3cdefff	neutral	none	cast 1 Photonic Shroud
+2703	Glowing Hands	maydayglowstick.gif	70f654ece069988c295d6c1e79737102	neutral	none	use 1 emergency glowstick
+2704	Tingly Tongue	maydaybattery.gif	3543e77d43816e573a802c5c68226f3d	neutral	none	use 1 spare battery
+2705	Temporarily Filtered	maydaymask.gif	3c274a686e3d4364c0ae2aed6f80c877	neutral	none	use 1 single-use dust mask
+2706	Gaffe Free	maydaytape.gif	af3ed07a138fe185660609606c1c2926	neutral	none	use 1 gaffer's tape
+2707	On the Minty Precipice	maydaybar.gif	6a543864b4bb1b558217729a507a4044	neutral	none	eat 1 cool mint precipice bar
+2708	On the Precipice of Carrots	maydaybar.gif	9b93c7a0436a4594d28bd8d03952cd13	neutral	none	eat 1 carrot cake precipice bar
+2709	Ready to Survive	maydaypackage.gif	e10348bbce52884781153e51f37ca337	neutral	none  use 1 MayDay&trade; supply package
+2710	Stuffed	maydaycan.gif	6e6cfdaf4191a47ecde914638c712803	neutral	none	eat 1 20-lb can of rice and beans
