@@ -12084,7 +12084,7 @@ BackupCamera	init	Initiative: 100
 
 # Unbreakable Umbrella
 UnbreakableUmbrella	broken	Monster Level Percent: 25
-UnbreakableUmbrella	forward-facing	Damage Resistance:25
+UnbreakableUmbrella	forward-facing	Damage Reduction: 25
 UnbreakableUmbrella	bucket style	Item Drop: 25
 UnbreakableUmbrella	pitchfork style	Weapon Damage: 25
 UnbreakableUmbrella	constantly twirling	Spell Damage: 25
