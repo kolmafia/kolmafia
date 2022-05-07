@@ -275,6 +275,7 @@ Item	Hat O' Nine Tails	Moxie Percent: +9
 # hazmat helmet: 75% Chance of Preventing Negative Status Attacks
 # hazmat helmet: Changes Your Avatar
 Item	hazmat helmet	Damage Absorption: +50, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 40, HP Regen Max: 60
+Item	headlamp	Item Drop: +15, Lasts Until Rollover
 Item	heavy crown	Muscle: +5, Mysticality: +5, Moxie: +5, Familiar Damage: +5, Initiative: +15, Familiar Effect: "atk, 1xGhuol, cap 27"
 Item	Helm of the Scream Emperor	MP Regen Min: 1, MP Regen Max: 3, Experience: +2, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Familiar Effect: "spooky atk, 1xFairy, cap 30"
 Item	helm of the white knight	HP Regen Min: 2, HP Regen Max: 5, MP Regen Min: 2, MP Regen Max: 5, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Familiar Effect: "atk, 1xVolley, cap 15"
@@ -1890,6 +1891,8 @@ Item	sugar shotgun	Weapon Damage Percent: +50, Breakable
 Item	Super Crimboman Ultra Mega Hypersword	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
 Item	Super Magic Power Sword X	Muscle: +4, Initiative: +20, Critical Hit Percent: +5
 Item	super-sweet boom box	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Four Songs
+# Item survival knife: Aids in desert exploration
+Item	survival knife	Muscle: +5, Mysticality: +5, Moxie: +5, Lasts Until Rollover
 # sweet ninja sword
 Item	sword behind inappropriate prepositions	Muscle: +7, Adventures: +5
 Item	Sword of Dark Omens	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Spell Damage Percent: +50, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
@@ -2689,6 +2692,7 @@ Item	astral belt	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +
 Item	astral bracer	Mysticality Percent: +25, Mana Cost (combat): -3, Adventures: +3
 Item	astral mask	Moxie Percent: +25, Item Drop: +20
 Item	astral ring	Mysticality Percent: +25, Spell Damage: +20, MP Regen Min: 4, MP Regen Max: 6
+Item	atlas of local maps	Combat Rate: -5, Lasts Until Rollover
 # attorney's badge: OBJECTION!
 Item	attorney's badge	Single Equip
 Item	backup camera	Maximum HP: +20, Maximum MP: +20, Single Equip
@@ -2835,6 +2839,7 @@ Item	copper ha'penny charrrm bracelet	Maximum HP: +20, Maximum MP: +20
 Item	corncob pipe	Muscle Percent: +10, Single Equip
 Item	Counterclockwise Watch	Adventures: +10, Single Equip, Nonstackable Watch
 Item	cozy scarf	Cold Resistance: +5
+Item	crank-powered radio on a lanyard	Monster Level: +15, Lasts Until Rollover
 # CRIMBCO lanyard: Lets you work harder!
 Item	CRIMBCO lanyard	Single Equip
 Item	Crimbolex watch	Adventures: +5, PvP Fights: +5, Rollover Effect: "Watched Over", Rollover Effect Duration: 100, Single Equip, Nonstackable Watch
@@ -4065,6 +4070,7 @@ Item	T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
 Item	teddybear backpack	Meat Drop: +10, Raveosity: +1
 # terra cotta train: Lets you unleash a terra cotta army on your foes
 Item	terra cotta train	Mysticality Percent: +20, Item Drop: +10
+Item	thermal blanket	Cold Resistance: +2, Spooky Resistance: +1, Combat Rate: +5, Lasts Until Rollover
 Item	Time Bandit Time Towel	Muscle: +5, Mysticality: +5, Moxie: +5, Adventures: +1
 Item	Time Cape	Item Drop: [25*zone(Twitch)]
 # Time Cloak: Sometimes Find an Extra Chroner in the Time-Twitching Tower
@@ -5885,6 +5891,7 @@ Effect	Furrier Than Thou	Cold Resistance: +5
 Effect	Fury of the Bells	Muscle Percent: +10
 Effect	Fustulent	Stench Damage: +15, Stench Spell Damage: +15
 Effect	Gabarding	Maximum HP: +10
+Effect	Gaffe Free	Moxie: +15, Moxie Percent: +50
 Effect	Gamer Rage	Weapon Damage Percent: +50, Spell Damage Percent: +50
 # Gar-ish: You love lasagna as much as you hate Mondays
 Effect	Gaze of the Gazelle	Spell Damage Percent: +200, Booze Drop: +60
@@ -5913,6 +5920,7 @@ Effect	Glorious Blessing of She-Who-Was	Mysticality: +15, Spooky Damage: +15
 Effect	Glorious Blessing of the Storm Tortoise	Initiative: +15, Maximum MP: +30
 Effect	Glorious Blessing of the War Snapper	Muscle: +15, Weapon Damage: +15
 Effect	Glowing Blue	MP Regen Min: 1000, MP Regen Max: 1000
+Effect	Glowing Hands	Item Drop: +25
 Effect	Gnawed-Off Arm	Muscle: -5
 Effect	Gnollivision	Avatar: "one-eyed Gnoll"
 Effect	Gnomedome	Avatar: "menacing lawn gnome"
@@ -6562,6 +6570,8 @@ Effect	On a Roll	Food Drop: +25
 Effect	On Pins and Needles	Initiative: +23
 Effect	On Smellier Tides	Stench Resistance: +1
 Effect	On the Homeo Path	Avatar: "War Hippy Homeopath"
+Effect	On the Minty Precipice	Experience: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
+Effect	On the Precipice of Carrots	Item Drop: +10, Meat Drop: +20, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Effect	On the Rocks	Cold Resistance: +3, Cold Damage: +30, Damage Reduction: 10
 Effect	On the Shoulders of Giants	Mysticality Percent: +200
 # On the Trail
@@ -6783,6 +6793,7 @@ Effect	Re-Possessed	Weapon Damage: +10, Damage Reduction: -2
 # Effect Ready to Eat: Your next meal is going to be SOOO satisfying
 Effect	Ready to Roll	Booze Drop: +100, Cold Damage: +25, Cold Spell Damage: +25
 Effect	Ready to Snap	Mysticality: +5, Experience (Mysticality): +1
+Effect	Ready to Survive	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1, Damage Reduction: 20, Weapon Damage: +10, Spell Damage: +10, Initiative: +100, Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Effect	Real Meat Craving	Meat Drop: +30
 Effect	Really Deep Breath	Adventure Underwater
 Effect	Really Quite Poisoned	Muscle Percent: -70, Mysticality Percent: -70, Moxie Percent: -70, Muscle: -9, Mysticality: -9, Moxie: -9
@@ -7179,6 +7190,7 @@ Effect	Strong Spirit	Muscle: +15
 Effect	Strongly Motivated	Muscle Percent: +200
 Effect	Stubblebum	Avatar: "cooler wino"
 # Stubbly Legs: <s>Love is a battlefield</s>Legs are a stubble field
+Effect	Stuffed	Maximum HP: +100
 Effect	Stuck That Way	Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5
 # Stuck-Up Hair: Damages Attacking Opponents
 Effect	Stumpy	Initiative: -50
@@ -7268,6 +7280,7 @@ Effect	Tea-hee	Experience: +5
 Effect	Tearful, Fearful	Item Drop: +30
 Effect	Techno Bliss	Item Drop: +10
 # Teleportitis: Your position seems uncertain...
+Effect	Temporarily Filtered	Stench Resistance: +5
 # Temporary Amnesia: Who am I?
 Effect	Temporary Blindness	Item Drop: -75, Moxie Percent: -25, Initiative: -30
 Effect	Temporary Lycanthropy	Muscle Percent: [B]
@@ -7399,6 +7412,7 @@ Effect	Tin, Man	Damage Reduction: 5
 Effect	Tingling Feeling	Meat Drop: +20, Item Drop: +10
 Effect	Tingly Biceps	Muscle: +5
 Effect	Tingly Elbows	Moxie: +5
+Effect	Tingly Tongue	MP Regen Min: 20, MP Regen Max: 30
 Effect	Tingly Wrists	Mysticality: +5
 # Tinnitus
 # Tiny Bubbles in the Cupcake: Recover HP and MP after battle
@@ -8447,6 +8461,7 @@ MaxCat	_smithsness	Meat Drop: +2, Item Drop: +1, Moxie Percent: +2, Mysticality 
 
 # &quot;caramel&quot; orange: Also gives 10 turns of a random beneficial effect
 Item	&quot;meat&quot; stick	Effect: "Empty Inside", Effect Duration: 50
+Item	20-lb can of rice and beans	Effect: "Stuffed", Effect Duration: 100
 Item	3vi1 pr0n m4nic0tti	Effect: "[599]A Little Bit Evil", Effect Duration: 10
 Item	Aldebaran sardines	Effect: "Fishy", Effect Duration: 60
 Item	amok pudding	Effect: "Puddingface", Effect Duration: 20
@@ -8457,6 +8472,7 @@ Item	bag of QWOP	Effect: "QWOPped Up", Effect Duration: 10
 # Baja sopapilla: NOTE: This item will stop working when Crimbo 2019 is over.
 # Baja sopapilla	Effect: "Baja, Humbug", Effect Duration: 30
 Item	baked stuffing	Effect: "Thanksgetting", Effect Duration: 20
+Item	bar of freeze-dried water	Effect: "Ultrahydrated", Effect Duration: 10
 Item	barrel cracker	Effect: "Shortened", Effect Duration: 40
 Item	barrel pickle	Effect: "Briny Blood", Effect Duration: 50
 Item	Bash-&#332;s cereal	Wiki Name: "Bash-Os cereal"
@@ -8504,6 +8520,7 @@ Item	candy carrot cake	Effect: "Improved Candy Vision", Effect Duration: 30
 Item	candy kneecapping stick	Effect: "Sugar Rush", Effect Duration: 5
 Item	candy mountain oyster	Effect: "Sugar Rush", Effect Duration: 10
 Item	carrot cake	Effect: "Pla-see-bo", Effect Duration: 10
+Item	carrot cake precipice bar	Effect: "On the Precipice of Carrots", Effect Duration: 30
 Item	centipede eggs	Effect: "Somewhat Poisoned", Effect Duration: 10
 Item	chaos popcorn	Effect Duration: 5
 Item	cheezburger	Effect: "Yes, Can Haz", Effect Duration: 50
@@ -8517,6 +8534,7 @@ Item	cookie cookie	Effect: "Cookie Backup", Effect Duration: 10
 Item	Cool Brunch Pastaco	Effect: "Gyromitra Gymnastics", Effect Duration: 40
 Item	cool cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 Item	cool jelly donut	Effect: "Filled with Magic", Effect Duration: 30
+Item	cool mint precipice bar	Effect: "On the Minty Precipice", Effect Duration: 30
 Item	cranberry cylinder	Effect: "Thanksgetting", Effect Duration: 20
 Item	Crimbo salad	Effect: "Salad Days", Effect Duration: 40
 Item	cup of lukewarm tea	Effect: "Jittery", Effect Duration: 20
@@ -8560,6 +8578,7 @@ Item	evil ravioli della hippy	Effect: "[599]A Little Bit Evil", Effect Duration:
 Item	evil spicy noodles	Effect: "[599]A Little Bit Evil", Effect Duration: 10
 Item	exotic jungle fruit	Effect: "Full of Fruit, Yourself", Effect Duration: 25
 Item	expired can of franks 'n' beans	Effect: "Crimbo Nostalgia", Effect Duration: 30
+# Item expired MRE gives 3 random effects
 Item	extra-toasted half sandwich	Effect: "Stop the Presses!", Effect Duration: 20
 Item	FDKOL hotcakes	Effect: "Hotcaked", Effect Duration: 50
 Item	festive sausage	Effect: "Sausage Festive", Effect Duration: 20
@@ -9519,6 +9538,7 @@ Item	Elizabeth's paintbrush	Effect: "Boschface", Effect Duration: 25
 Item	elven suicide capsule	Effect: "Sugar Rush", Effect Duration: 10
 Item	Elvish delight	Effect: "Cuts Like a Lightly-Buttered Knife", Effect Duration: 3
 Item	EMD holo-record	Effect: "Ministrations in the Dark", Effect Duration: 10
+Item	emergency glowstick	Effect: "Glowing Hands", Effect Duration: 20
 Item	ennui-flavored potato chips	Effect: "Also Schmeckt Zarathustra", Effect Duration: 10
 Item	essential cameraderie	Effect: "2 Hearts, 1 Mind", Effect Duration: 50
 Item	essential soy	Effect: "Electrolyte Fantastic", Effect Duration: 50
@@ -9592,6 +9612,7 @@ Item	future drug: Coolscaline	Effect: "The Style... of the Future", Effect Durat
 Item	future drug: Muscularactum	Effect: "The Strength...  of the Future", Effect Duration: 25
 Item	future drug: Smartinex	Effect: "The Wisdom... of the Future", Effect Duration: 25
 Item	Gabarbar	Effect: "Gabarding", Effect Duration: 25
+Item	gaffer's tape	Effect: "Gaffe Free", Effect Duration: 20
 Item	garbage-juice-flavored Hob-O	Effect: "Refuse Reflux", Effect Duration: 1
 Item	gazely stare	Effect: "The Eyes Have It", Effect Duration: 100
 Item	Gene Tonic: Beast	Effect: "Human-Beast Hybrid", Effect Duration: 30
@@ -10072,6 +10093,7 @@ Item	Shrubble Bubble	Effect: "Jawin'", Effect Duration: 10
 Item	silver face paint	Effect: "Robot Friends", Effect Duration: 1
 Item	single of Donho's Bubbly Ballad	Effect: "Donho's Bubbly Ballad", Effect Duration: 10
 Item	single of Inigo's Incantation of Inspiration	Effect: "Inigo's Incantation of Inspiration", Effect Duration: 10
+Item	single-use dust mask	Effect: "Temporarily Filtered", Effect Duration: 20
 Item	sizzling seal fat	Effect: "Sizzling with Fury", Effect Duration: 10
 Item	skin oil	Effect: "Oiled Skin", Effect Duration: 20
 Item	sleaze nuggets	Effect: "Sleazy Weapon", Effect Duration: 5
@@ -10088,6 +10110,7 @@ Item	sodium pentasomething	Effect: "Truthful", Effect Duration: 20
 Item	sorority brain	Effect: "Let's Go Shopping!", Effect Duration: 20
 Item	sour powder	Effect: "Puckered Up", Effect Duration: 5
 Item	Spant eggs	Effect: "Sugary World View", Effect Duration: 10
+Item	spare battery	Effect: "Tingly Tongue", Effect Duration: 20
 Item	sparkler	Effect: "Sparkling Consciousness", Effect Duration: 50
 Item	Spechunky bar	Effect: "Chunky", Effect Duration: 10
 Item	SPF 451 lip balm	Effect: "Fireproof Lips", Effect Duration: 10
@@ -11224,6 +11247,9 @@ Item	March hat	Free Pull
 # Massive Manual of Marauder Mockery: Makes marauder mockery mossible
 # mauve plastic oyster egg: Deals 40-50 Physical Damage
 Item	Maxing, Relaxing	Skill: "Maximum Chill"
+# Item MayDay&trade; contract: Survival supplies will be delivered to you each day
+Item	MayDay&trade; contract	Free Pull
+Item	MayDay&trade; supply package	Effect: "Ready to Survive", Effect Duration: 30
 # mayo lance: Unleash a torrent of inner mayonnaise.  The torrent will be yellow and ray-like.
 Item	mayo lance	Lasts Until Rollover
 # Mayo Minder&trade;: Makes it so packets of prescription mayonnaise are automatically consumed as you eat
@@ -12084,7 +12110,7 @@ BackupCamera	init	Initiative: 100
 
 # Unbreakable Umbrella
 UnbreakableUmbrella	broken	Monster Level Percent: 25
-UnbreakableUmbrella	forward-facing	Damage Resistance:25
+UnbreakableUmbrella	forward-facing	Damage Reduction: 25
 UnbreakableUmbrella	bucket style	Item Drop: 25
 UnbreakableUmbrella	pitchfork style	Weapon Damage: 25
 UnbreakableUmbrella	constantly twirling	Spell Damage: 25

@@ -470,8 +470,10 @@ public class FightRequestTest {
     html = loadHTMLResponse("request/test_fight_goo_absorption_2.html");
     FightRequest.currentRound = 2;
     FightRequest.registerRequest(true, urlString);
+    assertEquals("", Preferences.getString("gooseReprocessed"));
     FightRequest.updateCombatData(null, null, html);
     assertTrue(GreyYouManager.absorbedMonsters.contains(monsterId));
+    assertEquals(String.valueOf(monsterId), Preferences.getString("gooseReprocessed"));
     assertEquals(1, KoLCharacter.getFamiliar().getWeight());
 
     GreyYouManager.resetAbsorptions();
