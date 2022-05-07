@@ -174,7 +174,7 @@ public class AutoFilterTextField<E> extends AutoHighlightTextField
       return ((Script) element).getScriptName().toLowerCase();
     }
 
-    return element.toString();
+    return element.toString().toLowerCase();
   }
 
   public static final int getResultPrice(final Object element) {
