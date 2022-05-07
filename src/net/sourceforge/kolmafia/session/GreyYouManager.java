@@ -136,7 +136,7 @@ public abstract class GreyYouManager {
 
     // Load the monsters that we've already reprocessed
     Set<Integer> reprocessed =
-        Arrays.stream(Preferences.getString("gooseReprocessed").split("\\s+,\\s+"))
+        Arrays.stream(Preferences.getString("gooseReprocessed").split("\\s*,\\s*"))
             .filter(StringUtilities::isNumeric)
             .map(Integer::valueOf)
             .collect(Collectors.toSet());

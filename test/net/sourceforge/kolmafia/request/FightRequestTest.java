@@ -505,6 +505,45 @@ public class FightRequestTest {
     assertFalse(GreyYouManager.absorbedMonsters.contains(monsterId));
   }
 
+  @Test
+  public void canReabsorbMultipleMonsters() throws IOException {
+    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+    KoLCharacter.setFamiliar(fam);
+    KoLCharacter.getFamiliar().setExperience(36);
+
+    KoLCharacter.setPath(Path.GREY_YOU);
+    GreyYouManager.resetAbsorptions();
+
+    // Absorption of an albino bat via Re-Process Matter
+    String urlString = "fight.php?action=skill&whichskill=7408";
+    String html = loadHTMLResponse("request/test_fight_goo_absorption_2.html");
+    FightRequest.currentRound = 2;
+    FightRequest.registerRequest(true, urlString);
+    assertEquals("", Preferences.getString("gooseReprocessed"));
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals("41", Preferences.getString("gooseReprocessed"));
+
+    // Second absorption of a model skeleton via Re-Process Matter
+    KoLCharacter.getFamiliar().setExperience(36);
+    urlString = "fight.php?action=skill&whichskill=7408";
+    html = loadHTMLResponse("request/test_fight_goo_absorption_5.html");
+    FightRequest.currentRound = 2;
+    FightRequest.registerRequest(true, urlString);
+    assertEquals("41", Preferences.getString("gooseReprocessed"));
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals("41,1547", Preferences.getString("gooseReprocessed"));
+
+    // Third absorption of a model skeleton via Re-Process Matter
+    KoLCharacter.getFamiliar().setExperience(36);
+    urlString = "fight.php?action=skill&whichskill=7408";
+    html = loadHTMLResponse("request/test_fight_goo_absorption_5.html");
+    FightRequest.currentRound = 2;
+    FightRequest.registerRequest(true, urlString);
+    assertEquals("41,1547", Preferences.getString("gooseReprocessed"));
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals("41,1547", Preferences.getString("gooseReprocessed"));
+  }
+
   // Cosmic Bowling Ball Tests
   @Test
   public void canTrackCosmicBowlingBall() throws IOException {
