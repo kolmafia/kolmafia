@@ -250,7 +250,7 @@ public class FileUtilities {
         byte[] bytes = ByteBufferUtilities.read(istream);
         String text = new String(bytes);
         text = StringUtilities.globalStringReplace(text, "location.hostname", "location.host");
-        ostream.write(text.getBytes());
+        ostream.write(text.getBytes(StandardCharsets.UTF_8));
       } else if (remote.endsWith(".gif")) {
         byte[] bytes = ByteBufferUtilities.read(istream);
         String signature = new String(bytes, 0, 3);

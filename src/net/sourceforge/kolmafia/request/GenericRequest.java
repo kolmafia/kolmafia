@@ -1436,7 +1436,7 @@ public class GenericRequest implements Runnable {
     if (!this.data.isEmpty()) {
       if (this.dataChanged) {
         this.dataChanged = false;
-        this.dataString = this.getDataString().getBytes();
+        this.dataString = this.getDataString().getBytes(StandardCharsets.UTF_8);
       }
 
       requestBuilder.header("Content-Type", "application/x-www-form-urlencoded");
