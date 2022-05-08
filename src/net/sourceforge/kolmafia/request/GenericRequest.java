@@ -31,6 +31,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
@@ -147,6 +148,7 @@ public class GenericRequest implements Runnable {
   public String redirectMethod;
 
   private static HttpClient client;
+  private final static AtomicInteger clientRequestsSent = new AtomicInteger();
   private HttpRequest request;
   protected HttpResponse<InputStream> response;
 
@@ -177,15 +179,19 @@ public class GenericRequest implements Runnable {
   }
 
   private static HttpClient getClient() {
-    if (GenericRequest.client != null) {
-      return client;
-    }
+    // Wrap this in a synchronized block to avoid multiple clients being built in a rare condition
+    synchronized (clientRequestsSent) {
+      if (GenericRequest.client != null) {
+        return client;
+      }
 
-    var builder = HttpUtilities.getClientBuilder();
-    builder.followRedirects(Redirect.NEVER);
-    var built = builder.build();
-    client = built;
-    return built;
+      var builder = HttpUtilities.getClientBuilder();
+      builder.followRedirects(Redirect.NEVER);
+      var built = builder.build();
+      client = built;
+      clientRequestsSent.set(0);
+      return built;
+    }
   }
 
   public static void resetClient() {
@@ -1599,6 +1605,12 @@ public class GenericRequest implements Runnable {
       RequestLogger.printLine(MafiaState.ERROR, message);
       this.timeoutCount = TIMEOUT_LIMIT;
       return true;
+    } finally {
+      // At 10k client requests, the server will send a GOAWAY exception.
+      // We reset our connection before that to avoid this.
+      if (clientRequestsSent.incrementAndGet() >= 9900) {
+        resetClient();
+      }
     }
   }
 
