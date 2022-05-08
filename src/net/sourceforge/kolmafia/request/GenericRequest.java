@@ -148,7 +148,7 @@ public class GenericRequest implements Runnable {
   public String redirectMethod;
 
   private static HttpClient client;
-  private final static AtomicInteger clientRequestsSent = new AtomicInteger();
+  private static final AtomicInteger clientRequestsSent = new AtomicInteger();
   private HttpRequest request;
   protected HttpResponse<InputStream> response;
 
