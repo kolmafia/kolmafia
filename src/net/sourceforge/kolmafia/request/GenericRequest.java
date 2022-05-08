@@ -149,6 +149,11 @@ public class GenericRequest implements Runnable {
 
   private static HttpClient client;
   private static final AtomicInteger clientRequestsSent = new AtomicInteger();
+  /**
+   * At 10k client requests, the server will send a GOAWAY exception.
+   * We recreate the HttpClient before that to avoid the problem.
+   */
+  private static final int HTTP_CLIENT_REQUEST_LIMIT = 9900;
   private HttpRequest request;
   protected HttpResponse<InputStream> response;
 
@@ -1606,9 +1611,7 @@ public class GenericRequest implements Runnable {
       this.timeoutCount = TIMEOUT_LIMIT;
       return true;
     } finally {
-      // At 10k client requests, the server will send a GOAWAY exception.
-      // We reset our connection before that to avoid this.
-      if (clientRequestsSent.incrementAndGet() >= 9900) {
+      if (clientRequestsSent.incrementAndGet() >= HTTP_CLIENT_REQUEST_LIMIT) {
         resetClient();
       }
     }
