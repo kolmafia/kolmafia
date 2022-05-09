@@ -194,7 +194,9 @@ public class GenericRequest implements Runnable {
   }
 
   public static void resetClient() {
-    GenericRequest.client.resetClient();
+    if (GenericRequest.client != null) {
+      GenericRequest.client.resetClient();
+    }
   }
 
   private Builder getRequestBuilder(URI uri) {
