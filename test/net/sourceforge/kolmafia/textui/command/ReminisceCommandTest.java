@@ -14,7 +14,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ReminsiceCommandTest extends AbstractCommandTestBase {
+public class ReminisceCommandTest extends AbstractCommandTestBase {
   @BeforeEach
   public void initEach() {
     KoLCharacter.reset("ReminisceCommandTest");
@@ -29,7 +29,7 @@ public class ReminsiceCommandTest extends AbstractCommandTestBase {
     KoLCharacter.reset("");
   }
 
-  public ReminsiceCommandTest() {
+  public ReminisceCommandTest() {
     this.command = "reminisce";
   }
 
@@ -37,7 +37,7 @@ public class ReminsiceCommandTest extends AbstractCommandTestBase {
   void mustHaveLocket() {
     String output = execute("");
 
-    assertThat(output, containsString("You do not have"));
+    assertThat(output, containsString("You do not own"));
     assertErrorState();
   }
 

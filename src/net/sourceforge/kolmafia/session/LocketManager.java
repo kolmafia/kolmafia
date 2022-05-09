@@ -16,7 +16,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.LocketRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LocketManager {
@@ -144,8 +144,23 @@ public class LocketManager {
   }
 
   public static boolean own() {
+    // true if you have a locket somewhere
+    return InventoryManager.getAccessibleCount(ItemPool.COMBAT_LOVERS_LOCKET) > 0;
+  }
+
+  public static boolean onhand() {
+    // true if locket is ready to use
     return InventoryManager.getCount(ItemPool.COMBAT_LOVERS_LOCKET) > 0
         || KoLCharacter.hasEquipped(ItemPool.COMBAT_LOVERS_LOCKET);
+  }
+
+  public static boolean retrieve() {
+    // If the locket is equipped or in inventory, it's good to go.
+    if (onhand()) {
+      return true;
+    }
+    // If it is retrievable, do so
+    return (own() && InventoryManager.retrieveItem(ItemPool.COMBAT_LOVERS_LOCKET, 1));
   }
 
   public static void clear() {
@@ -159,6 +174,6 @@ public class LocketManager {
       return;
     }
 
-    RequestThread.postRequest(new GenericRequest("inventory.php?reminisce=1", false));
+    RequestThread.postRequest(new LocketRequest());
   }
 }

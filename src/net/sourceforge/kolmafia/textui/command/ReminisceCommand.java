@@ -7,7 +7,7 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.LocketRequest;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -20,7 +20,7 @@ public class ReminisceCommand extends AbstractCommand {
   public void run(final String cmd, String parameters) {
     if (!LocketManager.own()) {
       KoLmafia.updateDisplay(
-          KoLConstants.MafiaState.ERROR, "You do not have a combat lover's locket to hand.");
+          KoLConstants.MafiaState.ERROR, "You do not own a combat lover's locket.");
       return;
     }
 
@@ -77,9 +77,6 @@ public class ReminisceCommand extends AbstractCommand {
       return;
     }
 
-    RequestThread.postRequest(new GenericRequest("inventory.php?reminisce=1", false));
-
-    RequestThread.postRequest(
-        new GenericRequest("choice.php?pwd&whichchoice=1463&option=1&mid=" + monster.getId()));
+    RequestThread.postRequest(new LocketRequest(monster));
   }
 }
