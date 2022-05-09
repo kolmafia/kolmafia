@@ -11,10 +11,11 @@ public class ResettingHttpClient {
 
   private static final AtomicInteger clientRequestsSent = new AtomicInteger();
   /**
-   * At 10k client requests, the server will send a GOAWAY exception.
-   * We recreate the HttpClient before that to avoid the problem.
+   * At 10k client requests, the server will send a GOAWAY exception. We recreate the HttpClient
+   * before that to avoid the problem.
    */
   private static final int HTTP_CLIENT_REQUEST_LIMIT = 9900;
+
   private final Supplier<HttpClient> createClient;
   private HttpClient client;
 
@@ -27,7 +28,8 @@ public class ResettingHttpClient {
     this.client = createClient.get();
   }
 
-  public <T> HttpResponse<T> send(HttpRequest req, HttpResponse.BodyHandler<T> handler) throws IOException, InterruptedException {
+  public <T> HttpResponse<T> send(HttpRequest req, HttpResponse.BodyHandler<T> handler)
+      throws IOException, InterruptedException {
     var resp = this.client.send(req, handler);
     if (clientRequestsSent.incrementAndGet() >= HTTP_CLIENT_REQUEST_LIMIT) {
       resetClient();
