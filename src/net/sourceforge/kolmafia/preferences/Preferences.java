@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,7 +38,8 @@ public class Preferences {
 
   private static final Object lock = new Object(); // used to synch io
 
-  private static final byte[] LINE_BREAK_AS_BYTES = KoLConstants.LINE_BREAK.getBytes();
+  private static final byte[] LINE_BREAK_AS_BYTES =
+      KoLConstants.LINE_BREAK.getBytes(StandardCharsets.UTF_8);
 
   private static final String[] characterMap = new String[65536];
 
@@ -1069,7 +1071,7 @@ public class Preferences {
         for (Entry<String, Object> current : data.entrySet()) {
           ostream.write(
               Preferences.encodeProperty(current.getKey(), current.getValue().toString())
-                  .getBytes());
+                  .getBytes(StandardCharsets.UTF_8));
           ostream.write(LINE_BREAK_AS_BYTES);
         }
       } catch (IOException e) {

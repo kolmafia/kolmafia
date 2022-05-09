@@ -1441,7 +1441,7 @@ public class GenericRequest implements Runnable {
     if (!this.data.isEmpty()) {
       if (this.dataChanged) {
         this.dataChanged = false;
-        this.dataString = this.getDataString().getBytes();
+        this.dataString = this.getDataString().getBytes(StandardCharsets.UTF_8);
       }
 
       requestBuilder.header("Content-Type", "application/x-www-form-urlencoded");
@@ -2803,6 +2803,10 @@ public class GenericRequest implements Runnable {
       case 1420:
         name = "Cargo Cultist Shorts";
         CargoCultistShortsRequest.registerPocketFight(location);
+        break;
+
+      case 1463:
+        name = "Combat Lover's Locket";
         break;
 
       default:
