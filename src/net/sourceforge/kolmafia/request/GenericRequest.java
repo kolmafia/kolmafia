@@ -2800,6 +2800,10 @@ public class GenericRequest implements Runnable {
         CargoCultistShortsRequest.registerPocketFight(location);
         break;
 
+      case 1463:
+        name = "Combat Lover's Locket";
+        break;
+
       default:
         return;
     }
