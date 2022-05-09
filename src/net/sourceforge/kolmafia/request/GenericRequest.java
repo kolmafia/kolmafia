@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
+import net.sourceforge.kolmafia.utilities.ResettingHttpClient;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.RelayAgent;
@@ -147,13 +148,7 @@ public class GenericRequest implements Runnable {
   public String redirectLocation;
   public String redirectMethod;
 
-  private static HttpClient client;
-  private static final AtomicInteger clientRequestsSent = new AtomicInteger();
-  /**
-   * At 10k client requests, the server will send a GOAWAY exception.
-   * We recreate the HttpClient before that to avoid the problem.
-   */
-  private static final int HTTP_CLIENT_REQUEST_LIMIT = 9900;
+  private static ResettingHttpClient client;
   private HttpRequest request;
   protected HttpResponse<InputStream> response;
 
@@ -183,24 +178,24 @@ public class GenericRequest implements Runnable {
     }
   }
 
-  private static HttpClient getClient() {
-    // Wrap this in a synchronized block to avoid multiple clients being built in a rare condition
-    synchronized (clientRequestsSent) {
-      if (GenericRequest.client != null) {
-        return client;
-      }
-
-      var builder = HttpUtilities.getClientBuilder();
-      builder.followRedirects(Redirect.NEVER);
-      var built = builder.build();
-      client = built;
-      clientRequestsSent.set(0);
-      return built;
+  private static ResettingHttpClient getClient() {
+    if (GenericRequest.client != null) {
+      return client;
     }
+
+    var built = new ResettingHttpClient(GenericRequest::createClient);
+    client = built;
+    return built;
+  }
+
+  public static HttpClient createClient() {
+    var builder = HttpUtilities.getClientBuilder();
+    builder.followRedirects(Redirect.NEVER);
+    return builder.build();
   }
 
   public static void resetClient() {
-    GenericRequest.client = null;
+    GenericRequest.client.resetClient();
   }
 
   private Builder getRequestBuilder(URI uri) {
@@ -1610,10 +1605,6 @@ public class GenericRequest implements Runnable {
       RequestLogger.printLine(MafiaState.ERROR, message);
       this.timeoutCount = TIMEOUT_LIMIT;
       return true;
-    } finally {
-      if (clientRequestsSent.incrementAndGet() >= HTTP_CLIENT_REQUEST_LIMIT) {
-        resetClient();
-      }
     }
   }
 
