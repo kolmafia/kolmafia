@@ -187,7 +187,7 @@ public class GenericRequest implements Runnable {
     return built;
   }
 
-  public static HttpClient createClient() {
+  private static HttpClient createClient() {
     return HttpUtilities.getClientBuilder().followRedirects(Redirect.NEVER).build();
   }
 
