@@ -26,6 +26,7 @@ public class ResettingHttpClient {
 
   public void resetClient() {
     this.client = createClient.get();
+    clientRequestsSent.set(0);
   }
 
   public <T> HttpResponse<T> send(HttpRequest req, HttpResponse.BodyHandler<T> handler)
