@@ -706,9 +706,11 @@ public class MaximizerTest {
 
   @Test
   public void canFoldUmbrella() {
-    canUse("unbreakable umbrella");
+    final var cleanups = new Cleanups(canUse("unbreakable umbrella"));
     Preferences.setString("umbrellaState", "cocoon");
-    assertTrue(maximize("Monster Level Percent"));
-    recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
+    try (cleanups) {
+      assertTrue(maximize("Monster Level Percent"));
+      recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
+    }
   }
 }
