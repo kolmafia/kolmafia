@@ -439,12 +439,14 @@ public class MaximizerTest {
           new Cleanups(
               canUse("asparagus knife"),
               canUse("sweet ninja sword"),
-              canUse("Fourth of May Cosplay Saber"));
+              canUse("Fourth of May Cosplay Saber"),
+              canUse("old sweatpants"));
 
       try (cleanups) {
         maximize("letter n");
 
         recommendedSlotIs(EquipmentManager.WEAPON, "sweet ninja sword");
+        recommendedSlotIs(EquipmentManager.PANTS, "old sweatpants");
       }
     }
 
