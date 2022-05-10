@@ -1893,6 +1893,7 @@ public class GenericRequest implements Runnable {
           || this instanceof ChateauRequest
           || this instanceof DeckOfEveryCardRequest
           || this instanceof GenieRequest
+          || this instanceof LocketRequest
           || this instanceof NumberologyRequest
           || this instanceof UseSkillRequest) {
         this.redirectHandled = true;
