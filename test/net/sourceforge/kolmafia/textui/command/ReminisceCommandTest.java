@@ -35,7 +35,7 @@ public class ReminisceCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustHaveLocket() {
-    String output = execute("");
+    String output = execute("Black Crayon Penguin");
 
     assertThat(output, containsString("You do not own"));
     assertErrorState();
@@ -47,8 +47,7 @@ public class ReminisceCommandTest extends AbstractCommandTestBase {
     LocketManager.parseFoughtMonsters();
     var cleanups = addItem("combat lover's locket");
     try (cleanups) {
-      String output = execute("");
-
+      String output = execute("Black Crayon Penguin");
       assertThat(output, containsString("You can only"));
       assertErrorState();
     }
