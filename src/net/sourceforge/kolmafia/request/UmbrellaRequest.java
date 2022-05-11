@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
 
+import java.util.Arrays;
+
 public class UmbrellaRequest extends GenericRequest {
   public UmbrellaRequest() {
     super("choice.php");
@@ -35,6 +37,14 @@ public class UmbrellaRequest extends GenericRequest {
 
     public void set() {
       Preferences.setString("umbrellaState", this.name);
+    }
+
+    public static Form find(final String name) {
+      if (name.equals("twirling")) {
+        return Form.TWIRL;
+      }
+
+      return Arrays.stream(values()).filter(f -> f.name.startsWith(name)).findAny().orElse(null);
     }
   }
 

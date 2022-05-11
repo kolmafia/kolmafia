@@ -6,12 +6,19 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class BackupCameraCommand extends AbstractCommand {
+import java.util.Arrays;
+
+public class BackupCameraCommand extends AbstractModeCommand {
   public BackupCameraCommand() {
     this.usage = " [ml | meat | init | (reverser on | off )] - set your backup camera mode";
   }
 
   public static final String[][] MODE = {{"ml", "1"}, {"meat", "2"}, {"init", "3"}};
+
+  @Override
+  public boolean validate(final String command, final String parameters) {
+    return Arrays.stream(MODE).anyMatch(m -> m[0].equals(parameters));
+  }
 
   @Override
   public void run(final String cmd, final String parameters) {
