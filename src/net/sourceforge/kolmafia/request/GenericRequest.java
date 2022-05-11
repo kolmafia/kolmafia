@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
+import net.sourceforge.kolmafia.utilities.ResettingHttpClient;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
 import net.sourceforge.kolmafia.webui.RelayAgent;
@@ -146,7 +147,7 @@ public class GenericRequest implements Runnable {
   public String redirectLocation;
   public String redirectMethod;
 
-  private static HttpClient client;
+  private static ResettingHttpClient client;
   private HttpRequest request;
   protected HttpResponse<InputStream> response;
 
@@ -176,20 +177,24 @@ public class GenericRequest implements Runnable {
     }
   }
 
-  private static HttpClient getClient() {
+  private static ResettingHttpClient getClient() {
     if (GenericRequest.client != null) {
       return client;
     }
 
-    var builder = HttpUtilities.getClientBuilder();
-    builder.followRedirects(Redirect.NEVER);
-    var built = builder.build();
+    var built = new ResettingHttpClient(GenericRequest::createClient);
     client = built;
     return built;
   }
 
+  private static HttpClient createClient() {
+    return HttpUtilities.getClientBuilder().followRedirects(Redirect.NEVER).build();
+  }
+
   public static void resetClient() {
-    GenericRequest.client = null;
+    if (GenericRequest.client != null) {
+      GenericRequest.client.resetClient();
+    }
   }
 
   private Builder getRequestBuilder(URI uri) {
@@ -1888,6 +1893,7 @@ public class GenericRequest implements Runnable {
           || this instanceof ChateauRequest
           || this instanceof DeckOfEveryCardRequest
           || this instanceof GenieRequest
+          || this instanceof LocketRequest
           || this instanceof NumberologyRequest
           || this instanceof UseSkillRequest) {
         this.redirectHandled = true;

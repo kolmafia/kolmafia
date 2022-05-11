@@ -232,9 +232,9 @@ public class Player {
   }
 
   public static Cleanups setupFakeResponse(int code, String response) {
-    GenericRequest.resetClient();
     var builder = new FakeHttpClientBuilder();
     HttpUtilities.setClientBuilder(() -> builder);
+    GenericRequest.resetClient();
     GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
     builder.client.setResponse(code, response);
 
