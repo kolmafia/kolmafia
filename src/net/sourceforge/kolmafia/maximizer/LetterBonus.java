@@ -4,6 +4,8 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 
 public class LetterBonus {
+  private LetterBonus() {}
+
   static final Pattern NUMBER_PATTERN = Pattern.compile("[0-9]");
 
   static double letterBonus(AdventureResult item) {
