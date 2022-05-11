@@ -2,13 +2,14 @@ package net.sourceforge.kolmafia.swingui.listener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Map;
+import java.util.TreeMap;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JRootPane;
 import javax.swing.MenuElement;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.swingui.menu.WindowMenu;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
 public class QuickAccessListener implements ActionListener {
@@ -16,14 +17,13 @@ public class QuickAccessListener implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     JRootPane rootPane = (JRootPane) e.getSource();
 
-    LockableListModel<Object> quickAccessItems = new LockableListModel<>();
+    Map<String, Object> quickAccessItems = new TreeMap<String, Object>();
 
     addMenuElement(quickAccessItems, rootPane.getJMenuBar());
 
-    Collections.sort(quickAccessItems, Comparator.comparing(Object::toString));
+    LockableListModel<Object> quickAccessList = new LockableListModel<>(quickAccessItems.values());
 
-    Object selectedItem =
-        InputFieldUtilities.input("Where would you like to go?", quickAccessItems);
+    Object selectedItem = InputFieldUtilities.input("Where would you like to go?", quickAccessList);
 
     if (selectedItem == null) {
       return;
@@ -39,13 +39,15 @@ public class QuickAccessListener implements ActionListener {
     }
   }
 
-  protected void addMenuElement(
-      LockableListModel<Object> quickAccessItems, MenuElement menuElement) {
+  protected void addMenuElement(Map<String, Object> quickAccessItems, MenuElement menuElement) {
+    if (menuElement instanceof WindowMenu) {
+      return;
+    }
 
     if ((menuElement instanceof JMenuItem) && !(menuElement instanceof JMenu)) {
       JMenuItem menuItem = (JMenuItem) menuElement;
       if (menuItem.isEnabled()) {
-        quickAccessItems.add(menuItem);
+        quickAccessItems.put(menuItem.getText(), menuItem);
       }
     }
 
