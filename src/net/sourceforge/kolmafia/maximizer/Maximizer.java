@@ -6,14 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.FamiliarData;
-import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -1543,27 +1536,12 @@ public class Maximizer {
     int itemId = -1;
     FamiliarData enthroned = Maximizer.best.getEnthroned();
     FamiliarData bjorned = Maximizer.best.getBjorned();
-    String edPiece = Maximizer.best.getEdPiece();
-    String snowsuit = Maximizer.best.getSnowsuit();
-    String retroCape = Maximizer.best.getRetroCape();
-    String backupCamera = Maximizer.best.getBackupCamera();
-    String unbreakableUmbrella = Maximizer.best.getUnbreakableUmbrella();
+    var modeables = Maximizer.best.getModeables();
+    var currentModeables = Modeable.getStateMap();
+    var setModeables = Modeable.getBooleanMap();
     AdventureResult curr = EquipmentManager.getEquipment(slot);
     FamiliarData currEnthroned = KoLCharacter.getEnthroned();
     FamiliarData currBjorned = KoLCharacter.getBjorned();
-    String currEdPiece = Preferences.getString("edPiece");
-    Boolean setEdPiece = false;
-    String currSnowsuit = Preferences.getString("snowsuit");
-    Boolean setSnowsuit = false;
-    String currRetroCape =
-        Preferences.getString("retroCapeSuperhero")
-            + " "
-            + Preferences.getString("retroCapeWashingInstructions");
-    Boolean setRetroCape = false;
-    String currBackupCamera = Preferences.getString("backupCameraMode");
-    Boolean setBackupCamera = false;
-    String currUmbrella = Preferences.getString("umbrellaState");
-    Boolean setUmbrella = false;
 
     if (item == null || item.getItemId() == 0) {
       item = EquipmentRequest.UNEQUIP;
@@ -1619,16 +1597,12 @@ public class Maximizer {
       spec.setEnthroned(enthroned);
     } else if (itemId == ItemPool.BUDDY_BJORN) {
       spec.setBjorned(bjorned);
-    } else if (itemId == ItemPool.CROWN_OF_ED) {
-      spec.setEdPiece(edPiece);
-    } else if (itemId == ItemPool.SNOW_SUIT) {
-      spec.setSnowsuit(snowsuit);
-    } else if (itemId == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE) {
-      spec.setRetroCape(retroCape);
-    } else if (itemId == ItemPool.BACKUP_CAMERA) {
-      spec.setBackupCamera(backupCamera);
-    } else if (itemId == ItemPool.UNBREAKABLE_UMBRELLA) {
-      spec.setUnbreakableUmbrella(unbreakableUmbrella);
+    } else {
+      var modeable = Modeable.find(itemId);
+
+      if (modeable != null) {
+        spec.setModeable(modeable, modeables.get(modeable));
+      }
     }
 
     double delta = spec.getScore() - current;

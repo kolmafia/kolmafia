@@ -10,13 +10,22 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class RetroCapeCommand extends AbstractCommand {
+import java.util.Arrays;
+
+public class RetroCapeCommand extends AbstractModeCommand {
   public static final String[] SUPERHEROS = {"vampire", "heck", "robot"};
   public static final String[] WASHING_INSTRUCTIONS = {"hold", "thrill", "kiss", "kill"};
 
   public RetroCapeCommand() {
     this.usage =
         " [muscle | mysticality | moxie | vampire | heck | robot] [hold | thrill | kiss | kill]";
+  }
+
+  @Override
+  public boolean validate(final String command, final String parameters) {
+    String[] parts = parameters.split(" ");
+    return Arrays.asList(SUPERHEROS).contains(parts[0])
+            && Arrays.asList(WASHING_INSTRUCTIONS).contains(parts[1]);
   }
 
   @Override

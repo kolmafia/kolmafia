@@ -11,7 +11,9 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
-public class EdPieceCommand extends AbstractCommand {
+import java.util.Arrays;
+
+public class EdPieceCommand extends AbstractModeCommand {
   public static final String[][] ANIMAL = {
     {"bear", "muscle", "1", "Muscle: +20; +2 Muscle Stats Per Fight"},
     {"owl", "mysticality", "2", "Mysticality: +20; +2 Mysticality Stats Per Fight"},
@@ -30,6 +32,11 @@ public class EdPieceCommand extends AbstractCommand {
   public EdPieceCommand() {
     this.usage =
         "[?] <animal> - place a golden animal on the Crown of Ed (and equip it if unequipped)";
+  }
+
+  @Override
+  public boolean validate(final String command, final String parameters) {
+    return Arrays.stream(ANIMAL).anyMatch(a -> parameters.equalsIgnoreCase(a[0]));
   }
 
   @Override

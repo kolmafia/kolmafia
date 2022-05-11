@@ -9,7 +9,9 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
-public class SnowsuitCommand extends AbstractCommand {
+import java.util.Arrays;
+
+public class SnowsuitCommand extends AbstractModeCommand {
   public static final String[][] DECORATION = {
     {"eyebrows", "1"},
     {"smirk", "2"},
@@ -22,6 +24,15 @@ public class SnowsuitCommand extends AbstractCommand {
     this.usage = "[?] <decoration> - decorate Snowsuit (and equip it if unequipped)";
   }
 
+  private String getChoice(final String parameters) {
+    return Arrays.stream(DECORATION).filter(d -> d[0].equalsIgnoreCase(parameters)).map(d -> d[1]).findAny().orElse(null);
+  }
+
+  @Override
+  public boolean validate(final String command, final String parameters) {
+    return getChoice(parameters) != null;
+  }
+
   @Override
   public void run(final String cmd, String parameters) {
     String currentDecoration = Preferences.getString("snowsuit");
@@ -32,17 +43,9 @@ public class SnowsuitCommand extends AbstractCommand {
     }
 
     String decoration = parameters;
-    String choice = "0";
+    String choice = getChoice(decoration);
 
-    for (int i = 0; i < SnowsuitCommand.DECORATION.length; i++) {
-      if (decoration.equalsIgnoreCase(SnowsuitCommand.DECORATION[i][0])) {
-        choice = SnowsuitCommand.DECORATION[i][1];
-        decoration = SnowsuitCommand.DECORATION[i][0];
-        break;
-      }
-    }
-
-    if (choice.equals("0")) {
+    if (choice == null) {
       KoLmafia.updateDisplay(
           "Decoration "
               + decoration
