@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -2363,14 +2362,7 @@ public abstract class KoLCharacter {
   private static final Pattern B_PATTERN = Pattern.compile("[Bb]");
 
   public static final int getBeeosity(String name) {
-    int bees = 0;
-
-    Matcher bMatcher = KoLCharacter.B_PATTERN.matcher(name);
-    while (bMatcher.find()) {
-      bees++;
-    }
-
-    return bees;
+    return (int) KoLCharacter.B_PATTERN.matcher(name).results().count();
   }
 
   public static final boolean hasBeeosity(String name) {
