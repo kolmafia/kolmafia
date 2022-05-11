@@ -7,6 +7,9 @@ import java.awt.event.KeyEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JList;
+import javax.swing.SwingUtilities;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -45,10 +48,14 @@ public class AutoFilterTextField<E> extends AutoHighlightTextField
   private static final Pattern NOTSEARCH_PATTERN = Pattern.compile("\\s*!\\s*=\\s*(.+)\\s*");
 
   public AutoFilterTextField(final JList<E> list) {
-    this(list, null);
+    this(list, null, false);
   }
 
   public AutoFilterTextField(final JList<E> list, E initial) {
+    this(list, initial, false);
+  }
+
+  public AutoFilterTextField(final JList<E> list, E initial, boolean autoFocus) {
     this.setList(list);
 
     this.addKeyListener(new FilterListener());
@@ -61,6 +68,10 @@ public class AutoFilterTextField<E> extends AutoHighlightTextField
 
     if (initial != null) {
       this.setText(initial.toString());
+    }
+
+    if (autoFocus) {
+      this.addAncestorListener(new RequestFocusAncestorListener());
     }
   }
 
@@ -286,6 +297,19 @@ public class AutoFilterTextField<E> extends AutoHighlightTextField
             AutoFilterTextField.this.model, 0, AutoFilterTextField.this.model.size() - 1);
       }
     }
+  }
+
+  private class RequestFocusAncestorListener implements AncestorListener {
+    @Override
+    public void ancestorAdded(AncestorEvent event) {
+      SwingUtilities.invokeLater(() -> AutoFilterTextField.this.requestFocusInWindow());
+    }
+
+    @Override
+    public void ancestorRemoved(AncestorEvent event) {}
+
+    @Override
+    public void ancestorMoved(AncestorEvent event) {}
   }
 
   private class FilterListener extends KeyAdapter {

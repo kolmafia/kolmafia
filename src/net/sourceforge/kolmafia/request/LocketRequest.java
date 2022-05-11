@@ -43,7 +43,14 @@ public class LocketRequest extends GenericRequest {
     }
 
     if (LocketManager.getFoughtMonsters().size() >= 3) {
-      KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, "You can only reminisce thrice daily.");
+      // You can't even look at your locket if you've reminisced three times.
+      //
+      // So, don't try - but only generate an error if you are trying to
+      // actually get another monster.
+      if (monster != null) {
+        KoLmafia.updateDisplay(
+            KoLConstants.MafiaState.ERROR, "You can only reminisce thrice daily.");
+      }
       return;
     }
 

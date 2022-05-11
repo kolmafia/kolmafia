@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.swingui.button.LoadScriptButton;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
+import net.sourceforge.kolmafia.swingui.listener.QuickAccessListener;
 import net.sourceforge.kolmafia.swingui.listener.RefreshSessionListener;
 import net.sourceforge.kolmafia.swingui.listener.WorldPeaceListener;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
@@ -221,15 +222,14 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     JComponentUtilities.addGlobalHotKey(
         this.getRootPane(), KeyEvent.VK_F5, new RefreshSessionListener());
 
-    int platform_META_DOWN =
+    int platform_META_DOWN = // CMD on MacOS, CTRL on others...
         (System.getProperty("os.name").startsWith("Mac"))
             ? KeyEvent.META_DOWN_MASK
             : KeyEvent.CTRL_DOWN_MASK;
     JComponentUtilities.addGlobalHotKey(
-        this.getRootPane(),
-        KeyEvent.VK_W,
-        platform_META_DOWN, // CMD on MacOS, CTRL on others...
-        new CloseWindowListener());
+        this.getRootPane(), KeyEvent.VK_K, platform_META_DOWN, new QuickAccessListener());
+    JComponentUtilities.addGlobalHotKey(
+        this.getRootPane(), KeyEvent.VK_W, platform_META_DOWN, new CloseWindowListener());
     JComponentUtilities.addGlobalHotKey(
         this.getRootPane(),
         KeyEvent.VK_PAGE_UP,
