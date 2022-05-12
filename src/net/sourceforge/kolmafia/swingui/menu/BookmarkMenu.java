@@ -10,7 +10,7 @@ import net.sourceforge.kolmafia.KoLConstants;
  */
 public class BookmarkMenu extends MenuItemList<String> {
   public BookmarkMenu() {
-    super("Bookmarks", (LockableListModel<String>) KoLConstants.bookmarks);
+    super("Bookmarks", (LockableListModel<String>) KoLConstants.bookmarks, false);
   }
 
   @Override

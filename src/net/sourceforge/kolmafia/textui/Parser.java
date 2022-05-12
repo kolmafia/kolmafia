@@ -1924,8 +1924,8 @@ public class Parser {
       final String line = this.restOfLine();
 
       try {
-        ostream.write(line.getBytes());
-        ostream.write(KoLConstants.LINE_BREAK.getBytes());
+        ostream.write(line.getBytes(StandardCharsets.UTF_8));
+        ostream.write(KoLConstants.LINE_BREAK.getBytes(StandardCharsets.UTF_8));
       } catch (Exception e) {
         // Byte array output streams do not throw errors,
         // other than out of memory errors.
