@@ -4163,12 +4163,7 @@ public class FightRequest extends GenericRequest {
                 "Freshen Your Drink, Sir or Madam",
                 "Have One For The Road",
                 "I Hope I Am Not Enabling Any Addictions You Might Have",
-                "It's Always Happy Hour Somewhere",
-                "practices a complex cocktail juggling move",
-                "gives you a thumbs-up with a special thumb attachment",
-                "Have One On The House",
-                "Please Enjoy A Complimentary Snack",
-                "How About This Weather We're Having, Eh"
+                "It's Always Happy Hour Somewhere"
               };
 
           for (String s : roboDropMessages) {
