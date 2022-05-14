@@ -17,7 +17,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +34,6 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -58,7 +56,6 @@ import net.sourceforge.kolmafia.swingui.listener.QuickAccessListener;
 import net.sourceforge.kolmafia.swingui.listener.RefreshSessionListener;
 import net.sourceforge.kolmafia.swingui.listener.WorldPeaceListener;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
-import net.sourceforge.kolmafia.swingui.menu.ScriptMenu;
 import net.sourceforge.kolmafia.swingui.panel.CompactSidePane;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
@@ -84,7 +81,6 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
   public CharacterListener refreshListener = null;
 
   static {
-    GenericFrame.compileScripts();
     GenericFrame.compileBookmarks();
   }
 
@@ -754,36 +750,6 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
   public static final void createDisplay(final Class<?> frameClass, final Object[] parameters) {
     CreateFrameRunnable creator = new CreateFrameRunnable(frameClass, parameters);
     creator.run();
-  }
-
-  public static final void compileScripts() {
-    GenericFrame.compileScripts(Preferences.getInteger("scriptMRULength") > 0);
-  }
-
-  public static final void compileScripts(final boolean useMRUlist) {
-    KoLConstants.scripts.clear();
-
-    // Get the list of files in the current directory or build from MRU
-
-    File[] scriptList =
-        useMRUlist
-            ? KoLConstants.scriptMList.listAsFiles()
-            : DataUtilities.listFiles(KoLConstants.SCRIPT_LOCATION);
-
-    // Iterate through the files. Do this in two
-    // passes to make sure that directories start
-    // up top, followed by non-directories.
-
-    int directoryIndex = 0;
-
-    for (File file : scriptList) {
-      if (!ScriptMenu.shouldAddScript(file)) {
-      } else if (file.isDirectory()) {
-        KoLConstants.scripts.add(directoryIndex++, file);
-      } else {
-        KoLConstants.scripts.add(file);
-      }
-    }
   }
 
   /**
