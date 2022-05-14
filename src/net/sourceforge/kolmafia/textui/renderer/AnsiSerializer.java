@@ -24,10 +24,16 @@ public class AnsiSerializer {
 
   private void serializeFontNode(TagNode tagNode) {
     String color = tagNode.getAttributeByName("color");
-    int rgb = ColorParser.parseColor(color);
-    pushColor(rgb);
+
+    if (color != null) {
+      pushColor(ColorParser.parseColor(color));
+    }
+
     serializeChildren(tagNode);
-    popColor();
+
+    if (color != null) {
+      popColor();
+    }
   }
 
   private void serializeSimpleAttributeNode(TagNode tagNode) {
