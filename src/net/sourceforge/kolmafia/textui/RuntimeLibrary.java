@@ -4842,8 +4842,7 @@ public abstract class RuntimeLibrary {
     }
 
     for (AdventureResult item : KoLConstants.collection) {
-      value.aset(
-          DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
+      value.aset(DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
     }
 
     return value;
