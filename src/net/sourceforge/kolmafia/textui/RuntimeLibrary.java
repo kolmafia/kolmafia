@@ -4789,8 +4789,7 @@ public abstract class RuntimeLibrary {
     KoLConstants.inventory.toArray(items);
 
     for (AdventureResult item : items) {
-      value.aset(
-          DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
+      value.aset(DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
     }
 
     return value;
@@ -4803,8 +4802,7 @@ public abstract class RuntimeLibrary {
     KoLConstants.closet.toArray(items);
 
     for (AdventureResult item : items) {
-      value.aset(
-          DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
+      value.aset(DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
     }
 
     return value;
@@ -4817,8 +4815,7 @@ public abstract class RuntimeLibrary {
     KoLConstants.storage.toArray(items);
 
     for (AdventureResult item : items) {
-      value.aset(
-          DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
+      value.aset(DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
     }
 
     return value;
@@ -4831,8 +4828,7 @@ public abstract class RuntimeLibrary {
     KoLConstants.freepulls.toArray(items);
 
     for (AdventureResult item : items) {
-      value.aset(
-          DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
+      value.aset(DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
     }
 
     return value;
@@ -7471,9 +7467,7 @@ public abstract class RuntimeLibrary {
         WhoMessage message = (WhoMessage) chatMessage;
 
         for (Entry<String, Boolean> entry : message.getContacts().entrySet()) {
-          value.aset(
-              new Value(entry.getKey()),
-              DataTypes.makeBooleanValue(entry.getValue()));
+          value.aset(new Value(entry.getKey()), DataTypes.makeBooleanValue(entry.getValue()));
         }
 
         break;
