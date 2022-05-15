@@ -7922,7 +7922,7 @@ public abstract class RuntimeLibrary {
     String[] data = null;
     result.clear();
 
-    try {
+    try (reader) {
       int line = 0;
       while ((data = FileUtilities.readData(reader)) != null) {
         line++;
@@ -7956,11 +7956,6 @@ public abstract class RuntimeLibrary {
         StaticEntity.printStackTrace(e, ex.getMessage());
       }
       return DataTypes.FALSE_VALUE;
-    } finally {
-      try {
-        reader.close();
-      } catch (Exception e) {
-      }
     }
 
     return DataTypes.TRUE_VALUE;
@@ -7999,7 +7994,7 @@ public abstract class RuntimeLibrary {
 
     String data;
 
-    try {
+    try (reader) {
       int line = 0;
       while ((data = FileUtilities.readLine(reader)) != null) {
         line++;
@@ -8007,11 +8002,6 @@ public abstract class RuntimeLibrary {
       }
     } catch (Exception e) {
       return result;
-    } finally {
-      try {
-        reader.close();
-      } catch (Exception e) {
-      }
     }
 
     return result;
