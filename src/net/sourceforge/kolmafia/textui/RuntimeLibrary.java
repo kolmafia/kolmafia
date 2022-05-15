@@ -31,7 +31,6 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import java.util.zip.GZIPInputStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -5150,15 +5149,14 @@ public abstract class RuntimeLibrary {
     if (item == null) return DataTypes.FALSE_VALUE;
     if (itemID < 1) return DataTypes.FALSE_VALUE;
     if (checkQuant < 6) return DataTypes.FALSE_VALUE;
-    if (checkPrice < (2 * ItemDatabase.getPriceById(itemID))) return DataTypes.FALSE_VALUE;
+    if (checkPrice < (2L * ItemDatabase.getPriceById(itemID))) return DataTypes.FALSE_VALUE;
     // get some data
-    SortedListModel<PurchaseRequest> results = new SortedListModel<>();
-    MallSearchRequest msr = new MallSearchRequest(item, 20, results);
+    MallSearchRequest msr = new MallSearchRequest(item, 20);
     msr.run();
     // Now iterate over results
     // Assume sorted by price so can bail at first failure
     int available = 0;
-    for (PurchaseRequest pr : results) {
+    for (PurchaseRequest pr : msr.getResults()) {
       // only interested in mall
       if (pr instanceof MallPurchaseRequest) {
         // get price and bail if higher
