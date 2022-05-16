@@ -18,15 +18,15 @@ public class ChatFormatterTest {
   public void addHightlightTest() {
     Color color = Color.BLACK;
 
-    ChatFormatter.addHighlighting("john of arc", color);
-    ChatFormatter.addHighlighting("prince john", color);
-    ChatFormatter.addHighlighting("john", color);
-    ChatFormatter.addHighlighting("prince john and the three stooges", color);
-    ChatFormatter.addHighlighting("john", color);
-    ChatFormatter.addHighlighting("king john", color);
+    ChatFormatter.addHighlighting("test case", color);
+    ChatFormatter.addHighlighting("a test", color);
+    ChatFormatter.addHighlighting("test", color);
+    ChatFormatter.addHighlighting("a test with a long message", color);
+    ChatFormatter.addHighlighting("test", color);
+    ChatFormatter.addHighlighting("the test", color);
 
     String expected =
-        "john of arc\n#000000\nprince john\n#000000\nprince john and the three stooges\n#000000\njohn\n#000000\nking john\n#000000";
+        "test case\n#000000\na test\n#000000\na test with a long message\n#000000\ntest\n#000000\nthe test\n#000000";
 
     assertEquals(expected, Preferences.getString("highlightList"));
   }
@@ -35,14 +35,14 @@ public class ChatFormatterTest {
   public void removeHighlightTest() {
     Color color = Color.BLACK;
 
-    ChatFormatter.addHighlighting("john of arc", color);
-    ChatFormatter.addHighlighting("prince john", color);
-    ChatFormatter.addHighlighting("prince john and the three stooges", color);
-    ChatFormatter.addHighlighting("john", color);
-    ChatFormatter.addHighlighting("king john", color);
+    ChatFormatter.addHighlighting("test case", color);
+    ChatFormatter.addHighlighting("a test", color);
+    ChatFormatter.addHighlighting("a test with a long message", color);
+    ChatFormatter.addHighlighting("test", color);
+    ChatFormatter.addHighlighting("another test", color);
 
-    ChatFormatter.removeHightlighting("john");
-    String expected = "john of arc\n#000000\nprince john\n#000000\nprince john and the three stooges\n#000000\nking john\n#000000";
+    ChatFormatter.removeHightlighting("test");
+    String expected = "test case\n#000000\na test\n#000000\na test with a long message\n#000000\nanother test\n#000000";
 
     assertEquals(expected, Preferences.getString("highlightList"));
   }
