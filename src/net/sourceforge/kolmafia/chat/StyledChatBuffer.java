@@ -23,13 +23,16 @@ public class StyledChatBuffer extends ChatBuffer {
   }
 
   public static final boolean initializeHighlights() {
+    StyledChatBuffer.highlightCount = 0;
+    StyledChatBuffer.searchStrings.clear();
+    StyledChatBuffer.colorStrings.clear();
+
     String highlights = Preferences.getString("highlightList").trim();
 
     if (highlights.length() == 0) {
       return false;
     }
 
-    StyledChatBuffer.highlightCount = 0;
     String[] highlightList = highlights.split("\n+");
 
     for (int i = 0; i < highlightList.length; ++i) {
