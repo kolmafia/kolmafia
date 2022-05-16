@@ -13519,6 +13519,11 @@ public abstract class ChoiceManager {
       return;
     }
 
+    if (text.contains("charpane.php")) {
+      // Since a charpane refresh was requested, a turn might have been spent
+      AdventureSpentDatabase.setNoncombatEncountered(true);
+    }
+
     switch (ChoiceManager.lastChoice) {
       case 3:
         // The Oracle Will See You Now
@@ -15221,11 +15226,6 @@ public abstract class ChoiceManager {
     if (ChoiceManager.handlingChoice) {
       ChoiceManager.visitChoice(request);
       return;
-    }
-
-    if (text.contains("charpane.php")) {
-      // Since a charpane refresh was requested, a turn might have been spent
-      AdventureSpentDatabase.setNoncombatEncountered(true);
     }
 
     PostChoiceAction action = ChoiceManager.action;
