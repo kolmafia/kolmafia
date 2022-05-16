@@ -19,11 +19,14 @@ public class ChatFormatterTest {
     Color color = Color.BLACK;
 
     ChatFormatter.addHighlighting("john of arc", color);
+    ChatFormatter.addHighlighting("prince john", color);
     ChatFormatter.addHighlighting("john", color);
     ChatFormatter.addHighlighting("prince john and the three stooges", color);
+    ChatFormatter.addHighlighting("john", color);
+    ChatFormatter.addHighlighting("king john", color);
 
     String expected =
-        "john of arc\n#000000\njohn\n#000000\nprince john and the three stooges\n#000000";
+        "john of arc\n#000000\nprince john\n#000000\nprince john and the three stooges\n#000000\njohn\n#000000\nking john\n#000000";
 
     assertEquals(expected, Preferences.getString("highlightList"));
   }
@@ -33,11 +36,13 @@ public class ChatFormatterTest {
     Color color = Color.BLACK;
 
     ChatFormatter.addHighlighting("john of arc", color);
-    ChatFormatter.addHighlighting("john", color);
+    ChatFormatter.addHighlighting("prince john", color);
     ChatFormatter.addHighlighting("prince john and the three stooges", color);
+    ChatFormatter.addHighlighting("john", color);
+    ChatFormatter.addHighlighting("king john", color);
 
     ChatFormatter.removeHightlighting("john");
-    String expected = "john of arc\n#000000\nprince john and the three stooges\n#000000";
+    String expected = "john of arc\n#000000\nprince john\n#000000\nprince john and the three stooges\n#000000\nking john\n#000000";
 
     assertEquals(expected, Preferences.getString("highlightList"));
   }
