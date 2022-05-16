@@ -340,7 +340,7 @@ public class ChatFormatter {
       return;
     }
 
-    removeHightlighting(highlight);
+    removeHighlighting(highlight);
 
     String newSetting =
         Preferences.getString("highlightList")
@@ -370,7 +370,7 @@ public class ChatFormatter {
       return;
     }
 
-    removeHightlighting(selectedValue);
+    removeHighlighting(selectedValue);
   }
 
   public static Collection<String> getHighlights() {
@@ -384,7 +384,7 @@ public class ChatFormatter {
     return highlights;
   }
 
-  public static void removeHightlighting(String selectedValue) {
+  public static void removeHighlighting(String selectedValue) {
     selectedValue = selectedValue.toLowerCase();
 
     String[] patterns = StyledChatBuffer.searchStrings.toArray(new String[0]);

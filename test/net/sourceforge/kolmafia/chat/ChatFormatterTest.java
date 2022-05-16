@@ -54,7 +54,7 @@ public class ChatFormatterTest {
     // A message added on, to prove that it doesn't wipe out following highlights
     ChatFormatter.addHighlighting("another test", color);
 
-    ChatFormatter.removeHightlighting("test");
+    ChatFormatter.removeHighlighting("test");
     String expected =
         "test case\n#000000\na test\n#000000\na test with a long message\n#000000\nanother test\n#000000";
 
