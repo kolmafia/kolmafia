@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,13 @@ public class AdventureSpentDatabaseTest {
   @BeforeEach
   private void beforeEach() {
     CharPaneRequest.reset();
+    AdventureSpentDatabase.resetTurns(false);
+  }
+
+  @AfterAll
+  public static void cleanup() {
+    CharPaneRequest.reset();
+    KoLAdventure.setLastAdventure("");
     AdventureSpentDatabase.resetTurns(false);
   }
 
