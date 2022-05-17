@@ -5,12 +5,20 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
+import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.SingleUseRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +44,7 @@ public class AdventureSpentDatabaseTest {
     CharPaneRequest.reset();
     KoLAdventure.setLastAdventure("");
     AdventureSpentDatabase.resetTurns(false);
+    KoLConstants.inventory.clear();
   }
 
   static String loadHTMLResponse(String path) throws IOException {
@@ -209,5 +218,100 @@ public class AdventureSpentDatabaseTest {
     assertEquals(2, AdventureSpentDatabase.getTurns(location, true));
     // assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
     assertEquals(1332328, AdventureSpentDatabase.getLastTurnUpdated());
+  }
+
+  @Test
+  public void canCountBinderClipInHiddenOfficeBuilding() throws IOException {
+    KoLAdventure location = AdventureDatabase.getAdventure("The Hidden Office Building");
+    KoLAdventure.setLastAdventure(location);
+    KoLCharacter.setCurrentRun(59404);
+    AdventureSpentDatabase.setLastTurnUpdated(59404);
+
+    // Don't let response parsing trigger this; we will process the requests manually
+    Preferences.setBoolean("autoCraft", false);
+
+    KoLConstants.inventory.clear();
+    AdventureResult MCCLUSKY_FILE_PAGE1 = ItemPool.get(ItemPool.MCCLUSKY_FILE_PAGE1, 1);
+    AdventureResult MCCLUSKY_FILE_PAGE2 = ItemPool.get(ItemPool.MCCLUSKY_FILE_PAGE2, 1);
+    AdventureResult MCCLUSKY_FILE_PAGE3 = ItemPool.get(ItemPool.MCCLUSKY_FILE_PAGE3, 1);
+    AdventureResult MCCLUSKY_FILE_PAGE4 = ItemPool.get(ItemPool.MCCLUSKY_FILE_PAGE4, 1);
+    AdventureResult MCCLUSKY_FILE_PAGE5 = ItemPool.get(ItemPool.MCCLUSKY_FILE_PAGE5, 1);
+    AdventureResult BINDER_CLIP = ItemPool.get(ItemPool.BINDER_CLIP, 1);
+    AdventureResult MCCLUSKY_FILE = ItemPool.get(ItemPool.MCCLUSKY_FILE, 1);
+
+    AdventureResult.addResultToList(KoLConstants.inventory, MCCLUSKY_FILE_PAGE1);
+    AdventureResult.addResultToList(
+        KoLConstants.inventory, ItemPool.get(ItemPool.MCCLUSKY_FILE_PAGE2, 1));
+    AdventureResult.addResultToList(
+        KoLConstants.inventory, ItemPool.get(ItemPool.MCCLUSKY_FILE_PAGE3, 1));
+    AdventureResult.addResultToList(
+        KoLConstants.inventory, ItemPool.get(ItemPool.MCCLUSKY_FILE_PAGE4, 1));
+    AdventureResult.addResultToList(
+        KoLConstants.inventory, ItemPool.get(ItemPool.MCCLUSKY_FILE_PAGE5, 1));
+
+    // adventure.php?snarfblat=343
+    // redirect -> choice.php?forceoption=0
+    String urlString = "choice.php?forceoption=0.php";
+    String responseText = loadHTMLResponse("request/test_adventures_spent_binder_clip_1.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
+    assertTrue(ChoiceManager.handlingChoice);
+    assertEquals(ChoiceManager.lastChoice, 786);
+    assertEquals(ChoiceManager.lastDecision, 0);
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_binder_clip_2.html");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(59404, KoLCharacter.getCurrentRun());
+    assertEquals(59404, KoLCharacter.getTurnsPlayed());
+    assertEquals(0, AdventureSpentDatabase.getTurns(location, true));
+
+    urlString = "choice.php?whichchoice=786&option=2&pwd";
+    responseText = loadHTMLResponse("request/test_adventures_spent_binder_clip_3.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    request.setHasResult(true);
+    ChoiceManager.preChoice(request);
+    request.processResponse();
+    assertFalse(ChoiceManager.handlingChoice);
+    assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(59404, AdventureSpentDatabase.getLastTurnUpdated());
+    assertEquals(1, InventoryManager.getCount(BINDER_CLIP));
+
+    // Simulate Auto crafting
+    CreateItemRequest creator = CreateItemRequest.getInstance(ItemPool.MCCLUSKY_FILE);
+    creator.setQuantityNeeded(1);
+    assertTrue(creator instanceof SingleUseRequest);
+    creator.reconstructFields();
+    urlString = "inv_use.php?which=3&whichitem=6694&ajax=1";
+    assertEquals(urlString, creator.getURLString());
+    SingleUseRequest.registerRequest(urlString);
+
+    responseText = loadHTMLResponse("request/test_adventures_spent_binder_clip_4.html");
+    creator.responseText = responseText;
+    creator.setHasResult(true);
+    creator.processResponse();
+    assertEquals(0, InventoryManager.getCount(MCCLUSKY_FILE_PAGE1));
+    assertEquals(0, InventoryManager.getCount(MCCLUSKY_FILE_PAGE2));
+    assertEquals(0, InventoryManager.getCount(MCCLUSKY_FILE_PAGE3));
+    assertEquals(0, InventoryManager.getCount(MCCLUSKY_FILE_PAGE4));
+    assertEquals(0, InventoryManager.getCount(MCCLUSKY_FILE_PAGE5));
+    assertEquals(0, InventoryManager.getCount(BINDER_CLIP));
+    assertEquals(1, InventoryManager.getCount(MCCLUSKY_FILE));
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_binder_clip_5.html");
+    ApiRequest.parseResponse(urlString, responseText);
+    // The total turn count advanced
+    assertEquals(59405, KoLCharacter.getTurnsPlayed());
+    // *** The run count did NOT advance
+    assertEquals(59404, KoLCharacter.getCurrentRun());
+    // This api.php cleared the flag set by the choice adventure
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    // *** but did not update the AdventureSpentDatabase
+    assertEquals(59404, AdventureSpentDatabase.getLastTurnUpdated());
+    assertEquals(0, AdventureSpentDatabase.getTurns(location, true));
   }
 }
