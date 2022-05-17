@@ -947,10 +947,6 @@ public class CharPaneRequest extends GenericRequest {
           "<a .*?href=\"([^\"]*)\"[^>]*>Last Adventure:</a>.*?<a .*?href=\"([^\"]*)\">([^<]*)</a>.*?</table>");
 
   private static void setLastAdventure(final String responseText) {
-    if (KoLCharacter.inFightOrChoice()) {
-      return;
-    }
-
     String adventureName = null;
     String adventureURL = null;
     String container = null;
@@ -981,11 +977,22 @@ public class CharPaneRequest extends GenericRequest {
       final String adventureName,
       final String adventureURL,
       final String container) {
-    if (KoLCharacter.inFightOrChoice()) {
+    if (KoLCharacter.inFight()) {
       return;
     }
 
+    if (AdventureSpentDatabase.getNoncombatEncountered()
+        && KoLCharacter.getCurrentRun() > AdventureSpentDatabase.getLastTurnUpdated()) {
+      AdventureSpentDatabase.addTurn(KoLAdventure.lastLocationName);
+    }
+    AdventureSpentDatabase.setNoncombatEncountered(false);
+    AdventureSpentDatabase.setLastTurnUpdated(KoLCharacter.getCurrentRun());
+
     if (adventureName == null || adventureName.equals("The Naughty Sorceress' Tower")) {
+      return;
+    }
+
+    if (KoLCharacter.inChoice()) {
       return;
     }
 
@@ -995,13 +1002,6 @@ public class CharPaneRequest extends GenericRequest {
     if (KoLmafia.isRefreshing()) {
       KoLAdventure.setNextAdventure(adventure);
     }
-
-    if (AdventureSpentDatabase.getNoncombatEncountered()
-        && KoLCharacter.getCurrentRun() > AdventureSpentDatabase.getLastTurnUpdated()) {
-      AdventureSpentDatabase.addTurn(KoLAdventure.lastLocationName);
-    }
-    AdventureSpentDatabase.setNoncombatEncountered(false);
-    AdventureSpentDatabase.setLastTurnUpdated(KoLCharacter.getCurrentRun());
   }
 
   private static final Pattern compactFamiliarWeightPattern = Pattern.compile("<br>([\\d]+) lb");

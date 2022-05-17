@@ -93,8 +93,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(1332326, KoLCharacter.getTurnsPlayed());
     assertEquals(1332326, KoLCharacter.getCurrentRun());
     assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
-    // *** FightRequest does not update this
-    assertEquals(1332325, AdventureSpentDatabase.getLastTurnUpdated());
+    assertEquals(1332326, AdventureSpentDatabase.getLastTurnUpdated());
 
     // Investigate fallen foe. choice.php
     urlString = "choice.php";
@@ -113,8 +112,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(1332326, KoLCharacter.getTurnsPlayed());
     assertEquals(1332326, KoLCharacter.getCurrentRun());
     assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
-    // *** Still not updated
-    assertEquals(1332325, AdventureSpentDatabase.getLastTurnUpdated());
+    assertEquals(1332326, AdventureSpentDatabase.getLastTurnUpdated());
 
     // Select choice.
     // urlString = "choice.php?pwd&whichchoice=879&option=3";
@@ -127,7 +125,7 @@ public class AdventureSpentDatabaseTest {
     FightRequest.updateCombatData(null, null, responseText);
     assertEquals(1, FightRequest.currentRound);
     assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
-    assertEquals(1332325, AdventureSpentDatabase.getLastTurnUpdated());
+    assertEquals(1332326, AdventureSpentDatabase.getLastTurnUpdated());
 
     // NO charpane.php requested.
 
@@ -140,7 +138,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(1332326, KoLCharacter.getCurrentRun());
     assertEquals(0, FightRequest.currentRound);
     assertEquals(2, AdventureSpentDatabase.getTurns(location, true));
-    assertEquals(1332325, AdventureSpentDatabase.getLastTurnUpdated());
+    assertEquals(1332326, AdventureSpentDatabase.getLastTurnUpdated());
     assertFalse(KoLCharacter.inFightOrChoice());
 
     // Won fight. charpane.php
@@ -194,8 +192,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(1332328, KoLCharacter.getTurnsPlayed());
     assertEquals(1332328, KoLCharacter.getCurrentRun());
     assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
-    // *** FightRequest does not update this
-    assertEquals(1332327, AdventureSpentDatabase.getLastTurnUpdated());
+    assertEquals(1332328, AdventureSpentDatabase.getLastTurnUpdated());
 
     // Investigate fallen foe. choice.php
     urlString = "choice.php";
@@ -215,8 +212,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(1332328, KoLCharacter.getTurnsPlayed());
     assertEquals(1332328, KoLCharacter.getCurrentRun());
     assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
-    // *** Still not updated
-    assertEquals(1332327, AdventureSpentDatabase.getLastTurnUpdated());
+    assertEquals(1332328, AdventureSpentDatabase.getLastTurnUpdated());
 
     // Select choice.
     urlString = "choice.php?pwd&whichchoice=879&option=1";
@@ -227,7 +223,7 @@ public class AdventureSpentDatabaseTest {
     request.processResponse();
     assertFalse(ChoiceManager.handlingChoice);
     assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
-    assertEquals(1332327, AdventureSpentDatabase.getLastTurnUpdated());
+    assertEquals(1332328, AdventureSpentDatabase.getLastTurnUpdated());
 
     // In choice adventure. charpane.php
     urlString = "charpane.php";
@@ -235,10 +231,7 @@ public class AdventureSpentDatabaseTest {
     CharPaneRequest.processResults(responseText);
     assertEquals(1332328, KoLCharacter.getTurnsPlayed());
     assertEquals(1332328, KoLCharacter.getCurrentRun());
-    // *** The following reveals a bug: this choice did NOT actually take an extra turn,
-    // *** but the AdventureSpentDatabase counted one.
-    assertEquals(2, AdventureSpentDatabase.getTurns(location, true));
-    // assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
     assertEquals(1332328, AdventureSpentDatabase.getLastTurnUpdated());
   }
 
@@ -406,10 +399,9 @@ public class AdventureSpentDatabaseTest {
     CharPaneRequest.processResults(responseText);
     assertEquals(988141, KoLCharacter.getTurnsPlayed());
     assertEquals(988141, KoLCharacter.getCurrentRun());
-    assertEquals(0, AdventureSpentDatabase.getTurns(location, true));
-    // *** Did not update turn?
-    assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
-    assertEquals(988140, AdventureSpentDatabase.getLastTurnUpdated());
+    assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(988141, AdventureSpentDatabase.getLastTurnUpdated());
 
     // Keep going
     urlString = "choice.php?pwd&whichchoice=1018&option=1";
@@ -420,17 +412,16 @@ public class AdventureSpentDatabaseTest {
     request.processResponse();
     assertTrue(ChoiceManager.handlingChoice);
     assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
-    assertEquals(988140, AdventureSpentDatabase.getLastTurnUpdated());
+    assertEquals(988141, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "charpane.php";
     responseText = loadHTMLResponse("request/test_adventures_spent_beehive_7.html");
     CharPaneRequest.processResults(responseText);
     assertEquals(988142, KoLCharacter.getTurnsPlayed());
     assertEquals(988142, KoLCharacter.getCurrentRun());
-    assertEquals(0, AdventureSpentDatabase.getTurns(location, true));
-    // *** Did not update turn?
-    assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
-    assertEquals(988140, AdventureSpentDatabase.getLastTurnUpdated());
+    assertEquals(2, AdventureSpentDatabase.getTurns(location, true));
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(988142, AdventureSpentDatabase.getLastTurnUpdated());
 
     // Almost... there...
     urlString = "choice.php?pwd&whichchoice=1019&option=1";
@@ -443,15 +434,14 @@ public class AdventureSpentDatabaseTest {
     assertEquals(1, InventoryManager.getCount(BEEHIVE));
     assertFalse(ChoiceManager.handlingChoice);
     assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
-    assertEquals(988140, AdventureSpentDatabase.getLastTurnUpdated());
+    assertEquals(988142, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "charpane.php";
     responseText = loadHTMLResponse("request/test_adventures_spent_beehive_9.html");
     CharPaneRequest.processResults(responseText);
     assertEquals(988143, KoLCharacter.getTurnsPlayed());
     assertEquals(988143, KoLCharacter.getCurrentRun());
-    // *** What the? We just spent three turns.
-    assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(3, AdventureSpentDatabase.getTurns(location, true));
     assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
     assertEquals(988143, AdventureSpentDatabase.getLastTurnUpdated());
   }
