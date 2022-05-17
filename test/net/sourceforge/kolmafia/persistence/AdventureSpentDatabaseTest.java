@@ -455,4 +455,145 @@ public class AdventureSpentDatabaseTest {
     assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
     assertEquals(988143, AdventureSpentDatabase.getLastTurnUpdated());
   }
+
+  @Test
+  public void canCountZeroTurnChoiceChain() throws IOException {
+    KoLAdventure location = AdventureDatabase.getAdventure("The SpookyForest");
+    KoLAdventure.setLastAdventure(location);
+    KoLCharacter.setTurnsPlayed(988527);
+    KoLCharacter.setCurrentRun(988527);
+    AdventureSpentDatabase.setLastTurnUpdated(988527);
+
+    // adventure.php?snarfblat=15
+    // redirect -> choice.php?forceoption=0
+    // Arboreal respite
+    String urlString = "choice.php?forceoption=0.php";
+    String responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_1_1.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
+    assertTrue(ChoiceManager.handlingChoice);
+    assertEquals(ChoiceManager.lastChoice, 502);
+    assertEquals(ChoiceManager.lastDecision, 0);
+
+    // Explore the Stream
+    urlString = "choice.php?whichchoice=502&option=2&pwd";
+    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_1_2.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
+    assertTrue(ChoiceManager.handlingChoice);
+    // NO charpane.php requested
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(988527, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // Squeeze into the cave
+    urlString = "choice.php?whichchoice=505&option=2&pwd";
+    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_1_3.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
+    assertFalse(ChoiceManager.handlingChoice);
+    // NO charpane.php requested
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(988527, AdventureSpentDatabase.getLastTurnUpdated());
+    assertEquals(0, AdventureSpentDatabase.getTurns(location, true));
+  }
+
+  @Test
+  public void canCountOneTurnChoiceChain() throws IOException {
+    KoLAdventure location = AdventureDatabase.getAdventure("The SpookyForest");
+    KoLAdventure.setLastAdventure(location);
+    KoLCharacter.setTurnsPlayed(988527);
+    KoLCharacter.setCurrentRun(988527);
+    AdventureSpentDatabase.setLastTurnUpdated(988527);
+
+    // adventure.php?snarfblat=15
+    // redirect -> choice.php?forceoption=0
+    // Arboreal respite
+    String urlString = "choice.php?forceoption=0.php";
+    String responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_1.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
+    assertTrue(ChoiceManager.handlingChoice);
+    assertEquals(ChoiceManager.lastChoice, 502);
+    assertEquals(ChoiceManager.lastDecision, 0);
+    // charpane.php requested - after a visit?
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(988527, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_2.html");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(988527, KoLCharacter.getTurnsPlayed());
+    assertEquals(988527, KoLCharacter.getCurrentRun());
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(0, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(988527, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // Brave the dark thicket
+    urlString = "choice.php?whichchoice=502&option=3&pwd";
+    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_3.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
+    assertTrue(ChoiceManager.handlingChoice);
+    // NO charpane.php requested
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(988527, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // Follow the even darker path
+    urlString = "choice.php?whichchoice=506&option=1&pwd";
+    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_4.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
+    assertTrue(ChoiceManager.handlingChoice);
+    // NO charpane.php requested
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(988527, AdventureSpentDatabase.getLastTurnUpdated());
+    assertEquals(0, AdventureSpentDatabase.getTurns(location, true));
+
+    // Take the scorched path
+    urlString = "choice.php?whichchoice=26&option=2&pwd";
+    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_5.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
+    assertTrue(ChoiceManager.handlingChoice);
+    // NO charpane.php requested
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(988527, AdventureSpentDatabase.getLastTurnUpdated());
+    assertEquals(0, AdventureSpentDatabase.getTurns(location, true));
+
+    // Investigate the smoking crater
+    urlString = "choice.php?whichchoice=28&option=2&pwd";
+    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_6.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
+    assertFalse(ChoiceManager.handlingChoice);
+    // charpane.php requested
+    assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(988527, AdventureSpentDatabase.getLastTurnUpdated());
+    assertEquals(0, AdventureSpentDatabase.getTurns(location, true));
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_7.html");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(988528, KoLCharacter.getTurnsPlayed());
+    assertEquals(988528, KoLCharacter.getCurrentRun());
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(988528, AdventureSpentDatabase.getLastTurnUpdated());
+  }
 }
