@@ -3117,11 +3117,16 @@ public abstract class KoLCharacter {
     return KoLCharacter.restricted;
   }
 
+  public static final boolean inFight() {
+    return FightRequest.currentRound != 0 || FightRequest.inMultiFight;
+  }
+
+  public static final boolean inChoice() {
+    return ChoiceManager.handlingChoice || FightRequest.choiceFollowsFight;
+  }
+
   public static final boolean inFightOrChoice() {
-    return ChoiceManager.handlingChoice
-        || FightRequest.currentRound != 0
-        || FightRequest.inMultiFight
-        || FightRequest.choiceFollowsFight;
+    return inFight() || inChoice();
   }
 
   /**

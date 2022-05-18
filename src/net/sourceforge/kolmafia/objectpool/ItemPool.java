@@ -2054,6 +2054,10 @@ public class ItemPool {
   public static final int ANTIQUE_MACHETE = 6679;
   public static final int BOWL_OF_SCORPIONS = 6681;
   public static final int BOOK_OF_MATCHES = 6683;
+  public static final int MCCLUSKY_FILE_PAGE1 = 6689;
+  public static final int MCCLUSKY_FILE_PAGE2 = 6690;
+  public static final int MCCLUSKY_FILE_PAGE3 = 6691;
+  public static final int MCCLUSKY_FILE_PAGE4 = 6692;
   public static final int MCCLUSKY_FILE_PAGE5 = 6693;
   public static final int BINDER_CLIP = 6694;
   public static final int MCCLUSKY_FILE = 6695;
