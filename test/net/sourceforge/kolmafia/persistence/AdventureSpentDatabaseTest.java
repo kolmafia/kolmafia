@@ -256,18 +256,14 @@ public class AdventureSpentDatabaseTest {
     AdventureResult MCCLUSKY_FILE = ItemPool.get(ItemPool.MCCLUSKY_FILE, 1);
 
     AdventureResult.addResultToList(KoLConstants.inventory, MCCLUSKY_FILE_PAGE1);
-    AdventureResult.addResultToList(
-        KoLConstants.inventory, ItemPool.get(ItemPool.MCCLUSKY_FILE_PAGE2, 1));
-    AdventureResult.addResultToList(
-        KoLConstants.inventory, ItemPool.get(ItemPool.MCCLUSKY_FILE_PAGE3, 1));
-    AdventureResult.addResultToList(
-        KoLConstants.inventory, ItemPool.get(ItemPool.MCCLUSKY_FILE_PAGE4, 1));
-    AdventureResult.addResultToList(
-        KoLConstants.inventory, ItemPool.get(ItemPool.MCCLUSKY_FILE_PAGE5, 1));
+    AdventureResult.addResultToList(KoLConstants.inventory, MCCLUSKY_FILE_PAGE2);
+    AdventureResult.addResultToList(KoLConstants.inventory, MCCLUSKY_FILE_PAGE3);
+    AdventureResult.addResultToList(KoLConstants.inventory, MCCLUSKY_FILE_PAGE4);
+    AdventureResult.addResultToList(KoLConstants.inventory, MCCLUSKY_FILE_PAGE5);
 
     // adventure.php?snarfblat=343
     // redirect -> choice.php?forceoption=0
-    String urlString = "choice.php?forceoption=0.php";
+    String urlString = "choice.php?forceoption=0";
     String responseText = loadHTMLResponse("request/test_adventures_spent_binder_clip_1.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
@@ -278,7 +274,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(ChoiceManager.lastDecision, 0);
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_binder_clip_2.html");
+    responseText = loadHTMLResponse("request/test_adventures_spent_binder_clip_2.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(59404, KoLCharacter.getTurnsPlayed());
     assertEquals(622, KoLCharacter.getCurrentRun());
@@ -319,7 +315,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(1, InventoryManager.getCount(MCCLUSKY_FILE));
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_binder_clip_5.html");
+    responseText = loadHTMLResponse("request/test_adventures_spent_binder_clip_5.json");
     ApiRequest.parseResponse(urlString, responseText);
     // The total turn and current run counts advanced
     assertEquals(59405, KoLCharacter.getTurnsPlayed());
@@ -448,7 +444,7 @@ public class AdventureSpentDatabaseTest {
 
   @Test
   public void canCountZeroTurnChoiceChain() throws IOException {
-    KoLAdventure location = AdventureDatabase.getAdventure("The SpookyForest");
+    KoLAdventure location = AdventureDatabase.getAdventure("The Spooky Forest");
     KoLAdventure.setLastAdventure(location);
     KoLCharacter.setTurnsPlayed(988527);
     KoLCharacter.setCurrentRun(988527);
@@ -457,7 +453,7 @@ public class AdventureSpentDatabaseTest {
     // adventure.php?snarfblat=15
     // redirect -> choice.php?forceoption=0
     // Arboreal respite
-    String urlString = "choice.php?forceoption=0.php";
+    String urlString = "choice.php?forceoption=0";
     String responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_1_1.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
@@ -495,7 +491,7 @@ public class AdventureSpentDatabaseTest {
 
   @Test
   public void canCountOneTurnChoiceChain() throws IOException {
-    KoLAdventure location = AdventureDatabase.getAdventure("The SpookyForest");
+    KoLAdventure location = AdventureDatabase.getAdventure("The Spooky Forest");
     KoLAdventure.setLastAdventure(location);
     KoLCharacter.setTurnsPlayed(988527);
     KoLCharacter.setCurrentRun(988527);
@@ -504,7 +500,7 @@ public class AdventureSpentDatabaseTest {
     // adventure.php?snarfblat=15
     // redirect -> choice.php?forceoption=0
     // Arboreal respite
-    String urlString = "choice.php?forceoption=0.php";
+    String urlString = "choice.php?forceoption=0";
     String responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_1.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
@@ -518,7 +514,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(988527, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_2.html");
+    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_2.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(988527, KoLCharacter.getTurnsPlayed());
     assertEquals(988527, KoLCharacter.getCurrentRun());
@@ -578,12 +574,332 @@ public class AdventureSpentDatabaseTest {
     assertEquals(0, AdventureSpentDatabase.getTurns(location, true));
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_7.html");
+    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_7.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(988528, KoLCharacter.getTurnsPlayed());
     assertEquals(988528, KoLCharacter.getCurrentRun());
     assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
     assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
     assertEquals(988528, AdventureSpentDatabase.getLastTurnUpdated());
+  }
+
+  @Test
+  public void canCountHiddenTempleTurns() throws IOException {
+    KoLAdventure location = AdventureDatabase.getAdventure("The Hidden Temple");
+    KoLAdventure.setLastAdventure(location);
+    KoLCharacter.setTurnsPlayed(60387);
+    KoLCharacter.setCurrentRun(559);
+    AdventureSpentDatabase.setLastTurnUpdated(60387);
+
+    KoLConstants.inventory.clear();
+    AdventureResult NOSTRIL_OF_THE_SERPENT = ItemPool.get(ItemPool.NOSTRIL_OF_THE_SERPENT, 1);
+    AdventureResult.addResultToList(KoLConstants.inventory, NOSTRIL_OF_THE_SERPENT);
+
+    // adventure.php?snarfblat=280
+    // redirect -> choice.php?forceoption=0 -> Fitting In
+    String urlString = "choice.php?forceoption=0";
+    String responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_1.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
+    assertTrue(ChoiceManager.handlingChoice);
+    assertEquals(ChoiceManager.lastChoice, 582);
+    assertEquals(ChoiceManager.lastDecision, 0);
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_2.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(60387, KoLCharacter.getTurnsPlayed());
+    assertEquals(559, KoLCharacter.getCurrentRun());
+    assertEquals(0, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(559, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // Poke around the ground floor -> The Hidden Heart of the Hidden Temple
+    urlString = "choice.php?whichchoice=582&option=2&pwd";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_3.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.preChoice(request);
+    assertEquals(ChoiceManager.lastChoice, 582);
+    assertEquals(ChoiceManager.lastDecision, 2);
+    request.processResponse();
+    assertTrue(ChoiceManager.handlingChoice);
+    // NO charpane.php requested
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(559, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // Go down the stairs -> Unconfusing Buttons
+    urlString = "choice.php?whichchoice=580&option=2&pwd";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_4.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.preChoice(request);
+    assertEquals(ChoiceManager.lastChoice, 580);
+    assertEquals(ChoiceManager.lastDecision, 2);
+    request.processResponse();
+    assertTrue(ChoiceManager.handlingChoice);
+    // charpane.php requested
+    assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(559, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_5.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(60387, KoLCharacter.getTurnsPlayed());
+    assertEquals(559, KoLCharacter.getCurrentRun());
+    assertEquals(0, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(559, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // The one with the cute little lightning-tailed guy on it -> The Hidden Heart of the Hidden
+    // Temple
+    urlString = "choice.php?whichchoice=584&option=4&pwd";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_6.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    request.setHasResult(true);
+    ChoiceManager.preChoice(request);
+    assertEquals(ChoiceManager.lastChoice, 584);
+    assertEquals(ChoiceManager.lastDecision, 4);
+    assertEquals(1, InventoryManager.getCount(NOSTRIL_OF_THE_SERPENT));
+    request.processResponse();
+    assertEquals(0, InventoryManager.getCount(NOSTRIL_OF_THE_SERPENT));
+    assertTrue(ChoiceManager.handlingChoice);
+    // charpane.php requested
+    assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(559, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_7.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(60387, KoLCharacter.getTurnsPlayed());
+    assertEquals(559, KoLCharacter.getCurrentRun());
+    assertEquals(0, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(559, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // Go through the door (3 Adventures) -> At Least It's Not Full Of Trash
+    urlString = "choice.php?whichchoice=580&option=1&pwd";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_8.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.preChoice(request);
+    assertEquals(ChoiceManager.lastChoice, 580);
+    assertEquals(ChoiceManager.lastDecision, 1);
+    request.processResponse();
+    assertTrue(ChoiceManager.handlingChoice);
+    // NO charpane.php requested
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(559, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // Raise your hands up toward the heavens -> Now What?
+    urlString = "choice.php?whichchoice=123&option=2&pwd";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_9.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.preChoice(request);
+    assertEquals(ChoiceManager.lastChoice, 123);
+    assertEquals(ChoiceManager.lastDecision, 2);
+    request.processResponse();
+    assertTrue(ChoiceManager.handlingChoice);
+    // charpane.php requested
+    assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(559, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_10.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(60388, KoLCharacter.getTurnsPlayed());
+    assertEquals(560, KoLCharacter.getCurrentRun());
+    assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // Continue down the corridor...
+    // choice.php
+    // redirect -> tiles.php -> Beginning at the Beginning of Beginning
+    urlString = "tiles.php";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_11.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    request.processResponse();
+    assertFalse(ChoiceManager.handlingChoice);
+    // charpane.php requested
+    assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_12.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(60388, KoLCharacter.getTurnsPlayed());
+    assertEquals(560, KoLCharacter.getCurrentRun());
+    assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // Give me a B!
+    urlString = "tiles.php?action=jump&whichtile=4";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_13.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    request.processResponse();
+    // charpane.php requested
+    // *** Bug: charpane requested in a noncombat
+    // assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_14.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(60388, KoLCharacter.getTurnsPlayed());
+    assertEquals(560, KoLCharacter.getCurrentRun());
+    assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // Give me an A!
+    urlString = "tiles.php?action=jump&whichtile=6";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_15.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    request.processResponse();
+    // charpane.php requested
+    // *** Bug: charpane requested in a noncombat
+    // assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_16.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(60388, KoLCharacter.getTurnsPlayed());
+    assertEquals(560, KoLCharacter.getCurrentRun());
+    assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // Give me an N!
+    urlString = "tiles.php?action=jump&whichtile=3";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_17.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    request.processResponse();
+    // charpane.php requested
+    // *** Bug: charpane requested in a noncombat
+    // assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_18.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(60388, KoLCharacter.getTurnsPlayed());
+    assertEquals(560, KoLCharacter.getCurrentRun());
+    assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // Give me an A!
+    urlString = "tiles.php?action=jump&whichtile=6";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_19.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    request.processResponse();
+    // charpane.php requested
+    // *** Bug: charpane requested in a noncombat
+    // assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_20.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(60388, KoLCharacter.getTurnsPlayed());
+    assertEquals(560, KoLCharacter.getCurrentRun());
+    assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // Give me an N!
+    urlString = "tiles.php?action=jump&whichtile=7";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_21.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    request.processResponse();
+    // charpane.php requested
+    // *** Bug: charpane requested in a noncombat
+    // assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_22.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(60388, KoLCharacter.getTurnsPlayed());
+    assertEquals(560, KoLCharacter.getCurrentRun());
+    assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // Give me an A!
+    urlString = "tiles.php?action=jump&whichtile=6";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_23.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    request.processResponse();
+    // charpane.php requested
+    // *** Bug: charpane requested in a noncombat
+    // assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_24.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(60388, KoLCharacter.getTurnsPlayed());
+    assertEquals(560, KoLCharacter.getCurrentRun());
+    assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // Give me an S!
+    // tiles.php?action=jump&whichtile=3
+    // What's that spell? BANANAS!
+    // redirect -> choice.php?forceoption=0 -> No Visible Means of Support
+    urlString = "choice.php?forceoption=0";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_25.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
+    assertTrue(ChoiceManager.handlingChoice);
+    assertEquals(ChoiceManager.lastChoice, 125);
+    assertEquals(ChoiceManager.lastDecision, 0);
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_26.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(60389, KoLCharacter.getTurnsPlayed());
+    assertEquals(561, KoLCharacter.getCurrentRun());
+    // *** Bug: Should be
+    // assertEquals(2, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(561, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // Do nothing
+    urlString = "choice.php?whichchoice=125&option=3&pwd";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_27.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.preChoice(request);
+    assertEquals(ChoiceManager.lastChoice, 125);
+    assertEquals(ChoiceManager.lastDecision, 3);
+    request.processResponse();
+    assertFalse(ChoiceManager.handlingChoice);
+    // charpane.php requested
+    assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(561, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_28.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(60390, KoLCharacter.getTurnsPlayed());
+    assertEquals(562, KoLCharacter.getCurrentRun());
+    // *** Bug: Should be
+    // assertEquals(3, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(2, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(562, AdventureSpentDatabase.getLastTurnUpdated());
   }
 }
