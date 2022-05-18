@@ -1805,6 +1805,7 @@ user	_kolhsPoeticallyLicenced	false
 user	_kolhsSavedByTheBell	0
 user	_kolhsSchoolSpirited	false
 user	_kudzuSaladEaten	false
+user	_lastAsdonBumperTurn	0
 user	_lastCombatStarted
 user	_lastDailyDungeonRoom	0
 user	_LastPirateRealmIsland
