@@ -13514,14 +13514,14 @@ public abstract class ChoiceManager {
 
     ChoiceManager.handlingChoice = ChoiceManager.stillInChoice(text);
 
-    if (ChoiceManager.lastChoice == 0 || ChoiceManager.lastDecision == 0) {
-      // This was a visit
-      return;
-    }
-
     if (text.contains("charpane.php")) {
       // Since a charpane refresh was requested, a turn might have been spent
       AdventureSpentDatabase.setNoncombatEncountered(true);
+    }
+
+    if (ChoiceManager.lastChoice == 0 || ChoiceManager.lastDecision == 0) {
+      // This was a visit
+      return;
     }
 
     switch (ChoiceManager.lastChoice) {

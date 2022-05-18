@@ -510,7 +510,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(ChoiceManager.lastChoice, 502);
     assertEquals(ChoiceManager.lastDecision, 0);
     // charpane.php requested - after a visit?
-    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
     assertEquals(988527, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
@@ -720,6 +720,7 @@ public class AdventureSpentDatabaseTest {
     responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_11.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
+    request.setHasResult(true);
     request.processResponse();
     assertFalse(ChoiceManager.handlingChoice);
     // charpane.php requested
@@ -739,11 +740,10 @@ public class AdventureSpentDatabaseTest {
     responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_13.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
+    request.setHasResult(true);
     request.processResponse();
     // charpane.php requested
-    // *** Bug: charpane requested in a noncombat
-    // assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
-    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
     assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
@@ -759,11 +759,10 @@ public class AdventureSpentDatabaseTest {
     responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_15.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
+    request.setHasResult(true);
     request.processResponse();
     // charpane.php requested
-    // *** Bug: charpane requested in a noncombat
-    // assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
-    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
     assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
@@ -779,11 +778,10 @@ public class AdventureSpentDatabaseTest {
     responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_17.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
+    request.setHasResult(true);
     request.processResponse();
     // charpane.php requested
-    // *** Bug: charpane requested in a noncombat
-    // assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
-    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
     assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
@@ -799,11 +797,10 @@ public class AdventureSpentDatabaseTest {
     responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_19.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
+    request.setHasResult(true);
     request.processResponse();
     // charpane.php requested
-    // *** Bug: charpane requested in a noncombat
-    // assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
-    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
     assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
@@ -819,11 +816,10 @@ public class AdventureSpentDatabaseTest {
     responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_21.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
+    request.setHasResult(true);
     request.processResponse();
     // charpane.php requested
-    // *** Bug: charpane requested in a noncombat
-    // assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
-    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
     assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
@@ -839,11 +835,10 @@ public class AdventureSpentDatabaseTest {
     responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_23.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
+    request.setHasResult(true);
     request.processResponse();
     // charpane.php requested
-    // *** Bug: charpane requested in a noncombat
-    // assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
-    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertTrue(AdventureSpentDatabase.getNoncombatEncountered());
     assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
@@ -863,6 +858,7 @@ public class AdventureSpentDatabaseTest {
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
+    request.setHasResult(true);
     request.processResponse();
     assertTrue(ChoiceManager.handlingChoice);
     assertEquals(ChoiceManager.lastChoice, 125);
@@ -873,9 +869,7 @@ public class AdventureSpentDatabaseTest {
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(60389, KoLCharacter.getTurnsPlayed());
     assertEquals(561, KoLCharacter.getCurrentRun());
-    // *** Bug: Should be
-    // assertEquals(2, AdventureSpentDatabase.getTurns(location, true));
-    assertEquals(1, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(2, AdventureSpentDatabase.getTurns(location, true));
     assertEquals(561, AdventureSpentDatabase.getLastTurnUpdated());
 
     // Do nothing
@@ -897,9 +891,7 @@ public class AdventureSpentDatabaseTest {
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(60390, KoLCharacter.getTurnsPlayed());
     assertEquals(562, KoLCharacter.getCurrentRun());
-    // *** Bug: Should be
-    // assertEquals(3, AdventureSpentDatabase.getTurns(location, true));
-    assertEquals(2, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(3, AdventureSpentDatabase.getTurns(location, true));
     assertEquals(562, AdventureSpentDatabase.getLastTurnUpdated());
   }
 }
