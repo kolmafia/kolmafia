@@ -58,7 +58,10 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
     try (cleanups) {
       String output = execute("");
-      assertThat(output, containsString("Usage: asdonmartin drive style|clear, fuel [#] item name  - Get drive buff or convert items to fuel"));
+      assertThat(
+          output,
+          containsString(
+              "Usage: asdonmartin drive style|clear, fuel [#] item name  - Get drive buff or convert items to fuel"));
     }
   }
 
@@ -68,7 +71,10 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
     try (cleanups) {
       String output = execute("drive");
-      assertThat(output, containsString("Usage: asdonmartin drive style|clear, fuel [#] item name  - Get drive buff or convert items to fuel"));
+      assertThat(
+          output,
+          containsString(
+              "Usage: asdonmartin drive style|clear, fuel [#] item name  - Get drive buff or convert items to fuel"));
     }
   }
 
@@ -85,7 +91,8 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void driveClearClearsStyle() {
-    var cleanups = new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN), addEffect("Driving Obnoxiously"));
+    var cleanups =
+        new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN), addEffect("Driving Obnoxiously"));
 
     try (cleanups) {
       execute("drive clear");
@@ -98,7 +105,9 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
       assertThat(uri.getPath(), equalTo("/campground.php"));
       assertThat(request.method(), equalTo("POST"));
       var body = new RequestBodyReader().bodyAsString(request);
-      assertThat(URLDecoder.decode(body, StandardCharsets.UTF_8), equalTo("preaction=undrive&stop=Stop+Driving+Obnoxiously"));
+      assertThat(
+          URLDecoder.decode(body, StandardCharsets.UTF_8),
+          equalTo("preaction=undrive&stop=Stop+Driving+Obnoxiously"));
     }
   }
 
@@ -138,13 +147,16 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
       assertThat(uri.getPath(), equalTo("/campground.php"));
       assertThat(request.method(), equalTo("POST"));
       var body = new RequestBodyReader().bodyAsString(request);
-      assertThat(URLDecoder.decode(body, StandardCharsets.UTF_8), equalTo("preaction=drive&whichdrive=0"));
+      assertThat(
+          URLDecoder.decode(body, StandardCharsets.UTF_8), equalTo("preaction=drive&whichdrive=0"));
     }
   }
 
   @Test
   void driveSameEffectExtends() {
-    var cleanups = new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN), addEffect("Driving Obnoxiously"), setFuel());
+    var cleanups =
+        new Cleanups(
+            setWorkshed(ItemPool.ASDON_MARTIN), addEffect("Driving Obnoxiously"), setFuel());
 
     try (cleanups) {
       execute("drive obnoxiously");
@@ -157,13 +169,17 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
       assertThat(uri.getPath(), equalTo("/campground.php"));
       assertThat(request.method(), equalTo("POST"));
       var body = new RequestBodyReader().bodyAsString(request);
-      assertThat(URLDecoder.decode(body, StandardCharsets.UTF_8), equalTo("preaction=drive&whichdrive=0&more=Drive+More+Obnoxiously"));
+      assertThat(
+          URLDecoder.decode(body, StandardCharsets.UTF_8),
+          equalTo("preaction=drive&whichdrive=0&more=Drive+More+Obnoxiously"));
     }
   }
 
   @Test
   void driveNewEffectRemovesAndAdds() {
-    var cleanups = new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN), addEffect("Driving Obnoxiously"), setFuel());
+    var cleanups =
+        new Cleanups(
+            setWorkshed(ItemPool.ASDON_MARTIN), addEffect("Driving Obnoxiously"), setFuel());
 
     try (cleanups) {
       execute("drive observantly");
@@ -176,14 +192,17 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
       assertThat(uri.getPath(), equalTo("/campground.php"));
       assertThat(first.method(), equalTo("POST"));
       var body = new RequestBodyReader().bodyAsString(first);
-      assertThat(URLDecoder.decode(body, StandardCharsets.UTF_8), equalTo("preaction=undrive&stop=Stop+Driving+Obnoxiously"));
+      assertThat(
+          URLDecoder.decode(body, StandardCharsets.UTF_8),
+          equalTo("preaction=undrive&stop=Stop+Driving+Obnoxiously"));
 
       var second = requests.get(1);
       uri = second.uri();
       assertThat(uri.getPath(), equalTo("/campground.php"));
       assertThat(second.method(), equalTo("POST"));
       body = new RequestBodyReader().bodyAsString(second);
-      assertThat(URLDecoder.decode(body, StandardCharsets.UTF_8), equalTo("preaction=drive&whichdrive=7"));
+      assertThat(
+          URLDecoder.decode(body, StandardCharsets.UTF_8), equalTo("preaction=drive&whichdrive=7"));
     }
   }
 
@@ -211,7 +230,8 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
 
   @Test
   void fuelValidSendsRequest() {
-    var cleanups = new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN), addItem("loaf of soda bread", 10));
+    var cleanups =
+        new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN), addItem("loaf of soda bread", 10));
 
     try (cleanups) {
       execute("fuel 10 soda bread");
@@ -224,13 +244,16 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
       assertThat(uri.getPath(), equalTo("/campground.php"));
       assertThat(request.method(), equalTo("POST"));
       var body = new RequestBodyReader().bodyAsString(request);
-      assertThat(URLDecoder.decode(body, StandardCharsets.UTF_8), equalTo("action=fuelconvertor&qty=10&iid=8195"));
+      assertThat(
+          URLDecoder.decode(body, StandardCharsets.UTF_8),
+          equalTo("action=fuelconvertor&qty=10&iid=8195"));
     }
   }
 
   @Test
   void fuelZeroDoesNotSendRequest() {
-    var cleanups = new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN), addItem("loaf of soda bread", 10));
+    var cleanups =
+        new Cleanups(setWorkshed(ItemPool.ASDON_MARTIN), addItem("loaf of soda bread", 10));
 
     try (cleanups) {
       execute("fuel 0 soda bread");
@@ -245,5 +268,4 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
     CampgroundRequest.setFuel(37);
     return new Cleanups(() -> CampgroundRequest.setFuel(0));
   }
-
 }

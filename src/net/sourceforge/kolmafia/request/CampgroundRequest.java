@@ -1566,8 +1566,8 @@ public class CampgroundRequest extends GenericRequest {
   /**
    * Remove the current workshed item from the campground.
    *
-   * Only for use in tests: the only way to remove your workshed is by ascending, and in that case
-   * `reset` works better.
+   * <p>Only for use in tests: the only way to remove your workshed is by ascending, and in that
+   * case `reset` works better.
    */
   public static void resetCurrentWorkshedItem() {
     CampgroundRequest.currentWorkshedItem = null;
