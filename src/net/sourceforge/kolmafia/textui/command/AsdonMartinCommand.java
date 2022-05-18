@@ -64,7 +64,8 @@ public class AsdonMartinCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    if (CampgroundRequest.getCurrentWorkshedItem().getItemId() != ItemPool.ASDON_MARTIN) {
+    var workshedItem = CampgroundRequest.getCurrentWorkshedItem();
+    if (workshedItem == null || workshedItem.getItemId() != ItemPool.ASDON_MARTIN) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You do not have an Asdon Martin");
       return;
     }
@@ -74,7 +75,7 @@ public class AsdonMartinCommand extends AbstractCommand {
 
     if (command.equals("drive")) {
       if (params.length < 2) {
-        RequestLogger.printLine("Usage: asdonmartin " + this.usage);
+        RequestLogger.printLine("Usage: asdonmartin" + this.usage);
         return;
       }
       String driveStyle = params[1];
@@ -142,13 +143,15 @@ public class AsdonMartinCommand extends AbstractCommand {
             MafiaState.ERROR, "You don't have enough " + item.getDataName() + ".");
         return;
       }
-      CampgroundRequest request = new CampgroundRequest("fuelconvertor");
-      request.addFormField("qty", String.valueOf(item.getCount()));
-      request.addFormField("iid", String.valueOf(item.getItemId()));
-      RequestThread.postRequest(request);
+      if (item.getCount() > 0) {
+        CampgroundRequest request = new CampgroundRequest("fuelconvertor");
+        request.addFormField("qty", String.valueOf(item.getCount()));
+        request.addFormField("iid", String.valueOf(item.getItemId()));
+        RequestThread.postRequest(request);
+      }
       return;
     }
 
-    RequestLogger.printLine("Usage: asdonmartin " + this.usage);
+    RequestLogger.printLine("Usage: asdonmartin" + this.usage);
   }
 }
