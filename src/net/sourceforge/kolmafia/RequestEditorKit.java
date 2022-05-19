@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JButton;
@@ -479,6 +480,9 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
+    // Remove redundant requests for a charpane refresh
+    RequestEditorKit.suppressRedundantRefreshes(buffer);
+
     // Handle changes which happen on a lot of different pages
     // rather than just one or two.
 
@@ -851,6 +855,24 @@ public class RequestEditorKit extends HTMLEditorKit {
         FloristRequest.reset();
         RequestThread.postRequest(new FloristRequest());
       }
+    }
+  }
+
+  private static final Pattern CHARPANE_REFRESH_PATTERN =
+      Pattern.compile("top.charpane.location.href=\"charpane.php\";\\n?", Pattern.DOTALL);
+
+  private static void suppressRedundantRefreshes(final StringBuffer buffer) {
+    Matcher matcher = CHARPANE_REFRESH_PATTERN.matcher(buffer);
+    MatchResult[] matches = matcher.results().toArray(MatchResult[]::new);
+    // Index of the last match - if any
+    int index = matches.length - 1;
+    // If there is more than one match, retain only the final one. Since we are
+    // removing matches from the buffer, count down to preserve earlier indices
+    while (index > 0) {
+      MatchResult result = matches[--index];
+      int start = result.start();
+      int end = result.end();
+      buffer.replace(start, end, "");
     }
   }
 
