@@ -76,7 +76,7 @@ public class AsdonMartinCommand extends AbstractCommand {
   @Override
   public void run(final String cmd, final String parameters) {
     var workshedItem = CampgroundRequest.getCurrentWorkshedItem();
-    if (workshedItem == null || workshedItem.getItemId() != ItemPool.ASDON_MARTIN) {
+    if (workshedItem == null || (workshedItem.getItemId() != ItemPool.ASDON_MARTIN)) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You do not have an Asdon Martin");
       return;
     }
