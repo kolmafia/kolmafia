@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.pages.PageRegistry;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -561,6 +562,10 @@ public class ResponseTextParser {
     }
 
     if (location.startsWith("tiles.php")) {
+      if (responseText.contains("charpane.php")) {
+        // Since a charpane refresh was requested, this might have taken a turn
+        AdventureSpentDatabase.setNoncombatEncountered(true);
+      }
       DvorakManager.parseResponse(location, responseText);
     } else if (location.startsWith("topmenu.php")) {
       if (KoLCharacter.getLimitmode() == Limitmode.BATMAN) {

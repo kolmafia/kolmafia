@@ -46,7 +46,7 @@ public class AdventureSpentDatabase implements Serializable {
     resetTurns(true);
   }
 
-  private static void resetTurns(boolean serializeAfterwards) {
+  public static void resetTurns(boolean serializeAfterwards) {
     AdventureSpentDatabase.TURNS = new TreeMap<String, Integer>();
 
     List<KoLAdventure> list = AdventureDatabase.getAsLockableListModel();

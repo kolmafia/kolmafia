@@ -22,6 +22,7 @@ public class CharPaneDecoratorTest {
     GenericRequest.passwordHash = "abc123";
     KoLCharacter.reset("Test Character");
     Preferences.reset("Test Character");
+    CharPaneRequest.reset();
   }
 
   @AfterAll
