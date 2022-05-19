@@ -1563,6 +1563,17 @@ public class CampgroundRequest extends GenericRequest {
     }
   }
 
+  /**
+   * Remove the current workshed item from the campground.
+   *
+   * <p>Only for use in tests: the only way to remove your workshed is by ascending, and in that
+   * case `reset` works better.
+   */
+  public static void resetCurrentWorkshedItem() {
+    CampgroundRequest.currentWorkshedItem = null;
+    CampgroundRequest.removeCampgroundItem(CampgroundRequest.getCurrentWorkshedItem());
+  }
+
   public static boolean isDwelling(final int itemId) {
     switch (itemId) {
       case ItemPool.NEWBIESPORT_TENT:
@@ -1648,6 +1659,10 @@ public class CampgroundRequest extends GenericRequest {
 
   public static int getFuel() {
     return CampgroundRequest.asdonMartinFuel;
+  }
+
+  public static void setFuel(int fuel) {
+    CampgroundRequest.asdonMartinFuel = fuel;
   }
 
   public static void useFuel(final int fuel) {
