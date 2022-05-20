@@ -859,7 +859,8 @@ public class RequestEditorKit extends HTMLEditorKit {
   }
 
   private static final Pattern CHARPANE_REFRESH_PATTERN =
-      Pattern.compile("top.charpane.location.href=\"charpane.php\";\\n?", Pattern.DOTALL);
+      Pattern.compile(
+          "(?:top|parent).charpane.location.href=\"charpane.php\";\\n?", Pattern.DOTALL);
 
   private static void suppressRedundantRefreshes(final StringBuffer buffer) {
     Matcher matcher = CHARPANE_REFRESH_PATTERN.matcher(buffer);
