@@ -858,6 +858,23 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
   }
 
+  // Obsolete usage: put script into HTML comment.
+  //
+  // <script language=Javascript>
+  // <!--
+  // if (parent.frames.length == 0) location.href="game.php";
+  // top.charpane.location.href="charpane.php";
+  // //-->
+  // </script>
+  //
+  // Current usage: no HTML comments:
+  //
+  // <script>top.charpane.location.href="charpane.php";</script>
+  // <script>parent.charpane.location.href="charpane.php";</script>
+  //
+  // Either will force the browser to issue a request for charpane.php.
+  // The issue is that KoL will sometimes include BOTH, forcing two requests.
+
   private static final Pattern CHARPANE_REFRESH_PATTERN =
       Pattern.compile(
           "(?:top|parent).charpane.location.href=\"charpane.php\";\\n?", Pattern.DOTALL);
