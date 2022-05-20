@@ -225,6 +225,11 @@ public class Player {
     return new Cleanups(() -> CampgroundRequest.removeCampgroundItem(ItemPool.get(id, 1)));
   }
 
+  public static Cleanups setWorkshed(int id) {
+    CampgroundRequest.setCurrentWorkshedItem(id);
+    return new Cleanups(CampgroundRequest::resetCurrentWorkshedItem);
+  }
+
   public static Cleanups setProperty(String key, String value) {
     var oldValue = Preferences.getString(key);
     Preferences.setString(key, value);
