@@ -888,9 +888,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     // removing matches from the buffer, count down to preserve earlier indices
     while (index > 0) {
       MatchResult result = matches[--index];
-      int start = result.start();
-      int end = result.end();
-      buffer.replace(start, end, "");
+      buffer.replace(result.start(), result.end(), "");
     }
   }
 
