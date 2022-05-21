@@ -9,9 +9,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.GregorianCalendar;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,10 +46,10 @@ public class ResultProcessorTest {
   @Test
   public void obtainOysterEggOnWrongDay() {
     EquipmentManager.setEquipment(EquipmentManager.OFFHAND, ItemPool.get(ItemPool.OYSTER_BASKET));
-    ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
     // This was not an Oyster Egg Day.
     final var cleanups = isDay(new GregorianCalendar(2022, 0, 30, 12, 0));
     try (cleanups) {
+      ResultProcessor.processResult(true, MAGNIFICENT_OYSTER_EGG);
       assertEquals(Preferences.getInteger("_oysterEggsFound"), 0);
     }
   }
@@ -89,5 +94,29 @@ public class ResultProcessorTest {
     ResultProcessor.processResult(true, COSMIC_BOWLING_BALL);
 
     assertThat("cosmicBowlingBallReturnCombats", isSetTo(-1));
+  }
+
+  private static AdventureResult GOBLIN_WATER = ItemPool.get(ItemPool.GOBLIN_WATER);
+
+  @Test
+  public void gettingGoblinWaterFromAquagoblinCompletesGoblinQuest() {
+    QuestDatabase.setQuestProgress(QuestDatabase.Quest.GOBLIN, QuestDatabase.STARTED);
+    MonsterData aqua_g_monster = MonsterDatabase.findMonster("Aquagoblin");
+    MonsterStatusTracker.setNextMonster(aqua_g_monster);
+    KoLCharacter.setPath(AscensionPath.Path.HEAVY_RAINS);
+    ResultProcessor.processResult(true, GOBLIN_WATER);
+    Boolean QuestResult = QuestDatabase.isQuestFinished(QuestDatabase.Quest.GOBLIN);
+    assertTrue(QuestResult, "Getting Goblin water from AquaGoblin shoud finsih the L05 Quest");
+  }
+
+  @Test
+  public void gettingGoblinWaterFromCheengSpecsDoesNotCompleteGoblinQuest() {
+    QuestDatabase.setQuestProgress(QuestDatabase.Quest.GOBLIN, QuestDatabase.UNSTARTED);
+    MonsterData test_monster = MonsterDatabase.findMonster("zmobie");
+    MonsterStatusTracker.setNextMonster(test_monster);
+    ResultProcessor.processResult(true, GOBLIN_WATER);
+    assertFalse(
+        QuestDatabase.isQuestFinished(QuestDatabase.Quest.GOBLIN),
+        "Getting Goblin Water from anyone but Aquagoblin during heavy rains should not finish L05 Quest");
   }
 }

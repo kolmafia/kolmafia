@@ -2071,8 +2071,13 @@ public class ResultProcessor {
         break;
 
       case ItemPool.GOBLIN_WATER:
+        MonsterData last_monster = MonsterStatusTracker.getLastMonster();
+        if (last_monster == null) {
+          break;
+        }
+        String goblinWaterMonster = last_monster.getName();
         if (adventureResults
-            && RequestLogger.getLastURLString().contains("action=throneroom")
+            && goblinWaterMonster.equals("Aquagoblin")
             && KoLCharacter.inRaincore()) { // because you can now get the Goblin Water otherwise...
           QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
         }
@@ -2563,11 +2568,11 @@ public class ResultProcessor {
         break;
 
       case ItemPool.MERKIN_LOCKKEY:
-        MonsterData monster = MonsterStatusTracker.getLastMonster();
-        if (monster == null) {
+        MonsterData merkin_monster = MonsterStatusTracker.getLastMonster();
+        if (merkin_monster == null) {
           break;
         }
-        String lockkeyMonster = monster.getName();
+        String lockkeyMonster = merkin_monster.getName();
         Preferences.setString("merkinLockkeyMonster", lockkeyMonster);
         if (lockkeyMonster.equals("Mer-kin burglar")) {
           Preferences.setInteger("choiceAdventure312", 1);
