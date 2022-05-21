@@ -397,6 +397,7 @@ public class ApiRequest extends GenericRequest {
               "neverendingparty", Map.entry("neverendingPartyAlways", "_neverendingPartyToday")),
           Map.entry("voterregistered", Map.entry("voteAlways", "_voteToday")),
           Map.entry("boxingdaycare", Map.entry("daycareOpen", "_daycareToday")),
+          Map.entry("hascosmicball", Map.entry("cosmicBowlingBallOwned", "")),
           Map.entry("maydaykit", Map.entry("maydayContractOwned", "")));
 
   private static final void parseCoolItems(final String coolItems) {
