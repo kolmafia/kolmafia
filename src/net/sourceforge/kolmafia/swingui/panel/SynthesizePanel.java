@@ -37,7 +37,6 @@ import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase.Candy;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -402,9 +401,9 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
         case NAME:
           return candy.getName();
         case COUNT:
-          return IntegerPool.get(candy.getCount());
+          return candy.getCount();
         case COST:
-          return IntegerPool.get(candy.getCost());
+          return candy.getCost();
         default:
           throw new IllegalArgumentException("Invalid column index");
       }

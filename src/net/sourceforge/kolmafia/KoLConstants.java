@@ -163,7 +163,6 @@ public interface KoLConstants extends UtilityConstants {
     "fullness.txt",
     "inebriety.txt",
     "items.txt",
-    "mallprices.txt",
     "modifiers.txt",
     "monsters.txt",
     "nonfilling.txt",
@@ -583,6 +582,7 @@ public interface KoLConstants extends UtilityConstants {
   List<Integer> availableCombatSkillsList = new ArrayList<>();
   Set<Integer> availableCombatSkillsSet = new HashSet<>();
   List<UseSkillRequest> permedSkills = LockableListFactory.getInstance(UseSkillRequest.class);
+  Set<Integer> hardcorePermedSkills = new HashSet<>();
   List<UseSkillRequest> combatSkills = LockableListFactory.getInstance(UseSkillRequest.class);
 
   List<AdventureResult> activeEffects = LockableListFactory.getInstance(AdventureResult.class);

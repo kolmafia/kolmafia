@@ -6,7 +6,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -30,15 +29,15 @@ public class TavernManager {
   // 21->22  23->24->25
 
   private static final Integer[] searchOrder = {
-    // IntegerPool.get( 5 ),
-    IntegerPool.get(4), IntegerPool.get(3), IntegerPool.get(2),
-    IntegerPool.get(1), IntegerPool.get(6), IntegerPool.get(11),
-    IntegerPool.get(16), IntegerPool.get(21), IntegerPool.get(22),
-    IntegerPool.get(17), IntegerPool.get(23), IntegerPool.get(24),
-    IntegerPool.get(25), IntegerPool.get(12), IntegerPool.get(7),
-    IntegerPool.get(8), IntegerPool.get(13), IntegerPool.get(18),
-    IntegerPool.get(19), IntegerPool.get(14), IntegerPool.get(9),
-    IntegerPool.get(10), IntegerPool.get(15), IntegerPool.get(20),
+    // 5,
+    4, 3, 2,
+    1, 6, 11,
+    16, 21, 22,
+    17, 23, 24,
+    25, 12, 7,
+    8, 13, 18,
+    19, 14, 9,
+    10, 15, 20,
   };
 
   private static final int EXPLORE = 1;
@@ -327,7 +326,7 @@ public class TavernManager {
       }
 
       // Remove explored square from searchlist
-      int index = searchList.indexOf(IntegerPool.get(i + 1));
+      int index = searchList.indexOf(i + 1);
       if (index != -1) {
         searchList.remove(index);
       }

@@ -6,7 +6,6 @@ import java.util.*;
 import java.util.Map.Entry;
 import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -297,7 +296,7 @@ public class SkillDatabase {
     SkillDatabase.skillCategoryById.put(skillId, category);
     SkillDatabase.skillsByCategory.get(category).add(name);
 
-    SkillDatabase.castsById.put(skillId, IntegerPool.get(0));
+    SkillDatabase.castsById.put(skillId, 0);
   }
 
   public static final List<String> getSkillsByCategory(String category) {
@@ -330,7 +329,7 @@ public class SkillDatabase {
    * @return The name of the corresponding skill
    */
   public static final String getSkillName(final int skillId) {
-    return SkillDatabase.nameById.get(IntegerPool.get(skillId));
+    return SkillDatabase.nameById.get(skillId);
   }
 
   public static final String getSkillDataName(final String skillName) {
@@ -489,7 +488,7 @@ public class SkillDatabase {
    * @return The level of the corresponding skill
    */
   public static final int getSkillLevel(final int skillId) {
-    Integer level = SkillDatabase.levelById.get(IntegerPool.get(skillId));
+    Integer level = SkillDatabase.levelById.get(skillId);
     return level == null ? -1 : level;
   }
 
@@ -546,12 +545,12 @@ public class SkillDatabase {
    * @return The type of the corresponding skill
    */
   public static final int getSkillType(final int skillId) {
-    Integer skillType = SkillDatabase.skillTypeById.get(IntegerPool.get(skillId));
+    Integer skillType = SkillDatabase.skillTypeById.get(skillId);
     return skillType == null ? -1 : skillType.intValue();
   }
 
   public static final String getSkillTypeName(final int skillId) {
-    Integer skillType = SkillDatabase.skillTypeById.get(IntegerPool.get(skillId));
+    Integer skillType = SkillDatabase.skillTypeById.get(skillId);
     if (skillType == null) {
       return "unknown";
     }
@@ -560,7 +559,7 @@ public class SkillDatabase {
   }
 
   public static final String getSkillCategory(final int skillId) {
-    String cat = SkillDatabase.skillCategoryById.get(IntegerPool.get(skillId));
+    String cat = SkillDatabase.skillCategoryById.get(skillId);
     return cat == null ? "" : cat;
   }
 
@@ -571,7 +570,7 @@ public class SkillDatabase {
    * @return The type of the corresponding skill
    */
   public static final String getSkillImage(final int skillId) {
-    return SkillDatabase.imageById.get(IntegerPool.get(skillId));
+    return SkillDatabase.imageById.get(skillId);
   }
 
   /**
@@ -662,7 +661,7 @@ public class SkillDatabase {
       return 0;
     }
 
-    Long mpConsumption = SkillDatabase.mpConsumptionById.get(IntegerPool.get(skillId));
+    Long mpConsumption = SkillDatabase.mpConsumptionById.get(skillId);
 
     if (mpConsumption == null) {
       return 0;
@@ -868,7 +867,7 @@ public class SkillDatabase {
    * @return The duration of effect the cast gives
    */
   public static final int getEffectDuration(final int skillId) {
-    Integer duration = SkillDatabase.durationById.get(IntegerPool.get(skillId));
+    Integer duration = SkillDatabase.durationById.get(skillId);
     if (duration == null) {
       return 0;
     }
@@ -963,7 +962,7 @@ public class SkillDatabase {
    * @return <code>true</code> if the skill is a normal skill
    */
   public static final boolean isNormal(final int skillId) {
-    Integer skillType = SkillDatabase.skillTypeById.get(IntegerPool.get(skillId));
+    Integer skillType = SkillDatabase.skillTypeById.get(skillId);
     if (skillType == null) return false;
     int type = skillType.intValue();
     return type == SUMMON
@@ -1067,7 +1066,7 @@ public class SkillDatabase {
 
   /** Utility method used to determine if the given skill is of the appropriate type. */
   private static boolean isType(final int skillId, final int type) {
-    Integer skillType = SkillDatabase.skillTypeById.get(IntegerPool.get(skillId));
+    Integer skillType = SkillDatabase.skillTypeById.get(skillId);
     return skillType != null && skillType.intValue() == type;
   }
 
@@ -1710,12 +1709,12 @@ public class SkillDatabase {
 
   /** Method that is called when we need to update the number of casts for a given skill. */
   public static void registerCasts(int skillId, int count) {
-    Integer oldCasts = SkillDatabase.castsById.get(IntegerPool.get(skillId));
+    Integer oldCasts = SkillDatabase.castsById.get(skillId);
     if (oldCasts == null) {
-      oldCasts = IntegerPool.get(0);
+      oldCasts = 0;
     }
     int newCasts = oldCasts.intValue() + count;
-    SkillDatabase.castsById.put(IntegerPool.get(skillId), IntegerPool.get(newCasts));
+    SkillDatabase.castsById.put(skillId, newCasts);
   }
 
   public static String skillString(
@@ -1818,7 +1817,7 @@ public class SkillDatabase {
    * Utility method used to get the number of times a skill has been cast in the current session.
    */
   public static int getCasts(int skillId) {
-    Integer casts = SkillDatabase.castsById.get(IntegerPool.get(skillId));
+    Integer casts = SkillDatabase.castsById.get(skillId);
 
     if (casts == null) {
       return 0;

@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Objects;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 
@@ -13,7 +12,7 @@ public class DebugModifiers extends Modifiers {
   private static HashMap<Integer, String> wanted, adjustments;
   private static String currentType;
   private static String currentDesc;
-  private static StringBuffer buffer;
+  private static StringBuilder buffer;
 
   public static int setup(String parameters) {
     DebugModifiers.wanted = new HashMap<>();
@@ -21,13 +20,13 @@ public class DebugModifiers extends Modifiers {
     for (int i = 0; i < Modifiers.DOUBLE_MODIFIERS; ++i) {
       String name = Modifiers.getModifierName(i);
       if (name.toLowerCase().contains(parameters)) {
-        DebugModifiers.wanted.put(IntegerPool.get(i), "<td colspan=3>" + name + "</td>");
-        DebugModifiers.adjustments.put(IntegerPool.get(i), "<td colspan=2>" + name + "</td>");
+        DebugModifiers.wanted.put(i, "<td colspan=3>" + name + "</td>");
+        DebugModifiers.adjustments.put(i, "<td colspan=2>" + name + "</td>");
       }
     }
     DebugModifiers.currentType = "type";
     DebugModifiers.currentDesc = "source";
-    DebugModifiers.buffer = new StringBuffer("<table border=2>");
+    DebugModifiers.buffer = new StringBuilder("<table border=2>");
     return DebugModifiers.wanted.size();
   }
 
@@ -59,18 +58,17 @@ public class DebugModifiers extends Modifiers {
 
     super.add(index, mod, desc);
 
-    Integer key = IntegerPool.get(index);
+    Integer key = index;
     if (!DebugModifiers.wanted.containsKey(key)) {
       return;
     }
 
-    String lookup = desc;
-    String type = null;
-    String name = null;
-    int ind = lookup.indexOf(":");
+    String type;
+    String name;
+    int ind = desc.indexOf(":");
     if (ind > 0) {
-      type = lookup.substring(0, ind);
-      name = lookup.replace(type + ":", "");
+      type = desc.substring(0, ind);
+      name = desc.replace(type + ":", "");
     } else {
       type = "";
       name = desc;
@@ -109,8 +107,8 @@ public class DebugModifiers extends Modifiers {
       Iterator<String> allmods = Modifiers.getAllModifiers();
       while (allmods.hasNext()) {
         String lookup = allmods.next();
-        String type = null;
-        String name = null;
+        String type;
+        String name;
         int ind = lookup.indexOf(":");
         if (ind > 0) {
           type = lookup.substring(0, ind);
@@ -202,10 +200,9 @@ public class DebugModifiers extends Modifiers {
 
     @Override
     public int compareTo(Change o) {
-      Change other = o;
-      if (this.value < other.value) return 1;
-      if (this.value > other.value) return -1;
-      return this.name.compareTo(other.name);
+      if (this.value < o.value) return 1;
+      if (this.value > o.value) return -1;
+      return this.name.compareTo(o.name);
     }
   }
 }

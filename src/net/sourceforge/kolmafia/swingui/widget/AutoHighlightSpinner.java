@@ -5,7 +5,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AutoHighlightSpinner extends JSpinner {
@@ -15,10 +14,6 @@ public class AutoHighlightSpinner extends JSpinner {
     super();
     this.editor = new AutoHighlightNumberEditor(this);
     this.setEditor(editor);
-  }
-
-  public void setValue(int value) {
-    this.setValue(IntegerPool.get(value));
   }
 
   public void setHorizontalAlignment(int alignment) {
@@ -65,7 +60,7 @@ public class AutoHighlightSpinner extends JSpinner {
           String text = AutoHighlightNumberEditor.this.getText();
           int value = StringUtilities.parseInt(text);
           AutoHighlightNumberEditor.this.changing = true;
-          AutoHighlightSpinner.this.setValue(IntegerPool.get(value));
+          AutoHighlightSpinner.this.setValue(value);
           AutoHighlightNumberEditor.this.changing = false;
         } catch (NumberFormatException e) {
         }

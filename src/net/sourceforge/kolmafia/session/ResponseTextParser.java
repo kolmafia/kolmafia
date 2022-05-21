@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.pages.PageRegistry;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -347,6 +348,9 @@ public class ResponseTextParser {
           case ItemPool.COMBAT_LOVERS_LOCKET:
             LocketManager.parseLocket(responseText);
             break;
+          case ItemPool.UNBREAKABLE_UMBRELLA:
+            ItemDatabase.parseUmbrella(responseText);
+            break;
           default:
             changesFromTimeToTime = false;
             break;
@@ -530,7 +534,7 @@ public class ResponseTextParser {
     } else if (location.startsWith("sea_skatepark.php")) {
       SkateParkRequest.parseResponse(location, responseText);
     } else if (location.startsWith("sellstuff.php")) {
-      AutoSellRequest.parseCompactAutoSell(location, responseText);
+      AutoSellRequest.parseCompactAutoSell(location);
     } else if (location.startsWith("sellstuff_ugly.php")) {
       AutoSellRequest.parseDetailedAutoSell(location, responseText);
     } else if (location.startsWith("sendmessage.php")) {
@@ -558,6 +562,10 @@ public class ResponseTextParser {
     }
 
     if (location.startsWith("tiles.php")) {
+      if (responseText.contains("charpane.php")) {
+        // Since a charpane refresh was requested, this might have taken a turn
+        AdventureSpentDatabase.setNoncombatEncountered(true);
+      }
       DvorakManager.parseResponse(location, responseText);
     } else if (location.startsWith("topmenu.php")) {
       if (KoLCharacter.getLimitmode() == Limitmode.BATMAN) {

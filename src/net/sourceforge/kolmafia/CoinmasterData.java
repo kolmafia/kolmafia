@@ -9,7 +9,6 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -353,7 +352,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   public final Integer getRow(int itemId) {
     if (this.itemRows == null) {
-      return IntegerPool.get(itemId);
+      return itemId;
     }
     Integer row = this.itemRows.get(itemId);
     return row;

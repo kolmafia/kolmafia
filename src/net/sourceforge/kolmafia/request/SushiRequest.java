@@ -8,7 +8,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
@@ -182,13 +181,13 @@ public class SushiRequest extends CreateItemRequest {
   }
 
   private static final Object[][] BASE_SUSHI = {
-    {IntegerPool.get(1), "beefy nigiri"},
-    {IntegerPool.get(2), "glistening nigiri"},
-    {IntegerPool.get(3), "slick nigiri"},
-    {IntegerPool.get(4), "beefy maki"},
-    {IntegerPool.get(5), "glistening maki"},
-    {IntegerPool.get(6), "slick maki"},
-    {IntegerPool.get(7), "bento box"},
+    {1, "beefy nigiri"},
+    {2, "glistening nigiri"},
+    {3, "slick nigiri"},
+    {4, "beefy maki"},
+    {5, "glistening maki"},
+    {6, "slick maki"},
+    {7, "bento box"},
   };
 
   private static String idToName(final int id) {
@@ -240,10 +239,10 @@ public class SushiRequest extends CreateItemRequest {
   }
 
   private static final Object[][] TOPPING = {
-    {"salty", IntegerPool.get(ItemPool.SEA_SALT_CRYSTAL)},
-    {"magical", IntegerPool.get(ItemPool.DRAGONFISH_CAVIAR)},
-    {"electric", IntegerPool.get(ItemPool.EEL_SAUCE)},
-    {"Yuletide", IntegerPool.get(ItemPool.PEPPERMINT_EEL_SAUCE)},
+    {"salty", ItemPool.SEA_SALT_CRYSTAL},
+    {"magical", ItemPool.DRAGONFISH_CAVIAR},
+    {"electric", ItemPool.EEL_SAUCE},
+    {"Yuletide", ItemPool.PEPPERMINT_EEL_SAUCE},
   };
 
   private static String toppingToName(final String baseName, final int topping) {
@@ -269,21 +268,21 @@ public class SushiRequest extends CreateItemRequest {
   }
 
   private static final Object[][] FILLING1 = {
-    {"giant dragon roll", "beefy maki", IntegerPool.get(ItemPool.SEA_CUCUMBER)},
-    {"musclebound rabbit roll", "beefy maki", IntegerPool.get(ItemPool.SEA_CARROT)},
-    {"python roll", "beefy maki", IntegerPool.get(ItemPool.SEA_AVOCADO)},
-    {"Jack LaLanne roll", "beefy maki", IntegerPool.get(ItemPool.SEA_RADISH)},
-    {"jacked Santa roll", "beefy maki", IntegerPool.get(ItemPool.GREEN_AND_RED_BEAN)},
-    {"wise dragon roll", "glistening maki", IntegerPool.get(ItemPool.SEA_CUCUMBER)},
-    {"white rabbit roll", "glistening maki", IntegerPool.get(ItemPool.SEA_CARROT)},
-    {"ancient serpent roll", "glistening maki", IntegerPool.get(ItemPool.SEA_AVOCADO)},
-    {"wizened master roll", "glistening maki", IntegerPool.get(ItemPool.SEA_RADISH)},
-    {"omniscient Santa roll", "glistening maki", IntegerPool.get(ItemPool.GREEN_AND_RED_BEAN)},
-    {"tricky dragon roll", "slick maki", IntegerPool.get(ItemPool.SEA_CUCUMBER)},
-    {"sneaky rabbit roll", "slick maki", IntegerPool.get(ItemPool.SEA_CARROT)},
-    {"slippery snake roll", "slick maki", IntegerPool.get(ItemPool.SEA_AVOCADO)},
-    {"eleven oceans roll", "slick maki", IntegerPool.get(ItemPool.SEA_RADISH)},
-    {"sneaky Santa roll", "slick maki", IntegerPool.get(ItemPool.GREEN_AND_RED_BEAN)},
+    {"giant dragon roll", "beefy maki", ItemPool.SEA_CUCUMBER},
+    {"musclebound rabbit roll", "beefy maki", ItemPool.SEA_CARROT},
+    {"python roll", "beefy maki", ItemPool.SEA_AVOCADO},
+    {"Jack LaLanne roll", "beefy maki", ItemPool.SEA_RADISH},
+    {"jacked Santa roll", "beefy maki", ItemPool.GREEN_AND_RED_BEAN},
+    {"wise dragon roll", "glistening maki", ItemPool.SEA_CUCUMBER},
+    {"white rabbit roll", "glistening maki", ItemPool.SEA_CARROT},
+    {"ancient serpent roll", "glistening maki", ItemPool.SEA_AVOCADO},
+    {"wizened master roll", "glistening maki", ItemPool.SEA_RADISH},
+    {"omniscient Santa roll", "glistening maki", ItemPool.GREEN_AND_RED_BEAN},
+    {"tricky dragon roll", "slick maki", ItemPool.SEA_CUCUMBER},
+    {"sneaky rabbit roll", "slick maki", ItemPool.SEA_CARROT},
+    {"slippery snake roll", "slick maki", ItemPool.SEA_AVOCADO},
+    {"eleven oceans roll", "slick maki", ItemPool.SEA_RADISH},
+    {"sneaky Santa roll", "slick maki", ItemPool.GREEN_AND_RED_BEAN},
   };
 
   private static String filling1ToName(final String baseName, final int filling1) {
@@ -309,13 +308,13 @@ public class SushiRequest extends CreateItemRequest {
   }
 
   private static final Object[][] VEGGIE = {
-    {"tempura avocado", IntegerPool.get(ItemPool.TEMPURA_AVOCADO)},
-    {"tempura broccoli", IntegerPool.get(ItemPool.TEMPURA_BROCCOLI)},
-    {"tempura carrot", IntegerPool.get(ItemPool.TEMPURA_CARROT)},
-    {"tempura cauliflower", IntegerPool.get(ItemPool.TEMPURA_CAULIFLOWER)},
-    {"tempura cucumber", IntegerPool.get(ItemPool.TEMPURA_CUCUMBER)},
-    {"tempura green and red bean", IntegerPool.get(ItemPool.TEMPURA_GREEN_AND_RED_BEAN)},
-    {"tempura radish", IntegerPool.get(ItemPool.TEMPURA_RADISH)},
+    {"tempura avocado", ItemPool.TEMPURA_AVOCADO},
+    {"tempura broccoli", ItemPool.TEMPURA_BROCCOLI},
+    {"tempura carrot", ItemPool.TEMPURA_CARROT},
+    {"tempura cauliflower", ItemPool.TEMPURA_CAULIFLOWER},
+    {"tempura cucumber", ItemPool.TEMPURA_CUCUMBER},
+    {"tempura green and red bean", ItemPool.TEMPURA_GREEN_AND_RED_BEAN},
+    {"tempura radish", ItemPool.TEMPURA_RADISH},
   };
 
   private static String veggieToName(final String baseName, final int veggie) {
@@ -341,12 +340,12 @@ public class SushiRequest extends CreateItemRequest {
   }
 
   private static final Object[][] DIPPING = {
-    {"anemone sauce", IntegerPool.get(ItemPool.ANEMONE_SAUCE)},
-    {"eel sauce", IntegerPool.get(ItemPool.EEL_SAUCE)},
-    {"inky squid sauce", IntegerPool.get(ItemPool.INKY_SQUID_SAUCE)},
-    {"Mer-kin weaksauce", IntegerPool.get(ItemPool.MERKIN_WEAKSAUCE)},
-    {"peanut sauce", IntegerPool.get(ItemPool.PEANUT_SAUCE)},
-    {"peppermint eel sauce", IntegerPool.get(ItemPool.PEPPERMINT_EEL_SAUCE)},
+    {"anemone sauce", ItemPool.ANEMONE_SAUCE},
+    {"eel sauce", ItemPool.EEL_SAUCE},
+    {"inky squid sauce", ItemPool.INKY_SQUID_SAUCE},
+    {"Mer-kin weaksauce", ItemPool.MERKIN_WEAKSAUCE},
+    {"peanut sauce", ItemPool.PEANUT_SAUCE},
+    {"peppermint eel sauce", ItemPool.PEPPERMINT_EEL_SAUCE},
   };
 
   private static String dippingToName(final String baseName, final int dipping) {

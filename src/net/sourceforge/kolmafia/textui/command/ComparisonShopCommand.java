@@ -64,7 +64,7 @@ public class ComparisonShopCommand extends AbstractCommand implements Comparator
     for (String name : names) {
       int itemId = ItemDatabase.getItemId(name);
       AdventureResult item = ItemPool.get(itemId);
-      if (!ItemDatabase.isTradeable(itemId) || MallPriceManager.getMallPrice(item) <= 0) {
+      if (!ItemDatabase.isTradeable(itemId) || MallPriceManager.getMallPrice(itemId) <= 0) {
         continue;
       }
       if (!KoLmafia.permitsContinue()) {
@@ -89,12 +89,13 @@ public class ComparisonShopCommand extends AbstractCommand implements Comparator
       RequestLogger.printLine(
           item.getName()
               + " @ "
-              + KoLConstants.COMMA_FORMAT.format(MallPriceManager.getMallPrice(item)));
+              + KoLConstants.COMMA_FORMAT.format(MallPriceManager.getMallPrice(item.getItemId())));
     }
   }
 
   @Override
   public int compare(final AdventureResult o1, final AdventureResult o2) {
-    return MallPriceManager.getMallPrice(o1) - MallPriceManager.getMallPrice(o2);
+    return MallPriceManager.getMallPrice(o1.getItemId())
+        - MallPriceManager.getMallPrice(o2.getItemId());
   }
 }

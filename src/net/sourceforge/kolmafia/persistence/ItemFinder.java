@@ -14,7 +14,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
@@ -89,7 +88,7 @@ public class ItemFinder {
       if (itemId == -1) {
         pseudoItems += 1;
       } else {
-        itemIdSet.add(IntegerPool.get(itemId));
+        itemIdSet.add(itemId);
       }
     }
 
@@ -336,12 +335,13 @@ public class ItemFinder {
 
     // Find the item id
 
+    boolean returnAll = false;
     int itemCount = 1;
     int itemId = -1;
 
     // Allow the person to ask for all of the item from the source
     if (parameters.charAt(0) == '*') {
-      itemCount = 0;
+      returnAll = true;
       parameters = parameters.substring(1).trim();
     }
 
@@ -483,6 +483,11 @@ public class ItemFinder {
       firstMatch = ItemPool.get(itemName, itemCount);
     }
 
+    // if the user asked for zero, give them zero
+    if (itemCount == 0) return firstMatch;
+
+    if (returnAll) itemCount = 0;
+
     // The result also depends on the number of items which
     // are available in the given match area.
 
@@ -612,10 +617,10 @@ public class ItemFinder {
           long amount = 0;
 
           if (!amountString.equals("*")) {
-            amount = StringUtilities.parseInt(amountString);
+            amount = StringUtilities.parseLong(amountString);
           }
 
-          if (amount <= 0) {
+          if (amount < 0 || amountString.equals("*")) {
             amount +=
                 sourceList == KoLConstants.storage
                     ? KoLCharacter.getStorageMeat()

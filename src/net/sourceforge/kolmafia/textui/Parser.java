@@ -18,7 +18,6 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -204,7 +203,15 @@ public class Parser {
   }
 
   public String getStringUri() {
-    return this.fileUri != null ? this.fileUri.toString() : this.istream.toString();
+    if (this.fileUri != null) {
+      return this.fileUri.toString();
+    }
+
+    if (this.istream != null) {
+      return this.istream.toString();
+    }
+
+    return "";
   }
 
   public String getScriptName() {
@@ -1917,8 +1924,8 @@ public class Parser {
       final String line = this.restOfLine();
 
       try {
-        ostream.write(line.getBytes());
-        ostream.write(KoLConstants.LINE_BREAK.getBytes());
+        ostream.write(line.getBytes(StandardCharsets.UTF_8));
+        ostream.write(KoLConstants.LINE_BREAK.getBytes(StandardCharsets.UTF_8));
       } catch (Exception e) {
         // Byte array output streams do not throw errors,
         // other than out of memory errors.
@@ -2138,7 +2145,7 @@ public class Parser {
         }
 
         if (currentInteger == null) {
-          currentInteger = IntegerPool.get(currentIndex);
+          currentInteger = currentIndex;
         }
 
         if (test instanceof Constant && ((Constant) test).value.getClass() == Value.class) {

@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.swingui.table;
 
 import javax.swing.DefaultCellEditor;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -16,7 +15,7 @@ public class IntegerEditor extends DefaultCellEditor {
     AutoHighlightTextField field = (AutoHighlightTextField) getComponent();
     int value = StringUtilities.parseInt(field.getText());
 
-    return IntegerPool.get(value);
+    return value;
   }
 
   @Override

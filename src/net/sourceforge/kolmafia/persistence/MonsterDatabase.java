@@ -22,7 +22,6 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -1031,14 +1030,14 @@ public class MonsterDatabase {
     }
     String value = tokens.nextToken();
     if (value.equals("?")) {
-      return IntegerPool.get(def);
+      return def;
     }
     return parseNumeric(tokens, value);
   }
 
   private static Object parseNumeric(StringTokenizer tokens, String value) {
     if (!value.startsWith("[")) {
-      return IntegerPool.get(StringUtilities.parseInt(value));
+      return StringUtilities.parseInt(value);
     }
     // Must paste the entire expression back together, since we're
     // splitting the tokens on spaces.

@@ -24,7 +24,6 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -713,49 +712,37 @@ public class AdventureDatabase {
     // Adventure ID
     // Setting
     {
-      "The Haiku Dungeon",
-      IntegerPool.get(AdventurePool.HAIKU_DUNGEON),
-      "fistTeachingsHaikuDungeon",
+      "The Haiku Dungeon", AdventurePool.HAIKU_DUNGEON, "fistTeachingsHaikuDungeon",
     },
     {
-      "The Poker Room", IntegerPool.get(AdventurePool.POKER_ROOM), "fistTeachingsPokerRoom",
+      "The Poker Room", AdventurePool.POKER_ROOM, "fistTeachingsPokerRoom",
     },
     {
-      "A Barroom Brawl", IntegerPool.get(AdventurePool.BARROOM_BRAWL), "fistTeachingsBarroomBrawl",
+      "A Barroom Brawl", AdventurePool.BARROOM_BRAWL, "fistTeachingsBarroomBrawl",
     },
     {
-      "The Haunted Conservatory",
-      IntegerPool.get(AdventurePool.HAUNTED_CONSERVATORY),
-      "fistTeachingsConservatory",
+      "The Haunted Conservatory", AdventurePool.HAUNTED_CONSERVATORY, "fistTeachingsConservatory",
     },
     {
-      "The Bat Hole Entrance",
-      IntegerPool.get(AdventurePool.BAT_HOLE_ENTRYWAY),
-      "fistTeachingsBatHole",
+      "The Bat Hole Entrance", AdventurePool.BAT_HOLE_ENTRYWAY, "fistTeachingsBatHole",
     },
     {
-      "The \"Fun\" House", IntegerPool.get(AdventurePool.FUN_HOUSE), "fistTeachingsFunHouse",
+      "The \"Fun\" House", AdventurePool.FUN_HOUSE, "fistTeachingsFunHouse",
     },
     {
-      "Cobb's Knob Menagerie Level 2",
-      IntegerPool.get(AdventurePool.MENAGERIE_LEVEL_2),
-      "fistTeachingsMenagerie",
+      "Cobb's Knob Menagerie Level 2", AdventurePool.MENAGERIE_LEVEL_2, "fistTeachingsMenagerie",
     },
     {
-      "Pandamonium Slums", IntegerPool.get(AdventurePool.PANDAMONIUM_SLUMS), "fistTeachingsSlums",
+      "Pandamonium Slums", AdventurePool.PANDAMONIUM_SLUMS, "fistTeachingsSlums",
     },
     {
-      "Frat House", IntegerPool.get(AdventurePool.FRAT_HOUSE), "fistTeachingsFratHouse",
+      "Frat House", AdventurePool.FRAT_HOUSE, "fistTeachingsFratHouse",
     },
     {
-      "Road to the White Citadel",
-      IntegerPool.get(AdventurePool.ROAD_TO_WHITE_CITADEL),
-      "fistTeachingsRoad",
+      "Road to the White Citadel", AdventurePool.ROAD_TO_WHITE_CITADEL, "fistTeachingsRoad",
     },
     {
-      "Lair of the Ninja Snowmen",
-      IntegerPool.get(AdventurePool.NINJA_SNOWMEN),
-      "fistTeachingsNinjaSnowmen",
+      "Lair of the Ninja Snowmen", AdventurePool.NINJA_SNOWMEN, "fistTeachingsNinjaSnowmen",
     },
   };
 

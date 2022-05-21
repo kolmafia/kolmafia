@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -308,170 +307,170 @@ public class UneffectRequest extends GenericRequest {
     Set<Integer> removableEffects;
 
     removableEffects = new HashSet<Integer>();
-    removeWithItemMap.put(IntegerPool.get(ItemPool.ANTIDOTE), removableEffects);
-    removableEffects.add(IntegerPool.get(EffectPool.HARDLY_POISONED));
-    removableEffects.add(IntegerPool.get(EffectPool.MAJORLY_POISONED));
-    removableEffects.add(IntegerPool.get(EffectPool.A_LITTLE_BIT_POISONED));
-    removableEffects.add(IntegerPool.get(EffectPool.SOMEWHAT_POISONED));
-    removableEffects.add(IntegerPool.get(EffectPool.REALLY_QUITE_POISONED));
+    removeWithItemMap.put(ItemPool.ANTIDOTE, removableEffects);
+    removableEffects.add(EffectPool.HARDLY_POISONED);
+    removableEffects.add(EffectPool.MAJORLY_POISONED);
+    removableEffects.add(EffectPool.A_LITTLE_BIT_POISONED);
+    removableEffects.add(EffectPool.SOMEWHAT_POISONED);
+    removableEffects.add(EffectPool.REALLY_QUITE_POISONED);
 
     removableEffects = new HashSet<Integer>();
-    removeWithItemMap.put(IntegerPool.get(ItemPool.TINY_HOUSE), removableEffects);
-    removableEffects.add(IntegerPool.get(EffectPool.BEATEN_UP));
-    removableEffects.add(IntegerPool.get(EffectPool.CONFUSED));
-    removableEffects.add(IntegerPool.get(EffectPool.EMBARRASSED));
-    removableEffects.add(IntegerPool.get(EffectPool.SUNBURNED));
-    removableEffects.add(IntegerPool.get(EffectPool.WUSSINESS));
+    removeWithItemMap.put(ItemPool.TINY_HOUSE, removableEffects);
+    removableEffects.add(EffectPool.BEATEN_UP);
+    removableEffects.add(EffectPool.CONFUSED);
+    removableEffects.add(EffectPool.EMBARRASSED);
+    removableEffects.add(EffectPool.SUNBURNED);
+    removableEffects.add(EffectPool.WUSSINESS);
 
     removableEffects = new HashSet<Integer>();
-    removeWithItemMap.put(IntegerPool.get(ItemPool.TEARS), removableEffects);
-    removableEffects.add(IntegerPool.get(EffectPool.BEATEN_UP));
+    removeWithItemMap.put(ItemPool.TEARS, removableEffects);
+    removableEffects.add(EffectPool.BEATEN_UP);
 
     removableEffects = new HashSet<Integer>();
-    removeWithItemMap.put(IntegerPool.get(ItemPool.TRIPPLES), removableEffects);
-    removableEffects.add(IntegerPool.get(EffectPool.BEATEN_UP));
+    removeWithItemMap.put(ItemPool.TRIPPLES, removableEffects);
+    removableEffects.add(EffectPool.BEATEN_UP);
 
     removableEffects = new HashSet<Integer>();
-    removeWithItemMap.put(IntegerPool.get(ItemPool.HOT_DREADSYLVANIAN_COCOA), removableEffects);
-    removableEffects.add(IntegerPool.get(EffectPool.TOUCHED_BY_A_GHOST));
-    removableEffects.add(IntegerPool.get(EffectPool.CHILLED_TO_THE_BONE));
-    removableEffects.add(IntegerPool.get(EffectPool.NAUSEATED));
-    removableEffects.add(IntegerPool.get(EffectPool.CURSE_OF_HOLLOWNESS));
-    removableEffects.add(IntegerPool.get(EffectPool.CURSE_OF_VULNERABILITY));
-    removableEffects.add(IntegerPool.get(EffectPool.CURSE_OF_EXPOSURE));
-    removableEffects.add(IntegerPool.get(EffectPool.CURSE_OF_IMPOTENCE));
-    removableEffects.add(IntegerPool.get(EffectPool.CURSE_OF_DULLNESS));
-    removableEffects.add(IntegerPool.get(EffectPool.CURSE_OF_WEAKNESS));
-    removableEffects.add(IntegerPool.get(EffectPool.CURSE_OF_SLUGGISHNESS));
-    removableEffects.add(IntegerPool.get(EffectPool.CURSE_OF_FORGETFULNESS));
-    removableEffects.add(IntegerPool.get(EffectPool.CURSE_OF_MISFORTUNE));
-    removableEffects.add(IntegerPool.get(EffectPool.CURSE_OF_CLUMSINESS));
-    removableEffects.add(IntegerPool.get(EffectPool.CURSE_OF_LONELINESS));
+    removeWithItemMap.put(ItemPool.HOT_DREADSYLVANIAN_COCOA, removableEffects);
+    removableEffects.add(EffectPool.TOUCHED_BY_A_GHOST);
+    removableEffects.add(EffectPool.CHILLED_TO_THE_BONE);
+    removableEffects.add(EffectPool.NAUSEATED);
+    removableEffects.add(EffectPool.CURSE_OF_HOLLOWNESS);
+    removableEffects.add(EffectPool.CURSE_OF_VULNERABILITY);
+    removableEffects.add(EffectPool.CURSE_OF_EXPOSURE);
+    removableEffects.add(EffectPool.CURSE_OF_IMPOTENCE);
+    removableEffects.add(EffectPool.CURSE_OF_DULLNESS);
+    removableEffects.add(EffectPool.CURSE_OF_WEAKNESS);
+    removableEffects.add(EffectPool.CURSE_OF_SLUGGISHNESS);
+    removableEffects.add(EffectPool.CURSE_OF_FORGETFULNESS);
+    removableEffects.add(EffectPool.CURSE_OF_MISFORTUNE);
+    removableEffects.add(EffectPool.CURSE_OF_CLUMSINESS);
+    removableEffects.add(EffectPool.CURSE_OF_LONELINESS);
 
     UneffectRequest.REMOVABLE_BY_ITEM = removeWithItemMap.entrySet();
 
     removableEffects = new HashSet<Integer>();
     removeWithSkillMap.put("Tongue of the Walrus", removableEffects);
-    removableEffects.add(IntegerPool.get(EffectPool.AXE_WOUND));
-    removableEffects.add(IntegerPool.get(EffectPool.BEATEN_UP));
-    removableEffects.add(IntegerPool.get(EffectPool.GRILLED));
-    removableEffects.add(IntegerPool.get(EffectPool.HALF_EATEN_BRAIN));
-    removableEffects.add(IntegerPool.get(EffectPool.MISSING_FINGERS));
-    removableEffects.add(IntegerPool.get(EffectPool.SUNBURNED));
+    removableEffects.add(EffectPool.AXE_WOUND);
+    removableEffects.add(EffectPool.BEATEN_UP);
+    removableEffects.add(EffectPool.GRILLED);
+    removableEffects.add(EffectPool.HALF_EATEN_BRAIN);
+    removableEffects.add(EffectPool.MISSING_FINGERS);
+    removableEffects.add(EffectPool.SUNBURNED);
 
     removableEffects = new HashSet<Integer>();
     removeWithSkillMap.put("Disco Nap", removableEffects);
-    removableEffects.add(IntegerPool.get(EffectPool.CONFUSED));
-    removableEffects.add(IntegerPool.get(EffectPool.EMBARRASSED));
-    removableEffects.add(IntegerPool.get(EffectPool.SLEEPY));
-    removableEffects.add(IntegerPool.get(EffectPool.SUNBURNED));
-    removableEffects.add(IntegerPool.get(EffectPool.WUSSINESS));
-    removableEffects.add(IntegerPool.get(EffectPool.DISAVOWED));
+    removableEffects.add(EffectPool.CONFUSED);
+    removableEffects.add(EffectPool.EMBARRASSED);
+    removableEffects.add(EffectPool.SLEEPY);
+    removableEffects.add(EffectPool.SUNBURNED);
+    removableEffects.add(EffectPool.WUSSINESS);
+    removableEffects.add(EffectPool.DISAVOWED);
     if (KoLCharacter.hasSkill("Adventurer of Leisure")) {
-      removableEffects.add(IntegerPool.get(EffectPool.AFFRONTED_DECENCY));
-      removableEffects.add(IntegerPool.get(EffectPool.APATHY));
-      removableEffects.add(IntegerPool.get(EffectPool.CONSUMED_BY_FEAR));
-      removableEffects.add(IntegerPool.get(EffectPool.CUNCTATITIS));
-      removableEffects.add(IntegerPool.get(EffectPool.EASILY_EMBARRASSED));
-      removableEffects.add(IntegerPool.get(EffectPool.EXISTENTIAL_TORMENT));
-      removableEffects.add(IntegerPool.get(EffectPool.LIGHT_HEADED));
-      removableEffects.add(IntegerPool.get(EffectPool.N_SPATIAL_VISION));
-      removableEffects.add(IntegerPool.get(EffectPool.PRESTIDIGYSFUNCTION));
-      removableEffects.add(IntegerPool.get(EffectPool.RAINY_SOUL_MIASMA));
-      removableEffects.add(IntegerPool.get(EffectPool.SOCIALISMYDIA));
-      removableEffects.add(IntegerPool.get(EffectPool.TENUOUS_GRIP_ON_REALITY));
-      removableEffects.add(IntegerPool.get(EffectPool.TETANUS));
-      removableEffects.add(IntegerPool.get(EffectPool.THE_COLORS));
-      removableEffects.add(IntegerPool.get(EffectPool.THE_DISEASE));
+      removableEffects.add(EffectPool.AFFRONTED_DECENCY);
+      removableEffects.add(EffectPool.APATHY);
+      removableEffects.add(EffectPool.CONSUMED_BY_FEAR);
+      removableEffects.add(EffectPool.CUNCTATITIS);
+      removableEffects.add(EffectPool.EASILY_EMBARRASSED);
+      removableEffects.add(EffectPool.EXISTENTIAL_TORMENT);
+      removableEffects.add(EffectPool.LIGHT_HEADED);
+      removableEffects.add(EffectPool.N_SPATIAL_VISION);
+      removableEffects.add(EffectPool.PRESTIDIGYSFUNCTION);
+      removableEffects.add(EffectPool.RAINY_SOUL_MIASMA);
+      removableEffects.add(EffectPool.SOCIALISMYDIA);
+      removableEffects.add(EffectPool.TENUOUS_GRIP_ON_REALITY);
+      removableEffects.add(EffectPool.TETANUS);
+      removableEffects.add(EffectPool.THE_COLORS);
+      removableEffects.add(EffectPool.THE_DISEASE);
     }
 
     // If it can be removed by Shake It Off, it can also be removed by Hot Tub
     removableEffects = new HashSet<Integer>();
     removeWithSkillMap.put("Shake It Off", removableEffects);
-    removableEffects.add(IntegerPool.get(EffectPool.A_REVOLUTION_IN_YOUR_MOUTH));
-    removableEffects.add(IntegerPool.get(EffectPool.AFFRONTED_DECENCY));
-    removableEffects.add(IntegerPool.get(EffectPool.ALL_COVERED_IN_WHATSIT));
-    removableEffects.add(IntegerPool.get(EffectPool.APATHY));
-    removableEffects.add(IntegerPool.get(EffectPool.AXE_WOUND));
-    removableEffects.add(IntegerPool.get(EffectPool.BARKING_DOGS));
-    removableEffects.add(IntegerPool.get(EffectPool.BEATEN_UP));
-    removableEffects.add(IntegerPool.get(EffectPool.BEER_IN_YOUR_SHOES));
-    removableEffects.add(IntegerPool.get(EffectPool.BLOODY_HAND));
-    removableEffects.add(IntegerPool.get(EffectPool.CONFUSED));
-    removableEffects.add(IntegerPool.get(EffectPool.CONSUMED_BY_FEAR));
-    removableEffects.add(IntegerPool.get(EffectPool.CORRODED_WEAPON));
-    removableEffects.add(IntegerPool.get(EffectPool.CUNCTATITIS));
-    removableEffects.add(IntegerPool.get(EffectPool.DEADENED_PALATE));
-    removableEffects.add(IntegerPool.get(EffectPool.EASILY_EMBARRASSED));
-    removableEffects.add(IntegerPool.get(EffectPool.EMBARRASSED));
-    removableEffects.add(IntegerPool.get(EffectPool.EXISTENTIAL_TORMENT));
-    removableEffects.add(IntegerPool.get(EffectPool.FLARED_NOSTRILS));
-    removableEffects.add(IntegerPool.get(EffectPool.GRILLED));
-    removableEffects.add(IntegerPool.get(EffectPool.HALF_EATEN_BRAIN));
-    removableEffects.add(IntegerPool.get(EffectPool.HERNIA));
-    removableEffects.add(IntegerPool.get(EffectPool.LIGHT_HEADED));
-    removableEffects.add(IntegerPool.get(EffectPool.MISSING_FINGERS));
-    removableEffects.add(IntegerPool.get(EffectPool.N_SPATIAL_VISION));
-    removableEffects.add(IntegerPool.get(EffectPool.NATURAL_1));
-    removableEffects.add(IntegerPool.get(EffectPool.ONCE_CURSED));
-    removableEffects.add(IntegerPool.get(EffectPool.PRESTIDIGYSFUNCTION));
-    removableEffects.add(IntegerPool.get(EffectPool.RAINY_SOUL_MIASMA));
-    removableEffects.add(IntegerPool.get(EffectPool.SLEEPY));
-    removableEffects.add(IntegerPool.get(EffectPool.SOCIALISMYDIA));
-    removableEffects.add(IntegerPool.get(EffectPool.STRANGULATED));
-    removableEffects.add(IntegerPool.get(EffectPool.SUNBURNED));
-    removableEffects.add(IntegerPool.get(EffectPool.TANGLED_UP));
-    removableEffects.add(IntegerPool.get(EffectPool.TEMPORARY_BLINDNESS));
-    removableEffects.add(IntegerPool.get(EffectPool.TENUOUS_GRIP_ON_REALITY));
-    removableEffects.add(IntegerPool.get(EffectPool.TETANUS));
-    removableEffects.add(IntegerPool.get(EffectPool.TOAD_IN_THE_HOLE));
-    removableEffects.add(IntegerPool.get(EffectPool.TURNED_INTO_A_SKELETON));
-    removableEffects.add(IntegerPool.get(EffectPool.THE_COLORS));
-    removableEffects.add(IntegerPool.get(EffectPool.THE_DISEASE));
-    removableEffects.add(IntegerPool.get(EffectPool.THRICE_CURSED));
-    removableEffects.add(IntegerPool.get(EffectPool.TWICE_CURSED));
-    removableEffects.add(IntegerPool.get(EffectPool.WUSSINESS));
+    removableEffects.add(EffectPool.A_REVOLUTION_IN_YOUR_MOUTH);
+    removableEffects.add(EffectPool.AFFRONTED_DECENCY);
+    removableEffects.add(EffectPool.ALL_COVERED_IN_WHATSIT);
+    removableEffects.add(EffectPool.APATHY);
+    removableEffects.add(EffectPool.AXE_WOUND);
+    removableEffects.add(EffectPool.BARKING_DOGS);
+    removableEffects.add(EffectPool.BEATEN_UP);
+    removableEffects.add(EffectPool.BEER_IN_YOUR_SHOES);
+    removableEffects.add(EffectPool.BLOODY_HAND);
+    removableEffects.add(EffectPool.CONFUSED);
+    removableEffects.add(EffectPool.CONSUMED_BY_FEAR);
+    removableEffects.add(EffectPool.CORRODED_WEAPON);
+    removableEffects.add(EffectPool.CUNCTATITIS);
+    removableEffects.add(EffectPool.DEADENED_PALATE);
+    removableEffects.add(EffectPool.EASILY_EMBARRASSED);
+    removableEffects.add(EffectPool.EMBARRASSED);
+    removableEffects.add(EffectPool.EXISTENTIAL_TORMENT);
+    removableEffects.add(EffectPool.FLARED_NOSTRILS);
+    removableEffects.add(EffectPool.GRILLED);
+    removableEffects.add(EffectPool.HALF_EATEN_BRAIN);
+    removableEffects.add(EffectPool.HERNIA);
+    removableEffects.add(EffectPool.LIGHT_HEADED);
+    removableEffects.add(EffectPool.MISSING_FINGERS);
+    removableEffects.add(EffectPool.N_SPATIAL_VISION);
+    removableEffects.add(EffectPool.NATURAL_1);
+    removableEffects.add(EffectPool.ONCE_CURSED);
+    removableEffects.add(EffectPool.PRESTIDIGYSFUNCTION);
+    removableEffects.add(EffectPool.RAINY_SOUL_MIASMA);
+    removableEffects.add(EffectPool.SLEEPY);
+    removableEffects.add(EffectPool.SOCIALISMYDIA);
+    removableEffects.add(EffectPool.STRANGULATED);
+    removableEffects.add(EffectPool.SUNBURNED);
+    removableEffects.add(EffectPool.TANGLED_UP);
+    removableEffects.add(EffectPool.TEMPORARY_BLINDNESS);
+    removableEffects.add(EffectPool.TENUOUS_GRIP_ON_REALITY);
+    removableEffects.add(EffectPool.TETANUS);
+    removableEffects.add(EffectPool.TOAD_IN_THE_HOLE);
+    removableEffects.add(EffectPool.TURNED_INTO_A_SKELETON);
+    removableEffects.add(EffectPool.THE_COLORS);
+    removableEffects.add(EffectPool.THE_DISEASE);
+    removableEffects.add(EffectPool.THRICE_CURSED);
+    removableEffects.add(EffectPool.TWICE_CURSED);
+    removableEffects.add(EffectPool.WUSSINESS);
 
     removableEffects = new HashSet<Integer>();
     removeWithSkillMap.put("Pep Talk", removableEffects);
-    removableEffects.add(IntegerPool.get(EffectPool.OVERCONFIDENT));
+    removableEffects.add(EffectPool.OVERCONFIDENT);
 
     removableEffects = new HashSet<Integer>();
     removeWithSkillMap.put("Blood Sugar Sauce Magic", removableEffects);
-    removableEffects.add(IntegerPool.get(EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE));
-    removableEffects.add(IntegerPool.get(EffectPool.BLOOD_SUGAR_SAUCE_MAGIC));
+    removableEffects.add(EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE);
+    removableEffects.add(EffectPool.BLOOD_SUGAR_SAUCE_MAGIC);
 
     removableEffects = new HashSet<Integer>();
     removeWithSkillMap.put("Spirit of Nothing", removableEffects);
-    removableEffects.add(IntegerPool.get(EffectPool.SPIRIT_OF_CAYENNE));
-    removableEffects.add(IntegerPool.get(EffectPool.SPIRIT_OF_PEPPERMINT));
-    removableEffects.add(IntegerPool.get(EffectPool.SPIRIT_OF_GARLIC));
-    removableEffects.add(IntegerPool.get(EffectPool.SPIRIT_OF_WORMWOOD));
-    removableEffects.add(IntegerPool.get(EffectPool.SPIRIT_OF_BACON_GREASE));
+    removableEffects.add(EffectPool.SPIRIT_OF_CAYENNE);
+    removableEffects.add(EffectPool.SPIRIT_OF_PEPPERMINT);
+    removableEffects.add(EffectPool.SPIRIT_OF_GARLIC);
+    removableEffects.add(EffectPool.SPIRIT_OF_WORMWOOD);
+    removableEffects.add(EffectPool.SPIRIT_OF_BACON_GREASE);
 
     removableEffects = new HashSet<Integer>();
     removeWithSkillMap.put("Iron Palm Technique", removableEffects);
-    removableEffects.add(IntegerPool.get(EffectPool.IRON_PALMS));
+    removableEffects.add(EffectPool.IRON_PALMS);
 
     removableEffects = new HashSet<Integer>();
     removeWithSkillMap.put("Wolf Form", removableEffects);
-    removableEffects.add(IntegerPool.get(EffectPool.WOLF_FORM));
+    removableEffects.add(EffectPool.WOLF_FORM);
 
     removableEffects = new HashSet<Integer>();
     removeWithSkillMap.put("Mist Form", removableEffects);
-    removableEffects.add(IntegerPool.get(EffectPool.MIST_FORM));
+    removableEffects.add(EffectPool.MIST_FORM);
 
     removableEffects = new HashSet<Integer>();
     removeWithSkillMap.put("Flock of Bats Form", removableEffects);
-    removableEffects.add(IntegerPool.get(EffectPool.BATS_FORM));
+    removableEffects.add(EffectPool.BATS_FORM);
 
     removableEffects = new HashSet<Integer>();
     removeWithSkillMap.put("Absorb Cowrruption", removableEffects);
-    removableEffects.add(IntegerPool.get(EffectPool.COWRRUPTION));
+    removableEffects.add(EffectPool.COWRRUPTION);
 
     removableEffects = new HashSet<Integer>();
     removeWithSkillMap.put("Gelatinous Reconstruction", removableEffects);
-    removableEffects.add(IntegerPool.get(EffectPool.BEATEN_UP));
+    removableEffects.add(EffectPool.BEATEN_UP);
 
     UneffectRequest.REMOVABLE_BY_SKILL = removeWithSkillMap.entrySet();
   }
@@ -481,7 +480,7 @@ public class UneffectRequest extends GenericRequest {
   }
 
   public static void removeEffectsWithItem(final int itemId) {
-    Set<Integer> effects = UneffectRequest.removeWithItemMap.get(IntegerPool.get(itemId));
+    Set<Integer> effects = UneffectRequest.removeWithItemMap.get(itemId);
     UneffectRequest.removeEffects(effects);
   }
 

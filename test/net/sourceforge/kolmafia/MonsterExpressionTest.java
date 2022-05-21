@@ -111,7 +111,7 @@ public class MonsterExpressionTest {
     req.responseText = Files.readString(Path.of("request/test_fight_spooky_zombie_1_kiss.html"));
     req.processResponse();
 
-    var exp = new MonsterExpression("KW", "Kisses in Dread Village");
+    var exp = new MonsterExpression("KV", "Kisses in Dread Village");
     assertThat(exp.eval(), is(1.0));
   }
 

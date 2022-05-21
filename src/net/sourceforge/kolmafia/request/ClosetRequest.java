@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -42,7 +43,7 @@ public class ClosetRequest extends TransferItemRequest {
       return;
     }
 
-    ArrayList<AdventureResult> items = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> items = new ArrayList<>();
 
     try {
       // {"1":"1","2":"1" ... }
@@ -184,9 +185,7 @@ public class ClosetRequest extends TransferItemRequest {
       return itemList;
     }
 
-    for (AdventureResult item : this.attachments) {
-      itemList.add(item);
-    }
+    Collections.addAll(itemList, this.attachments);
 
     return itemList;
   }
@@ -246,14 +245,14 @@ public class ClosetRequest extends TransferItemRequest {
   }
 
   public static final boolean parseTransfer(final String urlString, final String responseText) {
-    if (urlString.indexOf("action") == -1) {
+    if (!urlString.contains("action")) {
       ClosetRequest.parseCloset(urlString, responseText);
       return true;
     }
 
     boolean success = false;
 
-    if (urlString.indexOf("action=addtakeclosetmeat") != -1) {
+    if (urlString.contains("action=addtakeclosetmeat")) {
       // Determine how much meat is left in your closet by locating
       // "Your closet contains x meat" and update the display with
       // that information.
@@ -264,8 +263,8 @@ public class ClosetRequest extends TransferItemRequest {
 
       KoLCharacter.setClosetMeat(after);
       success = before != after;
-    } else if (urlString.indexOf("action=closetpull") != -1) {
-      if (responseText.indexOf("You acquire") == -1) {
+    } else if (urlString.contains("action=closetpull")) {
+      if (!responseText.contains("You acquire")) {
         return false;
       }
 
@@ -280,8 +279,8 @@ public class ClosetRequest extends TransferItemRequest {
           null,
           0);
       success = true;
-    } else if (urlString.indexOf("action=closetpush") != -1) {
-      if (responseText.indexOf("in your closet") != -1) {
+    } else if (urlString.contains("action=closetpush")) {
+      if (responseText.contains("in your closet")) {
         TransferItemRequest.transferItems(
             urlString,
             TransferItemRequest.ITEMID_PATTERN,
@@ -291,8 +290,8 @@ public class ClosetRequest extends TransferItemRequest {
             0);
         success = true;
       }
-    } else if (urlString.indexOf("action=pullallcloset") != -1) {
-      if (responseText.indexOf("taken from your closet") == -1) {
+    } else if (urlString.contains("action=pullallcloset")) {
+      if (!responseText.contains("taken from your closet")) {
         return false;
       }
 
@@ -322,7 +321,7 @@ public class ClosetRequest extends TransferItemRequest {
       return false;
     }
 
-    if (urlString.indexOf("action=closetpull") != -1) {
+    if (urlString.contains("action=closetpull")) {
       return TransferItemRequest.registerRequest(
           "take from closet",
           urlString,
@@ -332,7 +331,7 @@ public class ClosetRequest extends TransferItemRequest {
           0);
     }
 
-    if (urlString.indexOf("action=closetpush") != -1) {
+    if (urlString.contains("action=closetpush")) {
       return TransferItemRequest.registerRequest(
           "add to closet",
           urlString,
@@ -345,10 +344,10 @@ public class ClosetRequest extends TransferItemRequest {
     long meat = TransferItemRequest.transferredMeat(urlString, "quantity");
     String message = null;
 
-    if (urlString.indexOf("action=addtakeclosetmeat") != -1) {
-      if (urlString.indexOf("addtake=add") != -1) {
+    if (urlString.contains("action=addtakeclosetmeat")) {
+      if (urlString.contains("addtake=add")) {
         message = "add to closet: " + meat + " Meat";
-      } else if (urlString.indexOf("addtake=take") != -1) {
+      } else if (urlString.contains("addtake=take")) {
         message = "take from closet " + meat + " Meat";
       }
     }

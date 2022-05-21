@@ -15,7 +15,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
@@ -88,110 +87,110 @@ public class ClanLoungeRequest extends GenericRequest {
 
   public static final Object[][] POOL_GAMES =
       new Object[][] {
-        {"aggressive", "muscle", "billiards belligerence", IntegerPool.get(AGGRESSIVE_STANCE)},
-        {"strategic", "mysticality", "mental a-cue-ity", IntegerPool.get(STRATEGIC_STANCE)},
-        {"stylish", "moxie", "hustlin'", IntegerPool.get(STYLISH_STANCE)},
+        {"aggressive", "muscle", "billiards belligerence", AGGRESSIVE_STANCE},
+        {"strategic", "mysticality", "mental a-cue-ity", STRATEGIC_STANCE},
+        {"stylish", "moxie", "hustlin'", STYLISH_STANCE},
       };
 
   public static final Object[][] FAX_OPTIONS =
       new Object[][] {
-        {"send", "put", IntegerPool.get(SEND_FAX)},
-        {"receive", "get", IntegerPool.get(RECEIVE_FAX)},
+        {"send", "put", SEND_FAX},
+        {"receive", "get", RECEIVE_FAX},
       };
 
   public static final Object[][] SHOWER_OPTIONS =
       new Object[][] {
-        {"cold", "ice", IntegerPool.get(COLD_SHOWER)},
-        {"cool", "moxie", IntegerPool.get(COOL_SHOWER)},
-        {"lukewarm", "mysticality", IntegerPool.get(LUKEWARM_SHOWER)},
-        {"warm", "muscle", IntegerPool.get(WARM_SHOWER)},
-        {"hot", "mp", IntegerPool.get(HOT_SHOWER)},
+        {"cold", "ice", COLD_SHOWER},
+        {"cool", "moxie", COOL_SHOWER},
+        {"lukewarm", "mysticality", LUKEWARM_SHOWER},
+        {"warm", "muscle", WARM_SHOWER},
+        {"hot", "mp", HOT_SHOWER},
       };
 
   public static final Object[][] SWIMMING_OPTIONS =
       new Object[][] {
-        {"cannonball", "item", IntegerPool.get(CANNONBALL)},
-        {"laps", "ml", IntegerPool.get(LAPS)},
-        {"sprints", "noncombat", IntegerPool.get(SPRINTS)},
+        {"cannonball", "item", CANNONBALL},
+        {"laps", "ml", LAPS},
+        {"sprints", "noncombat", SPRINTS},
       };
 
   public static final Object[][] HOTDOG_DATA =
       new Object[][] {
-        {"basic hot dog", IntegerPool.get(-92), IntegerPool.get(1)},
+        {"basic hot dog", -92, 1},
         {
           "savage macho dog",
-          IntegerPool.get(-93),
-          IntegerPool.get(2),
+          -93,
+          2,
           ItemPool.get(ItemPool.FURRY_FUR, 10),
           ItemPool.get(ItemPool.VICIOUS_SPIKED_COLLAR, 1),
         },
         {
           "one with everything",
-          IntegerPool.get(-94),
-          IntegerPool.get(2),
+          -94,
+          2,
           ItemPool.get(ItemPool.CRANBERRIES, 10),
           ItemPool.get(ItemPool.ANCIENT_HOT_DOG_WRAPPER, 1),
         },
         {
           "sly dog",
-          IntegerPool.get(-95),
-          IntegerPool.get(2),
+          -95,
+          2,
           ItemPool.get(ItemPool.SKELETON_BONE, 10),
           ItemPool.get(ItemPool.DEBONAIR_DEBONER, 1),
         },
         {
           "devil dog",
-          IntegerPool.get(-96),
-          IntegerPool.get(3),
+          -96,
+          3,
           ItemPool.get(ItemPool.HOT_WAD, 25),
           ItemPool.get(ItemPool.CHICLE_DE_SALCHICA, 1),
         },
         {
           "chilly dog",
-          IntegerPool.get(-97),
-          IntegerPool.get(3),
+          -97,
+          3,
           ItemPool.get(ItemPool.COLD_WAD, 25),
           ItemPool.get(ItemPool.JAR_OF_FROSTIGKRAUT, 1),
         },
         {
           "ghost dog",
-          IntegerPool.get(-98),
-          IntegerPool.get(3),
+          -98,
+          3,
           ItemPool.get(ItemPool.SPOOKY_WAD, 25),
           ItemPool.get(ItemPool.GNAWED_UP_DOG_BONE, 1),
         },
         {
           "junkyard dog",
-          IntegerPool.get(-99),
-          IntegerPool.get(3),
+          -99,
+          3,
           ItemPool.get(ItemPool.STENCH_WAD, 25),
           ItemPool.get(ItemPool.GREY_GUANON, 1),
         },
         {
           "wet dog",
-          IntegerPool.get(-100),
-          IntegerPool.get(3),
+          -100,
+          3,
           ItemPool.get(ItemPool.SLEAZE_WAD, 25),
           ItemPool.get(ItemPool.ENGORGED_SAUSAGES_AND_YOU, 1),
         },
         {
           "optimal dog",
-          IntegerPool.get(-102),
-          IntegerPool.get(1),
+          -102,
+          1,
           ItemPool.get(ItemPool.SCRAP_OF_PAPER, 25),
           ItemPool.get(ItemPool.OPTIMAL_SPREADSHEET, 1),
         },
         {
           "sleeping dog",
-          IntegerPool.get(-101),
-          IntegerPool.get(2),
+          -101,
+          2,
           ItemPool.get(ItemPool.GAUZE_HAMMOCK, 10),
           ItemPool.get(ItemPool.DREAM_OF_A_DOG, 1),
         },
         {
           "video games hot dog",
-          IntegerPool.get(-103),
-          IntegerPool.get(3),
+          -103,
+          3,
           ItemPool.get(ItemPool.GAMEPRO_MAGAZINE, 3),
           ItemPool.get(ItemPool.DEFECTIVE_TOKEN, 1),
         },
@@ -199,25 +198,20 @@ public class ClanLoungeRequest extends GenericRequest {
 
   public static final Object[][] SPEAKEASY_DATA =
       new Object[][] {
-        {"glass of &quot;milk&quot;", IntegerPool.get(1), IntegerPool.get(1), IntegerPool.get(250)},
-        {"cup of &quot;tea&quot;", IntegerPool.get(2), IntegerPool.get(1), IntegerPool.get(250)},
+        {"glass of &quot;milk&quot;", 1, 1, 250},
+        {"cup of &quot;tea&quot;", 2, 1, 250},
+        {"thermos of &quot;whiskey&quot;", 3, 1, 250},
+        {"Lucky Lindy", 4, 1, 500},
+        {"Bee's Knees", 5, 2, 500},
+        {"Sockdollager", 6, 2, 500},
         {
-          "thermos of &quot;whiskey&quot;",
-          IntegerPool.get(3),
-          IntegerPool.get(1),
-          IntegerPool.get(250)
+          "Ish Kabibble", 7, 2, 500,
         },
-        {"Lucky Lindy", IntegerPool.get(4), IntegerPool.get(1), IntegerPool.get(500)},
-        {"Bee's Knees", IntegerPool.get(5), IntegerPool.get(2), IntegerPool.get(500)},
-        {"Sockdollager", IntegerPool.get(6), IntegerPool.get(2), IntegerPool.get(500)},
+        {"Hot Socks", 8, 3, 5000},
+        {"Phonus Balonus", 9, 3, 10000},
+        {"Flivver", 10, 2, 20000},
         {
-          "Ish Kabibble", IntegerPool.get(7), IntegerPool.get(2), IntegerPool.get(500),
-        },
-        {"Hot Socks", IntegerPool.get(8), IntegerPool.get(3), IntegerPool.get(5000)},
-        {"Phonus Balonus", IntegerPool.get(9), IntegerPool.get(3), IntegerPool.get(10000)},
-        {"Flivver", IntegerPool.get(10), IntegerPool.get(2), IntegerPool.get(20000)},
-        {
-          "Sloppy Jalopy", IntegerPool.get(11), IntegerPool.get(5), IntegerPool.get(100000),
+          "Sloppy Jalopy", 11, 5, 100000,
         },
       };
 

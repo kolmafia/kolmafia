@@ -1,0 +1,1156 @@
+<html>
+
+<head>
+    <script language=Javascript>< !--if (parent.frames.length == 0) location.href = "game.php";//--></script>
+    <script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+    <script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+    <script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.3.1.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
+    <script language="javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/core.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/actionbar.6.css">
+    <!--[if IE]><link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/actionbar.ie.4.css"><script src='https://d2uyhvukfffg5a.cloudfront.net/scripts/minmax.js'></script><![endif]-->
+    <script src="https://d2uyhvukfffg5a.cloudfront.net/scripts/fight.js"></script>
+    <script>var onturn = 2;</script>
+    <link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20151006.css">
+    <style type='text/css'>
+        .faded {
+            zoom: 1;
+            filter: alpha(opacity=35);
+            opacity: 0.35;
+            -khtml-opacity: 0.35;
+            -moz-opacity: 0.35;
+        }
+    </style>
+</head>
+
+<body><img src='https://d2uyhvukfffg5a.cloudfront.net/itemimages/blank.gif' id='dragged'>
+    <div id='debug'></div>
+    <div class=contextmenu id='skillmenu'></div>
+    <div class=contextmenu id='itemsmenu'></div>
+    <div id=topbar>
+        <center>
+            <table class=actionbar cellpadding=0 cellspacing=1>
+                <tbody>
+                    <tr class=label>
+                        <td></td>
+                        <td></td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                        <td>6</td>
+                        <td>7</td>
+                        <td>8</td>
+                        <td>9</td>
+                        <td>0</td>
+                        <td>&ndash;</td>
+                        <td>=</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class=blueback>
+                        <td><img src='https://d2uyhvukfffg5a.cloudfront.net/itemimages/book3.gif' id='skills'></td>
+                        <td class=spacer></td>
+                        <td><img src='https://d2uyhvukfffg5a.cloudfront.net/itemimages/blank.gif' id='button1'></td>
+                        <td><img src='https://d2uyhvukfffg5a.cloudfront.net/itemimages/blank.gif' id='button2'></td>
+                        <td><img src='https://d2uyhvukfffg5a.cloudfront.net/itemimages/blank.gif' id='button3'></td>
+                        <td><img src='https://d2uyhvukfffg5a.cloudfront.net/itemimages/blank.gif' id='button4'></td>
+                        <td><img src='https://d2uyhvukfffg5a.cloudfront.net/itemimages/blank.gif' id='button5'></td>
+                        <td><img src='https://d2uyhvukfffg5a.cloudfront.net/itemimages/blank.gif' id='button6'></td>
+                        <td><img src='https://d2uyhvukfffg5a.cloudfront.net/itemimages/blank.gif' id='button7'></td>
+                        <td><img src='https://d2uyhvukfffg5a.cloudfront.net/itemimages/blank.gif' id='button8'></td>
+                        <td><img src='https://d2uyhvukfffg5a.cloudfront.net/itemimages/blank.gif' id='button9'></td>
+                        <td><img src='https://d2uyhvukfffg5a.cloudfront.net/itemimages/blank.gif' id='button10'></td>
+                        <td><img src='https://d2uyhvukfffg5a.cloudfront.net/itemimages/blank.gif' id='button11'></td>
+                        <td><img src='https://d2uyhvukfffg5a.cloudfront.net/itemimages/blank.gif' id='button12'></td>
+                        <td valign=center align=center class=page><a class=nounder href='javascript:pageup();'><img
+                                    src='https://d2uyhvukfffg5a.cloudfront.net/otherimages/tinyup.gif'
+                                    class=updown></a><br><span id='page_out'></span><br><a class=nounder
+                                href='javascript:pagedown();'><img
+                                    src='https://d2uyhvukfffg5a.cloudfront.net/otherimages/tinydown.gif'
+                                    class=updown></a></td>
+                        <td class=spacer></td>
+                        <td><img src='https://d2uyhvukfffg5a.cloudfront.net/itemimages/backpack.gif' id='items'></td>
+                    </tr>
+                    <tr class=label>
+                        <td>skills</td>
+                        <td></td>
+                        <td id='qty1'></td>
+                        <td id='qty2'></td>
+                        <td id='qty3'></td>
+                        <td id='qty4'></td>
+                        <td id='qty5'></td>
+                        <td id='qty6'></td>
+                        <td id='qty7'></td>
+                        <td id='qty8'></td>
+                        <td id='qty9'></td>
+                        <td id='qty10'></td>
+                        <td id='qty11'></td>
+                        <td id='qty12'></td>
+                        <td></td>
+                        <td></td>
+                        <td>items</td>
+                    </tr>
+                </tbody>
+            </table>
+        </center>
+    </div>
+    <div class=content id='content_'>
+        <div id='effdiv' style='display: none'></div>
+        <div style='overflow: auto'>
+            <center>
+                <table width=95% cellspacing=0 cellpadding=0>
+                    <tr>
+                        <td style="color: white;" align=center bgcolor=blue><b>Combat!</b></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 5px; border: 1px solid blue;">
+                            <center>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <center>
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <div id=monsterpic style='position: relative;'> <img
+                                                                    id='monpic'
+                                                                    src="https://d2uyhvukfffg5a.cloudfront.net/adventureimages/beaver.gif"
+                                                                    width=100 height=100></div>
+                                                        </td>
+                                                        <td valign=center>You're fighting <span id='monname'>The
+                                                                Beaver</span></td><!-- MONSTERID: 539 -->
+                                                    </tr>
+                                                </table><br>
+                                                <table>
+                                                    <tr>
+                                                        <Td>
+                                                            <p>Slowly, but powerfully, you spin around and slash it with
+                                                                your saber for 418 (<font color=red><b>+9</b></font>) (
+                                                                <font color=blue><b>+18</b></font>) (<font color=green>
+                                                                    <b>+9</b></font>) (<font color=gray><b>+18</b>
+                                                                </font>) (<font color=blueviolet><b>+1</b></font>)
+                                                                damage.<b>
+                                                                    <font color=blue> KKSSSSHHHH FVISH WOOOM WOOM FVISH
+                                                                        WOOOM WOOOM WOOM KKSSSSHHHH WOOM</font>
+                                                                </b>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <table>
+                                                    <tr>
+                                                        <Td></td>
+                                                    </tr>
+                                                </table>
+                                                <table>
+                                                    <tr>
+                                                        <Td></td>
+                                                    </tr>
+                                                </table>
+                                                <script>var mf = document.getElementById("maskform"); if (mf) mf.style.display = "none";</script>
+                                                <script>if (typeof state != 'undefined') state['fightover'] = true; window.fightover = true;</script>
+                                                <div id='fightform' class='hideform'>
+                                                    <p>
+                                                        <center>
+                                                            <table><a name="end">
+                                                                    <form name=attack action=fight.php method=post>
+                                                                        <input type=hidden name=action value="attack">
+                                                                        <tr>
+                                                                            <td align=center><input id='tack'
+                                                                                    picurl=may4sword
+                                                                                    onclick="return killforms(this)"
+                                                                                    class=button type=submit
+                                                                                    value="Attack with your Fourth of May Cosplay Saber">
+                                                                            </td>
+                                                                        </tr>
+                                                                    </form>
+                                                                </a>
+                                                                <form name=useitem action=fight.php method=post><input
+                                                                        type=hidden name=action value="useitem">
+                                                                    <tr>
+                                                                        <td align=left><select name=whichitem>
+                                                                                <option value=0>(select an item)
+                                                                                </option>
+                                                                                <option picurl=8ball value=1907>8-ball
+                                                                                    (1)</option>
+                                                                                <option picurl=abs1 value=8708>
+                                                                                    abstraction: action (8)</option>
+                                                                                <option picurl=abs3 value=8710>
+                                                                                    abstraction: sensation (6)</option>
+                                                                                <option picurl=abs2 value=8709>
+                                                                                    abstraction: thought (10)</option>
+                                                                                <option picurl=adder value=6713>adder
+                                                                                    (4)</option>
+                                                                                <option picurl=briefcase value=8033>
+                                                                                    alpine watercolor set (2)</option>
+                                                                                <option picurl=nutsack value=1510>bag of
+                                                                                    airline peanuts (2)</option>
+                                                                                <option picurl=fwrocket2 value=10766>
+                                                                                    blue rocket (1)</option>
+                                                                                <option picurl=matchbook value=6683>book
+                                                                                    of matches (1)</option>
+                                                                                <option picurl=locust1 value=2575>
+                                                                                    bronzed locust (1)</option>
+                                                                                <option picurl=fpm value=9683>burning
+                                                                                    newspaper (6)</option>
+                                                                                <option picurl=cast value=474>cast (5)
+                                                                                </option>
+                                                                                <option picurl=butterfly value=615>chaos
+                                                                                    butterfly (1)</option>
+                                                                                <option picurl=clingtangle value=2992>
+                                                                                    clingfilm tangle (1)</option>
+                                                                                <option picurl=crayonshavings
+                                                                                    value=5703>crayon shavings (5)
+                                                                                </option>
+                                                                                <option picurl=crudevoodoo value=6708>
+                                                                                    crude voodoo doll (1)</option>
+                                                                                <option picurl=hulahoop value=4117>
+                                                                                    crusty hula hoop (7)</option>
+                                                                                <option picurl=sixgun3 value=8933>custom
+                                                                                    sixgun (1)</option>
+                                                                                <option picurl=newyoucard1 value=9479>
+                                                                                    Daily Affirmation: Always be
+                                                                                    Collecting (2)</option>
+                                                                                <option picurl=newyoucard5 value=9483>
+                                                                                    Daily Affirmation: Be a Mind Master
+                                                                                    (4)</option>
+                                                                                <option picurl=newyoucard3 value=9481>
+                                                                                    Daily Affirmation: Be Superficially
+                                                                                    interested (1)</option>
+                                                                                <option picurl=newyoucard2 value=9480>
+                                                                                    Daily Affirmation: Think Win-Lose
+                                                                                    (3)</option>
+                                                                                <option picurl=newyoucard6 value=9484>
+                                                                                    Daily Affirmation: Work For Hours a
+                                                                                    Week (1)</option>
+                                                                                <option picurl=roll value=6864>dinner
+                                                                                    roll (1)</option>
+                                                                                <option picurl=disease value=452>disease
+                                                                                    (2)</option>
+                                                                                <option picurl=divpopper value=3121>
+                                                                                    divine champagne popper (1)</option>
+                                                                                <option picurl=dr_bell value=6472>
+                                                                                    Drunkula's bell (2)</option>
+                                                                                <option picurl=syringe2 value=6026>
+                                                                                    Duskwalker syringe (2)</option>
+                                                                                <option picurl=electronicskit
+                                                                                    value=9952>electronics kit (4)
+                                                                                </option>
+                                                                                <option picurl=lvcuff value=8892>El
+                                                                                    Vibrato restraints (14)</option>
+                                                                                <option picurl=kgbcigar value=9497>
+                                                                                    exploding cigar (1733)</option>
+                                                                                <option picurl=softener value=7364>
+                                                                                    fabric softener (1)</option>
+                                                                                <option picurl=cookbook value=1316>
+                                                                                    facsimile dictionary (16)</option>
+                                                                                <option picurl=poultice value=2369>
+                                                                                    filthy poultice (1)</option>
+                                                                                <option picurl=ninjastars value=353>
+                                                                                    frigid ninja stars (1)</option>
+                                                                                <option picurl=styore value=3391>
+                                                                                    Frosty's iceball (7)</option>
+                                                                                <option picurl=gascan value=9947>gas can
+                                                                                    (1)</option>
+                                                                                <option picurl=gauzegarter value=2402>
+                                                                                    gauze garter (2)</option>
+                                                                                <option picurl=cigarette value=9237>
+                                                                                    gingerbread cigarette (5)</option>
+                                                                                <option picurl=gizmo value=2848>
+                                                                                    Gnomitronic Hyperspatial Demodulizer
+                                                                                    (1)</option>
+                                                                                <option picurl=hairwad value=1922>gob of
+                                                                                    wet hair (1)</option>
+                                                                                <option picurl=page value=2453>Goodfella
+                                                                                    contract (5)</option>
+                                                                                <option picurl=sandgrain value=10259>
+                                                                                    grain of sand (47)</option>
+                                                                                <option picurl=ww_lice value=6452>Great
+                                                                                    Wolf's lice (2)</option>
+                                                                                <option picurl=scpowder value=2581>
+                                                                                    handful of sand (14)</option>
+                                                                                <option picurl=zh_pad value=6459>HOA
+                                                                                    citation pad (1)</option>
+                                                                                <option picurl=inkwell value=1958>
+                                                                                    inkwell (3)</option>
+                                                                                <option picurl=deadbootlet value=9968>
+                                                                                    jam band bootleg (16)</option>
+                                                                                <option picurl=louderthanbomb
+                                                                                    value=7014>Louder Than Bomb (1)
+                                                                                </option>
+                                                                                <option picurl=potion4 value=518>magical
+                                                                                    mystery juice (8019)</option>
+                                                                                <option picurl=mg_scissors value=6467>
+                                                                                    Mayor Ghost's scissors (3)</option>
+                                                                                <option picurl=destroyobot value=3114>
+                                                                                    Miniborg Destroy-O-Bot (1)</option>
+                                                                                <option picurl=soda value=357>Mountain
+                                                                                    Stream soda (2)</option>
+                                                                                <option picurl=nacrystal1 value=8425>New
+                                                                                    Age healing crystal (198)</option>
+                                                                                <option picurl=nacrystal2 value=8489>New
+                                                                                    Age hurting crystal (1)</option>
+                                                                                <option picurl=davesixgun value=8888>
+                                                                                    Pecos Dave's sixgun (3)</option>
+                                                                                <option picurl=pep_parasol value=5401>
+                                                                                    peppermint parasol (1)</option>
+                                                                                <option picurl=sixgunpor value=8935>
+                                                                                    porquoise-handled sixgun (1)
+                                                                                </option>
+                                                                                <option picurl=copier value=4864>
+                                                                                    portable photocopier (1)</option>
+                                                                                <option picurl=printscreen value=9022>
+                                                                                    print screen button (1)</option>
+                                                                                <option picurl=taffy4 value=6364>pulled
+                                                                                    blue taffy (3)</option>
+                                                                                <option picurl=taffy3 value=6363>pulled
+                                                                                    green taffy (3)</option>
+                                                                                <option picurl=taffy2 value=6362>pulled
+                                                                                    indigo taffy (5)</option>
+                                                                                <option picurl=taffy5 value=6365>pulled
+                                                                                    orange taffy (17)</option>
+                                                                                <option picurl=taffy7 value=6367>pulled
+                                                                                    red taffy (11)</option>
+                                                                                <option picurl=taffy6 value=6366>pulled
+                                                                                    violet taffy (11)</option>
+                                                                                <option picurl=taffy1 value=6361>pulled
+                                                                                    yellow taffy (3)</option>
+                                                                                <option picurl=canlid value=559>
+                                                                                    razor-sharp can lid (2)</option>
+                                                                                <option picurl=redbutton value=7243>red
+                                                                                    button (4)</option>
+                                                                                <option picurl=fwrocket1 value=10767>red
+                                                                                    rocket (2)</option>
+                                                                                <option picurl=redwagon value=4121>red
+                                                                                    wagon (1)</option>
+                                                                                <option picurl=sixgun4 value=8914>
+                                                                                    reliable sixgun (1)</option>
+                                                                                <option picurl=unicycle2 value=4116>
+                                                                                    rickety old unicycle (5)</option>
+                                                                                <option picurl=raccoon value=2613>rocky
+                                                                                    raccoon (3)</option>
+                                                                                <option picurl=tooth value=2>seal tooth
+                                                                                    (1)</option>
+                                                                                <option picurl=doubleice value=5048>
+                                                                                    shard of double-ice (4)</option>
+                                                                                <option picurl=littlecalculator
+                                                                                    value=6714>short calculator (4)
+                                                                                </option>
+                                                                                <option picurl=tripple value=6027>Space
+                                                                                    Tours Tripple (1)</option>
+                                                                                <option picurl=scepter value=2678>
+                                                                                    spectre scepter (134)</option>
+                                                                                <option picurl=blooddrops value=4256>
+                                                                                    spooky sap (3)</option>
+                                                                                <option picurl=tardiskey value=6029>
+                                                                                    T.U.R.D.S. Key (1)</option>
+                                                                                <option picurl=tennisball value=8650>
+                                                                                    tennis ball (10)</option>
+                                                                                <option picurl=timespinner value=9104>
+                                                                                    Time-Spinner (1)</option>
+                                                                                <option picurl=sixgun0 value=8970>toy
+                                                                                    sixgun (4)</option>
+                                                                                <option picurl=tinydress value=9963>very
+                                                                                    small red dress (3)</option>
+                                                                                <option picurl=wand value=7518>wand of
+                                                                                    pigification (1)</option>
+                                                                                <option picurl=skinknife value=8913>
+                                                                                    western-style skinning knife (1)
+                                                                                </option>
+                                                                                <option picurl=wumpbola value=4045>
+                                                                                    wumpus-hair bolo (1)</option>
+                                                                                <option picurl=wumpnet value=4046>
+                                                                                    wumpus-hair net (1)</option>
+                                                                                <option picurl=yeg_razor value=10610>
+                                                                                    Yeg's Motel disposable razor (1)
+                                                                                </option>
+                                                                                <option picurl=zomboeye value=3388>
+                                                                                    Zombo's empty eye (10)</option>
+                                                                            </select><br><select name=whichitem2>
+                                                                                <option value=0>(select an item)
+                                                                                </option>
+                                                                                <option value=1907>8-ball (1)</option>
+                                                                                <option value=8708>abstraction: action
+                                                                                    (8)</option>
+                                                                                <option value=8710>abstraction:
+                                                                                    sensation (6)</option>
+                                                                                <option value=8709>abstraction: thought
+                                                                                    (10)</option>
+                                                                                <option value=6713>adder (4)</option>
+                                                                                <option value=8033>alpine watercolor set
+                                                                                    (2)</option>
+                                                                                <option value=1510>bag of airline
+                                                                                    peanuts (2)</option>
+                                                                                <option value=10766>blue rocket (1)
+                                                                                </option>
+                                                                                <option value=6683>book of matches (1)
+                                                                                </option>
+                                                                                <option value=2575>bronzed locust (1)
+                                                                                </option>
+                                                                                <option value=9683>burning newspaper (6)
+                                                                                </option>
+                                                                                <option value=474>cast (5)</option>
+                                                                                <option value=615>chaos butterfly (1)
+                                                                                </option>
+                                                                                <option value=2992>clingfilm tangle (1)
+                                                                                </option>
+                                                                                <option value=5703>crayon shavings (5)
+                                                                                </option>
+                                                                                <option value=6708>crude voodoo doll (1)
+                                                                                </option>
+                                                                                <option value=4117>crusty hula hoop (7)
+                                                                                </option>
+                                                                                <option value=8933>custom sixgun (1)
+                                                                                </option>
+                                                                                <option value=9479>Daily Affirmation:
+                                                                                    Always be Collecting (2)</option>
+                                                                                <option value=9483>Daily Affirmation: Be
+                                                                                    a Mind Master (4)</option>
+                                                                                <option value=9481>Daily Affirmation: Be
+                                                                                    Superficially interested (1)
+                                                                                </option>
+                                                                                <option value=9480>Daily Affirmation:
+                                                                                    Think Win-Lose (3)</option>
+                                                                                <option value=9484>Daily Affirmation:
+                                                                                    Work For Hours a Week (1)</option>
+                                                                                <option value=6864>dinner roll (1)
+                                                                                </option>
+                                                                                <option value=452>disease (2)</option>
+                                                                                <option value=3121>divine champagne
+                                                                                    popper (1)</option>
+                                                                                <option value=6472>Drunkula's bell (2)
+                                                                                </option>
+                                                                                <option value=6026>Duskwalker syringe
+                                                                                    (2)</option>
+                                                                                <option value=9952>electronics kit (4)
+                                                                                </option>
+                                                                                <option value=8892>El Vibrato restraints
+                                                                                    (14)</option>
+                                                                                <option value=9497>exploding cigar
+                                                                                    (1733)</option>
+                                                                                <option value=7364>fabric softener (1)
+                                                                                </option>
+                                                                                <option value=1316>facsimile dictionary
+                                                                                    (16)</option>
+                                                                                <option value=2369>filthy poultice (1)
+                                                                                </option>
+                                                                                <option value=353>frigid ninja stars (1)
+                                                                                </option>
+                                                                                <option value=3391>Frosty's iceball (7)
+                                                                                </option>
+                                                                                <option value=9947>gas can (1)</option>
+                                                                                <option value=2402>gauze garter (2)
+                                                                                </option>
+                                                                                <option value=9237>gingerbread cigarette
+                                                                                    (5)</option>
+                                                                                <option value=2848>Gnomitronic
+                                                                                    Hyperspatial Demodulizer (1)
+                                                                                </option>
+                                                                                <option value=1922>gob of wet hair (1)
+                                                                                </option>
+                                                                                <option value=2453>Goodfella contract
+                                                                                    (5)</option>
+                                                                                <option value=10259>grain of sand (47)
+                                                                                </option>
+                                                                                <option value=6452>Great Wolf's lice (2)
+                                                                                </option>
+                                                                                <option value=2581>handful of sand (14)
+                                                                                </option>
+                                                                                <option value=6459>HOA citation pad (1)
+                                                                                </option>
+                                                                                <option value=1958>inkwell (3)</option>
+                                                                                <option value=9968>jam band bootleg (16)
+                                                                                </option>
+                                                                                <option value=7014>Louder Than Bomb (1)
+                                                                                </option>
+                                                                                <option value=518>magical mystery juice
+                                                                                    (8019)</option>
+                                                                                <option value=6467>Mayor Ghost's
+                                                                                    scissors (3)</option>
+                                                                                <option value=3114>Miniborg
+                                                                                    Destroy-O-Bot (1)</option>
+                                                                                <option value=357>Mountain Stream soda
+                                                                                    (2)</option>
+                                                                                <option value=8425>New Age healing
+                                                                                    crystal (198)</option>
+                                                                                <option value=8489>New Age hurting
+                                                                                    crystal (1)</option>
+                                                                                <option value=8888>Pecos Dave's sixgun
+                                                                                    (3)</option>
+                                                                                <option value=5401>peppermint parasol
+                                                                                    (1)</option>
+                                                                                <option value=8935>porquoise-handled
+                                                                                    sixgun (1)</option>
+                                                                                <option value=4864>portable photocopier
+                                                                                    (1)</option>
+                                                                                <option value=9022>print screen button
+                                                                                    (1)</option>
+                                                                                <option value=6364>pulled blue taffy (3)
+                                                                                </option>
+                                                                                <option value=6363>pulled green taffy
+                                                                                    (3)</option>
+                                                                                <option value=6362>pulled indigo taffy
+                                                                                    (5)</option>
+                                                                                <option value=6365>pulled orange taffy
+                                                                                    (17)</option>
+                                                                                <option value=6367>pulled red taffy (11)
+                                                                                </option>
+                                                                                <option value=6366>pulled violet taffy
+                                                                                    (11)</option>
+                                                                                <option value=6361>pulled yellow taffy
+                                                                                    (3)</option>
+                                                                                <option value=559>razor-sharp can lid
+                                                                                    (2)</option>
+                                                                                <option value=7243>red button (4)
+                                                                                </option>
+                                                                                <option value=10767>red rocket (2)
+                                                                                </option>
+                                                                                <option value=4121>red wagon (1)
+                                                                                </option>
+                                                                                <option value=8914>reliable sixgun (1)
+                                                                                </option>
+                                                                                <option value=4116>rickety old unicycle
+                                                                                    (5)</option>
+                                                                                <option value=2613>rocky raccoon (3)
+                                                                                </option>
+                                                                                <option value=2>seal tooth (1)</option>
+                                                                                <option value=5048>shard of double-ice
+                                                                                    (4)</option>
+                                                                                <option value=6714>short calculator (4)
+                                                                                </option>
+                                                                                <option value=6027>Space Tours Tripple
+                                                                                    (1)</option>
+                                                                                <option value=2678>spectre scepter (134)
+                                                                                </option>
+                                                                                <option value=4256>spooky sap (3)
+                                                                                </option>
+                                                                                <option value=6029>T.U.R.D.S. Key (1)
+                                                                                </option>
+                                                                                <option value=8650>tennis ball (10)
+                                                                                </option>
+                                                                                <option value=9104>Time-Spinner (1)
+                                                                                </option>
+                                                                                <option value=8970>toy sixgun (4)
+                                                                                </option>
+                                                                                <option value=9963>very small red dress
+                                                                                    (3)</option>
+                                                                                <option value=7518>wand of pigification
+                                                                                    (1)</option>
+                                                                                <option value=8913>western-style
+                                                                                    skinning knife (1)</option>
+                                                                                <option value=4045>wumpus-hair bolo (1)
+                                                                                </option>
+                                                                                <option value=4046>wumpus-hair net (1)
+                                                                                </option>
+                                                                                <option value=10610>Yeg's Motel
+                                                                                    disposable razor (1)</option>
+                                                                                <option value=3388>Zombo's empty eye
+                                                                                    (10)</option>
+                                                                            </select> <input class=button type=submit
+                                                                                onclick="return killforms(this);"
+                                                                                value="Use Item(s)"></td>
+                                                                    </tr>
+                                                                </form>
+                                                                <form name=skill action=fight.php method=post><input
+                                                                        type=hidden name=action value="skill">
+                                                                    <tr>
+                                                                        <td align=center><select name=whichskill>
+                                                                                <option value='none'>(select a skill)
+                                                                                </option>
+                                                                                <option value="199"
+                                                                                    picurl="ashesandsoot">Ashes and Soot
+                                                                                    (30 Muscularity Points)</option>
+                                                                                <option value="188" picurl="light">
+                                                                                    Implode Universe (1 time today, 50
+                                                                                    MP)</option>
+                                                                                <option value="181"
+                                                                                    picurl="toddlerarmy">Army of
+                                                                                    Toddlers (50 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="163" picurl="kneestick">
+                                                                                    Gingerbread Mob Hit (30 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="150" picurl="snokebomb">
+                                                                                    Snokebomb (50 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="149" picurl="shatter">
+                                                                                    Shattering Punch (30 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="148" picurl="teeth">Frost
+                                                                                    Bite (50 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="143" picurl="firefoot">
+                                                                                    Firegate (50 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="131"
+                                                                                    picurl="garbagenova">Garbage Nova
+                                                                                    (50 Muscularity Points)</option>
+                                                                                <option value="110" picurl="junkjagged">
+                                                                                    Shrap (0 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="86" picurl="soulknife">
+                                                                                    Silent Slice (5 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="85" picurl="blooddrops">
+                                                                                    Silent Squirt (10 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="84" picurl="corclubcor">
+                                                                                    Silent Slam (5 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="61" picurl="wink">
+                                                                                    Offensive Joke (15 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="57" picurl="vortex">
+                                                                                    Toynado (120 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="56" picurl="coffeecup">
+                                                                                    Wassail (30 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="55" picurl="volcmeteor">
+                                                                                    Volcanometeor Showeruption (0
+                                                                                    Muscularity Points)</option>
+                                                                                <option value="43"
+                                                                                    picurl="creepysleepy">Creepy Lullaby
+                                                                                    (30 Muscularity Points)</option>
+                                                                                <option value="42" picurl="tombstone">
+                                                                                    Raise Backup Dancer (120 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="37" picurl="wink">
+                                                                                    Inappropriate Backrub (30
+                                                                                    Muscularity Points)</option>
+                                                                                <option value="36" picurl="greasebolt">
+                                                                                    Grease Lightning (120 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="33" picurl="blooddrops">
+                                                                                    Mudbath (30 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="32" picurl="egg">
+                                                                                    Eggsplosion (120 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="31" picurl="snowflake">
+                                                                                    Maximum Chill (30 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="30" picurl="cyclone">
+                                                                                    Snowclone (120 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="29" picurl="campfire">
+                                                                                    Conjure Relaxing Campfire (30
+                                                                                    Muscularity Points)</option>
+                                                                                <option value="28" picurl="fire">Awesome
+                                                                                    Balls of Fire (120 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="19" picurl="snout">
+                                                                                    Transcendent Olfaction (3 uses left
+                                                                                    today)</option>
+                                                                                <option value="15" picurl="commacha">
+                                                                                    CLEESH (10 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="2" picurl="fireball">
+                                                                                    Chronic Indigestion (5 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="104"
+                                                                                    picurl="splashdance">Splashdance (30
+                                                                                    Muscularity Points)</option>
+                                                                                <option value="102"
+                                                                                    picurl="shadownoodles">Shadow
+                                                                                    Noodles (30 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="99" picurl="whispers">
+                                                                                    Conspiratorial Whispers (25
+                                                                                    Muscularity Points)</option>
+                                                                                <option value="98" picurl="sauceshell">
+                                                                                    Sauceshell (30 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="97" picurl="turtleini">
+                                                                                    Turtleini (35 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="94"
+                                                                                    picurl="splattersmash">Splattersmash
+                                                                                    (25 Muscularity Points)</option>
+                                                                                <option value="93" picurl="pasta">
+                                                                                    Carbohydrate Cudgel (30 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="92"
+                                                                                    picurl="upsideturtle">Club Earth (50
+                                                                                    Muscularity Points)</option>
+                                                                                <option value="1023" picurl="hookspear">
+                                                                                    Harpoon! (30 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="1022" picurl="clobber">
+                                                                                    Clobber (0 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="1004" picurl="club2">
+                                                                                    Lunge Smack (1 Muscularity Point)
+                                                                                </option>
+                                                                                <option value="1003" picurl="club">
+                                                                                    Thrust-Smack (3 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="1032" picurl="wallop">
+                                                                                    Furious Wallop (1 Gal. of Fury)
+                                                                                </option>
+                                                                                <option value="1033" picurl="clubfoot">
+                                                                                    Club Foot (8 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="1005" picurl="cudgel">
+                                                                                    Lunging Thrust-Smack (8 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="1037" picurl="cavalcade">
+                                                                                    Cavalcade of Fury (15 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="1038"
+                                                                                    picurl="northernexp">Northern
+                                                                                    Explosion (16 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="2043"
+                                                                                    picurl="matingturtle">Gallapagosian
+                                                                                    Mating Call (30 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="2024" picurl="leviatuga">
+                                                                                    Summon Leviatuga (40 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="2023" picurl="toss">Toss
+                                                                                    (1 Muscularity Point)</option>
+                                                                                <option value="2022" picurl="ssnapper">
+                                                                                    Spectral Snapper (20 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="2003" picurl="headbutt">
+                                                                                    Headbutt (3 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="2028" picurl="shellup">
+                                                                                    Shell Up (6 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="2032"
+                                                                                    picurl="spiritsnap">Spirit Snap (10
+                                                                                    Muscularity Points)</option>
+                                                                                <option value="2015" picurl="kneebutt">
+                                                                                    Kneebutt (4 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="3044"
+                                                                                    picurl="bloodbucatini">Blood
+                                                                                    Bucatini (10 HP)</option>
+                                                                                <option value="3023" picurl="scharm">
+                                                                                    Stringozzi Serpent (16 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="3022" picurl="candypile">
+                                                                                    Candyblast (8 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="3020" picurl="line">
+                                                                                    Spaghetti Spear (1 Muscularity
+                                                                                    Point)</option>
+                                                                                <option value="3019"
+                                                                                    picurl="fearfulfet">Fearful
+                                                                                    Fettucini (32 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="3003"
+                                                                                    picurl="ravshurikens">Ravioli
+                                                                                    Shurikens (4 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="3004"
+                                                                                    picurl="entnoodles">Entangling
+                                                                                    Noodles (3 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="3009"
+                                                                                    picurl="lasbandage">Lasagna Bandages
+                                                                                    (6 Muscularity Points)</option>
+                                                                                <option value="3005"
+                                                                                    picurl="pastacannon">Cannelloni
+                                                                                    Cannon (8 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="3007"
+                                                                                    picurl="stuffshell">Stuffed Mortar
+                                                                                    Shell (8 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="3008" picurl="ironspoon">
+                                                                                    Weapon of the Pastalord (32
+                                                                                    Muscularity Points)</option>
+                                                                                <option value="4040"
+                                                                                    picurl="silenttreatment">Silent
+                                                                                    Treatment (20 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="4023"
+                                                                                    picurl="cheesestorm">
+                                                                                    K&auml;seso&szlig;esturm (10
+                                                                                    Muscularity Points)</option>
+                                                                                <option value="4022"
+                                                                                    picurl="icingsurge">Surge of Icing
+                                                                                    (10 Muscularity Points)</option>
+                                                                                <option value="4020" picurl="salsaball">
+                                                                                    Salsaball (1 Muscularity Point)
+                                                                                </option>
+                                                                                <option value="4024" picurl="scurse1">
+                                                                                    Curse of Vichyssoise (2 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="4014"
+                                                                                    picurl="saucysalve">Saucy Salve (4
+                                                                                    Muscularity Points)</option>
+                                                                                <option value="4003"
+                                                                                    picurl="saucestream">Stream of Sauce
+                                                                                    (2 Muscularity Points)</option>
+                                                                                <option value="4005" picurl="raincloud">
+                                                                                    Saucestorm (6 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="4029" picurl="scurse3">
+                                                                                    Curse of Marinara (4 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="4009" picurl="saucewave">
+                                                                                    Wave of Sauce (10 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="4031" picurl="scurse2">
+                                                                                    Curse of the Thousand Islands (6
+                                                                                    Muscularity Points)</option>
+                                                                                <option value="4032"
+                                                                                    picurl="saucecicle">Saucecicle (12
+                                                                                    Muscularity Points)</option>
+                                                                                <option value="4012"
+                                                                                    picurl="saucegeyser">Saucegeyser (24
+                                                                                    Muscularity Points)</option>
+                                                                                <option value="4034" picurl="scurse4">
+                                                                                    Curse of Weaksauce (8 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="5040"
+                                                                                    picurl="silentknife">Silent Knife
+                                                                                    (10 Muscularity Points)</option>
+                                                                                <option value="5023" picurl="mistletoe">
+                                                                                    Stealth Mistletoe (5 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="5021" picurl="hernia">
+                                                                                    Suckerpunch (1 Muscularity Point)
+                                                                                </option>
+                                                                                <option value="5019"
+                                                                                    picurl="terrortango">Tango of Terror
+                                                                                    (8 Muscularity Points)</option>
+                                                                                <option value="5003" picurl="eyepoke">
+                                                                                    Disco Eye-Poke (2 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="5005" picurl="dance1">
+                                                                                    Disco Dance of Doom (3 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="5008" picurl="dance2">
+                                                                                    Disco Dance II: Electric Boogaloo (4
+                                                                                    Muscularity Points)</option>
+                                                                                <option value="5012" picurl="facestab">
+                                                                                    Disco Face Stab (8 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="5033" picurl="knifedark">
+                                                                                    Knife in the Dark (10 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="5035"
+                                                                                    picurl="irondagger">Disco Shank (13
+                                                                                    Muscularity Points)</option>
+                                                                                <option value="5036" picurl="dance3">
+                                                                                    Disco Dance 3: Back in the Habit (10
+                                                                                    Muscularity Points)</option>
+                                                                                <option value="5037" picurl="fire">Disco
+                                                                                    Inferno (15 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="6025" picurl="breath">
+                                                                                    Sing (1 Muscularity Point)</option>
+                                                                                <option value="6029"
+                                                                                    picurl="brokenflute">Dissonant Riff
+                                                                                    (2 Muscularity Points)</option>
+                                                                                <option value="6034" picurl="cdlm">
+                                                                                    Concerto de los Muertos (8
+                                                                                    Muscularity Points)</option>
+                                                                                <option value="6037"
+                                                                                    picurl="bawdyrefrain">Bawdy Refrain
+                                                                                    (11 Muscularity Points)</option>
+                                                                                <option value="7391" picurl="happy">Be
+                                                                                    Gregarious (1 Muscularity Point)
+                                                                                </option>
+                                                                                <option value="7367" picurl="emochip5">
+                                                                                    Feel Superior (0 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="7365" picurl="emochip6">
+                                                                                    Feel Nostalgic (0 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="7362" picurl="emochip12">
+                                                                                    Feel Envy (0 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="7359" picurl="emochip8">
+                                                                                    Feel Hatred (0 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="7357" picurl="emochip9">
+                                                                                    Feel Pride (0 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="7311" picurl="may4sword">
+                                                                                    Use the Force, Manendra! (5 uses
+                                                                                    left)</option>
+                                                                                <option value="7297"
+                                                                                    picurl="songboombox">Sing Along (0
+                                                                                    Muscularity Points)</option>
+                                                                                <option value="7291"
+                                                                                    picurl="meteorshower">Meteor Shower
+                                                                                    (5 charges left)</option>
+                                                                                <option value="7290"
+                                                                                    picurl="macrometeor">Macrometeorite
+                                                                                    (10 charges left)</option>
+                                                                                <option value="7289"
+                                                                                    picurl="micrometeor">Micrometeorite
+                                                                                    (0 Muscularity Points)</option>
+                                                                                <option value="7273" picurl="syringe2"
+                                                                                    selected>Extract (5 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="7247" picurl="lb_gnats">
+                                                                                    Summon Love Gnats (0 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="7246" picurl="lb_stink">
+                                                                                    Summon Love Stinkbug (0 Muscularity
+                                                                                    Points)</option>
+                                                                                <option value="7245"
+                                                                                    picurl="lb_mosquito">Summon Love
+                                                                                    Mosquito (0 Muscularity Points)
+                                                                                </option>
+                                                                                <option value="17047" picurl="exclam">
+                                                                                    Mild Curse (1 Muscularity Point)
+                                                                                </option>
+                                                                            </select> <input class=button type=submit
+                                                                                onclick="return killforms(this);"
+                                                                                value="Use Skill"></td>
+                                                                    </tr>
+                                                                </form>
+                                                                <form name=macro action=fight.php method=post><input
+                                                                        type=hidden name=action value="macro"><input
+                                                                        type="hidden" name="macrotext" value="">
+                                                                    <tr>
+                                                                        <td align=center><select name=whichmacro>
+                                                                                <option value='0'>(select a macro)
+                                                                                </option>
+                                                                                <option value="5414"
+                                                                                    picurl="brimbludgeon">attack
+                                                                                </option>
+                                                                                <option value="184486"
+                                                                                    picurl="assembly2">backupbishops
+                                                                                </option>
+                                                                                <option value="183053"
+                                                                                    picurl="assembly2">barf</option>
+                                                                                <option value="184795"
+                                                                                    picurl="assembly2">barf-katana
+                                                                                </option>
+                                                                                <option value="183883"
+                                                                                    picurl="assembly2">cleeshkill
+                                                                                </option>
+                                                                                <option value="183882"
+                                                                                    picurl="assembly2">cleeshrun
+                                                                                </option>
+                                                                                <option value="183548"
+                                                                                    picurl="assembly2">dod</option>
+                                                                                <option value="183003"
+                                                                                    picurl="assembly2">dreadthread
+                                                                                </option>
+                                                                                <option value="182907" picurl="">
+                                                                                    embezzler</option>
+                                                                                <option value="185904"
+                                                                                    picurl="assembly2">
+                                                                                    freeruns-notbander</option>
+                                                                                <option value="173298"
+                                                                                    picurl="assembly2">Gnat extract
+                                                                                    mortar weak</option>
+                                                                                <option value="182669"
+                                                                                    picurl="assembly2">
+                                                                                    gnat-extract-candy</option>
+                                                                                <option value="174036"
+                                                                                    picurl="assembly2">
+                                                                                    gnat-extract-storm</option>
+                                                                                <option value="183849"
+                                                                                    picurl="assembly2">grimacia</option>
+                                                                                <option value="182831"
+                                                                                    picurl="assembly2">Gu</option>
+                                                                                <option value="183226" picurl="">
+                                                                                    HCCS_DNA_RUN</option>
+                                                                                <option value="183373"
+                                                                                    picurl="assembly2">HCCS_LOV_tunnel
+                                                                                </option>
+                                                                                <option value="183153" picurl="">
+                                                                                    HCCS_Spit</option>
+                                                                                <option value="183793"
+                                                                                    picurl="assembly2">hoboskins
+                                                                                </option>
+                                                                                <option value="183631"
+                                                                                    picurl="assembly2">icecubes</option>
+                                                                                <option value="182687" picurl="">inner
+                                                                                    elf</option>
+                                                                                <option value="182842"
+                                                                                    picurl="assembly2">melfgetcertainty
+                                                                                </option>
+                                                                                <option value="182912"
+                                                                                    picurl="assembly2">melfgetthought
+                                                                                </option>
+                                                                                <option value="182598" picurl="">meteor
+                                                                                    sword</option>
+                                                                                <option value="182214"
+                                                                                    picurl="assembly2">mimic</option>
+                                                                                <option value="173620"
+                                                                                    picurl="assembly2">mortar weak
+                                                                                </option>
+                                                                                <option value="185999"
+                                                                                    picurl="assembly2">NEP-pickrun
+                                                                                </option>
+                                                                                <option value="186000"
+                                                                                    picurl="assembly2">
+                                                                                    NEP-pocketbanishkill</option>
+                                                                                <option value="132064"
+                                                                                    picurl="assembly2">pocketplink
+                                                                                </option>
+                                                                                <option value="184298" picurl="">
+                                                                                    profchain</option>
+                                                                                <option value="184019"
+                                                                                    picurl="assembly2">Script Autoattack
+                                                                                    Macro</option>
+                                                                                <option value="184224"
+                                                                                    picurl="assembly2">sewers-banderrun
+                                                                                </option>
+                                                                                <option value="186769" picurl="">slay
+                                                                                </option>
+                                                                                <option value="182996" picurl="">
+                                                                                    weakattack</option>
+                                                                                <option value="132480" picurl="">
+                                                                                    weakgeyser</option>
+                                                                                <option value="187230"
+                                                                                    picurl="assembly2">weirds</option>
+                                                                                <option value="182352" picurl="">
+                                                                                    witchess witch</option>
+                                                                            </select> <input class=button type=submit
+                                                                                onclick="return killforms(this);"
+                                                                                value="Execute Macro"></td>
+                                                                    </tr>
+                                                                </form>
+                                                                <form name=runaway action=fight.php method=post><input
+                                                                        type=hidden name=action value="runaway">
+                                                                    <tr>
+                                                                        <td align=center><input class=button
+                                                                                onclick="return killforms(this);"
+                                                                                type=submit value="Run Away"></td>
+                                                                    </tr>
+                                                                </form>
+                                                            </table>
+                                                        </center>
+                                                </div>
+                                                <p>
+                                                    <center>You win the fight!
+                                                        <!--WINWINWIN-->
+                                                        <p>
+                                                        <p>Some extra meat has appeared in your pouch when you weren't
+                                                            looking. Presumably Veiled Bess's doing.<center>
+                                                                <table>
+                                                                    <tr>
+                                                                        <td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/meat.gif"
+                                                                                height=30 width=30 alt="Meat"></td>
+                                                                        <td valign=center>You gain 12 Meat.</td>
+                                                                    </tr>
+                                                                </table>
+                                                            </center>
+                                                            <!--familiarmessage-->
+                                                            <center>
+                                                                <table>
+                                                                    <tr>
+                                                                        <td align=center valign=center><img
+                                                                                src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/robotender.gif"
+                                                                                width=30 height=30></td>
+                                                                        <td valign=center>L3-37 does an elaborate
+                                                                            bottle-juggling routine.</td>
+                                                                    </tr>
+                                                                </table>
+                                                            </center>
+                                                            <center>
+                                                                <table class="item" style="float: none"
+                                                                    rel="id=654&s=50&q=0&d=1&g=0&t=1&n=1&m=0&p=0&u=.">
+                                                                    <tr>
+                                                                        <td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/star.gif"
+                                                                                alt="star" title="star" class=hand
+                                                                                onClick='descitem(943226144)'></td>
+                                                                        <td valign=center class=effect>You acquire an
+                                                                            item: <b>star</b></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </center>
+                                                            <center>
+                                                                <table class="item" style="float: none"
+                                                                    rel="id=654&s=50&q=0&d=1&g=0&t=1&n=1&m=0&p=0&u=.">
+                                                                    <tr>
+                                                                        <td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/star.gif"
+                                                                                alt="star" title="star" class=hand
+                                                                                onClick='descitem(943226144)'></td>
+                                                                        <td valign=center class=effect>You acquire an
+                                                                            item: <b>star</b></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </center>
+                                                            <center>
+                                                                <table class="item" style="float: none"
+                                                                    rel="id=655&s=50&q=0&d=1&g=0&t=1&n=1&m=0&p=0&u=.">
+                                                                    <tr>
+                                                                        <td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/line.gif"
+                                                                                alt="line" title="line" class=hand
+                                                                                onClick='descitem(302848153)'></td>
+                                                                        <td valign=center class=effect>You acquire an
+                                                                            item: <b>line</b></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </center>
+                                                        <p>You think you see a weird thing out of the corner of your
+                                                            eye, but it turns out to be nothing. Which is actually
+                                                            pretty weird, if you think about it, man.
+                                                        <p>You gain 27 Muscleboundness.<bR><b>You gain a Muscle
+                                                                point!</b><br>You gain 19 Wizardliness.<bR>You gain 23
+                                                            Cheek.<bR>
+                                                        <p>
+                                                        <table>
+                                                            <tr>
+                                                                <td width=40><img
+                                                                        src='https://d2uyhvukfffg5a.cloudfront.net/itemimages/songboombox.gif' />
+                                                                </td>
+                                                                <td align='center'>You catch a line from the song
+                                                                    playing on your SongBoom&trade;
+                                                                    BoomBox:<br />&quot;She's giving me excitations(Oom
+                                                                    bop, bop, excitations)&quot;</td>
+                                                            </tr>
+                                                        </table>
+                                                        <p>What's that? Grass fertilizer?<center>
+                                                                <table class="item" style="float: none"
+                                                                    rel="id=9761&s=0&q=0&d=0&g=0&t=1&n=1&m=0&p=0&u=u">
+                                                                    <tr>
+                                                                        <td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/pokefert.gif"
+                                                                                alt="Pok&eacute;-Gro fertilizer"
+                                                                                title="Pok&eacute;-Gro fertilizer"
+                                                                                class=hand
+                                                                                onClick='descitem(404618485)'></td>
+                                                                        <td valign=center class=effect>You acquire an
+                                                                            item: <b>Pok&eacute;-Gro fertilizer</b></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </center>
+                                                        <p><a name="end"></a>
+                                                        <p><a href="adventure.php?snarfblat=83">Adventure Again (The
+                                                                Hole in the Sky)</a>
+                                                        <p><a href="place.php?whichplace=beanstalk">Go back to Somewhere
+                                                                Over the Beanstalk</a>
+                                                    </center>
+                                                    <script>parent.charpane.location.href = "charpane.php";</script>
+                                                    <script
+                                                        language="javascript">function updateParseItem(iid, field, info) { var tbl = $('#ic' + iid); var data = parseItem(tbl); if (!data) return; data[field] = info; var out = []; for (i in data) { if (!data.hasOwnProperty(i)) continue; out.push(i + '=' + data[i]); } tbl.attr('rel', out.join('&')); } function parseItem(tbl) { tbl = $(tbl); var rel = tbl.attr('rel'); var data = {}; if (!rel) return data; var parts = rel.split('&'); for (i in parts) { if (!parts.hasOwnProperty(i)) continue; var kv = parts[i].split('='); tbl.data(kv[0], kv[1]); data[kv[0]] = kv[1]; } return data; }</script>
+                                                    <script type="text/javascript"
+                                                        src="https://d2uyhvukfffg5a.cloudfront.net/scripts/pop_query.20130705.js"></script>
+                                                    <script type="text/javascript"
+                                                        src="https://d2uyhvukfffg5a.cloudfront.net/scripts/ircm.20161111.js"></script>
+                                                    <script
+                                                        type="text/javascript">var tp = top; function pop_ircm_contents(i, some) { var contents = '', shown = 0, da = '&nbsp;<a href="#" rel="?" class="small dojaxy">[some]</a>&nbsp;<a href="#" rel="', db = '" class="small dojaxy">[all]</a>', dc = '<div style="width:100%; padding-bottom: 3px;" rel="', dd = '<a href="#" rel="1" class="small dojaxy">['; one = 'one'; ss = some; if (i.d == 1 && i.s > 0) { shown++; contents += dc + 'sellstuff.php?action=sell&ajax=1&type=quant&whichitem%5B%5D=IID&howmany=NUM&pwd=a6a7fcfdf9bb0d2172f3f9fc6a17c134" id="pircm_' + i.id + '"><b>Auto-Sell (' + i.s + ' meat):</b> ' + dd + one + ']</a>'; if (ss) { contents += da + i.n + db; } contents += '</div>'; } one = 'one'; ss = some; if (i.q == 0) { shown++; contents += dc + 'inventory.php?action=closetpush&ajax=1&whichitem=IID&qty=NUM&pwd=a6a7fcfdf9bb0d2172f3f9fc6a17c134" id="pircm_' + i.id + '"><b>Closet:</b> ' + dd + one + ']</a>'; if (ss) { contents += da + i.n + db; } contents += '</div>'; } one = 'one'; ss = some; if (i.q == 0 && i.g == 0 && i.t == 1) { shown++; contents += dc + 'managestore.php?action=additem&qty1=NUM&item1=IID&price1=&limit1=&ajax=1&pwd=a6a7fcfdf9bb0d2172f3f9fc6a17c134" id="pircm_' + i.id + '"><b>Stock in Mall:</b> ' + dd + one + ']</a>'; if (ss) { contents += da + i.n + db; } contents += '</div>'; } one = 'one'; ss = some; if (i.q == 0) { shown++; contents += dc + 'managecollection.php?action=put&ajax=1&whichitem1=IID&howmany1=NUM&pwd=a6a7fcfdf9bb0d2172f3f9fc6a17c134" id="pircm_' + i.id + '"><b>Add to Display Case:</b> ' + dd + one + ']</a>'; if (ss) { contents += da + i.n + db; } contents += '</div>'; } one = 'one'; ss = some; if (i.q == 0 && i.p == 0 && i.u == "q" && i.d == 1 && i.t == 1) { shown++; contents += dc + 'craft.php?action=pulverize&ajax=1&smashitem=IID&qty=NUM&pwd=a6a7fcfdf9bb0d2172f3f9fc6a17c134" id="pircm_' + i.id + '"><b>Pulverize:</b> ' + dd + one + ']</a>'; if (ss) { contents += da + i.n + db; } contents += '</div>'; } one = 'one'; ss = some; if (i.u && i.u != "." && !i.ac) { shown++; contents += dc + 'inv_' + (i.u == "a" ? "redir" : (lab = (i.u == "u" ? "use" : (i.u == "e" ? "eat" : (i.u == "b" ? "booze" : (i.u == "s" ? "spleen" : "equip")))))) + '.php?ajax=1&whichitem=IID&itemquantity=NUM&quantity=NUM' + (i.u == "q" ? "&action=equip" : "") + '&pwd=a6a7fcfdf9bb0d2172f3f9fc6a17c134" id="pircm_' + i.id + '"><b>' + ucfirst(unescape(i.ou ? i.ou.replace(/\+/g, " ") : (lab == "booze" ? "drink" : lab))) + ':</b> ' + dd + one + ']</a>'; if (ss && i.u != 'q' && !(i.u == 'u' && i.m == 0)) { contents += da + i.n + db; } contents += '</div>'; } one = 'one'; ss = some; if (i.u && i.u != "." && i.ac) { shown++; contents += dc + 'inv_equip.php?slot=1&ajax=1&whichitem=IID&action=equip&pwd=a6a7fcfdf9bb0d2172f3f9fc6a17c134" id="pircm_' + i.id + '"><b>Equip (slot 1):</b> ' + dd + one + ']</a>'; if (ss && i.u != 'q' && !(i.u == 'u' && i.m == 0)) { contents += da + i.n + db; } contents += '</div>'; } one = 'one'; ss = some; if (i.u && i.u != "." && i.ac) { shown++; contents += dc + 'inv_equip.php?slot=2&ajax=1&whichitem=IID&action=equip&pwd=a6a7fcfdf9bb0d2172f3f9fc6a17c134" id="pircm_' + i.id + '"><b>Equip (slot 2):</b> ' + dd + one + ']</a>'; if (ss && i.u != 'q' && !(i.u == 'u' && i.m == 0)) { contents += da + i.n + db; } contents += '</div>'; } one = 'one'; ss = some; if (i.u && i.u != "." && i.ac) { shown++; contents += dc + 'inv_equip.php?slot=3&ajax=1&whichitem=IID&action=equip&pwd=a6a7fcfdf9bb0d2172f3f9fc6a17c134" id="pircm_' + i.id + '"><b>Equip (slot 3):</b> ' + dd + one + ']</a>'; if (ss && i.u != 'q' && !(i.u == 'u' && i.m == 0)) { contents += da + i.n + db; } contents += '</div>'; } return [contents, shown]; } tp = topvar todo = []; function nextAction() { var next_todo = todo.shift(); if (next_todo) { eval(next_todo); } } function dojax(dourl, afterFunc, hoverCaller, failureFunc, method, params) { $.ajax({ type: method || 'GET', url: dourl, cache: false, data: params || null, global: false, success: function (out) { nextAction(); if (out.match(/no\|/)) { var parts = out.split(/\|/); if (failureFunc) failureFunc(parts[1]); else if (window.dojaxFailure) window.dojaxFailure(parts[1]); else if (tp.chatpane.handleMessage) tp.chatpane.handleMessage({ type: 'event', msg: 'Oops!  Sorry, Dave, you appear to be ' + parts[1] }); else $('#ChatWindow').append('<font color="green">Oops!  Sorry, Dave, you appear to be ' + parts[1] + '.</font><br />' + "\n"); return; } if (hoverCaller) { float_results(hoverCaller, out); if (afterFunc) { afterFunc(out); } return; } $(tp.mainpane.document).find("#effdiv").remove(); if (!window.dontscroll || (window.dontscroll && dontscroll == 0)) { window.scroll(0, 0); } var $eff = $(tp.mainpane.document).find('#effdiv'); if ($eff.length == 0) { var d = tp.mainpane.document.createElement('DIV'); d.id = 'effdiv'; var b = tp.mainpane.document.body; if ($('#content_').length > 0) { b = $('#content_ div:first')[0]; } b.insertBefore(d, b.firstChild); $eff = $(d); } $eff.find('a[name="effdivtop"]').remove().end().prepend('<a name="effdivtop"></a><center>' + out + '</center>').css('display', 'block'); if (!window.dontscroll || (window.dontscroll && dontscroll == 0)) { tp.mainpane.document.location = tp.mainpane.document.location + "#effdivtop"; } if (afterFunc) { afterFunc(out); } } }); }</script>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </center>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height=4></td>
+                    </tr>
+                </table>
+            </center>
+        </div>
+    </div>
+    <script>var ifb = false; var imagepath = "https://d2uyhvukfffg5a.cloudfront.net/itemimages/"; var pwd = "a6a7fcfdf9bb0d2172f3f9fc6a17c134";</script>
+    <script src='https://d2uyhvukfffg5a.cloudfront.net/scripts/actionbar.20170731.js'></script>
+</body>
+
+</html>

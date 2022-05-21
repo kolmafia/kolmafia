@@ -68,7 +68,7 @@ public class SaberCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
-  void canChooseUpgrade() {
+  void canChooseMlUpgrade() {
     hasSaber();
     String output = execute("ml");
 

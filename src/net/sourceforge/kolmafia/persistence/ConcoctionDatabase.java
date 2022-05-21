@@ -31,7 +31,6 @@ import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -295,7 +294,7 @@ public class ConcoctionDatabase {
           }
           concoction.addIngredient(ingredient);
           if (ingredient.getItemId() == ItemPool.MEAT_STACK) {
-            ConcoctionDatabase.meatStack.put(IntegerPool.get(itemId), concoction);
+            ConcoctionDatabase.meatStack.put(itemId, concoction);
           }
         }
       }
@@ -304,40 +303,40 @@ public class ConcoctionDatabase {
 
       switch (ConcoctionDatabase.mixingMethod) {
         case STAFF:
-          ConcoctionDatabase.chefStaff.put(IntegerPool.get(ingredients[0].getItemId()), concoction);
+          ConcoctionDatabase.chefStaff.put(ingredients[0].getItemId(), concoction);
           break;
         case SINGLE_USE:
-          ConcoctionDatabase.singleUse.put(IntegerPool.get(ingredients[0].getItemId()), concoction);
+          ConcoctionDatabase.singleUse.put(ingredients[0].getItemId(), concoction);
           break;
         case MULTI_USE:
-          ConcoctionDatabase.multiUse.put(IntegerPool.get(ingredients[0].getItemId()), concoction);
+          ConcoctionDatabase.multiUse.put(ingredients[0].getItemId(), concoction);
           break;
       }
 
       if (ConcoctionDatabase.requirements.contains(CraftingRequirements.PASTA)) {
-        ConcoctionDatabase.noodles.put(IntegerPool.get(concoction.getItemId()), concoction);
+        ConcoctionDatabase.noodles.put(concoction.getItemId(), concoction);
       }
     }
   }
 
   public static Concoction chefStaffCreation(final int itemId) {
-    return ConcoctionDatabase.chefStaff.get(IntegerPool.get(itemId));
+    return ConcoctionDatabase.chefStaff.get(itemId);
   }
 
   public static Concoction singleUseCreation(final int itemId) {
-    return ConcoctionDatabase.singleUse.get(IntegerPool.get(itemId));
+    return ConcoctionDatabase.singleUse.get(itemId);
   }
 
   public static Concoction multiUseCreation(final int itemId) {
-    return ConcoctionDatabase.multiUse.get(IntegerPool.get(itemId));
+    return ConcoctionDatabase.multiUse.get(itemId);
   }
 
   public static Concoction noodleCreation(final int itemId) {
-    return ConcoctionDatabase.noodles.get(IntegerPool.get(itemId));
+    return ConcoctionDatabase.noodles.get(itemId);
   }
 
   public static Concoction meatStackCreation(final int itemId) {
-    return ConcoctionDatabase.meatStack.get(IntegerPool.get(itemId));
+    return ConcoctionDatabase.meatStack.get(itemId);
   }
 
   private static boolean pseudoItemMixingMethod(final CraftingType mixingMethod) {
