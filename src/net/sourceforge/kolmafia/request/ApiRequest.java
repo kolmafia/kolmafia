@@ -396,7 +396,9 @@ public class ApiRequest extends GenericRequest {
           Map.entry(
               "neverendingparty", Map.entry("neverendingPartyAlways", "_neverendingPartyToday")),
           Map.entry("voterregistered", Map.entry("voteAlways", "_voteToday")),
-          Map.entry("boxingdaycare", Map.entry("daycareOpen", "_daycareToday")));
+          Map.entry("boxingdaycare", Map.entry("daycareOpen", "_daycareToday")),
+          Map.entry("hascosmicball", Map.entry("cosmicBowlingBallOwned", "")),
+          Map.entry("maydaykit", Map.entry("maydayContractOwned", "")));
 
   private static final void parseCoolItems(final String coolItems) {
     if (coolItems == null) {
@@ -411,8 +413,10 @@ public class ApiRequest extends GenericRequest {
           String todayPref = entry.getValue();
           boolean haveAccess = owned.contains(coolItem);
 
-          // If they have access to the iotm
-          if (haveAccess) {
+          // If there's no such thing as temporary access, then set the always pref directly.
+          if (todayPref.isEmpty()) {
+            Preferences.setBoolean(alwaysPref, haveAccess);
+          } else if (haveAccess) { // If they have access to the iotm
             // If they have used a day pass
             boolean usedDayPass = Preferences.getBoolean(todayPref);
 
