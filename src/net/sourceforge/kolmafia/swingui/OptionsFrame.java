@@ -297,6 +297,7 @@ public class OptionsFrame extends GenericFrame {
           "stopForFixedWanderer",
           "Stop automation, or show relay warning, when Wandering monsters with fixed turn are due"
         },
+        {"stopForUltraRare", "Stop automation when encountering an Ultra-Rare monster"},
       };
 
       this.setOptions(options);

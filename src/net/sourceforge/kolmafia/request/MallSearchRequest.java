@@ -28,11 +28,11 @@ public class MallSearchRequest extends GenericRequest {
 
     this.searchString = "";
     this.storeId = storeId;
-    this.results = new ArrayList<PurchaseRequest>();
+    this.results = new ArrayList<>();
   }
 
   public MallSearchRequest(final String searchString, final int cheapestCount) {
-    this(searchString, cheapestCount, new ArrayList<PurchaseRequest>());
+    this(searchString, cheapestCount, new ArrayList<>());
   }
 
   /**
@@ -70,7 +70,7 @@ public class MallSearchRequest extends GenericRequest {
 
     this.searchString = "";
     this.storeId = 0;
-    this.results = new ArrayList<PurchaseRequest>();
+    this.results = new ArrayList<>();
 
     this.addFormField("pudnuggler", this.searchString);
     this.addFormField("category", category);
@@ -233,7 +233,7 @@ public class MallSearchRequest extends GenericRequest {
     // If an exact match, we can think about updating mall_price().
     if (this.searchString.startsWith("\"") && this.results.size() > 0) {
       AdventureResult item = this.results.get(0).getItem();
-      MallPriceManager.updateMallPrice(item, new ArrayList<PurchaseRequest>(this.results));
+      MallPriceManager.updateMallPrice(item, new ArrayList<>(this.results));
     }
 
     KoLmafia.updateDisplay("Search complete.");
@@ -388,7 +388,7 @@ public class MallSearchRequest extends GenericRequest {
   private void searchMall() {
     List<String> itemNames =
         this.searchString.length() == 0
-            ? new ArrayList<String>()
+            ? new ArrayList<>()
             : ItemDatabase.getMatchingNames(this.searchString);
 
     // Change all multi-line store names into single line store

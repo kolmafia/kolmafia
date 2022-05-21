@@ -26,7 +26,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -553,7 +552,7 @@ public class TCRSDatabase {
   }
 
   public static boolean applyModifiers(int itemId) {
-    Integer id = IntegerPool.get(itemId);
+    Integer id = itemId;
     return applyModifiers(id, TCRSMap.get(id));
   }
 
@@ -727,6 +726,8 @@ public class TCRSDatabase {
     InventoryManager.checkPantogram();
     InventoryManager.checkLatte();
     InventoryManager.checkSaber();
+    InventoryManager.checkCoatOfPaint();
+    InventoryManager.checkUmbrella();
 
     deriveApplyItem(ItemPool.RING);
 

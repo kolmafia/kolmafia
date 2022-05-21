@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
@@ -84,7 +83,7 @@ public abstract class ConsequenceManager {
       if (id == -1) {
         RequestLogger.printLine("Unknown DESC_SKILL consequence: " + spec);
       } else {
-        Integer key = IntegerPool.get(id);
+        Integer key = id;
         cons.register(ConsequenceManager.skillDescs, key);
         ConsequenceManager.descriptions.add("desc_skill.php?whichskill=" + id + "&self=true");
       }
@@ -108,7 +107,7 @@ public abstract class ConsequenceManager {
   }
 
   public static void parseSkillDesc(int id, String responseText) {
-    Consequence cons = ConsequenceManager.skillDescs.get(IntegerPool.get(id));
+    Consequence cons = ConsequenceManager.skillDescs.get(id);
     if (cons != null) {
       cons.test(responseText);
     }

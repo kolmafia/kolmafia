@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.session;
+package net.sourceforge.kolmafia.request;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -8,7 +8,6 @@ import static org.mockito.Mockito.mockStatic;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.request.MallSearchRequest;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

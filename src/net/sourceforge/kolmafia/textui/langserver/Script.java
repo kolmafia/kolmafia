@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.langserver;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -59,7 +60,7 @@ public final class Script {
       return null;
     }
 
-    return new ByteArrayInputStream(this.text.getBytes());
+    return new ByteArrayInputStream(this.text.getBytes(StandardCharsets.UTF_8));
   }
 
   /**

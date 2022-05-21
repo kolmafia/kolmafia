@@ -40,16 +40,15 @@ public class MallPriceDatabase {
   private static final int CONNECT_TIMEOUT = 15 * 1000;
 
   static {
-    updatePrices("mallprices.txt", false);
-    updatePrices("mallprices.txt", true);
+    updatePricesFromSource("mallprices.txt");
     MallPriceDatabase.modCount = 0;
   }
 
   private MallPriceDatabase() {}
 
-  private static int updatePrices(String filename, boolean allowOverride) {
+  private static int updatePricesFromSource(String filename) {
     int count = 0;
-    try (BufferedReader reader = FileUtilities.getReader(filename, allowOverride)) {
+    try (BufferedReader reader = FileUtilities.getReader(filename)) {
 
       String line = FileUtilities.readLine(reader);
       if (line == null) {
@@ -113,7 +112,7 @@ public class MallPriceDatabase {
       }
       MallPriceDatabase.updated.add(filename);
     }
-    int count = MallPriceDatabase.updatePrices(filename, true);
+    int count = MallPriceDatabase.updatePricesFromSource(filename);
     if (count > 0) {
       MallPriceDatabase.writePrices();
       ConcoctionDatabase.refreshConcoctions();

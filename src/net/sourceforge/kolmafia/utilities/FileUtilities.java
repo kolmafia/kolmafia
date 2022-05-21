@@ -30,16 +30,20 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class FileUtilities {
-  private static HttpClient client;
+  private static ResettingHttpClient client;
 
-  private static HttpClient getClient() {
+  private static ResettingHttpClient getClient() {
     if (client != null) {
       return client;
     }
 
-    var built = HttpUtilities.getClientBuilder().build();
+    var built = new ResettingHttpClient(FileUtilities::createClient);
     client = built;
     return built;
+  }
+
+  private static HttpClient createClient() {
+    return HttpUtilities.getClientBuilder().build();
   }
 
   private FileUtilities() {}
@@ -203,7 +207,7 @@ public class FileUtilities {
       RequestLogger.trace("Requesting: " + remote);
     }
 
-    HttpClient client = getClient();
+    var client = getClient();
     HttpResponse<InputStream> response;
     try {
       response = client.send(request, BodyHandlers.ofInputStream());
@@ -250,7 +254,7 @@ public class FileUtilities {
         byte[] bytes = ByteBufferUtilities.read(istream);
         String text = new String(bytes);
         text = StringUtilities.globalStringReplace(text, "location.hostname", "location.host");
-        ostream.write(text.getBytes());
+        ostream.write(text.getBytes(StandardCharsets.UTF_8));
       } else if (remote.endsWith(".gif")) {
         byte[] bytes = ByteBufferUtilities.read(istream);
         String signature = new String(bytes, 0, 3);

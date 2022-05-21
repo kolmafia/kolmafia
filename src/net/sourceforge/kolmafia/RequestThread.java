@@ -15,7 +15,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.InternalMessage;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
@@ -281,7 +280,7 @@ public abstract class RequestThread {
 
     int requestId = RequestThread.nextRequestId.getAndIncrement();
 
-    Integer requestIdObj = IntegerPool.get(requestId);
+    Integer requestIdObj = requestId;
 
     // Don't include relay requests in "request sequences" - this could stop the display from being
     // enabled

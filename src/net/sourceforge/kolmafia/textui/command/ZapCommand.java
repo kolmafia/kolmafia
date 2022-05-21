@@ -27,7 +27,10 @@ public class ZapCommand extends AbstractCommand {
     AdventureResult[] items = ItemFinder.getMatchingItemList(parameters, KoLConstants.inventory);
 
     for (AdventureResult item : items) {
-      RequestThread.postRequest(new ZapRequest(item));
+      var request = new ZapRequest(item);
+      for (int i = 0; i < item.getCount(); i++) {
+        RequestThread.postRequest(request);
+      }
     }
   }
 }

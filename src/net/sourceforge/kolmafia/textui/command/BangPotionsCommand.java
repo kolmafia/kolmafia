@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
@@ -17,36 +16,32 @@ public class BangPotionsCommand extends AbstractCommand {
   // looking at combat item dropdown
   private static final Object[][] BANG_POTIONS =
       new Object[][] {
-        {"bubbly potion", "bubbly", IntegerPool.get(ItemPool.BUBBLY_POTION)},
-        {"cloudy potion", "cloudy", IntegerPool.get(ItemPool.CLOUDY_POTION)},
-        {"dark potion", "dark", IntegerPool.get(ItemPool.DARK_POTION)},
-        {"effervescent potion", "effervescent", IntegerPool.get(ItemPool.EFFERVESCENT_POTION)},
-        {"fizzy potion", "fizzy", IntegerPool.get(ItemPool.FIZZY_POTION)},
-        {"milky potion", "milky", IntegerPool.get(ItemPool.MILKY_POTION)},
-        {"murky potion", "murky", IntegerPool.get(ItemPool.MURKY_POTION)},
-        {"smoky potion", "smoky", IntegerPool.get(ItemPool.SMOKY_POTION)},
-        {"swirly potion", "swirly", IntegerPool.get(ItemPool.SWIRLY_POTION)},
+        {"bubbly potion", "bubbly", ItemPool.BUBBLY_POTION},
+        {"cloudy potion", "cloudy", ItemPool.CLOUDY_POTION},
+        {"dark potion", "dark", ItemPool.DARK_POTION},
+        {"effervescent potion", "effervescent", ItemPool.EFFERVESCENT_POTION},
+        {"fizzy potion", "fizzy", ItemPool.FIZZY_POTION},
+        {"milky potion", "milky", ItemPool.MILKY_POTION},
+        {"murky potion", "murky", ItemPool.MURKY_POTION},
+        {"smoky potion", "smoky", ItemPool.SMOKY_POTION},
+        {"swirly potion", "swirly", ItemPool.SWIRLY_POTION},
       };
 
   private static final Object[][] SLIME_VIALS =
       new Object[][] {
-        {"vial of red slime", "red", IntegerPool.get(ItemPool.VIAL_OF_RED_SLIME)},
-        {"vial of yellow slime", "yellow", IntegerPool.get(ItemPool.VIAL_OF_YELLOW_SLIME)},
-        {"vial of blue slime", "blue", IntegerPool.get(ItemPool.VIAL_OF_BLUE_SLIME)},
-        {"vial of orange slime", "orange", IntegerPool.get(ItemPool.VIAL_OF_ORANGE_SLIME)},
-        {"vial of green slime", "green", IntegerPool.get(ItemPool.VIAL_OF_GREEN_SLIME)},
-        {"vial of violet slime", "violet", IntegerPool.get(ItemPool.VIAL_OF_VIOLET_SLIME)},
-        {"vial of vermilion slime", "vermilion", IntegerPool.get(ItemPool.VIAL_OF_VERMILION_SLIME)},
-        {"vial of amber slime", "amber", IntegerPool.get(ItemPool.VIAL_OF_AMBER_SLIME)},
-        {
-          "vial of chartreuse slime",
-          "chartreuse",
-          IntegerPool.get(ItemPool.VIAL_OF_CHARTREUSE_SLIME)
-        },
-        {"vial of teal slime", "teal", IntegerPool.get(ItemPool.VIAL_OF_TEAL_SLIME)},
-        {"vial of indigo slime", "indigo", IntegerPool.get(ItemPool.VIAL_OF_INDIGO_SLIME)},
-        {"vial of purple slime", "purple", IntegerPool.get(ItemPool.VIAL_OF_PURPLE_SLIME)},
-        {"vial of brown slime", "brown", IntegerPool.get(ItemPool.VIAL_OF_BROWN_SLIME)},
+        {"vial of red slime", "red", ItemPool.VIAL_OF_RED_SLIME},
+        {"vial of yellow slime", "yellow", ItemPool.VIAL_OF_YELLOW_SLIME},
+        {"vial of blue slime", "blue", ItemPool.VIAL_OF_BLUE_SLIME},
+        {"vial of orange slime", "orange", ItemPool.VIAL_OF_ORANGE_SLIME},
+        {"vial of green slime", "green", ItemPool.VIAL_OF_GREEN_SLIME},
+        {"vial of violet slime", "violet", ItemPool.VIAL_OF_VIOLET_SLIME},
+        {"vial of vermilion slime", "vermilion", ItemPool.VIAL_OF_VERMILION_SLIME},
+        {"vial of amber slime", "amber", ItemPool.VIAL_OF_AMBER_SLIME},
+        {"vial of chartreuse slime", "chartreuse", ItemPool.VIAL_OF_CHARTREUSE_SLIME},
+        {"vial of teal slime", "teal", ItemPool.VIAL_OF_TEAL_SLIME},
+        {"vial of indigo slime", "indigo", ItemPool.VIAL_OF_INDIGO_SLIME},
+        {"vial of purple slime", "purple", ItemPool.VIAL_OF_PURPLE_SLIME},
+        {"vial of brown slime", "brown", ItemPool.VIAL_OF_BROWN_SLIME},
       };
 
   private static String potionName(final Object[][] table, final int index) {

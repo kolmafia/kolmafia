@@ -113,6 +113,7 @@ public class ItemPool {
   public static final int EYEPATCH = 224;
   public static final int PUNGENT_UNGUENT = 231;
   public static final int COCKTAIL_KIT = 236;
+  public static final int BOTTLE_OF_GIN = 237;
   public static final int GRAPEFRUIT = 243;
   public static final int TOMATO = 246;
   public static final int FERMENTING_POWDER = 247;
@@ -776,6 +777,7 @@ public class ItemPool {
   public static final int HAND_CARVED_BOKKEN = 2719;
   public static final int HAND_CARVED_BOW = 2720;
   public static final int HAND_CARVED_STAFF = 2721;
+  public static final int JUNIPER_BERRIES = 2726;
   public static final int PLUM_WINE = 2730;
   public static final int BUNCH_OF_SQUARE_GRAPES = 2733;
   public static final int STEEL_STOMACH = 2742;
@@ -1126,6 +1128,7 @@ public class ItemPool {
   public static final int HALF_GUITAR = 3852;
   public static final int BASS_DRUM = 3853;
   public static final int SMALLEST_VIOLIN = 3855;
+  public static final int BONE_FLUTE = 3858;
   public static final int PLASTIC_GUITAR = 3863;
   public static final int FINGER_CYMBALS = 3864;
   public static final int KETTLE_DRUM = 3865;
@@ -1407,7 +1410,10 @@ public class ItemPool {
   public static final int TINY_FLY_GLASSES = 4566;
   public static final int LEGENDARY_BEAT = 4573;
   public static final int BUGGED_BEANIE = 4575;
+  public static final int BUGGED_BONNET = 4577;
+  public static final int BUGGED_MEAT_CLUB = 4578;
   public static final int BUGGED_POTION = 4579;
+  public static final int BUGGED_KNICKERBOCKERS = 4580;
   public static final int BUGGED_BAIO = 4581;
   public static final int PIXEL_WHIP = 4589;
   public static final int PIXEL_CHAIN_WHIP = 4590;
@@ -2048,6 +2054,10 @@ public class ItemPool {
   public static final int ANTIQUE_MACHETE = 6679;
   public static final int BOWL_OF_SCORPIONS = 6681;
   public static final int BOOK_OF_MATCHES = 6683;
+  public static final int MCCLUSKY_FILE_PAGE1 = 6689;
+  public static final int MCCLUSKY_FILE_PAGE2 = 6690;
+  public static final int MCCLUSKY_FILE_PAGE3 = 6691;
+  public static final int MCCLUSKY_FILE_PAGE4 = 6692;
   public static final int MCCLUSKY_FILE_PAGE5 = 6693;
   public static final int BINDER_CLIP = 6694;
   public static final int MCCLUSKY_FILE = 6695;
@@ -2268,6 +2278,11 @@ public class ItemPool {
   public static final int BLOOD_RED_MUSHROOM_WINE = 7447;
   public static final int BUZZING_MUSHROOM_WINE = 7448;
   public static final int SWIRLING_MUSHROOM_WINE = 7449;
+  public static final int TACO_DAN_FISH_TACO = 7451;
+  public static final int TACO_DAN_TACO_SAUCE = 7452;
+  public static final int BROBERRY_BROGURT = 7455;
+  public static final int BROCOLATE_BROGURT = 7456;
+  public static final int FRENCH_BRONILLA_BROGURT = 7457;
   public static final int OFFENSIVE_JOKE_BOOK = 7458;
   public static final int COOKING_WITH_GREASE_BOOK = 7459;
   public static final int DINER_HANDBOOK = 7460;
@@ -2430,6 +2445,7 @@ public class ItemPool {
   public static final int TOPIARY_NUGGLET = 7968;
   public static final int BEEHIVE = 7969;
   public static final int ELECTRIC_BONING_KNIFE = 7970;
+  public static final int MUMMIFIED_FIG = 7972;
   public static final int ANCIENT_CURE_ALL = 7982;
   public static final int CHOCO_CRIMBOT = 7999;
   public static final int TOY_CRIMBOT_FACE = 8002;
@@ -2643,6 +2659,7 @@ public class ItemPool {
   public static final int TO_BUILD_AN_IGLOO = 8682;
   public static final int CHILL_OF_THE_WILD = 8683;
   public static final int COLD_FANG = 8684;
+  public static final int PERFECT_ICE_CUBE = 8686;
   public static final int COLD_WEATHER_BARTENDER_GUIDE = 8687;
   public static final int ICE_HOTEL_BELL = 8694;
   public static final int ANCIENT_MEDICINAL_HERBS = 8696;
@@ -2670,6 +2687,7 @@ public class ItemPool {
   public static final int VYKEA_DOWEL = 8728;
   public static final int VYKEA_HEX_KEY = 8729;
   public static final int VYKEA_INSTRUCTIONS = 8730;
+  public static final int PERFECT_NEGRONI = 8738;
   public static final int MACHINE_SNOWGLOBE = 8749;
   public static final int BACON = 8763;
   public static final int BUNDLE_OF_FRAGRANT_HERBS = 8777;
@@ -3342,6 +3360,7 @@ public class ItemPool {
   public static final int CURSED_MAGNIFYING_GLASS = 10885;
   public static final int COSMIC_BOWLING_BALL = 10891;
   public static final int COMBAT_LOVERS_LOCKET = 10893;
+  public static final int UNBREAKABLE_UMBRELLA = 10899;
 
   private ItemPool() {}
 
@@ -3537,7 +3556,7 @@ public class ItemPool {
         continue; // can't identify yet
       }
 
-      possible.add(IntegerPool.get(i | Math.min(count, 127) << 24));
+      possible.add(i | Math.min(count, 127) << 24);
     }
 
     int count = possible.size();

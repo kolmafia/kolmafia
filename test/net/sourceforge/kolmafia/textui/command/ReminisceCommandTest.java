@@ -14,7 +14,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ReminsiceCommandTest extends AbstractCommandTestBase {
+public class ReminisceCommandTest extends AbstractCommandTestBase {
   @BeforeEach
   public void initEach() {
     KoLCharacter.reset("ReminisceCommandTest");
@@ -29,15 +29,15 @@ public class ReminsiceCommandTest extends AbstractCommandTestBase {
     KoLCharacter.reset("");
   }
 
-  public ReminsiceCommandTest() {
+  public ReminisceCommandTest() {
     this.command = "reminisce";
   }
 
   @Test
   void mustHaveLocket() {
-    String output = execute("");
+    String output = execute("Black Crayon Penguin");
 
-    assertThat(output, containsString("You do not have"));
+    assertThat(output, containsString("You do not own"));
     assertErrorState();
   }
 
@@ -47,8 +47,7 @@ public class ReminsiceCommandTest extends AbstractCommandTestBase {
     LocketManager.parseFoughtMonsters();
     var cleanups = addItem("combat lover's locket");
     try (cleanups) {
-      String output = execute("");
-
+      String output = execute("Black Crayon Penguin");
       assertThat(output, containsString("You can only"));
       assertErrorState();
     }

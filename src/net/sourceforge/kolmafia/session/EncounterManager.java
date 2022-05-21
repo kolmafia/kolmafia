@@ -295,8 +295,7 @@ public abstract class EncounterManager {
     return false;
   }
 
-  public static final boolean isGregariousEncounter(
-      final String responseText, final boolean checkMonster) {
+  public static final boolean isGregariousEncounter(final String responseText) {
     return responseText.contains("Looks like it's that friend you gregariously made");
   }
 

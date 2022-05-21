@@ -11,7 +11,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -58,7 +57,7 @@ public class MrStoreRequest extends CoinMasterRequest {
           true) {
         @Override
         public AdventureResult itemBuyPrice(final int itemId) {
-          return MrStoreRequest.buyCosts.get(IntegerPool.get(itemId));
+          return MrStoreRequest.buyCosts.get(itemId);
         }
       };
 

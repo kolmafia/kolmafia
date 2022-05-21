@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -420,6 +421,48 @@ public class MaximizerTest {
   }
 
   @Nested
+  class Letter {
+    @Test
+    public void equipLongestItems() {
+      final var cleanups = new Cleanups(canUse("spiked femur"), canUse("sweet ninja sword"));
+
+      try (cleanups) {
+        maximize("letter");
+
+        recommendedSlotIs(EquipmentManager.WEAPON, "sweet ninja sword");
+      }
+    }
+
+    @Test
+    public void equipMostLetterItems() {
+      final var cleanups =
+          new Cleanups(
+              canUse("asparagus knife"),
+              canUse("sweet ninja sword"),
+              canUse("Fourth of May Cosplay Saber"),
+              canUse("old sweatpants"));
+
+      try (cleanups) {
+        maximize("letter n");
+
+        recommendedSlotIs(EquipmentManager.WEAPON, "sweet ninja sword");
+        recommendedSlotIs(EquipmentManager.PANTS, "old sweatpants");
+      }
+    }
+
+    @Test
+    public void equipMostNumberItems() {
+      final var cleanups = new Cleanups(canUse("X-37 gun"), canUse("sweet ninja sword"));
+
+      try (cleanups) {
+        maximize("number");
+
+        recommendedSlotIs(EquipmentManager.WEAPON, "X-37 gun");
+      }
+    }
+  }
+
+  @Nested
   class WeaponModifiers {
     @Test
     public void clubModifierDoesntAffectOffhand() {
@@ -700,6 +743,16 @@ public class MaximizerTest {
           recommendedSlotIsUnchanged(EquipmentManager.ACCESSORY3);
         }
       }
+    }
+  }
+
+  @Test
+  public void canFoldUmbrella() {
+    final var cleanups = new Cleanups(canUse("unbreakable umbrella"));
+    Preferences.setString("umbrellaState", "cocoon");
+    try (cleanups) {
+      assertTrue(maximize("Monster Level Percent"));
+      recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
     }
   }
 }

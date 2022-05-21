@@ -28,7 +28,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.ConcoctionType;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -296,7 +295,7 @@ public class ItemManageFrame extends GenericFrame {
   }
 
   public static void updatePullsBudgeted(final int pullsBudgeted) {
-    Integer value = IntegerPool.get(pullsBudgeted);
+    Integer value = pullsBudgeted;
     ItemManageFrame.pullBudgetSpinner1.setValue(value);
     ItemManageFrame.pullBudgetSpinner2.setValue(value);
   }

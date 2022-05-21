@@ -14,6 +14,7 @@ import java.net.http.HttpResponse.ResponseInfo;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -26,13 +27,29 @@ import javax.net.ssl.SSLParameters;
 
 public class FakeHttpClient extends HttpClient {
 
-  public HttpRequest request;
-  public int responseCode = 0;
-  public String response = "";
+  private final List<HttpRequest> requests = new ArrayList<>();
+  private int responseCode = 0;
+  private String response = "";
 
   public void setResponse(int responseCode, String response) {
     this.responseCode = responseCode;
     this.response = response;
+  }
+
+  public List<HttpRequest> getRequests() {
+    return requests;
+  }
+
+  public HttpRequest getLastRequest() {
+    if (requests.size() == 0) return null;
+
+    return requests.get(requests.size() - 1);
+  }
+
+  public void clear() {
+    this.requests.clear();
+    this.responseCode = 0;
+    this.response = "";
   }
 
   @Override
@@ -83,7 +100,7 @@ public class FakeHttpClient extends HttpClient {
   @Override
   public <T> HttpResponse<T> send(HttpRequest request, BodyHandler<T> responseBodyHandler)
       throws IOException, InterruptedException {
-    this.request = request;
+    this.requests.add(request);
 
     T body;
 

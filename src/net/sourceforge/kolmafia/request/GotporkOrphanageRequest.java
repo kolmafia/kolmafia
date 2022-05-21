@@ -6,7 +6,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.session.BatManager;
@@ -53,7 +52,7 @@ public class GotporkOrphanageRequest extends CoinMasterRequest {
           true) {
         @Override
         public AdventureResult itemBuyPrice(final int itemId) {
-          int price = GotporkOrphanageRequest.buyPrices.get(IntegerPool.get(itemId));
+          int price = GotporkOrphanageRequest.buyPrices.get(itemId);
           if (price == 1) {
             return GotporkOrphanageRequest.COIN;
           }

@@ -18,7 +18,7 @@ pipeline {
     stage('Building') {
       steps {
         script {
-          withEnv(["JAVA_HOME=/usr/lib/jvm/adoptopenjdk-16-hotspot-amd64"]) {
+          withEnv(["JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64"]) {
             sh 'ls'
             sh 'java --version'
             sh './gradlew -v'
@@ -30,7 +30,7 @@ pipeline {
     stage('Testing') {
       steps {
         script {
-          withEnv(["JAVA_HOME=/usr/lib/jvm/adoptopenjdk-16-hotspot-amd64"]) {
+          withEnv(["JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64"]) {
             sh './gradlew --no-daemon --stacktrace jacocoTestReport'
             jacoco buildOverBuild: true, changeBuildStatus: true, deltaBranchCoverage: '5', deltaClassCoverage: '5', deltaComplexityCoverage: '5', deltaInstructionCoverage: '5', deltaLineCoverage: '5', deltaMethodCoverage: '5', maximumBranchCoverage: '70', maximumClassCoverage: '70', maximumComplexityCoverage: '70', maximumInstructionCoverage: '70', maximumLineCoverage: '70', maximumMethodCoverage: '70', runAlways: true
             publishCoverage adapters: [jacocoAdapter(mergeToOneReport: true, path: 'build/reports/jacoco/test/jacocoTestReport.xml')], sourceFileResolver: sourceFiles('NEVER_STORE')

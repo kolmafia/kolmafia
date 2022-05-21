@@ -862,6 +862,12 @@ public class FamiliarData implements Comparable<FamiliarData> {
     return index == -1 ? image : image.substring(index + 1);
   }
 
+  public String getFightImageLocation() {
+    String image = FamiliarDatabase.getFamiliarFightImageLocation(this.id);
+    int index = image.lastIndexOf("/");
+    return index == -1 ? image : image.substring(index + 1);
+  }
+
   public void setCharges(int charges) {
     this.charges = charges;
   }

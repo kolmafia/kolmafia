@@ -32,7 +32,6 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -153,6 +152,11 @@ public class TestCommand extends AbstractCommand {
       String adventureURL = split[1].trim();
       KoLAdventure adventure = AdventureDatabase.getAdventureByURL(adventureURL);
       RequestLogger.printLine("returned " + adventure);
+      return;
+    }
+
+    if (command.equals("bastille")) {
+      BastilleBattalionManager.saveStyleSets();
       return;
     }
 
@@ -354,26 +358,6 @@ public class TestCommand extends AbstractCommand {
       } else {
         RequestLogger.printLine("You have 1 " + item.getName() + " in inventory.");
       }
-      return;
-    }
-
-    if (command.equals("intcache")) {
-      int cacheHits = IntegerPool.getCacheHits();
-      int cacheMissLows = IntegerPool.getCacheMissLows();
-      int cacheMissHighs = IntegerPool.getCacheMissHighs();
-      int totalAccesses = cacheHits + cacheMissLows + cacheMissHighs;
-
-      float successRate = 0.0f;
-
-      if (totalAccesses != 0) {
-        successRate = (float) cacheHits / (float) totalAccesses * 100.0f;
-      }
-
-      RequestLogger.printLine("cache hits: " + cacheHits);
-      RequestLogger.printLine("cache misses (too low): " + cacheMissLows);
-      RequestLogger.printLine("cache misses (too high): " + cacheMissHighs);
-      RequestLogger.printLine("success rate: " + successRate + " %");
-
       return;
     }
 
@@ -876,13 +860,6 @@ public class TestCommand extends AbstractCommand {
       TestCommand.contents = null;
       BarrelDecorator.decorate(buffer);
       TestCommand.dump(buffer.toString());
-      return;
-    }
-
-    if (command.equals("bastille")) {
-      BastilleBattalionManager.parseStyles(TestCommand.contents);
-      BastilleBattalionManager.checkPredictions();
-      TestCommand.contents = null;
       return;
     }
 

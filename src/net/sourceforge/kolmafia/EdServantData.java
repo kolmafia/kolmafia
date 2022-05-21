@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -38,7 +37,7 @@ public class EdServantData implements Comparable<EdServantData> {
     {
       "Cat",
       StringUtilities.getCanonicalName("Cat"),
-      IntegerPool.get(1),
+      1,
       "edserv1.gif",
       "Gives unpleasant gifts",
       "Helps find items",
@@ -48,7 +47,7 @@ public class EdServantData implements Comparable<EdServantData> {
     {
       "Belly-Dancer",
       StringUtilities.getCanonicalName("Belly-Dancer"),
-      IntegerPool.get(2),
+      2,
       "edserv2.gif",
       "Lowers enemy stats",
       "Restores MP",
@@ -58,7 +57,7 @@ public class EdServantData implements Comparable<EdServantData> {
     {
       "Maid",
       StringUtilities.getCanonicalName("Maid"),
-      IntegerPool.get(3),
+      3,
       "edserv3.gif",
       "Helps find meat",
       "Attacks enemies",
@@ -68,7 +67,7 @@ public class EdServantData implements Comparable<EdServantData> {
     {
       "Bodyguard",
       StringUtilities.getCanonicalName("Bodyguard"),
-      IntegerPool.get(4),
+      4,
       "edserv4.gif",
       "Prevents enemy attacks",
       "Attacks enemies",
@@ -78,7 +77,7 @@ public class EdServantData implements Comparable<EdServantData> {
     {
       "Scribe",
       StringUtilities.getCanonicalName("Scribe"),
-      IntegerPool.get(5),
+      5,
       "edserv5.gif",
       "Improves stat gains",
       "Improves spell crit",
@@ -88,7 +87,7 @@ public class EdServantData implements Comparable<EdServantData> {
     {
       "Priest",
       StringUtilities.getCanonicalName("Priest"),
-      IntegerPool.get(6),
+      6,
       "edserv6.gif",
       "Attacks undead enemies",
       "Improves evocation spells",
@@ -98,7 +97,7 @@ public class EdServantData implements Comparable<EdServantData> {
     {
       "Assassin",
       StringUtilities.getCanonicalName("Assassin"),
-      IntegerPool.get(7),
+      7,
       "edserv7.gif",
       "Attacks enemies",
       "Lowers enemy stats",
