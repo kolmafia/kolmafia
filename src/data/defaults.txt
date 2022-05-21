@@ -436,7 +436,6 @@ user	controlPanelOmega	0
 user	copperheadClubHazard	none
 user	cornucopiasOpened	0
 user	corralUnlocked	false
-user	cosmicBowlingBallOwned	false
 user	cosmicBowlingBallReturnCombats	-1
 user	cozyCounter6332	0
 user	cozyCounter6333	0
@@ -700,7 +699,9 @@ user	harvestGardenSoftcore	none
 user	hasBartender	false
 user	hasChef	false
 user	hasCocktailKit	false
+user	hasCosmicBowlingBall	false
 user	hasDetectiveSchool	false
+user	hasMaydayContract	false
 user	hasOven	false
 user	hasRange	false
 user	hasShaker	false
@@ -952,7 +953,6 @@ user	maximizerMaxPrice	0
 user	maximizerNoAdventures	false
 user	maximizerPriceLevel	0
 user	maxManaBurn	1000
-user	maydayContractOwned	false
 user	mayflyExperience	0
 user	mayoInMouth	
 user	mayoLevel	0
