@@ -31,12 +31,16 @@ public class AdventureSpentDatabaseTest {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("adventure spent database user");
+    Preferences.saveSettingsToFile = false;
   }
 
   @BeforeEach
   private void beforeEach() {
     CharPaneRequest.reset();
     AdventureSpentDatabase.resetTurns(false);
+    // Some of the response texts have a CAB, some do not.
+    // api.php will set this...
+    Preferences.setBoolean("serverAddsCustomCombat", false);
   }
 
   @AfterAll
@@ -120,7 +124,7 @@ public class AdventureSpentDatabaseTest {
     ChoiceManager.handlingChoice = false;
     urlString = "fight.php?ireallymeanit=1652726190";
     responseText = loadHTMLResponse("request/test_adventures_spent_fight_1_5.html");
-    FightRequest.currentRound = 0;
+    FightRequest.preFight(true);
     FightRequest.registerRequest(true, urlString);
     FightRequest.updateCombatData(null, null, responseText);
     assertEquals(1, FightRequest.currentRound);
@@ -893,5 +897,159 @@ public class AdventureSpentDatabaseTest {
     assertEquals(562, KoLCharacter.getCurrentRun());
     assertEquals(3, AdventureSpentDatabase.getTurns(location, true));
     assertEquals(562, AdventureSpentDatabase.getLastTurnUpdated());
+  }
+
+  @Test
+  public void canTrackAirshipChoiceFight() throws IOException {
+    KoLAdventure location = AdventureDatabase.getAdventure("The Penultimate Fantasy Airship");
+    KoLAdventure.setLastAdventure(location);
+    KoLCharacter.setTurnsPlayed(61853);
+    KoLCharacter.setCurrentRun(985);
+    AdventureSpentDatabase.setLastTurnUpdated(985);
+    AdventureSpentDatabase.setTurns(location.getAdventureName(), 56);
+
+    // adventure.php?snarfblat=81
+    // redirect -> fight.php?ireallymeanit=1653112277
+    String urlString = "fight.php?ireallymeanit=1653112277";
+    String responseText = loadHTMLResponse("request/test_adventures_spent_airship_1.html");
+    FightRequest.preFight(true);
+    FightRequest.registerRequest(true, urlString);
+    FightRequest.updateCombatData(null, null, responseText);
+    assertEquals(1, FightRequest.currentRound);
+    assertEquals(56, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(985, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_airship_2.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(61853, KoLCharacter.getTurnsPlayed());
+    assertEquals(985, KoLCharacter.getCurrentRun());
+    assertEquals(56, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(985, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "fight.php?action=macro&macrotext=mark+mafiafinal%0Aattack%0Agoto+mafiafinal";
+    responseText = loadHTMLResponse("request/test_adventures_spent_airship_3.html");
+    FightRequest.registerRequest(true, urlString);
+    FightRequest.updateCombatData(null, null, responseText);
+    assertFalse(KoLCharacter.inFight());
+    assertEquals(57, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(985, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_airship_4.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(61854, KoLCharacter.getTurnsPlayed());
+    assertEquals(986, KoLCharacter.getCurrentRun());
+    assertEquals(57, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(986, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // adventure.php?snarfblat=81
+    // redirect -> choice.php?forceoption=0
+    urlString = "choice.php?forceoption=0";
+    responseText = loadHTMLResponse("request/test_adventures_spent_airship_5.html");
+    GenericRequest request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
+    assertTrue(ChoiceManager.handlingChoice);
+    assertEquals(ChoiceManager.lastChoice, 182);
+    assertEquals(ChoiceManager.lastDecision, 0);
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_airship_6.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(61854, KoLCharacter.getTurnsPlayed());
+    assertEquals(986, KoLCharacter.getCurrentRun());
+    assertEquals(57, AdventureSpentDatabase.getTurns(location, true));
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(986, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // urlString = "choice.php?whichchoice=182&option=1&pwd";
+    // This redirects into a fight.
+    ChoiceManager.handlingChoice = false;
+    urlString = "fight.php?ireallymeanit=1653112281";
+    responseText = loadHTMLResponse("request/test_adventures_spent_airship_7.html");
+    FightRequest.preFight(true);
+    FightRequest.registerRequest(true, urlString);
+    FightRequest.updateCombatData(null, null, responseText);
+    assertEquals(1, FightRequest.currentRound);
+    assertEquals(57, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(986, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_airship_8.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(61854, KoLCharacter.getTurnsPlayed());
+    assertEquals(986, KoLCharacter.getCurrentRun());
+    assertEquals(57, AdventureSpentDatabase.getTurns(location, true));
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(986, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "fight.php?action=macro&macrotext=mark+mafiafinal%0Aattack%0Agoto+mafiafinal";
+    responseText = loadHTMLResponse("request/test_adventures_spent_airship_9.html");
+    FightRequest.registerRequest(true, urlString);
+    FightRequest.updateCombatData(null, null, responseText);
+    assertFalse(KoLCharacter.inFight());
+    assertEquals(58, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(986, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_airship_10.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(61855, KoLCharacter.getTurnsPlayed());
+    assertEquals(987, KoLCharacter.getCurrentRun());
+    assertEquals(58, AdventureSpentDatabase.getTurns(location, true));
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(987, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // adventure.php?snarfblat=81
+    // redirect -> choice.php?forceoption=0
+    urlString = "choice.php?forceoption=0";
+    responseText = loadHTMLResponse("request/test_adventures_spent_airship_11.html");
+    request = new GenericRequest(urlString);
+    request.responseText = responseText;
+    ChoiceManager.preChoice(request);
+    request.processResponse();
+    assertTrue(ChoiceManager.handlingChoice);
+    assertEquals(ChoiceManager.lastChoice, 182);
+    assertEquals(ChoiceManager.lastDecision, 0);
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_airship_12.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(61855, KoLCharacter.getTurnsPlayed());
+    assertEquals(987, KoLCharacter.getCurrentRun());
+    assertEquals(58, AdventureSpentDatabase.getTurns(location, true));
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(987, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // urlString = "choice.php?whichchoice=182&option=1&pwd";
+    // This redirects into a fight.
+    ChoiceManager.handlingChoice = false;
+    urlString = "fight.php?ireallymeanit=1653112283";
+    responseText = loadHTMLResponse("request/test_adventures_spent_airship_13.html");
+    FightRequest.preFight(true);
+    FightRequest.registerRequest(true, urlString);
+    FightRequest.updateCombatData(null, null, responseText);
+    assertEquals(1, FightRequest.currentRound);
+    assertEquals(58, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(987, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "fight.php?action=macro&macrotext=mark+mafiafinal%0Aattack%0Agoto+mafiafinal";
+    responseText = loadHTMLResponse("request/test_adventures_spent_airship_14.html");
+    FightRequest.registerRequest(true, urlString);
+    FightRequest.updateCombatData(null, null, responseText);
+    assertFalse(KoLCharacter.inFight());
+    assertEquals(59, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(987, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_airship_15.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(61856, KoLCharacter.getTurnsPlayed());
+    assertEquals(988, KoLCharacter.getCurrentRun());
+    assertEquals(59, AdventureSpentDatabase.getTurns(location, true));
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(988, AdventureSpentDatabase.getLastTurnUpdated());
   }
 }
