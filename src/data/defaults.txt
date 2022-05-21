@@ -951,6 +951,7 @@ user	maximizerMaxPrice	0
 user	maximizerNoAdventures	false
 user	maximizerPriceLevel	0
 user	maxManaBurn	1000
+user	maydayContractOwned	false
 user	mayflyExperience	0
 user	mayoInMouth	
 user	mayoLevel	0
