@@ -121,7 +121,6 @@ public class AdventureSpentDatabaseTest {
     // Select choice.
     // urlString = "choice.php?pwd&whichchoice=879&option=3";
     // This redirects into a fight.
-    ChoiceManager.handlingChoice = false;
     urlString = "fight.php?ireallymeanit=1652726190";
     responseText = loadHTMLResponse("request/test_adventures_spent_fight_1_5.html");
     FightRequest.preFight(true);
@@ -143,7 +142,6 @@ public class AdventureSpentDatabaseTest {
     assertEquals(0, FightRequest.currentRound);
     assertEquals(2, AdventureSpentDatabase.getTurns(location, true));
     assertEquals(1332326, AdventureSpentDatabase.getLastTurnUpdated());
-    assertFalse(KoLCharacter.inFightOrChoice());
 
     // Won fight. charpane.php
     urlString = "charpane.php";
@@ -900,7 +898,7 @@ public class AdventureSpentDatabaseTest {
   }
 
   @Test
-  public void canTrackAirshipChoiceFight() throws IOException {
+  public void canTrackAutomatedAirshipChoiceFight() throws IOException {
     KoLAdventure location = AdventureDatabase.getAdventure("The Penultimate Fantasy Airship");
     KoLAdventure.setLastAdventure(location);
     KoLCharacter.setTurnsPlayed(61853);
@@ -908,13 +906,18 @@ public class AdventureSpentDatabaseTest {
     AdventureSpentDatabase.setLastTurnUpdated(985);
     AdventureSpentDatabase.setTurns(location.getAdventureName(), 56);
 
+    FightRequest fight = FightRequest.INSTANCE;
+    GenericRequest choice = ChoiceManager.CHOICE_HANDLER;
+
     // adventure.php?snarfblat=81
     // redirect -> fight.php?ireallymeanit=1653112277
     String urlString = "fight.php?ireallymeanit=1653112277";
     String responseText = loadHTMLResponse("request/test_adventures_spent_airship_1.html");
     FightRequest.preFight(true);
     FightRequest.registerRequest(true, urlString);
-    FightRequest.updateCombatData(null, null, responseText);
+    fight.responseText = responseText;
+    fight.setHasResult(true);
+    fight.processResponse();
     assertEquals(1, FightRequest.currentRound);
     assertEquals(56, AdventureSpentDatabase.getTurns(location, true));
     assertEquals(985, AdventureSpentDatabase.getLastTurnUpdated());
@@ -930,7 +933,9 @@ public class AdventureSpentDatabaseTest {
     urlString = "fight.php?action=macro&macrotext=mark+mafiafinal%0Aattack%0Agoto+mafiafinal";
     responseText = loadHTMLResponse("request/test_adventures_spent_airship_3.html");
     FightRequest.registerRequest(true, urlString);
-    FightRequest.updateCombatData(null, null, responseText);
+    fight.responseText = responseText;
+    fight.setHasResult(true);
+    fight.processResponse();
     assertFalse(KoLCharacter.inFight());
     assertEquals(57, AdventureSpentDatabase.getTurns(location, true));
     assertEquals(985, AdventureSpentDatabase.getLastTurnUpdated());
@@ -947,10 +952,10 @@ public class AdventureSpentDatabaseTest {
     // redirect -> choice.php?forceoption=0
     urlString = "choice.php?forceoption=0";
     responseText = loadHTMLResponse("request/test_adventures_spent_airship_5.html");
-    GenericRequest request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.preChoice(request);
-    request.processResponse();
+    choice.responseText = responseText;
+    choice.setHasResult(true);
+    ChoiceManager.preChoice(choice);
+    choice.processResponse();
     assertTrue(ChoiceManager.handlingChoice);
     assertEquals(ChoiceManager.lastChoice, 182);
     assertEquals(ChoiceManager.lastDecision, 0);
@@ -966,12 +971,15 @@ public class AdventureSpentDatabaseTest {
 
     // urlString = "choice.php?whichchoice=182&option=1&pwd";
     // This redirects into a fight.
-    ChoiceManager.handlingChoice = false;
+    choice.setHasResult(true);
+    ChoiceManager.preChoice(choice);
     urlString = "fight.php?ireallymeanit=1653112281";
     responseText = loadHTMLResponse("request/test_adventures_spent_airship_7.html");
     FightRequest.preFight(true);
     FightRequest.registerRequest(true, urlString);
-    FightRequest.updateCombatData(null, null, responseText);
+    fight.responseText = responseText;
+    fight.setHasResult(true);
+    fight.processResponse();
     assertEquals(1, FightRequest.currentRound);
     assertEquals(57, AdventureSpentDatabase.getTurns(location, true));
     assertEquals(986, AdventureSpentDatabase.getLastTurnUpdated());
@@ -988,7 +996,9 @@ public class AdventureSpentDatabaseTest {
     urlString = "fight.php?action=macro&macrotext=mark+mafiafinal%0Aattack%0Agoto+mafiafinal";
     responseText = loadHTMLResponse("request/test_adventures_spent_airship_9.html");
     FightRequest.registerRequest(true, urlString);
-    FightRequest.updateCombatData(null, null, responseText);
+    fight.responseText = responseText;
+    fight.setHasResult(true);
+    fight.processResponse();
     assertFalse(KoLCharacter.inFight());
     assertEquals(58, AdventureSpentDatabase.getTurns(location, true));
     assertEquals(986, AdventureSpentDatabase.getLastTurnUpdated());
@@ -1006,10 +1016,10 @@ public class AdventureSpentDatabaseTest {
     // redirect -> choice.php?forceoption=0
     urlString = "choice.php?forceoption=0";
     responseText = loadHTMLResponse("request/test_adventures_spent_airship_11.html");
-    request = new GenericRequest(urlString);
-    request.responseText = responseText;
-    ChoiceManager.preChoice(request);
-    request.processResponse();
+    choice.responseText = responseText;
+    choice.setHasResult(true);
+    ChoiceManager.preChoice(choice);
+    choice.processResponse();
     assertTrue(ChoiceManager.handlingChoice);
     assertEquals(ChoiceManager.lastChoice, 182);
     assertEquals(ChoiceManager.lastDecision, 0);
@@ -1025,12 +1035,15 @@ public class AdventureSpentDatabaseTest {
 
     // urlString = "choice.php?whichchoice=182&option=1&pwd";
     // This redirects into a fight.
-    ChoiceManager.handlingChoice = false;
+    choice.setHasResult(true);
+    ChoiceManager.preChoice(choice);
     urlString = "fight.php?ireallymeanit=1653112283";
     responseText = loadHTMLResponse("request/test_adventures_spent_airship_13.html");
     FightRequest.preFight(true);
     FightRequest.registerRequest(true, urlString);
-    FightRequest.updateCombatData(null, null, responseText);
+    fight.responseText = responseText;
+    fight.setHasResult(true);
+    fight.processResponse();
     assertEquals(1, FightRequest.currentRound);
     assertEquals(58, AdventureSpentDatabase.getTurns(location, true));
     assertEquals(987, AdventureSpentDatabase.getLastTurnUpdated());
@@ -1038,7 +1051,9 @@ public class AdventureSpentDatabaseTest {
     urlString = "fight.php?action=macro&macrotext=mark+mafiafinal%0Aattack%0Agoto+mafiafinal";
     responseText = loadHTMLResponse("request/test_adventures_spent_airship_14.html");
     FightRequest.registerRequest(true, urlString);
-    FightRequest.updateCombatData(null, null, responseText);
+    fight.responseText = responseText;
+    fight.setHasResult(true);
+    fight.processResponse();
     assertFalse(KoLCharacter.inFight());
     assertEquals(59, AdventureSpentDatabase.getTurns(location, true));
     assertEquals(987, AdventureSpentDatabase.getLastTurnUpdated());
@@ -1051,5 +1066,123 @@ public class AdventureSpentDatabaseTest {
     assertEquals(59, AdventureSpentDatabase.getTurns(location, true));
     assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
     assertEquals(988, AdventureSpentDatabase.getLastTurnUpdated());
+  }
+
+  @Test
+  public void canTrackAutomatedOfficeChoiceFight() throws IOException {
+    KoLAdventure location = AdventureDatabase.getAdventure("The Hidden Office Building");
+    KoLAdventure.setLastAdventure(location);
+    KoLCharacter.setTurnsPlayed(1333901);
+    KoLCharacter.setCurrentRun(1333901);
+    AdventureSpentDatabase.setLastTurnUpdated(1333901);
+    AdventureSpentDatabase.setTurns(location.getAdventureName(), 801146);
+
+    FightRequest fight = FightRequest.INSTANCE;
+    GenericRequest choice = ChoiceManager.CHOICE_HANDLER;
+
+    // adventure.php?snarfblat=343
+    // redirect -> fight.php?ireallymeanit=1653112277
+    String urlString = "fight.php?ireallymeanit=1653163461";
+    String responseText = loadHTMLResponse("request/test_adventures_spent_office_1.html");
+    FightRequest.preFight(true);
+    FightRequest.registerRequest(false, urlString);
+    fight.responseText = responseText;
+    fight.setHasResult(true);
+    fight.processResponse();
+    assertEquals(1, FightRequest.currentRound);
+    assertEquals(801146, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(1333901, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_office_2.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(1333901, KoLCharacter.getTurnsPlayed());
+    assertEquals(1333901, KoLCharacter.getCurrentRun());
+    assertEquals(801146, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(1333901, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString =
+        "fight.php?action=macro&macrotext=pickpocket%0Aif+hasskill+6032%0Askill+6032%0Aendif%0Amark+mafiafinal%0Aattack%0Agoto+mafiafinal";
+    responseText = loadHTMLResponse("request/test_adventures_spent_office_3.html");
+    FightRequest.registerRequest(true, urlString);
+    fight.responseText = responseText;
+    fight.setHasResult(true);
+    fight.processResponse();
+    assertFalse(KoLCharacter.inFight());
+    assertEquals(801147, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(1333901, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_office_4.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(1333902, KoLCharacter.getTurnsPlayed());
+    assertEquals(1333902, KoLCharacter.getCurrentRun());
+    assertEquals(801147, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(1333902, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // adventure.php?snarfblat=343
+    // redirect -> choice.php?forceoption=0
+    urlString = "choice.php?forceoption=0";
+    responseText = loadHTMLResponse("request/test_adventures_spent_office_5.html");
+    choice.responseText = responseText;
+    choice.setHasResult(true);
+    ChoiceManager.preChoice(choice);
+    choice.processResponse();
+    assertTrue(ChoiceManager.handlingChoice);
+    assertEquals(ChoiceManager.lastChoice, 786);
+    assertEquals(ChoiceManager.lastDecision, 0);
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_office_6.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(1333902, KoLCharacter.getTurnsPlayed());
+    assertEquals(1333902, KoLCharacter.getCurrentRun());
+    assertEquals(801147, AdventureSpentDatabase.getTurns(location, true));
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(1333902, AdventureSpentDatabase.getLastTurnUpdated());
+
+    // urlString = "choice.php?whichchoice=786&option=3&pwd"
+    // This redirects into a fight.
+    choice.setHasResult(true);
+    ChoiceManager.preChoice(choice);
+    urlString = "fight.php?ireallymeanit=1653163462";
+    responseText = loadHTMLResponse("request/test_adventures_spent_office_7.html");
+    FightRequest.preFight(true);
+    FightRequest.registerRequest(true, urlString);
+    fight.responseText = responseText;
+    fight.setHasResult(true);
+    fight.processResponse();
+    assertEquals(1, FightRequest.currentRound);
+    assertEquals(801147, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(1333902, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_office_8.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(1333902, KoLCharacter.getTurnsPlayed());
+    assertEquals(1333902, KoLCharacter.getCurrentRun());
+    assertEquals(801147, AdventureSpentDatabase.getTurns(location, true));
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(1333902, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString =
+        "fight.php?action=macro&macrotext=pickpocket%0Aif+hasskill+6032%0Askill+6032%0Aendif%0Amark+mafiafinal%0Aattack%0Agoto+mafiafinal";
+    responseText = loadHTMLResponse("request/test_adventures_spent_office_9.html");
+    FightRequest.registerRequest(true, urlString);
+    fight.responseText = responseText;
+    fight.setHasResult(true);
+    fight.processResponse();
+    assertFalse(KoLCharacter.inFight());
+    assertEquals(801148, AdventureSpentDatabase.getTurns(location, true));
+    assertEquals(1333902, AdventureSpentDatabase.getLastTurnUpdated());
+
+    urlString = "api.php?what=status&for=KoLmafia";
+    responseText = loadHTMLResponse("request/test_adventures_spent_office_10.json");
+    ApiRequest.parseResponse(urlString, responseText);
+    assertEquals(1333903, KoLCharacter.getTurnsPlayed());
+    assertEquals(1333903, KoLCharacter.getCurrentRun());
+    assertEquals(801148, AdventureSpentDatabase.getTurns(location, true));
+    assertFalse(AdventureSpentDatabase.getNoncombatEncountered());
+    assertEquals(1333903, AdventureSpentDatabase.getLastTurnUpdated());
   }
 }
