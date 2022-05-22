@@ -13514,7 +13514,7 @@ public abstract class ChoiceManager {
 
     ChoiceManager.handlingChoice = ChoiceManager.stillInChoice(text);
 
-    if (text.contains("charpane.php")) {
+    if (urlString.startsWith("choice.php") && text.contains("charpane.php")) {
       // Since a charpane refresh was requested, a turn might have been spent
       AdventureSpentDatabase.setNoncombatEncountered(true);
     }
