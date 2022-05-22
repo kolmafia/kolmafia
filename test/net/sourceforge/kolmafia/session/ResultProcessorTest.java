@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.GregorianCalendar;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -101,19 +100,19 @@ public class ResultProcessorTest {
   @Test
   public void gettingGoblinWaterFromAquagoblinCompletesGoblinQuest() {
     QuestDatabase.setQuestProgress(QuestDatabase.Quest.GOBLIN, QuestDatabase.STARTED);
-    MonsterData aqua_g_monster = MonsterDatabase.findMonster("Aquagoblin");
-    MonsterStatusTracker.setNextMonster(aqua_g_monster);
-    KoLCharacter.setPath(AscensionPath.Path.HEAVY_RAINS);
+    MonsterData aquaGoblinMonster = MonsterDatabase.findMonster("Aquagoblin");
+    MonsterStatusTracker.setNextMonster(aquaGoblinMonster);
     ResultProcessor.processResult(true, GOBLIN_WATER);
-    Boolean QuestResult = QuestDatabase.isQuestFinished(QuestDatabase.Quest.GOBLIN);
-    assertTrue(QuestResult, "Getting Goblin water from AquaGoblin shoud finsih the L05 Quest");
+    assertTrue(
+        QuestDatabase.isQuestFinished(QuestDatabase.Quest.GOBLIN),
+        "Getting Goblin water from AquaGoblin shoud finish the L05 Quest");
   }
 
   @Test
   public void gettingGoblinWaterFromCheengSpecsDoesNotCompleteGoblinQuest() {
     QuestDatabase.setQuestProgress(QuestDatabase.Quest.GOBLIN, QuestDatabase.UNSTARTED);
-    MonsterData test_monster = MonsterDatabase.findMonster("zmobie");
-    MonsterStatusTracker.setNextMonster(test_monster);
+    MonsterData testMonster = MonsterDatabase.findMonster("zmobie");
+    MonsterStatusTracker.setNextMonster(testMonster);
     ResultProcessor.processResult(true, GOBLIN_WATER);
     assertFalse(
         QuestDatabase.isQuestFinished(QuestDatabase.Quest.GOBLIN),
