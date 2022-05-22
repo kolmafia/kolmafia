@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -343,7 +344,7 @@ public class AdventureRequest extends GenericRequest {
       type = "Combat";
       encounter = AdventureRequest.parseCombatEncounter(responseText);
     } else if (isChoice) {
-      int choice = ChoiceManager.extractChoice(responseText);
+      int choice = ChoiceUtilities.extractChoice(responseText);
       type = choiceType(choice);
       encounter = AdventureRequest.parseChoiceEncounter(urlString, choice, responseText);
       ChoiceManager.registerDeferredChoice(choice, encounter);
@@ -599,8 +600,8 @@ public class AdventureRequest extends GenericRequest {
       return LouvreManager.encounterName(choice);
     }
 
-    int urlChoice = ChoiceManager.extractChoiceFromURL(urlString);
-    int urlOption = ChoiceManager.extractOptionFromURL(urlString);
+    int urlChoice = ChoiceUtilities.extractChoiceFromURL(urlString);
+    int urlOption = ChoiceUtilities.extractOptionFromURL(urlString);
 
     switch (urlChoice) {
       case 1334: // Boxing Daycare (Lobby)

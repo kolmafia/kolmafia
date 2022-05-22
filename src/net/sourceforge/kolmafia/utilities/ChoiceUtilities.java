@@ -30,6 +30,26 @@ public class ChoiceUtilities {
 
   private ChoiceUtilities() {}
 
+  // Extract choice number from URL
+
+  public static final Pattern URL_CHOICE_PATTERN = Pattern.compile("whichchoice=(\\d+)");
+
+  public static int extractChoiceFromURL(final String urlString) {
+    Matcher matcher = ChoiceUtilities.URL_CHOICE_PATTERN.matcher(urlString);
+    return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
+  }
+
+  // Extract choice option from URL
+
+  public static final Pattern URL_OPTION_PATTERN = Pattern.compile("(?<!force)option=(\\d+)");
+
+  public static int extractOptionFromURL(final String urlString) {
+    Matcher matcher = ChoiceUtilities.URL_OPTION_PATTERN.matcher(urlString);
+    return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
+  }
+
+  // Extract choice number from responseText
+
   public static int extractChoice(final String responseText) {
     for (Pattern pattern : ChoiceUtilities.CHOICE_PATTERNS) {
       Matcher matcher = pattern.matcher(responseText);

@@ -126,34 +126,16 @@ public abstract class ChoiceManager {
     return ChoiceManager.handlingChoice ? ChoiceManager.lastChoice : 0;
   }
 
-  public static int extractChoice(final String responseText) {
-    return ChoiceUtilities.extractChoice(responseText);
-  }
+  private static final Pattern URL_IID_PATTERN = Pattern.compile("iid=(\\d+)");
 
-  public static final Pattern URL_CHOICE_PATTERN = Pattern.compile("whichchoice=(\\d+)");
-
-  public static int extractChoiceFromURL(final String urlString) {
-    Matcher matcher = ChoiceManager.URL_CHOICE_PATTERN.matcher(urlString);
-    return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
-  }
-
-  public static final Pattern URL_OPTION_PATTERN = Pattern.compile("(?<!force)option=(\\d+)");
-
-  public static int extractOptionFromURL(final String urlString) {
-    Matcher matcher = ChoiceManager.URL_OPTION_PATTERN.matcher(urlString);
-    return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
-  }
-
-  public static final Pattern URL_IID_PATTERN = Pattern.compile("iid=(\\d+)");
-
-  public static int extractIidFromURL(final String urlString) {
+  private static int extractIidFromURL(final String urlString) {
     Matcher matcher = ChoiceManager.URL_IID_PATTERN.matcher(urlString);
     return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : -1;
   }
 
-  public static final Pattern URL_QTY_PATTERN = Pattern.compile("qty=(\\d+)");
+  private static final Pattern URL_QTY_PATTERN = Pattern.compile("qty=(\\d+)");
 
-  public static int extractQtyFromURL(final String urlString) {
+  private static int extractQtyFromURL(final String urlString) {
     Matcher matcher = ChoiceManager.URL_QTY_PATTERN.matcher(urlString);
     return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : -1;
   }
@@ -428,56 +410,34 @@ public abstract class ChoiceManager {
         "&quot;Attention Operative 00-A-6. Colonel Kurzweil at Jungle Interior Camp 4 reports that they have run out of smokes. Repeat: They have run out of smokes. Requests immediate assistance. Message repeats.&quot;");
   }
 
+  private static final String[] NO_ITEM_NAMES = new String[0];
+
   public static class Option {
     private final String name;
     private final int option;
     private final AdventureResult items[];
 
     public Option(final String name) {
-      this(name, 0, null, null, null);
+      this(name, 0, NO_ITEM_NAMES);
+    }
+
+    public Option(final String name, final String... itemNames) {
+      this(name, 0, itemNames);
     }
 
     public Option(final String name, final int option) {
-      this(name, option, null, null, null);
+      this(name, option, NO_ITEM_NAMES);
     }
 
-    public Option(final String name, final int option, final String item1) {
-      this(name, option, item1, null, null);
-    }
-
-    public Option(final String name, final int option, final String item1, String item2) {
-      this(name, option, item1, item2, null);
-    }
-
-    public Option(final String name, final String item1) {
-      this(name, 0, item1, null, null);
-    }
-
-    public Option(final String name, final String item1, String item2) {
-      this(name, 0, item1, item2, null);
-    }
-
-    public Option(final String name, final String item1, String item2, String item3) {
-      this(name, 0, item1, item2, item3);
-    }
-
-    public Option(
-        final String name, final int option, final String item1, String item2, String item3) {
+    public Option(final String name, final int option, final String... itemNames) {
       this.name = name;
       this.option = option;
-      int count = item3 != null ? 3 : item2 != null ? 2 : item1 != null ? 1 : 0;
+
+      int count = itemNames.length;
       this.items = new AdventureResult[count];
 
-      if (count > 0) {
-        this.items[0] = ItemPool.get(ItemDatabase.getItemId(item1));
-      }
-
-      if (count > 1) {
-        this.items[1] = ItemPool.get(ItemDatabase.getItemId(item2));
-      }
-
-      if (count > 2) {
-        this.items[2] = ItemPool.get(ItemDatabase.getItemId(item3));
+      for (int index = 0; index < count; ++index) {
+        this.items[index] = ItemPool.get(ItemDatabase.getItemId(itemNames[index]));
       }
     }
 
@@ -551,7 +511,7 @@ public abstract class ChoiceManager {
 
     public Object[] getOptions() {
       return (this.options == null)
-          ? ChoiceManager.dynamicChoiceOptions(this.setting)
+          ? ChoiceManager.dynamicChoiceOptions(this.choice)
           : this.options;
     }
 
@@ -8664,14 +8624,6 @@ public abstract class ChoiceManager {
     buffer.append(" key in inventory: ");
   }
 
-  private static Object[] dynamicChoiceOptions(final String option) {
-    if (!option.startsWith("choiceAdventure")) {
-      return null;
-    }
-    int choice = StringUtilities.parseInt(option.substring(15));
-    return ChoiceManager.dynamicChoiceOptions(choice);
-  }
-
   public static final Object choiceSpoiler(
       final int choice, final int decision, final Object[] spoilers) {
     switch (choice) {
@@ -8822,7 +8774,7 @@ public abstract class ChoiceManager {
     for (int stepCount = 0;
         !KoLmafia.refusesContinue() && ChoiceManager.stillInChoice(responseText);
         ++stepCount) {
-      int choice = ChoiceManager.extractChoice(responseText);
+      int choice = ChoiceUtilities.extractChoice(responseText);
       if (choice == 0) {
         // choice.php did not offer us any choices.
         // This would be a bug in KoL itself.
@@ -8848,7 +8800,7 @@ public abstract class ChoiceManager {
 
         // We are still handling a choice. Maybe it is a different one.
         if (ChoiceManager.lastResponseText != null
-            && choice != ChoiceManager.extractChoice(ChoiceManager.lastResponseText)) {
+            && choice != ChoiceUtilities.extractChoice(ChoiceManager.lastResponseText)) {
           responseText = ChoiceManager.lastResponseText;
           continue;
         }
@@ -9300,7 +9252,7 @@ public abstract class ChoiceManager {
     String text = request.responseText;
     int choice =
         ChoiceManager.lastChoice == 0
-            ? ChoiceManager.extractChoice(text)
+            ? ChoiceUtilities.extractChoice(text)
             : ChoiceManager.lastChoice;
 
     if (choice == 0) {
@@ -15306,7 +15258,7 @@ public abstract class ChoiceManager {
 
   public static void visitChoice(final GenericRequest request) {
     String text = request.responseText;
-    ChoiceManager.lastChoice = ChoiceManager.extractChoice(text);
+    ChoiceManager.lastChoice = ChoiceUtilities.extractChoice(text);
 
     if (ChoiceManager.lastChoice == 0) {
       // choice.php did not offer us any choices and we couldn't work out which choice it was.
@@ -19064,8 +19016,8 @@ public abstract class ChoiceManager {
 
     GenericRequest.itemMonster = null;
 
-    int choice = ChoiceManager.extractChoiceFromURL(urlString);
-    int decision = ChoiceManager.extractOptionFromURL(urlString);
+    int choice = ChoiceUtilities.extractChoiceFromURL(urlString);
+    int decision = ChoiceUtilities.extractOptionFromURL(urlString);
     if (choice != 0) {
       switch (choice) {
         case 443:

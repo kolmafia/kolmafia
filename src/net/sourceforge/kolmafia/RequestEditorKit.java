@@ -65,6 +65,7 @@ import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -1822,7 +1823,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     // Make sure that it's an actual choice adventure
-    int choice = ChoiceManager.extractChoice(buffer.toString());
+    int choice = ChoiceUtilities.extractChoice(buffer.toString());
 
     if (choice == 0) {
       // It's a response to taking a choice.
@@ -1954,11 +1955,11 @@ public class RequestEditorKit extends HTMLEditorKit {
   }
 
   private static void decorateChoiceResponse(final String location, final StringBuffer buffer) {
-    int choice = ChoiceManager.extractChoiceFromURL(location);
+    int choice = ChoiceUtilities.extractChoiceFromURL(location);
     if (choice == 0) {
       return;
     }
-    int option = ChoiceManager.extractOptionFromURL(location);
+    int option = ChoiceUtilities.extractOptionFromURL(location);
 
     switch (choice) {
         // The Oracle Will See You Now
