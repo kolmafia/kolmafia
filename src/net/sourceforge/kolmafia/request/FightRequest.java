@@ -2795,10 +2795,7 @@ public class FightRequest extends GenericRequest {
 
     Pattern fightPattern = Pattern.compile("action=fight.php");
     Matcher fightMatcher = fightPattern.matcher(responseText);
-    int fightCount = 0;
-    while (fightMatcher.find()) {
-      fightCount++;
-    }
+    long fightCount = fightMatcher.results().count();
 
     boolean stillInBattle =
         finalRound
