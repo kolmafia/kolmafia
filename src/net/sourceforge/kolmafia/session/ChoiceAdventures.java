@@ -270,9 +270,15 @@ public abstract class ChoiceAdventures {
 
   public static class Choice implements Comparable<Choice> {
     protected final int choice;
+    protected final int ordering;
+
+    public Choice(final int choice, final int ordering) {
+      this.choice = choice;
+      this.ordering = ordering;
+    }
 
     public Choice(final int choice) {
-      this.choice = choice;
+      this(choice, 0);
     }
 
     public int getChoice() {
@@ -281,6 +287,11 @@ public abstract class ChoiceAdventures {
 
     @Override
     public int compareTo(final Choice o) {
+      // Choices can have a specified relative ordering
+      // within zone regardless of name or choice number
+      if (this.ordering != o.ordering) {
+        return this.ordering - o.ordering;
+      }
       return this.choice - o.choice;
     }
   }
@@ -288,11 +299,10 @@ public abstract class ChoiceAdventures {
   public static class ChoiceAdventure extends Choice {
     private final String zone;
     private final String name;
-    private final int ordering;
-
-    private final String property;
-
     private final Option[] options;
+
+    // Derived fields
+    private final String property;
     private final Spoilers spoilers;
 
     public ChoiceAdventure(
@@ -306,14 +316,14 @@ public abstract class ChoiceAdventures {
         final String name,
         final int ordering,
         final Option... options) {
-      super(choice);
-      this.property = "whichchoice" + String.valueOf(choice);
+      super(choice, ordering);
       this.zone = zone;
       this.name = name;
       assert options != null;
       this.options = options;
+
+      this.property = "whichchoice" + String.valueOf(choice);
       this.spoilers = new Spoilers(choice, name, options);
-      this.ordering = ordering;
     }
 
     public String getZone() {
@@ -324,14 +334,14 @@ public abstract class ChoiceAdventures {
       return this.name;
     }
 
-    public String getSetting() {
-      return this.property;
-    }
-
     public Option[] getOptions() {
       return (this.options.length == 0)
           ? ChoiceAdventures.dynamicChoiceOptions(this.choice)
           : this.options;
+    }
+
+    public String getSetting() {
+      return this.property;
     }
 
     public Spoilers getSpoilers() {
@@ -7042,17 +7052,22 @@ public abstract class ChoiceAdventures {
         // Mox: combat, drunkenness, shot of rotgut (2948)
 
         result[0] =
-            KoLCharacter.isMysticalityClass()
-                ? new Option("3 drunk and stats (varies by class)")
-                : new Option("enter combat (varies by class)");
+            new Option(
+                KoLCharacter.isMysticalityClass()
+                    ? "3 drunk and stats (varies by class)"
+                    : "enter combat (varies by class)");
         result[1] =
-            KoLCharacter.isMoxieClass()
-                ? new Option("3 drunk and stats (varies by class)")
-                : new Option("shot of rotgut (varies by class)", "shot of rotgut");
+            new Option(
+                KoLCharacter.isMoxieClass()
+                    ? "3 drunk and stats (varies by class)"
+                    : "shot of rotgut (varies by class)",
+                "shot of rotgut");
         result[2] =
-            KoLCharacter.isMuscleClass()
-                ? new Option("3 drunk and stats (varies by class)")
-                : new Option("shot of rotgut (varies by class)", "shot of rotgut");
+            new Option(
+                KoLCharacter.isMuscleClass()
+                    ? "3 drunk and stats (varies by class)"
+                    : "shot of rotgut (varies by class)",
+                "shot of rotgut");
         result[3] = new Option("always 3 drunk & stats");
         result[4] = new Option("always shot of rotgut");
         result[5] = new Option("combat (or rotgut if Myst class)");
@@ -7120,9 +7135,10 @@ public abstract class ChoiceAdventures {
         int trinks = InventoryManager.getCount(ItemPool.VALUABLE_TRINKET);
         result[0] = new Option("moxie substats");
         result[1] =
-            trinks == 0
-                ? new Option("lose hp (no valuable trinkets)")
-                : new Option("use valuable trinket to banish (" + trinks + " in inventory)");
+            new Option(
+                trinks == 0
+                    ? "lose hp (no valuable trinkets)"
+                    : "use valuable trinket to banish (" + trinks + " in inventory)");
         result[2] = new Option("muscle substats");
         result[3] = new Option("mysticality substats");
 
@@ -7333,30 +7349,34 @@ public abstract class ChoiceAdventures {
         if (ChoiceManager.lastResponseText.contains("door_stone.gif")) {
           result[0] = new Option("muscle substats");
           result[1] =
-              (buttonsUnconfused || haveNostril
-                  ? new Option("choose Hidden Heart adventure")
-                  : new Option("randomise Hidden Heart adventure"));
+              new Option(
+                  buttonsUnconfused || haveNostril
+                      ? "choose Hidden Heart adventure"
+                      : "randomise Hidden Heart adventure");
           result[2] = new Option("moxie substats and 5 turns of Somewhat poisoned");
         } else if (ChoiceManager.lastResponseText.contains("door_sun.gif")) {
           result[0] = new Option("gain ancient calendar fragment");
           result[1] =
-              (buttonsUnconfused || haveNostril
-                  ? new Option("choose Hidden Heart adventure")
-                  : new Option("randomise Hidden Heart adventure"));
+              new Option(
+                  buttonsUnconfused || haveNostril
+                      ? "choose Hidden Heart adventure"
+                      : "randomise Hidden Heart adventure");
           result[2] = new Option("moxie substats and 5 turns of Somewhat poisoned");
         } else if (ChoiceManager.lastResponseText.contains("door_gargoyle.gif")) {
           result[0] = new Option("gain mana");
           result[1] =
-              (buttonsUnconfused || haveNostril
-                  ? new Option("choose Hidden Heart adventure")
-                  : new Option("randomise Hidden Heart adventure"));
+              new Option(
+                  buttonsUnconfused || haveNostril
+                      ? "choose Hidden Heart adventure"
+                      : "randomise Hidden Heart adventure");
           result[2] = new Option("moxie substats and 5 turns of Somewhat poisoned");
         } else if (ChoiceManager.lastResponseText.contains("door_pikachu.gif")) {
           result[0] = new Option("unlock Hidden City");
           result[1] =
-              (buttonsUnconfused || haveNostril
-                  ? new Option("choose Hidden Heart adventure")
-                  : new Option("randomise Hidden Heart adventure"));
+              new Option(
+                  buttonsUnconfused || haveNostril
+                      ? "choose Hidden Heart adventure"
+                      : "randomise Hidden Heart adventure");
           result[2] = new Option("moxie substats and 5 turns of Somewhat poisoned");
         }
 
@@ -7370,9 +7390,9 @@ public abstract class ChoiceAdventures {
 
         result[0] = new Option("gain a glowing fungus (" + fungus + ")");
         result[1] =
-            (Preferences.getBoolean("_templeHiddenPower")
+            Preferences.getBoolean("_templeHiddenPower")
                 ? SKIP_ADVENTURE
-                : new Option("5 advs of +15 mus/mys/mox"));
+                : new Option("5 advs of +15 mus/mys/mox");
         result[2] = new Option("fight clan of cave bars");
         return result;
 
@@ -7612,11 +7632,12 @@ public abstract class ChoiceAdventures {
         // The Fast and the Furry-ous
         result = new Option[4];
         result[0] =
-            KoLCharacter.hasEquipped(ItemPool.get(ItemPool.TITANIUM_UMBRELLA))
-                ? new Option("open Ground Floor (titanium umbrella equipped)")
-                : KoLCharacter.hasEquipped(ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA))
-                    ? new Option("open Ground Floor (unbreakable umbrella equipped)")
-                    : new Option("Neckbeard Choice (titanium/unbreakable umbrella not equipped)");
+            new Option(
+                KoLCharacter.hasEquipped(ItemPool.get(ItemPool.TITANIUM_UMBRELLA))
+                    ? "open Ground Floor (titanium umbrella equipped)"
+                    : KoLCharacter.hasEquipped(ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA))
+                        ? "open Ground Floor (unbreakable umbrella equipped)"
+                        : "Neckbeard Choice (titanium/unbreakable umbrella not equipped)");
         result[1] = new Option("200 Moxie substats");
         result[2] = new Option("");
         result[3] = new Option("skip adventure and guarantees this adventure will reoccur");
@@ -7629,9 +7650,10 @@ public abstract class ChoiceAdventures {
         result[1] = new Option("200 Muscle substats");
         result[2] = new Option("pec oil, giant jar of protein powder, Squat-Thrust Magazine");
         result[3] =
-            KoLCharacter.hasEquipped(ItemPool.get(ItemPool.EXTREME_AMULET, 1))
-                ? new Option("open Ground Floor (amulet equipped)")
-                : new Option("skip adventure (amulet not equipped)");
+            new Option(
+                KoLCharacter.hasEquipped(ItemPool.get(ItemPool.EXTREME_AMULET, 1))
+                    ? "open Ground Floor (amulet equipped)"
+                    : "skip adventure (amulet not equipped)");
         result[4] = new Option("skip adventure and guarantees this adventure will reoccur");
         return result;
 
@@ -7639,9 +7661,10 @@ public abstract class ChoiceAdventures {
         // Yeah, You're for Me, Punk Rock Giant
         result = new Option[4];
         result[0] =
-            KoLCharacter.hasEquipped(ItemPool.get(ItemPool.MOHAWK_WIG, 1))
-                ? new Option("Finish quest (mohawk wig equipped)")
-                : new Option("Fight Punk Rock Giant (mohawk wig not equipped)");
+            new Option(
+                KoLCharacter.hasEquipped(ItemPool.get(ItemPool.MOHAWK_WIG, 1))
+                    ? "Finish quest (mohawk wig equipped)"
+                    : "Fight Punk Rock Giant (mohawk wig not equipped)");
         result[1] = new Option("500 meat");
         result[2] = new Option("Steampunk Choice");
         result[3] = new Option("Raver Choice");
@@ -7654,17 +7677,20 @@ public abstract class ChoiceAdventures {
         result[1] = new Option("unlock door with key, no turn spent");
         result[2] = new Option("pick lock with lockpicks, no turn spent");
         result[3] =
-            KoLCharacter.getAdjustedMuscle() >= 30
-                ? new Option("bypass trap with muscle")
-                : new Option("suffer trap effects");
+            new Option(
+                KoLCharacter.getAdjustedMuscle() >= 30
+                    ? "bypass trap with muscle"
+                    : "suffer trap effects");
         result[4] =
-            KoLCharacter.getAdjustedMysticality() >= 30
-                ? new Option("bypass trap with mysticality")
-                : new Option("suffer trap effects");
+            new Option(
+                KoLCharacter.getAdjustedMysticality() >= 30
+                    ? "bypass trap with mysticality"
+                    : "suffer trap effects");
         result[5] =
-            KoLCharacter.getAdjustedMoxie() >= 30
-                ? new Option("bypass trap with moxie")
-                : new Option("suffer trap effects");
+            new Option(
+                KoLCharacter.getAdjustedMoxie() >= 30
+                    ? "bypass trap with moxie"
+                    : "suffer trap effects");
         result[6] = new Option("open door with card, no turn spent");
         result[7] = new Option("leave, no turn spent");
         return result;
@@ -7673,39 +7699,45 @@ public abstract class ChoiceAdventures {
         // Stick a Fork In It
         result = new Option[2];
         result[0] =
-            Preferences.getBoolean("maraisDarkUnlock")
-                ? new Option("Dark and Spooky Swamp already unlocked")
-                : new Option("unlock Dark and Spooky Swamp");
+            new Option(
+                Preferences.getBoolean("maraisDarkUnlock")
+                    ? "Dark and Spooky Swamp already unlocked"
+                    : "unlock Dark and Spooky Swamp");
         result[1] =
-            Preferences.getBoolean("maraisWildlifeUnlock")
-                ? new Option("The Wildlife Sanctuarrrrrgh already unlocked")
-                : new Option("unlock The Wildlife Sanctuarrrrrgh");
+            new Option(
+                Preferences.getBoolean("maraisWildlifeUnlock")
+                    ? "The Wildlife Sanctuarrrrrgh already unlocked"
+                    : "unlock The Wildlife Sanctuarrrrrgh");
         return result;
 
       case 697:
         // Sophie's Choice
         result = new Option[2];
         result[0] =
-            Preferences.getBoolean("maraisCorpseUnlock")
-                ? new Option("The Corpse Bog already unlocked")
-                : new Option("unlock The Corpse Bog");
+            new Option(
+                Preferences.getBoolean("maraisCorpseUnlock")
+                    ? "The Corpse Bog already unlocked"
+                    : "unlock The Corpse Bog");
         result[1] =
-            Preferences.getBoolean("maraisWizardUnlock")
-                ? new Option("The Ruined Wizard Tower already unlocked")
-                : new Option("unlock The Ruined Wizard Tower");
+            new Option(
+                Preferences.getBoolean("maraisWizardUnlock")
+                    ? "The Ruined Wizard Tower already unlocked"
+                    : "unlock The Ruined Wizard Tower");
         return result;
 
       case 698:
         // From Bad to Worst
         result = new Option[2];
         result[0] =
-            Preferences.getBoolean("maraisBeaverUnlock")
-                ? new Option("Swamp Beaver Territory already unlocked")
-                : new Option("unlock Swamp Beaver Territory");
+            new Option(
+                Preferences.getBoolean("maraisBeaverUnlock")
+                    ? "Swamp Beaver Territory already unlocked"
+                    : "unlock Swamp Beaver Territory");
         result[1] =
-            Preferences.getBoolean("maraisVillageUnlock")
-                ? new Option("The Weird Swamp Village already unlocked")
-                : new Option("unlock The Weird Swamp Village");
+            new Option(
+                Preferences.getBoolean("maraisVillageUnlock")
+                    ? "The Weird Swamp Village already unlocked"
+                    : "unlock The Weird Swamp Village");
         return result;
 
       case 700:

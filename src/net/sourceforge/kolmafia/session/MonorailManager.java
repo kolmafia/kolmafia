@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonorailManager {
@@ -37,7 +38,7 @@ public class MonorailManager {
     }
   }
 
-  public static Object[][] choiceSpoilers(final int choice, final StringBuffer buffer) {
+  public static Spoilers choiceSpoilers(final int choice, final StringBuffer buffer) {
     if (choice != 1308 || buffer == null) {
       return null;
     }
@@ -74,8 +75,6 @@ public class MonorailManager {
       }
     }
 
-    return new Object[][] {
-      new String[] {""}, new String[] {"On a Downtown Train"}, options.toArray()
-    };
+    return new Spoilers(choice, "On a Downtown Train", options.toArray(new Option[options.size()]));
   }
 }
