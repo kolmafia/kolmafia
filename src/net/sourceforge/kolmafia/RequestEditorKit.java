@@ -51,6 +51,7 @@ import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
+import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -1832,7 +1833,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     // Do any choice-specific decorations
-    ChoiceManager.decorateChoice(choice, buffer);
+    ChoiceAdventures.decorateChoice(choice, buffer);
 
     String text = buffer.toString();
     Matcher matcher = FORM_PATTERN.matcher(text);
@@ -1841,10 +1842,10 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     // Find the options for the choice we've encountered
-    Object[][] spoilers = ChoiceManager.choiceSpoilers(choice, buffer);
+    Object[][] spoilers = ChoiceAdventures.choiceSpoilers(choice, buffer);
 
     // Some choices we don't mark up with spoilers
-    if (ChoiceManager.noRelayChoice(choice)) {
+    if (ChoiceAdventures.noRelayChoice(choice)) {
       spoilers = null;
     }
 
@@ -1889,7 +1890,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       // Build spoiler text
       while (i > 0) {
         // Say what the choice will give you
-        Object spoiler = ChoiceManager.choiceSpoiler(choice, i, spoilers[2]);
+        Object spoiler = ChoiceAdventures.choiceSpoiler(choice, i, spoilers[2]);
 
         // If we have nothing to say about this option, don't say anything
         if (spoiler == null) {
@@ -1899,8 +1900,8 @@ public class RequestEditorKit extends HTMLEditorKit {
         StringBuilder spoilerBuffer = new StringBuilder(spoiler.toString());
 
         // If this decision has an item associated with it, annotate it
-        if (spoiler instanceof ChoiceManager.Option) {
-          ChoiceManager.Option option = ((ChoiceManager.Option) spoiler);
+        if (spoiler instanceof ChoiceAdventures.Option) {
+          ChoiceAdventures.Option option = ((ChoiceAdventures.Option) spoiler);
           AdventureResult[] items = option.getItems();
 
           // If this decision leads to one or more item...

@@ -7,6 +7,8 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.session.ChoiceAdventures;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 
 /** Utilities for extracting data from a choice.php response */
@@ -71,6 +73,36 @@ public class ChoiceUtilities {
     }
 
     return 0;
+  }
+
+  public static final Pattern DECISION_BUTTON_PATTERN =
+      Pattern.compile(
+          "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">");
+
+  public static final String findChoiceDecisionIndex(final String text, final String responseText) {
+    Matcher matcher = DECISION_BUTTON_PATTERN.matcher(responseText);
+    while (matcher.find()) {
+      String decisionText = matcher.group(2);
+
+      if (decisionText.contains(text)) {
+        return StringUtilities.getEntityDecode(matcher.group(1));
+      }
+    }
+
+    return "0";
+  }
+
+  public static final String findChoiceDecisionText(final int index, final String responseText) {
+    Matcher matcher = DECISION_BUTTON_PATTERN.matcher(responseText);
+    while (matcher.find()) {
+      int decisionIndex = Integer.parseInt(matcher.group(1));
+
+      if (decisionIndex == index) {
+        return matcher.group(2);
+      }
+    }
+
+    return null;
   }
 
   public static Map<Integer, String> parseChoices(final String responseText) {
@@ -158,7 +190,7 @@ public class ChoiceUtilities {
 
     for (Map.Entry<Integer, String> entry : rv.entrySet()) {
       Integer key = entry.getKey();
-      Object option = ChoiceManager.findOption(options, key);
+      Option option = ChoiceAdventures.findOption(options, key);
       if (option != null) {
         String text = entry.getValue() + " (" + option.toString() + ")";
         rv.put(key, text);
