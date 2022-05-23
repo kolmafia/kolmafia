@@ -7,8 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
-
-import java.beans.Transient;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -110,20 +108,20 @@ public class CrystalBallManagerTest {
     CrystalBallManager.parsePonder(html);
     assertEquals(
         "0:A-Boo Peak:Dusken Raider Ghost|0:Twin Peak:Creepy Ginger Twin",
-        Preferences.getString("crystalBallPredictions"));
+        Preferences.getString("crystalBallPredictions"), Preferences.getString("crystalBallPredictions"));
   }
 
   @Test
   public void canParsePonderWithArticles() throws IOException {
     String html = Files.readString(Path.of("request/test_ponder_orb_some_article.html"));
-    CrystalBallmanager.parsePonder(html);
-    assertEquals("0:The Haunted Ballroom:zombie waltzers");
+    CrystalBallManager.parsePonder(html);
+    assertEquals("0:The Haunted Ballroom:zombie waltzers", Preferences.getString("crystalBallPredictions"));
   }
 
   @Test
   public void canParsePonderWithNameStartingWithArticle() throws IOException {
     String html = Files.readString(Path.of("request/test_ponder_orb_the_gunk.html"));
-    CrystalBallmanager.parsePonder(html);
-    assertEquals("0:The Haunted Laboratory:the gunk");
+    CrystalBallManager.parsePonder(html);
+    assertEquals("0:The Haunted Laboratory:the gunk", Preferences.getString("crystalBallPredictions"));
   }
 }

@@ -208,8 +208,10 @@ public final class CrystalBallManager {
 
     while (m.find()) {
       String monsterName = m.group(2);
-      // Some monsters--notably "the gunk"--have their names start with the articles that the orb text sometimes
-      if (MonsterDatabase.findMonster(monsterName) == null) monsterName = m.group(1) + " " + monsterName;
+      // Some monsters--notably "the gunk"--have their names start with the articles that the orb
+      // text sometimes
+      if (MonsterDatabase.findMonster(monsterName) == null)
+        monsterName = m.group(1) + " " + monsterName;
       KoLAdventure location = AdventureDatabase.getAdventure(m.group(3));
       if (location != null) {
         addPrediction(location, monsterName);
