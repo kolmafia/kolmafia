@@ -199,7 +199,7 @@ public final class CrystalBallManager {
   }
 
   private static Pattern POSSIBLE_PREDICTION =
-      Pattern.compile("<li> +(an?|the|some)? ?(.*?) in (.*?)<// // /li>");
+      Pattern.compile("<li> +(?:an?|the|some)? ?(.*?) in (.*?)</li>");
 
   public static void parsePonder(final String responseText) {
     predictions.clear();
@@ -207,14 +207,10 @@ public final class CrystalBallManager {
     Matcher m = POSSIBLE_PREDICTION.matcher(responseText);
 
     while (m.find()) {
-      String monsterName = m.group(2);
-      // Some monsters--notably "the gunk"--have their names start with the articles that the orb
-      // text sometimes
-      if (MonsterDatabase.findMonster(monsterName) == null)
-        monsterName = m.group(1) + " " + monsterName;
-      KoLAdventure location = AdventureDatabase.getAdventure(m.group(3));
-      if (location != null) {
-        addPrediction(location, monsterName);
+      MonsterData monster = MonsterDatabase.findMonster(m.group(1));
+      KoLAdventure location = AdventureDatabase.getAdventure(m.group(2));
+      if (location != null && monster != null) {
+        addPrediction(location, monster.getName());
       }
     }
 
