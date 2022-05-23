@@ -243,15 +243,28 @@ public abstract class ChoiceAdventures {
     }
   }
 
-  public static class Spoiler {
+  public static class Spoilers {
     private final int choice;
     private final String name;
     private final Option[] options;
 
-    public Spoiler(final int choice, final String name, final Option[] options) {
+    public Spoilers(final int choice, final String name, final Option[] options) {
+      assert options != null;
       this.choice = choice;
       this.name = name;
       this.options = options;
+    }
+
+    public int getChoice() {
+      return this.choice;
+    }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public Option[] getOptions() {
+      return this.options;
     }
   }
 
@@ -280,7 +293,7 @@ public abstract class ChoiceAdventures {
     private final String property;
 
     private final Option[] options;
-    private final Spoiler spoilers;
+    private final Spoilers spoilers;
 
     public ChoiceAdventure(
         final int choice, String zone, final String name, final Option... options) {
@@ -297,8 +310,9 @@ public abstract class ChoiceAdventures {
       this.property = "whichchoice" + String.valueOf(choice);
       this.zone = zone;
       this.name = name;
+      assert options != null;
       this.options = options;
-      this.spoilers = new Spoiler(choice, name, options);
+      this.spoilers = new Spoilers(choice, name, options);
       this.ordering = ordering;
     }
 
@@ -320,7 +334,7 @@ public abstract class ChoiceAdventures {
           : this.options;
     }
 
-    public Spoiler getSpoilers() {
+    public Spoilers getSpoilers() {
       return this.spoilers;
     }
   }
@@ -6172,10 +6186,9 @@ public abstract class ChoiceAdventures {
   }
 
   public static AdventureResult getCost(final int choice, final int decision) {
-    for (int i = 0; i < CHOICE_COST.length; ++i) {
-      if (choice == ((Integer) CHOICE_COST[i][0]).intValue()
-          && decision == ((Integer) CHOICE_COST[i][1]).intValue()) {
-        return (AdventureResult) CHOICE_COST[i][2];
+    for (ChoiceCost choiceCost : CHOICE_COST) {
+      if (choice == choiceCost.getChoice()) {
+        return choiceCost.getCost(decision);
       }
     }
 
@@ -6521,8 +6534,8 @@ public abstract class ChoiceAdventures {
     }
   }
 
-  public static final Object[][] choiceSpoilers(final int choice, final StringBuffer buffer) {
-    Object[][] spoilers;
+  public static final Spoilers choiceSpoilers(final int choice, final StringBuffer buffer) {
+    Spoilers spoilers;
 
     // See if spoilers are dynamically generated
     spoilers = dynamicChoiceSpoilers(choice);
@@ -6562,6 +6575,7 @@ public abstract class ChoiceAdventures {
     if (choice == 594) {
       return null;
     }
+
     // See if this choice is controlled by user option
     for (int i = 0; i < CHOICE_ADVS.length; ++i) {
       ChoiceAdventure choiceAdventure = CHOICE_ADVS[i];
@@ -6582,7 +6596,7 @@ public abstract class ChoiceAdventures {
     return null;
   }
 
-  private static Object[][] dynamicChoiceSpoilers(final int choice) {
+  private static Spoilers dynamicChoiceSpoilers(final int choice) {
     switch (choice) {
       case 5:
         // How Depressing
@@ -6974,21 +6988,8 @@ public abstract class ChoiceAdventures {
     return null;
   }
 
-  private static Object[][] dynamicChoiceSpoilers(final int choice, final String name) {
-    Object[][] result = new Object[3][];
-
-    // The choice option is the first element
-    result[0] = new String[1];
-    result[0][0] = "choiceAdventure" + choice;
-
-    // The name of the choice is second element
-    result[1] = new String[1];
-    result[1][0] = name;
-
-    // An array of choice spoilers is the third element
-    result[2] = ChoiceAdventures.dynamicChoiceOptions(choice);
-
-    return result;
+  private static Spoilers dynamicChoiceSpoilers(final int choice, final String name) {
+    return new Spoilers(choice, name, ChoiceAdventures.dynamicChoiceOptions(choice));
   }
 
   private static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
@@ -7002,34 +7003,38 @@ public abstract class ChoiceAdventures {
   private static final AdventureResult NERD_EFFECT = EffectPool.get(EffectPool.NERD_IS_THE_WORD);
   private static final AdventureResult GREASER_EFFECT = EffectPool.get(EffectPool.GREASER_LIGHTNIN);
 
-  public static final Object[] dynamicChoiceOptions(final int choice) {
-    Object[] result;
+  private static final Option SKIP_ADVENTURE = new Option("skip adventure");
+  private static final Option FLICKERING_PIXEL = new Option("flickering pixel");
+
+  public static final Option[] dynamicChoiceOptions(final int choice) {
+    Option[] result;
     switch (choice) {
       case 5:
         // Heart of Very, Very Dark Darkness
-        result = new Object[2];
+        result = new Option[2];
 
         boolean rock = InventoryManager.getCount(ItemPool.INEXPLICABLY_GLOWING_ROCK) >= 1;
 
-        result[0] = "You " + (rock ? "" : "DON'T ") + " have an inexplicably glowing rock";
-        result[1] = "skip adventure";
+        result[0] =
+            new Option("You " + (rock ? "" : "DON'T ") + " have an inexplicably glowing rock");
+        result[1] = SKIP_ADVENTURE;
 
         return result;
 
       case 7:
         // How Depressing
-        result = new Object[2];
+        result = new Option[2];
 
         boolean glove = KoLCharacter.hasEquipped(ItemPool.get(ItemPool.SPOOKY_GLOVE, 1));
 
-        result[0] = "spooky glove " + (glove ? "" : "NOT ") + "equipped";
-        result[1] = "skip adventure";
+        result[0] = new Option("spooky glove " + (glove ? "" : "NOT ") + "equipped");
+        result[1] = SKIP_ADVENTURE;
 
         return result;
 
       case 184:
         // That Explains All The Eyepatches
-        result = new Object[6];
+        result = new Option[6];
 
         // The choices are based on character class.
         // Mus: combat, shot of rotgut (2948), drunkenness
@@ -7038,143 +7043,147 @@ public abstract class ChoiceAdventures {
 
         result[0] =
             KoLCharacter.isMysticalityClass()
-                ? "3 drunk and stats (varies by class)"
-                : "enter combat (varies by class)";
+                ? new Option("3 drunk and stats (varies by class)")
+                : new Option("enter combat (varies by class)");
         result[1] =
             KoLCharacter.isMoxieClass()
-                ? "3 drunk and stats (varies by class)"
+                ? new Option("3 drunk and stats (varies by class)")
                 : new Option("shot of rotgut (varies by class)", "shot of rotgut");
         result[2] =
             KoLCharacter.isMuscleClass()
-                ? "3 drunk and stats (varies by class)"
+                ? new Option("3 drunk and stats (varies by class)")
                 : new Option("shot of rotgut (varies by class)", "shot of rotgut");
-        result[3] = "always 3 drunk & stats";
-        result[4] = "always shot of rotgut";
-        result[5] = "combat (or rotgut if Myst class)";
+        result[3] = new Option("always 3 drunk & stats");
+        result[4] = new Option("always shot of rotgut");
+        result[5] = new Option("combat (or rotgut if Myst class)");
         return result;
 
       case 185:
         // Yes, You're a Rock Starrr
-        result = new Object[3];
+        result = new Option[3];
 
         int drunk = KoLCharacter.getInebriety();
 
         // 0 drunk: base booze, mixed booze, fight
         // More than 0 drunk: base booze, mixed booze, stats
 
-        result[0] = "base booze";
-        result[1] = "mixed booze";
-        result[2] = drunk == 0 ? "combat" : "stats";
+        result[0] = new Option("base booze");
+        result[1] = new Option("mixed booze");
+        result[2] = new Option(drunk == 0 ? "combat" : "stats");
         return result;
 
       case 187:
         // Arrr You Man Enough?
 
-        result = new Object[2];
+        result = new Option[2];
         float odds = BeerPongRequest.pirateInsultOdds() * 100.0f;
 
-        result[0] = KoLConstants.FLOAT_FORMAT.format(odds) + "% chance of winning";
-        result[1] = odds == 100.0f ? "Oh come on. Do it!" : "Try later";
+        result[0] = new Option(KoLConstants.FLOAT_FORMAT.format(odds) + "% chance of winning");
+        result[1] = new Option(odds == 100.0f ? "Oh come on. Do it!" : "Try later");
         return result;
 
       case 188:
         // The Infiltrationist
-        result = new Object[3];
+        result = new Option[3];
 
         // Attempt a frontal assault
         boolean ok1 = EquipmentManager.isWearingOutfit(OutfitPool.FRAT_OUTFIT);
-        result[0] = "Frat Boy Ensemble (" + (ok1 ? "" : "NOT ") + "equipped)";
+        result[0] = new Option("Frat Boy Ensemble (" + (ok1 ? "" : "NOT ") + "equipped)");
 
         // Go in through the side door
         boolean ok2a = KoLCharacter.hasEquipped(ItemPool.get(ItemPool.MULLET_WIG, 1));
         boolean ok2b = InventoryManager.getCount(ItemPool.BRIEFCASE) >= 1;
         result[1] =
-            "mullet wig ("
-                + (ok2a ? "" : "NOT ")
-                + "equipped) + briefcase ("
-                + (ok2b ? "OK)" : "0 in inventory)");
+            new Option(
+                "mullet wig ("
+                    + (ok2a ? "" : "NOT ")
+                    + "equipped) + briefcase ("
+                    + (ok2b ? "OK)" : "0 in inventory)"));
 
         // Catburgle
         boolean ok3a = KoLCharacter.hasEquipped(ItemPool.get(ItemPool.FRILLY_SKIRT, 1));
         int wings = InventoryManager.getCount(ItemPool.HOT_WING);
         result[2] =
-            "frilly skirt ("
-                + (ok3a ? "" : "NOT ")
-                + "equipped) + 3 hot wings ("
-                + wings
-                + " in inventory)";
+            new Option(
+                "frilly skirt ("
+                    + (ok3a ? "" : "NOT ")
+                    + "equipped) + 3 hot wings ("
+                    + wings
+                    + " in inventory)");
 
         return result;
 
       case 191:
         // Chatterboxing
-        result = new Object[4];
+        result = new Option[4];
 
         int trinks = InventoryManager.getCount(ItemPool.VALUABLE_TRINKET);
-        result[0] = "moxie substats";
+        result[0] = new Option("moxie substats");
         result[1] =
             trinks == 0
-                ? "lose hp (no valuable trinkets)"
-                : "use valuable trinket to banish (" + trinks + " in inventory)";
-        result[2] = "muscle substats";
-        result[3] = "mysticality substats";
+                ? new Option("lose hp (no valuable trinkets)")
+                : new Option("use valuable trinket to banish (" + trinks + " in inventory)");
+        result[2] = new Option("muscle substats");
+        result[3] = new Option("mysticality substats");
 
         return result;
 
       case 272:
         // Marketplace Entrance
-        result = new Object[2];
+        result = new Option[2];
 
         int nickels = InventoryManager.getCount(ItemPool.HOBO_NICKEL);
         boolean binder = KoLCharacter.hasEquipped(ItemPool.get(ItemPool.HOBO_CODE_BINDER, 1));
 
-        result[0] = nickels + " nickels, " + (binder ? "" : "NO ") + " hobo code binder equipped";
-        result[1] = "skip adventure";
+        result[0] =
+            new Option(
+                nickels + " nickels, " + (binder ? "" : "NO ") + " hobo code binder equipped");
+        result[1] = SKIP_ADVENTURE;
 
         return result;
 
       case 298:
         // In the Shade
-        result = new Object[2];
+        result = new Option[2];
 
         int seeds = InventoryManager.getCount(ItemPool.SEED_PACKET);
         int slime = InventoryManager.getCount(ItemPool.GREEN_SLIME);
 
-        result[0] = seeds + " seed packets, " + slime + " globs of green slime";
-        result[1] = "skip adventure";
+        result[0] = new Option(seeds + " seed packets, " + slime + " globs of green slime");
+        result[1] = SKIP_ADVENTURE;
 
         return result;
 
       case 304:
         // A Vent Horizon
-        result = new Object[2];
+        result = new Option[2];
 
         int summons = 3 - Preferences.getInteger("tempuraSummons");
 
-        result[0] = summons + " summons left today";
-        result[1] = "skip adventure";
+        result[0] = new Option(summons + " summons left today");
+        result[1] = SKIP_ADVENTURE;
 
         return result;
 
       case 305:
         // There is Sauce at the Bottom of the Ocean
-        result = new Object[2];
+        result = new Option[2];
 
         int globes = InventoryManager.getCount(ItemPool.MERKIN_PRESSUREGLOBE);
 
-        result[0] = globes + " Mer-kin pressureglobes";
-        result[1] = "skip adventure";
+        result[0] = new Option(globes + " Mer-kin pressureglobes");
+        result[1] = SKIP_ADVENTURE;
 
         return result;
 
       case 309:
         // Barback
-        result = new Object[2];
+        result = new Option[2];
 
         int seaodes = 3 - Preferences.getInteger("seaodesFound");
 
-        result[0] = seaodes + " more seodes available today";
-        result[1] = "skip adventure";
+        result[0] = new Option(seaodes + " more seodes available today");
+        result[1] = SKIP_ADVENTURE;
 
         return result;
 
@@ -7192,12 +7201,11 @@ public abstract class ChoiceAdventures {
       case 417:
       case 418:
         // The Barracks
-        result = HaciendaManager.getSpoilers(choice);
-        return result;
+        return HaciendaManager.getSpoilers(choice);
 
       case 442:
         // A Moment of Reflection
-        result = new Object[6];
+        result = new Option[6];
         int count = 0;
         if (InventoryManager.getCount(ItemPool.BEAUTIFUL_SOUP) > 0) {
           ++count;
@@ -7214,17 +7222,18 @@ public abstract class ChoiceAdventures {
         if (InventoryManager.getCount(ItemPool.HUMPTY_DUMPLINGS) > 0) {
           ++count;
         }
-        result[0] = "Seal Clubber/Pastamancer item, or yellow matter custard";
-        result[1] = "Sauceror/Accordion Thief item, or delicious comfit?";
-        result[2] = "Disco Bandit/Turtle Tamer item, or fight croqueteer";
-        result[3] = "you have " + count + "/5 of the items needed for an ittah bittah hookah";
-        result[4] = "get a chess cookie";
-        result[5] = "skip adventure";
+        result[0] = new Option("Seal Clubber/Pastamancer item, or yellow matter custard");
+        result[1] = new Option("Sauceror/Accordion Thief item, or delicious comfit?");
+        result[2] = new Option("Disco Bandit/Turtle Tamer item, or fight croqueteer");
+        result[3] =
+            new Option("you have " + count + "/5 of the items needed for an ittah bittah hookah");
+        result[4] = new Option("get a chess cookie");
+        result[5] = SKIP_ADVENTURE;
         return result;
 
       case 502:
         // Arboreal Respite
-        result = new Object[3];
+        result = new Option[3];
 
         // meet the vampire hunter, trade bar skins or gain a spooky sapling
         int stakes = InventoryManager.getCount(ItemPool.WOODEN_STAKES);
@@ -7236,13 +7245,14 @@ public abstract class ChoiceAdventures {
         int saplings = InventoryManager.getCount(ItemPool.SPOOKY_SAPLING);
 
         result[0] =
-            "gain some meat, meet the vampire hunter "
-                + hunterAction
-                + ", sell bar skins ("
-                + barskins
-                + ") or buy a spooky sapling ("
-                + saplings
-                + ")";
+            new Option(
+                "gain some meat, meet the vampire hunter "
+                    + hunterAction
+                    + ", sell bar skins ("
+                    + barskins
+                    + ") or buy a spooky sapling ("
+                    + saplings
+                    + ")");
 
         // gain mosquito larva, gain quest coin or gain a vampire heart
         boolean haveMap = InventoryManager.getCount(ItemPool.SPOOKY_MAP) > 0;
@@ -7251,26 +7261,28 @@ public abstract class ChoiceAdventures {
         String coinAction = (getCoin ? "gain quest coin" : "skip adventure");
 
         result[1] =
-            "gain mosquito larva or spooky mushrooms, "
-                + coinAction
-                + ", get stats or fight a vampire";
+            new Option(
+                "gain mosquito larva or spooky mushrooms, "
+                    + coinAction
+                    + ", get stats or fight a vampire");
 
         // gain a starter item, gain Spooky-Gro fertilizer, gain spooky temple map or gain fake bood
         int fertilizer = InventoryManager.getCount(ItemPool.SPOOKY_FERTILIZER);
         String mapAction = (haveCoin ? ", gain spooky temple map" : "");
 
         result[2] =
-            "gain a starter item, gain Spooky-Gro fertilizer ("
-                + fertilizer
-                + ")"
-                + mapAction
-                + ", gain fake blood";
+            new Option(
+                "gain a starter item, gain Spooky-Gro fertilizer ("
+                    + fertilizer
+                    + ")"
+                    + mapAction
+                    + ", gain fake blood");
 
         return result;
 
       case 522:
         // Welcome to the Footlocker
-        result = new Object[2];
+        result = new Option[2];
 
         boolean havePolearm =
             (InventoryManager.getCount(ItemPool.KNOB_GOBLIN_POLEARM) > 0
@@ -7290,12 +7302,12 @@ public abstract class ChoiceAdventures {
                     : !haveHelm
                         ? new Option("knob goblin elite helm", "knob goblin elite helm")
                         : new Option("knob jelly donut", "knob jelly donut");
-        result[1] = "skip adventure";
+        result[1] = SKIP_ADVENTURE;
         return result;
 
       case 579:
         // Such Great Heights
-        result = new Object[3];
+        result = new Option[3];
 
         boolean haveNostril = (InventoryManager.getCount(ItemPool.NOSTRIL_OF_THE_SERPENT) > 0);
         boolean gainNostril =
@@ -7305,68 +7317,68 @@ public abstract class ChoiceAdventures {
         boolean templeAdvs =
             (Preferences.getInteger("lastTempleAdventures") == KoLCharacter.getAscensions());
 
-        result[0] = "mysticality substats";
-        result[1] = (gainNostril ? "gain the Nostril of the Serpent" : "skip adventure");
-        result[2] = (templeAdvs ? "skip adventure" : "gain 3 adventures");
+        result[0] = new Option("mysticality substats");
+        result[1] = (gainNostril ? new Option("gain the Nostril of the Serpent") : SKIP_ADVENTURE);
+        result[2] = (templeAdvs ? SKIP_ADVENTURE : new Option("gain 3 adventures"));
         return result;
 
       case 580:
         // The Hidden Heart of the Hidden Temple
-        result = new Object[3];
+        result = new Option[3];
 
         haveNostril = (InventoryManager.getCount(ItemPool.NOSTRIL_OF_THE_SERPENT) > 0);
         boolean buttonsUnconfused =
             (Preferences.getInteger("lastTempleButtonsUnlock") == KoLCharacter.getAscensions());
 
         if (ChoiceManager.lastResponseText.contains("door_stone.gif")) {
-          result[0] = "muscle substats";
+          result[0] = new Option("muscle substats");
           result[1] =
               (buttonsUnconfused || haveNostril
-                  ? "choose Hidden Heart adventure"
-                  : "randomise Hidden Heart adventure");
-          result[2] = "moxie substats and 5 turns of Somewhat poisoned";
+                  ? new Option("choose Hidden Heart adventure")
+                  : new Option("randomise Hidden Heart adventure"));
+          result[2] = new Option("moxie substats and 5 turns of Somewhat poisoned");
         } else if (ChoiceManager.lastResponseText.contains("door_sun.gif")) {
-          result[0] = "gain ancient calendar fragment";
+          result[0] = new Option("gain ancient calendar fragment");
           result[1] =
               (buttonsUnconfused || haveNostril
-                  ? "choose Hidden Heart adventure"
-                  : "randomise Hidden Heart adventure");
-          result[2] = "moxie substats and 5 turns of Somewhat poisoned";
+                  ? new Option("choose Hidden Heart adventure")
+                  : new Option("randomise Hidden Heart adventure"));
+          result[2] = new Option("moxie substats and 5 turns of Somewhat poisoned");
         } else if (ChoiceManager.lastResponseText.contains("door_gargoyle.gif")) {
-          result[0] = "gain mana";
+          result[0] = new Option("gain mana");
           result[1] =
               (buttonsUnconfused || haveNostril
-                  ? "choose Hidden Heart adventure"
-                  : "randomise Hidden Heart adventure");
-          result[2] = "moxie substats and 5 turns of Somewhat poisoned";
+                  ? new Option("choose Hidden Heart adventure")
+                  : new Option("randomise Hidden Heart adventure"));
+          result[2] = new Option("moxie substats and 5 turns of Somewhat poisoned");
         } else if (ChoiceManager.lastResponseText.contains("door_pikachu.gif")) {
-          result[0] = "unlock Hidden City";
+          result[0] = new Option("unlock Hidden City");
           result[1] =
               (buttonsUnconfused || haveNostril
-                  ? "choose Hidden Heart adventure"
-                  : "randomise Hidden Heart adventure");
-          result[2] = "moxie substats and 5 turns of Somewhat poisoned";
+                  ? new Option("choose Hidden Heart adventure")
+                  : new Option("randomise Hidden Heart adventure"));
+          result[2] = new Option("moxie substats and 5 turns of Somewhat poisoned");
         }
 
         return result;
 
       case 581:
         // Such Great Depths
-        result = new Object[3];
+        result = new Option[3];
 
         int fungus = InventoryManager.getCount(ItemPool.GLOWING_FUNGUS);
 
-        result[0] = "gain a glowing fungus (" + fungus + ")";
+        result[0] = new Option("gain a glowing fungus (" + fungus + ")");
         result[1] =
             (Preferences.getBoolean("_templeHiddenPower")
-                ? "skip adventure"
-                : "5 advs of +15 mus/mys/mox");
-        result[2] = "fight clan of cave bars";
+                ? SKIP_ADVENTURE
+                : new Option("5 advs of +15 mus/mys/mox"));
+        result[2] = new Option("fight clan of cave bars");
         return result;
 
       case 582:
         // Fitting In
-        result = new Object[3];
+        result = new Option[3];
 
         // mysticality substats, gain the Nostril of the Serpent or gain 3 adventures
         haveNostril = (InventoryManager.getCount(ItemPool.NOSTRIL_OF_THE_SERPENT) > 0);
@@ -7380,26 +7392,28 @@ public abstract class ChoiceAdventures {
             (Preferences.getInteger("lastTempleAdventures") == KoLCharacter.getAscensions());
         String advAction = (templeAdvs ? "skip adventure" : "gain 3 adventures");
 
-        result[0] = "mysticality substats, " + nostrilAction + " or " + advAction;
+        result[0] = new Option("mysticality substats, " + nostrilAction + " or " + advAction);
 
         // Hidden Heart of the Hidden Temple
-        result[1] = "Hidden Heart of the Hidden Temple";
+        result[1] = new Option("Hidden Heart of the Hidden Temple");
 
         // gain glowing fungus, gain Hidden Power or fight a clan of cave bars
         String powerAction =
             (Preferences.getBoolean("_templeHiddenPower") ? "skip adventure" : "Hidden Power");
 
-        result[2] = "gain a glowing fungus, " + powerAction + " or fight a clan of cave bars";
+        result[2] =
+            new Option("gain a glowing fungus, " + powerAction + " or fight a clan of cave bars");
 
         return result;
 
       case 606:
         // Lost in the Great Overlook Lodge
-        result = new Object[6];
+        result = new Option[6];
 
         result[0] =
-            "need +4 stench resist, have "
-                + KoLCharacter.getElementalResistanceLevels(Element.STENCH);
+            new Option(
+                "need +4 stench resist, have "
+                    + KoLCharacter.getElementalResistanceLevels(Element.STENCH));
 
         // annoyingly, the item drop check does not take into account fairy (or other sidekick)
         // bonus.
@@ -7450,24 +7464,26 @@ public abstract class ChoiceAdventures {
           }
         }
         result[1] =
-            "need +50% item drop, have "
-                + Math.round(
-                    KoLCharacter.getItemDropPercentAdjustment()
-                        + KoLCharacter.currentNumericModifier(Modifiers.FOODDROP)
-                        - bonus)
-                + "%";
+            new Option(
+                "need +50% item drop, have "
+                    + Math.round(
+                        KoLCharacter.getItemDropPercentAdjustment()
+                            + KoLCharacter.currentNumericModifier(Modifiers.FOODDROP)
+                            - bonus)
+                    + "%");
         result[2] = new Option("need jar of oil", "jar of oil");
-        result[3] = "need +40% init, have " + KoLCharacter.getInitiativeAdjustment() + "%";
+        result[3] =
+            new Option("need +40% init, have " + KoLCharacter.getInitiativeAdjustment() + "%");
         result[4] = null; // why is there a missing button 5?
-        result[5] = "flee";
+        result[5] = new Option("flee");
 
         return result;
 
       case 611:
         // The Horror... (A-Boo Peak)
-        result = new Object[2];
+        result = new Option[2];
         result[0] = booPeakDamage();
-        result[1] = "Flee";
+        result[1] = new Option("Flee");
         return result;
 
       case 636:
@@ -7479,7 +7495,7 @@ public abstract class ChoiceAdventures {
 
       case 641:
         // Stupid Pipes. (Mystic's psychoses)
-        result = new Object[3];
+        result = new Option[3];
         {
           StringBuilder buffer = new StringBuilder();
           int resistance = KoLCharacter.getElementalResistanceLevels(Element.HOT);
@@ -7491,15 +7507,15 @@ public abstract class ChoiceAdventures {
           buffer.append(hp);
           buffer.append(", current hot resistance = ");
           buffer.append(resistance);
-          result[0] = buffer.toString();
+          result[0] = new Option(buffer.toString());
         }
-        result[1] = "flickering pixel";
-        result[2] = "skip adventure";
+        result[1] = FLICKERING_PIXEL;
+        result[2] = SKIP_ADVENTURE;
         return result;
 
       case 642:
         // You're Freaking Kidding Me (Mystic's psychoses)
-        result = new Object[3];
+        result = new Option[3];
         {
           String buffer =
               "50 buffed Muscle/Mysticality/Moxie required, have "
@@ -7508,26 +7524,26 @@ public abstract class ChoiceAdventures {
                   + KoLCharacter.getAdjustedMysticality()
                   + "/"
                   + KoLCharacter.getAdjustedMoxie();
-          result[0] = buffer;
+          result[0] = new Option(buffer);
         }
-        result[1] = "flickering pixel";
-        result[2] = "skip adventure";
+        result[1] = FLICKERING_PIXEL;
+        result[2] = SKIP_ADVENTURE;
         return result;
 
       case 644:
         // Snakes. (Mystic's psychoses)
-        result = new Object[3];
+        result = new Option[3];
         {
           String buffer = "50 buffed Moxie required, have " + KoLCharacter.getAdjustedMoxie();
-          result[0] = buffer;
+          result[0] = new Option(buffer);
         }
-        result[1] = "flickering pixel";
-        result[2] = "skip adventure";
+        result[1] = FLICKERING_PIXEL;
+        result[2] = SKIP_ADVENTURE;
         return result;
 
       case 645:
         // So... Many... Skulls... (Mystic's psychoses)
-        result = new Object[3];
+        result = new Option[3];
         {
           StringBuilder buffer = new StringBuilder();
           int resistance = KoLCharacter.getElementalResistanceLevels(Element.SPOOKY);
@@ -7539,172 +7555,176 @@ public abstract class ChoiceAdventures {
           buffer.append(hp);
           buffer.append(", current spooky resistance = ");
           buffer.append(resistance);
-          result[0] = buffer.toString();
+          result[0] = new Option(buffer.toString());
         }
-        result[1] = "flickering pixel";
-        result[2] = "skip adventure";
+        result[1] = FLICKERING_PIXEL;
+        result[2] = SKIP_ADVENTURE;
         return result;
 
       case 647:
         // A Stupid Dummy. Also, a Straw Man. (Mystic's psychoses)
-        result = new Object[3];
+        result = new Option[3];
         {
           StringBuilder buffer = new StringBuilder();
           String current = String.valueOf(KoLCharacter.currentBonusDamage());
           buffer.append("100 weapon damage required");
-          result[0] = buffer.toString();
+          result[0] = new Option(buffer.toString());
         }
-        result[1] = "flickering pixel";
-        result[2] = "skip adventure";
+        result[1] = FLICKERING_PIXEL;
+        result[2] = SKIP_ADVENTURE;
         return result;
 
       case 648:
         // Slings and Arrows (Mystic's psychoses)
-        result = new Object[3];
+        result = new Option[3];
         {
           String buffer = "101 HP required, have " + KoLCharacter.getCurrentHP();
-          result[0] = buffer;
+          result[0] = new Option(buffer);
         }
-        result[1] = "flickering pixel";
-        result[2] = "skip adventure";
+        result[1] = FLICKERING_PIXEL;
+        result[2] = SKIP_ADVENTURE;
         return result;
 
       case 650:
         // This Is Your Life. Your Horrible, Horrible Life. (Mystic's psychoses)
-        result = new Object[3];
+        result = new Option[3];
         {
           String buffer = "101 MP required, have " + KoLCharacter.getCurrentMP();
-          result[0] = buffer;
+          result[0] = new Option(buffer);
         }
-        result[1] = "flickering pixel";
-        result[2] = "skip adventure";
+        result[1] = FLICKERING_PIXEL;
+        result[2] = SKIP_ADVENTURE;
         return result;
 
       case 651:
         // The Wall of Wailing (Mystic's psychoses)
-        result = new Object[3];
+        result = new Option[3];
         {
           String buffer =
               "10 prismatic damage required, have " + KoLCharacter.currentPrismaticDamage();
-          result[0] = buffer;
+          result[0] = new Option(buffer);
         }
-        result[1] = "flickering pixel";
-        result[2] = "skip adventure";
+        result[1] = FLICKERING_PIXEL;
+        result[2] = SKIP_ADVENTURE;
         return result;
 
       case 669:
         // The Fast and the Furry-ous
-        result = new Object[4];
+        result = new Option[4];
         result[0] =
             KoLCharacter.hasEquipped(ItemPool.get(ItemPool.TITANIUM_UMBRELLA))
-                ? "open Ground Floor (titanium umbrella equipped)"
+                ? new Option("open Ground Floor (titanium umbrella equipped)")
                 : KoLCharacter.hasEquipped(ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA))
-                    ? "open Ground Floor (unbreakable umbrella equipped)"
-                    : "Neckbeard Choice (titanium/unbreakable umbrella not equipped)";
-        result[1] = "200 Moxie substats";
-        result[2] = "";
-        result[3] = "skip adventure and guarantees this adventure will reoccur";
+                    ? new Option("open Ground Floor (unbreakable umbrella equipped)")
+                    : new Option("Neckbeard Choice (titanium/unbreakable umbrella not equipped)");
+        result[1] = new Option("200 Moxie substats");
+        result[2] = new Option("");
+        result[3] = new Option("skip adventure and guarantees this adventure will reoccur");
         return result;
 
       case 670:
         // You Don't Mess Around with Gym
-        result = new Object[5];
-        result[0] = "massive dumbbell, then skip adventure";
-        result[1] = "200 Muscle substats";
-        result[2] = "pec oil, giant jar of protein powder, Squat-Thrust Magazine";
+        result = new Option[5];
+        result[0] = new Option("massive dumbbell, then skip adventure");
+        result[1] = new Option("200 Muscle substats");
+        result[2] = new Option("pec oil, giant jar of protein powder, Squat-Thrust Magazine");
         result[3] =
             KoLCharacter.hasEquipped(ItemPool.get(ItemPool.EXTREME_AMULET, 1))
-                ? "open Ground Floor (amulet equipped)"
-                : "skip adventure (amulet not equipped)";
-        result[4] = "skip adventure and guarantees this adventure will reoccur";
+                ? new Option("open Ground Floor (amulet equipped)")
+                : new Option("skip adventure (amulet not equipped)");
+        result[4] = new Option("skip adventure and guarantees this adventure will reoccur");
         return result;
 
       case 678:
         // Yeah, You're for Me, Punk Rock Giant
-        result = new Object[4];
+        result = new Option[4];
         result[0] =
             KoLCharacter.hasEquipped(ItemPool.get(ItemPool.MOHAWK_WIG, 1))
-                ? "Finish quest (mohawk wig equipped)"
-                : "Fight Punk Rock Giant (mohawk wig not equipped)";
-        result[1] = "500 meat";
-        result[2] = "Steampunk Choice";
-        result[3] = "Raver Choice";
+                ? new Option("Finish quest (mohawk wig equipped)")
+                : new Option("Fight Punk Rock Giant (mohawk wig not equipped)");
+        result[1] = new Option("500 meat");
+        result[2] = new Option("Steampunk Choice");
+        result[3] = new Option("Raver Choice");
         return result;
 
       case 692:
         // I Wanna Be a Door
-        result = new String[9];
-        result[0] = "suffer trap effects";
-        result[1] = "unlock door with key, no turn spent";
-        result[2] = "pick lock with lockpicks, no turn spent";
+        result = new Option[9];
+        result[0] = new Option("suffer trap effects");
+        result[1] = new Option("unlock door with key, no turn spent");
+        result[2] = new Option("pick lock with lockpicks, no turn spent");
         result[3] =
             KoLCharacter.getAdjustedMuscle() >= 30
-                ? "bypass trap with muscle"
-                : "suffer trap effects";
+                ? new Option("bypass trap with muscle")
+                : new Option("suffer trap effects");
         result[4] =
             KoLCharacter.getAdjustedMysticality() >= 30
-                ? "bypass trap with mysticality"
-                : "suffer trap effects";
+                ? new Option("bypass trap with mysticality")
+                : new Option("suffer trap effects");
         result[5] =
             KoLCharacter.getAdjustedMoxie() >= 30
-                ? "bypass trap with moxie"
-                : "suffer trap effects";
-        result[6] = "open door with card, no turn spent";
-        result[7] = "leave, no turn spent";
+                ? new Option("bypass trap with moxie")
+                : new Option("suffer trap effects");
+        result[6] = new Option("open door with card, no turn spent");
+        result[7] = new Option("leave, no turn spent");
         return result;
 
       case 696:
         // Stick a Fork In It
-        result = new String[2];
+        result = new Option[2];
         result[0] =
             Preferences.getBoolean("maraisDarkUnlock")
-                ? "Dark and Spooky Swamp already unlocked"
-                : "unlock Dark and Spooky Swamp";
+                ? new Option("Dark and Spooky Swamp already unlocked")
+                : new Option("unlock Dark and Spooky Swamp");
         result[1] =
             Preferences.getBoolean("maraisWildlifeUnlock")
-                ? "The Wildlife Sanctuarrrrrgh already unlocked"
-                : "unlock The Wildlife Sanctuarrrrrgh";
+                ? new Option("The Wildlife Sanctuarrrrrgh already unlocked")
+                : new Option("unlock The Wildlife Sanctuarrrrrgh");
         return result;
 
       case 697:
         // Sophie's Choice
-        result = new String[2];
+        result = new Option[2];
         result[0] =
             Preferences.getBoolean("maraisCorpseUnlock")
-                ? "The Corpse Bog already unlocked"
-                : "unlock The Corpse Bog";
+                ? new Option("The Corpse Bog already unlocked")
+                : new Option("unlock The Corpse Bog");
         result[1] =
             Preferences.getBoolean("maraisWizardUnlock")
-                ? "The Ruined Wizard Tower already unlocked"
-                : "unlock The Ruined Wizard Tower";
+                ? new Option("The Ruined Wizard Tower already unlocked")
+                : new Option("unlock The Ruined Wizard Tower");
         return result;
 
       case 698:
         // From Bad to Worst
-        result = new String[2];
+        result = new Option[2];
         result[0] =
             Preferences.getBoolean("maraisBeaverUnlock")
-                ? "Swamp Beaver Territory already unlocked"
-                : "unlock Swamp Beaver Territory";
+                ? new Option("Swamp Beaver Territory already unlocked")
+                : new Option("unlock Swamp Beaver Territory");
         result[1] =
             Preferences.getBoolean("maraisVillageUnlock")
-                ? "The Weird Swamp Village already unlocked"
-                : "unlock The Weird Swamp Village";
+                ? new Option("The Weird Swamp Village already unlocked")
+                : new Option("unlock The Weird Swamp Village");
         return result;
 
       case 700:
         // Delirium in the Cafeteria
-        result = new String[9];
-        result[0] = KoLConstants.activeEffects.contains(JOCK_EFFECT) ? "Gain stats" : "Lose HP";
-        result[1] = KoLConstants.activeEffects.contains(NERD_EFFECT) ? "Gain stats" : "Lose HP";
-        result[2] = KoLConstants.activeEffects.contains(GREASER_EFFECT) ? "Gain stats" : "Lose HP";
+        result = new Option[9];
+        result[0] =
+            new Option(KoLConstants.activeEffects.contains(JOCK_EFFECT) ? "Gain stats" : "Lose HP");
+        result[1] =
+            new Option(KoLConstants.activeEffects.contains(NERD_EFFECT) ? "Gain stats" : "Lose HP");
+        result[2] =
+            new Option(
+                KoLConstants.activeEffects.contains(GREASER_EFFECT) ? "Gain stats" : "Lose HP");
         return result;
 
       case 721:
         {
           // The Cabin in the Dreadsylvanian Woods
 
-          result = new Object[6];
+          result = new Option[6];
 
           StringBuilder buffer = new StringBuilder();
           buffer.append("dread tarragon");
@@ -7714,7 +7734,7 @@ public abstract class ChoiceAdventures {
             buffer.append(") -> bone flour");
           }
           buffer.append(", -stench");
-          result[0] = buffer.toString(); // The Kitchen
+          result[0] = new Option(buffer.toString()); // The Kitchen
 
           buffer.setLength(0);
           buffer.append("Freddies");
@@ -7725,7 +7745,7 @@ public abstract class ChoiceAdventures {
           buffer.append(", wax banana (");
           buffer.append(InventoryManager.getCount(ItemPool.WAX_BANANA));
           buffer.append(") -> complicated lock impression");
-          result[1] = buffer.toString(); // The Cellar
+          result[1] = new Option(buffer.toString()); // The Cellar
 
           buffer.setLength(0);
           ChoiceAdventures.lockSpoiler(buffer);
@@ -7736,55 +7756,62 @@ public abstract class ChoiceAdventures {
           buffer.append(", fewer werewolves");
           buffer.append(", fewer vampires");
           buffer.append(", +Moxie");
-          result[2] = buffer.toString(); // The Attic (locked)
+          result[2] = new Option(buffer.toString()); // The Attic (locked)
 
           result[4] = ChoiceAdventures.shortcutSpoiler("ghostPencil1");
-          result[5] = "Leave this noncombat";
+          result[5] = new Option("Leave this noncombat");
           return result;
         }
 
       case 722:
         // The Kitchen in the Woods
-        result = new Object[6];
-        result[0] = "dread tarragon";
+        result = new Option[6];
+        result[0] = new Option("dread tarragon");
         result[1] =
-            "old dry bone (" + InventoryManager.getCount(ItemPool.OLD_DRY_BONE) + ") -> bone flour";
-        result[2] = "-stench";
-        result[5] = "Return to The Cabin";
+            new Option(
+                "old dry bone ("
+                    + InventoryManager.getCount(ItemPool.OLD_DRY_BONE)
+                    + ") -> bone flour");
+        result[2] = new Option("-stench");
+        result[5] = new Option("Return to The Cabin");
         return result;
 
       case 723:
         // What Lies Beneath (the Cabin)
-        result = new Object[6];
-        result[0] = "Freddies";
-        result[1] = "Bored Stiff (+100 spooky damage)";
+        result = new Option[6];
+        result[0] = new Option("Freddies");
+        result[1] = new Option("Bored Stiff (+100 spooky damage)");
         result[2] =
-            "replica key ("
-                + InventoryManager.getCount(ItemPool.REPLICA_KEY)
-                + ") -> Dreadsylvanian auditor's badge";
+            new Option(
+                "replica key ("
+                    + InventoryManager.getCount(ItemPool.REPLICA_KEY)
+                    + ") -> Dreadsylvanian auditor's badge");
         result[3] =
-            "wax banana ("
-                + InventoryManager.getCount(ItemPool.WAX_BANANA)
-                + ") -> complicated lock impression";
-        result[5] = "Return to The Cabin";
+            new Option(
+                "wax banana ("
+                    + InventoryManager.getCount(ItemPool.WAX_BANANA)
+                    + ") -> complicated lock impression");
+        result[5] = new Option("Return to The Cabin");
         return result;
 
       case 724:
         // Where it's Attic
-        result = new Object[6];
+        result = new Option[6];
         result[0] =
-            "-spooky" + (KoLCharacter.isAccordionThief() ? " + intricate music box parts" : "");
-        result[1] = "fewer werewolves";
-        result[2] = "fewer vampires";
-        result[3] = "+Moxie";
-        result[5] = "Return to The Cabin";
+            new Option(
+                "-spooky"
+                    + (KoLCharacter.isAccordionThief() ? " + intricate music box parts" : ""));
+        result[1] = new Option("fewer werewolves");
+        result[2] = new Option("fewer vampires");
+        result[3] = new Option("+Moxie");
+        result[5] = new Option("Return to The Cabin");
         return result;
 
       case 725:
         {
           // Tallest Tree in the Forest
 
-          result = new Object[6];
+          result = new Option[6];
 
           StringBuilder buffer = new StringBuilder();
           if (KoLCharacter.isMuscleClass()) {
@@ -7794,14 +7821,14 @@ public abstract class ChoiceAdventures {
           } else {
             buffer.append("unavailable (Muscle class only)");
           }
-          result[0] = buffer.toString(); // Climb tree (muscle only)
+          result[0] = new Option(buffer.toString()); // Climb tree (muscle only)
 
           buffer.setLength(0);
           ChoiceAdventures.lockSpoiler(buffer);
           buffer.append("fewer ghosts");
           buffer.append(", Freddies");
           buffer.append(", +Muscle");
-          result[1] = buffer.toString(); // Fire Tower (locked)
+          result[1] = new Option(buffer.toString()); // Fire Tower (locked)
 
           buffer.setLength(0);
           buffer.append("blood kiwi (from above)");
@@ -7810,45 +7837,45 @@ public abstract class ChoiceAdventures {
             buffer.append(", folder (owl)");
           }
 
-          result[2] = buffer.toString(); // Base of tree
+          result[2] = new Option(buffer.toString()); // Base of tree
 
           result[4] = ChoiceAdventures.shortcutSpoiler("ghostPencil2");
-          result[5] = "Leave this noncombat";
+          result[5] = new Option("Leave this noncombat");
           return result;
         }
 
       case 726:
         // Top of the Tree, Ma!
-        result = new Object[6];
-        result[0] = "drop blood kiwi";
-        result[1] = "-sleaze";
-        result[2] = "moon-amber";
-        result[5] = "Return to The Tallest Tree";
+        result = new Option[6];
+        result[0] = new Option("drop blood kiwi");
+        result[1] = new Option("-sleaze");
+        result[2] = new Option("moon-amber");
+        result[5] = new Option("Return to The Tallest Tree");
         return result;
 
       case 727:
         // All Along the Watchtower
-        result = new Object[6];
-        result[0] = "fewer ghosts";
-        result[1] = "Freddies";
-        result[2] = "+Muscle";
-        result[5] = "Return to The Tallest Tree";
+        result = new Option[6];
+        result[0] = new Option("fewer ghosts");
+        result[1] = new Option("Freddies");
+        result[2] = new Option("+Muscle");
+        result[5] = new Option("Return to The Tallest Tree");
         return result;
 
       case 728:
         // Treebasing
-        result = new Object[6];
-        result[0] = "blood kiwi (from above)";
-        result[1] = "Dreadsylvanian seed pod";
-        result[2] = "folder (owl)";
-        result[5] = "Return to The Tallest Tree";
+        result = new Option[6];
+        result[0] = new Option("blood kiwi (from above)");
+        result[1] = new Option("Dreadsylvanian seed pod");
+        result[2] = new Option("folder (owl)");
+        result[5] = new Option("Return to The Tallest Tree");
         return result;
 
       case 729:
         {
           // Below the Roots
 
-          result = new Object[6];
+          result = new Option[6];
 
           StringBuilder buffer = new StringBuilder();
           buffer.append("-hot");
@@ -7856,65 +7883,66 @@ public abstract class ChoiceAdventures {
           buffer.append(", old ball and chain (");
           buffer.append(InventoryManager.getCount(ItemPool.OLD_BALL_AND_CHAIN));
           buffer.append(") -> cool iron ingot");
-          result[0] = buffer.toString(); // Hot
+          result[0] = new Option(buffer.toString()); // Hot
 
           buffer.setLength(0);
           buffer.append("-cold");
           buffer.append(", +Mysticality");
           buffer.append(", Nature's Bounty (+300 max HP)");
-          result[1] = buffer.toString(); // Cold
+          result[1] = new Option(buffer.toString()); // Cold
 
           buffer.setLength(0);
           buffer.append("fewer bugbears");
           buffer.append(", Freddies");
-          result[2] = buffer.toString(); // Smelly
+          result[2] = new Option(buffer.toString()); // Smelly
 
           result[4] = ChoiceAdventures.shortcutSpoiler("ghostPencil3");
-          result[5] = "Leave this noncombat";
+          result[5] = new Option("Leave this noncombat");
           return result;
         }
 
       case 730:
         // Hot Coals
-        result = new Object[6];
-        result[0] = "-hot";
-        result[1] = "Dragged Through the Coals (+100 hot damage)";
+        result = new Option[6];
+        result[0] = new Option("-hot");
+        result[1] = new Option("Dragged Through the Coals (+100 hot damage)");
         result[2] =
-            "old ball and chain ("
-                + InventoryManager.getCount(ItemPool.OLD_BALL_AND_CHAIN)
-                + ") -> cool iron ingot";
-        result[5] = "Return to The Burrows";
+            new Option(
+                "old ball and chain ("
+                    + InventoryManager.getCount(ItemPool.OLD_BALL_AND_CHAIN)
+                    + ") -> cool iron ingot");
+        result[5] = new Option("Return to The Burrows");
         return result;
 
       case 731:
         // The Heart of the Matter
-        result = new Object[6];
-        result[0] = "-cold";
-        result[1] = "+Mysticality";
-        result[2] = "Nature's Bounty (+300 max HP)";
-        result[5] = "Return to The Burrows";
+        result = new Option[6];
+        result[0] = new Option("-cold");
+        result[1] = new Option("+Mysticality");
+        result[2] = new Option("Nature's Bounty (+300 max HP)");
+        result[5] = new Option("Return to The Burrows");
         return result;
 
       case 732:
         // Once Midden, Twice Shy
-        result = new Object[6];
-        result[0] = "fewer bugbears";
-        result[1] = "Freddies";
-        result[5] = "Return to The Burrows";
+        result = new Option[6];
+        result[0] = new Option("fewer bugbears");
+        result[1] = new Option("Freddies");
+        result[5] = new Option("Return to The Burrows");
         return result;
 
       case 733:
         {
           // Dreadsylvanian Village Square
 
-          result = new Object[6];
+          result = new Option[6];
 
           StringBuilder buffer = new StringBuilder();
           ChoiceAdventures.lockSpoiler(buffer);
           buffer.append("fewer ghosts");
           buffer.append(", ghost pencil");
           buffer.append(", +Mysticality");
-          result[0] = buffer.toString(); // Schoolhouse (locked)
+          result[0] = new Option(buffer.toString()); // Schoolhouse (locked)
 
           buffer.setLength(0);
           buffer.append("-cold");
@@ -7926,7 +7954,7 @@ public abstract class ChoiceAdventures {
             buffer.append(InventoryManager.getCount(ItemPool.WARM_FUR));
             buffer.append(") -> cooling iron equipment");
           }
-          result[1] = buffer.toString(); // Blacksmith
+          result[1] = new Option(buffer.toString()); // Blacksmith
 
           buffer.setLength(0);
           buffer.append("-spooky");
@@ -7940,68 +7968,72 @@ public abstract class ChoiceAdventures {
           buffer.append(item);
           buffer.append(" with help of clannie");
           buffer.append(" or help clannie gain an item");
-          result[2] = buffer.toString(); // Gallows
+          result[2] = new Option(buffer.toString()); // Gallows
 
           result[4] = ChoiceAdventures.shortcutSpoiler("ghostPencil4");
-          result[5] = "Leave this noncombat";
+          result[5] = new Option("Leave this noncombat");
           return result;
         }
 
       case 734:
         // Fright School
-        result = new Object[6];
-        result[0] = "fewer ghosts";
-        result[1] = "ghost pencil";
-        result[2] = "+Mysticality";
-        result[5] = "Return to The Village Square";
+        result = new Option[6];
+        result[0] = new Option("fewer ghosts");
+        result[1] = new Option("ghost pencil");
+        result[2] = new Option("+Mysticality");
+        result[5] = new Option("Return to The Village Square");
         return result;
 
       case 735:
         // Smith, Black as Night
-        result = new Object[6];
-        result[0] = "-cold";
-        result[1] = "Freddies";
+        result = new Option[6];
+        result[0] = new Option("-cold");
+        result[1] = new Option("Freddies");
         result[2] =
-            "cool iron ingot ("
-                + InventoryManager.getCount(ItemPool.COOL_IRON_INGOT)
-                + ") + warm fur ("
-                + InventoryManager.getCount(ItemPool.WARM_FUR)
-                + ") -> cooling iron equipment";
-        result[5] = "Return to The Village Square";
+            new Option(
+                "cool iron ingot ("
+                    + InventoryManager.getCount(ItemPool.COOL_IRON_INGOT)
+                    + ") + warm fur ("
+                    + InventoryManager.getCount(ItemPool.WARM_FUR)
+                    + ") -> cooling iron equipment");
+        result[5] = new Option("Return to The Village Square");
         return result;
 
       case 736:
         // Gallows
-        result = new Object[6];
-        result[0] = "-spooky ";
+        result = new Option[6];
+        result[0] = new Option("-spooky");
         result[1] =
-            "gain "
-                + (KoLCharacter.isMuscleClass()
-                    ? "hangman's hood"
-                    : KoLCharacter.isMysticalityClass()
-                        ? "cursed ring finger ring"
-                        : KoLCharacter.isMoxieClass() ? "Dreadsylvanian clockwork key" : "nothing")
-                + " with help of clannie";
-        result[3] = "help clannie gain an item";
-        result[5] = "Return to The Village Square";
+            new Option(
+                "gain "
+                    + (KoLCharacter.isMuscleClass()
+                        ? "hangman's hood"
+                        : KoLCharacter.isMysticalityClass()
+                            ? "cursed ring finger ring"
+                            : KoLCharacter.isMoxieClass()
+                                ? "Dreadsylvanian clockwork key"
+                                : "nothing")
+                    + " with help of clannie");
+        result[3] = new Option("help clannie gain an item");
+        result[5] = new Option("Return to The Village Square");
         return result;
 
       case 737:
         {
           // The Even More Dreadful Part of Town
 
-          result = new Object[6];
+          result = new Option[6];
 
           StringBuilder buffer = new StringBuilder();
           buffer.append("-stench");
           buffer.append(", Sewer-Drenched (+100 stench damage)");
-          result[0] = buffer.toString(); // Sewers
+          result[0] = new Option(buffer.toString()); // Sewers
 
           buffer.setLength(0);
           buffer.append("fewer skeletons");
           buffer.append(", -sleaze");
           buffer.append(", +Muscle");
-          result[1] = buffer.toString(); // Tenement
+          result[1] = new Option(buffer.toString()); // Tenement
 
           buffer.setLength(0);
           if (KoLCharacter.isMoxieClass()) {
@@ -8023,65 +8055,68 @@ public abstract class ChoiceAdventures {
           } else {
             buffer.append("unavailable (Moxie class only)");
           }
-          result[2] = buffer.toString(); // Ticking Shack (moxie only)
+          result[2] = new Option(buffer.toString()); // Ticking Shack (moxie only)
 
           result[4] = ChoiceAdventures.shortcutSpoiler("ghostPencil5");
-          result[5] = "Leave this noncombat";
+          result[5] = new Option("Leave this noncombat");
           return result;
         }
 
       case 738:
         // A Dreadful Smell
-        result = new Object[6];
-        result[0] = "-stench";
-        result[1] = "Sewer-Drenched (+100 stench damage)";
-        result[5] = "Return to Skid Row";
+        result = new Option[6];
+        result[0] = new Option("-stench");
+        result[1] = new Option("Sewer-Drenched (+100 stench damage)");
+        result[5] = new Option("Return to Skid Row");
         return result;
 
       case 739:
         // The Tinker's. Damn.
-        result = new Object[6];
-        result[0] = "Freddies";
+        result = new Option[6];
+        result[0] = new Option("Freddies");
         result[1] =
-            "lock impression ("
-                + InventoryManager.getCount(ItemPool.WAX_LOCK_IMPRESSION)
-                + ") + music box parts ("
-                + InventoryManager.getCount(ItemPool.INTRICATE_MUSIC_BOX_PARTS)
-                + ") -> replica key";
+            new Option(
+                "lock impression ("
+                    + InventoryManager.getCount(ItemPool.WAX_LOCK_IMPRESSION)
+                    + ") + music box parts ("
+                    + InventoryManager.getCount(ItemPool.INTRICATE_MUSIC_BOX_PARTS)
+                    + ") -> replica key");
         result[2] =
-            "moon-amber ("
-                + InventoryManager.getCount(ItemPool.MOON_AMBER)
-                + ") -> polished moon-amber";
+            new Option(
+                "moon-amber ("
+                    + InventoryManager.getCount(ItemPool.MOON_AMBER)
+                    + ") -> polished moon-amber");
         result[3] =
-            "3 music box parts ("
-                + InventoryManager.getCount(ItemPool.INTRICATE_MUSIC_BOX_PARTS)
-                + ") + clockwork key ("
-                + InventoryManager.getCount(ItemPool.DREADSYLVANIAN_CLOCKWORK_KEY)
-                + ") -> mechanical songbird";
-        result[4] = "3 lengths of old fuse";
-        result[5] = "Return to Skid Row";
+            new Option(
+                "3 music box parts ("
+                    + InventoryManager.getCount(ItemPool.INTRICATE_MUSIC_BOX_PARTS)
+                    + ") + clockwork key ("
+                    + InventoryManager.getCount(ItemPool.DREADSYLVANIAN_CLOCKWORK_KEY)
+                    + ") -> mechanical songbird");
+        result[4] = new Option("3 lengths of old fuse");
+        result[5] = new Option("Return to Skid Row");
         return result;
 
       case 740:
         // Eight, Nine, Tenement
-        result = new Object[6];
-        result[0] = "fewer skeletons";
-        result[1] = "-sleaze";
-        result[2] = "+Muscle";
-        result[5] = "Return to Skid Row";
+        result = new Option[6];
+        result[0] = new Option("fewer skeletons");
+        result[1] = new Option("-sleaze");
+        result[2] = new Option("+Muscle");
+        result[5] = new Option("Return to Skid Row");
         return result;
 
       case 741:
         {
           // The Old Duke's Estate
 
-          result = new Object[6];
+          result = new Option[6];
 
           StringBuilder buffer = new StringBuilder();
           buffer.append("fewer zombies");
           buffer.append(", Freddies");
           buffer.append(", Fifty Ways to Bereave Your Lover (+100 sleaze damage)");
-          result[0] = buffer.toString(); // Cemetery
+          result[0] = new Option(buffer.toString()); // Cemetery
 
           buffer.setLength(0);
           buffer.append("-hot");
@@ -8097,7 +8132,7 @@ public abstract class ChoiceAdventures {
             buffer.append(") -> Dreadsylvanian shepherd's pie");
           }
           buffer.append(", +Moxie");
-          result[1] = buffer.toString(); // Servants' Quarters
+          result[1] = new Option(buffer.toString()); // Servants' Quarters
 
           buffer.setLength(0);
           ChoiceAdventures.lockSpoiler(buffer);
@@ -8106,57 +8141,59 @@ public abstract class ChoiceAdventures {
           buffer.append(", 10 ghost thread (");
           buffer.append(InventoryManager.getCount(ItemPool.GHOST_THREAD));
           buffer.append(") -> ghost shawl");
-          result[2] = buffer.toString(); // Master Suite (locked)
+          result[2] = new Option(buffer.toString()); // Master Suite (locked)
 
           result[4] = ChoiceAdventures.shortcutSpoiler("ghostPencil6");
-          result[5] = "Leave this noncombat";
+          result[5] = new Option("Leave this noncombat");
           return result;
         }
 
       case 742:
         // The Plot Thickens
-        result = new Object[6];
-        result[0] = "fewer zombies";
-        result[1] = "Freddies";
-        result[2] = "Fifty Ways to Bereave Your Lover (+100 sleaze damage)";
-        result[5] = "Return to The Old Duke's Estate";
+        result = new Option[6];
+        result[0] = new Option("fewer zombies");
+        result[1] = new Option("Freddies");
+        result[2] = new Option("Fifty Ways to Bereave Your Lover (+100 sleaze damage)");
+        result[5] = new Option("Return to The Old Duke's Estate");
         return result;
 
       case 743:
         // No Quarter
-        result = new Object[6];
-        result[0] = "-hot";
+        result = new Option[6];
+        result[0] = new Option("-hot");
         result[1] =
-            "dread tarragon ("
-                + InventoryManager.getCount(ItemPool.DREAD_TARRAGON)
-                + ") + dreadful roast ("
-                + InventoryManager.getCount(ItemPool.DREADFUL_ROAST)
-                + ") + bone flour ("
-                + InventoryManager.getCount(ItemPool.BONE_FLOUR)
-                + ") + stinking agaricus ("
-                + InventoryManager.getCount(ItemPool.STINKING_AGARICUS)
-                + ") -> Dreadsylvanian shepherd's pie";
-        result[2] = "+Moxie";
-        result[5] = "Return to The Old Duke's Estate";
+            new Option(
+                "dread tarragon ("
+                    + InventoryManager.getCount(ItemPool.DREAD_TARRAGON)
+                    + ") + dreadful roast ("
+                    + InventoryManager.getCount(ItemPool.DREADFUL_ROAST)
+                    + ") + bone flour ("
+                    + InventoryManager.getCount(ItemPool.BONE_FLOUR)
+                    + ") + stinking agaricus ("
+                    + InventoryManager.getCount(ItemPool.STINKING_AGARICUS)
+                    + ") -> Dreadsylvanian shepherd's pie");
+        result[2] = new Option("+Moxie");
+        result[5] = new Option("Return to The Old Duke's Estate");
         return result;
 
       case 744:
         // The Master Suite -- Sweet!
-        result = new Object[6];
-        result[0] = "fewer werewolves";
-        result[1] = "eau de mort";
+        result = new Option[6];
+        result[0] = new Option("fewer werewolves");
+        result[1] = new Option("eau de mort");
         result[2] =
-            "10 ghost thread ("
-                + InventoryManager.getCount(ItemPool.GHOST_THREAD)
-                + ") -> ghost shawl";
-        result[5] = "Return to The Old Duke's Estate";
+            new Option(
+                "10 ghost thread ("
+                    + InventoryManager.getCount(ItemPool.GHOST_THREAD)
+                    + ") -> ghost shawl");
+        result[5] = new Option("Return to The Old Duke's Estate");
         return result;
 
       case 745:
         {
           // This Hall is Really Great
 
-          result = new Object[6];
+          result = new Option[6];
 
           StringBuilder buffer = new StringBuilder();
           ChoiceAdventures.lockSpoiler(buffer);
@@ -8168,12 +8205,12 @@ public abstract class ChoiceAdventures {
             buffer.append("(muddy skirt in inventory but not equipped) ");
           }
           buffer.append("+Moxie");
-          result[0] = buffer.toString(); // Ballroom (locked)
+          result[0] = new Option(buffer.toString()); // Ballroom (locked)
 
           buffer.setLength(0);
           buffer.append("-cold");
           buffer.append(", Staying Frosty (+100 cold damage)");
-          result[1] = buffer.toString(); // Kitchen
+          result[1] = new Option(buffer.toString()); // Kitchen
 
           buffer.setLength(0);
           buffer.append("dreadful roast");
@@ -8181,49 +8218,50 @@ public abstract class ChoiceAdventures {
           if (KoLCharacter.isMysticalityClass()) {
             buffer.append(", wax banana");
           }
-          result[2] = buffer.toString(); // Dining Room
+          result[2] = new Option(buffer.toString()); // Dining Room
 
           result[4] = ChoiceAdventures.shortcutSpoiler("ghostPencil7");
-          result[5] = "Leave this noncombat";
+          result[5] = new Option("Leave this noncombat");
           return result;
         }
 
       case 746:
         // The Belle of the Ballroom
-        result = new Object[6];
-        result[0] = "fewer vampires";
+        result = new Option[6];
+        result[0] = new Option("fewer vampires");
         result[1] =
-            (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.MUDDY_SKIRT, 1))
-                    ? "equipped muddy skirt -> weedy skirt and "
-                    : InventoryManager.getCount(ItemPool.MUDDY_SKIRT) > 0
-                        ? "(muddy skirt in inventory but not equipped) "
-                        : "")
-                + "+Moxie";
-        result[5] = "Return to The Great Hall";
+            new Option(
+                (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.MUDDY_SKIRT, 1))
+                        ? "equipped muddy skirt -> weedy skirt and "
+                        : InventoryManager.getCount(ItemPool.MUDDY_SKIRT) > 0
+                            ? "(muddy skirt in inventory but not equipped) "
+                            : "")
+                    + "+Moxie");
+        result[5] = new Option("Return to The Great Hall");
         return result;
 
       case 747:
         // Cold Storage
-        result = new Object[6];
-        result[0] = "-cold";
-        result[1] = "Staying Frosty (+100 cold damage)";
-        result[5] = "Return to The Great Hall";
+        result = new Option[6];
+        result[0] = new Option("-cold");
+        result[1] = new Option("Staying Frosty (+100 cold damage)");
+        result[5] = new Option("Return to The Great Hall");
         return result;
 
       case 748:
         // Dining In (the Castle)
-        result = new Object[6];
-        result[0] = "dreadful roast";
-        result[1] = "-stench";
-        result[2] = "wax banana";
-        result[5] = "Return to The Great Hall";
+        result = new Option[6];
+        result[0] = new Option("dreadful roast");
+        result[1] = new Option("-stench");
+        result[2] = new Option("wax banana");
+        result[5] = new Option("Return to The Great Hall");
         return result;
 
       case 749:
         {
           // Tower Most Tall
 
-          result = new Object[6];
+          result = new Option[6];
 
           StringBuilder buffer = new StringBuilder();
           ChoiceAdventures.lockSpoiler(buffer);
@@ -8237,7 +8275,7 @@ public abstract class ChoiceAdventures {
             buffer.append(InventoryManager.getCount(ItemPool.EAU_DE_MORT));
             buffer.append(") -> bloody kiwitini");
           }
-          result[0] = buffer.toString(); // Laboratory (locked)
+          result[0] = new Option(buffer.toString()); // Laboratory (locked)
 
           buffer.setLength(0);
           if (KoLCharacter.isMysticalityClass()) {
@@ -8247,104 +8285,105 @@ public abstract class ChoiceAdventures {
           } else {
             buffer.append("unavailable (Mysticality class only)");
           }
-          result[1] = buffer.toString(); // Books (mysticality only)
+          result[1] = new Option(buffer.toString()); // Books (mysticality only)
 
           buffer.setLength(0);
           buffer.append("-sleaze");
           buffer.append(", Freddies");
           buffer.append(", Magically Fingered (+150 max MP, 40-50 MP regen)");
-          result[2] = buffer.toString(); // Bedroom
+          result[2] = new Option(buffer.toString()); // Bedroom
 
           result[4] = ChoiceAdventures.shortcutSpoiler("ghostPencil8");
-          result[5] = "Leave this noncombat";
+          result[5] = new Option("Leave this noncombat");
           return result;
         }
 
       case 750:
         // Working in the Lab, Late One Night
-        result = new Object[6];
-        result[0] = "fewer bugbears";
-        result[1] = "fewer zombies";
-        result[2] = "visit The Machine";
+        result = new Option[6];
+        result[0] = new Option("fewer bugbears");
+        result[1] = new Option("fewer zombies");
+        result[2] = new Option("visit The Machine");
         result[3] =
-            "blood kiwi ("
-                + InventoryManager.getCount(ItemPool.BLOOD_KIWI)
-                + ") + eau de mort ("
-                + InventoryManager.getCount(ItemPool.EAU_DE_MORT)
-                + ") -> bloody kiwitini";
-        result[5] = "Return to The Tower";
+            new Option(
+                "blood kiwi ("
+                    + InventoryManager.getCount(ItemPool.BLOOD_KIWI)
+                    + ") + eau de mort ("
+                    + InventoryManager.getCount(ItemPool.EAU_DE_MORT)
+                    + ") -> bloody kiwitini");
+        result[5] = new Option("Return to The Tower");
         return result;
 
       case 751:
         // Among the Quaint and Curious Tomes.
-        result = new Object[6];
-        result[0] = "fewer skeletons";
-        result[1] = "+Mysticality";
-        result[2] = "learn recipe for moon-amber necklace";
-        result[5] = "Return to The Tower";
+        result = new Option[6];
+        result[0] = new Option("fewer skeletons");
+        result[1] = new Option("+Mysticality");
+        result[2] = new Option("learn recipe for moon-amber necklace");
+        result[5] = new Option("Return to The Tower");
         return result;
 
       case 752:
         // In The Boudoir
-        result = new Object[6];
-        result[0] = "-sleaze";
-        result[1] = "Freddies";
-        result[2] = "Magically Fingered (+150 max MP, 40-50 MP regen)";
-        result[5] = "Return to The Tower";
+        result = new Option[6];
+        result[0] = new Option("-sleaze");
+        result[1] = new Option("Freddies");
+        result[2] = new Option("Magically Fingered (+150 max MP, 40-50 MP regen)");
+        result[5] = new Option("Return to The Tower");
         return result;
 
       case 753:
         {
           // The Dreadsylvanian Dungeon
 
-          result = new Object[6];
+          result = new Option[6];
 
           StringBuilder buffer = new StringBuilder();
           buffer.append("-spooky");
           buffer.append(", +Muscle");
           buffer.append(", +MP");
-          result[0] = buffer.toString(); // Prison
+          result[0] = new Option(buffer.toString()); // Prison
 
           buffer.setLength(0);
           buffer.append("-hot");
           buffer.append(", Freddies");
           buffer.append(", +Muscle/Mysticality/Moxie");
-          result[1] = buffer.toString(); // Boiler Room
+          result[1] = new Option(buffer.toString()); // Boiler Room
 
           buffer.setLength(0);
           buffer.append("stinking agaricus");
           buffer.append(", Spore-wreathed (reduce enemy defense by 20%)");
-          result[2] = buffer.toString(); // Guard room
+          result[2] = new Option(buffer.toString()); // Guard room
 
           result[4] = ChoiceAdventures.shortcutSpoiler("ghostPencil9");
-          result[5] = "Leave this noncombat";
+          result[5] = new Option("Leave this noncombat");
           return result;
         }
 
       case 754:
         // Live from Dungeon Prison
-        result = new Object[6];
-        result[0] = "-spooky";
-        result[1] = "+Muscle";
-        result[2] = "+MP";
-        result[5] = "Return to The Dungeons";
+        result = new Option[6];
+        result[0] = new Option("-spooky");
+        result[1] = new Option("+Muscle");
+        result[2] = new Option("+MP");
+        result[5] = new Option("Return to The Dungeons");
         return result;
 
       case 755:
         // The Hot Bowels
-        result = new Object[6];
-        result[0] = "-hot";
-        result[1] = "Freddies";
-        result[2] = "+Muscle/Mysticality/Moxie";
-        result[5] = "Return to The Dungeons";
+        result = new Option[6];
+        result[0] = new Option("-hot");
+        result[1] = new Option("Freddies");
+        result[2] = new Option("+Muscle/Mysticality/Moxie");
+        result[5] = new Option("Return to The Dungeons");
         return result;
 
       case 756:
         // Among the Fungus
-        result = new Object[6];
-        result[0] = "stinking agaricus";
-        result[1] = "Spore-wreathed (reduce enemy defense by 20%)";
-        result[5] = "Return to The Dungeons";
+        result = new Option[6];
+        result[0] = new Option("stinking agaricus");
+        result[1] = new Option("Spore-wreathed (reduce enemy defense by 20%)");
+        result[5] = new Option("Return to The Dungeons");
         return result;
 
       case 758:
@@ -8379,9 +8418,9 @@ public abstract class ChoiceAdventures {
                       ? "bloody kiwitini in inventory"
                       : "First Blood Kiwi neither active nor available");
 
-          result = new Object[2];
-          result[0] = buffer.toString();
-          result[1] = "Run away";
+          result = new Option[2];
+          result[0] = new Option(buffer.toString());
+          result[1] = new Option("Run away");
           return result;
         }
 
@@ -8409,9 +8448,9 @@ public abstract class ChoiceAdventures {
                       ? "weedy skirt NOT equipped but in inventory"
                       : "weedy skirt neither equipped nor available");
 
-          result = new Object[2];
-          result[0] = buffer.toString();
-          result[1] = "Run away";
+          result = new Option[2];
+          result[0] = new Option(buffer.toString());
+          result[1] = new Option("Run away");
           return result;
         }
 
@@ -8439,9 +8478,9 @@ public abstract class ChoiceAdventures {
                       ? "Dreadsylvanian shepherd's pie in inventory"
                       : "Shepherd's Breath neither active nor available");
 
-          result = new Object[2];
-          result[0] = buffer.toString();
-          result[1] = "Run away";
+          result = new Option[2];
+          result[0] = new Option(buffer.toString());
+          result[1] = new Option("Run away");
           return result;
         }
 
@@ -8453,36 +8492,41 @@ public abstract class ChoiceAdventures {
           // school, correct this
           Preferences.setInteger("_kolhsAdventures", 40);
 
-          result = new String[10];
+          result = new Option[10];
           String buffer =
               "Get "
                   + (Preferences.getInteger("kolhsTotalSchoolSpirited") + 1) * 10
                   + " turns of School Spirited (+100% Meat drop, +50% Item drop)";
           result[0] =
-              Preferences.getBoolean("_kolhsSchoolSpirited")
-                  ? "Already got School Spirited today"
-                  : buffer;
+              new Option(
+                  Preferences.getBoolean("_kolhsSchoolSpirited")
+                      ? "Already got School Spirited today"
+                      : buffer);
           result[1] =
-              Preferences.getBoolean("_kolhsPoeticallyLicenced")
-                  ? "Already got Poetically Licenced today"
-                  : "50 turns of Poetically Licenced (+20% Myst, -20% Muscle, +2 Myst stats/fight, +10% Spell damage)";
+              new Option(
+                  Preferences.getBoolean("_kolhsPoeticallyLicenced")
+                      ? "Already got Poetically Licenced today"
+                      : "50 turns of Poetically Licenced (+20% Myst, -20% Muscle, +2 Myst stats/fight, +10% Spell damage)");
           result[2] =
-              InventoryManager.getCount(ItemPool.YEARBOOK_CAMERA) > 0
-                      || KoLCharacter.hasEquipped(ItemPool.get(ItemPool.YEARBOOK_CAMERA, 1))
-                  ? "Turn in yesterday's photo (if you have it)"
-                  : "Get Yearbook Camera";
+              new Option(
+                  InventoryManager.getCount(ItemPool.YEARBOOK_CAMERA) > 0
+                          || KoLCharacter.hasEquipped(ItemPool.get(ItemPool.YEARBOOK_CAMERA, 1))
+                      ? "Turn in yesterday's photo (if you have it)"
+                      : "Get Yearbook Camera");
           result[3] =
-              Preferences.getBoolean("_kolhsCutButNotDried")
-                  ? "Already got Cut But Not Dried today"
-                  : "50 turns of Cut But Not Dried (+20% Muscle, -20% Moxie, +2 Muscle stats/fight, +10% Weapon damage)";
+              new Option(
+                  Preferences.getBoolean("_kolhsCutButNotDried")
+                      ? "Already got Cut But Not Dried today"
+                      : "50 turns of Cut But Not Dried (+20% Muscle, -20% Moxie, +2 Muscle stats/fight, +10% Weapon damage)");
           result[4] =
-              Preferences.getBoolean("_kolhsIsskayLikeAnAshtray")
-                  ? "Already got Isskay Like An Ashtray today"
-                  : "50 turns of Isskay Like An Ashtray (+20% Moxie, -20% Myst, +2 Moxie stats/fight, +10% Pickpocket chance)";
-          result[5] = "Make items";
-          result[6] = "Make items";
-          result[7] = "Make items";
-          result[9] = "Leave";
+              new Option(
+                  Preferences.getBoolean("_kolhsIsskayLikeAnAshtray")
+                      ? "Already got Isskay Like An Ashtray today"
+                      : "50 turns of Isskay Like An Ashtray (+20% Moxie, -20% Myst, +2 Moxie stats/fight, +10% Pickpocket chance)");
+          result[5] = new Option("Make items");
+          result[6] = new Option("Make items");
+          result[7] = new Option("Make items");
+          result[9] = new Option("Leave");
           return result;
         }
 
@@ -8497,59 +8541,62 @@ public abstract class ChoiceAdventures {
           boolean pygmyLawyersRelocated =
               Preferences.getInteger("relocatePygmyLawyer") == KoLCharacter.getAscensions();
 
-          result = new String[6];
+          result = new Option[6];
           result[0] =
-              (hiddenApartmentProgress >= 7
-                  ? "penthouse empty"
-                  : hasThriceCursed
-                      ? "Fight ancient protector spirit"
-                      : "Need Thrice-Cursed to fight ancient protector spirit");
+              new Option(
+                  (hiddenApartmentProgress >= 7
+                      ? "penthouse empty"
+                      : hasThriceCursed
+                          ? "Fight ancient protector spirit"
+                          : "Need Thrice-Cursed to fight ancient protector spirit"));
           result[1] =
-              (hasThriceCursed
-                  ? "Increase Thrice-Cursed"
-                  : hasTwiceCursed
-                      ? "Get Thrice-Cursed"
-                      : hasOnceCursed ? "Get Twice-Cursed" : "Get Once-Cursed");
+              new Option(
+                  (hasThriceCursed
+                      ? "Increase Thrice-Cursed"
+                      : hasTwiceCursed
+                          ? "Get Thrice-Cursed"
+                          : hasOnceCursed ? "Get Twice-Cursed" : "Get Once-Cursed"));
           result[2] =
-              (pygmyLawyersRelocated
-                  ? "Waste adventure"
-                  : "Relocate pygmy witch lawyers to Hidden Park");
-          result[5] = "skip adventure";
+              new Option(
+                  (pygmyLawyersRelocated
+                      ? "Waste adventure"
+                      : "Relocate pygmy witch lawyers to Hidden Park"));
+          result[5] = SKIP_ADVENTURE;
           return result;
         }
 
       case 781:
         // Earthbound and Down
-        result = new String[6];
-        result[0] = "Unlock Hidden Apartment Building";
-        result[1] = "Get stone triangle";
-        result[2] = "Get Blessing of Bulbazinalli";
-        result[5] = "skip adventure";
+        result = new Option[6];
+        result[0] = new Option("Unlock Hidden Apartment Building");
+        result[1] = new Option("Get stone triangle");
+        result[2] = new Option("Get Blessing of Bulbazinalli");
+        result[5] = SKIP_ADVENTURE;
         return result;
 
       case 783:
         // Water You Dune
-        result = new String[6];
-        result[0] = "Unlock Hidden Hospital";
-        result[1] = "Get stone triangle";
-        result[2] = "Get Blessing of Squirtlcthulli";
-        result[5] = "skip adventure";
+        result = new Option[6];
+        result[0] = new Option("Unlock Hidden Hospital");
+        result[1] = new Option("Get stone triangle");
+        result[2] = new Option("Get Blessing of Squirtlcthulli");
+        result[5] = SKIP_ADVENTURE;
         return result;
 
       case 784:
         // You, M. D.
-        result = new String[6];
-        result[0] = "Fight ancient protector spirit";
-        result[5] = "skip adventure";
+        result = new Option[6];
+        result[0] = new Option("Fight ancient protector spirit");
+        result[5] = SKIP_ADVENTURE;
         return result;
 
       case 785:
         // Air Apparent
-        result = new String[6];
-        result[0] = "Unlock Hidden Office Building";
-        result[1] = "Get stone triangle";
-        result[2] = "Get Blessing of Pikachutlotal";
-        result[5] = "skip adventure";
+        result = new Option[6];
+        result[0] = new Option("Unlock Hidden Office Building");
+        result[1] = new Option("Get stone triangle");
+        result[2] = new Option("Get Blessing of Pikachutlotal");
+        result[5] = SKIP_ADVENTURE;
         return result;
 
       case 786:
@@ -8561,29 +8608,31 @@ public abstract class ChoiceAdventures {
           boolean hasMcCluskyFile = InventoryManager.getCount(MCCLUSKY_FILE) > 0;
           boolean hasBinderClip = InventoryManager.getCount(BINDER_CLIP) > 0;
 
-          result = new String[6];
+          result = new Option[6];
           result[0] =
-              (hiddenOfficeProgress >= 7
-                  ? "office empty"
-                  : hasMcCluskyFile || hasBossUnlock
-                      ? "Fight ancient protector spirit"
-                      : "Need McClusky File (complete) to fight ancient protector spirit");
+              new Option(
+                  (hiddenOfficeProgress >= 7
+                      ? "office empty"
+                      : hasMcCluskyFile || hasBossUnlock
+                          ? "Fight ancient protector spirit"
+                          : "Need McClusky File (complete) to fight ancient protector spirit"));
           result[1] =
-              (hasBinderClip || hasMcCluskyFile || hasBossUnlock)
-                  ? "Get random item"
-                  : "Get boring binder clip";
-          result[2] = "Fight pygmy witch accountant";
-          result[5] = "skip adventure";
+              new Option(
+                  (hasBinderClip || hasMcCluskyFile || hasBossUnlock)
+                      ? "Get random item"
+                      : "Get boring binder clip");
+          result[2] = new Option("Fight pygmy witch accountant");
+          result[5] = SKIP_ADVENTURE;
           return result;
         }
 
       case 787:
         // Fire when Ready
-        result = new String[6];
-        result[0] = "Unlock Hidden Bowling Alley";
-        result[1] = "Get stone triangle";
-        result[2] = "Get Blessing of Charcoatl";
-        result[5] = "skip adventure";
+        result = new Option[6];
+        result[0] = new Option("Unlock Hidden Bowling Alley");
+        result[1] = new Option("Get stone triangle");
+        result[2] = new Option("Get Blessing of Charcoatl");
+        result[5] = SKIP_ADVENTURE;
         return result;
 
       case 788:
@@ -8600,14 +8649,15 @@ public abstract class ChoiceAdventures {
           }
           buffer.append(" left");
 
-          result = new String[6];
+          result = new Option[6];
           result[0] =
-              (hiddenBowlingAlleyProgress > 6
-                  ? "Get stats"
-                  : hiddenBowlingAlleyProgress == 6
-                      ? "fight ancient protector spirit"
-                      : buffer.toString());
-          result[5] = "skip adventure";
+              new Option(
+                  (hiddenBowlingAlleyProgress > 6
+                      ? "Get stats"
+                      : hiddenBowlingAlleyProgress == 6
+                          ? "fight ancient protector spirit"
+                          : buffer.toString()));
+          result[5] = SKIP_ADVENTURE;
           return result;
         }
 
@@ -8617,13 +8667,14 @@ public abstract class ChoiceAdventures {
               Preferences.getInteger("relocatePygmyJanitor") == KoLCharacter.getAscensions();
 
           // Where Does The Lone Ranger Take His Garbagester?
-          result = new String[6];
-          result[0] = "Get random items";
+          result = new Option[6];
+          result[0] = new Option("Get random items");
           result[1] =
-              (pygmyJanitorsRelocated
-                  ? "Waste adventure"
-                  : "Relocate pygmy janitors to Hidden Park");
-          result[5] = "skip adventure";
+              new Option(
+                  pygmyJanitorsRelocated
+                      ? "Waste adventure"
+                      : "Relocate pygmy janitors to Hidden Park");
+          result[5] = SKIP_ADVENTURE;
           return result;
         }
 
@@ -8633,31 +8684,31 @@ public abstract class ChoiceAdventures {
 
           int stoneTriangles = InventoryManager.getCount(ChoiceAdventures.STONE_TRIANGLE);
 
-          result = new String[6];
+          result = new Option[6];
           String buffer =
               "Need 4 stone triangles to fight Protector Spectre (" + stoneTriangles + ")";
-          result[0] = (stoneTriangles == 4 ? "fight Protector Spectre" : buffer);
-          result[5] = "skip adventure";
+          result[0] = new Option(stoneTriangles == 4 ? "fight Protector Spectre" : buffer);
+          result[5] = SKIP_ADVENTURE;
           return result;
         }
 
       case 801:
 
         // A Reanimated Conversation
-        result = new String[7];
-        result[0] = "skulls increase meat drops";
-        result[1] = "arms deal extra damage";
-        result[2] = "legs increase item drops";
-        result[3] = "wings sometimes delevel at start of combat";
-        result[4] = "weird parts sometimes block enemy attacks";
-        result[5] = "get rid of all collected parts";
-        result[6] = "no changes";
+        result = new Option[7];
+        result[0] = new Option("skulls increase meat drops");
+        result[1] = new Option("arms deal extra damage");
+        result[2] = new Option("legs increase item drops");
+        result[3] = new Option("wings sometimes delevel at start of combat");
+        result[4] = new Option("weird parts sometimes block enemy attacks");
+        result[5] = new Option("get rid of all collected parts");
+        result[6] = new Option("no changes");
         return result;
 
       case 918:
 
         // Yachtzee
-        result = new String[3];
+        result = new Option[3];
         // Is it 7 or more days since the last time you got the Ultimate Mind Destroyer?
         Calendar date = HolidayDatabase.getCalendar();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -8669,26 +8720,26 @@ public abstract class ChoiceAdventures {
             compareDate.setTime(lastUMDDate);
             compareDate.add(Calendar.DAY_OF_MONTH, 7);
             if (date.compareTo(compareDate) >= 0) {
-              result[0] = "get Ultimate Mind Destroyer";
+              result[0] = new Option("get Ultimate Mind Destroyer");
             } else {
-              result[0] = "get cocktail ingredients";
+              result[0] = new Option("get cocktail ingredients");
             }
           } catch (ParseException ex) {
-            result[0] = "get cocktail ingredients (sometimes Ultimate Mind Destroyer)";
+            result[0] = new Option("get cocktail ingredients (sometimes Ultimate Mind Destroyer)");
             KoLmafia.updateDisplay("Unable to parse " + lastUMDDateString);
           }
         } else {
           // Change to "get Ultimate Mind Destroyer" after 12th August 2014
-          result[0] = "get cocktail ingredients (sometimes Ultimate Mind Destroyer)";
+          result[0] = new Option("get cocktail ingredients (sometimes Ultimate Mind Destroyer)");
         }
-        result[1] = "get 5k meat and random item";
-        result[2] = "get Beach Bucks";
+        result[1] = new Option("get 5k meat and random item");
+        result[2] = new Option("get Beach Bucks");
         return result;
 
       case 988:
 
         // The Containment Unit
-        result = new String[2];
+        result = new Option[2];
         String containment = Preferences.getString("EVEDirections");
         if (containment.length() != 6) {
           return result;
@@ -8698,14 +8749,14 @@ public abstract class ChoiceAdventures {
           return result;
         }
         if (containment.charAt(progress) == 'L') {
-          result[0] = "right way";
+          result[0] = new Option("right way");
           result[1] = null;
         } else if (containment.charAt(progress) == 'R') {
           result[0] = null;
-          result[1] = "right way";
+          result[1] = new Option("right way");
         } else {
-          result[0] = "unknown";
-          result[1] = "unknown";
+          result[0] = new Option("unknown");
+          result[1] = new Option("unknown");
         }
         return result;
 
@@ -8717,17 +8768,17 @@ public abstract class ChoiceAdventures {
           Map<Integer, String> choices = ChoiceUtilities.parseChoices(responseText);
           int options = choices.size();
           if (options == 1) {
-            return new String[0];
+            return new Option[0];
           }
 
           int decision = ChoiceManager.getDecision(choice, responseText);
           if (decision == 0) {
-            return new String[0];
+            return new Option[0];
           }
 
-          result = new String[options];
+          result = new Option[options];
           for (int i = 0; i < options; ++i) {
-            result[i] = (i == decision - 1) ? "right answer" : "wrong answer";
+            result[i] = new Option((i == decision - 1) ? "right answer" : "wrong answer");
           }
 
           return result;
@@ -8736,7 +8787,7 @@ public abstract class ChoiceAdventures {
       case 1411:
         {
           // The Hall in the Hall
-          result = new String[5];
+          result = new Option[5];
           {
             boolean haveStaff = InventoryManager.getCount(ItemPool.DRIPPY_STAFF) > 0;
             int inebriety = KoLCharacter.getInebriety();
@@ -8748,9 +8799,9 @@ public abstract class ChoiceAdventures {
                     + " inebriety = "
                     + Integer.valueOf(totalPoolSkill)
                     + ")";
-            result[0] = buf;
+            result[0] = new Option(buf);
           }
-          result[1] = "Buy a drippy candy bar for 10,000 Meat or get Driplets";
+          result[1] = new Option("Buy a drippy candy bar for 10,000 Meat or get Driplets");
           {
             String item =
                 KoLCharacter.hasSkill("Drippy Eye-Sprout")
@@ -8758,21 +8809,23 @@ public abstract class ChoiceAdventures {
                     : KoLCharacter.hasSkill("Drippy Eye-Stone")
                         ? "a drippy bezoar"
                         : KoLCharacter.hasSkill("Drippy Eye-Beetle") ? "a drippy grub" : "nothing";
-            result[2] = "Get " + item;
+            result[2] = new Option("Get " + item);
           }
           {
             int steins = InventoryManager.getCount(ItemPool.DRIPPY_STEIN);
-            result[3] = (steins > 0) ? "Trade a drippy stein for a drippy pilsner" : "Get nothing";
+            result[3] =
+                new Option(
+                    (steins > 0) ? "Trade a drippy stein for a drippy pilsner" : "Get nothing");
           }
-          result[4] = "Get some Driplets";
+          result[4] = new Option("Get some Driplets");
           return result;
         }
     }
     return null;
   }
 
-  private static String shortcutSpoiler(final String setting) {
-    return Preferences.getBoolean(setting) ? "shortcut KNOWN" : "learn shortcut";
+  private static Option shortcutSpoiler(final String setting) {
+    return new Option(Preferences.getBoolean(setting) ? "shortcut KNOWN" : "learn shortcut");
   }
 
   private static void lockSpoiler(StringBuilder buffer) {
@@ -8783,8 +8836,8 @@ public abstract class ChoiceAdventures {
     buffer.append(" key in inventory: ");
   }
 
-  public static final Object choiceSpoiler(
-      final int choice, final int decision, final Object[] spoilers) {
+  public static final Option choiceSpoiler(
+      final int choice, final int decision, final Option[] spoilers) {
     switch (choice) {
       case 105:
         // Having a Medicine Ball
@@ -8792,21 +8845,20 @@ public abstract class ChoiceAdventures {
           KoLCharacter.ensureUpdatedGuyMadeOfBees();
           boolean defeated = Preferences.getBoolean("guyMadeOfBeesDefeated");
           if (defeated) {
-            return "guy made of bees: defeated";
+            return new Option("guy made of bees: defeated");
           }
-          return "guy made of bees: called "
-              + Preferences.getString("guyMadeOfBeesCount")
-              + " times";
+          return new Option(
+              "guy made of bees: called " + Preferences.getString("guyMadeOfBeesCount") + " times");
         }
         break;
       case 182:
         if (decision == 4) {
-          return "model airship";
+          return new Option("model airship");
         }
         break;
       case 793:
         if (decision == 4) {
-          return "gift shop";
+          return new Option("gift shop");
         }
         break;
     }
@@ -8817,21 +8869,16 @@ public abstract class ChoiceAdventures {
 
     // Iterate through the spoilers and find the one corresponding to the decision
     for (int i = 0; i < spoilers.length; ++i) {
-      Object spoiler = spoilers[i];
+      Option spoiler = spoilers[i];
 
-      // If this is an Option object, it may specify the option
-      if (spoiler instanceof Option) {
-        int option = ((Option) spoiler).getOption();
-        if (option == decision) {
-          return spoiler;
-        }
-        if (option != 0) {
-          continue;
-        }
-        // option of 0 means use positional index
+      int option = spoiler.getOption();
+      if (option == decision) {
+        return spoiler;
       }
-
-      // If we get here, match positionalindex
+      if (option != 0) {
+        continue;
+      }
+      // option of 0 means use positional index
       if ((i + 1) == decision) {
         return spoiler;
       }
@@ -16544,11 +16591,11 @@ public abstract class ChoiceAdventures {
     }
   }
 
-  private static String booPeakDamage() {
+  private static Option booPeakDamage() {
     int booPeakLevel =
         ChoiceAdventures.findBooPeakLevel(
             ChoiceUtilities.findChoiceDecisionText(1, ChoiceManager.lastResponseText));
-    if (booPeakLevel < 1) return "";
+    if (booPeakLevel < 1) return new Option("");
 
     int damageTaken = 0;
     int diff = 0;
@@ -16606,10 +16653,11 @@ public abstract class ChoiceAdventures {
         || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.STENCHFORM))) {
       coldDamage *= 2;
     }
-    return ((int) Math.ceil(spookyDamage))
-        + " spooky damage, "
-        + ((int) Math.ceil(coldDamage))
-        + " cold damage";
+    return new Option(
+        ((int) Math.ceil(spookyDamage))
+            + " spooky damage, "
+            + ((int) Math.ceil(coldDamage))
+            + " cold damage");
   }
 
   private static int findBooPeakLevel(String decisionText) {
@@ -17164,9 +17212,9 @@ public abstract class ChoiceAdventures {
 
   public static String choiceDescription(final int choice, final int decision) {
     // If we have spoilers for this choice, use that
-    Object[][] spoilers = ChoiceManager.choiceSpoilers(choice, null);
-    if (spoilers != null && spoilers.length > 2) {
-      Object spoiler = ChoiceManager.choiceSpoiler(choice, decision, spoilers[2]);
+    Spoilers spoilers = ChoiceAdventures.choiceSpoilers(choice, null);
+    if (spoilers != null) {
+      Option spoiler = ChoiceAdventures.choiceSpoiler(choice, decision, spoilers.getOptions());
       if (spoiler != null) {
         return spoiler.toString();
       }
@@ -17503,7 +17551,7 @@ public abstract class ChoiceAdventures {
     }
   }
 
-  private static String[] oldManPsychosisSpoilers() {
+  private static Option[] oldManPsychosisSpoilers() {
     Matcher matcher =
         ChoiceUtilities.DECISION_BUTTON_PATTERN.matcher(ChoiceManager.lastResponseText);
 
@@ -17525,13 +17573,13 @@ public abstract class ChoiceAdventures {
     // since the buttons are not actually randomized, they are consistent within the four choice
     // adventures that make up the 10 log entry non-combats.
     // Ah well.  Leavin' it here.
-    String[] spoilers = new String[4];
+    Option[] spoilers = new Option[4];
 
     for (int j = 0; j < spoilers.length; j++) {
       for (String[] s : OLD_MAN_PSYCHOSIS_SPOILERS) {
         if (s[0].equals(buttons[j][1])) {
           spoilers[Integer.parseInt(buttons[j][0]) - 1] =
-              s[1]; // button 1 text should be in index 0, 2 -> 1, etc.
+              new Option(s[1]); // button 1 text should be in index 0, 2 -> 1, etc.
           break;
         }
       }

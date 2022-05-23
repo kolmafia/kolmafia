@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 
 /** Utilities for extracting data from a choice.php response */
@@ -178,12 +179,12 @@ public class ChoiceUtilities {
       return rv;
     }
 
-    Object[][] possibleDecisions = ChoiceManager.choiceSpoilers(ChoiceManager.lastChoice, null);
+    Spoilers possibleDecisions = ChoiceAdventures.choiceSpoilers(ChoiceManager.lastChoice, null);
     if (possibleDecisions == null) {
       return rv;
     }
 
-    Object[] options = possibleDecisions[2];
+    Option[] options = possibleDecisions.getOptions();
     if (options == null) {
       return rv;
     }

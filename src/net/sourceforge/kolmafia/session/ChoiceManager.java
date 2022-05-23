@@ -26,7 +26,9 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.ChoiceAdventure;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.ChoiceSpoiler;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -2064,16 +2066,16 @@ public abstract class ChoiceManager {
 
     Option[] options = null;
 
-    for (int i = 0; i < ChoiceManager.CHOICE_ADVS.length && options == null; ++i) {
-      ChoiceAdventure choiceAdventure = ChoiceManager.CHOICE_ADVS[i];
+    for (int i = 0; i < ChoiceAdventures.CHOICE_ADVS.length && options == null; ++i) {
+      ChoiceAdventure choiceAdventure = ChoiceAdventures.CHOICE_ADVS[i];
       if (choiceAdventure.getSetting().equals(option)) {
         options = choiceAdventure.getOptions();
         break;
       }
     }
 
-    for (int i = 0; i < ChoiceManager.CHOICE_ADV_SPOILERS.length && options == null; ++i) {
-      ChoiceAdventure choiceAdventure = ChoiceManager.CHOICE_ADV_SPOILERS[i];
+    for (int i = 0; i < ChoiceAdventures.CHOICE_ADV_SPOILERS.length && options == null; ++i) {
+      ChoiceSpoiler choiceAdventure = ChoiceAdventures.CHOICE_ADV_SPOILERS[i];
       if (choiceAdventure.getSetting().equals(option)) {
         options = choiceAdventure.getOptions();
         break;
@@ -2091,12 +2093,7 @@ public abstract class ChoiceManager {
 
     boolean items = false;
     for (int i = 0; i < options.length; ++i) {
-      Object obj = options[i];
-      if (!(obj instanceof Option)) {
-        continue;
-      }
-
-      Option opt = (Option) obj;
+      Option opt = options[i];
       AdventureResult item[] = opt.getItems();
       if (item.length == 0) {
         continue;
@@ -2231,9 +2228,9 @@ public abstract class ChoiceManager {
 
   public static String choiceDescription(final int choice, final int decision) {
     // If we have spoilers for this choice, use that
-    Object[][] spoilers = ChoiceManager.choiceSpoilers(choice, null);
-    if (spoilers != null && spoilers.length > 2) {
-      Object spoiler = ChoiceManager.choiceSpoiler(choice, decision, spoilers[2]);
+    Spoilers spoilers = ChoiceAdventures.choiceSpoilers(choice, null);
+    if (spoilers != null) {
+      Option spoiler = ChoiceAdventures.choiceSpoiler(choice, decision, spoilers.getOptions());
       if (spoiler != null) {
         return spoiler.toString();
       }

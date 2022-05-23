@@ -52,6 +52,7 @@ import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -1842,16 +1843,16 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     // Find the options for the choice we've encountered
-    Object[][] spoilers = ChoiceAdventures.choiceSpoilers(choice, buffer);
+    Spoilers spoilers = ChoiceAdventures.choiceSpoilers(choice, buffer);
 
     // Some choices we don't mark up with spoilers
     if (ChoiceAdventures.noRelayChoice(choice)) {
       spoilers = null;
     }
 
-    if (spoilers == null) { // Don't give up - there may be a specified choice even if there
-      // are no spoilers.
-      spoilers = new Object[][] {null, null, {}};
+    if (spoilers == null) {
+      // Don't give up - there may be a choice even if there are no spoilers.
+      spoilers = new Spoilers(choice, "", new ChoiceAdventures.Option[0]);
     }
 
     int index1 = matcher.start();
@@ -1890,7 +1891,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       // Build spoiler text
       while (i > 0) {
         // Say what the choice will give you
-        Object spoiler = ChoiceAdventures.choiceSpoiler(choice, i, spoilers[2]);
+        ChoiceAdventures.Option spoiler =
+            ChoiceAdventures.choiceSpoiler(choice, i, spoilers.getOptions());
 
         // If we have nothing to say about this option, don't say anything
         if (spoiler == null) {
@@ -1900,31 +1902,29 @@ public class RequestEditorKit extends HTMLEditorKit {
         StringBuilder spoilerBuffer = new StringBuilder(spoiler.toString());
 
         // If this decision has an item associated with it, annotate it
-        if (spoiler instanceof ChoiceAdventures.Option) {
-          ChoiceAdventures.Option option = ((ChoiceAdventures.Option) spoiler);
-          AdventureResult[] items = option.getItems();
+        ChoiceAdventures.Option option = ((ChoiceAdventures.Option) spoiler);
+        AdventureResult[] items = option.getItems();
 
-          // If this decision leads to one or more item...
-          for (int it = 0; it < items.length; it++) {
-            AdventureResult item = items[it];
-            if (item != null) {
-              if (it > 0) {
-                spoilerBuffer.append(" or ");
-                spoilerBuffer.append(item.getName());
-              }
-
-              // List # in inventory
-              spoilerBuffer.append(
-                  "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('");
-              spoilerBuffer.append(ItemDatabase.getDescriptionId(item.getItemId()));
-              spoilerBuffer.append("');\">");
-
-              int available = KoLCharacter.hasEquipped(item) ? 1 : 0;
-              available += item.getCount(KoLConstants.inventory);
-
-              spoilerBuffer.append(available);
-              spoilerBuffer.append(" in inventory");
+        // If this decision leads to one or more item...
+        for (int it = 0; it < items.length; it++) {
+          AdventureResult item = items[it];
+          if (item != null) {
+            if (it > 0) {
+              spoilerBuffer.append(" or ");
+              spoilerBuffer.append(item.getName());
             }
+
+            // List # in inventory
+            spoilerBuffer.append(
+                "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('");
+            spoilerBuffer.append(ItemDatabase.getDescriptionId(item.getItemId()));
+            spoilerBuffer.append("');\">");
+
+            int available = KoLCharacter.hasEquipped(item) ? 1 : 0;
+            available += item.getCount(KoLConstants.inventory);
+
+            spoilerBuffer.append(available);
+            spoilerBuffer.append(" in inventory");
           }
         }
 
