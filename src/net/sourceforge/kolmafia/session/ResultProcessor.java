@@ -2071,8 +2071,14 @@ public class ResultProcessor {
         break;
 
       case ItemPool.GOBLIN_WATER:
+        MonsterData lastMonster = MonsterStatusTracker.getLastMonster();
+        if (lastMonster == null) {
+          break;
+        }
+        String goblinWaterMonster = lastMonster.getName();
         if (adventureResults
-            && KoLCharacter.inRaincore()) { // because you can now get the Goblin Water otherwise...
+            && goblinWaterMonster.equals(
+                "Aquagoblin")) { // because you can now get the Goblin Water other ways...
           QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
         }
         break;
@@ -2562,11 +2568,11 @@ public class ResultProcessor {
         break;
 
       case ItemPool.MERKIN_LOCKKEY:
-        MonsterData monster = MonsterStatusTracker.getLastMonster();
-        if (monster == null) {
+        MonsterData merkinMonster = MonsterStatusTracker.getLastMonster();
+        if (merkinMonster == null) {
           break;
         }
-        String lockkeyMonster = monster.getName();
+        String lockkeyMonster = merkinMonster.getName();
         Preferences.setString("merkinLockkeyMonster", lockkeyMonster);
         if (lockkeyMonster.equals("Mer-kin burglar")) {
           Preferences.setInteger("choiceAdventure312", 1);
