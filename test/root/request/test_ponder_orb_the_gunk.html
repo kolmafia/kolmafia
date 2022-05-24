@@ -1,0 +1,95 @@
+<html><head>
+    <script language=Javascript>
+    <!--
+    if (parent.frames.length == -1) location.href="game.php";
+    //-->
+    </script>
+    <script language=Javascript src="/images/scripts/jquery-1.5.1.js"></script>
+    <script language=Javascript src="/images/scripts/keybinds.min.2.js"></script>
+    <script language=Javascript src="/images/scripts/window.20111231.js"></script>
+    <script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+    if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script>
+    function switchFocus()
+    {
+        if (top.chatpane.document.chatform.graf.focus) 
+            top.chatpane.document.chatform.graf.focus(); 
+        return false;
+    }
+    function repeat()
+    {
+        var linx = document.getElementsByTagName("A");
+        for (var i = 0; i < linx.length; i++)
+        {
+            if (typeof timersfunc != 'undefined') {
+                if (!timersfunc()) { 
+                    return; 
+                }
+                timersfunc = null;
+            }
+            var link = linx[i];
+            if (link.innerHTML.match(/Adventure Again/) || link.innerHTML.match(/Do it again/))
+                location.href = link.href;
+        }
+    }
+    
+    defaultBind(47, CTRL, switchFocus);
+    defaultBind(191, CTRL, switchFocus);
+    defaultBind(47, META, switchFocus);
+    defaultBind(191, META, switchFocus);
+    defaultBind(192, NONE, repeat);
+    defaultBind(220, NONE, repeat);
+    </script><script language="javascript">
+        function updateParseItem(iid, field, info) {
+            var tbl = $('#ic'+iid);
+            var data = parseItem(tbl);
+            if (!data) return;
+            data[field] = info;
+            var out = [];
+            for (i in data) {
+                if (!data.hasOwnProperty(i)) continue;
+                out.push(i+'='+data[i]);
+            }
+            tbl.attr('rel', out.join('&'));
+        }
+        function parseItem(tbl) {
+            tbl = $(tbl);
+            var rel = tbl.attr('rel');
+            var data = {};
+            if (!rel) return data;
+            var parts = rel.split('&');
+            for (i in parts) {
+                if (!parts.hasOwnProperty(i)) continue;
+                var kv = parts[i].split('=');
+                tbl.data(kv[0], kv[1]);
+                data[kv[0]] = kv[1];
+            }
+            return data;
+        }
+    </script><script type="text/javascript" src="/images/scripts/pop_query.20130705.js"></script>
+    <script type="text/javascript"> function pop_ircm(clicked) { return false; } </script><script>
+    
+    var currentkey = 49;
+    $(document).ready(function () {
+        $('form').each(function () {
+            var form = this;
+            defaultBind(currentkey++, NONE, function () { form.submit(); });
+            return currentkey < 58;
+        });
+    });
+    
+    </script>	<link rel="stylesheet" type="text/css" href="/images/styles.20151006.css">
+    <style type='text/css'>
+    .faded {
+        zoom: 1;
+        filter: alpha(opacity=35);
+        opacity: 0.35;
+        -khtml-opacity: 0.35; 
+        -moz-opacity: 0.35;
+    }
+    </style>
+    
+    <script src="/stationarybuttons.2.js"></script><link rel="stylesheet" type="text/css" href="/stationarybuttons.2.css"><script src="/hotkeys.js"></script><script language="Javascript" src="/basics.js"></script><link rel="stylesheet" href="/basics.1.css" /></head>
+    
+    <body onkeyup="handleCombatHotkey(event,false);" onkeydown="handleCombatHotkey(event,true);" ><div id="page"><div id="mafiabuttons"><center><table width="95%"><tr><td align=left><div id="btnwrap"><input type="button" onClick="document.location.href='/inventory.php';void(0);" value="again" id="defaultButton">&nbsp;</div></td><td align=right valign=top><select id="hotkeyViewer" onchange="updateCombatHotkey();"><option>- update hotkeys -</option><option>0: </option><option>1: </option><option>2: </option><option>3: </option><option>4: </option><option>5: </option><option>6: </option><option>7: </option><option>8: </option><option>9: </option></select></td></tr></table></center></div><div class='content' id='content_'><div id='effdiv' style='display: none;'></div><div>
+    <Center><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor="#ffcccc"><b>What the Future Holds</b></td></tr><tr><td style="padding: 5px; border: 1px solid #ffcccc;"><center><table><tr><td><p>You gaze into your familiar's miniature crystal ball and ponder all the possible futures it has shown:<li> the gunk in The Haunted Laboratory</li><p><center><a href="/inventory.php">Back to Inventory</a></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table><script>top.charpane.location.href="charpane.php";</script>
+    </div></div></div></body><script src="/onfocus.1.js"></script></html>

@@ -670,7 +670,7 @@ slap and slap again	MIX	slap and tickle	pretty flower
 
 bungle in the jungle	ACOCK	banana daiquiri	little paper umbrella
 
-soft green echo eyedrop antidote martini	MIX, AC	rockin' wagon	soft green echo eyedrop antidote
+soft green echo eyedrop antidote martini	ACOCK	rockin' wagon	soft green echo eyedrop antidote
 Murderer's Punch	MIX, AC	red rum	orange
 
 tropical swill	ACOCK	Typical Tavern swill	coconut shell
@@ -681,9 +681,9 @@ berry-infused sake	SCOCK	bottle of Pete's Sake	sea lychee
 citrus-infused sake	SCOCK	bottle of Pete's Sake	sea tangelo
 melon-infused sake	SCOCK	bottle of Pete's Sake	sea honeydew
 
-screwdiver	MIX	sea tangelo	slug of vodka
-dew yoana lei	MIX	sea honeydew	slug of rum
-lychee chuhai	MIX	sea lychee	slug of shochu
+screwdiver	MIX_FANCY	sea tangelo	slug of vodka
+dew yoana lei	MIX_FANCY	sea honeydew	slug of rum
+lychee chuhai	MIX_FANCY	sea lychee	slug of shochu
 
 salacious screwdiver	SACOCK	screwdiver	seaode
 dew yoana salacious lei	SACOCK	dew yoana lei	seaode
@@ -2599,8 +2599,8 @@ space beast fur hat	SMITH	space beast fur	basic meat helmet
 space beast fur pants	SMITH	space beast fur	basic meat pants
 space beast fur whip	SMITH	space beast fur	whip kit
 handful of napalm	COMBINE	impure gasoline	unused soap
-seared dino steak	COOK	impure gasoline	Z-Bone steak
-bottle of drinkin' gas	MIX	impure gasoline	tarnished bottlecap
+seared dino steak	COOK_FANCY	impure gasoline	Z-Bone steak
+bottle of drinkin' gas	MIX_FANCY	impure gasoline	tarnished bottlecap
 gelatinous meat mass	SMITH	Z-Bone steak	viral DNA
 simple AI	SMITH	TI-9000 calculator	tarnished bottlecap
 sentient meat mass	WSMITH	gelatinous meat mass	simple AI
@@ -2850,7 +2850,7 @@ eldritch extract	MUSE	eldritch effluvium (37)
 eldritch concentrate	ELDRITCH, MUSE	eldritch effluvium (111)
 eldritch distillate	COOK, ELDRITCH	eldritch extract	handful of fire
 eldritch essence	COOK_FANCY	eldritch concentrate	jar of oil
-eldritch elixir	ELDRITCH, MIX	eldritch distillate	eldritch distillate
+eldritch elixir	ELDRITCH, MIX_FANCY	eldritch distillate	eldritch distillate
 eldritch rub	MUSE	eldritch ichor (111)
 eldritch tincture	MUSE	eldritch ichor (666)
 eldritch mushroom pizza	COOK	eldritch mushroom	plain pizza
@@ -3018,7 +3018,7 @@ haunted Hell ramen	COOK	ghostly ectoplasm	Hell ramen
 haunted bottle of vodka	MIX	ghostly ectoplasm	bottle of vodka
 haunted martini	MIX	ghostly ectoplasm	martini
 haunted eggnog	MIX	ghostly ectoplasm	eggnog
-haunted gimlet	MIX	ghostly ectoplasm	gimlet
+haunted gimlet	MIX_FANCY	ghostly ectoplasm	gimlet
 twice-haunted screwdriver	MIX	haunted bottle of vodka	haunted orange
 snakeskin cowboy hat	MUSE	snake skin (11)
 snakeskin thighboots	MUSE	snake skin (23)
