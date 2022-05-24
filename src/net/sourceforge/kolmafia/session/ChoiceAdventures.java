@@ -8829,7 +8829,9 @@ public abstract class ChoiceAdventures {
     // Iterate through the spoilers and find the one corresponding to the decision
     for (int i = 0; i < spoilers.length; ++i) {
       Option spoiler = spoilers[i];
-
+      if (spoiler == null) {
+        continue;
+      }
       int option = spoiler.getOption();
       if (option == decision) {
         return spoiler;
