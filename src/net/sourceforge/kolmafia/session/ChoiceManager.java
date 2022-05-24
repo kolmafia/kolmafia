@@ -280,7 +280,7 @@ public abstract class ChoiceManager {
 
     // If one of the decisions will satisfy a goal, take it
 
-    decision = ChoiceManager.pickGoalChoice(option, decision);
+    decision = ChoiceManager.pickGoalChoice(choice, decision);
 
     // If this choice has special handling based on
     // character state, convert to real decision index
@@ -360,7 +360,7 @@ public abstract class ChoiceManager {
 
     // If one of the decisions will satisfy a goal, take it
 
-    decision = ChoiceManager.pickGoalChoice(option, decision);
+    decision = ChoiceManager.pickGoalChoice(choice, decision);
 
     // If this choice has special handling based on
     // character state, convert to real decision index
@@ -2056,7 +2056,7 @@ public abstract class ChoiceManager {
     return decision;
   }
 
-  private static String pickGoalChoice(final String option, final String decision) {
+  private static String pickGoalChoice(final int choice, final String decision) {
     // If the user wants manual control, let 'em have it.
     if (decision.equals("0")) {
       return decision;
@@ -2066,24 +2066,23 @@ public abstract class ChoiceManager {
 
     Option[] options = null;
 
-    for (int i = 0; i < ChoiceAdventures.CHOICE_ADVS.length && options == null; ++i) {
-      ChoiceAdventure choiceAdventure = ChoiceAdventures.CHOICE_ADVS[i];
-      if (choiceAdventure.getSetting().equals(option)) {
+    // See if this choice is controlled by user option
+    if (options == null) {
+      ChoiceAdventure choiceAdventure = ChoiceAdventures.choiceToChoiceAdventure.get(choice);
+      if (choiceAdventure != null) {
         options = choiceAdventure.getOptions();
-        break;
       }
     }
 
-    for (int i = 0; i < ChoiceAdventures.CHOICE_ADV_SPOILERS.length && options == null; ++i) {
-      ChoiceSpoiler choiceAdventure = ChoiceAdventures.CHOICE_ADV_SPOILERS[i];
-      if (choiceAdventure.getSetting().equals(option)) {
-        options = choiceAdventure.getOptions();
-        break;
+    // Nope. See if we know this choice
+    if (options == null) {
+      ChoiceSpoiler choiceSpoiler = ChoiceAdventures.choiceToChoiceSpoiler.get(choice);
+      if (choiceSpoiler != null) {
+        options = choiceSpoiler.getOptions();
       }
     }
 
     // If it's not in the table, return the player's chosen decision.
-
     if (options == null) {
       return decision;
     }
