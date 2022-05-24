@@ -9,8 +9,8 @@ import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EdServantData implements Comparable<EdServantData> {
@@ -490,7 +490,7 @@ public class EdServantData implements Comparable<EdServantData> {
       return;
     }
 
-    int decision = ChoiceManager.extractOptionFromURL(urlString);
+    int decision = ChoiceUtilities.extractOptionFromURL(urlString);
     if (decision == 0) {
       return;
     }
@@ -515,7 +515,7 @@ public class EdServantData implements Comparable<EdServantData> {
 
   public static final boolean registerRequest(final String urlString) {
     // We know that we are submitting ... something for choice 1053
-    int decision = ChoiceManager.extractOptionFromURL(urlString);
+    int decision = ChoiceUtilities.extractOptionFromURL(urlString);
     if (decision == 0) {
       // Log nothing if not taking a choice.
       return true;

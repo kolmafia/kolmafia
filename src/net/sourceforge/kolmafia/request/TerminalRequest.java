@@ -6,7 +6,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TerminalRequest extends GenericRequest {
@@ -47,7 +47,7 @@ public class TerminalRequest extends GenericRequest {
       return false;
     }
 
-    int choice = ChoiceManager.extractChoiceFromURL(urlString);
+    int choice = ChoiceUtilities.extractChoiceFromURL(urlString);
 
     if (choice != 1191) {
       return false;

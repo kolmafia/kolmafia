@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.session.BeachManager;
 import net.sourceforge.kolmafia.session.BeachManager.BeachHead;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BeachCombRequest extends GenericRequest {
@@ -57,7 +58,7 @@ public class BeachCombRequest extends GenericRequest {
   }
 
   public static BeachCombCommand extractCommandFromURL(final String urlString) {
-    return BeachCombRequest.optionToCommand(ChoiceManager.extractOptionFromURL(urlString));
+    return BeachCombRequest.optionToCommand(ChoiceUtilities.extractOptionFromURL(urlString));
   }
 
   public static class Coords {

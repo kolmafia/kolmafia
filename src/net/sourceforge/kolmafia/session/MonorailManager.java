@@ -8,6 +8,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonorailManager {
@@ -36,7 +38,7 @@ public class MonorailManager {
     }
   }
 
-  public static Object[][] choiceSpoilers(final int choice, final StringBuffer buffer) {
+  public static Spoilers choiceSpoilers(final int choice, final StringBuffer buffer) {
     if (choice != 1308 || buffer == null) {
       return null;
     }
@@ -48,7 +50,7 @@ public class MonorailManager {
 
     // We'll have to imitate RequestEditorKit.addChoiceSpoilers( final String location, final
     // StringBuffer buffer )
-    List<ChoiceManager.Option> options = new ArrayList<>();
+    List<Option> options = new ArrayList<>();
 
     Matcher matcher =
         Pattern.compile("name=choiceform\\d+(.*?)</form>", Pattern.DOTALL).matcher(buffer);
@@ -69,12 +71,10 @@ public class MonorailManager {
 
       if (lyleSpoilers.containsKey(buttonText)) {
         String[] thisOption = MonorailManager.lyleSpoilers.get(buttonText);
-        options.add(new ChoiceManager.Option(thisOption[0], choiceNumber, thisOption[1]));
+        options.add(new Option(thisOption[0], choiceNumber, thisOption[1]));
       }
     }
 
-    return new Object[][] {
-      new String[] {""}, new String[] {"On a Downtown Train"}, options.toArray()
-    };
+    return new Spoilers(choice, "On a Downtown Train", options.toArray(new Option[options.size()]));
   }
 }

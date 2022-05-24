@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CargoCultistShortsRequest extends GenericRequest {
@@ -405,7 +406,7 @@ public class CargoCultistShortsRequest extends GenericRequest {
       return false;
     }
 
-    int choice = ChoiceManager.extractChoiceFromURL(urlString);
+    int choice = ChoiceUtilities.extractChoiceFromURL(urlString);
 
     if (choice != 1420) {
       return false;

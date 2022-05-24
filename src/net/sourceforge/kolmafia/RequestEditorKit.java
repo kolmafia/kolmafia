@@ -51,6 +51,8 @@ import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
+import net.sourceforge.kolmafia.session.ChoiceAdventures;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -65,6 +67,7 @@ import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -1822,7 +1825,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     // Make sure that it's an actual choice adventure
-    int choice = ChoiceManager.extractChoice(buffer.toString());
+    int choice = ChoiceUtilities.extractChoice(buffer.toString());
 
     if (choice == 0) {
       // It's a response to taking a choice.
@@ -1831,7 +1834,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     // Do any choice-specific decorations
-    ChoiceManager.decorateChoice(choice, buffer);
+    ChoiceAdventures.decorateChoice(choice, buffer);
 
     String text = buffer.toString();
     Matcher matcher = FORM_PATTERN.matcher(text);
@@ -1840,16 +1843,16 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     // Find the options for the choice we've encountered
-    Object[][] spoilers = ChoiceManager.choiceSpoilers(choice, buffer);
+    Spoilers spoilers = ChoiceAdventures.choiceSpoilers(choice, buffer);
 
     // Some choices we don't mark up with spoilers
-    if (ChoiceManager.noRelayChoice(choice)) {
+    if (ChoiceAdventures.noRelayChoice(choice)) {
       spoilers = null;
     }
 
-    if (spoilers == null) { // Don't give up - there may be a specified choice even if there
-      // are no spoilers.
-      spoilers = new Object[][] {null, null, {}};
+    if (spoilers == null) {
+      // Don't give up - there may be a choice even if there are no spoilers.
+      spoilers = new Spoilers(choice, "", new ChoiceAdventures.Option[0]);
     }
 
     int index1 = matcher.start();
@@ -1888,7 +1891,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       // Build spoiler text
       while (i > 0) {
         // Say what the choice will give you
-        Object spoiler = ChoiceManager.choiceSpoiler(choice, i, spoilers[2]);
+        ChoiceAdventures.Option spoiler =
+            ChoiceAdventures.choiceSpoiler(choice, i, spoilers.getOptions());
 
         // If we have nothing to say about this option, don't say anything
         if (spoiler == null) {
@@ -1898,31 +1902,28 @@ public class RequestEditorKit extends HTMLEditorKit {
         StringBuilder spoilerBuffer = new StringBuilder(spoiler.toString());
 
         // If this decision has an item associated with it, annotate it
-        if (spoiler instanceof ChoiceManager.Option) {
-          ChoiceManager.Option option = ((ChoiceManager.Option) spoiler);
-          AdventureResult[] items = option.getItems();
+        AdventureResult[] items = spoiler.getItems();
 
-          // If this decision leads to one or more item...
-          for (int it = 0; it < items.length; it++) {
-            AdventureResult item = items[it];
-            if (item != null) {
-              if (it > 0) {
-                spoilerBuffer.append(" or ");
-                spoilerBuffer.append(item.getName());
-              }
-
-              // List # in inventory
-              spoilerBuffer.append(
-                  "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('");
-              spoilerBuffer.append(ItemDatabase.getDescriptionId(item.getItemId()));
-              spoilerBuffer.append("');\">");
-
-              int available = KoLCharacter.hasEquipped(item) ? 1 : 0;
-              available += item.getCount(KoLConstants.inventory);
-
-              spoilerBuffer.append(available);
-              spoilerBuffer.append(" in inventory");
+        // If this decision leads to one or more item...
+        for (int it = 0; it < items.length; it++) {
+          AdventureResult item = items[it];
+          if (item != null) {
+            if (it > 0) {
+              spoilerBuffer.append(" or ");
+              spoilerBuffer.append(item.getName());
             }
+
+            // List # in inventory
+            spoilerBuffer.append(
+                "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('");
+            spoilerBuffer.append(ItemDatabase.getDescriptionId(item.getItemId()));
+            spoilerBuffer.append("');\">");
+
+            int available = KoLCharacter.hasEquipped(item) ? 1 : 0;
+            available += item.getCount(KoLConstants.inventory);
+
+            spoilerBuffer.append(available);
+            spoilerBuffer.append(" in inventory");
           }
         }
 
@@ -1954,11 +1955,11 @@ public class RequestEditorKit extends HTMLEditorKit {
   }
 
   private static void decorateChoiceResponse(final String location, final StringBuffer buffer) {
-    int choice = ChoiceManager.extractChoiceFromURL(location);
+    int choice = ChoiceUtilities.extractChoiceFromURL(location);
     if (choice == 0) {
       return;
     }
-    int option = ChoiceManager.extractOptionFromURL(location);
+    int option = ChoiceUtilities.extractOptionFromURL(location);
 
     switch (choice) {
         // The Oracle Will See You Now
