@@ -407,7 +407,7 @@ public abstract class ChoiceManager {
     ChoiceManager.lastChoice = StringUtilities.parseInt(choice);
     ChoiceManager.lastDecision = StringUtilities.parseInt(option);
 
-    ChoiceAdventures.preChoice(request);
+    ChoiceControl.preChoice(request);
   }
 
   public static void postChoice0(final String urlString, final GenericRequest request) {
@@ -429,7 +429,7 @@ public abstract class ChoiceManager {
       return;
     }
 
-    ChoiceAdventures.postChoice0(choice, urlString, request);
+    ChoiceControl.postChoice0(choice, urlString, request);
   }
 
   /**
@@ -486,7 +486,7 @@ public abstract class ChoiceManager {
       ChoiceManager.lastResponseText = text;
     }
 
-    ChoiceAdventures.postChoice1(urlString, request);
+    ChoiceControl.postChoice1(urlString, request);
 
     // Certain choices cost meat or items when selected
     ChoiceAdventures.payCost(ChoiceManager.lastChoice, ChoiceManager.lastDecision);
@@ -529,7 +529,7 @@ public abstract class ChoiceManager {
       return;
     }
 
-    ChoiceAdventures.postChoice2(urlString, request);
+    ChoiceControl.postChoice2(urlString, request);
 
     SpadingManager.processChoice(urlString, text);
 
@@ -602,7 +602,7 @@ public abstract class ChoiceManager {
     // next time we simply visit the inventory.
     UseItemRequest.clearLastItemUsed();
 
-    ChoiceAdventures.visitChoice(request);
+    ChoiceControl.visitChoice(request);
 
     // Do this after special classes (like WumpusManager) have a
     // chance to update state in their visitChoice methods.
@@ -2256,7 +2256,7 @@ public abstract class ChoiceManager {
 
     GenericRequest.itemMonster = null;
 
-    return ChoiceAdventures.registerRequest(urlString);
+    return ChoiceControl.registerRequest(urlString);
   }
 
   public static final void registerDeferredChoice(final int choice, final String encounter) {
@@ -2265,7 +2265,7 @@ public abstract class ChoiceManager {
       return;
     }
 
-    ChoiceAdventures.registerDeferredChoice(choice, encounter);
+    ChoiceControl.registerDeferredChoice(choice, encounter);
   }
 
   public static final void setSkillUses(int uses) {
@@ -2278,11 +2278,11 @@ public abstract class ChoiceManager {
   }
 
   private static void setCanWalkAway(final int choice) {
-    ChoiceManager.canWalkAway = ChoiceAdventures.canWalkFromChoice(choice);
+    ChoiceManager.canWalkAway = ChoiceControl.canWalkFromChoice(choice);
   }
 
   public static boolean canWalkFromChoice(int choice) {
-    return ChoiceAdventures.canWalkFromChoice(choice);
+    return ChoiceControl.canWalkFromChoice(choice);
   }
 
   public static void logChoices() {

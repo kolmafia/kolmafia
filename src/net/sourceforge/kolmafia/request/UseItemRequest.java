@@ -30,7 +30,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BugbearManager;
-import net.sourceforge.kolmafia.session.ChoiceAdventures;
+import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
@@ -5390,7 +5390,7 @@ public class UseItemRequest extends GenericRequest {
           // If you already have access it is not consumed
           return;
         }
-        ChoiceAdventures.parseLanguageFluency(responseText, "spaceBabyLanguageFluency");
+        ChoiceControl.parseLanguageFluency(responseText, "spaceBabyLanguageFluency");
         break;
 
       case ItemPool.LICENSE_TO_CHILL:
