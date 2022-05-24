@@ -727,7 +727,7 @@ public abstract class WumpusManager {
   public static final String getWumpinatorURL() {
     String code = WumpusManager.getWumpinatorCode();
     String current = WumpusManager.getCurrentField();
-    return "https://www.feesher.com/wumpus/wump_map.php?mapstring=" + code + current;
+    return "http://www.feesher.com/wumpus/wump_map.php?mapstring=" + code + current;
   }
 
   public static final void invokeWumpinator() {

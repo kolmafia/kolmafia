@@ -1902,8 +1902,7 @@ public class RequestEditorKit extends HTMLEditorKit {
         StringBuilder spoilerBuffer = new StringBuilder(spoiler.toString());
 
         // If this decision has an item associated with it, annotate it
-        ChoiceAdventures.Option option = ((ChoiceAdventures.Option) spoiler);
-        AdventureResult[] items = option.getItems();
+        AdventureResult[] items = spoiler.getItems();
 
         // If this decision leads to one or more item...
         for (int it = 0; it < items.length; it++) {

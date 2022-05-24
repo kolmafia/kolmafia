@@ -35,13 +35,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.VillainLairDecorator;
 
 public abstract class ChoiceManager {
-  public static final GenericRequest CHOICE_HANDLER =
-      new GenericRequest("choice.php") {
-        @Override
-        protected boolean shouldFollowRedirect() {
-          return false;
-        }
-      };
 
   public static boolean handlingChoice = false;
   public static int lastChoice = 0;
@@ -50,7 +43,17 @@ public abstract class ChoiceManager {
   public static String lastDecoratedResponseText = "";
 
   private static int skillUses = 0;
+
+  public static final void setSkillUses(int uses) {
+    // Used for casting skills that lead to a choice adventure
+    ChoiceManager.skillUses = uses;
+  }
+
   private static boolean canWalkAway;
+
+  public static boolean canWalkAway() {
+    return ChoiceManager.canWalkAway;
+  }
 
   private enum PostChoiceAction {
     NONE,
@@ -62,6 +65,14 @@ public abstract class ChoiceManager {
 
   public static int currentChoice() {
     return ChoiceManager.handlingChoice ? ChoiceManager.lastChoice : 0;
+  }
+
+  public static final int getLastChoice() {
+    return ChoiceManager.lastChoice;
+  }
+
+  public static final int getLastDecision() {
+    return ChoiceManager.lastDecision;
   }
 
   public static void initializeAfterChoice() {
@@ -79,6 +90,30 @@ public abstract class ChoiceManager {
   public static void ascendAfterChoice() {
     ChoiceManager.action = PostChoiceAction.ASCEND;
   }
+
+  /*
+   * Here is how we automate a choice chain.
+   *
+   * This is invoked by:
+   *
+   * - GenericRequest when redirected to choice.php
+   * - UseItemRequest when redirected to choice.php
+   * - CampgroundRequest when automating mushroom garden
+   *
+   * And by user actions:
+   *
+   * - RelayRequest when the user hits the "auto" button on a choice page.
+   * - The "choice" command from the gCLI
+   * - The run_choice() function of ASH
+   */
+
+  public static final GenericRequest CHOICE_HANDLER =
+      new GenericRequest("choice.php") {
+        @Override
+        protected boolean shouldFollowRedirect() {
+          return false;
+        }
+      };
 
   public static final void processRedirectedChoiceAdventure(final String redirectLocation) {
     ChoiceManager.processChoiceAdventure(ChoiceManager.CHOICE_HANDLER, redirectLocation, null);
@@ -345,6 +380,19 @@ public abstract class ChoiceManager {
     return true;
   }
 
+  public static void logChoices() {
+    // Log choice options to the session log
+    int choice = ChoiceManager.currentChoice();
+    Map<Integer, String> choices =
+        ChoiceUtilities.parseChoicesWithSpoilers(ChoiceManager.lastResponseText);
+    for (Map.Entry<Integer, String> entry : choices.entrySet()) {
+      RequestLogger.updateSessionLog(
+          "choice " + choice + "/" + entry.getKey() + ": " + entry.getValue());
+    }
+    // Give prettier and more verbose output to the gCLI
+    ChoiceUtilities.printChoices(ChoiceManager.lastResponseText);
+  }
+
   public static final int getDecision(int choice, String responseText) {
     String option = "choiceAdventure" + choice;
     String optionValue = Preferences.getString(option);
@@ -376,238 +424,6 @@ public abstract class ChoiceManager {
     }
 
     return StringUtilities.parseInt(decision);
-  }
-
-  public static final int getLastChoice() {
-    return ChoiceManager.lastChoice;
-  }
-
-  public static final int getLastDecision() {
-    return ChoiceManager.lastDecision;
-  }
-
-  public static final void preChoice(final GenericRequest request) {
-    FightRequest.choiceFollowsFight = false;
-    ChoiceManager.handlingChoice = true;
-    FightRequest.currentRound = 0;
-
-    String choice = request.getFormField("whichchoice");
-    String option = request.getFormField("option");
-
-    if (choice == null || option == null) {
-      // Visiting a choice page but not yet making a decision
-      ChoiceManager.lastChoice = 0;
-      ChoiceManager.lastDecision = 0;
-      ChoiceManager.lastResponseText = null;
-      ChoiceManager.lastDecoratedResponseText = null;
-      return;
-    }
-
-    // We are about to take a choice option
-    ChoiceManager.lastChoice = StringUtilities.parseInt(choice);
-    ChoiceManager.lastDecision = StringUtilities.parseInt(option);
-
-    ChoiceControl.preChoice(request);
-  }
-
-  public static void postChoice0(final String urlString, final GenericRequest request) {
-    if (ChoiceManager.nonInterruptingRequest(urlString, request)) {
-      return;
-    }
-
-    // If this is not actually a choice page, nothing to do here.
-    if (!urlString.startsWith("choice.php")) {
-      return;
-    }
-
-    String text = request.responseText;
-    int choice = lastChoice == 0 ? ChoiceUtilities.extractChoice(text) : lastChoice;
-
-    if (choice == 0) {
-      // choice.php did not offer us any choices.
-      // This would be a bug in KoL itself.
-      return;
-    }
-
-    ChoiceControl.postChoice0(choice, urlString, request);
-  }
-
-  /**
-   * Certain requests do not interrupt a choice (i.e. are accessible and do not walk away from the
-   * choice)
-   */
-  public static boolean nonInterruptingRequest(
-      final String urlString, final GenericRequest request) {
-    return request.isExternalRequest
-        || request.isRootsetRequest
-        || request.isTopmenuRequest
-        || request.isChatRequest
-        || request.isChatLaunchRequest
-        || request.isDescRequest
-        || request.isStaticRequest
-        || request.isQuestLogRequest
-        ||
-        // Daily Reminders
-        urlString.startsWith("main.php?checkbfast")
-        ||
-        // Choice 1414 uses Lock Picking
-        urlString.equals("skillz.php?oneskillz=195")
-        ||
-        // Choice 1399 uses Seek out a Bird
-        urlString.equals("skillz.php?oneskillz=7323");
-  }
-
-  public static void postChoice1(final String urlString, final GenericRequest request) {
-    if (ChoiceManager.nonInterruptingRequest(urlString, request)) {
-      return;
-    }
-
-    // If you walked away from the choice, this is not the result of a choice.
-    if (ChoiceManager.canWalkAway
-        && !urlString.startsWith("choice.php")
-        && !urlString.startsWith("fight.php")) {
-      return;
-    }
-
-    // Things that can or need to be done BEFORE processing results.
-    // Remove spent items or meat here.
-
-    if (ChoiceManager.lastChoice == 0) {
-      // We are viewing the choice page for the first time.
-      ChoiceManager.visitChoice(request);
-      return;
-    }
-
-    // If this is not actually a choice page, we were redirected.
-    // Do not save this responseText
-
-    String text = request.responseText;
-    if (urlString.startsWith("choice.php")) {
-      ChoiceManager.lastResponseText = text;
-    }
-
-    ChoiceControl.postChoice1(urlString, request);
-
-    // Certain choices cost meat or items when selected
-    ChoiceAdventures.payCost(ChoiceManager.lastChoice, ChoiceManager.lastDecision);
-  }
-
-  public static void postChoice2(final String urlString, final GenericRequest request) {
-    if (ChoiceManager.nonInterruptingRequest(urlString, request)) {
-      return;
-    }
-
-    // The following are requests that may or may not be allowed at
-    // any time, but we do them in automation during result
-    // processing and they do not count as "walking away"
-    if (urlString.startsWith("diary.php")) {
-      return;
-    }
-
-    // Things that can or need to be done AFTER processing results.
-    String text = request.responseText;
-
-    // If you walked away from the choice (or we automated during
-    // result processing), this is not a choice page
-    if (ChoiceManager.canWalkAway
-        && !urlString.startsWith("choice.php")
-        && !urlString.startsWith("fight.php")) {
-      // I removed the following line, but it caused issues.
-      ChoiceManager.handlingChoice = false;
-      return;
-    }
-
-    ChoiceManager.handlingChoice = ChoiceManager.stillInChoice(text);
-
-    if (urlString.startsWith("choice.php") && text.contains("charpane.php")) {
-      // Since a charpane refresh was requested, a turn might have been spent
-      AdventureSpentDatabase.setNoncombatEncountered(true);
-    }
-
-    if (ChoiceManager.lastChoice == 0 || ChoiceManager.lastDecision == 0) {
-      // This was a visit
-      return;
-    }
-
-    ChoiceControl.postChoice2(urlString, request);
-
-    SpadingManager.processChoice(urlString, text);
-
-    if (ChoiceManager.handlingChoice) {
-      ChoiceManager.visitChoice(request);
-      return;
-    }
-
-    PostChoiceAction action = ChoiceManager.action;
-    if (action != PostChoiceAction.NONE) {
-      ChoiceManager.action = PostChoiceAction.NONE;
-      switch (action) {
-        case INITIALIZE:
-          LoginManager.login(KoLCharacter.getUserName());
-          break;
-        case ASCEND:
-          ValhallaManager.postAscension();
-          break;
-      }
-    }
-
-    // visitChoice() gets the decorated response text, but this is not a visit.
-    // If this is not actually a choice page, we were redirected.
-    // Do not save this responseText
-    if (urlString.startsWith("choice.php")) {
-      ChoiceManager.lastDecoratedResponseText =
-          RequestEditorKit.getFeatureRichHTML(request.getURLString(), text);
-    }
-  }
-
-  public static void handleWalkingAway(final String urlString) {
-    // If we are not handling a choice, nothing to do
-    if (!ChoiceManager.handlingChoice) {
-      return;
-    }
-
-    // If the choice doesn't let you walk away, normal redirect
-    // processing will take care of it
-    if (!ChoiceManager.canWalkAway) {
-      return;
-    }
-
-    // If you walked away from the choice, we're done with the choice
-    if (!urlString.startsWith("choice.php")) {
-      ChoiceManager.handlingChoice = false;
-      return;
-    }
-  }
-
-  public static void visitChoice(final GenericRequest request) {
-    String text = request.responseText;
-    ChoiceManager.lastChoice = ChoiceUtilities.extractChoice(text);
-
-    if (ChoiceManager.lastChoice == 0) {
-      // choice.php did not offer us any choices and we couldn't work out which choice it was.
-      // This happens if taking a choice gives a response with a "next" link to choice.php.
-      ChoiceManager.lastDecoratedResponseText =
-          RequestEditorKit.getFeatureRichHTML(request.getURLString(), text);
-      return;
-    }
-
-    SpadingManager.processChoiceVisit(ChoiceManager.lastChoice, text);
-
-    // Must do this BEFORE we decorate the response text
-    ChoiceManager.setCanWalkAway(ChoiceManager.lastChoice);
-
-    ChoiceManager.lastResponseText = text;
-
-    // Clear lastItemUsed, to prevent the item being "prcessed"
-    // next time we simply visit the inventory.
-    UseItemRequest.clearLastItemUsed();
-
-    ChoiceControl.visitChoice(request);
-
-    // Do this after special classes (like WumpusManager) have a
-    // chance to update state in their visitChoice methods.
-    ChoiceManager.lastDecoratedResponseText =
-        RequestEditorKit.getFeatureRichHTML(request.getURLString(), text);
   }
 
   private static boolean specialChoiceHandling(final int choice, final GenericRequest request) {
@@ -2243,6 +2059,253 @@ public abstract class ChoiceManager {
     return (desc == null) ? "unknown" : desc;
   }
 
+  /*
+   * Here are the methods called by GenericRequest at various points while
+   * processing a request.
+   *
+   * We are "handling a choice" from the time we submit a request to choice.php
+   * until we have processed the response.
+   *
+   * Since choices can lead to other choices (a "choice chain") we stay in that
+   * state until the final response is received - although the "current" choice
+   * will change along the way.
+   *
+   * This would be a good place to explain which of these methods is called
+   * where and what the intended purpose is.
+   */
+
+  public static final void preChoice(final GenericRequest request) {
+    FightRequest.choiceFollowsFight = false;
+    ChoiceManager.handlingChoice = true;
+    FightRequest.currentRound = 0;
+
+    String choice = request.getFormField("whichchoice");
+    String option = request.getFormField("option");
+
+    if (choice == null || option == null) {
+      // Visiting a choice page but not yet making a decision
+      ChoiceManager.lastChoice = 0;
+      ChoiceManager.lastDecision = 0;
+      ChoiceManager.lastResponseText = null;
+      ChoiceManager.lastDecoratedResponseText = null;
+      return;
+    }
+
+    // We are about to take a choice option
+    ChoiceManager.lastChoice = StringUtilities.parseInt(choice);
+    ChoiceManager.lastDecision = StringUtilities.parseInt(option);
+
+    ChoiceControl.preChoice(request);
+  }
+
+  public static void postChoice0(final String urlString, final GenericRequest request) {
+    if (ChoiceManager.nonInterruptingRequest(urlString, request)) {
+      return;
+    }
+
+    // If this is not actually a choice page, nothing to do here.
+    if (!urlString.startsWith("choice.php")) {
+      return;
+    }
+
+    String text = request.responseText;
+    int choice = lastChoice == 0 ? ChoiceUtilities.extractChoice(text) : lastChoice;
+
+    if (choice == 0) {
+      // choice.php did not offer us any choices.
+      // This would be a bug in KoL itself.
+      return;
+    }
+
+    ChoiceControl.postChoice0(choice, urlString, request);
+  }
+
+  /**
+   * Certain requests do not interrupt a choice (i.e. are accessible and do not walk away from the
+   * choice)
+   */
+  public static boolean nonInterruptingRequest(
+      final String urlString, final GenericRequest request) {
+    return request.isExternalRequest
+        || request.isRootsetRequest
+        || request.isTopmenuRequest
+        || request.isChatRequest
+        || request.isChatLaunchRequest
+        || request.isDescRequest
+        || request.isStaticRequest
+        || request.isQuestLogRequest
+        ||
+        // Daily Reminders
+        urlString.startsWith("main.php?checkbfast")
+        ||
+        // Choice 1414 uses Lock Picking
+        urlString.equals("skillz.php?oneskillz=195")
+        ||
+        // Choice 1399 uses Seek out a Bird
+        urlString.equals("skillz.php?oneskillz=7323");
+  }
+
+  public static void postChoice1(final String urlString, final GenericRequest request) {
+    if (ChoiceManager.nonInterruptingRequest(urlString, request)) {
+      return;
+    }
+
+    // If you walked away from the choice, this is not the result of a choice.
+    if (ChoiceManager.canWalkAway
+        && !urlString.startsWith("choice.php")
+        && !urlString.startsWith("fight.php")) {
+      return;
+    }
+
+    // Things that can or need to be done BEFORE processing results.
+    // Remove spent items or meat here.
+
+    if (ChoiceManager.lastChoice == 0) {
+      // We are viewing the choice page for the first time.
+      ChoiceManager.visitChoice(request);
+      return;
+    }
+
+    // If this is not actually a choice page, we were redirected.
+    // Do not save this responseText
+
+    String text = request.responseText;
+    if (urlString.startsWith("choice.php")) {
+      ChoiceManager.lastResponseText = text;
+    }
+
+    ChoiceControl.postChoice1(urlString, request);
+
+    // Certain choices cost meat or items when selected
+    ChoiceAdventures.payCost(ChoiceManager.lastChoice, ChoiceManager.lastDecision);
+  }
+
+  public static void postChoice2(final String urlString, final GenericRequest request) {
+    if (ChoiceManager.nonInterruptingRequest(urlString, request)) {
+      return;
+    }
+
+    // The following are requests that may or may not be allowed at
+    // any time, but we do them in automation during result
+    // processing and they do not count as "walking away"
+    if (urlString.startsWith("diary.php")) {
+      return;
+    }
+
+    // Things that can or need to be done AFTER processing results.
+    String text = request.responseText;
+
+    // If you walked away from the choice (or we automated during
+    // result processing), this is not a choice page
+    if (ChoiceManager.canWalkAway
+        && !urlString.startsWith("choice.php")
+        && !urlString.startsWith("fight.php")) {
+      // I removed the following line, but it caused issues.
+      ChoiceManager.handlingChoice = false;
+      return;
+    }
+
+    ChoiceManager.handlingChoice = ChoiceManager.stillInChoice(text);
+
+    if (urlString.startsWith("choice.php") && text.contains("charpane.php")) {
+      // Since a charpane refresh was requested, a turn might have been spent
+      AdventureSpentDatabase.setNoncombatEncountered(true);
+    }
+
+    if (ChoiceManager.lastChoice == 0 || ChoiceManager.lastDecision == 0) {
+      // This was a visit
+      return;
+    }
+
+    ChoiceControl.postChoice2(urlString, request);
+
+    SpadingManager.processChoice(urlString, text);
+
+    if (ChoiceManager.handlingChoice) {
+      ChoiceManager.visitChoice(request);
+      return;
+    }
+
+    PostChoiceAction action = ChoiceManager.action;
+    if (action != PostChoiceAction.NONE) {
+      ChoiceManager.action = PostChoiceAction.NONE;
+      switch (action) {
+        case INITIALIZE:
+          LoginManager.login(KoLCharacter.getUserName());
+          break;
+        case ASCEND:
+          ValhallaManager.postAscension();
+          break;
+      }
+    }
+
+    // visitChoice() gets the decorated response text, but this is not a visit.
+    // If this is not actually a choice page, we were redirected.
+    // Do not save this responseText
+    if (urlString.startsWith("choice.php")) {
+      ChoiceManager.lastDecoratedResponseText =
+          RequestEditorKit.getFeatureRichHTML(request.getURLString(), text);
+    }
+  }
+
+  public static void handleWalkingAway(final String urlString) {
+    // If we are not handling a choice, nothing to do
+    if (!ChoiceManager.handlingChoice) {
+      return;
+    }
+
+    // If the choice doesn't let you walk away, normal redirect
+    // processing will take care of it
+    if (!ChoiceManager.canWalkAway) {
+      return;
+    }
+
+    // If you walked away from the choice, we're done with the choice
+    if (!urlString.startsWith("choice.php")) {
+      ChoiceManager.handlingChoice = false;
+      return;
+    }
+  }
+
+  public static void visitChoice(final GenericRequest request) {
+    String text = request.responseText;
+    ChoiceManager.lastChoice = ChoiceUtilities.extractChoice(text);
+
+    if (ChoiceManager.lastChoice == 0) {
+      // choice.php did not offer us any choices and we couldn't work out which choice it was.
+      // This happens if taking a choice gives a response with a "next" link to choice.php.
+      ChoiceManager.lastDecoratedResponseText =
+          RequestEditorKit.getFeatureRichHTML(request.getURLString(), text);
+      return;
+    }
+
+    SpadingManager.processChoiceVisit(ChoiceManager.lastChoice, text);
+
+    // Must do this BEFORE we decorate the response text
+    ChoiceManager.setCanWalkAway(ChoiceManager.lastChoice);
+
+    ChoiceManager.lastResponseText = text;
+
+    // Clear lastItemUsed, to prevent the item being "prcessed"
+    // next time we simply visit the inventory.
+    UseItemRequest.clearLastItemUsed();
+
+    ChoiceControl.visitChoice(request);
+
+    // Do this after special classes (like WumpusManager) have a
+    // chance to update state in their visitChoice methods.
+    ChoiceManager.lastDecoratedResponseText =
+        RequestEditorKit.getFeatureRichHTML(request.getURLString(), text);
+  }
+
+  private static void setCanWalkAway(final int choice) {
+    ChoiceManager.canWalkAway = ChoiceControl.canWalkFromChoice(choice);
+  }
+
+  public static boolean canWalkFromChoice(int choice) {
+    return ChoiceControl.canWalkFromChoice(choice);
+  }
+
   public static final boolean registerRequest(final String urlString) {
     if (!urlString.startsWith("choice.php")) {
       return false;
@@ -2266,35 +2329,5 @@ public abstract class ChoiceManager {
     }
 
     ChoiceControl.registerDeferredChoice(choice, encounter);
-  }
-
-  public static final void setSkillUses(int uses) {
-    // Used for casting skills that lead to a choice adventure
-    ChoiceManager.skillUses = uses;
-  }
-
-  public static boolean canWalkAway() {
-    return ChoiceManager.canWalkAway;
-  }
-
-  private static void setCanWalkAway(final int choice) {
-    ChoiceManager.canWalkAway = ChoiceControl.canWalkFromChoice(choice);
-  }
-
-  public static boolean canWalkFromChoice(int choice) {
-    return ChoiceControl.canWalkFromChoice(choice);
-  }
-
-  public static void logChoices() {
-    // Log choice options to the session log
-    int choice = ChoiceManager.currentChoice();
-    Map<Integer, String> choices =
-        ChoiceUtilities.parseChoicesWithSpoilers(ChoiceManager.lastResponseText);
-    for (Map.Entry<Integer, String> entry : choices.entrySet()) {
-      RequestLogger.updateSessionLog(
-          "choice " + choice + "/" + entry.getKey() + ": " + entry.getValue());
-    }
-    // Give prettier and more verbose output to the gCLI
-    ChoiceUtilities.printChoices(ChoiceManager.lastResponseText);
   }
 }
