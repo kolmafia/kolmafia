@@ -103,6 +103,7 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
   public GenericFrame(final String title) {
     this.setTitle(title);
     this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    this.setIconImage(JComponentUtilities.getImage("limeglass.gif").getImage());
 
     this.tabs = this.getTabbedPane();
     this.framePanel = new FramePanel();
