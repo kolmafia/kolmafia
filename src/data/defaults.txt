@@ -1840,7 +1840,6 @@ user	_mafiaMiddleFingerRingUsed	false
 user	_mafiaThumbRingAdvs	0
 user	_managerialManipulationUsed	false
 user	_mansquitoSerumUsed	false
-user	_monstersMapped	0
 user	_maydayDropped	false
 user	_mayflowerDrops	0
 user	_mayflySummons	0
@@ -1858,6 +1857,7 @@ user	_miniMartiniDrops	0
 user	_missGravesVermouthDrunk	false
 user	_missileLauncherUsed	false
 user	_momFoodReceived	false
+user	_monstersMapped	0
 user	_mrBurnsgerEaten	false
 user	_muffinOrderedToday	false
 user	_mummeryMods
