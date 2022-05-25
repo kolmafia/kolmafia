@@ -58,7 +58,7 @@ public class ChoiceManagerTest {
     KoLCharacter.setAscensionClass(AscensionClass.ACCORDION_THIEF);
 
     String responseText = loadHTMLResponse("request/test_choice_manager_unknown_tomb_1.html");
-    int choice = ChoiceManager.extractChoice(responseText);
+    int choice = ChoiceUtilities.extractChoice(responseText);
     assertEquals(1049, choice);
     Map<Integer, String> choices = ChoiceUtilities.parseChoices(responseText);
     assertEquals(3, choices.size());
@@ -68,7 +68,7 @@ public class ChoiceManagerTest {
     assertEquals("1", option);
 
     responseText = loadHTMLResponse("request/test_choice_manager_unknown_tomb_2.html");
-    choice = ChoiceManager.extractChoice(responseText);
+    choice = ChoiceUtilities.extractChoice(responseText);
     assertEquals(1049, choice);
     choices = ChoiceUtilities.parseChoices(responseText);
     assertEquals(3, choices.size());
@@ -78,7 +78,7 @@ public class ChoiceManagerTest {
     assertEquals("2", option);
 
     responseText = loadHTMLResponse("request/test_choice_manager_unknown_tomb_3.html");
-    choice = ChoiceManager.extractChoice(responseText);
+    choice = ChoiceUtilities.extractChoice(responseText);
     assertEquals(1049, choice);
     choices = ChoiceUtilities.parseChoices(responseText);
     assertEquals(3, choices.size());

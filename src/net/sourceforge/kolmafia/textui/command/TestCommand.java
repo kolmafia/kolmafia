@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.request.ScrapheapRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.session.BastilleBattalionManager;
 import net.sourceforge.kolmafia.session.BeachManager;
+import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
@@ -192,7 +193,7 @@ public class TestCommand extends AbstractCommand {
         return;
       }
       int choice = StringUtilities.parseInt(split[1]);
-      Object[] spoilers = ChoiceManager.dynamicChoiceOptions(choice);
+      Object[] spoilers = ChoiceAdventures.dynamicChoiceOptions(choice);
       if (spoilers != null) {
         for (int i = 0; i < spoilers.length; ++i) {
           RequestLogger.printLine("Option " + (i + 1) + ": " + spoilers[i]);

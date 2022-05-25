@@ -17,9 +17,9 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class DeckOfEveryCardRequest extends GenericRequest {
@@ -440,7 +440,7 @@ public class DeckOfEveryCardRequest extends GenericRequest {
       return false;
     }
 
-    int choice = ChoiceManager.extractChoiceFromURL(urlString);
+    int choice = ChoiceUtilities.extractChoiceFromURL(urlString);
 
     if (choice != 1085 && choice != 1086) {
       return false;

@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -520,7 +521,7 @@ public abstract class SorceressLairManager {
   }
 
   public static boolean registerChoice(final int choice, final String urlString) {
-    Matcher matcher = ChoiceManager.URL_OPTION_PATTERN.matcher(urlString);
+    Matcher matcher = ChoiceUtilities.URL_OPTION_PATTERN.matcher(urlString);
     int option = matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
     String message = null;
 

@@ -1156,7 +1156,7 @@ public abstract class BastilleBattalionManager {
 
       case 1315: // Castle vs. Castle
         endBattle(text);
-        switch (ChoiceManager.extractChoice(text)) {
+        switch (ChoiceUtilities.extractChoice(text)) {
           case 1314:
             // We won and it wasn't the last battle.
             parseCastle(text);
@@ -1185,8 +1185,8 @@ public abstract class BastilleBattalionManager {
   }
 
   public static final boolean registerRequest(final String urlString) {
-    int choice = ChoiceManager.extractChoiceFromURL(urlString);
-    int decision = ChoiceManager.extractOptionFromURL(urlString);
+    int choice = ChoiceUtilities.extractChoiceFromURL(urlString);
+    int decision = ChoiceUtilities.extractOptionFromURL(urlString);
     int turn = Preferences.getInteger("_bastilleGameTurn");
 
     StringBuilder buf = new StringBuilder();
