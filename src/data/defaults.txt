@@ -1507,6 +1507,7 @@ user	_bastilleGameTurn	0
 user	_bastilleLastBattleResults
 user	_bastilleLastBattleWon	false
 user	_bastilleLastCheese	0
+user	_bastilleLastEncounter	
 user	_bastilleStats	
 user	_beachCombing	false
 user	_beachHeadsUsed
