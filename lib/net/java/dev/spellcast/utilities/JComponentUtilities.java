@@ -34,15 +34,6 @@
 
 package net.java.dev.spellcast.utilities;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ActionListener;
-
-import java.io.File;
-import java.io.IOException;
-
-import java.net.URL;
-
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -50,6 +41,17 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Formed after the same idea as <code>SwingUtilities</code>, this contains common functions needed by many of the
@@ -129,6 +131,32 @@ public class JComponentUtilities
 		presetLabel.setBackground( background );
 		presetLabel.setOpaque( true );
 		return presetLabel;
+	}
+
+	/**
+	 * A public function used to retrieve a collection of images. Allows referencing images within a JAR, inside of a class tree, and
+	 * from the local directory from which the Java command line is called. The priority is as listed, in reverse order.
+	 * Note that rather than throwing an exception should a file not be successfully found, this function will instead
+	 * print out an error message and skip that image.
+	 *
+	 * @param filenames the filenames of the images
+	 */
+
+	public static List<Image> getImages(final String... filenames )
+	{
+		List<Image> images = new ArrayList<>();
+
+		for ( String filename : filenames ) {
+			ImageIcon icon = JComponentUtilities.getImage( UtilityConstants.IMAGE_DIRECTORY, filename );
+
+			if ( icon == null ) {
+				continue;
+			}
+
+			images.add( icon.getImage() );
+		}
+
+		return images;
 	}
 
 	/**
