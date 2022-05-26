@@ -3289,6 +3289,12 @@ public class ResultProcessor {
           Preferences.setInteger("cosmicBowlingBallReturnCombats", -1);
         }
         break;
+
+      case ItemPool.MAYDAY_SUPPLY_PACKAGE:
+        if (adventureResults) {
+          Preferences.setBoolean("_maydayDropped", true);
+        }
+        break;
     }
 
     // Gaining items can achieve goals.
