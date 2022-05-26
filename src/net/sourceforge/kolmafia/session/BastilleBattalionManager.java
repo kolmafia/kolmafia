@@ -88,6 +88,7 @@ public abstract class BastilleBattalionManager {
   private static Map<String, Stat> enumNameToStat = new HashMap<>();
 
   public enum Stat {
+    NONE("None", -1),
     MA("Military Attack", 0),
     MD("Military Defense", 1),
     CA("Castle Attack", 2),
@@ -131,11 +132,13 @@ public abstract class BastilleBattalionManager {
     }
 
     public int get(Stat stat) {
-      return stats[stat.getIndex()];
+      return stat == Stat.NONE ? 0 : stats[stat.getIndex()];
     }
 
     public void set(Stat stat, int value) {
-      stats[stat.getIndex()] = value;
+      if (stat != Stat.NONE) {
+        stats[stat.getIndex()] = value;
+      }
     }
 
     public void clear() {
@@ -211,6 +214,21 @@ public abstract class BastilleBattalionManager {
       if (boosts.contains("P")) {
         logLine("(Psychological attack and defense boosted from Enhanced Interrogation)");
       }
+    }
+
+    public boolean boosted(Stat stat) {
+      switch (stat) {
+        case MA:
+        case MD:
+          return (boosts.contains("M"));
+        case CA:
+        case CD:
+          return (boosts.contains("C"));
+        case PA:
+        case PD:
+          return (boosts.contains("P"));
+      }
+      return false;
     }
 
     @Override
@@ -526,6 +544,97 @@ public abstract class BastilleBattalionManager {
   private static Castle currentCastle = null;
   private static Battle currentBattle = null;
 
+  // *** Cheese
+
+  // When you are in choice 1315, you can focus on offense, defense, or to seek
+  // cheese.
+  //
+  // If you select Cheese Seeking Behavior (choice 1319), you will be presented
+  // with 3 different options out of a pool of 16 possibilities. You will have
+  // a chance to do this twice before entering into a Battle with the
+  // approaching castle, and the choices do not appear to recur - until the
+  // next castle.
+  //
+  // The Wishing Well is useless if it occurs on the very first turn, since you
+  // will not have the 10 cheese required to activate it. It may occur later
+  // during the same turn, at most once.
+  //
+  // The 16 possible Cheese Seeking encounters include these:
+  //
+  // 2 that scale based on (higher or lower) Military Attack
+  // 2 that scale based on (higher or lower) Military Defense
+  // 2 that scale based on (higher or lower) Castle Attack
+  // 2 that scale based on (higher or lower) Castle Defense
+  // 2 that scale based on (higher or lower) Psychological Attack
+  // 2 that scale based on (higher or lower) Psychological Defense
+  //
+  // 3 that are not affected by a stat
+  //
+  // The Wishing Well does not appear to be affected by a stat, but either
+  // gives you no cheese or about 300 cheese. This may be random or may be
+  // affected by something I do not know about.
+
+  public static final Map<String, CheeseEncounter> cheeseEncounters = new HashMap<>();
+
+  public static class CheeseEncounter {
+    public final String name;
+    public final Stat stat;
+    public final boolean positive;
+
+    public CheeseEncounter(String name, Stat stat, boolean positive) {
+      this.name = name;
+      this.stat = stat;
+      this.positive = positive;
+      cheeseEncounters.put(name, this);
+    }
+
+    public CheeseEncounter(String name) {
+      this(name, Stat.NONE, true);
+    }
+  }
+
+  static {
+    new CheeseEncounter("Raid the cave", Stat.MA, true);
+    new CheeseEncounter("Enter the Weakest Army competition", Stat.MA, false);
+    new CheeseEncounter("Convert the barracks", Stat.MD, true);
+    new CheeseEncounter("Let the cheese horse in", Stat.MD, false);
+    new CheeseEncounter("Shoot the glacier", Stat.CA, true);
+    new CheeseEncounter("Submit embarrassing catapult photos", Stat.CA, false);
+    new CheeseEncounter("Try the wall thing", Stat.CD, true);
+    new CheeseEncounter("Stand in the waterfall", Stat.CD, false);
+    new CheeseEncounter("Rob the suburb", Stat.PA, true);
+    new CheeseEncounter("Enter the childrens' art contest", Stat.PA, false);
+    new CheeseEncounter("Have the cheese contest", Stat.PD, true);
+    new CheeseEncounter("Put on the bad art show", Stat.PD, false);
+    new CheeseEncounter("Grab the boulder");
+    new CheeseEncounter("Scrape out the mine");
+    new CheeseEncounter("Raid the cart");
+    new CheeseEncounter("Use the wishing well");
+  }
+
+  private static final CheeseEncounter UNKNOWN_ENCOUNTER = new CheeseEncounter("UNKNOWN");
+
+  public static class Cheese {
+    public final int turn;
+    public final int cheese;
+    public final CheeseEncounter encounter;
+
+    // Derived
+    public final Stat stat;
+    public final int statBonus;
+    public final boolean potion;
+
+    // This is constructed when we have collected cheese.
+    public Cheese(int turn, String encounterName, int cheese) {
+      this.turn = turn;
+      this.cheese = cheese;
+      this.encounter = cheeseEncounters.getOrDefault(encounterName, UNKNOWN_ENCOUNTER);
+      this.stat = this.encounter.stat;
+      this.statBonus = getCurrentStat(this.stat);
+      this.potion = (stat != Stat.NONE) && new Boosts().boosted(this.stat);
+    }
+  }
+
   // *** Battle
 
   // One of the reasons I started this project was to collect data that could be analyzed to
@@ -707,6 +816,7 @@ public abstract class BastilleBattalionManager {
   public static String generateStatSetting(Stats stats) {
     String value =
         Arrays.stream(Stat.values())
+            .filter(stat -> stat != Stat.NONE)
             .map(stat -> stat.name() + "=" + stats.get(stat))
             .collect(Collectors.joining(","));
     return value;
@@ -768,6 +878,7 @@ public abstract class BastilleBattalionManager {
     Preferences.setString("_bastilleChoice1", "");
     Preferences.setString("_bastilleChoice2", "");
     Preferences.setString("_bastilleChoice3", "");
+    Preferences.setString("_bastilleLastEncounter", "");
 
     // The attributes of the last battle are interesting, but should not carry
     // over across tests.
@@ -978,6 +1089,14 @@ public abstract class BastilleBattalionManager {
     }
   }
 
+  private static void collectCheese() {
+    int turn = Preferences.getInteger("_bastilleGameTurn");
+    String encounterName = Preferences.getString("_bastilleLastEncounter");
+    int curds = Preferences.getInteger("_bastilleLastCheese");
+    Cheese cheese = new Cheese(turn, encounterName, curds);
+    saveCheese(cheese);
+  }
+
   private static void endGame(String text) {
     Preferences.increment("_bastilleGames");
     Preferences.setInteger("_bastilleGameTurn", 0);
@@ -1172,9 +1291,11 @@ public abstract class BastilleBattalionManager {
       case 1316: // GAME OVER
         return;
 
+      case 1319: // Cheese Seeking Behavior
+        collectCheese();
+        // Fall through
       case 1317: // A Hello to Arms (Battalion)
       case 1318: // Defensive Posturing
-      case 1319: // Cheese Seeking Behavior
         if (!parseTurn(text)) {
           nextTurn();
         }
@@ -1249,17 +1370,9 @@ public abstract class BastilleBattalionManager {
       case 1317: // A Hello to Arms (Battalion)
       case 1318: // Defensive Posturing
       case 1319: // Cheese Seeking Behavior
-        switch (decision) {
-          case 1:
-            buf.append(Preferences.getString("_bastilleChoice1"));
-            break;
-          case 2:
-            buf.append(Preferences.getString("_bastilleChoice2"));
-            break;
-          case 3:
-            buf.append(Preferences.getString("_bastilleChoice3"));
-            break;
-        }
+        String encounter = Preferences.getString("_bastilleChoice" + decision);
+        Preferences.setString("_bastilleLastEncounter", encounter);
+        buf.append(encounter);
         break;
     }
 
@@ -1272,9 +1385,9 @@ public abstract class BastilleBattalionManager {
 
   // *** Game Logging for Analysis
 
-  //
-  // Since I am not (yet) working on a script to automate this, I want the data to be automatically
-  // saved to a file in a format which can be read by an analysis script via file_to_map().
+  // Since I am not (yet) working on a script to automate this, I want battle
+  // data to be automatically saved to a file in a format which can be read by
+  // an analysis script via file_to_map().
   //
   // This is the proposed format.
   //
@@ -1351,6 +1464,78 @@ public abstract class BastilleBattalionManager {
     String line = generateFields(generateKey(game, number), battle);
 
     String path = KoLConstants.DATA_DIRECTORY + BATTLE_FILE_NAME;
+    try (PrintStream stream = LogStream.openStream(path, false)) {
+      stream.println(line);
+    }
+  }
+
+  // I also want to save cheese data to a file. The amount you collect is often
+  // affected by a stat: each of the six stats has one cheese encounter which is
+  // better the higher the stat and one which is better the lower the stat.
+  //
+  // There are three encounters which are fixed (modulo randomness) regardless
+  // of stats.
+  //
+  // There is the Wishing Well which sometimes gives nothing and sometimes
+  // gives a lot, regardless of stats.
+  //
+  // It would be nice to know the formulas for the stat-dependent contests.
+  // Ezandora assumes a linear equation:
+  //
+  //   cheese = A * STAT + B
+  //
+  // Finally, it would nice to learn the probability of the Wishing Well
+  // paying off.
+  //
+  // This is the proposed format.
+  //
+  // The file is a tab delimited file in "data" named Bastille.cheese.txt
+  //
+  // Note that this is not user specific; you and all of your multis will contribute to the results
+  //
+  // The "key" is DATE.PLAYERID.GAME.ROUND
+  //
+  // The fields are designed to be easily loaded into an ASH record.
+  //
+  // 20220409.ID.1.11		11	Raid the cave	MA	6	false	133
+  //
+  // record CheeseData
+  // {
+  //     int round;             // I don't think this affects yield, but...
+  //     string name;           // Name of the cheese-granting encounter
+  //     int stat_name;         // Each encounter is affected by a stat
+  //     int stat_value;        // Each encounter is affected by a stat
+  //     boolean potion;        // true if appropriate potion in effect
+  //     int cheese;            // How much cheese you looted
+  // };
+  //
+  // CheeseData [string] cheeses;
+  // file_to_map( FILENAME, cheeses );
+
+  private static final String CHEESE_FILE_NAME = "Bastille.cheese.txt";
+
+  private static String generateFields(String key, Cheese yield) {
+    return joinFields(
+        "\t",
+        key,
+        String.valueOf(yield.turn),
+        yield.encounter.name,
+        String.valueOf(yield.stat.name()),
+        String.valueOf(yield.statBonus),
+        String.valueOf(yield.potion),
+        String.valueOf(yield.cheese));
+  }
+
+  private static void saveCheese(Cheese yield) {
+    if (!Preferences.getBoolean("logBastilleBattalionBattles")) {
+      return;
+    }
+
+    int game = Preferences.getInteger("_bastilleGames") + 1;
+    int turn = yield.turn;
+    String line = generateFields(generateKey(game, turn), yield);
+
+    String path = KoLConstants.DATA_DIRECTORY + CHEESE_FILE_NAME;
     try (PrintStream stream = LogStream.openStream(path, false)) {
       stream.println(line);
     }
