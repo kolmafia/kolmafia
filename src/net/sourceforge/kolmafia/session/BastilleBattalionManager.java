@@ -1503,8 +1503,8 @@ public abstract class BastilleBattalionManager {
   // {
   //     int round;             // I don't think this affects yield, but...
   //     string name;           // Name of the cheese-granting encounter
-  //     int stat_name;         // Each encounter is affected by a stat
-  //     int stat_value;        // Each encounter is affected by a stat
+  //     string stat_name;      // Name of relevant stat
+  //     int stat_value;        // Value of relevant stat
   //     boolean potion;        // true if appropriate potion in effect
   //     int cheese;            // How much cheese you looted
   // };
