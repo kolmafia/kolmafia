@@ -395,15 +395,17 @@ public abstract class KoLmafia {
       SystemTrayFrame.addTrayIcon();
     }
 
+    boolean isWindows = System.getProperty("os.name").startsWith("Win");
+
     if (Taskbar.isTaskbarSupported()) {
       Taskbar taskbar = Taskbar.getTaskbar();
       if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
-        taskbar.setIconImage(JComponentUtilities.getImage("app_icon256.png").getImage());
+        String image = isWindows ? "app_icon256.png" : "limeglass.gif";
+        taskbar.setIconImage(JComponentUtilities.getImage(image).getImage());
       }
     }
 
-    if (System.getProperty("os.name").startsWith("Win")
-        || lookAndFeel.equals(UIManager.getCrossPlatformLookAndFeelClassName())) {
+    if (isWindows || lookAndFeel.equals(UIManager.getCrossPlatformLookAndFeelClassName())) {
       UIManager.put("ProgressBar.foreground", Color.black);
       UIManager.put("ProgressBar.selectionForeground", Color.lightGray);
 
