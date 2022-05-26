@@ -592,4 +592,11 @@ public class FightRequestTest {
     parseCombatData("request/test_fight_robort_drops_2.html");
     assertEquals(0, Preferences.getInteger("_roboDrops"));
   }
+
+  @Test
+  public void canDetectMaydaySupplyPackage() throws IOException {
+    assertFalse(Preferences.getBoolean("_maydayDropped"));
+    parseCombatData("request/test_fight_mayday_contract.html");
+    assertTrue(Preferences.getBoolean("_maydayDropped"));
+  }
 }
