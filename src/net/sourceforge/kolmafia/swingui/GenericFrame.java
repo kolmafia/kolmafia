@@ -8,6 +8,7 @@ import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -17,9 +18,11 @@ import java.awt.event.FocusListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
+import java.awt.image.BaseMultiResolutionImage;
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.swing.JCheckBox;
@@ -103,6 +106,16 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
   public GenericFrame(final String title) {
     this.setTitle(title);
     this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+    List<Image> images =
+        JComponentUtilities.getImages(
+            "app_icon16.png",
+            "app_icon32.png",
+            "app_icon48.png",
+            "app_icon64.png",
+            "app_icon128.png",
+            "app_icon256.png");
+    this.setIconImage(new BaseMultiResolutionImage(images.toArray(new Image[0])));
 
     this.tabs = this.getTabbedPane();
     this.framePanel = new FramePanel();

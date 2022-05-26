@@ -398,7 +398,7 @@ public abstract class KoLmafia {
     if (Taskbar.isTaskbarSupported()) {
       Taskbar taskbar = Taskbar.getTaskbar();
       if (taskbar.isSupported(Taskbar.Feature.ICON_IMAGE)) {
-        taskbar.setIconImage(JComponentUtilities.getImage("limeglass.gif").getImage());
+        taskbar.setIconImage(JComponentUtilities.getImage("app_icon256.png").getImage());
       }
     }
 
