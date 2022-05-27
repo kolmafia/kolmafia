@@ -182,7 +182,7 @@ public abstract class ChoiceAdventures {
       assert options != null;
       this.options = options;
 
-      this.property = "whichchoice" + String.valueOf(choice);
+      this.property = "choiceAdventure" + String.valueOf(choice);
       this.spoilers = new Spoilers(choice, name, options);
     }
 
