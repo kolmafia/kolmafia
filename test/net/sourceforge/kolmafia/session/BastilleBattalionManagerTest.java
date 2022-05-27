@@ -832,7 +832,7 @@ public class BastilleBattalionManagerTest {
     // We are presumed to have parsed these before
     Preferences.setInteger("_bastilleGames", 0);
     Preferences.setInteger("_bastilleGameTurn", 5);
-    Preferences.setInteger("_bastilleCheese", 5005);
+    Preferences.setInteger("_bastilleCheese", 284);
     Preferences.setString("_bastilleEnemyName", "Lew the Vast");
     Preferences.setString("_bastilleEnemyCastle", "bigcastle");
     Preferences.setString("_bastilleChoice1", "Blunt everything");
