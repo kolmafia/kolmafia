@@ -598,7 +598,7 @@ public abstract class BastilleBattalionManager {
     }
 
     public CheeseEncounter(Castle castle) {
-      this(castle.name(), Stat.NONE, true);
+	    this(castle.getPrefix(), Stat.NONE, true);
     }
   }
 
