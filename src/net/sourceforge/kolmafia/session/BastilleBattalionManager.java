@@ -573,6 +573,11 @@ public abstract class BastilleBattalionManager {
   // The Wishing Well does not appear to be affected by a stat, but either
   // gives you no cheese or about 300 cheese. This may be random or may be
   // affected by something I do not know about.
+  //
+  // Other sources of cheese:
+  //
+  // Three encounters when you are focusing on offense
+  // Winning a battle. The harder the battle, the more cheese.
 
   public static final Map<String, CheeseEncounter> cheeseEncounters = new HashMap<>();
 
@@ -591,9 +596,14 @@ public abstract class BastilleBattalionManager {
     public CheeseEncounter(String name) {
       this(name, Stat.NONE, true);
     }
+
+    public CheeseEncounter(Castle castle) {
+      this(castle.getPrefix(), Stat.NONE, true);
+    }
   }
 
   static {
+    // Cheese Seeking Behavior
     new CheeseEncounter("Raid the cave", Stat.MA, true);
     new CheeseEncounter("Enter the Weakest Army competition", Stat.MA, false);
     new CheeseEncounter("Convert the barracks", Stat.MD, true);
@@ -610,6 +620,10 @@ public abstract class BastilleBattalionManager {
     new CheeseEncounter("Scrape out the mine");
     new CheeseEncounter("Raid the cart");
     new CheeseEncounter("Use the wishing well");
+    // A Hello to Arms
+    new CheeseEncounter("Levy the tax");
+    new CheeseEncounter("Let the citizens hurl cheese at you");
+    new CheeseEncounter("Trade soldiers for cheese");
   }
 
   private static final CheeseEncounter UNKNOWN_ENCOUNTER = new CheeseEncounter("UNKNOWN");
@@ -632,6 +646,16 @@ public abstract class BastilleBattalionManager {
       this.stat = this.encounter.stat;
       this.statBonus = getCurrentStat(this.stat);
       this.potion = (stat != Stat.NONE) && new Boosts().boosted(this.stat);
+    }
+
+    // This is constructed when we have defeated another castle
+    public Cheese(int turn, Castle castle, int cheese) {
+      this.turn = turn;
+      this.cheese = cheese;
+      this.encounter = new CheeseEncounter(castle);
+      this.stat = Stat.NONE;
+      this.statBonus = turn / 3;
+      this.potion = false;
     }
   }
 
@@ -784,6 +808,10 @@ public abstract class BastilleBattalionManager {
 
     public void setCheese(int cheese) {
       this.cheese = cheese;
+    }
+
+    public Cheese toCheese() {
+      return new Cheese(this.number * 3, this.enemy, this.cheese);
     }
   }
 
@@ -1077,22 +1105,59 @@ public abstract class BastilleBattalionManager {
     currentBattle = new Battle(turn, option);
   }
 
+  private static final Pattern TOTAL_CHEESE_PATTERN =
+      Pattern.compile("You survived for (\\d+) turns and collected ([\\d,]+) cheese");
+
   private static void endBattle(String text) {
     Results results = logBattle(text);
-    Preferences.setBoolean("_bastilleLastBattleWon", results.won());
+    boolean won = results.won();
+    Preferences.setBoolean("_bastilleLastBattleWon", won);
     Preferences.setString("_bastilleLastBattleResults", results.getValue());
+
+    // Win or lose, this might be the final battle of the game.
+    if (text.contains("GAME OVER")) {
+      Matcher matcher = TOTAL_CHEESE_PATTERN.matcher(text);
+      int cheese = 0;
+      if (matcher.find()) {
+        String message = matcher.group(0);
+        RequestLogger.printLine(message);
+        RequestLogger.updateSessionLog(message);
+        int calculated = Preferences.getInteger("_bastilleCheese");
+        int total = StringUtilities.parseInt(matcher.group(2));
+        // Sanity check
+        if (calculated != total) {
+          System.out.println("Calculated = " + calculated + " total = " + total);
+          Preferences.setInteger("_bastilleCheese", total);
+        }
+      }
+    }
 
     if (currentBattle != null) {
       currentBattle.setResults(results);
-      currentBattle.setCheese(Preferences.getInteger("_bastilleLastCheese"));
+      if (won) {
+        currentBattle.setCheese(Preferences.getInteger("_bastilleLastCheese"));
+        saveCheese(currentBattle.toCheese());
+      }
       saveBattle(currentBattle);
     }
   }
 
-  private static void collectCheese() {
-    int turn = Preferences.getInteger("_bastilleGameTurn");
+  private static void collectCheese(String text) {
     String encounterName = Preferences.getString("_bastilleLastEncounter");
     int curds = Preferences.getInteger("_bastilleLastCheese");
+    if (curds == 0) {
+      // KoL won't let you use the wishing well if you don't have at least 10
+      // cheese. If you have that much, it says "You toss 10 cheese into the
+      // wishing well" - but it doesn't really deduct any cheese.
+      //
+      // Attempting to use the wishing well when you don't have cheese is a
+      // user error, not a result that we want to include in the statistics.
+      if (!encounterName.equals("Use the wishing well")
+          || text.contains("You can't afford to make a wish, so you move on.")) {
+        return;
+      }
+    }
+    int turn = Preferences.getInteger("_bastilleGameTurn");
     Cheese cheese = new Cheese(turn, encounterName, curds);
     saveCheese(cheese);
   }
@@ -1187,6 +1252,7 @@ public abstract class BastilleBattalionManager {
     switch (choice) {
       case 1314: // Bastille Battalion (Master of None)
       case 1315: // Castle vs. Castle
+      case 1316: // GAME OVER
       case 1317: // A Hello to Arms (Battalion)
       case 1318: // Defensive Posturing
       case 1319: // Cheese Seeking Behavior
@@ -1282,7 +1348,7 @@ public abstract class BastilleBattalionManager {
             logStrength();
             break;
           case 1316:
-            // We lost or it was the last choice
+            // We lost or it was the last battle
             endGame(text);
             break;
         }
@@ -1292,10 +1358,9 @@ public abstract class BastilleBattalionManager {
         return;
 
       case 1319: // Cheese Seeking Behavior
-        collectCheese();
-        // Fall through
       case 1317: // A Hello to Arms (Battalion)
       case 1318: // Defensive Posturing
+        collectCheese(text);
         if (!parseTurn(text)) {
           nextTurn();
         }
