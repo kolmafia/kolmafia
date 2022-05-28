@@ -3522,7 +3522,7 @@ public abstract class ChoiceAdventures {
 
     // Choice 697 is Sophie's Choice
     new ChoiceAdventure(
-        607,
+        697,
         "Le Marais D&egrave;gueulasse",
         "Dark and Spooky Swamp",
         // Option...
