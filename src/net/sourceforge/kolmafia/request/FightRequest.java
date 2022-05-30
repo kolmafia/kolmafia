@@ -10045,7 +10045,7 @@ public class FightRequest extends GenericRequest {
         break;
 
       case ItemPool.DAILY_DUNGEON_MALWARE:
-        if (responseText.contains("It's a UNIX System")
+        if (responseText.contains("It's a UNIX system")
             || responseText.contains("You attempt to hack the monster")) {
           Preferences.setBoolean("_dailyDungeonMalwareUsed", true);
         }
