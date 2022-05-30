@@ -210,6 +210,7 @@ public abstract class ChoiceAdventures {
 
     @Override
     protected void addToMap() {
+      assert !choiceToChoiceAdventure.containsKey(this.choice);
       choiceToChoiceAdventure.put(this.choice, this);
     }
   }
@@ -228,6 +229,7 @@ public abstract class ChoiceAdventures {
 
     @Override
     protected void addToMap() {
+      assert !choiceToChoiceSpoiler.containsKey(this.choice);
       choiceToChoiceSpoiler.put(this.choice, this);
     }
   }
@@ -275,6 +277,7 @@ public abstract class ChoiceAdventures {
 
     @Override
     protected void addToMap() {
+      assert !choiceToChoiceCost.containsKey(this.choice);
       choiceToChoiceCost.put(this.choice, this);
     }
   }
