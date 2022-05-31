@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -184,6 +185,30 @@ public class TestCommand extends AbstractCommand {
         RequestLogger.printLine("Inside try: checkpoint known = " + saved.known());
       }
       RequestLogger.printLine("Outside try: checkpoint known = " + saved.known());
+      return;
+    }
+
+    if (command.equals("choicedefaults")) {
+      int defaults = ChoiceAdventures.choiceSpoilersWithDefaults.size();
+      RequestLogger.printLine("There are " + defaults + " ChoiceSpoilers with defaults.");
+      if (defaults > 0) {
+        RequestLogger.printLine(
+            "{"
+                + ChoiceAdventures.choiceSpoilersWithDefaults.stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(","))
+                + "}");
+      }
+      int nodefaults = ChoiceAdventures.choiceSpoilersWithoutDefaults.size();
+      RequestLogger.printLine("There are " + nodefaults + " ChoiceSpoilers without defaults.");
+      if (nodefaults > 0) {
+        RequestLogger.printLine(
+            "{"
+                + ChoiceAdventures.choiceSpoilersWithoutDefaults.stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(","))
+                + "}");
+      }
       return;
     }
 
