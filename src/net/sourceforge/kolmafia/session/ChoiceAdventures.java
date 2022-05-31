@@ -128,7 +128,7 @@ public abstract class ChoiceAdventures {
   public static final Map<Integer, ChoiceSpoiler> choiceToChoiceSpoiler = new HashMap<>();
   public static final Map<Integer, ChoiceCost> choiceToChoiceCost = new HashMap<>();
 
-  // Here are various sets used to registers error detected during initialization
+  // Here are various sets used to register error detected during initialization
   private static final Set<Integer> duplicateChoiceAdventures = new TreeSet<>();
   private static final Set<Integer> missingChoiceAdventureOptions = new TreeSet<>();
   private static final Set<Integer> missingChoiceAdventureDefaultProperties = new TreeSet<>();
@@ -137,8 +137,8 @@ public abstract class ChoiceAdventures {
   private static final Set<Integer> duplicateChoiceCosts = new TreeSet<>();
 
   // These are not errors, per se, but may be worth looking at
-  private static final Set<Integer> choiceSpoilersWithDefaults = new TreeSet<>();
-  private static final Set<Integer> choiceSpoilersWithoutDefaults = new TreeSet<>();
+  public static final Set<Integer> choiceSpoilersWithDefaults = new TreeSet<>();
+  public static final Set<Integer> choiceSpoilersWithoutDefaults = new TreeSet<>();
 
   public static class Choice implements Comparable<Choice> {
     protected final int choice;
@@ -6152,10 +6152,6 @@ public abstract class ChoiceAdventures {
               + duplicateChoiceCosts.stream().map(String::valueOf).collect(Collectors.joining(","))
               + ")");
     }
-
-    // System.out.println("ChoiceSpoilers with defaults = " + choiceSpoilersWithDefaults.size());
-    // System.out.println("ChoiceSpoilers without defaults = " +
-    // choiceSpoilersWithoutDefaults.size());
   }
 
   public static AdventureResult getCost(final int choice, final int decision) {
