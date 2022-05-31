@@ -334,7 +334,7 @@ public class StorageRequest extends TransferItemRequest {
         }
 
         if (desiredCount > 1) {
-          KoLmafia.updateDisplay("You've can only pull one '" + item.getName() + "' today...");
+          KoLmafia.updateDisplay("You can only pull one '" + item.getName() + "' today...");
           desiredCount = 1;
         }
         // Fall through to add the single item.
