@@ -1571,6 +1571,7 @@ user	_clipartSummons	0
 user	_cloudTalkMessage
 user	_cloudTalkSmoker
 user	_coalPaperweightUsed	false
+user	_coatOfPaintModifier	
 user	_cocoaDispenserUsed	false
 user	_cocktailShakerUsed	false
 user	_coldAirportToday	false
