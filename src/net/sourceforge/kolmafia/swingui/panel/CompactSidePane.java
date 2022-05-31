@@ -1168,7 +1168,8 @@ public class CompactSidePane extends JPanel implements Runnable {
       }
 
       int baseWeight = current.getWeight();
-      this.setToolTipText(effective.getRace() + " (" + baseWeight + (baseWeight == 1 ? " lb" : " lbs") + ")");
+      this.setToolTipText(
+          effective.getRace() + " (" + baseWeight + (baseWeight == 1 ? " lb" : " lbs") + ")");
       this.setIcon(KoLCharacter.getFamiliarImage());
 
       StringBuffer anno = CharPaneDecorator.getFamiliarAnnotation();
