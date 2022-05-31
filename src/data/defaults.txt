@@ -1571,6 +1571,7 @@ user	_clipartSummons	0
 user	_cloudTalkMessage
 user	_cloudTalkSmoker
 user	_coalPaperweightUsed	false
+user	_coatOfPaintModifier	
 user	_cocoaDispenserUsed	false
 user	_cocktailShakerUsed	false
 user	_coldAirportToday	false
@@ -2601,6 +2602,7 @@ user	choiceAdventure794	0
 user	choiceAdventure795	0
 user	choiceAdventure796	0
 user	choiceAdventure797	0
+user	choiceAdventure803	0
 user	choiceAdventure805	1
 user	choiceAdventure808	1
 user	choiceAdventure809	1
@@ -2878,10 +2880,20 @@ user	choiceAdventure1341	0
 user	choiceAdventure1345	0
 user	choiceAdventure1389	25
 user	choiceAdventure1392	0
+user	choiceAdventure1397	0
 user	choiceAdventure1399	2
 user	choiceAdventure1405	1
 user	choiceAdventure1411	0
 user	choiceAdventure1415	0
+user	choiceAdventure1427	1
+user	choiceAdventure1428	2
+user	choiceAdventure1429	1
+user	choiceAdventure1430	0
+user	choiceAdventure1431	0
+user	choiceAdventure1432	0
+user	choiceAdventure1433	0
+user	choiceAdventure1434	0
+user	choiceAdventure1436	0
 user	choiceAdventure1460	8
 user	choiceAdventure1461	4
 

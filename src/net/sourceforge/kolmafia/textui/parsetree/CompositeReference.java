@@ -158,6 +158,12 @@ public class CompositeReference extends VariableReference {
 
       if (result == null) {
         result = this.slice.initialValue(this.index);
+
+        // If the result is a composite value - a mutable object - store it
+        // back in the slice so user modifications will be in the map.
+        if (result instanceof CompositeValue) {
+          this.slice.aset(this.index, result, interpreter);
+        }
       }
 
       interpreter.traceIndent();

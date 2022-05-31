@@ -460,7 +460,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
     int cost = StringUtilities.parseInt(meatMatcher.group(1));
     if (meatMatcher.group(2) != null) {
-      int balance = StringUtilities.parseInt(meatMatcher.group(3));
+      long balance = StringUtilities.parseLong(meatMatcher.group(3));
       KoLCharacter.setStorageMeat(balance);
     } else {
       ResultProcessor.processMeat(-cost);
