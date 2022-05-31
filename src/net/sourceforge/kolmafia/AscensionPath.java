@@ -56,6 +56,7 @@ public class AscensionPath {
     QUANTUM("Quantum Terrarium", 42, false, "quantum", "a", "quantumPoints", 11, false),
     WILDFIRE("Wildfire", 43, false, "brushfire", "a"),
     GREY_YOU("Grey You", 44, true, "greygooring", "a", "greyYouPoints", 11, false),
+    JOURNEYMAN("Journeyman", 45, false, "map", "a"),
     // A "sign" rather than a "path" for some reason
     BAD_MOON("Bad Moon", 999, false, "badmoon", null),
     ;
