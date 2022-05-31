@@ -200,7 +200,7 @@ public class CheckedItem extends AdventureResult {
     }
 
     // Check mall price
-    int price = MallPriceManager.getMallPrice(this);
+    int price = MallPriceManager.getMallPrice(this.getItemId());
 
     // Check if too expensive for max price settings
     if (price <= 0 || price > maxPrice) {

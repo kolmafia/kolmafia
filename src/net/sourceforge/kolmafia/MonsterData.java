@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
@@ -385,25 +384,25 @@ public class MonsterData extends AdventureResult {
     // Iterate over them and modify the base values
     for (String modifier : modifiers) {
       if (modifier.equals("askew")) {
-        monster.attack = IntegerPool.get(monster.getRawAttack() * 11 / 10);
+        monster.attack = monster.getRawAttack() * 11 / 10;
       } else if (modifier.equals("bouncing")) {
-        monster.attack = IntegerPool.get(monster.getRawAttack() * 3 / 2);
+        monster.attack = monster.getRawAttack() * 3 / 2;
       } else if (modifier.equals("broke")) {
         monster.meat = 5;
       } else if (modifier.equals("cloned")) {
-        monster.health = IntegerPool.get(monster.getRawHP() * 2);
-        monster.attack = IntegerPool.get(monster.getRawAttack() * 2);
-        monster.defense = IntegerPool.get(monster.getRawDefense() * 2);
+        monster.health = monster.getRawHP() * 2;
+        monster.attack = monster.getRawAttack() * 2;
+        monster.defense = monster.getRawDefense() * 2;
       } else if (modifier.equals("dancin'")) {
-        monster.defense = IntegerPool.get(monster.getRawDefense() * 3 / 2);
+        monster.defense = monster.getRawDefense() * 3 / 2;
       } else if (modifier.equals("filthy")) {
         // Stench Aura
       } else if (modifier.equals("floating")) {
-        monster.defense = IntegerPool.get(monster.getRawDefense() * 3 / 2);
+        monster.defense = monster.getRawDefense() * 3 / 2;
       } else if (modifier.equals("foul-mouthed")) {
         // Sleaze Aura
       } else if (modifier.equals("fragile")) {
-        monster.health = IntegerPool.get(1);
+        monster.health = 1;
       } else if (modifier.equals("frozen")) {
         monster.attackElement = Element.COLD;
         monster.defenseElement = Element.COLD;
@@ -416,9 +415,9 @@ public class MonsterData extends AdventureResult {
       } else if (modifier.equals("hot")) {
         // Hot Aura
       } else if (modifier.equals("huge")) {
-        monster.health = IntegerPool.get(monster.getRawHP() * 2);
-        monster.attack = IntegerPool.get(monster.getRawAttack() * 2);
-        monster.defense = IntegerPool.get(monster.getRawDefense() * 2);
+        monster.health = monster.getRawHP() * 2;
+        monster.attack = monster.getRawAttack() * 2;
+        monster.defense = monster.getRawDefense() * 2;
       } else if (modifier.equals("ice-cold")) {
         monster.attackElement = Element.COLD;
         monster.defenseElement = Element.COLD;
@@ -431,11 +430,11 @@ public class MonsterData extends AdventureResult {
         monster.attackElement = Element.HOT;
         monster.defenseElement = Element.HOT;
       } else if (modifier.equals("short")) {
-        monster.health = IntegerPool.get(monster.getRawHP() / 2);
-        monster.defense = IntegerPool.get(monster.getRawDefense() * 2);
+        monster.health = monster.getRawHP() / 2;
+        monster.defense = monster.getRawDefense() * 2;
       } else if (modifier.equals("skinny")) {
-        monster.health = IntegerPool.get(monster.getRawHP() / 2);
-        monster.defense = IntegerPool.get(monster.getRawDefense() / 2);
+        monster.health = monster.getRawHP() / 2;
+        monster.defense = monster.getRawDefense() / 2;
       } else if (modifier.equals("sleazy")) {
         monster.attackElement = Element.SLEAZE;
         monster.defenseElement = Element.SLEAZE;
@@ -448,46 +447,46 @@ public class MonsterData extends AdventureResult {
         monster.attackElement = Element.STENCH;
         monster.defenseElement = Element.STENCH;
       } else if (modifier.equals("throbbing")) {
-        monster.health = IntegerPool.get(monster.getRawHP() * 2);
+        monster.health = monster.getRawHP() * 2;
       } else if (modifier.equals("tiny")) {
-        monster.health = IntegerPool.get(monster.getRawHP() / 10);
-        monster.attack = IntegerPool.get(monster.getRawAttack() / 10);
-        monster.defense = IntegerPool.get(monster.getRawDefense() / 10);
+        monster.health = monster.getRawHP() / 10;
+        monster.attack = monster.getRawAttack() / 10;
+        monster.defense = monster.getRawDefense() / 10;
       } else if (modifier.equals("turgid")) {
-        monster.health = IntegerPool.get(monster.getRawHP() * 5);
+        monster.health = monster.getRawHP() * 5;
       } else if (modifier.equals("unlucky")) {
-        monster.health = IntegerPool.get(13);
-        monster.attack = IntegerPool.get(13);
-        monster.defense = IntegerPool.get(13);
+        monster.health = 13;
+        monster.attack = 13;
+        monster.defense = 13;
       } else if (modifier.equals("wet")) {
         // Cold Aura
       }
 
       // Non-OCRS modifiers
       else if (modifier.equals("mutant")) {
-        monster.health = IntegerPool.get(monster.getRawHP() * 6 / 5);
-        monster.attack = IntegerPool.get(monster.getRawAttack() * 6 / 5);
-        monster.defense = IntegerPool.get(monster.getRawDefense() * 6 / 5);
+        monster.health = monster.getRawHP() * 6 / 5;
+        monster.attack = monster.getRawAttack() * 6 / 5;
+        monster.defense = monster.getRawDefense() * 6 / 5;
       } else if (this.scale == null
           && (modifier.equals("Mr. mask") || modifier.equals("Bonerdagon mask"))) {
-        monster.health = IntegerPool.get(monster.getRawHP() * 2);
-        monster.attack = IntegerPool.get(monster.getRawAttack() * 2);
-        monster.defense = IntegerPool.get(monster.getRawDefense() * 2);
+        monster.health = monster.getRawHP() * 2;
+        monster.attack = monster.getRawAttack() * 2;
+        monster.defense = monster.getRawDefense() * 2;
       } else if (modifier.equals("ninja mask")) {
-        monster.initiative = IntegerPool.get(10000);
+        monster.initiative = 10000;
       } else if (this.scale == null && modifier.equals("opera mask")) {
-        monster.attack = IntegerPool.get(monster.getRawAttack() * 2);
+        monster.attack = monster.getRawAttack() * 2;
       } else if (this.scale == null && modifier.equals("bandit mask")) {
-        monster.defense = IntegerPool.get(monster.getRawDefense() * 4);
+        monster.defense = monster.getRawDefense() * 4;
       } else if (modifier.equals("fencing mask")) {
         if (monster.physicalResistance == 0) {
           // Also gives 90% elemental resistance
           monster.physicalResistance = 90;
         }
       } else if (this.scale == null && modifier.equals("Naughty Sorceress mask")) {
-        monster.health = IntegerPool.get(monster.getRawHP() * 3);
-        monster.attack = IntegerPool.get(monster.getRawAttack() * 3);
-        monster.defense = IntegerPool.get(monster.getRawDefense() * 3);
+        monster.health = monster.getRawHP() * 3;
+        monster.attack = monster.getRawAttack() * 3;
+        monster.defense = monster.getRawDefense() * 3;
       }
     }
 

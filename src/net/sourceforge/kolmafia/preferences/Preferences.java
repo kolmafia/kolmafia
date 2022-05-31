@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,7 +26,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.MoodManager;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.session.MonorailManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -38,7 +38,8 @@ public class Preferences {
 
   private static final Object lock = new Object(); // used to synch io
 
-  private static final byte[] LINE_BREAK_AS_BYTES = KoLConstants.LINE_BREAK.getBytes();
+  private static final byte[] LINE_BREAK_AS_BYTES =
+      KoLConstants.LINE_BREAK.getBytes(StandardCharsets.UTF_8);
 
   private static final String[] characterMap = new String[65536];
 
@@ -246,6 +247,8 @@ public class Preferences {
         "gladiatorBladeMovesKnown",
         "gladiatorNetMovesKnown",
         "gnasirProgress",
+        "gooseDronesRemaining",
+        "gooseReprocessed",
         "grimstoneCharge",
         "grimstoneMaskPath",
         "guardTurtlesFreed",
@@ -878,7 +881,7 @@ public class Preferences {
     }
 
     if (!(value instanceof Integer)) {
-      value = IntegerPool.get(StringUtilities.parseInt(value.toString()));
+      value = StringUtilities.parseInt(value.toString());
       map.put(name, value);
     }
 
@@ -977,7 +980,7 @@ public class Preferences {
   public static void setInteger(final String user, final String name, final int value) {
     int old = Preferences.getInteger(user, name);
     if (old != value) {
-      Preferences.setObject(user, name, String.valueOf(value), IntegerPool.get(value));
+      Preferences.setObject(user, name, String.valueOf(value), value);
     }
   }
 
@@ -1068,7 +1071,7 @@ public class Preferences {
         for (Entry<String, Object> current : data.entrySet()) {
           ostream.write(
               Preferences.encodeProperty(current.getKey(), current.getValue().toString())
-                  .getBytes());
+                  .getBytes(StandardCharsets.UTF_8));
           ostream.write(LINE_BREAK_AS_BYTES);
         }
       } catch (IOException e) {

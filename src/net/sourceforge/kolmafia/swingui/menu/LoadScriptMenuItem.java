@@ -13,28 +13,35 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
  * In order to keep the user interface from freezing (or at least appearing to freeze), this
  * internal class is used to process the request for loading a script.
  */
-public class LoadScriptMenuItem extends ThreadedMenuItem {
+public class LoadScriptMenuItem extends DisplayFrameMenuItem {
+
+  private final String scriptPath;
+
   public LoadScriptMenuItem() {
     this("Load script...", null);
   }
 
   public LoadScriptMenuItem(final String scriptName, final String scriptPath) {
-    super(scriptName, new LoadScriptListener(scriptPath));
+    super(scriptName, "CommandDisplayFrame");
+
+    this.scriptPath = scriptPath;
+
+    this.addActionListener(new LoadScriptListener());
   }
 
-  private static class LoadScriptListener extends ThreadedListener {
-    private final String scriptPath;
-    private String executePath;
+  @Override
+  public String toString() {
+    return this.scriptPath == null ? this.getText() : this.scriptPath;
+  }
 
-    public LoadScriptListener(String scriptPath) {
-      this.scriptPath = scriptPath;
-    }
+  private class LoadScriptListener extends ThreadedListener {
+    private String executePath;
 
     @Override
     protected void execute() {
-      this.executePath = this.scriptPath;
+      this.executePath = LoadScriptMenuItem.this.scriptPath;
 
-      if (this.scriptPath == null) {
+      if (this.executePath == null) {
         try {
           SwingUtilities.invokeAndWait(
               new Runnable() {

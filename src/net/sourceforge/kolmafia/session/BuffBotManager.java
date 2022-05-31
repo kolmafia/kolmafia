@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,7 +25,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -125,7 +125,7 @@ public abstract class BuffBotManager {
       return;
     }
 
-    Integer newPrice = IntegerPool.get(price);
+    Integer newPrice = price;
 
     // Because the new concept allows multiple buffs
     // to have the same price, store things in a list.
@@ -164,7 +164,7 @@ public abstract class BuffBotManager {
 
       removedOne = true;
       BuffBotManager.buffCostTable.remove(buff);
-      BuffBotManager.buffCostMap.remove(IntegerPool.get(buff.getPrice()));
+      BuffBotManager.buffCostMap.remove(buff.getPrice());
     }
 
     if (removedOne) {
@@ -185,8 +185,8 @@ public abstract class BuffBotManager {
     File datafile = new File(KoLConstants.BUFFBOT_LOCATION, KoLCharacter.baseUserName() + ".txt");
     File xmlfile = new File(KoLConstants.BUFFBOT_LOCATION, KoLCharacter.baseUserName() + ".xml");
 
-    PrintStream settings = LogStream.openStream(datafile, true, "ISO-8859-1");
-    PrintStream document = LogStream.openStream(xmlfile, true, "ISO-8859-1");
+    PrintStream settings = LogStream.openStream(datafile, true, StandardCharsets.ISO_8859_1);
+    PrintStream document = LogStream.openStream(xmlfile, true, StandardCharsets.ISO_8859_1);
 
     document.println("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
     document.println("<?xml-stylesheet type=\"text/xsl\" href=\"buffbot.xsl\"?>");
@@ -447,7 +447,7 @@ public abstract class BuffBotManager {
   }
 
   private static Offering extractRequest(final KoLMailMessage message, final int meatSent) {
-    Offering castList = BuffBotManager.buffCostMap.get(IntegerPool.get(meatSent));
+    Offering castList = BuffBotManager.buffCostMap.get(meatSent);
 
     // If what is sent does not match anything in the buff table,
     // handle it.  Once it gets beyond this point, it is known to

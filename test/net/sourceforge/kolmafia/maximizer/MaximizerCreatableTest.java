@@ -51,8 +51,8 @@ public class MaximizerCreatableTest {
     setStats(100, 100, 100);
     maximizeCreatable("muscle");
     recommends("sphygmayomanometer");
-    recommendedSlotIsEmpty(EquipmentManager.ACCESSORY2);
-    recommendedSlotIsEmpty(EquipmentManager.ACCESSORY3);
+    recommendedSlotIsUnchanged(EquipmentManager.ACCESSORY2);
+    recommendedSlotIsUnchanged(EquipmentManager.ACCESSORY3);
   }
 
   @Test
@@ -62,7 +62,7 @@ public class MaximizerCreatableTest {
     ConcoctionDatabase.refreshConcoctions();
     maximizeCreatable("item drop");
     recommendedSlotIs(EquipmentManager.WEAPON, "oversized sparkler");
-    recommendedSlotIsEmpty(EquipmentManager.OFFHAND);
+    recommendedSlotIsUnchanged(EquipmentManager.OFFHAND);
   }
 
   @Test
@@ -71,6 +71,6 @@ public class MaximizerCreatableTest {
     Preferences.setBoolean("_fireworksShopHatBought", true);
     ConcoctionDatabase.refreshConcoctions();
     maximizeCreatable("-combat");
-    recommendedSlotIsEmpty(EquipmentManager.HAT);
+    recommendedSlotIsUnchanged(EquipmentManager.HAT);
   }
 }

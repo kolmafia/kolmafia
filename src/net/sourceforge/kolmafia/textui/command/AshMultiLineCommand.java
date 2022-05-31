@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.nio.charset.StandardCharsets;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -20,8 +21,8 @@ public class AshMultiLineCommand extends AbstractCommand {
 
     while (currentLine != null && !currentLine.equals("</inline-ash-script>")) {
       try {
-        ostream.write(currentLine.getBytes());
-        ostream.write(KoLConstants.LINE_BREAK.getBytes());
+        ostream.write(currentLine.getBytes(StandardCharsets.UTF_8));
+        ostream.write(KoLConstants.LINE_BREAK.getBytes(StandardCharsets.UTF_8));
       } catch (Exception e) {
         // Byte array output streams do not throw errors,
         // other than out of memory errors.

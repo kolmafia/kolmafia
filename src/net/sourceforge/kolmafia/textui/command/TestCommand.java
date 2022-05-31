@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -31,7 +32,6 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -58,7 +58,9 @@ import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.ScrapheapRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
+import net.sourceforge.kolmafia.session.BastilleBattalionManager;
 import net.sourceforge.kolmafia.session.BeachManager;
+import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
@@ -128,7 +130,7 @@ public class TestCommand extends AbstractCommand {
       }
 
       byte[] bytes = ByteBufferUtilities.read(file);
-      String string = StringUtilities.getEncodedString(bytes, "UTF-8");
+      String string = new String(bytes, StandardCharsets.UTF_8);
       TestCommand.contents = string;
 
       KoLmafia.updateDisplay(
@@ -151,6 +153,11 @@ public class TestCommand extends AbstractCommand {
       String adventureURL = split[1].trim();
       KoLAdventure adventure = AdventureDatabase.getAdventureByURL(adventureURL);
       RequestLogger.printLine("returned " + adventure);
+      return;
+    }
+
+    if (command.equals("bastille")) {
+      BastilleBattalionManager.saveStyleSets();
       return;
     }
 
@@ -186,7 +193,7 @@ public class TestCommand extends AbstractCommand {
         return;
       }
       int choice = StringUtilities.parseInt(split[1]);
-      Object[] spoilers = ChoiceManager.dynamicChoiceOptions(choice);
+      Object[] spoilers = ChoiceAdventures.dynamicChoiceOptions(choice);
       if (spoilers != null) {
         for (int i = 0; i < spoilers.length; ++i) {
           RequestLogger.printLine("Option " + (i + 1) + ": " + spoilers[i]);
@@ -352,26 +359,6 @@ public class TestCommand extends AbstractCommand {
       } else {
         RequestLogger.printLine("You have 1 " + item.getName() + " in inventory.");
       }
-      return;
-    }
-
-    if (command.equals("intcache")) {
-      int cacheHits = IntegerPool.getCacheHits();
-      int cacheMissLows = IntegerPool.getCacheMissLows();
-      int cacheMissHighs = IntegerPool.getCacheMissHighs();
-      int totalAccesses = cacheHits + cacheMissLows + cacheMissHighs;
-
-      float successRate = 0.0f;
-
-      if (totalAccesses != 0) {
-        successRate = (float) cacheHits / (float) totalAccesses * 100.0f;
-      }
-
-      RequestLogger.printLine("cache hits: " + cacheHits);
-      RequestLogger.printLine("cache misses (too low): " + cacheMissLows);
-      RequestLogger.printLine("cache misses (too high): " + cacheMissHighs);
-      RequestLogger.printLine("success rate: " + successRate + " %");
-
       return;
     }
 
@@ -880,6 +867,7 @@ public class TestCommand extends AbstractCommand {
     if (command.equals("beach")) {
       BeachManager.parseBeachMap(TestCommand.contents);
       TestCommand.contents = null;
+      return;
     }
 
     if (command.equals("charpane")) {

@@ -11,7 +11,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -28,7 +27,7 @@ public class SkateParkRequest extends GenericRequest {
       "Lutz, the Ice Skate",
       "lutz, the ice skate",
       "state2buff1",
-      IntegerPool.get(SkateParkRequest.LUTZ),
+      SkateParkRequest.LUTZ,
       "_skateBuff1",
       "You've already dined with Lutz",
       "ice",
@@ -37,7 +36,7 @@ public class SkateParkRequest extends GenericRequest {
       "Comet, the Roller Skate",
       "comet, the roller skate",
       "state3buff1",
-      IntegerPool.get(SkateParkRequest.COMET),
+      SkateParkRequest.COMET,
       "_skateBuff2",
       "You should probably leave Comet alone for the rest of the day",
       "roller",
@@ -46,7 +45,7 @@ public class SkateParkRequest extends GenericRequest {
       "the Band Shell",
       "the band shell",
       "state4buff1",
-      IntegerPool.get(SkateParkRequest.BAND_SHELL),
+      SkateParkRequest.BAND_SHELL,
       "_skateBuff3",
       "You've had about all of that crap you can stand today",
       "peace",
@@ -55,7 +54,7 @@ public class SkateParkRequest extends GenericRequest {
       "the Eclectic Eels",
       "the eclectic eels",
       "state4buff2",
-      IntegerPool.get(SkateParkRequest.ECLECTIC_EELS),
+      SkateParkRequest.ECLECTIC_EELS,
       "_skateBuff4",
       "You should probably leave those guys alone until tomorrow",
       "peace",
@@ -64,7 +63,7 @@ public class SkateParkRequest extends GenericRequest {
       "the Merry-Go-Round",
       "the merry-go-round",
       "state4buff3",
-      IntegerPool.get(SkateParkRequest.MERRY_GO_ROUND),
+      SkateParkRequest.MERRY_GO_ROUND,
       "_skateBuff5",
       "Wait until tomorrow",
       "peace",

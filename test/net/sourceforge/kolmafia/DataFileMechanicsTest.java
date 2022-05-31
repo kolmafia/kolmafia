@@ -43,7 +43,7 @@ public class DataFileMechanicsTest {
         Arguments.of("fullness.txt", 2, 8, 9),
         Arguments.of("inebriety.txt", 2, 8, 10),
         Arguments.of("items.txt", 1, 7, 8),
-        Arguments.of("mallprices.txt", 1, 3, 3), // not normally manually edited, but...
+        // mallprices.txt is no longer bundled
         // modifiers.txt is too complex
         // monsters.txt is too complex
         Arguments.of("nonfilling.txt", 1, 2, 3),

@@ -579,8 +579,6 @@ user	falloutShelterChronoUsed	false
 user	falloutShelterCoolingTankUsed	false
 user	falloutShelterLevel	0
 user	familiarScript
-user	lastBeardBuff	0
-user	lastCopyableMonster
 user	fingernailsClipped	0
 user	fireExtinguisherBatHoleUsed	false
 user	fireExtinguisherChasmUsed	false
@@ -665,6 +663,8 @@ user	gloverPoints	0
 user	gnasirProgress	0
 user	goldenMrAccessories	0
 user	gongPath	0
+user	gooseDronesRemaining	0
+user	gooseReprocessed	
 user	goreCollected	0
 user	gourdItemCount	5
 user	grabCloversHardcore	false
@@ -699,7 +699,9 @@ user	harvestGardenSoftcore	none
 user	hasBartender	false
 user	hasChef	false
 user	hasCocktailKit	false
+user	hasCosmicBowlingBall	false
 user	hasDetectiveSchool	false
+user	hasMaydayContract	false
 user	hasOven	false
 user	hasRange	false
 user	hasShaker	false
@@ -767,6 +769,7 @@ user	lastBangPotion827
 user	lastBangPotionReset	-1
 user	lastBarrelSmashed	0
 user	lastBattlefieldReset	-1
+user	lastBeardBuff	0
 user	lastBreakfast	-1
 user	lastCastleGroundUnlock	-1
 user	lastCastleTopUnlock	-1
@@ -776,6 +779,7 @@ user	lastChanceThreshold	100
 user	lastChessboard
 user	lastChasmReset	-1
 user	lastColosseumRoundWon	0
+user	lastCopyableMonster
 user	lastCouncilVisit	0
 user	lastCounterDay	-1
 user	lastDesertUnlock	-1
@@ -896,6 +900,7 @@ user	libraryCardUsed	false
 user	lightsOutAutomation	1
 user	locketPhylum	mer-kin
 user	lockPicked	false
+user	logBastilleBattalionBattles	false
 user	loginRecoveryHardcore	false
 user	loginRecoverySoftcore	true
 user	longConMonster	
@@ -1345,6 +1350,7 @@ user	statusWasteProcessing	0
 user	stenchAirportAlways	false
 user	stenchCursedMonster	
 user	stopForFixedWanderer	false
+user	stopForUltraRare	true
 user	streamCrossDefaultTarget	ProtonicBot
 user	styxPixieVisited	false
 user	sugarCounter4178	0
@@ -1386,6 +1392,7 @@ user	trackVoteMonster	false
 user	turtleBlessingTurns	0
 user	trapperOre
 user	twinPeakProgress	0
+user	umbrellaState	broken
 user	umdLastObtained	
 user	uneffectWithHotTub	true
 user	unicornHornInflation	0
@@ -1455,6 +1462,7 @@ user	youRobotRight	0
 user	youRobotScavenged	false
 user	youRobotTop	0
 user	zeppelinProtestors	0
+user	zigguratLianas	0
 user	zombiePoints	0
 user	_absintheDrops	0
 user	_abstractionDropsCrown	0
@@ -1486,7 +1494,21 @@ user	_ballInACupUsed	false
 user	_ballpit	false
 user	_banderRunaways	0
 user	_barrelPrayer	false
+user	_bastilleBoosts	
+user	_bastilleCheese	0
+user	_bastilleChoice1
+user	_bastilleChoice2
+user	_bastilleChoice3
+user	_bastilleCurrentStyles	
+user	_bastilleEnemyCastle	
+user	_bastilleEnemyName	
 user	_bastilleGames	0
+user	_bastilleGameTurn	0
+user	_bastilleLastBattleResults
+user	_bastilleLastBattleWon	false
+user	_bastilleLastCheese	0
+user	_bastilleLastEncounter	
+user	_bastilleStats	
 user	_beachCombing	false
 user	_beachHeadsUsed
 user	_beachLayout
@@ -1819,12 +1841,13 @@ user	_mafiaMiddleFingerRingUsed	false
 user	_mafiaThumbRingAdvs	0
 user	_managerialManipulationUsed	false
 user	_mansquitoSerumUsed	false
-user	_monstersMapped	0
+user	_maydayDropped	false
 user	_mayflowerDrops	0
 user	_mayflySummons	0
 user	_mayoDeviceRented	false
 user	_mayoTankSoaked	false
 user	_meatballMachineUsed	false
+user	_meatifyMatterUsed	false
 user	_mediumSiphons	0
 user	_meteoriteAdesUsed	0
 user	_meteorShowerUses	0
@@ -1835,6 +1858,7 @@ user	_miniMartiniDrops	0
 user	_missGravesVermouthDrunk	false
 user	_missileLauncherUsed	false
 user	_momFoodReceived	false
+user	_monstersMapped	0
 user	_mrBurnsgerEaten	false
 user	_muffinOrderedToday	false
 user	_mummeryMods
@@ -1925,6 +1949,7 @@ user	_resolutionRareSummons	0
 user	_rhinestonesAcquired	false
 user	_riftletAdv	0
 user	_roboDrinks
+user	_roboDrops	0
 user	_rogueProgramCharge	0
 user	_romanticFightsLeft	0
 user	_roninStoragePulls	

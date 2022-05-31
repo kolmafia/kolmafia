@@ -768,7 +768,7 @@ public class FightRequest extends GenericRequest {
   public static final boolean canOlfact() {
     return FightRequest.canOlfact
         && !KoLCharacter.inGLover()
-        && KoLCharacter.availableCombatSkill(SkillPool.OLFACTION);
+        && KoLCharacter.hasCombatSkill(SkillPool.OLFACTION);
   }
 
   public static final boolean isSourceAgent() {
@@ -916,9 +916,9 @@ public class FightRequest extends GenericRequest {
     MonsterData monster = MonsterStatusTracker.getLastMonster();
     String monsterName = monster != null ? monster.getName() : "";
 
-    // Always let the user see rare monsters
-
-    if (EncounterManager.isUltrarareMonster(monsterName)) {
+    // Let the user see rare monsters
+    if (EncounterManager.isUltrarareMonster(monsterName)
+        && Preferences.getBoolean("stopForUltraRare")) {
       KoLmafia.updateDisplay(MafiaState.ABORT, "You have encountered the " + this.encounter);
       FightRequest.nextAction = "abort";
       return;
@@ -1370,7 +1370,7 @@ public class FightRequest extends GenericRequest {
         // your skills.
 
         if ((KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled())
-            || !KoLCharacter.availableCombatSkill(SkillPool.OLFACTION)) {
+            || !KoLCharacter.hasCombatSkill(SkillPool.OLFACTION)) {
           this.skipRound();
           return;
         }
@@ -2407,7 +2407,7 @@ public class FightRequest extends GenericRequest {
         TurnCounter.stopCounting("Enamorang unknown monster window begin");
         TurnCounter.stopCounting("Enamorang unknown monster window end");
         Preferences.setString("enamorangMonster", "");
-      } else if (EncounterManager.isGregariousEncounter(responseText, true)) {
+      } else if (EncounterManager.isGregariousEncounter(responseText)) {
         EncounterManager.ignoreSpecialMonsters();
         Preferences.decrement("beGregariousFightsLeft", 1, 0);
       } else if (EncounterManager.isSaberForceMonster()) {
@@ -2795,10 +2795,7 @@ public class FightRequest extends GenericRequest {
 
     Pattern fightPattern = Pattern.compile("action=fight.php");
     Matcher fightMatcher = fightPattern.matcher(responseText);
-    int fightCount = 0;
-    while (fightMatcher.find()) {
-      fightCount++;
-    }
+    long fightCount = fightMatcher.results().count();
 
     boolean stillInBattle =
         finalRound
@@ -3169,10 +3166,6 @@ public class FightRequest extends GenericRequest {
     String locationName = (location != null) ? location.getAdventureName() : null;
 
     FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
-
-    if (won && KoLCharacter.inGreyYou()) {
-      GreyYouManager.absorbMonster(monster);
-    }
 
     // Increment stinky cheese counter
     int stinkyCount = EquipmentManager.getStinkyCheeseLevel();
@@ -4154,6 +4147,27 @@ public class FightRequest extends GenericRequest {
             }
           }
           break;
+
+        case FamiliarPool.ROBORTENDER:
+          String[] roboDropMessages =
+              new String[] {
+                "Allow Me To Recommend A Local Specialty",
+                "Perhaps You Would Enjoy A Drink Relevant To The Current Circumstances",
+                "This Reminds Me Of A Classic Recipe",
+                "Why Not Celebrate The Occasion With A Drink",
+                "Why Not Try A Popular Local Recipe",
+                "Fighting Works Up A Real Thirst",
+                "Freshen Your Drink, Sir or Madam",
+                "Have One For The Road",
+                "I Hope I Am Not Enabling Any Addictions You Might Have",
+                "It's Always Happy Hour Somewhere"
+              };
+
+          for (String s : roboDropMessages) {
+            if (!responseText.contains(s)) continue;
+            Preferences.increment("_roboDrops", 1);
+            break;
+          }
       }
 
       if (KoLCharacter.inRaincore()) {
@@ -4676,8 +4690,9 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
-    KoLConstants.availableCombatSkills.clear();
-    KoLConstants.availableCombatSkillsMap.clear();
+    // The following is for the benefit of Stationary Buttons
+    KoLConstants.availableCombatSkillsList.clear();
+    KoLConstants.availableCombatSkillsSet.clear();
 
     Matcher m =
         FightRequest.AVAILABLE_COMBATSKILL_PATTERN.matcher(
@@ -4689,7 +4704,14 @@ public class FightRequest extends GenericRequest {
         skillName = m.group(2);
         SkillDatabase.registerSkill(skillId, skillName);
       }
+      // If Grey Goose skills are present, they may not actually be available;
+      // KoL erroneously leaves them in the dropdown after you have cast them
+      // and thereby deleveled your Grey Goose. Bug Reported.
+      if (skillId >= 7408 && skillId <= 7413 && KoLCharacter.getFamiliar().getWeight() < 6) {
+        continue;
+      }
       KoLCharacter.addAvailableCombatSkill(skillId);
+      KoLConstants.availableCombatSkillsList.add(skillId);
       // If lovebug skills present, they've been unlocked
       if (skillId >= 7245 && skillId <= 7247) {
         Preferences.setBoolean("lovebugsUnlocked", true);
@@ -5559,11 +5581,13 @@ public class FightRequest extends GenericRequest {
     public boolean meteors;
     public String location;
     public int monsterId;
+    public boolean greyYou;
+    public int drones;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
       int familiarId = current.getId();
-      this.familiar = current.getImageLocation();
+      this.familiar = current.getFightImageLocation();
       this.familiarName = current.getName();
       this.camel = (familiarId == FamiliarPool.MELODRAMEDARY);
       this.doppel =
@@ -5625,6 +5649,12 @@ public class FightRequest extends GenericRequest {
 
       // If we have the Meteor Lore skill
       this.meteors = KoLCharacter.hasSkill("Meteor Lore");
+
+      // If goose drones are active
+      this.drones = Preferences.getInteger("gooseDronesRemaining");
+
+      // If we are in Grey You and thus can absorb monsters
+      this.greyYou = KoLCharacter.inGreyYou();
 
       this.ghost = null;
 
@@ -6476,8 +6506,7 @@ public class FightRequest extends GenericRequest {
           FightRequest.logText(str, status);
         }
 
-        boolean camelAction = status.camel && str.contains(status.familiarName);
-        if (camelAction && status.logFamiliar) {
+        if (status.camel && str.contains(status.familiarName)) {
           // Melodramedary action
           FightRequest.handleMelodramedary(str, status);
         }
@@ -6494,6 +6523,7 @@ public class FightRequest extends GenericRequest {
           TagNode bnode = node.findElementByName("b", true);
           if (bnode != null) {
             String skill = bnode.getText().toString();
+            FightRequest.logSkillAcquisition(skill, status);
             ResponseTextParser.learnSkill(skill);
           }
           continue;
@@ -6664,6 +6694,7 @@ public class FightRequest extends GenericRequest {
           TagNode bnode = node.findElementByName("b", true);
           if (bnode != null) {
             String skill = bnode.getText().toString();
+            FightRequest.logSkillAcquisition(skill, status);
             ResponseTextParser.learnSkill(skill);
           }
           return false;
@@ -6964,6 +6995,11 @@ public class FightRequest extends GenericRequest {
         LocketManager.rememberMonster(status.monsterId);
       }
       return false;
+    }
+
+    if (status.greyYou && image.equals("greygooball.gif")) {
+      FightRequest.handleGreyYou(str, status);
+      return true;
     }
 
     // Combat item usage: process the children of this node
@@ -7312,6 +7348,14 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    if (status.camel && FightRequest.handleMelodramedary(str, status)) {
+      return;
+    }
+
+    if (FightRequest.handleGooseDrones(str, status)) {
+      return;
+    }
+
     if (FightRequest.handleFamiliarScrapbook(str, status)) {
       return;
     }
@@ -7397,12 +7441,16 @@ public class FightRequest extends GenericRequest {
 
   public static final Pattern SPIT_PATTERN = Pattern.compile("\\((\\d+)% full\\)");
 
-  private static void handleMelodramedary(String str, TagStatus status) {
+  private static boolean handleMelodramedary(String str, TagStatus status) {
+    if (!str.contains(status.familiarName)) {
+      return false;
+    }
+
     // You hear a loud <i>schlurrrrrk!</i> noise, and turn to see Gogarth sucking the liquid out of
     // a dented beer keg he found somewhere. (20% full)
     if (str.contains("smiles at you")) {
       // Don't log stat gain bonus
-      return;
+      return true;
     }
 
     if (str.contains("spits a tremendous globule of saliva at your foe")) {
@@ -7421,7 +7469,12 @@ public class FightRequest extends GenericRequest {
         Preferences.setInteger("camelSpit", StringUtilities.parseInt(m.group(1)));
       }
     }
-    FightRequest.logText(str, status);
+
+    if (status.logFamiliar) {
+      FightRequest.logText(str, status);
+    }
+
+    return true;
   }
 
   private static boolean processFumble(String text, TagStatus status) {
@@ -7454,6 +7507,8 @@ public class FightRequest extends GenericRequest {
       return false;
     }
 
+    boolean retval = true;
+
     int evilness =
         text.contains("a single beep")
             ? 1
@@ -7473,9 +7528,14 @@ public class FightRequest extends GenericRequest {
       evilness++;
     }
 
+    // Casting Slay the Dead while wearing a Vampire Slicer trench code decreases evilness.
+    // Subsequent familiar actions and item drops appear in the same "p" node, for some reason.
+    // Therefore, return false to allow subsequent nodes to be processed.
+
     // You trench cape ripples as an evil draft blows and then quiets, it feels less evil in here!
     if (text.contains("an evil draft blows")) {
       evilness++;
+      retval = false;
     }
 
     // The evil of the nightmare fuel in your system is in a different phase
@@ -7496,7 +7556,7 @@ public class FightRequest extends GenericRequest {
     Preferences.decrement(setting, evilness, 0);
     Preferences.decrement("cyrptTotalEvilness", evilness, 0);
 
-    return true;
+    return retval;
   }
 
   private static String getEvilZoneSetting(final Function<String, Boolean> isLocation) {
@@ -7537,6 +7597,71 @@ public class FightRequest extends GenericRequest {
         Preferences.decrement("cyrptTotalEvilness", evilness, 0);
         return true;
       }
+    }
+    return false;
+  }
+
+  // One of the matter duplicating drones seems to coalesce around the bag of park garbage and then
+  // transforms into an exact replica.  5 more drones are still circling around.
+  // 1 more drone is still circling around.
+  // That was the last drone.
+
+  private static final Pattern DRONE_ACTIVATION_PATTERN =
+      Pattern.compile("(\\d+) more drones are still circling around");
+
+  private static boolean handleGooseDrones(final String text, TagStatus status) {
+    if (status.drones == 0 || !text.contains("matter duplicating drones")) {
+      return false;
+    }
+
+    if (text.contains("That was the last drone")) {
+      Preferences.setInteger("gooseDronesRemaining", 0);
+      status.drones = 0;
+    }
+    if (text.contains("1 more drone is still circling around")) {
+      Preferences.setInteger("gooseDronesRemaining", 1);
+      status.drones = 1;
+    } else {
+      Matcher matcher = DRONE_ACTIVATION_PATTERN.matcher(text);
+      if (!matcher.find()) {
+        return false;
+      }
+      int drones = StringUtilities.parseInt(matcher.group(1));
+      Preferences.setInteger("gooseDronesRemaining", drones);
+      status.drones = drones;
+    }
+    FightRequest.logText(text, status);
+    return true;
+  }
+
+  // Your nanites absorb the remains and become more stylish.<br><b>+ 1 Moxie</b>
+  private static final Pattern GOO_GAIN_PATTERN =
+      Pattern.compile("\\+ (\\d+ (?:Muscle|Mysticality|Moxie))");
+
+  private static boolean handleGreyYou(String text, TagStatus status) {
+    // There are lots of messages when your nanites absorb your fallen foe. Examples:
+    //
+    // Your nanites hurry to absorb the bum and then thrum with an increased pace.
+    // Your nanites smell nicer after incorporating this creature.
+    // Your nanites vibrate as they absorb the creature.  It must have had a lot of potential
+    // energy!
+    // Your nanites absorb your fallen enemy.  Cool.
+    // Your nanites absorb the remains and become more stylish.
+    //
+    // But, it only seems to happen when you've won the combat.
+    if (FightRequest.won) {
+      GreyYouManager.absorbMonster(status.monster);
+      Matcher matcher = GOO_GAIN_PATTERN.matcher(text);
+      String gain = null;
+      if (matcher.find()) {
+        gain = "You gain " + matcher.group(1);
+        text = StringUtilities.singleStringDelete(text, matcher.group(0));
+      }
+      FightRequest.logText(text, status);
+      if (gain != null) {
+        logPlayerAttribute(status, gain);
+      }
+      return true;
     }
     return false;
   }
@@ -7771,6 +7896,10 @@ public class FightRequest extends GenericRequest {
     return false;
   }
 
+  private static void logSkillAcquisition(String skillName, final TagStatus status) {
+    FightRequest.logText("You acquire a skill: " + skillName, status);
+  }
+
   private static void logText(StringBuilder buffer, final TagStatus status) {
     FightRequest.logText(buffer.toString(), status);
   }
@@ -7803,6 +7932,7 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    text = text.trim();
     text = StringUtilities.globalStringReplace(text, "<br>", " / ");
     text = KoLConstants.ANYTAG_PATTERN.matcher(text).replaceAll(" ");
     text = StringUtilities.globalStringDelete(text, "&nbsp;");
@@ -8378,6 +8508,12 @@ public class FightRequest extends GenericRequest {
     return false;
   }
 
+  // X bits of goo emerge from <name> and begin hovering about, moving probingly around various
+  // objects.
+  // 1 bit of goo emerge from <name> and begin hovering about, moving probingly around various
+  // objects.
+  private static final Pattern GOOSE_DRONE_PATTERN = Pattern.compile("(\\d+) bits? of goo emerge");
+
   private static void payActionCost(final String responseText) {
     // If we don't know what we tried, punt now.
     if (FightRequest.nextAction == null || FightRequest.nextAction.equals("")) {
@@ -8761,6 +8897,13 @@ public class FightRequest extends GenericRequest {
       case SkillPool.BANISHING_SHOUT:
         if (!responseText.contains("but this foe refuses")) {
           BanishManager.banishMonster(monster, Banisher.BANISHING_SHOUT);
+        }
+        break;
+
+      case SkillPool.SYSTEM_SWEEP:
+        if (responseText.contains(
+            "Your nanites remember the molecular structure of your enemy, and learn to avoid it in the future.")) {
+          BanishManager.banishMonster(monster, Banisher.SYSTEM_SWEEP);
         }
         break;
 
@@ -9554,6 +9697,57 @@ public class FightRequest extends GenericRequest {
         }
         break;
 
+      case SkillPool.RE_PROCESS_MATTER:
+        // NAME launches almost all of its body mass at your foe. The blob
+        // careens off of THEM and then reforms into an identical copy, which
+        // is so surprised to exist that it immediately keels over.
+        if (responseText.contains("launches almost all of its body mass at your foe")) {
+          // It resets the weight of the Grey Goose to 1 lb.
+          KoLCharacter.getFamiliar().setExperience(0);
+          GreyYouManager.reprocessMonster(monster);
+        }
+        break;
+
+      case SkillPool.MEATIFY_MATTER:
+        // NAME detaches a big chunk of itself, slaps it onto your opponent's
+        // torso, and atomically reconfigures the whole mess into Meat.
+        if (responseText.contains("reconfigures the whole mess into Meat")) {
+          // This skill can only be used once per day.
+          Preferences.setBoolean("_meatifyMatterUsed", true);
+          // It resets the weight of the Grey Goose to 5 lb.
+          KoLCharacter.getFamiliar().setExperience(25);
+        }
+        break;
+
+      case SkillPool.EMIT_MATTER_DUPLICATING_DRONES:
+        // X bits of goo emerge from NAME and begin hovering about, moving probingly around various
+        // objects.
+        Matcher droneMatcher = GOOSE_DRONE_PATTERN.matcher(responseText);
+        if (droneMatcher.find()) {
+          // Drones add to existing drones
+          int drones = StringUtilities.parseInt(droneMatcher.group(1));
+          Preferences.increment("gooseDronesRemaining", drones);
+          // It resets the weight of the Grey Goose to 5 lb.
+          KoLCharacter.getFamiliar().setExperience(25);
+        }
+        break;
+
+      case SkillPool.CONVERT_MATTER_TO_PROTEIN:
+        // NAME detaches a big chunk of itself, slaps it onto your elbow, and converts the resultant
+        // slurry into pure muscle.
+      case SkillPool.CONVERT_MATTER_TO_ENERGY:
+        // NAME detaches a big chunk of itself, slaps it onto your calf, and converts the resultant
+        // slurry into pure brain energy.
+      case SkillPool.CONVERT_MATTER_TO_POMADE:
+        // NAME detaches a big chunk of itself and plops it onto your head, making your hair look
+        // absolutely <i>incredible</i>.
+        if (responseText.contains("bits of goo emerge from")
+            || responseText.contains("detaches a big chunk of itself")) {
+          // These skills reset the weight of the Grey Goose to 5 lb.
+          KoLCharacter.getFamiliar().setExperience(25);
+        }
+        break;
+
       case SkillPool.JUNK_BLAST:
       case SkillPool.SNIPE:
       case SkillPool.JUNK_MACE_SMASH:
@@ -9851,7 +10045,7 @@ public class FightRequest extends GenericRequest {
         break;
 
       case ItemPool.DAILY_DUNGEON_MALWARE:
-        if (responseText.contains("It's a UNIX System")
+        if (responseText.contains("It's a UNIX system")
             || responseText.contains("You attempt to hack the monster")) {
           Preferences.setBoolean("_dailyDungeonMalwareUsed", true);
         }

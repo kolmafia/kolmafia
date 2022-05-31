@@ -9,7 +9,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -58,7 +57,7 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
           true) {
         @Override
         public AdventureResult itemBuyPrice(final int itemId) {
-          return SpinMasterLatheRequest.buyCosts.get(IntegerPool.get(itemId));
+          return SpinMasterLatheRequest.buyCosts.get(itemId);
         }
       };
 
@@ -183,13 +182,13 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
         ItemDatabase.registerItem(itemId, itemName, descId);
       }
 
-      Integer iitemId = IntegerPool.get(itemId);
+      Integer iitemId = itemId;
       if (!SpinMasterLatheRequest.itemRows.containsKey(iitemId)) {
         AdventureResult item = ItemPool.get(itemId, PurchaseRequest.MAX_QUANTITY);
         SpinMasterLatheRequest.buyItems.add(item);
         AdventureResult cost = ItemPool.get(currency, price);
         SpinMasterLatheRequest.buyCosts.put(iitemId, cost);
-        SpinMasterLatheRequest.itemRows.put(iitemId, IntegerPool.get(row));
+        SpinMasterLatheRequest.itemRows.put(iitemId, row);
         NPCPurchaseRequest.learnCoinmasterItem(
             master, itemName, String.valueOf(price), String.valueOf(row));
         CoinmastersDatabase.registerPurchaseRequest(data, item, cost);

@@ -23,7 +23,6 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.*;
@@ -31,6 +30,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BugbearManager;
+import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
@@ -112,10 +112,9 @@ public class UseItemRequest extends GenericRequest {
 
   static {
     UseItemRequest.LIMITED_USES.put(
-        IntegerPool.get(ItemPool.ASTRAL_MUSHROOM), EffectPool.get(EffectPool.HALF_ASTRAL));
+        ItemPool.ASTRAL_MUSHROOM, EffectPool.get(EffectPool.HALF_ASTRAL));
 
-    UseItemRequest.LIMITED_USES.put(
-        IntegerPool.get(ItemPool.ABSINTHE), EffectPool.get(EffectPool.ABSINTHE));
+    UseItemRequest.LIMITED_USES.put(ItemPool.ABSINTHE, EffectPool.get(EffectPool.ABSINTHE));
   }
 
   public static String lastUpdate = "";
@@ -850,7 +849,7 @@ public class UseItemRequest extends GenericRequest {
         return 3;
     }
 
-    Integer key = IntegerPool.get(itemId);
+    Integer key = itemId;
 
     if (UseItemRequest.LIMITED_USES.containsKey(key)) {
       UseItemRequest.limiter = "unstackable effect";
@@ -5391,7 +5390,7 @@ public class UseItemRequest extends GenericRequest {
           // If you already have access it is not consumed
           return;
         }
-        ChoiceManager.parseLanguageFluency(responseText, "spaceBabyLanguageFluency");
+        ChoiceControl.parseLanguageFluency(responseText, "spaceBabyLanguageFluency");
         break;
 
       case ItemPool.LICENSE_TO_CHILL:

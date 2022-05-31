@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.nio.charset.StandardCharsets;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.chat.ChatManager;
 
@@ -59,7 +60,7 @@ public class ChatRequest extends GenericRequest {
     newURLString.append(KoLCharacter.getUserId());
 
     newURLString.append("&graf=");
-    newURLString.append(GenericRequest.encodeURL(graf, "ISO-8859-1"));
+    newURLString.append(GenericRequest.encodeURL(graf, StandardCharsets.ISO_8859_1));
 
     this.constructURLString(newURLString.toString(), false);
 

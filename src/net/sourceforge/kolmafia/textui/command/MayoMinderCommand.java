@@ -5,7 +5,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -26,11 +25,11 @@ public class MayoMinderCommand extends AbstractCommand {
 
   public static final Object[][] MAYO =
       new Object[][] {
-        {"mayodiol", "drunk", IntegerPool.get(MAYODIOL)},
-        {"mayoflex", "adv", IntegerPool.get(MAYOFLEX)},
-        {"mayonex", "bmc", IntegerPool.get(MAYONEX)},
-        {"mayostat", "food", IntegerPool.get(MAYOSTAT)},
-        {"mayozapine", "stat", IntegerPool.get(MAYOZAPINE)},
+        {"mayodiol", "drunk", MAYODIOL},
+        {"mayoflex", "adv", MAYOFLEX},
+        {"mayonex", "bmc", MAYONEX},
+        {"mayostat", "food", MAYOSTAT},
+        {"mayozapine", "stat", MAYOZAPINE},
       };
 
   public static final int findMayo(final String name) {

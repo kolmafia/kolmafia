@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -217,7 +218,7 @@ public class MaximizerTest {
           new Cleanups(inPath(Path.BEES_HATE_YOU), canUse("bubblewrap bottlecap turtleban"));
       try (cleanups) {
         maximize("mys");
-        recommendedSlotIsEmpty(EquipmentManager.HAT);
+        recommendedSlotIsUnchanged(EquipmentManager.HAT);
       }
     }
 
@@ -370,7 +371,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("moxie -tie"));
-        recommendedSlotIsEmpty(EquipmentManager.HAT);
+        recommendedSlotIsUnchanged(EquipmentManager.HAT);
         assertTrue(someBoostIs(x -> commandStartsWith(x, "absorb ¶9"))); // disco mask
       }
     }
@@ -383,26 +384,80 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("muscle -tie"));
-        recommendedSlotIsEmpty(EquipmentManager.HAT);
+        recommendedSlotIsUnchanged(EquipmentManager.HAT);
         assertTrue(someBoostIs(x -> commandStartsWith(x, "absorb ¶3"))); // helmet turtle
       }
     }
 
     @Test
-    @Disabled("Bug: doesn't work in Mafia, but should")
     public void canBenefitFromOutfits() {
       final var cleanups =
           new Cleanups(
+              inPath(Path.GELATINOUS_NOOB), canUse("bugbear beanie"), canUse("bugbear bungguard"));
+
+      try (cleanups) {
+        assertTrue(maximize("spell dmg -tie"));
+        recommendedSlotIs(EquipmentManager.HAT, "bugbear beanie");
+        recommendedSlotIs(EquipmentManager.PANTS, "bugbear bungguard");
+      }
+    }
+
+    @Test
+    public void canBenefitFromOutfitsWithWeapons() {
+      final var cleanups =
+          new Cleanups(
               inPath(Path.GELATINOUS_NOOB),
-              addItem("The Jokester's wig"),
-              addItem("The Jokester's gun"),
-              addItem("The Jokester's pants"));
+              canUse("The Jokester's wig"),
+              canUse("The Jokester's gun"),
+              canUse("The Jokester's pants"));
 
       try (cleanups) {
         assertTrue(maximize("meat -tie"));
         recommendedSlotIs(EquipmentManager.HAT, "The Jokester's wig");
         recommendedSlotIs(EquipmentManager.WEAPON, "The Jokester's gun");
         recommendedSlotIs(EquipmentManager.PANTS, "The Jokester's pants");
+      }
+    }
+  }
+
+  @Nested
+  class Letter {
+    @Test
+    public void equipLongestItems() {
+      final var cleanups = new Cleanups(canUse("spiked femur"), canUse("sweet ninja sword"));
+
+      try (cleanups) {
+        maximize("letter");
+
+        recommendedSlotIs(EquipmentManager.WEAPON, "sweet ninja sword");
+      }
+    }
+
+    @Test
+    public void equipMostLetterItems() {
+      final var cleanups =
+          new Cleanups(
+              canUse("asparagus knife"),
+              canUse("sweet ninja sword"),
+              canUse("Fourth of May Cosplay Saber"),
+              canUse("old sweatpants"));
+
+      try (cleanups) {
+        maximize("letter n");
+
+        recommendedSlotIs(EquipmentManager.WEAPON, "sweet ninja sword");
+        recommendedSlotIs(EquipmentManager.PANTS, "old sweatpants");
+      }
+    }
+
+    @Test
+    public void equipMostNumberItems() {
+      final var cleanups = new Cleanups(canUse("X-37 gun"), canUse("sweet ninja sword"));
+
+      try (cleanups) {
+        maximize("number");
+
+        recommendedSlotIs(EquipmentManager.WEAPON, "X-37 gun");
       }
     }
   }
@@ -477,7 +532,7 @@ public class MaximizerTest {
         assertTrue(maximize("-combat -tie"));
         assertEquals(0, modFor("Combat Rate"), 0.01);
 
-        recommendedSlotIsEmpty(EquipmentManager.HAT);
+        recommendedSlotIsUnchanged(EquipmentManager.HAT);
       }
     }
 
@@ -683,11 +738,21 @@ public class MaximizerTest {
 
           assertEquals(30, modFor("Meat Drop"), 0.01);
           recommendedSlotIs(EquipmentManager.OFFHAND, "silver cow creamer");
-          recommendedSlotIsEmpty(EquipmentManager.ACCESSORY1);
-          recommendedSlotIsEmpty(EquipmentManager.ACCESSORY2);
-          recommendedSlotIsEmpty(EquipmentManager.ACCESSORY3);
+          recommendedSlotIsUnchanged(EquipmentManager.ACCESSORY1);
+          recommendedSlotIsUnchanged(EquipmentManager.ACCESSORY2);
+          recommendedSlotIsUnchanged(EquipmentManager.ACCESSORY3);
         }
       }
+    }
+  }
+
+  @Test
+  public void canFoldUmbrella() {
+    final var cleanups = new Cleanups(canUse("unbreakable umbrella"));
+    Preferences.setString("umbrellaState", "cocoon");
+    try (cleanups) {
+      assertTrue(maximize("Monster Level Percent"));
+      recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
     }
   }
 }

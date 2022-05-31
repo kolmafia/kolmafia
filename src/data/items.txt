@@ -10162,7 +10162,7 @@
 10134	loofah legwarmers	861814172	loof_warmers.gif	accessory		0
 10135	loofah lavalier	742480306	loof_lavalier.gif	accessory		0
 10136	loofah lumps	141391283	loof_bits.gif	spleen, usable		0
-10137
+10137	chocolate-covered loofah	476932724	loof_candy.gif	potion, usable	t,d	15
 10138	flagstone flag	485110859	fs_flag.gif	offhand		0
 10139	flagstone flail	774649175	fs_flail.gif	weapon		0
 10140	flagstone flip-flops	790456758	fs_flipflops.gif	accessory		0
@@ -10170,7 +10170,7 @@
 10142	flagstone fleece	890070574	fs_fleece.gif	container		0
 10143	flagstone fringe	839701459	fs_fringe.gif	accessory		0
 10144	flagstone flagments	646585503	fs_bits.gif	spleen, usable		0
-10145
+10145	Flag by the Foot&trade;	753564360	fs_candy.gif	potion, usable	t,d	15
 10146	elf sleeper agent	896004413	elfoplarva.gif	grow	t	0
 10147	red-and-green microcamera	537719204	elfopcamera.gif	familiar	t,d	75
 10148	cobbled-together Meat detector	379535516	elfopdetector.gif	offhand	q	0
@@ -10921,3 +10921,23 @@
 10894	Thwaitgold protozoa statuette	575626986	thwaitprotozoa.gif	none		0
 10895	grey gosling	802522606	greygosling.gif	grow	t	0
 10896	grey down vest	994210569	greygoovest.gif	familiar	t,d	75
+10897
+10898	undamaged Unbreakable Umbrella	591888584	unbrella1.gif	usable	t	0
+10899	unbreakable umbrella	712482724	unbrella7.gif	offhand		0
+10900	MayDay&trade; contract	536141141	maydaycontract.gif	usable	t	0
+10901	MayDay&trade; supply package	553211944	maydaypackage.gif	usable	q	0
+10902	emergency glowstick	177725411	maydayglowstick.gif	potion, usable	t,d	10
+10903	survival knife	486525726	maydayknife.gif	weapon	q	0
+10904	crank-powered radio on a lanyard	165573911	maydayradio.gif	accessory	q	0
+10905	headlamp	847104238	maydayheadlamp.gif	hat	q	0
+10906	thermal blanket	341518349	maydayblanket.gif	container	q	0
+10907	atlas of local maps	489238716	maydayatlas.gif	accessory	q	0
+10908	spare battery	133495777	maydaybattery.gif	potion, usable	t,d	10
+10909	space blanket	459795439	maydayblanket2.gif	none	t,d	5000
+10910	single-use dust mask	181045054	maydaymask.gif	potion, usable	t,d	10
+10911	gaffer's tape	975019349	maydaytape.gif	potion, usable	t,d	10
+10912	20-lb can of rice and beans	612048631	maydaycan.gif	food	t,d	10
+10913	bar of freeze-dried water	860292955	maydaywater.gif	food	t,d	10
+10914	expired MRE	120160347	maydaymre.gif	food	t,d	10
+10915	cool mint precipice bar	646996512	maydaybar.gif	food	t,d	10
+10916	carrot cake precipice bar	709552696	maydaybar.gif	food	t,d	10

@@ -79,6 +79,22 @@ public class ListenerRegistry {
     }
   }
 
+  public final void unregisterListener(final Object key, final Listener listener) {
+    ArrayList<WeakReference<Listener>> listenerList;
+
+    synchronized (this.listenerMap) {
+      listenerList = this.listenerMap.get(key);
+    }
+
+    if (listenerList == null) {
+      return;
+    }
+
+    synchronized (listenerList) {
+      listenerList.removeIf(ref -> listener.equals(ref.get()));
+    }
+  }
+
   public final void fireListener(final Object key) {
     ArrayList<WeakReference<Listener>> listenerList = null;
 

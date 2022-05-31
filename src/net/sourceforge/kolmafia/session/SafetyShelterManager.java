@@ -2,16 +2,18 @@ package net.sourceforge.kolmafia.session;
 
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SafetyShelterManager {
-  public static final String[] RonaldGoals = {
-    "E.M.U. rocket thrusters",
-    "Spell Transfer Complete",
-    "E.M.U. joystick",
-    "elven medi-pack & magi-pack",
-    "Overstimulated",
-    "Simulation Stimulation",
+  public static final Option[] RonaldGoals = {
+    new Option("E.M.U. rocket thrusters"),
+    new Option("Spell Transfer Complete"),
+    new Option("E.M.U. joystick"),
+    new Option("elven medi-pack & magi-pack"),
+    new Option("Overstimulated"),
+    new Option("Simulation Stimulation"),
   };
 
   private static final String[] RonaldScript = {
@@ -23,13 +25,13 @@ public class SafetyShelterManager {
     "1322", // Simulation Stimulation
   };
 
-  public static final String[] GrimaceGoals = {
-    "distention pill",
-    "synthetic dog hair pill",
-    "Heal Thy Nanoself",
-    "E.M.U. harness",
-    "elven hardtack & squeeze",
-    "E.M.U. Helmet",
+  public static final Option[] GrimaceGoals = {
+    new Option("distention pill"),
+    new Option("synthetic dog hair pill"),
+    new Option("Heal Thy Nanoself"),
+    new Option("E.M.U. harness"),
+    new Option("elven hardtack & squeeze"),
+    new Option("E.M.U. Helmet"),
   };
 
   private static final String[] GrimaceScript = {
@@ -63,7 +65,8 @@ public class SafetyShelterManager {
     }
 
     decision = script[goal].substring(stepCount, stepCount + 1);
-    String action = ChoiceManager.findChoiceDecisionText(Integer.parseInt(decision), responseText);
+    String action =
+        ChoiceUtilities.findChoiceDecisionText(Integer.parseInt(decision), responseText);
     if (action != null) {
       logText("Action: " + action);
     }
@@ -87,7 +90,7 @@ public class SafetyShelterManager {
       return;
     }
 
-    ChoiceManager.addGoalButton(buffer, RonaldGoals[goal - 1]);
+    ChoiceManager.addGoalButton(buffer, RonaldGoals[goal - 1].getName());
   }
 
   public static final void addGrimaceGoalButton(final StringBuffer buffer) {
@@ -101,6 +104,6 @@ public class SafetyShelterManager {
       return;
     }
 
-    ChoiceManager.addGoalButton(buffer, GrimaceGoals[goal - 1]);
+    ChoiceManager.addGoalButton(buffer, GrimaceGoals[goal - 1].getName());
   }
 }

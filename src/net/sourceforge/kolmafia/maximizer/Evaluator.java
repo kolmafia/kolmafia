@@ -11,6 +11,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -35,6 +36,7 @@ import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
+import net.sourceforge.kolmafia.request.UmbrellaRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.textui.command.BackupCameraCommand;
@@ -66,6 +68,7 @@ public class Evaluator {
   private boolean snowsuitNeeded = false;
   private boolean retroCapeNeeded = false;
   private boolean backupCameraNeeded = false;
+  private boolean unbreakableUmbrellaNeeded = false;
 
   /** if slots[i] >= 0 then equipment of type i can be considered for maximization */
   private final int[] slots = new int[EquipmentManager.ALL_SLOTS];
@@ -89,6 +92,17 @@ public class Evaluator {
   private final Set<AdventureResult> negEquip = new HashSet<>();
   private final Set<AdventureResult> uniques = new HashSet<>();
   private final Map<AdventureResult, Double> bonuses = new HashMap<>();
+  private final List<BonusFunction> bonusFunc = new ArrayList<>();
+
+  static class BonusFunction {
+    public final Function<AdventureResult, Double> bonusFunction;
+    public final Double weight;
+
+    public BonusFunction(Function<AdventureResult, Double> bonusFunction, Double weight) {
+      this.bonusFunction = bonusFunction;
+      this.weight = weight;
+    }
+  }
 
   private static final String TIEBREAKER =
       "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage, 0.1 sixgun damage";
@@ -379,6 +393,23 @@ public class Evaluator {
           return;
         }
         this.bonuses.put(match, weight);
+        continue;
+      }
+
+      if (keyword.startsWith("letter")) {
+        keyword = keyword.substring(6).trim();
+        if (keyword.equals("")) { // no keyword counts letters
+          this.bonusFunc.add(new BonusFunction(LetterBonus::letterBonus, weight));
+        } else {
+          String finalKeyword = keyword;
+          this.bonusFunc.add(
+              new BonusFunction(ar -> LetterBonus.letterBonus(ar, finalKeyword), weight));
+        }
+        continue;
+      }
+
+      if (keyword.equals("number")) {
+        this.bonusFunc.add(new BonusFunction(LetterBonus::numberBonus, weight));
         continue;
       }
 
@@ -778,6 +809,13 @@ public class Evaluator {
       for (AdventureResult item : equipment) {
         if (this.bonuses.containsKey(item)) {
           score += this.bonuses.get(item);
+        }
+      }
+    }
+    if (!this.bonusFunc.isEmpty()) {
+      for (BonusFunction func : this.bonusFunc) {
+        for (AdventureResult item : equipment) {
+          score += func.bonusFunction.apply(item) * func.weight;
         }
       }
     }
@@ -1414,6 +1452,12 @@ public class Evaluator {
           this.backupCameraNeeded = true;
         }
 
+        if (id == ItemPool.UNBREAKABLE_UMBRELLA
+            && (this.slots[EquipmentManager.OFFHAND] + this.slots[EquipmentManager.FAMILIAR]
+                >= 0)) {
+          this.unbreakableUmbrellaNeeded = true;
+        }
+
         if (id == ItemPool.VAMPYRIC_CLOAKE) {
           mods = new Modifiers(mods);
           mods.applyVampyricCloakeModifiers();
@@ -1502,8 +1546,8 @@ public class Evaluator {
     // Assume current ones are best if in use
     FamiliarData bestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
     FamiliarData secondBestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
-    FamiliarData useBjornFamiliar = FamiliarData.NO_FAMILIAR;
-    FamiliarData useCrownFamiliar = FamiliarData.NO_FAMILIAR;
+    FamiliarData useBjornFamiliar = null;
+    FamiliarData useCrownFamiliar = null;
 
     // If we're not allowed to change the current familiar, lock it
     if (this.slots[EquipmentManager.BUDDYBJORN] < 0) {
@@ -1743,6 +1787,34 @@ public class Evaluator {
       }
     }
 
+    String bestUmbrella = null;
+
+    if (this.unbreakableUmbrellaNeeded) {
+      MaximizerSpeculation best = new MaximizerSpeculation();
+      CheckedItem unbreakableUmbrella =
+          new CheckedItem(ItemPool.UNBREAKABLE_UMBRELLA, equipScope, maxPrice, priceLevel);
+      best.attachment = unbreakableUmbrella;
+      bestUmbrella = Preferences.getString("umbrellaState");
+      best.equipment[EquipmentManager.OFFHAND] = unbreakableUmbrella;
+      best.setUnbreakableUmbrella(bestUmbrella);
+
+      for (UmbrellaRequest.Form x : UmbrellaRequest.Form.values()) {
+        String state = x.name;
+        if (state.equals(bestUmbrella)) {
+          continue;
+        }
+
+        MaximizerSpeculation spec = new MaximizerSpeculation();
+        spec.attachment = unbreakableUmbrella;
+        spec.equipment[EquipmentManager.OFFHAND] = unbreakableUmbrella;
+        spec.setUnbreakableUmbrella(state);
+        if (spec.compareTo(best) > 0) {
+          best = spec.clone();
+          bestUmbrella = state;
+        }
+      }
+    }
+
     List<List<MaximizerSpeculation>> speculationList = new ArrayList<>(ranked.size());
     for (int i = 0; i < ranked.size(); ++i) {
       speculationList.add(new ArrayList<MaximizerSpeculation>());
@@ -1821,6 +1893,10 @@ public class Evaluator {
         } else if (itemId == ItemPool.BACKUP_CAMERA) {
           if (bestBackupCamera != null) {
             spec.setBackupCamera(bestBackupCamera);
+          }
+        } else if (itemId == ItemPool.UNBREAKABLE_UMBRELLA) {
+          if (bestUmbrella != null) {
+            spec.setUnbreakableUmbrella(bestUmbrella);
           }
         } else if (itemId == ItemPool.COWBOY_BOOTS) {
           MaximizerSpeculation current = new MaximizerSpeculation();
@@ -2100,6 +2176,8 @@ public class Evaluator {
           // For accessories compare with 3rd best for first accessory, 2nd best for second
           // accessory, best for third
           int newSlot = slot + (slot == EquipmentManager.ACCESSORY1 ? accCount : 0);
+          // if we're comparing 1-handed weapons, assign the spec slot as weapon
+          newSlot = newSlot == Evaluator.WEAPON_1H ? EquipmentManager.WEAPON : newSlot;
           int compareItemNo = speculationList.get(slot).size() - 1;
           int accSkip = slot == EquipmentManager.ACCESSORY1 ? 2 - accCount : 0;
           while (compareItemNo >= 0) {
@@ -2314,6 +2392,10 @@ public class Evaluator {
 
     if (spec.equipment[EquipmentManager.ACCESSORY3] == null) {
       spec.setBackupCamera(bestBackupCamera);
+    }
+
+    if (spec.equipment[EquipmentManager.OFFHAND] == null) {
+      spec.setUnbreakableUmbrella(bestUmbrella);
     }
 
     if (spec.equipment[EquipmentManager.FAMILIAR] == null) {

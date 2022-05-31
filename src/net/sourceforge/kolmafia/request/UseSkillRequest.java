@@ -1004,6 +1004,10 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       case SkillPool.FEEL_PEACEFUL:
         maximumCast = Math.max(0, 3 - Preferences.getInteger("_feelPeacefulUsed"));
         break;
+
+      case SkillPool.MEATIFY_MATTER:
+        maximumCast = Preferences.getBoolean("_meatifyMatterUsed") ? 0 : 1;
+        break;
     }
 
     return maximumCast;

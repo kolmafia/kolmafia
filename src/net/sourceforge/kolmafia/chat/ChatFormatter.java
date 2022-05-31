@@ -1,7 +1,10 @@
 package net.sourceforge.kolmafia.chat;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -325,11 +328,19 @@ public class ChatFormatter {
         InputFieldUtilities.input(
             "What word/phrase would you like to highlight?", KoLCharacter.getUserName());
 
+    addHighlighting(highlight);
+  }
+
+  public static final void addHighlighting(String highlight) {
+    addHighlighting(highlight, ChatFormatter.getRandomColor());
+  }
+
+  public static final void addHighlighting(String highlight, Color color) {
     if (highlight == null || highlight.length() == 0) {
       return;
     }
 
-    Color color = ChatFormatter.getRandomColor();
+    removeHighlighting(highlight);
 
     String newSetting =
         Preferences.getString("highlightList")
@@ -359,30 +370,40 @@ public class ChatFormatter {
       return;
     }
 
+    removeHighlighting(selectedValue);
+  }
+
+  public static Collection<String> getHighlights() {
+    String[] split = Preferences.getString("highlightList").split("\n");
+    List<String> highlights = new ArrayList<>();
+
+    for (int i = 0; i < split.length; i += 2) {
+      highlights.add(split[i] + "\n" + split[i + 1]);
+    }
+
+    return highlights;
+  }
+
+  public static void removeHighlighting(String selectedValue) {
+    selectedValue = selectedValue.toLowerCase();
+
+    String[] patterns = StyledChatBuffer.searchStrings.toArray(new String[0]);
+
     for (int i = 0; i < patterns.length; ++i) {
-      if (patterns[i].equals(selectedValue)) {
-        String settingString = StyledChatBuffer.removeHighlight(i);
-
-        String oldSetting = Preferences.getString("highlightList");
-        int startIndex = oldSetting.indexOf(settingString);
-        int endIndex = startIndex + settingString.length();
-
-        StringBuffer newSetting = new StringBuffer();
-
-        if (startIndex != -1) {
-          newSetting.append(oldSetting, 0, startIndex);
-
-          if (endIndex < oldSetting.length()) {
-            newSetting.append(oldSetting.substring(endIndex));
-          }
-        }
-
-        String cleanString = newSetting.toString();
-        cleanString = ChatFormatter.MULTILINE_PATTERN.matcher(cleanString).replaceAll("\n");
-        cleanString = cleanString.trim();
-
-        Preferences.setString("highlightList", cleanString);
+      if (!patterns[i].equals(selectedValue)) {
+        continue;
       }
+
+      Collection<String> highlights = getHighlights();
+      String settingString = StyledChatBuffer.removeHighlight(i);
+
+      highlights.remove(settingString);
+
+      String cleanString = String.join("\n", highlights);
+      cleanString = ChatFormatter.MULTILINE_PATTERN.matcher(cleanString).replaceAll("\n");
+      cleanString = cleanString.trim();
+
+      Preferences.setString("highlightList", cleanString);
     }
   }
 }

@@ -15,10 +15,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 import javax.swing.ImageIcon;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -31,17 +30,20 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class FileUtilities {
-  private static final Pattern FILEID_PATTERN = Pattern.compile("(\\d+)\\.");
-  private static HttpClient client;
+  private static ResettingHttpClient client;
 
-  private static HttpClient getClient() {
+  private static ResettingHttpClient getClient() {
     if (client != null) {
       return client;
     }
 
-    var built = HttpUtilities.getClientBuilder().build();
+    var built = new ResettingHttpClient(FileUtilities::createClient);
     client = built;
     return built;
+  }
+
+  private static HttpClient createClient() {
+    return HttpUtilities.getClientBuilder().build();
   }
 
   private FileUtilities() {}
@@ -205,7 +207,7 @@ public class FileUtilities {
       RequestLogger.trace("Requesting: " + remote);
     }
 
-    HttpClient client = getClient();
+    var client = getClient();
     HttpResponse<InputStream> response;
     try {
       response = client.send(request, BodyHandlers.ofInputStream());
@@ -252,7 +254,7 @@ public class FileUtilities {
         byte[] bytes = ByteBufferUtilities.read(istream);
         String text = new String(bytes);
         text = StringUtilities.globalStringReplace(text, "location.hostname", "location.host");
-        ostream.write(text.getBytes());
+        ostream.write(text.getBytes(StandardCharsets.UTF_8));
       } else if (remote.endsWith(".gif")) {
         byte[] bytes = ByteBufferUtilities.read(istream);
         String signature = new String(bytes, 0, 3);
@@ -305,7 +307,7 @@ public class FileUtilities {
 
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
     downloadFileToStream(remote, istream, ostream);
-    return new StringBuffer(StringUtilities.getEncodedString(ostream.toByteArray(), "UTF-8"));
+    return new StringBuffer(ostream.toString(StandardCharsets.UTF_8));
   }
 
   private static InputStream getInputStream(HttpResponse<InputStream> response) {
@@ -351,14 +353,6 @@ public class FileUtilities {
       // than nothing.
       var header = StringUtilities.formatDate(local.lastModified());
       requestBuilder.setHeader("If-Modified-Since", header);
-    }
-
-    if (remote.startsWith("http://pics.communityofloathing.com")) {
-      Matcher idMatcher = FileUtilities.FILEID_PATTERN.matcher(local.getPath());
-      if (idMatcher.find()) {
-        requestBuilder.setHeader(
-            "Referer", "http://www.kingdomofloathing.com/showplayer.php?who=" + idMatcher.group(1));
-      }
     }
 
     HttpResponse<InputStream> response = getResponseFromRequest(remote, requestBuilder.build());

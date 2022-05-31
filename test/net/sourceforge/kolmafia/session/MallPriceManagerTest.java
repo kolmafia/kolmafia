@@ -14,8 +14,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Clock;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -198,6 +200,73 @@ public class MallPriceManagerTest {
     MallPriceManager.updateMallPrice(item, results);
   }
 
+  private List<PurchaseRequest> generateSearchResults(AdventureResult item, int[] prices) {
+    int itemId = item.getItemId();
+    List<PurchaseRequest> retval =
+        Arrays.stream(prices)
+            .mapToObj(price -> makeMallItem(itemId, 1, price))
+            .collect(Collectors.toList());
+    return retval;
+  }
+
+  private int[] getTestPrices() {
+    // count  mall price    actual   current   better
+    // -----  ----------  ---------   ------   ------
+    //   1        100         100       500      500
+    //   2        200         300      1000     1000
+    //   3        300         600      1500     1500
+    //   4        400        1000      2000     2000
+    //   5        500        1500      2500     2500
+    //   6       1000        2500      3000     3500
+    //   7       1000        3500      3500     4500
+    //   8       1000        4500      4000     5500
+    //   9       1000        5500      4500     6500
+    //  10       1000        6500      5000     7500
+    //  11       5000       11500      5500    12500
+    //  12       5000       16500      6000    17500
+    //  13       5000       21500      6500    22500
+    //  14       5000       26500      7000    27500
+    //  15       5000       31500      7500    32500
+
+    return new int[] {
+      100, 200, 300, 400, 500, 1000, 1000, 1000, 1000, 1000, 5000, 5000, 5000, 5000, 5000
+    };
+  }
+
+  @Test
+  public void canFindPriceForMultipleItems() {
+    AdventureResult item = ItemPool.get(ItemPool.REAGENT);
+    int[] prices = getTestPrices();
+    try (var cleanups = mockClock()) {
+      long timestamp = 1_000_000;
+      Mockito.when(clock.millis()).thenReturn(timestamp);
+
+      List<PurchaseRequest> results = generateSearchResults(item, prices);
+      assertEquals(15, results.size());
+      addSearchResults(item, results);
+
+      // Get mall price for buying from 1 to 15 of the item.
+      assertEquals(500, MallPriceManager.getMallPrice(item.getInstance(1)));
+      assertEquals(1000, MallPriceManager.getMallPrice(item.getInstance(2)));
+      assertEquals(1500, MallPriceManager.getMallPrice(item.getInstance(3)));
+      assertEquals(2000, MallPriceManager.getMallPrice(item.getInstance(4)));
+      assertEquals(2500, MallPriceManager.getMallPrice(item.getInstance(5)));
+      assertEquals(3500, MallPriceManager.getMallPrice(item.getInstance(6)));
+      assertEquals(4500, MallPriceManager.getMallPrice(item.getInstance(7)));
+      assertEquals(5500, MallPriceManager.getMallPrice(item.getInstance(8)));
+      assertEquals(6500, MallPriceManager.getMallPrice(item.getInstance(9)));
+      assertEquals(7500, MallPriceManager.getMallPrice(item.getInstance(10)));
+      assertEquals(12500, MallPriceManager.getMallPrice(item.getInstance(11)));
+      assertEquals(17500, MallPriceManager.getMallPrice(item.getInstance(12)));
+      assertEquals(22500, MallPriceManager.getMallPrice(item.getInstance(13)));
+      assertEquals(27500, MallPriceManager.getMallPrice(item.getInstance(14)));
+      assertEquals(32500, MallPriceManager.getMallPrice(item.getInstance(15)));
+
+      // Counts greater than available extrapolate using highest price
+      assertEquals(37500, MallPriceManager.getMallPrice(item.getInstance(16)));
+    }
+  }
+
   @Test
   public void canFindNPCPurchaseRequest() {
     try (var cleanups = mockClock()) {
@@ -222,7 +291,7 @@ public class MallPriceManagerTest {
       addSearchResults(item, results);
 
       // This item is a NPC item available for the 5th cheapest price
-      int mallPrice = MallPriceManager.getMallPrice(item);
+      long mallPrice = MallPriceManager.getMallPrice(item);
       assertEquals(mallPrice, 400);
     }
   }
@@ -256,7 +325,7 @@ public class MallPriceManagerTest {
       addSearchResults(item, results);
 
       // Find the fifth cheapest price
-      int mallPrice = MallPriceManager.getMallPrice(item);
+      long mallPrice = MallPriceManager.getMallPrice(item);
       assertEquals(mallPrice, 400);
 
       // Flush the first shop's PurchaseRequest
@@ -384,7 +453,7 @@ public class MallPriceManagerTest {
       assertNotNull(search);
 
       // Verify that we have a saved "5th lowest" mall price
-      int price = MallPriceManager.getMallPrice(item);
+      long price = MallPriceManager.getMallPrice(item);
       assertEquals(500, price);
 
       // Flush the PurchaseRequests for this item
@@ -474,7 +543,7 @@ public class MallPriceManagerTest {
       assertNull(search);
 
       // Verify that the saved price is -1, which means "not in the mall"
-      int price = MallPriceManager.getMallPrice(item);
+      long price = MallPriceManager.getMallPrice(item);
       assertEquals(-1, price);
     }
   }

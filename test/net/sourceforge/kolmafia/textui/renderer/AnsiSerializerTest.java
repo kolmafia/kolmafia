@@ -62,6 +62,14 @@ public class AnsiSerializerTest {
   }
 
   @Test
+  public void itShouldSerializeFontTagsWithoutColor() {
+    String html = "<font>Some text</font>";
+    String expected = "Some text\u001B[m";
+    String actual = AnsiSerializer.serializeHtml(html);
+    assertEquals(expected, actual);
+  }
+
+  @Test
   public void itShouldSerializeSimpleAttributes() {
     String html =
         "<font color=\"seagreen\">some <b>bold</b>, <i>italic</i>, <u>underlined</u> and <s>striked out</s> text</font>";

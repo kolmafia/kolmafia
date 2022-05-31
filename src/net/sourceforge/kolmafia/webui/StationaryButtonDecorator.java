@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -425,8 +424,7 @@ public class StationaryButtonDecorator {
     // those skills which are usable against them.
     if (KoLCharacter.inTheSource() && FightRequest.isSourceAgent()) {
       StationaryButtonDecorator.addScriptButton(urlString, actionBuffer, true);
-      for (UseSkillRequest skill : KoLConstants.availableCombatSkills) {
-        int skillId = skill.getSkillId();
+      for (int skillId : KoLConstants.availableCombatSkillsList) {
         if (SkillDatabase.sourceAgentSkill(skillId)) {
           StationaryButtonDecorator.addFightButton(actionBuffer, String.valueOf(skillId), true);
         }
@@ -498,11 +496,9 @@ public class StationaryButtonDecorator {
     }
 
     int classStunId = SkillDatabase.getSkillId(classStun);
-    if (!inBirdForm && KoLCharacter.hasSkill(classStun)) {
-      UseSkillRequest stunRequest = UseSkillRequest.getUnmodifiedInstance(classStun);
+    if (!inBirdForm && KoLCharacter.hasSkill(classStunId)) {
       boolean enabled =
-          FightRequest.getCurrentRound() > 0
-              && KoLConstants.availableCombatSkills.contains(stunRequest);
+          FightRequest.getCurrentRound() > 0 && KoLCharacter.hasCombatSkill(classStunId);
       // Only enable Club Foot when character has Fury, as it's only a stun then.
       enabled &= !(classStun.equals("Club Foot") && KoLCharacter.getFury() == 0);
       // Only enable Soul Bubble when character has 5 Soulsauce, as it's only a stun then.
@@ -584,16 +580,13 @@ public class StationaryButtonDecorator {
           actionBuffer, action, FightRequest.getCurrentRound() > 0);
     }
 
-    // Add conditionally available combat skills
-    // parsed from the fight page
+    // Add conditionally available combat skills parsed from the fight page
+    // They are in the order that KoL had them in the dropdown.
 
-    for (int i = 0; i < KoLConstants.availableCombatSkills.size(); ++i) {
-      UseSkillRequest current = KoLConstants.availableCombatSkills.get(i);
-      int actionId = current.getSkillId();
+    for (int actionId : KoLConstants.availableCombatSkillsList) {
       if (actionId >= 7000 && actionId < 8000 && actionId != classStunId && actionId != 7201) {
-        String action = String.valueOf(actionId);
         StationaryButtonDecorator.addFightButton(
-            actionBuffer, action, FightRequest.getCurrentRound() > 0);
+            actionBuffer, String.valueOf(actionId), FightRequest.getCurrentRound() > 0);
       }
     }
 
@@ -709,9 +702,8 @@ public class StationaryButtonDecorator {
       actionBuffer.append("skill&whichskill=");
       actionBuffer.append(action);
       int skillID = StringUtilities.parseInt(action);
-      UseSkillRequest actionRequest = UseSkillRequest.getUnmodifiedInstance(skillID);
-      isEnabled &= KoLConstants.availableCombatSkills.contains(actionRequest);
-      // Some skills cannot be used by KOL does not remove them
+      isEnabled &= KoLCharacter.hasCombatSkill(skillID);
+      // Some skills cannot be used but KoL does not remove them
       switch (skillID) {
         case SkillPool.LASH_OF_COBRA:
           isEnabled = !Preferences.getBoolean("edUsedLash");

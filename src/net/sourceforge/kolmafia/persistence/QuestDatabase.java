@@ -955,6 +955,7 @@ public class QuestDatabase {
     Preferences.resetToDefault("hiddenHospitalProgress");
     Preferences.resetToDefault("hiddenOfficeProgress");
     Preferences.resetToDefault("hiddenBowlingAlleyProgress");
+    Preferences.resetToDefault("zigguratLianas");
     Preferences.resetToDefault("blackForestProgress");
     Preferences.resetToDefault("nsChallenge1");
     Preferences.resetToDefault("nsChallenge2");

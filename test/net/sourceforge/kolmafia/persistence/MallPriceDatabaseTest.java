@@ -22,7 +22,7 @@ public class MallPriceDatabaseTest {
     MallPriceDatabase.submitPrices("http://example.com");
 
     var fakeClient = fakeClientBuilder.client;
-    var request = fakeClient.request;
+    var request = fakeClient.getLastRequest();
 
     assertThat(request, notNullValue());
     assertThat(request.method(), equalTo("POST"));

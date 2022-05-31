@@ -15,7 +15,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -413,10 +412,10 @@ public abstract class StoreManager {
       this.lowest = lowest;
 
       super.add(this.itemName);
-      super.add(IntegerPool.get(price));
-      super.add(IntegerPool.get(lowest));
-      super.add(IntegerPool.get(quantity));
-      super.add(IntegerPool.get(limit));
+      super.add(price);
+      super.add(lowest);
+      super.add(quantity);
+      super.add(limit);
     }
 
     public int getItemId() {

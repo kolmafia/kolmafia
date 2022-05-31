@@ -82,6 +82,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     AdventureResult.MUS_SUBSTAT.add("Muscleboundness");
     AdventureResult.MUS_SUBSTAT.add("Strengthliness");
     AdventureResult.MUS_SUBSTAT.add("Strongness");
+    AdventureResult.MUS_SUBSTAT.add("Muscle");
     // The following only under Can Has Cyborger
     AdventureResult.MUS_SUBSTAT.add("muskewlairtees");
 
@@ -89,6 +90,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     AdventureResult.MYS_SUBSTAT.add("Magicalness");
     AdventureResult.MYS_SUBSTAT.add("Mysteriousness");
     AdventureResult.MYS_SUBSTAT.add("Wizardliness");
+    AdventureResult.MUS_SUBSTAT.add("Mysticality");
     // The following only under Can Has Cyborger
     AdventureResult.MYS_SUBSTAT.add("mistikkaltees");
 
@@ -97,6 +99,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     AdventureResult.MOX_SUBSTAT.add("Roguishness");
     AdventureResult.MOX_SUBSTAT.add("Sarcasm");
     AdventureResult.MOX_SUBSTAT.add("Smarm");
+    AdventureResult.MUS_SUBSTAT.add("Moxie");
     // The following only under Can Has Cyborger
     AdventureResult.MOX_SUBSTAT.add("mawksees");
   }
@@ -434,6 +437,9 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       case ItemPool.PUNCHCARD_SPHERE:
         return AdventureResult.punchCardName(this.id);
 
+      case ItemPool.UNBREAKABLE_UMBRELLA:
+        return this.name + " (" + Preferences.getString("umbrellaState") + ")";
+
       default:
         return this.name;
     }
@@ -592,11 +598,11 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         statname = parsedGain.nextToken();
       }
 
-      if (statname.startsWith("energy") || statname.startsWith("Energy")) {
+      if (statname.toLowerCase().startsWith("energy")) {
         return new AdventureResult(AdventureResult.ENERGY, (int) modifier);
       }
 
-      if (statname.startsWith("scrap") || statname.startsWith("Scrap")) {
+      if (statname.startsWith("scrap")) {
         return new AdventureResult(AdventureResult.SCRAP, (int) modifier);
       }
 

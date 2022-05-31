@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.listener.CharacterListener;
 import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.swingui.listener.TableButtonListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
@@ -98,7 +97,7 @@ public class CakeArenaFrame extends GenericFrame {
 
         for (int j = 1; j <= 4; ++j) {
           Integer skill = FamiliarDatabase.getFamiliarSkill(opponentRace, j);
-          if (skill == null) skill = IntegerPool.get(0);
+          if (skill == null) skill = 0;
           JButton opponentButton =
               new JButton(JComponentUtilities.getImage(skill.toString() + "star.gif"));
           opponentButton.addMouseListener(new OpponentListener(i, j, skill));

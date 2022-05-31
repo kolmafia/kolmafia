@@ -1,9 +1,10 @@
 package net.sourceforge.kolmafia.utilities;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -20,11 +21,11 @@ public class LogStream extends PrintStream implements Runnable {
   }
 
   public static PrintStream openStream(final File file, final boolean forceNewFile) {
-    return LogStream.openStream(file, forceNewFile, "UTF-8");
+    return LogStream.openStream(file, forceNewFile, StandardCharsets.UTF_8);
   }
 
   public static PrintStream openStream(
-      final File file, final boolean forceNewFile, final String encoding) {
+      final File file, final boolean forceNewFile, final Charset encoding) {
     OutputStream ostream = DataUtilities.getOutputStream(file, !forceNewFile);
     PrintStream pstream = openStream(ostream, encoding);
 
@@ -78,13 +79,8 @@ public class LogStream extends PrintStream implements Runnable {
     return newStream;
   }
 
-  public static PrintStream openStream(final OutputStream ostream, final String encoding) {
-    try {
-      return new LogStream(ostream, encoding);
-    } catch (IOException e) {
-      e.printStackTrace();
-      return System.out;
-    }
+  public static PrintStream openStream(final OutputStream ostream, final Charset encoding) {
+    return new LogStream(ostream, encoding);
   }
 
   @Override
@@ -92,7 +88,7 @@ public class LogStream extends PrintStream implements Runnable {
     KoLDesktop.getInstance().getRootPane().putClientProperty("Window.documentFile", this.proxy);
   }
 
-  private LogStream(final OutputStream ostream, final String encoding) throws IOException {
+  private LogStream(final OutputStream ostream, final Charset encoding) {
     super(ostream, true, encoding);
   }
 }

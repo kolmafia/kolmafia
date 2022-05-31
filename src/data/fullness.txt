@@ -7,6 +7,7 @@
 [experimental crimbo food]	3	1	EPIC	0	0	0	0	Random
 &quot;caramel&quot; orange	1	1	awesome	0	0	0	0	Unspaded
 &quot;meat&quot; stick	1	5	good	3	15-25	0	0	50 Empty Inside (+50 Food Drop, +50 Booze Drop)
+20-lb can of rice and beans	15	1	good	45	0	0	0	100 Stuffed (+100 HP)
 3vi1 pr0n m4nic0tti	4	3	awesome	11-16	0	0	60-63	10 A Little Bit Evil (+2 ML)
 a dance upon the palate	1	1	crappy	2-4	2-20	2-20	2-20
 abominable snowcone	2	1	decent	2-5	5-15	5-15	5-15
@@ -46,6 +47,7 @@ banana	1	1	crappy	1	1	1	1	banana peel
 banana cream pie	3	7	good	6-12	1-100	1-100	1-100
 banana milkshake	2	8	awesome	4-10	30-90	40-135	10-100
 banana-frosted king cake	3	1	crappy	3	0	0	0	brown plastic baby
+bar of freeze-dried water	1	1	awesome	0	0	0	0	Unspaded, 10 Ultrahydrated
 barrel cracker	1	4	good	3	0	0	0	40 Shortened (+25 sleaze dmg, +50 sleaze spell dmg, +2 sleaze res)
 barrel pickle	2	5	good	5-7	5-10	10-20	0	50 Briny Blood (+20 spell dmg, +40 MP)
 Bash-&#332;s cereal	3	1	crappy	3	0	3-5	0	Bash-&#332;s boxtop
@@ -149,6 +151,7 @@ carob chunk cookies	2	1	decent	2-5	0	6-9	0
 carob chunk noodles	3	2	decent	3-9	0	0	0
 carob chunks	1	1	crappy	1	0	0	0
 carrot cake	3	3	decent	7	4-6	4-6	4-6	10 Pla-see-bo (+10 Item Drop)
+carrot cake precipice bar	1	1	good	0	0	0	0	Unspaded, 30 On the Precipice of Carrots (20% Meat drop, 10% Item drop, 15% all stats)
 Carrot, Cabbage, and Kale Pizza	4	1	decent	7-9	0	0	0	20 Healthy, Elfy, and Wise (8-10 HP Regen), PIZZA
 carton of snake milk	3	1	decent	6	0	0	3
 catgut taco	2	1	decent	2-5	11-33	0	0
@@ -211,6 +214,7 @@ cookie cookie	2	1	awesome	7-11	0	0	0	10 Cookie Backup (automatically removes bea
 Cool Brunch Pastaco	2	3	EPIC	11-12	0	0	60-100	40 Gyromitra Gymnastics (+40 Mox)
 cool cat claw	1	4	awesome	3-5	0	0	45-75	30 Feline Ferocity (+100% weapon dmg)
 cool jelly donut	1	4	awesome	3-5	0	0	40-60	30 Filled With Magic (+100% spell dmg)
+cool mint precipice bar	1	1	good	0	0	0	0	Unspaded, 30 On the Minty Precipice (+10 stats/fight, +15% experience)
 cool mushroom	2	1	decent	2-3	0	12-15	0
 cool mushroom casserole	4	1	decent	4-12	0	35-40	0
 corned-beef Reuben	3	9	awesome	12-13	28-34	0	0
@@ -319,6 +323,7 @@ evil ravioli della hippy	3	3	good	7-11	0	1-45	0	10 A Little Bit Evil (+2 ML)
 evil spicy noodles	3	4	awesome	7-12	1-8	1-8	1-8	10 A Little Bit Evil (+2 ML)
 exotic jungle fruit	1	6	good	2-3	20-30	20-30	20-30	25 Full of Fruit, Yourself (-25 ML)
 expired can of franks 'n' beans	3	1	awesome	7-10	20-40	20-40	20-40	30 Crimbo Nostalgia (+5 exp)
+expired MRE	2	1	awesome	0	0	0	0	Unspaded, gain 10 turns of 3 random positive effects
 extra-flat panini	2	11	awesome	7-8	0	0	50-80
 extra-greasy slider	5	13	EPIC	31-34	80-100	80-100	80-100	-5 spleen
 extra-toasted half sandwich	1	1	awesome	4-5	5-15	5-15	5-15	20 Stop the Presses! (Unimplemented)

@@ -5,6 +5,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 
 public abstract class LouvreManager {
 
@@ -261,32 +263,22 @@ public abstract class LouvreManager {
     return nextHops;
   }
 
-  public static final String[][] choiceSpoilers(final int choice) {
+  public static final Spoilers choiceSpoilers(final int choice) {
     // We only handle LouvreManager choices
     if (!LouvreManager.louvreChoice(choice)) {
       return null;
     }
 
-    // Return an array with the same structure as used by built-in
-    // choice adventures.
-    String[][] result = new String[3][];
-
-    // The choice option is the first element
-    result[0] = new String[1];
-    result[0][0] = "choiceAdventure" + choice;
-
-    // The name of the choice is second element
-    result[1] = new String[1];
-    result[1][0] = LouvreManager.LouvreLocationNames[choice - LouvreManager.FIRST_CHOICE];
+    String name = LouvreManager.LouvreLocationNames[choice - LouvreManager.FIRST_CHOICE];
 
     // An array of choice spoilers is the third element
     int[] choices = LouvreManager.choiceTuple(choice);
-    result[2] = new String[3];
-    result[2][0] = LouvreManager.choiceName(choices[0]);
-    result[2][1] = LouvreManager.choiceName(choices[1]);
-    result[2][2] = LouvreManager.choiceName(choices[2]);
+    Option[] options = new Option[3];
+    options[0] = new Option(LouvreManager.choiceName(choices[0]));
+    options[1] = new Option(LouvreManager.choiceName(choices[1]));
+    options[2] = new Option(LouvreManager.choiceName(choices[2]));
 
-    return result;
+    return new Spoilers(choice, name, options);
   }
 
   public static final String encounterName(final int choice) {

@@ -9,6 +9,8 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
@@ -452,33 +454,23 @@ public abstract class VioletFogManager {
     return true;
   }
 
-  public static final String[][] choiceSpoilers(final int choice) {
+  public static final Spoilers choiceSpoilers(final int choice) {
     // We only handle Violet Fog choices
     if (!VioletFogManager.fogChoice(choice)) {
       return null;
     }
 
-    // Return an array with the same structure as used by built-in
-    // choice adventures.
-    String[][] result = new String[3][];
-
-    // The choice option is the first element
-    result[0] = new String[1];
-    result[0][0] = "choiceAdventure" + choice;
-
-    // The name of the choice is second element
-    result[1] = new String[1];
-    result[1][0] = VioletFogManager.FogLocationNames[choice - VioletFogManager.FIRST_CHOICE];
+    String name = VioletFogManager.FogLocationNames[choice - VioletFogManager.FIRST_CHOICE];
 
     // An array of choice spoilers is the third element
     int[] choices = VioletFogManager.FogChoiceTable[choice - VioletFogManager.FIRST_CHOICE];
-    result[2] = new String[4];
-    result[2][0] = VioletFogManager.choiceName(choice, choices[0]);
-    result[2][1] = VioletFogManager.choiceName(choice, choices[1]);
-    result[2][2] = VioletFogManager.choiceName(choice, choices[2]);
-    result[2][3] = VioletFogManager.choiceName(choice, choices[3]);
+    Option[] options = new Option[4];
+    options[0] = new Option(VioletFogManager.choiceName(choice, choices[0]));
+    options[1] = new Option(VioletFogManager.choiceName(choice, choices[1]));
+    options[2] = new Option(VioletFogManager.choiceName(choice, choices[2]));
+    options[3] = new Option(VioletFogManager.choiceName(choice, choices[3]));
 
-    return result;
+    return new Spoilers(choice, name, options);
   }
 
   private static String choiceName(final int choice, final int destination) {

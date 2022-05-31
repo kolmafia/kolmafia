@@ -10,7 +10,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -60,7 +59,7 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
           true) {
         @Override
         public AdventureResult itemBuyPrice(final int itemId) {
-          return ArmoryAndLeggeryRequest.buyCosts.get(IntegerPool.get(itemId));
+          return ArmoryAndLeggeryRequest.buyCosts.get(itemId);
         }
       };
 
@@ -115,7 +114,7 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
     Matcher matcher = ITEM_PATTERN.matcher(responseText);
     while (matcher.find()) {
       int itemId = StringUtilities.parseInt(matcher.group(1));
-      Integer iitemId = IntegerPool.get(itemId);
+      Integer iitemId = itemId;
       String descId = matcher.group(2);
       String itemName = matcher.group(3);
       String currency = matcher.group(4);
@@ -135,7 +134,7 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
       items.add(item);
       AdventureResult cost = ItemPool.get(currency, price);
       costs.put(iitemId, cost);
-      rows.put(iitemId, IntegerPool.get(row));
+      rows.put(iitemId, row);
     }
 
     ArmoryAndLeggeryRequest.buyItems.clear();

@@ -32,7 +32,6 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.request.ApiRequest;
@@ -250,7 +249,7 @@ public class DebugDatabase {
   }
 
   private static void checkItem(final int itemId, final PrintStream report) {
-    Integer id = IntegerPool.get(itemId);
+    Integer id = itemId;
 
     String name = ItemDatabase.getItemDataName(id);
     if (name == null) {
@@ -2315,7 +2314,7 @@ public class DebugDatabase {
 
   private static void checkPlural(
       final int itemId, final HttpClient client, final PrintStream report) {
-    Integer id = IntegerPool.get(itemId);
+    Integer id = itemId;
 
     String name = ItemDatabase.getItemDataName(id);
     if (name == null) {
@@ -3404,7 +3403,7 @@ public class DebugDatabase {
 
     for (int id = 1; id <= ItemDatabase.maxItemId(); ++id) {
       int pulver = EquipmentDatabase.getPulverization(id);
-      if (pulver != -1 && !seen.contains(IntegerPool.get(id))) {
+      if (pulver != -1 && !seen.contains(id)) {
         String name = ItemDatabase.getItemName(id);
         writer.println(name + ": not listed in anvil");
       }
@@ -3441,7 +3440,7 @@ public class DebugDatabase {
           break;
         case "kolid":
           id = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
-          seen.add(IntegerPool.get(id));
+          seen.add(id);
           break;
         case "yield":
           yield = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));

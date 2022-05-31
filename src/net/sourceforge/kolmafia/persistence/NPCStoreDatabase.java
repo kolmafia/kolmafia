@@ -13,7 +13,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -66,7 +65,7 @@ public class NPCStoreDatabase {
         int price = StringUtilities.parseInt(data[3]);
         int row =
             (data.length > 4 && data[4].startsWith("ROW"))
-                ? IntegerPool.get(StringUtilities.parseInt(data[4].substring(3)))
+                ? StringUtilities.parseInt(data[4].substring(3))
                 : 0;
 
         // Make the purchase request for this item

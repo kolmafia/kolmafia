@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -29,7 +31,6 @@ import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -75,12 +76,10 @@ public class ConcoctionDatabase {
     }
   }
 
-  private static final SortedListModel<AdventureResult> EMPTY_LIST =
-      new SortedListModel<AdventureResult>();
-  private static final SortedListModel<CreateItemRequest> creatableList =
-      new SortedListModel<CreateItemRequest>();
-  private static final LockableListModel<Concoction> usableList =
-      new LockableListModel<Concoction>();
+  private static final Set<AdventureResult> EMPTY_SET = new HashSet<>();
+  private static final LockableListModel<CreateItemRequest> creatableList =
+      new LockableListModel<>();
+  private static final LockableListModel<Concoction> usableList = new LockableListModel<>();
 
   public static String excuse; // reason why creation is impossible
 
@@ -141,7 +140,7 @@ public class ConcoctionDatabase {
       new Concoction(null, CraftingType.NOCREATE);
   public static final Concoction meatLimit = new Concoction(null, CraftingType.NOCREATE);
 
-  public static final Map<Integer, SortedListModel<AdventureResult>> knownUses = new HashMap<>();
+  public static final Map<Integer, Set<AdventureResult>> knownUses = new HashMap<>();
 
   public static final EnumSet<CraftingType> PERMIT_METHOD = EnumSet.noneOf(CraftingType.class);
   public static final Map<CraftingType, Integer> ADVENTURE_USAGE =
@@ -208,12 +207,10 @@ public class ConcoctionDatabase {
       StaticEntity.printStackTrace(e);
     }
 
-    // Add all concoctions to usable list
-
-    for (Concoction item : ConcoctionPool.concoctions()) {
-      ConcoctionDatabase.usableList.add(item);
-    }
-
+    // Construct the usable list from all known concoctions.
+    // This includes all items
+    ConcoctionDatabase.usableList.clear();
+    ConcoctionDatabase.usableList.addAll(ConcoctionPool.concoctions());
     ConcoctionDatabase.usableList.sort();
   }
 
@@ -297,7 +294,7 @@ public class ConcoctionDatabase {
           }
           concoction.addIngredient(ingredient);
           if (ingredient.getItemId() == ItemPool.MEAT_STACK) {
-            ConcoctionDatabase.meatStack.put(IntegerPool.get(itemId), concoction);
+            ConcoctionDatabase.meatStack.put(itemId, concoction);
           }
         }
       }
@@ -306,52 +303,52 @@ public class ConcoctionDatabase {
 
       switch (ConcoctionDatabase.mixingMethod) {
         case STAFF:
-          ConcoctionDatabase.chefStaff.put(IntegerPool.get(ingredients[0].getItemId()), concoction);
+          ConcoctionDatabase.chefStaff.put(ingredients[0].getItemId(), concoction);
           break;
         case SINGLE_USE:
-          ConcoctionDatabase.singleUse.put(IntegerPool.get(ingredients[0].getItemId()), concoction);
+          ConcoctionDatabase.singleUse.put(ingredients[0].getItemId(), concoction);
           break;
         case MULTI_USE:
-          ConcoctionDatabase.multiUse.put(IntegerPool.get(ingredients[0].getItemId()), concoction);
+          ConcoctionDatabase.multiUse.put(ingredients[0].getItemId(), concoction);
           break;
       }
 
       if (ConcoctionDatabase.requirements.contains(CraftingRequirements.PASTA)) {
-        ConcoctionDatabase.noodles.put(IntegerPool.get(concoction.getItemId()), concoction);
+        ConcoctionDatabase.noodles.put(concoction.getItemId(), concoction);
       }
     }
   }
 
   public static Concoction chefStaffCreation(final int itemId) {
-    return ConcoctionDatabase.chefStaff.get(IntegerPool.get(itemId));
+    return ConcoctionDatabase.chefStaff.get(itemId);
   }
 
   public static Concoction singleUseCreation(final int itemId) {
-    return ConcoctionDatabase.singleUse.get(IntegerPool.get(itemId));
+    return ConcoctionDatabase.singleUse.get(itemId);
   }
 
   public static Concoction multiUseCreation(final int itemId) {
-    return ConcoctionDatabase.multiUse.get(IntegerPool.get(itemId));
+    return ConcoctionDatabase.multiUse.get(itemId);
   }
 
   public static Concoction noodleCreation(final int itemId) {
-    return ConcoctionDatabase.noodles.get(IntegerPool.get(itemId));
+    return ConcoctionDatabase.noodles.get(itemId);
   }
 
   public static Concoction meatStackCreation(final int itemId) {
-    return ConcoctionDatabase.meatStack.get(IntegerPool.get(itemId));
+    return ConcoctionDatabase.meatStack.get(itemId);
   }
 
   private static boolean pseudoItemMixingMethod(final CraftingType mixingMethod) {
     return mixingMethod == CraftingType.SUSHI || mixingMethod == CraftingType.VYKEA;
   }
 
-  public static final SortedListModel<AdventureResult> getKnownUses(final int itemId) {
-    SortedListModel<AdventureResult> uses = ConcoctionDatabase.knownUses.get(itemId);
-    return uses == null ? ConcoctionDatabase.EMPTY_LIST : uses;
+  public static final Set<AdventureResult> getKnownUses(final int itemId) {
+    Set<AdventureResult> uses = ConcoctionDatabase.knownUses.get(itemId);
+    return uses == null ? ConcoctionDatabase.EMPTY_SET : uses;
   }
 
-  public static final SortedListModel<AdventureResult> getKnownUses(final AdventureResult item) {
+  public static final Set<AdventureResult> getKnownUses(final AdventureResult item) {
     return ConcoctionDatabase.getKnownUses(item.getItemId());
   }
 
@@ -797,7 +794,7 @@ public class ConcoctionDatabase {
     return ConcoctionDatabase.usableList;
   }
 
-  public static final SortedListModel<CreateItemRequest> getCreatables() {
+  public static final LockableListModel<CreateItemRequest> getCreatables() {
     return ConcoctionDatabase.creatableList;
   }
 

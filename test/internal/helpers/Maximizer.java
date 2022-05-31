@@ -40,7 +40,7 @@ public class Maximizer {
     assertEquals(AdventureResult.parseResult(item), equipment.get());
   }
 
-  public static void recommendedSlotIsEmpty(int slot) {
+  public static void recommendedSlotIsUnchanged(int slot) {
     Optional<AdventureResult> equipment = getSlot(slot);
     assertTrue(
         equipment.isEmpty(),

@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.BastilleBattalionManager;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
@@ -40,6 +41,7 @@ import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.swingui.RequestSynchFrame;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -342,7 +344,7 @@ public class AdventureRequest extends GenericRequest {
       type = "Combat";
       encounter = AdventureRequest.parseCombatEncounter(responseText);
     } else if (isChoice) {
-      int choice = ChoiceManager.extractChoice(responseText);
+      int choice = ChoiceUtilities.extractChoice(responseText);
       type = choiceType(choice);
       encounter = AdventureRequest.parseChoiceEncounter(urlString, choice, responseText);
       ChoiceManager.registerDeferredChoice(choice, encounter);
@@ -403,19 +405,20 @@ public class AdventureRequest extends GenericRequest {
 
         encounter = monster.getName();
         // Only queue normal monster encounters
-        if (!EncounterManager.ignoreSpecialMonsters
-            && !EncounterManager.isWanderingMonster(encounter)
-            && !EncounterManager.isUltrarareMonster(encounter)
-            && !EncounterManager.isLuckyMonster(encounter)
-            && !EncounterManager.isSuperlikelyMonster(encounter)
-            && !EncounterManager.isFreeCombatMonster(encounter)
-            && !EncounterManager.isNoWanderMonster(encounter)
-            && !EncounterManager.isEnamorangEncounter(responseText, false)
-            && !EncounterManager.isDigitizedEncounter(responseText, false)
-            && !EncounterManager.isRomanticEncounter(responseText, false)
-            && !EncounterManager.isSaberForceMonster()
-            && !CrystalBallManager.isCrystalBallMonster()
-            && !FightRequest.edFightInProgress()) {
+        if (EncounterManager.isGregariousEncounter(responseText)
+            || (!EncounterManager.ignoreSpecialMonsters
+                && !EncounterManager.isWanderingMonster(encounter)
+                && !EncounterManager.isUltrarareMonster(encounter)
+                && !EncounterManager.isLuckyMonster(encounter)
+                && !EncounterManager.isSuperlikelyMonster(encounter)
+                && !EncounterManager.isFreeCombatMonster(encounter)
+                && !EncounterManager.isNoWanderMonster(encounter)
+                && !EncounterManager.isEnamorangEncounter(responseText, false)
+                && !EncounterManager.isDigitizedEncounter(responseText, false)
+                && !EncounterManager.isRomanticEncounter(responseText, false)
+                && !EncounterManager.isSaberForceMonster()
+                && !CrystalBallManager.isCrystalBallMonster()
+                && !FightRequest.edFightInProgress())) {
           AdventureQueueDatabase.enqueue(KoLAdventure.lastVisitedLocation(), encounter);
         }
       } else if (type.equals("Noncombat")) {
@@ -591,14 +594,14 @@ public class AdventureRequest extends GenericRequest {
     return monster;
   }
 
-  private static String parseChoiceEncounter(
+  public static String parseChoiceEncounter(
       final String urlString, final int choice, final String responseText) {
     if (LouvreManager.louvreChoice(choice)) {
       return LouvreManager.encounterName(choice);
     }
 
-    int urlChoice = ChoiceManager.extractChoiceFromURL(urlString);
-    int urlOption = ChoiceManager.extractOptionFromURL(urlString);
+    int urlChoice = ChoiceUtilities.extractChoiceFromURL(urlString);
+    int urlOption = ChoiceUtilities.extractOptionFromURL(urlString);
 
     switch (urlChoice) {
       case 1334: // Boxing Daycare (Lobby)
@@ -641,6 +644,15 @@ public class AdventureRequest extends GenericRequest {
       case 1086: // Pick a Card
       case 1463: // Reminiscing About Those Monsters You Fought
         return null;
+
+      case 1313: // Bastille Battalion
+      case 1314: // Bastille Battalion (Master of None)
+      case 1315: // Castle vs. Castle
+      case 1316: // GAME OVER
+      case 1317: // A Hello to Arms (Battalion)
+      case 1318: // Defensive Posturing
+      case 1319: // Cheese Seeking Behavior
+        return BastilleBattalionManager.parseChoiceEncounter(choice, responseText);
 
       case 1135: // The Bat-Sedan
         return BatManager.parseBatSedan(responseText);
