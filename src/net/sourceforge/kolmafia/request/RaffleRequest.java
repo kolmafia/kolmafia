@@ -96,7 +96,7 @@ public class RaffleRequest extends GenericRequest {
     }
 
     int quantity = StringUtilities.parseInt(matcher.group(1));
-    int cost = 10000 * quantity;
+    long cost = 10000 * quantity;
 
     if (where.equals(RaffleSource.STORAGE.toString())) {
       KoLCharacter.setStorageMeat(KoLCharacter.getStorageMeat() - cost);
