@@ -307,8 +307,6 @@ public class ModifiersTest {
         stats = mods.predict();
         assertEquals(100, stats[Modifiers.BUFFED_MUS]);
         assertEquals(30, stats[Modifiers.BUFFED_HP]);
-
-        EquipmentManager.setEquipment(EquipmentManager.HAT, EquipmentRequest.UNEQUIP);
       }
     }
 
@@ -348,8 +346,6 @@ public class ModifiersTest {
         stats = mods.predict();
         assertEquals(100, stats[Modifiers.BUFFED_MUS]);
         assertEquals(176, stats[Modifiers.BUFFED_HP]);
-
-        EquipmentManager.setEquipment(EquipmentManager.HAT, EquipmentRequest.UNEQUIP);
       }
     }
   }
@@ -399,8 +395,6 @@ public class ModifiersTest {
         stats = mods.predict();
         assertEquals(106, stats[Modifiers.BUFFED_MYS]);
         assertEquals(229, stats[Modifiers.BUFFED_MP]);
-
-        EquipmentManager.setEquipment(EquipmentManager.PANTS, EquipmentRequest.UNEQUIP);
       }
     }
 
@@ -442,8 +436,6 @@ public class ModifiersTest {
         stats = mods.predict();
         assertEquals(106, stats[Modifiers.BUFFED_MYS]);
         assertEquals(176, stats[Modifiers.BUFFED_MP]);
-
-        EquipmentManager.setEquipment(EquipmentManager.PANTS, EquipmentRequest.UNEQUIP);
       }
     }
 
@@ -485,8 +477,6 @@ public class ModifiersTest {
         stats = mods.predict();
         assertEquals(106, stats[Modifiers.BUFFED_MYS]);
         assertEquals(126, stats[Modifiers.BUFFED_MP]);
-
-        EquipmentManager.setEquipment(EquipmentManager.PANTS, EquipmentRequest.UNEQUIP);
       }
     }
 
@@ -540,8 +530,6 @@ public class ModifiersTest {
         stats = mods.predict();
         assertEquals(156, stats[Modifiers.BUFFED_MOX]);
         assertEquals(259, stats[Modifiers.BUFFED_MP]);
-
-        EquipmentManager.setEquipment(EquipmentManager.PANTS, EquipmentRequest.UNEQUIP);
       }
     }
   }
