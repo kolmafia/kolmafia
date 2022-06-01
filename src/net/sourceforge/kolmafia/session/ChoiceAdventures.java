@@ -8,8 +8,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -19,6 +22,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
@@ -100,7 +104,6 @@ public abstract class ChoiceAdventures {
     private final Option[] options;
 
     public Spoilers(final int choice, final String name, final Option[] options) {
-      assert options != null;
       this.choice = choice;
       this.name = name;
       this.options = options;
@@ -124,6 +127,18 @@ public abstract class ChoiceAdventures {
   public static final Map<Integer, ChoiceAdventure> choiceToChoiceAdventure = new HashMap<>();
   public static final Map<Integer, ChoiceSpoiler> choiceToChoiceSpoiler = new HashMap<>();
   public static final Map<Integer, ChoiceCost> choiceToChoiceCost = new HashMap<>();
+
+  // Here are various sets used to register error detected during initialization
+  private static final Set<Integer> duplicateChoiceAdventures = new TreeSet<>();
+  private static final Set<Integer> missingChoiceAdventureOptions = new TreeSet<>();
+  private static final Set<Integer> missingChoiceAdventureDefaultProperties = new TreeSet<>();
+
+  private static final Set<Integer> duplicateChoiceSpoilers = new TreeSet<>();
+  private static final Set<Integer> duplicateChoiceCosts = new TreeSet<>();
+
+  // These are not errors, per se, but may be worth looking at
+  public static final Set<Integer> choiceSpoilersWithDefaults = new TreeSet<>();
+  public static final Set<Integer> choiceSpoilersWithoutDefaults = new TreeSet<>();
 
   public static class Choice implements Comparable<Choice> {
     protected final int choice;
@@ -162,7 +177,7 @@ public abstract class ChoiceAdventures {
     private final Option[] options;
 
     // Derived fields
-    private final String property;
+    protected final String property;
     private final Spoilers spoilers;
 
     public ChoiceAdventure(
@@ -179,11 +194,14 @@ public abstract class ChoiceAdventures {
       super(choice, ordering);
       this.zone = zone;
       this.name = name;
-      assert options != null;
+      if (options == null) {
+        System.out.println("ChoiceAdventure # " + choice + " has no Options configured");
+        missingChoiceAdventureOptions.add(choice);
+      }
       this.options = options;
-
       this.property = "choiceAdventure" + String.valueOf(choice);
       this.spoilers = new Spoilers(choice, name, options);
+      this.checkProperty();
     }
 
     public String getZone() {
@@ -204,13 +222,29 @@ public abstract class ChoiceAdventures {
       return this.property;
     }
 
+    public void checkProperty() {
+      // A ChoiceAdventure is configurable in the GUI and its property is used
+      // to automate it. There MUST be a property in defaults.txt for it.
+      if (!Preferences.containsDefault(this.property)) {
+        System.out.println(
+            "ChoiceAdventure #"
+                + this.choice
+                + " does not have a default value for "
+                + this.property);
+        missingChoiceAdventureDefaultProperties.add(this.choice);
+      }
+    }
+
     public Spoilers getSpoilers() {
       return this.spoilers;
     }
 
     @Override
     protected void addToMap() {
-      assert !choiceToChoiceAdventure.containsKey(this.choice);
+      if (choiceToChoiceAdventure.containsKey(this.choice)) {
+        System.out.println("ChoiceAdventure #" + this.choice + " is configured multiple times");
+        duplicateChoiceAdventures.add(this.choice);
+      }
       choiceToChoiceAdventure.put(this.choice, this);
     }
   }
@@ -228,8 +262,29 @@ public abstract class ChoiceAdventures {
     }
 
     @Override
+    public void checkProperty() {
+      // A ChoiceSpoiler isn't configured in the GUI but still has a property
+      // associated with it. If it has a default, it can be automated, and that
+      // option will be pointed out in the Relay Browser.
+      //
+      // If it doesn't have a default, automation will use "0", which
+      // means "show in browser".
+
+      // In case it is of interest, count ChoiceSpoilers with and without
+      // defaults.
+      if (Preferences.containsDefault(this.property)) {
+        choiceSpoilersWithDefaults.add(this.choice);
+      } else {
+        choiceSpoilersWithoutDefaults.add(this.choice);
+      }
+    }
+
+    @Override
     protected void addToMap() {
-      assert !choiceToChoiceSpoiler.containsKey(this.choice);
+      if (choiceToChoiceSpoiler.containsKey(this.choice)) {
+        System.out.println("ChoiceSpoiler #" + this.choice + " is configured multiple times");
+        duplicateChoiceSpoilers.add(this.choice);
+      }
       choiceToChoiceSpoiler.put(this.choice, this);
     }
   }
@@ -277,7 +332,10 @@ public abstract class ChoiceAdventures {
 
     @Override
     protected void addToMap() {
-      assert !choiceToChoiceCost.containsKey(this.choice);
+      if (choiceToChoiceCost.containsKey(this.choice)) {
+        System.out.println("ChoiceCost #" + this.choice + " is configured multiple times");
+        duplicateChoiceCosts.add(this.choice);
+      }
       choiceToChoiceCost.put(this.choice, this);
     }
   }
@@ -285,7 +343,7 @@ public abstract class ChoiceAdventures {
   public static final Option findOption(final Option[] options, final int decision) {
     for (int i = 0; i < options.length; ++i) {
       Option opt = options[i];
-      if (opt.getDecision(i + 1) == decision) {
+      if (opt != null && opt.getDecision(i + 1) == decision) {
         return opt;
       }
     }
@@ -6052,6 +6110,48 @@ public abstract class ChoiceAdventures {
             .values()
             .toArray(new ChoiceAdventure[choiceToChoiceAdventure.size()]);
     Arrays.sort(CHOICE_ADVS);
+
+    // Log errors detected during class initialization. These are programming
+    // errors and the developer who inserted the bug should have seen the
+    // report on stdout, but, just in case...
+    if (duplicateChoiceAdventures.size() > 0) {
+      RequestLogger.printLine(
+          "Duplicate ChoiceAdventures: ("
+              + duplicateChoiceAdventures.stream()
+                  .map(String::valueOf)
+                  .collect(Collectors.joining(","))
+              + ")");
+    }
+    if (missingChoiceAdventureOptions.size() > 0) {
+      RequestLogger.printLine(
+          "Missing ChoiceAdventure Options: ("
+              + missingChoiceAdventureOptions.stream()
+                  .map(String::valueOf)
+                  .collect(Collectors.joining(","))
+              + ")");
+    }
+    if (missingChoiceAdventureDefaultProperties.size() > 0) {
+      RequestLogger.printLine(
+          "Missing ChoiceAdventure default peoperties: ("
+              + missingChoiceAdventureDefaultProperties.stream()
+                  .map(String::valueOf)
+                  .collect(Collectors.joining(","))
+              + ")");
+    }
+    if (duplicateChoiceSpoilers.size() > 0) {
+      RequestLogger.printLine(
+          "Duplicate ChoiceSpoilers: ("
+              + duplicateChoiceSpoilers.stream()
+                  .map(String::valueOf)
+                  .collect(Collectors.joining(","))
+              + ")");
+    }
+    if (duplicateChoiceCosts.size() > 0) {
+      RequestLogger.printLine(
+          "Duplicate ChoiceCosts: ("
+              + duplicateChoiceCosts.stream().map(String::valueOf).collect(Collectors.joining(","))
+              + ")");
+    }
   }
 
   public static AdventureResult getCost(final int choice, final int decision) {

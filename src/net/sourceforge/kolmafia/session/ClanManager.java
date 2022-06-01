@@ -203,7 +203,7 @@ public abstract class ClanManager {
             ? ClanManager.clanName != null
             : (ClanManager.clanName != null) ? !ClanManager.clanName.equals(name) : true;
 
-    KoLCharacter.setClan(name != null);
+    KoLCharacter.setClan(name != null && !name.equals(""));
     if (changed) {
       ClanManager.changeClan(ClanManager.clanId, name);
     }
