@@ -1282,6 +1282,10 @@ public abstract class KoLCharacter {
     return ascensionClass == AscensionClass.VAMPYRE;
   }
 
+  public static final boolean isGreyGoo() {
+    return ascensionClass == AscensionClass.GREY_GOO;
+  }
+
   public static final boolean isMoxieClass() {
     return ascensionClass != null && ascensionClass.getPrimeStatIndex() == 2;
   }

@@ -171,6 +171,18 @@ public class Player {
     return new Cleanups(() -> setStats(0, 0, 0));
   }
 
+  public static Cleanups setHP(long current, long maximum, long base) {
+    KoLCharacter.setHP(current, maximum, base);
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(() -> setHP(0, 0, 0));
+  }
+
+  public static Cleanups setMP(long current, long maximum, long base) {
+    KoLCharacter.setMP(current, maximum, base);
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(() -> setMP(0, 0, 0));
+  }
+
   public static Cleanups isClass(AscensionClass ascensionClass) {
     var old = KoLCharacter.getAscensionClass();
     KoLCharacter.setAscensionClass(ascensionClass);
