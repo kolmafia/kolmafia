@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.equip;
 import static internal.helpers.Player.inPath;
 import static internal.helpers.Player.isClass;
 import static internal.helpers.Player.isDay;
@@ -333,20 +334,18 @@ public class ModifiersTest {
       // Base HP = (starting value + absorptions)
       // Buffed HP = Base HP + mod(HP)
 
-      long baseHP = KoLCharacter.getBaseMaxHP();
-
       Modifiers mods = KoLCharacter.getCurrentModifiers();
       KoLCharacter.recalculateAdjustments(false);
       int[] stats = mods.predict();
       assertEquals(100, stats[Modifiers.BUFFED_MUS]);
-      assertEquals(baseHP, stats[Modifiers.BUFFED_HP]);
+      assertEquals(176, stats[Modifiers.BUFFED_HP]);
 
       // viking helmet: (+1 muscle)
       EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.VIKING_HELMET));
       KoLCharacter.recalculateAdjustments(false);
       stats = mods.predict();
       assertEquals(101, stats[Modifiers.BUFFED_MUS]);
-      assertEquals(baseHP, stats[Modifiers.BUFFED_HP]);
+      assertEquals(176, stats[Modifiers.BUFFED_HP]);
 
       // reinforced beaded headband (+40 HP)
       EquipmentManager.setEquipment(
@@ -354,7 +353,7 @@ public class ModifiersTest {
       KoLCharacter.recalculateAdjustments(false);
       stats = mods.predict();
       assertEquals(100, stats[Modifiers.BUFFED_MUS]);
-      assertEquals(baseHP + 40, stats[Modifiers.BUFFED_HP]);
+      assertEquals(216, stats[Modifiers.BUFFED_HP]);
 
       // extra-wide head candle (+100% HP)
       EquipmentManager.setEquipment(
@@ -362,7 +361,7 @@ public class ModifiersTest {
       KoLCharacter.recalculateAdjustments(false);
       stats = mods.predict();
       assertEquals(100, stats[Modifiers.BUFFED_MUS]);
-      assertEquals(baseHP, stats[Modifiers.BUFFED_HP]);
+      assertEquals(176, stats[Modifiers.BUFFED_HP]);
 
       EquipmentManager.setEquipment(EquipmentManager.HAT, EquipmentRequest.UNEQUIP);
     }
@@ -374,7 +373,7 @@ public class ModifiersTest {
     var cleanups1 = new Cleanups(isClass(AscensionClass.SAUCEROR), setStats(100, 100, 100));
     try (cleanups1) {
       // Buffed MYS = Base MYS + mod(MYS) + ceiling(Base MYS * mod(MYS_PCT)/100.0)
-      // Base MP = Buffed MUS
+      // Base MP = Buffed MYS
       // C = 1.5 if MYS class, otherwise 1.0
       // Buffed MP = ceiling(Base MP * (C + mod(MP_PCT)/100.0) + mod(MP))
 
@@ -411,10 +410,10 @@ public class ModifiersTest {
       EquipmentManager.setEquipment(EquipmentManager.PANTS, EquipmentRequest.UNEQUIP);
     }
 
-    var cleanups2 = new Cleanups(isClass(AscensionClass.DISCO_BANDIT), setStats(100, 100, 100));
+    var cleanups2 = new Cleanups(isClass(AscensionClass.TURTLE_TAMER), setStats(100, 100, 100));
     try (cleanups2) {
       // Buffed MYS = Base MYS + mod(MYS) + ceiling(Base MYS * mod(MYS_PCT)/100.0)
-      // Base MP = Buffed MUS
+      // Base MP = Buffed MYS
       // C = 1.5 if MYS class, otherwise 1.0
       // Buffed MP = ceiling(Base MP * (C + mod(MP_PCT)/100.0) + mod(MP))
 
@@ -458,27 +457,25 @@ public class ModifiersTest {
       // Base MP = (starting value + absorptions)
       // Buffed MP = Base MP + mod(MP)
 
-      long baseMP = KoLCharacter.getBaseMaxMP();
-
       Modifiers mods = KoLCharacter.getCurrentModifiers();
       KoLCharacter.recalculateAdjustments(false);
       int[] stats = mods.predict();
       assertEquals(100, stats[Modifiers.BUFFED_MYS]);
-      assertEquals(baseMP, stats[Modifiers.BUFFED_MP]);
+      assertEquals(126, stats[Modifiers.BUFFED_MP]);
 
       // fuzzy earmuffs: (+11 myst)
       EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.FUZZY_EARMUFFS));
       KoLCharacter.recalculateAdjustments(false);
       stats = mods.predict();
       assertEquals(111, stats[Modifiers.BUFFED_MYS]);
-      assertEquals(baseMP, stats[Modifiers.BUFFED_MP]);
+      assertEquals(126, stats[Modifiers.BUFFED_MP]);
 
       // beer helmet (+40 MP)
       EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.BEER_HELMET));
       KoLCharacter.recalculateAdjustments(false);
       stats = mods.predict();
       assertEquals(100, stats[Modifiers.BUFFED_MYS]);
-      assertEquals(baseMP + 40, stats[Modifiers.BUFFED_MP]);
+      assertEquals(166, stats[Modifiers.BUFFED_MP]);
 
       EquipmentManager.setEquipment(EquipmentManager.HAT, EquipmentRequest.UNEQUIP);
 
@@ -488,7 +485,59 @@ public class ModifiersTest {
       KoLCharacter.recalculateAdjustments(false);
       stats = mods.predict();
       assertEquals(106, stats[Modifiers.BUFFED_MYS]);
-      assertEquals(baseMP, stats[Modifiers.BUFFED_MP]);
+      assertEquals(126, stats[Modifiers.BUFFED_MP]);
+
+      EquipmentManager.setEquipment(EquipmentManager.PANTS, EquipmentRequest.UNEQUIP);
+    }
+
+    // moxie magnet: Moxie Controls MP
+    var cleanups4 =
+        new Cleanups(
+            isClass(AscensionClass.DISCO_BANDIT),
+            setStats(100, 100, 150),
+            equip(EquipmentManager.ACCESSORY1, "moxie magnet"));
+    try (cleanups4) {
+      // Buffed MOX = Base MOX + mod(MOX) + ceiling(Base MOX * mod(MOX_PCT)/100.0)
+      // Base MP = Buffed MUS
+      // C = 1.5 if MYS class, otherwise 1.0
+      // Buffed MP = ceiling(Base MP * (C + mod(MP_PCT)/100.0) + mod(MP))
+
+      Modifiers mods = KoLCharacter.getCurrentModifiers();
+      KoLCharacter.recalculateAdjustments(false);
+      int[] stats = mods.predict();
+      assertEquals(150, stats[Modifiers.BUFFED_MOX]);
+      assertEquals(150, stats[Modifiers.BUFFED_MP]);
+
+      // Disco 'Fro Pick (+11 mox)
+      EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.DISCO_FRO_PICK));
+      KoLCharacter.recalculateAdjustments(false);
+      stats = mods.predict();
+      assertEquals(161, stats[Modifiers.BUFFED_MOX]);
+      assertEquals(161, stats[Modifiers.BUFFED_MP]);
+
+      // beer helmet (+40 MP)
+      EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.BEER_HELMET));
+      KoLCharacter.recalculateAdjustments(false);
+      stats = mods.predict();
+      assertEquals(150, stats[Modifiers.BUFFED_MOX]);
+      assertEquals(190, stats[Modifiers.BUFFED_MP]);
+
+      // training helmet: (+25% mox)
+      EquipmentManager.setEquipment(EquipmentManager.HAT, ItemPool.get(ItemPool.TRAINING_HELMET));
+      KoLCharacter.recalculateAdjustments(false);
+      stats = mods.predict();
+      assertEquals(188, stats[Modifiers.BUFFED_MOX]);
+      assertEquals(188, stats[Modifiers.BUFFED_MP]);
+
+      EquipmentManager.setEquipment(EquipmentManager.HAT, EquipmentRequest.UNEQUIP);
+
+      // Cargo Cultist Shorts (+6 mox, +66% MP)
+      EquipmentManager.setEquipment(
+          EquipmentManager.PANTS, ItemPool.get(ItemPool.CARGO_CULTIST_SHORTS));
+      KoLCharacter.recalculateAdjustments(false);
+      stats = mods.predict();
+      assertEquals(156, stats[Modifiers.BUFFED_MOX]);
+      assertEquals(259, stats[Modifiers.BUFFED_MP]);
 
       EquipmentManager.setEquipment(EquipmentManager.PANTS, EquipmentRequest.UNEQUIP);
     }
