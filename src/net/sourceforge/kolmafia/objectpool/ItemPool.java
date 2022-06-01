@@ -34,6 +34,7 @@ public class ItemPool {
   public static final int SPIDER_WEB = 27;
   public static final int BIG_ROCK = 30;
   public static final int BJORNS_HAMMER = 32;
+  public static final int VIKING_HELMET = 37;
   public static final int CASINO_PASS = 40;
   public static final int SCHLITZ = 41;
   public static final int HERMIT_PERMIT = 42;
@@ -667,6 +668,7 @@ public class ItemPool {
   public static final int BETTER_THAN_CUDDLING_CAKE = 2332;
   public static final int STUFFED_NINJA_SNOWMAN = 2333;
   public static final int HOLY_MACGUFFIN = 2334;
+  public static final int REINFORCED_BEADED_HEADBAND = 2337;
   public static final int BLACK_PUDDING = 2338;
   public static final int BLACKFLY_CHARDONNAY = 2339;
   public static final int FILTHWORM_QUEEN_HEART = 2347;
@@ -3341,6 +3343,7 @@ public class ItemPool {
   public static final int CATHERINE_WHEEL = 10770;
   public static final int ROCKET_BOOTS = 10771;
   public static final int OVERSIZED_SPARKLER = 10772;
+  public static final int EXTRA_WIDE_HEAD_CANDLE = 10783;
   public static final int BLART = 10790;
   public static final int RAINPROOF_BARREL_CAULK = 10794;
   public static final int PUMP_GREASE = 10795;
