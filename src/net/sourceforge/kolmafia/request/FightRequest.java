@@ -9312,6 +9312,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.AM_FRONT_BUMPER:
         if (responseText.contains("before flying out of sight") || skillRunawaySuccess) {
+          Preferences.setInteger("_lastSpringLoadedBumperUse", KoLCharacter.getTurnsPlayed());
           BanishManager.banishMonster(monster, Banisher.SPRING_LOADED_FRONT_BUMPER);
           CampgroundRequest.useFuel(SkillDatabase.getFuelCost(SkillPool.AM_FRONT_BUMPER));
         }

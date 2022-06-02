@@ -29,7 +29,8 @@ public class BanishManager {
     ROLLOVER_RESET,
     AVATAR_RESET,
     NEVER_RESET,
-    COSMIC_BOWLING_BALL_RESET;
+    COSMIC_BOWLING_BALL_RESET,
+    SPRING_LOADED_BUMPER_RESET;
 
     private Boolean rolloverReset;
     private Boolean turnReset;
@@ -39,7 +40,8 @@ public class BanishManager {
         this.rolloverReset =
             this == TURN_ROLLOVER_RESET
                 || this == ROLLOVER_RESET
-                || this == COSMIC_BOWLING_BALL_RESET;
+                || this == COSMIC_BOWLING_BALL_RESET
+                || this == SPRING_LOADED_BUMPER_RESET;
       }
 
       return rolloverReset;
@@ -97,7 +99,7 @@ public class BanishManager {
     SNOKEBOMB("snokebomb", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
     SPOOKY_MUSIC_BOX_MECHANISM("spooky music box mechanism", -1, 1, false, Reset.ROLLOVER_RESET),
     SPRING_LOADED_FRONT_BUMPER(
-        "Spring-Loaded Front Bumper", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
+        "Spring-Loaded Front Bumper", 30, 1, true, Reset.SPRING_LOADED_BUMPER_RESET),
     STAFF_OF_THE_STANDALONE_CHEESE(
         "staff of the standalone cheese", -1, 5, false, Reset.AVATAR_RESET),
     STINKY_CHEESE_EYE("stinky cheese eye", 10, 1, true, Reset.TURN_RESET),
@@ -196,6 +198,8 @@ public class BanishManager {
           return turnsLeft() >= 0;
         case COSMIC_BOWLING_BALL_RESET:
           return Preferences.getInteger("cosmicBowlingBallReturnCombats") > 0;
+        case SPRING_LOADED_BUMPER_RESET:
+          return KoLCharacter.getTurnsPlayed() > 30 + Preferences.getInteger("_lastSpringLoadedBumperUse")
         default:
           return true;
       }
@@ -218,6 +222,10 @@ public class BanishManager {
         case COSMIC_BOWLING_BALL_RESET:
           return "Until Ball returns ("
               + Preferences.getInteger("cosmicBowlingBallReturnCombats")
+              + " combats) or Until Rollover";
+        case SPRING_LOADED_BUMPER_RESET:
+          return "Until Bumper is ready ("
+              + Preferences.getInteger("_lastSpringLoadedBumperUse")
               + " combats) or Until Rollover";
         default:
           return "";
@@ -301,6 +309,10 @@ public class BanishManager {
 
   public static final void resetCosmicBowlingBall() {
     resetIfType(r -> r == Reset.COSMIC_BOWLING_BALL_RESET);
+  }
+
+  public static final void resetSpringLoadedBumper() {
+    resetIfType(r -> r == Reset.SPRING_LOADED_BUMPER_RESET);
   }
 
   public static void recalculate() {
