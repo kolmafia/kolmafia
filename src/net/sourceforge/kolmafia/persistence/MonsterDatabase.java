@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -19,6 +18,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.MonsterData.Attribute;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
@@ -363,6 +363,7 @@ public class MonsterDatabase {
 
         MonsterData monster = MonsterDatabase.newMonster(name, id, images, attributes);
         if (monster == null) {
+          // *** Surely this is an error?
           continue;
         }
 
@@ -784,237 +785,221 @@ public class MonsterDatabase {
       final String name, final int id, final String[] images, final String attributes) {
     MonsterData monster = MonsterDatabase.findMonster(name);
     if (monster != null && monster.getId() == id) {
+      // *** Is this an error?
       return monster;
     }
 
     // parse parameters and make a new monster
-    Object health = null;
-    Object attack = null;
-    Object defense = null;
-    Object initiative = null;
-    Object experience = null;
-    Object scale = null;
-    Object cap = null;
-    Object floor = null;
-    Object mlMult = null;
-    int meat = 0;
-    Object minSprinkles = null;
-    Object maxSprinkles = null;
-    Element attackElement = Element.NONE;
-    Element defenseElement = Element.NONE;
-    Phylum phylum = Phylum.NONE;
-    int poison = Integer.MAX_VALUE;
-    boolean boss = false;
-    boolean noBanish = false;
-    boolean noCopy = false;
+    Map<Attribute, Object> attributeMap = attributeStringToMap(name, attributes);
+
     EnumSet<EncounterType> type = EnumSet.noneOf(EncounterType.class);
-    int physical = 0;
-    String manuelName = null;
-    String wikiName = null;
-    ArrayList<String> subTypes = new ArrayList<String>();
+    if (attributeMap.containsKey(Attribute.WANDERER)) {
+      type.add(EncounterType.WANDERER);
+    }
+    if (attributeMap.containsKey(Attribute.ULTRARARE)) {
+      type.add(EncounterType.ULTRARARE);
+    }
+    if (attributeMap.containsKey(Attribute.LUCKY)) {
+      type.add(EncounterType.LUCKY);
+    }
+    if (attributeMap.containsKey(Attribute.SUPERLIKELY)) {
+      type.add(EncounterType.SUPERLIKELY);
+    }
+    if (attributeMap.containsKey(Attribute.FREE)) {
+      type.add(EncounterType.FREE_COMBAT);
+    }
+    if (attributeMap.containsKey(Attribute.NOWANDER)) {
+      type.add(EncounterType.NOWANDER);
+    }
+
+    Set<String> subTypes = new HashSet<>();
+    if (attributeMap.containsKey(Attribute.GHOST)) {
+      subTypes.add("ghost");
+    }
+    if (attributeMap.containsKey(Attribute.SNAKE)) {
+      subTypes.add("snake");
+    }
+    if (attributeMap.containsKey(Attribute.DRIPPY)) {
+      subTypes.add("drippy");
+    }
+
+    monster = new MonsterData(name, id, images, type, subTypes, attributeMap, attributes);
+
+    return monster;
+  }
+
+  public static Map<Attribute, Object> attributeStringToMap(
+      final String name, final String attributes) {
+
+    Map<Attribute, Object> attributeMap = new TreeMap<>();
 
     StringTokenizer tokens = new StringTokenizer(attributes, " ");
     while (tokens.hasMoreTokens()) {
       String option = tokens.nextToken();
-      String value;
-      try {
-        if (option.equals("HP:")) {
-          health = parseNumeric(tokens);
-          continue;
-        } else if (option.equals("Atk:")) {
-          attack = parseNumeric(tokens);
-          continue;
-        } else if (option.equals("Def:")) {
-          defense = parseNumeric(tokens);
-          continue;
-        } else if (option.equals("Init:")) {
-          initiative = parseNumeric(tokens);
-          continue;
-        } else if (option.equals("Exp:")) {
-          experience = parseNumeric(tokens);
-          continue;
-        } else if (option.equals("Scale:")) {
-          scale = parseDefaultedNumeric(tokens, MonsterData.DEFAULT_SCALE);
-          continue;
-        } else if (option.equals("Cap:")) {
-          cap = parseDefaultedNumeric(tokens, MonsterData.DEFAULT_CAP);
-          continue;
-        } else if (option.equals("Floor:")) {
-          floor = parseDefaultedNumeric(tokens, MonsterData.DEFAULT_FLOOR);
-          continue;
-        } else if (option.equals("MLMult:")) {
-          mlMult = parseNumeric(tokens);
-          continue;
-        } else if (option.equals("Phys:")) {
+      Object value;
+
+      Attribute attribute = MonsterData.optionToAttribute.get(option);
+
+      if (attribute == null) {
+        // Special cases:
+
+        if (option.equals("E:")) {
           if (tokens.hasMoreTokens()) {
-            physical = StringUtilities.parseInt(tokens.nextToken());
-          }
-          continue;
-        } else if (option.equals("Item:")) {
-          /* itemBlock = */ parseNumeric(tokens);
-          continue;
-        } else if (option.equals("Skill:")) {
-          /* skillBlock = */ parseNumeric(tokens);
-          continue;
-        } else if (option.equals("Spell:")) {
-          /* spellBlock = */ parseNumeric(tokens);
-          continue;
-        } else if (option.equals("E:")) {
-          if (tokens.hasMoreTokens()) {
-            value = tokens.nextToken();
-            Element element = MonsterDatabase.parseElement(value);
+            String next = tokens.nextToken();
+            Element element = MonsterDatabase.parseElement(next);
             if (element != Element.NONE) {
-              attackElement = element;
-              defenseElement = element;
+              attributeMap.put(Attribute.EA, element);
+              attributeMap.put(Attribute.ED, element);
             }
           }
           continue;
-        } else if (option.equals("ED:")) {
-          if (tokens.hasMoreTokens()) {
-            value = tokens.nextToken();
-            Element element = MonsterDatabase.parseElement(value);
-            if (element != Element.NONE) {
-              defenseElement = element;
-            }
-          }
-          continue;
-        } else if (option.equals("EA:")) {
-          if (tokens.hasMoreTokens()) {
-            value = tokens.nextToken();
-            Element element = MonsterDatabase.parseElement(value);
-            if (element != Element.NONE) {
-              attackElement = element;
-            }
-          }
-          continue;
-        } else if (option.equals("Meat:")) {
-          if (tokens.hasMoreTokens()) {
-            value = tokens.nextToken();
-            int dash = value.indexOf("-");
-            if (dash >= 0) {
-              int minMeat = StringUtilities.parseInt(value.substring(0, dash));
-              int maxMeat = StringUtilities.parseInt(value.substring(dash + 1));
-              meat = (minMeat + maxMeat) / 2;
-            } else {
-              meat = StringUtilities.parseInt(value);
-            }
-          }
-          continue;
-        } else if (option.equals("SprinkleMin:")) {
-          minSprinkles = parseNumeric(tokens);
-          continue;
-        } else if (option.equals("SprinkleMax:")) {
-          maxSprinkles = parseNumeric(tokens);
-          continue;
-        } else if (option.equals("P:")) {
-          if (tokens.hasMoreTokens()) {
-            value = tokens.nextToken();
-            Phylum num = MonsterDatabase.parsePhylum(value);
-            if (num != Phylum.NONE) {
-              phylum = num;
-            }
-          }
-          continue;
-        } else if (option.equals("Manuel:")) {
-          if (tokens.hasMoreTokens()) {
-            manuelName = parseString(tokens.nextToken(), tokens);
-          }
-          continue;
-        } else if (option.equals("Wiki:")) {
-          if (tokens.hasMoreTokens()) {
-            wikiName = parseString(tokens.nextToken(), tokens);
-          }
-          continue;
-        } else if (option.startsWith("\"")) {
+        }
+
+        if (option.startsWith("\"")) {
           String string = parseString(option, tokens);
-          poison = EffectDatabase.getPoisonLevel(string);
+          int poison = EffectDatabase.getPoisonLevel(string);
           if (poison == Integer.MAX_VALUE) {
             RequestLogger.printLine("Monster: \"" + name + "\": unknown poison type: " + string);
           }
-          continue;
-        } else if (option.equals("BOSS")) {
-          boss = true;
-          continue;
-        } else if (option.equals("NOBANISH")) {
-          noBanish = true;
-          continue;
-        } else if (option.equals("NOCOPY")) {
-          noCopy = true;
-          continue;
-        } else if (option.equals("WANDERER")) {
-          type.add(EncounterType.WANDERER);
-          continue;
-        } else if (option.equals("ULTRARARE")) {
-          type.add(EncounterType.ULTRARARE);
-          continue;
-        } else if (option.equals("LUCKY")) {
-          type.add(EncounterType.LUCKY);
-          continue;
-        } else if (option.equals("SUPERLIKELY")) {
-          type.add(EncounterType.SUPERLIKELY);
-          continue;
-        } else if (option.equals("FREE")) {
-          type.add(EncounterType.FREE_COMBAT);
-          continue;
-        } else if (option.equals("NOWANDER")) {
-          type.add(EncounterType.NOWANDER);
-          continue;
-        } else if (option.equals("NOMANUEL")) {
-          continue;
-        } else if (option.equals("GHOST")) {
-          subTypes.add(option.toLowerCase());
-          continue;
-        } else if (option.equals("SNAKE")) {
-          subTypes.add(option.toLowerCase());
-          continue;
-        } else if (option.equals("DRIPPY")) {
-          subTypes.add(option.toLowerCase());
+          attributeMap.put(Attribute.POISON, poison);
           continue;
         }
 
         RequestLogger.printLine("Monster: \"" + name + "\": unknown option: " + option);
+        continue;
+      }
+
+      try {
+        switch (attribute) {
+          case ATTACK:
+          case DEFENSE:
+          case HP:
+          case INITIATIVE:
+          case EXPERIENCE:
+          case MLMULT:
+          case ITEM:
+          case SKILL:
+          case SPELLS:
+          case SPRINKLE_MIN:
+          case SPRINKLE_MAX:
+            value = parseNumeric(tokens);
+            attributeMap.put(attribute, value);
+            continue;
+          case SCALE:
+            value = parseDefaultedNumeric(tokens, MonsterData.DEFAULT_SCALE);
+            attributeMap.put(attribute, value);
+            continue;
+          case CAP:
+            value = parseDefaultedNumeric(tokens, MonsterData.DEFAULT_CAP);
+            attributeMap.put(attribute, value);
+            continue;
+          case FLOOR:
+            value = parseDefaultedNumeric(tokens, MonsterData.DEFAULT_FLOOR);
+            attributeMap.put(attribute, value);
+            continue;
+          case EA:
+          case ED:
+            if (tokens.hasMoreTokens()) {
+              String next = tokens.nextToken();
+              Element element = MonsterDatabase.parseElement(next);
+              if (element != Element.NONE) {
+                attributeMap.put(attribute, element);
+              }
+            }
+            continue;
+          case PHYS:
+            if (tokens.hasMoreTokens()) {
+              value = StringUtilities.parseInt(tokens.nextToken());
+              attributeMap.put(attribute, value);
+            }
+            continue;
+          case PHYLUM:
+            if (tokens.hasMoreTokens()) {
+              String next = tokens.nextToken();
+              Phylum num = MonsterDatabase.parsePhylum(next);
+              if (num != Phylum.NONE) {
+                attributeMap.put(attribute, num);
+              }
+            }
+            continue;
+          case MEAT:
+            if (tokens.hasMoreTokens()) {
+              String next = tokens.nextToken();
+              int dash = next.indexOf("-");
+              if (dash >= 0) {
+                int minMeat = StringUtilities.parseInt(next.substring(0, dash));
+                int maxMeat = StringUtilities.parseInt(next.substring(dash + 1));
+                value = (minMeat + maxMeat) / 2;
+              } else {
+                value = StringUtilities.parseInt(next);
+              }
+              attributeMap.put(attribute, value);
+            }
+            continue;
+
+          case ARTICLE:
+            if (tokens.hasMoreTokens()) {
+              value = tokens.nextToken();
+              attributeMap.put(attribute, value);
+            }
+
+          case MANUEL_NAME:
+          case WIKI_NAME:
+            if (tokens.hasMoreTokens()) {
+              value = parseString(tokens.nextToken(), tokens);
+              attributeMap.put(attribute, value);
+            }
+            continue;
+
+          case POISON:
+            if (tokens.hasMoreTokens()) {
+              String poisonType = parseString(tokens.nextToken(), tokens);
+              int poison = EffectDatabase.getPoisonLevel(poisonType);
+              if (poison == Integer.MAX_VALUE) {
+                RequestLogger.printLine(
+                    "Monster: \"" + name + "\": unknown poison type: " + poisonType);
+              }
+              attributeMap.put(attribute, poison);
+            }
+            continue;
+
+          case BOSS:
+          case NOBANISH:
+          case NOCOPY:
+          case NOMANUEL:
+            attributeMap.put(attribute, true);
+            continue;
+
+          case WANDERER:
+          case ULTRARARE:
+          case LUCKY:
+          case SUPERLIKELY:
+          case FREE:
+          case NOWANDER:
+            attributeMap.put(attribute, true);
+            continue;
+
+          case GHOST:
+          case SNAKE:
+          case DRIPPY:
+            attributeMap.put(attribute, true);
+            continue;
+        }
       } catch (Exception e) {
         // This should not happen.  Therefore, print
         // a stack trace for debug purposes.
 
         StaticEntity.printStackTrace(e, attributes);
       }
-
-      return null;
     }
 
-    monster =
-        new MonsterData(
-            name,
-            id,
-            health,
-            attack,
-            defense,
-            initiative,
-            experience,
-            scale,
-            cap,
-            floor,
-            mlMult,
-            attackElement,
-            defenseElement,
-            physical,
-            meat,
-            minSprinkles,
-            maxSprinkles,
-            phylum,
-            poison,
-            boss,
-            noBanish,
-            noCopy,
-            type,
-            images,
-            manuelName,
-            wikiName,
-            subTypes,
-            attributes);
+    return attributeMap;
+  }
 
-    return monster;
+  public static String attributeMapToString(final Map<Attribute, Object> attributeMap) {
+    // Normalize the order of attributes
+    StringBuilder buf = new StringBuilder();
+    return buf.toString();
   }
 
   private static Object parseNumeric(StringTokenizer tokens) {

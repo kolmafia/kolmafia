@@ -21,6 +21,70 @@ import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.MonsterManuelManager;
 
 public class MonsterData extends AdventureResult {
+
+  public static Map<String, Attribute> optionToAttribute = new HashMap<>();
+
+  public enum Attribute {
+    // Non-scaling monsters
+    ATTACK("Atk:"),
+    DEFENSE("Def:"),
+    HP("HP:"),
+    // Scaling monsters
+    SCALE("Scale:"),
+    CAP("Cap:"),
+    FLOOR("Floor:"),
+    // Universal attributes
+    ARTICLE("Art:"),
+    INITIATIVE("Init:"),
+    PHYLUM("P:"),
+    MEAT("Meat:"),
+    SPRINKLE_MIN("SprinkleMin:"),
+    SPRINKLE_MAX("SprinkleMax:"),
+    // Monster features
+    BOSS("BOSS"),
+    NOBANISH("NOBANISH"),
+    NOCOPY("NOCOPY"),
+    NOMANUEL("NOMANUEL"),
+    EA("EA:"),
+    ED("ED:"),
+    PHYS("Phys:"),
+    // Encounter Types
+    WANDERER("WANDERER"),
+    ULTRARARE("ULTRARARE"),
+    LUCKY("LUCKY"),
+    SUPERLIKELY("SUPERLIKELY"),
+    FREE("FREE"),
+    NOWANDER("NOWANDER"),
+    // Subtypes
+    GHOST("GHOST"),
+    SNAKE("SNAKE"),
+    DRIPPY("DRIPPY"),
+    // Specialized
+    MLMULT("MLMult:"),
+    EXPERIENCE("Exp:"),
+    POISON("Poison:"),
+    ITEM("Item:"),
+    SKILL("Skill:"),
+    SPELLS("Spell:"),
+    MANUEL_NAME("Manuel:"),
+    WIKI_NAME("Wiki:");
+
+    public final String option;
+
+    Attribute(String option) {
+      this.option = option;
+      optionToAttribute.put(option, this);
+    }
+
+    public String getOption() {
+      return this.option;
+    }
+  }
+
+  static {
+    Attribute[] attributes = Attribute.values();
+  }
+
   private Object health;
   private Object attack;
   private Object defense;
@@ -48,7 +112,7 @@ public class MonsterData extends AdventureResult {
   private final String[] images;
   private String manuelName = null;
   private String wikiName = null;
-  private final List<String> subTypes;
+  private final Set<String> subTypes;
   private final String attributes;
   private final int beeCount;
 
@@ -214,65 +278,46 @@ public class MonsterData extends AdventureResult {
   public MonsterData(
       final String name,
       final int id,
-      final Object health,
-      final Object attack,
-      final Object defense,
-      final Object initiative,
-      final Object experience,
-      final Object scale,
-      final Object cap,
-      final Object floor,
-      final Object mlMult,
-      final Element attackElement,
-      final Element defenseElement,
-      final int physicalResistance,
-      final int meat,
-      final Object minSprinkles,
-      final Object maxSprinkles,
-      final Phylum phylum,
-      final int poison,
-      final boolean boss,
-      final boolean noBanish,
-      final boolean noCopy,
-      final EnumSet<EncounterType> type,
       final String[] images,
-      final String manuelName,
-      final String wikiName,
-      final List<String> subTypes,
-      final String attributes) {
+      final EnumSet<EncounterType> type,
+      final Set<String> subTypes,
+      final Map<Attribute, Object> attributes,
+      final String attributeString) {
     super(AdventureResult.MONSTER_PRIORITY, name);
 
     this.id = id;
-
-    this.health = health;
-    this.attack = attack;
-    this.defense = defense;
-    this.initiative = initiative;
-    this.experience = experience;
-    this.scale = scale;
-    this.cap = cap;
-    this.floor = floor;
-    this.mlMult = mlMult;
-    this.attackElement = attackElement;
-    this.defenseElement = defenseElement;
-    this.physicalResistance = physicalResistance;
-    this.meat = meat;
-    this.minSprinkles = minSprinkles;
-    this.maxSprinkles = maxSprinkles;
-    this.phylum = phylum;
-    this.poison = poison;
-    this.boss = boss;
-    this.noBanish = noBanish;
-    this.noCopy = noCopy;
-    this.transformed = false;
-    this.type = type;
     this.image = images.length > 0 ? images[0] : "";
     this.images = images;
-    this.manuelName = manuelName;
-    this.wikiName = wikiName == null ? name : wikiName;
+
+    this.attack = attributes.get(Attribute.ATTACK);
+    this.defense = attributes.get(Attribute.DEFENSE);
+    this.health = attributes.get(Attribute.HP);
+    this.initiative = attributes.get(Attribute.INITIATIVE);
+    this.scale = attributes.get(Attribute.SCALE);
+    this.cap = attributes.get(Attribute.CAP);
+    this.floor = attributes.get(Attribute.FLOOR);
+    this.experience = attributes.get(Attribute.EXPERIENCE);
+    this.mlMult = attributes.get(Attribute.MLMULT);
+    this.attackElement = (Element) attributes.getOrDefault(Attribute.EA, Element.NONE);
+    this.defenseElement = (Element) attributes.getOrDefault(Attribute.ED, Element.NONE);
+    this.physicalResistance = (int) attributes.getOrDefault(Attribute.PHYS, 0);
+    this.meat = (int) attributes.getOrDefault(Attribute.MEAT, 0);
+    this.minSprinkles = attributes.get(Attribute.SPRINKLE_MIN);
+    this.maxSprinkles = attributes.get(Attribute.SPRINKLE_MAX);
+    this.phylum = (Phylum) attributes.getOrDefault(Attribute.PHYLUM, Phylum.NONE);
+    this.poison = (int) attributes.getOrDefault(Attribute.POISON, 0);
+    this.boss = attributes.containsKey(Attribute.BOSS);
+    this.noBanish = attributes.containsKey(Attribute.NOBANISH);
+    this.noCopy = attributes.containsKey(Attribute.NOCOPY);
+    this.noManuel = attributes.containsKey(Attribute.NOMANUEL);
+    this.type = type;
     this.subTypes = subTypes;
-    this.attributes = attributes;
-    this.noManuel = attributes.contains("NOMANUEL");
+    this.manuelName = (String) attributes.get(Attribute.MANUEL_NAME);
+    this.wikiName = (String) attributes.getOrDefault(Attribute.WIKI_NAME, name);
+
+    this.attributes = attributeString;
+
+    this.transformed = false;
 
     int beeCount = 0;
     // Wandering bees don't have a bee count
@@ -883,7 +928,7 @@ public class MonsterData extends AdventureResult {
     return false;
   }
 
-  public List<String> getSubTypes() {
+  public Set<String> getSubTypes() {
     return this.subTypes;
   }
 
