@@ -113,8 +113,8 @@ public class UseItemRequest extends GenericRequest {
   static {
     UseItemRequest.LIMITED_USES.put(
         ItemPool.ASTRAL_MUSHROOM, EffectPool.get(EffectPool.HALF_ASTRAL));
-
     UseItemRequest.LIMITED_USES.put(ItemPool.ABSINTHE, EffectPool.get(EffectPool.ABSINTHE));
+    UseItemRequest.LIMITED_USES.put(ItemPool.ELEVEN_LEAF_CLOVER, EffectPool.get(EffectPool.LUCKY));
   }
 
   public static String lastUpdate = "";
@@ -5811,6 +5811,12 @@ public class UseItemRequest extends GenericRequest {
           Preferences.setBoolean("_airFryerUsed", true);
         }
         return;
+
+      case ItemPool.ELEVEN_LEAF_CLOVER:
+        if (responseText.contains("You're already feeling lucky, punk.")) {
+          return;
+        }
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
