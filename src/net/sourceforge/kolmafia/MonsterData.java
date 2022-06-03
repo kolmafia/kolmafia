@@ -331,92 +331,93 @@ public class MonsterData extends AdventureResult {
     return Phylum.NONE;
   }
 
-  private static final Attribute[] flagAttributes = {
-    Attribute.BOSS, Attribute.NOBANISH, Attribute.NOCOPY, Attribute.NOMANUEL
-  };
+  private static void saveKeywordAttribute(
+      Attribute attribute, Map<Attribute, Object> attributeMap, StringBuilder buf) {
+    if (attributeMap.containsKey(attribute)) {
+      buf.append(attribute.getOption());
+      buf.append(" ");
+    }
+  }
 
-  private static final Attribute[] encounterTypeAttributes = {
-    Attribute.WANDERER,
-    Attribute.ULTRARARE,
-    Attribute.LUCKY,
-    Attribute.SUPERLIKELY,
-    Attribute.FREE,
-    Attribute.NOWANDER
-  };
+  private static void saveNumericAttribute(
+      Attribute attribute, Map<Attribute, Object> attributeMap, StringBuilder buf) {
+    if (attributeMap.containsKey(attribute)) {
+      buf.append(attribute.getOption());
+      buf.append(" ");
+      Object value = attributeMap.get(attribute);
+      if (value instanceof String) {
+        buf.append("[");
+        buf.append(value);
+        buf.append("]");
+      } else {
+        buf.append(value);
+      }
+      buf.append(" ");
+    }
+  }
 
-  private static final Attribute[] valueAttributes1 = {
-    Attribute.ATTACK,
-    Attribute.DEFENSE,
-    Attribute.HP,
-    Attribute.SCALE,
-    Attribute.CAP,
-    Attribute.FLOOR,
-    Attribute.MLMULT,
-    Attribute.EXPERIENCE,
-    Attribute.INITIATIVE,
-    Attribute.MEAT,
-    Attribute.SPRINKLE_MIN,
-    Attribute.SPRINKLE_MAX,
-    Attribute.GROUP,
-    Attribute.PHYLUM
-  };
+  private static void saveValueAttribute(
+      Attribute attribute, Map<Attribute, Object> attributeMap, StringBuilder buf) {
+    if (attributeMap.containsKey(attribute)) {
+      buf.append(attribute.getOption());
+      buf.append(" ");
+      buf.append(attributeMap.get(attribute));
+      buf.append(" ");
+    }
+  }
 
-  private static final Attribute[] subtypeAttributes = {
-    Attribute.GHOST, Attribute.SNAKE, Attribute.DRIPPY
-  };
-
-  private static final Attribute[] resistanceAttributes = {Attribute.PHYS, Attribute.ELEM};
-
-  private static final Attribute[] blockingPercentageAttributes = {
-    Attribute.ITEM, Attribute.SKILL, Attribute.SPELLS
-  };
+  private static void saveStringAttribute(
+      Attribute attribute, Map<Attribute, Object> attributeMap, StringBuilder buf) {
+    if (attributeMap.containsKey(attribute)) {
+      buf.append(attribute.getOption());
+      buf.append(" \"");
+      buf.append(attributeMap.get(attribute));
+      buf.append("\" ");
+    }
+  }
 
   public static String attributeMapToString(final Map<Attribute, Object> attributeMap) {
     // Normalize the order of attributes
     StringBuilder buf = new StringBuilder();
 
     // Monster flags
-    for (Attribute attribute : flagAttributes) {
-      if (attributeMap.containsKey(attribute)) {
-        buf.append(attribute.getOption());
-        buf.append(" ");
-      }
-    }
+    saveKeywordAttribute(Attribute.BOSS, attributeMap, buf);
+    saveKeywordAttribute(Attribute.NOBANISH, attributeMap, buf);
+    saveKeywordAttribute(Attribute.NOCOPY, attributeMap, buf);
+    saveKeywordAttribute(Attribute.NOMANUEL, attributeMap, buf);
 
     // Encounter Types
-    for (Attribute attribute : encounterTypeAttributes) {
-      if (attributeMap.containsKey(attribute)) {
-        buf.append(attribute.getOption());
-        buf.append(" ");
-      }
-    }
+    saveKeywordAttribute(Attribute.WANDERER, attributeMap, buf);
+    saveKeywordAttribute(Attribute.ULTRARARE, attributeMap, buf);
+    saveKeywordAttribute(Attribute.LUCKY, attributeMap, buf);
+    saveKeywordAttribute(Attribute.SUPERLIKELY, attributeMap, buf);
+    saveKeywordAttribute(Attribute.FREE, attributeMap, buf);
+    saveKeywordAttribute(Attribute.NOWANDER, attributeMap, buf);
 
-    // Attributes with values
-    for (Attribute attribute : valueAttributes1) {
-      if (attributeMap.containsKey(attribute)) {
-        buf.append(attribute.getOption());
-        buf.append(" ");
-        buf.append(attributeMap.get(attribute));
-        buf.append(" ");
-      }
-    }
+    saveNumericAttribute(Attribute.ATTACK, attributeMap, buf);
+    saveNumericAttribute(Attribute.DEFENSE, attributeMap, buf);
+    saveNumericAttribute(Attribute.HP, attributeMap, buf);
+    saveNumericAttribute(Attribute.SCALE, attributeMap, buf);
+    saveNumericAttribute(Attribute.CAP, attributeMap, buf);
+    saveNumericAttribute(Attribute.FLOOR, attributeMap, buf);
+    saveNumericAttribute(Attribute.MLMULT, attributeMap, buf);
+    saveNumericAttribute(Attribute.EXPERIENCE, attributeMap, buf);
+    saveNumericAttribute(Attribute.INITIATIVE, attributeMap, buf);
+    saveNumericAttribute(Attribute.MEAT, attributeMap, buf);
+    saveNumericAttribute(Attribute.SPRINKLE_MIN, attributeMap, buf);
+    saveNumericAttribute(Attribute.SPRINKLE_MAX, attributeMap, buf);
+
+    saveValueAttribute(Attribute.GROUP, attributeMap, buf);
+    saveValueAttribute(Attribute.PHYLUM, attributeMap, buf);
 
     // Subtypes
-    for (Attribute attribute : subtypeAttributes) {
-      if (attributeMap.containsKey(attribute)) {
-        buf.append(attribute.getOption());
-        buf.append(" ");
-      }
-    }
+    saveKeywordAttribute(Attribute.GHOST, attributeMap, buf);
+    saveKeywordAttribute(Attribute.SNAKE, attributeMap, buf);
+    saveKeywordAttribute(Attribute.DRIPPY, attributeMap, buf);
 
-    for (Attribute attribute : resistanceAttributes) {
-      if (attributeMap.containsKey(attribute)) {
-        buf.append(attribute.getOption());
-        buf.append(" ");
-        buf.append(attributeMap.get(attribute));
-        buf.append(" ");
-      }
-    }
+    // Resistances
+    saveValueAttribute(Attribute.PHYS, attributeMap, buf);
+    saveValueAttribute(Attribute.ELEM, attributeMap, buf);
 
     boolean hasEA = attributeMap.containsKey(Attribute.EA);
     boolean hasED = attributeMap.containsKey(Attribute.ED);
@@ -424,28 +425,15 @@ public class MonsterData extends AdventureResult {
       buf.append("E: ");
       buf.append(attributeMap.get(Attribute.EA));
       buf.append(" ");
-    } else if (hasEA) {
-      buf.append(Attribute.EA.getOption());
-      buf.append(" ");
-      buf.append(attributeMap.get(Attribute.EA));
-      buf.append(" ");
-    } else if (hasED) {
-      buf.append(Attribute.ED.getOption());
-      buf.append(" ");
-      buf.append("ED: ");
-      buf.append(attributeMap.get(Attribute.ED));
-      buf.append(" ");
+    } else {
+      saveValueAttribute(Attribute.EA, attributeMap, buf);
+      saveValueAttribute(Attribute.ED, attributeMap, buf);
     }
 
     // Special blocking percentages
-    for (Attribute attribute : blockingPercentageAttributes) {
-      if (attributeMap.containsKey(attribute)) {
-        buf.append(attribute.getOption());
-        buf.append(" ");
-        buf.append(attributeMap.get(attribute));
-        buf.append(" ");
-      }
-    }
+    saveNumericAttribute(Attribute.ITEM, attributeMap, buf);
+    saveNumericAttribute(Attribute.SKILL, attributeMap, buf);
+    saveNumericAttribute(Attribute.SPELLS, attributeMap, buf);
 
     if (attributeMap.containsKey(Attribute.ARTICLE)) {
       String article = (String) attributeMap.get(Attribute.ARTICLE);
@@ -466,19 +454,8 @@ public class MonsterData extends AdventureResult {
       buf.append("\" ");
     }
 
-    if (attributeMap.containsKey(Attribute.MANUEL_NAME)) {
-      buf.append(Attribute.MANUEL_NAME.getOption());
-      buf.append(" \"");
-      buf.append(attributeMap.get(Attribute.MANUEL_NAME));
-      buf.append("\" ");
-    }
-
-    if (attributeMap.containsKey(Attribute.WIKI_NAME)) {
-      buf.append(Attribute.WIKI_NAME.getOption());
-      buf.append(" \"");
-      buf.append(attributeMap.get(Attribute.WIKI_NAME));
-      buf.append("\" ");
-    }
+    saveStringAttribute(Attribute.MANUEL_NAME, attributeMap, buf);
+    saveStringAttribute(Attribute.WIKI_NAME, attributeMap, buf);
 
     return buf.toString().trim();
   }

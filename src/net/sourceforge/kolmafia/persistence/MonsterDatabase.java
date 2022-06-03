@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -12,6 +14,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -24,6 +27,7 @@ import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonsterDatabase {
@@ -829,5 +833,55 @@ public class MonsterDatabase {
 
   public static final boolean contains(final String name) {
     return MonsterDatabase.findMonster(name, false) != null;
+  }
+
+  public static int fixMonsterAttributes(Map<Integer, Map<Attribute, Object>> updates) {
+    int count = 0;
+
+    String filename = "monsters.txt";
+    int version = KoLConstants.MONSTERS_VERSION;
+    try (BufferedReader reader = FileUtilities.getVersionedReader(filename, version);
+        PrintStream writer =
+            LogStream.openStream(new File(KoLConstants.DATA_LOCATION, filename), true)) {
+      writer.println(version);
+
+      String line;
+      while ((line = reader.readLine()) != null) {
+        if (line.length() == 0 || line.startsWith("#")) {
+          writer.println(line);
+          continue;
+        }
+
+        String[] data = line.split("\t", -1);
+        if (data.length < 4) {
+          writer.println(Arrays.stream(data).collect(Collectors.joining("\t")));
+          continue;
+        }
+
+        String name = data[0];
+        int monsterId = StringUtilities.parseInt(data[1]);
+        String attributes = data[3];
+
+        Map<Attribute, Object> attributeMap = MonsterData.attributeStringToMap(name, attributes);
+        if (updates != null) {
+          Map<Attribute, Object> update = updates.get(monsterId);
+          if (update != null) {
+            attributeMap.putAll(update);
+          }
+        }
+        String attributeString = MonsterData.attributeMapToString(attributeMap);
+
+        if (!attributes.equals(attributeString)) {
+          data[3] = attributeString;
+          count++;
+        }
+
+        writer.println(Arrays.stream(data).collect(Collectors.joining("\t")));
+      }
+    } catch (IOException e) {
+      StaticEntity.printStackTrace(e);
+    }
+
+    return count;
   }
 }
