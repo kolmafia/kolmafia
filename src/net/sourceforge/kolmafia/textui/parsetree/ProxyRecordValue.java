@@ -1410,6 +1410,7 @@ public class ProxyRecordValue extends RecordValue {
     public static RecordType _type =
         new RecordBuilder()
             .add("name", DataTypes.STRING_TYPE)
+            .add("article", DataTypes.STRING_TYPE)
             .add("id", DataTypes.INT_TYPE)
             .add("base_hp", DataTypes.INT_TYPE)
             .add("base_attack", DataTypes.INT_TYPE)
@@ -1422,11 +1423,13 @@ public class ProxyRecordValue extends RecordValue {
             .add("attack_element", DataTypes.ELEMENT_TYPE)
             .add("defense_element", DataTypes.ELEMENT_TYPE)
             .add("physical_resistance", DataTypes.INT_TYPE)
+            .add("elemental_resistance", DataTypes.INT_TYPE)
             .add("min_meat", DataTypes.INT_TYPE)
             .add("max_meat", DataTypes.INT_TYPE)
             .add("min_sprinkles", DataTypes.INT_TYPE)
             .add("max_sprinkles", DataTypes.INT_TYPE)
             .add("base_mainstat_exp", DataTypes.FLOAT_TYPE)
+            .add("group", DataTypes.INT_TYPE)
             .add("phylum", DataTypes.PHYLUM_TYPE)
             .add("poison", DataTypes.EFFECT_TYPE)
             .add("boss", DataTypes.BOOLEAN_TYPE)
@@ -1448,6 +1451,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public String get_name() {
       return this.content != null ? MonsterDatabase.getMonsterName((int) this.contentLong) : "";
+    }
+
+    public String get_article() {
+      return this.content != null ? ((MonsterData) this.content).getArticle() : "";
     }
 
     public int get_id() {
@@ -1504,6 +1511,10 @@ public class ProxyRecordValue extends RecordValue {
       return this.content != null ? ((MonsterData) this.content).getPhysicalResistance() : 0;
     }
 
+    public int get_elemental_resistance() {
+      return this.content != null ? ((MonsterData) this.content).getElementalResistance() : 0;
+    }
+
     public int get_min_meat() {
       return this.content != null ? ((MonsterData) this.content).getMinMeat() : 0;
     }
@@ -1522,6 +1533,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public double get_base_mainstat_exp() {
       return this.content != null ? ((MonsterData) this.content).getExperience() : 0;
+    }
+
+    public int get_group() {
+      return this.content != null ? ((MonsterData) this.content).getGroup() : 0;
     }
 
     public Value get_phylum() {

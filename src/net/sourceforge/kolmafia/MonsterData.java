@@ -8,10 +8,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.TreeMap;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -19,6 +22,7 @@ import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.MonsterManuelManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonsterData extends AdventureResult {
 
@@ -36,6 +40,7 @@ public class MonsterData extends AdventureResult {
     // Universal attributes
     ARTICLE("Art:"),
     INITIATIVE("Init:"),
+    GROUP("Group:"),
     PHYLUM("P:"),
     MEAT("Meat:"),
     SPRINKLE_MIN("SprinkleMin:"),
@@ -48,6 +53,7 @@ public class MonsterData extends AdventureResult {
     EA("EA:"),
     ED("ED:"),
     PHYS("Phys:"),
+    ELEM("Elem:"),
     // Encounter Types
     WANDERER("WANDERER"),
     ULTRARARE("ULTRARARE"),
@@ -69,7 +75,7 @@ public class MonsterData extends AdventureResult {
     MANUEL_NAME("Manuel:"),
     WIKI_NAME("Wiki:");
 
-    public final String option;
+    private final String option;
 
     Attribute(String option) {
       this.option = option;
@@ -85,6 +91,398 @@ public class MonsterData extends AdventureResult {
     Attribute[] attributes = Attribute.values();
   }
 
+  public static Map<Attribute, Object> attributeStringToMap(
+      final String name, final String attributes) {
+
+    Map<Attribute, Object> attributeMap = new TreeMap<>();
+
+    StringTokenizer tokens = new StringTokenizer(attributes, " ");
+    while (tokens.hasMoreTokens()) {
+      String option = tokens.nextToken();
+      Object value;
+
+      Attribute attribute = MonsterData.optionToAttribute.get(option);
+
+      if (attribute == null) {
+        // Special cases:
+
+        if (option.equals("E:")) {
+          if (tokens.hasMoreTokens()) {
+            String next = tokens.nextToken();
+            Element element = parseElement(next);
+            if (element != Element.NONE) {
+              attributeMap.put(Attribute.EA, element);
+              attributeMap.put(Attribute.ED, element);
+            }
+          }
+          continue;
+        }
+
+        if (option.startsWith("\"")) {
+          String string = parseString(option, tokens);
+          int poison = EffectDatabase.getPoisonLevel(string);
+          if (poison == Integer.MAX_VALUE) {
+            RequestLogger.printLine("Monster: \"" + name + "\": unknown poison type: " + string);
+          }
+          attributeMap.put(Attribute.POISON, poison);
+          continue;
+        }
+
+        RequestLogger.printLine("Monster: \"" + name + "\": unknown option: " + option);
+        continue;
+      }
+
+      try {
+        switch (attribute) {
+          case ATTACK:
+          case DEFENSE:
+          case HP:
+          case INITIATIVE:
+          case EXPERIENCE:
+          case MLMULT:
+          case ITEM:
+          case SKILL:
+          case SPELLS:
+          case SPRINKLE_MIN:
+          case SPRINKLE_MAX:
+            value = parseNumeric(tokens);
+            attributeMap.put(attribute, value);
+            continue;
+          case SCALE:
+            value = parseDefaultedNumeric(tokens, MonsterData.DEFAULT_SCALE);
+            attributeMap.put(attribute, value);
+            continue;
+          case CAP:
+            value = parseDefaultedNumeric(tokens, MonsterData.DEFAULT_CAP);
+            attributeMap.put(attribute, value);
+            continue;
+          case FLOOR:
+            value = parseDefaultedNumeric(tokens, MonsterData.DEFAULT_FLOOR);
+            attributeMap.put(attribute, value);
+            continue;
+          case EA:
+          case ED:
+            if (tokens.hasMoreTokens()) {
+              String next = tokens.nextToken();
+              Element element = parseElement(next);
+              if (element != Element.NONE) {
+                attributeMap.put(attribute, element);
+              }
+            }
+            continue;
+          case ELEM:
+          case PHYS:
+          case GROUP:
+            if (tokens.hasMoreTokens()) {
+              value = StringUtilities.parseInt(tokens.nextToken());
+              attributeMap.put(attribute, value);
+            }
+            continue;
+          case PHYLUM:
+            if (tokens.hasMoreTokens()) {
+              String next = tokens.nextToken();
+              Phylum num = parsePhylum(next);
+              if (num != Phylum.NONE) {
+                attributeMap.put(attribute, num);
+              }
+            }
+            continue;
+          case MEAT:
+            if (tokens.hasMoreTokens()) {
+              String next = tokens.nextToken();
+              int dash = next.indexOf("-");
+              if (dash >= 0) {
+                int minMeat = StringUtilities.parseInt(next.substring(0, dash));
+                int maxMeat = StringUtilities.parseInt(next.substring(dash + 1));
+                value = (minMeat + maxMeat) / 2;
+              } else {
+                value = StringUtilities.parseInt(next);
+              }
+              attributeMap.put(attribute, value);
+            }
+            continue;
+
+          case ARTICLE:
+            if (tokens.hasMoreTokens()) {
+              value = tokens.nextToken();
+              attributeMap.put(attribute, value);
+            }
+
+          case MANUEL_NAME:
+          case WIKI_NAME:
+            if (tokens.hasMoreTokens()) {
+              value = parseString(tokens.nextToken(), tokens);
+              attributeMap.put(attribute, value);
+            }
+            continue;
+
+          case POISON:
+            if (tokens.hasMoreTokens()) {
+              String poisonType = parseString(tokens.nextToken(), tokens);
+              int poison = EffectDatabase.getPoisonLevel(poisonType);
+              if (poison == Integer.MAX_VALUE) {
+                RequestLogger.printLine(
+                    "Monster: \"" + name + "\": unknown poison type: " + poisonType);
+              }
+              attributeMap.put(attribute, poison);
+            }
+            continue;
+
+          case BOSS:
+          case NOBANISH:
+          case NOCOPY:
+          case NOMANUEL:
+            attributeMap.put(attribute, true);
+            continue;
+
+          case WANDERER:
+          case ULTRARARE:
+          case LUCKY:
+          case SUPERLIKELY:
+          case FREE:
+          case NOWANDER:
+            attributeMap.put(attribute, true);
+            continue;
+
+          case GHOST:
+          case SNAKE:
+          case DRIPPY:
+            attributeMap.put(attribute, true);
+            continue;
+        }
+      } catch (Exception e) {
+        // This should not happen.  Therefore, print
+        // a stack trace for debug purposes.
+
+        StaticEntity.printStackTrace(e, attributes);
+      }
+    }
+
+    return attributeMap;
+  }
+
+  private static Object parseNumeric(StringTokenizer tokens) {
+    if (!tokens.hasMoreTokens()) {
+      return null;
+    }
+    return parseNumeric(tokens, tokens.nextToken());
+  }
+
+  private static Object parseDefaultedNumeric(StringTokenizer tokens, int def) {
+    if (!tokens.hasMoreTokens()) {
+      return null;
+    }
+    String value = tokens.nextToken();
+    if (value.equals("?")) {
+      return def;
+    }
+    return parseNumeric(tokens, value);
+  }
+
+  private static Object parseNumeric(StringTokenizer tokens, String value) {
+    if (!value.startsWith("[")) {
+      return StringUtilities.parseInt(value);
+    }
+    // Must paste the entire expression back together, since we're
+    // splitting the tokens on spaces.
+    StringBuilder temp = new StringBuilder(value);
+    while (!value.endsWith("]") && tokens.hasMoreTokens()) {
+      value = tokens.nextToken();
+      temp.append(' ');
+      temp.append(value);
+    }
+    return temp.substring(1, temp.length() - 1);
+  }
+
+  private static String parseString(String token, StringTokenizer tokens) {
+    if (!token.startsWith("\"")) {
+      return "";
+    }
+
+    StringBuilder temp = new StringBuilder(token);
+    while (!token.endsWith("\"") && tokens.hasMoreTokens()) {
+      token = tokens.nextToken();
+      temp.append(' ');
+      temp.append(token);
+    }
+
+    // Remove initial and final quote
+    temp.deleteCharAt(0);
+    temp.deleteCharAt(temp.length() - 1);
+
+    return temp.toString();
+  }
+
+  public static final Element parseElement(final String s) {
+    for (Element elem : Element.values()) {
+      if (elem.toString().equals(s)) {
+        return elem;
+      }
+    }
+    return Element.NONE;
+  }
+
+  public static final Phylum parsePhylum(final String s) {
+    for (Phylum phylum : Phylum.values()) {
+      if (phylum.toString().equals(s)) {
+        return phylum;
+      }
+    }
+    return Phylum.NONE;
+  }
+
+  private static final Attribute[] flagAttributes = {
+    Attribute.BOSS, Attribute.NOBANISH, Attribute.NOCOPY, Attribute.NOMANUEL
+  };
+
+  private static final Attribute[] encounterTypeAttributes = {
+    Attribute.WANDERER,
+    Attribute.ULTRARARE,
+    Attribute.LUCKY,
+    Attribute.SUPERLIKELY,
+    Attribute.FREE,
+    Attribute.NOWANDER
+  };
+
+  private static final Attribute[] valueAttributes1 = {
+    Attribute.ATTACK,
+    Attribute.DEFENSE,
+    Attribute.HP,
+    Attribute.SCALE,
+    Attribute.CAP,
+    Attribute.FLOOR,
+    Attribute.MLMULT,
+    Attribute.EXPERIENCE,
+    Attribute.INITIATIVE,
+    Attribute.MEAT,
+    Attribute.SPRINKLE_MIN,
+    Attribute.SPRINKLE_MAX,
+    Attribute.GROUP,
+    Attribute.PHYLUM
+  };
+
+  private static final Attribute[] subtypeAttributes = {
+    Attribute.GHOST, Attribute.SNAKE, Attribute.DRIPPY
+  };
+
+  private static final Attribute[] resistanceAttributes = {Attribute.PHYS, Attribute.ELEM};
+
+  private static final Attribute[] blockingPercentageAttributes = {
+    Attribute.ITEM, Attribute.SKILL, Attribute.SPELLS
+  };
+
+  public static String attributeMapToString(final Map<Attribute, Object> attributeMap) {
+    // Normalize the order of attributes
+    StringBuilder buf = new StringBuilder();
+
+    // Monster flags
+    for (Attribute attribute : flagAttributes) {
+      if (attributeMap.containsKey(attribute)) {
+        buf.append(attribute.getOption());
+        buf.append(" ");
+      }
+    }
+
+    // Encounter Types
+    for (Attribute attribute : encounterTypeAttributes) {
+      if (attributeMap.containsKey(attribute)) {
+        buf.append(attribute.getOption());
+        buf.append(" ");
+      }
+    }
+
+    // Attributes with values
+    for (Attribute attribute : valueAttributes1) {
+      if (attributeMap.containsKey(attribute)) {
+        buf.append(attribute.getOption());
+        buf.append(" ");
+        buf.append(attributeMap.get(attribute));
+        buf.append(" ");
+      }
+    }
+
+    // Subtypes
+    for (Attribute attribute : subtypeAttributes) {
+      if (attributeMap.containsKey(attribute)) {
+        buf.append(attribute.getOption());
+        buf.append(" ");
+      }
+    }
+
+    for (Attribute attribute : resistanceAttributes) {
+      if (attributeMap.containsKey(attribute)) {
+        buf.append(attribute.getOption());
+        buf.append(" ");
+        buf.append(attributeMap.get(attribute));
+        buf.append(" ");
+      }
+    }
+
+    boolean hasEA = attributeMap.containsKey(Attribute.EA);
+    boolean hasED = attributeMap.containsKey(Attribute.ED);
+    if (hasEA && hasED) {
+      buf.append("E: ");
+      buf.append(attributeMap.get(Attribute.EA));
+      buf.append(" ");
+    } else if (hasEA) {
+      buf.append(Attribute.EA.getOption());
+      buf.append(" ");
+      buf.append(attributeMap.get(Attribute.EA));
+      buf.append(" ");
+    } else if (hasED) {
+      buf.append(Attribute.ED.getOption());
+      buf.append(" ");
+      buf.append("ED: ");
+      buf.append(attributeMap.get(Attribute.ED));
+      buf.append(" ");
+    }
+
+    // Special blocking percentages
+    for (Attribute attribute : blockingPercentageAttributes) {
+      if (attributeMap.containsKey(attribute)) {
+        buf.append(attribute.getOption());
+        buf.append(" ");
+        buf.append(attributeMap.get(attribute));
+        buf.append(" ");
+      }
+    }
+
+    if (attributeMap.containsKey(Attribute.ARTICLE)) {
+      String article = (String) attributeMap.get(Attribute.ARTICLE);
+      if (!"".equals(article)) {
+        buf.append(Attribute.ARTICLE.getOption());
+        buf.append(" ");
+        buf.append(article);
+        buf.append(" ");
+      }
+    }
+
+    if (attributeMap.containsKey(Attribute.POISON)) {
+      int poison = (int) attributeMap.get(Attribute.POISON);
+      String poisonName = EffectDatabase.getPoisonName(poison);
+      buf.append(Attribute.POISON.getOption());
+      buf.append(" \"");
+      buf.append(poisonName);
+      buf.append("\" ");
+    }
+
+    if (attributeMap.containsKey(Attribute.MANUEL_NAME)) {
+      buf.append(Attribute.MANUEL_NAME.getOption());
+      buf.append(" \"");
+      buf.append(attributeMap.get(Attribute.MANUEL_NAME));
+      buf.append("\" ");
+    }
+
+    if (attributeMap.containsKey(Attribute.WIKI_NAME)) {
+      buf.append(Attribute.WIKI_NAME.getOption());
+      buf.append(" \"");
+      buf.append(attributeMap.get(Attribute.WIKI_NAME));
+      buf.append("\" ");
+    }
+
+    return buf.toString().trim();
+  }
+
   private Object health;
   private Object attack;
   private Object defense;
@@ -97,9 +495,11 @@ public class MonsterData extends AdventureResult {
   private Element attackElement;
   private Element defenseElement;
   private int physicalResistance;
+  private int elementalResistance;
   private int meat;
-  private final Object minSprinkles;
-  private final Object maxSprinkles;
+  private Object minSprinkles;
+  private Object maxSprinkles;
+  private final int group;
   private final Phylum phylum;
   private final int poison;
   private final boolean boss;
@@ -112,6 +512,7 @@ public class MonsterData extends AdventureResult {
   private final String[] images;
   private String manuelName = null;
   private String wikiName = null;
+  private String article = null;
   private final Set<String> subTypes;
   private final String attributes;
   private final int beeCount;
@@ -281,8 +682,7 @@ public class MonsterData extends AdventureResult {
       final String[] images,
       final EnumSet<EncounterType> type,
       final Set<String> subTypes,
-      final Map<Attribute, Object> attributes,
-      final String attributeString) {
+      final Map<Attribute, Object> attributes) {
     super(AdventureResult.MONSTER_PRIORITY, name);
 
     this.id = id;
@@ -301,9 +701,11 @@ public class MonsterData extends AdventureResult {
     this.attackElement = (Element) attributes.getOrDefault(Attribute.EA, Element.NONE);
     this.defenseElement = (Element) attributes.getOrDefault(Attribute.ED, Element.NONE);
     this.physicalResistance = (int) attributes.getOrDefault(Attribute.PHYS, 0);
+    this.elementalResistance = (int) attributes.getOrDefault(Attribute.ELEM, 0);
     this.meat = (int) attributes.getOrDefault(Attribute.MEAT, 0);
     this.minSprinkles = attributes.get(Attribute.SPRINKLE_MIN);
     this.maxSprinkles = attributes.get(Attribute.SPRINKLE_MAX);
+    this.group = (int) attributes.getOrDefault(Attribute.GROUP, 1);
     this.phylum = (Phylum) attributes.getOrDefault(Attribute.PHYLUM, Phylum.NONE);
     this.poison = (int) attributes.getOrDefault(Attribute.POISON, 0);
     this.boss = attributes.containsKey(Attribute.BOSS);
@@ -314,8 +716,9 @@ public class MonsterData extends AdventureResult {
     this.subTypes = subTypes;
     this.manuelName = (String) attributes.get(Attribute.MANUEL_NAME);
     this.wikiName = (String) attributes.getOrDefault(Attribute.WIKI_NAME, name);
+    this.article = (String) attributes.get(Attribute.ARTICLE);
 
-    this.attributes = attributeString;
+    this.attributes = attributeMapToString(attributes);
 
     this.transformed = false;
 
@@ -354,9 +757,11 @@ public class MonsterData extends AdventureResult {
     this.attackElement = monster.attackElement;
     this.defenseElement = monster.defenseElement;
     this.physicalResistance = monster.physicalResistance;
+    this.elementalResistance = monster.elementalResistance;
     this.meat = monster.meat;
     this.minSprinkles = monster.minSprinkles;
     this.maxSprinkles = monster.maxSprinkles;
+    this.group = monster.group;
     this.phylum = monster.phylum;
     this.poison = monster.poison;
     this.boss = monster.boss;
@@ -525,8 +930,10 @@ public class MonsterData extends AdventureResult {
         monster.defense = monster.getRawDefense() * 4;
       } else if (modifier.equals("fencing mask")) {
         if (monster.physicalResistance == 0) {
-          // Also gives 90% elemental resistance
           monster.physicalResistance = 90;
+        }
+        if (monster.elementalResistance == 0) {
+          monster.elementalResistance = 90;
         }
       } else if (this.scale == null && modifier.equals("Naughty Sorceress mask")) {
         monster.health = monster.getRawHP() * 3;
@@ -588,6 +995,10 @@ public class MonsterData extends AdventureResult {
 
   public void setManuelName(final String manuelName) {
     this.manuelName = manuelName;
+  }
+
+  public String getArticle() {
+    return this.article == null ? "" : this.article;
   }
 
   public int getHP() {
@@ -854,6 +1265,10 @@ public class MonsterData extends AdventureResult {
     return this.physicalResistance;
   }
 
+  public int getElementalResistance() {
+    return this.elementalResistance;
+  }
+
   public int getMinMeat() {
     int variation = (int) Math.max(1, Math.floor(this.meat * 0.2));
     return this.meat > 0 ? this.meat - variation : 0;
@@ -874,6 +1289,10 @@ public class MonsterData extends AdventureResult {
 
   public int getMaxSprinkles() {
     return evaluate(this.maxSprinkles, 0);
+  }
+
+  public int getGroup() {
+    return this.group;
   }
 
   public Phylum getPhylum() {

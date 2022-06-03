@@ -746,6 +746,14 @@ public class EffectDatabase {
     return Integer.MAX_VALUE;
   }
 
+  public static String getPoisonName(int level) {
+    if (level < 1 || level >= POISON_ID.length) {
+      return "poisoned";
+    }
+    int effectId = POISON_ID[level];
+    return EffectDatabase.nameById.get(effectId);
+  }
+
   public static void parseVampireVintnerWineEffect(final String edesc, final int effectId) {
     String eEnchantments = DebugDatabase.parseEffectEnchantments(edesc, new ArrayList<String>());
     String ename = EffectDatabase.getEffectName(effectId);
