@@ -93,7 +93,7 @@ public class MonsterData extends AdventureResult {
 
   // ***********************************************************
   // Parsing an attribute string - from monsters.txt or manually
-  // crafted by MonsterManuelManager - int a map from Attribute
+  // crafted by MonsterManuelManager - into a map from Attribute
   // to value.
   // ***********************************************************
 
@@ -128,16 +128,6 @@ public class MonsterData extends AdventureResult {
           continue;
         }
 
-        if (option.startsWith("\"")) {
-          String string = parseString(option, tokens);
-          int poison = EffectDatabase.getPoisonLevel(string);
-          if (poison == Integer.MAX_VALUE) {
-            RequestLogger.printLine("Monster: \"" + name + "\": unknown poison type: " + string);
-          }
-          attributeMap.put(Attribute.POISON, poison);
-          continue;
-        }
-
         RequestLogger.printLine("Monster: \"" + name + "\": unknown option: " + option);
         continue;
       }
@@ -155,6 +145,8 @@ public class MonsterData extends AdventureResult {
           case SPELLS:
           case SPRINKLE_MIN:
           case SPRINKLE_MAX:
+          case ELEM:
+          case PHYS:
             value = parseNumeric(tokens);
             attributeMap.put(attribute, value);
             continue;
@@ -180,8 +172,6 @@ public class MonsterData extends AdventureResult {
               }
             }
             continue;
-          case ELEM:
-          case PHYS:
           case GROUP:
             if (tokens.hasMoreTokens()) {
               value = StringUtilities.parseInt(tokens.nextToken());
@@ -387,8 +377,8 @@ public class MonsterData extends AdventureResult {
     saveKeywordAttribute(Attribute.DRIPPY, attributeMap, buf);
 
     // Resistances
-    saveValueAttribute(Attribute.PHYS, attributeMap, buf);
-    saveValueAttribute(Attribute.ELEM, attributeMap, buf);
+    saveNumericAttribute(Attribute.PHYS, attributeMap, buf);
+    saveNumericAttribute(Attribute.ELEM, attributeMap, buf);
 
     boolean hasEA = attributeMap.containsKey(Attribute.EA);
     boolean hasED = attributeMap.containsKey(Attribute.ED);
@@ -540,8 +530,8 @@ public class MonsterData extends AdventureResult {
   private final Object mlMult;
   private Element attackElement;
   private Element defenseElement;
-  private int physicalResistance;
-  private int elementalResistance;
+  private Object physicalResistance;
+  private Object elementalResistance;
   private int meat;
   private Object minSprinkles;
   private Object maxSprinkles;
@@ -591,8 +581,8 @@ public class MonsterData extends AdventureResult {
     this.mlMult = attributes.get(Attribute.MLMULT);
     this.attackElement = (Element) attributes.getOrDefault(Attribute.EA, Element.NONE);
     this.defenseElement = (Element) attributes.getOrDefault(Attribute.ED, Element.NONE);
-    this.physicalResistance = (int) attributes.getOrDefault(Attribute.PHYS, 0);
-    this.elementalResistance = (int) attributes.getOrDefault(Attribute.ELEM, 0);
+    this.physicalResistance = attributes.get(Attribute.PHYS);
+    this.elementalResistance = attributes.get(Attribute.ELEM);
     this.meat = (int) attributes.getOrDefault(Attribute.MEAT, 0);
     this.minSprinkles = attributes.get(Attribute.SPRINKLE_MIN);
     this.maxSprinkles = attributes.get(Attribute.SPRINKLE_MAX);
@@ -908,17 +898,18 @@ public class MonsterData extends AdventureResult {
       physRes = 0;
     }
 
-    if (physRes <= this.physicalResistance) {
+    if (physRes <= this.getPhysicalResistance()) {
       return this;
     }
 
     // elemental damage, this would be the place to put it.
     try {
       MonsterData monster = (MonsterData) this.clone();
-      if (monster.physicalResistance == 0) {
+      int monsterPhysRes = monster.getPhysicalResistance();
+      if (monsterPhysRes == 0) {
         monster.physicalResistance = physRes;
       } else {
-        monster.physicalResistance = Math.max(physRes, monster.physicalResistance);
+        monster.physicalResistance = Math.max(physRes, monsterPhysRes);
       }
       return monster;
     } catch (CloneNotSupportedException e) {
@@ -977,7 +968,7 @@ public class MonsterData extends AdventureResult {
         monster.attackElement = Element.COLD;
         monster.defenseElement = Element.COLD;
       } else if (modifier.equals("ghostly")) {
-        if (monster.physicalResistance == 0) {
+        if (monster.getPhysicalResistance() == 0) {
           monster.physicalResistance = 90;
         }
       } else if (modifier.equals("haunted")) {
@@ -1049,10 +1040,10 @@ public class MonsterData extends AdventureResult {
       } else if (this.scale == null && modifier.equals("bandit mask")) {
         monster.defense = monster.getRawDefense() * 4;
       } else if (modifier.equals("fencing mask")) {
-        if (monster.physicalResistance == 0) {
+        if (monster.getPhysicalResistance() == 0) {
           monster.physicalResistance = 90;
         }
-        if (monster.elementalResistance == 0) {
+        if (monster.getElementalResistance() == 0) {
           monster.elementalResistance = 90;
         }
       } else if (this.scale == null && modifier.equals("Naughty Sorceress mask")) {
@@ -1386,11 +1377,11 @@ public class MonsterData extends AdventureResult {
   }
 
   public int getPhysicalResistance() {
-    return this.physicalResistance;
+    return evaluate(this.physicalResistance, 0);
   }
 
   public int getElementalResistance() {
-    return this.elementalResistance;
+    return evaluate(this.elementalResistance, 0);
   }
 
   public int getMinMeat() {
