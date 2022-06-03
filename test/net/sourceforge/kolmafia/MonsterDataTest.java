@@ -3,10 +3,13 @@ package net.sourceforge.kolmafia;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.EnumSet;
 import java.util.Map;
+import java.util.Set;
 import net.sourceforge.kolmafia.MonsterData.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
+import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -167,11 +170,34 @@ public class MonsterDataTest {
       String name = "scary monster";
       int id = 13;
       String[] images = {"scary.gif"};
-      String attributes = "Def: 37 HP: 666 Atk: 13";
+      String attributes =
+          "BOSS NOBANISH NOCOPY FREE WANDERER Def: 37 HP: 666 Atk: 13 Init: 1000 E: spooky Phys: [50] Elem: 50 Meat: 100 SprinkleMin: 10 SprinkleMax: 20 Group: 13 P: horror GHOST Poison: \"Really Quite Poisoned\" Manuel: \"scary monster\" Wiki: \"scary monster\" Article: a";
       MonsterData monster = new MonsterData(name, id, images, attributes);
       assertEquals(13, monster.getRawAttack());
       assertEquals(37, monster.getRawDefense());
       assertEquals(666, monster.getRawHP());
+      assertEquals(1000, monster.getRawInitiative());
+      assertEquals(Element.SPOOKY, monster.getAttackElement());
+      assertEquals(Element.SPOOKY, monster.getDefenseElement());
+      assertEquals(50, monster.getPhysicalResistance());
+      assertEquals(50, monster.getElementalResistance());
+      assertEquals(100, monster.getBaseMeat());
+      assertEquals(10, monster.getMinSprinkles());
+      assertEquals(20, monster.getMaxSprinkles());
+      assertEquals(13, monster.getGroup());
+      assertEquals(Phylum.HORROR, monster.getPhylum());
+      assertEquals(3, monster.getPoison());
+      assertTrue(monster.isBoss());
+      assertTrue(monster.isNoBanish());
+      assertTrue(monster.isNoCopy());
+      EnumSet<EncounterType> type = monster.getType();
+      assertTrue(type.contains(EncounterType.FREE_COMBAT));
+      assertTrue(type.contains(EncounterType.WANDERER));
+      Set<String> subtypes = monster.getSubTypes();
+      assertTrue(subtypes.contains("ghost"));
+      assertEquals("scary monster", monster.getWikiName());
+      assertEquals("scary monster", monster.getManuelName());
+      assertEquals("a", monster.getArticle());
       // *** note that MonsterData constructor does not normalize
       // *** the attributes string, although it does parse it.
       // *** This may change.
