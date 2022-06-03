@@ -225,8 +225,8 @@ public class BanishManager {
               + " combats) or Until Rollover";
         case SPRING_LOADED_BUMPER_RESET:
           return "Until Bumper is ready ("
-              + Preferences.getInteger("_lastSpringLoadedBumperUse")
-              + " combats) or Until Rollover";
+              + 30 - (KoLCharacter.getTurnsPlayed() - Preferences.getInteger("_lastSpringLoadedBumperUse"))
+              + " turns) or Until Rollover";
         default:
           return "";
       }
