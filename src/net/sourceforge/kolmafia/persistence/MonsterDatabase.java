@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,7 +24,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -792,43 +790,7 @@ public class MonsterDatabase {
       return monster;
     }
 
-    // parse parameters and make a new monster
-    Map<Attribute, Object> attributeMap = MonsterData.attributeStringToMap(name, attributes);
-
-    EnumSet<EncounterType> type = EnumSet.noneOf(EncounterType.class);
-    if (attributeMap.containsKey(Attribute.WANDERER)) {
-      type.add(EncounterType.WANDERER);
-    }
-    if (attributeMap.containsKey(Attribute.ULTRARARE)) {
-      type.add(EncounterType.ULTRARARE);
-    }
-    if (attributeMap.containsKey(Attribute.LUCKY)) {
-      type.add(EncounterType.LUCKY);
-    }
-    if (attributeMap.containsKey(Attribute.SUPERLIKELY)) {
-      type.add(EncounterType.SUPERLIKELY);
-    }
-    if (attributeMap.containsKey(Attribute.FREE)) {
-      type.add(EncounterType.FREE_COMBAT);
-    }
-    if (attributeMap.containsKey(Attribute.NOWANDER)) {
-      type.add(EncounterType.NOWANDER);
-    }
-
-    Set<String> subTypes = new HashSet<>();
-    if (attributeMap.containsKey(Attribute.GHOST)) {
-      subTypes.add("ghost");
-    }
-    if (attributeMap.containsKey(Attribute.SNAKE)) {
-      subTypes.add("snake");
-    }
-    if (attributeMap.containsKey(Attribute.DRIPPY)) {
-      subTypes.add("drippy");
-    }
-
-    monster = new MonsterData(name, id, images, type, subTypes, attributeMap);
-
-    return monster;
+    return new MonsterData(name, id, images, attributes);
   }
 
   public static final boolean contains(final String name) {
