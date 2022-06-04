@@ -132,6 +132,18 @@ public class MonsterData extends AdventureResult {
         continue;
       }
 
+      // Check if this is a duplicate attribute
+      if (attributeMap.containsKey(attribute)) {
+        // This is a bug in the data. When we parse it, the second instance
+        // will replace the first one. Log it.
+        RequestLogger.printLine(
+            "Monster: \""
+                + name
+                + "\" has multiple values for the \""
+                + attribute.getOption()
+                + "\" attribute.");
+      }
+
       try {
         switch (attribute) {
           case ATTACK:
@@ -168,20 +180,6 @@ public class MonsterData extends AdventureResult {
               String next = tokens.nextToken();
               Element element = parseElement(next);
               if (element != Element.NONE) {
-                if (attributeMap.containsKey(attribute)) {
-                  // Some monsters have more than one elemental attack.
-                  // We don't actually support that. Save only the latest.
-                  Element old = (Element) attributeMap.get(attribute);
-                  RequestLogger.printLine(
-                      "Monster: \""
-                          + name
-                          + "\" has both "
-                          + attribute
-                          + ": "
-                          + old
-                          + " and "
-                          + element);
-                }
                 attributeMap.put(attribute, element);
               }
             }
