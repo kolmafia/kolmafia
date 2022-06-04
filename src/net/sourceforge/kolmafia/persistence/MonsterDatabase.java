@@ -821,6 +821,14 @@ public class MonsterDatabase {
         }
 
         String name = data[0];
+
+        if (name.equals("lihc")) {
+          // The lihc has two different EA: attributes. We don't support that, yet.
+          // Skip it for now, so we preserve both in the data file.
+          writer.println(line);
+          continue;
+        }
+
         String attributes = data[3];
 
         Map<Attribute, Object> attributeMap = MonsterData.attributeStringToMap(name, attributes);
@@ -833,10 +841,13 @@ public class MonsterDatabase {
         }
         String attributeString = MonsterData.attributeMapToString(attributeMap);
 
-        if (!attributes.equals(attributeString)) {
-          data[3] = attributeString;
-          count++;
+        if (attributes.equals(attributeString)) {
+          writer.println(line);
+          continue;
         }
+
+        data[3] = attributeString;
+        count++;
 
         writer.println(Arrays.stream(data).collect(Collectors.joining("\t")));
       }
