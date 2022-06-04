@@ -263,7 +263,7 @@ public class MonsterManuelManager {
   }
 
   public static Phylum parsePhylum(final String phylum) {
-    return MonsterDatabase.parsePhylum(phylum.toLowerCase());
+    return MonsterData.parsePhylum(phylum.toLowerCase());
   }
 
   public static String buildMonsterAttributes(

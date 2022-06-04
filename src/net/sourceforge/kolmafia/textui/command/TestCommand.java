@@ -329,6 +329,12 @@ public class TestCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("fix-monster-attributes")) {
+      int count = MonsterDatabase.fixMonsterAttributes(null);
+      RequestLogger.printLine(count + " monster attributes changed");
+      return;
+    }
+
     if (command.equals("hitchance")) {
       if (split.length < 5) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "test hitchance attack defense critical fumble");

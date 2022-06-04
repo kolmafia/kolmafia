@@ -8,10 +8,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
+import java.util.TreeMap;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -19,8 +22,538 @@ import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.MonsterManuelManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MonsterData extends AdventureResult {
+
+  public static Map<String, Attribute> optionToAttribute = new HashMap<>();
+
+  public enum Attribute {
+    // Non-scaling monsters
+    ATTACK("Atk:"),
+    DEFENSE("Def:"),
+    HP("HP:"),
+    // Scaling monsters
+    SCALE("Scale:"),
+    CAP("Cap:"),
+    FLOOR("Floor:"),
+    // Universal attributes
+    ARTICLE("Article:"),
+    INITIATIVE("Init:"),
+    GROUP("Group:"),
+    PHYLUM("P:"),
+    MEAT("Meat:"),
+    SPRINKLE_MIN("SprinkleMin:"),
+    SPRINKLE_MAX("SprinkleMax:"),
+    // Monster features
+    BOSS("BOSS"),
+    NOBANISH("NOBANISH"),
+    NOCOPY("NOCOPY"),
+    NOMANUEL("NOMANUEL"),
+    EA("EA:"),
+    ED("ED:"),
+    PHYS("Phys:"),
+    ELEM("Elem:"),
+    // Encounter Types
+    WANDERER("WANDERER"),
+    ULTRARARE("ULTRARARE"),
+    LUCKY("LUCKY"),
+    SUPERLIKELY("SUPERLIKELY"),
+    FREE("FREE"),
+    NOWANDER("NOWANDER"),
+    // Subtypes
+    GHOST("GHOST"),
+    SNAKE("SNAKE"),
+    DRIPPY("DRIPPY"),
+    // Specialized
+    MLMULT("MLMult:"),
+    EXPERIENCE("Exp:"),
+    POISON("Poison:"),
+    ITEM("Item:"),
+    SKILL("Skill:"),
+    SPELLS("Spell:"),
+    MANUEL_NAME("Manuel:"),
+    WIKI_NAME("Wiki:");
+
+    private final String option;
+
+    Attribute(String option) {
+      this.option = option;
+      optionToAttribute.put(option, this);
+    }
+
+    public String getOption() {
+      return this.option;
+    }
+  }
+
+  static {
+    Attribute[] attributes = Attribute.values();
+  }
+
+  // ***********************************************************
+  // Parsing an attribute string - from monsters.txt or manually
+  // crafted by MonsterManuelManager - into a map from Attribute
+  // to value.
+  // ***********************************************************
+
+  public static final int DEFAULT_SCALE = 0;
+  public static final int DEFAULT_CAP = 10000;
+  public static final int DEFAULT_FLOOR = 10;
+
+  public static Map<Attribute, Object> attributeStringToMap(
+      final String name, final String attributes) {
+
+    Map<Attribute, Object> attributeMap = new TreeMap<>();
+
+    StringTokenizer tokens = new StringTokenizer(attributes, " ");
+    while (tokens.hasMoreTokens()) {
+      String option = tokens.nextToken();
+      Object value;
+
+      Attribute attribute = MonsterData.optionToAttribute.get(option);
+
+      if (attribute == null) {
+        // Special cases:
+
+        if (option.equals("E:")) {
+          if (tokens.hasMoreTokens()) {
+            String next = tokens.nextToken();
+            Element element = parseElement(next);
+            if (element != Element.NONE) {
+              attributeMap.put(Attribute.EA, element);
+              attributeMap.put(Attribute.ED, element);
+            }
+          }
+          continue;
+        }
+
+        RequestLogger.printLine("Monster: \"" + name + "\": unknown option: " + option);
+        continue;
+      }
+
+      // Check if this is a duplicate attribute
+      if (attributeMap.containsKey(attribute)) {
+        // This is a bug in the data. When we parse it, the second instance
+        // will replace the first one. Log it.
+        RequestLogger.printLine(
+            "Monster: \""
+                + name
+                + "\" has multiple values for the \""
+                + attribute.getOption()
+                + "\" attribute.");
+      }
+
+      try {
+        switch (attribute) {
+          case ATTACK:
+          case DEFENSE:
+          case HP:
+          case INITIATIVE:
+          case EXPERIENCE:
+          case MLMULT:
+          case ITEM:
+          case SKILL:
+          case SPELLS:
+          case SPRINKLE_MIN:
+          case SPRINKLE_MAX:
+          case ELEM:
+          case PHYS:
+            value = parseNumeric(tokens);
+            attributeMap.put(attribute, value);
+            continue;
+          case SCALE:
+            value = parseDefaultedNumeric(tokens);
+            attributeMap.put(attribute, value);
+            continue;
+          case CAP:
+            value = parseDefaultedNumeric(tokens);
+            attributeMap.put(attribute, value);
+            continue;
+          case FLOOR:
+            value = parseDefaultedNumeric(tokens);
+            attributeMap.put(attribute, value);
+            continue;
+          case EA:
+          case ED:
+            if (tokens.hasMoreTokens()) {
+              String next = tokens.nextToken();
+              Element element = parseElement(next);
+              if (element != Element.NONE) {
+                attributeMap.put(attribute, element);
+              }
+            }
+            continue;
+          case GROUP:
+            if (tokens.hasMoreTokens()) {
+              value = StringUtilities.parseInt(tokens.nextToken());
+              attributeMap.put(attribute, value);
+            }
+            continue;
+          case PHYLUM:
+            if (tokens.hasMoreTokens()) {
+              String next = tokens.nextToken();
+              Phylum num = parsePhylum(next);
+              if (num != Phylum.NONE) {
+                attributeMap.put(attribute, num);
+              }
+            }
+            continue;
+          case MEAT:
+            if (tokens.hasMoreTokens()) {
+              String next = tokens.nextToken();
+              if (next.indexOf("-") >= 0) {
+                // RequestLogger.printLine("Monster: \"" + name + "\" has meat range " + next);
+                // Let user calculate average
+                value = next;
+              } else {
+                value = StringUtilities.parseInt(next);
+              }
+              attributeMap.put(attribute, value);
+            }
+            continue;
+
+          case ARTICLE:
+            if (tokens.hasMoreTokens()) {
+              value = tokens.nextToken();
+              attributeMap.put(attribute, value);
+            }
+
+          case MANUEL_NAME:
+          case WIKI_NAME:
+            if (tokens.hasMoreTokens()) {
+              value = parseString(tokens.nextToken(), tokens);
+              attributeMap.put(attribute, value);
+            }
+            continue;
+
+          case POISON:
+            if (tokens.hasMoreTokens()) {
+              String poisonType = parseString(tokens.nextToken(), tokens);
+              int poison = EffectDatabase.getPoisonLevel(poisonType);
+              if (poison == Integer.MAX_VALUE) {
+                RequestLogger.printLine(
+                    "Monster: \"" + name + "\": unknown poison type: " + poisonType);
+              }
+              attributeMap.put(attribute, poison);
+            }
+            continue;
+
+          case BOSS:
+          case NOBANISH:
+          case NOCOPY:
+          case NOMANUEL:
+            attributeMap.put(attribute, true);
+            continue;
+
+          case WANDERER:
+          case ULTRARARE:
+          case LUCKY:
+          case SUPERLIKELY:
+          case FREE:
+          case NOWANDER:
+            attributeMap.put(attribute, true);
+            continue;
+
+          case GHOST:
+          case SNAKE:
+          case DRIPPY:
+            attributeMap.put(attribute, true);
+            continue;
+        }
+      } catch (Exception e) {
+        // This should not happen.  Therefore, print
+        // a stack trace for debug purposes.
+
+        StaticEntity.printStackTrace(e, attributes);
+      }
+    }
+
+    return attributeMap;
+  }
+
+  private static Object parseNumeric(StringTokenizer tokens) {
+    if (!tokens.hasMoreTokens()) {
+      return null;
+    }
+    return parseNumeric(tokens, tokens.nextToken());
+  }
+
+  private static Object parseDefaultedNumeric(StringTokenizer tokens) {
+    if (!tokens.hasMoreTokens()) {
+      return null;
+    }
+    String value = tokens.nextToken();
+    if (value.equals("?")) {
+      return value;
+    }
+    return parseNumeric(tokens, value);
+  }
+
+  private static Object parseNumeric(StringTokenizer tokens, String value) {
+    if (!value.startsWith("[")) {
+      return StringUtilities.parseInt(value);
+    }
+    // Must paste the entire expression back together, since we're
+    // splitting the tokens on spaces.
+    StringBuilder temp = new StringBuilder(value);
+    while (!value.endsWith("]") && tokens.hasMoreTokens()) {
+      value = tokens.nextToken();
+      temp.append(' ');
+      temp.append(value);
+    }
+    return temp.substring(1, temp.length() - 1);
+  }
+
+  private static String parseString(String token, StringTokenizer tokens) {
+    if (!token.startsWith("\"")) {
+      return "";
+    }
+
+    StringBuilder temp = new StringBuilder(token);
+    while (!token.endsWith("\"") && tokens.hasMoreTokens()) {
+      token = tokens.nextToken();
+      temp.append(' ');
+      temp.append(token);
+    }
+
+    // Remove initial and final quote
+    temp.deleteCharAt(0);
+    temp.deleteCharAt(temp.length() - 1);
+
+    return temp.toString();
+  }
+
+  public static final Element parseElement(final String s) {
+    for (Element elem : Element.values()) {
+      if (elem.toString().equals(s)) {
+        return elem;
+      }
+    }
+    return Element.NONE;
+  }
+
+  public static final Phylum parsePhylum(final String s) {
+    for (Phylum phylum : Phylum.values()) {
+      if (phylum.toString().equals(s)) {
+        return phylum;
+      }
+    }
+    return Phylum.NONE;
+  }
+
+  // ***********************************************************
+  // Converting a map from Attribute to value back into a String of
+  // attributes as seen in monsters.txt. This puts the attributes into
+  // a "normalized" order.
+  // ***********************************************************
+
+  public static String attributeMapToString(final Map<Attribute, Object> attributeMap) {
+    // Normalize the order of attributes
+    StringBuilder buf = new StringBuilder();
+
+    // Monster flags
+    saveKeywordAttribute(Attribute.BOSS, attributeMap, buf);
+    saveKeywordAttribute(Attribute.NOBANISH, attributeMap, buf);
+    saveKeywordAttribute(Attribute.NOCOPY, attributeMap, buf);
+    saveKeywordAttribute(Attribute.NOMANUEL, attributeMap, buf);
+
+    // Encounter Types
+    saveKeywordAttribute(Attribute.WANDERER, attributeMap, buf);
+    saveKeywordAttribute(Attribute.ULTRARARE, attributeMap, buf);
+    saveKeywordAttribute(Attribute.LUCKY, attributeMap, buf);
+    saveKeywordAttribute(Attribute.SUPERLIKELY, attributeMap, buf);
+    saveKeywordAttribute(Attribute.FREE, attributeMap, buf);
+    saveKeywordAttribute(Attribute.NOWANDER, attributeMap, buf);
+
+    saveNumericAttribute(Attribute.ATTACK, attributeMap, buf);
+    saveNumericAttribute(Attribute.DEFENSE, attributeMap, buf);
+    saveNumericAttribute(Attribute.HP, attributeMap, buf);
+    // Scale, Cap, and Floor can be a number or "?"
+    saveDefaultedNumericAttribute(Attribute.SCALE, attributeMap, buf);
+    saveDefaultedNumericAttribute(Attribute.CAP, attributeMap, buf);
+    saveDefaultedNumericAttribute(Attribute.FLOOR, attributeMap, buf);
+    saveNumericAttribute(Attribute.MLMULT, attributeMap, buf);
+    saveNumericAttribute(Attribute.EXPERIENCE, attributeMap, buf);
+    saveNumericAttribute(Attribute.INITIATIVE, attributeMap, buf);
+    // Meat can be a number or a range
+    saveValueAttribute(Attribute.MEAT, attributeMap, buf);
+    saveNumericAttribute(Attribute.SPRINKLE_MIN, attributeMap, buf);
+    saveNumericAttribute(Attribute.SPRINKLE_MAX, attributeMap, buf);
+
+    saveValueAttribute(Attribute.GROUP, attributeMap, buf);
+    saveValueAttribute(Attribute.PHYLUM, attributeMap, buf);
+
+    // Subtypes
+    saveKeywordAttribute(Attribute.GHOST, attributeMap, buf);
+    saveKeywordAttribute(Attribute.SNAKE, attributeMap, buf);
+    saveKeywordAttribute(Attribute.DRIPPY, attributeMap, buf);
+
+    // Resistances
+    saveNumericAttribute(Attribute.PHYS, attributeMap, buf);
+    saveNumericAttribute(Attribute.ELEM, attributeMap, buf);
+
+    Object EA = attributeMap.get(Attribute.EA);
+    Object ED = attributeMap.get(Attribute.ED);
+    if (EA != null && ED != null && EA == ED) {
+      buf.append("E: ");
+      buf.append(ED);
+      buf.append(" ");
+    } else {
+      saveValueAttribute(Attribute.ED, attributeMap, buf);
+      saveValueAttribute(Attribute.EA, attributeMap, buf);
+    }
+
+    // Special blocking percentages
+    saveNumericAttribute(Attribute.ITEM, attributeMap, buf);
+    saveNumericAttribute(Attribute.SKILL, attributeMap, buf);
+    saveNumericAttribute(Attribute.SPELLS, attributeMap, buf);
+
+    if (attributeMap.containsKey(Attribute.ARTICLE)) {
+      String article = (String) attributeMap.get(Attribute.ARTICLE);
+      if (!"".equals(article)) {
+        buf.append(Attribute.ARTICLE.getOption());
+        buf.append(" ");
+        buf.append(article);
+        buf.append(" ");
+      }
+    }
+
+    if (attributeMap.containsKey(Attribute.POISON)) {
+      int poison = (int) attributeMap.get(Attribute.POISON);
+      String poisonName = EffectDatabase.getPoisonName(poison);
+      buf.append(Attribute.POISON.getOption());
+      buf.append(" \"");
+      buf.append(poisonName);
+      buf.append("\" ");
+    }
+
+    saveStringAttribute(Attribute.MANUEL_NAME, attributeMap, buf);
+    saveStringAttribute(Attribute.WIKI_NAME, attributeMap, buf);
+
+    return buf.toString().trim();
+  }
+
+  private static void saveKeywordAttribute(
+      Attribute attribute, Map<Attribute, Object> attributeMap, StringBuilder buf) {
+    if (attributeMap.containsKey(attribute)) {
+      buf.append(attribute.getOption());
+      buf.append(" ");
+    }
+  }
+
+  private static void saveDefaultedNumericAttribute(
+      Attribute attribute, Map<Attribute, Object> attributeMap, StringBuilder buf) {
+    if (attributeMap.containsKey(attribute)) {
+      buf.append(attribute.getOption());
+      buf.append(" ");
+      Object value = attributeMap.get(attribute);
+      if (value instanceof String) {
+        String string = (String) value;
+        if (string.equals("?")) {
+          buf.append(value);
+        } else {
+          buf.append("[");
+          buf.append(value);
+          buf.append("]");
+        }
+      } else {
+        buf.append(value);
+      }
+      buf.append(" ");
+    }
+  }
+
+  private static void saveNumericAttribute(
+      Attribute attribute, Map<Attribute, Object> attributeMap, StringBuilder buf) {
+    if (attributeMap.containsKey(attribute)) {
+      buf.append(attribute.getOption());
+      buf.append(" ");
+      Object value = attributeMap.get(attribute);
+      if (value instanceof String) {
+        buf.append("[");
+        buf.append(value);
+        buf.append("]");
+      } else {
+        buf.append(value);
+      }
+      buf.append(" ");
+    }
+  }
+
+  private static void saveValueAttribute(
+      Attribute attribute, Map<Attribute, Object> attributeMap, StringBuilder buf) {
+    if (attributeMap.containsKey(attribute)) {
+      buf.append(attribute.getOption());
+      buf.append(" ");
+      buf.append(attributeMap.get(attribute));
+      buf.append(" ");
+    }
+  }
+
+  private static void saveStringAttribute(
+      Attribute attribute, Map<Attribute, Object> attributeMap, StringBuilder buf) {
+    if (attributeMap.containsKey(attribute)) {
+      buf.append(attribute.getOption());
+      buf.append(" \"");
+      buf.append(attributeMap.get(attribute));
+      buf.append("\" ");
+    }
+  }
+
+  // ***********************************************************
+  // Transforming certain groups of attributes into a collection
+  // ***********************************************************
+
+  private EnumSet<EncounterType> attributeMapToEncounterTypes(
+      final Map<Attribute, Object> attributeMap) {
+    EnumSet<EncounterType> type = EnumSet.noneOf(EncounterType.class);
+    if (attributeMap.containsKey(Attribute.WANDERER)) {
+      type.add(EncounterType.WANDERER);
+    }
+    if (attributeMap.containsKey(Attribute.ULTRARARE)) {
+      type.add(EncounterType.ULTRARARE);
+    }
+    if (attributeMap.containsKey(Attribute.LUCKY)) {
+      type.add(EncounterType.LUCKY);
+    }
+    if (attributeMap.containsKey(Attribute.SUPERLIKELY)) {
+      type.add(EncounterType.SUPERLIKELY);
+    }
+    if (attributeMap.containsKey(Attribute.FREE)) {
+      type.add(EncounterType.FREE_COMBAT);
+    }
+    if (attributeMap.containsKey(Attribute.NOWANDER)) {
+      type.add(EncounterType.NOWANDER);
+    }
+    return type;
+  }
+
+  private Set<String> attributeMapToSubtypes(final Map<Attribute, Object> attributeMap) {
+    Set<String> subTypes = new HashSet<>();
+    if (attributeMap.containsKey(Attribute.GHOST)) {
+      subTypes.add("ghost");
+    }
+    if (attributeMap.containsKey(Attribute.SNAKE)) {
+      subTypes.add("snake");
+    }
+    if (attributeMap.containsKey(Attribute.DRIPPY)) {
+      subTypes.add("drippy");
+    }
+    return subTypes;
+  }
+
+  // ***********************************************************
+  // The attributes of a monster.
+  //
+  // Those which are "Objects" are allowed to have expressions -
+  // surrounded by [] - in their attribute strings.
+  //
+  // Integer - no expression; the specific value
+  // String - expression, brackets removed,  compiled into ...
+  // MonsterExpression - compiled expression, evaluated to an int
+  // ***********************************************************
+
   private Object health;
   private Object attack;
   private Object defense;
@@ -32,10 +565,12 @@ public class MonsterData extends AdventureResult {
   private final Object mlMult;
   private Element attackElement;
   private Element defenseElement;
-  private int physicalResistance;
+  private Object physicalResistance;
+  private Object elementalResistance;
   private int meat;
-  private final Object minSprinkles;
-  private final Object maxSprinkles;
+  private Object minSprinkles;
+  private Object maxSprinkles;
+  private final int group;
   private final Phylum phylum;
   private final int poison;
   private final boolean boss;
@@ -48,15 +583,225 @@ public class MonsterData extends AdventureResult {
   private final String[] images;
   private String manuelName = null;
   private String wikiName = null;
-  private final List<String> subTypes;
+  private String article = null;
+  private final Set<String> subTypes;
   private final String attributes;
   private final int beeCount;
 
   private final ArrayList<AdventureResult> items;
-  private final ArrayList<Double> pocketRates;
+  private final List<Double> pocketRates;
 
   // The following apply to a specific (cloned) instance of a monster
   private String[] randomModifiers;
+
+  public MonsterData(String name, int id, String[] images, String attributeString) {
+    super(AdventureResult.MONSTER_PRIORITY, name);
+
+    Map<Attribute, Object> attributes = attributeStringToMap(name, attributeString);
+    EnumSet<EncounterType> type = attributeMapToEncounterTypes(attributes);
+    Set<String> subTypes = attributeMapToSubtypes(attributes);
+
+    this.id = id;
+    this.image = images.length > 0 ? images[0] : "";
+    this.images = images;
+
+    this.attack = attributes.get(Attribute.ATTACK);
+    this.defense = attributes.get(Attribute.DEFENSE);
+    this.health = attributes.get(Attribute.HP);
+    this.initiative = attributes.get(Attribute.INITIATIVE);
+    this.scale = getDefaultedNumber(attributes.get(Attribute.SCALE), DEFAULT_SCALE);
+    this.cap = getDefaultedNumber(attributes.get(Attribute.CAP), DEFAULT_CAP);
+    this.floor = getDefaultedNumber(attributes.get(Attribute.FLOOR), DEFAULT_FLOOR);
+    this.experience = attributes.get(Attribute.EXPERIENCE);
+    this.mlMult = attributes.get(Attribute.MLMULT);
+    this.attackElement = (Element) attributes.getOrDefault(Attribute.EA, Element.NONE);
+    this.defenseElement = (Element) attributes.getOrDefault(Attribute.ED, Element.NONE);
+    this.physicalResistance = attributes.get(Attribute.PHYS);
+    this.elementalResistance = attributes.get(Attribute.ELEM);
+    this.meat = getAverageNumber(attributes.get(Attribute.MEAT));
+    this.minSprinkles = attributes.get(Attribute.SPRINKLE_MIN);
+    this.maxSprinkles = attributes.get(Attribute.SPRINKLE_MAX);
+    this.group = (int) attributes.getOrDefault(Attribute.GROUP, 1);
+    this.phylum = (Phylum) attributes.getOrDefault(Attribute.PHYLUM, Phylum.NONE);
+    this.poison = (int) attributes.getOrDefault(Attribute.POISON, 0);
+    this.boss = attributes.containsKey(Attribute.BOSS);
+    this.noBanish = attributes.containsKey(Attribute.NOBANISH);
+    this.noCopy = attributes.containsKey(Attribute.NOCOPY);
+    this.noManuel = attributes.containsKey(Attribute.NOMANUEL);
+    this.type = type;
+    this.subTypes = subTypes;
+    this.manuelName = (String) attributes.get(Attribute.MANUEL_NAME);
+    this.wikiName = (String) attributes.getOrDefault(Attribute.WIKI_NAME, name);
+    this.article = (String) attributes.get(Attribute.ARTICLE);
+
+    // We could normalize the string.
+    //   this.attributes = attributeMapToString(attributes);
+    this.attributes = attributeString;
+
+    this.transformed = false;
+
+    int beeCount = 0;
+    // Wandering bees don't have a bee count
+    if (id < 1075 || id > 1083) {
+      for (int i = 0; i < name.length(); ++i) {
+        char c = name.charAt(i);
+        if (c == 'b' || c == 'B') {
+          beeCount++;
+        }
+      }
+    }
+    this.beeCount = beeCount;
+
+    this.items = new ArrayList<>();
+    this.pocketRates = new ArrayList<>();
+
+    // No random modifiers
+    this.randomModifiers = new String[0];
+  }
+
+  private Object getDefaultedNumber(Object value, int def) {
+    if (value instanceof Integer) {
+      return (Integer) value;
+    }
+    if (value instanceof String) {
+      String string = (String) value;
+      if (string.equals("?")) {
+        return def;
+      }
+    }
+    return value;
+  }
+
+  private int getAverageNumber(Object value) {
+    if (value instanceof Integer) {
+      return (Integer) value;
+    }
+    if (value instanceof String) {
+      String range = (String) value;
+      int dash = range.indexOf("-");
+      int minMeat = StringUtilities.parseInt(range.substring(0, dash));
+      int maxMeat = StringUtilities.parseInt(range.substring(dash + 1));
+      return (minMeat + maxMeat) / 2;
+    }
+    return 0;
+  }
+
+  public MonsterData(final MonsterData monster) {
+    super(AdventureResult.MONSTER_PRIORITY, monster.getName());
+
+    this.id = monster.id;
+    this.health = monster.health;
+    this.attack = monster.attack;
+    this.defense = monster.defense;
+    this.initiative = monster.initiative;
+    this.experience = monster.experience;
+    this.scale = monster.scale;
+    this.cap = monster.cap;
+    this.floor = monster.floor;
+    this.mlMult = monster.mlMult;
+    this.attackElement = monster.attackElement;
+    this.defenseElement = monster.defenseElement;
+    this.physicalResistance = monster.physicalResistance;
+    this.elementalResistance = monster.elementalResistance;
+    this.meat = monster.meat;
+    this.minSprinkles = monster.minSprinkles;
+    this.maxSprinkles = monster.maxSprinkles;
+    this.group = monster.group;
+    this.phylum = monster.phylum;
+    this.poison = monster.poison;
+    this.boss = monster.boss;
+    this.noBanish = monster.noBanish;
+    this.noCopy = monster.noCopy;
+    this.transformed = monster.transformed;
+    this.type = monster.type;
+    this.image = monster.image;
+    this.images = monster.images;
+    this.manuelName = monster.manuelName;
+    this.wikiName = monster.wikiName;
+    this.subTypes = monster.subTypes;
+    this.attributes = monster.attributes;
+    this.noManuel = monster.noManuel;
+    this.beeCount = monster.beeCount;
+    this.items = monster.items;
+    this.pocketRates = monster.pocketRates;
+    this.randomModifiers = monster.randomModifiers;
+  }
+
+  // Interface for MonsterDatabase to add item drops while parsing monsters.txt.
+
+  public void clearItems() {
+    this.items.clear();
+  }
+
+  public void addItem(final AdventureResult item) {
+    this.items.add(item);
+  }
+
+  public void doneWithItems() {
+    this.items.trimToSize();
+
+    // Calculate the probability that an item will be yoinked
+    // based on the integral provided by Buttons on the HCO forums.
+    // http://forums.hardcoreoxygenation.com/viewtopic.php?t=3396
+
+    double probability = 0.0;
+    double[] coefficients = new double[this.items.size()];
+
+    for (int i = 0; i < this.items.size(); ++i) {
+      coefficients[0] = 1.0;
+      for (int j = 1; j < coefficients.length; ++j) {
+        coefficients[j] = 0.0;
+      }
+
+      for (int j = 0; j < this.items.size(); ++j) {
+        AdventureResult item = this.items.get(j);
+        probability = (item.getCount() >> 16) / 100.0;
+        switch ((char) item.getCount() & 0xFFFF) {
+          case 'p':
+            if (probability == 0.0) { // assume some probability of a pickpocket-only item
+              probability = 0.05;
+            }
+            break;
+          case 'n':
+          case 'c':
+          case 'f':
+          case 'b':
+            probability = 0.0;
+            break;
+        }
+
+        if (i == j) {
+          for (int k = 0; k < coefficients.length; ++k) {
+            coefficients[k] = coefficients[k] * probability;
+          }
+        } else {
+          for (int k = coefficients.length - 1; k >= 1; --k) {
+            coefficients[k] = coefficients[k] - probability * coefficients[k - 1];
+          }
+        }
+      }
+
+      probability = 0.0;
+
+      for (int j = 0; j < coefficients.length; ++j) {
+        probability += coefficients[j] / (j + 1);
+      }
+
+      this.pocketRates.add(probability);
+    }
+  }
+
+  // ***********************************************************
+  // Last mask worn by current monster - Disguises Delimit
+  // ***********************************************************
+
+  public static String lastMask = null;
+
+  // ***********************************************************
+  // Random modifers - One Crazy Random Summer or dice gear
+  // ***********************************************************
+
+  public static final List<String> lastRandomModifiers = new ArrayList<>();
 
   private static final String[][] crazyModifierMapping = {
     {"annoying", "annoying"},
@@ -203,134 +948,10 @@ public class MonsterData extends AdventureResult {
     MonsterData.extraModifiers.addAll(Arrays.asList(MonsterData.extraModifierNames));
   }
 
-  public static final int DEFAULT_SCALE = 0;
-  public static final int DEFAULT_CAP = 10000;
-  public static final int DEFAULT_FLOOR = 10;
-
-  public static final ArrayList<String> lastRandomModifiers = new ArrayList<>();
-
-  public static String lastMask = null;
-
-  public MonsterData(
-      final String name,
-      final int id,
-      final Object health,
-      final Object attack,
-      final Object defense,
-      final Object initiative,
-      final Object experience,
-      final Object scale,
-      final Object cap,
-      final Object floor,
-      final Object mlMult,
-      final Element attackElement,
-      final Element defenseElement,
-      final int physicalResistance,
-      final int meat,
-      final Object minSprinkles,
-      final Object maxSprinkles,
-      final Phylum phylum,
-      final int poison,
-      final boolean boss,
-      final boolean noBanish,
-      final boolean noCopy,
-      final EnumSet<EncounterType> type,
-      final String[] images,
-      final String manuelName,
-      final String wikiName,
-      final List<String> subTypes,
-      final String attributes) {
-    super(AdventureResult.MONSTER_PRIORITY, name);
-
-    this.id = id;
-
-    this.health = health;
-    this.attack = attack;
-    this.defense = defense;
-    this.initiative = initiative;
-    this.experience = experience;
-    this.scale = scale;
-    this.cap = cap;
-    this.floor = floor;
-    this.mlMult = mlMult;
-    this.attackElement = attackElement;
-    this.defenseElement = defenseElement;
-    this.physicalResistance = physicalResistance;
-    this.meat = meat;
-    this.minSprinkles = minSprinkles;
-    this.maxSprinkles = maxSprinkles;
-    this.phylum = phylum;
-    this.poison = poison;
-    this.boss = boss;
-    this.noBanish = noBanish;
-    this.noCopy = noCopy;
-    this.transformed = false;
-    this.type = type;
-    this.image = images.length > 0 ? images[0] : "";
-    this.images = images;
-    this.manuelName = manuelName;
-    this.wikiName = wikiName == null ? name : wikiName;
-    this.subTypes = subTypes;
-    this.attributes = attributes;
-    this.noManuel = attributes.contains("NOMANUEL");
-
-    int beeCount = 0;
-    // Wandering bees don't have a bee count
-    if (id < 1075 || id > 1083) {
-      for (int i = 0; i < name.length(); ++i) {
-        char c = name.charAt(i);
-        if (c == 'b' || c == 'B') {
-          beeCount++;
-        }
-      }
-    }
-    this.beeCount = beeCount;
-
-    this.items = new ArrayList<>();
-    this.pocketRates = new ArrayList<>();
-
-    // No random modifiers
-    this.randomModifiers = new String[0];
-  }
-
-  public MonsterData(final MonsterData monster) {
-    super(AdventureResult.MONSTER_PRIORITY, monster.getName());
-
-    this.id = monster.id;
-    this.health = monster.health;
-    this.attack = monster.attack;
-    this.defense = monster.defense;
-    this.initiative = monster.initiative;
-    this.experience = monster.experience;
-    this.scale = monster.scale;
-    this.cap = monster.cap;
-    this.floor = monster.floor;
-    this.mlMult = monster.mlMult;
-    this.attackElement = monster.attackElement;
-    this.defenseElement = monster.defenseElement;
-    this.physicalResistance = monster.physicalResistance;
-    this.meat = monster.meat;
-    this.minSprinkles = monster.minSprinkles;
-    this.maxSprinkles = monster.maxSprinkles;
-    this.phylum = monster.phylum;
-    this.poison = monster.poison;
-    this.boss = monster.boss;
-    this.noBanish = monster.noBanish;
-    this.noCopy = monster.noCopy;
-    this.transformed = monster.transformed;
-    this.type = monster.type;
-    this.image = monster.image;
-    this.images = monster.images;
-    this.manuelName = monster.manuelName;
-    this.wikiName = monster.wikiName;
-    this.subTypes = monster.subTypes;
-    this.attributes = monster.attributes;
-    this.noManuel = monster.noManuel;
-    this.beeCount = monster.beeCount;
-    this.items = monster.items;
-    this.pocketRates = monster.pocketRates;
-    this.randomModifiers = monster.randomModifiers;
-  }
+  // ***********************************************************
+  // Special handling requiring cloning the monster to set some
+  // attributes for a specific instance of it.
+  // ***********************************************************
 
   public MonsterData handleMonsterLevel() {
     // If we tracked nostagger, stunresist, and start-of-combat
@@ -339,16 +960,18 @@ public class MonsterData extends AdventureResult {
       physRes = 0;
     }
 
-    if (physRes <= this.physicalResistance) {
+    if (physRes <= this.getPhysicalResistance()) {
       return this;
     }
+
     // elemental damage, this would be the place to put it.
     try {
       MonsterData monster = (MonsterData) this.clone();
-      if (monster.physicalResistance == 0) {
+      int monsterPhysRes = monster.getPhysicalResistance();
+      if (monsterPhysRes == 0) {
         monster.physicalResistance = physRes;
       } else {
-        monster.physicalResistance = Math.max(physRes, monster.physicalResistance);
+        monster.physicalResistance = Math.max(physRes, monsterPhysRes);
       }
       return monster;
     } catch (CloneNotSupportedException e) {
@@ -407,7 +1030,7 @@ public class MonsterData extends AdventureResult {
         monster.attackElement = Element.COLD;
         monster.defenseElement = Element.COLD;
       } else if (modifier.equals("ghostly")) {
-        if (monster.physicalResistance == 0) {
+        if (monster.getPhysicalResistance() == 0) {
           monster.physicalResistance = 90;
         }
       } else if (modifier.equals("haunted")) {
@@ -479,9 +1102,11 @@ public class MonsterData extends AdventureResult {
       } else if (this.scale == null && modifier.equals("bandit mask")) {
         monster.defense = monster.getRawDefense() * 4;
       } else if (modifier.equals("fencing mask")) {
-        if (monster.physicalResistance == 0) {
-          // Also gives 90% elemental resistance
+        if (monster.getPhysicalResistance() == 0) {
           monster.physicalResistance = 90;
+        }
+        if (monster.getElementalResistance() == 0) {
+          monster.elementalResistance = 90;
         }
       } else if (this.scale == null && modifier.equals("Naughty Sorceress mask")) {
         monster.health = monster.getRawHP() * 3;
@@ -491,6 +1116,14 @@ public class MonsterData extends AdventureResult {
     }
 
     return monster;
+  }
+
+  // ***********************************************************
+  // Accessors for the various attributes of a monster,
+  // ***********************************************************
+
+  private MonsterExpression compile(Object expr) {
+    return MonsterExpression.getInstance((String) expr, this.getName());
   }
 
   private int evaluate(Object obj, int value) {
@@ -521,8 +1154,16 @@ public class MonsterData extends AdventureResult {
     return this.scale != null;
   }
 
-  private MonsterExpression compile(Object expr) {
-    return MonsterExpression.getInstance((String) expr, this.getName());
+  public int getScale() {
+    return evaluate(this.scale, 0);
+  }
+
+  public int getCap() {
+    return evaluate(this.cap, 0);
+  }
+
+  public int getFloor() {
+    return evaluate(this.floor, 0);
   }
 
   private double getBeeosity() {
@@ -543,6 +1184,10 @@ public class MonsterData extends AdventureResult {
 
   public void setManuelName(final String manuelName) {
     this.manuelName = manuelName;
+  }
+
+  public String getArticle() {
+    return this.article == null ? "" : this.article;
   }
 
   public int getHP() {
@@ -806,7 +1451,11 @@ public class MonsterData extends AdventureResult {
   }
 
   public int getPhysicalResistance() {
-    return this.physicalResistance;
+    return evaluate(this.physicalResistance, 0);
+  }
+
+  public int getElementalResistance() {
+    return evaluate(this.elementalResistance, 0);
   }
 
   public int getMinMeat() {
@@ -829,6 +1478,10 @@ public class MonsterData extends AdventureResult {
 
   public int getMaxSprinkles() {
     return evaluate(this.maxSprinkles, 0);
+  }
+
+  public int getGroup() {
+    return this.group;
   }
 
   public Phylum getPhylum() {
@@ -883,7 +1536,7 @@ public class MonsterData extends AdventureResult {
     return false;
   }
 
-  public List<String> getSubTypes() {
+  public Set<String> getSubTypes() {
     return this.subTypes;
   }
 
@@ -976,68 +1629,6 @@ public class MonsterData extends AdventureResult {
     // ingredients.
 
     return false;
-  }
-
-  public void clearItems() {
-    this.items.clear();
-  }
-
-  public void addItem(final AdventureResult item) {
-    this.items.add(item);
-  }
-
-  public void doneWithItems() {
-    this.items.trimToSize();
-
-    // Calculate the probability that an item will be yoinked
-    // based on the integral provided by Buttons on the HCO forums.
-    // http://forums.hardcoreoxygenation.com/viewtopic.php?t=3396
-
-    double probability = 0.0;
-    double[] coefficients = new double[this.items.size()];
-
-    for (int i = 0; i < this.items.size(); ++i) {
-      coefficients[0] = 1.0;
-      for (int j = 1; j < coefficients.length; ++j) {
-        coefficients[j] = 0.0;
-      }
-
-      for (int j = 0; j < this.items.size(); ++j) {
-        AdventureResult item = this.items.get(j);
-        probability = (item.getCount() >> 16) / 100.0;
-        switch ((char) item.getCount() & 0xFFFF) {
-          case 'p':
-            if (probability == 0.0) { // assume some probability of a pickpocket-only item
-              probability = 0.05;
-            }
-            break;
-          case 'n':
-          case 'c':
-          case 'f':
-          case 'b':
-            probability = 0.0;
-            break;
-        }
-
-        if (i == j) {
-          for (int k = 0; k < coefficients.length; ++k) {
-            coefficients[k] = coefficients[k] * probability;
-          }
-        } else {
-          for (int k = coefficients.length - 1; k >= 1; --k) {
-            coefficients[k] = coefficients[k] - probability * coefficients[k - 1];
-          }
-        }
-      }
-
-      probability = 0.0;
-
-      for (int j = 0; j < coefficients.length; ++j) {
-        probability += coefficients[j] / (j + 1);
-      }
-
-      this.pocketRates.add(probability);
-    }
   }
 
   public double getExperience() {
@@ -1273,7 +1864,7 @@ public class MonsterData extends AdventureResult {
       buffer.append("</font></b>");
 
       if (!this.noManuel) {
-        ArrayList<String> factoids = MonsterManuelManager.getFactoids(this.id);
+        List<String> factoids = MonsterManuelManager.getFactoids(this.id);
         int count = factoids.size();
 
         buffer.append("<ul>");
