@@ -261,7 +261,7 @@ freaked-out mushroom guy	1801	mush_freaked.gif	Atk: 25 Def: 25 HP: 20 Init: 75 P
 frog	332	frog.gif	NOCOPY Atk: [3] Def: [2] HP: [3] Init: -10000 Meat: 10 P: beast	squashed frog (100)	frog lip-print (c0)
 frozen duck	556	duckfrozen.gif	Atk: 170 Def: 160 HP: 180 Init: 50 Meat: 150 P: beast E: cold	frozen feather (10)	duct tape (5)
 Fruit Golem	89	fruitgolem.gif	Atk: 56 Def: 50 HP: 46 Init: 80 P: construct	cherry (15)	orange (15)	lime (15)
-full-length mirror	1553	bigmirror.gif	NOCOPY LUCKY Scale: 0 Cap: 10000 Init: 50 P: construct
+full-length mirror	1553	bigmirror.gif	NOCOPY LUCKY Scale: 0 Cap: ? Init: 50 P: construct
 funk sole brother	719	solebrother.gif	Atk: 300 Def: 315 HP: 400 Init: 150 Meat: 200 P: fish	dull fish scale (n15)	slick fish meat (n5)
 Furry Giant	172	giant_furry.gif	Atk: 135 Def: 121 HP: 150 Init: 40 Meat: 150 P: humanoid EA: sleaze	furry fur (35)	disturbing fanfic (25)	wolf mask (10)
 G imp	125	gimp.gif	Atk: 46 Def: 41 HP: 46 Init: 60 Meat: 30 P: demon E: hot	hot wing (30)	Imp Ale (30)	leather mask (5)	vitamin G pill (0)
@@ -376,7 +376,7 @@ Knob Goblin Mutant	88	kg_mutant.gif	Atk: 53 Def: 47 HP: 43 Init: 70 Meat: 55 P: 
 Knob Goblin poseur	533	kg_poseur.gif	Atk: 4 Def: 3 HP: 5 Init: 50 Meat: 20 P: goblin	dope gangsta bling-bling (10)	out-of-tune biwa (10)	terrible poem (20)
 Knob Goblin Sous Chef	76	kg_souschef.gif	Atk: 20 Def: 18 HP: 15 Init: 60 Meat: 20 P: goblin	Knob Goblin spatula (7)	Knob sausage (15)	tomato (15)	wad of dough (15)
 Knob Goblin Very Mad Scientist	86	kg_verymadsci.gif	Atk: 45 Def: 40 HP: 30 Init: 70 Meat: 45 P: goblin	Knob Goblin melon baller (5)	Knob Goblin seltzer (15)	Knob Goblin superseltzer (15)	scrumptious reagent (25)	bunch of square grapes (c19)	smudged alchemical recipe (p5)	Cobb's Knob Menagerie key (c0)	Subject 37 file (c0)
-Knott Slanding	617	slanding.gif	NOCOPY NOMANUEL ULTRARARE Atk: 150 Def: 135 HP: 150 Init: 10000 Meat: 1156 P: beast E: cold	Dallas Dynasty Falcon Crest shield (100)
+Knott Slanding	617	slanding.gif	NOCOPY NOMANUEL ULTRARARE Atk: 150 Def: 135 HP: 150 Init: 10000 Meat: 970-1342 P: beast E: cold	Dallas Dynasty Falcon Crest shield (100)
 Knott Yeti	99	yeti.gif	Atk: 105 Def: 92 HP: 90 Init: 60 Meat: 200 P: beast E: cold	yeti fur (30)
 Koopa Troopa	116	koopa.gif	Atk: 20 Def: 18 HP: 15 Init: 60 P: beast	black pixel (50)	green pixel (80)	white pixel (50)
 L imp	124	limp.gif	Atk: 44 Def: 39 HP: 44 Init: 60 Meat: 30 P: demon E: hot	Imp Ale (30)	cast (30)	flaming crutch (30)
@@ -386,7 +386,7 @@ Larry of the Field of Signs	984	larrysignfield.gif	BOSS NOCOPY Atk: 70 Def: 63 H
 larval filthworm	477	filthworm1.gif	NOCOPY Atk: 165 Def: 148 HP: 180 Init: 50 Meat: 50 P: bug E: stench	filthworm hatchling scent gland (10)
 lemon-in-the-box	109	linbox.gif	Atk: 17 Def: 15 HP: 12 Init: 75 P: construct	box (20)	lemon (50)
 Lesser Fruit Golem	284	lfruitgol.gif	Atk: 17 Def: 15 HP: 9 Init: 50 P: construct	grapefruit (15)	grapes (15)	lemon (15)	orange (15)	strawberry (15)
-lihc	32	lich.gif	Atk: 20 Def: 18 HP: 11 Init: 60 Meat: 36 P: undead E: sleaze	lihc eye (30)
+lihc	32	lich.gif	Atk: 20 Def: 18 HP: 11 Init: 60 Meat: 36 P: undead ED: spooky EA: spooky EA: sleaze	lihc eye (30)
 Little Man in the Canoe	540	canoeman.gif	Atk: 165 Def: 148 HP: 150 Init: 70 P: constellation E: sleaze	line (30)	star (30)	star (30)
 lobsterfrogman	529	lobsterman.gif	Atk: 171 Def: 152 HP: 190 Init: 40 Meat: 60 P: beast	barrel of gunpowder (n100)
 lonely construct	668	vib5.gif	Atk: 300 Def: 315 HP: 350 Init: 80 P: construct	El Vibrato punchcard (213 holes) (1)	El Vibrato punchcard (182 holes) (1)
@@ -1238,17 +1238,17 @@ warehouse janitor	1741	warehousejanitor.gif	Atk: 230 Def: 230 HP: 230 Init: 150 
 warehouse clerk	1742	warehouseclerk.gif	Atk: 220 Def: 240 HP: 210 Init: 200 Meat: 75 P: dude	warehouse inventory page (10)	warehouse clerk's glasses (c15)
 
 # Avatar of West of Loathing
-furious cow	1926	awolcow1.gif	WANDERER Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: demon
-furious giant cow	1929	awolcow2.gif	WANDERER Scale: 20 Cap: 10000 Floor: 10 Init: -10000 P: demon
-ungulith	1932	awolcow3.gif	WANDERER Scale: 40 Cap: 10000 Floor: 10 Init: -10000 P: demon
+furious cow	1926	awolcow1.gif	WANDERER Scale: 0 Cap: ? Floor: ? Init: -10000 P: demon
+furious giant cow	1929	awolcow2.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: -10000 P: demon
+ungulith	1932	awolcow3.gif	WANDERER Scale: 40 Cap: ? Floor: ? Init: -10000 P: demon
 
-emaciated rodeo clown	1927	awolclown1.gif	WANDERER Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: horror
-menacing rodeo clown	1930	awolclown2.gif	WANDERER Scale: 20 Cap: 10000 Floor: 10 Init: -10000 P: horror
-grizzled rodeo clown	1933	awolclown3.gif	WANDERER Scale: 40 Cap: 10000 Floor: 10 Init: -10000 P: horror
+emaciated rodeo clown	1927	awolclown1.gif	WANDERER Scale: 0 Cap: ? Floor: ? Init: -10000 P: horror
+menacing rodeo clown	1930	awolclown2.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: -10000 P: horror
+grizzled rodeo clown	1933	awolclown3.gif	WANDERER Scale: 40 Cap: ? Floor: ? Init: -10000 P: horror
 
-aggressive grass snake	1928	awolsnake1.gif	WANDERER Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: beast SNAKE
-prince snake	1931	awolsnake2.gif	WANDERER Scale: 20 Cap: 10000 Floor: 10 Init: -10000 P: beast SNAKE E: sleaze	snake oil (100)	snake oil (100)
-king snake	1934	awolsnake3.gif	WANDERER Scale: 40 Cap: 10000 Floor: 10 Init: -10000 P: beast SNAKE	snake oil (100)	snake oil (100)	snake oil (100)
+aggressive grass snake	1928	awolsnake1.gif	WANDERER Scale: 0 Cap: ? Floor: ? Init: -10000 P: beast SNAKE
+prince snake	1931	awolsnake2.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: -10000 P: beast SNAKE E: sleaze	snake oil (100)	snake oil (100)
+king snake	1934	awolsnake3.gif	WANDERER Scale: 40 Cap: ? Floor: ? Init: -10000 P: beast SNAKE	snake oil (100)	snake oil (100)	snake oil (100)
 
 # The Source
 Source Agent	1945	sourceagent.gif	Atk: [30+30*pref(sourceAgentsDefeated)+ML] Def: [30+30*pref(sourceAgentsDefeated)+ML] HP: [40+40*pref(sourceAgentsDefeated)+ML] Exp: [((30+30*pref(sourceAgentsDefeated))/4+ML/3)*15] Init: [25+25*pref(sourceAgentsDefeated)] P: construct
@@ -1256,9 +1256,9 @@ One Thousand Source Agents	1944	sourceagents.gif	NOCOPY Atk: 500 Def: 500 HP: 70
 
 # License to Adventure (May 2017)
 "Blofeld"	2028	bond_villain5.gif	NOCOPY Atk: 100 Def: 100 HP: 100 Init: 10 P: dude
-Villainous Minion	2024	bond_minion1.gif,bond_minion2.gif,bond_minion3.gif,bond_minion4.gif	Scale: -2 Cap: 10000 Floor: 10 Init: 50 P: dude
-Villainous Henchperson	2025	bond_sidekick1.gif,bond_sidekick2.gif,bond_sidekick3.gif,bond_sidekick4.gif,bond_sidekick5.gif,bond_sidekick6.gif,bond_sidekick7.gif,bond_sidekick8.gif,bond_sidekick9.gif	NOCOPY Scale: 10 Cap: 10000 Floor: 10 Init: -10000 P: dude
-Villainous Villain	2026	bond_villain1.gif,bond_villain2.gif,bond_villain3.gif,bond_villain4.gif,bond_villain5.gif,bond_villain6.gif,bond_villain7.gif	NOCOPY Scale: 11 Cap: 10000 Floor: 10 Init: -10000 P: dude
+Villainous Minion	2024	bond_minion1.gif,bond_minion2.gif,bond_minion3.gif,bond_minion4.gif	Scale: -2 Cap: ? Floor: ? Init: 50 P: dude
+Villainous Henchperson	2025	bond_sidekick1.gif,bond_sidekick2.gif,bond_sidekick3.gif,bond_sidekick4.gif,bond_sidekick5.gif,bond_sidekick6.gif,bond_sidekick7.gif,bond_sidekick8.gif,bond_sidekick9.gif	NOCOPY Scale: 10 Cap: ? Floor: ? Init: -10000 P: dude
+Villainous Villain	2026	bond_villain1.gif,bond_villain2.gif,bond_villain3.gif,bond_villain4.gif,bond_villain5.gif,bond_villain6.gif,bond_villain7.gif	NOCOPY Scale: 11 Cap: ? Floor: ? Init: -10000 P: dude
 
 # Pocket Familiars
 Jerry Bradford	2050	larryscrote.gif	NOCOPY Atk: 35 Def: 0 HP: 0 Init: -10000 P: dude	batskin belt (n100)	dense Meat stack (n100)
@@ -1286,7 +1286,7 @@ Chad Alacarte	2113	chadalacarte.gif	BOSS NOCOPY Atk: 250 Def: 250 HP: 2000 Init:
 Your Lack of Reflection	2115	towermirror.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 3000 Init: -10000 P: horror
 
 # Kingdom of Exploathing
-invader bullet	2137	invaderbullet.gif	WANDERER Scale: 20 Cap: 10000 Floor: 10 Init: 10000 P: construct
+invader bullet	2137	invaderbullet.gif	WANDERER Scale: 20 Cap: ? Floor: ? Init: 10000 P: construct
 skeleton astronaut	2136	astroskeleton.gif	WANDERER Atk: 100 Def: 100 HP: 100 Init: 100 P: undead
 the invader	2138	invader.gif	BOSS NOCOPY Atk: 1000 Def: 1000 HP: 1000 Init: -10000 P: construct
 
@@ -1513,28 +1513,28 @@ largish blob of gray goo	1249	grayblob2.gif	NOCOPY Atk: [98] Def: [105] HP: [110
 enormous blob of gray goo	1250	grayblob3.gif	NOCOPY Atk: [230] Def: [240] HP: [250] Init: 150 P: horror
 
 # Black Crayon Monsters (Artistic Goth Kid June 2012)
-Black Crayon Beast	1187	cray_beast.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: beast	crayon shavings (100)
-Black Crayon Beetle	1191	cray_bug.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: bug	crayon shavings (100)
-Black Crayon Constellation	1206	cray_const.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: constellation	crayon shavings (100)
-Black Crayon Crimbo Elf	1201	cray_elf.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: elf	crayon shavings (100)
-Black Crayon Demon	1194	cray_demon.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: demon	crayon shavings (100)
-Black Crayon Elemental	1205	cray_elemental.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: elemental	crayon shavings (100)
-Black Crayon Fish	1196	cray_fish.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: fish	crayon shavings (100)
-Black Crayon Flower	1199	cray_plant.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: plant	crayon shavings (100)
-Black Crayon Frat Orc	1193	cray_orc.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: orc	crayon shavings (100)
-Black Crayon Goblin	1197	cray_goblin.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: goblin	crayon shavings (100)
-Black Crayon Golem	1188	cray_construct.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: construct	crayon shavings (100)
-Black Crayon Hippy	1192	cray_hippy.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: hippy	crayon shavings (100)
-Black Crayon Hobo	1207	cray_hobo.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: hobo	crayon shavings (100)
-Black Crayon Man	1186	cray_dude.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: dude	crayon shavings (100)
-Black Crayon Manloid	1190	cray_humanoid.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: humanoid	crayon shavings (100)
-Black Crayon Mer-kin	1202	cray_merkin.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: mer-kin	crayon shavings (100)
-Black Crayon Penguin	1204	cray_penguin.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: penguin	crayon shavings (100)
-Black Crayon Pirate	1198	cray_pirate.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: pirate	crayon shavings (100)
-Black Crayon Shambling Monstrosity	1195	cray_horror.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: horror	crayon shavings (100)
-Black Crayon Slime	1203	cray_slime.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: slime	crayon shavings (100)
-Black Crayon Spiraling Shape	1200	cray_weird.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: weird	crayon shavings (100)
-Black Crayon Undead Thing	1189	cray_undead.gif	FREE Scale: 0 Cap: 10000 Init: -10000 P: undead	crayon shavings (100)
+Black Crayon Beast	1187	cray_beast.gif	FREE Scale: 0 Cap: ? Init: -10000 P: beast	crayon shavings (100)
+Black Crayon Beetle	1191	cray_bug.gif	FREE Scale: 0 Cap: ? Init: -10000 P: bug	crayon shavings (100)
+Black Crayon Constellation	1206	cray_const.gif	FREE Scale: 0 Cap: ? Init: -10000 P: constellation	crayon shavings (100)
+Black Crayon Crimbo Elf	1201	cray_elf.gif	FREE Scale: 0 Cap: ? Init: -10000 P: elf	crayon shavings (100)
+Black Crayon Demon	1194	cray_demon.gif	FREE Scale: 0 Cap: ? Init: -10000 P: demon	crayon shavings (100)
+Black Crayon Elemental	1205	cray_elemental.gif	FREE Scale: 0 Cap: ? Init: -10000 P: elemental	crayon shavings (100)
+Black Crayon Fish	1196	cray_fish.gif	FREE Scale: 0 Cap: ? Init: -10000 P: fish	crayon shavings (100)
+Black Crayon Flower	1199	cray_plant.gif	FREE Scale: 0 Cap: ? Init: -10000 P: plant	crayon shavings (100)
+Black Crayon Frat Orc	1193	cray_orc.gif	FREE Scale: 0 Cap: ? Init: -10000 P: orc	crayon shavings (100)
+Black Crayon Goblin	1197	cray_goblin.gif	FREE Scale: 0 Cap: ? Init: -10000 P: goblin	crayon shavings (100)
+Black Crayon Golem	1188	cray_construct.gif	FREE Scale: 0 Cap: ? Init: -10000 P: construct	crayon shavings (100)
+Black Crayon Hippy	1192	cray_hippy.gif	FREE Scale: 0 Cap: ? Init: -10000 P: hippy	crayon shavings (100)
+Black Crayon Hobo	1207	cray_hobo.gif	FREE Scale: 0 Cap: ? Init: -10000 P: hobo	crayon shavings (100)
+Black Crayon Man	1186	cray_dude.gif	FREE Scale: 0 Cap: ? Init: -10000 P: dude	crayon shavings (100)
+Black Crayon Manloid	1190	cray_humanoid.gif	FREE Scale: 0 Cap: ? Init: -10000 P: humanoid	crayon shavings (100)
+Black Crayon Mer-kin	1202	cray_merkin.gif	FREE Scale: 0 Cap: ? Init: -10000 P: mer-kin	crayon shavings (100)
+Black Crayon Penguin	1204	cray_penguin.gif	FREE Scale: 0 Cap: ? Init: -10000 P: penguin	crayon shavings (100)
+Black Crayon Pirate	1198	cray_pirate.gif	FREE Scale: 0 Cap: ? Init: -10000 P: pirate	crayon shavings (100)
+Black Crayon Shambling Monstrosity	1195	cray_horror.gif	FREE Scale: 0 Cap: ? Init: -10000 P: horror	crayon shavings (100)
+Black Crayon Slime	1203	cray_slime.gif	FREE Scale: 0 Cap: ? Init: -10000 P: slime	crayon shavings (100)
+Black Crayon Spiraling Shape	1200	cray_weird.gif	FREE Scale: 0 Cap: ? Init: -10000 P: weird	crayon shavings (100)
+Black Crayon Undead Thing	1189	cray_undead.gif	FREE Scale: 0 Cap: ? Init: -10000 P: undead	crayon shavings (100)
 
 # Psychoses (Angry Yung Man Year 2013)
 work hat	1273	doubt1.gif	Atk: 30 Def: 40 HP: 30 Init: 50 P: construct	black pixel (0)	black pixel (0)	white pixel (0)	pixel power cell (0)
@@ -1620,20 +1620,20 @@ Medieval mug apprentice	1509	med_muggirl.gif	Scale: 3 Cap: 250 Floor: 25 Init: -
 Medieval potter	1506	med_potter.gif	Scale: 0 Cap: 200 Floor: 20 Init: -10000 Meat: 25 P: dude	clay (0)	clay (0)	clay (0)	clay (0)
 Medieval strawman debator	1504	med_strawman.gif	Scale: 0 Cap: 200 Floor: 20 Init: -10000 Meat: 25 P: dude	straw (0)	straw (0)	straw (0)	straw (0)	straw pole (c0)
 Medieval stucco artisan	1508	med_stucco.gif	Scale: 3 Cap: 250 Floor: 25 Init: -10000 Meat: 10 P: dude	clay (0)	clay (0)	straw (0)	straw (0)
-gummi plesiosaur	1491	plesio.gif	NOCOPY Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: beast	small gummi fin (0)	gummi sword (0)
-lemonhead minnow	1492	lemonfish.gif	NOCOPY Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: fish	lemonhead caviar (0)	lemony scales (0)	lemony scales (0)
-school of gummi piranhas	1490	gummifish.gif	NOCOPY Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: fish	gummi fang (0)	chocolate cow bone (0)
-chocolate hare	1494	chocohare.gif	NOCOPY Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: beast	chocolate rabbit's foot (0)	candy carrot (0)
-chocolate-cherry prairie dog	1495	ccprairie.gif	NOCOPY Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: beast	candy mountain oyster (0)	chocolate-stained collar (0)
-Rock Pop weasel	1493	popweasel.gif	NOCOPY Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: beast	mulberry (0)	weasel stomping pants (0)
-candied pecan tree	1496	pecantree.gif	NOCOPY Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: plant	candied pecan (0)	candy stick (0)
-licorice snake	1497	licosnake.gif	NOCOPY Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: beast SNAKE	anise-flavored venom (0)	licorice whip (0)
-tricksy pixie	1498	trixiepixie.gif	NOCOPY Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: humanoid	sour powder (0)	pixie axie (0)
-fire truck	1499	firetruck.gif	NOCOPY Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: construct	fireman's lunch (0)	fire hose (0)
-ice cream truck	1500	icecreamtruck.gif	NOCOPY Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: construct	ice cream sandwich (0)	plain paper hat (0)
-monster hearse	1502	monsterhearse.gif	NOCOPY Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: construct	nachos of the night (0)	skull gearshift knob (0)
-sewer tanker	1501	sewertruck.gif	NOCOPY Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: construct	plumber's lunch (0)	&quot;honey&quot; dipper (0)
-sketchy van	1503	sketchyvan.gif	NOCOPY Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: construct	can of Adultwitch&trade; (0)	Sketcherz&trade; (0)
+gummi plesiosaur	1491	plesio.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast	small gummi fin (0)	gummi sword (0)
+lemonhead minnow	1492	lemonfish.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: fish	lemonhead caviar (0)	lemony scales (0)	lemony scales (0)
+school of gummi piranhas	1490	gummifish.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: fish	gummi fang (0)	chocolate cow bone (0)
+chocolate hare	1494	chocohare.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast	chocolate rabbit's foot (0)	candy carrot (0)
+chocolate-cherry prairie dog	1495	ccprairie.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast	candy mountain oyster (0)	chocolate-stained collar (0)
+Rock Pop weasel	1493	popweasel.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast	mulberry (0)	weasel stomping pants (0)
+candied pecan tree	1496	pecantree.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: plant	candied pecan (0)	candy stick (0)
+licorice snake	1497	licosnake.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: beast SNAKE	anise-flavored venom (0)	licorice whip (0)
+tricksy pixie	1498	trixiepixie.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: humanoid	sour powder (0)	pixie axie (0)
+fire truck	1499	firetruck.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: construct	fireman's lunch (0)	fire hose (0)
+ice cream truck	1500	icecreamtruck.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: construct	ice cream sandwich (0)	plain paper hat (0)
+monster hearse	1502	monsterhearse.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: construct	nachos of the night (0)	skull gearshift knob (0)
+sewer tanker	1501	sewertruck.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: construct	plumber's lunch (0)	&quot;honey&quot; dipper (0)
+sketchy van	1503	sketchyvan.gif	NOCOPY Scale: ? Cap: ? Floor: ? Init: -10000 P: construct	can of Adultwitch&trade; (0)	Sketcherz&trade; (0)
 befouled straw house	1473	straw_stench.gif	NOCOPY FREE Init: -10000 P: construct E: stench
 brick (suggestive pause) house	1484	brick_sleaze.gif	NOCOPY FREE Init: -10000 P: construct E: sleaze
 brick icehouse	1481	brick_cold.gif	NOCOPY FREE Init: -10000 P: construct E: cold
@@ -1911,13 +1911,13 @@ Emily Koops, a spooky lime	1957	ghost_lime.gif	NOCOPY FREE NOWANDER Atk: 175 Def
 The ghost of Jim Unfortunato	1958	ghost_fortunado.gif	NOCOPY FREE NOWANDER Atk: 190 Def: 170 HP: 180 Init: 75 P: undead GHOST E: spooky	Unfortunato's foolscap (c100)
 
 # Time Spinner (September 2016)
-Ancient Skeleton with Skin still on it	1962	skinskeleton.gif	Scale: 3 Cap: 10000 Floor: 20 Init: -10000 P: undead	compounded experience (c100)	time residue (c0)
-Apathetic Tyrannosaurus	1959	apatheticdino.gif	Scale: 3 Cap: 10000 Floor: 20 Init: -10000 P: beast	compounded experience (c100)	time residue (c0)
-Assembly Elemental	1960	assemblyelem.gif	Scale: 5 Cap: 10000 Floor: 20 Init: -10000 P: elemental	compounded experience (c100)	time residue (c0)
-Cro-Magnon Gnoll	1961	cromaggnoll.gif	Scale: 7 Cap: 10000 Floor: 20 Init: -10000 P: humanoid	compounded experience (c100)	time residue (c0)
-Krakrox the Barbarian	1964	krakrox.gif	Scale: 25 Cap: 10000 Floor: 40 Init: -10000 P: dude	compounded experience (c100)	time residue (c100)	time residue (c100)	time residue (c100)
+Ancient Skeleton with Skin still on it	1962	skinskeleton.gif	Scale: 3 Cap: ? Floor: 20 Init: -10000 P: undead	compounded experience (c100)	time residue (c0)
+Apathetic Tyrannosaurus	1959	apatheticdino.gif	Scale: 3 Cap: ? Floor: 20 Init: -10000 P: beast	compounded experience (c100)	time residue (c0)
+Assembly Elemental	1960	assemblyelem.gif	Scale: 5 Cap: ? Floor: 20 Init: -10000 P: elemental	compounded experience (c100)	time residue (c0)
+Cro-Magnon Gnoll	1961	cromaggnoll.gif	Scale: 7 Cap: ? Floor: 20 Init: -10000 P: humanoid	compounded experience (c100)	time residue (c0)
+Krakrox the Barbarian	1964	krakrox.gif	Scale: 25 Cap: ? Floor: 40 Init: -10000 P: dude	compounded experience (c100)	time residue (c100)	time residue (c100)	time residue (c100)
 time-spinner prank	1965	noart.gif	NOCOPY FREE Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude	time residue (c100)
-Wooly Duck	1963	woolyduck.gif	Scale: 5 Cap: 10000 Floor: 20 Init: -10000 P: beast	compounded experience (c100)	time residue (c0)
+Wooly Duck	1963	woolyduck.gif	Scale: 5 Cap: ? Floor: 20 Init: -10000 P: beast	compounded experience (c100)	time residue (c0)
 
 # Gingerbread City (December 2016)
 gingerbread pigeon	1975	gbpigeon.gif	NOCOPY Scale: -5 Cap: 1000 Floor: 30 Init: 50 SprinkleMin: 1 SprinkleMax: 3 P: beast
@@ -1937,25 +1937,25 @@ gingerbread tech bro	1988	gbtechbro.gif	NOCOPY Scale: 10 Cap: 1000 Floor: 30 Ini
 gingerbread alligator	1989	gbgator.gif	NOCOPY Scale: [10+190*pref(_gingerBiggerAlligators)] Cap: 1000 Floor: 30 Init: 100 SprinkleMin: [28+70*pref(_gingerBiggerAlligators)] SprinkleMax: [30+70*pref(_gingerBiggerAlligators)] P: beast
 gingerbread vigilante	1990	gbvigilante.gif	BOSS NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: -10000 SprinkleMin: 98 SprinkleMax: 100 P: dude	The Gingerbread Vigilante's Handbook (0)
 Judge Fudge	1991	gbjudge.gif	BOSS NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 100 SprinkleMin: 100 SprinkleMax: 100 P: dude	gingerbread gavel (n100)
-GNG-3-R	1992	gng3r.gif	BOSS NOCOPY Scale: 0 Cap: 10000 Floor: 10 Init: 300 P: construct	industrial frosting (n100)
+GNG-3-R	1992	gng3r.gif	BOSS NOCOPY Scale: ? Cap: ? Floor: ? Init: 300 P: construct	industrial frosting (n100)
 
 # Tunnel of L.O.V.E. (February 2017)
-LOV Enforcer	2009	lovenforcer.gif	NOCOPY Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: dude Phys: 75	LOV Elixir #3 (c0)
-LOV Engineer	2010	lovengineer.gif	NOCOPY Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: dude Phys: 25	LOV Elixir #6 (c0)
-LOV Equivocator	2011	lovequivocator.gif	NOCOPY Scale: 5 Cap: 10000 Floor: 10 Init: 500 P: dude Phys: 50	LOV Elixir #9 (p0)
+LOV Enforcer	2009	lovenforcer.gif	NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude Phys: 75	LOV Elixir #3 (c0)
+LOV Engineer	2010	lovengineer.gif	NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude Phys: 25	LOV Elixir #6 (c0)
+LOV Equivocator	2011	lovequivocator.gif	NOCOPY Scale: 5 Cap: ? Floor: ? Init: 500 P: dude Phys: 50	LOV Elixir #9 (p0)
 
 # Spacegate (April 2017)
-hostile plant	2013	sgplanta1.gif,sgplanta2.gif,sgplanta3.gif,sgplanta4.gif,sgplanta5.gif,sgplanta6.gif,sgplanta7.gif,sgplanta8.gif,sgplanta9.gif,sgplanta10.gif,sgplanta11.gif,sgplanta12.gif,sgplanta13.gif,sgplanta14.gif,sgplanta15.gif,sgplanta16.gif,sgplanta17.gif,sgplanta18.gif,sgplanta19.gif,sgplanta20.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: 10 Init: [60+10*pref(_spacegatePlanetIndex)] P: plant	edible alien plant bit	alien plant fibers	alien plant goo
-large hostile plant	2014	sgplantb1.gif,sgplantb2.gif,sgplantb3.gif,sgplantb4.gif,sgplantb5.gif,sgplantb6.gif,sgplantb7.gif,sgplantb8.gif,sgplantb9.gif,sgplantb10.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: 10 Init: -10000 P: plant	edible alien plant bit	edible alien plant bit	alien plant fibers	alien plant fibers	alien plant goo
-exotic hostile plant	2015	sgplantc1.gif,sgplantc2.gif,sgplantc3.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: 10 Init: [60+10*pref(_spacegatePlanetIndex)] P: plant	edible alien plant bit	edible alien plant bit	edible alien plant bit	alien plant fibers	alien plant fibers	alien plant fibers	alien plant goo	alien plant pod
-small hostile animal	2016	sganimala1.gif,sganimala2.gif,sganimala3.gif,sganimala4.gif,sganimala5.gif,sganimala6.gif,sganimala7.gif,sganimala8.gif,sganimala9.gif,sganimala10.gif,sganimala11.gif,sganimala12.gif,sganimala13.gif,sganimala14.gif,sganimala15.gif,sganimala16.gif,sganimala17.gif,sganimala18.gif,sganimala19.gif,sganimala20.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: 10 Init: [60+10*pref(_spacegatePlanetIndex)] P: beast	alien meat	alien toenails	alien animal goo
-large hostile animal	2017	sganimalb1.gif,sganimalb2.gif,sganimalb3.gif,sganimalb4.gif,sganimalb5.gif,sganimalb6.gif,sganimalb7.gif,sganimalb8.gif,sganimalb9.gif,sganimalb10.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: 10 Init: [60+10*pref(_spacegatePlanetIndex)] P: beast	alien meat	alien meat	alien toenails	alien toenails	alien animal goo
-exotic hostile animal	2018	sganimalc1.gif,sganimalc2.gif,sganimalc3.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: 10 Init: [60+10*pref(_spacegatePlanetIndex)] P: beast	alien meat	alien meat	alien meat	alien toenails	alien toenails	alien toenails	alien animal goo	alien animal milk
-Spant drone	2019	sgspantdrone.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: 10 Init: [60+10*pref(_spacegatePlanetIndex)] P: bug	spant chitin	spant chitin	spant tendon	spant tendon
-Spant soldier	2020	sgspantwarrior.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: 10 Init: [60+10*pref(_spacegatePlanetIndex)] P: bug	spant chitin	spant chitin	spant tendon	spant tendon	spant spear
-Murderbot drone	2021	sgmbdrone.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: 10 Init: [60+10*pref(_spacegatePlanetIndex)] P: construct	murderbot component casing	murderbot monofilament	murderbot monofilament	murderbot power cell	murderbot power cell	murderbot memory chip
-Murderbot soldier	2022	sgmb.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: 10 Init: [60+10*pref(_spacegatePlanetIndex)] P: construct	murderbot component casing	murderbot component casing	murderbot monofilament	murderbot monofilament	murderbot power cell	murderbot power cell	murderbot memory chip	murderbot memory chip	murderbot memory chip	murderbot plasma rifle
-hostile intelligent alien	2023	sgalienb1.gif,sgalienb2.gif,sgalienb3.gif,sgalienb4.gif,sgalienb5.gif,sgalienb6.gif,sgalienb7.gif,sgalienb8.gif,sgalienb9.gif,sgalienb10.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: 10 Init: [60+10*pref(_spacegatePlanetIndex)] P: humanoid
+hostile plant	2013	sgplanta1.gif,sgplanta2.gif,sgplanta3.gif,sgplanta4.gif,sgplanta5.gif,sgplanta6.gif,sgplanta7.gif,sgplanta8.gif,sgplanta9.gif,sgplanta10.gif,sgplanta11.gif,sgplanta12.gif,sgplanta13.gif,sgplanta14.gif,sgplanta15.gif,sgplanta16.gif,sgplanta17.gif,sgplanta18.gif,sgplanta19.gif,sgplanta20.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant	edible alien plant bit	alien plant fibers	alien plant goo
+large hostile plant	2014	sgplantb1.gif,sgplantb2.gif,sgplantb3.gif,sgplantb4.gif,sgplantb5.gif,sgplantb6.gif,sgplantb7.gif,sgplantb8.gif,sgplantb9.gif,sgplantb10.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: -10000 P: plant	edible alien plant bit	edible alien plant bit	alien plant fibers	alien plant fibers	alien plant goo
+exotic hostile plant	2015	sgplantc1.gif,sgplantc2.gif,sgplantc3.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant	edible alien plant bit	edible alien plant bit	edible alien plant bit	alien plant fibers	alien plant fibers	alien plant fibers	alien plant goo	alien plant pod
+small hostile animal	2016	sganimala1.gif,sganimala2.gif,sganimala3.gif,sganimala4.gif,sganimala5.gif,sganimala6.gif,sganimala7.gif,sganimala8.gif,sganimala9.gif,sganimala10.gif,sganimala11.gif,sganimala12.gif,sganimala13.gif,sganimala14.gif,sganimala15.gif,sganimala16.gif,sganimala17.gif,sganimala18.gif,sganimala19.gif,sganimala20.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast	alien meat	alien toenails	alien animal goo
+large hostile animal	2017	sganimalb1.gif,sganimalb2.gif,sganimalb3.gif,sganimalb4.gif,sganimalb5.gif,sganimalb6.gif,sganimalb7.gif,sganimalb8.gif,sganimalb9.gif,sganimalb10.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast	alien meat	alien meat	alien toenails	alien toenails	alien animal goo
+exotic hostile animal	2018	sganimalc1.gif,sganimalc2.gif,sganimalc3.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: beast	alien meat	alien meat	alien meat	alien toenails	alien toenails	alien toenails	alien animal goo	alien animal milk
+Spant drone	2019	sgspantdrone.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: bug	spant chitin	spant chitin	spant tendon	spant tendon
+Spant soldier	2020	sgspantwarrior.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: bug	spant chitin	spant chitin	spant tendon	spant tendon	spant spear
+Murderbot drone	2021	sgmbdrone.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: construct	murderbot component casing	murderbot monofilament	murderbot monofilament	murderbot power cell	murderbot power cell	murderbot memory chip
+Murderbot soldier	2022	sgmb.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: construct	murderbot component casing	murderbot component casing	murderbot monofilament	murderbot monofilament	murderbot power cell	murderbot power cell	murderbot memory chip	murderbot memory chip	murderbot memory chip	murderbot plasma rifle
+hostile intelligent alien	2023	sgalienb1.gif,sgalienb2.gif,sgalienb3.gif,sgalienb4.gif,sgalienb5.gif,sgalienb6.gif,sgalienb7.gif,sgalienb8.gif,sgalienb9.gif,sgalienb10.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: humanoid
 
 # The following may not actually be a monster, but there is a cycle of images for it
 intelligent alien	-31	sgaliena1.gif,sgaliena2.gif,sgaliena3.gif,sgaliena4.gif,sgaliena5.gif,sgaliena6.gif,sgaliena7.gif,sgaliena8.gif,sgaliena9.gif,sgaliena10.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: humanoid
@@ -1996,7 +1996,7 @@ Ted Schwartz, Master Thief	2085	fr_masterthief.gif	BOSS NOCOPY Atk: 400 Def: 400
 Skeleton Lord	2087	skeletonlord.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 200 Init: -10000 P: construct	shield of the Skeleton Lord (c100)	ring of the Skeleton Lord (c100)	scepter of the Skeleton Lord (c100)
 
 # God Lobster (May 2018)
-God Lobster	2088	godlob.gif,godlob_scepter.gif,godlob_ring.gif,godlob_rod.gif,godlob_cape.gif,godlob_crown.gif	NOCOPY FREE Scale: [10*equipped(God Lobster's Scepter)+20*equipped(God Lobster's Ring)+30*equipped(God Lobster's Rod)+40*equipped(God Lobster's Robe)+50*equipped(God Lobster's Crown)] Cap: 1500 Floor: 10 Init: 1000 P: horror
+God Lobster	2088	godlob.gif,godlob_scepter.gif,godlob_ring.gif,godlob_rod.gif,godlob_cape.gif,godlob_crown.gif	NOCOPY FREE Scale: [10*equipped(God Lobster's Scepter)+20*equipped(God Lobster's Ring)+30*equipped(God Lobster's Rod)+40*equipped(God Lobster's Robe)+50*equipped(God Lobster's Crown)] Cap: 1500 Floor: ? Init: 1000 P: horror
 
 # Neverending Party (Sept 2018)
 biker	2089	nparty_biker.gif	Scale: [20+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 21 Init: -10000 Meat: 100 P: dude	gas can (0)	Middle of the Road&trade; brand whiskey (0)	neverending wallet chain (0)	pentagram bandana (0)	gold skull ring (c0)
@@ -2013,7 +2013,7 @@ terrible mutant	2096	vwmutant.gif	NOCOPY Scale: 5 Cap: 1000 Floor: 10 Init: -100
 slime blob	2097	vwslime.gif	NOCOPY Scale: 4 Cap: 1000 Floor: 10 Init: -10000 P: slime E: sleaze	green slime glob (20)	orange slime glob (40)	black slime glob (n0)
 
 # Kramco Sausage-o-Matic (Jan 2019
-sausage goblin	2104	sausagegoblin.gif	FREE Scale: [1+2*pref(_sausageFights)] Cap: 10000 Floor: 10 Init: -10000 Meat: 69 P: goblin E: sleaze	magical sausage casing (n100)	red-hot sausage fork (0)	bag of sausage links (n0)
+sausage goblin	2104	sausagegoblin.gif	FREE Scale: [1+2*pref(_sausageFights)] Cap: ? Floor: ? Init: -10000 Meat: 69 P: goblin E: sleaze	magical sausage casing (n100)	red-hot sausage fork (0)	bag of sausage links (n0)
 
 # PirateRealm (Apr 2019)
 giant crab	2116	pr_crab.gif	Atk: 25 Def: 25 HP: 30 Init: 50 Meat: 150 P: beast
@@ -2049,9 +2049,9 @@ Tentacle of Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2198	ccs_tentacle.gi
 family of kobolds	1101	kobolds.gif	NOCOPY Atk: 99999 Def: 89999 HP: 99999 Init: -10000 P: humanoid	kobold treasure hoard (n100)
 
 # Transmissions from planet Xi (Xi Receiver KoL Con XI)
-holographic army	1629	holoarmy.gif	NOCOPY Scale: 30 Floor: 10 Init: -10000 P: weird	holo-bomber (0)	holo-platoon (0)	holo-tank (0)
-They	1631	they.gif	Scale: 20 Floor: 10 Init: -10000 P: humanoid	They liver (0)	They liver (0)	BUBBLE GUM (c0)
-Xiblaxian political prisoner	1630	polprisoner.gif	NOCOPY Scale: 40 Floor: 10 Init: -10000 P: weird	residual zeal (n100)	little red .epub file (c0)
+holographic army	1629	holoarmy.gif	NOCOPY Scale: 30 Floor: ? Init: -10000 P: weird	holo-bomber (0)	holo-platoon (0)	holo-tank (0)
+They	1631	they.gif	Scale: 20 Floor: ? Init: -10000 P: humanoid	They liver (0)	They liver (0)	BUBBLE GUM (c0)
+Xiblaxian political prisoner	1630	polprisoner.gif	NOCOPY Scale: 40 Floor: ? Init: -10000 P: weird	residual zeal (n100)	little red .epub file (c0)
 
 # Antique Maps
 
@@ -2107,10 +2107,10 @@ water spider	975	waterspider.gif	Atk: 130 Def: 117 HP: 150 Init: 50 P: bug	wet v
 # PVP Maps
 
 # Kokomo Resort (Feb-Apr 2015 PVP reward)
-Drunken Tropical Vacationer	1772	kok_drunk.gif	Scale: 0 Cap: 10000 Init: -10000 Meat: 200 P: dude	Kokomo Resort Brand Suntan Oil (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)	captured boozles (c0)
-Lovestruck Tropical Honeymooners	1771	kok_lovers.gif	Scale: -5 Cap: 10000 Init: -10000 Meat: 250 P: dude	Afternoon Delight (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)
-Resort Waiter	1773	kok_waiter.gif	Scale: 5 Cap: 10000 Init: -10000 Meat: 100 P: dude	Kokomo Resort Order Pad (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)	drinks tray (c0)
-Brick Mulligan, the Bartender	1774	kok_tender.gif	NOCOPY Scale: 5 Cap: 10000 Floor: 10 Init: -10000 P: dude	lemon (0)	lime (0)	orange (0)	bottle of gin (0)	bottle of vodka (0)	bottle of rum (0)	coconut shell (0)	little paper umbrella (0)	magical ice cubes (0)	eyebrow lifter (c0)
+Drunken Tropical Vacationer	1772	kok_drunk.gif	Scale: 0 Cap: ? Init: -10000 Meat: 200 P: dude	Kokomo Resort Brand Suntan Oil (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)	captured boozles (c0)
+Lovestruck Tropical Honeymooners	1771	kok_lovers.gif	Scale: -5 Cap: ? Init: -10000 Meat: 250 P: dude	Afternoon Delight (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)
+Resort Waiter	1773	kok_waiter.gif	Scale: 5 Cap: ? Init: -10000 Meat: 100 P: dude	Kokomo Resort Order Pad (0)	Kokomo Resort Chip (0)	Kokomo Resort Chip (0)	drinks tray (c0)
+Brick Mulligan, the Bartender	1774	kok_tender.gif	NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude	lemon (0)	lime (0)	orange (0)	bottle of gin (0)	bottle of vodka (0)	bottle of rum (0)	coconut shell (0)	little paper umbrella (0)	magical ice cubes (0)	eyebrow lifter (c0)
 
 # Current Events
 
@@ -2332,11 +2332,11 @@ Mob Penguin psychopath	756	pengpsycho.gif	Scale: 6 Init: 150 P: penguin	knuckle 
 Mob Penguin racketeer	754	pengracket.gif	Scale: 6 Init: 75 P: penguin	gray bow tie (0)
 
 # The Atomic Crimbo Town Toy Factory (Crimbo 2008)
-mutant circuit-soldering elf	751	antlerelf.gif	Scale: 8 Floor: 10 Init: 150 P: elf	elven moonshine (0)	miniature antlers (0)
-mutant cookie-baking elf	749	elfblob.gif	Scale: 6 Floor: 10 Init: 75 P: elf	festive holiday hat (0)
-mutant doll-dressing elf	748	elflimbs.gif	Scale: 6 Floor: 10 Init: 75 P: elf	cheap elven gloves (0)
-mutant gift-wrapping elf	747	elfclaw.gif	Scale: 6 Floor: 10 Init: 75 P: elf	elven socks (0)
-mutant whistle-carving elf	750	elfhulk.gif	Scale: 7 Floor: 10 Init: 100 P: elf	elven <i>limbos</i> gingerbread (0)	elven whittling knife (0)
+mutant circuit-soldering elf	751	antlerelf.gif	Scale: 8 Floor: ? Init: 150 P: elf	elven moonshine (0)	miniature antlers (0)
+mutant cookie-baking elf	749	elfblob.gif	Scale: 6 Floor: ? Init: 75 P: elf	festive holiday hat (0)
+mutant doll-dressing elf	748	elflimbs.gif	Scale: 6 Floor: ? Init: 75 P: elf	cheap elven gloves (0)
+mutant gift-wrapping elf	747	elfclaw.gif	Scale: 6 Floor: ? Init: 75 P: elf	elven socks (0)
+mutant whistle-carving elf	750	elfhulk.gif	Scale: 7 Floor: ? Init: 100 P: elf	elven <i>limbos</i> gingerbread (0)	elven whittling knife (0)
 
 # Unexplained Tremors (August 2009)
 Crys-Rock	854	crys_rock.gif	NOMANUEL Atk: [min(300,MOX+10)] Def: [min(300,MUS+10)] HP: [min(240,HP*2/3)] Exp: [(min(300,STAT+10))/4] Init: 50 Phys: 50	crystallized memory (100)	control crystal (100)	floaty inverse geode (100)
@@ -2346,19 +2346,19 @@ rock snake	845	rock_snake.gif	NOMANUEL WANDERER Atk: 10 Def: 9 HP: 15 SNAKE	floa
 rockfish	848	rock_fish.gif	WANDERER Atk: 300 Def: 270 HP: 400 Init: 50 P: fish	rockfish stomach (100)
 
 # The Shivering Timbers (Arborween October 2009)
-deadwood tree	864	shiv_dead.gif	Scale: 5 Cap: 200 Floor: 10 Init: -10000 P: plant	petrified wood (5)	spooky bark (10)	spooky sap (5)
-fur tree	862	shiv_fur.gif	Scale: 5 Cap: 200 Floor: 10 Init: -10000 P: plant	petrified wood (5)	spooky bark (10)	spooky sap (5)	wolfman mask (20)
-hangman's tree	865	shiv_hangman.gif	Scale: 5 Cap: 200 Floor: 10 Init: -10000 P: plant	petrified wood (5)	spooky bark (10)	spooky sap (5)
-pumpkin tree	863	shiv_pumpkin.gif	Scale: 5 Cap: 200 Floor: 10 Init: -10000 P: plant	petrified wood (5)	pumpkinhead mask (20)	spooky bark (10)	spooky sap (5)
-toilet-papered tree	861	shiv_tp.gif	Scale: 5 Cap: 200 Floor: 10 Init: -10000 P: plant	mummy costume (20)	petrified wood (5)	spooky bark (10)	spooky sap (5)
+deadwood tree	864	shiv_dead.gif	Scale: 5 Cap: 200 Floor: ? Init: -10000 P: plant	petrified wood (5)	spooky bark (10)	spooky sap (5)
+fur tree	862	shiv_fur.gif	Scale: 5 Cap: 200 Floor: ? Init: -10000 P: plant	petrified wood (5)	spooky bark (10)	spooky sap (5)	wolfman mask (20)
+hangman's tree	865	shiv_hangman.gif	Scale: 5 Cap: 200 Floor: ? Init: -10000 P: plant	petrified wood (5)	spooky bark (10)	spooky sap (5)
+pumpkin tree	863	shiv_pumpkin.gif	Scale: 5 Cap: 200 Floor: ? Init: -10000 P: plant	petrified wood (5)	pumpkinhead mask (20)	spooky bark (10)	spooky sap (5)
+toilet-papered tree	861	shiv_tp.gif	Scale: 5 Cap: 200 Floor: ? Init: -10000 P: plant	mummy costume (20)	petrified wood (5)	spooky bark (10)	spooky sap (5)
 Underworld Tree	-83	shiv_underworld.gif	NOMANUEL P: plant	Underworld acorn (100)	Underworld trunk (100)
 
 # Crimbo Town Toy Factory (Crimbo 2009)
 amateur elf	899	elf_amateur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 auteur elf	898	elf_auteur.gif	Scale: -5 Floor: 5 Init: -10000 Meat: 20 P: elf	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
-bolt-cuttin' elf	900	elf_boltcutters.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: elf	elf resistance button (100)	handful of headless bolts (c100)	pair of bolt cutters (0)
-monkey wrenchin' elf	894	elf_wrench.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: elf	elf resistance button (100)	throwing wrench (0)	wrench handle (c100)
-propaganda-spewin' elf	901	elf_propaganda.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: elf	bottle of agitprop ink (c100)	elf resistance button (100)	poison pen (0)
+bolt-cuttin' elf	900	elf_boltcutters.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: elf	elf resistance button (100)	handful of headless bolts (c100)	pair of bolt cutters (0)
+monkey wrenchin' elf	894	elf_wrench.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: elf	elf resistance button (100)	throwing wrench (0)	wrench handle (c100)
+propaganda-spewin' elf	901	elf_propaganda.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: elf	bottle of agitprop ink (c100)	elf resistance button (100)	poison pen (0)
 provocateur elf	896	elf_provocateur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 raconteur elf	897	elf_raconteur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
 saboteur elf	895	elf_saboteur.gif	Scale: -5 Floor: 5 Init: -10000 P: elf	elf resistance button (100)	elven cellocello (0)	elven suicide capsule (0)
@@ -2495,9 +2495,9 @@ stiff disco dancer	1444	disco_stiff.gif	Scale: 0 Cap: 3000 Init: -10000 P: const
 The Sagittarian	1447	sagittarian.gif	NOMANUEL Atk: 100 Def: 100 HP: 500 Init: 1000 P: dude	The Sagittarian's leisure pants (100)
 
 # Wandering Accordionists (October 2013)
-depressing French accordionist	1452	wanderacc1.gif	WANDERER Scale: -3 Floor: 10 Init: -10000 P: dude	Bal-musette accordion (a0)
-lively Cajun accordionist	1453	wanderacc2.gif	WANDERER Scale: -3 Floor: 10 Init: -10000 P: dude	Cajun accordion (a0)
-quirky indie-rock accordionist	1454	wanderacc3.gif	WANDERER Scale: -3 Floor: 10 Init: -10000 P: dude	quirky accordion (a0)
+depressing French accordionist	1452	wanderacc1.gif	WANDERER Scale: -3 Floor: ? Init: -10000 P: dude	Bal-musette accordion (a0)
+lively Cajun accordionist	1453	wanderacc2.gif	WANDERER Scale: -3 Floor: ? Init: -10000 P: dude	Cajun accordion (a0)
+quirky indie-rock accordionist	1454	wanderacc3.gif	WANDERER Scale: -3 Floor: ? Init: -10000 P: dude	quirky accordion (a0)
 Frank &quot;Skipper&quot; Dan, the Accordion Lord	1455	accboss.gif	NOCOPY NOMANUEL WANDERER Scale: 7 Init: -10000 P: dude	Skipper's accordion (n100)
 
 # The Spirit World (November 2013)
@@ -2516,8 +2516,8 @@ Chef Boy, R&amp;D	1466	chefboy.gif	NOMANUEL WANDERER Scale: 5 Init: -10000 P: du
 
 # The WarBear Fortress (Crimbo 2013)
 Warbear Foot Soldier	1459	warbear11.gif,warbear12.gif,warbear13.gif	Scale: -3 Floor: 20 Init: -10000 P: beast	warbear whosit (n100)
-Warbear Officer	1467	warbear21.gif,warbear22.gif,warbear23.gif	Scale: 0 Cap: 10000 Floor: 10 Init: 50 P: beast	warbear whosit (n100)	warbear whosit (n100)	warbear requisition box (f0)	warbear badge (f0)
-High-Ranking Warbear Officer	1468	warbear31.gif,warbear32.gif,warbear33.gif	Scale: 0 Cap: 10000 Floor: 10 Init: 100 P: beast	warbear whosit (n100)	warbear whosit (n100)	warbear whosit (n100)	warbear officer requisition box (f0)
+Warbear Officer	1467	warbear21.gif,warbear22.gif,warbear23.gif	Scale: ? Cap: ? Floor: ? Init: 50 P: beast	warbear whosit (n100)	warbear whosit (n100)	warbear requisition box (f0)	warbear badge (f0)
+High-Ranking Warbear Officer	1468	warbear31.gif,warbear32.gif,warbear33.gif	Scale: ? Cap: ? Floor: ? Init: 100 P: beast	warbear whosit (n100)	warbear whosit (n100)	warbear whosit (n100)	warbear officer requisition box (f0)
 
 # Halloween 2014
 giant pumpkin-head	-77	headpumpkin.gif	NOMANUEL Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror	Big Punk (n100)	mimeplasm (c100)

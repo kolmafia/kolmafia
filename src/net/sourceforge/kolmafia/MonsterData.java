@@ -128,6 +128,16 @@ public class MonsterData extends AdventureResult {
           continue;
         }
 
+        if (option.startsWith("\"")) {
+          String string = parseString(option, tokens);
+          int poison = EffectDatabase.getPoisonLevel(string);
+          if (poison == Integer.MAX_VALUE) {
+            RequestLogger.printLine("Monster: \"" + name + "\": unknown poison type: " + string);
+          }
+          attributeMap.put(Attribute.POISON, poison);
+          continue;
+        }
+
         RequestLogger.printLine("Monster: \"" + name + "\": unknown option: " + option);
         continue;
       }
@@ -151,15 +161,15 @@ public class MonsterData extends AdventureResult {
             attributeMap.put(attribute, value);
             continue;
           case SCALE:
-            value = parseDefaultedNumeric(tokens, MonsterData.DEFAULT_SCALE);
+            value = parseDefaultedNumeric(tokens);
             attributeMap.put(attribute, value);
             continue;
           case CAP:
-            value = parseDefaultedNumeric(tokens, MonsterData.DEFAULT_CAP);
+            value = parseDefaultedNumeric(tokens);
             attributeMap.put(attribute, value);
             continue;
           case FLOOR:
-            value = parseDefaultedNumeric(tokens, MonsterData.DEFAULT_FLOOR);
+            value = parseDefaultedNumeric(tokens);
             attributeMap.put(attribute, value);
             continue;
           case EA:
@@ -168,6 +178,20 @@ public class MonsterData extends AdventureResult {
               String next = tokens.nextToken();
               Element element = parseElement(next);
               if (element != Element.NONE) {
+                if (attributeMap.containsKey(attribute)) {
+                  // Some monsters have more than one elemental attack.
+                  // We don't actually support that. Save only the latest.
+                  Element old = (Element) attributeMap.get(attribute);
+                  RequestLogger.printLine(
+                      "Monster: \""
+                          + name
+                          + "\" has both "
+                          + attribute
+                          + ": "
+                          + old
+                          + " and "
+                          + element);
+                }
                 attributeMap.put(attribute, element);
               }
             }
@@ -190,11 +214,10 @@ public class MonsterData extends AdventureResult {
           case MEAT:
             if (tokens.hasMoreTokens()) {
               String next = tokens.nextToken();
-              int dash = next.indexOf("-");
-              if (dash >= 0) {
-                int minMeat = StringUtilities.parseInt(next.substring(0, dash));
-                int maxMeat = StringUtilities.parseInt(next.substring(dash + 1));
-                value = (minMeat + maxMeat) / 2;
+              if (next.indexOf("-") >= 0) {
+                // RequestLogger.printLine("Monster: \"" + name + "\" has meat range " + next);
+                // Let user calculate average
+                value = next;
               } else {
                 value = StringUtilities.parseInt(next);
               }
@@ -268,13 +291,13 @@ public class MonsterData extends AdventureResult {
     return parseNumeric(tokens, tokens.nextToken());
   }
 
-  private static Object parseDefaultedNumeric(StringTokenizer tokens, int def) {
+  private static Object parseDefaultedNumeric(StringTokenizer tokens) {
     if (!tokens.hasMoreTokens()) {
       return null;
     }
     String value = tokens.nextToken();
     if (value.equals("?")) {
-      return def;
+      return value;
     }
     return parseNumeric(tokens, value);
   }
@@ -358,13 +381,15 @@ public class MonsterData extends AdventureResult {
     saveNumericAttribute(Attribute.ATTACK, attributeMap, buf);
     saveNumericAttribute(Attribute.DEFENSE, attributeMap, buf);
     saveNumericAttribute(Attribute.HP, attributeMap, buf);
-    saveNumericAttribute(Attribute.SCALE, attributeMap, buf);
-    saveNumericAttribute(Attribute.CAP, attributeMap, buf);
-    saveNumericAttribute(Attribute.FLOOR, attributeMap, buf);
+    // Scale, Cap, and Floor can be a number or "?"
+    saveDefaultedNumericAttribute(Attribute.SCALE, attributeMap, buf);
+    saveDefaultedNumericAttribute(Attribute.CAP, attributeMap, buf);
+    saveDefaultedNumericAttribute(Attribute.FLOOR, attributeMap, buf);
     saveNumericAttribute(Attribute.MLMULT, attributeMap, buf);
     saveNumericAttribute(Attribute.EXPERIENCE, attributeMap, buf);
     saveNumericAttribute(Attribute.INITIATIVE, attributeMap, buf);
-    saveNumericAttribute(Attribute.MEAT, attributeMap, buf);
+    // Meat can be a number or a range
+    saveValueAttribute(Attribute.MEAT, attributeMap, buf);
     saveNumericAttribute(Attribute.SPRINKLE_MIN, attributeMap, buf);
     saveNumericAttribute(Attribute.SPRINKLE_MAX, attributeMap, buf);
 
@@ -380,15 +405,15 @@ public class MonsterData extends AdventureResult {
     saveNumericAttribute(Attribute.PHYS, attributeMap, buf);
     saveNumericAttribute(Attribute.ELEM, attributeMap, buf);
 
-    boolean hasEA = attributeMap.containsKey(Attribute.EA);
-    boolean hasED = attributeMap.containsKey(Attribute.ED);
-    if (hasEA && hasED) {
+    Object EA = attributeMap.get(Attribute.EA);
+    Object ED = attributeMap.get(Attribute.ED);
+    if (EA != null && ED != null && EA == ED) {
       buf.append("E: ");
-      buf.append(attributeMap.get(Attribute.EA));
+      buf.append(ED);
       buf.append(" ");
     } else {
-      saveValueAttribute(Attribute.EA, attributeMap, buf);
       saveValueAttribute(Attribute.ED, attributeMap, buf);
+      saveValueAttribute(Attribute.EA, attributeMap, buf);
     }
 
     // Special blocking percentages
@@ -425,6 +450,28 @@ public class MonsterData extends AdventureResult {
       Attribute attribute, Map<Attribute, Object> attributeMap, StringBuilder buf) {
     if (attributeMap.containsKey(attribute)) {
       buf.append(attribute.getOption());
+      buf.append(" ");
+    }
+  }
+
+  private static void saveDefaultedNumericAttribute(
+      Attribute attribute, Map<Attribute, Object> attributeMap, StringBuilder buf) {
+    if (attributeMap.containsKey(attribute)) {
+      buf.append(attribute.getOption());
+      buf.append(" ");
+      Object value = attributeMap.get(attribute);
+      if (value instanceof String) {
+        String string = (String) value;
+        if (string.equals("?")) {
+          buf.append(value);
+        } else {
+          buf.append("[");
+          buf.append(value);
+          buf.append("]");
+        }
+      } else {
+        buf.append(value);
+      }
       buf.append(" ");
     }
   }
@@ -574,16 +621,16 @@ public class MonsterData extends AdventureResult {
     this.defense = attributes.get(Attribute.DEFENSE);
     this.health = attributes.get(Attribute.HP);
     this.initiative = attributes.get(Attribute.INITIATIVE);
-    this.scale = attributes.get(Attribute.SCALE);
-    this.cap = attributes.get(Attribute.CAP);
-    this.floor = attributes.get(Attribute.FLOOR);
+    this.scale = getDefaultedNumber(attributes.get(Attribute.SCALE), DEFAULT_SCALE);
+    this.cap = getDefaultedNumber(attributes.get(Attribute.CAP), DEFAULT_CAP);
+    this.floor = getDefaultedNumber(attributes.get(Attribute.FLOOR), DEFAULT_FLOOR);
     this.experience = attributes.get(Attribute.EXPERIENCE);
     this.mlMult = attributes.get(Attribute.MLMULT);
     this.attackElement = (Element) attributes.getOrDefault(Attribute.EA, Element.NONE);
     this.defenseElement = (Element) attributes.getOrDefault(Attribute.ED, Element.NONE);
     this.physicalResistance = attributes.get(Attribute.PHYS);
     this.elementalResistance = attributes.get(Attribute.ELEM);
-    this.meat = (int) attributes.getOrDefault(Attribute.MEAT, 0);
+    this.meat = getAverageNumber(attributes.get(Attribute.MEAT));
     this.minSprinkles = attributes.get(Attribute.SPRINKLE_MIN);
     this.maxSprinkles = attributes.get(Attribute.SPRINKLE_MAX);
     this.group = (int) attributes.getOrDefault(Attribute.GROUP, 1);
@@ -622,6 +669,33 @@ public class MonsterData extends AdventureResult {
 
     // No random modifiers
     this.randomModifiers = new String[0];
+  }
+
+  private Object getDefaultedNumber(Object value, int def) {
+    if (value instanceof Integer) {
+      return (Integer) value;
+    }
+    if (value instanceof String) {
+      String string = (String) value;
+      if (string.equals("?")) {
+        return def;
+      }
+    }
+    return value;
+  }
+
+  private int getAverageNumber(Object value) {
+    if (value instanceof Integer) {
+      return (Integer) value;
+    }
+    if (value instanceof String) {
+      String range = (String) value;
+      int dash = range.indexOf("-");
+      int minMeat = StringUtilities.parseInt(range.substring(0, dash));
+      int maxMeat = StringUtilities.parseInt(range.substring(dash + 1));
+      return (minMeat + maxMeat) / 2;
+    }
+    return 0;
   }
 
   public MonsterData(final MonsterData monster) {
@@ -1090,6 +1164,18 @@ public class MonsterData extends AdventureResult {
 
   public boolean scales() {
     return this.scale != null;
+  }
+
+  public int getScale() {
+    return evaluate(this.scale, 0);
+  }
+
+  public int getCap() {
+    return evaluate(this.cap, 0);
+  }
+
+  public int getFloor() {
+    return evaluate(this.floor, 0);
   }
 
   private double getBeeosity() {

@@ -166,6 +166,33 @@ public class MonsterDataTest {
     }
 
     @Test
+    public void canHandleDefaultedAttributes() {
+      String name = "scary monster";
+      String attributes = "Scale: ? Cap: ? Floor: ?";
+      Map<Attribute, Object> attributeMap = MonsterData.attributeStringToMap(name, attributes);
+      assertEquals(3, attributeMap.size());
+      Object scale = attributeMap.get(Attribute.SCALE);
+      assertTrue(scale instanceof String);
+      assertEquals("?", (String) scale);
+      Object cap = attributeMap.get(Attribute.CAP);
+      assertTrue(cap instanceof String);
+      assertEquals("?", (String) cap);
+      Object floor = attributeMap.get(Attribute.FLOOR);
+      assertTrue(floor instanceof String);
+      assertEquals("?", (String) floor);
+      String normalized = MonsterData.attributeMapToString(attributeMap);
+      assertEquals(attributes, normalized);
+
+      // Make a monster and see that defaults have been applied
+      int id = 13;
+      String[] images = {"scary.gif"};
+      MonsterData monster = new MonsterData(name, id, images, attributes);
+      assertEquals(MonsterData.DEFAULT_SCALE, monster.getScale());
+      assertEquals(MonsterData.DEFAULT_CAP, monster.getCap());
+      assertEquals(MonsterData.DEFAULT_FLOOR, monster.getFloor());
+    }
+
+    @Test
     public void canMakeMonsterDataFromAttributes() {
       String name = "scary monster";
       int id = 13;
