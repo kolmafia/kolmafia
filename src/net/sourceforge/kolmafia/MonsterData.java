@@ -128,16 +128,6 @@ public class MonsterData extends AdventureResult {
           continue;
         }
 
-        if (option.startsWith("\"")) {
-          String string = parseString(option, tokens);
-          int poison = EffectDatabase.getPoisonLevel(string);
-          if (poison == Integer.MAX_VALUE) {
-            RequestLogger.printLine("Monster: \"" + name + "\": unknown poison type: " + string);
-          }
-          attributeMap.put(Attribute.POISON, poison);
-          continue;
-        }
-
         RequestLogger.printLine("Monster: \"" + name + "\": unknown option: " + option);
         continue;
       }

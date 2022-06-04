@@ -816,16 +816,16 @@ public class MonsterDatabase {
 
         String[] data = line.split("\t", -1);
         if (data.length < 4) {
-          writer.println(Arrays.stream(data).collect(Collectors.joining("\t")));
+          writer.println(line);
           continue;
         }
 
         String name = data[0];
-        int monsterId = StringUtilities.parseInt(data[1]);
         String attributes = data[3];
 
         Map<Attribute, Object> attributeMap = MonsterData.attributeStringToMap(name, attributes);
         if (updates != null) {
+          int monsterId = StringUtilities.parseInt(data[1]);
           Map<Attribute, Object> update = updates.get(monsterId);
           if (update != null) {
             attributeMap.putAll(update);
