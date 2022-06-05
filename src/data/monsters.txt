@@ -1108,13 +1108,13 @@ Count Drunkula (Hard Mode)	-89	drunkula_hm.gif	NOCOPY NOMANUEL P: undead	Thunkul
 Falls-From-Sky	1386	fallsfromsky.gif	NOCOPY Atk: 700 Def: 700 HP: 1500 Init: 50 P: beast	Covers-Your-Head (c0)	Drapes-You-Regally (c0)	Warms-Your-Tush (c0)	Gets-You-Drunk (c0)
 Falls-From-Sky (Hard Mode)	-88	fallsfromsky_hm.gif	NOCOPY NOMANUEL P: beast	Covers-Your-Head (c0)	Drapes-You-Regally (c0)	Warms-Your-Tush (c0)	Helps-You-Sleep (c0)	Quiets-Your-Steps (c0)	Protects-Your-Junk (c0)	Gets-You-Drunk (c0)
 Great Wolf of the Air	1387	wolfoftheair.gif	NOCOPY Atk: 1200 Def: 1200 HP: 5000 Init: 10000 P: beast Article: The	Great Wolf's headband (c0)	Great Wolf's left paw (c0)	Great Wolf's right paw (c0)	Hunger&trade; Sauce (c0)
-Great Wolf of the Air (Hard Mode)	-87	wolfoftheair_hm.gif	NOCOPY NOMANUEL P: beast	Great Wolf's headband (c0)	Great Wolf's left paw (c0)	Great Wolf's right paw (c0)	Great Wolf's rocket launcher (c0)	Great Wolf's beastly trousers (c0)	Great Wolf's lice (c0)	Hunger&trade; Sauce (c0)
+Great Wolf of the Air (Hard Mode)	-87	wolfoftheair_hm.gif	NOCOPY NOMANUEL P: beast Article: The	Great Wolf's headband (c0)	Great Wolf's left paw (c0)	Great Wolf's right paw (c0)	Great Wolf's rocket launcher (c0)	Great Wolf's beastly trousers (c0)	Great Wolf's lice (c0)	Hunger&trade; Sauce (c0)
 Mayor Ghost	1389	mayorghost.gif	NOCOPY Atk: 1500 Def: 1500 HP: 10000 Init: 200 P: undead GHOST Phys: 100	Mayor Ghost's cloak (c0)	Mayor Ghost's khakis (c0)	Mayor Ghost's toupee (c0)	ghost pepper (c0)
 Mayor Ghost (Hard Mode)	-86	mayorghost_hm.gif	NOCOPY NOMANUEL P: undead GHOST Phys: 100	Mayor Ghost's cloak (c0)	Mayor Ghost's khakis (c0)	Mayor Ghost's toupee (c0)	Mayor Ghost's gavel (c0)	Mayor Ghost's sash (c0)	Mayor Ghost's scissors (c0)	ghost pepper (c0)
 The Unkillable Skeleton	1391	ukskeleton.gif	NOCOPY Atk: 500 Def: 500 HP: 500 Init: 200 P: undead	Unkillable Skeleton's breastplate (c0)	Unkillable Skeleton's shinguards (c0)	Unkillable Skeleton's skullcap (c0)	electric Kool-Aid (c0)
 The Unkillable Skeleton (Hard Mode)	-85	ukskeleton_hm.gif	NOCOPY NOMANUEL P: undead	Unkillable Skeleton's breastplate (c0)	Unkillable Skeleton's shinguards (c0)	Unkillable Skeleton's skullcap (c0)	Unkillable Skeleton's sawsword (c0)	Unkillable Skeleton's shield (c0)	Unkillable Skeleton's restless leg (c0)	skull capacitor (100)	electric Kool-Aid (c0)
 Zombie Homeowners' Association	1388	zombiehoa.gif	NOCOPY Atk: 700 Def: 700 HP: 15000 Init: 200 P: undead Article: the	zombie mariachi hat (c0)	zombie accordion (c0)	zombie mariachi pants (c0)	wriggling severed nose (c0)
-Zombie Homeowners' Association (Hard Mode)	-84	zombiehoa_hm.gif	NOCOPY P: undead	zombie mariachi hat (c0)	zombie accordion (c0)	zombie mariachi pants (c0)	HOA regulation book (c0)	HOA zombie eyes (c0)	HOA citation pad (c0)	wriggling severed nose (c0)
+Zombie Homeowners' Association (Hard Mode)	-84	zombiehoa_hm.gif	NOCOPY P: undead Article: the	zombie mariachi hat (c0)	zombie accordion (c0)	zombie mariachi pants (c0)	HOA regulation book (c0)	HOA zombie eyes (c0)	HOA citation pad (c0)	wriggling severed nose (c0)
 
 # Challenge Paths
 
