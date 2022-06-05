@@ -812,14 +812,20 @@ public class MonsterDatabase {
     int count = 0;
 
     String filename = "monsters.txt";
-    String outputFilename = "monsters.new.txt";
-    int version = KoLConstants.MONSTERS_VERSION;
-    try (BufferedReader reader = FileUtilities.getVersionedReader(filename, version);
+    // Read from built-in built-in file
+    // Write to file in "data" directory.
+    //
+    // If you restart, KoLmafia will use the version in "data" as an override
+    // and you can try things out. But until you copy it into src/data and
+    // rebuild, this script will not modify the file in-place.
+    try (BufferedReader reader = FileUtilities.getReader(filename, false);
         PrintStream writer =
-            LogStream.openStream(new File(KoLConstants.DATA_LOCATION, outputFilename), true)) {
-      writer.println(version);
+            LogStream.openStream(new File(KoLConstants.DATA_LOCATION, filename), true)) {
 
-      String line;
+      // Read the version number and write it to output.
+      String line = reader.readLine();
+      writer.println(line);
+
       while ((line = reader.readLine()) != null) {
         if (line.length() == 0 || line.startsWith("#")) {
           writer.println(line);
