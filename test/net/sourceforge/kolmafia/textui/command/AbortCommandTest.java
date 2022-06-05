@@ -24,5 +24,4 @@ public class AbortCommandTest extends AbstractCommandTestBase {
 
     assertThat(output, containsString("custom error"));
   }
-
 }

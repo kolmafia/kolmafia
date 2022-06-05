@@ -39,7 +39,10 @@ public class UntinkerCommandTest extends AbstractCommandTestBase {
     var requests = getRequests();
     assertThat(requests.size(), equalTo(2));
 
-    assertPostRequest(requests.get(0), "/place.php", "whichplace=forestvillage&action=fv_untinker_quest&preaction=screwquest");
+    assertPostRequest(
+        requests.get(0),
+        "/place.php",
+        "whichplace=forestvillage&action=fv_untinker_quest&preaction=screwquest");
     assertPostRequest(requests.get(1), "/place.php", "whichplace=knoll_friendly&action=dk_innabox");
   }
 
@@ -56,7 +59,10 @@ public class UntinkerCommandTest extends AbstractCommandTestBase {
 
     var requests = getRequests();
     assertThat(requests, not(empty()));
-    assertPostRequest(requests.get(0), "/place.php", "whichplace=forestvillage&action=fv_untinker&preaction=untinker&whichitem=677&untinkerall=on");
+    assertPostRequest(
+        requests.get(0),
+        "/place.php",
+        "whichplace=forestvillage&action=fv_untinker&preaction=untinker&whichitem=677&untinkerall=on");
   }
 
   @Test
@@ -72,7 +78,10 @@ public class UntinkerCommandTest extends AbstractCommandTestBase {
 
     var requests = getRequests();
     assertThat(requests.size(), equalTo(4));
-    assertPostRequest(requests.get(0), "/place.php", "whichplace=forestvillage&action=fv_untinker&preaction=untinker&whichitem=677");
+    assertPostRequest(
+        requests.get(0),
+        "/place.php",
+        "whichplace=forestvillage&action=fv_untinker&preaction=untinker&whichitem=677");
   }
 
   @Test
@@ -91,5 +100,4 @@ public class UntinkerCommandTest extends AbstractCommandTestBase {
   private void setFakeResponse(String string) {
     fakeClientBuilder.client.setResponse(200, string);
   }
-
 }
