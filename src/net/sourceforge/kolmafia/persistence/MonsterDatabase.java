@@ -721,6 +721,17 @@ public class MonsterDatabase {
     MonsterDatabase.saveCanonicalNames();
   }
 
+  // *** For testing only!
+  public static final void unregisterMonster(final MonsterData monster) {
+    int id = monster.getId();
+    String name = monster.getName();
+    MonsterDatabase.MONSTER_DATA.remove(name);
+    MonsterDatabase.OLD_MONSTER_DATA.remove(name.toLowerCase());
+    MonsterDatabase.LEET_MONSTER_DATA.remove(StringUtilities.leetify(name));
+    MonsterDatabase.MONSTER_IDS.remove(id);
+    MonsterDatabase.saveCanonicalNames();
+  }
+
   public static final MonsterData registerMonster(final String name) {
     MonsterData monster = MonsterDatabase.newMonster(name, 0, new String[0], "");
     MonsterDatabase.registerMonster(monster);
@@ -801,13 +812,20 @@ public class MonsterDatabase {
     int count = 0;
 
     String filename = "monsters.txt";
-    int version = KoLConstants.MONSTERS_VERSION;
-    try (BufferedReader reader = FileUtilities.getVersionedReader(filename, version);
+    // Read from built-in built-in file
+    // Write to file in "data" directory.
+    //
+    // If you restart, KoLmafia will use the version in "data" as an override
+    // and you can try things out. But until you copy it into src/data and
+    // rebuild, this script will not modify the file in-place.
+    try (BufferedReader reader = FileUtilities.getReader(filename, false);
         PrintStream writer =
             LogStream.openStream(new File(KoLConstants.DATA_LOCATION, filename), true)) {
-      writer.println(version);
 
-      String line;
+      // Read the version number and write it to output.
+      String line = reader.readLine();
+      writer.println(line);
+
       while ((line = reader.readLine()) != null) {
         if (line.length() == 0 || line.startsWith("#")) {
           writer.println(line);
@@ -821,19 +839,23 @@ public class MonsterDatabase {
         }
 
         String name = data[0];
+        int monsterId = StringUtilities.parseInt(data[1]);
 
-        if (name.equals("lihc")) {
+        // If we are applying updates, we might want to update the lihc.
+        // If so, we'll have to manually correct its attributes later...
+        if (updates == null || !updates.containsKey(monsterId)) {
           // The lihc has two different EA: attributes. We don't support that, yet.
           // Skip it for now, so we preserve both in the data file.
-          writer.println(line);
-          continue;
+          if (monsterId == 32) {
+            writer.println(line);
+            continue;
+          }
         }
 
         String attributes = data[3];
 
         Map<Attribute, Object> attributeMap = MonsterData.attributeStringToMap(name, attributes);
         if (updates != null) {
-          int monsterId = StringUtilities.parseInt(data[1]);
           Map<Attribute, Object> update = updates.get(monsterId);
           if (update != null) {
             attributeMap.putAll(update);

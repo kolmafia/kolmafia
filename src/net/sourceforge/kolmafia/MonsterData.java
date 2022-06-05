@@ -218,6 +218,7 @@ public class MonsterData extends AdventureResult {
               value = tokens.nextToken();
               attributeMap.put(attribute, value);
             }
+            continue;
 
           case MANUEL_NAME:
           case WIKI_NAME:
@@ -1188,6 +1189,10 @@ public class MonsterData extends AdventureResult {
 
   public String getArticle() {
     return this.article == null ? "" : this.article;
+  }
+
+  public void setArticle(final String article) {
+    this.article = article;
   }
 
   public int getHP() {
