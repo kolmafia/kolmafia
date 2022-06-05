@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -67,6 +68,7 @@ import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.MonsterManuelManager;
 import net.sourceforge.kolmafia.session.NumberologyManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -326,6 +328,13 @@ public class TestCommand extends AbstractCommand {
       }
       double itemDrop = Modifiers.getNumericModifier("Familiar", familiar.getRace(), "Item Drop");
       RequestLogger.printLine("Item Drop: " + itemDrop);
+      return;
+    }
+
+    if (command.equals("fix-monster-articles")) {
+      DebugDatabase.checkManuel();
+      int count = MonsterDatabase.fixMonsterAttributes(MonsterManuelManager.updates);
+      RequestLogger.printLine(count + " monster attributes changed");
       return;
     }
 

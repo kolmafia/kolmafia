@@ -822,7 +822,9 @@ public class MonsterDatabase {
 
         String name = data[0];
 
-        if (name.equals("lihc")) {
+        // If we are applying updates, we might want to update the lihc.
+        // If so, we'll have to manually correct its attributes later...
+        if (updates == null && name.equals("lihc")) {
           // The lihc has two different EA: attributes. We don't support that, yet.
           // Skip it for now, so we preserve both in the data file.
           writer.println(line);
