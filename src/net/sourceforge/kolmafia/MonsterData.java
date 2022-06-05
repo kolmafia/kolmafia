@@ -218,6 +218,7 @@ public class MonsterData extends AdventureResult {
               value = tokens.nextToken();
               attributeMap.put(attribute, value);
             }
+            continue;
 
           case MANUEL_NAME:
           case WIKI_NAME:
