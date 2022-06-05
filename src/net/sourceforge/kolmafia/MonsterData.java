@@ -1191,6 +1191,10 @@ public class MonsterData extends AdventureResult {
     return this.article == null ? "" : this.article;
   }
 
+  public void setArticle(final String article) {
+    this.article = article;
+  }
+
   public int getHP() {
     if (this.scale != null && this.health == null) {
       int scale = evaluate(this.scale, MonsterData.DEFAULT_SCALE);

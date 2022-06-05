@@ -721,6 +721,17 @@ public class MonsterDatabase {
     MonsterDatabase.saveCanonicalNames();
   }
 
+  // *** For testing only!
+  public static final void unregisterMonster(final MonsterData monster) {
+    int id = monster.getId();
+    String name = monster.getName();
+    MonsterDatabase.MONSTER_DATA.remove(name);
+    MonsterDatabase.OLD_MONSTER_DATA.remove(name.toLowerCase());
+    MonsterDatabase.LEET_MONSTER_DATA.remove(StringUtilities.leetify(name));
+    MonsterDatabase.MONSTER_IDS.remove(id);
+    MonsterDatabase.saveCanonicalNames();
+  }
+
   public static final MonsterData registerMonster(final String name) {
     MonsterData monster = MonsterDatabase.newMonster(name, 0, new String[0], "");
     MonsterDatabase.registerMonster(monster);

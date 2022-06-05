@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.session;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -34,11 +35,15 @@ public class MonsterManuelManager {
     MonsterManuelManager.variableNamedMonsters.add(2108); // Travis Belmont
   }
 
+  // If we want to parse previously unknown attributes, store them here.
+  public static final Map<Integer, Map<Attribute, Object>> updates = new HashMap<>();
+
   private MonsterManuelManager() {}
 
   public static void flushCache() {
     MonsterManuelManager.manuelEntries.clear();
     MonsterManuelManager.manuelFactoidCounts.clear();
+    MonsterManuelManager.updates.clear();
   }
 
   public static void reset() {
@@ -74,16 +79,14 @@ public class MonsterManuelManager {
     }
   }
 
-  // If we want to parse previously unknown attributes, store them here.
-  public static final Map<Integer, Map<Attribute, Object>> updates = new HashMap<>();
+  public static MonsterData registerMonster(final int id, final String text) {
+    MonsterData monster = MonsterDatabase.findMonsterById(id);
 
-  public static void registerMonster(final int id, final String text) {
     // See if this is a new entry
-
     String old = MonsterManuelManager.manuelEntries.get(id);
     if (old != null && old.equals(text)) {
       // We have seen this exact Manuel entry before.
-      return;
+      return monster;
     }
 
     // Either the entry is new or is different from what we have
@@ -101,7 +104,6 @@ public class MonsterManuelManager {
 
     // If we are looking at this entry for the first time, do some checks.
     if (old == null) {
-      MonsterData monster = MonsterDatabase.findMonsterById(id);
       String name = extractMonsterName(entry);
       String image = extractMonsterImage(entry);
       String attackString = extractMonsterAttack(entry);
@@ -138,16 +140,7 @@ public class MonsterManuelManager {
 
         String line = name + "\t" + id + "\t" + image + "\t" + attributes;
         RequestLogger.updateSessionLog(line);
-        MonsterDatabase.registerMonster(name, id, image, attributes);
-        return;
-      }
-
-      // The "article" is new. If we don't have one listed in monsters.txt for
-      // this monster, save it so we can run an update on it.
-      if (!monster.getArticle().equals(article)) {
-        Map<Attribute, Object> update = new HashMap<>();
-        update.put(Attribute.ARTICLE, article);
-        updates.put(id, update);
+        return MonsterDatabase.registerMonster(name, id, image, attributes);
       }
 
       // Check our data with what Manuel says
@@ -199,6 +192,7 @@ public class MonsterManuelManager {
                   + ", but KoLmafia says it is "
                   + baseAttack);
         }
+
         int baseDefense = monster.getBaseDefense();
         int defense = StringUtilities.parseInt(defenseString);
         if (baseDefense != -1 && defense != 0 && baseDefense != defense) {
@@ -212,6 +206,7 @@ public class MonsterManuelManager {
                   + ", but KoLmafia says it is "
                   + baseDefense);
         }
+
         int baseHP = monster.getBaseHP();
         int hp = StringUtilities.parseInt(hpString);
         if (baseHP != -1 && hp != 0 && baseHP != hp) {
@@ -269,7 +264,28 @@ public class MonsterManuelManager {
                 + ", but KoLmafia says it is "
                 + monster.getPhylum());
       }
+
+      if (!article.equals(monster.getArticle())) {
+        // The "article" is a new feature in MonsterManuel. If we don't
+        // have one for this monster, save it in updates
+        Map<Attribute, Object> update = new HashMap<>();
+        update.put(Attribute.ARTICLE, article);
+        updates.put(id, update);
+
+        RequestLogger.printLine(
+            "Manuel says that '"
+                + name
+                + "' ("
+                + id
+                + ") has article '"
+                + article
+                + ", but KoLmafia says it is "
+                + monster.getArticle()
+                + "'");
+      }
     }
+
+    return monster;
   }
 
   public static int parseInitiative(final String initiativeString) {
@@ -513,8 +529,8 @@ public class MonsterManuelManager {
     return text == null ? MonsterManuelManager.NO_FACTOIDS : text;
   }
 
-  public static ArrayList<String> getFactoids(final int id) {
-    ArrayList<String> list = new ArrayList<String>();
+  public static List<String> getFactoids(final int id) {
+    List<String> list = new ArrayList<String>();
 
     String text = MonsterManuelManager.getManuelText(id);
     if (text == MonsterManuelManager.NO_FACTOIDS) {
