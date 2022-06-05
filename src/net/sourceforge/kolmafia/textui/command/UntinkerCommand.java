@@ -21,7 +21,10 @@ public class UntinkerCommand extends AbstractCommand {
     AdventureResult[] itemList =
         ItemFinder.getMatchingItemList(parameters, true, null, Match.UNTINKER);
     for (AdventureResult item : itemList) {
-      RequestThread.postRequest(new UntinkerRequest(item.getItemId(), item.getCount()));
+      var count = item.getCount();
+      if (count > 0) {
+        RequestThread.postRequest(new UntinkerRequest(item.getItemId(), count));
+      }
     }
   }
 }
