@@ -801,10 +801,11 @@ public class MonsterDatabase {
     int count = 0;
 
     String filename = "monsters.txt";
+    String outputFilename = "monsters.new.txt";
     int version = KoLConstants.MONSTERS_VERSION;
     try (BufferedReader reader = FileUtilities.getVersionedReader(filename, version);
         PrintStream writer =
-            LogStream.openStream(new File(KoLConstants.DATA_LOCATION, filename), true)) {
+            LogStream.openStream(new File(KoLConstants.DATA_LOCATION, outputFilename), true)) {
       writer.println(version);
 
       String line;
@@ -821,21 +822,23 @@ public class MonsterDatabase {
         }
 
         String name = data[0];
+        int monsterId = StringUtilities.parseInt(data[1]);
 
         // If we are applying updates, we might want to update the lihc.
         // If so, we'll have to manually correct its attributes later...
-        if (updates == null && name.equals("lihc")) {
+        if (updates == null || !updates.containsKey(monsterId)) {
           // The lihc has two different EA: attributes. We don't support that, yet.
           // Skip it for now, so we preserve both in the data file.
-          writer.println(line);
-          continue;
+          if (monsterId == 32) {
+            writer.println(line);
+            continue;
+          }
         }
 
         String attributes = data[3];
 
         Map<Attribute, Object> attributeMap = MonsterData.attributeStringToMap(name, attributes);
         if (updates != null) {
-          int monsterId = StringUtilities.parseInt(data[1]);
           Map<Attribute, Object> update = updates.get(monsterId);
           if (update != null) {
             attributeMap.putAll(update);

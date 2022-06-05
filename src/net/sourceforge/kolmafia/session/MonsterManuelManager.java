@@ -97,179 +97,178 @@ public class MonsterManuelManager {
     int factoids = MonsterManuelManager.countFactoids(entry);
     MonsterManuelManager.manuelFactoidCounts.put(id, factoids);
 
-    if (old != null) {
-      // We have  recorded any new factoids
-      return;
-    }
+    // Extract some fields from the entry
 
-    // This is a brand new entry. Inspect it.
+    // If we are looking at this entry for the first time, do some checks.
+    if (old == null) {
+      MonsterData monster = MonsterDatabase.findMonsterById(id);
+      String name = extractMonsterName(entry);
+      String image = extractMonsterImage(entry);
+      String attackString = extractMonsterAttack(entry);
+      String defenseString = extractMonsterDefense(entry);
+      String hpString = extractMonsterHP(entry);
+      String phylumString = extractMonsterPhylum(entry);
+      Element element = extractMonsterElement(entry);
+      String initiativeString = extractMonsterInitiative(entry);
+      String article = extractMonsterArticle(entry);
 
-    MonsterData monster = MonsterDatabase.findMonsterById(id);
-    String name = extractMonsterName(entry);
-    String image = extractMonsterImage(entry);
-    String attackString = extractMonsterAttack(entry);
-    String defenseString = extractMonsterDefense(entry);
-    String hpString = extractMonsterHP(entry);
-    String phylumString = extractMonsterPhylum(entry);
-    Element element = extractMonsterElement(entry);
-    String initiativeString = extractMonsterInitiative(entry);
-    String article = extractMonsterArticle(entry);
+      if (monster == null) {
+        // We don't know a monster with this ID. Add to monster ID map.
+        String attributes =
+            buildMonsterAttributes(
+                name,
+                attackString,
+                defenseString,
+                hpString,
+                phylumString,
+                element,
+                initiativeString,
+                article);
 
-    if (monster == null) {
-      // We don't know a monster with this ID. Add to monster ID map.
-      String attributes =
-          buildMonsterAttributes(
-              name,
-              attackString,
-              defenseString,
-              hpString,
-              phylumString,
-              element,
-              initiativeString,
-              article);
-      String line = name + "\t" + id + "\t" + image + "\t" + attributes;
-
-      RequestLogger.printLine(
-          "New monster #"
-              + id
-              + " found in Manuel with name '"
-              + name
-              + "' image '"
-              + image
-              + "' attributes ='"
-              + attributes
-              + "'");
-      RequestLogger.updateSessionLog(line);
-      monster = MonsterDatabase.registerMonster(name, id, image, attributes);
-      return;
-    }
-
-    // The "article" is new. If we don't have one listed in monsters.txt for
-    // this monster, save it so we can run an update on it.
-    if (!monster.getArticle().equals(article)) {
-      Map<Attribute, Object> update = new HashMap<>();
-      update.put(Attribute.ARTICLE, article);
-      updates.put(id, update);
-    }
-
-    // Check our data with what Manuel says
-
-    // Don't bother checking name for monsters with variable names
-    if (!MonsterManuelManager.variableNamedMonsters.contains(id)
-        && !monster.getManuelName().equals(name)) {
-      // We know this monster, but do not have the correct Manuel name
-      RequestLogger.printLine(
-          "Monster #"
-              + id
-              + " has name '"
-              + monster.getManuelName()
-              + "' but Manuel calls it '"
-              + name
-              + "'");
-      monster.setManuelName(name);
-    }
-
-    // Don't bother checking image for (shadow opponent) and You the Adventurer
-    // noart.gif and qmark.gif are used for monsters with variable images
-    if (id != 210
-        && id != 1669
-        && !image.equals("noart.gif")
-        && !image.equals("qmark.gif")
-        && !monster.hasImage(image)) {
-      RequestLogger.printLine(
-          "Manuel says that '" + name + "' (" + id + ") has unrecognized image '" + image + "'");
-    }
-
-    if (attackString.equals("?")) {
-      // Scaling monster: either standard scaling or a formula
-      if (!(monster.scales() || monster.getBaseAttack() == -1)) {
         RequestLogger.printLine(
-            "Manuel says that '" + name + "' (" + id + ") scales, but KoLmafia doesn't");
+            "New monster #"
+                + id
+                + " found in Manuel with name '"
+                + name
+                + "' image '"
+                + image
+                + "' attributes ='"
+                + attributes
+                + "'");
+
+        String line = name + "\t" + id + "\t" + image + "\t" + attributes;
+        RequestLogger.updateSessionLog(line);
+        MonsterDatabase.registerMonster(name, id, image, attributes);
+        return;
       }
-    } else {
-      // Non-scaling monster
-      int baseAttack = monster.getBaseAttack();
-      int attack = StringUtilities.parseInt(attackString);
-      if (baseAttack != -1 && attack != 0 && baseAttack != attack) {
+
+      // The "article" is new. If we don't have one listed in monsters.txt for
+      // this monster, save it so we can run an update on it.
+      if (!monster.getArticle().equals(article)) {
+        Map<Attribute, Object> update = new HashMap<>();
+        update.put(Attribute.ARTICLE, article);
+        updates.put(id, update);
+      }
+
+      // Check our data with what Manuel says
+
+      // Don't bother checking name for monsters with variable names
+      if (!MonsterManuelManager.variableNamedMonsters.contains(id)
+          && !monster.getManuelName().equals(name)) {
+        // We know this monster, but do not have the correct Manuel name
+        RequestLogger.printLine(
+            "Monster #"
+                + id
+                + " has name '"
+                + monster.getManuelName()
+                + "' but Manuel calls it '"
+                + name
+                + "'");
+        monster.setManuelName(name);
+      }
+
+      // Don't bother checking image for (shadow opponent) and You the Adventurer
+      // noart.gif and qmark.gif are used for monsters with variable images
+      if (id != 210
+          && id != 1669
+          && !image.equals("noart.gif")
+          && !image.equals("qmark.gif")
+          && !monster.hasImage(image)) {
+        RequestLogger.printLine(
+            "Manuel says that '" + name + "' (" + id + ") has unrecognized image '" + image + "'");
+      }
+
+      if (attackString.equals("?")) {
+        // Scaling monster: either standard scaling or a formula
+        if (!(monster.scales() || monster.getBaseAttack() == -1)) {
+          RequestLogger.printLine(
+              "Manuel says that '" + name + "' (" + id + ") scales, but KoLmafia doesn't");
+        }
+      } else {
+        // Non-scaling monster
+        int baseAttack = monster.getBaseAttack();
+        int attack = StringUtilities.parseInt(attackString);
+        if (baseAttack != -1 && attack != 0 && baseAttack != attack) {
+          RequestLogger.printLine(
+              "Manuel says that '"
+                  + name
+                  + "' ("
+                  + id
+                  + ") has attack "
+                  + attack
+                  + ", but KoLmafia says it is "
+                  + baseAttack);
+        }
+        int baseDefense = monster.getBaseDefense();
+        int defense = StringUtilities.parseInt(defenseString);
+        if (baseDefense != -1 && defense != 0 && baseDefense != defense) {
+          RequestLogger.printLine(
+              "Manuel says that '"
+                  + name
+                  + "' ("
+                  + id
+                  + ") has defense "
+                  + defense
+                  + ", but KoLmafia says it is "
+                  + baseDefense);
+        }
+        int baseHP = monster.getBaseHP();
+        int hp = StringUtilities.parseInt(hpString);
+        if (baseHP != -1 && hp != 0 && baseHP != hp) {
+          RequestLogger.printLine(
+              "Manuel says that '"
+                  + name
+                  + "' ("
+                  + id
+                  + ") has HP "
+                  + hp
+                  + ", but KoLmafia says it is "
+                  + baseHP);
+        }
+      }
+
+      int baseInitiative = monster.getBaseInitiative();
+      int initiative = MonsterManuelManager.parseInitiative(initiativeString);
+      if (baseInitiative != -1 && baseInitiative != initiative) {
         RequestLogger.printLine(
             "Manuel says that '"
                 + name
                 + "' ("
                 + id
-                + ") has attack "
-                + attack
-                + ", but KoLmafia says it is "
-                + baseAttack);
+                + ") '"
+                + initiativeString
+                + "', but KoLmafia says it is "
+                + baseInitiative);
       }
-      int baseDefense = monster.getBaseDefense();
-      int defense = StringUtilities.parseInt(defenseString);
-      if (baseDefense != -1 && defense != 0 && baseDefense != defense) {
+
+      Element attackElement = monster.getAttackElement();
+      Element defenseElement = monster.getDefenseElement();
+      if (element != defenseElement) {
         RequestLogger.printLine(
             "Manuel says that '"
                 + name
                 + "' ("
                 + id
-                + ") has defense "
-                + defense
-                + ", but KoLmafia says it is "
-                + baseDefense);
+                + ") has element "
+                + element.toString()
+                + ", but KoLmafia says it has attack element "
+                + attackElement.toString()
+                + " and defense element "
+                + defenseElement);
       }
-      int baseHP = monster.getBaseHP();
-      int hp = StringUtilities.parseInt(hpString);
-      if (baseHP != -1 && hp != 0 && baseHP != hp) {
+
+      Phylum phylum = MonsterManuelManager.parsePhylum(phylumString);
+      if (phylum != monster.getPhylum()) {
         RequestLogger.printLine(
             "Manuel says that '"
                 + name
                 + "' ("
                 + id
-                + ") has HP "
-                + hp
+                + ") has phylum "
+                + phylum
                 + ", but KoLmafia says it is "
-                + baseHP);
+                + monster.getPhylum());
       }
-    }
-
-    int baseInitiative = monster.getBaseInitiative();
-    int initiative = MonsterManuelManager.parseInitiative(initiativeString);
-    if (baseInitiative != -1 && baseInitiative != initiative) {
-      RequestLogger.printLine(
-          "Manuel says that '"
-              + name
-              + "' ("
-              + id
-              + ") '"
-              + initiativeString
-              + "', but KoLmafia says it is "
-              + baseInitiative);
-    }
-
-    Element attackElement = monster.getAttackElement();
-    Element defenseElement = monster.getDefenseElement();
-    if (element != defenseElement) {
-      RequestLogger.printLine(
-          "Manuel says that '"
-              + name
-              + "' ("
-              + id
-              + ") has element "
-              + element.toString()
-              + ", but KoLmafia says it has attack element "
-              + attackElement.toString()
-              + " and defense element "
-              + defenseElement);
-    }
-
-    Phylum phylum = MonsterManuelManager.parsePhylum(phylumString);
-    if (phylum != monster.getPhylum()) {
-      RequestLogger.printLine(
-          "Manuel says that '"
-              + name
-              + "' ("
-              + id
-              + ") has phylum "
-              + phylum
-              + ", but KoLmafia says it is "
-              + monster.getPhylum());
     }
   }
 
