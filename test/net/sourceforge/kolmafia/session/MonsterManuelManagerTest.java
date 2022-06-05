@@ -12,19 +12,11 @@ import java.util.Map;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.MonsterData.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class MonsterManuelManagerTest {
-
-  @BeforeAll
-  private static void beforeAll() {
-    // Simulate logging out and back in again.
-    Preferences.saveSettingsToFile = false;
-  }
 
   @AfterAll
   private static void afterAll() {
@@ -59,14 +51,14 @@ public class MonsterManuelManagerTest {
   @Test
   public void thatCanDetectNewMonster() throws IOException {
     String text = loadHTMLResponse("request/test_monster_manuel_monster1.html");
-    MonsterData monster = MonsterDatabase.findMonster("a massive prism of grey goo");
+    MonsterData monster = MonsterDatabase.findMonster("ancient unspeakable bugbear");
     int monsterId = monster.getId();
     var cleanups = unregisterMonster(monster);
     try (cleanups) {
       MonsterData newMonster = MonsterManuelManager.registerMonster(monsterId, text);
       String attributes = newMonster.getAttributes();
       assertEquals(
-          "BOSS NOCOPY Atk: 10 Def: 10 HP: 1000 Init: -10000 P: construct Article: a", attributes);
+          "Atk: 140 Def: 126 HP: 150 Init: 50 P: beast ED: spooky Article: an", attributes);
       List<String> factoids = MonsterManuelManager.getFactoids(monsterId);
       assertEquals(3, factoids.size());
     }
