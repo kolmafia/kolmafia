@@ -10941,3 +10941,5 @@
 10914	expired MRE	120160347	maydaymre.gif	food	t,d	10
 10915	cool mint precipice bar	646996512	maydaybar.gif	food	t,d	10
 10916	carrot cake precipice bar	709552696	maydaybar.gif	food	t,d	10
+10917	The Big Book of Every Skill	467154860	book3.gif	usable		0
+10918	Thwaitgold harvestman statuette	209469206	nopic.gif	none		0
