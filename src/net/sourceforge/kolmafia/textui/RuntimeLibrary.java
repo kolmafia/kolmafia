@@ -1007,6 +1007,9 @@ public abstract class RuntimeLibrary {
     params = new Type[] {};
     functions.add(new LibraryFunction("my_garden_type", DataTypes.STRING_TYPE, params));
 
+    params = new Type[] {};
+    functions.add(new LibraryFunction("get_zap_wand", DataTypes.ITEM_TYPE, params));
+
     params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("get_related", DataTypes.ITEM_TO_INT_TYPE, params));
 
@@ -4975,6 +4978,14 @@ public abstract class RuntimeLibrary {
   public static Value my_garden_type(ScriptRuntime controller) {
     CropType crop = CampgroundRequest.getCropType();
     return new Value(crop == null ? "none" : crop.name().toLowerCase());
+  }
+
+  public static Value get_zap_wand(ScriptRuntime controller) {
+    AdventureResult zapWand = KoLCharacter.findWand();
+
+    return zapWand == null
+        ? DataTypes.ITEM_INIT
+        : DataTypes.makeItemValue(zapWand.getItemId(), true);
   }
 
   private static final int WAD2POWDER = -12; // <elem> powder - <elem> wad

@@ -343,7 +343,7 @@ public abstract class ChoiceAdventures {
   public static final Option findOption(final Option[] options, final int decision) {
     for (int i = 0; i < options.length; ++i) {
       Option opt = options[i];
-      if (opt.getDecision(i + 1) == decision) {
+      if (opt != null && opt.getDecision(i + 1) == decision) {
         return opt;
       }
     }

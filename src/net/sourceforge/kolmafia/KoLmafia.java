@@ -13,6 +13,7 @@ import java.io.RandomAccessFile;
 import java.math.BigInteger;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -111,6 +112,7 @@ import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.textui.AshRuntime;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -130,11 +132,23 @@ public abstract class KoLmafia {
     System.setProperty("com.apple.mrj.application.live-resize", "true");
     System.setProperty("com.apple.mrj.application.growbox.intrudes", "false");
     System.setProperty("java.net.preferIPv4Stack", "true");
+    // override content types to avoid a Rhino problem
+    // see https://github.com/mozilla/rhino/issues/1232
+    ensureContentTypes();
 
     if (SwinglessUIUtils.isSwingAvailable()) {
       JEditorPane.registerEditorKitForContentType("text/html", RequestEditorKit.class.getName());
     }
     System.setProperty("apple.laf.useScreenMenuBar", "true");
+  }
+
+  private static void ensureContentTypes() {
+    var contentTypesFile = KoLConstants.DATA_LOCATION.toPath().resolve("content-types.properties");
+    if (!Files.exists(contentTypesFile)) {
+      FileUtilities.loadLibrary(
+          KoLConstants.DATA_LOCATION, KoLConstants.DATA_DIRECTORY, "content-types.properties");
+    }
+    System.setProperty("content.types.user.table", contentTypesFile.toString());
   }
 
   public static String currentIterationString = "";
