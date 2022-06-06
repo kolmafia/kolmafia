@@ -698,7 +698,9 @@ user	harvestGardenSoftcore	none
 user	hasBartender	false
 user	hasChef	false
 user	hasCocktailKit	false
+user	hasCosmicBowlingBall	false
 user	hasDetectiveSchool	false
+user	hasMaydayContract	false
 user	hasOven	false
 user	hasRange	false
 user	hasShaker	false
@@ -1504,6 +1506,7 @@ user	_bastilleGameTurn	0
 user	_bastilleLastBattleResults
 user	_bastilleLastBattleWon	false
 user	_bastilleLastCheese	0
+user	_bastilleLastEncounter	
 user	_bastilleStats	
 user	_beachCombing	false
 user	_beachHeadsUsed
@@ -1567,6 +1570,7 @@ user	_clipartSummons	0
 user	_cloudTalkMessage
 user	_cloudTalkSmoker
 user	_coalPaperweightUsed	false
+user	_coatOfPaintModifier	
 user	_cocoaDispenserUsed	false
 user	_cocktailShakerUsed	false
 user	_coldAirportToday	false
@@ -1837,7 +1841,7 @@ user	_mafiaMiddleFingerRingUsed	false
 user	_mafiaThumbRingAdvs	0
 user	_managerialManipulationUsed	false
 user	_mansquitoSerumUsed	false
-user	_monstersMapped	0
+user	_maydayDropped	false
 user	_mayflowerDrops	0
 user	_mayflySummons	0
 user	_mayoDeviceRented	false
@@ -1854,6 +1858,7 @@ user	_miniMartiniDrops	0
 user	_missGravesVermouthDrunk	false
 user	_missileLauncherUsed	false
 user	_momFoodReceived	false
+user	_monstersMapped	0
 user	_mrBurnsgerEaten	false
 user	_muffinOrderedToday	false
 user	_mummeryMods
@@ -2596,6 +2601,7 @@ user	choiceAdventure794	0
 user	choiceAdventure795	0
 user	choiceAdventure796	0
 user	choiceAdventure797	0
+user	choiceAdventure803	0
 user	choiceAdventure805	1
 user	choiceAdventure808	1
 user	choiceAdventure809	1
@@ -2873,10 +2879,20 @@ user	choiceAdventure1341	0
 user	choiceAdventure1345	0
 user	choiceAdventure1389	25
 user	choiceAdventure1392	0
+user	choiceAdventure1397	0
 user	choiceAdventure1399	2
 user	choiceAdventure1405	1
 user	choiceAdventure1411	0
 user	choiceAdventure1415	0
+user	choiceAdventure1427	1
+user	choiceAdventure1428	2
+user	choiceAdventure1429	1
+user	choiceAdventure1430	0
+user	choiceAdventure1431	0
+user	choiceAdventure1432	0
+user	choiceAdventure1433	0
+user	choiceAdventure1434	0
+user	choiceAdventure1436	0
 user	choiceAdventure1460	8
 user	choiceAdventure1461	4
 

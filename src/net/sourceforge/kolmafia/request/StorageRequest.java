@@ -334,7 +334,7 @@ public class StorageRequest extends TransferItemRequest {
         }
 
         if (desiredCount > 1) {
-          KoLmafia.updateDisplay("You've can only pull one '" + item.getName() + "' today...");
+          KoLmafia.updateDisplay("You can only pull one '" + item.getName() + "' today...");
           desiredCount = 1;
         }
         // Fall through to add the single item.
@@ -492,7 +492,7 @@ public class StorageRequest extends TransferItemRequest {
             ? StorageRequest.STORAGEMEAT_FIST_PATTERN.matcher(responseText)
             : StorageRequest.STORAGEMEAT_PATTERN.matcher(responseText);
     if (meatInStorageMatcher.find()) {
-      int meat = StringUtilities.parseInt(meatInStorageMatcher.group(1));
+      long meat = StringUtilities.parseLong(meatInStorageMatcher.group(1));
       KoLCharacter.setStorageMeat(meat);
     } else if (responseText.contains("Hagnk doesn't have any of your meat")) {
       KoLCharacter.setStorageMeat(0);

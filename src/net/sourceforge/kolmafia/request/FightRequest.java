@@ -2795,10 +2795,7 @@ public class FightRequest extends GenericRequest {
 
     Pattern fightPattern = Pattern.compile("action=fight.php");
     Matcher fightMatcher = fightPattern.matcher(responseText);
-    int fightCount = 0;
-    while (fightMatcher.find()) {
-      fightCount++;
-    }
+    long fightCount = fightMatcher.results().count();
 
     boolean stillInBattle =
         finalRound
@@ -10048,7 +10045,7 @@ public class FightRequest extends GenericRequest {
         break;
 
       case ItemPool.DAILY_DUNGEON_MALWARE:
-        if (responseText.contains("It's a UNIX System")
+        if (responseText.contains("It's a UNIX system")
             || responseText.contains("You attempt to hack the monster")) {
           Preferences.setBoolean("_dailyDungeonMalwareUsed", true);
         }

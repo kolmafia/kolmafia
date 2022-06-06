@@ -8,8 +8,8 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.NumberologyManager;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 
 public class NumberologyRequest extends GenericRequest {
   public static final Pattern SEED_PATTERN = Pattern.compile("num=([^&]*)");
@@ -102,7 +102,7 @@ public class NumberologyRequest extends GenericRequest {
       return false;
     }
 
-    int choice = ChoiceManager.extractChoiceFromURL(urlString);
+    int choice = ChoiceUtilities.extractChoiceFromURL(urlString);
     if (choice != 1103) {
       return false;
     }

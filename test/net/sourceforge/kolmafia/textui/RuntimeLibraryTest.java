@@ -1,8 +1,10 @@
 package net.sourceforge.kolmafia.textui;
 
+import static internal.helpers.Player.addItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+import internal.helpers.Cleanups;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -63,5 +65,25 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     assertContinueState();
     assertThat(outputSoftcore, containsString("Returned: false"));
+  }
+
+  @Test
+  void zapWandUnavailable() {
+    String output = execute("get_zap_wand()");
+
+    assertContinueState();
+    assertThat(output, containsString("Returned: none"));
+  }
+
+  @Test
+  void zapWandAvailable() {
+    final var cleanups = new Cleanups(addItem("marble wand"));
+
+    try (cleanups) {
+      String output = execute("get_zap_wand()");
+
+      assertContinueState();
+      assertThat(output, containsString("name => marble wand"));
+    }
   }
 }

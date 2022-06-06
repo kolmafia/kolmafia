@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import org.junit.jupiter.api.Test;
 
 /* This test was triggered by a runtime error traced back to sorting usable concoctions that
@@ -54,5 +56,36 @@ public class ConcoctionTest {
     assertFalse(b1);
     assertEquals(b1, b2);
     assertFalse(e1 == e2);
+  }
+
+  @Test
+  public void fancyIngredientsCorrespondToFancyRecipes() {
+    for (Concoction concoction : ConcoctionPool.concoctions()) {
+      // pass
+      boolean isFancy = false;
+      switch (concoction.getMixingMethod()) {
+        case MIX_FANCY:
+        case COOK_FANCY:
+          isFancy = true;
+          break;
+        case MIX:
+        case COOK:
+          break;
+        default:
+          continue;
+      }
+      boolean hasFancyIngredient = false;
+      for (AdventureResult ingredient : concoction.getIngredients()) {
+        hasFancyIngredient = hasFancyIngredient || ItemDatabase.isFancyItem(ingredient.getItemId());
+      }
+      assertEquals(
+          isFancy,
+          hasFancyIngredient,
+          "concoction "
+              + concoction
+              + " with mixing method "
+              + concoction.getMixingMethod()
+              + " has fancy ingredients");
+    }
   }
 }

@@ -2,27 +2,29 @@ package net.sourceforge.kolmafia.session;
 
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 
 public class VampOutManager {
-  public static final String[] VampOutGoals = {
+  public static final Option[] VampOutGoals = {
     // Visit Vlad's Boutique
-    "Mistified",
-    "Bat Attitude",
-    "There Wolf",
+    new Option("Mistified"),
+    new Option("Bat Attitude"),
+    new Option("There Wolf"),
 
     // Visit Isabella's
-    "Muscle",
-    "Mysticality",
-    "Moxie",
-    "111 Meat, lose 1-2 hp",
+    new Option("Muscle"),
+    new Option("Mysticality"),
+    new Option("Moxie"),
+    new Option("111 Meat, lose 1-2 hp"),
 
     // Visit The Masquerade
-    "Prince of Seaside Town and Sword of the Brouhaha Prince",
-    "Prince of Seaside Town and Sceptre of the Torremolinos Prince",
-    "Prince of Seaside Town and Medallion of the Ventrilo Prince",
-    "Prince of Seaside Town and Chalice of the Malkovich Prince",
-    "Pride of the Vampire and Interview With You (a Vampire)",
-    "your own black heart"
+    new Option("Prince of Seaside Town and Sword of the Brouhaha Prince"),
+    new Option("Prince of Seaside Town and Sceptre of the Torremolinos Prince"),
+    new Option("Prince of Seaside Town and Medallion of the Ventrilo Prince"),
+    new Option("Prince of Seaside Town and Chalice of the Malkovich Prince"),
+    new Option("Pride of the Vampire and Interview With You (a Vampire)"),
+    new Option("your own black heart")
   };
 
   private static final String[] VampOutScript = {
@@ -84,7 +86,7 @@ public class VampOutManager {
       int masqueradeChoice =
           masqueradeAvailable ? 3 - (isabellaAvailable ? 0 : 1) - (vladAvailable ? 0 : 1) : 0;
 
-      logText("Encounter: Interview With You - Goal " + VampOutGoals[vampOutGoal]);
+      logText("Encounter: Interview With You - Goal " + VampOutGoals[vampOutGoal].getName());
 
       switch (vampOutGoal) {
         case 0:
@@ -112,21 +114,22 @@ public class VampOutManager {
 
       switch (decision.charAt(0)) {
         case 'b':
-          decision = ChoiceManager.findChoiceDecisionIndex(BROUHAHA, responseText);
+          decision = ChoiceUtilities.findChoiceDecisionIndex(BROUHAHA, responseText);
           break;
         case 'm':
-          decision = ChoiceManager.findChoiceDecisionIndex(MALKOVICH, responseText);
+          decision = ChoiceUtilities.findChoiceDecisionIndex(MALKOVICH, responseText);
           break;
         case 't':
-          decision = ChoiceManager.findChoiceDecisionIndex(TORREMOLINOS, responseText);
+          decision = ChoiceUtilities.findChoiceDecisionIndex(TORREMOLINOS, responseText);
           break;
         case 'v':
-          decision = ChoiceManager.findChoiceDecisionIndex(VENTRILO, responseText);
+          decision = ChoiceUtilities.findChoiceDecisionIndex(VENTRILO, responseText);
           break;
       }
     }
 
-    String action = ChoiceManager.findChoiceDecisionText(Integer.parseInt(decision), responseText);
+    String action =
+        ChoiceUtilities.findChoiceDecisionText(Integer.parseInt(decision), responseText);
     if (action != null) {
       logText("Action: " + action);
     }
@@ -167,7 +170,7 @@ public class VampOutManager {
       return null;
     }
 
-    return VampOutGoals[goal];
+    return VampOutGoals[goal].getName();
   }
 
   public static final void addGoalButton(final StringBuffer buffer) {
