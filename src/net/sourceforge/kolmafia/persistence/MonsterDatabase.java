@@ -840,18 +840,6 @@ public class MonsterDatabase {
 
         String name = data[0];
         int monsterId = StringUtilities.parseInt(data[1]);
-
-        // If we are applying updates, we might want to update the lihc.
-        // If so, we'll have to manually correct its attributes later...
-        if (updates == null || !updates.containsKey(monsterId)) {
-          // The lihc has two different EA: attributes. We don't support that, yet.
-          // Skip it for now, so we preserve both in the data file.
-          if (monsterId == 32) {
-            writer.println(line);
-            continue;
-          }
-        }
-
         String attributes = data[3];
 
         Map<Attribute, Object> attributeMap = MonsterData.attributeStringToMap(name, attributes);
