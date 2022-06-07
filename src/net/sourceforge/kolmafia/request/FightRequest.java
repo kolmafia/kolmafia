@@ -59,33 +59,8 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FamTeamRequest.PokeBoost;
-import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.session.*;
 import net.sourceforge.kolmafia.session.BanishManager.Banisher;
-import net.sourceforge.kolmafia.session.BatManager;
-import net.sourceforge.kolmafia.session.BugbearManager;
-import net.sourceforge.kolmafia.session.ClanManager;
-import net.sourceforge.kolmafia.session.CrystalBallManager;
-import net.sourceforge.kolmafia.session.CursedMagnifyingGlassManager;
-import net.sourceforge.kolmafia.session.DadManager;
-import net.sourceforge.kolmafia.session.DaylightShavingsHelmetManager;
-import net.sourceforge.kolmafia.session.DreadScrollManager;
-import net.sourceforge.kolmafia.session.EncounterManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.GoalManager;
-import net.sourceforge.kolmafia.session.GreyYouManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.IslandManager;
-import net.sourceforge.kolmafia.session.Limitmode;
-import net.sourceforge.kolmafia.session.LocketManager;
-import net.sourceforge.kolmafia.session.LoginManager;
-import net.sourceforge.kolmafia.session.MonsterManuelManager;
-import net.sourceforge.kolmafia.session.QuestManager;
-import net.sourceforge.kolmafia.session.ResponseTextParser;
-import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.SpadingManager;
-import net.sourceforge.kolmafia.session.TurnCounter;
-import net.sourceforge.kolmafia.session.UnusualConstructManager;
-import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -2912,6 +2887,10 @@ public class FightRequest extends GenericRequest {
 
     if (KoLCharacter.hasEquipped(ItemPool.DAYLIGHT_SHAVINGS_HELMET, EquipmentManager.HAT)) {
       DaylightShavingsHelmetManager.updatePreference(responseText);
+    }
+
+    if (KoLCharacter.hasEquipped(ItemPool.JUNE_CLEAVER)) {
+      JuneCleaverManager.updatePreferences(responseText);
     }
 
     // "The Slime draws back and shudders, as if it's about to sneeze.

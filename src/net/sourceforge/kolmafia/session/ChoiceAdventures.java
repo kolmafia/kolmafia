@@ -6332,6 +6332,19 @@ public abstract class ChoiceAdventures {
         // Leading Yourself Right to Them
         ChoiceAdventures.decorateMonsterMap(buffer);
         break;
+
+      case 1467:
+      case 1468:
+      case 1469:
+      case 1470:
+      case 1471:
+      case 1472:
+      case 1473:
+      case 1474:
+      case 1475:
+        Preferences.increment("_juneCleaverEncounters");
+        Preferences.resetToDefault("_fightsSinceLastJuneCleaverEncounter");
+        break;
     }
   }
 
