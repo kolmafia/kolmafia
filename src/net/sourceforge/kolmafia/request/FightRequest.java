@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
+import net.sourceforge.kolmafia.session.JuneCleaverManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.LoginManager;
@@ -2912,6 +2913,10 @@ public class FightRequest extends GenericRequest {
 
     if (KoLCharacter.hasEquipped(ItemPool.DAYLIGHT_SHAVINGS_HELMET, EquipmentManager.HAT)) {
       DaylightShavingsHelmetManager.updatePreference(responseText);
+    }
+
+    if (KoLCharacter.hasEquipped(ItemPool.JUNE_CLEAVER)) {
+      JuneCleaverManager.updatePreferences(responseText);
     }
 
     // "The Slime draws back and shudders, as if it's about to sneeze.
