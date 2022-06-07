@@ -599,4 +599,11 @@ public class FightRequestTest {
     parseCombatData("request/test_fight_mayday_contract.html");
     assertTrue(Preferences.getBoolean("_maydayDropped"));
   }
+
+  @Test
+  public void canIncrementJuneCleaverPrefs() throws IOException {
+    parseCombatData("request/test_fight_june_cleaver.html");
+    assertEquals(Preferences.getInteger("_juneCleaverSleaze"), 1);
+    assertEquals(Preferences.getInteger("_fightsSinceLastJuneCleaverEncounter"), 1);
+  }
 }
