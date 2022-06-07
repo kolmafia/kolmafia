@@ -1,0 +1,6 @@
+ash $monster[anglerbush].attack_element
+ash $monster[anglerbush].attack_elements
+ash $monster[Knott Yeti].attack_element
+ash $monster[Knott Yeti].attack_elements
+ash $monster[lihc].attack_element
+ash $monster[lihc].attack_elements

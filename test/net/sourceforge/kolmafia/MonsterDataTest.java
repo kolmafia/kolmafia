@@ -113,14 +113,33 @@ public class MonsterDataTest {
     @Test
     public void canHandleElementalAttack() {
       String name = "scary monster";
-      String attributes = "EA: spooky";
+      // No elemental attack
+      String attributes = "";
       Map<Attribute, Object> attributeMap = MonsterData.attributeStringToMap(name, attributes);
+      assertEquals(0, attributeMap.size());
+
+      // One elemental attack
+      attributes = "EA: spooky";
+      attributeMap = MonsterData.attributeStringToMap(name, attributes);
       assertEquals(1, attributeMap.size());
       Object EA = attributeMap.get(Attribute.EA);
       assertTrue(EA instanceof Element);
       assertEquals(Element.SPOOKY, (Element) EA);
       String normalized = MonsterData.attributeMapToString(attributeMap);
       assertEquals(attributes, normalized);
+
+      // Two elemental attack
+      attributes = "EA: spooky EA: sleaze";
+      attributeMap = MonsterData.attributeStringToMap(name, attributes);
+      assertEquals(1, attributeMap.size());
+      EA = attributeMap.get(Attribute.EA);
+      assertTrue(EA instanceof EnumSet);
+      EnumSet<Element> elements = (EnumSet<Element>) EA;
+      assertEquals(2, elements.size());
+      assertTrue(elements.contains(Element.SPOOKY));
+      assertTrue(elements.contains(Element.SLEAZE));
+      normalized = MonsterData.attributeMapToString(attributeMap);
+      assertEquals("EA: sleaze EA: spooky", normalized);
     }
 
     @Test
@@ -229,6 +248,47 @@ public class MonsterDataTest {
       // *** the attributes string, although it does parse it.
       // *** This may change.
       assertEquals(attributes, monster.getAttributes());
+    }
+
+    @Test
+    public void canMakeElementalAttackMonsters() {
+      String name = "scary monster";
+      int id = 13;
+      String[] images = {"scary.gif"};
+
+      // No Elemental Attack
+      String attributes = "Atk: 13";
+      MonsterData monster = new MonsterData(name, id, images, attributes);
+      assertEquals(13, monster.getRawAttack());
+      assertEquals(Element.NONE, monster.getAttackElement());
+      assertEquals(1, monster.getAttackElements().size());
+      assertTrue(monster.getAttackElements().contains(Element.NONE));
+      assertEquals(attributes, monster.getAttributes());
+
+      // One Elemental Attack
+      attributes = "Atk: 13 EA: spooky";
+      monster = new MonsterData(name, id, images, attributes);
+      assertEquals(13, monster.getRawAttack());
+      assertEquals(Element.SPOOKY, monster.getAttackElement());
+      assertEquals(1, monster.getAttackElements().size());
+      assertTrue(monster.getAttackElements().contains(Element.SPOOKY));
+      assertEquals(attributes, monster.getAttributes());
+
+      // Two Elemental Attacks
+      attributes = "Atk: 13 EA: spooky EA: sleaze";
+      monster = new MonsterData(name, id, images, attributes);
+      assertEquals(13, monster.getRawAttack());
+      // ** We pick the "last" - in enum order - elemental attack
+      assertEquals(Element.SPOOKY, monster.getAttackElement());
+      assertEquals(2, monster.getAttackElements().size());
+      assertTrue(monster.getAttackElements().contains(Element.SPOOKY));
+      assertTrue(monster.getAttackElements().contains(Element.SLEAZE));
+      // *** MonsterData constructor does not normalize
+      assertEquals(attributes, monster.getAttributes());
+      // *** If it did, we would get thisL
+      Map<Attribute, Object> attributeMap = MonsterData.attributeStringToMap(name, attributes);
+      String normalized = MonsterData.attributeMapToString(attributeMap);
+      assertEquals("Atk: 13 EA: sleaze EA: spooky", normalized);
     }
   }
 }

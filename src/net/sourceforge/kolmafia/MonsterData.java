@@ -133,7 +133,7 @@ public class MonsterData extends AdventureResult {
       }
 
       // Check if this is a duplicate attribute
-      if (attributeMap.containsKey(attribute)) {
+      if (attribute != Attribute.EA && attributeMap.containsKey(attribute)) {
         // This is a bug in the data. When we parse it, the second instance
         // will replace the first one. Log it.
         RequestLogger.printLine(
@@ -175,6 +175,23 @@ public class MonsterData extends AdventureResult {
             attributeMap.put(attribute, value);
             continue;
           case EA:
+            if (tokens.hasMoreTokens()) {
+              String next = tokens.nextToken();
+              Element element = parseElement(next);
+              if (element == Element.NONE) {
+                continue;
+              }
+              Object current = attributeMap.get(attribute);
+              if (current == null) {
+                attributeMap.put(attribute, element);
+              } else if (current instanceof Element) {
+                Element first = (Element) current;
+                attributeMap.put(attribute, EnumSet.of(first, element));
+              } else if (current instanceof EnumSet) {
+                ((EnumSet<Element>) current).add(element);
+              }
+            }
+            continue;
           case ED:
             if (tokens.hasMoreTokens()) {
               String next = tokens.nextToken();
@@ -402,7 +419,7 @@ public class MonsterData extends AdventureResult {
       buf.append(" ");
     } else {
       saveValueAttribute(Attribute.ED, attributeMap, buf);
-      saveValueAttribute(Attribute.EA, attributeMap, buf);
+      saveElementAttribute(Attribute.EA, attributeMap, buf);
     }
 
     // Special blocking percentages
@@ -502,6 +519,28 @@ public class MonsterData extends AdventureResult {
     }
   }
 
+  private static void saveElementAttribute(
+      Attribute attribute, Map<Attribute, Object> attributeMap, StringBuilder buf) {
+    if (attributeMap.containsKey(attribute)) {
+      String option = attribute.getOption();
+      Object value = attributeMap.get(attribute);
+      if (value instanceof EnumSet) {
+        EnumSet<Element> elements = (EnumSet<Element>) value;
+        for (Element element : elements) {
+          buf.append(option);
+          buf.append(" ");
+          buf.append(element);
+          buf.append(" ");
+        }
+      } else {
+        buf.append(option);
+        buf.append(" ");
+        buf.append(value);
+        buf.append(" ");
+      }
+    }
+  }
+
   // ***********************************************************
   // Transforming certain groups of attributes into a collection
   // ***********************************************************
@@ -564,7 +603,7 @@ public class MonsterData extends AdventureResult {
   private final Object cap;
   private final Object floor;
   private final Object mlMult;
-  private Element attackElement;
+  private EnumSet<Element> attackElements;
   private Element defenseElement;
   private Object physicalResistance;
   private Object elementalResistance;
@@ -615,7 +654,7 @@ public class MonsterData extends AdventureResult {
     this.floor = getDefaultedNumber(attributes.get(Attribute.FLOOR), DEFAULT_FLOOR);
     this.experience = attributes.get(Attribute.EXPERIENCE);
     this.mlMult = attributes.get(Attribute.MLMULT);
-    this.attackElement = (Element) attributes.getOrDefault(Attribute.EA, Element.NONE);
+    this.attackElements = getAttackElements(attributes.get(Attribute.EA));
     this.defenseElement = (Element) attributes.getOrDefault(Attribute.ED, Element.NONE);
     this.physicalResistance = attributes.get(Attribute.PHYS);
     this.elementalResistance = attributes.get(Attribute.ELEM);
@@ -687,6 +726,25 @@ public class MonsterData extends AdventureResult {
     return 0;
   }
 
+  // EnumSets are mutable. Even so, we'll use this as a constant, rather
+  // than allocating thousands of them.
+  private static final EnumSet<Element> NO_ELEMENTS = EnumSet.of(Element.NONE);
+
+  private EnumSet<Element> getAttackElements(Object value) {
+    if (value instanceof EnumSet) {
+      return (EnumSet<Element>) value;
+    }
+    if (value instanceof Element) {
+      return EnumSet.of((Element) value);
+    }
+    return NO_ELEMENTS;
+  }
+
+  private void setElement(Element element) {
+    this.attackElements = EnumSet.of(element);
+    this.defenseElement = element;
+  }
+
   public MonsterData(final MonsterData monster) {
     super(AdventureResult.MONSTER_PRIORITY, monster.getName());
 
@@ -700,7 +758,7 @@ public class MonsterData extends AdventureResult {
     this.cap = monster.cap;
     this.floor = monster.floor;
     this.mlMult = monster.mlMult;
-    this.attackElement = monster.attackElement;
+    this.attackElements = monster.attackElements;
     this.defenseElement = monster.defenseElement;
     this.physicalResistance = monster.physicalResistance;
     this.elementalResistance = monster.elementalResistance;
@@ -1028,8 +1086,7 @@ public class MonsterData extends AdventureResult {
       } else if (modifier.equals("fragile")) {
         monster.health = 1;
       } else if (modifier.equals("frozen")) {
-        monster.attackElement = Element.COLD;
-        monster.defenseElement = Element.COLD;
+        monster.setElement(Element.COLD);
       } else if (modifier.equals("ghostly")) {
         if (monster.getPhysicalResistance() == 0) {
           monster.physicalResistance = 90;
@@ -1043,16 +1100,14 @@ public class MonsterData extends AdventureResult {
         monster.attack = monster.getRawAttack() * 2;
         monster.defense = monster.getRawDefense() * 2;
       } else if (modifier.equals("ice-cold")) {
-        monster.attackElement = Element.COLD;
-        monster.defenseElement = Element.COLD;
+        monster.setElement(Element.COLD);
       } else if (modifier.equals("left-handed")) {
         Object originalAttack = monster.attack;
         Object originalDefense = monster.defense;
         monster.attack = originalDefense;
         monster.defense = originalAttack;
       } else if (modifier.equals("red-hot")) {
-        monster.attackElement = Element.HOT;
-        monster.defenseElement = Element.HOT;
+        monster.setElement(Element.HOT);
       } else if (modifier.equals("short")) {
         monster.health = monster.getRawHP() / 2;
         monster.defense = monster.getRawDefense() * 2;
@@ -1060,16 +1115,13 @@ public class MonsterData extends AdventureResult {
         monster.health = monster.getRawHP() / 2;
         monster.defense = monster.getRawDefense() / 2;
       } else if (modifier.equals("sleazy")) {
-        monster.attackElement = Element.SLEAZE;
-        monster.defenseElement = Element.SLEAZE;
+        monster.setElement(Element.SLEAZE);
       } else if (modifier.equals("solid gold")) {
         monster.meat = 1000;
       } else if (modifier.equals("spooky")) {
-        monster.attackElement = Element.SPOOKY;
-        monster.defenseElement = Element.SPOOKY;
+        monster.setElement(Element.SPOOKY);
       } else if (modifier.equals("stinky")) {
-        monster.attackElement = Element.STENCH;
-        monster.defenseElement = Element.STENCH;
+        monster.setElement(Element.STENCH);
       } else if (modifier.equals("throbbing")) {
         monster.health = monster.getRawHP() * 2;
       } else if (modifier.equals("tiny")) {
@@ -1447,8 +1499,14 @@ public class MonsterData extends AdventureResult {
                         : (200 + 5 * (monsterLevel - 100));
   }
 
+  public EnumSet<Element> getAttackElements() {
+    return this.attackElements;
+  }
+
   public Element getAttackElement() {
-    return this.attackElement;
+    // For backwards compatibility. If multiple attack elements, which one to return?
+    // The last one, I guess.
+    return this.attackElements.stream().reduce((first, second) -> second).orElse(Element.NONE);
   }
 
   public Element getDefenseElement() {

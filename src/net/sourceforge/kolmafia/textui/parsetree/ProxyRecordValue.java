@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -1421,6 +1422,9 @@ public class ProxyRecordValue extends RecordValue {
             .add("base_initiative", DataTypes.INT_TYPE)
             .add("raw_initiative", DataTypes.INT_TYPE)
             .add("attack_element", DataTypes.ELEMENT_TYPE)
+            .add(
+                "attack_elements",
+                new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.ELEMENT_TYPE))
             .add("defense_element", DataTypes.ELEMENT_TYPE)
             .add("physical_resistance", DataTypes.INT_TYPE)
             .add("elemental_resistance", DataTypes.INT_TYPE)
@@ -1498,6 +1502,18 @@ public class ProxyRecordValue extends RecordValue {
           ? DataTypes.parseElementValue(
               ((MonsterData) this.content).getAttackElement().toString(), true)
           : DataTypes.ELEMENT_INIT;
+    }
+
+    public Value get_attack_elements() {
+      if (this.content == null) {
+        return new PluralValue(DataTypes.ELEMENT_TYPE, new ArrayList<Value>());
+      }
+      MonsterData monster = (MonsterData) this.content;
+      List<Value> elements =
+          monster.getAttackElements().stream()
+              .map(DataTypes::makeElementValue)
+              .collect(Collectors.toList());
+      return new PluralValue(DataTypes.ELEMENT_TYPE, elements);
     }
 
     public Value get_defense_element() {

@@ -386,7 +386,7 @@ Larry of the Field of Signs	984	larrysignfield.gif	BOSS NOCOPY Atk: 70 Def: 63 H
 larval filthworm	477	filthworm1.gif	NOCOPY Atk: 165 Def: 148 HP: 180 Init: 50 Meat: 50 P: bug E: stench Article: a	filthworm hatchling scent gland (10)
 lemon-in-the-box	109	linbox.gif	Atk: 17 Def: 15 HP: 12 Init: 75 P: construct Article: a	box (20)	lemon (50)
 Lesser Fruit Golem	284	lfruitgol.gif	Atk: 17 Def: 15 HP: 9 Init: 50 P: construct Article: a	grapefruit (15)	grapes (15)	lemon (15)	orange (15)	strawberry (15)
-lihc	32	lich.gif	Atk: 20 Def: 18 HP: 11 Init: 60 Meat: 36 P: undead ED: spooky EA: spooky EA: sleaze Article: a	lihc eye (30)
+lihc	32	lich.gif	Atk: 20 Def: 18 HP: 11 Init: 60 Meat: 36 P: undead ED: spooky EA: sleaze EA: spooky Article: a	lihc eye (30)
 Little Man in the Canoe	540	canoeman.gif	Atk: 165 Def: 148 HP: 150 Init: 70 P: constellation E: sleaze Article: The	line (30)	star (30)	star (30)
 lobsterfrogman	529	lobsterman.gif	Atk: 171 Def: 152 HP: 190 Init: 40 Meat: 60 P: beast Article: a	barrel of gunpowder (n100)
 lonely construct	668	vib5.gif	Atk: 300 Def: 315 HP: 350 Init: 80 P: construct Article: a	El Vibrato punchcard (213 holes) (1)	El Vibrato punchcard (182 holes) (1)
