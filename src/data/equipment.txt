@@ -1266,6 +1266,7 @@ iron pasta spoon	110	Mys: 40	1-handed utensil
 ironic battle spoon	40	Mys: 5	1-handed utensil
 jack flapper	35	Mys: 2	1-handed utensil
 Jacob's rung	120	Mys: 45	1-handed staff
+June Cleaver	100	Mus: 0	1-handed cleaver
 jungle drum	160	Mox: 65	2-handed drum
 keel-haulin' knife	150	Mys: 60	1-handed utensil
 kelp-holly gun	125	Mox: 25	1-handed pistol
