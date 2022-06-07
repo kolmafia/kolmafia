@@ -5050,7 +5050,7 @@ Effect	Arse-a'fire	Muscle Percent: +10, Initiative: +25
 Effect	Artificially Sweet	Moxie Percent: +100
 Effect	Artisanal Retentive	Avatar: "Foodie Giant"
 Effect	Artisanal Satiaton	Experience: +3
-Effect	Ashamed	Experience: +10 ,Muscle:  -20%, Mysticality: -20%, Moxie: -20%
+Effect	Ashamed	Experience: +10, Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Effect	Ashen	Combat Rate: -15
 Effect	Ashen Burps	Monster Level: +15
 Effect	Aspect of the GravyPlum Fairy	Item Drop: +10
