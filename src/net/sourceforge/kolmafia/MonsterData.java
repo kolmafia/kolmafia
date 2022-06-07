@@ -726,18 +726,18 @@ public class MonsterData extends AdventureResult {
     return 0;
   }
 
+  // EnumSets are mutable. Even so, we'll use this as a constant, rather
+  // than allocating thousands of them.
+  private static final EnumSet<Element> NO_ELEMENTS = EnumSet.of(Element.NONE);
+
   private EnumSet<Element> getAttackElements(Object value) {
-    EnumSet<Element> elements;
-    if (value == null) {
-      elements = EnumSet.of(Element.NONE);
-    } else if (value instanceof EnumSet) {
-      elements = (EnumSet<Element>) value;
-    } else if (value instanceof Element) {
-      elements = EnumSet.of((Element) value);
-    } else {
-      elements = EnumSet.of(Element.NONE);
+    if (value instanceof EnumSet) {
+      return (EnumSet<Element>) value;
     }
-    return elements;
+    if (value instanceof Element) {
+      return EnumSet.of((Element) value);
+    }
+    return NO_ELEMENTS;
   }
 
   private void setElement(Element element) {
