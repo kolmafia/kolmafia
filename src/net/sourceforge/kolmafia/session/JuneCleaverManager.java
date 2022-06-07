@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 public class JuneCleaverManager {
 
   private JuneCleaverManager() {}
+
   public static final Pattern[] MESSAGES = {
     Pattern.compile(
         "As the battle ends, your cleaver flashes bright <span style=\"color: (?<color>[^\"]+)\""),
