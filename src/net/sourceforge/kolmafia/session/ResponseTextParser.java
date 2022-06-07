@@ -351,6 +351,9 @@ public class ResponseTextParser {
           case ItemPool.UNBREAKABLE_UMBRELLA:
             ItemDatabase.parseUmbrella(responseText);
             break;
+          case ItemPool.JUNE_CLEAVER:
+            ItemDatabase.parseCleaver(responseText);
+            break;
           default:
             changesFromTimeToTime = false;
             break;
