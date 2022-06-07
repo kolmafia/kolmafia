@@ -605,6 +605,6 @@ public class FightRequestTest {
     EquipmentManager.setEquipment(EquipmentManager.WEAPON, ItemPool.get(ItemPool.JUNE_CLEAVER));
     parseCombatData("request/test_fight_june_cleaver.html");
     assertEquals(Preferences.getInteger("_juneCleaverSleaze"), 1);
-    assertEquals(Preferences.getInteger("_fightsSinceLastJuneCleaverEncounter"), 1);
+    assertEquals(Preferences.getInteger("_juneCleaverCharge"), 1);
   }
 }

@@ -6343,7 +6343,7 @@ public abstract class ChoiceAdventures {
       case 1474:
       case 1475:
         Preferences.increment("_juneCleaverEncounters");
-        Preferences.resetToDefault("_fightsSinceLastJuneCleaverEncounter");
+        Preferences.resetToDefault("_juneCleaverCharge");
         break;
     }
   }

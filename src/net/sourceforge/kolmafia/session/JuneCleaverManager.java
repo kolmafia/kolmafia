@@ -19,7 +19,7 @@ public class JuneCleaverManager {
     for (Pattern message : MESSAGES) {
       Matcher matcher = message.matcher(responseText);
       if (matcher.find()) {
-        Preferences.increment("_fightsSinceLastJuneCleaverEncounter");
+        Preferences.increment("_juneCleaverCharge");
         switch (matcher.group("color")) {
           case "blue":
             Preferences.increment("_juneCleaverCold");
