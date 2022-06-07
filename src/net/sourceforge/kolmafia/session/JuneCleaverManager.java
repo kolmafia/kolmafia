@@ -12,7 +12,8 @@ public class JuneCleaverManager {
     Pattern.compile(
         "Out of the corner of your eye, you catch a glimpse of bright <span style=\"color: (?<color>[^\"]+)\""),
     Pattern.compile("You notice a glint of <span style=\"color: (?<color>[^\"]+)\""),
-    Pattern.compile("Your cleaver sparkles with a startling <span style=\"color: (?<color>[^\"]+)\"")
+    Pattern.compile(
+        "Your cleaver sparkles with a startling <span style=\"color: (?<color>[^\"]+)\"")
   };
 
   public static void updatePreferences(String responseText) {
