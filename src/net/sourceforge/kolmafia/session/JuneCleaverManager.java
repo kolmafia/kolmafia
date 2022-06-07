@@ -8,11 +8,11 @@ public class JuneCleaverManager {
 
   public static final Pattern[] MESSAGES = {
     Pattern.compile(
-        "As the battle ends, your cleaver flashes bright <span style=\"color: (^\"+)\""),
+        "As the battle ends, your cleaver flashes bright <span style=\"color: ([^\"+])\""),
     Pattern.compile(
-        "Out of the corner of your eye, you catch a glimpse of bright <span style=\"color: (^\"+)\""),
-    Pattern.compile("You notice a glint of <span style=\"color: (^\"+)\""),
-    Pattern.compile("Your cleaver sparkles with a startling <span style=\"color: (^\"+)\"")
+        "Out of the corner of your eye, you catch a glimpse of bright <span style=\"color: ([^\"+])\""),
+    Pattern.compile("You notice a glint of <span style=\"color: ([^\"+])\""),
+    Pattern.compile("Your cleaver sparkles with a startling <span style=\"color: ([^\"+])\"")
   };
 
   public static void updatePreferences(String responseText) {
