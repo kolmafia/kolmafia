@@ -8,11 +8,11 @@ public class JuneCleaverManager {
 
   public static final Pattern[] MESSAGES = {
     Pattern.compile(
-        "As the battle ends, your cleaver flashes bright <span style=\"color: ([^\"+])\""),
+        "As the battle ends, your cleaver flashes bright <span style=\"color: (?<color>[^\"]+)\""),
     Pattern.compile(
-        "Out of the corner of your eye, you catch a glimpse of bright <span style=\"color: ([^\"+])\""),
-    Pattern.compile("You notice a glint of <span style=\"color: ([^\"+])\""),
-    Pattern.compile("Your cleaver sparkles with a startling <span style=\"color: ([^\"+])\"")
+        "Out of the corner of your eye, you catch a glimpse of bright <span style=\"color: (?<color>[^\"]+)\""),
+    Pattern.compile("You notice a glint of <span style=\"color: (?<color>[^\"]+)\""),
+    Pattern.compile("Your cleaver sparkles with a startling <span style=\"color: (?<color>[^\"]+)\"")
   };
 
   public static void updatePreferences(String responseText) {
@@ -20,7 +20,7 @@ public class JuneCleaverManager {
       Matcher matcher = message.matcher(responseText);
       if (matcher.find()) {
         Preferences.increment("_fightsSinceLastJuneCleaverEncounter");
-        switch (matcher.group(1)) {
+        switch (matcher.group("color")) {
           case "blue":
             Preferences.increment("_juneCleaverCold");
             break;
