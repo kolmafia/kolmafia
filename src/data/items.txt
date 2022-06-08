@@ -10945,3 +10945,10 @@
 10918	Thwaitgold harvestman statuette	209469206	nopic.gif	none		0
 10919	packaged June cleaver	920627527	junecleaverbox.gif	usable	t	0
 10920	June cleaver	330396747	junecleaver.gif	weapon		0
+10921	Dad's brandy	193804343	snifter.gif	drink	t,d	30
+10922	teacher's pen	270724783	purplepen.gif	accessory	t,d	30
+10923	fire-roasted lake trout	836425101	fishy2.gif	food	t,d	10
+10924	guilty sprout	221701193	guiltysprout.gif	food	t,d	15
+10925	mother's necklace	820724023	necklace_mom.gif	accessory	t,d	1000
+10926	trampled ticket stub	589658698	stompstub.gif	potion, usable	t,d	15
+10927	savings bond	479848689	bondcert.gif	potion, usable	t,d	10

@@ -1792,11 +1792,11 @@ user	_jitbCharge	0
 user	_jukebox	false
 user	_juneCleaverCharge	0
 user	_juneCleaverEncounters	0
-user	_juneCleaverStench	0
-user	_juneCleaverSpooky	0
-user	_juneCleaverSleaze	0
-user	_juneCleaverHot	0
-user	_juneCleaverCold	0
+user	_juneCleaverStench	1
+user	_juneCleaverSpooky	1
+user	_juneCleaverSleaze	1
+user	_juneCleaverHot	1
+user	_juneCleaverCold	1
 user	_jungDrops	0
 user	_kgbClicksUsed	0
 user	_kgbDispenserUses	0
@@ -2903,7 +2903,6 @@ user	choiceAdventure1434	0
 user	choiceAdventure1436	0
 user	choiceAdventure1460	8
 user	choiceAdventure1461	4
-
 user	lockedItem4637	true
 user	lockedItem4638	true
 user	lockedItem4639	true
