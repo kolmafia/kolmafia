@@ -7285,6 +7285,7 @@ Effect	Tasting the Rainbow	Hot Damage: +2, Cold Damage: +2, Stench Damage: +2, S
 Effect	Taunt of Horus	Combat Rate: +20
 Effect	Taurus Rising	Muscle Percent: +50
 Effect	Tea-hee	Experience: +5
+Effect	Teacher's Pet	Sleaze Resistance: +2, Damage Absorption: +50, Damage Reduction: 5, Wiki Name: "Teacher's Pet (Effect)"
 Effect	Tearful, Fearful	Item Drop: +30
 Effect	Techno Bliss	Item Drop: +10
 # Teleportitis: Your position seems uncertain...
