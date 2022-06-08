@@ -69,8 +69,8 @@ beefy bodyguard bat	571	beefybat.gif	NOBANISH Atk: 25 Def: 22 HP: 25 Init: 50 Me
 Beer Bongadier	422	warfratbg.gif	Atk: 180 Def: 175 HP: 210 Init: 50 P: orc E: sleaze Article: a	beer bong (20)	beer helmet (1)	bejeweled pledge pin (1)	distressed denim pants (1)	kick-ass kicks (2)	PADL Phone (3)
 biclops	1579	biclops.gif	NOCOPY Atk: 38 Def: 33 HP: 30 Init: 25 Meat: 30 P: humanoid Article: a	duonoculars (c100)
 big creepy spider	156	spider1.gif	Atk: 1 Def: 0 HP: 1 Init: 40 Meat: 5 P: bug Article: a Poison: "Hardly Poisoned at All"	spider web (25)	spider web (25)
-big swarm of ghuol whelps	1073	whelps2.gif	Atk: 50 Def: 45 HP: 150 Init: 300 P: undead E: spooky Article: a
-Big Wheelin' Twins	1241	twins_bigwheel.gif	Atk: 92 Def: 85 HP: 105 Init: 60 Meat: 70 P: dude Article: the	badge of authority (5)	vial of The Glistening (15)
+big swarm of ghuol whelps	1073	whelps2.gif	Atk: 50 Def: 45 HP: 150 Init: 300 Group: 15 P: undead E: spooky Article: a
+Big Wheelin' Twins	1241	twins_bigwheel.gif	Atk: 92 Def: 85 HP: 105 Init: 60 Meat: 70 Group: 2 P: dude Article: the	badge of authority (5)	vial of The Glistening (15)
 bizarre construct	665	vib2.gif	Atk: 300 Def: 270 HP: 300 Init: 30 P: construct Article: a	El Vibrato punchcard (97 holes) (1)	El Vibrato punchcard (216 holes) (1)
 bizarre construct (translated)	671	vib2.gif	Atk: 300 Def: 270 HP: 300 Init: 30 P: construct Article: a Manuel: "bizarre construct" Wiki: "bizarre construct"	El Vibrato punchcard (97 holes) (1)	El Vibrato punchcard (216 holes) (1)
 BL Imp	980	blimp.gif	Atk: 65 Def: 58 HP: 65 Init: 30 Meat: 40 P: demon E: hot Article: a	imp air (20)
@@ -83,7 +83,7 @@ black widow	415	blackwidow.gif	Atk: 132 Def: 110 HP: 121 Init: 50 Meat: 50 P: bu
 blackberry bush	418	blackbush.gif	Atk: 126 Def: 114 HP: 136 Init: 30 P: plant Article: a	blackberry (20)	blackberry (20)	blackberry (20)
 blind snake	2122	pr_snake.gif	Atk: 35 Def: 40 HP: 50 Init: 50 Meat: 250 P: beast Article: a
 Blooper	118	squid.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: beast Article: a	white pixel (80)	white pixel (70)	white pixel (60)
-Blue Oyster cultist	1528	bluecultist.gif	Atk: 135 Def: 135 HP: 130 Init: 50 Meat: 100 P: dude Article: a	fire of unknown origin (15)	black blade (5)	cigarette lighter (15)	blue oyster badge (c0)
+Blue Oyster cultist	1528	bluecultist.gif	Atk: 135 Def: 135 HP: 130 Init: 50 Meat: 100 P: dude Elem: 75 Article: a	fire of unknown origin (15)	black blade (5)	cigarette lighter (15)	blue oyster badge (c0)
 blur	460	blur.gif	Atk: 136 Def: 126 HP: 141 Init: 40 Meat: 120 P: dude Article: a	drum machine (30)	palm frond (10)	hot date (5)	carbonated water lily (10)	Hugo's Weaving Manual (c100)
 boaraffe	568	boaraffe.gif	Atk: 145 Def: 130 HP: 145 Init: 50 Meat: 100 P: beast Article: a	long pork (30)
 Bob Racecar	132	naskar2.gif	Atk: 138 Def: 129 HP: 139 Init: 80 Meat: 120 P: dude	ketchup hound (35)	leather chaps (15)	mesh cap (15)	stunt nuts (30)	a butt tuba (0)	folder (D-Team) (c0)
@@ -102,11 +102,11 @@ Bread Golem	35	breadgolem.gif	Atk: 16 Def: 14 HP: 8 Init: 60 Meat: 32 P: constru
 briefcase bat	46	casebat.gif	Atk: 17 Def: 15 HP: 11 Init: 60 Meat: 28 P: beast Article: a	bat guano (10)	briefcase (40)	sonar-in-a-biscuit (10)
 broodling seal	794	babyseal.gif	NOCOPY FREE Atk: 80 Def: 90 HP: 100 Init: -10000 P: demon Article: a	severed flipper (35)
 Brutus, the toga-clad lout	518	togafrat.gif	NOCOPY Atk: 200 Def: 180 HP: 280 Init: 60 Meat: 250 P: orc E: sleaze	wreath of laurels (100)	white class ring (30)	kick-ass kicks (0)
-Bubblemint Twins	1240	twins_bubble.gif	Atk: 93 Def: 83 HP: 90 Init: 40 Meat: 65 P: dude Article: the	dress pants (5)	that gum you like (25)
+Bubblemint Twins	1240	twins_bubble.gif	Atk: 93 Def: 83 HP: 90 Init: 40 Meat: 65 Group: 2 P: dude Article: the	dress pants (5)	that gum you like (25)
 bugbear-in-the-box	108	binbox.gif	Atk: 16 Def: 16 HP: 11 Init: 70 Meat: 15 P: beast Article: a	box (20)	bugbear beanie (10)	bugbear bungguard (10)
 bugged bugbear	258	bugbugbear.gif	Atk: 17 Def: 16 HP: 14 Init: 50 P: beast Article: a	gnoll teeth (30)	gnoll lips (30)	software glitch (p25)
 Bullet Bill	121	bulletbill.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: construct Article: a	black pixel (70)	black pixel (70)	black pixel (70)
-bunch of drunken rats	995	ratbunch.gif	Atk: 20 Def: 18 HP: 16 Init: 80 Meat: 20 P: beast Article: a	rat whisker (0)	rat whisker (0)	rat appendix (0)	rat appendix (0)	rat appendix (0)
+bunch of drunken rats	995	ratbunch.gif	Atk: 20 Def: 18 HP: 16 Init: 80 Meat: 20 Group: 3 P: beast Article: a	rat whisker (0)	rat whisker (0)	rat appendix (0)	rat appendix (0)	rat appendix (0)
 Burly Sidekick	166	sidekick.gif	Atk: 100 Def: 90 HP: 100 Init: 80 Meat: 130 P: dude Article: a	armgun (9)	cocoa eggshell fragment (30)	Mohawk wig (10)	tiny house (30)
 Burrowing Bishop	351	bishop.gif	Atk: 163 Def: 146 HP: 150 Init: 70 P: constellation E: sleaze Article: The	line (30)	line (30)	star (30)
 Bush	537	bush.gif	Atk: 156 Def: 140 HP: 150 Init: 70 P: constellation E: sleaze Article: The	star (30)	star (30)	star (30)
@@ -130,7 +130,7 @@ CH Imp	981	chimp.gif	Atk: 62 Def: 55 HP: 62 Init: 60 Meat: 30 P: demon E: hot Ar
 chalkdust wraith	383	chalkdust.gif	Atk: 25 Def: 23 HP: 25 Init: 50 P: undead GHOST Phys: 100 ED: spooky Article: a	handful of hand chalk (100)
 chatty pirate	624	pirate2.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 63 P: pirate Article: a
 Chowder Golem	39	soupgolem.gif	Atk: 18 Def: 16 HP: 9 Init: 60 Meat: 36 P: construct Article: a
-clan of cave bars	1162	cavebars.gif	NOCOPY Scale: 20 Cap: 200 Floor: 30 MLMult: 5 Init: -10000 Meat: 400 P: beast Article: a
+clan of cave bars	1162	cavebars.gif	NOCOPY Scale: 20 Cap: 200 Floor: 30 MLMult: 5 Init: -10000 Meat: 400 Group: 10 P: beast Article: a
 claw-foot bathtub	400	bathtub.gif	Atk: 57 Def: 47 HP: 55 Init: 30 P: construct Article: a	bottle of Monsieur Bubble (25)	fancy bath salts (35)
 Claybender Sorcerer Ghost	1254	aboo_wiz.gif	Atk: 70 Def: 70 HP: 40 Init: -10000 P: undead GHOST Phys: 100 E: spooky Article: a	A-Boo clue (c15)	Polysniff Perfume (15)	Claybender glasses (5)	folder (wizard) (c0)
 cleanly pirate	621	cleanpirate.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 60 P: pirate Article: a	Swabbie&trade; swab (20)	Tom's of the Spanish Main Toothpaste (20)	rigging shampoo (c30)
@@ -139,7 +139,7 @@ clingy pirate (male)	627	pirate2.gif	Atk: 100 Def: 90 HP: 90 Init: 50 Meat: 65 P
 Cloaca-Cola Catapult Engineer	295	colaoff1.gif	Atk: 30 Def: 27 HP: 40 Init: 50 P: dude Article: a	Cloaca-Cola (15)	Cloaca-Cola (15)	Cloaca-Cola c-rations (5)	Cloaca grenade (5)
 Cloaca-Cola Footsoldier	294	colasol1.gif	Atk: 30 Def: 27 HP: 35 Init: 50 P: dude Article: a	Cloaca-Cola (15)	Cloaca-Cola (15)	Cloaca grenade (5)
 Cloaca-Cola Soldier	292	colasol1.gif	Atk: 30 Def: 27 HP: 30 Init: 50 P: dude Article: a	Cloaca-Cola (15)	Cloaca-Cola (15)	Cloaca grenade (5)	lucky lighter (p5)
-cloud of disembodied whiskers	226	whiskers.gif	Atk: 2 Def: 2 HP: 3 Init: 45 P: weird Article: a	shaving cream (20)
+cloud of disembodied whiskers	226	whiskers.gif	Atk: 2 Def: 2 HP: 3 Init: 45 Group: 20 P: weird Article: a	shaving cream (20)
 clubfish	725	clubfish.gif	Atk: 350 Def: 360 HP: 600 Init: 100 Meat: 220 P: fish Article: a	dull fish scale (n15)	fish stick (n2)
 coaltergeist	1558	coaltergeist.gif	Atk: 152 Def: 138 HP: 150 Init: 25 P: undead Article: a	coal dust (15)	hot coal (10)	hot coal (10)	coal shovel (5)
 Cobb's Knob oven	1060	kg_oven.gif	Atk: 20 Def: 18 HP: 20 Init: 50 P: construct E: hot Article: a	oven mitts (5)	overcookie (20)
@@ -189,9 +189,9 @@ dopey 7-Foot Dwarf	1150	dwarf_dopey.gif	Atk: 53 Def: 47 HP: 40 Init: 50 Meat: 40
 doughbat	42	doughbat.gif	Atk: 14 Def: 12 HP: 8 Init: 60 Meat: 20 P: beast EA: sleaze Article: a	sonar-in-a-biscuit (10)	wad of dough (30)
 Dr. Awkward	453	drawkward.gif	BOSS NOCOPY Atk: 175 Def: 157 HP: 200 Init: -10000 P: dude	Drowsy Sword (n100)	Staff of Fats (n100)	fumble formula (p5)
 Drab Bard	130	braddarb.gif	Atk: 136 Def: 124 HP: 170 Init: 40 Meat: 80 P: dude Article: a	drab sonata (30)	guitar pick (15)	olive (40)	glass of warm milk (c0)	accordionoid rocca (a0)
-drippy bat	2163	drippybat.gif	NOCOPY Atk: [200] Def: [200] HP: [120] Init: 100 P: beast DRIPPY Article: a	Driplet (n100)
-drippy reveler	2176	drippyreveler.gif	NOCOPY Atk: [200] Def: [200] HP: [150] Init: 100 P: humanoid DRIPPY Article: a	Driplet (n0)	drippy stein (n0)
-drippy tree	2162	drippytree.gif	NOCOPY Atk: [150] Def: [150] HP: [100] Init: -10000 P: plant DRIPPY Article: a	Driplet (n0)
+drippy bat	2163	drippybat.gif	NOCOPY Atk: [200] Def: [200] HP: [120] Init: 100 P: beast DRIPPY Phys: 100 Elem: 100 Article: a	Driplet (n100)
+drippy reveler	2176	drippyreveler.gif	NOCOPY Atk: [200] Def: [200] HP: [150] Init: 100 P: humanoid DRIPPY Phys: 100 Elem: 100 Article: a	Driplet (n0)	drippy stein (n0)
+drippy tree	2162	drippytree.gif	NOCOPY Atk: [150] Def: [150] HP: [100] Init: -10000 P: plant DRIPPY Phys: 100 Elem: 100 Article: a	Driplet (n0)
 drowned sailor	744	drownedsailor.gif	Atk: 400 Def: 405 HP: 700 Init: 50 Meat: 150 P: undead E: spooky Article: a	moist sailor's cap (n2)	rusty compass (n2)	rusty speargun (n2)	salt water taffy (c0)
 drunk duck	566	ducknicedrunk.gif	Atk: 165 Def: 157 HP: 170 Init: 40 Meat: 200 P: beast Article: a	bottle of gin (0)	bottle of rum (0)	bottle of tequila (0)	bottle of vodka (0)	bottle of whiskey (0)	boxed wine (0)	duct tape (0)
 drunk goat	82	drunkgoat.gif	Atk: 68 Def: 61 HP: 50 Init: 70 Meat: 45 P: beast Article: a	bottle of whiskey (25)	goat beard (5)
@@ -232,7 +232,7 @@ extremely annoyed witch	1581	witchy2.gif	NOCOPY Atk: 36 Def: 32 HP: 32 Init: 25 
 eye in the darkness	1373	darkeye.gif	Atk: 600 Def: 650 HP: 700 Init: 200 P: horror E: spooky Article: an	black tear (n50)
 factory-irregular skeleton	1744	badskel1.gif,badskel2.gif,badskel3.gif,badskel4.gif,badskel5.gif,badskel6.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: undead E: spooky Article: a	really thick spine (0)	oversized skullcap (0)	three-legged pants (0)	skeleton bone (0)	loose teeth (0)	alien autoautopsy kit (c0)
 Fallen Archfiend	127	archfiend.gif	Atk: 50 Def: 45 HP: 50 Init: 80 Meat: 45 P: demon E: hot Article: a	demon skin (15)	evil golden arch (30)	infernal insoles (10)	pink slime (0)	heavy-duty bendy straw (c0)
-Family Jewels	180	jewels.gif	Atk: 156 Def: 140 HP: 150 Init: 70 P: constellation E: sleaze Article: The	star (30)	star (30)	star (30)
+Family Jewels	180	jewels.gif	Atk: 156 Def: 140 HP: 150 Init: 70 Group: 2 P: constellation E: sleaze Article: The	star (30)	star (30)	star (30)
 fan dancer	1532	fandancer.gif	Atk: 145 Def: 140 HP: 145 Init: 150 Meat: 100 P: dude Article: a	blowdart (20)	red silk skirt (5)	combat fan (5)	dancing fan (c0)
 Felonia, Queen of the Spooky Gravy Fairies	266	felonia.gif	BOSS NOCOPY Atk: 75 Def: 67 HP: 80 Init: 100 P: plant E: spooky
 ferocious bugbear	531	haiku2.gif	Atk: 3 Def: 2 HP: 5 Init: 50 Meat: 20 P: beast Article: a	bugbear beanie (20)	bugbear bungguard (20)
@@ -252,7 +252,7 @@ Flaming Troll	142	flametroll.gif	Atk: 83 Def: 74 HP: 73 Init: 60 Meat: 40 P: hum
 Flange	538	flange.gif	Atk: 159 Def: 143 HP: 150 Init: 70 P: constellation E: sleaze Article: The	line (30)	line (30)	star (30)
 fleet woodsman	1527	woodsman.gif	Atk: 150 Def: 130 HP: 150 Init: 100 Meat: 75 P: dude Article: a	fleetwood chain (20)	Green Manalishi (20)	flask of rainwater (c0)
 floating platter of hors d'oeuvres	404	horstray.gif	Atk: 65 Def: 55 HP: 70 Init: -10000 P: construct ED: spooky Article: a	dehydrated caviar (30)	desiccated apricot (30)	flute of flat champagne (30)	hors d'oeuvre tray (4)
-Flock of Stab-bats	133	stabbats.gif	Atk: 155 Def: 133 HP: 155 Init: 90 Meat: 160 P: beast Article: a	bat wing (30)	batblade (25)	batgut (30)
+Flock of Stab-bats	133	stabbats.gif	Atk: 155 Def: 133 HP: 155 Init: 90 Meat: 160 Group: 4 P: beast Article: a	bat wing (30)	batblade (25)	batgut (30)
 fluffy bunny	313	bunny.gif	Atk: 1 Def: 0 HP: 1 Init: 50 Meat: 8 P: beast Article: a	bunny liver (0)
 Foodie Giant	1334	giant_foodie.gif	Atk: 130 Def: 120 HP: 150 Init: 40 Meat: 100 P: humanoid Article: a	chipotle wasabi cilantro aioli (25)	giant artisanal rice peeler (10)	giant heirloom grape tomato (15)	artisanal hand-squeezed wheatgrass juice (c15)
 forest spirit	228	forspirit.gif	Atk: 2 Def: 1 HP: 3 Init: 40 P: undead E: spooky Article: a	forest tears (30)	forest spirit rattle (c0)
@@ -282,7 +282,7 @@ giant rubber spider	1622	rubberspider.gif	NOCOPY FREE Scale: 3 Cap: 1000 Init: -
 giant sandworm	458	sandworm.gif	NOCOPY Atk: 175 Def: 166 HP: 200 Init: 60 Meat: 250 P: bug Article: a	spices (10)	spices (10)	spices (10)	spice melange (n0)
 giant skeelton	187	giantskel.gif	BOSS NOCOPY Atk: 71 Def: 65 HP: 120 Exp: [53+ML/3] Init: 60 P: undead E: spooky Article: a	skeleton bone (0)	skeleton bone (0)	skeleton bone (0)
 giant squid	763	giantsquid.gif	Atk: 500 Def: 405 HP: 800 Init: 75 Meat: 300 P: fish Article: a	ink bladder (n30)	inky squid sauce (0)
-giant swarm of ghuol whelps	1074	whelps3.gif	Atk: 50 Def: 45 HP: 250 Init: 300 P: undead E: spooky Article: a
+giant swarm of ghuol whelps	1074	whelps3.gif	Atk: 50 Def: 45 HP: 250 Init: 300 Group: 45 P: undead E: spooky Article: a
 gingerbread murderer	1750	gingerbreadman.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: construct Article: a	glob of enchanted icing (0)	ginger snaps (0)
 Glass of Orange Juice	515	juiceglass.gif	NOCOPY Atk: 220 Def: 198 HP: 350 Init: 100 Meat: 400 P: hippy E: stench Article: a	green clay bead (30)	orange peel hat (100)	bullet-proof corduroys (0)	Lockenstock&trade; sandals (0)	round purple sunglasses (0)
 gluttonous ghuol	189	ghuol_fat.gif	Atk: 55 Def: 50 HP: 50 Init: 50 Meat: 60 P: undead E: spooky Article: a	ghuol ears (10)	ghuol egg (10)	ghuol guolash (20)	huge spoon (5)
@@ -315,7 +315,7 @@ grumpy 7-Foot Dwarf	1151	dwarf_grumpy.gif	Atk: 58 Def: 52 HP: 45 Init: 50 Meat: 
 grungy pirate	616	grungypirate.gif	Atk: 140 Def: 126 HP: 120 Init: 50 Meat: 98 P: pirate Article: a	acoustic guitarrr (20)	grungy bandana (10)	grungy flannel shirt (c5)
 Guard Bugbear	28	haiku2.gif	Atk: 12 Def: 10 HP: 6 Init: 60 Meat: 24 P: beast Article: a	bugbear beanie (25)	bugbear bungguard (25)
 Guy Made Of Bees	424	beeguy.gif	BOSS NOCOPY Atk: 99999 Def: 89999 HP: [99999] Exp: 40 Init: -10000 P: horror Article: The	guy made of bee pollen (100)	handful of bees (p10)
-guy with a pitchfork, and his wife	394	gothic.gif	Atk: 58 Def: 52 HP: 60 Init: 50 Meat: 50 P: dude Article: a	pitchfork (5)
+guy with a pitchfork, and his wife	394	gothic.gif	Atk: 58 Def: 52 HP: 60 Init: 50 Meat: 50 Group: 2 P: dude Article: a	pitchfork (5)
 handsome mariachi	270	mariachi1.gif	Atk: 17 Def: 15 HP: 15 Init: 50 Meat: 5 P: dude Article: a	bottle of tequila (30)	chorizo taco (20)	handsomeness potion (20)
 haunted skullabra	1347	skullabra.gif	Atk: 48 Def: 52 HP: 50 Init: 30 P: undead E: spooky Article: a	moonberry wine cooler (0)	big dribbly candle (0)	haunted flame (c0)
 haunted soup tureen	655	tureen.gif	NOCOPY Atk: 24 Def: 21 HP: 21 Init: 40 P: undead Article: a	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)	turtle soup (0)
@@ -343,7 +343,7 @@ infernal seal spawn	653	seal_baby.gif	NOCOPY Atk: 24 Def: 21 HP: 21 Init: 40 P: 
 infinite meat bug	230	meatbug.gif	NOCOPY NOMANUEL ULTRARARE Atk: 45 Def: 40 HP: 30 Init: 10000 Meat: 10000 P: bug	incredibly dense meat gem (100)
 inkubus	978	inkubus.gif	Atk: 58 Def: 52 HP: 58 Init: 40 Meat: 50 P: demon E: hot Article: an	bus pass (15)
 irate mariachi	268	mariachi2.gif	Atk: 20 Def: 18 HP: 17 Init: 50 Meat: 5 P: dude Article: an	bottle of tequila (35)	irate sombrero (20)	mariachi G-string (30)	half-sized guitar (20)
-Irritating Series of Random Encounters	167	encount.gif	Atk: 105 Def: 94 HP: 110 Init: 80 Meat: 140 P: beast Article: an	cocoa eggshell fragment (20)	soft green echo eyedrop antidote (20)	tiny house (20)
+Irritating Series of Random Encounters	167	encount.gif	Atk: 105 Def: 94 HP: 110 Init: 80 Meat: 140 Group: 20 P: beast Article: an	cocoa eggshell fragment (20)	soft green echo eyedrop antidote (20)	tiny house (20)
 Jacob's adder	1546	jacobsadder.gif	Atk: 84 Def: 76 HP: 75 Init: 60 P: beast Article: a	electric snakebite (0)	haunted battery (0)	Jacob's rung (0)
 jamfish	759	jamfish.gif	Atk: 400 Def: 360 HP: 750 Init: -10000 P: fish Article: a Poison: "Majorly Poisoned"	jamfish jam (n5)	jellyfish gel (c10)	seaweed (n5)	jam band (n5)
 Jefferson pilot	1530	pilot.gif	Atk: 140 Def: 140 HP: 145 Init: 25 Meat: 125 P: dude Article: a	one pill (25)	Jefferson wings (5)	plastic Jefferson wings (c0)
@@ -402,7 +402,7 @@ lumberjill	234	lumberjill.gif	Atk: 36 Def: 32 HP: 36 Init: 60 Meat: 20 P: dude A
 lumberjuan	235	lumberjuan.gif	Atk: 35 Def: 31 HP: 35 Init: 60 Meat: 20 P: dude Article: a	los chinos (5)	leaflet (15)	wooden axe (5)
 lynyrd	1533	lynyrd.gif	Atk: 150 Def: 150 HP: 155 Init: 10000 P: beast Article: a	lynyrd skin (0)
 lynyrd skinner	1526	skinner.gif	Atk: 140 Def: 130 HP: 135 Init: 50 Meat: 125 P: dude Article: a	sweet roll Alabama (25)	Saturday Night Special (5)	lynyrd snare (15)	lynyrd musk (25)	lynyrd skinner toothblack (c0)
-mad bugbears	257	madbugbear.gif	Atk: 16 Def: 15 HP: 13 Init: 50 P: beast
+mad bugbears	257	madbugbear.gif	Atk: 16 Def: 15 HP: 13 Init: 50 Group: 3 P: beast
 mad wino	1563	madwino.gif	Atk: 148 Def: 141 HP: 150 Init: 50 Meat: 50 P: hobo Article: a	pie man was not meant to eat (10)	crazy hobo notebook (10)	Psychotic Train wine (10)	page of the Necrohobocon (c15)
 magic dragonfish	758	dragonfish.gif	Atk: 500 Def: 360 HP: 750 Init: 50 Meat: 200 P: fish Article: a	rough fish scale (n4)	seaweed (n5)	dragonfish caviar (n5)
 magical fruit bat	2156	fruitbat1.gif	Atk: 19 Def: 19 HP: 20 Init: 50 Meat: 40 P: beast Article: a	sonar-in-a-biscuit (10)	lemon (10)	orange (50)	strawberry (20)
@@ -442,13 +442,13 @@ Mer-kin trainer	841	merkintrainer.gif	Atk: 750 Def: 700 HP: 800 Init: 75 P: mer-
 mimic	283	lowerm.gif	BOSS NOCOPY Atk: 45 Def: 40 HP: 50 Init: 70 P: weird Article: a	dead mimic (n100)
 mind flayer	222	lower_h.gif	Atk: 59 Def: 54 HP: 77 Init: 75 P: horror Article: a	mind flayer corpse (25)	cornuthaum (15)	large box (20)	flayed mind (c0)
 mine crab	746	minecrab.gif	Atk: 700 Def: 540 HP: 850 Init: 50 Meat: 250 P: fish Article: a	live nautical mine (n20)
-Mismatched Twins	1242	twins_mism.gif	Atk: 91 Def: 85 HP: 100 Init: 50 Meat: 60 P: dude Article: some	artisanal limoncello (15)	giant motorcycle boots (5)
+Mismatched Twins	1242	twins_mism.gif	Atk: 91 Def: 85 HP: 100 Init: 50 Meat: 60 Group: 2 P: dude Article: some	artisanal limoncello (15)	giant motorcycle boots (5)
 Mob Penguin Capo	1511	mobcapo.gif	Atk: 155 Def: 145 HP: 160 Init: 50 Meat: 200 P: penguin Article: the	tommy gun (5)	drum of tommy ammo (30)	drum of tommy ammo (20)
 Mobile Armored Sweat Lodge	488	warhipar2.gif	Atk: 180 Def: 162 HP: 300 Init: 20 P: hippy Phys: 50 E: stench Article: a	communications windchimes (3)	didgeridooka (33)	gas balloon (20)
 model skeleton	1547	modelskeleton.gif	Atk: 76 Def: 81 HP: 85 Init: 25 P: construct GHOST E: spooky Article: a	synthetic marrow (0)	rubber ribcage (0)	funny bone (0)
 modern zmobie	1070	modernzombie.gif	SUPERLIKELY Atk: 60 Def: 54 HP: 50 Init: 300 Meat: 60 P: undead E: spooky Article: a
-moister oyster	1371	moyster.gif	NOCOPY LUCKY Atk: 1100 Def: 1300 HP: 1500 Init: 50 Meat: 100 P: fish Phys: 25 Article: a	giant pearl (n100)
-monstrous boiler	1556	boiler.gif	Atk: 134 Def: 144 HP: 160 Init: -10000 P: construct E: hot Article: a	chunk of hot iron (5)	red-hot boilermaker (5)	miniature boiler (5)
+moister oyster	1371	moyster.gif	NOCOPY LUCKY Atk: 1100 Def: 1300 HP: 1500 Init: 50 Meat: 100 P: fish Phys: 25 Elem: 25 Article: a	giant pearl (n100)
+monstrous boiler	1556	boiler.gif	Atk: 134 Def: 144 HP: 160 Init: -10000 P: construct Elem: 5 E: hot Article: a	chunk of hot iron (5)	red-hot boilermaker (5)	miniature boiler (5)
 Monty Basingstoke-Pratt, IV	517	monty.gif	NOCOPY Atk: 195 Def: 175 HP: 240 Init: 40 Meat: 200 P: orc E: sleaze	natty blue ascot (100)	white class ring (30)	distressed denim pants (0)	bejeweled pledge pin (0)	kick-ass kicks (0)
 mud turtle	1351	swampturtle.gif	Atk: 48 Def: 56 HP: 56 Init: 20 Meat: 30 P: beast Article: a	fine aged cheddarwurst (0)	muddy pirate hat (0)	turtle mud (c0)
 Muff	536	muff.gif	Atk: 153 Def: 137 HP: 150 Init: 70 P: constellation E: sleaze Article: The	line (30)	line (30)	star (30)
@@ -477,10 +477,10 @@ oasis monster	459	whirlwind.gif	Atk: 132 Def: 123 HP: 139 Init: 40 Meat: 100 P: 
 octopus gardener	738	octopus.gif	Atk: 425 Def: 360 HP: 600 Init: 200 Meat: 100 P: fish Article: an	octopus's spade (n2)	sea radish (c3)	soggy seed packet (n30)	straw hat (n2)
 Octorok	117	octorok.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: beast Article: an	red pixel (80)	red pixel (70)	red pixel (60)
 off-duty Knob Goblin Elite Guard	1058	kg_offdutyguard.gif	Atk: 30 Def: 22 HP: 30 Init: 50 Meat: 50 P: goblin Article: an	Cobb's Knob Wurstbrau (15)	Knob Goblin elite pants (10)	Knob Goblin elite polearm (10)	Knob Goblin elite shirt (10)	knob bugle (10)
-oil baron	1237	oilbaron.gif	Atk: 85 Def: 77 HP: 60 Init: 80 P: slime E: sleaze Article: an	bubblin' crude (100)	bubblin' crude (30)
-oil cartel	1238	oilcartel2.gif	Atk: 85 Def: 77 HP: 60 Init: 90 P: slime E: sleaze Article: an	bubblin' crude (100)	bubblin' crude (30)	bubblin' crude (10)
+oil baron	1237	oilbaron.gif	Atk: 85 Def: 77 HP: 60 Init: 80 P: slime Elem: 50 E: sleaze Article: an	bubblin' crude (100)	bubblin' crude (30)
+oil cartel	1238	oilcartel2.gif	Atk: 85 Def: 77 HP: 60 Init: 90 Group: 3 P: slime Elem: 25 E: sleaze Article: an	bubblin' crude (100)	bubblin' crude (30)	bubblin' crude (10)
 oil slick	1235	oilslick.gif	Atk: 85 Def: 77 HP: 60 Init: 50 P: slime E: sleaze Article: an	bubblin' crude (100)
-oil tycoon	1236	oiltycoon.gif	Atk: 85 Def: 77 HP: 60 Init: 65 P: slime E: sleaze Article: an	bubblin' crude (100)	bubblin' crude (10)
+oil tycoon	1236	oiltycoon.gif	Atk: 85 Def: 77 HP: 60 Init: 65 P: slime Elem: 25 E: sleaze Article: an	bubblin' crude (100)	bubblin' crude (10)
 one-eyed Gnoll	18	dk_oneeye.gif	Atk: 11 Def: 9 HP: 5 Init: 60 Meat: 22 P: humanoid Article: a	eyepatch (5)	gnoll teeth (5)	glass gnoll eye (p5)	Missing Eye Simulation Device (c0)
 One-Eyed Willie	178	oneeyed.gif	Atk: 150 Def: 135 HP: 150 Init: 70 P: constellation E: sleaze	line (30)	line (30)	star (30)
 Orcish Frat Boy (Music Lover)	62	fratboy.gif	Atk: 39 Def: 35 HP: 30 Init: 60 Meat: 30 P: orc E: sleaze Article: an Manuel: "Orcish Frat Boy"	ice-cold Sir Schlitz (20)	ice-cold fotie (20)	Orcish baseball cap (5)	deodorant (5)	shingle (25)	packet of beer nuts (p15)
@@ -494,7 +494,7 @@ panicking Knott Yeti	1228	yeti.gif	NOCOPY Atk: 105 Def: 92 HP: 90 Init: 60 Meat:
 Panty Raider Frat Boy	421	warfratpr.gif	Atk: 200 Def: 180 HP: 250 Init: 100 P: orc E: sleaze Article: a	chloroform rag (12)	chloroform rag (7)	depantsing bomb (18)	depantsing bomb (3)	Elmley shades (6)	PADL Phone (3)	panty raider camouflage (10)	white class ring (30)
 paper towelgeist	374	ptowels.gif	Atk: 21 Def: 18 HP: 22 Init: 30 P: undead Article: a	cardboard katana (5)
 party skelteon	2154	partyskeleton.gif	Atk: 52 Def: 49 HP: 55 Init: 50 P: undead E: spooky Article: a	skeleton bone	loose teeth	margarita	martini	monkey wrench	salty dog	screwdriver	strawberry daiquiri	strawberry wine	tequila sunrise	vodka martini	whiskey and soda	whiskey sour	wine spritzer
-Peanut	1376	peanut.gif	NOCOPY Atk: 650 Def: 700 HP: 1200 Init: 75 P: horror	peanut sauce (0)
+Peanut	1376	peanut.gif	NOCOPY Atk: 650 Def: 700 HP: 1200 Init: 75 P: horror Elem: 25	peanut sauce (0)
 pernicious puddle of pesto	659	pestopuddle.gif	NOCOPY Atk: 21 Def: 18 HP: 18 Init: 20 P: slime Article: a	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 perpendicular bat	47	perpbat.gif	Atk: 18 Def: 16 HP: 12 Init: 60 Meat: 30 P: beast Article: a	batgut (15)	bat wing (15)	sonar-in-a-biscuit (10)	perpendicular guano (c0)	guancertina (a0)
 pig	1591	somepig.gif	NOCOPY Atk: [6] Def: [7] HP: [8] Init: -10000 Meat: 5 P: beast Article: a	ham steak (0)	piggy tattoo (c0)
@@ -522,7 +522,7 @@ psychedelic fur	661	carpet.gif	NOCOPY Atk: 21 Def: 18 HP: 18 Init: 20 P: weird A
 pufferfish	757	pufferfish.gif	Atk: 400 Def: 450 HP: 750 Init: 100 Meat: 200 P: fish Article: a	pufferfish spine (n5)	rough fish scale (n4)	seaweed (n5)
 pumped-up bass	718	pumpedbass.gif	Atk: 330 Def: 270 HP: 500 Init: 100 Meat: 200 P: fish Article: a	dull fish scale (n15)	beefy fish meat (n5)
 Punk Rock Giant	1336	giant_punk.gif	Atk: 150 Def: 140 HP: 150 Init: 50 Meat: 50 P: humanoid Article: a	giant safety pin (10)	punk rock jacket (10)	stolen sushi (30)	folder (smiley face) (c0)	punk patch (c15)
-pygmy assault squad	448	pyg_squad.gif	Atk: 152 Def: 136 HP: 148 Init: 50 Meat: 125 P: dude Article: a	bottle of alcohol (40)	pygmy pygment (25)	pygmy spear (5)	jungle drum (10)
+pygmy assault squad	448	pyg_squad.gif	Atk: 152 Def: 136 HP: 148 Init: 50 Meat: 125 Group: 2 P: dude Article: a	bottle of alcohol (40)	pygmy pygment (25)	pygmy spear (5)	jungle drum (10)
 pygmy blowgunner	449	pyg_blowgunner.gif	Atk: 156 Def: 130 HP: 147 Init: 90 Meat: 100 P: dude Article: a	big bad voodoo mask (5)	pygmy blowgun (30)	pygmy nose-bone (10)	pygmy dart (c10)
 pygmy bowler	1432	pyg_bowler.gif	Atk: 154 Def: 135 HP: 155 Init: 30 Meat: 125 P: dude Article: a	bowling ball (40)	imitation White Russian (25)	tiny bowler (5)
 pygmy headhunter	447	pyg_headhunter.gif	Atk: 146 Def: 138 HP: 150 Init: 30 Meat: 175 P: dude E: sleaze Article: a	briefcase (60)	headhunter necktie (5)	pointed stick (10)	world's smallest violin (5)	pygmy papers (c20)
@@ -569,8 +569,8 @@ salamander	334	salamander.gif	NOCOPY Atk: [3] Def: [2] HP: [3] Init: -10000 Meat
 sassy pirate	104	pirate1.gif	Atk: 61 Def: 54 HP: 51 Init: 60 Meat: 20 P: pirate Article: a	crowbarrr (10)	flaregun (30)	sunken chest (15)	swashbuckling pants (10)
 scary clown	111	clown.gif	Atk: 19 Def: 17 HP: 15 Init: 80 Meat: 25 P: horror E: spooky Article: a	big red clown nose (10)	bloody clown pants (10)	long skinny balloon (40)	big bass drum (4)	clown skin (10)	polka-dot bow tie (p5)
 scary pirate	307	zompirate.gif	Atk: 150 Def: 135 HP: 200 Init: 10000 Meat: 45 P: pirate E: spooky Article: a Wiki: "scary pirate (cursed)"	cursed breeches (n0)	cursed cutlass (n0)	cursed eyepatch (n0)	folder (skull and crossbones) (c0)
-school of many	1374	schoolofmany.gif	Atk: 625 Def: 600 HP: 20000 Init: 100 P: horror Article: a	rough fish scale (n20)	rough fish scale (n10)	dull fish scale (n40)	dull fish scale (n20)	jagged tooth (n15)	jagged tooth (n5)
-school of wizardfish	717	wizardfish.gif	Atk: 300 Def: 270 HP: 400 Init: 100 Meat: 200 P: fish Article: a	dull fish scale (n15)	fishy wand (c0)	glistening fish meat (n5)	folder (Seawolf) (c0)
+school of many	1374	schoolofmany.gif	Atk: 625 Def: 600 HP: 20000 Init: 100 Group: 20 P: horror Article: a	rough fish scale (n20)	rough fish scale (n10)	dull fish scale (n40)	dull fish scale (n20)	jagged tooth (n15)	jagged tooth (n5)
+school of wizardfish	717	wizardfish.gif	Atk: 300 Def: 270 HP: 400 Init: 100 Meat: 200 Group: 4 P: fish Article: a	dull fish scale (n15)	fishy wand (c0)	glistening fish meat (n5)	folder (Seawolf) (c0)
 scimitarfish	723	scimitarfish.gif	Atk: 400 Def: 292 HP: 550 Init: 200 Meat: 220 P: fish Article: a	dull fish scale (n15)	fish scimitar (n2)
 scorched duck	558	duckscorch.gif	Atk: 170 Def: 156 HP: 185 Init: 50 Meat: 150 P: beast E: hot Article: a	flaming feather (10)	duct tape (5)
 screambat	1010	screambat.gif	SUPERLIKELY Atk: 18 Def: 16 HP: 15 Init: 50 P: beast Article: a
@@ -585,7 +585,7 @@ shady pirate	107	pirate1.gif	Atk: 67 Def: 60 HP: 57 Init: 75 Meat: 30 P: pirate 
 shaky clown	285	clown.gif	Atk: 19 Def: 17 HP: 16 Init: 80 Meat: 20 P: horror E: sleaze Article: a	bloody clown pants (15)	big red clown nose (15)	bottle of gin (10)	bottle of rum (10)	bottle of tequila (10)	bottle of whiskey (10)	bottle of vodka (10)	boxed wine (10)	clown skin (10)	polka-dot bow tie (p5)
 sheet ghost	1555	sheetghost.gif	Atk: 79 Def: 81 HP: 75 Init: 50 P: undead GHOST Article: a	ghost key (15)	sheet cake (15)	ghost toga (5)
 shifty pirate	129	pirate2.gif	Atk: 69 Def: 62 HP: 59 Init: 60 Meat: 45 P: pirate Article: a	arrrgyle socks (10)	flaregun (30)	sunken chest (30)
-Shub-Jigguwatt, Elder God of Violence	1377	shub-jigguwatt.gif	BOSS NOCOPY Atk: 4000 Def: 4000 HP: 10000 Init: 10000 P: horror
+Shub-Jigguwatt, Elder God of Violence	1377	shub-jigguwatt.gif	BOSS NOCOPY Atk: 4000 Def: 4000 HP: 10000 Init: 10000 P: horror Elem: 95
 sk8 gnome	1156	sk8gnome.gif	Atk: 75 Def: 67 HP: 65 Init: 60 Meat: 70 P: humanoid Article: a	eXtreme mittens (0)	Mountain Stream soda (0)	gr8ps (40)	sk8board (5)	t8r tots (40)	folder (space skeleton) (c0)
 Skate Board member	732	boardskate.gif	Atk: 450 Def: 450 HP: 750 Init: 50 Meat: 150 P: fish Article: a	S.A.V.E. flyer (0)	skate board (0)	skate skin (0)
 skeletal cat	379	catskel.gif	Atk: 24 Def: 21 HP: 23 Init: 50 P: undead ED: spooky Article: a	pile of dusty animal bones (100)
@@ -603,7 +603,7 @@ sleeping Knob Goblin Guard	152	kg_sleepingguard.gif	Atk: 0 Def: 0 HP: 1 Init: -1
 sleepy 7-Foot Dwarf	1149	dwarf_sleepy.gif	Atk: 53 Def: 47 HP: 40 Init: -10000 Meat: 40 P: humanoid Article: a	miner's pants (9)
 slick lihc	193	lich.gif	Atk: 59 Def: 54 HP: 50 Init: 50 P: undead E: spooky Article: a	lihc eye (20)	lihc face (7)	shimmering tendrils (c5)
 slithering hollandaise glob	658	holglob.gif	NOCOPY Atk: 24 Def: 21 HP: 21 Init: 40 P: slime Article: a	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)	nauseating reagent (0)
-slithering thing	1375	slithering.gif	Atk: 600 Def: 675 HP: 700 Init: 50 Meat: 50 P: horror Article: a	grisly shell fragment (0)	grisly shell fragment (0)
+slithering thing	1375	slithering.gif	Atk: 600 Def: 675 HP: 700 Init: 50 Meat: 50 P: horror Elem: 25 Article: a	grisly shell fragment (0)	grisly shell fragment (0)
 Slow Talkin' Elliot	511	eliot.gif	NOCOPY Atk: 190 Def: 171 HP: 200 Init: 20 Meat: 150 P: hippy E: stench	Slow Talkin' Elliot's dogtags (100)	green clay bead (30)	bullet-proof corduroys (0)	Lockenstock&trade; sandals (0)
 small barrel mimic	287	mimic2.gif	Atk: 15 Def: 13 HP: 25 Init: 90 P: weird Article: a
 smarmy pirate	106	pirate1.gif	Atk: 65 Def: 58 HP: 55 Init: 70 Meat: 27 P: pirate E: sleaze Article: a	bottle of rum (50)	eyepatch (10)	flaregun (30)	Jolly Roger charrrm bracelet (20)
@@ -624,7 +624,7 @@ Spectral Jellyfish	93	jellyfish.gif	Atk: 70 Def: 63 HP: 60 Init: 60 P: beast Art
 spider (duck?) topiary animal	1245	topi1.gif	Atk: 85 Def: 80 HP: 90 Init: 50 P: beast Article: a Wiki: "spider (duck%3F) topiary animal"	rusty hedge trimmers (15)	pestopiary (15)
 spider gremlin	552	gremlinspider.gif	Atk: 172 Def: 151 HP: 170 Init: 60 Meat: 50 P: humanoid Article: a	gremlin juice (3)
 spider gremlin (tool)	553	gremlinspider.gif	Atk: 172 Def: 151 HP: 170 Init: 60 Meat: 50 P: humanoid Article: a Manuel: "spider gremlin" Wiki: "spider gremlin (quest)"	gremlin juice (3)	molybdenum pliers (c0)
-spider-legged witch's hut	1580	spiderhut.gif	NOCOPY Atk: 50 Def: 50 HP: 50 Init: 50 P: construct Article: a	giant spider leg (c100)
+spider-legged witch's hut	1580	spiderhut.gif	NOCOPY Atk: 50 Def: 50 HP: 50 Init: 50 P: construct Phys: 50 Elem: 50 Article: a	giant spider leg (c100)
 spiny skelelton	185	spikeskel.gif	Atk: 53 Def: 48 HP: 50 Init: 50 P: undead E: spooky Article: a	skeleton bone (40)	smart skull (50)	spiked femur (10)	succulent marrow (25)	evil eye (20)	skelelton spine (c0)
 sponge	739	sponge.gif	Atk: 350 Def: 405 HP: 1000 Init: 50 P: fish Article: a	sand dollar (n10)	sand dollar (n9)	sand dollar (n1)	slab of sponge (n5)
 spooky gravy fairy guard	260	sgguard.gif	Atk: 55 Def: 49 HP: 45 Init: 60 P: plant E: spooky Article: a	spooky mushroom (40)	halfberd (5)	small leather glove (10)
@@ -636,7 +636,7 @@ spooky vampire	1	vampire.gif	Atk: 3 Def: 3 HP: 2 Init: 50 Meat: 5 P: undead E: s
 Spunky Princess	165	princess.gif	Atk: 90 Def: 81 HP: 75 Init: 90 Meat: 110 P: dude Article: a	cocoa eggshell fragment (30)	tiny house (30)	titanium assault umbrella (10)
 steam elemental	1557	steamelemental.gif	Atk: 160 Def: 137 HP: 140 Init: 75 P: elemental E: hot Article: a
 Steampunk Giant	1337	giant_steampunk.gif	Atk: 145 Def: 135 HP: 150 Init: 40 Meat: 100 P: humanoid Article: a	brass gear (25)	brown felt tophat (10)	autocalliope (a0)	steampunk potion (c15)
-Stephen Spookyraven	1565	steven.gif	NOCOPY Scale: 5 Cap: 300 Init: 100 Meat: 500 P: undead	Stephen's secret formula (100)	Stephen's lab coat (100)
+Stephen Spookyraven	1565	steven.gif	NOCOPY Scale: 5 Cap: 300 Init: 100 Meat: 500 P: undead Elem: 66	Stephen's secret formula (100)	Stephen's lab coat (100)
 sticky mummy	1583	stickymummy.gif	Atk: 35 Def: 34 HP: 34 Init: -10000 P: undead Article: a
 stone temple pirate	1159	stone_pirate.gif	Scale: 0 Cap: 50 Floor: 7 Init: -10000 P: construct Article: a	ancient poisoned dart (35)	eyepatch (15)
 stranglin' algae	741	algae.gif	Atk: 400 Def: 405 HP: 600 Init: 100 P: plant Article: some	glob of green slime (n30)	sea lace (n30)
@@ -653,12 +653,12 @@ swamp gator	595	swampgator.gif	Atk: 36 Def: 32 HP: 32 Init: 40 Meat: 30 P: beast
 swamp hag	1344	swamphag.gif	Atk: 35 Def: 28 HP: 40 Init: 30 Meat: 25 P: dude E: stench Article: a	moonberry wine cooler (0)	witch wart (0)	vial of swamp vapors (c0)
 swamp owl	1350	swampowl.gif	Atk: 56 Def: 48 HP: 46 Init: 80 Meat: 20 P: beast Article: a	moonberry wine cooler (0)	dilapidated wizard hat (0)
 swamp skunk	1353	swampskunk.gif	BOSS NOCOPY Atk: 68 Def: 66 HP: 65 Init: 50 Meat: 40 P: beast E: stench Article: a	bouquet of swamp roses (c100)	floral-print skirt (c100)	pogo stick (0)
-swarm of fire ants	461	ants.gif	Atk: 142 Def: 119 HP: 136 Init: 60 Meat: 50 P: bug E: hot Article: a	ant agonist (20)	ant hoe (1)	ant pick (1)	ant pitchfork (1)	ant rake (1)	ant sickle (1)	handful of sand (20)
-swarm of ghuol whelps	1072	whelps1.gif	Atk: 50 Def: 45 HP: 100 Init: 300 P: undead E: spooky Article: a
-swarm of killer bees	221	aswarm.gif	Atk: 59 Def: 53 HP: 75 Init: 90 P: bug Article: a Poison: "Somewhat Poisoned"	baby killer bee (5)	royal jelly (25)
-swarm of Knob lice	1059	kg_lice.gif	Atk: 25 Def: 22 HP: 30 Init: 50 P: bug Phys: 50 Article: a
-swarm of lowercase As	935	aswarm.gif	Atk: 59 Def: 53 HP: 75 Init: 90 P: bug Article: a	lowercase a (5)	percent sign (25)
-swarm of scarab beatles	456	beatles.gif	Atk: 136 Def: 117 HP: 131 Init: 50 Meat: 175 P: bug E: spooky Article: a	Colonel Mustard's Lonely Spades Club Jacket (c5)	Corporal Fennel's Lonely Clubs Club Jacket (c5)	General Sage's Lonely Diamonds Club Jacket (c5)	Private Pepper's Lonely Hearts Club Jacket (c5)	savoy truffle (10)	rocky raccoon (40)	mojo filter (5)	Maxwell's Silver Hammer (5)	carbonated water lily (10)	palm frond (c10)	hot date (5)	happiness (5)
+swarm of fire ants	461	ants.gif	Atk: 142 Def: 119 HP: 136 Init: 60 Meat: 50 Group: 20 P: bug E: hot Article: a	ant agonist (20)	ant hoe (1)	ant pick (1)	ant pitchfork (1)	ant rake (1)	ant sickle (1)	handful of sand (20)
+swarm of ghuol whelps	1072	whelps1.gif	Atk: 50 Def: 45 HP: 100 Init: 300 Group: 15 P: undead E: spooky Article: a
+swarm of killer bees	221	aswarm.gif	Atk: 59 Def: 53 HP: 75 Init: 90 Group: 6 P: bug Article: a Poison: "Somewhat Poisoned"	baby killer bee (5)	royal jelly (25)
+swarm of Knob lice	1059	kg_lice.gif	Atk: 25 Def: 22 HP: 30 Init: 50 Group: 100 P: bug Phys: 50 Article: a
+swarm of lowercase As	935	aswarm.gif	Atk: 59 Def: 53 HP: 75 Init: 90 Group: 6 P: bug Article: a	lowercase a (5)	percent sign (25)
+swarm of scarab beatles	456	beatles.gif	Atk: 136 Def: 117 HP: 131 Init: 50 Meat: 175 Group: 4 P: bug E: spooky Article: a	Colonel Mustard's Lonely Spades Club Jacket (c5)	Corporal Fennel's Lonely Clubs Club Jacket (c5)	General Sage's Lonely Diamonds Club Jacket (c5)	Private Pepper's Lonely Hearts Club Jacket (c5)	savoy truffle (10)	rocky raccoon (40)	mojo filter (5)	Maxwell's Silver Hammer (5)	carbonated water lily (10)	palm frond (c10)	hot date (5)	happiness (5)
 swarm of skulls	1743	skullswarm.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: undead E: spooky Article: a	half of a gold tooth (0)	mouse skull (0)	loose teeth (0)
 swarthy pirate	105	pirate1.gif	Atk: 63 Def: 56 HP: 53 Init: 65 Meat: 25 P: pirate Article: a	leotarrrd (10)	pirate pelvis (20)	stuffed shoulder parrot (10)
 Taco Cat	134	cacotap.gif	Atk: 139 Def: 131 HP: 145 Init: 30 Meat: 100 P: beast Article: a	cat appendix (30)	catgut (30)	taco shell (30)
@@ -667,7 +667,7 @@ Tan Gnat	135	biggnat.gif	Atk: 136 Def: 127 HP: 128 Init: 50 Meat: 20 P: bug Arti
 tapdancing skeleton	402	hatskel.gif	Atk: 65 Def: 55 HP: 70 Init: 50 P: undead ED: spooky Article: a	tap shoes (5)	worn tophat (5)	janglin' bones (c0)
 Tektite	114	tektite.gif	Atk: 20 Def: 18 HP: 15 Init: 60 P: beast Article: a	black pixel (50)	blue pixel (80)	white pixel (50)
 tetchy pirate	619	madpirate.gif	Atk: 83 Def: 75 HP: 72 Init: 50 Meat: 40 P: pirate Article: a	bottle of rum (20)	cocktail napkin (10)
-Thanksgolem	1973	thanksgolem.gif	NOCOPY HP: 10000 Scale: 20 Cap: 10000 Floor: 200 Init: -10000 P: construct Article: a	leftovers (n100)	leftovers (n100)	leftovers (n100)	leftovers (n100)	leftovers (n100)	leftovers (n100)	giant pilgrim hat (n100)
+Thanksgolem	1973	thanksgolem.gif	NOCOPY HP: 10000 Scale: 20 Cap: 10000 Floor: 200 Init: -10000 P: construct Phys: 75 Elem: 50 Article: a	leftovers (n100)	leftovers (n100)	leftovers (n100)	leftovers (n100)	leftovers (n100)	leftovers (n100)	giant pilgrim hat (n100)
 The Barrelmech of Diogenes	1840	otherimages/barrelbeast.gif	NOCOPY Atk: 200 Def: 250 HP: 1500 Init: 25 P: construct
 The Big Wisniewski	545	thisdude.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: hippy ED: stench	solid gold bowling ball (100)
 The Clownlord Beelzebozo	569	beelzebozo.gif	BOSS NOCOPY Atk: 27 Def: 27 HP: 40 Init: 85 P: horror
@@ -702,11 +702,11 @@ toothy sklelton	186	toothskel.gif	Atk: 57 Def: 52 HP: 50 Init: 50 P: undead E: s
 towering construct	667	vib4.gif	Atk: 350 Def: 360 HP: 450 Init: 20 P: construct Article: a	El Vibrato punchcard (165 holes) (1)	El Vibrato punchcard (176 holes) (1)
 towering construct (translated)	673	vib4.gif	Atk: 350 Def: 360 HP: 450 Init: 20 P: construct Article: a Manuel: "towering construct" Wiki: "towering construct"	El Vibrato punchcard (165 holes) (1)	El Vibrato punchcard (176 holes) (1)
 triffid	342	triffid.gif	Atk: 5 Def: 4 HP: 6 Init: 70 P: plant Article: a	moxie weed (30)	spooky stick (30)
-Troll Twins	1244	twins_troll.gif	Atk: 94 Def: 82 HP: 98 Init: 40 Meat: 75 P: dude Article: the	incredible pizza (5)	troll britches (5)
+Troll Twins	1244	twins_troll.gif	Atk: 94 Def: 82 HP: 98 Init: 40 Meat: 75 Group: 2 P: dude Article: the	incredible pizza (5)	troll britches (5)
 trophyfish	774	trophyfish.gif	NOCOPY Atk: 5000 Def: 4500 HP: 15000 Init: 200 P: fish Phys: 25 Article: a
 Trouser Snake	179	tsnake.gif	Atk: 153 Def: 137 HP: 150 Init: 70 P: constellation SNAKE E: sleaze Article: The	line (30)	line (30)	line (30)
 tumbleweed	1110	tumbleweed.gif	NOCOPY Atk: 10 Def: 9 HP: 10 Init: -10000 P: plant Article: a
-Twig and Berries	352	twigberry.gif	Atk: 152 Def: 136 HP: 150 Init: 70 P: constellation E: sleaze Article: The	line (30)	star (30)	star (30)
+Twig and Berries	352	twigberry.gif	Atk: 152 Def: 136 HP: 150 Init: 70 Group: 3 P: constellation E: sleaze Article: The	line (30)	star (30)	star (30)
 undead elbow macaroni	147	macaroni.gif	Atk: 1 Def: 1 HP: 1 Init: 50 Meat: 5 P: undead E: spooky Article: an	magicalness-in-a-can (25)	quasi-ethereal macaroni fragments (c0)
 unemployed knob goblin	1000	lensgoblin.gif	Atk: 6 Def: 5 HP: 5 Init: -10000 Meat: 15 P: goblin Article: an	beer lens (c25)
 unholy diver	745	unholydiver.gif	Atk: 700 Def: 540 HP: 1000 Init: 100 Meat: 250 P: horror Article: an	glowing syringe (c4)	rusty broken diving helmet (n3)	rusty porthole (n2)	rusty rivet (n10)	rusty rivet (n10)	rusty rivet (n2)	rusty rivet (n1)	unholy water (c0)
@@ -743,7 +743,7 @@ War Frat Wartender	505	warfratsp.gif	Atk: 185 Def: 157 HP: 200 Init: 70 P: orc E
 War Hippy (space) cadet	481	warhipb.gif	Atk: 165 Def: 148 HP: 180 Init: 40 P: hippy E: stench Article: a	round purple sunglasses (5)	reinforced beaded headband (5)	bullet-proof corduroys (5)	peace accordion (a0)
 War Hippy Airborne Commander	489	warhipac2.gif	Atk: 195 Def: 166 HP: 220 Init: 70 P: hippy E: stench Article: a	bullet-proof corduroys (1)	communications windchimes (3)	ferret bait (20)	ferret bait (20)	Lockenstock&trade; sandals (2)	purple clay bead (30)	reinforced beaded headband (1)	round purple sunglasses (1)	water pipe bomb (15)	water pipe bomb (15)	exploding hacky-sack (20)	patchouli oil bomb (20)
 War Hippy Baker	483	warhipb.gif	Atk: 175 Def: 153 HP: 185 Init: 40 P: hippy E: stench Article: a	bullet-proof corduroys (10)	hippy protest button (10)	oversized pipe (10)	reinforced beaded headband (10)	round purple sunglasses (10)	water pipe bomb (20)	wicker shield (5)
-War Hippy Dread Squad	410	warhipar.gif	Atk: 170 Def: 153 HP: 300 Init: 20 P: hippy Phys: 25 E: stench Article: a	bullet-proof corduroys (2)	communications windchimes (3)	didgeridooka (20)	Lockenstock&trade; sandals (2)	reinforced beaded headband (2)	round purple sunglasses (2)	tube of dread wax (15)
+War Hippy Dread Squad	410	warhipar.gif	Atk: 170 Def: 153 HP: 300 Init: 20 Group: 2 P: hippy Phys: 25 E: stench Article: a	bullet-proof corduroys (2)	communications windchimes (3)	didgeridooka (20)	Lockenstock&trade; sandals (2)	reinforced beaded headband (2)	round purple sunglasses (2)	tube of dread wax (15)
 War Hippy drill sergeant	482	warhipds.gif	Atk: 175 Def: 157 HP: 200 Init: 60 P: hippy E: stench Article: a	round purple sunglasses (10)	reinforced beaded headband (10)	bullet-proof corduroys (10)
 War Hippy Elder Shaman	495	warhipsh2.gif	Atk: 210 Def: 153 HP: 120 Init: 20 P: hippy E: stench Article: a	carbonated soy milk (30)	communications windchimes (3)	flowing hippy skirt (5)	funky dried mushroom (20)	Gaia beads (20)	Lockenstock&trade; sandals (15)
 War Hippy Elite Fire Spinner	496	warhipfs2.gif	Atk: 190 Def: 184 HP: 230 Init: 50 P: hippy E: stench Article: a	bullet-proof corduroys (1)	communications windchimes (3)	fire poi (30)	Lockenstock&trade; sandals (2)	reinforced beaded headband (1)	round purple sunglasses (1)
@@ -789,7 +789,7 @@ zobmie	33	zombie.gif	Atk: 19 Def: 17 HP: 10 Init: 60 Meat: 34 P: undead E: spook
 Zol	120	zol.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: slime Article: a	green pixel (80)	green pixel (70)	green pixel (60)
 zombie chef	378	zombiechef.gif	Atk: 22 Def: 19 HP: 20 Init: 50 Meat: 7 P: undead Article: a	bottle of cooking sherry (30)	chef's hat (5)	fricasseed brains (20)	stale baguette (30)	zombie hollandaise (c0)
 zombie duck	565	duckzombie.gif	Atk: 171 Def: 158 HP: 190 Init: 40 Meat: 150 P: beast E: spooky Article: a	duct tape (5)	frightful feather (10)
-zombie waltzers	401	zomwaltz.gif	Atk: 65 Def: 55 HP: 70 Init: 50 Meat: 50 P: undead E: spooky Article: some	ballroom blintz (15)	dance card (15)
+zombie waltzers	401	zomwaltz.gif	Atk: 65 Def: 55 HP: 70 Init: 50 Meat: 50 Group: 2 P: undead E: spooky Article: some	ballroom blintz (15)	dance card (15)
 
 # Copperhead Quest
 
@@ -803,7 +803,7 @@ Snakeleton	1519	snakeboss6.gif	NOCOPY Atk: 160 Def: 160 HP: 175 Init: 50 P: beas
 # Daily Dungeon
 
 apathetic lizardman	5	lizardman.gif	NOCOPY Atk: 20 Def: 18 HP: 12 Init: 60 Meat: 20 P: humanoid Article: an	flavorless gruel (n100)
-dairy ooze	69	ooze.gif	NOCOPY Atk: 13 Def: 11 HP: 8 Init: 60 Meat: 12 P: slime Article: a	mana curds (n100)
+dairy ooze	69	ooze.gif	NOCOPY Atk: 13 Def: 11 HP: 8 Init: 60 Meat: 12 P: slime Phys: 50 Elem: 50 Article: a	mana curds (n100)
 dodecapede	3	pede.gif	NOCOPY Atk: 12 Def: 10 HP: 8 Init: 60 Meat: 12 P: bug Article: a Poison: "A Little Bit Poisoned"	clutch of dodecapede eggs (n100)
 giant giant moth	72	moth.gif	NOCOPY Atk: 16 Def: 14 HP: 11 Init: 60 Meat: 16 P: bug Article: a	giant giant moth dust (n100)
 mayonnaise wasp	73	wasp.gif	NOCOPY Atk: 17 Def: 15 HP: 11 Init: 60 P: bug Article: a Poison: "A Little Bit Poisoned"	glob of spoiled mayo (n100)
@@ -826,8 +826,8 @@ mother hellseal	780	motherseal.gif	NOBANISH NOCOPY SUPERLIKELY Atk: [150*1.385^p
 hellseal guardian	781	sealguard.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: demon Article: a	hellseal whisker (0)	hellseal whisker (0)	hellseal claw (0)	hellseal claw (0)
 Gorgolok, the Infernal Seal (Inner Sanctum)	21	1_1.gif	BOSS NOCOPY Atk: 27 Def: 24 HP: 30 Init: 60 Meat: 35 P: demon Manuel: "Gorgolok, the Infernal Seal"	Scalp of Gorgolok (100)
 Gorgolok, the Infernal Seal (The Nemesis' Lair)	872	1_2.gif	BOSS NOCOPY Atk: 170 Def: 153 HP: 220 Init: 80 P: demon Manuel: "Gorgolok, the Infernal Seal"	Krakrox's Loincloth (100)
-Gorgolok, the Infernal Seal (Volcanic Cave)	882	1_3.gif	BOSS NOCOPY Atk: 185 Def: 166 HP: 260 Init: 90 P: demon Phys: 25 Manuel: "Gorgolok, the Infernal Seal"
-Gorgolok, the Demonic Hellseal	888	1_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 400 Init: 100 P: demon Phys: 40	Claw of the Infernal Seal (100)	Instant Karma (c100)	heart of the volcano (c100)
+Gorgolok, the Infernal Seal (Volcanic Cave)	882	1_3.gif	BOSS NOCOPY Atk: 185 Def: 166 HP: 260 Init: 90 P: demon Phys: 25 Elem: 25 Manuel: "Gorgolok, the Infernal Seal"
+Gorgolok, the Demonic Hellseal	888	1_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 400 Init: 100 P: demon Phys: 40 Elem: 40	Claw of the Infernal Seal (100)	Instant Karma (c100)	heart of the volcano (c100)
 
 # Turtle Tamer
 
@@ -838,8 +838,8 @@ french guard turtle	783	frenchturtle.gif	NOCOPY Atk: 140 Def: 126 HP: 140 Init: 
 warehouse worker	867	warehouseguy.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude Article: a	crowbar (0)
 Stella, the Turtle Poacher (Inner Sanctum)	22	2_1.gif	BOSS NOCOPY Atk: 27 Def: 24 HP: 30 Init: 60 Meat: 35 P: dude Manuel: "Stella, the Turtle Poacher"	Elder Turtle Shell (100)
 Stella, the Turtle Poacher (The Nemesis' Lair)	873	2_2.gif	BOSS NOCOPY Atk: 170 Def: 153 HP: 220 Init: 80 P: dude Manuel: "Stella, the Turtle Poacher"	Galapagosian Cuisses (100)
-Stella, the Turtle Poacher (Volcanic Cave)	883	2_3.gif	BOSS NOCOPY Atk: 185 Def: 166 HP: 260 Init: 90 P: dude Phys: 25 Manuel: "Stella, the Turtle Poacher"
-Stella, the Demonic Turtle Poacher	889	2_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 1000 Init: 100 P: demon Phys: 40	Garter of the Turtle Poacher (100)	Instant Karma (c100)	heart of the volcano (c100)
+Stella, the Turtle Poacher (Volcanic Cave)	883	2_3.gif	BOSS NOCOPY Atk: 185 Def: 166 HP: 260 Init: 90 P: dude Phys: 25 Elem: 25 Manuel: "Stella, the Turtle Poacher"
+Stella, the Demonic Turtle Poacher	889	2_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 1000 Init: 100 P: demon Phys: 40 Elem: 40	Garter of the Turtle Poacher (100)	Instant Karma (c100)	heart of the volcano (c100)
 
 # Pastamancer
 
@@ -852,7 +852,7 @@ evil spaghetti cult zealot	868	spagcult4.gif	Atk: 160 Def: 144 HP: 210 Init: 75 
 Spaghetti Elemental (Inner Sanctum)	23	3_1.gif	BOSS NOCOPY Atk: 27 Def: 24 HP: 30 Init: 60 Meat: 35 P: elemental Article: a Manuel: "Spaghetti Elemental"	Colander of Em-er'il (100)
 Spaghetti Elemental (The Nemesis' Lair)	874	3_2.gif	BOSS NOCOPY Atk: 170 Def: 153 HP: 220 Init: 80 P: elemental Article: the Manuel: "Spaghetti Elemental"	Angelhair Culottes (100)
 Spaghetti Elemental (Volcanic Cave)	884	3_3.gif	BOSS NOCOPY Atk: 185 Def: 166 HP: 260 Init: 90 P: elemental Article: the Manuel: "Spaghetti Elemental"
-Spaghetti Demon	890	3_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 600 Init: 100 P: demon Phys: 40 Article: the	Bandolier of the Spaghetti Elemental (100)	Instant Karma (c100)	heart of the volcano (c100)
+Spaghetti Demon	890	3_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 600 Init: 100 P: demon Phys: 40 Elem: 40 Article: the	Bandolier of the Spaghetti Elemental (100)	Instant Karma (c100)	heart of the volcano (c100)
 
 # Saucerer
 
@@ -864,12 +864,12 @@ vendor slime	805	vendorslime.gif	NOBANISH Atk: 145 Def: 130 HP: 160 Init: 75 P: 
 security slime	869	securityslime.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: slime Article: a
 Lumpy, the Sinister Sauceblob (Inner Sanctum)	24	4_1.gif	BOSS NOCOPY Atk: 27 Def: 24 HP: 30 Init: 60 Meat: 35 P: slime Manuel: "Lumpy, the Sinister Sauceblob"	Ancient Saucehelm (100)
 Lumpy, the Sinister Sauceblob (The Nemesis' Lair)	875	4_2.gif	BOSS NOCOPY Atk: 170 Def: 153 HP: 220 Init: 80 P: slime Manuel: "Lumpy, the Sinister Sauceblob"	Newman's Own Trousers (100)
-Lumpy, the Sinister Sauceblob (Volcanic Cave)	885	4_3.gif	BOSS NOCOPY Atk: 185 Def: 166 HP: 260 Init: 90 P: slime Phys: 25 Manuel: "Lumpy, the Sinister Sauceblob"
-Lumpy, the Demonic Sauceblob	891	4_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 500 Init: 100 P: demon Phys: 40	Gravyskin Belt of the Sauceblob (100)	Instant Karma (c100)	heart of the volcano (c100)
+Lumpy, the Sinister Sauceblob (Volcanic Cave)	885	4_3.gif	BOSS NOCOPY Atk: 185 Def: 166 HP: 260 Init: 90 P: slime Phys: 25 Elem: 25 Manuel: "Lumpy, the Sinister Sauceblob"
+Lumpy, the Demonic Sauceblob	891	4_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 500 Init: 100 P: demon Phys: 40 Elem: 40	Gravyskin Belt of the Sauceblob (100)	Instant Karma (c100)	heart of the volcano (c100)
 
 # Disco Bandit
 
-flock of seagulls	699	seagulls.gif	NOCOPY WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 P: beast Article: a
+flock of seagulls	699	seagulls.gif	NOCOPY WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 Group: 2 P: beast Article: a
 Jocko Homo	705	jockohomo.gif	NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: beast	secret tropical island volcano lair map (100)	Jocko Homo's head (100)	unusual disco ball (100)
 breakdancing raver	855	breakdancer.gif	NOBANISH Atk: 140 Def: 126 HP: 150 Init: 10000 P: dude Article: a	candy necklace (c0)	rave visor (c0)	teddybear backpack (c0)
 pop-and-lock raver	856	popnlocker.gif	NOBANISH Atk: 140 Def: 126 HP: 150 Init: 10000 P: dude Article: a	baggy rave pants (c0)	glowstick on a string (c0)	teddybear backpack (c0)
@@ -877,8 +877,8 @@ running man	857	runningman.gif	NOBANISH Atk: 140 Def: 126 HP: 150 Init: 10000 P:
 daft punk	870	daftpunk.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude Article: a
 Spirit of New Wave (Inner Sanctum)	25	5_1.gif	BOSS NOCOPY Atk: 27 Def: 24 HP: 30 Init: 60 Meat: 35 P: undead GHOST Article: the Manuel: "Spirit of New Wave"	Disco 'Fro Pick (100)
 Spirit of New Wave (The Nemesis' Lair)	876	5_2.gif	BOSS NOCOPY Atk: 170 Def: 153 HP: 220 Init: 80 P: undead GHOST Article: the Manuel: "Spirit of New Wave"	Volartta's bellbottoms (100)
-Spirit of New Wave (Volcanic Cave)	886	5_3.gif	BOSS NOCOPY Atk: 185 Def: 166 HP: 260 Init: 90 P: undead GHOST Phys: 25 Article: the Manuel: "Spirit of New Wave"
-Demon of New Wave	892	5_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 500 Init: 100 P: demon Phys: 40 Article: the	Bling of the New Wave (100)	Instant Karma (c100)	heart of the volcano (c100)
+Spirit of New Wave (Volcanic Cave)	886	5_3.gif	BOSS NOCOPY Atk: 185 Def: 166 HP: 260 Init: 90 P: undead GHOST Phys: 25 Elem: 25 Article: the Manuel: "Spirit of New Wave"
+Demon of New Wave	892	5_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 500 Init: 100 P: demon Phys: 40 Elem: 40 Article: the	Bling of the New Wave (100)	Instant Karma (c100)	heart of the volcano (c100)
 
 # Accordion Thief
 
@@ -890,8 +890,8 @@ alert mariachi	860	mar_alert.gif	NOBANISH Atk: 200 Def: 180 HP: 250 Init: 300 P:
 mariachi bruiser	871	mar_bruiser.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude Article: a	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
 Somerset Lopez, Dread Mariachi (Inner Sanctum)	26	6_1.gif	BOSS NOCOPY Atk: 27 Def: 24 HP: 30 Init: 60 Meat: 35 P: dude Manuel: "Somerset Lopez, Dread Mariachi"	El Sombrero De Lopez (100)
 Somerset Lopez, Dread Mariachi (The Nemesis' Lair)	877	6_2.gif	BOSS NOCOPY Atk: 170 Def: 153 HP: 220 Init: 80 P: dude Manuel: "Somerset Lopez, Dread Mariachi"	Lederhosen of the Night (100)
-Somerset Lopez, Dread Mariachi (Volcanic Cave)	887	6_3.gif	BOSS NOCOPY Atk: 185 Def: 166 HP: 260 Init: 90 P: dude Phys: 25 Manuel: "Somerset Lopez, Dread Mariachi"
-Somerset Lopez, Demon Mariachi	893	6_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 1000 Init: 100 P: demon Phys: 40	La Hebilla del Cintur&oacute;n de Lopez (100)	Instant Karma (c100)	heart of the volcano (c100)
+Somerset Lopez, Dread Mariachi (Volcanic Cave)	887	6_3.gif	BOSS NOCOPY Atk: 185 Def: 166 HP: 260 Init: 90 P: dude Phys: 25 Elem: 25 Manuel: "Somerset Lopez, Dread Mariachi"
+Somerset Lopez, Demon Mariachi	893	6_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 1000 Init: 100 P: demon Phys: 40 Elem: 40	La Hebilla del Cintur&oacute;n de Lopez (100)	Instant Karma (c100)	heart of the volcano (c100)
 
 
 # New Sorceress Lair
@@ -968,15 +968,15 @@ Leonard	1705	adv_sleaze4.gif	BOSS NOCOPY Atk: [200] Def: [300] HP: [250] Init: -
 # - Hedge Maze
 
 topiary chihuahua herd	1712	topiarychi.gif	NOCOPY Atk: 250 Def: 250 HP: 250 Init: 150 P: plant Article: a
-topiary duck	1711	topiaryduck.gif	NOCOPY Atk: 300 Def: 300 HP: 300 Init: 200 P: plant Phys: 50 Article: a
+topiary duck	1711	topiaryduck.gif	NOCOPY Atk: 300 Def: 300 HP: 300 Init: 200 P: plant Phys: 50 Elem: 75 Article: a
 topiary gopher	1710	topiarygopher.gif	NOCOPY Atk: 200 Def: 200 HP: 200 Init: 100 P: plant Article: a
 topiary kiwi	1713	topiarykiwi.gif	NOCOPY Atk: 350 Def: 350 HP: 350 Init: 150 P: plant Article: a
 
 # - Tower
 
-wall of bones	1708	wallofbones.gif	BOSS NOCOPY Atk: 1000 Def: 1000 HP: 20000 Init: -10000 P: undead Article: a
-wall of meat	1706	meatwall1.gif,meatwall2.gif,meatwall3.gif,meatwall4.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 700 Init: -10000 Meat: 200 P: elemental Article: a
-wall of skin	1707	wallofskin.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: [50+150*path(BIG!)] Init: -10000 P: construct Article: a
+wall of bones	1708	wallofbones.gif	BOSS NOCOPY Atk: 1000 Def: 1000 HP: 20000 Init: -10000 Group: 100 P: undead Article: a
+wall of meat	1706	meatwall1.gif,meatwall2.gif,meatwall3.gif,meatwall4.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 700 Init: -10000 Meat: 200 P: elemental Phys: 50 Elem: 50 Article: a
+wall of skin	1707	wallofskin.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: [50+150*path(BIG!)] Init: -10000 P: construct Phys: 100 Elem: 100 Article: a
 # Manuel name is "(shadow opponent)" with parentheses
 Your Shadow	210	otherimages/shadows/20.gif	BOSS NOCOPY Atk: [150] Def: [89999] HP: [395] Exp: 200 Init: 150 P: dude Article: a Manuel: "(shadow opponent)"
 
@@ -1119,14 +1119,14 @@ Zombie Homeowners' Association (Hard Mode)	-84	zombiehoa_hm.gif	NOCOPY P: undead
 # Challenge Paths
 
 # Bees Hate You
-beebee gunners	1077	beebeegunner.gif	NOCOPY WANDERER Scale: 10 Init: -10000 P: bug	handful of honey (0)
+beebee gunners	1077	beebeegunner.gif	NOCOPY WANDERER Scale: 10 Init: -10000 Group: 3 P: bug	handful of honey (0)
 moneybee	1076	moneybee.gif	NOCOPY WANDERER Scale: 10 Init: -10000 P: bug Article: a	handful of honey (0)
 mumblebee	1075	mumblebee.gif	NOCOPY WANDERER Scale: 10 Init: -10000 P: bug Article: a	handful of honey (0)
-beebee queue	1080	beebeequeue.gif	NOCOPY WANDERER Scale: 20 Init: -10000 P: bug Article: a	handful of honey (0)	handful of honey (0)
-bee swarm	1079	beeswarm.gif	NOCOPY WANDERER Scale: 20 Init: -10000 P: bug Article: a	handful of honey (0)	handful of honey (0)
+beebee queue	1080	beebeequeue.gif	NOCOPY WANDERER Scale: 20 Init: -10000 Group: 2 P: bug Article: a	handful of honey (0)	handful of honey (0)
+bee swarm	1079	beeswarm.gif	NOCOPY WANDERER Scale: 20 Init: -10000 Group: 3 P: bug Article: a	handful of honey (0)	handful of honey (0)
 buzzerker	1078	buzzerker.gif	NOCOPY WANDERER Scale: 20 Init: -10000 P: bug Article: a	handful of honey (0)	handful of honey (0)
 Beebee King	1082	beebeeking.gif	NOCOPY WANDERER Scale: 40 Init: -10000 P: bug Phys: 50 Article: a	handful of honey (0)	handful of honey (0)	handful of honey (0)
-bee thoven	1081	beethoven.gif	NOCOPY WANDERER Scale: 40 Init: -10000 P: bug Phys: 50 Article: a	handful of honey (0)	handful of honey (0)	handful of honey (0)
+bee thoven	1081	beethoven.gif	NOCOPY WANDERER Scale: 40 Init: -10000 Group: 3 P: bug Phys: 50 Article: a	handful of honey (0)	handful of honey (0)	handful of honey (0)
 Queen Bee	1083	beequeen.gif	NOCOPY WANDERER Scale: 40 Init: -10000 P: bug Phys: 50 Article: a	handful of honey (0)	handful of honey (0)	handful of honey (0)
 
 # Way of the Stunning Fist
@@ -1135,7 +1135,7 @@ Wu Tang the Betrayer	1100	susguy.gif	NOCOPY Atk: 200 Def: 89999 HP: 500 Init: 15
 # Avatar of Boris
 mountain man	1153	mountainman.gif	Atk: 80 Def: 72 HP: 300 Init: -10000 P: construct Article: a	asbestos ore (40)	asbestos ore (10)	chrome ore (40)	chrome ore (10)	linoleum ore (40)	linoleum ore (10)
 The Avatar of Sneaky Pete	1158	sneakypete.gif	BOSS NOCOPY Atk: 225 Def: 202 HP: 800 Init: 200 P: dude
-The Luter	1152	theluter.gif	NOCOPY Atk: 75 Def: 67 HP: 100 Init: 50 P: undead	Clancy's lute (n100)
+The Luter	1152	theluter.gif	NOCOPY Atk: 75 Def: 67 HP: 100 Init: 50 P: undead Phys: 50 Elem: 50	Clancy's lute (n100)
 
 # Bugbear Invasion
 scavenger bugbear	1165	bb_scav.gif	Atk: 5 Def: 4 HP: 5 Init: 150 P: beast Article: a	BURT (100)
@@ -1149,15 +1149,15 @@ bugbear scientist	1168	bb_science.gif	Atk: 45 Def: 40 HP: 50 Init: 50 P: beast A
 spiderbugbear	1178	bb_spider.gif	Atk: 55 Def: 49 HP: 50 Init: 75 P: beast Article: a	quantum nanopolymer spider web (0)
 bugaboo	1169	bb_ghost.gif	Atk: 60 Def: 54 HP: 70 Init: 50 P: undead E: spooky Article: a	BURT (100)
 bugbear mortician	1179	bb_mortician.gif	Atk: 65 Def: 76 HP: 60 Init: 25 P: beast Article: a	bugbear autopsy tweezers (100)
-Black Ops Bugbear	1170	bb_ninja.gif	Atk: 90 Def: 81 HP: 100 Init: 75 P: beast Phys: 25 Article: a	BURT (100)
-Battlesuit Bugbear Type	1171	bb_mech.gif	Atk: 125 Def: 112 HP: 150 Init: 50 P: beast Phys: 50 Article: a	BURT (100)
-bugbear drone	1180	bb_drone.gif	Atk: 135 Def: 121 HP: 150 Init: 75 P: construct Phys: 50 Article: a	drone self-destruct chip (0)
+Black Ops Bugbear	1170	bb_ninja.gif	Atk: 90 Def: 81 HP: 100 Init: 75 P: beast Phys: 25 Elem: 25 Article: a	BURT (100)
+Battlesuit Bugbear Type	1171	bb_mech.gif	Atk: 125 Def: 112 HP: 150 Init: 50 P: beast Phys: 50 Elem: 50 Article: a	BURT (100)
+bugbear drone	1180	bb_drone.gif	Atk: 135 Def: 121 HP: 150 Init: 75 P: construct Phys: 50 Elem: 50 Article: a	drone self-destruct chip (0)
 liquid metal bugbear	1181	bb_liquidmetal.gif	Atk: 140 Def: 162 HP: 175 Init: 150 P: construct Phys: 50 Article: a
 ancient unspeakable bugbear	1172	bb_horror.gif	Atk: 140 Def: 126 HP: 150 Init: 50 P: beast E: spooky Article: an	BURT (100)
-N-space Virtual Assistant	1184	bb_vassist.gif	Atk: 175 Def: 157 HP: 180 Init: 100 P: construct Phys: 50 Article: an
+N-space Virtual Assistant	1184	bb_vassist.gif	Atk: 175 Def: 157 HP: 180 Init: 100 P: construct Phys: 60 Elem: 60 Article: an
 trendy bugbear chef	1173	bb_chef.gif	Atk: 200 Def: 180 HP: 250 Init: 50 P: beast Phys: 25 E: stench Article: a	BURT (100)
 angry cavebugbear	1183	bb_caveman.gif	Atk: 220 Def: 211 HP: 300 Init: 25 P: beast Phys: 25 Article: an
-Bugbear Captain	1182	bb_captain.gif	NOCOPY Atk: 280 Def: 288 HP: 1337 Init: 200 P: beast Phys: 25 Article: the
+Bugbear Captain	1182	bb_captain.gif	NOCOPY Atk: 280 Def: 288 HP: 1337 Init: 200 P: beast Phys: 25 Elem: 30 Article: the
 
 # Zombie Slayer
 Norville Rogers	1214	hunter2.gif	NOCOPY WANDERER Atk: 10 Def: 9 HP: 15 Init: 20 P: dude	hunter brain (n100)	Scuba Snack (c0)
@@ -1166,20 +1166,20 @@ Scott the Miner	1216	hunter4.gif	NOCOPY WANDERER Atk: 23 Def: 22 HP: 30 Init: 40
 Father McGruber	1217	hunter5.gif	NOCOPY WANDERER Atk: 31 Def: 30 HP: 40 Init: 50 P: dude	hunter brain (n100)	votive candle (c0)
 Herman East, Relivinator	1218	hunter6.gif	NOCOPY WANDERER Atk: 39 Def: 39 HP: 52 Init: 60 P: dude	hunter brain (n100)
 Angry Space Marine	1219	hunter7.gif	NOCOPY WANDERER Atk: 50 Def: 50 HP: 65 Init: 70 P: dude	hunter brain (n100)
-Deputy Nick Soames & Earl	1220	hunter8.gif	NOCOPY WANDERER Atk: 64 Def: 63 HP: 83 Init: 80 P: dude	hunter brain (n100)
+Deputy Nick Soames & Earl	1220	hunter8.gif	NOCOPY WANDERER Atk: 64 Def: 63 HP: 83 Init: 80 Group: 2 P: dude	hunter brain (n100)
 Father Nikolai Ravonovich	1221	hunter9.gif	NOCOPY WANDERER Atk: 81 Def: 81 HP: 98 Init: 90 P: dude	hunter brain (n100)	booby trap (c0)
 Charity the Zombie Hunter	1222	hunter10.gif	NOCOPY WANDERER Atk: 100 Def: 99 HP: 121 Init: 100 P: dude	hunter brain (n100)	Charity's choker (c0)
 Special Agent Wallace Burke Corrigan	1223	hunter11.gif	NOCOPY WANDERER Atk: 121 Def: 123 HP: 140 Init: 110 P: dude	hunter brain (n100)	Agent Corrigan's cigarette (c0)
 Hank North, Photojournalist	1224	hunter12.gif	NOCOPY WANDERER Atk: 144 Def: 148 HP: 180 Init: 120 P: dude	hunter brain (n100)
-rag-tag band of survivors	1225	hunter13.gif	NOCOPY WANDERER Atk: 169 Def: 171 HP: 223 Init: 130 P: dude Article: a	hunter brain (n100)
+rag-tag band of survivors	1225	hunter13.gif	NOCOPY WANDERER Atk: 169 Def: 171 HP: 223 Init: 130 Group: 4 P: dude Article: a	hunter brain (n100)
 The Free Man	1227	hunter15.gif	NOCOPY WANDERER Atk: 230 Def: 234 HP: 360 Init: 150 P: dude	hunter brain (n100)
 Wesley J. "Wes" Campbell	1226	hunter14.gif	NOCOPY WANDERER Atk: 197 Def: 207 HP: 280 Init: 140 P: dude	hunter brain (n100)	good ash (c0)
 zombie-huntin' feller	1213	hunter1.gif	NOCOPY WANDERER Atk: 10 Def: 9 HP: 15 Init: 20 P: dude Article: a	hunter brain (n100)
 Rene C. Corman	1229	reneccorman.gif	NOCOPY Atk: 222 Def: 199 HP: 1000 Init: 200 P: dude Wiki: "Rene C. Corman (Zombie Slayer)"	Thwaitgold maggot statuette (n100)
 
 # Avatar of Jarlsberg
-Clancy	1338	clancy.gif	NOCOPY Atk: 150 Def: 165 HP: 500 Init: 90 P: dude Phys: 25
-The Avatar of Boris	1339	boris.gif	NOCOPY Atk: 230 Def: 190 HP: 1000 Init: 50 P: dude
+Clancy	1338	clancy.gif	NOCOPY Atk: 150 Def: 165 HP: 500 Init: 90 P: dude Phys: 25 Elem: 25
+The Avatar of Boris	1339	boris.gif	NOCOPY Atk: 230 Def: 190 HP: 1000 Init: 50 P: dude Elem: 50
 
 # KOLHS
 Bunsen burner and beaker	1363	bunsen.gif	Scale: 4 Cap: 200 Init: -10000 P: construct Article: a	mysterious chemical residue (25)	mysterious chemical residue (10)
@@ -1204,7 +1204,7 @@ wire sculpture	1370	wiresculpture.gif	Scale: 4 Cap: 200 Init: 40 P: construct Ar
 X-fingered Shop Teacher	1360	shopteacher.gif	LUCKY Scale: 6 Cap: 200 Init: 100 P: dude Article: the	jigsaw blade (100)	wood screw (100)	balsa plank (100)	blob of wood glue (100)
 
 # Avatar of Sneaky Pete
-The Avatar of Jarlsberg	1535	aojarls.gif	NOCOPY Atk: 240 Def: 180 HP: 600 Init: 100 P: dude
+The Avatar of Jarlsberg	1535	aojarls.gif	NOCOPY Atk: 240 Def: 180 HP: 600 Init: 100 P: dude Elem: 50
 
 # Heavy Rains
 alley catfish	1600	catfish.gif	WANDERER Scale: -35 Init: 70 Meat: 80 P: fish Article: an	catfish whiskers (0)
@@ -1294,7 +1294,7 @@ the invader	2138	invader.gif	BOSS NOCOPY Atk: 1000 Def: 1000 HP: 1000 Init: -100
 %monster%	2140	nopic.gif	NOCOPY Atk: [pref(glitchItemImplementationCount)*5+1] Def: [pref(glitchItemImplementationCount)*5] HP: [pref(glitchItemImplementationCount)*5+1] Init: 1 P: construct Article: a
 
 # Path of the Plumber
-Koopa Paratroopa	2165	paratroopa.gif	BOSS NOCOPY Atk: 40 Def: 40 HP: 40 Init: 50 P: beast Article: a
+Koopa Paratroopa	2165	paratroopa.gif	BOSS NOCOPY Atk: 40 Def: 40 HP: 40 Init: 50 P: beast Elem: 50 Article: a
 Hammer Brother	2166	hammerbrother.gif	BOSS NOCOPY Atk: 60 Def: 60 HP: 80 Init: 50 P: beast Article: a
 Very Dry Bones	2167	drybones.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 150 Init: 50 P: undead Article: a
 Birdo	2168	birdo.gif	BOSS NOCOPY Atk: 180 Def: 180 HP: 300 Init: 50 P: beast	Staff of Fats (n100)
@@ -1337,7 +1337,7 @@ Protector S. P. E. C. T. R. E.	2206	roboss_spectre.gif	BOSS NOCOPY Atk: 165 Def:
 Groarbot	2207	roboss_groar.gif	BOSS NOCOPY Atk: 120 Def: 110 HP: 250 Init: 50 P: construct	robo-battery (n100)
 The Artificial Wisniewski	2208	roboss_dude.gif	BOSS NOCOPY Atk: 250 Def: 230 HP: 2000 Init: 60 P: construct	robo-battery (n100)
 The Android	2209	roboss_man.gif	BOSS NOCOPY Atk: 250 Def: 230 HP: 2000 Init: 60 P: construct	robo-battery (n100)
-Nautomatic Sorceress	2210	roboss_sorc.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 1000 Init: 10000 P: construct Article: the
+Nautomatic Sorceress	2210	roboss_sorc.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 1000 Init: 10000 P: construct Phys: 50 Elem: 50 Article: the
 
 # Wildfires
 Blaze Bat	2211	firebossbat.gif	BOSS NOCOPY Atk: 33 Def: 29 HP: 40 Init: 60 P: beast E: hot Article: The	batskin belt (100)	dense Meat stack (100)	Boss Bat britches (c100)	boss Bat bling (c100)
@@ -1345,7 +1345,7 @@ fired-up Knob Goblin King	2212	firegoblinking.gif	BOSS NOCOPY Atk: 53 Def: 47 HP
 Burnerdagon	2213	burnerdagon.gif	BOSS NOCOPY Atk: 90 Def: 81 HP: 120 Init: 90 P: undead E: hot Article: The	skull of the Bonerdagon (n100)	chest of the Bonerdagon (n100)
 Dr. Awkward, who is on fire	2214	fireawkward.gif	BOSS NOCOPY Atk: 175 Def: 157 HP: 200 Init: -10000 P: dude E: hot	Drowsy Sword (n100)	Staff of Fats (n100)
 Lord Sootyraven	2215	fireyraven.gif	BOSS NOCOPY Atk: 165 Def: 148 HP: 200 Init: 10000 P: undead E: hot	Eye of Ed (n100)	Lord Spookyraven's ear trumpet (n100)
-Protector Spectre (Wildfire)	2216	firespectre.gif	BOSS NOCOPY Atk: 164 Def: 151 HP: 100 Init: 30 P: undead E: hot Article: a Manuel: "Protector Spectre"	ancient amulet (n100)	spectre scepter (n100)
+Protector Spectre (Wildfire)	2216	firespectre.gif	BOSS NOCOPY Atk: 164 Def: 151 HP: 100 Init: 30 P: undead Phys: 100 E: hot Article: a Manuel: "Protector Spectre"	ancient amulet (n100)	spectre scepter (n100)
 Groar, Except Hot	2217	firegroar.gif	BOSS NOCOPY Atk: 120 Def: 108 HP: 250 Init: 50 P: beast E: hot	Groar's fur (100)	dense meat stack (100)	dense meat stack (100)	dense meat stack (100)	dense meat stack (100)	dense meat stack (100)
 The Big Ignatowicz	2218	firethedude.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: hippy E: hot	solid gold bowling ball (100)
 The Man on Fire	2219	firetheman.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: dude E: hot	really dense meat stack (100)
@@ -1417,7 +1417,7 @@ giant bird-creature	818	pterodactyl.gif	NOCOPY Atk: 100 Def: 81 HP: 90 Init: 20 
 giant jungle python	819	python.gif	NOCOPY Atk: 90 Def: 81 HP: 100 Init: 40 P: beast Article: a
 giant octopus	817	watertentacle.gif	NOCOPY Atk: 90 Def: 90 HP: 90 Init: 80 P: fish Article: a
 giant spider	820	tarantula.gif	NOCOPY Atk: 90 Def: 81 HP: 90 Init: 60 P: bug Article: a
-group of cultists	828	cultistgroup.gif	Atk: 80 Def: 63 HP: 75 Init: 30 P: dude Article: a	memory of a cultist's robe (0)
+group of cultists	828	cultistgroup.gif	Atk: 80 Def: 63 HP: 75 Init: 30 Group: 3 P: dude Article: a	memory of a cultist's robe (0)
 jungle baboon	832	orangutan.gif	Atk: 50 Def: 54 HP: 50 Init: 80 P: beast Article: a	banana peel (0)	glass of baboon milk (0)
 tribal goblin	831	tribalgoblin.gif	Atk: 60 Def: 45 HP: 60 Init: 60 P: goblin Article: a	goblin autoblowgun (0)	goblin hunting spear (0)	shiny tribal beads (0)	folder (barbarian) (c0)	temporary tribal tattoo (c0)
 wumpus	821	wumpus.gif	NOCOPY Atk: 66 Def: 59 HP: 66 Init: 66 P: beast Article: a	memory of a glowing crystal (c0)	wumpus hair (n100)
@@ -1656,7 +1656,7 @@ Sloppy Seconds Cocktail	1567	ssd_cocktail.gif	NOBANISH Scale: 5 Cap: 11111 Init:
 Sloppy Seconds Sundae	1568	ssd_sundae.gif	NOBANISH Scale: 5 Cap: 11111 Init: -10000 P: weird E: sleaze	possessed sugar cube (0)
 Fun-Guy Playmate	1569	fun-gal1.gif,fun-gal2.gif,fun-gal3.gif,fun-gal4.gif,fun-gal5.gif,fun-gal6.gif	NOCOPY Atk: [30] Def: [30] HP: [30] Exp: 30 Init: -10000 P: plant E: sleaze	sleight-of-hand mushroom (0)	Fun-Guy spore (5)	pencil thin mushroom (c0)
 broctopus	1571	broctopus.gif	Atk: 375 Def: 300 HP: 500 Init: 50 Meat: 100 P: fish E: sleaze Article: a	BROS Energy Drink (25)	8-billed baseball cap (5)
-cocktail shrimp	1572	cocktailshrimp.gif	Atk: 350 Def: 325 HP: 400 Init: 75 Meat: 50 P: fish E: sleaze Article: a	giant shrimp fork (5)	shrimp cocktail (25)
+cocktail shrimp	1572	cocktailshrimp.gif	Atk: 350 Def: 325 HP: 400 Init: 75 Meat: 50 P: fish Elem: 50 E: sleaze Article: a	giant shrimp fork (5)	shrimp cocktail (25)
 taco fish	1573	tacofish.gif	NOCOPY Atk: 350 Def: 400 HP: 500 Init: 50 Meat: 150 P: fish E: sleaze Article: a
 wild girl	1570	wildgirl.gif	Atk: 325 Def: 350 HP: 450 Init: 100 Meat: 100 P: dude E: sleaze Article: a	extremely wet T-shirt (5)	go-go potion (25)	string of moist beads (30)
 son of a son of a sailor	1574	sonofsailor.gif	NOCOPY Atk: 350 Def: 350 HP: 600 Init: 50 Meat: 75 P: dude E: sleaze Article: a
@@ -1676,7 +1676,7 @@ creepy little girl	1635	creepygirl.gif	NOBANISH Atk: [200+150*pref(controlPanel5
 government scientist	1633	scientist.gif	NOBANISH Atk: [200+150*pref(controlPanel1)+150*pref(controlPanel2)+150*pref(controlPanel9)+ML] Def: [200+150*pref(controlPanel1)+150*pref(controlPanel2)+150*pref(controlPanel9)+ML] HP: [150+150*pref(controlPanel1)+150*pref(controlPanel2)+150*pref(controlPanel9)+ML] Exp: [(200+150*pref(controlPanel1)+150*pref(controlPanel2)+150*pref(controlPanel9))/4+ML/3] Init: -10000 P: dude E: spooky Article: a	heavy-duty clipboard (c0)	experimental serum G-9 (c15)	battery-powered drill (c0)	airborne mutagen (c0)	grimy lab coat (c0)
 lab monkey	1634	labmonkey.gif	NOBANISH Atk: [200+150*pref(controlPanel3)+150*pref(controlPanel4)+150*pref(controlPanel9)+ML] Def: [200+150*pref(controlPanel3)+150*pref(controlPanel4)+150*pref(controlPanel9)+ML] HP: [150+150*pref(controlPanel3)+150*pref(controlPanel4)+150*pref(controlPanel9)+ML] Exp: [(200+150*pref(controlPanel3)+150*pref(controlPanel4)+150*pref(controlPanel9))/4+ML/3] Init: -10000 P: beast E: spooky Article: a	limp broccoli (c0)	monkey barf (c0)	giant yellow hat (c0)	airborne mutagen (c0)
 super-sized Cola Wars soldier	1636	colasoldier.gif	NOBANISH Atk: [200+150*pref(controlPanel7)+150*pref(controlPanel8)+150*pref(controlPanel9)+ML] Def: [200+150*pref(controlPanel7)+150*pref(controlPanel8)+150*pref(controlPanel9)+ML] HP: [150+150*pref(controlPanel7)+150*pref(controlPanel8)+150*pref(controlPanel9)+ML] Exp: [(200+150*pref(controlPanel7)+150*pref(controlPanel8)+150*pref(controlPanel9))/4+ML/3] Init: -10000 P: dude E: spooky Article: a	ice-cold Cloaca Zero (c0)	first-aid pouch (c0)	khaki duffel bag (c0)	airborne mutagen (c0)	iron torso box (c0)
-E.V.E., the robot zombie	1647	eve.gif	NOBANISH NOCOPY Atk: 300 Def: 300 HP: 500 Init: 150 P: construct E: spooky
+E.V.E., the robot zombie	1647	eve.gif	NOBANISH NOCOPY Atk: 300 Def: 300 HP: 500 Init: 150 P: construct Phys: 50 E: spooky
 
 # Tales of Spelunking (Adventurous Spelunker Year 2015)
 alien	1724	spelunkalien.gif	NOCOPY Atk: 40 Def: 40 HP: 40 Init: -10000 P: humanoid Article: an
@@ -1797,11 +1797,11 @@ X-32-F Combat Training Snowman	1858	blank.gif	NOCOPY NOMANUEL NOWANDER Atk: 1 De
 drunk cowpoke	1899	drunkpoke.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: -10000 P: dude Article: a	cow poker (0)
 surly gambler	1900	gamblinman.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: -10000 P: dude Article: a	poker face paint (0)
 wannabe gunslinger	1901	wannabecowboy.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: 50 P: dude Article: a	realistic cap gun (0)
-cow cultist	1902	cowcultist.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: 50 P: dude Article: a	tainted milk (0)
+cow cultist	1902	cowcultist.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: 50 P: dude Elem: [max(min(75*(pref(lttQuestDifficulty)-1),100),0)] Article: a	tainted milk (0)
 hired gun	1903	outlawboss.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: 75 P: dude Article: a	gun parts (0)
 camp cook	1904	campcook.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: 50 P: dude Article: a	plate of Heimz Fortified Kidney Beans (0)	plate of Mixed Garbanzos and Chickpeas (0)	plate of Tesla's Electroplated Beans (0)
 skeletal gunslinger	1905	cowskeleton.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: 75 P: undead E: spooky Article: a	triggerfingerbone (0)
-restless ghost	1906	elizabeth.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: 50 P: undead GHOST Phys: 100 E: spooky Article: a	ghost bit (0)
+restless ghost	1906	elizabeth.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: 50 P: undead GHOST Phys: 100 Elem: [max(min(50*(pref(lttQuestDifficulty)-1),75),0)] E: spooky Article: a	ghost bit (0)
 buzzard	1907	vulture.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: 100 P: beast E: stench Article: a	buzzard feather (0)
 mountain lion	1908	mtlion.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: 100 P: beast Article: a	lion musk (0)
 grizzled bear	1909	grizzlebear.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: -10000 P: beast Article: a	bear claw (0)
@@ -1811,10 +1811,10 @@ frontwinder	1912	frontwinder.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] 
 caugr	1913	caugr.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: -10000 P: demon Article: a	rotting beefsteak (0)
 pyrobove	1914	pyrobove.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: 100 P: demon E: hot Article: a	firemilk (0)
 spidercow	1915	cowspider.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: 50 P: demon E: spooky Article: a	spidercow eye-cluster (0)
-moomy	1916	moomy.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: -10000 P: demon E: spooky Article: a	moomy dust (0)
+moomy	1916	moomy.gif	Scale: [max(5,25*pref(lttQuestDifficulty)-25)] Cap: 11111 Floor: [60*pref(lttQuestDifficulty)] Init: -10000 P: demon Elem: [max(min(50*(pref(lttQuestDifficulty)-1),75),0)] E: spooky Article: a	moomy dust (0)
 
 # Bosses
-Jeff the Fancy Skeleton	1917	fancyjeff.gif	NOCOPY Atk: 180 Def: 200 HP: 300 Init: 100 P: undead E: spooky	Fancy Jeff's fancy pocket square (n100)
+Jeff the Fancy Skeleton	1917	fancyjeff.gif	NOCOPY Atk: 180 Def: 200 HP: 300 Init: 100 P: undead Phys: 50 Elem: 70 E: spooky	Fancy Jeff's fancy pocket square (n100)
 Daisy the Unclean	1918	daisy.gif	NOCOPY Atk: 200 Def: 180 HP: 400 Init: 100 P: demon E: stench	Daisy's unclean bloomers (n100)
 Pecos Dave	1919	pecosdave.gif	NOCOPY Atk: 200 Def: 180 HP: 300 Init: 10000 P: dude	Pecos Dave's sixgun (n100)
 
@@ -1822,7 +1822,7 @@ Pharaoh Amoon-Ra Cowtep	1920	amoonra.gif	NOCOPY HP: 1000 Scale: 30 Cap: 5000 Flo
 Snake-Eyes Glenn	1921	snakeglenn.gif	NOCOPY HP: 1000 Scale: 30 Cap: 5000 Floor: 300 Init: 10000 P: dude	Glenn's golden dice (n100)
 Former Sheriff Dan Driscoll	1922	sheriffdan.gif	NOCOPY HP: 800 Scale: 30 Cap: 5000 Floor: 300 Init: -10000 P: dude	Former Sheriff Dan's tin star (n100)
 
-unusual construct	1923	vib6.gif	NOCOPY HP: 5000 Scale: 60 Cap: 9000 Floor: 500 Init: 10000 P: construct Article: an	El Vibrato restraints (n100)
+unusual construct	1923	vib6.gif	NOCOPY HP: 5000 Scale: 60 Cap: 9000 Floor: 500 Init: 10000 P: construct Phys: 50 Elem: 50 Article: an	El Vibrato restraints (n100)
 Clara	1924	clara.gif	NOCOPY HP: 5000 Scale: 60 Cap: 9000 Floor: 500 Init: 300 P: demon	Clara's bell (n100)
 Granny Hackleton	1925	grannyhack.gif	NOCOPY HP: 3000 Scale: 60 Cap: 9000 Floor: 500 Init: -10000 P: dude	Granny Hackleton's Gatling gun (n100)
 
@@ -1888,11 +1888,11 @@ The Jokester	1898	jokester.gif	BOSS NOCOPY HP: 200 Init: -10000 P: dude	tube of 
 # Witchess set (March 2016)
 Witchess Pawn	1935	chess_bpawn.gif	FREE Scale: 2 Cap: 200 Floor: 10 Init: -10000 P: dude Article: a	armored prawn (n100)
 Witchess Knight	1936	chess_bknight.gif	FREE Scale: 5 Cap: 400 Floor: 20 Init: -10000 P: dude Article: a	jumping horseradish (n100)
-Witchess Ox	1937	chess_box.gif	FREE Atk: 1 HP: [max(2500,(MUS/4+ML/3)*45)] Scale: 0 Cap: 5000 Floor: 10 Init: -10000 P: beast Article: a	ox-head shield (n100)
+Witchess Ox	1937	chess_box.gif	FREE Atk: 1 HP: [max(2500,(MUS/4+ML/3)*45)] Scale: 0 Cap: 5000 Floor: 10 Init: -10000 P: beast Phys: 50 Elem: 50 Article: a	ox-head shield (n100)
 Witchess Rook	1938	chess_brook.gif	FREE Scale: 7 Cap: 600 Floor: 25 Init: -10000 P: construct Article: a	Greek Fire (n100)
-Witchess Queen	1939	chess_bqueen.gif	FREE HP: 4000 Scale: 40 Cap: 8000 Floor: 200 Init: -10000 P: dude Article: a	very pointy crown (n100)
-Witchess King	1940	chess_bking.gif	FREE HP: 2000 Scale: 20 Cap: 6000 Floor: 100 Init: -10000 P: dude Article: a	dented scepter (n100)
-Witchess Witch	1941	chess_bwitch.gif	FREE HP: 3000 Scale: 30 Cap: 7000 Floor: 150 Init: -10000 P: dude Article: a	battle broom (n100)
+Witchess Queen	1939	chess_bqueen.gif	FREE HP: 4000 Scale: 40 Cap: 8000 Floor: 200 Init: -10000 P: dude Phys: 75 Elem: 50 Article: a	very pointy crown (n100)
+Witchess King	1940	chess_bking.gif	FREE HP: 2000 Scale: 20 Cap: 6000 Floor: 100 Init: -10000 P: dude Elem: 50 Article: a	dented scepter (n100)
+Witchess Witch	1941	chess_bwitch.gif	FREE HP: 3000 Scale: 30 Cap: 7000 Floor: 150 Init: -10000 P: dude Phys: 50 Elem: 75 Article: a	battle broom (n100)
 Witchess Bishop	1942	chess_bbishop.gif	FREE Scale: 7 Cap: 600 Floor: 25 Init: -10000 P: dude Article: a	Sacramento wine (n100)
 
 # Protonic Accelerator Pack (August 2016)
@@ -1911,13 +1911,13 @@ Emily Koops, a spooky lime	1957	ghost_lime.gif	NOCOPY FREE NOWANDER Atk: 175 Def
 The ghost of Jim Unfortunato	1958	ghost_fortunado.gif	NOCOPY FREE NOWANDER Atk: 190 Def: 170 HP: 180 Init: 75 P: undead GHOST E: spooky	Unfortunato's foolscap (c100)
 
 # Time Spinner (September 2016)
-Ancient Skeleton with Skin still on it	1962	skinskeleton.gif	Scale: 3 Cap: ? Floor: 20 Init: -10000 P: undead Article: an	compounded experience (c100)	time residue (c0)
-Apathetic Tyrannosaurus	1959	apatheticdino.gif	Scale: 3 Cap: ? Floor: 20 Init: -10000 P: beast Article: an	compounded experience (c100)	time residue (c0)
-Assembly Elemental	1960	assemblyelem.gif	Scale: 5 Cap: ? Floor: 20 Init: -10000 P: elemental Article: an	compounded experience (c100)	time residue (c0)
-Cro-Magnon Gnoll	1961	cromaggnoll.gif	Scale: 7 Cap: ? Floor: 20 Init: -10000 P: humanoid Article: a	compounded experience (c100)	time residue (c0)
+Ancient Skeleton with Skin still on it	1962	skinskeleton.gif	Scale: 3 Cap: ? Floor: 20 Init: -10000 P: undead Phys: 60 Elem: 50 Article: an	compounded experience (c100)	time residue (c0)
+Apathetic Tyrannosaurus	1959	apatheticdino.gif	Scale: 3 Cap: ? Floor: 20 Init: -10000 P: beast Phys: 60 Elem: 50 Article: an	compounded experience (c100)	time residue (c0)
+Assembly Elemental	1960	assemblyelem.gif	Scale: 5 Cap: ? Floor: 20 Init: -10000 P: elemental Phys: 80 Elem: 25 Article: an	compounded experience (c100)	time residue (c0)
+Cro-Magnon Gnoll	1961	cromaggnoll.gif	Scale: 7 Cap: ? Floor: 20 Init: -10000 P: humanoid Phys: 40 Elem: 75 Article: a	compounded experience (c100)	time residue (c0)
 Krakrox the Barbarian	1964	krakrox.gif	Scale: 25 Cap: ? Floor: 40 Init: -10000 P: dude	compounded experience (c100)	time residue (c100)	time residue (c100)	time residue (c100)
 time-spinner prank	1965	noart.gif	NOCOPY FREE Atk: 0 Def: 0 HP: 0 Init: -10000 P: dude	time residue (c100)
-Wooly Duck	1963	woolyduck.gif	Scale: 5 Cap: ? Floor: 20 Init: -10000 P: beast Article: a	compounded experience (c100)	time residue (c0)
+Wooly Duck	1963	woolyduck.gif	Scale: 5 Cap: ? Floor: 20 Init: -10000 P: beast Phys: 40 Elem: 25 Article: a	compounded experience (c100)	time residue (c0)
 
 # Gingerbread City (December 2016)
 gingerbread pigeon	1975	gbpigeon.gif	NOCOPY Scale: -5 Cap: 1000 Floor: 30 Init: 50 SprinkleMin: 1 SprinkleMax: 3 P: beast Article: a
@@ -1940,9 +1940,9 @@ Judge Fudge	1991	gbjudge.gif	BOSS NOCOPY Scale: 10 Cap: 1000 Floor: 30 Init: 100
 GNG-3-R	1992	gng3r.gif	BOSS NOCOPY Scale: ? Cap: ? Floor: ? Init: 300 P: construct	industrial frosting (n100)
 
 # Tunnel of L.O.V.E. (February 2017)
-LOV Enforcer	2009	lovenforcer.gif	NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude Phys: 75 Article: a	LOV Elixir #3 (c0)
-LOV Engineer	2010	lovengineer.gif	NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude Phys: 25 Article: a	LOV Elixir #6 (c0)
-LOV Equivocator	2011	lovequivocator.gif	NOCOPY Scale: 5 Cap: ? Floor: ? Init: 500 P: dude Phys: 50 Article: a	LOV Elixir #9 (p0)
+LOV Enforcer	2009	lovenforcer.gif	NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude Phys: 75 Elem: 25 Article: a	LOV Elixir #3 (c0)
+LOV Engineer	2010	lovengineer.gif	NOCOPY Scale: 5 Cap: ? Floor: ? Init: -10000 P: dude Phys: 25 Elem: 75 Article: a	LOV Elixir #6 (c0)
+LOV Equivocator	2011	lovequivocator.gif	NOCOPY Scale: 5 Cap: ? Floor: ? Init: 500 P: dude Phys: 50 Elem: 50 Article: a	LOV Elixir #9 (p0)
 
 # Spacegate (April 2017)
 hostile plant	2013	sgplanta1.gif,sgplanta2.gif,sgplanta3.gif,sgplanta4.gif,sgplanta5.gif,sgplanta6.gif,sgplanta7.gif,sgplanta8.gif,sgplanta9.gif,sgplanta10.gif,sgplanta11.gif,sgplanta12.gif,sgplanta13.gif,sgplanta14.gif,sgplanta15.gif,sgplanta16.gif,sgplanta17.gif,sgplanta18.gif,sgplanta19.gif,sgplanta20.gif	NOCOPY Scale: [10+25*pref(_spacegatePlanetIndex)] Cap: 10000 Floor: ? Init: [60+10*pref(_spacegatePlanetIndex)] P: plant Article: a	edible alien plant bit	alien plant fibers	alien plant goo
@@ -1996,21 +1996,21 @@ Ted Schwartz, Master Thief	2085	fr_masterthief.gif	BOSS NOCOPY Atk: 400 Def: 400
 Skeleton Lord	2087	skeletonlord.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 200 Init: -10000 P: construct Article: the	shield of the Skeleton Lord (c100)	ring of the Skeleton Lord (c100)	scepter of the Skeleton Lord (c100)
 
 # God Lobster (May 2018)
-God Lobster	2088	godlob.gif,godlob_scepter.gif,godlob_ring.gif,godlob_rod.gif,godlob_cape.gif,godlob_crown.gif	NOCOPY FREE Scale: [10*equipped(God Lobster's Scepter)+20*equipped(God Lobster's Ring)+30*equipped(God Lobster's Rod)+40*equipped(God Lobster's Robe)+50*equipped(God Lobster's Crown)] Cap: 1500 Floor: ? Init: 1000 P: horror Article: the
+God Lobster	2088	godlob.gif,godlob_scepter.gif,godlob_ring.gif,godlob_rod.gif,godlob_cape.gif,godlob_crown.gif	NOCOPY FREE Scale: [10*equipped(God Lobster's Scepter)+20*equipped(God Lobster's Ring)+30*equipped(God Lobster's Rod)+40*equipped(God Lobster's Robe)+50*equipped(God Lobster's Crown)] Cap: 1500 Floor: ? Init: 1000 P: horror Phys: [30*equipped(God Lobster's Ring)+50*equipped(God Lobster's Rod)+60*equipped(God Lobster's Robe)+80*equipped(God Lobster's Crown)] Elem: [25*equipped(God Lobster's Rod)+60*equipped(God Lobster's Robe)+90*equipped(God Lobster's Crown)] Article: the
 
 # Neverending Party (Sept 2018)
-biker	2089	nparty_biker.gif	Scale: [20+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 21 Init: -10000 Meat: 100 P: dude Article: a	gas can (0)	Middle of the Road&trade; brand whiskey (0)	neverending wallet chain (0)	pentagram bandana (0)	gold skull ring (c0)
+biker	2089	nparty_biker.gif	Scale: [20+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 21 Init: -10000 Meat: 100 P: dude Phys: 20 Article: a	gas can (0)	Middle of the Road&trade; brand whiskey (0)	neverending wallet chain (0)	pentagram bandana (0)	gold skull ring (c0)
 "plain" girl	2090	nparty_plaingirl.gif	Scale: [-10+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 10 Init: -10000 Meat: 100 P: dude Article: a	electronics kit (0)	PB&J with the crusts cut off (0)	dorky glasses (0)	ponytail clip (0)	paint palette (c0)
 jock	2091	nparty_jock.gif	Scale: [0+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 10 Init: -10000 Meat: 150 P: dude Article: a	unremarkable duffel bag (0)	Purple Beast energy drink (0)	cosmetic football (0)	shoe ad T-shirt (0)	pump-up high-tops (c0)
 party girl	2092	nparty_partygirl.gif	Scale: [10+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 11 Init: -10000 Meat: 100 P: dude Article: a	runproof mascara (0)	very small red dress (0)	noticeable pumps (0)	surprisingly capacious handbag (0)	everfull glass (c0)
 burnout	2093	nparty_burnout.gif	Scale: [-5+100*equipped(PARTY HARD T-shirt)] Cap: 20000 Floor: 10 Init: -10000 Meat: 50 P: dude Article: a	denim jacket (0)	ratty knitted cap (0)	van key (0)	jam band bootleg (0)
 
 # Voter Registration Form (Nov 2018)
-angry ghost	2094	vw_ghost.gif	NOCOPY Scale: 4 Cap: 1000 Floor: 10 Init: -10000 P: undead GHOST E: spooky Article: an	ghostly ectoplasm (100)	ghostly ectoplasm (10)	ghostly ectoplasm (1)
-annoyed snake	2098	vwsnake.gif	NOCOPY Scale: 3 Cap: 1000 Floor: 10 Init: -10000 Meat: 25 P: beast Article: an	snake skin (0)
+angry ghost	2094	vw_ghost.gif	NOCOPY Scale: 4 Cap: 1000 Floor: 10 Init: -10000 P: undead GHOST Phys: 50 E: spooky Article: an	ghostly ectoplasm (100)	ghostly ectoplasm (10)	ghostly ectoplasm (1)
+annoyed snake	2098	vwsnake.gif	NOCOPY Scale: 3 Cap: 1000 Floor: 10 Init: -10000 Meat: 25 P: beast Elem: 50 Article: an	snake skin (0)
 government bureaucrat	2095	vwgovt.gif	NOCOPY Scale: 1 Cap: 1000 Floor: 10 Init: -10000 Meat: 50 P: dude Article: a	government requisition form (0)	absentee voter ballot (0)
 terrible mutant	2096	vwmutant.gif	NOCOPY Scale: 5 Cap: 1000 Floor: 10 Init: -10000 Meat: 10 P: humanoid Article: a	glob of undifferentiated tissue (0)	glob of undifferentiated tissue (0)	mutant arm (n0)	mutant legs (c0)	mutant crown (c0)
-slime blob	2097	vwslime.gif	NOCOPY Scale: 4 Cap: 1000 Floor: 10 Init: -10000 P: slime E: sleaze Article: a	green slime glob (20)	orange slime glob (40)	black slime glob (n0)
+slime blob	2097	vwslime.gif	NOCOPY Scale: 4 Cap: 1000 Floor: 10 Init: -10000 P: slime Phys: 50 E: sleaze Article: a	green slime glob (20)	orange slime glob (40)	black slime glob (n0)
 
 # Kramco Sausage-o-Matic (Jan 2019
 sausage goblin	2104	sausagegoblin.gif	FREE Scale: [1+2*pref(_sausageFights)] Cap: ? Floor: ? Init: -10000 Meat: 69 P: goblin E: sleaze Article: a	magical sausage casing (n100)	red-hot sausage fork (0)	bag of sausage links (n0)
@@ -2024,12 +2024,12 @@ translucent monkey	2120	pr_monkey.gif	Atk: 30 Def: 30 HP: 40 Init: 75 P: beast A
 giant giant crab	2121	pr_bosscrab.gif	NOCOPY Atk: 80 Def: 80 HP: 200 Init: 50 Meat: 2000 P: beast Article: a
 toy dinosaur	2123	pr_dinosaur.gif	Atk: 50 Def: 50 HP: 60 Init: 75 P: beast Article: a
 cockroach	2124	pr_cockroach.gif	Atk: 40 Def: 80 HP: 60 Init: 50 Meat: 500 P: bug Article: a
-vape ghost	2125	pr_vapeghost.gif	Atk: 60 Def: 30 HP: 60 Init: 30 P: undead Article: a
-signal	2126	pr_signal.gif	Atk: 90 Def: 90 HP: 100 Init: 200 P: weird Article: a	signal fragment
+vape ghost	2125	pr_vapeghost.gif	Atk: 60 Def: 30 HP: 60 Init: 30 P: undead Phys: 100 Article: a
+signal	2126	pr_signal.gif	Atk: 90 Def: 90 HP: 100 Init: 200 P: weird Phys: 50 Elem: 50 Article: a	signal fragment
 tiki idol	2127	pr_tiki.gif	Atk: 90 Def: 110 HP: 100 Init: 50 P: construct E: sleaze Article: a	hibiscus petal	huge mint leaf	pineapple slab
 pewter torsohunter	2128	pr_headhunter.gif	Atk: 120 Def: 80 HP: 100 Init: 80 P: construct Article: a	pewter shavings
 carnivorous plant	2129	pr_plant.gif	Atk: 100 Def: 80 HP: 80 Init: -10000 P: plant Article: a
-strong wind	2130	pr_wind.gif	Atk: 100 Def: 100 HP: 10 Init: 999 P: weird Article: a	windicle
+strong wind	2130	pr_wind.gif	Atk: 100 Def: 100 HP: 10 Init: 999 P: weird Phys: 100 Elem: 100 Article: a	windicle
 jungle titan	2131	pr_titan.gif	NOCOPY Atk: 90 Def: 90 HP: 1000 Init: 50 P: dude Article: a
 pirate radio	2132	pr_radio.gif	NOCOPY Atk: 100 Def: 100 HP: 500 Init: -10000 P: construct Article: a
 melty freezeface	2133	pr_freezeface.gif	Atk: 80 Def: 80 HP: 100 Init: 100 P: construct E: cold Article: a	oversized ice molecule
@@ -2046,12 +2046,12 @@ Tentacle of Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2198	ccs_tentacle.gi
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)
-family of kobolds	1101	kobolds.gif	NOCOPY Atk: 99999 Def: 89999 HP: 99999 Init: -10000 P: humanoid Article: a	kobold treasure hoard (n100)
+family of kobolds	1101	kobolds.gif	NOCOPY Atk: 99999 Def: 89999 HP: 99999 Init: -10000 Group: 100 P: humanoid Article: a	kobold treasure hoard (n100)
 
 # Transmissions from planet Xi (Xi Receiver KoL Con XI)
-holographic army	1629	holoarmy.gif	NOCOPY Scale: 30 Floor: ? Init: -10000 P: weird Article: a	holo-bomber (0)	holo-platoon (0)	holo-tank (0)
+holographic army	1629	holoarmy.gif	NOCOPY Scale: 30 Floor: ? Init: -10000 Group: 10 P: weird Elem: 50 Article: a	holo-bomber (0)	holo-platoon (0)	holo-tank (0)
 They	1631	they.gif	Scale: 20 Floor: ? Init: -10000 P: humanoid Article: a	They liver (0)	They liver (0)	BUBBLE GUM (c0)
-Xiblaxian political prisoner	1630	polprisoner.gif	NOCOPY Scale: 40 Floor: ? Init: -10000 P: weird Article: an	residual zeal (n100)	little red .epub file (c0)
+Xiblaxian political prisoner	1630	polprisoner.gif	NOCOPY Scale: 40 Floor: ? Init: -10000 P: weird Elem: 75 Article: an	residual zeal (n100)	little red .epub file (c0)
 
 # Antique Maps
 
@@ -2138,9 +2138,9 @@ vine gar	213	gar.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 180 Init: 70 P: beast Art
 
 # Trick or Treat
 vandal kid	1448	vandalkid.gif	FREE Scale: -3 Cap: 200 Init: 50 P: dude	carton of rotten eggs (15)	slingshot (5)	spray paint (10)
-suburban security civilian	1450	paulblart.gif	FREE Scale: 3 Cap: 300 Init: -10000 P: dude	security flashlight (10)	unused walkie-talkie (1)	Way More Tears&trade; pepper spray (15)
+suburban security civilian	1450	paulblart.gif	FREE Scale: 3 Cap: 300 Init: -10000 P: dude Elem: 50	security flashlight (10)	unused walkie-talkie (1)	Way More Tears&trade; pepper spray (15)
 kid who is too old to be Trick-or-Treating	1449	tooold.gif	FREE Scale: 0 Cap: 250 Init: 50 P: dude Article: a	bottle of whiskey (15)	Effermint&trade; tablets (10)	sturdy cane (5)
-All-Hallow's Steve	1451	steve.gif	NOCOPY NOMANUEL FREE Scale: 30 Init: 90 P: dude	All-Hallow's Steve's fright wig (n100)
+All-Hallow's Steve	1451	steve.gif	NOCOPY NOMANUEL FREE Scale: 30 Init: 90 P: dude Phys: 75 Elem: 75	All-Hallow's Steve's fright wig (n100)
 
 # Twitch 1 - Crashed Space Ship (May 2014)
 Government agent	1585	gov_agent.gif	Scale: -5 Init: 25 Meat: 75 P: dude Article: a	burned government manual fragment (15)	government cheese (20)	pair of government shades (3)	government-issued night-vision goggles (3)	government-issue identification badge (c0)
@@ -2459,7 +2459,7 @@ fudge oyster	1119	fudgeoyster.gif	Atk: 100 Def: 90 HP: 130 Init: -10000 P: beast
 fudge poodle	1120	fudgepoodle.gif	Atk: 120 Def: 108 HP: 150 Init: 80 P: beast Article: a	fudgecule (c100)
 fudge vulture	1118	fudgevulture.gif	Atk: 80 Def: 72 HP: 100 Init: 50 P: beast Article: a	fudgecule (c100)
 fudge weasel	1116	fudgeweasel.gif	Atk: 80 Def: 72 HP: 100 Init: 50 P: beast Article: a	fudgecule (c100)
-swarm of fudgewasps	1144	fudgewasps.gif	Atk: 450 Def: 405 HP: 500 Init: 50 P: bug Article: a	fudgecule (c100)
+swarm of fudgewasps	1144	fudgewasps.gif	Atk: 450 Def: 405 HP: 500 Init: 50 Group: 3 P: bug Article: a	fudgecule (c100)
 The Fudge Wizard	-51	fudgewizard.gif	NOMANUEL Atk: 300 Def: 270 HP: 400 Init: 100	wand of fudge control (100)
 The Abominable Fudgeman	-50	fudgeman.gif	NOMANUEL Atk: 350 Def: 350 HP: 500 Init: 50	heart of dark chocolate (0)
 
@@ -2512,7 +2512,7 @@ Possessed Can of Creepy Pasta	1465	mystwander2.gif	WANDERER Scale: -3 Cap: 500 F
 Frozen Bag of Tortellini	1462	mystwander3.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: cold Article: a	freezer-burned frost-bitten tortellini (c0)	freezer-burned frost-bitten tortellini (c0)
 Possessed Jar of Alphredo&trade;	1463	mystwander4.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: stench Article: a Manuel: "Possessed Jar of Alphredo™"	blob of Alphredo&trade; (c0)	blob of Alphredo&trade; (c0)
 Box of Crafty Dinner	1464	mystwander5.gif	WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: sleaze Article: a	handful of crafty noodles (c0)	handful of crafty noodles (c0)
-Chef Boy, R&amp;D	1466	chefboy.gif	NOMANUEL WANDERER Scale: 5 Init: -10000 P: dude Phys: 100
+Chef Boy, R&amp;D	1466	chefboy.gif	NOMANUEL WANDERER Scale: 5 Init: -10000 P: dude Phys: 100 Elem: 50
 
 # The WarBear Fortress (Crimbo 2013)
 Warbear Foot Soldier	1459	warbear11.gif,warbear12.gif,warbear13.gif	Scale: -3 Floor: 20 Init: -10000 P: beast	warbear whosit (n100)
@@ -2543,8 +2543,8 @@ Cinco de Mayo reveler	1943	reveler1.gif,reveler2.gif	Scale: 5 Init: -10000 Meat:
 
 # Eldritch Incursion (October 2016)
 
-Eldritch Tentacle	1974	eldtentacle.gif	Scale: 7 Cap: 400 Floor: 20 Init: -10000 P: horror E: spooky Article: an	eldritch effluvium (0)	eldritch effluvium (0)	eldritch effluvium (0)
-Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2012	eldboss.gif	NOMANUEL Atk: 300 Def: 300 Init: -10000 P: horror E: spooky	eldritch effluvium (0)	eldritch effluvium (0)	eldritch mushroom (0)
+Eldritch Tentacle	1974	eldtentacle.gif	Scale: 7 Cap: 400 Floor: 20 Init: -10000 P: horror Phys: 50 Elem: 50 E: spooky Article: an	eldritch effluvium (0)	eldritch effluvium (0)	eldritch effluvium (0)
+Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2012	eldboss.gif	NOMANUEL Atk: 300 Def: 300 Init: -10000 P: horror Phys: 50 Elem: 50 E: spooky	eldritch effluvium (0)	eldritch effluvium (0)	eldritch mushroom (0)
 
 # Crimbo 2016 (December 2016)
 
@@ -2557,7 +2557,7 @@ that time you screwed everything up like a complete idiot	1997	badvibe7.gif	Scal
 the most embarrassing moment in your entire life	1998	badvibe6.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: weird	negative lump (0)
 what you totally should have said that one time	1999	badvibe5.gif	Scale: 0 Cap: 10000 Floor: 10 Init: -10000 P: weird	negative lump (0))
 
-endless winter	2000	winter.gif	Scale: 7 Cap: 10000 Floor: 40 Init: -10000 P: weird	negative lump (0)	chakra sludge (0)
+endless winter	2000	winter.gif	Scale: 7 Cap: 10000 Floor: 40 Init: -10000 P: weird Elem: 100	negative lump (0)	chakra sludge (0)
 the abstract concept of poverty	2001	poverty.gif	Scale: 7 Cap: 10000 Floor: 40 Init: -10000 P: weird	negative lump (0)	chakra sludge (0)
 angry viking warriors	2002	3vikings.gif	Scale: 7 Cap: 10000 Floor: 40 Init: -10000 P: weird Phys: 100	negative lump (0)	chakra sludge (0)
 
@@ -2621,7 +2621,7 @@ animated nightstand (mahogany noncombat)	407	darkstand.gif	Atk: 162 Def: 149 HP:
 animated nightstand (white combat)	391	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P: construct Article: an Manuel: "animated nightstand" Wiki: "animated nightstand (White)"	grouchy restless spirit (80)
 animated nightstand (white noncombat)	406	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P: construct Article: an Manuel: "animated nightstand" Wiki: "animated nightstand (White)"	grouchy restless spirit (80)
 Black Knight	417	blknight.gif	Atk: 123 Def: 121 HP: 135 Init: 50 Meat: 90 P: dude Article: The	black greaves (15)	black helmet (15)	black shield (15)	black sword (15)
-eXtreme Sports Orcs	336	wcorcs.gif	Atk: 39 Def: 34 HP: 30 Init: 60 Meat: 30 P: orc E: sleaze Article: some	eXtreme mittens (4)	Mountain Stream soda (40)	Orcish baseball cap (10)	Orcish cargo shorts (10)	ultimate ultimate frisbee (10)	hang glider (c100)
+eXtreme Sports Orcs	336	wcorcs.gif	Atk: 39 Def: 34 HP: 30 Init: 60 Meat: 30 Group: 2 P: orc E: sleaze Article: some	eXtreme mittens (4)	Mountain Stream soda (40)	Orcish baseball cap (10)	Orcish cargo shorts (10)	ultimate ultimate frisbee (10)	hang glider (c100)
 giant pair of tweezers	38	tweezers.gif	Atk: 16 Def: 14 HP: 8 Init: 60 P: construct Article: a
 Gnollish Sorceress	17	gnollmage.gif	Atk: 11 Def: 9 HP: 5 Init: 60 Meat: 22 P: humanoid Article: a	gnoll teeth (5)	gnoll lips (5)
 Knob Goblin Elite Guardsman	79	kg_guardcaptain.gif	Atk: 30 Def: 25 HP: 30 Init: 90 Meat: 50 P: goblin Article: a	Knob Goblin elite helm (5)	Knob Goblin elite pants (5)	Knob Goblin elite polearm (5)	knob bugle (5)	Knob Goblin elite shirt (c5)
