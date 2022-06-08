@@ -22,7 +22,7 @@ public class JuneCleaverManager {
     for (Pattern message : MESSAGES) {
       Matcher matcher = message.matcher(responseText);
       if (matcher.find()) {
-        Preferences.increment("_juneCleaverCharge");
+        Preferences.decrement("_juneCleaverFightsLeft");
         switch (matcher.group("color")) {
           case "blue":
             Preferences.increment("_juneCleaverCold");
@@ -42,6 +42,36 @@ public class JuneCleaverManager {
         }
         return;
       }
+    }
+  }
+
+  private static final int[] NORMAL_FIGHTS_TO_CHOICE = {1, 6, 10, 12, 15, 20, 30};
+  private static final int[] RESET_FIGHTS_TO_CHOICE = {1, 2, 3, 3, 4, 5, 8};
+
+  private static int fightsLeft(boolean skip) {
+    int[] fights = skip ? RESET_FIGHTS_TO_CHOICE : NORMAL_FIGHTS_TO_CHOICE;
+    int encounters = Preferences.getInteger("_juneCleaverEncounters");
+    return fights[Math.min(encounters, fights.length - 1)];
+  }
+
+  public static void parseChoice(String urlString) {
+    boolean correctChoice = false;
+    for (int choice = 1467; choice <= 1475; choice++) {
+      if (urlString.contains("whichchoice=" + choice)) {
+        correctChoice = true;
+        break;
+      }
+    }
+    if (!correctChoice) {
+      return;
+    }
+
+    if (urlString.contains("option=4")) {
+      Preferences.increment("_juneCleaverSkips");
+      Preferences.setInteger("_juneCleaverFightsLeft", fightsLeft(true));
+    } else if (urlString.contains("option=")) {
+      Preferences.increment("_juneCleaverEncounters");
+      Preferences.setInteger("_juneCleaverFightsLeft", fightsLeft(false));
     }
   }
 }
