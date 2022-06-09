@@ -106,7 +106,7 @@ public class JuneCleaverManager {
     if (option == 4) {
       Preferences.increment("_juneCleaverSkips");
       Preferences.setInteger("_juneCleaverFightsLeft", fightsLeft(true));
-    } else if (option ==1 || option == 2 || option == 3) {
+    } else if (option == 1 || option == 2 || option == 3) {
       Preferences.increment("_juneCleaverEncounters");
       Preferences.setInteger("_juneCleaverFightsLeft", fightsLeft(false));
     }
