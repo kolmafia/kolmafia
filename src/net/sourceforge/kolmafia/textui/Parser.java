@@ -1016,12 +1016,16 @@ public class Parser {
       result = this.parseExpression(scope);
 
       if (result != null) {
-        result = this.autoCoerceValue(t, result, scope);
-        if (!Operator.validCoercion(ltype, result.getType(), "assign")) {
-          initializationErrors.submitError(
-              this.error(
-                  result.getLocation(),
-                  "Cannot store " + result.getType() + " in " + lhs + " of type " + ltype));
+        try {
+          result = this.autoCoerceValue(t, result, scope);
+          if (!Operator.validCoercion(ltype, result.getType(), "assign")) {
+            initializationErrors.submitError(
+                this.error(
+                    result.getLocation(),
+                    "Cannot store " + result.getType() + " in " + lhs + " of type " + ltype));
+          }
+        } catch (ScriptException e) {
+          initializationErrors.submitError(this.error(e.getMessage()));
         }
       } else {
         initializationErrors.submitSyntaxError(
@@ -5162,11 +5166,11 @@ public class Parser {
      * duplicate variable name, or an unknown function.
      */
     final void submitError(final AshDiagnostic error) {
+      Parser.this.diagnostics.add(error);
       if (this.sawError()) {
         return;
       }
 
-      Parser.this.diagnostics.add(error);
       this.didSeeError();
     }
 
