@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -8,6 +9,30 @@ public class JuneCleaverManager {
 
   private JuneCleaverManager() {}
 
+  public static ArrayList<Integer> queue = new ArrayList<>();
+
+  private static void updateQueue(int id) {
+    String savedQueue = Preferences.getString("juneCleaverQueue");
+    if (queue.isEmpty() && savedQueue.length() > 0) {
+      for (String x : savedQueue.split(",")) {
+        queue.add(Integer.parseInt(x));
+      }
+    }
+
+    queue.add(id);
+
+    while (queue.size() > 6) {
+      queue.remove(0);
+    }
+
+    StringBuilder prefValue = new StringBuilder();
+
+    for (int x : queue) {
+      prefValue.append(x).append(",");
+    }
+
+    Preferences.setString("juneCleaverQueue", prefValue.toString());
+  }
   public static final Pattern[] MESSAGES = {
     Pattern.compile(
         "As the battle ends, your cleaver flashes bright <span style=\"color: (?<color>[^\"]+)\""),
@@ -55,16 +80,11 @@ public class JuneCleaverManager {
   }
 
   public static void parseChoice(String urlString) {
-    boolean correctChoice = false;
-    for (int choice = 1467; choice <= 1475; choice++) {
-      if (urlString.contains("whichchoice=" + choice)) {
-        correctChoice = true;
-        break;
-      }
-    }
-    if (!correctChoice) {
-      return;
-    }
+    Matcher choiceFinder =Pattern.compile("whichchoice=(?<choiceId>\\d+)").matcher(urlString);
+    if (!choiceFinder.find()) { return; }
+    int id = Integer.parseInt(choiceFinder.group("choiceId"));
+
+    updateQueue(id);
 
     if (urlString.contains("option=4")) {
       Preferences.increment("_juneCleaverSkips");
