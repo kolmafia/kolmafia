@@ -66,44 +66,44 @@ public class AdventureRequestTest {
   public void juneCleaverTrackingTest() {
     // regular encounter
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1467&option=1");
-    assertEquals(Preferences.getString("juneCleaverQueue"), "1467,");
+    assertEquals(Preferences.getString("juneCleaverQueue"), "1467");
     assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 1);
     assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 6);
     assertEquals(Preferences.getInteger("_juneCleaverSkips"), 0);
 
     // Skip
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1468&option=4");
-    assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468,");
+    assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468");
     assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 1);
     assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 2);
     assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
 
     // Wrong choice
     JuneCleaverManager.parseChoice("choice.php?whichchoice=7000&option=4");
-    assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468,");
+    assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468");
     assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 1);
     assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 2);
     assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
 
     // No option
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1469");
-    assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468,");
+    assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468");
     assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 1);
     assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 2);
     assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
 
     // Can load queue
     JuneCleaverManager.queue = new ArrayList();
-    Preferences.setString("juneCleaverQueue", "1467,1468,1469,1470,1471,");
+    Preferences.setString("juneCleaverQueue", "1467,1468,1469,1470,1471");
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1472&option=3");
-    assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468,1469,1470,1471,1472,");
+    assertEquals(Preferences.getString("juneCleaverQueue"), "1467,1468,1469,1470,1471,1472");
     assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 2);
     assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 10);
     assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);
 
     // Queue has max length of 6
     JuneCleaverManager.parseChoice("choice.php?whichchoice=1473&option=1");
-    assertEquals(Preferences.getString("juneCleaverQueue"), "1468,1469,1470,1471,1472,1473,");
+    assertEquals(Preferences.getString("juneCleaverQueue"), "1468,1469,1470,1471,1472,1473");
     assertEquals(Preferences.getInteger("_juneCleaverEncounters"), 3);
     assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 12);
     assertEquals(Preferences.getInteger("_juneCleaverSkips"), 1);

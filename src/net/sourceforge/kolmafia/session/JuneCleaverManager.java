@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.session;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class JuneCleaverManager {
@@ -25,13 +26,8 @@ public class JuneCleaverManager {
       queue.remove(0);
     }
 
-    StringBuilder prefValue = new StringBuilder();
-
-    for (int x : queue) {
-      prefValue.append(x).append(",");
-    }
-
-    Preferences.setString("juneCleaverQueue", prefValue.toString());
+    Preferences.setString(
+        "juneCleaverQueue", queue.stream().map(x -> x.toString()).collect(Collectors.joining(",")));
   }
 
   public static final Pattern[] MESSAGES = {
