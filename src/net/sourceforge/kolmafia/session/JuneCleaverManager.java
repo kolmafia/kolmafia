@@ -87,6 +87,15 @@ public class JuneCleaverManager {
     }
     int id = Integer.parseInt(choiceFinder.group("choiceId"));
 
+    boolean correctChoice = false;
+    for (int choice = 1467; choice <= 1475; choice++) {
+      if (choice == id) {
+        correctChoice = true;
+        break;
+      }
+    }
+    if (!correctChoice) return;
+
     updateQueue(id);
 
     if (urlString.contains("option=4")) {
