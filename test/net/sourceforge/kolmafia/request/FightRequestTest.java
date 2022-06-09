@@ -601,10 +601,10 @@ public class FightRequestTest {
   }
 
   @Test
-  public void canIncrementJuneCleaverPrefs() throws IOException {
+  public void canTrackJuneCleaverPrefs() throws IOException {
     EquipmentManager.setEquipment(EquipmentManager.WEAPON, ItemPool.get(ItemPool.JUNE_CLEAVER));
     parseCombatData("request/test_fight_june_cleaver.html");
     assertEquals(Preferences.getInteger("_juneCleaverSleaze"), 2);
-    assertEquals(Preferences.getInteger("_juneCleaverCharge"), 1);
+    assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 0);
   }
 }
