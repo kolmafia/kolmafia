@@ -33,6 +33,7 @@ public class JuneCleaverManager {
 
     Preferences.setString("juneCleaverQueue", prefValue.toString());
   }
+
   public static final Pattern[] MESSAGES = {
     Pattern.compile(
         "As the battle ends, your cleaver flashes bright <span style=\"color: (?<color>[^\"]+)\""),
@@ -80,8 +81,10 @@ public class JuneCleaverManager {
   }
 
   public static void parseChoice(String urlString) {
-    Matcher choiceFinder =Pattern.compile("whichchoice=(?<choiceId>\\d+)").matcher(urlString);
-    if (!choiceFinder.find()) { return; }
+    Matcher choiceFinder = Pattern.compile("whichchoice=(?<choiceId>\\d+)").matcher(urlString);
+    if (!choiceFinder.find()) {
+      return;
+    }
     int id = Integer.parseInt(choiceFinder.group("choiceId"));
 
     updateQueue(id);

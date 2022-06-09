@@ -271,6 +271,7 @@ public class Preferences {
         "itemBoughtPerAscension10795",
         "itemBoughtPerAscension637",
         "itemBoughtPerAscension8266",
+        "juneCleaverQueue",
         "jungCharge",
         "lassoTraining",
         "lastAnticheeseDay",
