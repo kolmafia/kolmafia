@@ -96,12 +96,17 @@ public class JuneCleaverManager {
     }
     if (!correctChoice) return;
 
+    Matcher optionFinder = Pattern.compile("option=(?<optionNumber>\\d+)").matcher(urlString);
+    if (!optionFinder.find()) return;
+
     updateQueue(id);
 
-    if (urlString.contains("option=4")) {
+    int option = Integer.parseInt(optionFinder.group("optionNumber"));
+
+    if (option == 4) {
       Preferences.increment("_juneCleaverSkips");
       Preferences.setInteger("_juneCleaverFightsLeft", fightsLeft(true));
-    } else if (urlString.contains("option=")) {
+    } else if (option ==1 || option == 2 || option == 3) {
       Preferences.increment("_juneCleaverEncounters");
       Preferences.setInteger("_juneCleaverFightsLeft", fightsLeft(false));
     }
