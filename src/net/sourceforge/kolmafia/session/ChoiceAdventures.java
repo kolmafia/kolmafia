@@ -6194,7 +6194,7 @@ public abstract class ChoiceAdventures {
         "June cleaver",
         // Option...
         new Option("mother's necklace", 1, "mother's necklace"),
-        new Option("Mysticality substats", 2),
+        new Option("Muscle substats", 2),
         new Option("Two random effects", 3),
         new Option("Do nothing", 4));
   }
