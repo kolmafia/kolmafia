@@ -503,7 +503,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.adventureId.equals(AdventurePool.TOWER_RUINS_ID)) {
-      if (QuestDatabase.isQuestLaterThan(Quest.EGO, "step2")) {
+      if (QuestDatabase.isQuestLaterThan(Quest.EGO, "step1")) {
         this.isValidAdventure = true;
       }
       return;
