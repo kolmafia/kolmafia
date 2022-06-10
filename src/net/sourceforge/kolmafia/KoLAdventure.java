@@ -499,6 +499,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // Give the betweenAdventureScript a chance to get an
       // enchanted bean, if necessary
       this.isValidAdventure = true;
+      return;
+    }
+
+    if (this.adventureId.equals(AdventurePool.TOWER_RUINS_ID)) {
+      if (QuestDatabase.isQuestLaterThan(Quest.EGO, "step2")) {
+        this.isValidAdventure = true;
+      }
+      return;
     }
 
     if (this.adventureId.equals(AdventurePool.HAUNTED_KITCHEN_ID)
