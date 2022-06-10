@@ -1391,11 +1391,11 @@ public class ProxyRecordValue extends RecordValue {
 
     public int get_poison() {
       if (this.content == null) {
-        return 0;
+        return Integer.MAX_VALUE;
       }
 
       AreaCombatData area = ((KoLAdventure) this.content).getAreaSummary();
-      return area == null ? 0 : area.poison();
+      return area == null ? Integer.MAX_VALUE : area.poison();
     }
 
     public int get_water_level() {
