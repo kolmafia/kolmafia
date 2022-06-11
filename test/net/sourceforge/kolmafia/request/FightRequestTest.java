@@ -607,4 +607,18 @@ public class FightRequestTest {
     assertEquals(Preferences.getInteger("_juneCleaverSleaze"), 2);
     assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 0);
   }
+
+  @Test
+  public void canTrackBellydancerPickpocket() throws IOException {
+    assertEquals(0, Preferences.getInteger("_bellydancerPickpockets"));
+
+    parseCombatData("request/test_fight_bellydancing_pickpocket_1.html");
+    assertEquals(1, Preferences.getInteger("_bellydancerPickpockets"));
+
+    parseCombatData("request/test_fight_bellydancing_pickpocket_2.html");
+    assertEquals(2, Preferences.getInteger("_bellydancerPickpockets"));
+
+    parseCombatData("request/test_fight_bellydancing_pickpocket_3.html");
+    assertEquals(3, Preferences.getInteger("_bellydancerPickpockets"));
+  }
 }
