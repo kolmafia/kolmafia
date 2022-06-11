@@ -4476,6 +4476,19 @@ public abstract class ChoiceControl {
           Preferences.setInteger("_nextColdMedicineConsult", KoLCharacter.getTurnsPlayed() + 20);
         }
         break;
+
+      case 1467:
+      case 1468:
+      case 1469:
+      case 1470:
+      case 1471:
+      case 1472:
+      case 1473:
+      case 1474:
+      case 1475:
+        // June cleaver
+        JuneCleaverManager.parseChoice(urlString);
+        break;
     }
   }
 

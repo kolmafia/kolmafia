@@ -3365,6 +3365,8 @@ public class ItemPool {
   public static final int COMBAT_LOVERS_LOCKET = 10893;
   public static final int UNBREAKABLE_UMBRELLA = 10899;
   public static final int MAYDAY_SUPPLY_PACKAGE = 10901;
+  public static final int JUNE_CLEAVER = 10920;
+  public static final int MOTHERS_NECKLACE = 10925;
 
   private ItemPool() {}
 

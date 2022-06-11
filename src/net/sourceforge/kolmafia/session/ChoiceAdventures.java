@@ -6098,6 +6098,105 @@ public abstract class ChoiceAdventures {
         new Option("Trade grey goo ring for gooified matter", 3),
         new Option("Do nothing", 4),
         new Option("Grab the cheer core. Just do it!", 5));
+
+    // Poetic Justice
+    new ChoiceSpoiler(
+        1467,
+        "Item-Driven",
+        "June cleaver",
+        // Option...
+        new Option("Moxie substats", 1),
+        new Option("Mysticality substats", 2),
+        new Option("Gain 5 adventures, get beaten up", 3),
+        new Option("Do nothing", 4));
+
+    // Aunts not Ants
+    new ChoiceSpoiler(
+        1468,
+        "Item-Driven",
+        "June cleaver",
+        // Option...
+        new Option("Moxie substats", 1),
+        new Option("Muscle substats", 2),
+        new Option("get Ashamed", 3),
+        new Option("Do nothing", 4));
+
+    // Beware of Alligator
+    new ChoiceSpoiler(
+        1469,
+        "Item-Driven",
+        "June cleaver",
+        // Option...
+        new Option("get Yapping Pal", 1),
+        new Option("Dad's brandy", 2, "Dad's brandy"),
+        new Option("1500 meat", 3),
+        new Option("Do nothing", 4));
+
+    // Teacher's Pet
+    new ChoiceSpoiler(
+        1470,
+        "Item-Driven",
+        "June cleaver",
+        // Option...
+        new Option("30 turns of Teacher's Pet", 1),
+        new Option("teacher's pen", 2, "teacher's pen"),
+        new Option("Muscle substats", 3),
+        new Option("Do nothing", 4));
+
+    // Lost and Found
+    new ChoiceSpoiler(
+        1471,
+        "Item-Driven",
+        "June cleaver",
+        // Option...
+        new Option("savings bond", 1, "savings bond"),
+        new Option("Muscle substats, 250 meat, get beaten up", 2),
+        new Option("Mysticality substats", 3),
+        new Option("Do nothing", 4));
+
+    // Summer Days
+    new ChoiceSpoiler(
+        1472,
+        "Item-Driven",
+        "June cleaver",
+        // Option...
+        new Option("trampled ticket stub", 1, "trampled ticket stub"),
+        new Option("fire-roasted lake trout", 2, "fire-roasted lake trout"),
+        new Option("Moxie substats", 3),
+        new Option("Do nothing", 4));
+
+    // Bath Time
+    new ChoiceSpoiler(
+        1473,
+        "Item-Driven",
+        "June cleaver",
+        // Option...
+        new Option("Mysticality substats, gob of wet hair", 1, "gob of wet hair"),
+        new Option("get Wholesomely Resolved", 2),
+        new Option("get Kinda Damp", 3),
+        new Option("Do nothing", 4));
+
+    // Delicious Sprouts
+    new ChoiceSpoiler(
+        1474,
+        "Item-Driven",
+        "June cleaver",
+        // Option...
+        new Option("Mysticality substats", 1),
+        new Option("guilty sprout", 2, "guilty sprout"),
+        new Option("Muscle substats", 3),
+        new Option("Do nothing", 4));
+
+    // Hypnotic Master
+    new ChoiceSpoiler(
+        1475,
+        "Item-Driven",
+        "June cleaver",
+        // Option...
+        new Option("mother's necklace", 1, "mother's necklace"),
+        new Option("Muscle substats", 2),
+        new Option("Two random effects", 3),
+        new Option("Do nothing", 4));
   }
 
   // This array is used by the ChoiceOptionsPanel to provide all the GUI configurable choices.
