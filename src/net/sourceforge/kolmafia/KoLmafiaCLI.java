@@ -562,6 +562,7 @@ public class KoLmafiaCLI {
         .register("checkrepo")
         .register("checkshields")
         .register("checkskills")
+        .register("checkwikimonsters")
         .register("checkzapgroups");
     new ChessCommand().register("chess");
     new ChoiceCommand().register("choice");
