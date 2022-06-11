@@ -6171,7 +6171,7 @@ public abstract class ChoiceAdventures {
         "Item-Driven",
         "June cleaver",
         // Option...
-        new Option("Mysticality substats, gob of wet hair", 1, "gob of wet hair"),
+        new Option("Muscle substats, gob of wet hair", 1, "gob of wet hair"),
         new Option("get Wholesomely Resolved", 2),
         new Option("get Kinda Damp", 3),
         new Option("Do nothing", 4));
