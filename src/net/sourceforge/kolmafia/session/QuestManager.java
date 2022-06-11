@@ -214,6 +214,8 @@ public class QuestManager {
       }
     } else if (location.startsWith("council")) {
       handleCouncilChange(responseText);
+    } else if (location.startsWith("fernruin")) {
+      QuestDatabase.setQuestIfBetter(Quest.EGO, "step3");
     } else if (location.startsWith("friars")) {
       handleFriarsChange(responseText);
     } else if (location.contains("whichplace=highlands")) {
