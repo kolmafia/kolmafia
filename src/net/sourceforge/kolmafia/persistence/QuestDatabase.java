@@ -49,7 +49,7 @@ public class QuestDatabase {
     CITADEL("questG02Whitecastle"),
     EGO("questG03Ego"),
     NEMESIS("questG04Nemesis"),
-    DARK("questG05DarkNemesis"),
+    DARK("questG05Dark"),
     FACTORY("questG06Delivery"),
     MYST("questG07Myst"),
     MOXIE("questG08Moxie"),
