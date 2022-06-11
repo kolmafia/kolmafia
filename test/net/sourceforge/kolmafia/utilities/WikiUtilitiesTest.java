@@ -78,7 +78,8 @@ public class WikiUtilitiesTest {
   public void getWikiLocationForWaluigi() {
     var waluigi = MonsterDatabase.findMonster("Wa%playername/lowercase%");
     String link = WikiUtilities.getWikiLocation(waluigi);
-    assertEquals("https://kol.coldfront.net/thekolwiki/index.php/Data:Wa%25playername/lowercase%25", link);
+    assertEquals(
+        "https://kol.coldfront.net/thekolwiki/index.php/Data:Wa%25playername/lowercase%25", link);
   }
 
   private static Stream<Arguments> wikiPages() {

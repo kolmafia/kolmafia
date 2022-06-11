@@ -67,7 +67,10 @@ public class WikiUtilities {
           }
           break;
         case MONSTER_TYPE:
-          if (name.equals("ice porter") || name.equals("licorice snake") || name.equals("Porkpocket") || name.equals("Tin of Submardines")) {
+          if (name.equals("ice porter")
+              || name.equals("licorice snake")
+              || name.equals("Porkpocket")
+              || name.equals("Tin of Submardines")) {
             // Also an item.
           } else if (name.equals("Frosty")) {
             // Also an effect.
