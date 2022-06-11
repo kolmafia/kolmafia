@@ -67,6 +67,21 @@ public class WikiUtilitiesTest {
     assertEquals("https://kol.coldfront.net/thekolwiki/index.php/Your_1_Problem", link);
   }
 
+  @Test
+  public void getWikiLocationForBossBatQuestionMark() {
+    var edBossBat = MonsterDatabase.findMonster("Boss Bat?");
+    String link = WikiUtilities.getWikiLocation(edBossBat);
+    assertEquals("https://kol.coldfront.net/thekolwiki/index.php/Data:Boss_Bat%3F", link);
+  }
+
+  @Test
+  public void getWikiLocationForWaluigi() {
+    var waluigi = MonsterDatabase.findMonster("Wa%playername/lowercase%");
+    String link = WikiUtilities.getWikiLocation(waluigi);
+    assertEquals(
+        "https://kol.coldfront.net/thekolwiki/index.php/Data:Wa%25playername/lowercase%25", link);
+  }
+
   private static Stream<Arguments> wikiPages() {
     return Stream.of(
         Arguments.of("sweet tooth", WikiUtilities.ITEM_TYPE, "Sweet_tooth"),

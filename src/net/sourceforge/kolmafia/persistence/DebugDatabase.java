@@ -58,6 +58,8 @@ public class DebugDatabase {
   private static final Pattern WIKI_MONSTER_MEAT_PATTERN =
       Pattern.compile("Meat gained - ([\\d,]+)(?:-([\\d,]+))?");
 
+  private static final Pattern WIKI_MONSTER_ID_PATTERN = Pattern.compile("Monster ID - (\\d+)");
+
   private DebugDatabase() {}
 
   /** Takes an item name and constructs the likely Wiki equivalent of that item name. */
@@ -3743,6 +3745,41 @@ public class DebugDatabase {
                 + meatDrop
                 + " but Wiki says "
                 + baseMeat);
+      }
+    }
+  }
+
+  // check mapping between wiki monsters and mafia
+
+  public static final void checkWikiMonsters() {
+    var client = HttpUtilities.getClientBuilder().build();
+
+    for (MonsterData monster : MonsterDatabase.valueSet()) {
+      if (!KoLmafia.permitsContinue()) {
+        break;
+      }
+      String wikiData = DebugDatabase.readWikiMonsterData(monster, client);
+      if (wikiData.length() == 0) {
+        RequestLogger.printLine("Failed to read wiki page for " + monster.getName());
+        continue;
+      }
+      var mafiaId = monster.getId();
+      int wikiId = 0;
+      Matcher matcher = WIKI_MONSTER_ID_PATTERN.matcher(wikiData);
+      if (matcher.find()) {
+        wikiId = StringUtilities.parseInt(matcher.group(1));
+      }
+
+      if (wikiId == 0 || mafiaId != wikiId) {
+        RequestLogger.printLine(
+            "Monster '"
+                + monster.getName()
+                + "' ("
+                + monster.getId()
+                + ") has ID "
+                + mafiaId
+                + " but Wiki says "
+                + wikiId);
       }
     }
   }
