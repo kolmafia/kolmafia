@@ -3,6 +3,8 @@ package net.sourceforge.kolmafia.objectpool;
 public class AdventurePool {
   public static final int DEGRASSI_KNOLL = 18;
   public static final int FUN_HOUSE = 20;
+  public static final int TOWER_RUINS = 22;
+  public static final String TOWER_RUINS_ID = "22";
   public static final int HIPPY_CAMP = 26;
   public static final int FRAT_HOUSE = 27;
   public static final int FRAT_HOUSE_DISGUISED = 29;

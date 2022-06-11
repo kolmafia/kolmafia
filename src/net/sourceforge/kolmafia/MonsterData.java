@@ -663,7 +663,7 @@ public class MonsterData extends AdventureResult {
     this.maxSprinkles = attributes.get(Attribute.SPRINKLE_MAX);
     this.group = (int) attributes.getOrDefault(Attribute.GROUP, 1);
     this.phylum = (Phylum) attributes.getOrDefault(Attribute.PHYLUM, Phylum.NONE);
-    this.poison = (int) attributes.getOrDefault(Attribute.POISON, 0);
+    this.poison = (int) attributes.getOrDefault(Attribute.POISON, Integer.MAX_VALUE);
     this.boss = attributes.containsKey(Attribute.BOSS);
     this.noBanish = attributes.containsKey(Attribute.NOBANISH);
     this.noCopy = attributes.containsKey(Attribute.NOCOPY);

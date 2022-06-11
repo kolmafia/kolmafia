@@ -7365,6 +7365,10 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    if (FightRequest.handleBellydancerPickpocket(str)) {
+      return;
+    }
+
     if (str.contains("takes a pull on the hookah")) {
       status.hookah = true;
     }
@@ -7758,6 +7762,18 @@ public class FightRequest extends GenericRequest {
 
     FightRequest.logText("The mayo wasp deposits an egg in your abdomen!", status);
     return true;
+  }
+
+  private static boolean handleBellydancerPickpocket(String text) {
+    if (text.contains("'s dancing, your foe doesn't notice that she's going through")
+        || text.contains(
+            "'s veils flutter across your opponent's field of view, obscuring the sight of")
+        || text.contains("dances lithely around your opponent, distracting")) {
+      Preferences.increment("_bellydancerPickpockets");
+      return true;
+    }
+
+    return false;
   }
 
   private static boolean handleSpelunky(String text, TagStatus status) {

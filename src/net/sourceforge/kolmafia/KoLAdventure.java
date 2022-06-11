@@ -499,6 +499,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       // Give the betweenAdventureScript a chance to get an
       // enchanted bean, if necessary
       this.isValidAdventure = true;
+      return;
+    }
+
+    if (this.adventureId.equals(AdventurePool.TOWER_RUINS_ID)) {
+      if (QuestDatabase.getQuest(Quest.EGO).equals("step2")) {
+        // We've received Fernswarthy's key but have not yet ventured into the
+        // ruins of Fernswarthy's Tower. Take a look.
+        GenericRequest request = new GenericRequest("fernruin.php");
+        RequestThread.postRequest(request);
+      }
+      this.isValidAdventure = QuestDatabase.isQuestLaterThan(Quest.EGO, "step2");
+      return;
     }
 
     if (this.adventureId.equals(AdventurePool.HAUNTED_KITCHEN_ID)

@@ -925,7 +925,7 @@ public abstract class InventoryManager {
 
     if (creator != null && mixingMethod != CraftingType.NOCREATE && !scriptSaysBuy) {
       boolean makeFromComponents = true;
-      if (isAutomated && creator.getQuantityPossible() > 0) {
+      if (isAutomated) {
         // Speculate on how much the items needed to make the creation would cost.
         // Do not retrieve if the average meat spend to make one of the item
         // exceeds the user's autoBuyPriceLimit.
@@ -1087,7 +1087,8 @@ public abstract class InventoryManager {
     }
 
     if (Preferences.getBoolean("debugBuy")) {
-      RequestLogger.printLine("\u262F " + item + " mall=" + mallPrice + " make=" + makePrice);
+      RequestLogger.printLine(
+          "\u262F " + item + " mall=" + priceString(mallPrice) + " make=" + priceString(makePrice));
     }
 
     return mallPrice < makePrice;
@@ -1196,7 +1197,12 @@ public abstract class InventoryManager {
       if (needed == 0) {
         if (Preferences.getBoolean("debugBuy")) {
           RequestLogger.printLine(
-              "\u262F " + item.getInstance(onhand) + " onhand=" + onhand + " price = " + price);
+              "\u262F "
+                  + item.getInstance(onhand)
+                  + " onhand="
+                  + onhand
+                  + " price = "
+                  + priceString(price));
         }
 
         return price;
@@ -1225,10 +1231,15 @@ public abstract class InventoryManager {
     }
 
     if (Preferences.getBoolean("debugBuy")) {
-      RequestLogger.printLine("\u262F " + item + " mall=" + mallPrice + " make=" + makePrice);
+      RequestLogger.printLine(
+          "\u262F " + item + " mall=" + priceString(mallPrice) + " make=" + priceString(makePrice));
     }
 
     return Math.min(mallPrice, makePrice);
+  }
+
+  private static String priceString(long price) {
+    return price == Long.MAX_VALUE ? "\u221E" : String.valueOf(price);
   }
 
   public static long priceToMake(final AdventureResult item, final boolean exact) {

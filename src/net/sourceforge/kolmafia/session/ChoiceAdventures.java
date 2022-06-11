@@ -6194,7 +6194,7 @@ public abstract class ChoiceAdventures {
         "June cleaver",
         // Option...
         new Option("mother's necklace", 1, "mother's necklace"),
-        new Option("Mysticality substats", 2),
+        new Option("Muscle substats", 2),
         new Option("Two random effects", 3),
         new Option("Do nothing", 4));
   }
@@ -6430,19 +6430,6 @@ public abstract class ChoiceAdventures {
       case 1435:
         // Leading Yourself Right to Them
         ChoiceAdventures.decorateMonsterMap(buffer);
-        break;
-
-      case 1467:
-      case 1468:
-      case 1469:
-      case 1470:
-      case 1471:
-      case 1472:
-      case 1473:
-      case 1474:
-      case 1475:
-        Preferences.increment("_juneCleaverEncounters");
-        Preferences.resetToDefault("_juneCleaverCharge");
         break;
     }
   }

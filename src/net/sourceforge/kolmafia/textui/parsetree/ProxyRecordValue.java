@@ -1274,6 +1274,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("turns_spent", DataTypes.INT_TYPE)
             .add("kisses", DataTypes.INT_TYPE)
             .add("recommended_stat", DataTypes.INT_TYPE)
+            .add("poison", DataTypes.INT_TYPE)
             .add("water_level", DataTypes.INT_TYPE)
             .add("wanderers", DataTypes.BOOLEAN_TYPE)
             .finish("location proxy");
@@ -1386,6 +1387,15 @@ public class ProxyRecordValue extends RecordValue {
 
     public int get_recommended_stat() {
       return this.content != null ? ((KoLAdventure) this.content).getRecommendedStat() : 0;
+    }
+
+    public int get_poison() {
+      if (this.content == null) {
+        return Integer.MAX_VALUE;
+      }
+
+      AreaCombatData area = ((KoLAdventure) this.content).getAreaSummary();
+      return area == null ? Integer.MAX_VALUE : area.poison();
     }
 
     public int get_water_level() {
