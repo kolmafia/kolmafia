@@ -67,8 +67,15 @@ public class WikiUtilities {
           }
           break;
         case MONSTER_TYPE:
-          if (name.equals("ice porter")) {
-            // Also a drink.
+          if (name.equals("ice porter")
+              || name.equals("licorice snake")
+              || name.equals("Porkpocket")
+              || name.equals("Tin of Submardines")) {
+            // Also an item.
+          } else if (name.equals("Frosty")) {
+            // Also an effect.
+          } else if (name.equals("rage flame")) {
+            // Also a skill.
           } else if (name.equals("undead elbow macaroni")) {
             // Also (formerly) a pasta guardian
             name = name + " (monster)";
@@ -85,7 +92,6 @@ public class WikiUtilities {
     name = StringUtilities.globalStringReplace(name, "<s>", "");
     name = StringUtilities.globalStringReplace(name, "</s>", "");
     name = StringUtilities.globalStringReplace(name, " ", "_");
-    name = StringUtilities.globalStringReplace(name, "?", "%3F");
 
     name = Character.toUpperCase(name.charAt(0)) + name.substring(1);
 
@@ -94,7 +100,10 @@ public class WikiUtilities {
 
     if (type == MONSTER_TYPE) {
       name = StringUtilities.getURLEncode(name);
+      name = StringUtilities.globalStringReplace(name, "%2F", "/");
       name = "Data:" + name;
+    } else {
+      name = StringUtilities.globalStringReplace(name, "?", "%3F");
     }
 
     return "https://kol.coldfront.net/thekolwiki/index.php/" + name;
