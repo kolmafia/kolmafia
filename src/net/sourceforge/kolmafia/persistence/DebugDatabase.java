@@ -28,7 +28,6 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Modifiers.Modifier;
 import net.sourceforge.kolmafia.Modifiers.ModifierList;
 import net.sourceforge.kolmafia.MonsterData;
-import net.sourceforge.kolmafia.MonsterData.Attribute;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -3809,8 +3808,13 @@ public class DebugDatabase {
       }
       var mafiaAttacks = monster.getAttackElements();
       Matcher matcher = WIKI_ELEMENT_ATTACK_PATTERN.matcher(wikiData);
-      var wikiAttacks = matcher.results().map(m -> m.group(1)).map(Element::fromString)
-          .collect(Collectors.toCollection(() -> EnumSet.noneOf(MonsterDatabase.Element.class)));
+      var wikiAttacks =
+          matcher
+              .results()
+              .map(m -> m.group(1))
+              .map(Element::fromString)
+              .collect(
+                  Collectors.toCollection(() -> EnumSet.noneOf(MonsterDatabase.Element.class)));
       if (wikiAttacks.contains(Element.NONE)) {
         RequestLogger.printLine("Unrecognised element for monster " + monster.getName());
       }

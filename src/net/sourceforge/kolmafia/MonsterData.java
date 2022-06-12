@@ -535,7 +535,7 @@ public class MonsterData extends AdventureResult {
       } else {
         buf.append(option);
         buf.append(" ");
-        addElement((Element)value, buf);
+        addElement((Element) value, buf);
         buf.append(" ");
       }
     }
