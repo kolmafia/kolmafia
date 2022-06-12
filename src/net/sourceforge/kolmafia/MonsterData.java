@@ -176,7 +176,7 @@ public class MonsterData extends AdventureResult {
             continue;
           case EA:
             if (tokens.hasMoreTokens()) {
-              String next = tokens.nextToken();
+              String next = parseString(tokens.nextToken(), tokens);
               Element element = parseElement(next);
               if (element == Element.NONE) {
                 continue;
@@ -325,7 +325,7 @@ public class MonsterData extends AdventureResult {
 
   private static String parseString(String token, StringTokenizer tokens) {
     if (!token.startsWith("\"")) {
-      return "";
+      return token;
     }
 
     StringBuilder temp = new StringBuilder(token);
@@ -529,15 +529,23 @@ public class MonsterData extends AdventureResult {
         for (Element element : elements) {
           buf.append(option);
           buf.append(" ");
-          buf.append(element);
+          addElement(element, buf);
           buf.append(" ");
         }
       } else {
         buf.append(option);
         buf.append(" ");
-        buf.append(value);
+        addElement((Element) value, buf);
         buf.append(" ");
       }
+    }
+  }
+
+  private static void addElement(Element element, StringBuilder buf) {
+    if (element == Element.BADSPELLING) {
+      buf.append("\"").append(element).append("\"");
+    } else {
+      buf.append(element);
     }
   }
 

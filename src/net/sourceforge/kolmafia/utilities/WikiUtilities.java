@@ -26,7 +26,7 @@ public class WikiUtilities {
 
   private WikiUtilities() {}
 
-  public static final String getWikiLocation(String name, int type) {
+  public static final String getWikiLocation(String name, int type, boolean dataPage) {
     boolean checkOtherTables = true;
 
     if (type != ANY_TYPE) {
@@ -98,18 +98,21 @@ public class WikiUtilities {
     // Turn character entities into characters
     name = CharacterEntities.unescape(name);
 
-    if (type == MONSTER_TYPE) {
-      name = StringUtilities.getURLEncode(name);
-      name = StringUtilities.globalStringReplace(name, "%2F", "/");
+    name = StringUtilities.getURLEncode(name);
+    name = StringUtilities.globalStringReplace(name, "%2F", "/");
+
+    if (dataPage) {
       name = "Data:" + name;
-    } else {
-      name = StringUtilities.globalStringReplace(name, "?", "%3F");
     }
 
     return "https://kol.coldfront.net/thekolwiki/index.php/" + name;
   }
 
   public static final String getWikiLocation(Object item) {
+    return getWikiLocation(item, false);
+  }
+
+  public static final String getWikiLocation(Object item, boolean dataPage) {
     if (item == null) {
       return null;
     }
@@ -160,7 +163,7 @@ public class WikiUtilities {
       return null;
     }
 
-    return WikiUtilities.getWikiLocation(name, type);
+    return WikiUtilities.getWikiLocation(name, type, dataPage);
   }
 
   public static final void showWikiDescription(final Object item) {

@@ -934,16 +934,23 @@ public abstract class InventoryManager {
         float meatSpend = InventoryManager.priceToMake(instance, true, true) / missingCount;
         int autoBuyPriceLimit = Preferences.getInteger("autoBuyPriceLimit");
         if (meatSpend > autoBuyPriceLimit) {
+          // Print an informative message. It need not be an error, since we
+          // will fail with another error almost immediately.
+          //
+          // It also need not be displayed by the maximizer when considering how to obtain an item.
+          if (!sim) {
+            KoLmafia.updateDisplay(
+                "The average amount of meat spent on components ("
+                    + KoLConstants.COMMA_FORMAT.format(meatSpend)
+                    + ") for one "
+                    + item.getName()
+                    + " exceeds autoBuyPriceLimit ("
+                    + KoLConstants.COMMA_FORMAT.format(autoBuyPriceLimit)
+                    + ")");
+          }
+
+          // Too expensive to make
           makeFromComponents = false;
-          KoLmafia.updateDisplay(
-              MafiaState.ERROR,
-              "The average amount of meat spent on components ("
-                  + KoLConstants.COMMA_FORMAT.format(meatSpend)
-                  + ") for one "
-                  + item.getName()
-                  + " exceeds autoBuyPriceLimit ("
-                  + KoLConstants.COMMA_FORMAT.format(autoBuyPriceLimit)
-                  + ")");
 
           // If making it from components was cheaper than buying the final product, and we
           // couldn't afford to make it, don't bother trying to buy the final product.

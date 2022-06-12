@@ -66,7 +66,17 @@ public class MonsterDatabase {
         "supercold",
         "ice.gif",
         "#ADD8E6", // lightblue
-        "is Supercold");
+        "is Supercold."),
+    BADSPELLING(
+        "bad spelling",
+        "cookbook.gif",
+        "#800080", // purple
+        "is Bad Spelling. Bad Spelling is weak against dictionaries."),
+    SHADOW(
+        "shadow",
+        "ice.gif",
+        "#808080", // gray
+        "is Shadow.");
 
     private final String name;
     private final String image;
