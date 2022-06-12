@@ -64,12 +64,17 @@ public class DebugDatabase {
 
   /** Takes an item name and constructs the likely Wiki equivalent of that item name. */
   private static String readWikiItemData(final String name, final HttpClient client) {
-    String url = WikiUtilities.getWikiLocation(name, WikiUtilities.ITEM_TYPE);
+    String url = WikiUtilities.getWikiLocation(name, WikiUtilities.ITEM_TYPE, false);
     return DebugDatabase.readWikiData(url, client);
   }
 
   private static String readWikiMonsterData(final MonsterData monster, final HttpClient client) {
-    String url = WikiUtilities.getWikiLocation(monster);
+    return readWikiMonsterData(monster, client, true);
+  }
+
+  private static String readWikiMonsterData(
+      final MonsterData monster, final HttpClient client, boolean dataPage) {
+    String url = WikiUtilities.getWikiLocation(monster, dataPage);
     return DebugDatabase.readWikiData(url, client);
   }
 

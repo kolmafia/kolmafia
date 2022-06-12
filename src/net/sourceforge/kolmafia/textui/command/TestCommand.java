@@ -827,7 +827,7 @@ public class TestCommand extends AbstractCommand {
       int index = parameters.indexOf(typeName);
       index = parameters.indexOf(" ", index);
       String name = parameters.substring(index + 1);
-      String location = WikiUtilities.getWikiLocation(name, type);
+      String location = WikiUtilities.getWikiLocation(name, type, false);
 
       RequestLogger.printLine(location);
 
