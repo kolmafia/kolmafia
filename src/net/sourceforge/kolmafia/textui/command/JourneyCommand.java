@@ -1,11 +1,16 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.session.JourneyManager;
 
 public class JourneyCommand extends AbstractCommand {
@@ -164,8 +169,99 @@ public class JourneyCommand extends AbstractCommand {
   }
 
   private void findCommand(String[] params) {
+    // Parse command
+    boolean journeyman = KoLCharacter.getPath() == Path.JOURNEYMAN;
     boolean me = false;
     boolean all = false;
     AscensionClass aclass = null;
+    String[] skillWords;
+
+    if (params.length < 3) {
+      if (!journeyman) {
+        RequestLogger.printLine("Specify a class: SC, TT, PA, SA, DB, AT.");
+        return;
+      }
+      me = true;
+      aclass = KoLCharacter.getAscensionClass();
+      skillWords = Arrays.copyOfRange(params, 1, params.length);
+    } else if (params[1].equals("all")) {
+      all = true;
+      skillWords = Arrays.copyOfRange(params, 2, params.length);
+    } else {
+      aclass = parseClass(params);
+      if (aclass != null) {
+        skillWords = Arrays.copyOfRange(params, 2, params.length);
+      } else if (journeyman) {
+        me = true;
+        aclass = KoLCharacter.getAscensionClass();
+        skillWords = Arrays.copyOfRange(params, 1, params.length);
+      } else {
+        RequestLogger.printLine("I don't know what '" + params[1] + " is.");
+        return;
+      }
+    }
+
+    // Put the words back together
+    String skillName = Arrays.stream(skillWords).map(String::trim).collect(Collectors.joining(" "));
+
+    // Look up the actual skill name
+    int skillId = SkillDatabase.getSkillId(skillName, false);
+    if (skillId == -1) {
+      RequestLogger.printLine("I don't know a skill named \"" + skillName + "\"");
+      return;
+    }
+
+    // Normalize the skillname
+    skillName = SkillDatabase.getSkillName(skillId);
+
+    // Look it up in JourneyManager!
+    Map<AscensionClass, Integer> skills = JourneyManager.journeymanSkills.get(skillName);
+
+    if (skills == null) {
+      RequestLogger.printLine("The \"" + skillName + "\" skill is not available to Journeymen.");
+      return;
+    }
+
+    if (all) {
+      for (AscensionClass sclass : AscensionClass.standardClasses) {
+        printSkillLocation(skillName, skills.get(sclass), sclass, me);
+      }
+    } else {
+      printSkillLocation(skillName, skills.get(aclass), aclass, me);
+    }
+  }
+
+  void printSkillLocation(String skillName, int zoneindex, AscensionClass aclass, boolean me) {
+    StringBuilder output = new StringBuilder();
+    if (me) {
+      output.append("You");
+    } else {
+      output.append("Journeymen ");
+      output.append(aclass.getName());
+      output.append("s");
+    }
+    if (me && KoLCharacter.hasSkill(skillName)) {
+      output.append(" already learned \"");
+    } else {
+      output.append(" can learn \"");
+    }
+    output.append(skillName);
+    output.append("\" after ");
+    int index = (zoneindex % 6) + 1;
+    output.append(String.valueOf(index * 4));
+    output.append(" turns in ");
+    int adventureId = zoneindex / 6;
+    KoLAdventure zone =
+        AdventureDatabase.getAdventureByURL("adventure.php?snarfblat=" + adventureId);
+    if (zone == null) {
+      output.append("an unknown zone");
+    } else {
+      output.append(zone.getAdventureName());
+    }
+    if (me && !zone.isAccessible()) {
+      output.append(" (which is not currently accessible to you)");
+    }
+    output.append(".");
+    RequestLogger.printLine(output.toString());
   }
 }
