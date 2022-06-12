@@ -50,7 +50,7 @@ public abstract class JourneyManager {
   // (30 locations) -> (6 classes) -> (6 indices) -> skill
 
   // Indexed by sorted adventure name
-  public static final Map<KoLAdventure, Map<AscensionClass, int[]>> journeymanData =
+  public static final Map<KoLAdventure, Map<AscensionClass, String[]>> journeymanData =
       new TreeMap<>(KoLAdventure.NameComparator);
 
   // journeyman skills Accordion Thief
@@ -110,22 +110,22 @@ public abstract class JourneyManager {
         skillName = SkillDatabase.getSkillName(skillId);
 
         // (30 locations) -> (6 classes) -> (6 indices) -> skill
-        Map<AscensionClass, int[]> slice1 = journeymanData.get(location);
+        Map<AscensionClass, String[]> slice1 = journeymanData.get(location);
         if (slice1 == null) {
           slice1 = new HashMap<>();
           journeymanData.put(location, slice1);
         }
-        int[] slice2 = slice1.get(aclass);
+        String[] slice2 = slice1.get(aclass);
         if (slice2 == null) {
-          slice2 = new int[6];
+          slice2 = new String[6];
           slice1.put(aclass, slice2);
         }
-        if (slice2[index - 1] != 0) {
+        if (slice2[index - 1] != null) {
           RequestLogger.printLine(
               "Skill \"" + skillName + "\" already has an entry for class " + aclass);
           continue;
         }
-        slice2[index - 1] = skillId;
+        slice2[index - 1] = skillName;
 
         // (180 skills) -> (6 classes) -> (location + index)
         Map<AscensionClass, Integer> slice3 = journeymanSkills.get(skillName);

@@ -687,6 +687,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     this.isValidAdventure = true;
   }
 
+  public boolean isAccessible() {
+    this.validate1();
+    return this.isValidAdventure;
+  }
+
   // Validation part 2:
   //
   // The zone/location is within reach. If the pre-adventure script

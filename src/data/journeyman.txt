@@ -180,8 +180,8 @@ Seal Clubber	Whitey's Grove	5	[4027]Soul Saucery
 Seal Clubber	Whitey's Grove	6	[3038]Wizard Squint
 Turtle Tamer	Barrrney's Barrr	1	[2036]Pizza Lover
 Turtle Tamer	Barrrney's Barrr	2	[3029]Bind Vermincelli
-Turtle Tamer	Barrrney's Barrr	3	[1017]Double-Fisted Skull Smashing
-Turtle Tamer	Barrrney's Barrr	4	[3003]Ravioli Shurikens
+Turtle Tamer	Barrrney's Barrr	3	[4015]Impetuous Sauciness
+Turtle Tamer	Barrrney's Barrr	4	[1017]Double-Fisted Skull Smashing
 Turtle Tamer	Barrrney's Barrr	5	[6011]The Psalm of Pointiness
 Turtle Tamer	Barrrney's Barrr	6	[6013]Stevedave's Shanty of Superiority
 Turtle Tamer	Camp Logging Camp	1	[3030]Bringing Up the Rear
