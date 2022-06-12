@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -82,6 +83,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final Pattern ADVENTURE_AGAIN =
       Pattern.compile("<a href=\"([^\"]*)\">Adventure Again \\((.*?)\\)</a>");
   private static final HashSet<String> unknownAdventures = new HashSet<>();
+
+  public static final Comparator<KoLAdventure> NameComparator =
+      new Comparator<KoLAdventure>() {
+        @Override
+        public int compare(KoLAdventure v1, KoLAdventure v2) {
+          return v1.adventureName.compareTo(v2.adventureName);
+        }
+      };
 
   /**
    * Constructs a new <code>KoLAdventure</code> with the given specifications.
