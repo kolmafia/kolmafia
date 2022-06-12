@@ -4,6 +4,7 @@ import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.session.JourneyManager;
 
@@ -18,8 +19,7 @@ public class JourneyCommand extends AbstractCommand {
   public void run(final String cmd, final String parameters) {
     // If you are currently a Journeyman:
     //
-    // journey zones - show skill table for current class, indicating skills you already have
-    // learned
+    // journey zones - show skill table for current class, indicating already learned skills
     // journey find <skill> - show where to find the specified skill
     //
     // Whether or not you are a Journeyman:
@@ -69,14 +69,16 @@ public class JourneyCommand extends AbstractCommand {
   }
 
   private boolean unreachableZone(KoLAdventure zone) {
+    ZodiacZone signzone = KoLCharacter.getSignZone();
+
     switch (zone.getAdventureName()) {
       case "Thugnderdome":
-        return !KoLCharacter.inMoxieSign();
+        return signzone != ZodiacZone.GNOMADS;
       case "The Spooky Gravy Burrow":
-        return !KoLCharacter.inMuscleSign();
+        return signzone != ZodiacZone.KNOLL;
       case "Outskirts of Camp Logging Camp":
       case "Camp Logging Camp":
-        return !KoLCharacter.inMysticalitySign();
+        return signzone != ZodiacZone.CANADIA;
     }
     return false;
   }
@@ -127,11 +129,11 @@ public class JourneyCommand extends AbstractCommand {
 
       output.append("<td rowspan=2>");
       if (!accessible) {
-        output.append("<font color=\"grey\">");
+        output.append("<s>");
       }
       output.append(zone.getAdventureName());
       if (!accessible) {
-        output.append("</font>");
+        output.append("</s>");
       }
       output.append("</td>");
 

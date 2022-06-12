@@ -425,6 +425,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return;
     }
 
+    if (this.adventureId.equals(AdventurePool.VERY_UNQUIET_GARVES_ID)) {
+      this.isValidAdventure = QuestDatabase.isQuestFinished(Quest.CYRPT);
+      return;
+    }
+
     if (this.adventureId.equals(AdventurePool.PALINDOME_ID)) {
       AdventureResult talisman = ItemPool.get(ItemPool.TALISMAN, 1);
       this.isValidAdventure =

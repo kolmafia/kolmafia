@@ -170,8 +170,4 @@ public abstract class JourneyManager {
       StaticEntity.printStackTrace(e);
     }
   }
-
-  public static boolean returnTrue() {
-    return true;
-  }
 }
