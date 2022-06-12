@@ -15,6 +15,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -34,6 +35,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
@@ -60,16 +62,24 @@ public class DebugDatabase {
 
   private static final Pattern WIKI_MONSTER_ID_PATTERN = Pattern.compile("Monster ID - (\\d+)");
 
+  private static final Pattern WIKI_ELEMENT_ATTACK_PATTERN =
+      Pattern.compile("\\(<span class=\"element-[^)]+<b>([^<]+) damage</b>");
+
   private DebugDatabase() {}
 
   /** Takes an item name and constructs the likely Wiki equivalent of that item name. */
   private static String readWikiItemData(final String name, final HttpClient client) {
-    String url = WikiUtilities.getWikiLocation(name, WikiUtilities.ITEM_TYPE);
+    String url = WikiUtilities.getWikiLocation(name, WikiUtilities.ITEM_TYPE, false);
     return DebugDatabase.readWikiData(url, client);
   }
 
   private static String readWikiMonsterData(final MonsterData monster, final HttpClient client) {
-    String url = WikiUtilities.getWikiLocation(monster);
+    String url = WikiUtilities.getWikiLocation(monster, true);
+    return DebugDatabase.readWikiData(url, client);
+  }
+
+  private static String readWikiMonster(final MonsterData monster, final HttpClient client) {
+    String url = WikiUtilities.getWikiLocation(monster, false);
     return DebugDatabase.readWikiData(url, client);
   }
 
@@ -3780,6 +3790,48 @@ public class DebugDatabase {
                 + mafiaId
                 + " but Wiki says "
                 + wikiId);
+      }
+    }
+  }
+
+  public static final void checkWikiMonsterElementalAttacks() {
+    var client = HttpUtilities.getClientBuilder().build();
+
+    for (MonsterData monster : MonsterDatabase.valueSet()) {
+      if (!KoLmafia.permitsContinue()) {
+        break;
+      }
+      String wikiData = DebugDatabase.readWikiMonster(monster, client);
+      if (wikiData.length() == 0) {
+        RequestLogger.printLine("Failed to read wiki page for " + monster.getName());
+        continue;
+      }
+      var mafiaAttacks = monster.getAttackElements();
+      Matcher matcher = WIKI_ELEMENT_ATTACK_PATTERN.matcher(wikiData);
+      var wikiAttacks =
+          matcher
+              .results()
+              .map(m -> m.group(1))
+              .map(Element::fromString)
+              .collect(
+                  Collectors.toCollection(() -> EnumSet.noneOf(MonsterDatabase.Element.class)));
+      if (wikiAttacks.contains(Element.NONE)) {
+        RequestLogger.printLine("Unrecognised element for monster " + monster.getName());
+      }
+      if (wikiAttacks.isEmpty()) {
+        wikiAttacks = EnumSet.of(Element.NONE);
+      }
+
+      if (!mafiaAttacks.equals(wikiAttacks)) {
+        RequestLogger.printLine(
+            "Monster '"
+                + monster.getName()
+                + "' ("
+                + monster.getId()
+                + ") has attacks "
+                + mafiaAttacks
+                + " but Wiki says "
+                + wikiAttacks);
       }
     }
   }
