@@ -430,6 +430,23 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return;
     }
 
+    if (this.adventureId.equals(AdventurePool.BUGBEAR_PEN_ID)) {
+      this.isValidAdventure =
+          QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, QuestDatabase.UNSTARTED)
+              && !QuestDatabase.isQuestFinished(Quest.BUGBEAR);
+      return;
+    }
+
+    if (this.adventureId.equals(AdventurePool.SPOOKY_GRAVY_BURROW_ID)) {
+      this.isValidAdventure = QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, "step1");
+      return;
+    }
+
+    if (this.adventureId.equals(AdventurePool.POST_QUEST_BUGBEAR_PEN)) {
+      this.isValidAdventure = QuestDatabase.isQuestFinished(Quest.BUGBEAR);
+      return;
+    }
+
     if (this.adventureId.equals(AdventurePool.PALINDOME_ID)) {
       AdventureResult talisman = ItemPool.get(ItemPool.TALISMAN, 1);
       this.isValidAdventure =
