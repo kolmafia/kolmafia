@@ -66,6 +66,15 @@ public abstract class JourneyManager {
   // Indexed by sorted skill name
   public static final Map<String, Map<AscensionClass, Integer>> journeymanSkills = new TreeMap<>();
 
+  // AdventureRequest provides a way to look up a KoLAdventure by name.
+  // It does not provide a way to look one up by adventureId.
+  // It does provide a way do look up by URL.
+  //
+  // All the adventure zones in Journeyman are adventure.php.
+  // Rather than crafting adventure.php?snarfblat=XXX, lets provide a little map
+
+  public static final Map<Integer, KoLAdventure> journeymanZones = new HashMap<>();
+
   static {
     String filename = "journeyman.txt";
     try (BufferedReader reader = FileUtilities.getReader(filename, false)) {
@@ -92,6 +101,10 @@ public abstract class JourneyManager {
           continue;
         }
         int adventureId = location.getSnarfblat();
+
+        if (!journeymanZones.containsKey(adventureId)) {
+          journeymanZones.put(adventureId, location);
+        }
 
         String indexString = data[2];
         int index = StringUtilities.parseInt(indexString);

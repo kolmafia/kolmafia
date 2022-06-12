@@ -9,7 +9,6 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.session.JourneyManager;
 
@@ -17,7 +16,7 @@ public class JourneyCommand extends AbstractCommand {
 
   public JourneyCommand() {
     this.usage =
-        " zones [SC | TT | PA | SA | AT | DB]| find [all | SC | TT | PA | SA | AT | DB] <skill> - Journeyman skill utility.";
+        " zones [SC | TT | PM | S | AT | DB]| find [all | SC | TT | PM | S | AT | DB] <skill> - Journeyman skill utility.";
   }
 
   @Override
@@ -60,9 +59,9 @@ public class JourneyCommand extends AbstractCommand {
         return AscensionClass.SEAL_CLUBBER;
       case "tt":
         return AscensionClass.TURTLE_TAMER;
-      case "pa":
+      case "pm":
         return AscensionClass.PASTAMANCER;
-      case "sa":
+      case "s":
         return AscensionClass.SAUCEROR;
       case "db":
         return AscensionClass.DISCO_BANDIT;
@@ -95,7 +94,7 @@ public class JourneyCommand extends AbstractCommand {
 
     if (params.length < 2) {
       if (KoLCharacter.getPath() != Path.JOURNEYMAN) {
-        RequestLogger.printLine("Specify a class: SC, TT, PA, SA, DB, AT.");
+        RequestLogger.printLine("Specify a class: SC, TT, PM, S, DB, AT.");
         return;
       }
       me = true;
@@ -124,7 +123,7 @@ public class JourneyCommand extends AbstractCommand {
     for (KoLAdventure zone : JourneyManager.journeymanData.keySet()) {
       boolean unreachable = me && unreachableZone(zone);
       if (unreachable) {
-        // Don't show zones sign doesn't have
+        // Don't show zones zodiac sign doesn't have
         continue;
       }
 
@@ -178,7 +177,7 @@ public class JourneyCommand extends AbstractCommand {
 
     if (params.length < 3) {
       if (!journeyman) {
-        RequestLogger.printLine("Specify a class: SC, TT, PA, SA, DB, AT.");
+        RequestLogger.printLine("Specify a class: SC, TT, PM, S, DB, AT.");
         return;
       }
       me = true;
@@ -251,13 +250,14 @@ public class JourneyCommand extends AbstractCommand {
     output.append(String.valueOf(index * 4));
     output.append(" turns in ");
     int adventureId = zoneindex / 6;
-    KoLAdventure zone =
-        AdventureDatabase.getAdventureByURL("adventure.php?snarfblat=" + adventureId);
+    KoLAdventure zone = JourneyManager.journeymanZones.get(adventureId);
     if (zone == null) {
-      output.append("an unknown zone");
-    } else {
-      output.append(zone.getAdventureName());
+      // This should not be possible.
+      output.append("an unknown zone.");
+      RequestLogger.printLine(output.toString());
+      return;
     }
+    output.append(zone.getAdventureName());
     if (me && !zone.isAccessible()) {
       output.append(" (which is not currently accessible to you)");
     }
