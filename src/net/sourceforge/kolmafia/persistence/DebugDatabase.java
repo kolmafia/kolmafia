@@ -64,7 +64,7 @@ public class DebugDatabase {
   private static final Pattern WIKI_MONSTER_ID_PATTERN = Pattern.compile("Monster ID - (\\d+)");
 
   private static final Pattern WIKI_ELEMENT_ATTACK_PATTERN =
-      Pattern.compile("\\(<span class=\"element-[^)]+<b>(.+) damage</b>");
+      Pattern.compile("\\(<span class=\"element-[^)]+<b>([^<]+) damage</b>");
 
   private DebugDatabase() {}
 
