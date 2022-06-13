@@ -18,7 +18,11 @@ public class AdventurePool {
   public static final int BOSSBAT = 34;
   public static final String BOSSBAT_ID = "34";
   public static final String DUNGEON_OF_DOOM_ID = "39";
+  public static final String BUGBEAR_PEN_ID = "47";
+  public static final String SPOOKY_GRAVY_BURROW_ID = "48";
+  public static final String POST_QUEST_BUGBEAR_PEN = "49";
   public static final int MENAGERIE_LEVEL_2 = 52;
+  public static final String VERY_UNQUIET_GARVES_ID = "58";
   public static final int HIPPY_CAMP_DISGUISED = 65;
   public static final int PIRATE_COVE = 66;
   public static final String ROULETTE_TABLES_ID = "70";

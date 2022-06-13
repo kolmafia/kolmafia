@@ -666,6 +666,7 @@ public class KoLmafiaCLI {
         .register("jsq")
         .register("javascript")
         .register("javascriptq");
+    new JourneyCommand().register("journey");
     new JsRefCommand().register("jsref");
     new JukeboxCommand().register("jukebox");
     new KitchenCommand().register("kitchen").register("hellkitchen").register("hellskitchen");
