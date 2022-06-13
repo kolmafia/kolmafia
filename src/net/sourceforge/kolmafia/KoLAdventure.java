@@ -602,9 +602,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("McLarge")) {
-      // *** Not quite. Should see if you've started the quest
       if (this.adventureId.equals(AdventurePool.MINE_OFFICE_ID)) {
-        return true;
+        return QuestDatabase.isQuestLaterThan(Quest.FACTORY, QuestDatabase.UNSTARTED);
       }
 
       if (this.adventureId.equals(AdventurePool.ITZNOTYERZITZ_MINE_ID)
