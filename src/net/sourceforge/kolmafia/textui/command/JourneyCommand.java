@@ -33,7 +33,7 @@ public class JourneyCommand extends AbstractCommand {
     // journey find all <skill> - show where to find skill for all classes
 
     String[] params = parameters.trim().split("\\s+");
-    if (params.length < 1) {
+    if (params.length < 1 || params[0].equals("")) {
       RequestLogger.printLine("Usage: journey" + this.usage);
       return;
     }

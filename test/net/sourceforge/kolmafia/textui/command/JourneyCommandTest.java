@@ -12,6 +12,8 @@ import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class JourneyCommandTest extends AbstractCommandTestBase {
   @BeforeEach
@@ -174,10 +176,11 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
     assertThat(output, containsString("I don't know what 'XX' is."));
   }
 
-  @Test
-  void mustProvideValidSkillNotOnPath() {
+  @ParameterizedTest
+  @ValueSource(strings = {"SC", "TT", "PM", "S", "DB", "AT"})
+  void mustProvideValidSkillNotOnPath(String aclass) {
     // No Cleanups needed if not on class; you don't even need to be logged in.
-    String output = execute("find DB booga booga");
+    String output = execute("find " + aclass + " booga booga");
     assertThat(output, containsString("I don't know a skill named \"booga booga\""));
   }
 
