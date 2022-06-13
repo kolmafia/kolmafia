@@ -235,9 +235,8 @@ public class JourneyCommand extends AbstractCommand {
     if (me) {
       output.append("You");
     } else {
-      output.append("Journeymen ");
+      output.append("A Journeyman ");
       output.append(aclass.getName());
-      output.append("s");
     }
     if (me && KoLCharacter.hasSkill(skillName)) {
       output.append(" already learned \"");
