@@ -170,7 +170,6 @@ public class JourneyCommand extends AbstractCommand {
     boolean me = false;
     boolean all = false;
     AscensionClass aclass = null;
-    String[] skillWords;
 
     if (params.length < 3) {
       if (!journeyman) {
@@ -178,26 +177,26 @@ public class JourneyCommand extends AbstractCommand {
         return;
       }
       me = true;
-      aclass = KoLCharacter.getAscensionClass();
-      skillWords = Arrays.copyOfRange(params, 1, params.length);
     } else if (params[1].equals("all")) {
       all = true;
-      skillWords = Arrays.copyOfRange(params, 2, params.length);
     } else {
       aclass = parseClass(params);
-      if (aclass != null) {
-        skillWords = Arrays.copyOfRange(params, 2, params.length);
-      } else if (journeyman) {
-        me = true;
-        aclass = KoLCharacter.getAscensionClass();
-        skillWords = Arrays.copyOfRange(params, 1, params.length);
-      } else {
-        RequestLogger.printLine("I don't know what '" + params[1] + "' is.");
-        return;
+      if (aclass == null) {
+        if (journeyman) {
+          me = true;
+        } else {
+          RequestLogger.printLine("I don't know what '" + params[1] + "' is.");
+          return;
+        }
       }
     }
 
+    if (me) {
+      aclass = KoLCharacter.getAscensionClass();
+    }
+
     // Put the words back together
+    String[] skillWords = Arrays.copyOfRange(params, me ? 1 : 2, params.length);
     String skillName = Arrays.stream(skillWords).map(String::trim).collect(Collectors.joining(" "));
 
     // Look up the actual skill name

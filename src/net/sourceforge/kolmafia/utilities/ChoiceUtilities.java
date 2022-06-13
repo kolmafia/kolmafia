@@ -65,6 +65,8 @@ public class ChoiceUtilities {
     if (responseText.contains("<b>Hippy Talkin'</b>")) {
       // Is this really missing? My logs look normal
       return 798;
+    } else if (responseText.contains("<b>Another Errand I Mean Quest</b>")) {
+      return 930;
     } else if (responseText.contains("<b>The WLF Bunker</b>")) {
       return 1093;
     } else if (responseText.contains("<b>Lyle, LyleCo CEO</b>")) {

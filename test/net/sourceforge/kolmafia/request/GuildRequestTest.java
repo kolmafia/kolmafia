@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.Player;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -12,6 +13,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -87,5 +90,69 @@ public class GuildRequestTest {
     assertFalse(KoLConstants.inventory.contains(key));
     assertFalse(KoLConstants.inventory.contains(dusty));
     assertTrue(KoLConstants.inventory.contains(manual));
+  }
+
+  @Test
+  public void canDetectWhiteCitadelQuestStarted() throws IOException {
+    // You have completed the Meatcar and visited "paco",
+    // You visit "paco" again and they give the White Citadel Quest.
+    //
+    // We want to parse his response and start the quest
+    //
+    // Requesting: guild.php?place=paco
+    // Field: location = [choice.php?forceoption=0]
+    // Requesting: choice.php?forceoption=0
+    // Requesting: choice.php?pwd&whichchoice=930&option=1
+
+    var cleanups = Player.setProperty("questG02Whitecastle", "unstarted");
+
+    try (cleanups) {
+      // talk with "ocg"
+      GenericRequest request = new GenericRequest("choice.php?forceoption=0");
+      String responseText = loadHTMLResponse("request/test_guild_quest_citadel_started_0.html");
+      request.responseText = responseText;
+      request.setHasResult(true);
+      ChoiceManager.preChoice(request);
+      request.processResponse();
+      assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.CITADEL));
+
+      request = new GenericRequest("choice.php?pwd&whichchoice=930&option=1");
+      responseText = loadHTMLResponse("request/test_guild_quest_citadel_started_1.html");
+      request.responseText = responseText;
+      request.setHasResult(true);
+      ChoiceManager.preChoice(request);
+      request.processResponse();
+      assertEquals(QuestDatabase.STARTED, QuestDatabase.getQuest(Quest.CITADEL));
+    }
+  }
+
+  @Test
+  public void canDetectWhiteCitadelQuestFinished() throws IOException {
+    // You have visited White Citadel and been given a White Citadel Satisfaction Satchel
+    // Quest.CITADEL is at "step10"
+    // You return to the guild and speak to "paco"
+    // They take your satchel and give you a lucky rabbit's foot.
+    //
+    // White Citadel Satisfaction Satchel -> removed from inventory
+    // Quest.CITADEL is at QuestDatabase.FINISHED
+    //
+    // Requesting: guild.php?place=paco
+    // Field: location = [choice.php?forceoption=0]
+    // Requesting: choice.php?forceoption=0
+
+    var cleanups = Player.addItem(ItemPool.CITADEL_SATCHEL);
+
+    try (cleanups) {
+      // talk with "ocg"
+      GenericRequest request = new GenericRequest("choice.php?forceoption=0");
+      String responseText = loadHTMLResponse("request/test_guild_quest_citadel_finished.html");
+      request.responseText = responseText;
+      request.setHasResult(true);
+      ChoiceManager.preChoice(request);
+      request.processResponse();
+      assertEquals(1, InventoryManager.getCount(ItemPool.LUCKY_RABBIT_FOOT));
+      assertEquals(0, InventoryManager.getCount(ItemPool.CITADEL_SATCHEL));
+      assertEquals(QuestDatabase.FINISHED, QuestDatabase.getQuest(Quest.CITADEL));
+    }
   }
 }
