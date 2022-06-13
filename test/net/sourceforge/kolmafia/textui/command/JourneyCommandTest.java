@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
 import internal.helpers.Player;
@@ -222,5 +223,32 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
         output,
         containsString(
             "A Journeyman Accordion Thief can learn \"Saucegeyser\" after 12 turns in Cobb's Knob Menagerie, Level 1."));
+  }
+
+  @Test
+  void canGenerateZonesTableOnPath() {
+    var cleanups =
+        new Cleanups(
+            Player.isClass(AscensionClass.ACCORDION_THIEF),
+            Player.isSign(ZodiacSign.VOLE),
+            Player.inPath(Path.JOURNEYMAN),
+            Player.addSkill("Advanced Saucecrafting"),
+            // KoLAdventure will submit a request to woods.php to look for
+            // Whitey's Grove if cannot deduce from quest progress
+            Player.setProperty("questG02Whitecastle", "started"));
+
+    try (cleanups) {
+      String output = execute("zones");
+      // Accessible zone
+      assertThat(output, containsString("<td rowspan=2>The Dire Warren</td>"));
+      // Currently inaccessible zone
+      assertThat(output, containsString("<td rowspan=2><s>The Spooky Gravy Burrow</s></td>"));
+      // Permanently inaccessible zone
+      assertFalse(output.contains("<td rowspan=2>Camp Logging Camp</td>"));
+      // Known skill
+      assertThat(output, containsString("<td><s>Advanced Saucecrafting</s></td>"));
+      // Unknown skill
+      assertThat(output, containsString("<td>Saucegeyser</td>"));
+    }
   }
 }
