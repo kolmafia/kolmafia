@@ -99,7 +99,7 @@ public class JourneyCommand extends AbstractCommand {
     } else {
       aclass = parseClass(params);
       if (aclass == null) {
-        RequestLogger.printLine("I don't know what '" + params[1] + " is.");
+        RequestLogger.printLine("I don't know what '" + params[1] + "' is.");
         return;
       }
     }

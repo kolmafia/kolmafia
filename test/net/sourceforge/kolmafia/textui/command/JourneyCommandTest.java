@@ -226,6 +226,28 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
+  void mustProvideZonesClassNotOnPath() {
+    // No Cleanups needed if not on class; you don't even need to be logged in.
+    String output = execute("zones");
+    assertThat(output, containsString("Specify a class: SC, TT, PM, S, DB, AT."));
+  }
+
+  @Test
+  void mustProvideZonesValidClassNotOnPath() {
+    // No Cleanups needed if not on class; you don't even need to be logged in.
+    String output = execute("zones XX");
+    assertThat(output, containsString("I don't know what 'XX' is."));
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"SC", "TT", "PM", "S", "DB", "AT"})
+  void canGenerateZoneTableForAllValidClasses(String aclass) {
+    // No Cleanups needed if not on class; you don't even need to be logged in.
+    String output = execute("zones " + aclass);
+    assertThat(output, containsString("</table>"));
+  }
+
+  @Test
   void canGenerateZonesTableOnPath() {
     var cleanups =
         new Cleanups(
