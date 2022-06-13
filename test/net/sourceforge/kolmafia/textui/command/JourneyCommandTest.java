@@ -94,6 +94,24 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
+  void canFindZoneRestrictedOnPath() {
+    var cleanups =
+        new Cleanups(
+            Player.isClass(AscensionClass.ACCORDION_THIEF),
+            Player.isSign(ZodiacSign.VOLE),
+            Player.inPath(Path.JOURNEYMAN),
+            Player.setProperty("questL07Cyrptic", "unstarted"));
+
+    try (cleanups) {
+      String output = execute("find wave of sauce");
+      assertThat(
+          output,
+          containsString(
+              "You can learn \"Wave of Sauce\" after 12 turns in Camp Logging Camp (which is not currently accessible to you)."));
+    }
+  }
+
+  @Test
   void canFindKnownSkillOnPath() {
     var cleanups =
         new Cleanups(

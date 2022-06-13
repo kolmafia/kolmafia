@@ -73,16 +73,13 @@ public class JourneyCommand extends AbstractCommand {
   }
 
   private boolean unreachableZone(KoLAdventure zone) {
-    ZodiacZone signzone = KoLCharacter.getSignZone();
-
-    switch (zone.getAdventureName()) {
-      case "Thugnderdome":
-        return signzone != ZodiacZone.GNOMADS;
-      case "The Spooky Gravy Burrow":
-        return signzone != ZodiacZone.KNOLL;
-      case "Outskirts of Camp Logging Camp":
-      case "Camp Logging Camp":
-        return signzone != ZodiacZone.CANADIA;
+    switch (zone.getZone()) {
+      case "MoxSign":
+        return KoLCharacter.getSignZone() != ZodiacZone.GNOMADS;
+      case "MusSign":
+        return KoLCharacter.getSignZone() != ZodiacZone.KNOLL;
+      case "Little Canadia":
+        return KoLCharacter.getSignZone() != ZodiacZone.CANADIA;
     }
     return false;
   }

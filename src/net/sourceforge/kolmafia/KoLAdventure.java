@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -364,6 +365,18 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.zone.equals("Lab")) {
       return InventoryManager.hasItem(ItemPool.get(ItemPool.LAB_KEY, 1));
+    }
+
+    if (this.zone.equals("MoxSign")) {
+      return KoLCharacter.getSignZone() == ZodiacZone.GNOMADS;
+    }
+
+    if (this.zone.equals("MusSign")) {
+      return KoLCharacter.getSignZone() == ZodiacZone.KNOLL;
+    }
+
+    if (this.zone.equals("Little Canadia")) {
+      return KoLCharacter.getSignZone() == ZodiacZone.CANADIA;
     }
 
     if (this.adventureId.equals(AdventurePool.LOWER_CHAMBER_ID)) {
