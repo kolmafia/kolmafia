@@ -106,7 +106,7 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
       assertThat(
           output,
           containsString(
-              "You can learn \"Wave of Sauce\" after 12 turns in Camp Logging Camp (which is not currently accessible to you)."));
+              "You can learn \"Wave of Sauce\" after 12 turns in Camp Logging Camp (which is permanently inaccessible to you)."));
     }
   }
 

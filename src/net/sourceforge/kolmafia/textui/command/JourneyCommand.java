@@ -254,8 +254,12 @@ public class JourneyCommand extends AbstractCommand {
       return;
     }
     output.append(zone.getAdventureName());
-    if (me && !zone.isCurrentlyAccessible()) {
-      output.append(" (which is not currently accessible to you)");
+    if (me) {
+      if (unreachableZone(zone)) {
+        output.append(" (which is permanently inaccessible to you)");
+      } else if (!zone.isCurrentlyAccessible()) {
+        output.append(" (which is not currently accessible to you)");
+      }
     }
     output.append(".");
     RequestLogger.printLine(output.toString());
