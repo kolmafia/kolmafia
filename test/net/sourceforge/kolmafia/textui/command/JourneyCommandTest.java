@@ -161,6 +161,27 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
+  void mustProvideClassNotOnPath() {
+    // No Cleanups needed if not on class; you don't even need to be logged in.
+    String output = execute("find pulverize");
+    assertThat(output, containsString("Specify a class: SC, TT, PM, S, DB, AT."));
+  }
+
+  @Test
+  void mustProvideValidClassNotOnPath() {
+    // No Cleanups needed if not on class; you don't even need to be logged in.
+    String output = execute("find XX pulverize");
+    assertThat(output, containsString("I don't know what 'XX' is."));
+  }
+
+  @Test
+  void mustProvideValidSkillNotOnPath() {
+    // No Cleanups needed if not on class; you don't even need to be logged in.
+    String output = execute("find DB booga booga");
+    assertThat(output, containsString("I don't know a skill named \"booga booga\""));
+  }
+
+  @Test
   void canFindSkillNotOnPath() {
     // No Cleanups needed if not on class; you don't even need to be logged in.
     String output = execute("find S saucegeyser");

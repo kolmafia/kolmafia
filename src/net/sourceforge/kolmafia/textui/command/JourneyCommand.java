@@ -192,7 +192,7 @@ public class JourneyCommand extends AbstractCommand {
         aclass = KoLCharacter.getAscensionClass();
         skillWords = Arrays.copyOfRange(params, 1, params.length);
       } else {
-        RequestLogger.printLine("I don't know what '" + params[1] + " is.");
+        RequestLogger.printLine("I don't know what '" + params[1] + "' is.");
         return;
       }
     }
