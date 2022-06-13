@@ -425,6 +425,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return QuestDatabase.isQuestFinished(Quest.CYRPT);
     }
 
+    if (this.zone.equals("Degrassi Knoll")) {
+      return KoLCharacter.getSignZone() != ZodiacZone.KNOLL;
+    }
+
     if (this.adventureId.equals(AdventurePool.BUGBEAR_PEN_ID)) {
       return KoLCharacter.getSignZone() == ZodiacZone.KNOLL
           && QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, QuestDatabase.UNSTARTED)
