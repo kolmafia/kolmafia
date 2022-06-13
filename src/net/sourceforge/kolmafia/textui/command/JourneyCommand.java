@@ -129,7 +129,7 @@ public class JourneyCommand extends AbstractCommand {
 
       output.append("<tr>");
 
-      boolean accessible = !me || zone.isAccessible();
+      boolean accessible = !me || zone.isCurrentlyAccessible();
 
       output.append("<td rowspan=2>");
       if (!accessible) {
@@ -257,7 +257,7 @@ public class JourneyCommand extends AbstractCommand {
       return;
     }
     output.append(zone.getAdventureName());
-    if (me && !zone.isAccessible()) {
+    if (me && !zone.isCurrentlyAccessible()) {
       output.append(" (which is not currently accessible to you)");
     }
     output.append(".");

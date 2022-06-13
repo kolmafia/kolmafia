@@ -357,160 +357,127 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   // this.isValidAdventure will be false if there is nothing you can do
   // to go to this location at this time, or true, otherwise
 
-  private void validate1() {
-    this.isValidAdventure = false;
-
+  public boolean isCurrentlyAccessible() {
     if (Limitmode.limitAdventure(this)) {
-      return;
+      return false;
     }
 
     if (this.zone.equals("Lab")) {
-      this.isValidAdventure = InventoryManager.hasItem(ItemPool.get(ItemPool.LAB_KEY, 1));
-      return;
+      return InventoryManager.hasItem(ItemPool.get(ItemPool.LAB_KEY, 1));
     }
 
     if (this.adventureId.equals(AdventurePool.LOWER_CHAMBER_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("lowerChamberUnlock");
-      return;
+      return Preferences.getBoolean("lowerChamberUnlock");
     }
 
     if (this.adventureId.equals(AdventurePool.SHROUDED_PEAK_ID)) {
       if (QuestDatabase.isQuestFinished(Quest.TRAPPER)) {
-        return;
+        return false;
       }
 
       String trapper = Preferences.getString(Quest.TRAPPER.getPref());
-      this.isValidAdventure =
-          trapper.equals("step3")
-              || trapper.equals("step4")
-              || Preferences.getString("peteMotorbikeTires").equals("Snow Tires");
-      return;
+      return trapper.equals("step3")
+          || trapper.equals("step4")
+          || Preferences.getString("peteMotorbikeTires").equals("Snow Tires");
     }
 
     if (this.adventureId.equals(AdventurePool.SUMMONING_CHAMBER_ID)) {
-      this.isValidAdventure = QuestDatabase.isQuestLaterThan(Quest.MANOR, "step2");
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.MANOR, "step2");
     }
 
     if (this.adventureId.equals(AdventurePool.ELDRITCH_FISSURE_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("eldritchFissureAvailable");
-      return;
+      return Preferences.getBoolean("eldritchFissureAvailable");
     }
 
     if (this.adventureId.equals(AdventurePool.ELDRITCH_HORROR_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("eldritchHorrorAvailable");
-      return;
+      return Preferences.getBoolean("eldritchHorrorAvailable");
     }
 
     if (this.formSource.equals("cobbsknob.php")) {
-      this.isValidAdventure =
-          QuestDatabase.isQuestLaterThan(Quest.GOBLIN, QuestDatabase.STARTED)
-              && !QuestDatabase.isQuestFinished(Quest.GOBLIN);
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.GOBLIN, QuestDatabase.STARTED)
+          && !QuestDatabase.isQuestFinished(Quest.GOBLIN);
     }
 
     // Only look at adventure.php locations below this.
     // Further validation for other adventures happens in part2
     if (!this.formSource.contains("adventure.php")) {
-      this.isValidAdventure = true;
-      return;
+      return true;
     }
 
     if (this.zone.equals("Tammy's Offshore Platform")) {
-      return;
+      return false;
     }
 
     if (this.zone.equals("Menagerie")) {
-      this.isValidAdventure = InventoryManager.hasItem(ItemPool.get(ItemPool.MENAGERIE_KEY, 1));
-      return;
+      return InventoryManager.hasItem(ItemPool.get(ItemPool.MENAGERIE_KEY, 1));
     }
 
     if (this.adventureId.equals(AdventurePool.VERY_UNQUIET_GARVES_ID)) {
-      this.isValidAdventure = QuestDatabase.isQuestFinished(Quest.CYRPT);
-      return;
+      return QuestDatabase.isQuestFinished(Quest.CYRPT);
     }
 
     if (this.adventureId.equals(AdventurePool.BUGBEAR_PEN_ID)) {
-      this.isValidAdventure =
-          QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, QuestDatabase.UNSTARTED)
-              && !QuestDatabase.isQuestFinished(Quest.BUGBEAR);
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, QuestDatabase.UNSTARTED)
+          && !QuestDatabase.isQuestFinished(Quest.BUGBEAR);
     }
 
     if (this.adventureId.equals(AdventurePool.SPOOKY_GRAVY_BURROW_ID)) {
-      this.isValidAdventure = QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, "step1");
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, "step1");
     }
 
     if (this.adventureId.equals(AdventurePool.POST_QUEST_BUGBEAR_PEN)) {
-      this.isValidAdventure = QuestDatabase.isQuestFinished(Quest.BUGBEAR);
-      return;
+      return QuestDatabase.isQuestFinished(Quest.BUGBEAR);
     }
 
     if (this.adventureId.equals(AdventurePool.PALINDOME_ID)) {
       AdventureResult talisman = ItemPool.get(ItemPool.TALISMAN, 1);
-      this.isValidAdventure =
-          KoLCharacter.hasEquipped(talisman) || InventoryManager.hasItem(talisman);
-      return;
+      return KoLCharacter.hasEquipped(talisman) || InventoryManager.hasItem(talisman);
     }
 
     if (this.adventureId.equals(AdventurePool.HIDDEN_TEMPLE_ID)) {
       if (KoLCharacter.isKingdomOfExploathing() || KoLCharacter.getTempleUnlocked()) {
-        this.isValidAdventure = true;
-        return;
+        return true;
       }
 
       // Visit the distant woods and take a look.
       RequestThread.postRequest(new GenericRequest("woods"));
-      this.isValidAdventure = KoLCharacter.getTempleUnlocked();
-      return;
+      return KoLCharacter.getTempleUnlocked();
     }
 
     if (this.zone.equals("Island")) {
-      this.isValidAdventure =
-          KoLCharacter.mysteriousIslandAccessible()
-              || (InventoryManager.hasItem(ItemPool.DINGHY_PLANS)
-                  && InventoryManager.hasItem(ItemPool.DINGY_PLANKS));
-      return;
+      return KoLCharacter.mysteriousIslandAccessible()
+          || (InventoryManager.hasItem(ItemPool.DINGHY_PLANS)
+              && InventoryManager.hasItem(ItemPool.DINGY_PLANKS));
     }
 
     // The dungeons of doom are only available if you've finished the quest
     if (this.adventureId.equals(AdventurePool.DUNGEON_OF_DOOM_ID)) {
-      this.isValidAdventure = QuestLogRequest.isDungeonOfDoomAvailable();
-      return;
+      return QuestLogRequest.isDungeonOfDoomAvailable();
     }
 
     // The Castle Basement is unlocked provided the player has the S.O.C.K
     // (legacy: rowboats give access but are no longer creatable)
     if (this.adventureId.equals(AdventurePool.CASTLE_BASEMENT_ID)) {
-      this.isValidAdventure =
-          InventoryManager.hasItem(ItemPool.get(ItemPool.SOCK, 1))
-              || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1))
-              || KoLCharacter.isKingdomOfExploathing();
-      return;
+      return InventoryManager.hasItem(ItemPool.get(ItemPool.SOCK, 1))
+          || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1))
+          || KoLCharacter.isKingdomOfExploathing();
     }
 
     if (this.adventureId.equals(AdventurePool.CASTLE_GROUND_ID)) {
-      this.isValidAdventure =
-          Preferences.getInteger("lastCastleGroundUnlock") == KoLCharacter.getAscensions();
-      return;
+      return Preferences.getInteger("lastCastleGroundUnlock") == KoLCharacter.getAscensions();
     }
 
     if (this.adventureId.equals(AdventurePool.CASTLE_TOP_ID)) {
-      this.isValidAdventure =
-          Preferences.getInteger("lastCastleTopUnlock") == KoLCharacter.getAscensions();
-      return;
+      return Preferences.getInteger("lastCastleTopUnlock") == KoLCharacter.getAscensions();
     }
 
     // The Hole in the Sky is unlocked provided the player has a steam-powered rocketship
     // (legacy: rowboats give access but are no longer creatable)
 
     if (this.adventureId.equals(AdventurePool.HOLE_IN_THE_SKY_ID)) {
-      this.isValidAdventure =
-          KoLCharacter.isKingdomOfExploathing()
-              || InventoryManager.hasItem(ItemPool.get(ItemPool.ROCKETSHIP, 1))
-              || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1));
-      return;
+      return KoLCharacter.isKingdomOfExploathing()
+          || InventoryManager.hasItem(ItemPool.get(ItemPool.ROCKETSHIP, 1))
+          || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1));
     }
 
     // The beanstalk is unlocked when the player has planted a
@@ -518,19 +485,19 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.adventureId.equals(AdventurePool.AIRSHIP_ID)) {
       if (KoLCharacter.isKingdomOfExploathing()) {
-        return;
+        return false;
       }
 
       // If the character is not at least level 10, they have
       // no chance to get to the beanstalk
       if (KoLCharacter.getLevel() < 10) {
-        return;
+        return false;
       }
 
       // Give the betweenAdventureScript a chance to get an
       // enchanted bean, if necessary
-      this.isValidAdventure = true;
-      return;
+      // *** I am not convinced. But this is legacy behavior.
+      return true;
     }
 
     if (this.adventureId.equals(AdventurePool.TOWER_RUINS_ID)) {
@@ -540,56 +507,46 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         GenericRequest request = new GenericRequest("fernruin.php");
         RequestThread.postRequest(request);
       }
-      this.isValidAdventure = QuestDatabase.isQuestLaterThan(Quest.EGO, "step2");
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.EGO, "step2");
     }
 
     if (this.adventureId.equals(AdventurePool.HAUNTED_KITCHEN_ID)
         || this.adventureId.equals(AdventurePool.HAUNTED_CONSERVATORY_ID)) {
       // Haunted Kitchen & Conservatory
-      this.isValidAdventure =
-          QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.UNSTARTED);
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.UNSTARTED);
     }
 
     if (this.adventureId.equals(AdventurePool.HAUNTED_LIBRARY_ID)) {
       // Haunted Library
-      this.isValidAdventure = InventoryManager.hasItem(ItemPool.LIBRARY_KEY);
-      return;
+      return InventoryManager.hasItem(ItemPool.LIBRARY_KEY);
     }
 
     if (this.adventureId.equals(AdventurePool.HAUNTED_BILLIARDS_ROOM_ID)) {
       // Haunted Billiards Room
-      this.isValidAdventure = InventoryManager.hasItem(ItemPool.BILLIARDS_KEY);
-      return;
+      return InventoryManager.hasItem(ItemPool.BILLIARDS_KEY);
     }
 
     if (this.adventureId.equals(AdventurePool.HAUNTED_BATHROOM_ID)
         || this.adventureId.equals(AdventurePool.HAUNTED_BEDROOM_ID)
         || this.adventureId.equals(AdventurePool.HAUNTED_GALLERY_ID)) {
       // Haunted Bathroom, Bedroom & Gallery
-      this.isValidAdventure =
-          QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED);
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED);
     }
 
     if (this.adventureId.equals(AdventurePool.HAUNTED_BALLROOM_ID)) {
       // Haunted Ballroom
-      this.isValidAdventure = QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step2");
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step2");
     }
 
     if (this.adventureId.equals(AdventurePool.HAUNTED_LABORATORY_ID)
         || this.adventureId.equals(AdventurePool.HAUNTED_NURSERY_ID)
         || this.adventureId.equals(AdventurePool.HAUNTED_STORAGE_ROOM_ID)) {
       // Haunted Lab, Nursery & Storage Room
-      this.isValidAdventure = QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step3");
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step3");
     }
 
     if (this.adventureId.equals(AdventurePool.MIDDLE_CHAMBER_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("middleChamberUnlock");
-      return;
+      return Preferences.getBoolean("middleChamberUnlock");
     }
 
     if (this.adventureId.equals(AdventurePool.BATRAT_ID)
@@ -608,110 +565,89 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
               : this.adventureId.equals(AdventurePool.BEANBAT_ID) ? 2 : 3;
 
       if (sonarsUsed >= sonarsForLocation) {
-        this.isValidAdventure = true;
-        return;
+        return true;
       }
 
       int sonarsToUse = sonarsForLocation - sonarsUsed;
 
-      this.isValidAdventure = InventoryManager.hasItem(ItemPool.get(ItemPool.SONAR, sonarsToUse));
-      return;
+      return InventoryManager.hasItem(ItemPool.get(ItemPool.SONAR, sonarsToUse));
     }
 
     if (this.adventureId.equals(AdventurePool.WHITEYS_GROVE_ID)) {
       if (QuestDatabase.isQuestLaterThan(Quest.CITADEL, "unstarted")
           || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2")
           || KoLCharacter.isEd()) {
-        this.isValidAdventure = true;
-        return;
+        return true;
       }
 
       GenericRequest request = new GenericRequest("woods.php");
       RequestThread.postRequest(request);
-      this.isValidAdventure = request.responseText.contains("grove.gif");
-      return;
+      return request.responseText.contains("grove.gif");
     }
 
     if (this.zone.equals("McLarge")) {
+      // *** Not quite. Should see if you've started the quest
       if (this.adventureId.equals(AdventurePool.MINE_OFFICE_ID)) {
-        this.isValidAdventure = true;
-        return;
+        return true;
       }
 
       if (this.adventureId.equals(AdventurePool.ITZNOTYERZITZ_MINE_ID)
           || this.adventureId.equals(AdventurePool.GOATLET_ID)) {
-        this.isValidAdventure =
-            QuestDatabase.isQuestLaterThan(Quest.TRAPPER, QuestDatabase.STARTED);
-        return;
+        return QuestDatabase.isQuestLaterThan(Quest.TRAPPER, QuestDatabase.STARTED);
       }
 
       if (this.adventureId.equals(AdventurePool.NINJA_SNOWMEN_ID)
           || this.adventureId.equals(AdventurePool.EXTREME_SLOPE_ID)) {
-        this.isValidAdventure = QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step1");
-        return;
+        return QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step1");
       }
 
       if (this.adventureId.equals(AdventurePool.ICY_PEAK_ID)) {
-        this.isValidAdventure = QuestDatabase.isQuestFinished(Quest.TRAPPER);
-        return;
+        return QuestDatabase.isQuestFinished(Quest.TRAPPER);
       }
-      return;
+      return false;
     }
 
     if (this.zone.equals("Highlands")) {
-      if (QuestDatabase.isQuestLaterThan(Quest.TOPPING, QuestDatabase.STARTED)) {
-        this.isValidAdventure = true;
-        return;
-      }
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.TOPPING, QuestDatabase.STARTED);
     }
 
     if (this.adventureId.equals(AdventurePool.THE_DRIPPING_HALL_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("drippingHallUnlocked");
-      return;
+      return Preferences.getBoolean("drippingHallUnlocked");
     }
 
     if (this.adventureId.equals(AdventurePool.EDGE_OF_THE_SWAMP_ID)) {
-      this.isValidAdventure = QuestDatabase.isQuestLaterThan(Quest.SWAMP, "unstarted");
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.SWAMP, "unstarted");
     }
 
     if (this.adventureId.equals(AdventurePool.DARK_AND_SPOOKY_SWAMP_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("maraisDarkUnlock");
-      return;
+      return Preferences.getBoolean("maraisDarkUnlock");
     }
 
     if (this.adventureId.equals(AdventurePool.CORPSE_BOG_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("maraisCorpseUnlock");
-      return;
+      return Preferences.getBoolean("maraisCorpseUnlock");
     }
 
     if (this.adventureId.equals(AdventurePool.RUINED_WIZARDS_TOWER_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("maraisWizardUnlock");
-      return;
+      return Preferences.getBoolean("maraisWizardUnlock");
     }
 
     if (this.adventureId.equals(AdventurePool.WILDLIFE_SANCTUARRRRRGH_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("maraisWildlifeUnlock");
-      return;
+      return Preferences.getBoolean("maraisWildlifeUnlock");
     }
 
     if (this.adventureId.equals(AdventurePool.WEIRD_SWAMP_VILLAGE_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("maraisVillageUnlock");
-      return;
+      return Preferences.getBoolean("maraisVillageUnlock");
     }
 
     if (this.adventureId.equals(AdventurePool.SWAMP_BEAVER_TERRITORY_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("maraisBeaverUnlock");
-      return;
+      return Preferences.getBoolean("maraisBeaverUnlock");
     }
 
-    this.isValidAdventure = true;
+    return true;
   }
 
-  public boolean isAccessible() {
-    this.validate1();
-    return this.isValidAdventure;
+  private void validate1() {
+    this.isValidAdventure = this.isCurrentlyAccessible();
   }
 
   // Validation part 2:
