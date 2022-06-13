@@ -371,10 +371,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return KoLCharacter.getSignZone() == ZodiacZone.GNOMADS;
     }
 
-    if (this.zone.equals("MusSign")) {
-      return KoLCharacter.getSignZone() == ZodiacZone.KNOLL;
-    }
-
     if (this.zone.equals("Little Canadia")) {
       return KoLCharacter.getSignZone() == ZodiacZone.CANADIA;
     }
@@ -430,16 +426,19 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.adventureId.equals(AdventurePool.BUGBEAR_PEN_ID)) {
-      return QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, QuestDatabase.UNSTARTED)
+      return KoLCharacter.getSignZone() == ZodiacZone.KNOLL
+          && QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, QuestDatabase.UNSTARTED)
           && !QuestDatabase.isQuestFinished(Quest.BUGBEAR);
     }
 
     if (this.adventureId.equals(AdventurePool.SPOOKY_GRAVY_BURROW_ID)) {
-      return QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, "step1");
+      return KoLCharacter.getSignZone() == ZodiacZone.KNOLL
+          && QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, "step1");
     }
 
     if (this.adventureId.equals(AdventurePool.POST_QUEST_BUGBEAR_PEN)) {
-      return QuestDatabase.isQuestFinished(Quest.BUGBEAR);
+      return KoLCharacter.getSignZone() == ZodiacZone.KNOLL
+          && QuestDatabase.isQuestFinished(Quest.BUGBEAR);
     }
 
     if (this.adventureId.equals(AdventurePool.PALINDOME_ID)) {

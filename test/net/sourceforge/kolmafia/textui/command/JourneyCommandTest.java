@@ -94,13 +94,12 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
-  void canFindZoneRestrictedOnPath() {
+  void canFindZoneRestrictedSkillOnPath() {
     var cleanups =
         new Cleanups(
             Player.isClass(AscensionClass.ACCORDION_THIEF),
             Player.isSign(ZodiacSign.VOLE),
-            Player.inPath(Path.JOURNEYMAN),
-            Player.setProperty("questL07Cyrptic", "unstarted"));
+            Player.inPath(Path.JOURNEYMAN));
 
     try (cleanups) {
       String output = execute("find wave of sauce");
@@ -108,6 +107,24 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
           output,
           containsString(
               "You can learn \"Wave of Sauce\" after 12 turns in Camp Logging Camp (which is not currently accessible to you)."));
+    }
+  }
+
+  @Test
+  void canFindZoneAndQuestRestrictedSkillOnPath() {
+    var cleanups =
+        new Cleanups(
+            Player.isClass(AscensionClass.ACCORDION_THIEF),
+            Player.isSign(ZodiacSign.VOLE),
+            Player.inPath(Path.JOURNEYMAN),
+            Player.setProperty("questM03Bugbear", "started"));
+
+    try (cleanups) {
+      String output = execute("find lunging");
+      assertThat(
+          output,
+          containsString(
+              "You can learn \"Lunging Thrust-Smack\" after 24 turns in The Spooky Gravy Burrow (which is not currently accessible to you)."));
     }
   }
 
