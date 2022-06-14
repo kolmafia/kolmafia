@@ -254,10 +254,7 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
             Player.isClass(AscensionClass.ACCORDION_THIEF),
             Player.isSign(ZodiacSign.VOLE),
             Player.inPath(Path.JOURNEYMAN),
-            Player.addSkill("Advanced Saucecrafting"),
-            // KoLAdventure will submit a request to woods.php to look for
-            // Whitey's Grove if cannot deduce from quest progress
-            Player.setProperty("questG02Whitecastle", "started"));
+            Player.addSkill("Advanced Saucecrafting"));
 
     try (cleanups) {
       String output = execute("zones");

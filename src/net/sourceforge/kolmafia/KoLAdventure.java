@@ -590,15 +590,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.adventureId.equals(AdventurePool.WHITEYS_GROVE_ID)) {
-      if (QuestDatabase.isQuestLaterThan(Quest.CITADEL, "unstarted")
+      return QuestDatabase.isQuestLaterThan(Quest.CITADEL, "unstarted")
           || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2")
-          || KoLCharacter.isEd()) {
-        return true;
-      }
-
-      GenericRequest request = new GenericRequest("woods.php");
-      RequestThread.postRequest(request);
-      return request.responseText.contains("grove.gif");
+          || KoLCharacter.isEd();
     }
 
     if (this.zone.equals("McLarge")) {

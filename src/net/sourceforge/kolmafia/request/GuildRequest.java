@@ -277,14 +277,20 @@ public class GuildRequest extends GenericRequest {
         KoLCharacter.setDesertBeachAvailable();
       }
 
-      if (responseText.contains("White Citadel")) {
+      // The White Citadel quest is offered in choice #930.
+      // You accept it via 930/1
+      //
+      // If you revisit "paco" before fetching the satchel, "paco" reminds you
+      // to go to Whitey's Grove.
+
+      if (responseText.contains("Whitey's Grove")) {
         QuestDatabase.setQuestIfBetter(Quest.CITADEL, QuestDatabase.STARTED);
       }
 
-      if (InventoryManager.hasItem(ItemPool.CITADEL_SATCHEL)) {
-        ResultProcessor.processItem(ItemPool.CITADEL_SATCHEL, -1);
-        QuestDatabase.setQuestProgress(Quest.CITADEL, QuestDatabase.FINISHED);
-      }
+      // When you return with the satchel, they give you a lucky rabbit's
+      // foot. that is handled in choice #930.
+      //
+      // Therefore, the quest is started and finished in choice handling.
 
       if (responseText.contains("7-foot Dwarves") || responseText.contains("McLargeHuge")) {
         QuestDatabase.setQuestIfBetter(Quest.FACTORY, QuestDatabase.STARTED);

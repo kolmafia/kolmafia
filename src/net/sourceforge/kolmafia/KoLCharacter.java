@@ -2904,7 +2904,8 @@ public abstract class KoLCharacter {
         || oldPath == Path.HEAVY_RAINS
         || oldPath == Path.PICKY
         || oldPath == Path.NUCLEAR_AUTUMN
-        || oldPath == Path.YOU_ROBOT) {
+        || oldPath == Path.YOU_ROBOT
+        || oldPath == Path.JOURNEYMAN) {
       RequestThread.postRequest(new CharSheetRequest());
       InventoryManager.checkPowerfulGlove();
     }
