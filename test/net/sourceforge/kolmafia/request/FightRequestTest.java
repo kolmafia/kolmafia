@@ -408,6 +408,40 @@ public class FightRequestTest {
   }
 
   @Test
+  public void canFindItemsWithGravyBoat() throws IOException {
+    KoLConstants.inventory.clear();
+
+    String html = loadHTMLResponse("request/test_fight_gravy_boat_1.html");
+    String url = "fight.php?action=skill&whichskill=27043";
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("spiny skelelton"));
+    FightRequest.registerRequest(true, url);
+    FightRequest.currentRound = 2;
+    // This html has hewn moon-rune spoon munging. processResults will un-munge
+    // it before calling updateCombatData.
+    FightRequest.processResults(null, null, html);
+    assertEquals(1, InventoryManager.getCount(ItemPool.SKELETON_BONE));
+    assertEquals(1, InventoryManager.getCount(ItemPool.SMART_SKULL));
+    assertEquals(1, InventoryManager.getCount(ItemPool.EVIL_EYE));
+    assertEquals(1, InventoryManager.getCount(ItemPool.BOTTLE_OF_GIN));
+  }
+
+  @Test
+  public void canFindItemsWithGravyBoatAndSlayTheDead() throws IOException {
+    KoLConstants.inventory.clear();
+
+    String html = loadHTMLResponse("request/test_fight_gravy_boat_2.html");
+    String url = "fight.php?action=skill&whichskill=7348";
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("toothy sklelton"));
+    FightRequest.registerRequest(true, url);
+    FightRequest.currentRound = 2;
+    // This html has hewn moon-rune spoon munging. processResults will un-munge
+    // it before calling updateCombatData.
+    FightRequest.processResults(null, null, html);
+    assertEquals(1, InventoryManager.getCount(ItemPool.LOOSE_TEETH));
+    assertEquals(1, InventoryManager.getCount(ItemPool.EVIL_EYE));
+  }
+
+  @Test
   public void canTrackDramederyActions() throws IOException {
     FamiliarData fam =
         new FamiliarData(FamiliarPool.MELODRAMEDARY, "Gogarth", 1, EquipmentRequest.UNEQUIP);

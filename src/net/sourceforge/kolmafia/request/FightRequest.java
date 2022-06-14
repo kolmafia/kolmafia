@@ -7535,6 +7535,7 @@ public class FightRequest extends GenericRequest {
 
     if (text.contains("Some gravy sloshes")) {
       evilness++;
+      retval = false;
     }
 
     // Casting Slay the Dead while wearing a Vampire Slicer trench code decreases evilness.
