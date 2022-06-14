@@ -1066,7 +1066,9 @@ public class TestCommand extends AbstractCommand {
         MonsterStatusTracker.setNextMonster(monster);
         String monsterName = monster.getName();
         FightRequest.currentRound = round;
-        FightRequest.updateCombatData("fight.php", monsterName, responseText);
+        // This command used to use updateCombatData, but processResults will
+        // fix text munging from the hewn moon-rune spoon.
+        FightRequest.processResults("fight.php", monsterName, responseText);
         FightRequest.lastDecoratedResponseText =
             RequestEditorKit.getFeatureRichHTML("fight.php", responseText);
       } else {
