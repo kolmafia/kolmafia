@@ -26,7 +26,7 @@ public class WikiUtilities {
 
   private WikiUtilities() {}
 
-  public static final String getWikiLocation(String name, int type) {
+  public static final String getWikiLocation(String name, int type, boolean dataPage) {
     boolean checkOtherTables = true;
 
     if (type != ANY_TYPE) {
@@ -67,8 +67,15 @@ public class WikiUtilities {
           }
           break;
         case MONSTER_TYPE:
-          if (name.equals("ice porter")) {
-            // Also a drink.
+          if (name.equals("ice porter")
+              || name.equals("licorice snake")
+              || name.equals("Porkpocket")
+              || name.equals("Tin of Submardines")) {
+            // Also an item.
+          } else if (name.equals("Frosty")) {
+            // Also an effect.
+          } else if (name.equals("rage flame")) {
+            // Also a skill.
           } else if (name.equals("undead elbow macaroni")) {
             // Also (formerly) a pasta guardian
             name = name + " (monster)";
@@ -85,15 +92,16 @@ public class WikiUtilities {
     name = StringUtilities.globalStringReplace(name, "<s>", "");
     name = StringUtilities.globalStringReplace(name, "</s>", "");
     name = StringUtilities.globalStringReplace(name, " ", "_");
-    name = StringUtilities.globalStringReplace(name, "?", "%3F");
 
     name = Character.toUpperCase(name.charAt(0)) + name.substring(1);
 
     // Turn character entities into characters
     name = CharacterEntities.unescape(name);
 
-    if (type == MONSTER_TYPE) {
-      name = StringUtilities.getURLEncode(name);
+    name = StringUtilities.getURLEncode(name);
+    name = StringUtilities.globalStringReplace(name, "%2F", "/");
+
+    if (dataPage) {
       name = "Data:" + name;
     }
 
@@ -101,6 +109,10 @@ public class WikiUtilities {
   }
 
   public static final String getWikiLocation(Object item) {
+    return getWikiLocation(item, false);
+  }
+
+  public static final String getWikiLocation(Object item, boolean dataPage) {
     if (item == null) {
       return null;
     }
@@ -151,7 +163,7 @@ public class WikiUtilities {
       return null;
     }
 
-    return WikiUtilities.getWikiLocation(name, type);
+    return WikiUtilities.getWikiLocation(name, type, dataPage);
   }
 
   public static final void showWikiDescription(final Object item) {

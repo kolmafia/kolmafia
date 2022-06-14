@@ -95,6 +95,7 @@ public class ItemPool {
   public static final int RANGE = 157;
   public static final int DOUGH = 159;
   public static final int SKELETON_BONE = 163;
+  public static final int SMART_SKULL = 164;
   public static final int BONE_RATTLE = 168;
   public static final int TACO_SHELL = 173;
   public static final int BRIEFCASE = 184;

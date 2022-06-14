@@ -4476,6 +4476,19 @@ public abstract class ChoiceControl {
           Preferences.setInteger("_nextColdMedicineConsult", KoLCharacter.getTurnsPlayed() + 20);
         }
         break;
+
+      case 1467:
+      case 1468:
+      case 1469:
+      case 1470:
+      case 1471:
+      case 1472:
+      case 1473:
+      case 1474:
+      case 1475:
+        // June cleaver
+        JuneCleaverManager.parseChoice(urlString);
+        break;
     }
   }
 
@@ -6794,6 +6807,17 @@ public abstract class ChoiceControl {
         // as soon as the next adventure is started
         TurnCounter.stopCounting("Spookyraven Lights Out");
         Preferences.setInteger("lastLightsOutTurn", KoLCharacter.getTurnsPlayed());
+        break;
+
+      case 930:
+        // Another Errand I Mean Quest
+
+        // Upon turning in the White Citadel Satisfaction Satchel, "paco" takes
+        // it and gives us a lucky rabbit's foot. No further choice processing.
+        if (text.contains("<b>lucky rabbit's foot</b>")) {
+          ResultProcessor.processItem(ItemPool.CITADEL_SATCHEL, -1);
+          QuestDatabase.setQuestProgress(Quest.CITADEL, QuestDatabase.FINISHED);
+        }
         break;
 
       case 984:
