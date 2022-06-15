@@ -138,7 +138,7 @@ public class InputFieldUtilities {
     JList<T> selector = new JList<>(inputs);
 
     JPanel panel = new JPanel(new BorderLayout());
-    panel.add(new AutoFilterTextField<>(selector, initial), BorderLayout.NORTH);
+    panel.add(new AutoFilterTextField<>(selector, initial, true), BorderLayout.NORTH);
     panel.add(new GenericScrollPane(selector), BorderLayout.CENTER);
 
     int option =

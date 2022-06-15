@@ -1,12 +1,16 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import internal.helpers.RequestLoggerOutput;
+import internal.network.RequestBodyReader;
+import java.net.URLDecoder;
+import java.net.http.HttpRequest;
+import java.nio.charset.StandardCharsets;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 
 public abstract class AbstractCommandTestBase {
@@ -17,14 +21,12 @@ public abstract class AbstractCommandTestBase {
   }
 
   public String execute(final String params, final boolean check) {
-    var outputStream = new ByteArrayOutputStream();
-    RequestLogger.openCustom(new PrintStream(outputStream));
+    RequestLoggerOutput.startStream();
     var cli = new KoLmafiaCLI(System.in);
     KoLmafiaCLI.isExecutingCheckOnlyCommand = check;
     cli.executeCommand(this.command, params);
     KoLmafiaCLI.isExecutingCheckOnlyCommand = false;
-    RequestLogger.closeCustom();
-    return outputStream.toString();
+    return RequestLoggerOutput.stopStream();
   }
 
   public static void assertState(final MafiaState state) {
@@ -37,5 +39,20 @@ public abstract class AbstractCommandTestBase {
 
   public static void assertErrorState() {
     assertState(MafiaState.ERROR);
+  }
+
+  public static void assertGetRequest(HttpRequest request, String path, String query) {
+    assertThat(request.method(), equalTo("GET"));
+    var uri = request.uri();
+    assertThat(uri.getPath(), equalTo(path));
+    assertThat(uri.getQuery(), equalTo(query));
+  }
+
+  public static void assertPostRequest(HttpRequest request, String path, String body) {
+    assertThat(request.method(), equalTo("POST"));
+    var uri = request.uri();
+    assertThat(uri.getPath(), equalTo(path));
+    var reqBody = new RequestBodyReader().bodyAsString(request);
+    assertThat(URLDecoder.decode(reqBody, StandardCharsets.UTF_8), equalTo(body));
   }
 }

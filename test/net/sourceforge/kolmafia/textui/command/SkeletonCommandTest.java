@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import static internal.helpers.HttpClientWrapper.getRequests;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
@@ -7,16 +8,12 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
 
+import internal.helpers.HttpClientWrapper;
 import internal.helpers.Player;
-import internal.network.FakeHttpClientBuilder;
 import internal.network.RequestBodyReader;
-import java.net.http.HttpRequest;
-import java.util.List;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,18 +23,9 @@ public class SkeletonCommandTest extends AbstractCommandTestBase {
     this.command = "skeleton";
   }
 
-  private final FakeHttpClientBuilder fakeClientBuilder = new FakeHttpClientBuilder();
-
-  private List<HttpRequest> getRequests() {
-    return fakeClientBuilder.client.getRequests();
-  }
-
   @BeforeEach
   public void initializeState() {
-    GenericRequest.sessionId = "skeleton";
-    HttpUtilities.setClientBuilder(() -> fakeClientBuilder);
-    GenericRequest.resetClient();
-    fakeClientBuilder.client.clear();
+    HttpClientWrapper.setupFakeClient();
     StaticEntity.setContinuationState(KoLConstants.MafiaState.CONTINUE);
   }
 

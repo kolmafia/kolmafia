@@ -587,7 +587,7 @@ public class DataTypes {
       return DataTypes.THRALL_INIT;
     }
 
-    Object[] data = PastaThrallData.typeToData(name);
+    var data = PastaThrallData.typeToData(name);
     if (data == null) {
       return returnDefault ? DataTypes.THRALL_INIT : null;
     }
@@ -844,6 +844,10 @@ public class DataTypes {
     return new Value(DataTypes.SLOT_TYPE, num, name);
   }
 
+  public static final Value makeElementValue(Element elem) {
+    return makeElementValue(elem, true);
+  }
+
   public static final Value makeElementValue(Element elem, final boolean returnDefault) {
     if (elem == Element.NONE) {
       return returnDefault ? DataTypes.ELEMENT_INIT : null;
@@ -861,7 +865,7 @@ public class DataTypes {
   }
 
   public static final Value makeThrallValue(final int num, final boolean returnDefault) {
-    Object[] data = PastaThrallData.idToData(num);
+    var data = PastaThrallData.idToData(num);
     if (data == null) {
       return returnDefault ? DataTypes.THRALL_INIT : null;
     }

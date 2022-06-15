@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -282,14 +283,14 @@ public class FightRequestTest {
     FightRequest.currentRound = 1;
     FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
     KoLCharacter.setFamiliar(fam);
-    fam.setWeight(6);
+    KoLCharacter.getFamiliar().setWeight(6);
     // If we have a 6-lb. Grey Goose, the Grey Goose combat skills on the fight
     // page are valid.
     FightRequest.parseAvailableCombatSkills(html);
     assertTrue(KoLCharacter.hasCombatSkill(SkillPool.EMIT_MATTER_DUPLICATING_DRONES));
     // If it is less than 6-lbs., a KoL bug still shows them on the combat page,
     // but if you try to use them, "You don't know that skill."
-    fam.setWeight(1);
+    KoLCharacter.getFamiliar().setWeight(1);
     FightRequest.parseAvailableCombatSkills(html);
     assertFalse(KoLCharacter.hasCombatSkill(SkillPool.EMIT_MATTER_DUPLICATING_DRONES));
   }
@@ -387,6 +388,60 @@ public class FightRequestTest {
   }
 
   @Test
+  public void canFindItemsAfterSlayTheDead() throws IOException {
+    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+    KoLCharacter.setFamiliar(fam);
+
+    KoLConstants.inventory.clear();
+
+    String html = loadHTMLResponse("request/test_fight_slay_the_dead.html");
+    String url =
+        "fight.php?action=macro&macrotext=abort+hppercentbelow+20%3B+abort+pastround+25%3B+skill+Slay+the+Dead%3B+use+beehive%3B+skill+Double+Nanovision%3B+repeat%3B+mark+eof%3B+";
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("toothy sklelton"));
+    FightRequest.registerRequest(true, url);
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(1, InventoryManager.getCount(ItemPool.LOOSE_TEETH));
+    assertEquals(1, InventoryManager.getCount(ItemPool.SKELETON_BONE));
+    assertEquals(1, InventoryManager.getCount(ItemPool.BONE_FLUTE));
+    assertEquals(1, InventoryManager.getCount(ItemPool.EVIL_EYE));
+  }
+
+  @Test
+  public void canFindItemsWithGravyBoat() throws IOException {
+    KoLConstants.inventory.clear();
+
+    String html = loadHTMLResponse("request/test_fight_gravy_boat_1.html");
+    String url = "fight.php?action=skill&whichskill=27043";
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("spiny skelelton"));
+    FightRequest.registerRequest(true, url);
+    FightRequest.currentRound = 2;
+    // This html has hewn moon-rune spoon munging. processResults will un-munge
+    // it before calling updateCombatData.
+    FightRequest.processResults(null, null, html);
+    assertEquals(1, InventoryManager.getCount(ItemPool.SKELETON_BONE));
+    assertEquals(1, InventoryManager.getCount(ItemPool.SMART_SKULL));
+    assertEquals(1, InventoryManager.getCount(ItemPool.EVIL_EYE));
+    assertEquals(1, InventoryManager.getCount(ItemPool.BOTTLE_OF_GIN));
+  }
+
+  @Test
+  public void canFindItemsWithGravyBoatAndSlayTheDead() throws IOException {
+    KoLConstants.inventory.clear();
+
+    String html = loadHTMLResponse("request/test_fight_gravy_boat_2.html");
+    String url = "fight.php?action=skill&whichskill=7348";
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("toothy sklelton"));
+    FightRequest.registerRequest(true, url);
+    FightRequest.currentRound = 2;
+    // This html has hewn moon-rune spoon munging. processResults will un-munge
+    // it before calling updateCombatData.
+    FightRequest.processResults(null, null, html);
+    assertEquals(1, InventoryManager.getCount(ItemPool.LOOSE_TEETH));
+    assertEquals(1, InventoryManager.getCount(ItemPool.EVIL_EYE));
+  }
+
+  @Test
   public void canTrackDramederyActions() throws IOException {
     FamiliarData fam =
         new FamiliarData(FamiliarPool.MELODRAMEDARY, "Gogarth", 1, EquipmentRequest.UNEQUIP);
@@ -449,8 +504,10 @@ public class FightRequestTest {
     html = loadHTMLResponse("request/test_fight_goo_absorption_2.html");
     FightRequest.currentRound = 2;
     FightRequest.registerRequest(true, urlString);
+    assertEquals("", Preferences.getString("gooseReprocessed"));
     FightRequest.updateCombatData(null, null, html);
     assertTrue(GreyYouManager.absorbedMonsters.contains(monsterId));
+    assertEquals(String.valueOf(monsterId), Preferences.getString("gooseReprocessed"));
     assertEquals(1, KoLCharacter.getFamiliar().getWeight());
 
     GreyYouManager.resetAbsorptions();
@@ -480,6 +537,45 @@ public class FightRequestTest {
     FightRequest.registerRequest(true, urlString);
     FightRequest.updateCombatData(null, null, html);
     assertFalse(GreyYouManager.absorbedMonsters.contains(monsterId));
+  }
+
+  @Test
+  public void canReabsorbMultipleMonsters() throws IOException {
+    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+    KoLCharacter.setFamiliar(fam);
+    KoLCharacter.getFamiliar().setExperience(36);
+
+    KoLCharacter.setPath(Path.GREY_YOU);
+    GreyYouManager.resetAbsorptions();
+
+    // Absorption of an albino bat via Re-Process Matter
+    String urlString = "fight.php?action=skill&whichskill=7408";
+    String html = loadHTMLResponse("request/test_fight_goo_absorption_2.html");
+    FightRequest.currentRound = 2;
+    FightRequest.registerRequest(true, urlString);
+    assertEquals("", Preferences.getString("gooseReprocessed"));
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals("41", Preferences.getString("gooseReprocessed"));
+
+    // Second absorption of a model skeleton via Re-Process Matter
+    KoLCharacter.getFamiliar().setExperience(36);
+    urlString = "fight.php?action=skill&whichskill=7408";
+    html = loadHTMLResponse("request/test_fight_goo_absorption_5.html");
+    FightRequest.currentRound = 2;
+    FightRequest.registerRequest(true, urlString);
+    assertEquals("41", Preferences.getString("gooseReprocessed"));
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals("41,1547", Preferences.getString("gooseReprocessed"));
+
+    // Third absorption of a model skeleton via Re-Process Matter
+    KoLCharacter.getFamiliar().setExperience(36);
+    urlString = "fight.php?action=skill&whichskill=7408";
+    html = loadHTMLResponse("request/test_fight_goo_absorption_5.html");
+    FightRequest.currentRound = 2;
+    FightRequest.registerRequest(true, urlString);
+    assertEquals("41,1547", Preferences.getString("gooseReprocessed"));
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals("41,1547", Preferences.getString("gooseReprocessed"));
   }
 
   // Cosmic Bowling Ball Tests
@@ -529,5 +625,34 @@ public class FightRequestTest {
     assertEquals(0, Preferences.getInteger("_roboDrops"));
     parseCombatData("request/test_fight_robort_drops_2.html");
     assertEquals(0, Preferences.getInteger("_roboDrops"));
+  }
+
+  @Test
+  public void canDetectMaydaySupplyPackage() throws IOException {
+    assertFalse(Preferences.getBoolean("_maydayDropped"));
+    parseCombatData("request/test_fight_mayday_contract.html");
+    assertTrue(Preferences.getBoolean("_maydayDropped"));
+  }
+
+  @Test
+  public void canTrackJuneCleaverPrefs() throws IOException {
+    EquipmentManager.setEquipment(EquipmentManager.WEAPON, ItemPool.get(ItemPool.JUNE_CLEAVER));
+    parseCombatData("request/test_fight_june_cleaver.html");
+    assertEquals(Preferences.getInteger("_juneCleaverSleaze"), 2);
+    assertEquals(Preferences.getInteger("_juneCleaverFightsLeft"), 0);
+  }
+
+  @Test
+  public void canTrackBellydancerPickpocket() throws IOException {
+    assertEquals(0, Preferences.getInteger("_bellydancerPickpockets"));
+
+    parseCombatData("request/test_fight_bellydancing_pickpocket_1.html");
+    assertEquals(1, Preferences.getInteger("_bellydancerPickpockets"));
+
+    parseCombatData("request/test_fight_bellydancing_pickpocket_2.html");
+    assertEquals(2, Preferences.getInteger("_bellydancerPickpockets"));
+
+    parseCombatData("request/test_fight_bellydancing_pickpocket_3.html");
+    assertEquals(3, Preferences.getInteger("_bellydancerPickpockets"));
   }
 }

@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class YouRobotManager {
@@ -735,8 +736,8 @@ public abstract class YouRobotManager {
     //   1445 - Reassembly Station
     //   1447 - Statbot 5000
 
-    int choice = ChoiceManager.extractChoiceFromURL(urlString);
-    int decision = ChoiceManager.extractOptionFromURL(urlString);
+    int choice = ChoiceUtilities.extractChoiceFromURL(urlString);
+    int decision = ChoiceUtilities.extractOptionFromURL(urlString);
 
     String message;
 

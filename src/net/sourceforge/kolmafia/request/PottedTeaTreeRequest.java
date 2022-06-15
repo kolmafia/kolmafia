@@ -12,7 +12,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PottedTeaTreeRequest extends GenericRequest {
@@ -176,7 +176,7 @@ public class PottedTeaTreeRequest extends GenericRequest {
       return false;
     }
 
-    int choice = ChoiceManager.extractChoiceFromURL(urlString);
+    int choice = ChoiceUtilities.extractChoiceFromURL(urlString);
 
     if (choice != 1104 && choice != 1105) {
       return false;

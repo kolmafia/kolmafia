@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
@@ -18,6 +19,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class GreyYouManager {
@@ -127,6 +129,25 @@ public abstract class GreyYouManager {
     if (allAbsorptions.containsKey(monsterId)) {
       absorbedMonsters.add(monsterId);
     }
+  }
+
+  public static void reprocessMonster(MonsterData monster) {
+    // This called from FightRequest after casting Re-Process Matter
+
+    // Load the monsters that we've already reprocessed
+    Set<Integer> reprocessed =
+        Arrays.stream(Preferences.getString("gooseReprocessed").split("\\s*,\\s*"))
+            .filter(StringUtilities::isNumeric)
+            .map(Integer::valueOf)
+            .collect(Collectors.toSet());
+
+    // Add the new monster
+    reprocessed.add(monster.getId());
+
+    // Update the property
+    String value =
+        reprocessed.stream().sorted().map(String::valueOf).collect(Collectors.joining(","));
+    Preferences.setString("gooseReprocessed", value);
   }
 
   // When Grey You absorbs a monster, you gain stats.  Each zone has monsters

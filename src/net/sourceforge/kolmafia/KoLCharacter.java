@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -1283,6 +1282,10 @@ public abstract class KoLCharacter {
     return ascensionClass == AscensionClass.VAMPYRE;
   }
 
+  public static final boolean isGreyGoo() {
+    return ascensionClass == AscensionClass.GREY_GOO;
+  }
+
   public static final boolean isMoxieClass() {
     return ascensionClass != null && ascensionClass.getPrimeStatIndex() == 2;
   }
@@ -1652,6 +1655,7 @@ public abstract class KoLCharacter {
       freerests += 5;
     if (Preferences.getBoolean("getawayCampsiteUnlocked")) ++freerests;
     if (KoLCharacter.hasSkill("Long Winter's Nap")) freerests += 5;
+    if (InventoryManager.getCount(ItemPool.MOTHERS_NECKLACE) > 0) freerests += 5;
     return freerests;
   }
 
@@ -2363,14 +2367,7 @@ public abstract class KoLCharacter {
   private static final Pattern B_PATTERN = Pattern.compile("[Bb]");
 
   public static final int getBeeosity(String name) {
-    int bees = 0;
-
-    Matcher bMatcher = KoLCharacter.B_PATTERN.matcher(name);
-    while (bMatcher.find()) {
-      bees++;
-    }
-
-    return bees;
+    return (int) KoLCharacter.B_PATTERN.matcher(name).results().count();
   }
 
   public static final boolean hasBeeosity(String name) {
@@ -2907,7 +2904,8 @@ public abstract class KoLCharacter {
         || oldPath == Path.HEAVY_RAINS
         || oldPath == Path.PICKY
         || oldPath == Path.NUCLEAR_AUTUMN
-        || oldPath == Path.YOU_ROBOT) {
+        || oldPath == Path.YOU_ROBOT
+        || oldPath == Path.JOURNEYMAN) {
       RequestThread.postRequest(new CharSheetRequest());
       InventoryManager.checkPowerfulGlove();
     }
@@ -3125,11 +3123,16 @@ public abstract class KoLCharacter {
     return KoLCharacter.restricted;
   }
 
+  public static final boolean inFight() {
+    return FightRequest.currentRound != 0 || FightRequest.inMultiFight;
+  }
+
+  public static final boolean inChoice() {
+    return ChoiceManager.handlingChoice || FightRequest.choiceFollowsFight;
+  }
+
   public static final boolean inFightOrChoice() {
-    return ChoiceManager.handlingChoice
-        || FightRequest.currentRound != 0
-        || FightRequest.inMultiFight
-        || FightRequest.choiceFollowsFight;
+    return inFight() || inChoice();
   }
 
   /**
@@ -4896,6 +4899,7 @@ public abstract class KoLCharacter {
                 + " "
                 + Preferences.getString("retroCapeWashingInstructions"),
             Preferences.getString("backupCameraMode"),
+            Preferences.getString("umbrellaState"),
             false));
   }
 
@@ -4914,6 +4918,7 @@ public abstract class KoLCharacter {
       String boomBox,
       String retroCape,
       String backupCamera,
+      String unbreakableUmbrella,
       boolean speculation) {
     int taoFactor = KoLCharacter.hasSkill("Tao of the Terrapin") ? 2 : 1;
 
@@ -5006,6 +5011,7 @@ public abstract class KoLCharacter {
           snowsuit,
           retroCape,
           backupCamera,
+          unbreakableUmbrella,
           speculation,
           taoFactor);
     }
@@ -5409,6 +5415,7 @@ public abstract class KoLCharacter {
       String snowsuit,
       String retroCape,
       String backupCamera,
+      String unbreakableUmbrella,
       boolean speculation,
       int taoFactor) {
     if (item == null || item == EquipmentRequest.UNEQUIP) {
@@ -5538,6 +5545,10 @@ public abstract class KoLCharacter {
 
         case ItemPool.BACKUP_CAMERA:
           newModifiers.add(Modifiers.getModifiers("BackupCamera", backupCamera));
+          break;
+
+        case ItemPool.UNBREAKABLE_UMBRELLA:
+          newModifiers.add(Modifiers.getModifiers("UnbreakableUmbrella", unbreakableUmbrella));
           break;
 
         case ItemPool.SNOW_SUIT:

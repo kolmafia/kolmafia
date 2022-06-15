@@ -184,6 +184,7 @@ cursed bottle of black-label rum	3	3	good	5-10	0	0	0	10 Curse Magnet
 cursed bottle of rum	1	1	crappy	1	0	0	0
 Cursed Punch	1	6	good	2-3	1-5	1-5	1-5	10 Once-Cursed (-10 all stats)
 Cyder	3	5		5	0	0	0
+Dad's brandy	1	1	awesome	0	0	0	0	Unspaded
 Dark & Starry	2	1	good	4-5	5-10	5-10	5-10	Restores MP
 Das Sauerlager	3	1	decent	4-5	0	20-30	10-20
 day-old beer	1	1	crappy	1	0	0	0	BEER, CANNED

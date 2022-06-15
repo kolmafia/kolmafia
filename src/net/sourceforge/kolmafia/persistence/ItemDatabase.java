@@ -2166,6 +2166,19 @@ public class ItemDatabase {
     }
   }
 
+  public static void parseCleaver(final String desc) {
+    String[] elements = {"Hot", "Cold", "Spooky", "Stench", "Sleaze"};
+    for (String element : elements) {
+      String preference = "_juneCleaver" + element;
+      Pattern damagePattern = Pattern.compile(element + " Damage: \\+(?<value>\\d+)");
+      Matcher m = damagePattern.matcher(desc);
+      if (m.find()) {
+        int qty = Integer.parseInt(m.group("value"));
+        Preferences.setInteger(preference, qty);
+      }
+    }
+  }
+
   public static void resetVampireVintnerWine() {
     Preferences.setString("vintnerWineName", "");
     Preferences.setString("vintnerWineEffect", "");

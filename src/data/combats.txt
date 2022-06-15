@@ -92,7 +92,7 @@ Cobb's Knob Barracks	-1	Knob Goblin Elite Guard	off-duty Knob Goblin Elite Guard
 Cobb's Knob Harem	100	Knob Goblin Harem Guard	Knob Goblin Harem Girl	Knob Goblin Madam
 Cobb's Knob Kitchens	100	Cobb's Knob oven	Knob Goblin Master Chef	Knob Goblin Sous Chef	Knob Goblin Elite Guard Captain: 0
 Cobb's Knob Laboratory	100	Knob Goblin Alchemist	Knob Goblin Mad Scientist: 2	Knob Goblin Very Mad Scientist
-Cobb's Knob Menagerie, Level 1	100	BASIC Elemental	Fruit Golem	Knob Goblin Mutant	QuickBASIC Elemental: -1
+Cobb's Knob Menagerie, Level 1	100	BASIC Elemental	Fruit Golem	Knob Goblin Mutant	QuickBASIC elemental: -1
 Cobb's Knob Menagerie, Level 2	100	Carnivorous Moxie Weed	Grass Elemental	Weremoose
 Cobb's Knob Menagerie, Level 3	100	Booze Giant	Portly Abomination	Spectral Jellyfish
 Cobb's Knob Treasury	-1	Knob Goblin Accountant	Knob Goblin Bean Counter	Knob Goblin MBA	Knob Goblin Embezzler: 0	infinite meat bug: -1	The ghost of Ebenoozer Screege: 0

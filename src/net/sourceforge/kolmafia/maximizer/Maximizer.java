@@ -1547,6 +1547,7 @@ public class Maximizer {
     String snowsuit = Maximizer.best.getSnowsuit();
     String retroCape = Maximizer.best.getRetroCape();
     String backupCamera = Maximizer.best.getBackupCamera();
+    String unbreakableUmbrella = Maximizer.best.getUnbreakableUmbrella();
     AdventureResult curr = EquipmentManager.getEquipment(slot);
     FamiliarData currEnthroned = KoLCharacter.getEnthroned();
     FamiliarData currBjorned = KoLCharacter.getBjorned();
@@ -1561,6 +1562,8 @@ public class Maximizer {
     Boolean setRetroCape = false;
     String currBackupCamera = Preferences.getString("backupCameraMode");
     Boolean setBackupCamera = false;
+    String currUmbrella = Preferences.getString("umbrellaState");
+    Boolean setUmbrella = false;
 
     if (item == null || item.getItemId() == 0) {
       item = EquipmentRequest.UNEQUIP;
@@ -1578,6 +1581,10 @@ public class Maximizer {
         itemId == ItemPool.BACKUP_CAMERA
             && backupCamera != null
             && !backupCamera.equals(currBackupCamera);
+    boolean changeUmbrella =
+        itemId == ItemPool.UNBREAKABLE_UMBRELLA
+            && unbreakableUmbrella != null
+            && !unbreakableUmbrella.equals(currUmbrella);
     boolean changeEdPiece =
         itemId == ItemPool.CROWN_OF_ED && edPiece != null && !edPiece.equals(currEdPiece);
     boolean changeSnowSuit =
@@ -1590,6 +1597,7 @@ public class Maximizer {
         && !changeSnowSuit
         && !(changeRetroCape)
         && !(changeBackupCamera)
+        && !(changeUmbrella)
         && !(itemId == ItemPool.BROKEN_CHAMPAGNE
             && Preferences.getInteger("garbageChampagneCharge") == 0
             && !Preferences.getBoolean("_garbageItemChanged"))
@@ -1619,6 +1627,8 @@ public class Maximizer {
       spec.setRetroCape(retroCape);
     } else if (itemId == ItemPool.BACKUP_CAMERA) {
       spec.setBackupCamera(backupCamera);
+    } else if (itemId == ItemPool.UNBREAKABLE_UMBRELLA) {
+      spec.setUnbreakableUmbrella(unbreakableUmbrella);
     }
 
     double delta = spec.getScore() - current;
@@ -1651,6 +1661,16 @@ public class Maximizer {
         cmd = "backupcamera " + backupCamera + "; equip " + slotname + " \u00B6" + item.getItemId();
         text = "backupcamera " + backupCamera;
         setBackupCamera = true;
+      } else if (changeUmbrella) {
+        cmd =
+            "umbrella "
+                + unbreakableUmbrella
+                + "; equip "
+                + slotname
+                + " \u00B6"
+                + item.getItemId();
+        text = "umbrella " + unbreakableUmbrella;
+        setUmbrella = true;
       } else {
         cmd = "equip " + slotname + " \u00B6" + item.getItemId();
         text = "equip " + slotname + " " + item.getName();
@@ -1798,6 +1818,10 @@ public class Maximizer {
 
     if (!setBackupCamera) {
       backupCamera = null;
+    }
+
+    if (!setUmbrella) {
+      unbreakableUmbrella = null;
     }
 
     Boost boost =

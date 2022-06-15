@@ -29,7 +29,7 @@ public class ZapRequest extends GenericRequest {
   private static final Pattern OPTION_PATTERN =
       Pattern.compile("<option value=(\\d+) descid='.*?'>.*?</option>");
 
-  private static final Map<Integer, List<String>> zapGroups = new HashMap<Integer, List<String>>();
+  private static final Map<Integer, List<String>> zapGroups = new HashMap<>();
 
   private AdventureResult item;
 
@@ -74,10 +74,10 @@ public class ZapRequest extends GenericRequest {
     }
   }
 
-  public static final LockableListModel<AdventureResult> getZappableItems() {
+  public static LockableListModel<AdventureResult> getZappableItems() {
     ZapRequest.initializeList();
 
-    SortedListModel<AdventureResult> matchingItems = new SortedListModel<AdventureResult>();
+    SortedListModel<AdventureResult> matchingItems = new SortedListModel<>();
     if (Preferences.getBoolean("relayTrimsZapList")) {
       matchingItems.addAll(
           KoLConstants.inventory.stream()
@@ -89,7 +89,7 @@ public class ZapRequest extends GenericRequest {
     return matchingItems;
   }
 
-  public static final List<String> getZapGroup(int itemId) {
+  public static List<String> getZapGroup(int itemId) {
     ZapRequest.initializeList();
 
     return ZapRequest.zapGroups.getOrDefault(itemId, new ArrayList<>());
@@ -126,7 +126,7 @@ public class ZapRequest extends GenericRequest {
 
     // "The Crown of the Goblin King shudders for a moment, but
     // nothing happens."
-    if (this.responseText.indexOf("nothing happens") != -1) {
+    if (this.responseText.contains("nothing happens")) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "The " + this.item.getName() + " is not zappable.");
       return;
     }
@@ -135,17 +135,17 @@ public class ZapRequest extends GenericRequest {
     KoLmafia.updateDisplay(this.item.getName() + " has been transformed.");
   }
 
-  public static final void parseResponse(final String urlString, final String responseText) {
+  public static void parseResponse(final String urlString, final String responseText) {
     if (!urlString.startsWith("wand.php")) {
       return;
     }
 
-    if (responseText.indexOf("nothing happens") != -1) {
+    if (responseText.contains("nothing happens")) {
       return;
     }
 
     // If it blew up, remove wand and zero usages
-    if (responseText.indexOf("abruptly explodes") != -1) {
+    if (responseText.contains("abruptly explodes")) {
       ResultProcessor.processResult(KoLCharacter.getZapper().getNegation());
       // set to -1 because will be incremented below
       Preferences.setInteger("_zapCount", -1);
@@ -166,7 +166,7 @@ public class ZapRequest extends GenericRequest {
     Preferences.increment("_zapCount");
   }
 
-  public static final void decorate(final StringBuffer buffer) {
+  public static void decorate(final StringBuffer buffer) {
     // Don't trim the list if user wants to see all items
     if (!Preferences.getBoolean("relayTrimsZapList")) return;
 
@@ -181,7 +181,7 @@ public class ZapRequest extends GenericRequest {
     buffer.delete(selectIndex, endSelectIndex);
 
     int itemId;
-    StringBuffer zappableOptions = new StringBuffer();
+    StringBuilder zappableOptions = new StringBuilder();
     while (optionMatcher.find()) {
       itemId = Integer.parseInt(optionMatcher.group(1));
       if (itemId == 0 || ZapRequest.zapGroups.containsKey(itemId)) {
@@ -189,7 +189,7 @@ public class ZapRequest extends GenericRequest {
       }
     }
 
-    buffer.insert(selectIndex, zappableOptions.toString());
+    buffer.insert(selectIndex, zappableOptions);
     int pos = buffer.lastIndexOf("</center>");
     buffer.insert(
         pos,
@@ -198,7 +198,7 @@ public class ZapRequest extends GenericRequest {
             + "&notrim=1\">Click here</a> for the full list.");
   }
 
-  public static final boolean registerRequest(final String urlString) {
+  public static boolean registerRequest(final String urlString) {
     if (!urlString.startsWith("wand.php")) {
       return false;
     }

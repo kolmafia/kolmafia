@@ -33,13 +33,15 @@ public class UmbrellaCommand extends AbstractCommand {
     Integer umbrellaState = null;
     if (parameter.equals("ml") || "broken".startsWith(parameter)) {
       umbrellaState = UmbrellaRequest.Form.BROKEN.id;
-    } else if (parameter.equals("dr") || "forward".startsWith(parameter)) {
+    } else if (parameter.equals("dr") || "forward-facing".startsWith(parameter)) {
       umbrellaState = UmbrellaRequest.Form.FORWARD.id;
-    } else if (parameter.equals("item") || "bucket".startsWith(parameter)) {
+    } else if (parameter.equals("item") || "bucket style".startsWith(parameter)) {
       umbrellaState = UmbrellaRequest.Form.BUCKET.id;
-    } else if (parameter.equals("weapon") || "pitchfork".startsWith(parameter)) {
+    } else if (parameter.equals("weapon") || "pitchfork style".startsWith(parameter)) {
       umbrellaState = UmbrellaRequest.Form.PITCHFORK.id;
-    } else if (parameter.equals("spell") || "twirling".startsWith(parameter)) {
+    } else if (parameter.equals("spell")
+        || "twirling".startsWith(parameter)
+        || "constantly twirling".startsWith(parameter)) {
       umbrellaState = UmbrellaRequest.Form.TWIRL.id;
     } else if (parameter.equals("nc") || "cocoon".startsWith(parameter)) {
       umbrellaState = UmbrellaRequest.Form.COCOON.id;

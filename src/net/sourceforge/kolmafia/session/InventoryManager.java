@@ -925,7 +925,7 @@ public abstract class InventoryManager {
 
     if (creator != null && mixingMethod != CraftingType.NOCREATE && !scriptSaysBuy) {
       boolean makeFromComponents = true;
-      if (isAutomated && creator.getQuantityPossible() > 0) {
+      if (isAutomated) {
         // Speculate on how much the items needed to make the creation would cost.
         // Do not retrieve if the average meat spend to make one of the item
         // exceeds the user's autoBuyPriceLimit.
@@ -934,16 +934,23 @@ public abstract class InventoryManager {
         float meatSpend = InventoryManager.priceToMake(instance, true, true) / missingCount;
         int autoBuyPriceLimit = Preferences.getInteger("autoBuyPriceLimit");
         if (meatSpend > autoBuyPriceLimit) {
+          // Print an informative message. It need not be an error, since we
+          // will fail with another error almost immediately.
+          //
+          // It also need not be displayed by the maximizer when considering how to obtain an item.
+          if (!sim) {
+            KoLmafia.updateDisplay(
+                "The average amount of meat spent on components ("
+                    + KoLConstants.COMMA_FORMAT.format(meatSpend)
+                    + ") for one "
+                    + item.getName()
+                    + " exceeds autoBuyPriceLimit ("
+                    + KoLConstants.COMMA_FORMAT.format(autoBuyPriceLimit)
+                    + ")");
+          }
+
+          // Too expensive to make
           makeFromComponents = false;
-          KoLmafia.updateDisplay(
-              MafiaState.ERROR,
-              "The average amount of meat spent on components ("
-                  + KoLConstants.COMMA_FORMAT.format(meatSpend)
-                  + ") for one "
-                  + item.getName()
-                  + " exceeds autoBuyPriceLimit ("
-                  + KoLConstants.COMMA_FORMAT.format(autoBuyPriceLimit)
-                  + ")");
 
           // If making it from components was cheaper than buying the final product, and we
           // couldn't afford to make it, don't bother trying to buy the final product.
@@ -1087,7 +1094,8 @@ public abstract class InventoryManager {
     }
 
     if (Preferences.getBoolean("debugBuy")) {
-      RequestLogger.printLine("\u262F " + item + " mall=" + mallPrice + " make=" + makePrice);
+      RequestLogger.printLine(
+          "\u262F " + item + " mall=" + priceString(mallPrice) + " make=" + priceString(makePrice));
     }
 
     return mallPrice < makePrice;
@@ -1187,8 +1195,8 @@ public abstract class InventoryManager {
       // ever greater than one of the items containing a TPS.
 
       if (itemId != ItemPool.PLASTIC_SWORD) {
-        price = mallPriceOnly ? 0 : InventoryManager.itemValue(item, exact);
-        price *= onhand;
+        AdventureResult instance = item.getInstance(onhand);
+        price = mallPriceOnly ? 0 : InventoryManager.itemValue(instance, exact);
       }
 
       needed -= onhand;
@@ -1196,7 +1204,12 @@ public abstract class InventoryManager {
       if (needed == 0) {
         if (Preferences.getBoolean("debugBuy")) {
           RequestLogger.printLine(
-              "\u262F " + item.getInstance(onhand) + " onhand=" + onhand + " price = " + price);
+              "\u262F "
+                  + item.getInstance(onhand)
+                  + " onhand="
+                  + onhand
+                  + " price = "
+                  + priceString(price));
         }
 
         return price;
@@ -1225,10 +1238,15 @@ public abstract class InventoryManager {
     }
 
     if (Preferences.getBoolean("debugBuy")) {
-      RequestLogger.printLine("\u262F " + item + " mall=" + mallPrice + " make=" + makePrice);
+      RequestLogger.printLine(
+          "\u262F " + item + " mall=" + priceString(mallPrice) + " make=" + priceString(makePrice));
     }
 
     return Math.min(mallPrice, makePrice);
+  }
+
+  private static String priceString(long price) {
+    return price == Long.MAX_VALUE ? "\u221E" : String.valueOf(price);
   }
 
   public static long priceToMake(final AdventureResult item, final boolean exact) {

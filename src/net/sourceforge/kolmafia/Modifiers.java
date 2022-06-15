@@ -1092,6 +1092,10 @@ public class Modifiers {
       hpbase = 30;
       hp = hpbase + (int) this.get(Modifiers.HP);
       buffedHP = hp;
+    } else if (KoLCharacter.isGreyGoo()) {
+      hpbase = (int) KoLCharacter.getBaseMaxHP();
+      hp = hpbase + (int) this.get(Modifiers.HP);
+      buffedHP = hp;
     } else {
       hpbase = rv[Modifiers.BUFFED_MUS] + 3;
       double C = KoLCharacter.isMuscleClass() ? 1.5 : 1.0;
@@ -1101,15 +1105,26 @@ public class Modifiers {
     }
     rv[Modifiers.BUFFED_HP] = buffedHP;
 
-    int mpbase = rv[Modifiers.BUFFED_MYS];
-    if (this.getBoolean(Modifiers.MOXIE_CONTROLS_MP)
-        || (this.getBoolean(Modifiers.MOXIE_MAY_CONTROL_MP) && rv[Modifiers.BUFFED_MOX] > mpbase)) {
-      mpbase = rv[Modifiers.BUFFED_MOX];
+    int mpbase;
+    int mp;
+    int buffedMP;
+    if (KoLCharacter.isGreyGoo()) {
+      mpbase = (int) KoLCharacter.getBaseMaxMP();
+      mp = mpbase + (int) this.get(Modifiers.MP);
+      buffedMP = mp;
+    } else {
+      mpbase = rv[Modifiers.BUFFED_MYS];
+      if (this.getBoolean(Modifiers.MOXIE_CONTROLS_MP)
+          || (this.getBoolean(Modifiers.MOXIE_MAY_CONTROL_MP)
+              && rv[Modifiers.BUFFED_MOX] > mpbase)) {
+        mpbase = rv[Modifiers.BUFFED_MOX];
+      }
+      double C = KoLCharacter.isMysticalityClass() ? 1.5 : 1.0;
+      double mpPercent = this.get(Modifiers.MP_PCT);
+      mp = (int) Math.ceil(mpbase * (C + mpPercent / 100.0)) + (int) this.get(Modifiers.MP);
+      buffedMP = Math.max(mp, mys);
     }
-    double C = KoLCharacter.isMysticalityClass() ? 1.5 : 1.0;
-    double mpPercent = this.get(Modifiers.MP_PCT);
-    int mp = (int) Math.ceil(mpbase * (C + mpPercent / 100.0)) + (int) this.get(Modifiers.MP);
-    rv[Modifiers.BUFFED_MP] = Math.max(mp, mys);
+    rv[Modifiers.BUFFED_MP] = buffedMP;
 
     return rv;
   }

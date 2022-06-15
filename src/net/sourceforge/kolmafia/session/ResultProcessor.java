@@ -1767,12 +1767,6 @@ public class ResultProcessor {
         ResultProcessor.processMeat(-300);
         break;
 
-      case ItemPool.LUCKY_RABBIT_FOOT:
-        if (RequestLogger.getLastURLString().startsWith("guild.php")) {
-          QuestDatabase.setQuestIfBetter(Quest.CITADEL, QuestDatabase.FINISHED);
-        }
-        break;
-
       case ItemPool.HAROLDS_HAMMER_HEAD:
       case ItemPool.HAROLDS_HAMMER:
         // Yes, they are the same quest step!
@@ -2071,8 +2065,14 @@ public class ResultProcessor {
         break;
 
       case ItemPool.GOBLIN_WATER:
+        MonsterData lastMonster = MonsterStatusTracker.getLastMonster();
+        if (lastMonster == null) {
+          break;
+        }
+        String goblinWaterMonster = lastMonster.getName();
         if (adventureResults
-            && KoLCharacter.inRaincore()) { // because you can now get the Goblin Water otherwise...
+            && goblinWaterMonster.equals(
+                "Aquagoblin")) { // because you can now get the Goblin Water other ways...
           QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
         }
         break;
@@ -2562,11 +2562,11 @@ public class ResultProcessor {
         break;
 
       case ItemPool.MERKIN_LOCKKEY:
-        MonsterData monster = MonsterStatusTracker.getLastMonster();
-        if (monster == null) {
+        MonsterData merkinMonster = MonsterStatusTracker.getLastMonster();
+        if (merkinMonster == null) {
           break;
         }
-        String lockkeyMonster = monster.getName();
+        String lockkeyMonster = merkinMonster.getName();
         Preferences.setString("merkinLockkeyMonster", lockkeyMonster);
         if (lockkeyMonster.equals("Mer-kin burglar")) {
           Preferences.setInteger("choiceAdventure312", 1);
@@ -3281,6 +3281,12 @@ public class ResultProcessor {
         if (adventureResults) {
           BanishManager.resetCosmicBowlingBall();
           Preferences.setInteger("cosmicBowlingBallReturnCombats", -1);
+        }
+        break;
+
+      case ItemPool.MAYDAY_SUPPLY_PACKAGE:
+        if (adventureResults) {
+          Preferences.setBoolean("_maydayDropped", true);
         }
         break;
     }

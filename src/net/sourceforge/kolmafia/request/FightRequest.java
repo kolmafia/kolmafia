@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
+import net.sourceforge.kolmafia.session.JuneCleaverManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.LoginManager;
@@ -916,9 +917,9 @@ public class FightRequest extends GenericRequest {
     MonsterData monster = MonsterStatusTracker.getLastMonster();
     String monsterName = monster != null ? monster.getName() : "";
 
-    // Always let the user see rare monsters
-
-    if (EncounterManager.isUltrarareMonster(monsterName)) {
+    // Let the user see rare monsters
+    if (EncounterManager.isUltrarareMonster(monsterName)
+        && Preferences.getBoolean("stopForUltraRare")) {
       KoLmafia.updateDisplay(MafiaState.ABORT, "You have encountered the " + this.encounter);
       FightRequest.nextAction = "abort";
       return;
@@ -2795,10 +2796,7 @@ public class FightRequest extends GenericRequest {
 
     Pattern fightPattern = Pattern.compile("action=fight.php");
     Matcher fightMatcher = fightPattern.matcher(responseText);
-    int fightCount = 0;
-    while (fightMatcher.find()) {
-      fightCount++;
-    }
+    long fightCount = fightMatcher.results().count();
 
     boolean stillInBattle =
         finalRound
@@ -2915,6 +2913,10 @@ public class FightRequest extends GenericRequest {
 
     if (KoLCharacter.hasEquipped(ItemPool.DAYLIGHT_SHAVINGS_HELMET, EquipmentManager.HAT)) {
       DaylightShavingsHelmetManager.updatePreference(responseText);
+    }
+
+    if (KoLCharacter.hasEquipped(ItemPool.JUNE_CLEAVER)) {
+      JuneCleaverManager.updatePreferences(responseText);
     }
 
     // "The Slime draws back and shudders, as if it's about to sneeze.
@@ -4163,12 +4165,7 @@ public class FightRequest extends GenericRequest {
                 "Freshen Your Drink, Sir or Madam",
                 "Have One For The Road",
                 "I Hope I Am Not Enabling Any Addictions You Might Have",
-                "It's Always Happy Hour Somewhere",
-                "practices a complex cocktail juggling move",
-                "gives you a thumbs-up with a special thumb attachment",
-                "Have One On The House",
-                "Please Enjoy A Complimentary Snack",
-                "How About This Weather We're Having, Eh"
+                "It's Always Happy Hour Somewhere"
               };
 
           for (String s : roboDropMessages) {
@@ -7368,6 +7365,10 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    if (FightRequest.handleBellydancerPickpocket(str)) {
+      return;
+    }
+
     if (str.contains("takes a pull on the hookah")) {
       status.hookah = true;
     }
@@ -7515,6 +7516,8 @@ public class FightRequest extends GenericRequest {
       return false;
     }
 
+    boolean retval = true;
+
     int evilness =
         text.contains("a single beep")
             ? 1
@@ -7532,11 +7535,17 @@ public class FightRequest extends GenericRequest {
 
     if (text.contains("Some gravy sloshes")) {
       evilness++;
+      retval = false;
     }
+
+    // Casting Slay the Dead while wearing a Vampire Slicer trench code decreases evilness.
+    // Subsequent familiar actions and item drops appear in the same "p" node, for some reason.
+    // Therefore, return false to allow subsequent nodes to be processed.
 
     // You trench cape ripples as an evil draft blows and then quiets, it feels less evil in here!
     if (text.contains("an evil draft blows")) {
       evilness++;
+      retval = false;
     }
 
     // The evil of the nightmare fuel in your system is in a different phase
@@ -7557,7 +7566,7 @@ public class FightRequest extends GenericRequest {
     Preferences.decrement(setting, evilness, 0);
     Preferences.decrement("cyrptTotalEvilness", evilness, 0);
 
-    return true;
+    return retval;
   }
 
   private static String getEvilZoneSetting(final Function<String, Boolean> isLocation) {
@@ -7754,6 +7763,18 @@ public class FightRequest extends GenericRequest {
 
     FightRequest.logText("The mayo wasp deposits an egg in your abdomen!", status);
     return true;
+  }
+
+  private static boolean handleBellydancerPickpocket(String text) {
+    if (text.contains("'s dancing, your foe doesn't notice that she's going through")
+        || text.contains(
+            "'s veils flutter across your opponent's field of view, obscuring the sight of")
+        || text.contains("dances lithely around your opponent, distracting")) {
+      Preferences.increment("_bellydancerPickpockets");
+      return true;
+    }
+
+    return false;
   }
 
   private static boolean handleSpelunky(String text, TagStatus status) {
@@ -9705,6 +9726,7 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("launches almost all of its body mass at your foe")) {
           // It resets the weight of the Grey Goose to 1 lb.
           KoLCharacter.getFamiliar().setExperience(0);
+          GreyYouManager.reprocessMonster(monster);
         }
         break;
 
@@ -10045,7 +10067,7 @@ public class FightRequest extends GenericRequest {
         break;
 
       case ItemPool.DAILY_DUNGEON_MALWARE:
-        if (responseText.contains("It's a UNIX System")
+        if (responseText.contains("It's a UNIX system")
             || responseText.contains("You attempt to hack the monster")) {
           Preferences.setBoolean("_dailyDungeonMalwareUsed", true);
         }

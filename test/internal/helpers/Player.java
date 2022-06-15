@@ -20,9 +20,11 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -63,6 +65,13 @@ public class Player {
     int itemId = ItemDatabase.getItemId(name, count, false);
     AdventureResult item = ItemPool.get(itemId, count);
     return addToList(item, KoLConstants.closet);
+  }
+
+  public static Cleanups addItemToStash(String name) {
+    int count = 1;
+    int itemId = ItemDatabase.getItemId(name, count, false);
+    AdventureResult item = ItemPool.get(itemId, count);
+    return addToList(item, ClanManager.getStash());
   }
 
   private static Cleanups addToList(AdventureResult item, List<AdventureResult> list) {
@@ -162,6 +171,18 @@ public class Player {
     return new Cleanups(() -> setStats(0, 0, 0));
   }
 
+  public static Cleanups setHP(long current, long maximum, long base) {
+    KoLCharacter.setHP(current, maximum, base);
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(() -> setHP(0, 0, 0));
+  }
+
+  public static Cleanups setMP(long current, long maximum, long base) {
+    KoLCharacter.setMP(current, maximum, base);
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(() -> setMP(0, 0, 0));
+  }
+
   public static Cleanups isClass(AscensionClass ascensionClass) {
     var old = KoLCharacter.getAscensionClass();
     KoLCharacter.setAscensionClass(ascensionClass);
@@ -216,10 +237,21 @@ public class Player {
     return new Cleanups(() -> CampgroundRequest.removeCampgroundItem(ItemPool.get(id, 1)));
   }
 
+  public static Cleanups setWorkshed(int id) {
+    CampgroundRequest.setCurrentWorkshedItem(id);
+    return new Cleanups(CampgroundRequest::resetCurrentWorkshedItem);
+  }
+
+  public static Cleanups setProperty(String key, String value) {
+    var oldValue = Preferences.getString(key);
+    Preferences.setString(key, value);
+    return new Cleanups(() -> Preferences.setString(key, oldValue));
+  }
+
   public static Cleanups setupFakeResponse(int code, String response) {
-    GenericRequest.resetClient();
     var builder = new FakeHttpClientBuilder();
     HttpUtilities.setClientBuilder(() -> builder);
+    GenericRequest.resetClient();
     GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
     builder.client.setResponse(code, response);
 

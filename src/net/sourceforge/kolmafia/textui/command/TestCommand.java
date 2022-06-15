@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -34,6 +35,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -60,11 +62,13 @@ import net.sourceforge.kolmafia.request.ScrapheapRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.session.BastilleBattalionManager;
 import net.sourceforge.kolmafia.session.BeachManager;
+import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.MonsterManuelManager;
 import net.sourceforge.kolmafia.session.NumberologyManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -186,13 +190,37 @@ public class TestCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("choicedefaults")) {
+      int defaults = ChoiceAdventures.choiceSpoilersWithDefaults.size();
+      RequestLogger.printLine("There are " + defaults + " ChoiceSpoilers with defaults.");
+      if (defaults > 0) {
+        RequestLogger.printLine(
+            "{"
+                + ChoiceAdventures.choiceSpoilersWithDefaults.stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(","))
+                + "}");
+      }
+      int nodefaults = ChoiceAdventures.choiceSpoilersWithoutDefaults.size();
+      RequestLogger.printLine("There are " + nodefaults + " ChoiceSpoilers without defaults.");
+      if (nodefaults > 0) {
+        RequestLogger.printLine(
+            "{"
+                + ChoiceAdventures.choiceSpoilersWithoutDefaults.stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(","))
+                + "}");
+      }
+      return;
+    }
+
     if (command.equals("choicespoilers")) {
       if (split.length < 2 || !StringUtilities.isNumeric(split[1])) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "test choicespoilers CHOICE");
         return;
       }
       int choice = StringUtilities.parseInt(split[1]);
-      Object[] spoilers = ChoiceManager.dynamicChoiceOptions(choice);
+      Object[] spoilers = ChoiceAdventures.dynamicChoiceOptions(choice);
       if (spoilers != null) {
         for (int i = 0; i < spoilers.length; ++i) {
           RequestLogger.printLine("Option " + (i + 1) + ": " + spoilers[i]);
@@ -300,6 +328,19 @@ public class TestCommand extends AbstractCommand {
       }
       double itemDrop = Modifiers.getNumericModifier("Familiar", familiar.getRace(), "Item Drop");
       RequestLogger.printLine("Item Drop: " + itemDrop);
+      return;
+    }
+
+    if (command.equals("fix-monster-articles")) {
+      DebugDatabase.checkManuel();
+      int count = MonsterDatabase.fixMonsterAttributes(MonsterManuelManager.updates);
+      RequestLogger.printLine(count + " monster attributes changed");
+      return;
+    }
+
+    if (command.equals("fix-monster-attributes")) {
+      int count = MonsterDatabase.fixMonsterAttributes(null);
+      RequestLogger.printLine(count + " monster attributes changed");
       return;
     }
 
@@ -786,7 +827,7 @@ public class TestCommand extends AbstractCommand {
       int index = parameters.indexOf(typeName);
       index = parameters.indexOf(" ", index);
       String name = parameters.substring(index + 1);
-      String location = WikiUtilities.getWikiLocation(name, type);
+      String location = WikiUtilities.getWikiLocation(name, type, false);
 
       RequestLogger.printLine(location);
 
@@ -1025,7 +1066,9 @@ public class TestCommand extends AbstractCommand {
         MonsterStatusTracker.setNextMonster(monster);
         String monsterName = monster.getName();
         FightRequest.currentRound = round;
-        FightRequest.updateCombatData("fight.php", monsterName, responseText);
+        // This command used to use updateCombatData, but processResults will
+        // fix text munging from the hewn moon-rune spoon.
+        FightRequest.processResults("fight.php", monsterName, responseText);
         FightRequest.lastDecoratedResponseText =
             RequestEditorKit.getFeatureRichHTML("fight.php", responseText);
       } else {

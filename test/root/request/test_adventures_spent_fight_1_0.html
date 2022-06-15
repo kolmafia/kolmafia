@@ -1,0 +1,146 @@
+<html><head>
+<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.css">
+<style type="text/css">
+	#nudges div { position: relative; padding: 0px; }
+	#nudges div .close { position: absolute; top: -2px; right: -10px; border: 1px solid #000; }
+    .blur1 {color: transparent; text-shadow:0 0 1px #000, 1px 0 1px #000; }
+    .blur2 {color: transparent; text-shadow:0 0 1px #000, 2px 0 2px #000, 0 1px 1px #000; }
+    .blur3 {color: transparent; text-shadow:0 0 3px #000, 1px 0 1px #000,-2px -1px 1px #000; }
+    .blur4 {color: transparent; text-shadow:1px 0 3px #000, 1px 0 2px #000,-2px -1px 1px #000; }
+    .blur5 {color: transparent; text-shadow:   0 0 3px #000, 1px 0 1px #000,-3px -1px 1px #000; }
+	 @media screen and (min-width:0\0) and (min-resolution: +72dpi) {
+    	.blur1,.blur2,.blur3,.blur4,.blur5 {color:#000;}
+  	}
+</style>
+<!--[if IE]>
+<style>.blur1,.blur2,.blur3,.blur4,.blur5 {color:#000;}</style>
+<![endif]-->
+</head>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.3.1.min.js"></script>
+<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/pop_query.20130705.js"></script>
+<script type="text/javascript">
+
+	var CURFAM = 89;
+	var FAMILIARFAVES = [["Tort","Jumpsuited Hound Dog","hounddog",69],["Gronald","Hobo Monkey","hobomonkey",89] ];
+	var IMAGES = "https:\/\/d2uyhvukfffg5a.cloudfront.net\/";
+</script>
+	<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/familiarfaves.20201210.js"></script>
+	<script type="text/javascript">
+tp=top
+var todo = [];
+function nextAction() {
+	var next_todo = todo.shift();
+	if (next_todo) {
+		eval(next_todo);
+	}
+}
+function dojax(dourl, afterFunc, hoverCaller, failureFunc, method, params) {
+	$.ajax({
+		type: method || 'GET', url: dourl, cache: false,
+		data: params || null,
+		global: false,
+		success: function (out) {
+			nextAction();
+			if (out.match(/no\|/)) {
+				var parts = out.split(/\|/);
+				if (failureFunc) failureFunc(parts[1]);
+				else if (window.dojaxFailure) window.dojaxFailure(parts[1]);
+				else if (tp.chatpane.handleMessage) tp.chatpane.handleMessage({type: 'event', msg: 'Oops!  Sorry, Dave, you appear to be ' + parts[1]});
+				else  $('#ChatWindow').append('<font color="green">Oops!  Sorry, Dave, you appear to be ' + parts[1] + '.</font><br />' + "\n");
+				return;
+			}
+
+			if (hoverCaller)  {
+				float_results(hoverCaller, out);
+				if (afterFunc) { afterFunc(out); }
+				return;
+			}			var $eff = $(tp.mainpane.document).find('#effdiv');
+			if ($eff.length == 0) {
+				var d = tp.mainpane.document.createElement('DIV');
+				d.id = 'effdiv';
+				var b = tp.mainpane.document.body;
+				if ($('#content_').length > 0) {
+					b = $('#content_ div:first')[0];
+				}
+				b.insertBefore(d, b.firstChild);
+				$eff = $(d);
+			}
+			$eff.find('a[name="effdivtop"]').remove().end()
+				.prepend('<a name="effdivtop"></a><center>' + out + '</center>').css('display','block');
+			if (!window.dontscroll || (window.dontscroll && dontscroll==0)) {
+				tp.mainpane.document.location = tp.mainpane.document.location + "#effdivtop";
+			}
+			if (afterFunc) { afterFunc(out); }
+		}
+	});
+}
+	var turnsplayed = 1332325;
+var turnsthisrun = 1332325;
+var rollover = 1652758200;
+var rightnow = 1652726155;
+var playerid = 115875;
+var pwdhash = "71e8c3fbf91582e09026634d751ba253";
+var hide_nudges = true;
+$(document).ready(function () {
+	var multi = function  (e) {
+		e.preventDefault();
+		var link = this;
+		pop_query($(this), 'How many times?', 'Do It!', function (res) {
+			dojax(($(link).attr('href')+'&ajax=1').replace('qty=1', 'qty='+res));
+		});
+	};
+	$('.upeffect').click(function (e) {
+		e.preventDefault();
+		if (e.shiftKey) multi.apply(this, [e]);
+		else dojax($(this).attr('href')+'&ajax=1');
+	});
+	$('.upeffect').bind('contextmenu', multi);
+
+	function add_close(el) {
+		if (!hide_nudges) return;
+		if ($(el).find('.close').length > 0) return;
+		var ht = '<a href="#" class="close"><img alt="Hide" title="Hide"  src="https://d2uyhvukfffg5a.cloudfront.net/closebutton.gif" style="float: right;"/></a>';
+		var c = $(ht);
+		$(el).append(c);
+		c.click(function () {
+			var key = $(this).parents('tr:first').attr('rel');
+			var nxt = $(this).parents('tr');
+			if (nxt.next()) {
+				add_close(nxt.next().find('td div'));
+			}
+			$(this).parents('tr:first').remove();
+			$.get('charpane.php?hide='+escape(key)+'&pwd='+pwdhash);
+			$('.showall').show();
+		});
+	}
+
+	if (hide_nudges) $('#nudges td div').hover(
+		function () {
+			if (!hide_nudges) return;
+			add_close(this);
+		},
+		function () {
+			if (!hide_nudges) return;
+			$(this).find('.close').remove();
+		}
+	);
+});
+</script>
+	<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/charpane.20130711.js"></script>
+	<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/cookie.20121112.js"></script>
+<script type="text/javascript">
+jQuery(function ($) {
+	$(window).resize(function () {
+		var winW = 300;
+		if (document.body && document.body.offsetWidth) { winW = document.body.offsetWidth; }
+		if (document.compatMode=='CSS1Compat' && document.documentElement && document.documentElement.offsetWidth ) { winW = document.documentElement.offsetWidth; }
+		if (window.innerWidth && window.innerHeight) { winW = window.innerWidth; }
+		setCookie('charpwd', winW, 365, true);
+	});
+})
+</script>
+<body bgcolor=white text=black link=black alink=black vlink=black onload='startup();'>
+<center id='rollover' class=tiny style='color: red; cursor: pointer;' onClick='doc("maintenance");'></center><center><table align=center><tr><td><a class='nounder ' target=mainpane href="charsheet.php"><div style="position: relative; height: 100px; width: 60px"><img  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/classav6b_f.gif" width=60 height=100 border=0></div></div></a></td><td valign=center><center><a class=nounder target=mainpane href="charsheet.php"><b>Brianna</b></a><br>Level 85<br>Accordion Thief</td></tr></table><table align=center><tr><td align=right>Muscle:</td><td align=left><b>4776</b></td></tr><tr><td align=right>Mysticality:</td><td align=left><b><font color=blue>4879</font>&nbsp;(4839)</b></td></tr><tr><td align=right>Moxie:</td><td align=left><b>7067</b></td></tr></table><table cellpadding=3 align=center><tr><td align=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/hp.gif" class=hand onclick='doc("hp");' title="Hit Points" alt="Hit Points"><br><span class=black>4599&nbsp;/&nbsp;4779</span></td><td align=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/mp.gif" class=hand onclick='doc("mp");' title="Mojo Points" alt="Mojo Points"><br><span class=black>4041&nbsp;/&nbsp;4879</span></td></tr><tr><td align=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/meat.gif" class=hand onclick='doc("meat");' title="Meat" alt="Meat"><br><span class=black>319,114,948</span></td><td align=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/hourglass.gif" class=hand onclick='doc("adventures");' title="Adventures Remaining" alt="Adventures Remaining"><br><span class=black>141</span></td></tr></table><br><center id="nudgeblock"><font size=2><a class=nounder href=questlog.php target=mainpane><b>Current Quest:</b></a></font><br><a style="display: inline" href="charpane.php?showall=1&pwd=71e8c3fbf91582e09026634d751ba253" class="showall"><font size="1">[show all]</font><br/></a><table id="nudges" width="100%"></table><p></center><script type="text/javascript">hide_nudges = false;</script><center><font size=2><b><a onclick='if (top.mainpane.focus) top.mainpane.focus();' class=nounder href="place.php?whichplace=manor2" target=mainpane>Last Adventure:</a></b></font><br><table cellspacing=0 cellpadding=0><tr><td><font size=2><a onclick='if (top.mainpane.focus) top.mainpane.focus();' target=mainpane href="adventure.php?snarfblat=393">The Haunted Bedroom</a><br></font></td></tr></table></center><p><table width=90%><tr><td colspan=2 align=center><font size=2><b>Familiar:</b></font></td></tr><tr><td align=center valign=center><a target=mainpane href="familiar.php" class="familiarpick"><img  src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/hobomonkey.gif" width=30 height=30 border=0></a></td><td valign=center align=left><a target=mainpane href="familiar.php" class="familiarpick"><b><font size=2>Gronald</a></b>, the  <b>35</b> pound Hobo Monkey</font></td></tr></table></center><center><p><b><font size=2>Effects:</font></b><br><table><tr><td valign="middle"><a href="upeffect.php?efid=71&qty=1&pwd=71e8c3fbf91582e09026634d751ba253" target="mainpane" class="upeffect" rel="Ode to Booze"><span style="font-weight: bold"><img  alt="Click to cast The Ode to Booze.  Right-click to cast multiple times." title="Click to cast The Ode to Booze.  Right-click to cast multiple times." src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/smallarrow_up.gif" height="15" width="15" /></span></a></td><td valign='middle' align=right><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/odetobooze.gif" width=30 height=30  onClick='eff("626c8ef76cfc003c6ac2e65e9af5fd7a");' oncontextmenu='return shrug(71, "Ode to Booze");'></td><td valign=center><font size=2>Ode to Booze (13)</font><br></td></tr><tr><td></td><td valign='middle' align=right><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/molecule3.gif" width=30 height=30  onClick='eff("bcba6799f907f44d5a10d4cd8aaf8b64");' oncontextmenu='return hardshrug(2175, "Synthesis: Greed");'></td><td valign=center><font size=2>Synthesis: Greed (27)</font><br></td></tr><tr><td></td><td valign='middle' align=right><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/eyes.gif" width=30 height=30  onClick='eff("3998113c0b57859135464ee2a591ddc6");' oncontextmenu='return hardshrug(2003, "Octolus Gift");'></td><td valign=center><font size=2>Octolus Gift (30)</font><br></td></tr><tr><td></td><td valign='middle' align=right><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/blackheart.gif" width=30 height=30  onClick='eff("59c1c9eff7f18414ed6716e969c153d6");' oncontextmenu='return hardshrug(2285, "Spirit of Galactic Unity");'></td><td valign=center><font size=2>Spirit of Galactic Unity (30)</font><br></td></tr><tr><td></td><td valign='middle' align=right><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/lavalamp.gif" width=30 height=30  onClick='eff("3feb074579bbf255708bf0974529d754");' oncontextmenu='return hardshrug(1925, "Green Peace");'></td><td valign=center><font size=2>Green Peace (50)</font><br></td></tr><tr><td valign="middle"><a href="upeffect.php?efid=1193&qty=1&pwd=71e8c3fbf91582e09026634d751ba253" target="mainpane" class="upeffect" rel="Singer's Faithful Ocelot"><span style="font-weight: bold"><img  alt="Click to cast Singer's Faithful Ocelot.  Right-click to cast multiple times." title="Click to cast Singer's Faithful Ocelot.  Right-click to cast multiple times." src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/smallarrow_up.gif" height="15" width="15" /></span></a></td><td valign='middle' align=right><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/ocelot.gif" width=30 height=30  onClick='eff("5ac8444ac684a7f9113690c1f254c1e4");' oncontextmenu='return hardshrug(1193, "Singer&#039;s Faithful Ocelot");'></td><td valign=center><font size=2>Singer's Faithful Ocelot (90)</font><br></td></tr><tr><td valign="middle"><a href="upeffect.php?efid=67&qty=1&pwd=71e8c3fbf91582e09026634d751ba253" target="mainpane" class="upeffect" rel="Fat Leon's Phat Loot Lyric"><span style="font-weight: bold"><img  alt="Click to cast Fat Leon's Phat Loot Lyric.  Right-click to cast multiple times." title="Click to cast Fat Leon's Phat Loot Lyric.  Right-click to cast multiple times." src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/smallarrow_up.gif" height="15" width="15" /></span></a></td><td valign='middle' align=right><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/fatleons.gif" width=30 height=30  onClick='eff("63e73adb3ecfb0cbf544db435eeeaf00");' oncontextmenu='return shrug(67, "Fat Leon&#039;s Phat Loot Lyric");'></td><td valign=center><font size=2>Fat Leon's Phat Loot Lyric (53717)</font><br></td></tr><tr><td valign="middle"><a href="upeffect.php?efid=63&qty=1&pwd=71e8c3fbf91582e09026634d751ba253" target="mainpane" class="upeffect" rel="Polka of Plenty"><span style="font-weight: bold"><img  alt="Click to cast The Polka of Plenty.  Right-click to cast multiple times." title="Click to cast The Polka of Plenty.  Right-click to cast multiple times." src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/smallarrow_up.gif" height="15" width="15" /></span></a></td><td valign='middle' align=right><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/plenty.gif" width=30 height=30  onClick='eff("c26a911b8ec2c57f7eef57f9ff5fdc24");' oncontextmenu='return shrug(63, "Polka of Plenty");'></td><td valign=center><font size=2>Polka of Plenty (53778)</font><br></td></tr><tr><td valign="middle"><a href="upeffect.php?efid=50&qty=1&pwd=71e8c3fbf91582e09026634d751ba253" target="mainpane" class="upeffect" rel="Empathy"><span style="font-weight: bold"><img  alt="Click to cast Empathy of the Newt.  Right-click to cast multiple times." title="Click to cast Empathy of the Newt.  Right-click to cast multiple times." src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/smallarrow_up.gif" height="15" width="15" /></span></a></td><td valign='middle' align=right><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/empathy.gif" width=30 height=30  onClick='eff("ac32e95f470a7e0999863fa0db58d808");' oncontextmenu='return shrug(50, "Empathy");'></td><td valign=center><font size=2>Empathy (69627)</font><br></td></tr><tr><td></td><td valign='middle' align=right><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/rrainbow.gif" width=30 height=30  onClick='eff("51a8a6e5102e2d238b8bf56a6bffc8da");' oncontextmenu='return hardshrug(2211, "Magically Delicious");'></td><td valign=center><font size=2>Magically Delicious (229949)</font><br></td></tr></table><center><b><font size=2>Intrinsics:</font></b></center><center><table><tr><td width="15"></td><td><img height=30 width=30 src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/snout.gif" onClick='eff("519edacbd99d93658cc2ef05bd6baefb");'></td><td valign=center><font size=2>On the Trail (&infin;)</font><br></td></tr></table></center></body></html>

@@ -189,6 +189,18 @@ public class CheckDataCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("checkwikimonsterelementalattacks")) {
+      DebugDatabase.checkWikiMonsterElementalAttacks();
+      RequestLogger.printLine("Wiki monster elemental attacks checked.");
+      return;
+    }
+
+    if (command.equals("checkwikimonsters")) {
+      DebugDatabase.checkWikiMonsters();
+      RequestLogger.printLine("Wiki monsters checked.");
+      return;
+    }
+
     if (command.equals("checkzapgroups")) {
       DebugDatabase.checkZapGroups();
       RequestLogger.printLine("Zap groups checked.");

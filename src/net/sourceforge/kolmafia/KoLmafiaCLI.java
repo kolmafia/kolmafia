@@ -562,6 +562,8 @@ public class KoLmafiaCLI {
         .register("checkrepo")
         .register("checkshields")
         .register("checkskills")
+        .register("checkwikimonsters")
+        .register("checkwikimonsterelementalattacks")
         .register("checkzapgroups");
     new ChessCommand().register("chess");
     new ChoiceCommand().register("choice");
@@ -664,6 +666,7 @@ public class KoLmafiaCLI {
         .register("jsq")
         .register("javascript")
         .register("javascriptq");
+    new JourneyCommand().register("journey");
     new JsRefCommand().register("jsref");
     new JukeboxCommand().register("jukebox");
     new KitchenCommand().register("kitchen").register("hellkitchen").register("hellskitchen");

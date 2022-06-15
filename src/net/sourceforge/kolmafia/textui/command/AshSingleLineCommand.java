@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -22,7 +23,8 @@ public class AshSingleLineCommand extends AbstractCommand {
     }
 
     ByteArrayInputStream istream =
-        new ByteArrayInputStream((parameters + KoLConstants.LINE_BREAK).getBytes());
+        new ByteArrayInputStream(
+            (parameters + KoLConstants.LINE_BREAK).getBytes(StandardCharsets.UTF_8));
 
     AshRuntime interpreter = new AshRuntime();
     interpreter.validate(null, istream);

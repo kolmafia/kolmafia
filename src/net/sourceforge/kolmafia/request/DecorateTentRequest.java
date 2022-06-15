@@ -2,8 +2,8 @@ package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 
 public class DecorateTentRequest extends GenericRequest {
   public DecorateTentRequest() {
@@ -15,7 +15,7 @@ public class DecorateTentRequest extends GenericRequest {
       return;
     }
 
-    int decision = ChoiceManager.extractOptionFromURL(urlString);
+    int decision = ChoiceUtilities.extractOptionFromURL(urlString);
     switch (decision) {
       case 1:
         // Muscular Intentions

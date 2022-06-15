@@ -537,6 +537,63 @@ public class PriceToAcquireTest {
     }
   }
 
+  @Test
+  public void canPriceMultipleConcoctions() {
+    // We'll be testing with the following concoction:
+    //
+    // perfect negroni = perfect ice cube + bottle of gin
+    // bottle of gin (3) = fermenting powder + juniper berries
+    // fermenting powder = (NPC item)
+    // juniper berries = (mall item)
+
+    AdventureResult PERFECT_NEGRONI = ItemPool.get(ItemPool.PERFECT_NEGRONI, 1);
+    AdventureResult PERFECT_ICE_CUBE = ItemPool.get(ItemPool.PERFECT_ICE_CUBE, 1);
+    AdventureResult BOTTLE_OF_GIN = ItemPool.get(ItemPool.BOTTLE_OF_GIN, 1);
+    AdventureResult FERMENTING_POWDER = ItemPool.get(ItemPool.FERMENTING_POWDER, 1);
+    AdventureResult JUNIPER_BERRIES = ItemPool.get(ItemPool.JUNIPER_BERRIES, 1);
+
+    Map<Integer, Integer> priceMap = new HashMap<>();
+    priceMap.put(ItemPool.PERFECT_NEGRONI, 3500);
+    priceMap.put(ItemPool.PERFECT_ICE_CUBE, 3300);
+    priceMap.put(ItemPool.BOTTLE_OF_GIN, 100);
+    priceMap.put(ItemPool.FERMENTING_POWDER, 70);
+    priceMap.put(ItemPool.JUNIPER_BERRIES, 300);
+    Set<Integer> unpermitted = new HashSet<>();
+
+    Cleanups mockedMallPrices = mockGetMallPrice(priceMap, priceMap);
+    Cleanups mockedPermittedMethods = mockIsPermittedMethod(unpermitted);
+
+    Cleanups cleanups = new Cleanups(mockedMallPrices, mockedPermittedMethods);
+    try (cleanups) {
+      // Test with 5 of each ingredient in inventory.
+
+      AdventureResult.addResultToList(KoLConstants.inventory, PERFECT_ICE_CUBE.getInstance(5));
+      AdventureResult.addResultToList(KoLConstants.inventory, BOTTLE_OF_GIN.getInstance(5));
+
+      Preferences.setFloat("valueOfInventory", 1.5f);
+
+      // Try acquiring one cocktail
+      assertEquals(3500, MallPriceManager.getMallPrice(PERFECT_NEGRONI));
+      assertEquals(1689, InventoryManager.priceToMake(PERFECT_NEGRONI, true));
+      assertEquals(1689, InventoryManager.priceToAcquire(PERFECT_NEGRONI, true));
+      assertFalse(InventoryManager.cheaperToBuy(PERFECT_NEGRONI));
+
+      // Try acquiring five cocktails. All can be made from inventory.
+      AdventureResult instance = PERFECT_NEGRONI.getInstance(5);
+      assertEquals(17500, MallPriceManager.getMallPrice(instance));
+      assertEquals(8521, InventoryManager.priceToMake(instance, true));
+      assertEquals(8521, InventoryManager.priceToAcquire(instance, true));
+      assertFalse(InventoryManager.cheaperToBuy(instance));
+
+      // Try acquiring ten cocktails. Five from inventory, five from the mall
+      instance = PERFECT_NEGRONI.getInstance(10);
+      assertEquals(35000, MallPriceManager.getMallPrice(instance));
+      assertEquals(25521, InventoryManager.priceToMake(instance, true));
+      assertEquals(25521, InventoryManager.priceToAcquire(instance, true));
+      assertFalse(InventoryManager.cheaperToBuy(instance));
+    }
+  }
+
   // *** Tests for priceToAcquire(item, quantity, exact, mallPriceOnly)
   //
   // Dependencies:

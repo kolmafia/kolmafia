@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -16,6 +17,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.PastaThrallData;
+import net.sourceforge.kolmafia.PastaThrallData.PastaThrallType;
 import net.sourceforge.kolmafia.PokefamData;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.persistence.*;
@@ -933,7 +935,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public int get_id() {
-      Object[] data = (Object[]) this.content;
+      PastaThrallType data = (PastaThrallType) this.content;
       return data == null ? 0 : PastaThrallData.dataToId(data);
     }
 
@@ -948,17 +950,17 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_image() {
-      Object[] data = (Object[]) this.content;
+      PastaThrallType data = (PastaThrallType) this.content;
       return data == null ? "" : PastaThrallData.dataToImage(data);
     }
 
     public String get_tinyimage() {
-      Object[] data = (Object[]) this.content;
+      PastaThrallType data = (PastaThrallType) this.content;
       return data == null ? "" : PastaThrallData.dataToTinyImage(data);
     }
 
     public Value get_skill() {
-      Object[] data = (Object[]) this.content;
+      PastaThrallType data = (PastaThrallType) this.content;
       return DataTypes.makeSkillValue(data == null ? 0 : PastaThrallData.dataToSkillId(data), true);
     }
 
@@ -1272,6 +1274,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("turns_spent", DataTypes.INT_TYPE)
             .add("kisses", DataTypes.INT_TYPE)
             .add("recommended_stat", DataTypes.INT_TYPE)
+            .add("poison", DataTypes.INT_TYPE)
             .add("water_level", DataTypes.INT_TYPE)
             .add("wanderers", DataTypes.BOOLEAN_TYPE)
             .finish("location proxy");
@@ -1386,6 +1389,15 @@ public class ProxyRecordValue extends RecordValue {
       return this.content != null ? ((KoLAdventure) this.content).getRecommendedStat() : 0;
     }
 
+    public int get_poison() {
+      if (this.content == null) {
+        return Integer.MAX_VALUE;
+      }
+
+      AreaCombatData area = ((KoLAdventure) this.content).getAreaSummary();
+      return area == null ? Integer.MAX_VALUE : area.poison();
+    }
+
     public int get_water_level() {
       return this.content == null
           ? KoLCharacter.inRaincore() ? ((KoLAdventure) this.content).getWaterLevel() : 0
@@ -1409,6 +1421,7 @@ public class ProxyRecordValue extends RecordValue {
     public static RecordType _type =
         new RecordBuilder()
             .add("name", DataTypes.STRING_TYPE)
+            .add("article", DataTypes.STRING_TYPE)
             .add("id", DataTypes.INT_TYPE)
             .add("base_hp", DataTypes.INT_TYPE)
             .add("base_attack", DataTypes.INT_TYPE)
@@ -1419,13 +1432,18 @@ public class ProxyRecordValue extends RecordValue {
             .add("base_initiative", DataTypes.INT_TYPE)
             .add("raw_initiative", DataTypes.INT_TYPE)
             .add("attack_element", DataTypes.ELEMENT_TYPE)
+            .add(
+                "attack_elements",
+                new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.ELEMENT_TYPE))
             .add("defense_element", DataTypes.ELEMENT_TYPE)
             .add("physical_resistance", DataTypes.INT_TYPE)
+            .add("elemental_resistance", DataTypes.INT_TYPE)
             .add("min_meat", DataTypes.INT_TYPE)
             .add("max_meat", DataTypes.INT_TYPE)
             .add("min_sprinkles", DataTypes.INT_TYPE)
             .add("max_sprinkles", DataTypes.INT_TYPE)
             .add("base_mainstat_exp", DataTypes.FLOAT_TYPE)
+            .add("group", DataTypes.INT_TYPE)
             .add("phylum", DataTypes.PHYLUM_TYPE)
             .add("poison", DataTypes.EFFECT_TYPE)
             .add("boss", DataTypes.BOOLEAN_TYPE)
@@ -1447,6 +1465,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public String get_name() {
       return this.content != null ? MonsterDatabase.getMonsterName((int) this.contentLong) : "";
+    }
+
+    public String get_article() {
+      return this.content != null ? ((MonsterData) this.content).getArticle() : "";
     }
 
     public int get_id() {
@@ -1492,6 +1514,18 @@ public class ProxyRecordValue extends RecordValue {
           : DataTypes.ELEMENT_INIT;
     }
 
+    public Value get_attack_elements() {
+      if (this.content == null) {
+        return new PluralValue(DataTypes.ELEMENT_TYPE, new ArrayList<Value>());
+      }
+      MonsterData monster = (MonsterData) this.content;
+      List<Value> elements =
+          monster.getAttackElements().stream()
+              .map(DataTypes::makeElementValue)
+              .collect(Collectors.toList());
+      return new PluralValue(DataTypes.ELEMENT_TYPE, elements);
+    }
+
     public Value get_defense_element() {
       return this.content != null
           ? DataTypes.parseElementValue(
@@ -1501,6 +1535,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public int get_physical_resistance() {
       return this.content != null ? ((MonsterData) this.content).getPhysicalResistance() : 0;
+    }
+
+    public int get_elemental_resistance() {
+      return this.content != null ? ((MonsterData) this.content).getElementalResistance() : 0;
     }
 
     public int get_min_meat() {
@@ -1521,6 +1559,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public double get_base_mainstat_exp() {
       return this.content != null ? ((MonsterData) this.content).getExperience() : 0;
+    }
+
+    public int get_group() {
+      return this.content != null ? ((MonsterData) this.content).getGroup() : 0;
     }
 
     public Value get_phylum() {

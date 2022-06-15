@@ -1,20 +1,21 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Player.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 
 import internal.helpers.Cleanups;
+import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.AscensionPath.Path;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class AbsorbCommandTest extends AbstractCommandTestBase {
   @BeforeEach
   public void initEach() {
-    // Stop requests from actually running
-    GenericRequest.sessionId = null;
+    HttpClientWrapper.setupFakeClient();
   }
 
   public AbsorbCommandTest() {
@@ -84,5 +85,8 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
       assertThat(output, containsString("Absorbed 15 Half Purses"));
       assertContinueState();
     }
+
+    var requests = getRequests();
+    assertThat(requests.size(), equalTo(16)); // 15 items + 1 charpane
   }
 }

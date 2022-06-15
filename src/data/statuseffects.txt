@@ -2700,3 +2700,19 @@
 2699	Shifted Phase	goocon31.gif	ab69049d57f4169be06e7eede432c728	neutral	none	cast 1 Phase Shift
 2700	Hooooooooonk!	goocon32.gif	30aa72118d7cd78067cbbf56bc6ef240	neutral	none	cast 1 Piezoelectric Honk
 2701	Darkened Photons	goocon45.gif	7bb8929bf51b4629e9ccb113b3cdefff	neutral	none	cast 1 Photonic Shroud
+2703	Glowing Hands	maydayglowstick.gif	70f654ece069988c295d6c1e79737102	neutral	none	use 1 emergency glowstick
+2704	Tingly Tongue	maydaybattery.gif	3543e77d43816e573a802c5c68226f3d	neutral	none	use 1 spare battery
+2705	Temporarily Filtered	maydaymask.gif	3c274a686e3d4364c0ae2aed6f80c877	neutral	none	use 1 single-use dust mask
+2706	Gaffe Free	maydaytape.gif	af3ed07a138fe185660609606c1c2926	neutral	none	use 1 gaffer's tape
+2707	On the Minty Precipice	maydaybar.gif	6a543864b4bb1b558217729a507a4044	neutral	none	eat 1 cool mint precipice bar
+2708	On the Precipice of Carrots	maydaybar.gif	9b93c7a0436a4594d28bd8d03952cd13	neutral	none	eat 1 carrot cake precipice bar
+2709	Ready to Survive	maydaypackage.gif	e10348bbce52884781153e51f37ca337	neutral	none  use 1 MayDay&trade; supply package
+2710	Stuffed	maydaycan.gif	6e6cfdaf4191a47ecde914638c712803	neutral	none	eat 1 20-lb can of rice and beans
+2711	Ashamed	blush.gif	c9a095cc280c13e9ae6b44be77b61e79	neutral	none
+2712	Yapping Pal	dog.gif	dbdf338bfa4aba6ede9327f471914122	neutral	none
+2713	Teacher's Pet	applesticker.gif	4fb5ab96b8d296b74f4d061c45041c1c	neutral	none
+2714	Earning Interest	dollarsign.gif	d02e47a3e379e6c280c66f226ffddc86	neutral	none	use 1 savings bond
+2715	Fire-Roasted Feelings	fishybone.gif	ecbc67d56ee9229d98ff596524e48cba	neutral	none	eat 1 fire-roasted lake trout
+2716	Feeling Sneaky	heromask.gif	8bf3435767710af1920c98d4c1ebff98	neutral	none	use 1 trampled ticket stub
+2717	Kinda Damp	blooddrops.gif	1e39ab0a1afcc1c70d5302304f7b93b2	good	none
+2718	Wholesomely Resolved	happy.gif	2b47f4772381abb5ac24e620be92da96	good	none
