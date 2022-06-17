@@ -1016,16 +1016,12 @@ public class Parser {
       result = this.parseExpression(scope);
 
       if (result != null) {
-        try {
-          result = this.autoCoerceValue(t, result, scope);
-          if (!Operator.validCoercion(ltype, result.getType(), "assign")) {
-            initializationErrors.submitError(
-                this.error(
-                    result.getLocation(),
-                    "Cannot store " + result.getType() + " in " + lhs + " of type " + ltype));
-          }
-        } catch (ScriptException e) {
-          initializationErrors.submitError(this.error(e.getMessage()));
+        result = this.autoCoerceValue(t, result, scope);
+        if (!Operator.validCoercion(ltype, result.getType(), "assign")) {
+          initializationErrors.submitError(
+              this.error(
+                  result.getLocation(),
+                  "Cannot store " + result.getType() + " in " + lhs + " of type " + ltype));
         }
       } else {
         initializationErrors.submitSyntaxError(

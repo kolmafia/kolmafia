@@ -39,10 +39,14 @@ public class CompositeReference extends VariableReference {
     for (Evaluable current : this.indices) {
       type = type.asProxy();
 
+      if (type.isBad()) {
+        return type;
+      }
+
       if (type instanceof CompositeType) {
         type = ((CompositeType) type).getDataType(current).getBaseType();
-      } else if (!type.isBad()) {
-        type = new Type.BadType(null, null);
+      } else {
+        return new Type.BadType(null, null);
       }
     }
     return type;
@@ -55,10 +59,14 @@ public class CompositeReference extends VariableReference {
     for (Evaluable current : this.indices) {
       type = type.getBaseType().asProxy();
 
+      if (type.isBad()) {
+        return type;
+      }
+
       if (type instanceof CompositeType) {
         type = ((CompositeType) type).getDataType(current);
-      } else if (!type.isBad()) {
-        type = new Type.BadType(null, null);
+      } else {
+        return new Type.BadType(null, null);
       }
     }
     return type;
