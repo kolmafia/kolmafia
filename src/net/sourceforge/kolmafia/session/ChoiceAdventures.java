@@ -6100,7 +6100,7 @@ public abstract class ChoiceAdventures {
         new Option("Grab the cheer core. Just do it!", 5));
 
     // Poetic Justice
-    new ChoiceSpoiler(
+    new ChoiceAdventure(
         1467,
         "Item-Driven",
         "June cleaver",
@@ -6111,7 +6111,7 @@ public abstract class ChoiceAdventures {
         new Option("Do nothing", 4));
 
     // Aunts not Ants
-    new ChoiceSpoiler(
+    new ChoiceAdventure(
         1468,
         "Item-Driven",
         "June cleaver",
@@ -6122,7 +6122,7 @@ public abstract class ChoiceAdventures {
         new Option("Do nothing", 4));
 
     // Beware of Alligator
-    new ChoiceSpoiler(
+    new ChoiceAdventure(
         1469,
         "Item-Driven",
         "June cleaver",
@@ -6133,7 +6133,7 @@ public abstract class ChoiceAdventures {
         new Option("Do nothing", 4));
 
     // Teacher's Pet
-    new ChoiceSpoiler(
+    new ChoiceAdventure(
         1470,
         "Item-Driven",
         "June cleaver",
@@ -6144,7 +6144,7 @@ public abstract class ChoiceAdventures {
         new Option("Do nothing", 4));
 
     // Lost and Found
-    new ChoiceSpoiler(
+    new ChoiceAdventure(
         1471,
         "Item-Driven",
         "June cleaver",
@@ -6155,7 +6155,7 @@ public abstract class ChoiceAdventures {
         new Option("Do nothing", 4));
 
     // Summer Days
-    new ChoiceSpoiler(
+    new ChoiceAdventure(
         1472,
         "Item-Driven",
         "June cleaver",
@@ -6166,7 +6166,7 @@ public abstract class ChoiceAdventures {
         new Option("Do nothing", 4));
 
     // Bath Time
-    new ChoiceSpoiler(
+    new ChoiceAdventure(
         1473,
         "Item-Driven",
         "June cleaver",
@@ -6177,7 +6177,7 @@ public abstract class ChoiceAdventures {
         new Option("Do nothing", 4));
 
     // Delicious Sprouts
-    new ChoiceSpoiler(
+    new ChoiceAdventure(
         1474,
         "Item-Driven",
         "June cleaver",
@@ -6188,7 +6188,7 @@ public abstract class ChoiceAdventures {
         new Option("Do nothing", 4));
 
     // Hypnotic Master
-    new ChoiceSpoiler(
+    new ChoiceAdventure(
         1475,
         "Item-Driven",
         "June cleaver",
