@@ -1,0 +1,4 @@
+Variable 'a' cannot be indexed (bad_record_indexing.ash, line 6, char 11 to char 13)
+Variable 'a' cannot be indexed (bad_record_indexing.ash, line 7, char 11 to char 13)
+Variable 'null' cannot be indexed (bad_record_indexing.ash, line 10, char 9 to char 17)
+Variable 'null' cannot be indexed (bad_record_indexing.ash, line 11, char 9 to char 17)
