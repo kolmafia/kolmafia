@@ -22,6 +22,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   public void initEach() {
     Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("testUser");
+    KoLCharacter.reset(true);
     Preferences.reset("testUser");
   }
 
@@ -60,10 +61,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     assertContinueState();
     assertThat(outputSoftcore, containsString("Returned: false"));
 
-    String outputUnpermed = execute("get_permed_skills() contains $skill[Emotionally Chipped]");
+    String outputUnpermed = execute("if (get_permed_skills() contains $skill[Emotionally Chipped]) {print(\"permed\");} else {print(\"unpermed\");}");
 
     assertContinueState();
-    assertThat(outputSoftcore, containsString("Returned: false"));
+    assertThat(outputUnpermed, containsString("unpermed"));
   }
 
   @Test
@@ -90,7 +91,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   void floundryLocations() throws IOException {
     // don't try to visit the fireworks shop
     Preferences.setBoolean("_fireworksShop", true);
-    
+
     var cleanups = setupFakeResponse(200, Files.readString(Paths.get(("request/test_clan_floundry.html"))).trim());
 
     try (cleanups) {
