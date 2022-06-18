@@ -746,6 +746,7 @@ user	itemBoughtPerCharacter6428	false
 user	itemBoughtPerCharacter6429	false
 user	jarlsbergPoints	0
 user	jickSwordModifier
+user	juneCleaverQueue
 user	jungCharge	0
 user	junglePuns	0
 user	kingLiberated	false
@@ -1516,6 +1517,7 @@ user	_beachMinutes
 user	_beanCannonUses	0
 user	_bearHugs	0
 user	_beerLensDrops	0
+user	_bellydancerPickpockets	0
 user	_bendHellUsed	false
 user	_benettonsCasts	0
 user	_birdOfTheDay
@@ -1790,6 +1792,14 @@ user	_jiggleSteak	0
 user	_jingleBellUsed	false
 user	_jitbCharge	0
 user	_jukebox	false
+user	_juneCleaverFightsLeft	1
+user	_juneCleaverEncounters	0
+user	_juneCleaverStench	1
+user	_juneCleaverSpooky	1
+user	_juneCleaverSleaze	1
+user	_juneCleaverHot	1
+user	_juneCleaverCold	1
+user	_juneCleaverSkips	0
 user	_jungDrops	0
 user	_kgbClicksUsed	0
 user	_kgbDispenserUses	0
@@ -2897,7 +2907,15 @@ user	choiceAdventure1434	0
 user	choiceAdventure1436	0
 user	choiceAdventure1460	8
 user	choiceAdventure1461	4
-
+user	choiceAdventure1467	0
+user	choiceAdventure1468	0
+user	choiceAdventure1469	0
+user	choiceAdventure1470	0
+user	choiceAdventure1471	0
+user	choiceAdventure1472	0
+user	choiceAdventure1473	0
+user	choiceAdventure1474	0
+user	choiceAdventure1475	0
 user	lockedItem4637	true
 user	lockedItem4638	true
 user	lockedItem4639	true

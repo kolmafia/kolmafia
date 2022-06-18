@@ -2708,3 +2708,11 @@
 2708	On the Precipice of Carrots	maydaybar.gif	9b93c7a0436a4594d28bd8d03952cd13	neutral	none	eat 1 carrot cake precipice bar
 2709	Ready to Survive	maydaypackage.gif	e10348bbce52884781153e51f37ca337	neutral	none  use 1 MayDay&trade; supply package
 2710	Stuffed	maydaycan.gif	6e6cfdaf4191a47ecde914638c712803	neutral	none	eat 1 20-lb can of rice and beans
+2711	Ashamed	blush.gif	c9a095cc280c13e9ae6b44be77b61e79	neutral	none
+2712	Yapping Pal	dog.gif	dbdf338bfa4aba6ede9327f471914122	neutral	none
+2713	Teacher's Pet	applesticker.gif	4fb5ab96b8d296b74f4d061c45041c1c	neutral	none
+2714	Earning Interest	dollarsign.gif	d02e47a3e379e6c280c66f226ffddc86	neutral	none	use 1 savings bond
+2715	Fire-Roasted Feelings	fishybone.gif	ecbc67d56ee9229d98ff596524e48cba	neutral	none	eat 1 fire-roasted lake trout
+2716	Feeling Sneaky	heromask.gif	8bf3435767710af1920c98d4c1ebff98	neutral	none	use 1 trampled ticket stub
+2717	Kinda Damp	blooddrops.gif	1e39ab0a1afcc1c70d5302304f7b93b2	good	none
+2718	Wholesomely Resolved	happy.gif	2b47f4772381abb5ac24e620be92da96	good	none

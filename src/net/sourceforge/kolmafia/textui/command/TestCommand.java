@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
@@ -67,6 +68,7 @@ import net.sourceforge.kolmafia.session.DadManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.MonsterManuelManager;
 import net.sourceforge.kolmafia.session.NumberologyManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
@@ -326,6 +328,19 @@ public class TestCommand extends AbstractCommand {
       }
       double itemDrop = Modifiers.getNumericModifier("Familiar", familiar.getRace(), "Item Drop");
       RequestLogger.printLine("Item Drop: " + itemDrop);
+      return;
+    }
+
+    if (command.equals("fix-monster-articles")) {
+      DebugDatabase.checkManuel();
+      int count = MonsterDatabase.fixMonsterAttributes(MonsterManuelManager.updates);
+      RequestLogger.printLine(count + " monster attributes changed");
+      return;
+    }
+
+    if (command.equals("fix-monster-attributes")) {
+      int count = MonsterDatabase.fixMonsterAttributes(null);
+      RequestLogger.printLine(count + " monster attributes changed");
       return;
     }
 
@@ -812,7 +827,7 @@ public class TestCommand extends AbstractCommand {
       int index = parameters.indexOf(typeName);
       index = parameters.indexOf(" ", index);
       String name = parameters.substring(index + 1);
-      String location = WikiUtilities.getWikiLocation(name, type);
+      String location = WikiUtilities.getWikiLocation(name, type, false);
 
       RequestLogger.printLine(location);
 
@@ -1051,7 +1066,9 @@ public class TestCommand extends AbstractCommand {
         MonsterStatusTracker.setNextMonster(monster);
         String monsterName = monster.getName();
         FightRequest.currentRound = round;
-        FightRequest.updateCombatData("fight.php", monsterName, responseText);
+        // This command used to use updateCombatData, but processResults will
+        // fix text munging from the hewn moon-rune spoon.
+        FightRequest.processResults("fight.php", monsterName, responseText);
         FightRequest.lastDecoratedResponseText =
             RequestEditorKit.getFeatureRichHTML("fight.php", responseText);
       } else {

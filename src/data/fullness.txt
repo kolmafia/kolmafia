@@ -338,6 +338,7 @@ fettucini Inconnu	5	8	awesome	17-20	0	25-30	0	SAUCY
 fiery wing	1	1	good	3	0	3	0	20-30 Hot Damage (ignores resists)
 filet of The Fish	3	11	EPIC	15-18	40-60	0	0
 fine aged cheddarwurst	3	3	decent	4-5	5-10	0	5-10
+fire-roasted lake trout	1	1	good	0	0	0	0	Unspaded
 fire crackers	1	1	good	3	5-15	5-15	5-15	20 Fire Cracked (+20 Experience)
 fireman's lunch	2	4	decent	2-4	0	0	0	20 You're Not Cooking (+50 Hot Spell Damage, +100% Spell Damage)
 fishcake	1	1	awesome	0	0	0	0	Unspaded
@@ -425,6 +426,7 @@ Grimdrop Chow Mein	4	5		6-11	0	0	0
 Grimgerbread House	5	5		10-15	0	0	0
 grue egg omelette	4	9	EPIC	21-27	35-45	35-45	35-45
 guffin	3	1	awesome	0	0	0	0	Unspaded
+guilty sprout	1	8	good	0	0	0	0	Unspaded
 gumdrop chow mein	5	1		9-17	0	0	0	10 Sugar Rush
 gunky chicken	2	5	good	4-6	15-30	0	0	lose 5-10 HP, 20 Gunky Dory (+50 HP, +4-10 HP regen)
 gunpowder burrito	2	1	good	0	0	0	0	+3 PvP fights

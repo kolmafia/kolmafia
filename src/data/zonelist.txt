@@ -20,6 +20,7 @@ Dreadsylvania	Clan Basement	Dreadsylvania
 The Sea	The Sea	The Sea
 
 Plains	Plains	Nearby Plains
+Degrassi Knoll	Plains	Inside Degrassi Knoll
 Rift	Plains	Temporal Rift
 Fernswarthy's Tower	Plains	Fernswarthy's Tower
 Beanstalk	Beanstalk	Above the Beanstalk

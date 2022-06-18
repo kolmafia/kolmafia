@@ -1655,6 +1655,7 @@ public abstract class KoLCharacter {
       freerests += 5;
     if (Preferences.getBoolean("getawayCampsiteUnlocked")) ++freerests;
     if (KoLCharacter.hasSkill("Long Winter's Nap")) freerests += 5;
+    if (InventoryManager.getCount(ItemPool.MOTHERS_NECKLACE) > 0) freerests += 5;
     return freerests;
   }
 
@@ -2903,7 +2904,8 @@ public abstract class KoLCharacter {
         || oldPath == Path.HEAVY_RAINS
         || oldPath == Path.PICKY
         || oldPath == Path.NUCLEAR_AUTUMN
-        || oldPath == Path.YOU_ROBOT) {
+        || oldPath == Path.YOU_ROBOT
+        || oldPath == Path.JOURNEYMAN) {
       RequestThread.postRequest(new CharSheetRequest());
       InventoryManager.checkPowerfulGlove();
     }

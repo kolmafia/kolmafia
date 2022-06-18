@@ -844,6 +844,10 @@ public class DataTypes {
     return new Value(DataTypes.SLOT_TYPE, num, name);
   }
 
+  public static final Value makeElementValue(Element elem) {
+    return makeElementValue(elem, true);
+  }
+
   public static final Value makeElementValue(Element elem, final boolean returnDefault) {
     if (elem == Element.NONE) {
       return returnDefault ? DataTypes.ELEMENT_INIT : null;

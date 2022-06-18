@@ -1,0 +1,1080 @@
+Seal Clubber	Barrrney's Barrr	1	[6032]Accordion Bash
+Seal Clubber	Barrrney's Barrr	2	[6037]Bawdy Refrain
+Seal Clubber	Barrrney's Barrr	3	[1029]Wrath of the Wolverine
+Seal Clubber	Barrrney's Barrr	4	[2033]Blessing of She-Who-Was
+Seal Clubber	Barrrney's Barrr	5	[5009]Disco Fever
+Seal Clubber	Barrrney's Barrr	6	[1007]Blubber Up
+Seal Clubber	Camp Logging Camp	1	[1015]Rage of the Reindeer
+Seal Clubber	Camp Logging Camp	2	[2007]Ghostly Shell
+Seal Clubber	Camp Logging Camp	3	[4016]Diminished Gag Reflex
+Seal Clubber	Camp Logging Camp	4	[1008]Fortitude of the Muskox
+Seal Clubber	Camp Logging Camp	5	[6036]Suspicious Gaze
+Seal Clubber	Camp Logging Camp	6	[4035]Wry Smile
+Seal Clubber	Cobb's Knob Laboratory	1	[4028]Inner Sauce
+Seal Clubber	Cobb's Knob Laboratory	2	[5010]Overdeveloped Sense of Self Preservation
+Seal Clubber	Cobb's Knob Laboratory	3	[2036]Pizza Lover
+Seal Clubber	Cobb's Knob Laboratory	4	[1032]Furious Wallop
+Seal Clubber	Cobb's Knob Laboratory	5	[1031]Scowl of the Auk
+Seal Clubber	Cobb's Knob Laboratory	6	[5032]Disco Greed
+Seal Clubber	Cobb's Knob Menagerie, Level 1	1	[5011]Adventurer of Leisure
+Seal Clubber	Cobb's Knob Menagerie, Level 1	2	[2014]Amphibian Sympathy
+Seal Clubber	Cobb's Knob Menagerie, Level 1	3	[2037]Blessing of the Storm Tortoise
+Seal Clubber	Cobb's Knob Menagerie, Level 1	4	[2009]Empathy of the Newt
+Seal Clubber	Cobb's Knob Menagerie, Level 1	5	[2040]Patient Smile
+Seal Clubber	Cobb's Knob Menagerie, Level 1	6	[3008]Weapon of the Pastalord
+Seal Clubber	Cobb's Knob Menagerie, Level 2	1	[5026]Disco State of Mind
+Seal Clubber	Cobb's Knob Menagerie, Level 2	2	[1019]Musk of the Moose
+Seal Clubber	Cobb's Knob Menagerie, Level 2	3	[3003]Ravioli Shurikens
+Seal Clubber	Cobb's Knob Menagerie, Level 2	4	[6043]Mariachi Memory
+Seal Clubber	Cobb's Knob Menagerie, Level 2	5	[3031]Bind Angel Hair Wisp
+Seal Clubber	Cobb's Knob Menagerie, Level 2	6	[5038]Sensitive Fingers
+Seal Clubber	Cobb's Knob Menagerie, Level 3	1	[3010]Leash of Linguini
+Seal Clubber	Cobb's Knob Menagerie, Level 3	2	[1012]Claws of the Walrus
+Seal Clubber	Cobb's Knob Menagerie, Level 3	3	[2004]Skin of the Leatherback
+Seal Clubber	Cobb's Knob Menagerie, Level 3	4	[6042]Knowing Smile
+Seal Clubber	Cobb's Knob Menagerie, Level 3	5	[4007]Elemental Saucesphere
+Seal Clubber	Cobb's Knob Menagerie, Level 3	6	[2008]Reptilian Fortitude
+Seal Clubber	Infernal Rackets Backstage	1	[2011]Wisdom of the Elder Tortoises
+Seal Clubber	Infernal Rackets Backstage	2	[1017]Double-Fisted Skull Smashing
+Seal Clubber	Infernal Rackets Backstage	3	[3030]Bringing Up the Rear
+Seal Clubber	Infernal Rackets Backstage	4	[3029]Bind Vermincelli
+Seal Clubber	Infernal Rackets Backstage	5	[4015]Impetuous Sauciness
+Seal Clubber	Infernal Rackets Backstage	6	[1003]Thrust-Smack
+Seal Clubber	Madness Bakery	1	[2041]Turtle Power
+Seal Clubber	Madness Bakery	2	[3039]Bind Spice Ghost
+Seal Clubber	Madness Bakery	3	[4026]Icy Glare
+Seal Clubber	Madness Bakery	4	[3037]Bind Lasagmbie
+Seal Clubber	Madness Bakery	5	[2016]Cold-Blooded Fearlessness
+Seal Clubber	Madness Bakery	6	[4039]Saucemaven
+Seal Clubber	Noob Cave	1	[5015]Ambidextrous Funkslinging
+Seal Clubber	Noob Cave	2	[4005]Saucestorm
+Seal Clubber	Noob Cave	3	[1014]Batter Up!
+Seal Clubber	Noob Cave	4	[3005]Cannelloni Cannon
+Seal Clubber	Noob Cave	5	[5037]Disco Inferno
+Seal Clubber	Noob Cave	6	[6041]Master Accordion Master Thief
+Seal Clubber	Outskirts of Camp Logging Camp	1	[1009]Audacity of the Otter
+Seal Clubber	Outskirts of Camp Logging Camp	2	[4025]Simmer
+Seal Clubber	Outskirts of Camp Logging Camp	3	[5017]Smooth Movement
+Seal Clubber	Outskirts of Camp Logging Camp	4	[2006]Armorcraftiness
+Seal Clubber	Outskirts of Camp Logging Camp	5	[5006]Mad Looting Skillz
+Seal Clubber	Outskirts of Camp Logging Camp	6	[1016]Pulverize
+Seal Clubber	Pandamonium Slums	1	[2038]The Long View
+Seal Clubber	Pandamonium Slums	2	[6029]Dissonant Riff
+Seal Clubber	Pandamonium Slums	3	[4011]Master Saucier
+Seal Clubber	Pandamonium Slums	4	[4003]Stream of Sauce
+Seal Clubber	Pandamonium Slums	5	[5028]That's Not a Knife
+Seal Clubber	Pandamonium Slums	6	[4018]The Way of Sauce
+Seal Clubber	The Dire Warren	1	[3004]Entangling Noodles
+Seal Clubber	The Dire Warren	2	[5004]Nimble Fingers
+Seal Clubber	The Dire Warren	3	[5039]Disco Leer
+Seal Clubber	The Dire Warren	4	[3036]Subtle and Quick to Anger
+Seal Clubber	The Dire Warren	5	[4030]Itchy Curse Finger
+Seal Clubber	The Dire Warren	6	[5007]Disco Nap
+Seal Clubber	The Enormous Greater-Than Sign	1	[6030]Cadenza
+Seal Clubber	The Enormous Greater-Than Sign	2	[5031]Disco Smirk
+Seal Clubber	The Enormous Greater-Than Sign	3	[4032]Saucecicle
+Seal Clubber	The Enormous Greater-Than Sign	4	[6008]The Power Ballad of the Arrowsmith
+Seal Clubber	The Enormous Greater-Than Sign	5	[3007]Stuffed Mortar Shell
+Seal Clubber	The Enormous Greater-Than Sign	6	[4006]Advanced Saucecrafting
+Seal Clubber	The Haiku Dungeon	1	[5016]Heart of Polyester
+Seal Clubber	The Haiku Dungeon	2	[1006]Super-Advanced Meatsmithing
+Seal Clubber	The Haiku Dungeon	3	[4009]Wave of Sauce
+Seal Clubber	The Haiku Dungeon	4	[6012]Jackasses' Symphony of Destruction
+Seal Clubber	The Haiku Dungeon	5	[6011]The Psalm of Pointiness
+Seal Clubber	The Haiku Dungeon	6	[6010]Fat Leon's Phat Loot Lyric
+Seal Clubber	The Haunted Laboratory	1	[6033]Accordion Appreciation
+Seal Clubber	The Haunted Laboratory	2	[6003]Aloysius' Antiphon of Aptitude
+Seal Clubber	The Haunted Laboratory	3	[6014]The Ode to Booze
+Seal Clubber	The Haunted Laboratory	4	[5005]Disco Dance of Doom
+Seal Clubber	The Haunted Laboratory	5	[2035]Testudinal Teachings
+Seal Clubber	The Haunted Laboratory	6	[6016]Carlweather's Cantata of Confrontation
+Seal Clubber	The Haunted Nursery	1	[1004]Lunge Smack
+Seal Clubber	The Haunted Nursery	2	[3015]Springy Fusilli
+Seal Clubber	The Haunted Nursery	3	[3026]Transcendent Al Dente
+Seal Clubber	The Haunted Nursery	4	[6035]Five Finger Discount
+Seal Clubber	The Haunted Nursery	5	[5036]Disco Dance 3: Back in the Habit
+Seal Clubber	The Haunted Nursery	6	[4008]Jalape&ntilde;o Saucesphere
+Seal Clubber	The Haunted Storage Room	1	[5025]Deft Hands
+Seal Clubber	The Haunted Storage Room	2	[6031]Crab Claw Technique
+Seal Clubber	The Haunted Storage Room	3	[3035]Bind Penne Dreadful
+Seal Clubber	The Haunted Storage Room	4	[2005]Shieldbutt
+Seal Clubber	The Haunted Storage Room	5	[6017]Ur-Kel's Aria of Annoyance
+Seal Clubber	The Haunted Storage Room	6	[3011]Spirit of Rigatoni
+Seal Clubber	The Knob Shaft	1	[5027]Frantic Gyrations
+Seal Clubber	The Knob Shaft	2	[6034]Concerto de los Muertos
+Seal Clubber	The Knob Shaft	3	[1037]Cavalcade of Fury
+Seal Clubber	The Knob Shaft	4	[3016]Tolerance of the Kitchen
+Seal Clubber	The Knob Shaft	5	[6007]The Magical Mojomuscular Melody
+Seal Clubber	The Knob Shaft	6	[3018]Transcendental Noodlecraft
+Seal Clubber	The Laugh Floor	1	[1038]Northern Explosion
+Seal Clubber	The Laugh Floor	2	[5029]Tricky Knifework
+Seal Clubber	The Laugh Floor	3	[1036]Thirst of the Weasel
+Seal Clubber	The Laugh Floor	4	[3033]Bind Undead Elbow Macaroni
+Seal Clubber	The Laugh Floor	5	[6006]The Polka of Plenty
+Seal Clubber	The Laugh Floor	6	[1028]Cold Shoulder
+Seal Clubber	The Limerick Dungeon	1	[1005]Lunging Thrust-Smack
+Seal Clubber	The Limerick Dungeon	2	[4038]Blood Sugar Sauce Magic
+Seal Clubber	The Limerick Dungeon	3	[4017]Irrepressible Spunk
+Seal Clubber	The Limerick Dungeon	4	[4024]Curse of Vichyssoise
+Seal Clubber	The Limerick Dungeon	5	[6013]Stevedave's Shanty of Superiority
+Seal Clubber	The Limerick Dungeon	6	[2020]Hero of the Half-Shell
+Seal Clubber	The Obligatory Pirate's Cove	1	[4014]Saucy Salve
+Seal Clubber	The Obligatory Pirate's Cove	2	[1010]Tongue of the Walrus
+Seal Clubber	The Obligatory Pirate's Cove	3	[1040]Pride of the Puffin
+Seal Clubber	The Obligatory Pirate's Cove	4	[3028]Arched Eyebrow of the Archmage
+Seal Clubber	The Obligatory Pirate's Cove	5	[4031]Curse of the Thousand Islands
+Seal Clubber	The Obligatory Pirate's Cove	6	[4012]Saucegeyser
+Seal Clubber	The Overgrown Lot	1	[4029]Curse of Marinara
+Seal Clubber	The Overgrown Lot	2	[3034]Thrall Unit Tactics
+Seal Clubber	The Overgrown Lot	3	[4037]Sauce Monocle
+Seal Clubber	The Overgrown Lot	4	[2039]Spirit Boon
+Seal Clubber	The Overgrown Lot	5	[3014]Spirit of Ravioli
+Seal Clubber	The Overgrown Lot	6	[5018]Superhuman Cocktailcrafting
+Seal Clubber	The Skeleton Store	1	[5033]Knife in the Dark
+Seal Clubber	The Skeleton Store	2	[2028]Shell Up
+Seal Clubber	The Skeleton Store	3	[6040]Cone of Zydeco
+Seal Clubber	The Skeleton Store	4	[2034]Butts of Steel
+Seal Clubber	The Skeleton Store	5	[4034]Curse of Weaksauce
+Seal Clubber	The Skeleton Store	6	[2029]Stiff Upper Lip
+Seal Clubber	The Spooky Gravy Burrow	1	[2012]Astral Shell
+Seal Clubber	The Spooky Gravy Burrow	2	[2010]Tenacity of the Snapper
+Seal Clubber	The Spooky Gravy Burrow	3	[4033]Antibiotic Saucesphere
+Seal Clubber	The Spooky Gravy Burrow	4	[6039]Sticky Fingers
+Seal Clubber	The Spooky Gravy Burrow	5	[1039]Precision of the Penguin
+Seal Clubber	The Spooky Gravy Burrow	6	[5030]Flashy Dancer
+Seal Clubber	The Unquiet Garves	1	[5012]Disco Face Stab
+Seal Clubber	The Unquiet Garves	2	[5034]Disco Bravado
+Seal Clubber	The Unquiet Garves	3	[5014]Advanced Cocktailcrafting
+Seal Clubber	The Unquiet Garves	4	[3032]Shield of the Pastalord
+Seal Clubber	The Unquiet Garves	5	[1027]Hibernate
+Seal Clubber	The Unquiet Garves	6	[1035]Ire of the Orca
+Seal Clubber	The VERY Unquiet Garves	1	[1033]Club Foot
+Seal Clubber	The VERY Unquiet Garves	2	[3027]Bind Vampieroghi
+Seal Clubber	The VERY Unquiet Garves	3	[3012]Cannelloni Cocoon
+Seal Clubber	The VERY Unquiet Garves	4	[2015]Kneebutt
+Seal Clubber	The VERY Unquiet Garves	5	[3006]Pastamastery
+Seal Clubber	The VERY Unquiet Garves	6	[2027]Spirit Vacation
+Seal Clubber	The Valley of Rof L'm Fao	1	[4004]Expert Panhandling
+Seal Clubber	The Valley of Rof L'm Fao	2	[3017]Flavour of Magic
+Seal Clubber	The Valley of Rof L'm Fao	3	[2032]Spirit Snap
+Seal Clubber	The Valley of Rof L'm Fao	4	[2003]Headbutt
+Seal Clubber	The Valley of Rof L'm Fao	5	[6038]Thief Among the Honorable
+Seal Clubber	The Valley of Rof L'm Fao	6	[1018]Northern Exposure
+Seal Clubber	Thugnderdome	1	[1030]Buoyancy of the Beluga
+Seal Clubber	Thugnderdome	2	[5003]Disco Eye-Poke
+Seal Clubber	Thugnderdome	3	[2030]Blessing of the War Snapper
+Seal Clubber	Thugnderdome	4	[1011]Hide of the Walrus
+Seal Clubber	Thugnderdome	5	[6009]Brawnee's Anthem of Absorption
+Seal Clubber	Thugnderdome	6	[2031]Spiky Shell
+Seal Clubber	Tower Ruins	1	[6015]The Sonata of Sneakiness
+Seal Clubber	Tower Ruins	2	[6005]Cletus's Canticle of Celerity
+Seal Clubber	Tower Ruins	3	[4010]Intrinsic Spiciness
+Seal Clubber	Tower Ruins	4	[6004]The Moxious Madrigal
+Seal Clubber	Tower Ruins	5	[5035]Disco Shank
+Seal Clubber	Tower Ruins	6	[1034]Seething of the Snow Leopard
+Seal Clubber	Whitey's Grove	1	[3009]Lasagna Bandages
+Seal Clubber	Whitey's Grove	2	[3025]Utensil Twist
+Seal Clubber	Whitey's Grove	3	[5008]Disco Dance II: Electric Boogaloo
+Seal Clubber	Whitey's Grove	4	[2021]Tao of the Terrapin
+Seal Clubber	Whitey's Grove	5	[4027]Soul Saucery
+Seal Clubber	Whitey's Grove	6	[3038]Wizard Squint
+Turtle Tamer	Barrrney's Barrr	1	[2036]Pizza Lover
+Turtle Tamer	Barrrney's Barrr	2	[3029]Bind Vermincelli
+Turtle Tamer	Barrrney's Barrr	3	[4015]Impetuous Sauciness
+Turtle Tamer	Barrrney's Barrr	4	[1017]Double-Fisted Skull Smashing
+Turtle Tamer	Barrrney's Barrr	5	[6011]The Psalm of Pointiness
+Turtle Tamer	Barrrney's Barrr	6	[6013]Stevedave's Shanty of Superiority
+Turtle Tamer	Camp Logging Camp	1	[3030]Bringing Up the Rear
+Turtle Tamer	Camp Logging Camp	2	[3026]Transcendent Al Dente
+Turtle Tamer	Camp Logging Camp	3	[3031]Bind Angel Hair Wisp
+Turtle Tamer	Camp Logging Camp	4	[5016]Heart of Polyester
+Turtle Tamer	Camp Logging Camp	5	[4011]Master Saucier
+Turtle Tamer	Camp Logging Camp	6	[2027]Spirit Vacation
+Turtle Tamer	Cobb's Knob Laboratory	1	[1028]Cold Shoulder
+Turtle Tamer	Cobb's Knob Laboratory	2	[1030]Buoyancy of the Beluga
+Turtle Tamer	Cobb's Knob Laboratory	3	[3003]Ravioli Shurikens
+Turtle Tamer	Cobb's Knob Laboratory	4	[4008]Jalape&ntilde;o Saucesphere
+Turtle Tamer	Cobb's Knob Laboratory	5	[6031]Crab Claw Technique
+Turtle Tamer	Cobb's Knob Laboratory	6	[3032]Shield of the Pastalord
+Turtle Tamer	Cobb's Knob Menagerie, Level 1	1	[6006]The Polka of Plenty
+Turtle Tamer	Cobb's Knob Menagerie, Level 1	2	[5014]Advanced Cocktailcrafting
+Turtle Tamer	Cobb's Knob Menagerie, Level 1	3	[2032]Spirit Snap
+Turtle Tamer	Cobb's Knob Menagerie, Level 1	4	[2040]Patient Smile
+Turtle Tamer	Cobb's Knob Menagerie, Level 1	5	[5009]Disco Fever
+Turtle Tamer	Cobb's Knob Menagerie, Level 1	6	[2035]Testudinal Teachings
+Turtle Tamer	Cobb's Knob Menagerie, Level 2	1	[6033]Accordion Appreciation
+Turtle Tamer	Cobb's Knob Menagerie, Level 2	2	[2015]Kneebutt
+Turtle Tamer	Cobb's Knob Menagerie, Level 2	3	[1039]Precision of the Penguin
+Turtle Tamer	Cobb's Knob Menagerie, Level 2	4	[3016]Tolerance of the Kitchen
+Turtle Tamer	Cobb's Knob Menagerie, Level 2	5	[5011]Adventurer of Leisure
+Turtle Tamer	Cobb's Knob Menagerie, Level 2	6	[6005]Cletus's Canticle of Celerity
+Turtle Tamer	Cobb's Knob Menagerie, Level 3	1	[5032]Disco Greed
+Turtle Tamer	Cobb's Knob Menagerie, Level 3	2	[4029]Curse of Marinara
+Turtle Tamer	Cobb's Knob Menagerie, Level 3	3	[1032]Furious Wallop
+Turtle Tamer	Cobb's Knob Menagerie, Level 3	4	[5031]Disco Smirk
+Turtle Tamer	Cobb's Knob Menagerie, Level 3	5	[6039]Sticky Fingers
+Turtle Tamer	Cobb's Knob Menagerie, Level 3	6	[1007]Blubber Up
+Turtle Tamer	Infernal Rackets Backstage	1	[3006]Pastamastery
+Turtle Tamer	Infernal Rackets Backstage	2	[3014]Spirit of Ravioli
+Turtle Tamer	Infernal Rackets Backstage	3	[3038]Wizard Squint
+Turtle Tamer	Infernal Rackets Backstage	4	[4012]Saucegeyser
+Turtle Tamer	Infernal Rackets Backstage	5	[2010]Tenacity of the Snapper
+Turtle Tamer	Infernal Rackets Backstage	6	[5010]Overdeveloped Sense of Self Preservation
+Turtle Tamer	Madness Bakery	1	[3018]Transcendental Noodlecraft
+Turtle Tamer	Madness Bakery	2	[3034]Thrall Unit Tactics
+Turtle Tamer	Madness Bakery	3	[1019]Musk of the Moose
+Turtle Tamer	Madness Bakery	4	[4017]Irrepressible Spunk
+Turtle Tamer	Madness Bakery	5	[2003]Headbutt
+Turtle Tamer	Madness Bakery	6	[2034]Butts of Steel
+Turtle Tamer	Noob Cave	1	[6034]Concerto de los Muertos
+Turtle Tamer	Noob Cave	2	[3017]Flavour of Magic
+Turtle Tamer	Noob Cave	3	[3036]Subtle and Quick to Anger
+Turtle Tamer	Noob Cave	4	[6041]Master Accordion Master Thief
+Turtle Tamer	Noob Cave	5	[5003]Disco Eye-Poke
+Turtle Tamer	Noob Cave	6	[6042]Knowing Smile
+Turtle Tamer	Outskirts of Camp Logging Camp	1	[2005]Shieldbutt
+Turtle Tamer	Outskirts of Camp Logging Camp	2	[2038]The Long View
+Turtle Tamer	Outskirts of Camp Logging Camp	3	[2009]Empathy of the Newt
+Turtle Tamer	Outskirts of Camp Logging Camp	4	[4009]Wave of Sauce
+Turtle Tamer	Outskirts of Camp Logging Camp	5	[1040]Pride of the Puffin
+Turtle Tamer	Outskirts of Camp Logging Camp	6	[2004]Skin of the Leatherback
+Turtle Tamer	Pandamonium Slums	1	[1006]Super-Advanced Meatsmithing
+Turtle Tamer	Pandamonium Slums	2	[6029]Dissonant Riff
+Turtle Tamer	Pandamonium Slums	3	[3005]Cannelloni Cannon
+Turtle Tamer	Pandamonium Slums	4	[1036]Thirst of the Weasel
+Turtle Tamer	Pandamonium Slums	5	[5039]Disco Leer
+Turtle Tamer	Pandamonium Slums	6	[4010]Intrinsic Spiciness
+Turtle Tamer	The Dire Warren	1	[3033]Bind Undead Elbow Macaroni
+Turtle Tamer	The Dire Warren	2	[1012]Claws of the Walrus
+Turtle Tamer	The Dire Warren	3	[6040]Cone of Zydeco
+Turtle Tamer	The Dire Warren	4	[5036]Disco Dance 3: Back in the Habit
+Turtle Tamer	The Dire Warren	5	[1015]Rage of the Reindeer
+Turtle Tamer	The Dire Warren	6	[5037]Disco Inferno
+Turtle Tamer	The Enormous Greater-Than Sign	1	[4034]Curse of Weaksauce
+Turtle Tamer	The Enormous Greater-Than Sign	2	[6010]Fat Leon's Phat Loot Lyric
+Turtle Tamer	The Enormous Greater-Than Sign	3	[1037]Cavalcade of Fury
+Turtle Tamer	The Enormous Greater-Than Sign	4	[5034]Disco Bravado
+Turtle Tamer	The Enormous Greater-Than Sign	5	[2008]Reptilian Fortitude
+Turtle Tamer	The Enormous Greater-Than Sign	6	[1034]Seething of the Snow Leopard
+Turtle Tamer	The Haiku Dungeon	1	[2029]Stiff Upper Lip
+Turtle Tamer	The Haiku Dungeon	2	[5008]Disco Dance II: Electric Boogaloo
+Turtle Tamer	The Haiku Dungeon	3	[4039]Saucemaven
+Turtle Tamer	The Haiku Dungeon	4	[2014]Amphibian Sympathy
+Turtle Tamer	The Haiku Dungeon	5	[1027]Hibernate
+Turtle Tamer	The Haiku Dungeon	6	[1010]Tongue of the Walrus
+Turtle Tamer	The Haunted Laboratory	1	[6004]The Moxious Madrigal
+Turtle Tamer	The Haunted Laboratory	2	[1038]Northern Explosion
+Turtle Tamer	The Haunted Laboratory	3	[4006]Advanced Saucecrafting
+Turtle Tamer	The Haunted Laboratory	4	[2012]Astral Shell
+Turtle Tamer	The Haunted Laboratory	5	[5007]Disco Nap
+Turtle Tamer	The Haunted Laboratory	6	[4003]Stream of Sauce
+Turtle Tamer	The Haunted Nursery	1	[2041]Turtle Power
+Turtle Tamer	The Haunted Nursery	2	[5006]Mad Looting Skillz
+Turtle Tamer	The Haunted Nursery	3	[6032]Accordion Bash
+Turtle Tamer	The Haunted Nursery	4	[1005]Lunging Thrust-Smack
+Turtle Tamer	The Haunted Nursery	5	[4005]Saucestorm
+Turtle Tamer	The Haunted Nursery	6	[3010]Leash of Linguini
+Turtle Tamer	The Haunted Storage Room	1	[4027]Soul Saucery
+Turtle Tamer	The Haunted Storage Room	2	[6003]Aloysius' Antiphon of Aptitude
+Turtle Tamer	The Haunted Storage Room	3	[2021]Tao of the Terrapin
+Turtle Tamer	The Haunted Storage Room	4	[6012]Jackasses' Symphony of Destruction
+Turtle Tamer	The Haunted Storage Room	5	[4025]Simmer
+Turtle Tamer	The Haunted Storage Room	6	[4018]The Way of Sauce
+Turtle Tamer	The Knob Shaft	1	[2031]Spiky Shell
+Turtle Tamer	The Knob Shaft	2	[4038]Blood Sugar Sauce Magic
+Turtle Tamer	The Knob Shaft	3	[3011]Spirit of Rigatoni
+Turtle Tamer	The Knob Shaft	4	[3004]Entangling Noodles
+Turtle Tamer	The Knob Shaft	5	[2030]Blessing of the War Snapper
+Turtle Tamer	The Knob Shaft	6	[4016]Diminished Gag Reflex
+Turtle Tamer	The Laugh Floor	1	[5004]Nimble Fingers
+Turtle Tamer	The Laugh Floor	2	[6009]Brawnee's Anthem of Absorption
+Turtle Tamer	The Laugh Floor	3	[4037]Sauce Monocle
+Turtle Tamer	The Laugh Floor	4	[6035]Five Finger Discount
+Turtle Tamer	The Laugh Floor	5	[1003]Thrust-Smack
+Turtle Tamer	The Laugh Floor	6	[3037]Bind Lasagmbie
+Turtle Tamer	The Limerick Dungeon	1	[3025]Utensil Twist
+Turtle Tamer	The Limerick Dungeon	2	[4004]Expert Panhandling
+Turtle Tamer	The Limerick Dungeon	3	[2028]Shell Up
+Turtle Tamer	The Limerick Dungeon	4	[6037]Bawdy Refrain
+Turtle Tamer	The Limerick Dungeon	5	[1018]Northern Exposure
+Turtle Tamer	The Limerick Dungeon	6	[5027]Frantic Gyrations
+Turtle Tamer	The Obligatory Pirate's Cove	1	[3039]Bind Spice Ghost
+Turtle Tamer	The Obligatory Pirate's Cove	2	[3028]Arched Eyebrow of the Archmage
+Turtle Tamer	The Obligatory Pirate's Cove	3	[4031]Curse of the Thousand Islands
+Turtle Tamer	The Obligatory Pirate's Cove	4	[6014]The Ode to Booze
+Turtle Tamer	The Obligatory Pirate's Cove	5	[1011]Hide of the Walrus
+Turtle Tamer	The Obligatory Pirate's Cove	6	[4024]Curse of Vichyssoise
+Turtle Tamer	The Overgrown Lot	1	[1014]Batter Up!
+Turtle Tamer	The Overgrown Lot	2	[4033]Antibiotic Saucesphere
+Turtle Tamer	The Overgrown Lot	3	[1016]Pulverize
+Turtle Tamer	The Overgrown Lot	4	[4035]Wry Smile
+Turtle Tamer	The Overgrown Lot	5	[3007]Stuffed Mortar Shell
+Turtle Tamer	The Overgrown Lot	6	[5025]Deft Hands
+Turtle Tamer	The Skeleton Store	1	[5030]Flashy Dancer
+Turtle Tamer	The Skeleton Store	2	[6030]Cadenza
+Turtle Tamer	The Skeleton Store	3	[1008]Fortitude of the Muskox
+Turtle Tamer	The Skeleton Store	4	[1004]Lunge Smack
+Turtle Tamer	The Skeleton Store	5	[1009]Audacity of the Otter
+Turtle Tamer	The Skeleton Store	6	[6008]The Power Ballad of the Arrowsmith
+Turtle Tamer	The Spooky Gravy Burrow	1	[5038]Sensitive Fingers
+Turtle Tamer	The Spooky Gravy Burrow	2	[6038]Thief Among the Honorable
+Turtle Tamer	The Spooky Gravy Burrow	3	[2011]Wisdom of the Elder Tortoises
+Turtle Tamer	The Spooky Gravy Burrow	4	[1029]Wrath of the Wolverine
+Turtle Tamer	The Spooky Gravy Burrow	5	[5029]Tricky Knifework
+Turtle Tamer	The Spooky Gravy Burrow	6	[4032]Saucecicle
+Turtle Tamer	The Unquiet Garves	1	[3009]Lasagna Bandages
+Turtle Tamer	The Unquiet Garves	2	[5018]Superhuman Cocktailcrafting
+Turtle Tamer	The Unquiet Garves	3	[2007]Ghostly Shell
+Turtle Tamer	The Unquiet Garves	4	[5017]Smooth Movement
+Turtle Tamer	The Unquiet Garves	5	[5035]Disco Shank
+Turtle Tamer	The Unquiet Garves	6	[2039]Spirit Boon
+Turtle Tamer	The VERY Unquiet Garves	1	[6015]The Sonata of Sneakiness
+Turtle Tamer	The VERY Unquiet Garves	2	[5005]Disco Dance of Doom
+Turtle Tamer	The VERY Unquiet Garves	3	[2016]Cold-Blooded Fearlessness
+Turtle Tamer	The VERY Unquiet Garves	4	[4030]Itchy Curse Finger
+Turtle Tamer	The VERY Unquiet Garves	5	[5028]That's Not a Knife
+Turtle Tamer	The VERY Unquiet Garves	6	[3035]Bind Penne Dreadful
+Turtle Tamer	The Valley of Rof L'm Fao	1	[6016]Carlweather's Cantata of Confrontation
+Turtle Tamer	The Valley of Rof L'm Fao	2	[2037]Blessing of the Storm Tortoise
+Turtle Tamer	The Valley of Rof L'm Fao	3	[1035]Ire of the Orca
+Turtle Tamer	The Valley of Rof L'm Fao	4	[4028]Inner Sauce
+Turtle Tamer	The Valley of Rof L'm Fao	5	[6036]Suspicious Gaze
+Turtle Tamer	The Valley of Rof L'm Fao	6	[5026]Disco State of Mind
+Turtle Tamer	Thugnderdome	1	[3027]Bind Vampieroghi
+Turtle Tamer	Thugnderdome	2	[2006]Armorcraftiness
+Turtle Tamer	Thugnderdome	3	[4007]Elemental Saucesphere
+Turtle Tamer	Thugnderdome	4	[2020]Hero of the Half-Shell
+Turtle Tamer	Thugnderdome	5	[4026]Icy Glare
+Turtle Tamer	Thugnderdome	6	[4014]Saucy Salve
+Turtle Tamer	Tower Ruins	1	[6017]Ur-Kel's Aria of Annoyance
+Turtle Tamer	Tower Ruins	2	[6043]Mariachi Memory
+Turtle Tamer	Tower Ruins	3	[5012]Disco Face Stab
+Turtle Tamer	Tower Ruins	4	[3008]Weapon of the Pastalord
+Turtle Tamer	Tower Ruins	5	[5015]Ambidextrous Funkslinging
+Turtle Tamer	Tower Ruins	6	[2033]Blessing of She-Who-Was
+Turtle Tamer	Whitey's Grove	1	[1031]Scowl of the Auk
+Turtle Tamer	Whitey's Grove	2	[6007]The Magical Mojomuscular Melody
+Turtle Tamer	Whitey's Grove	3	[5033]Knife in the Dark
+Turtle Tamer	Whitey's Grove	4	[3012]Cannelloni Cocoon
+Turtle Tamer	Whitey's Grove	5	[3015]Springy Fusilli
+Turtle Tamer	Whitey's Grove	6	[1033]Club Foot
+Pastamancer	Barrrney's Barrr	1	[3035]Bind Penne Dreadful
+Pastamancer	Barrrney's Barrr	2	[2028]Shell Up
+Pastamancer	Barrrney's Barrr	3	[3007]Stuffed Mortar Shell
+Pastamancer	Barrrney's Barrr	4	[6030]Cadenza
+Pastamancer	Barrrney's Barrr	5	[2035]Testudinal Teachings
+Pastamancer	Barrrney's Barrr	6	[3012]Cannelloni Cocoon
+Pastamancer	Camp Logging Camp	1	[6034]Concerto de los Muertos
+Pastamancer	Camp Logging Camp	2	[3028]Arched Eyebrow of the Archmage
+Pastamancer	Camp Logging Camp	3	[5030]Flashy Dancer
+Pastamancer	Camp Logging Camp	4	[6035]Five Finger Discount
+Pastamancer	Camp Logging Camp	5	[3029]Bind Vermincelli
+Pastamancer	Camp Logging Camp	6	[3005]Cannelloni Cannon
+Pastamancer	Cobb's Knob Laboratory	1	[2015]Kneebutt
+Pastamancer	Cobb's Knob Laboratory	2	[2038]The Long View
+Pastamancer	Cobb's Knob Laboratory	3	[1036]Thirst of the Weasel
+Pastamancer	Cobb's Knob Laboratory	4	[1030]Buoyancy of the Beluga
+Pastamancer	Cobb's Knob Laboratory	5	[1038]Northern Explosion
+Pastamancer	Cobb's Knob Laboratory	6	[1032]Furious Wallop
+Pastamancer	Cobb's Knob Menagerie, Level 1	1	[2020]Hero of the Half-Shell
+Pastamancer	Cobb's Knob Menagerie, Level 1	2	[3008]Weapon of the Pastalord
+Pastamancer	Cobb's Knob Menagerie, Level 1	3	[1019]Musk of the Moose
+Pastamancer	Cobb's Knob Menagerie, Level 1	4	[1003]Thrust-Smack
+Pastamancer	Cobb's Knob Menagerie, Level 1	5	[4004]Expert Panhandling
+Pastamancer	Cobb's Knob Menagerie, Level 1	6	[6014]The Ode to Booze
+Pastamancer	Cobb's Knob Menagerie, Level 2	1	[6040]Cone of Zydeco
+Pastamancer	Cobb's Knob Menagerie, Level 2	2	[3009]Lasagna Bandages
+Pastamancer	Cobb's Knob Menagerie, Level 2	3	[4018]The Way of Sauce
+Pastamancer	Cobb's Knob Menagerie, Level 2	4	[5034]Disco Bravado
+Pastamancer	Cobb's Knob Menagerie, Level 2	5	[4009]Wave of Sauce
+Pastamancer	Cobb's Knob Menagerie, Level 2	6	[3027]Bind Vampieroghi
+Pastamancer	Cobb's Knob Menagerie, Level 3	1	[1031]Scowl of the Auk
+Pastamancer	Cobb's Knob Menagerie, Level 3	2	[6031]Crab Claw Technique
+Pastamancer	Cobb's Knob Menagerie, Level 3	3	[6003]Aloysius' Antiphon of Aptitude
+Pastamancer	Cobb's Knob Menagerie, Level 3	4	[6005]Cletus's Canticle of Celerity
+Pastamancer	Cobb's Knob Menagerie, Level 3	5	[2039]Spirit Boon
+Pastamancer	Cobb's Knob Menagerie, Level 3	6	[6041]Master Accordion Master Thief
+Pastamancer	Infernal Rackets Backstage	1	[4031]Curse of the Thousand Islands
+Pastamancer	Infernal Rackets Backstage	2	[5029]Tricky Knifework
+Pastamancer	Infernal Rackets Backstage	3	[6015]The Sonata of Sneakiness
+Pastamancer	Infernal Rackets Backstage	4	[4035]Wry Smile
+Pastamancer	Infernal Rackets Backstage	5	[2012]Astral Shell
+Pastamancer	Infernal Rackets Backstage	6	[3034]Thrall Unit Tactics
+Pastamancer	Madness Bakery	1	[2014]Amphibian Sympathy
+Pastamancer	Madness Bakery	2	[2029]Stiff Upper Lip
+Pastamancer	Madness Bakery	3	[3031]Bind Angel Hair Wisp
+Pastamancer	Madness Bakery	4	[3033]Bind Undead Elbow Macaroni
+Pastamancer	Madness Bakery	5	[3018]Transcendental Noodlecraft
+Pastamancer	Madness Bakery	6	[5026]Disco State of Mind
+Pastamancer	Noob Cave	1	[2037]Blessing of the Storm Tortoise
+Pastamancer	Noob Cave	2	[2010]Tenacity of the Snapper
+Pastamancer	Noob Cave	3	[3011]Spirit of Rigatoni
+Pastamancer	Noob Cave	4	[2030]Blessing of the War Snapper
+Pastamancer	Noob Cave	5	[1006]Super-Advanced Meatsmithing
+Pastamancer	Noob Cave	6	[5004]Nimble Fingers
+Pastamancer	Outskirts of Camp Logging Camp	1	[1028]Cold Shoulder
+Pastamancer	Outskirts of Camp Logging Camp	2	[2032]Spirit Snap
+Pastamancer	Outskirts of Camp Logging Camp	3	[5011]Adventurer of Leisure
+Pastamancer	Outskirts of Camp Logging Camp	4	[5028]That's Not a Knife
+Pastamancer	Outskirts of Camp Logging Camp	5	[6008]The Power Ballad of the Arrowsmith
+Pastamancer	Outskirts of Camp Logging Camp	6	[2031]Spiky Shell
+Pastamancer	Pandamonium Slums	1	[5016]Heart of Polyester
+Pastamancer	Pandamonium Slums	2	[2011]Wisdom of the Elder Tortoises
+Pastamancer	Pandamonium Slums	3	[6006]The Polka of Plenty
+Pastamancer	Pandamonium Slums	4	[5018]Superhuman Cocktailcrafting
+Pastamancer	Pandamonium Slums	5	[2003]Headbutt
+Pastamancer	Pandamonium Slums	6	[1008]Fortitude of the Muskox
+Pastamancer	The Dire Warren	1	[2034]Butts of Steel
+Pastamancer	The Dire Warren	2	[3015]Springy Fusilli
+Pastamancer	The Dire Warren	3	[4015]Impetuous Sauciness
+Pastamancer	The Dire Warren	4	[3026]Transcendent Al Dente
+Pastamancer	The Dire Warren	5	[2027]Spirit Vacation
+Pastamancer	The Dire Warren	6	[1005]Lunging Thrust-Smack
+Pastamancer	The Enormous Greater-Than Sign	1	[4011]Master Saucier
+Pastamancer	The Enormous Greater-Than Sign	2	[4008]Jalape&ntilde;o Saucesphere
+Pastamancer	The Enormous Greater-Than Sign	3	[1014]Batter Up!
+Pastamancer	The Enormous Greater-Than Sign	4	[5015]Ambidextrous Funkslinging
+Pastamancer	The Enormous Greater-Than Sign	5	[3016]Tolerance of the Kitchen
+Pastamancer	The Enormous Greater-Than Sign	6	[6036]Suspicious Gaze
+Pastamancer	The Haiku Dungeon	1	[3004]Entangling Noodles
+Pastamancer	The Haiku Dungeon	2	[4010]Intrinsic Spiciness
+Pastamancer	The Haiku Dungeon	3	[6016]Carlweather's Cantata of Confrontation
+Pastamancer	The Haiku Dungeon	4	[4012]Saucegeyser
+Pastamancer	The Haiku Dungeon	5	[4016]Diminished Gag Reflex
+Pastamancer	The Haiku Dungeon	6	[2009]Empathy of the Newt
+Pastamancer	The Haunted Laboratory	1	[4028]Inner Sauce
+Pastamancer	The Haunted Laboratory	2	[4026]Icy Glare
+Pastamancer	The Haunted Laboratory	3	[1029]Wrath of the Wolverine
+Pastamancer	The Haunted Laboratory	4	[2007]Ghostly Shell
+Pastamancer	The Haunted Laboratory	5	[2040]Patient Smile
+Pastamancer	The Haunted Laboratory	6	[1027]Hibernate
+Pastamancer	The Haunted Nursery	1	[6012]Jackasses' Symphony of Destruction
+Pastamancer	The Haunted Nursery	2	[4033]Antibiotic Saucesphere
+Pastamancer	The Haunted Nursery	3	[3030]Bringing Up the Rear
+Pastamancer	The Haunted Nursery	4	[1034]Seething of the Snow Leopard
+Pastamancer	The Haunted Nursery	5	[5014]Advanced Cocktailcrafting
+Pastamancer	The Haunted Nursery	6	[4039]Saucemaven
+Pastamancer	The Haunted Storage Room	1	[4032]Saucecicle
+Pastamancer	The Haunted Storage Room	2	[6042]Knowing Smile
+Pastamancer	The Haunted Storage Room	3	[4027]Soul Saucery
+Pastamancer	The Haunted Storage Room	4	[5035]Disco Shank
+Pastamancer	The Haunted Storage Room	5	[6011]The Psalm of Pointiness
+Pastamancer	The Haunted Storage Room	6	[2041]Turtle Power
+Pastamancer	The Knob Shaft	1	[6010]Fat Leon's Phat Loot Lyric
+Pastamancer	The Knob Shaft	2	[4025]Simmer
+Pastamancer	The Knob Shaft	3	[5010]Overdeveloped Sense of Self Preservation
+Pastamancer	The Knob Shaft	4	[6007]The Magical Mojomuscular Melody
+Pastamancer	The Knob Shaft	5	[5036]Disco Dance 3: Back in the Habit
+Pastamancer	The Knob Shaft	6	[2033]Blessing of She-Who-Was
+Pastamancer	The Laugh Floor	1	[1010]Tongue of the Walrus
+Pastamancer	The Laugh Floor	2	[3006]Pastamastery
+Pastamancer	The Laugh Floor	3	[5003]Disco Eye-Poke
+Pastamancer	The Laugh Floor	4	[1017]Double-Fisted Skull Smashing
+Pastamancer	The Laugh Floor	5	[1004]Lunge Smack
+Pastamancer	The Laugh Floor	6	[3017]Flavour of Magic
+Pastamancer	The Limerick Dungeon	1	[2016]Cold-Blooded Fearlessness
+Pastamancer	The Limerick Dungeon	2	[5008]Disco Dance II: Electric Boogaloo
+Pastamancer	The Limerick Dungeon	3	[1016]Pulverize
+Pastamancer	The Limerick Dungeon	4	[4024]Curse of Vichyssoise
+Pastamancer	The Limerick Dungeon	5	[2005]Shieldbutt
+Pastamancer	The Limerick Dungeon	6	[5031]Disco Smirk
+Pastamancer	The Obligatory Pirate's Cove	1	[5038]Sensitive Fingers
+Pastamancer	The Obligatory Pirate's Cove	2	[6009]Brawnee's Anthem of Absorption
+Pastamancer	The Obligatory Pirate's Cove	3	[5006]Mad Looting Skillz
+Pastamancer	The Obligatory Pirate's Cove	4	[1015]Rage of the Reindeer
+Pastamancer	The Obligatory Pirate's Cove	5	[4014]Saucy Salve
+Pastamancer	The Obligatory Pirate's Cove	6	[4029]Curse of Marinara
+Pastamancer	The Overgrown Lot	1	[6039]Sticky Fingers
+Pastamancer	The Overgrown Lot	2	[5017]Smooth Movement
+Pastamancer	The Overgrown Lot	3	[6032]Accordion Bash
+Pastamancer	The Overgrown Lot	4	[5027]Frantic Gyrations
+Pastamancer	The Overgrown Lot	5	[4030]Itchy Curse Finger
+Pastamancer	The Overgrown Lot	6	[5025]Deft Hands
+Pastamancer	The Skeleton Store	1	[6037]Bawdy Refrain
+Pastamancer	The Skeleton Store	2	[1039]Precision of the Penguin
+Pastamancer	The Skeleton Store	3	[4003]Stream of Sauce
+Pastamancer	The Skeleton Store	4	[6017]Ur-Kel's Aria of Annoyance
+Pastamancer	The Skeleton Store	5	[1018]Northern Exposure
+Pastamancer	The Skeleton Store	6	[5037]Disco Inferno
+Pastamancer	The Spooky Gravy Burrow	1	[1012]Claws of the Walrus
+Pastamancer	The Spooky Gravy Burrow	2	[4034]Curse of Weaksauce
+Pastamancer	The Spooky Gravy Burrow	3	[5009]Disco Fever
+Pastamancer	The Spooky Gravy Burrow	4	[4007]Elemental Saucesphere
+Pastamancer	The Spooky Gravy Burrow	5	[1037]Cavalcade of Fury
+Pastamancer	The Spooky Gravy Burrow	6	[6038]Thief Among the Honorable
+Pastamancer	The Unquiet Garves	1	[5032]Disco Greed
+Pastamancer	The Unquiet Garves	2	[3003]Ravioli Shurikens
+Pastamancer	The Unquiet Garves	3	[5012]Disco Face Stab
+Pastamancer	The Unquiet Garves	4	[4037]Sauce Monocle
+Pastamancer	The Unquiet Garves	5	[2008]Reptilian Fortitude
+Pastamancer	The Unquiet Garves	6	[1007]Blubber Up
+Pastamancer	The VERY Unquiet Garves	1	[5005]Disco Dance of Doom
+Pastamancer	The VERY Unquiet Garves	2	[2006]Armorcraftiness
+Pastamancer	The VERY Unquiet Garves	3	[6043]Mariachi Memory
+Pastamancer	The VERY Unquiet Garves	4	[6013]Stevedave's Shanty of Superiority
+Pastamancer	The VERY Unquiet Garves	5	[5033]Knife in the Dark
+Pastamancer	The VERY Unquiet Garves	6	[5007]Disco Nap
+Pastamancer	The Valley of Rof L'm Fao	1	[3036]Subtle and Quick to Anger
+Pastamancer	The Valley of Rof L'm Fao	2	[2021]Tao of the Terrapin
+Pastamancer	The Valley of Rof L'm Fao	3	[2004]Skin of the Leatherback
+Pastamancer	The Valley of Rof L'm Fao	4	[6033]Accordion Appreciation
+Pastamancer	The Valley of Rof L'm Fao	5	[3039]Bind Spice Ghost
+Pastamancer	The Valley of Rof L'm Fao	6	[1011]Hide of the Walrus
+Pastamancer	Thugnderdome	1	[2036]Pizza Lover
+Pastamancer	Thugnderdome	2	[3025]Utensil Twist
+Pastamancer	Thugnderdome	3	[3032]Shield of the Pastalord
+Pastamancer	Thugnderdome	4	[1009]Audacity of the Otter
+Pastamancer	Thugnderdome	5	[1040]Pride of the Puffin
+Pastamancer	Thugnderdome	6	[6004]The Moxious Madrigal
+Pastamancer	Tower Ruins	1	[3038]Wizard Squint
+Pastamancer	Tower Ruins	2	[3037]Bind Lasagmbie
+Pastamancer	Tower Ruins	3	[1035]Ire of the Orca
+Pastamancer	Tower Ruins	4	[3010]Leash of Linguini
+Pastamancer	Tower Ruins	5	[3014]Spirit of Ravioli
+Pastamancer	Tower Ruins	6	[6029]Dissonant Riff
+Pastamancer	Whitey's Grove	1	[5039]Disco Leer
+Pastamancer	Whitey's Grove	2	[4017]Irrepressible Spunk
+Pastamancer	Whitey's Grove	3	[4005]Saucestorm
+Pastamancer	Whitey's Grove	4	[1033]Club Foot
+Pastamancer	Whitey's Grove	5	[4006]Advanced Saucecrafting
+Pastamancer	Whitey's Grove	6	[4038]Blood Sugar Sauce Magic
+Sauceror	Barrrney's Barrr	1	[4005]Saucestorm
+Sauceror	Barrrney's Barrr	2	[4003]Stream of Sauce
+Sauceror	Barrrney's Barrr	3	[3033]Bind Undead Elbow Macaroni
+Sauceror	Barrrney's Barrr	4	[6007]The Magical Mojomuscular Melody
+Sauceror	Barrrney's Barrr	5	[3026]Transcendent Al Dente
+Sauceror	Barrrney's Barrr	6	[5030]Flashy Dancer
+Sauceror	Camp Logging Camp	1	[2039]Spirit Boon
+Sauceror	Camp Logging Camp	2	[4018]The Way of Sauce
+Sauceror	Camp Logging Camp	3	[4029]Curse of Marinara
+Sauceror	Camp Logging Camp	4	[6011]The Psalm of Pointiness
+Sauceror	Camp Logging Camp	5	[5012]Disco Face Stab
+Sauceror	Camp Logging Camp	6	[3028]Arched Eyebrow of the Archmage
+Sauceror	Cobb's Knob Laboratory	1	[4028]Inner Sauce
+Sauceror	Cobb's Knob Laboratory	2	[3035]Bind Penne Dreadful
+Sauceror	Cobb's Knob Laboratory	3	[2005]Shieldbutt
+Sauceror	Cobb's Knob Laboratory	4	[4012]Saucegeyser
+Sauceror	Cobb's Knob Laboratory	5	[1029]Wrath of the Wolverine
+Sauceror	Cobb's Knob Laboratory	6	[2007]Ghostly Shell
+Sauceror	Cobb's Knob Menagerie, Level 1	1	[5037]Disco Inferno
+Sauceror	Cobb's Knob Menagerie, Level 1	2	[5028]That's Not a Knife
+Sauceror	Cobb's Knob Menagerie, Level 1	3	[2011]Wisdom of the Elder Tortoises
+Sauceror	Cobb's Knob Menagerie, Level 1	4	[3037]Bind Lasagmbie
+Sauceror	Cobb's Knob Menagerie, Level 1	5	[5035]Disco Shank
+Sauceror	Cobb's Knob Menagerie, Level 1	6	[1037]Cavalcade of Fury
+Sauceror	Cobb's Knob Menagerie, Level 2	1	[2030]Blessing of the War Snapper
+Sauceror	Cobb's Knob Menagerie, Level 2	2	[3006]Pastamastery
+Sauceror	Cobb's Knob Menagerie, Level 2	3	[5025]Deft Hands
+Sauceror	Cobb's Knob Menagerie, Level 2	4	[2015]Kneebutt
+Sauceror	Cobb's Knob Menagerie, Level 2	5	[6035]Five Finger Discount
+Sauceror	Cobb's Knob Menagerie, Level 2	6	[1003]Thrust-Smack
+Sauceror	Cobb's Knob Menagerie, Level 3	1	[3018]Transcendental Noodlecraft
+Sauceror	Cobb's Knob Menagerie, Level 3	2	[4030]Itchy Curse Finger
+Sauceror	Cobb's Knob Menagerie, Level 3	3	[4037]Sauce Monocle
+Sauceror	Cobb's Knob Menagerie, Level 3	4	[1017]Double-Fisted Skull Smashing
+Sauceror	Cobb's Knob Menagerie, Level 3	5	[5039]Disco Leer
+Sauceror	Cobb's Knob Menagerie, Level 3	6	[1018]Northern Exposure
+Sauceror	Infernal Rackets Backstage	1	[6036]Suspicious Gaze
+Sauceror	Infernal Rackets Backstage	2	[4017]Irrepressible Spunk
+Sauceror	Infernal Rackets Backstage	3	[5011]Adventurer of Leisure
+Sauceror	Infernal Rackets Backstage	4	[2038]The Long View
+Sauceror	Infernal Rackets Backstage	5	[4026]Icy Glare
+Sauceror	Infernal Rackets Backstage	6	[2014]Amphibian Sympathy
+Sauceror	Madness Bakery	1	[1027]Hibernate
+Sauceror	Madness Bakery	2	[3011]Spirit of Rigatoni
+Sauceror	Madness Bakery	3	[4004]Expert Panhandling
+Sauceror	Madness Bakery	4	[6017]Ur-Kel's Aria of Annoyance
+Sauceror	Madness Bakery	5	[2028]Shell Up
+Sauceror	Madness Bakery	6	[5032]Disco Greed
+Sauceror	Noob Cave	1	[6041]Master Accordion Master Thief
+Sauceror	Noob Cave	2	[5009]Disco Fever
+Sauceror	Noob Cave	3	[6030]Cadenza
+Sauceror	Noob Cave	4	[2041]Turtle Power
+Sauceror	Noob Cave	5	[3034]Thrall Unit Tactics
+Sauceror	Noob Cave	6	[6005]Cletus's Canticle of Celerity
+Sauceror	Outskirts of Camp Logging Camp	1	[2016]Cold-Blooded Fearlessness
+Sauceror	Outskirts of Camp Logging Camp	2	[2033]Blessing of She-Who-Was
+Sauceror	Outskirts of Camp Logging Camp	3	[6012]Jackasses' Symphony of Destruction
+Sauceror	Outskirts of Camp Logging Camp	4	[4038]Blood Sugar Sauce Magic
+Sauceror	Outskirts of Camp Logging Camp	5	[5004]Nimble Fingers
+Sauceror	Outskirts of Camp Logging Camp	6	[3010]Leash of Linguini
+Sauceror	Pandamonium Slums	1	[6034]Concerto de los Muertos
+Sauceror	Pandamonium Slums	2	[3036]Subtle and Quick to Anger
+Sauceror	Pandamonium Slums	3	[4009]Wave of Sauce
+Sauceror	Pandamonium Slums	4	[3015]Springy Fusilli
+Sauceror	Pandamonium Slums	5	[4031]Curse of the Thousand Islands
+Sauceror	Pandamonium Slums	6	[3032]Shield of the Pastalord
+Sauceror	The Dire Warren	1	[5008]Disco Dance II: Electric Boogaloo
+Sauceror	The Dire Warren	2	[4010]Intrinsic Spiciness
+Sauceror	The Dire Warren	3	[4007]Elemental Saucesphere
+Sauceror	The Dire Warren	4	[1028]Cold Shoulder
+Sauceror	The Dire Warren	5	[1009]Audacity of the Otter
+Sauceror	The Dire Warren	6	[6037]Bawdy Refrain
+Sauceror	The Enormous Greater-Than Sign	1	[3012]Cannelloni Cocoon
+Sauceror	The Enormous Greater-Than Sign	2	[5018]Superhuman Cocktailcrafting
+Sauceror	The Enormous Greater-Than Sign	3	[4016]Diminished Gag Reflex
+Sauceror	The Enormous Greater-Than Sign	4	[6033]Accordion Appreciation
+Sauceror	The Enormous Greater-Than Sign	5	[4024]Curse of Vichyssoise
+Sauceror	The Enormous Greater-Than Sign	6	[2035]Testudinal Teachings
+Sauceror	The Haiku Dungeon	1	[1040]Pride of the Puffin
+Sauceror	The Haiku Dungeon	2	[6004]The Moxious Madrigal
+Sauceror	The Haiku Dungeon	3	[2003]Headbutt
+Sauceror	The Haiku Dungeon	4	[1036]Thirst of the Weasel
+Sauceror	The Haiku Dungeon	5	[2009]Empathy of the Newt
+Sauceror	The Haiku Dungeon	6	[3008]Weapon of the Pastalord
+Sauceror	The Haunted Laboratory	1	[6029]Dissonant Riff
+Sauceror	The Haunted Laboratory	2	[6013]Stevedave's Shanty of Superiority
+Sauceror	The Haunted Laboratory	3	[3009]Lasagna Bandages
+Sauceror	The Haunted Laboratory	4	[2021]Tao of the Terrapin
+Sauceror	The Haunted Laboratory	5	[6040]Cone of Zydeco
+Sauceror	The Haunted Laboratory	6	[4014]Saucy Salve
+Sauceror	The Haunted Nursery	1	[5034]Disco Bravado
+Sauceror	The Haunted Nursery	2	[5014]Advanced Cocktailcrafting
+Sauceror	The Haunted Nursery	3	[4011]Master Saucier
+Sauceror	The Haunted Nursery	4	[3004]Entangling Noodles
+Sauceror	The Haunted Nursery	5	[5010]Overdeveloped Sense of Self Preservation
+Sauceror	The Haunted Nursery	6	[1012]Claws of the Walrus
+Sauceror	The Haunted Storage Room	1	[2010]Tenacity of the Snapper
+Sauceror	The Haunted Storage Room	2	[6016]Carlweather's Cantata of Confrontation
+Sauceror	The Haunted Storage Room	3	[6014]The Ode to Booze
+Sauceror	The Haunted Storage Room	4	[1010]Tongue of the Walrus
+Sauceror	The Haunted Storage Room	5	[4034]Curse of Weaksauce
+Sauceror	The Haunted Storage Room	6	[1016]Pulverize
+Sauceror	The Knob Shaft	1	[5027]Frantic Gyrations
+Sauceror	The Knob Shaft	2	[6009]Brawnee's Anthem of Absorption
+Sauceror	The Knob Shaft	3	[1015]Rage of the Reindeer
+Sauceror	The Knob Shaft	4	[4006]Advanced Saucecrafting
+Sauceror	The Knob Shaft	5	[6042]Knowing Smile
+Sauceror	The Knob Shaft	6	[6010]Fat Leon's Phat Loot Lyric
+Sauceror	The Laugh Floor	1	[1019]Musk of the Moose
+Sauceror	The Laugh Floor	2	[4035]Wry Smile
+Sauceror	The Laugh Floor	3	[6006]The Polka of Plenty
+Sauceror	The Laugh Floor	4	[2037]Blessing of the Storm Tortoise
+Sauceror	The Laugh Floor	5	[5026]Disco State of Mind
+Sauceror	The Laugh Floor	6	[5031]Disco Smirk
+Sauceror	The Limerick Dungeon	1	[3031]Bind Angel Hair Wisp
+Sauceror	The Limerick Dungeon	2	[3005]Cannelloni Cannon
+Sauceror	The Limerick Dungeon	3	[3003]Ravioli Shurikens
+Sauceror	The Limerick Dungeon	4	[1038]Northern Explosion
+Sauceror	The Limerick Dungeon	5	[5007]Disco Nap
+Sauceror	The Limerick Dungeon	6	[2036]Pizza Lover
+Sauceror	The Obligatory Pirate's Cove	1	[2006]Armorcraftiness
+Sauceror	The Obligatory Pirate's Cove	2	[1031]Scowl of the Auk
+Sauceror	The Obligatory Pirate's Cove	3	[6031]Crab Claw Technique
+Sauceror	The Obligatory Pirate's Cove	4	[3025]Utensil Twist
+Sauceror	The Obligatory Pirate's Cove	5	[5003]Disco Eye-Poke
+Sauceror	The Obligatory Pirate's Cove	6	[2004]Skin of the Leatherback
+Sauceror	The Overgrown Lot	1	[3039]Bind Spice Ghost
+Sauceror	The Overgrown Lot	2	[5038]Sensitive Fingers
+Sauceror	The Overgrown Lot	3	[5029]Tricky Knifework
+Sauceror	The Overgrown Lot	4	[6043]Mariachi Memory
+Sauceror	The Overgrown Lot	5	[1034]Seething of the Snow Leopard
+Sauceror	The Overgrown Lot	6	[5016]Heart of Polyester
+Sauceror	The Skeleton Store	1	[6015]The Sonata of Sneakiness
+Sauceror	The Skeleton Store	2	[2020]Hero of the Half-Shell
+Sauceror	The Skeleton Store	3	[3007]Stuffed Mortar Shell
+Sauceror	The Skeleton Store	4	[1006]Super-Advanced Meatsmithing
+Sauceror	The Skeleton Store	5	[1014]Batter Up!
+Sauceror	The Skeleton Store	6	[1007]Blubber Up
+Sauceror	The Spooky Gravy Burrow	1	[4039]Saucemaven
+Sauceror	The Spooky Gravy Burrow	2	[5015]Ambidextrous Funkslinging
+Sauceror	The Spooky Gravy Burrow	3	[1033]Club Foot
+Sauceror	The Spooky Gravy Burrow	4	[2012]Astral Shell
+Sauceror	The Spooky Gravy Burrow	5	[2040]Patient Smile
+Sauceror	The Spooky Gravy Burrow	6	[5036]Disco Dance 3: Back in the Habit
+Sauceror	The Unquiet Garves	1	[1030]Buoyancy of the Beluga
+Sauceror	The Unquiet Garves	2	[3017]Flavour of Magic
+Sauceror	The Unquiet Garves	3	[1004]Lunge Smack
+Sauceror	The Unquiet Garves	4	[3029]Bind Vermincelli
+Sauceror	The Unquiet Garves	5	[6032]Accordion Bash
+Sauceror	The Unquiet Garves	6	[5005]Disco Dance of Doom
+Sauceror	The VERY Unquiet Garves	1	[5033]Knife in the Dark
+Sauceror	The VERY Unquiet Garves	2	[6003]Aloysius' Antiphon of Aptitude
+Sauceror	The VERY Unquiet Garves	3	[2008]Reptilian Fortitude
+Sauceror	The VERY Unquiet Garves	4	[4015]Impetuous Sauciness
+Sauceror	The VERY Unquiet Garves	5	[3014]Spirit of Ravioli
+Sauceror	The VERY Unquiet Garves	6	[3027]Bind Vampieroghi
+Sauceror	The Valley of Rof L'm Fao	1	[5017]Smooth Movement
+Sauceror	The Valley of Rof L'm Fao	2	[1032]Furious Wallop
+Sauceror	The Valley of Rof L'm Fao	3	[6039]Sticky Fingers
+Sauceror	The Valley of Rof L'm Fao	4	[6038]Thief Among the Honorable
+Sauceror	The Valley of Rof L'm Fao	5	[3038]Wizard Squint
+Sauceror	The Valley of Rof L'm Fao	6	[2027]Spirit Vacation
+Sauceror	Thugnderdome	1	[2031]Spiky Shell
+Sauceror	Thugnderdome	2	[1005]Lunging Thrust-Smack
+Sauceror	Thugnderdome	3	[6008]The Power Ballad of the Arrowsmith
+Sauceror	Thugnderdome	4	[3016]Tolerance of the Kitchen
+Sauceror	Thugnderdome	5	[4008]Jalape&ntilde;o Saucesphere
+Sauceror	Thugnderdome	6	[4032]Saucecicle
+Sauceror	Tower Ruins	1	[3030]Bringing Up the Rear
+Sauceror	Tower Ruins	2	[1011]Hide of the Walrus
+Sauceror	Tower Ruins	3	[5006]Mad Looting Skillz
+Sauceror	Tower Ruins	4	[2034]Butts of Steel
+Sauceror	Tower Ruins	5	[1008]Fortitude of the Muskox
+Sauceror	Tower Ruins	6	[4025]Simmer
+Sauceror	Whitey's Grove	1	[1035]Ire of the Orca
+Sauceror	Whitey's Grove	2	[1039]Precision of the Penguin
+Sauceror	Whitey's Grove	3	[4033]Antibiotic Saucesphere
+Sauceror	Whitey's Grove	4	[2029]Stiff Upper Lip
+Sauceror	Whitey's Grove	5	[4027]Soul Saucery
+Sauceror	Whitey's Grove	6	[2032]Spirit Snap
+Disco Bandit	Barrrney's Barrr	1	[2031]Spiky Shell
+Disco Bandit	Barrrney's Barrr	2	[2028]Shell Up
+Disco Bandit	Barrrney's Barrr	3	[2011]Wisdom of the Elder Tortoises
+Disco Bandit	Barrrney's Barrr	4	[3034]Thrall Unit Tactics
+Disco Bandit	Barrrney's Barrr	5	[2015]Kneebutt
+Disco Bandit	Barrrney's Barrr	6	[2032]Spirit Snap
+Disco Bandit	Camp Logging Camp	1	[6003]Aloysius' Antiphon of Aptitude
+Disco Bandit	Camp Logging Camp	2	[5004]Nimble Fingers
+Disco Bandit	Camp Logging Camp	3	[3005]Cannelloni Cannon
+Disco Bandit	Camp Logging Camp	4	[4015]Impetuous Sauciness
+Disco Bandit	Camp Logging Camp	5	[4029]Curse of Marinara
+Disco Bandit	Camp Logging Camp	6	[1010]Tongue of the Walrus
+Disco Bandit	Cobb's Knob Laboratory	1	[6015]The Sonata of Sneakiness
+Disco Bandit	Cobb's Knob Laboratory	2	[3031]Bind Angel Hair Wisp
+Disco Bandit	Cobb's Knob Laboratory	3	[2008]Reptilian Fortitude
+Disco Bandit	Cobb's Knob Laboratory	4	[3018]Transcendental Noodlecraft
+Disco Bandit	Cobb's Knob Laboratory	5	[3038]Wizard Squint
+Disco Bandit	Cobb's Knob Laboratory	6	[2033]Blessing of She-Who-Was
+Disco Bandit	Cobb's Knob Menagerie, Level 1	1	[6004]The Moxious Madrigal
+Disco Bandit	Cobb's Knob Menagerie, Level 1	2	[4004]Expert Panhandling
+Disco Bandit	Cobb's Knob Menagerie, Level 1	3	[6008]The Power Ballad of the Arrowsmith
+Disco Bandit	Cobb's Knob Menagerie, Level 1	4	[6042]Knowing Smile
+Disco Bandit	Cobb's Knob Menagerie, Level 1	5	[4033]Antibiotic Saucesphere
+Disco Bandit	Cobb's Knob Menagerie, Level 1	6	[4006]Advanced Saucecrafting
+Disco Bandit	Cobb's Knob Menagerie, Level 2	1	[3006]Pastamastery
+Disco Bandit	Cobb's Knob Menagerie, Level 2	2	[5003]Disco Eye-Poke
+Disco Bandit	Cobb's Knob Menagerie, Level 2	3	[6029]Dissonant Riff
+Disco Bandit	Cobb's Knob Menagerie, Level 2	4	[5027]Frantic Gyrations
+Disco Bandit	Cobb's Knob Menagerie, Level 2	5	[4011]Master Saucier
+Disco Bandit	Cobb's Knob Menagerie, Level 2	6	[1007]Blubber Up
+Disco Bandit	Cobb's Knob Menagerie, Level 3	1	[1016]Pulverize
+Disco Bandit	Cobb's Knob Menagerie, Level 3	2	[2016]Cold-Blooded Fearlessness
+Disco Bandit	Cobb's Knob Menagerie, Level 3	3	[4030]Itchy Curse Finger
+Disco Bandit	Cobb's Knob Menagerie, Level 3	4	[4017]Irrepressible Spunk
+Disco Bandit	Cobb's Knob Menagerie, Level 3	5	[1018]Northern Exposure
+Disco Bandit	Cobb's Knob Menagerie, Level 3	6	[5029]Tricky Knifework
+Disco Bandit	Infernal Rackets Backstage	1	[6034]Concerto de los Muertos
+Disco Bandit	Infernal Rackets Backstage	2	[2009]Empathy of the Newt
+Disco Bandit	Infernal Rackets Backstage	3	[5031]Disco Smirk
+Disco Bandit	Infernal Rackets Backstage	4	[6009]Brawnee's Anthem of Absorption
+Disco Bandit	Infernal Rackets Backstage	5	[2020]Hero of the Half-Shell
+Disco Bandit	Infernal Rackets Backstage	6	[3032]Shield of the Pastalord
+Disco Bandit	Madness Bakery	1	[2041]Turtle Power
+Disco Bandit	Madness Bakery	2	[1035]Ire of the Orca
+Disco Bandit	Madness Bakery	3	[4014]Saucy Salve
+Disco Bandit	Madness Bakery	4	[1014]Batter Up!
+Disco Bandit	Madness Bakery	5	[4008]Jalape&ntilde;o Saucesphere
+Disco Bandit	Madness Bakery	6	[6030]Cadenza
+Disco Bandit	Noob Cave	1	[6031]Crab Claw Technique
+Disco Bandit	Noob Cave	2	[3037]Bind Lasagmbie
+Disco Bandit	Noob Cave	3	[6036]Suspicious Gaze
+Disco Bandit	Noob Cave	4	[6043]Mariachi Memory
+Disco Bandit	Noob Cave	5	[4024]Curse of Vichyssoise
+Disco Bandit	Noob Cave	6	[1030]Buoyancy of the Beluga
+Disco Bandit	Outskirts of Camp Logging Camp	1	[2007]Ghostly Shell
+Disco Bandit	Outskirts of Camp Logging Camp	2	[1017]Double-Fisted Skull Smashing
+Disco Bandit	Outskirts of Camp Logging Camp	3	[5039]Disco Leer
+Disco Bandit	Outskirts of Camp Logging Camp	4	[4005]Saucestorm
+Disco Bandit	Outskirts of Camp Logging Camp	5	[1037]Cavalcade of Fury
+Disco Bandit	Outskirts of Camp Logging Camp	6	[3035]Bind Penne Dreadful
+Disco Bandit	Pandamonium Slums	1	[3027]Bind Vampieroghi
+Disco Bandit	Pandamonium Slums	2	[2036]Pizza Lover
+Disco Bandit	Pandamonium Slums	3	[2039]Spirit Boon
+Disco Bandit	Pandamonium Slums	4	[6013]Stevedave's Shanty of Superiority
+Disco Bandit	Pandamonium Slums	5	[5014]Advanced Cocktailcrafting
+Disco Bandit	Pandamonium Slums	6	[6040]Cone of Zydeco
+Disco Bandit	The Dire Warren	1	[4010]Intrinsic Spiciness
+Disco Bandit	The Dire Warren	2	[4012]Saucegeyser
+Disco Bandit	The Dire Warren	3	[4009]Wave of Sauce
+Disco Bandit	The Dire Warren	4	[5038]Sensitive Fingers
+Disco Bandit	The Dire Warren	5	[5028]That's Not a Knife
+Disco Bandit	The Dire Warren	6	[2027]Spirit Vacation
+Disco Bandit	The Enormous Greater-Than Sign	1	[6035]Five Finger Discount
+Disco Bandit	The Enormous Greater-Than Sign	2	[1015]Rage of the Reindeer
+Disco Bandit	The Enormous Greater-Than Sign	3	[4027]Soul Saucery
+Disco Bandit	The Enormous Greater-Than Sign	4	[4035]Wry Smile
+Disco Bandit	The Enormous Greater-Than Sign	5	[1006]Super-Advanced Meatsmithing
+Disco Bandit	The Enormous Greater-Than Sign	6	[3011]Spirit of Rigatoni
+Disco Bandit	The Haiku Dungeon	1	[2004]Skin of the Leatherback
+Disco Bandit	The Haiku Dungeon	2	[3015]Springy Fusilli
+Disco Bandit	The Haiku Dungeon	3	[5032]Disco Greed
+Disco Bandit	The Haiku Dungeon	4	[4039]Saucemaven
+Disco Bandit	The Haiku Dungeon	5	[2030]Blessing of the War Snapper
+Disco Bandit	The Haiku Dungeon	6	[4007]Elemental Saucesphere
+Disco Bandit	The Haunted Laboratory	1	[2034]Butts of Steel
+Disco Bandit	The Haunted Laboratory	2	[2012]Astral Shell
+Disco Bandit	The Haunted Laboratory	3	[4028]Inner Sauce
+Disco Bandit	The Haunted Laboratory	4	[6012]Jackasses' Symphony of Destruction
+Disco Bandit	The Haunted Laboratory	5	[4034]Curse of Weaksauce
+Disco Bandit	The Haunted Laboratory	6	[4025]Simmer
+Disco Bandit	The Haunted Nursery	1	[4003]Stream of Sauce
+Disco Bandit	The Haunted Nursery	2	[3009]Lasagna Bandages
+Disco Bandit	The Haunted Nursery	3	[1034]Seething of the Snow Leopard
+Disco Bandit	The Haunted Nursery	4	[5008]Disco Dance II: Electric Boogaloo
+Disco Bandit	The Haunted Nursery	5	[2038]The Long View
+Disco Bandit	The Haunted Nursery	6	[3004]Entangling Noodles
+Disco Bandit	The Haunted Storage Room	1	[1027]Hibernate
+Disco Bandit	The Haunted Storage Room	2	[6032]Accordion Bash
+Disco Bandit	The Haunted Storage Room	3	[6016]Carlweather's Cantata of Confrontation
+Disco Bandit	The Haunted Storage Room	4	[2005]Shieldbutt
+Disco Bandit	The Haunted Storage Room	5	[1039]Precision of the Penguin
+Disco Bandit	The Haunted Storage Room	6	[5012]Disco Face Stab
+Disco Bandit	The Knob Shaft	1	[2035]Testudinal Teachings
+Disco Bandit	The Knob Shaft	2	[5015]Ambidextrous Funkslinging
+Disco Bandit	The Knob Shaft	3	[1033]Club Foot
+Disco Bandit	The Knob Shaft	4	[5037]Disco Inferno
+Disco Bandit	The Knob Shaft	5	[4032]Saucecicle
+Disco Bandit	The Knob Shaft	6	[4026]Icy Glare
+Disco Bandit	The Laugh Floor	1	[3007]Stuffed Mortar Shell
+Disco Bandit	The Laugh Floor	2	[5011]Adventurer of Leisure
+Disco Bandit	The Laugh Floor	3	[2029]Stiff Upper Lip
+Disco Bandit	The Laugh Floor	4	[5026]Disco State of Mind
+Disco Bandit	The Laugh Floor	5	[3014]Spirit of Ravioli
+Disco Bandit	The Laugh Floor	6	[2021]Tao of the Terrapin
+Disco Bandit	The Limerick Dungeon	1	[6033]Accordion Appreciation
+Disco Bandit	The Limerick Dungeon	2	[5030]Flashy Dancer
+Disco Bandit	The Limerick Dungeon	3	[1019]Musk of the Moose
+Disco Bandit	The Limerick Dungeon	4	[5006]Mad Looting Skillz
+Disco Bandit	The Limerick Dungeon	5	[5033]Knife in the Dark
+Disco Bandit	The Limerick Dungeon	6	[2040]Patient Smile
+Disco Bandit	The Obligatory Pirate's Cove	1	[1036]Thirst of the Weasel
+Disco Bandit	The Obligatory Pirate's Cove	2	[1012]Claws of the Walrus
+Disco Bandit	The Obligatory Pirate's Cove	3	[6005]Cletus's Canticle of Celerity
+Disco Bandit	The Obligatory Pirate's Cove	4	[3029]Bind Vermincelli
+Disco Bandit	The Obligatory Pirate's Cove	5	[3033]Bind Undead Elbow Macaroni
+Disco Bandit	The Obligatory Pirate's Cove	6	[4038]Blood Sugar Sauce Magic
+Disco Bandit	The Overgrown Lot	1	[3030]Bringing Up the Rear
+Disco Bandit	The Overgrown Lot	2	[6011]The Psalm of Pointiness
+Disco Bandit	The Overgrown Lot	3	[6041]Master Accordion Master Thief
+Disco Bandit	The Overgrown Lot	4	[5017]Smooth Movement
+Disco Bandit	The Overgrown Lot	5	[5009]Disco Fever
+Disco Bandit	The Overgrown Lot	6	[5016]Heart of Polyester
+Disco Bandit	The Skeleton Store	1	[1011]Hide of the Walrus
+Disco Bandit	The Skeleton Store	2	[5025]Deft Hands
+Disco Bandit	The Skeleton Store	3	[2014]Amphibian Sympathy
+Disco Bandit	The Skeleton Store	4	[6006]The Polka of Plenty
+Disco Bandit	The Skeleton Store	5	[3036]Subtle and Quick to Anger
+Disco Bandit	The Skeleton Store	6	[6007]The Magical Mojomuscular Melody
+Disco Bandit	The Spooky Gravy Burrow	1	[3028]Arched Eyebrow of the Archmage
+Disco Bandit	The Spooky Gravy Burrow	2	[1040]Pride of the Puffin
+Disco Bandit	The Spooky Gravy Burrow	3	[1038]Northern Explosion
+Disco Bandit	The Spooky Gravy Burrow	4	[1008]Fortitude of the Muskox
+Disco Bandit	The Spooky Gravy Burrow	5	[1032]Furious Wallop
+Disco Bandit	The Spooky Gravy Burrow	6	[2003]Headbutt
+Disco Bandit	The Unquiet Garves	1	[5010]Overdeveloped Sense of Self Preservation
+Disco Bandit	The Unquiet Garves	2	[3016]Tolerance of the Kitchen
+Disco Bandit	The Unquiet Garves	3	[4031]Curse of the Thousand Islands
+Disco Bandit	The Unquiet Garves	4	[2010]Tenacity of the Snapper
+Disco Bandit	The Unquiet Garves	5	[5005]Disco Dance of Doom
+Disco Bandit	The Unquiet Garves	6	[3012]Cannelloni Cocoon
+Disco Bandit	The VERY Unquiet Garves	1	[1028]Cold Shoulder
+Disco Bandit	The VERY Unquiet Garves	2	[6037]Bawdy Refrain
+Disco Bandit	The VERY Unquiet Garves	3	[3008]Weapon of the Pastalord
+Disco Bandit	The VERY Unquiet Garves	4	[2037]Blessing of the Storm Tortoise
+Disco Bandit	The VERY Unquiet Garves	5	[3025]Utensil Twist
+Disco Bandit	The VERY Unquiet Garves	6	[4037]Sauce Monocle
+Disco Bandit	The Valley of Rof L'm Fao	1	[6038]Thief Among the Honorable
+Disco Bandit	The Valley of Rof L'm Fao	2	[5007]Disco Nap
+Disco Bandit	The Valley of Rof L'm Fao	3	[3017]Flavour of Magic
+Disco Bandit	The Valley of Rof L'm Fao	4	[1005]Lunging Thrust-Smack
+Disco Bandit	The Valley of Rof L'm Fao	5	[5034]Disco Bravado
+Disco Bandit	The Valley of Rof L'm Fao	6	[1003]Thrust-Smack
+Disco Bandit	Thugnderdome	1	[1009]Audacity of the Otter
+Disco Bandit	Thugnderdome	2	[1031]Scowl of the Auk
+Disco Bandit	Thugnderdome	3	[1029]Wrath of the Wolverine
+Disco Bandit	Thugnderdome	4	[4016]Diminished Gag Reflex
+Disco Bandit	Thugnderdome	5	[6017]Ur-Kel's Aria of Annoyance
+Disco Bandit	Thugnderdome	6	[3026]Transcendent Al Dente
+Disco Bandit	Tower Ruins	1	[2006]Armorcraftiness
+Disco Bandit	Tower Ruins	2	[5035]Disco Shank
+Disco Bandit	Tower Ruins	3	[1004]Lunge Smack
+Disco Bandit	Tower Ruins	4	[6039]Sticky Fingers
+Disco Bandit	Tower Ruins	5	[3039]Bind Spice Ghost
+Disco Bandit	Tower Ruins	6	[5018]Superhuman Cocktailcrafting
+Disco Bandit	Whitey's Grove	1	[4018]The Way of Sauce
+Disco Bandit	Whitey's Grove	2	[6010]Fat Leon's Phat Loot Lyric
+Disco Bandit	Whitey's Grove	3	[3003]Ravioli Shurikens
+Disco Bandit	Whitey's Grove	4	[6014]The Ode to Booze
+Disco Bandit	Whitey's Grove	5	[3010]Leash of Linguini
+Disco Bandit	Whitey's Grove	6	[5036]Disco Dance 3: Back in the Habit
+Accordion Thief	Barrrney's Barrr	1	[5025]Deft Hands
+Accordion Thief	Barrrney's Barrr	2	[4005]Saucestorm
+Accordion Thief	Barrrney's Barrr	3	[5014]Advanced Cocktailcrafting
+Accordion Thief	Barrrney's Barrr	4	[5035]Disco Shank
+Accordion Thief	Barrrney's Barrr	5	[6041]Master Accordion Master Thief
+Accordion Thief	Barrrney's Barrr	6	[2015]Kneebutt
+Accordion Thief	Camp Logging Camp	1	[5034]Disco Bravado
+Accordion Thief	Camp Logging Camp	2	[6037]Bawdy Refrain
+Accordion Thief	Camp Logging Camp	3	[4009]Wave of Sauce
+Accordion Thief	Camp Logging Camp	4	[6042]Knowing Smile
+Accordion Thief	Camp Logging Camp	5	[1027]Hibernate
+Accordion Thief	Camp Logging Camp	6	[1034]Seething of the Snow Leopard
+Accordion Thief	Cobb's Knob Laboratory	1	[1016]Pulverize
+Accordion Thief	Cobb's Knob Laboratory	2	[1007]Blubber Up
+Accordion Thief	Cobb's Knob Laboratory	3	[2003]Headbutt
+Accordion Thief	Cobb's Knob Laboratory	4	[1009]Audacity of the Otter
+Accordion Thief	Cobb's Knob Laboratory	5	[1036]Thirst of the Weasel
+Accordion Thief	Cobb's Knob Laboratory	6	[5033]Knife in the Dark
+Accordion Thief	Cobb's Knob Menagerie, Level 1	1	[2014]Amphibian Sympathy
+Accordion Thief	Cobb's Knob Menagerie, Level 1	2	[3031]Bind Angel Hair Wisp
+Accordion Thief	Cobb's Knob Menagerie, Level 1	3	[4012]Saucegeyser
+Accordion Thief	Cobb's Knob Menagerie, Level 1	4	[1030]Buoyancy of the Beluga
+Accordion Thief	Cobb's Knob Menagerie, Level 1	5	[4008]Jalape&ntilde;o Saucesphere
+Accordion Thief	Cobb's Knob Menagerie, Level 1	6	[1006]Super-Advanced Meatsmithing
+Accordion Thief	Cobb's Knob Menagerie, Level 2	1	[5032]Disco Greed
+Accordion Thief	Cobb's Knob Menagerie, Level 2	2	[2035]Testudinal Teachings
+Accordion Thief	Cobb's Knob Menagerie, Level 2	3	[4010]Intrinsic Spiciness
+Accordion Thief	Cobb's Knob Menagerie, Level 2	4	[1018]Northern Exposure
+Accordion Thief	Cobb's Knob Menagerie, Level 2	5	[6007]The Magical Mojomuscular Melody
+Accordion Thief	Cobb's Knob Menagerie, Level 2	6	[3035]Bind Penne Dreadful
+Accordion Thief	Cobb's Knob Menagerie, Level 3	1	[6013]Stevedave's Shanty of Superiority
+Accordion Thief	Cobb's Knob Menagerie, Level 3	2	[2009]Empathy of the Newt
+Accordion Thief	Cobb's Knob Menagerie, Level 3	3	[1029]Wrath of the Wolverine
+Accordion Thief	Cobb's Knob Menagerie, Level 3	4	[5026]Disco State of Mind
+Accordion Thief	Cobb's Knob Menagerie, Level 3	5	[6039]Sticky Fingers
+Accordion Thief	Cobb's Knob Menagerie, Level 3	6	[1037]Cavalcade of Fury
+Accordion Thief	Infernal Rackets Backstage	1	[4018]The Way of Sauce
+Accordion Thief	Infernal Rackets Backstage	2	[2030]Blessing of the War Snapper
+Accordion Thief	Infernal Rackets Backstage	3	[3011]Spirit of Rigatoni
+Accordion Thief	Infernal Rackets Backstage	4	[2011]Wisdom of the Elder Tortoises
+Accordion Thief	Infernal Rackets Backstage	5	[2021]Tao of the Terrapin
+Accordion Thief	Infernal Rackets Backstage	6	[5006]Mad Looting Skillz
+Accordion Thief	Madness Bakery	1	[2027]Spirit Vacation
+Accordion Thief	Madness Bakery	2	[5029]Tricky Knifework
+Accordion Thief	Madness Bakery	3	[3006]Pastamastery
+Accordion Thief	Madness Bakery	4	[1019]Musk of the Moose
+Accordion Thief	Madness Bakery	5	[1017]Double-Fisted Skull Smashing
+Accordion Thief	Madness Bakery	6	[1010]Tongue of the Walrus
+Accordion Thief	Noob Cave	1	[3008]Weapon of the Pastalord
+Accordion Thief	Noob Cave	2	[5038]Sensitive Fingers
+Accordion Thief	Noob Cave	3	[1031]Scowl of the Auk
+Accordion Thief	Noob Cave	4	[6029]Dissonant Riff
+Accordion Thief	Noob Cave	5	[2037]Blessing of the Storm Tortoise
+Accordion Thief	Noob Cave	6	[5016]Heart of Polyester
+Accordion Thief	Outskirts of Camp Logging Camp	1	[3025]Utensil Twist
+Accordion Thief	Outskirts of Camp Logging Camp	2	[5028]That's Not a Knife
+Accordion Thief	Outskirts of Camp Logging Camp	3	[6035]Five Finger Discount
+Accordion Thief	Outskirts of Camp Logging Camp	4	[3038]Wizard Squint
+Accordion Thief	Outskirts of Camp Logging Camp	5	[1004]Lunge Smack
+Accordion Thief	Outskirts of Camp Logging Camp	6	[4017]Irrepressible Spunk
+Accordion Thief	Pandamonium Slums	1	[4003]Stream of Sauce
+Accordion Thief	Pandamonium Slums	2	[5031]Disco Smirk
+Accordion Thief	Pandamonium Slums	3	[6032]Accordion Bash
+Accordion Thief	Pandamonium Slums	4	[6006]The Polka of Plenty
+Accordion Thief	Pandamonium Slums	5	[1008]Fortitude of the Muskox
+Accordion Thief	Pandamonium Slums	6	[3012]Cannelloni Cocoon
+Accordion Thief	The Dire Warren	1	[2010]Tenacity of the Snapper
+Accordion Thief	The Dire Warren	2	[6034]Concerto de los Muertos
+Accordion Thief	The Dire Warren	3	[2029]Stiff Upper Lip
+Accordion Thief	The Dire Warren	4	[4032]Saucecicle
+Accordion Thief	The Dire Warren	5	[6004]The Moxious Madrigal
+Accordion Thief	The Dire Warren	6	[5039]Disco Leer
+Accordion Thief	The Enormous Greater-Than Sign	1	[2007]Ghostly Shell
+Accordion Thief	The Enormous Greater-Than Sign	2	[3007]Stuffed Mortar Shell
+Accordion Thief	The Enormous Greater-Than Sign	3	[1039]Precision of the Penguin
+Accordion Thief	The Enormous Greater-Than Sign	4	[2031]Spiky Shell
+Accordion Thief	The Enormous Greater-Than Sign	5	[4028]Inner Sauce
+Accordion Thief	The Enormous Greater-Than Sign	6	[3033]Bind Undead Elbow Macaroni
+Accordion Thief	The Haiku Dungeon	1	[3039]Bind Spice Ghost
+Accordion Thief	The Haiku Dungeon	2	[5027]Frantic Gyrations
+Accordion Thief	The Haiku Dungeon	3	[3016]Tolerance of the Kitchen
+Accordion Thief	The Haiku Dungeon	4	[3032]Shield of the Pastalord
+Accordion Thief	The Haiku Dungeon	5	[2041]Turtle Power
+Accordion Thief	The Haiku Dungeon	6	[2006]Armorcraftiness
+Accordion Thief	The Haunted Laboratory	1	[1011]Hide of the Walrus
+Accordion Thief	The Haunted Laboratory	2	[6011]The Psalm of Pointiness
+Accordion Thief	The Haunted Laboratory	3	[3017]Flavour of Magic
+Accordion Thief	The Haunted Laboratory	4	[5007]Disco Nap
+Accordion Thief	The Haunted Laboratory	5	[4029]Curse of Marinara
+Accordion Thief	The Haunted Laboratory	6	[6012]Jackasses' Symphony of Destruction
+Accordion Thief	The Haunted Nursery	1	[4016]Diminished Gag Reflex
+Accordion Thief	The Haunted Nursery	2	[1003]Thrust-Smack
+Accordion Thief	The Haunted Nursery	3	[5036]Disco Dance 3: Back in the Habit
+Accordion Thief	The Haunted Nursery	4	[1012]Claws of the Walrus
+Accordion Thief	The Haunted Nursery	5	[4027]Soul Saucery
+Accordion Thief	The Haunted Nursery	6	[4031]Curse of the Thousand Islands
+Accordion Thief	The Haunted Storage Room	1	[2020]Hero of the Half-Shell
+Accordion Thief	The Haunted Storage Room	2	[6014]The Ode to Booze
+Accordion Thief	The Haunted Storage Room	3	[5017]Smooth Movement
+Accordion Thief	The Haunted Storage Room	4	[2005]Shieldbutt
+Accordion Thief	The Haunted Storage Room	5	[3009]Lasagna Bandages
+Accordion Thief	The Haunted Storage Room	6	[3034]Thrall Unit Tactics
+Accordion Thief	The Knob Shaft	1	[4034]Curse of Weaksauce
+Accordion Thief	The Knob Shaft	2	[5011]Adventurer of Leisure
+Accordion Thief	The Knob Shaft	3	[3010]Leash of Linguini
+Accordion Thief	The Knob Shaft	4	[1028]Cold Shoulder
+Accordion Thief	The Knob Shaft	5	[1038]Northern Explosion
+Accordion Thief	The Knob Shaft	6	[2038]The Long View
+Accordion Thief	The Laugh Floor	1	[2039]Spirit Boon
+Accordion Thief	The Laugh Floor	2	[3014]Spirit of Ravioli
+Accordion Thief	The Laugh Floor	3	[5018]Superhuman Cocktailcrafting
+Accordion Thief	The Laugh Floor	4	[6015]The Sonata of Sneakiness
+Accordion Thief	The Laugh Floor	5	[6033]Accordion Appreciation
+Accordion Thief	The Laugh Floor	6	[1040]Pride of the Puffin
+Accordion Thief	The Limerick Dungeon	1	[4025]Simmer
+Accordion Thief	The Limerick Dungeon	2	[4035]Wry Smile
+Accordion Thief	The Limerick Dungeon	3	[6005]Cletus's Canticle of Celerity
+Accordion Thief	The Limerick Dungeon	4	[3027]Bind Vampieroghi
+Accordion Thief	The Limerick Dungeon	5	[3036]Subtle and Quick to Anger
+Accordion Thief	The Limerick Dungeon	6	[3005]Cannelloni Cannon
+Accordion Thief	The Obligatory Pirate's Cove	1	[2040]Patient Smile
+Accordion Thief	The Obligatory Pirate's Cove	2	[6017]Ur-Kel's Aria of Annoyance
+Accordion Thief	The Obligatory Pirate's Cove	3	[6010]Fat Leon's Phat Loot Lyric
+Accordion Thief	The Obligatory Pirate's Cove	4	[4024]Curse of Vichyssoise
+Accordion Thief	The Obligatory Pirate's Cove	5	[6016]Carlweather's Cantata of Confrontation
+Accordion Thief	The Obligatory Pirate's Cove	6	[6030]Cadenza
+Accordion Thief	The Overgrown Lot	1	[2032]Spirit Snap
+Accordion Thief	The Overgrown Lot	2	[1014]Batter Up!
+Accordion Thief	The Overgrown Lot	3	[5015]Ambidextrous Funkslinging
+Accordion Thief	The Overgrown Lot	4	[4014]Saucy Salve
+Accordion Thief	The Overgrown Lot	5	[4038]Blood Sugar Sauce Magic
+Accordion Thief	The Overgrown Lot	6	[2036]Pizza Lover
+Accordion Thief	The Skeleton Store	1	[1035]Ire of the Orca
+Accordion Thief	The Skeleton Store	2	[2016]Cold-Blooded Fearlessness
+Accordion Thief	The Skeleton Store	3	[2012]Astral Shell
+Accordion Thief	The Skeleton Store	4	[6003]Aloysius' Antiphon of Aptitude
+Accordion Thief	The Skeleton Store	5	[2004]Skin of the Leatherback
+Accordion Thief	The Skeleton Store	6	[6038]Thief Among the Honorable
+Accordion Thief	The Spooky Gravy Burrow	1	[4037]Sauce Monocle
+Accordion Thief	The Spooky Gravy Burrow	2	[5010]Overdeveloped Sense of Self Preservation
+Accordion Thief	The Spooky Gravy Burrow	3	[3026]Transcendent Al Dente
+Accordion Thief	The Spooky Gravy Burrow	4	[4039]Saucemaven
+Accordion Thief	The Spooky Gravy Burrow	5	[5012]Disco Face Stab
+Accordion Thief	The Spooky Gravy Burrow	6	[1005]Lunging Thrust-Smack
+Accordion Thief	The Unquiet Garves	1	[5030]Flashy Dancer
+Accordion Thief	The Unquiet Garves	2	[4030]Itchy Curse Finger
+Accordion Thief	The Unquiet Garves	3	[2033]Blessing of She-Who-Was
+Accordion Thief	The Unquiet Garves	4	[2008]Reptilian Fortitude
+Accordion Thief	The Unquiet Garves	5	[5037]Disco Inferno
+Accordion Thief	The Unquiet Garves	6	[4015]Impetuous Sauciness
+Accordion Thief	The VERY Unquiet Garves	1	[4011]Master Saucier
+Accordion Thief	The VERY Unquiet Garves	2	[3015]Springy Fusilli
+Accordion Thief	The VERY Unquiet Garves	3	[4033]Antibiotic Saucesphere
+Accordion Thief	The VERY Unquiet Garves	4	[2034]Butts of Steel
+Accordion Thief	The VERY Unquiet Garves	5	[3028]Arched Eyebrow of the Archmage
+Accordion Thief	The VERY Unquiet Garves	6	[6009]Brawnee's Anthem of Absorption
+Accordion Thief	The Valley of Rof L'm Fao	1	[2028]Shell Up
+Accordion Thief	The Valley of Rof L'm Fao	2	[4026]Icy Glare
+Accordion Thief	The Valley of Rof L'm Fao	3	[4006]Advanced Saucecrafting
+Accordion Thief	The Valley of Rof L'm Fao	4	[3030]Bringing Up the Rear
+Accordion Thief	The Valley of Rof L'm Fao	5	[6031]Crab Claw Technique
+Accordion Thief	The Valley of Rof L'm Fao	6	[5005]Disco Dance of Doom
+Accordion Thief	Thugnderdome	1	[1015]Rage of the Reindeer
+Accordion Thief	Thugnderdome	2	[1033]Club Foot
+Accordion Thief	Thugnderdome	3	[6040]Cone of Zydeco
+Accordion Thief	Thugnderdome	4	[3004]Entangling Noodles
+Accordion Thief	Thugnderdome	5	[3037]Bind Lasagmbie
+Accordion Thief	Thugnderdome	6	[5009]Disco Fever
+Accordion Thief	Tower Ruins	1	[5003]Disco Eye-Poke
+Accordion Thief	Tower Ruins	2	[6008]The Power Ballad of the Arrowsmith
+Accordion Thief	Tower Ruins	3	[5008]Disco Dance II: Electric Boogaloo
+Accordion Thief	Tower Ruins	4	[3003]Ravioli Shurikens
+Accordion Thief	Tower Ruins	5	[6036]Suspicious Gaze
+Accordion Thief	Tower Ruins	6	[3018]Transcendental Noodlecraft
+Accordion Thief	Whitey's Grove	1	[4004]Expert Panhandling
+Accordion Thief	Whitey's Grove	2	[4007]Elemental Saucesphere
+Accordion Thief	Whitey's Grove	3	[6043]Mariachi Memory
+Accordion Thief	Whitey's Grove	4	[5004]Nimble Fingers
+Accordion Thief	Whitey's Grove	5	[1032]Furious Wallop
+Accordion Thief	Whitey's Grove	6	[3029]Bind Vermincelli

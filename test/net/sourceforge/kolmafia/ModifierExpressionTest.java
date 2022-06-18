@@ -39,7 +39,7 @@ public class ModifierExpressionTest {
   @ParameterizedTest
   @EnumSource(
       value = MonsterDatabase.Element.class,
-      names = {"NONE"},
+      names = {"NONE", "SHADOW", "BADSPELLING"},
       mode = EnumSource.Mode.EXCLUDE)
   public void canReadElementalResistance(MonsterDatabase.Element element) {
     Modifiers.overrideModifier("Generated:_userMods", element.toTitle() + " Resistance: +10");

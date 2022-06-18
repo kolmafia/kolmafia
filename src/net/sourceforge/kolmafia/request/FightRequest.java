@@ -75,6 +75,7 @@ import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
+import net.sourceforge.kolmafia.session.JuneCleaverManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.LoginManager;
@@ -2912,6 +2913,10 @@ public class FightRequest extends GenericRequest {
 
     if (KoLCharacter.hasEquipped(ItemPool.DAYLIGHT_SHAVINGS_HELMET, EquipmentManager.HAT)) {
       DaylightShavingsHelmetManager.updatePreference(responseText);
+    }
+
+    if (KoLCharacter.hasEquipped(ItemPool.JUNE_CLEAVER)) {
+      JuneCleaverManager.updatePreferences(responseText);
     }
 
     // "The Slime draws back and shudders, as if it's about to sneeze.
@@ -7360,6 +7365,10 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    if (FightRequest.handleBellydancerPickpocket(str)) {
+      return;
+    }
+
     if (str.contains("takes a pull on the hookah")) {
       status.hookah = true;
     }
@@ -7526,6 +7535,7 @@ public class FightRequest extends GenericRequest {
 
     if (text.contains("Some gravy sloshes")) {
       evilness++;
+      retval = false;
     }
 
     // Casting Slay the Dead while wearing a Vampire Slicer trench code decreases evilness.
@@ -7753,6 +7763,18 @@ public class FightRequest extends GenericRequest {
 
     FightRequest.logText("The mayo wasp deposits an egg in your abdomen!", status);
     return true;
+  }
+
+  private static boolean handleBellydancerPickpocket(String text) {
+    if (text.contains("'s dancing, your foe doesn't notice that she's going through")
+        || text.contains(
+            "'s veils flutter across your opponent's field of view, obscuring the sight of")
+        || text.contains("dances lithely around your opponent, distracting")) {
+      Preferences.increment("_bellydancerPickpockets");
+      return true;
+    }
+
+    return false;
   }
 
   private static boolean handleSpelunky(String text, TagStatus status) {

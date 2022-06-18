@@ -1767,12 +1767,6 @@ public class ResultProcessor {
         ResultProcessor.processMeat(-300);
         break;
 
-      case ItemPool.LUCKY_RABBIT_FOOT:
-        if (RequestLogger.getLastURLString().startsWith("guild.php")) {
-          QuestDatabase.setQuestIfBetter(Quest.CITADEL, QuestDatabase.FINISHED);
-        }
-        break;
-
       case ItemPool.HAROLDS_HAMMER_HEAD:
       case ItemPool.HAROLDS_HAMMER:
         // Yes, they are the same quest step!

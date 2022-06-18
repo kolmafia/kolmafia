@@ -85,144 +85,147 @@ public class ClanLoungeRequest extends GenericRequest {
   private static final Pattern FISH_STOCK_PATTERN =
       Pattern.compile("<br>(\\d+)?[,]?(\\d+)?[,]?(\\d+) (carp|cod|trout|bass|hatchetfish|tuna)");
 
-  public static final Object[][] POOL_GAMES =
-      new Object[][] {
-        {"aggressive", "muscle", "billiards belligerence", AGGRESSIVE_STANCE},
-        {"strategic", "mysticality", "mental a-cue-ity", STRATEGIC_STANCE},
-        {"stylish", "moxie", "hustlin'", STYLISH_STANCE},
+  record PoolGame(String stance, String stat, String effect, int index) {}
+
+  static final PoolGame[] POOL_GAMES =
+      new PoolGame[] {
+        new PoolGame("aggressive", "muscle", "billiards belligerence", AGGRESSIVE_STANCE),
+        new PoolGame("strategic", "mysticality", "mental a-cue-ity", STRATEGIC_STANCE),
+        new PoolGame("stylish", "moxie", "hustlin'", STYLISH_STANCE),
       };
 
-  public static final Object[][] FAX_OPTIONS =
-      new Object[][] {
-        {"send", "put", SEND_FAX},
-        {"receive", "get", RECEIVE_FAX},
+  record FaxOption(String action, String alias, int index) {}
+
+  static final FaxOption[] FAX_OPTIONS =
+      new FaxOption[] {
+        new FaxOption("send", "put", SEND_FAX), new FaxOption("receive", "get", RECEIVE_FAX),
       };
 
-  public static final Object[][] SHOWER_OPTIONS =
-      new Object[][] {
-        {"cold", "ice", COLD_SHOWER},
-        {"cool", "moxie", COOL_SHOWER},
-        {"lukewarm", "mysticality", LUKEWARM_SHOWER},
-        {"warm", "muscle", WARM_SHOWER},
-        {"hot", "mp", HOT_SHOWER},
+  record ShowerOption(String temp, String effect, int index) {}
+
+  static final ShowerOption[] SHOWER_OPTIONS =
+      new ShowerOption[] {
+        new ShowerOption("cold", "ice", COLD_SHOWER),
+        new ShowerOption("cool", "moxie", COOL_SHOWER),
+        new ShowerOption("lukewarm", "mysticality", LUKEWARM_SHOWER),
+        new ShowerOption("warm", "muscle", WARM_SHOWER),
+        new ShowerOption("hot", "mp", HOT_SHOWER),
       };
 
-  public static final Object[][] SWIMMING_OPTIONS =
-      new Object[][] {
-        {"cannonball", "item", CANNONBALL},
-        {"laps", "ml", LAPS},
-        {"sprints", "noncombat", SPRINTS},
+  record SwimmingOption(String action, String effect, int index) {}
+
+  static final SwimmingOption[] SWIMMING_OPTIONS =
+      new SwimmingOption[] {
+        new SwimmingOption("cannonball", "item", CANNONBALL),
+        new SwimmingOption("laps", "ml", LAPS),
+        new SwimmingOption("sprints", "noncombat", SPRINTS),
       };
 
-  public static final Object[][] HOTDOG_DATA =
-      new Object[][] {
-        {"basic hot dog", -92, 1},
-        {
-          "savage macho dog",
-          -93,
-          2,
-          ItemPool.get(ItemPool.FURRY_FUR, 10),
-          ItemPool.get(ItemPool.VICIOUS_SPIKED_COLLAR, 1),
-        },
-        {
-          "one with everything",
-          -94,
-          2,
-          ItemPool.get(ItemPool.CRANBERRIES, 10),
-          ItemPool.get(ItemPool.ANCIENT_HOT_DOG_WRAPPER, 1),
-        },
-        {
-          "sly dog",
-          -95,
-          2,
-          ItemPool.get(ItemPool.SKELETON_BONE, 10),
-          ItemPool.get(ItemPool.DEBONAIR_DEBONER, 1),
-        },
-        {
-          "devil dog",
-          -96,
-          3,
-          ItemPool.get(ItemPool.HOT_WAD, 25),
-          ItemPool.get(ItemPool.CHICLE_DE_SALCHICA, 1),
-        },
-        {
-          "chilly dog",
-          -97,
-          3,
-          ItemPool.get(ItemPool.COLD_WAD, 25),
-          ItemPool.get(ItemPool.JAR_OF_FROSTIGKRAUT, 1),
-        },
-        {
-          "ghost dog",
-          -98,
-          3,
-          ItemPool.get(ItemPool.SPOOKY_WAD, 25),
-          ItemPool.get(ItemPool.GNAWED_UP_DOG_BONE, 1),
-        },
-        {
-          "junkyard dog",
-          -99,
-          3,
-          ItemPool.get(ItemPool.STENCH_WAD, 25),
-          ItemPool.get(ItemPool.GREY_GUANON, 1),
-        },
-        {
-          "wet dog",
-          -100,
-          3,
-          ItemPool.get(ItemPool.SLEAZE_WAD, 25),
-          ItemPool.get(ItemPool.ENGORGED_SAUSAGES_AND_YOU, 1),
-        },
-        {
-          "optimal dog",
-          -102,
-          1,
-          ItemPool.get(ItemPool.SCRAP_OF_PAPER, 25),
-          ItemPool.get(ItemPool.OPTIMAL_SPREADSHEET, 1),
-        },
-        {
-          "sleeping dog",
-          -101,
-          2,
-          ItemPool.get(ItemPool.GAUZE_HAMMOCK, 10),
-          ItemPool.get(ItemPool.DREAM_OF_A_DOG, 1),
-        },
-        {
-          "video games hot dog",
-          -103,
-          3,
-          ItemPool.get(ItemPool.GAMEPRO_MAGAZINE, 3),
-          ItemPool.get(ItemPool.DEFECTIVE_TOKEN, 1),
-        },
+  record HotDogData(
+      String name, int id, int fullness, AdventureResult item, AdventureResult unlocker) {
+    HotDogData(String name, int id, int fullness) {
+      this(name, id, fullness, null, null);
+    }
+  }
+
+  static final HotDogData[] HOTDOG_DATA =
+      new HotDogData[] {
+        new HotDogData("basic hot dog", -92, 1),
+        new HotDogData(
+            "savage macho dog",
+            -93,
+            2,
+            ItemPool.get(ItemPool.FURRY_FUR, 10),
+            ItemPool.get(ItemPool.VICIOUS_SPIKED_COLLAR, 1)),
+        new HotDogData(
+            "one with everything",
+            -94,
+            2,
+            ItemPool.get(ItemPool.CRANBERRIES, 10),
+            ItemPool.get(ItemPool.ANCIENT_HOT_DOG_WRAPPER, 1)),
+        new HotDogData(
+            "sly dog",
+            -95,
+            2,
+            ItemPool.get(ItemPool.SKELETON_BONE, 10),
+            ItemPool.get(ItemPool.DEBONAIR_DEBONER, 1)),
+        new HotDogData(
+            "devil dog",
+            -96,
+            3,
+            ItemPool.get(ItemPool.HOT_WAD, 25),
+            ItemPool.get(ItemPool.CHICLE_DE_SALCHICA, 1)),
+        new HotDogData(
+            "chilly dog",
+            -97,
+            3,
+            ItemPool.get(ItemPool.COLD_WAD, 25),
+            ItemPool.get(ItemPool.JAR_OF_FROSTIGKRAUT, 1)),
+        new HotDogData(
+            "ghost dog",
+            -98,
+            3,
+            ItemPool.get(ItemPool.SPOOKY_WAD, 25),
+            ItemPool.get(ItemPool.GNAWED_UP_DOG_BONE, 1)),
+        new HotDogData(
+            "junkyard dog",
+            -99,
+            3,
+            ItemPool.get(ItemPool.STENCH_WAD, 25),
+            ItemPool.get(ItemPool.GREY_GUANON, 1)),
+        new HotDogData(
+            "wet dog",
+            -100,
+            3,
+            ItemPool.get(ItemPool.SLEAZE_WAD, 25),
+            ItemPool.get(ItemPool.ENGORGED_SAUSAGES_AND_YOU, 1)),
+        new HotDogData(
+            "optimal dog",
+            -102,
+            1,
+            ItemPool.get(ItemPool.SCRAP_OF_PAPER, 25),
+            ItemPool.get(ItemPool.OPTIMAL_SPREADSHEET, 1)),
+        new HotDogData(
+            "sleeping dog",
+            -101,
+            2,
+            ItemPool.get(ItemPool.GAUZE_HAMMOCK, 10),
+            ItemPool.get(ItemPool.DREAM_OF_A_DOG, 1)),
+        new HotDogData(
+            "video games hot dog",
+            -103,
+            3,
+            ItemPool.get(ItemPool.GAMEPRO_MAGAZINE, 3),
+            ItemPool.get(ItemPool.DEFECTIVE_TOKEN, 1)),
       };
 
-  public static final Object[][] SPEAKEASY_DATA =
-      new Object[][] {
-        {"glass of &quot;milk&quot;", 1, 1, 250},
-        {"cup of &quot;tea&quot;", 2, 1, 250},
-        {"thermos of &quot;whiskey&quot;", 3, 1, 250},
-        {"Lucky Lindy", 4, 1, 500},
-        {"Bee's Knees", 5, 2, 500},
-        {"Sockdollager", 6, 2, 500},
-        {
-          "Ish Kabibble", 7, 2, 500,
-        },
-        {"Hot Socks", 8, 3, 5000},
-        {"Phonus Balonus", 9, 3, 10000},
-        {"Flivver", 10, 2, 20000},
-        {
-          "Sloppy Jalopy", 11, 5, 100000,
-        },
+  record SpeakeasyData(String name, int id, int inebriety, int cost) {}
+
+  static final SpeakeasyData[] SPEAKEASY_DATA =
+      new SpeakeasyData[] {
+        new SpeakeasyData("glass of &quot;milk&quot;", 1, 1, 250),
+        new SpeakeasyData("cup of &quot;tea&quot;", 2, 1, 250),
+        new SpeakeasyData("thermos of &quot;whiskey&quot;", 3, 1, 250),
+        new SpeakeasyData("Lucky Lindy", 4, 1, 500),
+        new SpeakeasyData("Bee's Knees", 5, 2, 500),
+        new SpeakeasyData("Sockdollager", 6, 2, 500),
+        new SpeakeasyData("Ish Kabibble", 7, 2, 500),
+        new SpeakeasyData("Hot Socks", 8, 3, 5000),
+        new SpeakeasyData("Phonus Balonus", 9, 3, 10000),
+        new SpeakeasyData("Flivver", 10, 2, 20000),
+        new SpeakeasyData("Sloppy Jalopy", 11, 5, 100000),
       };
 
-  public static final Object[][] FLOUNDRY_DATA =
-      new Object[][] {
-        {"carp", ItemPool.get(ItemPool.CARPE, 1)},
-        {"cod", ItemPool.get(ItemPool.CODPIECE, 1)},
-        {"trout", ItemPool.get(ItemPool.TROUTSERS, 1)},
-        {"bass", ItemPool.get(ItemPool.BASS_CLARINET, 1)},
-        {"hatchetfish", ItemPool.get(ItemPool.FISH_HATCHET, 1)},
-        {"tuna", ItemPool.get(ItemPool.TUNAC, 1)},
+  record FloundryData(String fish, AdventureResult item) {}
+
+  static final FloundryData[] FLOUNDRY_DATA =
+      new FloundryData[] {
+        new FloundryData("carp", ItemPool.get(ItemPool.CARPE, 1)),
+        new FloundryData("cod", ItemPool.get(ItemPool.CODPIECE, 1)),
+        new FloundryData("trout", ItemPool.get(ItemPool.TROUTSERS, 1)),
+        new FloundryData("bass", ItemPool.get(ItemPool.BASS_CLARINET, 1)),
+        new FloundryData("hatchetfish", ItemPool.get(ItemPool.FISH_HATCHET, 1)),
+        new FloundryData("tuna", ItemPool.get(ItemPool.TUNAC, 1)),
       };
 
   public static void setClanLoungeItem(final int itemId, int count) {
@@ -250,7 +253,7 @@ public class ClanLoungeRequest extends GenericRequest {
 
   public static final int hotdogIdToIndex(int id) {
     for (int i = 0; i < HOTDOG_DATA.length; ++i) {
-      if (id == ((Integer) ClanLoungeRequest.HOTDOG_DATA[i][1]).intValue()) {
+      if (id == ClanLoungeRequest.HOTDOG_DATA[i].id) {
         return i;
       }
     }
@@ -259,44 +262,44 @@ public class ClanLoungeRequest extends GenericRequest {
 
   public static final String hotdogIdToName(int id) {
     int index = ClanLoungeRequest.hotdogIdToIndex(id);
-    return index < 0 ? null : (String) ClanLoungeRequest.HOTDOG_DATA[index][0];
+    return index < 0 ? null : ClanLoungeRequest.HOTDOG_DATA[index].name;
   }
 
   public static final String hotdogIndexToName(int index) {
     return (index < 0 || index > ClanLoungeRequest.HOTDOG_DATA.length)
         ? null
-        : (String) ClanLoungeRequest.HOTDOG_DATA[index][0];
+        : ClanLoungeRequest.HOTDOG_DATA[index].name;
   }
 
   public static final Integer hotdogIndexToId(int index) {
     return (index < 0 || index > ClanLoungeRequest.HOTDOG_DATA.length)
         ? -1
-        : (Integer) ClanLoungeRequest.HOTDOG_DATA[index][1];
+        : ClanLoungeRequest.HOTDOG_DATA[index].id;
   }
 
   public static final Integer hotdogIndexToFullness(int index) {
     return (index < 0 || index > ClanLoungeRequest.HOTDOG_DATA.length)
         ? -1
-        : (Integer) ClanLoungeRequest.HOTDOG_DATA[index][2];
+        : ClanLoungeRequest.HOTDOG_DATA[index].fullness;
   }
 
   public static final Integer hotdogNameToFullness(final String name) {
     int index = ClanLoungeRequest.hotdogNameToIndex(name);
     return (index < 0 || index > ClanLoungeRequest.HOTDOG_DATA.length)
         ? -1
-        : (Integer) ClanLoungeRequest.HOTDOG_DATA[index][2];
+        : ClanLoungeRequest.HOTDOG_DATA[index].fullness;
   }
 
   public static final AdventureResult hotdogIndexToItem(int index) {
     return (index < 0 || index > ClanLoungeRequest.HOTDOG_DATA.length)
         ? null
-        : (AdventureResult) ClanLoungeRequest.HOTDOG_DATA[index][3];
+        : ClanLoungeRequest.HOTDOG_DATA[index].item;
   }
 
   public static final AdventureResult hotdogIndexToUnlocker(int index) {
     return (index < 0 || index > ClanLoungeRequest.HOTDOG_DATA.length)
         ? null
-        : (AdventureResult) ClanLoungeRequest.HOTDOG_DATA[index][4];
+        : ClanLoungeRequest.HOTDOG_DATA[index].unlocker;
   }
 
   public static final ArrayList<String> HOTDOG_NAMES = new ArrayList<String>();
@@ -304,7 +307,7 @@ public class ClanLoungeRequest extends GenericRequest {
 
   static {
     for (int i = 0; i < HOTDOG_DATA.length; ++i) {
-      String itemName = (String) HOTDOG_DATA[i][0];
+      String itemName = HOTDOG_DATA[i].name;
       Concoction concoction = new Concoction(itemName);
       concoction.hotdog = true;
       ClanLoungeRequest.HOTDOG_NAMES.add(itemName);
@@ -335,7 +338,7 @@ public class ClanLoungeRequest extends GenericRequest {
 
   public static final int speakeasyIdToIndex(int id) {
     for (int i = 0; i < SPEAKEASY_DATA.length; ++i) {
-      if (id == ((Integer) ClanLoungeRequest.SPEAKEASY_DATA[i][1]).intValue()) {
+      if (id == ClanLoungeRequest.SPEAKEASY_DATA[i].id) {
         return i;
       }
     }
@@ -344,51 +347,45 @@ public class ClanLoungeRequest extends GenericRequest {
 
   public static final String speakeasyIdToName(int id) {
     int index = ClanLoungeRequest.speakeasyIdToIndex(id);
-    return index < 0 ? null : (String) ClanLoungeRequest.SPEAKEASY_DATA[index][0];
+    return index < 0 ? null : ClanLoungeRequest.SPEAKEASY_DATA[index].name;
   }
 
   public static final String speakeasyIndexToName(int index) {
     return (index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length)
         ? null
-        : (String) ClanLoungeRequest.SPEAKEASY_DATA[index][0];
+        : ClanLoungeRequest.SPEAKEASY_DATA[index].name;
   }
 
   public static final Integer speakeasyIndexToId(int index) {
     return (index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length)
         ? -1
-        : (Integer) ClanLoungeRequest.SPEAKEASY_DATA[index][1];
+        : ClanLoungeRequest.SPEAKEASY_DATA[index].id;
   }
 
   public static final Integer speakeasyIndexToInebriety(int index) {
     return (index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length)
         ? -1
-        : (Integer) ClanLoungeRequest.SPEAKEASY_DATA[index][2];
+        : ClanLoungeRequest.SPEAKEASY_DATA[index].inebriety;
   }
 
   public static final Integer speakeasyIndexToCost(int index) {
     return (index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length)
         ? -1
-        : (Integer) ClanLoungeRequest.SPEAKEASY_DATA[index][3];
+        : ClanLoungeRequest.SPEAKEASY_DATA[index].cost;
   }
 
   public static final Integer speakeasyNameToInebriety(final String name) {
     int index = ClanLoungeRequest.speakeasyNameToIndex(name);
     return (index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length)
         ? -1
-        : (Integer) ClanLoungeRequest.SPEAKEASY_DATA[index][2];
+        : ClanLoungeRequest.SPEAKEASY_DATA[index].inebriety;
   }
 
   public static final Integer speakeasyNameToCost(final String name) {
     int index = ClanLoungeRequest.speakeasyNameToIndex(name);
     return (index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length)
         ? -1
-        : (Integer) ClanLoungeRequest.SPEAKEASY_DATA[index][3];
-  }
-
-  public static final AdventureResult speakeasyIndexToItem(int index) {
-    return (index < 0 || index > ClanLoungeRequest.SPEAKEASY_DATA.length)
-        ? null
-        : (AdventureResult) ClanLoungeRequest.SPEAKEASY_DATA[index][3];
+        : ClanLoungeRequest.SPEAKEASY_DATA[index].cost;
   }
 
   public static final ArrayList<Concoction> ALL_SPEAKEASY = new ArrayList<Concoction>();
@@ -397,7 +394,7 @@ public class ClanLoungeRequest extends GenericRequest {
 
   static {
     for (int i = 0; i < SPEAKEASY_DATA.length; ++i) {
-      String itemName = (String) SPEAKEASY_DATA[i][0];
+      String itemName = SPEAKEASY_DATA[i].name;
       int itemId = ItemDatabase.getItemId(itemName, 1, false);
       Concoction concoction = ConcoctionPool.get(itemId, itemName);
       concoction.speakeasy = true;
@@ -418,7 +415,7 @@ public class ClanLoungeRequest extends GenericRequest {
       return -1;
     }
     for (int i = 0; i < SPEAKEASY_DATA.length; ++i) {
-      if (name.equalsIgnoreCase((String) ClanLoungeRequest.SPEAKEASY_DATA[i][0])) {
+      if (name.equalsIgnoreCase(ClanLoungeRequest.SPEAKEASY_DATA[i].name)) {
         return i;
       }
     }
@@ -451,7 +448,7 @@ public class ClanLoungeRequest extends GenericRequest {
 
   static {
     for (int i = 0; i < FLOUNDRY_DATA.length; ++i) {
-      AdventureResult item = (AdventureResult) FLOUNDRY_DATA[i][1];
+      AdventureResult item = FLOUNDRY_DATA[i].item;
       if (item != null) {
         Concoction concoction = ConcoctionPool.get(item);
         concoction.setMixingMethod(CraftingType.FLOUNDRY);
@@ -471,8 +468,8 @@ public class ClanLoungeRequest extends GenericRequest {
       return null;
     }
     for (int i = 0; i < FLOUNDRY_DATA.length; ++i) {
-      if (fish.equalsIgnoreCase((String) ClanLoungeRequest.FLOUNDRY_DATA[i][0])) {
-        return (AdventureResult) ClanLoungeRequest.FLOUNDRY_DATA[i][1];
+      if (fish.equalsIgnoreCase(ClanLoungeRequest.FLOUNDRY_DATA[i].fish)) {
+        return ClanLoungeRequest.FLOUNDRY_DATA[i].item;
       }
     }
     return null;
@@ -480,7 +477,7 @@ public class ClanLoungeRequest extends GenericRequest {
 
   public static final boolean isFloundryItem(AdventureResult item) {
     for (int i = 0; i < FLOUNDRY_DATA.length; ++i) {
-      if (item.equals(FLOUNDRY_DATA[i][1])) {
+      if (item.equals(FLOUNDRY_DATA[i].item)) {
         return true;
       }
     }
@@ -497,19 +494,19 @@ public class ClanLoungeRequest extends GenericRequest {
 
     tag = tag.toLowerCase();
     for (int i = 0; i < POOL_GAMES.length; ++i) {
-      Object[] game = POOL_GAMES[i];
-      Integer index = (Integer) game[3];
-      String stance = (String) game[0];
+      var game = POOL_GAMES[i];
+      int index = game.index;
+      String stance = game.stance;
       if (stance.startsWith(tag)) {
-        return index.intValue();
+        return index;
       }
-      String stat = (String) game[1];
+      String stat = game.stat;
       if (stat.startsWith(tag)) {
-        return index.intValue();
+        return index;
       }
-      String effect = (String) game[2];
+      String effect = game.effect;
       if (effect.startsWith(tag)) {
-        return index.intValue();
+        return index;
       }
     }
 
@@ -519,15 +516,15 @@ public class ClanLoungeRequest extends GenericRequest {
   public static final int findFaxOption(String tag) {
     tag = tag.toLowerCase();
     for (int i = 0; i < FAX_OPTIONS.length; ++i) {
-      Object[] faxOption = FAX_OPTIONS[i];
-      Integer index = (Integer) faxOption[2];
-      String faxCommand0 = (String) faxOption[0];
+      var faxOption = FAX_OPTIONS[i];
+      int index = faxOption.index;
+      String faxCommand0 = faxOption.action;
       if (faxCommand0.startsWith(tag)) {
-        return index.intValue();
+        return index;
       }
-      String faxCommand1 = (String) faxOption[1];
+      String faxCommand1 = faxOption.alias;
       if (faxCommand1.startsWith(tag)) {
-        return index.intValue();
+        return index;
       }
     }
 
@@ -537,15 +534,15 @@ public class ClanLoungeRequest extends GenericRequest {
   public static final int findShowerOption(String tag) {
     tag = tag.toLowerCase();
     for (int i = 0; i < SHOWER_OPTIONS.length; ++i) {
-      Object[] showerOption = SHOWER_OPTIONS[i];
-      Integer index = (Integer) showerOption[2];
-      String temp = (String) showerOption[0];
+      var showerOption = SHOWER_OPTIONS[i];
+      int index = showerOption.index;
+      String temp = showerOption.temp;
       if (temp.startsWith(tag)) {
-        return index.intValue();
+        return index;
       }
-      String effect = (String) showerOption[1];
+      String effect = showerOption.effect;
       if (effect.startsWith(tag)) {
-        return index.intValue();
+        return index;
       }
     }
 
@@ -555,15 +552,15 @@ public class ClanLoungeRequest extends GenericRequest {
   public static final int findSwimmingOption(String tag) {
     tag = tag.toLowerCase();
     for (int i = 0; i < SWIMMING_OPTIONS.length; ++i) {
-      Object[] swimmingOption = SWIMMING_OPTIONS[i];
-      Integer index = (Integer) swimmingOption[2];
-      String action = (String) swimmingOption[0];
+      var swimmingOption = SWIMMING_OPTIONS[i];
+      int index = swimmingOption.index;
+      String action = swimmingOption.action;
       if (action.startsWith(tag)) {
-        return index.intValue();
+        return index;
       }
-      String effect = (String) swimmingOption[1];
+      String effect = swimmingOption.effect;
       if (effect.startsWith(tag)) {
-        return index.intValue();
+        return index;
       }
     }
 
@@ -1907,7 +1904,7 @@ public class ClanLoungeRequest extends GenericRequest {
         if (stance < 1 || stance > POOL_GAMES.length) {
           return false;
         }
-        message = "pool " + POOL_GAMES[stance - 1][0];
+        message = "pool " + POOL_GAMES[stance - 1].stance;
       } else if (action.equals("sendfax") || action.equals("receivefax")) {
         Matcher m = FAX_PATTERN.matcher(urlString);
         if (!m.find()) {
@@ -1927,7 +1924,7 @@ public class ClanLoungeRequest extends GenericRequest {
         if (temp < 1 || temp > SHOWER_OPTIONS.length) {
           return false;
         }
-        message = "shower " + SHOWER_OPTIONS[temp - 1][0];
+        message = "shower " + SHOWER_OPTIONS[temp - 1].temp;
       } else if (action.equals("goswimming")) {
         Matcher m = SWIMMING_POOL_PATTERN.matcher(urlString);
         if (!m.find()) {

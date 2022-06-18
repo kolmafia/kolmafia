@@ -1499,6 +1499,7 @@ Item	iron pasta spoon	Spell Damage: +10
 Item	ironic battle spoon	Spell Damage: +10
 Item	jack flapper	Spell Damage: +5
 Item	Jacob's rung	Maximum MP: +15, Spell Damage: +15
+Item	June Cleaver	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, HP Regen Min: 6, HP Regen Max: 8, MP Regen Min: 6, MP Regen Max: 8, Adventures: +5, Hot Damage: [pref(_juneCleaverHot)], Spooky Damage: [pref(_juneCleaverSpooky)], Sleaze Damage: [pref(_juneCleaverSleaze)], Cold Damage: [pref(_juneCleaverCold)], Stench Damage: [pref(_juneCleaverStench)]
 Item	jungle drum	Spooky Damage: +10, Spooky Resistance: +2, Initiative: -20
 Item	keel-haulin' knife	Spell Damage: +17
 Item	kelp-holly gun	Moxie: +10, Ranged Damage Percent: +50, Pickpocket Chance: +25
@@ -1583,6 +1584,7 @@ Item	miracle whip	Initiative: +50, Weapon Damage: +50, Item Drop: +50, Meat Drop
 # Mjolnir Jr.
 Item	Moonthril Flamberge	Muscle Percent: [15*G]
 Item	Moonthril Longbow	Moxie Percent: [15*G]
+Item	mother's necklace	Adventures: +3, Never Fumble
 Item	muculent machete	Muscle: +2, Meat Drop: +5
 # murderbot plasma rifle: Can be used to instantly kill Spants
 Item	murderbot plasma rifle	Hot Damage: +25, Reduce Enemy Defense: 10
@@ -1902,6 +1904,7 @@ Item	swordzall	Weapon Damage: +8, Maximum MP: +10
 Item	tail o' nine cats	Initiative: +15, Monster Level: +5
 # Tales of the Word Realms: Lends Power to Your Words
 Item	tambourine	Maximum HP: +20, Maximum MP: +20
+Item	teacher's pen	Experience: +3, Experience (familiar): +2
 Item	teflon spatula	Mysticality Percent: +10, Sleaze Resistance: +3, Spell Damage: +40
 # terra cotta tongs: Lets you unleash a terra cotta army on your foes
 Item	terra cotta tongs	Experience (Mysticality): +3, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5
@@ -5047,6 +5050,7 @@ Effect	Arse-a'fire	Muscle Percent: +10, Initiative: +25
 Effect	Artificially Sweet	Moxie Percent: +100
 Effect	Artisanal Retentive	Avatar: "Foodie Giant"
 Effect	Artisanal Satiaton	Experience: +3
+Effect	Ashamed	Experience: +10, Muscle Percent: -20, Mysticality Percent: -20, Moxie Percent: -20
 Effect	Ashen	Combat Rate: -15
 Effect	Ashen Burps	Monster Level: +15
 Effect	Aspect of the GravyPlum Fairy	Item Drop: +10
@@ -5634,6 +5638,7 @@ Effect	Dweeble-Minded	Avatar: "dweebie"
 Effect	Dweeby	Mysticality: +15
 Effect	Eagle Eyes	Item Drop: +20
 Effect	Ear Winds	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2
+Effect	Earning Interest	Meat Drop: +50
 # Earthen Fist: +10 damage to Fist techniques
 # Earthen Fist: Allows you to punch rocks without hurting yourself
 # Earworm: Get them out!  Get them out!
@@ -5762,6 +5767,7 @@ Effect	Feeling Lonely	Combat Rate: -5
 Effect	Feeling Lost	Item Drop: +60, Experience: +30
 Effect	Feeling Peaceful	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 10, Damage Absorption: +100
 Effect	Feeling Queasy	Item Drop: -10, Meat Drop: -20, Initiative: -30
+Effect	Feeling Sneaky	Combat Rate: -5
 Effect	Feet of Grapefruit	Experience (Mysticality): +3
 Effect	Feet of Strawberry	Experience (Moxie): +3
 Effect	Feet of Watermelon	Experience (Muscle): +3
@@ -5785,6 +5791,7 @@ Effect	Finding Stuff	Item Drop: +30
 # Finstrong: Makes you a better diver
 Effect	Fishing For Knowledge	Fishing Skill: +5
 Effect	Finstrong	Initiative Penalty: [30*env(underwater)], Item Drop Penalty: [30*env(underwater)], Meat Drop Penalty: [30*env(underwater)]
+Effect	Fire-Roasted Feelings	Cold Resistance: +3, Hot Damage: +15
 Effect	Fire cracked	Experience: +20
 Effect	Fire Down Below	Hot Damage: [min(100,T)]
 Effect	Fire Inside	Hot Damage: +25
@@ -6273,6 +6280,7 @@ Effect	Keep Free Hate in your Heart	Monster Level: +30, Damage Absorption: +10
 Effect	Kernel Panic!	Critical Hit Percent: +5
 Effect	Kicked in the Sinuses	Meat Drop: +100
 Effect	Kid Dracularp	Avatar: "vampire"
+Effect	Kinda Damp	Hot Resistance: +3, Initiative: +50
 Effect	Kindly Resolve	Familiar Weight: +5
 Effect	Kiss of the Black Fairy	Spooky Damage: [+2*D]
 Effect	Kissed By Fire	Maximum HP: +25, Hot Damage: +25, Hot Spell Damage: +25
@@ -7277,6 +7285,7 @@ Effect	Tasting the Rainbow	Hot Damage: +2, Cold Damage: +2, Stench Damage: +2, S
 Effect	Taunt of Horus	Combat Rate: +20
 Effect	Taurus Rising	Muscle Percent: +50
 Effect	Tea-hee	Experience: +5
+Effect	Teacher's Pet	Sleaze Resistance: +2, Damage Absorption: +50, Damage Reduction: 5, Wiki Name: "Teacher's Pet (Effect)"
 Effect	Tearful, Fearful	Item Drop: +30
 Effect	Techno Bliss	Item Drop: +10
 # Teleportitis: Your position seems uncertain...
@@ -7583,6 +7592,7 @@ Effect	White-boy Angst	Initiative: +50
 Effect	Whitened Teeth	Moxie Percent: +10
 # Whitesloshed: +500% Item Drops from Monsters (Dreadsylvania only)
 Effect	Whitesloshed	Item Drop: [500*zone(Dreadsylvania)]
+Effect	Wholesomely Resolved	Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2, Damage Reduction: +15
 Effect	Whole Latte Love	Familiar Weight: +10
 Effect	Whose Drinks Are These?	Avatar: "Resort Waiter"
 Effect	Why is the Shampoo Always Gone?	Avatar: "flashy pirate"
@@ -7625,6 +7635,7 @@ Effect	Wry Smile	Experience (Mysticality): +1
 Effect	Wussiness	Muscle: -3
 # X-Ray Vision: You can see X-Rays
 Effect	Xiblaxian Sympathizer	Avatar: "Xiblaxian political prisoner"
+Effect	Yapping Pal	Monster Level: 20
 Effect	Yeah, It's Just Gasoline	Hot Damage: +50, Hot Spell Damage: +50, Cold Resistance: +5, Spooky Resistance: +5
 Effect	Yeast-Hungry	Food Drop: +50
 Effect	Yeg's Glory	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100, Experience: +10, Familiar Weight: +5
@@ -8582,6 +8593,7 @@ Item	expired can of franks 'n' beans	Effect: "Crimbo Nostalgia", Effect Duration
 Item	extra-toasted half sandwich	Effect: "Stop the Presses!", Effect Duration: 20
 Item	FDKOL hotcakes	Effect: "Hotcaked", Effect Duration: 50
 Item	festive sausage	Effect: "Sausage Festive", Effect Duration: 20
+Item	fire-roasted lake trout	Effect: "Fire-Roasted Feelings", Effect Duration: 50
 Item	fireman's lunch	Effect: "You're Not Cooking", Effect Duration: 20
 # fishelada: NOTE: This item will stop working when Crimbo 2019 is over.
 # fishelada	Effect: "Fishy", Effect Duration: 30
@@ -10192,6 +10204,7 @@ Item	tobiko marble soda	Effect: "Pisces in the Skyces", Effect Duration: 15
 Item	tomato juice of powerful power	Effect: "Tomato Power", Effect Duration: [R]
 Item	tonic o' Banderas	Effect: "Bandersnatched", Effect Duration: 20
 Item	too legit potion	Effect: "Hammertime", Effect Duration: 30
+Item	trampled ticket stub	Effect: "Feeling Sneaky", Effect Duration: 30
 Item	transporter transponder	Effect: "Transpondent", Effect Duration: 30
 Item	Tremella Tarantella mushroom	Effect: "Tremella Tremens", Effect Duration: 10
 Item	triggerfingerbone	Effect: "Itchy Trigger Finger", Effect Duration: 20
@@ -10414,6 +10427,7 @@ Item	red-hot jawbreaker	Effect: "Burns Effect", Effect Duration: 50
 Item	Redeye&trade; Eyedrops	Effect: "Dazed, Confused", Effect Duration: 50
 Item	Rogue Windmill Rouge	Effect: "Mister Master", Effect Duration: 30
 Item	salt water taffy	Effect: "Bedraggled Dragoon", Effect Duration: 30
+Item	savings bond	Effect: "Earning Interest", Effect Duration: 30
 Item	scrunchie tourniquet	Effect: "First, Like, Do No Harm?", Effect Duration: 50
 Item	Scuba Snack	Effect: "Jinkies!", Effect Duration: 100
 Item	secret mummy herbs and spices	Effect: "Like an Egyptian", Effect Duration: 30
