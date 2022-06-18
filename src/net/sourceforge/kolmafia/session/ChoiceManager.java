@@ -1939,7 +1939,7 @@ public abstract class ChoiceManager {
     for (int i = 0; i < options.length; ++i) {
       Option opt = options[i];
       AdventureResult item[] = opt.getItems();
-      if (item == null) {
+      if (item.length == 0) {
         continue;
       }
 
