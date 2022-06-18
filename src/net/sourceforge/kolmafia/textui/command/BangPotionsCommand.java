@@ -47,18 +47,6 @@ public class BangPotionsCommand extends AbstractCommand {
         new Identifiable("vial of brown slime", "brown", ItemPool.VIAL_OF_BROWN_SLIME),
       };
 
-  private static String potionName(final Identifiable[] table, final int index) {
-    return table[index].name;
-  }
-
-  private static String potionShortName(final Identifiable[] table, final int index) {
-    return table[index].shortName;
-  }
-
-  private static int potionItemId(final Identifiable[] table, final int index) {
-    return table[index].id;
-  }
-
   @Override
   public void run(final String cmd, final String parameters) {
     var table = BangPotionsCommand.BANG_POTIONS;
@@ -69,9 +57,9 @@ public class BangPotionsCommand extends AbstractCommand {
       pref = "lastSlimeVial";
     }
 
-    for (int index = 0; index < table.length; ++index) {
-      int itemId = BangPotionsCommand.potionItemId(table, index);
-      String shortName = BangPotionsCommand.potionShortName(table, index);
+    for (Identifiable identifiable : table) {
+      int itemId = identifiable.id;
+      String shortName = identifiable.shortName;
       StringBuilder buf = new StringBuilder(shortName);
       buf.append(": ");
       buf.append(Preferences.getString(pref + itemId));
