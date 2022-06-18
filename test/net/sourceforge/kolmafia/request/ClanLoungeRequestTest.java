@@ -50,5 +50,4 @@ public class ClanLoungeRequestTest {
     assertThat("_floundryHatchetfishLocation", isSetTo("The Skeleton Store"));
     assertThat("_floundryTunaLocation", isSetTo("The Oasis"));
   }
-
 }

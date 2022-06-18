@@ -86,8 +86,8 @@ public class ClanLoungeRequest extends GenericRequest {
   private static final Pattern SPRINTS_PATTERN = Pattern.compile("you do ([\\d,]+) of them");
   private static final Pattern FISH_STOCK_PATTERN =
       Pattern.compile("<br>(\\d+)?[,]?(\\d+)?[,]?(\\d+) (carp|cod|trout|bass|hatchetfish|tuna)");
-  private static final Pattern FISH_LOCATION_PATTERN = Pattern.compile(
-      "<br><b>(carp|cod|trout|bass|hatchetfish|tuna):</b> ([^<]+)");
+  private static final Pattern FISH_LOCATION_PATTERN =
+      Pattern.compile("<br><b>(carp|cod|trout|bass|hatchetfish|tuna):</b> ([^<]+)");
 
   record PoolGame(String stance, String stat, String effect, int index) {}
 
@@ -1451,12 +1451,16 @@ public class ClanLoungeRequest extends GenericRequest {
     }
 
     Matcher fishLocationMatcher = FISH_LOCATION_PATTERN.matcher(responseText);
-    fishLocationMatcher.results().forEach(m -> {
-      String fishName = m.group(1);
-      String location = m.group(2);
-      String titleFishName = Character.toUpperCase(fishName.charAt(0)) + fishName.substring(1);
-      Preferences.setString("_floundry" + titleFishName + "Location", location);
-    });
+    fishLocationMatcher
+        .results()
+        .forEach(
+            m -> {
+              String fishName = m.group(1);
+              String location = m.group(2);
+              String titleFishName =
+                  Character.toUpperCase(fishName.charAt(0)) + fishName.substring(1);
+              Preferences.setString("_floundry" + titleFishName + "Location", location);
+            });
   }
 
   public static Map<String, String> getFloundryLocations() {

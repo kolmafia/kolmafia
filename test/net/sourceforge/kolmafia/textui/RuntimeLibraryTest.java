@@ -61,7 +61,9 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     assertContinueState();
     assertThat(outputSoftcore, containsString("Returned: false"));
 
-    String outputUnpermed = execute("if (get_permed_skills() contains $skill[Emotionally Chipped]) {print(\"permed\");} else {print(\"unpermed\");}");
+    String outputUnpermed =
+        execute(
+            "if (get_permed_skills() contains $skill[Emotionally Chipped]) {print(\"permed\");} else {print(\"unpermed\");}");
 
     assertContinueState();
     assertThat(outputUnpermed, containsString("unpermed"));
@@ -92,7 +94,9 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     // don't try to visit the fireworks shop
     Preferences.setBoolean("_fireworksShop", true);
 
-    var cleanups = setupFakeResponse(200, Files.readString(Paths.get(("request/test_clan_floundry.html"))).trim());
+    var cleanups =
+        setupFakeResponse(
+            200, Files.readString(Paths.get(("request/test_clan_floundry.html"))).trim());
 
     try (cleanups) {
       String output = execute("get_fishing_locations()");

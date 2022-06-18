@@ -996,7 +996,8 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("get_clan_lounge", DataTypes.ITEM_TO_INT_TYPE, params));
 
     params = new Type[] {};
-    functions.add(new LibraryFunction("get_fishing_locations", DataTypes.STRING_TO_LOCATION_TYPE, params));
+    functions.add(
+        new LibraryFunction("get_fishing_locations", DataTypes.STRING_TO_LOCATION_TYPE, params));
 
     params = new Type[] {};
     functions.add(new LibraryFunction("get_clan_rumpus", DataTypes.STRING_TO_INT_TYPE, params));
