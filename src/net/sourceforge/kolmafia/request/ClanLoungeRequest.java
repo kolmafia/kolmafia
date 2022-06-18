@@ -87,7 +87,7 @@ public class ClanLoungeRequest extends GenericRequest {
 
   record PoolGame(String stance, String stat, String effect, int index) {}
 
-  public static final PoolGame[] POOL_GAMES =
+  static final PoolGame[] POOL_GAMES =
       new PoolGame[] {
         new PoolGame("aggressive", "muscle", "billiards belligerence", AGGRESSIVE_STANCE),
         new PoolGame("strategic", "mysticality", "mental a-cue-ity", STRATEGIC_STANCE),
@@ -96,14 +96,14 @@ public class ClanLoungeRequest extends GenericRequest {
 
   record FaxOption(String action, String alias, int index) {}
 
-  public static final FaxOption[] FAX_OPTIONS =
+  static final FaxOption[] FAX_OPTIONS =
       new FaxOption[] {
         new FaxOption("send", "put", SEND_FAX), new FaxOption("receive", "get", RECEIVE_FAX),
       };
 
   record ShowerOption(String temp, String effect, int index) {}
 
-  public static final ShowerOption[] SHOWER_OPTIONS =
+  static final ShowerOption[] SHOWER_OPTIONS =
       new ShowerOption[] {
         new ShowerOption("cold", "ice", COLD_SHOWER),
         new ShowerOption("cool", "moxie", COOL_SHOWER),
@@ -114,7 +114,7 @@ public class ClanLoungeRequest extends GenericRequest {
 
   record SwimmingOption(String action, String effect, int index) {}
 
-  public static final SwimmingOption[] SWIMMING_OPTIONS =
+  static final SwimmingOption[] SWIMMING_OPTIONS =
       new SwimmingOption[] {
         new SwimmingOption("cannonball", "item", CANNONBALL),
         new SwimmingOption("laps", "ml", LAPS),
@@ -128,7 +128,7 @@ public class ClanLoungeRequest extends GenericRequest {
     }
   }
 
-  public static final HotDogData[] HOTDOG_DATA =
+  static final HotDogData[] HOTDOG_DATA =
       new HotDogData[] {
         new HotDogData("basic hot dog", -92, 1),
         new HotDogData(
@@ -201,7 +201,7 @@ public class ClanLoungeRequest extends GenericRequest {
 
   record SpeakeasyData(String name, int id, int inebriety, int cost) {}
 
-  public static final SpeakeasyData[] SPEAKEASY_DATA =
+  static final SpeakeasyData[] SPEAKEASY_DATA =
       new SpeakeasyData[] {
         new SpeakeasyData("glass of &quot;milk&quot;", 1, 1, 250),
         new SpeakeasyData("cup of &quot;tea&quot;", 2, 1, 250),
