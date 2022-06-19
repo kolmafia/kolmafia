@@ -142,14 +142,18 @@ public class AshRuntime extends AbstractRuntime {
     }
 
     // Look at what the parser found
+    boolean foundError = false;
     for (Parser.AshDiagnostic diagnostic : parser.getDiagnostics()) {
       if (diagnostic.severity == Error) {
         String message = CharacterEntities.escape(diagnostic.toString());
         KoLmafia.updateDisplay(MafiaState.ERROR, message);
-        return false;
+        foundError = true;
+      } else {
+        RequestLogger.printLine(diagnostic.toString());
       }
-
-      RequestLogger.printLine(diagnostic.toString());
+    }
+    if (foundError) {
+      return false;
     }
 
     this.resetTracing();

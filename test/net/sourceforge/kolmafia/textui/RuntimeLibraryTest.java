@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui;
 
 import static internal.helpers.Player.addItem;
+import static internal.helpers.Player.setupFakeResponse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -9,8 +10,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,11 +20,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @BeforeEach
   public void initEach() {
+    Preferences.saveSettingsToFile = false;
     KoLCharacter.reset("testUser");
     KoLCharacter.reset(true);
-
-    // Stop requests from actually running
-    GenericRequest.sessionId = null;
+    Preferences.reset("testUser");
   }
 
   public RuntimeLibraryTest() {
@@ -61,10 +61,12 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     assertContinueState();
     assertThat(outputSoftcore, containsString("Returned: false"));
 
-    String outputUnpermed = execute("get_permed_skills() contains $skill[Emotionally Chipped]");
+    String outputUnpermed =
+        execute(
+            "if (get_permed_skills() contains $skill[Emotionally Chipped]) {print(\"permed\");} else {print(\"unpermed\");}");
 
     assertContinueState();
-    assertThat(outputSoftcore, containsString("Returned: false"));
+    assertThat(outputUnpermed, containsString("unpermed"));
   }
 
   @Test
@@ -84,6 +86,29 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
       assertContinueState();
       assertThat(output, containsString("name => marble wand"));
+    }
+  }
+
+  @Test
+  void floundryLocations() throws IOException {
+    // don't try to visit the fireworks shop
+    Preferences.setBoolean("_fireworksShop", true);
+
+    var cleanups =
+        setupFakeResponse(
+            200, Files.readString(Paths.get(("request/test_clan_floundry.html"))).trim());
+
+    try (cleanups) {
+      String output = execute("get_fishing_locations()");
+
+      assertContinueState();
+      assertThat(output, containsString("Returned: aggregate location [string]"));
+      assertThat(output, containsString("bass => Guano Junction"));
+      assertThat(output, containsString("carp => Pirates of the Garbage Barges"));
+      assertThat(output, containsString("cod => Thugnderdome"));
+      assertThat(output, containsString("hatchetfish => The Skeleton Store"));
+      assertThat(output, containsString("trout => The Haunted Conservatory"));
+      assertThat(output, containsString("tuna => The Oasis"));
     }
   }
 }

@@ -4529,10 +4529,16 @@ public class Parser {
             Location location =
                 Parser.makeLocation(current.getLocation(), this.peekPreviousToken());
             String message;
-            if (indices.isEmpty()) {
-              message = "Variable '" + varRef.getName() + "' cannot be indexed";
+            String name;
+            if (varRef.getName() != null) {
+              name = "'" + varRef.getName() + "'";
             } else {
-              message = "Too many keys for '" + varRef.getName() + "'";
+              name = "'" + getAbbreviatedContent(varRef.getLocation()) + "'";
+            }
+            if (indices.isEmpty()) {
+              message = name + " cannot be indexed";
+            } else {
+              message = "Too many keys for " + name;
             }
             variableReferenceErrors.submitError(this.error(location, message));
           }
@@ -4751,6 +4757,44 @@ public class Parser {
 
   private Directive parseImport() throws InterruptedException {
     return this.parseDirective("import");
+  }
+
+  /**
+   * Summarizes the file contents at {@code loc}.
+   *
+   * <p>If {@code loc} spans multiple lines, this method will join the contents on the first and
+   * last lines with '...'.
+   *
+   * @param loc Location of interest.
+   * @return File contents, or "<bad location>" if {@code loc} is not to a valid Location in the
+   *     file.
+   */
+  public String getAbbreviatedContent(Location loc) {
+    Line line = this.currentLine;
+
+    Position start = loc.getRange().getStart(), end = loc.getRange().getEnd();
+    while (line.lineNumber - 1 > start.getLine()) {
+      // Bad Location -- start.getLine() < 0
+      if (line.previousLine == null) {
+        return "<bad location>";
+      }
+      line = line.previousLine;
+    }
+    if (start.getLine() == end.getLine()) {
+      return line.content.substring(start.getCharacter(), end.getCharacter());
+    }
+
+    StringBuffer buf = new StringBuffer(line.substring(start.getCharacter()));
+    buf.append(" ... ");
+    while (line.lineNumber - 1 < end.getLine()) {
+      // Bad Location -- end.getLine() fell off the end of the script.
+      if (line.nextLine == null) {
+        return "<bad location>";
+      }
+      line = line.nextLine;
+    }
+    buf.append(line.content.substring(0, end.getCharacter()));
+    return buf.toString();
   }
 
   // **************** Tokenizer *****************
@@ -5162,11 +5206,11 @@ public class Parser {
      * duplicate variable name, or an unknown function.
      */
     final void submitError(final AshDiagnostic error) {
+      Parser.this.diagnostics.add(error);
       if (this.sawError()) {
         return;
       }
 
-      Parser.this.diagnostics.add(error);
       this.didSeeError();
     }
 
