@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.fakeClientBuilder;
 import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Player.addItem;
 import static internal.helpers.Player.isSign;
 import static org.hamcrest.MatcherAssert.assertThat;
