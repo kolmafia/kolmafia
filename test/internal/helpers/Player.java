@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
@@ -240,6 +241,16 @@ public class Player {
   public static Cleanups setWorkshed(int id) {
     CampgroundRequest.setCurrentWorkshedItem(id);
     return new Cleanups(CampgroundRequest::resetCurrentWorkshedItem);
+  }
+
+  public static Cleanups hasRange() {
+    KoLCharacter.setRange(true);
+    ConcoctionDatabase.refreshConcoctions();
+    return new Cleanups(
+        () -> {
+          KoLCharacter.setRange(false);
+          ConcoctionDatabase.refreshConcoctions();
+        });
   }
 
   public static Cleanups setProperty(String key, String value) {
