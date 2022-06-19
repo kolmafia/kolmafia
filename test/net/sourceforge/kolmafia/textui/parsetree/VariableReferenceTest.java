@@ -24,7 +24,7 @@ public class VariableReferenceTest {
         invalid(
             "indexed primitive",
             "int x; x[0];",
-            "Variable 'x' cannot be indexed",
+            "'x' cannot be indexed",
             "char 8 to char 10",
             "x[0];",
             "Unknown variable 'x'",
