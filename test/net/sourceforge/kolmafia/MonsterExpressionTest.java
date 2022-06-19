@@ -1,14 +1,12 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.equip;
 import static internal.helpers.Player.inPath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -80,21 +78,20 @@ public class MonsterExpressionTest {
   }
 
   @Test
-  public void canDetectBasementLevel() throws IOException {
-    BasementRequest.checkBasement(
-        Files.readString(Path.of("request/test_basement_level_1234.html")));
+  public void canDetectBasementLevel() {
+    BasementRequest.checkBasement(html("request/test_basement_level_1234.html"));
     var exp = new MonsterExpression("BL", "Basement Level");
     assertThat(exp.eval(), is(1234.0));
   }
 
   @Test
-  public void canDetectKissesInDreadWoods() throws IOException {
+  public void canDetectKissesInDreadWoods() {
     KoLAdventure.setLastAdventure(AdventureDatabase.getAdventure("Dreadsylvanian Woods"));
     MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("stench bugbear"));
 
     var req = new GenericRequest("fight.php");
     req.setHasResult(true);
-    req.responseText = Files.readString(Path.of("request/test_fight_stench_bugbear_4_kisses.html"));
+    req.responseText = html("request/test_fight_stench_bugbear_4_kisses.html");
     req.processResponse();
 
     var exp = new MonsterExpression("KW", "Kisses in Dread Woods");
@@ -102,13 +99,13 @@ public class MonsterExpressionTest {
   }
 
   @Test
-  public void canDetectKissesInDreadVillage() throws IOException {
+  public void canDetectKissesInDreadVillage() {
     KoLAdventure.setLastAdventure(AdventureDatabase.getAdventure("Dreadsylvanian Village"));
     MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("spooky zombie"));
 
     var req = new GenericRequest("fight.php");
     req.setHasResult(true);
-    req.responseText = Files.readString(Path.of("request/test_fight_spooky_zombie_1_kiss.html"));
+    req.responseText = html("request/test_fight_spooky_zombie_1_kiss.html");
     req.processResponse();
 
     var exp = new MonsterExpression("KV", "Kisses in Dread Village");
@@ -116,13 +113,13 @@ public class MonsterExpressionTest {
   }
 
   @Test
-  public void canDetectKissesInDreadCastle() throws IOException {
+  public void canDetectKissesInDreadCastle() {
     KoLAdventure.setLastAdventure(AdventureDatabase.getAdventure("Dreadsylvanian Castle"));
     MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("stench vampire"));
 
     var req = new GenericRequest("fight.php");
     req.setHasResult(true);
-    req.responseText = Files.readString(Path.of("request/test_fight_stench_vampire_2_kisses.html"));
+    req.responseText = html("request/test_fight_stench_vampire_2_kisses.html");
     req.processResponse();
 
     var exp = new MonsterExpression("KC", "Kisses in Dread Castle");

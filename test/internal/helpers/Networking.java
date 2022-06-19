@@ -18,9 +18,8 @@ public class Networking {
       return Files.readString(Paths.get(path)).trim();
     } catch (IOException e) {
       Assertions.fail("Failed to load HTML file: " + path);
+      throw new AssertionError(e);
     }
-
-    return null;
   }
 
   public static void assertGetRequest(HttpRequest request, String path) {

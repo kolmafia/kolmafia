@@ -1,23 +1,16 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Networking.html;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.jupiter.api.Test;
 
 public class RequestEditorKitTest {
 
-  static String loadHTML(String path) throws IOException {
-    // Load the text from saved HTML file
-    return Files.readString(Paths.get(path)).trim();
-  }
-
   @Test
-  public void willSuppressRedundantCharPaneRefreshes() throws IOException {
+  public void willSuppressRedundantCharPaneRefreshes() {
     // Obsolete usage: put script into HTML comment.
     //
     // <script language=Javascript>
@@ -40,7 +33,7 @@ public class RequestEditorKitTest {
 
     // No charpane refresh requested
     String location = "fight.php?ireallymeanit=1652976032";
-    String html = loadHTML("request/test_feature_rich_html_charpane_refreshes_0.html");
+    String html = html("request/test_feature_rich_html_charpane_refreshes_0.html");
     StringBuffer buffer = new StringBuffer(html);
     Matcher matcher = CHARPANE_REFRESH_PATTERN.matcher(buffer);
     assertEquals(0, matcher.results().count());
@@ -50,7 +43,7 @@ public class RequestEditorKitTest {
 
     // Only "obsolete" usage.
     location = "fight.php?action=steal";
-    html = loadHTML("request/test_feature_rich_html_charpane_refreshes_1.html");
+    html = html("request/test_feature_rich_html_charpane_refreshes_1.html");
     buffer = new StringBuffer(html);
     matcher = CHARPANE_REFRESH_PATTERN.matcher(buffer);
     assertEquals(1, matcher.results().count());
@@ -60,7 +53,7 @@ public class RequestEditorKitTest {
 
     // Only "current" usage.
     location = "fight.php?action=attack";
-    html = loadHTML("request/test_feature_rich_html_charpane_refreshes_1a.html");
+    html = html("request/test_feature_rich_html_charpane_refreshes_1a.html");
     buffer = new StringBuffer(html);
     matcher = CHARPANE_REFRESH_PATTERN.matcher(buffer);
     assertEquals(1, matcher.results().count());
@@ -70,7 +63,7 @@ public class RequestEditorKitTest {
 
     // Both "obsolete" and "current" usage.
     location = "choice.php?pwd&whichchoice=28&option=2";
-    html = loadHTML("request/test_feature_rich_html_charpane_refreshes_2.html");
+    html = html("request/test_feature_rich_html_charpane_refreshes_2.html");
     buffer = new StringBuffer(html);
     matcher = CHARPANE_REFRESH_PATTERN.matcher(buffer);
     assertEquals(2, matcher.results().count());

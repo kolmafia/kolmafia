@@ -1,12 +1,10 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.html;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -900,7 +898,7 @@ public class StorageRequestTest {
 
   // *** Here are tests for StorageRequest.transferItems()
 
-  private StorageRequest storageTransferItemsSetup() throws IOException {
+  private StorageRequest storageTransferItemsSetup() {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("transfer items user");
@@ -953,7 +951,7 @@ public class StorageRequestTest {
 
     // Load the responseText from saved HTML file
     String path = "request/test_request_storage_pulls.html";
-    String html = Files.readString(Paths.get(path)).trim();
+    String html = html(path);
     request.responseText = html;
 
     // Voila! we are ready to test
@@ -961,7 +959,7 @@ public class StorageRequestTest {
   }
 
   @Test
-  public void itShouldNonBulkTransferItems() throws IOException {
+  public void itShouldNonBulkTransferItems() {
 
     // Load up our request/response
     StorageRequest request = storageTransferItemsSetup();
@@ -993,7 +991,7 @@ public class StorageRequestTest {
   }
 
   @Test
-  public void itShouldBulkTransferItems() throws IOException {
+  public void itShouldBulkTransferItems() {
 
     // Load up our request/response
     StorageRequest request = storageTransferItemsSetup();
