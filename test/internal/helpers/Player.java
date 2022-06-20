@@ -259,6 +259,12 @@ public class Player {
     return new Cleanups(() -> Preferences.setString(key, oldValue));
   }
 
+  public static Cleanups setProperty(String key, Boolean value) {
+    var oldValue = Preferences.getBoolean(key);
+    Preferences.setBoolean(key, value);
+    return new Cleanups(() -> Preferences.setBoolean(key, oldValue));
+  }
+
   public static Cleanups setupFakeResponse(int code, String response) {
     var builder = new FakeHttpClientBuilder();
     HttpUtilities.setClientBuilder(() -> builder);
