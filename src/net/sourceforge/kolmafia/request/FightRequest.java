@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BanishManager.Banisher;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.BugbearManager;
+import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.CursedMagnifyingGlassManager;
@@ -354,37 +355,33 @@ public class FightRequest extends GenericRequest {
   private static final AdventureResult SCROLL_64735 = ItemPool.get(ItemPool.GATES_SCROLL, 1);
   private static final AdventureResult SCROLL_31337 = ItemPool.get(ItemPool.ELITE_SCROLL, 1);
 
-  private static final Object[][] NEMESIS_WEAPONS = { // class, LEW, ULEW
-    {
-      AscensionClass.SEAL_CLUBBER,
-      ItemPool.get(ItemPool.HAMMER_OF_SMITING, 1),
-      ItemPool.get(ItemPool.SLEDGEHAMMER_OF_THE_VAELKYR, 1)
-    },
-    {
-      AscensionClass.TURTLE_TAMER,
-      ItemPool.get(ItemPool.CHELONIAN_MORNINGSTAR, 1),
-      ItemPool.get(ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS, 1)
-    },
-    {
-      AscensionClass.PASTAMANCER,
-      ItemPool.get(ItemPool.GREEK_PASTA_OF_PERIL, 1),
-      ItemPool.get(ItemPool.WRATH_OF_THE_PASTALORDS, 1)
-    },
-    {
-      AscensionClass.SAUCEROR,
-      ItemPool.get(ItemPool.SEVENTEEN_ALARM_SAUCEPAN, 1),
-      ItemPool.get(ItemPool.WINDSOR_PAN_OF_THE_SOURCE, 1)
-    },
-    {
-      AscensionClass.DISCO_BANDIT,
-      ItemPool.get(ItemPool.SHAGADELIC_DISCO_BANJO, 1),
-      ItemPool.get(ItemPool.SEEGERS_BANJO, 1)
-    },
-    {
-      AscensionClass.ACCORDION_THIEF,
-      ItemPool.get(ItemPool.SQUEEZEBOX_OF_THE_AGES, 1),
-      ItemPool.get(ItemPool.TRICKSTER_TRIKITIXA, 1)
-    },
+  private record NemesisWeapon(AscensionClass clazz, AdventureResult lew, AdventureResult ulew) {}
+
+  private static final NemesisWeapon[] NEMESIS_WEAPONS = { // class, LEW, ULEW
+    new NemesisWeapon(
+        AscensionClass.SEAL_CLUBBER,
+        ItemPool.get(ItemPool.HAMMER_OF_SMITING, 1),
+        ItemPool.get(ItemPool.SLEDGEHAMMER_OF_THE_VAELKYR, 1)),
+    new NemesisWeapon(
+        AscensionClass.TURTLE_TAMER,
+        ItemPool.get(ItemPool.CHELONIAN_MORNINGSTAR, 1),
+        ItemPool.get(ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS, 1)),
+    new NemesisWeapon(
+        AscensionClass.PASTAMANCER,
+        ItemPool.get(ItemPool.GREEK_PASTA_OF_PERIL, 1),
+        ItemPool.get(ItemPool.WRATH_OF_THE_PASTALORDS, 1)),
+    new NemesisWeapon(
+        AscensionClass.SAUCEROR,
+        ItemPool.get(ItemPool.SEVENTEEN_ALARM_SAUCEPAN, 1),
+        ItemPool.get(ItemPool.WINDSOR_PAN_OF_THE_SOURCE, 1)),
+    new NemesisWeapon(
+        AscensionClass.DISCO_BANDIT,
+        ItemPool.get(ItemPool.SHAGADELIC_DISCO_BANJO, 1),
+        ItemPool.get(ItemPool.SEEGERS_BANJO, 1)),
+    new NemesisWeapon(
+        AscensionClass.ACCORDION_THIEF,
+        ItemPool.get(ItemPool.SQUEEZEBOX_OF_THE_AGES, 1),
+        ItemPool.get(ItemPool.TRICKSTER_TRIKITIXA, 1)),
   };
 
   // Skills which require a shield
@@ -4511,11 +4508,10 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void transmogrifyNemesisWeapon(boolean reverse) {
-    for (int i = 0; i < FightRequest.NEMESIS_WEAPONS.length; ++i) {
-      Object[] data = FightRequest.NEMESIS_WEAPONS[i];
-      if (KoLCharacter.getAscensionClass() == data[0]) {
+    for (NemesisWeapon data : FightRequest.NEMESIS_WEAPONS) {
+      if (KoLCharacter.getAscensionClass() == data.clazz) {
         EquipmentManager.transformEquipment(
-            (AdventureResult) data[reverse ? 2 : 1], (AdventureResult) data[reverse ? 1 : 2]);
+            reverse ? data.ulew : data.lew, reverse ? data.lew : data.ulew);
         return;
       }
     }
@@ -7716,7 +7712,7 @@ public class FightRequest extends GenericRequest {
 
     if (text.contains("already collected")) {
       // Synchronize in case played turns out of KoLmafia
-      Object[] data = BugbearManager.bugbearToData(status.monsterName);
+      Bugbear data = BugbearManager.bugbearToData(status.monsterName);
       BugbearManager.setBiodata(data, BugbearManager.dataToLevel(data) * 3);
       return true;
     }
@@ -7728,7 +7724,7 @@ public class FightRequest extends GenericRequest {
       return true;
     }
 
-    Object[] data = BugbearManager.bugbearToData(status.monsterName);
+    Bugbear data = BugbearManager.bugbearToData(status.monsterName);
     BugbearManager.setBiodata(data, matcher.group(1));
 
     return true;

@@ -379,35 +379,22 @@ public class HaciendaManager {
   private static final Pattern OPTION_PATTERN =
       Pattern.compile("<option value=\"?(\\d+)\"? *>(.*?) \\((\\d+)/(\\d+)\\)</option>");
 
-  private static final Object[][] RECORDINGS = {
-    {
-      EffectPool.THE_BALLAD_OF_RICHIE_THINGFINDER, "_thingfinderCasts",
-    },
-    {
-      EffectPool.BENETTONS_MEDLEY_OF_DIVERSITY, "_benettonsCasts",
-    },
-    {
-      EffectPool.ELRONS_EXPLOSIVE_ETUDE, "_elronsCasts",
-    },
-    {
-      EffectPool.CHORALE_OF_COMPANIONSHIP, "_companionshipCasts",
-    },
-    {
-      EffectPool.PRELUDE_OF_PRECISION, "_precisionCasts",
-    },
-    {
-      EffectPool.DONHOS_BUBBLY_BALLAD, "_donhosCasts",
-    },
-    {
-      EffectPool.INIGOS, "_inigosCasts",
-    },
+  private record Recording(int id, String setting) {}
+
+  private static final Recording[] RECORDINGS = {
+    new Recording(EffectPool.THE_BALLAD_OF_RICHIE_THINGFINDER, "_thingfinderCasts"),
+    new Recording(EffectPool.BENETTONS_MEDLEY_OF_DIVERSITY, "_benettonsCasts"),
+    new Recording(EffectPool.ELRONS_EXPLOSIVE_ETUDE, "_elronsCasts"),
+    new Recording(EffectPool.CHORALE_OF_COMPANIONSHIP, "_companionshipCasts"),
+    new Recording(EffectPool.PRELUDE_OF_PRECISION, "_precisionCasts"),
+    new Recording(EffectPool.DONHOS_BUBBLY_BALLAD, "_donhosCasts"),
+    new Recording(EffectPool.INIGOS, "_inigosCasts"),
   };
 
   private static String effectIdToSetting(final int effectId) {
-    for (int i = 0; i < HaciendaManager.RECORDINGS.length; ++i) {
-      Object[] recording = HaciendaManager.RECORDINGS[i];
-      if (effectId == ((Integer) recording[0]).intValue()) {
-        return (String) recording[1];
+    for (Recording recording : HaciendaManager.RECORDINGS) {
+      if (effectId == recording.id) {
+        return recording.setting;
       }
     }
     return null;

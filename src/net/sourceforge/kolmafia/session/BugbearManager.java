@@ -20,101 +20,101 @@ public class BugbearManager {
     Preferences.setInteger("mothershipProgress", 0);
   }
 
-  public static final Object[][] BUGBEAR_DATA = {
-    {
-      "Medbay", 1, "hypodermic bugbear", "The Spooky Forest", 1, "statusMedbay",
-    },
-    {
-      "Waste Processing",
-      2,
-      "scavenger bugbear",
-      "The Sleazy Back Alley",
-      1,
-      "statusWasteProcessing",
-    },
-    {
-      "Sonar", 3, "batbugbear", "Guano Junction", 1, "statusSonar",
-    },
-    {"Science Lab", 4, "bugbear scientist", "Cobb's Knob Laboratory", 2, "statusScienceLab"},
-    {
-      "Morgue",
-      5,
-      "bugaboo",
-      new String[] {
-        "The Defiled Nook", "Post-Cyrpt Cemetary",
-      },
-      2,
-      "statusMorgue",
-    },
-    {
-      "Special Ops", 6, "black ops bugbear", "Lair of the Ninja Snowmen", 2, "statusSpecialOps",
-    },
-    {
-      "Engineering",
-      7,
-      "battlesuit bugbear type",
-      "The Penultimate Fantasy Airship",
-      3,
-      "statusEngineering",
-    },
-    {
-      "Navigation", 8, "ancient unspeakable bugbear", "The Haunted Gallery", 3, "statusNavigation",
-    },
-    {
-      "Galley",
-      9,
-      "trendy bugbear chef",
-      new String[] {
-        "The Battlefield (Frat Uniform)", "The Battlefield (Hippy Uniform)",
-      },
-      3,
-      "statusGalley",
+  public record Bugbear(
+      String shipZone, int id, String bugbear, String[] zones, int level, String status) {
+    Bugbear(String shipZone, int id, String bugbear, String zone, int level, String status) {
+      this(shipZone, id, bugbear, new String[] {zone}, level, status);
     }
+  }
+
+  public static final Bugbear[] BUGBEAR_DATA = {
+    new Bugbear("Medbay", 1, "hypodermic bugbear", "The Spooky Forest", 1, "statusMedbay"),
+    new Bugbear(
+        "Waste Processing",
+        2,
+        "scavenger bugbear",
+        "The Sleazy Back Alley",
+        1,
+        "statusWasteProcessing"),
+    new Bugbear("Sonar", 3, "batbugbear", "Guano Junction", 1, "statusSonar"),
+    new Bugbear(
+        "Science Lab", 4, "bugbear scientist", "Cobb's Knob Laboratory", 2, "statusScienceLab"),
+    new Bugbear(
+        "Morgue",
+        5,
+        "bugaboo",
+        new String[] {
+          "The Defiled Nook", "Post-Cyrpt Cemetary",
+        },
+        2,
+        "statusMorgue"),
+    new Bugbear(
+        "Special Ops", 6, "black ops bugbear", "Lair of the Ninja Snowmen", 2, "statusSpecialOps"),
+    new Bugbear(
+        "Engineering",
+        7,
+        "battlesuit bugbear type",
+        "The Penultimate Fantasy Airship",
+        3,
+        "statusEngineering"),
+    new Bugbear(
+        "Navigation",
+        8,
+        "ancient unspeakable bugbear",
+        "The Haunted Gallery",
+        3,
+        "statusNavigation"),
+    new Bugbear(
+        "Galley",
+        9,
+        "trendy bugbear chef",
+        new String[] {
+          "The Battlefield (Frat Uniform)", "The Battlefield (Hippy Uniform)",
+        },
+        3,
+        "statusGalley")
   };
 
-  public static String dataToShipZone(Object[] data) {
-    return data == null ? "" : (String) data[0];
+  public static String dataToShipZone(Bugbear data) {
+    return data == null ? "" : data.shipZone;
   }
 
-  public static int dataToId(Object[] data) {
-    return data == null ? 0 : ((Integer) data[1]).intValue();
+  public static int dataToId(Bugbear data) {
+    return data == null ? 0 : data.id;
   }
 
-  public static String dataToBugbear(Object[] data) {
-    return data == null ? "" : (String) data[2];
+  public static String dataToBugbear(Bugbear data) {
+    return data == null ? "" : data.bugbear;
   }
 
-  public static String dataToBugbearZone1(Object[] data) {
+  public static String dataToBugbearZone1(Bugbear data) {
     if (data == null) {
       return null;
     }
 
-    Object zones = data[3];
-    return zones instanceof String
-        ? (String) zones
-        : zones instanceof String[] ? ((String[]) zones)[0] : "";
+    var zones = data.zones;
+    return zones.length > 0 ? zones[0] : "";
   }
 
-  public static String dataToBugbearZone2(Object[] data) {
+  public static String dataToBugbearZone2(Bugbear data) {
     if (data == null) {
       return null;
     }
 
-    Object zones = data[3];
-    return zones instanceof String ? "" : zones instanceof String[] ? ((String[]) zones)[1] : "";
+    var zones = data.zones;
+    return zones.length > 1 ? zones[1] : "";
   }
 
-  public static int dataToLevel(Object[] data) {
-    return data == null ? 0 : ((Integer) data[4]).intValue();
+  public static int dataToLevel(Bugbear data) {
+    return data == null ? 0 : data.level;
   }
 
-  public static String dataToStatusSetting(Object[] data) {
-    return data == null ? "" : (String) data[5];
+  public static String dataToStatusSetting(Bugbear data) {
+    return data == null ? "" : data.status;
   }
 
-  public static Object[] idToData(final int id) {
-    for (int i = 0; i < BugbearManager.BUGBEAR_DATA.length; ++i) {
-      Object[] data = BugbearManager.BUGBEAR_DATA[i];
+  public static Bugbear idToData(final int id) {
+    for (Bugbear data : BugbearManager.BUGBEAR_DATA) {
       if (BugbearManager.dataToId(data) == id) {
         return data;
       }
@@ -122,9 +122,8 @@ public class BugbearManager {
     return null;
   }
 
-  public static Object[] bugbearToData(final String bugbear) {
-    for (int i = 0; i < BugbearManager.BUGBEAR_DATA.length; ++i) {
-      Object[] data = BugbearManager.BUGBEAR_DATA[i];
+  public static Bugbear bugbearToData(final String bugbear) {
+    for (Bugbear data : BugbearManager.BUGBEAR_DATA) {
       if (bugbear.equals(BugbearManager.dataToBugbear(data))) {
         return data;
       }
@@ -132,9 +131,8 @@ public class BugbearManager {
     return null;
   }
 
-  public static Object[] shipZoneToData(final String zone) {
-    for (int i = 0; i < BugbearManager.BUGBEAR_DATA.length; ++i) {
-      Object[] data = BugbearManager.BUGBEAR_DATA[i];
+  public static Bugbear shipZoneToData(final String zone) {
+    for (Bugbear data : BugbearManager.BUGBEAR_DATA) {
       if (zone.equals(BugbearManager.dataToShipZone(data))) {
         return data;
       }
@@ -142,11 +140,11 @@ public class BugbearManager {
     return null;
   }
 
-  public static void setBiodata(final Object[] data, final String countString) {
+  public static void setBiodata(final Bugbear data, final String countString) {
     BugbearManager.setBiodata(data, StringUtilities.parseInt(countString));
   }
 
-  public static void setBiodata(final Object[] data, final int count) {
+  public static void setBiodata(final Bugbear data, final int count) {
     if (data == null) {
       return;
     }
@@ -169,7 +167,7 @@ public class BugbearManager {
   }
 
   public static void clearShipZone(final String zone) {
-    Object[] data = BugbearManager.shipZoneToData(zone);
+    Bugbear data = BugbearManager.shipZoneToData(zone);
     if (data == null) {
       return;
     }
@@ -186,8 +184,7 @@ public class BugbearManager {
     int level = BugbearManager.dataToLevel(data);
 
     // See if we have cleared all the zones on this level
-    for (int i = 0; i < BugbearManager.BUGBEAR_DATA.length; ++i) {
-      Object[] zoneData = BugbearManager.BUGBEAR_DATA[i];
+    for (Bugbear zoneData : BugbearManager.BUGBEAR_DATA) {
       if (BugbearManager.dataToLevel(zoneData) != level) {
         continue;
       }
@@ -206,8 +203,7 @@ public class BugbearManager {
 
     // All "unlocked" zones on the next level are now "open"
     int nextLevel = level + 1;
-    for (int i = 0; i < BugbearManager.BUGBEAR_DATA.length; ++i) {
-      Object[] zoneData = BugbearManager.BUGBEAR_DATA[i];
+    for (Bugbear zoneData : BugbearManager.BUGBEAR_DATA) {
       if (BugbearManager.dataToLevel(zoneData) != nextLevel) {
         continue;
       }

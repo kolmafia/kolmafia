@@ -9,58 +9,37 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CrimboCafeRequest extends CafeRequest {
   public static final boolean AVAILABLE = false;
   public static final String CAFEID = "10";
-  public static final Object[][] MENU_DATA = {
+
+  private record Item(String name, int itemId, int price) {}
+
+  public static final Item[] MENU_DATA = {
     // Item, itemID, price
-    {
-      "Peppermint Nutrition Block", -104, 50,
-    },
-    {
-      "Gingerbread Nutrition Block", -105, 75,
-    },
-    {
-      "Cinnamon Nutrition Block", -106, 100,
-    },
-    {
-      "Fortified Eggnog Slurry", -107, 50,
-    },
-    {
-      "Hot Buttered Rum", -108, 75,
-    },
-    {
-      "Spicy Hot Chocolate", -109, 100,
-    },
+    new Item("Peppermint Nutrition Block", -104, 50),
+    new Item("Gingerbread Nutrition Block", -105, 75),
+    new Item("Cinnamon Nutrition Block", -106, 100),
+    new Item("Fortified Eggnog Slurry", -107, 50),
+    new Item("Hot Buttered Rum", -108, 75),
+    new Item("Spicy Hot Chocolate", -109, 100),
   };
 
-  private static Object[] dataByName(final String name) {
+  private static Item dataByName(final String name) {
     for (int i = 0; i < CrimboCafeRequest.MENU_DATA.length; ++i) {
-      Object[] data = CrimboCafeRequest.MENU_DATA[i];
-      if (name.equalsIgnoreCase((String) data[0])) {
+      Item data = CrimboCafeRequest.MENU_DATA[i];
+      if (name.equalsIgnoreCase(data.name)) {
         return data;
       }
     }
     return null;
   }
 
-  private static Object[] dataByItemID(final int itemId) {
+  private static Item dataByItemID(final int itemId) {
     for (int i = 0; i < CrimboCafeRequest.MENU_DATA.length; ++i) {
-      Object[] data = CrimboCafeRequest.MENU_DATA[i];
-      if (itemId == ((Integer) data[1]).intValue()) {
+      Item data = CrimboCafeRequest.MENU_DATA[i];
+      if (itemId == data.itemId) {
         return data;
       }
     }
     return null;
-  }
-
-  public static final String dataName(Object[] data) {
-    return (String) data[0];
-  }
-
-  public static final int dataItemID(Object[] data) {
-    return ((Integer) data[1]).intValue();
-  }
-
-  public static final int dataPrice(Object[] data) {
-    return ((Integer) data[2]).intValue();
   }
 
   public CrimboCafeRequest(final String name) {
@@ -69,10 +48,10 @@ public class CrimboCafeRequest extends CafeRequest {
     int itemId = 0;
     int price = 0;
 
-    Object[] data = dataByName(name);
+    Item data = dataByName(name);
     if (data != null) {
-      itemId = dataItemID(data);
-      price = dataPrice(data);
+      itemId = data.itemId;
+      price = data.price;
     }
 
     this.setItem(name, itemId, price);
@@ -89,9 +68,9 @@ public class CrimboCafeRequest extends CafeRequest {
     KoLmafia.updateDisplay("Visiting Crimbo Cafe...");
     KoLConstants.cafeItems.clear();
     for (int i = 0; i < CrimboCafeRequest.MENU_DATA.length; ++i) {
-      Object[] data = CrimboCafeRequest.MENU_DATA[i];
-      String name = CrimboCafeRequest.dataName(data);
-      int price = CrimboCafeRequest.dataPrice(data);
+      Item data = CrimboCafeRequest.MENU_DATA[i];
+      String name = data.name;
+      int price = data.price;
       CafeRequest.addMenuItem(KoLConstants.cafeItems, name, price);
     }
     ConcoctionDatabase.getUsables().sort();
@@ -115,13 +94,13 @@ public class CrimboCafeRequest extends CafeRequest {
 
     int itemId = StringUtilities.parseInt(matcher.group(1));
 
-    Object[] data = CrimboCafeRequest.dataByItemID(itemId);
+    Item data = CrimboCafeRequest.dataByItemID(itemId);
     if (data == null) {
       return false;
     }
 
-    String itemName = CrimboCafeRequest.dataName(data);
-    int price = CrimboCafeRequest.dataPrice(data);
+    String itemName = data.name;
+    int price = data.price;
 
     CafeRequest.registerItemUsage(itemName, price);
     return true;

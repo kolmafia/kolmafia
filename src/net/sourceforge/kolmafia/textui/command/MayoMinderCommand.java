@@ -23,21 +23,21 @@ public class MayoMinderCommand extends AbstractCommand {
   public static final int MAYOSTAT = 3;
   public static final int MAYOZAPINE = 4;
 
-  public static final Object[][] MAYO =
-      new Object[][] {
-        {"mayodiol", "drunk", MAYODIOL},
-        {"mayoflex", "adv", MAYOFLEX},
-        {"mayonex", "bmc", MAYONEX},
-        {"mayostat", "food", MAYOSTAT},
-        {"mayozapine", "stat", MAYOZAPINE},
+  private record Mayo(String name, String alias, int choice) {}
+
+  public static final Mayo[] MAYO =
+      new Mayo[] {
+        new Mayo("mayodiol", "drunk", MAYODIOL),
+        new Mayo("mayoflex", "adv", MAYOFLEX),
+        new Mayo("mayonex", "bmc", MAYONEX),
+        new Mayo("mayostat", "food", MAYOSTAT),
+        new Mayo("mayozapine", "stat", MAYOZAPINE),
       };
 
   public static final int findMayo(final String name) {
-    for (int i = 0; i < MAYO.length; ++i) {
-      if (name.equalsIgnoreCase((String) MAYO[i][0])
-          || name.equalsIgnoreCase((String) MAYO[i][1])) {
-        Integer index = (Integer) MAYO[i][2];
-        return index.intValue();
+    for (Mayo mayo : MAYO) {
+      if (name.equalsIgnoreCase(mayo.name) || name.equalsIgnoreCase(mayo.alias)) {
+        return mayo.choice;
       }
     }
 
