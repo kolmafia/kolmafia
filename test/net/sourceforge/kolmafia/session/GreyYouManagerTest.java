@@ -1,13 +1,11 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.html;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
@@ -31,11 +29,6 @@ public class GreyYouManagerTest {
     GreyYouManager.resetAbsorptions();
   }
 
-  static String loadHTMLResponse(String path) throws IOException {
-    // Load the responseText from saved HTML file
-    return Files.readString(Paths.get(path)).trim();
-  }
-
   static void printSizes() {
     System.out.println(
         "absorbed monsters: "
@@ -47,8 +40,8 @@ public class GreyYouManagerTest {
   }
 
   @Test
-  public void canFindAbsorptionsOnCharSheet() throws IOException {
-    String responseText = loadHTMLResponse("request/test_grey_you_charsheet.html");
+  public void canFindAbsorptionsOnCharSheet() {
+    String responseText = html("request/test_grey_you_charsheet.html");
     GreyYouManager.parseMonsterAbsorptions(responseText);
     assertEquals(92, GreyYouManager.absorbedMonsters.size());
     assertEquals(0, GreyYouManager.unknownAbsorptions.size());
@@ -61,8 +54,8 @@ public class GreyYouManagerTest {
   }
 
   @Test
-  public void canFindUnknownAbsorptionsOnCharSheet() throws IOException {
-    String responseText = loadHTMLResponse("request/test_grey_you_unknown_absorptions.html");
+  public void canFindUnknownAbsorptionsOnCharSheet() {
+    String responseText = html("request/test_grey_you_unknown_absorptions.html");
     GreyYouManager.parseMonsterAbsorptions(responseText);
     assertEquals(0, GreyYouManager.absorbedMonsters.size());
     assertEquals(2, GreyYouManager.unknownAbsorptions.size());
@@ -73,8 +66,8 @@ public class GreyYouManagerTest {
   }
 
   @Test
-  public void canParseCharsheetOnlyInGreyYou() throws IOException {
-    String responseText = loadHTMLResponse("request/test_grey_you_charsheet.html");
+  public void canParseCharsheetOnlyInGreyYou() {
+    String responseText = html("request/test_grey_you_charsheet.html");
 
     // This is the method that CharSheetResponse calls
     GreyYouManager.parseAbsorptions(responseText);
@@ -91,7 +84,7 @@ public class GreyYouManagerTest {
   }
 
   @Test
-  public void canRegisterAbsorptionAfterFight() throws IOException {
+  public void canRegisterAbsorptionAfterFight() {
     // This is the method that FightRequest calls
     String name1 = "oil baron";
     MonsterData monster1 = MonsterDatabase.findMonster(name1);

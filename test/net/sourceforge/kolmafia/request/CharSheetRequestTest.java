@@ -1,12 +1,10 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.html;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import javax.xml.parsers.ParserConfigurationException;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ZodiacSign;
@@ -28,8 +26,8 @@ public class CharSheetRequestTest {
   }
 
   @Test
-  public void parseSkills() throws IOException, ParserConfigurationException {
-    String html = Files.readString(Paths.get("request/test_charsheet_normal.html"));
+  public void parseSkills() throws ParserConfigurationException {
+    String html = html("request/test_charsheet_normal.html");
 
     HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
     DomSerializer domSerializer = new DomSerializer(cleaner.getProperties());
@@ -119,8 +117,8 @@ public class CharSheetRequestTest {
 
   @ParameterizedTest
   @CsvSource({"normal, 123", "unbuffed_stats, 1199739", "grey_you, 2395753"})
-  public void parsePlayerId(String page, String expected) throws IOException {
-    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+  public void parsePlayerId(String page, String expected) {
+    String html = html("request/test_charsheet_" + page + ".html");
     CharSheetRequest.parseStatus(html);
 
     assertThat(KoLCharacter.getPlayerId(), equalTo(expected));
@@ -129,9 +127,8 @@ public class CharSheetRequestTest {
   @ParameterizedTest
   @CsvSource({"normal, 394, 394, 394", "unbuffed_stats, 162, 243, 243", "grey_you, 25, 25, 25"})
   public void parseHP(
-      String page, String expectedCurrentHP, String expectedMaxHP, String expectedBaseMaxHP)
-      throws IOException {
-    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+      String page, String expectedCurrentHP, String expectedMaxHP, String expectedBaseMaxHP) {
+    String html = html("request/test_charsheet_" + page + ".html");
     CharSheetRequest.parseStatus(html);
 
     assertThat(KoLCharacter.getCurrentHP(), equalTo(Long.parseLong(expectedCurrentHP)));
@@ -142,9 +139,8 @@ public class CharSheetRequestTest {
   @ParameterizedTest
   @CsvSource({"normal, 359, 1221, 1221", "unbuffed_stats, 225, 225, 225", "grey_you, 5, 5, 5"})
   public void parseMP(
-      String page, String expectedCurrentMP, String expectedMaxMP, String expectedBaseMaxMP)
-      throws IOException {
-    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+      String page, String expectedCurrentMP, String expectedMaxMP, String expectedBaseMaxMP) {
+    String html = html("request/test_charsheet_" + page + ".html");
     CharSheetRequest.parseStatus(html);
 
     assertThat(KoLCharacter.getCurrentMP(), equalTo(Long.parseLong(expectedCurrentMP)));
@@ -153,8 +149,8 @@ public class CharSheetRequestTest {
   }
 
   @Test
-  public void parseUnbuffedStats() throws IOException {
-    String html = Files.readString(Paths.get("request/test_charsheet_unbuffed_stats.html"));
+  public void parseUnbuffedStats() {
+    String html = html("request/test_charsheet_unbuffed_stats.html");
     CharSheetRequest.parseStatus(html);
 
     assertThat(KoLCharacter.getTotalMuscle(), equalTo(25313L));
@@ -166,8 +162,8 @@ public class CharSheetRequestTest {
   }
 
   @Test
-  public void parseBuffedStats() throws IOException {
-    String html = Files.readString(Paths.get("request/test_charsheet_normal.html"));
+  public void parseBuffedStats() {
+    String html = html("request/test_charsheet_normal.html");
     CharSheetRequest.parseStatus(html);
 
     assertThat(KoLCharacter.getTotalMuscle(), equalTo(29492L));
@@ -179,8 +175,8 @@ public class CharSheetRequestTest {
   }
 
   @Test
-  public void parseGreyYouStats() throws IOException {
-    String html = Files.readString(Paths.get("request/test_charsheet_grey_you.html"));
+  public void parseGreyYouStats() {
+    String html = html("request/test_charsheet_grey_you.html");
     CharSheetRequest.parseStatus(html);
 
     assertThat(KoLCharacter.getTotalMuscle(), equalTo(9L));
@@ -193,8 +189,8 @@ public class CharSheetRequestTest {
 
   @ParameterizedTest
   @CsvSource({"normal, 44", "unbuffed_stats, 494", "grey_you, 20"})
-  public void parseAscensions(String page, String expected) throws IOException {
-    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+  public void parseAscensions(String page, String expected) {
+    String html = html("request/test_charsheet_" + page + ".html");
     CharSheetRequest.parseStatus(html);
 
     assertThat(KoLCharacter.getAscensions(), equalTo(Integer.parseInt(expected)));
@@ -202,8 +198,8 @@ public class CharSheetRequestTest {
 
   @ParameterizedTest
   @CsvSource({"normal, 8621947", "unbuffed_stats, 593", "grey_you, 0"})
-  public void parseAvailableMeat(String page, String expected) throws IOException {
-    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+  public void parseAvailableMeat(String page, String expected) {
+    String html = html("request/test_charsheet_" + page + ".html");
     CharSheetRequest.parseStatus(html);
 
     assertThat(KoLCharacter.getAvailableMeat(), equalTo(Long.parseLong(expected)));
@@ -211,8 +207,8 @@ public class CharSheetRequestTest {
 
   @ParameterizedTest
   @CsvSource({"normal, 2979", "unbuffed_stats, 30", "grey_you, 0"})
-  public void parseCurrentRun(String page, String expected) throws IOException {
-    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+  public void parseCurrentRun(String page, String expected) {
+    String html = html("request/test_charsheet_" + page + ".html");
     CharSheetRequest.parseStatus(html);
 
     assertThat(KoLCharacter.getCurrentRun(), equalTo(Integer.parseInt(expected)));
@@ -220,8 +216,8 @@ public class CharSheetRequestTest {
 
   @ParameterizedTest
   @CsvSource({"normal, 14", "unbuffed_stats, 5", "grey_you, 1"})
-  public void parseCurrentDays(String page, String expected) throws IOException {
-    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+  public void parseCurrentDays(String page, String expected) {
+    String html = html("request/test_charsheet_" + page + ".html");
     CharSheetRequest.parseStatus(html);
 
     assertThat(KoLCharacter.getCurrentDays(), equalTo(Integer.parseInt(expected)));
@@ -229,8 +225,8 @@ public class CharSheetRequestTest {
 
   @ParameterizedTest
   @CsvSource({"normal, Mongoose", "unbuffed_stats, Mongoose", "grey_you, Vole"})
-  public void parseSign(String page, String expected) throws IOException {
-    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+  public void parseSign(String page, String expected) {
+    String html = html("request/test_charsheet_" + page + ".html");
     CharSheetRequest.parseStatus(html);
 
     assertThat(KoLCharacter.getSign(), equalTo(expected));
@@ -238,8 +234,8 @@ public class CharSheetRequestTest {
 
   @ParameterizedTest
   @CsvSource({"normal, false", "unbuffed_stats, false", "grey_you, false"})
-  public void parseHardcore(String page, String expected) throws IOException {
-    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+  public void parseHardcore(String page, String expected) {
+    String html = html("request/test_charsheet_" + page + ".html");
     CharSheetRequest.parseStatus(html);
 
     assertThat(KoLCharacter.isHardcore(), equalTo(Boolean.parseBoolean(expected)));
@@ -247,16 +243,16 @@ public class CharSheetRequestTest {
 
   @ParameterizedTest
   @CsvSource({"normal, 0", "unbuffed_stats, 970", "grey_you, 1000"})
-  public void parseRonin(String page, String expected) throws IOException {
-    String html = Files.readString(Paths.get("request/test_charsheet_" + page + ".html"));
+  public void parseRonin(String page, String expected) {
+    String html = html("request/test_charsheet_" + page + ".html");
     CharSheetRequest.parseStatus(html);
 
     assertThat(KoLCharacter.roninLeft(), equalTo(Integer.parseInt(expected)));
   }
 
   @Test
-  public void unascendedCharacterHasNoPathOrSign() throws IOException {
-    String html = Files.readString(Paths.get("request/test_charsheet_unascended.html"));
+  public void unascendedCharacterHasNoPathOrSign() {
+    String html = html("request/test_charsheet_unascended.html");
     CharSheetRequest.parseStatus(html);
 
     assertThat(KoLCharacter.getAscensions(), equalTo(0));
@@ -264,8 +260,8 @@ public class CharSheetRequestTest {
   }
 
   @Test
-  public void parsesDrunkenness() throws IOException {
-    String html = Files.readString(Paths.get("request/test_charsheet_unascended.html"));
+  public void parsesDrunkenness() {
+    String html = html("request/test_charsheet_unascended.html");
     CharSheetRequest.parseStatus(html);
 
     assertThat(KoLCharacter.getInebriety(), equalTo(3));

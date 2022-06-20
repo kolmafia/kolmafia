@@ -1,10 +1,8 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.html;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -32,8 +30,7 @@ public class ProcessAcquiredItemsTest {
 
   // *** Here are tests for pull items out of your store
 
-  private ManageStoreRequest manageStoreRequestSetup(AdventureResult item, String path)
-      throws IOException {
+  private ManageStoreRequest manageStoreRequestSetup(AdventureResult item, String path) {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("transfer items user");
@@ -51,15 +48,14 @@ public class ProcessAcquiredItemsTest {
     KoLConstants.freepulls.clear();
 
     // Load the responseText from saved HTML file
-    String html = Files.readString(Paths.get("request/" + path)).trim();
-    request.responseText = html;
+    request.responseText = html("request/" + path);
 
     // Voila! we are ready to test
     return request;
   }
 
   @Test
-  public void itMovesFromStoreToInventory() throws IOException {
+  public void itMovesFromStoreToInventory() {
 
     // Load up our request/response
     AdventureResult item = ItemPool.get(ItemPool.REAGENT, 1);
@@ -81,7 +77,7 @@ public class ProcessAcquiredItemsTest {
   }
 
   @Test
-  public void itMovesFromStoreToStorage() throws IOException {
+  public void itMovesFromStoreToStorage() {
 
     // Load up our request/response
     AdventureResult item = ItemPool.get(ItemPool.SUMP_M_SUMP_M, 2);
@@ -104,7 +100,7 @@ public class ProcessAcquiredItemsTest {
   }
 
   @Test
-  public void itMovesFromStoreToFreepulls() throws IOException {
+  public void itMovesFromStoreToFreepulls() {
 
     // Load up our request/response
     AdventureResult item = ItemPool.get(ItemPool.TOILET_PAPER, 2);
@@ -129,7 +125,7 @@ public class ProcessAcquiredItemsTest {
   // *** Here are tests for buying items from the mall
 
   private MallPurchaseRequest mallPurchaseRequestSetup(
-      AdventureResult item, int shopId, int price, String path) throws IOException {
+      AdventureResult item, int shopId, int price, String path) {
     // Simulate logging out and back in again.
     KoLCharacter.reset("");
     KoLCharacter.reset("transfer items user");
@@ -149,15 +145,14 @@ public class ProcessAcquiredItemsTest {
     KoLConstants.freepulls.clear();
 
     // Load the responseText from saved HTML file
-    String html = Files.readString(Paths.get("request/" + path)).trim();
-    request.responseText = html;
+    request.responseText = html("request/" + path);
 
     // Voila! we are ready to test
     return request;
   }
 
   @Test
-  public void itMovesFromMallToInventory() throws IOException {
+  public void itMovesFromMallToInventory() {
 
     // Load up our request/response
     AdventureResult item = ItemPool.get(ItemPool.MILK_OF_MAGNESIUM, 1);
@@ -180,7 +175,7 @@ public class ProcessAcquiredItemsTest {
   }
 
   @Test
-  public void itMovesFromMallToStorage() throws IOException {
+  public void itMovesFromMallToStorage() {
 
     // Load up our request/response
     AdventureResult item = ItemPool.get(ItemPool.MILK_OF_MAGNESIUM, 1);
@@ -203,7 +198,7 @@ public class ProcessAcquiredItemsTest {
   }
 
   @Test
-  public void itMovesFromMallToFreepulls() throws IOException {
+  public void itMovesFromMallToFreepulls() {
 
     // Load up our request/response
     AdventureResult item = ItemPool.get(ItemPool.TOILET_PAPER, 1);

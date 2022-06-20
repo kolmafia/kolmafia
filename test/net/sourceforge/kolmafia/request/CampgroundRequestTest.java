@@ -1,10 +1,8 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.html;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -19,9 +17,8 @@ public class CampgroundRequestTest {
   }
 
   @Test
-  void canDetectExhaustedMedicineCabinet() throws IOException {
-    String html =
-        Files.readString(Path.of("request/test_campground_medicine_cabinet_out_of_consults.html"));
+  void canDetectExhaustedMedicineCabinet() {
+    String html = html("request/test_campground_medicine_cabinet_out_of_consults.html");
     CampgroundRequest.parseResponse("campground.php?action=workshed", html);
     assertEquals(
         CampgroundRequest.getCurrentWorkshedItem().getItemId(), ItemPool.COLD_MEDICINE_CABINET);

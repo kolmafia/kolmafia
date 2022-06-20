@@ -1,15 +1,14 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.Networking.assertPostRequest;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import internal.helpers.Player;
-import internal.network.RequestBodyReader;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,12 +37,8 @@ public class AutoSellCommandTest extends AbstractCommandTestBase {
     var requests = getRequests();
 
     assertThat(requests, not(empty()));
-    var request = requests.get(0);
-    var uri = request.uri();
-    assertThat(uri.getPath(), equalTo("/sellstuff.php"));
-    assertThat(request.method(), equalTo("POST"));
-    var body = new RequestBodyReader().bodyAsString(request);
-    assertThat(body, equalTo("action=sell&ajax=1&type=quant&howmany=1&whichitem[]=2"));
+    assertPostRequest(
+        requests.get(0), "/sellstuff.php", "action=sell&ajax=1&type=quant&howmany=1&whichitem[]=2");
   }
 
   @Test
@@ -57,12 +52,10 @@ public class AutoSellCommandTest extends AbstractCommandTestBase {
     var requests = getRequests();
 
     assertThat(requests, not(empty()));
-    var request = requests.get(0);
-    var uri = request.uri();
-    assertThat(uri.getPath(), equalTo("/sellstuff.php"));
-    assertThat(request.method(), equalTo("POST"));
-    var body = new RequestBodyReader().bodyAsString(request);
-    assertThat(body, equalTo("action=sell&ajax=1&type=all&howmany=1&whichitem[]=2&whichitem[]=3"));
+    assertPostRequest(
+        requests.get(0),
+        "/sellstuff.php",
+        "action=sell&ajax=1&type=all&howmany=1&whichitem[]=2&whichitem[]=3");
   }
 
   @Test
@@ -111,11 +104,9 @@ public class AutoSellCommandTest extends AbstractCommandTestBase {
     var requests = getRequests();
 
     assertThat(requests, not(empty()));
-    var request = requests.get(0);
-    var uri = request.uri();
-    assertThat(uri.getPath(), equalTo("/sellstuff.php"));
-    assertThat(request.method(), equalTo("POST"));
-    var body = new RequestBodyReader().bodyAsString(request);
-    assertThat(body, equalTo("action=sell&ajax=1&type=allbutone&howmany=1&whichitem[]=2"));
+    assertPostRequest(
+        requests.get(0),
+        "/sellstuff.php",
+        "action=sell&ajax=1&type=allbutone&howmany=1&whichitem[]=2");
   }
 }

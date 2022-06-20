@@ -1,14 +1,12 @@
 package net.sourceforge.kolmafia.textui;
 
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.addItem;
 import static internal.helpers.Player.setupFakeResponse;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsString;
 
 import internal.helpers.Cleanups;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
@@ -47,9 +45,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   }
 
   @Test
-  void getPermedSkills() throws IOException {
-    CharSheetRequest.parseStatus(
-        Files.readString(Paths.get("request/test_charsheet_normal.html")).trim());
+  void getPermedSkills() {
+    CharSheetRequest.parseStatus(html("request/test_charsheet_normal.html"));
 
     String outputHardcore = execute("get_permed_skills()[$skill[Nimble Fingers]]");
 
@@ -90,13 +87,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   }
 
   @Test
-  void floundryLocations() throws IOException {
+  void floundryLocations() {
     // don't try to visit the fireworks shop
     Preferences.setBoolean("_fireworksShop", true);
 
-    var cleanups =
-        setupFakeResponse(
-            200, Files.readString(Paths.get(("request/test_clan_floundry.html"))).trim());
+    var cleanups = setupFakeResponse(200, html("request/test_clan_floundry.html"));
 
     try (cleanups) {
       String output = execute("get_fishing_locations()");

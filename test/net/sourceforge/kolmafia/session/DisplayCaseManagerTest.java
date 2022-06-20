@@ -1,9 +1,8 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.html;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,11 +30,7 @@ class DisplayCaseManagerTest {
     // This file is managecollectionshelves.php with no shelves.
     String displayCase = null;
     String fileName = "request/test_displaycollection_no_shelves.html";
-    try {
-      displayCase = Files.readString(Path.of(fileName));
-    } catch (Exception e) {
-      fail("Exception " + e);
-    }
+    displayCase = html(fileName);
     assertNotNull(displayCase, "Could not read case data.");
     assertTrue(displayCase.length() > 0, "Case data is empty.");
     DisplayCaseManager.update(displayCase);
@@ -49,11 +44,7 @@ class DisplayCaseManagerTest {
     // This file is managecollectionshelves.php with two shelves.
     String displayCase = null;
     String fileName = "request/test_displaycollection_shelves.html";
-    try {
-      displayCase = Files.readString(Path.of(fileName));
-    } catch (Exception e) {
-      fail("Exception " + e);
-    }
+    displayCase = html(fileName);
     assertNotNull(displayCase, "Could not read case data.");
     assertTrue(displayCase.length() > 0, "Case data is empty.");
     DisplayCaseManager.update(displayCase);

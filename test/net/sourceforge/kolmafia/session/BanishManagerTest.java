@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.html;
 import static internal.helpers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayContaining;
@@ -9,9 +10,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -398,13 +396,13 @@ class BanishManagerTest {
   }
 
   @Test
-  void canDiscoverIceHouseMonsterFromNoncombat() throws IOException {
+  void canDiscoverIceHouseMonsterFromNoncombat() {
     KoLCharacter.setCurrentRun(128);
     assertThat("banishedMonsters", isSetTo(""));
     BanishManager.loadBanishedMonsters();
 
     var request = new GenericRequest("choice.php?forceoption=0");
-    request.responseText = Files.readString(Path.of("request/test_museum_ice_house.html"));
+    request.responseText = html("request/test_museum_ice_house.html");
     ChoiceManager.visitChoice(request);
 
     var ice = BanishManager.getBanishedMonster(Banisher.ICE_HOUSE);

@@ -1,13 +1,11 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.*;
 import static internal.helpers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -25,7 +23,7 @@ public class GenericRequestTest {
   }
 
   @Test
-  public void hallowienerVolcoinoNotPickedUpByLuckyGoldRing() throws IOException {
+  public void hallowienerVolcoinoNotPickedUpByLuckyGoldRing() {
     assertEquals("", Preferences.getString("lastEncounter"));
     equip(EquipmentManager.ACCESSORY1, "lucky gold ring");
     assertEquals(false, Preferences.getBoolean("_luckyGoldRingVolcoino"));
@@ -34,9 +32,7 @@ public class GenericRequestTest {
 
     GenericRequest request = new GenericRequest("adventure.php?snarfblat=451");
     request.setHasResult(true);
-    request.responseText =
-        Files.readString(
-            Paths.get("request/test_adventure_hallowiener_volcoino_lucky_gold_ring.html"));
+    request.responseText = html("request/test_adventure_hallowiener_volcoino_lucky_gold_ring.html");
 
     request.processResponse();
 
@@ -45,12 +41,11 @@ public class GenericRequestTest {
   }
 
   @Test
-  public void seeingEmptySpookyPuttyMonsterSetsProperty() throws IOException {
+  public void seeingEmptySpookyPuttyMonsterSetsProperty() {
     Preferences.setString("spookyPuttyMonster", "zmobie");
 
     var req = new GenericRequest("desc_item.php?whichitem=324375100");
-    req.responseText =
-        Files.readString(Paths.get("request/test_desc_item_spooky_putty_monster_empty.html"));
+    req.responseText = html("request/test_desc_item_spooky_putty_monster_empty.html");
     req.processResponse();
 
     assertThat("spookyPuttyMonster", isSetTo(""));
@@ -58,11 +53,9 @@ public class GenericRequestTest {
 
   @ParameterizedTest
   @ValueSource(strings = {"beast", "elf"})
-  public void learnLocketPhylumFromLocketDescription(String phylum) throws IOException {
+  public void learnLocketPhylumFromLocketDescription(String phylum) {
     var req = new GenericRequest("desc_item.php?whichitem=634036450");
-    req.responseText =
-        Files.readString(
-            Paths.get("request/test_desc_item_combat_lovers_locket_" + phylum + ".html"));
+    req.responseText = html("request/test_desc_item_combat_lovers_locket_" + phylum + ".html");
     req.processResponse();
 
     assertThat("locketPhylum", isSetTo(phylum));

@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.equip;
 import static internal.helpers.Player.setFamiliar;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -7,9 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -96,15 +94,15 @@ public class CrystalBallManagerTest {
   }
 
   @Test
-  public void canParsePonder() throws IOException {
-    String html = Files.readString(Path.of("request/test_ponder_orb_one_prediction.html"));
+  public void canParsePonder() {
+    String html = html("request/test_ponder_orb_one_prediction.html");
     CrystalBallManager.parsePonder(html);
     assertEquals("0:Twin Peak:Creepy Ginger Twin", Preferences.getString("crystalBallPredictions"));
   }
 
   @Test
-  public void canParsePonderWithMultiple() throws IOException {
-    String html = Files.readString(Path.of("request/test_ponder_orb_two_predictions.html"));
+  public void canParsePonderWithMultiple() {
+    String html = html("request/test_ponder_orb_two_predictions.html");
     CrystalBallManager.parsePonder(html);
     assertEquals(
         "0:A-Boo Peak:Dusken Raider Ghost|0:Twin Peak:Creepy Ginger Twin",
@@ -113,16 +111,16 @@ public class CrystalBallManagerTest {
   }
 
   @Test
-  public void canParsePonderWithArticles() throws IOException {
-    String html = Files.readString(Path.of("request/test_ponder_orb_some_article.html"));
+  public void canParsePonderWithArticles() {
+    String html = html("request/test_ponder_orb_some_article.html");
     CrystalBallManager.parsePonder(html);
     assertEquals(
         "0:The Haunted Ballroom:zombie waltzers", Preferences.getString("crystalBallPredictions"));
   }
 
   @Test
-  public void canParsePonderWithNameStartingWithArticle() throws IOException {
-    String html = Files.readString(Path.of("request/test_ponder_orb_the_gunk.html"));
+  public void canParsePonderWithNameStartingWithArticle() {
+    String html = html("request/test_ponder_orb_the_gunk.html");
     CrystalBallManager.parsePonder(html);
     assertEquals(
         "0:The Haunted Laboratory:the gunk", Preferences.getString("crystalBallPredictions"));
