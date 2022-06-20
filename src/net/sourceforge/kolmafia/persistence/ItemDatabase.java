@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.DustyBottle;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
@@ -78,62 +79,87 @@ public class ItemDatabase {
   public static final String DISCARD_FLAG = "d";
   public static final String BOGUS_FLAG = "z";
 
-  public static Object[][] PUNCHCARDS = {
+  public record Punchcard(int id, String name, String alias) {}
+
+  public static Punchcard[] PUNCHCARDS = {
     // Verbs
-    {
-      ItemPool.PUNCHCARD_ATTACK, "El Vibrato punchcard (115 holes)", "El Vibrato punchcard (ATTACK)"
-    },
-    {ItemPool.PUNCHCARD_REPAIR, "El Vibrato punchcard (97 holes)", "El Vibrato punchcard (REPAIR)"},
-    {ItemPool.PUNCHCARD_BUFF, "El Vibrato punchcard (129 holes)", "El Vibrato punchcard (BUFF)"},
-    {
-      ItemPool.PUNCHCARD_MODIFY, "El Vibrato punchcard (213 holes)", "El Vibrato punchcard (MODIFY)"
-    },
-    {ItemPool.PUNCHCARD_BUILD, "El Vibrato punchcard (165 holes)", "El Vibrato punchcard (BUILD)"},
+    new Punchcard(
+        ItemPool.PUNCHCARD_ATTACK,
+        "El Vibrato punchcard (115 holes)",
+        "El Vibrato punchcard (ATTACK)"),
+    new Punchcard(
+        ItemPool.PUNCHCARD_REPAIR,
+        "El Vibrato punchcard (97 holes)",
+        "El Vibrato punchcard (REPAIR)"),
+    new Punchcard(
+        ItemPool.PUNCHCARD_BUFF, "El Vibrato punchcard (129 holes)", "El Vibrato punchcard (BUFF)"),
+    new Punchcard(
+        ItemPool.PUNCHCARD_MODIFY,
+        "El Vibrato punchcard (213 holes)",
+        "El Vibrato punchcard (MODIFY)"),
+    new Punchcard(
+        ItemPool.PUNCHCARD_BUILD,
+        "El Vibrato punchcard (165 holes)",
+        "El Vibrato punchcard (BUILD)"),
 
     // Objects
-    {
-      ItemPool.PUNCHCARD_TARGET, "El Vibrato punchcard (142 holes)", "El Vibrato punchcard (TARGET)"
-    },
-    {ItemPool.PUNCHCARD_SELF, "El Vibrato punchcard (216 holes)", "El Vibrato punchcard (SELF)"},
-    {ItemPool.PUNCHCARD_FLOOR, "El Vibrato punchcard (88 holes)", "El Vibrato punchcard (FLOOR)"},
-    {ItemPool.PUNCHCARD_DRONE, "El Vibrato punchcard (182 holes)", "El Vibrato punchcard (DRONE)"},
-    {ItemPool.PUNCHCARD_WALL, "El Vibrato punchcard (176 holes)", "El Vibrato punchcard (WALL)"},
-    {ItemPool.PUNCHCARD_SPHERE, "El Vibrato punchcard (104 holes)", "El Vibrato punchcard (SPHERE)"}
+    new Punchcard(
+        ItemPool.PUNCHCARD_TARGET,
+        "El Vibrato punchcard (142 holes)",
+        "El Vibrato punchcard (TARGET)"),
+    new Punchcard(
+        ItemPool.PUNCHCARD_SELF, "El Vibrato punchcard (216 holes)", "El Vibrato punchcard (SELF)"),
+    new Punchcard(
+        ItemPool.PUNCHCARD_FLOOR,
+        "El Vibrato punchcard (88 holes)",
+        "El Vibrato punchcard (FLOOR)"),
+    new Punchcard(
+        ItemPool.PUNCHCARD_DRONE,
+        "El Vibrato punchcard (182 holes)",
+        "El Vibrato punchcard (DRONE)"),
+    new Punchcard(
+        ItemPool.PUNCHCARD_WALL, "El Vibrato punchcard (176 holes)", "El Vibrato punchcard (WALL)"),
+    new Punchcard(
+        ItemPool.PUNCHCARD_SPHERE,
+        "El Vibrato punchcard (104 holes)",
+        "El Vibrato punchcard (SPHERE)")
   };
 
-  private static final Object[][] ALIASES = {
-    {ItemPool.BUGGED_BONNET, "bugged bonnet"},
-    {ItemPool.BUGGED_MEAT_CLUB, "bugged meat stabbing club"},
-    {ItemPool.BUGGED_POTION, "bugged Knob Goblin love potion"},
-    {ItemPool.BUGGED_KNICKERBOCKERS, "bugged old school Mafia knickerbockers"},
-    {ItemPool.BUGGED_BAIO, "bugged Talisman of Baio"},
-    {ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (broken)"},
-    {ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (forward-facing)"},
-    {ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (bucket style)"},
-    {ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (pitchfork style)"},
-    {ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (constantly twirling)"},
-    {ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (cocoon)"},
-    {-1, "potion of inebriety"},
-    {-1, "potion of healing"},
-    {-1, "potion of confusion"},
-    {-1, "potion of blessing"},
-    {-1, "potion of detection"},
-    {-1, "potion of sleepiness"},
-    {-1, "potion of mental acuity"},
-    {-1, "potion of ettin strength"},
-    {-1, "potion of teleportitis"},
-    {-1, "vial of slime: strong"},
-    {-1, "vial of slime: sagacious"},
-    {-1, "vial of slime: speedy"},
-    {-1, "vial of slime: brawn"},
-    {-1, "vial of slime: brains"},
-    {-1, "vial of slime: briskness"},
-    {-1, "vial of slime: slimeform"},
-    {-1, "vial of slime: eyesight"},
-    {-1, "vial of slime: intensity"},
-    {-1, "vial of slime: muscle"},
-    {-1, "vial of slime: mentalism"},
-    {-1, "vial of slime: moxiousness"},
+  private record Alias(int id, String name) {}
+
+  private static final Alias[] ALIASES = {
+    new Alias(ItemPool.BUGGED_BONNET, "bugged bonnet"),
+    new Alias(ItemPool.BUGGED_MEAT_CLUB, "bugged meat stabbing club"),
+    new Alias(ItemPool.BUGGED_POTION, "bugged Knob Goblin love potion"),
+    new Alias(ItemPool.BUGGED_KNICKERBOCKERS, "bugged old school Mafia knickerbockers"),
+    new Alias(ItemPool.BUGGED_BAIO, "bugged Talisman of Baio"),
+    new Alias(ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (broken)"),
+    new Alias(ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (forward-facing)"),
+    new Alias(ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (bucket style)"),
+    new Alias(ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (pitchfork style)"),
+    new Alias(ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (constantly twirling)"),
+    new Alias(ItemPool.UNBREAKABLE_UMBRELLA, "unbreakable umbrella (cocoon)"),
+    new Alias(-1, "potion of inebriety"),
+    new Alias(-1, "potion of healing"),
+    new Alias(-1, "potion of confusion"),
+    new Alias(-1, "potion of blessing"),
+    new Alias(-1, "potion of detection"),
+    new Alias(-1, "potion of sleepiness"),
+    new Alias(-1, "potion of mental acuity"),
+    new Alias(-1, "potion of ettin strength"),
+    new Alias(-1, "potion of teleportitis"),
+    new Alias(-1, "vial of slime: strong"),
+    new Alias(-1, "vial of slime: sagacious"),
+    new Alias(-1, "vial of slime: speedy"),
+    new Alias(-1, "vial of slime: brawn"),
+    new Alias(-1, "vial of slime: brains"),
+    new Alias(-1, "vial of slime: briskness"),
+    new Alias(-1, "vial of slime: slimeform"),
+    new Alias(-1, "vial of slime: eyesight"),
+    new Alias(-1, "vial of slime: intensity"),
+    new Alias(-1, "vial of slime: muscle"),
+    new Alias(-1, "vial of slime: mentalism"),
+    new Alias(-1, "vial of slime: moxiousness"),
   };
 
   private static final List<String> ACCESS =
@@ -598,10 +624,10 @@ public class ItemDatabase {
     ItemDatabase.addIdToName("worthless item", id);
 
     // Set aliases for the dusty bottles
-    for (Object[] dusty : ConsumablesDatabase.DUSTY_BOTTLES) {
-      id = (Integer) dusty[0];
-      String name = StringUtilities.getCanonicalName((String) dusty[1]);
-      String alias = StringUtilities.getCanonicalName((String) dusty[2]);
+    for (DustyBottle dusty : ConsumablesDatabase.DUSTY_BOTTLES) {
+      id = dusty.id();
+      String name = StringUtilities.getCanonicalName(dusty.name());
+      String alias = StringUtilities.getCanonicalName(dusty.alias());
       String plural = StringUtilities.singleStringReplace(alias, "bottle", "bottles");
       ItemDatabase.addIdToName(alias, id);
       ItemDatabase.itemIdByPlural.put(plural, id);
@@ -609,9 +635,9 @@ public class ItemDatabase {
     }
 
     // Set aliases for the El Vibrato punch cards
-    for (Object[] punchcard : ItemDatabase.PUNCHCARDS) {
-      id = (Integer) punchcard[0];
-      String alias = StringUtilities.getCanonicalName((String) punchcard[2]);
+    for (Punchcard punchcard : ItemDatabase.PUNCHCARDS) {
+      id = punchcard.id;
+      String alias = StringUtilities.getCanonicalName(punchcard.alias);
       String plural = StringUtilities.singleStringReplace(alias, "punchcard", "punchcards");
       ItemDatabase.addIdToName(alias, id);
       ItemDatabase.itemIdByPlural.put(plural, id);
@@ -632,9 +658,9 @@ public class ItemDatabase {
     }
 
     // Miscellaneous aliases for untypeable item names
-    for (Object[] alias : ItemDatabase.ALIASES) {
-      id = (Integer) alias[0];
-      String name = StringUtilities.getCanonicalName((String) alias[1]);
+    for (Alias alias : ItemDatabase.ALIASES) {
+      id = alias.id;
+      String name = StringUtilities.getCanonicalName(alias.name);
       ItemDatabase.addIdToName(name, id);
     }
   }
