@@ -24,86 +24,76 @@ public class EdServantData implements Comparable<EdServantData> {
     return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
   }
 
-  public static final Object[][] SERVANTS = {
-    // Servant type
-    // Canonical servant type
-    // Servant ID
-    // Image file name
-    // Level 1 Power
-    // Level 7 Power
-    // Level 14 Power
-    // Level 21 Power
+  public record Servant(
+      String type,
+      int id,
+      String filename,
+      String level1Power,
+      String level7Power,
+      String level14Power,
+      String level21Power) {
+    public String canonicalType() {
+      return StringUtilities.getCanonicalName(type);
+    }
+  }
 
-    {
-      "Cat",
-      StringUtilities.getCanonicalName("Cat"),
-      1,
-      "edserv1.gif",
-      "Gives unpleasant gifts",
-      "Helps find items",
-      "Lowers enemy stats",
-      "Teaches you how to find items",
-    },
-    {
-      "Belly-Dancer",
-      StringUtilities.getCanonicalName("Belly-Dancer"),
-      2,
-      "edserv2.gif",
-      "Lowers enemy stats",
-      "Restores MP",
-      "Picks pockets",
-      "Teaches you how to restore MP",
-    },
-    {
-      "Maid",
-      StringUtilities.getCanonicalName("Maid"),
-      3,
-      "edserv3.gif",
-      "Helps find meat",
-      "Attacks enemies",
-      "Prevents enemy attacks",
-      "Teaches you how to find meat",
-    },
-    {
-      "Bodyguard",
-      StringUtilities.getCanonicalName("Bodyguard"),
-      4,
-      "edserv4.gif",
-      "Prevents enemy attacks",
-      "Attacks enemies",
-      "Attacks enemies even when guarding",
-      "Teaches you how to defend yourself",
-    },
-    {
-      "Scribe",
-      StringUtilities.getCanonicalName("Scribe"),
-      5,
-      "edserv5.gif",
-      "Improves stat gains",
-      "Improves spell crit",
-      "Improves spell damage",
-      "Teaches you how to improve stat gains",
-    },
-    {
-      "Priest",
-      StringUtilities.getCanonicalName("Priest"),
-      6,
-      "edserv6.gif",
-      "Attacks undead enemies",
-      "Improves evocation spells",
-      "Improves Ka drops",
-      "Teaches you how to improve spell damage",
-    },
-    {
-      "Assassin",
-      StringUtilities.getCanonicalName("Assassin"),
-      7,
-      "edserv7.gif",
-      "Attacks enemies",
-      "Lowers enemy stats",
-      "Staggers enemies",
-      "Teaches you how to improve physical attacks",
-    },
+  public static final Servant[] SERVANTS = {
+    new Servant(
+        "Cat",
+        1,
+        "edserv1.gif",
+        "Gives unpleasant gifts",
+        "Helps find items",
+        "Lowers enemy stats",
+        "Teaches you how to find items"),
+    new Servant(
+        "Belly-Dancer",
+        2,
+        "edserv2.gif",
+        "Lowers enemy stats",
+        "Restores MP",
+        "Picks pockets",
+        "Teaches you how to restore MP"),
+    new Servant(
+        "Maid",
+        3,
+        "edserv3.gif",
+        "Helps find meat",
+        "Attacks enemies",
+        "Prevents enemy attacks",
+        "Teaches you how to find meat"),
+    new Servant(
+        "Bodyguard",
+        4,
+        "edserv4.gif",
+        "Prevents enemy attacks",
+        "Attacks enemies",
+        "Attacks enemies even when guarding",
+        "Teaches you how to defend yourself"),
+    new Servant(
+        "Scribe",
+        5,
+        "edserv5.gif",
+        "Improves stat gains",
+        "Improves spell crit",
+        "Improves spell damage",
+        "Teaches you how to improve stat gains"),
+    new Servant(
+        "Priest",
+        6,
+        "edserv6.gif",
+        "Attacks undead enemies",
+        "Improves evocation spells",
+        "Improves Ka drops",
+        "Teaches you how to improve spell damage"),
+    new Servant(
+        "Assassin",
+        7,
+        "edserv7.gif",
+        "Attacks enemies",
+        "Lowers enemy stats",
+        "Staggers enemies",
+        "Teaches you how to improve physical attacks"),
   };
 
   public static final String[] SERVANT_ARRAY = new String[EdServantData.SERVANTS.length];
@@ -111,47 +101,47 @@ public class EdServantData implements Comparable<EdServantData> {
 
   static {
     for (int i = 0; i < EdServantData.SERVANT_ARRAY.length; ++i) {
-      Object[] data = EdServantData.SERVANTS[i];
+      Servant data = EdServantData.SERVANTS[i];
       EdServantData.SERVANT_ARRAY[i] = EdServantData.dataToType(data);
       EdServantData.CANONICAL_SERVANT_ARRAY[i] = EdServantData.dataToCanonicalType(data);
     }
     Arrays.sort(EdServantData.SERVANT_ARRAY);
   }
 
-  public static String dataToType(Object[] data) {
-    return data == null ? "" : (String) data[0];
+  public static String dataToType(Servant data) {
+    return data == null ? "" : data.type;
   }
 
-  public static String dataToCanonicalType(Object[] data) {
-    return data == null ? "" : (String) data[1];
+  public static String dataToCanonicalType(Servant data) {
+    return data == null ? "" : data.canonicalType();
   }
 
-  public static int dataToId(Object[] data) {
-    return data == null ? 0 : (Integer) data[2];
+  public static int dataToId(Servant data) {
+    return data == null ? 0 : data.id;
   }
 
-  public static String dataToImage(Object[] data) {
-    return data == null ? null : (String) data[3];
+  public static String dataToImage(Servant data) {
+    return data == null ? null : data.filename;
   }
 
-  public static String dataToLevel1Ability(Object[] data) {
-    return data == null ? null : (String) data[4];
+  public static String dataToLevel1Ability(Servant data) {
+    return data == null ? null : data.level1Power;
   }
 
-  public static String dataToLevel7Ability(Object[] data) {
-    return data == null ? null : (String) data[5];
+  public static String dataToLevel7Ability(Servant data) {
+    return data == null ? null : data.level7Power;
   }
 
-  public static String dataToLevel14Ability(Object[] data) {
-    return data == null ? null : (String) data[6];
+  public static String dataToLevel14Ability(Servant data) {
+    return data == null ? null : data.level14Power;
   }
 
-  public static String dataToLevel21Ability(Object[] data) {
-    return data == null ? null : (String) data[7];
+  public static String dataToLevel21Ability(Servant data) {
+    return data == null ? null : data.level21Power;
   }
 
-  public static Object[] idToData(final int id) {
-    for (Object[] data : EdServantData.SERVANTS) {
+  public static Servant idToData(final int id) {
+    for (Servant data : EdServantData.SERVANTS) {
       if (EdServantData.dataToId(data) == id) {
         return data;
       }
@@ -163,7 +153,7 @@ public class EdServantData implements Comparable<EdServantData> {
     return StringUtilities.getMatchingNames(EdServantData.CANONICAL_SERVANT_ARRAY, substring);
   }
 
-  public static Object[] typeToData(final String type) {
+  public static Servant typeToData(final String type) {
     // Do fuzzy matching
     List<String> matchingNames = EdServantData.getMatchingNames(type);
     if (matchingNames.size() != 1) {
@@ -171,7 +161,7 @@ public class EdServantData implements Comparable<EdServantData> {
     }
 
     String name = matchingNames.get(0);
-    for (Object[] data : EdServantData.SERVANTS) {
+    for (Servant data : EdServantData.SERVANTS) {
       if (name.equals(EdServantData.dataToCanonicalType(data))) {
         return data;
       }
@@ -186,7 +176,7 @@ public class EdServantData implements Comparable<EdServantData> {
 
   public static final EdServantData NO_SERVANT = new EdServantData(0);
 
-  private final Object[] data;
+  private final Servant data;
   private final String type;
   private final int id;
   private String name;
@@ -202,7 +192,7 @@ public class EdServantData implements Comparable<EdServantData> {
     EdServantData.currentEdServant = EdServantData.NO_SERVANT;
   }
 
-  private EdServantData(final Object[] data) {
+  private EdServantData(final Servant data) {
     this.data = data;
     this.type = EdServantData.dataToType(data);
     this.id = EdServantData.dataToId(data);
@@ -219,7 +209,7 @@ public class EdServantData implements Comparable<EdServantData> {
     this(EdServantData.idToData(id));
   }
 
-  public Object[] getData() {
+  public Servant getData() {
     return this.data;
   }
 
@@ -502,7 +492,7 @@ public class EdServantData implements Comparable<EdServantData> {
     // choice.php?whichchoice=1053&option=3&pwd&sid=6
     // choice.php?whichchoice=1053&option=5&pwd
     int sid = EdServantData.extractServantId(urlString);
-    Object[] data = idToData(sid);
+    Servant data = idToData(sid);
 
     switch (decision) {
       case 1: // Changing servant
@@ -522,7 +512,7 @@ public class EdServantData implements Comparable<EdServantData> {
     }
 
     int sid = EdServantData.extractServantId(urlString);
-    Object[] data = idToData(sid);
+    Servant data = idToData(sid);
     String servant = data == null ? "(unknown servant)" : EdServantData.dataToType(data);
 
     switch (decision) {

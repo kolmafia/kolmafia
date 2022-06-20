@@ -32,51 +32,47 @@ public class IslandDecorator {
 
   private static final String LOCAL_ROOT = "/images/otherimages/bigisland/";
 
-  private static final Object[][] IMAGES = {
-    {
-      Quest.JUNKYARD,
-      IslandDecorator.LOCAL_ROOT + "2.gif",
-      IslandDecorator.LOCAL_ROOT + "2F.gif",
-      IslandDecorator.LOCAL_ROOT + "2H.gif",
-    },
-    {
-      Quest.ORCHARD,
-      IslandDecorator.LOCAL_ROOT + "3.gif",
-      IslandDecorator.LOCAL_ROOT + "3F.gif",
-      IslandDecorator.LOCAL_ROOT + "3H.gif",
-    },
-    {
-      Quest.ARENA,
-      IslandDecorator.LOCAL_ROOT + "6.gif",
-      IslandDecorator.LOCAL_ROOT + "6F.gif",
-      IslandDecorator.LOCAL_ROOT + "6H.gif",
-    },
-    {
-      Quest.FARM,
-      IslandDecorator.LOCAL_ROOT + "15.gif",
-      IslandDecorator.LOCAL_ROOT + "15F.gif",
-      IslandDecorator.LOCAL_ROOT + "15H.gif",
-    },
-    {
-      Quest.LIGHTHOUSE,
-      IslandDecorator.LOCAL_ROOT + "17.gif",
-      IslandDecorator.LOCAL_ROOT + "17F.gif",
-      IslandDecorator.LOCAL_ROOT + "17H.gif",
-    },
-    {
-      Quest.NUNS,
-      IslandDecorator.LOCAL_ROOT + "19.gif",
-      IslandDecorator.LOCAL_ROOT + "19F.gif",
-      IslandDecorator.LOCAL_ROOT + "19H.gif",
-    },
+  private record Image(Quest quest, String image, String frat, String hippy) {}
+
+  private static final Image[] IMAGES = {
+    new Image(
+        Quest.JUNKYARD,
+        IslandDecorator.LOCAL_ROOT + "2.gif",
+        IslandDecorator.LOCAL_ROOT + "2F.gif",
+        IslandDecorator.LOCAL_ROOT + "2H.gif"),
+    new Image(
+        Quest.ORCHARD,
+        IslandDecorator.LOCAL_ROOT + "3.gif",
+        IslandDecorator.LOCAL_ROOT + "3F.gif",
+        IslandDecorator.LOCAL_ROOT + "3H.gif"),
+    new Image(
+        Quest.ARENA,
+        IslandDecorator.LOCAL_ROOT + "6.gif",
+        IslandDecorator.LOCAL_ROOT + "6F.gif",
+        IslandDecorator.LOCAL_ROOT + "6H.gif"),
+    new Image(
+        Quest.FARM,
+        IslandDecorator.LOCAL_ROOT + "15.gif",
+        IslandDecorator.LOCAL_ROOT + "15F.gif",
+        IslandDecorator.LOCAL_ROOT + "15H.gif"),
+    new Image(
+        Quest.LIGHTHOUSE,
+        IslandDecorator.LOCAL_ROOT + "17.gif",
+        IslandDecorator.LOCAL_ROOT + "17F.gif",
+        IslandDecorator.LOCAL_ROOT + "17H.gif"),
+    new Image(
+        Quest.NUNS,
+        IslandDecorator.LOCAL_ROOT + "19.gif",
+        IslandDecorator.LOCAL_ROOT + "19F.gif",
+        IslandDecorator.LOCAL_ROOT + "19H.gif"),
   };
 
   private IslandDecorator() {}
 
-  private static Object[] findImages(final Quest quest) {
+  private static Image findImages(final Quest quest) {
     for (int i = 0; i < IslandDecorator.IMAGES.length; ++i) {
-      Object[] row = IslandDecorator.IMAGES[i];
-      if (row[0] == quest) {
+      Image row = IslandDecorator.IMAGES[i];
+      if (row.quest == quest) {
         return row;
       }
     }
@@ -84,18 +80,18 @@ public class IslandDecorator {
   }
 
   private static String originalImage(final Quest quest) {
-    Object[] row = IslandDecorator.findImages(quest);
-    return row == null ? "" : (String) (row[1]);
+    Image row = IslandDecorator.findImages(quest);
+    return row == null ? "" : row.image;
   }
 
   private static String fratImage(final Quest quest) {
-    Object[] row = IslandDecorator.findImages(quest);
-    return row == null ? "" : (String) (row[2]);
+    Image row = IslandDecorator.findImages(quest);
+    return row == null ? "" : row.frat;
   }
 
   private static String hippyImage(final Quest quest) {
-    Object[] row = IslandDecorator.findImages(quest);
-    return row == null ? "" : (String) (row[3]);
+    Image row = IslandDecorator.findImages(quest);
+    return row == null ? "" : row.hippy;
   }
 
   private static String sidequestImage(final String setting, final Quest quest) {

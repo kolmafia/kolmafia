@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Punchcard;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1198,9 +1199,9 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   }
 
   public static final String punchCardName(final int itemId) {
-    for (Object[] punchcard : ItemDatabase.PUNCHCARDS) {
-      if ((Integer) punchcard[0] == itemId) {
-        return (String) punchcard[2];
+    for (Punchcard punchcard : ItemDatabase.PUNCHCARDS) {
+      if (punchcard.id() == itemId) {
+        return punchcard.alias();
       }
     }
 

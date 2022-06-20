@@ -71,29 +71,29 @@ public class ConsumablesDatabase {
     }
   }
 
-  public static Object[][] DUSTY_BOTTLES = {
-    {
-      ItemPool.DUSTY_BOTTLE_OF_MERLOT, "dusty bottle of Merlot", "dusty bottle of average Merlot",
-    },
-    {
-      ItemPool.DUSTY_BOTTLE_OF_PORT, "dusty bottle of Port", "dusty bottle of vinegar Port",
-    },
-    {
-      ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR,
-      "dusty bottle of Pinot Noir",
-      "dusty bottle of spooky Pinot Noir",
-    },
-    {
-      ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL,
-      "dusty bottle of Zinfandel",
-      "dusty bottle of great Zinfandel",
-    },
-    {
-      ItemPool.DUSTY_BOTTLE_OF_MARSALA, "dusty bottle of Marsala", "dusty bottle of glassy Marsala",
-    },
-    {
-      ItemPool.DUSTY_BOTTLE_OF_MUSCAT, "dusty bottle of Muscat", "dusty bottle of bad Muscat",
-    }
+  public record DustyBottle(int id, String name, String alias) {}
+
+  public static DustyBottle[] DUSTY_BOTTLES = {
+    new DustyBottle(
+        ItemPool.DUSTY_BOTTLE_OF_MERLOT,
+        "dusty bottle of Merlot",
+        "dusty bottle of average Merlot"),
+    new DustyBottle(
+        ItemPool.DUSTY_BOTTLE_OF_PORT, "dusty bottle of Port", "dusty bottle of vinegar Port"),
+    new DustyBottle(
+        ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR,
+        "dusty bottle of Pinot Noir",
+        "dusty bottle of spooky Pinot Noir"),
+    new DustyBottle(
+        ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL,
+        "dusty bottle of Zinfandel",
+        "dusty bottle of great Zinfandel"),
+    new DustyBottle(
+        ItemPool.DUSTY_BOTTLE_OF_MARSALA,
+        "dusty bottle of Marsala",
+        "dusty bottle of glassy Marsala"),
+    new DustyBottle(
+        ItemPool.DUSTY_BOTTLE_OF_MUSCAT, "dusty bottle of Muscat", "dusty bottle of bad Muscat")
   };
 
   private static final Map<String, String> muscleByName = new HashMap<String, String>();
