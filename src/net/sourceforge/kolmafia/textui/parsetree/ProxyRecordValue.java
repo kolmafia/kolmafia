@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.EdServantData;
+import net.sourceforge.kolmafia.EdServantData.Servant;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -989,7 +990,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public int get_id() {
-      Object[] data = (Object[]) this.content;
+      Servant data = (Servant) this.content;
       return data == null ? 0 : EdServantData.dataToId(data);
     }
 
@@ -1009,27 +1010,27 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_image() {
-      Object[] data = (Object[]) this.content;
+      Servant data = (Servant) this.content;
       return data == null ? "" : EdServantData.dataToImage(data);
     }
 
     public String get_level1_ability() {
-      Object[] data = (Object[]) this.content;
+      Servant data = (Servant) this.content;
       return data == null ? "" : EdServantData.dataToLevel1Ability(data);
     }
 
     public String get_level7_ability() {
-      Object[] data = (Object[]) this.content;
+      Servant data = (Servant) this.content;
       return data == null ? "" : EdServantData.dataToLevel7Ability(data);
     }
 
     public String get_level14_ability() {
-      Object[] data = (Object[]) this.content;
+      Servant data = (Servant) this.content;
       return data == null ? "" : EdServantData.dataToLevel14Ability(data);
     }
 
     public String get_level21_ability() {
-      Object[] data = (Object[]) this.content;
+      Servant data = (Servant) this.content;
       return data == null ? "" : EdServantData.dataToLevel21Ability(data);
     }
   }
