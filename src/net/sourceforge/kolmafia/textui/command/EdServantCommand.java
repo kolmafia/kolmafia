@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.io.File;
 import net.sourceforge.kolmafia.EdServantData;
+import net.sourceforge.kolmafia.EdServantData.Servant;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -36,7 +37,7 @@ public class EdServantCommand extends AbstractCommand {
 
       String type = parameters.trim();
       if (!type.equals("")) {
-        Object[] data = EdServantData.typeToData(type);
+        Servant data = EdServantData.typeToData(type);
         if (data == null) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "Ed has no servants of type \"" + type + "\".");
           return;
@@ -74,7 +75,7 @@ public class EdServantCommand extends AbstractCommand {
     output.append("<th>Abilities</th>");
     output.append("</tr>");
 
-    for (Object[] data : EdServantData.SERVANTS) {
+    for (Servant data : EdServantData.SERVANTS) {
       // Download the image
       String image = "itemimages/" + EdServantData.dataToImage(data);
       File file = FileUtilities.downloadImage(KoLmafia.imageServerPath() + image);

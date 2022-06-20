@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.EdServantData;
+import net.sourceforge.kolmafia.EdServantData.Servant;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -610,7 +611,7 @@ public class DataTypes {
       return DataTypes.SERVANT_INIT;
     }
 
-    Object[] data = EdServantData.typeToData(name);
+    Servant data = EdServantData.typeToData(name);
     if (data == null) {
       return returnDefault ? DataTypes.SERVANT_INIT : null;
     }
@@ -887,7 +888,7 @@ public class DataTypes {
   }
 
   public static final Value makeServantValue(final int num, final boolean returnDefault) {
-    Object[] data = EdServantData.idToData(num);
+    Servant data = EdServantData.idToData(num);
     if (data == null) {
       return returnDefault ? DataTypes.SERVANT_INIT : null;
     }
