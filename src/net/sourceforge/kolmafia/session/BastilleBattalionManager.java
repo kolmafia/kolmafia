@@ -129,7 +129,7 @@ public abstract class BastilleBattalionManager {
   //
   // The image of the rig has six indicators ("needles") at the bottom which
   // show your upgrade-granted boosts to your six stats. The potions do not
-  // affect that disply.
+  // affect that display.
   //
   // The "needles" each have a horizontal location (measured in pixels) which
   // can be used to determine the current level of boostage.
@@ -595,7 +595,7 @@ public abstract class BastilleBattalionManager {
   // *** Cheese
 
   // When you are in choice 1314 - Bastille Battalion (Master of None) - you
-  // can focus on offense, defense, or to seek cheese.
+  // can focus on offense or defense, or choose to seek cheese.
   //
   // If you select Cheese Seeking Behavior (choice 1319), you will be presented
   // with 3 different options out of a pool of 16 possibilities. You can take
