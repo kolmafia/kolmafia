@@ -22,52 +22,56 @@ public class SkateParkRequest extends GenericRequest {
   public static final int ECLECTIC_EELS = 3;
   public static final int MERRY_GO_ROUND = 4;
 
-  public static final Object[][] BUFF_DATA = {
-    {
-      "Lutz, the Ice Skate",
-      "lutz, the ice skate",
-      "state2buff1",
-      SkateParkRequest.LUTZ,
-      "_skateBuff1",
-      "You've already dined with Lutz",
-      "ice",
-    },
-    {
-      "Comet, the Roller Skate",
-      "comet, the roller skate",
-      "state3buff1",
-      SkateParkRequest.COMET,
-      "_skateBuff2",
-      "You should probably leave Comet alone for the rest of the day",
-      "roller",
-    },
-    {
-      "the Band Shell",
-      "the band shell",
-      "state4buff1",
-      SkateParkRequest.BAND_SHELL,
-      "_skateBuff3",
-      "You've had about all of that crap you can stand today",
-      "peace",
-    },
-    {
-      "the Eclectic Eels",
-      "the eclectic eels",
-      "state4buff2",
-      SkateParkRequest.ECLECTIC_EELS,
-      "_skateBuff4",
-      "You should probably leave those guys alone until tomorrow",
-      "peace",
-    },
-    {
-      "the Merry-Go-Round",
-      "the merry-go-round",
-      "state4buff3",
-      SkateParkRequest.MERRY_GO_ROUND,
-      "_skateBuff5",
-      "Wait until tomorrow",
-      "peace",
-    },
+  public record Buff(
+      String place,
+      String canonicalPlace,
+      String action,
+      int buff,
+      String setting,
+      String error,
+      String state) {}
+
+  public static final Buff[] BUFF_DATA = {
+    new Buff(
+        "Lutz, the Ice Skate",
+        "lutz, the ice skate",
+        "state2buff1",
+        SkateParkRequest.LUTZ,
+        "_skateBuff1",
+        "You've already dined with Lutz",
+        "ice"),
+    new Buff(
+        "Comet, the Roller Skate",
+        "comet, the roller skate",
+        "state3buff1",
+        SkateParkRequest.COMET,
+        "_skateBuff2",
+        "You should probably leave Comet alone for the rest of the day",
+        "roller"),
+    new Buff(
+        "the Band Shell",
+        "the band shell",
+        "state4buff1",
+        SkateParkRequest.BAND_SHELL,
+        "_skateBuff3",
+        "You've had about all of that crap you can stand today",
+        "peace"),
+    new Buff(
+        "the Eclectic Eels",
+        "the eclectic eels",
+        "state4buff2",
+        SkateParkRequest.ECLECTIC_EELS,
+        "_skateBuff4",
+        "You should probably leave those guys alone until tomorrow",
+        "peace"),
+    new Buff(
+        "the Merry-Go-Round",
+        "the merry-go-round",
+        "state4buff3",
+        SkateParkRequest.MERRY_GO_ROUND,
+        "_skateBuff5",
+        "Wait until tomorrow",
+        "peace"),
   };
 
   public static final AdventureResult AERATED_DIVING_HELMET =
@@ -148,40 +152,39 @@ public class SkateParkRequest extends GenericRequest {
     }
   }
 
-  private static String dataPlace(final Object[] data) {
-    return (data == null) ? null : ((String) data[0]);
+  private static String dataPlace(final Buff data) {
+    return (data == null) ? null : data.place;
   }
 
-  private static String dataCanonicalPlace(final Object[] data) {
-    return (data == null) ? null : ((String) data[1]);
+  private static String dataCanonicalPlace(final Buff data) {
+    return (data == null) ? null : data.canonicalPlace;
   }
 
-  private static String dataAction(final Object[] data) {
-    return (data == null) ? null : ((String) data[2]);
+  private static String dataAction(final Buff data) {
+    return (data == null) ? null : data.action;
   }
 
-  private static int dataBuff(final Object[] data) {
-    return (data == null) ? -1 : ((Integer) data[3]).intValue();
+  private static int dataBuff(final Buff data) {
+    return (data == null) ? -1 : data.buff;
   }
 
-  private static String dataSetting(final Object[] data) {
-    return (data == null) ? null : ((String) data[4]);
+  private static String dataSetting(final Buff data) {
+    return (data == null) ? null : data.setting;
   }
 
-  private static String dataError(final Object[] data) {
-    return (data == null) ? null : ((String) data[5]);
+  private static String dataError(final Buff data) {
+    return (data == null) ? null : data.error;
   }
 
-  private static String dataState(final Object[] data) {
-    return (data == null) ? null : ((String) data[6]);
+  private static String dataState(final Buff data) {
+    return (data == null) ? null : data.state;
   }
 
-  private static Object[] placeToData(final String place) {
-    Object[] retval = null;
-    for (int i = 0; i < BUFF_DATA.length; ++i) {
-      Object[] data = BUFF_DATA[i];
+  private static Buff placeToData(final String place) {
+    Buff retval = null;
+    for (Buff data : BUFF_DATA) {
       String canonicalPlace = dataCanonicalPlace(data);
-      if (canonicalPlace.indexOf(place) == -1) {
+      if (!canonicalPlace.contains(place)) {
         continue;
       }
       if (retval != null) {
@@ -192,9 +195,8 @@ public class SkateParkRequest extends GenericRequest {
     return retval;
   }
 
-  private static Object[] actionToData(final String action) {
-    for (int i = 0; i < BUFF_DATA.length; ++i) {
-      Object[] data = BUFF_DATA[i];
+  private static Buff actionToData(final String action) {
+    for (Buff data : BUFF_DATA) {
       if (action.equals(dataAction(data))) {
         return data;
       }
@@ -202,9 +204,8 @@ public class SkateParkRequest extends GenericRequest {
     return null;
   }
 
-  public static Object[] buffToData(final int buff) {
-    for (int i = 0; i < BUFF_DATA.length; ++i) {
-      Object[] data = BUFF_DATA[i];
+  public static Buff buffToData(final int buff) {
+    for (Buff data : BUFF_DATA) {
       if (buff == dataBuff(data)) {
         return data;
       }
@@ -234,7 +235,7 @@ public class SkateParkRequest extends GenericRequest {
     String responseText = this.responseText;
     Matcher matcher = GenericRequest.ACTION_PATTERN.matcher(urlString);
     String action = matcher.find() ? matcher.group(1) : null;
-    Object[] data = actionToData(action);
+    Buff data = actionToData(action);
 
     int index = KoLAdventure.findAdventureFailure(responseText);
     if (index >= 0) {
@@ -270,13 +271,13 @@ public class SkateParkRequest extends GenericRequest {
     // Deduce the state of war
     String status = null;
 
-    if (responseText.indexOf("ocean/rumble") != -1) {
+    if (responseText.contains("ocean/rumble")) {
       status = "war";
-    } else if (responseText.indexOf("ocean/ice_territory") != -1) {
+    } else if (responseText.contains("ocean/ice_territory")) {
       status = "ice";
-    } else if (responseText.indexOf("ocean/roller_territory") != -1) {
+    } else if (responseText.contains("ocean/roller_territory")) {
       status = "roller";
-    } else if (responseText.indexOf("ocean/fountain") != -1) {
+    } else if (responseText.contains("ocean/fountain")) {
       status = "peace";
     }
 
@@ -292,9 +293,9 @@ public class SkateParkRequest extends GenericRequest {
       return false;
     }
 
-    Object[] data = actionToData(action);
-    boolean effect = responseText.indexOf("You acquire an effect") != -1;
-    boolean error = responseText.indexOf(dataError(data)) != -1;
+    Buff data = actionToData(action);
+    boolean effect = responseText.contains("You acquire an effect");
+    boolean error = responseText.contains(dataError(data));
     if (effect || error) {
       Preferences.setBoolean(dataSetting(data), true);
     }

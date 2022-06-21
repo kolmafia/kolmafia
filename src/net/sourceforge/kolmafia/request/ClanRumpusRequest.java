@@ -50,27 +50,30 @@ public class ClanRumpusRequest extends GenericRequest {
   public static final int WINTERGREEN = 2;
   public static final int ENNUI = 3;
 
-  public static final Object[][] CHIP_FLAVORS =
-      new Object[][] {
-        {"radium", RADIUM},
-        {"wintergreen", WINTERGREEN},
-        {"ennui", ENNUI},
+  private record Flavour(String flavor, int index) {}
+
+  private static final Flavour[] CHIP_FLAVORS =
+      new Flavour[] {
+        new Flavour("radium", RADIUM),
+        new Flavour("wintergreen", WINTERGREEN),
+        new Flavour("ennui", ENNUI),
       };
 
-  public static final Object[][] SONGS =
-      new Object[][] {
-        {"meat", "Material Witness", 1},
-        {"stats", "No Worries", 2},
-        {"item", "Techno Bliss", 3},
-        {"initiative", "Metal Speed", 4},
+  private record Song(String modifier, String effect, int index) {}
+
+  private static final Song[] SONGS =
+      new Song[] {
+        new Song("meat", "Material Witness", 1),
+        new Song("stats", "No Worries", 2),
+        new Song("item", "Techno Bliss", 3),
+        new Song("initiative", "Metal Speed", 4),
       };
 
   public static final int findChips(final String name) {
-    for (int i = 0; i < CHIP_FLAVORS.length; ++i) {
-      String flavor = (String) CHIP_FLAVORS[i][0];
+    for (Flavour chipFlavor : CHIP_FLAVORS) {
+      String flavor = chipFlavor.flavor;
       if (name.equals(flavor)) {
-        Integer index = (Integer) CHIP_FLAVORS[i][1];
-        return index.intValue();
+        return chipFlavor.index;
       }
     }
 
@@ -84,8 +87,8 @@ public class ClanRumpusRequest extends GenericRequest {
     }
 
     for (int i = 0; i < SONGS.length; ++i) {
-      String modifier = (String) SONGS[i][0];
-      String effect = (String) SONGS[i][1];
+      String modifier = SONGS[i].modifier;
+      String effect = SONGS[i].effect;
       if (name.equals(modifier) || name.equals(effect)) {
         return i + 1;
       }
