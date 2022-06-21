@@ -55,19 +55,20 @@ public class FudgeWandRequest extends CoinMasterRequest {
 
   private static String lastURL = null;
 
-  private static final Object[][] OPTIONS = {
-    {"1", ItemPool.FUDGIE_ROLL},
-    {"2", ItemPool.FUDGE_SPORK},
-    {"3", ItemPool.FUDGE_CUBE},
-    {"4", ItemPool.FUDGE_BUNNY},
-    {"5", ItemPool.FUDGECYCLE},
+  private record Option(String option, int id) {}
+
+  private static final Option[] OPTIONS = {
+    new Option("1", ItemPool.FUDGIE_ROLL),
+    new Option("2", ItemPool.FUDGE_SPORK),
+    new Option("3", ItemPool.FUDGE_CUBE),
+    new Option("4", ItemPool.FUDGE_BUNNY),
+    new Option("5", ItemPool.FUDGECYCLE),
   };
 
   private static String idToOption(final int id) {
-    for (int i = 0; i < OPTIONS.length; ++i) {
-      Object[] option = OPTIONS[i];
-      if (((Integer) option[1]).intValue() == id) {
-        return (String) option[0];
+    for (Option option : OPTIONS) {
+      if (option.id == id) {
+        return option.option;
       }
     }
 
@@ -75,10 +76,9 @@ public class FudgeWandRequest extends CoinMasterRequest {
   }
 
   private static int optionToId(final String opt) {
-    for (int i = 0; i < OPTIONS.length; ++i) {
-      Object[] option = OPTIONS[i];
-      if (opt.equals(option[0])) {
-        return ((Integer) option[1]).intValue();
+    for (Option option : OPTIONS) {
+      if (opt.equals(option.option)) {
+        return option.id;
       }
     }
 

@@ -180,21 +180,22 @@ public class SushiRequest extends CreateItemRequest {
     return null;
   }
 
-  private static final Object[][] BASE_SUSHI = {
-    {1, "beefy nigiri"},
-    {2, "glistening nigiri"},
-    {3, "slick nigiri"},
-    {4, "beefy maki"},
-    {5, "glistening maki"},
-    {6, "slick maki"},
-    {7, "bento box"},
+  private record Base(int id, String name) {}
+
+  private static final Base[] BASE_SUSHI = {
+    new Base(1, "beefy nigiri"),
+    new Base(2, "glistening nigiri"),
+    new Base(3, "slick nigiri"),
+    new Base(4, "beefy maki"),
+    new Base(5, "glistening maki"),
+    new Base(6, "slick maki"),
+    new Base(7, "bento box"),
   };
 
   private static String idToName(final int id) {
-    for (int i = 0; i < BASE_SUSHI.length; ++i) {
-      Object[] sushi = BASE_SUSHI[i];
-      if (((Integer) sushi[0]).intValue() == id) {
-        return (String) sushi[1];
+    for (Base sushi : BASE_SUSHI) {
+      if (sushi.id == id) {
+        return sushi.name;
       }
     }
 
@@ -208,25 +209,22 @@ public class SushiRequest extends CreateItemRequest {
     }
 
     // Check for base sushi
-    for (int i = 0; i < BASE_SUSHI.length; ++i) {
-      Object[] sushi = BASE_SUSHI[i];
-      if (name.equals(sushi[1])) {
-        return ((Integer) sushi[0]).intValue();
+    for (Base sushi : BASE_SUSHI) {
+      if (name.equals(sushi.name)) {
+        return sushi.id;
       }
     }
 
     // Check for filled sushi
-    for (int i = 0; i < FILLING1.length; ++i) {
-      Object[] sushi = FILLING1[i];
-      if (name.contains((String) sushi[0])) {
-        return SushiRequest.nameToId((String) sushi[1]);
+    for (Filling sushi : FILLING1) {
+      if (name.contains(sushi.finalName)) {
+        return SushiRequest.nameToId(sushi.baseName);
       }
     }
 
     // Check for topped sushi
-    for (int i = 0; i < TOPPING.length; ++i) {
-      Object[] sushi = TOPPING[i];
-      if (!name.startsWith((String) sushi[0])) {
+    for (Topping sushi : TOPPING) {
+      if (!name.startsWith(sushi.name)) {
         continue;
       }
       int index = name.indexOf(" ");
@@ -238,18 +236,19 @@ public class SushiRequest extends CreateItemRequest {
     return -1;
   }
 
-  private static final Object[][] TOPPING = {
-    {"salty", ItemPool.SEA_SALT_CRYSTAL},
-    {"magical", ItemPool.DRAGONFISH_CAVIAR},
-    {"electric", ItemPool.EEL_SAUCE},
-    {"Yuletide", ItemPool.PEPPERMINT_EEL_SAUCE},
+  private record Topping(String name, int id) {}
+
+  private static final Topping[] TOPPING = {
+    new Topping("salty", ItemPool.SEA_SALT_CRYSTAL),
+    new Topping("magical", ItemPool.DRAGONFISH_CAVIAR),
+    new Topping("electric", ItemPool.EEL_SAUCE),
+    new Topping("Yuletide", ItemPool.PEPPERMINT_EEL_SAUCE),
   };
 
   private static String toppingToName(final String baseName, final int topping) {
-    for (int i = 0; i < TOPPING.length; ++i) {
-      Object[] sushi = TOPPING[i];
-      if (topping == ((Integer) sushi[1]).intValue()) {
-        return sushi[0] + " " + baseName;
+    for (Topping sushi : TOPPING) {
+      if (topping == sushi.id) {
+        return sushi.name + " " + baseName;
       }
     }
 
@@ -257,39 +256,39 @@ public class SushiRequest extends CreateItemRequest {
   }
 
   private static int nameToTopping(final String name) {
-    for (int i = 0; i < TOPPING.length; ++i) {
-      Object[] sushi = TOPPING[i];
-      if (name.startsWith((String) sushi[0])) {
-        return ((Integer) sushi[1]).intValue();
+    for (Topping sushi : TOPPING) {
+      if (name.startsWith(sushi.name)) {
+        return sushi.id;
       }
     }
 
     return -1;
   }
 
-  private static final Object[][] FILLING1 = {
-    {"giant dragon roll", "beefy maki", ItemPool.SEA_CUCUMBER},
-    {"musclebound rabbit roll", "beefy maki", ItemPool.SEA_CARROT},
-    {"python roll", "beefy maki", ItemPool.SEA_AVOCADO},
-    {"Jack LaLanne roll", "beefy maki", ItemPool.SEA_RADISH},
-    {"jacked Santa roll", "beefy maki", ItemPool.GREEN_AND_RED_BEAN},
-    {"wise dragon roll", "glistening maki", ItemPool.SEA_CUCUMBER},
-    {"white rabbit roll", "glistening maki", ItemPool.SEA_CARROT},
-    {"ancient serpent roll", "glistening maki", ItemPool.SEA_AVOCADO},
-    {"wizened master roll", "glistening maki", ItemPool.SEA_RADISH},
-    {"omniscient Santa roll", "glistening maki", ItemPool.GREEN_AND_RED_BEAN},
-    {"tricky dragon roll", "slick maki", ItemPool.SEA_CUCUMBER},
-    {"sneaky rabbit roll", "slick maki", ItemPool.SEA_CARROT},
-    {"slippery snake roll", "slick maki", ItemPool.SEA_AVOCADO},
-    {"eleven oceans roll", "slick maki", ItemPool.SEA_RADISH},
-    {"sneaky Santa roll", "slick maki", ItemPool.GREEN_AND_RED_BEAN},
+  private record Filling(String finalName, String baseName, int id) {}
+
+  private static final Filling[] FILLING1 = {
+    new Filling("giant dragon roll", "beefy maki", ItemPool.SEA_CUCUMBER),
+    new Filling("musclebound rabbit roll", "beefy maki", ItemPool.SEA_CARROT),
+    new Filling("python roll", "beefy maki", ItemPool.SEA_AVOCADO),
+    new Filling("Jack LaLanne roll", "beefy maki", ItemPool.SEA_RADISH),
+    new Filling("jacked Santa roll", "beefy maki", ItemPool.GREEN_AND_RED_BEAN),
+    new Filling("wise dragon roll", "glistening maki", ItemPool.SEA_CUCUMBER),
+    new Filling("white rabbit roll", "glistening maki", ItemPool.SEA_CARROT),
+    new Filling("ancient serpent roll", "glistening maki", ItemPool.SEA_AVOCADO),
+    new Filling("wizened master roll", "glistening maki", ItemPool.SEA_RADISH),
+    new Filling("omniscient Santa roll", "glistening maki", ItemPool.GREEN_AND_RED_BEAN),
+    new Filling("tricky dragon roll", "slick maki", ItemPool.SEA_CUCUMBER),
+    new Filling("sneaky rabbit roll", "slick maki", ItemPool.SEA_CARROT),
+    new Filling("slippery snake roll", "slick maki", ItemPool.SEA_AVOCADO),
+    new Filling("eleven oceans roll", "slick maki", ItemPool.SEA_RADISH),
+    new Filling("sneaky Santa roll", "slick maki", ItemPool.GREEN_AND_RED_BEAN),
   };
 
   private static String filling1ToName(final String baseName, final int filling1) {
-    for (int i = 0; i < FILLING1.length; ++i) {
-      Object[] sushi = FILLING1[i];
-      if (baseName.equals(sushi[1]) && filling1 == ((Integer) sushi[2]).intValue()) {
-        return (String) sushi[0];
+    for (Filling sushi : FILLING1) {
+      if (baseName.equals(sushi.baseName) && filling1 == sushi.id) {
+        return sushi.finalName;
       }
     }
 
@@ -297,31 +296,31 @@ public class SushiRequest extends CreateItemRequest {
   }
 
   private static int nameToFilling1(final String name) {
-    for (int i = 0; i < FILLING1.length; ++i) {
-      Object[] sushi = FILLING1[i];
-      if (name.contains((String) sushi[0])) {
-        return ((Integer) sushi[2]).intValue();
+    for (Filling sushi : FILLING1) {
+      if (name.contains(sushi.finalName)) {
+        return sushi.id;
       }
     }
 
     return -1;
   }
 
-  private static final Object[][] VEGGIE = {
-    {"tempura avocado", ItemPool.TEMPURA_AVOCADO},
-    {"tempura broccoli", ItemPool.TEMPURA_BROCCOLI},
-    {"tempura carrot", ItemPool.TEMPURA_CARROT},
-    {"tempura cauliflower", ItemPool.TEMPURA_CAULIFLOWER},
-    {"tempura cucumber", ItemPool.TEMPURA_CUCUMBER},
-    {"tempura green and red bean", ItemPool.TEMPURA_GREEN_AND_RED_BEAN},
-    {"tempura radish", ItemPool.TEMPURA_RADISH},
+  private record Veggie(String name, int id) {}
+
+  private static final Veggie[] VEGGIE = {
+    new Veggie("tempura avocado", ItemPool.TEMPURA_AVOCADO),
+    new Veggie("tempura broccoli", ItemPool.TEMPURA_BROCCOLI),
+    new Veggie("tempura carrot", ItemPool.TEMPURA_CARROT),
+    new Veggie("tempura cauliflower", ItemPool.TEMPURA_CAULIFLOWER),
+    new Veggie("tempura cucumber", ItemPool.TEMPURA_CUCUMBER),
+    new Veggie("tempura green and red bean", ItemPool.TEMPURA_GREEN_AND_RED_BEAN),
+    new Veggie("tempura radish", ItemPool.TEMPURA_RADISH),
   };
 
   private static String veggieToName(final String baseName, final int veggie) {
-    for (int i = 0; i < VEGGIE.length; ++i) {
-      Object[] sushi = VEGGIE[i];
-      if (veggie == ((Integer) sushi[1]).intValue()) {
-        return sushi[0] + " " + baseName;
+    for (Veggie sushi : VEGGIE) {
+      if (veggie == sushi.id) {
+        return sushi.name + " " + baseName;
       }
     }
 
@@ -329,30 +328,30 @@ public class SushiRequest extends CreateItemRequest {
   }
 
   private static int nameToVeggie(final String name) {
-    for (int i = 0; i < VEGGIE.length; ++i) {
-      Object[] sushi = VEGGIE[i];
-      if (name.startsWith((String) sushi[0])) {
-        return ((Integer) sushi[1]).intValue();
+    for (Veggie sushi : VEGGIE) {
+      if (name.startsWith(sushi.name)) {
+        return sushi.id;
       }
     }
 
     return -1;
   }
 
-  private static final Object[][] DIPPING = {
-    {"anemone sauce", ItemPool.ANEMONE_SAUCE},
-    {"eel sauce", ItemPool.EEL_SAUCE},
-    {"inky squid sauce", ItemPool.INKY_SQUID_SAUCE},
-    {"Mer-kin weaksauce", ItemPool.MERKIN_WEAKSAUCE},
-    {"peanut sauce", ItemPool.PEANUT_SAUCE},
-    {"peppermint eel sauce", ItemPool.PEPPERMINT_EEL_SAUCE},
+  private record Dipping(String name, int id) {}
+
+  private static final Dipping[] DIPPING = {
+    new Dipping("anemone sauce", ItemPool.ANEMONE_SAUCE),
+    new Dipping("eel sauce", ItemPool.EEL_SAUCE),
+    new Dipping("inky squid sauce", ItemPool.INKY_SQUID_SAUCE),
+    new Dipping("Mer-kin weaksauce", ItemPool.MERKIN_WEAKSAUCE),
+    new Dipping("peanut sauce", ItemPool.PEANUT_SAUCE),
+    new Dipping("peppermint eel sauce", ItemPool.PEPPERMINT_EEL_SAUCE),
   };
 
   private static String dippingToName(final String baseName, final int dipping) {
-    for (int i = 0; i < DIPPING.length; ++i) {
-      Object[] sushi = DIPPING[i];
-      if (dipping == ((Integer) sushi[1]).intValue()) {
-        return baseName + " with " + sushi[0];
+    for (Dipping sushi : DIPPING) {
+      if (dipping == sushi.id) {
+        return baseName + " with " + sushi.name;
       }
     }
 
@@ -360,10 +359,9 @@ public class SushiRequest extends CreateItemRequest {
   }
 
   private static int nameToDipping(final String name) {
-    for (int i = 0; i < DIPPING.length; ++i) {
-      Object[] sushi = DIPPING[i];
-      if (name.endsWith((String) sushi[0])) {
-        return ((Integer) sushi[1]).intValue();
+    for (Dipping sushi : DIPPING) {
+      if (name.endsWith(sushi.name)) {
+        return sushi.id;
       }
     }
 
@@ -523,8 +521,7 @@ public class SushiRequest extends CreateItemRequest {
     }
 
     AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(-1, name);
-    for (int i = 0; i < ingredients.length; ++i) {
-      AdventureResult ingredient = ingredients[i];
+    for (AdventureResult ingredient : ingredients) {
       ResultProcessor.processResult(ingredient.getInstance(-1 * ingredient.getCount()));
     }
 
@@ -556,7 +553,7 @@ public class SushiRequest extends CreateItemRequest {
       return false;
     }
 
-    StringBuffer buf = new StringBuffer();
+    StringBuilder buf = new StringBuilder();
     buf.append(name.contains("bento") ? "Pack" : "Roll");
     buf.append(" and eat ");
     buf.append(name);
