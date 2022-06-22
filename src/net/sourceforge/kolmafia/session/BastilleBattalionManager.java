@@ -33,7 +33,7 @@ public abstract class BastilleBattalionManager {
   // engages in a combat with another castle in order to accumulate cheese.
   //
   // A Game has up to five Battles. You play until you are defeated or until
-  // your fifth battle. Your score is the total cheese you gained.
+  // you win the fifth battle. Your score is the total cheese you gained.
   //
   // Each Battle has two turns of preparation, where you attempt to improve
   // stats and/or gather cheese, and one round of combat.
@@ -44,28 +44,81 @@ public abstract class BastilleBattalionManager {
   //
   // You can play up to 5 games per day.
   //
-  // This module is intended to track the state over the course of a game:
-  // initial stats, changes as you train them, cheese accumulated, and so
-  // on. These will be made available in properties so that scripts can use
-  // them without having to parse the response text for themselves. These
-  // properties will be reset at the beginning of each game and will only be
-  // valid while a game is underway.
+  // This module tracks the state over the course of a game:
+  // stats, changes as you train them, cheese accumulated, and so on.
   //
-  // Additionally, it is intended to record the results of games in other
-  // properties, which will persist until rollover, in other scripts wish to
-  // analyze them.
+  // These are made available in properties so that scripts can use them
+  // without having to parse the response text for themselves. The properties
+  // reset at the beginning of a game and are valid while a game is underway.
+  //
+  // This module records the results of games in other properties, which will
+  // persist until rollover, in other scripts wish to analyze them.
+  //
+  // If the user opts in (via property), the results of all battles and all
+  // cheese acquisitions are recorded in files in the "data" directory for
+  // later analysis by ASH programs.
+
+  // *** Ongoing research:
+  //
+  // Stats:
+  //
+  // - We know stat bonuses offered by style sets as displayed by
+  //   "needles". Is it possible to determine actual stat values?
+  //   Maybe: 12 cheese encounters scale (positively or negatively) according
+  //   to one of the 6 stats. We collect data based on stat bonuses - and the
+  //   yield is linear, with randomizing fuzz. Look at the x-intercepts?
+  // - Is there a randomizing factor in player stats per game? One hopes not.
+  // - How do the potions affect your stats during battles? They do not
+  //   register on the "needles" as stat bonuses, and they do not affect
+  //   cheese yields that scale by stat. But you can definitely win against
+  //   tougher castles if you have them in effect than if you do not.
+  //
+  // Castles:
+  //
+  // - What are initial stats for the six castles?
+  //   (Conjecture is that each is "better" at one of the six stats.)
+  // - Is there a randomizing factor per game or battle?
+  // - How do they scale as fight # increases?
+  // - When comparing castle and player stats, one is always "higher" or
+  //   "lower" than the other. Really? Perhaps equal stats have a 50% chance of
+  //   winning or losing the toss?
+  //
+  // Battles:
+  //
+  // - It "feels" like you sometimes just can't win against what are normally
+  //   easy opponents. Can we use statistics to confirm or deny the "feeling"?
+  //   If there is a randomizing factor, which has fuzz? Player stats or castle
+  //   stats? KoL "monsters" have such for attack/defense - not the player.
+  //
+  // Cheese:
+  //
+  // - What are the linear formulae for the 12 stat-scaling cheese encounters?
+
+  // *** Solved research:
+  //
+  // Cheese:
+  //
+  // - The yields of the 3 non-scaling encounters (20, 50, 100)
+  // - The yields from defeated castles (45 * castle level)
+  // - The wishing well succeeds 1/3 of the time with a yield of 300.
+  // - Potions that affect stats do not affect stat-scaling yields
+  //
+  // Stances:
+  //
+  // - offensive is 80% aggressor, 20% defender
+  // - waiting is 50% aggressor, 50% defender
+  // - defensive is 20% aggressor, 80% defender
 
   private BastilleBattalionManager() {}
 
   // *** Stats
 
-  // We don't actually know what your stats start at,
+  // We don't know what your (internal to KoL) stats start at,
   //
-  // Each of the four castle Upgrades will provide bonuses to one or more
-  // stats.
+  // Each of the four castle Upgrades provides bonuses to one or more stats.
   //
   // There are three potions which are rewards you can get from your first game
-  // (won or lost) of the day which affect your stats.
+  // (won or lost) of the day which affect your stats (for combats only).
   //
   // sharkfin gumbo grants 1 turn of Shark Tooth Grin
   //    Boosts military attack and defense in Bastille Battalion.
@@ -74,16 +127,16 @@ public abstract class BastilleBattalionManager {
   // interrogative elixir grants 1 turn of Enhanced Interrogation
   //    Boosts psychological attack and defense in Bastille Battalion.
   //
-  // The image of the rig has six indicators ("needles") at the bottom
-  // which show your upgrade-granted boosts to your six stats. The potions are
-  // not accounted for in those.
+  // The image of the rig has six indicators ("needles") at the bottom which
+  // show your upgrade-granted boosts to your six stats. The potions do not
+  // affect that display.
   //
   // The "needles" each have a horizontal location (measured in pixels) which
   // can be used to determine the current level of boostage.
   //
   // (Ezandora's relay script displays that pixel value as the value of your
   // stats. That's pretty funny; they do show how your stats compare to each
-  // other, but I am sure the stats are not internally measured in pixels.
+  // other, but I am sure the stats are not internally measured in pixels.)
 
   private static Map<String, Stat> enumNameToStat = new HashMap<>();
 
@@ -248,15 +301,10 @@ public abstract class BastilleBattalionManager {
   //
   //     Avant-Garde - higher psychological defense?
   //     Imposing Citadel - higher psychological attack
-  //     Generic - higher military defense??
+  //     Generic - higher military defense?
   //     Military Fortress - higher military attack
   //     Fortified Stronghold - higher castle defense?
   //     Sprawling Chateau - higher castle attack?
-  //
-  // Observations:
-  //
-  // "shieldmaster" - the Fortified Stronghold - will never attack, even if you
-  // selected a defensive Stance
 
   private static Map<String, Castle> imageToCastle = new HashMap<>();
   private static Map<String, Castle> descriptionToCastle = new HashMap<>();
@@ -295,10 +343,10 @@ public abstract class BastilleBattalionManager {
 
   // You can upgrade four areas of your castle
   //
-  // Each upgrade provides a reward at the end of your first game, depending on
-  // the style you selected for the upgrade.
+  // Each upgrade provides a reward at the end of your first game of the day,
+  // depending on the style you selected for the upgrade.
   //
-  // Each upgrade/style also provides a boost to specific attack/defense game stats
+  // Each upgrade/style also provides a boost to specific attack/defense stats
   //
   // The Barbican is the fortified gateway.
   //    The reward is {Muscle, Mysticality, Moxie} substats
@@ -410,9 +458,9 @@ public abstract class BastilleBattalionManager {
   // I experimented a lot transitioning between one upgrade and another and observing
   // how my stat bonuses changed.
   //
-  // It turns out that those values depend on what the other upgrades happen to be;
-  // the same upgrade swap might grant +1 or +2 Castle Attack, say, depending on which
-  // other upgrades are in place.
+  // It turns out that those values are not independent; the same upgrade swap
+  // might grant +1 or +2 Castle Attack, say, depending on which other upgrades
+  // are in place.
   //
   // There are three Styles for each of four Upgrades, so there are a total of 81 = (3 ^ 4)
   // configurations.
@@ -471,10 +519,11 @@ public abstract class BastilleBattalionManager {
         int key = StringUtilities.parseInt(data[0]) - 1;
 
         if (styleSetToStats.containsKey(key)) {
+          // Should be impossible.
           continue;
         }
 
-        // Ignore the style names; they are for human use
+        // Ignore the style names; they are for humans to read
         // String styleName1 = data[1];
         // String styleName2 = data[2];
         // String styleName3 = data[3];
@@ -498,7 +547,7 @@ public abstract class BastilleBattalionManager {
     }
   }
 
-  // Write data file: only for testing. Or for generating it the first time.
+  // Write data file: for testing or for generating the first time.
 
   private static String generateStyleSetFields(int key) {
     Collection<Style> styleSet = keyToStyleSet(key);
@@ -536,8 +585,7 @@ public abstract class BastilleBattalionManager {
     assert styleSetToStats.size() == 81;
   }
 
-  // *** Cached state. This resets when you visit the Bastille Battalion
-  // *** control rig
+  // *** Cached state. Resets when you visit the Bastille Battalion control rig
 
   private static final Map<Upgrade, Style> currentStyles = new TreeMap<>();
   private static Stats currentStats = new Stats();
@@ -546,18 +594,19 @@ public abstract class BastilleBattalionManager {
 
   // *** Cheese
 
-  // When you are in choice 1315, you can focus on offense, defense, or to seek
-  // cheese.
+  // When you are in choice 1314 - Bastille Battalion (Master of None) - you
+  // can focus on offense or defense, or choose to seek cheese.
   //
   // If you select Cheese Seeking Behavior (choice 1319), you will be presented
-  // with 3 different options out of a pool of 16 possibilities. You will have
-  // a chance to do this twice before entering into a Battle with the
-  // approaching castle, and the choices do not appear to recur - until the
-  // next castle.
+  // with 3 different options out of a pool of 16 possibilities. You can take
+  // each option only once per game. Since you have 2 rounds of preparation and
+  // up to 5 castles per game, if you do nothing except look for cheese, your
+  // first prep round will offer 3 out of 16, the second, 3 out of 15, until
+  // the 10th, which will offer 3 out of 7 options.
   //
   // The Wishing Well is useless if it occurs on the very first turn, since you
-  // will not have the 10 cheese required to activate it. It may occur later
-  // during the same turn, at most once.
+  // will not have the 10 cheese required to activate it. If you skip it, like
+  // all untaken options, it may be offered again later in the same game.
   //
   // The 16 possible Cheese Seeking encounters include these:
   //
@@ -570,9 +619,8 @@ public abstract class BastilleBattalionManager {
   //
   // 3 that are not affected by a stat
   //
-  // The Wishing Well does not appear to be affected by a stat, but either
-  // gives you no cheese or about 300 cheese. This may be random or may be
-  // affected by something I do not know about.
+  // The Wishing Well is not affected by a stat, but either gives you no cheese
+  // (2/3 chance) or about 300 cheese (1/3 chance).
   //
   // Other sources of cheese:
   //
@@ -661,23 +709,27 @@ public abstract class BastilleBattalionManager {
 
   // *** Battle
 
-  // One of the reasons I started this project was to collect data that could be analyzed to
-  // understand how to do well at this game. The already released improved logging has made the game
-  // play much more enjoyable, but I have been manually making observations and taking notes that
-  // could much more usefully be recorded automatically.
+  // One of the reasons I started this project was to collect data that could
+  // be analyzed to understand how to do well at this game. The improved
+  // logging makes the game play much more enjoyable, but the collected data
+  // makes automated data analysis possible without manual data entry.
   //
-  // Some observations so far:
+  // Observations so far:
   //
-  // Each kind of castle has particular strengths and weaknesses. There are six kinds of castle. I
-  // believe that each is stronger in one of the six stats.
+  // Each kind of castle has particular strengths and weaknesses. There are six
+  // kinds of castle. Each appears to be stronger in one of the six stats.
   //
-  // A "game" has 5 rounds. Your foes increase in power depending on which round you encounter them.
-  // For example, if I attack castle type A on round one, my attack vs. his defense may be 3:0, but
-  // on rounds 2 - 5, attack vs. defense may decrease to 2:1, 1:2, and eventually 0:3. Your rewards
-  // for beating a foe go up correspondingly to the difficulty.
+  // A "game" has 5 rounds. Your foes increase in power depending on which
+  // round you encounter them.  For example, if I attack castle type A on round
+  // one, my attack vs. his defense may be 3:0, but on rounds 2 - 5, attack
+  // vs. defense may decrease to 2:1, 1:2, and eventually 0:3. Your cheese
+  // reward for beating a foe go up correspondingly to the difficulty.
   //
-  // The role of "stance" is unclear: none of offense, bide, and defense guarantees that you will be
-  // the aggressor or the defender.
+  // Depending on your stat configuration, you will have to depend on offense
+  // or defense (i.e., which stance you select) to even have a chance against
+  // higher difficulty castles. For a given stat configuration, some castles
+  // will be unbeatable at higher levels - and to get the highest scores, you
+  // have to be lucky enough to get one of the castles you CAN beat.
 
   // *** Stances
 
@@ -689,6 +741,19 @@ public abstract class BastilleBattalionManager {
   //
   // In a battle, either (all of) your Attack stats are compared to your foe's
   // Defense stats, or vice versa.
+  //
+  // Observations collected from 4308 battles as of 2022/06/20:
+  //
+  // "offensive" stance (901): 80% aggressor/20% defender
+  // "waiting" stance (1586): 50% aggressor/50% defender
+  // "defensive" stance (1821): 20% aggressor/80% defender
+  //
+  // With an "offensive" stance (80% of the time):
+  // You charge toward your enemy.
+  //
+  // With a "defensive" stance (20% of the time):
+  // You squat and wait for the attack, but it never comes. You sigh, uproot yourself, and attack
+  // them.
 
   private static final Map<Integer, Stance> optionToStance = new HashMap<>();
 
@@ -712,9 +777,9 @@ public abstract class BastilleBattalionManager {
 
   // *** Results
 
-  // Your Stance may indicate your desire to attack vs. defend, but it's not entirely up to you.
-  // Even if you charge in, your foe may attack first. Even if you try to defend, you may end up
-  // attacking first.
+  // Your Stance indicates your desire to attack vs. defend, but it's not
+  // entirely up to you.  Even if you charge in, your foe may attack
+  // first. Even if you try to defend, you may end up attacking first.
   //
   // The aggressor's attacks are compared against the defender's defense.
   // You can win from 0 to 3 of these comparisons.
@@ -1357,9 +1422,9 @@ public abstract class BastilleBattalionManager {
       case 1316: // GAME OVER
         return;
 
-      case 1319: // Cheese Seeking Behavior
       case 1317: // A Hello to Arms (Battalion)
       case 1318: // Defensive Posturing
+      case 1319: // Cheese Seeking Behavior
         collectCheese(text);
         if (!parseTurn(text)) {
           nextTurn();
@@ -1454,7 +1519,7 @@ public abstract class BastilleBattalionManager {
   // data to be automatically saved to a file in a format which can be read by
   // an analysis script via file_to_map().
   //
-  // This is the proposed format.
+  // This is the format.
   //
   // The file is a tab delimited file in "data" named Bastille.battles.txt
   //
@@ -1470,8 +1535,8 @@ public abstract class BastilleBattalionManager {
   //     int number;         // Affects strength of enemy
   //     int [6] stats;      // MA/MD/CA/CD/PA/PD
   //     string boosts;      // MCP
-  //     string enemy;       // frenchcastle,masterofnone,bigcastle,
-  //                         // berserker,shieldmaster,barracks
+  //     string enemy;       // {frenchcastle,masterofnone,bigcastle,
+  //                         // berserker,shieldmaster,barracks}
   //     string stance;      // {offensive,waiting,defensive}
   //     boolean aggressor;  // as opposed to defender
   //     boolean military;   // true if won
