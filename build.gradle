@@ -73,9 +73,8 @@ dependencies {
 	implementation 'com.formdev:flatlaf-swingx:1.6.2'
 	// Optional runtime deps for svnkit
 	runtimeOnly 'com.trilead:trilead-ssh2:1.0.0-build222'
-	runtimeOnly 'net.java.dev.jna:jna:5.9.0'
-	runtimeOnly 'net.java.dev.jna:jna-platform:5.9.0'
-	runtimeOnly 'org.antlr:antlr-runtime:3.5.2'
+	runtimeOnly 'net.java.dev.jna:jna:5.6.0'
+	runtimeOnly 'net.java.dev.jna:jna-platform:5.6.0'
 
 	libImplementation 'org.swinglabs:swingx:1.0'
 
@@ -91,7 +90,7 @@ dependencies {
 	implementation 'org.json:json:20210307'
 	implementation 'org.mozilla:rhino:1.7.14'
 	implementation 'org.swinglabs:swingx:1.0'
-	implementation 'org.tmatesoft.svnkit:svnkit:1.10.3'
+	implementation 'org.tmatesoft.svnkit:svnkit:1.10.6'
 	implementation 'com.jgoodies:jgoodies-binding:2.13.0'
 }
 
