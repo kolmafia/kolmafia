@@ -478,7 +478,7 @@ octopus gardener	738	octopus.gif	Atk: 425 Def: 360 HP: 600 Init: 200 Meat: 100 P
 Octorok	117	octorok.gif	Atk: 25 Def: 22 HP: 15 Init: 60 P: beast Article: an	red pixel (80)	red pixel (70)	red pixel (60)
 off-duty Knob Goblin Elite Guard	1058	kg_offdutyguard.gif	Atk: 30 Def: 22 HP: 30 Init: 50 Meat: 50 P: goblin Article: an	Cobb's Knob Wurstbrau (15)	Knob Goblin elite pants (10)	Knob Goblin elite polearm (10)	Knob Goblin elite shirt (10)	knob bugle (10)
 oil baron	1237	oilbaron.gif	Atk: 85 Def: 77 HP: 60 Init: 80 P: slime Elem: 50 E: sleaze Article: an	bubblin' crude (100)	bubblin' crude (30)
-oil cartel	1238	oilcartel2.gif	Atk: 85 Def: 77 HP: 60 Init: 90 Group: 3 P: slime Elem: 25 E: sleaze Article: an	bubblin' crude (100)	bubblin' crude (30)	bubblin' crude (10)
+oil cartel	1238	oilcartel2.gif	Atk: 85 Def: 77 HP: 60 Init: 90 Group: 3 P: slime Elem: 75 E: sleaze Article: an	bubblin' crude (100)	bubblin' crude (30)	bubblin' crude (10)
 oil slick	1235	oilslick.gif	Atk: 85 Def: 77 HP: 60 Init: 50 P: slime E: sleaze Article: an	bubblin' crude (100)
 oil tycoon	1236	oiltycoon.gif	Atk: 85 Def: 77 HP: 60 Init: 65 P: slime Elem: 25 E: sleaze Article: an	bubblin' crude (100)	bubblin' crude (10)
 one-eyed Gnoll	18	dk_oneeye.gif	Atk: 11 Def: 9 HP: 5 Init: 60 Meat: 22 P: humanoid EA: sleaze Article: a	eyepatch (5)	gnoll teeth (5)	glass gnoll eye (p5)	Missing Eye Simulation Device (c0)
@@ -1031,7 +1031,7 @@ Normal hobo	651	nhobo1.gif,nhobo2.gif,nhobo3.gif,nhobo4.gif,nhobo5.gif,nhobo6.gi
 Cold hobo	690	coldhobo1.gif,coldhobo2.gif,coldhobo3.gif,coldhobo4.gif,coldhobo5.gif,coldhobo6.gif,coldhobo7.gif,coldhobo8.gif	Atk: 350 Def: 315 HP: 500 Init: 100 P: hobo E: cold	hobo nickel (c15)	freezin' bindle (0)	Maxing, Relaxing (0)	Blizzards I Have Died In (0)	frigid air mattress (0)
 Hot hobo	689	hothobo1.gif,hothobo2.gif,hothobo3.gif,hothobo4.gif,hothobo5.gif,hothobo6.gif,hothobo7.gif,hothobo8.gif	Atk: 350 Def: 315 HP: 500 Init: 100 P: hobo E: hot	bed of coals (0)	hobo nickel (c15)	flamin' bindle (0)	Tales from the Fireside (0)	Kissin' Cousins (0)
 Sleaze hobo	693	slhobo1.gif,slhobo2.gif,slhobo3.gif,slhobo4.gif,slhobo5.gif,slhobo6.gif,slhobo7.gif,slhobo8.gif	Atk: 350 Def: 315 HP: 500 Init: 100 P: hobo ED: sleaze	hobo nickel (c15)	sleazy bindle (0)	Summer Nights (0)	Sensual Massage for Creeps (0)	stained mattress (0)
-Spooky hobo	692	spookyhobo1.gif,spookyhobo2.gif,spookyhobo3.gif,spookyhobo4.gif,spookyhobo5.gif,spookyhobo6.gif,spookyhobo7.gif,spookyhobo8.gif	Atk: 350 Def: 315 HP: 500 Init: 100 P: hobo E: spooky	hobo nickel (c15)	spooky bindle (0)	Asleep in the Cemetery (0)	Let Me Be! (0)	comfy coffin (0)
+Spooky hobo	692	spookyhobo1.gif,spookyhobo2.gif,spookyhobo3.gif,spookyhobo4.gif,spookyhobo5.gif,spookyhobo6.gif,spookyhobo7.gif,spookyhobo8.gif	Atk: 350 Def: 315 HP: 500 Init: 100 P: hobo Elem: 100 E: spooky	hobo nickel (c15)	spooky bindle (0)	Asleep in the Cemetery (0)	Let Me Be! (0)	comfy coffin (0)
 Stench hobo	691	stenchhobo1.gif,stenchhobo2.gif,stenchhobo3.gif,stenchhobo4.gif,stenchhobo5.gif,stenchhobo6.gif,stenchhobo7.gif,stenchhobo8.gif	Atk: 350 Def: 315 HP: 500 Init: 100 P: hobo E: stench	hobo nickel (c15)	stinkin' bindle (0)	Biddy Cracker's Old-Fashioned Cookbook (0)	Travels with Jerry (0)	filth-encrusted futon (0)
 gang of hobo muggers	707	muggers.gif	Atk: 800 Def: 900 HP: 3000 Init: 300 P: hobo EA: hot Article: a
 
@@ -1111,8 +1111,8 @@ Great Wolf of the Air	1387	wolfoftheair.gif	NOCOPY Atk: 1200 Def: 1200 HP: 5000 
 Great Wolf of the Air (Hard Mode)	-87	wolfoftheair_hm.gif	NOCOPY NOMANUEL P: beast Article: The	Great Wolf's headband (c0)	Great Wolf's left paw (c0)	Great Wolf's right paw (c0)	Great Wolf's rocket launcher (c0)	Great Wolf's beastly trousers (c0)	Great Wolf's lice (c0)	Hunger&trade; Sauce (c0)
 Mayor Ghost	1389	mayorghost.gif	NOCOPY Atk: 1500 Def: 1500 HP: 10000 Init: 200 P: undead GHOST Phys: 100 EA: spooky	Mayor Ghost's cloak (c0)	Mayor Ghost's khakis (c0)	Mayor Ghost's toupee (c0)	ghost pepper (c0)
 Mayor Ghost (Hard Mode)	-86	mayorghost_hm.gif	NOCOPY NOMANUEL P: undead GHOST Phys: 100 EA: spooky	Mayor Ghost's cloak (c0)	Mayor Ghost's khakis (c0)	Mayor Ghost's toupee (c0)	Mayor Ghost's gavel (c0)	Mayor Ghost's sash (c0)	Mayor Ghost's scissors (c0)	ghost pepper (c0)
-The Unkillable Skeleton	1391	ukskeleton.gif	NOCOPY Atk: 500 Def: 500 HP: 500 Init: 200 P: undead	Unkillable Skeleton's breastplate (c0)	Unkillable Skeleton's shinguards (c0)	Unkillable Skeleton's skullcap (c0)	electric Kool-Aid (c0)
-The Unkillable Skeleton (Hard Mode)	-85	ukskeleton_hm.gif	NOCOPY NOMANUEL P: undead	Unkillable Skeleton's breastplate (c0)	Unkillable Skeleton's shinguards (c0)	Unkillable Skeleton's skullcap (c0)	Unkillable Skeleton's sawsword (c0)	Unkillable Skeleton's shield (c0)	Unkillable Skeleton's restless leg (c0)	skull capacitor (100)	electric Kool-Aid (c0)
+The Unkillable Skeleton	1391	ukskeleton.gif	NOCOPY Atk: 500 Def: 500 HP: 500 Init: 200 P: undead Elem: 90	Unkillable Skeleton's breastplate (c0)	Unkillable Skeleton's shinguards (c0)	Unkillable Skeleton's skullcap (c0)	electric Kool-Aid (c0)
+The Unkillable Skeleton (Hard Mode)	-85	ukskeleton_hm.gif	NOCOPY NOMANUEL P: undead Phys: 50 Elem: 95	Unkillable Skeleton's breastplate (c0)	Unkillable Skeleton's shinguards (c0)	Unkillable Skeleton's skullcap (c0)	Unkillable Skeleton's sawsword (c0)	Unkillable Skeleton's shield (c0)	Unkillable Skeleton's restless leg (c0)	skull capacitor (100)	electric Kool-Aid (c0)
 Zombie Homeowners' Association	1388	zombiehoa.gif	NOCOPY Atk: 700 Def: 700 HP: 15000 Init: 200 P: undead EA: sleaze EA: stench Article: the	zombie mariachi hat (c0)	zombie accordion (c0)	zombie mariachi pants (c0)	wriggling severed nose (c0)
 Zombie Homeowners' Association (Hard Mode)	-84	zombiehoa_hm.gif	NOCOPY P: undead EA: sleaze EA: stench Article: the	zombie mariachi hat (c0)	zombie accordion (c0)	zombie mariachi pants (c0)	HOA regulation book (c0)	HOA zombie eyes (c0)	HOA citation pad (c0)	wriggling severed nose (c0)
 
@@ -1156,7 +1156,7 @@ liquid metal bugbear	1181	bb_liquidmetal.gif	Atk: 140 Def: 162 HP: 175 Init: 150
 ancient unspeakable bugbear	1172	bb_horror.gif	Atk: 140 Def: 126 HP: 150 Init: 50 P: beast ED: spooky Article: an	BURT (100)
 N-space Virtual Assistant	1184	bb_vassist.gif	Atk: 175 Def: 157 HP: 180 Init: 100 P: construct Phys: 60 Elem: 60 EA: sleaze Article: an
 trendy bugbear chef	1173	bb_chef.gif	Atk: 200 Def: 180 HP: 250 Init: 50 P: beast Phys: 25 ED: stench Article: a	BURT (100)
-angry cavebugbear	1183	bb_caveman.gif	Atk: 220 Def: 211 HP: 300 Init: 25 P: beast Phys: 25 Elem: 75 Article: an
+angry cavebugbear	1183	bb_caveman.gif	Atk: 220 Def: 211 HP: 300 Init: 25 P: beast Elem: 75 Article: an
 Bugbear Captain	1182	bb_captain.gif	NOCOPY Atk: 280 Def: 288 HP: 1337 Init: 200 P: beast Phys: 25 Elem: 30 Article: the
 
 # Zombie Slayer
@@ -2037,11 +2037,11 @@ Red Roger	2134	pr_redroger.gif	NOCOPY Atk: 100 Def: 100 HP: 500 Init: -10000 P: 
 Glass Jack Hummel	2135	pr_glassjack.gif	NOCOPY Atk: 100 Def: 100 HP: 200 Init: 50 P: construct EA: spooky
 
 # Cargo Cultist Shorts (Sep 2020)
-Astrologer of Shub-Jigguwatt	2200	ccs_astrologer.gif	NOCOPY Scale: 15 Init: -10000 P: constellation E: sleaze Article: an	star chart (n100)	star (n30)	star (n10)	line (n30)	line (n10)
-Burning Daughter	2196	ccs_daughter.gif	NOCOPY Scale: 15 Init: -10000 P: elemental E: hot Article: a	fire (n100)	fire (n100)	flame orb (n100)
-Chosen of Yog-Urt	2199	ccs_disciple.gif	NOCOPY Scale: 15 Init: -10000 P: horror E: stench Article: a	bowl of cottage cheese (n100)	bowl of cottage cheese (n100)	bowl of cottage cheese (n25)	bowl of cottage cheese (n10)	bowl of cottage cheese (n5)	glass of goat's milk (n100)	glass of goat's milk (n100)	milk of magnesium (n10)	Hatorade (n20)
-Herald of Fridgr	2197	ccs_herald.gif	NOCOPY Scale: 15 Init: -10000 P: dude E: cold Article: a	cold wad (n100)	cold nuggets (n100)	cold nuggets (n100)	cold powder (n25)	cold powder (n25)	cold powder (n25)	cold powder (n25)
-Tentacle of Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2198	ccs_tentacle.gif	NOCOPY Scale: 15 Init: -10000 P: horror E: spooky Article: a	eldritch effluvium (20)	eldritch effluvium (10)	eldritch effluvium (1)
+Astrologer of Shub-Jigguwatt	2200	ccs_astrologer.gif	NOCOPY Scale: 15 Init: -10000 P: constellation Phys: 100 E: sleaze Article: an	star chart (n100)	star (n30)	star (n10)	line (n30)	line (n10)
+Burning Daughter	2196	ccs_daughter.gif	NOCOPY Scale: 15 Init: -10000 P: elemental Phys: 100 E: hot Article: a	fire (n100)	fire (n100)	flame orb (n100)
+Chosen of Yog-Urt	2199	ccs_disciple.gif	NOCOPY Scale: 15 Init: -10000 P: horror Phys: 100 E: stench Article: a	bowl of cottage cheese (n100)	bowl of cottage cheese (n100)	bowl of cottage cheese (n25)	bowl of cottage cheese (n10)	bowl of cottage cheese (n5)	glass of goat's milk (n100)	glass of goat's milk (n100)	milk of magnesium (n10)	Hatorade (n20)
+Herald of Fridgr	2197	ccs_herald.gif	NOCOPY Scale: 15 Init: -10000 P: dude Phys: 100 E: cold Article: a	cold wad (n100)	cold nuggets (n100)	cold nuggets (n100)	cold powder (n25)	cold powder (n25)	cold powder (n25)	cold powder (n25)
+Tentacle of Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl	2198	ccs_tentacle.gif	NOCOPY Scale: 15 Init: -10000 P: horror Phys: 100 E: spooky Article: a	eldritch effluvium (20)	eldritch effluvium (10)	eldritch effluvium (1)
 
 # KoL Con
 
