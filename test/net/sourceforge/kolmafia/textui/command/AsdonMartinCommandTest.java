@@ -1,19 +1,18 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
-import static internal.helpers.Player.*;
+import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Player.addEffect;
+import static internal.helpers.Player.addItem;
+import static internal.helpers.Player.setWorkshed;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
-import internal.network.RequestBodyReader;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -100,14 +99,8 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
       var requests = getRequests();
 
       assertThat(requests, not(empty()));
-      var request = requests.get(0);
-      var uri = request.uri();
-      assertThat(uri.getPath(), equalTo("/campground.php"));
-      assertThat(request.method(), equalTo("POST"));
-      var body = new RequestBodyReader().bodyAsString(request);
-      assertThat(
-          URLDecoder.decode(body, StandardCharsets.UTF_8),
-          equalTo("preaction=undrive&stop=Stop+Driving+Obnoxiously"));
+      assertPostRequest(
+          requests.get(0), "/campground.php", "preaction=undrive&stop=Stop+Driving+Obnoxiously");
     }
   }
 
@@ -142,13 +135,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
       var requests = getRequests();
 
       assertThat(requests, not(empty()));
-      var request = requests.get(0);
-      var uri = request.uri();
-      assertThat(uri.getPath(), equalTo("/campground.php"));
-      assertThat(request.method(), equalTo("POST"));
-      var body = new RequestBodyReader().bodyAsString(request);
-      assertThat(
-          URLDecoder.decode(body, StandardCharsets.UTF_8), equalTo("preaction=drive&whichdrive=0"));
+      assertPostRequest(requests.get(0), "/campground.php", "preaction=drive&whichdrive=0");
     }
   }
 
@@ -164,14 +151,10 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
       var requests = getRequests();
 
       assertThat(requests, not(empty()));
-      var request = requests.get(0);
-      var uri = request.uri();
-      assertThat(uri.getPath(), equalTo("/campground.php"));
-      assertThat(request.method(), equalTo("POST"));
-      var body = new RequestBodyReader().bodyAsString(request);
-      assertThat(
-          URLDecoder.decode(body, StandardCharsets.UTF_8),
-          equalTo("preaction=drive&whichdrive=0&more=Drive+More+Obnoxiously"));
+      assertPostRequest(
+          requests.get(0),
+          "/campground.php",
+          "preaction=drive&whichdrive=0&more=Drive+More+Obnoxiously");
     }
   }
 
@@ -187,22 +170,9 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
       var requests = getRequests();
 
       assertThat(requests, hasSize(2));
-      var first = requests.get(0);
-      var uri = first.uri();
-      assertThat(uri.getPath(), equalTo("/campground.php"));
-      assertThat(first.method(), equalTo("POST"));
-      var body = new RequestBodyReader().bodyAsString(first);
-      assertThat(
-          URLDecoder.decode(body, StandardCharsets.UTF_8),
-          equalTo("preaction=undrive&stop=Stop+Driving+Obnoxiously"));
-
-      var second = requests.get(1);
-      uri = second.uri();
-      assertThat(uri.getPath(), equalTo("/campground.php"));
-      assertThat(second.method(), equalTo("POST"));
-      body = new RequestBodyReader().bodyAsString(second);
-      assertThat(
-          URLDecoder.decode(body, StandardCharsets.UTF_8), equalTo("preaction=drive&whichdrive=7"));
+      assertPostRequest(
+          requests.get(0), "/campground.php", "preaction=undrive&stop=Stop+Driving+Obnoxiously");
+      assertPostRequest(requests.get(1), "/campground.php", "preaction=drive&whichdrive=7");
     }
   }
 
@@ -239,14 +209,7 @@ public class AsdonMartinCommandTest extends AbstractCommandTestBase {
       var requests = getRequests();
 
       assertThat(requests, not(empty()));
-      var request = requests.get(0);
-      var uri = request.uri();
-      assertThat(uri.getPath(), equalTo("/campground.php"));
-      assertThat(request.method(), equalTo("POST"));
-      var body = new RequestBodyReader().bodyAsString(request);
-      assertThat(
-          URLDecoder.decode(body, StandardCharsets.UTF_8),
-          equalTo("action=fuelconvertor&qty=10&iid=8195"));
+      assertPostRequest(requests.get(0), "/campground.php", "action=fuelconvertor&qty=10&iid=8195");
     }
   }
 

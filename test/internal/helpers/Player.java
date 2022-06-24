@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
@@ -242,10 +243,26 @@ public class Player {
     return new Cleanups(CampgroundRequest::resetCurrentWorkshedItem);
   }
 
+  public static Cleanups hasRange() {
+    KoLCharacter.setRange(true);
+    ConcoctionDatabase.refreshConcoctions();
+    return new Cleanups(
+        () -> {
+          KoLCharacter.setRange(false);
+          ConcoctionDatabase.refreshConcoctions();
+        });
+  }
+
   public static Cleanups setProperty(String key, String value) {
     var oldValue = Preferences.getString(key);
     Preferences.setString(key, value);
     return new Cleanups(() -> Preferences.setString(key, oldValue));
+  }
+
+  public static Cleanups setProperty(String key, Boolean value) {
+    var oldValue = Preferences.getBoolean(key);
+    Preferences.setBoolean(key, value);
+    return new Cleanups(() -> Preferences.setBoolean(key, oldValue));
   }
 
   public static Cleanups setupFakeResponse(int code, String response) {

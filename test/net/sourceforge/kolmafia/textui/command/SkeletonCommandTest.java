@@ -1,16 +1,15 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.Networking.assertPostRequest;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
 
 import internal.helpers.HttpClientWrapper;
 import internal.helpers.Player;
-import internal.network.RequestBodyReader;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -64,16 +63,7 @@ public class SkeletonCommandTest extends AbstractCommandTestBase {
     var requests = getRequests();
     assertThat(requests, not(empty()));
     assertThat(requests, hasSize(2));
-    var first = requests.get(0);
-    var uri = first.uri();
-    assertThat(uri.getPath(), equalTo("/inv_use.php"));
-    var body = new RequestBodyReader().bodyAsString(first);
-    assertThat(body, equalTo("which=3&whichitem=5881"));
-
-    var second = requests.get(1);
-    uri = second.uri();
-    assertThat(uri.getPath(), equalTo("/choice.php"));
-    body = new RequestBodyReader().bodyAsString(second);
-    assertThat(body, equalTo("whichchoice=603&option=5"));
+    assertPostRequest(requests.get(0), "/inv_use.php", "which=3&whichitem=5881");
+    assertPostRequest(requests.get(1), "/choice.php", "whichchoice=603&option=5");
   }
 }

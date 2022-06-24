@@ -965,9 +965,9 @@ public class Maximizer {
         } else if (cmd.startsWith("skate ")) {
           String status = Preferences.getString("skateParkStatus");
           int buff = SkateParkRequest.placeToBuff(cmd.substring(6));
-          Object[] data = SkateParkRequest.buffToData(buff);
-          String buffPref = (String) data[4];
-          String buffStatus = (String) data[6];
+          var data = SkateParkRequest.buffToData(buff);
+          String buffPref = data.setting();
+          String buffStatus = data.state();
 
           if (!status.equals(buffStatus)) {
             continue;

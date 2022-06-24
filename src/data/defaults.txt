@@ -1676,6 +1676,12 @@ user	_fishyPipeUsed	false
 user	_floristPlantsUsed
 user	_floundryItemCreated	false
 user	_floundryItemUsed	false
+user	_floundryBassLocation
+user	_floundryCarpLocation
+user	_floundryCodLocation
+user	_floundryHatchetfishLocation
+user	_floundryTroutLocation
+user	_floundryTunaLocation
 user	_fragrantHerbsUsed	0
 user	_freeBeachWalksUsed	0
 user	_freePillKeeperUsed	false

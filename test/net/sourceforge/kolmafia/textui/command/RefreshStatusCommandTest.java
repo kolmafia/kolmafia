@@ -2,10 +2,10 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getLastRequest;
 import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.Networking.assertGetRequest;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 
 import internal.helpers.HttpClientWrapper;
@@ -42,8 +42,6 @@ public class RefreshStatusCommandTest extends AbstractCommandTestBase {
 
     var requests = getRequests();
     assertThat(requests, not(empty()));
-    var request = getLastRequest();
-    var uri = request.uri();
-    assertThat(uri.getPath(), equalTo("/clan_stash.php"));
+    assertGetRequest(getLastRequest(), "/clan_stash.php");
   }
 }

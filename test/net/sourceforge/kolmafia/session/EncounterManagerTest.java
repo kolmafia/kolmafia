@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.addEffect;
 import static internal.helpers.Player.addItem;
 import static internal.helpers.Player.equip;
@@ -20,9 +21,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mockStatic;
 
 import internal.helpers.Cleanups;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -209,8 +207,8 @@ class EncounterManagerTest {
   }
 
   @Test
-  void isRomanticEncounterBasedOnResponseText() throws IOException {
-    String html = Files.readString(Path.of("request/test_fight_romantic_monster.html"));
+  void isRomanticEncounterBasedOnResponseText() {
+    String html = html("request/test_fight_romantic_monster.html");
 
     boolean actual = EncounterManager.isRomanticEncounter(html, false);
 
@@ -218,12 +216,12 @@ class EncounterManagerTest {
   }
 
   @Test
-  void isRomanticEncounterBasedOnMonster() throws IOException {
+  void isRomanticEncounterBasedOnMonster() {
     TurnCounter.startCounting(10, "Romantic Monster window end loc=* type=wander", "rparen.gif");
     KoLAdventure.setNextAdventure("The Deep Machine Tunnels");
     Preferences.setString("romanticTarget", "Witchess Knight");
     MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
-    String html = Files.readString(Path.of("request/test_fight_witchess_knight_in_dmt.html"));
+    String html = html("request/test_fight_witchess_knight_in_dmt.html");
 
     boolean actual = EncounterManager.isRomanticEncounter(html, true);
 
@@ -232,8 +230,8 @@ class EncounterManagerTest {
 
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
-  void noRomanticEncounterFalsePositive(boolean checkMonster) throws IOException {
-    String html = Files.readString(Path.of("request/test_fight_oil_baron.html"));
+  void noRomanticEncounterFalsePositive(boolean checkMonster) {
+    String html = html("request/test_fight_oil_baron.html");
 
     boolean actual = EncounterManager.isRomanticEncounter(html, checkMonster);
 
@@ -242,8 +240,8 @@ class EncounterManagerTest {
 
   @Disabled("Need some HTML")
   @Test
-  void isEnamorangEncounterBasedOnResponseText() throws IOException {
-    String html = Files.readString(Path.of("request/test_fight_enamorang_monster.html"));
+  void isEnamorangEncounterBasedOnResponseText() {
+    String html = html("request/test_fight_enamorang_monster.html");
 
     boolean actual = EncounterManager.isEnamorangEncounter(html, false);
 
@@ -251,14 +249,14 @@ class EncounterManagerTest {
   }
 
   @Test
-  void isEnamorangEncounterBasedOnMonster() throws IOException {
+  void isEnamorangEncounterBasedOnMonster() {
     KoLCharacter.setCurrentRun(0);
     TurnCounter.startCounting(1, "Enamorang Monster loc=* type=wander", "watch.gif");
     KoLCharacter.setCurrentRun(1);
     KoLAdventure.setNextAdventure("The Deep Machine Tunnels");
     Preferences.setString("enamorangMonster", "Witchess Knight");
     MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
-    String html = Files.readString(Path.of("request/test_fight_witchess_knight_in_dmt.html"));
+    String html = html("request/test_fight_witchess_knight_in_dmt.html");
 
     boolean actual = EncounterManager.isEnamorangEncounter(html, true);
 
@@ -267,8 +265,8 @@ class EncounterManagerTest {
 
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
-  void noEnamorangEncounterFalsePositive(boolean checkMonster) throws IOException {
-    String html = Files.readString(Path.of("request/test_fight_oil_baron.html"));
+  void noEnamorangEncounterFalsePositive(boolean checkMonster) {
+    String html = html("request/test_fight_oil_baron.html");
 
     boolean actual = EncounterManager.isEnamorangEncounter(html, checkMonster);
 
@@ -276,8 +274,8 @@ class EncounterManagerTest {
   }
 
   @Test
-  void isDigitizedEncounterBasedOnResponseText() throws IOException {
-    String html = Files.readString(Path.of("request/test_fight_digitized_monster.html"));
+  void isDigitizedEncounterBasedOnResponseText() {
+    String html = html("request/test_fight_digitized_monster.html");
 
     boolean actual = EncounterManager.isDigitizedEncounter(html, false);
 
@@ -285,14 +283,14 @@ class EncounterManagerTest {
   }
 
   @Test
-  void isDigitizedEncounterBasedOnMonster() throws IOException {
+  void isDigitizedEncounterBasedOnMonster() {
     KoLCharacter.setCurrentRun(0);
     TurnCounter.startCounting(1, "Digitize Monster loc=* type=wander", "watch.gif");
     KoLCharacter.setCurrentRun(1);
     KoLAdventure.setNextAdventure("The Deep Machine Tunnels");
     Preferences.setString("_sourceTerminalDigitizeMonster", "Witchess Knight");
     MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
-    String html = Files.readString(Path.of("request/test_fight_witchess_knight_in_dmt.html"));
+    String html = html("request/test_fight_witchess_knight_in_dmt.html");
 
     boolean actual = EncounterManager.isDigitizedEncounter(html, true);
 
@@ -301,8 +299,8 @@ class EncounterManagerTest {
 
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
-  void noDigitizedEncounterFalsePositive(boolean checkMonster) throws IOException {
-    String html = Files.readString(Path.of("request/test_fight_oil_baron.html"));
+  void noDigitizedEncounterFalsePositive(boolean checkMonster) {
+    String html = html("request/test_fight_oil_baron.html");
 
     boolean actual = EncounterManager.isDigitizedEncounter(html, checkMonster);
 
@@ -415,8 +413,8 @@ class EncounterManagerTest {
 
   @ParameterizedTest
   @CsvSource({"gregarious_monster, true", "oil_slick, false"})
-  void isGregariousEncounter(String file, String expected) throws IOException {
-    String html = Files.readString(Path.of("request/test_fight_" + file + ".html"));
+  void isGregariousEncounter(String file, String expected) {
+    String html = html("request/test_fight_" + file + ".html");
 
     boolean actual = EncounterManager.isGregariousEncounter(html);
 
@@ -481,8 +479,8 @@ class EncounterManagerTest {
   }
 
   @Test
-  void canRegisterNewEncounter() throws IOException {
-    String html = Files.readString(Path.of("request/test_fight_oil_slick.html"));
+  void canRegisterNewEncounter() {
+    String html = html("request/test_fight_oil_slick.html");
     EncounterManager.registerEncounter("oil slick", "Combat", html);
 
     assertThat(KoLConstants.encounterList, hasSize(1));
@@ -490,8 +488,8 @@ class EncounterManagerTest {
   }
 
   @Test
-  void canRegisterRepeatEncounter() throws IOException {
-    String html = Files.readString(Path.of("request/test_fight_oil_slick.html"));
+  void canRegisterRepeatEncounter() {
+    String html = html("request/test_fight_oil_slick.html");
     EncounterManager.registerEncounter("oil slick", "Combat", html);
     EncounterManager.registerEncounter("oil slick", "Combat", html);
 
@@ -500,10 +498,10 @@ class EncounterManagerTest {
   }
 
   @Test
-  void canAddDifferentEncounterToList() throws IOException {
-    String oilSlickHtml = Files.readString(Path.of("request/test_fight_oil_slick.html"));
+  void canAddDifferentEncounterToList() {
+    String oilSlickHtml = html("request/test_fight_oil_slick.html");
     EncounterManager.registerEncounter("oil slick", "Combat", oilSlickHtml);
-    String oilCartelHtml = Files.readString(Path.of("request/test_fight_oil_slick.html"));
+    String oilCartelHtml = html("request/test_fight_oil_slick.html");
     EncounterManager.registerEncounter("oil cartel", "Combat", oilCartelHtml);
 
     assertThat(KoLConstants.encounterList, hasSize(2));
@@ -515,9 +513,9 @@ class EncounterManagerTest {
   }
 
   @Test
-  void canAddEarlierEncounterToList() throws IOException {
-    String oilSlickHtml = Files.readString(Path.of("request/test_fight_oil_slick.html"));
-    String oilCartelHtml = Files.readString(Path.of("request/test_fight_oil_slick.html"));
+  void canAddEarlierEncounterToList() {
+    String oilSlickHtml = html("request/test_fight_oil_slick.html");
+    String oilCartelHtml = html("request/test_fight_oil_slick.html");
 
     EncounterManager.registerEncounter("oil slick", "Combat", oilSlickHtml);
     EncounterManager.registerEncounter("oil cartel", "Combat", oilCartelHtml);
@@ -543,8 +541,8 @@ class EncounterManagerTest {
   }
 
   @Test
-  void rainManMonsterIgnoresSpecialMonsters() throws IOException {
-    String html = Files.readString(Path.of("request/test_fight_rainman_monster.html"));
+  void rainManMonsterIgnoresSpecialMonsters() {
+    String html = html("request/test_fight_rainman_monster.html");
 
     var cleanups = inPath(AscensionPath.Path.HEAVY_RAINS);
 

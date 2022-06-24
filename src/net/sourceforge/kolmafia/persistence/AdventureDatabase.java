@@ -707,56 +707,41 @@ public class AdventureDatabase {
     return null;
   }
 
-  public static final Object[][] FISTCORE_SCROLLS = {
-    // Adventure Zone
-    // Adventure ID
-    // Setting
-    {
-      "The Haiku Dungeon", AdventurePool.HAIKU_DUNGEON, "fistTeachingsHaikuDungeon",
-    },
-    {
-      "The Poker Room", AdventurePool.POKER_ROOM, "fistTeachingsPokerRoom",
-    },
-    {
-      "A Barroom Brawl", AdventurePool.BARROOM_BRAWL, "fistTeachingsBarroomBrawl",
-    },
-    {
-      "The Haunted Conservatory", AdventurePool.HAUNTED_CONSERVATORY, "fistTeachingsConservatory",
-    },
-    {
-      "The Bat Hole Entrance", AdventurePool.BAT_HOLE_ENTRYWAY, "fistTeachingsBatHole",
-    },
-    {
-      "The \"Fun\" House", AdventurePool.FUN_HOUSE, "fistTeachingsFunHouse",
-    },
-    {
-      "Cobb's Knob Menagerie Level 2", AdventurePool.MENAGERIE_LEVEL_2, "fistTeachingsMenagerie",
-    },
-    {
-      "Pandamonium Slums", AdventurePool.PANDAMONIUM_SLUMS, "fistTeachingsSlums",
-    },
-    {
-      "Frat House", AdventurePool.FRAT_HOUSE, "fistTeachingsFratHouse",
-    },
-    {
-      "Road to the White Citadel", AdventurePool.ROAD_TO_WHITE_CITADEL, "fistTeachingsRoad",
-    },
-    {
-      "Lair of the Ninja Snowmen", AdventurePool.NINJA_SNOWMEN, "fistTeachingsNinjaSnowmen",
-    },
+  private record FistcoreScroll(String zone, int adventureId, String setting) {}
+
+  private static final FistcoreScroll[] FISTCORE_SCROLLS = {
+    new FistcoreScroll(
+        "The Haiku Dungeon", AdventurePool.HAIKU_DUNGEON, "fistTeachingsHaikuDungeon"),
+    new FistcoreScroll("The Poker Room", AdventurePool.POKER_ROOM, "fistTeachingsPokerRoom"),
+    new FistcoreScroll("A Barroom Brawl", AdventurePool.BARROOM_BRAWL, "fistTeachingsBarroomBrawl"),
+    new FistcoreScroll(
+        "The Haunted Conservatory",
+        AdventurePool.HAUNTED_CONSERVATORY,
+        "fistTeachingsConservatory"),
+    new FistcoreScroll(
+        "The Bat Hole Entrance", AdventurePool.BAT_HOLE_ENTRYWAY, "fistTeachingsBatHole"),
+    new FistcoreScroll("The \"Fun\" House", AdventurePool.FUN_HOUSE, "fistTeachingsFunHouse"),
+    new FistcoreScroll(
+        "Cobb's Knob Menagerie Level 2", AdventurePool.MENAGERIE_LEVEL_2, "fistTeachingsMenagerie"),
+    new FistcoreScroll("Pandamonium Slums", AdventurePool.PANDAMONIUM_SLUMS, "fistTeachingsSlums"),
+    new FistcoreScroll("Frat House", AdventurePool.FRAT_HOUSE, "fistTeachingsFratHouse"),
+    new FistcoreScroll(
+        "Road to the White Citadel", AdventurePool.ROAD_TO_WHITE_CITADEL, "fistTeachingsRoad"),
+    new FistcoreScroll(
+        "Lair of the Ninja Snowmen", AdventurePool.NINJA_SNOWMEN, "fistTeachingsNinjaSnowmen"),
   };
 
-  private static int fistcoreDataLocation(final Object[] data) {
-    return (data == null) ? -1 : ((Integer) data[1]).intValue();
+  private static int fistcoreDataLocation(final FistcoreScroll data) {
+    return (data == null) ? -1 : data.adventureId;
   }
 
-  private static String fistcoreDataSetting(final Object[] data) {
-    return (data == null) ? null : ((String) data[2]);
+  private static String fistcoreDataSetting(final FistcoreScroll data) {
+    return (data == null) ? null : data.setting;
   }
 
-  private static Object[] fistcoreLocationToData(final int location) {
+  private static FistcoreScroll fistcoreLocationToData(final int location) {
     for (int i = 0; i < FISTCORE_SCROLLS.length; ++i) {
-      Object[] data = FISTCORE_SCROLLS[i];
+      var data = FISTCORE_SCROLLS[i];
       int loc = fistcoreDataLocation(data);
       if (location == loc) {
         return data;

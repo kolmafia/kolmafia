@@ -12,53 +12,44 @@ public class BangPotionsCommand extends AbstractCommand {
     this.usage = " - list the potions you've identified.";
   }
 
+  record Identifiable(String name, String shortName, int id) {}
+
   // In alphabetical order, for prettiness, and for convenience in
   // looking at combat item dropdown
-  private static final Object[][] BANG_POTIONS =
-      new Object[][] {
-        {"bubbly potion", "bubbly", ItemPool.BUBBLY_POTION},
-        {"cloudy potion", "cloudy", ItemPool.CLOUDY_POTION},
-        {"dark potion", "dark", ItemPool.DARK_POTION},
-        {"effervescent potion", "effervescent", ItemPool.EFFERVESCENT_POTION},
-        {"fizzy potion", "fizzy", ItemPool.FIZZY_POTION},
-        {"milky potion", "milky", ItemPool.MILKY_POTION},
-        {"murky potion", "murky", ItemPool.MURKY_POTION},
-        {"smoky potion", "smoky", ItemPool.SMOKY_POTION},
-        {"swirly potion", "swirly", ItemPool.SWIRLY_POTION},
+  private static final Identifiable[] BANG_POTIONS =
+      new Identifiable[] {
+        new Identifiable("bubbly potion", "bubbly", ItemPool.BUBBLY_POTION),
+        new Identifiable("cloudy potion", "cloudy", ItemPool.CLOUDY_POTION),
+        new Identifiable("dark potion", "dark", ItemPool.DARK_POTION),
+        new Identifiable("effervescent potion", "effervescent", ItemPool.EFFERVESCENT_POTION),
+        new Identifiable("fizzy potion", "fizzy", ItemPool.FIZZY_POTION),
+        new Identifiable("milky potion", "milky", ItemPool.MILKY_POTION),
+        new Identifiable("murky potion", "murky", ItemPool.MURKY_POTION),
+        new Identifiable("smoky potion", "smoky", ItemPool.SMOKY_POTION),
+        new Identifiable("swirly potion", "swirly", ItemPool.SWIRLY_POTION),
       };
 
-  private static final Object[][] SLIME_VIALS =
-      new Object[][] {
-        {"vial of red slime", "red", ItemPool.VIAL_OF_RED_SLIME},
-        {"vial of yellow slime", "yellow", ItemPool.VIAL_OF_YELLOW_SLIME},
-        {"vial of blue slime", "blue", ItemPool.VIAL_OF_BLUE_SLIME},
-        {"vial of orange slime", "orange", ItemPool.VIAL_OF_ORANGE_SLIME},
-        {"vial of green slime", "green", ItemPool.VIAL_OF_GREEN_SLIME},
-        {"vial of violet slime", "violet", ItemPool.VIAL_OF_VIOLET_SLIME},
-        {"vial of vermilion slime", "vermilion", ItemPool.VIAL_OF_VERMILION_SLIME},
-        {"vial of amber slime", "amber", ItemPool.VIAL_OF_AMBER_SLIME},
-        {"vial of chartreuse slime", "chartreuse", ItemPool.VIAL_OF_CHARTREUSE_SLIME},
-        {"vial of teal slime", "teal", ItemPool.VIAL_OF_TEAL_SLIME},
-        {"vial of indigo slime", "indigo", ItemPool.VIAL_OF_INDIGO_SLIME},
-        {"vial of purple slime", "purple", ItemPool.VIAL_OF_PURPLE_SLIME},
-        {"vial of brown slime", "brown", ItemPool.VIAL_OF_BROWN_SLIME},
+  private static final Identifiable[] SLIME_VIALS =
+      new Identifiable[] {
+        new Identifiable("vial of red slime", "red", ItemPool.VIAL_OF_RED_SLIME),
+        new Identifiable("vial of yellow slime", "yellow", ItemPool.VIAL_OF_YELLOW_SLIME),
+        new Identifiable("vial of blue slime", "blue", ItemPool.VIAL_OF_BLUE_SLIME),
+        new Identifiable("vial of orange slime", "orange", ItemPool.VIAL_OF_ORANGE_SLIME),
+        new Identifiable("vial of green slime", "green", ItemPool.VIAL_OF_GREEN_SLIME),
+        new Identifiable("vial of violet slime", "violet", ItemPool.VIAL_OF_VIOLET_SLIME),
+        new Identifiable("vial of vermilion slime", "vermilion", ItemPool.VIAL_OF_VERMILION_SLIME),
+        new Identifiable("vial of amber slime", "amber", ItemPool.VIAL_OF_AMBER_SLIME),
+        new Identifiable(
+            "vial of chartreuse slime", "chartreuse", ItemPool.VIAL_OF_CHARTREUSE_SLIME),
+        new Identifiable("vial of teal slime", "teal", ItemPool.VIAL_OF_TEAL_SLIME),
+        new Identifiable("vial of indigo slime", "indigo", ItemPool.VIAL_OF_INDIGO_SLIME),
+        new Identifiable("vial of purple slime", "purple", ItemPool.VIAL_OF_PURPLE_SLIME),
+        new Identifiable("vial of brown slime", "brown", ItemPool.VIAL_OF_BROWN_SLIME),
       };
-
-  private static String potionName(final Object[][] table, final int index) {
-    return (String) table[index][0];
-  }
-
-  private static String potionShortName(final Object[][] table, final int index) {
-    return (String) table[index][1];
-  }
-
-  private static int potionItemId(final Object[][] table, final int index) {
-    return ((Integer) table[index][2]).intValue();
-  }
 
   @Override
   public void run(final String cmd, final String parameters) {
-    Object[][] table = BangPotionsCommand.BANG_POTIONS;
+    var table = BangPotionsCommand.BANG_POTIONS;
     String pref = "lastBangPotion";
 
     if (cmd.startsWith("v")) {
@@ -66,10 +57,10 @@ public class BangPotionsCommand extends AbstractCommand {
       pref = "lastSlimeVial";
     }
 
-    for (int index = 0; index < table.length; ++index) {
-      int itemId = BangPotionsCommand.potionItemId(table, index);
-      String shortName = BangPotionsCommand.potionShortName(table, index);
-      StringBuffer buf = new StringBuffer(shortName);
+    for (Identifiable identifiable : table) {
+      int itemId = identifiable.id;
+      String shortName = identifiable.shortName;
+      StringBuilder buf = new StringBuilder(shortName);
       buf.append(": ");
       buf.append(Preferences.getString(pref + itemId));
       AdventureResult item = ItemPool.get(itemId, 1);

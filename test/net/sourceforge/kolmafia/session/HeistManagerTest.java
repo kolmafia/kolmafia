@@ -1,14 +1,12 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.html;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -53,11 +51,7 @@ public class HeistManagerTest {
   static class FakeHeistManager extends HeistManager {
     @Override
     protected String heistRequest() {
-      try {
-        return Files.readString(Paths.get("request/test_heist_command.html"));
-      } catch (IOException e) {
-        throw new RuntimeException("could not find test HTML");
-      }
+      return html("request/test_heist_command.html");
     }
   }
 }

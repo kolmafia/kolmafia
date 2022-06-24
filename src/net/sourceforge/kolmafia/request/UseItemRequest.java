@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BugbearManager;
+import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
 import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -5899,7 +5900,7 @@ public class UseItemRequest extends GenericRequest {
     }
 
     for (int i = 1; i <= 9; ++i) {
-      Object[] data = BugbearManager.idToData(i);
+      Bugbear data = BugbearManager.idToData(i);
       if (data == null) {
         continue;
       }

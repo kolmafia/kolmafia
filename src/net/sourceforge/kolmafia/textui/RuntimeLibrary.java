@@ -996,6 +996,10 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("get_clan_lounge", DataTypes.ITEM_TO_INT_TYPE, params));
 
     params = new Type[] {};
+    functions.add(
+        new LibraryFunction("get_fishing_locations", DataTypes.STRING_TO_LOCATION_TYPE, params));
+
+    params = new Type[] {};
     functions.add(new LibraryFunction("get_clan_rumpus", DataTypes.STRING_TO_INT_TYPE, params));
 
     params = new Type[] {};
@@ -4940,6 +4944,17 @@ public abstract class RuntimeLibrary {
 
     for (AdventureResult item : ClanManager.getClanLounge()) {
       value.aset(DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
+    }
+
+    return value;
+  }
+
+  public static Value get_fishing_locations(ScriptRuntime controller) {
+    MapValue value = new MapValue(DataTypes.STRING_TO_LOCATION_TYPE);
+
+    for (var locs : ClanLoungeRequest.getFloundryLocations().entrySet()) {
+      Value location = DataTypes.makeLocationValue(AdventureDatabase.getAdventure(locs.getValue()));
+      value.aset(new Value(locs.getKey()), location);
     }
 
     return value;

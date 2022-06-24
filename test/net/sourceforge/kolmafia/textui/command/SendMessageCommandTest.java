@@ -1,17 +1,16 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.Networking.assertPostRequest;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.mockStatic;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import internal.helpers.Player;
-import internal.network.RequestBodyReader;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -108,15 +107,10 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
       assertContinueState();
       var requests = getRequests();
       assertThat(requests, not(empty()));
-      var request = requests.get(0);
-      var uri = request.uri();
-      assertThat(uri.getPath(), equalTo("/sendmessage.php"));
-      assertThat(request.method(), equalTo("POST"));
-      var body = new RequestBodyReader().bodyAsString(request);
-      assertThat(
-          body,
-          equalTo(
-              "action=send&towho=buffy&message=Keep+the+contents+of+this+message+top-sekrit%2C+ultra+hush-hush.&whichitem1=2&howmany1=1"));
+      assertPostRequest(
+          requests.get(0),
+          "/sendmessage.php",
+          "action=send&towho=buffy&message=Keep the contents of this message top-sekrit, ultra hush-hush.&whichitem1=2&howmany1=1");
     }
   }
 
@@ -169,15 +163,10 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     assertContinueState();
     var requests = getRequests();
     assertThat(requests, not(empty()));
-    var request = requests.get(0);
-    var uri = request.uri();
-    assertThat(uri.getPath(), equalTo("/sendmessage.php"));
-    assertThat(request.method(), equalTo("POST"));
-    var body = new RequestBodyReader().bodyAsString(request);
-    assertThat(
-        body,
-        equalTo(
-            "action=send&towho=buffy&message=Keep+the+contents+of+this+message+top-sekrit%2C+ultra+hush-hush.&sendmeat=1000000"));
+    assertPostRequest(
+        requests.get(0),
+        "/sendmessage.php",
+        "action=send&towho=buffy&message=Keep the contents of this message top-sekrit, ultra hush-hush.&sendmeat=1000000");
   }
 
   @Test
@@ -191,16 +180,10 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     assertContinueState();
     var requests = getRequests();
     assertThat(requests, not(empty()));
-    var request = requests.get(0);
-    var uri = request.uri();
-    assertThat(uri.getPath(), equalTo("/sendmessage.php"));
-    assertThat(request.method(), equalTo("POST"));
-    var body = new RequestBodyReader().bodyAsString(request);
-    // Note - the message is sent but not the meat
-    assertThat(
-        body,
-        equalTo(
-            "action=send&towho=buffy&message=Keep+the+contents+of+this+message+top-sekrit%2C+ultra+hush-hush."));
+    assertPostRequest(
+        requests.get(0),
+        "/sendmessage.php",
+        "action=send&towho=buffy&message=Keep the contents of this message top-sekrit, ultra hush-hush.");
   }
 
   @Test
@@ -214,15 +197,10 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     assertContinueState();
     var requests = getRequests();
     assertThat(requests, not(empty()));
-    var request = requests.get(0);
-    var uri = request.uri();
-    assertThat(uri.getPath(), equalTo("/sendmessage.php"));
-    assertThat(request.method(), equalTo("POST"));
-    var body = new RequestBodyReader().bodyAsString(request);
-    assertThat(
-        body,
-        equalTo(
-            "action=send&towho=buffy&message=Keep+the+contents+of+this+message+top-sekrit%2C+ultra+hush-hush.&sendmeat=3000000000"));
+    assertPostRequest(
+        requests.get(0),
+        "/sendmessage.php",
+        "action=send&towho=buffy&message=Keep the contents of this message top-sekrit, ultra hush-hush.&sendmeat=3000000000");
   }
 
   // I wasn't expecting this to work since it is sending more meat than present.
@@ -238,15 +216,10 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     assertContinueState();
     var requests = getRequests();
     assertThat(requests, not(empty()));
-    var request = requests.get(0);
-    var uri = request.uri();
-    assertThat(uri.getPath(), equalTo("/sendmessage.php"));
-    assertThat(request.method(), equalTo("POST"));
-    var body = new RequestBodyReader().bodyAsString(request);
-    assertThat(
-        body,
-        equalTo(
-            "action=send&towho=buffy&message=Keep+the+contents+of+this+message+top-sekrit%2C+ultra+hush-hush.&sendmeat=1000000"));
+    assertPostRequest(
+        requests.get(0),
+        "/sendmessage.php",
+        "action=send&towho=buffy&message=Keep the contents of this message top-sekrit, ultra hush-hush.&sendmeat=1000000");
   }
 
   @Test
@@ -292,14 +265,10 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     assertContinueState();
     var requests = getRequests();
     assertThat(requests, not(empty()));
-    var request = requests.get(0);
-    var uri = request.uri();
-    assertThat(uri.getPath(), equalTo("/sendmessage.php"));
-    assertThat(request.method(), equalTo("POST"));
-    var body = new RequestBodyReader().bodyAsString(request);
-    assertThat(
-        body,
-        equalTo("action=send&towho=buffy+&message=This+is+Blackmail%21%21%21&sendmeat=3000000000"));
+    assertPostRequest(
+        requests.get(0),
+        "/sendmessage.php",
+        "action=send&towho=buffy &message=This is Blackmail!!!&sendmeat=3000000000");
   }
 
   @Test
@@ -313,15 +282,10 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     assertContinueState();
     var requests = getRequests();
     assertThat(requests, not(empty()));
-    var request = requests.get(0);
-    var uri = request.uri();
-    assertThat(uri.getPath(), equalTo("/sendmessage.php"));
-    assertThat(request.method(), equalTo("POST"));
-    var body = new RequestBodyReader().bodyAsString(request);
-    assertThat(
-        body,
-        equalTo(
-            "action=send&towho=buffy&message=Keep+the+contents+of+this+message+top-sekrit%2C+ultra+hush-hush.&whichitem1=2&howmany1=1"));
+    assertPostRequest(
+        requests.get(0),
+        "/sendmessage.php",
+        "action=send&towho=buffy&message=Keep the contents of this message top-sekrit, ultra hush-hush.&whichitem1=2&howmany1=1");
   }
 
   @Test
@@ -335,15 +299,10 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     assertContinueState();
     var requests = getRequests();
     assertThat(requests, not(empty()));
-    var request = requests.get(0);
-    var uri = request.uri();
-    assertThat(uri.getPath(), equalTo("/sendmessage.php"));
-    assertThat(request.method(), equalTo("POST"));
-    var body = new RequestBodyReader().bodyAsString(request);
-    assertThat(
-        body,
-        equalTo(
-            "action=send&towho=buffy&message=Keep+the+contents+of+this+message+top-sekrit%2C+ultra+hush-hush.&whichitem1=2&howmany1=1"));
+    assertPostRequest(
+        requests.get(0),
+        "/sendmessage.php",
+        "action=send&towho=buffy&message=Keep the contents of this message top-sekrit, ultra hush-hush.&whichitem1=2&howmany1=1");
   }
 
   @Test
@@ -421,15 +380,10 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     assertContinueState();
     var requests = getRequests();
     assertThat(requests, not(empty()));
-    var request = requests.get(0);
-    var uri = request.uri();
-    assertThat(uri.getPath(), equalTo("/sendmessage.php"));
-    assertThat(request.method(), equalTo("POST"));
-    var body = new RequestBodyReader().bodyAsString(request);
-    assertThat(
-        body,
-        equalTo(
-            "action=send&towho=buffy+&message=Signed.++Sealed.++Delivered.&whichitem1=2&howmany1=1&whichitem2=1&howmany2=1"));
+    assertPostRequest(
+        requests.get(0),
+        "/sendmessage.php",
+        "action=send&towho=buffy &message=Signed.  Sealed.  Delivered.&whichitem1=2&howmany1=1&whichitem2=1&howmany2=1");
   }
 
   @Test

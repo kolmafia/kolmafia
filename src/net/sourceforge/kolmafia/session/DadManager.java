@@ -33,21 +33,22 @@ public class DadManager {
     PHYSICAL
   }
 
-  private static final Object[][] ELEMENTS = {
+  private record ElementSpell(Element element, String name, String... spells) {}
+
+  private static final ElementSpell[] ELEMENTS = {
     // Starting with the third element, any number of skills can be listed, one per element
-    {Element.NONE, "none", ""},
-    {Element.HOT, "hot", "Awesome Balls of Fire", "Volcanometeor Showeruption"},
-    {Element.COLD, "cold", "Snowclone"},
-    {Element.STENCH, "stench", "Eggsplosion"},
-    {Element.SPOOKY, "spooky", "Raise Backup Dancer"},
-    {Element.SLEAZE, "sleaze", "Grease Lightning"},
-    {Element.PHYSICAL, "physical", "Toynado", "Shrap"},
+    new ElementSpell(Element.NONE, "none", ""),
+    new ElementSpell(Element.HOT, "hot", "Awesome Balls of Fire", "Volcanometeor Showeruption"),
+    new ElementSpell(Element.COLD, "cold", "Snowclone"),
+    new ElementSpell(Element.STENCH, "stench", "Eggsplosion"),
+    new ElementSpell(Element.SPOOKY, "spooky", "Raise Backup Dancer"),
+    new ElementSpell(Element.SLEAZE, "sleaze", "Grease Lightning"),
+    new ElementSpell(Element.PHYSICAL, "physical", "Toynado", "Shrap"),
   };
 
-  private static Object[] search(Element element) {
-    for (int i = 0; i < ELEMENTS.length; ++i) {
-      Object[] row = ELEMENTS[i];
-      if (row[0] == element) {
+  private static ElementSpell search(Element element) {
+    for (ElementSpell row : ELEMENTS) {
+      if (row.element == element) {
         return row;
       }
     }
@@ -55,17 +56,16 @@ public class DadManager {
   }
 
   public static String elementToName(Element element) {
-    Object[] row = DadManager.search(element);
-    return row == null ? "Unknown" : (String) row[1];
+    ElementSpell row = DadManager.search(element);
+    return row == null ? "Unknown" : row.name;
   }
 
   public static String elementToSpell(Element element) {
-    Object[] row = DadManager.search(element);
+    ElementSpell row = DadManager.search(element);
     if (row == null) {
       return "Unknown";
     }
-    for (int i = 2; i < row.length; i++) {
-      String spell = (String) row[i];
+    for (String spell : row.spells) {
       if (KoLCharacter.hasSkill(spell)) {
         return spell;
       }
@@ -74,52 +74,54 @@ public class DadManager {
   }
 
   public static Element intToElement(int index) {
-    return (index < 0 || index > ELEMENTS.length) ? Element.NONE : (Element) ELEMENTS[index][0];
+    return (index < 0 || index > ELEMENTS.length) ? Element.NONE : ELEMENTS[index].element;
   }
 
-  private static final Object[][] WORD1 = {
-    {"chaotic", Element.HOT},
-    {"rigid", Element.COLD},
-    {"rotting", Element.STENCH},
-    {"horrifying", Element.SPOOKY},
-    {"slimy", Element.SLEAZE},
-    {"pulpy", Element.PHYSICAL},
+  private record WordElement(String word, Element element) {}
+
+  private static final WordElement[] WORD1 = {
+    new WordElement("chaotic", Element.HOT),
+    new WordElement("rigid", Element.COLD),
+    new WordElement("rotting", Element.STENCH),
+    new WordElement("horrifying", Element.SPOOKY),
+    new WordElement("slimy", Element.SLEAZE),
+    new WordElement("pulpy", Element.PHYSICAL),
   };
 
-  private static final Object[][] WORD2 = {
-    {"skitter", Element.HOT},
-    {"shamble", Element.COLD},
-    {"ooze", Element.STENCH},
-    {"float", Element.SPOOKY},
-    {"slither", Element.SLEAZE},
-    {"swim", Element.PHYSICAL},
+  private static final WordElement[] WORD2 = {
+    new WordElement("skitter", Element.HOT),
+    new WordElement("shamble", Element.COLD),
+    new WordElement("ooze", Element.STENCH),
+    new WordElement("float", Element.SPOOKY),
+    new WordElement("slither", Element.SLEAZE),
+    new WordElement("swim", Element.PHYSICAL),
   };
 
-  private static final Object[][] WORD3 = {
-    {"terrible", Element.HOT},
-    {"awful", Element.COLD},
-    {"putrescent", Element.STENCH},
-    {"frightening", Element.SPOOKY},
-    {"bloated", Element.SLEAZE},
-    {"curious", Element.PHYSICAL},
+  private static final WordElement[] WORD3 = {
+    new WordElement("terrible", Element.HOT),
+    new WordElement("awful", Element.COLD),
+    new WordElement("putrescent", Element.STENCH),
+    new WordElement("frightening", Element.SPOOKY),
+    new WordElement("bloated", Element.SLEAZE),
+    new WordElement("curious", Element.PHYSICAL),
   };
 
-  private static final Object[][] WORD4 = {
-    {"blackness", Element.HOT},
-    {"space", Element.COLD},
-    {"void", Element.STENCH},
-    {"darkness", Element.SPOOKY},
-    {"emptiness", Element.SLEAZE},
-    {"portal", Element.PHYSICAL},
+  private static final WordElement[] WORD4 = {
+    new WordElement("blackness", Element.HOT),
+    new WordElement("space", Element.COLD),
+    new WordElement("void", Element.STENCH),
+    new WordElement("darkness", Element.SPOOKY),
+    new WordElement("emptiness", Element.SLEAZE),
+    new WordElement("portal", Element.PHYSICAL),
   };
 
-  private static final Object[][] WORD5 = {
-    {"warps", Element.HOT},
-    {"shifts", Element.COLD},
-    {"shimmers", Element.STENCH},
-    {"shakes", Element.SPOOKY},
-    {"wobbles", Element.SLEAZE},
-    {"cracks open", Element.PHYSICAL},
+  private static final WordElement[] WORD5 = {
+    new WordElement("warps", Element.HOT),
+    new WordElement("shifts", Element.COLD),
+    new WordElement("shimmers", Element.STENCH),
+    new WordElement("shakes", Element.SPOOKY),
+    new WordElement("wobbles", Element.SLEAZE),
+    new WordElement("cracks open", Element.PHYSICAL),
   };
 
   private static final String[] WORD8 = {
@@ -140,19 +142,18 @@ public class DadManager {
     "spleen", "stomach", "skull", "forehead", "brain", "mind", "heart", "throat", "chest", "head",
   };
 
-  private static Object search(String key, Object[][] table) {
-    for (int i = 0; i < table.length; ++i) {
-      Object[] row = table[i];
-      if (key.equals(row[0])) {
-        return row[1];
+  private static Element search(String key, WordElement[] table) {
+    for (WordElement row : table) {
+      if (key.equals(row.word)) {
+        return row.element;
       }
     }
     return null;
   }
 
-  private static Element wordToElement(String key, Object[][] table) {
-    Object element = DadManager.search(key.toLowerCase(), table);
-    return element == null ? Element.NONE : (Element) element;
+  private static Element wordToElement(String key, WordElement[] table) {
+    Element element = DadManager.search(key.toLowerCase(), table);
+    return element == null ? Element.NONE : element;
   }
 
   private static int wordToInteger(String key, String[] table) {
@@ -218,24 +219,12 @@ public class DadManager {
     boolean physical = false;
     for (int i = 1; i < 10; ++i) {
       switch (ElementalWeakness[i]) {
-        case HOT:
-          hot = true;
-          break;
-        case COLD:
-          cold = true;
-          break;
-        case STENCH:
-          stench = true;
-          break;
-        case SPOOKY:
-          spooky = true;
-          break;
-        case SLEAZE:
-          sleaze = true;
-          break;
-        case PHYSICAL:
-          physical = true;
-          break;
+        case HOT -> hot = true;
+        case COLD -> cold = true;
+        case STENCH -> stench = true;
+        case SPOOKY -> spooky = true;
+        case SLEAZE -> sleaze = true;
+        case PHYSICAL -> physical = true;
       }
     }
 

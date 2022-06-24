@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Player.addItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -9,7 +10,6 @@ import static org.hamcrest.Matchers.equalTo;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
-import internal.network.RequestBodyReader;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
 import org.junit.jupiter.api.BeforeEach;
@@ -72,12 +72,7 @@ public class ZapCommandTest extends AbstractCommandTestBase {
 
     var requests = getRequests();
     assertThat(requests.size(), equalTo(1));
-    var request = requests.get(0);
-    var uri = request.uri();
-    assertThat(uri.getPath(), equalTo("/wand.php"));
-    assertThat(request.method(), equalTo("POST"));
-    var body = new RequestBodyReader().bodyAsString(request);
-    assertThat(body, equalTo("action=zap&whichwand=1270&whichitem=169"));
+    assertPostRequest(requests.get(0), "/wand.php", "action=zap&whichwand=1270&whichitem=169");
   }
 
   @Test
