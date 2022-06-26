@@ -645,6 +645,7 @@ public class Evaluator {
     // Make sure indirect sources have at least a little weight;
     double fudge = this.weight[Modifiers.EXPERIENCE] * 0.0001f;
     this.weight[Modifiers.MONSTER_LEVEL] += fudge;
+    this.weight[Modifiers.MONSTER_LEVEL_PERCENT] += fudge;
     this.weight[Modifiers.MUS_EXPERIENCE] += fudge;
     this.weight[Modifiers.MYS_EXPERIENCE] += fudge;
     this.weight[Modifiers.MOX_EXPERIENCE] += fudge;
@@ -794,7 +795,10 @@ public class Evaluator {
           }
           break;
         case Modifiers.EXPERIENCE:
-          double baseExp = KoLCharacter.estimatedBaseExp(mods.get(Modifiers.MONSTER_LEVEL));
+          double baseExp =
+              KoLCharacter.estimatedBaseExp(
+                  mods.get(Modifiers.MONSTER_LEVEL)
+                      * (1 + mods.get(Modifiers.MONSTER_LEVEL_PERCENT) / 100));
           double expPct =
               mods.get(Modifiers.MUS_EXPERIENCE_PCT + KoLCharacter.getPrimeIndex()) / 100.0f;
           double exp = mods.get(Modifiers.MUS_EXPERIENCE + KoLCharacter.getPrimeIndex());
