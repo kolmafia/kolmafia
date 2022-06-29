@@ -435,16 +435,23 @@ public class UseItemRequest extends GenericRequest {
     // Delegate to specialized classes as appropriate
 
     int inebriety = ConsumablesDatabase.getInebriety(itemName);
+    int fullness = ConsumablesDatabase.getFullness(itemName);
+    int spleenHit = ConsumablesDatabase.getSpleenHit(itemName);
+
+    if (KoLCharacter.isGreyGoo() && ((inebriety + fullness + spleenHit) > 0)) {
+      // If we ever track what items have already been absorbed this ascension, this is a great
+      // place to use those data.
+      return 1;
+    }
+
     if (inebriety > 0) {
       return DrinkItemRequest.maximumUses(itemId, itemName, inebriety, allowOverDrink);
     }
 
-    int fullness = ConsumablesDatabase.getFullness(itemName);
     if (fullness > 0 || itemId == ItemPool.MAGICAL_SAUSAGE) {
       return EatItemRequest.maximumUses(itemId, itemName, fullness);
     }
 
-    int spleenHit = ConsumablesDatabase.getSpleenHit(itemName);
     if (spleenHit > 0) {
       return SpleenItemRequest.maximumUses(itemId, itemName, spleenHit);
     }
@@ -1675,6 +1682,13 @@ public class UseItemRequest extends GenericRequest {
         && responseText.contains("You can't figure out where to put that potion.")) {
       UseItemRequest.lastUpdate =
           "You need the Biomass Processing Function CPU upgrade to use potions.";
+      KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
+      return;
+    }
+
+    if (KoLCharacter.isGreyGoo() && responseText.contains("You've already absorbed this pattern")) {
+      UseItemRequest.lastUpdate =
+          "You've already absorbed " + item.getArticle() + " " + item.getName() + ".";
       KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
       return;
     }
