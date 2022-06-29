@@ -618,6 +618,11 @@ public abstract class KoLCharacter {
       return 0;
     }
 
+    if (KoLCharacter.isGreyGoo()) {
+      // Grey Goo can "drink" things but they don't go into a liver.
+      return 0;
+    }
+
     // Default liver size, overridden below for various paths
     int limit = 14;
 
@@ -655,9 +660,6 @@ public abstract class KoLCharacter {
       }
     } else if (KoLCharacter.isVampyre()) {
       limit = 4;
-    } else if (KoLCharacter.isGreyGoo()) {
-      // Grey Goo can "drink" things but they don't go into a liver.
-      return 0;
     }
 
     if (KoLCharacter.hasSkill("Liver of Steel")) {
