@@ -1,9 +1,12 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.addEffect;
 import static internal.helpers.Player.addItem;
 import static internal.helpers.Player.countItem;
 import static internal.helpers.Player.equip;
+import static internal.helpers.Player.setFamiliar;
+import static internal.helpers.Player.setProperty;
 import static internal.helpers.Preference.hasIntegerValue;
 import static internal.helpers.Preference.isSetTo;
 import static internal.helpers.Quest.isFinished;
@@ -14,12 +17,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import internal.helpers.Cleanups;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -310,6 +316,77 @@ public class QuestManagerTest {
   /*
    * Pyramid Quest
    */
+
+  @Test
+  void canDetectDesertProgressWithNoBonuses() {
+    String responseText = html("request/test_fight_desert_exploration.html");
+    var cleanups = new Cleanups(setProperty("desertExploration", 20));
+    try (cleanups) {
+      KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
+      assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
+      QuestManager.updateQuestData(responseText, "giant giant giant centipede");
+      assertEquals(Preferences.getInteger("desertExploration"), 21);
+    }
+  }
+
+  @Test
+  void canDetectDesertProgressWithUVResistantCompass() {
+    String responseText = html("request/test_fight_desert_exploration.html");
+    var cleanups =
+        new Cleanups(
+            setProperty("desertExploration", 20),
+            equip(EquipmentManager.OFFHAND, "UV-resistant compass"));
+    try (cleanups) {
+      KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
+      assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
+      QuestManager.updateQuestData(responseText, "giant giant giant centipede");
+      assertEquals(Preferences.getInteger("desertExploration"), 22);
+    }
+  }
+
+  @Test
+  void canDetectDesertProgressWithMelodramadery() {
+    String responseText = html("request/test_fight_desert_exploration.html");
+    var cleanups =
+        new Cleanups(setProperty("desertExploration", 20), setFamiliar(FamiliarPool.MELODRAMEDARY));
+    try (cleanups) {
+      KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
+      assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
+      QuestManager.updateQuestData(responseText, "giant giant giant centipede");
+      assertEquals(Preferences.getInteger("desertExploration"), 22);
+    }
+  }
+
+  @Test
+  void canDetectDesertProgressWithSurvivalKnifeUltrahydrated() {
+    String responseText = html("request/test_fight_desert_exploration.html");
+    var cleanups =
+        new Cleanups(
+            setProperty("desertExploration", 20),
+            equip(EquipmentManager.WEAPON, "survival knife"),
+            addEffect("Ultrahydrated"));
+    try (cleanups) {
+      KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
+      assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
+      QuestManager.updateQuestData(responseText, "giant giant giant centipede");
+      assertEquals(Preferences.getInteger("desertExploration"), 23);
+    }
+  }
+
+  @Test
+  void canDetectDesertProgressWithSurvivalKnifeNotUltrahydrated() {
+    String responseText = html("request/test_fight_desert_exploration.html");
+    var cleanups =
+        new Cleanups(
+            setProperty("desertExploration", 20), equip(EquipmentManager.WEAPON, "survival knife"));
+    try (cleanups) {
+      KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
+      assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
+      QuestManager.updateQuestData(responseText, "giant giant giant centipede");
+      assertEquals(Preferences.getInteger("desertExploration"), 21);
+    }
+  }
+
   @Test
   void canDetectPyramidStartedFromBeach() {
     var request = new GenericRequest("place.php?whichplace=desertbeach&action=db_pyramid1");
