@@ -1613,8 +1613,6 @@ public class QuestManager {
       Preferences.setInteger("lastWuTangDefeated", KoLCharacter.getAscensions());
     } else if (monsterName.equals("Baron Von Ratsworth")) {
       TavernRequest.addTavernLocation('6');
-    } else if (monsterName.equals("Baron Von Ratsworth")) {
-      TavernRequest.addTavernLocation('6');
     } else if (monsterName.equals("Source Agent")) {
       Preferences.increment("sourceAgentsDefeated");
     } else if (monsterName.equals("pair of burnouts")) {
