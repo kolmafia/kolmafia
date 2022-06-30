@@ -1894,6 +1894,11 @@ public class QuestManager {
           explored += 2;
         }
 
+        if (KoLCharacter.hasEquipped(ItemPool.SURVIVAL_KNIFE)
+            && KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ULTRAHYDRATED))) {
+          explored += 2;
+        }
+
         if (KoLCharacter.getFamiliar().getId() == FamiliarPool.MELODRAMEDARY) {
           explored += 1;
         }

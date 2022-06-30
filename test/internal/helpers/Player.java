@@ -255,6 +255,12 @@ public class Player {
         });
   }
 
+  public static Cleanups setProperty(String key, int value) {
+    var oldValue = Preferences.getInteger(key);
+    Preferences.setInteger(key, value);
+    return new Cleanups(() -> Preferences.setInteger(key, oldValue));
+  }
+
   public static Cleanups setProperty(String key, String value) {
     var oldValue = Preferences.getString(key);
     Preferences.setString(key, value);
