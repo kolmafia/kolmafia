@@ -197,6 +197,7 @@ public class ModifiersTest {
       }
     }
 
+    @Test
     public void correctlyCalculatesPastamancerMaximumHP() {
       var cleanups = new Cleanups(isClass(AscensionClass.PASTAMANCER), setStats(100, 100, 100));
       try (cleanups) {
@@ -236,6 +237,7 @@ public class ModifiersTest {
       }
     }
 
+    @Test
     public void correctlyCalculatesVampyreMaximumHP() {
       var cleanups = new Cleanups(isClass(AscensionClass.VAMPYRE), setStats(100, 100, 100));
       try (cleanups) {
@@ -273,6 +275,7 @@ public class ModifiersTest {
       }
     }
 
+    @Test
     public void correctlyCalculatesYouRobotMaximumHP() {
       var cleanups = new Cleanups(inPath(Path.YOU_ROBOT), setStats(100, 100, 100));
       try (cleanups) {
@@ -310,6 +313,7 @@ public class ModifiersTest {
       }
     }
 
+    @Test
     public void correctlyCalculatesGreyYouMaximumHP() {
       var cleanups =
           new Cleanups(
