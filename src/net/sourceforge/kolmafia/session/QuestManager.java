@@ -1847,6 +1847,17 @@ public class QuestManager {
       else if (responseText.contains("Dozens of nearby smut orcs")) {
         Preferences.increment("smutOrcNoncombatProgress", 5, 15, false);
       }
+    } else if (monsterName.equals("The Thing with No Name")) {
+      ResultProcessor.processResult(ItemPool.get(ItemPool.FURIOUS_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.VANITY_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.LECHEROUS_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.JEALOUSY_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.AVARICE_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.GLUTTONOUS_STONE, -1));
+
+      QuestDatabase.setQuest(Quest.CLUMSINESS, QuestDatabase.UNSTARTED);
+      QuestDatabase.setQuest(Quest.GLACIER, QuestDatabase.UNSTARTED);
+      QuestDatabase.setQuest(Quest.MAELSTROM, QuestDatabase.UNSTARTED);
     }
 
     int adventure = KoLAdventure.lastAdventureId();

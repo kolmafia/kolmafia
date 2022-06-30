@@ -25,6 +25,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.ChoiceControl;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
@@ -278,5 +280,23 @@ public class Player {
           HttpUtilities.setClientBuilder(FakeHttpClientBuilder::new);
           GenericRequest.resetClient();
         });
+  }
+
+  public static Cleanups withPostChoice2(int choice, int decision, String responseText) {
+    ChoiceManager.lastChoice = choice;
+    ChoiceManager.lastDecision = decision;
+    var req = new GenericRequest("choice.php?choice=" + choice + "&option=" + decision);
+    req.responseText = responseText;
+    ChoiceControl.postChoice2("choice.php?choice=" + choice + "&option=" + decision, req);
+
+    return new Cleanups(
+        () -> {
+          ChoiceManager.lastChoice = 0;
+          ChoiceManager.lastDecision = 0;
+        });
+  }
+
+  public static Cleanups withPostChoice2(int choice, int decision) {
+    return withPostChoice2(choice, decision, "");
   }
 }
