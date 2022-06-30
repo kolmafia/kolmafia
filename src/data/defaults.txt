@@ -414,6 +414,7 @@ user	clanFortuneWord1	pizza
 user	clanFortuneWord2	batman
 user	clanFortuneWord3	thick
 user	clanAttacksEnabled	false
+user	clumsinessGroveBoss
 user	cocktailSummons	0
 user	coldAirportAlways	false
 user	commaFamiliar
@@ -651,6 +652,7 @@ user	gingerSewersUnlocked	false
 user	gingerSubwayLineUnlocked	false
 user	gingerRetailUnlocked	false
 user	gingerTrainScheduleStudies	0
+user	glacierOfJerksBoss
 user	gladiatorBallMovesKnown	0
 user	gladiatorBladeMovesKnown	0
 user	gladiatorNetMovesKnown	0
@@ -915,6 +917,7 @@ user	lowerChamberUnlock	false
 user	lttQuestDifficulty	0
 user	lttQuestName	
 user	lttQuestStageCount	0
+user	maelstromOfLoversBoss
 user	makeFriendsMonster	
 user	makePocketWishesHardcore	false
 user	makePocketWishesSoftcore	false
@@ -1068,6 +1071,7 @@ user	rockinRobinProgress	25
 user	ROMOfOptimalityAvailable	true
 user	ROMOfOptimalityCost	1000
 user	quantumPoints	0
+user	questClumsinessGrove	unstarted
 user	questDoctorBag	unstarted
 user	questECoBucket	unstarted
 user	questESlAudit	unstarted
@@ -1110,6 +1114,7 @@ user	questG06Delivery	unstarted
 user	questG07Myst	unstarted
 user	questG08Moxie	unstarted
 user	questG09Muscle	unstarted
+user	questGlacierOfJerks	unstarted
 user	questGuzzlr	unstarted
 user	questI01Scapegoat	unstarted
 user	questI02Beat	unstarted
@@ -1165,6 +1170,7 @@ user	questM23Meatsmith	unstarted
 user	questM24Doc	unstarted
 user	questM25Armorer	unstarted
 user	questM26Oracle	unstarted
+user	questMaelstromOfLovers	unstarted
 user	questPAGhost	unstarted
 user	questS01OldGuy	unstarted
 user	questS02Monkees	unstarted
