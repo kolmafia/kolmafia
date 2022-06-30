@@ -859,11 +859,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       return o.equals(this);
     }
 
-    return this.priority == ar.priority
-        && this.id == ar.id
-        && (this.name == null || ar.name == null
-            ? Objects.equals(this.name, ar.name)
-            : this.name.equals(ar.name));
+    return this.priority == ar.priority && this.id == ar.id && Objects.equals(this.name, ar.name);
   }
 
   @Override
