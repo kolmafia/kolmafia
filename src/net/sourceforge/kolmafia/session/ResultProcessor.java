@@ -2298,6 +2298,51 @@ public class ResultProcessor {
         }
         break;
 
+      case ItemPool.FURIOUS_STONE:
+      case ItemPool.VANITY_STONE:
+        {
+          String step =
+              ((InventoryManager.getCount(ItemPool.FURIOUS_STONE)
+                          + InventoryManager.getCount(ItemPool.VANITY_STONE))
+                      < 2)
+                  ? "step2"
+                  : QuestDatabase.FINISHED;
+
+          QuestDatabase.setQuestProgress(Quest.CLUMSINESS, step);
+          Preferences.setString("clumsinessGroveBoss", "");
+          break;
+        }
+
+      case ItemPool.LECHEROUS_STONE:
+      case ItemPool.JEALOUSY_STONE:
+        {
+          String step =
+              ((InventoryManager.getCount(ItemPool.LECHEROUS_STONE)
+                          + InventoryManager.getCount(ItemPool.JEALOUSY_STONE))
+                      < 2)
+                  ? "step2"
+                  : QuestDatabase.FINISHED;
+
+          QuestDatabase.setQuestProgress(Quest.MAELSTROM, step);
+          Preferences.setString("maelstromOfLoversBoss", "");
+          break;
+        }
+
+      case ItemPool.AVARICE_STONE:
+      case ItemPool.GLUTTONOUS_STONE:
+        {
+          String step =
+              ((InventoryManager.getCount(ItemPool.AVARICE_STONE)
+                          + InventoryManager.getCount(ItemPool.GLUTTONOUS_STONE))
+                      < 2)
+                  ? "step2"
+                  : QuestDatabase.FINISHED;
+
+          QuestDatabase.setQuestProgress(Quest.GLACIER, step);
+          Preferences.setString("glacierOfJerksBoss", "");
+          break;
+        }
+
       case ItemPool.GROOSE_GREASE:
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GROOSE) {
           Preferences.increment("_grooseDrops", 1);

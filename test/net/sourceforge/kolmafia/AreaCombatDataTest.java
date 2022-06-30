@@ -174,4 +174,61 @@ public class AreaCombatDataTest {
             hasEntry(SNAKE, 0.0),
             hasEntry(GHOST, 0.0)));
   }
+
+  @Test
+  public void clumsinessGrove() {
+    AdventureQueueDatabase.resetQueue();
+
+    Preferences.setString("clumsinessGroveBoss", "The Bat in the Spats");
+
+    Map<MonsterData, Double> appearanceRates =
+        AdventureDatabase.getAreaCombatData("The Clumsiness Grove").getMonsterData(true);
+
+    assertThat(
+        appearanceRates,
+        allOf(
+            aMapWithSize(7),
+            hasEntry(
+                equalTo(MonsterDatabase.findMonster("The Bat in the Spats")),
+                closeTo(100f / 6, 0.001)),
+            hasEntry(MonsterDatabase.findMonster("The Thorax"), 0.0)));
+  }
+
+  @Test
+  public void maelstromOfLovers() {
+    AdventureQueueDatabase.resetQueue();
+
+    Preferences.setString("maelstromOfLoversBoss", "The Terrible Pinch");
+
+    Map<MonsterData, Double> appearanceRates =
+        AdventureDatabase.getAreaCombatData("The Maelstrom of Lovers").getMonsterData(true);
+
+    assertThat(
+        appearanceRates,
+        allOf(
+            aMapWithSize(7),
+            hasEntry(
+                equalTo(MonsterDatabase.findMonster("The Terrible Pinch")),
+                closeTo(100f / 6, 0.001)),
+            hasEntry(MonsterDatabase.findMonster("Thug 1 and Thug 2"), 0.0)));
+  }
+
+  @Test
+  public void glacierOfJerks() {
+    AdventureQueueDatabase.resetQueue();
+
+    Preferences.setString("glacierOfJerksBoss", "The Large-Bellied Snitch");
+
+    Map<MonsterData, Double> appearanceRates =
+        AdventureDatabase.getAreaCombatData("The Glacier of Jerks").getMonsterData(true);
+
+    assertThat(
+        appearanceRates,
+        allOf(
+            aMapWithSize(7),
+            hasEntry(MonsterDatabase.findMonster("Mammon the Elephant"), 0.0),
+            hasEntry(
+                equalTo(MonsterDatabase.findMonster("The Large-Bellied Snitch")),
+                closeTo(100f / 6, 0.001))));
+  }
 }
