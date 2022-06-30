@@ -63,6 +63,7 @@ public class EffectPool {
   public static final int BARKING_DOGS = 267;
   public static final int PRESTIDIGYSFUNCTION = 268;
   public static final int HEART_OF_GREEN = 274;
+  public static final int ULTRAHYDRATED = 275;
   public static final int HYDRATED = 275;
   public static final int TANGLED_UP = 281;
   public static final int A_LITTLE_BIT_POISONED = 282;

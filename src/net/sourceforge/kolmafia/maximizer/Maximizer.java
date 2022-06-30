@@ -1836,7 +1836,8 @@ public class Maximizer {
             edPiece,
             snowsuit,
             retroCape,
-            backupCamera);
+            backupCamera,
+            unbreakableUmbrella);
     if (equipScope == -1) { // called from CLI
       boost.execute(true);
       if (!KoLmafia.permitsContinue()) {

@@ -4882,6 +4882,87 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 560:
+        // Foreshadowing Demon!
+        QuestDatabase.setQuest(
+            Quest.CLUMSINESS,
+            ChoiceManager.lastDecision == 1 ? QuestDatabase.STARTED : QuestDatabase.UNSTARTED);
+        break;
+
+      case 561:
+        // You Must Choose Your Destruction!
+        QuestDatabase.setQuest(Quest.CLUMSINESS, "step1");
+        Preferences.setString(
+            "clumsinessGroveBoss",
+            ChoiceManager.lastDecision == 1 ? "The Thorax" : "The Bat in the Spats");
+        break;
+
+      case 563:
+        // A Test of Your Mettle
+        if (ChoiceManager.lastDecision == 1) {
+          String nextBoss =
+              InventoryManager.getCount(ItemPool.VANITY_STONE) > 0
+                  ? "The Thorax"
+                  : "The Bat in the Spats";
+          Preferences.setString("clumsinessGroveBoss", nextBoss);
+          QuestDatabase.setQuest(Quest.CLUMSINESS, "step3");
+        }
+        break;
+
+      case 564:
+        // A Maelstrom of Trouble
+        QuestDatabase.setQuest(
+            Quest.MAELSTROM,
+            ChoiceManager.lastDecision == 1 ? QuestDatabase.STARTED : QuestDatabase.UNSTARTED);
+        break;
+
+      case 565:
+        // To Get Groped or Get Mugged?
+        QuestDatabase.setQuest(Quest.MAELSTROM, "step1");
+        Preferences.setString(
+            "maelstromOfLoversBoss",
+            ChoiceManager.lastDecision == 1 ? "The Terrible Pinch" : "Thug 1 and Thug 2");
+        break;
+
+      case 566:
+        // A Choice to be Made
+        if (ChoiceManager.lastDecision == 1) {
+          String nextBoss =
+              InventoryManager.getCount(ItemPool.JEALOUSY_STONE) > 0
+                  ? "The Terrible Pinch"
+                  : "Thug 1 and Thug 2";
+          Preferences.setString("maelstromOfLoversBoss", nextBoss);
+          QuestDatabase.setQuest(Quest.MAELSTROM, "step3");
+        }
+        break;
+
+      case 567:
+        // You May Be on Thin Ice
+        QuestDatabase.setQuest(
+            Quest.GLACIER,
+            ChoiceManager.lastDecision == 1 ? QuestDatabase.STARTED : QuestDatabase.UNSTARTED);
+        break;
+
+      case 568:
+        // Some Sounds Most Unnerving
+        QuestDatabase.setQuest(Quest.GLACIER, "step1");
+        Preferences.setString(
+            "glacierOfJerksBoss",
+            ChoiceManager.lastDecision == 1 ? "Mammon the Elephant" : "The Large-Bellied Snitch");
+        break;
+
+      case 569:
+        // One More Demon to Slay
+        if (ChoiceManager.lastDecision == 1) {
+          String nextBoss =
+              InventoryManager.getCount(ItemPool.GLUTTONOUS_STONE) > 0
+                  ? "Mammon the Elephant"
+                  : "The Large-Bellied Snitch";
+          Preferences.setString("glacierOfJerksBoss", nextBoss);
+          QuestDatabase.setQuest(Quest.GLACIER, "step3");
+        }
+        break;
+
       case 578:
         // End of the Boris Road
         handleAfterAvatar(ChoiceManager.lastDecision);

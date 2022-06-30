@@ -755,4 +755,32 @@ public class MaximizerTest {
       recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
     }
   }
+
+  @Test
+  public void expShouldSuggestUmbrella() {
+    final var cleanups =
+        new Cleanups(
+            canUse("unbreakable umbrella"),
+            equip(EquipmentManager.PANTS, "old patched suit-pants"),
+            canUse("Microplushie: Hipsterine"));
+    Preferences.setString("umbrellaState", "cocoon");
+    try (cleanups) {
+      assertTrue(maximize("exp"));
+      recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
+    }
+  }
+
+  @Test
+  public void expShouldNotSuggestUmbrellaIfBetterInSlot() {
+    final var cleanups =
+        new Cleanups(
+            canUse("unbreakable umbrella"),
+            equip(EquipmentManager.PANTS, "old patched suit-pants"),
+            canUse("vinyl shield"));
+    Preferences.setString("umbrellaState", "cocoon");
+    try (cleanups) {
+      assertTrue(maximize("exp"));
+      recommendedSlotIs(EquipmentManager.OFFHAND, "vinyl shield");
+    }
+  }
 }

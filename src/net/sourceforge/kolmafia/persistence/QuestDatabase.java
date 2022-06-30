@@ -112,6 +112,9 @@ public class QuestDatabase {
     PARTY_FAIR("_questPartyFair"),
     DOCTOR_BAG("questDoctorBag"),
     GUZZLR("questGuzzlr"),
+    CLUMSINESS("questClumsinessGrove"),
+    MAELSTROM("questMaelstromOfLovers"),
+    GLACIER("questGlacierOfJerks"),
     ;
 
     private final String pref;
@@ -1017,6 +1020,9 @@ public class QuestDatabase {
     Preferences.resetToDefault("lttQuestStageCount");
     Preferences.resetToDefault("ghostLocation");
     Preferences.resetToDefault("bondVillainsDefeated");
+    Preferences.resetToDefault("questClumsinessGrove");
+    Preferences.resetToDefault("questMaelstromOfLovers");
+    Preferences.resetToDefault("questGlacierOfJerks");
   }
 
   public static void handleCouncilText(String responseText) {
