@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia;
 
 import static internal.helpers.Player.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -239,5 +240,32 @@ public class KoLCharacterTest {
 
     var fam = KoLCharacter.findFamiliar("mosquito");
     assertEquals(FamiliarPool.MOSQUITO, fam.getId());
+  }
+
+  @Test
+  public void greyGooHasNoStomach() {
+    var cleanups = new Cleanups(isClass(AscensionClass.GREY_GOO));
+
+    try (cleanups) {
+      assertThat(KoLCharacter.getFullnessLimit(), equalTo(0));
+    }
+  }
+
+  @Test
+  public void greyGooHasNoLiver() {
+    var cleanups = new Cleanups(isClass(AscensionClass.GREY_GOO));
+
+    try (cleanups) {
+      assertThat(KoLCharacter.getInebrietyLimit(), equalTo(0));
+    }
+  }
+
+  @Test
+  public void greyGooHasNoSpleen() {
+    var cleanups = new Cleanups(isClass(AscensionClass.GREY_GOO));
+
+    try (cleanups) {
+      assertThat(KoLCharacter.getSpleenLimit(), equalTo(0));
+    }
   }
 }
