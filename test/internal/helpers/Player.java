@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -271,6 +272,16 @@ public class Player {
     var oldValue = Preferences.getBoolean(key);
     Preferences.setBoolean(key, value);
     return new Cleanups(() -> Preferences.setBoolean(key, oldValue));
+  }
+
+  public static Cleanups setQuest(QuestDatabase.Quest quest, String value) {
+    var oldValue = QuestDatabase.getQuest(quest);
+    QuestDatabase.setQuest(quest, value);
+    return new Cleanups(() -> QuestDatabase.setQuest(quest, oldValue));
+  }
+
+  public static Cleanups setQuest(QuestDatabase.Quest quest, int step) {
+    return setQuest(quest, "step" + step);
   }
 
   public static Cleanups setupFakeResponse(int code, String response) {
