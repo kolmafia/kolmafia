@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.textui.ScriptException;
 import net.sourceforge.kolmafia.textui.parsetree.ProxyRecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import org.mozilla.javascript.ConsString;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
@@ -83,8 +84,8 @@ public class EnumeratedWrapper extends ScriptableObject {
 
   private static EnumeratedWrapper getOne(Scriptable scope, Type type, Object key) {
     Value rawValue = type.initialValue();
-    if (key instanceof String) {
-      rawValue = type.parseValue((String) key, false);
+    if (key instanceof String || key instanceof ConsString) {
+      rawValue = type.parseValue(key.toString(), false);
     } else if (key instanceof Float || key instanceof Double) {
       rawValue = type.makeValue((int) Math.round((Double) key), false);
     } else if (key instanceof Number) {
