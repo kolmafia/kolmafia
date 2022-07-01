@@ -19,6 +19,12 @@ public class RequestPane extends JEditorPane {
   static class WrappedHtmlEditorKit extends ImageCachingEditorKit {
     private final ViewFactory viewFactory;
 
+    /*
+     Code originally from https://stackoverflow.com/questions/17533451/jeditorpane-linewrap-in-java7/26583365#26583365
+     by Ludovic Pecquot (https://stackoverflow.com/users/4185005/ludovic-pecquot)
+     available under CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)
+     Some code changes made from original, changes at https://github.com/kolmafia/kolmafia/commits
+    */
     public WrappedHtmlEditorKit() {
       super();
       this.viewFactory = new WrappedHtmlFactory();
