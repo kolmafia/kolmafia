@@ -2308,7 +2308,7 @@ public class ResultProcessor {
                   ? "step2"
                   : QuestDatabase.FINISHED;
 
-          QuestDatabase.setQuestProgress(Quest.CLUMSINESS, step);
+          QuestDatabase.setQuest(Quest.CLUMSINESS, step);
           Preferences.setString("clumsinessGroveBoss", "");
           break;
         }
@@ -2323,7 +2323,7 @@ public class ResultProcessor {
                   ? "step2"
                   : QuestDatabase.FINISHED;
 
-          QuestDatabase.setQuestProgress(Quest.MAELSTROM, step);
+          QuestDatabase.setQuest(Quest.MAELSTROM, step);
           Preferences.setString("maelstromOfLoversBoss", "");
           break;
         }
@@ -2338,7 +2338,7 @@ public class ResultProcessor {
                   ? "step2"
                   : QuestDatabase.FINISHED;
 
-          QuestDatabase.setQuestProgress(Quest.GLACIER, step);
+          QuestDatabase.setQuest(Quest.GLACIER, step);
           Preferences.setString("glacierOfJerksBoss", "");
           break;
         }
