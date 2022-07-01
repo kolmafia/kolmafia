@@ -1856,6 +1856,8 @@ public class QuestManager {
       QuestDatabase.setQuest(Quest.CLUMSINESS, QuestDatabase.UNSTARTED);
       QuestDatabase.setQuest(Quest.GLACIER, QuestDatabase.UNSTARTED);
       QuestDatabase.setQuest(Quest.MAELSTROM, QuestDatabase.UNSTARTED);
+
+      Preferences.setInteger("lastThingWithNoNameDefeated", KoLCharacter.getAscensions());
     }
 
     int adventure = KoLAdventure.lastAdventureId();
