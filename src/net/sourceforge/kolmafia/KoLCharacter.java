@@ -4416,9 +4416,9 @@ public abstract class KoLCharacter {
       return;
     }
 
-    // In Quantum Terrarium, when the next familiar comes up it keeps the previous familiar's item
-    // unless
-    // it cannot equip it, in which case it is returned to the player's inventory.
+    // In Quantum Terrarium, when the next familiar comes up it keeps the
+    // previous familiar's item unless it cannot equip it, in which case it is
+    // returned to the player's inventory.
     if (KoLCharacter.inQuantum()) {
       FamiliarRequest.handleFamiliarChange(familiar);
       EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
