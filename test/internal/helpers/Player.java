@@ -12,7 +12,9 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
@@ -21,10 +23,12 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -211,6 +215,21 @@ public class Player {
   public static Cleanups inLocation(String location) {
     Modifiers.setLocation(AdventureDatabase.getAdventure(location));
     return new Cleanups(() -> inLocation(null));
+  }
+
+  public static Cleanups inAnapest() {
+    FightRequest.anapest = true;
+    return new Cleanups(() -> FightRequest.anapest = false);
+  }
+
+  public static Cleanups fightingMonster(MonsterData monster) {
+    var previousMonster = MonsterStatusTracker.getLastMonster();
+    MonsterStatusTracker.setNextMonster(monster);
+    return new Cleanups(() -> MonsterStatusTracker.setNextMonster(previousMonster));
+  }
+
+  public static Cleanups fightingMonster(String monsterName) {
+    return fightingMonster(MonsterDatabase.findMonster(monsterName));
   }
 
   public static Cleanups isDay(Calendar cal) {

@@ -9702,7 +9702,8 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("into the ball return system")
             || responseText.contains("You scream like a lunatic")
             || responseText.contains("You launch your cosmic bowling ball")
-            || skillSuccess) {
+            || skillSuccess
+            || skillRunawaySuccess) {
           Preferences.increment("_cosmicBowlingSkillsUsed", 1);
           int combats = Preferences.getInteger("_cosmicBowlingSkillsUsed") * 2 + 3 - 1;
           Preferences.setInteger("cosmicBowlingBallReturnCombats", combats);

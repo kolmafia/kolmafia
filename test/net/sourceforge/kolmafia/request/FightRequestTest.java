@@ -1,10 +1,14 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.addItem;
+import static internal.helpers.Player.fightingMonster;
+import static internal.helpers.Player.inAnapest;
 import static internal.helpers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -601,6 +605,25 @@ public class FightRequestTest {
     html = html("request/test_fight_bowling_ball_5.html");
     FightRequest.parseAvailableCombatSkills(html);
     assertTrue(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
+  }
+
+  @Test
+  public void canTrackCosmicBowlingBallBanishInAnapests() {
+    var cleanups =
+        new Cleanups(
+            addItem(ItemPool.COSMIC_BOWLING_BALL),
+            inAnapest(),
+            fightingMonster("Marcus Macurgeon"));
+
+    try (cleanups) {
+      String urlString = "fight.php?action=skill&whichskill=7405";
+      String html = html("request/test_fight_anapest_runaway.html");
+      FightRequest.currentRound = 2;
+      FightRequest.registerRequest(true, urlString);
+      FightRequest.updateCombatData(null, null, html);
+
+      assertEquals(0, InventoryManager.getCount(ItemPool.COSMIC_BOWLING_BALL));
+    }
   }
 
   // Robort drop tracking preference tests
