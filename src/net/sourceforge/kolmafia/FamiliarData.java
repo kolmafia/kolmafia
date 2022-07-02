@@ -202,8 +202,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       final int id, final String name, final int weight, final AdventureResult item) {
     this.id = id;
     this.name = name;
-    this.owner = KoLCharacter.getUserName();
-    this.ownerId = KoLCharacter.getUserId();
+    this.setOwner(KoLCharacter.getUserName(), KoLCharacter.getUserId());
     String race = FamiliarDatabase.getFamiliarName(id);
     this.race = (id == -1 || race == null) ? "(none)" : race;
     this.beeware = this.race.contains("b") || this.race.contains("B");
@@ -230,8 +229,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     FamiliarDatabase.registerFamiliar(this.id, this.race, image);
 
     this.update(dataMatcher);
-    this.owner = KoLCharacter.getUserName();
-    this.ownerId = KoLCharacter.getUserId();
+    this.setOwner(KoLCharacter.getUserName(), KoLCharacter.getUserId());
   }
 
   public FamiliarData(final int id, final String name, final int pokeLevel) {

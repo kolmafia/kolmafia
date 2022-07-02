@@ -45,7 +45,7 @@ public class QuantumTerrariumRequestTest {
   }
 
   @Test
-  void candetectCurrentAndNextFamiliar() {
+  void canDetectCurrentAndNextFamiliar() {
 
     // Quantum Terrarium will call api.php to set up familiar in middle of processing.
     ApiRequest apiRequest = new ApiRequest("status");
