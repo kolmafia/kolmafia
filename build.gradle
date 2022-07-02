@@ -11,7 +11,7 @@ plugins {
 	id 'jacoco'
 	id 'java'
 
-	id 'com.diffplug.spotless' version '6.1.2'
+	id 'com.diffplug.spotless' version '6.7.2'
 	id 'com.github.johnrengelman.shadow' version '7.1.2'
 	id 'net.nemerosa.versioning' version '2.15.1'
 	id 'org.ajoberstar.grgit' version '4.1.1'

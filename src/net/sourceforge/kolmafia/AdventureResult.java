@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.StringTokenizer;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
@@ -353,6 +354,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return this.priority == AdventureResult.ITEM_PRIORITY;
   }
 
+  @SuppressWarnings("unused")
   public boolean isBountyItem() {
     return this.priority == AdventureResult.BOUNTY_ITEM_PRIORITY;
   }
@@ -391,59 +393,51 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       return this.name;
     }
 
-    switch (this.id) {
-      case ItemPool.DUSTY_BOTTLE_OF_MERLOT:
-      case ItemPool.DUSTY_BOTTLE_OF_PORT:
-      case ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR:
-      case ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL:
-      case ItemPool.DUSTY_BOTTLE_OF_MARSALA:
-      case ItemPool.DUSTY_BOTTLE_OF_MUSCAT:
-        return ConsumablesDatabase.dustyBottleName(this.id);
-
-      case ItemPool.MILKY_POTION:
-      case ItemPool.SWIRLY_POTION:
-      case ItemPool.BUBBLY_POTION:
-      case ItemPool.SMOKY_POTION:
-      case ItemPool.CLOUDY_POTION:
-      case ItemPool.EFFERVESCENT_POTION:
-      case ItemPool.FIZZY_POTION:
-      case ItemPool.DARK_POTION:
-      case ItemPool.MURKY_POTION:
-        return AdventureResult.bangPotionName(this.id);
-
-      case ItemPool.VIAL_OF_RED_SLIME:
-      case ItemPool.VIAL_OF_YELLOW_SLIME:
-      case ItemPool.VIAL_OF_BLUE_SLIME:
-      case ItemPool.VIAL_OF_ORANGE_SLIME:
-      case ItemPool.VIAL_OF_GREEN_SLIME:
-      case ItemPool.VIAL_OF_VIOLET_SLIME:
-      case ItemPool.VIAL_OF_VERMILION_SLIME:
-      case ItemPool.VIAL_OF_AMBER_SLIME:
-      case ItemPool.VIAL_OF_CHARTREUSE_SLIME:
-      case ItemPool.VIAL_OF_TEAL_SLIME:
-      case ItemPool.VIAL_OF_INDIGO_SLIME:
-      case ItemPool.VIAL_OF_PURPLE_SLIME:
-        return AdventureResult.slimeVialName(this.id);
-
-      case ItemPool.PUNCHCARD_ATTACK:
-      case ItemPool.PUNCHCARD_REPAIR:
-      case ItemPool.PUNCHCARD_BUFF:
-      case ItemPool.PUNCHCARD_MODIFY:
-      case ItemPool.PUNCHCARD_BUILD:
-      case ItemPool.PUNCHCARD_TARGET:
-      case ItemPool.PUNCHCARD_SELF:
-      case ItemPool.PUNCHCARD_FLOOR:
-      case ItemPool.PUNCHCARD_DRONE:
-      case ItemPool.PUNCHCARD_WALL:
-      case ItemPool.PUNCHCARD_SPHERE:
-        return AdventureResult.punchCardName(this.id);
-
-      case ItemPool.UNBREAKABLE_UMBRELLA:
-        return this.name + " (" + Preferences.getString("umbrellaState") + ")";
-
-      default:
-        return this.name;
-    }
+    return switch (this.id) {
+      case ItemPool.DUSTY_BOTTLE_OF_MERLOT,
+          ItemPool.DUSTY_BOTTLE_OF_PORT,
+          ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR,
+          ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL,
+          ItemPool.DUSTY_BOTTLE_OF_MARSALA,
+          ItemPool.DUSTY_BOTTLE_OF_MUSCAT -> ConsumablesDatabase.dustyBottleName(this.id);
+      case ItemPool.MILKY_POTION,
+          ItemPool.SWIRLY_POTION,
+          ItemPool.BUBBLY_POTION,
+          ItemPool.SMOKY_POTION,
+          ItemPool.CLOUDY_POTION,
+          ItemPool.EFFERVESCENT_POTION,
+          ItemPool.FIZZY_POTION,
+          ItemPool.DARK_POTION,
+          ItemPool.MURKY_POTION -> AdventureResult.bangPotionName(this.id);
+      case ItemPool.VIAL_OF_RED_SLIME,
+          ItemPool.VIAL_OF_YELLOW_SLIME,
+          ItemPool.VIAL_OF_BLUE_SLIME,
+          ItemPool.VIAL_OF_ORANGE_SLIME,
+          ItemPool.VIAL_OF_GREEN_SLIME,
+          ItemPool.VIAL_OF_VIOLET_SLIME,
+          ItemPool.VIAL_OF_VERMILION_SLIME,
+          ItemPool.VIAL_OF_AMBER_SLIME,
+          ItemPool.VIAL_OF_CHARTREUSE_SLIME,
+          ItemPool.VIAL_OF_TEAL_SLIME,
+          ItemPool.VIAL_OF_INDIGO_SLIME,
+          ItemPool.VIAL_OF_PURPLE_SLIME -> AdventureResult.slimeVialName(this.id);
+      case ItemPool.PUNCHCARD_ATTACK,
+          ItemPool.PUNCHCARD_REPAIR,
+          ItemPool.PUNCHCARD_BUFF,
+          ItemPool.PUNCHCARD_MODIFY,
+          ItemPool.PUNCHCARD_BUILD,
+          ItemPool.PUNCHCARD_TARGET,
+          ItemPool.PUNCHCARD_SELF,
+          ItemPool.PUNCHCARD_FLOOR,
+          ItemPool.PUNCHCARD_DRONE,
+          ItemPool.PUNCHCARD_WALL,
+          ItemPool.PUNCHCARD_SPHERE -> AdventureResult.punchCardName(this.id);
+      case ItemPool.UNBREAKABLE_UMBRELLA -> this.name
+          + " ("
+          + Preferences.getString("umbrellaState")
+          + ")";
+      default -> this.name;
+    };
   }
 
   public String getDisambiguatedName() {
@@ -857,7 +851,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    */
   @Override
   public boolean equals(final Object o) {
-    if (!(o instanceof AdventureResult)) {
+    if (!(o instanceof AdventureResult ar)) {
       return false;
     }
 
@@ -865,13 +859,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       return o.equals(this);
     }
 
-    AdventureResult ar = (AdventureResult) o;
-
-    return this.priority == ar.priority
-        && this.id == ar.id
-        && (this.name == null || ar.name == null
-            ? this.name == ar.name
-            : this.name.equals(ar.name));
+    return this.priority == ar.priority && this.id == ar.id && Objects.equals(this.name, ar.name);
   }
 
   @Override
@@ -1044,9 +1032,9 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
 
   public AdventureResult getNegation() {
     if (this.isItem() && this.id != -1) {
-      return this.count == 0 ? this : new AdventureResult(this.id, 0 - this.count, false);
+      return this.count == 0 ? this : new AdventureResult(this.id, -this.count, false);
     } else if (this.isStatusEffect() && this.id != -1) {
-      return this.count == 0 ? this : new AdventureResult(this.id, 0 - this.count, true);
+      return this.count == 0 ? this : new AdventureResult(this.id, -this.count, true);
     }
 
     return this.getInstance(-this.count);
@@ -1174,7 +1162,6 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     String name = this.name;
 
     if (name.startsWith("potion of ")) {
-      String effect = name.substring(10);
       for (int itemId = ItemPool.FIRST_BANG_POTION; itemId <= ItemPool.LAST_BANG_POTION; ++itemId) {
         String potion = Preferences.getString("lastBangPotion" + itemId);
         if (!potion.isEmpty() && name.endsWith(potion)) {
@@ -1185,7 +1172,6 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     }
 
     if (name.startsWith("vial of slime: ")) {
-      String effect = name.substring(15);
       for (int itemId = ItemPool.FIRST_SLIME_VIAL; itemId < ItemPool.LAST_SLIME_VIAL; ++itemId) {
         String vial = Preferences.getString("lastSlimeVial" + itemId);
         if (!vial.isEmpty() && name.endsWith(vial)) {
@@ -1357,7 +1343,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     public AdventureResult getNegation() {
       int[] newcounts = new int[this.counts.length];
       for (int i = 0; i < this.counts.length; ++i) {
-        newcounts[i] = 0 - this.counts[i];
+        newcounts[i] = -this.counts[i];
       }
 
       return this.getInstance(newcounts);
@@ -1452,12 +1438,11 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
 
     @Override
     public boolean equals(final Object o) {
-      if (!(o instanceof AdventureResult)) {
+      if (!(o instanceof AdventureResult ar)) {
         return false;
       }
 
       boolean hasMatch = false;
-      AdventureResult ar = (AdventureResult) o;
       String arName = ar.getName().toLowerCase();
 
       for (int i = 0; i < this.matches.length && !hasMatch; ++i) {

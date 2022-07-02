@@ -490,6 +490,9 @@ public abstract class KoLCharacter {
     if (KoLCharacter.inRobocore()) {
       // Robots can eat size-0 magical sausages but have no fullness
       return 0;
+    } else if (KoLCharacter.isGreyGoo()) {
+      // Grey Goo can "eat" things but they don't go into a stomach.
+      return 0;
     }
 
     // Default stomach size, overridden below for various paths
@@ -615,6 +618,11 @@ public abstract class KoLCharacter {
       return 0;
     }
 
+    if (KoLCharacter.isGreyGoo()) {
+      // Grey Goo can "drink" things but they don't go into a liver.
+      return 0;
+    }
+
     // Default liver size, overridden below for various paths
     int limit = 14;
 
@@ -696,9 +704,10 @@ public abstract class KoLCharacter {
 
     if (KoLCharacter.inNoobcore()) {
       return 0;
-    }
-
-    if (KoLCharacter.inRobocore()) {
+    } else if (KoLCharacter.inRobocore()) {
+      return 0;
+    } else if (KoLCharacter.isGreyGoo()) {
+      // Grey Goo can "chew" things but they don't go into a spleen.
       return 0;
     }
 
