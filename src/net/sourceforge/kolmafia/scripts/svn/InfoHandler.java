@@ -10,7 +10,7 @@
  * ====================================================================
  */
 
-package net.sourceforge.kolmafia.svn;
+package net.sourceforge.kolmafia.scripts.svn;
 
 import net.sourceforge.kolmafia.RequestLogger;
 import org.tmatesoft.svn.core.SVNNodeKind;

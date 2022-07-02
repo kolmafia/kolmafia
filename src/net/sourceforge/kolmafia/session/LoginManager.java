@@ -29,7 +29,7 @@ import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
-import net.sourceforge.kolmafia.svn.SVNManager;
+import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 public class LoginManager {

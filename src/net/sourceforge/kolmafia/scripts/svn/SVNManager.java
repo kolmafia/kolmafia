@@ -12,7 +12,7 @@
  * ====================================================================
  */
 
-package net.sourceforge.kolmafia.svn;
+package net.sourceforge.kolmafia.scripts.svn;
 
 import java.io.BufferedReader;
 import java.io.File;

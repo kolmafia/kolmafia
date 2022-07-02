@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.svn;
+package net.sourceforge.kolmafia.scripts.svn;
 
 import java.io.File;
 import java.util.concurrent.Callable;
