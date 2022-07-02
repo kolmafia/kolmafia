@@ -189,6 +189,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
   private boolean favorite;
   private int charges;
   private int pokeLevel;
+  // For Quantum Terrarium
+  private String owner;
+  private int ownerId;
   private boolean active = false;
 
   public FamiliarData(final int id) {
@@ -199,6 +202,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       final int id, final String name, final int weight, final AdventureResult item) {
     this.id = id;
     this.name = name;
+    this.setOwner(KoLCharacter.getUserName(), KoLCharacter.getUserId());
     String race = FamiliarDatabase.getFamiliarName(id);
     this.race = (id == -1 || race == null) ? "(none)" : race;
     this.beeware = this.race.contains("b") || this.race.contains("B");
@@ -225,6 +229,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     FamiliarDatabase.registerFamiliar(this.id, this.race, image);
 
     this.update(dataMatcher);
+    this.setOwner(KoLCharacter.getUserName(), KoLCharacter.getUserId());
   }
 
   public FamiliarData(final int id, final String name, final int pokeLevel) {
@@ -237,7 +242,6 @@ public class FamiliarData implements Comparable<FamiliarData> {
   private void update(final Matcher dataMatcher) {
     this.name = dataMatcher.group(3);
     this.setExperience(StringUtilities.parseInt(dataMatcher.group(5)));
-    this.setWeight();
     // dataMatcher.group( 6 ) => kills
     String itemData = dataMatcher.group(7);
     this.item = FamiliarData.parseFamiliarItem(this.id, itemData);
@@ -442,8 +446,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   private void setWeight() {
-    this.setWeight(
-        Math.max(Math.min(this.getMaxBaseWeight(), (int) Math.sqrt(this.experience)), 1));
+    int weight = Math.max(Math.min(this.getMaxBaseWeight(), (int) Math.sqrt(this.experience)), 1);
+    this.setWeight(weight);
   }
 
   public final void checkWeight(final int weight, final boolean feasted) {
@@ -457,19 +461,15 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     this.feasted = feasted;
-
-    // Get modified weight excluding hidden weight modifiers
-    int delta = weight - this.getModifiedWeight(false, true);
-    if (delta != 0) {
-      // The following is informational, not an error, but it confuses people, so don't print it.
-      // RequestLogger.printLine( "Adjusting familiar weight by " + delta + " pound" + ( delta == 1
-      // ? "" : "s" ) );
-      this.weight += delta;
-    }
   }
 
   public final void setName(final String name) {
     this.name = name;
+  }
+
+  public final void setOwner(final String owner, final int ownerId) {
+    this.owner = owner;
+    this.ownerId = ownerId;
   }
 
   private static AdventureResult parseFamiliarItem(final int id, final String text) {
@@ -575,8 +575,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       KoLCharacter.addFamiliar(familiar);
     }
 
-    familiar.experience = experience;
-    familiar.setWeight();
+    familiar.setExperience(experience);
     return familiar;
   }
 
@@ -834,6 +833,14 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   public String getName() {
     return this.name;
+  }
+
+  public String getOwner() {
+    return this.owner;
+  }
+
+  public int getOwnerId() {
+    return this.ownerId;
   }
 
   public String getRace() {

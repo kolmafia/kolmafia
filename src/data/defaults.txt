@@ -991,6 +991,9 @@ user	nextParanormalActivity	1
 user	nextSpookyravenElizabethRoom	The Haunted Storage Room
 user	nextSpookyravenStephenRoom	The Haunted Bedroom
 user	nextQuantumFamiliar	none
+user	nextQuantumFamiliarName
+user	nextQuantumFamiliarOwner
+user	nextQuantumFamiliarOwnerId	0
 user	nextQuantumFamiliarTurn	0
 user	noobPoints	0
 user	noobDeferredPoints	0

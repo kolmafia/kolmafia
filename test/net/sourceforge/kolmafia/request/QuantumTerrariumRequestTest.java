@@ -1,0 +1,78 @@
+package net.sourceforge.kolmafia.request;
+
+import static internal.helpers.Networking.html;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.Mockito.mockStatic;
+
+import internal.helpers.Cleanups;
+import internal.helpers.Player;
+import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.FamiliarData;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.TurnCounter;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+public class QuantumTerrariumRequestTest {
+
+  @BeforeAll
+  private static void beforeAll() {
+    // Simulate logging out and back in again.
+    KoLCharacter.reset("");
+    KoLCharacter.reset("quantum terrarium user");
+    Preferences.saveSettingsToFile = false;
+  }
+
+  @AfterAll
+  private static void afterAll() {
+    Preferences.saveSettingsToFile = true;
+  }
+
+  private static Cleanups mockApiRequest(ApiRequest request) {
+    var mocked = mockStatic(ApiRequest.class, Mockito.CALLS_REAL_METHODS);
+    mocked
+        .when(() -> ApiRequest.updateStatus(anyBoolean()))
+        .thenAnswer(
+            invocation -> {
+              request.processResults();
+              return null;
+            });
+    return new Cleanups(mocked::close);
+  }
+
+  @Test
+  void canDetectCurrentAndNextFamiliar() {
+
+    // Quantum Terrarium will call api.php to set up familiar in middle of processing.
+    ApiRequest apiRequest = new ApiRequest("status");
+    apiRequest.responseText = html("request/test_quantum_terrarium_api.json");
+
+    var cleanups = new Cleanups(Player.inPath(Path.QUANTUM), mockApiRequest(apiRequest));
+    try (cleanups) {
+      String urlString = "qterrarium.php";
+      String responseText = html("request/test_quantum_terrarium_visit.html");
+      QuantumTerrariumRequest.parseResponse(urlString, responseText);
+
+      // Current Familiar is Weenabego, KarmaHunter's El Vibrato Megadrone
+      FamiliarData current = KoLCharacter.getFamiliar();
+      assertEquals("El Vibrato Megadrone", current.getRace());
+      assertEquals(81, current.getTotalExperience());
+      assertEquals("Weenabego", current.getName());
+      assertEquals("KarmaHunter", current.getOwner());
+      assertEquals(1270203, current.getOwnerId());
+
+      // Next Familiar in 11 adventures is Grabert, JoeRo1's Synthetic Rock
+      assertEquals("Synthetic Rock", Preferences.getString("nextQuantumFamiliar"));
+      assertEquals("Grabert", Preferences.getString("nextQuantumFamiliarName"));
+      assertEquals("JoeRo1", Preferences.getString("nextQuantumFamiliarOwner"));
+      assertEquals(335281, Preferences.getInteger("nextQuantumFamiliarOwnerId"));
+
+      // There should be a counter
+      assertEquals(11, TurnCounter.turnsRemaining("Quantum Familiar"));
+    }
+  }
+}

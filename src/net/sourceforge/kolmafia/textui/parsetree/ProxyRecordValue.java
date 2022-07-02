@@ -646,6 +646,8 @@ public class ProxyRecordValue extends RecordValue {
             .add("hatchling", DataTypes.ITEM_TYPE)
             .add("image", DataTypes.STRING_TYPE)
             .add("name", DataTypes.STRING_TYPE)
+            .add("owner", DataTypes.STRING_TYPE)
+            .add("owner_id", DataTypes.INT_TYPE)
             .add("experience", DataTypes.INT_TYPE)
             .add("charges", DataTypes.INT_TYPE)
             .add("drop_name", DataTypes.STRING_TYPE)
@@ -698,6 +700,16 @@ public class ProxyRecordValue extends RecordValue {
     public String get_name() {
       FamiliarData fam = KoLCharacter.findFamiliar(this.contentString);
       return fam == null ? "" : fam.getName();
+    }
+
+    public String get_owner() {
+      FamiliarData fam = KoLCharacter.findFamiliar(this.contentString);
+      return fam == null ? "" : fam.getOwner();
+    }
+
+    public int get_owner_id() {
+      FamiliarData fam = KoLCharacter.findFamiliar(this.contentString);
+      return fam == null ? 0 : fam.getOwnerId();
     }
 
     public int get_experience() {
