@@ -1,11 +1,13 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.addEffect;
 import static internal.helpers.Player.equip;
 import static internal.helpers.Player.inPath;
 import static internal.helpers.Player.isClass;
 import static internal.helpers.Player.isDay;
 import static internal.helpers.Player.setHP;
 import static internal.helpers.Player.setMP;
+import static internal.helpers.Player.setProperty;
 import static internal.helpers.Player.setStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -17,9 +19,11 @@ import java.util.GregorianCalendar;
 import java.util.Map.Entry;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -148,6 +152,29 @@ public class ModifiersTest {
     assertEquals(-28, mod.get(Modifiers.COMBAT_RATE));
     mod.add(Modifiers.COMBAT_RATE, -9, "-50");
     assertEquals(-30, mod.get(Modifiers.COMBAT_RATE));
+  }
+
+  @Nested
+  class Squint {
+    @BeforeAll
+    public static void setup() {
+      Preferences.reset("squinter");
+    }
+
+    @Test
+    public void squintAffectsUmbrella() {
+      var cleanups =
+          new Cleanups(
+              equip(EquipmentManager.OFFHAND, "unbreakable umbrella"),
+              setProperty("umbrellaState", "bucket style"),
+              addEffect("Steely-Eyed Squint"));
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        var item = mods.get(Modifiers.ITEMDROP);
+        assertThat(item, equalTo(50.0));
+      }
+    }
   }
 
   @Nested
