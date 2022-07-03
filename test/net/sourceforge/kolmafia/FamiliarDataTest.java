@@ -1,5 +1,8 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.addEffect;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -36,6 +39,39 @@ public class FamiliarDataTest {
   public void canTellIfFamiliarIsNotTrainable() {
     var fam = new FamiliarData(FamiliarPool.PET_ROCK);
     assertFalse(fam.trainable());
+  }
+
+  @Test
+  void familiarReportsModifiedWeightIncludingFidoxene() {
+    var cleanups = addEffect("Fidoxene");
+
+    try (cleanups) {
+      var familiar = FamiliarData.registerFamiliar(FamiliarPool.ALIEN, 0);
+
+      assertThat(familiar.getModifiedWeight(), equalTo(20));
+    }
+  }
+
+  @Test
+  void familiarReportsModifiedWeightCorrectlyDespiteFidoxene() {
+    var cleanups = addEffect("Fidoxene");
+
+    try (cleanups) {
+      var familiar = FamiliarData.registerFamiliar(FamiliarPool.ALIEN, 400);
+
+      assertThat(familiar.getModifiedWeight(), equalTo(20));
+    }
+  }
+
+  @Test
+  void fidoxeneWorksWithNonstandardMaxBaseWeightFamiliars() {
+    var cleanups = addEffect("Fidoxene");
+
+    try (cleanups) {
+      var familiar = FamiliarData.registerFamiliar(FamiliarPool.HOMEMADE_ROBOT, 900);
+
+      assertThat(familiar.getModifiedWeight(), equalTo(30));
+    }
   }
 
   @Test

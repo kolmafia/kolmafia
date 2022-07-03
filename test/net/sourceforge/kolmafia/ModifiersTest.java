@@ -10,6 +10,7 @@ import static internal.helpers.Player.setMP;
 import static internal.helpers.Player.setProperty;
 import static internal.helpers.Player.setStats;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -18,6 +19,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Map.Entry;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -152,6 +154,34 @@ public class ModifiersTest {
     assertEquals(-28, mod.get(Modifiers.COMBAT_RATE));
     mod.add(Modifiers.COMBAT_RATE, -9, "-50");
     assertEquals(-30, mod.get(Modifiers.COMBAT_RATE));
+  }
+
+  @Test
+  void fixodeneConsideredInFamiliarModifiers() {
+    var cleanups = addEffect("Fidoxene");
+
+    try (cleanups) {
+      Modifiers familiarMods = new Modifiers();
+      var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 0);
+
+      familiarMods.applyFamiliarModifiers(familiar, null);
+
+      assertThat(familiarMods.get(Modifiers.ITEMDROP), closeTo(50.166, 0.001));
+    }
+  }
+
+  @Test
+  void fixodeneConsideredInFamiliarModifiersNotExceedingTwenty() {
+    var cleanups = addEffect("Fidoxene");
+
+    try (cleanups) {
+      Modifiers familiarMods = new Modifiers();
+      var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400);
+
+      familiarMods.applyFamiliarModifiers(familiar, null);
+
+      assertThat(familiarMods.get(Modifiers.ITEMDROP), closeTo(50.166, 0.001));
+    }
   }
 
   @Nested
