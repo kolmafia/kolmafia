@@ -64,6 +64,17 @@ public class FamiliarDataTest {
   }
 
   @Test
+  void fidoxeneWorksWithNonstandardMaxBaseWeightFamiliars() {
+    var cleanups = addEffect("Fidoxene");
+
+    try (cleanups) {
+      var familiar = FamiliarData.registerFamiliar(FamiliarPool.HOMEMADE_ROBOT, 900);
+
+      assertThat(familiar.getModifiedWeight(), equalTo(30));
+    }
+  }
+
+  @Test
   public void canHandleGreyGooseCombatSkills() {
     // We are currently in no path
     KoLCharacter.setPath(Path.NONE);
