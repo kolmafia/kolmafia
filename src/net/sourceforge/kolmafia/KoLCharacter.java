@@ -5531,7 +5531,8 @@ public abstract class KoLCharacter {
           var modeable = Modeable.find(itemId);
 
           if (modeable != null) {
-            newModifiers.add(Modifiers.getModifiers(modeable.getModifier(), modeables.get(modeable)));
+            newModifiers.add(
+                Modifiers.getModifiers(modeable.getModifier(), modeables.get(modeable)));
           }
       }
     }

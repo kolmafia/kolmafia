@@ -1,8 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
-import net.sourceforge.kolmafia.preferences.Preferences;
-
 import java.util.Arrays;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class UmbrellaRequest extends GenericRequest {
   public UmbrellaRequest() {

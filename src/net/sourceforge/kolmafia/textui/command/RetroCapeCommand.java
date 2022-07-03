@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.Arrays;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -9,8 +10,6 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-
-import java.util.Arrays;
 
 public class RetroCapeCommand extends AbstractModeCommand {
   public static final String[] SUPERHEROS = {"vampire", "heck", "robot"};
@@ -25,7 +24,7 @@ public class RetroCapeCommand extends AbstractModeCommand {
   public boolean validate(final String command, final String parameters) {
     String[] parts = parameters.split(" ");
     return Arrays.asList(SUPERHEROS).contains(parts[0])
-            && Arrays.asList(WASHING_INSTRUCTIONS).contains(parts[1]);
+        && Arrays.asList(WASHING_INSTRUCTIONS).contains(parts[1]);
   }
 
   @Override

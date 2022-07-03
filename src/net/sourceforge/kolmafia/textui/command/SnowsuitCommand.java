@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.Arrays;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
@@ -8,8 +9,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-
-import java.util.Arrays;
 
 public class SnowsuitCommand extends AbstractModeCommand {
   public static final String[][] DECORATION = {
@@ -25,7 +24,11 @@ public class SnowsuitCommand extends AbstractModeCommand {
   }
 
   private String getChoice(final String parameters) {
-    return Arrays.stream(DECORATION).filter(d -> d[0].equalsIgnoreCase(parameters)).map(d -> d[1]).findAny().orElse(null);
+    return Arrays.stream(DECORATION)
+        .filter(d -> d[0].equalsIgnoreCase(parameters))
+        .map(d -> d[1])
+        .findAny()
+        .orElse(null);
   }
 
   @Override
