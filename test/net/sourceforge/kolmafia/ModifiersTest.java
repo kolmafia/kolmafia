@@ -9,6 +9,7 @@ import static internal.helpers.Player.setHP;
 import static internal.helpers.Player.setMP;
 import static internal.helpers.Player.setStats;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -153,30 +154,30 @@ public class ModifiersTest {
   }
 
   @Test
-  void fidoxeneSetsMinimumBaseWeight() {
+  void fixodeneConsideredInFamiliarModifiers() {
     var cleanups = addEffect("Fidoxene");
 
     try (cleanups) {
       Modifiers familiarMods = new Modifiers();
-      var familiar = FamiliarData.registerFamiliar(FamiliarPool.ALIEN, 0);
+      var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 0);
 
       familiarMods.applyFamiliarModifiers(familiar, null);
 
-      assertThat(familiarMods.currentWeight, equalTo(20));
+      assertThat(familiarMods.get(Modifiers.ITEMDROP), closeTo(50.166, 0.001));
     }
   }
 
   @Test
-  void fidoxeneOnlyAffectsMinimumBaseWeight() {
+  void fixodeneConsideredInFamiliarModifiersNotExceedingTwenty() {
     var cleanups = addEffect("Fidoxene");
 
     try (cleanups) {
       Modifiers familiarMods = new Modifiers();
-      var familiar = FamiliarData.registerFamiliar(FamiliarPool.ALIEN, 400);
+      var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400);
 
       familiarMods.applyFamiliarModifiers(familiar, null);
 
-      assertThat(familiarMods.currentWeight, equalTo(20));
+      assertThat(familiarMods.get(Modifiers.ITEMDROP), closeTo(50.166, 0.001));
     }
   }
 
