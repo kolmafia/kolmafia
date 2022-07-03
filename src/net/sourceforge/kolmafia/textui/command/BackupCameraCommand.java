@@ -1,12 +1,11 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.Arrays;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-
-import java.util.Arrays;
 
 public class BackupCameraCommand extends AbstractModeCommand {
   public BackupCameraCommand() {

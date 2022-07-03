@@ -1,10 +1,8 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -16,7 +14,6 @@ import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.textui.command.RetroCapeCommand;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Speculation {
@@ -24,9 +21,7 @@ public class Speculation {
   public AdventureResult[] equipment;
   private final ArrayList<AdventureResult> effects;
   private FamiliarData familiar, enthroned, bjorned;
-  private String custom,
-      horsery,
-      boomBox;
+  private String custom, horsery, boomBox;
   protected boolean calculated = false;
   protected Modifiers mods;
   private Map<Modeable, String> modeables;
@@ -265,7 +260,8 @@ public class Speculation {
 
         if (modeable != null) {
           if (!modeable.validate(cmd, params)) {
-            KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown parameter for " + cmd + ": " + params);
+            KoLmafia.updateDisplay(
+                MafiaState.ERROR, "Unknown parameter for " + cmd + ": " + params);
             return true;
           }
 

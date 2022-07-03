@@ -1,16 +1,14 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.UmbrellaRequest;
 import net.sourceforge.kolmafia.request.UmbrellaRequest.Form;
 import net.sourceforge.kolmafia.session.InventoryManager;
-
-import java.util.Map;
 
 public class UmbrellaCommand extends AbstractModeCommand {
   public UmbrellaCommand() {
@@ -18,14 +16,14 @@ public class UmbrellaCommand extends AbstractModeCommand {
         "[ml | item | dr | weapon | spell | nc | broken | forward | bucket | pitchfork | twirling | cocoon] - fold your Umbrella";
   }
 
-  private static Map<String, String> SHORTHAND_MAP = Map.ofEntries(
+  private static Map<String, String> SHORTHAND_MAP =
+      Map.ofEntries(
           Map.entry("ml", "broken"),
           Map.entry("dr", "forward-facing"),
           Map.entry("item", "bucket style"),
           Map.entry("weapon", "pitchfork style"),
           Map.entry("spell", "constantly twirling"),
-          Map.entry("nc", "cocoon")
-  );
+          Map.entry("nc", "cocoon"));
 
   public Form getForm(final String parameter) {
     return Form.find(normalize(parameter));
