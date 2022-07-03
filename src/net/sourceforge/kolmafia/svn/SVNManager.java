@@ -481,7 +481,7 @@ public class SVNManager {
 
   private static boolean validateRepo(SVNURL repo, boolean quiet) {
     SVNRepository repository;
-    Collection<?> entries;
+    Collection<SVNDirEntry> entries;
     boolean failed = false;
 
     try {
@@ -499,7 +499,11 @@ public class SVNManager {
       SVN_LOCK.lock();
       entries =
           repository.getDir(
-              "", -1, null, (Collection<?>) null); // this syntax is stupid, by the way
+              "",
+              -1,
+              null,
+              SVNDirEntry.DIRENT_ALL,
+              (Collection<?>) null); // this syntax is stupid, by the way
     } catch (SVNException e) {
       if (!quiet) error(e, "Something went wrong while fetching svn directory info");
       return true;
@@ -507,8 +511,7 @@ public class SVNManager {
       SVN_LOCK.unlock();
     }
 
-    for (Object o : entries) {
-      SVNDirEntry entry = (SVNDirEntry) o;
+    for (SVNDirEntry entry : entries) {
       if (entry.getKind().equals(SVNNodeKind.DIR)) {
         failed |= !permissibles.contains(entry.getName());
       } else
@@ -926,13 +929,15 @@ public class SVNManager {
   private static boolean shouldPush(SVNFileEvent event, boolean wasCheckout, String relpath) {
     if (wasCheckout) return true;
 
-    if (event.getEvent().getAction()
-        == SVNEventAction.UPDATE_ADD) // new text file added to repo, user said it was okay
-    return true;
+    if (event.getEvent().getAction() == SVNEventAction.UPDATE_ADD) {
+      // new text file added to repo, user said it was okay
+      return true;
+    }
 
-    if (event.getEvent().getAction()
-        == SVNEventAction.ADD) // new binary file added to repo, user said it was okay
-    return true;
+    if (event.getEvent().getAction() == SVNEventAction.ADD) {
+      // new binary file added to repo, user said it was okay
+      return true;
+    }
 
     if (event.getEvent().getAction() == SVNEventAction.UPDATE_UPDATE) {
       SVNStatusType status = event.getEvent().getContentsStatus();
@@ -1035,7 +1040,9 @@ public class SVNManager {
 
     if (!makeDir.mkdirs() // if we successfully make the directory, ok
         && !makeDir.exists()) // if it already exists, ok
-    return null; // else punt
+    {
+      return null; // else punt
+    }
 
     return makeDir;
   }
