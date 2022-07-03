@@ -48,7 +48,9 @@ public class GitManager extends ScriptManager {
     String id = getRepoId(repoUrl, branch);
     Path projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(id);
     if (Files.exists(projectPath)) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot clone project to " + id + ", folder already exists. Please delete to checkout.");
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR,
+          "Cannot clone project to " + id + ", folder already exists. Please delete to checkout.");
       return;
     }
     var git =
@@ -97,7 +99,8 @@ public class GitManager extends ScriptManager {
   }
 
   /**
-   * Given a project substring, update the version in git/ to latest, and update any existing permissible files.
+   * Given a project substring, update the version in git/ to latest, and update any existing
+   * permissible files.
    *
    * <p>If there are any new files, add those.
    *
@@ -126,7 +129,8 @@ public class GitManager extends ScriptManager {
       try {
         currId = getCurrentCommitTree(repo);
       } catch (IOException e) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to get details for project " + folder + ": " + e);
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR, "Failed to get details for project " + folder + ": " + e);
         return;
       }
       try {
@@ -139,15 +143,22 @@ public class GitManager extends ScriptManager {
       try {
         incomingId = getCurrentCommitTree(repo);
       } catch (IOException e) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to get incoming changes for project " + folder + ": " + e);
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR, "Failed to get incoming changes for project " + folder + ": " + e);
         return;
       }
 
       List<DiffEntry> diffs;
       try {
-        diffs = git.diff().setOldTree(currId).setNewTree(incomingId).setShowNameAndStatusOnly(true).call();
+        diffs =
+            git.diff()
+                .setOldTree(currId)
+                .setNewTree(incomingId)
+                .setShowNameAndStatusOnly(true)
+                .call();
       } catch (GitAPIException e) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to diff incoming changes for project " + folder + ": " + e);
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR, "Failed to diff incoming changes for project " + folder + ": " + e);
         return;
       }
 
@@ -188,9 +199,7 @@ public class GitManager extends ScriptManager {
     }
   }
 
-  /**
-   * Get the current commit as an AbstractTreeIterator, as required by DiffCommand.
-   */
+  /** Get the current commit as an AbstractTreeIterator, as required by DiffCommand. */
   private static AbstractTreeIterator getCurrentCommitTree(Repository repo) throws IOException {
     var currId = repo.resolve("HEAD^{tree}");
     var treeIterator = new CanonicalTreeParser();
@@ -255,7 +264,8 @@ public class GitManager extends ScriptManager {
             } catch (IOException ex) {
               // Just tell user to delete it manually, that works
               KoLmafia.updateDisplay(
-                  MafiaState.ERROR, "Failed to delete " + f + ": " + e + ", " + ex + ". Please remove manually.");
+                  MafiaState.ERROR,
+                  "Failed to delete " + f + ": " + e + ", " + ex + ". Please remove manually.");
               errored = true;
             }
             // but continue
@@ -279,7 +289,7 @@ public class GitManager extends ScriptManager {
     var files = allFolders();
     if (files == null) return;
     for (var file : files) {
-     sync(file);
+      sync(file);
     }
   }
 
