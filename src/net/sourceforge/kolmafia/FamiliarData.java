@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -434,15 +435,11 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   public final int getMaxBaseWeight() {
-    if (this.id == FamiliarPool.STOCKING_MIMIC || this.id == FamiliarPool.HOMEMADE_ROBOT) {
-      return 100;
-    }
-
-    if (CRIMBO_GHOSTS.contains(this.id)) {
-      return 40;
-    }
-
-    return 20;
+    return switch (this.id) {
+      case FamiliarPool.STOCKING_MIMIC, FamiliarPool.HOMEMADE_ROBOT -> 100;
+      case FamiliarPool.GHOST_CAROLS, FamiliarPool.GHOST_CHEER, FamiliarPool.GHOST_COMMERCE -> 40;
+      default -> 20;
+    };
   }
 
   private void setWeight() {
@@ -752,12 +749,15 @@ public class FamiliarData implements Comparable<FamiliarData> {
     return this.getModifiedWeight(true, includeEquipment);
   }
 
+  private static final AdventureResult FIDOXENE = EffectPool.get(EffectPool.FIDOXENE);
+
   private int getModifiedWeight(final boolean includeHidden, final boolean includeEquipment) {
     // Start with base weight of familiar
     int weight = this.weight;
 
     // Get current fixed and percent weight modifiers
     Modifiers current = KoLCharacter.getCurrentModifiers();
+    boolean fixodene = KoLConstants.activeEffects.contains(FIDOXENE);
     double fixed = current.get(Modifiers.FAMILIAR_WEIGHT);
     double hidden = current.get(Modifiers.HIDDEN_FAMILIAR_WEIGHT);
     double percent = current.get(Modifiers.FAMILIAR_WEIGHT_PCT);
@@ -792,6 +792,11 @@ public class FamiliarData implements Comparable<FamiliarData> {
           percent += mods.get(Modifiers.FAMILIAR_WEIGHT_PCT);
         }
       }
+    }
+
+    // Set a base if Fidoxene is active
+    if (fixodene) {
+      weight = Math.max(weight, 20);
     }
 
     // Add in fixed modifiers

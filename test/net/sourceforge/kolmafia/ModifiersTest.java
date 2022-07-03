@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.addEffect;
 import static internal.helpers.Player.equip;
 import static internal.helpers.Player.inPath;
 import static internal.helpers.Player.isClass;
@@ -16,6 +17,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Map.Entry;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -148,6 +150,34 @@ public class ModifiersTest {
     assertEquals(-28, mod.get(Modifiers.COMBAT_RATE));
     mod.add(Modifiers.COMBAT_RATE, -9, "-50");
     assertEquals(-30, mod.get(Modifiers.COMBAT_RATE));
+  }
+
+  @Test
+  void fidoxeneSetsMinimumBaseWeight() {
+    var cleanups = addEffect("Fidoxene");
+
+    try (cleanups) {
+      Modifiers familiarMods = new Modifiers();
+      var familiar = FamiliarData.registerFamiliar(FamiliarPool.ALIEN, 0);
+
+      familiarMods.applyFamiliarModifiers(familiar, null);
+
+      assertThat(familiarMods.currentWeight, equalTo(20));
+    }
+  }
+
+  @Test
+  void fidoxeneOnlyAffectsMinimumBaseWeight() {
+    var cleanups = addEffect("Fidoxene");
+
+    try (cleanups) {
+      Modifiers familiarMods = new Modifiers();
+      var familiar = FamiliarData.registerFamiliar(FamiliarPool.ALIEN, 400);
+
+      familiarMods.applyFamiliarModifiers(familiar, null);
+
+      assertThat(familiarMods.currentWeight, equalTo(20));
+    }
   }
 
   @Nested

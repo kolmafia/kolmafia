@@ -320,6 +320,7 @@ public class EffectPool {
   public static final int ENHANCED_INTERROGATION = 2415;
   public static final int BOXING_DAY_BREAKFAST = 2429;
   public static final int WOLF_FORM = 2449;
+  public static final int FIDOXENE = 2520;
   public static final int MIST_FORM = 2450;
   public static final int BATS_FORM = 2451;
   public static final int BLESSING_OF_THE_BIRD = 2551;
