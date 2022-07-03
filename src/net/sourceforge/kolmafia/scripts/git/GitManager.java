@@ -20,7 +20,11 @@ import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.treewalk.AbstractTreeIterator;
+import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
 
@@ -59,14 +63,8 @@ public class GitManager extends ScriptManager {
     try (var ignored = git.call()) {
       var toAdd = getPermissibleFiles(projectPath, false);
       for (var absPath : toAdd) {
-        var shortPath = projectPath.relativize(absPath);
-        var rootPath = KoLConstants.ROOT_LOCATION.toPath();
-        var relPath = rootPath.resolve(shortPath);
         try {
-          if (!Files.isDirectory(relPath)) {
-            KoLmafia.updateDisplay("Copying: " + shortPath);
-            Files.copy(absPath, relPath, REPLACE_EXISTING);
-          }
+          copyPath(projectPath, absPath);
         } catch (IOException e) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to clone project " + id + ": " + e);
           return;
@@ -99,10 +97,9 @@ public class GitManager extends ScriptManager {
   }
 
   /**
-   * Given a project substring, update the version in git/ to latest, and update any scripts/ or
-   * relay/ or planting/ files.
+   * Given a project substring, update the version in git/ to latest, and update any existing permissible files.
    *
-   * <p>If there are any new ccs/ or data/ or images/ files, add those.
+   * <p>If there are any new files, add those.
    *
    * <p>If any files have been deleted, delete them.
    */
@@ -113,7 +110,92 @@ public class GitManager extends ScriptManager {
       return;
     }
     var folder = folderOpt.get();
-    // TODO
+    Path projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(folder);
+    Git git;
+    try {
+      git = Git.open(KoLConstants.GIT_LOCATION.toPath().resolve(folder).toFile());
+    } catch (IOException e) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to open project " + folder + ": " + e);
+      return;
+    }
+    // update repo, then find out what was updated
+    try (git) {
+      var repo = git.getRepository();
+      AbstractTreeIterator currId;
+      AbstractTreeIterator incomingId;
+      try {
+        currId = getCurrentCommitTree(repo);
+      } catch (IOException e) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to get details for project " + folder + ": " + e);
+        return;
+      }
+      try {
+        git.pull().setProgressMonitor(new MafiaProgressMonitor()).setRebase(true).call();
+      } catch (GitAPIException e) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to update project " + folder + ": " + e);
+        return;
+      }
+
+      try {
+        incomingId = getCurrentCommitTree(repo);
+      } catch (IOException e) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to get incoming changes for project " + folder + ": " + e);
+        return;
+      }
+
+      List<DiffEntry> diffs;
+      try {
+        diffs = git.diff().setOldTree(currId).setNewTree(incomingId).setShowNameAndStatusOnly(true).call();
+      } catch (GitAPIException e) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to diff incoming changes for project " + folder + ": " + e);
+        return;
+      }
+
+      for (var diff : diffs) {
+        switch (diff.getChangeType()) {
+          case ADD, MODIFY, COPY -> addNewFile(projectPath, diff);
+          case DELETE -> deleteOldFile(diff);
+          case RENAME -> {
+            deleteOldFile(diff);
+            addNewFile(projectPath, diff);
+          }
+        }
+      }
+    }
+  }
+
+  private static void deleteOldFile(DiffEntry diff) {
+    var path = diff.getOldPath();
+    if (isPermissibleFile(path)) {
+      try {
+        var rootPath = KoLConstants.ROOT_LOCATION.toPath();
+        var relPath = rootPath.resolve(path);
+        Files.deleteIfExists(relPath);
+      } catch (IOException e) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to delete file " + path + ": " + e);
+      }
+    }
+  }
+
+  private static void addNewFile(Path projectPath, DiffEntry diff) {
+    var path = diff.getNewPath();
+    if (isPermissibleFile(path)) {
+      try {
+        copyPath(projectPath, projectPath.resolve(path));
+      } catch (IOException e) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to add file " + path + ": " + e);
+      }
+    }
+  }
+
+  /**
+   * Get the current commit as an AbstractTreeIterator, as required by DiffCommand.
+   */
+  private static AbstractTreeIterator getCurrentCommitTree(Repository repo) throws IOException {
+    var currId = repo.resolve("HEAD^{tree}");
+    var treeIterator = new CanonicalTreeParser();
+    treeIterator.reset(repo.newObjectReader(), currId);
+    return treeIterator;
   }
 
   /** Return all installed git projects */
@@ -192,23 +274,77 @@ public class GitManager extends ScriptManager {
     }
   }
 
+  /** Copy files from all installed git projects to permissible folders. */
+  public static void syncAll() {
+    var files = allFolders();
+    if (files == null) return;
+    for (var file : files) {
+     sync(file);
+    }
+  }
+
+  /** Copy files from specific project to permissible folders. */
+  public static void sync(String project) {
+    var folderOpt = getRequiredProject(project);
+    if (folderOpt.isEmpty()) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot find unique match for " + project);
+      return;
+    }
+    var folder = folderOpt.get();
+    Path projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(folder);
+    List<Path> toAdd;
+    try {
+      toAdd = getPermissibleFiles(projectPath, false);
+    } catch (IOException e) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to sync project " + folder + ": " + e);
+      return;
+    }
+    for (var absPath : toAdd) {
+      try {
+        copyPath(projectPath, absPath);
+      } catch (IOException e) {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to sync project " + folder + ": " + e);
+        return;
+      }
+    }
+  }
+
   private static List<Path> getPermissibleFiles(Path startPath, boolean reverse)
       throws IOException {
     List<Path> files = new ArrayList<>();
     for (var p : permissibles) {
       var subFolder = startPath.resolve(p);
-      if (!Files.exists(subFolder)) continue;
+      if (!Files.exists(subFolder) || !Files.isDirectory(subFolder)) continue;
       try (var walk = Files.walk(subFolder)) {
         var stream = walk;
         if (reverse) {
           stream = stream.sorted(Comparator.reverseOrder());
         }
         stream
+            // omit the permissible folders themselves
             .filter(s -> !permissibles.contains(startPath.relativize(s).toString()))
             .forEach(files::add);
       }
     }
     return files;
+  }
+
+  private static boolean isPermissibleFile(String path) {
+    return permissibles.stream().anyMatch(p -> path.startsWith(p + "/"));
+  }
+
+  private static void copyPath(Path projectPath, Path absPath) throws IOException {
+    var shortPath = projectPath.relativize(absPath);
+    var rootPath = KoLConstants.ROOT_LOCATION.toPath();
+    var relPath = rootPath.resolve(shortPath);
+    if (!Files.isDirectory(relPath)) {
+      KoLmafia.updateDisplay("Copying: " + shortPath);
+      var parent = relPath.getParent();
+      if (!Files.exists(parent)) {
+        Files.createDirectories(parent);
+      }
+      Files.copy(absPath, relPath, REPLACE_EXISTING);
+    }
   }
 
   private static String getRepoId(String repoUrl, String branch) {

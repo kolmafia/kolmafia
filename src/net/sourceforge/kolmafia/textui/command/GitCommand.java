@@ -9,7 +9,7 @@ import net.sourceforge.kolmafia.scripts.git.GitManager;
 public class GitCommand extends AbstractCommand {
   public GitCommand() {
     this.usage =
-        " checkout <giturl> [<branch>] | update [<project>] | list [<project>] | delete <project> - install/update/manage git projects.";
+        " checkout <giturl> [<branch>] | update [<project>] | list [<project>] | delete <project> | sync <project> - install/update/manage git projects.";
   }
 
   @Override
@@ -25,6 +25,7 @@ public class GitCommand extends AbstractCommand {
       case "update" -> update(params);
       case "list" -> list(params);
       case "delete" -> delete(params);
+      case "sync" -> sync(params);
       default -> KoLmafia.updateDisplay(MafiaState.ERROR, "git " + this.usage);
     }
   }
@@ -74,5 +75,13 @@ public class GitCommand extends AbstractCommand {
       return;
     }
     GitManager.delete(params[1]);
+  }
+
+  private void sync(String[] params) {
+    if (params.length == 1) {
+      GitManager.syncAll();
+      return;
+    }
+    GitManager.sync(params[1]);
   }
 }
