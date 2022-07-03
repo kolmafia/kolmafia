@@ -1606,7 +1606,8 @@ public class Modifiers {
             || type.equals("Sign")
             || type.equals("Skill")
             || type.equals("Synergy")
-            || type.equals("Throne")) {
+            || type.equals("Throne")
+            || type.equals("UnbreakableUmbrella")) {
           String name = Modifiers.getNameFromLookup(desc);
           if (!name.equals("Steely-Eyed Squint") && !name.equals("broken champagne bottle")) {
             this.extras[index] += mod;

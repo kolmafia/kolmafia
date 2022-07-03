@@ -24,7 +24,6 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
