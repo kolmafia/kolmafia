@@ -111,3 +111,25 @@ jobs:
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  homebrew:
+    needs: [release]
+    if: github.repository == 'kolmafia/kolmafia'
+    name: Tell homebrew task to update
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Create repository dispatch event
+        run: |
+          TAG=$(git describe --tags --abbrev=0)
+          curl \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: token ${{ secrets.HOMEBREW_KOLMAFIA_TOKEN }}" \
+            https://api.github.com/repos/kolmafia/homebrew-kolmafia/dispatches \
+            -d "{\"event_type\":\"new-release\",\"client_payload\":{\"version\":${TAG:1}}}" \

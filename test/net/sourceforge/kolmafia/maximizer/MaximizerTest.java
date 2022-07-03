@@ -9,7 +9,6 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -748,8 +747,8 @@ public class MaximizerTest {
 
   @Test
   public void canFoldUmbrella() {
-    final var cleanups = new Cleanups(canUse("unbreakable umbrella"));
-    Preferences.setString("umbrellaState", "cocoon");
+    final var cleanups =
+        new Cleanups(canUse("unbreakable umbrella"), setProperty("umbrellaState", "cocoon"));
     try (cleanups) {
       assertTrue(maximize("Monster Level Percent"));
       recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
@@ -762,8 +761,8 @@ public class MaximizerTest {
         new Cleanups(
             canUse("unbreakable umbrella"),
             equip(EquipmentManager.PANTS, "old patched suit-pants"),
-            canUse("Microplushie: Hipsterine"));
-    Preferences.setString("umbrellaState", "cocoon");
+            canUse("Microplushie: Hipsterine"),
+            setProperty("umbrellaState", "cocoon"));
     try (cleanups) {
       assertTrue(maximize("exp"));
       recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
@@ -776,8 +775,8 @@ public class MaximizerTest {
         new Cleanups(
             canUse("unbreakable umbrella"),
             equip(EquipmentManager.PANTS, "old patched suit-pants"),
-            canUse("vinyl shield"));
-    Preferences.setString("umbrellaState", "cocoon");
+            canUse("vinyl shield"),
+            setProperty("umbrellaState", "cocoon"));
     try (cleanups) {
       assertTrue(maximize("exp"));
       recommendedSlotIs(EquipmentManager.OFFHAND, "vinyl shield");
