@@ -137,8 +137,12 @@ public enum Modeable {
         .orElse(null);
   }
 
+  public static Map<Modeable, String> getStringMap(Function<Modeable, String> cb) {
+    return Arrays.stream(values()).collect(Collectors.toMap(m -> m, cb));
+  }
+
   public static Map<Modeable, String> getStateMap() {
-    return Arrays.stream(values()).collect(Collectors.toMap(m -> m, Modeable::getState));
+    return getStringMap(Modeable::getState);
   }
 
   public static Map<Modeable, Boolean> getBooleanMap(final Function<Modeable, Boolean> cb) {

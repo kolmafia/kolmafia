@@ -60,8 +60,14 @@ public class Evaluator {
   private final List<FamiliarData> carriedFamiliars = new ArrayList<>();
   private int carriedFamiliarsNeeded = 0;
   private boolean cardNeeded = false;
-  private Map<Modeable, Boolean> modeablesNeeded = Modeable.getBooleanMap();
-  private String edPieceDecided = null;
+  private final Map<Modeable, Boolean> modeablesNeeded = Modeable.getBooleanMap();
+
+  // Some modeables are forced based on certain expressions appearing in a maximize call
+  // For example, if you request "sea" the Crown of Ed will always pick fish. This does pose
+  // an issue if the maximizer would choose the SCUBA gear to provide water-breathing, as it would
+  // not consider a different mode for the Crown. e.g. "maximize sea, ml" would not consider the
+  // "bear" mode for the hat. Something for someone to fix in the future.
+  private final Map<Modeable, String> forcedModeables = Modeable.getStringMap(m -> "");
 
   /** if slots[i] >= 0 then equipment of type i can be considered for maximization */
   private final int[] slots = new int[EquipmentManager.ALL_SLOTS];
@@ -360,7 +366,7 @@ public class Evaluator {
             (1 << Modifiers.ADVENTURE_UNDERWATER) | (1 << Modifiers.UNDERWATER_FAMILIAR);
         index = -1;
         // Force Crown of Ed to Fish
-        this.edPieceDecided = "fish";
+        forcedModeables.put(Modeable.EDPIECE, "fish");
         continue;
       }
 
@@ -1493,9 +1499,9 @@ public class Evaluator {
           break gotItem;
         }
 
-        if (id == ItemPool.CROWN_OF_ED) {
-          if (this.edPieceDecided != null) {
-            // Currently this means +sea specified, so meets that requirement
+        var modeable = Modeable.find(id);
+        if (modeable != null) {
+          if (!forcedModeables.get(modeable).isEmpty()) {
             item.automaticFlag = true;
           }
           break gotItem;
@@ -1649,8 +1655,8 @@ public class Evaluator {
                       if (!entry.getValue()) return "";
                       var modeable = entry.getKey();
 
-                      if (modeable == Modeable.EDPIECE && edPieceDecided != null) {
-                        return edPieceDecided;
+                      if (!forcedModeables.get(modeable).isEmpty()) {
+                        return forcedModeables.get(modeable);
                       }
 
                       MaximizerSpeculation best = null;
