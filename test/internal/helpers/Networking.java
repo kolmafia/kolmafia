@@ -10,6 +10,8 @@ import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 
 public class Networking {
@@ -18,6 +20,15 @@ public class Networking {
       return Files.readString(Paths.get(path)).trim();
     } catch (IOException e) {
       Assertions.fail("Failed to load HTML file: " + path);
+      throw new AssertionError(e);
+    }
+  }
+
+  public static JSONObject json(String str) {
+    try {
+      return new JSONObject(str);
+    } catch (JSONException e) {
+      Assertions.fail("Failed to parse JSON");
       throw new AssertionError(e);
     }
   }
