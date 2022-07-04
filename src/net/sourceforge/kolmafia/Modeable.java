@@ -9,45 +9,61 @@ import net.sourceforge.kolmafia.textui.command.*;
 
 public enum Modeable {
   EDPIECE(
-      "edpiece", "edPiece", ItemPool.get(ItemPool.CROWN_OF_ED), "Edpiece", new EdPieceCommand()),
+      "edpiece",
+      "edPiece",
+      ItemPool.get(ItemPool.CROWN_OF_ED),
+      "Edpiece",
+      new EdPieceCommand(),
+      false),
   RETROCAPE(
       "retrocape",
       null,
       ItemPool.get(ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE),
       "RetroCape",
-      new RetroCapeCommand()),
+      new RetroCapeCommand(),
+      false),
   BACKUPCAMERA(
       "backupcamera",
       "backupCameraMode",
       ItemPool.get(ItemPool.BACKUP_CAMERA),
       "BackupCamera",
-      new BackupCameraCommand()),
+      new BackupCameraCommand(),
+      true),
   UMBRELLA(
       "umbrella",
       "umbrellaState",
       ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA),
       "UnbreakableUmbrella",
-      new UmbrellaCommand()),
+      new UmbrellaCommand(),
+      true),
   SNOWSUIT(
-      "snowsuit", "snowsuit", ItemPool.get(ItemPool.SNOW_SUIT), "Snowsuit", new SnowsuitCommand());
+      "snowsuit",
+      "snowsuit",
+      ItemPool.get(ItemPool.SNOW_SUIT),
+      "Snowsuit",
+      new SnowsuitCommand(),
+      false);
 
   private final String command;
   private final String statePref;
   private final AdventureResult item;
   private final String modifier;
   private final AbstractModeCommand commandInstance;
+  private final boolean equipAfterChange;
 
   Modeable(
       final String command,
       final String statePref,
       final AdventureResult item,
       final String modifier,
-      final AbstractModeCommand commandInstance) {
+      final AbstractModeCommand commandInstance,
+      final boolean equipAfterChange) {
     this.command = command;
     this.statePref = statePref;
     this.item = item;
     this.modifier = modifier;
     this.commandInstance = commandInstance;
+    this.equipAfterChange = equipAfterChange;
   }
 
   public String getCommand() {
@@ -76,6 +92,10 @@ public enum Modeable {
     return this.modifier;
   }
 
+  public boolean getEquipAfterChange() {
+    return this.equipAfterChange;
+  }
+
   public static Modeable find(final String command) {
     return Arrays.stream(values())
         .filter(m -> m.getCommand().equalsIgnoreCase(command))
@@ -92,9 +112,5 @@ public enum Modeable {
 
   public static Map<Modeable, String> getStateMap() {
     return Arrays.stream(values()).collect(Collectors.toMap(m -> m, Modeable::getState));
-  }
-
-  public static Map<Modeable, Boolean> getBooleanMap() {
-    return Arrays.stream(values()).collect(Collectors.toMap(m -> m, m -> false));
   }
 }
