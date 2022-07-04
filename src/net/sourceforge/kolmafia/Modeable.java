@@ -9,7 +9,12 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.textui.command.*;
+import net.sourceforge.kolmafia.textui.command.AbstractModeCommand;
+import net.sourceforge.kolmafia.textui.command.BackupCameraCommand;
+import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
+import net.sourceforge.kolmafia.textui.command.RetroCapeCommand;
+import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
+import net.sourceforge.kolmafia.textui.command.UmbrellaCommand;
 
 public enum Modeable {
   EDPIECE(
