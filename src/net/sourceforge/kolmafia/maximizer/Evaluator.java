@@ -2253,26 +2253,6 @@ public class Evaluator {
       }
     }
 
-    if (spec.equipment[EquipmentManager.HAT] == null) {
-      spec.setEdPiece(bestEdPiece);
-    }
-
-    if (spec.equipment[EquipmentManager.CONTAINER] == null) {
-      spec.setRetroCape(bestRetroCape);
-    }
-
-    if (spec.equipment[EquipmentManager.ACCESSORY3] == null) {
-      spec.setBackupCamera(bestBackupCamera);
-    }
-
-    if (spec.equipment[EquipmentManager.OFFHAND] == null) {
-      spec.setUnbreakableUmbrella(bestUmbrella);
-    }
-
-    if (spec.equipment[EquipmentManager.FAMILIAR] == null) {
-      spec.setSnowsuit(bestSnowsuit);
-    }
-
     spec.tryAll(
         this.familiars,
         this.carriedFamiliars,
