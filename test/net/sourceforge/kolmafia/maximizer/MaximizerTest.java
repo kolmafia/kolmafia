@@ -793,6 +793,22 @@ public class MaximizerTest {
             setProperty("edPiece", "puma"));
     try (cleanups) {
       assertTrue(maximize("muscle, sea"));
+      someBoostIs(b -> commandStartsWith(b, "edpiece fish"));
+      recommendedSlotIs(EquipmentManager.HAT, "The Crown of Ed the Undying");
+    }
+  }
+
+  @Test
+  public void edPieceChoosesBasedOnModesWithoutSea() {
+    final var cleanups =
+        new Cleanups(
+            canUse("The Crown of Ed the Undying"),
+            canUse("star shirt"),
+            equip(EquipmentManager.PANTS, "old sweatpants"),
+            setProperty("edPiece", "puma"));
+    try (cleanups) {
+      assertTrue(maximize("muscle"));
+      someBoostIs(b -> commandStartsWith(b, "edpiece bear"));
       recommendedSlotIs(EquipmentManager.HAT, "The Crown of Ed the Undying");
     }
   }
