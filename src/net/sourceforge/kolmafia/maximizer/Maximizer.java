@@ -1553,8 +1553,7 @@ public class Maximizer {
 
     var modeable = Modeable.find(itemId);
     var changeModeable =
-        modeable != null && Objects.equals(modeables.get(modeable), modeable.getState());
-    var setModeable = false;
+        modeable != null && !Objects.equals(modeables.get(modeable), modeable.getState());
 
     if (curr.equals(item)
         && !changeEnthroned
@@ -1604,7 +1603,6 @@ public class Maximizer {
         cmd = text;
         if (modeable.getEquipAfterChange())
           cmd += "; equip " + slotname + "\u00B6" + item.getItemId();
-        setModeable = true;
       } else {
         cmd = "equip " + slotname + " \u00B6" + item.getItemId();
         text = "equip " + slotname + " " + item.getName();

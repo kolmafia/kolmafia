@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -41,7 +42,7 @@ public class UmbrellaCommand extends AbstractModeCommand {
   }
 
   public Set<String> getModes() {
-    return SHORTHAND_MAP.keySet();
+    return new HashSet(SHORTHAND_MAP.values());
   }
 
   @Override
