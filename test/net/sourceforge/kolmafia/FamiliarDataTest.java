@@ -1,17 +1,29 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Networking.html;
+import static internal.helpers.Networking.json;
 import static internal.helpers.Player.addEffect;
+import static internal.helpers.Player.addSkill;
+import static internal.helpers.Player.equip;
+import static internal.helpers.Player.inPath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class FamiliarDataTest {
@@ -153,5 +165,57 @@ public class FamiliarDataTest {
     assertFalse(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_PROTEIN));
     assertFalse(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_ENERGY));
     assertFalse(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_POMADE));
+  }
+
+  @Nested
+  class API {
+    @BeforeAll
+    private static void beforeAll() {
+      // Other tests add familiars to the character
+      // Start clean.
+      KoLCharacter.reset("");
+      KoLCharacter.reset("familiar data test");
+    }
+
+    @AfterEach
+    private void afterEach() {
+      // ApiRequest.parseStatus() sets all sorts of stuff
+      // Reset the character to eliminate leaks to other tests
+      KoLCharacter.reset("");
+      KoLCharacter.reset("familiar data test");
+    }
+
+    @Test
+    public void canSetFamiliarFromApi() {
+      String text = html("request/test_quantum_terrarium_api.json");
+      JSONObject JSON = json(text);
+
+      // Here are the attributes relevant to familiars
+      int famId = JSON.getInt("familiar");
+      int famExp = JSON.getInt("familiarexp");
+      String famPic = JSON.getString("familiarpic");
+      int famLevel = JSON.getInt("famlevel");
+      boolean feasted = JSON.getInt("familiar_wellfed") == 1;
+
+      Cleanups cleanups =
+          new Cleanups(
+              inPath(Path.QUANTUM),
+              addSkill("Amphibian Sympathy"),
+              equip(EquipmentManager.FAMILIAR, "astral pet sweater"));
+
+      try (cleanups) {
+        ApiRequest.parseStatus(JSON);
+        FamiliarData current = KoLCharacter.getFamiliar();
+        assertEquals(famId, current.getId());
+        assertEquals(famExp, current.getTotalExperience());
+        assertEquals(feasted, current.getFeasted());
+        // Image can change, so current image is in KoLCharacter
+        assertEquals(famPic + ".gif", KoLCharacter.getFamiliarImage());
+        // Base Weight
+        assertEquals(Math.min(20, Math.sqrt(famExp)), current.getWeight());
+        // Modified Weight
+        assertEquals(famLevel, current.getModifiedWeight());
+      }
+    }
   }
 }

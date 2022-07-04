@@ -458,6 +458,12 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     this.feasted = feasted;
+
+    // Get modified weight excluding hidden weight modifiers
+    int modified = this.getModifiedWeight(false, true);
+    if (weight != modified) {
+      RequestLogger.printLine("Familiar weight: KoL = " + weight + " KoLmafia = " + modified);
+    }
   }
 
   public final void setName(final String name) {
