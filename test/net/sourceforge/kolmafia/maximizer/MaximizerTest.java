@@ -784,6 +784,20 @@ public class MaximizerTest {
   }
 
   @Test
+  public void chooseForwardFacingUmbrellaToSatisfyShield() {
+    final var cleanups =
+        new Cleanups(
+            canUse("unbreakable umbrella"),
+            canUse("tip jar"),
+            equip(EquipmentManager.PANTS, "old sweatpants"));
+    try (cleanups) {
+      assertTrue(maximize("meat, shield"));
+      someBoostIs(b -> commandStartsWith(b, "umbrella forward-facing"));
+      recommendedSlotIs(EquipmentManager.OFFHAND, "unbreakable umbrella");
+    }
+  }
+
+  @Test
   public void edPieceChoosesFishWithSea() {
     final var cleanups =
         new Cleanups(

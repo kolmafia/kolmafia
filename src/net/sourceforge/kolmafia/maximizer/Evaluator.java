@@ -289,6 +289,7 @@ public class Evaluator {
 
       if (keyword.equals("shield")) {
         this.requireShield = weight > 0.0;
+        forcedModeables.put(Modeable.UMBRELLA, "forward-facing");
         this.hands = 1;
         continue;
       }
@@ -1293,7 +1294,9 @@ public class Evaluator {
             break;
 
           case EquipmentManager.OFFHAND:
-            if (this.requireShield && !EquipmentDatabase.isShield(id)) {
+            if (this.requireShield
+                && !EquipmentDatabase.isShield(id)
+                && id != ItemPool.UNBREAKABLE_UMBRELLA) {
               continue;
             }
             if (hoboPowerUseful && name.startsWith("Hodgman's")) {
