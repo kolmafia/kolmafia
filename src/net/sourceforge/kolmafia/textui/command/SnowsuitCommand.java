@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
@@ -10,6 +12,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SnowsuitCommand extends AbstractModeCommand {
   public static final Map<String, Integer> MODES =
@@ -35,6 +38,41 @@ public class SnowsuitCommand extends AbstractModeCommand {
 
   public Set<String> getModes() {
     return MODES.keySet();
+  }
+
+  private static String getModeFromDecision(int decision) {
+    return MODES.entrySet().stream()
+        .filter(e -> e.getValue() == decision)
+        .findAny()
+        .map(e -> e.getKey())
+        .orElse(null);
+  }
+
+  /**
+   * Set the snowsuit pref from a decision number
+   *
+   * @param decision Decision number (also acts as an id for the mode)
+   */
+  public static void setStateFromDecision(int decision) {
+    String mode = getModeFromDecision(decision);
+    if (mode != null) {
+      Preferences.setString("snowsuit", mode);
+    }
+  }
+
+  private static final Pattern CHARPANE_PATTERN = Pattern.compile("snowface([1-5]).gif");
+
+  /**
+   * Sets correct value based on information from KoL
+   *
+   * @param responseText Text from a CharPaneRequest
+   */
+  public static void check(final String responseText) {
+    Matcher matcher = CHARPANE_PATTERN.matcher(responseText);
+    if (matcher.find()) {
+      int decision = StringUtilities.parseInt(matcher.group(1));
+      setStateFromDecision(decision);
+    }
   }
 
   @Override

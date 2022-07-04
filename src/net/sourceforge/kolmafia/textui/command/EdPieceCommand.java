@@ -28,10 +28,10 @@ public class EdPieceCommand extends AbstractModeCommand {
         "The first attack against you will always miss; Regenerate 10-20 HP per Adventure"),
     FISH("fish", "sea", 7, "Lets you breath Adventure");
 
-    private String name;
-    private String description;
-    private int decision;
-    private String effect;
+    private final String name;
+    private final String description;
+    private final int decision;
+    private final String effect;
 
     Animal(final String name, final String description, final int decision, final String effect) {
       this.name = name;
@@ -56,6 +56,18 @@ public class EdPieceCommand extends AbstractModeCommand {
       return effect;
     }
   };
+
+  private static Animal getModeFromDecision(int decision) {
+    return Arrays.stream(Animal.values())
+        .filter(a -> decision == a.getDecision())
+        .findAny()
+        .orElse(null);
+  }
+
+  public static String getStateFromDecision(int decision) {
+    var animal = getModeFromDecision(decision);
+    return animal != null ? animal.getName() : null;
+  }
 
   public EdPieceCommand() {
     this.usage =
