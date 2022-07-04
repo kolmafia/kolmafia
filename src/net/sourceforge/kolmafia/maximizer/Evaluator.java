@@ -1644,9 +1644,9 @@ public class Evaluator {
         modeablesNeeded.entrySet().stream()
             .collect(
                 Collectors.toMap(
-                    e -> e.getKey(),
+                    Entry::getKey,
                     entry -> {
-                      if (!entry.getValue()) return null;
+                      if (!entry.getValue()) return "";
                       var modeable = entry.getKey();
 
                       if (modeable == Modeable.EDPIECE && edPieceDecided != null) {
@@ -1766,8 +1766,8 @@ public class Evaluator {
                 spec.equipment[EquipmentManager.STICKER3] =
                     current.equipment[EquipmentManager.STICKER3];
               } else if (modeable != null) {
-                var best = bestModes.getOrDefault(modeable, null);
-                if (best != null) {
+                var best = bestModes.getOrDefault(modeable, "");
+                if (!best.isEmpty()) {
                   spec.setModeable(modeable, best);
                 }
               }
