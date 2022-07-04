@@ -23,7 +23,6 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -170,16 +169,16 @@ public class FamiliarDataTest {
 
   @Nested
   class API {
-    @AfterEach
-    private void beforeEach() {
+    @BeforeAll
+    private static void beforeAll() {
       // Other tests add familiars to the character
       // Start clean.
       KoLCharacter.reset("");
       KoLCharacter.reset("familiar data test");
     }
 
-    @BeforeEach
-    private void afterAll() {
+    @AfterEach
+    private void afterEach() {
       // ApiRequest.parseStatus() sets all sorts of stuff
       // Reset the character to eliminate leaks to other tests
       KoLCharacter.reset("");
