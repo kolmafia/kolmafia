@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.Map;
+import java.util.Set;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -37,6 +38,10 @@ public class UmbrellaCommand extends AbstractModeCommand {
   @Override
   public boolean validate(final String command, final String parameter) {
     return getForm(parameter) != null;
+  }
+
+  public Set<String> getModes() {
+    return SHORTHAND_MAP.keySet();
   }
 
   @Override

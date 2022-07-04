@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
@@ -11,29 +12,29 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public class SnowsuitCommand extends AbstractModeCommand {
-  public static final String[][] DECORATION = {
-    {"eyebrows", "1"},
-    {"smirk", "2"},
-    {"nose", "3"},
-    {"goatee", "4"},
-    {"hat", "5"},
-  };
+  public static final Map<String, Integer> MODES =
+      Map.ofEntries(
+          Map.entry("eyebrows", 1),
+          Map.entry("smirk", 2),
+          Map.entry("nose", 3),
+          Map.entry("goatee", 4),
+          Map.entry("hat", 5));
 
   public SnowsuitCommand() {
     this.usage = "[?] <decoration> - decorate Snowsuit (and equip it if unequipped)";
   }
 
-  private String getChoice(final String parameters) {
-    return Arrays.stream(DECORATION)
-        .filter(d -> d[0].equalsIgnoreCase(parameters))
-        .map(d -> d[1])
-        .findAny()
-        .orElse(null);
+  private int getChoice(final String parameters) {
+    return MODES.getOrDefault(parameters.toLowerCase(), 0);
   }
 
   @Override
   public boolean validate(final String command, final String parameters) {
-    return getChoice(parameters) != null;
+    return getChoice(parameters) != 0;
+  }
+
+  public Set<String> getModes() {
+    return MODES.keySet();
   }
 
   @Override
@@ -46,9 +47,9 @@ public class SnowsuitCommand extends AbstractModeCommand {
     }
 
     String decoration = parameters;
-    String choice = getChoice(decoration);
+    int choice = getChoice(decoration);
 
-    if (choice == null) {
+    if (choice == 0) {
       KoLmafia.updateDisplay(
           "Decoration "
               + decoration

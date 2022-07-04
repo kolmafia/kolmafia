@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -25,6 +27,12 @@ public class RetroCapeCommand extends AbstractModeCommand {
     String[] parts = parameters.split(" ");
     return Arrays.asList(SUPERHEROS).contains(parts[0])
         && Arrays.asList(WASHING_INSTRUCTIONS).contains(parts[1]);
+  }
+
+  public Set<String> getModes() {
+    return Arrays.stream(SUPERHEROS)
+        .flatMap(s -> Arrays.stream(WASHING_INSTRUCTIONS).map(w -> s + " " + w))
+        .collect(Collectors.toSet());
   }
 
   @Override

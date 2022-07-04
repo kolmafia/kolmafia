@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.Set;
+
 public abstract class AbstractModeCommand extends AbstractCommand {
   /**
    * Basic side-effect-less command validation
@@ -24,4 +26,7 @@ public abstract class AbstractModeCommand extends AbstractCommand {
   public String normalize(final String parameters) {
     return parameters;
   }
+
+  /** List of possible modes */
+  public abstract Set<String> getModes();
 }

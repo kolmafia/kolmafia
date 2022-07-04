@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -12,11 +13,16 @@ public class BackupCameraCommand extends AbstractModeCommand {
     this.usage = " [ml | meat | init | (reverser on | off )] - set your backup camera mode";
   }
 
-  public static final String[][] MODE = {{"ml", "1"}, {"meat", "2"}, {"init", "3"}};
+  public static final Map<String, Integer> MODES =
+      Map.ofEntries(Map.entry("ml", 1), Map.entry("meat", 2), Map.entry("init", 3));
 
   @Override
   public boolean validate(final String command, final String parameters) {
-    return Arrays.stream(MODE).anyMatch(m -> m[0].equals(parameters));
+    return MODES.containsKey(parameters);
+  }
+
+  public Set<String> getModes() {
+    return MODES.keySet();
   }
 
   @Override
@@ -26,13 +32,12 @@ public class BackupCameraCommand extends AbstractModeCommand {
       return;
     }
 
-    int choice = 0;
-
-    for (String[] mode : MODE) {
-      if (parameters.contains(mode[0])) {
-        choice = Integer.parseInt(mode[1]);
-      }
-    }
+    int choice =
+        MODES.entrySet().stream()
+            .filter(e -> parameters.contains(e.getKey()))
+            .findAny()
+            .map(Map.Entry::getValue)
+            .orElse(0);
 
     if (choice == 0 && parameters.contains("reverse")) {
       if (parameters.contains("off") || parameters.contains("disable")) {

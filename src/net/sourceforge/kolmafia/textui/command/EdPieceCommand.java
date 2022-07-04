@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -13,19 +15,46 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 
 public class EdPieceCommand extends AbstractModeCommand {
-  public static final String[][] ANIMAL = {
-    {"bear", "muscle", "1", "Muscle: +20; +2 Muscle Stats Per Fight"},
-    {"owl", "mysticality", "2", "Mysticality: +20; +2 Mysticality Stats Per Fight"},
-    {"puma", "moxie", "3", "Moxie: +20; +2 Moxie Stats Per Fight"},
-    {"hyena", "monster level", "4", "+20 to Monster Level"},
-    {"mouse", "item/meat", "5", "+10% Item Drops From Monsters; +20% Meat from Monsters"},
-    {
-      "weasel",
-      "block/HP regen",
-      "6",
-      "The first attack against you will always miss; Regenerate 10-20 HP per Adventure"
-    },
-    {"fish", "sea", "7", "Lets you breath Adventure"},
+  private enum Animal {
+    BEAR("bear", "muscle", 1, "Muscle: +20; +2 Muscle Stats Per Fight"),
+    OWL("owl", "mysticality", 2, "Mysticality: +20; +2 Mysticality Stats Per Fight"),
+    PUMA("puma", "moxie", 3, "Moxie: +20; +2 Moxie Stats Per Fight"),
+    HYENA("hyena", "monster level", 4, "+20 to Monster Level"),
+    MOUSE("mouse", "item/meat", 5, "+10% Item Drops From Monsters; +20% Meat from Monsters"),
+    WEASEL(
+        "weasel",
+        "block/HP regen",
+        6,
+        "The first attack against you will always miss; Regenerate 10-20 HP per Adventure"),
+    FISH("fish", "sea", 7, "Lets you breath Adventure");
+
+    private String name;
+    private String description;
+    private int decision;
+    private String effect;
+
+    Animal(final String name, final String description, final int decision, final String effect) {
+      this.name = name;
+      this.description = description;
+      this.decision = decision;
+      this.effect = effect;
+    }
+
+    public String getName() {
+      return this.name;
+    }
+
+    public String getDescription() {
+      return description;
+    }
+
+    public int getDecision() {
+      return decision;
+    }
+
+    public String getEffect() {
+      return effect;
+    }
   };
 
   public EdPieceCommand() {
@@ -35,7 +64,11 @@ public class EdPieceCommand extends AbstractModeCommand {
 
   @Override
   public boolean validate(final String command, final String parameters) {
-    return Arrays.stream(ANIMAL).anyMatch(a -> parameters.equalsIgnoreCase(a[0]));
+    return Arrays.stream(Animal.values()).anyMatch(a -> parameters.equalsIgnoreCase(a.getName()));
+  }
+
+  public Set<String> getModes() {
+    return Arrays.stream(Animal.values()).map(Animal::getName).collect(Collectors.toSet());
   }
 
   @Override
@@ -50,14 +83,14 @@ public class EdPieceCommand extends AbstractModeCommand {
       output.append("<th>Decoration</th>");
       output.append("<th>Effect</th>");
       output.append("</tr>");
-      for (String[] decoration : ANIMAL) {
+      for (var animal : Animal.values()) {
         output.append("<tr>");
         output.append("<td valign=top>");
         output.append("golden ");
-        output.append(decoration[0]);
+        output.append(animal.getName());
         output.append("</td>");
         output.append("<td valign=top>");
-        output.append(decoration[3]);
+        output.append(animal.getEffect());
         output.append("</td>");
         output.append("</tr>");
       }
@@ -89,17 +122,17 @@ public class EdPieceCommand extends AbstractModeCommand {
     }
 
     String animal = parameters;
-    String choice = "0";
+    int choice = 0;
 
-    for (String[] it : EdPieceCommand.ANIMAL) {
-      if (animal.equalsIgnoreCase(it[0]) || it[1].contains(animal)) {
-        choice = it[2];
-        animal = it[0];
+    for (var a : Animal.values()) {
+      if (animal.equalsIgnoreCase(a.getName()) || a.getDescription().contains(animal)) {
+        choice = a.getDecision();
+        animal = a.getName();
         break;
       }
     }
 
-    if (choice.equals("0")) {
+    if (choice == 0) {
       KoLmafia.updateDisplay(
           "Animal "
               + animal
