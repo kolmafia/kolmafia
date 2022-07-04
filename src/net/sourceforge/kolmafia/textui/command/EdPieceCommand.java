@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EdPieceCommand extends AbstractModeCommand {
   private enum Animal {
@@ -145,10 +146,11 @@ public class EdPieceCommand extends AbstractModeCommand {
     }
 
     if (choice == 0) {
+      var values =
+          StringUtilities.listToHumanString(
+              Arrays.stream(Animal.values()).map(Animal::getName).toList());
       KoLmafia.updateDisplay(
-          "Animal "
-              + animal
-              + " not recognised. Valid values are bear, owl, puma, hyena, mouse, weasel and fish.");
+          "Animal " + animal + " not recognised. Valid values are " + values + ".");
       return;
     }
 
