@@ -18,7 +18,18 @@ public class BackupCameraCommand extends AbstractModeCommand {
 
   @Override
   public boolean validate(final String command, final String parameters) {
-    return MODES.containsKey(parameters);
+    return getChoiceForParameters(parameters) > 0;
+  }
+
+  public int getChoiceForParameters(final String parameters) {
+    return MODES.entrySet().stream()
+        .filter(e -> parameters.contains(e.getKey()))
+        .findAny()
+        .map(Map.Entry::getValue)
+        .orElse(
+            parameters.contains("reverse")
+                ? ((parameters.contains("off") || parameters.contains("disable")) ? 5 : 4)
+                : 0);
   }
 
   public Set<String> getModes() {
@@ -32,19 +43,11 @@ public class BackupCameraCommand extends AbstractModeCommand {
       return;
     }
 
-    int choice =
-        MODES.entrySet().stream()
-            .filter(e -> parameters.contains(e.getKey()))
-            .findAny()
-            .map(Map.Entry::getValue)
-            .orElse(0);
+    int choice = getChoiceForParameters(parameters);
 
-    if (choice == 0 && parameters.contains("reverse")) {
-      if (parameters.contains("off") || parameters.contains("disable")) {
-        choice = 5;
-      } else {
-        choice = 4;
-      }
+    if (choice == 0) {
+      KoLmafia.updateDisplay("The command " + parameters + " was not recognised");
+      return;
     }
 
     RequestThread.postRequest(new GenericRequest("inventory.php?action=bcmode"));
