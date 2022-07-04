@@ -103,8 +103,9 @@ public enum Modeable {
   public String getState() {
     if (this == RETROCAPE) {
       return (Preferences.getString("retroCapeSuperhero")
-          + " "
-          + Preferences.getString("retroCapeWashingInstructions")).trim();
+              + " "
+              + Preferences.getString("retroCapeWashingInstructions"))
+          .trim();
     }
 
     return Preferences.getString(this.statePref);

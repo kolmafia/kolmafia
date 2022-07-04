@@ -782,4 +782,18 @@ public class MaximizerTest {
       recommendedSlotIs(EquipmentManager.OFFHAND, "vinyl shield");
     }
   }
+
+  @Test
+  public void edPieceChoosesFishWithSea() {
+    final var cleanups =
+        new Cleanups(
+            canUse("The Crown of Ed the Undying"),
+            canUse("star shirt"),
+            equip(EquipmentManager.PANTS, "old sweatpants"),
+            setProperty("edPiece", "puma"));
+    try (cleanups) {
+      assertTrue(maximize("muscle, sea"));
+      recommendedSlotIs(EquipmentManager.HAT, "The Crown of Ed the Undying");
+    }
+  }
 }

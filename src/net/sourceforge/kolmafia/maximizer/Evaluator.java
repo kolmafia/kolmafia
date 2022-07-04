@@ -2253,6 +2253,17 @@ public class Evaluator {
       }
     }
 
+    bestModes.forEach(
+        (modeable, mode) -> {
+          int backstopSlot =
+              modeable.getSlot() == EquipmentManager.ACCESSORY1
+                  ? EquipmentManager.ACCESSORY3
+                  : modeable.getSlot();
+          if (spec.equipment[backstopSlot] == null) {
+            spec.setModeable(modeable, mode);
+          }
+        });
+
     spec.tryAll(
         this.familiars,
         this.carriedFamiliars,
