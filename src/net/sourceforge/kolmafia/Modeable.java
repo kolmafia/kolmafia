@@ -2,9 +2,13 @@ package net.sourceforge.kolmafia;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.textui.command.*;
 
 public enum Modeable {
@@ -74,8 +78,21 @@ public enum Modeable {
     return this.item;
   }
 
+  public int getItemId() {
+    return this.item.getItemId();
+  }
+
+  public int getSlot() {
+    return EquipmentManager.consumeFilterToEquipmentType(
+        ItemDatabase.getConsumptionType(this.item.getItemId()));
+  }
+
   public boolean validate(final String command, final String parameters) {
     return this.commandInstance.validate(command, parameters);
+  }
+
+  public Set<String> getModes() {
+    return this.commandInstance.getModes();
   }
 
   public String getState() {
@@ -96,6 +113,10 @@ public enum Modeable {
     return this.equipAfterChange;
   }
 
+  public static Modeable find(final AdventureResult item) {
+    return find(item.getItemId());
+  }
+
   public static Modeable find(final String command) {
     return Arrays.stream(values())
         .filter(m -> m.getCommand().equalsIgnoreCase(command))
@@ -112,5 +133,13 @@ public enum Modeable {
 
   public static Map<Modeable, String> getStateMap() {
     return Arrays.stream(values()).collect(Collectors.toMap(m -> m, Modeable::getState));
+  }
+
+  public static Map<Modeable, Boolean> getBooleanMap(final Function<Modeable, Boolean> cb) {
+    return Arrays.stream(values()).collect(Collectors.toMap(m -> m, cb));
+  }
+
+  public static Map<Modeable, Boolean> getBooleanMap() {
+    return getBooleanMap(m -> false);
   }
 }
