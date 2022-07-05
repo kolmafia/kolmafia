@@ -215,8 +215,8 @@ public class FamiliarDataTest {
       try (cleanups) {
         ApiRequest.parseStatus(JSON);
         FamiliarData current = KoLCharacter.getFamiliar();
-	current.setItem(ItemPool.get(ItemPool.PET_SWEATER));
-	KoLCharacter.recalculateAdjustments();
+        current.setItem(ItemPool.get(ItemPool.PET_SWEATER));
+        KoLCharacter.recalculateAdjustments();
         assertEquals(famId, current.getId());
         assertEquals(famExp, current.getTotalExperience());
         // Base Weight
