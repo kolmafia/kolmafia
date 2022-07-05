@@ -1008,6 +1008,10 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       case SkillPool.MEATIFY_MATTER:
         maximumCast = Preferences.getBoolean("_meatifyMatterUsed") ? 0 : 1;
         break;
+
+      case SkillPool.SWEAT_OUT_BOOZE:
+        maximumCast = Math.max(0, 3 - Preferences.getInteger("_sweatOutSomeBoozeUsed"));
+        break;
     }
 
     return maximumCast;
@@ -1701,19 +1705,18 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   public final boolean singleCastSkill() {
     // Some skills do not work with a "count" field.
     // This might be a KoL bug.
-    switch (this.skillId) {
-      case SkillPool.DARK_RITUAL:
-      case SkillPool.ANCESTRAL_RECALL:
-      case SkillPool.GIANT_GROWTH:
-      case SkillPool.LIGHTNING_BOLT_CARD:
-      case SkillPool.HEALING_SALVE:
-      case SkillPool.INVISIBLE_AVATAR:
-      case SkillPool.TRIPLE_SIZE:
-      case SkillPool.SEEK_OUT_A_BIRD:
-        return true;
-    }
-
-    return false;
+    return switch (this.skillId) {
+      case SkillPool.DARK_RITUAL,
+          SkillPool.ANCESTRAL_RECALL,
+          SkillPool.GIANT_GROWTH,
+          SkillPool.LIGHTNING_BOLT_CARD,
+          SkillPool.HEALING_SALVE,
+          SkillPool.INVISIBLE_AVATAR,
+          SkillPool.TRIPLE_SIZE,
+          SkillPool.SEEK_OUT_A_BIRD,
+          SkillPool.SWEAT_OUT_BOOZE -> true;
+      default -> false;
+    };
   }
 
   public final long availableCasts(long maxCasts, long mpPerCast) {
@@ -2613,6 +2616,10 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
       case SkillPool.FEEL_PEACEFUL:
         Preferences.increment("_feelPeacefulUsed", count, 3, false);
+        break;
+
+      case SkillPool.SWEAT_OUT_BOOZE:
+        Preferences.increment("_sweatOutSomeBoozeUsed", count, 3, false);
         break;
     }
 

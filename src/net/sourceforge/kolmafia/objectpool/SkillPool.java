@@ -534,6 +534,7 @@ public class SkillPool {
   public static final int SPOOKY_VEINS = 27060;
   public static final int SEVEN_FOOT_FEELINGS = 27061;
   public static final int SELF_ACTUALIZED = 27062;
+  public static final int SWEAT_OUT_BOOZE = 7414;
 
   private SkillPool() {}
 }
