@@ -10954,4 +10954,4 @@
 10927	savings bond	479848689	bondcert.gif	potion, usable	t,d	10
 10928	designer sweatpants (new old stock)	115000176	sweats_box.gif	usable	t	0
 10929	designer sweatpants	800334855	sweats.gif	pants		0
-10930	sweat-ade	858239579	sweatade.gif	spleen	t	0
+10930	sweat-ade	858239579	sweatade.gif	spleen, single	t	0
