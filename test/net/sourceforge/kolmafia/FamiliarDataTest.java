@@ -6,6 +6,8 @@ import static internal.helpers.Player.addEffect;
 import static internal.helpers.Player.addSkill;
 import static internal.helpers.Player.equip;
 import static internal.helpers.Player.inPath;
+import static internal.helpers.Player.isClass;
+import static internal.helpers.Player.setStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
@@ -186,7 +189,7 @@ public class FamiliarDataTest {
     }
 
     @Test
-    public void canSetFamiliarFromApi() {
+    public void canSetQuantumFamiliarFromApi() {
       String text = html("request/test_quantum_terrarium_api.json");
       JSONObject JSON = json(text);
 
@@ -197,22 +200,118 @@ public class FamiliarDataTest {
       int famLevel = JSON.getInt("famlevel");
       boolean feasted = JSON.getInt("familiar_wellfed") == 1;
 
+      // Stats affect Familiar Weight in Quantum Familiar
+      int basemuscle = JSON.getInt("basemuscle");
+      int basemysticality = JSON.getInt("basemysticality");
+      int basemoxie = JSON.getInt("basemoxie");
+
       Cleanups cleanups =
           new Cleanups(
               inPath(Path.QUANTUM),
+              isClass(AscensionClass.ACCORDION_THIEF),
+              setStats(basemuscle, basemysticality, basemoxie),
+              addSkill("Amphibian Sympathy"));
+
+      try (cleanups) {
+        ApiRequest.parseStatus(JSON);
+        FamiliarData current = KoLCharacter.getFamiliar();
+        current.setItem(ItemPool.get(ItemPool.PET_SWEATER));
+        KoLCharacter.recalculateAdjustments();
+        assertEquals(famId, current.getId());
+        assertEquals(famExp, current.getTotalExperience());
+        // Base Weight
+        assertEquals(Math.min(20, Math.sqrt(famExp)), current.getWeight());
+        assertEquals(feasted, current.getFeasted());
+        // Image can change, so current image is in KoLCharacter
+        assertEquals(famPic + ".gif", KoLCharacter.getFamiliarImage());
+        // Modified Weight
+        assertEquals(famLevel, current.getModifiedWeight());
+      }
+    }
+
+    @Test
+    public void canSetQuantumCrimboGhostFromApi() {
+      String text = html("request/test_quantum_terrarium_api2.json");
+      JSONObject JSON = json(text);
+
+      // Here are the attributes relevant to familiars
+      int famId = JSON.getInt("familiar");
+      assertEquals(famId, FamiliarPool.GHOST_CHEER);
+      int famExp = JSON.getInt("familiarexp");
+      String famPic = JSON.getString("familiarpic");
+      int famLevel = JSON.getInt("famlevel");
+      boolean feasted = JSON.getInt("familiar_wellfed") == 1;
+
+      // Stats affect Familiar Weight in Quantum Familiar
+      int basemuscle = JSON.getInt("basemuscle");
+      int basemysticality = JSON.getInt("basemysticality");
+      int basemoxie = JSON.getInt("basemoxie");
+
+      Cleanups cleanups =
+          new Cleanups(
+              inPath(Path.QUANTUM),
+              isClass(AscensionClass.ACCORDION_THIEF),
+              setStats(basemuscle, basemysticality, basemoxie),
               addSkill("Amphibian Sympathy"),
-              equip(EquipmentManager.FAMILIAR, "astral pet sweater"));
+              equip(EquipmentManager.FAMILIAR, "Daylight Shavings Helmet"));
 
       try (cleanups) {
         ApiRequest.parseStatus(JSON);
         FamiliarData current = KoLCharacter.getFamiliar();
         assertEquals(famId, current.getId());
-        assertEquals(famExp, current.getTotalExperience());
+        // *** KoL bug: exp for Crimbo Ghosts is not accurate
+        // assertEquals(famExp, current.getTotalExperience());
+        // Base Weight
+        // *** However, we corrected the weight from KoL's level
+        // assertEquals(Math.min(20, Math.sqrt(famExp)), current.getWeight());
+        assertEquals(12, current.getWeight());
         assertEquals(feasted, current.getFeasted());
         // Image can change, so current image is in KoLCharacter
         assertEquals(famPic + ".gif", KoLCharacter.getFamiliarImage());
+        // Modified Weight
+        assertEquals(famLevel, current.getModifiedWeight());
+      }
+    }
+
+    @Test
+    public void canSetPathlessCrimboGhostFromApi() {
+      String terrarium = html("request/test_crimbo_ghost_terrarium.html");
+      String text = html("request/test_crimbo_ghost_api.json");
+      JSONObject JSON = json(text);
+
+      // Here are the attributes relevant to familiars
+      int famId = JSON.getInt("familiar");
+      assertEquals(famId, FamiliarPool.GHOST_CHEER);
+      int famExp = JSON.getInt("familiarexp");
+      String famPic = JSON.getString("familiarpic");
+      int famLevel = JSON.getInt("famlevel");
+      boolean feasted = JSON.getInt("familiar_wellfed") == 1;
+
+      Cleanups cleanups =
+          new Cleanups(
+              inPath(Path.NONE),
+              equip(EquipmentManager.FAMILIAR, "Daylight Shavings Helmet"),
+              addSkill("Amphibian Sympathy"),
+              addEffect("Cute Vision"),
+              addEffect("Empathy"),
+              addEffect("Leash of Linguini"));
+
+      try (cleanups) {
+        // Register all familiars from the terrarium
+        FamiliarData.registerFamiliarData(terrarium);
+
+        // Parse the API response to handle current familiar
+        ApiRequest.parseStatus(JSON);
+        FamiliarData current = KoLCharacter.getFamiliar();
+        assertEquals(famId, current.getId());
+        // *** KoL bug: exp for Crimbo Ghosts is not accurate
+        // However, the exp read from the Terrarium is accurate
+        assertEquals(110, current.getTotalExperience());
         // Base Weight
-        assertEquals(Math.min(20, Math.sqrt(famExp)), current.getWeight());
+        assertEquals(Math.min(20, (int) Math.sqrt(110)), current.getWeight());
+        assertEquals(feasted, current.getFeasted());
+        // Image can change, so current image is in KoLCharacter
+        assertEquals(famPic + ".gif", KoLCharacter.getFamiliarImage());
         // Modified Weight
         assertEquals(famLevel, current.getModifiedWeight());
       }

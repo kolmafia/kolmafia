@@ -1151,6 +1151,10 @@ public class CompactSidePane extends JPanel implements Runnable {
         this.setNoIcon();
         return;
       }
+      this.setIcon(icon);
+    }
+
+    public void setIcon(ImageIcon icon) {
       super.setIcon(icon);
       icon.setImageObserver(this);
     }

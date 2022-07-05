@@ -5786,9 +5786,14 @@ public class UseItemRequest extends GenericRequest {
         return;
 
       case ItemPool.SUBSCRIPTION_COCOA_DISPENSER:
-        if (responseText.contains("You press the button on the cocoa machine")) {
-          Preferences.setBoolean("_cocoaDispenserUsed", true);
-        }
+        // If you have just obtained (or pulled) your machine, the message is:
+        //
+        // You need to spend a day with your subscription cocoa dispenser
+        // before the remote server updates your cocoa allotment.
+        //
+        // Which is to say, we may as well mark it as "used", since you
+        // can't use it today.
+        Preferences.setBoolean("_cocoaDispenserUsed", true);
         return;
 
       case ItemPool.OVERFLOWING_GIFT_BASKET:

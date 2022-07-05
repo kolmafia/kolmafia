@@ -459,11 +459,41 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
     this.feasted = feasted;
 
+    // If we are refreshing, we have not loaded everything needed to determine
+    // modified weight. In particular, passive skills.
+    if (KoLmafia.isRefreshing()) {
+      return;
+    }
+
     // Get modified weight excluding hidden weight modifiers
     int modified = this.getModifiedWeight(false, true);
-    if (weight != modified) {
-      RequestLogger.printLine("Familiar weight: KoL = " + weight + " KoLmafia = " + modified);
+    if (weight == modified) {
+      return;
     }
+
+    // The three Crimbo Ghosts share a familiar experience counter.  api.php
+    // supposedly tells you what the experience is, but it is not accurate.
+    //
+    // Looking at my Terrarium, I see that I have a "10-pound Ghost of Crimbo
+    // Cheer (110 experience, 0 kills). api.php says "familiarexp":"0"
+    //
+    // It also says "famlevel":35 - and shows that in the charpane - which
+    // accounts for Familiar Weight +25 from various items, skills, and effects
+    //
+    // For Crimbo ghosts, we can get accurate experience from the terrarium,
+    // but not from api.php or charpane.php - which call this method.
+
+    switch (this.id) {
+      case FamiliarPool.GHOST_CAROLS:
+      case FamiliarPool.GHOST_CHEER:
+      case FamiliarPool.GHOST_COMMERCE:
+        int delta = weight - modified;
+        this.weight += delta;
+        return;
+    }
+
+    // Log the discrepancy in calculated modified weight vs. what KoL reports.
+    RequestLogger.printLine("Familiar weight: KoL = " + weight + " KoLmafia = " + modified);
   }
 
   public final void setName(final String name) {
@@ -576,9 +606,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
       // Add new familiar to list
       familiar = new FamiliarData(id);
       KoLCharacter.addFamiliar(familiar);
+      familiar.setExperience(experience);
     }
 
-    familiar.setExperience(experience);
     return familiar;
   }
 
