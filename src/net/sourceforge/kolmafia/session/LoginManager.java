@@ -112,7 +112,7 @@ public class LoginManager {
       SVNManager.doUpdate();
     }
     svnLoginUpdateNotFinished = false;
-    
+
     if (Preferences.getBoolean("gitUpdateOnLogin") && !Preferences.getBoolean("_gitUpdated")) {
       GitManager.updateAll();
       Preferences.setBoolean("_gitUpdated", true);
