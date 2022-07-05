@@ -6,7 +6,6 @@ import static internal.helpers.Player.setProperty;
 import static internal.helpers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -21,6 +20,8 @@ class CharPaneRequestTest {
   @BeforeEach
   public void beforeEach() {
     KoLCharacter.reset("CharPaneRequestTest");
+    KoLCharacter.setCurrentRun(0);
+    CharPaneRequest.reset();
   }
 
   @Nested

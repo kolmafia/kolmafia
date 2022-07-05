@@ -1552,12 +1552,7 @@ public class CharPaneRequest extends GenericRequest {
     Matcher matcher = SWEATINESS.matcher(responseText);
 
     // If we don't find the matcher but we're wearing the pants we have zero sweatiness
-    int sweatiness = 0;
-
-    if (matcher.find()) {
-      sweatiness = StringUtilities.parseInt(matcher.group(1));
-    }
-
+    int sweatiness = (matcher.find()) ? StringUtilities.parseInt(matcher.group(1)) : 0;
     Preferences.setInteger("sweat", sweatiness);
   }
 
