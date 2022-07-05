@@ -213,6 +213,7 @@ public class SkillPool {
   public static final int WINK = 7168;
   public static final int TALK_ABOUT_POLITICS = 7169;
   public static final int POCKET_CRUMBS = 7170;
+  public static final int STEAL_ACCORDION = 7172;
   public static final int SPIRIT_CAYENNE = 7176;
   public static final int SPIRIT_PEPPERMINT = 7177;
   public static final int SPIRIT_GARLIC = 7178;

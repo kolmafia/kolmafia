@@ -352,7 +352,7 @@ public class StationaryButtonDecorator {
     boolean useHotKeys = !Preferences.getBoolean("macroLens");
 
     if (inCombat) {
-      StationaryButtonDecorator.addCombatButtons(urlString, actionBuffer);
+      StationaryButtonDecorator.addCombatButtons(urlString, buffer, actionBuffer);
     } else if (inChoice) {
       StationaryButtonDecorator.addChoiceButtons(actionBuffer);
     } else {
@@ -419,7 +419,7 @@ public class StationaryButtonDecorator {
   }
 
   public static final void addCombatButtons(
-      final String urlString, final StringBuffer actionBuffer) {
+      final String urlString, final StringBuffer buffer, final StringBuffer actionBuffer) {
     // If we fighting a source agent, create buttons for exactly
     // those skills which are usable against them.
     if (KoLCharacter.inTheSource() && FightRequest.isSourceAgent()) {
@@ -471,6 +471,10 @@ public class StationaryButtonDecorator {
 
     if (KoLCharacter.canPickpocket()) {
       StationaryButtonDecorator.addFightButton(actionBuffer, "steal", FightRequest.canStillSteal());
+    }
+
+    if (KoLCharacter.isAccordionThief() && buffer.indexOf("Steal Accordion") != -1) {
+      StationaryButtonDecorator.addFightButton(actionBuffer, "steal accordion", true);
     }
 
     if (EquipmentManager.usingChefstaff()) {
@@ -675,6 +679,9 @@ public class StationaryButtonDecorator {
 
     if (action.equals("attack") || action.equals("steal")) {
       actionBuffer.append(action);
+    } else if (action.equals("steal accordion")) {
+      actionBuffer.append("skill&whichskill=");
+      actionBuffer.append(SkillPool.STEAL_ACCORDION);
     } else if (action.equals("jiggle")) {
       actionBuffer.append("chefstaff");
       isEnabled &= !FightRequest.alreadyJiggled();
@@ -821,6 +828,7 @@ public class StationaryButtonDecorator {
     }
 
     if (action.equals("steal")
+        || action.equals("steal accordion")
         || action.equals("jiggle")
         || action.equals("shake")
         || action.equals("shoot")

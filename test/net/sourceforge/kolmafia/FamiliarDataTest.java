@@ -17,10 +17,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
+import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
@@ -215,8 +215,6 @@ public class FamiliarDataTest {
       try (cleanups) {
         ApiRequest.parseStatus(JSON);
         FamiliarData current = KoLCharacter.getFamiliar();
-        current.setItem(ItemPool.get(ItemPool.PET_SWEATER));
-        KoLCharacter.recalculateAdjustments();
         assertEquals(famId, current.getId());
         assertEquals(famExp, current.getTotalExperience());
         // Base Weight
@@ -224,6 +222,7 @@ public class FamiliarDataTest {
         assertEquals(feasted, current.getFeasted());
         // Image can change, so current image is in KoLCharacter
         assertEquals(famPic + ".gif", KoLCharacter.getFamiliarImage());
+        assertEquals(EquipmentManager.getEquipment(EquipmentManager.FAMILIAR), current.getItem());
         // Modified Weight
         assertEquals(famLevel, current.getModifiedWeight());
       }
@@ -253,21 +252,23 @@ public class FamiliarDataTest {
               isClass(AscensionClass.ACCORDION_THIEF),
               setStats(basemuscle, basemysticality, basemoxie),
               addSkill("Amphibian Sympathy"),
-              equip(EquipmentManager.FAMILIAR, "Daylight Shavings Helmet"));
+              equip(EquipmentManager.HAT, "Daylight Shavings Helmet"));
 
       try (cleanups) {
         ApiRequest.parseStatus(JSON);
         FamiliarData current = KoLCharacter.getFamiliar();
         assertEquals(famId, current.getId());
         // *** KoL bug: exp for Crimbo Ghosts is not accurate
-        // assertEquals(famExp, current.getTotalExperience());
-        // Base Weight
-        // *** However, we corrected the weight from KoL's level
-        // assertEquals(Math.min(20, Math.sqrt(famExp)), current.getWeight());
+        // *** We corrected the weight from KoL's level
+        // *** and set experience to minimum required for that weight
         assertEquals(12, current.getWeight());
+        assertEquals(144, current.getTotalExperience());
         assertEquals(feasted, current.getFeasted());
         // Image can change, so current image is in KoLCharacter
         assertEquals(famPic + ".gif", KoLCharacter.getFamiliarImage());
+        // In Quantum Terrarium, an item may still be in the "familiar" slot,
+        // but Crimbo ghosts cannot equip items.
+        assertEquals(EquipmentRequest.UNEQUIP, current.getItem());
         // Modified Weight
         assertEquals(famLevel, current.getModifiedWeight());
       }
@@ -290,7 +291,7 @@ public class FamiliarDataTest {
       Cleanups cleanups =
           new Cleanups(
               inPath(Path.NONE),
-              equip(EquipmentManager.FAMILIAR, "Daylight Shavings Helmet"),
+              equip(EquipmentManager.HAT, "Daylight Shavings Helmet"),
               addSkill("Amphibian Sympathy"),
               addEffect("Cute Vision"),
               addEffect("Empathy"),
@@ -312,6 +313,9 @@ public class FamiliarDataTest {
         assertEquals(feasted, current.getFeasted());
         // Image can change, so current image is in KoLCharacter
         assertEquals(famPic + ".gif", KoLCharacter.getFamiliarImage());
+        // In Quantum Terrarium, an item may still be in the "familiar" slot,
+        // but Crimbo ghosts cannot equip items.
+        assertEquals(EquipmentRequest.UNEQUIP, current.getItem());
         // Modified Weight
         assertEquals(famLevel, current.getModifiedWeight());
       }

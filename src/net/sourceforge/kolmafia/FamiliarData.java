@@ -489,6 +489,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
       case FamiliarPool.GHOST_COMMERCE:
         int delta = weight - modified;
         this.weight += delta;
+        // We can't tell, but this is the minimum
+        this.experience = this.weight * this.weight;
         return;
     }
 
@@ -716,6 +718,10 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     if (this.item != null && item != null && this.item.getItemId() == item.getItemId()) {
+      return;
+    }
+
+    if (!this.canEquip(item)) {
       return;
     }
 
