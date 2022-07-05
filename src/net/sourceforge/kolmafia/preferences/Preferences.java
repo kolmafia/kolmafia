@@ -386,6 +386,7 @@ public class Preferences {
         "sugarCounter4183",
         "sugarCounter4191",
         "superficiallyInterestedMonster",
+        "sweat",
         "telescope1",
         "telescope2",
         "telescope3",
