@@ -774,9 +774,7 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill("Beach Combo");
         break;
       case ItemPool.POWERFUL_GLOVE:
-        // *** Special case: the buffs are always available
-        // KoLCharacter.removeAvailableSkill( "CHEAT CODE: Invisible Avatar" );
-        // KoLCharacter.removeAvailableSkill( "CHEAT CODE: Triple Size" );
+        // These are only the combat skills, we make the noncombat skills always available
         KoLCharacter.removeAvailableSkill("CHEAT CODE: Replace Enemy");
         KoLCharacter.removeAvailableSkill("CHEAT CODE: Shrink Enemy");
         break;
@@ -799,11 +797,7 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill("Fire Extinguisher: Zone Specific");
         break;
       case ItemPool.DESIGNER_SWEATPANTS:
-        // *** Special case: the buffs are always available
-        // KoLCharacter.removeAvailableSkill("Make Sweat-Ade");
-        // KoLCharacter.removeAvailableSkill("Drench Yourself in Sweat");
-        // KoLCharacter.removeAvailableSkill("Sweat Out Some Booze");
-        // KoLCharacter.removeAvailableSkill("Sip Some Sweat");
+        // These are only the combat skills, we make the noncombat skills always available
         KoLCharacter.removeAvailableSkill("Sweat Flick");
         KoLCharacter.removeAvailableSkill("Sweat Flood");
         KoLCharacter.removeAvailableSkill("Sweat Spray");
@@ -1119,8 +1113,7 @@ public class EquipmentManager {
         break;
       case ItemPool.POWERFUL_GLOVE:
         // *** Special case: the buffs are always available
-        // KoLCharacter.addAvailableSkill( "CHEAT CODE: Invisible Avatar" );
-        // KoLCharacter.addAvailableSkill( "CHEAT CODE: Triple Size" );
+        // These are only the combat skills, we make the noncombat skills always available
         KoLCharacter.addAvailableSkill("CHEAT CODE: Replace Enemy");
         KoLCharacter.addAvailableSkill("CHEAT CODE: Shrink Enemy");
         break;
@@ -1144,10 +1137,7 @@ public class EquipmentManager {
         break;
       case ItemPool.DESIGNER_SWEATPANTS:
         // *** Special case: the buffs are always available
-        // KoLCharacter.addAvailableSkill("Make Sweat-Ade");
-        // KoLCharacter.addAvailableSkill("Drench Yourself in Sweat");
-        // KoLCharacter.addAvailableSkill("Sweat Out Some Booze");
-        // KoLCharacter.addAvailableSkill("Sip Some Sweat");
+        // These are only the combat skills, we make the noncombat skills always available
         KoLCharacter.addAvailableSkill("Sweat Flick");
         KoLCharacter.addAvailableSkill("Sweat Flood");
         KoLCharacter.addAvailableSkill("Sweat Spray");
