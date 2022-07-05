@@ -1,7 +1,12 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Player.equip;
+import static internal.helpers.Player.setProperty;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -12,6 +17,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /** Coverage driven collection of tests for FightRequest. */
 public class EquipmentManagerTest {
@@ -30,16 +37,29 @@ public class EquipmentManagerTest {
     Preferences.saveSettingsToFile = true;
   }
 
-  @Test
-  public void thatUnbreakableUmbrellaIsRecognized() {
-    AdventureResult unbrella = ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA, 1);
-    assertEquals(EquipmentRequest.UNEQUIP, EquipmentManager.getEquipment(EquipmentManager.OFFHAND));
-    EquipmentManager.setEquipment(EquipmentManager.OFFHAND, unbrella);
-    assertEquals(unbrella, EquipmentManager.getEquipment(EquipmentManager.OFFHAND));
+  private static final AdventureResult UNBREAKABLE_UMBRELLA =
+      ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA);
 
-    Preferences.setString("umbrellaState", "broken");
-    assertEquals("unbreakable umbrella (broken)", unbrella.getName());
-    assertEquals(unbrella.getItemId(), ItemDatabase.getItemId(unbrella.getName()));
+  @ParameterizedTest
+  @ValueSource(
+      strings = {
+        "broken",
+        "forward-facing",
+        "bucket style",
+        "pitchfork style",
+        "constantly twirling",
+        "cocoon"
+      })
+  public void thatUnbreakableUmbrellaIsRecognized(String style) {
+    var cleanups = new Cleanups(equip(EquipmentManager.OFFHAND, "unbreakable umbrella"));
+
+    try (cleanups) {
+      Preferences.setString("umbrellaState", style);
+      assertEquals("unbreakable umbrella (" + style + ")", UNBREAKABLE_UMBRELLA.getName());
+      assertEquals(
+          UNBREAKABLE_UMBRELLA.getItemId(), ItemDatabase.getItemId(UNBREAKABLE_UMBRELLA.getName()));
+    }
+  }
 
     Preferences.setString("umbrellaState", "forward-facing");
     assertEquals("unbreakable umbrella (forward-facing)", unbrella.getName());
