@@ -411,14 +411,14 @@ public class GitManager extends ScriptManager {
     }
     for (var potential : potentials) {
       if (potential.startsWith("#")) continue;
-      String[] args = potential.split("\s");
+      String[] args = potential.split("\\s+");
       if (args.length == 0) continue;
       var url = args[0];
       if (args.length > 1 || url.endsWith(".git")) {
         // git
         String branch = args.length == 1 ? null : args[1];
         var id = getRepoId(url, branch);
-        if (!Files.exists(KoLConstants.SVN_LOCATION.toPath().resolve(id))) {
+        if (!Files.exists(KoLConstants.GIT_LOCATION.toPath().resolve(id))) {
           GitManager.clone(url, branch);
         }
       } else {
