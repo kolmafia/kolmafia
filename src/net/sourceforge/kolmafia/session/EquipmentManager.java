@@ -798,6 +798,16 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill("Fire Extinguisher: Blast the Area");
         KoLCharacter.removeAvailableSkill("Fire Extinguisher: Zone Specific");
         break;
+      case ItemPool.DESIGNER_SWEATPANTS:
+        KoLCharacter.removeAvailableSkill("Sweat Out Some Booze");
+        KoLCharacter.removeAvailableSkill("Sweat Flick");
+        KoLCharacter.removeAvailableSkill("Sweat Flood");
+        KoLCharacter.removeAvailableSkill("Sweat Spray");
+        KoLCharacter.removeAvailableSkill("Make Sweat-Ade");
+        KoLCharacter.removeAvailableSkill("Drench Yourself in Sweat");
+        KoLCharacter.removeAvailableSkill("Sip Some Sweat");
+        KoLCharacter.removeAvailableSkill("Sweat Sip");
+        break;
     }
   }
 
@@ -1130,6 +1140,16 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill("Fire Extinguisher: Foam Yourself");
         KoLCharacter.addAvailableSkill("Fire Extinguisher: Blast the Area");
         KoLCharacter.addAvailableSkill("Fire Extinguisher: Zone Specific");
+        break;
+      case ItemPool.DESIGNER_SWEATPANTS:
+        KoLCharacter.addAvailableSkill("Sweat Out Some Booze");
+        KoLCharacter.addAvailableSkill("Sweat Flick");
+        KoLCharacter.addAvailableSkill("Sweat Flood");
+        KoLCharacter.addAvailableSkill("Sweat Spray");
+        KoLCharacter.addAvailableSkill("Make Sweat-Ade");
+        KoLCharacter.addAvailableSkill("Drench Yourself in Sweat");
+        KoLCharacter.addAvailableSkill("Sip Some Sweat");
+        KoLCharacter.addAvailableSkill("Sweat Sip");
         break;
     }
   }

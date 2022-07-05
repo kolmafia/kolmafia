@@ -10,6 +10,7 @@ import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -61,24 +62,29 @@ public class EquipmentManagerTest {
     }
   }
 
-    Preferences.setString("umbrellaState", "forward-facing");
-    assertEquals("unbreakable umbrella (forward-facing)", unbrella.getName());
-    assertEquals(unbrella.getItemId(), ItemDatabase.getItemId(unbrella.getName()));
+  @Test
+  public void equippingDesignerSweatpantsGivesSkills() {
+    assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_OUT_BOOZE), equalTo(false));
 
-    Preferences.setString("umbrellaState", "bucket style");
-    assertEquals("unbreakable umbrella (bucket style)", unbrella.getName());
-    assertEquals(unbrella.getItemId(), ItemDatabase.getItemId(unbrella.getName()));
+    var cleanup =
+        new Cleanups(
+            equip(EquipmentManager.PANTS, "designer sweatpants"), setProperty("sweat", 100));
 
-    Preferences.setString("umbrellaState", "pitchfork style");
-    assertEquals("unbreakable umbrella (pitchfork style)", unbrella.getName());
-    assertEquals(unbrella.getItemId(), ItemDatabase.getItemId(unbrella.getName()));
+    try (cleanup) {
+      assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_OUT_BOOZE), equalTo(true));
+    }
+  }
 
-    Preferences.setString("umbrellaState", "constantly twirling");
-    assertEquals("unbreakable umbrella (constantly twirling)", unbrella.getName());
-    assertEquals(unbrella.getItemId(), ItemDatabase.getItemId(unbrella.getName()));
+  @Test
+  public void unequippingDesignerSweatpantsRemovesSkills() {
+    var cleanup =
+        new Cleanups(
+            equip(EquipmentManager.PANTS, "designer sweatpants"), setProperty("sweat", 100));
 
-    Preferences.setString("umbrellaState", "cocoon");
-    assertEquals("unbreakable umbrella (cocoon)", unbrella.getName());
-    assertEquals(unbrella.getItemId(), ItemDatabase.getItemId(unbrella.getName()));
+    try (cleanup) {
+      assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_OUT_BOOZE), equalTo(true));
+      EquipmentManager.setEquipment(EquipmentManager.PANTS, EquipmentRequest.UNEQUIP);
+      assertThat(KoLCharacter.hasSkill(SkillPool.SWEAT_OUT_BOOZE), equalTo(false));
+    }
   }
 }
