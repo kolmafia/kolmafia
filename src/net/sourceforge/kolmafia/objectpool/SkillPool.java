@@ -354,6 +354,10 @@ public class SkillPool {
   public static final int CONVERT_MATTER_TO_PROTEIN = 7411;
   public static final int CONVERT_MATTER_TO_ENERGY = 7412;
   public static final int CONVERT_MATTER_TO_POMADE = 7413;
+  public static final int SWEAT_OUT_BOOZE = 7414;
+  public static final int MAKE_SWEATADE = 7418;
+  public static final int DRENCH_YOURSELF_IN_SWEAT = 7419;
+  public static final int SIP_SOME_SWEAT = 7420;
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
   public static final int DEMAND_SANDWICH = 11021;

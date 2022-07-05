@@ -257,6 +257,8 @@ public class CharPaneRequest extends GenericRequest {
 
     CharPaneRequest.checkYouRobot(responseText);
 
+    CharPaneRequest.checkSweatiness(responseText);
+
     // Mana cost adjustment may have changed
 
     LockableListFactory.sort(KoLConstants.summoningSkills);
@@ -1535,6 +1537,23 @@ public class CharPaneRequest extends GenericRequest {
       int scraps = StringUtilities.parseInt(matcher.group(1));
       KoLCharacter.setYouRobotScraps(scraps);
     }
+  }
+
+  // <td align=right>Sweatiness:</td><td align=left><b><font color=black><span alt=""
+  // title="">69%</span></font></td>
+  private static final Pattern SWEATINESS =
+      Pattern.compile("Sweatiness:</td><td.*?><b><font.*?><span.*?>([\\d]+)%</span></font></td>");
+
+  public static void checkSweatiness(final String responseText) {
+    if (!KoLCharacter.hasEquipped(ItemPool.DESIGNER_SWEATPANTS)) {
+      return;
+    }
+
+    Matcher matcher = SWEATINESS.matcher(responseText);
+
+    // If we don't find the matcher but we're wearing the pants we have zero sweatiness
+    int sweatiness = (matcher.find()) ? StringUtilities.parseInt(matcher.group(1)) : 0;
+    Preferences.setInteger("sweat", sweatiness);
   }
 
   public static final void parseStatus(final JSONObject JSON) throws JSONException {

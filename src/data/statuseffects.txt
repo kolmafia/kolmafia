@@ -2716,3 +2716,4 @@
 2716	Feeling Sneaky	heromask.gif	8bf3435767710af1920c98d4c1ebff98	neutral	none	use 1 trampled ticket stub
 2717	Kinda Damp	blooddrops.gif	1e39ab0a1afcc1c70d5302304f7b93b2	good	none
 2718	Wholesomely Resolved	happy.gif	2b47f4772381abb5ac24e620be92da96	good	none
+2719	Slippery and Speedy	sweaty.gif	defb8cda55243471997f272f928a09f8	neutral	none	cast 1 Drench Yourself in Sweat

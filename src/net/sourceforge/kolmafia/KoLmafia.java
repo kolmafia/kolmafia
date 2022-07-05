@@ -844,6 +844,7 @@ public abstract class KoLmafia {
 
     // Items that conditionally grant skills
     InventoryManager.checkPowerfulGlove();
+    InventoryManager.checkDesignerSweatpants();
 
     // Check Horsery if we haven't today
     if (Preferences.getBoolean("horseryAvailable")
@@ -937,6 +938,7 @@ public abstract class KoLmafia {
     KoLCharacter.resetSkills();
     RequestThread.postRequest(new CharSheetRequest());
     InventoryManager.checkPowerfulGlove();
+    InventoryManager.checkDesignerSweatpants();
 
     // Clear preferences
     Preferences.setString("banishingShoutMonsters", "");
@@ -1017,6 +1019,7 @@ public abstract class KoLmafia {
     KoLCharacter.resetSkills();
     RequestThread.postRequest(new CharSheetRequest());
     InventoryManager.checkPowerfulGlove();
+    InventoryManager.checkDesignerSweatpants();
 
     // Retrieve inventory contents, since quest items may disappear.
     InventoryManager.refresh();

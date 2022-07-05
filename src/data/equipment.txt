@@ -492,6 +492,7 @@ Daisy's unclean bloomers	150	Mox: 30
 Danglin' Chad's loincloth	200	Mox: 75
 demonskin trousers	70	Mox: 20
 depleted Grimacite shinguards	100	Mox: 35
+designer sweatpants	100	none
 discarded swimming trunks	100	none
 dice-print pajama pants	10	none
 Dinsey's pants	200	Mox: 100

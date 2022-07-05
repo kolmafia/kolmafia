@@ -3370,6 +3370,8 @@ public class ItemPool {
   public static final int JUNE_CLEAVER = 10920;
   public static final int MOTHERS_NECKLACE = 10925;
 
+  public static final int DESIGNER_SWEATPANTS = 10929;
+
   private ItemPool() {}
 
   public static final AdventureResult get(String itemName, int count) {

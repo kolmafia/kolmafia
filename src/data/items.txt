@@ -10952,3 +10952,6 @@
 10925	mother's necklace	820724023	necklace_mom.gif	accessory	t,d	1000
 10926	trampled ticket stub	589658698	stompstub.gif	potion, usable	t,d	15
 10927	savings bond	479848689	bondcert.gif	potion, usable	t,d	10
+10928	designer sweatpants (new old stock)	115000176	sweats_box.gif	usable	t	0
+10929	designer sweatpants	800334855	sweats.gif	pants		0
+10930	sweat-ade	858239579	sweatade.gif	spleen, usable	t	0
