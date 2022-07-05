@@ -2394,6 +2394,11 @@ public class EquipmentManager {
 
     if (!KoLmafia.isRefreshing()) {
       for (int i = 0; i < EquipmentManager.ALL_SLOTS; ++i) {
+        // Quantum Terrarium will have a familiar item in api.php even
+        // if the particular familiar can't equip it. Ignore that.
+        if (i == EquipmentManager.FAMILIAR && KoLCharacter.inQuantum()) {
+          continue;
+        }
         if (!current[i].equals(equipment[i])) {
           String slotName = EquipmentRequest.slotNames[i];
           String message =

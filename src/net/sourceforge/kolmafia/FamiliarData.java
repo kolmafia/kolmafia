@@ -447,21 +447,12 @@ public class FamiliarData implements Comparable<FamiliarData> {
     this.setWeight(weight);
   }
 
-  public final void checkWeight(final int weight, final boolean feasted) {
-    // Called from CharPaneRequest with KoL's idea of current familiar's weight and "well-fed"
-    // status.
+  public final void checkWeight(final int weight) {
+    // Called from CharPaneRequest with KoL's idea of current familiar's weight.
     // This does NOT include "hidden" weight modifiers
 
     // Sanity check: don't adjust NO_FAMILIAR
     if (this.id == -1) {
-      return;
-    }
-
-    this.feasted = feasted;
-
-    // If we are refreshing, we have not loaded everything needed to determine
-    // modified weight. In particular, passive skills.
-    if (KoLmafia.isRefreshing()) {
       return;
     }
 
@@ -651,6 +642,10 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   public boolean getFeasted() {
     return this.feasted;
+  }
+
+  public void setFeasted(boolean feasted) {
+    this.feasted = feasted;
   }
 
   public void deactivate() {

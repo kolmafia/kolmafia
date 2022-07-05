@@ -366,6 +366,9 @@ public class ApiRequest extends GenericRequest {
         EquipmentManager.parseStatus(JSON);
       }
 
+      // Must be AFTER current familiar is set and equipment is processed
+      CharPaneRequest.checkFamiliarWeight(JSON);
+
       // UNIX time of next rollover
       long rollover = JSON.getLong("rollover");
       KoLCharacter.setRollover(rollover);
