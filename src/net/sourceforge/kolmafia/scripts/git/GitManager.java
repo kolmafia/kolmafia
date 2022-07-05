@@ -133,6 +133,8 @@ public class GitManager extends ScriptManager {
             MafiaState.ERROR, "Failed to get details for project " + folder + ": " + e);
         return;
       }
+
+      RequestLogger.printLine("Updating project " + projectPath);
       try {
         git.pull().setProgressMonitor(new MafiaProgressMonitor()).setRebase(true).call();
       } catch (GitAPIException e) {
@@ -408,16 +410,28 @@ public class GitManager extends ScriptManager {
     }
     for (var potential : potentials) {
       if (potential.startsWith("#")) continue;
-      SVNURL repo;
-      try {
-        repo = SVNURL.parseURIEncoded(potential);
-      } catch (SVNException e) {
-        RequestLogger.printLine("Cannot parse " + potential + " as SVN URL");
-        continue;
-      }
-      var id = SVNManager.getFolderUUIDNoRemote(repo);
-      if (!Files.exists(KoLConstants.SVN_LOCATION.toPath().resolve(id))) {
-        SVNManager.doCheckout(repo);
+      String[] args = potential.split("\s");
+      if (args.length == 0) continue;
+      var url = args[0];
+      if (args.length > 1 || url.endsWith(".git")) {
+        // git
+        String branch = args.length == 1 ? null : args[1];
+        var id = getRepoId(url, branch);
+        if (!Files.exists(KoLConstants.SVN_LOCATION.toPath().resolve(id))) {
+          GitManager.clone(url, branch);
+        }
+      } else {
+        SVNURL repo;
+        try {
+          repo = SVNURL.parseURIEncoded(potential);
+        } catch (SVNException e) {
+          RequestLogger.printLine("Cannot parse " + potential + " as SVN URL");
+          continue;
+        }
+        var id = SVNManager.getFolderUUIDNoRemote(repo);
+        if (!Files.exists(KoLConstants.SVN_LOCATION.toPath().resolve(id))) {
+          SVNManager.doCheckout(repo);
+        }
       }
     }
   }
