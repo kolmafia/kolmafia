@@ -940,6 +940,14 @@
 7411	Convert Matter to Protein	greygoosesk3.gif	5	0	0
 7412	Convert Matter to Energy	greygoosesk4.gif	5	0	0
 7413	Convert Matter to Pomade	greygosesk5.gif	5	0	0
+7414	Sweat Out Some Booze	sweaty.gif	3	0	0
+7415	Sweat Flick	teardrop.gif	5	0	0
+7416	Sweat Flood	waves.gif	5	0	0
+7417	Sweat Spray	sprayup.gif	5	0	0
+7418	Make Sweat-Ade	sweatade.gif	1	0	0
+7419	Drench Yourself in Sweat	sebashield.gif	3	0	0
+7420	Sip Some Sweat	waterglass.gif	2	0	0
+7421	Sweat Sip	waterglass.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
