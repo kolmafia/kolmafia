@@ -535,6 +535,9 @@ public class SkillPool {
   public static final int SEVEN_FOOT_FEELINGS = 27061;
   public static final int SELF_ACTUALIZED = 27062;
   public static final int SWEAT_OUT_BOOZE = 7414;
+  public static final int MAKE_SWEATADE = 7418;
+  public static final int DRENCH_YOURSELF_IN_SWEAT = 7419;
+  public static final int SIP_SOME_SWEAT = 7420;
 
   private SkillPool() {}
 }

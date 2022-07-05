@@ -3334,6 +3334,14 @@ public class ResultProcessor {
           Preferences.setBoolean("_maydayDropped", true);
         }
         break;
+
+      case ItemPool.DESIGNER_SWEATPANTS:
+        // *** Special case: the buffs are always available
+        KoLCharacter.addAvailableSkill("Make Sweat-Ade");
+        KoLCharacter.addAvailableSkill("Drench Yourself in Sweat");
+        KoLCharacter.addAvailableSkill("Sweat Out Some Booze");
+        KoLCharacter.addAvailableSkill("Sip Some Sweat");
+        break;
     }
 
     // Gaining items can achieve goals.
