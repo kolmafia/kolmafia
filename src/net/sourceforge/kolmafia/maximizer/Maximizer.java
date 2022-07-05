@@ -1610,7 +1610,7 @@ public class Maximizer {
         text = modeable.getCommand() + " " + modeables.get(modeable);
         cmd = text;
         if (modeable.getEquipAfterChange())
-          cmd += "; equip " + slotname + "\u00B6" + item.getItemId();
+          cmd += "; equip " + slotname + " \u00B6" + item.getItemId();
       } else {
         cmd = "equip " + slotname + " \u00B6" + item.getItemId();
         text = "equip " + slotname + " " + item.getName();
@@ -1741,8 +1741,6 @@ public class Maximizer {
       }
       text = text + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
     }
-
-    modeables.replaceAll((k, v) -> k == modeable ? v : null);
 
     Boost boost = new Boost(cmd, text, slot, item, delta, enthroned, bjorned, modeables);
     if (equipScope == -1) { // called from CLI

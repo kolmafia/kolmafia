@@ -826,4 +826,18 @@ public class MaximizerTest {
       recommendedSlotIs(EquipmentManager.HAT, "The Crown of Ed the Undying");
     }
   }
+
+  @Test
+  public void multipleModeables() {
+    final var cleanups =
+        new Cleanups(
+            canUse("backup camera"),
+            canUse("unbreakable umbrella"),
+            equip(EquipmentManager.PANTS, "old sweatpants"));
+    try (cleanups) {
+      assertTrue(maximize("ml, -combat, equip backup camera, equip unbreakable umbrella"));
+      someBoostIs(b -> commandStartsWith(b, "umbrella cocoon"));
+      someBoostIs(b -> commandStartsWith(b, "backupcamera ml"));
+    }
+  }
 }
