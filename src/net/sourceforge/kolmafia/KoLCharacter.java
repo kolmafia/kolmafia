@@ -5009,6 +5009,9 @@ public abstract class KoLCharacter {
     // Look at items
     for (int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR + 1; ++slot) {
       AdventureResult item = equipment[slot];
+      if (item == EquipmentRequest.UNEQUIP) {
+        continue;
+      }
       KoLCharacter.addItemAdjustment(
           newModifiers,
           slot,
