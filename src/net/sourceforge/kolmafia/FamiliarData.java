@@ -447,21 +447,12 @@ public class FamiliarData implements Comparable<FamiliarData> {
     this.setWeight(weight);
   }
 
-  public final void checkWeight(final int weight, final boolean feasted) {
-    // Called from CharPaneRequest with KoL's idea of current familiar's weight and "well-fed"
-    // status.
+  public final void checkWeight(final int weight) {
+    // Called from CharPaneRequest with KoL's idea of current familiar's weight.
     // This does NOT include "hidden" weight modifiers
 
     // Sanity check: don't adjust NO_FAMILIAR
     if (this.id == -1) {
-      return;
-    }
-
-    this.feasted = feasted;
-
-    // If we are refreshing, we have not loaded everything needed to determine
-    // modified weight. In particular, passive skills.
-    if (KoLmafia.isRefreshing()) {
       return;
     }
 
@@ -489,6 +480,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
       case FamiliarPool.GHOST_COMMERCE:
         int delta = weight - modified;
         this.weight += delta;
+        // We can't tell, but this is the minimum
+        this.experience = this.weight * this.weight;
         return;
     }
 
@@ -651,6 +644,10 @@ public class FamiliarData implements Comparable<FamiliarData> {
     return this.feasted;
   }
 
+  public void setFeasted(boolean feasted) {
+    this.feasted = feasted;
+  }
+
   public void deactivate() {
     // Do anything necessary when this familiar is banished to the Terrarium
     this.active = false;
@@ -716,6 +713,10 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     if (this.item != null && item != null && this.item.getItemId() == item.getItemId()) {
+      return;
+    }
+
+    if (!this.canEquip(item)) {
       return;
     }
 

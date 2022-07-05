@@ -1026,9 +1026,9 @@ public class CharPaneRequest extends GenericRequest {
             : CharPaneRequest.expandedFamiliarWeightPattern;
     Matcher matcher = pattern.matcher(responseText);
     if (matcher.find()) {
-      int weight = StringUtilities.parseInt(matcher.group(1));
-      boolean feasted = responseText.contains("well-fed");
-      KoLCharacter.getFamiliar().checkWeight(weight, feasted);
+      FamiliarData familiar = KoLCharacter.getFamiliar();
+      familiar.setFeasted(responseText.contains("well-fed"));
+      familiar.checkWeight(StringUtilities.parseInt(matcher.group(1)));
     }
 
     pattern = CharPaneRequest.familiarImagePattern;
@@ -1702,9 +1702,7 @@ public class CharPaneRequest extends GenericRequest {
         KoLCharacter.setFamiliarImage(image.equals("") ? null : image + ".gif");
       }
 
-      int weight = JSON.getInt("famlevel");
-      boolean feasted = JSON.getInt("familiar_wellfed") == 1;
-      familiar.checkWeight(weight, feasted);
+      familiar.setFeasted(JSON.getInt("familiar_wellfed") == 1);
 
       // Set charges from the Medium's image
 
@@ -1734,6 +1732,11 @@ public class CharPaneRequest extends GenericRequest {
         KoLCharacter.setRadSickness(0);
       }
     }
+  }
+
+  public static final void checkFamiliarWeight(final JSONObject JSON) throws JSONException {
+    KoLCharacter.recalculateAdjustments();
+    KoLCharacter.getFamiliar().checkWeight(JSON.getInt("famlevel"));
   }
 
   private static void refreshEffects(final JSONObject JSON) throws JSONException {
