@@ -134,7 +134,7 @@ public class GitManager extends ScriptManager {
         return;
       }
 
-      RequestLogger.printLine("Updating project " + projectPath);
+      RequestLogger.printLine("Updating project " + folder);
       try {
         git.pull().setProgressMonitor(new MafiaProgressMonitor()).setRebase(true).call();
       } catch (GitAPIException e) {
@@ -194,6 +194,7 @@ public class GitManager extends ScriptManager {
       try {
         var rootPath = KoLConstants.ROOT_LOCATION.toPath();
         var relPath = rootPath.resolve(path);
+        KoLmafia.updateDisplay("Deleting: " + path);
         Files.deleteIfExists(relPath);
       } catch (IOException e) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to delete file " + path + ": " + e);
@@ -248,7 +249,7 @@ public class GitManager extends ScriptManager {
     try {
       toDelete = getPermissibleFiles(projectPath, true);
     } catch (IOException e) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to remove project " + project + ": " + e);
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to remove project " + folder + ": " + e);
       return;
     }
     var errored = false;
@@ -454,7 +455,7 @@ public class GitManager extends ScriptManager {
 
     @Override
     public void endTask() {
-      RequestLogger.printLine("Done.");
+      // say nothing
     }
 
     @Override
