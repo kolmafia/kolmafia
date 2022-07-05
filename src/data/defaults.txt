@@ -1375,6 +1375,7 @@ user	summonAnnoyanceCost	11
 user	superficiallyInterestedMonster
 user	suppressInappropriateNags	false
 user	suppressPowerPixellation	false
+user	sweat	0
 user	sweetSynthesisBlacklist	chocolate cigar,fudge bunny,gummi ammonite,gummi belemnite,gummi trilobite,powdered candy sushi set,radio button candy,Ultra Mega Sour Ball,vitachoconutriment capsule
 user	tacoDanCocktailSauce	0
 user	tacoDanFishMeat	0
@@ -2067,6 +2068,7 @@ user	_sugarSummons	0
 user	_summonAnnoyanceUsed	false
 user	_summonCarrotUsed	false
 user	_summonResortPassUsed	false
+user	_sweatOutSomeBoozeUsed	0
 user	_sweetToothUsed	false
 user	_syntheticDogHairPillUsed	false
 user	_tacoFlierUsed	false

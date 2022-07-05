@@ -218,6 +218,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   public static final AdventureResult JUJU_MOJO_MASK = ItemPool.get(ItemPool.JUJU_MOJO_MASK, 1);
 
   public static final AdventureResult POWERFUL_GLOVE = ItemPool.get(ItemPool.POWERFUL_GLOVE, 1);
+  public static final AdventureResult DESIGNER_SWEATPANTS =
+      ItemPool.get(ItemPool.DESIGNER_SWEATPANTS, 1);
 
   private static final AdventureResult[] AVOID_REMOVAL =
       new AdventureResult[] {
@@ -240,6 +242,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         UseSkillRequest.JUJU_MOJO_MASK,
         // Removing the following may make some skills impossible to case
         UseSkillRequest.POWERFUL_GLOVE,
+        UseSkillRequest.DESIGNER_SWEATPANTS,
       };
 
   // The number of items at the end of AVOID_REMOVAL that are simply
@@ -1008,6 +1011,10 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       case SkillPool.MEATIFY_MATTER:
         maximumCast = Preferences.getBoolean("_meatifyMatterUsed") ? 0 : 1;
         break;
+
+      case SkillPool.SWEAT_OUT_BOOZE:
+        maximumCast = Math.max(0, 3 - Preferences.getInteger("_sweatOutSomeBoozeUsed"));
+        break;
     }
 
     return maximumCast;
@@ -1161,28 +1168,43 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       }
     }
 
-    // *** Powerful Glove buffs only work if the glove is equipped.
-    if (skillId == SkillPool.INVISIBLE_AVATAR || skillId == SkillPool.TRIPLE_SIZE) {
-      AdventureResult item = UseSkillRequest.POWERFUL_GLOVE;
-      if (!KoLCharacter.hasEquipped(item)) {
-        if (!InventoryManager.retrieveItem(item)) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot acquire Powerful Glove.");
-          return;
+    switch (skillId) {
+      case SkillPool.INVISIBLE_AVATAR, SkillPool.TRIPLE_SIZE -> {
+        AdventureResult item = UseSkillRequest.POWERFUL_GLOVE;
+        if (!KoLCharacter.hasEquipped(item)) {
+          if (!InventoryManager.retrieveItem(item)) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot acquire Powerful Glove.");
+            return;
+          }
+
+          // Find an accessory slot to equip the Powerful Glove
+          boolean slot1Allowed =
+              UseSkillRequest.isValidSwitch(EquipmentManager.ACCESSORY1, item, skillId);
+          boolean slot2Allowed =
+              UseSkillRequest.isValidSwitch(EquipmentManager.ACCESSORY2, item, skillId);
+          boolean slot3Allowed =
+              UseSkillRequest.isValidSwitch(EquipmentManager.ACCESSORY3, item, skillId);
+
+          int slot =
+              UseSkillRequest.attemptSwitch(
+                  skillId, item, slot1Allowed, slot2Allowed, slot3Allowed);
+          if (slot == -1) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot choose slot to equip Powerful Glove.");
+            return;
+          }
         }
-
-        // Find an accessory slot to equip the Powerful Glove
-        boolean slot1Allowed =
-            UseSkillRequest.isValidSwitch(EquipmentManager.ACCESSORY1, item, skillId);
-        boolean slot2Allowed =
-            UseSkillRequest.isValidSwitch(EquipmentManager.ACCESSORY2, item, skillId);
-        boolean slot3Allowed =
-            UseSkillRequest.isValidSwitch(EquipmentManager.ACCESSORY3, item, skillId);
-
-        int slot =
-            UseSkillRequest.attemptSwitch(skillId, item, slot1Allowed, slot2Allowed, slot3Allowed);
-        if (slot == -1) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot choose slot to equip Powerful Glove.");
-          return;
+      }
+      case SkillPool.SWEAT_OUT_BOOZE,
+          SkillPool.MAKE_SWEATADE,
+          SkillPool.DRENCH_YOURSELF_IN_SWEAT,
+          SkillPool.SIP_SOME_SWEAT -> {
+        AdventureResult item = UseSkillRequest.DESIGNER_SWEATPANTS;
+        if (!KoLCharacter.hasEquipped(item)) {
+          if (!InventoryManager.retrieveItem(item)) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot acquire designer sweatpants.");
+            return;
+          }
+          (new EquipmentRequest(item, EquipmentManager.PANTS)).run();
         }
       }
     }
@@ -1701,19 +1723,18 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   public final boolean singleCastSkill() {
     // Some skills do not work with a "count" field.
     // This might be a KoL bug.
-    switch (this.skillId) {
-      case SkillPool.DARK_RITUAL:
-      case SkillPool.ANCESTRAL_RECALL:
-      case SkillPool.GIANT_GROWTH:
-      case SkillPool.LIGHTNING_BOLT_CARD:
-      case SkillPool.HEALING_SALVE:
-      case SkillPool.INVISIBLE_AVATAR:
-      case SkillPool.TRIPLE_SIZE:
-      case SkillPool.SEEK_OUT_A_BIRD:
-        return true;
-    }
-
-    return false;
+    return switch (this.skillId) {
+      case SkillPool.DARK_RITUAL,
+          SkillPool.ANCESTRAL_RECALL,
+          SkillPool.GIANT_GROWTH,
+          SkillPool.LIGHTNING_BOLT_CARD,
+          SkillPool.HEALING_SALVE,
+          SkillPool.INVISIBLE_AVATAR,
+          SkillPool.TRIPLE_SIZE,
+          SkillPool.SEEK_OUT_A_BIRD,
+          SkillPool.SWEAT_OUT_BOOZE -> true;
+      default -> false;
+    };
   }
 
   public final long availableCasts(long maxCasts, long mpPerCast) {
@@ -2613,6 +2634,10 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
       case SkillPool.FEEL_PEACEFUL:
         Preferences.increment("_feelPeacefulUsed", count, 3, false);
+        break;
+
+      case SkillPool.SWEAT_OUT_BOOZE:
+        Preferences.increment("_sweatOutSomeBoozeUsed", count, 3, false);
         break;
     }
 

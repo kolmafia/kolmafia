@@ -2917,6 +2917,7 @@ public abstract class KoLCharacter {
         || oldPath == Path.JOURNEYMAN) {
       RequestThread.postRequest(new CharSheetRequest());
       InventoryManager.checkPowerfulGlove();
+      InventoryManager.checkDesignerSweatpants();
     }
 
     if (restricted
