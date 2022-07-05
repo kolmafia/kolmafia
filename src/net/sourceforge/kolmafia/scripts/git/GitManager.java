@@ -84,7 +84,7 @@ public class GitManager extends ScriptManager {
     }
 
     KoLmafia.updateDisplay("Cloned project " + id);
-    Path deps = projectPath.resolve("dependencies.txt");
+    Path deps = projectPath.resolve(DEPENDENCIES);
     if (Files.exists(deps)) {
       KoLmafia.updateDisplay("Installing dependencies");
       installDependencies(deps);
@@ -116,7 +116,7 @@ public class GitManager extends ScriptManager {
     Path projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(folder);
     Git git;
     try {
-      git = Git.open(KoLConstants.GIT_LOCATION.toPath().resolve(folder).toFile());
+      git = Git.open(projectPath.toFile());
     } catch (IOException e) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to open project " + folder + ": " + e);
       return;
@@ -162,6 +162,8 @@ public class GitManager extends ScriptManager {
         return;
       }
 
+      boolean checkDependencies = false;
+
       for (var diff : diffs) {
         switch (diff.getChangeType()) {
           case ADD, MODIFY, COPY -> addNewFile(projectPath, diff);
@@ -171,10 +173,19 @@ public class GitManager extends ScriptManager {
             addNewFile(projectPath, diff);
           }
         }
+
+        if (DEPENDENCIES.equals(diff.getNewPath())) {
+          checkDependencies = true;
+        }
+      }
+
+      if (checkDependencies) {
+        installDependencies(projectPath.resolve(DEPENDENCIES));
       }
     }
   }
 
+  /** Delete a newly removed file in the correct permissible folder. */
   private static void deleteOldFile(DiffEntry diff) {
     var path = diff.getOldPath();
     if (isPermissibleFile(path)) {
@@ -188,6 +199,7 @@ public class GitManager extends ScriptManager {
     }
   }
 
+  /** Create or replace a newly added file in the correct permissible folder. */
   private static void addNewFile(Path projectPath, DiffEntry diff) {
     var path = diff.getNewPath();
     if (isPermissibleFile(path)) {
@@ -316,6 +328,10 @@ public class GitManager extends ScriptManager {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to sync project " + folder + ": " + e);
         return;
       }
+    }
+    var deps = projectPath.resolve(DEPENDENCIES);
+    if (Files.exists(deps)) {
+      installDependencies(deps);
     }
   }
 

@@ -9,6 +9,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ScriptManager {
 
+  protected static final String DEPENDENCIES = "dependencies.txt";
+
   protected static final List<String> permissibles =
       Arrays.asList("scripts", "data", "images", "relay", "ccs", "planting");
 

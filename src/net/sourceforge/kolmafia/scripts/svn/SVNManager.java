@@ -507,7 +507,7 @@ public class SVNManager extends ScriptManager {
       } else
         // something other than a directory
         // we allow a single top-level file to declare dependencies, nothing else
-        failed = !entry.getName().equals("dependencies.txt");
+        failed = !entry.getName().equals(DEPENDENCIES);
     }
 
     if (failed && !quiet) {
@@ -1489,7 +1489,7 @@ public class SVNManager extends ScriptManager {
     }
 
     for (File f : projects) {
-      File dep = new File(f, "dependencies.txt");
+      File dep = new File(f, DEPENDENCIES);
 
       if (dep.exists()) dependencyFiles.add(dep);
     }
