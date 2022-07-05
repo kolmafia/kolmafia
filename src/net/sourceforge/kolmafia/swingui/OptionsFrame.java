@@ -122,6 +122,7 @@ public class OptionsFrame extends GenericFrame {
     selectorPanel.addPanel("Script Buttons", new ScriptButtonPanel(), true);
     selectorPanel.addPanel("Bookmarks", new BookmarkManagePanel(), true);
     selectorPanel.addPanel("SVN", new SVNPanel(), true);
+    selectorPanel.addPanel("Git", new GitPanel(), true);
     selectorPanel.addPanel("Maximizer Strings", new MaximizerStringsPanel());
 
     this.setCenterComponent(selectorPanel);
@@ -1365,6 +1366,65 @@ public class OptionsFrame extends GenericFrame {
       for (Component comp : this.componentQueue) {
         if (comp instanceof JComponent) {
           ((JComponent) comp).setAlignmentX(LEFT_ALIGNMENT);
+        }
+        this.add(comp);
+      }
+      this.componentQueue = null;
+    }
+  }
+
+  private class GitPanel extends JPanel {
+    private List<Component> componentQueue = new ArrayList<>();
+
+    public GitPanel() {
+      // 5 px inset
+      this.setBorder(BorderFactory.createEmptyBorder(10, 5, 5, 5));
+      // box layoutmanager
+      this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+      JTextArea message =
+          new JTextArea(
+              "Configure the behavior of Mafia's built-in git client here.\n\n"
+                  + "With git you can seamlessly install community-created scripts and have them automatically update.") {
+            // don't let boxlayout expand the JTextArea ridiculously
+            @Override
+            public Dimension getMaximumSize() {
+              return this.getPreferredSize();
+            }
+          };
+
+      message.setColumns(40);
+      message.setLineWrap(true);
+      message.setWrapStyleWord(true);
+      message.setEditable(false);
+      message.setOpaque(false);
+      message.setFont(KoLGUIConstants.DEFAULT_FONT);
+      this.queue(message);
+
+      JSeparator sep = new JSeparator();
+      // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
+      Dimension size = new Dimension(sep.getMaximumSize().width, sep.getPreferredSize().height);
+      sep.setMaximumSize(size);
+      this.queue(sep);
+      this.queue(Box.createVerticalStrut(5));
+
+      /*
+       * Basic Options
+       */
+
+      this.queue(
+          new PreferenceCheckBox("gitUpdateOnLogin", "Update installed Git projects on login"));
+
+      this.makeLayout();
+    }
+
+    private void queue(Component comp) {
+      this.componentQueue.add(comp);
+    }
+
+    private void makeLayout() {
+      for (Component comp : this.componentQueue) {
+        if (comp instanceof JComponent jComp) {
+          jComp.setAlignmentX(LEFT_ALIGNMENT);
         }
         this.add(comp);
       }

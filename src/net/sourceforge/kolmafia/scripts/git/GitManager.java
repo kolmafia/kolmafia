@@ -124,10 +124,10 @@ public class GitManager extends ScriptManager {
     // update repo, then find out what was updated
     try (git) {
       var repo = git.getRepository();
-      AbstractTreeIterator currId;
-      AbstractTreeIterator incomingId;
+      AbstractTreeIterator currTree;
+      AbstractTreeIterator incomingTree;
       try {
-        currId = getCurrentCommitTree(repo);
+        currTree = getCurrentCommitTree(repo);
       } catch (IOException e) {
         KoLmafia.updateDisplay(
             MafiaState.ERROR, "Failed to get details for project " + folder + ": " + e);
@@ -143,7 +143,7 @@ public class GitManager extends ScriptManager {
       }
 
       try {
-        incomingId = getCurrentCommitTree(repo);
+        incomingTree = getCurrentCommitTree(repo);
       } catch (IOException e) {
         KoLmafia.updateDisplay(
             MafiaState.ERROR, "Failed to get incoming changes for project " + folder + ": " + e);
@@ -154,8 +154,8 @@ public class GitManager extends ScriptManager {
       try {
         diffs =
             git.diff()
-                .setOldTree(currId)
-                .setNewTree(incomingId)
+                .setOldTree(currTree)
+                .setNewTree(incomingTree)
                 .setShowNameAndStatusOnly(true)
                 .call();
       } catch (GitAPIException e) {
