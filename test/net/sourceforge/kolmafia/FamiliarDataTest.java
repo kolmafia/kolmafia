@@ -218,7 +218,7 @@ public class FamiliarDataTest {
         assertEquals(famId, current.getId());
         assertEquals(famExp, current.getTotalExperience());
         // Base Weight
-        assertEquals(Math.min(20, Math.sqrt(famExp)), current.getWeight());
+        assertEquals(Math.min(20, (int) Math.sqrt(famExp)), current.getWeight());
         assertEquals(feasted, current.getFeasted());
         // Image can change, so current image is in KoLCharacter
         assertEquals(famPic + ".gif", KoLCharacter.getFamiliarImage());
@@ -232,7 +232,6 @@ public class FamiliarDataTest {
     public void canSetQuantumCrimboGhostFromApi() {
       String text = html("request/test_quantum_terrarium_api2.json");
       JSONObject JSON = json(text);
-
       // Here are the attributes relevant to familiars
       int famId = JSON.getInt("familiar");
       assertEquals(famId, FamiliarPool.GHOST_CHEER);

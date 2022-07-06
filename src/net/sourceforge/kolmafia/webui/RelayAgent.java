@@ -431,17 +431,22 @@ public class RelayAgent extends Thread {
       }
       this.request.pseudoResponse("HTTP/1.1 200 OK", fightResponse);
     } else if (this.path.equals("/choice.php?action=auto")) {
-      ChoiceManager.processChoiceAdventure(
-          this.request, "choice.php", ChoiceManager.lastResponseText);
-      if (StaticEntity.userAborted || KoLmafia.refusesContinue()) {
-        // Resubmit the choice request to let the user see it again
-        KoLmafia.forceContinue();
-        request.constructURLString("choice.php?forceoption=0");
-        RequestThread.postRequest(this.request);
-        RelayAgent.errorRequest = null;
-      } else if (this.request.responseText == null) {
-        // Force a refresh
-        this.request.pseudoResponse("HTTP/1.1 200 OK", ChoiceManager.lastDecoratedResponseText);
+      try {
+        this.request.setAllowOverride(false);
+        ChoiceManager.processChoiceAdventure(
+            this.request, "choice.php", ChoiceManager.lastResponseText);
+        if (StaticEntity.userAborted || KoLmafia.refusesContinue()) {
+          // Resubmit the choice request to let the user see it again
+          KoLmafia.forceContinue();
+          request.constructURLString("choice.php?forceoption=0");
+          RequestThread.postRequest(this.request);
+          RelayAgent.errorRequest = null;
+        } else if (this.request.responseText == null) {
+          // Force a refresh
+          this.request.pseudoResponse("HTTP/1.1 200 OK", ChoiceManager.lastDecoratedResponseText);
+        }
+      } finally {
+        this.request.setAllowOverride(true);
       }
     } else if (this.path.equals("/leaflet.php?action=auto")) {
       this.request.pseudoResponse("HTTP/1.1 200 OK", LeafletManager.leafletWithMagic());

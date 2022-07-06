@@ -474,7 +474,16 @@ public class FamiliarData implements Comparable<FamiliarData> {
     // For Crimbo ghosts, we can get accurate experience from the terrarium,
     // but not from api.php or charpane.php - which call this method.
 
+    // I have also noticed that in Quantum Terrarium, other familiars don't
+    // necessarily have an experience value (as reported by api.php) that
+    // agrees with what KoL reports for modified weight.
+
     switch (this.id) {
+      default:
+        if (!KoLCharacter.inQuantum()) {
+          break;
+        }
+        // fall through
       case FamiliarPool.GHOST_CAROLS:
       case FamiliarPool.GHOST_CHEER:
       case FamiliarPool.GHOST_COMMERCE:
