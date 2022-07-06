@@ -60,4 +60,15 @@ public class GenericRequestTest {
 
     assertThat("locketPhylum", isSetTo(phylum));
   }
+
+  @ParameterizedTest
+  @ValueSource(ints = {100, 0})
+  public void parseDesignerSweatpants(int expectedSweat) {
+    var req = new GenericRequest("desc_item.php?whichitem=800334855");
+    req.responseText =
+        html("request/test_desc_item_designer_sweatpants_" + expectedSweat + "_sweat.html");
+    req.processResponse();
+
+    assertThat("sweat", isSetTo(expectedSweat));
+  }
 }

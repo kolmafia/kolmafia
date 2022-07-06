@@ -354,6 +354,9 @@ public class ResponseTextParser {
           case ItemPool.JUNE_CLEAVER:
             ItemDatabase.parseCleaver(responseText);
             break;
+          case ItemPool.DESIGNER_SWEATPANTS:
+            ItemDatabase.parseDesignerSweatpants(responseText);
+            break;
           default:
             changesFromTimeToTime = false;
             break;
