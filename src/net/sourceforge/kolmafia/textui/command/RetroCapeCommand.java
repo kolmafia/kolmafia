@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class RetroCapeCommand extends AbstractModeCommand {
+public class RetroCapeCommand extends AbstractCommand implements ModeCommand {
   public static final String[] SUPERHEROS = {"vampire", "heck", "robot"};
   public static final String[] WASHING_INSTRUCTIONS = {"hold", "thrill", "kiss", "kill"};
 
@@ -29,6 +29,12 @@ public class RetroCapeCommand extends AbstractModeCommand {
         && Arrays.asList(WASHING_INSTRUCTIONS).contains(parts[1]);
   }
 
+  @Override
+  public String normalize(String parameters) {
+    return parameters;
+  }
+
+  @Override
   public Set<String> getModes() {
     return Arrays.stream(SUPERHEROS)
         .flatMap(s -> Arrays.stream(WASHING_INSTRUCTIONS).map(w -> s + " " + w))

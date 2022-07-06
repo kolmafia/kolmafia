@@ -14,7 +14,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class SnowsuitCommand extends AbstractModeCommand {
+public class SnowsuitCommand extends AbstractCommand implements ModeCommand {
   public static final Map<String, Integer> MODES =
       Map.ofEntries(
           Map.entry("eyebrows", 1),
@@ -36,6 +36,12 @@ public class SnowsuitCommand extends AbstractModeCommand {
     return getChoice(parameters) != 0;
   }
 
+  @Override
+  public String normalize(String parameters) {
+    return parameters;
+  }
+
+  @Override
   public Set<String> getModes() {
     return MODES.keySet();
   }

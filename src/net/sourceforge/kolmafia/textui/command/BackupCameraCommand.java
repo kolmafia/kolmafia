@@ -8,7 +8,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class BackupCameraCommand extends AbstractModeCommand {
+public class BackupCameraCommand extends AbstractCommand implements ModeCommand {
   public BackupCameraCommand() {
     this.usage = " [ml | meat | init | (reverser on | off )] - set your backup camera mode";
   }
@@ -19,6 +19,11 @@ public class BackupCameraCommand extends AbstractModeCommand {
   @Override
   public boolean validate(final String command, final String parameters) {
     return getChoiceForParameters(parameters) > 0;
+  }
+
+  @Override
+  public String normalize(String parameters) {
+    return parameters;
   }
 
   public int getChoiceForParameters(final String parameters) {

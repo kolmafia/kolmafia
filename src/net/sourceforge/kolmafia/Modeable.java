@@ -9,9 +9,9 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.textui.command.AbstractModeCommand;
 import net.sourceforge.kolmafia.textui.command.BackupCameraCommand;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
+import net.sourceforge.kolmafia.textui.command.ModeCommand;
 import net.sourceforge.kolmafia.textui.command.RetroCapeCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 import net.sourceforge.kolmafia.textui.command.UmbrellaCommand;
@@ -57,7 +57,7 @@ public enum Modeable {
   private final String statePref;
   private final AdventureResult item;
   private final String modifier;
-  private final AbstractModeCommand commandInstance;
+  private final ModeCommand commandInstance;
   private final boolean equipAfterChange;
 
   Modeable(
@@ -65,7 +65,7 @@ public enum Modeable {
       final String statePref,
       final AdventureResult item,
       final String modifier,
-      final AbstractModeCommand commandInstance,
+      final ModeCommand commandInstance,
       final boolean equipAfterChange) {
     this.command = command;
     this.statePref = statePref;

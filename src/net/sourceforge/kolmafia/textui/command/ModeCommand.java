@@ -2,7 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.util.Set;
 
-public abstract class AbstractModeCommand extends AbstractCommand {
+public interface ModeCommand {
   /**
    * Basic side-effect-less command validation
    *
@@ -10,9 +10,7 @@ public abstract class AbstractModeCommand extends AbstractCommand {
    * @param parameters Parameters as a string
    * @return Whether command is valid
    */
-  public boolean validate(final String command, final String parameters) {
-    return true;
-  }
+  public boolean validate(final String command, final String parameters);
 
   /**
    * Normalise parameters to the value expected in modifiers.txt
@@ -23,9 +21,7 @@ public abstract class AbstractModeCommand extends AbstractCommand {
    * @param parameters Input parameters
    * @return Appropriate state value
    */
-  public String normalize(final String parameters) {
-    return parameters;
-  }
+  public String normalize(final String parameters);
 
   /** List of possible modes */
   public abstract Set<String> getModes();

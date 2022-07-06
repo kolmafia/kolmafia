@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -12,7 +11,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UmbrellaRequest.Form;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class UmbrellaCommand extends AbstractModeCommand {
+public class UmbrellaCommand extends AbstractCommand implements ModeCommand {
   public UmbrellaCommand() {
     this.usage =
         "[ml | item | dr | weapon | spell | nc | broken | forward | bucket | pitchfork | twirling | cocoon] - fold your Umbrella";
@@ -41,8 +40,8 @@ public class UmbrellaCommand extends AbstractModeCommand {
     return getForm(parameter) != null;
   }
 
-  public Set<String> getModes() {
-    return new HashSet(SHORTHAND_MAP.values());
+  public HashSet<String> getModes() {
+    return new HashSet<>(SHORTHAND_MAP.values());
   }
 
   @Override
