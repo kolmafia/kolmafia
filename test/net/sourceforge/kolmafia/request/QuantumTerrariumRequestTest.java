@@ -1,17 +1,23 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Networking.json;
+import static internal.helpers.Player.addSkill;
+import static internal.helpers.Player.isClass;
+import static internal.helpers.Player.setStats;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.mockStatic;
 
 import internal.helpers.Cleanups;
 import internal.helpers.Player;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -46,12 +52,26 @@ public class QuantumTerrariumRequestTest {
 
   @Test
   void canDetectCurrentAndNextFamiliar() {
+    String text = html("request/test_quantum_terrarium_api.json");
+    JSONObject JSON = json(text);
 
     // Quantum Terrarium will call api.php to set up familiar in middle of processing.
     ApiRequest apiRequest = new ApiRequest("status");
-    apiRequest.responseText = html("request/test_quantum_terrarium_api.json");
+    apiRequest.responseText = text;
 
-    var cleanups = new Cleanups(Player.inPath(Path.QUANTUM), mockApiRequest(apiRequest));
+    // Stats affect Familiar Weight in Quantum Familiar
+    int basemuscle = JSON.getInt("basemuscle");
+    int basemysticality = JSON.getInt("basemysticality");
+    int basemoxie = JSON.getInt("basemoxie");
+
+    var cleanups =
+        new Cleanups(
+            Player.inPath(Path.QUANTUM),
+            isClass(AscensionClass.ACCORDION_THIEF),
+            setStats(basemuscle, basemysticality, basemoxie),
+            addSkill("Amphibian Sympathy"),
+            mockApiRequest(apiRequest));
+
     try (cleanups) {
       String urlString = "qterrarium.php";
       String responseText = html("request/test_quantum_terrarium_visit.html");

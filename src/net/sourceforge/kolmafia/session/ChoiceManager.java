@@ -743,42 +743,50 @@ public abstract class ChoiceManager {
     }
     switch (choice) {
       case 890:
+        //  Lights Out in the Storage Room
         if (automation == 1 && responseText.contains("Look Out the Window")) {
           return "3";
         }
         return "1";
       case 891:
+        //  Lights Out in the Laundry Room
         if (automation == 1 && responseText.contains("Check a Pile of Stained Sheets")) {
           return "3";
         }
         return "1";
       case 892:
+        //  Lights Out in the Bathroom
         if (automation == 1 && responseText.contains("Inspect the Bathtub")) {
           return "3";
         }
         return "1";
       case 893:
+        //  Lights Out in the Kitchen
         if (automation == 1 && responseText.contains("Make a Snack")) {
           return "4";
         }
         return "1";
       case 894:
+        //  Lights Out in the Library
         if (automation == 1 && responseText.contains("Go to the Children's Section")) {
           return "2";
         }
         return "1";
       case 895:
+        //  Lights Out in the Ballroom
         if (automation == 1 && responseText.contains("Dance with Yourself")) {
           return "2";
         }
         return "1";
       case 896:
+        //  Lights Out in the Gallery
         if (automation == 1
             && responseText.contains("Check out the Tormented Damned Souls Painting")) {
           return "4";
         }
         return "1";
       case 897:
+        //  Lights Out in the Bedroom
         if (responseText.contains("Search for a light")) {
           return automation == 1 ? "1" : "2";
         }
@@ -790,6 +798,7 @@ public abstract class ChoiceManager {
         }
         return "2";
       case 898:
+        //  Lights Out in the Nursery
         if (responseText.contains("Search for a lamp")) {
           return automation == 1 ? "1" : "2";
         }
@@ -807,6 +816,7 @@ public abstract class ChoiceManager {
         }
         return "2";
       case 899:
+        //  Lights Out in the Conservatory
         if (responseText.contains("Make a torch")) {
           return automation == 1 ? "1" : "2";
         }
@@ -818,6 +828,7 @@ public abstract class ChoiceManager {
         }
         return "2";
       case 900:
+        //  Lights Out in the Billiards Room
         if (responseText.contains("Search for a light")) {
           return automation == 1 ? "1" : "2";
         }
@@ -829,6 +840,7 @@ public abstract class ChoiceManager {
         }
         return "2";
       case 901:
+        //  Lights Out in the Wine Cellar
         if (responseText.contains("Try to find a light")) {
           return automation == 1 ? "1" : "2";
         }
@@ -843,6 +855,7 @@ public abstract class ChoiceManager {
         }
         return "2";
       case 902:
+        //  Lights Out in the Boiler Room
         if (responseText.contains("Look for a light")) {
           return automation == 1 ? "1" : "2";
         }
@@ -854,6 +867,7 @@ public abstract class ChoiceManager {
         }
         return "2";
       case 903:
+        //  Lights Out in the Laboratory
         if (responseText.contains("Search for a light")) {
           return automation == 1 ? "1" : "2";
         }
