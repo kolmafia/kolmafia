@@ -674,19 +674,16 @@ public class FightRequestTest {
     assertEquals(3, Preferences.getInteger("_bellydancerPickpockets"));
   }
 
-  @Test
-  public void canTrackDesignerSweatpants() {
+  @ParameterizedTest
+  @ValueSource(ints = {7, 12})
+  public void canTrackDesignerSweatpants(int expectedSweat) {
     var cleanups =
-        new Cleanups(equip(EquipmentManager.PANTS, "designer sweatpants"), setProperty("sweat", 0));
+        new Cleanups(
+            equip(EquipmentManager.PANTS, "designer sweatpants"), setProperty("sweat", 10));
 
     try (cleanups) {
-      assertEquals(0, Preferences.getInteger("sweat"));
-
-      parseCombatData("request/test_fight_designer_sweatpants_1.html");
-      assertEquals(2, Preferences.getInteger("sweat"));
-
-      parseCombatData("request/test_fight_designer_sweatpants_2.html");
-      assertEquals(0, Preferences.getInteger("sweat"));
+      parseCombatData("request/test_fight_designer_sweatpants_" + expectedSweat + ".html");
+      assertEquals(expectedSweat, Preferences.getInteger("sweat"));
     }
   }
 }

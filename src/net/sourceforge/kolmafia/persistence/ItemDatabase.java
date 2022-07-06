@@ -2205,6 +2205,17 @@ public class ItemDatabase {
     }
   }
 
+  public static void parseDesignerSweatpants(final String desc) {
+    Pattern sweatPattern = Pattern.compile("Your sweatpants are currently (\\d+)% sweat-logged.");
+    Matcher matcher = sweatPattern.matcher(desc);
+
+    if (matcher.find()) {
+      Preferences.setInteger("sweat", StringUtilities.parseInt(matcher.group(1)));
+    } else {
+      Preferences.setInteger("sweat", 0);
+    }
+  }
+
   public static void resetVampireVintnerWine() {
     Preferences.setString("vintnerWineName", "");
     Preferences.setString("vintnerWineEffect", "");
