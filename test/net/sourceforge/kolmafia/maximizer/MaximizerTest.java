@@ -936,5 +936,20 @@ public class MaximizerTest {
         assertThat(someBoostIs(b -> commandStartsWith(b, "equip familiar ¶9890")), equalTo(true));
       }
     }
+
+    @Test
+    public void shouldSuggestTunedRetrocape() {
+      final var cleanups =
+          new Cleanups(
+              canUse("unwrapped knock-off retro superhero cape"),
+              canUse("palm-frond cloak"),
+              setProperty("retroCapeSuperhero", "vampire"),
+              setProperty("retroCapeWashingInstructions", "thrill"));
+      try (cleanups) {
+        assertTrue(maximize("hot res"));
+        recommendedSlotIs(EquipmentManager.CONTAINER, "unwrapped knock-off retro superhero cape");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "retrocape vampire hold")));
+      }
+    }
   }
 }
