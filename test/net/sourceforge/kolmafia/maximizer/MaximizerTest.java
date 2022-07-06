@@ -905,18 +905,16 @@ public class MaximizerTest {
     @Test
     public void suggestEquippingSomethingBetterThanUmbrellaOnLeftHandMan() {
       var cleanups =
-              new Cleanups(
-                      canUse("unbreakable umbrella"),
-                      hasFamiliar(FamiliarPool.LEFT_HAND),
-                      equip(EquipmentManager.PANTS, "old patched suit-pants"),
-                      canUse("shield of the Skeleton Lord"),
-                      setProperty("umbrellaState", "cocoon"));
+          new Cleanups(
+              canUse("unbreakable umbrella"),
+              hasFamiliar(FamiliarPool.LEFT_HAND),
+              equip(EquipmentManager.PANTS, "old patched suit-pants"),
+              canUse("shield of the Skeleton Lord"),
+              setProperty("umbrellaState", "cocoon"));
       try (cleanups) {
         assertTrue(maximize("exp, -offhand, switch left-hand man"));
         assertThat(someBoostIs(b -> commandStartsWith(b, "familiar Left-Hand Man")), equalTo(true));
-        assertThat(
-                someBoostIs(b -> commandStartsWith(b, "equip familiar ¶9890")),
-                equalTo(true));
+        assertThat(someBoostIs(b -> commandStartsWith(b, "equip familiar ¶9890")), equalTo(true));
       }
     }
   }
