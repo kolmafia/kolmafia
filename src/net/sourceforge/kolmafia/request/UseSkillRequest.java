@@ -2038,6 +2038,12 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       return SkillStatus.ERROR;
     }
 
+    Matcher sweatCheck = Pattern.compile("You get (\\d+)% less Sweaty.").matcher(responseText);
+    if (sweatCheck.find()) {
+      int sweatCost = Integer.parseInt(sweatCheck.group());
+      Preferences.decrement("sweat", sweatCost, 0);
+    }
+
     // Summon Clip Art cast through the browser has two phases:
     //
     //   campground.php?preaction=summoncliparts
