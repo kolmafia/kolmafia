@@ -24,6 +24,16 @@ class CharPaneRequestTest {
     CharPaneRequest.reset();
   }
 
+  @Test
+  void canParseSnowsuit() {
+    var cleanups = new Cleanups(setProperty("snowsuit", ""));
+
+    try (cleanups) {
+      CharPaneRequest.processResults(html("request/test_charpane_snowsuit.html"));
+      assertThat("snowsuit", isSetTo("hat"));
+    }
+  }
+
   @Nested
   class Sweaty {
     @ParameterizedTest

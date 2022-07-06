@@ -96,7 +96,7 @@ public class MaximizerSpeculation extends Speculation
 
   @Override
   public int compareTo(MaximizerSpeculation o) {
-    if (!(o instanceof MaximizerSpeculation)) return 1;
+    if (o == null) return 1;
     MaximizerSpeculation other = o;
     int rv = Double.compare(this.getScore(), other.getScore());
     // Always prefer success to failure

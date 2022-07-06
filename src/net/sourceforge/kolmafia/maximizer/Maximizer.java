@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -12,6 +13,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.moods.MoodManager;
@@ -1543,27 +1545,10 @@ public class Maximizer {
     int itemId = -1;
     FamiliarData enthroned = Maximizer.best.getEnthroned();
     FamiliarData bjorned = Maximizer.best.getBjorned();
-    String edPiece = Maximizer.best.getEdPiece();
-    String snowsuit = Maximizer.best.getSnowsuit();
-    String retroCape = Maximizer.best.getRetroCape();
-    String backupCamera = Maximizer.best.getBackupCamera();
-    String unbreakableUmbrella = Maximizer.best.getUnbreakableUmbrella();
+    var modeables = Maximizer.best.getModeables();
     AdventureResult curr = EquipmentManager.getEquipment(slot);
     FamiliarData currEnthroned = KoLCharacter.getEnthroned();
     FamiliarData currBjorned = KoLCharacter.getBjorned();
-    String currEdPiece = Preferences.getString("edPiece");
-    Boolean setEdPiece = false;
-    String currSnowsuit = Preferences.getString("snowsuit");
-    Boolean setSnowsuit = false;
-    String currRetroCape =
-        Preferences.getString("retroCapeSuperhero")
-            + " "
-            + Preferences.getString("retroCapeWashingInstructions");
-    Boolean setRetroCape = false;
-    String currBackupCamera = Preferences.getString("backupCameraMode");
-    Boolean setBackupCamera = false;
-    String currUmbrella = Preferences.getString("umbrellaState");
-    Boolean setUmbrella = false;
 
     if (item == null || item.getItemId() == 0) {
       item = EquipmentRequest.UNEQUIP;
@@ -1573,31 +1558,15 @@ public class Maximizer {
 
     boolean changeEnthroned = itemId == ItemPool.HATSEAT && enthroned != currEnthroned;
     boolean changeBjorned = itemId == ItemPool.BUDDY_BJORN && bjorned != currBjorned;
-    boolean changeRetroCape =
-        itemId == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE
-            && retroCape != null
-            && !retroCape.equals(currRetroCape);
-    boolean changeBackupCamera =
-        itemId == ItemPool.BACKUP_CAMERA
-            && backupCamera != null
-            && !backupCamera.equals(currBackupCamera);
-    boolean changeUmbrella =
-        itemId == ItemPool.UNBREAKABLE_UMBRELLA
-            && unbreakableUmbrella != null
-            && !unbreakableUmbrella.equals(currUmbrella);
-    boolean changeEdPiece =
-        itemId == ItemPool.CROWN_OF_ED && edPiece != null && !edPiece.equals(currEdPiece);
-    boolean changeSnowSuit =
-        itemId == ItemPool.SNOW_SUIT && snowsuit != null && !snowsuit.equals(currSnowsuit);
+
+    var modeable = Modeable.find(itemId);
+    var changeModeable =
+        modeable != null && !Objects.equals(modeables.get(modeable), modeable.getState());
 
     if (curr.equals(item)
         && !changeEnthroned
         && !changeBjorned
-        && !changeEdPiece
-        && !changeSnowSuit
-        && !(changeRetroCape)
-        && !(changeBackupCamera)
-        && !(changeUmbrella)
+        && !changeModeable
         && !(itemId == ItemPool.BROKEN_CHAMPAGNE
             && Preferences.getInteger("garbageChampagneCharge") == 0
             && !Preferences.getBoolean("_garbageItemChanged"))
@@ -1619,16 +1588,8 @@ public class Maximizer {
       spec.setEnthroned(enthroned);
     } else if (itemId == ItemPool.BUDDY_BJORN) {
       spec.setBjorned(bjorned);
-    } else if (itemId == ItemPool.CROWN_OF_ED) {
-      spec.setEdPiece(edPiece);
-    } else if (itemId == ItemPool.SNOW_SUIT) {
-      spec.setSnowsuit(snowsuit);
-    } else if (itemId == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE) {
-      spec.setRetroCape(retroCape);
-    } else if (itemId == ItemPool.BACKUP_CAMERA) {
-      spec.setBackupCamera(backupCamera);
-    } else if (itemId == ItemPool.UNBREAKABLE_UMBRELLA) {
-      spec.setUnbreakableUmbrella(unbreakableUmbrella);
+    } else if (modeable != null) {
+      spec.setModeable(modeable, modeables.get(modeable));
     }
 
     double delta = spec.getScore() - current;
@@ -1645,32 +1606,11 @@ public class Maximizer {
       } else if (changeBjorned) {
         cmd = "bjornify " + bjorned.getRace();
         text = cmd;
-      } else if (changeEdPiece) {
-        cmd = "edpiece " + edPiece;
-        text = cmd;
-        setEdPiece = true;
-      } else if (changeSnowSuit) {
-        cmd = "snowsuit " + snowsuit;
-        text = cmd;
-        setSnowsuit = true;
-      } else if (changeRetroCape) {
-        cmd = "retrocape " + retroCape;
-        text = cmd;
-        setRetroCape = true;
-      } else if (changeBackupCamera) {
-        cmd = "backupcamera " + backupCamera + "; equip " + slotname + " \u00B6" + item.getItemId();
-        text = "backupcamera " + backupCamera;
-        setBackupCamera = true;
-      } else if (changeUmbrella) {
-        cmd =
-            "umbrella "
-                + unbreakableUmbrella
-                + "; equip "
-                + slotname
-                + " \u00B6"
-                + item.getItemId();
-        text = "umbrella " + unbreakableUmbrella;
-        setUmbrella = true;
+      } else if (changeModeable) {
+        text = modeable.getCommand() + " " + modeables.get(modeable);
+        cmd = text;
+        if (modeable.getEquipAfterChange())
+          cmd += "; equip " + slotname + " \u00B6" + item.getItemId();
       } else {
         cmd = "equip " + slotname + " \u00B6" + item.getItemId();
         text = "equip " + slotname + " " + item.getName();
@@ -1696,9 +1636,7 @@ public class Maximizer {
         }
       } else {
         // Otherwise we iterate through the maximization set so far
-        Iterator<Boost> i = Maximizer.boosts.iterator();
-        while (i.hasNext()) {
-          Boost boost = i.next();
+        for (Boost boost : Maximizer.boosts) {
           if (item.equals(boost.getItem())) {
             count++;
           }
@@ -1804,40 +1742,7 @@ public class Maximizer {
       text = text + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
     }
 
-    if (!setEdPiece) {
-      edPiece = null;
-    }
-
-    if (!setSnowsuit) {
-      snowsuit = null;
-    }
-
-    if (!setRetroCape) {
-      retroCape = null;
-    }
-
-    if (!setBackupCamera) {
-      backupCamera = null;
-    }
-
-    if (!setUmbrella) {
-      unbreakableUmbrella = null;
-    }
-
-    Boost boost =
-        new Boost(
-            cmd,
-            text,
-            slot,
-            item,
-            delta,
-            enthroned,
-            bjorned,
-            edPiece,
-            snowsuit,
-            retroCape,
-            backupCamera,
-            unbreakableUmbrella);
+    Boost boost = new Boost(cmd, text, slot, item, delta, enthroned, bjorned, modeables);
     if (equipScope == -1) { // called from CLI
       boost.execute(true);
       if (!KoLmafia.permitsContinue()) {

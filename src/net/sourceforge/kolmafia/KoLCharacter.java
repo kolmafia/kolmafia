@@ -4,6 +4,7 @@ import java.awt.Taskbar;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -4900,16 +4901,10 @@ public abstract class KoLCharacter {
             KoLCharacter.effectiveFamiliar,
             KoLCharacter.currentEnthroned,
             KoLCharacter.currentBjorned,
-            Preferences.getString("edPiece"),
-            Preferences.getString("snowsuit"),
             null,
             Preferences.getString("_horsery"),
             Preferences.getString("boomBoxSong"),
-            Preferences.getString("retroCapeSuperhero")
-                + " "
-                + Preferences.getString("retroCapeWashingInstructions"),
-            Preferences.getString("backupCameraMode"),
-            Preferences.getString("umbrellaState"),
+            Modeable.getStateMap(),
             false));
   }
 
@@ -4921,14 +4916,10 @@ public abstract class KoLCharacter {
       FamiliarData familiar,
       FamiliarData enthroned,
       FamiliarData bjorned,
-      String edPiece,
-      String snowsuit,
       String custom,
       String horsery,
       String boomBox,
-      String retroCape,
-      String backupCamera,
-      String unbreakableUmbrella,
+      Map<Modeable, String> modeables,
       boolean speculation) {
     int taoFactor = KoLCharacter.hasSkill("Tao of the Terrapin") ? 2 : 1;
 
@@ -5020,11 +5011,7 @@ public abstract class KoLCharacter {
           equipment,
           enthroned,
           bjorned,
-          edPiece,
-          snowsuit,
-          retroCape,
-          backupCamera,
-          unbreakableUmbrella,
+          modeables,
           speculation,
           taoFactor);
     }
@@ -5424,11 +5411,7 @@ public abstract class KoLCharacter {
       AdventureResult[] equipment,
       FamiliarData enthroned,
       FamiliarData bjorned,
-      String edPiece,
-      String snowsuit,
-      String retroCape,
-      String backupCamera,
-      String unbreakableUmbrella,
+      Map<Modeable, String> modeables,
       boolean speculation,
       int taoFactor) {
     if (item == null || item == EquipmentRequest.UNEQUIP) {
@@ -5548,25 +5531,13 @@ public abstract class KoLCharacter {
           newModifiers.applyVampyricCloakeModifiers();
           break;
 
-        case ItemPool.CROWN_OF_ED:
-          newModifiers.add(Modifiers.getModifiers("Edpiece", edPiece));
-          break;
+        default:
+          var modeable = Modeable.find(itemId);
 
-        case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
-          newModifiers.add(Modifiers.getModifiers("RetroCape", retroCape));
-          break;
-
-        case ItemPool.BACKUP_CAMERA:
-          newModifiers.add(Modifiers.getModifiers("BackupCamera", backupCamera));
-          break;
-
-        case ItemPool.UNBREAKABLE_UMBRELLA:
-          newModifiers.add(Modifiers.getModifiers("UnbreakableUmbrella", unbreakableUmbrella));
-          break;
-
-        case ItemPool.SNOW_SUIT:
-          newModifiers.add(Modifiers.getModifiers("Snowsuit", snowsuit));
-          break;
+          if (modeable != null) {
+            newModifiers.add(
+                Modifiers.getModifiers(modeable.getModifier(), modeables.get(modeable)));
+          }
       }
     }
 

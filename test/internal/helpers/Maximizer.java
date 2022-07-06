@@ -3,6 +3,7 @@ package internal.helpers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -25,12 +26,13 @@ public class Maximizer {
     return Modifiers.getNumericModifier("Generated", "_spec", modifier);
   }
 
+  public static List<Boost> getBoosts() {
+    return net.sourceforge.kolmafia.maximizer.Maximizer.boosts;
+  }
+
   public static Optional<AdventureResult> getSlot(int slot) {
     var boost =
-        net.sourceforge.kolmafia.maximizer.Maximizer.boosts.stream()
-            .filter(Boost::isEquipment)
-            .filter(b -> b.getSlot() == slot)
-            .findAny();
+        getBoosts().stream().filter(Boost::isEquipment).filter(b -> b.getSlot() == slot).findAny();
     return boost.map(Boost::getItem);
   }
 
@@ -53,7 +55,7 @@ public class Maximizer {
 
   public static void recommends(String item) {
     Optional<Boost> found =
-        net.sourceforge.kolmafia.maximizer.Maximizer.boosts.stream()
+        getBoosts().stream()
             .filter(Boost::isEquipment)
             .filter(b -> item.equals(b.getItem().getName()))
             .findAny();
@@ -61,7 +63,7 @@ public class Maximizer {
   }
 
   public static boolean someBoostIs(Predicate<Boost> predicate) {
-    return net.sourceforge.kolmafia.maximizer.Maximizer.boosts.stream().anyMatch(predicate);
+    return getBoosts().stream().anyMatch(predicate);
   }
 
   public static boolean commandStartsWith(Boost boost, String prefix) {

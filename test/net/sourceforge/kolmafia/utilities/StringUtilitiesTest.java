@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.utilities;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.Instant;
@@ -699,5 +701,20 @@ class StringUtilitiesTest {
     assertEquals(expected, StringUtilities.getURLDecode(input));
     // For coverage - first call caches it, second finds it there
     assertEquals(expected, StringUtilities.getURLDecode(input));
+  }
+
+  @Test
+  void oneValuelistToHumanString() {
+    assertThat(StringUtilities.listToHumanString(List.of("a")), equalTo("a"));
+  }
+
+  @Test
+  void twoValuelistToHumanString() {
+    assertThat(StringUtilities.listToHumanString(List.of("a", "b")), equalTo("a and b"));
+  }
+
+  @Test
+  void multipleValuelistToHumanString() {
+    assertThat(StringUtilities.listToHumanString(List.of("a", "b", "c")), equalTo("a, b and c"));
   }
 }
