@@ -38,7 +38,7 @@ import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.SushiRequest;
-import net.sourceforge.kolmafia.request.UmbrellaRequest;
+import net.sourceforge.kolmafia.request.UmbrellaRequest.UmbrellaMode;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
@@ -2178,17 +2178,17 @@ public class ItemDatabase {
 
   public static void parseUmbrella(final String desc) {
     if (desc.contains("Monster Level")) {
-      UmbrellaRequest.Form.BROKEN.set();
+      UmbrellaMode.BROKEN.set();
     } else if (desc.contains("Damage Reduction")) {
-      UmbrellaRequest.Form.FORWARD.set();
+      UmbrellaMode.FORWARD.set();
     } else if (desc.contains("Item Drops")) {
-      UmbrellaRequest.Form.BUCKET.set();
+      UmbrellaMode.BUCKET.set();
     } else if (desc.contains("Weapon Damage")) {
-      UmbrellaRequest.Form.PITCHFORK.set();
+      UmbrellaMode.PITCHFORK.set();
     } else if (desc.contains("Spell Damage")) {
-      UmbrellaRequest.Form.TWIRL.set();
+      UmbrellaMode.TWIRL.set();
     } else if (desc.contains("much less attracted")) {
-      UmbrellaRequest.Form.COCOON.set();
+      UmbrellaMode.COCOON.set();
     }
   }
 

@@ -1038,7 +1038,7 @@ public class CharPaneRequest extends GenericRequest {
       String image = matcher.group(2);
       int familiarId = KoLCharacter.getFamiliar().getId();
       if (image.startsWith("snow")) {
-        CharPaneRequest.checkSnowsuit(image);
+        SnowsuitCommand.check(responseText);
       }
       // Left-Hand Man's image is composed of body + an item image
       // Melodramedary's image has left, middle, right images
@@ -1472,16 +1472,6 @@ public class CharPaneRequest extends GenericRequest {
         Preferences.setString("miniAdvClass", miniAdvClass);
         KoLCharacter.recalculateAdjustments();
       }
-    }
-  }
-
-  private static final Pattern snowsuitPattern = Pattern.compile("snowface([1-5]).gif");
-
-  private static void checkSnowsuit(final String responseText) {
-    Matcher matcher = CharPaneRequest.snowsuitPattern.matcher(responseText);
-    if (matcher.find()) {
-      int id = StringUtilities.parseInt(matcher.group(1)) - 1;
-      Preferences.setString("snowsuit", SnowsuitCommand.DECORATION[id][0]);
     }
   }
 
