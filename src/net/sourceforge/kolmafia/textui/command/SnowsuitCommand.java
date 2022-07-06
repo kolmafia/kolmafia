@@ -50,7 +50,7 @@ public class SnowsuitCommand extends AbstractCommand implements ModeCommand {
     return MODES.entrySet().stream()
         .filter(e -> e.getValue() == decision)
         .findAny()
-        .map(e -> e.getKey())
+        .map(Map.Entry::getKey)
         .orElse(null);
   }
 
@@ -90,13 +90,12 @@ public class SnowsuitCommand extends AbstractCommand implements ModeCommand {
       return;
     }
 
-    String decoration = parameters;
-    int choice = getChoice(decoration);
+    int choice = getChoice(parameters);
 
     if (choice == 0) {
       KoLmafia.updateDisplay(
           "Decoration "
-              + decoration
+              + parameters
               + " not recognised. Valid values are eyebrows, goatee, hat, nose and smirk");
       return;
     }
@@ -107,8 +106,8 @@ public class SnowsuitCommand extends AbstractCommand implements ModeCommand {
       RequestThread.postRequest(new EquipmentRequest(snowsuit, EquipmentManager.FAMILIAR));
     }
 
-    if (decoration.equalsIgnoreCase(currentDecoration)) {
-      KoLmafia.updateDisplay("Decoration " + decoration + " already equipped.");
+    if (parameters.equalsIgnoreCase(currentDecoration)) {
+      KoLmafia.updateDisplay("Decoration " + parameters + " already equipped.");
       return;
     }
 
@@ -119,7 +118,7 @@ public class SnowsuitCommand extends AbstractCommand implements ModeCommand {
       RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=640&option=" + choice));
     }
     if (KoLmafia.permitsContinue()) {
-      KoLmafia.updateDisplay("Snowsuit decorated with " + decoration + ".");
+      KoLmafia.updateDisplay("Snowsuit decorated with " + parameters + ".");
     }
   }
 }
