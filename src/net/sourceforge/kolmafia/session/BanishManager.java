@@ -199,7 +199,7 @@ public class BanishManager {
         case COSMIC_BOWLING_BALL_RESET:
           return Preferences.getInteger("cosmicBowlingBallReturnCombats") > 0;
         case SPRING_LOADED_BUMPER_RESET:
-          return KoLCharacter.getTurnsPlayed() 
+          return KoLCharacter.getTurnsPlayed()
               > 30 + Preferences.getInteger("_lastSpringLoadedBumperUse");
         default:
           return true;
