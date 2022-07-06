@@ -100,7 +100,7 @@ public class SnowsuitCommandTest extends AbstractCommandTestBase {
 
   @ParameterizedTest
   @MethodSource("provideModes")
-  void successFullyhangesDecoration(String decoration, int decision) {
+  void successFullyhangesDecoration(int decision, String decoration) {
     var cleanups =
         new Cleanups(
             canUse("Snow Suit"),
