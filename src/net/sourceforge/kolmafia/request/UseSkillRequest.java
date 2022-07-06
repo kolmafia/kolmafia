@@ -1989,7 +1989,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       SkillDatabase.registerCasts(skillId, count);
       Matcher sweatCheck = Pattern.compile("You get (\\d+)% less Sweaty.").matcher(responseText);
       if (sweatCheck.find()) {
-        int sweatCost = Integer.parseInt(sweatCheck.group());
+        int sweatCost = Integer.parseInt(sweatCheck.group(1));
         Preferences.decrement("sweat", sweatCost);
       }
     }

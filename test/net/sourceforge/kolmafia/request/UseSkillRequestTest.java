@@ -78,6 +78,8 @@ class UseSkillRequestTest {
     @BeforeEach
     public void initializeState() {
       HttpClientWrapper.setupFakeClient();
+      KoLCharacter.reset("DesignerSweatpants");
+      Preferences.reset("DesignerSweatpants");
     }
 
     @Test
@@ -126,6 +128,7 @@ class UseSkillRequestTest {
     @Test
     void decreaseSweatWhenCastingSweatSkills() {
       Preferences.setInteger("sweat", 31);
+      UseSkillRequest.lastSkillUsed = 7449;
       UseSkillRequest.parseResponse(
           "runskillz.php?action=Skillz&whichskill=7449&ajax=1&quantity=1",
           html("request/test_cast_sweat_skill.html"));
