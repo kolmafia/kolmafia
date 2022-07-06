@@ -965,5 +965,31 @@ public class MaximizerTest {
         assertTrue(someBoostIs(x -> commandStartsWith(x, "snowsuit goatee")));
       }
     }
+
+    @Test
+    public void shouldSuggestCameraIfSecondBest() {
+      final var cleanups =
+          new Cleanups(
+              canUse("backup camera"),
+              canUse("incredibly dense meat gem"),
+              setProperty("backupCameraMode", "ml"));
+      try (cleanups) {
+        assertTrue(maximize("meat"));
+        recommends("backup camera");
+        recommends("incredibly dense meat gem");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "backupcamera meat")));
+      }
+    }
+
+    @Test
+    public void shouldSuggestCameraIfSlotsExcluded() {
+      final var cleanups =
+          new Cleanups(canUse("backup camera"), setProperty("backupCameraMode", "ml"));
+      try (cleanups) {
+        assertTrue(maximize("meat -acc1 -acc2"));
+        recommendedSlotIs(EquipmentManager.ACCESSORY3, "backup camera");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "backupcamera meat")));
+      }
+    }
   }
 }
