@@ -873,9 +873,6 @@ public class SkillDatabase {
     }
 
     int actualDuration = duration.intValue();
-    if (actualDuration == 0) {
-      return 0;
-    }
 
     int type = SkillDatabase.getSkillType(skillId);
 
