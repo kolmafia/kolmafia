@@ -676,19 +676,17 @@ public class FightRequestTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"gain, 2", "lose, -3"})
-  public void canTrackDesignerSweatpants(String filePrefix, int sweatChange) {
+  @CsvSource({
+    "request/test_fight_designer_sweatpants_gain_2_sweat.html, 2",
+    "request/test_fight_designer_sweatpants_lose_3_sweat.html, -3"
+  })
+  public void canTrackDesignerSweatpants(String responseHtml, int sweatChange) {
     var cleanups =
         new Cleanups(
             equip(EquipmentManager.PANTS, "designer sweatpants"), setProperty("sweat", 10));
 
     try (cleanups) {
-      parseCombatData(
-          "request/test_fight_designer_sweatpants_"
-              + filePrefix
-              + "_"
-              + sweatChange
-              + "_sweat.html");
+      parseCombatData(responseHtml);
       assertEquals(10 + sweatChange, Preferences.getInteger("sweat"));
     }
   }
