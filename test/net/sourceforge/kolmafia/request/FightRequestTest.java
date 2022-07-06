@@ -684,6 +684,9 @@ public class FightRequestTest {
 
       parseCombatData("request/test_fight_designer_sweatpants_1.html");
       assertEquals(2, Preferences.getInteger("sweat"));
+
+      parseCombatData("request/test_fight_designer_sweatpants_2.html");
+      assertEquals(0, Preferences.getInteger("sweat"));
     }
   }
 }
