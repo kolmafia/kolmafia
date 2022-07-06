@@ -4,9 +4,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -35,7 +39,7 @@ public class SuburbanDisRequest extends GenericRequest {
 
   @Override
   public int getAdventuresUsed() {
-    return this.action.equals("altar") ? 1 : 0;
+    return this.action.equals("dothis") ? 1 : 0;
   }
 
   @Override
@@ -50,41 +54,69 @@ public class SuburbanDisRequest extends GenericRequest {
 
     String action = GenericRequest.getAction(location);
     if (action == null) {
+      if (responseText.contains("Since you carved up the Thing With no Name")) {
+        Preferences.setInteger("lastThingWithNoNameDefeated", KoLCharacter.getAscensions());
+      }
+
       return;
     }
 
     if (action.equals("altar")) {
-      if (responseText.indexOf("You place your six stones in the holes on the altar") != -1) {
-        ResultProcessor.processResult(ItemPool.get(ItemPool.FURIOUS_STONE, -1));
-        ResultProcessor.processResult(ItemPool.get(ItemPool.VANITY_STONE, -1));
-        ResultProcessor.processResult(ItemPool.get(ItemPool.LECHEROUS_STONE, -1));
-        ResultProcessor.processResult(ItemPool.get(ItemPool.JEALOUSY_STONE, -1));
-        ResultProcessor.processResult(ItemPool.get(ItemPool.AVARICE_STONE, -1));
-        ResultProcessor.processResult(ItemPool.get(ItemPool.GLUTTONOUS_STONE, -1));
-      }
+      // The stones are actually removed from your inventory on defeating The Thing with No Name
+      // so handle that in QuestManager.updateQuestData
       return;
     }
 
     if (action.equals("stoned")) {
       // Look for success.
-      if (responseText.indexOf("You acquire an effect") == -1) {
+      if (!responseText.contains("You acquire an effect")) {
         return;
       }
+
+      Preferences.setInteger("lastThingWithNoNameDefeated", KoLCharacter.getAscensions());
 
       Matcher matcher = SuburbanDisRequest.STONE1_PATTERN.matcher(location);
       if (matcher.find()) {
         int stone1 = StringUtilities.parseInt(matcher.group(1));
         ResultProcessor.processResult(ItemPool.get(stone1, -1));
+        setQuestsBasedOnStone(stone1);
       }
 
       matcher = SuburbanDisRequest.STONE2_PATTERN.matcher(location);
       if (matcher.find()) {
         int stone2 = StringUtilities.parseInt(matcher.group(1));
         ResultProcessor.processResult(ItemPool.get(stone2, -1));
+        setQuestsBasedOnStone(stone2);
       }
 
       return;
     }
+  }
+
+  private static Quest getQuestForStone(final int stoneId) {
+    return switch (stoneId) {
+      case ItemPool.FURIOUS_STONE, ItemPool.VANITY_STONE -> Quest.CLUMSINESS;
+      case ItemPool.LECHEROUS_STONE, ItemPool.JEALOUSY_STONE -> Quest.MAELSTROM;
+      case ItemPool.AVARICE_STONE, ItemPool.GLUTTONOUS_STONE -> Quest.GLACIER;
+      default -> null;
+    };
+  }
+
+  private static void setQuestsBasedOnStone(final int stoneId) {
+    Quest quest = getQuestForStone(stoneId);
+    String current = QuestDatabase.getQuest(quest);
+
+    QuestDatabase.setQuest(
+        quest,
+        switch (current) {
+            // If the quest was finished its now like you've defeated one boss
+          case QuestDatabase.FINISHED -> "step2";
+            // If you'd just queued your second boss its like you'd picked your first
+          case "step3" -> "step1";
+            // If you'd only defeated one boss its like you'd done nothing
+          case "step2" -> QuestDatabase.UNSTARTED;
+          default -> current;
+        });
   }
 
   public static final boolean registerRequest(final String urlString) {

@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BugbearManager;
+import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BugbearsCommand extends AbstractCommand {
@@ -25,9 +26,7 @@ public class BugbearsCommand extends AbstractCommand {
     output.append("<th>Location 2</th>");
     output.append("</tr>");
 
-    for (int i = 0; i < BugbearManager.BUGBEAR_DATA.length; ++i) {
-      Object[] data = BugbearManager.BUGBEAR_DATA[i];
-
+    for (Bugbear data : BugbearManager.BUGBEAR_DATA) {
       output.append("<tr>");
       output.append("<td rowspan=2>");
       output.append(BugbearManager.dataToShipZone(data));

@@ -1613,8 +1613,6 @@ public class QuestManager {
       Preferences.setInteger("lastWuTangDefeated", KoLCharacter.getAscensions());
     } else if (monsterName.equals("Baron Von Ratsworth")) {
       TavernRequest.addTavernLocation('6');
-    } else if (monsterName.equals("Baron Von Ratsworth")) {
-      TavernRequest.addTavernLocation('6');
     } else if (monsterName.equals("Source Agent")) {
       Preferences.increment("sourceAgentsDefeated");
     } else if (monsterName.equals("pair of burnouts")) {
@@ -1847,6 +1845,19 @@ public class QuestManager {
       else if (responseText.contains("Dozens of nearby smut orcs")) {
         Preferences.increment("smutOrcNoncombatProgress", 5, 15, false);
       }
+    } else if (monsterName.equals("The Thing with No Name")) {
+      ResultProcessor.processResult(ItemPool.get(ItemPool.FURIOUS_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.VANITY_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.LECHEROUS_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.JEALOUSY_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.AVARICE_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.GLUTTONOUS_STONE, -1));
+
+      QuestDatabase.setQuest(Quest.CLUMSINESS, QuestDatabase.UNSTARTED);
+      QuestDatabase.setQuest(Quest.GLACIER, QuestDatabase.UNSTARTED);
+      QuestDatabase.setQuest(Quest.MAELSTROM, QuestDatabase.UNSTARTED);
+
+      Preferences.setInteger("lastThingWithNoNameDefeated", KoLCharacter.getAscensions());
     }
 
     int adventure = KoLAdventure.lastAdventureId();
@@ -1882,6 +1893,11 @@ public class QuestManager {
         if (KoLCharacter.hasEquipped(ItemPool.UV_RESISTANT_COMPASS)) {
           explored += 1;
         } else if (KoLCharacter.hasEquipped(ItemPool.DOWSING_ROD)) {
+          explored += 2;
+        }
+
+        if (KoLCharacter.hasEquipped(ItemPool.SURVIVAL_KNIFE)
+            && KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ULTRAHYDRATED))) {
           explored += 2;
         }
 

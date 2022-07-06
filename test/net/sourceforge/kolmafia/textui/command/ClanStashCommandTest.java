@@ -2,15 +2,14 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getLastRequest;
 import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.Networking.assertPostRequest;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import internal.helpers.Player;
-import internal.network.RequestBodyReader;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -63,12 +62,8 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
       var requests = getRequests();
 
       assertThat(requests, not(empty()));
-      var request = getLastRequest();
-      var uri = request.uri();
-      assertThat(uri.getPath(), equalTo("/clan_stash.php"));
-      assertThat(request.method(), equalTo("POST"));
-      var body = new RequestBodyReader().bodyAsString(request);
-      assertThat(body, equalTo("action=addgoodies&ajax=1&item1=2&qty1=1"));
+      assertPostRequest(
+          getLastRequest(), "/clan_stash.php", "action=addgoodies&ajax=1&item1=2&qty1=1");
     }
 
     @Test
@@ -82,12 +77,10 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
       var requests = getRequests();
 
       assertThat(requests, not(empty()));
-      var request = getLastRequest();
-      var uri = request.uri();
-      assertThat(uri.getPath(), equalTo("/clan_stash.php"));
-      assertThat(request.method(), equalTo("POST"));
-      var body = new RequestBodyReader().bodyAsString(request);
-      assertThat(body, equalTo("action=addgoodies&ajax=1&item1=2&qty1=1&item2=3&qty2=1"));
+      assertPostRequest(
+          getLastRequest(),
+          "/clan_stash.php",
+          "action=addgoodies&ajax=1&item1=2&qty1=1&item2=3&qty2=1");
     }
 
     @Test
@@ -123,12 +116,8 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
       var requests = getRequests();
 
       assertThat(requests, not(empty()));
-      var request = getLastRequest();
-      var uri = request.uri();
-      assertThat(uri.getPath(), equalTo("/clan_stash.php"));
-      assertThat(request.method(), equalTo("POST"));
-      var body = new RequestBodyReader().bodyAsString(request);
-      assertThat(body, equalTo("action=addgoodies&ajax=1&howmuch=100"));
+      assertPostRequest(
+          getLastRequest(), "/clan_stash.php", "action=addgoodies&ajax=1&howmuch=100");
     }
 
     @Test
@@ -142,12 +131,8 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
       var requests = getRequests();
 
       assertThat(requests, not(empty()));
-      var request = getLastRequest();
-      var uri = request.uri();
-      assertThat(uri.getPath(), equalTo("/clan_stash.php"));
-      assertThat(request.method(), equalTo("POST"));
-      var body = new RequestBodyReader().bodyAsString(request);
-      assertThat(body, equalTo("action=addgoodies&ajax=1&howmuch=3000000000"));
+      assertPostRequest(
+          getLastRequest(), "/clan_stash.php", "action=addgoodies&ajax=1&howmuch=3000000000");
     }
 
     @Test
@@ -177,12 +162,8 @@ public class ClanStashCommandTest extends AbstractCommandTestBase {
       var requests = getRequests();
 
       assertThat(requests, not(empty()));
-      var request = getLastRequest();
-      var uri = request.uri();
-      assertThat(uri.getPath(), equalTo("/clan_stash.php"));
-      assertThat(request.method(), equalTo("POST"));
-      var body = new RequestBodyReader().bodyAsString(request);
-      assertThat(body, equalTo("action=takegoodies&ajax=1&whichitem=2&quantity=1"));
+      assertPostRequest(
+          getLastRequest(), "/clan_stash.php", "action=takegoodies&ajax=1&whichitem=2&quantity=1");
     }
 
     @Test

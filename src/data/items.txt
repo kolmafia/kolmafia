@@ -10918,7 +10918,7 @@
 10891	cosmic bowling ball	119596776	cosmicball2.gif	none, combat	q	0
 10892	combat lover's locket lockbox	237536213	lovelocketbox.gif	usable	t	0
 10893	combat lover's locket	634036450	lovelocket.gif	accessory		0
-10894	Thwaitgold protozoa statuette	575626986	thwaitprotozoa.gif	none		0
+10894	Thwaitgold protozoa statuette	575626986	thwaitproto.gif	none		0
 10895	grey gosling	802522606	greygosling.gif	grow	t	0
 10896	grey down vest	994210569	greygoovest.gif	familiar	t,d	75
 10897
@@ -10952,3 +10952,6 @@
 10925	mother's necklace	820724023	necklace_mom.gif	accessory	t,d	1000
 10926	trampled ticket stub	589658698	stompstub.gif	potion, usable	t,d	15
 10927	savings bond	479848689	bondcert.gif	potion, usable	t,d	10
+10928	designer sweatpants (new old stock)	115000176	sweats_box.gif	usable	t	0
+10929	designer sweatpants	800334855	sweats.gif	pants		0
+10930	sweat-ade	858239579	sweatade.gif	spleen, usable	t	0

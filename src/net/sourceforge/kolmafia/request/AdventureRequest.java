@@ -809,85 +809,78 @@ public class AdventureRequest extends GenericRequest {
     return -1;
   }
 
-  private static final Object[][] demons = {
-    {
-      "Summoning Chamber",
-      Pattern.compile("Did you say your name was (.*?)\\?"),
-      "delicious-looking pies",
-      "demonName1",
-    },
-    {
-      "Hoom Hah", Pattern.compile("(.*?)! \\1, cooooome to meeeee!"), "fifty meat", "demonName2",
-    },
-    {
-      "Every Seashell Has a Story to Tell If You're Listening",
-      Pattern.compile("Hello\\? Is (.*?) there\\?"),
-      "fish-guy",
-      "demonName3",
-    },
-    {
-      "Leavesdropping",
-      Pattern.compile("(.*?), we call you! \\1, come to us!"),
-      "bullwhip",
-      "demonName4",
-    },
-    {
-      "These Pipes... Aren't Clean!",
-      Pattern.compile("Blurgle. (.*?). Gurgle. By the way,"),
-      "coprodaemon",
-      "demonName5",
-    },
-    {
-      "Flying In Circles",
-      // SC: Then his claws slip, and he falls
-      // backwards.<p>"<Demon Name>!" he screams as he
-      // tumbles backwards. "LORD OF REVENGE! GIVE ME
-      // STRENGTH!"
-      //
-      // TT: With a scrape, her sickle slips from the
-      // rock.<p>"<Demon Name>" she shrieks as she plummets
-      // toward the lava. "Lord of Revenge! I accept your
-      // contract! Give me your power!"
-      //
-      // PA: Its noodles lose their grip, and the evil
-      // pastaspawn falls toward the churning
-      // lava.<p><i>"<Demon Name>!"</i> it howls. "<i>Lord of
-      // Revenge! Come to my aid!</i>"
-      //
-      // SA: As it falls, a mouth opens on its surface and
-      // howls: "<Demon Name>! Revenge!"
-      //
-      // DB: His grip slips, and he falls.<p>"<Demon Name>!
-      // Lord of Revenge! I call to you!  I pray to you! Help
-      // m--"
-      //
-      // AT: His grip slips, and he tumbles
-      // backward.<p>"<Demon Name>!" he screams. "Emperador
-      // de la Venganza! Come to my aid!  I beg of you!"
+  record Demon(String place, Pattern pattern, String text, String setting) {}
 
-      Pattern.compile(
-          "(?:he falls backwards|her sickle slips from the rock|falls toward the churning lava|a mouth opens on its surface and howls|His grip slips, and he falls|he tumbles backward).*?(?:<i>)?&quot;(.*?)!?&quot;(?:</i>)?(?: he screams| she shrieks| it howls| Revenge| Lord of Revenge)"),
-      "Lord of Revenge",
-      "demonName8",
-    },
-    {
-      "Sinister Ancient Tablet",
-      Pattern.compile("<font.*?color=#cccccc>(.*?)</font>"),
-      "flame-wreathed mouth",
-      "demonName9",
-    },
-    {
-      "Strange Cube",
-      Pattern.compile("Come to me! Come to (.*?)!"),
-      "writhing and twisting snake",
-      "demonName10",
-    },
-    {
-      "Where Have All The Drunkards Gone?",
-      Pattern.compile("Is (.*?) a word?"),
-      "Gary's friend",
-      "demonName11",
-    },
+  private static final Demon[] demons = {
+    new Demon(
+        "Summoning Chamber",
+        Pattern.compile("Did you say your name was (.*?)\\?"),
+        "delicious-looking pies",
+        "demonName1"),
+    new Demon(
+        "Hoom Hah", Pattern.compile("(.*?)! \\1, cooooome to meeeee!"), "fifty meat", "demonName2"),
+    new Demon(
+        "Every Seashell Has a Story to Tell If You're Listening",
+        Pattern.compile("Hello\\? Is (.*?) there\\?"),
+        "fish-guy",
+        "demonName3"),
+    new Demon(
+        "Leavesdropping",
+        Pattern.compile("(.*?), we call you! \\1, come to us!"),
+        "bullwhip",
+        "demonName4"),
+    new Demon(
+        "These Pipes... Aren't Clean!",
+        Pattern.compile("Blurgle. (.*?). Gurgle. By the way,"),
+        "coprodaemon",
+        "demonName5"),
+    new Demon(
+        "Flying In Circles",
+        // SC: Then his claws slip, and he falls
+        // backwards.<p>"<Demon Name>!" he screams as he
+        // tumbles backwards. "LORD OF REVENGE! GIVE ME
+        // STRENGTH!"
+        //
+        // TT: With a scrape, her sickle slips from the
+        // rock.<p>"<Demon Name>" she shrieks as she plummets
+        // toward the lava. "Lord of Revenge! I accept your
+        // contract! Give me your power!"
+        //
+        // PA: Its noodles lose their grip, and the evil
+        // pastaspawn falls toward the churning
+        // lava.<p><i>"<Demon Name>!"</i> it howls. "<i>Lord of
+        // Revenge! Come to my aid!</i>"
+        //
+        // SA: As it falls, a mouth opens on its surface and
+        // howls: "<Demon Name>! Revenge!"
+        //
+        // DB: His grip slips, and he falls.<p>"<Demon Name>!
+        // Lord of Revenge! I call to you!  I pray to you! Help
+        // m--"
+        //
+        // AT: His grip slips, and he tumbles
+        // backward.<p>"<Demon Name>!" he screams. "Emperador
+        // de la Venganza! Come to my aid!  I beg of you!"
+
+        Pattern.compile(
+            "(?:he falls backwards|her sickle slips from the rock|falls toward the churning lava|a mouth opens on its surface and howls|His grip slips, and he falls|he tumbles backward).*?(?:<i>)?&quot;(.*?)!?&quot;(?:</i>)?(?: he screams| she shrieks| it howls| Revenge| Lord of Revenge)"),
+        "Lord of Revenge",
+        "demonName8"),
+    new Demon(
+        "Sinister Ancient Tablet",
+        Pattern.compile("<font.*?color=#cccccc>(.*?)</font>"),
+        "flame-wreathed mouth",
+        "demonName9"),
+    new Demon(
+        "Strange Cube",
+        Pattern.compile("Come to me! Come to (.*?)!"),
+        "writhing and twisting snake",
+        "demonName10"),
+    new Demon(
+        "Where Have All The Drunkards Gone?",
+        Pattern.compile("Is (.*?) a word?"),
+        "Gary's friend",
+        "demonName11"),
   };
 
   private static final Pattern NAME_PATTERN = Pattern.compile("<b>&quot;(.*?)&quot;</b>");
@@ -898,19 +891,19 @@ public class AdventureRequest extends GenericRequest {
     String setting = null;
 
     for (int i = 0; i < AdventureRequest.demons.length; ++i) {
-      Object[] demons = AdventureRequest.demons[i];
-      place = (String) demons[0];
+      Demon demons = AdventureRequest.demons[i];
+      place = demons.place;
       if (place == null || !place.equals(encounter)) {
         continue;
       }
 
-      Pattern pattern = (Pattern) demons[1];
+      Pattern pattern = demons.pattern;
       Matcher matcher = pattern.matcher(responseText);
 
       if (matcher.find()) {
         // We found the name
         demon = matcher.group(1);
-        setting = (String) demons[3];
+        setting = demons.setting;
       }
 
       break;
@@ -932,10 +925,10 @@ public class AdventureRequest extends GenericRequest {
 
       // Look for tell-tale string
       for (int i = 0; i < AdventureRequest.demons.length; ++i) {
-        Object[] demons = AdventureRequest.demons[i];
-        String text = (String) demons[2];
+        Demon demons = AdventureRequest.demons[i];
+        String text = demons.text;
         if (responseText.contains(text)) {
-          setting = (String) demons[3];
+          setting = demons.setting;
           break;
         }
       }

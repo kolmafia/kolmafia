@@ -749,8 +749,6 @@ public abstract class KoLmafia {
       RequestThread.postRequest(new EdBaseRequest("edbase_door", true));
     } else if (KoLCharacter.inPokefam()) {
       RequestThread.postRequest(new FamTeamRequest());
-    } else if (KoLCharacter.inQuantum()) {
-      RequestThread.postRequest(new QuantumTerrariumRequest());
     } else if (KoLCharacter.isPlumber()) {
       KoLCharacter.resetCurrentPP();
     } else if (KoLCharacter.inRobocore()) {
@@ -764,9 +762,12 @@ public abstract class KoLmafia {
     // Refresh fire levels
     WildfireCampRequest.refresh();
 
-    if (KoLCharacter.getPath().canUseFamiliars()
-        && !KoLCharacter.inPokefam()
-        && !KoLCharacter.inQuantum()) {
+    if (KoLCharacter.inQuantum()) {
+      RequestThread.postRequest(new QuantumTerrariumRequest());
+      // We did this earlier before loading charsheet.
+      // Do it again so we can catch passive skills
+      ApiRequest.updateStatus();
+    } else if (KoLCharacter.getPath().canUseFamiliars() && !KoLCharacter.inPokefam()) {
       // Retrieve the Terrarium
       RequestThread.postRequest(new FamiliarRequest());
     }
@@ -843,6 +844,7 @@ public abstract class KoLmafia {
 
     // Items that conditionally grant skills
     InventoryManager.checkPowerfulGlove();
+    InventoryManager.checkDesignerSweatpants();
 
     // Check Horsery if we haven't today
     if (Preferences.getBoolean("horseryAvailable")
@@ -936,6 +938,7 @@ public abstract class KoLmafia {
     KoLCharacter.resetSkills();
     RequestThread.postRequest(new CharSheetRequest());
     InventoryManager.checkPowerfulGlove();
+    InventoryManager.checkDesignerSweatpants();
 
     // Clear preferences
     Preferences.setString("banishingShoutMonsters", "");
@@ -1016,6 +1019,7 @@ public abstract class KoLmafia {
     KoLCharacter.resetSkills();
     RequestThread.postRequest(new CharSheetRequest());
     InventoryManager.checkPowerfulGlove();
+    InventoryManager.checkDesignerSweatpants();
 
     // Retrieve inventory contents, since quest items may disappear.
     InventoryManager.refresh();

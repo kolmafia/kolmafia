@@ -257,6 +257,8 @@ public class CharPaneRequest extends GenericRequest {
 
     CharPaneRequest.checkYouRobot(responseText);
 
+    CharPaneRequest.checkSweatiness(responseText);
+
     // Mana cost adjustment may have changed
 
     LockableListFactory.sort(KoLConstants.summoningSkills);
@@ -1024,9 +1026,9 @@ public class CharPaneRequest extends GenericRequest {
             : CharPaneRequest.expandedFamiliarWeightPattern;
     Matcher matcher = pattern.matcher(responseText);
     if (matcher.find()) {
-      int weight = StringUtilities.parseInt(matcher.group(1));
-      boolean feasted = responseText.contains("well-fed");
-      KoLCharacter.getFamiliar().checkWeight(weight, feasted);
+      FamiliarData familiar = KoLCharacter.getFamiliar();
+      familiar.setFeasted(responseText.contains("well-fed"));
+      familiar.checkWeight(StringUtilities.parseInt(matcher.group(1)));
     }
 
     pattern = CharPaneRequest.familiarImagePattern;
@@ -1537,6 +1539,23 @@ public class CharPaneRequest extends GenericRequest {
     }
   }
 
+  // <td align=right>Sweatiness:</td><td align=left><b><font color=black><span alt=""
+  // title="">69%</span></font></td>
+  private static final Pattern SWEATINESS =
+      Pattern.compile("Sweatiness:</td><td.*?><b><font.*?><span.*?>([\\d]+)%</span></font></td>");
+
+  public static void checkSweatiness(final String responseText) {
+    if (!KoLCharacter.hasEquipped(ItemPool.DESIGNER_SWEATPANTS)) {
+      return;
+    }
+
+    Matcher matcher = SWEATINESS.matcher(responseText);
+
+    // If we don't find the matcher but we're wearing the pants we have zero sweatiness
+    int sweatiness = (matcher.find()) ? StringUtilities.parseInt(matcher.group(1)) : 0;
+    Preferences.setInteger("sweat", sweatiness);
+  }
+
   public static final void parseStatus(final JSONObject JSON) throws JSONException {
     int turnsThisRun = JSON.getInt("turnsthisrun");
     CharPaneRequest.turnsThisRun = turnsThisRun;
@@ -1683,9 +1702,7 @@ public class CharPaneRequest extends GenericRequest {
         KoLCharacter.setFamiliarImage(image.equals("") ? null : image + ".gif");
       }
 
-      int weight = JSON.getInt("famlevel");
-      boolean feasted = JSON.getInt("familiar_wellfed") == 1;
-      familiar.checkWeight(weight, feasted);
+      familiar.setFeasted(JSON.getInt("familiar_wellfed") == 1);
 
       // Set charges from the Medium's image
 
@@ -1715,6 +1732,11 @@ public class CharPaneRequest extends GenericRequest {
         KoLCharacter.setRadSickness(0);
       }
     }
+  }
+
+  public static final void checkFamiliarWeight(final JSONObject JSON) throws JSONException {
+    KoLCharacter.recalculateAdjustments();
+    KoLCharacter.getFamiliar().checkWeight(JSON.getInt("famlevel"));
   }
 
   private static void refreshEffects(final JSONObject JSON) throws JSONException {

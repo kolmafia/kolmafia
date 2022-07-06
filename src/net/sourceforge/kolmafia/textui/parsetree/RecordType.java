@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.util.List;
 import net.sourceforge.kolmafia.textui.DataTypes;
-import net.sourceforge.kolmafia.textui.ScriptException;
 import org.eclipse.lsp4j.Location;
 
 public class RecordType extends CompositeType {
@@ -77,7 +76,7 @@ public class RecordType extends CompositeType {
   @Override
   public Type getDataType(final Object key) {
     if (!(key instanceof Value) && !(key instanceof Value.Constant)) {
-      throw new ScriptException("Internal error: key is not a Value");
+      return new BadType(null, null);
     }
 
     Value value = key instanceof Value.Constant ? ((Value.Constant) key).value : (Value) key;

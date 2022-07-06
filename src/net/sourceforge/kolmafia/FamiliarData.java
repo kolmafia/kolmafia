@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.SwingConstants;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -189,6 +190,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
   private boolean favorite;
   private int charges;
   private int pokeLevel;
+  // For Quantum Terrarium
+  private String owner;
+  private int ownerId;
   private boolean active = false;
 
   public FamiliarData(final int id) {
@@ -199,6 +203,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       final int id, final String name, final int weight, final AdventureResult item) {
     this.id = id;
     this.name = name;
+    this.setOwner(KoLCharacter.getUserName(), KoLCharacter.getUserId());
     String race = FamiliarDatabase.getFamiliarName(id);
     this.race = (id == -1 || race == null) ? "(none)" : race;
     this.beeware = this.race.contains("b") || this.race.contains("B");
@@ -225,6 +230,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     FamiliarDatabase.registerFamiliar(this.id, this.race, image);
 
     this.update(dataMatcher);
+    this.setOwner(KoLCharacter.getUserName(), KoLCharacter.getUserId());
   }
 
   public FamiliarData(final int id, final String name, final int pokeLevel) {
@@ -237,7 +243,6 @@ public class FamiliarData implements Comparable<FamiliarData> {
   private void update(final Matcher dataMatcher) {
     this.name = dataMatcher.group(3);
     this.setExperience(StringUtilities.parseInt(dataMatcher.group(5)));
-    this.setWeight();
     // dataMatcher.group( 6 ) => kills
     String itemData = dataMatcher.group(7);
     this.item = FamiliarData.parseFamiliarItem(this.id, itemData);
@@ -430,25 +435,20 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   public final int getMaxBaseWeight() {
-    if (this.id == FamiliarPool.STOCKING_MIMIC || this.id == FamiliarPool.HOMEMADE_ROBOT) {
-      return 100;
-    }
-
-    if (CRIMBO_GHOSTS.contains(this.id)) {
-      return 40;
-    }
-
-    return 20;
+    return switch (this.id) {
+      case FamiliarPool.STOCKING_MIMIC, FamiliarPool.HOMEMADE_ROBOT -> 100;
+      case FamiliarPool.GHOST_CAROLS, FamiliarPool.GHOST_CHEER, FamiliarPool.GHOST_COMMERCE -> 40;
+      default -> 20;
+    };
   }
 
   private void setWeight() {
-    this.setWeight(
-        Math.max(Math.min(this.getMaxBaseWeight(), (int) Math.sqrt(this.experience)), 1));
+    int weight = Math.max(Math.min(this.getMaxBaseWeight(), (int) Math.sqrt(this.experience)), 1);
+    this.setWeight(weight);
   }
 
-  public final void checkWeight(final int weight, final boolean feasted) {
-    // Called from CharPaneRequest with KoL's idea of current familiar's weight and "well-fed"
-    // status.
+  public final void checkWeight(final int weight) {
+    // Called from CharPaneRequest with KoL's idea of current familiar's weight.
     // This does NOT include "hidden" weight modifiers
 
     // Sanity check: don't adjust NO_FAMILIAR
@@ -456,20 +456,46 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return;
     }
 
-    this.feasted = feasted;
-
     // Get modified weight excluding hidden weight modifiers
-    int delta = weight - this.getModifiedWeight(false, true);
-    if (delta != 0) {
-      // The following is informational, not an error, but it confuses people, so don't print it.
-      // RequestLogger.printLine( "Adjusting familiar weight by " + delta + " pound" + ( delta == 1
-      // ? "" : "s" ) );
-      this.weight += delta;
+    int modified = this.getModifiedWeight(false, true);
+    if (weight == modified) {
+      return;
     }
+
+    // The three Crimbo Ghosts share a familiar experience counter.  api.php
+    // supposedly tells you what the experience is, but it is not accurate.
+    //
+    // Looking at my Terrarium, I see that I have a "10-pound Ghost of Crimbo
+    // Cheer (110 experience, 0 kills). api.php says "familiarexp":"0"
+    //
+    // It also says "famlevel":35 - and shows that in the charpane - which
+    // accounts for Familiar Weight +25 from various items, skills, and effects
+    //
+    // For Crimbo ghosts, we can get accurate experience from the terrarium,
+    // but not from api.php or charpane.php - which call this method.
+
+    switch (this.id) {
+      case FamiliarPool.GHOST_CAROLS:
+      case FamiliarPool.GHOST_CHEER:
+      case FamiliarPool.GHOST_COMMERCE:
+        int delta = weight - modified;
+        this.weight += delta;
+        // We can't tell, but this is the minimum
+        this.experience = this.weight * this.weight;
+        return;
+    }
+
+    // Log the discrepancy in calculated modified weight vs. what KoL reports.
+    RequestLogger.printLine("Familiar weight: KoL = " + weight + " KoLmafia = " + modified);
   }
 
   public final void setName(final String name) {
     this.name = name;
+  }
+
+  public final void setOwner(final String owner, final int ownerId) {
+    this.owner = owner;
+    this.ownerId = ownerId;
   }
 
   private static AdventureResult parseFamiliarItem(final int id, final String text) {
@@ -573,10 +599,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
       // Add new familiar to list
       familiar = new FamiliarData(id);
       KoLCharacter.addFamiliar(familiar);
+      familiar.setExperience(experience);
     }
 
-    familiar.experience = experience;
-    familiar.setWeight();
     return familiar;
   }
 
@@ -617,6 +642,10 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   public boolean getFeasted() {
     return this.feasted;
+  }
+
+  public void setFeasted(boolean feasted) {
+    this.feasted = feasted;
   }
 
   public void deactivate() {
@@ -687,6 +716,10 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return;
     }
 
+    if (!this.canEquip(item)) {
+      return;
+    }
+
     if (!KoLmafia.isRefreshing() && this.item != null && this.item != EquipmentRequest.UNEQUIP) {
       AdventureResult.addResultToList(KoLConstants.inventory, this.item.getInstance(1));
     }
@@ -753,12 +786,15 @@ public class FamiliarData implements Comparable<FamiliarData> {
     return this.getModifiedWeight(true, includeEquipment);
   }
 
+  private static final AdventureResult FIDOXENE = EffectPool.get(EffectPool.FIDOXENE);
+
   private int getModifiedWeight(final boolean includeHidden, final boolean includeEquipment) {
     // Start with base weight of familiar
     int weight = this.weight;
 
     // Get current fixed and percent weight modifiers
     Modifiers current = KoLCharacter.getCurrentModifiers();
+    boolean fixodene = KoLConstants.activeEffects.contains(FIDOXENE);
     double fixed = current.get(Modifiers.FAMILIAR_WEIGHT);
     double hidden = current.get(Modifiers.HIDDEN_FAMILIAR_WEIGHT);
     double percent = current.get(Modifiers.FAMILIAR_WEIGHT_PCT);
@@ -793,6 +829,11 @@ public class FamiliarData implements Comparable<FamiliarData> {
           percent += mods.get(Modifiers.FAMILIAR_WEIGHT_PCT);
         }
       }
+    }
+
+    // Set a base if Fidoxene is active
+    if (fixodene) {
+      weight = Math.max(weight, 20);
     }
 
     // Add in fixed modifiers
@@ -834,6 +875,14 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   public String getName() {
     return this.name;
+  }
+
+  public String getOwner() {
+    return this.owner;
+  }
+
+  public int getOwnerId() {
+    return this.ownerId;
   }
 
   public String getRace() {

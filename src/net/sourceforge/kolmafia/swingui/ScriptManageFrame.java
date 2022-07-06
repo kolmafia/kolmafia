@@ -187,8 +187,10 @@ public class ScriptManageFrame extends GenericPanelFrame {
     public void valueChanged(ListSelectionEvent e) {
       int row = table.getSelectedRow();
 
-      if (row < 0) // this can happen during sorting, seems buggy to me...
-      return;
+      if (row < 0) {
+        // this can happen during sorting, seems buggy to me...
+        return;
+      }
 
       Object ob = table.getValueAt(row, 0);
 

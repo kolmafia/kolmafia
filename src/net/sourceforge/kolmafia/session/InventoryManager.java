@@ -1793,6 +1793,17 @@ public abstract class InventoryManager {
     }
   }
 
+  public static void checkDesignerSweatpants() {
+    if (KoLCharacter.hasEquipped(UseSkillRequest.DESIGNER_SWEATPANTS)
+        || InventoryManager.hasItem(UseSkillRequest.DESIGNER_SWEATPANTS, false)) {
+      // *** Special case: the buffs are always available
+      KoLCharacter.addAvailableSkill("Make Sweat-Ade");
+      KoLCharacter.addAvailableSkill("Drench Yourself in Sweat");
+      KoLCharacter.addAvailableSkill("Sweat Out Some Booze");
+      KoLCharacter.addAvailableSkill("Sip Some Sweat");
+    }
+  }
+
   private static boolean allowTurnConsumption(final CreateItemRequest creator) {
     if (!GenericFrame.instanceExists()) {
       return true;

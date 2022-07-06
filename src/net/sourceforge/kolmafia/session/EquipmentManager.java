@@ -774,9 +774,7 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill("Beach Combo");
         break;
       case ItemPool.POWERFUL_GLOVE:
-        // *** Special case: the buffs are always available
-        // KoLCharacter.removeAvailableSkill( "CHEAT CODE: Invisible Avatar" );
-        // KoLCharacter.removeAvailableSkill( "CHEAT CODE: Triple Size" );
+        // These are only the combat skills, we make the noncombat skills always available
         KoLCharacter.removeAvailableSkill("CHEAT CODE: Replace Enemy");
         KoLCharacter.removeAvailableSkill("CHEAT CODE: Shrink Enemy");
         break;
@@ -797,6 +795,13 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill("Fire Extinguisher: Foam Yourself");
         KoLCharacter.removeAvailableSkill("Fire Extinguisher: Blast the Area");
         KoLCharacter.removeAvailableSkill("Fire Extinguisher: Zone Specific");
+        break;
+      case ItemPool.DESIGNER_SWEATPANTS:
+        // These are only the combat skills, we make the noncombat skills always available
+        KoLCharacter.removeAvailableSkill("Sweat Flick");
+        KoLCharacter.removeAvailableSkill("Sweat Flood");
+        KoLCharacter.removeAvailableSkill("Sweat Spray");
+        KoLCharacter.removeAvailableSkill("Sweat Sip");
         break;
     }
   }
@@ -1108,8 +1113,7 @@ public class EquipmentManager {
         break;
       case ItemPool.POWERFUL_GLOVE:
         // *** Special case: the buffs are always available
-        // KoLCharacter.addAvailableSkill( "CHEAT CODE: Invisible Avatar" );
-        // KoLCharacter.addAvailableSkill( "CHEAT CODE: Triple Size" );
+        // These are only the combat skills, we make the noncombat skills always available
         KoLCharacter.addAvailableSkill("CHEAT CODE: Replace Enemy");
         KoLCharacter.addAvailableSkill("CHEAT CODE: Shrink Enemy");
         break;
@@ -1130,6 +1134,14 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill("Fire Extinguisher: Foam Yourself");
         KoLCharacter.addAvailableSkill("Fire Extinguisher: Blast the Area");
         KoLCharacter.addAvailableSkill("Fire Extinguisher: Zone Specific");
+        break;
+      case ItemPool.DESIGNER_SWEATPANTS:
+        // *** Special case: the buffs are always available
+        // These are only the combat skills, we make the noncombat skills always available
+        KoLCharacter.addAvailableSkill("Sweat Flick");
+        KoLCharacter.addAvailableSkill("Sweat Flood");
+        KoLCharacter.addAvailableSkill("Sweat Spray");
+        KoLCharacter.addAvailableSkill("Sweat Sip");
         break;
     }
   }
@@ -2394,6 +2406,11 @@ public class EquipmentManager {
 
     if (!KoLmafia.isRefreshing()) {
       for (int i = 0; i < EquipmentManager.ALL_SLOTS; ++i) {
+        // Quantum Terrarium will have a familiar item in api.php even
+        // if the particular familiar can't equip it. Ignore that.
+        if (i == EquipmentManager.FAMILIAR && KoLCharacter.inQuantum()) {
+          continue;
+        }
         if (!current[i].equals(equipment[i])) {
           String slotName = EquipmentRequest.slotNames[i];
           String message =

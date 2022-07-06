@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -84,6 +86,8 @@ public class ClanLoungeRequest extends GenericRequest {
   private static final Pattern SPRINTS_PATTERN = Pattern.compile("you do ([\\d,]+) of them");
   private static final Pattern FISH_STOCK_PATTERN =
       Pattern.compile("<br>(\\d+)?[,]?(\\d+)?[,]?(\\d+) (carp|cod|trout|bass|hatchetfish|tuna)");
+  private static final Pattern FISH_LOCATION_PATTERN =
+      Pattern.compile("<br><b>(carp|cod|trout|bass|hatchetfish|tuna):</b> ([^<]+)");
 
   record PoolGame(String stance, String stat, String effect, int index) {}
 
@@ -1395,6 +1399,8 @@ public class ClanLoungeRequest extends GenericRequest {
   }
 
   public static void parseFloundry(final String responseText, final boolean verbose) {
+    parseFloundryLocations(responseText);
+
     // Rebuild list of available floundry items every time we visit
     ClanLoungeRequest.resetFloundry();
 
@@ -1436,6 +1442,42 @@ public class ClanLoungeRequest extends GenericRequest {
 
     // Refresh available concoctions with currently available floundry items
     ConcoctionDatabase.refreshConcoctions();
+  }
+
+  private static void parseFloundryLocations(final String responseText) {
+    if (Preferences.getString("_floundryCarpLocation").length() > 0) {
+      // already checked today
+      return;
+    }
+
+    Matcher fishLocationMatcher = FISH_LOCATION_PATTERN.matcher(responseText);
+    fishLocationMatcher
+        .results()
+        .forEach(
+            m -> {
+              String fishName = m.group(1);
+              String location = m.group(2);
+              String titleFishName =
+                  Character.toUpperCase(fishName.charAt(0)) + fishName.substring(1);
+              Preferences.setString("_floundry" + titleFishName + "Location", location);
+            });
+  }
+
+  public static Map<String, String> getFloundryLocations() {
+    Map<String, String> locations = new HashMap<>();
+    if (Preferences.getString("_floundryCarpLocation").length() == 0) {
+      // floundry unparsed
+      var floundryRequest = new ClanLoungeRequest(FLOUNDRY);
+      RequestThread.postRequest(floundryRequest);
+    }
+
+    locations.put("carp", Preferences.getString("_floundryCarpLocation"));
+    locations.put("cod", Preferences.getString("_floundryCodLocation"));
+    locations.put("trout", Preferences.getString("_floundryTroutLocation"));
+    locations.put("bass", Preferences.getString("_floundryBassLocation"));
+    locations.put("hatchetfish", Preferences.getString("_floundryHatchetfishLocation"));
+    locations.put("tuna", Preferences.getString("_floundryTunaLocation"));
+    return locations;
   }
 
   public static boolean availableFloundryItem(final String itemName) {

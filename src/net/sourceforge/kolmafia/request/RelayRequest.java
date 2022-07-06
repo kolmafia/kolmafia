@@ -139,9 +139,11 @@ public class RelayRequest extends PasswordHashRequest {
   private static final String CONFIRM_RALPH = "confirm28";
   private static final String CONFIRM_RALPH1 = "confirm29";
   private static final String CONFIRM_RALPH2 = "confirm30";
+  public static final String CONFIRM_DESERT_WEAPON = "confirm31";
 
   private static boolean ignoreBoringDoorsWarning = false;
   private static boolean ignoreDesertWarning = false;
+  public static boolean ignoreDesertWeaponWarning = false;
   private static boolean ignoreDesertOffhandWarning = false;
   public static boolean ignoreMacheteWarning = false;
   public static boolean ignoreMohawkWigWarning = false;
@@ -154,6 +156,7 @@ public class RelayRequest extends PasswordHashRequest {
   public static final void reset() {
     RelayRequest.ignoreBoringDoorsWarning = false;
     RelayRequest.ignoreDesertWarning = false;
+    RelayRequest.ignoreDesertWeaponWarning = false;
     RelayRequest.ignoreDesertOffhandWarning = false;
     RelayRequest.ignoreMacheteWarning = false;
     RelayRequest.ignoreMohawkWigWarning = false;
@@ -1213,6 +1216,65 @@ public class RelayRequest extends PasswordHashRequest {
         "You have fights remaining and are still in Hardcore. If you are sure you don't want to use the fights in hardcore, click on the image to proceed.";
 
     this.sendGeneralWarning("swords.gif", message, CONFIRM_HARDCOREPVP);
+
+    return true;
+  }
+
+  public boolean sendDesertWeaponWarning() {
+    // Only send this warning once per session
+    if (RelayRequest.ignoreDesertWeaponWarning) {
+      return false;
+    }
+
+    // If it's already confirmed, then track that for the session
+    if (this.getFormField(CONFIRM_DESERT_WEAPON) != null) {
+      RelayRequest.ignoreDesertWeaponWarning = true;
+      return false;
+    }
+
+    // If they aren't in the desert, no problem
+    if (!AdventurePool.ARID_DESERT_ID.equals(this.getFormField("snarfblat"))) {
+      return false;
+    }
+
+    // All reason to care about extra exploration is gone, no problem
+    int explored = Preferences.getInteger("desertExploration");
+    if (explored >= 99) {
+      return false;
+    }
+
+    // If they have survival knife equipped, no problem
+    if (KoLCharacter.hasEquipped(ItemPool.SURVIVAL_KNIFE)) {
+      return false;
+    }
+
+    // You can't equip it in Avatar of Boris or Suprising Fist, so no problem
+    if (KoLCharacter.inFistcore() || KoLCharacter.inAxecore()) {
+      return false;
+    }
+
+    // If you have survival knife, suggest it
+    if (InventoryManager.getCount(ItemPool.SURVIVAL_KNIFE) > 0) {
+      String warning =
+          "You are about to adventure without your survival knife in the desert. "
+              + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
+              + "If you want to equip the survival knife first, click the icon on the right. ";
+      this.sendOptionalWarning(
+          CONFIRM_DESERT_WEAPON,
+          warning,
+          "hand.gif",
+          "maydayknife.gif",
+          "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
+              + ItemPool.SURVIVAL_KNIFE
+              + "&pwd="
+              + GenericRequest.passwordHash
+              + "&ajax=1');void(0);\"",
+          null,
+          null);
+    } else {
+      // If you don't have a knife, you can't get one.
+      return false;
+    }
 
     return true;
   }
@@ -3518,6 +3580,10 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     if (this.sendBossWarning(path, adventure)) {
+      return true;
+    }
+
+    if (this.sendDesertWeaponWarning()) {
       return true;
     }
 

@@ -1,12 +1,18 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Player.addItem;
 import static internal.helpers.Player.isDay;
+import static internal.helpers.Player.setProperty;
+import static internal.helpers.Player.setQuest;
 import static internal.helpers.Preference.isSetTo;
+import static internal.helpers.Quest.isFinished;
+import static internal.helpers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import internal.helpers.Cleanups;
 import java.util.GregorianCalendar;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -19,6 +25,8 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class ResultProcessorTest {
   @BeforeEach
@@ -26,6 +34,7 @@ public class ResultProcessorTest {
     KoLCharacter.reset("ResultProcessorTest");
     Preferences.reset("ResultProcessorTest");
     BanishManager.clearCache();
+    InventoryManager.resetInventory();
   }
 
   private static AdventureResult MAGNIFICENT_OYSTER_EGG =
@@ -117,5 +126,116 @@ public class ResultProcessorTest {
     assertFalse(
         QuestDatabase.isQuestFinished(QuestDatabase.Quest.GOBLIN),
         "Getting Goblin Water from anyone but Aquagoblin during heavy rains should not finish L05 Quest");
+  }
+
+  private static AdventureResult[] CLUMSINESS_STONES = {
+    ItemPool.get(ItemPool.FURIOUS_STONE), ItemPool.get(ItemPool.VANITY_STONE)
+  };
+
+  @ParameterizedTest
+  @ValueSource(ints = {0, 1})
+  public void gettingFirstClumsinessStone(int stone) {
+    var cleanups =
+        new Cleanups(
+            setQuest(QuestDatabase.Quest.CLUMSINESS, 1),
+            setProperty("clumsinessGroveBoss", "something"));
+
+    try (cleanups) {
+      ResultProcessor.processResult(true, CLUMSINESS_STONES[stone]);
+
+      assertThat(QuestDatabase.Quest.CLUMSINESS, isStep(2));
+      assertThat("clumsinessGroveBoss", isSetTo(""));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = {0, 1})
+  public void gettingSecondClumsinessStone(int stone) {
+    var cleanups =
+        new Cleanups(
+            setQuest(QuestDatabase.Quest.CLUMSINESS, 3),
+            setProperty("clumsinessGroveBoss", "something"),
+            addItem(CLUMSINESS_STONES[(stone + 1) % 2]));
+
+    try (cleanups) {
+      ResultProcessor.processResult(true, CLUMSINESS_STONES[stone]);
+
+      assertThat(QuestDatabase.Quest.CLUMSINESS, isFinished());
+      assertThat("clumsinessGroveBoss", isSetTo(""));
+    }
+  }
+
+  private static AdventureResult[] GLACIER_STONES = {
+    ItemPool.get(ItemPool.AVARICE_STONE), ItemPool.get(ItemPool.GLUTTONOUS_STONE)
+  };
+
+  @ParameterizedTest
+  @ValueSource(ints = {0, 1})
+  public void gettingFirstGlacierStone(int stone) {
+    var cleanups =
+        new Cleanups(
+            setQuest(QuestDatabase.Quest.GLACIER, 1),
+            setProperty("glacierOfJerksBoss", "something"));
+
+    try (cleanups) {
+      ResultProcessor.processResult(true, GLACIER_STONES[stone]);
+
+      assertThat(QuestDatabase.Quest.GLACIER, isStep(2));
+      assertThat("glacierOfJerksBoss", isSetTo(""));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = {0, 1})
+  public void gettingSecondGlacierStone(int stone) {
+    var cleanups =
+        new Cleanups(
+            setQuest(QuestDatabase.Quest.GLACIER, 3),
+            setProperty("glacierOfJerksBoss", "something"),
+            addItem(GLACIER_STONES[(stone + 1) % 2]));
+
+    try (cleanups) {
+      ResultProcessor.processResult(true, GLACIER_STONES[stone]);
+
+      assertThat(QuestDatabase.Quest.GLACIER, isFinished());
+      assertThat("glacierOfJerksBoss", isSetTo(""));
+    }
+  }
+
+  private static AdventureResult[] MAELSTROM_STONES = {
+    ItemPool.get(ItemPool.LECHEROUS_STONE), ItemPool.get(ItemPool.JEALOUSY_STONE)
+  };
+
+  @ParameterizedTest
+  @ValueSource(ints = {0, 1})
+  public void gettingFirstMaelstromStone(int stone) {
+    var cleanups =
+        new Cleanups(
+            setQuest(QuestDatabase.Quest.MAELSTROM, 1),
+            setProperty("maelstromOfLoversBoss", "something"));
+
+    try (cleanups) {
+      ResultProcessor.processResult(true, MAELSTROM_STONES[stone]);
+
+      assertThat(QuestDatabase.Quest.MAELSTROM, isStep(2));
+      assertThat("maelstromOfLoversBoss", isSetTo(""));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = {0, 1})
+  public void gettingSecondMaelstromStone(int stone) {
+    var cleanups =
+        new Cleanups(
+            setQuest(QuestDatabase.Quest.MAELSTROM, 3),
+            setProperty("maelstromOfLoversBoss", "something"),
+            addItem(MAELSTROM_STONES[(stone + 1) % 2]));
+
+    try (cleanups) {
+      ResultProcessor.processResult(true, MAELSTROM_STONES[stone]);
+
+      assertThat(QuestDatabase.Quest.MAELSTROM, isFinished());
+      assertThat("maelstromOfLoversBoss", isSetTo(""));
+    }
   }
 }

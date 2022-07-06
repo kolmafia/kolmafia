@@ -1,13 +1,11 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -49,13 +47,13 @@ public class AdventureRequestTest {
   }
 
   @Test
-  public void gregariousMonstersAreQueued() throws IOException {
+  public void gregariousMonstersAreQueued() {
     KoLAdventure.setLastAdventure(AdventureDatabase.getAdventure("Barf Mountain"));
     MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Knob Goblin Embezzler"));
 
     var req = new GenericRequest("fight.php");
     req.setHasResult(true);
-    req.responseText = Files.readString(Path.of("request/test_fight_gregarious_monster.html"));
+    req.responseText = html("request/test_fight_gregarious_monster.html");
     req.processResponse();
 
     assertThat(

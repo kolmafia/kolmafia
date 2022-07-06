@@ -254,7 +254,7 @@ public class KoLmafiaGUI {
     } else if (frameClass == MushroomFrame.class) {
       String base = KoLmafia.imageServerPath() + "itemimages/";
       for (int i = 0; i < MushroomManager.MUSHROOMS.length; ++i) {
-        FileUtilities.downloadImage(base + MushroomManager.MUSHROOMS[i][1]);
+        FileUtilities.downloadImage(base + MushroomManager.MUSHROOMS[i].filename());
       }
     } else if (frameClass == SendMessageFrame.class) {
       ContactManager.updateMailContacts();

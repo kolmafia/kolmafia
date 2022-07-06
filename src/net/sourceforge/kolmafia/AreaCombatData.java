@@ -1697,6 +1697,21 @@ public class AreaCombatData {
           return KoLCharacter.getFamiliar().getId() != FamiliarPool.YULE_HOUND ? 0 : 1;
         }
         break;
+      case "The Clumsiness Grove":
+        if (monster.equals("The Bat in the Spats") || monster.equals("The Thorax")) {
+          return (monster.equals(Preferences.getString("clumsinessGroveBoss"))) ? 1 : 0;
+        }
+        break;
+      case "The Maelstrom of Lovers":
+        if (monster.equals("The Terrible Pinch") || monster.equals("Thug 1 and Thug 2")) {
+          return (monster.equals(Preferences.getString("maelstromOfLoversBoss"))) ? 1 : 0;
+        }
+        break;
+      case "The Glacier of Jerks":
+        if (monster.equals("Mammon the Elephant") || monster.equals("The Large-Bellied Snitch")) {
+          return (monster.equals(Preferences.getString("glacierOfJerksBoss"))) ? 1 : 0;
+        }
+        break;
     }
     return weighting;
   }

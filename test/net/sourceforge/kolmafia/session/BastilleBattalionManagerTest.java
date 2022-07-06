@@ -1,13 +1,11 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.html;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -47,11 +45,6 @@ public class BastilleBattalionManagerTest {
     ChoiceManager.lastDecision = 0;
   }
 
-  static String loadHTMLResponse(String path) throws IOException {
-    // Load the responseText from saved HTML file
-    return Files.readString(Paths.get(path)).trim();
-  }
-
   @Test
   public void canLoadStats() {
     String value = "";
@@ -74,7 +67,7 @@ public class BastilleBattalionManagerTest {
   }
 
   @Test
-  public void canDetectBoosts() throws IOException {
+  public void canDetectBoosts() {
     BastilleBattalionManager.logBoosts();
     assertEquals("", Preferences.getString("_bastilleBoosts"));
     AdventureResult.addResultToList(
@@ -92,12 +85,12 @@ public class BastilleBattalionManagerTest {
   }
 
   @Test
-  public void canConfigureAllUpgrades() throws IOException {
+  public void canConfigureAllUpgrades() {
     // Test all of the configuration options from the main page.
     // Cycle through every upgrade in every upgrade location.
 
     String urlString = "choice.php?forceoption=0";
-    String responseText = loadHTMLResponse("request/test_bastille_configure_0.html");
+    String responseText = html("request/test_bastille_configure_0.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1313;
@@ -111,7 +104,7 @@ public class BastilleBattalionManagerTest {
     String expected = "Decorating the Barbican";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_configure_1.html");
+    responseText = html("request/test_bastille_configure_1.html");
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1313;
     ChoiceManager.lastDecision = 1;
@@ -125,7 +118,7 @@ public class BastilleBattalionManagerTest {
     expected = "Decorating the Barbican";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_configure_2.html");
+    responseText = html("request/test_bastille_configure_2.html");
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1313;
     ChoiceManager.lastDecision = 1;
@@ -138,7 +131,7 @@ public class BastilleBattalionManagerTest {
     expected = "Decorating the Barbican";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_configure_3.html");
+    responseText = html("request/test_bastille_configure_3.html");
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1313;
     ChoiceManager.lastDecision = 1;
@@ -152,7 +145,7 @@ public class BastilleBattalionManagerTest {
     expected = "Changing the Drawbridge";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_configure_4.html");
+    responseText = html("request/test_bastille_configure_4.html");
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1313;
     ChoiceManager.lastDecision = 2;
@@ -166,7 +159,7 @@ public class BastilleBattalionManagerTest {
     expected = "Changing the Drawbridge";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_configure_5.html");
+    responseText = html("request/test_bastille_configure_5.html");
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1313;
     ChoiceManager.lastDecision = 2;
@@ -180,7 +173,7 @@ public class BastilleBattalionManagerTest {
     expected = "Changing the Drawbridge";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_configure_6.html");
+    responseText = html("request/test_bastille_configure_6.html");
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1313;
     ChoiceManager.lastDecision = 2;
@@ -194,7 +187,7 @@ public class BastilleBattalionManagerTest {
     expected = "Sizing the Murder Holes";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_configure_7.html");
+    responseText = html("request/test_bastille_configure_7.html");
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1313;
     ChoiceManager.lastDecision = 3;
@@ -208,7 +201,7 @@ public class BastilleBattalionManagerTest {
     expected = "Sizing the Murder Holes";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_configure_8.html");
+    responseText = html("request/test_bastille_configure_8.html");
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1313;
     ChoiceManager.lastDecision = 3;
@@ -222,7 +215,7 @@ public class BastilleBattalionManagerTest {
     expected = "Sizing the Murder Holes";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_configure_9.html");
+    responseText = html("request/test_bastille_configure_9.html");
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1313;
     ChoiceManager.lastDecision = 3;
@@ -236,7 +229,7 @@ public class BastilleBattalionManagerTest {
     expected = "Filling the Moat";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_configure_10.html");
+    responseText = html("request/test_bastille_configure_10.html");
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1313;
     ChoiceManager.lastDecision = 4;
@@ -250,7 +243,7 @@ public class BastilleBattalionManagerTest {
     expected = "Filling the Moat";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_configure_11.html");
+    responseText = html("request/test_bastille_configure_11.html");
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1313;
     ChoiceManager.lastDecision = 4;
@@ -264,7 +257,7 @@ public class BastilleBattalionManagerTest {
     expected = "Filling the Moat";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_configure_12.html");
+    responseText = html("request/test_bastille_configure_12.html");
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1313;
     ChoiceManager.lastDecision = 4;
@@ -276,12 +269,12 @@ public class BastilleBattalionManagerTest {
   }
 
   @Test
-  public void canProcessGame() throws IOException {
+  public void canProcessGame() {
     // This is 12-turn game, ending in a loss.
 
     // Enter the control console
     String urlString = "choice.php?forceoption=0";
-    String responseText = loadHTMLResponse("request/test_bastille_game1_0.html");
+    String responseText = html("request/test_bastille_game1_0.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1313;
@@ -292,7 +285,7 @@ public class BastilleBattalionManagerTest {
     String expected = "Starting game #1";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_0_1.html");
+    responseText = html("request/test_bastille_game1_0_1.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1313;
@@ -317,7 +310,7 @@ public class BastilleBattalionManagerTest {
     expected = "Turn #1: Improving offense.";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_1.html");
+    responseText = html("request/test_bastille_game1_1.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1314;
@@ -340,7 +333,7 @@ public class BastilleBattalionManagerTest {
     expected = "Adopt the radical combat style";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_1_2.html");
+    responseText = html("request/test_bastille_game1_1_2.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1317;
@@ -366,7 +359,7 @@ public class BastilleBattalionManagerTest {
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
     request.constructURLString(urlString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_2.html");
+    responseText = html("request/test_bastille_game1_2.html");
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1314;
     ChoiceManager.lastDecision = 1;
@@ -388,7 +381,7 @@ public class BastilleBattalionManagerTest {
     expected = "Draft those artists";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_2_3.html");
+    responseText = html("request/test_bastille_game1_2_3.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1317;
@@ -413,7 +406,7 @@ public class BastilleBattalionManagerTest {
     expected = "Turn #3: Charge!";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_3_4.html");
+    responseText = html("request/test_bastille_game1_3_4.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1315;
@@ -441,7 +434,7 @@ public class BastilleBattalionManagerTest {
     expected = "Turn #4: Focusing on defense.";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_4.html");
+    responseText = html("request/test_bastille_game1_4.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1314;
@@ -464,7 +457,7 @@ public class BastilleBattalionManagerTest {
     expected = "Convert the galleries";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_4_5.html");
+    responseText = html("request/test_bastille_game1_4_5.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1318;
@@ -489,7 +482,7 @@ public class BastilleBattalionManagerTest {
     expected = "Turn #5: Focusing on defense.";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_5.html");
+    responseText = html("request/test_bastille_game1_5.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1314;
@@ -512,7 +505,7 @@ public class BastilleBattalionManagerTest {
     expected = "Repurpose the statues";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_5_6.html");
+    responseText = html("request/test_bastille_game1_5_6.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1318;
@@ -537,7 +530,7 @@ public class BastilleBattalionManagerTest {
     expected = "Turn #6: Charge!";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_6_7.html");
+    responseText = html("request/test_bastille_game1_6_7.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1315;
@@ -565,7 +558,7 @@ public class BastilleBattalionManagerTest {
     expected = "Turn #7: Improving offense.";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_7.html");
+    responseText = html("request/test_bastille_game1_7.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1314;
@@ -588,7 +581,7 @@ public class BastilleBattalionManagerTest {
     expected = "Build the memorial";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_7_8.html");
+    responseText = html("request/test_bastille_game1_7_8.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1317;
@@ -613,7 +606,7 @@ public class BastilleBattalionManagerTest {
     expected = "Turn #8: Improving offense.";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_8.html");
+    responseText = html("request/test_bastille_game1_8.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1314;
@@ -636,7 +629,7 @@ public class BastilleBattalionManagerTest {
     expected = "Approve the retrofit";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_8_9.html");
+    responseText = html("request/test_bastille_game1_8_9.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1317;
@@ -661,7 +654,7 @@ public class BastilleBattalionManagerTest {
     expected = "Turn #9: Charge!";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_9_10.html");
+    responseText = html("request/test_bastille_game1_9_10.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1315;
@@ -689,7 +682,7 @@ public class BastilleBattalionManagerTest {
     expected = "Turn #10: Improving offense.";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_10.html");
+    responseText = html("request/test_bastille_game1_10.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1314;
@@ -712,7 +705,7 @@ public class BastilleBattalionManagerTest {
     expected = "Strengthen the walls";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_10_11.html");
+    responseText = html("request/test_bastille_game1_10_11.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1317;
@@ -737,7 +730,7 @@ public class BastilleBattalionManagerTest {
     expected = "Turn #11: Looking for cheese.";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_11.html");
+    responseText = html("request/test_bastille_game1_11.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1314;
@@ -760,7 +753,7 @@ public class BastilleBattalionManagerTest {
     expected = "Raid the cave";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_11_12.html");
+    responseText = html("request/test_bastille_game1_11_12.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1319;
@@ -785,7 +778,7 @@ public class BastilleBattalionManagerTest {
     expected = "Turn #12: Charge!";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_game1_12_loss.html");
+    responseText = html("request/test_bastille_game1_12_loss.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1315;
@@ -802,7 +795,7 @@ public class BastilleBattalionManagerTest {
     // GAME OVER
     urlString = "choice.php?whichchoice=1316&option=3";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
-    responseText = loadHTMLResponse("request/test_bastille_game1_done.html");
+    responseText = html("request/test_bastille_game1_done.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1316;
@@ -825,7 +818,7 @@ public class BastilleBattalionManagerTest {
   }
 
   @Test
-  public void thatStartingNewGameResetsStats() throws IOException {
+  public void thatStartingNewGameResetsStats() {
     // When you lose a battle, the game ends and your stats are reset to
     // only what your upgrades provide to you.
 
@@ -844,7 +837,7 @@ public class BastilleBattalionManagerTest {
     String expected = "Make the soldiers masons";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    String responseText = loadHTMLResponse("request/test_bastille_end_game_start_game_1.html");
+    String responseText = html("request/test_bastille_end_game_start_game_1.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1318;
@@ -866,7 +859,7 @@ public class BastilleBattalionManagerTest {
     expected = "Turn #6: Charge!";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_end_game_start_game_2.html");
+    responseText = html("request/test_bastille_end_game_start_game_2.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1315;
@@ -894,7 +887,7 @@ public class BastilleBattalionManagerTest {
     urlString = "choice.php?whichchoice=1316&option=2";
     // We don't log returning to the console
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
-    responseText = loadHTMLResponse("request/test_bastille_end_game_start_game_3.html");
+    responseText = html("request/test_bastille_end_game_start_game_3.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1316;
@@ -910,7 +903,7 @@ public class BastilleBattalionManagerTest {
     expected = "Starting game #2";
     assertTrue(BastilleBattalionManager.registerRequest(urlString));
     assertEquals(expected, RequestLogger.previousUpdateString);
-    responseText = loadHTMLResponse("request/test_bastille_end_game_start_game_4.html");
+    responseText = html("request/test_bastille_end_game_start_game_4.html");
     request.constructURLString(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1313;

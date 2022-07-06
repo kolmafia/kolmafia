@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.EdServantData;
+import net.sourceforge.kolmafia.EdServantData.Servant;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -119,6 +120,10 @@ public class DataTypes {
   // Map from STRING -> STRING
   public static final AggregateType STRING_TO_STRING_TYPE =
       new AggregateType(DataTypes.STRING_TYPE, DataTypes.STRING_TYPE);
+
+  // Map from STRING -> LOCATION
+  public static final AggregateType STRING_TO_LOCATION_TYPE =
+      new AggregateType(DataTypes.LOCATION_TYPE, DataTypes.STRING_TYPE);
 
   public static final AggregateType REGEX_GROUP_TYPE =
       new AggregateType(
@@ -606,7 +611,7 @@ public class DataTypes {
       return DataTypes.SERVANT_INIT;
     }
 
-    Object[] data = EdServantData.typeToData(name);
+    Servant data = EdServantData.typeToData(name);
     if (data == null) {
       return returnDefault ? DataTypes.SERVANT_INIT : null;
     }
@@ -883,7 +888,7 @@ public class DataTypes {
   }
 
   public static final Value makeServantValue(final int num, final boolean returnDefault) {
-    Object[] data = EdServantData.idToData(num);
+    Servant data = EdServantData.idToData(num);
     if (data == null) {
       return returnDefault ? DataTypes.SERVANT_INIT : null;
     }

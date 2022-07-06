@@ -414,6 +414,7 @@ user	clanFortuneWord1	pizza
 user	clanFortuneWord2	batman
 user	clanFortuneWord3	thick
 user	clanAttacksEnabled	false
+user	clumsinessGroveBoss
 user	cocktailSummons	0
 user	coldAirportAlways	false
 user	commaFamiliar
@@ -651,6 +652,7 @@ user	gingerSewersUnlocked	false
 user	gingerSubwayLineUnlocked	false
 user	gingerRetailUnlocked	false
 user	gingerTrainScheduleStudies	0
+user	glacierOfJerksBoss
 user	gladiatorBallMovesKnown	0
 user	gladiatorBladeMovesKnown	0
 user	gladiatorNetMovesKnown	0
@@ -881,6 +883,7 @@ user	lastTelescopeReset	-1
 user	lastTempleAdventures	-1
 user	lastTempleButtonsUnlock	-1
 user	lastTempleUnlock	-1
+user	lastThingWithNoNameDefeated	-1
 user	lastTr4pz0rQuest	-1
 user	lastVioletFogMap	0
 user	lastVoteMonsterTurn	0
@@ -915,6 +918,7 @@ user	lowerChamberUnlock	false
 user	lttQuestDifficulty	0
 user	lttQuestName	
 user	lttQuestStageCount	0
+user	maelstromOfLoversBoss
 user	makeFriendsMonster	
 user	makePocketWishesHardcore	false
 user	makePocketWishesSoftcore	false
@@ -987,6 +991,9 @@ user	nextParanormalActivity	1
 user	nextSpookyravenElizabethRoom	The Haunted Storage Room
 user	nextSpookyravenStephenRoom	The Haunted Bedroom
 user	nextQuantumFamiliar	none
+user	nextQuantumFamiliarName
+user	nextQuantumFamiliarOwner
+user	nextQuantumFamiliarOwnerId	0
 user	nextQuantumFamiliarTurn	0
 user	noobPoints	0
 user	noobDeferredPoints	0
@@ -1068,6 +1075,7 @@ user	rockinRobinProgress	25
 user	ROMOfOptimalityAvailable	true
 user	ROMOfOptimalityCost	1000
 user	quantumPoints	0
+user	questClumsinessGrove	unstarted
 user	questDoctorBag	unstarted
 user	questECoBucket	unstarted
 user	questESlAudit	unstarted
@@ -1110,6 +1118,7 @@ user	questG06Delivery	unstarted
 user	questG07Myst	unstarted
 user	questG08Moxie	unstarted
 user	questG09Muscle	unstarted
+user	questGlacierOfJerks	unstarted
 user	questGuzzlr	unstarted
 user	questI01Scapegoat	unstarted
 user	questI02Beat	unstarted
@@ -1165,6 +1174,7 @@ user	questM23Meatsmith	unstarted
 user	questM24Doc	unstarted
 user	questM25Armorer	unstarted
 user	questM26Oracle	unstarted
+user	questMaelstromOfLovers	unstarted
 user	questPAGhost	unstarted
 user	questS01OldGuy	unstarted
 user	questS02Monkees	unstarted
@@ -1365,6 +1375,7 @@ user	summonAnnoyanceCost	11
 user	superficiallyInterestedMonster
 user	suppressInappropriateNags	false
 user	suppressPowerPixellation	false
+user	sweat	0
 user	sweetSynthesisBlacklist	chocolate cigar,fudge bunny,gummi ammonite,gummi belemnite,gummi trilobite,powdered candy sushi set,radio button candy,Ultra Mega Sour Ball,vitachoconutriment capsule
 user	tacoDanCocktailSauce	0
 user	tacoDanFishMeat	0
@@ -1676,6 +1687,12 @@ user	_fishyPipeUsed	false
 user	_floristPlantsUsed
 user	_floundryItemCreated	false
 user	_floundryItemUsed	false
+user	_floundryBassLocation
+user	_floundryCarpLocation
+user	_floundryCodLocation
+user	_floundryHatchetfishLocation
+user	_floundryTroutLocation
+user	_floundryTunaLocation
 user	_fragrantHerbsUsed	0
 user	_freeBeachWalksUsed	0
 user	_freePillKeeperUsed	false
@@ -2052,6 +2069,7 @@ user	_sugarSummons	0
 user	_summonAnnoyanceUsed	false
 user	_summonCarrotUsed	false
 user	_summonResortPassUsed	false
+user	_sweatOutSomeBoozeUsed	0
 user	_sweetToothUsed	false
 user	_syntheticDogHairPillUsed	false
 user	_tacoFlierUsed	false

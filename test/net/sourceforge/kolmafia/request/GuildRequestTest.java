@@ -1,11 +1,11 @@
 package net.sourceforge.kolmafia.request;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static internal.helpers.Networking.html;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Player;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -45,16 +45,11 @@ public class GuildRequestTest {
     Preferences.saveSettingsToFile = true;
   }
 
-  static String loadHTMLResponse(String path) throws IOException {
-    // Load the responseText from saved HTML file
-    return Files.readString(Paths.get(path)).trim();
-  }
-
   @Test
-  public void canTrackWizardOfEgoQuest() throws IOException {
+  public void canTrackWizardOfEgoQuest() {
     // First talk with "ocg"
     GuildRequest request = new GuildRequest("ocg");
-    String responseText = loadHTMLResponse("request/test_guild_quest_ego_intro.html");
+    String responseText = html("request/test_guild_quest_ego_intro.html");
     request.responseText = responseText;
     request.setHasResult(true);
     request.processResponse();
@@ -62,7 +57,7 @@ public class GuildRequestTest {
 
     // Second talk with "ocg"
     request = new GuildRequest("ocg");
-    responseText = loadHTMLResponse("request/test_guild_quest_ego_started.html");
+    responseText = html("request/test_guild_quest_ego_started.html");
     request.responseText = responseText;
     request.setHasResult(true);
     request.processResponse();
@@ -71,7 +66,7 @@ public class GuildRequestTest {
     // Talk after turning in key and getting next step
     AdventureResult key = ItemPool.get(ItemPool.FERNSWARTHYS_KEY);
     request = new GuildRequest("ocg");
-    responseText = loadHTMLResponse("request/test_guild_quest_ego_step2.html");
+    responseText = html("request/test_guild_quest_ego_step2.html");
     request.responseText = responseText;
     request.setHasResult(true);
     request.processResponse();
@@ -82,7 +77,7 @@ public class GuildRequestTest {
     AdventureResult dusty = ItemPool.get(ItemPool.DUSTY_BOOK);
     AdventureResult manual = ItemPool.get(ItemPool.MOX_MANUAL);
     request = new GuildRequest("ocg");
-    responseText = loadHTMLResponse("request/test_guild_quest_ego_finished.html");
+    responseText = html("request/test_guild_quest_ego_finished.html");
     request.responseText = responseText;
     request.setHasResult(true);
     request.processResponse();
@@ -93,7 +88,7 @@ public class GuildRequestTest {
   }
 
   @Test
-  public void canDetectWhiteCitadelQuestStarted() throws IOException {
+  public void canDetectWhiteCitadelQuestStarted() {
     // You have completed the Meatcar and visited "paco",
     // You visit "paco" again and they give the White Citadel Quest.
     //
@@ -109,7 +104,7 @@ public class GuildRequestTest {
     try (cleanups) {
       // talk with "ocg"
       GenericRequest request = new GenericRequest("choice.php?forceoption=0");
-      String responseText = loadHTMLResponse("request/test_guild_quest_citadel_started_0.html");
+      String responseText = html("request/test_guild_quest_citadel_started_0.html");
       request.responseText = responseText;
       request.setHasResult(true);
       ChoiceManager.preChoice(request);
@@ -117,7 +112,7 @@ public class GuildRequestTest {
       assertEquals(QuestDatabase.UNSTARTED, QuestDatabase.getQuest(Quest.CITADEL));
 
       request = new GenericRequest("choice.php?pwd&whichchoice=930&option=1");
-      responseText = loadHTMLResponse("request/test_guild_quest_citadel_started_1.html");
+      responseText = html("request/test_guild_quest_citadel_started_1.html");
       request.responseText = responseText;
       request.setHasResult(true);
       ChoiceManager.preChoice(request);
@@ -127,7 +122,7 @@ public class GuildRequestTest {
   }
 
   @Test
-  public void canDetectWhiteCitadelQuestFinished() throws IOException {
+  public void canDetectWhiteCitadelQuestFinished() {
     // You have visited White Citadel and been given a White Citadel Satisfaction Satchel
     // Quest.CITADEL is at "step10"
     // You return to the guild and speak to "paco"
@@ -145,7 +140,7 @@ public class GuildRequestTest {
     try (cleanups) {
       // talk with "ocg"
       GenericRequest request = new GenericRequest("choice.php?forceoption=0");
-      String responseText = loadHTMLResponse("request/test_guild_quest_citadel_finished.html");
+      String responseText = html("request/test_guild_quest_citadel_finished.html");
       request.responseText = responseText;
       request.setHasResult(true);
       ChoiceManager.preChoice(request);

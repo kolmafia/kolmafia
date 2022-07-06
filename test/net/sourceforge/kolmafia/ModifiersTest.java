@@ -1,13 +1,16 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.addEffect;
 import static internal.helpers.Player.equip;
 import static internal.helpers.Player.inPath;
 import static internal.helpers.Player.isClass;
 import static internal.helpers.Player.isDay;
 import static internal.helpers.Player.setHP;
 import static internal.helpers.Player.setMP;
+import static internal.helpers.Player.setProperty;
 import static internal.helpers.Player.setStats;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.closeTo;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -16,10 +19,13 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Map.Entry;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -150,6 +156,57 @@ public class ModifiersTest {
     assertEquals(-30, mod.get(Modifiers.COMBAT_RATE));
   }
 
+  @Test
+  void fixodeneConsideredInFamiliarModifiers() {
+    var cleanups = addEffect("Fidoxene");
+
+    try (cleanups) {
+      Modifiers familiarMods = new Modifiers();
+      var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 0);
+
+      familiarMods.applyFamiliarModifiers(familiar, null);
+
+      assertThat(familiarMods.get(Modifiers.ITEMDROP), closeTo(50.166, 0.001));
+    }
+  }
+
+  @Test
+  void fixodeneConsideredInFamiliarModifiersNotExceedingTwenty() {
+    var cleanups = addEffect("Fidoxene");
+
+    try (cleanups) {
+      Modifiers familiarMods = new Modifiers();
+      var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400);
+
+      familiarMods.applyFamiliarModifiers(familiar, null);
+
+      assertThat(familiarMods.get(Modifiers.ITEMDROP), closeTo(50.166, 0.001));
+    }
+  }
+
+  @Nested
+  class Squint {
+    @BeforeAll
+    public static void setup() {
+      Preferences.reset("squinter");
+    }
+
+    @Test
+    public void squintAffectsUmbrella() {
+      var cleanups =
+          new Cleanups(
+              equip(EquipmentManager.OFFHAND, "unbreakable umbrella"),
+              setProperty("umbrellaState", "bucket style"),
+              addEffect("Steely-Eyed Squint"));
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        var item = mods.get(Modifiers.ITEMDROP);
+        assertThat(item, equalTo(50.0));
+      }
+    }
+  }
+
   @Nested
   class BuffedHP {
     @AfterEach
@@ -197,6 +254,7 @@ public class ModifiersTest {
       }
     }
 
+    @Test
     public void correctlyCalculatesPastamancerMaximumHP() {
       var cleanups = new Cleanups(isClass(AscensionClass.PASTAMANCER), setStats(100, 100, 100));
       try (cleanups) {
@@ -236,6 +294,7 @@ public class ModifiersTest {
       }
     }
 
+    @Test
     public void correctlyCalculatesVampyreMaximumHP() {
       var cleanups = new Cleanups(isClass(AscensionClass.VAMPYRE), setStats(100, 100, 100));
       try (cleanups) {
@@ -273,6 +332,7 @@ public class ModifiersTest {
       }
     }
 
+    @Test
     public void correctlyCalculatesYouRobotMaximumHP() {
       var cleanups = new Cleanups(inPath(Path.YOU_ROBOT), setStats(100, 100, 100));
       try (cleanups) {
@@ -310,6 +370,7 @@ public class ModifiersTest {
       }
     }
 
+    @Test
     public void correctlyCalculatesGreyYouMaximumHP() {
       var cleanups =
           new Cleanups(

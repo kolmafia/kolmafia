@@ -1606,7 +1606,8 @@ public class Modifiers {
             || type.equals("Sign")
             || type.equals("Skill")
             || type.equals("Synergy")
-            || type.equals("Throne")) {
+            || type.equals("Throne")
+            || type.equals("UnbreakableUmbrella")) {
           String name = Modifiers.getNameFromLookup(desc);
           if (!name.equals("Steely-Eyed Squint") && !name.equals("broken champagne bottle")) {
             this.extras[index] += mod;
@@ -2579,6 +2580,8 @@ public class Modifiers {
 
   private static final AdventureResult somePigs = EffectPool.get(EffectPool.SOME_PIGS);
 
+  private static AdventureResult FIDOXENE = EffectPool.get(EffectPool.FIDOXENE);
+
   public void applyFamiliarModifiers(final FamiliarData familiar, AdventureResult famItem) {
     if (KoLConstants.activeEffects.contains(Modifiers.somePigs)) {
       // Under the effect of SOME PIGS, familiar gives no modifiers
@@ -2586,6 +2589,10 @@ public class Modifiers {
     }
 
     int weight = familiar.getUncappedWeight();
+
+    if (KoLConstants.activeEffects.contains(FIDOXENE)) {
+      weight = Math.max(weight, 20);
+    }
 
     weight += (int) this.get(Modifiers.FAMILIAR_WEIGHT);
     weight += (int) this.get(Modifiers.HIDDEN_FAMILIAR_WEIGHT);

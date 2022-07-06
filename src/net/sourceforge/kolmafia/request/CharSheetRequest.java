@@ -487,7 +487,9 @@ public class CharSheetRequest extends GenericRequest {
       this(-1, name, permStatus);
     }
 
-    /** @return Whether the skill ID is bad (could not be parsed) and shouldn't be used. */
+    /**
+     * @return Whether the skill ID is bad (could not be parsed) and shouldn't be used.
+     */
     boolean isBadId() {
       return this.id < 0;
     }
