@@ -2,8 +2,10 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.addItem;
+import static internal.helpers.Player.equip;
 import static internal.helpers.Player.fightingMonster;
 import static internal.helpers.Player.inAnapest;
+import static internal.helpers.Player.setProperty;
 import static internal.helpers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -670,5 +672,18 @@ public class FightRequestTest {
 
     parseCombatData("request/test_fight_bellydancing_pickpocket_3.html");
     assertEquals(3, Preferences.getInteger("_bellydancerPickpockets"));
+  }
+
+  @Test
+  public void canTrackDesignerSweatpants() {
+    var cleanups =
+        new Cleanups(equip(EquipmentManager.PANTS, "designer sweatpants"), setProperty("sweat", 0));
+
+    try (cleanups) {
+      assertEquals(0, Preferences.getInteger("sweat"));
+
+      parseCombatData("request/test_fight_designer_sweatpants_1.html");
+      assertEquals(2, Preferences.getInteger("sweat"));
+    }
   }
 }
