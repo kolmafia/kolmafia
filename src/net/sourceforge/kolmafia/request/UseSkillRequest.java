@@ -1987,6 +1987,11 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     SkillStatus status = responseStatus(responseText, skillId, count);
     if (status == SkillStatus.SUCCESS) {
       SkillDatabase.registerCasts(skillId, count);
+      Matcher sweatCheck = Pattern.compile("You get (\\d+)% less Sweaty.").matcher(responseText);
+      if (sweatCheck.find()) {
+        int sweatCost = Integer.parseInt(sweatCheck.group());
+        Preferences.decrement("sweat", sweatCost);
+      }
     }
     return status == SkillStatus.ERROR;
   }
@@ -2036,12 +2041,6 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       }
       ConcoctionDatabase.setRefreshNeeded(true);
       return SkillStatus.ERROR;
-    }
-
-    Matcher sweatCheck = Pattern.compile("You get (\\d+)% less Sweaty.").matcher(responseText);
-    if (sweatCheck.find()) {
-      int sweatCost = Integer.parseInt(sweatCheck.group());
-      Preferences.decrement("sweat", sweatCost, 0);
     }
 
     // Summon Clip Art cast through the browser has two phases:

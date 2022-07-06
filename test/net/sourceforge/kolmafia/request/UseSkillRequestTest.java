@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -120,6 +121,15 @@ class UseSkillRequestTest {
         assertGetRequest(
             requests.get(0), "/runskillz.php", "action=Skillz&whichskill=7419&ajax=1&quantity=1");
       }
+    }
+
+    @Test
+    void decreaseSweatWhenCastingSweatSkills() {
+      Preferences.setInteger("sweat", 31);
+      UseSkillRequest.parseResponse(
+          "runskillz.php?action=Skillz&whichskill=7449&ajax=1&quantity=1",
+          html("request/test_cast_sweat_skill.html"));
+      assertEquals(Preferences.getInteger("sweat"), 6);
     }
   }
 }
