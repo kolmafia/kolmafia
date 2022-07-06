@@ -1,14 +1,15 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.HashSet;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.UmbrellaRequest.Form;
+import net.sourceforge.kolmafia.request.UmbrellaRequest.UmbrellaMode;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class UmbrellaCommand extends AbstractCommand implements ModeCommand {
@@ -17,31 +18,25 @@ public class UmbrellaCommand extends AbstractCommand implements ModeCommand {
         "[ml | item | dr | weapon | spell | nc | broken | forward | bucket | pitchfork | twirling | cocoon] - fold your Umbrella";
   }
 
-  private static Map<String, String> SHORTHAND_MAP =
-      Map.ofEntries(
-          Map.entry("ml", "broken"),
-          Map.entry("dr", "forward-facing"),
-          Map.entry("item", "bucket style"),
-          Map.entry("weapon", "pitchfork style"),
-          Map.entry("spell", "constantly twirling"),
-          Map.entry("nc", "cocoon"));
-
-  public Form getForm(final String parameter) {
-    return Form.find(normalize(parameter));
+  public UmbrellaMode getMode(final String parameter) {
+    return UmbrellaMode.find(normalize(parameter));
   }
 
   @Override
   public String normalize(final String parameter) {
-    return SHORTHAND_MAP.getOrDefault(parameter, parameter);
+    var mode = UmbrellaMode.findByShortHand(parameter);
+    return mode == null ? parameter : mode.getName();
   }
 
   @Override
   public boolean validate(final String command, final String parameter) {
-    return getForm(parameter) != null;
+    return getMode(parameter) != null;
   }
 
-  public HashSet<String> getModes() {
-    return new HashSet<>(SHORTHAND_MAP.values());
+  public Set<String> getModes() {
+    return Arrays.stream(UmbrellaMode.values())
+        .map(UmbrellaMode::getName)
+        .collect(Collectors.toSet());
   }
 
   @Override
@@ -59,9 +54,9 @@ public class UmbrellaCommand extends AbstractCommand implements ModeCommand {
       return;
     }
 
-    Form umbrellaForm = getForm(parameter);
+    UmbrellaMode mode = getMode(parameter);
 
-    if (umbrellaForm == null) {
+    if (mode == null) {
       KoLmafia.updateDisplay(
           MafiaState.ERROR, "I don't understand what Umbrella form " + parameter + " is.");
       return;
@@ -73,7 +68,7 @@ public class UmbrellaCommand extends AbstractCommand implements ModeCommand {
 
     request = new GenericRequest("choice.php");
     request.addFormField("whichchoice", "1466");
-    request.addFormField("option", Integer.toString(umbrellaForm.id));
+    request.addFormField("option", Integer.toString(mode.getId()));
     request.addFormField("pwd", GenericRequest.passwordHash);
     RequestThread.postRequest(request);
 
