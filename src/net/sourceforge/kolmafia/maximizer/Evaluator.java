@@ -1115,6 +1115,9 @@ public class Evaluator {
           && KoLCharacter.getBeeosity(name) > this.beeosity) { // too beechin' all by itself!
         continue;
       }
+
+      var modeable = Modeable.find(id);
+
       boolean famCanEquip = KoLCharacter.getFamiliar().canEquip(preItem);
       if (famCanEquip && slot != EquipmentManager.FAMILIAR) {
         // Modifiers when worn by Hatrack or Scarecrow
@@ -1153,6 +1156,10 @@ public class Evaluator {
             item.automaticFlag = true;
         }
 
+        if (modeable != null) {
+          item.automaticFlag = true;
+        }
+
         if (item.getCount() != 0
             && (this.getScore(familiarMods) - nullScore > 0.0 || item.automaticFlag == true)) {
           ranked.get(EquipmentManager.FAMILIAR).add(item);
@@ -1183,6 +1190,10 @@ public class Evaluator {
             continue;
           case 1:
             item.automaticFlag = true;
+        }
+
+        if (modeable != null) {
+          item.automaticFlag = true;
         }
 
         if (item.getCount() != 0
@@ -1437,25 +1448,23 @@ public class Evaluator {
           this.cardNeeded = true;
         }
 
-        int finalId = id;
-        modeablesNeeded.replaceAll(
-            (k, v) -> {
-              if (finalId != k.getItem().getItemId()) return v;
-              int availableSlots =
-                  switch (k.getSlot()) {
-                    case EquipmentManager.ACCESSORY1 -> this.slots[EquipmentManager.ACCESSORY1]
-                        + this.slots[EquipmentManager.ACCESSORY2]
-                        + this.slots[EquipmentManager.ACCESSORY3];
-                    case EquipmentManager.OFFHAND -> this.slots[EquipmentManager.OFFHAND]
-                        + this.slots[EquipmentManager.FAMILIAR];
-                    default -> this.slots[k.getSlot()];
-                  };
-              return availableSlots >= 0;
-            });
-
         if (id == ItemPool.VAMPYRIC_CLOAKE) {
           mods = new Modifiers(mods);
           mods.applyVampyricCloakeModifiers();
+        }
+
+        if (modeable != null) {
+          var slotWeightings =
+              switch (modeable.getSlot()) {
+                case EquipmentManager.ACCESSORY1 -> List.of(
+                    this.slots[EquipmentManager.ACCESSORY1],
+                    this.slots[EquipmentManager.ACCESSORY2],
+                    this.slots[EquipmentManager.ACCESSORY3]);
+                case EquipmentManager.OFFHAND -> List.of(
+                    this.slots[EquipmentManager.OFFHAND], this.slots[EquipmentManager.FAMILIAR]);
+                default -> List.of(this.slots[modeable.getSlot()]);
+              };
+          modeablesNeeded.put(modeable, slotWeightings.stream().anyMatch(s -> s >= 0));
         }
 
         if (mods.getBoolean(Modifiers.NONSTACKABLE_WATCH)) {
@@ -1502,7 +1511,6 @@ public class Evaluator {
           break gotItem;
         }
 
-        var modeable = Modeable.find(id);
         if (modeable != null) {
           if (!forcedModeables.get(modeable).isEmpty()) {
             item.automaticFlag = true;
@@ -2264,11 +2272,19 @@ public class Evaluator {
 
     bestModes.forEach(
         (modeable, mode) -> {
-          int backstopSlot =
-              modeable.getSlot() == EquipmentManager.ACCESSORY1
-                  ? EquipmentManager.ACCESSORY3
-                  : modeable.getSlot();
-          if (spec.equipment[backstopSlot] == null) {
+          Set<Integer> backupSlots = new HashSet<>();
+          backupSlots.add(modeable.getSlot());
+
+          if (modeable.getSlot() == EquipmentManager.ACCESSORY1) {
+            backupSlots.add(EquipmentManager.ACCESSORY2);
+            backupSlots.add(EquipmentManager.ACCESSORY3);
+          }
+
+          if (this.familiars.stream().anyMatch(f -> f.canEquip(modeable.getItem()))) {
+            backupSlots.add(EquipmentManager.FAMILIAR);
+          }
+
+          if (backupSlots.stream().anyMatch(s -> spec.equipment[s] == null)) {
             spec.setModeable(modeable, mode);
           }
         });
