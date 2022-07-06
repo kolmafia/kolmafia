@@ -66,7 +66,7 @@ public class GenericRequestTest {
   public void parseDesignerSweatpants(int expectedSweat) {
     var req = new GenericRequest("desc_item.php?whichitem=800334855");
     req.responseText =
-        html("request/test_desc_item_designer_sweatpants_" + expectedSweat + ".html");
+        html("request/test_desc_item_designer_sweatpants_" + expectedSweat + "_sweat.html");
     req.processResponse();
 
     assertThat("sweat", isSetTo(expectedSweat));

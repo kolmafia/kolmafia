@@ -33,6 +33,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 /** Coverage driven collection of tests for FightRequest. */
@@ -675,15 +676,20 @@ public class FightRequestTest {
   }
 
   @ParameterizedTest
-  @ValueSource(ints = {7, 12})
-  public void canTrackDesignerSweatpants(int expectedSweat) {
+  @CsvSource({"gain, 2", "lose, -3"})
+  public void canTrackDesignerSweatpants(String filePrefix, int sweatChange) {
     var cleanups =
         new Cleanups(
             equip(EquipmentManager.PANTS, "designer sweatpants"), setProperty("sweat", 10));
 
     try (cleanups) {
-      parseCombatData("request/test_fight_designer_sweatpants_" + expectedSweat + ".html");
-      assertEquals(expectedSweat, Preferences.getInteger("sweat"));
+      parseCombatData(
+          "request/test_fight_designer_sweatpants_"
+              + filePrefix
+              + "_"
+              + sweatChange
+              + "_sweat.html");
+      assertEquals(10 + sweatChange, Preferences.getInteger("sweat"));
     }
   }
 }
