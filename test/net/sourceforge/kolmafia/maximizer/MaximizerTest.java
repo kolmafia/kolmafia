@@ -951,5 +951,19 @@ public class MaximizerTest {
         assertTrue(someBoostIs(x -> commandStartsWith(x, "retrocape vampire hold")));
       }
     }
+
+    @Test
+    public void shouldSuggestTunedSnowsuit() {
+      final var cleanups =
+          new Cleanups(
+              canUse("Snow Suit"),
+              canUse("wax lips"),
+              setFamiliar(FamiliarPool.BLOOD_FACED_VOLLEYBALL));
+      try (cleanups) {
+        assertTrue(maximize("exp, hp regen"));
+        recommendedSlotIs(EquipmentManager.FAMILIAR, "Snow Suit");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "snowsuit goatee")));
+      }
+    }
   }
 }
