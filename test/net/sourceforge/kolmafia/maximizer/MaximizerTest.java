@@ -9,10 +9,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import internal.helpers.Cleanups;
 import java.util.Optional;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -750,6 +753,12 @@ public class MaximizerTest {
 
   @Nested
   class Modeables {
+    @BeforeEach
+    public void beforeEach() {
+      KoLCharacter.reset("MaximizerTest.Modeables");
+      Preferences.reset("MaximizerTest.Modeables");
+    }
+
     @Test
     public void canFoldUmbrella() {
       final var cleanups =
@@ -856,6 +865,40 @@ public class MaximizerTest {
         assertTrue(maximize("-hp"));
         recommendedSlotIs(EquipmentManager.WEAPON, "star boomerang");
         assertThat(getSlot(EquipmentManager.OFFHAND), equalTo(Optional.empty()));
+      }
+    }
+
+    @Test
+    public void equipUmbrellaOnLeftHandMan() {
+      var cleanups =
+          new Cleanups(
+              canUse("unbreakable umbrella"),
+              setFamiliar(FamiliarPool.LEFT_HAND),
+              equip(EquipmentManager.PANTS, "old patched suit-pants"),
+              canUse("Microplushie: Hipsterine"),
+              setProperty("umbrellaState", "cocoon"));
+      try (cleanups) {
+        assertTrue(maximize("exp, -offhand"));
+        recommendedSlotIs(EquipmentManager.FAMILIAR, "unbreakable umbrella");
+        assertThat(getSlot(EquipmentManager.OFFHAND), equalTo(Optional.empty()));
+      }
+    }
+
+    @Test
+    public void suggestEquippingUmbrellaOnLeftHandMan() {
+      var cleanups =
+          new Cleanups(
+              canUse("unbreakable umbrella"),
+              hasFamiliar(FamiliarPool.LEFT_HAND),
+              equip(EquipmentManager.PANTS, "old patched suit-pants"),
+              canUse("Microplushie: Hipsterine"),
+              setProperty("umbrellaState", "cocoon"));
+      try (cleanups) {
+        assertTrue(maximize("exp, -offhand, switch left-hand man"));
+        assertThat(someBoostIs(b -> commandStartsWith(b, "familiar Left-Hand Man")), equalTo(true));
+        assertThat(
+            someBoostIs(b -> commandStartsWith(b, "umbrella broken; equip familiar ¶10899")),
+            equalTo(true));
       }
     }
   }
