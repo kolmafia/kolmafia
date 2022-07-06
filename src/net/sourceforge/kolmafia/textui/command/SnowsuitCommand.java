@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -15,25 +15,29 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SnowsuitCommand extends AbstractCommand implements ModeCommand {
-  public static final Map<String, Integer> MODES =
+  public static final Map<Integer, String> MODES =
       Map.ofEntries(
-          Map.entry("eyebrows", 1),
-          Map.entry("smirk", 2),
-          Map.entry("nose", 3),
-          Map.entry("goatee", 4),
-          Map.entry("hat", 5));
+          Map.entry(1, "eyebrows"),
+          Map.entry(2, "smirk"),
+          Map.entry(3, "nose"),
+          Map.entry(4, "goatee"),
+          Map.entry(5, "hat"));
 
   public SnowsuitCommand() {
     this.usage = "[?] <decoration> - decorate Snowsuit (and equip it if unequipped)";
   }
 
-  private int getChoice(final String parameters) {
-    return MODES.getOrDefault(parameters.toLowerCase(), 0);
+  private int findDecision(final String parameters) {
+    return MODES.entrySet().stream()
+        .filter(e -> e.getValue().equalsIgnoreCase(parameters))
+        .map(Map.Entry::getKey)
+        .findFirst()
+        .orElse(0);
   }
 
   @Override
   public boolean validate(final String command, final String parameters) {
-    return getChoice(parameters) != 0;
+    return findDecision(parameters) != 0;
   }
 
   @Override
@@ -42,16 +46,12 @@ public class SnowsuitCommand extends AbstractCommand implements ModeCommand {
   }
 
   @Override
-  public Set<String> getModes() {
-    return MODES.keySet();
+  public HashSet<String> getModes() {
+    return new HashSet<>(MODES.values());
   }
 
   private static String getModeFromDecision(int decision) {
-    return MODES.entrySet().stream()
-        .filter(e -> e.getValue() == decision)
-        .findAny()
-        .map(Map.Entry::getKey)
-        .orElse(null);
+    return MODES.getOrDefault(decision, null);
   }
 
   /**
@@ -90,7 +90,7 @@ public class SnowsuitCommand extends AbstractCommand implements ModeCommand {
       return;
     }
 
-    int choice = getChoice(parameters);
+    int choice = findDecision(parameters);
 
     if (choice == 0) {
       KoLmafia.updateDisplay(
