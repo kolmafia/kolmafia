@@ -2,9 +2,12 @@ package net.sourceforge.kolmafia.maximizer;
 
 import static internal.helpers.Maximizer.*;
 import static internal.helpers.Player.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
+import java.util.Optional;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -840,6 +843,19 @@ public class MaximizerTest {
         assertTrue(maximize("ml, -combat, equip backup camera, equip unbreakable umbrella"));
         someBoostIs(b -> commandStartsWith(b, "umbrella cocoon"));
         someBoostIs(b -> commandStartsWith(b, "backupcamera ml"));
+      }
+    }
+
+    @Test
+    public void doesNotSelectUmbrellaIfNegativeToOurGoal() {
+      var cleanups =
+          new Cleanups(
+              canUse("unbreakable umbrella"), canUse("old sweatpants"), canUse("star boomerang"));
+
+      try (cleanups) {
+        assertTrue(maximize("-hp"));
+        recommendedSlotIs(EquipmentManager.WEAPON, "star boomerang");
+        assertThat(getSlot(EquipmentManager.OFFHAND), equalTo(Optional.empty()));
       }
     }
   }
