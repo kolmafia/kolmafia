@@ -745,99 +745,102 @@ public class MaximizerTest {
     }
   }
 
-  @Test
-  public void canFoldUmbrella() {
-    final var cleanups =
-        new Cleanups(canUse("unbreakable umbrella"), setProperty("umbrellaState", "cocoon"));
-    try (cleanups) {
-      assertTrue(maximize("Monster Level Percent"));
-      recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
+  @Nested
+  class Modeables {
+    @Test
+    public void canFoldUmbrella() {
+      final var cleanups =
+          new Cleanups(canUse("unbreakable umbrella"), setProperty("umbrellaState", "cocoon"));
+      try (cleanups) {
+        assertTrue(maximize("Monster Level Percent"));
+        recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
+      }
     }
-  }
 
-  @Test
-  public void expShouldSuggestUmbrella() {
-    final var cleanups =
-        new Cleanups(
-            canUse("unbreakable umbrella"),
-            equip(EquipmentManager.PANTS, "old patched suit-pants"),
-            canUse("Microplushie: Hipsterine"),
-            setProperty("umbrellaState", "cocoon"));
-    try (cleanups) {
-      assertTrue(maximize("exp"));
-      recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
+    @Test
+    public void expShouldSuggestUmbrella() {
+      final var cleanups =
+          new Cleanups(
+              canUse("unbreakable umbrella"),
+              equip(EquipmentManager.PANTS, "old patched suit-pants"),
+              canUse("Microplushie: Hipsterine"),
+              setProperty("umbrellaState", "cocoon"));
+      try (cleanups) {
+        assertTrue(maximize("exp"));
+        recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
+      }
     }
-  }
 
-  @Test
-  public void expShouldNotSuggestUmbrellaIfBetterInSlot() {
-    final var cleanups =
-        new Cleanups(
-            canUse("unbreakable umbrella"),
-            equip(EquipmentManager.PANTS, "old patched suit-pants"),
-            canUse("vinyl shield"),
-            setProperty("umbrellaState", "cocoon"));
-    try (cleanups) {
-      assertTrue(maximize("exp"));
-      recommendedSlotIs(EquipmentManager.OFFHAND, "vinyl shield");
+    @Test
+    public void expShouldNotSuggestUmbrellaIfBetterInSlot() {
+      final var cleanups =
+          new Cleanups(
+              canUse("unbreakable umbrella"),
+              equip(EquipmentManager.PANTS, "old patched suit-pants"),
+              canUse("vinyl shield"),
+              setProperty("umbrellaState", "cocoon"));
+      try (cleanups) {
+        assertTrue(maximize("exp"));
+        recommendedSlotIs(EquipmentManager.OFFHAND, "vinyl shield");
+      }
     }
-  }
 
-  @Test
-  public void chooseForwardFacingUmbrellaToSatisfyShield() {
-    final var cleanups =
-        new Cleanups(
-            canUse("unbreakable umbrella"),
-            canUse("tip jar"),
-            equip(EquipmentManager.PANTS, "old sweatpants"));
-    try (cleanups) {
-      assertTrue(maximize("meat, shield"));
-      someBoostIs(b -> commandStartsWith(b, "umbrella forward-facing"));
-      recommendedSlotIs(EquipmentManager.OFFHAND, "unbreakable umbrella");
+    @Test
+    public void chooseForwardFacingUmbrellaToSatisfyShield() {
+      final var cleanups =
+          new Cleanups(
+              canUse("unbreakable umbrella"),
+              canUse("tip jar"),
+              equip(EquipmentManager.PANTS, "old sweatpants"));
+      try (cleanups) {
+        assertTrue(maximize("meat, shield"));
+        someBoostIs(b -> commandStartsWith(b, "umbrella forward-facing"));
+        recommendedSlotIs(EquipmentManager.OFFHAND, "unbreakable umbrella");
+      }
     }
-  }
 
-  @Test
-  public void edPieceChoosesFishWithSea() {
-    final var cleanups =
-        new Cleanups(
-            canUse("The Crown of Ed the Undying"),
-            canUse("star shirt"),
-            equip(EquipmentManager.PANTS, "old sweatpants"),
-            setProperty("edPiece", "puma"));
-    try (cleanups) {
-      assertTrue(maximize("muscle, sea"));
-      someBoostIs(b -> commandStartsWith(b, "edpiece fish"));
-      recommendedSlotIs(EquipmentManager.HAT, "The Crown of Ed the Undying");
+    @Test
+    public void edPieceChoosesFishWithSea() {
+      final var cleanups =
+          new Cleanups(
+              canUse("The Crown of Ed the Undying"),
+              canUse("star shirt"),
+              equip(EquipmentManager.PANTS, "old sweatpants"),
+              setProperty("edPiece", "puma"));
+      try (cleanups) {
+        assertTrue(maximize("muscle, sea"));
+        someBoostIs(b -> commandStartsWith(b, "edpiece fish"));
+        recommendedSlotIs(EquipmentManager.HAT, "The Crown of Ed the Undying");
+      }
     }
-  }
 
-  @Test
-  public void edPieceChoosesBasedOnModesWithoutSea() {
-    final var cleanups =
-        new Cleanups(
-            canUse("The Crown of Ed the Undying"),
-            canUse("star shirt"),
-            equip(EquipmentManager.PANTS, "old sweatpants"),
-            setProperty("edPiece", "puma"));
-    try (cleanups) {
-      assertTrue(maximize("muscle"));
-      someBoostIs(b -> commandStartsWith(b, "edpiece bear"));
-      recommendedSlotIs(EquipmentManager.HAT, "The Crown of Ed the Undying");
+    @Test
+    public void edPieceChoosesBasedOnModesWithoutSea() {
+      final var cleanups =
+          new Cleanups(
+              canUse("The Crown of Ed the Undying"),
+              canUse("star shirt"),
+              equip(EquipmentManager.PANTS, "old sweatpants"),
+              setProperty("edPiece", "puma"));
+      try (cleanups) {
+        assertTrue(maximize("muscle"));
+        someBoostIs(b -> commandStartsWith(b, "edpiece bear"));
+        recommendedSlotIs(EquipmentManager.HAT, "The Crown of Ed the Undying");
+      }
     }
-  }
 
-  @Test
-  public void multipleModeables() {
-    final var cleanups =
-        new Cleanups(
-            canUse("backup camera"),
-            canUse("unbreakable umbrella"),
-            equip(EquipmentManager.PANTS, "old sweatpants"));
-    try (cleanups) {
-      assertTrue(maximize("ml, -combat, equip backup camera, equip unbreakable umbrella"));
-      someBoostIs(b -> commandStartsWith(b, "umbrella cocoon"));
-      someBoostIs(b -> commandStartsWith(b, "backupcamera ml"));
+    @Test
+    public void multipleModeables() {
+      final var cleanups =
+          new Cleanups(
+              canUse("backup camera"),
+              canUse("unbreakable umbrella"),
+              equip(EquipmentManager.PANTS, "old sweatpants"));
+      try (cleanups) {
+        assertTrue(maximize("ml, -combat, equip backup camera, equip unbreakable umbrella"));
+        someBoostIs(b -> commandStartsWith(b, "umbrella cocoon"));
+        someBoostIs(b -> commandStartsWith(b, "backupcamera ml"));
+      }
     }
   }
 }
