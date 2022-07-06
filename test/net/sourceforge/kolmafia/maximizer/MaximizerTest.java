@@ -40,6 +40,11 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class MaximizerTest {
+  @BeforeAll
+  public static void beforeAll() {
+    KoLCharacter.reset("MaximizerTest");
+    Preferences.reset("MaximizerTest");
+  }
   // basic
 
   @Test
@@ -772,12 +777,6 @@ public class MaximizerTest {
 
   @Nested
   class Modeables {
-    @BeforeAll
-    public static void beforeAll() {
-      KoLCharacter.reset("MaximizerTest.Modeables");
-      Preferences.reset("MaximizerTest.Modeables");
-    }
-
     @Test
     public void canFoldUmbrella() {
       final var cleanups =
