@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Player.isClass;
 import static org.junit.jupiter.api.Assertions.*;
 
+import net.sourceforge.kolmafia.AscensionClass;
 import org.junit.jupiter.api.Test;
 
 public class SkillDatabaseTest {
@@ -20,5 +22,23 @@ public class SkillDatabaseTest {
     assertEquals(SkillDatabase.stackLumpsCost(15), 11111111111111111L);
     assertEquals(SkillDatabase.stackLumpsCost(17), 1111111111111111111L);
     assertEquals(SkillDatabase.stackLumpsCost(18), Long.MAX_VALUE);
+  }
+
+  @Test
+  public void thrallsLastTenTurnsWhenNotPasta() {
+    var cleanups = isClass(AscensionClass.ACCORDION_THIEF);
+    try (cleanups) {
+      // Bind Lasagmbie
+      assertEquals(SkillDatabase.getEffectDuration(3037), 10);
+    }
+  }
+
+  @Test
+  public void thrallsLastZeroTurnsWhenPasta() {
+    var cleanups = isClass(AscensionClass.PASTAMANCER);
+    try (cleanups) {
+      // Bind Lasagmbie
+      assertEquals(SkillDatabase.getEffectDuration(3037), 0);
+    }
   }
 }
