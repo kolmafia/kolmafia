@@ -1,10 +1,29 @@
 package net.sourceforge.kolmafia.maximizer;
 
-import static internal.helpers.Maximizer.*;
-import static internal.helpers.Player.*;
+import static internal.helpers.Maximizer.commandStartsWith;
+import static internal.helpers.Maximizer.getSlot;
+import static internal.helpers.Maximizer.maximize;
+import static internal.helpers.Maximizer.modFor;
+import static internal.helpers.Maximizer.recommendedSlotIs;
+import static internal.helpers.Maximizer.recommendedSlotIsUnchanged;
+import static internal.helpers.Maximizer.recommends;
+import static internal.helpers.Maximizer.someBoostIs;
+import static internal.helpers.Player.addEffect;
+import static internal.helpers.Player.addItem;
+import static internal.helpers.Player.addSkill;
+import static internal.helpers.Player.canUse;
+import static internal.helpers.Player.equip;
+import static internal.helpers.Player.hasFamiliar;
+import static internal.helpers.Player.inLocation;
+import static internal.helpers.Player.inPath;
+import static internal.helpers.Player.setFamiliar;
+import static internal.helpers.Player.setProperty;
+import static internal.helpers.Player.setStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.util.Optional;
@@ -15,7 +34,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -753,8 +772,8 @@ public class MaximizerTest {
 
   @Nested
   class Modeables {
-    @BeforeEach
-    public void beforeEach() {
+    @BeforeAll
+    public static void beforeAll() {
       KoLCharacter.reset("MaximizerTest.Modeables");
       Preferences.reset("MaximizerTest.Modeables");
     }
