@@ -2,8 +2,10 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.addItem;
+import static internal.helpers.Player.equip;
 import static internal.helpers.Player.fightingMonster;
 import static internal.helpers.Player.inAnapest;
+import static internal.helpers.Player.setProperty;
 import static internal.helpers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,6 +33,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 /** Coverage driven collection of tests for FightRequest. */
@@ -670,5 +673,21 @@ public class FightRequestTest {
 
     parseCombatData("request/test_fight_bellydancing_pickpocket_3.html");
     assertEquals(3, Preferences.getInteger("_bellydancerPickpockets"));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "request/test_fight_designer_sweatpants_gain_2_sweat.html, 2",
+    "request/test_fight_designer_sweatpants_lose_3_sweat.html, -3"
+  })
+  public void canTrackDesignerSweatpants(String responseHtml, int sweatChange) {
+    var cleanups =
+        new Cleanups(
+            equip(EquipmentManager.PANTS, "designer sweatpants"), setProperty("sweat", 10));
+
+    try (cleanups) {
+      parseCombatData(responseHtml);
+      assertEquals(10 + sweatChange, Preferences.getInteger("sweat"));
+    }
   }
 }

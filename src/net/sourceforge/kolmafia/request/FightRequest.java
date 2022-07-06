@@ -286,6 +286,11 @@ public class FightRequest extends GenericRequest {
   private static final Pattern NS2_BLOCK3_PATTERN =
       Pattern.compile("use the (.*?), a nasty-looking pseudopod");
 
+  private static final Pattern DESIGNER_SWEATPANTS_LESS_SWEATY =
+      Pattern.compile("<td>You get (\\d+)% less Sweaty.</td>");
+  private static final Pattern DESIGNER_SWEATPANTS_MORE_SWEATY =
+      Pattern.compile("<td>You get (\\d+)% Sweatier.</td>");
+
   private static final AdventureResult TOOTH = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
   private static final AdventureResult SPICES = ItemPool.get(ItemPool.SPICES, 1);
   private static final AdventureResult MERCENARY = ItemPool.get(ItemPool.TOY_MERCENARY, 1);
@@ -2916,6 +2921,17 @@ public class FightRequest extends GenericRequest {
       JuneCleaverManager.updatePreferences(responseText);
     }
 
+    if (KoLCharacter.hasEquipped(ItemPool.DESIGNER_SWEATPANTS)) {
+      Matcher lessSweatMatcher = FightRequest.DESIGNER_SWEATPANTS_LESS_SWEATY.matcher(responseText);
+      if (lessSweatMatcher.find()) {
+        Preferences.decrement("sweat", StringUtilities.parseInt(lessSweatMatcher.group(1)));
+      }
+
+      Matcher moreSweatMatcher = FightRequest.DESIGNER_SWEATPANTS_MORE_SWEATY.matcher(responseText);
+      if (moreSweatMatcher.find()) {
+        Preferences.increment("sweat", StringUtilities.parseInt(moreSweatMatcher.group(1)));
+      }
+    }
     // "The Slime draws back and shudders, as if it's about to sneeze.
     // Then it blasts you with a massive loogie that sticks to your
     // rusty grave robbing shovel, pulls it off of you, and absorbs

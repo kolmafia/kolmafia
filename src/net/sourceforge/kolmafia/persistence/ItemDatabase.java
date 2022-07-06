@@ -2205,6 +2205,14 @@ public class ItemDatabase {
     }
   }
 
+  public static void parseDesignerSweatpants(final String desc) {
+    if (desc.contains("Your sweatpants are currently")) {
+      return;
+    }
+
+    Preferences.setInteger("sweat", 0);
+  }
+
   public static void resetVampireVintnerWine() {
     Preferences.setString("vintnerWineName", "");
     Preferences.setString("vintnerWineEffect", "");
