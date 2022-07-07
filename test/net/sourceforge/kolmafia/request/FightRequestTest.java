@@ -389,6 +389,24 @@ public class FightRequestTest {
   }
 
   @Test
+  public void canTrackCastAndUseGooseDrones() {
+    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+    KoLCharacter.setFamiliar(fam);
+    KoLCharacter.getFamiliar().setWeight(6);
+
+    String html = html("request/test_fight_cast_and_use_drones.html");
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
+    // Multi-round response text. Matter_Duplicating drones emitted one round and used-up next round
+    assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
+    FightRequest.registerRequest(
+        true,
+        "fight.php?action=macro&macrotext=if+hasskill+curse+of+weaksauce%3Bskill+curse+of+weaksauce%3Bendif%3Bif+hascombatitem+porquoise-handled+sixgun+%26%26+hascombatitem+mayor+ghost%3Buse+porquoise-handled+sixgun%2Cmayor+ghost%3Bendif%3Bif+hasskill+bowl+straight+up%3Bskill+bowl+straight+up%3Bendif%3Bif+hascombatitem+spooky+putty+sheet%3Buse+spooky+putty+sheet%3Bendif%3Bif+hasskill+emit+matter+duplicating+drones%3Bskill+emit+matter+duplicating+drones%3Bendif%3Battack%3Brepeat%3Babort%3B");
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
+  }
+
+  @Test
   public void canFindItemsAfterSlayTheDead() {
     FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
     KoLCharacter.setFamiliar(fam);

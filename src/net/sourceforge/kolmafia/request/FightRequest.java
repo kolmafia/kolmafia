@@ -5686,6 +5686,14 @@ public class FightRequest extends GenericRequest {
       this.location = KoLAdventure.lastLocationName == null ? "" : KoLAdventure.lastLocationName;
     }
 
+    public void nextRound() {
+      // If we are parsing multiple rounds because the action was a macro, we may need to update
+      // some things that happened in the last round.
+
+      // If goose drones are now active
+      this.drones = Preferences.getInteger("gooseDronesRemaining");
+    }
+
     public void setFamiliar(final String image) {
       FamiliarData current = KoLCharacter.getFamiliar();
       int id = FamiliarDatabase.getFamiliarByImageLocation(image);
@@ -6353,6 +6361,7 @@ public class FightRequest extends GenericRequest {
 
     if (name.equals("hr")) {
       FightRequest.updateRoundData(status.macroMatcher);
+      status.nextRound();
       if (status.macroMatcher.find()) {
         FightRequest.registerMacroAction(status.macroMatcher);
         ++FightRequest.currentRound;
