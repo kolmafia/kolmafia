@@ -136,12 +136,12 @@ class UseSkillRequestTest {
       // 31 - 25 = 6
       assertEquals(Preferences.getInteger("sweat"), 6);
 
-
       Preferences.setInteger("sweat", 69);
       UseSkillRequest.lastSkillUsed = SkillPool.DRENCH_YOURSELF_IN_SWEAT;
       UseSkillRequest.lastSkillCount = 1;
-      UseSkillRequest.parseResponse("runskillz.php?action=Skillz&whichskill=7419&ajax=1&quantity=1",
-              html("request/test_cast_drench_sweat.html"));
+      UseSkillRequest.parseResponse(
+          "runskillz.php?action=Skillz&whichskill=7419&ajax=1&quantity=1",
+          html("request/test_cast_drench_sweat.html"));
       // 69 - 15 = 54
       assertEquals(Preferences.getInteger("sweat"), 54);
     }
