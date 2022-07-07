@@ -42,7 +42,8 @@ import org.mockito.Mockito;
 public class Player {
   public static Cleanups equip(int slot, String item) {
     var cleanups = new Cleanups();
-    EquipmentManager.setEquipment(slot, AdventureResult.tallyItem(item));
+    EquipmentManager.setEquipment(
+        slot, item == null ? EquipmentRequest.UNEQUIP : AdventureResult.tallyItem(item));
     cleanups.add(() -> EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP));
     return cleanups;
   }

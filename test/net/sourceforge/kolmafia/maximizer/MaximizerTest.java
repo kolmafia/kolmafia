@@ -1,20 +1,50 @@
 package net.sourceforge.kolmafia.maximizer;
 
-import static internal.helpers.Maximizer.*;
-import static internal.helpers.Player.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static internal.helpers.Maximizer.commandStartsWith;
+import static internal.helpers.Maximizer.getSlot;
+import static internal.helpers.Maximizer.maximize;
+import static internal.helpers.Maximizer.modFor;
+import static internal.helpers.Maximizer.recommendedSlotIs;
+import static internal.helpers.Maximizer.recommendedSlotIsUnchanged;
+import static internal.helpers.Maximizer.recommends;
+import static internal.helpers.Maximizer.someBoostIs;
+import static internal.helpers.Player.addEffect;
+import static internal.helpers.Player.addItem;
+import static internal.helpers.Player.addSkill;
+import static internal.helpers.Player.canUse;
+import static internal.helpers.Player.equip;
+import static internal.helpers.Player.hasFamiliar;
+import static internal.helpers.Player.inLocation;
+import static internal.helpers.Player.inPath;
+import static internal.helpers.Player.setFamiliar;
+import static internal.helpers.Player.setProperty;
+import static internal.helpers.Player.setStats;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import java.util.Optional;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class MaximizerTest {
+  @BeforeAll
+  public static void beforeAll() {
+    KoLCharacter.reset("MaximizerTest");
+    Preferences.reset("MaximizerTest");
+  }
   // basic
 
   @Test
@@ -745,41 +775,220 @@ public class MaximizerTest {
     }
   }
 
-  @Test
-  public void canFoldUmbrella() {
-    final var cleanups =
-        new Cleanups(canUse("unbreakable umbrella"), setProperty("umbrellaState", "cocoon"));
-    try (cleanups) {
-      assertTrue(maximize("Monster Level Percent"));
-      recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
+  @Nested
+  class Modeables {
+    @Test
+    public void canFoldUmbrella() {
+      final var cleanups =
+          new Cleanups(canUse("unbreakable umbrella"), setProperty("umbrellaState", "cocoon"));
+      try (cleanups) {
+        assertTrue(maximize("Monster Level Percent"));
+        recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
+      }
     }
-  }
 
-  @Test
-  public void expShouldSuggestUmbrella() {
-    final var cleanups =
-        new Cleanups(
-            canUse("unbreakable umbrella"),
-            equip(EquipmentManager.PANTS, "old patched suit-pants"),
-            canUse("Microplushie: Hipsterine"),
-            setProperty("umbrellaState", "cocoon"));
-    try (cleanups) {
-      assertTrue(maximize("exp"));
-      recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
+    @Test
+    public void expShouldSuggestUmbrella() {
+      final var cleanups =
+          new Cleanups(
+              canUse("unbreakable umbrella"),
+              equip(EquipmentManager.PANTS, "old patched suit-pants"),
+              canUse("Microplushie: Hipsterine"),
+              setProperty("umbrellaState", "cocoon"));
+      try (cleanups) {
+        assertTrue(maximize("exp"));
+        recommendedSlotIs(EquipmentManager.OFFHAND, "umbrella broken");
+      }
     }
-  }
 
-  @Test
-  public void expShouldNotSuggestUmbrellaIfBetterInSlot() {
-    final var cleanups =
-        new Cleanups(
-            canUse("unbreakable umbrella"),
-            equip(EquipmentManager.PANTS, "old patched suit-pants"),
-            canUse("vinyl shield"),
-            setProperty("umbrellaState", "cocoon"));
-    try (cleanups) {
-      assertTrue(maximize("exp"));
-      recommendedSlotIs(EquipmentManager.OFFHAND, "vinyl shield");
+    @Test
+    public void expShouldNotSuggestUmbrellaIfBetterInSlot() {
+      final var cleanups =
+          new Cleanups(
+              canUse("unbreakable umbrella"),
+              equip(EquipmentManager.PANTS, "old patched suit-pants"),
+              canUse("vinyl shield"),
+              setProperty("umbrellaState", "cocoon"));
+      try (cleanups) {
+        assertTrue(maximize("exp"));
+        recommendedSlotIs(EquipmentManager.OFFHAND, "vinyl shield");
+      }
+    }
+
+    @Test
+    public void chooseForwardFacingUmbrellaToSatisfyShield() {
+      final var cleanups =
+          new Cleanups(
+              canUse("unbreakable umbrella"),
+              canUse("tip jar"),
+              equip(EquipmentManager.PANTS, "old sweatpants"));
+      try (cleanups) {
+        assertTrue(maximize("meat, shield"));
+        someBoostIs(b -> commandStartsWith(b, "umbrella forward-facing"));
+        recommendedSlotIs(EquipmentManager.OFFHAND, "unbreakable umbrella");
+      }
+    }
+
+    @Test
+    public void edPieceChoosesFishWithSea() {
+      final var cleanups =
+          new Cleanups(
+              canUse("The Crown of Ed the Undying"),
+              canUse("star shirt"),
+              equip(EquipmentManager.PANTS, "old sweatpants"),
+              setProperty("edPiece", "puma"));
+      try (cleanups) {
+        assertTrue(maximize("muscle, sea"));
+        someBoostIs(b -> commandStartsWith(b, "edpiece fish"));
+        recommendedSlotIs(EquipmentManager.HAT, "The Crown of Ed the Undying");
+      }
+    }
+
+    @Test
+    public void edPieceChoosesBasedOnModesWithoutSea() {
+      final var cleanups =
+          new Cleanups(
+              canUse("The Crown of Ed the Undying"),
+              canUse("star shirt"),
+              equip(EquipmentManager.PANTS, "old sweatpants"),
+              setProperty("edPiece", "puma"));
+      try (cleanups) {
+        assertTrue(maximize("muscle"));
+        someBoostIs(b -> commandStartsWith(b, "edpiece bear"));
+        recommendedSlotIs(EquipmentManager.HAT, "The Crown of Ed the Undying");
+      }
+    }
+
+    @Test
+    public void multipleModeables() {
+      final var cleanups =
+          new Cleanups(
+              canUse("backup camera"),
+              canUse("unbreakable umbrella"),
+              equip(EquipmentManager.PANTS, "old sweatpants"));
+      try (cleanups) {
+        assertTrue(maximize("ml, -combat, equip backup camera, equip unbreakable umbrella"));
+        someBoostIs(b -> commandStartsWith(b, "umbrella cocoon"));
+        someBoostIs(b -> commandStartsWith(b, "backupcamera ml"));
+      }
+    }
+
+    @Test
+    public void doesNotSelectUmbrellaIfNegativeToOurGoal() {
+      var cleanups =
+          new Cleanups(
+              canUse("unbreakable umbrella"), canUse("old sweatpants"), canUse("star boomerang"));
+
+      try (cleanups) {
+        assertTrue(maximize("-hp"));
+        recommendedSlotIs(EquipmentManager.WEAPON, "star boomerang");
+        assertThat(getSlot(EquipmentManager.OFFHAND), equalTo(Optional.empty()));
+      }
+    }
+
+    @Test
+    public void equipUmbrellaOnLeftHandMan() {
+      var cleanups =
+          new Cleanups(
+              canUse("unbreakable umbrella"),
+              setFamiliar(FamiliarPool.LEFT_HAND),
+              equip(EquipmentManager.PANTS, "old patched suit-pants"),
+              canUse("Microplushie: Hipsterine"),
+              setProperty("umbrellaState", "cocoon"));
+      try (cleanups) {
+        assertTrue(maximize("exp, -offhand"));
+        recommendedSlotIs(EquipmentManager.FAMILIAR, "unbreakable umbrella");
+        assertThat(getSlot(EquipmentManager.OFFHAND), equalTo(Optional.empty()));
+      }
+    }
+
+    @Test
+    public void suggestEquippingUmbrellaOnLeftHandMan() {
+      var cleanups =
+          new Cleanups(
+              canUse("unbreakable umbrella"),
+              hasFamiliar(FamiliarPool.LEFT_HAND),
+              equip(EquipmentManager.PANTS, "old patched suit-pants"),
+              canUse("Microplushie: Hipsterine"),
+              setProperty("umbrellaState", "cocoon"));
+      try (cleanups) {
+        assertTrue(maximize("exp, -offhand, switch left-hand man"));
+        assertThat(someBoostIs(b -> commandStartsWith(b, "familiar Left-Hand Man")), equalTo(true));
+        assertThat(
+            someBoostIs(b -> commandStartsWith(b, "umbrella broken; equip familiar ¶10899")),
+            equalTo(true));
+      }
+    }
+
+    @Test
+    public void suggestEquippingSomethingBetterThanUmbrellaOnLeftHandMan() {
+      var cleanups =
+          new Cleanups(
+              canUse("unbreakable umbrella"),
+              hasFamiliar(FamiliarPool.LEFT_HAND),
+              equip(EquipmentManager.PANTS, "old patched suit-pants"),
+              canUse("shield of the Skeleton Lord"),
+              setProperty("umbrellaState", "cocoon"));
+      try (cleanups) {
+        assertTrue(maximize("exp, -offhand, switch left-hand man"));
+        assertThat(someBoostIs(b -> commandStartsWith(b, "familiar Left-Hand Man")), equalTo(true));
+        assertThat(someBoostIs(b -> commandStartsWith(b, "equip familiar ¶9890")), equalTo(true));
+      }
+    }
+
+    @Test
+    public void shouldSuggestTunedRetrocape() {
+      final var cleanups =
+          new Cleanups(
+              canUse("unwrapped knock-off retro superhero cape"),
+              canUse("palm-frond cloak"),
+              setProperty("retroCapeSuperhero", "vampire"),
+              setProperty("retroCapeWashingInstructions", "thrill"));
+      try (cleanups) {
+        assertTrue(maximize("hot res"));
+        recommendedSlotIs(EquipmentManager.CONTAINER, "unwrapped knock-off retro superhero cape");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "retrocape vampire hold")));
+      }
+    }
+
+    @Test
+    public void shouldSuggestTunedSnowsuit() {
+      final var cleanups =
+          new Cleanups(
+              canUse("Snow Suit"),
+              canUse("wax lips"),
+              setFamiliar(FamiliarPool.BLOOD_FACED_VOLLEYBALL));
+      try (cleanups) {
+        assertTrue(maximize("exp, hp regen"));
+        recommendedSlotIs(EquipmentManager.FAMILIAR, "Snow Suit");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "snowsuit goatee")));
+      }
+    }
+
+    @Test
+    public void shouldSuggestCameraIfSecondBest() {
+      final var cleanups =
+          new Cleanups(
+              canUse("backup camera"),
+              canUse("incredibly dense meat gem"),
+              setProperty("backupCameraMode", "ml"));
+      try (cleanups) {
+        assertTrue(maximize("meat"));
+        recommends("backup camera");
+        recommends("incredibly dense meat gem");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "backupcamera meat")));
+      }
+    }
+
+    @Test
+    public void shouldSuggestCameraIfSlotsExcluded() {
+      final var cleanups =
+          new Cleanups(canUse("backup camera"), setProperty("backupCameraMode", "ml"));
+      try (cleanups) {
+        assertTrue(maximize("meat -acc1 -acc2"));
+        recommendedSlotIs(EquipmentManager.ACCESSORY3, "backup camera");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "backupcamera meat")));
+      }
     }
   }
 }

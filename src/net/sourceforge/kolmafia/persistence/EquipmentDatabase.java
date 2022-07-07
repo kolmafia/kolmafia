@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.IntegerArray;
@@ -717,6 +718,10 @@ public class EquipmentDatabase {
   }
 
   public static final boolean isShield(final int itemId) {
+    if (itemId == ItemPool.UNBREAKABLE_UMBRELLA) {
+      return Preferences.getString("umbrellaState").equals("forward-facing");
+    }
+
     return EquipmentDatabase.getItemType(itemId).equals("shield");
   }
 

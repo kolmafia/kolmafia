@@ -474,7 +474,16 @@ public class FamiliarData implements Comparable<FamiliarData> {
     // For Crimbo ghosts, we can get accurate experience from the terrarium,
     // but not from api.php or charpane.php - which call this method.
 
+    // I have also noticed that in Quantum Terrarium, other familiars don't
+    // necessarily have an experience value (as reported by api.php) that
+    // agrees with what KoL reports for modified weight.
+
     switch (this.id) {
+      default:
+        if (!KoLCharacter.inQuantum()) {
+          break;
+        }
+        // fall through
       case FamiliarPool.GHOST_CAROLS:
       case FamiliarPool.GHOST_CHEER:
       case FamiliarPool.GHOST_COMMERCE:
@@ -599,6 +608,19 @@ public class FamiliarData implements Comparable<FamiliarData> {
       // Add new familiar to list
       familiar = new FamiliarData(id);
       KoLCharacter.addFamiliar(familiar);
+    }
+
+    // KoL can change the experience of a familiar out from under us.  For
+    // example, a Shorter-Order Cook will grant 100 experience to a familiar
+    // who leaves the terrarium for the first time. Therefore, we should
+    // believe - and update - the experience KoL reports for your familiar.
+    //
+    // The exception is Crimbo Ghosts (which share experience) which api.php
+    // reports as zero, even though the accurate amount is in the terrarium.
+    //
+    // This method is called with info from api.php for your current familiar.
+
+    if (experience > 0) {
       familiar.setExperience(experience);
     }
 

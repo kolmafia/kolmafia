@@ -218,7 +218,7 @@ public class FamiliarDataTest {
         assertEquals(famId, current.getId());
         assertEquals(famExp, current.getTotalExperience());
         // Base Weight
-        assertEquals(Math.min(20, Math.sqrt(famExp)), current.getWeight());
+        assertEquals(Math.min(20, (int) Math.sqrt(famExp)), current.getWeight());
         assertEquals(feasted, current.getFeasted());
         // Image can change, so current image is in KoLCharacter
         assertEquals(famPic + ".gif", KoLCharacter.getFamiliarImage());

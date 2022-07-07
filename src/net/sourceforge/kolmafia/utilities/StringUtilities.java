@@ -914,4 +914,10 @@ public class StringUtilities {
   public static List<String> tokenizeString(String s) throws Exception {
     return tokenizeString(s, ',');
   }
+
+  public static String listToHumanString(List<String> l) {
+    int last = l.size() - 1;
+    if (last == 0) return l.get(last);
+    return String.join(" and ", String.join(", ", l.subList(0, last)), l.get(last));
+  }
 }
