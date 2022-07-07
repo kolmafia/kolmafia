@@ -18,9 +18,11 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -77,6 +79,14 @@ class UseSkillRequestTest {
     @BeforeEach
     public void initializeState() {
       HttpClientWrapper.setupFakeClient();
+      KoLCharacter.reset("DesignerSweatpants");
+      Preferences.reset("DesignerSweatpants");
+    }
+
+    @AfterAll
+    public static void afterAll() {
+      UseSkillRequest.lastSkillUsed = -1;
+      UseSkillRequest.lastSkillCount = 0;
     }
 
     @Test
@@ -120,6 +130,30 @@ class UseSkillRequestTest {
         assertGetRequest(
             requests.get(0), "/runskillz.php", "action=Skillz&whichskill=7419&ajax=1&quantity=1");
       }
+    }
+
+    @Test
+    void decreaseSweatWhenCastingSweatBooze() {
+      Preferences.setInteger("sweat", 31);
+      UseSkillRequest.lastSkillUsed = SkillPool.SWEAT_OUT_BOOZE;
+      UseSkillRequest.lastSkillCount = 1;
+      UseSkillRequest.parseResponse(
+          "runskillz.php?action=Skillz&whichskill=7414&ajax=1&quantity=1",
+          html("request/test_cast_sweat_booze.html"));
+      // 31 - 25 = 6
+      assertEquals(Preferences.getInteger("sweat"), 6);
+    }
+
+    @Test
+    void decreaseSweatWhenCastingOtherSweatSkills() {
+      Preferences.setInteger("sweat", 69);
+      UseSkillRequest.lastSkillUsed = SkillPool.DRENCH_YOURSELF_IN_SWEAT;
+      UseSkillRequest.lastSkillCount = 1;
+      UseSkillRequest.parseResponse(
+          "runskillz.php?action=Skillz&whichskill=7419&ajax=1&quantity=1",
+          html("request/test_cast_drench_sweat.html"));
+      // 69 - 15 = 54
+      assertEquals(Preferences.getInteger("sweat"), 54);
     }
   }
 }

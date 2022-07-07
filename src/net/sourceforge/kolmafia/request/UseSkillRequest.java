@@ -56,6 +56,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       Pattern.compile(
           "rel=\\\"(\\d+)\\\".*?<span class=small>(.*?)</font></center></span>", Pattern.DOTALL);
 
+  private static final Pattern SWEAT_PATTERN = Pattern.compile("You get (\\d+)% less Sweaty.");
+
   public static final String[] BREAKFAST_SKILLS = {
     "Advanced Cocktailcrafting",
     "Advanced Saucecrafting",
@@ -2636,7 +2638,18 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         Preferences.increment("_feelPeacefulUsed", count, 3, false);
         break;
 
+      case SkillPool.MAKE_SWEATADE:
+      case SkillPool.DRENCH_YOURSELF_IN_SWEAT:
+      case SkillPool.SIP_SOME_SWEAT:
+        Matcher sweatCheck = SWEAT_PATTERN.matcher(responseText);
+        if (sweatCheck.find()) {
+          int sweatCost = Integer.parseInt(sweatCheck.group(1));
+          Preferences.decrement("sweat", sweatCost);
+        }
+        break;
+
       case SkillPool.SWEAT_OUT_BOOZE:
+        Preferences.decrement("sweat", count * 25);
         Preferences.increment("_sweatOutSomeBoozeUsed", count, 3, false);
         break;
     }
