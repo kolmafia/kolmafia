@@ -5,6 +5,7 @@ import static internal.helpers.Player.addItem;
 import static internal.helpers.Player.equip;
 import static internal.helpers.Player.fightingMonster;
 import static internal.helpers.Player.inAnapest;
+import static internal.helpers.Player.setFamiliar;
 import static internal.helpers.Player.setProperty;
 import static internal.helpers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -688,6 +689,32 @@ public class FightRequestTest {
     try (cleanups) {
       parseCombatData(responseHtml);
       assertEquals(10 + sweatChange, Preferences.getInteger("sweat"));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = {0, 4, 75})
+  public void canUpdateSnowSuitUsage(int count) {
+    var cleanups =
+        new Cleanups(
+            setFamiliar(FamiliarPool.CORNBEEFADON),
+            equip(EquipmentManager.FAMILIAR, "Snow Suit"),
+            setProperty("_snowSuitCount", count));
+
+    try (cleanups) {
+      // Calculate initial Familiar Weight Modifier
+      KoLCharacter.recalculateAdjustments();
+      int property = count;
+      int expected = 20 - (property / 5);
+      int adjustment = KoLCharacter.getFamiliarWeightAdjustment();
+      assertEquals(expected, adjustment);
+      FightRequest.updateFinalRoundData("", true);
+      // We expect the property to increment, but cap at 75
+      property = Math.min(75, property + 1);
+      assertEquals(property, Preferences.getInteger("_snowSuitCount"));
+      expected = 20 - (property / 5);
+      adjustment = KoLCharacter.getFamiliarWeightAdjustment();
+      assertEquals(expected, adjustment);
     }
   }
 }
