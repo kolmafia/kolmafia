@@ -1,12 +1,10 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.html;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.MonsterData;
@@ -43,14 +41,9 @@ public class MonsterManuelManagerTest {
     return cleanups;
   }
 
-  static String loadHTMLResponse(String path) throws IOException {
-    // Load the responseText from saved HTML file
-    return Files.readString(Paths.get(path)).trim();
-  }
-
   @Test
-  public void thatCanDetectNewMonster() throws IOException {
-    String text = loadHTMLResponse("request/test_monster_manuel_monster1.html");
+  public void thatCanDetectNewMonster() {
+    String text = html("request/test_monster_manuel_monster1.html");
     MonsterData monster = MonsterDatabase.findMonster("ancient unspeakable bugbear");
     int monsterId = monster.getId();
     var cleanups = unregisterMonster(monster);
@@ -65,8 +58,8 @@ public class MonsterManuelManagerTest {
   }
 
   @Test
-  public void thatCanDetectNewScalingMonster() throws IOException {
-    String text = loadHTMLResponse("request/test_monster_manuel_monster2.html");
+  public void thatCanDetectNewScalingMonster() {
+    String text = html("request/test_monster_manuel_monster2.html");
     MonsterData monster = MonsterDatabase.findMonster("Adventurer echo");
     int monsterId = monster.getId();
     var cleanups = unregisterMonster(monster);
@@ -80,8 +73,8 @@ public class MonsterManuelManagerTest {
   }
 
   @Test
-  public void thatCanDetectNewArticle() throws IOException {
-    String text = loadHTMLResponse("request/test_monster_manuel_monster3.html");
+  public void thatCanDetectNewArticle() {
+    String text = html("request/test_monster_manuel_monster3.html");
     MonsterData monster = MonsterDatabase.findMonster("pygmy orderlies");
     int monsterId = monster.getId();
     assertEquals("some", monster.getArticle());

@@ -95,6 +95,7 @@ public class ItemPool {
   public static final int RANGE = 157;
   public static final int DOUGH = 159;
   public static final int SKELETON_BONE = 163;
+  public static final int SMART_SKULL = 164;
   public static final int BONE_RATTLE = 168;
   public static final int TACO_SHELL = 173;
   public static final int BRIEFCASE = 184;
@@ -3365,6 +3366,11 @@ public class ItemPool {
   public static final int COMBAT_LOVERS_LOCKET = 10893;
   public static final int UNBREAKABLE_UMBRELLA = 10899;
   public static final int MAYDAY_SUPPLY_PACKAGE = 10901;
+  public static final int SURVIVAL_KNIFE = 10903;
+  public static final int JUNE_CLEAVER = 10920;
+  public static final int MOTHERS_NECKLACE = 10925;
+
+  public static final int DESIGNER_SWEATPANTS = 10929;
 
   private ItemPool() {}
 

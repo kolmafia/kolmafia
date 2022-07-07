@@ -180,6 +180,57 @@ public class RelayRequestWarningsTest {
     assertEquals(expected, request.lastWarning);
   }
 
+  @Test
+  public void thatSurvivalKnifeWarningWorks() {
+    RelayRequest request = new RelayRequest(false);
+
+    // No warning needed if you are not in the Arid, Extra-Dry Desert
+    request.constructURLString(adventureURL(AdventurePool.ABOO_PEAK, null), true);
+    assertFalse(request.sendDesertWeaponWarning());
+
+    // No warning needed if this a resubmission of the "go ahead" URL
+    request.constructURLString(
+        adventureURL(AdventurePool.ARID_DESERT, RelayRequest.CONFIRM_DESERT_WEAPON), true);
+    assertFalse(request.sendDesertWeaponWarning());
+    assertTrue(RelayRequest.ignoreDesertWeaponWarning);
+
+    // No warning needed if we already said to ignore warning
+    request.constructURLString(adventureURL(AdventurePool.ARID_DESERT, null), true);
+    assertFalse(request.sendDesertWeaponWarning());
+    RelayRequest.ignoreDesertWeaponWarning = false;
+
+    // No warning if we don't have a survival knife in inventory
+    assertFalse(request.sendDesertWeaponWarning());
+
+    // No warning if we have a survival knife equipped
+    int slot = EquipmentManager.WEAPON;
+    AdventureResult knife = ItemPool.get(ItemPool.SURVIVAL_KNIFE);
+    EquipmentManager.setEquipment(slot, knife);
+    assertFalse(request.sendDesertWeaponWarning());
+    EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP);
+
+    // Put a survival knife into inventory
+    AdventureResult.addResultToList(KoLConstants.inventory, ItemPool.get(ItemPool.SURVIVAL_KNIFE));
+
+    // No warning if we have already completed enough desert exploration
+    Preferences.setInteger("desertExploration", 99);
+    assertFalse(request.sendDesertWeaponWarning());
+    Preferences.setInteger("desertExploration", 0);
+
+    // At this point, we have the survival knife, have not completed desert
+    // exploration, are adventuring in the Arid, Extra-Dry Desert, and have not
+    // previously told KoLmafia to stop nagging.
+
+    // We expect a warning.
+    KoLCharacter.setPath(Path.NONE);
+    assertTrue(request.sendDesertWeaponWarning());
+    String expected =
+        "You are about to adventure without your survival knife in the desert. "
+            + "If you are sure you wish to adventure without it, click the icon on the left to adventure. "
+            + "If you want to equip the survival knife first, click the icon on the right. ";
+    assertEquals(expected, request.lastWarning);
+  }
+
   private void testMacheteItem(RelayRequest request, int itemId) {
     // No warning if we have the machete equipped
     int slot = EquipmentManager.WEAPON;

@@ -99,6 +99,9 @@ public class QuestManager {
         case AdventurePool.WHITEYS_GROVE:
           handleWhiteysGroveChange(responseText);
           break;
+        case AdventurePool.TOWER_RUINS:
+          handleTowerRuinsChange(responseText);
+          break;
         case AdventurePool.BARROOM_BRAWL:
           handleBarroomBrawlChange(responseText);
           break;
@@ -211,10 +214,10 @@ public class QuestManager {
       }
     } else if (location.startsWith("council")) {
       handleCouncilChange(responseText);
+    } else if (location.startsWith("fernruin")) {
+      QuestDatabase.setQuestIfBetter(Quest.EGO, "step3");
     } else if (location.startsWith("friars")) {
       handleFriarsChange(responseText);
-    } else if (location.startsWith("guild")) {
-      handleGuildChange(responseText);
     } else if (location.contains("whichplace=highlands")) {
       handleHighlandsChange(location, responseText);
     } else if (location.startsWith("inv_use")) {
@@ -459,50 +462,6 @@ public class QuestManager {
     Preferences.setBoolean("eldritchHorrorAvailable", available);
   }
 
-  private static void handleGuildChange(final String responseText) {
-    if (responseText.contains("South of the Border")) {
-      QuestDatabase.setQuestIfBetter(Quest.MEATCAR, QuestDatabase.FINISHED);
-    }
-    if (
-    // Muscle classes
-    responseText.contains("The Tomb is within the Misspelled")
-        ||
-        // Mysticality classes
-        responseText.contains("the Tomb, which is within the Misspelled")
-        ||
-        // Moxie classes
-        responseText.contains("the Tomb is in the Misspelled")) {
-      QuestDatabase.setQuestProgress(Quest.NEMESIS, QuestDatabase.STARTED);
-    }
-    if (
-    // Muscle classes
-    responseText.contains("not recovered the Epic Weapon yet")
-        ||
-        // Mysticality classes
-        responseText.contains("not yet claimed the Epic Weapon")
-        ||
-        // Moxie classes
-        responseText.contains("the delay on that Epic Weapon")) {
-      QuestDatabase.setQuestIfBetter(Quest.NEMESIS, QuestDatabase.STARTED);
-    }
-    if (responseText.contains("Clownlord Beelzebozo")) {
-      QuestDatabase.setQuestProgress(Quest.NEMESIS, "step5");
-    }
-    if (responseText.contains("a Meatsmithing hammer")) {
-      QuestDatabase.setQuestIfBetter(Quest.NEMESIS, "step7");
-    }
-    if (QuestDatabase.isQuestStep(Quest.NEMESIS, "step8")) {
-      QuestDatabase.setQuestProgress(Quest.NEMESIS, "step9");
-    }
-    if (responseText.contains("in the Big Mountains")
-        && !responseText.contains("not the required mettle to defeat")) {
-      QuestDatabase.setQuestProgress(Quest.NEMESIS, "step10");
-    }
-    if (QuestDatabase.isQuestStep(Quest.NEMESIS, "step16")) {
-      QuestDatabase.setQuestProgress(Quest.NEMESIS, "step17");
-    }
-  }
-
   private static void handlePoopDeckChange(final String responseText) {
     if (responseText.contains("unlocks a padlock on a trap door")) {
       QuestDatabase.setQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED);
@@ -512,6 +471,22 @@ public class QuestManager {
   private static void handleWhiteysGroveChange(final String responseText) {
     if (responseText.contains("It's A Sign!")) {
       QuestDatabase.setQuestIfBetter(Quest.CITADEL, "step1");
+    }
+  }
+
+  private static void handleTowerRuinsChange(final String responseText) {
+    if (QuestDatabase.getQuest(Quest.EGO).equals(QuestDatabase.FINISHED)) {
+      return;
+    }
+
+    if (responseText.contains("Take a Dusty Look!")) {
+      QuestDatabase.setQuestIfBetter(Quest.EGO, "step6");
+    } else if (responseText.contains("Into the Maw of Deepness")) {
+      QuestDatabase.setQuestIfBetter(Quest.EGO, "step5");
+    } else if (responseText.contains("Staring into Nothing")) {
+      QuestDatabase.setQuestIfBetter(Quest.EGO, "step4");
+    } else {
+      QuestDatabase.setQuestIfBetter(Quest.EGO, "step3");
     }
   }
 
@@ -1638,8 +1613,6 @@ public class QuestManager {
       Preferences.setInteger("lastWuTangDefeated", KoLCharacter.getAscensions());
     } else if (monsterName.equals("Baron Von Ratsworth")) {
       TavernRequest.addTavernLocation('6');
-    } else if (monsterName.equals("Baron Von Ratsworth")) {
-      TavernRequest.addTavernLocation('6');
     } else if (monsterName.equals("Source Agent")) {
       Preferences.increment("sourceAgentsDefeated");
     } else if (monsterName.equals("pair of burnouts")) {
@@ -1872,6 +1845,19 @@ public class QuestManager {
       else if (responseText.contains("Dozens of nearby smut orcs")) {
         Preferences.increment("smutOrcNoncombatProgress", 5, 15, false);
       }
+    } else if (monsterName.equals("The Thing with No Name")) {
+      ResultProcessor.processResult(ItemPool.get(ItemPool.FURIOUS_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.VANITY_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.LECHEROUS_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.JEALOUSY_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.AVARICE_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.GLUTTONOUS_STONE, -1));
+
+      QuestDatabase.setQuest(Quest.CLUMSINESS, QuestDatabase.UNSTARTED);
+      QuestDatabase.setQuest(Quest.GLACIER, QuestDatabase.UNSTARTED);
+      QuestDatabase.setQuest(Quest.MAELSTROM, QuestDatabase.UNSTARTED);
+
+      Preferences.setInteger("lastThingWithNoNameDefeated", KoLCharacter.getAscensions());
     }
 
     int adventure = KoLAdventure.lastAdventureId();
@@ -1907,6 +1893,11 @@ public class QuestManager {
         if (KoLCharacter.hasEquipped(ItemPool.UV_RESISTANT_COMPASS)) {
           explored += 1;
         } else if (KoLCharacter.hasEquipped(ItemPool.DOWSING_ROD)) {
+          explored += 2;
+        }
+
+        if (KoLCharacter.hasEquipped(ItemPool.SURVIVAL_KNIFE)
+            && KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ULTRAHYDRATED))) {
           explored += 2;
         }
 

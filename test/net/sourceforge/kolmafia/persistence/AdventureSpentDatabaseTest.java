@@ -1,10 +1,8 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Networking.html;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -51,13 +49,8 @@ public class AdventureSpentDatabaseTest {
     KoLConstants.inventory.clear();
   }
 
-  static String loadHTMLResponse(String path) throws IOException {
-    // Load the responseText from saved HTML file
-    return Files.readString(Paths.get(path)).trim();
-  }
-
   @Test
-  public void canCountFightChoiceFightInHauntedBedroom() throws IOException {
+  public void canCountFightChoiceFightInHauntedBedroom() {
     // Every encounter in The Haunted Bedroom is a fight followed by a choice adventure.
     // The fight takes a turn.
     // One of the choice/options leads to a fight - which costs another turn.
@@ -73,7 +66,7 @@ public class AdventureSpentDatabaseTest {
 
     // In fight, about to administer killing blow. charpane.php
     String urlString = "charpane.php";
-    String responseText = loadHTMLResponse("request/test_adventures_spent_fight_1_0.html");
+    String responseText = html("request/test_adventures_spent_fight_1_0.html");
     CharPaneRequest.processResults(responseText);
     assertEquals(1332325, KoLCharacter.getTurnsPlayed());
     assertEquals(1332325, KoLCharacter.getCurrentRun());
@@ -82,7 +75,7 @@ public class AdventureSpentDatabaseTest {
 
     // In-fight, final round. fight.php
     urlString = "fight.php?action=attack";
-    responseText = loadHTMLResponse("request/test_adventures_spent_fight_1_1.html");
+    responseText = html("request/test_adventures_spent_fight_1_1.html");
     FightRequest.currentRound = 2;
     FightRequest.registerRequest(true, urlString);
     FightRequest.updateCombatData(null, null, responseText);
@@ -92,7 +85,7 @@ public class AdventureSpentDatabaseTest {
 
     // Won fight. charpane.php
     urlString = "charpane.php";
-    responseText = loadHTMLResponse("request/test_adventures_spent_fight_1_2.html");
+    responseText = html("request/test_adventures_spent_fight_1_2.html");
     CharPaneRequest.processResults(responseText);
     assertEquals(1332326, KoLCharacter.getTurnsPlayed());
     assertEquals(1332326, KoLCharacter.getCurrentRun());
@@ -101,7 +94,7 @@ public class AdventureSpentDatabaseTest {
 
     // Investigate fallen foe. choice.php
     urlString = "choice.php";
-    responseText = loadHTMLResponse("request/test_adventures_spent_fight_1_3.html");
+    responseText = html("request/test_adventures_spent_fight_1_3.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -111,7 +104,7 @@ public class AdventureSpentDatabaseTest {
 
     // In choice adventure. charpane.php
     urlString = "charpane.php";
-    responseText = loadHTMLResponse("request/test_adventures_spent_fight_1_4.html");
+    responseText = html("request/test_adventures_spent_fight_1_4.html");
     CharPaneRequest.processResults(responseText);
     assertEquals(1332326, KoLCharacter.getTurnsPlayed());
     assertEquals(1332326, KoLCharacter.getCurrentRun());
@@ -122,7 +115,7 @@ public class AdventureSpentDatabaseTest {
     // urlString = "choice.php?pwd&whichchoice=879&option=3";
     // This redirects into a fight.
     urlString = "fight.php?ireallymeanit=1652726190";
-    responseText = loadHTMLResponse("request/test_adventures_spent_fight_1_5.html");
+    responseText = html("request/test_adventures_spent_fight_1_5.html");
     FightRequest.preFight(true);
     FightRequest.registerRequest(true, urlString);
     FightRequest.updateCombatData(null, null, responseText);
@@ -134,7 +127,7 @@ public class AdventureSpentDatabaseTest {
 
     // In fight. Round 1.
     urlString = "fight.php?action=attack";
-    responseText = loadHTMLResponse("request/test_adventures_spent_fight_1_6.html");
+    responseText = html("request/test_adventures_spent_fight_1_6.html");
     FightRequest.registerRequest(true, urlString);
     FightRequest.updateCombatData(null, null, responseText);
     assertEquals(1332326, KoLCharacter.getTurnsPlayed());
@@ -145,7 +138,7 @@ public class AdventureSpentDatabaseTest {
 
     // Won fight. charpane.php
     urlString = "charpane.php";
-    responseText = loadHTMLResponse("request/test_adventures_spent_fight_1_7.html");
+    responseText = html("request/test_adventures_spent_fight_1_7.html");
     CharPaneRequest.processResults(responseText);
     assertEquals(1332327, KoLCharacter.getTurnsPlayed());
     assertEquals(1332327, KoLCharacter.getCurrentRun());
@@ -154,7 +147,7 @@ public class AdventureSpentDatabaseTest {
   }
 
   @Test
-  public void canCountFightChoiceInHauntedBedroom() throws IOException {
+  public void canCountFightChoiceInHauntedBedroom() {
     // Every encounter in The Haunted Bedroom is a fight followed by a choice adventure.
     // The fight takes a turn.
     // One of the choice/options leads to a fight - which costs another turn.
@@ -170,7 +163,7 @@ public class AdventureSpentDatabaseTest {
 
     // In fight, about to administer killing blow. charpane.php
     String urlString = "charpane.php";
-    String responseText = loadHTMLResponse("request/test_adventures_spent_fight_2_0.html");
+    String responseText = html("request/test_adventures_spent_fight_2_0.html");
     CharPaneRequest.processResults(responseText);
     assertEquals(1332327, KoLCharacter.getTurnsPlayed());
     assertEquals(1332327, KoLCharacter.getCurrentRun());
@@ -179,7 +172,7 @@ public class AdventureSpentDatabaseTest {
 
     // In-fight, final round. fight.php
     urlString = "fight.php?action=attack";
-    responseText = loadHTMLResponse("request/test_adventures_spent_fight_2_1.html");
+    responseText = html("request/test_adventures_spent_fight_2_1.html");
     FightRequest.currentRound = 2;
     FightRequest.registerRequest(true, urlString);
     FightRequest.updateCombatData(null, null, responseText);
@@ -189,7 +182,7 @@ public class AdventureSpentDatabaseTest {
 
     // Won fight. charpane.php
     urlString = "charpane.php";
-    responseText = loadHTMLResponse("request/test_adventures_spent_fight_2_2.html");
+    responseText = html("request/test_adventures_spent_fight_2_2.html");
     CharPaneRequest.processResults(responseText);
     assertEquals(1332328, KoLCharacter.getTurnsPlayed());
     assertEquals(1332328, KoLCharacter.getCurrentRun());
@@ -198,7 +191,7 @@ public class AdventureSpentDatabaseTest {
 
     // Investigate fallen foe. choice.php
     urlString = "choice.php";
-    responseText = loadHTMLResponse("request/test_adventures_spent_fight_2_3.html");
+    responseText = html("request/test_adventures_spent_fight_2_3.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -209,7 +202,7 @@ public class AdventureSpentDatabaseTest {
 
     // In choice adventure. charpane.php
     urlString = "charpane.php";
-    responseText = loadHTMLResponse("request/test_adventures_spent_fight_2_4.html");
+    responseText = html("request/test_adventures_spent_fight_2_4.html");
     CharPaneRequest.processResults(responseText);
     assertEquals(1332328, KoLCharacter.getTurnsPlayed());
     assertEquals(1332328, KoLCharacter.getCurrentRun());
@@ -218,7 +211,7 @@ public class AdventureSpentDatabaseTest {
 
     // Select choice.
     urlString = "choice.php?pwd&whichchoice=879&option=1";
-    responseText = loadHTMLResponse("request/test_adventures_spent_fight_2_5.html");
+    responseText = html("request/test_adventures_spent_fight_2_5.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -229,7 +222,7 @@ public class AdventureSpentDatabaseTest {
 
     // In choice adventure. charpane.php
     urlString = "charpane.php";
-    responseText = loadHTMLResponse("request/test_adventures_spent_fight_2_6.html");
+    responseText = html("request/test_adventures_spent_fight_2_6.html");
     CharPaneRequest.processResults(responseText);
     assertEquals(1332328, KoLCharacter.getTurnsPlayed());
     assertEquals(1332328, KoLCharacter.getCurrentRun());
@@ -238,7 +231,7 @@ public class AdventureSpentDatabaseTest {
   }
 
   @Test
-  public void canCountBinderClipInHiddenOfficeBuilding() throws IOException {
+  public void canCountBinderClipInHiddenOfficeBuilding() {
     KoLAdventure location = AdventureDatabase.getAdventure("The Hidden Office Building");
     KoLAdventure.setLastAdventure(location);
     KoLCharacter.setTurnsPlayed(59404);
@@ -266,7 +259,7 @@ public class AdventureSpentDatabaseTest {
     // adventure.php?snarfblat=343
     // redirect -> choice.php?forceoption=0
     String urlString = "choice.php?forceoption=0";
-    String responseText = loadHTMLResponse("request/test_adventures_spent_binder_clip_1.html");
+    String responseText = html("request/test_adventures_spent_binder_clip_1.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -276,7 +269,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(ChoiceManager.lastDecision, 0);
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_binder_clip_2.json");
+    responseText = html("request/test_adventures_spent_binder_clip_2.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(59404, KoLCharacter.getTurnsPlayed());
     assertEquals(622, KoLCharacter.getCurrentRun());
@@ -284,7 +277,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(622, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "choice.php?whichchoice=786&option=2&pwd";
-    responseText = loadHTMLResponse("request/test_adventures_spent_binder_clip_3.html");
+    responseText = html("request/test_adventures_spent_binder_clip_3.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     request.setHasResult(true);
@@ -304,7 +297,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(urlString, creator.getURLString());
     SingleUseRequest.registerRequest(urlString);
 
-    responseText = loadHTMLResponse("request/test_adventures_spent_binder_clip_4.html");
+    responseText = html("request/test_adventures_spent_binder_clip_4.html");
     creator.responseText = responseText;
     creator.setHasResult(true);
     creator.processResponse();
@@ -317,7 +310,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(1, InventoryManager.getCount(MCCLUSKY_FILE));
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_binder_clip_5.json");
+    responseText = html("request/test_adventures_spent_binder_clip_5.json");
     ApiRequest.parseResponse(urlString, responseText);
     // The total turn and current run counts advanced
     assertEquals(59405, KoLCharacter.getTurnsPlayed());
@@ -330,7 +323,7 @@ public class AdventureSpentDatabaseTest {
   }
 
   @Test
-  public void canCountBeehiveInBlackForest() throws IOException {
+  public void canCountBeehiveInBlackForest() {
     KoLAdventure location = AdventureDatabase.getAdventure("The Black Forest");
     KoLAdventure.setLastAdventure(location);
     KoLCharacter.setTurnsPlayed(988140);
@@ -342,7 +335,7 @@ public class AdventureSpentDatabaseTest {
 
     // About to adventure in The Black Forest
     String urlString = "charpane.php";
-    String responseText = loadHTMLResponse("request/test_adventures_spent_beehive_0.html");
+    String responseText = html("request/test_adventures_spent_beehive_0.html");
     CharPaneRequest.processResults(responseText);
     assertEquals(988140, KoLCharacter.getTurnsPlayed());
     assertEquals(988140, KoLCharacter.getCurrentRun());
@@ -352,7 +345,7 @@ public class AdventureSpentDatabaseTest {
     // adventure.php?snarfblat=405
     // redirect -> choice.php?forceoption=0
     urlString = "choice.php?forceoption=0";
-    responseText = loadHTMLResponse("request/test_adventures_spent_beehive_1.html");
+    responseText = html("request/test_adventures_spent_beehive_1.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -362,7 +355,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(ChoiceManager.lastDecision, 0);
 
     urlString = "charpane.php";
-    responseText = loadHTMLResponse("request/test_adventures_spent_beehive_2.html");
+    responseText = html("request/test_adventures_spent_beehive_2.html");
     CharPaneRequest.processResults(responseText);
     assertEquals(988140, KoLCharacter.getTurnsPlayed());
     assertEquals(988140, KoLCharacter.getCurrentRun());
@@ -371,7 +364,7 @@ public class AdventureSpentDatabaseTest {
 
     // Choose to visit cobbler
     urlString = "choice.php?pwd&whichchoice=923&option=1";
-    responseText = loadHTMLResponse("request/test_adventures_spent_beehive_3.html");
+    responseText = html("request/test_adventures_spent_beehive_3.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -383,7 +376,7 @@ public class AdventureSpentDatabaseTest {
 
     // Head towards buzzing
     urlString = "choice.php?pwd&whichchoice=924&option=3";
-    responseText = loadHTMLResponse("request/test_adventures_spent_beehive_4.html");
+    responseText = html("request/test_adventures_spent_beehive_4.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -393,7 +386,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(988140, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "charpane.php";
-    responseText = loadHTMLResponse("request/test_adventures_spent_beehive_5.html");
+    responseText = html("request/test_adventures_spent_beehive_5.html");
     CharPaneRequest.processResults(responseText);
     assertEquals(988141, KoLCharacter.getTurnsPlayed());
     assertEquals(988141, KoLCharacter.getCurrentRun());
@@ -403,7 +396,7 @@ public class AdventureSpentDatabaseTest {
 
     // Keep going
     urlString = "choice.php?pwd&whichchoice=1018&option=1";
-    responseText = loadHTMLResponse("request/test_adventures_spent_beehive_6.html");
+    responseText = html("request/test_adventures_spent_beehive_6.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -413,7 +406,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(988141, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "charpane.php";
-    responseText = loadHTMLResponse("request/test_adventures_spent_beehive_7.html");
+    responseText = html("request/test_adventures_spent_beehive_7.html");
     CharPaneRequest.processResults(responseText);
     assertEquals(988142, KoLCharacter.getTurnsPlayed());
     assertEquals(988142, KoLCharacter.getCurrentRun());
@@ -423,7 +416,7 @@ public class AdventureSpentDatabaseTest {
 
     // Almost... there...
     urlString = "choice.php?pwd&whichchoice=1019&option=1";
-    responseText = loadHTMLResponse("request/test_adventures_spent_beehive_8.html");
+    responseText = html("request/test_adventures_spent_beehive_8.html");
     request = new GenericRequest(urlString);
     request.setHasResult(true);
     request.responseText = responseText;
@@ -435,7 +428,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(988142, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "charpane.php";
-    responseText = loadHTMLResponse("request/test_adventures_spent_beehive_9.html");
+    responseText = html("request/test_adventures_spent_beehive_9.html");
     CharPaneRequest.processResults(responseText);
     assertEquals(988143, KoLCharacter.getTurnsPlayed());
     assertEquals(988143, KoLCharacter.getCurrentRun());
@@ -445,7 +438,7 @@ public class AdventureSpentDatabaseTest {
   }
 
   @Test
-  public void canCountZeroTurnChoiceChain() throws IOException {
+  public void canCountZeroTurnChoiceChain() {
     KoLAdventure location = AdventureDatabase.getAdventure("The Spooky Forest");
     KoLAdventure.setLastAdventure(location);
     KoLCharacter.setTurnsPlayed(988527);
@@ -456,7 +449,7 @@ public class AdventureSpentDatabaseTest {
     // redirect -> choice.php?forceoption=0
     // Arboreal respite
     String urlString = "choice.php?forceoption=0";
-    String responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_1_1.html");
+    String responseText = html("request/test_adventures_spent_spooky_forest_1_1.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -467,7 +460,7 @@ public class AdventureSpentDatabaseTest {
 
     // Explore the Stream
     urlString = "choice.php?whichchoice=502&option=2&pwd";
-    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_1_2.html");
+    responseText = html("request/test_adventures_spent_spooky_forest_1_2.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -479,7 +472,7 @@ public class AdventureSpentDatabaseTest {
 
     // Squeeze into the cave
     urlString = "choice.php?whichchoice=505&option=2&pwd";
-    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_1_3.html");
+    responseText = html("request/test_adventures_spent_spooky_forest_1_3.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -492,7 +485,7 @@ public class AdventureSpentDatabaseTest {
   }
 
   @Test
-  public void canCountOneTurnChoiceChain() throws IOException {
+  public void canCountOneTurnChoiceChain() {
     KoLAdventure location = AdventureDatabase.getAdventure("The Spooky Forest");
     KoLAdventure.setLastAdventure(location);
     KoLCharacter.setTurnsPlayed(988527);
@@ -503,7 +496,7 @@ public class AdventureSpentDatabaseTest {
     // redirect -> choice.php?forceoption=0
     // Arboreal respite
     String urlString = "choice.php?forceoption=0";
-    String responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_1.html");
+    String responseText = html("request/test_adventures_spent_spooky_forest_2_1.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -516,7 +509,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(988527, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_2.json");
+    responseText = html("request/test_adventures_spent_spooky_forest_2_2.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(988527, KoLCharacter.getTurnsPlayed());
     assertEquals(988527, KoLCharacter.getCurrentRun());
@@ -526,7 +519,7 @@ public class AdventureSpentDatabaseTest {
 
     // Brave the dark thicket
     urlString = "choice.php?whichchoice=502&option=3&pwd";
-    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_3.html");
+    responseText = html("request/test_adventures_spent_spooky_forest_2_3.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -538,7 +531,7 @@ public class AdventureSpentDatabaseTest {
 
     // Follow the even darker path
     urlString = "choice.php?whichchoice=506&option=1&pwd";
-    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_4.html");
+    responseText = html("request/test_adventures_spent_spooky_forest_2_4.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -551,7 +544,7 @@ public class AdventureSpentDatabaseTest {
 
     // Take the scorched path
     urlString = "choice.php?whichchoice=26&option=2&pwd";
-    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_5.html");
+    responseText = html("request/test_adventures_spent_spooky_forest_2_5.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -564,7 +557,7 @@ public class AdventureSpentDatabaseTest {
 
     // Investigate the smoking crater
     urlString = "choice.php?whichchoice=28&option=2&pwd";
-    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_6.html");
+    responseText = html("request/test_adventures_spent_spooky_forest_2_6.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -576,7 +569,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(0, AdventureSpentDatabase.getTurns(location, true));
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_spooky_forest_2_7.json");
+    responseText = html("request/test_adventures_spent_spooky_forest_2_7.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(988528, KoLCharacter.getTurnsPlayed());
     assertEquals(988528, KoLCharacter.getCurrentRun());
@@ -586,7 +579,7 @@ public class AdventureSpentDatabaseTest {
   }
 
   @Test
-  public void canCountHiddenTempleTurns() throws IOException {
+  public void canCountHiddenTempleTurns() {
     KoLAdventure location = AdventureDatabase.getAdventure("The Hidden Temple");
     KoLAdventure.setLastAdventure(location);
     KoLCharacter.setTurnsPlayed(60387);
@@ -600,7 +593,7 @@ public class AdventureSpentDatabaseTest {
     // adventure.php?snarfblat=280
     // redirect -> choice.php?forceoption=0 -> Fitting In
     String urlString = "choice.php?forceoption=0";
-    String responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_1.html");
+    String responseText = html("request/test_adventures_spent_hidden_temple_1.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -610,7 +603,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(ChoiceManager.lastDecision, 0);
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_2.json");
+    responseText = html("request/test_adventures_spent_hidden_temple_2.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(60387, KoLCharacter.getTurnsPlayed());
     assertEquals(559, KoLCharacter.getCurrentRun());
@@ -619,7 +612,7 @@ public class AdventureSpentDatabaseTest {
 
     // Poke around the ground floor -> The Hidden Heart of the Hidden Temple
     urlString = "choice.php?whichchoice=582&option=2&pwd";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_3.html");
+    responseText = html("request/test_adventures_spent_hidden_temple_3.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -633,7 +626,7 @@ public class AdventureSpentDatabaseTest {
 
     // Go down the stairs -> Unconfusing Buttons
     urlString = "choice.php?whichchoice=580&option=2&pwd";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_4.html");
+    responseText = html("request/test_adventures_spent_hidden_temple_4.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -646,7 +639,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(559, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_5.json");
+    responseText = html("request/test_adventures_spent_hidden_temple_5.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(60387, KoLCharacter.getTurnsPlayed());
     assertEquals(559, KoLCharacter.getCurrentRun());
@@ -656,7 +649,7 @@ public class AdventureSpentDatabaseTest {
     // The one with the cute little lightning-tailed guy on it -> The Hidden Heart of the Hidden
     // Temple
     urlString = "choice.php?whichchoice=584&option=4&pwd";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_6.html");
+    responseText = html("request/test_adventures_spent_hidden_temple_6.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     request.setHasResult(true);
@@ -672,7 +665,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(559, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_7.json");
+    responseText = html("request/test_adventures_spent_hidden_temple_7.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(60387, KoLCharacter.getTurnsPlayed());
     assertEquals(559, KoLCharacter.getCurrentRun());
@@ -681,7 +674,7 @@ public class AdventureSpentDatabaseTest {
 
     // Go through the door (3 Adventures) -> At Least It's Not Full Of Trash
     urlString = "choice.php?whichchoice=580&option=1&pwd";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_8.html");
+    responseText = html("request/test_adventures_spent_hidden_temple_8.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -695,7 +688,7 @@ public class AdventureSpentDatabaseTest {
 
     // Raise your hands up toward the heavens -> Now What?
     urlString = "choice.php?whichchoice=123&option=2&pwd";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_9.html");
+    responseText = html("request/test_adventures_spent_hidden_temple_9.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -708,7 +701,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(559, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_10.json");
+    responseText = html("request/test_adventures_spent_hidden_temple_10.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(60388, KoLCharacter.getTurnsPlayed());
     assertEquals(560, KoLCharacter.getCurrentRun());
@@ -719,7 +712,7 @@ public class AdventureSpentDatabaseTest {
     // choice.php
     // redirect -> tiles.php -> Beginning at the Beginning of Beginning
     urlString = "tiles.php";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_11.html");
+    responseText = html("request/test_adventures_spent_hidden_temple_11.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     request.setHasResult(true);
@@ -730,7 +723,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_12.json");
+    responseText = html("request/test_adventures_spent_hidden_temple_12.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(60388, KoLCharacter.getTurnsPlayed());
     assertEquals(560, KoLCharacter.getCurrentRun());
@@ -739,7 +732,7 @@ public class AdventureSpentDatabaseTest {
 
     // Give me a B!
     urlString = "tiles.php?action=jump&whichtile=4";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_13.html");
+    responseText = html("request/test_adventures_spent_hidden_temple_13.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     request.setHasResult(true);
@@ -749,7 +742,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_14.json");
+    responseText = html("request/test_adventures_spent_hidden_temple_14.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(60388, KoLCharacter.getTurnsPlayed());
     assertEquals(560, KoLCharacter.getCurrentRun());
@@ -758,7 +751,7 @@ public class AdventureSpentDatabaseTest {
 
     // Give me an A!
     urlString = "tiles.php?action=jump&whichtile=6";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_15.html");
+    responseText = html("request/test_adventures_spent_hidden_temple_15.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     request.setHasResult(true);
@@ -768,7 +761,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_16.json");
+    responseText = html("request/test_adventures_spent_hidden_temple_16.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(60388, KoLCharacter.getTurnsPlayed());
     assertEquals(560, KoLCharacter.getCurrentRun());
@@ -777,7 +770,7 @@ public class AdventureSpentDatabaseTest {
 
     // Give me an N!
     urlString = "tiles.php?action=jump&whichtile=3";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_17.html");
+    responseText = html("request/test_adventures_spent_hidden_temple_17.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     request.setHasResult(true);
@@ -787,7 +780,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_18.json");
+    responseText = html("request/test_adventures_spent_hidden_temple_18.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(60388, KoLCharacter.getTurnsPlayed());
     assertEquals(560, KoLCharacter.getCurrentRun());
@@ -796,7 +789,7 @@ public class AdventureSpentDatabaseTest {
 
     // Give me an A!
     urlString = "tiles.php?action=jump&whichtile=6";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_19.html");
+    responseText = html("request/test_adventures_spent_hidden_temple_19.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     request.setHasResult(true);
@@ -806,7 +799,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_20.json");
+    responseText = html("request/test_adventures_spent_hidden_temple_20.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(60388, KoLCharacter.getTurnsPlayed());
     assertEquals(560, KoLCharacter.getCurrentRun());
@@ -815,7 +808,7 @@ public class AdventureSpentDatabaseTest {
 
     // Give me an N!
     urlString = "tiles.php?action=jump&whichtile=7";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_21.html");
+    responseText = html("request/test_adventures_spent_hidden_temple_21.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     request.setHasResult(true);
@@ -825,7 +818,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_22.json");
+    responseText = html("request/test_adventures_spent_hidden_temple_22.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(60388, KoLCharacter.getTurnsPlayed());
     assertEquals(560, KoLCharacter.getCurrentRun());
@@ -834,7 +827,7 @@ public class AdventureSpentDatabaseTest {
 
     // Give me an A!
     urlString = "tiles.php?action=jump&whichtile=6";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_23.html");
+    responseText = html("request/test_adventures_spent_hidden_temple_23.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     request.setHasResult(true);
@@ -844,7 +837,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(560, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_24.json");
+    responseText = html("request/test_adventures_spent_hidden_temple_24.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(60388, KoLCharacter.getTurnsPlayed());
     assertEquals(560, KoLCharacter.getCurrentRun());
@@ -856,7 +849,7 @@ public class AdventureSpentDatabaseTest {
     // What's that spell? BANANAS!
     // redirect -> choice.php?forceoption=0 -> No Visible Means of Support
     urlString = "choice.php?forceoption=0";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_25.html");
+    responseText = html("request/test_adventures_spent_hidden_temple_25.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -867,7 +860,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(ChoiceManager.lastDecision, 0);
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_26.json");
+    responseText = html("request/test_adventures_spent_hidden_temple_26.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(60389, KoLCharacter.getTurnsPlayed());
     assertEquals(561, KoLCharacter.getCurrentRun());
@@ -876,7 +869,7 @@ public class AdventureSpentDatabaseTest {
 
     // Do nothing
     urlString = "choice.php?whichchoice=125&option=3&pwd";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_27.html");
+    responseText = html("request/test_adventures_spent_hidden_temple_27.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.preChoice(request);
@@ -889,7 +882,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(561, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_hidden_temple_28.json");
+    responseText = html("request/test_adventures_spent_hidden_temple_28.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(60390, KoLCharacter.getTurnsPlayed());
     assertEquals(562, KoLCharacter.getCurrentRun());
@@ -898,7 +891,7 @@ public class AdventureSpentDatabaseTest {
   }
 
   @Test
-  public void canTrackAutomatedAirshipChoiceFight() throws IOException {
+  public void canTrackAutomatedAirshipChoiceFight() {
     KoLAdventure location = AdventureDatabase.getAdventure("The Penultimate Fantasy Airship");
     KoLAdventure.setLastAdventure(location);
     KoLCharacter.setTurnsPlayed(61853);
@@ -912,7 +905,7 @@ public class AdventureSpentDatabaseTest {
     // adventure.php?snarfblat=81
     // redirect -> fight.php?ireallymeanit=1653112277
     String urlString = "fight.php?ireallymeanit=1653112277";
-    String responseText = loadHTMLResponse("request/test_adventures_spent_airship_1.html");
+    String responseText = html("request/test_adventures_spent_airship_1.html");
     FightRequest.preFight(true);
     FightRequest.registerRequest(true, urlString);
     fight.responseText = responseText;
@@ -923,7 +916,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(985, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_airship_2.json");
+    responseText = html("request/test_adventures_spent_airship_2.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(61853, KoLCharacter.getTurnsPlayed());
     assertEquals(985, KoLCharacter.getCurrentRun());
@@ -931,7 +924,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(985, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "fight.php?action=macro&macrotext=mark+mafiafinal%0Aattack%0Agoto+mafiafinal";
-    responseText = loadHTMLResponse("request/test_adventures_spent_airship_3.html");
+    responseText = html("request/test_adventures_spent_airship_3.html");
     FightRequest.registerRequest(true, urlString);
     fight.responseText = responseText;
     fight.setHasResult(true);
@@ -941,7 +934,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(985, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_airship_4.json");
+    responseText = html("request/test_adventures_spent_airship_4.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(61854, KoLCharacter.getTurnsPlayed());
     assertEquals(986, KoLCharacter.getCurrentRun());
@@ -951,7 +944,7 @@ public class AdventureSpentDatabaseTest {
     // adventure.php?snarfblat=81
     // redirect -> choice.php?forceoption=0
     urlString = "choice.php?forceoption=0";
-    responseText = loadHTMLResponse("request/test_adventures_spent_airship_5.html");
+    responseText = html("request/test_adventures_spent_airship_5.html");
     choice.responseText = responseText;
     choice.setHasResult(true);
     ChoiceManager.preChoice(choice);
@@ -961,7 +954,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(ChoiceManager.lastDecision, 0);
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_airship_6.json");
+    responseText = html("request/test_adventures_spent_airship_6.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(61854, KoLCharacter.getTurnsPlayed());
     assertEquals(986, KoLCharacter.getCurrentRun());
@@ -974,7 +967,7 @@ public class AdventureSpentDatabaseTest {
     choice.setHasResult(true);
     ChoiceManager.preChoice(choice);
     urlString = "fight.php?ireallymeanit=1653112281";
-    responseText = loadHTMLResponse("request/test_adventures_spent_airship_7.html");
+    responseText = html("request/test_adventures_spent_airship_7.html");
     FightRequest.preFight(true);
     FightRequest.registerRequest(true, urlString);
     fight.responseText = responseText;
@@ -985,7 +978,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(986, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_airship_8.json");
+    responseText = html("request/test_adventures_spent_airship_8.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(61854, KoLCharacter.getTurnsPlayed());
     assertEquals(986, KoLCharacter.getCurrentRun());
@@ -994,7 +987,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(986, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "fight.php?action=macro&macrotext=mark+mafiafinal%0Aattack%0Agoto+mafiafinal";
-    responseText = loadHTMLResponse("request/test_adventures_spent_airship_9.html");
+    responseText = html("request/test_adventures_spent_airship_9.html");
     FightRequest.registerRequest(true, urlString);
     fight.responseText = responseText;
     fight.setHasResult(true);
@@ -1004,7 +997,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(986, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_airship_10.json");
+    responseText = html("request/test_adventures_spent_airship_10.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(61855, KoLCharacter.getTurnsPlayed());
     assertEquals(987, KoLCharacter.getCurrentRun());
@@ -1015,7 +1008,7 @@ public class AdventureSpentDatabaseTest {
     // adventure.php?snarfblat=81
     // redirect -> choice.php?forceoption=0
     urlString = "choice.php?forceoption=0";
-    responseText = loadHTMLResponse("request/test_adventures_spent_airship_11.html");
+    responseText = html("request/test_adventures_spent_airship_11.html");
     choice.responseText = responseText;
     choice.setHasResult(true);
     ChoiceManager.preChoice(choice);
@@ -1025,7 +1018,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(ChoiceManager.lastDecision, 0);
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_airship_12.json");
+    responseText = html("request/test_adventures_spent_airship_12.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(61855, KoLCharacter.getTurnsPlayed());
     assertEquals(987, KoLCharacter.getCurrentRun());
@@ -1038,7 +1031,7 @@ public class AdventureSpentDatabaseTest {
     choice.setHasResult(true);
     ChoiceManager.preChoice(choice);
     urlString = "fight.php?ireallymeanit=1653112283";
-    responseText = loadHTMLResponse("request/test_adventures_spent_airship_13.html");
+    responseText = html("request/test_adventures_spent_airship_13.html");
     FightRequest.preFight(true);
     FightRequest.registerRequest(true, urlString);
     fight.responseText = responseText;
@@ -1049,7 +1042,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(987, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "fight.php?action=macro&macrotext=mark+mafiafinal%0Aattack%0Agoto+mafiafinal";
-    responseText = loadHTMLResponse("request/test_adventures_spent_airship_14.html");
+    responseText = html("request/test_adventures_spent_airship_14.html");
     FightRequest.registerRequest(true, urlString);
     fight.responseText = responseText;
     fight.setHasResult(true);
@@ -1059,7 +1052,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(987, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_airship_15.json");
+    responseText = html("request/test_adventures_spent_airship_15.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(61856, KoLCharacter.getTurnsPlayed());
     assertEquals(988, KoLCharacter.getCurrentRun());
@@ -1069,7 +1062,7 @@ public class AdventureSpentDatabaseTest {
   }
 
   @Test
-  public void canTrackAutomatedOfficeChoiceFight() throws IOException {
+  public void canTrackAutomatedOfficeChoiceFight() {
     KoLAdventure location = AdventureDatabase.getAdventure("The Hidden Office Building");
     KoLAdventure.setLastAdventure(location);
     KoLCharacter.setTurnsPlayed(1333901);
@@ -1083,7 +1076,7 @@ public class AdventureSpentDatabaseTest {
     // adventure.php?snarfblat=343
     // redirect -> fight.php?ireallymeanit=1653112277
     String urlString = "fight.php?ireallymeanit=1653163461";
-    String responseText = loadHTMLResponse("request/test_adventures_spent_office_1.html");
+    String responseText = html("request/test_adventures_spent_office_1.html");
     FightRequest.preFight(true);
     FightRequest.registerRequest(false, urlString);
     fight.responseText = responseText;
@@ -1094,7 +1087,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(1333901, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_office_2.json");
+    responseText = html("request/test_adventures_spent_office_2.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(1333901, KoLCharacter.getTurnsPlayed());
     assertEquals(1333901, KoLCharacter.getCurrentRun());
@@ -1103,7 +1096,7 @@ public class AdventureSpentDatabaseTest {
 
     urlString =
         "fight.php?action=macro&macrotext=pickpocket%0Aif+hasskill+6032%0Askill+6032%0Aendif%0Amark+mafiafinal%0Aattack%0Agoto+mafiafinal";
-    responseText = loadHTMLResponse("request/test_adventures_spent_office_3.html");
+    responseText = html("request/test_adventures_spent_office_3.html");
     FightRequest.registerRequest(true, urlString);
     fight.responseText = responseText;
     fight.setHasResult(true);
@@ -1113,7 +1106,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(1333901, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_office_4.json");
+    responseText = html("request/test_adventures_spent_office_4.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(1333902, KoLCharacter.getTurnsPlayed());
     assertEquals(1333902, KoLCharacter.getCurrentRun());
@@ -1123,7 +1116,7 @@ public class AdventureSpentDatabaseTest {
     // adventure.php?snarfblat=343
     // redirect -> choice.php?forceoption=0
     urlString = "choice.php?forceoption=0";
-    responseText = loadHTMLResponse("request/test_adventures_spent_office_5.html");
+    responseText = html("request/test_adventures_spent_office_5.html");
     choice.responseText = responseText;
     choice.setHasResult(true);
     ChoiceManager.preChoice(choice);
@@ -1133,7 +1126,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(ChoiceManager.lastDecision, 0);
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_office_6.json");
+    responseText = html("request/test_adventures_spent_office_6.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(1333902, KoLCharacter.getTurnsPlayed());
     assertEquals(1333902, KoLCharacter.getCurrentRun());
@@ -1146,7 +1139,7 @@ public class AdventureSpentDatabaseTest {
     choice.setHasResult(true);
     ChoiceManager.preChoice(choice);
     urlString = "fight.php?ireallymeanit=1653163462";
-    responseText = loadHTMLResponse("request/test_adventures_spent_office_7.html");
+    responseText = html("request/test_adventures_spent_office_7.html");
     FightRequest.preFight(true);
     FightRequest.registerRequest(true, urlString);
     fight.responseText = responseText;
@@ -1157,7 +1150,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(1333902, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_office_8.json");
+    responseText = html("request/test_adventures_spent_office_8.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(1333902, KoLCharacter.getTurnsPlayed());
     assertEquals(1333902, KoLCharacter.getCurrentRun());
@@ -1167,7 +1160,7 @@ public class AdventureSpentDatabaseTest {
 
     urlString =
         "fight.php?action=macro&macrotext=pickpocket%0Aif+hasskill+6032%0Askill+6032%0Aendif%0Amark+mafiafinal%0Aattack%0Agoto+mafiafinal";
-    responseText = loadHTMLResponse("request/test_adventures_spent_office_9.html");
+    responseText = html("request/test_adventures_spent_office_9.html");
     FightRequest.registerRequest(true, urlString);
     fight.responseText = responseText;
     fight.setHasResult(true);
@@ -1177,7 +1170,7 @@ public class AdventureSpentDatabaseTest {
     assertEquals(1333902, AdventureSpentDatabase.getLastTurnUpdated());
 
     urlString = "api.php?what=status&for=KoLmafia";
-    responseText = loadHTMLResponse("request/test_adventures_spent_office_10.json");
+    responseText = html("request/test_adventures_spent_office_10.json");
     ApiRequest.parseResponse(urlString, responseText);
     assertEquals(1333903, KoLCharacter.getTurnsPlayed());
     assertEquals(1333903, KoLCharacter.getCurrentRun());

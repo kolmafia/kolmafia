@@ -63,6 +63,7 @@ public class EffectPool {
   public static final int BARKING_DOGS = 267;
   public static final int PRESTIDIGYSFUNCTION = 268;
   public static final int HEART_OF_GREEN = 274;
+  public static final int ULTRAHYDRATED = 275;
   public static final int HYDRATED = 275;
   public static final int TANGLED_UP = 281;
   public static final int A_LITTLE_BIT_POISONED = 282;
@@ -321,6 +322,7 @@ public class EffectPool {
   public static final int WOLF_FORM = 2449;
   public static final int MIST_FORM = 2450;
   public static final int BATS_FORM = 2451;
+  public static final int FIDOXENE = 2520;
   public static final int BLESSING_OF_THE_BIRD = 2551;
   public static final int BLESSING_OF_YOUR_FAVORITE_BIRD = 2552;
   public static final int FIZZY_FIZZY = 2561;

@@ -80,6 +80,7 @@ DESC_ITEM	The Landscaper's leafblower	\+(\d+) Monster Level	_leafblowerML=$1
 DESC_ITEM	Yearbook Club Camera	asked you to photograph.*?<b>(.*?)</b>	_yearbookCameraTarget=$1
 DESC_ITEM	familiar scrapbook	Scraps Collected: <b>([\d,]+)</b>	scrapbookCharges=[stripcommas($1)]
 DESC_ITEM	industrial fire extinguisher	The extinguisher's tank is currently <b>([\d]+)% full</b>	_fireExtinguisherCharge=$1
+DESC_ITEM	designer sweatpants	Your sweatpants are currently (\d+)% sweat-logged.	sweat=$1
 
 # Item modifiers
 DESC_ITEM	no hat		_noHatModifier=mods

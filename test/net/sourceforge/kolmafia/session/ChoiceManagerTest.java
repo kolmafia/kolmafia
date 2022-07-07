@@ -1,10 +1,8 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.html;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -38,13 +36,8 @@ public class ChoiceManagerTest {
     ChoiceManager.lastDecision = 0;
   }
 
-  static String loadHTMLResponse(String path) throws IOException {
-    // Load the responseText from saved HTML file
-    return Files.readString(Paths.get(path)).trim();
-  }
-
   @Test
-  public void thatUnknownTombDynamicChoicesWork() throws IOException {
+  public void thatUnknownTombDynamicChoicesWork() {
     // There is a riddle and three possible answers. These are based on your character class.
     // The order of the answers is shuffled every time the choice page is reloaded.
     // One answer is right and two are wrong.
@@ -57,7 +50,7 @@ public class ChoiceManagerTest {
 
     KoLCharacter.setAscensionClass(AscensionClass.ACCORDION_THIEF);
 
-    String responseText = loadHTMLResponse("request/test_choice_manager_unknown_tomb_1.html");
+    String responseText = html("request/test_choice_manager_unknown_tomb_1.html");
     int choice = ChoiceUtilities.extractChoice(responseText);
     assertEquals(1049, choice);
     Map<Integer, String> choices = ChoiceUtilities.parseChoices(responseText);
@@ -67,7 +60,7 @@ public class ChoiceManagerTest {
     String option = ChoiceManager.specialChoiceDecision1(choice, "", 0, responseText);
     assertEquals("1", option);
 
-    responseText = loadHTMLResponse("request/test_choice_manager_unknown_tomb_2.html");
+    responseText = html("request/test_choice_manager_unknown_tomb_2.html");
     choice = ChoiceUtilities.extractChoice(responseText);
     assertEquals(1049, choice);
     choices = ChoiceUtilities.parseChoices(responseText);
@@ -77,7 +70,7 @@ public class ChoiceManagerTest {
     option = ChoiceManager.specialChoiceDecision1(choice, "", 0, responseText);
     assertEquals("2", option);
 
-    responseText = loadHTMLResponse("request/test_choice_manager_unknown_tomb_3.html");
+    responseText = html("request/test_choice_manager_unknown_tomb_3.html");
     choice = ChoiceUtilities.extractChoice(responseText);
     assertEquals(1049, choice);
     choices = ChoiceUtilities.parseChoices(responseText);

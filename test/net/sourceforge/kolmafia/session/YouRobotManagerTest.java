@@ -1,12 +1,10 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.html;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -168,11 +166,6 @@ public class YouRobotManagerTest {
     assertTrue(YouRobotManager.canUsePotions());
   }
 
-  static String loadHTMLResponse(String path) throws IOException {
-    // Load the responseText from saved HTML file
-    return Files.readString(Paths.get(path)).trim();
-  }
-
   private void verifyNoAvatarOrProperties() {
     assertEquals(0, Preferences.getInteger("statbotUses"));
     assertEquals(0, Preferences.getInteger("youRobotTop"));
@@ -222,8 +215,8 @@ public class YouRobotManagerTest {
   }
 
   @Test
-  public void canFindAvatarOnCharSheet() throws IOException {
-    String responseText = loadHTMLResponse("request/test_scrapheap_charsheet.html");
+  public void canFindAvatarOnCharSheet() {
+    String responseText = html("request/test_scrapheap_charsheet.html");
 
     // Verify that the properties and avatar are not set
     verifyNoAvatarOrProperties();
@@ -235,8 +228,8 @@ public class YouRobotManagerTest {
   }
 
   @Test
-  public void canFindAvatarOnCharPane() throws IOException {
-    String responseText = loadHTMLResponse("request/test_scrapheap_charpane.html");
+  public void canFindAvatarOnCharPane() {
+    String responseText = html("request/test_scrapheap_charpane.html");
 
     // Verify that the properties and avatar are not set
     verifyNoAvatarOrProperties();
@@ -249,8 +242,8 @@ public class YouRobotManagerTest {
   }
 
   @Test
-  public void canFindAvatarOnReassemblyStationVisit() throws IOException {
-    String responseText = loadHTMLResponse("request/test_scrapheap_reassembly_station.html");
+  public void canFindAvatarOnReassemblyStationVisit() {
+    String responseText = html("request/test_scrapheap_reassembly_station.html");
 
     // Verify that the properties and avatar are not set
     verifyNoAvatarOrProperties();
@@ -265,9 +258,9 @@ public class YouRobotManagerTest {
   }
 
   @Test
-  public void canHandleThreePartAvatar() throws IOException {
+  public void canHandleThreePartAvatar() {
     // This is a newly ascended Accordion Thief
-    String responseText = loadHTMLResponse("request/test_scrapheap_three_part_avatar.html");
+    String responseText = html("request/test_scrapheap_three_part_avatar.html");
 
     // Verify that the properties and avatar are not set
     verifyNoAvatarOrProperties();
@@ -297,9 +290,9 @@ public class YouRobotManagerTest {
   }
 
   @Test
-  public void canDiscoverStatbotCostOnVisit() throws IOException {
+  public void canDiscoverStatbotCostOnVisit() {
     String urlString = "choice.php?forceoption=0";
-    String responseText = loadHTMLResponse("request/test_scrapheap_visit_statbot.html");
+    String responseText = html("request/test_scrapheap_visit_statbot.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1447;
@@ -309,9 +302,9 @@ public class YouRobotManagerTest {
   }
 
   @Test
-  public void canDiscoverStatbotCostOnActivation() throws IOException {
+  public void canDiscoverStatbotCostOnActivation() {
     String urlString = "choice.php?pwd&whichchoice=1447&option=3";
-    String responseText = loadHTMLResponse("request/test_scrapheap_activate_statbot.html");
+    String responseText = html("request/test_scrapheap_activate_statbot.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1447;
@@ -321,9 +314,9 @@ public class YouRobotManagerTest {
   }
 
   @Test
-  public void canDiscoverStatbotCostOnFailedActivation() throws IOException {
+  public void canDiscoverStatbotCostOnFailedActivation() {
     String urlString = "choice.php?pwd&whichchoice=1447&option=3";
-    String responseText = loadHTMLResponse("request/test_scrapheap_activate_statbot_fails.html");
+    String responseText = html("request/test_scrapheap_activate_statbot_fails.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1447;
@@ -333,7 +326,7 @@ public class YouRobotManagerTest {
   }
 
   @Test
-  public void canRegisterRequests() throws IOException {
+  public void canRegisterRequests() {
     String urlString = "choice.php?whichchoice=1445&show=cpus";
     String expected = "Inspecting CPU Upgrade options at the Reassembly Station.";
     assertTrue(YouRobotManager.registerRequest(urlString));
@@ -392,13 +385,13 @@ public class YouRobotManagerTest {
   }
 
   @Test
-  public void canPayUpgradeCosts() throws IOException {
+  public void canPayUpgradeCosts() {
     KoLCharacter.setYouRobotEnergy(100);
     KoLCharacter.setYouRobotScraps(100);
 
     // Install Tesla Blaster, lose Shoot Pea, gain Tesla Blast
     String urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=7";
-    String responseText = loadHTMLResponse("request/test_scrapheap_add_skill.html");
+    String responseText = html("request/test_scrapheap_add_skill.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1445;
@@ -406,7 +399,7 @@ public class YouRobotManagerTest {
     assertEquals(70, KoLCharacter.getYouRobotScraps());
 
     urlString = "choice.php?pwd&whichchoice=1445&part=cpus&show=cpus&option=2&p=robot_resist";
-    responseText = loadHTMLResponse("request/test_scrapheap_cpu_upgrade.html");
+    responseText = html("request/test_scrapheap_cpu_upgrade.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1445;
@@ -415,7 +408,7 @@ public class YouRobotManagerTest {
   }
 
   @Test
-  public void canTrackChangesInCombatSkills() throws IOException {
+  public void canTrackChangesInCombatSkills() {
     // Start with no known combat skills.
 
     assertFalse(KoLCharacter.hasCombatSkill(SkillPool.SHOOT_PEA));
@@ -424,7 +417,7 @@ public class YouRobotManagerTest {
 
     // Look at Top Attachments
     String urlString = "choice.php?whichchoice=1445&show=top";
-    String responseText = loadHTMLResponse("request/test_scrapheap_show_top.html");
+    String responseText = html("request/test_scrapheap_show_top.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1445;
@@ -433,7 +426,7 @@ public class YouRobotManagerTest {
 
     // Install Pea Shooter, learn Shoot Pea
     urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=1";
-    responseText = loadHTMLResponse("request/test_scrapheap_add_skill.html");
+    responseText = html("request/test_scrapheap_add_skill.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1445;
@@ -443,7 +436,7 @@ public class YouRobotManagerTest {
 
     // Install Tesla Blaster, lose Shoot Pea, gain Tesla Blast
     urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=7";
-    responseText = loadHTMLResponse("request/test_scrapheap_add_skill_lose_skill.html");
+    responseText = html("request/test_scrapheap_add_skill_lose_skill.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1445;
@@ -454,7 +447,7 @@ public class YouRobotManagerTest {
 
     // Install Solar Panel, lost Tesla Blast
     urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=3";
-    responseText = loadHTMLResponse("request/test_scrapheap_lose_skill.html");
+    responseText = html("request/test_scrapheap_lose_skill.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1445;
@@ -464,10 +457,10 @@ public class YouRobotManagerTest {
   }
 
   @Test
-  public void willUnequipWhenSwapOutEquipPart() throws IOException {
+  public void willUnequipWhenSwapOutEquipPart() {
     // Look at Top Attachments
     String urlString = "choice.php?whichchoice=1445&show=top";
-    String responseText = loadHTMLResponse("request/test_scrapheap_show_top.html");
+    String responseText = html("request/test_scrapheap_show_top.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1445;
@@ -484,7 +477,7 @@ public class YouRobotManagerTest {
 
     // Install Pea Shooter
     urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=1";
-    responseText = loadHTMLResponse("request/test_scrapheap_add_skill.html");
+    responseText = html("request/test_scrapheap_add_skill.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1445;
@@ -495,10 +488,10 @@ public class YouRobotManagerTest {
   }
 
   @Test
-  public void willUnsetFamiliarWhenUnequipBirdCage() throws IOException {
+  public void willUnsetFamiliarWhenUnequipBirdCage() {
     // Look at Top Attachments
     String urlString = "choice.php?whichchoice=1445&show=top";
-    String responseText = loadHTMLResponse("request/test_scrapheap_show_top_bird_cage.html");
+    String responseText = html("request/test_scrapheap_show_top_bird_cage.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1445;
@@ -515,7 +508,7 @@ public class YouRobotManagerTest {
 
     // Install Mannequin Head
     urlString = "choice.php?pwd&whichchoice=1445&part=top&show=top&option=1&p=4";
-    responseText = loadHTMLResponse("request/test_scrapheap_unequip_bird_cage.html");
+    responseText = html("request/test_scrapheap_unequip_bird_cage.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1445;
@@ -527,10 +520,10 @@ public class YouRobotManagerTest {
   }
 
   @Test
-  public void willAddCPUUpgrades() throws IOException {
+  public void willAddCPUUpgrades() {
     // Look at CPU Upgrades
     String urlString = "choice.php?whichchoice=1445&show=cpus";
-    String responseText = loadHTMLResponse("request/test_scrapheap_show_cpus.html");
+    String responseText = html("request/test_scrapheap_show_cpus.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1445;
@@ -549,7 +542,7 @@ public class YouRobotManagerTest {
 
     // Buy a CPU Upgrade
     urlString = "choice.php?pwd&whichchoice=1445&part=cpus&show=cpus&option=2&p=robot_resist";
-    responseText = loadHTMLResponse("request/test_scrapheap_cpu_upgrade.html");
+    responseText = html("request/test_scrapheap_cpu_upgrade.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1445;
@@ -576,7 +569,7 @@ public class YouRobotManagerTest {
   }
 
   @Test
-  public void willAllowPotionUsage() throws IOException {
+  public void willAllowPotionUsage() {
     TestListener potionListener = new TestListener("(potions)");
 
     // Start with no CPU upgrades. We cannot use potions.
@@ -593,7 +586,7 @@ public class YouRobotManagerTest {
 
     // Look at CPU Upgrades
     String urlString = "choice.php?whichchoice=1445&show=cpus";
-    String responseText = loadHTMLResponse("request/test_scrapheap_show_cpus.html");
+    String responseText = html("request/test_scrapheap_show_cpus.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1445;
@@ -617,7 +610,7 @@ public class YouRobotManagerTest {
   }
 
   @Test
-  public void canSetAvatarAndGetSignal() throws IOException {
+  public void canSetAvatarAndGetSignal() {
     TestListener avatarListener = new TestListener("(avatar)");
 
     // We started out with an avatar = ""
@@ -630,7 +623,7 @@ public class YouRobotManagerTest {
     assertEquals(1, avatarListener.getCalls());
 
     // Load a 3-part robot
-    String responseText = loadHTMLResponse("request/test_scrapheap_three_part_avatar.html");
+    String responseText = html("request/test_scrapheap_three_part_avatar.html");
 
     ChoiceManager.lastChoice = 1445;
     GenericRequest request = new GenericRequest("choice.php?forceoption=0");
@@ -645,7 +638,7 @@ public class YouRobotManagerTest {
     assertEquals(2, avatarListener.getCalls());
 
     // Load a 4-part robot
-    responseText = loadHTMLResponse("request/test_scrapheap_reassembly_station.html");
+    responseText = html("request/test_scrapheap_reassembly_station.html");
     ChoiceManager.lastChoice = 1445;
     request = new GenericRequest("choice.php?forceoption=0");
     request.responseText = responseText;
@@ -664,11 +657,11 @@ public class YouRobotManagerTest {
   }
 
   @Test
-  public void canTrackStatbotEnergyCost() throws IOException {
+  public void canTrackStatbotEnergyCost() {
     KoLCharacter.setYouRobotEnergy(100);
 
     String urlString = "choice.php?forceoption=0";
-    String responseText = loadHTMLResponse("request/test_scrapheap_visit_statbot.html");
+    String responseText = html("request/test_scrapheap_visit_statbot.html");
     GenericRequest request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1447;
@@ -677,7 +670,7 @@ public class YouRobotManagerTest {
     assertEquals(10, Preferences.getInteger("statbotUses"));
 
     urlString = "choice.php?pwd&whichchoice=1447&option=1";
-    responseText = loadHTMLResponse("request/test_scrapheap_activate_statbot.html");
+    responseText = html("request/test_scrapheap_activate_statbot.html");
     request = new GenericRequest(urlString);
     request.responseText = responseText;
     ChoiceManager.lastChoice = 1447;

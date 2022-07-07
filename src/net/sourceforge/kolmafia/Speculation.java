@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -14,7 +14,6 @@ import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.textui.command.RetroCapeCommand;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Speculation {
@@ -22,16 +21,10 @@ public class Speculation {
   public AdventureResult[] equipment;
   private final ArrayList<AdventureResult> effects;
   private FamiliarData familiar, enthroned, bjorned;
-  private String edPiece,
-      snowsuit,
-      custom,
-      horsery,
-      boomBox,
-      retroCape,
-      backupCamera,
-      unbreakableUmbrella;
+  private String custom, horsery, boomBox;
   protected boolean calculated = false;
   protected Modifiers mods;
+  private Map<Modeable, String> modeables;
 
   public Speculation() {
     this.MCD = KoLCharacter.getMindControlLevel();
@@ -55,17 +48,10 @@ public class Speculation {
     this.familiar = KoLCharacter.currentFamiliar;
     this.enthroned = KoLCharacter.currentEnthroned;
     this.bjorned = KoLCharacter.currentBjorned;
-    this.edPiece = Preferences.getString("edPiece");
-    this.snowsuit = Preferences.getString("snowsuit");
     this.custom = null;
     this.horsery = Preferences.getString("_horsery");
     this.boomBox = Preferences.getString("boomBoxSong");
-    this.retroCape =
-        Preferences.getString("retroCapeSuperhero")
-            + " "
-            + Preferences.getString("retroCapeWashingInstructions");
-    this.backupCamera = Preferences.getString("backupCameraMode");
-    this.unbreakableUmbrella = Preferences.getString("umbrellaState");
+    this.modeables = Modeable.getStateMap();
   }
 
   public void setMindControlLevel(int MCD) {
@@ -84,24 +70,8 @@ public class Speculation {
     this.bjorned = familiar;
   }
 
-  public void setEdPiece(String edPiece) {
-    this.edPiece = edPiece;
-  }
-
-  public void setRetroCape(String retroCape) {
-    this.retroCape = retroCape;
-  }
-
-  public void setBackupCamera(String backupCamera) {
-    this.backupCamera = backupCamera;
-  }
-
-  public void setUnbreakableUmbrella(String unbreakableUmbrella) {
-    this.unbreakableUmbrella = unbreakableUmbrella;
-  }
-
-  public void setSnowsuit(String snowsuit) {
-    this.snowsuit = snowsuit;
+  public void setModeable(Modeable modeable, String value) {
+    this.modeables.put(modeable, value);
   }
 
   public void setCustom(String custom) {
@@ -128,26 +98,6 @@ public class Speculation {
     return this.familiar;
   }
 
-  public String getEdPiece() {
-    return this.edPiece;
-  }
-
-  public String getRetroCape() {
-    return this.retroCape;
-  }
-
-  public String getBackupCamera() {
-    return this.backupCamera;
-  }
-
-  public String getUnbreakableUmbrella() {
-    return this.unbreakableUmbrella;
-  }
-
-  public String getSnowsuit() {
-    return this.snowsuit;
-  }
-
   public String getCustom() {
     return this.custom;
   }
@@ -158,6 +108,10 @@ public class Speculation {
 
   public String getBoomBox() {
     return this.boomBox;
+  }
+
+  public Map<Modeable, String> getModeables() {
+    return this.modeables;
   }
 
   public void equip(int slot, AdventureResult item) {
@@ -192,14 +146,10 @@ public class Speculation {
             this.familiar,
             this.enthroned,
             this.bjorned,
-            this.edPiece,
-            this.snowsuit,
             this.custom,
             this.horsery,
             this.boomBox,
-            this.retroCape,
-            this.backupCamera,
-            this.unbreakableUmbrella,
+            this.modeables,
             true);
     this.calculated = true;
     return this.mods;
@@ -281,58 +231,6 @@ public class Speculation {
         FamiliarData fam = new FamiliarData(id);
         this.setBjorned(fam);
         this.equip(EquipmentManager.CONTAINER, ItemPool.get(ItemPool.BUDDY_BJORN));
-      } else if (cmd.equals("edpiece")) {
-        if (!params.equals("bear")
-            && !params.equals("owl")
-            && !params.equals("puma")
-            && !params.equals("hyena")
-            && !params.equals("mouse")
-            && !params.equals("weasel")) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown animal: " + params);
-          return true;
-        }
-        this.setEdPiece(params);
-        this.equip(EquipmentManager.HAT, ItemPool.get(ItemPool.CROWN_OF_ED));
-      } else if (cmd.equals("retrocape")) {
-        String[] parts = params.split(" ");
-        if ((!Arrays.asList(RetroCapeCommand.SUPERHEROS).contains(parts[0]))
-            || (!Arrays.asList(RetroCapeCommand.WASHING_INSTRUCTIONS).contains(parts[1]))) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown retro cape configuration: " + params);
-          return true;
-        }
-        this.setRetroCape(params);
-        this.equip(
-            EquipmentManager.CONTAINER, ItemPool.get(ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE));
-      } else if (cmd.equals("backupcamera")) {
-        if (!params.equals("meat") && !params.equals("ml") && !params.equals("init")) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown backup camera setting: " + params);
-          return true;
-        }
-        this.setBackupCamera(params);
-        this.equip(EquipmentManager.ACCESSORY3, ItemPool.get(ItemPool.BACKUP_CAMERA));
-      } else if (cmd.equals("umbrella")) {
-        if (!params.equals("broken")
-            && !params.equals("forward-facing")
-            && !params.equals("bucket style")
-            && !params.equals("pitchfork style")
-            && !params.equals("constantly twirling")
-            && !params.equals("cocoon")) {
-          KoLmafia.updateDisplay(
-              MafiaState.ERROR, "Unknown unbreakable umbrella setting:" + params);
-        }
-        this.setUnbreakableUmbrella(params);
-        this.equip(EquipmentManager.OFFHAND, ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA));
-      } else if (cmd.equals("snowsuit")) {
-        if (!params.equals("eyebrows")
-            && !params.equals("smirk")
-            && !params.equals("nose")
-            && !params.equals("goatee")
-            && !params.equals("hat")) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown decoration: " + params);
-          return true;
-        }
-        this.setSnowsuit(params);
-        this.equip(EquipmentManager.FAMILIAR, ItemPool.get(ItemPool.SNOW_SUIT));
       } else if (cmd.equals("up")) {
         List<String> effects = EffectDatabase.getMatchingNames(params);
         if (effects.isEmpty()) {
@@ -358,6 +256,19 @@ public class Speculation {
       } else if (cmd.equals("quiet")) {
         quiet = true;
       } else {
+        var modeable = Modeable.find(cmd);
+
+        if (modeable != null) {
+          if (!modeable.validate(cmd, params)) {
+            KoLmafia.updateDisplay(
+                MafiaState.ERROR, "Unknown parameter for " + cmd + ": " + params);
+            return true;
+          }
+
+          this.setModeable(modeable, params);
+          this.equip(KoLCharacter.equipmentSlot(modeable.getItem()), modeable.getItem());
+        }
+
         KoLmafia.updateDisplay(MafiaState.ERROR, "I don't know how to speculate about " + cmd);
         return true;
       }

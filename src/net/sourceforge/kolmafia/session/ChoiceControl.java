@@ -4476,6 +4476,19 @@ public abstract class ChoiceControl {
           Preferences.setInteger("_nextColdMedicineConsult", KoLCharacter.getTurnsPlayed() + 20);
         }
         break;
+
+      case 1467:
+      case 1468:
+      case 1469:
+      case 1470:
+      case 1471:
+      case 1472:
+      case 1473:
+      case 1474:
+      case 1475:
+        // June cleaver
+        JuneCleaverManager.parseChoice(urlString);
+        break;
     }
   }
 
@@ -4869,6 +4882,87 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 560:
+        // Foreshadowing Demon!
+        QuestDatabase.setQuest(
+            Quest.CLUMSINESS,
+            ChoiceManager.lastDecision == 1 ? QuestDatabase.STARTED : QuestDatabase.UNSTARTED);
+        break;
+
+      case 561:
+        // You Must Choose Your Destruction!
+        QuestDatabase.setQuest(Quest.CLUMSINESS, "step1");
+        Preferences.setString(
+            "clumsinessGroveBoss",
+            ChoiceManager.lastDecision == 1 ? "The Thorax" : "The Bat in the Spats");
+        break;
+
+      case 563:
+        // A Test of Your Mettle
+        if (ChoiceManager.lastDecision == 1) {
+          String nextBoss =
+              InventoryManager.getCount(ItemPool.VANITY_STONE) > 0
+                  ? "The Thorax"
+                  : "The Bat in the Spats";
+          Preferences.setString("clumsinessGroveBoss", nextBoss);
+          QuestDatabase.setQuest(Quest.CLUMSINESS, "step3");
+        }
+        break;
+
+      case 564:
+        // A Maelstrom of Trouble
+        QuestDatabase.setQuest(
+            Quest.MAELSTROM,
+            ChoiceManager.lastDecision == 1 ? QuestDatabase.STARTED : QuestDatabase.UNSTARTED);
+        break;
+
+      case 565:
+        // To Get Groped or Get Mugged?
+        QuestDatabase.setQuest(Quest.MAELSTROM, "step1");
+        Preferences.setString(
+            "maelstromOfLoversBoss",
+            ChoiceManager.lastDecision == 1 ? "The Terrible Pinch" : "Thug 1 and Thug 2");
+        break;
+
+      case 566:
+        // A Choice to be Made
+        if (ChoiceManager.lastDecision == 1) {
+          String nextBoss =
+              InventoryManager.getCount(ItemPool.JEALOUSY_STONE) > 0
+                  ? "The Terrible Pinch"
+                  : "Thug 1 and Thug 2";
+          Preferences.setString("maelstromOfLoversBoss", nextBoss);
+          QuestDatabase.setQuest(Quest.MAELSTROM, "step3");
+        }
+        break;
+
+      case 567:
+        // You May Be on Thin Ice
+        QuestDatabase.setQuest(
+            Quest.GLACIER,
+            ChoiceManager.lastDecision == 1 ? QuestDatabase.STARTED : QuestDatabase.UNSTARTED);
+        break;
+
+      case 568:
+        // Some Sounds Most Unnerving
+        QuestDatabase.setQuest(Quest.GLACIER, "step1");
+        Preferences.setString(
+            "glacierOfJerksBoss",
+            ChoiceManager.lastDecision == 1 ? "Mammon the Elephant" : "The Large-Bellied Snitch");
+        break;
+
+      case 569:
+        // One More Demon to Slay
+        if (ChoiceManager.lastDecision == 1) {
+          String nextBoss =
+              InventoryManager.getCount(ItemPool.GLUTTONOUS_STONE) > 0
+                  ? "Mammon the Elephant"
+                  : "The Large-Bellied Snitch";
+          Preferences.setString("glacierOfJerksBoss", nextBoss);
+          QuestDatabase.setQuest(Quest.GLACIER, "step3");
+        }
+        break;
+
       case 578:
         // End of the Boris Road
         handleAfterAvatar(ChoiceManager.lastDecision);
@@ -4937,8 +5031,7 @@ public abstract class ChoiceControl {
 
       case 640:
         // Tailor the Snow Suit
-        Preferences.setString(
-            "snowsuit", SnowsuitCommand.DECORATION[ChoiceManager.lastDecision - 1][0]);
+        SnowsuitCommand.setStateFromDecision(ChoiceManager.lastDecision);
         break;
 
       case 641:
@@ -6796,6 +6889,17 @@ public abstract class ChoiceControl {
         Preferences.setInteger("lastLightsOutTurn", KoLCharacter.getTurnsPlayed());
         break;
 
+      case 930:
+        // Another Errand I Mean Quest
+
+        // Upon turning in the White Citadel Satisfaction Satchel, "paco" takes
+        // it and gives us a lucky rabbit's foot. No further choice processing.
+        if (text.contains("<b>lucky rabbit's foot</b>")) {
+          ResultProcessor.processItem(ItemPool.CITADEL_SATCHEL, -1);
+          QuestDatabase.setQuestProgress(Quest.CITADEL, QuestDatabase.FINISHED);
+        }
+        break;
+
       case 984:
         if (text.contains("Awaiting mission")) {
           break;
@@ -8553,14 +8657,13 @@ public abstract class ChoiceControl {
 
         case 1063: // Adjust your 'Edpiece
           {
-            int index = decision - 1;
-            if (index < 0 || index > EdPieceCommand.ANIMAL.length) {
-              // Doing nothing
-              return true;
+            var state = EdPieceCommand.getStateFromDecision(decision);
+
+            if (state != null) {
+              RequestLogger.updateSessionLog();
+              RequestLogger.updateSessionLog("edpiece " + state);
             }
-            String decoration = EdPieceCommand.ANIMAL[index][0];
-            RequestLogger.updateSessionLog();
-            RequestLogger.updateSessionLog("edpiece " + decoration);
+
             return true;
           }
 

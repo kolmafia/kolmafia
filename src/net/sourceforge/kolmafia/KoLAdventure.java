@@ -1,9 +1,11 @@
 package net.sourceforge.kolmafia;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -82,6 +84,14 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private static final Pattern ADVENTURE_AGAIN =
       Pattern.compile("<a href=\"([^\"]*)\">Adventure Again \\((.*?)\\)</a>");
   private static final HashSet<String> unknownAdventures = new HashSet<>();
+
+  public static final Comparator<KoLAdventure> NameComparator =
+      new Comparator<KoLAdventure>() {
+        @Override
+        public int compare(KoLAdventure v1, KoLAdventure v2) {
+          return v1.adventureName.compareTo(v2.adventureName);
+        }
+      };
 
   /**
    * Constructs a new <code>KoLAdventure</code> with the given specifications.
@@ -348,138 +358,142 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   // this.isValidAdventure will be false if there is nothing you can do
   // to go to this location at this time, or true, otherwise
 
-  private void validate1() {
-    this.isValidAdventure = false;
-
+  public boolean isCurrentlyAccessible() {
     if (Limitmode.limitAdventure(this)) {
-      return;
+      return false;
     }
 
     if (this.zone.equals("Lab")) {
-      this.isValidAdventure = InventoryManager.hasItem(ItemPool.get(ItemPool.LAB_KEY, 1));
-      return;
+      return InventoryManager.hasItem(ItemPool.get(ItemPool.LAB_KEY, 1));
+    }
+
+    if (this.zone.equals("MoxSign")) {
+      return KoLCharacter.getSignZone() == ZodiacZone.GNOMADS;
+    }
+
+    if (this.zone.equals("Little Canadia")) {
+      return KoLCharacter.getSignZone() == ZodiacZone.CANADIA;
     }
 
     if (this.adventureId.equals(AdventurePool.LOWER_CHAMBER_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("lowerChamberUnlock");
-      return;
+      return Preferences.getBoolean("lowerChamberUnlock");
     }
 
     if (this.adventureId.equals(AdventurePool.SHROUDED_PEAK_ID)) {
       if (QuestDatabase.isQuestFinished(Quest.TRAPPER)) {
-        return;
+        return false;
       }
 
       String trapper = Preferences.getString(Quest.TRAPPER.getPref());
-      this.isValidAdventure =
-          trapper.equals("step3")
-              || trapper.equals("step4")
-              || Preferences.getString("peteMotorbikeTires").equals("Snow Tires");
-      return;
+      return trapper.equals("step3")
+          || trapper.equals("step4")
+          || Preferences.getString("peteMotorbikeTires").equals("Snow Tires");
     }
 
     if (this.adventureId.equals(AdventurePool.SUMMONING_CHAMBER_ID)) {
-      this.isValidAdventure = QuestDatabase.isQuestLaterThan(Quest.MANOR, "step2");
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.MANOR, "step2");
     }
 
     if (this.adventureId.equals(AdventurePool.ELDRITCH_FISSURE_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("eldritchFissureAvailable");
-      return;
+      return Preferences.getBoolean("eldritchFissureAvailable");
     }
 
     if (this.adventureId.equals(AdventurePool.ELDRITCH_HORROR_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("eldritchHorrorAvailable");
-      return;
+      return Preferences.getBoolean("eldritchHorrorAvailable");
     }
 
     if (this.formSource.equals("cobbsknob.php")) {
-      this.isValidAdventure =
-          QuestDatabase.isQuestLaterThan(Quest.GOBLIN, QuestDatabase.STARTED)
-              && !QuestDatabase.isQuestFinished(Quest.GOBLIN);
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.GOBLIN, QuestDatabase.STARTED)
+          && !QuestDatabase.isQuestFinished(Quest.GOBLIN);
     }
 
     // Only look at adventure.php locations below this.
     // Further validation for other adventures happens in part2
     if (!this.formSource.contains("adventure.php")) {
-      this.isValidAdventure = true;
-      return;
+      return true;
     }
 
     if (this.zone.equals("Tammy's Offshore Platform")) {
-      return;
+      return false;
     }
 
     if (this.zone.equals("Menagerie")) {
-      this.isValidAdventure = InventoryManager.hasItem(ItemPool.get(ItemPool.MENAGERIE_KEY, 1));
-      return;
+      return InventoryManager.hasItem(ItemPool.get(ItemPool.MENAGERIE_KEY, 1));
+    }
+
+    if (this.adventureId.equals(AdventurePool.VERY_UNQUIET_GARVES_ID)) {
+      return QuestDatabase.isQuestFinished(Quest.CYRPT);
+    }
+
+    if (this.zone.equals("Degrassi Knoll")) {
+      return KoLCharacter.getSignZone() != ZodiacZone.KNOLL;
+    }
+
+    if (this.adventureId.equals(AdventurePool.BUGBEAR_PEN_ID)) {
+      return KoLCharacter.getSignZone() == ZodiacZone.KNOLL
+          && QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, QuestDatabase.UNSTARTED)
+          && !QuestDatabase.isQuestFinished(Quest.BUGBEAR);
+    }
+
+    if (this.adventureId.equals(AdventurePool.SPOOKY_GRAVY_BURROW_ID)) {
+      return KoLCharacter.getSignZone() == ZodiacZone.KNOLL
+          && QuestDatabase.isQuestLaterThan(Quest.BUGBEAR, "step1");
+    }
+
+    if (this.adventureId.equals(AdventurePool.POST_QUEST_BUGBEAR_PEN)) {
+      return KoLCharacter.getSignZone() == ZodiacZone.KNOLL
+          && QuestDatabase.isQuestFinished(Quest.BUGBEAR);
     }
 
     if (this.adventureId.equals(AdventurePool.PALINDOME_ID)) {
       AdventureResult talisman = ItemPool.get(ItemPool.TALISMAN, 1);
-      this.isValidAdventure =
-          KoLCharacter.hasEquipped(talisman) || InventoryManager.hasItem(talisman);
-      return;
+      return KoLCharacter.hasEquipped(talisman) || InventoryManager.hasItem(talisman);
     }
 
     if (this.adventureId.equals(AdventurePool.HIDDEN_TEMPLE_ID)) {
       if (KoLCharacter.isKingdomOfExploathing() || KoLCharacter.getTempleUnlocked()) {
-        this.isValidAdventure = true;
-        return;
+        return true;
       }
 
       // Visit the distant woods and take a look.
       RequestThread.postRequest(new GenericRequest("woods"));
-      this.isValidAdventure = KoLCharacter.getTempleUnlocked();
-      return;
+      return KoLCharacter.getTempleUnlocked();
     }
 
     if (this.zone.equals("Island")) {
-      this.isValidAdventure =
-          KoLCharacter.mysteriousIslandAccessible()
-              || (InventoryManager.hasItem(ItemPool.DINGHY_PLANS)
-                  && InventoryManager.hasItem(ItemPool.DINGY_PLANKS));
-      return;
+      return KoLCharacter.mysteriousIslandAccessible()
+          || (InventoryManager.hasItem(ItemPool.DINGHY_PLANS)
+              && InventoryManager.hasItem(ItemPool.DINGY_PLANKS));
     }
 
     // The dungeons of doom are only available if you've finished the quest
     if (this.adventureId.equals(AdventurePool.DUNGEON_OF_DOOM_ID)) {
-      this.isValidAdventure = QuestLogRequest.isDungeonOfDoomAvailable();
-      return;
+      return QuestLogRequest.isDungeonOfDoomAvailable();
     }
 
     // The Castle Basement is unlocked provided the player has the S.O.C.K
     // (legacy: rowboats give access but are no longer creatable)
     if (this.adventureId.equals(AdventurePool.CASTLE_BASEMENT_ID)) {
-      this.isValidAdventure =
-          InventoryManager.hasItem(ItemPool.get(ItemPool.SOCK, 1))
-              || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1))
-              || KoLCharacter.isKingdomOfExploathing();
-      return;
+      return InventoryManager.hasItem(ItemPool.get(ItemPool.SOCK, 1))
+          || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1))
+          || KoLCharacter.isKingdomOfExploathing();
     }
 
     if (this.adventureId.equals(AdventurePool.CASTLE_GROUND_ID)) {
-      this.isValidAdventure =
-          Preferences.getInteger("lastCastleGroundUnlock") == KoLCharacter.getAscensions();
-      return;
+      return Preferences.getInteger("lastCastleGroundUnlock") == KoLCharacter.getAscensions();
     }
 
     if (this.adventureId.equals(AdventurePool.CASTLE_TOP_ID)) {
-      this.isValidAdventure =
-          Preferences.getInteger("lastCastleTopUnlock") == KoLCharacter.getAscensions();
-      return;
+      return Preferences.getInteger("lastCastleTopUnlock") == KoLCharacter.getAscensions();
     }
 
     // The Hole in the Sky is unlocked provided the player has a steam-powered rocketship
     // (legacy: rowboats give access but are no longer creatable)
 
     if (this.adventureId.equals(AdventurePool.HOLE_IN_THE_SKY_ID)) {
-      this.isValidAdventure =
-          KoLCharacter.isKingdomOfExploathing()
-              || InventoryManager.hasItem(ItemPool.get(ItemPool.ROCKETSHIP, 1))
-              || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1));
-      return;
+      return KoLCharacter.isKingdomOfExploathing()
+          || InventoryManager.hasItem(ItemPool.get(ItemPool.ROCKETSHIP, 1))
+          || InventoryManager.hasItem(ItemPool.get(ItemPool.ROWBOAT, 1));
     }
 
     // The beanstalk is unlocked when the player has planted a
@@ -487,66 +501,68 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     if (this.adventureId.equals(AdventurePool.AIRSHIP_ID)) {
       if (KoLCharacter.isKingdomOfExploathing()) {
-        return;
+        return false;
       }
 
       // If the character is not at least level 10, they have
       // no chance to get to the beanstalk
       if (KoLCharacter.getLevel() < 10) {
-        return;
+        return false;
       }
 
       // Give the betweenAdventureScript a chance to get an
       // enchanted bean, if necessary
-      this.isValidAdventure = true;
+      // *** I am not convinced. But this is legacy behavior.
+      return true;
+    }
+
+    if (this.adventureId.equals(AdventurePool.TOWER_RUINS_ID)) {
+      if (QuestDatabase.getQuest(Quest.EGO).equals("step2")) {
+        // We've received Fernswarthy's key but have not yet ventured into the
+        // ruins of Fernswarthy's Tower. Take a look.
+        GenericRequest request = new GenericRequest("fernruin.php");
+        RequestThread.postRequest(request);
+      }
+      return QuestDatabase.isQuestLaterThan(Quest.EGO, "step2");
     }
 
     if (this.adventureId.equals(AdventurePool.HAUNTED_KITCHEN_ID)
         || this.adventureId.equals(AdventurePool.HAUNTED_CONSERVATORY_ID)) {
       // Haunted Kitchen & Conservatory
-      this.isValidAdventure =
-          QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.UNSTARTED);
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.UNSTARTED);
     }
 
     if (this.adventureId.equals(AdventurePool.HAUNTED_LIBRARY_ID)) {
       // Haunted Library
-      this.isValidAdventure = InventoryManager.hasItem(ItemPool.LIBRARY_KEY);
-      return;
+      return InventoryManager.hasItem(ItemPool.LIBRARY_KEY);
     }
 
     if (this.adventureId.equals(AdventurePool.HAUNTED_BILLIARDS_ROOM_ID)) {
       // Haunted Billiards Room
-      this.isValidAdventure = InventoryManager.hasItem(ItemPool.BILLIARDS_KEY);
-      return;
+      return InventoryManager.hasItem(ItemPool.BILLIARDS_KEY);
     }
 
     if (this.adventureId.equals(AdventurePool.HAUNTED_BATHROOM_ID)
         || this.adventureId.equals(AdventurePool.HAUNTED_BEDROOM_ID)
         || this.adventureId.equals(AdventurePool.HAUNTED_GALLERY_ID)) {
       // Haunted Bathroom, Bedroom & Gallery
-      this.isValidAdventure =
-          QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED);
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, QuestDatabase.STARTED);
     }
 
     if (this.adventureId.equals(AdventurePool.HAUNTED_BALLROOM_ID)) {
       // Haunted Ballroom
-      this.isValidAdventure = QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step2");
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step2");
     }
 
     if (this.adventureId.equals(AdventurePool.HAUNTED_LABORATORY_ID)
         || this.adventureId.equals(AdventurePool.HAUNTED_NURSERY_ID)
         || this.adventureId.equals(AdventurePool.HAUNTED_STORAGE_ROOM_ID)) {
       // Haunted Lab, Nursery & Storage Room
-      this.isValidAdventure = QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step3");
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.SPOOKYRAVEN_DANCE, "step3");
     }
 
     if (this.adventureId.equals(AdventurePool.MIDDLE_CHAMBER_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("middleChamberUnlock");
-      return;
+      return Preferences.getBoolean("middleChamberUnlock");
     }
 
     if (this.adventureId.equals(AdventurePool.BATRAT_ID)
@@ -565,105 +581,82 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
               : this.adventureId.equals(AdventurePool.BEANBAT_ID) ? 2 : 3;
 
       if (sonarsUsed >= sonarsForLocation) {
-        this.isValidAdventure = true;
-        return;
+        return true;
       }
 
       int sonarsToUse = sonarsForLocation - sonarsUsed;
 
-      this.isValidAdventure = InventoryManager.hasItem(ItemPool.get(ItemPool.SONAR, sonarsToUse));
-      return;
+      return InventoryManager.hasItem(ItemPool.get(ItemPool.SONAR, sonarsToUse));
     }
 
     if (this.adventureId.equals(AdventurePool.WHITEYS_GROVE_ID)) {
-      if (QuestDatabase.isQuestLaterThan(Quest.CITADEL, "unstarted")
+      return QuestDatabase.isQuestLaterThan(Quest.CITADEL, "unstarted")
           || QuestDatabase.isQuestLaterThan(Quest.PALINDOME, "step2")
-          || KoLCharacter.isEd()) {
-        this.isValidAdventure = true;
-        return;
-      }
-
-      GenericRequest request = new GenericRequest("woods.php");
-      RequestThread.postRequest(request);
-      this.isValidAdventure = request.responseText.contains("grove.gif");
-      return;
+          || KoLCharacter.isEd();
     }
 
     if (this.zone.equals("McLarge")) {
       if (this.adventureId.equals(AdventurePool.MINE_OFFICE_ID)) {
-        this.isValidAdventure = true;
-        return;
+        return QuestDatabase.isQuestLaterThan(Quest.FACTORY, QuestDatabase.UNSTARTED);
       }
 
       if (this.adventureId.equals(AdventurePool.ITZNOTYERZITZ_MINE_ID)
           || this.adventureId.equals(AdventurePool.GOATLET_ID)) {
-        this.isValidAdventure =
-            QuestDatabase.isQuestLaterThan(Quest.TRAPPER, QuestDatabase.STARTED);
-        return;
+        return QuestDatabase.isQuestLaterThan(Quest.TRAPPER, QuestDatabase.STARTED);
       }
 
       if (this.adventureId.equals(AdventurePool.NINJA_SNOWMEN_ID)
           || this.adventureId.equals(AdventurePool.EXTREME_SLOPE_ID)) {
-        this.isValidAdventure = QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step1");
-        return;
+        return QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step1");
       }
 
       if (this.adventureId.equals(AdventurePool.ICY_PEAK_ID)) {
-        this.isValidAdventure = QuestDatabase.isQuestFinished(Quest.TRAPPER);
-        return;
+        return QuestDatabase.isQuestFinished(Quest.TRAPPER);
       }
-      return;
+      return false;
     }
 
     if (this.zone.equals("Highlands")) {
-      if (QuestDatabase.isQuestLaterThan(Quest.TOPPING, QuestDatabase.STARTED)) {
-        this.isValidAdventure = true;
-        return;
-      }
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.TOPPING, QuestDatabase.STARTED);
     }
 
     if (this.adventureId.equals(AdventurePool.THE_DRIPPING_HALL_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("drippingHallUnlocked");
-      return;
+      return Preferences.getBoolean("drippingHallUnlocked");
     }
 
     if (this.adventureId.equals(AdventurePool.EDGE_OF_THE_SWAMP_ID)) {
-      this.isValidAdventure = QuestDatabase.isQuestLaterThan(Quest.SWAMP, "unstarted");
-      return;
+      return QuestDatabase.isQuestLaterThan(Quest.SWAMP, "unstarted");
     }
 
     if (this.adventureId.equals(AdventurePool.DARK_AND_SPOOKY_SWAMP_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("maraisDarkUnlock");
-      return;
+      return Preferences.getBoolean("maraisDarkUnlock");
     }
 
     if (this.adventureId.equals(AdventurePool.CORPSE_BOG_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("maraisCorpseUnlock");
-      return;
+      return Preferences.getBoolean("maraisCorpseUnlock");
     }
 
     if (this.adventureId.equals(AdventurePool.RUINED_WIZARDS_TOWER_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("maraisWizardUnlock");
-      return;
+      return Preferences.getBoolean("maraisWizardUnlock");
     }
 
     if (this.adventureId.equals(AdventurePool.WILDLIFE_SANCTUARRRRRGH_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("maraisWildlifeUnlock");
-      return;
+      return Preferences.getBoolean("maraisWildlifeUnlock");
     }
 
     if (this.adventureId.equals(AdventurePool.WEIRD_SWAMP_VILLAGE_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("maraisVillageUnlock");
-      return;
+      return Preferences.getBoolean("maraisVillageUnlock");
     }
 
     if (this.adventureId.equals(AdventurePool.SWAMP_BEAVER_TERRITORY_ID)) {
-      this.isValidAdventure = Preferences.getBoolean("maraisBeaverUnlock");
-      return;
+      return Preferences.getBoolean("maraisBeaverUnlock");
     }
 
-    this.isValidAdventure = true;
+    return true;
+  }
+
+  private void validate1() {
+    this.isValidAdventure = this.isCurrentlyAccessible();
   }
 
   // Validation part 2:
@@ -1505,333 +1498,298 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   // PENDING only when the script could not have known that the attempt
   // would fail.
 
-  private static final Object[][] ADVENTURE_FAILURES = {
+  record AdventureFailure(String responseText, String message, MafiaState severity) {
+    public AdventureFailure(String responseText, String message) {
+      this(responseText, message, MafiaState.ERROR);
+    }
+  }
+
+  private static final AdventureFailure[] ADVENTURE_FAILURES = {
     // KoL bug: returning a blank page. This must be index 0.
-    {
-      "", "KoL returned a blank page.",
-    },
+    new AdventureFailure("", "KoL returned a blank page."),
 
     // Lots of places.
-    {
-      "It is recommended that you have at least",
-      "Your stats are too low for this location.  Adventure manually to acknowledge or disable this warning.",
-    },
+    new AdventureFailure(
+        "It is recommended that you have at least",
+        "Your stats are too low for this location.  Adventure manually to acknowledge or disable this warning."),
 
     // Lots of places.
-    {
-      "You shouldn't be here", "You can't get to that area.",
-    },
+    new AdventureFailure("You shouldn't be here", "You can't get to that area."),
 
     // Lots of places.
-    {
-      "not yet be accessible", "You can't get to that area.",
-    },
+    new AdventureFailure("not yet be accessible", "You can't get to that area."),
 
     // Lots of places.
-    {
-      "You can't get there", "You can't get to that area.",
-    },
+    new AdventureFailure("You can't get there", "You can't get to that area."),
 
     // Lots of places.
-    {
-      "Seriously.  It's locked.", "You can't get to that area.",
-    },
+    new AdventureFailure("Seriously.  It's locked.", "You can't get to that area."),
 
     // 8-bit realm and Vanya's Castle
-    {
-      "You can't get to the 8-bit realm right now", "You can't get to that area.",
-    },
+    new AdventureFailure(
+        "You can't get to the 8-bit realm right now", "You can't get to that area."),
 
     // Out of adventures
-    {"You're out of adventures", "You're out of adventures.", MafiaState.PENDING},
+    new AdventureFailure(
+        "You're out of adventures", "You're out of adventures.", MafiaState.PENDING),
 
     // Out of adventures in the Daily Dungeon
-    {"You don't have any adventures.", "You're out of adventures.", MafiaState.PENDING},
+    new AdventureFailure(
+        "You don't have any adventures.", "You're out of adventures.", MafiaState.PENDING),
 
     // Out of adventures at Shore
-    {"You don't have enough Adventures left", "You're out of adventures.", MafiaState.PENDING},
+    new AdventureFailure(
+        "You don't have enough Adventures left", "You're out of adventures.", MafiaState.PENDING),
 
     // Out of meat at Shore
-    {
-      "You can't afford to go on a vacation", "You can't afford to go on a vacation.",
-    },
+    new AdventureFailure(
+        "You can't afford to go on a vacation", "You can't afford to go on a vacation."),
 
     // Too drunk at shore
-    {
-      "You're too drunk to go on vacation", "You are too drunk to go on a vacation.",
-    },
+    new AdventureFailure(
+        "You're too drunk to go on vacation", "You are too drunk to go on a vacation."),
 
     // Beaten up at zero HP
-    {
-      "You're way too beaten up to go on an adventure right now",
-      "You can't adventure at 0 HP.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "You're way too beaten up to go on an adventure right now",
+        "You can't adventure at 0 HP.",
+        MafiaState.PENDING),
 
     // Typical Tavern with less than 100 Meat
-    {
-      "Why go to the Tavern if you can't afford to drink?", "You can't afford to go out drinking.",
-    },
+    new AdventureFailure(
+        "Why go to the Tavern if you can't afford to drink?",
+        "You can't afford to go out drinking."),
 
     // The Road to White Citadel
-    {
-      "You've already found the White Citadel", "The Road to the White Citadel is already cleared.",
-    },
+    new AdventureFailure(
+        "You've already found the White Citadel",
+        "The Road to the White Citadel is already cleared."),
 
     // Friar's Ceremony Location without the three items
-    {
-      "You don't appear to have all of the elements necessary to perform the ritual",
-      "You don't have everything you need.",
-    },
+    new AdventureFailure(
+        "You don't appear to have all of the elements necessary to perform the ritual",
+        "You don't have everything you need."),
 
     // You need some sort of stench protection to adventure in there.
     // You're going to need some sort of stench protection if you want to adventure here.
-    {
-      "need some sort of stench protection", "You need stench protection.",
-    },
+    new AdventureFailure("need some sort of stench protection", "You need stench protection."),
 
     // You need some sort of protection from the cold if you're
     // going to visit the Icy Peak.
-    {
-      "You need some sort of protection from the cold", "You need cold protection.",
-    },
+    new AdventureFailure(
+        "You need some sort of protection from the cold", "You need cold protection."),
 
     // You try to enter the Haunted Library, but the door is locked. I guess this particular
     // information doesn't want to be free.
-    {
-      "I guess this particular information doesn't want to be free",
-      "You need the Spookyraven library key.",
-    },
+    new AdventureFailure(
+        "I guess this particular information doesn't want to be free",
+        "You need the Spookyraven library key."),
 
     // Mining while drunk
-    {
-      "You're too drunk to spelunk, as it were", "You are too drunk to go there.",
-    },
+    new AdventureFailure(
+        "You're too drunk to spelunk, as it were", "You are too drunk to go there."),
 
     // Pyramid Lower Chamber while drunk
-    {
-      "You're too drunk to screw around", "You are too drunk to go there.",
-    },
+    new AdventureFailure("You're too drunk to screw around", "You are too drunk to go there."),
 
     // You can't adventure there without some way of breathing underwater...
-    {
-      "without some way of breathing underwater", "You can't breathe underwater.",
-    },
+    new AdventureFailure(
+        "without some way of breathing underwater", "You can't breathe underwater."),
 
     // You can't adventure there now -- Gort wouldn't be able to breathe!
-    {
-      "wouldn't be able to breathe", "Your familiar can't breathe underwater.",
-    },
+    new AdventureFailure("wouldn't be able to breathe", "Your familiar can't breathe underwater."),
 
     // It wouldn't be safe to go in there dressed like you are. You should consider a Mer-kin
     // disguise.
-    {
-      "You should consider a Mer-kin disguise.", "You aren't wearing a Mer-kin disguise.",
-    },
+    new AdventureFailure(
+        "You should consider a Mer-kin disguise.", "You aren't wearing a Mer-kin disguise."),
 
     // Attempting to enter the Cola Wars Battlefield with level > 5
-    {
-      "The temporal rift in the plains has closed",
-      "The temporal rift has closed.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "The temporal rift in the plains has closed",
+        "The temporal rift has closed.",
+        MafiaState.PENDING),
 
     // Out of your mining uniform, you are quickly identified as a
     // stranger and shown the door.
-    {
-      "you are quickly identified as a stranger", "You aren't wearing an appropriate uniform.",
-    },
+    new AdventureFailure(
+        "you are quickly identified as a stranger", "You aren't wearing an appropriate uniform."),
 
     // You're not properly equipped for that. Get into a uniform.
-    {
-      "Get into a uniform", "You aren't wearing an appropriate uniform.",
-    },
+    new AdventureFailure("Get into a uniform", "You aren't wearing an appropriate uniform."),
 
     // There are no Frat soldiers left
-    {
-      "There are no Frat soldiers left", "There are no Frat soldiers left.",
-    },
+    new AdventureFailure("There are no Frat soldiers left", "There are no Frat soldiers left."),
 
     // There are no Hippy soldiers left
-    {
-      "There are no Hippy soldiers left", "There are no Hippy soldiers left.",
-    },
+    new AdventureFailure("There are no Hippy soldiers left", "There are no Hippy soldiers left."),
 
     // Spooky Gravy Burrow before told to go there:
     // You should probably stay out of there unless you have a good
     // reason to go in. Like if you were on a quest to find
     // something in there, or something.
-    {
-      "You should probably stay out of there",
-      "You have not been given the quest to go there yet.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "You should probably stay out of there",
+        "You have not been given the quest to go there yet.",
+        MafiaState.PENDING),
 
     // Worm Wood while not Absinthe Minded
-    {
-      "For some reason, you can't find your way back there",
-      "You need to be Absinthe Minded to go there.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "For some reason, you can't find your way back there",
+        "You need to be Absinthe Minded to go there.",
+        MafiaState.PENDING),
 
     // "You can't take it any more. The confusion, the nostalgia,
     // the inconsistent grammar. You break the bottle on the
     // ground, and stomp it to powder."
-    {
-      "You break the bottle on the ground",
-      "You are no longer gazing into the bottle.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "You break the bottle on the ground",
+        "You are no longer gazing into the bottle.",
+        MafiaState.PENDING),
 
     // You're in the regular dimension now, and don't remember how
     // to get back there.
-    {"You're in the regular dimension now", "You are no longer Half-Astral.", MafiaState.PENDING},
+    new AdventureFailure(
+        "You're in the regular dimension now",
+        "You are no longer Half-Astral.",
+        MafiaState.PENDING),
 
     // The Factory has faded back into the spectral mists, and
     // eldritch vapors and such.
-    {"faded back into the spectral mists", "No one may know of its coming or going."},
+    new AdventureFailure(
+        "faded back into the spectral mists", "No one may know of its coming or going."),
 
     // You wander around the farm for a while, but can't find any
     // additional ducks to fight. Maybe some more will come out of
     // hiding by tomorrow.
-    {"can't find any additional ducks", "Nothing more to do here today.", MafiaState.PENDING},
+    new AdventureFailure(
+        "can't find any additional ducks", "Nothing more to do here today.", MafiaState.PENDING),
 
     // There are no more ducks here.
-    {"no more ducks here", "Farm area cleared.", MafiaState.PENDING},
+    new AdventureFailure("no more ducks here", "Farm area cleared.", MafiaState.PENDING),
 
     // You don't know where that place is.
-    {
-      "You don't know where that place is.",
-      "Use a \"DRINK ME\" potion before trying to adventure here.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "You don't know where that place is.",
+        "Use a \"DRINK ME\" potion before trying to adventure here.",
+        MafiaState.PENDING),
 
     // Orchard failure - You try to enter the feeding chamber, but
     // your way is blocked by a wriggling mass of filthworm drones.
     // Looks like they don't let anything in here if they don't
     // recognize its smell.
-    {
-      "Looks like they don't let anything in here if they don't recognize its smell.",
-      "Use a filthworm hatchling scent gland before trying to adventure here.",
-    },
+    new AdventureFailure(
+        "Looks like they don't let anything in here if they don't recognize its smell.",
+        "Use a filthworm hatchling scent gland before trying to adventure here."),
 
     // Orchard failure - You try to enter the royal guards'
     // chamber, but you're immediately shoved back out into the
     // tunnel. Looks like the guards will only let you in here if
     // you smell like food.
-    {
-      "Looks like the guards will only let you in here if you smell like food.",
-      "Use a filthworm drone scent gland before trying to adventure here.",
-    },
+    new AdventureFailure(
+        "Looks like the guards will only let you in here if you smell like food.",
+        "Use a filthworm drone scent gland before trying to adventure here."),
 
     // Orchard failure - You try to enter the filthworm queen's
     // chamber, but the guards outside the door block the entrance.
     // You must not smell right to 'em.
-    {
-      "You must not smell right to 'em.",
-      "Use a filthworm royal guard scent gland before trying to adventure here.",
-    },
+    new AdventureFailure(
+        "You must not smell right to 'em.",
+        "Use a filthworm royal guard scent gland before trying to adventure here."),
 
     // Orchard failure - The filthworm queen has been slain, and the
     // hive lies empty 'neath the orchard.
-    {
-      "The filthworm queen has been slain", "The filthworm queen has been slain.",
-    },
+    new AdventureFailure(
+        "The filthworm queen has been slain", "The filthworm queen has been slain."),
 
     // You've already retrieved all of the stolen Meat
-    {
-      "already retrieved all of the stolen Meat",
-      "You already recovered the Nuns' Meat.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "already retrieved all of the stolen Meat",
+        "You already recovered the Nuns' Meat.",
+        MafiaState.PENDING),
 
     // There are no hippy soldiers left -- the way to their camp is clear!
-    {"the way to their camp is clear", "There are no hippy soldiers left.", MafiaState.PENDING},
+    new AdventureFailure(
+        "the way to their camp is clear", "There are no hippy soldiers left.", MafiaState.PENDING),
 
     // Cobb's Knob King's Chamber after defeating the goblin king.
-    {
-      "You've already slain the Goblin King",
-      "You already defeated the Goblin King.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "You've already slain the Goblin King",
+        "You already defeated the Goblin King.",
+        MafiaState.PENDING),
 
     // The Haert of the Cyrpt after defeating the Bonerdagon
-    {"Bonerdagon has been defeated", "You already defeated the Bonerdagon.", MafiaState.PENDING},
+    new AdventureFailure(
+        "Bonerdagon has been defeated", "You already defeated the Bonerdagon.", MafiaState.PENDING),
 
     // Any cyrpt area after defeating the sub-boss
-    {"already undefiled", "Cyrpt area cleared.", MafiaState.PENDING},
+    new AdventureFailure("already undefiled", "Cyrpt area cleared.", MafiaState.PENDING),
 
     // The Summoning Chamber after Lord Spookyraven has been defeated
     //
     // You enter the Summoning Chamber.  The air is heavy with
     // evil, and otherworldly whispers echo melodramatically
     // through your mind
-    {"otherworldly whispers", "You already defeated Lord Spookyraven.", MafiaState.PENDING},
+    new AdventureFailure(
+        "otherworldly whispers", "You already defeated Lord Spookyraven.", MafiaState.PENDING),
 
     // Ed the undying defeated
-    {
-      "Ed the Undying sleeps once again",
-      "Ed the Undying has already been defeated.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "Ed the Undying sleeps once again",
+        "Ed the Undying has already been defeated.",
+        MafiaState.PENDING),
 
     // You probably shouldn't -- you don't trust those rats not to steal your token!
-    {
-      "don't trust those rats not to steal",
-      "You don't trust those rats not to steal your token!.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "don't trust those rats not to steal",
+        "You don't trust those rats not to steal your token!.",
+        MafiaState.PENDING),
 
     // That's too far to walk, and
     // <a href=clan_dreadsylvania.php?place=carriage>the Carriageman</a>
     // isn't drunk enough to take you there.
-    {
-      "That's too far to walk",
-      "The Carriageman isn't drunk enough to take you there.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "That's too far to walk",
+        "The Carriageman isn't drunk enough to take you there.",
+        MafiaState.PENDING),
 
     // The forest is silent, those who stalked it having themselves been stalked.
-    {
-      "The forest is silent", "The Dreadsylvanian Woods boss has been defeated.", MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "The forest is silent",
+        "The Dreadsylvanian Woods boss has been defeated.",
+        MafiaState.PENDING),
 
     // The village is now a ghost town in the figurative sense, rather than the literal.
-    {
-      "The village is now a ghost town",
-      "The Dreadsylvanian Village boss has been defeated.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "The village is now a ghost town",
+        "The Dreadsylvanian Village boss has been defeated.",
+        MafiaState.PENDING),
 
     // Look upon this castle, ye mighty, and despair, because the king is dead, baby.
-    {
-      "the king is dead, baby",
-      "The Dreadsylvanian Castle boss has been defeated.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "the king is dead, baby",
+        "The Dreadsylvanian Castle boss has been defeated.",
+        MafiaState.PENDING),
 
     // This part of the city is awfully unremarkable, now that
     // you've cleared that ancient protector spirit out.
-    {
-      "cleared that ancient protector spirit out",
-      "You already defeated the protector spirit in that square.",
-    },
+    new AdventureFailure(
+        "cleared that ancient protector spirit out",
+        "You already defeated the protector spirit in that square."),
 
     // Now that you've put something in the round depression in the
     // altar, the altar doesn't really do anything but look
     // neat. Those ancient guys really knew how to carve themselves
     // an altar, mmhmm.
-    {
-      "the altar doesn't really do anything but look neat",
-      "You already used the altar in that square.",
-    },
+    new AdventureFailure(
+        "the altar doesn't really do anything but look neat",
+        "You already used the altar in that square."),
 
     // Here's poor Dr. Henry "Dakota" Fanning, Ph.D, R.I.P., lying
     // here in a pile just where you left him.
-    {
-      "lying here in a pile just where you left him",
-      "You already looted Dr. Fanning in that square.",
-    },
+    new AdventureFailure(
+        "lying here in a pile just where you left him",
+        "You already looted Dr. Fanning in that square."),
 
     // You wander into the empty temple and look around. Remember
     // when you were in here before, and tried to gank some old
@@ -1840,114 +1798,103 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // doohickey?
     //
     // Good times, man. Good times.
-    {
-      "You wander into the empty temple", "You already looted the temple in that square.",
-    },
+    new AdventureFailure(
+        "You wander into the empty temple", "You already looted the temple in that square."),
 
     // You climb the stairs from the castle's basement, but the
     // door at the top is closed and you can't find the doorknob.
     //
     // You'll have to find another way up.
-    {
-      "You'll have to find another way up",
-      "You haven't opened the ground floor of the castle yet.",
-    },
+    new AdventureFailure(
+        "You'll have to find another way up",
+        "You haven't opened the ground floor of the castle yet."),
 
     // You have to learn to walk before you can learn to fly.
     //
     // Also you can't get to the top floor of a building if you can't get to the ground floor.
-    {
-      "you can't get to the ground floor", "You haven't opened the ground floor of the castle yet.",
-    },
+    new AdventureFailure(
+        "you can't get to the ground floor",
+        "You haven't opened the ground floor of the castle yet."),
 
     // The door at the top of the ground floor stairway is also
     // closed, and you're still too short to reach a doorknob
     // that's forty feet over your head.
     //
     // You'll have to figure out some other way to get upstairs.
-    {
-      "You'll have to figure out some other way to get upstairs",
-      "You haven't opened the top floor of the castle yet.",
-    },
+    new AdventureFailure(
+        "You'll have to figure out some other way to get upstairs",
+        "You haven't opened the top floor of the castle yet."),
 
     // The portal is open! Head home and prepare to save some children!
-    {
-      "prepare to save some children", "The portal is open.",
-    },
+    new AdventureFailure("prepare to save some children", "The portal is open."),
 
     // It looks like things are running pretty smoothly at the
     // factory right now -- there's nobody to fight.
-    {
-      "things are running pretty smoothly", "Nothing more to do here today.",
-    },
+    new AdventureFailure("things are running pretty smoothly", "Nothing more to do here today."),
 
     // You should talk to Edwing before you head back in there, and
     // wait for him to formulate a plan.
-    {
-      "You should talk to Edwing", "Nothing more to do here today.",
-    },
+    new AdventureFailure("You should talk to Edwing", "Nothing more to do here today."),
 
     // The compound is abandoned now...
-    {
-      "The compound is abandoned now", "Nothing more to do here today.",
-    },
+    new AdventureFailure("The compound is abandoned now", "Nothing more to do here today."),
 
     // Between the wind and the weird spiky bits all over it, you
     // can't make it to the second story of the fortress without
     // some way of escaping gravity.
-    {
-      "some way of escaping gravity", "You are not wearing a warbear hoverbelt.",
-    },
+    new AdventureFailure(
+        "some way of escaping gravity", "You are not wearing a warbear hoverbelt."),
 
     // Your hoverbelt would totally do the trick to get you up
     // there, only it's out of juice.
-    {
-      "it's out of juice", "Your hoverbelt needs a new battery.",
-    },
+    new AdventureFailure("it's out of juice", "Your hoverbelt needs a new battery."),
 
     // You float up to the third story of the fortress, but all you
     // find is a locked door with a keypad next to it, and you
     // don't have a code.
-    {
-      "you don't have a code", "You don't have a warbear badge.",
-    },
+    new AdventureFailure("you don't have a code", "You don't have a warbear badge."),
 
     // There's nothing left of Ol' Scratch but a crater and a
     // stove.  Burnbarrel Blvd. is still hot, but it's no longer
     // bothered.  Or worth bothering with.
-    {"There's nothing left of Ol' Scratch", "Nothing more to do here.", MafiaState.PENDING},
+    new AdventureFailure(
+        "There's nothing left of Ol' Scratch", "Nothing more to do here.", MafiaState.PENDING),
 
     // There's nothing left in Exposure Esplanade. All of the snow
     // forts have been crushed or melted, all of the igloos are
     // vacant, and all of the reindeer are off playing games
     // somewhere else.
-    {"There's nothing left in Exposure Esplanade", "Nothing more to do here.", MafiaState.PENDING},
+    new AdventureFailure(
+        "There's nothing left in Exposure Esplanade",
+        "Nothing more to do here.",
+        MafiaState.PENDING),
 
     // The Heap is empty.  Well, let me rephrase that.  It's still
     // full of garbage, but there's nobody and nothing of interest
     // mixed in with the garbage.
-    {"The Heap is empty", "Nothing more to do here.", MafiaState.PENDING},
+    new AdventureFailure("The Heap is empty", "Nothing more to do here.", MafiaState.PENDING),
 
     // There's nothing going on here anymore -- the tombs of the
     // Ancient Hobo Burial Ground are all as silent as themselves.
-    {"There's nothing going on here anymore", "Nothing more to do here.", MafiaState.PENDING},
+    new AdventureFailure(
+        "There's nothing going on here anymore", "Nothing more to do here.", MafiaState.PENDING),
 
     // There's nothing left in the Purple Light District.  All of
     // the pawn shops and adult bookshops have closed their doors
     // for good.
-    {
-      "There's nothing left in the Purple Light District",
-      "Nothing more to do here.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "There's nothing left in the Purple Light District",
+        "Nothing more to do here.",
+        MafiaState.PENDING),
 
     // The Hoboverlord has been defeated, and Hobopolis Town Square
     // lies empty.
-    {"Hobopolis Town Square lies empty", "Nothing more to do here.", MafiaState.PENDING},
+    new AdventureFailure(
+        "Hobopolis Town Square lies empty", "Nothing more to do here.", MafiaState.PENDING),
 
     // The bathrooms are empty now -- looks like you've taken care
     // of the elf hobo problem for the time being.
-    {"bathrooms are empty now", "Nothing more to do here.", MafiaState.PENDING},
+    new AdventureFailure("bathrooms are empty now", "Nothing more to do here.", MafiaState.PENDING),
 
     // The Skies over Valhalls
 
@@ -1955,11 +1902,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // looking at Valhalla from a dizzying height. Come down now,
     // they'll say, but there's no way you're going all the way
     // through that slash without some sort of transportation.
-    {
-      "there's no way you're going all the way through that slash",
-      "You don't have a flying mount.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "there's no way you're going all the way through that slash",
+        "You don't have a flying mount.",
+        MafiaState.PENDING),
 
     // You can't do anything without some way of flying.  And
     // before you go pointing at all of the stuff in your inventory
@@ -1967,55 +1913,48 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // that stuff won't work.  You're gonna need a hideous winged
     // yeti mount, because that's the only thing that can handle
     // this particular kind of flying.  Because of science.
-    {
-      "You can't do anything without some way of flying",
-      "You don't have a flying mount.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "You can't do anything without some way of flying",
+        "You don't have a flying mount.",
+        MafiaState.PENDING),
 
     // There are at least two of everything up there, and you're
     // also worried that you might fall off your yeti. You should
     // maybe come back when you're at least slightly less drunk.
-    {
-      "You should  maybe come back when you're at least slightly less drunk",
-      "You are too drunk.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "You should  maybe come back when you're at least slightly less drunk",
+        "You are too drunk.",
+        MafiaState.PENDING),
 
     // You don't have the energy to attack a problem this size. Go
     // drink some soda or something.
-    {
-      "You don't have the energy to attack a problem this size",
-      "You need at least 20% buffed max MP.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "You don't have the energy to attack a problem this size",
+        "You need at least 20% buffed max MP.",
+        MafiaState.PENDING),
 
     // You're not in good enough shape to deal with a threat this
     // large. Go get some rest, or put on some band-aids or
     // something.
-    {
-      "You're not in good enough shape to deal with a threat this large",
-      "You need at least 20% buffed max HP.",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "You're not in good enough shape to deal with a threat this large",
+        "You need at least 20% buffed max HP.",
+        MafiaState.PENDING),
 
     // Your El Vibrato portal has run out of power. You should go
     // back to your campsite and charge it back up.
-    {
-      "Your El Vibrato portal has run out of power",
-      "Your El Vibrato portal has run out of power",
-      MafiaState.PENDING
-    },
+    new AdventureFailure(
+        "Your El Vibrato portal has run out of power",
+        "Your El Vibrato portal has run out of power",
+        MafiaState.PENDING),
 
     // No longer Transpondent
-    {
-      "you don't know the transporter frequency", "You are no longer Transpondent.",
-    },
+    new AdventureFailure(
+        "you don't know the transporter frequency", "You are no longer Transpondent."),
 
     // No longer Transpondent
-    {
-      "without the proper transporter frequency", "You are no longer Transpondent.",
-    },
+    new AdventureFailure(
+        "without the proper transporter frequency", "You are no longer Transpondent."),
 
     // No longer Dis Abled
     //
@@ -2023,174 +1962,128 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // No, you don't! You don't have it all still in your head!
     // Better find a new one you can read! I swear this:
     // 'Til you do, you can't visit the Suburbs of Dis!
-    {
-      "you can't visit the Suburbs of Dis", "You are no longer Dis Abled.",
-    },
+    new AdventureFailure("you can't visit the Suburbs of Dis", "You are no longer Dis Abled."),
 
     // Abyssal Portals
     //
     // The area around the portal is quiet. Looks like you took
     // care of all of the seals. Maybe check back tomorrow.
-    {
-      "area around the portal is quiet", "The Abyssal Portal is quiet.",
-    },
+    new AdventureFailure("area around the portal is quiet", "The Abyssal Portal is quiet."),
 
     // The Secret Government Laboratory
     //
     // You can't go in there without wearing a Personal Ventilation
     // Unit. Who knows what would happen if you breathed the air in
     // there.
-    {
-      "Who knows what would happen if you breathed the air",
-      "You need to equip your Personal Ventilation Unit.",
-    },
+    new AdventureFailure(
+        "Who knows what would happen if you breathed the air",
+        "You need to equip your Personal Ventilation Unit."),
 
     // GameInformPowerPro video game levels
     //
     // You already cleared out this area.
-    {
-      "You already cleared out this area", "You already cleared out this area",
-    },
+    new AdventureFailure("You already cleared out this area", "You already cleared out this area"),
 
     // This area is closed.
-    {
-      "This area is closed", "You completed the video game",
-    },
+    new AdventureFailure("This area is closed", "You completed the video game"),
 
     // You wander around, off the Florida Keys, but can't find anything
-    {
-      "off the Florida Keys", "You need a Tropical Contact High to go there.",
-    },
+    new AdventureFailure("off the Florida Keys", "You need a Tropical Contact High to go there."),
 
     // You approach the adorable little door, but you can't figure
     // out how to open it. I guess it's a secret door that will
     // only open for gravy fairies.
-    {
-      "only open for gravy fairies", "You need to bring an elemental gravy fairy with you.",
-    },
+    new AdventureFailure(
+        "only open for gravy fairies", "You need to bring an elemental gravy fairy with you."),
 
     // You shouldn't be here dressed like that. It's just not safe.
-    {
-      "You shouldn't be here dressed like that", "You can't pass as a pirate.",
-    },
+    new AdventureFailure("You shouldn't be here dressed like that", "You can't pass as a pirate."),
 
     // LOLmec's lair lies lempty. Empty.
-    {
-      "LOLmec's lair lies lempty", "You already beat LOLmec",
-    },
+    new AdventureFailure("LOLmec's lair lies lempty", "You already beat LOLmec"),
 
     // Already beat Yomama.
-    {
-      "Already beat Yomama", "You already beat Yomama",
-    },
+    new AdventureFailure("Already beat Yomama", "You already beat Yomama"),
 
     // The ghost has arrived. Your time has run out!
-    {
-      "The ghost has arrived", "Your tale of spelunking is over.",
-    },
+    new AdventureFailure("The ghost has arrived", "Your tale of spelunking is over."),
 
     // Gingerbread City
-    {
-      "The gingerbread city has collapsed.", "The gingerbread city has collapsed.",
-    },
+    new AdventureFailure(
+        "The gingerbread city has collapsed.", "The gingerbread city has collapsed."),
 
     // Hole in the sky
 
     // You can see it, but you can't get to it without some means of traveling...
     //
     // TO SPACE
-    {
-      "you can't get to it", "You need a way to travel in space.",
-    },
+    new AdventureFailure("you can't get to it", "You need a way to travel in space."),
 
     // The spacegate is out of energy for today. You can explore
     // another planet tomorrow. Or the same planet, if you
     // want. The spacegate isn't the boss of you.
-    {
-      "out of energy for today", "The Spacegate is out of energy for today.",
-    },
+    new AdventureFailure("out of energy for today", "The Spacegate is out of energy for today."),
 
     // ou approach the door to the spire, but you can't bear the
     // silence. Maybe you should try those earplugs Tammy gave you.
-    {
-      "you can't bear the silence", "You are not wearing your anti-earplugs..",
-    },
+    new AdventureFailure("you can't bear the silence", "You are not wearing your anti-earplugs.."),
 
     // You stomp around the spire for a while, but it looks like
     // this level is all cleared out. They'll probably redeploy
     // more mimes to it by tomorrow.
-    {
-      "redeploy more mimes to it by tomorrow", "There are no more mimes left today.",
-    },
+    new AdventureFailure(
+        "redeploy more mimes to it by tomorrow", "There are no more mimes left today."),
 
     // Your G. E. M. beeps at you, indicating that your time in FantasyRealm has come to an end for
     // today.
-    {
-      "your time in FantasyRealm has come to an end for today",
-      "Your time in FantasyRealm is over for today.",
-    },
+    new AdventureFailure(
+        "your time in FantasyRealm has come to an end for today",
+        "Your time in FantasyRealm is over for today."),
 
     // Technically the Neverending Party is still going, because the Neverending Party never ends,
     // but right now everybody is passed out, so it's more of a Neverending Nap.
     // It'll probably get rowdy again by tomorrow
-    {
-      "It'll probably get rowdy again by tomorrow", "The Neverending Party is over for today.",
-    },
+    new AdventureFailure(
+        "It'll probably get rowdy again by tomorrow", "The Neverending Party is over for today."),
 
     // You wouldn't be seen dead at the Neverending Party without your PARTY HARD shirt on.
     // Not today, at least, since you've already made an appearance in it.
-    {
-      "without your PARTY HARD shirt on",
-      "Cannot adventure at The Neverending Party without your PARTY HARD shirt on.",
-    },
+    new AdventureFailure(
+        "without your PARTY HARD shirt on",
+        "Cannot adventure at The Neverending Party without your PARTY HARD shirt on."),
 
     // That isn't a place you can get to the way you're dressed.
     // (Clicking Last Adventure having unequipped Talisman o' Namsilat)
-    {
-      "That isn't a place you can get to the way you're dressed",
-      "You're not equipped properly to adventure there.",
-    },
+    new AdventureFailure(
+        "That isn't a place you can get to the way you're dressed",
+        "You're not equipped properly to adventure there."),
 
     // If you got into a fight right now, you wouldn't be able to attack anything! Equip those boots
     // you found.
-    {
-      "Equip those boots you found", "Plumbers cannot adventure without appropriate gear.",
-    },
+    new AdventureFailure(
+        "Equip those boots you found", "Plumbers cannot adventure without appropriate gear."),
 
     // Something tells you the last bit of this is going to take a <i>long</i> time.  Come back when
     // you've got more Adventures to spare.
-    {
-      "going to take a <i>long</i> time", "You need 7 Adventures to fight Ed.",
-    },
+    new AdventureFailure("going to take a <i>long</i> time", "You need 7 Adventures to fight Ed."),
 
     // You can't go there because your Drippy Juice supply has run out.
-    {
-      "Drippy Juice supply", "You've run out of Drippy Juice.",
-    },
+    new AdventureFailure("Drippy Juice supply", "You've run out of Drippy Juice."),
 
     // Elemental Airport airplanes
-    {
-      "You don't know where that is", "You can't get there from here.",
-    },
+    new AdventureFailure("You don't know where that is", "You can't get there from here."),
 
     // That isn't a place you can go.
-    {
-      "That isn't a place you can go", "You can't get there from here.",
-    },
+    new AdventureFailure("That isn't a place you can go", "You can't get there from here."),
 
     // Site Alpha Dormitory
     //
     // It's getting colder! Better bundle up.
     // The extreme cold makes it impossible for you to continue...
-    {
-      "Better bundle up", "You need more cold resistance.",
-    },
-    {
-      "extreme cold makes it impossible", "You need more cold resistance.",
-    },
-    {
-      "This zone is too old to visit on this path.", "That zone is out of Standard.",
-    },
+    new AdventureFailure("Better bundle up", "You need more cold resistance."),
+    new AdventureFailure("extreme cold makes it impossible", "You need more cold resistance."),
+    new AdventureFailure(
+        "This zone is too old to visit on this path.", "That zone is out of Standard."),
   };
 
   private static Pattern CRIMBO21_COLD_RES =
@@ -2220,7 +2113,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     for (int i = 1; i < ADVENTURE_FAILURES.length; ++i) {
-      if (responseText.contains((String) ADVENTURE_FAILURES[i][0])) {
+      if (responseText.contains(ADVENTURE_FAILURES[i].responseText)) {
         return i;
       }
     }
@@ -2230,15 +2123,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   public static final String adventureFailureMessage(int index) {
     if (index >= 0 && index < ADVENTURE_FAILURES.length) {
-      return (String) ADVENTURE_FAILURES[index][1];
+      return ADVENTURE_FAILURES[index].message;
     }
 
     return null;
   }
 
   public static final MafiaState adventureFailureSeverity(int index) {
-    if (index >= 0 && index < ADVENTURE_FAILURES.length && ADVENTURE_FAILURES[index].length > 2) {
-      return (MafiaState) ADVENTURE_FAILURES[index][2];
+    if (index >= 0 && index < ADVENTURE_FAILURES.length) {
+      return ADVENTURE_FAILURES[index].severity;
     }
 
     return MafiaState.ERROR;

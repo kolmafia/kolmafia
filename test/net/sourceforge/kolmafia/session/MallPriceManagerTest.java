@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.html;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -9,9 +10,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mockStatic;
 
 import internal.helpers.Cleanups;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.Clock;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -550,13 +548,8 @@ public class MallPriceManagerTest {
 
   // *** Need tests for getMallPrice(AdventureResult item, float maxAge)
 
-  static String loadHTMLResponse(String path) throws IOException {
-    // Load the responseText from saved HTML file
-    return Files.readString(Paths.get(path)).trim();
-  }
-
   @Test
-  public void canGetMallPricesViaMallSearch() throws IOException {
+  public void canGetMallPricesViaMallSearch() {
 
     // Test with Hell ramen.
     AdventureResult item = ItemPool.get(ItemPool.HELL_RAMEN);
@@ -564,7 +557,7 @@ public class MallPriceManagerTest {
     // Make a mocked MallSearchResponse with the responseText preloaded
 
     MallSearchRequest request = new MockMallSearchRequest("Hell ramen", 0);
-    request.responseText = loadHTMLResponse("request/test_mall_search_hell_ramen.html");
+    request.responseText = html("request/test_mall_search_hell_ramen.html");
 
     try (var cleanups = mockMallSearchRequest(request)) {
       long timestamp = 1_000_000;
@@ -578,12 +571,12 @@ public class MallPriceManagerTest {
   }
 
   @Test
-  public void canGetMallPricesByCategory() throws IOException {
+  public void canGetMallPricesByCategory() {
     // Test with category = "unlockers" since that only has two pages of results
     MallSearchRequest request = new MockMallSearchRequest("unlockers", "");
     request.setResponseTexts(
-        loadHTMLResponse("request/test_mall_search_unlockers_page_1.html"),
-        loadHTMLResponse("request/test_mall_search_unlockers_page_2.html"));
+        html("request/test_mall_search_unlockers_page_1.html"),
+        html("request/test_mall_search_unlockers_page_2.html"));
 
     try (var cleanups = mockMallSearchRequest(request)) {
       long timestamp = 1_000_000;
@@ -598,13 +591,13 @@ public class MallPriceManagerTest {
   }
 
   @Test
-  public void canSearchMallStore() throws IOException {
+  public void canSearchMallStore() {
     // Not actually used in MallPriceManager, but may as well test the fourth
     // (last) form of a MallSearchRequest
 
     // This is Clerk's - one of the bigger stores. :)
     MallSearchRequest request = new MockMallSearchRequest(1053259);
-    request.setResponseTexts(loadHTMLResponse("request/test_mall_search_store.html"));
+    request.setResponseTexts(html("request/test_mall_search_store.html"));
 
     try (var cleanups = mockMallSearchRequest(request)) {
       long timestamp = 1_000_000;

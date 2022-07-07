@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.Networking.assertGetRequest;
+import static internal.helpers.Networking.assertPostRequest;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
@@ -12,7 +14,6 @@ import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import internal.helpers.Player;
 import internal.listeners.FakeListener;
-import internal.network.RequestBodyReader;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -100,10 +101,7 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
       var requests = getRequests();
 
       assertThat(requests, not(empty()));
-      var request = requests.get(0);
-      var uri = request.uri();
-      assertThat(uri.getPath(), equalTo("/closet.php"));
-      assertThat(request.method(), equalTo("POST"));
+      assertPostRequest(requests.get(0), "/closet.php", "action=pullallcloset");
     }
   }
 
@@ -120,10 +118,8 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
       var requests = getRequests();
 
       assertThat(requests, not(empty()));
-      var request = requests.get(0);
-      var uri = request.uri();
-      assertThat(uri.getPath(), equalTo("/inventory.php"));
-      assertThat(uri.getQuery(), equalTo("action=closetpush&ajax=1&whichitem=2&qty=1"));
+      assertGetRequest(
+          requests.get(0), "/inventory.php", "action=closetpush&ajax=1&whichitem=2&qty=1");
     }
 
     @Test
@@ -138,14 +134,10 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
 
       assertThat(requests, not(empty()));
       assertThat(requests.size(), equalTo(2));
-      var request = requests.get(0);
-      var uri = request.uri();
-      assertThat(uri.getPath(), equalTo("/inventory.php"));
-      assertThat(uri.getQuery(), equalTo("action=closetpush&ajax=1&whichitem=2&qty=1"));
-      request = requests.get(1);
-      uri = request.uri();
-      assertThat(uri.getPath(), equalTo("/inventory.php"));
-      assertThat(uri.getQuery(), equalTo("action=closetpush&ajax=1&whichitem=3&qty=1"));
+      assertGetRequest(
+          requests.get(0), "/inventory.php", "action=closetpush&ajax=1&whichitem=2&qty=1");
+      assertGetRequest(
+          requests.get(1), "/inventory.php", "action=closetpush&ajax=1&whichitem=3&qty=1");
     }
 
     @Test
@@ -181,12 +173,8 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
       var requests = getRequests();
 
       assertThat(requests, not(empty()));
-      var request = requests.get(0);
-      var uri = request.uri();
-      assertThat(uri.getPath(), equalTo("/closet.php"));
-      assertThat(request.method(), equalTo("POST"));
-      var body = new RequestBodyReader().bodyAsString(request);
-      assertThat(body, equalTo("action=addtakeclosetmeat&addtake=add&quantity=100"));
+      assertPostRequest(
+          requests.get(0), "/closet.php", "action=addtakeclosetmeat&addtake=add&quantity=100");
     }
 
     @Test
@@ -200,12 +188,10 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
       var requests = getRequests();
 
       assertThat(requests, not(empty()));
-      var request = requests.get(0);
-      var uri = request.uri();
-      assertThat(uri.getPath(), equalTo("/closet.php"));
-      assertThat(request.method(), equalTo("POST"));
-      var body = new RequestBodyReader().bodyAsString(request);
-      assertThat(body, equalTo("action=addtakeclosetmeat&addtake=add&quantity=3000000000"));
+      assertPostRequest(
+          requests.get(0),
+          "/closet.php",
+          "action=addtakeclosetmeat&addtake=add&quantity=3000000000");
     }
 
     @Test
@@ -235,10 +221,8 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
       var requests = getRequests();
 
       assertThat(requests, not(empty()));
-      var request = requests.get(0);
-      var uri = request.uri();
-      assertThat(uri.getPath(), equalTo("/inventory.php"));
-      assertThat(uri.getQuery(), equalTo("action=closetpull&ajax=1&whichitem=2&qty=1"));
+      assertGetRequest(
+          requests.get(0), "/inventory.php", "action=closetpull&ajax=1&whichitem=2&qty=1");
     }
 
     @Test
@@ -265,12 +249,8 @@ public class ClosetCommandTest extends AbstractCommandTestBase {
       var requests = getRequests();
 
       assertThat(requests, not(empty()));
-      var request = requests.get(0);
-      var uri = request.uri();
-      assertThat(uri.getPath(), equalTo("/closet.php"));
-      assertThat(request.method(), equalTo("POST"));
-      var body = new RequestBodyReader().bodyAsString(request);
-      assertThat(body, equalTo("action=addtakeclosetmeat&addtake=take&quantity=100"));
+      assertPostRequest(
+          requests.get(0), "/closet.php", "action=addtakeclosetmeat&addtake=take&quantity=100");
     }
 
     @Test

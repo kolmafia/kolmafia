@@ -1151,6 +1151,10 @@ public class CompactSidePane extends JPanel implements Runnable {
         this.setNoIcon();
         return;
       }
+      this.setIcon(icon);
+    }
+
+    public void setIcon(ImageIcon icon) {
       super.setIcon(icon);
       icon.setImageObserver(this);
     }
@@ -1168,8 +1172,19 @@ public class CompactSidePane extends JPanel implements Runnable {
       }
 
       int baseWeight = current.getWeight();
-      this.setToolTipText(
-          effective.getRace() + " (" + baseWeight + (baseWeight == 1 ? " lb" : " lbs") + ")");
+
+      StringBuilder tooltip = new StringBuilder();
+      if (current.getOwnerId() != KoLCharacter.getUserId()) {
+        tooltip.append(current.getOwner());
+        tooltip.append("'s ");
+      }
+      tooltip.append(effective.getRace());
+      tooltip.append(" (");
+      tooltip.append(baseWeight);
+      tooltip.append(baseWeight == 1 ? " lb" : " lbs");
+      tooltip.append(")");
+      this.setToolTipText(tooltip.toString());
+
       this.setIcon(KoLCharacter.getFamiliarImage());
 
       StringBuffer anno = CharPaneDecorator.getFamiliarAnnotation();
@@ -1232,9 +1247,9 @@ public class CompactSidePane extends JPanel implements Runnable {
         return;
       }
 
-      familiar = nextFamiliarRace;
+      String nextFamiliarOwner = Preferences.getString("nextQuantumFamiliarOwner");
 
-      this.setToolTipText(nextFamiliarRace);
+      this.setToolTipText(nextFamiliarOwner + "'s " + nextFamiliarRace);
 
       ImageIcon icon = FamiliarDatabase.getFamiliarImage(nextFamiliarRace);
       ImageIcon scaled =

@@ -4,12 +4,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.EdServantData;
+import net.sourceforge.kolmafia.EdServantData.Servant;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -644,6 +646,8 @@ public class ProxyRecordValue extends RecordValue {
             .add("hatchling", DataTypes.ITEM_TYPE)
             .add("image", DataTypes.STRING_TYPE)
             .add("name", DataTypes.STRING_TYPE)
+            .add("owner", DataTypes.STRING_TYPE)
+            .add("owner_id", DataTypes.INT_TYPE)
             .add("experience", DataTypes.INT_TYPE)
             .add("charges", DataTypes.INT_TYPE)
             .add("drop_name", DataTypes.STRING_TYPE)
@@ -696,6 +700,16 @@ public class ProxyRecordValue extends RecordValue {
     public String get_name() {
       FamiliarData fam = KoLCharacter.findFamiliar(this.contentString);
       return fam == null ? "" : fam.getName();
+    }
+
+    public String get_owner() {
+      FamiliarData fam = KoLCharacter.findFamiliar(this.contentString);
+      return fam == null ? "" : fam.getOwner();
+    }
+
+    public int get_owner_id() {
+      FamiliarData fam = KoLCharacter.findFamiliar(this.contentString);
+      return fam == null ? 0 : fam.getOwnerId();
     }
 
     public int get_experience() {
@@ -988,7 +1002,7 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public int get_id() {
-      Object[] data = (Object[]) this.content;
+      Servant data = (Servant) this.content;
       return data == null ? 0 : EdServantData.dataToId(data);
     }
 
@@ -1008,27 +1022,27 @@ public class ProxyRecordValue extends RecordValue {
     }
 
     public String get_image() {
-      Object[] data = (Object[]) this.content;
+      Servant data = (Servant) this.content;
       return data == null ? "" : EdServantData.dataToImage(data);
     }
 
     public String get_level1_ability() {
-      Object[] data = (Object[]) this.content;
+      Servant data = (Servant) this.content;
       return data == null ? "" : EdServantData.dataToLevel1Ability(data);
     }
 
     public String get_level7_ability() {
-      Object[] data = (Object[]) this.content;
+      Servant data = (Servant) this.content;
       return data == null ? "" : EdServantData.dataToLevel7Ability(data);
     }
 
     public String get_level14_ability() {
-      Object[] data = (Object[]) this.content;
+      Servant data = (Servant) this.content;
       return data == null ? "" : EdServantData.dataToLevel14Ability(data);
     }
 
     public String get_level21_ability() {
-      Object[] data = (Object[]) this.content;
+      Servant data = (Servant) this.content;
       return data == null ? "" : EdServantData.dataToLevel21Ability(data);
     }
   }
@@ -1273,6 +1287,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("turns_spent", DataTypes.INT_TYPE)
             .add("kisses", DataTypes.INT_TYPE)
             .add("recommended_stat", DataTypes.INT_TYPE)
+            .add("poison", DataTypes.INT_TYPE)
             .add("water_level", DataTypes.INT_TYPE)
             .add("wanderers", DataTypes.BOOLEAN_TYPE)
             .finish("location proxy");
@@ -1387,6 +1402,15 @@ public class ProxyRecordValue extends RecordValue {
       return this.content != null ? ((KoLAdventure) this.content).getRecommendedStat() : 0;
     }
 
+    public int get_poison() {
+      if (this.content == null) {
+        return Integer.MAX_VALUE;
+      }
+
+      AreaCombatData area = ((KoLAdventure) this.content).getAreaSummary();
+      return area == null ? Integer.MAX_VALUE : area.poison();
+    }
+
     public int get_water_level() {
       return this.content == null
           ? KoLCharacter.inRaincore() ? ((KoLAdventure) this.content).getWaterLevel() : 0
@@ -1421,6 +1445,9 @@ public class ProxyRecordValue extends RecordValue {
             .add("base_initiative", DataTypes.INT_TYPE)
             .add("raw_initiative", DataTypes.INT_TYPE)
             .add("attack_element", DataTypes.ELEMENT_TYPE)
+            .add(
+                "attack_elements",
+                new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.ELEMENT_TYPE))
             .add("defense_element", DataTypes.ELEMENT_TYPE)
             .add("physical_resistance", DataTypes.INT_TYPE)
             .add("elemental_resistance", DataTypes.INT_TYPE)
@@ -1498,6 +1525,18 @@ public class ProxyRecordValue extends RecordValue {
           ? DataTypes.parseElementValue(
               ((MonsterData) this.content).getAttackElement().toString(), true)
           : DataTypes.ELEMENT_INIT;
+    }
+
+    public Value get_attack_elements() {
+      if (this.content == null) {
+        return new PluralValue(DataTypes.ELEMENT_TYPE, new ArrayList<Value>());
+      }
+      MonsterData monster = (MonsterData) this.content;
+      List<Value> elements =
+          monster.getAttackElements().stream()
+              .map(DataTypes::makeElementValue)
+              .collect(Collectors.toList());
+      return new PluralValue(DataTypes.ELEMENT_TYPE, elements);
     }
 
     public Value get_defense_element() {

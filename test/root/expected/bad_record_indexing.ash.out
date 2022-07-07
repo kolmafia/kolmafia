@@ -1,0 +1,6 @@
+'a' cannot be indexed (bad_record_indexing.ash, line 6, char 11 to char 13)
+'a' cannot be indexed (bad_record_indexing.ash, line 7, char 11 to char 13)
+'new rec' cannot be indexed (bad_record_indexing.ash, line 10, char 9 to char 17)
+'new rec' cannot be indexed (bad_record_indexing.ash, line 11, char 9 to char 17)
+Too many keys for '{1: new rec(1)}' (bad_record_indexing.ash, line 13, char 15 to char 34)
+Too many keys for '{ ... }' (bad_record_indexing.ash, line 14, char 15 to line 16, char 6)

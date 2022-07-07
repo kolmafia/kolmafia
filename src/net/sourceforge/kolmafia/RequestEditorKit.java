@@ -34,6 +34,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Punchcard;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -1621,10 +1622,10 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    for (Object[] punchcard : ItemDatabase.PUNCHCARDS) {
-      String name = (String) punchcard[1];
+    for (Punchcard punchcard : ItemDatabase.PUNCHCARDS) {
+      String name = punchcard.name();
       if (buffer.indexOf(name) != -1) {
-        StringUtilities.globalStringReplace(buffer, name, (String) punchcard[2]);
+        StringUtilities.globalStringReplace(buffer, name, punchcard.alias());
       }
     }
   }

@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BanishManager.Banisher;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.BugbearManager;
+import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.CursedMagnifyingGlassManager;
@@ -75,6 +76,7 @@ import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
+import net.sourceforge.kolmafia.session.JuneCleaverManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.LoginManager;
@@ -284,6 +286,11 @@ public class FightRequest extends GenericRequest {
   private static final Pattern NS2_BLOCK3_PATTERN =
       Pattern.compile("use the (.*?), a nasty-looking pseudopod");
 
+  private static final Pattern DESIGNER_SWEATPANTS_LESS_SWEATY =
+      Pattern.compile("<td>You get (\\d+)% less Sweaty.</td>");
+  private static final Pattern DESIGNER_SWEATPANTS_MORE_SWEATY =
+      Pattern.compile("<td>You get (\\d+)% Sweatier.</td>");
+
   private static final AdventureResult TOOTH = ItemPool.get(ItemPool.SEAL_TOOTH, 1);
   private static final AdventureResult SPICES = ItemPool.get(ItemPool.SPICES, 1);
   private static final AdventureResult MERCENARY = ItemPool.get(ItemPool.TOY_MERCENARY, 1);
@@ -353,37 +360,33 @@ public class FightRequest extends GenericRequest {
   private static final AdventureResult SCROLL_64735 = ItemPool.get(ItemPool.GATES_SCROLL, 1);
   private static final AdventureResult SCROLL_31337 = ItemPool.get(ItemPool.ELITE_SCROLL, 1);
 
-  private static final Object[][] NEMESIS_WEAPONS = { // class, LEW, ULEW
-    {
-      AscensionClass.SEAL_CLUBBER,
-      ItemPool.get(ItemPool.HAMMER_OF_SMITING, 1),
-      ItemPool.get(ItemPool.SLEDGEHAMMER_OF_THE_VAELKYR, 1)
-    },
-    {
-      AscensionClass.TURTLE_TAMER,
-      ItemPool.get(ItemPool.CHELONIAN_MORNINGSTAR, 1),
-      ItemPool.get(ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS, 1)
-    },
-    {
-      AscensionClass.PASTAMANCER,
-      ItemPool.get(ItemPool.GREEK_PASTA_OF_PERIL, 1),
-      ItemPool.get(ItemPool.WRATH_OF_THE_PASTALORDS, 1)
-    },
-    {
-      AscensionClass.SAUCEROR,
-      ItemPool.get(ItemPool.SEVENTEEN_ALARM_SAUCEPAN, 1),
-      ItemPool.get(ItemPool.WINDSOR_PAN_OF_THE_SOURCE, 1)
-    },
-    {
-      AscensionClass.DISCO_BANDIT,
-      ItemPool.get(ItemPool.SHAGADELIC_DISCO_BANJO, 1),
-      ItemPool.get(ItemPool.SEEGERS_BANJO, 1)
-    },
-    {
-      AscensionClass.ACCORDION_THIEF,
-      ItemPool.get(ItemPool.SQUEEZEBOX_OF_THE_AGES, 1),
-      ItemPool.get(ItemPool.TRICKSTER_TRIKITIXA, 1)
-    },
+  private record NemesisWeapon(AscensionClass clazz, AdventureResult lew, AdventureResult ulew) {}
+
+  private static final NemesisWeapon[] NEMESIS_WEAPONS = { // class, LEW, ULEW
+    new NemesisWeapon(
+        AscensionClass.SEAL_CLUBBER,
+        ItemPool.get(ItemPool.HAMMER_OF_SMITING, 1),
+        ItemPool.get(ItemPool.SLEDGEHAMMER_OF_THE_VAELKYR, 1)),
+    new NemesisWeapon(
+        AscensionClass.TURTLE_TAMER,
+        ItemPool.get(ItemPool.CHELONIAN_MORNINGSTAR, 1),
+        ItemPool.get(ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS, 1)),
+    new NemesisWeapon(
+        AscensionClass.PASTAMANCER,
+        ItemPool.get(ItemPool.GREEK_PASTA_OF_PERIL, 1),
+        ItemPool.get(ItemPool.WRATH_OF_THE_PASTALORDS, 1)),
+    new NemesisWeapon(
+        AscensionClass.SAUCEROR,
+        ItemPool.get(ItemPool.SEVENTEEN_ALARM_SAUCEPAN, 1),
+        ItemPool.get(ItemPool.WINDSOR_PAN_OF_THE_SOURCE, 1)),
+    new NemesisWeapon(
+        AscensionClass.DISCO_BANDIT,
+        ItemPool.get(ItemPool.SHAGADELIC_DISCO_BANJO, 1),
+        ItemPool.get(ItemPool.SEEGERS_BANJO, 1)),
+    new NemesisWeapon(
+        AscensionClass.ACCORDION_THIEF,
+        ItemPool.get(ItemPool.SQUEEZEBOX_OF_THE_AGES, 1),
+        ItemPool.get(ItemPool.TRICKSTER_TRIKITIXA, 1)),
   };
 
   // Skills which require a shield
@@ -2914,6 +2917,21 @@ public class FightRequest extends GenericRequest {
       DaylightShavingsHelmetManager.updatePreference(responseText);
     }
 
+    if (KoLCharacter.hasEquipped(ItemPool.JUNE_CLEAVER)) {
+      JuneCleaverManager.updatePreferences(responseText);
+    }
+
+    if (KoLCharacter.hasEquipped(ItemPool.DESIGNER_SWEATPANTS)) {
+      Matcher lessSweatMatcher = FightRequest.DESIGNER_SWEATPANTS_LESS_SWEATY.matcher(responseText);
+      if (lessSweatMatcher.find()) {
+        Preferences.decrement("sweat", StringUtilities.parseInt(lessSweatMatcher.group(1)));
+      }
+
+      Matcher moreSweatMatcher = FightRequest.DESIGNER_SWEATPANTS_MORE_SWEATY.matcher(responseText);
+      if (moreSweatMatcher.find()) {
+        Preferences.increment("sweat", StringUtilities.parseInt(moreSweatMatcher.group(1)));
+      }
+    }
     // "The Slime draws back and shudders, as if it's about to sneeze.
     // Then it blasts you with a massive loogie that sticks to your
     // rusty grave robbing shovel, pulls it off of you, and absorbs
@@ -3157,7 +3175,7 @@ public class FightRequest extends GenericRequest {
   // FightRequest.lastResponseText instead.
   // Note that this is not run if the combat is finished by
   // rollover-runaway, saber, or similar mechanic.
-  private static void updateFinalRoundData(final String responseText, final boolean won) {
+  public static void updateFinalRoundData(final String responseText, final boolean won) {
     MonsterData monster = MonsterStatusTracker.getLastMonster();
     String monsterName = monster != null ? monster.getName() : "";
     SpecialMonster special = FightRequest.specialMonsterCategory(monsterName);
@@ -4226,7 +4244,10 @@ public class FightRequest extends GenericRequest {
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.SNOW_SUIT, EquipmentManager.FAMILIAR)) {
-        Preferences.increment("_snowSuitCount", 1, 75, false);
+        if (Preferences.getInteger("_snowSuitCount") < 75
+            && Preferences.increment("_snowSuitCount") % 5 == 0) {
+          KoLCharacter.recalculateAdjustments();
+        }
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.XIBLAXIAN_HOLOWRIST_PUTER, 1))) {
@@ -4506,11 +4527,10 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void transmogrifyNemesisWeapon(boolean reverse) {
-    for (int i = 0; i < FightRequest.NEMESIS_WEAPONS.length; ++i) {
-      Object[] data = FightRequest.NEMESIS_WEAPONS[i];
-      if (KoLCharacter.getAscensionClass() == data[0]) {
+    for (NemesisWeapon data : FightRequest.NEMESIS_WEAPONS) {
+      if (KoLCharacter.getAscensionClass() == data.clazz) {
         EquipmentManager.transformEquipment(
-            (AdventureResult) data[reverse ? 2 : 1], (AdventureResult) data[reverse ? 1 : 2]);
+            reverse ? data.ulew : data.lew, reverse ? data.lew : data.ulew);
         return;
       }
     }
@@ -5666,6 +5686,14 @@ public class FightRequest extends GenericRequest {
       this.location = KoLAdventure.lastLocationName == null ? "" : KoLAdventure.lastLocationName;
     }
 
+    public void nextRound() {
+      // If we are parsing multiple rounds because the action was a macro, we may need to update
+      // some things that happened in the last round.
+
+      // If goose drones are now active
+      this.drones = Preferences.getInteger("gooseDronesRemaining");
+    }
+
     public void setFamiliar(final String image) {
       FamiliarData current = KoLCharacter.getFamiliar();
       int id = FamiliarDatabase.getFamiliarByImageLocation(image);
@@ -6333,6 +6361,7 @@ public class FightRequest extends GenericRequest {
 
     if (name.equals("hr")) {
       FightRequest.updateRoundData(status.macroMatcher);
+      status.nextRound();
       if (status.macroMatcher.find()) {
         FightRequest.registerMacroAction(status.macroMatcher);
         ++FightRequest.currentRound;
@@ -7360,6 +7389,10 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    if (FightRequest.handleBellydancerPickpocket(str)) {
+      return;
+    }
+
     if (str.contains("takes a pull on the hookah")) {
       status.hookah = true;
     }
@@ -7526,6 +7559,7 @@ public class FightRequest extends GenericRequest {
 
     if (text.contains("Some gravy sloshes")) {
       evilness++;
+      retval = false;
     }
 
     // Casting Slay the Dead while wearing a Vampire Slicer trench code decreases evilness.
@@ -7706,7 +7740,7 @@ public class FightRequest extends GenericRequest {
 
     if (text.contains("already collected")) {
       // Synchronize in case played turns out of KoLmafia
-      Object[] data = BugbearManager.bugbearToData(status.monsterName);
+      Bugbear data = BugbearManager.bugbearToData(status.monsterName);
       BugbearManager.setBiodata(data, BugbearManager.dataToLevel(data) * 3);
       return true;
     }
@@ -7718,7 +7752,7 @@ public class FightRequest extends GenericRequest {
       return true;
     }
 
-    Object[] data = BugbearManager.bugbearToData(status.monsterName);
+    Bugbear data = BugbearManager.bugbearToData(status.monsterName);
     BugbearManager.setBiodata(data, matcher.group(1));
 
     return true;
@@ -7753,6 +7787,18 @@ public class FightRequest extends GenericRequest {
 
     FightRequest.logText("The mayo wasp deposits an egg in your abdomen!", status);
     return true;
+  }
+
+  private static boolean handleBellydancerPickpocket(String text) {
+    if (text.contains("'s dancing, your foe doesn't notice that she's going through")
+        || text.contains(
+            "'s veils flutter across your opponent's field of view, obscuring the sight of")
+        || text.contains("dances lithely around your opponent, distracting")) {
+      Preferences.increment("_bellydancerPickpockets");
+      return true;
+    }
+
+    return false;
   }
 
   private static boolean handleSpelunky(String text, TagStatus status) {
@@ -9684,7 +9730,8 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("into the ball return system")
             || responseText.contains("You scream like a lunatic")
             || responseText.contains("You launch your cosmic bowling ball")
-            || skillSuccess) {
+            || skillSuccess
+            || skillRunawaySuccess) {
           Preferences.increment("_cosmicBowlingSkillsUsed", 1);
           int combats = Preferences.getInteger("_cosmicBowlingSkillsUsed") * 2 + 3 - 1;
           Preferences.setInteger("cosmicBowlingBallReturnCombats", combats);

@@ -14,53 +14,51 @@ public class ShrineRequest extends GenericRequest {
   public static final int JARLSBERG = 2;
   public static final int PETE = 3;
 
-  public static final Object[][] SHRINE_DATA = {
-    {
-      ShrineRequest.BORIS,
-      "boris",
-      "Statue of Boris",
-      "heroDonationBoris",
-      ItemPool.get(ItemPool.BORIS_KEY, 1),
-    },
-    {
-      ShrineRequest.JARLSBERG,
-      "jarlsberg",
-      "Statue of Jarlsberg",
-      "heroDonationJarlsberg",
-      ItemPool.get(ItemPool.JARLSBERG_KEY, 1),
-    },
-    {
-      ShrineRequest.PETE,
-      "sneakypete",
-      "Statue of Sneaky Pete",
-      "heroDonationSneakyPete",
-      ItemPool.get(ItemPool.SNEAKY_PETE_KEY, 1),
-    },
+  private record Shrine(int id, String action, String place, String setting, AdventureResult key) {}
+
+  public static final Shrine[] SHRINE_DATA = {
+    new Shrine(
+        ShrineRequest.BORIS,
+        "boris",
+        "Statue of Boris",
+        "heroDonationBoris",
+        ItemPool.get(ItemPool.BORIS_KEY, 1)),
+    new Shrine(
+        ShrineRequest.JARLSBERG,
+        "jarlsberg",
+        "Statue of Jarlsberg",
+        "heroDonationJarlsberg",
+        ItemPool.get(ItemPool.JARLSBERG_KEY, 1)),
+    new Shrine(
+        ShrineRequest.PETE,
+        "sneakypete",
+        "Statue of Sneaky Pete",
+        "heroDonationSneakyPete",
+        ItemPool.get(ItemPool.SNEAKY_PETE_KEY, 1)),
   };
 
-  private static int dataId(final Object[] data) {
-    return (data == null) ? 0 : ((Integer) data[0]).intValue();
+  private static int dataId(final Shrine data) {
+    return (data == null) ? 0 : data.id;
   }
 
-  private static String dataAction(final Object[] data) {
-    return (data == null) ? null : ((String) data[1]);
+  private static String dataAction(final Shrine data) {
+    return (data == null) ? null : data.action;
   }
 
-  private static String dataPlace(final Object[] data) {
-    return (data == null) ? null : ((String) data[2]);
+  private static String dataPlace(final Shrine data) {
+    return (data == null) ? null : data.place;
   }
 
-  private static String dataSetting(final Object[] data) {
-    return (data == null) ? null : ((String) data[3]);
+  private static String dataSetting(final Shrine data) {
+    return (data == null) ? null : data.setting;
   }
 
-  private static AdventureResult dataKey(final Object[] data) {
-    return (data == null) ? null : ((AdventureResult) data[4]);
+  private static AdventureResult dataKey(final Shrine data) {
+    return (data == null) ? null : data.key;
   }
 
-  private static Object[] idToData(final int id) {
-    for (int i = 0; i < SHRINE_DATA.length; ++i) {
-      Object[] data = SHRINE_DATA[i];
+  private static Shrine idToData(final int id) {
+    for (Shrine data : SHRINE_DATA) {
       if (id == dataId(data)) {
         return data;
       }
@@ -68,9 +66,8 @@ public class ShrineRequest extends GenericRequest {
     return null;
   }
 
-  private static Object[] actionToData(final String action) {
-    for (int i = 0; i < SHRINE_DATA.length; ++i) {
-      Object[] data = SHRINE_DATA[i];
+  private static Shrine actionToData(final String action) {
+    for (Shrine data : SHRINE_DATA) {
       if (action.equals(dataAction(data))) {
         return data;
       }
@@ -94,7 +91,7 @@ public class ShrineRequest extends GenericRequest {
   public ShrineRequest(final int heroId, final int amount) {
     super("da.php");
 
-    Object[] data = idToData(heroId);
+    Shrine data = idToData(heroId);
     AdventureResult key = null;
 
     if (data != null) {
@@ -152,7 +149,7 @@ public class ShrineRequest extends GenericRequest {
       return null;
     }
 
-    Object[] data = actionToData(action);
+    Shrine data = actionToData(action);
     if (data == null) {
       return null;
     }

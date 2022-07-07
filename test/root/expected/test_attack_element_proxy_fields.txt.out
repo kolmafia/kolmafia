@@ -1,0 +1,13 @@
+Returned: none
+image => circle.gif
+Returned: aggregate boolean [element]
+none => true
+Returned: cold
+image => snowflake.gif
+Returned: aggregate boolean [element]
+cold => true
+Returned: spooky
+image => skull.gif
+Returned: aggregate boolean [element]
+sleaze => true
+spooky => true

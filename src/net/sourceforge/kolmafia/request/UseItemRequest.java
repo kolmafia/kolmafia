@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BugbearManager;
+import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
 import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -434,16 +435,23 @@ public class UseItemRequest extends GenericRequest {
     // Delegate to specialized classes as appropriate
 
     int inebriety = ConsumablesDatabase.getInebriety(itemName);
+    int fullness = ConsumablesDatabase.getFullness(itemName);
+    int spleenHit = ConsumablesDatabase.getSpleenHit(itemName);
+
+    if (KoLCharacter.isGreyGoo() && ((inebriety + fullness + spleenHit) > 0)) {
+      // If we ever track what items have already been absorbed this ascension, this is a great
+      // place to use those data.
+      return 1;
+    }
+
     if (inebriety > 0) {
       return DrinkItemRequest.maximumUses(itemId, itemName, inebriety, allowOverDrink);
     }
 
-    int fullness = ConsumablesDatabase.getFullness(itemName);
     if (fullness > 0 || itemId == ItemPool.MAGICAL_SAUSAGE) {
       return EatItemRequest.maximumUses(itemId, itemName, fullness);
     }
 
-    int spleenHit = ConsumablesDatabase.getSpleenHit(itemName);
     if (spleenHit > 0) {
       return SpleenItemRequest.maximumUses(itemId, itemName, spleenHit);
     }
@@ -1674,6 +1682,13 @@ public class UseItemRequest extends GenericRequest {
         && responseText.contains("You can't figure out where to put that potion.")) {
       UseItemRequest.lastUpdate =
           "You need the Biomass Processing Function CPU upgrade to use potions.";
+      KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
+      return;
+    }
+
+    if (KoLCharacter.isGreyGoo() && responseText.contains("You've already absorbed this pattern")) {
+      UseItemRequest.lastUpdate =
+          "You've already absorbed " + item.getArticle() + " " + item.getName() + ".";
       KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
       return;
     }
@@ -5771,9 +5786,14 @@ public class UseItemRequest extends GenericRequest {
         return;
 
       case ItemPool.SUBSCRIPTION_COCOA_DISPENSER:
-        if (responseText.contains("You press the button on the cocoa machine")) {
-          Preferences.setBoolean("_cocoaDispenserUsed", true);
-        }
+        // If you have just obtained (or pulled) your machine, the message is:
+        //
+        // You need to spend a day with your subscription cocoa dispenser
+        // before the remote server updates your cocoa allotment.
+        //
+        // Which is to say, we may as well mark it as "used", since you
+        // can't use it today.
+        Preferences.setBoolean("_cocoaDispenserUsed", true);
         return;
 
       case ItemPool.OVERFLOWING_GIFT_BASKET:
@@ -5899,7 +5919,7 @@ public class UseItemRequest extends GenericRequest {
     }
 
     for (int i = 1; i <= 9; ++i) {
-      Object[] data = BugbearManager.idToData(i);
+      Bugbear data = BugbearManager.idToData(i);
       if (data == null) {
         continue;
       }

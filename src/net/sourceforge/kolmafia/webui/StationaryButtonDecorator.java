@@ -352,7 +352,7 @@ public class StationaryButtonDecorator {
     boolean useHotKeys = !Preferences.getBoolean("macroLens");
 
     if (inCombat) {
-      StationaryButtonDecorator.addCombatButtons(urlString, actionBuffer);
+      StationaryButtonDecorator.addCombatButtons(urlString, buffer, actionBuffer);
     } else if (inChoice) {
       StationaryButtonDecorator.addChoiceButtons(actionBuffer);
     } else {
@@ -419,7 +419,7 @@ public class StationaryButtonDecorator {
   }
 
   public static final void addCombatButtons(
-      final String urlString, final StringBuffer actionBuffer) {
+      final String urlString, final StringBuffer buffer, final StringBuffer actionBuffer) {
     // If we fighting a source agent, create buttons for exactly
     // those skills which are usable against them.
     if (KoLCharacter.inTheSource() && FightRequest.isSourceAgent()) {
@@ -471,6 +471,10 @@ public class StationaryButtonDecorator {
 
     if (KoLCharacter.canPickpocket()) {
       StationaryButtonDecorator.addFightButton(actionBuffer, "steal", FightRequest.canStillSteal());
+    }
+
+    if (KoLCharacter.isAccordionThief() && buffer.indexOf("Steal Accordion") != -1) {
+      StationaryButtonDecorator.addFightButton(actionBuffer, "steal accordion", true);
     }
 
     if (EquipmentManager.usingChefstaff()) {
@@ -675,22 +679,21 @@ public class StationaryButtonDecorator {
 
     if (action.equals("attack") || action.equals("steal")) {
       actionBuffer.append(action);
+    } else if (action.equals("steal accordion")) {
+      actionBuffer.append("skill&whichskill=").append(SkillPool.STEAL_ACCORDION);
     } else if (action.equals("jiggle")) {
       actionBuffer.append("chefstaff");
       isEnabled &= !FightRequest.alreadyJiggled();
     } else if (action.equals("shake")) {
-      actionBuffer.append("skill&whichskill=");
-      actionBuffer.append(SkillPool.CANHANDLE);
+      actionBuffer.append("skill&whichskill=").append(SkillPool.CANHANDLE);
     } else if (action.equals("shoot")) {
-      actionBuffer.append("skill&whichskill=");
-      actionBuffer.append(SkillPool.SHOOT);
+      actionBuffer.append("skill&whichskill=").append(SkillPool.SHOOT);
     } else if (action.equals("insult")) {
       int itemId =
           KoLCharacter.inBeecore() ? ItemPool.MARAUDER_MOCKERY_MANUAL : ItemPool.PIRATE_INSULT_BOOK;
 
       if (InventoryManager.getCount(itemId) > 0) {
-        actionBuffer.append("useitem&whichitem=");
-        actionBuffer.append(itemId);
+        actionBuffer.append("useitem&whichitem=").append(itemId);
       } else {
         isEnabled = false;
       }
@@ -699,8 +702,7 @@ public class StationaryButtonDecorator {
     } else if (action.equals("rock flyer")) {
       actionBuffer.append("useitem&whichitem=2405");
     } else {
-      actionBuffer.append("skill&whichskill=");
-      actionBuffer.append(action);
+      actionBuffer.append("skill&whichskill=").append(action);
       int skillID = StringUtilities.parseInt(action);
       isEnabled &= KoLCharacter.hasCombatSkill(skillID);
       // Some skills cannot be used but KoL does not remove them
@@ -821,6 +823,7 @@ public class StationaryButtonDecorator {
     }
 
     if (action.equals("steal")
+        || action.equals("steal accordion")
         || action.equals("jiggle")
         || action.equals("shake")
         || action.equals("shoot")

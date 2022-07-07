@@ -12,18 +12,26 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.ChoiceControl;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
@@ -34,7 +42,8 @@ import org.mockito.Mockito;
 public class Player {
   public static Cleanups equip(int slot, String item) {
     var cleanups = new Cleanups();
-    EquipmentManager.setEquipment(slot, AdventureResult.tallyItem(item));
+    EquipmentManager.setEquipment(
+        slot, item == null ? EquipmentRequest.UNEQUIP : AdventureResult.tallyItem(item));
     cleanups.add(() -> EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP));
     return cleanups;
   }
@@ -209,6 +218,21 @@ public class Player {
     return new Cleanups(() -> inLocation(null));
   }
 
+  public static Cleanups inAnapest() {
+    FightRequest.anapest = true;
+    return new Cleanups(() -> FightRequest.anapest = false);
+  }
+
+  public static Cleanups fightingMonster(MonsterData monster) {
+    var previousMonster = MonsterStatusTracker.getLastMonster();
+    MonsterStatusTracker.setNextMonster(monster);
+    return new Cleanups(() -> MonsterStatusTracker.setNextMonster(previousMonster));
+  }
+
+  public static Cleanups fightingMonster(String monsterName) {
+    return fightingMonster(MonsterDatabase.findMonster(monsterName));
+  }
+
   public static Cleanups isDay(Calendar cal) {
     var mocked = mockStatic(HolidayDatabase.class, Mockito.CALLS_REAL_METHODS);
     mocked.when(HolidayDatabase::getDate).thenReturn(cal.getTime());
@@ -242,10 +266,42 @@ public class Player {
     return new Cleanups(CampgroundRequest::resetCurrentWorkshedItem);
   }
 
+  public static Cleanups hasRange() {
+    KoLCharacter.setRange(true);
+    ConcoctionDatabase.refreshConcoctions();
+    return new Cleanups(
+        () -> {
+          KoLCharacter.setRange(false);
+          ConcoctionDatabase.refreshConcoctions();
+        });
+  }
+
+  public static Cleanups setProperty(String key, int value) {
+    var oldValue = Preferences.getInteger(key);
+    Preferences.setInteger(key, value);
+    return new Cleanups(() -> Preferences.setInteger(key, oldValue));
+  }
+
   public static Cleanups setProperty(String key, String value) {
     var oldValue = Preferences.getString(key);
     Preferences.setString(key, value);
     return new Cleanups(() -> Preferences.setString(key, oldValue));
+  }
+
+  public static Cleanups setProperty(String key, Boolean value) {
+    var oldValue = Preferences.getBoolean(key);
+    Preferences.setBoolean(key, value);
+    return new Cleanups(() -> Preferences.setBoolean(key, oldValue));
+  }
+
+  public static Cleanups setQuest(QuestDatabase.Quest quest, String value) {
+    var oldValue = QuestDatabase.getQuest(quest);
+    QuestDatabase.setQuest(quest, value);
+    return new Cleanups(() -> QuestDatabase.setQuest(quest, oldValue));
+  }
+
+  public static Cleanups setQuest(QuestDatabase.Quest quest, int step) {
+    return setQuest(quest, "step" + step);
   }
 
   public static Cleanups setupFakeResponse(int code, String response) {
@@ -261,5 +317,23 @@ public class Player {
           HttpUtilities.setClientBuilder(FakeHttpClientBuilder::new);
           GenericRequest.resetClient();
         });
+  }
+
+  public static Cleanups withPostChoice2(int choice, int decision, String responseText) {
+    ChoiceManager.lastChoice = choice;
+    ChoiceManager.lastDecision = decision;
+    var req = new GenericRequest("choice.php?choice=" + choice + "&option=" + decision);
+    req.responseText = responseText;
+    ChoiceControl.postChoice2("choice.php?choice=" + choice + "&option=" + decision, req);
+
+    return new Cleanups(
+        () -> {
+          ChoiceManager.lastChoice = 0;
+          ChoiceManager.lastDecision = 0;
+        });
+  }
+
+  public static Cleanups withPostChoice2(int choice, int decision) {
+    return withPostChoice2(choice, decision, "");
   }
 }

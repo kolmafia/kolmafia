@@ -345,15 +345,15 @@ public class ApiRequest extends GenericRequest {
       // Many config options are available
       AccountRequest.parseStatus(JSON);
 
-      // Many things from the Char Pane are available
-      CharPaneRequest.parseStatus(JSON);
-
       // Many things from the Char Sheet are available
       CharSheetRequest.parseStatus(JSON);
 
       // It's not possible to tell if some IotMs are bound to
       // the player's account or if they've used a one-day ticket without coolitems
       parseCoolItems(JSON.getString("coolitems"));
+
+      // Many things from the Char Pane are available
+      CharPaneRequest.parseStatus(JSON);
 
       String limitmode = KoLCharacter.getLimitmode();
       if (limitmode == Limitmode.SPELUNKY) {
@@ -365,6 +365,9 @@ public class ApiRequest extends GenericRequest {
         // Parse currently worn equipment
         EquipmentManager.parseStatus(JSON);
       }
+
+      // Must be AFTER current familiar is set and equipment is processed
+      CharPaneRequest.checkFamiliarWeight(JSON);
 
       // UNIX time of next rollover
       long rollover = JSON.getLong("rollover");

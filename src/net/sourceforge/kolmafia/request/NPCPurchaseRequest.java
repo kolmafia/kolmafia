@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -26,8 +27,9 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class NPCPurchaseRequest extends PurchaseRequest {
-  private static final AdventureResult TROUSERS = ItemPool.get(ItemPool.TRAVOLTAN_TROUSERS, 1);
-  private static final AdventureResult FLEDGES = ItemPool.get(ItemPool.PIRATE_FLEDGES, 1);
+  private static final Set<AdventureResult> DISCOUNT_TROUSERS =
+      Set.of(ItemPool.get(ItemPool.TRAVOLTAN_TROUSERS), ItemPool.get(ItemPool.DESIGNER_SWEATPANTS));
+  private static final AdventureResult FLEDGES = ItemPool.get(ItemPool.PIRATE_FLEDGES);
   private static final AdventureResult SUPER_SKILL = EffectPool.get(EffectPool.SUPER_SKILL);
   private static final AdventureResult SUPER_STRUCTURE = EffectPool.get(EffectPool.SUPER_STRUCTURE);
   private static final AdventureResult SUPER_VISION = EffectPool.get(EffectPool.SUPER_VISION);
@@ -158,8 +160,14 @@ public class NPCPurchaseRequest extends PurchaseRequest {
   }
 
   private static boolean usingTrousers() {
-    return EquipmentManager.getEquipment(EquipmentManager.PANTS)
-        .equals(NPCPurchaseRequest.TROUSERS);
+    return DISCOUNT_TROUSERS.contains(EquipmentManager.getEquipment(EquipmentManager.PANTS));
+  }
+
+  private static AdventureResult ownTrousers() {
+    return DISCOUNT_TROUSERS.stream()
+        .filter(KoLConstants.inventory::contains)
+        .findFirst()
+        .orElse(null);
   }
 
   @Override
@@ -261,12 +269,14 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return true;
     }
 
-    // Otherwise, maybe you can put on some Travoltan Trousers to decrease the cost of the
+    // Otherwise, maybe you can put on some discount-providing trousers to decrease the cost of the
     // purchase, but only if auto-recovery isn't running.
 
-    if (!NPCPurchaseRequest.usingTrousers()
-        && KoLConstants.inventory.contains(NPCPurchaseRequest.TROUSERS)) {
-      (new EquipmentRequest(NPCPurchaseRequest.TROUSERS, EquipmentManager.PANTS)).run();
+    if (!usingTrousers()) {
+      var trousers = ownTrousers();
+      if (trousers != null) {
+        (new EquipmentRequest(trousers, EquipmentManager.PANTS)).run();
+      }
     }
 
     return true;

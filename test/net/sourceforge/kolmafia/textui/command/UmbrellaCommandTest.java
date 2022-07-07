@@ -1,35 +1,34 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.Networking.assertGetRequest;
+import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Player.canUse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasSize;
 
-import net.sourceforge.kolmafia.AdventureResult;
+import internal.helpers.Cleanups;
+import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.UmbrellaRequest;
+import net.sourceforge.kolmafia.request.UmbrellaRequest.UmbrellaMode;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 
 public class UmbrellaCommandTest extends AbstractCommandTestBase {
   @BeforeEach
   public void initEach() {
-    KoLCharacter.reset("testUser");
-    KoLCharacter.reset(true);
-    Preferences.resetToDefault("umbrellaState");
-
-    // Stop requests from actually running
-    GenericRequest.sessionId = null;
+    KoLCharacter.reset("UmbrellaCommandTest");
+    HttpClientWrapper.setupFakeClient();
+    ChoiceManager.handlingChoice = false;
   }
 
   public UmbrellaCommandTest() {
     this.command = "umbrella";
-  }
-
-  private static void hasUmbrella() {
-    AdventureResult.addResultToList(
-        KoLConstants.inventory, ItemPool.get(ItemPool.UNBREAKABLE_UMBRELLA));
   }
 
   @Test
@@ -42,73 +41,62 @@ public class UmbrellaCommandTest extends AbstractCommandTestBase {
 
   @Test
   void mustSpecifyState() {
-    hasUmbrella();
-    String output = execute("");
+    var cleanups = new Cleanups(canUse("unbreakable umbrella"));
+    try (cleanups) {
+      String output = execute("");
 
-    assertErrorState();
-    assertThat(output, containsString("What state do you want to fold your umbrella to?"));
+      assertErrorState();
+      assertThat(output, containsString("What state do you want to fold your umbrella to?"));
+    }
   }
 
   @Test
   void mustSpecifyValidState() {
-    hasUmbrella();
-    String output = execute("the bourgeoisie");
+    var cleanups = new Cleanups(canUse("unbreakable umbrella"));
+    try (cleanups) {
+      String output = execute("the bourgeoisie");
 
-    assertErrorState();
-    assertThat(output, containsString("I don't understand what Umbrella form"));
+      assertErrorState();
+      assertThat(output, containsString("I don't understand what Umbrella form"));
+    }
   }
 
-  @Test
-  void canChooseBrokenState() {
-    hasUmbrella();
-    String output = execute("ml");
+  private void assertChoseState(final String command, final UmbrellaRequest.UmbrellaMode mode) {
+    String output = execute(command);
 
     assertContinueState();
     assertThat(output, containsString("Folding umbrella"));
+
+    var requests = getRequests();
+
+    assertThat(requests, hasSize(2));
+    assertGetRequest(requests.get(0), "/inventory.php", "action=useumbrella");
+    assertPostRequest(requests.get(1), "/choice.php", "whichchoice=1466&option=" + mode.getId());
+  }
+
+  @ParameterizedTest
+  @EnumSource(UmbrellaMode.class)
+  void canChooseStateByShorthand(UmbrellaMode mode) {
+    var cleanups = new Cleanups(canUse("unbreakable umbrella"));
+    try (cleanups) {
+      assertChoseState(mode.getShorthand(), mode);
+    }
+  }
+
+  @ParameterizedTest
+  @EnumSource(UmbrellaMode.class)
+  void canChooseStateByName(UmbrellaMode mode) {
+    var cleanups = new Cleanups(canUse("unbreakable umbrella"));
+    try (cleanups) {
+      assertChoseState(mode.getName(), mode);
+    }
   }
 
   @Test
-  void canChoosForwardState() {
-    hasUmbrella();
-    String output = execute("dr");
-
-    assertContinueState();
-    assertThat(output, containsString("Folding umbrella"));
-  }
-
-  @Test
-  void canChooseBucketState() {
-    hasUmbrella();
-    String output = execute("item");
-
-    assertContinueState();
-    assertThat(output, containsString("Folding umbrella"));
-  }
-
-  @Test
-  void canChoosePitchforkState() {
-    hasUmbrella();
-    String output = execute("weapon");
-
-    assertContinueState();
-    assertThat(output, containsString("Folding umbrella"));
-  }
-
-  @Test
-  void canChooseTwirlState() {
-    hasUmbrella();
-    String output = execute("spell");
-
-    assertContinueState();
-    assertThat(output, containsString("Folding umbrella"));
-  }
-
-  @Test
-  void canChooseCocoonState() {
-    hasUmbrella();
-    String output = execute("nc");
-
-    assertContinueState();
-    assertThat(output, containsString("Folding umbrella"));
+  void canChooseStateWithTwirling() {
+    var cleanups = new Cleanups(canUse("unbreakable umbrella"));
+    try (cleanups) {
+      assertChoseState("twirling", UmbrellaMode.TWIRL);
+    }
   }
 }
