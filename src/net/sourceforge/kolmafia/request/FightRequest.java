@@ -4244,7 +4244,10 @@ public class FightRequest extends GenericRequest {
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.SNOW_SUIT, EquipmentManager.FAMILIAR)) {
-        Preferences.increment("_snowSuitCount", 1, 75, false);
+        if (Preferences.getInteger("_snowSuitCount") < 75
+            && Preferences.increment("_snowSuitCount") % 5 == 0) {
+          KoLCharacter.recalculateAdjustments();
+        }
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.XIBLAXIAN_HOLOWRIST_PUTER, 1))) {
