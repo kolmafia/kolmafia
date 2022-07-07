@@ -84,7 +84,7 @@ class UseSkillRequestTest {
     }
 
     @AfterAll
-    public void afterAll() {
+    public static void afterAll() {
       UseSkillRequest.lastSkillUsed = -1;
       UseSkillRequest.lastSkillCount = 0;
     }
