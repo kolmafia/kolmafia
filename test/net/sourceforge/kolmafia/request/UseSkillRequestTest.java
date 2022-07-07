@@ -126,7 +126,7 @@ class UseSkillRequestTest {
     }
 
     @Test
-    void decreaseSweatWhenCastingSweatSkills() {
+    void decreaseSweatWhenCastingSweatBooze() {
       Preferences.setInteger("sweat", 31);
       UseSkillRequest.lastSkillUsed = SkillPool.SWEAT_OUT_BOOZE;
       UseSkillRequest.lastSkillCount = 1;
@@ -135,13 +135,16 @@ class UseSkillRequestTest {
           html("request/test_cast_sweat_booze.html"));
       // 31 - 25 = 6
       assertEquals(Preferences.getInteger("sweat"), 6);
+    }
 
+    @Test
+    void decreaseSweatWhenCastingOtherSweatSkills() {
       Preferences.setInteger("sweat", 69);
       UseSkillRequest.lastSkillUsed = SkillPool.DRENCH_YOURSELF_IN_SWEAT;
       UseSkillRequest.lastSkillCount = 1;
       UseSkillRequest.parseResponse(
-          "runskillz.php?action=Skillz&whichskill=7419&ajax=1&quantity=1",
-          html("request/test_cast_drench_sweat.html"));
+              "runskillz.php?action=Skillz&whichskill=7419&ajax=1&quantity=1",
+              html("request/test_cast_drench_sweat.html"));
       // 69 - 15 = 54
       assertEquals(Preferences.getInteger("sweat"), 54);
     }
