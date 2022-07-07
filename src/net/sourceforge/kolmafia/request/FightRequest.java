@@ -3175,7 +3175,7 @@ public class FightRequest extends GenericRequest {
   // FightRequest.lastResponseText instead.
   // Note that this is not run if the combat is finished by
   // rollover-runaway, saber, or similar mechanic.
-  private static void updateFinalRoundData(final String responseText, final boolean won) {
+  public static void updateFinalRoundData(final String responseText, final boolean won) {
     MonsterData monster = MonsterStatusTracker.getLastMonster();
     String monsterName = monster != null ? monster.getName() : "";
     SpecialMonster special = FightRequest.specialMonsterCategory(monsterName);
@@ -4244,7 +4244,10 @@ public class FightRequest extends GenericRequest {
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.SNOW_SUIT, EquipmentManager.FAMILIAR)) {
-        Preferences.increment("_snowSuitCount", 1, 75, false);
+        if (Preferences.getInteger("_snowSuitCount") < 75
+            && Preferences.increment("_snowSuitCount") % 5 == 0) {
+          KoLCharacter.recalculateAdjustments();
+        }
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.XIBLAXIAN_HOLOWRIST_PUTER, 1))) {
