@@ -1987,11 +1987,6 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     SkillStatus status = responseStatus(responseText, skillId, count);
     if (status == SkillStatus.SUCCESS) {
       SkillDatabase.registerCasts(skillId, count);
-      Matcher sweatCheck = Pattern.compile("You get (\\d+)% less Sweaty.").matcher(responseText);
-      if (sweatCheck.find()) {
-        int sweatCost = Integer.parseInt(sweatCheck.group(1));
-        Preferences.decrement("sweat", sweatCost);
-      }
     }
     return status == SkillStatus.ERROR;
   }
@@ -2641,7 +2636,18 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         Preferences.increment("_feelPeacefulUsed", count, 3, false);
         break;
 
+      case SkillPool.MAKE_SWEATADE:
+      case SkillPool.DRENCH_YOURSELF_IN_SWEAT:
+      case SkillPool.SIP_SOME_SWEAT:
+        Matcher sweatCheck = Pattern.compile("You get (\\d+)% less Sweaty.").matcher(responseText);
+        if (sweatCheck.find()) {
+          int sweatCost = Integer.parseInt(sweatCheck.group(1));
+          Preferences.decrement("sweat", sweatCost);
+        }
+        break;
+
       case SkillPool.SWEAT_OUT_BOOZE:
+        Preferences.decrement("sweat", count * 25);
         Preferences.increment("_sweatOutSomeBoozeUsed", count, 3, false);
         break;
     }
