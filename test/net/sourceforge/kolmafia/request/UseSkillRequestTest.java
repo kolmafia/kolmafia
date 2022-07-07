@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -80,6 +81,12 @@ class UseSkillRequestTest {
       HttpClientWrapper.setupFakeClient();
       KoLCharacter.reset("DesignerSweatpants");
       Preferences.reset("DesignerSweatpants");
+    }
+
+    @AfterAll
+    public void afterAll() {
+      UseSkillRequest.lastSkillUsed = -1;
+      UseSkillRequest.lastSkillCount = 0;
     }
 
     @Test
