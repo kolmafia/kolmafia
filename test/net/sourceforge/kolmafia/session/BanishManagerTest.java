@@ -207,6 +207,40 @@ class BanishManagerTest {
   }
 
   @Test
+  void oneExpiringBanishLeavesTheOther() {
+    KoLCharacter.setCurrentRun(100);
+    BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.SPRING_LOADED_FRONT_BUMPER);
+    KoLCharacter.setCurrentRun(105);
+    BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.STINKY_CHEESE_EYE);
+    KoLCharacter.setCurrentRun(120);
+    var data = BanishManager.getBanishData();
+    assertThat(data, arrayWithSize(1));
+    assertThat(
+        data,
+        arrayContaining(
+            arrayContaining(
+                "spooky mummy", "Spring-Loaded Front Bumper", "100", "10 or Until Rollover")));
+  }
+
+  @Test
+  void oneOverwritingBanishLeavesTheOther() {
+    KoLCharacter.setCurrentRun(100);
+    BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.SPRING_LOADED_FRONT_BUMPER);
+    KoLCharacter.setCurrentRun(105);
+    BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.STINKY_CHEESE_EYE);
+    KoLCharacter.setCurrentRun(106);
+    BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.STINKY_CHEESE_EYE);
+    var data = BanishManager.getBanishData();
+    assertThat(data, arrayWithSize(2));
+    assertThat(
+        data,
+        arrayContaining(
+            arrayContaining(
+                "spooky mummy", "Spring-Loaded Front Bumper", "100", "24 or Until Rollover"),
+            arrayContaining("spooky mummy", "stinky cheese eye", "106", "10")));
+  }
+
+  @Test
   void banishMonsterDoesNotWorkOnNonExistant() {
     KoLCharacter.setCurrentRun(123);
 
