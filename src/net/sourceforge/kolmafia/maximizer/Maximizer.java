@@ -24,7 +24,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
@@ -255,8 +254,8 @@ public class Maximizer {
         if (!ItemDatabase.isTradeable(itemId) && !ItemDatabase.isGiftItem(itemId)) {
           continue;
         }
-        // Can only get it from Equipment
-        if (!EquipmentDatabase.isEquipment(itemId)) {
+        // Can only get it from Equipment (not including familiar equipment)
+        if (!ItemDatabase.isEquipment(itemId) || ItemDatabase.isFamiliarEquipment(itemId)) {
           continue;
         }
         MaximizerSpeculation spec = new MaximizerSpeculation();

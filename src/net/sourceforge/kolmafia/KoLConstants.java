@@ -255,6 +255,25 @@ public interface KoLConstants extends UtilityConstants {
     STATIONARYBUTTONS_JS,
   };
 
+  /**
+   * Returns true if a given consumption type relates to equipment
+   *
+   * @param type Consumption type constant
+   * @return True if the type relates to equipment
+   */
+  static boolean isEquipmentType(final int type, final boolean includeFamiliarEquipment) {
+    return switch (type) {
+      case EQUIP_ACCESSORY,
+          EQUIP_CONTAINER,
+          EQUIP_HAT,
+          EQUIP_SHIRT,
+          EQUIP_PANTS,
+          EQUIP_WEAPON,
+          EQUIP_OFFHAND -> true;
+      default -> includeFamiliarEquipment && type == EQUIP_FAMILIAR;
+    };
+  }
+
   // Different states of KoLmafia.  Used in order to determine
   // what is still permitted.
   enum MafiaState {

@@ -237,21 +237,6 @@ public class EquipmentDatabase {
     }
   }
 
-  public static boolean isEquipment(final int type) {
-    switch (type) {
-      case KoLConstants.EQUIP_ACCESSORY:
-      case KoLConstants.EQUIP_CONTAINER:
-      case KoLConstants.EQUIP_HAT:
-      case KoLConstants.EQUIP_SHIRT:
-      case KoLConstants.EQUIP_PANTS:
-      case KoLConstants.EQUIP_WEAPON:
-      case KoLConstants.EQUIP_OFFHAND:
-        return true;
-    }
-
-    return false;
-  }
-
   public static void writeEquipment(final File output) {
     RequestLogger.printLine("Writing data override: " + output);
 
