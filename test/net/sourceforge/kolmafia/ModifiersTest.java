@@ -5,6 +5,7 @@ import static internal.helpers.Player.equip;
 import static internal.helpers.Player.inPath;
 import static internal.helpers.Player.isClass;
 import static internal.helpers.Player.isDay;
+import static internal.helpers.Player.setFamiliar;
 import static internal.helpers.Player.setHP;
 import static internal.helpers.Player.setMP;
 import static internal.helpers.Player.setProperty;
@@ -15,6 +16,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Map.Entry;
@@ -23,7 +25,10 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.LatteRequest;
+import net.sourceforge.kolmafia.request.LatteRequest.Latte;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -591,6 +596,63 @@ public class ModifiersTest {
         stats = mods.predict();
         assertEquals(156, stats[Modifiers.BUFFED_MOX]);
         assertEquals(259, stats[Modifiers.BUFFED_MP]);
+      }
+    }
+  }
+
+  @Nested
+  class Noobcore {
+    @BeforeAll
+    private static void beforeAll() {
+      Preferences.saveSettingsToFile = false;
+      Preferences.reset("noob");
+    }
+
+    @AfterAll
+    private static void afterAll() {
+      Preferences.saveSettingsToFile = true;
+    }
+
+    @Test
+    public void noobUnderstandsLatteEnchantments() {
+      var cleanups =
+          new Cleanups(
+              inPath(Path.GELATINOUS_NOOB),
+              setFamiliar(FamiliarPool.EMO_SQUID),
+              setProperty("latteModifier", ""),
+              equip(EquipmentManager.OFFHAND, "latte lovers member's mug"));
+      try (cleanups) {
+        FamiliarData familiar = KoLCharacter.getFamiliar();
+        familiar.setExperience(400);
+        assertEquals(20, familiar.getWeight());
+        assertEquals(20, familiar.getModifiedWeight());
+
+        Latte[] ingredients = LatteRequest.parseIngredients("rawhide", "cajun", "cinnamon");
+        String[] mods = Arrays.stream(ingredients).map(Latte::getModifier).toArray(String[]::new);
+        LatteRequest.setLatteEnchantments(mods);
+
+        String expected =
+            "Familiar Weight: 5, Meat Drop: 40, Experience (Moxie): 1, Moxie Percent: 5, Pickpocket Chance: 5";
+        assertEquals(expected, Preferences.getString("latteModifier"));
+
+        // Modifiers set "override" modifiers for the latte mug
+        Modifiers latteModifiers = Modifiers.getModifiers("Item", "[" + ItemPool.LATTE_MUG + "]");
+        assertEquals(5, latteModifiers.get(Modifiers.FAMILIAR_WEIGHT));
+        assertEquals(40, latteModifiers.get(Modifiers.MEATDROP));
+        assertEquals(1, latteModifiers.get(Modifiers.MOX_EXPERIENCE));
+        assertEquals(5, latteModifiers.get(Modifiers.MOX_PCT));
+        assertEquals(5, latteModifiers.get(Modifiers.PICKPOCKET_CHANCE));
+
+        // Verify that KoLCharacter applied the mods
+        Modifiers currentModifiers = KoLCharacter.getCurrentModifiers();
+        assertEquals(5, currentModifiers.get(Modifiers.FAMILIAR_WEIGHT));
+        assertEquals(40, currentModifiers.get(Modifiers.MEATDROP));
+        assertEquals(1, currentModifiers.get(Modifiers.MOX_EXPERIENCE));
+        assertEquals(5, currentModifiers.get(Modifiers.MOX_PCT));
+        assertEquals(5, currentModifiers.get(Modifiers.PICKPOCKET_CHANCE));
+
+        // Verify the familiar is heavier
+        assertEquals(25, familiar.getModifiedWeight());
       }
     }
   }
