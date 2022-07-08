@@ -291,6 +291,22 @@ class BanishManagerTest {
   }
 
   @Test
+  void poppingFromQueueDoesNotResetUnrelatedBanish() {
+    KoLCharacter.setCurrentRun(14);
+    Preferences.setString(
+        "banishedMonsters",
+        "crate:banishing shout:5:zmobie:banishing shout:10:sabre-toothed lime:banishing shout:12:crate:snokebomb:9");
+    BanishManager.loadBanishedMonsters();
+
+    BanishManager.banishMonster(SCARY_PIRATE, Banisher.BANISHING_SHOUT);
+
+    assertTrue(BanishManager.isBanished("scary pirate"));
+    assertTrue(BanishManager.isBanished("sabre-toothed lime"));
+    assertTrue(BanishManager.isBanished("zmobie"));
+    assertTrue(BanishManager.isBanished("crate"));
+  }
+
+  @Test
   void removeBanishByBanisher() {
     KoLCharacter.setCurrentRun(128);
     Preferences.setString(
@@ -304,22 +320,6 @@ class BanishManagerTest {
         "banishedMonsters",
         isSetTo(
             "spooky vampire:ice house:20:smut orc nailer:banishing shout:115:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128"));
-  }
-
-  @Test
-  void removeBanishByMonster() {
-    KoLCharacter.setCurrentRun(128);
-    Preferences.setString(
-        "banishedMonsters",
-        "spooky vampire:ice house:20:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:crate:louder than bomb:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128");
-    BanishManager.loadBanishedMonsters();
-
-    BanishManager.removeBanishByMonster("crate");
-
-    assertThat(
-        "banishedMonsters",
-        isSetTo(
-            "spooky vampire:ice house:20:smut orc nailer:banishing shout:115:gingerbread lawyer:snokebomb:118:unhinged survivor:Feel Hatred:119:grizzled survivor:Reflex Hammer:119:cat-alien:mafia middle finger ring:119:alielf:v for vivala mask:119:whiny survivor:stinky cheese eye:119:fluffy bunny:Be a Mind Master:119:paper towelgeist:divine champagne popper:128"));
   }
 
   @Test
