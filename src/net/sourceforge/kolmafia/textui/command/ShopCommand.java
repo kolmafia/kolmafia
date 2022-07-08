@@ -13,7 +13,6 @@ import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
-import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ShopCommand extends AbstractCommand {
@@ -52,8 +51,8 @@ public class ShopCommand extends AbstractCommand {
     }
 
     List<AdventureResult> items = new ArrayList<>();
-    IntegerArray prices = new IntegerArray();
-    IntegerArray limits = new IntegerArray();
+    List<Integer> prices = new ArrayList<>();
+    List<Integer> limits = new ArrayList<>();
 
     for (String itemName : parameters.split("\\s*,\\s*")) {
       int price = 0;
@@ -113,13 +112,15 @@ public class ShopCommand extends AbstractCommand {
         RequestThread.postRequest(
             new ManageStoreRequest(
                 items.toArray(new AdventureResult[0]),
-                prices.toArray(),
-                limits.toArray(),
+                prices.stream().mapToInt(i -> i).toArray(),
+                limits.stream().mapToInt(i -> i).toArray(),
                 storage));
       } else {
         RequestThread.postRequest(
             new AutoMallRequest(
-                items.toArray(new AdventureResult[0]), prices.toArray(), limits.toArray()));
+                items.toArray(new AdventureResult[0]),
+                prices.stream().mapToInt(i -> i).toArray(),
+                limits.stream().mapToInt(i -> i).toArray()));
       }
     }
   }
@@ -180,9 +181,9 @@ public class ShopCommand extends AbstractCommand {
 
     List<SoldItem> list = StoreManager.getSoldItemList();
 
-    IntegerArray itemIds = new IntegerArray();
-    IntegerArray prices = new IntegerArray();
-    IntegerArray limits = new IntegerArray();
+    List<Integer> itemIds = new ArrayList<>();
+    List<Integer> prices = new ArrayList<>();
+    List<Integer> limits = new ArrayList<>();
 
     String[] x = parameters.split("\\s*,\\s*");
     // reprice itemName @ 1,337 limit 2 would previously reprice the item with a price of 1 and a
@@ -252,7 +253,10 @@ public class ShopCommand extends AbstractCommand {
 
     if (itemIds.size() > 0) {
       RequestThread.postRequest(
-          new ManageStoreRequest(itemIds.toArray(), prices.toArray(), limits.toArray()));
+          new ManageStoreRequest(
+              itemIds.stream().mapToInt(i -> i).toArray(),
+              prices.stream().mapToInt(i -> i).toArray(),
+              limits.stream().mapToInt(i -> i).toArray()));
     }
   }
 }
