@@ -2255,7 +2255,7 @@ public class DebugDatabase {
             currentHTML.append(currentLine);
             currentHTML.append(KoLConstants.LINE_BREAK);
           } while (!currentLine.equals("</html>"));
-          if (stringMap.get(currentId).isEmpty() || stringMap.get(currentId) == null) {
+          if (stringMap.get(currentId) == null || stringMap.get(currentId).isEmpty()) {
             stringMap.put(currentId, currentHTML.toString());
           }
           reader.readLine();
