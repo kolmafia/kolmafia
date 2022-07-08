@@ -237,7 +237,13 @@ public class EquipmentDatabase {
     }
   }
 
-  public static boolean isEquipment(final int type) {
+  /**
+   * Returns true if a given consumption type relates to equipment
+   *
+   * @param type Consumption type constant
+   * @return True if the type relates to equipment
+   */
+  public static boolean isEquipmentType(final int type) {
     switch (type) {
       case KoLConstants.EQUIP_ACCESSORY:
       case KoLConstants.EQUIP_CONTAINER:
@@ -246,6 +252,7 @@ public class EquipmentDatabase {
       case KoLConstants.EQUIP_PANTS:
       case KoLConstants.EQUIP_WEAPON:
       case KoLConstants.EQUIP_OFFHAND:
+      case KoLConstants.EQUIP_FAMILIAR:
         return true;
     }
 
