@@ -243,20 +243,17 @@ public class EquipmentDatabase {
    * @param type Consumption type constant
    * @return True if the type relates to equipment
    */
-  public static boolean isEquipmentType(final int type) {
-    switch (type) {
-      case KoLConstants.EQUIP_ACCESSORY:
-      case KoLConstants.EQUIP_CONTAINER:
-      case KoLConstants.EQUIP_HAT:
-      case KoLConstants.EQUIP_SHIRT:
-      case KoLConstants.EQUIP_PANTS:
-      case KoLConstants.EQUIP_WEAPON:
-      case KoLConstants.EQUIP_OFFHAND:
-      case KoLConstants.EQUIP_FAMILIAR:
-        return true;
-    }
-
-    return false;
+  public static boolean isEquipmentType(final int type, final boolean includeFamiliarEquipment) {
+    return switch (type) {
+      case KoLConstants.EQUIP_ACCESSORY,
+          KoLConstants.EQUIP_CONTAINER,
+          KoLConstants.EQUIP_HAT,
+          KoLConstants.EQUIP_SHIRT,
+          KoLConstants.EQUIP_PANTS,
+          KoLConstants.EQUIP_WEAPON,
+          KoLConstants.EQUIP_OFFHAND -> true;
+      default -> includeFamiliarEquipment && type == KoLConstants.EQUIP_FAMILIAR;
+    };
   }
 
   public static void writeEquipment(final File output) {
