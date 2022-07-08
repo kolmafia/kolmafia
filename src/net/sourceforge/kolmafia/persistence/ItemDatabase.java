@@ -1015,7 +1015,7 @@ public class ItemDatabase {
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
 
-    if (EquipmentDatabase.isEquipmentType(usage, false)) {
+    if (KoLConstants.isEquipmentType(usage, false)) {
       EquipmentDatabase.newEquipment = true;
 
       // Get power from description, if otherwise unknown
@@ -1918,7 +1918,7 @@ public class ItemDatabase {
 
   public static final boolean isEquipment(final int itemId) {
     int useType = ItemDatabase.useTypeById.get(itemId);
-    return EquipmentDatabase.isEquipmentType(useType, true);
+    return KoLConstants.isEquipmentType(useType, true);
   }
 
   public static final boolean isFood(final int itemId) {

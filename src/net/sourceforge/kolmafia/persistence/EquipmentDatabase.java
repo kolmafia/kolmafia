@@ -237,25 +237,6 @@ public class EquipmentDatabase {
     }
   }
 
-  /**
-   * Returns true if a given consumption type relates to equipment
-   *
-   * @param type Consumption type constant
-   * @return True if the type relates to equipment
-   */
-  public static boolean isEquipmentType(final int type, final boolean includeFamiliarEquipment) {
-    return switch (type) {
-      case KoLConstants.EQUIP_ACCESSORY,
-          KoLConstants.EQUIP_CONTAINER,
-          KoLConstants.EQUIP_HAT,
-          KoLConstants.EQUIP_SHIRT,
-          KoLConstants.EQUIP_PANTS,
-          KoLConstants.EQUIP_WEAPON,
-          KoLConstants.EQUIP_OFFHAND -> true;
-      default -> includeFamiliarEquipment && type == KoLConstants.EQUIP_FAMILIAR;
-    };
-  }
-
   public static void writeEquipment(final File output) {
     RequestLogger.printLine("Writing data override: " + output);
 
