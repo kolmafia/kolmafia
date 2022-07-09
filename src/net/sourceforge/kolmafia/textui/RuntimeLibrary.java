@@ -6532,29 +6532,38 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value get_outfits(ScriptRuntime controller) {
-    return RuntimeLibrary.outfitListToValue(controller, EquipmentManager.getOutfits(), false);
+    return RuntimeLibrary.outfitListToValue(controller, EquipmentManager.getOutfits());
   }
 
   public static Value get_custom_outfits(ScriptRuntime controller) {
-    return RuntimeLibrary.outfitListToValue(controller, EquipmentManager.getCustomOutfits(), false);
+    return RuntimeLibrary.outfitListToValue(controller, EquipmentManager.getCustomOutfits());
   }
 
   public static Value all_normal_outfits(ScriptRuntime controller) {
-    return RuntimeLibrary.outfitListToValue(
-        controller, EquipmentDatabase.normalOutfits.toList(), true);
+    return RuntimeLibrary.outfitMapToValue(EquipmentDatabase.normalOutfits);
   }
 
-  private static Value outfitListToValue(
-      ScriptRuntime controller, List<SpecialOutfit> outfits, boolean map) {
-    AggregateValue value =
-        map
-            ? new MapValue(new AggregateType(DataTypes.STRING_TYPE, DataTypes.INT_TYPE))
-            : new ArrayValue(new AggregateType(DataTypes.STRING_TYPE, outfits.size()));
+  private static Value outfitListToValue(ScriptRuntime controller, List<SpecialOutfit> outfits) {
+    AggregateValue value = new ArrayValue(new AggregateType(DataTypes.STRING_TYPE, outfits.size()));
 
     for (int i = 1; i < outfits.size(); ++i) {
       SpecialOutfit it = outfits.get(i);
       if (it != null) {
         value.aset(new Value(i), new Value(it.toString()));
+      }
+    }
+
+    return value;
+  }
+
+  private static Value outfitMapToValue(Map<Integer, SpecialOutfit> outfits) {
+    AggregateValue value =
+        new MapValue(new AggregateType(DataTypes.STRING_TYPE, DataTypes.INT_TYPE));
+
+    for (var entry : outfits.entrySet()) {
+      SpecialOutfit it = entry.getValue();
+      if (it != null) {
+        value.aset(new Value(entry.getKey()), new Value(it.toString()));
       }
     }
 
