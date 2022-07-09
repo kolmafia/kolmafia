@@ -41,7 +41,7 @@ public class EquipmentDatabase {
   private static final StringArray itemTypes = new StringArray();
   private static final StringArray statRequirements = new StringArray();
 
-  private static final HashMap<Integer, Integer> outfitPieces = new HashMap<>();
+  private static final Map<Integer, Integer> outfitPieces = new HashMap<>();
   public static final Map<Integer, SpecialOutfit> normalOutfits = new HashMap<>();
   private static final Map<Integer, String> outfitById = new TreeMap<>();
   public static final List<SpecialOutfit> weirdOutfits = new ArrayList<>();
