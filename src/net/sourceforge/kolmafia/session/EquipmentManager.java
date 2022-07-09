@@ -2059,7 +2059,7 @@ public class EquipmentManager {
   public static final void updateNormalOutfits() {
     ArrayList<SpecialOutfit> available = new ArrayList<SpecialOutfit>();
 
-    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits) {
+    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits.values()) {
       if (outfit != null && outfit.hasAllPieces()) {
         available.add(outfit);
       }
@@ -2143,7 +2143,7 @@ public class EquipmentManager {
 
   /** Utility method which determines the outfit ID the character is currently wearing */
   public static final SpecialOutfit currentOutfit() {
-    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits) {
+    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits.values()) {
       if (outfit == null) {
         continue;
       }
@@ -2157,7 +2157,7 @@ public class EquipmentManager {
 
   public static final SpecialOutfit currentOutfit(AdventureResult[] equipment) {
     int hash = SpecialOutfit.equipmentHash(equipment);
-    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits) {
+    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits.values()) {
       if (outfit == null) {
         continue;
       }
@@ -2267,7 +2267,7 @@ public class EquipmentManager {
       }
     }
 
-    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits) {
+    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits.values()) {
       if (outfit == null) {
         continue;
       }
@@ -2287,7 +2287,7 @@ public class EquipmentManager {
       }
     }
 
-    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits) {
+    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits.values()) {
       if (outfit == null) {
         continue;
       }
