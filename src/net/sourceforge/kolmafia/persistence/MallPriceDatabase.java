@@ -163,7 +163,12 @@ public class MallPriceDatabase {
     }
 
     File output = new File(KoLConstants.DATA_LOCATION, "mallprices.txt");
-    PrintStream writer = LogStream.openStream(output, true);
+    try (PrintStream writer = LogStream.openStream(output, true)) {
+      writePrices(writer);
+    }
+  }
+
+  static void writePrices(PrintStream writer) {
     writer.println(KoLConstants.MALLPRICES_VERSION);
 
     for (int i = 1; i < MallPriceDatabase.prices.size(); ++i) {
@@ -171,8 +176,6 @@ public class MallPriceDatabase {
       if (p == null) continue;
       writer.println(i + "\t" + p.timestamp + "\t" + p.price);
     }
-
-    writer.close();
   }
 
   public static void submitPrices(String url) {
