@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.setProperty;
 import static internal.helpers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayContaining;
@@ -10,6 +11,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -238,6 +240,43 @@ class BanishManagerTest {
             arrayContaining(
                 "spooky mummy", "Spring-Loaded Front Bumper", "100", "24 or Until Rollover"),
             arrayContaining("spooky mummy", "stinky cheese eye", "106", "10")));
+  }
+
+  @Test
+  void oneOverwritingUnrelatedBanishLeavesTheOther() {
+    KoLCharacter.setCurrentRun(100);
+    BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.SPRING_LOADED_FRONT_BUMPER);
+    KoLCharacter.setCurrentRun(105);
+    BanishManager.banishMonster(SPOOKY_MUMMY, Banisher.STINKY_CHEESE_EYE);
+    KoLCharacter.setCurrentRun(106);
+    BanishManager.banishMonster(SCARY_PIRATE, Banisher.STINKY_CHEESE_EYE);
+    var data = BanishManager.getBanishData();
+    assertThat(data, arrayWithSize(2));
+    assertThat(
+        data,
+        arrayContaining(
+            arrayContaining(
+                "spooky mummy", "Spring-Loaded Front Bumper", "100", "24 or Until Rollover"),
+            arrayContaining("scary pirate", "stinky cheese eye", "106", "10")));
+  }
+
+  @Test
+  void regressionTestForSpringLoadedFrontBumperBeingWiped() {
+    KoLCharacter.setCurrentRun(176);
+    var cleanups =
+        new Cleanups(
+            setProperty(
+                "banishedMonsters",
+                "biker:ice house:273:pygmy janitor:snokebomb:161:pygmy headhunter:Bowl a Curveball:161:pygmy witch accountant:Throw Latte on Opponent:165:pygmy witch accountant:Spring-Loaded Front Bumper:172:coaltergeist:KGB tranquilizer dart:176"));
+
+    try (cleanups) {
+      BanishManager.loadBanishedMonsters();
+      BanishManager.banishMonster("steam elemental", Banisher.THROW_LATTE_ON_OPPONENT);
+      assertThat(
+          Preferences.getString("banishedMonsters"),
+          equalTo(
+              "biker:ice house:273:pygmy janitor:snokebomb:161:pygmy witch accountant:Spring-Loaded Front Bumper:172:coaltergeist:KGB tranquilizer dart:176:steam elemental:Throw Latte on Opponent:176"));
+    }
   }
 
   @Test
