@@ -381,8 +381,8 @@ public class ModifiersTest {
           new Cleanups(
               isClass(AscensionClass.GREY_GOO), setStats(100, 100, 100), setHP(176, 176, 176));
       try (cleanups) {
-        // Base HP = (starting value + absorptions)
-        // Buffed HP = Base HP + mod(HP)
+        // Base HP = (starting value + absorptions + currently worn equipment)
+        // Buffed HP = Base HP - currently worn equipment + mod(HP)
 
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         KoLCharacter.recalculateAdjustments(false);
@@ -403,7 +403,7 @@ public class ModifiersTest {
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats[Modifiers.BUFFED_MUS]);
-        assertEquals(216, stats[Modifiers.BUFFED_HP]);
+        assertEquals(176, stats[Modifiers.BUFFED_HP]);
 
         // extra-wide head candle (+100% HP)
         EquipmentManager.setEquipment(
@@ -412,6 +412,41 @@ public class ModifiersTest {
         stats = mods.predict();
         assertEquals(100, stats[Modifiers.BUFFED_MUS]);
         assertEquals(176, stats[Modifiers.BUFFED_HP]);
+      }
+    }
+
+    @Test
+    public void correctlySpeculatesGreyYouMaximumHP() {
+      var cleanups =
+          new Cleanups(
+              isClass(AscensionClass.GREY_GOO),
+              setStats(100, 100, 100),
+              setHP(216, 216, 216),
+              equip(EquipmentManager.HAT, ItemPool.REINFORCED_BEADED_HEADBAND));
+      try (cleanups) {
+        // Base HP = (starting value + absorptions + currently worn equipment)
+        // Buffed HP = Base HP - currently worn equipment + mod(HP)
+
+        // We are starting with a reinforced beaded headband, which provides +40 HP
+        // Therefore, our actual "baseHP" is 176
+
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        KoLCharacter.recalculateAdjustments(false);
+        assertEquals(40, current.get(Modifiers.HP));
+
+        int[] currentStats = current.predict();
+        assertEquals(100, currentStats[Modifiers.BUFFED_MUS]);
+        assertEquals(216, currentStats[Modifiers.BUFFED_HP]);
+
+        // Make some modifiers to speculate with
+        Modifiers speculate = new Modifiers(current);
+        assertEquals(40, speculate.get(Modifiers.HP));
+        // Suppose we want to replace the reinforced beaded headband (+40 HP)
+        // with a nurse's hat (+300 HP)
+        speculate.set(Modifiers.HP, 300.0);
+
+        int[] speculateStats = speculate.predict();
+        assertEquals(476, speculateStats[Modifiers.BUFFED_HP]);
       }
     }
   }
@@ -511,8 +546,8 @@ public class ModifiersTest {
           new Cleanups(
               isClass(AscensionClass.GREY_GOO), setStats(100, 100, 100), setMP(126, 126, 126));
       try (cleanups) {
-        // Base MP = (starting value + absorptions)
-        // Buffed MP = Base MP + mod(MP)
+        // Base MP = (starting value + absorptions + currently worn equipment)
+        // Buffed MP = Base MP - currently worn equipment + mod(HP)
 
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         KoLCharacter.recalculateAdjustments(false);
@@ -532,7 +567,7 @@ public class ModifiersTest {
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats[Modifiers.BUFFED_MYS]);
-        assertEquals(166, stats[Modifiers.BUFFED_MP]);
+        assertEquals(126, stats[Modifiers.BUFFED_MP]);
 
         EquipmentManager.setEquipment(EquipmentManager.HAT, EquipmentRequest.UNEQUIP);
 
@@ -543,6 +578,41 @@ public class ModifiersTest {
         stats = mods.predict();
         assertEquals(106, stats[Modifiers.BUFFED_MYS]);
         assertEquals(126, stats[Modifiers.BUFFED_MP]);
+      }
+    }
+
+    @Test
+    public void correctlySpeculatesGreyYouMaximumMP() {
+      var cleanups =
+          new Cleanups(
+              isClass(AscensionClass.GREY_GOO),
+              setStats(100, 100, 100),
+              setMP(126, 126, 126),
+              equip(EquipmentManager.HAT, ItemPool.BEER_HELMET));
+      try (cleanups) {
+        // Base MP = (starting value + absorptions + currently worn equipment)
+        // Buffed MP = Base MP - currently worn equipment + mod(MP)
+
+        // We are starting with a beer helmet, which provides +40 MP
+        // Therefore, our actual "baseMP" is 86
+
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        KoLCharacter.recalculateAdjustments(false);
+        assertEquals(40, current.get(Modifiers.MP));
+
+        int[] currentStats = current.predict();
+        assertEquals(100, currentStats[Modifiers.BUFFED_MYS]);
+        assertEquals(126, currentStats[Modifiers.BUFFED_MP]);
+
+        // Make some modifiers to speculate with
+        Modifiers speculate = new Modifiers(current);
+        assertEquals(40, speculate.get(Modifiers.MP));
+        // Suppose we want to replace the beer helmet (+40 HP)
+        // with Covers-Your-Head (+100 MP)
+        speculate.set(Modifiers.MP, 100.0);
+
+        int[] speculateStats = speculate.predict();
+        assertEquals(186, speculateStats[Modifiers.BUFFED_MP]);
       }
     }
 

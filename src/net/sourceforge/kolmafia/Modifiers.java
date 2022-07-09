@@ -1093,7 +1093,9 @@ public class Modifiers {
       hp = hpbase + (int) this.get(Modifiers.HP);
       buffedHP = hp;
     } else if (KoLCharacter.isGreyGoo()) {
-      hpbase = (int) KoLCharacter.getBaseMaxHP();
+      hpbase =
+          (int) KoLCharacter.getBaseMaxHP()
+              - (int) KoLCharacter.currentNumericModifier(Modifiers.HP);
       hp = hpbase + (int) this.get(Modifiers.HP);
       buffedHP = hp;
     } else {
@@ -1109,7 +1111,9 @@ public class Modifiers {
     int mp;
     int buffedMP;
     if (KoLCharacter.isGreyGoo()) {
-      mpbase = (int) KoLCharacter.getBaseMaxMP();
+      mpbase =
+          (int) KoLCharacter.getBaseMaxMP()
+              - (int) KoLCharacter.currentNumericModifier(Modifiers.MP);
       mp = mpbase + (int) this.get(Modifiers.MP);
       buffedMP = mp;
     } else {
