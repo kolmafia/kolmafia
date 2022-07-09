@@ -38,7 +38,7 @@ jobs:
         run: ./gradlew --no-daemon jpackage
 
       - name: Upload binaries
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: releases
           path: |
@@ -73,7 +73,7 @@ jobs:
         run: ./gradlew --no-daemon shadowJar
 
       - name: Upload files
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: dist
           path: dist/*.jar
@@ -96,7 +96,7 @@ jobs:
           echo "KOLMAFIA_VERSION=$KOLMAFIA_VERSION" >> $GITHUB_ENV
 
       - name: Download binaries
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
 
       - name: Release
         uses: softprops/action-gh-release@v1
