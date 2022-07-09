@@ -168,12 +168,15 @@ public class MallPriceDatabase {
   static void writePrices(PrintStream writer) {
     writer.println(KoLConstants.MALLPRICES_VERSION);
 
-    MallPriceDatabase.prices.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> {
-      Price p = entry.getValue();
-      if (p != null) {
-        writer.println(entry.getKey() + "\t" + p.timestamp + "\t" + p.price);
-      }
-    });
+    MallPriceDatabase.prices.entrySet().stream()
+        .sorted(Map.Entry.comparingByKey())
+        .forEach(
+            entry -> {
+              Price p = entry.getValue();
+              if (p != null) {
+                writer.println(entry.getKey() + "\t" + p.timestamp + "\t" + p.price);
+              }
+            });
   }
 
   public static void submitPrices(String url) {
