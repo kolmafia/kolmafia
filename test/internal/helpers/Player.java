@@ -48,6 +48,14 @@ public class Player {
     return cleanups;
   }
 
+  public static Cleanups equip(int slot, int itemId) {
+    var cleanups = new Cleanups();
+    EquipmentManager.setEquipment(
+        slot, itemId == -1 ? EquipmentRequest.UNEQUIP : ItemPool.get(itemId));
+    cleanups.add(() -> EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP));
+    return cleanups;
+  }
+
   public static Cleanups addItem(String name) {
     return addItem(name, 1);
   }

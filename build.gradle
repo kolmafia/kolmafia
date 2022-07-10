@@ -56,14 +56,14 @@ repositories {
 
 dependencies {
 	// Use JUnit Jupiter for running JUnit5 tests.
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.8.1'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter:5.8.1'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.8.2'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter:5.8.2'
 
 	testImplementation 'org.hamcrest:hamcrest:2.2'
 	testImplementation 'com.spotify:hamcrest-optional:1.2.0'
-	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.1'
-	testImplementation 'org.mockito:mockito-inline:4.0.0'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
+	testImplementation 'org.mockito:mockito-inline:4.6.1'
 	testImplementation('org.eclipse.xtext:org.eclipse.xtext.xbase.lib:2.12.0') {
 		because 'assertion errors including Location/Range/Position need it'
 	}
@@ -82,12 +82,12 @@ dependencies {
 		builtBy 'compileLibJava'
 	}
 
-	implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.25'
+	implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.26'
 	implementation('org.eclipse.lsp4j:org.eclipse.lsp4j:0.12.0') {
 		exclude group: 'org.eclipse.xtend', module: 'org.eclipse.xtend.lib'
 	}
 	implementation 'org.fusesource.jansi:jansi:2.4.0'
-	implementation 'org.json:json:20210307'
+	implementation 'org.json:json:20220320'
 	implementation 'org.mozilla:rhino:1.7.14'
 	implementation 'org.swinglabs:swingx:1.0'
 	implementation 'org.tmatesoft.svnkit:svnkit:1.10.6'

@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -41,10 +40,10 @@ public class EquipmentDatabase {
   private static final Map<Integer, String> itemTypes = new LinkedHashMap<>();
   private static final Map<Integer, String> statRequirements = new LinkedHashMap<>();
 
-  private static final HashMap<Integer, Integer> outfitPieces = new HashMap<Integer, Integer>();
-  public static final SpecialOutfitArray normalOutfits = new SpecialOutfitArray();
-  private static final Map<Integer, String> outfitById = new TreeMap<Integer, String>();
-  public static final SpecialOutfitArray weirdOutfits = new SpecialOutfitArray();
+  private static final Map<Integer, Integer> outfitPieces = new HashMap<>();
+  public static final Map<Integer, SpecialOutfit> normalOutfits = new HashMap<>();
+  private static final Map<Integer, String> outfitById = new TreeMap<>();
+  public static final List<SpecialOutfit> weirdOutfits = new ArrayList<>();
 
   private static final Map<Integer, Integer> pulverize = new LinkedHashMap<>();
   // Values in pulverize are one of:
@@ -147,24 +146,20 @@ public class EquipmentDatabase {
 
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("outfits.txt", KoLConstants.OUTFITS_VERSION)) {
-      int outfitId, arrayIndex;
-      SpecialOutfitArray outfitList;
+      int outfitId;
 
       while ((data = FileUtilities.readData(reader)) != null) {
         if (data.length >= 4) {
           outfitId = StringUtilities.parseInt(data[0]);
 
-          if (outfitId == 0) {
-            arrayIndex = EquipmentDatabase.weirdOutfits.size();
-            outfitList = EquipmentDatabase.weirdOutfits;
-          } else {
-            arrayIndex = outfitId;
-            outfitList = EquipmentDatabase.normalOutfits;
-          }
-
           String name = data[1];
           SpecialOutfit outfit = new SpecialOutfit(outfitId, name);
-          outfitList.set(arrayIndex, outfit);
+
+          if (outfitId == 0) {
+            EquipmentDatabase.weirdOutfits.add(outfit);
+          } else {
+            EquipmentDatabase.normalOutfits.put(outfitId, outfit);
+          }
 
           String image = data[2];
           outfit.setImage(image);
@@ -441,7 +436,7 @@ public class EquipmentDatabase {
 
     if (outfit == null) {
       outfit = new SpecialOutfit(outfitId, outfitName);
-      EquipmentDatabase.normalOutfits.set(outfitId, outfit);
+      EquipmentDatabase.normalOutfits.put(outfitId, outfit);
       EquipmentDatabase.outfitById.put(id, outfitName);
     }
 
@@ -493,10 +488,6 @@ public class EquipmentDatabase {
 
     Integer result = EquipmentDatabase.outfitPieces.get(itemId);
     return result == null ? -1 : result.intValue();
-  }
-
-  public static final int getOutfitCount() {
-    return EquipmentDatabase.normalOutfits.size();
   }
 
   public static final String outfitString(
@@ -940,46 +931,6 @@ public class EquipmentDatabase {
         // No outfit existed for this area
       default:
         return -1;
-    }
-  }
-
-  /**
-   * Internal class which functions exactly like an array of SpecialOutfits, except it uses "sets"
-   * and "gets" like a list. This could be done with generics (Java 1.5) but is done like this so
-   * that we get backwards compatibility.
-   */
-  public static class SpecialOutfitArray implements Iterable<SpecialOutfit> {
-    private final ArrayList<SpecialOutfit> internalList = new ArrayList<SpecialOutfit>();
-    private final TreeSet<Integer> internalSet = new TreeSet<Integer>();
-
-    @Override
-    public Iterator<SpecialOutfit> iterator() {
-      return this.internalList.iterator();
-    }
-
-    public SpecialOutfit get(final int index) {
-      return index < 0 || index >= this.internalList.size() ? null : this.internalList.get(index);
-    }
-
-    public void set(final int index, final SpecialOutfit value) {
-      for (int i = this.internalList.size(); i <= index; ++i) {
-        this.internalList.add(null);
-      }
-
-      this.internalList.set(index, value);
-      this.internalSet.add(Integer.valueOf(index));
-    }
-
-    public int size() {
-      return this.internalList.size();
-    }
-
-    public List<SpecialOutfit> toList() {
-      return this.internalList;
-    }
-
-    public Set<Integer> keySet() {
-      return this.internalSet;
     }
   }
 }
