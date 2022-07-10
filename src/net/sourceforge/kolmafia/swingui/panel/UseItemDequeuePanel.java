@@ -98,6 +98,8 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> i
       return;
     }
 
+    this.getElementList().setEnabled(true);
+
     // The "consume" listener is the first button
     // The "create" listener is the second button
 
