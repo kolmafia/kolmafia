@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -51,12 +50,12 @@ public class ItemDatabase {
   private static int maxItemId = 0;
 
   private static String[] canonicalNames = new String[0];
-  private static final Map<Integer, Integer> useTypeById = new LinkedHashMap<>();
-  private static final Map<Integer, Integer> attributesById = new LinkedHashMap<>();
-  private static final Map<Integer, Integer> priceById = new LinkedHashMap<>();
-  private static final Map<Integer, Integer> nameLength = new LinkedHashMap<>();
-  private static final Map<Integer, String> pluralById = new LinkedHashMap<>();
-  private static final Map<Integer, String> imageById = new LinkedHashMap<>();
+  private static final Map<Integer, Integer> useTypeById = new HashMap<>();
+  private static final Map<Integer, Integer> attributesById = new HashMap<>();
+  private static final Map<Integer, Integer> priceById = new HashMap<>();
+  private static final Map<Integer, Integer> nameLength = new HashMap<>();
+  private static final Map<Integer, String> pluralById = new HashMap<>();
+  private static final Map<Integer, String> imageById = new HashMap<>();
 
   private static final Map<Integer, String> nameById = new TreeMap<Integer, String>();
   private static final Map<Integer, String> dataNameById = new HashMap<Integer, String>();
@@ -70,7 +69,7 @@ public class ItemDatabase {
   private static final Map<String, FoldGroup> foldGroupsByName = new HashMap<>();
 
   private static final Map<Integer, int[]> itemSourceByNoobSkillId = new HashMap<Integer, int[]>();
-  private static final Map<Integer, Integer> noobSkillIdByItemSource = new LinkedHashMap<>();
+  private static final Map<Integer, Integer> noobSkillIdByItemSource = new HashMap<>();
 
   public static final String QUEST_FLAG = "q";
   public static final String GIFT_FLAG = "g";

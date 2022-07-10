@@ -144,7 +144,7 @@ public class DebugDatabase {
   private static final String ITEM_HTML = "itemhtml.txt";
 
   private static final String ITEM_DATA = "itemdata.txt";
-  private static final Map<Integer, String> rawItems = new LinkedHashMap<>();
+  private static final Map<Integer, String> rawItems = new HashMap<>();
 
   private static class ItemMap {
     private final String tag;
@@ -1563,7 +1563,7 @@ public class DebugDatabase {
 
   private static final String OUTFIT_HTML = "outfithtml.txt";
   private static final String OUTFIT_DATA = "outfitdata.txt";
-  private static final Map<Integer, String> rawOutfits = new LinkedHashMap<>();
+  private static final Map<Integer, String> rawOutfits = new HashMap<>();
   private static final ItemMap outfits = new ItemMap("Outfits", 0);
 
   public static final void checkOutfits() {
@@ -1740,7 +1740,7 @@ public class DebugDatabase {
 
   private static final String EFFECT_HTML = "effecthtml.txt";
   private static final String EFFECT_DATA = "effectdata.txt";
-  private static final Map<Integer, String> rawEffects = new LinkedHashMap<>();
+  private static final Map<Integer, String> rawEffects = new HashMap<>();
   private static final ItemMap effects = new ItemMap("Status Effects", 0);
 
   public static final void checkEffects(final int effectId) {
@@ -1982,7 +1982,7 @@ public class DebugDatabase {
 
   private static final String SKILL_HTML = "skillhtml.txt";
   private static final String SKILL_DATA = "skilldata.txt";
-  private static final Map<Integer, String> rawSkills = new LinkedHashMap<>();
+  private static final Map<Integer, String> rawSkills = new HashMap<>();
   private static final ItemMap passiveSkills = new ItemMap("Passive Skills", 0);
 
   public static final void checkSkills(final int skillId) {

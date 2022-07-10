@@ -7,7 +7,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -35,17 +34,17 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EquipmentDatabase {
-  private static final Map<Integer, Integer> power = new LinkedHashMap<>();
-  private static final Map<Integer, Integer> hands = new LinkedHashMap<>();
-  private static final Map<Integer, String> itemTypes = new LinkedHashMap<>();
-  private static final Map<Integer, String> statRequirements = new LinkedHashMap<>();
+  private static final Map<Integer, Integer> power = new HashMap<>();
+  private static final Map<Integer, Integer> hands = new HashMap<>();
+  private static final Map<Integer, String> itemTypes = new HashMap<>();
+  private static final Map<Integer, String> statRequirements = new HashMap<>();
 
   private static final Map<Integer, Integer> outfitPieces = new HashMap<>();
   public static final Map<Integer, SpecialOutfit> normalOutfits = new HashMap<>();
   private static final Map<Integer, String> outfitById = new TreeMap<>();
   public static final List<SpecialOutfit> weirdOutfits = new ArrayList<>();
 
-  private static final Map<Integer, Integer> pulverize = new LinkedHashMap<>();
+  private static final Map<Integer, Integer> pulverize = new HashMap<>();
   // Values in pulverize are one of:
   //	0 - not initialized yet
   //	positive - ID of special-case pulverize result (worthless powder, epic wad, etc.)
