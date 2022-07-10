@@ -41,9 +41,7 @@ import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.UmbrellaRequest.UmbrellaMode;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.LogStream;
-import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -52,12 +50,12 @@ public class ItemDatabase {
   private static int maxItemId = 0;
 
   private static String[] canonicalNames = new String[0];
-  private static final IntegerArray useTypeById = new IntegerArray();
-  private static final IntegerArray attributesById = new IntegerArray();
-  private static final IntegerArray priceById = new IntegerArray();
-  private static final IntegerArray nameLength = new IntegerArray();
-  private static final StringArray pluralById = new StringArray();
-  private static final StringArray imageById = new StringArray();
+  private static final Map<Integer, Integer> useTypeById = new HashMap<>();
+  private static final Map<Integer, Integer> attributesById = new HashMap<>();
+  private static final Map<Integer, Integer> priceById = new HashMap<>();
+  private static final Map<Integer, Integer> nameLength = new HashMap<>();
+  private static final Map<Integer, String> pluralById = new HashMap<>();
+  private static final Map<Integer, String> imageById = new HashMap<>();
 
   private static final Map<Integer, String> nameById = new TreeMap<Integer, String>();
   private static final Map<Integer, String> dataNameById = new HashMap<Integer, String>();
@@ -71,7 +69,7 @@ public class ItemDatabase {
   private static final Map<String, FoldGroup> foldGroupsByName = new HashMap<>();
 
   private static final Map<Integer, int[]> itemSourceByNoobSkillId = new HashMap<Integer, int[]>();
-  private static final IntegerArray noobSkillIdByItemSource = new IntegerArray();
+  private static final Map<Integer, Integer> noobSkillIdByItemSource = new HashMap<>();
 
   public static final String QUEST_FLAG = "q";
   public static final String GIFT_FLAG = "g";
@@ -419,7 +417,7 @@ public class ItemDatabase {
         }
 
         String image = data[3];
-        ItemDatabase.imageById.set(itemId, image);
+        ItemDatabase.imageById.put(itemId, image);
 
         String[] usages = data[4].split("\\s*,\\s*");
         String access = ItemDatabase.parseAccess(data[5]);
@@ -430,7 +428,7 @@ public class ItemDatabase {
         if (useType == null) {
           RequestLogger.printLine("Unknown primary usage for " + name + ": " + usage);
         } else {
-          ItemDatabase.useTypeById.set(itemId, useType.intValue());
+          ItemDatabase.useTypeById.put(itemId, useType.intValue());
         }
 
         int attrs = 0;
@@ -445,7 +443,7 @@ public class ItemDatabase {
           }
         }
 
-        ItemDatabase.priceById.set(itemId, price);
+        ItemDatabase.priceById.put(itemId, price);
         ItemDatabase.dataNameById.put(id, name);
         ItemDatabase.nameById.put(id, displayName);
 
@@ -454,7 +452,7 @@ public class ItemDatabase {
         attrs |= access.contains(GIFT_FLAG) ? ItemDatabase.ATTR_GIFT : 0;
         attrs |= access.contains(QUEST_FLAG) ? ItemDatabase.ATTR_QUEST : 0;
         attrs |= access.contains(DISCARD_FLAG) ? ItemDatabase.ATTR_DISCARDABLE : 0;
-        ItemDatabase.attributesById.set(itemId, attrs);
+        ItemDatabase.attributesById.put(itemId, attrs);
 
         if (itemId > ItemDatabase.maxItemId) {
           ItemDatabase.maxItemId = itemId;
@@ -462,11 +460,11 @@ public class ItemDatabase {
 
         ItemDatabase.addIdToName(canonicalName, itemId);
 
-        ItemDatabase.nameLength.set(itemId, displayName.length());
+        ItemDatabase.nameLength.put(itemId, displayName.length());
 
         if (data.length == 8) {
           String plural = data[7];
-          ItemDatabase.pluralById.set(itemId, plural);
+          ItemDatabase.pluralById.put(itemId, plural);
           ItemDatabase.itemIdByPlural.put(StringUtilities.getCanonicalName(plural), id);
         }
         // Build Noobcore skill source list
@@ -501,7 +499,7 @@ public class ItemDatabase {
               break;
           }
           ItemDatabase.addIdToNoobSkill(skillId, itemId);
-          ItemDatabase.noobSkillIdByItemSource.set(itemId, skillId);
+          ItemDatabase.noobSkillIdByItemSource.put(itemId, skillId);
         }
       }
     } catch (IOException e) {
@@ -918,7 +916,7 @@ public class ItemDatabase {
       int intDescId = StringUtilities.parseInt(descId);
       int skillId = (intDescId % 125) + 23001;
       ItemDatabase.addIdToNoobSkill(skillId, itemId);
-      ItemDatabase.noobSkillIdByItemSource.set(itemId, skillId);
+      ItemDatabase.noobSkillIdByItemSource.put(itemId, skillId);
     }
 
     // If it is equipment, derive pulverization
@@ -932,27 +930,27 @@ public class ItemDatabase {
   }
 
   public static final void registerPlural(final int itemId, final String plural) {
-    ItemDatabase.pluralById.set(itemId, plural);
+    ItemDatabase.pluralById.put(itemId, plural);
     ItemDatabase.itemIdByPlural.put(StringUtilities.getCanonicalName(plural), itemId);
   }
 
   public static final void registerMultiUsability(final int itemId, final boolean multi) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
+    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
     int attributes = ItemDatabase.getAttributes(itemId);
 
     if (multi) {
       // We think the item is single usable but it really is multiusable
       if (useType == KoLConstants.CONSUME_USE) {
-        ItemDatabase.useTypeById.set(itemId, KoLConstants.CONSUME_MULTIPLE);
+        ItemDatabase.useTypeById.put(itemId, KoLConstants.CONSUME_MULTIPLE);
       } else {
-        ItemDatabase.attributesById.set(itemId, attributes | ItemDatabase.ATTR_MULTIPLE);
+        ItemDatabase.attributesById.put(itemId, attributes | ItemDatabase.ATTR_MULTIPLE);
       }
     } else {
       // We think the item is multi usable but it really is single usable
       if (useType == KoLConstants.CONSUME_MULTIPLE) {
-        ItemDatabase.useTypeById.set(itemId, KoLConstants.CONSUME_USE);
+        ItemDatabase.useTypeById.put(itemId, KoLConstants.CONSUME_USE);
       } else {
-        ItemDatabase.attributesById.set(itemId, attributes | ItemDatabase.ATTR_USABLE);
+        ItemDatabase.attributesById.put(itemId, attributes | ItemDatabase.ATTR_USABLE);
       }
     }
   }
@@ -965,17 +963,17 @@ public class ItemDatabase {
     String text = DebugDatabase.itemDescriptionText(rawText);
     if (text == null) {
       // Assume defaults
-      ItemDatabase.useTypeById.set(itemId, KoLConstants.NO_CONSUME);
-      ItemDatabase.attributesById.set(itemId, 0);
+      ItemDatabase.useTypeById.put(itemId, KoLConstants.NO_CONSUME);
+      ItemDatabase.attributesById.put(itemId, 0);
       ItemDatabase.accessById.put(id, TRADE_FLAG + "," + DISCARD_FLAG);
-      ItemDatabase.priceById.set(itemId, 0);
+      ItemDatabase.priceById.put(itemId, 0);
       return;
     }
 
     String itemName = DebugDatabase.parseName(text);
 
     String image = DebugDatabase.parseImage(rawText);
-    ItemDatabase.imageById.set(itemId, image);
+    ItemDatabase.imageById.put(itemId, image);
 
     // Parse use type, access, and price from description
     String type = DebugDatabase.parseType(text);
@@ -983,7 +981,7 @@ public class ItemDatabase {
     if (text.contains("blue\">Makes you look like")) {
       usage = KoLConstants.CONSUME_AVATAR;
     }
-    ItemDatabase.useTypeById.set(itemId, usage);
+    ItemDatabase.useTypeById.put(itemId, usage);
 
     String access = DebugDatabase.parseAccess(text);
     ItemDatabase.accessById.put(id, access);
@@ -996,10 +994,10 @@ public class ItemDatabase {
     if (multi && usage != KoLConstants.CONSUME_MULTIPLE) {
       attrs |= ItemDatabase.ATTR_MULTIPLE;
     }
-    ItemDatabase.attributesById.set(itemId, attrs);
+    ItemDatabase.attributesById.put(itemId, attrs);
 
     int price = DebugDatabase.parsePrice(text);
-    ItemDatabase.priceById.set(itemId, price);
+    ItemDatabase.priceById.put(itemId, price);
     // Intentionally get a null if there is not an explicit plural in the database
     String plural = ItemDatabase.getPluralById(itemId);
 
@@ -1463,7 +1461,7 @@ public class ItemDatabase {
   }
 
   public static final int getNameLength(final int itemId) {
-    return ItemDatabase.nameLength.get(itemId);
+    return ItemDatabase.nameLength.getOrDefault(itemId, 0);
   }
 
   public static final String getPluralName(final String name) {
@@ -1494,11 +1492,11 @@ public class ItemDatabase {
   }
 
   public static final String getPluralById(final int itemId) {
-    return pluralById.get(itemId);
+    return pluralById.getOrDefault(itemId, "");
   }
 
   public static final String getImage(final int itemId) {
-    return imageById.get(itemId);
+    return imageById.getOrDefault(itemId, "");
   }
 
   public static final String getSmallImage(final int itemId) {
@@ -1534,12 +1532,8 @@ public class ItemDatabase {
       case ItemPool.FOLDER_28:
         return "folder1.gif";
       default:
-        return imageById.get(itemId);
+        return imageById.getOrDefault(itemId, "");
     }
-  }
-
-  public static final void setImage(final int itemId, final String image) {
-    imageById.set(itemId, image);
   }
 
   public static final String getItemImageLocation(final int itemId) {
@@ -1581,7 +1575,7 @@ public class ItemDatabase {
    * @return The price associated with the item
    */
   public static final int getPriceById(final int itemId) {
-    return ItemDatabase.priceById.get(itemId);
+    return ItemDatabase.priceById.getOrDefault(itemId, 0);
   }
 
   /**
@@ -1594,7 +1588,7 @@ public class ItemDatabase {
   }
 
   public static final int getAttributes(int itemId) {
-    return ItemDatabase.attributesById.get(itemId);
+    return ItemDatabase.attributesById.getOrDefault(itemId, 0);
   }
 
   public static final String attrsToSecondaryUsage(int attrs) {
@@ -1624,7 +1618,7 @@ public class ItemDatabase {
   }
 
   public static final boolean getAttribute(int itemId, int mask) {
-    return (ItemDatabase.attributesById.get(itemId) & mask) != 0;
+    return (ItemDatabase.attributesById.getOrDefault(itemId, 0) & mask) != 0;
   }
 
   /**
@@ -1879,7 +1873,7 @@ public class ItemDatabase {
   public static final boolean isUsable(final int itemId) {
     // Anything that you can manipulate with inv_use.php
 
-    int useType = ItemDatabase.useTypeById.get(itemId);
+    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
     int attributes = ItemDatabase.getAttributes(itemId);
 
     switch (useType) {
@@ -1912,64 +1906,64 @@ public class ItemDatabase {
   }
 
   public static final boolean isPotion(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
+    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
     return (useType == KoLConstants.CONSUME_POTION || useType == KoLConstants.CONSUME_AVATAR);
   }
 
   public static final boolean isEquipment(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
+    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
     return KoLConstants.isEquipmentType(useType, true);
   }
 
   public static final boolean isFood(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
+    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
     return useType == KoLConstants.CONSUME_EAT;
   }
 
   public static final boolean isBooze(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
+    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
     return useType == KoLConstants.CONSUME_DRINK;
   }
 
   public static final boolean isHat(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
+    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
     return useType == KoLConstants.EQUIP_HAT;
   }
 
   public static final boolean isWeapon(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
+    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
     return useType == KoLConstants.EQUIP_WEAPON;
   }
 
   public static final boolean isOffHand(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
+    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
     return useType == KoLConstants.EQUIP_OFFHAND;
   }
 
   public static final boolean isShirt(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
+    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
     return useType == KoLConstants.EQUIP_SHIRT;
   }
 
   public static final boolean isPants(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
+    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
     return useType == KoLConstants.EQUIP_PANTS;
   }
 
   public static final boolean isAccessory(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
+    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
     return useType == KoLConstants.EQUIP_ACCESSORY;
   }
 
   public static final boolean isFamiliarEquipment(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
+    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
     return useType == KoLConstants.EQUIP_FAMILIAR;
   }
 
   public static final boolean isMultiUsable(final int itemId) {
     // Anything that you can manipulate with multiuse.php
 
-    int useType = ItemDatabase.useTypeById.get(itemId);
+    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
     int attributes = ItemDatabase.getAttributes(itemId);
 
     switch (useType) {
@@ -1985,7 +1979,7 @@ public class ItemDatabase {
   }
 
   public static final boolean isReusable(final int itemId) {
-    int useType = ItemDatabase.useTypeById.get(itemId);
+    int useType = ItemDatabase.useTypeById.getOrDefault(itemId, 0);
     int attributes = ItemDatabase.getAttributes(itemId);
     return useType == KoLConstants.INFINITE_USES || (attributes & ItemDatabase.ATTR_REUSABLE) != 0;
   }
@@ -2083,7 +2077,7 @@ public class ItemDatabase {
    * @return The consumption associated with the item
    */
   public static final int getConsumptionType(final int itemId) {
-    return itemId <= 0 ? KoLConstants.NO_CONSUME : ItemDatabase.useTypeById.get(itemId);
+    return itemId <= 0 ? KoLConstants.NO_CONSUME : ItemDatabase.useTypeById.getOrDefault(itemId, 0);
   }
 
   public static final int getConsumptionType(final AdventureResult item) {
@@ -2479,7 +2473,7 @@ public class ItemDatabase {
   }
 
   public static int getNoobSkillId(final int itemId) {
-    return ItemDatabase.noobSkillIdByItemSource.get(itemId);
+    return ItemDatabase.noobSkillIdByItemSource.getOrDefault(itemId, 0);
   }
 
   public static int[] getItemListByNoobSkillId(final int skillId) {

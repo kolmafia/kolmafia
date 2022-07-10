@@ -30,23 +30,21 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.LogStream;
-import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EquipmentDatabase {
-  private static final IntegerArray power = new IntegerArray();
-  private static final IntegerArray hands = new IntegerArray();
-  private static final StringArray itemTypes = new StringArray();
-  private static final StringArray statRequirements = new StringArray();
+  private static final Map<Integer, Integer> power = new HashMap<>();
+  private static final Map<Integer, Integer> hands = new HashMap<>();
+  private static final Map<Integer, String> itemTypes = new HashMap<>();
+  private static final Map<Integer, String> statRequirements = new HashMap<>();
 
   private static final Map<Integer, Integer> outfitPieces = new HashMap<>();
   public static final Map<Integer, SpecialOutfit> normalOutfits = new HashMap<>();
   private static final Map<Integer, String> outfitById = new TreeMap<>();
   public static final List<SpecialOutfit> weirdOutfits = new ArrayList<>();
 
-  private static final IntegerArray pulverize = new IntegerArray();
+  private static final Map<Integer, Integer> pulverize = new HashMap<>();
   // Values in pulverize are one of:
   //	0 - not initialized yet
   //	positive - ID of special-case pulverize result (worthless powder, epic wad, etc.)
@@ -118,10 +116,10 @@ public class EquipmentDatabase {
           continue;
         }
 
-        EquipmentDatabase.power.set(itemId, StringUtilities.parseInt(data[1]));
+        EquipmentDatabase.power.put(itemId, StringUtilities.parseInt(data[1]));
 
         String reqs = data[2];
-        EquipmentDatabase.statRequirements.set(itemId, reqs);
+        EquipmentDatabase.statRequirements.put(itemId, reqs);
 
         int hval = 0;
         String tval = null;
@@ -138,8 +136,8 @@ public class EquipmentDatabase {
           }
         }
 
-        EquipmentDatabase.hands.set(itemId, hval);
-        EquipmentDatabase.itemTypes.set(itemId, tval);
+        EquipmentDatabase.hands.put(itemId, hval);
+        EquipmentDatabase.itemTypes.put(itemId, tval);
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
@@ -225,7 +223,7 @@ public class EquipmentDatabase {
                             ? EquipmentDatabase.deriveCluster(spec)
                             : ItemDatabase.getItemId(spec);
 
-        EquipmentDatabase.pulverize.set(itemId, result);
+        EquipmentDatabase.pulverize.put(itemId, result);
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
@@ -317,7 +315,7 @@ public class EquipmentDatabase {
       boolean isShield = type != null && type.equals("shield");
       String weaponType = "";
       if (isWeapon) {
-        int hands = EquipmentDatabase.hands.get(itemId);
+        int hands = getHands(itemId);
         weaponType = hands + "-handed " + type;
       }
       EquipmentDatabase.writeEquipmentItem(
@@ -371,8 +369,8 @@ public class EquipmentDatabase {
     String type = DebugDatabase.parseType(text);
     String req = DebugDatabase.parseReq(text, type);
 
-    EquipmentDatabase.power.set(itemId, power);
-    EquipmentDatabase.statRequirements.set(itemId, req);
+    EquipmentDatabase.power.put(itemId, power);
+    EquipmentDatabase.statRequirements.put(itemId, req);
 
     boolean isWeapon = false, isShield = false;
     String weaponType = "";
@@ -390,13 +388,13 @@ public class EquipmentDatabase {
         hval = 0;
         tval = type;
       }
-      EquipmentDatabase.hands.set(itemId, hval);
-      EquipmentDatabase.itemTypes.set(itemId, tval);
+      EquipmentDatabase.hands.put(itemId, hval);
+      EquipmentDatabase.itemTypes.put(itemId, tval);
       isWeapon = true;
-    } else if (type.indexOf("shield") != -1) {
+    } else if (type.contains("shield")) {
       isShield = true;
       weaponType = "shield";
-      EquipmentDatabase.itemTypes.set(itemId, weaponType);
+      EquipmentDatabase.itemTypes.put(itemId, weaponType);
     }
 
     String printMe =
@@ -520,25 +518,19 @@ public class EquipmentDatabase {
   }
 
   public static final int getPower(final int itemId) {
-    return EquipmentDatabase.power.get(itemId);
+    return EquipmentDatabase.power.getOrDefault(itemId, 0);
   }
 
   public static final void setPower(final int itemId, final int power) {
-    EquipmentDatabase.power.set(itemId, power);
+    EquipmentDatabase.power.put(itemId, power);
   }
 
   public static final int getHands(final int itemId) {
-    return EquipmentDatabase.hands.get(itemId);
+    return EquipmentDatabase.hands.getOrDefault(itemId, 0);
   }
 
   public static final String getEquipRequirement(final int itemId) {
-    String req = EquipmentDatabase.statRequirements.get(itemId);
-
-    if (req != null) {
-      return req;
-    }
-
-    return "none";
+    return EquipmentDatabase.statRequirements.getOrDefault(itemId, "none");
   }
 
   public static final String getItemType(final int itemId) {
@@ -762,10 +754,10 @@ public class EquipmentDatabase {
     if (id < 0) {
       return -1;
     }
-    int pulver = EquipmentDatabase.pulverize.get(id);
-    if (pulver == 0) {
+    Integer pulver = EquipmentDatabase.pulverize.get(id);
+    if (pulver == null) {
       pulver = EquipmentDatabase.derivePulverization(id);
-      EquipmentDatabase.pulverize.set(id, pulver);
+      EquipmentDatabase.pulverize.put(id, pulver);
     }
     return pulver;
   }
@@ -800,7 +792,7 @@ public class EquipmentDatabase {
       }
     }
 
-    int power = EquipmentDatabase.power.get(id);
+    int power = EquipmentDatabase.getPower(id);
     if (power <= 0) {
       // power is unknown, derive from requirement (which isn't always accurate)
       pulver |= YIELD_UNCERTAIN;

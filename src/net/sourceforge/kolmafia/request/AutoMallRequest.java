@@ -12,7 +12,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.StoreManager;
-import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AutoMallRequest extends TransferItemRequest {
@@ -147,8 +146,8 @@ public class AutoMallRequest extends TransferItemRequest {
       int[] rawPrices = AutoMallRequest.getPrices(urlString);
       int[] rawLimits = AutoMallRequest.getLimits(urlString);
 
-      IntegerArray prices = new IntegerArray();
-      IntegerArray limits = new IntegerArray();
+      List<Integer> prices = new ArrayList<>();
+      List<Integer> limits = new ArrayList<>();
       for (int i = 0; i < rawItems.length; ++i) {
         if (items.contains(rawItems[i])) {
           prices.add(rawPrices[i]);
@@ -157,7 +156,9 @@ public class AutoMallRequest extends TransferItemRequest {
       }
 
       StoreManager.addItems(
-          items.toArray(new AdventureResult[0]), prices.toArray(), limits.toArray());
+          items.toArray(new AdventureResult[0]),
+          prices.stream().mapToInt(i -> i).toArray(),
+          limits.stream().mapToInt(i -> i).toArray());
     } else {
       StoreManager.update(responseText, StoreManager.ADDER);
     }
@@ -176,23 +177,23 @@ public class AutoMallRequest extends TransferItemRequest {
   }
 
   private static int[] getPrices(final String urlString) {
-    IntegerArray prices = new IntegerArray();
+    List<Integer> prices = new ArrayList<>();
     Matcher matcher = AutoMallRequest.PRICE_PATTERN.matcher(urlString);
     while (matcher.find()) {
       int price = matcher.group(1) == null ? 999999999 : StringUtilities.parseInt(matcher.group(1));
       prices.add(price);
     }
-    return prices.toArray();
+    return prices.stream().mapToInt(i -> i).toArray();
   }
 
   private static int[] getLimits(final String urlString) {
-    IntegerArray limits = new IntegerArray();
+    List<Integer> limits = new ArrayList<>();
     Matcher matcher = AutoMallRequest.LIMIT_PATTERN.matcher(urlString);
     while (matcher.find()) {
       int limit = matcher.group(1) == null ? 0 : StringUtilities.parseInt(matcher.group(1));
       limits.add(limit);
     }
-    return limits.toArray();
+    return limits.stream().mapToInt(i -> i).toArray();
   }
 
   @Override
