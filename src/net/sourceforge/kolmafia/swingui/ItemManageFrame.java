@@ -147,8 +147,6 @@ public class ItemManageFrame extends GenericFrame {
     JPanel panel = new JPanel(new BorderLayout());
     JTabbedPane queueTabs = null;
 
-    queueTabs = null;
-
     if (creationQueue) {
       UseItemDequeuePanel dequeuePanel = new UseItemDequeuePanel(type);
       panel.add(dequeuePanel, BorderLayout.NORTH);
