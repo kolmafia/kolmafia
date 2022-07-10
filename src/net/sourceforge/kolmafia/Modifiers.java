@@ -3594,10 +3594,8 @@ public class Modifiers {
 
     // Make a map of outfits
     Set<String> outfits = new TreeSet<>();
-    int outfitCount = EquipmentDatabase.getOutfitCount();
 
-    for (int i = 1; i <= outfitCount; ++i) {
-      SpecialOutfit outfit = EquipmentDatabase.getOutfit(i);
+    for (var outfit : EquipmentDatabase.normalOutfits.values()) {
       if (outfit != null) {
         outfits.add(outfit.getName());
       }

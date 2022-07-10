@@ -1025,8 +1025,9 @@ public class Evaluator {
 
     Map<Integer, Boolean> usefulOutfits = new HashMap<>();
     Map<AdventureResult, AdventureResult> outfitPieces = new HashMap<>();
-    for (int i = 1; i < EquipmentDatabase.normalOutfits.size(); ++i) {
-      SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get(i);
+    for (var outfitEntry : EquipmentDatabase.normalOutfits.entrySet()) {
+      var i = outfitEntry.getKey();
+      var outfit = outfitEntry.getValue();
       if (outfit == null) continue;
       if (this.negOutfits.contains(outfit.getName())) continue;
       if (this.posOutfits.contains(outfit.getName())) {
