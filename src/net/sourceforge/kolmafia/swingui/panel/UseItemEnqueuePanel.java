@@ -84,7 +84,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
     this.hasCreationQueue = queueTabs != null;
 
-    if (this.hasCreationQueue) {
+    if (!this.hasCreationQueue) {
       // Make a dummy tabbed pane, so that we don't have to do null
       // checks in the 8 places where setTitleAt(0, ...) is called.
       queueTabs = new JTabbedPane();
