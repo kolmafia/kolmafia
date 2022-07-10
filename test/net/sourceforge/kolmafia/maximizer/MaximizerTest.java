@@ -406,8 +406,6 @@ public class MaximizerTest {
     }
 
     @Test
-    @Disabled(
-        "Doesn't try to absorb the turtle, even though this should use the same code as the mask case above")
     public void canAbsorbHelmetTurtleForEnchants() {
       final var cleanups = new Cleanups(inPath(Path.GELATINOUS_NOOB), addItem("helmet turtle"));
 

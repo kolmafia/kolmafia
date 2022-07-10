@@ -51,6 +51,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
   private final JCheckBox[] filters;
   private final JTabbedPane queueTabs;
   private final ConcoctionType type;
+  private final boolean hasCreationQueue;
 
   private final LockableListModel<Concoction> model;
   private final Comparator<? extends Concoction> comparator;
@@ -81,7 +82,10 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
     this.refreshButton.setAction(new RefreshListener());
 
-    if (queueTabs == null) { // Make a dummy tabbed pane, so that we don't have to do null
+    this.hasCreationQueue = queueTabs != null;
+
+    if (!this.hasCreationQueue) {
+      // Make a dummy tabbed pane, so that we don't have to do null
       // checks in the 8 places where setTitleAt(0, ...) is called.
       queueTabs = new JTabbedPane();
       queueTabs.addTab("dummy", new JLabel());
@@ -90,7 +94,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
     List<ThreadedListener> listeners = new ArrayList<ThreadedListener>();
 
-    if (Preferences.getBoolean("addCreationQueue")) {
+    if (this.hasCreationQueue) {
       listeners.add(new EnqueueListener());
     }
 
@@ -205,7 +209,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
     // Always enable the "enqueue" button. You may not be able to consume the
     // item, but you may wish to create it
-    if (Preferences.getBoolean("addCreationQueue")) {
+    if (this.hasCreationQueue) {
       this.buttons[index++].setEnabled(true);
     }
 

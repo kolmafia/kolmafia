@@ -32,7 +32,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AdventureDatabase {
@@ -45,7 +44,10 @@ public class AdventureDatabase {
   public static final Map<String, String> PARENT_ZONES = new HashMap<>();
   public static final Map<String, String> ZONE_DESCRIPTIONS = new HashMap<>();
 
-  private static final StringArray[] adventureTable = new StringArray[4];
+  private record Adventure(String zone, String formSource, String id, String name) {}
+
+  private static final List<Adventure> adventureTable = new ArrayList<>();
+
   private static final Map<String, AreaCombatData> areaCombatData = new HashMap<>();
   private static final Map<String, KoLAdventure> adventureByURL = new HashMap<>();
   private static final Map<String, KoLAdventure> adventureByName = new HashMap<>();
@@ -58,10 +60,6 @@ public class AdventureDatabase {
   private static final Map<String, Boolean> wandererLookup = new HashMap<>();
 
   static {
-    for (int i = 0; i < AdventureDatabase.adventureTable.length; ++i) {
-      AdventureDatabase.adventureTable[i] = new StringArray();
-    }
-
     AdventureDatabase.refreshZoneTable();
     AdventureDatabase.refreshAdventureTable();
     AdventureDatabase.refreshCombatsTable();
@@ -120,9 +118,7 @@ public class AdventureDatabase {
         return;
       }
 
-      for (int i = 0; i < AdventureDatabase.adventureTable.length; ++i) {
-        AdventureDatabase.adventureTable[i].clear();
-      }
+      AdventureDatabase.adventureTable.clear();
 
       String[] data;
 
@@ -165,10 +161,8 @@ public class AdventureDatabase {
         }
 
         AdventureDatabase.zoneLookup.put(name, zone);
-        AdventureDatabase.adventureTable[0].add(zone);
-        AdventureDatabase.adventureTable[1].add(location[0] + ".php");
-        AdventureDatabase.adventureTable[2].add(location[1]);
-        AdventureDatabase.adventureTable[3].add(name);
+        AdventureDatabase.adventureTable.add(
+            new Adventure(zone, location[0] + ".php", location[1], name));
         AdventureDatabase.environmentLookup.put(name, environment);
 
         AdventureDatabase.statLookup.put(name, stat);
@@ -262,8 +256,8 @@ public class AdventureDatabase {
     AdventureDatabase.adventureByURL.clear();
     AdventureDatabase.adventureByName.clear();
 
-    for (int i = 0; i < AdventureDatabase.adventureTable[0].size(); ++i) {
-      AdventureDatabase.addAdventure(AdventureDatabase.getAdventure(i));
+    for (var adv : AdventureDatabase.adventureTable) {
+      AdventureDatabase.addAdventure(AdventureDatabase.getAdventure(adv));
     }
   }
 
@@ -511,12 +505,8 @@ public class AdventureDatabase {
     return AdventureDatabase.allAdventures.find(adventureName);
   }
 
-  private static KoLAdventure getAdventure(final int tableIndex) {
-    return new KoLAdventure(
-        AdventureDatabase.adventureTable[0].get(tableIndex),
-        AdventureDatabase.adventureTable[1].get(tableIndex),
-        AdventureDatabase.adventureTable[2].get(tableIndex),
-        AdventureDatabase.adventureTable[3].get(tableIndex));
+  private static KoLAdventure getAdventure(final Adventure adv) {
+    return new KoLAdventure(adv.zone, adv.formSource, adv.id, adv.name);
   }
 
   public static final String getZone(final String location) {
@@ -613,14 +603,7 @@ public class AdventureDatabase {
   }
 
   public static final boolean validateAdventureArea(final String area) {
-    StringArray areas = AdventureDatabase.adventureTable[3];
-
-    for (int i = 0; i < areas.size(); ++i) {
-      if (area.equals(areas.get(i))) {
-        return true;
-      }
-    }
-    return false;
+    return AdventureDatabase.adventureTable.stream().anyMatch(x -> area.equals(x.name));
   }
 
   public static final AreaCombatData getAreaCombatData(String area) {

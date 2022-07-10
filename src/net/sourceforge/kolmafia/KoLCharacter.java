@@ -5471,6 +5471,15 @@ public abstract class KoLCharacter {
       }
     }
 
+    // Do appropriate things for specific items in Noobcore
+    if (KoLCharacter.inNoobcore()) {
+      switch (itemId) {
+        case ItemPool.LATTE_MUG:
+          newModifiers.add(Modifiers.getItemModifiers(itemId));
+          break;
+      }
+    }
+
     // Do appropriate things for specific items
     if (!KoLCharacter.inNoobcore()
         && (!KoLCharacter.inGLover() || KoLCharacter.hasGs(item.getName()))) {

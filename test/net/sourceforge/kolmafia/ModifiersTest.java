@@ -5,6 +5,7 @@ import static internal.helpers.Player.equip;
 import static internal.helpers.Player.inPath;
 import static internal.helpers.Player.isClass;
 import static internal.helpers.Player.isDay;
+import static internal.helpers.Player.setFamiliar;
 import static internal.helpers.Player.setHP;
 import static internal.helpers.Player.setMP;
 import static internal.helpers.Player.setProperty;
@@ -15,6 +16,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Map.Entry;
@@ -23,7 +25,10 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.LatteRequest;
+import net.sourceforge.kolmafia.request.LatteRequest.Latte;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -376,8 +381,8 @@ public class ModifiersTest {
           new Cleanups(
               isClass(AscensionClass.GREY_GOO), setStats(100, 100, 100), setHP(176, 176, 176));
       try (cleanups) {
-        // Base HP = (starting value + absorptions)
-        // Buffed HP = Base HP + mod(HP)
+        // Base HP = (starting value + absorptions + currently worn equipment)
+        // Buffed HP = Base HP - currently worn equipment + mod(HP)
 
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         KoLCharacter.recalculateAdjustments(false);
@@ -398,7 +403,7 @@ public class ModifiersTest {
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats[Modifiers.BUFFED_MUS]);
-        assertEquals(216, stats[Modifiers.BUFFED_HP]);
+        assertEquals(176, stats[Modifiers.BUFFED_HP]);
 
         // extra-wide head candle (+100% HP)
         EquipmentManager.setEquipment(
@@ -407,6 +412,41 @@ public class ModifiersTest {
         stats = mods.predict();
         assertEquals(100, stats[Modifiers.BUFFED_MUS]);
         assertEquals(176, stats[Modifiers.BUFFED_HP]);
+      }
+    }
+
+    @Test
+    public void correctlySpeculatesGreyYouMaximumHP() {
+      var cleanups =
+          new Cleanups(
+              isClass(AscensionClass.GREY_GOO),
+              setStats(100, 100, 100),
+              setHP(216, 216, 216),
+              equip(EquipmentManager.HAT, ItemPool.REINFORCED_BEADED_HEADBAND));
+      try (cleanups) {
+        // Base HP = (starting value + absorptions + currently worn equipment)
+        // Buffed HP = Base HP - currently worn equipment + mod(HP)
+
+        // We are starting with a reinforced beaded headband, which provides +40 HP
+        // Therefore, our actual "baseHP" is 176
+
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        KoLCharacter.recalculateAdjustments(false);
+        assertEquals(40, current.get(Modifiers.HP));
+
+        int[] currentStats = current.predict();
+        assertEquals(100, currentStats[Modifiers.BUFFED_MUS]);
+        assertEquals(216, currentStats[Modifiers.BUFFED_HP]);
+
+        // Make some modifiers to speculate with
+        Modifiers speculate = new Modifiers(current);
+        assertEquals(40, speculate.get(Modifiers.HP));
+        // Suppose we want to replace the reinforced beaded headband (+40 HP)
+        // with a nurse's hat (+300 HP)
+        speculate.set(Modifiers.HP, 300.0);
+
+        int[] speculateStats = speculate.predict();
+        assertEquals(476, speculateStats[Modifiers.BUFFED_HP]);
       }
     }
   }
@@ -506,8 +546,8 @@ public class ModifiersTest {
           new Cleanups(
               isClass(AscensionClass.GREY_GOO), setStats(100, 100, 100), setMP(126, 126, 126));
       try (cleanups) {
-        // Base MP = (starting value + absorptions)
-        // Buffed MP = Base MP + mod(MP)
+        // Base MP = (starting value + absorptions + currently worn equipment)
+        // Buffed MP = Base MP - currently worn equipment + mod(HP)
 
         Modifiers mods = KoLCharacter.getCurrentModifiers();
         KoLCharacter.recalculateAdjustments(false);
@@ -527,7 +567,7 @@ public class ModifiersTest {
         KoLCharacter.recalculateAdjustments(false);
         stats = mods.predict();
         assertEquals(100, stats[Modifiers.BUFFED_MYS]);
-        assertEquals(166, stats[Modifiers.BUFFED_MP]);
+        assertEquals(126, stats[Modifiers.BUFFED_MP]);
 
         EquipmentManager.setEquipment(EquipmentManager.HAT, EquipmentRequest.UNEQUIP);
 
@@ -538,6 +578,41 @@ public class ModifiersTest {
         stats = mods.predict();
         assertEquals(106, stats[Modifiers.BUFFED_MYS]);
         assertEquals(126, stats[Modifiers.BUFFED_MP]);
+      }
+    }
+
+    @Test
+    public void correctlySpeculatesGreyYouMaximumMP() {
+      var cleanups =
+          new Cleanups(
+              isClass(AscensionClass.GREY_GOO),
+              setStats(100, 100, 100),
+              setMP(126, 126, 126),
+              equip(EquipmentManager.HAT, ItemPool.BEER_HELMET));
+      try (cleanups) {
+        // Base MP = (starting value + absorptions + currently worn equipment)
+        // Buffed MP = Base MP - currently worn equipment + mod(MP)
+
+        // We are starting with a beer helmet, which provides +40 MP
+        // Therefore, our actual "baseMP" is 86
+
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        KoLCharacter.recalculateAdjustments(false);
+        assertEquals(40, current.get(Modifiers.MP));
+
+        int[] currentStats = current.predict();
+        assertEquals(100, currentStats[Modifiers.BUFFED_MYS]);
+        assertEquals(126, currentStats[Modifiers.BUFFED_MP]);
+
+        // Make some modifiers to speculate with
+        Modifiers speculate = new Modifiers(current);
+        assertEquals(40, speculate.get(Modifiers.MP));
+        // Suppose we want to replace the beer helmet (+40 HP)
+        // with Covers-Your-Head (+100 MP)
+        speculate.set(Modifiers.MP, 100.0);
+
+        int[] speculateStats = speculate.predict();
+        assertEquals(186, speculateStats[Modifiers.BUFFED_MP]);
       }
     }
 
@@ -591,6 +666,63 @@ public class ModifiersTest {
         stats = mods.predict();
         assertEquals(156, stats[Modifiers.BUFFED_MOX]);
         assertEquals(259, stats[Modifiers.BUFFED_MP]);
+      }
+    }
+  }
+
+  @Nested
+  class Noobcore {
+    @BeforeAll
+    private static void beforeAll() {
+      Preferences.saveSettingsToFile = false;
+      Preferences.reset("noob");
+    }
+
+    @AfterAll
+    private static void afterAll() {
+      Preferences.saveSettingsToFile = true;
+    }
+
+    @Test
+    public void noobUnderstandsLatteEnchantments() {
+      var cleanups =
+          new Cleanups(
+              inPath(Path.GELATINOUS_NOOB),
+              setFamiliar(FamiliarPool.EMO_SQUID),
+              setProperty("latteModifier", ""),
+              equip(EquipmentManager.OFFHAND, "latte lovers member's mug"));
+      try (cleanups) {
+        FamiliarData familiar = KoLCharacter.getFamiliar();
+        familiar.setExperience(400);
+        assertEquals(20, familiar.getWeight());
+        assertEquals(20, familiar.getModifiedWeight());
+
+        Latte[] ingredients = LatteRequest.parseIngredients("rawhide", "cajun", "cinnamon");
+        String[] mods = Arrays.stream(ingredients).map(Latte::getModifier).toArray(String[]::new);
+        LatteRequest.setLatteEnchantments(mods);
+
+        String expected =
+            "Familiar Weight: 5, Meat Drop: 40, Experience (Moxie): 1, Moxie Percent: 5, Pickpocket Chance: 5";
+        assertEquals(expected, Preferences.getString("latteModifier"));
+
+        // Modifiers set "override" modifiers for the latte mug
+        Modifiers latteModifiers = Modifiers.getModifiers("Item", "[" + ItemPool.LATTE_MUG + "]");
+        assertEquals(5, latteModifiers.get(Modifiers.FAMILIAR_WEIGHT));
+        assertEquals(40, latteModifiers.get(Modifiers.MEATDROP));
+        assertEquals(1, latteModifiers.get(Modifiers.MOX_EXPERIENCE));
+        assertEquals(5, latteModifiers.get(Modifiers.MOX_PCT));
+        assertEquals(5, latteModifiers.get(Modifiers.PICKPOCKET_CHANCE));
+
+        // Verify that KoLCharacter applied the mods
+        Modifiers currentModifiers = KoLCharacter.getCurrentModifiers();
+        assertEquals(5, currentModifiers.get(Modifiers.FAMILIAR_WEIGHT));
+        assertEquals(40, currentModifiers.get(Modifiers.MEATDROP));
+        assertEquals(1, currentModifiers.get(Modifiers.MOX_EXPERIENCE));
+        assertEquals(5, currentModifiers.get(Modifiers.MOX_PCT));
+        assertEquals(5, currentModifiers.get(Modifiers.PICKPOCKET_CHANCE));
+
+        // Verify the familiar is heavier
+        assertEquals(25, familiar.getModifiedWeight());
       }
     }
   }

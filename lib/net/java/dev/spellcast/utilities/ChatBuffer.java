@@ -307,11 +307,11 @@ public class ChatBuffer
 
 		htmlContent.append( "<html><head><style>" );
 		htmlContent.append( this.getStyle() );
-		htmlContent.append( "</style></head><body>" );
+		htmlContent.append( "</style></head><body><main>" );
 
 		htmlContent.append( this.content.toString() );
 
-		htmlContent.append( "</body></html>" );
+		htmlContent.append( "</main></body></html>" );
 
 		return htmlContent.toString();
 	}
