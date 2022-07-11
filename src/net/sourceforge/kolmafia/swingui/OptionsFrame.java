@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame.SmartButtonGroup;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
+import net.sourceforge.kolmafia.swingui.menu.LoadScriptMenuItem;
 import net.sourceforge.kolmafia.swingui.panel.AddCustomDeedsPanel;
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
 import net.sourceforge.kolmafia.swingui.panel.DailyDeedsPanel;
@@ -941,8 +942,8 @@ public class OptionsFrame extends GenericFrame {
           return;
         }
 
-        KoLConstants.bookmarks.add(
-            bookmark.getName() + "|" + bookmark.getAbsolutePath() + "|false");
+        String scriptPath = LoadScriptMenuItem.getRelativePath(bookmark);
+        KoLConstants.bookmarks.add(bookmark.getName() + "|" + scriptPath + "|false");
       }
     }
 
