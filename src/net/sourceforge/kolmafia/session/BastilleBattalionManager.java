@@ -76,12 +76,10 @@ public abstract class BastilleBattalionManager {
   // Castles:
   //
   // - What are initial stats for the six castles?
-  //   (Conjecture is that each is "better" at one of the six stats.)
+  // - Do they have one superior stat, or does each have a superior offense AND
+  //   a superior defense?
   // - Is there a randomizing factor per game or battle?
   // - How do they scale as fight # increases?
-  // - When comparing castle and player stats, one is always "higher" or
-  //   "lower" than the other. Really? Perhaps equal stats have a 50% chance of
-  //   winning or losing the toss?
   //
   // Battles:
   //
@@ -95,6 +93,20 @@ public abstract class BastilleBattalionManager {
   // - What are the linear formulae for the 12 stat-scaling cheese encounters?
 
   // *** Solved research:
+  //
+  // Castles:
+  //
+  // - Each castle type has at least one "superior" stat.
+  //   barracks - MA
+  //   berserker - PA
+  //   bigcastle - CA
+  //   frenchcastle - PD
+  //   masterofnone - MD
+  //   shieldmaster - CD
+  // - In battle results, the player or castle stat is always "higher" or
+  //   "lower" than the other. I have much data where the highest stat that
+  //   results in a "loss" also sometimes results in a "win". Conclusion: Equal
+  //   stats have a 50% chance of resulting in a player win or a castle win.
   //
   // Cheese:
   //
@@ -297,32 +309,38 @@ public abstract class BastilleBattalionManager {
   // Each castle has its own set of stats. We don't know what they are,
   // just as we don't know what your initial stats are.
   //
-  // Erosionseeker posted on G_D about this:
+  // Analysis of more than 4,000 battles shows that each castle type is
+  // superior in one the six stats:
   //
-  //     Avant-Garde - higher psychological defense?
-  //     Imposing Citadel - higher psychological attack
-  //     Generic - higher military defense?
-  //     Military Fortress - higher military attack
-  //     Fortified Stronghold - higher castle defense?
-  //     Sprawling Chateau - higher castle attack?
+  //   Military Fortress (barracks) - higher MA
+  //   Imposing Citadel (berserker) - higher PA
+  //   Sprawling Chateau (bigcastle) - higher CA
+  //   Avant-Garde (frenchcastle) - higher PD
+  //   Generic (masterofnone) - higher MD
+  //   Fortified Stronghold (shieldmaster) - higher CD
+  //
+  // This stat starts out higher and improves faster in harder castles than the
+  // other stats do.
 
   private static Map<String, Castle> imageToCastle = new HashMap<>();
   private static Map<String, Castle> descriptionToCastle = new HashMap<>();
 
   public static enum Castle {
-    ART("frenchcastle", "an avant-garde art castle"),
-    BORING("masterofnone", "a boring, run-of-the-mill castle"),
-    CHATEAU("bigcastle", "a sprawling chateau"),
-    CITADEL("berserker", "a dark and menacing citadel"),
-    FORTIFIED("shieldmaster", "a fortress that puts the 'fort' in 'fortified'"),
-    MILITARY("barracks", "an imposing military fortress");
+    ART("frenchcastle", "an avant-garde art castle", Stat.PD),
+    BORING("masterofnone", "a boring, run-of-the-mill castle", Stat.MD),
+    CHATEAU("bigcastle", "a sprawling chateau", Stat.CA),
+    CITADEL("berserker", "a dark and menacing citadel", Stat.PA),
+    FORTIFIED("shieldmaster", "a fortress that puts the 'fort' in 'fortified'", Stat.CD),
+    MILITARY("barracks", "an imposing military fortress", Stat.MA);
 
     String prefix;
     String description;
+    Stat stat;
 
-    private Castle(String prefix, String description) {
+    private Castle(String prefix, String description, Stat stat) {
       this.prefix = prefix;
       this.description = description;
+      this.stat = stat;
       descriptionToCastle.put(description, this);
       imageToCastle.put(prefix + "_1.png", this);
       imageToCastle.put(prefix + "_2.png", this);
@@ -331,6 +349,10 @@ public abstract class BastilleBattalionManager {
 
     public String getPrefix() {
       return this.prefix;
+    }
+
+    public Stat getStat() {
+      return this.stat;
     }
 
     @Override
