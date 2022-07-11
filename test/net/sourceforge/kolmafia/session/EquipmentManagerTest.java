@@ -86,4 +86,13 @@ public class EquipmentManagerTest {
       assertThat(KoLCharacter.hasSkill("Sweat Flick"), equalTo(false));
     }
   }
+
+  @Test
+  public void cardInUnequippedCardSleeveDoesNotCountAsEquipped() {
+    equip(EquipmentManager.OFFHAND, "card sleeve");
+    equip(EquipmentManager.CARDSLEEVE, "Alice's Army Foil Coward");
+    assertThat(KoLCharacter.hasEquipped(5003), equalTo(true));
+    EquipmentManager.setEquipment(EquipmentManager.OFFHAND, EquipmentRequest.UNEQUIP);
+    assertThat(KoLCharacter.hasEquipped(5003), equalTo(false));
+  }
 }
