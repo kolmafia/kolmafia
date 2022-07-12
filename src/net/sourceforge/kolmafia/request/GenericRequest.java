@@ -2814,6 +2814,7 @@ public class GenericRequest implements Runnable {
         return;
     }
 
+    GenericRequest.itemMonster = name;
     KoLAdventure.lastVisitedLocation = null;
     KoLAdventure.lastLocationName = null;
     KoLAdventure.lastLocationURL = location;
