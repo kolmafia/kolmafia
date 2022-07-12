@@ -48,5 +48,4 @@ public class CcsFileManagerTest {
     assertFalse(CcsFileManager.printBytes("sub/folder", new byte[0]));
     assertFalse(CcsFileManager.printBytes("sub\\folder", new byte[0]));
   }
-
 }
