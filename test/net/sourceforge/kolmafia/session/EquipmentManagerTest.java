@@ -89,10 +89,15 @@ public class EquipmentManagerTest {
 
   @Test
   public void cardInUnequippedCardSleeveDoesNotCountAsEquipped() {
-    equip(EquipmentManager.OFFHAND, "card sleeve");
-    equip(EquipmentManager.CARDSLEEVE, "Alice's Army Foil Coward");
-    assertThat(KoLCharacter.hasEquipped(5003), equalTo(true));
+    var cleanup =
+        new Cleanups(
+            equip(EquipmentManager.OFFHAND, "card sleeve"), equip(EquipmentManager.CARDSLEEVE, "Alice's Army Foil Coward"));
+    
+    try (cleanup) {
+      assertThat(KoLCharacter.hasEquipped(5003), equalTo(true)); //Alice's Army Foil Coward
     EquipmentManager.setEquipment(EquipmentManager.OFFHAND, EquipmentRequest.UNEQUIP);
-    assertThat(KoLCharacter.hasEquipped(5003), equalTo(false));
+    assertThat(KoLCharacter.hasEquipped(5003), equalTo(false)); //Alice's Army Foil Coward
+    }
+    
   }
 }
