@@ -2088,6 +2088,12 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("buffer_to_file", DataTypes.BOOLEAN_TYPE, params));
 
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("read_ccs", DataTypes.BUFFER_TYPE, params));
+
+    params = new Type[] {DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("write_ccs", DataTypes.BOOLEAN_TYPE, params));
+
     // Custom combat helper functions.
 
     params = new Type[] {};
@@ -8069,6 +8075,22 @@ public abstract class RuntimeLibrary {
     byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
     String location = var2.toString();
     return DataFileCache.printBytes(location, bytes);
+  }
+
+  public static Value read_ccs(ScriptRuntime controller, final Value name) {
+    String ccsName = name.toString();
+    byte[] bytes = CcsFileManager.getBytes(ccsName);
+    String string = new String(bytes, StandardCharsets.UTF_8);
+    StringBuffer buffer = new StringBuffer(string);
+    return new Value(DataTypes.BUFFER_TYPE, "", buffer);
+  }
+
+  public static Value write_ccs(ScriptRuntime controller, final Value data, final Value name) {
+    StringBuffer buffer = (StringBuffer) data.rawValue();
+    String string = buffer.toString();
+    byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
+    String ccsName = name.toString();
+    return DataTypes.makeBooleanValue(CcsFileManager.printBytes(ccsName, bytes));
   }
 
   // Custom combat helper functions.
