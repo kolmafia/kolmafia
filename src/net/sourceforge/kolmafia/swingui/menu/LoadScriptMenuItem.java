@@ -87,7 +87,6 @@ public class LoadScriptMenuItem extends ThreadedMenuItem {
         CommandDisplayFrame.executeCommand("edit " + this.executePath);
       } else if (updateMRU) {
         CommandDisplayFrame.executeCommand("call " + this.executePath);
-        KoLConstants.scriptMList.addItem(this.executePath);
       } else {
         CommandDisplayFrame.executeCommand(this.executePath);
       }

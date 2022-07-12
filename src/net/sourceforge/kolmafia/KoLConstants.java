@@ -114,7 +114,7 @@ public interface KoLConstants extends UtilityConstants {
   List<String> bookmarks = LockableListFactory.getInstance(String.class);
 
   ArrayList<String> disabledScripts = new ArrayList<>();
-  ScriptMRUList scriptMList = new ScriptMRUList("scriptMRUList", "scriptMRULength");
+  ScriptMRUList scriptMRUList = new ScriptMRUList("scriptMRUList", "scriptMRULength");
   PartialMRUList maximizerMList =
       new PartialMRUList("maximizerMRUList", "maximizerMRUSize", "maximizerList");
 

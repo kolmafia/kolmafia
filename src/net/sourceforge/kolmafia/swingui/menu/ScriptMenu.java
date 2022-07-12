@@ -30,7 +30,7 @@ public class ScriptMenu extends JMenu implements Listener {
     add(new DisplayFrameMenuItem("Script Manager", "ScriptManageFrame"));
     add(new LoadScriptMenuItem());
 
-    File[] files = KoLConstants.scriptMList.listAsFiles();
+    File[] files = KoLConstants.scriptMRUList.listAsFiles();
 
     if (files.length == 0) {
       return;

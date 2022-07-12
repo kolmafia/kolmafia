@@ -38,20 +38,22 @@ public class ScriptMRUList implements Listener {
   }
 
   protected void init() {
-    maxMRU = Preferences.getInteger(prefLen);
-    if (maxMRU <= 0) {
-      mruList.clear();
-      return;
-    }
+    synchronized (this) {
+      maxMRU = Preferences.getInteger(prefLen);
+      if (maxMRU <= 0) {
+        mruList.clear();
+        return;
+      }
 
-    // Load list from preference - use whatever is there
-    String oldValues = Preferences.getString(prefList);
-    if ((oldValues != null) && (!oldValues.equals(""))) {
-      // First to last, delimited by semi-colon.  Split and insert.
-      String[] items = oldValues.split(SEMICOLON);
-      int itemsToAdd = Math.min(maxMRU, items.length);
-      for (int i = 0; i < itemsToAdd; i++) {
-        mruList.addLast(items[i]);
+      // Load list from preference - use whatever is there
+      String oldValues = Preferences.getString(prefList);
+      if ((oldValues != null) && (!oldValues.equals(""))) {
+        // First to last, delimited by semi-colon.  Split and insert.
+        String[] items = oldValues.split(SEMICOLON);
+        int itemsToAdd = Math.min(maxMRU, items.length);
+        for (int i = 0; i < itemsToAdd; i++) {
+          mruList.addLast(items[i]);
+        }
       }
     }
   }
@@ -65,25 +67,28 @@ public class ScriptMRUList implements Listener {
       return;
     }
 
-    // delete item if it is currently in list
-    // note - as implemented this is a case sensitive compare
-    while (mruList.contains(script)) {
-      mruList.remove(script);
-    }
-    // add this as the first
-    mruList.addFirst(script);
-    // delete excess
-    while (mruList.size() > maxMRU) {
-      mruList.removeLast();
-    }
-    // save the new list as a preference
-    Iterator<String> i8r = mruList.iterator();
     StringBuilder pref = new StringBuilder();
-    while (i8r.hasNext()) {
-      String val = i8r.next();
-      pref.append(val);
-      if (i8r.hasNext()) {
-        pref.append(SEMICOLON);
+    synchronized (this) {
+      // delete item if it is currently in list
+      // note - as implemented this is a case sensitive compare
+      while (mruList.contains(script)) {
+        mruList.remove(script);
+      }
+      // add this as the first
+      mruList.addFirst(script);
+      // delete excess
+      while (mruList.size() > maxMRU) {
+        mruList.removeLast();
+      }
+
+      // save the new list as a preference
+      Iterator<String> i8r = mruList.iterator();
+      while (i8r.hasNext()) {
+        String val = i8r.next();
+        pref.append(val);
+        if (i8r.hasNext()) {
+          pref.append(SEMICOLON);
+        }
       }
     }
     // now save it
@@ -91,21 +96,23 @@ public class ScriptMRUList implements Listener {
   }
 
   public File[] listAsFiles() {
-    if (mruList.isEmpty()) {
-      return new File[0];
-    }
-
-    List<File> results = new ArrayList<>();
-
-    for (String fileName : mruList) {
-      List<File> matches = KoLmafiaCLI.findScriptFile(fileName);
-
-      if (matches.size() == 1) {
-        results.add(matches.get(0));
+    synchronized (this) {
+      if (mruList.isEmpty()) {
+        return new File[0];
       }
-    }
 
-    return results.toArray(new File[0]);
+      List<File> results = new ArrayList<>();
+
+      for (String fileName : mruList) {
+        List<File> matches = KoLmafiaCLI.findScriptFile(fileName);
+
+        if (matches.size() == 1) {
+          results.add(matches.get(0));
+        }
+      }
+
+      return results.toArray(new File[0]);
+    }
   }
 
   public void updateJComboData(JComboBox<String> jcb) {
@@ -114,12 +121,14 @@ public class ScriptMRUList implements Listener {
     }
 
     jcb.removeAllItems();
-    Iterator<String> i8r = mruList.iterator();
-    int i = 0;
-    while (i8r.hasNext()) {
-      String val = i8r.next();
-      jcb.insertItemAt(val, i);
-      i++;
+    synchronized (this) {
+      Iterator<String> i8r = mruList.iterator();
+      int i = 0;
+      while (i8r.hasNext()) {
+        String val = i8r.next();
+        jcb.insertItemAt(val, i);
+        i++;
+      }
     }
     jcb.setSelectedIndex(0);
   }
