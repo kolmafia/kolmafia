@@ -750,6 +750,11 @@ public class ModifiersTest {
       assertEquals(2, mods.get(Modifiers.FAMILIAR_EXP));
       assertEquals(4, mods.get(Modifiers.MUS_EXPERIENCE));
 
+      Modifiers evaluated = new Modifiers(lookup, Modifiers.evaluateModifiers(lookup, setting));
+      assertEquals(30, evaluated.get(Modifiers.MEATDROP));
+      assertEquals(2, evaluated.get(Modifiers.FAMILIAR_EXP));
+      assertEquals(4, evaluated.get(Modifiers.MUS_EXPERIENCE));
+
       var cleanups = new Cleanups(setProperty("_voteModifier", setting));
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();

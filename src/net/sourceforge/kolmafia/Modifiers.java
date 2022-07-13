@@ -747,7 +747,8 @@ public class Modifiers {
       DoubleModifier modifier = Modifiers.doubleModifiers[i];
       modifierIndicesByName.put(modifier.getName(), i);
       String tag = modifier.getTag();
-      Modifiers.numericModifiers.add(tag);
+      modifierIndicesByName.put(tag, i);
+      numericModifiers.add(tag);
     }
   }
 
@@ -781,7 +782,9 @@ public class Modifiers {
 
     for (int i = 0; i < BITMAP_MODIFIERS; ++i) {
       BitmapModifier modifier = Modifiers.bitmapModifiers[i];
-      modifierIndicesByName.put(modifier.getName(), DOUBLE_MODIFIERS + i);
+      int index = DOUBLE_MODIFIERS + i;
+      modifierIndicesByName.put(modifier.getName(), index);
+      modifierIndicesByName.put(modifier.getTag(), index);
     }
   }
 
@@ -885,7 +888,9 @@ public class Modifiers {
     }
     for (int i = 0; i < BOOLEAN_MODIFIERS; ++i) {
       BooleanModifier modifier = Modifiers.booleanModifiers[i];
-      modifierIndicesByName.put(modifier.getName(), DOUBLE_MODIFIERS + BITMAP_MODIFIERS + i);
+      int index = DOUBLE_MODIFIERS + BITMAP_MODIFIERS + i;
+      modifierIndicesByName.put(modifier.getName(), index);
+      modifierIndicesByName.put(modifier.getTag(), index);
     }
   }
 
@@ -964,8 +969,9 @@ public class Modifiers {
   static {
     for (int i = 0; i < STRING_MODIFIERS; ++i) {
       StringModifier modifier = Modifiers.stringModifiers[i];
-      modifierIndicesByName.put(
-          modifier.getName(), DOUBLE_MODIFIERS + BITMAP_MODIFIERS + BOOLEAN_MODIFIERS + i);
+      int index = DOUBLE_MODIFIERS + BITMAP_MODIFIERS + BOOLEAN_MODIFIERS + i;
+      modifierIndicesByName.put(modifier.getName(), index);
+      modifierIndicesByName.put(modifier.getTag(), index);
     }
   }
 
