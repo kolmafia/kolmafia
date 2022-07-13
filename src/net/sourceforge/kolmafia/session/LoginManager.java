@@ -30,7 +30,6 @@ import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.svn.SVNManager;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 public class LoginManager {
 
@@ -228,9 +227,6 @@ public class LoginManager {
               + " to submit all of the spaded data. Either way the data will be deleted whether shared"
               + " or not.");
     }
-
-    // Rebuild Scripts menu if needed
-    GenericFrame.compileScripts();
 
     if (StaticEntity.isGUIRequired()) {
       KoLmafiaGUI.intializeMainInterfaces();
