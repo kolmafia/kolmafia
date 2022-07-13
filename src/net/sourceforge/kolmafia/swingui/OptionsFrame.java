@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame.SmartButtonGroup;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
+import net.sourceforge.kolmafia.swingui.menu.LoadScriptMenuItem;
 import net.sourceforge.kolmafia.swingui.panel.AddCustomDeedsPanel;
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
 import net.sourceforge.kolmafia.swingui.panel.DailyDeedsPanel;
@@ -79,6 +80,7 @@ import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.CollapsibleTextArea;
 import net.sourceforge.kolmafia.swingui.widget.ColorChooser;
+import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
@@ -885,13 +887,32 @@ public class OptionsFrame extends GenericFrame {
     public BookmarkManagePanel() {
       super("Configure Bookmarks", (LockableListModel<String>) KoLConstants.bookmarks);
 
-      JPanel extraButtons = new JPanel(new BorderLayout(2, 2));
-      extraButtons.add(new ThreadedButton("add", new AddBookmarkRunnable()), BorderLayout.NORTH);
-      extraButtons.add(
-          new ThreadedButton("rename", new RenameBookmarkRunnable()), BorderLayout.CENTER);
-      extraButtons.add(
-          new ThreadedButton("delete", new DeleteBookmarkRunnable()), BorderLayout.SOUTH);
+      this.elementList.setCellRenderer(ListCellRendererFactory.getDefaultRenderer(this::toHTML));
+
+      JPanel extraButtons = new JPanel(new GridLayout(0, 1, 0, 5));
+      extraButtons.add(Box.createVerticalStrut(10));
+      extraButtons.add(new ThreadedButton("add (text)", new AddTextBookmarkRunnable()));
+      extraButtons.add(new ThreadedButton("add (file)", new AddFileBookmarkRunnable()));
+      extraButtons.add(new ThreadedButton("rename", new RenameBookmarkRunnable()));
+      extraButtons.add(new ThreadedButton("delete", new DeleteBookmarkRunnable()));
       this.buttonPanel.add(extraButtons, BorderLayout.SOUTH);
+    }
+
+    public String toHTML(Object o, Boolean isSelected) {
+      String[] bookmarkData = ((String) o).split("\\|");
+
+      String name = bookmarkData[0];
+      String location = bookmarkData[1];
+
+      StringBuilder stringForm = new StringBuilder();
+
+      stringForm.append("<html><nobr style=\"font-weight: 700\">");
+      stringForm.append(name);
+      stringForm.append("</nobr><br/><nobr style=\"font-size: smaller; font-weight: 100\">");
+      stringForm.append(location);
+      stringForm.append("</nobr>");
+
+      return stringForm.toString();
     }
 
     @Override
@@ -899,22 +920,37 @@ public class OptionsFrame extends GenericFrame {
       GenericFrame.saveBookmarks();
     }
 
-    private class AddBookmarkRunnable implements Runnable {
+    private class AddTextBookmarkRunnable implements Runnable {
       @Override
       public void run() {
-        String newName = InputFieldUtilities.input("Add a bookmark!", "http://www.google.com/");
+        String bookmark =
+            InputFieldUtilities.input("Specify a URL or CLI command", "echo hello world");
 
-        if (newName == null) {
+        if (bookmark == null) {
           return;
         }
 
-        KoLConstants.bookmarks.add(
-            "New bookmark "
-                + (KoLConstants.bookmarks.size() + 1)
-                + "|"
-                + newName
-                + "|"
-                + newName.contains("pwd"));
+        KoLConstants.bookmarks.add(bookmark + "|" + bookmark + "|" + bookmark.contains("pwd"));
+      }
+    }
+
+    private class AddFileBookmarkRunnable implements Runnable {
+      @Override
+      public void run() {
+        File bookmark = InputFieldUtilities.chooseInputFile(KoLConstants.SCRIPT_LOCATION, null);
+
+        if (bookmark == null) {
+          return;
+        }
+
+        String scriptPath = LoadScriptMenuItem.getRelativePath(bookmark);
+        if (scriptPath.startsWith("/")) {
+          // Path must be in an "allowed" directory: scripts, relay, planting
+          // or a subdirectory of those.
+          return;
+        }
+
+        KoLConstants.bookmarks.add(bookmark.getName() + "|" + scriptPath + "|false");
       }
     }
 

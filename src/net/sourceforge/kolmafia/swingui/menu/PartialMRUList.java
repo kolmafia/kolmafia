@@ -56,9 +56,6 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
    */
   @Override
   public void updateJComboData(JComboBox<String> jcb) {
-    if (!isInit) {
-      init();
-    }
     if (jcb.getRenderer() != this.renderer) {
       jcb.setRenderer((ComboSeparatorsRenderer) this.renderer);
     }

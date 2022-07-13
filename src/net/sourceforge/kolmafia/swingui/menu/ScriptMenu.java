@@ -1,107 +1,53 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
-import darrylbu.util.MenuScroller;
 import java.io.File;
-import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
-import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.LockableListModel;
+import javax.swing.SwingUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 
 /** A special class which renders the list of available scripts. */
-public class ScriptMenu extends MenuItemList<File> {
+public class ScriptMenu extends JMenu implements Listener {
   public ScriptMenu() {
-    super("Scripts", (LockableListModel<File>) KoLConstants.scripts);
+    super("Scripts");
+
+    init();
+
+    PreferenceListenerRegistry.registerPreferenceListener("scriptMRUList", this);
   }
 
   @Override
-  public JComponent constructMenuItem(final Object o) {
-    return o instanceof JSeparator ? new JSeparator() : this.constructMenuItem((File) o, "scripts");
+  public void update() {
+    SwingUtilities.invokeLater(this::init);
   }
 
-  private JComponent constructMenuItem(final File file, final String prefix) {
-    // Get path components of this file
-    String[] pieces;
+  protected void init() {
+    removeAll();
 
-    try {
-      pieces = file.getCanonicalPath().split("[\\\\/]");
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
+    add(new DisplayFrameMenuItem("Script Manager", "ScriptManageFrame"));
+    add(new LoadScriptMenuItem());
 
-      StaticEntity.printStackTrace(e);
-      return null;
+    File[] files = KoLConstants.scriptMRUList.listAsFiles();
+
+    if (files.length == 0) {
+      return;
     }
 
-    String name = pieces[pieces.length - 1];
-    String path = prefix + File.separator + name;
+    JMenuItem shiftToEditMenuItem = new JMenuItem("(Shift key to edit)");
+    shiftToEditMenuItem.setEnabled(false);
 
-    if (file.isDirectory()) {
-      // Get a list of all the files
-      File[] scriptList = DataUtilities.listFiles(file);
+    add(shiftToEditMenuItem);
+    add(new JSeparator());
 
-      //  Convert the list into a menu
-      JMenu menu = new JMenu(name);
-
-      MenuScroller.setScrollerFor(menu, 25);
-
-      // Iterate through the files.  Do this in two
-      // passes to make sure that directories start
-      // up top, followed by non-directories.
-
-      for (int i = 0; i < scriptList.length; ++i) {
-        if (scriptList[i].isDirectory() && ScriptMenu.shouldAddScript(scriptList[i])) {
-          menu.add(this.constructMenuItem(scriptList[i], path));
-        }
-      }
-
-      for (int i = 0; i < scriptList.length; ++i) {
-        if (!scriptList[i].isDirectory()) {
-          menu.add(this.constructMenuItem(scriptList[i], path));
-        }
-      }
-
-      // Return the menu
-      return menu;
+    for (int i = 0; i < files.length; i++) {
+      add(new LoadScriptMenuItem(files[i]));
     }
-
-    return new LoadScriptMenuItem(name, path);
   }
 
-  @Override
-  public JComponent[] getHeaders() {
-    JComponent[] headers = new JComponent[4];
-
-    headers[0] = new DisplayFrameMenuItem("Script Manager", "ScriptManageFrame");
-    headers[1] = new LoadScriptMenuItem();
-    headers[2] = new InvocationMenuItem("Refresh menu", GenericFrame.class, "compileScripts");
-    headers[3] = new JMenuItem("(Shift key to edit)");
-    headers[3].setEnabled(false);
-
-    return headers;
-  }
-
-  public static final boolean shouldAddScript(final File script) {
-    if (!script.isDirectory()) {
-      return true;
-    }
-
-    File[] scriptList = DataUtilities.listFiles(script);
-
-    if (scriptList == null || scriptList.length == 0) {
-      return false;
-    }
-
-    for (int i = 0; i < scriptList.length; ++i) {
-      if (ScriptMenu.shouldAddScript(scriptList[i])) {
-        return true;
-      }
-    }
-
-    return false;
+  public void dispose() {
+    PreferenceListenerRegistry.unregisterPreferenceListener("scriptMRUList", this);
   }
 }

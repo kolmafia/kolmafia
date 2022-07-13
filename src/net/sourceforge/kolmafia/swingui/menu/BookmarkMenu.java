@@ -21,11 +21,17 @@ public class BookmarkMenu extends MenuItemList<String> {
     String location = bookmarkData[1];
     String pwdhash = bookmarkData[2];
 
-    if (pwdhash.equals("true")) {
-      location += "&pwd";
-    }
+    if (location.startsWith("http://")
+        || location.startsWith("https://")
+        || (location.startsWith("/") && location.contains(".php"))) {
+      if (pwdhash.equals("true")) {
+        location += "&pwd";
+      }
 
-    return new RelayBrowserMenuItem(name, location);
+      return new RelayBrowserMenuItem(name, location);
+    } else {
+      return new LoadScriptMenuItem(name, location);
+    }
   }
 
   @Override

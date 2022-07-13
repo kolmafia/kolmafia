@@ -111,11 +111,10 @@ public interface KoLConstants extends UtilityConstants {
   // Scripting-related constants.  Used throughout KoLmafia in
   // order to ensure proper handling of scripts.
 
-  List<File> scripts = LockableListFactory.getInstance(File.class);
   List<String> bookmarks = LockableListFactory.getInstance(String.class);
 
   ArrayList<String> disabledScripts = new ArrayList<>();
-  ScriptMRUList scriptMList = new ScriptMRUList("scriptMRUList", "scriptMRULength");
+  ScriptMRUList scriptMRUList = new ScriptMRUList("scriptMRUList", "scriptMRULength");
   PartialMRUList maximizerMList =
       new PartialMRUList("maximizerMRUList", "maximizerMRUSize", "maximizerList");
 
