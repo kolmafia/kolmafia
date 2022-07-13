@@ -726,4 +726,38 @@ public class ModifiersTest {
       }
     }
   }
+
+  @Nested
+  class Voter {
+    @BeforeAll
+    private static void beforeAll() {
+      Preferences.saveSettingsToFile = false;
+      Preferences.reset("voter");
+    }
+
+    @AfterAll
+    private static void afterAll() {
+      Preferences.saveSettingsToFile = true;
+    }
+
+    @Test
+    void canEvaluateExperienceModifiers() {
+      String setting = "Meat Drop: +30, Experience (familiar): +2, Experience (Muscle): +4";
+      String lookup = "Local Vote:Local Vote";
+
+      Modifiers mods = Modifiers.parseModifiers(lookup, setting);
+      assertEquals(30, mods.get(Modifiers.MEATDROP));
+      assertEquals(2, mods.get(Modifiers.FAMILIAR_EXP));
+      assertEquals(4, mods.get(Modifiers.MUS_EXPERIENCE));
+
+      var cleanups = new Cleanups(setProperty("_voteModifier", setting));
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertEquals(30, current.get(Modifiers.MEATDROP));
+        assertEquals(2, current.get(Modifiers.FAMILIAR_EXP));
+        assertEquals(4, current.get(Modifiers.MUS_EXPERIENCE));
+      }
+    }
+  }
 }
