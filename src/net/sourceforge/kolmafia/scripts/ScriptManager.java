@@ -62,10 +62,6 @@ public class ScriptManager {
   }
 
   private static boolean substringMatches(final String source, final String substring) {
-    if (source == null) {
-      return false;
-    }
-
     if (substring == null || substring.length() == 0) {
       return true;
     }
