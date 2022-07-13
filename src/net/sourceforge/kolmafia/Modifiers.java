@@ -2229,14 +2229,14 @@ public class Modifiers {
   }
 
   public static final ModifierList evaluateModifiers(final String lookup, final String modifiers) {
+    ModifierList list = Modifiers.splitModifiers(modifiers);
     // Nothing to do if no expressions
     if (!modifiers.contains("[")) {
-      return Modifiers.splitModifiers(modifiers);
+      return list;
     }
 
     // Otherwise, break apart the string and rebuild it with all
     // expressions evaluated.
-    ModifierList list = Modifiers.splitModifiers(modifiers);
     for (Modifier modifier : list) {
       // Evaluate the modifier expression
       modifier.eval(lookup);
