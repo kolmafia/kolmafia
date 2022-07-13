@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.YouRobotManager;
@@ -447,9 +448,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
     this.setWeight(weight);
   }
 
-  public final void checkWeight(final int weight, final boolean feasted) {
-    // Called from CharPaneRequest with KoL's idea of current familiar's weight and "well-fed"
-    // status.
+  public final void checkWeight(final int weight) {
+    // Called from CharPaneRequest with KoL's idea of current familiar's weight.
     // This does NOT include "hidden" weight modifiers
 
     // Sanity check: don't adjust NO_FAMILIAR
@@ -457,11 +457,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
       return;
     }
 
-    this.feasted = feasted;
-
-    // If we are refreshing, we have not loaded everything needed to determine
-    // modified weight. In particular, passive skills.
-    if (KoLmafia.isRefreshing()) {
+    // If we are logging in, api.php is called very early. Before reading
+    // charsheet.php
+    if (LoginRequest.isInstanceRunning()) {
       return;
     }
 
@@ -483,12 +481,23 @@ public class FamiliarData implements Comparable<FamiliarData> {
     // For Crimbo ghosts, we can get accurate experience from the terrarium,
     // but not from api.php or charpane.php - which call this method.
 
+    // I have also noticed that in Quantum Terrarium, other familiars don't
+    // necessarily have an experience value (as reported by api.php) that
+    // agrees with what KoL reports for modified weight.
+
     switch (this.id) {
+      default:
+        if (!KoLCharacter.inQuantum()) {
+          break;
+        }
+        // fall through
       case FamiliarPool.GHOST_CAROLS:
       case FamiliarPool.GHOST_CHEER:
       case FamiliarPool.GHOST_COMMERCE:
         int delta = weight - modified;
         this.weight += delta;
+        // We can't tell, but this is the minimum
+        this.experience = this.weight * this.weight;
         return;
     }
 
@@ -606,6 +615,19 @@ public class FamiliarData implements Comparable<FamiliarData> {
       // Add new familiar to list
       familiar = new FamiliarData(id);
       KoLCharacter.addFamiliar(familiar);
+    }
+
+    // KoL can change the experience of a familiar out from under us.  For
+    // example, a Shorter-Order Cook will grant 100 experience to a familiar
+    // who leaves the terrarium for the first time. Therefore, we should
+    // believe - and update - the experience KoL reports for your familiar.
+    //
+    // The exception is Crimbo Ghosts (which share experience) which api.php
+    // reports as zero, even though the accurate amount is in the terrarium.
+    //
+    // This method is called with info from api.php for your current familiar.
+
+    if (experience > 0) {
       familiar.setExperience(experience);
     }
 
@@ -649,6 +671,10 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   public boolean getFeasted() {
     return this.feasted;
+  }
+
+  public void setFeasted(boolean feasted) {
+    this.feasted = feasted;
   }
 
   public void deactivate() {
@@ -716,6 +742,10 @@ public class FamiliarData implements Comparable<FamiliarData> {
     }
 
     if (this.item != null && item != null && this.item.getItemId() == item.getItemId()) {
+      return;
+    }
+
+    if (!this.canEquip(item)) {
       return;
     }
 

@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
  * In order to keep the user interface from freezing (or at least appearing to freeze), this
  * internal class is used to process the request for loading a script.
  */
-public class LoadScriptMenuItem extends DisplayFrameMenuItem {
+public class LoadScriptMenuItem extends ThreadedMenuItem {
 
   private final String scriptPath;
 
@@ -22,7 +22,7 @@ public class LoadScriptMenuItem extends DisplayFrameMenuItem {
   }
 
   public LoadScriptMenuItem(final String scriptName, final String scriptPath) {
-    super(scriptName, "CommandDisplayFrame");
+    super(scriptName);
 
     this.scriptPath = scriptPath;
 

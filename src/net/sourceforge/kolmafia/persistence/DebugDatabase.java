@@ -47,7 +47,12 @@ import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.utilities.*;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.HttpUtilities;
+import net.sourceforge.kolmafia.utilities.LogStream;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
@@ -139,7 +144,7 @@ public class DebugDatabase {
   private static final String ITEM_HTML = "itemhtml.txt";
 
   private static final String ITEM_DATA = "itemdata.txt";
-  private static final StringArray rawItems = new StringArray();
+  private static final Map<Integer, String> rawItems = new HashMap<>();
 
   private static class ItemMap {
     private final String tag;
@@ -279,7 +284,7 @@ public class DebugDatabase {
     String text = DebugDatabase.itemDescriptionText(rawText);
     if (text == null) {
       report.println("# *** " + name + " (" + itemId + ") has malformed description text.");
-      DebugDatabase.rawItems.set(itemId, null);
+      DebugDatabase.rawItems.put(itemId, null);
       return;
     }
 
@@ -291,7 +296,7 @@ public class DebugDatabase {
     if (!name.equals(descriptionName) && !decodedNamesEqual(name, descriptionName)) {
       report.println(
           "# *** " + name + " (" + itemId + ") has description of " + descriptionName + ".");
-      DebugDatabase.rawItems.set(itemId, null);
+      DebugDatabase.rawItems.put(itemId, null);
       return;
     }
 
@@ -453,7 +458,7 @@ public class DebugDatabase {
     if (itemId == -1) {
       itemId = DebugDatabase.parseItemId(request.responseText);
     }
-    DebugDatabase.rawItems.set(itemId, request.responseText);
+    DebugDatabase.rawItems.put(itemId, request.responseText);
 
     return request.responseText;
   }
@@ -1558,7 +1563,7 @@ public class DebugDatabase {
 
   private static final String OUTFIT_HTML = "outfithtml.txt";
   private static final String OUTFIT_DATA = "outfitdata.txt";
-  private static final StringArray rawOutfits = new StringArray();
+  private static final Map<Integer, String> rawOutfits = new HashMap<>();
   private static final ItemMap outfits = new ItemMap("Outfits", 0);
 
   public static final void checkOutfits() {
@@ -1613,7 +1618,7 @@ public class DebugDatabase {
     String text = DebugDatabase.outfitDescriptionText(rawText);
     if (text == null) {
       report.println("# *** " + name + " (" + outfitId + ") has malformed description text.");
-      DebugDatabase.rawOutfits.set(outfitId, null);
+      DebugDatabase.rawOutfits.put(outfitId, null);
       return;
     }
 
@@ -1655,7 +1660,7 @@ public class DebugDatabase {
     }
 
     String text = DebugDatabase.readOutfitDescriptionText(outfitId);
-    DebugDatabase.rawOutfits.set(outfitId, text);
+    DebugDatabase.rawOutfits.put(outfitId, text);
 
     return text;
   }
@@ -1735,7 +1740,7 @@ public class DebugDatabase {
 
   private static final String EFFECT_HTML = "effecthtml.txt";
   private static final String EFFECT_DATA = "effectdata.txt";
-  private static final StringArray rawEffects = new StringArray();
+  private static final Map<Integer, String> rawEffects = new HashMap<>();
   private static final ItemMap effects = new ItemMap("Status Effects", 0);
 
   public static final void checkEffects(final int effectId) {
@@ -1790,7 +1795,7 @@ public class DebugDatabase {
     String text = DebugDatabase.effectDescriptionText(rawText);
     if (text == null) {
       report.println("# *** " + name + " (" + effectId + ") has malformed description text.");
-      DebugDatabase.rawEffects.set(effectId, null);
+      DebugDatabase.rawEffects.put(effectId, null);
       return;
     }
 
@@ -1886,7 +1891,7 @@ public class DebugDatabase {
     }
 
     String text = DebugDatabase.readEffectDescriptionText(descId);
-    DebugDatabase.rawEffects.set(effectId, text);
+    DebugDatabase.rawEffects.put(effectId, text);
 
     return text;
   }
@@ -1977,7 +1982,7 @@ public class DebugDatabase {
 
   private static final String SKILL_HTML = "skillhtml.txt";
   private static final String SKILL_DATA = "skilldata.txt";
-  private static final StringArray rawSkills = new StringArray();
+  private static final Map<Integer, String> rawSkills = new HashMap<>();
   private static final ItemMap passiveSkills = new ItemMap("Passive Skills", 0);
 
   public static final void checkSkills(final int skillId) {
@@ -2054,7 +2059,7 @@ public class DebugDatabase {
     String text = DebugDatabase.skillDescriptionText(rawText);
     if (text == null) {
       report.println("# *** " + name + " (" + skillId + ") not found.");
-      DebugDatabase.rawSkills.set(skillId, null);
+      DebugDatabase.rawSkills.put(skillId, null);
       return;
     }
 
@@ -2135,7 +2140,7 @@ public class DebugDatabase {
     }
 
     String text = DebugDatabase.readSkillDescriptionText(skillId);
-    DebugDatabase.rawSkills.set(skillId, text);
+    DebugDatabase.rawSkills.put(skillId, text);
 
     return text;
   }
@@ -2228,7 +2233,7 @@ public class DebugDatabase {
     return LogStream.openStream(new File(KoLConstants.DATA_LOCATION, fileName), true);
   }
 
-  private static void loadScrapeData(final StringArray array, final String fileName) {
+  private static void loadScrapeData(final Map<Integer, String> stringMap, final String fileName) {
     try {
       File saveData = new File(KoLConstants.DATA_LOCATION, fileName);
       if (!saveData.exists()) {
@@ -2250,9 +2255,8 @@ public class DebugDatabase {
             currentHTML.append(currentLine);
             currentHTML.append(KoLConstants.LINE_BREAK);
           } while (!currentLine.equals("</html>"));
-
-          if (array.get(currentId).equals("")) {
-            array.set(currentId, currentHTML.toString());
+          if (stringMap.getOrDefault(currentId, "").isEmpty()) {
+            stringMap.put(currentId, currentHTML.toString());
           }
           reader.readLine();
         }
@@ -2264,7 +2268,7 @@ public class DebugDatabase {
   }
 
   private static void saveScrapeData(
-      final Iterator<Integer> it, final StringArray array, final String fileName) {
+      final Iterator<Integer> it, final Map<Integer, String> stringMap, final String fileName) {
     File file = new File(KoLConstants.DATA_LOCATION, fileName);
     PrintStream livedata = LogStream.openStream(file, true);
 
@@ -2274,7 +2278,7 @@ public class DebugDatabase {
         continue;
       }
 
-      String description = array.get(id);
+      String description = stringMap.get(id);
       if (description != null && !description.equals("")) {
         livedata.println(id);
         livedata.println(description);

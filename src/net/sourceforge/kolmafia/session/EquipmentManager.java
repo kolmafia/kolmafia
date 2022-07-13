@@ -1823,38 +1823,23 @@ public class EquipmentManager {
   }
 
   public static final int consumeFilterToEquipmentType(final int consumeFilter) {
-    switch (consumeFilter) {
-      case KoLConstants.EQUIP_HAT:
-        return EquipmentManager.HAT;
-      case KoLConstants.EQUIP_WEAPON:
-        return EquipmentManager.WEAPON;
-      case KoLConstants.EQUIP_OFFHAND:
-        return EquipmentManager.OFFHAND;
-      case KoLConstants.EQUIP_SHIRT:
-        return EquipmentManager.SHIRT;
-      case KoLConstants.EQUIP_PANTS:
-        return EquipmentManager.PANTS;
-      case KoLConstants.EQUIP_CONTAINER:
-        return EquipmentManager.CONTAINER;
-      case KoLConstants.EQUIP_ACCESSORY:
-        return EquipmentManager.ACCESSORY1;
-      case KoLConstants.EQUIP_FAMILIAR:
-        return EquipmentManager.FAMILIAR;
-      case KoLConstants.CONSUME_STICKER:
-        return EquipmentManager.STICKER1;
-      case KoLConstants.CONSUME_CARD:
-        return EquipmentManager.CARDSLEEVE;
-      case KoLConstants.CONSUME_FOLDER:
-        return EquipmentManager.FOLDER1;
-      case KoLConstants.CONSUME_BOOTSKIN:
-        return EquipmentManager.BOOTSKIN;
-      case KoLConstants.CONSUME_BOOTSPUR:
-        return EquipmentManager.BOOTSPUR;
-      case KoLConstants.CONSUME_SIXGUN:
-        return EquipmentManager.HOLSTER;
-      default:
-        return -1;
-    }
+    return switch (consumeFilter) {
+      case KoLConstants.EQUIP_HAT -> EquipmentManager.HAT;
+      case KoLConstants.EQUIP_WEAPON -> EquipmentManager.WEAPON;
+      case KoLConstants.EQUIP_OFFHAND -> EquipmentManager.OFFHAND;
+      case KoLConstants.EQUIP_SHIRT -> EquipmentManager.SHIRT;
+      case KoLConstants.EQUIP_PANTS -> EquipmentManager.PANTS;
+      case KoLConstants.EQUIP_CONTAINER -> EquipmentManager.CONTAINER;
+      case KoLConstants.EQUIP_ACCESSORY -> EquipmentManager.ACCESSORY1;
+      case KoLConstants.EQUIP_FAMILIAR -> EquipmentManager.FAMILIAR;
+      case KoLConstants.CONSUME_STICKER -> EquipmentManager.STICKER1;
+      case KoLConstants.CONSUME_CARD -> EquipmentManager.CARDSLEEVE;
+      case KoLConstants.CONSUME_FOLDER -> EquipmentManager.FOLDER1;
+      case KoLConstants.CONSUME_BOOTSKIN -> EquipmentManager.BOOTSKIN;
+      case KoLConstants.CONSUME_BOOTSPUR -> EquipmentManager.BOOTSPUR;
+      case KoLConstants.CONSUME_SIXGUN -> EquipmentManager.HOLSTER;
+      default -> -1;
+    };
   }
 
   public static final int itemIdToEquipmentType(final int itemId) {
@@ -2074,7 +2059,7 @@ public class EquipmentManager {
   public static final void updateNormalOutfits() {
     ArrayList<SpecialOutfit> available = new ArrayList<SpecialOutfit>();
 
-    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits) {
+    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits.values()) {
       if (outfit != null && outfit.hasAllPieces()) {
         available.add(outfit);
       }
@@ -2158,7 +2143,7 @@ public class EquipmentManager {
 
   /** Utility method which determines the outfit ID the character is currently wearing */
   public static final SpecialOutfit currentOutfit() {
-    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits) {
+    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits.values()) {
       if (outfit == null) {
         continue;
       }
@@ -2172,7 +2157,7 @@ public class EquipmentManager {
 
   public static final SpecialOutfit currentOutfit(AdventureResult[] equipment) {
     int hash = SpecialOutfit.equipmentHash(equipment);
-    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits) {
+    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits.values()) {
       if (outfit == null) {
         continue;
       }
@@ -2282,7 +2267,7 @@ public class EquipmentManager {
       }
     }
 
-    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits) {
+    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits.values()) {
       if (outfit == null) {
         continue;
       }
@@ -2302,7 +2287,7 @@ public class EquipmentManager {
       }
     }
 
-    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits) {
+    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits.values()) {
       if (outfit == null) {
         continue;
       }
@@ -2406,6 +2391,11 @@ public class EquipmentManager {
 
     if (!KoLmafia.isRefreshing()) {
       for (int i = 0; i < EquipmentManager.ALL_SLOTS; ++i) {
+        // Quantum Terrarium will have a familiar item in api.php even
+        // if the particular familiar can't equip it. Ignore that.
+        if (i == EquipmentManager.FAMILIAR && KoLCharacter.inQuantum()) {
+          continue;
+        }
         if (!current[i].equals(equipment[i])) {
           String slotName = EquipmentRequest.slotNames[i];
           String message =

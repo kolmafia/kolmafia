@@ -749,8 +749,6 @@ public abstract class KoLmafia {
       RequestThread.postRequest(new EdBaseRequest("edbase_door", true));
     } else if (KoLCharacter.inPokefam()) {
       RequestThread.postRequest(new FamTeamRequest());
-    } else if (KoLCharacter.inQuantum()) {
-      RequestThread.postRequest(new QuantumTerrariumRequest());
     } else if (KoLCharacter.isPlumber()) {
       KoLCharacter.resetCurrentPP();
     } else if (KoLCharacter.inRobocore()) {
@@ -764,9 +762,12 @@ public abstract class KoLmafia {
     // Refresh fire levels
     WildfireCampRequest.refresh();
 
-    if (KoLCharacter.getPath().canUseFamiliars()
-        && !KoLCharacter.inPokefam()
-        && !KoLCharacter.inQuantum()) {
+    if (KoLCharacter.inQuantum()) {
+      RequestThread.postRequest(new QuantumTerrariumRequest());
+      // We did this earlier before loading charsheet.
+      // Do it again so we can catch passive skills
+      ApiRequest.updateStatus();
+    } else if (KoLCharacter.getPath().canUseFamiliars() && !KoLCharacter.inPokefam()) {
       // Retrieve the Terrarium
       RequestThread.postRequest(new FamiliarRequest());
     }

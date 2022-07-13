@@ -18,6 +18,8 @@ import org.mozilla.javascript.Scriptable;
 public class LibraryFunctionStub extends AshStub {
   private static final long serialVersionUID = 1L;
 
+  private final List<String> bufferFunctions = List.of("buffer_to_file", "write_ccs");
+
   public LibraryFunctionStub(
       Scriptable scope, Scriptable prototype, ScriptRuntime controller, String ashFunctionName) {
     super(scope, prototype, controller, ashFunctionName);
@@ -69,11 +71,12 @@ public class LibraryFunctionStub extends AshStub {
       return "[runtime library]";
     }
 
-    if (ashFunctionName.equals("buffer_to_file") && args.length > 0 && args[0] instanceof String) {
+    if (bufferFunctions.stream().anyMatch(ashFunctionName::equals)
+        && args.length > 0
+        && args[0] instanceof String str) {
       // Manually convert string to buffer, since AshStub.call() cannot match a string argument to a
       // buffer parameter.
       args = args.clone();
-      String str = (String) args[0];
       args[0] = new Value(DataTypes.BUFFER_TYPE, str, new StringBuffer(str));
     }
 

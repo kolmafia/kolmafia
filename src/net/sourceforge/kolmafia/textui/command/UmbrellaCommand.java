@@ -1,18 +1,42 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.UmbrellaRequest;
+import net.sourceforge.kolmafia.request.UmbrellaRequest.UmbrellaMode;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class UmbrellaCommand extends AbstractCommand {
+public class UmbrellaCommand extends AbstractCommand implements ModeCommand {
   public UmbrellaCommand() {
     this.usage =
         "[ml | item | dr | weapon | spell | nc | broken | forward | bucket | pitchfork | twirling | cocoon] - fold your Umbrella";
+  }
+
+  public UmbrellaMode getMode(final String parameter) {
+    return UmbrellaMode.find(normalize(parameter));
+  }
+
+  @Override
+  public String normalize(final String parameter) {
+    var mode = UmbrellaMode.findByShortHand(parameter);
+    return mode == null ? parameter : mode.getName();
+  }
+
+  @Override
+  public boolean validate(final String command, final String parameter) {
+    return getMode(parameter) != null;
+  }
+
+  public Set<String> getModes() {
+    return Arrays.stream(UmbrellaMode.values())
+        .map(UmbrellaMode::getName)
+        .collect(Collectors.toSet());
   }
 
   @Override
@@ -30,22 +54,9 @@ public class UmbrellaCommand extends AbstractCommand {
       return;
     }
 
-    Integer umbrellaState = null;
-    if (parameter.equals("ml") || "broken".startsWith(parameter)) {
-      umbrellaState = UmbrellaRequest.Form.BROKEN.id;
-    } else if (parameter.equals("dr") || "forward-facing".startsWith(parameter)) {
-      umbrellaState = UmbrellaRequest.Form.FORWARD.id;
-    } else if (parameter.equals("item") || "bucket style".startsWith(parameter)) {
-      umbrellaState = UmbrellaRequest.Form.BUCKET.id;
-    } else if (parameter.equals("weapon") || "pitchfork style".startsWith(parameter)) {
-      umbrellaState = UmbrellaRequest.Form.PITCHFORK.id;
-    } else if (parameter.equals("spell")
-        || "twirling".startsWith(parameter)
-        || "constantly twirling".startsWith(parameter)) {
-      umbrellaState = UmbrellaRequest.Form.TWIRL.id;
-    } else if (parameter.equals("nc") || "cocoon".startsWith(parameter)) {
-      umbrellaState = UmbrellaRequest.Form.COCOON.id;
-    } else {
+    UmbrellaMode mode = getMode(parameter);
+
+    if (mode == null) {
       KoLmafia.updateDisplay(
           MafiaState.ERROR, "I don't understand what Umbrella form " + parameter + " is.");
       return;
@@ -57,7 +68,7 @@ public class UmbrellaCommand extends AbstractCommand {
 
     request = new GenericRequest("choice.php");
     request.addFormField("whichchoice", "1466");
-    request.addFormField("option", Integer.toString(umbrellaState));
+    request.addFormField("option", Integer.toString(mode.getId()));
     request.addFormField("pwd", GenericRequest.passwordHash);
     RequestThread.postRequest(request);
 

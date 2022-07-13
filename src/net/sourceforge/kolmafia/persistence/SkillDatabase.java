@@ -873,9 +873,6 @@ public class SkillDatabase {
     }
 
     int actualDuration = duration.intValue();
-    if (actualDuration == 0) {
-      return 0;
-    }
 
     int type = SkillDatabase.getSkillType(skillId);
 
@@ -907,7 +904,7 @@ public class SkillDatabase {
           if (!KoLCharacter.isPastamancer()) {
             return 10;
           }
-          break;
+          return 0;
 
         case SkillPool.REV_ENGINE:
           return Math.max(Math.abs(KoLCharacter.getAudience()), 5);

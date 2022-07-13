@@ -5031,8 +5031,7 @@ public abstract class ChoiceControl {
 
       case 640:
         // Tailor the Snow Suit
-        Preferences.setString(
-            "snowsuit", SnowsuitCommand.DECORATION[ChoiceManager.lastDecision - 1][0]);
+        SnowsuitCommand.setStateFromDecision(ChoiceManager.lastDecision);
         break;
 
       case 641:
@@ -8658,14 +8657,13 @@ public abstract class ChoiceControl {
 
         case 1063: // Adjust your 'Edpiece
           {
-            int index = decision - 1;
-            if (index < 0 || index > EdPieceCommand.ANIMAL.length) {
-              // Doing nothing
-              return true;
+            var state = EdPieceCommand.getStateFromDecision(decision);
+
+            if (state != null) {
+              RequestLogger.updateSessionLog();
+              RequestLogger.updateSessionLog("edpiece " + state);
             }
-            String decoration = EdPieceCommand.ANIMAL[index][0];
-            RequestLogger.updateSessionLog();
-            RequestLogger.updateSessionLog("edpiece " + decoration);
+
             return true;
           }
 

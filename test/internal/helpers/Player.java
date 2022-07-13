@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
@@ -42,7 +43,16 @@ import org.mockito.Mockito;
 public class Player {
   public static Cleanups equip(int slot, String item) {
     var cleanups = new Cleanups();
-    EquipmentManager.setEquipment(slot, AdventureResult.tallyItem(item));
+    EquipmentManager.setEquipment(
+        slot, item == null ? EquipmentRequest.UNEQUIP : AdventureResult.tallyItem(item));
+    cleanups.add(() -> EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP));
+    return cleanups;
+  }
+
+  public static Cleanups equip(int slot, int itemId) {
+    var cleanups = new Cleanups();
+    EquipmentManager.setEquipment(
+        slot, itemId == -1 ? EquipmentRequest.UNEQUIP : ItemPool.get(itemId));
     cleanups.add(() -> EquipmentManager.setEquipment(slot, EquipmentRequest.UNEQUIP));
     return cleanups;
   }
@@ -334,5 +344,32 @@ public class Player {
 
   public static Cleanups withPostChoice2(int choice, int decision) {
     return withPostChoice2(choice, decision, "");
+  }
+
+  public static Cleanups withLastLocationName(final String lastLocationName) {
+    var old = KoLAdventure.lastLocationName;
+    KoLAdventure.lastLocationName = lastLocationName;
+    return new Cleanups(
+        () -> {
+          KoLAdventure.lastLocationName = old;
+        });
+  }
+
+  public static Cleanups withMultiFight() {
+    var old = FightRequest.inMultiFight;
+    FightRequest.inMultiFight = true;
+    return new Cleanups(
+        () -> {
+          FightRequest.inMultiFight = old;
+        });
+  }
+
+  public static Cleanups withItemMonster(final String itemMonster) {
+    var old = GenericRequest.itemMonster;
+    GenericRequest.itemMonster = itemMonster;
+    return new Cleanups(
+        () -> {
+          GenericRequest.itemMonster = old;
+        });
   }
 }

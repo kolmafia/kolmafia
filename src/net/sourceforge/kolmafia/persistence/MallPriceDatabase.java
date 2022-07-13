@@ -13,8 +13,9 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -32,9 +33,9 @@ public class MallPriceDatabase {
   // If false, blocks saving of mall prices. Do not modify outside of tests.
   public static boolean savePricesToFile = true;
 
-  private static final PriceArray prices = new PriceArray();
-  private static final HashSet<String> updated = new HashSet<String>();
-  private static final HashSet<String> submitted = new HashSet<String>();
+  private static final Map<Integer, Price> prices = new HashMap<>();
+  private static final HashSet<String> updated = new HashSet<>();
+  private static final HashSet<String> submitted = new HashSet<>();
   private static int modCount = 0;
 
   private static final int CONNECT_TIMEOUT = 15 * 1000;
@@ -83,7 +84,7 @@ public class MallPriceDatabase {
         if (!ItemDatabase.isTradeable(id)) continue;
         Price p = MallPriceDatabase.prices.get(id);
         if (p == null) {
-          MallPriceDatabase.prices.set(id, new Price(price, timestamp));
+          MallPriceDatabase.prices.put(id, new Price(price, timestamp));
           ++count;
           ++MallPriceDatabase.modCount;
         } else if (timestamp > p.timestamp) {
@@ -138,15 +139,11 @@ public class MallPriceDatabase {
     }
   }
 
-  public static void recordPrice(int itemId, int price) {
-    MallPriceDatabase.recordPrice(itemId, price, false);
-  }
-
   public static void recordPrice(int itemId, int price, boolean deferred) {
     long timestamp = MallPriceManager.currentTimeMillis() / 1000L;
     Price p = MallPriceDatabase.prices.get(itemId);
     if (p == null) {
-      MallPriceDatabase.prices.set(itemId, new Price(price, timestamp));
+      MallPriceDatabase.prices.put(itemId, new Price(price, timestamp));
     } else {
       p.price = price;
       p.timestamp = timestamp;
@@ -163,16 +160,23 @@ public class MallPriceDatabase {
     }
 
     File output = new File(KoLConstants.DATA_LOCATION, "mallprices.txt");
-    PrintStream writer = LogStream.openStream(output, true);
+    try (PrintStream writer = LogStream.openStream(output, true)) {
+      writePrices(writer);
+    }
+  }
+
+  static void writePrices(PrintStream writer) {
     writer.println(KoLConstants.MALLPRICES_VERSION);
 
-    for (int i = 1; i < MallPriceDatabase.prices.size(); ++i) {
-      Price p = MallPriceDatabase.prices.get(i);
-      if (p == null) continue;
-      writer.println(i + "\t" + p.timestamp + "\t" + p.price);
-    }
-
-    writer.close();
+    MallPriceDatabase.prices.entrySet().stream()
+        .sorted(Map.Entry.comparingByKey())
+        .forEach(
+            entry -> {
+              Price p = entry.getValue();
+              if (p != null) {
+                writer.println(entry.getKey() + "\t" + p.timestamp + "\t" + p.price);
+              }
+            });
   }
 
   public static void submitPrices(String url) {
@@ -265,31 +269,6 @@ public class MallPriceDatabase {
     public Price(int price, long timestamp) {
       this.price = price;
       this.timestamp = timestamp;
-    }
-  }
-
-  /**
-   * Internal class which functions exactly an array of Prices, except it uses "sets" and "gets"
-   * like a list. This could be done with generics (Java 1.5) but is done like this so that we get
-   * backwards compatibility.
-   */
-  public static class PriceArray {
-    private final ArrayList<Price> internalList = new ArrayList<>();
-
-    public Price get(final int index) {
-      return index < 0 || index >= this.internalList.size() ? null : this.internalList.get(index);
-    }
-
-    public void set(final int index, final Price value) {
-      for (int i = this.internalList.size(); i <= index; ++i) {
-        this.internalList.add(null);
-      }
-
-      this.internalList.set(index, value);
-    }
-
-    public int size() {
-      return this.internalList.size();
     }
   }
 }

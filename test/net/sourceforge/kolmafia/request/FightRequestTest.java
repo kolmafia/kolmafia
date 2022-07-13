@@ -2,8 +2,11 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.addItem;
+import static internal.helpers.Player.equip;
 import static internal.helpers.Player.fightingMonster;
 import static internal.helpers.Player.inAnapest;
+import static internal.helpers.Player.setFamiliar;
+import static internal.helpers.Player.setProperty;
 import static internal.helpers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,6 +34,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 /** Coverage driven collection of tests for FightRequest. */
@@ -385,6 +389,24 @@ public class FightRequestTest {
   }
 
   @Test
+  public void canTrackCastAndUseGooseDrones() {
+    FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
+    KoLCharacter.setFamiliar(fam);
+    KoLCharacter.getFamiliar().setWeight(6);
+
+    String html = html("request/test_fight_cast_and_use_drones.html");
+    MonsterStatusTracker.setNextMonster(MonsterDatabase.findMonster("Witchess Knight"));
+    // Multi-round response text. Matter_Duplicating drones emitted one round and used-up next round
+    assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
+    FightRequest.registerRequest(
+        true,
+        "fight.php?action=macro&macrotext=if+hasskill+curse+of+weaksauce%3Bskill+curse+of+weaksauce%3Bendif%3Bif+hascombatitem+porquoise-handled+sixgun+%26%26+hascombatitem+mayor+ghost%3Buse+porquoise-handled+sixgun%2Cmayor+ghost%3Bendif%3Bif+hasskill+bowl+straight+up%3Bskill+bowl+straight+up%3Bendif%3Bif+hascombatitem+spooky+putty+sheet%3Buse+spooky+putty+sheet%3Bendif%3Bif+hasskill+emit+matter+duplicating+drones%3Bskill+emit+matter+duplicating+drones%3Bendif%3Battack%3Brepeat%3Babort%3B");
+    FightRequest.currentRound = 1;
+    FightRequest.updateCombatData(null, null, html);
+    assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
+  }
+
+  @Test
   public void canFindItemsAfterSlayTheDead() {
     FamiliarData fam = new FamiliarData(FamiliarPool.GREY_GOOSE);
     KoLCharacter.setFamiliar(fam);
@@ -670,5 +692,47 @@ public class FightRequestTest {
 
     parseCombatData("request/test_fight_bellydancing_pickpocket_3.html");
     assertEquals(3, Preferences.getInteger("_bellydancerPickpockets"));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "request/test_fight_designer_sweatpants_gain_2_sweat.html, 2",
+    "request/test_fight_designer_sweatpants_lose_3_sweat.html, -3"
+  })
+  public void canTrackDesignerSweatpants(String responseHtml, int sweatChange) {
+    var cleanups =
+        new Cleanups(
+            equip(EquipmentManager.PANTS, "designer sweatpants"), setProperty("sweat", 10));
+
+    try (cleanups) {
+      parseCombatData(responseHtml);
+      assertEquals(10 + sweatChange, Preferences.getInteger("sweat"));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = {0, 4, 75})
+  public void canUpdateSnowSuitUsage(int count) {
+    var cleanups =
+        new Cleanups(
+            setFamiliar(FamiliarPool.CORNBEEFADON),
+            equip(EquipmentManager.FAMILIAR, "Snow Suit"),
+            setProperty("_snowSuitCount", count));
+
+    try (cleanups) {
+      // Calculate initial Familiar Weight Modifier
+      KoLCharacter.recalculateAdjustments();
+      int property = count;
+      int expected = 20 - (property / 5);
+      int adjustment = KoLCharacter.getFamiliarWeightAdjustment();
+      assertEquals(expected, adjustment);
+      FightRequest.updateFinalRoundData("", true);
+      // We expect the property to increment, but cap at 75
+      property = Math.min(75, property + 1);
+      assertEquals(property, Preferences.getInteger("_snowSuitCount"));
+      expected = 20 - (property / 5);
+      adjustment = KoLCharacter.getFamiliarWeightAdjustment();
+      assertEquals(expected, adjustment);
+    }
   }
 }

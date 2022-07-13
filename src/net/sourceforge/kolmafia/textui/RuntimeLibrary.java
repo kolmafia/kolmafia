@@ -2088,6 +2088,12 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("buffer_to_file", DataTypes.BOOLEAN_TYPE, params));
 
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("read_ccs", DataTypes.BUFFER_TYPE, params));
+
+    params = new Type[] {DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("write_ccs", DataTypes.BOOLEAN_TYPE, params));
+
     // Custom combat helper functions.
 
     params = new Type[] {};
@@ -6532,29 +6538,38 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value get_outfits(ScriptRuntime controller) {
-    return RuntimeLibrary.outfitListToValue(controller, EquipmentManager.getOutfits(), false);
+    return RuntimeLibrary.outfitListToValue(controller, EquipmentManager.getOutfits());
   }
 
   public static Value get_custom_outfits(ScriptRuntime controller) {
-    return RuntimeLibrary.outfitListToValue(controller, EquipmentManager.getCustomOutfits(), false);
+    return RuntimeLibrary.outfitListToValue(controller, EquipmentManager.getCustomOutfits());
   }
 
   public static Value all_normal_outfits(ScriptRuntime controller) {
-    return RuntimeLibrary.outfitListToValue(
-        controller, EquipmentDatabase.normalOutfits.toList(), true);
+    return RuntimeLibrary.outfitMapToValue(EquipmentDatabase.normalOutfits);
   }
 
-  private static Value outfitListToValue(
-      ScriptRuntime controller, List<SpecialOutfit> outfits, boolean map) {
-    AggregateValue value =
-        map
-            ? new MapValue(new AggregateType(DataTypes.STRING_TYPE, DataTypes.INT_TYPE))
-            : new ArrayValue(new AggregateType(DataTypes.STRING_TYPE, outfits.size()));
+  private static Value outfitListToValue(ScriptRuntime controller, List<SpecialOutfit> outfits) {
+    AggregateValue value = new ArrayValue(new AggregateType(DataTypes.STRING_TYPE, outfits.size()));
 
     for (int i = 1; i < outfits.size(); ++i) {
       SpecialOutfit it = outfits.get(i);
       if (it != null) {
         value.aset(new Value(i), new Value(it.toString()));
+      }
+    }
+
+    return value;
+  }
+
+  private static Value outfitMapToValue(Map<Integer, SpecialOutfit> outfits) {
+    AggregateValue value =
+        new MapValue(new AggregateType(DataTypes.STRING_TYPE, DataTypes.INT_TYPE));
+
+    for (var entry : outfits.entrySet()) {
+      SpecialOutfit it = entry.getValue();
+      if (it != null) {
+        value.aset(new Value(entry.getKey()), new Value(it.toString()));
       }
     }
 
@@ -8060,6 +8075,22 @@ public abstract class RuntimeLibrary {
     byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
     String location = var2.toString();
     return DataFileCache.printBytes(location, bytes);
+  }
+
+  public static Value read_ccs(ScriptRuntime controller, final Value name) {
+    String ccsName = name.toString();
+    byte[] bytes = CcsFileManager.getBytes(ccsName);
+    String string = new String(bytes, StandardCharsets.UTF_8);
+    StringBuffer buffer = new StringBuffer(string);
+    return new Value(DataTypes.BUFFER_TYPE, "", buffer);
+  }
+
+  public static Value write_ccs(ScriptRuntime controller, final Value data, final Value name) {
+    StringBuffer buffer = (StringBuffer) data.rawValue();
+    String string = buffer.toString();
+    byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
+    String ccsName = name.toString();
+    return DataTypes.makeBooleanValue(CcsFileManager.printBytes(ccsName, bytes));
   }
 
   // Custom combat helper functions.

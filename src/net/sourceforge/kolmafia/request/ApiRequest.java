@@ -352,8 +352,9 @@ public class ApiRequest extends GenericRequest {
       // the player's account or if they've used a one-day ticket without coolitems
       parseCoolItems(JSON.getString("coolitems"));
 
-      // Parse equipment before charpane, so we can compare modified familiar
-      // weight (which can depend on equipment) with what KoL thinks it is
+      // Many things from the Char Pane are available
+      CharPaneRequest.parseStatus(JSON);
+
       String limitmode = KoLCharacter.getLimitmode();
       if (limitmode == Limitmode.SPELUNKY) {
         // Parse Spelunky equipment
@@ -365,8 +366,8 @@ public class ApiRequest extends GenericRequest {
         EquipmentManager.parseStatus(JSON);
       }
 
-      // Many things from the Char Pane are available
-      CharPaneRequest.parseStatus(JSON);
+      // Must be AFTER current familiar is set and equipment is processed
+      CharPaneRequest.checkFamiliarWeight(JSON);
 
       // UNIX time of next rollover
       long rollover = JSON.getLong("rollover");

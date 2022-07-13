@@ -95,7 +95,10 @@ public class RelayRequest extends PasswordHashRequest {
 
   private static KoLAdventure lastSafety = null;
 
-  private final boolean allowOverride;
+  // If allowOverride is true, when we run this request, we will execute a
+  // relay script, if present, to handle the request to KoL.
+  private boolean allowOverride;
+
   public List<String> headers = new ArrayList<>();
   public Set<ServerCookie> serverCookies = null;
   public String cookies = null;
@@ -166,6 +169,10 @@ public class RelayRequest extends PasswordHashRequest {
 
   public RelayRequest(final boolean allowOverride) {
     super("");
+    this.allowOverride = allowOverride;
+  }
+
+  public void setAllowOverride(final boolean allowOverride) {
     this.allowOverride = allowOverride;
   }
 

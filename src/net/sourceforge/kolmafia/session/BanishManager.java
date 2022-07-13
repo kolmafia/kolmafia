@@ -407,16 +407,11 @@ public class BanishManager {
     resetIf(m -> m.getBanisher().equals(banisher));
   }
 
-  public static final void removeBanishByMonster(final String monster) {
-    resetIf(m -> m.getMonsterName().equals(monster));
-  }
-
   private static final void removeOldestBanish(final Banisher banisher) {
     banishedMonsters.stream()
         .filter(b -> b.getBanisher().equals(banisher))
         .min(Comparator.comparingInt(BanishedMonster::getTurnBanished))
-        .map(BanishedMonster::getMonsterName)
-        .ifPresent(BanishManager::removeBanishByMonster);
+        .ifPresent(b -> resetIf(m -> m == b));
   }
 
   public static final boolean isBanished(final String monster) {
