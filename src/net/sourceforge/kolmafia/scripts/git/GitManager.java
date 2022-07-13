@@ -33,11 +33,10 @@ public class GitManager extends ScriptManager {
   /*
    * Like SVNManager, but for Git.
    *
-   * Acceptable scripts have folders as in ScriptManager.permissibles and possibly a
-   * "dependencies.txt" file. This file contains additional scripts to download. For now these have
-   * to be SVN.
+   * Scripts with folders as in ScriptManager.permissibles have those folder copied to local.
+   * Additional scripts in a "dependencies.txt" file are downloaded.
    *
-   * Local changes will not be supported.
+   * Local changes are not currently supported.
    */
 
   public static void clone(String repoUrl) {
