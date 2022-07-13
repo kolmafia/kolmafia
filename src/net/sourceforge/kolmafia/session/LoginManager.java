@@ -29,7 +29,8 @@ import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
-import net.sourceforge.kolmafia.svn.SVNManager;
+import net.sourceforge.kolmafia.scripts.git.GitManager;
+import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 
 public class LoginManager {
 
@@ -110,6 +111,11 @@ public class LoginManager {
       SVNManager.doUpdate();
     }
     svnLoginUpdateNotFinished = false;
+
+    if (Preferences.getBoolean("gitUpdateOnLogin") && !Preferences.getBoolean("_gitUpdated")) {
+      GitManager.updateAll();
+      Preferences.setBoolean("_gitUpdated", true);
+    }
 
     if (Preferences.getBoolean(username, "getBreakfast")) {
       int today = HolidayDatabase.getPhaseStep();
