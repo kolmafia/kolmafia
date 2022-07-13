@@ -943,6 +943,12 @@ public class OptionsFrame extends GenericFrame {
         }
 
         String scriptPath = LoadScriptMenuItem.getRelativePath(bookmark);
+        if (scriptPath.startsWith("/")) {
+          // Path must be in an "allowed" directory: scripts, relay, planting
+          // or a subdirectory of those.
+          return;
+        }
+
         KoLConstants.bookmarks.add(bookmark.getName() + "|" + scriptPath + "|false");
       }
     }

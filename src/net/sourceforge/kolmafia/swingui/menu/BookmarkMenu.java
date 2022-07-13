@@ -21,7 +21,9 @@ public class BookmarkMenu extends MenuItemList<String> {
     String location = bookmarkData[1];
     String pwdhash = bookmarkData[2];
 
-    if (location.startsWith("http://") || location.startsWith("https://")) {
+    if (location.startsWith("http://")
+        || location.startsWith("https://")
+        || (location.startsWith("/") && location.contains(".php"))) {
       if (pwdhash.equals("true")) {
         location += "&pwd";
       }
