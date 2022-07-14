@@ -747,7 +747,8 @@ public class Modifiers {
       DoubleModifier modifier = Modifiers.doubleModifiers[i];
       modifierIndicesByName.put(modifier.getName(), i);
       String tag = modifier.getTag();
-      Modifiers.numericModifiers.add(tag);
+      modifierIndicesByName.put(tag, i);
+      numericModifiers.add(tag);
     }
   }
 
@@ -781,7 +782,9 @@ public class Modifiers {
 
     for (int i = 0; i < BITMAP_MODIFIERS; ++i) {
       BitmapModifier modifier = Modifiers.bitmapModifiers[i];
-      modifierIndicesByName.put(modifier.getName(), DOUBLE_MODIFIERS + i);
+      int index = DOUBLE_MODIFIERS + i;
+      modifierIndicesByName.put(modifier.getName(), index);
+      modifierIndicesByName.put(modifier.getTag(), index);
     }
   }
 
@@ -885,7 +888,9 @@ public class Modifiers {
     }
     for (int i = 0; i < BOOLEAN_MODIFIERS; ++i) {
       BooleanModifier modifier = Modifiers.booleanModifiers[i];
-      modifierIndicesByName.put(modifier.getName(), DOUBLE_MODIFIERS + BITMAP_MODIFIERS + i);
+      int index = DOUBLE_MODIFIERS + BITMAP_MODIFIERS + i;
+      modifierIndicesByName.put(modifier.getName(), index);
+      modifierIndicesByName.put(modifier.getTag(), index);
     }
   }
 
@@ -964,8 +969,9 @@ public class Modifiers {
   static {
     for (int i = 0; i < STRING_MODIFIERS; ++i) {
       StringModifier modifier = Modifiers.stringModifiers[i];
-      modifierIndicesByName.put(
-          modifier.getName(), DOUBLE_MODIFIERS + BITMAP_MODIFIERS + BOOLEAN_MODIFIERS + i);
+      int index = DOUBLE_MODIFIERS + BITMAP_MODIFIERS + BOOLEAN_MODIFIERS + i;
+      modifierIndicesByName.put(modifier.getName(), index);
+      modifierIndicesByName.put(modifier.getTag(), index);
     }
   }
 
@@ -2228,15 +2234,19 @@ public class Modifiers {
     return list;
   }
 
+  public static final Modifiers evaluatedModifiers(final String lookup, final String modifiers) {
+    return new Modifiers(lookup, evaluateModifiers(lookup, modifiers));
+  }
+
   public static final ModifierList evaluateModifiers(final String lookup, final String modifiers) {
+    ModifierList list = Modifiers.splitModifiers(modifiers);
     // Nothing to do if no expressions
     if (!modifiers.contains("[")) {
-      return Modifiers.splitModifiers(modifiers);
+      return list;
     }
 
     // Otherwise, break apart the string and rebuild it with all
     // expressions evaluated.
-    ModifierList list = Modifiers.splitModifiers(modifiers);
     for (Modifier modifier : list) {
       // Evaluate the modifier expression
       modifier.eval(lookup);
