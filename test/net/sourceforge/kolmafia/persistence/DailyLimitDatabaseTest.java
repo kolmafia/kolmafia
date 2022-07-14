@@ -74,7 +74,7 @@ class gDailyLimitDatabaseTest {
     }
 
     @Test
-    void canGetUsesRemainingForUsedBoolean() {
+    void canGetUsesRemainingForUsedProperty() {
       Preferences.setInteger("_feelDisappointedUsed", 1);
       var limit = DailyLimitType.CAST.getDailyLimit(SkillPool.FEEL_DISAPPOINTED);
 
