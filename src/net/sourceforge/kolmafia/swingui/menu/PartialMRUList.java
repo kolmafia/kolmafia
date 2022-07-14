@@ -51,12 +51,6 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
   }
 
   @Override
-  public void init() {
-    super.init();
-    isInit = true;
-  }
-
-  @Override
   public void update() {
     String[] newlist = Preferences.getString(this.pDefaultList).split(" \\| ");
     this.defaultList.clear();
@@ -72,6 +66,7 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
   public void updateJComboData(JComboBox<String> jcb) {
     if (!isInit) {
       init();
+      isInit = true;
     }
     if (jcb.getRenderer() != this.renderer) {
       jcb.setRenderer((ComboSeparatorsRenderer) this.renderer);
