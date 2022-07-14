@@ -382,16 +382,14 @@ public class OptionsFrame extends GenericFrame {
 
   protected static class MRUSettingsPanel extends OptionsPanel {
     AutoHighlightTextField textField = new AutoHighlightTextField();
+
     public MRUSettingsPanel() {
       String helpText =
-              "Enable the most recently used scripts menu by entering a value greater than 0" +
-                      "which will be used as the number of entries in the menu." +
-              "Running scripts with a semi-colon in the name will break this feature.";
+          "Enable the most recently used scripts menu by entering a value greater than 0 "
+              + "which will be used as the number of entries in the menu.  "
+              + "Running scripts with a semi-colon in the name will break this feature.";
       VerifiableElement[] elements = new VerifiableElement[1];
-      elements[0] = new VerifiableElement(
-              "Script MRU Length.  0 to disable, otherwise number of entries in display.",
-              SwingConstants.LEFT,
-              textField);
+      elements[0] = new VerifiableElement("Script MRU Length.", SwingConstants.LEFT, textField);
       this.setContent(elements);
       JTextArea message = new JTextArea(helpText);
       message.setColumns(40);
