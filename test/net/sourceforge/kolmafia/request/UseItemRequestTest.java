@@ -131,4 +131,49 @@ class UseItemRequestTest {
       }
     }
   }
+
+  @Nested
+  class PileOfUselessRobotParts {
+    @Test
+    void incrementsPrefWhenPartsUsed() {
+      var cleanups =
+          new Cleanups(
+              setProperty("homemadeRobotUpgrades", 2), setFamiliar(FamiliarPool.HOMEMADE_ROBOT));
+
+      try (cleanups) {
+        var fam = KoLCharacter.getFamiliar();
+        fam.setExperience(1);
+
+        assertThat(fam.getWeight(), equalTo(23));
+
+        var req = UseItemRequest.getInstance(ItemPool.PILE_OF_USELESS_ROBOT_PARTS);
+        req.responseText = html("request/test_use_pile_of_useless_robot_parts.html");
+        req.processResults();
+
+        assertThat("homemadeRobotUpgrades", isSetTo(3));
+        assertThat(fam.getWeight(), equalTo(34));
+      }
+    }
+
+    @Test
+    void detectMaxedOutHomemadeRobot() {
+      var cleanups =
+          new Cleanups(
+              setProperty("homemadeRobotUpgrades", 2), setFamiliar(FamiliarPool.HOMEMADE_ROBOT));
+
+      try (cleanups) {
+        var fam = KoLCharacter.getFamiliar();
+        fam.setExperience(1);
+
+        assertThat(fam.getWeight(), equalTo(23));
+
+        var req = UseItemRequest.getInstance(ItemPool.PILE_OF_USELESS_ROBOT_PARTS);
+        req.responseText = html("request/test_use_pile_of_useless_robot_parts_finished.html");
+        req.processResults();
+
+        assertThat("homemadeRobotUpgrades", isSetTo(9));
+        assertThat(fam.getWeight(), equalTo(100));
+      }
+    }
+  }
 }
