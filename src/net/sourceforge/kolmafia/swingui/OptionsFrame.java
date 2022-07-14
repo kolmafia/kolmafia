@@ -375,8 +375,48 @@ public class OptionsFrame extends GenericFrame {
     public ScriptMRUOptionsPanel() {
       super(new Dimension(20, 16), new Dimension(370, 16));
       this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-      this.add(new EditorPanel());
+      this.add(new MRUSettingsPanel());
       this.add(Box.createVerticalGlue());
+    }
+  }
+
+  protected static class MRUSettingsPanel extends OptionsPanel {
+    public MRUSettingsPanel() {
+      AutoHighlightTextField textField = new AutoHighlightTextField();
+
+      boolean button = false;
+      String path = "";
+      String helpText =
+              "Enable the most recently used scripts menu by entering a value greater than 0" +
+                      "which will be used as the number of entries in the menu." +
+              "Running scripts with a semi-colon in the name will break this feature.";
+      VerifiableElement[] elements = new VerifiableElement[1];
+      elements[0] = new VerifiableElement(
+              "Script MRU Length.  0 to disable, otherwise number of entries in display.",
+              SwingConstants.LEFT,
+              combinationsPanel);
+       new VerifiableElement("Editor command: ", this.preferredEditor);
+      this.setContent(elements);
+      JTextArea message = new JTextArea(helpText);
+      message.setColumns(40);
+      message.setLineWrap(true);
+      message.setWrapStyleWord(true);
+      message.setEditable(false);
+      message.setOpaque(false);
+      message.setFont(KoLGUIConstants.DEFAULT_FONT);
+      message.setPreferredSize(this.getPreferredSize());
+      this.container.add(message, BorderLayout.SOUTH);
+      this.actionCancelled();
+    }
+
+    @Override
+    public void actionConfirmed() {
+      Preferences.setString("externalEditor", this.preferredEditor.getText());
+    }
+
+    @Override
+    public void actionCancelled() {
+      this.preferredEditor.setText(Preferences.getString("externalEditor"));
     }
   }
 
