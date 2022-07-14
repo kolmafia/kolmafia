@@ -2015,6 +2015,20 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       case SkillPool.MAP_THE_MONSTERS:
         Preferences.setBoolean("mappingMonsters", true);
         break;
+
+      case SkillPool.MAKE_SWEATADE:
+      case SkillPool.DRENCH_YOURSELF_IN_SWEAT:
+      case SkillPool.SIP_SOME_SWEAT:
+        Matcher sweatCheck = SWEAT_PATTERN.matcher(responseText);
+        if (sweatCheck.find()) {
+          int sweatCost = Integer.parseInt(sweatCheck.group(1));
+          Preferences.decrement("sweat", sweatCost);
+        }
+        break;
+
+      case SkillPool.SWEAT_OUT_BOOZE:
+        Preferences.decrement("sweat", count * 25);
+        break;
     }
 
     // Now apply daily limits

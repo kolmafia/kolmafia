@@ -201,3 +201,5 @@ Cast	Feel Lost	_feelLostUsed	3
 Cast	Feel Nostalgic	_feelNostalgicUsed	3
 Cast	Feel Peaceful	_feelPeacefulUsed	3
 Cast	Map the Monsters	_monstersMapped	3
+Cast	Meatify Matter	_meatifyMatterUsed
+Cast	Sweat Out Some Booze	_sweatOutSomeBoozeUsed	3
