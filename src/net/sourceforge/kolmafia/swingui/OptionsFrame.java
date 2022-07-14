@@ -126,7 +126,7 @@ public class OptionsFrame extends GenericFrame {
     selectorPanel.addPanel("SVN", new SVNPanel(), true);
     selectorPanel.addPanel("Git", new GitPanel(), true);
     selectorPanel.addPanel("Maximizer Strings", new MaximizerStringsPanel());
-    //selectorPanel.addPanel("Recently Used Scripts Displayed", new ScriptMRUOptionsPanel(), true);
+    selectorPanel.addPanel("Recently Used Scripts Displayed", new ScriptMRUOptionsPanel(), true);
 
     this.setCenterComponent(selectorPanel);
 
@@ -367,6 +367,14 @@ public class OptionsFrame extends GenericFrame {
         {"logChatRequests", "Include chat-related requests in debug log"},
       };
 
+      this.setOptions(options);
+    }
+  }
+
+  private static class ScriptMRUOptionsPanel extends OptionsPanel {
+    public ScriptMRUOptionsPanel() {
+      super(new Dimension(20, 16), new Dimension(370, 16));
+      String[][] options = {{"scriptMRULength", "set to 30"}};
       this.setOptions(options);
     }
   }
