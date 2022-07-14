@@ -443,8 +443,16 @@ public class FamiliarData implements Comparable<FamiliarData> {
     };
   }
 
-  private void setWeight() {
-    int weight = Math.max(Math.min(this.getMaxBaseWeight(), (int) Math.sqrt(this.experience)), 1);
+  public void setWeight() {
+    int weight =
+        switch (this.id) {
+            // Homemade Robot ignores experience entirely
+          case FamiliarPool.HOMEMADE_ROBOT -> 1
+              + Math.min(Preferences.getInteger("homemadeRobotUpgrades") * 11, 99);
+          default -> Math.max(
+              Math.min(this.getMaxBaseWeight(), (int) Math.sqrt(this.experience)), 1);
+        };
+
     this.setWeight(weight);
   }
 
