@@ -890,11 +890,12 @@ public class OptionsFrame extends GenericFrame {
       this.elementList.setCellRenderer(ListCellRendererFactory.getDefaultRenderer(this::toHTML));
 
       JPanel extraButtons = new JPanel(new GridLayout(0, 1, 0, 5));
+      extraButtons.add(Box.createVerticalStrut(3));
+      extraButtons.add(new ThreadedButton("rename", new RenameBookmarkRunnable()));
+      extraButtons.add(new ThreadedButton("delete", new DeleteBookmarkRunnable()));
       extraButtons.add(Box.createVerticalStrut(10));
       extraButtons.add(new ThreadedButton("add (text)", new AddTextBookmarkRunnable()));
       extraButtons.add(new ThreadedButton("add (file)", new AddFileBookmarkRunnable()));
-      extraButtons.add(new ThreadedButton("rename", new RenameBookmarkRunnable()));
-      extraButtons.add(new ThreadedButton("delete", new DeleteBookmarkRunnable()));
       this.buttonPanel.add(extraButtons, BorderLayout.SOUTH);
     }
 

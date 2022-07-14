@@ -14,8 +14,8 @@ public class BookmarkMenu extends MenuItemList<String> {
   }
 
   @Override
-  public JComponent constructMenuItem(final Object o) {
-    String[] bookmarkData = ((String) o).split("\\|");
+  public JComponent constructMenuItem(final String o) {
+    String[] bookmarkData = o.split("\\|");
 
     String name = bookmarkData[0];
     String location = bookmarkData[1];
