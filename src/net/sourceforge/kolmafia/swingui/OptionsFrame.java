@@ -126,6 +126,7 @@ public class OptionsFrame extends GenericFrame {
     selectorPanel.addPanel("SVN", new SVNPanel(), true);
     selectorPanel.addPanel("Git", new GitPanel(), true);
     selectorPanel.addPanel("Maximizer Strings", new MaximizerStringsPanel());
+    //selectorPanel.addPanel("Recently Used Scripts Displayed", new ScriptMRUOptionsPanel(), true);
 
     this.setCenterComponent(selectorPanel);
 
