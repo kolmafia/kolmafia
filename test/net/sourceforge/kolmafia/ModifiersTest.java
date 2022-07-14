@@ -743,7 +743,7 @@ public class ModifiersTest {
     @Test
     void canEvaluateExperienceModifiers() {
       String setting = "Meat Drop: +30, Experience (familiar): +2, Experience (Muscle): +4";
-      String lookup = "Local Vote:Local Vote";
+      String lookup = "Local Vote";
 
       Modifiers mods = Modifiers.parseModifiers(lookup, setting);
       assertEquals(30, mods.get(Modifiers.MEATDROP));
