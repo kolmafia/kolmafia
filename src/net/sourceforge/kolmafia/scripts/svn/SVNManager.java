@@ -12,13 +12,12 @@
  * ====================================================================
  */
 
-package net.sourceforge.kolmafia.svn;
+package net.sourceforge.kolmafia.scripts.svn;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -33,8 +32,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -44,9 +41,9 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.scripts.ScriptManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.tmatesoft.svn.core.ISVNLogEntryHandler;
 import org.tmatesoft.svn.core.SVNDepth;
 import org.tmatesoft.svn.core.SVNDirEntry;
@@ -69,7 +66,7 @@ import org.tmatesoft.svn.core.wc.SVNStatusType;
 import org.tmatesoft.svn.core.wc.SVNUpdateClient;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
-public class SVNManager {
+public class SVNManager extends ScriptManager {
   static final Lock SVN_LOCK = new ReentrantLock();
 
   private static final int RETRY_LIMIT = 3;
@@ -79,13 +76,6 @@ public class SVNManager {
   private static final TreeMap<File, Long[]> updateMessages = new TreeMap<>();
 
   private static SVNClientManager ourClientManager;
-
-  private static final Pattern SOURCEFORGE_PATTERN =
-      Pattern.compile("/p/(.*?)/(?:code|svn)(.*)", Pattern.DOTALL);
-  private static final Pattern GOOGLECODE_HOST_PATTERN =
-      Pattern.compile("([^\\.]+)\\.googlecode\\.com", Pattern.DOTALL);
-  private static final List<String> permissibles =
-      Arrays.asList("scripts", "data", "images", "relay", "ccs", "planting");
 
   private SVNManager() {}
 
@@ -517,7 +507,7 @@ public class SVNManager {
       } else
         // something other than a directory
         // we allow a single top-level file to declare dependencies, nothing else
-        failed = !entry.getName().equals("dependencies.txt");
+        failed = !entry.getName().equals(DEPENDENCIES);
     }
 
     if (failed && !quiet) {
@@ -1020,19 +1010,7 @@ public class SVNManager {
   }
 
   public static String getFolderUUIDNoRemote(SVNURL repo) {
-    String UUID = null;
-    Matcher m;
-
-    if ((m = SVNManager.SOURCEFORGE_PATTERN.matcher(repo.getPath())).find()) {
-      // replace awful SVN UUID with nicely-formatted string derived from URL
-      UUID = StringUtilities.globalStringReplace(m.group(1) + m.group(2), "/", "-"); //
-    } else if ((m = GOOGLECODE_HOST_PATTERN.matcher(repo.getHost())).find()) {
-      UUID =
-          m.group(1) + StringUtilities.globalStringReplace(repo.getPath().substring(4), "/", "-");
-    } else if (repo.getHost().contains("github")) {
-      UUID = StringUtilities.globalStringReplace(repo.getPath().substring(1), "/", "-");
-    }
-    return UUID;
+    return getProjectIdentifier(repo.getHost(), repo.getPath());
   }
 
   static File doDirSetup(String uuid) {
@@ -1511,7 +1489,7 @@ public class SVNManager {
     }
 
     for (File f : projects) {
-      File dep = new File(f, "dependencies.txt");
+      File dep = new File(f, DEPENDENCIES);
 
       if (dep.exists()) dependencyFiles.add(dep);
     }
@@ -1526,13 +1504,9 @@ public class SVNManager {
 
     for (File f : projects) {
       try {
-        String uuid =
-            getFolderUUIDNoRemote(
-                SVNManager.getClientManager().getStatusClient().doStatus(f, false).getURL());
-        if (uuid == null)
-          uuid =
-              getFolderUUID(
-                  SVNManager.getClientManager().getStatusClient().doStatus(f, false).getURL());
+        var url = SVNManager.getClientManager().getStatusClient().doStatus(f, false).getURL();
+        String uuid = getFolderUUIDNoRemote(url);
+        if (uuid == null) uuid = getFolderUUID(url);
 
         installed.add(uuid);
       } catch (SVNException e) {

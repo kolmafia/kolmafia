@@ -111,11 +111,10 @@ public interface KoLConstants extends UtilityConstants {
   // Scripting-related constants.  Used throughout KoLmafia in
   // order to ensure proper handling of scripts.
 
-  List<File> scripts = LockableListFactory.getInstance(File.class);
   List<String> bookmarks = LockableListFactory.getInstance(String.class);
 
   ArrayList<String> disabledScripts = new ArrayList<>();
-  ScriptMRUList scriptMList = new ScriptMRUList("scriptMRUList", "scriptMRULength");
+  ScriptMRUList scriptMRUList = new ScriptMRUList("scriptMRUList", "scriptMRULength");
   PartialMRUList maximizerMList =
       new PartialMRUList("maximizerMRUList", "maximizerMRUSize", "maximizerList");
 
@@ -134,6 +133,7 @@ public interface KoLConstants extends UtilityConstants {
   String SCRIPT_DIRECTORY = "scripts/";
   String SESSIONS_DIRECTORY = "sessions/";
   String SVN_DIRECTORY = "svn/";
+  String GIT_DIRECTORY = "git/";
 
   File BUFFBOT_LOCATION = new File(KoLConstants.ROOT_LOCATION, KoLConstants.BUFFBOT_DIRECTORY);
   File CCS_LOCATION = new File(KoLConstants.ROOT_LOCATION, KoLConstants.CCS_DIRECTORY);
@@ -144,6 +144,7 @@ public interface KoLConstants extends UtilityConstants {
   File RELAY_LOCATION = new File(KoLConstants.ROOT_LOCATION, KoLConstants.RELAY_DIRECTORY);
   File SVN_LOCATION = new File(KoLConstants.ROOT_LOCATION, KoLConstants.SVN_DIRECTORY);
   File SVN_REPO_FILE = new File(KoLConstants.DATA_LOCATION, "svnrepo.json");
+  File GIT_LOCATION = new File(KoLConstants.ROOT_LOCATION, KoLConstants.GIT_DIRECTORY);
 
   // All data files that can be overridden
 

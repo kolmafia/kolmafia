@@ -11,8 +11,6 @@ import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.Profiler;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
@@ -127,11 +125,7 @@ public class CallScriptCommand extends AbstractCommand {
 
       // Got here so have valid script file name and not a directory.
 
-      if (Preferences.getInteger("scriptMRULength") > 0) {
-        // Add name, without path, to MRU list
-        KoLConstants.scriptMList.addItem(scriptFile.getName());
-        GenericFrame.compileScripts(true);
-      }
+      KoLConstants.scriptMRUList.addItem(scriptFile.getName());
 
       // Allow the ".ash" or ".js" to appear anywhere in the filename
       // in a case-insensitive manner.

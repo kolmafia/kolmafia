@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.Component;
+import java.util.function.BiFunction;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -37,8 +38,20 @@ public class ListCellRendererFactory {
     return new DefaultRenderer();
   }
 
-  private static class DefaultRenderer extends DefaultListCellRenderer {
+  public static final DefaultListCellRenderer getDefaultRenderer(
+      BiFunction<Object, Boolean, String> toHTMLFunction) {
+    return new DefaultRenderer(toHTMLFunction);
+  }
+
+  public static class DefaultRenderer extends DefaultListCellRenderer {
+    private BiFunction<Object, Boolean, String> toHTMLFunction;
+
     public DefaultRenderer() {
+      this(null);
+    }
+
+    public DefaultRenderer(BiFunction<Object, Boolean, String> toHTMLFunction) {
+      this.toHTMLFunction = toHTMLFunction;
       this.setOpaque(true);
     }
 
@@ -62,6 +75,15 @@ public class ListCellRendererFactory {
 
       if (isSelected) {
         GearChangeFrame.showModifiers(value, false);
+      }
+
+      if (toHTMLFunction != null) {
+        if (isSelected) {
+          setForeground(UIManager.getColor("List.selectionForeground"));
+        }
+        String html = toHTMLFunction.apply(value, isSelected);
+        ((JLabel) defaultComponent).setText(html);
+        return defaultComponent;
       }
 
       if (value instanceof AdventureResult) {

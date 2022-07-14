@@ -1,10 +1,14 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import javax.swing.JComboBox;
-import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 /**
@@ -12,49 +16,59 @@ import net.sourceforge.kolmafia.preferences.Preferences;
  *
  * @author Fronobulax
  */
-public class ScriptMRUList {
+public class ScriptMRUList implements Listener {
   protected int maxMRU = 16;
   protected final LinkedList<String> mruList = new LinkedList<>();
-  protected boolean isInit;
   private final String prefList;
   private final String prefLen;
   private static final String SEMICOLON = ";";
 
   public ScriptMRUList(String pList, String pLen) {
-    isInit = false;
     prefList = pList;
     prefLen = pLen;
+
+    this.init();
+
+    PreferenceListenerRegistry.registerPreferenceListener(pLen, this);
+  }
+
+  @Override
+  public void update() {
+    init();
   }
 
   protected void init() {
-    maxMRU = Preferences.getInteger(prefLen);
-    if (maxMRU > 0) {
+    synchronized (this) {
+      maxMRU = Preferences.getInteger(prefLen);
+      if (maxMRU <= 0) {
+        mruList.clear();
+        return;
+      }
+
       // Load list from preference - use whatever is there
       String oldValues = Preferences.getString(prefList);
       if ((oldValues != null) && (!oldValues.equals(""))) {
         // First to last, delimited by semi-colon.  Split and insert.
         String[] items = oldValues.split(SEMICOLON);
-        for (int i = (items.length - 1); i >= 0; i--) {
-          mruList.addFirst(items[i]);
+        int itemsToAdd = Math.min(maxMRU, items.length);
+        for (int i = 0; i < itemsToAdd; i++) {
+          mruList.addLast(items[i]);
         }
       }
-      while (mruList.size() > maxMRU) {
-        mruList.removeLast();
-      }
-      isInit = true;
     }
   }
 
   public void addItem(String script) {
-    // Initialize list, if needed
-    if (!isInit) {
-      init();
-    }
-    if (!isInit) {
+    if (maxMRU == 0) {
       return;
     }
     // don't add empty or null names
-    if ((script != null) && (!script.equals(""))) {
+    if ((script == null) || (script.equals(""))) {
+      return;
+    }
+
+    StringBuilder pref = new StringBuilder();
+    synchronized (this) {
       // delete item if it is currently in list
       // note - as implemented this is a case sensitive compare
       while (mruList.contains(script)) {
@@ -66,9 +80,9 @@ public class ScriptMRUList {
       while (mruList.size() > maxMRU) {
         mruList.removeLast();
       }
+
       // save the new list as a preference
       Iterator<String> i8r = mruList.iterator();
-      StringBuilder pref = new StringBuilder();
       while (i8r.hasNext()) {
         String val = i8r.next();
         pref.append(val);
@@ -76,37 +90,38 @@ public class ScriptMRUList {
           pref.append(SEMICOLON);
         }
       }
-      // now save it
-      Preferences.setString(KoLCharacter.getUserName(), prefList, pref.toString());
     }
+    // now save it
+    Preferences.setString(prefList, pref.toString());
   }
 
   public File[] listAsFiles() {
-    if (!isInit) {
-      init();
+    synchronized (this) {
+      if (mruList.isEmpty()) {
+        return new File[0];
+      }
+
+      List<File> results = new ArrayList<>();
+
+      for (String fileName : mruList) {
+        List<File> matches = KoLmafiaCLI.findScriptFile(fileName);
+
+        if (matches.size() == 1) {
+          results.add(matches.get(0));
+        }
+      }
+
+      return results.toArray(new File[0]);
     }
-    int count = mruList.size();
-    if (count < 1) {
-      return new File[0];
-    }
-    File[] result = new File[count];
-    Iterator<String> i8r = mruList.iterator();
-    int i = 0;
-    while (i8r.hasNext()) {
-      String val = i8r.next();
-      result[i] = new File(val);
-      i++;
-    }
-    return result;
   }
 
   public void updateJComboData(JComboBox<String> jcb) {
-    if (!isInit) {
-      init();
+    if (mruList.isEmpty()) {
+      return;
     }
-    int count = mruList.size();
-    if (count >= 1) {
-      jcb.removeAllItems();
+
+    jcb.removeAllItems();
+    synchronized (this) {
       Iterator<String> i8r = mruList.iterator();
       int i = 0;
       while (i8r.hasNext()) {
@@ -114,13 +129,12 @@ public class ScriptMRUList {
         jcb.insertItemAt(val, i);
         i++;
       }
-      jcb.setSelectedIndex(0);
     }
+    jcb.setSelectedIndex(0);
   }
 
   public String getFirst() {
     String NONE = "Unknown";
-    if (!isInit) return NONE;
     if (maxMRU <= 0) return NONE;
     if (mruList.size() < 1) return NONE;
     return mruList.getFirst();
