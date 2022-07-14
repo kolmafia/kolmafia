@@ -1846,6 +1846,7 @@ public class ItemPool {
   public static final int LED_CLOCK = 6072;
   public static final int HAGGIS_SOCKS = 6080;
   public static final int CLASSY_MONKEY = 6097;
+  public static final int PILE_OF_USELESS_ROBOT_PARTS = 6100;
   public static final int CEO_OFFICE_CARD = 6116;
   public static final int STRANGE_GOGGLES = 6118;
   public static final int BONSAI_TREE = 6120;
