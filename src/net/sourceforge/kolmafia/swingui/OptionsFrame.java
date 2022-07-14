@@ -126,7 +126,6 @@ public class OptionsFrame extends GenericFrame {
     selectorPanel.addPanel("SVN", new SVNPanel(), true);
     selectorPanel.addPanel("Git", new GitPanel(), true);
     selectorPanel.addPanel("Maximizer Strings", new MaximizerStringsPanel());
-    selectorPanel.addPanel("Recently Used Scripts Displayed", new ScriptMRUOptionsPanel(), true);
 
     this.setCenterComponent(selectorPanel);
 
@@ -367,14 +366,6 @@ public class OptionsFrame extends GenericFrame {
         {"logChatRequests", "Include chat-related requests in debug log"},
       };
 
-      this.setOptions(options);
-    }
-  }
-
-  private static class ScriptMRUOptionsPanel extends OptionsPanel {
-    public ScriptMRUOptionsPanel() {
-      super(new Dimension(20, 16), new Dimension(370, 16));
-      String[][] options = {{"scriptMRULength", "set to 30"}};
       this.setOptions(options);
     }
   }
@@ -899,11 +890,12 @@ public class OptionsFrame extends GenericFrame {
       this.elementList.setCellRenderer(ListCellRendererFactory.getDefaultRenderer(this::toHTML));
 
       JPanel extraButtons = new JPanel(new GridLayout(0, 1, 0, 5));
+      extraButtons.add(Box.createVerticalStrut(3));
+      extraButtons.add(new ThreadedButton("rename", new RenameBookmarkRunnable()));
+      extraButtons.add(new ThreadedButton("delete", new DeleteBookmarkRunnable()));
       extraButtons.add(Box.createVerticalStrut(10));
       extraButtons.add(new ThreadedButton("add (text)", new AddTextBookmarkRunnable()));
       extraButtons.add(new ThreadedButton("add (file)", new AddFileBookmarkRunnable()));
-      extraButtons.add(new ThreadedButton("rename", new RenameBookmarkRunnable()));
-      extraButtons.add(new ThreadedButton("delete", new DeleteBookmarkRunnable()));
       this.buttonPanel.add(extraButtons, BorderLayout.SOUTH);
     }
 
