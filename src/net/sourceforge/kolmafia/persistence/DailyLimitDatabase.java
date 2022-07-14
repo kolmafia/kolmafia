@@ -73,7 +73,7 @@ public class DailyLimitDatabase {
       this.subType = subType;
 
       // Add to map of all limits
-      DailyLimitDatabase.allDailyLimits.add(this);
+      allDailyLimits.add(this);
       // Add to map of limits of this type
       type.addDailyLimit(this);
     }
@@ -97,14 +97,11 @@ public class DailyLimitDatabase {
         return Preferences.getInteger("tomeSummons");
       }
 
-      switch (Preferences.getString(this.uses)) {
-        case "true":
-          return 1;
-        case "false":
-          return 0;
-        default:
-          return Preferences.getInteger(this.uses);
-      }
+      return switch (Preferences.getString(this.uses)) {
+        case "true" -> 1;
+        case "false" -> 0;
+        default -> Preferences.getInteger(this.uses);
+      };
     }
 
     public int getMax() {
@@ -159,13 +156,13 @@ public class DailyLimitDatabase {
   }
 
   static {
-    for (DailyLimitType type : DailyLimitType.values()) {
-      DailyLimitDatabase.tagToDailyLimitType.put(type.toString(), type);
+    for (var type : DailyLimitType.values()) {
+      tagToDailyLimitType.put(type.toString(), type);
     }
 
     tagToDailyLimitType.put("tome", DailyLimitType.CAST);
 
-    DailyLimitDatabase.reset();
+    reset();
   }
 
   public static void reset() {
@@ -180,8 +177,8 @@ public class DailyLimitDatabase {
       if (data.length >= 2) {
         String tag = data[0];
 
-        DailyLimitType type = DailyLimitDatabase.tagToDailyLimitType.get(tag.toLowerCase());
-        DailyLimit dailyLimit = parseDailyLimit(type, data);
+        var type = tagToDailyLimitType.get(tag.toLowerCase());
+        var dailyLimit = parseDailyLimit(type, data);
         if (dailyLimit == null) {
           RequestLogger.printLine("Daily Limit: " + data[0] + " " + data[1] + " is bogus");
           error = true;
@@ -202,19 +199,11 @@ public class DailyLimitDatabase {
     String uses = data[2];
     String max = data.length >= 4 ? data[3] : "";
 
-    int id = -1;
-
-    switch (type) {
-      case USE:
-      case EAT:
-      case DRINK:
-      case SPLEEN:
-        id = ItemDatabase.getItemId(thing);
-        break;
-      case CAST:
-        id = SkillDatabase.getSkillId(thing);
-        break;
-    }
+    int id =
+        switch (type) {
+          case USE, EAT, DRINK, SPLEEN -> ItemDatabase.getItemId(thing);
+          case CAST -> SkillDatabase.getSkillId(thing);
+        };
 
     if (id == -1) {
       return null;

@@ -24,7 +24,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.DailyLimitDatabase;
+import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
@@ -639,8 +639,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         }
     }
 
-    DailyLimitDatabase.DailyLimit dailyLimit =
-        DailyLimitDatabase.DailyLimitType.CAST.getDailyLimit(this.skillId);
+    var dailyLimit = DailyLimitType.CAST.getDailyLimit(this.skillId);
     if (dailyLimit != null) {
       return dailyLimit.getUsesRemaining();
     }
@@ -2032,7 +2031,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     }
 
     // Now apply daily limits
-    var limit = DailyLimitDatabase.DailyLimitType.CAST.getDailyLimit(skillId);
+    var limit = DailyLimitType.CAST.getDailyLimit(skillId);
     if (limit != null) {
       var increment = count;
 

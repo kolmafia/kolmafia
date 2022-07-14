@@ -19,7 +19,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
-import net.sourceforge.kolmafia.persistence.DailyLimitDatabase;
+import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.ContactManager;
@@ -116,7 +116,7 @@ public class SkillBuffFrame extends GenericFrame {
 
     private void setSkillListeners() {
       PreferenceListenerRegistry.registerPreferenceListener("tomeSummons", this);
-      for (var limit : DailyLimitDatabase.DailyLimitType.CAST.getDailyLimits().values()) {
+      for (var limit : DailyLimitType.CAST.getDailyLimits().values()) {
         PreferenceListenerRegistry.registerPreferenceListener(limit.getPref(), this);
       }
     }
