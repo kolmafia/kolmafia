@@ -224,7 +224,6 @@ public class GitManager extends ScriptManager {
   /** Return all installed git projects */
   public static List<String> listAll() {
     var files = allFolders();
-    if (files == null) return List.of();
     return List.of(files);
   }
 
@@ -301,7 +300,6 @@ public class GitManager extends ScriptManager {
   /** Copy files from all installed git projects to permissible folders. */
   public static void syncAll() {
     var files = allFolders();
-    if (files == null) return;
     for (var file : files) {
       sync(file);
     }
@@ -391,7 +389,9 @@ public class GitManager extends ScriptManager {
   }
 
   private static String[] allFolders() {
-    return KoLConstants.GIT_LOCATION.list();
+    var folders = KoLConstants.GIT_LOCATION.list();
+    if (folders == null) return new String[0];
+    return folders;
   }
 
   private static Optional<String> getRequiredProject(String project) {
