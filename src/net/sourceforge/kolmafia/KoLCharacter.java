@@ -5123,9 +5123,7 @@ public abstract class KoLCharacter {
 
     // Mummery
     newModifiers.add(
-        new Modifiers(
-            "Mummery",
-            Modifiers.evaluateModifiers("Mummery", Preferences.getString("_mummeryMods"))));
+        Modifiers.evaluatedModifiers("Mummery", Preferences.getString("_mummeryMods")));
 
     // Add modifiers from inventory
     if (InventoryManager.hasItem(ItemPool.FISHING_POLE)) {

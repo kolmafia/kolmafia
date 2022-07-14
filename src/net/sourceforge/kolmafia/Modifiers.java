@@ -2234,6 +2234,10 @@ public class Modifiers {
     return list;
   }
 
+  public static final Modifiers evaluatedModifiers(final String lookup, final String modifiers) {
+    return new Modifiers(lookup, evaluateModifiers(lookup, modifiers));
+  }
+
   public static final ModifierList evaluateModifiers(final String lookup, final String modifiers) {
     ModifierList list = Modifiers.splitModifiers(modifiers);
     // Nothing to do if no expressions
