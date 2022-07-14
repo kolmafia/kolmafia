@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.utilities.SwinglessUIUtils;
 public class PartialMRUList extends ScriptMRUList implements Listener {
   private final LinkedList<String> defaultList = new LinkedList<>();
   private final String pDefaultList;
+  private boolean isInit = false;
 
   /**
    * This is a ComboSeparatorsRenderer, but in order to have this class compile in Swingless
@@ -33,8 +34,8 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
   public PartialMRUList(String pList, String pLen, String pDefaultList) {
     super(pList, pLen);
     this.pDefaultList = pDefaultList;
-    PreferenceListenerRegistry.registerPreferenceListener(pDefaultList, this);
     update();
+    PreferenceListenerRegistry.registerPreferenceListener(pDefaultList, this);
     if (SwinglessUIUtils.isSwingAvailable()) {
       renderer =
           new ComboSeparatorsRenderer(new DefaultListCellRenderer()) {
@@ -49,6 +50,19 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
     }
   }
 
+  @Override
+  public void init() {
+    super.init();
+    isInit = true;
+  }
+
+  @Override
+  public void update() {
+    String[] newlist = Preferences.getString(this.pDefaultList).split(" \\| ");
+    this.defaultList.clear();
+    Collections.addAll(this.defaultList, newlist);
+  }
+
   /*
    * Override the update method in order to create a "hybrid" MRU-plus-default list. Note to implementers: calling
    * this method alters the combobox's default renderer. (non-Javadoc)
@@ -56,6 +70,9 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
    */
   @Override
   public void updateJComboData(JComboBox<String> jcb) {
+    if (!isInit) {
+      init();
+    }
     if (jcb.getRenderer() != this.renderer) {
       jcb.setRenderer((ComboSeparatorsRenderer) this.renderer);
     }
@@ -114,12 +131,5 @@ public class PartialMRUList extends ScriptMRUList implements Listener {
     }
 
     protected abstract boolean addSeparatorAfter(JList<?> list, Object value, int index);
-  }
-
-  @Override
-  public void update() {
-    String[] newlist = Preferences.getString(this.pDefaultList).split(" \\| ");
-    this.defaultList.clear();
-    Collections.addAll(this.defaultList, newlist);
   }
 }
