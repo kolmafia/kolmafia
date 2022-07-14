@@ -126,6 +126,7 @@ public class OptionsFrame extends GenericFrame {
     selectorPanel.addPanel("SVN", new SVNPanel(), true);
     selectorPanel.addPanel("Git", new GitPanel(), true);
     selectorPanel.addPanel("Maximizer Strings", new MaximizerStringsPanel());
+    selectorPanel.addPanel("Script MRU", new ScriptMRUOptionsPanel());
 
     this.setCenterComponent(selectorPanel);
 
@@ -367,6 +368,15 @@ public class OptionsFrame extends GenericFrame {
       };
 
       this.setOptions(options);
+    }
+  }
+
+  private static class ScriptMRUOptionsPanel extends OptionsPanel {
+    public ScriptMRUOptionsPanel() {
+      super(new Dimension(20, 16), new Dimension(370, 16));
+      this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+      this.add(new EditorPanel());
+      this.add(Box.createVerticalGlue());
     }
   }
 
