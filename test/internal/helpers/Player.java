@@ -369,9 +369,9 @@ public class Player {
     var old = GenericRequest.itemMonster;
     GenericRequest.itemMonster = itemMonster;
     return new Cleanups(
-            () -> {
-              GenericRequest.itemMonster = old;
-            });
+        () -> {
+          GenericRequest.itemMonster = old;
+        });
   }
 
   public static Cleanups canInteract(boolean canInteract) {
