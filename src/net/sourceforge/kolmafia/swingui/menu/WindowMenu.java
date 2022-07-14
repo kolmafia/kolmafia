@@ -10,8 +10,7 @@ public class WindowMenu extends MenuItemList<String> {
   }
 
   @Override
-  public JComponent constructMenuItem(final Object o) {
-    String frameKey = (String) o;
+  public JComponent constructMenuItem(final String frameKey) {
     String frameTitle = frameKey;
 
     for (String[] frame : KoLConstants.FRAME_NAMES) {
