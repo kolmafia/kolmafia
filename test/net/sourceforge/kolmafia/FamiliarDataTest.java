@@ -86,7 +86,7 @@ public class FamiliarDataTest {
     var cleanups = addEffect("Fidoxene");
 
     try (cleanups) {
-      var familiar = FamiliarData.registerFamiliar(FamiliarPool.HOMEMADE_ROBOT, 900);
+      var familiar = FamiliarData.registerFamiliar(FamiliarPool.STOCKING_MIMIC, 900);
 
       assertThat(familiar.getModifiedWeight(), equalTo(30));
     }
