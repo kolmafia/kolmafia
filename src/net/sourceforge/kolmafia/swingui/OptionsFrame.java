@@ -381,11 +381,8 @@ public class OptionsFrame extends GenericFrame {
   }
 
   protected static class MRUSettingsPanel extends OptionsPanel {
+    AutoHighlightTextField textField = new AutoHighlightTextField();
     public MRUSettingsPanel() {
-      AutoHighlightTextField textField = new AutoHighlightTextField();
-
-      boolean button = false;
-      String path = "";
       String helpText =
               "Enable the most recently used scripts menu by entering a value greater than 0" +
                       "which will be used as the number of entries in the menu." +
@@ -394,8 +391,7 @@ public class OptionsFrame extends GenericFrame {
       elements[0] = new VerifiableElement(
               "Script MRU Length.  0 to disable, otherwise number of entries in display.",
               SwingConstants.LEFT,
-              combinationsPanel);
-       new VerifiableElement("Editor command: ", this.preferredEditor);
+              textField);
       this.setContent(elements);
       JTextArea message = new JTextArea(helpText);
       message.setColumns(40);
@@ -411,12 +407,12 @@ public class OptionsFrame extends GenericFrame {
 
     @Override
     public void actionConfirmed() {
-      Preferences.setString("externalEditor", this.preferredEditor.getText());
+      Preferences.setString("scriptMRULength", this.textField.getText());
     }
 
     @Override
     public void actionCancelled() {
-      this.preferredEditor.setText(Preferences.getString("externalEditor"));
+      this.textField.setText(Preferences.getString("scriptMRULength"));
     }
   }
 
