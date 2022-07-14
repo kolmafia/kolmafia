@@ -904,11 +904,11 @@ public class OptionsFrame extends GenericFrame {
       String name = bookmarkData[0];
       String location = bookmarkData[1];
 
-      return "<html><nobr style=\"font-weight: 700\">" +
-              name +
-              "</nobr><br/><nobr style=\"font-size: smaller; font-weight: 100\">" +
-              location +
-              "</nobr>";
+      return "<html><nobr style=\"font-weight: 700\">"
+          + name
+          + "</nobr><br/><nobr style=\"font-size: smaller; font-weight: 100\">"
+          + location
+          + "</nobr>";
     }
 
     @Override
@@ -1015,7 +1015,7 @@ public class OptionsFrame extends GenericFrame {
 
       JTextArea message =
           new JTextArea(
-                  """
+              """
                           These are the global settings for what shows up when KoLmafia successfully logs into the Kingdom of Loathing.  You can drag and drop options in the lists below to customize what will show up.
 
                           When you place the Local Relay Server into the 'startup in tabs' section, KoLmafia will start up the server but not open your browser.  When you place the Contact List into the 'startup in tabs' section, KoLmafia will force a refresh of your contact list on login.
@@ -1156,7 +1156,8 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private static class DeedsButtonPanel extends ScrollablePanel<JDnDList> implements ListDataListener {
+  private static class DeedsButtonPanel extends ScrollablePanel<JDnDList>
+      implements ListDataListener {
     public DeedsButtonPanel(final String title, final LockableListModel<String> builtIns) {
       super(title, "add custom", "reset deeds", new JDnDList(builtIns));
 
@@ -1306,7 +1307,7 @@ public class OptionsFrame extends GenericFrame {
       this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
       JTextArea message =
           new JTextArea(
-                  """
+              """
                           Configure the behavior of Mafia's built-in SVN client here.
 
                           With SVN you can seamlessly install community-created scripts and have them automatically update.""") {
@@ -1337,14 +1338,14 @@ public class OptionsFrame extends GenericFrame {
        */
 
       this.queue(
-              new PreferenceCheckBox("svnUpdateOnLogin", "Update installed SVN projects on login"));
+          new PreferenceCheckBox("svnUpdateOnLogin", "Update installed SVN projects on login"));
       String tip =
           "<html>Turning this option on will show the associated message that the author<br>"
               + "provided to describe changes in the new version.  This includes things<br>"
               + "like bug fixes, new features, etc.</html>";
       this.queue(
-              new PreferenceCheckBox(
-                      "svnShowCommitMessages", "Show commit messages after update", tip));
+          new PreferenceCheckBox(
+              "svnShowCommitMessages", "Show commit messages after update", tip));
 
       /*
        * End Basic Options
@@ -1372,10 +1373,10 @@ public class OptionsFrame extends GenericFrame {
               + "Users who want complete control over what they are installing can turn this off,<br>"
               + "but should make sure to manually install dependencies or scripts may<br>malfunction.";
       this.queue(
-              new PreferenceCheckBox(
-                      "svnInstallDependencies",
-                      "Automatically install dependencies for SVN projects",
-                      tip));
+          new PreferenceCheckBox(
+              "svnInstallDependencies",
+              "Automatically install dependencies for SVN projects",
+              tip));
 
       tip =
           "<html>If you manually modify your working copies, syncing will ensure that any<br>"
@@ -1417,7 +1418,7 @@ public class OptionsFrame extends GenericFrame {
       this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
       JTextArea message =
           new JTextArea(
-                  """
+              """
                           Configure the behavior of Mafia's built-in git client here.
 
                           With git you can seamlessly install community-created scripts and have them automatically update.""") {
@@ -1448,7 +1449,7 @@ public class OptionsFrame extends GenericFrame {
        */
 
       this.queue(
-              new PreferenceCheckBox("gitUpdateOnLogin", "Update installed Git projects on login"));
+          new PreferenceCheckBox("gitUpdateOnLogin", "Update installed Git projects on login"));
 
       this.makeLayout();
     }
@@ -1570,7 +1571,7 @@ public class OptionsFrame extends GenericFrame {
 
       JTextArea message =
           new JTextArea(
-                  """
+              """
                           Edit the appearance of your daily deeds panel.
 
                           Drag built-in deeds into the 'Current Deeds' box down below to include, and delete them from there to exclude.  Drag and drop to rearrange. Note that some deeds added to the 'Current Deeds' box may still remain hidden once you add them depending on whether you posess certain items, skills, and/or access to zones.""");
@@ -2319,8 +2320,8 @@ public class OptionsFrame extends GenericFrame {
       centerPanel = new JPanel(new GridLayout(4, 1));
 
       this.tomeSkills =
-              new SkillMenu(
-                      "Tome Skills", UseSkillRequest.TOME_SKILLS, "tomeSkills" + this.breakfastType);
+          new SkillMenu(
+              "Tome Skills", UseSkillRequest.TOME_SKILLS, "tomeSkills" + this.breakfastType);
       if (this.breakfastType.equals("Hardcore")) {
         // Only show this option in the In Ronin panel
         this.tomeSkills.addActionListener(this);
@@ -2332,16 +2333,16 @@ public class OptionsFrame extends GenericFrame {
       }
 
       this.libramSkills =
-              new SkillMenu(
-                      "Libram Skills", UseSkillRequest.LIBRAM_SKILLS, "libramSkills" + this.breakfastType);
+          new SkillMenu(
+              "Libram Skills", UseSkillRequest.LIBRAM_SKILLS, "libramSkills" + this.breakfastType);
       this.libramSkills.addActionListener(this);
       centerPanel.add(this.libramSkills);
 
       this.grimoireSkills =
-              new SkillMenu(
-                      "Grimoire Skills",
-                      UseSkillRequest.GRIMOIRE_SKILLS,
-                      "grimoireSkills" + this.breakfastType);
+          new SkillMenu(
+              "Grimoire Skills",
+              UseSkillRequest.GRIMOIRE_SKILLS,
+              "grimoireSkills" + this.breakfastType);
       this.grimoireSkills.addActionListener(this);
       centerPanel.add(this.grimoireSkills);
 
@@ -2458,11 +2459,12 @@ public class OptionsFrame extends GenericFrame {
     public void setPreference() {
       String skill;
       int index = this.getSelectedIndex();
-      skill = switch (index) {
-        case -1, 0 -> "none";
-        case 1 -> "all";
-        default -> this.getItemAt(index);
-      };
+      skill =
+          switch (index) {
+            case -1, 0 -> "none";
+            case 1 -> "all";
+            default -> this.getItemAt(index);
+          };
       Preferences.setString(this.preference, skill);
     }
   }
@@ -2502,11 +2504,12 @@ public class OptionsFrame extends GenericFrame {
     public void setPreference() {
       String crop;
       int index = this.getSelectedIndex();
-      crop = switch (index) {
-        case -1, 0 -> "none";
-        case 1 -> "any";
-        default -> this.getItemAt(index);
-      };
+      crop =
+          switch (index) {
+            case -1, 0 -> "none";
+            case 1 -> "any";
+            default -> this.getItemAt(index);
+          };
       Preferences.setString(this.preference, crop);
     }
   }
