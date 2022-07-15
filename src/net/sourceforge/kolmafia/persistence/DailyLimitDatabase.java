@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import net.sourceforge.kolmafia.Expression;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -63,15 +65,17 @@ public class DailyLimitDatabase {
     protected final String uses;
     protected final String max;
     protected final int id;
+    protected final String subType;
 
-    public DailyLimit(DailyLimitType type, String uses, String max, int id) {
+    public DailyLimit(DailyLimitType type, String uses, String max, int id, String subType) {
       this.type = type;
       this.uses = uses;
       this.max = max;
       this.id = id;
+      this.subType = subType;
 
       // Add to map of all limits
-      DailyLimitDatabase.allDailyLimits.add(this);
+      allDailyLimits.add(this);
       // Add to map of limits of this type
       type.addDailyLimit(this);
     }
@@ -80,20 +84,33 @@ public class DailyLimitDatabase {
       return this.type;
     }
 
-    public int getUses() {
-      String stringValue = Preferences.getString(this.uses);
-
-      if (stringValue.equals("true")) {
-        return 1;
-      }
-
-      if (stringValue.equals("false")) {
-        return 0;
-      }
-
-      return Preferences.getInteger(this.uses);
+    public String getPref() {
+      return this.uses;
     }
 
+    private boolean isTome() {
+      return Objects.equals(this.subType, "tome");
+    }
+
+    public int getUses() {
+      if (isTome() && !KoLCharacter.canInteract()) {
+        // Tomes can be used three times per day.  In aftercore, each tome can be used 3 times per
+        // day.
+        return Preferences.getInteger("tomeSummons");
+      }
+
+      return switch (Preferences.getString(this.uses)) {
+        case "true" -> 1;
+        case "false" -> 0;
+        default -> Preferences.getInteger(this.uses);
+      };
+    }
+
+    /**
+     * Get the maximum number of daily uses for the given DailyLimit item
+     *
+     * @return Maximum number of uses or -1 if the underlying data cannot be parsed
+     */
     public int getMax() {
       if (this.max.length() == 0) {
         return 1;
@@ -112,7 +129,7 @@ public class DailyLimitDatabase {
         }
       }
 
-      return 1;
+      return -1;
     }
 
     public int getUsesRemaining() {
@@ -128,37 +145,52 @@ public class DailyLimitDatabase {
     }
 
     public int increment() {
+      return increment(1);
+    }
+
+    public int increment(final int delta) {
       if (getMax() == 1 && Preferences.getDefault(this.uses).equals("false")) {
         Preferences.setBoolean(this.uses, true);
         return 1;
       }
 
-      return Preferences.increment(this.uses, 1, getMax(), false);
+      if (isTome()) {
+        Preferences.increment("tomeSummons", delta, getMax(), false);
+      }
+
+      return Preferences.increment(this.uses, delta, getMax(), false);
     }
   }
 
   static {
-    for (DailyLimitType type : DailyLimitType.values()) {
-      DailyLimitDatabase.tagToDailyLimitType.put(type.toString(), type);
+    for (var type : DailyLimitType.values()) {
+      tagToDailyLimitType.put(type.toString(), type);
     }
 
-    DailyLimitDatabase.reset();
+    tagToDailyLimitType.put("tome", DailyLimitType.CAST);
+
+    reset();
   }
 
   public static void reset() {
     boolean error = false;
+
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("dailylimits.txt", KoLConstants.DAILYLIMITS_VERSION)) {
+
       String[] data;
 
       while ((data = FileUtilities.readData(reader)) != null) {
         if (data.length >= 2) {
           String tag = data[0];
 
-          DailyLimitType type = DailyLimitDatabase.tagToDailyLimitType.get(tag.toLowerCase());
-          DailyLimit dailyLimit = parseDailyLimit(type, data);
+          var type = tagToDailyLimitType.get(tag.toLowerCase());
+          var dailyLimit = parseDailyLimit(type, data);
           if (dailyLimit == null) {
             RequestLogger.printLine("Daily Limit: " + data[0] + " " + data[1] + " is bogus");
+            error = true;
+          } else if (dailyLimit.getMax() < 0) {
+            RequestLogger.printLine("Daily Limit: " + data[0] + " " + data[1] + " has invalid max");
             error = true;
           }
         }
@@ -178,24 +210,18 @@ public class DailyLimitDatabase {
     String uses = data[2];
     String max = data.length >= 4 ? data[3] : "";
 
-    int id = -1;
-
-    switch (type) {
-      case USE:
-      case EAT:
-      case DRINK:
-      case SPLEEN:
-        id = ItemDatabase.getItemId(thing);
-        break;
-      case CAST:
-        id = SkillDatabase.getSkillId(thing);
-        break;
-    }
+    int id =
+        switch (type) {
+          case USE, EAT, DRINK, SPLEEN -> ItemDatabase.getItemId(thing);
+          case CAST -> SkillDatabase.getSkillId(thing);
+        };
 
     if (id == -1) {
       return null;
     }
 
-    return new DailyLimit(type, uses, max, id);
+    var subType = (data[0].equalsIgnoreCase("tome")) ? "tome" : null;
+
+    return new DailyLimit(type, uses, max, id, subType);
   }
 }
