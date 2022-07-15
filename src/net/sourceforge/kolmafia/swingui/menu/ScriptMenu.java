@@ -24,6 +24,7 @@ public class ScriptMenu extends JMenu implements Listener {
     init();
 
     PreferenceListenerRegistry.registerPreferenceListener("scriptMRUList", this);
+    PreferenceListenerRegistry.registerPreferenceListener("scriptMRULength", this);
     PreferenceListenerRegistry.registerPreferenceListener("scriptCascadingMenus", this);
   }
 
@@ -33,35 +34,36 @@ public class ScriptMenu extends JMenu implements Listener {
   }
 
   protected void init() {
-    boolean scriptMRUList = Preferences.getInteger("scriptMRULength") > 0;
-    boolean cascadingMenus = Preferences.getBoolean("scriptCascadingMenus");
+    boolean useMRUList = Preferences.getInteger("scriptMRULength") > 0;
+    boolean useCascadingMenus = Preferences.getBoolean("scriptCascadingMenus");
 
     removeAll();
 
     add(new DisplayFrameMenuItem("Script Manager", "ScriptManageFrame"));
     add(new LoadScriptMenuItem());
+    int headers = 2;
 
-    if (!scriptMRUList && !cascadingMenus) {
+    if (!useMRUList && !useCascadingMenus) {
       return;
     }
 
-    if (scriptMRUList) {
-      GenericFrame.compileScripts();
-    }
-
-    List<File> files = KoLConstants.scripts;
+    List<File> files = useMRUList ? KoLConstants.scriptMRUList.listAsFiles() : KoLConstants.scripts;
 
     if (files.size() == 0) {
       return;
     }
 
-    add(new InvocationMenuItem("Refresh menu", GenericFrame.class, "compileScripts"));
+    if (useCascadingMenus) {
+      add(new InvocationMenuItem("Refresh menu", GenericFrame.class, "compileScripts"));
+      headers++;
+    }
     JMenuItem shiftToEditMenuItem = new JMenuItem("(Shift key to edit)");
     shiftToEditMenuItem.setEnabled(false);
     add(shiftToEditMenuItem);
     add(new JSeparator());
+    headers += 2;
 
-    MenuScroller.setScrollerFor(this, 25, 150, 5, 0);
+    MenuScroller.setScrollerFor(this, 25, 150, headers, 0);
 
     for (File file : files) {
       add(constructMenuItem(file, "scripts"));
@@ -70,6 +72,7 @@ public class ScriptMenu extends JMenu implements Listener {
 
   public void dispose() {
     PreferenceListenerRegistry.unregisterPreferenceListener("scriptMRUList", this);
+    PreferenceListenerRegistry.unregisterPreferenceListener("scriptMRULength", this);
     PreferenceListenerRegistry.unregisterPreferenceListener("scriptCascadingMenus", this);
   }
 

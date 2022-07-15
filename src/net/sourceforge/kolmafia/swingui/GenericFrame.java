@@ -787,16 +787,11 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
   }
 
   public static final void compileScripts() {
-    boolean useMRUlist = Preferences.getInteger("scriptMRULength") > 0;
-
     KoLConstants.scripts.clear();
 
     // Get the list of files in the current directory or build from MRU
 
-    File[] scriptList =
-        useMRUlist
-            ? KoLConstants.scriptMRUList.listAsFiles()
-            : DataUtilities.listFiles(KoLConstants.SCRIPT_LOCATION);
+    File[] scriptList = DataUtilities.listFiles(KoLConstants.SCRIPT_LOCATION);
 
     // Iterate through the files.
     //
