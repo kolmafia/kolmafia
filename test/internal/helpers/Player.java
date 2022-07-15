@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -371,5 +372,11 @@ public class Player {
         () -> {
           GenericRequest.itemMonster = old;
         });
+  }
+
+  public static Cleanups canInteract(boolean canInteract) {
+    var old = CharPaneRequest.canInteract();
+    CharPaneRequest.setCanInteract(canInteract);
+    return new Cleanups(() -> CharPaneRequest.setCanInteract(old));
   }
 }
