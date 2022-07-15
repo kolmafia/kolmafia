@@ -4622,6 +4622,21 @@ public class UseItemRequest extends GenericRequest {
         QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED);
         break;
 
+      case ItemPool.PILE_OF_USELESS_ROBOT_PARTS:
+        if (responseText.contains("emits a satisfied whirr")) {
+          Preferences.increment("homemadeRobotUpgrades", 1, 9, false);
+        } else if (responseText.contains("Your work here is done")) {
+          Preferences.setInteger("homemadeRobotUpgrades", 9);
+        } else {
+          // Otherwise it is not consumed.
+          return;
+        }
+
+        // If we got to here, we probably need to refresh our familiar weight
+        var fam = KoLCharacter.getFamiliar();
+        if (fam != null) fam.setWeight();
+        break;
+
       case ItemPool.MERKIN_WORDQUIZ:
         matcher = MERKIN_WORDQUIZ_PATTERN.matcher(responseText);
         if (!matcher.find()) {
