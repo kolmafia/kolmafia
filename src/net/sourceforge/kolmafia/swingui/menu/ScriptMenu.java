@@ -1,13 +1,20 @@
 package net.sourceforge.kolmafia.swingui.menu;
 
+import darrylbu.util.MenuScroller;
 import java.io.File;
+import java.util.List;
+import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
+import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 /** A special class which renders the list of available scripts. */
 public class ScriptMenu extends JMenu implements Listener {
@@ -17,6 +24,7 @@ public class ScriptMenu extends JMenu implements Listener {
     init();
 
     PreferenceListenerRegistry.registerPreferenceListener("scriptMRUList", this);
+    PreferenceListenerRegistry.registerPreferenceListener("scriptCascadingMenus", this);
   }
 
   @Override
@@ -25,29 +33,110 @@ public class ScriptMenu extends JMenu implements Listener {
   }
 
   protected void init() {
+    boolean scriptMRUList = Preferences.getInteger("scriptMRULength") > 0;
+    boolean cascadingMenus = Preferences.getBoolean("scriptCascadingMenus");
+
     removeAll();
 
     add(new DisplayFrameMenuItem("Script Manager", "ScriptManageFrame"));
     add(new LoadScriptMenuItem());
 
-    File[] files = KoLConstants.scriptMRUList.listAsFiles();
-
-    if (files.length == 0) {
+    if (!scriptMRUList && !cascadingMenus) {
       return;
     }
 
+    List<File> files = KoLConstants.scripts;
+
+    if (files.size() == 0) {
+      return;
+    }
+
+    add(new InvocationMenuItem("Refresh menu", GenericFrame.class, "compileScripts"));
     JMenuItem shiftToEditMenuItem = new JMenuItem("(Shift key to edit)");
     shiftToEditMenuItem.setEnabled(false);
-
     add(shiftToEditMenuItem);
     add(new JSeparator());
 
-    for (int i = 0; i < files.length; i++) {
-      add(new LoadScriptMenuItem(files[i]));
+    MenuScroller.setScrollerFor(this, 25, 150, 5, 0);
+
+    for (File file : files) {
+      if (shouldAddScript(file)) {
+        add(constructMenuItem(file, "scripts"));
+      }
     }
   }
 
   public void dispose() {
     PreferenceListenerRegistry.unregisterPreferenceListener("scriptMRUList", this);
+    PreferenceListenerRegistry.unregisterPreferenceListener("scriptCascadingMenus", this);
+  }
+
+  private JComponent constructMenuItem(final File file, final String prefix) {
+    // Get path components of this file
+    String[] pieces;
+
+    try {
+      pieces = file.getCanonicalPath().split("[\\\\/]");
+    } catch (Exception e) {
+      // This should not happen.  Therefore, print
+      // a stack trace for debug purposes.
+
+      StaticEntity.printStackTrace(e);
+      return null;
+    }
+
+    String name = pieces[pieces.length - 1];
+    String path = prefix + File.separator + name;
+
+    if (file.isDirectory()) {
+      // Get a list of all the files
+      File[] scriptList = DataUtilities.listFiles(file);
+
+      //  Convert the list into a menu
+      JMenu menu = new JMenu(name);
+
+      MenuScroller.setScrollerFor(menu, 25);
+
+      // Iterate through the files.  Do this in two
+      // passes to make sure that directories start
+      // up top, followed by non-directories.
+
+      for (File script : scriptList) {
+        if (script.isDirectory() && ScriptMenu.shouldAddScript(script)) {
+          menu.add(this.constructMenuItem(script, path));
+        }
+      }
+
+      for (File script : scriptList) {
+        if (!script.isDirectory()) {
+          menu.add(this.constructMenuItem(script, path));
+        }
+      }
+
+      // Return the menu
+      return menu;
+    }
+
+    return new LoadScriptMenuItem(name, path);
+  }
+
+  public static final boolean shouldAddScript(final File script) {
+    if (!script.isDirectory()) {
+      return true;
+    }
+
+    File[] scriptList = DataUtilities.listFiles(script);
+
+    if (scriptList == null || scriptList.length == 0) {
+      return false;
+    }
+
+    for (int i = 0; i < scriptList.length; ++i) {
+      if (ScriptMenu.shouldAddScript(scriptList[i])) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
