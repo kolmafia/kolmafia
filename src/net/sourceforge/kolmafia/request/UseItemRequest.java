@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.*;
+import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -814,8 +815,7 @@ public class UseItemRequest extends GenericRequest {
         break;
     }
 
-    DailyLimitDatabase.DailyLimit dailyLimit =
-        DailyLimitDatabase.DailyLimitType.USE.getDailyLimit(itemId);
+    var dailyLimit = DailyLimitType.USE.getDailyLimit(itemId);
     if (dailyLimit != null) {
       UseItemRequest.limiter = "daily limit";
       return dailyLimit.getUsesRemaining();
