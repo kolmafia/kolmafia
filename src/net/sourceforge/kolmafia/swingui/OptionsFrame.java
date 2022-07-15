@@ -126,7 +126,7 @@ public class OptionsFrame extends GenericFrame {
     selectorPanel.addPanel("SVN", new SVNPanel(), true);
     selectorPanel.addPanel("Git", new GitPanel(), true);
     selectorPanel.addPanel("Maximizer Strings", new MaximizerStringsPanel());
-    selectorPanel.addPanel("Script MRU", new ScriptMRUOptionsPanel());
+    selectorPanel.addPanel("Script MRU", new ScriptMRUOptionsPanel(), true);
 
     this.setCenterComponent(selectorPanel);
 
@@ -405,6 +405,7 @@ public class OptionsFrame extends GenericFrame {
 
     @Override
     public void actionConfirmed() {
+      super.actionConfirmed();
       String fieldValue = this.textField.getText();
       if (StringUtilities.isNumeric(fieldValue)) {
         int intVal = StringUtilities.parseInt(fieldValue);
@@ -417,6 +418,7 @@ public class OptionsFrame extends GenericFrame {
     @Override
     public void actionCancelled() {
       this.textField.setText(Preferences.getString("scriptMRULength"));
+      super.actionCancelled();
     }
   }
 
