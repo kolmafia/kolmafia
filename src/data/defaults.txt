@@ -112,6 +112,7 @@ global	relayAddSounds	false
 global	relayAddsCustomCombat	true
 global	relayAddsDiscoHelper	false
 global	relayAddsGraphicalCLI	false
+global	relayAddsQuickScripts	false
 global	relayAddsRestoreLinks	true
 global	relayAddsUpArrowLinks	true
 global	relayAddsUseLinks	true
