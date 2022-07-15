@@ -381,7 +381,7 @@ public class OptionsFrame extends GenericFrame {
   }
 
   protected static class MRUSettingsPanel extends OptionsPanel {
-    AutoHighlightTextField textField = new AutoHighlightTextField();
+    JTextField textField = new JTextField();
 
     public MRUSettingsPanel() {
       String helpText =
@@ -405,7 +405,13 @@ public class OptionsFrame extends GenericFrame {
 
     @Override
     public void actionConfirmed() {
-      Preferences.setString("scriptMRULength", this.textField.getText());
+      String fieldValue = this.textField.getText();
+      if (StringUtilities.isNumeric(fieldValue)) {
+        int intVal = StringUtilities.parseInt(fieldValue);
+        if (intVal >= 0) {
+          Preferences.setInteger("scriptMRULength", intVal);
+        }
+      }
     }
 
     @Override
