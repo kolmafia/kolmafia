@@ -45,6 +45,10 @@ public class ScriptMenu extends JMenu implements Listener {
       return;
     }
 
+    if (scriptMRUList) {
+      GenericFrame.compileScripts();
+    }
+
     List<File> files = KoLConstants.scripts;
 
     if (files.size() == 0) {
@@ -60,9 +64,7 @@ public class ScriptMenu extends JMenu implements Listener {
     MenuScroller.setScrollerFor(this, 25, 150, 5, 0);
 
     for (File file : files) {
-      if (shouldAddScript(file)) {
-        add(constructMenuItem(file, "scripts"));
-      }
+      add(constructMenuItem(file, "scripts"));
     }
   }
 
