@@ -31,7 +31,7 @@ import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
-import net.sourceforge.kolmafia.swingui.svn.GenericFrame;
+import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 public class LoginManager {
 
