@@ -95,13 +95,13 @@ public class ScriptMRUList implements Listener {
     Preferences.setString(prefList, pref.toString());
   }
 
-  public File[] listAsFiles() {
+  public List<File> listAsFiles() {
     synchronized (this) {
-      if (mruList.isEmpty()) {
-        return new File[0];
-      }
-
       List<File> results = new ArrayList<>();
+
+      if (mruList.isEmpty()) {
+        return results;
+      }
 
       for (String fileName : mruList) {
         List<File> matches = KoLmafiaCLI.findScriptFile(fileName);
@@ -111,7 +111,7 @@ public class ScriptMRUList implements Listener {
         }
       }
 
-      return results.toArray(new File[0]);
+      return results;
     }
   }
 
