@@ -51,6 +51,9 @@ public abstract class TopMenuDecorator {
         "<div style='position: absolute; z-index: 5; top: 40px; right: 0px; border-width: 1px; color:#000000'>");
     menuBuffer.append("<table cellpadding=0 cellspacing=0>");
 
+    // Build Quick Scripts menu
+    TopMenuDecorator.addQuickScriptsMenu(menuBuffer);
+
     // Build Relay Script menu
     TopMenuDecorator.addRelayScriptsMenu(menuBuffer, location);
 
@@ -77,6 +80,9 @@ public abstract class TopMenuDecorator {
     menuBuffer.append("<div id='kolmafia' style='margin: 0px; padding: 0px; display: inline'>");
     menuBuffer.append("<table cellpadding=0 cellspacing=0>");
 
+    // Build Quick Scripts menu
+    TopMenuDecorator.addQuickScriptsMenu(menuBuffer);
+
     // Build Relay Script menu
     TopMenuDecorator.addRelayScriptsMenu(menuBuffer, location);
 
@@ -85,6 +91,45 @@ public abstract class TopMenuDecorator {
 
     // Insert menus into topmenu
     buffer.insert(index, menuBuffer.toString());
+  }
+
+  private static void addQuickScriptsMenu(final StringBuilder buffer) {
+    if (!Preferences.getBoolean("relayAddsQuickScripts")) {
+      return;
+    }
+
+    buffer.append("<tr>");
+
+    buffer.append("<td align=left valign=center class=tiny>");
+    buffer.append("<form name=\"gcli\">");
+
+    buffer.append("<select id=\"scriptbar\">");
+    String[] scriptList = Preferences.getString("scriptList").split(" +\\| +");
+    for (int i = 0; i < scriptList.length; ++i) {
+      buffer.append("<option value=\"");
+      buffer.append(scriptList[i]);
+      buffer.append("\">");
+      buffer.append(i + 1);
+      buffer.append(": ");
+      buffer.append(scriptList[i]);
+      buffer.append("</option>");
+    }
+    buffer.append("</select>");
+
+    buffer.append("&nbsp;");
+
+    buffer.append("<input type=\"button\" value=\"exec\" onClick=\"");
+    buffer.append("var script = document.getElementById( 'scriptbar' ).value; ");
+    buffer.append(
+        "parent.charpane.location = '/KoLmafia/sideCommand?cmd=' + escape(script) + '&pwd=");
+    buffer.append(GenericRequest.passwordHash);
+    buffer.append("'; void(0);");
+    buffer.append("\">");
+
+    buffer.append("</form>");
+    buffer.append("</td>");
+
+    buffer.append("</tr>");
   }
 
   private static void addRelayScriptsMenu(final StringBuilder buffer, final String location) {
