@@ -124,3 +124,82 @@ Use	vitachoconutriment capsule	_vitachocCapsulesUsed	3
 Use	warbear breakfast machine	_warbearBreakfastMachineUsed
 Use	warbear gyrocopter	_warbearGyrocopterUsed
 Use	warbear soda machine	_warbearSodaMachineUsed
+Cast	The Smile of Mr. A.	_smilesOfMrA	[pref(goldenMrAccessories)*5]
+Cast	Rainbow Gravitation	prismaticSummons	3
+Cast	Vent Rage Gland	rageGlandVented
+Cast	Summon Crimbo Candy	_candySummons
+Cast	Lunch Break	_lunchBreak
+Cast	Summon &quot;Boner Battalion&quot;	_bonersSummoned
+Cast	Request Sandwich	_requestSandwichSucceeded
+Cast	Grab a Cold One	_coldOne
+Cast	Spaghetti Breakfast	_spaghettiBreakfast
+Cast	Pastamastery	noodleSummons
+Cast	Canticle of Carboloading	_carboLoaded
+Cast	Advanced Saucecrafting	reagentSummons
+Cast	That's Not a Knife	_discoKnife
+Cast	Summon "Boner Battalion"	_bonersSummoned
+Cast	Acquire Rhinestones	_rhinestonesAcquired
+Cast	Psychokinetic Hug	_psychokineticHugUsed
+Cast	Managerial Manipulation	_managerialManipulationUsed
+Cast	Throw Party	_petePartyThrown
+Cast	Incite Riot	_peteRiotIncited
+Cast	Perfect Freeze	_perfectFreezeUsed
+Cast	Communism!	_communismUsed
+Cast	Bow-Legged Swagger	_bowleggedSwaggerUsed
+Cast	Bend Hell	_bendHellUsed
+Cast	Steely-Eyed Squint	_steelyEyedSquintUsed
+Cast	Ceci N'Est Pas Un Chapeau	_ceciHatUsed
+Cast	Evoke Eldritch Horror	_eldritchHorrorEvoked
+Cast	Incredible Self Esteem	_incredibleSelfEsteemCast
+Cast	Prevent Scurvy and Sobriety	_preventScurvy
+Cast	Advanced Cocktailcrafting	cocktailSummons
+Cast	The Ballad of Richie Thingfinder	_thingfinderCasts	10
+Cast	Benetton's Medley of Diversity	_benettonsCasts	10
+Cast	Elron's Explosive Etude	_elronsCasts	10
+Cast	Chorale of Companionship	_companionshipCasts	10
+Cast	Prelude of Precision	_precisionCasts	10
+Cast	Donho's Bubbly Ballad	_donhosCasts	50
+Cast	Inigo's Incantation of Inspiration	_inigosCasts	5
+Cast	Summon Hilarious Objects	grimoire1Summons
+Cast	Summon Tasteful Items	grimoire2Summons
+Cast	Summon Alice's Army Cards	grimoire3Summons
+Cast	Summon Geeky Gifts	_grimoireGeekySummons
+Cast	Summon Confiscated Things	_grimoireConfiscatorSummons
+Cast	Demand Sandwich	_demandSandwich	3
+Cast	Conjure Eggs	_jarlsEggsSummoned
+Cast	Conjure Dough	_jarlsDoughSummoned
+Cast	Conjure Vegetables	_jarlsVeggiesSummoned
+Cast	Conjure Cheese	_jarlsCheeseSummoned
+Cast	Conjure Meat Product	_jarlsMeatSummoned
+Cast	Conjure Potato	_jarlsPotatoSummoned
+Cast	Conjure Cream	_jarlsCreamSummoned
+Cast	Conjure Fruit	_jarlsFruitSummoned
+Cast	Pirate Bellow	_pirateBellowUsed
+Cast	Summon Holiday Fun!	_holidayFunUsed
+Cast	Summon Carrot	_summonCarrotUsed
+Cast	Summon Kokomo Resort Pass	_summonResortPassUsed
+Cast	Bowl Full of Jelly	_bowlFullOfJellyUsed
+Cast	Eye and a Twist	_eyeAndATwistUsed
+Cast	Chubby and Plump	_chubbyAndPlumpUsed
+Tome	Summon Snowcones	_snowconeSummons	3
+Tome	Summon Stickers	_stickerSummons	3
+Tome	Summon Sugar Sheets	_sugarSummons	3
+Tome	Summon Clip Art	_clipartSummons	3
+Tome	Summon Rad Libs	_radlibSummons	3
+Tome	Summon Smithsness	_smithsnessSummons	3
+Cast	Visit Your Favorite Bird	_favoriteBirdVisited
+Cast	Lock Picking	lockPicked
+Cast	Feel Pride	_feelPrideUsed	3
+Cast	Feel Excitement	_feelExcitementUsed	3
+Cast	Feel Hatred	_feelHatredUsed	3
+Cast	Feel Lonely	_feelLonelyUsed	3
+Cast	Feel Nervous	_feelNervousUsed	3
+Cast	Feel Envy	_feelEnvyUsed	3
+Cast	Feel Disappointed	_feelDisappointedUsed	3
+Cast	Feel Superior	_feelSuperiorUsed	3
+Cast	Feel Lost	_feelLostUsed	3
+Cast	Feel Nostalgic	_feelNostalgicUsed	3
+Cast	Feel Peaceful	_feelPeacefulUsed	3
+Cast	Map the Monsters	_monstersMapped	3
+Cast	Meatify Matter	_meatifyMatterUsed
+Cast	Sweat Out Some Booze	_sweatOutSomeBoozeUsed	3

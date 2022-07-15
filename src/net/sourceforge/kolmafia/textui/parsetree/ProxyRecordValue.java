@@ -1273,7 +1273,7 @@ public class ProxyRecordValue extends RecordValue {
   public static class LocationProxy extends ProxyRecordValue {
     public static RecordType _type =
         new RecordBuilder()
-            .add("id", DataTypes.BOOLEAN_TYPE)
+            .add("id", DataTypes.INT_TYPE)
             .add("nocombats", DataTypes.BOOLEAN_TYPE)
             .add("combat_percent", DataTypes.FLOAT_TYPE)
             .add("zone", DataTypes.STRING_TYPE)
