@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -104,6 +106,11 @@ public class DailyLimitDatabase {
       };
     }
 
+    /**
+     * Get the maximum number of daily uses for the given DailyLimit item
+     *
+     * @return Maximum number of uses or -1 if the underlying data cannot be parsed
+     */
     public int getMax() {
       if (this.max.length() == 0) {
         return 1;
@@ -168,25 +175,29 @@ public class DailyLimitDatabase {
   public static void reset() {
     boolean error = false;
 
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("dailylimits.txt", KoLConstants.DAILYLIMITS_VERSION);
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("dailylimits.txt", KoLConstants.DAILYLIMITS_VERSION)) {
 
-    String[] data;
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length >= 2) {
-        String tag = data[0];
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length >= 2) {
+          String tag = data[0];
 
-        var type = tagToDailyLimitType.get(tag.toLowerCase());
-        var dailyLimit = parseDailyLimit(type, data);
-        if (dailyLimit == null) {
-          RequestLogger.printLine("Daily Limit: " + data[0] + " " + data[1] + " is bogus");
-          error = true;
-        } else if (dailyLimit.getMax() < 0) {
-          RequestLogger.printLine("Daily Limit: " + data[0] + " " + data[1] + " has invalid max");
-          error = true;
+          var type = tagToDailyLimitType.get(tag.toLowerCase());
+          var dailyLimit = parseDailyLimit(type, data);
+          if (dailyLimit == null) {
+            RequestLogger.printLine("Daily Limit: " + data[0] + " " + data[1] + " is bogus");
+            error = true;
+          } else if (dailyLimit.getMax() < 0) {
+            RequestLogger.printLine("Daily Limit: " + data[0] + " " + data[1] + " has invalid max");
+            error = true;
+          }
         }
       }
+    } catch (IOException e) {
+      StaticEntity.printStackTrace(e);
+      error = true;
     }
 
     if (error) {
