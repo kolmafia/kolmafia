@@ -126,7 +126,7 @@ public class OptionsFrame extends GenericFrame {
     selectorPanel.addPanel("SVN", new SVNPanel(), true);
     selectorPanel.addPanel("Git", new GitPanel(), true);
     selectorPanel.addPanel("Maximizer Strings", new MaximizerStringsPanel());
-    selectorPanel.addPanel("Script MRU", new ScriptMRUOptionsPanel(), true);
+    selectorPanel.addPanel("Script Menu", new ScriptMenuOptionsPanel(), true);
 
     this.setCenterComponent(selectorPanel);
 
@@ -371,48 +371,102 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private static class ScriptMRUOptionsPanel extends OptionsPanel {
-    final JTextField textField = new JTextField();
+  private static class ScriptMenuOptionsPanel extends JPanel implements FocusListener {
+    private List<Component> componentQueue = new ArrayList<>();
+    private final JTextField mruField;
 
-    public ScriptMRUOptionsPanel() {
-      super(new Dimension(20, 16), new Dimension(370, 16));
+    public ScriptMenuOptionsPanel() {
+      // 5 px inset
+      this.setBorder(BorderFactory.createEmptyBorder(10, 5, 5, 5));
+      // box layoutmanager
       this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-      String helpText =
-          "Enable the most recently used scripts menu by entering a value greater than 0 "
-              + "which will be used as the number of entries in the menu.  "
-              + "Running scripts with a semi-colon in the name will break this feature. "
-              + "If the Script MRU is enabled then the setting scriptCascadingMenus will be ignored.";
-      VerifiableElement[] elements = new VerifiableElement[1];
-      elements[0] = new VerifiableElement("Script MRU Length.", SwingConstants.LEFT, textField);
-      this.setContent(elements);
-      JTextArea message = new JTextArea(helpText);
+
+      JTextArea message =
+          new JTextArea(
+              """
+	      Configure the behavior of Mafia's Script menu.
+
+	      If you set the script MRU length to a value greater than zero, that many of your most recently run scripts will be displayed.
+
+	      If you select cascading script menus, all the scripts in your 'scripts' folder will be displayed.
+
+	      If you select neither option, no scripts will be displayed.""") {
+            // don't let boxlayout expand the JTextArea ridiculously
+            @Override
+            public Dimension getMaximumSize() {
+              return this.getPreferredSize();
+            }
+          };
+
       message.setColumns(40);
       message.setLineWrap(true);
       message.setWrapStyleWord(true);
       message.setEditable(false);
       message.setOpaque(false);
       message.setFont(KoLGUIConstants.DEFAULT_FONT);
-      message.setPreferredSize(this.getPreferredSize());
-      this.add(message, BorderLayout.SOUTH);
-      this.add(Box.createVerticalGlue());
+      this.queue(message);
+
+      JSeparator sep = new JSeparator();
+      // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
+      Dimension size = new Dimension(sep.getMaximumSize().width, sep.getPreferredSize().height);
+      sep.setMaximumSize(size);
+      this.queue(sep);
+      this.queue(Box.createVerticalStrut(5));
+
+      String cascadeTip =
+          "<html>Setting this option will display all the files in your 'scripts' folder.</html>";
+      this.queue(
+          new PreferenceCheckBox("scriptCascadingMenus", "Use cascading script menus", cascadeTip));
+
+      this.mruField = new JTextField(4);
+      this.mruField.addFocusListener(this);
+      JLabel mruLabel = new JLabel("Script MRU Length", SwingConstants.LEFT);
+      mruLabel.setLabelFor(this.mruField);
+      mruLabel.setVerticalAlignment(SwingConstants.TOP);
+      String mruTip =
+          "<html>Setting this option will display only your most recently used scripts.</html>";
+      mruLabel.setToolTipText(mruTip);
+
+      JPanel mruPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
+      mruPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+      mruPanel.add(this.mruField);
+      mruPanel.add(mruLabel);
+
+      this.queue(mruPanel);
+
+      this.makeLayout();
       this.actionCancelled();
     }
 
-    @Override
-    public void actionConfirmed() {
-      String fieldValue = this.textField.getText();
-      if (StringUtilities.isNumeric(fieldValue)) {
-        int intVal = StringUtilities.parseInt(fieldValue);
-        if (intVal >= 0) {
-          Preferences.setInteger("scriptMRULength", intVal);
+    private void queue(Component comp) {
+      this.componentQueue.add(comp);
+    }
+
+    private void makeLayout() {
+      for (Component comp : this.componentQueue) {
+        if (comp instanceof JComponent) {
+          ((JComponent) comp).setAlignmentX(LEFT_ALIGNMENT);
         }
+        this.add(comp);
       }
+      this.componentQueue = null;
+    }
+
+    public void actionConfirmed() {
+      Preferences.setInteger("scriptMRULength", InputFieldUtilities.getValue(this.mruField, 0));
+    }
+
+    public void actionCancelled() {
+      this.mruField.setText(Preferences.getString("scriptMRULength"));
     }
 
     @Override
-    public void actionCancelled() {
-      this.textField.setText(Preferences.getString("scriptMRULength"));
+    public void focusLost(final FocusEvent e) {
+      ScriptMenuOptionsPanel.this.actionConfirmed();
     }
+
+    @Override
+    public void focusGained(final FocusEvent e) {}
   }
 
   private abstract static class ShiftableOrderPanel extends ScrollablePanel<JList<String>>
