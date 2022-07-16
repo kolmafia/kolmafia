@@ -178,6 +178,8 @@ Cast	Pirate Bellow	_pirateBellowUsed
 Cast	Summon Holiday Fun!	_holidayFunUsed
 Cast	Summon Carrot	_summonCarrotUsed
 Cast	Summon Kokomo Resort Pass	_summonResortPassUsed
+Cast	CHEAT CODE: Invisible Avatar	_powerfulGloveBatteryPowerUsed	100
+Cast	CHEAT CODE: Triple Size	_powerfulGloveBatteryPowerUsed	100
 Cast	Bowl Full of Jelly	_bowlFullOfJellyUsed
 Cast	Eye and a Twist	_eyeAndATwistUsed
 Cast	Chubby and Plump	_chubbyAndPlumpUsed
