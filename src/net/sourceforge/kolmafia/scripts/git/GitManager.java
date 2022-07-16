@@ -373,7 +373,8 @@ public class GitManager extends ScriptManager {
       var commit = rw.parseCommit(lastCommitId);
       var author = commit.getAuthorIdent();
       var datetime =
-          ZonedDateTime.ofInstant(Instant.ofEpochMilli(commit.getCommitTime()), author.getZoneId());
+          ZonedDateTime.ofInstant(
+              Instant.ofEpochSecond(commit.getCommitTime()), author.getZoneId());
 
       return Optional.of(
           new GitInfo(
