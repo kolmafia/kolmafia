@@ -2498,7 +2498,7 @@ public abstract class RuntimeLibrary {
         new LibraryFunction("git_list", new AggregateType(DataTypes.STRING_TYPE, 0), params));
 
     params = new Type[] {DataTypes.STRING_TYPE};
-    functions.add(new LibraryFunction("git_info", svnInfoRec, params));
+    functions.add(new LibraryFunction("git_info", gitInfoRec, params));
 
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
     functions.add(
