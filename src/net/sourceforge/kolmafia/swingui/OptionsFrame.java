@@ -423,14 +423,14 @@ public class OptionsFrame extends GenericFrame {
       JLabel mruLabel = new JLabel("Script MRU Length", SwingConstants.LEFT);
       mruLabel.setLabelFor(this.mruField);
       mruLabel.setVerticalAlignment(SwingConstants.TOP);
-      String mruTip =
-          "<html>Setting this option will display only your most recently used scripts.</html>";
-      mruLabel.setToolTipText(mruTip);
 
       JPanel mruPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
       mruPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
       mruPanel.add(this.mruField);
       mruPanel.add(mruLabel);
+      String mruTip =
+          "<html>Setting this option will display only your most recently used scripts.</html>";
+      addToolTip(mruPanel, mruTip);
 
       this.queue(mruPanel);
 
@@ -1599,26 +1599,7 @@ public class OptionsFrame extends GenericFrame {
       this.add(label);
 
       if (tooltip != null) {
-        this.add(Box.createHorizontalStrut(3));
-        label = new JLabel("[");
-        label.setFont(KoLGUIConstants.DEFAULT_FONT);
-        this.add(label);
-
-        label = new JLabel("<html><u>?</u></html>");
-        this.add(label);
-        label.setForeground(Color.blue.darker());
-        label.setFont(KoLGUIConstants.DEFAULT_FONT);
-        label.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        label.setToolTipText(tooltip);
-
-        // show the tooltip with no delay, don't dismiss while hovered
-        ToolTipManager.sharedInstance().registerComponent(label);
-        ToolTipManager.sharedInstance().setInitialDelay(0);
-        ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
-
-        label = new JLabel("]");
-        label.setFont(KoLGUIConstants.DEFAULT_FONT);
-        this.add(label);
+        addToolTip(this, tooltip);
       }
 
       update();
@@ -1633,6 +1614,29 @@ public class OptionsFrame extends GenericFrame {
     public Dimension getMaximumSize() {
       return this.getPreferredSize();
     }
+  }
+
+  private static void addToolTip(JComponent component, String tooltip) {
+    component.add(Box.createHorizontalStrut(3));
+    JLabel label = new JLabel("[");
+    label.setFont(KoLGUIConstants.DEFAULT_FONT);
+    component.add(label);
+
+    label = new JLabel("<html><u>?</u></html>");
+    component.add(label);
+    label.setForeground(Color.blue.darker());
+    label.setFont(KoLGUIConstants.DEFAULT_FONT);
+    label.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    label.setToolTipText(tooltip);
+
+    // show the tooltip with no delay, don't dismiss while hovered
+    ToolTipManager.sharedInstance().registerComponent(label);
+    ToolTipManager.sharedInstance().setInitialDelay(0);
+    ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+
+    label = new JLabel("]");
+    label.setFont(KoLGUIConstants.DEFAULT_FONT);
+    component.add(label);
   }
 
   protected static class CustomizeDailyDeedsPanel extends GenericPanel
