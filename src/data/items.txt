@@ -10942,7 +10942,7 @@
 10915	cool mint precipice bar	646996512	maydaybar.gif	food	t,d	10
 10916	carrot cake precipice bar	709552696	maydaybar.gif	food	t,d	10
 10917	The Big Book of Every Skill	467154860	book3.gif	usable		0
-10918	Thwaitgold harvestman statuette	209469206	nopic.gif	none		0
+10918	Thwaitgold harvestman statuette	209469206	thwaitharvestman.gif	none		0
 10919	packaged June cleaver	920627527	junecleaverbox.gif	usable	t	0
 10920	June cleaver	330396747	junecleaver.gif	weapon		0
 10921	Dad's brandy	193804343	snifter.gif	drink	t,d	30
