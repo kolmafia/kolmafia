@@ -8650,9 +8650,11 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value svn_info(ScriptRuntime controller, final Value script) {
+    AshRuntime interpreter = controller instanceof AshRuntime ? (AshRuntime) controller : null;
+
     String[] projects = KoLConstants.SVN_LOCATION.list();
 
-    if (projects == null) return getRecInit();
+    if (projects == null) return getRecInit(interpreter);
 
     ArrayList<String> matches = new ArrayList<>();
     for (String s : projects) {
@@ -8662,15 +8664,15 @@ public abstract class RuntimeLibrary {
     }
 
     if (matches.size() != 1) {
-      return getRecInit();
+      return getRecInit(interpreter);
     }
     File projectFile = new File(KoLConstants.SVN_LOCATION, matches.get(0));
     try {
       if (!SVNWCUtil.isWorkingCopyRoot(projectFile)) {
-        return getRecInit();
+        return getRecInit(interpreter);
       }
     } catch (SVNException e1) {
-      return getRecInit();
+      return getRecInit(interpreter);
     }
     RecordType type = RuntimeLibrary.svnInfoRec;
     RecordValue rec = new RecordValue(type);
@@ -8682,75 +8684,77 @@ public abstract class RuntimeLibrary {
       info = SVNManager.doInfo(projectFile);
     } catch (SVNException e) {
       SVNManager.error(e, null);
-      return getRecInit();
+      return getRecInit(interpreter);
     }
 
     // URL
-    rec.aset(0, new Value(info.getURL().toString()), null);
+    rec.aset(0, new Value(info.getURL().toString()), interpreter);
     // revision
-    rec.aset(1, DataTypes.makeIntValue(info.getRevision().getNumber()), null);
+    rec.aset(1, DataTypes.makeIntValue(info.getRevision().getNumber()), interpreter);
     // lastChangedAuthor
-    rec.aset(2, new Value(info.getAuthor()), null);
+    rec.aset(2, new Value(info.getAuthor()), interpreter);
     // lastChangedRev
-    rec.aset(3, DataTypes.makeIntValue(info.getCommittedRevision().getNumber()), null);
+    rec.aset(3, DataTypes.makeIntValue(info.getCommittedRevision().getNumber()), interpreter);
     // lastChangedDate
     // use format that is similar to what 'svn info' gives, ex:
     // Last Changed Date: 2003-01-16 23:21:19 -0600 (Thu, 16 Jan 2003)
     SimpleDateFormat SVN_FORMAT =
         new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z (EEE, dd MMM yyyy)", Locale.US);
-    rec.aset(4, new Value(SVN_FORMAT.format(info.getCommittedDate())), null);
+    rec.aset(4, new Value(SVN_FORMAT.format(info.getCommittedDate())), interpreter);
 
     return rec;
   }
 
-  private static RecordValue getRecInit() {
+  private static RecordValue getRecInit(AshRuntime interpreter) {
     RecordType type = RuntimeLibrary.svnInfoRec;
     RecordValue rec = new RecordValue(type);
-    rec.aset(0, DataTypes.STRING_INIT, null);
+    rec.aset(0, DataTypes.STRING_INIT, interpreter);
     // revision
-    rec.aset(1, DataTypes.INT_INIT, null);
+    rec.aset(1, DataTypes.INT_INIT, interpreter);
     // lastChangedAuthor
-    rec.aset(2, DataTypes.STRING_INIT, null);
+    rec.aset(2, DataTypes.STRING_INIT, interpreter);
     // lastChangedRev
-    rec.aset(3, DataTypes.INT_INIT, null);
+    rec.aset(3, DataTypes.INT_INIT, interpreter);
     // lastChangedDate
-    rec.aset(4, DataTypes.STRING_INIT, null);
+    rec.aset(4, DataTypes.STRING_INIT, interpreter);
 
     return rec;
   }
 
   public static Value git_info(ScriptRuntime controller, final Value script) {
+    AshRuntime interpreter = controller instanceof AshRuntime ? (AshRuntime) controller : null;
+
     var infoOpt = GitManager.getInfo(script.toString());
-    if (infoOpt.isEmpty()) return getGitRecInit();
+    if (infoOpt.isEmpty()) return getGitRecInit(interpreter);
     var info = infoOpt.get();
 
-    RecordValue rec = new RecordValue(RuntimeLibrary.svnInfoRec);
+    RecordValue rec = new RecordValue(RuntimeLibrary.gitInfoRec);
 
     // URL
-    rec.aset(0, new Value(info.url()), null);
+    rec.aset(0, new Value(info.url()), interpreter);
     // branch
-    rec.aset(1, new Value(info.branch()), null);
+    rec.aset(1, new Value(info.branch()), interpreter);
     // revision
-    rec.aset(2, new Value(info.commit()), null);
+    rec.aset(2, new Value(info.commit()), interpreter);
     // lastChangedAuthor
-    rec.aset(3, new Value(info.lastChangedAuthor()), null);
+    rec.aset(3, new Value(info.lastChangedAuthor()), interpreter);
     // lastChangedDate
     // use format that is similar to what 'git show' gives, ex:
     // Date: Sat Jul 16 11:40:35 2022 +0100
     var fmt = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss yyyy z");
     var date = fmt.format(info.lastChangedDate());
-    rec.aset(4, new Value(date), null);
+    rec.aset(4, new Value(date), interpreter);
 
     return rec;
   }
 
-  private static RecordValue getGitRecInit() {
+  private static RecordValue getGitRecInit(AshRuntime interpreter) {
     RecordValue rec = new RecordValue(RuntimeLibrary.gitInfoRec);
-    rec.aset(0, DataTypes.STRING_INIT, null);
-    rec.aset(1, DataTypes.STRING_INIT, null);
-    rec.aset(2, DataTypes.STRING_INIT, null);
-    rec.aset(3, DataTypes.STRING_INIT, null);
-    rec.aset(4, DataTypes.STRING_INIT, null);
+    rec.aset(0, DataTypes.STRING_INIT, interpreter);
+    rec.aset(1, DataTypes.STRING_INIT, interpreter);
+    rec.aset(2, DataTypes.STRING_INIT, interpreter);
+    rec.aset(3, DataTypes.STRING_INIT, interpreter);
+    rec.aset(4, DataTypes.STRING_INIT, interpreter);
 
     return rec;
   }
