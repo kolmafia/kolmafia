@@ -7,6 +7,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -21,8 +23,11 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.lib.BranchTrackingStatus;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.tmatesoft.svn.core.SVNException;
@@ -332,6 +337,89 @@ public class GitManager extends ScriptManager {
     var deps = projectPath.resolve(DEPENDENCIES);
     if (Files.exists(deps)) {
       installDependencies(deps);
+    }
+  }
+
+  public record GitInfo(
+      String url,
+      String branch,
+      String commit,
+      String lastChangedAuthor,
+      ZonedDateTime lastChangedDate) {}
+
+  /** Get info from specific project */
+  public static Optional<GitInfo> getInfo(String project) {
+    var folderOpt = getRequiredProject(project);
+    if (folderOpt.isEmpty()) {
+      return Optional.empty();
+    }
+    var folder = folderOpt.get();
+    Path projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(folder);
+    Git git;
+    try {
+      git = Git.open(projectPath.toFile());
+    } catch (IOException e) {
+      return Optional.empty();
+    }
+
+    try (git) {
+      var repo = git.getRepository();
+      var config = repo.getConfig();
+      var url = config.getString("remote", "origin", "url");
+      var branch = repo.getBranch();
+
+      var lastCommitId = repo.resolve("HEAD");
+      var rw = new RevWalk(repo);
+      var commit = rw.parseCommit(lastCommitId);
+      var author = commit.getAuthorIdent();
+      var datetime =
+          ZonedDateTime.ofInstant(
+              Instant.ofEpochSecond(commit.getCommitTime()), author.getZoneId());
+
+      return Optional.of(
+          new GitInfo(
+              url,
+              branch,
+              ObjectId.toString(lastCommitId),
+              author.getName() + " <" + author.getEmailAddress() + ">",
+              datetime));
+    } catch (IOException e) {
+      // all or nothing
+      return Optional.empty();
+    }
+  }
+
+  /** Return whether project is a valid git repo */
+  public static boolean isValidRepo(String project) {
+    var projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(project);
+    if (!Files.isDirectory(projectPath)) return false;
+    try {
+      var git = Git.open(projectPath.toFile());
+      git.close();
+    } catch (IOException e) {
+      return false;
+    }
+    return true;
+  }
+
+  /** Return whether project is up-to-date with remote */
+  public static boolean isUpToDate(String project) {
+    var projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(project);
+    Git git;
+    try {
+      git = Git.open(projectPath.toFile());
+    } catch (IOException e) {
+      return false;
+    }
+
+    try (git) {
+      var repo = git.getRepository();
+      var branch = repo.getBranch();
+      var bts = BranchTrackingStatus.of(repo, branch);
+      var behind = bts.getBehindCount();
+      return behind == 0;
+    } catch (IOException e) {
+      return false;
     }
   }
 
