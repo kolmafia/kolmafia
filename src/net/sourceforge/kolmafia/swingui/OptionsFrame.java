@@ -372,7 +372,7 @@ public class OptionsFrame extends GenericFrame {
   }
 
   private static class ScriptMRUOptionsPanel extends OptionsPanel {
-    JTextField textField = new JTextField();
+    final JTextField textField = new JTextField();
 
     public ScriptMRUOptionsPanel() {
       super(new Dimension(20, 16), new Dimension(370, 16));
@@ -380,7 +380,8 @@ public class OptionsFrame extends GenericFrame {
       String helpText =
           "Enable the most recently used scripts menu by entering a value greater than 0 "
               + "which will be used as the number of entries in the menu.  "
-              + "Running scripts with a semi-colon in the name will break this feature.";
+              + "Running scripts with a semi-colon in the name will break this feature. "
+              + "If the Script MRU is enabled then the setting scriptCascadingMenus will be ignored.";
       VerifiableElement[] elements = new VerifiableElement[1];
       elements[0] = new VerifiableElement("Script MRU Length.", SwingConstants.LEFT, textField);
       this.setContent(elements);
@@ -399,7 +400,6 @@ public class OptionsFrame extends GenericFrame {
 
     @Override
     public void actionConfirmed() {
-      super.actionConfirmed();
       String fieldValue = this.textField.getText();
       if (StringUtilities.isNumeric(fieldValue)) {
         int intVal = StringUtilities.parseInt(fieldValue);
@@ -412,7 +412,6 @@ public class OptionsFrame extends GenericFrame {
     @Override
     public void actionCancelled() {
       this.textField.setText(Preferences.getString("scriptMRULength"));
-      super.actionCancelled();
     }
   }
 
