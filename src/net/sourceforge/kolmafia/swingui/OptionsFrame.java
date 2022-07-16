@@ -372,18 +372,11 @@ public class OptionsFrame extends GenericFrame {
   }
 
   private static class ScriptMRUOptionsPanel extends OptionsPanel {
+    JTextField textField = new JTextField();
+
     public ScriptMRUOptionsPanel() {
       super(new Dimension(20, 16), new Dimension(370, 16));
       this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-      this.add(new MRUSettingsPanel());
-      this.add(Box.createVerticalGlue());
-    }
-  }
-
-  protected static class MRUSettingsPanel extends OptionsPanel {
-    JTextField textField = new JTextField();
-
-    public MRUSettingsPanel() {
       String helpText =
           "Enable the most recently used scripts menu by entering a value greater than 0 "
               + "which will be used as the number of entries in the menu.  "
@@ -399,7 +392,8 @@ public class OptionsFrame extends GenericFrame {
       message.setOpaque(false);
       message.setFont(KoLGUIConstants.DEFAULT_FONT);
       message.setPreferredSize(this.getPreferredSize());
-      this.container.add(message, BorderLayout.SOUTH);
+      this.add(message, BorderLayout.SOUTH);
+      this.add(Box.createVerticalGlue());
       this.actionCancelled();
     }
 
