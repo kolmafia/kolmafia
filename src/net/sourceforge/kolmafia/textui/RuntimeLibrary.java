@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -116,6 +117,7 @@ import net.sourceforge.kolmafia.request.*;
 import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.EveryCard;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
+import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -178,6 +180,7 @@ import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.wc.SVNInfo;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
+@SuppressWarnings("unused")
 public abstract class RuntimeLibrary {
   private static final RecordType itemDropRec =
       new RecordType(
@@ -209,6 +212,18 @@ public abstract class RuntimeLibrary {
             DataTypes.INT_TYPE,
             DataTypes.STRING_TYPE,
             DataTypes.INT_TYPE,
+            DataTypes.STRING_TYPE
+          });
+
+  private static final RecordType gitInfoRec =
+      new RecordType(
+          "{string url; string branch; string commit; string last_changed_author; string last_changed_date;}",
+          new String[] {"url", "branch", "commit", "last_changed_author", "last_changed_date"},
+          new Type[] {
+            DataTypes.STRING_TYPE,
+            DataTypes.STRING_TYPE,
+            DataTypes.STRING_TYPE,
+            DataTypes.STRING_TYPE,
             DataTypes.STRING_TYPE
           });
 
@@ -2471,6 +2486,19 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("svn_info", svnInfoRec, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("git_exists", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("git_at_head", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(
+        new LibraryFunction("git_list", new AggregateType(DataTypes.STRING_TYPE, 0), params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("git_info", gitInfoRec, params));
 
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
     functions.add(
@@ -8617,10 +8645,16 @@ public abstract class RuntimeLibrary {
     return value;
   }
 
+  public static Value git_list(ScriptRuntime controller) {
+    return DataTypes.makeStringArrayValue(GitManager.listAll());
+  }
+
   public static Value svn_info(ScriptRuntime controller, final Value script) {
+    AshRuntime interpreter = controller instanceof AshRuntime ? (AshRuntime) controller : null;
+
     String[] projects = KoLConstants.SVN_LOCATION.list();
 
-    if (projects == null) return getRecInit();
+    if (projects == null) return getRecInit(interpreter);
 
     ArrayList<String> matches = new ArrayList<>();
     for (String s : projects) {
@@ -8630,15 +8664,15 @@ public abstract class RuntimeLibrary {
     }
 
     if (matches.size() != 1) {
-      return getRecInit();
+      return getRecInit(interpreter);
     }
     File projectFile = new File(KoLConstants.SVN_LOCATION, matches.get(0));
     try {
       if (!SVNWCUtil.isWorkingCopyRoot(projectFile)) {
-        return getRecInit();
+        return getRecInit(interpreter);
       }
     } catch (SVNException e1) {
-      return getRecInit();
+      return getRecInit(interpreter);
     }
     RecordType type = RuntimeLibrary.svnInfoRec;
     RecordValue rec = new RecordValue(type);
@@ -8650,39 +8684,77 @@ public abstract class RuntimeLibrary {
       info = SVNManager.doInfo(projectFile);
     } catch (SVNException e) {
       SVNManager.error(e, null);
-      return getRecInit();
+      return getRecInit(interpreter);
     }
 
     // URL
-    rec.aset(0, new Value(info.getURL().toString()), null);
+    rec.aset(0, new Value(info.getURL().toString()), interpreter);
     // revision
-    rec.aset(1, DataTypes.makeIntValue(info.getRevision().getNumber()), null);
+    rec.aset(1, DataTypes.makeIntValue(info.getRevision().getNumber()), interpreter);
     // lastChangedAuthor
-    rec.aset(2, new Value(info.getAuthor()), null);
+    rec.aset(2, new Value(info.getAuthor()), interpreter);
     // lastChangedRev
-    rec.aset(3, DataTypes.makeIntValue(info.getCommittedRevision().getNumber()), null);
+    rec.aset(3, DataTypes.makeIntValue(info.getCommittedRevision().getNumber()), interpreter);
     // lastChangedDate
     // use format that is similar to what 'svn info' gives, ex:
     // Last Changed Date: 2003-01-16 23:21:19 -0600 (Thu, 16 Jan 2003)
     SimpleDateFormat SVN_FORMAT =
         new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z (EEE, dd MMM yyyy)", Locale.US);
-    rec.aset(4, new Value(SVN_FORMAT.format(info.getCommittedDate())), null);
+    rec.aset(4, new Value(SVN_FORMAT.format(info.getCommittedDate())), interpreter);
 
     return rec;
   }
 
-  private static RecordValue getRecInit() {
+  private static RecordValue getRecInit(AshRuntime interpreter) {
     RecordType type = RuntimeLibrary.svnInfoRec;
     RecordValue rec = new RecordValue(type);
-    rec.aset(0, DataTypes.STRING_INIT, null);
+    rec.aset(0, DataTypes.STRING_INIT, interpreter);
     // revision
-    rec.aset(1, DataTypes.INT_INIT, null);
+    rec.aset(1, DataTypes.INT_INIT, interpreter);
     // lastChangedAuthor
-    rec.aset(2, DataTypes.STRING_INIT, null);
+    rec.aset(2, DataTypes.STRING_INIT, interpreter);
     // lastChangedRev
-    rec.aset(3, DataTypes.INT_INIT, null);
+    rec.aset(3, DataTypes.INT_INIT, interpreter);
     // lastChangedDate
-    rec.aset(4, DataTypes.STRING_INIT, null);
+    rec.aset(4, DataTypes.STRING_INIT, interpreter);
+
+    return rec;
+  }
+
+  public static Value git_info(ScriptRuntime controller, final Value script) {
+    AshRuntime interpreter = controller instanceof AshRuntime ? (AshRuntime) controller : null;
+
+    var infoOpt = GitManager.getInfo(script.toString());
+    if (infoOpt.isEmpty()) return getGitRecInit(interpreter);
+    var info = infoOpt.get();
+
+    RecordValue rec = new RecordValue(RuntimeLibrary.gitInfoRec);
+
+    // URL
+    rec.aset(0, new Value(info.url()), interpreter);
+    // branch
+    rec.aset(1, new Value(info.branch()), interpreter);
+    // revision
+    rec.aset(2, new Value(info.commit()), interpreter);
+    // lastChangedAuthor
+    rec.aset(3, new Value(info.lastChangedAuthor()), interpreter);
+    // lastChangedDate
+    // use format that is similar to what 'git show' gives, ex:
+    // Date: Sat Jul 16 11:40:35 2022 +0100
+    var fmt = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss yyyy z");
+    var date = fmt.format(info.lastChangedDate());
+    rec.aset(4, new Value(date), interpreter);
+
+    return rec;
+  }
+
+  private static RecordValue getGitRecInit(AshRuntime interpreter) {
+    RecordValue rec = new RecordValue(RuntimeLibrary.gitInfoRec);
+    rec.aset(0, DataTypes.STRING_INIT, interpreter);
+    rec.aset(1, DataTypes.STRING_INIT, interpreter);
+    rec.aset(2, DataTypes.STRING_INIT, interpreter);
+    rec.aset(3, DataTypes.STRING_INIT, interpreter);
+    rec.aset(4, DataTypes.STRING_INIT, interpreter);
 
     return rec;
   }
@@ -9028,6 +9100,11 @@ public abstract class RuntimeLibrary {
     return DataTypes.makeBooleanValue(isWCRoot);
   }
 
+  public static Value git_exists(ScriptRuntime controller, final Value project) {
+    var isValid = GitManager.isValidRepo(project.toString());
+    return DataTypes.makeBooleanValue(isValid);
+  }
+
   public static Value svn_at_head(ScriptRuntime controller, final Value project) {
     File f = new File(KoLConstants.SVN_LOCATION, project.toString());
 
@@ -9035,6 +9112,11 @@ public abstract class RuntimeLibrary {
       return DataTypes.FALSE_VALUE;
     }
     return DataTypes.makeBooleanValue(SVNManager.WCAtHead(f, true));
+  }
+
+  public static Value git_at_head(ScriptRuntime controller, final Value project) {
+    var isUpToDate = GitManager.isUpToDate(project.toString());
+    return DataTypes.makeBooleanValue(isUpToDate);
   }
 
   // Sweet Synthesis
