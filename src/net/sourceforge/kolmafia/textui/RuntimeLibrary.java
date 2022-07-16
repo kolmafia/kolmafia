@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -116,6 +117,7 @@ import net.sourceforge.kolmafia.request.*;
 import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.EveryCard;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
+import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -178,6 +180,7 @@ import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.wc.SVNInfo;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
+@SuppressWarnings("unused")
 public abstract class RuntimeLibrary {
   private static final RecordType itemDropRec =
       new RecordType(
@@ -209,6 +212,18 @@ public abstract class RuntimeLibrary {
             DataTypes.INT_TYPE,
             DataTypes.STRING_TYPE,
             DataTypes.INT_TYPE,
+            DataTypes.STRING_TYPE
+          });
+
+  private static final RecordType gitInfoRec =
+      new RecordType(
+          "{string url; string branch; string commit; string last_changed_author; string last_changed_date;}",
+          new String[] {"url", "branch", "commit", "last_changed_author", "last_changed_date"},
+          new Type[] {
+            DataTypes.STRING_TYPE,
+            DataTypes.STRING_TYPE,
+            DataTypes.STRING_TYPE,
+            DataTypes.STRING_TYPE,
             DataTypes.STRING_TYPE
           });
 
@@ -2471,6 +2486,19 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("svn_info", svnInfoRec, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("git_exists", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("git_at_head", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(
+        new LibraryFunction("git_list", new AggregateType(DataTypes.STRING_TYPE, 0), params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("git_info", svnInfoRec, params));
 
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
     functions.add(
@@ -8617,6 +8645,10 @@ public abstract class RuntimeLibrary {
     return value;
   }
 
+  public static Value git_list(ScriptRuntime controller) {
+    return DataTypes.makeStringArrayValue(GitManager.listAll());
+  }
+
   public static Value svn_info(ScriptRuntime controller, final Value script) {
     String[] projects = KoLConstants.SVN_LOCATION.list();
 
@@ -8682,6 +8714,42 @@ public abstract class RuntimeLibrary {
     // lastChangedRev
     rec.aset(3, DataTypes.INT_INIT, null);
     // lastChangedDate
+    rec.aset(4, DataTypes.STRING_INIT, null);
+
+    return rec;
+  }
+
+  public static Value git_info(ScriptRuntime controller, final Value script) {
+    var infoOpt = GitManager.getInfo(script.toString());
+    if (infoOpt.isEmpty()) return getGitRecInit();
+    var info = infoOpt.get();
+
+    RecordValue rec = new RecordValue(RuntimeLibrary.svnInfoRec);
+
+    // URL
+    rec.aset(0, new Value(info.url()), null);
+    // branch
+    rec.aset(1, new Value(info.branch()), null);
+    // revision
+    rec.aset(2, new Value(info.commit()), null);
+    // lastChangedAuthor
+    rec.aset(3, new Value(info.lastChangedAuthor()), null);
+    // lastChangedDate
+    // use format that is similar to what 'git show' gives, ex:
+    // Date: Sat Jul 16 11:40:35 2022 +0100
+    var fmt = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss yyyy z");
+    var date = fmt.format(info.lastChangedDate());
+    rec.aset(4, new Value(date), null);
+
+    return rec;
+  }
+
+  private static RecordValue getGitRecInit() {
+    RecordValue rec = new RecordValue(RuntimeLibrary.gitInfoRec);
+    rec.aset(0, DataTypes.STRING_INIT, null);
+    rec.aset(1, DataTypes.STRING_INIT, null);
+    rec.aset(2, DataTypes.STRING_INIT, null);
+    rec.aset(3, DataTypes.STRING_INIT, null);
     rec.aset(4, DataTypes.STRING_INIT, null);
 
     return rec;
@@ -9028,6 +9096,11 @@ public abstract class RuntimeLibrary {
     return DataTypes.makeBooleanValue(isWCRoot);
   }
 
+  public static Value git_exists(ScriptRuntime controller, final Value project) {
+    var isValid = GitManager.isValidRepo(project.toString());
+    return DataTypes.makeBooleanValue(isValid);
+  }
+
   public static Value svn_at_head(ScriptRuntime controller, final Value project) {
     File f = new File(KoLConstants.SVN_LOCATION, project.toString());
 
@@ -9035,6 +9108,11 @@ public abstract class RuntimeLibrary {
       return DataTypes.FALSE_VALUE;
     }
     return DataTypes.makeBooleanValue(SVNManager.WCAtHead(f, true));
+  }
+
+  public static Value git_at_head(ScriptRuntime controller, final Value project) {
+    var isUpToDate = GitManager.isUpToDate(project.toString());
+    return DataTypes.makeBooleanValue(isUpToDate);
   }
 
   // Sweet Synthesis
