@@ -29,7 +29,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
-class gDailyLimitDatabaseTest {
+class DailyLimitDatabaseTest {
   @Nested
   class DailyLimitTests {
     @BeforeEach
