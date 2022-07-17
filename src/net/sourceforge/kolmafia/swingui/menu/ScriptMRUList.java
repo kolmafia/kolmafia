@@ -58,6 +58,10 @@ public class ScriptMRUList implements Listener {
     }
   }
 
+  public void addItem(File file) {
+    this.addItem(LoadScriptMenuItem.getRelativePath(file));
+  }
+
   public void addItem(String script) {
     if (maxMRU == 0) {
       return;
@@ -107,7 +111,10 @@ public class ScriptMRUList implements Listener {
         List<File> matches = KoLmafiaCLI.findScriptFile(fileName);
 
         if (matches.size() == 1) {
-          results.add(matches.get(0));
+          File match = matches.get(0);
+          if (!results.contains(match)) {
+            results.add(match);
+          }
         }
       }
 

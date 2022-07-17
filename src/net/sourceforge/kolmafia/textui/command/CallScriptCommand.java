@@ -125,7 +125,7 @@ public class CallScriptCommand extends AbstractCommand {
 
       // Got here so have valid script file name and not a directory.
 
-      KoLConstants.scriptMRUList.addItem(scriptFile.getName());
+      KoLConstants.scriptMRUList.addItem(scriptFile);
 
       // Allow the ".ash" or ".js" to appear anywhere in the filename
       // in a case-insensitive manner.

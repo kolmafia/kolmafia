@@ -53,7 +53,7 @@ public class ScriptMenu extends JMenu implements Listener {
       return;
     }
 
-    if (useCascadingMenus) {
+    if (!useMRUList) {
       add(new InvocationMenuItem("Refresh menu", GenericFrame.class, "compileScripts"));
       headers++;
     }
@@ -66,7 +66,7 @@ public class ScriptMenu extends JMenu implements Listener {
     MenuScroller.setScrollerFor(this, 25, 150, headers, 0);
 
     for (File file : files) {
-      add(constructMenuItem(file, "scripts"));
+      add(useMRUList ? new LoadScriptMenuItem(file) : constructMenuItem(file, "scripts"));
     }
   }
 
