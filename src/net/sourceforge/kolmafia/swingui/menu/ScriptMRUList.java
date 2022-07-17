@@ -58,6 +58,10 @@ public class ScriptMRUList implements Listener {
     }
   }
 
+  public void addItem(File file) {
+    this.addItem(LoadScriptMenuItem.getRelativePath(file));
+  }
+
   public void addItem(String script) {
     if (maxMRU == 0) {
       return;
