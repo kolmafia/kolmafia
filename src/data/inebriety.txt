@@ -184,7 +184,7 @@ cursed bottle of black-label rum	3	3	good	5-10	0	0	0	10 Curse Magnet
 cursed bottle of rum	1	1	crappy	1	0	0	0
 Cursed Punch	1	6	good	2-3	1-5	1-5	1-5	10 Once-Cursed (-10 all stats)
 Cyder	3	5		5	0	0	0
-Dad's brandy	1	1	awesome	0	0	0	0	Unspaded
+Dad's brandy	1	1	awesome	4-5	10-20	10-20	10-20
 Dark & Starry	2	1	good	4-5	5-10	5-10	5-10	Restores MP
 Das Sauerlager	3	1	decent	4-5	0	20-30	10-20
 day-old beer	1	1	crappy	1	0	0	0	BEER, CANNED
@@ -461,6 +461,7 @@ Muschat	1	4	awesome	3-5	0	0	25-50	20 L'instinct F&eacute;lin (+30 mox, better sl
 mushroom whiskey	1	1	awesome	3-5	5-20	5-20	5-20	
 Mutagin 'n' Tonic	5	5		10-15	0	0	0
 Mysterious Island iced tea	1	3	EPIC	5-7	10-30	10-30	10-30	40 Orcmouth (+40 Sleaze Damage & Sleaze Spell Damage)
+N. O. Beer	0	0	crappy	0	0	0	0	Undrinkable
 Nachojito	3	1	good	8-10	0	0	30-40
 nanite-infested eggnog	3	3	good	5-10	0	16-30	16-30	20 Chock Full o' Nanites (+10 HP/MP regen, +20 dmg)
 natto-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Ninja, Please (+15% critical, +15% critical spell)
@@ -475,6 +476,7 @@ nothingtini	1	1	good	2-4	0	0	0	40 Nothing Happened (+20 Monster Level), MARTINI
 ocean motion	4	4	good	10-14	25-27	8-10	0
 Oh, the Humanitini	2	8	awesome	8-9	15-20	15-20	15-20	Restores HP, MARTINI
 Oil Nog	4	5		7-9	0	0	0
+Otorian Battle Scar	0	0	crappy	0	0	0	0	Undrinkable
 oily mushroom wine	3	7	awesome	12-17	14-15	12-15	12-15	WINE
 old-fashioned	3	3	good	5-10	0	8-10	0
 oozenog	3	1	good	5-10	10-20	10-20	10-20	10 Festive Radiation (+5% all stats)
