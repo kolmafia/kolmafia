@@ -15,9 +15,11 @@ import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 public class LoadScriptMenuItem extends ThreadedMenuItem {
 
   private final String scriptPath;
+  private boolean updateMRU = false;
 
   public LoadScriptMenuItem() {
     this("Load script...", null);
+    this.updateMRU = true;
   }
 
   public LoadScriptMenuItem(final File file) {
@@ -80,6 +82,9 @@ public class LoadScriptMenuItem extends ThreadedMenuItem {
 
       if (this.hasShiftModifier()) {
         CommandDisplayFrame.executeCommand("edit " + this.executePath);
+      } else if (updateMRU) {
+        CommandDisplayFrame.executeCommand("call " + this.executePath);
+        KoLConstants.scriptMRUList.addItem(this.executePath);
       } else {
         CommandDisplayFrame.executeCommand(this.executePath);
       }
