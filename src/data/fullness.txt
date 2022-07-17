@@ -400,6 +400,7 @@ glistening fish meat	1	1	good	2-3	0	4-8	0	5/15 Fishy
 glistening maki	3	1		7-12	0	8-16	0	45/55 Fishy
 glistening nigiri	2	1		4-8	0	8-16	0	20/30 Fishy
 glob of cream cheese	1	1	decent	2	0	0	0
+gloomy black mushroom	0	1	crappy	0	0	0	0	Inedible
 glowing fungus	3	1	good	6-7	0	3-5	0	8-10 MP
 gnat lasagna	3	10	awesome	12-16	45-54	0	0	LASAGNA
 gnatloaf	2	8	good	3-9	25-50	0	0
@@ -620,7 +621,7 @@ New and Improved CRIMBCO Reconstituted Gruel	4	1		7-8	0	0	0	lose 20% boredom
 nut-shaped Crimbo cookie	2	1	awesome	7-11	0	0	0	20 Nut-Rition (+100% all stats)
 nutty organic salad	3	11	awesome	12-15	0	31-40	0	SALAD
 occult jelly donut	1	4	awesome	3-5	0	40-60	0	30 Filled With Magic (+100% spell dmg)
-oily golden mushroom	0	1	crappy	0	0	0	0	Unspaded
+oily golden mushroom	0	1	crappy	0	0	0	0	Inedible
 ojo de pez burrito	3	1	good	0	0	0	0	Unspaded 30 Fish-Eye View
 old chum	2	13	good	4-6	5-10	5-10	5-10	10 Fishy
 oldcake	1	1	good	3-4	0	0	0
