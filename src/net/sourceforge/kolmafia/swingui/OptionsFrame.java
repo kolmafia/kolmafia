@@ -371,9 +371,8 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private static class ScriptMenuOptionsPanel extends JPanel implements FocusListener {
+  private static class ScriptMenuOptionsPanel extends JPanel {
     private List<Component> componentQueue = new ArrayList<>();
-    private final JTextField mruField;
 
     public ScriptMenuOptionsPanel() {
       // 5 px inset
@@ -413,29 +412,16 @@ public class OptionsFrame extends GenericFrame {
       this.queue(sep);
       this.queue(Box.createVerticalStrut(5));
 
+      String mruTip =
+          "<html>Setting this option will display only your most recently used scripts.</html>";
+      this.queue(new PreferenceIntegerTextField("scriptMRULength", 4, "Script MRU Length", mruTip));
+
       String cascadeTip =
           "<html>Setting this option will display all the files in your 'scripts' folder.</html>";
       this.queue(
           new PreferenceCheckBox("scriptCascadingMenus", "Use cascading script menus", cascadeTip));
 
-      this.mruField = new JTextField(4);
-      this.mruField.addFocusListener(this);
-      JLabel mruLabel = new JLabel("Script MRU Length", SwingConstants.LEFT);
-      mruLabel.setLabelFor(this.mruField);
-      mruLabel.setVerticalAlignment(SwingConstants.TOP);
-
-      JPanel mruPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
-      mruPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-      mruPanel.add(this.mruField);
-      mruPanel.add(mruLabel);
-      String mruTip =
-          "<html>Setting this option will display only your most recently used scripts.</html>";
-      addToolTip(mruPanel, mruTip);
-
-      this.queue(mruPanel);
-
       this.makeLayout();
-      this.actionCancelled();
     }
 
     private void queue(Component comp) {
@@ -451,22 +437,6 @@ public class OptionsFrame extends GenericFrame {
       }
       this.componentQueue = null;
     }
-
-    public void actionConfirmed() {
-      Preferences.setInteger("scriptMRULength", InputFieldUtilities.getValue(this.mruField, 0));
-    }
-
-    public void actionCancelled() {
-      this.mruField.setText(Preferences.getString("scriptMRULength"));
-    }
-
-    @Override
-    public void focusLost(final FocusEvent e) {
-      ScriptMenuOptionsPanel.this.actionConfirmed();
-    }
-
-    @Override
-    public void focusGained(final FocusEvent e) {}
   }
 
   private abstract static class ShiftableOrderPanel extends ScrollablePanel<JList<String>>
@@ -1614,6 +1584,75 @@ public class OptionsFrame extends GenericFrame {
     public Dimension getMaximumSize() {
       return this.getPreferredSize();
     }
+  }
+
+  private static class PreferenceIntegerTextField extends JPanel
+      implements Listener, FocusListener {
+    private final String pref;
+    private final JTextField field;
+    private final String tooltip;
+
+    private final JCheckBox box = new JCheckBox();
+
+    public PreferenceIntegerTextField(String pref, int size, String message) {
+      this(pref, size, message, null);
+    }
+
+    public PreferenceIntegerTextField(String pref, int size, String message, String tip) {
+      this.pref = pref;
+      this.tooltip = tip;
+
+      this.field = new JTextField(size);
+      this.field.addFocusListener(this);
+
+      configure();
+      makeLayout(message);
+    }
+
+    private void configure() {
+      this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
+      PreferenceListenerRegistry.registerPreferenceListener(pref, this);
+    }
+
+    private void makeLayout(String message) {
+      this.add(this.field);
+      JLabel label = new JLabel(message, SwingConstants.LEFT);
+      label.setLabelFor(this.field);
+      label.setVerticalAlignment(SwingConstants.TOP);
+      this.add(label);
+
+      if (tooltip != null) {
+        addToolTip(this, tooltip);
+      }
+
+      update();
+    }
+
+    @Override
+    public void update() {
+      this.actionCancelled();
+    }
+
+    @Override
+    public Dimension getMaximumSize() {
+      return this.getPreferredSize();
+    }
+
+    public void actionConfirmed() {
+      Preferences.setInteger(this.pref, InputFieldUtilities.getValue(this.field, 0));
+    }
+
+    public void actionCancelled() {
+      this.field.setText(Preferences.getString(this.pref));
+    }
+
+    @Override
+    public void focusLost(final FocusEvent e) {
+      this.actionConfirmed();
+    }
+
+    @Override
+    public void focusGained(final FocusEvent e) {}
   }
 
   private static void addToolTip(JComponent component, String tooltip) {
