@@ -1539,7 +1539,7 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private static class PreferenceCheckBox extends JPanel implements Listener {
+  public static class PreferenceCheckBox extends JPanel implements Listener {
     private final String pref;
     private final String tooltip;
 
@@ -1575,6 +1575,10 @@ public class OptionsFrame extends GenericFrame {
       update();
     }
 
+    public JCheckBox getCheckBox() {
+      return this.box;
+    }
+
     @Override
     public void update() {
       this.box.setSelected(Preferences.getBoolean(this.pref));
@@ -1586,8 +1590,7 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private static class PreferenceIntegerTextField extends JPanel
-      implements Listener, FocusListener {
+  public static class PreferenceIntegerTextField extends JPanel implements Listener, FocusListener {
     private final String pref;
     private final JTextField field;
     private final String tooltip;
@@ -1628,6 +1631,10 @@ public class OptionsFrame extends GenericFrame {
       update();
     }
 
+    public JTextField getTextField() {
+      return this.field;
+    }
+
     @Override
     public void update() {
       this.actionCancelled();
@@ -1643,7 +1650,7 @@ public class OptionsFrame extends GenericFrame {
     }
 
     public void actionCancelled() {
-      this.field.setText(Preferences.getString(this.pref));
+      this.field.setText(String.valueOf(Preferences.getInteger(this.pref)));
     }
 
     @Override
