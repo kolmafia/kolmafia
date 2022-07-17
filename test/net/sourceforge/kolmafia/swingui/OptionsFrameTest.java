@@ -19,10 +19,12 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.OptionsFrame.PreferenceCheckBox;
 import net.sourceforge.kolmafia.swingui.OptionsFrame.PreferenceIntegerTextField;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -32,8 +34,6 @@ public class OptionsFrameTest {
 
   @BeforeAll
   private static void beforeAll() {
-    KoLCharacter.reset(true);
-    KoLCharacter.reset("fakeUserName");
     Preferences.saveSettingsToFile = false;
   }
 
@@ -46,7 +46,12 @@ public class OptionsFrameTest {
   class PreferenceCheckBoxTest {
     @BeforeEach
     private void beforeEach() {
-      KoLCharacter.reset("fakeUserName");
+      KoLCharacter.reset("checkbox");
+    }
+
+    @AfterEach
+    private void afterEach() {
+      PreferenceListenerRegistry.reset();
     }
 
     private List<Component> componentQueue = new ArrayList<>();
@@ -105,7 +110,7 @@ public class OptionsFrameTest {
 
     @Test
     void preferenceCheckBoxSetsPreference() {
-      String pref = "preference1";
+      String pref = "preference2";
       JPanel panel = makePanel(pref);
 
       Component[] components = panel.getComponents();
@@ -132,7 +137,12 @@ public class OptionsFrameTest {
   class PreferenceIntegerTextFieldTest {
     @BeforeEach
     private void beforeEach() {
-      KoLCharacter.reset("fakeUserName");
+      KoLCharacter.reset("textfield");
+    }
+
+    @AfterEach
+    private void afterEach() {
+      PreferenceListenerRegistry.reset();
     }
 
     private List<Component> componentQueue = new ArrayList<>();
@@ -176,7 +186,7 @@ public class OptionsFrameTest {
 
     @Test
     void preferenceTextFieldListensForPreferenceChange() {
-      String pref = "preference1";
+      String pref = "preference3";
       JPanel panel = makePanel(pref);
 
       Component[] components = panel.getComponents();
@@ -195,7 +205,7 @@ public class OptionsFrameTest {
 
     @Test
     void preferenceTextFieldSetsPreference() {
-      String pref = "preference1";
+      String pref = "preference4";
       JPanel panel = makePanel(pref);
 
       Component[] components = panel.getComponents();
