@@ -40,8 +40,6 @@ public class GitManager extends ScriptManager {
    *
    * Scripts with folders as in ScriptManager.permissibles have those folder copied to local.
    * Additional scripts in a "dependencies.txt" file are downloaded.
-   *
-   * Local changes are not currently supported.
    */
 
   public static void clone(String repoUrl) {
@@ -67,32 +65,16 @@ public class GitManager extends ScriptManager {
       git.setBranch(branch).setBranchesToClone(List.of("refs/heads/" + branch));
     }
     try (var ignored = git.call()) {
-      var toAdd = getPermissibleFiles(projectPath, false);
-      for (var absPath : toAdd) {
-        try {
-          copyPath(projectPath, absPath);
-        } catch (IOException e) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to clone project " + id + ": " + e);
-          return;
-        }
-      }
+      sync(projectPath);
     } catch (InvalidRemoteException e) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Could not find project at " + repoUrl + ": " + e);
       return;
     } catch (GitAPIException e) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Could not download project " + repoUrl + ": " + e);
       return;
-    } catch (IOException e) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to clone project " + repoUrl + ": " + e);
-      return;
     }
 
     KoLmafia.updateDisplay("Cloned project " + id);
-    Path deps = projectPath.resolve(DEPENDENCIES);
-    if (Files.exists(deps)) {
-      KoLmafia.updateDisplay("Installing dependencies");
-      installDependencies(deps);
-    }
   }
 
   /** Update all installed projects. */
@@ -319,6 +301,11 @@ public class GitManager extends ScriptManager {
     }
     var folder = folderOpt.get();
     Path projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(folder);
+    sync(projectPath);
+  }
+
+  private static void sync(Path projectPath) {
+    var folder = KoLConstants.GIT_LOCATION.toPath().relativize(projectPath);
     List<Path> toAdd;
     try {
       toAdd = getPermissibleFiles(projectPath, false);
@@ -336,6 +323,7 @@ public class GitManager extends ScriptManager {
     }
     var deps = projectPath.resolve(DEPENDENCIES);
     if (Files.exists(deps)) {
+      KoLmafia.updateDisplay("Installing dependencies");
       installDependencies(deps);
     }
   }
