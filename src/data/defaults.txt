@@ -64,8 +64,6 @@ global	https.proxyPort
 global	https.proxyUser
 global	initialDesktop	AdventureFrame,CommandDisplayFrame,MallSearchFrame,GearChangeFrame,SkillBuffFrame
 global	initialFrames	LocalRelayServer
-global	innerChatColor	#ffa98c
-global	innerTabColor	#8ca9ff
 global	itemManagerIndex	0
 global	lastBuffRequestType	0
 global	lastGlobalCounterDay	-1
@@ -100,8 +98,6 @@ global	macroDebug	false
 global	macroLens	false
 global	mementoListActive	false
 global	mergeHobopolisChat	false
-global	outerChatColor	#b4460f
-global	outerTabColor	#0f46b4
 global	previousNotifyList	<>
 global	previousUpdateVersion
 global	previousUpdateRevision	0
@@ -162,7 +158,6 @@ global	useDockIconBadge	false
 global	useHugglerChannel	false
 global	useImageCache	true
 global	useLastUserAgent	false
-global	useShinyTabbedChat	true
 global	useSystemTrayIcon	false
 global	useTabbedChatFrame	true
 global	useToolbars	true
