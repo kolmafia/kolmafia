@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.canInteract;
+import static internal.helpers.Player.setProperty;
 import static internal.helpers.Preference.isSetTo;
 import static net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase.assertErrorState;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -10,6 +11,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.hasToString;
 
+import internal.helpers.Cleanups;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -26,6 +28,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
@@ -137,6 +140,72 @@ class DailyLimitDatabaseTest {
 
       assertThat("tomeSummons", isSetTo(3));
       assertThat("_radlibSummons", isSetTo(2));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "2, 2", "5, 5", "9, 5",
+    })
+    void canSetDailyUsesForRegularEntries(int value, int result) {
+      var cleanups = new Cleanups(setProperty("_jerksHealthMagazinesUsed", 0));
+
+      try (cleanups) {
+        var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JERKS_HEALTH_MAGAZINE);
+        limit.set(value);
+
+        assertThat("_jerksHealthMagazinesUsed", isSetTo(result));
+      }
+    }
+
+    @Test
+    void canSetMaxUsesForRegularEntries() {
+      var cleanups = new Cleanups(setProperty("_jerksHealthMagazinesUsed", 0));
+
+      try (cleanups) {
+        var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JERKS_HEALTH_MAGAZINE);
+        limit.setToMax();
+
+        assertThat("_jerksHealthMagazinesUsed", isSetTo(5));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1, true", "2, true", "0, false", "-10, false"})
+    void canSetDailyUsesForBooleanEntries(int value, boolean result) {
+      var cleanups = new Cleanups(setProperty("_jingleBellUsed", false));
+
+      try (cleanups) {
+        var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JINGLE_BELL);
+        limit.set(value);
+
+        assertThat("_jingleBellUsed", isSetTo(result));
+      }
+    }
+
+    @Test
+    void canSetMaxUsesForBooleanEntries() {
+      var cleanups = new Cleanups(setProperty("_jingleBellUsed", false));
+
+      try (cleanups) {
+        var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JINGLE_BELL);
+        limit.setToMax();
+
+        assertThat("_jingleBellUsed", isSetTo(true));
+      }
+    }
+
+    @Test
+    void canGetMessageForMaximumUsesReached() {
+      var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JERKS_HEALTH_MAGAZINE);
+      assertThat(
+          limit.getMaxMessage(),
+          equalTo("You can only use Jerks' Health™ Magazine 5 times per day"));
+    }
+
+    @Test
+    void canGetMessageForMaximumCastsReached() {
+      var limit = DailyLimitType.CAST.getDailyLimit(SkillPool.FEEL_ENVY);
+      assertThat(limit.getMaxMessage(), equalTo("You can only cast Feel Envy 3 times per day"));
     }
   }
 

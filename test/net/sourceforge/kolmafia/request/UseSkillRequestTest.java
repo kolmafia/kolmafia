@@ -4,11 +4,14 @@ import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.canInteract;
 import static internal.helpers.Player.canUse;
 import static internal.helpers.Player.equip;
 import static internal.helpers.Player.isClass;
 import static internal.helpers.Player.isLevel;
+import static internal.helpers.Player.setProperty;
 import static internal.helpers.Player.setupFakeResponse;
+import static internal.helpers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
@@ -27,6 +30,7 @@ import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -34,6 +38,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class UseSkillRequestTest {
+  @BeforeAll
+  static void beforeAll() {
+    KoLCharacter.reset("UseSkillRequestTest");
+  }
 
   private static int EXPERIENCE_SAFARI = SkillDatabase.getSkillId("Experience Safari");
 
@@ -78,6 +86,52 @@ class UseSkillRequestTest {
 
     assertEquals("", UseSkillRequest.lastUpdate);
     assertEquals(startingCasts + 1, SkillDatabase.getCasts(EXPERIENCE_SAFARI));
+  }
+
+  @Test
+  void correctErrorMessageForTomeWhenInRun() {
+    KoLCharacter.setMP(1000, 1000, 1000);
+    KoLCharacter.addAvailableSkill(SkillPool.STICKER);
+
+    var cleanups =
+        new Cleanups(
+            setProperty("tomeSummons", 0),
+            setProperty("_stickerSummons", 0),
+            canInteract(false),
+            setupFakeResponse(200, "You may only use three Tome summonings each day"));
+
+    try (cleanups) {
+      UseSkillRequest req = UseSkillRequest.getInstance(SkillPool.STICKER);
+      req.run();
+
+      assertThat(
+          UseSkillRequest.lastUpdate, equalTo("You may only use three Tome summonings each day"));
+      assertThat("tomeSummons", isSetTo(3));
+      assertThat("_stickerSummons", isSetTo(0));
+    }
+  }
+
+  @Test
+  void correctErrorMessageForTomeWhenOutOfRun() {
+    KoLCharacter.setMP(1000, 1000, 1000);
+    KoLCharacter.addAvailableSkill(SkillPool.STICKER);
+
+    var cleanups =
+        new Cleanups(
+            setProperty("tomeSummons", 0),
+            setProperty("_stickerSummons", 0),
+            canInteract(true),
+            setupFakeResponse(200, "You may only use three Tome summonings each day"));
+
+    try (cleanups) {
+      UseSkillRequest req = UseSkillRequest.getInstance(SkillPool.STICKER);
+      req.run();
+
+      assertThat(
+          UseSkillRequest.lastUpdate, equalTo("You can only cast Summon Stickers 3 times per day"));
+      assertThat("tomeSummons", isSetTo(3));
+      assertThat("_stickerSummons", isSetTo(3));
+    }
   }
 
   @ParameterizedTest
