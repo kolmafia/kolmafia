@@ -16,9 +16,9 @@ import javax.swing.JTextField;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.swingui.OptionsFrame.ConfigQueuingPanel;
 import net.sourceforge.kolmafia.swingui.OptionsFrame.PreferenceCheckBox;
 import net.sourceforge.kolmafia.swingui.OptionsFrame.PreferenceIntegerTextField;
-import net.sourceforge.kolmafia.swingui.OptionsFrame.QueuePanel;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -50,8 +50,8 @@ public class OptionsFrameTest {
       PreferenceListenerRegistry.reset();
     }
 
-    private QueuePanel makePanel(String... preferences) {
-      QueuePanel panel = new QueuePanel();
+    private ConfigQueuingPanel makePanel(String... preferences) {
+      ConfigQueuingPanel panel = new ConfigQueuingPanel();
 
       for (String pref : preferences) {
         String tip = "<html>" + pref + "</html>";
@@ -71,7 +71,7 @@ public class OptionsFrameTest {
     @Test
     void preferenceCheckBoxListensForPreferenceChange() {
       String pref = "preference1";
-      QueuePanel panel = makePanel(pref);
+      ConfigQueuingPanel panel = makePanel(pref);
 
       Component[] components = panel.getComponents();
       assertEquals(1, components.length);
@@ -90,7 +90,7 @@ public class OptionsFrameTest {
     @Test
     void preferenceCheckBoxSetsPreference() {
       String pref = "preference2";
-      QueuePanel panel = makePanel(pref);
+      ConfigQueuingPanel panel = makePanel(pref);
 
       Component[] components = panel.getComponents();
       assertEquals(1, components.length);
@@ -124,8 +124,8 @@ public class OptionsFrameTest {
       PreferenceListenerRegistry.reset();
     }
 
-    private QueuePanel makePanel(String... preferences) {
-      QueuePanel panel = new QueuePanel();
+    private ConfigQueuingPanel makePanel(String... preferences) {
+      ConfigQueuingPanel panel = new ConfigQueuingPanel();
 
       for (String pref : preferences) {
         String tip = "<html>" + pref + "</html>";
@@ -149,7 +149,7 @@ public class OptionsFrameTest {
     @Test
     void preferenceTextFieldListensForPreferenceChange() {
       String pref = "preference3";
-      QueuePanel panel = makePanel(pref);
+      ConfigQueuingPanel panel = makePanel(pref);
 
       Component[] components = panel.getComponents();
       assertEquals(1, components.length);
@@ -168,7 +168,7 @@ public class OptionsFrameTest {
     @Test
     void preferenceTextFieldSetsPreference() {
       String pref = "preference4";
-      QueuePanel panel = makePanel(pref);
+      ConfigQueuingPanel panel = makePanel(pref);
 
       Component[] components = panel.getComponents();
       assertEquals(1, components.length);

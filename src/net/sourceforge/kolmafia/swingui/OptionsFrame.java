@@ -371,7 +371,7 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private static class ScriptMenuOptionsPanel extends QueuePanel {
+  private static class ScriptMenuOptionsPanel extends ConfigQueuingPanel {
     public ScriptMenuOptionsPanel() {
       super();
 
@@ -1344,10 +1344,10 @@ public class OptionsFrame extends GenericFrame {
     public void saveSettings() {}
   }
 
-  public static class QueuePanel extends JPanel {
+  public static class ConfigQueuingPanel extends JPanel {
     private List<Component> componentQueue = new ArrayList<>();
 
-    public QueuePanel() {
+    public ConfigQueuingPanel() {
       // 5 px inset
       this.setBorder(BorderFactory.createEmptyBorder(10, 5, 5, 5));
       // box layoutmanager
@@ -1389,7 +1389,7 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private static class SVNPanel extends QueuePanel {
+  private static class SVNPanel extends ConfigQueuingPanel {
     public SVNPanel() {
       super();
 
@@ -1472,7 +1472,7 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private static class GitPanel extends QueuePanel {
+  private static class GitPanel extends ConfigQueuingPanel {
     public GitPanel() {
       super();
 
