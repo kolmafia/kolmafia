@@ -126,6 +126,7 @@ public class OptionsFrame extends GenericFrame {
     selectorPanel.addPanel("SVN", new SVNPanel(), true);
     selectorPanel.addPanel("Git", new GitPanel(), true);
     selectorPanel.addPanel("Maximizer Strings", new MaximizerStringsPanel());
+    selectorPanel.addPanel("Script Menu", new ScriptMenuOptionsPanel(), true);
 
     this.setCenterComponent(selectorPanel);
 
@@ -367,6 +368,51 @@ public class OptionsFrame extends GenericFrame {
       };
 
       this.setOptions(options);
+    }
+  }
+
+  private static class ScriptMenuOptionsPanel extends ConfigQueuingPanel {
+    public ScriptMenuOptionsPanel() {
+      super();
+
+      JTextArea message =
+          new JTextArea(
+              """
+	      Configure the behavior of Mafia's Script menu.
+
+	      If you set the script MRU length to a value greater than zero, that many of your most recently run scripts will be displayed.
+
+	      If you select cascading script menus, all the scripts in your 'scripts' folder will be displayed.
+
+	      If you select neither option, no scripts will be displayed.""") {
+            // don't let boxlayout expand the JTextArea ridiculously
+            @Override
+            public Dimension getMaximumSize() {
+              return this.getPreferredSize();
+            }
+          };
+
+      message.setColumns(40);
+      message.setLineWrap(true);
+      message.setWrapStyleWord(true);
+      message.setEditable(false);
+      message.setOpaque(false);
+      message.setFont(KoLGUIConstants.DEFAULT_FONT);
+      this.queue(message);
+
+      this.queue(this.newSeparator());
+      this.queue(Box.createVerticalStrut(5));
+
+      String mruTip =
+          "<html>Setting this option will display only your most recently used scripts.</html>";
+      this.queue(new PreferenceIntegerTextField("scriptMRULength", 4, "Script MRU Length", mruTip));
+
+      String cascadeTip =
+          "<html>Setting this option will display all the files in your 'scripts' folder.</html>";
+      this.queue(
+          new PreferenceCheckBox("scriptCascadingMenus", "Use cascading script menus", cascadeTip));
+
+      this.makeLayout();
     }
   }
 
@@ -1298,14 +1344,55 @@ public class OptionsFrame extends GenericFrame {
     public void saveSettings() {}
   }
 
-  private static class SVNPanel extends JPanel {
+  public static class ConfigQueuingPanel extends JPanel {
     private List<Component> componentQueue = new ArrayList<>();
 
-    public SVNPanel() {
+    public ConfigQueuingPanel() {
       // 5 px inset
       this.setBorder(BorderFactory.createEmptyBorder(10, 5, 5, 5));
       // box layoutmanager
       this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+    }
+
+    protected JSeparator newSeparator() {
+      JSeparator sep = new JSeparator();
+      // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
+      int width = sep.getMaximumSize().width;
+      int height = sep.getPreferredSize().height;
+      Dimension size = new Dimension(width, height);
+      sep.setMaximumSize(size);
+      return sep;
+    }
+
+    protected JSeparator newSeparator(JLabel label) {
+      JSeparator sep = new JSeparator();
+      // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
+      int width = label.getFontMetrics(label.getFont()).stringWidth(label.getText());
+      int height = sep.getPreferredSize().height;
+      Dimension size = new Dimension(width, height);
+      sep.setMaximumSize(size);
+      return sep;
+    }
+
+    protected void queue(Component comp) {
+      this.componentQueue.add(comp);
+    }
+
+    protected void makeLayout() {
+      for (Component comp : this.componentQueue) {
+        if (comp instanceof JComponent) {
+          ((JComponent) comp).setAlignmentX(LEFT_ALIGNMENT);
+        }
+        this.add(comp);
+      }
+      this.componentQueue = null;
+    }
+  }
+
+  private static class SVNPanel extends ConfigQueuingPanel {
+    public SVNPanel() {
+      super();
+
       JTextArea message =
           new JTextArea(
               """
@@ -1327,11 +1414,7 @@ public class OptionsFrame extends GenericFrame {
       message.setFont(KoLGUIConstants.DEFAULT_FONT);
       this.queue(message);
 
-      JSeparator sep = new JSeparator();
-      // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
-      Dimension size = new Dimension(sep.getMaximumSize().width, sep.getPreferredSize().height);
-      sep.setMaximumSize(size);
-      this.queue(sep);
+      this.queue(this.newSeparator());
       this.queue(Box.createVerticalStrut(5));
 
       /*
@@ -1355,13 +1438,7 @@ public class OptionsFrame extends GenericFrame {
       this.queue(Box.createVerticalStrut(10));
       JLabel label = new JLabel("Advanced options:");
       this.queue(label);
-      JSeparator sep2 = new JSeparator();
-      size =
-          new Dimension(
-              label.getFontMetrics(label.getFont()).stringWidth(label.getText()),
-              sep.getPreferredSize().height);
-      sep2.setMaximumSize(size);
-      this.queue(sep2);
+      this.queue(this.newSeparator(label));
 
       /*
        * Advanced Options
@@ -1393,30 +1470,12 @@ public class OptionsFrame extends GenericFrame {
 
       this.makeLayout();
     }
-
-    private void queue(Component comp) {
-      this.componentQueue.add(comp);
-    }
-
-    private void makeLayout() {
-      for (Component comp : this.componentQueue) {
-        if (comp instanceof JComponent) {
-          ((JComponent) comp).setAlignmentX(LEFT_ALIGNMENT);
-        }
-        this.add(comp);
-      }
-      this.componentQueue = null;
-    }
   }
 
-  private static class GitPanel extends JPanel {
-    private List<Component> componentQueue = new ArrayList<>();
-
+  private static class GitPanel extends ConfigQueuingPanel {
     public GitPanel() {
-      // 5 px inset
-      this.setBorder(BorderFactory.createEmptyBorder(10, 5, 5, 5));
-      // box layoutmanager
-      this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+      super();
+
       JTextArea message =
           new JTextArea(
               """
@@ -1442,7 +1501,7 @@ public class OptionsFrame extends GenericFrame {
       // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
       Dimension size = new Dimension(sep.getMaximumSize().width, sep.getPreferredSize().height);
       sep.setMaximumSize(size);
-      this.queue(sep);
+      this.queue(this.newSeparator());
       this.queue(Box.createVerticalStrut(5));
 
       /*
@@ -1454,23 +1513,9 @@ public class OptionsFrame extends GenericFrame {
 
       this.makeLayout();
     }
-
-    private void queue(Component comp) {
-      this.componentQueue.add(comp);
-    }
-
-    private void makeLayout() {
-      for (Component comp : this.componentQueue) {
-        if (comp instanceof JComponent jComp) {
-          jComp.setAlignmentX(LEFT_ALIGNMENT);
-        }
-        this.add(comp);
-      }
-      this.componentQueue = null;
-    }
   }
 
-  private static class PreferenceCheckBox extends JPanel implements Listener {
+  public static class PreferenceCheckBox extends JPanel implements Listener {
     private final String pref;
     private final String tooltip;
 
@@ -1500,29 +1545,14 @@ public class OptionsFrame extends GenericFrame {
       this.add(label);
 
       if (tooltip != null) {
-        this.add(Box.createHorizontalStrut(3));
-        label = new JLabel("[");
-        label.setFont(KoLGUIConstants.DEFAULT_FONT);
-        this.add(label);
-
-        label = new JLabel("<html><u>?</u></html>");
-        this.add(label);
-        label.setForeground(Color.blue.darker());
-        label.setFont(KoLGUIConstants.DEFAULT_FONT);
-        label.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        label.setToolTipText(tooltip);
-
-        // show the tooltip with no delay, don't dismiss while hovered
-        ToolTipManager.sharedInstance().registerComponent(label);
-        ToolTipManager.sharedInstance().setInitialDelay(0);
-        ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
-
-        label = new JLabel("]");
-        label.setFont(KoLGUIConstants.DEFAULT_FONT);
-        this.add(label);
+        addToolTip(this, tooltip);
       }
 
       update();
+    }
+
+    public JCheckBox getCheckBox() {
+      return this.box;
     }
 
     @Override
@@ -1534,6 +1564,101 @@ public class OptionsFrame extends GenericFrame {
     public Dimension getMaximumSize() {
       return this.getPreferredSize();
     }
+  }
+
+  public static class PreferenceIntegerTextField extends JPanel implements Listener, FocusListener {
+    private final String pref;
+    private final JTextField field;
+    private final String tooltip;
+
+    private final JCheckBox box = new JCheckBox();
+
+    public PreferenceIntegerTextField(String pref, int size, String message) {
+      this(pref, size, message, null);
+    }
+
+    public PreferenceIntegerTextField(String pref, int size, String message, String tip) {
+      this.pref = pref;
+      this.tooltip = tip;
+
+      this.field = new JTextField(size);
+      this.field.addFocusListener(this);
+
+      configure();
+      makeLayout(message);
+    }
+
+    private void configure() {
+      this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
+      PreferenceListenerRegistry.registerPreferenceListener(pref, this);
+    }
+
+    private void makeLayout(String message) {
+      this.add(this.field);
+      JLabel label = new JLabel(message, SwingConstants.LEFT);
+      label.setLabelFor(this.field);
+      label.setVerticalAlignment(SwingConstants.TOP);
+      this.add(label);
+
+      if (tooltip != null) {
+        addToolTip(this, tooltip);
+      }
+
+      update();
+    }
+
+    public JTextField getTextField() {
+      return this.field;
+    }
+
+    @Override
+    public void update() {
+      this.actionCancelled();
+    }
+
+    @Override
+    public Dimension getMaximumSize() {
+      return this.getPreferredSize();
+    }
+
+    public void actionConfirmed() {
+      Preferences.setInteger(this.pref, InputFieldUtilities.getValue(this.field, 0));
+    }
+
+    public void actionCancelled() {
+      this.field.setText(String.valueOf(Preferences.getInteger(this.pref)));
+    }
+
+    @Override
+    public void focusLost(final FocusEvent e) {
+      this.actionConfirmed();
+    }
+
+    @Override
+    public void focusGained(final FocusEvent e) {}
+  }
+
+  private static void addToolTip(JComponent component, String tooltip) {
+    component.add(Box.createHorizontalStrut(3));
+    JLabel label = new JLabel("[");
+    label.setFont(KoLGUIConstants.DEFAULT_FONT);
+    component.add(label);
+
+    label = new JLabel("<html><u>?</u></html>");
+    component.add(label);
+    label.setForeground(Color.blue.darker());
+    label.setFont(KoLGUIConstants.DEFAULT_FONT);
+    label.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    label.setToolTipText(tooltip);
+
+    // show the tooltip with no delay, don't dismiss while hovered
+    ToolTipManager.sharedInstance().registerComponent(label);
+    ToolTipManager.sharedInstance().setInitialDelay(0);
+    ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+
+    label = new JLabel("]");
+    label.setFont(KoLGUIConstants.DEFAULT_FONT);
+    component.add(label);
   }
 
   protected static class CustomizeDailyDeedsPanel extends GenericPanel
