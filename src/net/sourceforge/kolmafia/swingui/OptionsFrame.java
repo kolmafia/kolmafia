@@ -380,7 +380,7 @@ public class OptionsFrame extends GenericFrame {
               """
 	      Configure the behavior of Mafia's Script menu.
 
-	      If you set the script MRU length to a value greater than zero, that many of your most recently run scripts will be displayed.
+	      If you set the script MRU length to a value greater than zero then many of your most recently run scripts will be displayed.
 
 	      If you select cascading script menus, all the scripts in your 'scripts' folder will be displayed.
 
