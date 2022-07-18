@@ -6,14 +6,18 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.canUse;
 import static internal.helpers.Player.equip;
+import static internal.helpers.Player.isClass;
+import static internal.helpers.Player.isLevel;
 import static internal.helpers.Player.setupFakeResponse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -26,6 +30,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class UseSkillRequestTest {
 
@@ -72,6 +78,24 @@ class UseSkillRequestTest {
 
     assertEquals("", UseSkillRequest.lastUpdate);
     assertEquals(startingCasts + 1, SkillDatabase.getCasts(EXPERIENCE_SAFARI));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "Accordion Thief, 15, true",
+    "Accordion Thief, 13, false",
+    "Sauceror, 15, false",
+    "Turtle Tamer, 13, false",
+  })
+  void canOnlyCastBenettonsInRightState(String className, int level, boolean canCast) {
+    var ascensionClass = AscensionClass.find(className);
+
+    var cleanups = new Cleanups(isClass(ascensionClass), isLevel(level));
+
+    try (cleanups) {
+      var skill = UseSkillRequest.getInstance(SkillPool.BENETTONS);
+      assertThat(skill.getMaximumCast() > 0, equalTo(canCast));
+    }
   }
 
   @Nested

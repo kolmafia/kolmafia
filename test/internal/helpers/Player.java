@@ -190,6 +190,11 @@ public class Player {
     return new Cleanups(() -> setStats(0, 0, 0));
   }
 
+  public static Cleanups isLevel(int level) {
+    int substats = (int) Math.pow(level, 2) - level * 2 + 5;
+    return setStats(substats, substats, substats);
+  }
+
   public static Cleanups setHP(long current, long maximum, long base) {
     KoLCharacter.setHP(current, maximum, base);
     KoLCharacter.recalculateAdjustments();
