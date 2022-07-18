@@ -840,7 +840,7 @@ public class OptionsFrame extends GenericFrame {
         this.fontSizeGroup.add(this.fontSizes[i]);
       }
 
-      VerifiableElement[] newElements = new VerifiableElement[elements.length + 7];
+      VerifiableElement[] newElements = new VerifiableElement[elements.length + 5];
 
       newElements[0] =
           new VerifiableElement(
@@ -1941,7 +1941,7 @@ public class OptionsFrame extends GenericFrame {
       public InterfaceCheckboxPanel() {
         super(new Dimension(20, 16), new Dimension(370, 16));
         VerifiableElement[] elements =
-            new VerifiableElement[UserInterfacePanel.this.options.length + 3];
+            new VerifiableElement[UserInterfacePanel.this.options.length + 1];
 
         UserInterfacePanel.this.optionBoxes = new JCheckBox[UserInterfacePanel.this.options.length];
 
