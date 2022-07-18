@@ -28,6 +28,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mockito;
 
@@ -141,27 +142,20 @@ class DailyLimitDatabaseTest {
       assertThat("_radlibSummons", isSetTo(2));
     }
 
-    @Test
-    void canSetDailyUsesForRegularEntries() {
+    @ParameterizedTest
+    @CsvSource({
+            "2, 2",
+            "5, 5",
+            "9, 5",
+    })
+    void canSetDailyUsesForRegularEntries(int value, int result) {
       var cleanups = new Cleanups(setProperty("_jerksHealthMagazinesUsed", 0));
 
       try (cleanups) {
         var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JERKS_HEALTH_MAGAZINE);
-        limit.set(2);
+        limit.set(value);
 
-        assertThat("_jerksHealthMagazinesUsed", isSetTo(2));
-      }
-    }
-
-    @Test
-    void canOversetDailyUsesForRegularEntries() {
-      var cleanups = new Cleanups(setProperty("_jerksHealthMagazinesUsed", 0));
-
-      try (cleanups) {
-        var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JERKS_HEALTH_MAGAZINE);
-        limit.set(9);
-
-        assertThat("_jerksHealthMagazinesUsed", isSetTo(5));
+        assertThat("_jerksHealthMagazinesUsed", isSetTo(result));
       }
     }
 
@@ -177,27 +171,21 @@ class DailyLimitDatabaseTest {
       }
     }
 
-    @Test
-    void canSetDailyUsesForBooleanEntries() {
+    @ParameterizedTest
+    @CsvSource({
+            "1, true",
+            "2, true",
+            "0, false",
+            "-10, false"
+    })
+    void canSetDailyUsesForBooleanEntries(int value, boolean result) {
       var cleanups = new Cleanups(setProperty("_jingleBellUsed", false));
 
       try (cleanups) {
         var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JINGLE_BELL);
-        limit.set(1);
+        limit.set(value);
 
-        assertThat("_jingleBellUsed", isSetTo(true));
-      }
-    }
-
-    @Test
-    void canOversetDailyUsesForBooleanEntries() {
-      var cleanups = new Cleanups(setProperty("_jingleBellUsed", false));
-
-      try (cleanups) {
-        var limit = DailyLimitType.USE.getDailyLimit(ItemPool.JINGLE_BELL);
-        limit.set(2);
-
-        assertThat("_jingleBellUsed", isSetTo(true));
+        assertThat("_jingleBellUsed", isSetTo(result));
       }
     }
 
