@@ -375,8 +375,8 @@ public class OptionsFrame extends GenericFrame {
     public ScriptMenuOptionsPanel() {
       super();
 
-      JTextArea message =
-          new JTextArea(
+      this.queue(
+          this.newTextArea(
               """
 	      Configure the behavior of Mafia's Script menu.
 
@@ -384,21 +384,7 @@ public class OptionsFrame extends GenericFrame {
 
 	      If you select cascading script menus, all the scripts in your 'scripts' folder will be displayed.
 
-	      If you select neither option, no scripts will be displayed.""") {
-            // don't let boxlayout expand the JTextArea ridiculously
-            @Override
-            public Dimension getMaximumSize() {
-              return this.getPreferredSize();
-            }
-          };
-
-      message.setColumns(40);
-      message.setLineWrap(true);
-      message.setWrapStyleWord(true);
-      message.setEditable(false);
-      message.setOpaque(false);
-      message.setFont(KoLGUIConstants.DEFAULT_FONT);
-      this.queue(message);
+	      If you select neither option, no scripts will be displayed."""));
 
       this.queue(this.newSeparator());
       this.queue(Box.createVerticalStrut(5));
@@ -1374,6 +1360,26 @@ public class OptionsFrame extends GenericFrame {
       return sep;
     }
 
+    protected JTextArea newTextArea(String content) {
+      JTextArea message =
+          new JTextArea(content) {
+            // don't let boxlayout expand the JTextArea ridiculously
+            @Override
+            public Dimension getMaximumSize() {
+              return this.getPreferredSize();
+            }
+          };
+
+      message.setColumns(40);
+      message.setLineWrap(true);
+      message.setWrapStyleWord(true);
+      message.setEditable(false);
+      message.setOpaque(false);
+      message.setFont(KoLGUIConstants.DEFAULT_FONT);
+
+      return message;
+    }
+
     protected void queue(Component comp) {
       this.componentQueue.add(comp);
     }
@@ -1393,26 +1399,12 @@ public class OptionsFrame extends GenericFrame {
     public SVNPanel() {
       super();
 
-      JTextArea message =
-          new JTextArea(
+      this.queue(
+          this.newTextArea(
               """
-                          Configure the behavior of Mafia's built-in SVN client here.
+	      Configure the behavior of Mafia's built-in SVN client here.
 
-                          With SVN you can seamlessly install community-created scripts and have them automatically update.""") {
-            // don't let boxlayout expand the JTextArea ridiculously
-            @Override
-            public Dimension getMaximumSize() {
-              return this.getPreferredSize();
-            }
-          };
-
-      message.setColumns(40);
-      message.setLineWrap(true);
-      message.setWrapStyleWord(true);
-      message.setEditable(false);
-      message.setOpaque(false);
-      message.setFont(KoLGUIConstants.DEFAULT_FONT);
-      this.queue(message);
+	      With SVN you can seamlessly install community-created scripts and have them automatically update."""));
 
       this.queue(this.newSeparator());
       this.queue(Box.createVerticalStrut(5));
@@ -1439,6 +1431,7 @@ public class OptionsFrame extends GenericFrame {
       JLabel label = new JLabel("Advanced options:");
       this.queue(label);
       this.queue(this.newSeparator(label));
+      this.queue(Box.createVerticalStrut(5));
 
       /*
        * Advanced Options
@@ -1476,31 +1469,13 @@ public class OptionsFrame extends GenericFrame {
     public GitPanel() {
       super();
 
-      JTextArea message =
-          new JTextArea(
+      this.queue(
+          this.newTextArea(
               """
-                          Configure the behavior of Mafia's built-in git client here.
+	      Configure the behavior of Mafia's built-in git client here.
 
-                          With git you can seamlessly install community-created scripts and have them automatically update.""") {
-            // don't let boxlayout expand the JTextArea ridiculously
-            @Override
-            public Dimension getMaximumSize() {
-              return this.getPreferredSize();
-            }
-          };
+	      With git you can seamlessly install community-created scripts and have them automatically update."""));
 
-      message.setColumns(40);
-      message.setLineWrap(true);
-      message.setWrapStyleWord(true);
-      message.setEditable(false);
-      message.setOpaque(false);
-      message.setFont(KoLGUIConstants.DEFAULT_FONT);
-      this.queue(message);
-
-      JSeparator sep = new JSeparator();
-      // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
-      Dimension size = new Dimension(sep.getMaximumSize().width, sep.getPreferredSize().height);
-      sep.setMaximumSize(size);
       this.queue(this.newSeparator());
       this.queue(Box.createVerticalStrut(5));
 
