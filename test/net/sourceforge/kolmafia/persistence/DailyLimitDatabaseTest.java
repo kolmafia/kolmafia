@@ -144,9 +144,7 @@ class DailyLimitDatabaseTest {
 
     @ParameterizedTest
     @CsvSource({
-            "2, 2",
-            "5, 5",
-            "9, 5",
+      "2, 2", "5, 5", "9, 5",
     })
     void canSetDailyUsesForRegularEntries(int value, int result) {
       var cleanups = new Cleanups(setProperty("_jerksHealthMagazinesUsed", 0));
@@ -172,12 +170,7 @@ class DailyLimitDatabaseTest {
     }
 
     @ParameterizedTest
-    @CsvSource({
-            "1, true",
-            "2, true",
-            "0, false",
-            "-10, false"
-    })
+    @CsvSource({"1, true", "2, true", "0, false", "-10, false"})
     void canSetDailyUsesForBooleanEntries(int value, boolean result) {
       var cleanups = new Cleanups(setProperty("_jingleBellUsed", false));
 
