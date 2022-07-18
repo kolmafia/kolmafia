@@ -10,22 +10,28 @@ import net.sourceforge.kolmafia.KoLConstants;
  */
 public class BookmarkMenu extends MenuItemList<String> {
   public BookmarkMenu() {
-    super("Bookmarks", (LockableListModel<String>) KoLConstants.bookmarks);
+    super("Bookmarks", (LockableListModel<String>) KoLConstants.bookmarks, false);
   }
 
   @Override
-  public JComponent constructMenuItem(final Object o) {
-    String[] bookmarkData = ((String) o).split("\\|");
+  public JComponent constructMenuItem(final String o) {
+    String[] bookmarkData = o.split("\\|");
 
     String name = bookmarkData[0];
     String location = bookmarkData[1];
     String pwdhash = bookmarkData[2];
 
-    if (pwdhash.equals("true")) {
-      location += "&pwd";
-    }
+    if (location.startsWith("http://")
+        || location.startsWith("https://")
+        || (location.startsWith("/") && location.contains(".php"))) {
+      if (pwdhash.equals("true")) {
+        location += "&pwd";
+      }
 
-    return new RelayBrowserMenuItem(name, location);
+      return new RelayBrowserMenuItem(name, location);
+    } else {
+      return new LoadScriptMenuItem(name, location);
+    }
   }
 
   @Override

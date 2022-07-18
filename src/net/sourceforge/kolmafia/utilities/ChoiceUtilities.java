@@ -7,7 +7,9 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
+import net.sourceforge.kolmafia.session.ChoiceAdventures;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 
 /** Utilities for extracting data from a choice.php response */
@@ -29,6 +31,28 @@ public class ChoiceUtilities {
     Pattern.compile("whichchoice=(\\d+)"),
   };
 
+  private ChoiceUtilities() {}
+
+  // Extract choice number from URL
+
+  public static final Pattern URL_CHOICE_PATTERN = Pattern.compile("whichchoice=(\\d+)");
+
+  public static int extractChoiceFromURL(final String urlString) {
+    Matcher matcher = ChoiceUtilities.URL_CHOICE_PATTERN.matcher(urlString);
+    return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
+  }
+
+  // Extract choice option from URL
+
+  public static final Pattern URL_OPTION_PATTERN = Pattern.compile("(?<!force)option=(\\d+)");
+
+  public static int extractOptionFromURL(final String urlString) {
+    Matcher matcher = ChoiceUtilities.URL_OPTION_PATTERN.matcher(urlString);
+    return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
+  }
+
+  // Extract choice number from responseText
+
   public static int extractChoice(final String responseText) {
     for (Pattern pattern : ChoiceUtilities.CHOICE_PATTERNS) {
       Matcher matcher = pattern.matcher(responseText);
@@ -41,6 +65,8 @@ public class ChoiceUtilities {
     if (responseText.contains("<b>Hippy Talkin'</b>")) {
       // Is this really missing? My logs look normal
       return 798;
+    } else if (responseText.contains("<b>Another Errand I Mean Quest</b>")) {
+      return 930;
     } else if (responseText.contains("<b>The WLF Bunker</b>")) {
       return 1093;
     } else if (responseText.contains("<b>Lyle, LyleCo CEO</b>")) {
@@ -50,6 +76,36 @@ public class ChoiceUtilities {
     }
 
     return 0;
+  }
+
+  public static final Pattern DECISION_BUTTON_PATTERN =
+      Pattern.compile(
+          "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">");
+
+  public static final String findChoiceDecisionIndex(final String text, final String responseText) {
+    Matcher matcher = DECISION_BUTTON_PATTERN.matcher(responseText);
+    while (matcher.find()) {
+      String decisionText = matcher.group(2);
+
+      if (decisionText.contains(text)) {
+        return StringUtilities.getEntityDecode(matcher.group(1));
+      }
+    }
+
+    return "0";
+  }
+
+  public static final String findChoiceDecisionText(final int index, final String responseText) {
+    Matcher matcher = DECISION_BUTTON_PATTERN.matcher(responseText);
+    while (matcher.find()) {
+      int decisionIndex = Integer.parseInt(matcher.group(1));
+
+      if (decisionIndex == index) {
+        return matcher.group(2);
+      }
+    }
+
+    return null;
   }
 
   public static Map<Integer, String> parseChoices(final String responseText) {
@@ -69,7 +125,7 @@ public class ChoiceUtilities {
         continue;
       }
       int decision = Integer.parseInt(optMatcher.group(1));
-      Integer key = IntegerPool.get(decision);
+      Integer key = decision;
       if (rv.get(key) != null) {
         continue;
       }
@@ -96,7 +152,7 @@ public class ChoiceUtilities {
         continue;
       }
       int decision = Integer.parseInt(optMatcher.group(1));
-      Integer key = IntegerPool.get(decision);
+      Integer key = decision;
       if (rv.get(key) != null) {
         continue;
       }
@@ -125,19 +181,19 @@ public class ChoiceUtilities {
       return rv;
     }
 
-    Object[][] possibleDecisions = ChoiceManager.choiceSpoilers(ChoiceManager.lastChoice, null);
+    Spoilers possibleDecisions = ChoiceAdventures.choiceSpoilers(ChoiceManager.lastChoice, null);
     if (possibleDecisions == null) {
       return rv;
     }
 
-    Object[] options = possibleDecisions[2];
+    Option[] options = possibleDecisions.getOptions();
     if (options == null) {
       return rv;
     }
 
     for (Map.Entry<Integer, String> entry : rv.entrySet()) {
       Integer key = entry.getKey();
-      Object option = ChoiceManager.findOption(options, key);
+      Option option = ChoiceAdventures.findOption(options, key);
       if (option != null) {
         String text = entry.getValue() + " (" + option.toString() + ")";
         rv.put(key, text);
@@ -168,9 +224,9 @@ public class ChoiceUtilities {
 
   // <select name=tossid>><option value=7375>actual tapas  (5 casualties)</option>
   private static final Pattern SELECT_PATTERN =
-      Pattern.compile("<select .*?name=['\"]?(.*?)['\"]?>(.*?)</select>", Pattern.DOTALL);
+      Pattern.compile("<select .*?name=['\"]?(\\w*)['\"]?.*?>(.*?)</select>", Pattern.DOTALL);
   private static final Pattern SELECT_OPTION_PATTERN =
-      Pattern.compile("<option value=['\"]?(.*?)['\"]?>(.*?)</option>");
+      Pattern.compile("<option value=['\"]?(\\d*)['\"]?.*?>(.*?)</option>");
 
   public static Map<Integer, Map<String, Set<String>>> parseSelectInputs(
       final String responseText) {
@@ -393,7 +449,7 @@ public class ChoiceUtilities {
     Map<Integer, Set<String>> formTexts = ChoiceUtilities.parseTextInputs(responseText);
 
     // Does the decision have extra select or text inputs?
-    Integer key = IntegerPool.get(StringUtilities.parseInt(decision));
+    Integer key = StringUtilities.parseInt(decision);
     Map<String, Set<String>> selects = formSelects.get(key);
     Set<String> texts = formTexts.get(key);
 

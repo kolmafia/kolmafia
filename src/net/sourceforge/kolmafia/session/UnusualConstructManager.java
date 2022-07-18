@@ -9,6 +9,8 @@ public class UnusualConstructManager {
 
   private static int DISC = 0;
 
+  private UnusualConstructManager() {}
+
   public static int disc() {
     return DISC;
   }

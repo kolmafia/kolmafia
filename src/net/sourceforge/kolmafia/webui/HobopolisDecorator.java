@@ -11,6 +11,8 @@ public class HobopolisDecorator {
   private static final Pattern HOBOPOLIS_IMG_PATTERN =
       Pattern.compile("otherimages/hobopolis/[a-z]+(\\d+)");
 
+  private HobopolisDecorator() {}
+
   public static final void handleTownSquare(final String responseText) {
     // Nothing to do until battle is done
     if (responseText.indexOf("WINWINWIN") == -1) {

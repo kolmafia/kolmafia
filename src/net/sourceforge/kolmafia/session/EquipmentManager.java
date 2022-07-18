@@ -129,6 +129,8 @@ public class EquipmentManager {
     }
   }
 
+  private EquipmentManager() {}
+
   public static void resetEquipment() {
     for (int i = 0; i < EquipmentManager.equipmentLists.size(); ++i) {
       EquipmentManager.equipmentLists.get(i).clear();
@@ -772,9 +774,7 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill("Beach Combo");
         break;
       case ItemPool.POWERFUL_GLOVE:
-        // *** Special case: the buffs are always available
-        // KoLCharacter.removeAvailableSkill( "CHEAT CODE: Invisible Avatar" );
-        // KoLCharacter.removeAvailableSkill( "CHEAT CODE: Triple Size" );
+        // These are only the combat skills, we make the noncombat skills always available
         KoLCharacter.removeAvailableSkill("CHEAT CODE: Replace Enemy");
         KoLCharacter.removeAvailableSkill("CHEAT CODE: Shrink Enemy");
         break;
@@ -795,6 +795,13 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill("Fire Extinguisher: Foam Yourself");
         KoLCharacter.removeAvailableSkill("Fire Extinguisher: Blast the Area");
         KoLCharacter.removeAvailableSkill("Fire Extinguisher: Zone Specific");
+        break;
+      case ItemPool.DESIGNER_SWEATPANTS:
+        // These are only the combat skills, we make the noncombat skills always available
+        KoLCharacter.removeAvailableSkill("Sweat Flick");
+        KoLCharacter.removeAvailableSkill("Sweat Flood");
+        KoLCharacter.removeAvailableSkill("Sweat Spray");
+        KoLCharacter.removeAvailableSkill("Sweat Sip");
         break;
     }
   }
@@ -1106,8 +1113,7 @@ public class EquipmentManager {
         break;
       case ItemPool.POWERFUL_GLOVE:
         // *** Special case: the buffs are always available
-        // KoLCharacter.addAvailableSkill( "CHEAT CODE: Invisible Avatar" );
-        // KoLCharacter.addAvailableSkill( "CHEAT CODE: Triple Size" );
+        // These are only the combat skills, we make the noncombat skills always available
         KoLCharacter.addAvailableSkill("CHEAT CODE: Replace Enemy");
         KoLCharacter.addAvailableSkill("CHEAT CODE: Shrink Enemy");
         break;
@@ -1128,6 +1134,14 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill("Fire Extinguisher: Foam Yourself");
         KoLCharacter.addAvailableSkill("Fire Extinguisher: Blast the Area");
         KoLCharacter.addAvailableSkill("Fire Extinguisher: Zone Specific");
+        break;
+      case ItemPool.DESIGNER_SWEATPANTS:
+        // *** Special case: the buffs are always available
+        // These are only the combat skills, we make the noncombat skills always available
+        KoLCharacter.addAvailableSkill("Sweat Flick");
+        KoLCharacter.addAvailableSkill("Sweat Flood");
+        KoLCharacter.addAvailableSkill("Sweat Spray");
+        KoLCharacter.addAvailableSkill("Sweat Sip");
         break;
     }
   }
@@ -1809,38 +1823,23 @@ public class EquipmentManager {
   }
 
   public static final int consumeFilterToEquipmentType(final int consumeFilter) {
-    switch (consumeFilter) {
-      case KoLConstants.EQUIP_HAT:
-        return EquipmentManager.HAT;
-      case KoLConstants.EQUIP_WEAPON:
-        return EquipmentManager.WEAPON;
-      case KoLConstants.EQUIP_OFFHAND:
-        return EquipmentManager.OFFHAND;
-      case KoLConstants.EQUIP_SHIRT:
-        return EquipmentManager.SHIRT;
-      case KoLConstants.EQUIP_PANTS:
-        return EquipmentManager.PANTS;
-      case KoLConstants.EQUIP_CONTAINER:
-        return EquipmentManager.CONTAINER;
-      case KoLConstants.EQUIP_ACCESSORY:
-        return EquipmentManager.ACCESSORY1;
-      case KoLConstants.EQUIP_FAMILIAR:
-        return EquipmentManager.FAMILIAR;
-      case KoLConstants.CONSUME_STICKER:
-        return EquipmentManager.STICKER1;
-      case KoLConstants.CONSUME_CARD:
-        return EquipmentManager.CARDSLEEVE;
-      case KoLConstants.CONSUME_FOLDER:
-        return EquipmentManager.FOLDER1;
-      case KoLConstants.CONSUME_BOOTSKIN:
-        return EquipmentManager.BOOTSKIN;
-      case KoLConstants.CONSUME_BOOTSPUR:
-        return EquipmentManager.BOOTSPUR;
-      case KoLConstants.CONSUME_SIXGUN:
-        return EquipmentManager.HOLSTER;
-      default:
-        return -1;
-    }
+    return switch (consumeFilter) {
+      case KoLConstants.EQUIP_HAT -> EquipmentManager.HAT;
+      case KoLConstants.EQUIP_WEAPON -> EquipmentManager.WEAPON;
+      case KoLConstants.EQUIP_OFFHAND -> EquipmentManager.OFFHAND;
+      case KoLConstants.EQUIP_SHIRT -> EquipmentManager.SHIRT;
+      case KoLConstants.EQUIP_PANTS -> EquipmentManager.PANTS;
+      case KoLConstants.EQUIP_CONTAINER -> EquipmentManager.CONTAINER;
+      case KoLConstants.EQUIP_ACCESSORY -> EquipmentManager.ACCESSORY1;
+      case KoLConstants.EQUIP_FAMILIAR -> EquipmentManager.FAMILIAR;
+      case KoLConstants.CONSUME_STICKER -> EquipmentManager.STICKER1;
+      case KoLConstants.CONSUME_CARD -> EquipmentManager.CARDSLEEVE;
+      case KoLConstants.CONSUME_FOLDER -> EquipmentManager.FOLDER1;
+      case KoLConstants.CONSUME_BOOTSKIN -> EquipmentManager.BOOTSKIN;
+      case KoLConstants.CONSUME_BOOTSPUR -> EquipmentManager.BOOTSPUR;
+      case KoLConstants.CONSUME_SIXGUN -> EquipmentManager.HOLSTER;
+      default -> -1;
+    };
   }
 
   public static final int itemIdToEquipmentType(final int itemId) {
@@ -2031,12 +2030,12 @@ public class EquipmentManager {
    */
   public static final int getAdjustedHitStat() {
     int hitStat;
+    if (KoLCharacter.currentBooleanModifier(Modifiers.ATTACKS_CANT_MISS)) {
+      return Integer.MAX_VALUE;
+    }
     switch (getHitStatType()) {
       default:
       case MUSCLE:
-        if (KoLCharacter.currentBooleanModifier(Modifiers.ATTACKS_CANT_MISS)) {
-          return Integer.MAX_VALUE;
-        }
         hitStat = KoLCharacter.getAdjustedMuscle();
         if (Modifiers.unarmed && KoLCharacter.hasSkill("Master of the Surprising Fist")) {
           hitStat += 20;
@@ -2060,7 +2059,7 @@ public class EquipmentManager {
   public static final void updateNormalOutfits() {
     ArrayList<SpecialOutfit> available = new ArrayList<SpecialOutfit>();
 
-    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits) {
+    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits.values()) {
       if (outfit != null && outfit.hasAllPieces()) {
         available.add(outfit);
       }
@@ -2144,7 +2143,7 @@ public class EquipmentManager {
 
   /** Utility method which determines the outfit ID the character is currently wearing */
   public static final SpecialOutfit currentOutfit() {
-    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits) {
+    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits.values()) {
       if (outfit == null) {
         continue;
       }
@@ -2158,7 +2157,7 @@ public class EquipmentManager {
 
   public static final SpecialOutfit currentOutfit(AdventureResult[] equipment) {
     int hash = SpecialOutfit.equipmentHash(equipment);
-    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits) {
+    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits.values()) {
       if (outfit == null) {
         continue;
       }
@@ -2189,37 +2188,16 @@ public class EquipmentManager {
       return KoLCharacter.isAWoLClass();
     }
 
-    if (KoLCharacter.inRobocore()) {
-      switch (type) {
-        case KoLConstants.EQUIP_HAT:
-          if (Preferences.getInteger("youRobotTop") != 4) {
-            return false;
-          }
-          break;
-        case KoLConstants.EQUIP_WEAPON:
-          if (Preferences.getInteger("youRobotLeft") != 4) {
-            return false;
-          }
-          break;
-        case KoLConstants.EQUIP_OFFHAND:
-          if (Preferences.getInteger("youRobotRight") != 4) {
-            return false;
-          }
-          break;
-        case KoLConstants.EQUIP_PANTS:
-          if (Preferences.getInteger("youRobotBottom") != 4) {
-            return false;
-          }
-          break;
-      }
-    }
-
     if (type == KoLConstants.EQUIP_SHIRT && !KoLCharacter.isTorsoAware()) {
       return false;
     }
 
     if (type == KoLConstants.EQUIP_FAMILIAR) {
       return KoLCharacter.getFamiliar().canEquip(ItemPool.get(itemId, 1));
+    }
+
+    if (KoLCharacter.inRobocore() && !YouRobotManager.canEquip(type)) {
+      return false;
     }
 
     if (KoLCharacter.inFistcore()
@@ -2243,6 +2221,10 @@ public class EquipmentManager {
       return false;
     }
 
+    return EquipmentManager.meetsStatRequirements(itemId);
+  }
+
+  public static final boolean meetsStatRequirements(final int itemId) {
     EquipmentRequirement req =
         new EquipmentRequirement(EquipmentDatabase.getEquipRequirement(itemId));
 
@@ -2285,7 +2267,7 @@ public class EquipmentManager {
       }
     }
 
-    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits) {
+    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits.values()) {
       if (outfit == null) {
         continue;
       }
@@ -2305,7 +2287,7 @@ public class EquipmentManager {
       }
     }
 
-    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits) {
+    for (SpecialOutfit outfit : EquipmentDatabase.normalOutfits.values()) {
       if (outfit == null) {
         continue;
       }
@@ -2409,6 +2391,11 @@ public class EquipmentManager {
 
     if (!KoLmafia.isRefreshing()) {
       for (int i = 0; i < EquipmentManager.ALL_SLOTS; ++i) {
+        // Quantum Terrarium will have a familiar item in api.php even
+        // if the particular familiar can't equip it. Ignore that.
+        if (i == EquipmentManager.FAMILIAR && KoLCharacter.inQuantum()) {
+          continue;
+        }
         if (!current[i].equals(equipment[i])) {
           String slotName = EquipmentRequest.slotNames[i];
           String message =

@@ -1,10 +1,8 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -25,14 +23,16 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.*;
+import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BugbearManager;
+import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
+import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
@@ -114,10 +114,9 @@ public class UseItemRequest extends GenericRequest {
 
   static {
     UseItemRequest.LIMITED_USES.put(
-        IntegerPool.get(ItemPool.ASTRAL_MUSHROOM), EffectPool.get(EffectPool.HALF_ASTRAL));
-
-    UseItemRequest.LIMITED_USES.put(
-        IntegerPool.get(ItemPool.ABSINTHE), EffectPool.get(EffectPool.ABSINTHE));
+        ItemPool.ASTRAL_MUSHROOM, EffectPool.get(EffectPool.HALF_ASTRAL));
+    UseItemRequest.LIMITED_USES.put(ItemPool.ABSINTHE, EffectPool.get(EffectPool.ABSINTHE));
+    UseItemRequest.LIMITED_USES.put(ItemPool.ELEVEN_LEAF_CLOVER, EffectPool.get(EffectPool.LUCKY));
   }
 
   public static String lastUpdate = "";
@@ -416,7 +415,8 @@ public class UseItemRequest extends GenericRequest {
 
     if (KoLCharacter.inRobocore()
         && ItemDatabase.isPotion(itemId)
-        && !Preferences.getString("youRobotCPUUpgrades").contains("robot_potions")) {
+        && !KoLCharacter.canUsePotions()) {
+      UseItemRequest.limiter = "lack of necessary CPU upgrade";
       return 0;
     }
 
@@ -436,16 +436,23 @@ public class UseItemRequest extends GenericRequest {
     // Delegate to specialized classes as appropriate
 
     int inebriety = ConsumablesDatabase.getInebriety(itemName);
+    int fullness = ConsumablesDatabase.getFullness(itemName);
+    int spleenHit = ConsumablesDatabase.getSpleenHit(itemName);
+
+    if (KoLCharacter.isGreyGoo() && ((inebriety + fullness + spleenHit) > 0)) {
+      // If we ever track what items have already been absorbed this ascension, this is a great
+      // place to use those data.
+      return 1;
+    }
+
     if (inebriety > 0) {
       return DrinkItemRequest.maximumUses(itemId, itemName, inebriety, allowOverDrink);
     }
 
-    int fullness = ConsumablesDatabase.getFullness(itemName);
     if (fullness > 0 || itemId == ItemPool.MAGICAL_SAUSAGE) {
       return EatItemRequest.maximumUses(itemId, itemName, fullness);
     }
 
-    int spleenHit = ConsumablesDatabase.getSpleenHit(itemName);
     if (spleenHit > 0) {
       return SpleenItemRequest.maximumUses(itemId, itemName, spleenHit);
     }
@@ -498,12 +505,12 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.FIELD_GAR_POTION:
-        // Disallow using potion if already Gar-ish
-        Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
-        if (date.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
+        // Disallow using potion on Monday
+        if (HolidayDatabase.isMonday()) {
           UseItemRequest.limiter = "uselessness on Mondays";
           return 0;
         }
+        // Disallow using potion if already Gar-ish
         if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.GARISH))) {
           UseItemRequest.limiter = "existing effect";
           return 0;
@@ -728,7 +735,7 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.CHRONER_CROSS:
-        if (!KoLConstants.inventory.contains(ItemPool.get(ItemPool.CHRONER, 1))) {
+        if (InventoryManager.getCount(ItemPool.CHRONER) == 0) {
           UseItemRequest.limiter = "not having a Chroner";
           return 0;
         }
@@ -808,8 +815,7 @@ public class UseItemRequest extends GenericRequest {
         break;
     }
 
-    DailyLimitDatabase.DailyLimit dailyLimit =
-        DailyLimitDatabase.DailyLimitType.USE.getDailyLimit(itemId);
+    var dailyLimit = DailyLimitType.USE.getDailyLimit(itemId);
     if (dailyLimit != null) {
       UseItemRequest.limiter = "daily limit";
       return dailyLimit.getUsesRemaining();
@@ -851,7 +857,7 @@ public class UseItemRequest extends GenericRequest {
         return 3;
     }
 
-    Integer key = IntegerPool.get(itemId);
+    Integer key = itemId;
 
     if (UseItemRequest.LIMITED_USES.containsKey(key)) {
       UseItemRequest.limiter = "unstackable effect";
@@ -1645,8 +1651,6 @@ public class UseItemRequest extends GenericRequest {
       return;
     }
 
-    // If you are in Beecore, certain items can't B used
-    // "You are too scared of Bs to xxx that item."
     if (responseText.contains("You don't have the item you're trying to use.")) {
       UseItemRequest.lastUpdate = "You don't have that item.";
       // If we think we do, then Mafia has the wrong information about inventory, so update it
@@ -1658,14 +1662,33 @@ public class UseItemRequest extends GenericRequest {
       KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
       return;
     }
+
+    // If you are in Beecore, certain items can't B used
+    // "You are too scared of Bs to xxx that item."
     if (KoLCharacter.inBeecore() && responseText.contains("You are too scared of Bs")) {
       UseItemRequest.lastUpdate = "You are too scared of Bs.";
       KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
       return;
     }
+
     if (KoLCharacter.inGLover()
         && responseText.contains("You are too in love with G to use that item right now.")) {
       UseItemRequest.lastUpdate = "You are too in love with G.";
+      KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
+      return;
+    }
+
+    if (KoLCharacter.inRobocore()
+        && responseText.contains("You can't figure out where to put that potion.")) {
+      UseItemRequest.lastUpdate =
+          "You need the Biomass Processing Function CPU upgrade to use potions.";
+      KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
+      return;
+    }
+
+    if (KoLCharacter.isGreyGoo() && responseText.contains("You've already absorbed this pattern")) {
+      UseItemRequest.lastUpdate =
+          "You've already absorbed " + item.getArticle() + " " + item.getName() + ".";
       KoLmafia.updateDisplay(MafiaState.ERROR, UseItemRequest.lastUpdate);
       return;
     }
@@ -2835,6 +2858,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.THE_IMPLODED_WORLD:
       case ItemPool.THE_SPIRIT_OF_GIVING:
       case ItemPool.MANUAL_OF_LOCK_PICKING:
+      case ItemPool.SPINAL_FLUID_COVERED_EMOTION_CHIP:
         {
           // You insert the ROM in to your... ROM receptacle and
           // absorb the knowledge of optimality. You suspect you
@@ -4598,6 +4622,21 @@ public class UseItemRequest extends GenericRequest {
         QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED);
         break;
 
+      case ItemPool.PILE_OF_USELESS_ROBOT_PARTS:
+        if (responseText.contains("emits a satisfied whirr")) {
+          Preferences.increment("homemadeRobotUpgrades", 1, 9, false);
+        } else if (responseText.contains("Your work here is done")) {
+          Preferences.setInteger("homemadeRobotUpgrades", 9);
+        } else {
+          // Otherwise it is not consumed.
+          return;
+        }
+
+        // If we got to here, we probably need to refresh our familiar weight
+        var fam = KoLCharacter.getFamiliar();
+        if (fam != null) fam.setWeight();
+        break;
+
       case ItemPool.MERKIN_WORDQUIZ:
         matcher = MERKIN_WORDQUIZ_PATTERN.matcher(responseText);
         if (!matcher.find()) {
@@ -5381,7 +5420,7 @@ public class UseItemRequest extends GenericRequest {
           // If you already have access it is not consumed
           return;
         }
-        ChoiceManager.parseLanguageFluency(responseText, "spaceBabyLanguageFluency");
+        ChoiceControl.parseLanguageFluency(responseText, "spaceBabyLanguageFluency");
         break;
 
       case ItemPool.LICENSE_TO_CHILL:
@@ -5762,9 +5801,14 @@ public class UseItemRequest extends GenericRequest {
         return;
 
       case ItemPool.SUBSCRIPTION_COCOA_DISPENSER:
-        if (responseText.contains("You press the button on the cocoa machine")) {
-          Preferences.setBoolean("_cocoaDispenserUsed", true);
-        }
+        // If you have just obtained (or pulled) your machine, the message is:
+        //
+        // You need to spend a day with your subscription cocoa dispenser
+        // before the remote server updates your cocoa allotment.
+        //
+        // Which is to say, we may as well mark it as "used", since you
+        // can't use it today.
+        Preferences.setBoolean("_cocoaDispenserUsed", true);
         return;
 
       case ItemPool.OVERFLOWING_GIFT_BASKET:
@@ -5802,6 +5846,12 @@ public class UseItemRequest extends GenericRequest {
           Preferences.setBoolean("_airFryerUsed", true);
         }
         return;
+
+      case ItemPool.ELEVEN_LEAF_CLOVER:
+        if (responseText.contains("You're already feeling lucky, punk.")) {
+          return;
+        }
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
@@ -5884,7 +5934,7 @@ public class UseItemRequest extends GenericRequest {
     }
 
     for (int i = 1; i <= 9; ++i) {
-      Object[] data = BugbearManager.idToData(i);
+      Bugbear data = BugbearManager.idToData(i);
       if (data == null) {
         continue;
       }

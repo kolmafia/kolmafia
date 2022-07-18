@@ -18,7 +18,6 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -204,7 +203,15 @@ public class Parser {
   }
 
   public String getStringUri() {
-    return this.fileUri != null ? this.fileUri.toString() : this.istream.toString();
+    if (this.fileUri != null) {
+      return this.fileUri.toString();
+    }
+
+    if (this.istream != null) {
+      return this.istream.toString();
+    }
+
+    return "";
   }
 
   public String getScriptName() {
@@ -1917,8 +1924,8 @@ public class Parser {
       final String line = this.restOfLine();
 
       try {
-        ostream.write(line.getBytes());
-        ostream.write(KoLConstants.LINE_BREAK.getBytes());
+        ostream.write(line.getBytes(StandardCharsets.UTF_8));
+        ostream.write(KoLConstants.LINE_BREAK.getBytes(StandardCharsets.UTF_8));
       } catch (Exception e) {
         // Byte array output streams do not throw errors,
         // other than out of memory errors.
@@ -2138,7 +2145,7 @@ public class Parser {
         }
 
         if (currentInteger == null) {
-          currentInteger = IntegerPool.get(currentIndex);
+          currentInteger = currentIndex;
         }
 
         if (test instanceof Constant && ((Constant) test).value.getClass() == Value.class) {
@@ -4522,10 +4529,16 @@ public class Parser {
             Location location =
                 Parser.makeLocation(current.getLocation(), this.peekPreviousToken());
             String message;
-            if (indices.isEmpty()) {
-              message = "Variable '" + varRef.getName() + "' cannot be indexed";
+            String name;
+            if (varRef.getName() != null) {
+              name = "'" + varRef.getName() + "'";
             } else {
-              message = "Too many keys for '" + varRef.getName() + "'";
+              name = "'" + getAbbreviatedContent(varRef.getLocation()) + "'";
+            }
+            if (indices.isEmpty()) {
+              message = name + " cannot be indexed";
+            } else {
+              message = "Too many keys for " + name;
             }
             variableReferenceErrors.submitError(this.error(location, message));
           }
@@ -4744,6 +4757,44 @@ public class Parser {
 
   private Directive parseImport() throws InterruptedException {
     return this.parseDirective("import");
+  }
+
+  /**
+   * Summarizes the file contents at {@code loc}.
+   *
+   * <p>If {@code loc} spans multiple lines, this method will join the contents on the first and
+   * last lines with '...'.
+   *
+   * @param loc Location of interest.
+   * @return File contents, or "<bad location>" if {@code loc} is not to a valid Location in the
+   *     file.
+   */
+  public String getAbbreviatedContent(Location loc) {
+    Line line = this.currentLine;
+
+    Position start = loc.getRange().getStart(), end = loc.getRange().getEnd();
+    while (line.lineNumber - 1 > start.getLine()) {
+      // Bad Location -- start.getLine() < 0
+      if (line.previousLine == null) {
+        return "<bad location>";
+      }
+      line = line.previousLine;
+    }
+    if (start.getLine() == end.getLine()) {
+      return line.content.substring(start.getCharacter(), end.getCharacter());
+    }
+
+    StringBuffer buf = new StringBuffer(line.substring(start.getCharacter()));
+    buf.append(" ... ");
+    while (line.lineNumber - 1 < end.getLine()) {
+      // Bad Location -- end.getLine() fell off the end of the script.
+      if (line.nextLine == null) {
+        return "<bad location>";
+      }
+      line = line.nextLine;
+    }
+    buf.append(line.content.substring(0, end.getCharacter()));
+    return buf.toString();
   }
 
   // **************** Tokenizer *****************
@@ -5155,11 +5206,11 @@ public class Parser {
      * duplicate variable name, or an unknown function.
      */
     final void submitError(final AshDiagnostic error) {
+      Parser.this.diagnostics.add(error);
       if (this.sawError()) {
         return;
       }
 
-      Parser.this.diagnostics.add(error);
       this.didSeeError();
     }
 

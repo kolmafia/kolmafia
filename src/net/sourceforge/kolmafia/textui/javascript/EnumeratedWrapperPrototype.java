@@ -21,7 +21,7 @@ public class EnumeratedWrapperPrototype extends ScriptableObject {
     this.type = type;
   }
 
-  public void initToScope(Context cx, Scriptable scope) {
+  public void initToScope(Context cx, Scriptable scope, Scriptable runtimeLibrary) {
     setPrototype(ScriptableObject.getObjectPrototype(scope));
 
     if (recordValueClass != null) {
@@ -41,6 +41,10 @@ public class EnumeratedWrapperPrototype extends ScriptableObject {
       Method constructorMethod = EnumeratedWrapper.class.getDeclaredMethod("constructDefaultValue");
       FunctionObject constructor = new FunctionObject(getClassName(), constructorMethod, scope);
       constructor.addAsConstructor(scope, this);
+      if (runtimeLibrary != null) {
+        ScriptableObject.defineProperty(
+            runtimeLibrary, getClassName(), constructor, DONTENUM | READONLY | PERMANENT);
+      }
 
       Method getMethod =
           EnumeratedWrapper.class.getDeclaredMethod(

@@ -338,9 +338,9 @@ public class MushroomScriptPanel extends JPanel {
       }
 
       for (int i = 0; i < MushroomManager.MUSHROOMS.length; ++i) {
-        if (currentMushroom.equals(MushroomManager.MUSHROOMS[i][2])
-            || currentMushroom.equals(MushroomManager.MUSHROOMS[i][3])) {
-          this.setToolTipText((String) MushroomManager.MUSHROOMS[i][5]);
+        if (currentMushroom.equals(MushroomManager.MUSHROOMS[i].spore())
+            || currentMushroom.equals(MushroomManager.MUSHROOMS[i].mushroom())) {
+          this.setToolTipText(MushroomManager.MUSHROOMS[i].name());
         }
       }
     }

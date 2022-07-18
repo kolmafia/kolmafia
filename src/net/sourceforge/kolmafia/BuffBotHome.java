@@ -14,7 +14,6 @@ import javax.swing.JList;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.utilities.LogStream;
 
@@ -32,10 +31,11 @@ public class BuffBotHome {
   /** Past recipients of the buff associated with the given meat amount. */
   private static final TreeMap<Integer, List<BuffRecord>> pastRecipients = new TreeMap<>();
 
-  private static final LockableListModel<BuffMessage> messages =
-      new LockableListModel<BuffMessage>();
+  private static final LockableListModel<BuffMessage> messages = new LockableListModel<>();
   private static PrintStream textLogStream = System.out;
   private static PrintStream hypertextLogStream = System.out;
+
+  private BuffBotHome() {}
 
   /**
    * Constructs a new <code>BuffBotHome</code>. However, note that this does not automatically
@@ -85,7 +85,7 @@ public class BuffBotHome {
 
   /** Retrieves all the past recipients of the buff associated with the given meat amount. */
   private static List<BuffRecord> getPastRecipients(final int meatSent) {
-    Integer key = IntegerPool.get(meatSent);
+    Integer key = meatSent;
     if (!BuffBotHome.pastRecipients.containsKey(key)) {
       BuffBotHome.pastRecipients.put(key, new SortedListModel<>());
     }

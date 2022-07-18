@@ -51,11 +51,6 @@ public class ApiRequest extends GenericRequest {
     this(what, String.valueOf(id));
   }
 
-  public static String updateStatusFromCharpane() {
-    ApiRequest.CHARPANE.run();
-    return ApiRequest.CHARPANE.redirectLocation;
-  }
-
   public static String updateStatus() {
     return ApiRequest.updateStatus(false);
   }
@@ -69,17 +64,21 @@ public class ApiRequest extends GenericRequest {
 
     // If in limitmode, Noobcore, PokeFam, and Disguises Delimit,
     // API status doesn't contain the full information, so use
-    // Character Sheet instead.
+    // Character Pane instead.
     if (KoLCharacter.getLimitmode() != null
         || KoLCharacter.inNoobcore()
         || KoLCharacter.inPokefam()
-        || KoLCharacter.inDisguise()
-        || KoLCharacter.inRobocore()) {
+        || KoLCharacter.inDisguise()) {
       return ApiRequest.updateStatusFromCharpane();
     }
     ApiRequest.INSTANCE.silent = silent;
     ApiRequest.INSTANCE.run();
     return ApiRequest.INSTANCE.redirectLocation;
+  }
+
+  public static String updateStatusFromCharpane() {
+    ApiRequest.CHARPANE.run();
+    return ApiRequest.CHARPANE.redirectLocation;
   }
 
   public static String updateInventory() {
@@ -346,15 +345,15 @@ public class ApiRequest extends GenericRequest {
       // Many config options are available
       AccountRequest.parseStatus(JSON);
 
-      // Many things from the Char Pane are available
-      CharPaneRequest.parseStatus(JSON);
-
       // Many things from the Char Sheet are available
       CharSheetRequest.parseStatus(JSON);
 
       // It's not possible to tell if some IotMs are bound to
       // the player's account or if they've used a one-day ticket without coolitems
       parseCoolItems(JSON.getString("coolitems"));
+
+      // Many things from the Char Pane are available
+      CharPaneRequest.parseStatus(JSON);
 
       String limitmode = KoLCharacter.getLimitmode();
       if (limitmode == Limitmode.SPELUNKY) {
@@ -366,6 +365,9 @@ public class ApiRequest extends GenericRequest {
         // Parse currently worn equipment
         EquipmentManager.parseStatus(JSON);
       }
+
+      // Must be AFTER current familiar is set and equipment is processed
+      CharPaneRequest.checkFamiliarWeight(JSON);
 
       // UNIX time of next rollover
       long rollover = JSON.getLong("rollover");
@@ -382,20 +384,24 @@ public class ApiRequest extends GenericRequest {
     }
   }
 
-  private static Map<String, String> PREF_TO_COOL_ITEM =
+  private static Map<String, Map.Entry<String, String>> PREF_TO_COOL_ITEM =
       Map.ofEntries(
-          Map.entry("sleazeAirportAlways", "airport1"),
-          Map.entry("spookyAirportAlways", "airport2"),
-          Map.entry("stenchAirportAlways", "airport3"),
-          Map.entry("hotAirportAlways", "airport4"),
-          Map.entry("coldAirportAlways", "airport5"),
-          Map.entry("gingerbreadCityAvailable", "gingerbreadcity"),
-          Map.entry("spacegateAlways", "spacegate"),
-          Map.entry("frAlways", "fantasyrealm"),
-          Map.entry("prAlways", "piraterealm"),
-          Map.entry("neverendingPartyAlways", "neverendingparty"),
-          Map.entry("voteAlways", "voterregistered"),
-          Map.entry("daycareOpen", "boxingdaycare"));
+          Map.entry("airport1", Map.entry("sleazeAirportAlways", "_sleazeAirportToday")),
+          Map.entry("airport2", Map.entry("spookyAirportAlways", "_spookyAirportToday")),
+          Map.entry("airport3", Map.entry("stenchAirportAlways", "_stenchAirportToday")),
+          Map.entry("airport4", Map.entry("hotAirportAlways", "_hotAirportToday")),
+          Map.entry("airport5", Map.entry("coldAirportAlways", "_coldAirportToday")),
+          Map.entry(
+              "gingerbreadcity", Map.entry("gingerbreadCityAvailable", "_gingerbreadCityToday")),
+          Map.entry("spacegate", Map.entry("spacegateAlways", "_spacegateToday")),
+          Map.entry("fantasyrealm", Map.entry("frAlways", "_frToday")),
+          Map.entry("piraterealm", Map.entry("prAlways", "_prToday")),
+          Map.entry(
+              "neverendingparty", Map.entry("neverendingPartyAlways", "_neverendingPartyToday")),
+          Map.entry("voterregistered", Map.entry("voteAlways", "_voteToday")),
+          Map.entry("boxingdaycare", Map.entry("daycareOpen", "_daycareToday")),
+          Map.entry("hascosmicball", Map.entry("hasCosmicBowlingBall", "")),
+          Map.entry("maydaykit", Map.entry("hasMaydayContract", "")));
 
   private static final void parseCoolItems(final String coolItems) {
     if (coolItems == null) {
@@ -404,12 +410,27 @@ public class ApiRequest extends GenericRequest {
 
     List<String> owned = Arrays.asList(coolItems.split(","));
 
-    PREF_TO_COOL_ITEM
-        .entrySet()
-        .forEach(
-            e -> {
-              Preferences.setBoolean(e.getKey(), owned.contains(e.getValue()));
-            });
+    PREF_TO_COOL_ITEM.forEach(
+        (coolItem, entry) -> {
+          String alwaysPref = entry.getKey();
+          String todayPref = entry.getValue();
+          boolean haveAccess = owned.contains(coolItem);
+
+          // If there's no such thing as temporary access, then set the always pref directly.
+          if (todayPref.isEmpty()) {
+            Preferences.setBoolean(alwaysPref, haveAccess);
+          } else if (haveAccess) { // If they have access to the iotm
+            // If they have used a day pass
+            boolean usedDayPass = Preferences.getBoolean(todayPref);
+
+            // If they have used a day pass, they do not always have access
+            Preferences.setBoolean(alwaysPref, !usedDayPass);
+          } else {
+            // No access to the iotm, so set both preferences to false
+            Preferences.setBoolean(todayPref, false);
+            Preferences.setBoolean(alwaysPref, false);
+          }
+        });
   }
 
   public static final void parseInventory(final String responseText) {

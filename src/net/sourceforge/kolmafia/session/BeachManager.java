@@ -10,7 +10,6 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BeachCombRequest;
 import net.sourceforge.kolmafia.request.BeachCombRequest.BeachCombCommand;
@@ -39,6 +38,8 @@ public class BeachManager {
   // You acquire an effect: <b>A Brush with Grossness</b>
   private static final Pattern EFFECT_PATTERN =
       Pattern.compile("You acquire an effect: <b>([^<]+)</b>");
+
+  private BeachManager() {}
 
   public static class BeachHead {
     public final int id;
@@ -90,7 +91,7 @@ public class BeachManager {
     Set<Integer> beachHeads = new TreeSet<Integer>();
     for (String iword : Preferences.getString(property).split(" *, *")) {
       if (!iword.equals("")) {
-        beachHeads.add(IntegerPool.get(StringUtilities.parseInt(iword)));
+        beachHeads.add(StringUtilities.parseInt(iword));
       }
     }
     return beachHeads;
@@ -244,7 +245,7 @@ public class BeachManager {
       return false;
     }
 
-    Integer id = IntegerPool.get(beachHead.id);
+    Integer id = beachHead.id;
 
     // Add this beach head to set of unlocked (if not already present)
     Set<Integer> unlocked = getBeachHeadPreference("beachHeadsUnlocked");

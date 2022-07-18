@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -71,7 +70,7 @@ public class QuarkCommand extends AbstractCommand implements Comparator<Adventur
       return;
     }
 
-    Collections.sort(usables, this);
+    usables.sort(this);
     if (KoLmafiaCLI.isExecutingCheckOnlyCommand) {
       RequestLogger.printLine(usables.get(0).toString());
       return;

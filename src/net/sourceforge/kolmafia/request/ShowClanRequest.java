@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request;
 import net.sourceforge.kolmafia.session.ClanManager;
 
 public class ShowClanRequest {
+  private ShowClanRequest() {}
   // showclan.php?action=joinclan&pwd&whichclan=38808&ajax=1&confirm=1
 
   public static void parseResponse(String location, String responseText) {

@@ -366,7 +366,7 @@ public class VYKEACompanionData implements Comparable<VYKEACompanionData> {
   public String toString() {
     if (this.stringForm == null) {
       StringBuilder buffer = new StringBuilder();
-      if (this.name != null && !this.name.equals("")) {
+      if (this.name != null && !this.name.isEmpty()) {
         buffer.append(this.name);
         buffer.append(", the ");
       }

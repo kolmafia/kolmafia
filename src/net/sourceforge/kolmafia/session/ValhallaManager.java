@@ -101,6 +101,8 @@ public class ValhallaManager {
         ItemPool.get(ItemPool.CURSED_MICROWAVE, 1),
       };
 
+  private ValhallaManager() {}
+
   public static void preAscension() {
     // Trade in gunpowder.
 

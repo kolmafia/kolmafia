@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.utilities;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -15,6 +14,8 @@ import net.java.dev.spellcast.utilities.SortedListModel;
  * @author ajoshi
  */
 public class LockableListFactory {
+  private LockableListFactory() {}
+
   /**
    * Get an instance of LockableListModel if in a Swing environment, else get a List
    *
@@ -65,7 +66,7 @@ public class LockableListFactory {
   }
 
   /**
-   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#setSelectedIndex()} if
+   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#setSelectedIndex(int)} if
    * possible, else no p
    */
   public static void setSelectedIndex(List<?> l, int index) {
@@ -75,8 +76,8 @@ public class LockableListFactory {
   }
 
   /**
-   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#setSelectedItem()} if possible,
-   * else no op
+   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#setSelectedItem(Object)} if
+   * possible, else no op
    */
   public static void setSelectedItem(List<?> l, Object selection) {
     if (SwinglessUIUtils.isSwingAvailable) {
@@ -87,8 +88,8 @@ public class LockableListFactory {
   }
 
   /**
-   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#getMirror()} if possible, else
-   * returns the original list
+   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#getMirrorImage()} if possible,
+   * else returns the original list
    */
   public static <T> List<T> getMirror(List<T> l) {
     if (SwinglessUIUtils.isSwingAvailable) {
@@ -99,8 +100,8 @@ public class LockableListFactory {
   }
 
   /**
-   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#fireContentsChanged()} if
-   * possible, else no op
+   * Calls {@link net.java.dev.spellcast.utilities.LockableListModel#fireContentsChanged(Object,
+   * int, int)} if possible, else no op
    */
   public static void fireContentsChanged(List<?> l, int index0, int index1) {
     if (SwinglessUIUtils.isSwingAvailable) {
@@ -124,7 +125,7 @@ public class LockableListFactory {
         ((SortedList<?>) l).sort();
       } else {
         synchronized (l) {
-          Collections.sort(l, null);
+          l.sort(null);
         }
       }
     }

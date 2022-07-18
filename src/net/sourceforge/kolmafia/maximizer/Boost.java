@@ -1,8 +1,10 @@
 package net.sourceforge.kolmafia.maximizer;
 
+import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.Modeable;
 
 public class Boost implements Comparable<Boost> {
   private boolean isEquipment, isShrug, priority;
@@ -13,7 +15,8 @@ public class Boost implements Comparable<Boost> {
   private final AdventureResult item;
   private AdventureResult effect;
   private FamiliarData fam, enthroned, bjorned;
-  private String edPiece, snowsuit, horse, retroCape, backupCamera;
+  private String horse;
+  private Map<Modeable, String> modeables;
 
   public Boost(String cmd, String text, AdventureResult item, double boost) {
     this.cmd = cmd;
@@ -60,19 +63,13 @@ public class Boost implements Comparable<Boost> {
       double boost,
       FamiliarData enthroned,
       FamiliarData bjorned,
-      String edPiece,
-      String snowsuit,
-      String retroCape,
-      String backupCamera) {
+      Map<Modeable, String> modeables) {
     this(cmd, text, item, boost);
     this.isEquipment = true;
     this.slot = slot;
     this.enthroned = enthroned;
     this.bjorned = bjorned;
-    this.edPiece = edPiece;
-    this.snowsuit = snowsuit;
-    this.retroCape = retroCape;
-    this.backupCamera = backupCamera;
+    this.modeables = modeables;
   }
 
   public Boost(String cmd, String text, FamiliarData fam, double boost) {
@@ -89,18 +86,16 @@ public class Boost implements Comparable<Boost> {
 
   @Override
   public int compareTo(Boost o) {
-    if (!(o instanceof Boost)) return -1;
-    Boost other = o;
+    if (o == null) return -1;
 
-    if (this.isEquipment != other.isEquipment) {
+    if (this.isEquipment != o.isEquipment) {
       return this.isEquipment ? -1 : 1;
     }
-    if (this.priority != other.priority) {
+    if (this.priority != o.priority) {
       return this.priority ? -1 : 1;
     }
     if (this.isEquipment) return 0; // preserve order of addition
-    int rv = Double.compare(other.boost, this.boost);
-    return rv;
+    return Double.compare(o.boost, this.boost);
   }
 
   public boolean execute(boolean equipOnly) {
@@ -122,18 +117,10 @@ public class Boost implements Comparable<Boost> {
         if (this.bjorned != null) {
           spec.setBjorned(this.bjorned);
         }
-        if (this.edPiece != null) {
-          spec.setEdPiece(this.edPiece);
-        }
-        if (this.retroCape != null) {
-          spec.setRetroCape(this.retroCape);
-        }
-        if (this.backupCamera != null) {
-          spec.setBackupCamera(this.backupCamera);
-        }
-        if (this.snowsuit != null) {
-          spec.setSnowsuit(this.snowsuit);
-        }
+        this.modeables.forEach(
+            (k, v) -> {
+              if (v != null) spec.setModeable(k, v);
+            });
       }
     } else if (this.effect != null) {
       if (this.isShrug) {

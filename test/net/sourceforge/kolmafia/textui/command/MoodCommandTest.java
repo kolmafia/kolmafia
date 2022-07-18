@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.StringReader;
+import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -13,7 +15,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 class MoodCommandTest extends AbstractCommandTestBase {
 
@@ -30,7 +31,10 @@ class MoodCommandTest extends AbstractCommandTestBase {
     Preferences.saveSettingsToFile = false;
 
     Preferences.setString("currentMood", "default");
-    MoodManager.loadSettings(mockedReader());
+    BufferedReader reader = mockedReader();
+    try (reader) {
+      MoodManager.loadSettings(reader);
+    }
 
     // Stop requests from actually running
     GenericRequest.sessionId = null;
@@ -44,10 +48,9 @@ class MoodCommandTest extends AbstractCommandTestBase {
     Preferences.saveSettingsToFile = false;
   }
 
-  public BufferedReader mockedReader() throws IOException {
-    BufferedReader bufferedReader = Mockito.mock(BufferedReader.class);
-    Mockito.when(bufferedReader.readLine())
-        .thenReturn(
+  public BufferedReader mockedReader() {
+    var text =
+        List.of(
             "[ apathetic ]",
             "",
             "[ default ]",
@@ -101,9 +104,8 @@ class MoodCommandTest extends AbstractCommandTestBase {
             "lose_effect springy fusilli => cast 1 springy fusilli",
             "lose_effect the sonata of sneakiness => cast 1 the sonata of sneakiness",
             "lose_effect transpondent => use 1 transporter transponder",
-            "",
-            null);
-    return bufferedReader;
+            "");
+    return new BufferedReader(new StringReader(String.join(System.lineSeparator(), text)));
   }
 
   @Test

@@ -2,25 +2,78 @@ package net.sourceforge.kolmafia.swingui.menu;
 
 import darrylbu.util.MenuScroller;
 import java.io.File;
+import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
+import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 /** A special class which renders the list of available scripts. */
-public class ScriptMenu extends MenuItemList<File> {
+public class ScriptMenu extends JMenu implements Listener {
   public ScriptMenu() {
-    super("Scripts", (LockableListModel<File>) KoLConstants.scripts);
+    super("Scripts");
+
+    init();
+
+    PreferenceListenerRegistry.registerPreferenceListener("scriptMRUList", this);
+    PreferenceListenerRegistry.registerPreferenceListener("scriptMRULength", this);
+    PreferenceListenerRegistry.registerPreferenceListener("scriptCascadingMenus", this);
   }
 
   @Override
-  public JComponent constructMenuItem(final Object o) {
-    return o instanceof JSeparator ? new JSeparator() : this.constructMenuItem((File) o, "scripts");
+  public void update() {
+    SwingUtilities.invokeLater(this::init);
+  }
+
+  protected void init() {
+    boolean useMRUList = Preferences.getInteger("scriptMRULength") > 0;
+    boolean useCascadingMenus = Preferences.getBoolean("scriptCascadingMenus");
+
+    removeAll();
+
+    add(new DisplayFrameMenuItem("Script Manager", "ScriptManageFrame"));
+    add(new LoadScriptMenuItem());
+    int headers = 2;
+
+    if (!useMRUList && !useCascadingMenus) {
+      return;
+    }
+
+    List<File> files = useMRUList ? KoLConstants.scriptMRUList.listAsFiles() : KoLConstants.scripts;
+
+    if (files.size() == 0) {
+      return;
+    }
+
+    if (!useMRUList) {
+      add(new InvocationMenuItem("Refresh menu", GenericFrame.class, "compileScripts"));
+      headers++;
+    }
+    JMenuItem shiftToEditMenuItem = new JMenuItem("(Shift key to edit)");
+    shiftToEditMenuItem.setEnabled(false);
+    add(shiftToEditMenuItem);
+    add(new JSeparator());
+    headers += 2;
+
+    MenuScroller.setScrollerFor(this, 25, 150, headers, 0);
+
+    for (File file : files) {
+      add(useMRUList ? new LoadScriptMenuItem(file) : constructMenuItem(file, "scripts"));
+    }
+  }
+
+  public void dispose() {
+    PreferenceListenerRegistry.unregisterPreferenceListener("scriptMRUList", this);
+    PreferenceListenerRegistry.unregisterPreferenceListener("scriptMRULength", this);
+    PreferenceListenerRegistry.unregisterPreferenceListener("scriptCascadingMenus", this);
   }
 
   private JComponent constructMenuItem(final File file, final String prefix) {
@@ -53,15 +106,15 @@ public class ScriptMenu extends MenuItemList<File> {
       // passes to make sure that directories start
       // up top, followed by non-directories.
 
-      for (int i = 0; i < scriptList.length; ++i) {
-        if (scriptList[i].isDirectory() && ScriptMenu.shouldAddScript(scriptList[i])) {
-          menu.add(this.constructMenuItem(scriptList[i], path));
+      for (File script : scriptList) {
+        if (script.isDirectory() && ScriptMenu.shouldAddScript(script)) {
+          menu.add(this.constructMenuItem(script, path));
         }
       }
 
-      for (int i = 0; i < scriptList.length; ++i) {
-        if (!scriptList[i].isDirectory()) {
-          menu.add(this.constructMenuItem(scriptList[i], path));
+      for (File script : scriptList) {
+        if (!script.isDirectory()) {
+          menu.add(this.constructMenuItem(script, path));
         }
       }
 
@@ -70,19 +123,6 @@ public class ScriptMenu extends MenuItemList<File> {
     }
 
     return new LoadScriptMenuItem(name, path);
-  }
-
-  @Override
-  public JComponent[] getHeaders() {
-    JComponent[] headers = new JComponent[4];
-
-    headers[0] = new DisplayFrameMenuItem("Script Manager", "ScriptManageFrame");
-    headers[1] = new LoadScriptMenuItem();
-    headers[2] = new InvocationMenuItem("Refresh menu", GenericFrame.class, "compileScripts");
-    headers[3] = new JMenuItem("(Shift key to edit)");
-    headers[3].setEnabled(false);
-
-    return headers;
   }
 
   public static final boolean shouldAddScript(final File script) {

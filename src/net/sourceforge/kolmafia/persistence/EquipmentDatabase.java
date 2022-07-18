@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,7 +12,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -25,28 +25,26 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.IntegerArray;
 import net.sourceforge.kolmafia.utilities.LogStream;
-import net.sourceforge.kolmafia.utilities.StringArray;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class EquipmentDatabase {
-  private static final IntegerArray power = new IntegerArray();
-  private static final IntegerArray hands = new IntegerArray();
-  private static final StringArray itemTypes = new StringArray();
-  private static final StringArray statRequirements = new StringArray();
+  private static final Map<Integer, Integer> power = new HashMap<>();
+  private static final Map<Integer, Integer> hands = new HashMap<>();
+  private static final Map<Integer, String> itemTypes = new HashMap<>();
+  private static final Map<Integer, String> statRequirements = new HashMap<>();
 
-  private static final HashMap<Integer, Integer> outfitPieces = new HashMap<Integer, Integer>();
-  public static final SpecialOutfitArray normalOutfits = new SpecialOutfitArray();
-  private static final Map<Integer, String> outfitById = new TreeMap<Integer, String>();
-  public static final SpecialOutfitArray weirdOutfits = new SpecialOutfitArray();
+  private static final Map<Integer, Integer> outfitPieces = new HashMap<>();
+  public static final Map<Integer, SpecialOutfit> normalOutfits = new HashMap<>();
+  private static final Map<Integer, String> outfitById = new TreeMap<>();
+  public static final List<SpecialOutfit> weirdOutfits = new ArrayList<>();
 
-  private static final IntegerArray pulverize = new IntegerArray();
+  private static final Map<Integer, Integer> pulverize = new HashMap<>();
   // Values in pulverize are one of:
   //	0 - not initialized yet
   //	positive - ID of special-case pulverize result (worthless powder, epic wad, etc.)
@@ -99,174 +97,137 @@ public class EquipmentDatabase {
     EquipmentDatabase.reset();
   }
 
+  private EquipmentDatabase() {}
+
   public static void reset() {
     EquipmentDatabase.newEquipment = false;
-
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("equipment.txt", KoLConstants.EQUIPMENT_VERSION);
-
     String[] data;
     int itemId;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length < 3) {
-        continue;
-      }
-
-      itemId = ItemDatabase.getItemId(data[0]);
-      if (itemId < 0) {
-        continue;
-      }
-
-      EquipmentDatabase.power.set(itemId, StringUtilities.parseInt(data[1]));
-
-      String reqs = data[2];
-      EquipmentDatabase.statRequirements.set(itemId, reqs);
-
-      int hval = 0;
-      String tval = null;
-
-      if (data.length >= 4) {
-        String str = data[3];
-        int index1 = str.indexOf("-handed");
-        if (index1 > 0) {
-          hval = StringUtilities.parseInt(str.substring(0, index1));
-          String type = str.substring(index1 + 7).trim();
-          tval = type.equals("") ? "weapon" : type;
-        } else {
-          tval = str;
-        }
-      }
-
-      EquipmentDatabase.hands.set(itemId, hval);
-      EquipmentDatabase.itemTypes.set(itemId, tval);
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
-      StaticEntity.printStackTrace(e);
-    }
-
-    reader = FileUtilities.getVersionedReader("outfits.txt", KoLConstants.OUTFITS_VERSION);
-
-    int outfitId, arrayIndex;
-    SpecialOutfitArray outfitList;
-
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length >= 4) {
-        outfitId = StringUtilities.parseInt(data[0]);
-
-        if (outfitId == 0) {
-          arrayIndex = EquipmentDatabase.weirdOutfits.size();
-          outfitList = EquipmentDatabase.weirdOutfits;
-        } else {
-          arrayIndex = outfitId;
-          outfitList = EquipmentDatabase.normalOutfits;
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("equipment.txt", KoLConstants.EQUIPMENT_VERSION)) {
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 3) {
+          continue;
         }
 
-        String name = data[1];
-        SpecialOutfit outfit = new SpecialOutfit(outfitId, name);
-        outfitList.set(arrayIndex, outfit);
+        itemId = ItemDatabase.getItemId(data[0]);
+        if (itemId < 0) {
+          continue;
+        }
 
-        String image = data[2];
-        outfit.setImage(image);
+        EquipmentDatabase.power.put(itemId, StringUtilities.parseInt(data[1]));
 
-        String[] pieces = data[3].split("\\s*,\\s*");
+        String reqs = data[2];
+        EquipmentDatabase.statRequirements.put(itemId, reqs);
 
-        if (data.length >= 5) {
-          String[] treats = data[4].split("\\s*,\\s*");
-          for (String treat : treats) {
-            if (treat.equals("none")) {
-              break;
-            }
+        int hval = 0;
+        String tval = null;
 
-            int treatId = ItemDatabase.getItemId(treat);
-            if (treatId != -1) {
-              outfit.addTreat(ItemPool.get(treatId));
-            } else {
-              RequestLogger.printLine(
-                  "Outfit \"" + name + "\" has an invalid treat: \"" + treat + "\"");
-            }
+        if (data.length >= 4) {
+          String str = data[3];
+          int index1 = str.indexOf("-handed");
+          if (index1 > 0) {
+            hval = StringUtilities.parseInt(str.substring(0, index1));
+            String type = str.substring(index1 + 7).trim();
+            tval = type.equals("") ? "weapon" : type;
+          } else {
+            tval = str;
           }
         }
 
-        Integer id = IntegerPool.get(outfitId);
+        EquipmentDatabase.hands.put(itemId, hval);
+        EquipmentDatabase.itemTypes.put(itemId, tval);
+      }
+    } catch (IOException e) {
+      StaticEntity.printStackTrace(e);
+    }
 
-        EquipmentDatabase.outfitById.put(id, name);
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("outfits.txt", KoLConstants.OUTFITS_VERSION)) {
+      int outfitId;
 
-        for (String piece : pieces) {
-          int pieceId = ItemDatabase.getItemId(piece);
-          if (pieceId != -1) {
-            EquipmentDatabase.outfitPieces.put(IntegerPool.get(pieceId), id);
-            outfit.addPiece(ItemPool.get(pieceId));
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length >= 4) {
+          outfitId = StringUtilities.parseInt(data[0]);
+
+          String name = data[1];
+          SpecialOutfit outfit = new SpecialOutfit(outfitId, name);
+
+          if (outfitId == 0) {
+            EquipmentDatabase.weirdOutfits.add(outfit);
+          } else {
+            EquipmentDatabase.normalOutfits.put(outfitId, outfit);
+          }
+
+          String image = data[2];
+          outfit.setImage(image);
+
+          String[] pieces = data[3].split("\\s*,\\s*");
+
+          if (data.length >= 5) {
+            String[] treats = data[4].split("\\s*,\\s*");
+            for (String treat : treats) {
+              if (treat.equals("none")) {
+                break;
+              }
+
+              int treatId = ItemDatabase.getItemId(treat);
+              if (treatId != -1) {
+                outfit.addTreat(ItemPool.get(treatId));
+              } else {
+                RequestLogger.printLine(
+                    "Outfit \"" + name + "\" has an invalid treat: \"" + treat + "\"");
+              }
+            }
+          }
+
+          Integer id = outfitId;
+
+          EquipmentDatabase.outfitById.put(id, name);
+
+          for (String piece : pieces) {
+            int pieceId = ItemDatabase.getItemId(piece);
+            if (pieceId != -1) {
+              EquipmentDatabase.outfitPieces.put(pieceId, id);
+              outfit.addPiece(ItemPool.get(pieceId));
+            }
           }
         }
       }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
 
-    reader = FileUtilities.getVersionedReader("pulverize.txt", KoLConstants.PULVERIZE_VERSION);
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("pulverize.txt", KoLConstants.PULVERIZE_VERSION)) {
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 2) {
+          continue;
+        }
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length < 2) {
-        continue;
+        itemId = ItemDatabase.getItemId(data[0]);
+        if (itemId < 0) {
+          continue;
+        }
+
+        String spec = data[1];
+        int result =
+            spec.equals("nosmash")
+                ? -1
+                : spec.equals("upgrade")
+                    ? EquipmentDatabase.deriveUpgrade(data[0])
+                    : StringUtilities.isNumeric(spec)
+                        ? (PULVERIZE_BITS | StringUtilities.parseInt(spec))
+                        : spec.endsWith("cluster")
+                            ? EquipmentDatabase.deriveCluster(spec)
+                            : ItemDatabase.getItemId(spec);
+
+        EquipmentDatabase.pulverize.put(itemId, result);
       }
-
-      itemId = ItemDatabase.getItemId(data[0]);
-      if (itemId < 0) {
-        continue;
-      }
-
-      String spec = data[1];
-      int result =
-          spec.equals("nosmash")
-              ? -1
-              : spec.equals("upgrade")
-                  ? EquipmentDatabase.deriveUpgrade(data[0])
-                  : StringUtilities.isNumeric(spec)
-                      ? (PULVERIZE_BITS | StringUtilities.parseInt(spec))
-                      : spec.endsWith("cluster")
-                          ? EquipmentDatabase.deriveCluster(spec)
-                          : ItemDatabase.getItemId(spec);
-
-      EquipmentDatabase.pulverize.set(itemId, result);
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
-  }
-
-  public static boolean isEquipment(final int type) {
-    switch (type) {
-      case KoLConstants.EQUIP_ACCESSORY:
-      case KoLConstants.EQUIP_CONTAINER:
-      case KoLConstants.EQUIP_HAT:
-      case KoLConstants.EQUIP_SHIRT:
-      case KoLConstants.EQUIP_PANTS:
-      case KoLConstants.EQUIP_WEAPON:
-      case KoLConstants.EQUIP_OFFHAND:
-        return true;
-    }
-
-    return false;
   }
 
   public static void writeEquipment(final File output) {
@@ -354,7 +315,7 @@ public class EquipmentDatabase {
       boolean isShield = type != null && type.equals("shield");
       String weaponType = "";
       if (isWeapon) {
-        int hands = EquipmentDatabase.hands.get(itemId);
+        int hands = getHands(itemId);
         weaponType = hands + "-handed " + type;
       }
       EquipmentDatabase.writeEquipmentItem(
@@ -408,8 +369,8 @@ public class EquipmentDatabase {
     String type = DebugDatabase.parseType(text);
     String req = DebugDatabase.parseReq(text, type);
 
-    EquipmentDatabase.power.set(itemId, power);
-    EquipmentDatabase.statRequirements.set(itemId, req);
+    EquipmentDatabase.power.put(itemId, power);
+    EquipmentDatabase.statRequirements.put(itemId, req);
 
     boolean isWeapon = false, isShield = false;
     String weaponType = "";
@@ -427,13 +388,13 @@ public class EquipmentDatabase {
         hval = 0;
         tval = type;
       }
-      EquipmentDatabase.hands.set(itemId, hval);
-      EquipmentDatabase.itemTypes.set(itemId, tval);
+      EquipmentDatabase.hands.put(itemId, hval);
+      EquipmentDatabase.itemTypes.put(itemId, tval);
       isWeapon = true;
-    } else if (type.indexOf("shield") != -1) {
+    } else if (type.contains("shield")) {
       isShield = true;
       weaponType = "shield";
-      EquipmentDatabase.itemTypes.set(itemId, weaponType);
+      EquipmentDatabase.itemTypes.put(itemId, weaponType);
     }
 
     String printMe =
@@ -462,7 +423,7 @@ public class EquipmentDatabase {
     // be on an outfit, register it.
 
     if (EquipmentDatabase.normalOutfits.get(outfitId) == null
-        || EquipmentDatabase.outfitPieces.get(IntegerPool.get(itemId)) == null) {
+        || EquipmentDatabase.outfitPieces.get(itemId) == null) {
       EquipmentDatabase.registerOutfit(outfitId, outfitName, itemId);
     }
   }
@@ -470,16 +431,16 @@ public class EquipmentDatabase {
   public static final void registerOutfit(
       final int outfitId, final String outfitName, final int itemId) {
     SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get(outfitId);
-    Integer id = IntegerPool.get(outfitId);
+    Integer id = outfitId;
 
     if (outfit == null) {
       outfit = new SpecialOutfit(outfitId, outfitName);
-      EquipmentDatabase.normalOutfits.set(outfitId, outfit);
+      EquipmentDatabase.normalOutfits.put(outfitId, outfit);
       EquipmentDatabase.outfitById.put(id, outfitName);
     }
 
     if (itemId != -1) {
-      EquipmentDatabase.outfitPieces.put(IntegerPool.get(itemId), id);
+      EquipmentDatabase.outfitPieces.put(itemId, id);
       outfit.addPiece(ItemPool.get(itemId));
     }
 
@@ -524,12 +485,8 @@ public class EquipmentDatabase {
       return -1;
     }
 
-    Integer result = EquipmentDatabase.outfitPieces.get(IntegerPool.get(itemId));
+    Integer result = EquipmentDatabase.outfitPieces.get(itemId);
     return result == null ? -1 : result.intValue();
-  }
-
-  public static final int getOutfitCount() {
-    return EquipmentDatabase.normalOutfits.size();
   }
 
   public static final String outfitString(
@@ -561,25 +518,19 @@ public class EquipmentDatabase {
   }
 
   public static final int getPower(final int itemId) {
-    return EquipmentDatabase.power.get(itemId);
+    return EquipmentDatabase.power.getOrDefault(itemId, 0);
   }
 
   public static final void setPower(final int itemId, final int power) {
-    EquipmentDatabase.power.set(itemId, power);
+    EquipmentDatabase.power.put(itemId, power);
   }
 
   public static final int getHands(final int itemId) {
-    return EquipmentDatabase.hands.get(itemId);
+    return EquipmentDatabase.hands.getOrDefault(itemId, 0);
   }
 
   public static final String getEquipRequirement(final int itemId) {
-    String req = EquipmentDatabase.statRequirements.get(itemId);
-
-    if (req != null) {
-      return req;
-    }
-
-    return "none";
+    return EquipmentDatabase.statRequirements.getOrDefault(itemId, "none");
   }
 
   public static final String getItemType(final int itemId) {
@@ -735,6 +686,10 @@ public class EquipmentDatabase {
   }
 
   public static final boolean isShield(final int itemId) {
+    if (itemId == ItemPool.UNBREAKABLE_UMBRELLA) {
+      return Preferences.getString("umbrellaState").equals("forward-facing");
+    }
+
     return EquipmentDatabase.getItemType(itemId).equals("shield");
   }
 
@@ -799,10 +754,10 @@ public class EquipmentDatabase {
     if (id < 0) {
       return -1;
     }
-    int pulver = EquipmentDatabase.pulverize.get(id);
-    if (pulver == 0) {
+    Integer pulver = EquipmentDatabase.pulverize.get(id);
+    if (pulver == null) {
       pulver = EquipmentDatabase.derivePulverization(id);
-      EquipmentDatabase.pulverize.set(id, pulver);
+      EquipmentDatabase.pulverize.put(id, pulver);
     }
     return pulver;
   }
@@ -837,7 +792,7 @@ public class EquipmentDatabase {
       }
     }
 
-    int power = EquipmentDatabase.power.get(id);
+    int power = EquipmentDatabase.getPower(id);
     if (power <= 0) {
       // power is unknown, derive from requirement (which isn't always accurate)
       pulver |= YIELD_UNCERTAIN;
@@ -975,46 +930,6 @@ public class EquipmentDatabase {
         // No outfit existed for this area
       default:
         return -1;
-    }
-  }
-
-  /**
-   * Internal class which functions exactly like an array of SpecialOutfits, except it uses "sets"
-   * and "gets" like a list. This could be done with generics (Java 1.5) but is done like this so
-   * that we get backwards compatibility.
-   */
-  public static class SpecialOutfitArray implements Iterable<SpecialOutfit> {
-    private final ArrayList<SpecialOutfit> internalList = new ArrayList<SpecialOutfit>();
-    private final TreeSet<Integer> internalSet = new TreeSet<Integer>();
-
-    @Override
-    public Iterator<SpecialOutfit> iterator() {
-      return this.internalList.iterator();
-    }
-
-    public SpecialOutfit get(final int index) {
-      return index < 0 || index >= this.internalList.size() ? null : this.internalList.get(index);
-    }
-
-    public void set(final int index, final SpecialOutfit value) {
-      for (int i = this.internalList.size(); i <= index; ++i) {
-        this.internalList.add(null);
-      }
-
-      this.internalList.set(index, value);
-      this.internalSet.add(Integer.valueOf(index));
-    }
-
-    public int size() {
-      return this.internalList.size();
-    }
-
-    public List<SpecialOutfit> toList() {
-      return this.internalList;
-    }
-
-    public Set<Integer> keySet() {
-      return this.internalSet;
     }
   }
 }

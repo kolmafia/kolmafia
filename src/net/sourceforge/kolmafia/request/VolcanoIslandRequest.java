@@ -19,15 +19,15 @@ public class VolcanoIslandRequest extends GenericRequest {
   // Subactions
   private static final String SLIME = "getslime";
 
+  private VolcanoIslandRequest() {
+    this(NPC);
+  }
+
   /**
    * Constructs a new <code>VolcanoIslandRequest</code>.
    *
    * @param action The identifier for the action you're requesting
    */
-  private VolcanoIslandRequest() {
-    this(NPC);
-  }
-
   public VolcanoIslandRequest(final String action) {
     super("volcanoisland.php");
     this.addFormField("action", action);

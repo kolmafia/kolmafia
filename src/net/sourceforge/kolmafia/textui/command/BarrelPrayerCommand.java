@@ -4,7 +4,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -20,20 +19,20 @@ public class BarrelPrayerCommand extends AbstractCommand {
   public static final int VIGOR = 3;
   public static final int BUFF = 4;
 
-  public static final Object[][] PRAYER =
-      new Object[][] {
-        {"protection", "barrel lid", IntegerPool.get(PROTECTION)},
-        {"glamour", "barrel hoop earring", IntegerPool.get(GLAMOUR)},
-        {"vigor", "bankruptcy barrel", IntegerPool.get(VIGOR)},
-        {"buff", "class buff", IntegerPool.get(BUFF)},
+  private record Prayer(String name, String reward, int id) {}
+
+  public static final Prayer[] PRAYER =
+      new Prayer[] {
+        new Prayer("protection", "barrel lid", PROTECTION),
+        new Prayer("glamour", "barrel hoop earring", GLAMOUR),
+        new Prayer("vigor", "bankruptcy barrel", VIGOR),
+        new Prayer("buff", "class buff", BUFF),
       };
 
   public static final int findPrayer(final String name) {
-    for (int i = 0; i < PRAYER.length; ++i) {
-      if (name.equalsIgnoreCase((String) PRAYER[i][0])
-          || name.equalsIgnoreCase((String) PRAYER[i][1])) {
-        Integer index = (Integer) PRAYER[i][2];
-        return index.intValue();
+    for (Prayer prayer : PRAYER) {
+      if (name.equalsIgnoreCase(prayer.name) || name.equalsIgnoreCase(prayer.reward)) {
+        return prayer.id;
       }
     }
 

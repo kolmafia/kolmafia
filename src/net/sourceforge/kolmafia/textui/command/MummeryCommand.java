@@ -2,13 +2,13 @@ package net.sourceforge.kolmafia.textui.command;
 
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.MummeryRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MummeryCommand extends AbstractCommand {
@@ -19,7 +19,7 @@ public class MummeryCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    if (!KoLConstants.inventory.contains(ItemPool.get(ItemPool.MUMMING_TRUNK, 1))) {
+    if (InventoryManager.getCount(ItemPool.MUMMING_TRUNK) == 0) {
       KoLmafia.updateDisplay("You need a mumming trunk first.");
       return;
     }

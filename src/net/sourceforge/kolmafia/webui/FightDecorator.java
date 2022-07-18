@@ -23,6 +23,8 @@ public class FightDecorator {
   private static final Pattern SKILL_OPTION_PATTERN =
       Pattern.compile("<option value=\\\"(\\d+)\\\".*?</option>", Pattern.DOTALL);
 
+  private FightDecorator() {}
+
   public static final void selectSkill(final StringBuffer buffer, final String skill) {
     // Extract the "skill" form from the buffer
     Matcher matcher = SKILL_FORM_PATTERN.matcher(buffer);

@@ -1,11 +1,9 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import static internal.helpers.Networking.html;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -28,7 +26,7 @@ public class HeistCommandTest extends AbstractCommandTestBase {
     this.command = "heist";
   }
 
-  static void setCatBurglar() {
+  private static void setCatBurglar() {
     var familiar = FamiliarData.registerFamiliar(FamiliarPool.CAT_BURGLAR, 1);
     KoLCharacter.setFamiliar(familiar);
   }
@@ -100,7 +98,7 @@ public class HeistCommandTest extends AbstractCommandTestBase {
     this.command = "heistFake";
     String output = execute("\"meat\" stick");
 
-    assertThat(output, containsString("Heisted \"meat\" stick"));
+    assertThat(output, containsString("Heisted &quot;meat&quot; stick"));
     assertContinueState();
   }
 
@@ -110,7 +108,7 @@ public class HeistCommandTest extends AbstractCommandTestBase {
     this.command = "heistFake";
     String output = execute("13 Purple Beast");
 
-    assertThat(output, containsString("Heisted 13 Purple Beast energy drink"));
+    assertThat(output, containsString("Heisted 13 Purple Beast energy drinks"));
     assertContinueState();
   }
 
@@ -120,11 +118,7 @@ public class HeistCommandTest extends AbstractCommandTestBase {
       class HeistManagerFakeRequest extends HeistManager {
         @Override
         protected String heistRequest() {
-          try {
-            return Files.readString(Paths.get("request/test_heist_command.html"));
-          } catch (IOException e) {
-            throw new RuntimeException("could not find test HTML");
-          }
+          return html("request/test_heist_command.html");
         }
       }
       return new HeistManagerFakeRequest();

@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -17,6 +16,7 @@ import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
@@ -35,6 +35,8 @@ public final class CrystalBallManager {
     Pattern.compile("if you stick around here you're going to run into <b>an? (.*?)</b>")
   };
 
+  private CrystalBallManager() {}
+
   public static class Prediction implements Comparable<Prediction> {
     public final int turnCount;
     public final String location;
@@ -49,7 +51,7 @@ public final class CrystalBallManager {
     @Override
     public int compareTo(final Prediction o) {
       if (this.turnCount != o.turnCount) {
-        return Integer.valueOf(this.turnCount).compareTo(o.turnCount);
+        return Integer.compare(this.turnCount, o.turnCount);
       }
 
       return this.location.compareTo(o.location);
@@ -93,7 +95,7 @@ public final class CrystalBallManager {
     List<String> predictions =
         CrystalBallManager.predictions.values().stream()
             .sorted()
-            .map(p -> p.toString())
+            .map(Prediction::toString)
             .collect(Collectors.toList());
 
     Preferences.setString("crystalBallPredictions", String.join("|", predictions));
@@ -138,15 +140,12 @@ public final class CrystalBallManager {
 
     String lastAdventureName = KoLAdventure.lastLocationName;
 
-    final Iterator<Prediction> it = CrystalBallManager.predictions.values().iterator();
-    while (it.hasNext()) {
-      Prediction prediction = it.next();
-
-      if (!prediction.location.equals(lastAdventureName)
-          && prediction.turnCount + 2 <= KoLCharacter.getCurrentRun()) {
-        it.remove();
-      }
-    }
+    CrystalBallManager.predictions
+        .values()
+        .removeIf(
+            prediction ->
+                !prediction.location.equals(lastAdventureName)
+                    && prediction.turnCount + 2 <= KoLCharacter.getCurrentRun());
 
     updatePreference();
   }
@@ -174,11 +173,14 @@ public final class CrystalBallManager {
 
   public static boolean isCrystalBallMonster(final String monster, final String zone) {
     // There's no message to check for so assume the correct monster in the correct zone is from the
-    // crystal ball
-    for (final Prediction prediction : CrystalBallManager.predictions.values()) {
-      if (prediction.monster.equalsIgnoreCase(monster)
-          && prediction.location.equalsIgnoreCase(zone)) {
-        return true;
+    // crystal ball (if it is equipped)
+    AdventureResult ORB = ItemPool.get(ItemPool.MINIATURE_CRYSTAL_BALL, 1);
+    if (KoLCharacter.hasEquipped(ORB, EquipmentManager.FAMILIAR)) {
+      for (final Prediction prediction : CrystalBallManager.predictions.values()) {
+        if (prediction.monster.equalsIgnoreCase(monster)
+            && prediction.location.equalsIgnoreCase(zone)) {
+          return true;
+        }
       }
     }
 
@@ -197,7 +199,7 @@ public final class CrystalBallManager {
   }
 
   private static Pattern POSSIBLE_PREDICTION =
-      Pattern.compile("<li> +(?:an?)? ?(.*?) in (.*?)<\\/li>");
+      Pattern.compile("<li> +(?:an?|the|some)? ?(.*?) in (.*?)</li>");
 
   public static void parsePonder(final String responseText) {
     predictions.clear();
@@ -205,10 +207,10 @@ public final class CrystalBallManager {
     Matcher m = POSSIBLE_PREDICTION.matcher(responseText);
 
     while (m.find()) {
-      String monsterName = m.group(1);
+      MonsterData monster = MonsterDatabase.findMonster(m.group(1));
       KoLAdventure location = AdventureDatabase.getAdventure(m.group(2));
-      if (location != null) {
-        addPrediction(location, monsterName);
+      if (location != null && monster != null) {
+        addPrediction(location, monster.getName());
       }
     }
 

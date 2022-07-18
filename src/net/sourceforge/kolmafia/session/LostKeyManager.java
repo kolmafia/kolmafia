@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.session;
 
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LostKeyManager {
@@ -13,6 +14,8 @@ public class LostKeyManager {
     "131113", // pill bottle
   };
 
+  private LostKeyManager() {}
+
   public static final String autoKey(
       String decision, final int stepCount, final String responseText) {
     int goal = StringUtilities.parseInt(decision) - 1;
@@ -23,7 +26,8 @@ public class LostKeyManager {
     }
 
     decision = steps[goal].substring(stepCount, stepCount + 1);
-    String action = ChoiceManager.findChoiceDecisionText(Integer.parseInt(decision), responseText);
+    String action =
+        ChoiceUtilities.findChoiceDecisionText(Integer.parseInt(decision), responseText);
     if (action != null) {
       logText("Action: " + action);
     }

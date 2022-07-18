@@ -19,9 +19,11 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 
 public class BasementDecorator {
+  private BasementDecorator() {}
+
   public static final void decorate(final StringBuffer buffer) {
     addBasementButtons(buffer);
 
@@ -412,10 +414,11 @@ public class BasementDecorator {
 
     public int getItemPrice() {
       if (this.item == null) return 0;
-      if (MallPriceDatabase.getAge(this.item.getItemId()) > 7.0) {
-        StoreManager.getMallPrice(this.item);
+      int itemId = this.item.getItemId();
+      if (MallPriceDatabase.getAge(itemId) > 7.0) {
+        MallPriceManager.getMallPrice(itemId);
       }
-      return MallPriceDatabase.getPrice(this.item.getItemId());
+      return MallPriceDatabase.getPrice(itemId);
     }
 
     public boolean itemAvailable() {

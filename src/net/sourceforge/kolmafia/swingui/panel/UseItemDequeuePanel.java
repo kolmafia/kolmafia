@@ -8,22 +8,26 @@ import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaGUI;
+import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.ConcoctionType;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
-public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> {
+public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> implements Listener {
   private final JTabbedPane queueTabs;
-  private final boolean food, booze, spleen;
   private final LockableListModel<QueuedConcoction> queue;
+  private final ConcoctionType type;
 
-  public UseItemDequeuePanel(final boolean food, final boolean booze, final boolean spleen) {
-    super(ConcoctionDatabase.getQueue(food, booze, spleen), false, false);
+  public UseItemDequeuePanel(ConcoctionType type) {
+    super(ConcoctionDatabase.getQueue(type), false, false);
     // Remove the default borders inherited from ScrollablePanel.
     BorderLayout a = (BorderLayout) this.actualPanel.getLayout();
     a.setVgap(0);
@@ -33,30 +37,34 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> {
     // Add a 10px top border.
     this.northPanel.add(Box.createVerticalStrut(10), BorderLayout.NORTH);
 
-    this.food = food;
-    this.booze = booze;
-    this.spleen = spleen;
+    this.type = type;
 
     this.queueTabs = KoLmafiaGUI.getTabbedPane();
 
-    if (this.food) {
-      this.queueTabs.addTab("0 Full Queued", this.centerPanel);
-      this.queue = ConcoctionDatabase.queuedFood.getMirrorImage();
-    } else if (this.booze) {
-      this.queueTabs.addTab("0 Drunk Queued", this.centerPanel);
-      this.queue = ConcoctionDatabase.queuedBooze.getMirrorImage();
-    } else if (this.spleen) {
-      this.queueTabs.addTab("0 Spleen Queued", this.centerPanel);
-      this.queue = ConcoctionDatabase.queuedSpleen.getMirrorImage();
-    } else {
-      this.queueTabs.addTab("Potions Queued", this.centerPanel);
-      this.queue = ConcoctionDatabase.queuedPotions.getMirrorImage();
+    switch (type) {
+      case FOOD:
+        this.queueTabs.addTab("0 Full Queued", this.centerPanel);
+        this.queue = ConcoctionDatabase.queuedFood.getMirrorImage();
+        break;
+      case BOOZE:
+        this.queueTabs.addTab("0 Drunk Queued", this.centerPanel);
+        this.queue = ConcoctionDatabase.queuedBooze.getMirrorImage();
+        break;
+      case SPLEEN:
+        this.queueTabs.addTab("0 Spleen Queued", this.centerPanel);
+        this.queue = ConcoctionDatabase.queuedSpleen.getMirrorImage();
+        break;
+      case POTION:
+        this.queueTabs.addTab("Potions Queued", this.centerPanel);
+        this.queue = ConcoctionDatabase.queuedPotions.getMirrorImage();
+        break;
+      default:
+        this.queue = null;
+        break;
     }
 
     this.queueTabs.addTab(
-        "Resources Used",
-        new GenericScrollPane(
-            ConcoctionDatabase.getQueuedIngredients(this.food, this.booze, this.spleen), 7));
+        "Resources Used", new GenericScrollPane(ConcoctionDatabase.getQueuedIngredients(type), 7));
 
     JLabel test = new JLabel("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
@@ -72,8 +80,53 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> {
 
     this.eastPanel.add(new ThreadedButton("undo", new UndoQueueRunnable()), BorderLayout.SOUTH);
 
+    NamedListenerRegistry.registerNamedListener(type.getSignal(), this);
+    this.update();
+  }
+
+  public void update() {
     this.setEnabled(true);
     this.filterItems();
+  }
+
+  @Override
+  public void setEnabled(final boolean isEnabled) {
+    // Disable all buttons if false, otherwise allow buttons to only be lit
+    // when they are valid to stop flashing buttons
+    if (!isEnabled) {
+      super.setEnabled(false);
+      return;
+    }
+
+    this.getElementList().setEnabled(true);
+
+    // The "consume" listener is the first button
+    // The "create" listener is the second button
+
+    int index = 0;
+
+    switch (this.type) {
+      case FOOD:
+        boolean canEat = KoLCharacter.canEat();
+        this.buttons[index++].setEnabled(canEat);
+        break;
+      case BOOZE:
+        boolean canDrink = KoLCharacter.canDrink();
+        this.buttons[index++].setEnabled(canDrink);
+        break;
+      case SPLEEN:
+        boolean canSpleen = KoLCharacter.canSpleen();
+        this.buttons[index++].setEnabled(canSpleen);
+        break;
+      case POTION:
+        // Potions.
+        boolean canUsePotions = KoLCharacter.canUsePotions();
+        this.buttons[index++].setEnabled(canUsePotions);
+        break;
+    }
+
+    // You may not be able to consume the item, but you may wish to create it
+    this.buttons[index++].setEnabled(true);
   }
 
   @Override
@@ -88,20 +141,25 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> {
   private class ConsumeListener extends ThreadedListener {
     @Override
     protected void execute() {
-      if (UseItemDequeuePanel.this.food) {
-        ConcoctionDatabase.handleQueue(true, false, false, KoLConstants.CONSUME_EAT);
-        UseItemDequeuePanel.this.queueTabs.setTitleAt(
-            0, ConcoctionDatabase.getQueuedFullness() + " Full Queued");
-      } else if (UseItemDequeuePanel.this.booze) {
-        ConcoctionDatabase.handleQueue(false, true, false, KoLConstants.CONSUME_DRINK);
-        UseItemDequeuePanel.this.queueTabs.setTitleAt(
-            0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued");
-      } else if (UseItemDequeuePanel.this.spleen) {
-        ConcoctionDatabase.handleQueue(false, false, true, KoLConstants.CONSUME_SPLEEN);
-        UseItemDequeuePanel.this.queueTabs.setTitleAt(
-            0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued");
-      } else {
-        ConcoctionDatabase.handleQueue(false, false, false, KoLConstants.CONSUME_USE);
+      switch (UseItemDequeuePanel.this.type) {
+        case FOOD:
+          ConcoctionDatabase.handleQueue(type, KoLConstants.CONSUME_EAT);
+          UseItemDequeuePanel.this.queueTabs.setTitleAt(
+              0, ConcoctionDatabase.getQueuedFullness() + " Full Queued");
+          break;
+        case BOOZE:
+          ConcoctionDatabase.handleQueue(type, KoLConstants.CONSUME_DRINK);
+          UseItemDequeuePanel.this.queueTabs.setTitleAt(
+              0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued");
+          break;
+        case SPLEEN:
+          ConcoctionDatabase.handleQueue(type, KoLConstants.CONSUME_SPLEEN);
+          UseItemDequeuePanel.this.queueTabs.setTitleAt(
+              0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued");
+          break;
+        case POTION:
+          ConcoctionDatabase.handleQueue(type, KoLConstants.CONSUME_USE);
+          break;
       }
       ConcoctionDatabase.getUsables().sort();
     }
@@ -115,20 +173,20 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> {
   private class CreateListener extends ThreadedListener {
     @Override
     protected void execute() {
-      if (UseItemDequeuePanel.this.food) {
-        ConcoctionDatabase.handleQueue(true, false, false, KoLConstants.NO_CONSUME);
-        UseItemDequeuePanel.this.queueTabs.setTitleAt(
-            0, ConcoctionDatabase.getQueuedFullness() + " Full Queued");
-      } else if (UseItemDequeuePanel.this.booze) {
-        ConcoctionDatabase.handleQueue(false, true, false, KoLConstants.NO_CONSUME);
-        UseItemDequeuePanel.this.queueTabs.setTitleAt(
-            0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued");
-      } else if (UseItemDequeuePanel.this.spleen) {
-        ConcoctionDatabase.handleQueue(false, false, true, KoLConstants.NO_CONSUME);
-        UseItemDequeuePanel.this.queueTabs.setTitleAt(
-            0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued");
-      } else {
-        ConcoctionDatabase.handleQueue(false, false, false, KoLConstants.NO_CONSUME);
+      switch (UseItemDequeuePanel.this.type) {
+        case FOOD:
+          ConcoctionDatabase.handleQueue(type, KoLConstants.NO_CONSUME);
+          UseItemDequeuePanel.this.queueTabs.setTitleAt(
+              0, ConcoctionDatabase.getQueuedFullness() + " Full Queued");
+          break;
+        case BOOZE:
+          ConcoctionDatabase.handleQueue(type, KoLConstants.NO_CONSUME);
+          UseItemDequeuePanel.this.queueTabs.setTitleAt(
+              0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued");
+          break;
+        case POTION:
+          ConcoctionDatabase.handleQueue(type, KoLConstants.NO_CONSUME);
+          break;
       }
       ConcoctionDatabase.getUsables().sort();
     }
@@ -142,21 +200,23 @@ public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> {
   private class UndoQueueRunnable implements Runnable {
     @Override
     public void run() {
-      ConcoctionDatabase.pop(
-          UseItemDequeuePanel.this.food,
-          UseItemDequeuePanel.this.booze,
-          UseItemDequeuePanel.this.spleen);
+      ConcoctionType type = UseItemDequeuePanel.this.type;
+      ConcoctionDatabase.pop(type);
       ConcoctionDatabase.refreshConcoctions();
 
-      if (UseItemDequeuePanel.this.food) {
-        UseItemDequeuePanel.this.queueTabs.setTitleAt(
-            0, ConcoctionDatabase.getQueuedFullness() + " Full Queued");
-      } else if (UseItemDequeuePanel.this.booze) {
-        UseItemDequeuePanel.this.queueTabs.setTitleAt(
-            0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued");
-      } else if (UseItemDequeuePanel.this.spleen) {
-        UseItemDequeuePanel.this.queueTabs.setTitleAt(
-            0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued");
+      switch (type) {
+        case FOOD:
+          UseItemDequeuePanel.this.queueTabs.setTitleAt(
+              0, ConcoctionDatabase.getQueuedFullness() + " Full Queued");
+          break;
+        case BOOZE:
+          UseItemDequeuePanel.this.queueTabs.setTitleAt(
+              0, ConcoctionDatabase.getQueuedInebriety() + " Drunk Queued");
+          break;
+        case SPLEEN:
+          UseItemDequeuePanel.this.queueTabs.setTitleAt(
+              0, ConcoctionDatabase.getQueuedSpleenHit() + " Spleen Queued");
+          break;
       }
       ConcoctionDatabase.getUsables().sort();
     }

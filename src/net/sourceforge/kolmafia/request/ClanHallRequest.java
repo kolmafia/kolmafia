@@ -7,6 +7,8 @@ import net.sourceforge.kolmafia.session.ClanManager;
 public class ClanHallRequest {
   private static final Pattern CLAN_NAME_PATTERN = Pattern.compile("<center><b>(.*?)</b>");
 
+  private ClanHallRequest() {}
+
   public static void parseResponse(String location, String responseText) {
     if (!location.startsWith("clan_hall.php")) {
       return;

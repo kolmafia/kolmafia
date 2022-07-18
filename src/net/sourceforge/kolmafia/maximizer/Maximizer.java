@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -12,6 +13,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.moods.MoodManager;
@@ -22,7 +24,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
-import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
@@ -48,8 +49,8 @@ import net.sourceforge.kolmafia.session.BeachManager.BeachHead;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
-import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -73,6 +74,8 @@ public class Maximizer {
   static MaximizerSpeculation best;
   static int bestChecked;
   static long bestUpdate;
+
+  private Maximizer() {}
 
   public static boolean maximize(
       String maximizerString, int maxPrice, int priceLevel, boolean isSpeculationOnly) {
@@ -222,60 +225,16 @@ public class Maximizer {
         // Iterate over items to see if we have access to them
         int count = 0;
         for (int itemId : itemList) {
-          CheckedItem checkedItem = new CheckedItem(itemId, equipScope, maxPrice, priceLevel);
-          // We won't include unavailable items, as this just gets far too large
-          String cmd, text;
-          int price = 0;
-          AdventureResult item = ItemPool.get(itemId);
-          cmd = "absorb \u00B6" + itemId;
-          text = "absorb " + item.getName() + " (" + name + ", ";
-          if (checkedItem.inventory > 0) {
-          } else if (checkedItem.initial > 0) {
-            String method = InventoryManager.simRetrieveItem(item, equipScope == -1, false);
-            if (!method.equals("have")) {
-              text = method + " & " + text;
-            }
-            if (method.equals("uncloset")) {
-              cmd = "closet take 1 \u00B6" + itemId + ";" + cmd;
-            }
-            // Should be only hitting this after Ronin I think
-            else if (method.equals("pull")) {
-              cmd = "pull 1 \u00B6" + itemId + ";" + cmd;
-            }
-          } else if (checkedItem.creatable > 0) {
-            text = "make & " + text;
-            cmd = "make \u00B6" + itemId + ";" + cmd;
-            price = ConcoctionPool.get(item).price;
-          } else if (checkedItem.npcBuyable > 0) {
-            text = "buy & " + text;
-            cmd = "buy 1 \u00B6" + itemId + ";" + cmd;
-            price = ConcoctionPool.get(item).price;
-          } else if (checkedItem.pullable > 0) {
-            text = "pull & " + text;
-            cmd = "pull \u00B6" + itemId + ";" + cmd;
-          } else if (checkedItem.mallBuyable > 0) {
-            text = "acquire & " + text;
-            if (priceLevel > 0) {
-              price = StoreManager.getMallPrice(item);
-            }
-          } else if (checkedItem.pullBuyable > 0) {
-            text = "buy & pull & " + text;
-            cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
-            if (priceLevel > 0) {
-              price = StoreManager.getMallPrice(item);
-            }
-          } else {
-            continue;
-          }
-          if (price > 0) {
-            text = text + KoLConstants.COMMA_FORMAT.format(price) + " meat, ";
-          }
+          var makeable = getAbsorbable(itemId, equipScope, maxPrice, priceLevel);
+          if (!makeable.canMake) continue;
+          String cmd = makeable.cmd;
+          String text = makeable.txt;
           text = text + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
           text = text + " [" + absorbsLeft + " absorbs remaining]";
           if (count > 0) {
             text = "  or " + text;
           }
-          Maximizer.boosts.add(new Boost(cmd, text, item, delta));
+          Maximizer.boosts.add(new Boost(cmd, text, ItemPool.get(itemId), delta));
           count++;
         }
       }
@@ -295,8 +254,8 @@ public class Maximizer {
         if (!ItemDatabase.isTradeable(itemId) && !ItemDatabase.isGiftItem(itemId)) {
           continue;
         }
-        // Can only get it from Equipment
-        if (!EquipmentDatabase.isEquipment(itemId)) {
+        // Can only get it from Equipment (not including familiar equipment)
+        if (!ItemDatabase.isEquipment(itemId) || ItemDatabase.isFamiliarEquipment(itemId)) {
           continue;
         }
         MaximizerSpeculation spec = new MaximizerSpeculation();
@@ -326,55 +285,11 @@ public class Maximizer {
         if (delta <= 0.0) {
           continue;
         }
-        // Check if we have access to item
-        CheckedItem checkedItem = new CheckedItem(itemId, equipScope, maxPrice, priceLevel);
-        // We won't include unavailable items, as this just gets far too large
-        String cmd, text;
-        int price = 0;
-        AdventureResult item = ItemPool.get(itemId);
-        cmd = "absorb \u00B6" + itemId;
-        text = "absorb " + item.getName() + " (";
-        if (checkedItem.inventory > 0) {
-        } else if (checkedItem.initial > 0) {
-          String method = InventoryManager.simRetrieveItem(item, equipScope == -1, false);
-          if (!method.equals("have")) {
-            text = method + " & " + text;
-          }
-          if (method.equals("uncloset")) {
-            cmd = "closet take 1 \u00B6" + itemId + ";" + cmd;
-          }
-          // Should be only hitting this after Ronin I think
-          else if (method.equals("pull")) {
-            cmd = "pull 1 \u00B6" + itemId + ";" + cmd;
-          }
-        } else if (checkedItem.creatable > 0) {
-          text = "make & " + text;
-          cmd = "make \u00B6" + itemId + ";" + cmd;
-          price = ConcoctionPool.get(item).price;
-        } else if (checkedItem.npcBuyable > 0) {
-          text = "buy & " + text;
-          cmd = "buy 1 \u00B6" + itemId + ";" + cmd;
-          price = ConcoctionPool.get(item).price;
-        } else if (checkedItem.pullable > 0) {
-          text = "pull & " + text;
-          cmd = "pull \u00B6" + itemId + ";" + cmd;
-        } else if (checkedItem.mallBuyable > 0) {
-          text = "acquire & " + text;
-          if (priceLevel > 0) {
-            price = StoreManager.getMallPrice(item);
-          }
-        } else if (checkedItem.pullBuyable > 0) {
-          text = "buy & pull & " + text;
-          cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
-          if (priceLevel > 0) {
-            price = StoreManager.getMallPrice(item);
-          }
-        } else {
-          continue;
-        }
-        if (price > 0) {
-          text = text + KoLConstants.COMMA_FORMAT.format(price) + " meat, ";
-        }
+        var makeable = getAbsorbable(itemId, equipScope, maxPrice, priceLevel);
+        if (!makeable.canMake) continue;
+        String cmd = makeable.cmd;
+        String text = makeable.txt;
+        CheckedItem checkedItem = makeable.checkedItem;
         text = text + "lasts til end of day, ";
         text = text + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
         text = text + " [" + absorbsLeft + " absorbs remaining";
@@ -394,7 +309,7 @@ public class Maximizer {
           text = text + ", " + checkedItem.pullable + " pullable";
         }
         text = text + "]";
-        Maximizer.boosts.add(new Boost(cmd, text, item, delta));
+        Maximizer.boosts.add(new Boost(cmd, text, ItemPool.get(itemId), delta));
       }
 
       if (lookup.startsWith("Horsery:")
@@ -1051,9 +966,9 @@ public class Maximizer {
         } else if (cmd.startsWith("skate ")) {
           String status = Preferences.getString("skateParkStatus");
           int buff = SkateParkRequest.placeToBuff(cmd.substring(6));
-          Object[] data = SkateParkRequest.buffToData(buff);
-          String buffPref = (String) data[4];
-          String buffStatus = (String) data[6];
+          var data = SkateParkRequest.buffToData(buff);
+          String buffPref = data.setting();
+          String buffStatus = data.state();
 
           if (!status.equals(buffStatus)) {
             continue;
@@ -1371,30 +1286,30 @@ public class Maximizer {
             } else if (checkedItem.mallBuyable > 0) {
               text = "acquire & " + text;
               if (priceLevel > 0) {
-                if (MallPriceDatabase.getPrice(item.getItemId()) > maxPrice * 2) {
+                if (MallPriceDatabase.getPrice(itemId) > maxPrice * 2) {
                   continue;
                 }
 
                 // Depending on preference, either get historical mall price or look it up
                 if (Preferences.getBoolean("maximizerCurrentMallPrices")) {
-                  price = StoreManager.getMallPrice(item);
+                  price = MallPriceManager.getMallPrice(itemId);
                 } else {
-                  price = StoreManager.getMallPrice(item, 7.0f);
+                  price = MallPriceManager.getMallPrice(itemId, 7.0f);
                 }
               }
             } else if (checkedItem.pullBuyable > 0) {
               text = "buy & pull & " + text;
               cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
               if (priceLevel > 0) {
-                if (MallPriceDatabase.getPrice(item.getItemId()) > maxPrice * 2) {
+                if (MallPriceDatabase.getPrice(itemId) > maxPrice * 2) {
                   continue;
                 }
 
                 // Depending on preference, either get historical mall price or look it up
                 if (Preferences.getBoolean("maximizerCurrentMallPrices")) {
-                  price = StoreManager.getMallPrice(item);
+                  price = MallPriceManager.getMallPrice(itemId);
                 } else {
-                  price = StoreManager.getMallPrice(item, 7.0f);
+                  price = MallPriceManager.getMallPrice(itemId, 7.0f);
                 }
               }
             } else {
@@ -1415,9 +1330,9 @@ public class Maximizer {
 
                 // Depending on preference, either get historical mall price or look it up
                 if (Preferences.getBoolean("maximizerCurrentMallPrices")) {
-                  price = StoreManager.getMallPrice(item);
+                  price = MallPriceManager.getMallPrice(itemId);
                 } else {
-                  price = StoreManager.getMallPrice(item, 7.0f);
+                  price = MallPriceManager.getMallPrice(itemId, 7.0f);
                 }
               }
             }
@@ -1629,24 +1544,10 @@ public class Maximizer {
     int itemId = -1;
     FamiliarData enthroned = Maximizer.best.getEnthroned();
     FamiliarData bjorned = Maximizer.best.getBjorned();
-    String edPiece = Maximizer.best.getEdPiece();
-    String snowsuit = Maximizer.best.getSnowsuit();
-    String retroCape = Maximizer.best.getRetroCape();
-    String backupCamera = Maximizer.best.getBackupCamera();
+    var modeables = Maximizer.best.getModeables();
     AdventureResult curr = EquipmentManager.getEquipment(slot);
     FamiliarData currEnthroned = KoLCharacter.getEnthroned();
     FamiliarData currBjorned = KoLCharacter.getBjorned();
-    String currEdPiece = Preferences.getString("edPiece");
-    Boolean setEdPiece = false;
-    String currSnowsuit = Preferences.getString("snowsuit");
-    Boolean setSnowsuit = false;
-    String currRetroCape =
-        Preferences.getString("retroCapeSuperhero")
-            + " "
-            + Preferences.getString("retroCapeWashingInstructions");
-    Boolean setRetroCape = false;
-    String currBackupCamera = Preferences.getString("backupCameraMode");
-    Boolean setBackupCamera = false;
 
     if (item == null || item.getItemId() == 0) {
       item = EquipmentRequest.UNEQUIP;
@@ -1656,26 +1557,15 @@ public class Maximizer {
 
     boolean changeEnthroned = itemId == ItemPool.HATSEAT && enthroned != currEnthroned;
     boolean changeBjorned = itemId == ItemPool.BUDDY_BJORN && bjorned != currBjorned;
-    boolean changeRetroCape =
-        itemId == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE
-            && retroCape != null
-            && !retroCape.equals(currRetroCape);
-    boolean changeBackupCamera =
-        itemId == ItemPool.BACKUP_CAMERA
-            && backupCamera != null
-            && !backupCamera.equals(currBackupCamera);
-    boolean changeEdPiece =
-        itemId == ItemPool.CROWN_OF_ED && edPiece != null && !edPiece.equals(currEdPiece);
-    boolean changeSnowSuit =
-        itemId == ItemPool.SNOW_SUIT && snowsuit != null && !snowsuit.equals(currSnowsuit);
+
+    var modeable = Modeable.find(itemId);
+    var changeModeable =
+        modeable != null && !Objects.equals(modeables.get(modeable), modeable.getState());
 
     if (curr.equals(item)
         && !changeEnthroned
         && !changeBjorned
-        && !changeEdPiece
-        && !changeSnowSuit
-        && !(changeRetroCape)
-        && !(changeBackupCamera)
+        && !changeModeable
         && !(itemId == ItemPool.BROKEN_CHAMPAGNE
             && Preferences.getInteger("garbageChampagneCharge") == 0
             && !Preferences.getBoolean("_garbageItemChanged"))
@@ -1697,14 +1587,8 @@ public class Maximizer {
       spec.setEnthroned(enthroned);
     } else if (itemId == ItemPool.BUDDY_BJORN) {
       spec.setBjorned(bjorned);
-    } else if (itemId == ItemPool.CROWN_OF_ED) {
-      spec.setEdPiece(edPiece);
-    } else if (itemId == ItemPool.SNOW_SUIT) {
-      spec.setSnowsuit(snowsuit);
-    } else if (itemId == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE) {
-      spec.setRetroCape(retroCape);
-    } else if (itemId == ItemPool.BACKUP_CAMERA) {
-      spec.setBackupCamera(backupCamera);
+    } else if (modeable != null) {
+      spec.setModeable(modeable, modeables.get(modeable));
     }
 
     double delta = spec.getScore() - current;
@@ -1721,22 +1605,11 @@ public class Maximizer {
       } else if (changeBjorned) {
         cmd = "bjornify " + bjorned.getRace();
         text = cmd;
-      } else if (changeEdPiece) {
-        cmd = "edpiece " + edPiece;
-        text = cmd;
-        setEdPiece = true;
-      } else if (changeSnowSuit) {
-        cmd = "snowsuit " + snowsuit;
-        text = cmd;
-        setSnowsuit = true;
-      } else if (changeRetroCape) {
-        cmd = "retrocape " + retroCape;
-        text = cmd;
-        setRetroCape = true;
-      } else if (changeBackupCamera) {
-        cmd = "backupcamera " + backupCamera + "; equip " + slotname + " \u00B6" + item.getItemId();
-        text = "backupcamera " + backupCamera;
-        setBackupCamera = true;
+      } else if (changeModeable) {
+        text = modeable.getCommand() + " " + modeables.get(modeable);
+        cmd = text;
+        if (modeable.getEquipAfterChange())
+          cmd += "; equip " + slotname + " \u00B6" + item.getItemId();
       } else {
         cmd = "equip " + slotname + " \u00B6" + item.getItemId();
         text = "equip " + slotname + " " + item.getName();
@@ -1762,9 +1635,7 @@ public class Maximizer {
         }
       } else {
         // Otherwise we iterate through the maximization set so far
-        Iterator<Boost> i = Maximizer.boosts.iterator();
-        while (i.hasNext()) {
-          Boost boost = i.next();
+        for (Boost boost : Maximizer.boosts) {
           if (item.equals(boost.getItem())) {
             count++;
           }
@@ -1855,12 +1726,12 @@ public class Maximizer {
         text = "buy & pull & " + text;
         cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
         if (priceLevel > 0) {
-          price = StoreManager.getMallPrice(item);
+          price = MallPriceManager.getMallPrice(itemId);
         }
       } else { // Mall buyable
         text = "acquire & " + text;
         if (priceLevel > 0) {
-          price = StoreManager.getMallPrice(item);
+          price = MallPriceManager.getMallPrice(itemId);
         }
       }
 
@@ -1870,35 +1741,7 @@ public class Maximizer {
       text = text + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
     }
 
-    if (!setEdPiece) {
-      edPiece = null;
-    }
-
-    if (!setSnowsuit) {
-      snowsuit = null;
-    }
-
-    if (!setRetroCape) {
-      retroCape = null;
-    }
-
-    if (!setBackupCamera) {
-      backupCamera = null;
-    }
-
-    Boost boost =
-        new Boost(
-            cmd,
-            text,
-            slot,
-            item,
-            delta,
-            enthroned,
-            bjorned,
-            edPiece,
-            snowsuit,
-            retroCape,
-            backupCamera);
+    Boost boost = new Boost(cmd, text, slot, item, delta, enthroned, bjorned, modeables);
     if (equipScope == -1) { // called from CLI
       boost.execute(true);
       if (!KoLmafia.permitsContinue()) {
@@ -1919,5 +1762,73 @@ public class Maximizer {
         return true;
     }
     return false;
+  }
+
+  private static class Makeable {
+    final String cmd;
+    final String txt;
+    final boolean canMake;
+    final CheckedItem checkedItem;
+
+    private Makeable(String cmd, String txt, boolean canMake, CheckedItem checkedItem) {
+      this.cmd = cmd;
+      this.txt = txt;
+      this.canMake = canMake;
+      this.checkedItem = checkedItem;
+    }
+  }
+
+  private static Makeable getAbsorbable(int itemId, int equipScope, int maxPrice, int priceLevel) {
+    // Check if we have access to item
+    CheckedItem checkedItem = new CheckedItem(itemId, equipScope, maxPrice, priceLevel);
+    // We won't include unavailable items, as this just gets far too large
+    String cmd, text;
+    int price = 0;
+    boolean canMake = true;
+    AdventureResult item = ItemPool.get(itemId);
+    cmd = "absorb \u00B6" + itemId;
+    text = "absorb " + item.getName() + " (";
+    if (checkedItem.inventory > 0) {
+    } else if (checkedItem.initial > 0) {
+      String method = InventoryManager.simRetrieveItem(item, equipScope == -1, false);
+      if (!method.equals("have")) {
+        text = method + " & " + text;
+      }
+      if (method.equals("uncloset")) {
+        cmd = "closet take 1 \u00B6" + itemId + ";" + cmd;
+      }
+      // Should be only hitting this after Ronin I think
+      else if (method.equals("pull")) {
+        cmd = "pull 1 \u00B6" + itemId + ";" + cmd;
+      }
+    } else if (checkedItem.creatable > 0) {
+      text = "make & " + text;
+      cmd = "make \u00B6" + itemId + ";" + cmd;
+      price = ConcoctionPool.get(item).price;
+    } else if (checkedItem.npcBuyable > 0) {
+      text = "buy & " + text;
+      cmd = "buy 1 \u00B6" + itemId + ";" + cmd;
+      price = ConcoctionPool.get(item).price;
+    } else if (checkedItem.pullable > 0) {
+      text = "pull & " + text;
+      cmd = "pull \u00B6" + itemId + ";" + cmd;
+    } else if (checkedItem.mallBuyable > 0) {
+      text = "acquire & " + text;
+      if (priceLevel > 0) {
+        price = MallPriceManager.getMallPrice(itemId);
+      }
+    } else if (checkedItem.pullBuyable > 0) {
+      text = "buy & pull & " + text;
+      cmd = "buy using storage 1 \u00B6" + itemId + ";pull \u00B6" + itemId + ";" + cmd;
+      if (priceLevel > 0) {
+        price = MallPriceManager.getMallPrice(itemId);
+      }
+    } else {
+      canMake = false;
+    }
+    if (price > 0) {
+      text = text + KoLConstants.COMMA_FORMAT.format(price) + " meat, ";
+    }
+    return new Makeable(cmd, text, canMake, checkedItem);
   }
 }

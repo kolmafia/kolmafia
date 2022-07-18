@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -19,7 +20,7 @@ import net.sourceforge.kolmafia.session.Limitmode;
 public class RefreshStatusCommand extends AbstractCommand {
   public RefreshStatusCommand() {
     this.usage =
-        " all | [status | effects] | [gear | equip | outfit] | inv | camp | storage | [familiar | terarrium] | stickers | quests | shop - resynchronize with KoL.";
+        " all | [status | effects] | [gear | equip | outfit] | inv | camp | storage | stash | [familiar | terarrium] | stickers | quests | shop - resynchronize with KoL.";
   }
 
   @Override
@@ -47,6 +48,9 @@ public class RefreshStatusCommand extends AbstractCommand {
       return;
     } else if (parameters.equals("storage")) {
       StorageRequest.refresh();
+      return;
+    } else if (parameters.equals("stash")) {
+      RequestThread.postRequest(new ClanStashRequest());
       return;
     } else if (parameters.startsWith("familiar") || parameters.equals("terrarium")) {
       parameters = "familiars";

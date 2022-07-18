@@ -12,7 +12,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -68,7 +67,7 @@ public class HermitRequest extends CoinMasterRequest {
   public static final AdventureResult SUMMON_SCROLL = ItemPool.get(ItemPool.ELITE_SCROLL, 1);
 
   private static boolean checkedForClovers = false;
-  private static final Integer ONE = IntegerPool.get(1);
+  private static final Integer ONE = 1;
 
   /**
    * Constructs a new <code>HermitRequest</code> that simply checks what items the hermit has

@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.swingui.menu;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JSeparator;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.session.GuildUnlockManager;
@@ -166,10 +165,8 @@ public class GlobalMenuBar extends JMenuBar {
     // Add script and bookmark menus, which use the
     // listener-driven static final lists.
 
-    if (!KoLConstants.bookmarks.isEmpty()) {
-      this.bookmarkMenu = new BookmarkMenu();
-      this.add(this.bookmarkMenu);
-    }
+    this.bookmarkMenu = new BookmarkMenu();
+    this.add(this.bookmarkMenu);
 
     this.scriptMenu = new ScriptMenu();
     this.add(this.scriptMenu);
@@ -213,7 +210,7 @@ public class GlobalMenuBar extends JMenuBar {
 
     helperMenu.add(
         new RelayBrowserMenuItem(
-            "The KoL Wiki", "http://kol.coldfront.net/thekolwiki/index.php/Main_Page"));
+            "The KoL Wiki", "https://kol.coldfront.net/thekolwiki/index.php/Main_Page"));
     helperMenu.add(
         new InvocationMenuItem("Violet Fog Mapper", VioletFogManager.class, "showGemelliMap"));
     helperMenu.add(new InvocationMenuItem("Wumpinator", WumpusManager.class, "invokeWumpinator"));

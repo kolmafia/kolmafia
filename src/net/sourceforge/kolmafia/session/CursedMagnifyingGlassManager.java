@@ -13,11 +13,14 @@ public class CursedMagnifyingGlassManager {
           Map.entry(
               "A distant clock chimes 11, even though it is (probably) not 11 o'clock right now.",
               3),
-          Map.entry("A madman in the distance shrieks: \"Ten! Only ten now! Hee hee!\"", 4),
+          Map.entry(
+              "A madman in the distance shrieks: &quot;Ten!  Only ten now!  Hee hee!&quot;", 4),
           Map.entry("Nine ravens burst from a nearby tree and take to the sky.", 5),
           Map.entry("Eight rats scurry out from behind a nearby bush, startling you.", 6),
           Map.entry("To your left, seven stray dogs fight over a scrap of carrion.", 7),
-          Map.entry("A creepy-looking little girl walks up and whispers in your ear.  \"Six.\"", 8),
+          Map.entry(
+              "A creepy-looking little girl walks up and whispers in your ear.  &quot;Six.&quot;",
+              8),
           Map.entry(
               "You look at your left hand and notice, to your horror, that you have five fingers.  Oh, wait, that's the normal number.  Never mind.",
               9),
@@ -31,6 +34,8 @@ public class CursedMagnifyingGlassManager {
           Map.entry(
               "The hair on the back of your neck stands up.  A feeling of impending dread overwhelms your senses.",
               13));
+
+  private CursedMagnifyingGlassManager() {}
 
   public static final void updatePreference(String resultText) {
     for (Map.Entry<String, Integer> entry : MAGNIFYING_GLASS_MESSAGES.entrySet()) {

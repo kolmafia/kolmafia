@@ -12,7 +12,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.MushroomRequest;
@@ -70,28 +69,31 @@ public abstract class MushroomManager {
   // Associations between the mushroom Ids
   // and the mushroom image.
 
-  public static final Object[][] MUSHROOMS = {
+  public record Mushroom(
+      int id, String filename, String spore, String mushroom, int index, String name) {}
+
+  public static final Mushroom[] MUSHROOMS = {
     // Sprout and emptiness
-    {IntegerPool.get(EMPTY), "dirt1.gif", "__", "__", IntegerPool.get(0), "empty"},
-    {IntegerPool.get(SPROUT), "mushsprout.gif", "..", "..", IntegerPool.get(0), "unknown"},
+    new Mushroom(EMPTY, "dirt1.gif", "__", "__", 0, "empty"),
+    new Mushroom(SPROUT, "mushsprout.gif", "..", "..", 0, "unknown"),
 
     // First generation mushrooms
-    {IntegerPool.get(KNOB), "mushroom.gif", "kb", "KB", IntegerPool.get(1), "knob"},
-    {IntegerPool.get(KNOLL), "bmushroom.gif", "kn", "KN", IntegerPool.get(2), "knoll"},
-    {IntegerPool.get(SPOOKY), "spooshroom.gif", "sp", "SP", IntegerPool.get(3), "spooky"},
+    new Mushroom(KNOB, "mushroom.gif", "kb", "KB", 1, "knob"),
+    new Mushroom(KNOLL, "bmushroom.gif", "kn", "KN", 2, "knoll"),
+    new Mushroom(SPOOKY, "spooshroom.gif", "sp", "SP", 3, "spooky"),
 
     // Second generation mushrooms
-    {IntegerPool.get(WARM), "flatshroom.gif", "wa", "WA", IntegerPool.get(4), "warm"},
-    {IntegerPool.get(COOL), "plaidroom.gif", "co", "CO", IntegerPool.get(5), "cool"},
-    {IntegerPool.get(POINTY), "tallshroom.gif", "po", "PO", IntegerPool.get(6), "pointy"},
+    new Mushroom(WARM, "flatshroom.gif", "wa", "WA", 4, "warm"),
+    new Mushroom(COOL, "plaidroom.gif", "co", "CO", 5, "cool"),
+    new Mushroom(POINTY, "tallshroom.gif", "po", "PO", 6, "pointy"),
 
     // Third generation mushrooms
-    {IntegerPool.get(FLAMING), "fireshroom.gif", "fl", "FL", IntegerPool.get(7), "flaming"},
-    {IntegerPool.get(FROZEN), "iceshroom.gif", "fr", "FR", IntegerPool.get(8), "frozen"},
-    {IntegerPool.get(STINKY), "stinkshroo.gif", "st", "ST", IntegerPool.get(9), "stinky"},
+    new Mushroom(FLAMING, "fireshroom.gif", "fl", "FL", 7, "flaming"),
+    new Mushroom(FROZEN, "iceshroom.gif", "fr", "FR", 8, "frozen"),
+    new Mushroom(STINKY, "stinkshroo.gif", "st", "ST", 9, "stinky"),
 
     // Special mushrooms
-    {IntegerPool.get(GLOOMY), "blackshroo.gif", "gl", "GL", IntegerPool.get(10), "gloomy"},
+    new Mushroom(GLOOMY, "blackshroo.gif", "gl", "GL", 10, "gloomy"),
   };
 
   public static final int[][] BREEDING = {
@@ -201,8 +203,8 @@ public abstract class MushroomManager {
     for (int i = 0; i < 4; ++i) {
       if (!touched[i].equals("__") && !touched[i].equals("..")) {
         for (int j = 0; j < MushroomManager.MUSHROOMS.length; ++j) {
-          if (touched[i].equals(MushroomManager.MUSHROOMS[j][3])) {
-            touchIndex[touchCount] = ((Integer) MushroomManager.MUSHROOMS[j][4]).intValue();
+          if (touched[i].equals(MushroomManager.MUSHROOMS[j].mushroom)) {
+            touchIndex[touchCount] = MushroomManager.MUSHROOMS[j].index;
           }
         }
 
@@ -227,10 +229,8 @@ public abstract class MushroomManager {
 
   private static String getShorthand(final int mushroomType, final boolean isAdult) {
     for (int i = 0; i < MushroomManager.MUSHROOMS.length; ++i) {
-      if (mushroomType == ((Integer) MushroomManager.MUSHROOMS[i][0]).intValue()) {
-        return isAdult
-            ? (String) MushroomManager.MUSHROOMS[i][3]
-            : (String) MushroomManager.MUSHROOMS[i][2];
+      if (mushroomType == MushroomManager.MUSHROOMS[i].id) {
+        return isAdult ? MushroomManager.MUSHROOMS[i].mushroom : MushroomManager.MUSHROOMS[i].spore;
       }
     }
 
@@ -242,7 +242,7 @@ public abstract class MushroomManager {
     // of the mushroom plot.  Shorthand and hypertext are
     // the only two versions at the moment.
 
-    StringBuffer plotBuffer = new StringBuffer();
+    StringBuilder plotBuffer = new StringBuilder();
 
     if (!isDataOnly) {
       plotBuffer.append(KoLConstants.LINE_BREAK);
@@ -290,11 +290,11 @@ public abstract class MushroomManager {
   /** Utility method which retrieves the image associated with the given mushroom type. */
   public static final String getMushroomImage(final String mushroomType) {
     for (int i = 1; i < MushroomManager.MUSHROOMS.length; ++i) {
-      if (mushroomType.equals(MushroomManager.MUSHROOMS[i][2])) {
+      if (mushroomType.equals(MushroomManager.MUSHROOMS[i].spore)) {
         return "itemimages/mushsprout.gif";
       }
-      if (mushroomType.equals(MushroomManager.MUSHROOMS[i][3])) {
-        return "itemimages/" + MushroomManager.MUSHROOMS[i][1];
+      if (mushroomType.equals(MushroomManager.MUSHROOMS[i].mushroom)) {
+        return "itemimages/" + MushroomManager.MUSHROOMS[i].filename;
       }
     }
 
@@ -304,8 +304,8 @@ public abstract class MushroomManager {
   /** Utility method which retrieves the mushroom which is associated with the given image. */
   public static final int getMushroomType(final String mushroomImage) {
     for (int i = 0; i < MushroomManager.MUSHROOMS.length; ++i) {
-      if (mushroomImage.endsWith("/" + MushroomManager.MUSHROOMS[i][1])) {
-        return ((Integer) MushroomManager.MUSHROOMS[i][0]).intValue();
+      if (mushroomImage.endsWith("/" + MushroomManager.MUSHROOMS[i].filename)) {
+        return MushroomManager.MUSHROOMS[i].id;
       }
     }
 
@@ -537,8 +537,8 @@ public abstract class MushroomManager {
     if (gifMatcher.find()) {
       String gif = gifMatcher.group(1);
       for (int i = 0; i < MushroomManager.MUSHROOMS.length; ++i) {
-        if (gif.equals(MushroomManager.MUSHROOMS[i][1])) {
-          return ((Integer) MushroomManager.MUSHROOMS[i][0]).intValue();
+        if (gif.equals(MushroomManager.MUSHROOMS[i].filename)) {
+          return MushroomManager.MUSHROOMS[i].id;
         }
       }
     }
@@ -552,10 +552,9 @@ public abstract class MushroomManager {
     // the text file which was generated automatically.
 
     int dayIndex = 0;
-    BufferedReader reader =
-        FileUtilities.getReader(new File(KoLConstants.PLOTS_LOCATION, filename + ".txt"));
 
-    try {
+    try (BufferedReader reader =
+        FileUtilities.getReader(new File(KoLConstants.PLOTS_LOCATION, filename + ".txt"))) {
       String line = "";
       String[][] arrayData = new String[4][4];
 
@@ -617,19 +616,9 @@ public abstract class MushroomManager {
       }
     } catch (Exception e) {
       StaticEntity.printStackTrace(e);
-      return Math.max(dayIndex, 2);
     }
 
-    // Make sure to close the reader after you're done reading
-    // all the data in the file.
-
-    try {
-      reader.close();
-      return Math.max(dayIndex, 2);
-    } catch (Exception e) {
-      StaticEntity.printStackTrace(e);
-      return Math.max(dayIndex, 2);
-    }
+    return Math.max(dayIndex, 2);
   }
 
   private static void copyMushroomImage(final String location) {
@@ -678,10 +667,10 @@ public abstract class MushroomManager {
       isTodayEmpty = true;
       ArrayList<String> commands = new ArrayList<>();
 
-      StringBuffer pickText = new StringBuffer();
-      StringBuffer pickHtml = new StringBuffer();
-      StringBuffer plantText = new StringBuffer();
-      StringBuffer plantHtml = new StringBuffer();
+      StringBuilder pickText = new StringBuilder();
+      StringBuilder pickHtml = new StringBuilder();
+      StringBuilder plantText = new StringBuilder();
+      StringBuilder plantHtml = new StringBuilder();
 
       for (int j = 0; j < 16; ++j) {
         if (i == 0) {

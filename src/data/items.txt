@@ -6081,7 +6081,7 @@
 6053	Taco Dan's Taco Stand Chimichangarita	224117850	daquiri.gif	drink	t,d	15
 6054	Taco Dan's Taco Stand Chillacious Churro	127551554	blintz.gif	potion, multiple	t,d	15
 6055	psychoanalytic jar	782318443	analjar_empty.gif	none		0
-6056	The Sword in the Steak	700732940	swordinthesteak.gif	usable	t	0
+6056	The Sword in the Steak	700732940	swordinthesteak.gif	usable	t	0	Swords in Steaks
 6057	Meatcleaver	992124594	meatcleaver.gif	weapon		0
 6058	Crimbo Elf creepy bobble-head	359431553	elfbobble.gif	offhand, usable		0
 6059	Crimbo stogie-scented room odorizer	221399329	offhandcigar.gif	offhand, usable		0
@@ -9731,7 +9731,7 @@
 9703	beefy pill	630574018	pill2.gif	spleen, usable	t,d	60
 9704	excitement pill	498109333	pill3.gif	spleen, usable	t,d	60
 9705	vitamin G pill	627968432	pill4.gif	spleen, usable	t,d	60
-9706	lucky pill	839340181	pill5.gif	spleen, usable	t,d	60
+9706	lucky-ish pill	839340181	pill5.gif	spleen, usable	t,d	60
 9707	dieting pill	682913922	pill5.gif	spleen, usable	t,d	60
 9708
 9709
@@ -10146,7 +10146,7 @@
 10118	velour valise	217953676	vel_valise.gif	offhand		0
 10119	velour vaqueros	441211726	vel_vaqueros.gif	pants		0
 10120	velour veneer	806757439	vel_veneer.gif	spleen, usable		0
-10121	Velougats&trade;	711521938	velougat.gif	potion, usable		0
+10121	Velougats&trade;	711521938	velougat.gif	potion, usable	d	15
 10122	stained glass suspenders	622632255	sg_suspenders.gif	accessory		0
 10123	stained glass shield	399459418	sg_shield.gif	offhand		0
 10124	stained glass stetson	701584101	sg_stetson.gif	hat		0
@@ -10162,7 +10162,7 @@
 10134	loofah legwarmers	861814172	loof_warmers.gif	accessory		0
 10135	loofah lavalier	742480306	loof_lavalier.gif	accessory		0
 10136	loofah lumps	141391283	loof_bits.gif	spleen, usable		0
-10137
+10137	chocolate-covered loofah	476932724	loof_candy.gif	potion, usable	t,d	15
 10138	flagstone flag	485110859	fs_flag.gif	offhand		0
 10139	flagstone flail	774649175	fs_flail.gif	weapon		0
 10140	flagstone flip-flops	790456758	fs_flipflops.gif	accessory		0
@@ -10170,7 +10170,7 @@
 10142	flagstone fleece	890070574	fs_fleece.gif	container		0
 10143	flagstone fringe	839701459	fs_fringe.gif	accessory		0
 10144	flagstone flagments	646585503	fs_bits.gif	spleen, usable		0
-10145
+10145	Flag by the Foot&trade;	753564360	fs_candy.gif	potion, usable	t,d	15
 10146	elf sleeper agent	896004413	elfoplarva.gif	grow	t	0
 10147	red-and-green microcamera	537719204	elfopcamera.gif	familiar	t,d	75
 10148	cobbled-together Meat detector	379535516	elfopdetector.gif	offhand	q	0
@@ -10853,10 +10853,10 @@
 10825	Doc's Smartifying Wine	747053412	rxwine.gif	drink	t,d	10	bottles of Doc's Smartifying Wine
 10826	Doc's Limbering Wine	975820765	rxwine.gif	drink	t,d	10	bottles of Doc's Limbering Wine
 10827	Doc's Medical-Grade Wine	237098811	rxwine.gif	drink	t,d	10	bottles of Doc's Medical-Grade Wine
-10828	Homebodyl&trade;	972999798	pill3.gif	spleen, usable	t,d	10
-10829	Extrovermectin&trade;	411068914	stimpill.gif	spleen, usable	t,d	10
-10830	Breathitin&trade;	910011561	pill2.gif	spleen, usable	t,d	10
-10831	Fleshazole&trade;	711958772	meatpill.gif	spleen, usable	t,d	10
+10828	Homebodyl&trade;	972999798	pill3.gif	spleen, multiple	t,d	10
+10829	Extrovermectin&trade;	411068914	stimpill.gif	spleen, multiple	t,d	10
+10830	Breathitin&trade;	910011561	pill2.gif	spleen, multiple	t,d	10
+10831	Fleshazole&trade;	711958772	meatpill.gif	spleen, multiple	t,d	10
 10832	anti-burn cream	912342957	creamtube.gif	potion, usable	t,d	10
 10833	anti-freeze cream	866330910	creamtube.gif	potion, usable	t,d	10
 10834	anti-goosebump cream	287944320	creamtube.gif	potion, usable	t,d	10
@@ -10915,4 +10915,43 @@
 10888	void stone	676671920	voidstone.gif	none	d	500
 10889	void shard	935741344	voidknife.gif	weapon	t	0
 10890	undrilled cosmic bowling ball	276317641	cosmicball.gif	usable	t	0
-10891	cosmic bowling ball	119596776	cosmicball2.gif	none, combat		0
+10891	cosmic bowling ball	119596776	cosmicball2.gif	none, combat	q	0
+10892	combat lover's locket lockbox	237536213	lovelocketbox.gif	usable	t	0
+10893	combat lover's locket	634036450	lovelocket.gif	accessory		0
+10894	Thwaitgold protozoa statuette	575626986	thwaitproto.gif	none		0
+10895	grey gosling	802522606	greygosling.gif	grow	t	0
+10896	grey down vest	994210569	greygoovest.gif	familiar	t,d	75
+10897
+10898	undamaged Unbreakable Umbrella	591888584	unbrella1.gif	usable	t	0
+10899	unbreakable umbrella	712482724	unbrella7.gif	offhand		0
+10900	MayDay&trade; contract	536141141	maydaycontract.gif	usable	t	0
+10901	MayDay&trade; supply package	553211944	maydaypackage.gif	usable	q	0
+10902	emergency glowstick	177725411	maydayglowstick.gif	potion, usable	t,d	10
+10903	survival knife	486525726	maydayknife.gif	weapon	q	0
+10904	crank-powered radio on a lanyard	165573911	maydayradio.gif	accessory	q	0
+10905	headlamp	847104238	maydayheadlamp.gif	hat	q	0
+10906	thermal blanket	341518349	maydayblanket.gif	container	q	0
+10907	atlas of local maps	489238716	maydayatlas.gif	accessory	q	0
+10908	spare battery	133495777	maydaybattery.gif	potion, usable	t,d	10
+10909	space blanket	459795439	maydayblanket2.gif	none	t,d	5000
+10910	single-use dust mask	181045054	maydaymask.gif	potion, usable	t,d	10
+10911	gaffer's tape	975019349	maydaytape.gif	potion, usable	t,d	10
+10912	20-lb can of rice and beans	612048631	maydaycan.gif	food	t,d	10
+10913	bar of freeze-dried water	860292955	maydaywater.gif	food	t,d	10
+10914	expired MRE	120160347	maydaymre.gif	food	t,d	10
+10915	cool mint precipice bar	646996512	maydaybar.gif	food	t,d	10
+10916	carrot cake precipice bar	709552696	maydaybar.gif	food	t,d	10
+10917	The Big Book of Every Skill	467154860	book3.gif	usable		0
+10918	Thwaitgold harvestman statuette	209469206	thwaitharvestman.gif	none		0
+10919	packaged June cleaver	920627527	junecleaverbox.gif	usable	t	0
+10920	June cleaver	330396747	junecleaver.gif	weapon		0
+10921	Dad's brandy	193804343	snifter.gif	drink	t,d	30
+10922	teacher's pen	270724783	purplepen.gif	accessory	t,d	30
+10923	fire-roasted lake trout	836425101	fishy2.gif	food	t,d	10
+10924	guilty sprout	221701193	guiltysprout.gif	food	t,d	15
+10925	mother's necklace	820724023	necklace_mom.gif	accessory	t,d	1000
+10926	trampled ticket stub	589658698	stompstub.gif	potion, usable	t,d	15
+10927	savings bond	479848689	bondcert.gif	potion, usable	t,d	10
+10928	designer sweatpants (new old stock)	115000176	sweats_box.gif	usable	t	0
+10929	designer sweatpants	800334855	sweats.gif	pants		0
+10930	sweat-ade	858239579	sweatade.gif	spleen, usable	t	0

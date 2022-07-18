@@ -97,16 +97,9 @@ public abstract class CombatActionManager {
       ostream.close();
     }
 
-    try {
-      BufferedReader reader = FileUtilities.getReader(file);
-
+    try (BufferedReader reader = FileUtilities.getReader(file)) {
       CombatActionManager.strategyLookup.load(reader);
-
-      reader.close();
     } catch (IOException e1) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
       StaticEntity.printStackTrace(e1);
     }
 

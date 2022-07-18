@@ -1,12 +1,11 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,7 +19,6 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -73,42 +71,36 @@ public class ConsumablesDatabase {
     }
   }
 
-  public static Object[][] DUSTY_BOTTLES = {
-    {
-      IntegerPool.get(ItemPool.DUSTY_BOTTLE_OF_MERLOT),
-      "dusty bottle of Merlot",
-      "dusty bottle of average Merlot",
-    },
-    {
-      IntegerPool.get(ItemPool.DUSTY_BOTTLE_OF_PORT),
-      "dusty bottle of Port",
-      "dusty bottle of vinegar Port",
-    },
-    {
-      IntegerPool.get(ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR),
-      "dusty bottle of Pinot Noir",
-      "dusty bottle of spooky Pinot Noir",
-    },
-    {
-      IntegerPool.get(ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL),
-      "dusty bottle of Zinfandel",
-      "dusty bottle of great Zinfandel",
-    },
-    {
-      IntegerPool.get(ItemPool.DUSTY_BOTTLE_OF_MARSALA),
-      "dusty bottle of Marsala",
-      "dusty bottle of glassy Marsala",
-    },
-    {
-      IntegerPool.get(ItemPool.DUSTY_BOTTLE_OF_MUSCAT),
-      "dusty bottle of Muscat",
-      "dusty bottle of bad Muscat",
-    }
+  public record DustyBottle(int id, String name, String alias) {}
+
+  public static DustyBottle[] DUSTY_BOTTLES = {
+    new DustyBottle(
+        ItemPool.DUSTY_BOTTLE_OF_MERLOT,
+        "dusty bottle of Merlot",
+        "dusty bottle of average Merlot"),
+    new DustyBottle(
+        ItemPool.DUSTY_BOTTLE_OF_PORT, "dusty bottle of Port", "dusty bottle of vinegar Port"),
+    new DustyBottle(
+        ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR,
+        "dusty bottle of Pinot Noir",
+        "dusty bottle of spooky Pinot Noir"),
+    new DustyBottle(
+        ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL,
+        "dusty bottle of Zinfandel",
+        "dusty bottle of great Zinfandel"),
+    new DustyBottle(
+        ItemPool.DUSTY_BOTTLE_OF_MARSALA,
+        "dusty bottle of Marsala",
+        "dusty bottle of glassy Marsala"),
+    new DustyBottle(
+        ItemPool.DUSTY_BOTTLE_OF_MUSCAT, "dusty bottle of Muscat", "dusty bottle of bad Muscat")
   };
 
   private static final Map<String, String> muscleByName = new HashMap<String, String>();
   private static final Map<String, String> mysticalityByName = new HashMap<String, String>();
   private static final Map<String, String> moxieByName = new HashMap<String, String>();
+
+  private ConsumablesDatabase() {}
 
   public static void reset() {
     ConsumablesDatabase.readConsumptionData(
@@ -171,16 +163,13 @@ public class ConsumablesDatabase {
   private static void readConsumptionData(String filename, int version, Map<String, Integer> map) {
     map.clear();
 
-    BufferedReader reader = FileUtilities.getVersionedReader(filename, version);
-    String[] data;
+    try (BufferedReader reader = FileUtilities.getVersionedReader(filename, version)) {
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      ConsumablesDatabase.saveConsumptionValues(data, map);
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
+      while ((data = FileUtilities.readData(reader)) != null) {
+        ConsumablesDatabase.saveConsumptionValues(data, map);
+      }
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }
@@ -270,28 +259,24 @@ public class ConsumablesDatabase {
   }
 
   private static void readNonfillingData() {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("nonfilling.txt", KoLConstants.NONFILLING_VERSION);
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("nonfilling.txt", KoLConstants.NONFILLING_VERSION)) {
+      String[] data;
 
-    String[] data;
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 2) continue;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length < 2) continue;
+        String name = data[0];
+        ConsumablesDatabase.levelReqByName.put(name, Integer.valueOf(data[1]));
 
-      String name = data[0];
-      ConsumablesDatabase.levelReqByName.put(name, Integer.valueOf(data[1]));
+        if (data.length < 3) continue;
 
-      if (data.length < 3) continue;
-
-      String notes = data[2];
-      if (notes.length() > 0) {
-        ConsumablesDatabase.notesByName.put(name, notes);
+        String notes = data[2];
+        if (notes.length() > 0) {
+          ConsumablesDatabase.notesByName.put(name, notes);
+        }
       }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }
@@ -375,9 +360,9 @@ public class ConsumablesDatabase {
     int start = StringUtilities.parseInt(dashIndex == -1 ? range : range.substring(0, dashIndex));
     int end = dashIndex == -1 ? start : StringUtilities.parseInt(range.substring(dashIndex + 1));
     ConsumablesDatabase.advRangeByName.put(name, range);
-    ConsumablesDatabase.unitCostByName.put(name, IntegerPool.get(unitCost));
-    ConsumablesDatabase.advStartByName.put(name, IntegerPool.get(start));
-    ConsumablesDatabase.advEndByName.put(name, IntegerPool.get(end));
+    ConsumablesDatabase.unitCostByName.put(name, unitCost);
+    ConsumablesDatabase.advStartByName.put(name, start);
+    ConsumablesDatabase.advEndByName.put(name, end);
     ConsumablesDatabase.advNames = null;
   }
 
@@ -818,8 +803,7 @@ public class ConsumablesDatabase {
     if (ConsumablesDatabase.isLasagna(itemId)) {
       // If we have Gar-ish effect, or can get the effect and have autoGarish set, apply 5 bonus
       // adventures
-      Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
-      if (date.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY
+      if (!HolidayDatabase.isMonday()
           && (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.GARISH))
               || Preferences.getBoolean("autoGarish")
                   && (KoLCharacter.hasSkill(SkillPool.CLIP_ART)

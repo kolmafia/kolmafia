@@ -11,14 +11,17 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.SpecialOutfit;
@@ -37,10 +40,6 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.textui.command.BackupCameraCommand;
-import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
-import net.sourceforge.kolmafia.textui.command.RetroCapeCommand;
-import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Evaluator {
@@ -61,11 +60,14 @@ public class Evaluator {
   private final List<FamiliarData> carriedFamiliars = new ArrayList<>();
   private int carriedFamiliarsNeeded = 0;
   private boolean cardNeeded = false;
-  private boolean edPieceNeeded = false;
-  private String edPieceDecided = null;
-  private boolean snowsuitNeeded = false;
-  private boolean retroCapeNeeded = false;
-  private boolean backupCameraNeeded = false;
+  private final Map<Modeable, Boolean> modeablesNeeded = Modeable.getBooleanMap();
+
+  // Some modeables are forced based on certain expressions appearing in a maximize call
+  // For example, if you request "sea" the Crown of Ed will always pick fish. This does pose
+  // an issue if the maximizer would choose the SCUBA gear to provide water-breathing, as it would
+  // not consider a different mode for the Crown. e.g. "maximize sea, ml" would not consider the
+  // "bear" mode for the hat. Something for someone to fix in the future.
+  private final Map<Modeable, String> forcedModeables = Modeable.getStringMap(m -> "");
 
   /** if slots[i] >= 0 then equipment of type i can be considered for maximization */
   private final int[] slots = new int[EquipmentManager.ALL_SLOTS];
@@ -89,6 +91,17 @@ public class Evaluator {
   private final Set<AdventureResult> negEquip = new HashSet<>();
   private final Set<AdventureResult> uniques = new HashSet<>();
   private final Map<AdventureResult, Double> bonuses = new HashMap<>();
+  private final List<BonusFunction> bonusFunc = new ArrayList<>();
+
+  static class BonusFunction {
+    public final Function<AdventureResult, Double> bonusFunction;
+    public final Double weight;
+
+    public BonusFunction(Function<AdventureResult, Double> bonusFunction, Double weight) {
+      this.bonusFunction = bonusFunction;
+      this.weight = weight;
+    }
+  }
 
   private static final String TIEBREAKER =
       "1 familiar weight, 1 familiar experience, 1 initiative, 5 exp, 1 item, 1 meat, 0.1 DA 1000 max, 1 DR, 0.5 all res, -10 mana cost, 1.0 mus, 0.5 mys, 1.0 mox, 1.5 mainstat, 1 HP, 1 MP, 1 weapon damage, 1 ranged damage, 1 spell damage, 1 cold damage, 1 hot damage, 1 sleaze damage, 1 spooky damage, 1 stench damage, 1 cold spell damage, 1 hot spell damage, 1 sleaze spell damage, 1 spooky spell damage, 1 stench spell damage, -1 fumble, 1 HP regen max, 3 MP regen max, 1 critical hit percent, 0.1 food drop, 0.1 booze drop, 0.1 hat drop, 0.1 weapon drop, 0.1 offhand drop, 0.1 shirt drop, 0.1 pants drop, 0.1 accessory drop, 1 DB combat damage, 0.1 sixgun damage";
@@ -276,6 +289,7 @@ public class Evaluator {
 
       if (keyword.equals("shield")) {
         this.requireShield = weight > 0.0;
+        forcedModeables.put(Modeable.UMBRELLA, "forward-facing");
         this.hands = 1;
         continue;
       }
@@ -353,7 +367,7 @@ public class Evaluator {
             (1 << Modifiers.ADVENTURE_UNDERWATER) | (1 << Modifiers.UNDERWATER_FAMILIAR);
         index = -1;
         // Force Crown of Ed to Fish
-        this.edPieceDecided = "fish";
+        forcedModeables.put(Modeable.EDPIECE, "fish");
         continue;
       }
 
@@ -379,6 +393,23 @@ public class Evaluator {
           return;
         }
         this.bonuses.put(match, weight);
+        continue;
+      }
+
+      if (keyword.startsWith("letter")) {
+        keyword = keyword.substring(6).trim();
+        if (keyword.equals("")) { // no keyword counts letters
+          this.bonusFunc.add(new BonusFunction(LetterBonus::letterBonus, weight));
+        } else {
+          String finalKeyword = keyword;
+          this.bonusFunc.add(
+              new BonusFunction(ar -> LetterBonus.letterBonus(ar, finalKeyword), weight));
+        }
+        continue;
+      }
+
+      if (keyword.equals("number")) {
+        this.bonusFunc.add(new BonusFunction(LetterBonus::numberBonus, weight));
         continue;
       }
 
@@ -614,6 +645,7 @@ public class Evaluator {
     // Make sure indirect sources have at least a little weight;
     double fudge = this.weight[Modifiers.EXPERIENCE] * 0.0001f;
     this.weight[Modifiers.MONSTER_LEVEL] += fudge;
+    this.weight[Modifiers.MONSTER_LEVEL_PERCENT] += fudge;
     this.weight[Modifiers.MUS_EXPERIENCE] += fudge;
     this.weight[Modifiers.MYS_EXPERIENCE] += fudge;
     this.weight[Modifiers.MOX_EXPERIENCE] += fudge;
@@ -763,7 +795,10 @@ public class Evaluator {
           }
           break;
         case Modifiers.EXPERIENCE:
-          double baseExp = KoLCharacter.estimatedBaseExp(mods.get(Modifiers.MONSTER_LEVEL));
+          double baseExp =
+              KoLCharacter.estimatedBaseExp(
+                  mods.get(Modifiers.MONSTER_LEVEL)
+                      * (1 + mods.get(Modifiers.MONSTER_LEVEL_PERCENT) / 100));
           double expPct =
               mods.get(Modifiers.MUS_EXPERIENCE_PCT + KoLCharacter.getPrimeIndex()) / 100.0f;
           double exp = mods.get(Modifiers.MUS_EXPERIENCE + KoLCharacter.getPrimeIndex());
@@ -778,6 +813,13 @@ public class Evaluator {
       for (AdventureResult item : equipment) {
         if (this.bonuses.containsKey(item)) {
           score += this.bonuses.get(item);
+        }
+      }
+    }
+    if (!this.bonusFunc.isEmpty()) {
+      for (BonusFunction func : this.bonusFunc) {
+        for (AdventureResult item : equipment) {
+          score += func.bonusFunction.apply(item) * func.weight;
         }
       }
     }
@@ -983,8 +1025,9 @@ public class Evaluator {
 
     Map<Integer, Boolean> usefulOutfits = new HashMap<>();
     Map<AdventureResult, AdventureResult> outfitPieces = new HashMap<>();
-    for (int i = 1; i < EquipmentDatabase.normalOutfits.size(); ++i) {
-      SpecialOutfit outfit = EquipmentDatabase.normalOutfits.get(i);
+    for (var outfitEntry : EquipmentDatabase.normalOutfits.entrySet()) {
+      var i = outfitEntry.getKey();
+      var outfit = outfitEntry.getValue();
       if (outfit == null) continue;
       if (this.negOutfits.contains(outfit.getName())) continue;
       if (this.posOutfits.contains(outfit.getName())) {
@@ -1073,6 +1116,9 @@ public class Evaluator {
           && KoLCharacter.getBeeosity(name) > this.beeosity) { // too beechin' all by itself!
         continue;
       }
+
+      var modeable = Modeable.find(id);
+
       boolean famCanEquip = KoLCharacter.getFamiliar().canEquip(preItem);
       if (famCanEquip && slot != EquipmentManager.FAMILIAR) {
         // Modifiers when worn by Hatrack or Scarecrow
@@ -1111,6 +1157,10 @@ public class Evaluator {
             item.automaticFlag = true;
         }
 
+        if (modeable != null) {
+          item.automaticFlag = true;
+        }
+
         if (item.getCount() != 0
             && (this.getScore(familiarMods) - nullScore > 0.0 || item.automaticFlag == true)) {
           ranked.get(EquipmentManager.FAMILIAR).add(item);
@@ -1141,6 +1191,10 @@ public class Evaluator {
             continue;
           case 1:
             item.automaticFlag = true;
+        }
+
+        if (modeable != null) {
+          item.automaticFlag = true;
         }
 
         if (item.getCount() != 0
@@ -1252,7 +1306,9 @@ public class Evaluator {
             break;
 
           case EquipmentManager.OFFHAND:
-            if (this.requireShield && !EquipmentDatabase.isShield(id)) {
+            if (this.requireShield
+                && !EquipmentDatabase.isShield(id)
+                && id != ItemPool.UNBREAKABLE_UMBRELLA) {
               continue;
             }
             if (hoboPowerUseful && name.startsWith("Hodgman's")) {
@@ -1393,30 +1449,23 @@ public class Evaluator {
           this.cardNeeded = true;
         }
 
-        if (id == ItemPool.CROWN_OF_ED && this.slots[EquipmentManager.HAT] >= 0) {
-          this.edPieceNeeded = true;
-        }
-
-        if (id == ItemPool.SNOW_SUIT && this.slots[EquipmentManager.FAMILIAR] >= 0) {
-          this.snowsuitNeeded = true;
-        }
-
-        if (id == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE
-            && this.slots[EquipmentManager.CONTAINER] >= 0) {
-          this.retroCapeNeeded = true;
-        }
-
-        if (id == ItemPool.BACKUP_CAMERA
-            && (this.slots[EquipmentManager.ACCESSORY1]
-                    + this.slots[EquipmentManager.ACCESSORY2]
-                    + this.slots[EquipmentManager.ACCESSORY3])
-                >= 0) {
-          this.backupCameraNeeded = true;
-        }
-
         if (id == ItemPool.VAMPYRIC_CLOAKE) {
           mods = new Modifiers(mods);
           mods.applyVampyricCloakeModifiers();
+        }
+
+        if (modeable != null) {
+          var slotWeightings =
+              switch (modeable.getSlot()) {
+                case EquipmentManager.ACCESSORY1 -> List.of(
+                    this.slots[EquipmentManager.ACCESSORY1],
+                    this.slots[EquipmentManager.ACCESSORY2],
+                    this.slots[EquipmentManager.ACCESSORY3]);
+                case EquipmentManager.OFFHAND -> List.of(
+                    this.slots[EquipmentManager.OFFHAND], this.slots[EquipmentManager.FAMILIAR]);
+                default -> List.of(this.slots[modeable.getSlot()]);
+              };
+          modeablesNeeded.put(modeable, slotWeightings.stream().anyMatch(s -> s >= 0));
         }
 
         if (mods.getBoolean(Modifiers.NONSTACKABLE_WATCH)) {
@@ -1463,9 +1512,8 @@ public class Evaluator {
           break gotItem;
         }
 
-        if (id == ItemPool.CROWN_OF_ED) {
-          if (this.edPieceDecided != null) {
-            // Currently this means +sea specified, so meets that requirement
+        if (modeable != null) {
+          if (!forcedModeables.get(modeable).isEmpty()) {
             item.automaticFlag = true;
           }
           break gotItem;
@@ -1502,8 +1550,8 @@ public class Evaluator {
     // Assume current ones are best if in use
     FamiliarData bestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
     FamiliarData secondBestCarriedFamiliar = FamiliarData.NO_FAMILIAR;
-    FamiliarData useBjornFamiliar = FamiliarData.NO_FAMILIAR;
-    FamiliarData useCrownFamiliar = FamiliarData.NO_FAMILIAR;
+    FamiliarData useBjornFamiliar = null;
+    FamiliarData useCrownFamiliar = null;
 
     // If we're not allowed to change the current familiar, lock it
     if (this.slots[EquipmentManager.BUDDYBJORN] < 0) {
@@ -1610,138 +1658,38 @@ public class Evaluator {
       }
     }
 
-    String bestEdPiece = null;
+    Map<Modeable, String> bestModes =
+        modeablesNeeded.entrySet().stream()
+            .collect(
+                Collectors.toMap(
+                    Entry::getKey,
+                    entry -> {
+                      if (!entry.getValue()) return "";
+                      var modeable = entry.getKey();
 
-    if (this.edPieceNeeded) {
-      // Is Crown of Ed forced to a particular choice ?
-      if (this.edPieceDecided != null) {
-        bestEdPiece = this.edPieceDecided;
-      } else {
-        // Assume best is current edPiece
-        MaximizerSpeculation best = new MaximizerSpeculation();
-        CheckedItem edPiece =
-            new CheckedItem(ItemPool.CROWN_OF_ED, equipScope, maxPrice, priceLevel);
-        best.attachment = edPiece;
-        bestEdPiece = Preferences.getString("edPiece");
-        best.equipment[EquipmentManager.HAT] = edPiece;
-        best.setEdPiece(bestEdPiece);
+                      if (!forcedModeables.get(modeable).isEmpty()) {
+                        return forcedModeables.get(modeable);
+                      }
 
-        // Check each animal in Crown of Ed to see if they are worthwhile
-        for (String[] ANIMAL : EdPieceCommand.ANIMAL) {
-          String animal = ANIMAL[0];
-          if (animal.equals(bestEdPiece)) {
-            // Don't bother if we've already done it for best
-            continue;
-          }
-          MaximizerSpeculation spec = new MaximizerSpeculation();
-          spec.attachment = edPiece;
-          spec.equipment[EquipmentManager.HAT] = edPiece;
-          spec.setEdPiece(animal);
-          if (spec.compareTo(best) > 0) {
-            best = spec.clone();
-            bestEdPiece = animal;
-          }
-        }
-      }
-    }
+                      MaximizerSpeculation best = null;
+                      CheckedItem item =
+                          new CheckedItem(modeable.getItemId(), equipScope, maxPrice, priceLevel);
+                      var bestMode = modeable.getState();
 
-    String bestSnowsuit = null;
+                      // Check each mode in modeable to determine the best
+                      for (String mode : modeable.getModes()) {
+                        MaximizerSpeculation spec = new MaximizerSpeculation();
+                        spec.attachment = item;
+                        spec.equipment[modeable.getSlot()] = item;
+                        spec.setModeable(modeable, mode);
+                        if (spec.compareTo(best) > 0) {
+                          best = spec.clone();
+                          bestMode = mode;
+                        }
+                      }
 
-    if (this.snowsuitNeeded) {
-      // Assume best is current Snowsuit
-      MaximizerSpeculation best = new MaximizerSpeculation();
-      CheckedItem snowsuit = new CheckedItem(ItemPool.SNOW_SUIT, equipScope, maxPrice, priceLevel);
-      best.attachment = snowsuit;
-      bestSnowsuit = Preferences.getString("snowsuit");
-      best.equipment[EquipmentManager.FAMILIAR] = snowsuit;
-      best.setSnowsuit(bestSnowsuit);
-
-      // Check each decoration in Snowsuit to see if they are worthwhile
-      for (String[] DECORATION : SnowsuitCommand.DECORATION) {
-        String decoration = DECORATION[0];
-        if (decoration.equals(bestSnowsuit)) {
-          // Don't bother if we've already done it for best
-          continue;
-        }
-        MaximizerSpeculation spec = new MaximizerSpeculation();
-        spec.attachment = snowsuit;
-        spec.equipment[EquipmentManager.FAMILIAR] = snowsuit;
-        spec.setSnowsuit(decoration);
-        if (spec.compareTo(best) > 0) {
-          best = spec.clone();
-          bestSnowsuit = decoration;
-        }
-      }
-    }
-
-    String bestRetroCape = null;
-
-    if (this.retroCapeNeeded) {
-      // Assume best is current retro cape
-      MaximizerSpeculation best = new MaximizerSpeculation();
-      CheckedItem retroCape =
-          new CheckedItem(
-              ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE, equipScope, maxPrice, priceLevel);
-      best.attachment = retroCape;
-      bestRetroCape =
-          Preferences.getString("retroCapeSuperhero")
-              + " "
-              + Preferences.getString("retroCapeWashingInstructions");
-      best.equipment[EquipmentManager.CONTAINER] = retroCape;
-      best.setRetroCape(bestRetroCape);
-
-      // Check each combination of cape settings to see if they are worthwhile
-      for (String superhero : RetroCapeCommand.SUPERHEROS) {
-        for (String washingInstruction : RetroCapeCommand.WASHING_INSTRUCTIONS) {
-          String config = superhero + " " + washingInstruction;
-
-          if (config.equals(bestRetroCape)) {
-            // Don't bother if we've already done it for best
-            continue;
-          }
-
-          MaximizerSpeculation spec = new MaximizerSpeculation();
-          spec.attachment = retroCape;
-          spec.equipment[EquipmentManager.CONTAINER] = retroCape;
-          spec.setRetroCape(config);
-          if (spec.compareTo(best) > 0) {
-            best = spec.clone();
-            bestRetroCape = config;
-          }
-        }
-      }
-    }
-
-    String bestBackupCamera = null;
-
-    if (this.backupCameraNeeded) {
-      // Assume best is current backup camera mode
-      MaximizerSpeculation best = new MaximizerSpeculation();
-      CheckedItem backupCamera =
-          new CheckedItem(ItemPool.BACKUP_CAMERA, equipScope, maxPrice, priceLevel);
-      best.attachment = backupCamera;
-      bestBackupCamera = Preferences.getString("backupCameraMode");
-      best.equipment[EquipmentManager.ACCESSORY3] = backupCamera;
-      best.setBackupCamera(bestBackupCamera);
-
-      // Check each mode to see if it is worthwhile
-      for (String[] MODE : BackupCameraCommand.MODE) {
-        String mode = MODE[0];
-        if (mode.equals(bestBackupCamera)) {
-          // Don't bother if we've already done it for best
-          continue;
-        }
-
-        MaximizerSpeculation spec = new MaximizerSpeculation();
-        spec.attachment = backupCamera;
-        spec.equipment[EquipmentManager.ACCESSORY3] = backupCamera;
-        spec.setBackupCamera(mode);
-        if (spec.compareTo(best) > 0) {
-          best = spec.clone();
-          bestBackupCamera = mode;
-        }
-      }
-    }
+                      return bestMode;
+                    }));
 
     List<List<MaximizerSpeculation>> speculationList = new ArrayList<>(ranked.size());
     for (int i = 0; i < ranked.size(); ++i) {
@@ -1765,67 +1713,84 @@ public class Evaluator {
           useSlot = EquipmentManager.FAMILIAR;
         }
         spec.equipment[useSlot] = item;
-        int itemId = item.getItemId();
-        if (itemId == ItemPool.HATSEAT) {
-          if (this.slots[EquipmentManager.CROWNOFTHRONES] < 0) {
-            spec.setEnthroned(useCrownFamiliar);
-          } else if (this.carriedFamiliarsNeeded > 1) {
-            item.automaticFlag = true;
-            spec.setEnthroned(secondBestCarriedFamiliar);
-          } else {
-            spec.setEnthroned(bestCarriedFamiliar);
-          }
-        } else if (itemId == ItemPool.BUDDY_BJORN) {
-          if (this.slots[EquipmentManager.BUDDYBJORN] < 0) {
-            spec.setBjorned(useBjornFamiliar);
-          } else if (this.carriedFamiliarsNeeded > 1) {
-            item.automaticFlag = true;
-            spec.setBjorned(secondBestCarriedFamiliar);
-          } else {
-            spec.setBjorned(bestCarriedFamiliar);
-          }
-        } else if (EquipmentManager.isStickerWeapon(item)) {
-          MaximizerSpeculation current = new MaximizerSpeculation();
-          spec.equipment[EquipmentManager.STICKER1] = current.equipment[EquipmentManager.STICKER1];
-          spec.equipment[EquipmentManager.STICKER2] = current.equipment[EquipmentManager.STICKER2];
-          spec.equipment[EquipmentManager.STICKER3] = current.equipment[EquipmentManager.STICKER3];
-        } else if (itemId == ItemPool.CARD_SLEEVE) {
-          MaximizerSpeculation current = new MaximizerSpeculation();
-          if (bestCard != null) {
-            spec.equipment[EquipmentManager.CARDSLEEVE] = bestCard;
-            useCard = bestCard;
-          } else {
-            spec.equipment[EquipmentManager.CARDSLEEVE] =
-                current.equipment[EquipmentManager.CARDSLEEVE];
-            useCard = current.equipment[EquipmentManager.CARDSLEEVE];
-          }
-        } else if (itemId == ItemPool.FOLDER_HOLDER) {
-          MaximizerSpeculation current = new MaximizerSpeculation();
-          spec.equipment[EquipmentManager.FOLDER1] = current.equipment[EquipmentManager.FOLDER1];
-          spec.equipment[EquipmentManager.FOLDER2] = current.equipment[EquipmentManager.FOLDER2];
-          spec.equipment[EquipmentManager.FOLDER3] = current.equipment[EquipmentManager.FOLDER3];
-          spec.equipment[EquipmentManager.FOLDER4] = current.equipment[EquipmentManager.FOLDER4];
-          spec.equipment[EquipmentManager.FOLDER5] = current.equipment[EquipmentManager.FOLDER5];
-        } else if (itemId == ItemPool.CROWN_OF_ED) {
-          if (bestEdPiece != null) {
-            spec.setEdPiece(bestEdPiece);
-          }
-        } else if (itemId == ItemPool.SNOW_SUIT) {
-          if (bestSnowsuit != null) {
-            spec.setSnowsuit(bestSnowsuit);
-          }
-        } else if (itemId == ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE) {
-          if (bestRetroCape != null) {
-            spec.setRetroCape(bestRetroCape);
-          }
-        } else if (itemId == ItemPool.BACKUP_CAMERA) {
-          if (bestBackupCamera != null) {
-            spec.setBackupCamera(bestBackupCamera);
-          }
-        } else if (itemId == ItemPool.COWBOY_BOOTS) {
-          MaximizerSpeculation current = new MaximizerSpeculation();
-          spec.equipment[EquipmentManager.BOOTSKIN] = current.equipment[EquipmentManager.BOOTSKIN];
-          spec.equipment[EquipmentManager.BOOTSPUR] = current.equipment[EquipmentManager.BOOTSPUR];
+
+        switch (item.getItemId()) {
+          case ItemPool.HATSEAT:
+            if (this.slots[EquipmentManager.CROWNOFTHRONES] < 0) {
+              spec.setEnthroned(useCrownFamiliar);
+            } else if (this.carriedFamiliarsNeeded > 1) {
+              item.automaticFlag = true;
+              spec.setEnthroned(secondBestCarriedFamiliar);
+            } else {
+              spec.setEnthroned(bestCarriedFamiliar);
+            }
+            break;
+          case ItemPool.BUDDY_BJORN:
+            if (this.slots[EquipmentManager.BUDDYBJORN] < 0) {
+              spec.setBjorned(useBjornFamiliar);
+            } else if (this.carriedFamiliarsNeeded > 1) {
+              item.automaticFlag = true;
+              spec.setBjorned(secondBestCarriedFamiliar);
+            } else {
+              spec.setBjorned(bestCarriedFamiliar);
+            }
+            break;
+          case ItemPool.CARD_SLEEVE:
+            {
+              MaximizerSpeculation current = new MaximizerSpeculation();
+              if (bestCard != null) {
+                spec.equipment[EquipmentManager.CARDSLEEVE] = bestCard;
+                useCard = bestCard;
+              } else {
+                spec.equipment[EquipmentManager.CARDSLEEVE] =
+                    current.equipment[EquipmentManager.CARDSLEEVE];
+                useCard = current.equipment[EquipmentManager.CARDSLEEVE];
+              }
+              break;
+            }
+          case ItemPool.FOLDER_HOLDER:
+            {
+              MaximizerSpeculation current = new MaximizerSpeculation();
+              spec.equipment[EquipmentManager.FOLDER1] =
+                  current.equipment[EquipmentManager.FOLDER1];
+              spec.equipment[EquipmentManager.FOLDER2] =
+                  current.equipment[EquipmentManager.FOLDER2];
+              spec.equipment[EquipmentManager.FOLDER3] =
+                  current.equipment[EquipmentManager.FOLDER3];
+              spec.equipment[EquipmentManager.FOLDER4] =
+                  current.equipment[EquipmentManager.FOLDER4];
+              spec.equipment[EquipmentManager.FOLDER5] =
+                  current.equipment[EquipmentManager.FOLDER5];
+              break;
+            }
+          case ItemPool.COWBOY_BOOTS:
+            {
+              MaximizerSpeculation current = new MaximizerSpeculation();
+              spec.equipment[EquipmentManager.BOOTSKIN] =
+                  current.equipment[EquipmentManager.BOOTSKIN];
+              spec.equipment[EquipmentManager.BOOTSPUR] =
+                  current.equipment[EquipmentManager.BOOTSPUR];
+              break;
+            }
+          default:
+            {
+              var modeable = Modeable.find(item);
+              if (EquipmentManager.isStickerWeapon(item)) {
+                MaximizerSpeculation current = new MaximizerSpeculation();
+                spec.equipment[EquipmentManager.STICKER1] =
+                    current.equipment[EquipmentManager.STICKER1];
+                spec.equipment[EquipmentManager.STICKER2] =
+                    current.equipment[EquipmentManager.STICKER2];
+                spec.equipment[EquipmentManager.STICKER3] =
+                    current.equipment[EquipmentManager.STICKER3];
+              } else if (modeable != null) {
+                var best = bestModes.getOrDefault(modeable, "");
+                if (!best.isEmpty()) {
+                  spec.setModeable(modeable, best);
+                }
+              }
+              break;
+            }
         }
         spec.getScore(); // force evaluation
         spec.failed = false; // individual items are not expected
@@ -2100,6 +2065,8 @@ public class Evaluator {
           // For accessories compare with 3rd best for first accessory, 2nd best for second
           // accessory, best for third
           int newSlot = slot + (slot == EquipmentManager.ACCESSORY1 ? accCount : 0);
+          // if we're comparing 1-handed weapons, assign the spec slot as weapon
+          newSlot = newSlot == Evaluator.WEAPON_1H ? EquipmentManager.WEAPON : newSlot;
           int compareItemNo = speculationList.get(slot).size() - 1;
           int accSkip = slot == EquipmentManager.ACCESSORY1 ? 2 - accCount : 0;
           while (compareItemNo >= 0) {
@@ -2304,21 +2271,24 @@ public class Evaluator {
       }
     }
 
-    if (spec.equipment[EquipmentManager.HAT] == null) {
-      spec.setEdPiece(bestEdPiece);
-    }
+    bestModes.forEach(
+        (modeable, mode) -> {
+          Set<Integer> backupSlots = new HashSet<>();
+          backupSlots.add(modeable.getSlot());
 
-    if (spec.equipment[EquipmentManager.CONTAINER] == null) {
-      spec.setRetroCape(bestRetroCape);
-    }
+          if (modeable.getSlot() == EquipmentManager.ACCESSORY1) {
+            backupSlots.add(EquipmentManager.ACCESSORY2);
+            backupSlots.add(EquipmentManager.ACCESSORY3);
+          }
 
-    if (spec.equipment[EquipmentManager.ACCESSORY3] == null) {
-      spec.setBackupCamera(bestBackupCamera);
-    }
+          if (this.familiars.stream().anyMatch(f -> f.canEquip(modeable.getItem()))) {
+            backupSlots.add(EquipmentManager.FAMILIAR);
+          }
 
-    if (spec.equipment[EquipmentManager.FAMILIAR] == null) {
-      spec.setSnowsuit(bestSnowsuit);
-    }
+          if (backupSlots.stream().anyMatch(s -> spec.equipment[s] == null)) {
+            spec.setModeable(modeable, mode);
+          }
+        });
 
     spec.tryAll(
         this.familiars,

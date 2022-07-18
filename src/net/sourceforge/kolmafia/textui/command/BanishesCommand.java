@@ -14,7 +14,7 @@ public class BanishesCommand extends AbstractCommand {
 
     StringBuilder output = new StringBuilder();
 
-    if (banishData != null) {
+    if (banishData.length > 0) {
       output.append("<table border=2 cols=4>");
       output.append("<tr>");
       output.append("<th>Monsters Banished</th>");

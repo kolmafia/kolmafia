@@ -8,6 +8,7 @@ import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -17,9 +18,11 @@ import java.awt.event.FocusListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
+import java.awt.image.BaseMultiResolutionImage;
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.swing.JCheckBox;
@@ -54,6 +57,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.swingui.button.LoadScriptButton;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
+import net.sourceforge.kolmafia.swingui.listener.QuickAccessListener;
 import net.sourceforge.kolmafia.swingui.listener.RefreshSessionListener;
 import net.sourceforge.kolmafia.swingui.listener.WorldPeaceListener;
 import net.sourceforge.kolmafia.swingui.menu.GlobalMenuBar;
@@ -102,6 +106,16 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
   public GenericFrame(final String title) {
     this.setTitle(title);
     this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+    List<Image> images =
+        JComponentUtilities.getImages(
+            "app_icon16.png",
+            "app_icon32.png",
+            "app_icon48.png",
+            "app_icon64.png",
+            "app_icon128.png",
+            "app_icon256.png");
+    this.setIconImage(new BaseMultiResolutionImage(images.toArray(new Image[0])));
 
     this.tabs = this.getTabbedPane();
     this.framePanel = new FramePanel();
@@ -221,15 +235,14 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     JComponentUtilities.addGlobalHotKey(
         this.getRootPane(), KeyEvent.VK_F5, new RefreshSessionListener());
 
-    int platform_META_DOWN =
+    int platform_META_DOWN = // CMD on MacOS, CTRL on others...
         (System.getProperty("os.name").startsWith("Mac"))
             ? KeyEvent.META_DOWN_MASK
             : KeyEvent.CTRL_DOWN_MASK;
     JComponentUtilities.addGlobalHotKey(
-        this.getRootPane(),
-        KeyEvent.VK_W,
-        platform_META_DOWN, // CMD on MacOS, CTRL on others...
-        new CloseWindowListener());
+        this.getRootPane(), KeyEvent.VK_K, platform_META_DOWN, new QuickAccessListener());
+    JComponentUtilities.addGlobalHotKey(
+        this.getRootPane(), KeyEvent.VK_W, platform_META_DOWN, new CloseWindowListener());
     JComponentUtilities.addGlobalHotKey(
         this.getRootPane(),
         KeyEvent.VK_PAGE_UP,
@@ -756,36 +769,6 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     creator.run();
   }
 
-  public static final void compileScripts() {
-    GenericFrame.compileScripts(Preferences.getInteger("scriptMRULength") > 0);
-  }
-
-  public static final void compileScripts(final boolean useMRUlist) {
-    KoLConstants.scripts.clear();
-
-    // Get the list of files in the current directory or build from MRU
-
-    File[] scriptList =
-        useMRUlist
-            ? KoLConstants.scriptMList.listAsFiles()
-            : DataUtilities.listFiles(KoLConstants.SCRIPT_LOCATION);
-
-    // Iterate through the files. Do this in two
-    // passes to make sure that directories start
-    // up top, followed by non-directories.
-
-    int directoryIndex = 0;
-
-    for (File file : scriptList) {
-      if (!ScriptMenu.shouldAddScript(file)) {
-      } else if (file.isDirectory()) {
-        KoLConstants.scripts.add(directoryIndex++, file);
-      } else {
-        KoLConstants.scripts.add(file);
-      }
-    }
-  }
-
   /**
    * Utility method to save the entire list of bookmarks to the settings file. This should be called
    * after every update.
@@ -801,6 +784,29 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     }
 
     Preferences.setString("browserBookmarks", bookmarkData.toString());
+  }
+
+  public static final void compileScripts() {
+    KoLConstants.scripts.clear();
+
+    // Get the list of files in the current directory or build from MRU
+
+    File[] scriptList = DataUtilities.listFiles(KoLConstants.SCRIPT_LOCATION);
+
+    // Iterate through the files.
+    //
+    // Put the directories at the top, followed by non-directories.
+
+    int directoryIndex = 0;
+
+    for (File file : scriptList) {
+      if (!ScriptMenu.shouldAddScript(file)) {
+      } else if (file.isDirectory()) {
+        KoLConstants.scripts.add(directoryIndex++, file);
+      } else {
+        KoLConstants.scripts.add(file);
+      }
+    }
   }
 
   /** Utility method to compile the list of bookmarks based on the current settings. */

@@ -8,7 +8,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
@@ -66,7 +65,7 @@ public class CosmicRaysBazaarRequest extends CoinMasterRequest {
           true) {
         @Override
         public AdventureResult itemBuyPrice(final int itemId) {
-          return CosmicRaysBazaarRequest.buyCosts.get(IntegerPool.get(itemId));
+          return CosmicRaysBazaarRequest.buyCosts.get(itemId);
         }
       };
 

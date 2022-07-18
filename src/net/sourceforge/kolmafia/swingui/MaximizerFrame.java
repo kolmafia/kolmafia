@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Enumeration;
@@ -43,10 +44,9 @@ import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MaximizerFrame extends GenericFrame implements ListSelectionListener {
-  public static final JComboBox<Object> expressionSelect = new JComboBox<>();
+  public static final JComboBox<String> expressionSelect = new JComboBox<>();
 
   static { // This has to be done before the constructor runs, since the
     // CLI "maximize" command can set the selected item prior to the
@@ -68,7 +68,7 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
     InputStream stream =
         DataUtilities.getInputStream(KoLConstants.DATA_DIRECTORY, "maximizer-help.html", false);
     byte[] bytes = ByteBufferUtilities.read(stream);
-    MaximizerFrame.HELP_STRING = StringUtilities.getEncodedString(bytes, "UTF-8");
+    MaximizerFrame.HELP_STRING = new String(bytes, StandardCharsets.UTF_8);
   }
 
   public MaximizerFrame() {

@@ -29,10 +29,18 @@ import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
-import net.sourceforge.kolmafia.svn.SVNManager;
+import net.sourceforge.kolmafia.scripts.git.GitManager;
+import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 
 public class LoginManager {
+
+  // This exists to delay launch of the relay browser at startup until after SVN updates
+  // have completed.
+  private static boolean svnLoginUpdateNotFinished = true;
+
+  private LoginManager() {}
+
   public static void login(String username) {
     try {
       KoLmafia.forceContinue();
@@ -43,7 +51,7 @@ public class LoginManager {
     }
   }
 
-  public static final void timein(final String username) {
+  public static void timein(final String username) {
     // Save the current user settings to disk
     Preferences.reset(null);
 
@@ -102,6 +110,12 @@ public class LoginManager {
 
     if (Preferences.getBoolean("svnUpdateOnLogin") && !Preferences.getBoolean("_svnUpdated")) {
       SVNManager.doUpdate();
+    }
+    svnLoginUpdateNotFinished = false;
+
+    if (Preferences.getBoolean("gitUpdateOnLogin") && !Preferences.getBoolean("_gitUpdated")) {
+      GitManager.updateAll();
+      Preferences.setBoolean("_gitUpdated", true);
     }
 
     if (Preferences.getBoolean(username, "getBreakfast")) {
@@ -235,6 +249,8 @@ public class LoginManager {
     if (MailManager.hasNewMessages()) {
       KoLmafia.updateDisplay("You have new mail.");
     }
+
+    printWarningMessages();
   }
 
   public static void showCurrentHoliday() {
@@ -243,5 +259,18 @@ public class LoginManager {
     String updateText = (holiday.equals("")) ? moonEffect : holiday + ", " + moonEffect;
 
     KoLmafia.updateDisplay(updateText);
+  }
+
+  public static boolean isSvnLoginUpdateUnfinished() {
+    return svnLoginUpdateNotFinished;
+  }
+
+  private static void printWarningMessages() {
+    var version = Runtime.version();
+    if (version.feature() < 17) {
+      KoLmafia.updateDisplay("Java versions lower than 17 will stop being supported by KoLMafia.");
+      KoLmafia.updateDisplay(
+          "You are running a version of Java lower than 17. Visit https://adoptium.net/ to download a newer version of Java.");
+    }
   }
 }

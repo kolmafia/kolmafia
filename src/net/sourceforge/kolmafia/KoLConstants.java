@@ -7,10 +7,11 @@ import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.IdentityHashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Set;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.sourceforge.kolmafia.chat.StyledChatBuffer;
@@ -110,11 +111,11 @@ public interface KoLConstants extends UtilityConstants {
   // Scripting-related constants.  Used throughout KoLmafia in
   // order to ensure proper handling of scripts.
 
-  List<File> scripts = LockableListFactory.getInstance(File.class);
+  List<File> scripts = new ArrayList<>();
   List<String> bookmarks = LockableListFactory.getInstance(String.class);
 
-  ArrayList<String> disabledScripts = new ArrayList<String>();
-  ScriptMRUList scriptMList = new ScriptMRUList("scriptMRUList", "scriptMRULength");
+  ArrayList<String> disabledScripts = new ArrayList<>();
+  ScriptMRUList scriptMRUList = new ScriptMRUList("scriptMRUList", "scriptMRULength");
   PartialMRUList maximizerMList =
       new PartialMRUList("maximizerMRUList", "maximizerMRUSize", "maximizerList");
 
@@ -133,6 +134,7 @@ public interface KoLConstants extends UtilityConstants {
   String SCRIPT_DIRECTORY = "scripts/";
   String SESSIONS_DIRECTORY = "sessions/";
   String SVN_DIRECTORY = "svn/";
+  String GIT_DIRECTORY = "git/";
 
   File BUFFBOT_LOCATION = new File(KoLConstants.ROOT_LOCATION, KoLConstants.BUFFBOT_DIRECTORY);
   File CCS_LOCATION = new File(KoLConstants.ROOT_LOCATION, KoLConstants.CCS_DIRECTORY);
@@ -143,6 +145,7 @@ public interface KoLConstants extends UtilityConstants {
   File RELAY_LOCATION = new File(KoLConstants.ROOT_LOCATION, KoLConstants.RELAY_DIRECTORY);
   File SVN_LOCATION = new File(KoLConstants.ROOT_LOCATION, KoLConstants.SVN_DIRECTORY);
   File SVN_REPO_FILE = new File(KoLConstants.DATA_LOCATION, "svnrepo.json");
+  File GIT_LOCATION = new File(KoLConstants.ROOT_LOCATION, KoLConstants.GIT_DIRECTORY);
 
   // All data files that can be overridden
 
@@ -162,7 +165,6 @@ public interface KoLConstants extends UtilityConstants {
     "fullness.txt",
     "inebriety.txt",
     "items.txt",
-    "mallprices.txt",
     "modifiers.txt",
     "monsters.txt",
     "nonfilling.txt",
@@ -254,6 +256,25 @@ public interface KoLConstants extends UtilityConstants {
     STATIONARYBUTTONS_CSS,
     STATIONARYBUTTONS_JS,
   };
+
+  /**
+   * Returns true if a given consumption type relates to equipment
+   *
+   * @param type Consumption type constant
+   * @return True if the type relates to equipment
+   */
+  static boolean isEquipmentType(final int type, final boolean includeFamiliarEquipment) {
+    return switch (type) {
+      case EQUIP_ACCESSORY,
+          EQUIP_CONTAINER,
+          EQUIP_HAT,
+          EQUIP_SHIRT,
+          EQUIP_PANTS,
+          EQUIP_WEAPON,
+          EQUIP_OFFHAND -> true;
+      default -> includeFamiliarEquipment && type == EQUIP_FAMILIAR;
+    };
+  }
 
   // Different states of KoLmafia.  Used in order to determine
   // what is still permitted.
@@ -577,17 +598,16 @@ public interface KoLConstants extends UtilityConstants {
   List<UseSkillRequest> expressionSkills = LockableListFactory.getInstance(UseSkillRequest.class);
   List<UseSkillRequest> walkSkills = LockableListFactory.getInstance(UseSkillRequest.class);
   List<UseSkillRequest> availableSkills = LockableListFactory.getInstance(UseSkillRequest.class);
-  IdentityHashMap<UseSkillRequest, Object> availableSkillsMap =
-      new IdentityHashMap<UseSkillRequest, Object>();
-  List<UseSkillRequest> availableCombatSkills =
-      LockableListFactory.getInstance(UseSkillRequest.class);
-  IdentityHashMap<UseSkillRequest, Object> availableCombatSkillsMap =
-      new IdentityHashMap<UseSkillRequest, Object>();
+  Set<Integer> availableSkillsSet = new HashSet<>();
+  // The list of combat skills displayed in skills dropdown from the current (last) fight.php
+  List<Integer> availableCombatSkillsList = new ArrayList<>();
+  Set<Integer> availableCombatSkillsSet = new HashSet<>();
   List<UseSkillRequest> permedSkills = LockableListFactory.getInstance(UseSkillRequest.class);
+  Set<Integer> hardcorePermedSkills = new HashSet<>();
   List<UseSkillRequest> combatSkills = LockableListFactory.getInstance(UseSkillRequest.class);
 
   List<AdventureResult> activeEffects = LockableListFactory.getInstance(AdventureResult.class);
-  ArrayList<AdventureResult> recentEffects = new ArrayList<AdventureResult>();
+  ArrayList<AdventureResult> recentEffects = new ArrayList<>();
 
   List<AdventureResult> hermitItems = LockableListFactory.getInstance(AdventureResult.class);
   List<String> restaurantItems = LockableListFactory.getInstance(String.class);
@@ -607,7 +627,7 @@ public interface KoLConstants extends UtilityConstants {
   StyledChatBuffer commandBuffer = new StyledChatBuffer("", "blue", false);
 
   Comparator<String> ignoreCaseComparator =
-      new Comparator<String>() {
+      new Comparator<>() {
         @Override
         public int compare(String s1, String s2) {
           return s1.compareToIgnoreCase(s2);

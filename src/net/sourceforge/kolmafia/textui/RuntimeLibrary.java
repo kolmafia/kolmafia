@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -30,7 +32,6 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import java.util.zip.GZIPInputStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
-import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -78,7 +79,6 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CandyDatabase;
@@ -116,9 +116,35 @@ import net.sourceforge.kolmafia.request.*;
 import net.sourceforge.kolmafia.request.CampgroundRequest.CropType;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.EveryCard;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
-import net.sourceforge.kolmafia.session.*;
+import net.sourceforge.kolmafia.scripts.git.GitManager;
+import net.sourceforge.kolmafia.scripts.svn.SVNManager;
+import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.ContactManager;
+import net.sourceforge.kolmafia.session.DadManager;
+import net.sourceforge.kolmafia.session.DisplayCaseManager;
+import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.FamiliarManager;
+import net.sourceforge.kolmafia.session.GoalManager;
+import net.sourceforge.kolmafia.session.GuildUnlockManager;
+import net.sourceforge.kolmafia.session.HeistManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LocketManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
+import net.sourceforge.kolmafia.session.MonsterManuelManager;
+import net.sourceforge.kolmafia.session.MushroomManager;
+import net.sourceforge.kolmafia.session.NumberologyManager;
+import net.sourceforge.kolmafia.session.PvpManager;
+import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
-import net.sourceforge.kolmafia.svn.SVNManager;
+import net.sourceforge.kolmafia.session.TavernManager;
+import net.sourceforge.kolmafia.session.TowerDoorManager;
+import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.UnusualConstructManager;
+import net.sourceforge.kolmafia.session.VotingBoothManager;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 import net.sourceforge.kolmafia.textui.AshRuntime.CallFrame;
 import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
@@ -153,6 +179,7 @@ import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.wc.SVNInfo;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
+@SuppressWarnings("unused")
 public abstract class RuntimeLibrary {
   private static final RecordType itemDropRec =
       new RecordType(
@@ -184,6 +211,18 @@ public abstract class RuntimeLibrary {
             DataTypes.INT_TYPE,
             DataTypes.STRING_TYPE,
             DataTypes.INT_TYPE,
+            DataTypes.STRING_TYPE
+          });
+
+  private static final RecordType gitInfoRec =
+      new RecordType(
+          "{string url; string branch; string commit; string last_changed_author; string last_changed_date;}",
+          new String[] {"url", "branch", "commit", "last_changed_author", "last_changed_date"},
+          new Type[] {
+            DataTypes.STRING_TYPE,
+            DataTypes.STRING_TYPE,
+            DataTypes.STRING_TYPE,
+            DataTypes.STRING_TYPE,
             DataTypes.STRING_TYPE
           });
 
@@ -226,7 +265,6 @@ public abstract class RuntimeLibrary {
     for (String[] frame : KoLConstants.FRAME_NAMES) {
       RuntimeLibrary.frameNames.add(frame[1]);
     }
-    RuntimeLibrary.frameNames.add("AnnouncementFrame");
     RuntimeLibrary.frameNames.add("CakeArenaFrame");
     RuntimeLibrary.frameNames.add("ChatFrame");
     RuntimeLibrary.frameNames.add("CouncilFrame");
@@ -895,6 +933,21 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.INT_TYPE, DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("retrieve_item", DataTypes.BOOLEAN_TYPE, params));
 
+    params = new Type[] {DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.INT_TYPE};
+    functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.INT_TYPE, DataTypes.ITEM_TYPE};
+    functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.INT_TYPE, DataTypes.BOOLEAN_TYPE};
+    functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
+
+    params = new Type[] {DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.BOOLEAN_TYPE};
+    functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
+
     params = new Type[] {};
     functions.add(new LibraryFunction("receive_fax", DataTypes.VOID_TYPE, params));
 
@@ -923,6 +976,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("get_storage", DataTypes.ITEM_TO_INT_TYPE, params));
 
     params = new Type[] {};
+    functions.add(new LibraryFunction("get_display", DataTypes.ITEM_TO_INT_TYPE, params));
+
+    params = new Type[] {};
     functions.add(new LibraryFunction("get_free_pulls", DataTypes.ITEM_TO_INT_TYPE, params));
 
     params = new Type[] {};
@@ -945,6 +1001,10 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("get_clan_lounge", DataTypes.ITEM_TO_INT_TYPE, params));
 
     params = new Type[] {};
+    functions.add(
+        new LibraryFunction("get_fishing_locations", DataTypes.STRING_TO_LOCATION_TYPE, params));
+
+    params = new Type[] {};
     functions.add(new LibraryFunction("get_clan_rumpus", DataTypes.STRING_TO_INT_TYPE, params));
 
     params = new Type[] {};
@@ -955,6 +1015,9 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {};
     functions.add(new LibraryFunction("my_garden_type", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(new LibraryFunction("get_zap_wand", DataTypes.ITEM_TYPE, params));
 
     params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("get_related", DataTypes.ITEM_TO_INT_TYPE, params));
@@ -2030,6 +2093,12 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("buffer_to_file", DataTypes.BOOLEAN_TYPE, params));
 
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("read_ccs", DataTypes.BUFFER_TYPE, params));
+
+    params = new Type[] {DataTypes.BUFFER_TYPE, DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("write_ccs", DataTypes.BOOLEAN_TYPE, params));
+
     // Custom combat helper functions.
 
     params = new Type[] {};
@@ -2047,6 +2116,20 @@ public abstract class RuntimeLibrary {
         new LibraryFunction(
             "get_location_monsters",
             new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE),
+            params));
+
+    params = new Type[] {};
+    functions.add(
+        new LibraryFunction(
+            "get_locket_monsters",
+            new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE),
+            params));
+
+    params = new Type[] {};
+    functions.add(
+        new LibraryFunction(
+            "get_permed_skills",
+            new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.SKILL_TYPE),
             params));
 
     params = new Type[] {};
@@ -2394,6 +2477,19 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.STRING_TYPE};
     functions.add(new LibraryFunction("svn_info", svnInfoRec, params));
 
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("git_exists", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("git_at_head", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(
+        new LibraryFunction("git_list", new AggregateType(DataTypes.STRING_TYPE, 0), params));
+
+    params = new Type[] {DataTypes.STRING_TYPE};
+    functions.add(new LibraryFunction("git_info", gitInfoRec, params));
+
     params = new Type[] {DataTypes.STRING_TYPE, DataTypes.STRING_TYPE};
     functions.add(
         new LibraryFunction("xpath", new AggregateType(DataTypes.STRING_TYPE, 0), params));
@@ -2592,12 +2688,8 @@ public abstract class RuntimeLibrary {
       return;
     }
 
-    LinkedHashMap<String, StringBuilder> prefixMap = batched.get(cmd);
-    if (prefixMap == null) {
-      // First instance of this command
-      prefixMap = new LinkedHashMap<String, StringBuilder>();
-      batched.put(cmd, prefixMap);
-    }
+    LinkedHashMap<String, StringBuilder> prefixMap =
+        batched.computeIfAbsent(cmd, k -> new LinkedHashMap<>());
 
     String key = prefix == null ? "" : prefix;
     StringBuilder buf = prefixMap.get(key);
@@ -2672,7 +2764,7 @@ public abstract class RuntimeLibrary {
 
   public static Value batch_open(ScriptRuntime controller) {
     if (controller.getBatched() == null) {
-      controller.setBatched(new LinkedHashMap<String, LinkedHashMap<String, StringBuilder>>());
+      controller.setBatched(new LinkedHashMap<>());
     }
     return DataTypes.VOID_VALUE;
   }
@@ -2737,9 +2829,7 @@ public abstract class RuntimeLibrary {
     Object[] javaOptions = new Object[size];
 
     // Extract the item ids into an array
-    for (int i = 0; i < size; ++i) {
-      javaOptions[i] = keys[i];
-    }
+    System.arraycopy(keys, 0, javaOptions, 0, size);
 
     Object result = InputFieldUtilities.input(message.toString(), javaOptions);
 
@@ -2858,9 +2948,9 @@ public abstract class RuntimeLibrary {
       final Value color,
       final boolean addToSessionStream) {
     Value[] keys = obj.keys();
-    for (int i = 0; i < keys.length; ++i) {
-      Value v = obj.aref(keys[i]);
-      String line = indent + keys[i] + " => " + v;
+    for (Value key : keys) {
+      Value v = obj.aref(key);
+      String line = indent + key + " => " + v;
 
       if (addToSessionStream) {
         RuntimeLibrary.print(new AshRuntime(), new Value(line), color);
@@ -3061,9 +3151,9 @@ public abstract class RuntimeLibrary {
     try {
       Object arg;
       if (val.getType().equals(DataTypes.TYPE_FLOAT)) {
-        arg = Double.valueOf(val.floatValue());
+        arg = val.floatValue();
       } else {
-        arg = Long.valueOf(val.intValue());
+        arg = val.intValue();
       }
       return new Value(String.format(fmt.toString(), arg));
     } catch (IllegalFormatException e) {
@@ -3164,7 +3254,7 @@ public abstract class RuntimeLibrary {
       int num = (int) value.intValue();
 
       if (num >= 0) {
-        return DataTypes.makeClassValue(AscensionClass.idToClass(num), true);
+        return DataTypes.makeClassValue(AscensionClass.find(num), true);
       }
     } else {
       name = value.toString();
@@ -3196,8 +3286,7 @@ public abstract class RuntimeLibrary {
   public static Value to_skill(ScriptRuntime controller, final Value value1, final Value value2) {
     String name = value1.toString();
     String type = value2.toString();
-    Value skill = DataTypes.parseSkillValue(name, type, true);
-    return skill;
+    return DataTypes.parseSkillValue(name, type, true);
   }
 
   public static Value desc_to_effect(ScriptRuntime controller, final Value value) {
@@ -3399,9 +3488,9 @@ public abstract class RuntimeLibrary {
 
   public static Value format_date_time(
       ScriptRuntime controller, Value inFormat, Value dateTimeString, Value outFormat) {
-    Date inDate = null;
-    SimpleDateFormat dateFormat = null;
-    Value retVal = null;
+    Date inDate;
+    SimpleDateFormat dateFormat;
+    Value retVal;
 
     try {
       dateFormat = new SimpleDateFormat(inFormat.toString());
@@ -3556,6 +3645,12 @@ public abstract class RuntimeLibrary {
         }
       } catch (Exception e) {
         StaticEntity.printStackTrace(e);
+      } finally {
+        try {
+          reader.close();
+        } catch (IOException e) {
+          StaticEntity.printStackTrace(e);
+        }
       }
     }
     return contents.toString();
@@ -3684,7 +3779,7 @@ public abstract class RuntimeLibrary {
       return DataTypes.VOID_VALUE;
     }
 
-    GoalManager.addItemGoal(itemId, 0 - count);
+    GoalManager.addItemGoal(itemId, -count);
     return DataTypes.VOID_VALUE;
   }
 
@@ -4307,7 +4402,7 @@ public abstract class RuntimeLibrary {
     if (controller.getBatched() != null) {
       String cmd = "shop";
       String prefix = "take";
-      String params = "all \u00B6" + itemId;
+      String params = "* \u00B6" + itemId;
       RuntimeLibrary.batchCommand(controller, cmd, prefix, params);
     } else {
       List<SoldItem> list = StoreManager.getSoldItemList();
@@ -4508,6 +4603,34 @@ public abstract class RuntimeLibrary {
     return retrieve_item(controller, DataTypes.ONE_VALUE, item);
   }
 
+  public static Value retrieve_price(
+      ScriptRuntime controller, final Value arg1, final Value arg2, final Value arg3) {
+    int arg1Value = (int) arg1.intValue();
+    int arg2Value = (int) arg2.intValue();
+
+    boolean countThenItem =
+        arg1.getType().equals(DataTypes.INT_TYPE) || arg1.getType().equals(DataTypes.FLOAT_TYPE);
+
+    int count = countThenItem ? arg1Value : arg2Value;
+    int item = countThenItem ? arg2Value : arg1Value;
+
+    if (count <= 0) {
+      return DataTypes.ZERO_VALUE;
+    }
+
+    boolean exact = arg3.intValue() == 1;
+
+    return new Value(InventoryManager.priceToAcquire(ItemPool.get(item, count), exact, false));
+  }
+
+  public static Value retrieve_price(ScriptRuntime controller, final Value arg1, final Value arg2) {
+    return retrieve_price(controller, arg1, arg2, DataTypes.FALSE_VALUE);
+  }
+
+  public static Value retrieve_price(ScriptRuntime controller, final Value item) {
+    return retrieve_price(controller, DataTypes.ONE_VALUE, item);
+  }
+
   public static Value receive_fax(ScriptRuntime controller) {
     KoLmafiaCLI.DEFAULT_SHELL.executeCommand("fax", "receive");
     return RuntimeLibrary.continueValue();
@@ -4553,7 +4676,7 @@ public abstract class RuntimeLibrary {
 
       boolean result = bot.request(monster);
 
-      if (result == true) {
+      if (result) {
         return DataTypes.TRUE_VALUE;
       }
     }
@@ -4604,9 +4727,8 @@ public abstract class RuntimeLibrary {
     AdventureResult[] items = new AdventureResult[KoLConstants.inventory.size()];
     KoLConstants.inventory.toArray(items);
 
-    for (int i = 0; i < items.length; ++i) {
-      value.aset(
-          DataTypes.makeItemValue(items[i].getItemId(), true), new Value(items[i].getCount()));
+    for (AdventureResult item : items) {
+      value.aset(DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
     }
 
     return value;
@@ -4618,9 +4740,8 @@ public abstract class RuntimeLibrary {
     AdventureResult[] items = new AdventureResult[KoLConstants.closet.size()];
     KoLConstants.closet.toArray(items);
 
-    for (int i = 0; i < items.length; ++i) {
-      value.aset(
-          DataTypes.makeItemValue(items[i].getItemId(), true), new Value(items[i].getCount()));
+    for (AdventureResult item : items) {
+      value.aset(DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
     }
 
     return value;
@@ -4632,9 +4753,26 @@ public abstract class RuntimeLibrary {
     AdventureResult[] items = new AdventureResult[KoLConstants.storage.size()];
     KoLConstants.storage.toArray(items);
 
-    for (int i = 0; i < items.length; ++i) {
-      value.aset(
-          DataTypes.makeItemValue(items[i].getItemId(), true), new Value(items[i].getCount()));
+    for (AdventureResult item : items) {
+      value.aset(DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
+    }
+
+    return value;
+  }
+
+  public static Value get_display(ScriptRuntime controller) {
+    MapValue value = new MapValue(DataTypes.ITEM_TO_INT_TYPE);
+
+    if (!KoLCharacter.hasDisplayCase()) {
+      return value;
+    }
+
+    if (!DisplayCaseManager.collectionRetrieved) {
+      RequestThread.postRequest(new DisplayCaseRequest());
+    }
+
+    for (AdventureResult item : KoLConstants.collection) {
+      value.aset(DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
     }
 
     return value;
@@ -4646,9 +4784,8 @@ public abstract class RuntimeLibrary {
     AdventureResult[] items = new AdventureResult[KoLConstants.freepulls.size()];
     KoLConstants.freepulls.toArray(items);
 
-    for (int i = 0; i < items.length; ++i) {
-      value.aset(
-          DataTypes.makeItemValue(items[i].getItemId(), true), new Value(items[i].getCount()));
+    for (AdventureResult item : items) {
+      value.aset(DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
     }
 
     return value;
@@ -4666,8 +4803,7 @@ public abstract class RuntimeLibrary {
     }
 
     List<SoldItem> list = StoreManager.getSoldItemList();
-    for (int i = 0; i < list.size(); ++i) {
-      SoldItem item = list.get(i);
+    for (SoldItem item : list) {
       value.aset(DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getQuantity()));
     }
 
@@ -4699,8 +4835,7 @@ public abstract class RuntimeLibrary {
     }
 
     List<AdventureResult> list = ClanManager.getStash();
-    for (int i = 0; i < list.size(); ++i) {
-      AdventureResult item = list.get(i);
+    for (AdventureResult item : list) {
       value.aset(DataTypes.makeItemValue(item.getItemId(), true), new Value(item.getCount()));
     }
 
@@ -4744,6 +4879,17 @@ public abstract class RuntimeLibrary {
     return value;
   }
 
+  public static Value get_fishing_locations(ScriptRuntime controller) {
+    MapValue value = new MapValue(DataTypes.STRING_TO_LOCATION_TYPE);
+
+    for (var locs : ClanLoungeRequest.getFloundryLocations().entrySet()) {
+      Value location = DataTypes.makeLocationValue(AdventureDatabase.getAdventure(locs.getValue()));
+      value.aset(new Value(locs.getKey()), location);
+    }
+
+    return value;
+  }
+
   public static Value get_clan_rumpus(ScriptRuntime controller) {
     MapValue value = new MapValue(DataTypes.STRING_TO_INT_TYPE);
 
@@ -4779,6 +4925,14 @@ public abstract class RuntimeLibrary {
     return new Value(crop == null ? "none" : crop.name().toLowerCase());
   }
 
+  public static Value get_zap_wand(ScriptRuntime controller) {
+    AdventureResult zapWand = KoLCharacter.findWand();
+
+    return zapWand == null
+        ? DataTypes.ITEM_INIT
+        : DataTypes.makeItemValue(zapWand.getItemId(), true);
+  }
+
   private static final int WAD2POWDER = -12; // <elem> powder - <elem> wad
   private static final int WAD2NUGGET = -6;
   private static final int WAD2GEM = 1321;
@@ -4811,25 +4965,25 @@ public abstract class RuntimeLibrary {
         return value;
       }
 
-      ArrayList<Integer> elems = new ArrayList<Integer>();
+      ArrayList<Integer> elems = new ArrayList<>();
       boolean clusters = (pulver & EquipmentDatabase.YIELD_1C) != 0;
       if ((pulver & EquipmentDatabase.ELEM_HOT) != 0) {
-        elems.add(IntegerPool.get(clusters ? ItemPool.HOT_CLUSTER : ItemPool.HOT_WAD));
+        elems.add(clusters ? ItemPool.HOT_CLUSTER : ItemPool.HOT_WAD);
       }
       if ((pulver & EquipmentDatabase.ELEM_COLD) != 0) {
-        elems.add(IntegerPool.get(clusters ? ItemPool.COLD_CLUSTER : ItemPool.COLD_WAD));
+        elems.add(clusters ? ItemPool.COLD_CLUSTER : ItemPool.COLD_WAD);
       }
       if ((pulver & EquipmentDatabase.ELEM_STENCH) != 0) {
-        elems.add(IntegerPool.get(clusters ? ItemPool.STENCH_CLUSTER : ItemPool.STENCH_WAD));
+        elems.add(clusters ? ItemPool.STENCH_CLUSTER : ItemPool.STENCH_WAD);
       }
       if ((pulver & EquipmentDatabase.ELEM_SPOOKY) != 0) {
-        elems.add(IntegerPool.get(clusters ? ItemPool.SPOOKY_CLUSTER : ItemPool.SPOOKY_WAD));
+        elems.add(clusters ? ItemPool.SPOOKY_CLUSTER : ItemPool.SPOOKY_WAD);
       }
       if ((pulver & EquipmentDatabase.ELEM_SLEAZE) != 0) {
-        elems.add(IntegerPool.get(clusters ? ItemPool.SLEAZE_CLUSTER : ItemPool.SLEAZE_WAD));
+        elems.add(clusters ? ItemPool.SLEAZE_CLUSTER : ItemPool.SLEAZE_WAD);
       }
       if ((pulver & EquipmentDatabase.ELEM_TWINKLY) != 0) { // Important: twinkly must be last
-        elems.add(IntegerPool.get(ItemPool.TWINKLY_WAD));
+        elems.add(ItemPool.TWINKLY_WAD);
       }
       int nelems = elems.size();
       if (nelems == 0) {
@@ -4924,18 +5078,17 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value mall_price(ScriptRuntime controller, final Value item) {
-    return new Value(StoreManager.getMallPrice(ItemPool.get((int) item.intValue(), 0)));
+    return new Value(MallPriceManager.getMallPrice((int) item.intValue()));
   }
 
   public static Value mall_price(ScriptRuntime controller, final Value item, final Value maxAge) {
     return new Value(
-        StoreManager.getMallPrice(
-            ItemPool.get((int) item.intValue(), 0), (float) maxAge.floatValue()));
+        MallPriceManager.getMallPrice((int) item.intValue(), (float) maxAge.floatValue()));
   }
 
   public static Value mall_prices(ScriptRuntime controller, final Value arg) {
     if (arg.getType().equals(DataTypes.STRING_TYPE)) {
-      return new Value(StoreManager.getMallPrices(arg.toString(), ""));
+      return new Value(MallPriceManager.getMallPrices(arg.toString(), ""));
     }
 
     // It's a set of items
@@ -4951,14 +5104,15 @@ public abstract class RuntimeLibrary {
     }
 
     // Update the mall prices, one by one,
-    int result = StoreManager.getMallPrices(itemIds, 0.0f);
+    // Note that the AdventureResults all have "count" of 1
+    int result = MallPriceManager.getMallPrices(itemIds, 0.0f);
 
     return DataTypes.makeIntValue(result);
   }
 
   public static Value mall_prices(
       ScriptRuntime controller, final Value category, final Value tiers) {
-    return new Value(StoreManager.getMallPrices(category.toString(), tiers.toString()));
+    return new Value(MallPriceManager.getMallPrices(category.toString(), tiers.toString()));
   }
 
   public static Value well_stocked(
@@ -4972,15 +5126,14 @@ public abstract class RuntimeLibrary {
     if (item == null) return DataTypes.FALSE_VALUE;
     if (itemID < 1) return DataTypes.FALSE_VALUE;
     if (checkQuant < 6) return DataTypes.FALSE_VALUE;
-    if (checkPrice < (2 * ItemDatabase.getPriceById(itemID))) return DataTypes.FALSE_VALUE;
+    if (checkPrice < (2L * ItemDatabase.getPriceById(itemID))) return DataTypes.FALSE_VALUE;
     // get some data
-    SortedListModel<PurchaseRequest> results = new SortedListModel<PurchaseRequest>();
-    MallSearchRequest msr = new MallSearchRequest(item, 20, results, false);
+    MallSearchRequest msr = new MallSearchRequest(item, 20);
     msr.run();
     // Now iterate over results
     // Assume sorted by price so can bail at first failure
     int available = 0;
-    for (PurchaseRequest pr : results) {
+    for (PurchaseRequest pr : msr.getResults()) {
       // only interested in mall
       if (pr instanceof MallPurchaseRequest) {
         // get price and bail if higher
@@ -5003,7 +5156,7 @@ public abstract class RuntimeLibrary {
         NPCStoreDatabase.contains(itemId, true)
             ? NPCStoreDatabase.price(itemId)
             : ClanLoungeRequest.availableSpeakeasyDrink(it)
-                ? ClanLoungeRequest.speakeasyNameToCost(it).intValue()
+                ? ClanLoungeRequest.speakeasyNameToCost(it)
                 : 0);
   }
 
@@ -5105,9 +5258,6 @@ public abstract class RuntimeLibrary {
 
   public static Value creatable_turns(ScriptRuntime controller, final Value itemId) {
     AdventureResult item = ItemPool.get((int) itemId.intValue());
-    if (item == null) {
-      return DataTypes.ZERO_VALUE;
-    }
     int initialAmount = item.getCount(KoLConstants.inventory);
     Concoction concoction = ConcoctionPool.get(item);
     return new Value(concoction == null ? 0 : concoction.getAdventuresNeeded(initialAmount + 1));
@@ -5117,9 +5267,6 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value itemId, final Value count) {
     AdventureResult item = ItemPool.get((int) itemId.intValue());
     int number = (int) count.intValue();
-    if (item == null) {
-      return DataTypes.ZERO_VALUE;
-    }
     int initialAmount = item.getCount(KoLConstants.inventory);
     Concoction concoction = ConcoctionPool.get(item);
     return new Value(
@@ -5131,9 +5278,6 @@ public abstract class RuntimeLibrary {
     AdventureResult item = ItemPool.get((int) itemId.intValue());
     int number = (int) count.intValue();
     boolean considerFreeCrafting = freeCrafting.intValue() == 1;
-    if (item == null) {
-      return DataTypes.ZERO_VALUE;
-    }
     int initialAmount = item.getCount(KoLConstants.inventory);
     Concoction concoction = ConcoctionPool.get(item);
     return new Value(
@@ -5153,8 +5297,7 @@ public abstract class RuntimeLibrary {
     }
 
     AdventureResult[] data = ConcoctionDatabase.getIngredients(itemId);
-    for (int i = 0; i < data.length; ++i) {
-      AdventureResult ingredient = data[i];
+    for (AdventureResult ingredient : data) {
       if (ingredient.getItemId() < 0) {
         // Skip pseudo-ingredients: coinmaster tokens
         continue;
@@ -5673,15 +5816,13 @@ public abstract class RuntimeLibrary {
 
   public static Value have_skill(ScriptRuntime controller, final Value arg) {
     int skillId = (int) arg.intValue();
-    UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
     return DataTypes.makeBooleanValue(
-        KoLCharacter.hasSkill(skill, KoLConstants.availableSkills)
-            || KoLCharacter.hasSkill(skill, KoLConstants.availableCombatSkills));
+        KoLCharacter.hasSkill(skillId) || KoLCharacter.hasCombatSkill(skillId));
   }
 
   public static Value combat_skill_available(ScriptRuntime controller, final Value arg) {
     int skillId = (int) arg.intValue();
-    return DataTypes.makeBooleanValue(KoLCharacter.availableCombatSkill(skillId));
+    return DataTypes.makeBooleanValue(KoLCharacter.hasCombatSkill(skillId));
   }
 
   public static Value mp_cost(ScriptRuntime controller, final Value skill) {
@@ -5736,8 +5877,7 @@ public abstract class RuntimeLibrary {
     AggregateType type = new AggregateType(DataTypes.INT_TYPE, DataTypes.EFFECT_TYPE);
     MapValue value = new MapValue(type);
 
-    for (int i = 0; i < effectsArray.length; ++i) {
-      AdventureResult effect = effectsArray[i];
+    for (AdventureResult effect : effectsArray) {
       int duration = effect.getCount();
       if (duration == Integer.MAX_VALUE) {
         duration = -1;
@@ -6214,14 +6354,14 @@ public abstract class RuntimeLibrary {
           EquipmentManager.canEquip(ItemDatabase.getItemName(itemId)));
     } else {
       FamiliarData fam = new FamiliarData((int) itemOrFamiliar.intValue());
-      return fam == null ? DataTypes.FALSE_VALUE : DataTypes.makeBooleanValue(fam.canEquip());
+      return DataTypes.makeBooleanValue(fam.canEquip());
     }
   }
 
   public static Value can_equip(ScriptRuntime controller, final Value familiar, final Value item) {
     AdventureResult it = ItemPool.get((int) item.intValue());
     FamiliarData fam = new FamiliarData((int) familiar.intValue());
-    return fam == null ? DataTypes.FALSE_VALUE : DataTypes.makeBooleanValue(fam.canEquip(it));
+    return DataTypes.makeBooleanValue(fam.canEquip(it));
   }
 
   public static Value equip(ScriptRuntime controller, final Value item) {
@@ -6245,7 +6385,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value equipped_item(ScriptRuntime controller, final Value slot) {
-    return DataTypes.makeItemValue(EquipmentManager.getEquipment((int) slot.intValue()).getName());
+    return DataTypes.makeItemValue(EquipmentManager.getEquipment((int) slot.intValue()));
   }
 
   public static Value have_equipped(ScriptRuntime controller, final Value item) {
@@ -6326,29 +6466,38 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value get_outfits(ScriptRuntime controller) {
-    return RuntimeLibrary.outfitListToValue(controller, EquipmentManager.getOutfits(), false);
+    return RuntimeLibrary.outfitListToValue(controller, EquipmentManager.getOutfits());
   }
 
   public static Value get_custom_outfits(ScriptRuntime controller) {
-    return RuntimeLibrary.outfitListToValue(controller, EquipmentManager.getCustomOutfits(), false);
+    return RuntimeLibrary.outfitListToValue(controller, EquipmentManager.getCustomOutfits());
   }
 
   public static Value all_normal_outfits(ScriptRuntime controller) {
-    return RuntimeLibrary.outfitListToValue(
-        controller, EquipmentDatabase.normalOutfits.toList(), true);
+    return RuntimeLibrary.outfitMapToValue(EquipmentDatabase.normalOutfits);
   }
 
-  private static Value outfitListToValue(
-      ScriptRuntime controller, List<SpecialOutfit> outfits, boolean map) {
-    AggregateValue value =
-        map
-            ? new MapValue(new AggregateType(DataTypes.STRING_TYPE, DataTypes.INT_TYPE))
-            : new ArrayValue(new AggregateType(DataTypes.STRING_TYPE, outfits.size()));
+  private static Value outfitListToValue(ScriptRuntime controller, List<SpecialOutfit> outfits) {
+    AggregateValue value = new ArrayValue(new AggregateType(DataTypes.STRING_TYPE, outfits.size()));
 
     for (int i = 1; i < outfits.size(); ++i) {
       SpecialOutfit it = outfits.get(i);
       if (it != null) {
         value.aset(new Value(i), new Value(it.toString()));
+      }
+    }
+
+    return value;
+  }
+
+  private static Value outfitMapToValue(Map<Integer, SpecialOutfit> outfits) {
+    AggregateValue value =
+        new MapValue(new AggregateType(DataTypes.STRING_TYPE, DataTypes.INT_TYPE));
+
+    for (var entry : outfits.entrySet()) {
+      SpecialOutfit it = entry.getValue();
+      if (it != null) {
+        value.aset(new Value(entry.getKey()), new Value(it.toString()));
       }
     }
 
@@ -6607,7 +6756,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value extract_meat(ScriptRuntime controller, final Value string) {
-    ArrayList<AdventureResult> data = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> data = new ArrayList<>();
     ResultProcessor.processResults(
         false, StringUtilities.globalStringReplace(string.toString(), "- ", "-"), data);
 
@@ -6623,7 +6772,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value extract_items(ScriptRuntime controller, final Value string) {
-    ArrayList<AdventureResult> data = new ArrayList<AdventureResult>();
+    ArrayList<AdventureResult> data = new ArrayList<>();
     ResultProcessor.processResults(
         false, StringUtilities.globalStringReplace(string.toString(), "- ", "-"), data);
     MapValue value = new MapValue(DataTypes.ITEM_TO_INT_TYPE);
@@ -7175,7 +7324,7 @@ public abstract class RuntimeLibrary {
       Boost boo = m.get(i);
       String text = boo.toString();
       String cmd = boo.getCmd();
-      Double boost = boo.getBoost();
+      double boost = boo.getBoost();
       AdventureResult arEffect = boo.isEquipment() ? null : boo.getItem();
       AdventureResult arItem = boo.getItem(false);
       String skill =
@@ -7306,9 +7455,7 @@ public abstract class RuntimeLibrary {
         WhoMessage message = (WhoMessage) chatMessage;
 
         for (Entry<String, Boolean> entry : message.getContacts().entrySet()) {
-          value.aset(
-              new Value(entry.getKey()),
-              DataTypes.makeBooleanValue(entry.getValue().booleanValue()));
+          value.aset(new Value(entry.getKey()), DataTypes.makeBooleanValue(entry.getValue()));
         }
 
         break;
@@ -7757,7 +7904,7 @@ public abstract class RuntimeLibrary {
     String[] data = null;
     result.clear();
 
-    try {
+    try (reader) {
       int line = 0;
       while ((data = FileUtilities.readData(reader)) != null) {
         line++;
@@ -7791,11 +7938,6 @@ public abstract class RuntimeLibrary {
         StaticEntity.printStackTrace(e, ex.getMessage());
       }
       return DataTypes.FALSE_VALUE;
-    } finally {
-      try {
-        reader.close();
-      } catch (Exception e) {
-      }
     }
 
     return DataTypes.TRUE_VALUE;
@@ -7813,7 +7955,7 @@ public abstract class RuntimeLibrary {
 
     ByteArrayOutputStream cacheStream = new ByteArrayOutputStream();
 
-    PrintStream writer = LogStream.openStream(cacheStream, "UTF-8");
+    PrintStream writer = LogStream.openStream(cacheStream, StandardCharsets.UTF_8);
     map_variable.dump(writer, "", compact);
     writer.close();
 
@@ -7832,9 +7974,9 @@ public abstract class RuntimeLibrary {
       return result;
     }
 
-    String data = null;
+    String data;
 
-    try {
+    try (reader) {
       int line = 0;
       while ((data = FileUtilities.readLine(reader)) != null) {
         line++;
@@ -7842,11 +7984,6 @@ public abstract class RuntimeLibrary {
       }
     } catch (Exception e) {
       return result;
-    } finally {
-      try {
-        reader.close();
-      } catch (Exception e) {
-      }
     }
 
     return result;
@@ -7855,7 +7992,7 @@ public abstract class RuntimeLibrary {
   public static Value file_to_buffer(ScriptRuntime controller, final Value var1) {
     String location = var1.toString();
     byte[] bytes = DataFileCache.getBytes(location);
-    String string = StringUtilities.getEncodedString(bytes, "UTF-8");
+    String string = new String(bytes, StandardCharsets.UTF_8);
     StringBuffer buffer = new StringBuffer(string);
     return new Value(DataTypes.BUFFER_TYPE, "", buffer);
   }
@@ -7863,9 +8000,25 @@ public abstract class RuntimeLibrary {
   public static Value buffer_to_file(ScriptRuntime controller, final Value var1, final Value var2) {
     StringBuffer buffer = (StringBuffer) var1.rawValue();
     String string = buffer.toString();
-    byte[] bytes = StringUtilities.getEncodedBytes(string, "UTF-8");
+    byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
     String location = var2.toString();
     return DataFileCache.printBytes(location, bytes);
+  }
+
+  public static Value read_ccs(ScriptRuntime controller, final Value name) {
+    String ccsName = name.toString();
+    byte[] bytes = CcsFileManager.getBytes(ccsName);
+    String string = new String(bytes, StandardCharsets.UTF_8);
+    StringBuffer buffer = new StringBuffer(string);
+    return new Value(DataTypes.BUFFER_TYPE, "", buffer);
+  }
+
+  public static Value write_ccs(ScriptRuntime controller, final Value data, final Value name) {
+    StringBuffer buffer = (StringBuffer) data.rawValue();
+    String string = buffer.toString();
+    byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
+    String ccsName = name.toString();
+    return DataTypes.makeBooleanValue(CcsFileManager.printBytes(ccsName, bytes));
   }
 
   // Custom combat helper functions.
@@ -7945,6 +8098,33 @@ public abstract class RuntimeLibrary {
     return value;
   }
 
+  public static Value get_locket_monsters(ScriptRuntime controller) {
+    AggregateType type = new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.MONSTER_TYPE);
+    MapValue value = new MapValue(type);
+
+    for (var id : LocketManager.getMonsters()) {
+      var monster = MonsterDatabase.findMonsterById(id);
+      var fought = LocketManager.foughtMonster(id);
+      value.aset(DataTypes.makeMonsterValue(monster), DataTypes.makeBooleanValue(!fought));
+    }
+
+    return value;
+  }
+
+  public static Value get_permed_skills(ScriptRuntime controller) {
+    AggregateType type = new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.SKILL_TYPE);
+    MapValue value = new MapValue(type);
+
+    for (var permedSkill : KoLConstants.permedSkills) {
+      var skill = DataTypes.makeSkillValue(permedSkill.getSkillId(), true);
+      var hardcore =
+          DataTypes.makeBooleanValue(
+              KoLConstants.hardcorePermedSkills.contains(permedSkill.getSkillId()));
+      value.aset(skill, hardcore);
+    }
+    return value;
+  }
+
   public static Value get_monster_mapping(ScriptRuntime controller) {
     return get_monster_mapping(controller, KoLCharacter.getPath().getName());
   }
@@ -8019,14 +8199,25 @@ public abstract class RuntimeLibrary {
         && KoLCharacter.getAdjustedMuscle() > defenseStat) {
       defenseStat = KoLCharacter.getAdjustedMuscle();
     }
+    int baseValue;
+    double damageAbsorb;
+    double elementAbsorb;
 
-    int baseValue =
-        Math.max(0, attack - defenseStat) + attack / 4 - KoLCharacter.getDamageReduction();
+    // https://kol.coldfront.net/thekolwiki/index.php/Ninja_snowman_assassin
+    if (monster.getName().equals("ninja snowman assassin")) {
+      baseValue = Math.max(0, attack - defenseStat) + 120;
+      damageAbsorb =
+          1.0 - (Math.sqrt(Math.min(1000, KoLCharacter.getDamageAbsorption()) / 10.0) - 1.0) / 10.0;
+      int modifiedRes = Math.max(0, KoLCharacter.getElementalResistanceLevels(Element.COLD) - 5);
+      elementAbsorb = 1.0 - KoLCharacter.elementalResistanceByLevel(modifiedRes, true) / 100.0;
+    } else {
+      baseValue =
+          Math.max(0, attack - defenseStat) + attack / 4 - KoLCharacter.getDamageReduction();
+      damageAbsorb =
+          1.0 - (Math.sqrt(Math.min(1000, KoLCharacter.getDamageAbsorption()) / 10.0) - 1.0) / 10.0;
+      elementAbsorb = 1.0 - KoLCharacter.getElementalResistance(monster.getAttackElement()) / 100.0;
+    }
 
-    double damageAbsorb =
-        1.0 - (Math.sqrt(Math.min(1000, KoLCharacter.getDamageAbsorption()) / 10.0) - 1.0) / 10.0;
-    double elementAbsorb =
-        1.0 - KoLCharacter.getElementalResistance(monster.getAttackElement()) / 100.0;
     return new Value((int) Math.ceil(baseValue * damageAbsorb * elementAbsorb));
   }
 
@@ -8285,8 +8476,7 @@ public abstract class RuntimeLibrary {
 
     MapValue value = new MapValue(DataTypes.ITEM_TO_INT_TYPE);
 
-    for (int i = 0; i < data.size(); ++i) {
-      AdventureResult result = data.get(i);
+    for (AdventureResult result : data) {
       value.aset(
           DataTypes.makeItemValue(result.getItemId(), true),
           DataTypes.parseIntValue(String.valueOf(result.getCount() >> 16), true));
@@ -8301,8 +8491,7 @@ public abstract class RuntimeLibrary {
 
     MapValue value = new MapValue(DataTypes.ITEM_TO_INT_TYPE);
 
-    for (int i = 0; i < data.size(); ++i) {
-      AdventureResult result = data.get(i);
+    for (AdventureResult result : data) {
       value.aset(
           DataTypes.makeItemValue(result.getItemId(), true),
           DataTypes.parseIntValue(String.valueOf(result.getCount() >> 16), true));
@@ -8356,12 +8545,18 @@ public abstract class RuntimeLibrary {
     return value;
   }
 
+  public static Value git_list(ScriptRuntime controller) {
+    return DataTypes.makeStringArrayValue(GitManager.listAll());
+  }
+
   public static Value svn_info(ScriptRuntime controller, final Value script) {
+    AshRuntime interpreter = controller instanceof AshRuntime ? (AshRuntime) controller : null;
+
     String[] projects = KoLConstants.SVN_LOCATION.list();
 
-    if (projects == null) return getRecInit();
+    if (projects == null) return getRecInit(interpreter);
 
-    ArrayList<String> matches = new ArrayList<String>();
+    ArrayList<String> matches = new ArrayList<>();
     for (String s : projects) {
       if (s.contains(script.toString())) {
         matches.add(s);
@@ -8369,15 +8564,15 @@ public abstract class RuntimeLibrary {
     }
 
     if (matches.size() != 1) {
-      return getRecInit();
+      return getRecInit(interpreter);
     }
     File projectFile = new File(KoLConstants.SVN_LOCATION, matches.get(0));
     try {
       if (!SVNWCUtil.isWorkingCopyRoot(projectFile)) {
-        return getRecInit();
+        return getRecInit(interpreter);
       }
     } catch (SVNException e1) {
-      return getRecInit();
+      return getRecInit(interpreter);
     }
     RecordType type = RuntimeLibrary.svnInfoRec;
     RecordValue rec = new RecordValue(type);
@@ -8389,39 +8584,77 @@ public abstract class RuntimeLibrary {
       info = SVNManager.doInfo(projectFile);
     } catch (SVNException e) {
       SVNManager.error(e, null);
-      return getRecInit();
+      return getRecInit(interpreter);
     }
 
     // URL
-    rec.aset(0, new Value(info.getURL().toString()), null);
+    rec.aset(0, new Value(info.getURL().toString()), interpreter);
     // revision
-    rec.aset(1, DataTypes.makeIntValue(info.getRevision().getNumber()), null);
+    rec.aset(1, DataTypes.makeIntValue(info.getRevision().getNumber()), interpreter);
     // lastChangedAuthor
-    rec.aset(2, new Value(info.getAuthor()), null);
+    rec.aset(2, new Value(info.getAuthor()), interpreter);
     // lastChangedRev
-    rec.aset(3, DataTypes.makeIntValue(info.getCommittedRevision().getNumber()), null);
+    rec.aset(3, DataTypes.makeIntValue(info.getCommittedRevision().getNumber()), interpreter);
     // lastChangedDate
     // use format that is similar to what 'svn info' gives, ex:
     // Last Changed Date: 2003-01-16 23:21:19 -0600 (Thu, 16 Jan 2003)
     SimpleDateFormat SVN_FORMAT =
         new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z (EEE, dd MMM yyyy)", Locale.US);
-    rec.aset(4, new Value(SVN_FORMAT.format(info.getCommittedDate())), null);
+    rec.aset(4, new Value(SVN_FORMAT.format(info.getCommittedDate())), interpreter);
 
     return rec;
   }
 
-  private static RecordValue getRecInit() {
+  private static RecordValue getRecInit(AshRuntime interpreter) {
     RecordType type = RuntimeLibrary.svnInfoRec;
     RecordValue rec = new RecordValue(type);
-    rec.aset(0, DataTypes.STRING_INIT, null);
+    rec.aset(0, DataTypes.STRING_INIT, interpreter);
     // revision
-    rec.aset(1, DataTypes.INT_INIT, null);
+    rec.aset(1, DataTypes.INT_INIT, interpreter);
     // lastChangedAuthor
-    rec.aset(2, DataTypes.STRING_INIT, null);
+    rec.aset(2, DataTypes.STRING_INIT, interpreter);
     // lastChangedRev
-    rec.aset(3, DataTypes.INT_INIT, null);
+    rec.aset(3, DataTypes.INT_INIT, interpreter);
     // lastChangedDate
-    rec.aset(4, DataTypes.STRING_INIT, null);
+    rec.aset(4, DataTypes.STRING_INIT, interpreter);
+
+    return rec;
+  }
+
+  public static Value git_info(ScriptRuntime controller, final Value script) {
+    AshRuntime interpreter = controller instanceof AshRuntime ? (AshRuntime) controller : null;
+
+    var infoOpt = GitManager.getInfo(script.toString());
+    if (infoOpt.isEmpty()) return getGitRecInit(interpreter);
+    var info = infoOpt.get();
+
+    RecordValue rec = new RecordValue(RuntimeLibrary.gitInfoRec);
+
+    // URL
+    rec.aset(0, new Value(info.url()), interpreter);
+    // branch
+    rec.aset(1, new Value(info.branch()), interpreter);
+    // revision
+    rec.aset(2, new Value(info.commit()), interpreter);
+    // lastChangedAuthor
+    rec.aset(3, new Value(info.lastChangedAuthor()), interpreter);
+    // lastChangedDate
+    // use format that is similar to what 'git show' gives, ex:
+    // Date: Sat Jul 16 11:40:35 2022 +0100
+    var fmt = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss yyyy z");
+    var date = fmt.format(info.lastChangedDate());
+    rec.aset(4, new Value(date), interpreter);
+
+    return rec;
+  }
+
+  private static RecordValue getGitRecInit(AshRuntime interpreter) {
+    RecordValue rec = new RecordValue(RuntimeLibrary.gitInfoRec);
+    rec.aset(0, DataTypes.STRING_INIT, interpreter);
+    rec.aset(1, DataTypes.STRING_INIT, interpreter);
+    rec.aset(2, DataTypes.STRING_INIT, interpreter);
+    rec.aset(3, DataTypes.STRING_INIT, interpreter);
+    rec.aset(4, DataTypes.STRING_INIT, interpreter);
 
     return rec;
   }
@@ -8767,6 +9000,11 @@ public abstract class RuntimeLibrary {
     return DataTypes.makeBooleanValue(isWCRoot);
   }
 
+  public static Value git_exists(ScriptRuntime controller, final Value project) {
+    var isValid = GitManager.isValidRepo(project.toString());
+    return DataTypes.makeBooleanValue(isValid);
+  }
+
   public static Value svn_at_head(ScriptRuntime controller, final Value project) {
     File f = new File(KoLConstants.SVN_LOCATION, project.toString());
 
@@ -8774,6 +9012,11 @@ public abstract class RuntimeLibrary {
       return DataTypes.FALSE_VALUE;
     }
     return DataTypes.makeBooleanValue(SVNManager.WCAtHead(f, true));
+  }
+
+  public static Value git_at_head(ScriptRuntime controller, final Value project) {
+    var isUpToDate = GitManager.isUpToDate(project.toString());
+    return DataTypes.makeBooleanValue(isUpToDate);
   }
 
   // Sweet Synthesis
@@ -8807,7 +9050,7 @@ public abstract class RuntimeLibrary {
       int index = 0;
       for (Integer itemId : candies) {
         Value key = new Value(index++);
-        Value val = DataTypes.makeItemValue(itemId.intValue(), true);
+        Value val = DataTypes.makeItemValue(itemId, true);
         value.aset(key, val);
       }
     }
@@ -8833,18 +9076,16 @@ public abstract class RuntimeLibrary {
 
     Set<Integer> candies = CandyDatabase.sweetSynthesisPairing(effectId, itemId, flags);
 
-    int count = (candies == null) ? 0 : candies.size();
+    int count = candies.size();
 
     AggregateType type = new AggregateType(DataTypes.ITEM_TYPE, count);
     ArrayValue value = new ArrayValue(type);
 
-    if (candies != null) {
-      int index = 0;
-      for (Integer itemId2 : candies) {
-        Value key = new Value(index++);
-        Value val = DataTypes.makeItemValue(itemId2.intValue(), true);
-        value.aset(key, val);
-      }
+    int index = 0;
+    for (Integer itemId2 : candies) {
+      Value key = new Value(index++);
+      Value val = DataTypes.makeItemValue(itemId2, true);
+      value.aset(key, val);
     }
 
     return value;
@@ -9266,8 +9507,7 @@ public abstract class RuntimeLibrary {
           {
             ScrapPocket sp = (ScrapPocket) p;
             Map<Integer, String> knownScraps = CargoCultistShortsRequest.knownScrapPockets();
-            String syllable =
-                knownScraps.containsKey(sp.getPocket()) ? knownScraps.get(sp.getPocket()) : "";
+            String syllable = knownScraps.getOrDefault(sp.getPocket(), "");
             value.aset(new Value(sp.getScrap()), new Value(syllable));
             break;
           }

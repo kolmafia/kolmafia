@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -59,6 +60,8 @@ public class ResultProcessor {
   public static Pattern BOLD_NAME_PATTERN =
       Pattern.compile(
           "<b>([^<]*)</b>(?: \\((stored in Hagnk's Ancestral Mini-Storage|automatically equipped)\\))?");
+
+  private ResultProcessor() {}
 
   public static String processItems(
       boolean adventureResults, final String results, final List<AdventureResult> items) {
@@ -820,6 +823,11 @@ public class ResultProcessor {
   }
 
   public static boolean processGainLoss(String lastToken, final List<AdventureResult> data) {
+    // BastilleBattalionManager already handled this.
+    if (lastToken.endsWith("cheese!")) {
+      return true;
+    }
+
     int periodIndex = lastToken.indexOf(".");
     if (periodIndex != -1) {
       lastToken = lastToken.substring(0, periodIndex);
@@ -1237,6 +1245,10 @@ public class ResultProcessor {
           KoLCharacter.getCurrentMP() + result.getLongCount(),
           KoLCharacter.getMaximumMP(),
           KoLCharacter.getBaseMaxMP());
+    } else if (resultName.equals(AdventureResult.ENERGY)) {
+      KoLCharacter.setYouRobotEnergy(KoLCharacter.getYouRobotEnergy() + result.getCount());
+    } else if (resultName.equals(AdventureResult.SCRAP)) {
+      KoLCharacter.setYouRobotScraps(KoLCharacter.getYouRobotScraps() + result.getCount());
     } else if (resultName.equals(AdventureResult.MEAT)) {
       KoLCharacter.setAvailableMeat(KoLCharacter.getAvailableMeat() + result.getLongCount());
       if (updateCalculatedLists) {
@@ -1422,6 +1434,19 @@ public class ResultProcessor {
 
       case ItemPool.LAW_OF_AVERAGES:
         Preferences.setBoolean("lawOfAveragesAvailable", false);
+        break;
+      case ItemPool.MAGNIFICENT_OYSTER_EGG:
+      case ItemPool.BRILLIANT_OYSTER_EGG:
+      case ItemPool.GLISTENING_OYSTER_EGG:
+      case ItemPool.SCINTILATING_OYSTER_EGG:
+      case ItemPool.PEARLESCENT_OYSTER_EGG:
+      case ItemPool.LUSTROUS_OYSTER_EGG:
+      case ItemPool.GLEAMING_OYSTER_EGG:
+        if (KoLCharacter.hasEquipped(ItemPool.OYSTER_BASKET)
+            && HolidayDatabase.getHoliday().contains("Oyster Egg Day")
+            && adventureResults) {
+          Preferences.increment("_oysterEggsFound");
+        }
         break;
     }
 
@@ -1632,7 +1657,7 @@ public class ResultProcessor {
 
       case ItemPool.CONFETTI:
         // If you get the confetti, you lose the Holy MacGuffin
-        if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.HOLY_MACGUFFIN, 1))) {
+        if (InventoryManager.getCount(ItemPool.HOLY_MACGUFFIN) > 0) {
           ResultProcessor.processItem(ItemPool.HOLY_MACGUFFIN, -1);
           QuestDatabase.setQuestProgress(Quest.PYRAMID, QuestDatabase.FINISHED);
           QuestDatabase.setQuestProgress(Quest.MANOR, QuestDatabase.FINISHED);
@@ -1645,8 +1670,7 @@ public class ResultProcessor {
       case ItemPool.MORTAR_DISSOLVING_RECIPE:
         QuestDatabase.setQuestIfBetter(Quest.MANOR, "step2");
         if (Preferences.getBoolean("autoQuest")) {
-          boolean equipSpecs =
-              KoLConstants.inventory.contains(ItemPool.get(ItemPool.SPOOKYRAVEN_SPECTACLES, 1));
+          boolean equipSpecs = InventoryManager.getCount(ItemPool.SPOOKYRAVEN_SPECTACLES) > 0;
           Checkpoint checkpoint = null;
           try {
             if (equipSpecs) {
@@ -1741,12 +1765,6 @@ public class ResultProcessor {
 
       case ItemPool.CITADEL_SATCHEL:
         ResultProcessor.processMeat(-300);
-        break;
-
-      case ItemPool.LUCKY_RABBIT_FOOT:
-        if (RequestLogger.getLastURLString().startsWith("guild.php")) {
-          QuestDatabase.setQuestIfBetter(Quest.CITADEL, QuestDatabase.FINISHED);
-        }
         break;
 
       case ItemPool.HAROLDS_HAMMER_HEAD:
@@ -1860,22 +1878,22 @@ public class ResultProcessor {
         break;
 
       case ItemPool.DODECAGRAM:
-        if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.CANDLES, 1))
-            && KoLConstants.inventory.contains(ItemPool.get(ItemPool.BUTTERKNIFE, 1))) {
+        if (InventoryManager.getCount(ItemPool.CANDLES) > 0
+            && InventoryManager.getCount(ItemPool.BUTTERKNIFE) > 0) {
           QuestDatabase.setQuestProgress(Quest.FRIAR, "step2");
         }
         break;
 
       case ItemPool.CANDLES:
-        if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.DODECAGRAM, 1))
-            && KoLConstants.inventory.contains(ItemPool.get(ItemPool.BUTTERKNIFE, 1))) {
+        if (InventoryManager.getCount(ItemPool.DODECAGRAM) > 0
+            && InventoryManager.getCount(ItemPool.BUTTERKNIFE) > 0) {
           QuestDatabase.setQuestProgress(Quest.FRIAR, "step2");
         }
         break;
 
       case ItemPool.BUTTERKNIFE:
-        if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.DODECAGRAM, 1))
-            && KoLConstants.inventory.contains(ItemPool.get(ItemPool.CANDLES, 1))) {
+        if (InventoryManager.getCount(ItemPool.DODECAGRAM) > 0
+            && InventoryManager.getCount(ItemPool.CANDLES) > 0) {
           QuestDatabase.setQuestProgress(Quest.FRIAR, "step2");
         }
         break;
@@ -2047,7 +2065,14 @@ public class ResultProcessor {
         break;
 
       case ItemPool.GOBLIN_WATER:
-        if (adventureResults) {
+        MonsterData lastMonster = MonsterStatusTracker.getLastMonster();
+        if (lastMonster == null) {
+          break;
+        }
+        String goblinWaterMonster = lastMonster.getName();
+        if (adventureResults
+            && goblinWaterMonster.equals(
+                "Aquagoblin")) { // because you can now get the Goblin Water other ways...
           QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
         }
         break;
@@ -2272,6 +2297,51 @@ public class ResultProcessor {
           Preferences.increment("_kloopDrops", 1);
         }
         break;
+
+      case ItemPool.FURIOUS_STONE:
+      case ItemPool.VANITY_STONE:
+        {
+          String step =
+              ((InventoryManager.getCount(ItemPool.FURIOUS_STONE)
+                          + InventoryManager.getCount(ItemPool.VANITY_STONE))
+                      < 2)
+                  ? "step2"
+                  : QuestDatabase.FINISHED;
+
+          QuestDatabase.setQuest(Quest.CLUMSINESS, step);
+          Preferences.setString("clumsinessGroveBoss", "");
+          break;
+        }
+
+      case ItemPool.LECHEROUS_STONE:
+      case ItemPool.JEALOUSY_STONE:
+        {
+          String step =
+              ((InventoryManager.getCount(ItemPool.LECHEROUS_STONE)
+                          + InventoryManager.getCount(ItemPool.JEALOUSY_STONE))
+                      < 2)
+                  ? "step2"
+                  : QuestDatabase.FINISHED;
+
+          QuestDatabase.setQuest(Quest.MAELSTROM, step);
+          Preferences.setString("maelstromOfLoversBoss", "");
+          break;
+        }
+
+      case ItemPool.AVARICE_STONE:
+      case ItemPool.GLUTTONOUS_STONE:
+        {
+          String step =
+              ((InventoryManager.getCount(ItemPool.AVARICE_STONE)
+                          + InventoryManager.getCount(ItemPool.GLUTTONOUS_STONE))
+                      < 2)
+                  ? "step2"
+                  : QuestDatabase.FINISHED;
+
+          QuestDatabase.setQuest(Quest.GLACIER, step);
+          Preferences.setString("glacierOfJerksBoss", "");
+          break;
+        }
 
       case ItemPool.GROOSE_GREASE:
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.GROOSE) {
@@ -2537,11 +2607,11 @@ public class ResultProcessor {
         break;
 
       case ItemPool.MERKIN_LOCKKEY:
-        MonsterData monster = MonsterStatusTracker.getLastMonster();
-        if (monster == null) {
+        MonsterData merkinMonster = MonsterStatusTracker.getLastMonster();
+        if (merkinMonster == null) {
           break;
         }
-        String lockkeyMonster = monster.getName();
+        String lockkeyMonster = merkinMonster.getName();
         Preferences.setString("merkinLockkeyMonster", lockkeyMonster);
         if (lockkeyMonster.equals("Mer-kin burglar")) {
           Preferences.setInteger("choiceAdventure312", 1);
@@ -3236,14 +3306,41 @@ public class ResultProcessor {
         QuestDatabase.setQuestProgress(Quest.BLACK, "step1");
         break;
 
+      case ItemPool.FEDORA_MOUNTED_FOUNTAIN:
+      case ItemPool.PORKPIE_MOUNTED_POPPER:
+      case ItemPool.SOMBRERO_MOUNTED_SPARKLER:
+        Preferences.setBoolean("_fireworksShopHatBought", true);
+        break;
+
+      case ItemPool.CATHERINE_WHEEL:
+      case ItemPool.ROCKET_BOOTS:
+      case ItemPool.OVERSIZED_SPARKLER:
+        Preferences.setBoolean("_fireworksShopEquipmentBought", true);
+        break;
+
       case ItemPool.VAMPIRE_VINTNER_WINE:
         ResultProcessor.updateVintner();
         break;
 
       case ItemPool.COSMIC_BOWLING_BALL:
         if (adventureResults) {
+          BanishManager.resetCosmicBowlingBall();
           Preferences.setInteger("cosmicBowlingBallReturnCombats", -1);
         }
+        break;
+
+      case ItemPool.MAYDAY_SUPPLY_PACKAGE:
+        if (adventureResults) {
+          Preferences.setBoolean("_maydayDropped", true);
+        }
+        break;
+
+      case ItemPool.DESIGNER_SWEATPANTS:
+        // *** Special case: the buffs are always available
+        KoLCharacter.addAvailableSkill("Make Sweat-Ade");
+        KoLCharacter.addAvailableSkill("Drench Yourself in Sweat");
+        KoLCharacter.addAvailableSkill("Sweat Out Some Booze");
+        KoLCharacter.addAvailableSkill("Sip Some Sweat");
         break;
     }
 

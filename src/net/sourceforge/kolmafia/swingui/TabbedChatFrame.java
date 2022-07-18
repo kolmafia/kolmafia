@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.swingui;
 
 import com.sun.java.forums.CloseableTabbedPane;
 import com.sun.java.forums.CloseableTabbedPaneListener;
-import java.awt.event.MouseEvent;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import net.sourceforge.kolmafia.RequestThread;
@@ -10,12 +9,8 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.listener.TabFocusingListener;
 import net.sourceforge.kolmafia.swingui.panel.CommandDisplayPanel;
-import tab.CloseListener;
-import tab.CloseTabPaneUI;
-import tab.CloseTabbedPane;
 
-public class TabbedChatFrame extends ChatFrame
-    implements CloseListener, CloseableTabbedPaneListener {
+public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneListener {
   public TabbedChatFrame() {
     super(null);
 
@@ -30,9 +25,7 @@ public class TabbedChatFrame extends ChatFrame
 
   @Override
   public JTabbedPane getTabbedPane() {
-    return Preferences.getBoolean("useShinyTabbedChat")
-        ? new CloseTabbedPane()
-        : new CloseableTabbedPane();
+    return new CloseableTabbedPane();
   }
 
   /**
@@ -41,13 +34,7 @@ public class TabbedChatFrame extends ChatFrame
    */
   @Override
   public void initialize(final String associatedContact) {
-    if (this.tabs instanceof CloseTabbedPane) {
-      ((CloseTabbedPane) this.tabs).setCloseIconStyle(CloseTabPaneUI.GRAY_CLOSE_ICON);
-      ((CloseTabbedPane) this.tabs).addCloseListener(this);
-    } else {
-      ((CloseableTabbedPane) this.tabs).addCloseableTabbedPaneListener(this);
-    }
-
+    ((CloseableTabbedPane) this.tabs).addCloseableTabbedPaneListener(this);
     this.setCenterComponent(this.tabs);
   }
 
@@ -62,13 +49,6 @@ public class TabbedChatFrame extends ChatFrame
     RequestThread.runInParallel(new CloseWindowRunnable(closedTab));
 
     return true;
-  }
-
-  @Override
-  public void closeOperation(final MouseEvent e, final int overTabIndex) {
-    if (this.closeTab(overTabIndex)) {
-      this.tabs.removeTabAt(overTabIndex);
-    }
   }
 
   /**
@@ -93,15 +73,6 @@ public class TabbedChatFrame extends ChatFrame
     } catch (Exception e) {
       // This should not happen.  However, skip it
       // since nothing bad really happened.
-    }
-  }
-
-  public void removeTab(final String tabName) {
-    for (int i = 0; i < this.tabs.getTabCount(); ++i) {
-      if (this.tabs.getTitleAt(i).trim().equals(tabName)) {
-        this.closeOperation(null, i);
-        return;
-      }
     }
   }
 
@@ -175,11 +146,7 @@ public class TabbedChatFrame extends ChatFrame
         return;
       }
 
-      if (TabbedChatFrame.this.tabs instanceof CloseTabbedPane) {
-        ((CloseTabbedPane) TabbedChatFrame.this.tabs).highlightTab(this.tabIndex);
-      } else {
-        ((CloseableTabbedPane) TabbedChatFrame.this.tabs).highlightTab(this.tabIndex);
-      }
+      ((CloseableTabbedPane) TabbedChatFrame.this.tabs).highlightTab(this.tabIndex);
     }
   }
 

@@ -12,7 +12,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.PocketDatabase;
 import net.sourceforge.kolmafia.persistence.PocketDatabase.Pocket;
@@ -20,6 +19,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CargoCultistShortsRequest extends GenericRequest {
@@ -259,7 +259,7 @@ public class CargoCultistShortsRequest extends GenericRequest {
     Map<Integer, String> map = knownScrapPockets();
 
     // Add the current pocket to the map
-    map.put(IntegerPool.get(pocket), syllable);
+    map.put(pocket, syllable);
 
     // Rebuild the value of the property
     saveScrapPockets(map);
@@ -406,7 +406,7 @@ public class CargoCultistShortsRequest extends GenericRequest {
       return false;
     }
 
-    int choice = ChoiceManager.extractChoiceFromURL(urlString);
+    int choice = ChoiceUtilities.extractChoiceFromURL(urlString);
 
     if (choice != 1420) {
       return false;

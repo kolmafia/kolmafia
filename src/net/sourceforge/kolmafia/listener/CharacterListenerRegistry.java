@@ -8,6 +8,8 @@ public class CharacterListenerRegistry {
 
   private static final List<CharacterListener> listenerList = new ArrayList<CharacterListener>();
 
+  private CharacterListenerRegistry() {}
+
   /**
    * Adds a new <code>CharacterListener</code> to the list of listeners listening to this <code>
    * KoLCharacter</code>.

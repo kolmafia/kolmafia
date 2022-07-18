@@ -25,6 +25,8 @@ public class ContactManager {
 
   private static ContactListFrame contactsFrame = null;
 
+  private ContactManager() {}
+
   public static final void updateMailContacts() {
     if (ContactManager.mailContacts.isEmpty()
         && !CharPaneRequest.inValhalla()

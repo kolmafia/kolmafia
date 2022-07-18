@@ -38,6 +38,8 @@ public class ConcoctionPool {
     }
   }
 
+  private ConcoctionPool() {}
+
   public static Concoction get(int itemId) {
     return ConcoctionPool.items.get(itemId);
   }

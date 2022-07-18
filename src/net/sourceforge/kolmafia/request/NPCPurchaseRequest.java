@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -26,8 +27,9 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class NPCPurchaseRequest extends PurchaseRequest {
-  private static final AdventureResult TROUSERS = ItemPool.get(ItemPool.TRAVOLTAN_TROUSERS, 1);
-  private static final AdventureResult FLEDGES = ItemPool.get(ItemPool.PIRATE_FLEDGES, 1);
+  private static final Set<AdventureResult> DISCOUNT_TROUSERS =
+      Set.of(ItemPool.get(ItemPool.TRAVOLTAN_TROUSERS), ItemPool.get(ItemPool.DESIGNER_SWEATPANTS));
+  private static final AdventureResult FLEDGES = ItemPool.get(ItemPool.PIRATE_FLEDGES);
   private static final AdventureResult SUPER_SKILL = EffectPool.get(EffectPool.SUPER_SKILL);
   private static final AdventureResult SUPER_STRUCTURE = EffectPool.get(EffectPool.SUPER_STRUCTURE);
   private static final AdventureResult SUPER_VISION = EffectPool.get(EffectPool.SUPER_VISION);
@@ -125,21 +127,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
   @Override
   public int getQuantity() {
-    switch (this.getItemId()) {
-      case ItemPool.FEDORA_MOUNTED_FOUNTAIN:
-      case ItemPool.PORKPIE_MOUNTED_POPPER:
-      case ItemPool.SOMBRERO_MOUNTED_SPARKLER:
-        return Preferences.getBoolean("_fireworksShopHatBought") ? 0 : 1;
-      case ItemPool.CATHERINE_WHEEL:
-      case ItemPool.ROCKET_BOOTS:
-      case ItemPool.OVERSIZED_SPARKLER:
-        return Preferences.getBoolean("_fireworksShopEquipmentBought") ? 0 : 1;
-      case ItemPool.BLART:
-      case ItemPool.RAINPROOF_BARREL_CAULK:
-      case ItemPool.PUMP_GREASE:
-        return 1;
-    }
-    return super.getQuantity();
+    var possibleQuantity = NPCStoreDatabase.getQuantity(this.getItemId());
+    return possibleQuantity.orElseGet(super::getQuantity);
   }
 
   /**
@@ -171,8 +160,14 @@ public class NPCPurchaseRequest extends PurchaseRequest {
   }
 
   private static boolean usingTrousers() {
-    return EquipmentManager.getEquipment(EquipmentManager.PANTS)
-        .equals(NPCPurchaseRequest.TROUSERS);
+    return DISCOUNT_TROUSERS.contains(EquipmentManager.getEquipment(EquipmentManager.PANTS));
+  }
+
+  private static AdventureResult ownTrousers() {
+    return DISCOUNT_TROUSERS.stream()
+        .filter(KoLConstants.inventory::contains)
+        .findFirst()
+        .orElse(null);
   }
 
   @Override
@@ -274,12 +269,14 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return true;
     }
 
-    // Otherwise, maybe you can put on some Travoltan Trousers to decrease the cost of the
+    // Otherwise, maybe you can put on some discount-providing trousers to decrease the cost of the
     // purchase, but only if auto-recovery isn't running.
 
-    if (!NPCPurchaseRequest.usingTrousers()
-        && KoLConstants.inventory.contains(NPCPurchaseRequest.TROUSERS)) {
-      (new EquipmentRequest(NPCPurchaseRequest.TROUSERS, EquipmentManager.PANTS)).run();
+    if (!usingTrousers()) {
+      var trousers = ownTrousers();
+      if (trousers != null) {
+        (new EquipmentRequest(trousers, EquipmentManager.PANTS)).run();
+      }
     }
 
     return true;

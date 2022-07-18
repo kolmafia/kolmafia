@@ -42,6 +42,8 @@ public class FaxBotDatabase {
   // List of faxbots named in config files.
   public static final ArrayList<FaxBot> faxbots = new ArrayList<FaxBot>();
 
+  private FaxBotDatabase() {}
+
   public static final void reconfigure() {
     FaxBotDatabase.isInitialized = false;
     FaxBotDatabase.configure();
@@ -59,22 +61,16 @@ public class FaxBotDatabase {
   private static void readFaxbotConfig() {
     FaxBotDatabase.botData.clear();
 
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("faxbots.txt", KoLConstants.FAXBOTS_VERSION);
-    String[] data;
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("faxbots.txt", KoLConstants.FAXBOTS_VERSION)) {
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length > 1) {
-        FaxBotDatabase.botData.add(new BotData(data[0].trim().toLowerCase(), data[1].trim()));
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length > 1) {
+          FaxBotDatabase.botData.add(new BotData(data[0].trim().toLowerCase(), data[1].trim()));
+        }
       }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }

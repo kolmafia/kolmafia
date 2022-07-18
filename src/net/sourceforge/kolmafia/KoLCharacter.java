@@ -1,8 +1,12 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Taskbar;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
-import java.util.regex.Matcher;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -48,6 +52,7 @@ import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -63,12 +68,14 @@ import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.Limitmode;
+import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
+import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.GearChangeFrame;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
@@ -118,7 +125,7 @@ public abstract class KoLCharacter {
 
   // Things which can change over the course of playing
 
-  private static String avatar = "";
+  private static List<String> avatar = Collections.emptyList();
   private static AscensionClass ascensionClass = null;
   private static int gender = 0;
   public static int AWOLtattoo = 0;
@@ -164,7 +171,7 @@ public abstract class KoLCharacter {
     resetTriggers();
   }
 
-  public static final SortedListModel<String> battleSkillNames = new SortedListModel<String>();
+  public static final SortedListModel<String> battleSkillNames = new SortedListModel<>();
 
   // Status pane data which is rendered whenever
   // the user issues a "status" type command.
@@ -199,7 +206,7 @@ public abstract class KoLCharacter {
 
   // Familiar data
 
-  public static final SortedListModel<FamiliarData> familiars = new SortedListModel<FamiliarData>();
+  public static final SortedListModel<FamiliarData> familiars = new SortedListModel<>();
   public static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
   public static FamiliarData effectiveFamiliar = FamiliarData.NO_FAMILIAR;
   public static String currentFamiliarImage = null;
@@ -222,8 +229,7 @@ public abstract class KoLCharacter {
 
   // Pastamancer Pasta Thralls
 
-  public static final LockableListModel<PastaThrallData> pastaThralls =
-      new LockableListModel<PastaThrallData>();
+  public static final LockableListModel<PastaThrallData> pastaThralls = new LockableListModel<>();
   public static PastaThrallData currentPastaThrall = PastaThrallData.NO_THRALL;
 
   private static int stillsAvailable = 0;
@@ -382,8 +388,10 @@ public abstract class KoLCharacter {
     EquipmentManager.resetCustomOutfits();
     GearChangeFrame.clearFamiliarList();
     InventoryManager.resetInventory();
+    LocketManager.clear();
     SkillDatabase.resetCasts();
     SpecialOutfit.forgetCheckpoints();
+    StorageRequest.resetRoninStoragePulls();
     VolcanoMazeManager.reset();
     VYKEACompanionData.initialize(true);
     WumpusManager.reset();
@@ -422,9 +430,8 @@ public abstract class KoLCharacter {
     KoLConstants.expressionSkills.clear();
     KoLConstants.walkSkills.clear();
     KoLConstants.availableSkills.clear();
-    KoLConstants.availableSkillsMap.clear();
-    KoLConstants.availableCombatSkills.clear();
-    KoLConstants.availableCombatSkillsMap.clear();
+    KoLConstants.availableSkillsSet.clear();
+    KoLConstants.availableCombatSkillsSet.clear();
     KoLConstants.combatSkills.clear();
 
     // All characters get the option to
@@ -478,6 +485,14 @@ public abstract class KoLCharacter {
 
   public static final int getFullnessLimit() {
     if (!KoLCharacter.canEat()) {
+      return 0;
+    }
+
+    if (KoLCharacter.inRobocore()) {
+      // Robots can eat size-0 magical sausages but have no fullness
+      return 0;
+    } else if (KoLCharacter.isGreyGoo()) {
+      // Grey Goo can "eat" things but they don't go into a stomach.
       return 0;
     }
 
@@ -604,6 +619,11 @@ public abstract class KoLCharacter {
       return 0;
     }
 
+    if (KoLCharacter.isGreyGoo()) {
+      // Grey Goo can "drink" things but they don't go into a liver.
+      return 0;
+    }
+
     // Default liver size, overridden below for various paths
     int limit = 14;
 
@@ -685,9 +705,10 @@ public abstract class KoLCharacter {
 
     if (KoLCharacter.inNoobcore()) {
       return 0;
-    }
-
-    if (KoLCharacter.inRobocore()) {
+    } else if (KoLCharacter.inRobocore()) {
+      return 0;
+    } else if (KoLCharacter.isGreyGoo()) {
+      // Grey Goo can "chew" things but they don't go into a spleen.
       return 0;
     }
 
@@ -786,14 +807,42 @@ public abstract class KoLCharacter {
    * @param avatar The avatar for this character
    */
   public static final void setAvatar(final String avatar) {
-    KoLCharacter.avatar = avatar;
-    if (!avatar.equals("")) {
-      String prefix = KoLmafia.imageServerPath();
-      FileUtilities.downloadImage(prefix + KoLCharacter.avatar);
-    }
-    NamedListenerRegistry.fireChange("(avatar)");
+    KoLCharacter.setAvatar(Collections.singletonList(avatar));
+  }
 
-    if (avatar.endsWith("_f.gif")) {
+  public static final void setAvatar(final List<String> images) {
+    // Only set the avatar if the set of images has changed.
+    //
+    // Note that we assume that a "set" will do; the images will be overlaid
+    // upon each other, rather than being arranged in a specific order.
+
+    if (KoLCharacter.avatar.size() == images.size()) {
+      boolean changed = false;
+      Set<String> currentImages = new HashSet<>(KoLCharacter.avatar);
+      for (String image : images) {
+        if (!currentImages.contains(image)) {
+          changed = true;
+          break;
+        }
+      }
+      if (!changed) {
+        return;
+      }
+    }
+
+    KoLCharacter.avatar = images;
+
+    String prefix = KoLmafia.imageServerPath();
+    boolean female = false;
+
+    for (String image : images) {
+      if (image.endsWith("_f.gif")) {
+        female = true;
+      }
+      FileUtilities.downloadImage(prefix + image);
+    }
+
+    if (female) {
       KoLCharacter.setGender(KoLCharacter.FEMALE);
     } else {
       // Unfortunately, lack of '_f' in the avatar doesn't
@@ -801,6 +850,8 @@ public abstract class KoLCharacter {
       // avatar, or a special avatar such as Birdform that's unisex.
       KoLCharacter.setGender();
     }
+
+    NamedListenerRegistry.fireChange("(avatar)");
   }
 
   /**
@@ -808,7 +859,7 @@ public abstract class KoLCharacter {
    *
    * @return The avatar for this character
    */
-  public static final String getAvatar() {
+  public static final List<String> getAvatar() {
     return KoLCharacter.avatar;
   }
 
@@ -817,11 +868,11 @@ public abstract class KoLCharacter {
     // is meaningless), or are not logged in (ditto), nothing to do
     if (KoLCharacter.gender != 0
         || CharPaneRequest.inValhalla()
-        || GenericRequest.passwordHash.equals("")) {
+        || GenericRequest.passwordHash.isEmpty()) {
       return KoLCharacter.gender;
     }
 
-    // Can't tell?	Look at their vinyl boots!
+    // Can't tell? Look at their vinyl boots!
     String descId = ItemDatabase.getDescriptionId(ItemPool.VINYL_BOOTS);
     GenericRequest req = new GenericRequest("desc_item.php?whichitem=" + descId);
     RequestThread.postRequest(req);
@@ -1173,11 +1224,11 @@ public abstract class KoLCharacter {
   }
 
   public static final void setAscensionClass(final int classId) {
-    setAscensionClass(AscensionClass.idToClass(classId));
+    setAscensionClass(AscensionClass.find(classId));
   }
 
   public static final void setAscensionClass(final String className) {
-    setAscensionClass(AscensionClass.nameToClass(className));
+    setAscensionClass(AscensionClass.find(className));
   }
 
   static final int getReagentPotionDuration() {
@@ -1239,6 +1290,10 @@ public abstract class KoLCharacter {
 
   public static final boolean isVampyre() {
     return ascensionClass == AscensionClass.VAMPYRE;
+  }
+
+  public static final boolean isGreyGoo() {
+    return ascensionClass == AscensionClass.GREY_GOO;
   }
 
   public static final boolean isMoxieClass() {
@@ -1610,6 +1665,7 @@ public abstract class KoLCharacter {
       freerests += 5;
     if (Preferences.getBoolean("getawayCampsiteUnlocked")) ++freerests;
     if (KoLCharacter.hasSkill("Long Winter's Nap")) freerests += 5;
+    if (InventoryManager.getCount(ItemPool.MOTHERS_NECKLACE) > 0) freerests += 5;
     return freerests;
   }
 
@@ -2037,7 +2093,7 @@ public abstract class KoLCharacter {
         KoLCharacter.currentRun != currentRun && KoLCharacter.currentRun != 0 && currentRun != 0;
     KoLCharacter.currentRun = currentRun;
     if (changed) {
-      BanishManager.update();
+      BanishManager.recalculate();
     }
   }
 
@@ -2321,14 +2377,7 @@ public abstract class KoLCharacter {
   private static final Pattern B_PATTERN = Pattern.compile("[Bb]");
 
   public static final int getBeeosity(String name) {
-    int bees = 0;
-
-    Matcher bMatcher = KoLCharacter.B_PATTERN.matcher(name);
-    while (bMatcher.find()) {
-      bees++;
-    }
-
-    return bees;
+    return (int) KoLCharacter.B_PATTERN.matcher(name).results().count();
   }
 
   public static final boolean hasBeeosity(String name) {
@@ -2865,9 +2914,11 @@ public abstract class KoLCharacter {
         || oldPath == Path.HEAVY_RAINS
         || oldPath == Path.PICKY
         || oldPath == Path.NUCLEAR_AUTUMN
-        || oldPath == Path.YOU_ROBOT) {
+        || oldPath == Path.YOU_ROBOT
+        || oldPath == Path.JOURNEYMAN) {
       RequestThread.postRequest(new CharSheetRequest());
       InventoryManager.checkPowerfulGlove();
+      InventoryManager.checkDesignerSweatpants();
     }
 
     if (restricted
@@ -2928,6 +2979,17 @@ public abstract class KoLCharacter {
     FloristRequest.reset();
     RequestThread.postRequest(new FloristRequest());
 
+    // If you have the ItemManagerFrame open, there are four panels which
+    // display food, booze, spleen items, and potions. These enable buttons and
+    // filter what is shown based on character state: whether your character
+    // can eat or drink, whether items are out of standard, and so on.
+    //
+    // All of that is moot, now. Signal the various GUI panels to update.
+    NamedListenerRegistry.fireChange("(food)");
+    NamedListenerRegistry.fireChange("(booze)");
+    NamedListenerRegistry.fireChange("(spleen)");
+    NamedListenerRegistry.fireChange("(potions)");
+
     // Run a user-supplied script
     KoLmafiaCLI.DEFAULT_SHELL.executeLine(Preferences.getString("kingLiberatedScript"));
   }
@@ -2962,7 +3024,10 @@ public abstract class KoLCharacter {
 
   /** Accessor method which sets whether or not the player is currently in hardcore. */
   public static final void setHardcore(final boolean isHardcore) {
-    KoLCharacter.isHardcore = isHardcore;
+    if (KoLCharacter.isHardcore != isHardcore) {
+      KoLCharacter.isHardcore = isHardcore;
+      NamedListenerRegistry.fireChange("(hardcore)");
+    }
   }
 
   /** Returns whether or not the character is currently in casual. */
@@ -3001,7 +3066,10 @@ public abstract class KoLCharacter {
 
   /** Accessor method which sets whether or not the player is currently in ronin. */
   public static final void setRonin(final boolean inRonin) {
-    KoLCharacter.inRonin = inRonin;
+    if (KoLCharacter.inRonin != inRonin) {
+      KoLCharacter.inRonin = inRonin;
+      NamedListenerRegistry.fireChange("(ronin)");
+    }
   }
 
   /**
@@ -3066,11 +3134,16 @@ public abstract class KoLCharacter {
     return KoLCharacter.restricted;
   }
 
+  public static final boolean inFight() {
+    return FightRequest.currentRound != 0 || FightRequest.inMultiFight;
+  }
+
+  public static final boolean inChoice() {
+    return ChoiceManager.handlingChoice || FightRequest.choiceFollowsFight;
+  }
+
   public static final boolean inFightOrChoice() {
-    return ChoiceManager.handlingChoice
-        || FightRequest.currentRound != 0
-        || FightRequest.inMultiFight
-        || FightRequest.choiceFollowsFight;
+    return inFight() || inChoice();
   }
 
   /**
@@ -3254,6 +3327,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.WILDFIRE;
   }
 
+  public static final boolean inGreyYou() {
+    return KoLCharacter.ascensionPath == Path.GREY_YOU;
+  }
+
   public static final boolean isUnarmed() {
     AdventureResult weapon = EquipmentManager.getEquipment(EquipmentManager.WEAPON);
     AdventureResult offhand = EquipmentManager.getEquipment(EquipmentManager.OFFHAND);
@@ -3284,7 +3361,7 @@ public abstract class KoLCharacter {
       return false;
     }
 
-    if (KoLCharacter.inNoobcore() || KoLCharacter.inBondcore() || KoLCharacter.inRobocore()) {
+    if (KoLCharacter.inNoobcore() || KoLCharacter.inBondcore()) {
       return false;
     }
 
@@ -3310,6 +3387,26 @@ public abstract class KoLCharacter {
 
     if (ascensionPath == Path.OXYGENARIAN || ascensionPath == Path.TEETOTALER) {
       return false;
+    }
+
+    return true;
+  }
+
+  public static final boolean canSpleen() {
+    if (Limitmode.limitSpleening()) {
+      return false;
+    }
+
+    if (KoLCharacter.inNoobcore() || KoLCharacter.inRobocore()) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public static final boolean canUsePotions() {
+    if (KoLCharacter.inRobocore()) {
+      return YouRobotManager.canUsePotions();
     }
 
     return true;
@@ -3553,10 +3650,10 @@ public abstract class KoLCharacter {
 
     // Temporary code to allow Mafia to catch up with the fact that unlock is a flag
     if (Preferences.getInteger("lastDesertUnlock") != KoLCharacter.getAscensions()) {
-      if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.BITCHIN_MEATCAR, 1))
-          || KoLConstants.inventory.contains(ItemPool.get(ItemPool.DESERT_BUS_PASS, 1))
-          || KoLConstants.inventory.contains(ItemPool.get(ItemPool.PUMPKIN_CARRIAGE, 1))
-          || KoLConstants.inventory.contains(ItemPool.get(ItemPool.TIN_LIZZIE, 1))
+      if (InventoryManager.getCount(ItemPool.BITCHIN_MEATCAR) > 0
+          || InventoryManager.getCount(ItemPool.DESERT_BUS_PASS) > 0
+          || InventoryManager.getCount(ItemPool.PUMPKIN_CARRIAGE) > 0
+          || InventoryManager.getCount(ItemPool.TIN_LIZZIE) > 0
           || Preferences.getString("peteMotorbikeGasTank").equals("Large Capacity Tank")
           || Preferences.getString("questG01Meatcar").equals("finished")
           || KoLCharacter.kingLiberated()
@@ -3617,9 +3714,13 @@ public abstract class KoLCharacter {
   public static final void setPermedSkills(final List<UseSkillRequest> newSkillSet) {
     KoLConstants.permedSkills.clear();
 
-    for (UseSkillRequest skill : newSkillSet) {
-      KoLConstants.permedSkills.add(skill);
-    }
+    KoLConstants.permedSkills.addAll(newSkillSet);
+  }
+
+  public static final void setHardcorePermedSkills(final Set<Integer> newSkillSet) {
+    KoLConstants.hardcorePermedSkills.clear();
+
+    KoLConstants.hardcorePermedSkills.addAll(newSkillSet);
   }
 
   /** Adds a single skill to the list of known skills possessed by this character. */
@@ -3631,14 +3732,14 @@ public abstract class KoLCharacter {
     KoLCharacter.addAvailableSkill(UseSkillRequest.getUnmodifiedInstance(skillId), checkTrendy);
   }
 
-  public static final void addAvailableSkill(final String name) {
+  public static final void addAvailableSkill(final String skillName) {
     // *** Skills can have ambiguous names. Best to use the methods that deal with skill id
-    KoLCharacter.addAvailableSkill(name, false);
+    KoLCharacter.addAvailableSkill(skillName, false);
   }
 
-  public static final void addAvailableSkill(final String name, final boolean checkTrendy) {
+  public static final void addAvailableSkill(final String skillName, final boolean checkTrendy) {
     // *** Skills can have ambiguous names. Best to use the methods that deal with skill id
-    KoLCharacter.addAvailableSkill(UseSkillRequest.getUnmodifiedInstance(name), checkTrendy);
+    KoLCharacter.addAvailableSkill(SkillDatabase.getSkillId(skillName), checkTrendy);
   }
 
   public static final void addAvailableSkill(final UseSkillRequest skill) {
@@ -3650,7 +3751,8 @@ public abstract class KoLCharacter {
       return;
     }
 
-    if (KoLConstants.availableSkillsMap.containsKey(skill)) {
+    int skillId = skill.getSkillId();
+    if (KoLConstants.availableSkillsSet.contains(skillId)) {
       return;
     }
 
@@ -3675,13 +3777,13 @@ public abstract class KoLCharacter {
     }
 
     KoLConstants.availableSkills.add(skill);
-    KoLConstants.availableSkillsMap.put(skill, null);
+    KoLConstants.availableSkillsSet.add(skillId);
     PreferenceListenerRegistry.firePreferenceChanged("(skill)");
 
-    switch (SkillDatabase.getSkillType(skill.getSkillId())) {
+    switch (SkillDatabase.getSkillType(skillId)) {
       case SkillDatabase.PASSIVE:
         {
-          switch (skill.getSkillId()) {
+          switch (skillId) {
             case SkillPool.FLAVOUR_OF_MAGIC:
               // Flavour of Magic gives you access to five other
               // castable skills
@@ -3823,43 +3925,21 @@ public abstract class KoLCharacter {
 
   /** Adds a single skill to the list of skills temporarily possessed by this character. */
   public static final void addAvailableCombatSkill(final int skillId) {
-    KoLCharacter.addAvailableCombatSkill(UseSkillRequest.getUnmodifiedInstance(skillId));
+    KoLConstants.availableCombatSkillsSet.add(skillId);
   }
 
   public static final void addAvailableCombatSkill(final String skillName) {
     // *** Skills can have ambiguous names. Best to use the methods that deal with skill id
-    KoLCharacter.addAvailableCombatSkill(UseSkillRequest.getUnmodifiedInstance(skillName));
+    KoLCharacter.addAvailableCombatSkill(SkillDatabase.getSkillId(skillName));
   }
 
-  private static void addAvailableCombatSkill(final UseSkillRequest skill) {
-    if (skill == null) {
-      return;
-    }
-
-    if (KoLConstants.availableCombatSkillsMap.containsKey(skill)) {
-      return;
-    }
-
-    KoLConstants.availableCombatSkills.add(skill);
-    KoLConstants.availableCombatSkillsMap.put(skill, null);
+  public static final void removeAvailableCombatSkill(final int skillId) {
+    KoLConstants.availableCombatSkillsSet.remove(skillId);
   }
 
-  public static final void removeAvailableCombatSkill(final String name) {
+  public static final void removeAvailableCombatSkill(final String skillName) {
     // *** Skills can have ambiguous names. Best to use the methods that deal with skill id
-    KoLCharacter.removeAvailableCombatSkill(UseSkillRequest.getUnmodifiedInstance(name));
-  }
-
-  private static void removeAvailableCombatSkill(final UseSkillRequest skill) {
-    if (skill == null) {
-      return;
-    }
-
-    if (!KoLConstants.availableCombatSkillsMap.containsKey(skill)) {
-      return;
-    }
-
-    KoLConstants.availableCombatSkills.remove(skill);
-    KoLConstants.availableCombatSkillsMap.remove(skill);
+    KoLCharacter.removeAvailableCombatSkill(SkillDatabase.getSkillId(skillName));
   }
 
   private static void addCombatSkill(final String name) {
@@ -3879,9 +3959,8 @@ public abstract class KoLCharacter {
     }
 
     UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
-
     KoLConstants.availableSkills.remove(skill);
-    KoLConstants.availableSkillsMap.remove(skill);
+    KoLConstants.availableSkillsSet.remove(skillId);
     KoLConstants.usableSkills.remove(skill);
     KoLConstants.summoningSkills.remove(skill);
     KoLConstants.usableSkills.remove(skill);
@@ -4004,54 +4083,19 @@ public abstract class KoLCharacter {
     return KoLCharacter.hasSkill("Amphibian Sympathy");
   }
 
-  /** Utility method which looks up whether or not the character has a skill of the given name. */
+  /** Utility methods which looks up whether or not the character has a particular skill. */
   public static final boolean hasSkill(final int skillId) {
-    UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
-    return KoLCharacter.hasSkill(skill);
+    return KoLConstants.availableSkillsSet.contains(skillId);
   }
 
   public static final boolean hasSkill(final String skillName) {
     // *** Skills can have ambiguous names. Best to use the methods that deal with skill id
-    UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillName);
-    return KoLCharacter.hasSkill(skill);
+    int skillId = SkillDatabase.getSkillId(skillName);
+    return KoLCharacter.hasSkill(skillId);
   }
 
-  public static final boolean hasSkill(final String skillName, final List<UseSkillRequest> list) {
-    // *** Skills can have ambiguous names. Best to use the methods that deal with skill id
-    UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillName);
-    return KoLCharacter.hasSkill(skill, list);
-  }
-
-  public static final boolean hasSkill(final UseSkillRequest skill) {
-    return KoLCharacter.hasSkill(skill, KoLConstants.availableSkills);
-  }
-
-  public static final boolean hasSkill(
-      final UseSkillRequest skill, final List<UseSkillRequest> list) {
-    if (skill == null) {
-      return false;
-    }
-
-    if (list == KoLConstants.availableSkills) {
-      return KoLConstants.availableSkillsMap.containsKey(skill);
-    }
-    if (list == KoLConstants.availableCombatSkills) {
-      return KoLConstants.availableCombatSkillsMap.containsKey(skill);
-    }
-    return list.contains(skill);
-  }
-
-  public static final boolean availableCombatSkill(final int skillId) {
-    UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
-    return KoLCharacter.availableCombatSkill(skill);
-  }
-
-  public static final boolean availableCombatSkill(final UseSkillRequest skill) {
-    if (skill == null) {
-      return false;
-    }
-
-    return KoLConstants.availableCombatSkillsMap.containsKey(skill);
+  public static final boolean hasCombatSkill(final int skillId) {
+    return KoLConstants.availableCombatSkillsSet.contains(skillId);
   }
 
   /**
@@ -4304,10 +4348,7 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean isTorsoAware() {
-    return KoLCharacter.hasSkill("Torso Awareness")
-        || KoLCharacter.hasSkill("Best Dressed")
-        || (KoLCharacter.inRobocore()
-            && Preferences.getString("youRobotCPUUpgrades").contains("robot_shirt"));
+    return KoLCharacter.hasSkill("Torso Awareness") || KoLCharacter.hasSkill("Best Dressed");
   }
 
   /**
@@ -4326,62 +4367,41 @@ public abstract class KoLCharacter {
    * @return familiar The first familiar matching this race
    */
   public static final FamiliarData findFamiliar(final String race) {
-    if (FamiliarData.NO_FAMILIAR.getRace().equals(race)) {
-      return FamiliarData.NO_FAMILIAR;
-    }
-
-    // Don't even look if you are an Avatar
-    if (KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg()) {
-      return null;
-    }
-
-    FamiliarData[] familiarArray = new FamiliarData[KoLCharacter.familiars.size()];
-    KoLCharacter.familiars.toArray(familiarArray);
-
-    for (int i = 0; i < familiarArray.length; ++i) {
-      FamiliarData familiar = familiarArray[i];
-      if (familiar.getRace().equals(race)) {
-        return familiar;
-      }
-    }
-
-    return null;
+    return findFamiliar(f -> f.getRace().equalsIgnoreCase(race));
   }
 
+  /**
+   * Accessor method to find the specified familiar.
+   *
+   * @param familiarId The id of the familiar to find
+   * @return familiar The first familiar matching this id
+   */
   public static final FamiliarData findFamiliar(final int familiarId) {
-    if (familiarId == -1) {
-      return FamiliarData.NO_FAMILIAR;
-    }
+    return findFamiliar(f -> f.getId() == familiarId);
+  }
+
+  private static final FamiliarData findFamiliar(final Predicate<FamiliarData> familiarFilter) {
+    // Quick check against NO_FAMILIAR
+    if (familiarFilter.test(FamiliarData.NO_FAMILIAR)) return FamiliarData.NO_FAMILIAR;
 
     // Don't even look if you are an Avatar
-    if (KoLCharacter.inAxecore() || KoLCharacter.isJarlsberg() || KoLCharacter.isSneakyPete()) {
-      return null;
-    }
+    if (!KoLCharacter.getPath().canUseFamiliars()) return null;
 
     // In Quantum Terrarium the player only has the familiar that is with them
     if (KoLCharacter.inQuantum()) {
-      return (KoLCharacter.currentFamiliar.getId() == familiarId)
+      return familiarFilter.test(KoLCharacter.currentFamiliar)
           ? KoLCharacter.currentFamiliar
           : null;
     }
 
-    FamiliarData[] familiarArray = new FamiliarData[KoLCharacter.familiars.size()];
-    KoLCharacter.familiars.toArray(familiarArray);
-
-    for (int i = 0; i < familiarArray.length; ++i) {
-      FamiliarData familiar = familiarArray[i];
-      if (familiar.getId() == familiarId) {
-        if (!StandardRequest.isAllowed("Familiars", familiar.getRace())) {
-          return null;
-        }
-        if (KoLCharacter.inGLover() && !KoLCharacter.hasGs(familiar.getRace())) {
-          return null;
-        }
-        return familiar;
-      }
-    }
-
-    return null;
+    return KoLCharacter.familiars.stream()
+        .filter(familiarFilter)
+        .filter(StandardRequest::isAllowed)
+        .filter(f -> !KoLCharacter.inZombiecore() || f.isUndead())
+        .filter(f -> !KoLCharacter.inBeecore() || !KoLCharacter.hasBeeosity(f.getRace()))
+        .filter(f -> !KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()))
+        .findAny()
+        .orElse(null);
   }
 
   public static final boolean hasFamiliar(final int familiarId) {
@@ -4398,15 +4418,21 @@ public abstract class KoLCharacter {
       return;
     }
 
-    // In Quantum Terrarium, when the next familiar comes up it keeps the previous familiar's item
-    // unless
-    // it cannot equip it, in which case it is returned to the player's inventory.
+    // In Quantum Terrarium, when the next familiar comes up it keeps the
+    // previous familiar's item unless it cannot equip it, in which case it is
+    // returned to the player's inventory.
     if (KoLCharacter.inQuantum()) {
       FamiliarRequest.handleFamiliarChange(familiar);
       EquipmentManager.updateEquipmentList(EquipmentManager.FAMILIAR);
     }
 
+    if (KoLCharacter.currentFamiliar != FamiliarData.NO_FAMILIAR) {
+      KoLCharacter.currentFamiliar.deactivate();
+    }
     KoLCharacter.currentFamiliar = KoLCharacter.addFamiliar(familiar);
+    if (KoLCharacter.currentFamiliar != FamiliarData.NO_FAMILIAR) {
+      KoLCharacter.currentFamiliar.activate();
+    }
 
     if (KoLCharacter.currentFamiliar.equals(KoLCharacter.currentEnthroned)) {
       KoLCharacter.currentEnthroned = FamiliarData.NO_FAMILIAR;
@@ -4602,14 +4628,16 @@ public abstract class KoLCharacter {
 
     if (thrall == PastaThrallData.NO_THRALL) {
       UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance("Dismiss Pasta Thrall");
+      int skillId = skill.getSkillId();
       KoLConstants.availableSkills.remove(skill);
-      KoLConstants.availableSkillsMap.remove(skill);
+      KoLConstants.availableSkillsSet.remove(skillId);
       KoLConstants.usableSkills.remove(skill);
       KoLConstants.summoningSkills.remove(skill);
     } else if (KoLCharacter.currentPastaThrall == PastaThrallData.NO_THRALL) {
       UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance("Dismiss Pasta Thrall");
+      int skillId = skill.getSkillId();
       KoLConstants.availableSkills.add(skill);
-      KoLConstants.availableSkillsMap.put(skill, null);
+      KoLConstants.availableSkillsSet.add(skillId);
       KoLConstants.usableSkills.add(skill);
       LockableListFactory.sort(KoLConstants.usableSkills);
       KoLConstants.summoningSkills.add(skill);
@@ -4873,15 +4901,10 @@ public abstract class KoLCharacter {
             KoLCharacter.effectiveFamiliar,
             KoLCharacter.currentEnthroned,
             KoLCharacter.currentBjorned,
-            Preferences.getString("edPiece"),
-            Preferences.getString("snowsuit"),
             null,
             Preferences.getString("_horsery"),
             Preferences.getString("boomBoxSong"),
-            Preferences.getString("retroCapeSuperhero")
-                + " "
-                + Preferences.getString("retroCapeWashingInstructions"),
-            Preferences.getString("backupCameraMode"),
+            Modeable.getStateMap(),
             false));
   }
 
@@ -4893,13 +4916,10 @@ public abstract class KoLCharacter {
       FamiliarData familiar,
       FamiliarData enthroned,
       FamiliarData bjorned,
-      String edPiece,
-      String snowsuit,
       String custom,
       String horsery,
       String boomBox,
-      String retroCape,
-      String backupCamera,
+      Map<Modeable, String> modeables,
       boolean speculation) {
     int taoFactor = KoLCharacter.hasSkill("Tao of the Terrapin") ? 2 : 1;
 
@@ -4925,8 +4945,6 @@ public abstract class KoLCharacter {
     if (KoLCharacter.canInteract() && !KoLmafia.statDay.equals("None")) {
       newModifiers.add(Modifiers.getModifiers("StatDay", KoLmafia.statDay));
     }
-
-    Modifiers.smithsness = KoLCharacter.getSmithsnessModifier(equipment, effects);
 
     // Certain outfits give benefits to the character
     // Need to do this before the individual items, so that Hobo Power
@@ -4983,6 +5001,9 @@ public abstract class KoLCharacter {
     // Look at items
     for (int slot = EquipmentManager.HAT; slot <= EquipmentManager.FAMILIAR + 1; ++slot) {
       AdventureResult item = equipment[slot];
+      if (item == EquipmentRequest.UNEQUIP) {
+        continue;
+      }
       KoLCharacter.addItemAdjustment(
           newModifiers,
           slot,
@@ -4990,10 +5011,7 @@ public abstract class KoLCharacter {
           equipment,
           enthroned,
           bjorned,
-          edPiece,
-          snowsuit,
-          retroCape,
-          backupCamera,
+          modeables,
           speculation,
           taoFactor);
     }
@@ -5031,11 +5049,9 @@ public abstract class KoLCharacter {
     // For the sake of easier maintenance, execute a lot of extra
     // string comparisons when looking at status effects.
 
-    for (int i = 0; i < effects.size(); ++i) {
-      newModifiers.add(Modifiers.getEffectModifiers(effects.get(i).getEffectId()));
+    for (AdventureResult effect : effects) {
+      newModifiers.add(Modifiers.getEffectModifiers(effect.getEffectId()));
     }
-
-    Modifiers.hoboPower = newModifiers.get(Modifiers.HOBO_POWER);
 
     // Add modifiers from campground equipment.
     for (int i = 0; i < KoLConstants.campground.size(); ++i) {
@@ -5053,7 +5069,7 @@ public abstract class KoLCharacter {
     AdventureResult dwelling = CampgroundRequest.getCurrentDwelling();
     newModifiers.add(Modifiers.getItemModifiers(dwelling.getItemId()));
 
-    if (KoLConstants.inventory.contains(ItemPool.get(ItemPool.COMFY_BLANKET, 1))) {
+    if (InventoryManager.getCount(ItemPool.COMFY_BLANKET) > 0) {
       newModifiers.add(Modifiers.getItemModifiers(ItemPool.COMFY_BLANKET));
     }
 
@@ -5107,9 +5123,7 @@ public abstract class KoLCharacter {
 
     // Mummery
     newModifiers.add(
-        new Modifiers(
-            "Mummery",
-            Modifiers.evaluateModifiers("Mummery", Preferences.getString("_mummeryMods"))));
+        Modifiers.evaluatedModifiers("Mummery", Preferences.getString("_mummeryMods")));
 
     // Add modifiers from inventory
     if (InventoryManager.hasItem(ItemPool.FISHING_POLE)) {
@@ -5130,10 +5144,7 @@ public abstract class KoLCharacter {
 
     // Voting Booth
     newModifiers.add(
-        new Modifiers(
-            "Local Vote:Local Vote",
-            Modifiers.evaluateModifiers(
-                "Local Vote:Local Vote", Preferences.getString("_voteModifier"))));
+        Modifiers.evaluatedModifiers("Local Vote", Preferences.getString("_voteModifier")));
 
     // Miscellaneous
 
@@ -5144,6 +5155,10 @@ public abstract class KoLCharacter {
     if (custom != null) {
       newModifiers.add(Modifiers.parseModifiers("Generated:custom", custom));
     }
+
+    // Store some modifiers as statics
+    Modifiers.hoboPower = newModifiers.get(Modifiers.HOBO_POWER);
+    Modifiers.smithsness = KoLCharacter.getSmithsnessModifier(equipment, effects);
 
     if (Modifiers.currentLocation.equals("The Slime Tube")) {
       int hatred = (int) newModifiers.get(Modifiers.SLIME_HATES_IT);
@@ -5214,16 +5229,7 @@ public abstract class KoLCharacter {
     }
 
     if (KoLCharacter.inRobocore()) {
-      newModifiers.add(Modifiers.getModifiers("RobotTop", Preferences.getString("youRobotTop")));
-      newModifiers.add(
-          Modifiers.getModifiers("RobotRight", Preferences.getString("youRobotRight")));
-      newModifiers.add(
-          Modifiers.getModifiers("RobotBottom", Preferences.getString("youRobotBottom")));
-      newModifiers.add(Modifiers.getModifiers("RobotLeft", Preferences.getString("youRobotLeft")));
-
-      for (String cpuUpgrade : Preferences.getString("youRobotCPUUpgrades").split(",")) {
-        newModifiers.add(Modifiers.getModifiers("RobotCPU", cpuUpgrade));
-      }
+      YouRobotManager.addRobotModifiers(newModifiers);
     }
 
     if (VYKEACompanionData.currentCompanion() != VYKEACompanionData.NO_COMPANION) {
@@ -5400,10 +5406,7 @@ public abstract class KoLCharacter {
       AdventureResult[] equipment,
       FamiliarData enthroned,
       FamiliarData bjorned,
-      String edPiece,
-      String snowsuit,
-      String retroCape,
-      String backupCamera,
+      Map<Modeable, String> modeables,
       boolean speculation,
       int taoFactor) {
     if (item == null || item == EquipmentRequest.UNEQUIP) {
@@ -5460,6 +5463,15 @@ public abstract class KoLCharacter {
         newModifiers.add(iModCopy);
       } else {
         newModifiers.add(imod);
+      }
+    }
+
+    // Do appropriate things for specific items in Noobcore
+    if (KoLCharacter.inNoobcore()) {
+      switch (itemId) {
+        case ItemPool.LATTE_MUG:
+          newModifiers.add(Modifiers.getItemModifiers(itemId));
+          break;
       }
     }
 
@@ -5523,21 +5535,13 @@ public abstract class KoLCharacter {
           newModifiers.applyVampyricCloakeModifiers();
           break;
 
-        case ItemPool.CROWN_OF_ED:
-          newModifiers.add(Modifiers.getModifiers("Edpiece", edPiece));
-          break;
+        default:
+          var modeable = Modeable.find(itemId);
 
-        case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
-          newModifiers.add(Modifiers.getModifiers("RetroCape", retroCape));
-          break;
-
-        case ItemPool.BACKUP_CAMERA:
-          newModifiers.add(Modifiers.getModifiers("BackupCamera", backupCamera));
-          break;
-
-        case ItemPool.SNOW_SUIT:
-          newModifiers.add(Modifiers.getModifiers("Snowsuit", snowsuit));
-          break;
+          if (modeable != null) {
+            newModifiers.add(
+                Modifiers.getModifiers(modeable.getModifier(), modeables.get(modeable)));
+          }
       }
     }
 
@@ -5586,7 +5590,7 @@ public abstract class KoLCharacter {
         int itemId = item.getItemId();
         Modifiers imod = Modifiers.getItemModifiers(itemId);
         if (imod != null) {
-          AscensionClass classType = AscensionClass.nameToClass(imod.getString(Modifiers.CLASS));
+          AscensionClass classType = AscensionClass.find(imod.getString(Modifiers.CLASS));
           if (classType == null
               || classType == ascensionClass
                   && (slot != EquipmentManager.FAMILIAR
@@ -5672,7 +5676,7 @@ public abstract class KoLCharacter {
 
     for (int i = 819; i <= 827; ++i) {
       String testProperty = Preferences.getString("lastBangPotion" + i);
-      if (!testProperty.equals("")) {
+      if (!testProperty.isEmpty()) {
         String name = ItemDatabase.getItemName(i);
         String testName = name + " of " + testProperty;
         String testPlural = name + "s of " + testProperty;
@@ -5685,7 +5689,7 @@ public abstract class KoLCharacter {
 
     for (int i = ItemPool.VIAL_OF_RED_SLIME; i <= ItemPool.VIAL_OF_PURPLE_SLIME; ++i) {
       String testProperty = Preferences.getString("lastSlimeVial" + i);
-      if (!testProperty.equals("")) {
+      if (!testProperty.isEmpty()) {
         String name = ItemDatabase.getItemName(i);
         String testName = name + ": " + testProperty;
         String testPlural = ItemDatabase.getPluralName(i) + testProperty;

@@ -591,7 +591,7 @@ public abstract class MoodManager {
     loadSettings(FileUtilities.getReader(getFile()));
   }
 
-  public static void loadSettings(BufferedReader reader) {
+  public static void loadSettings(final BufferedReader reader) {
     MoodManager.availableMoods.clear();
 
     Mood mood = new Mood("apathetic");
@@ -602,7 +602,7 @@ public abstract class MoodManager {
 
     if (reader != null) {
 
-      try {
+      try (reader) {
         String line;
 
         while ((line = reader.readLine()) != null) {
@@ -629,8 +629,6 @@ public abstract class MoodManager {
           MoodManager.availableMoods.remove(mood);
           MoodManager.availableMoods.add(mood);
         }
-
-        reader.close();
 
         MoodManager.setMood(Preferences.getString("currentMood"));
       } catch (IOException e) {

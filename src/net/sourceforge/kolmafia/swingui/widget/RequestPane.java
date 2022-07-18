@@ -8,17 +8,23 @@ import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.HTMLWriter;
 import javax.swing.text.html.InlineView;
+import net.sourceforge.kolmafia.ImageCachingEditorKit;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class RequestPane extends JEditorPane {
-  static class WrappedHtmlEditorKit extends HTMLEditorKit {
+  static class WrappedHtmlEditorKit extends ImageCachingEditorKit {
     private final ViewFactory viewFactory;
 
+    /*
+     Code originally from https://stackoverflow.com/questions/17533451/jeditorpane-linewrap-in-java7/26583365#26583365
+     by Ludovic Pecquot (https://stackoverflow.com/users/4185005/ludovic-pecquot)
+     available under CC BY-SA 3.0 (http://creativecommons.org/licenses/by-sa/3.0/)
+     Some code changes made from original, changes at https://github.com/kolmafia/kolmafia/commits
+    */
     public WrappedHtmlEditorKit() {
       super();
       this.viewFactory = new WrappedHtmlFactory();
@@ -29,7 +35,7 @@ public class RequestPane extends JEditorPane {
       return this.viewFactory;
     }
 
-    private static class WrappedHtmlFactory extends HTMLEditorKit.HTMLFactory {
+    private static class WrappedHtmlFactory extends ImageCachingViewFactory {
       @Override
       public View create(Element elem) {
         View view = super.create(elem);

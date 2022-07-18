@@ -9,6 +9,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
 
 public class GourdManager {
+  private GourdManager() {}
+
   public static void tradeGourdItems() {
     RequestThread.postRequest(new GourdRequest());
 

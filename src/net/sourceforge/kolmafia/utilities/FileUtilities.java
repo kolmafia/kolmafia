@@ -8,13 +8,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 import javax.swing.ImageIcon;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -27,7 +30,23 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class FileUtilities {
-  private static final Pattern FILEID_PATTERN = Pattern.compile("(\\d+)\\.");
+  private static ResettingHttpClient client;
+
+  private static ResettingHttpClient getClient() {
+    if (client != null) {
+      return client;
+    }
+
+    var built = new ResettingHttpClient(FileUtilities::createClient);
+    client = built;
+    return built;
+  }
+
+  private static HttpClient createClient() {
+    return HttpUtilities.getClientBuilder().build();
+  }
+
+  private FileUtilities() {}
 
   public static final BufferedReader getReader(final String filename, final boolean allowOverride) {
     return FileUtilities.getReader(
@@ -178,62 +197,51 @@ public class FileUtilities {
     }
   }
 
-  private static HttpURLConnection connectToRemoteFile(final String remote) {
-    try {
-      return HttpUtilities.openConnection(new URL(null, remote));
-    } catch (IOException e) {
-      return null;
-    }
-  }
-
-  private static InputStream getInputStreamFromConnection(
-      final String remote, final HttpURLConnection connection) {
+  private static HttpResponse<InputStream> getResponseFromRequest(
+      final String remote, final HttpRequest request) {
     if (RequestLogger.isDebugging()) {
-      GenericRequest.printRequestProperties(remote, connection);
+      GenericRequest.printRequestProperties(remote, request);
     }
 
     if (RequestLogger.isTracing()) {
       RequestLogger.trace("Requesting: " + remote);
     }
 
+    var client = getClient();
+    HttpResponse<InputStream> response;
     try {
-      int responseCode = connection.getResponseCode();
-      String responseMessage = connection.getResponseMessage();
-      switch (responseCode) {
-        case 200:
-          InputStream istream = connection.getInputStream();
-          if ("gzip".equals(connection.getContentEncoding())) {
-            istream = new GZIPInputStream(istream);
-          }
-
-          if (RequestLogger.isDebugging()) {
-            GenericRequest.printHeaderFields(remote, connection);
-          }
-
-          if (RequestLogger.isTracing()) {
-            RequestLogger.trace("Retrieved: " + remote);
-          }
-
-          return istream;
-        case 304:
-          // Requested variant not modified, fall through.
-          if (RequestLogger.isDebugging()) {
-            RequestLogger.updateDebugLog("Not modified: " + remote);
-          }
-
-          if (RequestLogger.isTracing()) {
-            RequestLogger.trace("Not modified: " + remote);
-          }
-        default:
-          if (RequestLogger.isDebugging()) {
-            RequestLogger.updateDebugLog(
-                "Server returned response code " + responseCode + " (" + responseMessage + ")");
-          }
-          return null;
-      }
-    } catch (IOException e) {
+      response = client.send(request, BodyHandlers.ofInputStream());
+    } catch (IOException | InterruptedException e) {
       StaticEntity.printStackTrace(e);
       return null;
+    }
+
+    int responseCode = response.statusCode();
+    switch (responseCode) {
+      case 200:
+        if (RequestLogger.isDebugging()) {
+          GenericRequest.printHeaderFields(remote, response);
+        }
+
+        if (RequestLogger.isTracing()) {
+          RequestLogger.trace("Retrieved: " + remote);
+        }
+
+        return response;
+      case 304:
+        // Requested variant not modified, fall through.
+        if (RequestLogger.isDebugging()) {
+          RequestLogger.updateDebugLog("Not modified: " + remote);
+        }
+
+        if (RequestLogger.isTracing()) {
+          RequestLogger.trace("Not modified: " + remote);
+        }
+      default:
+        if (RequestLogger.isDebugging()) {
+          RequestLogger.updateDebugLog("Server returned response code " + responseCode);
+        }
+        return null;
     }
   }
 
@@ -246,7 +254,7 @@ public class FileUtilities {
         byte[] bytes = ByteBufferUtilities.read(istream);
         String text = new String(bytes);
         text = StringUtilities.globalStringReplace(text, "location.hostname", "location.host");
-        ostream.write(text.getBytes());
+        ostream.write(text.getBytes(StandardCharsets.UTF_8));
       } else if (remote.endsWith(".gif")) {
         byte[] bytes = ByteBufferUtilities.read(istream);
         String signature = new String(bytes, 0, 3);
@@ -277,20 +285,42 @@ public class FileUtilities {
   }
 
   public static final StringBuffer downloadFile(final String remote) {
-    HttpURLConnection connection = connectToRemoteFile(remote);
-    if (connection == null) {
+    URI uri;
+    try {
+      uri = new URI(remote);
+    } catch (URISyntaxException e) {
       System.out.println(remote);
       return new StringBuffer();
     }
 
-    InputStream istream = getInputStreamFromConnection(remote, connection);
+    HttpRequest request =
+        HttpRequest.newBuilder(uri).header("User-Agent", GenericRequest.getUserAgent()).build();
+
+    HttpResponse<InputStream> response = getResponseFromRequest(remote, request);
+    if (response == null) {
+      return new StringBuffer();
+    }
+    var istream = getInputStream(response);
     if (istream == null) {
       return new StringBuffer();
     }
 
     ByteArrayOutputStream ostream = new ByteArrayOutputStream();
     downloadFileToStream(remote, istream, ostream);
-    return new StringBuffer(StringUtilities.getEncodedString(ostream.toByteArray(), "UTF-8"));
+    return new StringBuffer(ostream.toString(StandardCharsets.UTF_8));
+  }
+
+  private static InputStream getInputStream(HttpResponse<InputStream> response) {
+    var encoding = response.headers().firstValue("Content-Encoding").orElse("");
+    if ("gzip".equals(encoding)) {
+      try {
+        return new GZIPInputStream(response.body());
+      } catch (IOException e) {
+        StaticEntity.printStackTrace(e);
+        return null;
+      }
+    }
+    return response.body();
   }
 
   public static final void downloadFile(final String remote, final File local) {
@@ -308,26 +338,28 @@ public class FileUtilities {
       return;
     }
 
-    HttpURLConnection connection = connectToRemoteFile(remote);
-    if (connection == null) {
+    URI uri;
+    try {
+      uri = new URI(remote);
+    } catch (URISyntaxException e) {
       return;
     }
+
+    HttpRequest.Builder requestBuilder =
+        HttpRequest.newBuilder(uri).header("User-Agent", GenericRequest.getUserAgent());
 
     if (probeLastModified) {
       // This isn't perfect, because the user could've modified the file themselves, but it's better
       // than nothing.
-      connection.setIfModifiedSince(local.lastModified());
+      var header = StringUtilities.formatDate(local.lastModified());
+      requestBuilder.setHeader("If-Modified-Since", header);
     }
 
-    if (remote.startsWith("http://pics.communityofloathing.com")) {
-      Matcher idMatcher = FileUtilities.FILEID_PATTERN.matcher(local.getPath());
-      if (idMatcher.find()) {
-        connection.setRequestProperty(
-            "Referer", "http://www.kingdomofloathing.com/showplayer.php?who=" + idMatcher.group(1));
-      }
+    HttpResponse<InputStream> response = getResponseFromRequest(remote, requestBuilder.build());
+    if (response == null) {
+      return;
     }
-
-    InputStream istream = getInputStreamFromConnection(remote, connection);
+    var istream = getInputStream(response);
     if (istream == null) {
       return;
     }
@@ -340,10 +372,12 @@ public class FileUtilities {
     if (local.exists() && local.length() == 0) {
       local.delete();
     } else {
-      String lastModifiedString = connection.getHeaderField("Last-Modified");
-      long lastModified = StringUtilities.parseDate(lastModifiedString);
-      if (lastModified > 0) {
-        local.setLastModified(lastModified);
+      var lastModifiedString = response.headers().firstValue("Last-Modified");
+      if (lastModifiedString.isPresent()) {
+        long lastModified = StringUtilities.parseDate(lastModifiedString.get());
+        if (lastModified > 0) {
+          local.setLastModified(lastModified);
+        }
       }
     }
   }

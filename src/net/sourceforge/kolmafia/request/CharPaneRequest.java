@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.Limitmode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
@@ -98,7 +99,7 @@ public class CharPaneRequest extends GenericRequest {
 
   public static final void liberateKing() {
     // Set variables without making requests
-    CharPaneRequest.canInteract = true;
+    CharPaneRequest.setCanInteract(true);
     KoLCharacter.setRestricted(false);
   }
 
@@ -116,12 +117,16 @@ public class CharPaneRequest extends GenericRequest {
         RequestThread.postRequest(new FamiliarRequest());
         KoLCharacter.setRestricted(false);
       }
-      CharPaneRequest.canInteract = interaction;
+      CharPaneRequest.setCanInteract(interaction);
       MallSearchFrame.updateMeat();
     }
     if (interaction) {
       ConcoctionDatabase.setPullsRemaining(-1);
     }
+  }
+
+  public static final void setCanInteract(final boolean interaction) {
+    CharPaneRequest.canInteract = interaction;
   }
 
   public static boolean processResults(String responseText) {
@@ -252,6 +257,8 @@ public class CharPaneRequest extends GenericRequest {
 
     CharPaneRequest.checkYouRobot(responseText);
 
+    CharPaneRequest.checkSweatiness(responseText);
+
     // Mana cost adjustment may have changed
 
     LockableListFactory.sort(KoLConstants.summoningSkills);
@@ -274,9 +281,11 @@ public class CharPaneRequest extends GenericRequest {
           "<img +src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/([^>'\"\\s]+)");
 
   public static final void parseAvatar(final String responseText) {
-    Matcher avatarMatcher = CharPaneRequest.AVATAR_PATTERN.matcher(responseText);
-    if (avatarMatcher.find()) {
-      KoLCharacter.setAvatar(avatarMatcher.group(1));
+    if (!KoLCharacter.inRobocore()) {
+      Matcher avatarMatcher = CharPaneRequest.AVATAR_PATTERN.matcher(responseText);
+      if (avatarMatcher.find()) {
+        KoLCharacter.setAvatar(avatarMatcher.group(1));
+      }
     }
   }
 
@@ -940,10 +949,6 @@ public class CharPaneRequest extends GenericRequest {
           "<a .*?href=\"([^\"]*)\"[^>]*>Last Adventure:</a>.*?<a .*?href=\"([^\"]*)\">([^<]*)</a>.*?</table>");
 
   private static void setLastAdventure(final String responseText) {
-    if (KoLCharacter.inFightOrChoice()) {
-      return;
-    }
-
     String adventureName = null;
     String adventureURL = null;
     String container = null;
@@ -974,11 +979,22 @@ public class CharPaneRequest extends GenericRequest {
       final String adventureName,
       final String adventureURL,
       final String container) {
-    if (KoLCharacter.inFightOrChoice()) {
+    if (KoLCharacter.inFight()) {
       return;
     }
 
+    if (AdventureSpentDatabase.getNoncombatEncountered()
+        && KoLCharacter.getCurrentRun() > AdventureSpentDatabase.getLastTurnUpdated()) {
+      AdventureSpentDatabase.addTurn(KoLAdventure.lastLocationName);
+    }
+    AdventureSpentDatabase.setNoncombatEncountered(false);
+    AdventureSpentDatabase.setLastTurnUpdated(KoLCharacter.getCurrentRun());
+
     if (adventureName == null || adventureName.equals("The Naughty Sorceress' Tower")) {
+      return;
+    }
+
+    if (KoLCharacter.inChoice()) {
       return;
     }
 
@@ -988,13 +1004,6 @@ public class CharPaneRequest extends GenericRequest {
     if (KoLmafia.isRefreshing()) {
       KoLAdventure.setNextAdventure(adventure);
     }
-
-    if (AdventureSpentDatabase.getNoncombatEncountered()
-        && KoLCharacter.getCurrentRun() > AdventureSpentDatabase.getLastTurnUpdated()) {
-      AdventureSpentDatabase.addTurn(KoLAdventure.lastLocationName);
-    }
-    AdventureSpentDatabase.setNoncombatEncountered(false);
-    AdventureSpentDatabase.setLastTurnUpdated(KoLCharacter.getCurrentRun());
   }
 
   private static final Pattern compactFamiliarWeightPattern = Pattern.compile("<br>([\\d]+) lb");
@@ -1017,9 +1026,9 @@ public class CharPaneRequest extends GenericRequest {
             : CharPaneRequest.expandedFamiliarWeightPattern;
     Matcher matcher = pattern.matcher(responseText);
     if (matcher.find()) {
-      int weight = StringUtilities.parseInt(matcher.group(1));
-      boolean feasted = responseText.contains("well-fed");
-      KoLCharacter.getFamiliar().checkWeight(weight, feasted);
+      FamiliarData familiar = KoLCharacter.getFamiliar();
+      familiar.setFeasted(responseText.contains("well-fed"));
+      familiar.checkWeight(StringUtilities.parseInt(matcher.group(1)));
     }
 
     pattern = CharPaneRequest.familiarImagePattern;
@@ -1029,7 +1038,7 @@ public class CharPaneRequest extends GenericRequest {
       String image = matcher.group(2);
       int familiarId = KoLCharacter.getFamiliar().getId();
       if (image.startsWith("snow")) {
-        CharPaneRequest.checkSnowsuit(image);
+        SnowsuitCommand.check(responseText);
       }
       // Left-Hand Man's image is composed of body + an item image
       // Melodramedary's image has left, middle, right images
@@ -1466,16 +1475,6 @@ public class CharPaneRequest extends GenericRequest {
     }
   }
 
-  private static final Pattern snowsuitPattern = Pattern.compile("snowface([1-5]).gif");
-
-  private static void checkSnowsuit(final String responseText) {
-    Matcher matcher = CharPaneRequest.snowsuitPattern.matcher(responseText);
-    if (matcher.find()) {
-      int id = StringUtilities.parseInt(matcher.group(1)) - 1;
-      Preferences.setString("snowsuit", SnowsuitCommand.DECORATION[id][0]);
-    }
-  }
-
   private static final Pattern ensorceleePattern =
       Pattern.compile("Ensorcelee:</b><br><img src=\"?(.*?)\"?><br>", Pattern.DOTALL);
 
@@ -1506,13 +1505,13 @@ public class CharPaneRequest extends GenericRequest {
   private static final Pattern YOU_ROBOT_SCRAPS_COMPACT =
       Pattern.compile("Scrap.*?<b>([\\d,]+)</b>");
 
-  private static void checkYouRobot(final String responseText) {
+  public static void checkYouRobot(final String responseText) {
     if (!KoLCharacter.inRobocore()) {
       return;
     }
 
     if (!CharPaneRequest.compactCharacterPane) {
-      ScrapheapRequest.parseConfiguration(responseText);
+      YouRobotManager.parseAvatar(responseText);
     }
 
     // Energy is handled in the handleMiscPoints function as it replaces MP
@@ -1528,6 +1527,23 @@ public class CharPaneRequest extends GenericRequest {
       int scraps = StringUtilities.parseInt(matcher.group(1));
       KoLCharacter.setYouRobotScraps(scraps);
     }
+  }
+
+  // <td align=right>Sweatiness:</td><td align=left><b><font color=black><span alt=""
+  // title="">69%</span></font></td>
+  private static final Pattern SWEATINESS =
+      Pattern.compile("Sweatiness:</td><td.*?><b><font.*?><span.*?>([\\d]+)%</span></font></td>");
+
+  public static void checkSweatiness(final String responseText) {
+    if (!KoLCharacter.hasEquipped(ItemPool.DESIGNER_SWEATPANTS)) {
+      return;
+    }
+
+    Matcher matcher = SWEATINESS.matcher(responseText);
+
+    // If we don't find the matcher but we're wearing the pants we have zero sweatiness
+    int sweatiness = (matcher.find()) ? StringUtilities.parseInt(matcher.group(1)) : 0;
+    Preferences.setInteger("sweat", sweatiness);
   }
 
   public static final void parseStatus(final JSONObject JSON) throws JSONException {
@@ -1665,9 +1681,7 @@ public class CharPaneRequest extends GenericRequest {
     } else if (KoLCharacter.isEd()) {
       // No familiar, but may have a servant.  Unfortunately,
       // details of such are not in api.php
-    } else if (!KoLCharacter.isSneakyPete()
-        && !KoLCharacter.inBondcore()
-        && !KoLCharacter.isVampyre()) {
+    } else if (KoLCharacter.getPath().canUseFamiliars()) {
       int famId = JSON.getInt("familiar");
       int famExp = JSON.getInt("familiarexp");
       FamiliarData familiar = FamiliarData.registerFamiliar(famId, famExp);
@@ -1678,9 +1692,7 @@ public class CharPaneRequest extends GenericRequest {
         KoLCharacter.setFamiliarImage(image.equals("") ? null : image + ".gif");
       }
 
-      int weight = JSON.getInt("famlevel");
-      boolean feasted = JSON.getInt("familiar_wellfed") == 1;
-      familiar.checkWeight(weight, feasted);
+      familiar.setFeasted(JSON.getInt("familiar_wellfed") == 1);
 
       // Set charges from the Medium's image
 
@@ -1710,6 +1722,11 @@ public class CharPaneRequest extends GenericRequest {
         KoLCharacter.setRadSickness(0);
       }
     }
+  }
+
+  public static final void checkFamiliarWeight(final JSONObject JSON) throws JSONException {
+    KoLCharacter.recalculateAdjustments();
+    KoLCharacter.getFamiliar().checkWeight(JSON.getInt("famlevel"));
   }
 
   private static void refreshEffects(final JSONObject JSON) throws JSONException {

@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -42,7 +43,7 @@ public class DataFileMechanicsTest {
         Arguments.of("fullness.txt", 2, 8, 9),
         Arguments.of("inebriety.txt", 2, 8, 10),
         Arguments.of("items.txt", 1, 7, 8),
-        Arguments.of("mallprices.txt", 1, 3, 3), // not normally manually edited, but...
+        // mallprices.txt is no longer bundled
         // modifiers.txt is too complex
         // monsters.txt is too complex
         Arguments.of("nonfilling.txt", 1, 2, 3),
@@ -84,23 +85,21 @@ public class DataFileMechanicsTest {
     // to be edited.
     assertTrue(precheck(lowCount, highCount), fname + " failed precheck.");
     // FileUtilities will log "errors" but tries very hard to return a reader no matter what.
-    BufferedReader reader = FileUtilities.getVersionedReader(fname, version);
-    String[] fields;
-    boolean noLines = true;
-    while ((fields = FileUtilities.readData(reader)) != null) {
-      noLines = false;
-      int fieldsRead = fields.length;
-      if (skipMe(fieldsRead)) continue;
-      String msg = fname + " " + fields[0];
-      // Line has too many or too few fields.
-      assertThat(
-          msg, fieldsRead, allOf(greaterThanOrEqualTo(lowCount), lessThanOrEqualTo(highCount)));
-    }
-    // No lines is sometimes a symptom caused by a bad file name.
-    assertFalse(noLines, "No lines in " + fname);
-    try {
-      reader.close();
-    } catch (Exception e) {
+    try (BufferedReader reader = FileUtilities.getVersionedReader(fname, version)) {
+      String[] fields;
+      boolean noLines = true;
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        noLines = false;
+        int fieldsRead = fields.length;
+        if (skipMe(fieldsRead)) continue;
+        String msg = fname + " " + fields[0];
+        // Line has too many or too few fields.
+        assertThat(
+            msg, fieldsRead, allOf(greaterThanOrEqualTo(lowCount), lessThanOrEqualTo(highCount)));
+      }
+      // No lines is sometimes a symptom caused by a bad file name.
+      assertFalse(noLines, "No lines in " + fname);
+    } catch (IOException e) {
       fail("Exception in tearing down reader:" + e.toString());
     }
   }

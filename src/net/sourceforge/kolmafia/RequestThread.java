@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletionService;
@@ -16,7 +15,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.InternalMessage;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
@@ -25,7 +23,7 @@ import net.sourceforge.kolmafia.utilities.PauseObject;
 
 public abstract class RequestThread {
   private static final AtomicInteger nextRequestId = new AtomicInteger();
-  private static final Map<Integer, Thread> threadMap = new HashMap<Integer, Thread>();
+  private static final Map<Integer, Thread> threadMap = new HashMap<>();
   private static final ExecutorService EXECUTOR;
 
   static {
@@ -250,18 +248,10 @@ public abstract class RequestThread {
   }
 
   public static final synchronized void checkOpenRequestSequences(final boolean flush) {
-    int openSequences = 0;
     Thread currentThread = Thread.currentThread();
 
-    Iterator<Thread> threadIterator = RequestThread.threadMap.values().iterator();
-
-    while (threadIterator.hasNext()) {
-      Thread thread = threadIterator.next();
-
-      if (thread != currentThread) {
-        ++openSequences;
-      }
-    }
+    long openSequences =
+        RequestThread.threadMap.values().stream().filter(t -> t != currentThread).count();
 
     if (flush) {
       RequestThread.threadMap.clear();
@@ -290,7 +280,7 @@ public abstract class RequestThread {
 
     int requestId = RequestThread.nextRequestId.getAndIncrement();
 
-    Integer requestIdObj = IntegerPool.get(requestId);
+    Integer requestIdObj = requestId;
 
     // Don't include relay requests in "request sequences" - this could stop the display from being
     // enabled

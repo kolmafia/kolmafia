@@ -14,6 +14,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class InterruptableDialog {
   private static final PauseObject pauser = new PauseObject();
 
+  private InterruptableDialog() {}
+
   private static class InterruptableConfirmDialogBox extends JOptionPane implements Runnable {
     private final String message;
     private Boolean result = null;

@@ -23,6 +23,8 @@ import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class IslandManager {
+  private IslandManager() {}
+
   public static final boolean isBattlefieldMonster() {
     return IslandManager.isBattlefieldMonster(MonsterStatusTracker.getLastMonster());
   }

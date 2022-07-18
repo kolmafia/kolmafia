@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.EdServantData;
+import net.sourceforge.kolmafia.EdServantData.Servant;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -27,6 +28,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
+import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.TypeList;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -119,6 +121,10 @@ public class DataTypes {
   // Map from STRING -> STRING
   public static final AggregateType STRING_TO_STRING_TYPE =
       new AggregateType(DataTypes.STRING_TYPE, DataTypes.STRING_TYPE);
+
+  // Map from STRING -> LOCATION
+  public static final AggregateType STRING_TO_LOCATION_TYPE =
+      new AggregateType(DataTypes.LOCATION_TYPE, DataTypes.STRING_TYPE);
 
   public static final AggregateType REGEX_GROUP_TYPE =
       new AggregateType(
@@ -218,6 +224,8 @@ public class DataTypes {
       simpleTypes.add(type);
     }
   }
+
+  private DataTypes() {}
 
   // For each simple data type X, we supply:
   // public static final ScriptValue parseXValue( String name );
@@ -346,7 +354,7 @@ public class DataTypes {
       return DataTypes.CLASS_INIT;
     }
 
-    AscensionClass ascensionClass = AscensionClass.nameToClass(name);
+    AscensionClass ascensionClass = AscensionClass.find(name);
 
     if (ascensionClass == null || ascensionClass.getId() < 0) {
       return returnDefault ? DataTypes.CLASS_INIT : null;
@@ -585,7 +593,7 @@ public class DataTypes {
       return DataTypes.THRALL_INIT;
     }
 
-    Object[] data = PastaThrallData.typeToData(name);
+    var data = PastaThrallData.typeToData(name);
     if (data == null) {
       return returnDefault ? DataTypes.THRALL_INIT : null;
     }
@@ -604,7 +612,7 @@ public class DataTypes {
       return DataTypes.SERVANT_INIT;
     }
 
-    Object[] data = EdServantData.typeToData(name);
+    Servant data = EdServantData.typeToData(name);
     if (data == null) {
       return returnDefault ? DataTypes.SERVANT_INIT : null;
     }
@@ -770,7 +778,7 @@ public class DataTypes {
   }
 
   public static final Value makeClassValue(final int id, boolean returnDefault) {
-    return makeClassValue(AscensionClass.idToClass(id), returnDefault);
+    return makeClassValue(AscensionClass.find(id), returnDefault);
   }
 
   private static Value makeNormalizedSkill(final int num, String name) {
@@ -842,6 +850,10 @@ public class DataTypes {
     return new Value(DataTypes.SLOT_TYPE, num, name);
   }
 
+  public static final Value makeElementValue(Element elem) {
+    return makeElementValue(elem, true);
+  }
+
   public static final Value makeElementValue(Element elem, final boolean returnDefault) {
     if (elem == Element.NONE) {
       return returnDefault ? DataTypes.ELEMENT_INIT : null;
@@ -859,7 +871,7 @@ public class DataTypes {
   }
 
   public static final Value makeThrallValue(final int num, final boolean returnDefault) {
-    Object[] data = PastaThrallData.idToData(num);
+    var data = PastaThrallData.idToData(num);
     if (data == null) {
       return returnDefault ? DataTypes.THRALL_INIT : null;
     }
@@ -877,7 +889,7 @@ public class DataTypes {
   }
 
   public static final Value makeServantValue(final int num, final boolean returnDefault) {
-    Object[] data = EdServantData.idToData(num);
+    Servant data = EdServantData.idToData(num);
     if (data == null) {
       return returnDefault ? DataTypes.SERVANT_INIT : null;
     }
@@ -907,6 +919,18 @@ public class DataTypes {
     }
 
     return new Value(DataTypes.MONSTER_TYPE, id, name, monster);
+  }
+
+  public static final Value makeStringArrayValue(final List<String> list) {
+    var length = list.size();
+    AggregateType type = new AggregateType(DataTypes.STRING_TYPE, length);
+    ArrayValue value = new ArrayValue(type);
+
+    for (int i = 0; i < length; ++i) {
+      value.aset(new Value(i), new Value(list.get(i)));
+    }
+
+    return value;
   }
 
   // Also supply:

@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -87,28 +88,25 @@ public class DataFileTest {
   @ParameterizedTest
   @MethodSource("data")
   public void testDataFileAgainstRegex(String fname, int version, String[] regexes) {
-    BufferedReader reader = FileUtilities.getVersionedReader(fname, version);
-    String[] fields;
+    try (BufferedReader reader = FileUtilities.getVersionedReader(fname, version)) {
+      String[] fields;
 
-    while ((fields = FileUtilities.readData(reader)) != null) {
-      if (fields.length == 1) {
-        // Placeholder.
-        continue;
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        if (fields.length == 1) {
+          // Placeholder.
+          continue;
+        }
+        if (fields.length < regexes.length) {
+          fail("Entry for " + fields[0] + " is missing fields");
+        }
+        for (int i = 0; i < regexes.length; ++i) {
+          // Assume fields[0] is something that uniquely identifies the row.
+          assertTrue(
+              Pattern.matches(regexes[i], fields[i]),
+              "Field " + i + " (" + fields[i] + ") did not match:\n" + join(fields, "\t"));
+        }
       }
-      if (fields.length < regexes.length) {
-        fail("Entry for " + fields[0] + " is missing fields");
-      }
-      for (int i = 0; i < regexes.length; ++i) {
-        // Assume fields[0] is something that uniquely identifies the row.
-        assertTrue(
-            Pattern.matches(regexes[i], fields[i]),
-            "Field " + i + " (" + fields[i] + ") did not match:\n" + join(fields, "\t"));
-      }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
+    } catch (IOException e) {
       fail("Exception in tearing down reader:" + e.toString());
     }
   }

@@ -60,6 +60,8 @@ public class VotingBoothManager {
     new Modifier("Weapon Damage Percent", "-50"),
   };
 
+  private VotingBoothManager() {}
+
   public static final int calculateSeed(final int clss, final int path, final int daycount) {
     return (4 * path) + (9 * clss) + (79 * daycount);
   }

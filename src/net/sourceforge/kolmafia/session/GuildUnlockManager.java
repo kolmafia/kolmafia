@@ -16,6 +16,8 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
 
 public class GuildUnlockManager {
+  private GuildUnlockManager() {}
+
   public static boolean canUnlockGuild() {
     // Don't try to open the guild unless you are one of the six standard classes
     AscensionClass ascensionClass = KoLCharacter.getAscensionClass();

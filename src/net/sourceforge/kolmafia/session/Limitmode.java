@@ -14,6 +14,8 @@ public class Limitmode {
   public static final String BATMAN = "batman";
   public static final String ED = "edunder";
 
+  private Limitmode() {}
+
   public static final boolean limitSkill(final int skillId) {
     String limitmode = KoLCharacter.getLimitmode();
     if (limitmode == null) {

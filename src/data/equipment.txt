@@ -176,6 +176,7 @@ hangman's hood	250	Mus: 200
 hardened slime hat	200	Mox: 200
 Hat O' Nine Tails	10	none
 hazmat helmet	200	Mox: 85
+headlamp	100	none
 heavy crown	110	Mox: 40
 Helm of the Scream Emperor	120	none
 helm of the white knight	60	Mox: 15
@@ -491,6 +492,7 @@ Daisy's unclean bloomers	150	Mox: 30
 Danglin' Chad's loincloth	200	Mox: 75
 demonskin trousers	70	Mox: 20
 depleted Grimacite shinguards	100	Mox: 35
+designer sweatpants	100	none
 discarded swimming trunks	100	none
 dice-print pajama pants	10	none
 Dinsey's pants	200	Mox: 100
@@ -1265,6 +1267,7 @@ iron pasta spoon	110	Mys: 40	1-handed utensil
 ironic battle spoon	40	Mys: 5	1-handed utensil
 jack flapper	35	Mys: 2	1-handed utensil
 Jacob's rung	120	Mys: 45	1-handed staff
+June cleaver	100	Mus: 0	1-handed cleaver
 jungle drum	160	Mox: 65	2-handed drum
 keel-haulin' knife	150	Mys: 60	1-handed utensil
 kelp-holly gun	125	Mox: 25	1-handed pistol
@@ -1337,6 +1340,7 @@ miracle whip	10	Mus: 0	2-handed whip
 Mjolnir Jr.	200	Mys: 85	1-handed utensil
 Moonthril Flamberge	100	Mus: 40	2-handed sword
 Moonthril Longbow	100	Mox: 40	2-handed bow
+mother's necklace	100	none
 muculent machete	60	Mus: 15	1-handed sword
 murderbot plasma rifle	150	Mox: 30	2-handed rifle
 murderbot whip	10	Mus: 30	1-handed whip
@@ -1606,6 +1610,7 @@ sugar shotgun	100	Mox: 0	1-handed pistol
 Super Crimboman Ultra Mega Hypersword	100	Mus: 35	2-handed sword
 Super Magic Power Sword X	100	Mus: 35	1-handed sword
 super-sweet boom box	200	Mox: 75	1-handed radio
+survival knife	30	Mus: 0	1-handed knife
 sweet ninja sword	20	Mus: 0	1-handed sword
 sword behind inappropriate prepositions	130	Mus: 45	2-handed sword
 Sword of Dark Omens	120	Mus: 0	1-handed sword
@@ -1615,6 +1620,7 @@ swordzall	80	Mus: 25	1-handed sword
 tail o' nine cats	30	Mus: 0	1-handed whip
 Tales of the Word Realms	0	Mus: 0	2-handed book
 tambourine	50	Mox: 10	1-handed drum
+teacher's pen	100	none
 teflon spatula	200	Mys: 85	1-handed utensil
 terra cotta tongs	120	Mys: 40	1-handed utensil
 The Jokester's gun	200	Mox: 50	1-handed pistol
@@ -2215,6 +2221,7 @@ tropical paperweight	20	none
 Tuesday's ruby	120	Mys: 45
 turtle wax shield	40	Mus: 5	shield
 turtling rod	10	none
+unbreakable umbrella	100	none
 Unkillable Skeleton's shield	350	Mus: 100	shield
 unstable fulminate	0	none
 UV-resistant compass	0	none
@@ -2280,8 +2287,9 @@ astral belt	50	none
 astral bracer	50	none
 astral mask	50	none
 astral ring	50	none
+atlas of local maps	100	none
 attorney's badge	170	Mys: 70
-backup camera	0	none
+backup camera	100	none
 baconstone bracelet	50	Mys: 10
 baconstone earring	50	Mys: 10
 baconstone pendant	50	Mys: 10
@@ -2393,9 +2401,10 @@ clown shoes	50	Mys: 10
 clownskin belt	50	Mys: 10
 club necklace	10	none
 coarse hemp socks	10	none
-codpiece	0	none
+codpiece	100	none
 Codpiece of the Goblin King	70	Mys: 20
 colored-light &quot;necklace&quot;	100	Mys: 35
+combat lover's locket	100	none
 compression stocking	160	Mys: 65
 consolation ribbon	10	none
 continuum transfunctioner	10	none
@@ -2404,6 +2413,7 @@ copper ha'penny charrrm bracelet	190	Mys: 80
 corncob pipe	200	Mys: 200
 Counterclockwise Watch	200	none
 cozy scarf	50	none
+crank-powered radio on a lanyard	100	none
 CRIMBCO lanyard	0	none
 Crimbolex watch	200	Mys: 20
 Crimbomega drive chain	100	none
@@ -2691,9 +2701,9 @@ Mer-kin prayerbeads	200	Mys: 85
 Mer-kin thighguard	200	Mys: 85
 Mer-kin waistrope	200	Mys: 85
 Mesmereyes&trade; contact lenses	200	Mys: 200
-meteorite earring	0	Mys: 200
-meteorite necklace	0	Mys: 200
-meteorite ring	0	Mys: 200
+meteorite earring	250	Mys: 200
+meteorite necklace	250	Mys: 200
+meteorite ring	250	Mys: 200
 meteorthopedic shoes	100	none
 mime army infiltration glove	50	Mox: 200
 mime army insignia (cryonics)	10	Mys: 200
@@ -3447,6 +3457,7 @@ super-absorbent tarp	50	none
 T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	200	Mus: 85
 teddybear backpack	150	Mox: 75
 terra cotta train	120	Mys: 40
+thermal blanket	100	none
 Time Bandit Time Towel	10	none
 Time Cape	100	none
 Time Cloak	100	none

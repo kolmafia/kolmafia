@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,13 +18,14 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class PocketDatabase {
+  private PocketDatabase() {}
+
   public enum PocketType {
     STATS("stats"),
     MONSTER("monster"),
@@ -91,7 +93,7 @@ public class PocketDatabase {
     }
 
     public Pocket getPocket(int pocket) {
-      return this.pockets.get(IntegerPool.get(pocket));
+      return this.pockets.get(pocket);
     }
 
     @Override
@@ -116,7 +118,7 @@ public class PocketDatabase {
     protected final PocketType type;
 
     public Pocket(int pocket, PocketType type) {
-      this.pocket = IntegerPool.get(pocket);
+      this.pocket = pocket;
       this.type = type;
       // Add to map of all pockets
       PocketDatabase.allPockets.put(this.pocket, this);
@@ -399,43 +401,40 @@ public class PocketDatabase {
   }
 
   private static void reset() {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("cultshorts.txt", KoLConstants.CULTSHORTS_VERSION);
-    String[] data;
     boolean error = false;
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("cultshorts.txt", KoLConstants.CULTSHORTS_VERSION)) {
+      String[] data;
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length >= 2) {
-        int pocketId = StringUtilities.parseInt(data[0]);
-        if (pocketId < 1 || pocketId > 666) {
-          RequestLogger.printLine("Bogus pocket number: " + pocketId);
-          error = true;
-          continue;
-        }
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length >= 2) {
+          int pocketId = StringUtilities.parseInt(data[0]);
+          if (pocketId < 1 || pocketId > 666) {
+            RequestLogger.printLine("Bogus pocket number: " + pocketId);
+            error = true;
+            continue;
+          }
 
-        String tag = data[1];
-        PocketType type = PocketDatabase.tagToPocketType.get(tag.toLowerCase());
-        if (type == null) {
-          RequestLogger.printLine("Pocket " + pocketId + " has bogus pocket type: " + tag);
-          error = true;
-          continue;
-        }
+          String tag = data[1];
+          PocketType type = PocketDatabase.tagToPocketType.get(tag.toLowerCase());
+          if (type == null) {
+            RequestLogger.printLine("Pocket " + pocketId + " has bogus pocket type: " + tag);
+            error = true;
+            continue;
+          }
 
-        Pocket pocket = parsePocketData(pocketId, type, data);
-        if (pocket == null) {
-          error = true;
-          continue;
-        }
+          Pocket pocket = parsePocketData(pocketId, type, data);
+          if (pocket == null) {
+            error = true;
+            continue;
+          }
 
-        if (!PocketDatabase.addToDatabase(pocket)) {
-          error = true;
+          if (!PocketDatabase.addToDatabase(pocket)) {
+            error = true;
+          }
         }
       }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
       error = true;
     }
@@ -943,7 +942,7 @@ public class PocketDatabase {
     if (pockets != null) {
       Set<Integer> picked = CargoCultistShortsRequest.pickedPockets;
       for (Pocket pocket : pockets) {
-        if (!picked.contains(IntegerPool.get(pocket.getPocket()))) {
+        if (!picked.contains(pocket.getPocket())) {
           return pocket;
         }
       }
@@ -963,7 +962,7 @@ public class PocketDatabase {
   }
 
   public static Pocket pocketByNumber(int pocket) {
-    return PocketDatabase.allPockets.get(IntegerPool.get(pocket));
+    return PocketDatabase.allPockets.get(pocket);
   }
 
   public static MonsterData monsterByNumber(int pocket) {

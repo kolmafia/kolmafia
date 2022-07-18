@@ -1,29 +1,16 @@
 package net.sourceforge.kolmafia.request;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.LoginManager;
-import net.sourceforge.kolmafia.swingui.AnnouncementFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayAgent;
 
 public class LoginRequest extends GenericRequest {
   private static boolean completedLogin = false;
-  private static final Pattern CHALLENGE_PATTERN =
-      Pattern.compile("<input type=hidden name=challenge value=\"([^\"]*?)\">");
-  private static final Pattern PLAYERS_PATTERN =
-      Pattern.compile("There are currently <b>(.*?)</b> players logged in.");
-  private static final Pattern ANNOUNCE_PATTERN =
-      Pattern.compile(
-          "Announcements:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid blue;\">"
-              + "<center><table><tr><td><font size=2>(.*?)There are currently");
 
   private static LoginRequest lastRequest = null;
   private static long lastLoginAttempt = 0;
@@ -55,111 +42,6 @@ public class LoginRequest extends GenericRequest {
     return "login.php";
   }
 
-  /** Handles the challenge in order to send the password securely via KoL. */
-  private boolean detectChallenge() {
-    // Setup the login server in order to ensure that
-    // the initial try is randomized.  Or, in the case
-    // of a devster, the developer server.
-
-    GenericRequest.applySettings();
-
-    // if ( Preferences.getBoolean( "useSecureLogin" ) )
-    if (true) {
-      return false;
-    }
-
-    KoLmafia.updateDisplay("Validating login server (" + GenericRequest.KOL_HOST + ")...");
-
-    GenericRequest.reset();
-
-    this.clearDataFields();
-
-    super.run();
-
-    if (KoLmafia.refusesContinue()) {
-      return false;
-    }
-
-    // If the pattern is not found, then do not submit
-    // the challenge version.
-
-    Matcher challengeMatcher = LoginRequest.CHALLENGE_PATTERN.matcher(this.responseText);
-    if (!challengeMatcher.find()) {
-      return false;
-    }
-
-    // We got this far, so that means we now have a challenge
-    // pattern.
-
-    Matcher playersMatcher = LoginRequest.PLAYERS_PATTERN.matcher(this.responseText);
-    if (playersMatcher.find()) {
-      LoginRequest.playersOnline = StringUtilities.parseInt(playersMatcher.group(1));
-      KoLmafia.updateDisplay(LoginRequest.playersOnline + " players online.");
-    }
-
-    if (Preferences.getBoolean("showAnnouncements")
-        && !Preferences.getBoolean("_announcementShown")) {
-      Matcher announceMatcher = LoginRequest.ANNOUNCE_PATTERN.matcher(this.responseText);
-      if (announceMatcher.find()) {
-        String announcement = announceMatcher.group(1);
-        if (announcement.contains("<img")) {
-          AnnouncementFrame.showRequest(announcement);
-        }
-      }
-    }
-
-    String challenge = challengeMatcher.group(1);
-    String response;
-
-    try {
-      response = LoginRequest.digestPassword(password, challenge);
-    } catch (Exception e) {
-      // An exception means bad things, so make sure to send the
-      // original plaintext password.
-
-      return false;
-    }
-
-    this.constructURLString("login.php");
-
-    this.addFormField("password", "");
-    this.addFormField("challenge", challenge);
-    this.addFormField("response", response);
-    this.addFormField("secure", "1");
-
-    return true;
-  }
-
-  private static String digestPassword(final String password, final String challenge)
-      throws Exception {
-    // KoL now makes use of a HMAC-MD5 in order to preprocess the
-    // password so that we aren't submitting plaintext passwords
-    // all the time.  Here is the implementation.  Note that the
-    // password is processed two times.
-
-    MessageDigest digester = MessageDigest.getInstance("MD5");
-    String hash1 = LoginRequest.getHexString(digester.digest(password.getBytes()));
-    digester.reset();
-
-    String hash2 = LoginRequest.getHexString(digester.digest((hash1 + ":" + challenge).getBytes()));
-    digester.reset();
-
-    return hash2;
-  }
-
-  private static String getHexString(final byte[] bytes) {
-    byte[] nonNegativeBytes = new byte[bytes.length + 1];
-    System.arraycopy(bytes, 0, nonNegativeBytes, 1, bytes.length);
-
-    StringBuilder hexString = new StringBuilder(64);
-
-    hexString.append("00000000000000000000000000000000");
-    hexString.append(new BigInteger(nonNegativeBytes).toString(16));
-    hexString.delete(0, hexString.length() - 32);
-
-    return hexString.toString();
-  }
-
   @Override
   public boolean shouldFollowRedirect() {
     return true;
@@ -185,13 +67,17 @@ public class LoginRequest extends GenericRequest {
 
     KoLmafia.forceContinue();
 
-    if (!this.detectChallenge()) {
-      this.constructURLString("login.php");
-      this.clearDataFields();
+    // Setup the login server in order to ensure that
+    // the initial try is randomized.  Or, in the case
+    // of a devster, the developer server.
 
-      this.addFormField("password", this.password);
-      this.addFormField("secure", "0");
-    }
+    GenericRequest.applySettings();
+
+    this.constructURLString("login.php");
+    this.clearDataFields();
+
+    this.addFormField("password", this.password);
+    this.addFormField("secure", "0");
 
     this.addFormField(
         "loginname", Preferences.getBoolean("stealthLogin") ? this.username + "/q" : this.username);

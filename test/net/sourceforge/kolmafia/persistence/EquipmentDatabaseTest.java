@@ -25,15 +25,16 @@ public class EquipmentDatabaseTest {
 
   @Test
   public void itShouldKnowWhatIsEquipment() {
-    assertTrue(EquipmentDatabase.isEquipment(KoLConstants.EQUIP_ACCESSORY));
-    assertTrue(EquipmentDatabase.isEquipment(KoLConstants.EQUIP_CONTAINER));
-    assertTrue(EquipmentDatabase.isEquipment(KoLConstants.EQUIP_HAT));
-    assertTrue(EquipmentDatabase.isEquipment(KoLConstants.EQUIP_OFFHAND));
-    assertTrue(EquipmentDatabase.isEquipment(KoLConstants.EQUIP_PANTS));
-    assertTrue(EquipmentDatabase.isEquipment(KoLConstants.EQUIP_SHIRT));
-    assertTrue(EquipmentDatabase.isEquipment(KoLConstants.EQUIP_WEAPON));
-    assertFalse(EquipmentDatabase.isEquipment(KoLConstants.EQUIP_FAMILIAR));
-    assertFalse(EquipmentDatabase.isEquipment(-1));
+    assertTrue(KoLConstants.isEquipmentType(KoLConstants.EQUIP_ACCESSORY, false));
+    assertTrue(KoLConstants.isEquipmentType(KoLConstants.EQUIP_CONTAINER, false));
+    assertTrue(KoLConstants.isEquipmentType(KoLConstants.EQUIP_HAT, false));
+    assertTrue(KoLConstants.isEquipmentType(KoLConstants.EQUIP_OFFHAND, false));
+    assertTrue(KoLConstants.isEquipmentType(KoLConstants.EQUIP_PANTS, false));
+    assertTrue(KoLConstants.isEquipmentType(KoLConstants.EQUIP_SHIRT, false));
+    assertTrue(KoLConstants.isEquipmentType(KoLConstants.EQUIP_WEAPON, false));
+    assertTrue(KoLConstants.isEquipmentType(KoLConstants.EQUIP_FAMILIAR, true));
+    assertFalse(KoLConstants.isEquipmentType(KoLConstants.EQUIP_FAMILIAR, false));
+    assertFalse(KoLConstants.isEquipmentType(-1, false));
   }
 
   @Test

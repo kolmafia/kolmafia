@@ -284,7 +284,7 @@ public class SpleenItemRequest extends UseItemRequest {
 
       case ItemPool.HOMEBODYL:
         if (responseText.contains("You pop the pill and feel an immediate desire")) {
-          Preferences.increment("homebodylCharges", 11);
+          Preferences.increment("homebodylCharges", 11 * count);
         }
         break;
 
@@ -296,7 +296,7 @@ public class SpleenItemRequest extends UseItemRequest {
 
       case ItemPool.BREATHITIN:
         if (responseText.contains("You pop the pill in your mouth")) {
-          Preferences.increment("breathitinCharges", 5);
+          Preferences.increment("breathitinCharges", 5 * count);
         }
         break;
     }

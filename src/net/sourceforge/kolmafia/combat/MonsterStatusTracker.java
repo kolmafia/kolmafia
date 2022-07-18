@@ -23,6 +23,8 @@ public class MonsterStatusTracker {
   private static int originalAttack = 0;
   private static int originalDefense = 0;
 
+  private MonsterStatusTracker() {}
+
   public static final void reset() {
     MonsterStatusTracker.healthModifier = 0;
     MonsterStatusTracker.attackModifier = 0;
@@ -31,6 +33,11 @@ public class MonsterStatusTracker {
     MonsterStatusTracker.attackManuel = 0;
     MonsterStatusTracker.defenseManuel = 0;
     MonsterStatusTracker.manuelFound = false;
+  }
+
+  public static void resetLastMonster() {
+    MonsterStatusTracker.lastMonsterName = "";
+    MonsterStatusTracker.monsterData = null;
   }
 
   public static final MonsterData getLastMonster() {
@@ -48,17 +55,22 @@ public class MonsterStatusTracker {
 
   public static void setNextMonster(MonsterData monster) {
     MonsterStatusTracker.reset();
-    MonsterStatusTracker.monsterData = monster;
 
-    // If we saved an array of random modifiers, apply them
-    MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.handleRandomModifiers();
-    MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.handleMonsterLevel();
+    if (monster == null) {
+      MonsterStatusTracker.resetLastMonster();
+    } else {
+      MonsterStatusTracker.monsterData = monster;
 
-    MonsterStatusTracker.originalHealth = MonsterStatusTracker.monsterData.getHP();
-    MonsterStatusTracker.originalAttack = MonsterStatusTracker.monsterData.getAttack();
-    MonsterStatusTracker.originalDefense = MonsterStatusTracker.monsterData.getDefense();
+      // If we saved an array of random modifiers, apply them
+      MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.handleRandomModifiers();
+      MonsterStatusTracker.monsterData = MonsterStatusTracker.monsterData.handleMonsterLevel();
 
-    MonsterStatusTracker.lastMonsterName = monster.getName();
+      MonsterStatusTracker.originalHealth = MonsterStatusTracker.monsterData.getHP();
+      MonsterStatusTracker.originalAttack = MonsterStatusTracker.monsterData.getAttack();
+      MonsterStatusTracker.originalDefense = MonsterStatusTracker.monsterData.getDefense();
+
+      MonsterStatusTracker.lastMonsterName = monster.getName();
+    }
   }
 
   public static final boolean dropsItem(int itemId) {

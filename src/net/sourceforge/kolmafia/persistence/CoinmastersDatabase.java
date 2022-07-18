@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -14,7 +14,6 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
@@ -42,6 +41,8 @@ public class CoinmastersDatabase {
 
   // Map from String -> Map from Integer -> Integer
   public static final Map<String, Map<Integer, Integer>> itemRows = new TreeMap<>();
+
+  private CoinmastersDatabase() {}
 
   public static final LockableListModel<AdventureResult> getItems(final String key) {
     return CoinmastersDatabase.items.get(key);
@@ -91,12 +92,7 @@ public class CoinmastersDatabase {
 
   private static Map<Integer, Integer> getOrMakeMap(
       final String key, final Map<String, Map<Integer, Integer>> map) {
-    Map<Integer, Integer> retval = map.get(key);
-    if (retval == null) {
-      retval = CoinmastersDatabase.getNewMap();
-      map.put(key, retval);
-    }
-    return retval;
+    return map.computeIfAbsent(key, k -> CoinmastersDatabase.getNewMap());
   }
 
   public static final Map<Integer, Integer> invert(final Map<Integer, Integer> map) {
@@ -108,61 +104,54 @@ public class CoinmastersDatabase {
   }
 
   static {
-    BufferedReader reader =
-        FileUtilities.getVersionedReader("coinmasters.txt", KoLConstants.COINMASTERS_VERSION);
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("coinmasters.txt", KoLConstants.COINMASTERS_VERSION)) {
+      String[] data;
 
-    String[] data;
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 4) {
+          continue;
+        }
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length < 4) {
-        continue;
-      }
+        String master = data[0];
+        String type = data[1];
+        int price = StringUtilities.parseInt(data[2]);
+        Integer iprice = price;
+        AdventureResult item = AdventureResult.parseItem(data[3], true);
+        Integer iitemId = item.getItemId();
 
-      String master = data[0];
-      String type = data[1];
-      int price = StringUtilities.parseInt(data[2]);
-      Integer iprice = IntegerPool.get(price);
-      AdventureResult item = AdventureResult.parseItem(data[3], true);
-      Integer iitemId = IntegerPool.get(item.getItemId());
-
-      Integer row = null;
-      if (data.length > 4) {
-        String[] extra = data[4].split("\\s,\\s");
-        for (String extra1 : extra) {
-          if (extra1.startsWith("ROW")) {
-            row = IntegerPool.get(StringUtilities.parseInt(data[4].substring(3)));
-            Map<Integer, Integer> rowMap =
-                CoinmastersDatabase.getOrMakeMap(master, CoinmastersDatabase.itemRows);
-            rowMap.put(iitemId, row);
+        Integer row = null;
+        if (data.length > 4) {
+          String[] extra = data[4].split("\\s,\\s");
+          for (String extra1 : extra) {
+            if (extra1.startsWith("ROW")) {
+              row = StringUtilities.parseInt(data[4].substring(3));
+              Map<Integer, Integer> rowMap =
+                  CoinmastersDatabase.getOrMakeMap(master, CoinmastersDatabase.itemRows);
+              rowMap.put(iitemId, row);
+            }
           }
         }
+
+        if (type.equals("buy")) {
+          LockableListModel<AdventureResult> list =
+              CoinmastersDatabase.getOrMakeList(master, CoinmastersDatabase.buyItems);
+          list.add(item.getInstance(CoinmastersDatabase.purchaseLimit(iitemId)));
+
+          Map<Integer, Integer> map =
+              CoinmastersDatabase.getOrMakeMap(master, CoinmastersDatabase.buyPrices);
+          map.put(iitemId, iprice);
+        } else if (type.equals("sell")) {
+          LockableListModel<AdventureResult> list =
+              CoinmastersDatabase.getOrMakeList(master, CoinmastersDatabase.sellItems);
+          list.add(item);
+
+          Map<Integer, Integer> map =
+              CoinmastersDatabase.getOrMakeMap(master, CoinmastersDatabase.sellPrices);
+          map.put(iitemId, iprice);
+        }
       }
-
-      if (type.equals("buy")) {
-        LockableListModel<AdventureResult> list =
-            CoinmastersDatabase.getOrMakeList(master, CoinmastersDatabase.buyItems);
-        list.add(item.getInstance(CoinmastersDatabase.purchaseLimit(iitemId)));
-
-        Map<Integer, Integer> map =
-            CoinmastersDatabase.getOrMakeMap(master, CoinmastersDatabase.buyPrices);
-        map.put(iitemId, iprice);
-      } else if (type.equals("sell")) {
-        LockableListModel<AdventureResult> list =
-            CoinmastersDatabase.getOrMakeList(master, CoinmastersDatabase.sellItems);
-        list.add(item);
-
-        Map<Integer, Integer> map =
-            CoinmastersDatabase.getOrMakeMap(master, CoinmastersDatabase.sellPrices);
-        map.put(iitemId, iprice);
-      }
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
-      // This should not happen.  Therefore, print
-      // a stack trace for debug purposes.
-
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }
@@ -188,14 +177,7 @@ public class CoinmastersDatabase {
 
   public static final void clearPurchaseRequests(CoinmasterData data) {
     // Clear all purchase requests for a particular Coin Master
-    Iterator<CoinMasterPurchaseRequest> it =
-        CoinmastersDatabase.COINMASTER_ITEMS.values().iterator();
-    while (it.hasNext()) {
-      CoinMasterPurchaseRequest request = it.next();
-      if (request.getData() == data) {
-        it.remove();
-      }
-    }
+    CoinmastersDatabase.COINMASTER_ITEMS.values().removeIf(request -> request.getData() == data);
   }
 
   public static final void registerPurchaseRequest(
@@ -205,7 +187,7 @@ public class CoinmastersDatabase {
 
     // Register a purchase request
     CoinMasterPurchaseRequest request = new CoinMasterPurchaseRequest(data, item, price);
-    CoinmastersDatabase.COINMASTER_ITEMS.put(IntegerPool.get(itemId), request);
+    CoinmastersDatabase.COINMASTER_ITEMS.put(itemId, request);
 
     // Register this in the Concoction for the item
 
@@ -232,7 +214,7 @@ public class CoinmastersDatabase {
   }
 
   public static final CoinMasterPurchaseRequest getPurchaseRequest(final int itemId) {
-    Integer id = IntegerPool.get(itemId);
+    Integer id = itemId;
     CoinMasterPurchaseRequest request = CoinmastersDatabase.COINMASTER_ITEMS.get(id);
 
     if (request == null) {

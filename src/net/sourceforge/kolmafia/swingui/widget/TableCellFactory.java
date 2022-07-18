@@ -6,7 +6,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -17,11 +16,14 @@ import net.sourceforge.kolmafia.persistence.Script;
 import net.sourceforge.kolmafia.persistence.ScriptManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.swingui.DatabaseFrame;
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TableCellFactory {
+  private TableCellFactory() {}
+
   public static Object get(
       int columnIndex,
       LockableListModel<?> model,
@@ -94,7 +96,7 @@ public class TableCellFactory {
       case 0:
         return result.getValue().toString();
       case 1:
-        return IntegerPool.get(result.getKey());
+        return result.getKey();
     }
     return null;
   }
@@ -105,11 +107,11 @@ public class TableCellFactory {
       case 0:
         return ItemDatabase.getDisplayName(result.getKey());
       case 1:
-        return IntegerPool.get(result.getKey());
+        return result.getKey();
       case 2:
-        return IntegerPool.get(ItemDatabase.getPriceById(result.getKey()));
+        return ItemDatabase.getPriceById(result.getKey());
       case 3:
-        return IntegerPool.get(MallPriceDatabase.getPrice(result.getKey()));
+        return MallPriceDatabase.getPrice(result.getKey());
       case 4:
         return ConsumablesDatabase.getFullness(result.getValue())
             + ConsumablesDatabase.getInebriety(result.getValue())
@@ -138,27 +140,25 @@ public class TableCellFactory {
       case 1:
         return getAutosellString(advresult.getItemId(), raw);
       case 2:
-        return IntegerPool.get(advresult.getCount());
+        return advresult.getCount();
       case 3:
-        Integer price = IntegerPool.get(MallPriceDatabase.getPrice(advresult.getItemId()));
+        Integer price = MallPriceDatabase.getPrice(advresult.getItemId());
         return (price > 0) ? price : null;
       case 4:
         int power = EquipmentDatabase.getPower(advresult.getItemId());
-        return (power > 0) ? IntegerPool.get(power) : null;
+        return (power > 0) ? power : null;
       case 5:
         fill =
-            IntegerPool.get(
-                ConsumablesDatabase.getFullness(advresult.getName())
-                    + ConsumablesDatabase.getInebriety(advresult.getName())
-                    + ConsumablesDatabase.getSpleenHit(advresult.getName()));
+            ConsumablesDatabase.getFullness(advresult.getName())
+                + ConsumablesDatabase.getInebriety(advresult.getName())
+                + ConsumablesDatabase.getSpleenHit(advresult.getName());
         return fill > 0 ? fill : null;
       case 6:
         double advRange = ConsumablesDatabase.getAdventureRange(advresult.getName());
         fill =
-            IntegerPool.get(
-                ConsumablesDatabase.getFullness(advresult.getName())
-                    + ConsumablesDatabase.getInebriety(advresult.getName())
-                    + ConsumablesDatabase.getSpleenHit(advresult.getName()));
+            ConsumablesDatabase.getFullness(advresult.getName())
+                + ConsumablesDatabase.getInebriety(advresult.getName())
+                + ConsumablesDatabase.getSpleenHit(advresult.getName());
         if (!Preferences.getBoolean("showGainsPerUnit")) {
           advRange = advRange / fill;
         }
@@ -174,36 +174,37 @@ public class TableCellFactory {
 
     switch (columnIndex) {
       case 0:
+        boolean ronin = StorageRequest.itemPulledInRonin(advresult);
         if (raw) {
           return advresult.getName();
         }
         return "<html>"
+            + (ronin ? "<s>" : "")
             + addTag(ColorFactory.getStorageColor(advresult), isSelected)
-            + advresult.getName();
+            + advresult.getName()
+            + (ronin ? "</s>" : "");
       case 1:
         return getAutosellString(advresult.getItemId(), raw);
       case 2:
-        return IntegerPool.get(advresult.getCount());
+        return advresult.getCount();
       case 3:
-        Integer price = IntegerPool.get(MallPriceDatabase.getPrice(advresult.getItemId()));
+        Integer price = MallPriceDatabase.getPrice(advresult.getItemId());
         return (price > 0) ? price : null;
       case 4:
         int power = EquipmentDatabase.getPower(advresult.getItemId());
-        return (power > 0) ? IntegerPool.get(power) : null;
+        return (power > 0) ? power : null;
       case 5:
         fill =
-            IntegerPool.get(
-                ConsumablesDatabase.getFullness(advresult.getName())
-                    + ConsumablesDatabase.getInebriety(advresult.getName())
-                    + ConsumablesDatabase.getSpleenHit(advresult.getName()));
+            ConsumablesDatabase.getFullness(advresult.getName())
+                + ConsumablesDatabase.getInebriety(advresult.getName())
+                + ConsumablesDatabase.getSpleenHit(advresult.getName());
         return fill > 0 ? fill : null;
       case 6:
         double advRange = ConsumablesDatabase.getAdventureRange(advresult.getName());
         fill =
-            IntegerPool.get(
-                ConsumablesDatabase.getFullness(advresult.getName())
-                    + ConsumablesDatabase.getInebriety(advresult.getName())
-                    + ConsumablesDatabase.getSpleenHit(advresult.getName()));
+            ConsumablesDatabase.getFullness(advresult.getName())
+                + ConsumablesDatabase.getInebriety(advresult.getName())
+                + ConsumablesDatabase.getSpleenHit(advresult.getName());
 
         if (!Preferences.getBoolean("showGainsPerUnit")) {
           advRange = advRange / fill;
@@ -229,31 +230,29 @@ public class TableCellFactory {
       case 1:
         return getAutosellString(CIRresult.getItemId(), raw);
       case 2:
-        return IntegerPool.get(CIRresult.getQuantityPossible());
+        return CIRresult.getQuantityPossible();
       case 3:
-        Integer price = IntegerPool.get(MallPriceDatabase.getPrice(CIRresult.getItemId()));
+        Integer price = MallPriceDatabase.getPrice(CIRresult.getItemId());
         return (price > 0) ? price : null;
       case 4:
         fill =
-            IntegerPool.get(
-                ConsumablesDatabase.getFullness(CIRresult.getName())
-                    + ConsumablesDatabase.getInebriety(CIRresult.getName())
-                    + ConsumablesDatabase.getSpleenHit(CIRresult.getName()));
+            ConsumablesDatabase.getFullness(CIRresult.getName())
+                + ConsumablesDatabase.getInebriety(CIRresult.getName())
+                + ConsumablesDatabase.getSpleenHit(CIRresult.getName());
         return fill > 0 ? fill : null;
       case 5:
         double advRange = ConsumablesDatabase.getAdventureRange(CIRresult.getName());
         fill =
-            IntegerPool.get(
-                ConsumablesDatabase.getFullness(CIRresult.getName())
-                    + ConsumablesDatabase.getInebriety(CIRresult.getName())
-                    + ConsumablesDatabase.getSpleenHit(CIRresult.getName()));
+            ConsumablesDatabase.getFullness(CIRresult.getName())
+                + ConsumablesDatabase.getInebriety(CIRresult.getName())
+                + ConsumablesDatabase.getSpleenHit(CIRresult.getName());
         if (!Preferences.getBoolean("showGainsPerUnit")) {
           advRange = advRange / fill;
         }
         return advRange > 0 ? KoLConstants.ROUNDED_MODIFIER_FORMAT.format(advRange) : null;
       case 6:
         Integer lev = ConsumablesDatabase.getLevelReqByName(CIRresult.getName());
-        return lev != null ? IntegerPool.get(lev) : null;
+        return lev != null ? lev : null;
       default:
         return null;
     }
@@ -272,9 +271,9 @@ public class TableCellFactory {
       case 1:
         return EquipmentDatabase.getPower(advresult.getItemId());
       case 2:
-        return IntegerPool.get(advresult.getCount());
+        return advresult.getCount();
       case 3:
-        Integer price = IntegerPool.get(MallPriceDatabase.getPrice(advresult.getItemId()));
+        Integer price = MallPriceDatabase.getPrice(advresult.getItemId());
         return (price > 0) ? price : null;
       case 4:
         return getAutosellString(advresult.getItemId(), raw);
@@ -296,9 +295,9 @@ public class TableCellFactory {
       case 1:
         return getAutosellString(advresult.getItemId(), raw);
       case 2:
-        return IntegerPool.get(advresult.getCount());
+        return advresult.getCount();
       case 3:
-        Integer price = IntegerPool.get(MallPriceDatabase.getPrice(advresult.getItemId()));
+        Integer price = MallPriceDatabase.getPrice(advresult.getItemId());
         return (price > 0) ? price : null;
       case 4:
         double hpRestore = RestoresDatabase.getHPAverage(advresult.getName());
@@ -340,7 +339,7 @@ public class TableCellFactory {
 
     if (raw) {
       // if ( price < 0 ) price = 0;
-      return IntegerPool.get(price);
+      return price;
     }
 
     if (price <= 0) {

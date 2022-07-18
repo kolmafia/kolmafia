@@ -132,6 +132,7 @@ public class CampgroundRequest extends GenericRequest {
     ItemPool.MAYO_CLINIC,
     ItemPool.ASDON_MARTIN,
     ItemPool.DIABOLIC_PIZZA_CUBE,
+    ItemPool.COLD_MEDICINE_CABINET,
 
     // Outside dwelling
     ItemPool.MEAT_GOLEM,
@@ -1430,7 +1431,9 @@ public class CampgroundRequest extends GenericRequest {
       }
     } else if (findImage(responseText, "horadricoven.gif", ItemPool.DIABOLIC_PIZZA_CUBE)) {
       CampgroundRequest.setCurrentWorkshedItem(ItemPool.DIABOLIC_PIZZA_CUBE);
-    } else if (findImage(responseText, "cmcabinet.gif", ItemPool.COLD_MEDICINE_CABINET)) {
+    } else if (findImage(responseText, "cmcabinet.gif", ItemPool.COLD_MEDICINE_CABINET)
+        || responseText.contains("Looks like the doctors are out for the day.")) {
+      CampgroundRequest.setCurrentWorkshedItem(ItemPool.COLD_MEDICINE_CABINET);
       // Cold Medicine Cabinet usually redirects to choice.php, so this is also handled in
       // ChoiceManager
       Matcher cabinetMatcher = COLD_MEDICINE_CABINET_PATTERN.matcher(responseText);
@@ -1560,6 +1563,17 @@ public class CampgroundRequest extends GenericRequest {
     }
   }
 
+  /**
+   * Remove the current workshed item from the campground.
+   *
+   * <p>Only for use in tests: the only way to remove your workshed is by ascending, and in that
+   * case `reset` works better.
+   */
+  public static void resetCurrentWorkshedItem() {
+    CampgroundRequest.currentWorkshedItem = null;
+    CampgroundRequest.removeCampgroundItem(CampgroundRequest.getCurrentWorkshedItem());
+  }
+
   public static boolean isDwelling(final int itemId) {
     switch (itemId) {
       case ItemPool.NEWBIESPORT_TENT:
@@ -1645,6 +1659,10 @@ public class CampgroundRequest extends GenericRequest {
 
   public static int getFuel() {
     return CampgroundRequest.asdonMartinFuel;
+  }
+
+  public static void setFuel(int fuel) {
+    CampgroundRequest.asdonMartinFuel = fuel;
   }
 
   public static void useFuel(final int fuel) {

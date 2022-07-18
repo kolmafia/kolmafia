@@ -70,6 +70,7 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame.SmartButtonGroup;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
+import net.sourceforge.kolmafia.swingui.menu.LoadScriptMenuItem;
 import net.sourceforge.kolmafia.swingui.panel.AddCustomDeedsPanel;
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
 import net.sourceforge.kolmafia.swingui.panel.DailyDeedsPanel;
@@ -79,11 +80,11 @@ import net.sourceforge.kolmafia.swingui.panel.ScrollablePanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.CollapsibleTextArea;
 import net.sourceforge.kolmafia.swingui.widget.ColorChooser;
+import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
 import org.jdesktop.swingx.JXPanel;
-import tab.CloseTabPaneEnhancedUI;
 
 public class OptionsFrame extends GenericFrame {
   public OptionsFrame() {
@@ -123,7 +124,9 @@ public class OptionsFrame extends GenericFrame {
     selectorPanel.addPanel("Script Buttons", new ScriptButtonPanel(), true);
     selectorPanel.addPanel("Bookmarks", new BookmarkManagePanel(), true);
     selectorPanel.addPanel("SVN", new SVNPanel(), true);
+    selectorPanel.addPanel("Git", new GitPanel(), true);
     selectorPanel.addPanel("Maximizer Strings", new MaximizerStringsPanel());
+    selectorPanel.addPanel("Script Menu", new ScriptMenuOptionsPanel(), true);
 
     this.setCenterComponent(selectorPanel);
 
@@ -136,7 +139,7 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private class SessionLogOptionsPanel extends OptionsPanel {
+  private static class SessionLogOptionsPanel extends OptionsPanel {
     /** Constructs a new <code>SessionLogOptionsPanel</code> */
     public SessionLogOptionsPanel() {
       super(new Dimension(20, 20), new Dimension(370, 20));
@@ -160,7 +163,7 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private class RelayOptionsPanel extends OptionsPanel {
+  private static class RelayOptionsPanel extends OptionsPanel {
     private JLabel colorChanger;
 
     /** Constructs a new <code>RelayOptionsPanel</code> */
@@ -261,7 +264,7 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private class GeneralOptionsPanel extends OptionsPanel {
+  private static class GeneralOptionsPanel extends OptionsPanel {
     /** Constructs a new <code>GeneralOptionsPanel</code> */
     public GeneralOptionsPanel() {
       super(new Dimension(20, 16), new Dimension(370, 16));
@@ -298,13 +301,14 @@ public class OptionsFrame extends GenericFrame {
           "stopForFixedWanderer",
           "Stop automation, or show relay warning, when Wandering monsters with fixed turn are due"
         },
+        {"stopForUltraRare", "Stop automation when encountering an Ultra-Rare monster"},
       };
 
       this.setOptions(options);
     }
   }
 
-  private class ItemOptionsPanel extends OptionsPanel {
+  private static class ItemOptionsPanel extends OptionsPanel {
     /** Constructs a new <code>ItemOptionsPanel</code> */
     public ItemOptionsPanel() {
       super(new Dimension(20, 16), new Dimension(370, 16));
@@ -349,7 +353,7 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private class DebugOptionsPanel extends OptionsPanel {
+  private static class DebugOptionsPanel extends OptionsPanel {
     /** Constructs a new <code>DebugOptionsPanel</code> */
     public DebugOptionsPanel() {
       super(new Dimension(20, 16), new Dimension(370, 16));
@@ -367,7 +371,52 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private abstract class ShiftableOrderPanel extends ScrollablePanel<JList<String>>
+  private static class ScriptMenuOptionsPanel extends ConfigQueuingPanel {
+    public ScriptMenuOptionsPanel() {
+      super();
+
+      JTextArea message =
+          new JTextArea(
+              """
+	      Configure the behavior of Mafia's Script menu.
+
+	      If you set the script MRU length to a value greater than zero, that many of your most recently run scripts will be displayed.
+
+	      If you select cascading script menus, all the scripts in your 'scripts' folder will be displayed.
+
+	      If you select neither option, no scripts will be displayed.""") {
+            // don't let boxlayout expand the JTextArea ridiculously
+            @Override
+            public Dimension getMaximumSize() {
+              return this.getPreferredSize();
+            }
+          };
+
+      message.setColumns(40);
+      message.setLineWrap(true);
+      message.setWrapStyleWord(true);
+      message.setEditable(false);
+      message.setOpaque(false);
+      message.setFont(KoLGUIConstants.DEFAULT_FONT);
+      this.queue(message);
+
+      this.queue(this.newSeparator());
+      this.queue(Box.createVerticalStrut(5));
+
+      String mruTip =
+          "<html>Setting this option will display only your most recently used scripts.</html>";
+      this.queue(new PreferenceIntegerTextField("scriptMRULength", 4, "Script MRU Length", mruTip));
+
+      String cascadeTip =
+          "<html>Setting this option will display all the files in your 'scripts' folder.</html>";
+      this.queue(
+          new PreferenceCheckBox("scriptCascadingMenus", "Use cascading script menus", cascadeTip));
+
+      this.makeLayout();
+    }
+  }
+
+  private abstract static class ShiftableOrderPanel extends ScrollablePanel<JList<String>>
       implements ListDataListener {
     public final LockableListModel<String> list;
     public final JList<String> elementList;
@@ -430,7 +479,7 @@ public class OptionsFrame extends GenericFrame {
     public abstract void saveSettings();
   }
 
-  private class ScriptButtonPanel extends ShiftableOrderPanel {
+  private static class ScriptButtonPanel extends ShiftableOrderPanel {
     public ScriptButtonPanel() {
       super("gCLI Toolbar Buttons", new LockableListModel<>());
       String[] scriptList = Preferences.getString("scriptList").split(" +\\| +");
@@ -518,7 +567,7 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private class MaximizerStringsPanel extends ShiftableOrderPanel {
+  private static class MaximizerStringsPanel extends ShiftableOrderPanel {
     public MaximizerStringsPanel() {
       super("Modifier Maximizer Strings", new LockableListModel<>());
       String[] scriptList = Preferences.getString("maximizerList").split(" +\\| +");
@@ -574,7 +623,7 @@ public class OptionsFrame extends GenericFrame {
   }
 
   /** Panel used for handling maximizer related options */
-  private class MaximizerOptionsPanel extends GenericPanel implements FocusListener {
+  private static class MaximizerOptionsPanel extends GenericPanel implements FocusListener {
     private final JTextField combinationsField;
     private final JTextField mruField;
     private final JTextField priceField;
@@ -756,7 +805,7 @@ public class OptionsFrame extends GenericFrame {
    * Panel used for handling chat-related options and preferences, including font size, window
    * management and maybe, eventually, coloring options for contacts.
    */
-  private class ChatOptionsPanel extends OptionsPanel {
+  private static class ChatOptionsPanel extends OptionsPanel {
     private ButtonGroup fontSizeGroup;
     private JRadioButton[] fontSizes;
     private JLabel innerGradient, outerGradient;
@@ -849,8 +898,10 @@ public class OptionsFrame extends GenericFrame {
     public void actionCancelled() {
       super.actionCancelled();
 
-      this.innerGradient.setBackground(tab.CloseTabPaneEnhancedUI.notifiedA);
-      this.outerGradient.setBackground(tab.CloseTabPaneEnhancedUI.notifiedB);
+      this.innerGradient.setBackground(
+          DataUtilities.toColor(Preferences.getString("innerChatColor")));
+      this.outerGradient.setBackground(
+          DataUtilities.toColor(Preferences.getString("outerChatColor")));
 
       String fontSize = Preferences.getString("chatFontSize");
       this.fontSizes[fontSize.equals("large") ? 2 : fontSize.equals("medium") ? 1 : 0].setSelected(
@@ -865,26 +916,46 @@ public class OptionsFrame extends GenericFrame {
       @Override
       public void applyChanges() {
         if (this.property.equals("innerChatColor")) {
-          CloseTabPaneEnhancedUI.notifiedA = ChatOptionsPanel.this.innerGradient.getBackground();
+          Preferences.setString(
+              "innerChatColor",
+              DataUtilities.toHexString(ChatOptionsPanel.this.innerGradient.getBackground()));
         } else {
-          CloseTabPaneEnhancedUI.notifiedB = ChatOptionsPanel.this.outerGradient.getBackground();
+          Preferences.setString(
+              "outerChatColor",
+              DataUtilities.toHexString(ChatOptionsPanel.this.outerGradient.getBackground()));
         }
       }
     }
   }
 
   /** A special panel which generates a list of bookmarks which can subsequently be managed. */
-  private class BookmarkManagePanel extends ShiftableOrderPanel {
+  private static class BookmarkManagePanel extends ShiftableOrderPanel {
     public BookmarkManagePanel() {
       super("Configure Bookmarks", (LockableListModel<String>) KoLConstants.bookmarks);
 
-      JPanel extraButtons = new JPanel(new BorderLayout(2, 2));
-      extraButtons.add(new ThreadedButton("add", new AddBookmarkRunnable()), BorderLayout.NORTH);
-      extraButtons.add(
-          new ThreadedButton("rename", new RenameBookmarkRunnable()), BorderLayout.CENTER);
-      extraButtons.add(
-          new ThreadedButton("delete", new DeleteBookmarkRunnable()), BorderLayout.SOUTH);
+      this.elementList.setCellRenderer(ListCellRendererFactory.getDefaultRenderer(this::toHTML));
+
+      JPanel extraButtons = new JPanel(new GridLayout(0, 1, 0, 5));
+      extraButtons.add(Box.createVerticalStrut(3));
+      extraButtons.add(new ThreadedButton("rename", new RenameBookmarkRunnable()));
+      extraButtons.add(new ThreadedButton("delete", new DeleteBookmarkRunnable()));
+      extraButtons.add(Box.createVerticalStrut(10));
+      extraButtons.add(new ThreadedButton("add (text)", new AddTextBookmarkRunnable()));
+      extraButtons.add(new ThreadedButton("add (file)", new AddFileBookmarkRunnable()));
       this.buttonPanel.add(extraButtons, BorderLayout.SOUTH);
+    }
+
+    public String toHTML(Object o, Boolean isSelected) {
+      String[] bookmarkData = ((String) o).split("\\|");
+
+      String name = bookmarkData[0];
+      String location = bookmarkData[1];
+
+      return "<html><nobr style=\"font-weight: 700\">"
+          + name
+          + "</nobr><br/><nobr style=\"font-size: smaller; font-weight: 100\">"
+          + location
+          + "</nobr>";
     }
 
     @Override
@@ -892,22 +963,37 @@ public class OptionsFrame extends GenericFrame {
       GenericFrame.saveBookmarks();
     }
 
-    private class AddBookmarkRunnable implements Runnable {
+    private static class AddTextBookmarkRunnable implements Runnable {
       @Override
       public void run() {
-        String newName = InputFieldUtilities.input("Add a bookmark!", "http://www.google.com/");
+        String bookmark =
+            InputFieldUtilities.input("Specify a URL or CLI command", "echo hello world");
 
-        if (newName == null) {
+        if (bookmark == null) {
           return;
         }
 
-        KoLConstants.bookmarks.add(
-            "New bookmark "
-                + (KoLConstants.bookmarks.size() + 1)
-                + "|"
-                + newName
-                + "|"
-                + newName.contains("pwd"));
+        KoLConstants.bookmarks.add(bookmark + "|" + bookmark + "|" + bookmark.contains("pwd"));
+      }
+    }
+
+    private static class AddFileBookmarkRunnable implements Runnable {
+      @Override
+      public void run() {
+        File bookmark = InputFieldUtilities.chooseInputFile(KoLConstants.SCRIPT_LOCATION, null);
+
+        if (bookmark == null) {
+          return;
+        }
+
+        String scriptPath = LoadScriptMenuItem.getRelativePath(bookmark);
+        if (scriptPath.startsWith("/")) {
+          // Path must be in an "allowed" directory: scripts, relay, planting
+          // or a subdirectory of those.
+          return;
+        }
+
+        KoLConstants.bookmarks.add(bookmark.getName() + "|" + scriptPath + "|false");
       }
     }
 
@@ -954,7 +1040,7 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  protected class StartupFramesPanel extends GenericPanel implements ListDataListener {
+  protected static class StartupFramesPanel extends GenericPanel implements ListDataListener {
     private boolean isRefreshing = false;
 
     private final LockableListModel<String> completeList = new LockableListModel<>();
@@ -976,8 +1062,11 @@ public class OptionsFrame extends GenericFrame {
 
       JTextArea message =
           new JTextArea(
-              "These are the global settings for what shows up when KoLmafia successfully logs into the Kingdom of Loathing.  You can drag and drop options in the lists below to customize what will show up.\n\n"
-                  + "When you place the Local Relay Server into the 'startup in tabs' section, KoLmafia will start up the server but not open your browser.  When you place the Contact List into the 'startup in tabs' section, KoLmafia will force a refresh of your contact list on login.\n");
+              """
+                          These are the global settings for what shows up when KoLmafia successfully logs into the Kingdom of Loathing.  You can drag and drop options in the lists below to customize what will show up.
+
+                          When you place the Local Relay Server into the 'startup in tabs' section, KoLmafia will start up the server but not open your browser.  When you place the Contact List into the 'startup in tabs' section, KoLmafia will force a refresh of your contact list on login.
+                          """);
 
       // message.setColumns( 32 );
       message.setLineWrap(true);
@@ -1015,9 +1104,6 @@ public class OptionsFrame extends GenericFrame {
 
       String username =
           (String) ((SortedListModel<String>) KoLConstants.saveStateNames).getSelectedItem();
-      if (username == null) {
-        username = "";
-      }
 
       this.startupList.clear();
       this.desktopList.clear();
@@ -1117,7 +1203,8 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private class DeedsButtonPanel extends ScrollablePanel<JDnDList> implements ListDataListener {
+  private static class DeedsButtonPanel extends ScrollablePanel<JDnDList>
+      implements ListDataListener {
     public DeedsButtonPanel(final String title, final LockableListModel<String> builtIns) {
       super(title, "add custom", "reset deeds", new JDnDList(builtIns));
 
@@ -1158,8 +1245,8 @@ public class OptionsFrame extends GenericFrame {
       this.saveSettings();
     }
 
-    private class HelpRunnable implements Runnable {
-      JOptionPane pane;
+    private static class HelpRunnable implements Runnable {
+      final JOptionPane pane;
 
       public HelpRunnable() {
         String message =
@@ -1257,18 +1344,61 @@ public class OptionsFrame extends GenericFrame {
     public void saveSettings() {}
   }
 
-  private class SVNPanel extends JPanel {
+  public static class ConfigQueuingPanel extends JPanel {
     private List<Component> componentQueue = new ArrayList<>();
 
-    public SVNPanel() {
+    public ConfigQueuingPanel() {
       // 5 px inset
       this.setBorder(BorderFactory.createEmptyBorder(10, 5, 5, 5));
       // box layoutmanager
       this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+    }
+
+    protected JSeparator newSeparator() {
+      JSeparator sep = new JSeparator();
+      // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
+      int width = sep.getMaximumSize().width;
+      int height = sep.getPreferredSize().height;
+      Dimension size = new Dimension(width, height);
+      sep.setMaximumSize(size);
+      return sep;
+    }
+
+    protected JSeparator newSeparator(JLabel label) {
+      JSeparator sep = new JSeparator();
+      // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
+      int width = label.getFontMetrics(label.getFont()).stringWidth(label.getText());
+      int height = sep.getPreferredSize().height;
+      Dimension size = new Dimension(width, height);
+      sep.setMaximumSize(size);
+      return sep;
+    }
+
+    protected void queue(Component comp) {
+      this.componentQueue.add(comp);
+    }
+
+    protected void makeLayout() {
+      for (Component comp : this.componentQueue) {
+        if (comp instanceof JComponent) {
+          ((JComponent) comp).setAlignmentX(LEFT_ALIGNMENT);
+        }
+        this.add(comp);
+      }
+      this.componentQueue = null;
+    }
+  }
+
+  private static class SVNPanel extends ConfigQueuingPanel {
+    public SVNPanel() {
+      super();
+
       JTextArea message =
           new JTextArea(
-              "Configure the behavior of Mafia's built-in SVN client here.\n\n"
-                  + "With SVN you can seamlessly install community-created scripts and have them automatically update.") {
+              """
+                          Configure the behavior of Mafia's built-in SVN client here.
+
+                          With SVN you can seamlessly install community-created scripts and have them automatically update.""") {
             // don't let boxlayout expand the JTextArea ridiculously
             @Override
             public Dimension getMaximumSize() {
@@ -1284,11 +1414,7 @@ public class OptionsFrame extends GenericFrame {
       message.setFont(KoLGUIConstants.DEFAULT_FONT);
       this.queue(message);
 
-      JSeparator sep = new JSeparator();
-      // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
-      Dimension size = new Dimension(sep.getMaximumSize().width, sep.getPreferredSize().height);
-      sep.setMaximumSize(size);
-      this.queue(sep);
+      this.queue(this.newSeparator());
       this.queue(Box.createVerticalStrut(5));
 
       /*
@@ -1312,13 +1438,7 @@ public class OptionsFrame extends GenericFrame {
       this.queue(Box.createVerticalStrut(10));
       JLabel label = new JLabel("Advanced options:");
       this.queue(label);
-      JSeparator sep2 = new JSeparator();
-      size =
-          new Dimension(
-              label.getFontMetrics(label.getFont()).stringWidth(label.getText()),
-              sep.getPreferredSize().height);
-      sep2.setMaximumSize(size);
-      this.queue(sep2);
+      this.queue(this.newSeparator(label));
 
       /*
        * Advanced Options
@@ -1350,23 +1470,52 @@ public class OptionsFrame extends GenericFrame {
 
       this.makeLayout();
     }
+  }
 
-    private void queue(Component comp) {
-      this.componentQueue.add(comp);
-    }
+  private static class GitPanel extends ConfigQueuingPanel {
+    public GitPanel() {
+      super();
 
-    private void makeLayout() {
-      for (Component comp : this.componentQueue) {
-        if (comp instanceof JComponent) {
-          ((JComponent) comp).setAlignmentX(LEFT_ALIGNMENT);
-        }
-        this.add(comp);
-      }
-      this.componentQueue = null;
+      JTextArea message =
+          new JTextArea(
+              """
+                          Configure the behavior of Mafia's built-in git client here.
+
+                          With git you can seamlessly install community-created scripts and have them automatically update.""") {
+            // don't let boxlayout expand the JTextArea ridiculously
+            @Override
+            public Dimension getMaximumSize() {
+              return this.getPreferredSize();
+            }
+          };
+
+      message.setColumns(40);
+      message.setLineWrap(true);
+      message.setWrapStyleWord(true);
+      message.setEditable(false);
+      message.setOpaque(false);
+      message.setFont(KoLGUIConstants.DEFAULT_FONT);
+      this.queue(message);
+
+      JSeparator sep = new JSeparator();
+      // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
+      Dimension size = new Dimension(sep.getMaximumSize().width, sep.getPreferredSize().height);
+      sep.setMaximumSize(size);
+      this.queue(this.newSeparator());
+      this.queue(Box.createVerticalStrut(5));
+
+      /*
+       * Basic Options
+       */
+
+      this.queue(
+          new PreferenceCheckBox("gitUpdateOnLogin", "Update installed Git projects on login"));
+
+      this.makeLayout();
     }
   }
 
-  private class PreferenceCheckBox extends JPanel implements Listener {
+  public static class PreferenceCheckBox extends JPanel implements Listener {
     private final String pref;
     private final String tooltip;
 
@@ -1396,29 +1545,14 @@ public class OptionsFrame extends GenericFrame {
       this.add(label);
 
       if (tooltip != null) {
-        this.add(Box.createHorizontalStrut(3));
-        label = new JLabel("[");
-        label.setFont(KoLGUIConstants.DEFAULT_FONT);
-        this.add(label);
-
-        label = new JLabel("<html><u>?</u></html>");
-        this.add(label);
-        label.setForeground(Color.blue.darker());
-        label.setFont(KoLGUIConstants.DEFAULT_FONT);
-        label.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        label.setToolTipText(tooltip);
-
-        // show the tooltip with no delay, don't dismiss while hovered
-        ToolTipManager.sharedInstance().registerComponent(label);
-        ToolTipManager.sharedInstance().setInitialDelay(0);
-        ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
-
-        label = new JLabel("]");
-        label.setFont(KoLGUIConstants.DEFAULT_FONT);
-        this.add(label);
+        addToolTip(this, tooltip);
       }
 
       update();
+    }
+
+    public JCheckBox getCheckBox() {
+      return this.box;
     }
 
     @Override
@@ -1432,7 +1566,102 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  protected class CustomizeDailyDeedsPanel extends GenericPanel
+  public static class PreferenceIntegerTextField extends JPanel implements Listener, FocusListener {
+    private final String pref;
+    private final JTextField field;
+    private final String tooltip;
+
+    private final JCheckBox box = new JCheckBox();
+
+    public PreferenceIntegerTextField(String pref, int size, String message) {
+      this(pref, size, message, null);
+    }
+
+    public PreferenceIntegerTextField(String pref, int size, String message, String tip) {
+      this.pref = pref;
+      this.tooltip = tip;
+
+      this.field = new JTextField(size);
+      this.field.addFocusListener(this);
+
+      configure();
+      makeLayout(message);
+    }
+
+    private void configure() {
+      this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
+      PreferenceListenerRegistry.registerPreferenceListener(pref, this);
+    }
+
+    private void makeLayout(String message) {
+      this.add(this.field);
+      JLabel label = new JLabel(message, SwingConstants.LEFT);
+      label.setLabelFor(this.field);
+      label.setVerticalAlignment(SwingConstants.TOP);
+      this.add(label);
+
+      if (tooltip != null) {
+        addToolTip(this, tooltip);
+      }
+
+      update();
+    }
+
+    public JTextField getTextField() {
+      return this.field;
+    }
+
+    @Override
+    public void update() {
+      this.actionCancelled();
+    }
+
+    @Override
+    public Dimension getMaximumSize() {
+      return this.getPreferredSize();
+    }
+
+    public void actionConfirmed() {
+      Preferences.setInteger(this.pref, InputFieldUtilities.getValue(this.field, 0));
+    }
+
+    public void actionCancelled() {
+      this.field.setText(String.valueOf(Preferences.getInteger(this.pref)));
+    }
+
+    @Override
+    public void focusLost(final FocusEvent e) {
+      this.actionConfirmed();
+    }
+
+    @Override
+    public void focusGained(final FocusEvent e) {}
+  }
+
+  private static void addToolTip(JComponent component, String tooltip) {
+    component.add(Box.createHorizontalStrut(3));
+    JLabel label = new JLabel("[");
+    label.setFont(KoLGUIConstants.DEFAULT_FONT);
+    component.add(label);
+
+    label = new JLabel("<html><u>?</u></html>");
+    component.add(label);
+    label.setForeground(Color.blue.darker());
+    label.setFont(KoLGUIConstants.DEFAULT_FONT);
+    label.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    label.setToolTipText(tooltip);
+
+    // show the tooltip with no delay, don't dismiss while hovered
+    ToolTipManager.sharedInstance().registerComponent(label);
+    ToolTipManager.sharedInstance().setInitialDelay(0);
+    ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+
+    label = new JLabel("]");
+    label.setFont(KoLGUIConstants.DEFAULT_FONT);
+    component.add(label);
+  }
+
+  protected static class CustomizeDailyDeedsPanel extends GenericPanel
       implements ListDataListener, Listener {
     private boolean isRefreshing = false;
 
@@ -1468,12 +1697,10 @@ public class OptionsFrame extends GenericFrame {
 
       JTextArea message =
           new JTextArea(
-              "Edit the appearance of your daily deeds panel.\n\n"
-                  + "Drag built-in deeds into the 'Current Deeds' box down below to include, "
-                  + "and delete them from there to exclude.  Drag and drop to rearrange. "
-                  + "Note that some deeds added to the 'Current Deeds' box may still remain hidden "
-                  + "once you add them depending on whether you posess certain "
-                  + "items, skills, and/or access to zones.");
+              """
+                          Edit the appearance of your daily deeds panel.
+
+                          Drag built-in deeds into the 'Current Deeds' box down below to include, and delete them from there to exclude.  Drag and drop to rearrange. Note that some deeds added to the 'Current Deeds' box may still remain hidden once you add them depending on whether you posess certain items, skills, and/or access to zones.""");
 
       message.setColumns(40);
       message.setLineWrap(true);
@@ -1564,7 +1791,7 @@ public class OptionsFrame extends GenericFrame {
       List<String> frameStrings = new ArrayList<>();
 
       for (int i = 0; i < this.deedsList.getSize(); ++i) {
-        String listedDeed = this.deedsList.getElementAt(i).toString();
+        String listedDeed = this.deedsList.getElementAt(i);
 
         if (listedDeed.startsWith("$CUSTOM|")) {
           frameStrings.add(listedDeed);
@@ -1816,8 +2043,10 @@ public class OptionsFrame extends GenericFrame {
           optionBox.setSelected(Preferences.getBoolean(option[0]));
         }
 
-        this.innerGradient.setBackground(tab.CloseTabPaneEnhancedUI.selectedA);
-        this.outerGradient.setBackground(tab.CloseTabPaneEnhancedUI.selectedB);
+        this.innerGradient.setBackground(
+            DataUtilities.toColor(Preferences.getString("innerTabColor")));
+        this.outerGradient.setBackground(
+            DataUtilities.toColor(Preferences.getString("outerTabColor")));
       }
 
       @Override
@@ -1831,25 +2060,26 @@ public class OptionsFrame extends GenericFrame {
         @Override
         public void applyChanges() {
           if (this.property.equals("innerTabColor")) {
-            CloseTabPaneEnhancedUI.selectedA =
-                InterfaceCheckboxPanel.this.innerGradient.getBackground();
+            Preferences.setString(
+                "innerTabColor",
+                DataUtilities.toHexString(
+                    InterfaceCheckboxPanel.this.innerGradient.getBackground()));
           } else {
-            CloseTabPaneEnhancedUI.selectedB =
-                InterfaceCheckboxPanel.this.outerGradient.getBackground();
+            Preferences.setString(
+                "outerTabColor",
+                DataUtilities.toHexString(
+                    InterfaceCheckboxPanel.this.outerGradient.getBackground()));
           }
         }
       }
     }
   }
 
-  protected class EditorPanel extends OptionsPanel {
+  protected static class EditorPanel extends OptionsPanel {
     private final FileSelectPanel preferredEditor;
 
     public EditorPanel() {
       AutoHighlightTextField textField = new AutoHighlightTextField();
-      //			boolean button = true;
-      //			String helpText = "";
-      //			String path = null;
 
       boolean button = false;
       String path = "";
@@ -1891,7 +2121,7 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  protected class ScriptPanel extends OptionsPanel {
+  protected static class ScriptPanel extends OptionsPanel {
     private ScriptSelectPanel loginScript;
     private ScriptSelectPanel logoutScript;
 
@@ -2058,7 +2288,7 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  protected class BreakfastAlwaysPanel extends JPanel implements ActionListener {
+  protected static class BreakfastAlwaysPanel extends JPanel implements ActionListener {
     private final JCheckBox[] skillOptions;
 
     public BreakfastAlwaysPanel() {
@@ -2120,7 +2350,7 @@ public class OptionsFrame extends GenericFrame {
     public void setEnabled(final boolean isEnabled) {}
   }
 
-  protected class BreakfastPanel extends JPanel implements ActionListener {
+  protected static class BreakfastPanel extends JPanel implements ActionListener {
     private final String breakfastType;
     private final JCheckBox[] skillOptions;
 
@@ -2322,7 +2552,7 @@ public class OptionsFrame extends GenericFrame {
     public void setEnabled(final boolean isEnabled) {}
   }
 
-  private class SkillMenu extends JComboBox<String> {
+  private static class SkillMenu extends JComboBox<String> {
     final String preference;
 
     public SkillMenu(final String name, final String[] skills, final String preference) {
@@ -2353,25 +2583,19 @@ public class OptionsFrame extends GenericFrame {
     }
 
     public void setPreference() {
-      String skill = null;
+      String skill;
       int index = this.getSelectedIndex();
-      switch (index) {
-        case -1:
-        case 0:
-          skill = "none";
-          break;
-        case 1:
-          skill = "all";
-          break;
-        default:
-          skill = this.getItemAt(index);
-          break;
-      }
+      skill =
+          switch (index) {
+            case -1, 0 -> "none";
+            case 1 -> "all";
+            default -> this.getItemAt(index);
+          };
       Preferences.setString(this.preference, skill);
     }
   }
 
-  private class CropMenu extends JComboBox<String> {
+  private static class CropMenu extends JComboBox<String> {
     final String preference;
 
     public CropMenu(final String preference) {
@@ -2404,20 +2628,14 @@ public class OptionsFrame extends GenericFrame {
     }
 
     public void setPreference() {
-      String crop = null;
+      String crop;
       int index = this.getSelectedIndex();
-      switch (index) {
-        case -1:
-        case 0:
-          crop = "none";
-          break;
-        case 1:
-          crop = "any";
-          break;
-        default:
-          crop = this.getItemAt(index);
-          break;
-      }
+      crop =
+          switch (index) {
+            case -1, 0 -> "none";
+            case 1 -> "any";
+            default -> this.getItemAt(index);
+          };
       Preferences.setString(this.preference, crop);
     }
   }
@@ -2524,30 +2742,14 @@ public class OptionsFrame extends GenericFrame {
         String[] it = s.split(":");
         if (it.length == 2) {
           switch (it[0]) {
-            case "crappy":
-              decodeColor(it[1], this.crappy);
-              break;
-            case "decent":
-              decodeColor(it[1], this.decent);
-              break;
-            case "good":
-              decodeColor(it[1], this.good);
-              break;
-            case "awesome":
-              decodeColor(it[1], this.awesome);
-              break;
-            case "epic":
-              decodeColor(it[1], this.epic);
-              break;
-            case "memento":
-              decodeColor(it[1], this.memento);
-              break;
-            case "junk":
-              decodeColor(it[1], this.junk);
-              break;
-            case "notavailable":
-              decodeColor(it[1], this.notavailable);
-              break;
+            case "crappy" -> decodeColor(it[1], this.crappy);
+            case "decent" -> decodeColor(it[1], this.decent);
+            case "good" -> decodeColor(it[1], this.good);
+            case "awesome" -> decodeColor(it[1], this.awesome);
+            case "epic" -> decodeColor(it[1], this.epic);
+            case "memento" -> decodeColor(it[1], this.memento);
+            case "junk" -> decodeColor(it[1], this.junk);
+            case "notavailable" -> decodeColor(it[1], this.notavailable);
           }
         }
       }
@@ -2627,7 +2829,7 @@ public class OptionsFrame extends GenericFrame {
     }
 
     private final class FontColorChooser extends JLabel implements MouseListener {
-      protected String property;
+      final String property;
 
       public FontColorChooser(final String property) {
         this.property = property;

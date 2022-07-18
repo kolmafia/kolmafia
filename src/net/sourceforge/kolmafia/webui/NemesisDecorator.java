@@ -61,6 +61,8 @@ public class NemesisDecorator {
     },
   };
 
+  private NemesisDecorator() {}
+
   public static final void useGothyHandwave(final String monster, final String responseText) {
     String setting = null;
 

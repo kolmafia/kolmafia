@@ -9,6 +9,8 @@ public class PageRegistry {
   private static final Set<String> seenLocations = new HashSet<>();
   private static final Map<String, Page> pagesByLocation = new HashMap<>();
 
+  private PageRegistry() {}
+
   public static final boolean isGameAction(String path, String queryString) {
     if (PageRegistry.isExternalLocation(path)) {
       return false;

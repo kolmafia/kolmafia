@@ -25,7 +25,9 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.ChoiceAdventures;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.ChoiceAdventure;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
 import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
@@ -96,11 +98,11 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.addTab("Zone", new GenericScrollPane(this.choicePanel));
     this.setToolTipTextAt(0, "Choices specific to the current adventure zone");
 
-    this.optionSelects = new ArrayList<>(ChoiceManager.CHOICE_ADVS.length);
-    for (int i = 0; i < ChoiceManager.CHOICE_ADVS.length; ++i) {
+    this.optionSelects = new ArrayList<>(ChoiceAdventures.CHOICE_ADVS.length);
+    for (int i = 0; i < ChoiceAdventures.CHOICE_ADVS.length; ++i) {
       this.optionSelects.add(new JComboBox<>());
       this.optionSelects.get(i).addItem("show in browser");
-      Object[] options = ChoiceManager.CHOICE_ADVS[i].getOptions();
+      Option[] options = ChoiceAdventures.CHOICE_ADVS[i].getOptions();
       for (int j = 0; j < options.length; ++j) {
         this.optionSelects.get(i).addItem(options[j]);
       }
@@ -390,8 +392,8 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
 
     for (int i = 0; i < this.optionSelects.size(); ++i) {
       this.addChoiceSelect(
-          ChoiceManager.CHOICE_ADVS[i].getZone(),
-          ChoiceManager.CHOICE_ADVS[i].getName(),
+          ChoiceAdventures.CHOICE_ADVS[i].getZone(),
+          ChoiceAdventures.CHOICE_ADVS[i].getName(),
           this.optionSelects.get(i));
     }
 
@@ -825,12 +827,12 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     Preferences.setInteger("louvreDesiredGoal", louvreGoal);
 
     for (int i = 0; i < this.optionSelects.size(); ++i) {
-      ChoiceManager.ChoiceAdventure choiceAdventure = ChoiceManager.CHOICE_ADVS[i];
+      ChoiceAdventure choiceAdventure = ChoiceAdventures.CHOICE_ADVS[i];
       String setting = choiceAdventure.getSetting();
       int index = this.optionSelects.get(i).getSelectedIndex();
       Object option = this.optionSelects.get(i).getSelectedItem();
-      if (option instanceof ChoiceManager.Option) {
-        index = ((ChoiceManager.Option) option).getDecision(index);
+      if (option instanceof Option) {
+        index = ((Option) option).getDecision(index);
       }
       Preferences.setString(setting, String.valueOf(index));
     }
@@ -1134,7 +1136,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
     this.gongSelect.setSelectedIndex(Preferences.getInteger("gongPath"));
 
     for (int i = 0; i < this.optionSelects.size(); ++i) {
-      ChoiceManager.ChoiceAdventure choiceAdventure = ChoiceManager.CHOICE_ADVS[i];
+      ChoiceAdventure choiceAdventure = ChoiceAdventures.CHOICE_ADVS[i];
       setting = choiceAdventure.getSetting();
       index = Preferences.getInteger(setting);
       if (index < 0) {
@@ -1142,8 +1144,8 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       }
 
       if (index > 0) {
-        Object[] options = choiceAdventure.getOptions();
-        Object option = ChoiceManager.findOption(options, index);
+        Option[] options = choiceAdventure.getOptions();
+        Option option = ChoiceAdventures.findOption(options, index);
         if (option != null) {
           this.optionSelects.get(i).setSelectedItem(option);
           continue;

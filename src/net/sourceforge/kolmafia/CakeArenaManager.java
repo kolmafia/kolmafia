@@ -6,8 +6,9 @@ import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.swingui.FamiliarTrainingFrame;
 
 public class CakeArenaManager {
-  private static final LockableListModel<ArenaOpponent> opponentList =
-      new LockableListModel<ArenaOpponent>();
+  private static final LockableListModel<ArenaOpponent> opponentList = new LockableListModel<>();
+
+  private CakeArenaManager() {}
 
   /**
    * Registers an opponent inside of the arena manager. This should be used to update any
@@ -44,12 +45,20 @@ public class CakeArenaManager {
           RequestThread.postRequest(request);
 
           Matcher victoryMatcher = CakeArenaRequest.WIN_PATTERN.matcher(request.responseText);
-          StringBuffer text = new StringBuffer();
+          StringBuilder text = new StringBuilder();
 
           if (victoryMatcher.find()) {
-            text.append("<font color=green><b>Round " + j + " of " + repeatCount + "</b></font>: ");
+            text.append("<font color=green><b>Round ")
+                .append(j)
+                .append(" of ")
+                .append(repeatCount)
+                .append("</b></font>: ");
           } else {
-            text.append("<font color=red><b>Round " + j + " of " + repeatCount + "</b></font>: ");
+            text.append("<font color=red><b>Round ")
+                .append(j)
+                .append(" of ")
+                .append(repeatCount)
+                .append("</b></font>: ");
           }
 
           int start = request.responseText.indexOf("<body>");

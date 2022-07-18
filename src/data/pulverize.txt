@@ -488,15 +488,7 @@ Saucepanic	handful of Smithereens
 Frankly Mr. Shank	handful of Smithereens
 Shakespeare's Sister's Accordion	handful of Smithereens
 
-# Bakelite items
-bakelite belt	bakelite bits
-bakelite badge	bakelite bits
-bakelite bowl	bakelite bits
-bakelite brooch	bakelite bits
-bakelite breeches	bakelite bits
-bakelite backpack	bakelite bits
-
-# Polyester items
+# Polyester items (2015 Standard Normal)
 polyester parachute	polyesterene powder
 polyester pad	polyesterene powder
 polyester peeler	polyesterene powder
@@ -504,7 +496,7 @@ polyester pettipants	polyesterene powder
 polyester panama hat	polyesterene powder
 polyester pulsera	polyesterene powder
 
-# Porcelain items
+# Porcelain items (2015 Standard Hardcore)
 porcelain police baton	porcelain powder
 porcelain plus-fours	porcelain powder
 porcelain porkpie	porcelain powder
@@ -512,7 +504,7 @@ porcelain pepper mill	porcelain powder
 porcelain pelerine	porcelain powder
 porcelain phantom mask	porcelain powder
 
-# Wicker items
+# Wicker items (2016 Standard Normal)
 wicker kickers	wickerbits
 wicker slicker	wickerbits
 wicker knickers	wickerbits
@@ -520,7 +512,7 @@ wicker ticker	wickerbits
 wicker sticker	wickerbits
 wicker clicker	wickerbits
 
-# Bakelite items
+# Bakelite items (2016 Standard Hardcore)
 bakelite belt	bakelite bits
 bakelite badge	bakelite bits
 bakelite bowl	bakelite bits
@@ -528,7 +520,7 @@ bakelite brooch	bakelite bits
 bakelite breeches	bakelite bits
 bakelite backpack	bakelite bits
 
-# Aerogel items
+# Aerogel items (2017 Standard Normal)
 aerogel anvil	aerosolized aerogel
 aerogel akubra	aerosolized aerogel
 aerogel apron	aerosolized aerogel
@@ -536,7 +528,7 @@ aerogel ascot	aerosolized aerogel
 aerogel attache case	aerosolized aerogel
 aerogel accordion	aerosolized aerogel
 
-# Wrought-Iron items
+# Wrought-Iron items (2017 Standard Hardcore)
 wrought-iron wig	wrought-iron flakes
 wrought-iron winch crank	wrought-iron flakes
 wrought-iron widget	wrought-iron flakes
@@ -544,7 +536,7 @@ wrought-iron whisk	wrought-iron flakes
 wrought-iron walker	wrought-iron flakes
 wrought-iron waders	wrought-iron flakes
 
-# Gabardine items
+# Gabardine items (2018 Standard Normal)
 gabardine gaiters	gabardine smithereens
 gabardine garland	gabardine smithereens
 gabardine gunnysack	gabardine smithereens
@@ -552,7 +544,7 @@ gabardine garibaldi	gabardine smithereens
 gabardine girdle	gabardine smithereens
 gabardine gloves	gabardine smithereens
 
-# Fiberglass items
+# Fiberglass items (2018 Standard Hardcore)
 fiberglass fetish	fiberglass fibers
 fiberglass foil	fiberglass fibers
 fiberglass fannypack	fiberglass fibers
@@ -560,7 +552,7 @@ fiberglass frock	fiberglass fibers
 fiberglass fingerguard	fiberglass fibers
 fiberglass fedora	fiberglass fibers
 
-# Chalk items
+# Chalk items (2019 Standard Normal)
 chalk chapeau	chalk chunks
 chalk chalice	chalk chunks
 chalk chlamys	chalk chunks
@@ -568,7 +560,7 @@ chalk chinos	chalk chunks
 chalk chain	chalk chunks
 chalk choker	chalk chunks
 
-# Marble items
+# Marble items (2019 Standard Hardcore)
 marble maebari	marble molecules
 marble mantle	marble molecules
 marble magnet	marble molecules
@@ -576,7 +568,7 @@ marble mignonette bowl	marble molecules
 marble medallion	marble molecules
 marble mariachi hat	marble molecules
 
-# Paraffin items
+# Paraffin items (2020 Standard Normal)
 paraffin punching bag	paraffin pieces
 paraffin pith helmet	paraffin pieces
 paraffin poncho	paraffin pieces
@@ -584,13 +576,47 @@ paraffin pendant	paraffin pieces
 paraffin palazzos	paraffin pieces
 paraffin pseudoaccordion	paraffin pieces
 
-# Terra cotta items
+# Terra cotta items (2020 Standard Hardcore)
 terra cotta truss	terra cotta tidbits
 terra cotta trousers	terra cotta tidbits
 terra cotta tongs	terra cotta tidbits
 terra cotta train	terra cotta tidbits
 terra cotta tie tack	terra cotta tidbits
 terra cotta tambourine	terra cotta tidbits
+
+# Velour items (2021 Standard Normal)
+velour voulge	velour veneer
+velour vambraces	velour veneer
+velour veil	velour veneer
+velour viscometer	velour veneer
+velour valise	velour veneer
+velour vaqueros	velour veneer
+velour veneer	velour veneer
+
+# Stained Glass items (2021 Standard Hardcore)
+stained glass suspenders	stained glass shards
+stained glass shield	stained glass shards
+stained glass stetson	stained glass shards
+stained glass spectacles	stained glass shards
+stained glass shiv	stained glass shards
+stained glass serape	stained glass shards
+
+# Loofah items (2022 Standard Normal)
+loofah lumberjack's hat	loofah lumps
+loofah lei	loofah lumps
+loofah lederhosen	loofah lumps
+loofah ladle	loofah lumps
+loofah legwarmers	loofah lumps
+loofah lavalier	loofah lumps
+
+# Flagstone items (2022 Standard Hardcore)
+flagstone flag	flagstone flagments
+flagstone flail	flagstone flagments
+flagstone flip-flops	flagstone flagments
+flagstone fez	flagstone flagments
+flagstone fleece	flagstone flagments
+flagstone fringe	flagstone flagments
+flagstone flagments	flagstone flagments
 
 # Dice items
 dice ring	powdered dice

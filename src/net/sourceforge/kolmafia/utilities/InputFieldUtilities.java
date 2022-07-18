@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiFunction;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -22,13 +23,15 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
+import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
 public class InputFieldUtilities {
   private static GenericFrame activeWindow = null;
+
+  private InputFieldUtilities() {}
 
   public static void setActiveWindow(GenericFrame activeWindow) {
     InputFieldUtilities.activeWindow = activeWindow;
@@ -99,6 +102,15 @@ public class InputFieldUtilities {
 
   public static final <T> T input(
       final String message, final LockableListModel<T> inputs, final T initial) {
+
+    return input(message, inputs, null, initial);
+  }
+
+  public static final <T> T input(
+      final String message,
+      final LockableListModel<T> inputs,
+      BiFunction<Object, Boolean, String> toHTMLFunction,
+      final T initial) {
     if (StaticEntity.isHeadless()) {
       int initialIndex = 0;
       RequestLogger.printLine(message);
@@ -136,8 +148,12 @@ public class InputFieldUtilities {
 
     JList<T> selector = new JList<>(inputs);
 
+    if (toHTMLFunction != null) {
+      selector.setCellRenderer(ListCellRendererFactory.getDefaultRenderer(toHTMLFunction));
+    }
+
     JPanel panel = new JPanel(new BorderLayout());
-    panel.add(new AutoFilterTextField<>(selector, initial), BorderLayout.NORTH);
+    panel.add(new AutoFilterTextField<>(selector, initial, true), BorderLayout.NORTH);
     panel.add(new GenericScrollPane(selector), BorderLayout.CENTER);
 
     int option =
@@ -303,7 +319,7 @@ public class InputFieldUtilities {
     }
 
     if (maximumValue == 1 && maximumValue == defaultValue) {
-      return IntegerPool.get(1);
+      return 1;
     }
 
     String currentValue =
@@ -314,15 +330,15 @@ public class InputFieldUtilities {
     }
 
     if (currentValue.equals("*")) {
-      return IntegerPool.get(maximumValue);
+      return maximumValue;
     }
 
     int desiredValue = StringUtilities.parseIntInternal2(currentValue);
     if (desiredValue < 0) {
-      return IntegerPool.get(maximumValue - desiredValue);
+      return maximumValue - desiredValue;
     }
 
-    return IntegerPool.get(Math.min(desiredValue, maximumValue));
+    return Math.min(desiredValue, maximumValue);
   }
 
   public static boolean finalizeTable(final JTable table) {

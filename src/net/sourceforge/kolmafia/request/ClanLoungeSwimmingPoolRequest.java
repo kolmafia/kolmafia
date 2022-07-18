@@ -21,15 +21,15 @@ public class ClanLoungeSwimmingPoolRequest extends GenericRequest {
   private static final Pattern SWIMMING_POOL_PATTERN =
       Pattern.compile("var state =.*found a ([\\w-&; ]*)!\\\"");
 
+  public ClanLoungeSwimmingPoolRequest() {
+    this(GET_OUT);
+  }
+
   /**
    * Constructs a new <code>ClanLoungeRequest</code>.
    *
    * @param action The identifier for the action you're requesting
    */
-  public ClanLoungeSwimmingPoolRequest() {
-    this(GET_OUT);
-  }
-
   public ClanLoungeSwimmingPoolRequest(final int action) {
     super("choice.php");
     this.action = action;

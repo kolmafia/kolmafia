@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class MummeryRequest extends GenericRequest {
   public MummeryRequest(int choice) {
@@ -25,7 +26,7 @@ public class MummeryRequest extends GenericRequest {
 
   @Override
   public void run() {
-    if (!KoLConstants.inventory.contains(ItemPool.get(ItemPool.MUMMING_TRUNK, 1))) {
+    if (InventoryManager.getCount(ItemPool.MUMMING_TRUNK) == 0) {
       KoLmafia.updateDisplay("You need a mumming trunk first.");
       return;
     }

@@ -19,9 +19,9 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -803,7 +803,7 @@ public class SpelunkyRequest extends GenericRequest {
 
   public static void logShop(final String responseText, final int decision) {
     // We are choosing to buy from shop
-    Matcher matcher = ChoiceManager.DECISION_BUTTON_PATTERN.matcher(responseText);
+    Matcher matcher = ChoiceUtilities.DECISION_BUTTON_PATTERN.matcher(responseText);
     while (matcher.find()) {
       int choice = StringUtilities.parseInt(matcher.group(1));
       String choiceText = matcher.group(2);

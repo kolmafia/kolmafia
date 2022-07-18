@@ -1,92 +1,100 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.IOException;
 import java.io.PrintStream;
-import java.net.HttpURLConnection;
-import java.net.SocketTimeoutException;
-import java.net.URL;
-import java.util.ArrayList;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpConnectTimeoutException;
+import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
+import java.time.Duration;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MallPriceDatabase {
-  private static final PriceArray prices = new PriceArray();
-  private static final HashSet<String> updated = new HashSet<String>();
-  private static final HashSet<String> submitted = new HashSet<String>();
+  // If false, blocks saving of mall prices. Do not modify outside of tests.
+  public static boolean savePricesToFile = true;
+
+  private static final Map<Integer, Price> prices = new HashMap<>();
+  private static final HashSet<String> updated = new HashSet<>();
+  private static final HashSet<String> submitted = new HashSet<>();
   private static int modCount = 0;
 
   private static final int CONNECT_TIMEOUT = 15 * 1000;
 
   static {
-    updatePrices("mallprices.txt", false);
-    updatePrices("mallprices.txt", true);
+    updatePricesFromSource("mallprices.txt");
     MallPriceDatabase.modCount = 0;
   }
 
-  private static int updatePrices(String filename, boolean allowOverride) {
-    BufferedReader reader = FileUtilities.getReader(filename, allowOverride);
+  private MallPriceDatabase() {}
 
-    String line = FileUtilities.readLine(reader);
-    if (line == null) {
-      RequestLogger.printLine("(file not found)");
-      return 0;
-    }
-
-    if (StringUtilities.parseInt(line) != KoLConstants.MALLPRICES_VERSION) {
-      RequestLogger.printLine("(incompatible price file format)");
-      return 0;
-    }
-
-    String[] data;
+  private static int updatePricesFromSource(String filename) {
     int count = 0;
-    long now = System.currentTimeMillis() / 1000L;
+    try (BufferedReader reader = FileUtilities.getReader(filename)) {
 
-    while ((data = FileUtilities.readData(reader)) != null) {
-      if (data.length < 3) {
-        continue;
+      String line = FileUtilities.readLine(reader);
+      if (line == null) {
+        RequestLogger.printLine("(file not found)");
+        return 0;
       }
 
-      int id = StringUtilities.parseInt(data[0]);
-      long timestamp = Math.min(now, Long.parseLong(data[1]));
-      int price = StringUtilities.parseInt(data[2]);
-      if (id < 1
-          || id > ItemDatabase.maxItemId()
-          || price < 1
-          || price > 999999999
-          || timestamp <= 0) { // Something's fishy with this file...
-        continue;
+      if (StringUtilities.parseInt(line) != KoLConstants.MALLPRICES_VERSION) {
+        RequestLogger.printLine("(incompatible price file format)");
+        return 0;
       }
 
-      if (!ItemDatabase.isTradeable(id)) continue;
-      Price p = MallPriceDatabase.prices.get(id);
-      if (p == null) {
-        MallPriceDatabase.prices.set(id, new Price(price, timestamp));
-        ++count;
-        ++MallPriceDatabase.modCount;
-      } else if (timestamp > p.timestamp) {
-        p.price = price;
-        p.timestamp = timestamp;
-        ++count;
-        ++MallPriceDatabase.modCount;
-      }
-    }
+      String[] data;
+      long now = MallPriceManager.currentTimeMillis() / 1000L;
 
-    try {
-      reader.close();
-    } catch (Exception e) {
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 3) {
+          continue;
+        }
+
+        int id = StringUtilities.parseInt(data[0]);
+        long timestamp = Math.min(now, Long.parseLong(data[1]));
+        int price = StringUtilities.parseInt(data[2]);
+        if (id < 1
+            || id > ItemDatabase.maxItemId()
+            || price < 1
+            || price > 999999999
+            || timestamp <= 0) { // Something's fishy with this file...
+          continue;
+        }
+
+        if (!ItemDatabase.isTradeable(id)) continue;
+        Price p = MallPriceDatabase.prices.get(id);
+        if (p == null) {
+          MallPriceDatabase.prices.put(id, new Price(price, timestamp));
+          ++count;
+          ++MallPriceDatabase.modCount;
+        } else if (timestamp > p.timestamp) {
+          p.price = price;
+          p.timestamp = timestamp;
+          ++count;
+          ++MallPriceDatabase.modCount;
+        }
+      }
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
     return count;
@@ -105,7 +113,7 @@ public class MallPriceDatabase {
       }
       MallPriceDatabase.updated.add(filename);
     }
-    int count = MallPriceDatabase.updatePrices(filename, true);
+    int count = MallPriceDatabase.updatePricesFromSource(filename);
     if (count > 0) {
       MallPriceDatabase.writePrices();
       ConcoctionDatabase.refreshConcoctions();
@@ -131,15 +139,11 @@ public class MallPriceDatabase {
     }
   }
 
-  public static void recordPrice(int itemId, int price) {
-    MallPriceDatabase.recordPrice(itemId, price, false);
-  }
-
   public static void recordPrice(int itemId, int price, boolean deferred) {
-    long timestamp = System.currentTimeMillis() / 1000L;
+    long timestamp = MallPriceManager.currentTimeMillis() / 1000L;
     Price p = MallPriceDatabase.prices.get(itemId);
     if (p == null) {
-      MallPriceDatabase.prices.set(itemId, new Price(price, timestamp));
+      MallPriceDatabase.prices.put(itemId, new Price(price, timestamp));
     } else {
       p.price = price;
       p.timestamp = timestamp;
@@ -151,17 +155,28 @@ public class MallPriceDatabase {
   }
 
   public static void writePrices() {
-    File output = new File(KoLConstants.DATA_LOCATION, "mallprices.txt");
-    PrintStream writer = LogStream.openStream(output, true);
-    writer.println(KoLConstants.MALLPRICES_VERSION);
-
-    for (int i = 1; i < MallPriceDatabase.prices.size(); ++i) {
-      Price p = MallPriceDatabase.prices.get(i);
-      if (p == null) continue;
-      writer.println(i + "\t" + p.timestamp + "\t" + p.price);
+    if (!MallPriceDatabase.savePricesToFile) {
+      return;
     }
 
-    writer.close();
+    File output = new File(KoLConstants.DATA_LOCATION, "mallprices.txt");
+    try (PrintStream writer = LogStream.openStream(output, true)) {
+      writePrices(writer);
+    }
+  }
+
+  static void writePrices(PrintStream writer) {
+    writer.println(KoLConstants.MALLPRICES_VERSION);
+
+    MallPriceDatabase.prices.entrySet().stream()
+        .sorted(Map.Entry.comparingByKey())
+        .forEach(
+            entry -> {
+              Price p = entry.getValue();
+              if (p != null) {
+                writer.println(entry.getKey() + "\t" + p.timestamp + "\t" + p.price);
+              }
+            });
   }
 
   public static void submitPrices(String url) {
@@ -179,51 +194,60 @@ public class MallPriceDatabase {
       return;
     }
 
+    URI uri;
     try {
+      uri = new URI(url);
+    } catch (URISyntaxException e) {
+      RequestLogger.printLine("Failed to parse " + url + ": " + e);
+      return;
+    }
 
-      HttpURLConnection con = HttpUtilities.openConnection(new URL(url));
-      con.setConnectTimeout(CONNECT_TIMEOUT);
-      con.setDoInput(true);
-      con.setDoOutput(true);
-      con.setRequestProperty("Content-Type", "multipart/form-data; boundary=--blahblahfishcakes");
-      con.setRequestMethod("POST");
-      con.setRequestProperty("Connection", "close");
-      OutputStream o = con.getOutputStream();
-      BufferedWriter w = new BufferedWriter(new OutputStreamWriter(o));
-      w.write("----blahblahfishcakes\r\n");
-      w.write(
-          "Content-Disposition: form-data; name=\"upload\"; filename=\"mallprices.txt\"\r\n\r\n");
+    HttpClient client =
+        HttpUtilities.getClientBuilder().connectTimeout(Duration.ofMillis(CONNECT_TIMEOUT)).build();
+    HttpRequest req =
+        HttpRequest.newBuilder(uri)
+            .header("User-Agent", GenericRequest.getUserAgent())
+            .header("Content-Type", "multipart/form-data; boundary=--blahblahfishcakes")
+            .POST(BodyPublishers.ofString(getPostData()))
+            .build();
 
-      BufferedReader reader = FileUtilities.getReader("mallprices.txt");
-      String line;
-      while ((line = FileUtilities.readLine(reader)) != null) {
-        w.write(line);
-        w.write('\n');
-      }
-      w.write("\r\n----blahblahfishcakes--\r\n");
-      w.flush();
-      o.close();
-
-      InputStream i = con.getInputStream();
-      int responseCode = con.getResponseCode();
-      String response = "";
-      if (i != null) {
-        response = new BufferedReader(new InputStreamReader(i)).readLine();
-        i.close();
-      }
-      if (responseCode == 200) {
-        RequestLogger.printLine("Success: " + response);
-        MallPriceDatabase.submitted.add(url);
-      } else {
-        RequestLogger.printLine("Error " + responseCode + ": " + response);
-      }
-    } catch (SocketTimeoutException e) {
+    HttpResponse<Stream<String>> res;
+    try {
+      res = client.send(req, BodyHandlers.ofLines());
+    } catch (HttpConnectTimeoutException e) {
       RequestLogger.printLine("Connection timed out: " + e);
       return;
     } catch (Exception e) {
       RequestLogger.printLine("Submission failed: " + e);
       return;
     }
+
+    int code = res.statusCode();
+    if (code == 200) {
+      RequestLogger.printLine("Success: " + res.body().findFirst().orElse(""));
+      MallPriceDatabase.submitted.add(url);
+    } else {
+      RequestLogger.printLine("Error " + code + ": " + res.body().collect(Collectors.joining()));
+    }
+  }
+
+  private static String getPostData() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("----blahblahfishcakes\r\n");
+    builder.append(
+        "Content-Disposition: form-data; name=\"upload\"; filename=\"mallprices.txt\"\r\n\r\n");
+
+    try (BufferedReader reader = FileUtilities.getReader("mallprices.txt")) {
+      String line;
+      while ((line = FileUtilities.readLine(reader)) != null) {
+        builder.append(line);
+        builder.append('\n');
+      }
+    } catch (IOException e) {
+      StaticEntity.printStackTrace(e);
+    }
+    builder.append("\r\n----blahblahfishcakes--\r\n");
+    return builder.toString();
   }
 
   public static int getPrice(int itemId) {
@@ -234,7 +258,7 @@ public class MallPriceDatabase {
   // Return age of price data, in fractional days
   public static float getAge(int itemId) {
     Price p = MallPriceDatabase.prices.get(itemId);
-    long now = System.currentTimeMillis() / 1000L;
+    long now = MallPriceManager.currentTimeMillis() / 1000L;
     return p == null ? Float.POSITIVE_INFINITY : (now - p.timestamp) / 86400.0f;
   }
 
@@ -245,31 +269,6 @@ public class MallPriceDatabase {
     public Price(int price, long timestamp) {
       this.price = price;
       this.timestamp = timestamp;
-    }
-  }
-
-  /**
-   * Internal class which functions exactly an array of Prices, except it uses "sets" and "gets"
-   * like a list. This could be done with generics (Java 1.5) but is done like this so that we get
-   * backwards compatibility.
-   */
-  public static class PriceArray {
-    private final ArrayList<Price> internalList = new ArrayList<>();
-
-    public Price get(final int index) {
-      return index < 0 || index >= this.internalList.size() ? null : this.internalList.get(index);
-    }
-
-    public void set(final int index, final Price value) {
-      for (int i = this.internalList.size(); i <= index; ++i) {
-        this.internalList.add(null);
-      }
-
-      this.internalList.set(index, value);
-    }
-
-    public int size() {
-      return this.internalList.size();
     }
   }
 }

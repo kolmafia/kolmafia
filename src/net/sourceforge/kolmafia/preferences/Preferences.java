@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,7 +26,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.moods.MoodManager;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.session.MonorailManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -38,7 +38,8 @@ public class Preferences {
 
   private static final Object lock = new Object(); // used to synch io
 
-  private static final byte[] LINE_BREAK_AS_BYTES = KoLConstants.LINE_BREAK.getBytes();
+  private static final byte[] LINE_BREAK_AS_BYTES =
+      KoLConstants.LINE_BREAK.getBytes(StandardCharsets.UTF_8);
 
   private static final String[] characterMap = new String[65536];
 
@@ -161,6 +162,7 @@ public class Preferences {
         "charitableDonations",
         "cinderellaMinutesToMidnight",
         "cinderellaScore",
+        "clumsinessGroveBoss",
         "commerceGhostItem",
         "copperheadClubHazard",
         "cornucopiasOpened",
@@ -242,10 +244,13 @@ public class Preferences {
         "gingerMuscleChoice",
         "gingerNegativesDropped",
         "gingerSubwayLineUnlocked",
+        "glacierOfJerksBoss",
         "gladiatorBallMovesKnown",
         "gladiatorBladeMovesKnown",
         "gladiatorNetMovesKnown",
         "gnasirProgress",
+        "gooseDronesRemaining",
+        "gooseReprocessed",
         "grimstoneCharge",
         "grimstoneMaskPath",
         "guardTurtlesFreed",
@@ -268,6 +273,7 @@ public class Preferences {
         "itemBoughtPerAscension10795",
         "itemBoughtPerAscension637",
         "itemBoughtPerAscension8266",
+        "juneCleaverQueue",
         "jungCharge",
         "lassoTraining",
         "lastAnticheeseDay",
@@ -279,8 +285,10 @@ public class Preferences {
         "latteModifier",
         "latteUnlocks",
         "leafletCompleted",
+        "locketPhylum",
         "lockPicked",
         "louvreLayout",
+        "maelstromOfLoversBoss",
         "mappingMonsters",
         "mapToAnemoneMinePurchased",
         "mapToMadnessReefPurchased",
@@ -301,9 +309,13 @@ public class Preferences {
         "mushroomGardenCropLevel",
         "nextParanormalActivity",
         "nextQuantumFamiliar",
+        "nextQuantumFamiliarName",
+        "nextQuantumFamiliarOwner",
+        "nextQuantumFamiliarOwnerId",
         "nextQuantumFamiliarTurn",
         "nextSpookyravenElizabethRoom",
         "nextSpookyravenStephenRoom",
+        "noobDeferredPoints",
         "nosyNoseMonster",
         "optimisticCandleProgress",
         "parasolUsed",
@@ -374,6 +386,7 @@ public class Preferences {
         "sugarCounter4183",
         "sugarCounter4191",
         "superficiallyInterestedMonster",
+        "sweat",
         "telescope1",
         "telescope2",
         "telescope3",
@@ -419,6 +432,8 @@ public class Preferences {
     // Read GLOBAL_prefs.txt into globalNames and globalValues
     Preferences.loadGlobalPreferences();
   }
+
+  private Preferences() {}
 
   private static void initializeMaps() {
     // There are three specific per-user settings that appear in
@@ -874,7 +889,7 @@ public class Preferences {
     }
 
     if (!(value instanceof Integer)) {
-      value = IntegerPool.get(StringUtilities.parseInt(value.toString()));
+      value = StringUtilities.parseInt(value.toString());
       map.put(name, value);
     }
 
@@ -973,7 +988,7 @@ public class Preferences {
   public static void setInteger(final String user, final String name, final int value) {
     int old = Preferences.getInteger(user, name);
     if (old != value) {
-      Preferences.setObject(user, name, String.valueOf(value), IntegerPool.get(value));
+      Preferences.setObject(user, name, String.valueOf(value), value);
     }
   }
 
@@ -1064,7 +1079,7 @@ public class Preferences {
         for (Entry<String, Object> current : data.entrySet()) {
           ostream.write(
               Preferences.encodeProperty(current.getKey(), current.getValue().toString())
-                  .getBytes());
+                  .getBytes(StandardCharsets.UTF_8));
           ostream.write(LINE_BREAK_AS_BYTES);
         }
       } catch (IOException e) {
@@ -1100,14 +1115,6 @@ public class Preferences {
   }
 
   public static void resetPerAscension() {
-    // Most prefs that get reset on ascension just return to their default value
-    for (String pref : resetOnAscension) {
-      resetToDefault(pref);
-    }
-
-    // Some need special treatment
-    MonorailManager.resetMuffinOrder();
-
     // Deferred ascension rewards
     Preferences.setInteger(
         "yearbookCameraUpgrades", Preferences.getInteger("yearbookCameraAscensions"));
@@ -1118,6 +1125,14 @@ public class Preferences {
     Preferences.increment(
         "awolPointsSnakeoiler", Preferences.getInteger("awolDeferredPointsSnakeoiler"));
     Preferences.increment("noobPoints", Preferences.getInteger("noobDeferredPoints"));
+
+    // Most prefs that get reset on ascension just return to their default value
+    for (String pref : resetOnAscension) {
+      resetToDefault(pref);
+    }
+
+    // Some need special treatment
+    MonorailManager.resetMuffinOrder();
   }
 
   public static void resetDailies() {

@@ -29,6 +29,8 @@ public class GoalManager {
   private static final LockableListModel<AdventureResult> goals =
       new LockableListModel<AdventureResult>();
 
+  private GoalManager() {}
+
   public static final LockableListModel<AdventureResult> getGoals() {
     return GoalManager.goals;
   }

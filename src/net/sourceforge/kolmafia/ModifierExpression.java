@@ -94,6 +94,15 @@ public class ModifierExpression extends Expression {
     if (this.optional("mox")) {
       return "\u0082";
     }
+    if (this.optional("basemus")) {
+      return "\u0097";
+    }
+    if (this.optional("basemys")) {
+      return "\u0098";
+    }
+    if (this.optional("basemox")) {
+      return "\u0099";
+    }
 
     return null;
   }

@@ -15,6 +15,11 @@ public class ListenerRegistry {
   // A registry of listeners:
   private final HashMap<Object, ArrayList<WeakReference<Listener>>> listenerMap = new HashMap<>();
 
+  // For testing
+  protected void clear() {
+    this.listenerMap.clear();
+  }
+
   // Logging. For now, this applies to all types of listeners
   private static boolean logging = false;
 
@@ -69,18 +74,29 @@ public class ListenerRegistry {
     ArrayList<WeakReference<Listener>> listenerList = null;
 
     synchronized (this.listenerMap) {
-      listenerList = this.listenerMap.get(key);
-
-      if (listenerList == null) {
-        listenerList = new ArrayList<>();
-        this.listenerMap.put(key, listenerList);
-      }
+      listenerList = this.listenerMap.computeIfAbsent(key, k -> new ArrayList<>());
     }
 
     WeakReference<Listener> reference = new WeakReference<>(listener);
 
     synchronized (listenerList) {
       listenerList.add(reference);
+    }
+  }
+
+  public final void unregisterListener(final Object key, final Listener listener) {
+    ArrayList<WeakReference<Listener>> listenerList;
+
+    synchronized (this.listenerMap) {
+      listenerList = this.listenerMap.get(key);
+    }
+
+    if (listenerList == null) {
+      return;
+    }
+
+    synchronized (listenerList) {
+      listenerList.removeIf(ref -> listener.equals(ref.get()));
     }
   }
 

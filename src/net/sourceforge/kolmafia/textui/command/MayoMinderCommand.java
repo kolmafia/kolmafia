@@ -5,7 +5,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
@@ -24,21 +23,21 @@ public class MayoMinderCommand extends AbstractCommand {
   public static final int MAYOSTAT = 3;
   public static final int MAYOZAPINE = 4;
 
-  public static final Object[][] MAYO =
-      new Object[][] {
-        {"mayodiol", "drunk", IntegerPool.get(MAYODIOL)},
-        {"mayoflex", "adv", IntegerPool.get(MAYOFLEX)},
-        {"mayonex", "bmc", IntegerPool.get(MAYONEX)},
-        {"mayostat", "food", IntegerPool.get(MAYOSTAT)},
-        {"mayozapine", "stat", IntegerPool.get(MAYOZAPINE)},
+  private record Mayo(String name, String alias, int choice) {}
+
+  public static final Mayo[] MAYO =
+      new Mayo[] {
+        new Mayo("mayodiol", "drunk", MAYODIOL),
+        new Mayo("mayoflex", "adv", MAYOFLEX),
+        new Mayo("mayonex", "bmc", MAYONEX),
+        new Mayo("mayostat", "food", MAYOSTAT),
+        new Mayo("mayozapine", "stat", MAYOZAPINE),
       };
 
   public static final int findMayo(final String name) {
-    for (int i = 0; i < MAYO.length; ++i) {
-      if (name.equalsIgnoreCase((String) MAYO[i][0])
-          || name.equalsIgnoreCase((String) MAYO[i][1])) {
-        Integer index = (Integer) MAYO[i][2];
-        return index.intValue();
+    for (Mayo mayo : MAYO) {
+      if (name.equalsIgnoreCase(mayo.name) || name.equalsIgnoreCase(mayo.alias)) {
+        return mayo.choice;
       }
     }
 

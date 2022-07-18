@@ -32,6 +32,7 @@ public class KOLHSRequest extends CreateItemRequest {
   }
 
   private static String shopIDToClassName(final String shopID) {
+    if (shopID == null) return null;
     switch (shopID) {
       case "kolhs_chem":
         return "Chemistry Class";
@@ -59,16 +60,9 @@ public class KOLHSRequest extends CreateItemRequest {
       return;
     }
 
-    if (true) {
-      String shopID = NPCPurchaseRequest.getShopId(this.getURLString());
-      String className = KOLHSRequest.shopIDToClassName(shopID);
-      KoLmafia.updateDisplay("Visit the " + className + " after school to make that.");
-      return;
-    }
-
-    KoLmafia.updateDisplay("Creating " + this.getQuantityNeeded() + " " + this.getName() + "...");
-    this.addFormField("quantity", String.valueOf(this.getQuantityNeeded()));
-    super.run();
+    String shopID = NPCPurchaseRequest.getShopId(this.getURLString());
+    String className = KOLHSRequest.shopIDToClassName(shopID);
+    KoLmafia.updateDisplay("Visit the " + className + " after school to make that.");
   }
 
   @Override

@@ -42,7 +42,6 @@ import net.sourceforge.kolmafia.listener.CharacterListener;
 import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -614,7 +613,6 @@ public class FamiliarTrainingFrame extends GenericFrame {
    *
    * @param goal Weight goal for the familiar
    * @param type BASE, BUFF, or TURNS
-   * @param buffs true if should cast buffs during training
    * @param debug true if we are debugging
    */
   public static final boolean levelFamiliar(final int goal, final int type, final boolean debug) {
@@ -1766,16 +1764,16 @@ public class FamiliarTrainingFrame extends GenericFrame {
     private void getHatWeights(final int weight) {
       // Add weight with helmet
       if (this.pithHelmet) {
-        this.weights.add(IntegerPool.get(Math.max(weight + 5, 1)));
+        this.weights.add(Math.max(weight + 5, 1));
       }
 
       // Add weight with fedora
       if (this.crumpledFedora) {
-        this.weights.add(IntegerPool.get(Math.max(weight + 10, 1)));
+        this.weights.add(Math.max(weight + 10, 1));
       }
 
       // Add weight with no helmet
-      this.weights.add(IntegerPool.get(Math.max(weight, 1)));
+      this.weights.add(Math.max(weight, 1));
     }
 
     /** *********************************************************** */

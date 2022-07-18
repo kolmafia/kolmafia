@@ -43,6 +43,8 @@ public class PvpManager {
 
   public static boolean noFight = false;
 
+  private PvpManager() {}
+
   public static final boolean checkStances() {
     if (!PvpManager.stancesKnown) {
       PeeVPeeRequest request = new PeeVPeeRequest("fight");

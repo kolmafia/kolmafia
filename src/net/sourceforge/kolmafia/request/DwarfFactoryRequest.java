@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.request;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -15,7 +14,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -1094,7 +1092,7 @@ public class DwarfFactoryRequest extends GenericRequest {
 
     private void mapCharacter(final char c, final int i) {
       Character code = Character.valueOf(Character.toUpperCase(c));
-      Integer val = IntegerPool.get(i);
+      Integer val = i;
       this.mapCharacter(code, val);
     }
 
@@ -1114,7 +1112,7 @@ public class DwarfFactoryRequest extends GenericRequest {
     public String digitString() {
       StringBuffer valueBuilder = new StringBuffer();
       for (int i = 0; i < 7; ++i) {
-        Character code = this.charMap.get(IntegerPool.get(i));
+        Character code = this.charMap.get(i);
         valueBuilder.append(code == null ? '-' : code.charValue());
       }
       return valueBuilder.toString();
@@ -1382,7 +1380,7 @@ public class DwarfFactoryRequest extends GenericRequest {
       // If we know the character that goes in this position,
       // generate only the permutations that have that
       // character in that position.
-      Character val = this.charMap.get(IntegerPool.get(index));
+      Character val = this.charMap.get(index);
       if (val != null) {
         this.generatePermutations(prefix + val.charValue());
         return;
@@ -1424,13 +1422,8 @@ public class DwarfFactoryRequest extends GenericRequest {
       int low = roll.charAt(7) - '0';
       int val = (high * 7) + low;
 
-      Iterator<String> it = this.permutations.iterator();
-      while (it.hasNext()) {
-        String permutation = it.next();
-        if (!this.validPermutation(permutation, d1, d2, d3, d4, val)) {
-          it.remove();
-        }
-      }
+      this.permutations.removeIf(
+          permutation -> !this.validPermutation(permutation, d1, d2, d3, d4, val));
     }
 
     private boolean validPermutation(
@@ -1880,7 +1873,7 @@ public class DwarfFactoryRequest extends GenericRequest {
         String value = Preferences.getString(setting);
         if (value.length() == 1) {
           Character rune = Character.valueOf(value.charAt(0));
-          Integer id = IntegerPool.get(itemId);
+          Integer id = itemId;
           this.itemMap.put(rune, id);
           this.runeMap.put(id, rune);
         }
@@ -1990,7 +1983,7 @@ public class DwarfFactoryRequest extends GenericRequest {
     }
 
     private char findRune(final int itemId) {
-      Character val = this.runeMap.get(IntegerPool.get(itemId));
+      Character val = this.runeMap.get(itemId);
       return val == null ? 0 : val.charValue();
     }
 

@@ -25,6 +25,8 @@ public final class ColorFactory {
     }
   }
 
+  private ColorFactory() {}
+
   public static String getItemColor(AdventureResult ar) {
     String color = null;
 

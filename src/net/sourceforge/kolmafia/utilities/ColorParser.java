@@ -10,6 +10,8 @@ public class ColorParser {
 
   private static final Pattern rgbPattern = Pattern.compile("#([0-9a-h]{6})");
 
+  private ColorParser() {}
+
   /**
    * @param color a 6-digit #hex code or a HTML color name
    * @return a RGB color code (r << 16 & g << 8 & b) or -1 if no color can be parsed

@@ -31,6 +31,8 @@ import net.sourceforge.kolmafia.textui.command.EudoraCommand.Correspondent;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ValhallaDecorator {
+  private ValhallaDecorator() {}
+
   public static final void decorateGashJump(final String location, final StringBuffer buffer) {
     // ascend.php
     // ascend.php?alttext=communityservice
@@ -623,7 +625,7 @@ public class ValhallaDecorator {
   private static void checkIceHouse(StringBuffer buffer) {
     StringBuilder iceHouseBuffer = new StringBuilder();
 
-    String monster = BanishManager.getIceHouseMonster();
+    String monster = BanishManager.getBanishedMonster(BanishManager.Banisher.ICE_HOUSE);
 
     iceHouseBuffer.append(
         "<nobr>Ice House: <a href=\"museum.php?action=icehouse\" title=\"Check ice house monster\">");

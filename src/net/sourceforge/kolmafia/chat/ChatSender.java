@@ -31,6 +31,8 @@ public class ChatSender {
     ChatSender.CHANNEL_COMMANDS.add("/ann");
   }
 
+  private ChatSender() {}
+
   public static final void executeMacro(String macro) {
     if (!ChatSender.scriptedMessagesEnabled || !ChatManager.chatLiterate()) {
       return;

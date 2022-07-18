@@ -1,16 +1,14 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.html;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class AscensionHistoryRequestTest extends RequestTestBase {
+public class AscensionHistoryRequestTest {
 
   @BeforeAll
   protected static void init() {
@@ -24,8 +22,8 @@ public class AscensionHistoryRequestTest extends RequestTestBase {
   }
 
   @Test
-  public void parseAscensionHistory() throws IOException {
-    String html = Files.readString(Paths.get("request/test_ascensionhistory.html"));
+  public void parseAscensionHistory() {
+    String html = html("request/test_ascensionhistory.html");
 
     AscensionHistoryRequest.parseResponse("ascensionhistory.php?who=177122", html);
 

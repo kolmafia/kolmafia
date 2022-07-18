@@ -1,7 +1,5 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Calendar;
-import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -18,6 +16,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -469,8 +468,7 @@ public class EatItemRequest extends UseItemRequest {
     }
 
     // See if the character can cast Song of the Glorious Lunch
-    UseSkillRequest lunch = UseSkillRequest.getInstance("Song of the Glorious Lunch");
-    boolean canLunch = KoLCharacter.inAxecore() && KoLConstants.availableSkills.contains(lunch);
+    boolean canLunch = KoLCharacter.inAxecore() && KoLCharacter.hasSkill(SkillPool.GLORIOUS_LUNCH);
 
     // See if the character has (or can buy) a milk of magnesium.
     boolean canMilk = InventoryManager.itemAvailable(ItemPool.MILK_OF_MAGNESIUM);
@@ -550,9 +548,8 @@ public class EatItemRequest extends UseItemRequest {
     }
 
     // If you've got Garish, or it's Monday, no need to ask
-    Calendar date = Calendar.getInstance(TimeZone.getTimeZone("GMT-0700"));
     if (KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.GARISH))
-        || date.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
+        || HolidayDatabase.isMonday()) {
       return true;
     }
 

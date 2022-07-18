@@ -28,6 +28,8 @@ public class EventManager {
   private static final SimpleDateFormat EVENT_TIMESTAMP =
       new SimpleDateFormat("MM/dd/yy hh:mm a", Locale.US);
 
+  private EventManager() {}
+
   public static Matcher eventMatcher(final String responseText) {
     Matcher matcher = EventManager.EVENT_PATTERN1.matcher(responseText);
     if (matcher.find()) {

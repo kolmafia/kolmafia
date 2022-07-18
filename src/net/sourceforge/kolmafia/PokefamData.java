@@ -25,7 +25,7 @@ public class PokefamData implements Comparable<PokefamData> {
   public static final String PUNCH = "Punch";
   public static final String STING = "Sting";
 
-  private static final Map<String, String> MOVE1 = new HashMap<String, String>();
+  private static final Map<String, String> MOVE1 = new HashMap<>();
 
   static {
     MOVE1.put(UNKNOWN, UNKNOWN);
@@ -56,7 +56,7 @@ public class PokefamData implements Comparable<PokefamData> {
   public static final String SWOOP = "Swoop";
   public static final String TACKLE = "Tackle";
 
-  private static final Map<String, String> MOVE2 = new HashMap<String, String>();
+  private static final Map<String, String> MOVE2 = new HashMap<>();
 
   static {
     MOVE2.put(UNKNOWN, UNKNOWN);
@@ -97,7 +97,7 @@ public class PokefamData implements Comparable<PokefamData> {
   public static final String VIOLENT_SHRED = "Violent Shred";
   public static final String VULGAR_DISPLAY = "Vulgar Display";
 
-  private static final Map<String, String> MOVE3 = new HashMap<String, String>();
+  private static final Map<String, String> MOVE3 = new HashMap<>();
 
   static {
     MOVE3.put(UNKNOWN, UNKNOWN);
@@ -125,7 +125,7 @@ public class PokefamData implements Comparable<PokefamData> {
   public static final String SMART = "Smart";
   public static final String SPIKED = "Spiked";
 
-  private static final Map<String, String> ATTRIBUTES = new HashMap<String, String>();
+  private static final Map<String, String> ATTRIBUTES = new HashMap<>();
 
   static {
     ATTRIBUTES.put(UNKNOWN, UNKNOWN);

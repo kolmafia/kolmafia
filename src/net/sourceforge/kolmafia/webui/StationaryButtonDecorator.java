@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -27,6 +26,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class StationaryButtonDecorator {
   private static final ArrayList<String> combatHotkeys = new ArrayList<String>();
+
+  private StationaryButtonDecorator() {}
 
   private static boolean builtInSkill(final String skillId) {
     if (!StringUtilities.isNumeric(skillId)) {
@@ -351,7 +352,7 @@ public class StationaryButtonDecorator {
     boolean useHotKeys = !Preferences.getBoolean("macroLens");
 
     if (inCombat) {
-      StationaryButtonDecorator.addCombatButtons(urlString, actionBuffer);
+      StationaryButtonDecorator.addCombatButtons(urlString, buffer, actionBuffer);
     } else if (inChoice) {
       StationaryButtonDecorator.addChoiceButtons(actionBuffer);
     } else {
@@ -418,13 +419,12 @@ public class StationaryButtonDecorator {
   }
 
   public static final void addCombatButtons(
-      final String urlString, final StringBuffer actionBuffer) {
+      final String urlString, final StringBuffer buffer, final StringBuffer actionBuffer) {
     // If we fighting a source agent, create buttons for exactly
     // those skills which are usable against them.
     if (KoLCharacter.inTheSource() && FightRequest.isSourceAgent()) {
       StationaryButtonDecorator.addScriptButton(urlString, actionBuffer, true);
-      for (UseSkillRequest skill : KoLConstants.availableCombatSkills) {
-        int skillId = skill.getSkillId();
+      for (int skillId : KoLConstants.availableCombatSkillsList) {
         if (SkillDatabase.sourceAgentSkill(skillId)) {
           StationaryButtonDecorator.addFightButton(actionBuffer, String.valueOf(skillId), true);
         }
@@ -473,6 +473,10 @@ public class StationaryButtonDecorator {
       StationaryButtonDecorator.addFightButton(actionBuffer, "steal", FightRequest.canStillSteal());
     }
 
+    if (KoLCharacter.isAccordionThief() && buffer.indexOf("Steal Accordion") != -1) {
+      StationaryButtonDecorator.addFightButton(actionBuffer, "steal accordion", true);
+    }
+
     if (EquipmentManager.usingChefstaff()) {
       boolean enabled = FightRequest.getCurrentRound() > 0;
       StationaryButtonDecorator.addFightButton(actionBuffer, "jiggle", enabled);
@@ -496,11 +500,9 @@ public class StationaryButtonDecorator {
     }
 
     int classStunId = SkillDatabase.getSkillId(classStun);
-    if (!inBirdForm && KoLCharacter.hasSkill(classStun)) {
-      UseSkillRequest stunRequest = UseSkillRequest.getUnmodifiedInstance(classStun);
+    if (!inBirdForm && KoLCharacter.hasSkill(classStunId)) {
       boolean enabled =
-          FightRequest.getCurrentRound() > 0
-              && KoLConstants.availableCombatSkills.contains(stunRequest);
+          FightRequest.getCurrentRound() > 0 && KoLCharacter.hasCombatSkill(classStunId);
       // Only enable Club Foot when character has Fury, as it's only a stun then.
       enabled &= !(classStun.equals("Club Foot") && KoLCharacter.getFury() == 0);
       // Only enable Soul Bubble when character has 5 Soulsauce, as it's only a stun then.
@@ -582,16 +584,13 @@ public class StationaryButtonDecorator {
           actionBuffer, action, FightRequest.getCurrentRound() > 0);
     }
 
-    // Add conditionally available combat skills
-    // parsed from the fight page
+    // Add conditionally available combat skills parsed from the fight page
+    // They are in the order that KoL had them in the dropdown.
 
-    for (int i = 0; i < KoLConstants.availableCombatSkills.size(); ++i) {
-      UseSkillRequest current = KoLConstants.availableCombatSkills.get(i);
-      int actionId = current.getSkillId();
+    for (int actionId : KoLConstants.availableCombatSkillsList) {
       if (actionId >= 7000 && actionId < 8000 && actionId != classStunId && actionId != 7201) {
-        String action = String.valueOf(actionId);
         StationaryButtonDecorator.addFightButton(
-            actionBuffer, action, FightRequest.getCurrentRound() > 0);
+            actionBuffer, String.valueOf(actionId), FightRequest.getCurrentRound() > 0);
       }
     }
 
@@ -680,22 +679,21 @@ public class StationaryButtonDecorator {
 
     if (action.equals("attack") || action.equals("steal")) {
       actionBuffer.append(action);
+    } else if (action.equals("steal accordion")) {
+      actionBuffer.append("skill&whichskill=").append(SkillPool.STEAL_ACCORDION);
     } else if (action.equals("jiggle")) {
       actionBuffer.append("chefstaff");
       isEnabled &= !FightRequest.alreadyJiggled();
     } else if (action.equals("shake")) {
-      actionBuffer.append("skill&whichskill=");
-      actionBuffer.append(SkillPool.CANHANDLE);
+      actionBuffer.append("skill&whichskill=").append(SkillPool.CANHANDLE);
     } else if (action.equals("shoot")) {
-      actionBuffer.append("skill&whichskill=");
-      actionBuffer.append(SkillPool.SHOOT);
+      actionBuffer.append("skill&whichskill=").append(SkillPool.SHOOT);
     } else if (action.equals("insult")) {
       int itemId =
           KoLCharacter.inBeecore() ? ItemPool.MARAUDER_MOCKERY_MANUAL : ItemPool.PIRATE_INSULT_BOOK;
 
-      if (KoLConstants.inventory.contains(ItemPool.get(itemId, 1))) {
-        actionBuffer.append("useitem&whichitem=");
-        actionBuffer.append(itemId);
+      if (InventoryManager.getCount(itemId) > 0) {
+        actionBuffer.append("useitem&whichitem=").append(itemId);
       } else {
         isEnabled = false;
       }
@@ -704,12 +702,10 @@ public class StationaryButtonDecorator {
     } else if (action.equals("rock flyer")) {
       actionBuffer.append("useitem&whichitem=2405");
     } else {
-      actionBuffer.append("skill&whichskill=");
-      actionBuffer.append(action);
+      actionBuffer.append("skill&whichskill=").append(action);
       int skillID = StringUtilities.parseInt(action);
-      UseSkillRequest actionRequest = UseSkillRequest.getUnmodifiedInstance(skillID);
-      isEnabled &= KoLConstants.availableCombatSkills.contains(actionRequest);
-      // Some skills cannot be used by KOL does not remove them
+      isEnabled &= KoLCharacter.hasCombatSkill(skillID);
+      // Some skills cannot be used but KoL does not remove them
       switch (skillID) {
         case SkillPool.LASH_OF_COBRA:
           isEnabled = !Preferences.getBoolean("edUsedLash");
@@ -827,6 +823,7 @@ public class StationaryButtonDecorator {
     }
 
     if (action.equals("steal")
+        || action.equals("steal accordion")
         || action.equals("jiggle")
         || action.equals("shake")
         || action.equals("shoot")

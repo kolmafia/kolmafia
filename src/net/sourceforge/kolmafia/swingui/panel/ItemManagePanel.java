@@ -801,8 +801,11 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
 
     @Override
     public boolean isVisible(final Object element) {
-      if (element instanceof AdventureResult && ((AdventureResult) element).getCount() < 0) {
-        // return false;
+      if (element instanceof AdventureResult) {
+        AdventureResult ar = (AdventureResult) element;
+        if (ar.getCount() < 0) {
+          // return false
+        }
       }
 
       String name = AutoFilterTextField.getResultName(element);

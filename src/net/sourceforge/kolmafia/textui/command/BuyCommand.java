@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import java.util.ArrayList;
+import java.util.List;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -8,7 +8,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
-import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BuyCommand extends AbstractCommand {
@@ -66,23 +66,23 @@ public class BuyCommand extends AbstractCommand {
 
       int priceLimit = pieces.length < 2 ? 0 : StringUtilities.parseInt(pieces[1]);
 
-      ArrayList<PurchaseRequest> results =
+      List<PurchaseRequest> results =
           // Cheapest from Mall or NPC stores
           (interact && !mall)
-              ? StoreManager.searchMall(match)
+              ? MallPriceManager.searchMall(match)
               :
               // Mall stores only
               (storage || mall)
-                  ? StoreManager.searchOnlyMall(match)
+                  ? MallPriceManager.searchOnlyMall(match)
                   :
                   // NPC stores only
-                  StoreManager.searchNPCs(match);
+                  MallPriceManager.searchNPCs(match);
 
       KoLmafia.makePurchases(
           results, results.toArray(new PurchaseRequest[0]), match.getCount(), false, priceLimit);
 
       if (interact && !storage) {
-        StoreManager.updateMallPrice(match, results);
+        MallPriceManager.updateMallPrice(match, results);
       }
     }
   }

@@ -97,12 +97,8 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
     }
 
     if (type.equals("lose_effect") && effect != null) {
-      Set<String> existingActions = MoodTrigger.knownSources.get(effect.getName());
-
-      if (existingActions == null) {
-        existingActions = new LinkedHashSet<String>();
-        MoodTrigger.knownSources.put(effect.getName(), existingActions);
-      }
+      Set<String> existingActions =
+          MoodTrigger.knownSources.computeIfAbsent(effect.getName(), k -> new LinkedHashSet<>());
 
       existingActions.add(this.action);
 

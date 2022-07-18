@@ -38,6 +38,8 @@ public class Macrofier {
   private static final Pattern ALLCALLS_PATTERN = Pattern.compile("call (\\w+)");
   private static final Pattern ALLSUBS_PATTERN = Pattern.compile("sub (\\w+)([\\s;\\n]+endsub)?");
 
+  private Macrofier() {}
+
   public static void resetMacroOverride() {
     Macrofier.macroOverride = null;
     Macrofier.macroInterpreter = null;
@@ -414,7 +416,7 @@ public class Macrofier {
         // your skills.
 
         if ((KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled())
-            || !KoLCharacter.availableCombatSkill(SkillPool.OLFACTION)) { // ignore
+            || !KoLCharacter.hasCombatSkill(SkillPool.OLFACTION)) { // ignore
         } else {
           Macrofier.macroSkill(macro, skillId);
         }

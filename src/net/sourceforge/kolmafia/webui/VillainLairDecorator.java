@@ -61,6 +61,8 @@ public class VillainLairDecorator {
     "silo", // "Avoid the peach button while a crew is in the silo."
   };
 
+  private VillainLairDecorator() {}
+
   public static final String Symbology(final String responseText) {
     if (!responseText.contains("Symbology")) {
       return "0";

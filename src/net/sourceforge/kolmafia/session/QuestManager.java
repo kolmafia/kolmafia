@@ -59,6 +59,8 @@ public class QuestManager {
   private static final Pattern DJ_MEAT_PATTERN = Pattern.compile("collect (.*?) Meat for the DJ");
   private static final Pattern TRASH_PATTERN = Pattern.compile("you clean up (\\d+) ");
 
+  private QuestManager() {}
+
   public static final void handleQuestChange(GenericRequest request) {
     // Certain location-specific quest changes are noticed by
     // simply adventuring in a location. Get the location.
@@ -96,6 +98,9 @@ public class QuestManager {
           break;
         case AdventurePool.WHITEYS_GROVE:
           handleWhiteysGroveChange(responseText);
+          break;
+        case AdventurePool.TOWER_RUINS:
+          handleTowerRuinsChange(responseText);
           break;
         case AdventurePool.BARROOM_BRAWL:
           handleBarroomBrawlChange(responseText);
@@ -209,10 +214,10 @@ public class QuestManager {
       }
     } else if (location.startsWith("council")) {
       handleCouncilChange(responseText);
+    } else if (location.startsWith("fernruin")) {
+      QuestDatabase.setQuestIfBetter(Quest.EGO, "step3");
     } else if (location.startsWith("friars")) {
       handleFriarsChange(responseText);
-    } else if (location.startsWith("guild")) {
-      handleGuildChange(responseText);
     } else if (location.contains("whichplace=highlands")) {
       handleHighlandsChange(location, responseText);
     } else if (location.startsWith("inv_use")) {
@@ -457,50 +462,6 @@ public class QuestManager {
     Preferences.setBoolean("eldritchHorrorAvailable", available);
   }
 
-  private static void handleGuildChange(final String responseText) {
-    if (responseText.contains("South of the Border")) {
-      QuestDatabase.setQuestIfBetter(Quest.MEATCAR, QuestDatabase.FINISHED);
-    }
-    if (
-    // Muscle classes
-    responseText.contains("The Tomb is within the Misspelled")
-        ||
-        // Mysticality classes
-        responseText.contains("the Tomb, which is within the Misspelled")
-        ||
-        // Moxie classes
-        responseText.contains("the Tomb is in the Misspelled")) {
-      QuestDatabase.setQuestProgress(Quest.NEMESIS, QuestDatabase.STARTED);
-    }
-    if (
-    // Muscle classes
-    responseText.contains("not recovered the Epic Weapon yet")
-        ||
-        // Mysticality classes
-        responseText.contains("not yet claimed the Epic Weapon")
-        ||
-        // Moxie classes
-        responseText.contains("the delay on that Epic Weapon")) {
-      QuestDatabase.setQuestIfBetter(Quest.NEMESIS, QuestDatabase.STARTED);
-    }
-    if (responseText.contains("Clownlord Beelzebozo")) {
-      QuestDatabase.setQuestProgress(Quest.NEMESIS, "step5");
-    }
-    if (responseText.contains("a Meatsmithing hammer")) {
-      QuestDatabase.setQuestIfBetter(Quest.NEMESIS, "step7");
-    }
-    if (QuestDatabase.isQuestStep(Quest.NEMESIS, "step8")) {
-      QuestDatabase.setQuestProgress(Quest.NEMESIS, "step9");
-    }
-    if (responseText.contains("in the Big Mountains")
-        && !responseText.contains("not the required mettle to defeat")) {
-      QuestDatabase.setQuestProgress(Quest.NEMESIS, "step10");
-    }
-    if (QuestDatabase.isQuestStep(Quest.NEMESIS, "step16")) {
-      QuestDatabase.setQuestProgress(Quest.NEMESIS, "step17");
-    }
-  }
-
   private static void handlePoopDeckChange(final String responseText) {
     if (responseText.contains("unlocks a padlock on a trap door")) {
       QuestDatabase.setQuestProgress(Quest.PIRATE, QuestDatabase.FINISHED);
@@ -510,6 +471,22 @@ public class QuestManager {
   private static void handleWhiteysGroveChange(final String responseText) {
     if (responseText.contains("It's A Sign!")) {
       QuestDatabase.setQuestIfBetter(Quest.CITADEL, "step1");
+    }
+  }
+
+  private static void handleTowerRuinsChange(final String responseText) {
+    if (QuestDatabase.getQuest(Quest.EGO).equals(QuestDatabase.FINISHED)) {
+      return;
+    }
+
+    if (responseText.contains("Take a Dusty Look!")) {
+      QuestDatabase.setQuestIfBetter(Quest.EGO, "step6");
+    } else if (responseText.contains("Into the Maw of Deepness")) {
+      QuestDatabase.setQuestIfBetter(Quest.EGO, "step5");
+    } else if (responseText.contains("Staring into Nothing")) {
+      QuestDatabase.setQuestIfBetter(Quest.EGO, "step4");
+    } else {
+      QuestDatabase.setQuestIfBetter(Quest.EGO, "step3");
     }
   }
 
@@ -870,35 +847,33 @@ public class QuestManager {
     if (location.contains("whichplace=airport_spooky_bunker")) {
       if (responseText.contains("action=si_shop1locked")) {
         Preferences.setBoolean("SHAWARMAInitiativeUnlocked", false);
+      } else if (responseText.contains("whichshop=si_shop1")) {
+        Preferences.setBoolean("SHAWARMAInitiativeUnlocked", true);
       }
+
       if (responseText.contains("action=si_shop2locked")) {
         Preferences.setBoolean("canteenUnlocked", false);
+      } else if (responseText.contains("whichshop=si_shop2")) {
+        Preferences.setBoolean("canteenUnlocked", true);
       }
+
       if (responseText.contains("action=si_shop3locked")) {
         Preferences.setBoolean("armoryUnlocked", false);
-      }
-      if (responseText.contains("whichshop=si_shop1")) {
-        Preferences.setBoolean("SHAWARMAInitiativeUnlocked", true);
-      }
-      if (responseText.contains("whichshop=si_shop2")) {
-        Preferences.setBoolean("canteenUnlocked", true);
-      }
-      if (responseText.contains("whichshop=si_shop3")) {
+      } else if (responseText.contains("whichshop=si_shop3")) {
         Preferences.setBoolean("armoryUnlocked", true);
       }
-      if (responseText.contains(
-          "find the door to the secret government sandwich shop and use the keycard")) {
-        Preferences.setBoolean("SHAWARMAInitiativeUnlocked", true);
-        ResultProcessor.removeItem(ItemPool.SHAWARMA_KEYCARD);
-      }
-      if (responseText.contains(
-          "find a door with a bottle-shaped icon on it, zip the keycard through the reader")) {
-        Preferences.setBoolean("canteenUnlocked", true);
-        ResultProcessor.removeItem(ItemPool.BOTTLE_OPENER_KEYCARD);
-      }
+
       if (responseText.contains("insert the keycard and the door slides open")) {
-        Preferences.setBoolean("armoryUnlocked", true);
-        ResultProcessor.removeItem(ItemPool.ARMORY_KEYCARD);
+        if (location.contains("action=si_shop1locked")) {
+          Preferences.setBoolean("SHAWARMAInitiativeUnlocked", true);
+          ResultProcessor.removeItem(ItemPool.SHAWARMA_KEYCARD);
+        } else if (location.contains("action=si_shop2locked")) {
+          Preferences.setBoolean("canteenUnlocked", true);
+          ResultProcessor.removeItem(ItemPool.BOTTLE_OPENER_KEYCARD);
+        } else if (location.contains("action=si_shop3locked")) {
+          Preferences.setBoolean("armoryUnlocked", true);
+          ResultProcessor.removeItem(ItemPool.ARMORY_KEYCARD);
+        }
       }
     }
     return;
@@ -1564,6 +1539,8 @@ public class QuestManager {
         || monsterName.equals("The Rain King")
         || monsterName.equals("One Thousand Source Agents")
         || monsterName.equals("\"Blofeld\"")
+        || monsterName.equals("Nautomatic Sorceress")
+        || monsterName.equals("%alucard%")
         || (monsterName.startsWith("Jerry Bradford") && monsterName.contains("World Champion"))
         || responseText.contains("Thwaitgold bee statuette")) {
       QuestDatabase.setQuestProgress(Quest.FINAL, "step13");
@@ -1634,8 +1611,6 @@ public class QuestManager {
       }
     } else if (monsterName.equals("Wu Tang the Betrayer")) {
       Preferences.setInteger("lastWuTangDefeated", KoLCharacter.getAscensions());
-    } else if (monsterName.equals("Baron Von Ratsworth")) {
-      TavernRequest.addTavernLocation('6');
     } else if (monsterName.equals("Baron Von Ratsworth")) {
       TavernRequest.addTavernLocation('6');
     } else if (monsterName.equals("Source Agent")) {
@@ -1826,13 +1801,21 @@ public class QuestManager {
           RequestLogger.updateSessionLog(message);
         }
       }
-    } else if (monsterName.equals("Steve Belmont") || monsterName.equals("Koopa Paratroopa")) {
+    } else if (monsterName.equals("Steve Belmont")
+        || monsterName.equals("Koopa Paratroopa")
+        || monsterName.equals("Boss Bot")) {
       QuestDatabase.setQuestProgress(Quest.BAT, "step4");
-    } else if (monsterName.equals("Ricardo Belmont") || monsterName.equals("Hammer Brother")) {
+    } else if (monsterName.equals("Ricardo Belmont")
+        || monsterName.equals("Hammer Brother")
+        || monsterName.equals("Gobot King")) {
       QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
-    } else if (monsterName.equals("Jayden Belmont") || monsterName.equals("Very Dry Bones")) {
+    } else if (monsterName.equals("Jayden Belmont")
+        || monsterName.equals("Very Dry Bones")
+        || monsterName.equals("Robonerdagon")) {
       QuestDatabase.setQuestProgress(Quest.CYRPT, "step1");
-    } else if (monsterName.equals("Sharona") || monsterName.equals("Angry Sun")) {
+    } else if (monsterName.equals("Sharona")
+        || monsterName.equals("Angry Sun")
+        || monsterName.equals("Groarbot")) {
       QuestDatabase.setQuestProgress(Quest.TRAPPER, "step5");
     } else if (monsterName.equals("smut orc jacker")
         || monsterName.equals("smut orc nailer")
@@ -1862,6 +1845,19 @@ public class QuestManager {
       else if (responseText.contains("Dozens of nearby smut orcs")) {
         Preferences.increment("smutOrcNoncombatProgress", 5, 15, false);
       }
+    } else if (monsterName.equals("The Thing with No Name")) {
+      ResultProcessor.processResult(ItemPool.get(ItemPool.FURIOUS_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.VANITY_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.LECHEROUS_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.JEALOUSY_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.AVARICE_STONE, -1));
+      ResultProcessor.processResult(ItemPool.get(ItemPool.GLUTTONOUS_STONE, -1));
+
+      QuestDatabase.setQuest(Quest.CLUMSINESS, QuestDatabase.UNSTARTED);
+      QuestDatabase.setQuest(Quest.GLACIER, QuestDatabase.UNSTARTED);
+      QuestDatabase.setQuest(Quest.MAELSTROM, QuestDatabase.UNSTARTED);
+
+      Preferences.setInteger("lastThingWithNoNameDefeated", KoLCharacter.getAscensions());
     }
 
     int adventure = KoLAdventure.lastAdventureId();
@@ -1897,6 +1893,11 @@ public class QuestManager {
         if (KoLCharacter.hasEquipped(ItemPool.UV_RESISTANT_COMPASS)) {
           explored += 1;
         } else if (KoLCharacter.hasEquipped(ItemPool.DOWSING_ROD)) {
+          explored += 2;
+        }
+
+        if (KoLCharacter.hasEquipped(ItemPool.SURVIVAL_KNIFE)
+            && KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ULTRAHYDRATED))) {
           explored += 2;
         }
 

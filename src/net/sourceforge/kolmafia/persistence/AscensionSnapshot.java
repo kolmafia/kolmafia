@@ -35,6 +35,8 @@ public class AscensionSnapshot {
 
   private static final Pattern LINK_PATTERN = Pattern.compile("</?a[^>]+>");
 
+  private AscensionSnapshot() {}
+
   public static final void clearCache() {
     // First, initialize all of the lists and
     // arrays which are used by the request.
@@ -583,6 +585,7 @@ public class AscensionSnapshot {
       case GELATINOUS_NOOB:
       case DARK_GYFFTE:
       case PATH_OF_THE_PLUMBER:
+      case GREY_YOU:
         break;
       case AVATAR_OF_WEST_OF_LOATHING:
         strbuf.append(

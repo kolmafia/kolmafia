@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -12,6 +13,8 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CafeDatabase {
+  private CafeDatabase() {}
+
   static class InverseIntegerOrder implements Comparator<Integer> {
     @Override
     public int compare(Integer o1, Integer o2) {
@@ -35,17 +38,13 @@ public class CafeDatabase {
   }
 
   private static void readCafeData(String filename, int version, Map<Integer, String> map) {
-    BufferedReader reader = FileUtilities.getVersionedReader(filename, version);
+    try (BufferedReader reader = FileUtilities.getVersionedReader(filename, version)) {
+      String[] data;
 
-    String[] data;
-
-    while ((data = FileUtilities.readData(reader)) != null) {
-      CafeDatabase.saveCafeItem(data, map);
-    }
-
-    try {
-      reader.close();
-    } catch (Exception e) {
+      while ((data = FileUtilities.readData(reader)) != null) {
+        CafeDatabase.saveCafeItem(data, map);
+      }
+    } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }

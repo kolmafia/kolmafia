@@ -3,14 +3,19 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -28,9 +33,9 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
@@ -42,7 +47,12 @@ import net.sourceforge.kolmafia.request.ZapRequest;
 import net.sourceforge.kolmafia.session.DisplayCaseManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.utilities.*;
+import net.sourceforge.kolmafia.utilities.CharacterEntities;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.HttpUtilities;
+import net.sourceforge.kolmafia.utilities.LogStream;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
@@ -50,52 +60,55 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class DebugDatabase {
-  // private static final Pattern WIKI_ITEMID_PATTERN = Pattern.compile( "Item number</a>:</b>
-  // (\\d+)<br />" );
-  // private static final Pattern WIKI_DESCID_PATTERN = Pattern.compile( "<b>Description ID:</b>
-  // (\\d+)<br />" );
   private static final Pattern WIKI_PLURAL_PATTERN =
       Pattern.compile("\\(.*?In-game plural</a>: <i>(.*?)</i>\\)", Pattern.DOTALL);
-  // private static final Pattern WIKI_AUTOSELL_PATTERN = Pattern.compile( "Selling Price: <b>(\\d+)
-  // Meat.</b>" );
   private static final Pattern WIKI_MONSTER_MEAT_PATTERN =
       Pattern.compile("Meat gained - ([\\d,]+)(?:-([\\d,]+))?");
 
+  private static final Pattern WIKI_MONSTER_ID_PATTERN = Pattern.compile("Monster ID - (\\d+)");
+
+  private static final Pattern WIKI_ELEMENT_ATTACK_PATTERN =
+      Pattern.compile("\\(<span class=\"element-[^)]+<b>([^<]+) damage</b>");
+
+  private DebugDatabase() {}
+
   /** Takes an item name and constructs the likely Wiki equivalent of that item name. */
-  private static String readWikiItemData(final String name) {
-    String url = WikiUtilities.getWikiLocation(name, WikiUtilities.ITEM_TYPE);
-    return DebugDatabase.readWikiData(url);
+  private static String readWikiItemData(final String name, final HttpClient client) {
+    String url = WikiUtilities.getWikiLocation(name, WikiUtilities.ITEM_TYPE, false);
+    return DebugDatabase.readWikiData(url, client);
   }
 
-  private static String readWikiMonsterData(final MonsterData monster) {
-    String url = WikiUtilities.getWikiLocation(monster);
-    return DebugDatabase.readWikiData(url);
+  private static String readWikiMonsterData(final MonsterData monster, final HttpClient client) {
+    String url = WikiUtilities.getWikiLocation(monster, true);
+    return DebugDatabase.readWikiData(url, client);
   }
 
-  private static String readWikiData(String url) {
-    while (true) {
-      try {
-        HttpURLConnection connection = HttpUtilities.openConnection(new URL(null, url));
-        connection.setRequestProperty("Connection", "close"); // no need to keep-alive
-        InputStream istream = connection.getInputStream();
+  private static String readWikiMonster(final MonsterData monster, final HttpClient client) {
+    String url = WikiUtilities.getWikiLocation(monster, false);
+    return DebugDatabase.readWikiData(url, client);
+  }
 
-        int responseCode = connection.getResponseCode();
-        if (responseCode == 200) {
-          byte[] bytes = ByteBufferUtilities.read(istream);
-          return StringUtilities.getEncodedString(bytes, "UTF-8");
-        }
-        if (301 <= responseCode && responseCode <= 308) {
-          String redirectLocation = connection.getHeaderField("Location");
-          System.out.println(url + " => " + redirectLocation);
-          url = redirectLocation;
-          continue;
-        }
+  private static String readWikiData(String url, final HttpClient client) {
+    URI uri;
+    try {
+      uri = new URI(url.replace("\"", "%22"));
+    } catch (URISyntaxException e) {
+      return "";
+    }
 
-        return "";
+    var request =
+        HttpRequest.newBuilder(uri).header("User-Agent", GenericRequest.getUserAgent()).build();
+    HttpResponse<String> response;
+    try {
+      response = client.send(request, BodyHandlers.ofString(StandardCharsets.UTF_8));
+    } catch (IOException | InterruptedException e) {
+      return "";
+    }
 
-      } catch (IOException e) {
-        return "";
-      }
+    if (response.statusCode() == 200) {
+      return response.body();
+    } else {
+      return "";
     }
   }
 
@@ -123,40 +136,6 @@ public class DebugDatabase {
 
   /** Utility method which searches for the plural version of the item on the KoL wiki. */
 
-  /*public static final void determineWikiData( final String name )
-  {
-    String wikiData = DebugDatabase.readWikiItemData( name );
-
-    Matcher itemMatcher = DebugDatabase.WIKI_ITEMID_PATTERN.matcher( wikiData );
-    if ( !itemMatcher.find() )
-    {
-      RequestLogger.printLine( name + " did not match a valid an item entry." );
-      return;
-    }
-
-    Matcher descMatcher = DebugDatabase.WIKI_DESCID_PATTERN.matcher( wikiData );
-    if ( !descMatcher.find() )
-    {
-      RequestLogger.printLine( name + " did not match a valid an item entry." );
-      return;
-    }
-
-    RequestLogger.printLine( "item: " + name + " (#" + itemMatcher.group( 1 ) + ")" );
-    RequestLogger.printLine( "desc: " + descMatcher.group( 1 ) );
-
-    Matcher pluralMatcher = DebugDatabase.WIKI_PLURAL_PATTERN.matcher( wikiData );
-    if ( pluralMatcher.find() )
-    {
-      RequestLogger.printLine( "plural: " + pluralMatcher.group( 1 ) );
-    }
-
-    Matcher sellMatcher = DebugDatabase.WIKI_AUTOSELL_PATTERN.matcher( wikiData );
-    if ( sellMatcher.find() )
-    {
-      RequestLogger.printLine( "autosell: " + sellMatcher.group( 1 ) );
-    }
-  }*/
-
   // **********************************************************
 
   // Support for the "checkitems" command, which compares KoLmafia's
@@ -165,7 +144,7 @@ public class DebugDatabase {
   private static final String ITEM_HTML = "itemhtml.txt";
 
   private static final String ITEM_DATA = "itemdata.txt";
-  private static final StringArray rawItems = new StringArray();
+  private static final Map<Integer, String> rawItems = new HashMap<>();
 
   private static class ItemMap {
     private final String tag;
@@ -287,7 +266,7 @@ public class DebugDatabase {
   }
 
   private static void checkItem(final int itemId, final PrintStream report) {
-    Integer id = IntegerPool.get(itemId);
+    Integer id = itemId;
 
     String name = ItemDatabase.getItemDataName(id);
     if (name == null) {
@@ -305,7 +284,7 @@ public class DebugDatabase {
     String text = DebugDatabase.itemDescriptionText(rawText);
     if (text == null) {
       report.println("# *** " + name + " (" + itemId + ") has malformed description text.");
-      DebugDatabase.rawItems.set(itemId, null);
+      DebugDatabase.rawItems.put(itemId, null);
       return;
     }
 
@@ -317,7 +296,7 @@ public class DebugDatabase {
     if (!name.equals(descriptionName) && !decodedNamesEqual(name, descriptionName)) {
       report.println(
           "# *** " + name + " (" + itemId + ") has description of " + descriptionName + ".");
-      DebugDatabase.rawItems.set(itemId, null);
+      DebugDatabase.rawItems.put(itemId, null);
       return;
     }
 
@@ -479,7 +458,7 @@ public class DebugDatabase {
     if (itemId == -1) {
       itemId = DebugDatabase.parseItemId(request.responseText);
     }
-    DebugDatabase.rawItems.set(itemId, request.responseText);
+    DebugDatabase.rawItems.put(itemId, request.responseText);
 
     return request.responseText;
   }
@@ -1584,7 +1563,7 @@ public class DebugDatabase {
 
   private static final String OUTFIT_HTML = "outfithtml.txt";
   private static final String OUTFIT_DATA = "outfitdata.txt";
-  private static final StringArray rawOutfits = new StringArray();
+  private static final Map<Integer, String> rawOutfits = new HashMap<>();
   private static final ItemMap outfits = new ItemMap("Outfits", 0);
 
   public static final void checkOutfits() {
@@ -1639,7 +1618,7 @@ public class DebugDatabase {
     String text = DebugDatabase.outfitDescriptionText(rawText);
     if (text == null) {
       report.println("# *** " + name + " (" + outfitId + ") has malformed description text.");
-      DebugDatabase.rawOutfits.set(outfitId, null);
+      DebugDatabase.rawOutfits.put(outfitId, null);
       return;
     }
 
@@ -1681,7 +1660,7 @@ public class DebugDatabase {
     }
 
     String text = DebugDatabase.readOutfitDescriptionText(outfitId);
-    DebugDatabase.rawOutfits.set(outfitId, text);
+    DebugDatabase.rawOutfits.put(outfitId, text);
 
     return text;
   }
@@ -1761,7 +1740,7 @@ public class DebugDatabase {
 
   private static final String EFFECT_HTML = "effecthtml.txt";
   private static final String EFFECT_DATA = "effectdata.txt";
-  private static final StringArray rawEffects = new StringArray();
+  private static final Map<Integer, String> rawEffects = new HashMap<>();
   private static final ItemMap effects = new ItemMap("Status Effects", 0);
 
   public static final void checkEffects(final int effectId) {
@@ -1816,7 +1795,7 @@ public class DebugDatabase {
     String text = DebugDatabase.effectDescriptionText(rawText);
     if (text == null) {
       report.println("# *** " + name + " (" + effectId + ") has malformed description text.");
-      DebugDatabase.rawEffects.set(effectId, null);
+      DebugDatabase.rawEffects.put(effectId, null);
       return;
     }
 
@@ -1912,7 +1891,7 @@ public class DebugDatabase {
     }
 
     String text = DebugDatabase.readEffectDescriptionText(descId);
-    DebugDatabase.rawEffects.set(effectId, text);
+    DebugDatabase.rawEffects.put(effectId, text);
 
     return text;
   }
@@ -2003,7 +1982,7 @@ public class DebugDatabase {
 
   private static final String SKILL_HTML = "skillhtml.txt";
   private static final String SKILL_DATA = "skilldata.txt";
-  private static final StringArray rawSkills = new StringArray();
+  private static final Map<Integer, String> rawSkills = new HashMap<>();
   private static final ItemMap passiveSkills = new ItemMap("Passive Skills", 0);
 
   public static final void checkSkills(final int skillId) {
@@ -2080,7 +2059,7 @@ public class DebugDatabase {
     String text = DebugDatabase.skillDescriptionText(rawText);
     if (text == null) {
       report.println("# *** " + name + " (" + skillId + ") not found.");
-      DebugDatabase.rawSkills.set(skillId, null);
+      DebugDatabase.rawSkills.put(skillId, null);
       return;
     }
 
@@ -2161,7 +2140,7 @@ public class DebugDatabase {
     }
 
     String text = DebugDatabase.readSkillDescriptionText(skillId);
-    DebugDatabase.rawSkills.set(skillId, text);
+    DebugDatabase.rawSkills.put(skillId, text);
 
     return text;
   }
@@ -2254,7 +2233,7 @@ public class DebugDatabase {
     return LogStream.openStream(new File(KoLConstants.DATA_LOCATION, fileName), true);
   }
 
-  private static void loadScrapeData(final StringArray array, final String fileName) {
+  private static void loadScrapeData(final Map<Integer, String> stringMap, final String fileName) {
     try {
       File saveData = new File(KoLConstants.DATA_LOCATION, fileName);
       if (!saveData.exists()) {
@@ -2263,27 +2242,25 @@ public class DebugDatabase {
 
       String currentLine;
       StringBuilder currentHTML = new StringBuilder();
-      BufferedReader reader = FileUtilities.getReader(saveData);
-      int lines = 0;
+      try (BufferedReader reader = FileUtilities.getReader(saveData)) {
+        int lines = 0;
 
-      while ((currentLine = reader.readLine()) != null && !currentLine.equals("")) {
-        lines += 1;
-        currentHTML.setLength(0);
-        int currentId = StringUtilities.parseInt(currentLine);
+        while ((currentLine = reader.readLine()) != null && !currentLine.equals("")) {
+          lines += 1;
+          currentHTML.setLength(0);
+          int currentId = StringUtilities.parseInt(currentLine);
 
-        do {
-          currentLine = reader.readLine();
-          currentHTML.append(currentLine);
-          currentHTML.append(KoLConstants.LINE_BREAK);
-        } while (!currentLine.equals("</html>"));
-
-        if (array.get(currentId).equals("")) {
-          array.set(currentId, currentHTML.toString());
+          do {
+            currentLine = reader.readLine();
+            currentHTML.append(currentLine);
+            currentHTML.append(KoLConstants.LINE_BREAK);
+          } while (!currentLine.equals("</html>"));
+          if (stringMap.getOrDefault(currentId, "").isEmpty()) {
+            stringMap.put(currentId, currentHTML.toString());
+          }
+          reader.readLine();
         }
-        reader.readLine();
       }
-
-      reader.close();
     } catch (Exception e) {
       // This shouldn't happen, but if it does, go ahead and
       // fall through.  You're done parsing.
@@ -2291,7 +2268,7 @@ public class DebugDatabase {
   }
 
   private static void saveScrapeData(
-      final Iterator<Integer> it, final StringArray array, final String fileName) {
+      final Iterator<Integer> it, final Map<Integer, String> stringMap, final String fileName) {
     File file = new File(KoLConstants.DATA_LOCATION, fileName);
     PrintStream livedata = LogStream.openStream(file, true);
 
@@ -2301,7 +2278,7 @@ public class DebugDatabase {
         continue;
       }
 
-      String description = array.get(id);
+      String description = stringMap.get(id);
       if (description != null && !description.equals("")) {
         livedata.println(id);
         livedata.println(description);
@@ -2314,6 +2291,8 @@ public class DebugDatabase {
   // **********************************************************
 
   public static final void checkPlurals(final String parameters) {
+    var client = HttpUtilities.getClientBuilder().build();
+
     RequestLogger.printLine("Checking plurals...");
     PrintStream report =
         LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "plurals.txt"), true);
@@ -2330,10 +2309,10 @@ public class DebugDatabase {
           while (++itemId < id) {
             report.println(itemId);
           }
-          DebugDatabase.checkPlural(id, report);
+          DebugDatabase.checkPlural(id, client, report);
         }
       } else {
-        DebugDatabase.checkPlural(itemId, report);
+        DebugDatabase.checkPlural(itemId, client, report);
       }
     } else {
       String[] points = parameters.split("-");
@@ -2343,14 +2322,15 @@ public class DebugDatabase {
       start = Math.max(0, start);
       end = Math.min(end, ItemDatabase.maxItemId());
       for (int i = start; i < end; i++) {
-        DebugDatabase.checkPlural(i, report);
+        DebugDatabase.checkPlural(i, client, report);
       }
     }
     report.close();
   }
 
-  private static void checkPlural(final int itemId, final PrintStream report) {
-    Integer id = IntegerPool.get(itemId);
+  private static void checkPlural(
+      final int itemId, final HttpClient client, final PrintStream report) {
+    Integer id = itemId;
 
     String name = ItemDatabase.getItemDataName(id);
     if (name == null) {
@@ -2397,7 +2377,7 @@ public class DebugDatabase {
           plural = otherPlural;
         }
       } else {
-        String wikiData = DebugDatabase.readWikiItemData(name);
+        String wikiData = DebugDatabase.readWikiItemData(name, client);
         Matcher matcher = DebugDatabase.WIKI_PLURAL_PATTERN.matcher(wikiData);
         otherPlural = matcher.find() ? matcher.group(1) : "";
         otherPlural = CharacterEntities.unescape(otherPlural);
@@ -3439,7 +3419,7 @@ public class DebugDatabase {
 
     for (int id = 1; id <= ItemDatabase.maxItemId(); ++id) {
       int pulver = EquipmentDatabase.getPulverization(id);
-      if (pulver != -1 && !seen.contains(IntegerPool.get(id))) {
+      if (pulver != -1 && !seen.contains(id)) {
         String name = ItemDatabase.getItemName(id);
         writer.println(name + ": not listed in anvil");
       }
@@ -3476,7 +3456,7 @@ public class DebugDatabase {
           break;
         case "kolid":
           id = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
-          seen.add(IntegerPool.get(id));
+          seen.add(id);
           break;
         case "yield":
           yield = StringUtilities.parseInt(DebugDatabase.getNumericValue(child));
@@ -3638,16 +3618,18 @@ public class DebugDatabase {
   }
 
   private static final Pattern ZAPGROUP_PATTERN =
-      Pattern.compile("Template:ZAP .*?</a>.*?<td>.*?<td>");
+      Pattern.compile("Template:ZAP .*?</a>.*?<td>.*?<td>", Pattern.DOTALL);
   private static final Pattern ZAPITEM_PATTERN = Pattern.compile(">([^<]+)</a>");
 
   public static final void checkZapGroups() {
+    var client = HttpUtilities.getClientBuilder().build();
+
     RequestLogger.printLine("Checking zap groups...");
     PrintStream report =
         LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "zapreport.txt"), true);
 
     String[] groups =
-        DebugDatabase.ZAPGROUP_PATTERN.split(DebugDatabase.readWikiItemData("Zapping"));
+        DebugDatabase.ZAPGROUP_PATTERN.split(DebugDatabase.readWikiItemData("Zapping", client));
     for (int i = 1; i < groups.length; ++i) {
       String group = groups[i];
       int pos = group.indexOf("</td>");
@@ -3750,11 +3732,13 @@ public class DebugDatabase {
   // Check Monster Meat from wiki
 
   public static final void checkMeat() {
+    var client = HttpUtilities.getClientBuilder().build();
+
     for (MonsterData monster : MonsterDatabase.valueSet()) {
       if (!KoLmafia.permitsContinue()) {
         break;
       }
-      String wikiData = DebugDatabase.readWikiMonsterData(monster);
+      String wikiData = DebugDatabase.readWikiMonsterData(monster, client);
       int meatDrop = monster.getBaseMeat();
       int baseMeat = 0;
       Matcher matcher = WIKI_MONSTER_MEAT_PATTERN.matcher(wikiData);
@@ -3775,6 +3759,83 @@ public class DebugDatabase {
                 + meatDrop
                 + " but Wiki says "
                 + baseMeat);
+      }
+    }
+  }
+
+  // check mapping between wiki monsters and mafia
+
+  public static final void checkWikiMonsters() {
+    var client = HttpUtilities.getClientBuilder().build();
+
+    for (MonsterData monster : MonsterDatabase.valueSet()) {
+      if (!KoLmafia.permitsContinue()) {
+        break;
+      }
+      String wikiData = DebugDatabase.readWikiMonsterData(monster, client);
+      if (wikiData.length() == 0) {
+        RequestLogger.printLine("Failed to read wiki page for " + monster.getName());
+        continue;
+      }
+      var mafiaId = monster.getId();
+      int wikiId = 0;
+      Matcher matcher = WIKI_MONSTER_ID_PATTERN.matcher(wikiData);
+      if (matcher.find()) {
+        wikiId = StringUtilities.parseInt(matcher.group(1));
+      }
+
+      if (wikiId == 0 || mafiaId != wikiId) {
+        RequestLogger.printLine(
+            "Monster '"
+                + monster.getName()
+                + "' ("
+                + monster.getId()
+                + ") has ID "
+                + mafiaId
+                + " but Wiki says "
+                + wikiId);
+      }
+    }
+  }
+
+  public static final void checkWikiMonsterElementalAttacks() {
+    var client = HttpUtilities.getClientBuilder().build();
+
+    for (MonsterData monster : MonsterDatabase.valueSet()) {
+      if (!KoLmafia.permitsContinue()) {
+        break;
+      }
+      String wikiData = DebugDatabase.readWikiMonster(monster, client);
+      if (wikiData.length() == 0) {
+        RequestLogger.printLine("Failed to read wiki page for " + monster.getName());
+        continue;
+      }
+      var mafiaAttacks = monster.getAttackElements();
+      Matcher matcher = WIKI_ELEMENT_ATTACK_PATTERN.matcher(wikiData);
+      var wikiAttacks =
+          matcher
+              .results()
+              .map(m -> m.group(1))
+              .map(Element::fromString)
+              .collect(
+                  Collectors.toCollection(() -> EnumSet.noneOf(MonsterDatabase.Element.class)));
+      if (wikiAttacks.contains(Element.NONE)) {
+        RequestLogger.printLine("Unrecognised element for monster " + monster.getName());
+      }
+      if (wikiAttacks.isEmpty()) {
+        wikiAttacks = EnumSet.of(Element.NONE);
+      }
+
+      if (!mafiaAttacks.equals(wikiAttacks)) {
+        RequestLogger.printLine(
+            "Monster '"
+                + monster.getName()
+                + "' ("
+                + monster.getId()
+                + ") has attacks "
+                + mafiaAttacks
+                + " but Wiki says "
+                + wikiAttacks);
       }
     }
   }

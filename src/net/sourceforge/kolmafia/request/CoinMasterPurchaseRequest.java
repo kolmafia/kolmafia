@@ -82,7 +82,8 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
 
   @Override
   public void setCanPurchase(final boolean canPurchase) {
-    super.setCanPurchase(canPurchase && this.availableItem() && this.affordableCount() > 0);
+    super.setCanPurchase(
+        canPurchase && this.isAccessible() && this.availableItem() && this.affordableCount() > 0);
   }
 
   @Override
@@ -98,6 +99,11 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
   @Override
   public boolean isAccessible() {
     return this.data.isAccessible();
+  }
+
+  @Override
+  public String accessible() {
+    return this.data.accessible();
   }
 
   @Override

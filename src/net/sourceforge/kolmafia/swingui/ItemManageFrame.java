@@ -26,9 +26,10 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.listener.Listener;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.ConcoctionType;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ClosetRequest;
@@ -51,7 +52,6 @@ import net.sourceforge.kolmafia.swingui.panel.UseItemEnqueuePanel;
 import net.sourceforge.kolmafia.swingui.panel.UseItemPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightSpinner;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
-import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 import net.sourceforge.kolmafia.textui.command.AutoMallCommand;
 import net.sourceforge.kolmafia.textui.command.CleanupJunkRequest;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -75,69 +75,15 @@ public class ItemManageFrame extends GenericFrame {
   public ItemManageFrame(final boolean useTabs) {
     super("Item Manager");
 
-    JTabbedPane queueTabs;
-    UseItemDequeuePanel dequeuePanel;
-
     ItemManageFrame.selectorPanel = new CardLayoutSelectorPanel("itemManagerIndex");
 
+    boolean creationQueue = Preferences.getBoolean("addCreationQueue");
+
     selectorPanel.addPanel("Usable", new UseItemPanel());
-
-    JPanel foodPanel = new JPanel(new BorderLayout());
-
-    queueTabs = null;
-
-    if (Preferences.getBoolean("addCreationQueue")) {
-      dequeuePanel = new UseItemDequeuePanel(true, false, false);
-      foodPanel.add(dequeuePanel, BorderLayout.NORTH);
-      queueTabs = dequeuePanel.getQueueTabs();
-    }
-
-    foodPanel.add(new UseItemEnqueuePanel(true, false, false, queueTabs), BorderLayout.CENTER);
-
-    selectorPanel.addPanel(" - Food", foodPanel);
-
-    JPanel boozePanel = new JPanel(new BorderLayout());
-
-    queueTabs = null;
-
-    if (Preferences.getBoolean("addCreationQueue")) {
-      dequeuePanel = new UseItemDequeuePanel(false, true, false);
-      boozePanel.add(dequeuePanel, BorderLayout.NORTH);
-      queueTabs = dequeuePanel.getQueueTabs();
-    }
-
-    boozePanel.add(new UseItemEnqueuePanel(false, true, false, queueTabs), BorderLayout.CENTER);
-
-    selectorPanel.addPanel(" - Booze", boozePanel);
-
-    JPanel spleenPanel = new JPanel(new BorderLayout());
-
-    queueTabs = null;
-
-    if (Preferences.getBoolean("addCreationQueue")) {
-      dequeuePanel = new UseItemDequeuePanel(false, false, true);
-      spleenPanel.add(dequeuePanel, BorderLayout.NORTH);
-      queueTabs = dequeuePanel.getQueueTabs();
-    }
-
-    spleenPanel.add(new UseItemEnqueuePanel(false, false, true, queueTabs), BorderLayout.CENTER);
-
-    selectorPanel.addPanel(" - Spleen", spleenPanel);
-
-    JPanel potionPanel = new JPanel(new BorderLayout());
-
-    queueTabs = null;
-
-    if (Preferences.getBoolean("addCreationQueue")) {
-      dequeuePanel = new UseItemDequeuePanel(false, false, false);
-      potionPanel.add(dequeuePanel, BorderLayout.NORTH);
-      queueTabs = dequeuePanel.getQueueTabs();
-    }
-
-    potionPanel.add(new UseItemEnqueuePanel(false, false, false, queueTabs), BorderLayout.CENTER);
-
-    selectorPanel.addPanel(" - Potions", potionPanel);
-
+    selectorPanel.addPanel(" - Food", makeConsumablePanel(ConcoctionType.FOOD, creationQueue));
+    selectorPanel.addPanel(" - Booze", makeConsumablePanel(ConcoctionType.BOOZE, creationQueue));
+    selectorPanel.addPanel(" - Spleen", makeConsumablePanel(ConcoctionType.SPLEEN, creationQueue));
+    selectorPanel.addPanel(" - Potions", makeConsumablePanel(ConcoctionType.POTION, creationQueue));
     selectorPanel.addPanel(" - Restores", new RestorativeItemPanel());
 
     selectorPanel.addSeparator();
@@ -195,6 +141,20 @@ public class ItemManageFrame extends GenericFrame {
     this.setCenterComponent(selectorPanel);
 
     ItemManageFrame.setHeaderStates();
+  }
+
+  public JPanel makeConsumablePanel(ConcoctionType type, boolean creationQueue) {
+    JPanel panel = new JPanel(new BorderLayout());
+    JTabbedPane queueTabs = null;
+
+    if (creationQueue) {
+      UseItemDequeuePanel dequeuePanel = new UseItemDequeuePanel(type);
+      panel.add(dequeuePanel, BorderLayout.NORTH);
+      queueTabs = dequeuePanel.getQueueTabs();
+    }
+
+    panel.add(new UseItemEnqueuePanel(type, queueTabs), BorderLayout.CENTER);
+    return panel;
   }
 
   public static void saveHeaderStates() {
@@ -295,7 +255,7 @@ public class ItemManageFrame extends GenericFrame {
   }
 
   public static void updatePullsBudgeted(final int pullsBudgeted) {
-    Integer value = IntegerPool.get(pullsBudgeted);
+    Integer value = pullsBudgeted;
     ItemManageFrame.pullBudgetSpinner1.setValue(value);
     ItemManageFrame.pullBudgetSpinner2.setValue(value);
   }
@@ -412,6 +372,7 @@ public class ItemManageFrame extends GenericFrame {
 
   private class HagnkStoragePanel extends InventoryPanel<AdventureResult> {
     private boolean isPullingForUse = false;
+    private final EmptyStorageButton emptyButton;
 
     public HagnkStoragePanel(final boolean isEquipmentOnly) {
       super(
@@ -426,17 +387,16 @@ public class ItemManageFrame extends GenericFrame {
       JButton mallButton = new JButton(mallListener.toString());
       mallButton.addActionListener(mallListener);
 
+      // Disable if you are in Hardcore or Ronin, enable once you leave Ronin or free the king
+      emptyButton = new EmptyStorageButton();
+
       this.addButtons(
           new JButton[] {
-            this.confirmedButton,
-            this.cancelledButton,
-            mallButton,
-            new InvocationButton("empty", StorageRequest.class, "emptyStorage"),
+            this.confirmedButton, this.cancelledButton, mallButton, emptyButton,
           });
 
       this.addFilters();
       this.addMovers();
-      this.getElementList().setCellRenderer(ListCellRendererFactory.getStorageRenderer());
 
       Box box = Box.createVerticalBox();
       JLabel budget = new JLabel("Budget:");
@@ -473,9 +433,37 @@ public class ItemManageFrame extends GenericFrame {
     }
 
     @Override
+    public void setEnabled(final boolean isEnabled) {
+      if (isEnabled) {
+        this.emptyButton.update();
+      }
+    }
+
+    private class EmptyStorageButton extends InvocationButton implements Listener {
+      public EmptyStorageButton() {
+        super("empty", StorageRequest.class, "emptyStorage");
+        NamedListenerRegistry.registerNamedListener("(hardcore)", this);
+        NamedListenerRegistry.registerNamedListener("(ronin)", this);
+        this.update();
+      }
+
+      @Override
+      public void update() {
+        boolean enabled =
+            !KoLCharacter.isHardcore()
+                && !KoLCharacter.inRonin()
+                && !KoLConstants.storage.isEmpty();
+        this.setEnabled(enabled);
+      }
+    }
+
+    @Override
     public void addMovers() {
       if (!this.isEquipmentOnly) {
         super.addMovers();
+        if (KoLCharacter.inRonin()) {
+          this.movers[3].setSelected(true);
+        }
       }
     }
 
@@ -567,7 +555,6 @@ public class ItemManageFrame extends GenericFrame {
 
       this.addFilters();
       this.addMovers();
-      this.getElementList().setCellRenderer(ListCellRendererFactory.getFreePullsRenderer());
     }
 
     @Override

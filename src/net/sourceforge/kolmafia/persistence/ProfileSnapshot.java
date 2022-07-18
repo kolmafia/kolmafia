@@ -50,6 +50,8 @@ public class ProfileSnapshot {
       new LockableListModel<ProfileRequest>();
   private static final ClanMembersRequest request = new ClanMembersRequest(true);
 
+  private ProfileSnapshot() {}
+
   public static final void clearCache() {
     // First, initialize all of the lists and
     // arrays which are used by the request.
@@ -181,7 +183,7 @@ public class ProfileSnapshot {
       StaticEntity.printStackTrace(e);
     }
 
-    return compareValue < 0 ? -1 : compareValue > 0 ? 1 : 0;
+    return Integer.compare(compareValue, 0);
   }
 
   public static final String getStandardData(final boolean localProfileLink) {

@@ -187,10 +187,8 @@ public class RelayAgent extends Thread {
           GenericRequest.saveUserAgent(headerValue);
           break;
         case "cookie":
-          String cookies = headerValue;
           StringBuilder buffer = new StringBuilder();
-          boolean inventory = this.path.startsWith("/inventory");
-          for (String cookie : cookies.split("\\s*;\\s*")) {
+          for (String cookie : headerValue.split("\\s*;\\s*")) {
             if (cookie.startsWith("appserver")
                 || cookie.startsWith("PHPSESSID")
                 || cookie.startsWith("AWSALB")) {
@@ -433,17 +431,22 @@ public class RelayAgent extends Thread {
       }
       this.request.pseudoResponse("HTTP/1.1 200 OK", fightResponse);
     } else if (this.path.equals("/choice.php?action=auto")) {
-      ChoiceManager.processChoiceAdventure(
-          this.request, "choice.php", ChoiceManager.lastResponseText);
-      if (StaticEntity.userAborted || KoLmafia.refusesContinue()) {
-        // Resubmit the choice request to let the user see it again
-        KoLmafia.forceContinue();
-        request.constructURLString("choice.php?forceoption=0");
-        RequestThread.postRequest(this.request);
-        RelayAgent.errorRequest = null;
-      } else if (this.request.responseText == null) {
-        // Force a refresh
-        this.request.pseudoResponse("HTTP/1.1 200 OK", ChoiceManager.lastDecoratedResponseText);
+      try {
+        this.request.setAllowOverride(false);
+        ChoiceManager.processChoiceAdventure(
+            this.request, "choice.php", ChoiceManager.lastResponseText);
+        if (StaticEntity.userAborted || KoLmafia.refusesContinue()) {
+          // Resubmit the choice request to let the user see it again
+          KoLmafia.forceContinue();
+          request.constructURLString("choice.php?forceoption=0");
+          RequestThread.postRequest(this.request);
+          RelayAgent.errorRequest = null;
+        } else if (this.request.responseText == null) {
+          // Force a refresh
+          this.request.pseudoResponse("HTTP/1.1 200 OK", ChoiceManager.lastDecoratedResponseText);
+        }
+      } finally {
+        this.request.setAllowOverride(true);
       }
     } else if (this.path.equals("/leaflet.php?action=auto")) {
       this.request.pseudoResponse("HTTP/1.1 200 OK", LeafletManager.leafletWithMagic());
@@ -466,8 +469,6 @@ public class RelayAgent extends Thread {
               + "/iii/"
               + "|"
               + "//images.kingdomofloathing.com/"
-              + "|"
-              + "http://pics.communityofloathing.com/albums/"
               + ")"
               + RelayAgent.NOCACHE_IMAGES);
 
@@ -480,7 +481,7 @@ public class RelayAgent extends Thread {
       }
 
       if (Preferences.getBoolean("useImageCache")) {
-        StringBuffer responseBuffer = new StringBuffer();
+        StringBuilder responseBuffer = new StringBuilder();
         Matcher matcher = RelayAgent.IMAGE_PATTERN.matcher(this.request.responseText);
 
         while (matcher.find()) {
@@ -575,6 +576,6 @@ public class RelayAgent extends Thread {
     }
   }
 
-  private static final Set<String> validRefererHosts = new HashSet<String>();
-  private static final Set<String> invalidRefererHosts = new HashSet<String>();
+  private static final Set<String> validRefererHosts = new HashSet<>();
+  private static final Set<String> invalidRefererHosts = new HashSet<>();
 }

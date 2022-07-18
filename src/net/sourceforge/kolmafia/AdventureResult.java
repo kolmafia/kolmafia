@@ -1,13 +1,16 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.StringTokenizer;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Punchcard;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -62,14 +65,18 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   public static final String HP = "HP";
   public static final String MP = "MP";
 
+  // You, Robot has Scrap and Energy
+  public static final String ENERGY = "Energy";
+  public static final String SCRAP = "Scrap";
+
   // Sub/full stats have multiple values and should be delegated
   // to AdventureMultiResult.
   public static final String SUBSTATS = "Substats";
   public static final String FULLSTATS = "Fullstats";
 
-  public static final List<String> MUS_SUBSTAT = new ArrayList<String>();
-  public static final List<String> MYS_SUBSTAT = new ArrayList<String>();
-  public static final List<String> MOX_SUBSTAT = new ArrayList<String>();
+  public static final List<String> MUS_SUBSTAT = new ArrayList<>();
+  public static final List<String> MYS_SUBSTAT = new ArrayList<>();
+  public static final List<String> MOX_SUBSTAT = new ArrayList<>();
 
   static {
     AdventureResult.MUS_SUBSTAT.add("Beefiness");
@@ -77,6 +84,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     AdventureResult.MUS_SUBSTAT.add("Muscleboundness");
     AdventureResult.MUS_SUBSTAT.add("Strengthliness");
     AdventureResult.MUS_SUBSTAT.add("Strongness");
+    AdventureResult.MUS_SUBSTAT.add("Muscle");
     // The following only under Can Has Cyborger
     AdventureResult.MUS_SUBSTAT.add("muskewlairtees");
 
@@ -84,6 +92,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     AdventureResult.MYS_SUBSTAT.add("Magicalness");
     AdventureResult.MYS_SUBSTAT.add("Mysteriousness");
     AdventureResult.MYS_SUBSTAT.add("Wizardliness");
+    AdventureResult.MUS_SUBSTAT.add("Mysticality");
     // The following only under Can Has Cyborger
     AdventureResult.MYS_SUBSTAT.add("mistikkaltees");
 
@@ -92,6 +101,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     AdventureResult.MOX_SUBSTAT.add("Roguishness");
     AdventureResult.MOX_SUBSTAT.add("Sarcasm");
     AdventureResult.MOX_SUBSTAT.add("Smarm");
+    AdventureResult.MUS_SUBSTAT.add("Moxie");
     // The following only under Can Has Cyborger
     AdventureResult.MOX_SUBSTAT.add("mawksees");
   }
@@ -167,7 +177,9 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         || name.equals(AdventureResult.MP)
         || name.equals(AdventureResult.DRUNK)
         || name.equals(AdventureResult.FULL)
-        || name.equals(AdventureResult.PVP)) {
+        || name.equals(AdventureResult.PVP)
+        || name.equals(AdventureResult.ENERGY)
+        || name.equals(AdventureResult.SCRAP)) {
       return AdventureResult.NO_PRIORITY;
     }
     if (name.equals(AdventureResult.SUBSTATS)) {
@@ -342,6 +354,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return this.priority == AdventureResult.ITEM_PRIORITY;
   }
 
+  @SuppressWarnings("unused")
   public boolean isBountyItem() {
     return this.priority == AdventureResult.BOUNTY_ITEM_PRIORITY;
   }
@@ -358,6 +371,14 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return this.name.equals(AdventureResult.MP);
   }
 
+  public boolean isEnergy() {
+    return this.name.equals(AdventureResult.ENERGY);
+  }
+
+  public boolean isScrap() {
+    return this.name.equals(AdventureResult.SCRAP);
+  }
+
   public boolean isMonster() {
     return this.priority == AdventureResult.MONSTER_PRIORITY;
   }
@@ -372,56 +393,51 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       return this.name;
     }
 
-    switch (this.id) {
-      case ItemPool.DUSTY_BOTTLE_OF_MERLOT:
-      case ItemPool.DUSTY_BOTTLE_OF_PORT:
-      case ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR:
-      case ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL:
-      case ItemPool.DUSTY_BOTTLE_OF_MARSALA:
-      case ItemPool.DUSTY_BOTTLE_OF_MUSCAT:
-        return ConsumablesDatabase.dustyBottleName(this.id);
-
-      case ItemPool.MILKY_POTION:
-      case ItemPool.SWIRLY_POTION:
-      case ItemPool.BUBBLY_POTION:
-      case ItemPool.SMOKY_POTION:
-      case ItemPool.CLOUDY_POTION:
-      case ItemPool.EFFERVESCENT_POTION:
-      case ItemPool.FIZZY_POTION:
-      case ItemPool.DARK_POTION:
-      case ItemPool.MURKY_POTION:
-        return AdventureResult.bangPotionName(this.id);
-
-      case ItemPool.VIAL_OF_RED_SLIME:
-      case ItemPool.VIAL_OF_YELLOW_SLIME:
-      case ItemPool.VIAL_OF_BLUE_SLIME:
-      case ItemPool.VIAL_OF_ORANGE_SLIME:
-      case ItemPool.VIAL_OF_GREEN_SLIME:
-      case ItemPool.VIAL_OF_VIOLET_SLIME:
-      case ItemPool.VIAL_OF_VERMILION_SLIME:
-      case ItemPool.VIAL_OF_AMBER_SLIME:
-      case ItemPool.VIAL_OF_CHARTREUSE_SLIME:
-      case ItemPool.VIAL_OF_TEAL_SLIME:
-      case ItemPool.VIAL_OF_INDIGO_SLIME:
-      case ItemPool.VIAL_OF_PURPLE_SLIME:
-        return AdventureResult.slimeVialName(this.id);
-
-      case ItemPool.PUNCHCARD_ATTACK:
-      case ItemPool.PUNCHCARD_REPAIR:
-      case ItemPool.PUNCHCARD_BUFF:
-      case ItemPool.PUNCHCARD_MODIFY:
-      case ItemPool.PUNCHCARD_BUILD:
-      case ItemPool.PUNCHCARD_TARGET:
-      case ItemPool.PUNCHCARD_SELF:
-      case ItemPool.PUNCHCARD_FLOOR:
-      case ItemPool.PUNCHCARD_DRONE:
-      case ItemPool.PUNCHCARD_WALL:
-      case ItemPool.PUNCHCARD_SPHERE:
-        return AdventureResult.punchCardName(this.id);
-
-      default:
-        return this.name;
-    }
+    return switch (this.id) {
+      case ItemPool.DUSTY_BOTTLE_OF_MERLOT,
+          ItemPool.DUSTY_BOTTLE_OF_PORT,
+          ItemPool.DUSTY_BOTTLE_OF_PINOT_NOIR,
+          ItemPool.DUSTY_BOTTLE_OF_ZINFANDEL,
+          ItemPool.DUSTY_BOTTLE_OF_MARSALA,
+          ItemPool.DUSTY_BOTTLE_OF_MUSCAT -> ConsumablesDatabase.dustyBottleName(this.id);
+      case ItemPool.MILKY_POTION,
+          ItemPool.SWIRLY_POTION,
+          ItemPool.BUBBLY_POTION,
+          ItemPool.SMOKY_POTION,
+          ItemPool.CLOUDY_POTION,
+          ItemPool.EFFERVESCENT_POTION,
+          ItemPool.FIZZY_POTION,
+          ItemPool.DARK_POTION,
+          ItemPool.MURKY_POTION -> AdventureResult.bangPotionName(this.id);
+      case ItemPool.VIAL_OF_RED_SLIME,
+          ItemPool.VIAL_OF_YELLOW_SLIME,
+          ItemPool.VIAL_OF_BLUE_SLIME,
+          ItemPool.VIAL_OF_ORANGE_SLIME,
+          ItemPool.VIAL_OF_GREEN_SLIME,
+          ItemPool.VIAL_OF_VIOLET_SLIME,
+          ItemPool.VIAL_OF_VERMILION_SLIME,
+          ItemPool.VIAL_OF_AMBER_SLIME,
+          ItemPool.VIAL_OF_CHARTREUSE_SLIME,
+          ItemPool.VIAL_OF_TEAL_SLIME,
+          ItemPool.VIAL_OF_INDIGO_SLIME,
+          ItemPool.VIAL_OF_PURPLE_SLIME -> AdventureResult.slimeVialName(this.id);
+      case ItemPool.PUNCHCARD_ATTACK,
+          ItemPool.PUNCHCARD_REPAIR,
+          ItemPool.PUNCHCARD_BUFF,
+          ItemPool.PUNCHCARD_MODIFY,
+          ItemPool.PUNCHCARD_BUILD,
+          ItemPool.PUNCHCARD_TARGET,
+          ItemPool.PUNCHCARD_SELF,
+          ItemPool.PUNCHCARD_FLOOR,
+          ItemPool.PUNCHCARD_DRONE,
+          ItemPool.PUNCHCARD_WALL,
+          ItemPool.PUNCHCARD_SPHERE -> AdventureResult.punchCardName(this.id);
+      case ItemPool.UNBREAKABLE_UMBRELLA -> this.name
+          + " ("
+          + Preferences.getString("umbrellaState")
+          + ")";
+      default -> this.name;
+    };
   }
 
   public String getDisambiguatedName() {
@@ -453,6 +469,10 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         : this.priority == AdventureResult.BOUNTY_ITEM_PRIORITY
             ? BountyDatabase.getPlural(this.getName())
             : this.id == -1 ? this.getName() + "s" : ItemDatabase.getPluralName(this.id);
+  }
+
+  public String getArticle() {
+    return "a" + ((StringUtilities.isVowel(this.getName().charAt(0))) ? "n" : "");
   }
 
   /**
@@ -515,7 +535,6 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    * @param s The string suspected of being an <code>AdventureResult</code>
    * @return An <code>AdventureResult</code> with the appropriate data
    * @throws NumberFormatException The string was not a recognized <code>AdventureResult</code>
-   * @throws ParseException The value enclosed within parentheses was not a number.
    */
   public static final AdventureResult parseResult(final String s) {
     // If this result has been screwed up with Rad Libs, can't do anything with it.
@@ -574,6 +593,14 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         statname = parsedGain.nextToken();
       }
 
+      if (statname.toLowerCase().startsWith("energy")) {
+        return new AdventureResult(AdventureResult.ENERGY, (int) modifier);
+      }
+
+      if (statname.startsWith("scrap")) {
+        return new AdventureResult(AdventureResult.SCRAP, (int) modifier);
+      }
+
       if (statname.startsWith("PvP")) {
         return new AdventureResult(AdventureResult.PVP, (int) modifier);
       }
@@ -614,8 +641,8 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       String next = parsedItem.nextToken().trim();
       if (!parsedItem.hasMoreTokens() && StringUtilities.isNumeric(next)) {
         count = StringUtilities.parseInt(next);
-      } else if (!next.equals("")) {
-        nameBuilder.append(" (" + next + ")");
+      } else if (!next.isEmpty()) {
+        nameBuilder.append(" (").append(next).append(")");
       }
     }
 
@@ -707,7 +734,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     if (this.priority == AdventureResult.EFFECT_PRIORITY) {
       if (name.equals("On the Trail")) {
         String monster = Preferences.getString("olfactedMonster");
-        if (!monster.equals("")) {
+        if (!monster.isEmpty()) {
           name = name + " [" + monster + "]";
         }
       } else {
@@ -824,7 +851,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    */
   @Override
   public boolean equals(final Object o) {
-    if (!(o instanceof AdventureResult)) {
+    if (!(o instanceof AdventureResult ar)) {
       return false;
     }
 
@@ -832,13 +859,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       return o.equals(this);
     }
 
-    AdventureResult ar = (AdventureResult) o;
-
-    return this.priority == ar.priority
-        && this.id == ar.id
-        && (this.name == null || ar.name == null
-            ? this.name == ar.name
-            : this.name.equals(ar.name));
+    return this.priority == ar.priority && this.id == ar.id && Objects.equals(this.name, ar.name);
   }
 
   @Override
@@ -894,7 +915,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    * Utility method used for adding a given <code>AdventureResult</code> to a tally of <code>
    * AdventureResult</code>s.
    *
-   * @param tally The tally accumulating <code>AdventureResult</code>s
+   * @param sourceList The tally accumulating <code>AdventureResult</code>s
    * @param result The result to add to the tally
    */
   public static final void addResultToList(
@@ -1011,9 +1032,9 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
 
   public AdventureResult getNegation() {
     if (this.isItem() && this.id != -1) {
-      return this.count == 0 ? this : new AdventureResult(this.id, 0 - this.count, false);
+      return this.count == 0 ? this : new AdventureResult(this.id, -this.count, false);
     } else if (this.isStatusEffect() && this.id != -1) {
-      return this.count == 0 ? this : new AdventureResult(this.id, 0 - this.count, true);
+      return this.count == 0 ? this : new AdventureResult(this.id, -this.count, true);
     }
 
     return this.getInstance(-this.count);
@@ -1077,7 +1098,10 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    */
   public int getCount(final List<AdventureResult> list) {
     int index = list.indexOf(this);
-    return index == -1 ? 0 : list.get(index).getCount();
+    if (index == -1) return 0;
+    AdventureResult item = list.get(index);
+    if (item == null) return 0;
+    return item.getCount();
   }
 
   public static AdventureResult findItem(final int itemId, final List<AdventureResult> list) {
@@ -1093,7 +1117,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     String itemName = ItemDatabase.getItemDataName(itemId);
 
     String effect = Preferences.getString("lastBangPotion" + itemId);
-    if (effect.equals("")) {
+    if (effect.isEmpty()) {
       return itemName;
     }
 
@@ -1104,7 +1128,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     String itemName = ItemDatabase.getItemDataName(itemId);
 
     String effect = Preferences.getString("lastSlimeVial" + itemId);
-    if (effect.equals("")) {
+    if (effect.isEmpty()) {
       return itemName;
     }
 
@@ -1115,7 +1139,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     if (this.isItem()) {
       if (this.id >= ItemPool.FIRST_BANG_POTION && this.id <= ItemPool.LAST_BANG_POTION) {
         String effect = Preferences.getString("lastBangPotion" + this.id);
-        if (effect.equals("")) {
+        if (effect.isEmpty()) {
           return this.name;
         }
 
@@ -1123,7 +1147,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       }
       if (this.id >= ItemPool.FIRST_SLIME_VIAL && this.id < ItemPool.LAST_SLIME_VIAL) {
         String effect = Preferences.getString("lastSlimeVial" + this.id);
-        if (effect.equals("")) {
+        if (effect.isEmpty()) {
           return this.name;
         }
 
@@ -1138,10 +1162,9 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     String name = this.name;
 
     if (name.startsWith("potion of ")) {
-      String effect = name.substring(10);
       for (int itemId = ItemPool.FIRST_BANG_POTION; itemId <= ItemPool.LAST_BANG_POTION; ++itemId) {
         String potion = Preferences.getString("lastBangPotion" + itemId);
-        if (!potion.equals("") && name.endsWith(potion)) {
+        if (!potion.isEmpty() && name.endsWith(potion)) {
           return ItemPool.get(itemId, this.getCount());
         }
       }
@@ -1149,10 +1172,9 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     }
 
     if (name.startsWith("vial of slime: ")) {
-      String effect = name.substring(15);
       for (int itemId = ItemPool.FIRST_SLIME_VIAL; itemId < ItemPool.LAST_SLIME_VIAL; ++itemId) {
         String vial = Preferences.getString("lastSlimeVial" + itemId);
-        if (!vial.equals("") && name.endsWith(vial)) {
+        if (!vial.isEmpty() && name.endsWith(vial)) {
           return ItemPool.get(itemId, this.getCount());
         }
       }
@@ -1163,9 +1185,9 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   }
 
   public static final String punchCardName(final int itemId) {
-    for (Object[] punchcard : ItemDatabase.PUNCHCARDS) {
-      if (((Integer) punchcard[0]).intValue() == itemId) {
-        return (String) punchcard[2];
+    for (Punchcard punchcard : ItemDatabase.PUNCHCARDS) {
+      if (punchcard.id() == itemId) {
+        return punchcard.alias();
       }
     }
 
@@ -1227,11 +1249,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
      */
     @Override
     public int getCount() {
-      int totalCount = 0;
-      for (int i = 0; i < this.counts.length; ++i) {
-        totalCount += this.counts[i];
-      }
-      return totalCount;
+      return Arrays.stream(this.counts).sum();
     }
 
     @Override
@@ -1280,9 +1298,10 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         StringBuilder stats = new StringBuilder();
 
         if (this.counts[0] > 0) {
-          stats.append(
-              KoLCharacter.calculateBasePoints(KoLCharacter.getTotalMuscle() + this.counts[0])
-                  + " muscle");
+          stats
+              .append(
+                  KoLCharacter.calculateBasePoints(KoLCharacter.getTotalMuscle() + this.counts[0]))
+              .append(" muscle");
         }
 
         if (this.counts[1] > 0) {
@@ -1290,9 +1309,11 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
             stats.append(", ");
           }
 
-          stats.append(
-              KoLCharacter.calculateBasePoints(KoLCharacter.getTotalMysticality() + this.counts[1])
-                  + " mysticality");
+          stats
+              .append(
+                  KoLCharacter.calculateBasePoints(
+                      KoLCharacter.getTotalMysticality() + this.counts[1]))
+              .append(" mysticality");
         }
 
         if (this.counts[2] > 0) {
@@ -1300,9 +1321,10 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
             stats.append(", ");
           }
 
-          stats.append(
-              KoLCharacter.calculateBasePoints(KoLCharacter.getTotalMoxie() + this.counts[2])
-                  + " moxie");
+          stats
+              .append(
+                  KoLCharacter.calculateBasePoints(KoLCharacter.getTotalMoxie() + this.counts[2]))
+              .append(" moxie");
         }
 
         return stats.toString();
@@ -1321,7 +1343,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     public AdventureResult getNegation() {
       int[] newcounts = new int[this.counts.length];
       for (int i = 0; i < this.counts.length; ++i) {
-        newcounts[i] = 0 - this.counts[i];
+        newcounts[i] = -this.counts[i];
       }
 
       return this.getInstance(newcounts);
@@ -1416,16 +1438,15 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
 
     @Override
     public boolean equals(final Object o) {
-      if (!(o instanceof AdventureResult)) {
+      if (!(o instanceof AdventureResult ar)) {
         return false;
       }
 
       boolean hasMatch = false;
-      AdventureResult ar = (AdventureResult) o;
       String arName = ar.getName().toLowerCase();
 
       for (int i = 0; i < this.matches.length && !hasMatch; ++i) {
-        hasMatch = arName.indexOf(this.matches[i]) != -1;
+        hasMatch = arName.contains(this.matches[i]);
       }
 
       return hasMatch ^ this.negated;

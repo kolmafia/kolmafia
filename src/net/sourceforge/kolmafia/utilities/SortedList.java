@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.utilities;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.ListIterator;
 
@@ -79,7 +78,7 @@ public class SortedList<E extends Comparable<E>> extends ArrayList<E> {
   @Override
   public void sort(final Comparator<? super E> c) {
     synchronized (this) {
-      Collections.sort(this, c);
+      this.sort(c);
     }
   }
 

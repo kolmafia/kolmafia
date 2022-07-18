@@ -3,6 +3,8 @@ package net.sourceforge.kolmafia.objectpool;
 public class AdventurePool {
   public static final int DEGRASSI_KNOLL = 18;
   public static final int FUN_HOUSE = 20;
+  public static final int TOWER_RUINS = 22;
+  public static final String TOWER_RUINS_ID = "22";
   public static final int HIPPY_CAMP = 26;
   public static final int FRAT_HOUSE = 27;
   public static final int FRAT_HOUSE_DISGUISED = 29;
@@ -16,7 +18,11 @@ public class AdventurePool {
   public static final int BOSSBAT = 34;
   public static final String BOSSBAT_ID = "34";
   public static final String DUNGEON_OF_DOOM_ID = "39";
+  public static final String BUGBEAR_PEN_ID = "47";
+  public static final String SPOOKY_GRAVY_BURROW_ID = "48";
+  public static final String POST_QUEST_BUGBEAR_PEN = "49";
   public static final int MENAGERIE_LEVEL_2 = 52;
+  public static final String VERY_UNQUIET_GARVES_ID = "58";
   public static final int HIPPY_CAMP_DISGUISED = 65;
   public static final int PIRATE_COVE = 66;
   public static final String ROULETTE_TABLES_ID = "70";
@@ -140,10 +146,15 @@ public class AdventurePool {
   public static final String HIDDEN_BOWLING_ALLEY_ID = "344";
   public static final int HIDDEN_PARK = 345;
   public static final String HIDDEN_PARK_ID = "345";
+  public static final int NW_SHRINE = 346;
   public static final String NW_SHRINE_ID = "346";
+  public static final int SW_SHRINE = 347;
   public static final String SW_SHRINE_ID = "347";
+  public static final int NE_SHRINE = 348;
   public static final String NE_SHRINE_ID = "348";
+  public static final int SE_SHRINE = 349;
   public static final String SE_SHRINE_ID = "349";
+  public static final int ZIGGURAT = 350;
   public static final String ZIGGURAT_ID = "350";
   public static final int DEGRASSI_KNOLL_GARAGE = 354;
   public static final String THE_SHORE_ID = "355";
@@ -261,4 +272,6 @@ public class AdventurePool {
   public static final String ELDRITCH_HORROR_ID = "town_eicfight2";
   public static final int SITE_ALPHA_DORMITORY = 554;
   public static final int SITE_ALPHA_GREENHOUSE = 555;
+
+  private AdventurePool() {}
 }

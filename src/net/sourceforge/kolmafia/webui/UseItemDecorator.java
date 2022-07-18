@@ -4,6 +4,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 public class UseItemDecorator {
+  private UseItemDecorator() {}
+
   public static final void decorate(final String location, final StringBuffer buffer) {
     if (location.startsWith("inventory.php") && !location.contains("action=message")) {
       return;

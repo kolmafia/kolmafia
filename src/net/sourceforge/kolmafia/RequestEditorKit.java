@@ -7,9 +7,11 @@ import java.awt.Frame;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JButton;
@@ -32,6 +34,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Punchcard;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -49,6 +52,8 @@ import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
+import net.sourceforge.kolmafia.session.ChoiceAdventures;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -63,6 +68,7 @@ import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.swingui.RequestFrame;
 import net.sourceforge.kolmafia.swingui.widget.RequestPane;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.BarrelDecorator;
@@ -177,7 +183,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       RequestEditorKit.NO_WORTHLESS_ITEM_TEXT
           + " [<a href=\"hermit.php?autoworthless=on\">fish for a worthless item</a>]";
 
-  private static final ArrayList<String> maps = new ArrayList<String>();
+  private static final ArrayList<String> maps = new ArrayList<>();
 
   static {
     RequestEditorKit.maps.add("place.php?whichplace=plains");
@@ -477,6 +483,9 @@ public class RequestEditorKit extends HTMLEditorKit {
     if (location.startsWith("charpane.php") || location.contains("menu.php")) {
       return;
     }
+
+    // Remove redundant requests for a charpane refresh
+    RequestEditorKit.suppressRedundantRefreshes(buffer);
 
     // Handle changes which happen on a lot of different pages
     // rather than just one or two.
@@ -853,6 +862,40 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
   }
 
+  // Obsolete usage: put script into HTML comment.
+  //
+  // <script language=Javascript>
+  // <!--
+  // if (parent.frames.length == 0) location.href="game.php";
+  // top.charpane.location.href="charpane.php";
+  // //-->
+  // </script>
+  //
+  // Current usage: no HTML comments:
+  //
+  // <script>top.charpane.location.href="charpane.php";</script>
+  // <script>parent.charpane.location.href="charpane.php";</script>
+  //
+  // Either will force the browser to issue a request for charpane.php.
+  // The issue is that KoL will sometimes include BOTH, forcing two requests.
+
+  private static final Pattern CHARPANE_REFRESH_PATTERN =
+      Pattern.compile(
+          "(?:top|parent).charpane.location.href=\"charpane.php\";\\n?", Pattern.DOTALL);
+
+  private static void suppressRedundantRefreshes(final StringBuffer buffer) {
+    Matcher matcher = CHARPANE_REFRESH_PATTERN.matcher(buffer);
+    MatchResult[] matches = matcher.results().toArray(MatchResult[]::new);
+    // Index of the last match - if any
+    int index = matches.length - 1;
+    // If there is more than one match, retain only the final one. Since we are
+    // removing matches from the buffer, count down to preserve earlier indices
+    while (index > 0) {
+      MatchResult result = matches[--index];
+      buffer.replace(result.start(), result.end(), "");
+    }
+  }
+
   // <script>
   //  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   //  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -886,10 +929,6 @@ public class RequestEditorKit extends HTMLEditorKit {
 
   private static void suppressPotentialMalware(final StringBuffer buffer) {
     // Always remove lag-inducing Javascript
-    if (false && !Preferences.getBoolean("suppressPotentialMalware")) {
-      return;
-    }
-
     if (buffer.indexOf("GoogleAnalyticsObject") != -1) {
       Matcher matcher = RequestEditorKit.MALWARE1_PATTERN.matcher(buffer);
       if (matcher.find()) {
@@ -972,7 +1011,7 @@ public class RequestEditorKit extends HTMLEditorKit {
   private static void suppressPowerPixellation(final StringBuffer buffer) {
     boolean suppressPowerPixellation = Preferences.getBoolean("suppressPowerPixellation");
     String extraCosmeticModifiers = Preferences.getString("extraCosmeticModifiers").trim();
-    boolean haveExtraCosmeticModifiers = !extraCosmeticModifiers.equals("");
+    boolean haveExtraCosmeticModifiers = !extraCosmeticModifiers.isEmpty();
 
     if (!suppressPowerPixellation && !haveExtraCosmeticModifiers) {
       return;
@@ -1036,7 +1075,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     if (found) {
       // We had an "ocrs" var. Replace the value
       StringUtilities.singleStringReplace(buffer, find, replace);
-    } else if (!replace.equals("")) {
+    } else if (!replace.isEmpty()) {
       // We did not have an ocrs var but want to add some.
       // Include the appropriate scripts and insert a variable
       buffer.insert(buffer.indexOf("</head>"), OCRS_JS);
@@ -1109,12 +1148,16 @@ public class RequestEditorKit extends HTMLEditorKit {
     while (omatcher.find()) {
       String group = omatcher.group(1);
       String options = omatcher.group(2);
-      if (group.equals("Normal Outfits")) {
-        addOutfitGroup(obuffer, "outfit", "Outfits", "an", options);
-      } else if (group.equals("Custom Outfits")) {
-        addOutfitGroup(obuffer, "outfit2", "Custom", "a custom", options);
-      } else if (group.equals("Automatic Outfits")) {
-        addOutfitGroup(obuffer, "outfit3", "Automatic", "an automatic", options);
+      switch (group) {
+        case "Normal Outfits":
+          addOutfitGroup(obuffer, "outfit", "Outfits", "an", options);
+          break;
+        case "Custom Outfits":
+          addOutfitGroup(obuffer, "outfit2", "Custom", "a custom", options);
+          break;
+        case "Automatic Outfits":
+          addOutfitGroup(obuffer, "outfit3", "Automatic", "an automatic", options);
+          break;
       }
     }
 
@@ -1502,16 +1545,16 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    ArrayList<String> potionNames = new ArrayList<String>();
-    ArrayList<String> pluralNames = new ArrayList<String>();
-    ArrayList<String> potionEffects = new ArrayList<String>();
+    ArrayList<String> potionNames = new ArrayList<>();
+    ArrayList<String> pluralNames = new ArrayList<>();
+    ArrayList<String> potionEffects = new ArrayList<>();
 
     for (int i = 819; i <= 827; ++i) {
       String name = ItemDatabase.getItemName(i);
       String plural = ItemDatabase.getPluralName(i);
       if (buffer.indexOf(name) != -1 || buffer.indexOf(plural) != -1) {
         String effect = Preferences.getString("lastBangPotion" + i);
-        if (!effect.equals("")) {
+        if (!effect.isEmpty()) {
           potionNames.add(name);
           pluralNames.add(plural);
           potionEffects.add(" of " + effect);
@@ -1523,7 +1566,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       String plural = ItemDatabase.getPluralName(i);
       if (buffer.indexOf(name) != -1 || buffer.indexOf(plural) != -1) {
         String effect = Preferences.getString("lastSlimeVial" + i);
-        if (!effect.equals("")) {
+        if (!effect.isEmpty()) {
           potionNames.add(name);
           pluralNames.add(plural);
           potionEffects.add(": " + effect);
@@ -1551,7 +1594,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       String plural = ItemDatabase.getPluralName(i);
       if (buffer.indexOf(name) != -1 || buffer.indexOf(plural) != -1) {
         String effect = Preferences.getString("lastBangPotion" + i);
-        if (effect.equals("")) {
+        if (effect.isEmpty()) {
           continue;
         }
 
@@ -1564,7 +1607,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       String plural = ItemDatabase.getPluralName(i);
       if (buffer.indexOf(name) != -1 || buffer.indexOf(plural) != -1) {
         String effect = Preferences.getString("lastSlimeVial" + i);
-        if (effect.equals("")) {
+        if (effect.isEmpty()) {
           continue;
         }
 
@@ -1579,10 +1622,10 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    for (Object[] punchcard : ItemDatabase.PUNCHCARDS) {
-      String name = (String) punchcard[1];
+    for (Punchcard punchcard : ItemDatabase.PUNCHCARDS) {
+      String name = punchcard.name();
       if (buffer.indexOf(name) != -1) {
-        StringUtilities.globalStringReplace(buffer, name, (String) punchcard[2]);
+        StringUtilities.globalStringReplace(buffer, name, punchcard.alias());
       }
     }
   }
@@ -1695,42 +1738,54 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     String partyQuest = Preferences.getString("_questPartyFairQuest");
 
-    if (partyQuest.equals("woots")) {
-      Matcher m = RequestEditorKit.WOOTS_PATTERN.matcher(buffer);
-      if (m.find()) {
-        String progress =
-            " (" + Preferences.getString("_questPartyFairProgress") + "/100 megawoots)";
-        buffer.insert(m.end(), progress);
-        return;
-      }
-    } else if (partyQuest.equals("trash")) {
-      Matcher m = RequestEditorKit.TRASH_PATTERN.matcher(buffer);
-      if (m.find()) {
-        String progress =
-            " (~"
-                + Preferences.getString("_questPartyFairProgress")
-                + " pieces of trash remaining)";
-        buffer.insert(m.end(), progress);
-        return;
-      }
-    } else if (partyQuest.equals("dj")) {
-      Matcher m = RequestEditorKit.MEAT_PATTERN.matcher(buffer);
-      if (m.find()) {
-        String progress =
-            " (" + Preferences.getString("_questPartyFairProgress") + " Meat remaining)";
-        buffer.insert(m.end(), progress);
-        return;
-      }
-    }
-    // No special text, just append to You win the fight if on clear the party quest
-    else if (partyQuest.equals("partiers")) {
-      Matcher m = RequestEditorKit.PARTIERS_PATTERN.matcher(buffer);
-      if (m.find()) {
-        String progress =
-            " (" + Preferences.getString("_questPartyFairProgress") + " Partiers remaining)";
-        buffer.insert(m.end(), progress);
-        return;
-      }
+    switch (partyQuest) {
+      case "woots":
+        {
+          Matcher m = RequestEditorKit.WOOTS_PATTERN.matcher(buffer);
+          if (m.find()) {
+            String progress =
+                " (" + Preferences.getString("_questPartyFairProgress") + "/100 megawoots)";
+            buffer.insert(m.end(), progress);
+            return;
+          }
+          break;
+        }
+      case "trash":
+        {
+          Matcher m = RequestEditorKit.TRASH_PATTERN.matcher(buffer);
+          if (m.find()) {
+            String progress =
+                " (~"
+                    + Preferences.getString("_questPartyFairProgress")
+                    + " pieces of trash remaining)";
+            buffer.insert(m.end(), progress);
+            return;
+          }
+          break;
+        }
+      case "dj":
+        {
+          Matcher m = RequestEditorKit.MEAT_PATTERN.matcher(buffer);
+          if (m.find()) {
+            String progress =
+                " (" + Preferences.getString("_questPartyFairProgress") + " Meat remaining)";
+            buffer.insert(m.end(), progress);
+            return;
+          }
+          break;
+        }
+        // No special text, just append to You win the fight if on clear the party quest
+      case "partiers":
+        {
+          Matcher m = RequestEditorKit.PARTIERS_PATTERN.matcher(buffer);
+          if (m.find()) {
+            String progress =
+                " (" + Preferences.getString("_questPartyFairProgress") + " Partiers remaining)";
+            buffer.insert(m.end(), progress);
+            return;
+          }
+          break;
+        }
     }
   }
 
@@ -1771,7 +1826,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     // Make sure that it's an actual choice adventure
-    int choice = ChoiceManager.extractChoice(buffer.toString());
+    int choice = ChoiceUtilities.extractChoice(buffer.toString());
 
     if (choice == 0) {
       // It's a response to taking a choice.
@@ -1780,7 +1835,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     // Do any choice-specific decorations
-    ChoiceManager.decorateChoice(choice, buffer);
+    ChoiceAdventures.decorateChoice(choice, buffer);
 
     String text = buffer.toString();
     Matcher matcher = FORM_PATTERN.matcher(text);
@@ -1789,16 +1844,16 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     // Find the options for the choice we've encountered
-    Object[][] spoilers = ChoiceManager.choiceSpoilers(choice, buffer);
+    Spoilers spoilers = ChoiceAdventures.choiceSpoilers(choice, buffer);
 
     // Some choices we don't mark up with spoilers
-    if (ChoiceManager.noRelayChoice(choice)) {
+    if (ChoiceAdventures.noRelayChoice(choice)) {
       spoilers = null;
     }
 
-    if (spoilers == null) { // Don't give up - there may be a specified choice even if there
-      // are no spoilers.
-      spoilers = new Object[][] {null, null, {}};
+    if (spoilers == null) {
+      // Don't give up - there may be a choice even if there are no spoilers.
+      spoilers = new Spoilers(choice, "", new ChoiceAdventures.Option[0]);
     }
 
     int index1 = matcher.start();
@@ -1837,7 +1892,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       // Build spoiler text
       while (i > 0) {
         // Say what the choice will give you
-        Object spoiler = ChoiceManager.choiceSpoiler(choice, i, spoilers[2]);
+        ChoiceAdventures.Option spoiler =
+            ChoiceAdventures.choiceSpoiler(choice, i, spoilers.getOptions());
 
         // If we have nothing to say about this option, don't say anything
         if (spoiler == null) {
@@ -1847,31 +1903,28 @@ public class RequestEditorKit extends HTMLEditorKit {
         StringBuilder spoilerBuffer = new StringBuilder(spoiler.toString());
 
         // If this decision has an item associated with it, annotate it
-        if (spoiler instanceof ChoiceManager.Option) {
-          ChoiceManager.Option option = ((ChoiceManager.Option) spoiler);
-          AdventureResult[] items = option.getItems();
+        AdventureResult[] items = spoiler.getItems();
 
-          // If this decision leads to one or more item...
-          for (int it = 0; it < items.length; it++) {
-            AdventureResult item = items[it];
-            if (item != null) {
-              if (it > 0) {
-                spoilerBuffer.append(" or ");
-                spoilerBuffer.append(item.getName());
-              }
-
-              // List # in inventory
-              spoilerBuffer.append(
-                  "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('");
-              spoilerBuffer.append(ItemDatabase.getDescriptionId(item.getItemId()));
-              spoilerBuffer.append("');\">");
-
-              int available = KoLCharacter.hasEquipped(item) ? 1 : 0;
-              available += item.getCount(KoLConstants.inventory);
-
-              spoilerBuffer.append(available);
-              spoilerBuffer.append(" in inventory");
+        // If this decision leads to one or more item...
+        for (int it = 0; it < items.length; it++) {
+          AdventureResult item = items[it];
+          if (item != null) {
+            if (it > 0) {
+              spoilerBuffer.append(" or ");
+              spoilerBuffer.append(item.getName());
             }
+
+            // List # in inventory
+            spoilerBuffer.append(
+                "<img src=\"/images/itemimages/magnify.gif\" valign=middle onclick=\"descitem('");
+            spoilerBuffer.append(ItemDatabase.getDescriptionId(item.getItemId()));
+            spoilerBuffer.append("');\">");
+
+            int available = KoLCharacter.hasEquipped(item) ? 1 : 0;
+            available += item.getCount(KoLConstants.inventory);
+
+            spoilerBuffer.append(available);
+            spoilerBuffer.append(" in inventory");
           }
         }
 
@@ -1903,11 +1956,11 @@ public class RequestEditorKit extends HTMLEditorKit {
   }
 
   private static void decorateChoiceResponse(final String location, final StringBuffer buffer) {
-    int choice = ChoiceManager.extractChoiceFromURL(location);
+    int choice = ChoiceUtilities.extractChoiceFromURL(location);
     if (choice == 0) {
       return;
     }
-    int option = ChoiceManager.extractOptionFromURL(location);
+    int option = ChoiceUtilities.extractOptionFromURL(location);
 
     switch (choice) {
         // The Oracle Will See You Now
@@ -2504,7 +2557,7 @@ public class RequestEditorKit extends HTMLEditorKit {
         }
 
         formSubmitter.constructURLString(
-            GenericRequest.decodeField(actionString.toString(), "ISO-8859-1"));
+            GenericRequest.decodeField(actionString.toString(), StandardCharsets.ISO_8859_1));
       } else {
         // For normal URLs, the form data can be submitted
         // just like in every other request.

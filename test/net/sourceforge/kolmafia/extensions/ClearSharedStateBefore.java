@@ -30,6 +30,7 @@ public class ClearSharedStateBefore implements BeforeAllCallback {
     KoLCharacter.reset("");
     // But, if username is already "", then it doesn't do the bulk of resetting state.
     KoLCharacter.reset(true);
+    Preferences.reset("");
     KoLCharacter.setUserId(0);
   }
 

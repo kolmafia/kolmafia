@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -13,7 +12,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 
 public class CandyDatabase {
   public static Set<Integer> NO_CANDY = new HashSet<>(); // No candies
@@ -31,6 +30,8 @@ public class CandyDatabase {
   public static AdventureResult[] potionCandies = null;
   public static AdventureResult[] foodCandies = null;
   public static AdventureResult[] otherCandies = null;
+
+  private CandyDatabase() {}
 
   public static void categorizeCandies() {
     if (potionCandies != null && foodCandies != null && otherCandies != null) {
@@ -57,11 +58,36 @@ public class CandyDatabase {
     CandyDatabase.otherCandies = others.toArray(new AdventureResult[others.size()]);
   }
 
+  // As of 2022-03-08, there are 69 "candy1" and 151 "candy2" = 220 spaded candies
+  // (There are also 6 "unspaded" candies - unknown complexity)
+  // Of these, there are 144 "potions", 25 "foods", and 57 "other" candies
+  //
+  // Searching the mall by page returns 30 items per page.
+  // "potions" -> 1116 items on 38 pages
+  // "food" -> 739 items on 25 pages
+  //
+  // There are 38 pages of "potions", which is fewer than 144 potions updated individually
+  // There are 25 pages of "foods", which is the same as 25 foods updated individually
+  // There is no category that contains non-potion, non-food candies.
+  //
+  // Therefore, by bulk updating potions and foods, it would take
+  //    38 + 25 + 57 = 120 pages hits
+  // to update the mall prices for all individually
+  //    144 + 25 + 57 = 226 candies.
+  //
+  // If there were a "candies" category, all candies could be done in 8 server
+  // hits. Instead, it takes 120 server hits.  I submitted a Feature Request to
+  // KoL for that, but no joy so far
+  //
+  // On the other hand, if we update all candies individually, it will take
+  // more server hits the first time, but subsequent searches in a short enough
+  // time will find cached prices. We'll do that.
+
   public static void updatePrices() {
     CandyDatabase.categorizeCandies();
-    StoreManager.getMallPrices(CandyDatabase.potionCandies, 0.0f);
-    StoreManager.getMallPrices(CandyDatabase.foodCandies, 0.0f);
-    StoreManager.getMallPrices(CandyDatabase.otherCandies, 0.0f);
+    MallPriceManager.getMallPrices(CandyDatabase.potionCandies, 0.0f);
+    MallPriceManager.getMallPrices(CandyDatabase.foodCandies, 0.0f);
+    MallPriceManager.getMallPrices(CandyDatabase.otherCandies, 0.0f);
   }
 
   public static void registerCandy(final Integer itemId, final String type) {
@@ -494,7 +520,7 @@ public class CandyDatabase {
 
     List<Candy> candy1List =
         CandyDatabase.itemIdSetToCandyList(CandyDatabase.candyForTier(tier, flags));
-    Collections.sort(candy1List, DESCENDING_COUNT_COMPARATOR);
+    candy1List.sort(DESCENDING_COUNT_COMPARATOR);
 
     for (Candy candy : candy1List) {
       if (candy.getCount() == 0) {
@@ -506,7 +532,7 @@ public class CandyDatabase {
       List<Candy> candy2List =
           CandyDatabase.itemIdSetToCandyList(
               CandyDatabase.sweetSynthesisPairing(effectId, itemId, flags));
-      Collections.sort(candy2List, DESCENDING_COUNT_COMPARATOR);
+      candy2List.sort(DESCENDING_COUNT_COMPARATOR);
 
       for (Candy pairing : candy2List) {
         int count = pairing.getCount();
@@ -539,7 +565,7 @@ public class CandyDatabase {
 
     List<Candy> candy1List =
         CandyDatabase.itemIdSetToCandyList(CandyDatabase.candyForTier(tier, flags));
-    Collections.sort(candy1List, ASCENDING_MALL_PRICE_COMPARATOR);
+    candy1List.sort(ASCENDING_MALL_PRICE_COMPARATOR);
 
     for (Candy candy : candy1List) {
       int cost1 = candy.getCost();
@@ -551,7 +577,7 @@ public class CandyDatabase {
       List<Candy> candy2List =
           CandyDatabase.itemIdSetToCandyList(
               CandyDatabase.sweetSynthesisPairing(effectId, itemId, flags));
-      Collections.sort(candy2List, ASCENDING_MALL_PRICE_COMPARATOR);
+      candy2List.sort(ASCENDING_MALL_PRICE_COMPARATOR);
 
       for (Candy pairing : candy2List) {
         int cost2 = pairing.getCost();

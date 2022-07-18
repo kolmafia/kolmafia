@@ -314,7 +314,7 @@ public class KoLmafiaCLI {
 
       AbstractCommand handler = AbstractCommand.lookup.get(lcommand);
       int flags = handler == null ? 0 : handler.flags;
-      if (flags == KoLmafiaCLI.FULL_LINE_CMD && !line.equals("")) {
+      if (flags == KoLmafiaCLI.FULL_LINE_CMD && !line.isEmpty()) {
         // parameters are un-trimmed original
         // parameters + rest of line
         trimmed = parameters + ";" + line;
@@ -362,7 +362,7 @@ public class KoLmafiaCLI {
           command = line.substring(0, splitIndex).toLowerCase();
           line = line.substring(splitIndex + 1).trim();
         }
-        if (command.equals("")) {
+        if (command.isEmpty()) {
           continue;
         }
         seenCmd = true;
@@ -435,11 +435,6 @@ public class KoLmafiaCLI {
       return;
     }
 
-    if (parameters.equals("refresh")) {
-      parameters = lcommand;
-      lcommand = command = "refresh";
-    }
-
     AbstractCommand handler = AbstractCommand.lookup.get(lcommand);
 
     if (handler == null) {
@@ -500,6 +495,7 @@ public class KoLmafiaCLI {
   public static void registerCommands() {
     new AbortCommand().register("abort");
     new AbsorbCommand().register("absorb");
+    new AbsorptionsCommand().register("absorptions");
     new AccordionsCommand().register("accordions");
     new AcquireCommand().register("acquire").register("find").register("retrieve");
     new AdventureCommand().register("adv").register("adventure");
@@ -566,6 +562,8 @@ public class KoLmafiaCLI {
         .register("checkrepo")
         .register("checkshields")
         .register("checkskills")
+        .register("checkwikimonsters")
+        .register("checkwikimonsterelementalattacks")
         .register("checkzapgroups");
     new ChessCommand().register("chess");
     new ChoiceCommand().register("choice");
@@ -648,7 +646,9 @@ public class KoLmafiaCLI {
     new GarbageCollectCommand().register("gc");
     new GardenCommand().register("garden");
     new GenieCommand().register("genie");
+    new GitCommand().register("git");
     new GongCommand().register("gong");
+    new GooSkillsCommand().register("gooskills");
     new GrandpaCommand().register("grandpa");
     new GrayGUICommand().register("graygui").register("greygui").register("jstack");
     new GrimCommand().register("grim");
@@ -667,6 +667,7 @@ public class KoLmafiaCLI {
         .register("jsq")
         .register("javascript")
         .register("javascriptq");
+    new JourneyCommand().register("journey");
     new JsRefCommand().register("jsref");
     new JukeboxCommand().register("jukebox");
     new KitchenCommand().register("kitchen").register("hellkitchen").register("hellskitchen");
@@ -729,6 +730,7 @@ public class KoLmafiaCLI {
     new RefreshStatusCommand().register("refresh");
     new RegisterAdventureCommand().register("location");
     new RelayBrowserCommand().register("relay");
+    new ReminisceCommand().register("reminisce");
     new RepeatLineCommand().register("repeat");
     new RestaurantCommand().register("restaurant").register("brewery").register("microbrewery");
     new RestoresCommand().register("restores");
@@ -783,6 +785,7 @@ public class KoLmafiaCLI {
     new TowerDoorCommand().register("tower").register("lowkey");
     new TrainFamiliarCommand().register("train");
     new TryStatement().register("try");
+    new UmbrellaCommand().register("umbrella");
     new UnaliasCommand().register("unalias");
     new UneffectCommand().register("shrug").register("uneffect").register("remedy");
     new UnequipCommand().register("unequip").register("remove");

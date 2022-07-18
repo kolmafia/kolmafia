@@ -17,7 +17,7 @@ import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SynthesizeCommand extends AbstractCommand {
@@ -105,8 +105,8 @@ public class SynthesizeCommand extends AbstractCommand {
   public static final float AGE_LIMIT = (60.0f * 60.0f) / 86400.0f; // One hour
 
   private void updatePrices(final AdventureResult candy1, final AdventureResult candy2) {
-    StoreManager.getMallPrice(candy1, AGE_LIMIT);
-    StoreManager.getMallPrice(candy2, AGE_LIMIT);
+    MallPriceManager.getMallPrice(candy1, AGE_LIMIT);
+    MallPriceManager.getMallPrice(candy2, AGE_LIMIT);
   }
 
   private void analyzeCandy(final AdventureResult candy) {
@@ -125,7 +125,6 @@ public class SynthesizeCommand extends AbstractCommand {
 
     int count = InventoryManager.getAccessibleCount(candy);
     boolean tradeable = ItemDatabase.isTradeable(itemId);
-    int cost = !tradeable ? 0 : StoreManager.getMallPrice(candy, AGE_LIMIT);
 
     message.append("Item '");
     message.append(candy.getName());
@@ -140,6 +139,7 @@ public class SynthesizeCommand extends AbstractCommand {
     if (!tradeable) {
       message.append(".");
     } else {
+      int cost = MallPriceManager.getMallPrice(itemId, AGE_LIMIT);
       message.append(" without using the mall, where it costs ");
       message.append(cost);
       message.append(" Meat.");

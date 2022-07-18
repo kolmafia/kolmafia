@@ -8,10 +8,10 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
-import net.sourceforge.kolmafia.objectpool.IntegerPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.ChoiceAdventures.Option;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HaciendaManager {
@@ -50,6 +50,8 @@ public class HaciendaManager {
     "decanter of fine Scotch",
     "expensive cigar"
   };
+
+  private HaciendaManager() {}
 
   public static void parseRoom(final int lastChoice, final int lastDecision, final String text) {
     String haciendaLayout = Preferences.getString("haciendaLayout");
@@ -238,15 +240,17 @@ public class HaciendaManager {
     return REWARDS[location];
   }
 
-  public static String[] getSpoilers(final int choice) {
-    String[] result = new String[4];
+  private static Option LEAVE_BARRACKS = new Option("leave barracks");
+
+  public static Option[] getSpoilers(final int choice) {
+    Option[] result = new Option[4];
 
     switch (choice) {
       case 410:
         // choice of hallways
-        result[0] = HaciendaManager.getWingSpoilers(0);
-        result[1] = HaciendaManager.getWingSpoilers(9);
-        result[2] = "leave barracks";
+        result[0] = new Option(HaciendaManager.getWingSpoilers(0));
+        result[1] = new Option(HaciendaManager.getWingSpoilers(9));
+        result[2] = LEAVE_BARRACKS;
         break;
       case 411:
       case 412:
@@ -258,16 +262,16 @@ public class HaciendaManager {
                   + HaciendaManager.getSpoiler(choice * 9 + i * 3 - 3698)
                   + " / "
                   + HaciendaManager.getSpoiler(choice * 9 + i * 3 - 3697);
-          result[i] = buffer;
+          result[i] = new Option(buffer);
         }
-        result[3] = "leave barracks";
+        result[3] = LEAVE_BARRACKS;
         break;
       default:
         // choice of locations in rooms
         for (int i = 0; i < 3; i++) {
-          result[i] = HaciendaManager.getSpoiler(choice * 3 + i - 1239);
+          result[i] = new Option(HaciendaManager.getSpoiler(choice * 3 + i - 1239));
         }
-        result[3] = "leave barracks";
+        result[3] = LEAVE_BARRACKS;
         break;
     }
     return result;
@@ -375,35 +379,22 @@ public class HaciendaManager {
   private static final Pattern OPTION_PATTERN =
       Pattern.compile("<option value=\"?(\\d+)\"? *>(.*?) \\((\\d+)/(\\d+)\\)</option>");
 
-  private static final Object[][] RECORDINGS = {
-    {
-      IntegerPool.get(EffectPool.THE_BALLAD_OF_RICHIE_THINGFINDER), "_thingfinderCasts",
-    },
-    {
-      IntegerPool.get(EffectPool.BENETTONS_MEDLEY_OF_DIVERSITY), "_benettonsCasts",
-    },
-    {
-      IntegerPool.get(EffectPool.ELRONS_EXPLOSIVE_ETUDE), "_elronsCasts",
-    },
-    {
-      IntegerPool.get(EffectPool.CHORALE_OF_COMPANIONSHIP), "_companionshipCasts",
-    },
-    {
-      IntegerPool.get(EffectPool.PRELUDE_OF_PRECISION), "_precisionCasts",
-    },
-    {
-      IntegerPool.get(EffectPool.DONHOS_BUBBLY_BALLAD), "_donhosCasts",
-    },
-    {
-      IntegerPool.get(EffectPool.INIGOS), "_inigosCasts",
-    },
+  private record Recording(int id, String setting) {}
+
+  private static final Recording[] RECORDINGS = {
+    new Recording(EffectPool.THE_BALLAD_OF_RICHIE_THINGFINDER, "_thingfinderCasts"),
+    new Recording(EffectPool.BENETTONS_MEDLEY_OF_DIVERSITY, "_benettonsCasts"),
+    new Recording(EffectPool.ELRONS_EXPLOSIVE_ETUDE, "_elronsCasts"),
+    new Recording(EffectPool.CHORALE_OF_COMPANIONSHIP, "_companionshipCasts"),
+    new Recording(EffectPool.PRELUDE_OF_PRECISION, "_precisionCasts"),
+    new Recording(EffectPool.DONHOS_BUBBLY_BALLAD, "_donhosCasts"),
+    new Recording(EffectPool.INIGOS, "_inigosCasts"),
   };
 
   private static String effectIdToSetting(final int effectId) {
-    for (int i = 0; i < HaciendaManager.RECORDINGS.length; ++i) {
-      Object[] recording = HaciendaManager.RECORDINGS[i];
-      if (effectId == ((Integer) recording[0]).intValue()) {
-        return (String) recording[1];
+    for (Recording recording : HaciendaManager.RECORDINGS) {
+      if (effectId == recording.id) {
+        return recording.setting;
       }
     }
     return null;

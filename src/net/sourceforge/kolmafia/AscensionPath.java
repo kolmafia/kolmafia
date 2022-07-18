@@ -5,6 +5,8 @@ import java.util.Map;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class AscensionPath {
+  private AscensionPath() {}
+
   public enum Path {
     // Path Name, Path ID, is Avatar?, image in ascension history, article
     NONE("None", 0, false, "blank", null),
@@ -51,9 +53,10 @@ public class AscensionPath {
     LOWKEY("Low Key Summer", 39, false, "littlelock", "a"),
     GREY_GOO("Grey Goo", 40, false, "greygooball", "a"),
     YOU_ROBOT("You, Robot", 41, false, "robobattery", "a", "youRobotPoints", 37, false),
-    // Not yet implemented
     QUANTUM("Quantum Terrarium", 42, false, "quantum", "a", "quantumPoints", 11, false),
     WILDFIRE("Wildfire", 43, false, "brushfire", "a"),
+    GREY_YOU("Grey You", 44, true, "greygooring", "a", "greyYouPoints", 11, false),
+    JOURNEYMAN("Journeyman", 45, false, "map", "a"),
     // A "sign" rather than a "path" for some reason
     BAD_MOON("Bad Moon", 999, false, "badmoon", null),
     ;
@@ -130,6 +133,20 @@ public class AscensionPath {
 
     public void incrementPoints(int points) {
       setPoints(getPoints() + points);
+    }
+
+    public boolean canUseFamiliars() {
+      switch (this) {
+        case AVATAR_OF_BORIS:
+        case AVATAR_OF_JARLSBERG:
+        case AVATAR_OF_SNEAKY_PETE:
+        case ACTUALLY_ED_THE_UNDYING:
+        case LICENSE_TO_ADVENTURE:
+        case DARK_GYFFTE:
+          return false;
+        default:
+          return true;
+      }
     }
 
     @Override

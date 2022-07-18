@@ -13,12 +13,18 @@ public abstract class MenuItemList<E> extends JMenu implements ListDataListener 
   private final int headerCount;
   private ArrayList<E> dataValues;
   private LockableListModel<E> model;
+  private final boolean alwaysVisible;
 
   public MenuItemList(final String title, final LockableListModel<E> model) {
+    this(title, model, true);
+  }
+
+  public MenuItemList(final String title, final LockableListModel<E> model, boolean alwaysVisible) {
     super(title);
 
     this.model = model;
     this.dataValues = new ArrayList<>();
+    this.alwaysVisible = alwaysVisible;
 
     // Add the headers to the list of items which
     // need to be added.
@@ -45,6 +51,10 @@ public abstract class MenuItemList<E> extends JMenu implements ListDataListener 
     // Now, add everything that's contained inside of
     // the current list.
 
+    if (!alwaysVisible) {
+      setVisible(!model.isEmpty());
+    }
+
     for (int i = 0; i < model.size(); ++i) {
       this.dataValues.add(model.get(i));
       this.add(this.constructMenuItem(model.get(i)));
@@ -70,7 +80,7 @@ public abstract class MenuItemList<E> extends JMenu implements ListDataListener 
 
   public abstract JComponent[] getHeaders();
 
-  public abstract JComponent constructMenuItem(Object o);
+  public abstract JComponent constructMenuItem(E o);
 
   /**
    * Called whenever contents have been added to the original list; a function required by every
@@ -92,6 +102,10 @@ public abstract class MenuItemList<E> extends JMenu implements ListDataListener 
     }
 
     this.validate();
+
+    if (!this.alwaysVisible) {
+      setVisible(!this.model.isEmpty());
+    }
   }
 
   /**
@@ -111,6 +125,10 @@ public abstract class MenuItemList<E> extends JMenu implements ListDataListener 
     }
 
     this.validate();
+
+    if (!this.alwaysVisible) {
+      setVisible(!this.model.isEmpty());
+    }
   }
 
   /**
