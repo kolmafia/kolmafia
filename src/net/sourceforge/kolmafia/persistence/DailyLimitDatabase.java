@@ -107,10 +107,6 @@ public class DailyLimitDatabase {
     }
 
     public String getMaxMessage() {
-      if (this.isTome() && Preferences.getInteger("tomeSummons") >= 3) {
-        return "You may only use three Tome summonings each day";
-      }
-
       return "You can only "
           + this.getType()
           + " "
@@ -165,12 +161,16 @@ public class DailyLimitDatabase {
       };
     }
 
+    public boolean isBoolean() {
+      return getMax() == 1 && Preferences.getDefault(this.uses).equals("false");
+    }
+
     public int increment() {
       return increment(1);
     }
 
     public int increment(final int delta) {
-      if (getMax() == 1 && Preferences.getDefault(this.uses).equals("false")) {
+      if (isBoolean()) {
         Preferences.setBoolean(this.uses, true);
         return 1;
       }
@@ -183,7 +183,11 @@ public class DailyLimitDatabase {
     }
 
     public void set(final int value) {
-      Preferences.setInteger(this.uses, value);
+      if (isBoolean()) {
+        Preferences.setBoolean(this.uses, value >= 1);
+      } else {
+        Preferences.setInteger(this.uses, Math.min(getMax(), value));
+      }
     }
 
     public void setToMax() {

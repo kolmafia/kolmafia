@@ -1738,6 +1738,14 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       if (responseText.contains("You may only use three Tome summonings each day")) {
         Preferences.setInteger("tomeSummons", 3);
         ConcoctionDatabase.setRefreshNeeded(true);
+
+        // If you are in run, this message doesn't mean that this specific Tome has maxed out,
+        // rather that overall maximum Tome usage has been reached
+        if (!KoLCharacter.canInteract()) {
+          UseSkillRequest.lastUpdate = "You may only use three Tome summonings each day";
+          return SkillStatus.ERROR;
+        }
+
         maxedOut = true;
       } else {
         maxedOut =
