@@ -480,7 +480,6 @@ public class Preferences {
 
     boolean isUsingMac = System.getProperty("os.name").startsWith("Mac");
 
-    Preferences.globalNames.put("useDecoratedTabs", String.valueOf(!isUsingMac));
     Preferences.globalNames.put("chatFontSize", isUsingMac ? "medium" : "small");
 
     try {
