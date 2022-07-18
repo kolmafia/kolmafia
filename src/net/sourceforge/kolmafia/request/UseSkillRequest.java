@@ -1780,6 +1780,15 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       }
     }
 
+    // Request Sandwich has a 50% chance of working until it is succesfully cast for the day.
+    // If this fails and we haven't already cast it successfully today, send a warning.
+    if (skillId == SkillPool.REQUEST_SANDWICH
+        && !responseText.contains("well, since you asked nicely")
+        && !Preferences.getBoolean("_requestSandwichSucceeded")) {
+      UseSkillRequest.lastUpdate = "You forgot the magic word!";
+      return SkillStatus.WARNING;
+    }
+
     if (responseText.contains("You don't have enough")) {
       String skillName = SkillDatabase.getSkillName(skillId);
 
@@ -1956,23 +1965,9 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       var increment = count;
 
       switch (skillId) {
-        case SkillPool.INVISIBLE_AVATAR:
-        case SkillPool.TRIPLE_SIZE:
-          // These skills increment the count 5 by not 1
-          increment *= 5;
-          break;
-        case SkillPool.REQUEST_SANDWICH:
-          // You take a deep breath and prepare for a Boris-style bellow. Then you remember your
-          // manners
-          // and shout, "If it's not too much trouble, I'd really like a sandwich right now!
-          // Please!"
-          // To your surprise, it works! Someone wanders by slowly and hands you a sandwich,
-          // grumbling,
-          // "well, since you asked nicely . . ."
-          if (!responseText.contains("well, since you asked nicely")) {
-            increment = 0;
-          }
-          break;
+        case SkillPool.INVISIBLE_AVATAR, SkillPool.TRIPLE_SIZE ->
+        // These skills increment the count 5 by not 1
+        increment *= 5;
       }
 
       limit.increment(increment);
