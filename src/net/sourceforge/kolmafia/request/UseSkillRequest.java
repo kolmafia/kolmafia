@@ -475,8 +475,6 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       EffectPool.get(EffectPool.TAINTED_LOVE_POTION);
 
   public long getMaximumCast() {
-    boolean canCastHoboSong = KoLCharacter.isAccordionThief() && KoLCharacter.getLevel() > 14;
-
     if (KoLCharacter.inGLover() && !KoLCharacter.hasGs(this.getSkillName())) {
       return 0;
     }
@@ -496,6 +494,19 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         maximumCast =
             Math.min(InventoryManager.getAccessibleCount(ItemPool.STENCH_WAD), maximumCast);
         return Math.min(InventoryManager.getAccessibleCount(ItemPool.TWINKLY_WAD), maximumCast);
+
+        // Hobo skills
+      case SkillPool.THINGFINDER:
+      case SkillPool.BENETTONS:
+      case SkillPool.ELRONS:
+      case SkillPool.COMPANIONSHIP:
+      case SkillPool.PRECISION:
+        // If you can't cast them, return zero
+        if (!KoLCharacter.isAccordionThief() || KoLCharacter.getLevel() < 15) {
+          return 0;
+        }
+        // Otherwise let daily limits database handle remaining casts
+        break;
 
         // Zombie Master skills
       case SkillPool.SUMMON_MINION:
