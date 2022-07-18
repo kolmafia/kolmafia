@@ -11,18 +11,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.OptionsFrame.PreferenceCheckBox;
 import net.sourceforge.kolmafia.swingui.OptionsFrame.PreferenceIntegerTextField;
+import net.sourceforge.kolmafia.swingui.OptionsFrame.QueuePanel;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -54,32 +50,15 @@ public class OptionsFrameTest {
       PreferenceListenerRegistry.reset();
     }
 
-    private List<Component> componentQueue = new ArrayList<>();
-
-    private void queue(Component comp) {
-      componentQueue.add(comp);
-    }
-
-    private void makeLayout(JPanel panel) {
-      for (Component comp : componentQueue) {
-        if (comp instanceof JComponent) {
-          ((JComponent) comp).setAlignmentX(Component.LEFT_ALIGNMENT);
-        }
-        panel.add(comp);
-      }
-      componentQueue = null;
-    }
-
-    private JPanel makePanel(String... preferences) {
-      JPanel panel = new JPanel();
-      panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+    private QueuePanel makePanel(String... preferences) {
+      QueuePanel panel = new QueuePanel();
 
       for (String pref : preferences) {
         String tip = "<html>" + pref + "</html>";
         PreferenceCheckBox checkbox = new PreferenceCheckBox(pref, pref, tip);
-        queue(checkbox);
+        panel.queue(checkbox);
       }
-      makeLayout(panel);
+      panel.makeLayout();
       return panel;
     }
 
@@ -92,7 +71,7 @@ public class OptionsFrameTest {
     @Test
     void preferenceCheckBoxListensForPreferenceChange() {
       String pref = "preference1";
-      JPanel panel = makePanel(pref);
+      QueuePanel panel = makePanel(pref);
 
       Component[] components = panel.getComponents();
       assertEquals(1, components.length);
@@ -111,7 +90,7 @@ public class OptionsFrameTest {
     @Test
     void preferenceCheckBoxSetsPreference() {
       String pref = "preference2";
-      JPanel panel = makePanel(pref);
+      QueuePanel panel = makePanel(pref);
 
       Component[] components = panel.getComponents();
       assertEquals(1, components.length);
@@ -145,32 +124,15 @@ public class OptionsFrameTest {
       PreferenceListenerRegistry.reset();
     }
 
-    private List<Component> componentQueue = new ArrayList<>();
-
-    private void queue(Component comp) {
-      componentQueue.add(comp);
-    }
-
-    private void makeLayout(JPanel panel) {
-      for (Component comp : componentQueue) {
-        if (comp instanceof JComponent) {
-          ((JComponent) comp).setAlignmentX(Component.LEFT_ALIGNMENT);
-        }
-        panel.add(comp);
-      }
-      componentQueue = null;
-    }
-
-    private JPanel makePanel(String... preferences) {
-      JPanel panel = new JPanel();
-      panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+    private QueuePanel makePanel(String... preferences) {
+      QueuePanel panel = new QueuePanel();
 
       for (String pref : preferences) {
         String tip = "<html>" + pref + "</html>";
         PreferenceIntegerTextField textfield = new PreferenceIntegerTextField(pref, 4, pref, tip);
-        queue(textfield);
+        panel.queue(textfield);
       }
-      makeLayout(panel);
+      panel.makeLayout();
       return panel;
     }
 
@@ -187,7 +149,7 @@ public class OptionsFrameTest {
     @Test
     void preferenceTextFieldListensForPreferenceChange() {
       String pref = "preference3";
-      JPanel panel = makePanel(pref);
+      QueuePanel panel = makePanel(pref);
 
       Component[] components = panel.getComponents();
       assertEquals(1, components.length);
@@ -206,7 +168,7 @@ public class OptionsFrameTest {
     @Test
     void preferenceTextFieldSetsPreference() {
       String pref = "preference4";
-      JPanel panel = makePanel(pref);
+      QueuePanel panel = makePanel(pref);
 
       Component[] components = panel.getComponents();
       assertEquals(1, components.length);

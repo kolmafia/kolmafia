@@ -371,14 +371,9 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private static class ScriptMenuOptionsPanel extends JPanel {
-    private List<Component> componentQueue = new ArrayList<>();
-
+  private static class ScriptMenuOptionsPanel extends QueuePanel {
     public ScriptMenuOptionsPanel() {
-      // 5 px inset
-      this.setBorder(BorderFactory.createEmptyBorder(10, 5, 5, 5));
-      // box layoutmanager
-      this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+      super();
 
       JTextArea message =
           new JTextArea(
@@ -405,11 +400,7 @@ public class OptionsFrame extends GenericFrame {
       message.setFont(KoLGUIConstants.DEFAULT_FONT);
       this.queue(message);
 
-      JSeparator sep = new JSeparator();
-      // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
-      Dimension size = new Dimension(sep.getMaximumSize().width, sep.getPreferredSize().height);
-      sep.setMaximumSize(size);
-      this.queue(sep);
+      this.queue(this.newSeparator());
       this.queue(Box.createVerticalStrut(5));
 
       String mruTip =
@@ -422,20 +413,6 @@ public class OptionsFrame extends GenericFrame {
           new PreferenceCheckBox("scriptCascadingMenus", "Use cascading script menus", cascadeTip));
 
       this.makeLayout();
-    }
-
-    private void queue(Component comp) {
-      this.componentQueue.add(comp);
-    }
-
-    private void makeLayout() {
-      for (Component comp : this.componentQueue) {
-        if (comp instanceof JComponent) {
-          ((JComponent) comp).setAlignmentX(LEFT_ALIGNMENT);
-        }
-        this.add(comp);
-      }
-      this.componentQueue = null;
     }
   }
 
@@ -1367,14 +1344,55 @@ public class OptionsFrame extends GenericFrame {
     public void saveSettings() {}
   }
 
-  private static class SVNPanel extends JPanel {
+  public static class QueuePanel extends JPanel {
     private List<Component> componentQueue = new ArrayList<>();
 
-    public SVNPanel() {
+    public QueuePanel() {
       // 5 px inset
       this.setBorder(BorderFactory.createEmptyBorder(10, 5, 5, 5));
       // box layoutmanager
       this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+    }
+
+    protected JSeparator newSeparator() {
+      JSeparator sep = new JSeparator();
+      // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
+      int width = sep.getMaximumSize().width;
+      int height = sep.getPreferredSize().height;
+      Dimension size = new Dimension(width, height);
+      sep.setMaximumSize(size);
+      return sep;
+    }
+
+    protected JSeparator newSeparator(JLabel label) {
+      JSeparator sep = new JSeparator();
+      // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
+      int width = label.getFontMetrics(label.getFont()).stringWidth(label.getText());
+      int height = sep.getPreferredSize().height;
+      Dimension size = new Dimension(width, height);
+      sep.setMaximumSize(size);
+      return sep;
+    }
+
+    protected void queue(Component comp) {
+      this.componentQueue.add(comp);
+    }
+
+    protected void makeLayout() {
+      for (Component comp : this.componentQueue) {
+        if (comp instanceof JComponent) {
+          ((JComponent) comp).setAlignmentX(LEFT_ALIGNMENT);
+        }
+        this.add(comp);
+      }
+      this.componentQueue = null;
+    }
+  }
+
+  private static class SVNPanel extends QueuePanel {
+    public SVNPanel() {
+      super();
+
       JTextArea message =
           new JTextArea(
               """
@@ -1396,11 +1414,7 @@ public class OptionsFrame extends GenericFrame {
       message.setFont(KoLGUIConstants.DEFAULT_FONT);
       this.queue(message);
 
-      JSeparator sep = new JSeparator();
-      // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
-      Dimension size = new Dimension(sep.getMaximumSize().width, sep.getPreferredSize().height);
-      sep.setMaximumSize(size);
-      this.queue(sep);
+      this.queue(this.newSeparator());
       this.queue(Box.createVerticalStrut(5));
 
       /*
@@ -1424,13 +1438,7 @@ public class OptionsFrame extends GenericFrame {
       this.queue(Box.createVerticalStrut(10));
       JLabel label = new JLabel("Advanced options:");
       this.queue(label);
-      JSeparator sep2 = new JSeparator();
-      size =
-          new Dimension(
-              label.getFontMetrics(label.getFont()).stringWidth(label.getText()),
-              sep.getPreferredSize().height);
-      sep2.setMaximumSize(size);
-      this.queue(sep2);
+      this.queue(this.newSeparator(label));
 
       /*
        * Advanced Options
@@ -1462,30 +1470,12 @@ public class OptionsFrame extends GenericFrame {
 
       this.makeLayout();
     }
-
-    private void queue(Component comp) {
-      this.componentQueue.add(comp);
-    }
-
-    private void makeLayout() {
-      for (Component comp : this.componentQueue) {
-        if (comp instanceof JComponent) {
-          ((JComponent) comp).setAlignmentX(LEFT_ALIGNMENT);
-        }
-        this.add(comp);
-      }
-      this.componentQueue = null;
-    }
   }
 
-  private static class GitPanel extends JPanel {
-    private List<Component> componentQueue = new ArrayList<>();
-
+  private static class GitPanel extends QueuePanel {
     public GitPanel() {
-      // 5 px inset
-      this.setBorder(BorderFactory.createEmptyBorder(10, 5, 5, 5));
-      // box layoutmanager
-      this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+      super();
+
       JTextArea message =
           new JTextArea(
               """
@@ -1511,7 +1501,7 @@ public class OptionsFrame extends GenericFrame {
       // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
       Dimension size = new Dimension(sep.getMaximumSize().width, sep.getPreferredSize().height);
       sep.setMaximumSize(size);
-      this.queue(sep);
+      this.queue(this.newSeparator());
       this.queue(Box.createVerticalStrut(5));
 
       /*
@@ -1522,20 +1512,6 @@ public class OptionsFrame extends GenericFrame {
           new PreferenceCheckBox("gitUpdateOnLogin", "Update installed Git projects on login"));
 
       this.makeLayout();
-    }
-
-    private void queue(Component comp) {
-      this.componentQueue.add(comp);
-    }
-
-    private void makeLayout() {
-      for (Component comp : this.componentQueue) {
-        if (comp instanceof JComponent jComp) {
-          jComp.setAlignmentX(LEFT_ALIGNMENT);
-        }
-        this.add(comp);
-      }
-      this.componentQueue = null;
     }
   }
 
