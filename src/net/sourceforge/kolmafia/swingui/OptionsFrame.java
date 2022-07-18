@@ -794,14 +794,12 @@ public class OptionsFrame extends GenericFrame {
   private static class ChatOptionsPanel extends OptionsPanel {
     private ButtonGroup fontSizeGroup;
     private JRadioButton[] fontSizes;
-    private JLabel innerGradient, outerGradient;
 
     public ChatOptionsPanel() {
       super(new Dimension(30, 17), new Dimension(470, 17));
 
       String[][] options = {
         {"useTabbedChatFrame", "Use tabbed, rather than multi-window, chat"},
-        {"useShinyTabbedChat", "Use shiny closeable tabs when using tabbed chat"},
         {"addChatCommandLine", "Add a graphical CLI to tabbed chat"},
         {},
         {"useContactsFrame", "Use a popup window for /friends and /who"},
@@ -848,20 +846,6 @@ public class OptionsFrame extends GenericFrame {
 
       newElements[tabCount++] = new VerifiableElement();
 
-      this.outerGradient = new TabColorChanger("outerChatColor");
-      newElements[tabCount++] =
-          new VerifiableElement(
-              "Change the outer portion of highlighted tab gradient",
-              SwingConstants.LEFT,
-              this.outerGradient);
-
-      this.innerGradient = new TabColorChanger("innerChatColor");
-      newElements[tabCount++] =
-          new VerifiableElement(
-              "Change the inner portion of highlighted tab gradient",
-              SwingConstants.LEFT,
-              this.innerGradient);
-
       super.setContent(newElements);
     }
 
@@ -884,33 +868,9 @@ public class OptionsFrame extends GenericFrame {
     public void actionCancelled() {
       super.actionCancelled();
 
-      this.innerGradient.setBackground(
-          DataUtilities.toColor(Preferences.getString("innerChatColor")));
-      this.outerGradient.setBackground(
-          DataUtilities.toColor(Preferences.getString("outerChatColor")));
-
       String fontSize = Preferences.getString("chatFontSize");
       this.fontSizes[fontSize.equals("large") ? 2 : fontSize.equals("medium") ? 1 : 0].setSelected(
           true);
-    }
-
-    private class TabColorChanger extends ColorChooser {
-      public TabColorChanger(final String property) {
-        super(property);
-      }
-
-      @Override
-      public void applyChanges() {
-        if (this.property.equals("innerChatColor")) {
-          Preferences.setString(
-              "innerChatColor",
-              DataUtilities.toHexString(ChatOptionsPanel.this.innerGradient.getBackground()));
-        } else {
-          Preferences.setString(
-              "outerChatColor",
-              DataUtilities.toHexString(ChatOptionsPanel.this.outerGradient.getBackground()));
-        }
-      }
     }
   }
 
@@ -1848,7 +1808,6 @@ public class OptionsFrame extends GenericFrame {
               {"addStatusBarToFrames", "Add a status line to independent windows"},
               {"autoHighlightOnFocus", "Highlight text fields when selected"},
               {},
-              {"useDecoratedTabs", "Use shiny decorated tabs instead of OS default"},
               {"allowCloseableDesktopTabs", "Allow tabs on main window to be closed"},
             }
             : System.getProperty("os.name").startsWith("Mac")
@@ -1859,7 +1818,6 @@ public class OptionsFrame extends GenericFrame {
                   {"addStatusBarToFrames", "Add a status line to independent windows"},
                   {"autoHighlightOnFocus", "Highlight text fields when selected"},
                   {},
-                  {"useDecoratedTabs", "Use shiny decorated tabs instead of OS default"},
                   {"allowCloseableDesktopTabs", "Allow tabs on main window to be closed"},
                   // { "darkThemeToolIconOverride", "Always use dark toolbar icons with dark Look
                   // and Feel" },
@@ -1870,7 +1828,6 @@ public class OptionsFrame extends GenericFrame {
                   {"addStatusBarToFrames", "Add a status line to independent windows"},
                   {"autoHighlightOnFocus", "Highlight text fields when selected"},
                   {},
-                  {"useDecoratedTabs", "Use shiny decorated tabs instead of OS default"},
                   {"allowCloseableDesktopTabs", "Allow tabs on main window to be closed"},
                 };
 
@@ -2000,8 +1957,6 @@ public class OptionsFrame extends GenericFrame {
     }
 
     private class InterfaceCheckboxPanel extends OptionsPanel {
-      private final JLabel innerGradient, outerGradient;
-
       public InterfaceCheckboxPanel() {
         super(new Dimension(20, 16), new Dimension(370, 16));
         VerifiableElement[] elements =
@@ -2020,20 +1975,6 @@ public class OptionsFrame extends GenericFrame {
         }
 
         elements[UserInterfacePanel.this.options.length] = new VerifiableElement();
-
-        this.outerGradient = new TabColorChanger("outerTabColor");
-        elements[UserInterfacePanel.this.options.length + 1] =
-            new VerifiableElement(
-                "Change the outer portion of the tab gradient (shiny tabs)",
-                SwingConstants.LEFT,
-                this.outerGradient);
-
-        this.innerGradient = new TabColorChanger("innerTabColor");
-        elements[UserInterfacePanel.this.options.length + 2] =
-            new VerifiableElement(
-                "Change the inner portion of the tab gradient (shiny tabs)",
-                SwingConstants.LEFT,
-                this.innerGradient);
 
         this.actionCancelled();
         this.setContent(elements);
@@ -2061,36 +2002,10 @@ public class OptionsFrame extends GenericFrame {
           JCheckBox optionBox = UserInterfacePanel.this.optionBoxes[i];
           optionBox.setSelected(Preferences.getBoolean(option[0]));
         }
-
-        this.innerGradient.setBackground(
-            DataUtilities.toColor(Preferences.getString("innerTabColor")));
-        this.outerGradient.setBackground(
-            DataUtilities.toColor(Preferences.getString("outerTabColor")));
       }
 
       @Override
       public void setEnabled(final boolean isEnabled) {}
-
-      private class TabColorChanger extends ColorChooser {
-        public TabColorChanger(final String property) {
-          super(property);
-        }
-
-        @Override
-        public void applyChanges() {
-          if (this.property.equals("innerTabColor")) {
-            Preferences.setString(
-                "innerTabColor",
-                DataUtilities.toHexString(
-                    InterfaceCheckboxPanel.this.innerGradient.getBackground()));
-          } else {
-            Preferences.setString(
-                "outerTabColor",
-                DataUtilities.toHexString(
-                    InterfaceCheckboxPanel.this.outerGradient.getBackground()));
-          }
-        }
-      }
     }
   }
 

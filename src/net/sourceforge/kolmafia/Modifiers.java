@@ -2733,11 +2733,13 @@ public class Modifiers {
       case FamiliarPool.HATRACK:
         if (famItem == EquipmentRequest.UNEQUIP) {
           this.add(Modifiers.HATDROP, 50.0, "Familiar:naked hatrack");
+          this.add(Modifiers.FAMILIAR_WEIGHT_CAP, 1, "Familiar:naked hatrack");
         }
         break;
       case FamiliarPool.SCARECROW:
         if (famItem == EquipmentRequest.UNEQUIP) {
           this.add(Modifiers.PANTSDROP, 50.0, "Familiar:naked scarecrow");
+          this.add(Modifiers.FAMILIAR_WEIGHT_CAP, 1, "Familiar:naked scarecrow");
         }
         break;
     }
