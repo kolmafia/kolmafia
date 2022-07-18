@@ -881,7 +881,6 @@ public class OptionsFrame extends GenericFrame {
     @Override
     public void actionCancelled() {
       super.actionCancelled();
-      super.actionCancelled();
 
       String fontSize = Preferences.getString("chatFontSize");
       this.fontSizes[fontSize.equals("large") ? 2 : fontSize.equals("medium") ? 1 : 0].setSelected(
