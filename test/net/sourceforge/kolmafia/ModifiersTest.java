@@ -161,31 +161,54 @@ public class ModifiersTest {
     assertEquals(-30, mod.get(Modifiers.COMBAT_RATE));
   }
 
-  @Test
-  void fixodeneConsideredInFamiliarModifiers() {
-    var cleanups = addEffect("Fidoxene");
+  @ParameterizedTest
+  @CsvSource({
+    FamiliarPool.HATRACK + ", " + Modifiers.HATDROP,
+    FamiliarPool.SCARECROW + ", " + Modifiers.PANTSDROP,
+  })
+  public void getsRightModifiersNakedHatrack(int famId, int mod) {
+    var cleanups = new Cleanups(setFamiliar(famId));
 
     try (cleanups) {
       Modifiers familiarMods = new Modifiers();
-      var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 0);
+      var fam = KoLCharacter.getFamiliar();
+      fam.setExperience(400);
+      familiarMods.applyFamiliarModifiers(fam, EquipmentRequest.UNEQUIP);
+      KoLCharacter.recalculateAdjustments();
 
-      familiarMods.applyFamiliarModifiers(familiar, null);
-
-      assertThat(familiarMods.get(Modifiers.ITEMDROP), closeTo(50.166, 0.001));
+      assertThat(fam.getModifiedWeight(), equalTo(1));
+      assertThat(familiarMods.get(mod), closeTo(50, 0.001));
     }
   }
 
-  @Test
-  void fixodeneConsideredInFamiliarModifiersNotExceedingTwenty() {
-    var cleanups = addEffect("Fidoxene");
+  @Nested
+  class Fixodene {
+    @Test
+    void fixodeneConsideredInFamiliarModifiers() {
+      var cleanups = addEffect("Fidoxene");
 
-    try (cleanups) {
-      Modifiers familiarMods = new Modifiers();
-      var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400);
+      try (cleanups) {
+        Modifiers familiarMods = new Modifiers();
+        var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 0);
 
-      familiarMods.applyFamiliarModifiers(familiar, null);
+        familiarMods.applyFamiliarModifiers(familiar, null);
 
-      assertThat(familiarMods.get(Modifiers.ITEMDROP), closeTo(50.166, 0.001));
+        assertThat(familiarMods.get(Modifiers.ITEMDROP), closeTo(50.166, 0.001));
+      }
+    }
+
+    @Test
+    void fixodeneConsideredInFamiliarModifiersNotExceedingTwenty() {
+      var cleanups = addEffect("Fidoxene");
+
+      try (cleanups) {
+        Modifiers familiarMods = new Modifiers();
+        var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400);
+
+        familiarMods.applyFamiliarModifiers(familiar, null);
+
+        assertThat(familiarMods.get(Modifiers.ITEMDROP), closeTo(50.166, 0.001));
+      }
     }
   }
 
