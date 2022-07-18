@@ -205,3 +205,4 @@ Cast	Feel Peaceful	_feelPeacefulUsed	3
 Cast	Map the Monsters	_monstersMapped	3
 Cast	Meatify Matter	_meatifyMatterUsed
 Cast	Sweat Out Some Booze	_sweatOutSomeBoozeUsed	3
+Cast	Summon Annoyance	_summonAnnoyanceUsed

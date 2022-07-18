@@ -1833,15 +1833,9 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         ResultProcessor.processResult(ItemPool.get(ItemPool.SPOOKY_WAD, -count));
         ResultProcessor.processResult(ItemPool.get(ItemPool.STENCH_WAD, -count));
         ResultProcessor.processResult(ItemPool.get(ItemPool.TWINKLY_WAD, -count));
-
-        Preferences.increment("prismaticSummons", count);
         break;
 
       case SkillPool.TURTLE_POWER:
-        Preferences.setBoolean("_turtlePowerCast", true);
-        Preferences.setInteger("turtleBlessingTurns", 0);
-        break;
-
       case SkillPool.WAR_BLESSING:
       case SkillPool.SHE_WHO_WAS_BLESSING:
       case SkillPool.STORM_BLESSING:
@@ -1849,7 +1843,6 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         break;
 
       case SkillPool.CARBOLOADING:
-        Preferences.setBoolean("_carboLoaded", true);
         Preferences.increment("carboLoading", 1);
         break;
 
@@ -1895,12 +1888,10 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         break;
 
       case SkillPool.SUMMON_ANNOYANCE:
-        Preferences.setBoolean("_summonAnnoyanceUsed", true);
         Preferences.decrement("availableSwagger", Preferences.getInteger("summonAnnoyanceCost"));
         break;
 
       case SkillPool.ANCESTRAL_RECALL:
-        Preferences.increment("_ancestralRecallCasts", count);
         ResultProcessor.processResult(ItemPool.get(ItemPool.BLUE_MANA, -count));
         break;
 
@@ -1930,10 +1921,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         break;
 
       case SkillPool.SEEK_OUT_A_BIRD:
-        {
-          Preferences.increment("_birdsSoughtToday");
-          break;
-        }
+        Preferences.increment("_birdsSoughtToday");
+        break;
 
       case SkillPool.MAP_THE_MONSTERS:
         Preferences.setBoolean("mappingMonsters", true);
@@ -1955,7 +1944,6 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     }
 
     // Now apply daily limits
-    var limit = DailyLimitType.CAST.getDailyLimit(skillId);
     if (limit != null) {
       var increment = count;
 
