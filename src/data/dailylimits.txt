@@ -75,6 +75,7 @@ Cast	That's Not a Knife	_discoKnife
 Cast	The Ballad of Richie Thingfinder	_thingfinderCasts	10
 Cast	The Smile of Mr. A.	_smilesOfMrA	[pref(goldenMrAccessories)*5]
 Cast	Throw Party	_petePartyThrown
+Cast	Turtle Power	_turtlePowerCast
 Cast	Vent Rage Gland	rageGlandVented
 Cast	Visit Your Favorite Bird	_favoriteBirdVisited
 Tome	Summon Clip Art	_clipartSummons	3
