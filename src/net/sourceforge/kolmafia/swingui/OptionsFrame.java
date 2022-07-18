@@ -663,12 +663,11 @@ public class OptionsFrame extends GenericFrame {
       this.queue(
           new PreferenceIntegerTextField("maximizerMRUSize", 4, "Recent maximizer string buffer"));
 
-      PreferenceCheckBox singleFilter =
-          new PreferenceCheckBox(
-              "maximizerSingleFilter",
-              "Treat filter checkboxes as an exclusive group (will close Maximizer)");
-      singleFilter.addActionListener(new CloseMaximizerListener());
-      this.queue(singleFilter);
+      this.queue(
+              new PreferenceCheckBox(
+                  "maximizerSingleFilter",
+                  "Treat filter checkboxes as an exclusive group (will close Maximizer)"))
+          .addActionListener(new CloseMaximizerListener());
 
       this.makeLayout();
     }
@@ -1239,8 +1238,9 @@ public class OptionsFrame extends GenericFrame {
       return message;
     }
 
-    protected void queue(Component comp) {
+    protected <T extends Component> T queue(T comp) {
       this.componentQueue.add(comp);
+      return comp;
     }
 
     protected void makeLayout() {
