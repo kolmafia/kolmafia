@@ -609,182 +609,81 @@ public class OptionsFrame extends GenericFrame {
   }
 
   /** Panel used for handling maximizer related options */
-  private static class MaximizerOptionsPanel extends GenericPanel implements FocusListener {
-    private final JTextField combinationsField;
-    private final JTextField mruField;
-    private final JTextField priceField;
-    private final JCheckBox currentMallBox;
-    private final JCheckBox noAdvBox;
-    private final JCheckBox alwaysCurrentBox;
-    private final JCheckBox foldBox;
-    private final JCheckBox verboseBox;
-    private final JCheckBox incAllBox;
-    private final JCheckBox createBox;
-    private final JCheckBox singleFilterBox;
-    private final SmartButtonGroup equipmentSelect;
-    private final SmartButtonGroup priceSelect;
+  private static class MaximizerOptionsPanel extends ConfigQueuingPanel {
 
     public MaximizerOptionsPanel() {
-      super(new Dimension(30, 16), new Dimension(370, 16));
+      super();
 
-      combinationsField = new JTextField(8);
-      this.combinationsField.addFocusListener(this);
-      this.mruField = new JTextField(4);
-      this.mruField.addFocusListener(this);
-      this.priceField = new JTextField(8);
-      this.priceField.addFocusListener(this);
-      this.currentMallBox = new JCheckBox();
-      this.currentMallBox.addFocusListener(this);
-      this.noAdvBox = new JCheckBox();
-      this.noAdvBox.addFocusListener(this);
-      this.alwaysCurrentBox = new JCheckBox();
-      this.alwaysCurrentBox.addFocusListener(this);
-      this.foldBox = new JCheckBox();
-      this.foldBox.addFocusListener(this);
-      this.verboseBox = new JCheckBox();
-      this.verboseBox.addFocusListener(this);
-      this.incAllBox = new JCheckBox();
-      this.incAllBox.addFocusListener(this);
-      this.createBox = new JCheckBox();
-      this.createBox.addFocusListener(this);
-      this.singleFilterBox = new JCheckBox();
-      this.singleFilterBox.addFocusListener(this);
+      this.queue(
+          new PreferenceButtonGroup(
+              "maximizerEquipmentScope",
+              "Consider items by default: ",
+              "on hand",
+              "creatable",
+              "pullable/buyable"));
+      this.queue(
+          new PreferenceCheckBox(
+              "maximizerFoldables", "Consider foldable items in Maximizer by default"));
+      this.queue(
+          new PreferenceCheckBox(
+              "maximizerCreateOnHand", "Always consider non-equipment creations as on hand"));
+      this.queue(
+          new PreferenceCheckBox(
+              "maximizerAlwaysCurrent",
+              "Always consider current equipment outside Hardcore / Ronin"));
+      this.queue(
+          new PreferenceCheckBox(
+              "maximizerNoAdventures", "Do not show effects that cost adventures"));
+      this.queue(
+          new PreferenceIntegerTextField(
+              "maximizerCombinationLimit",
+              8,
+              "Maximum number of combinations to consider (0 for no max)"));
+      this.queue(
+          new PreferenceButtonGroup(
+              "maximizerPriceLevel",
+              "Price check by default:",
+              "don't check",
+              "buyable only",
+              "all consumables"));
+      this.queue(
+          new PreferenceIntegerTextField("maximizerMaxPrice", 8, "Max purchase price by default"));
+      this.queue(
+          new PreferenceCheckBox(
+              "maximizerCurrentMallPrices",
+              "Check Mall prices every session (not using historical prices)"));
+      this.queue(
+          new PreferenceCheckBox(
+              "verboseMaximizer",
+              "Show cost, turns of effect and number of casts/items remaining"));
+      this.queue(
+          new PreferenceCheckBox(
+              "maximizerIncludeAll",
+              "Show all, effects with no direct source, skills you don't have, etc."));
+      this.queue(
+          new PreferenceIntegerTextField("maximizerMRUSize", 4, "Recent maximizer string buffer"));
 
-      // Feels kludgy, but makes sure that column width for text fields are respected
-      JPanel combinationsPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
-      combinationsPanel.add(combinationsField);
-      JPanel mruPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
-      mruPanel.add(mruField);
-      JPanel maxPricePanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
-      maxPricePanel.add(priceField);
+      PreferenceCheckBox singleFilter =
+          new PreferenceCheckBox(
+              "maximizerSingleFilter",
+              "Treat filter checkboxes as an exclusive group (will close Maximizer)");
+      singleFilter.addActionListener(new CloseMaximizerListener());
+      this.queue(singleFilter);
 
-      JPanel equipPanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
-      this.equipmentSelect = new SmartButtonGroup(equipPanel);
-      this.equipmentSelect.add(new JRadioButton("on hand"));
-      this.equipmentSelect.add(new JRadioButton("creatable"));
-      this.equipmentSelect.add(new JRadioButton("pullable/buyable"));
-
-      JPanel pricePanel = new JPanel(new FlowLayout(FlowLayout.LEADING, 0, 0));
-      this.priceSelect = new SmartButtonGroup(pricePanel);
-      this.priceSelect.add(new JRadioButton("don't check"));
-      this.priceSelect.add(new JRadioButton("buyable only"));
-      this.priceSelect.add(new JRadioButton("all consumables"));
-
-      VerifiableElement[] elements = new VerifiableElement[13];
-
-      elements[0] = new VerifiableElement("Consider items by default: ", equipPanel, false);
-      elements[1] =
-          new VerifiableElement(
-              "Consider foldable items in Maximizer by default", SwingConstants.LEFT, this.foldBox);
-      elements[2] =
-          new VerifiableElement(
-              "Always consider non-equipment creations as on hand",
-              SwingConstants.LEFT,
-              this.createBox);
-      elements[3] =
-          new VerifiableElement(
-              "Always consider current equipment outside Hardcore / Ronin",
-              SwingConstants.LEFT,
-              this.alwaysCurrentBox);
-      elements[4] =
-          new VerifiableElement(
-              "Do not show effects that cost adventures", SwingConstants.LEFT, this.noAdvBox);
-      elements[5] =
-          new VerifiableElement(
-              "Maximum number of combinations to consider (0 for no max)",
-              SwingConstants.LEFT,
-              combinationsPanel);
-      elements[6] = new VerifiableElement("Price check by default:", pricePanel, false);
-      elements[7] =
-          new VerifiableElement(
-              "Max purchase price by default", SwingConstants.LEFT, maxPricePanel);
-      elements[8] =
-          new VerifiableElement(
-              "Check Mall prices every session (not using historical prices)",
-              SwingConstants.LEFT,
-              this.currentMallBox);
-      elements[9] =
-          new VerifiableElement(
-              "Show cost, turns of effect and number of casts/items remaining",
-              SwingConstants.LEFT,
-              this.verboseBox);
-      elements[10] =
-          new VerifiableElement(
-              "Show all, effects with no direct source, skills you don't have, etc.",
-              SwingConstants.LEFT,
-              this.incAllBox);
-      elements[11] =
-          new VerifiableElement("Recent maximizer string buffer", SwingConstants.LEFT, mruPanel);
-      elements[12] =
-          new VerifiableElement(
-              "Treat filter checkboxes as an exclusive group (will close Maximizer)",
-              SwingConstants.LEFT,
-              this.singleFilterBox);
-
-      this.actionCancelled();
-      this.setContent(elements);
+      this.makeLayout();
     }
 
-    @Override
-    public boolean shouldAddStatusLabel() {
-      return false;
-    }
-
-    @Override
-    public void setEnabled(final boolean isEnabled) {}
-
-    @Override
-    public void actionConfirmed() {
-      Preferences.setInteger(
-          "maximizerCombinationLimit", InputFieldUtilities.getValue(this.combinationsField, 0));
-      Preferences.setInteger("maximizerMRUSize", InputFieldUtilities.getValue(this.mruField, 0));
-      Preferences.setBoolean("maximizerCurrentMallPrices", this.currentMallBox.isSelected());
-      Preferences.setBoolean("maximizerNoAdventures", this.noAdvBox.isSelected());
-      Preferences.setBoolean("maximizerAlwaysCurrent", this.alwaysCurrentBox.isSelected());
-      Preferences.setBoolean("maximizerFoldables", this.foldBox.isSelected());
-      Preferences.setBoolean("verboseMaximizer", this.verboseBox.isSelected());
-      Preferences.setBoolean("maximizerIncludeAll", this.incAllBox.isSelected());
-      Preferences.setBoolean("maximizerCreateOnHand", this.createBox.isSelected());
-      Preferences.setInteger("maximizerEquipmentScope", this.equipmentSelect.getSelectedIndex());
-      Preferences.setInteger("maximizerMaxPrice", InputFieldUtilities.getValue(this.priceField, 0));
-      Preferences.setInteger("maximizerPriceLevel", this.priceSelect.getSelectedIndex());
-
-      if (this.singleFilterBox.isSelected() != Preferences.getBoolean("maximizerSingleFilter")) {
+    private class CloseMaximizerListener implements ActionListener {
+      @Override
+      public void actionPerformed(final ActionEvent e) {
         // redraw Maximizer
-        Frame[] frames = Frame.getFrames();
-        for (Frame f : frames) {
+        for (Frame f : Frame.getFrames()) {
           if (f.getTitle().contains("Modifier Maximizer")) {
             f.dispose();
           }
         }
       }
-      Preferences.setBoolean("maximizerSingleFilter", this.singleFilterBox.isSelected());
     }
-
-    @Override
-    public void actionCancelled() {
-      this.combinationsField.setText(Preferences.getString("maximizerCombinationLimit"));
-      this.mruField.setText(Preferences.getString("maximizerMRUSize"));
-      this.currentMallBox.setSelected(Preferences.getBoolean("maximizerCurrentMallPrices"));
-      this.noAdvBox.setSelected(Preferences.getBoolean("maximizerNoAdventures"));
-      this.alwaysCurrentBox.setSelected(Preferences.getBoolean("maximizerAlwaysCurrent"));
-      this.foldBox.setSelected(Preferences.getBoolean("maximizerFoldables"));
-      this.verboseBox.setSelected(Preferences.getBoolean("verboseMaximizer"));
-      this.incAllBox.setSelected(Preferences.getBoolean("maximizerIncludeAll"));
-      this.createBox.setSelected(Preferences.getBoolean("maximizerCreateOnHand"));
-      this.equipmentSelect.setSelectedIndex(Preferences.getInteger("maximizerEquipmentScope"));
-      this.priceField.setText(Preferences.getString("maximizerMaxPrice"));
-      this.priceSelect.setSelectedIndex(Preferences.getInteger("maximizerPriceLevel"));
-      this.singleFilterBox.setSelected(Preferences.getBoolean("maximizerSingleFilter"));
-    }
-
-    @Override
-    public void focusLost(final FocusEvent e) {
-      MaximizerOptionsPanel.this.actionConfirmed();
-    }
-
-    @Override
-    public void focusGained(final FocusEvent e) {}
   }
 
   /**
@@ -826,7 +725,7 @@ public class OptionsFrame extends GenericFrame {
         this.fontSizeGroup.add(this.fontSizes[i]);
       }
 
-      VerifiableElement[] newElements = new VerifiableElement[elements.length + 7];
+      VerifiableElement[] newElements = new VerifiableElement[elements.length + 5];
 
       newElements[0] =
           new VerifiableElement(
@@ -1471,7 +1370,11 @@ public class OptionsFrame extends GenericFrame {
     private void configure() {
       this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
       PreferenceListenerRegistry.registerPreferenceListener(pref, this);
-      this.box.addActionListener(e -> Preferences.setBoolean(pref, box.isSelected()));
+      this.addActionListener(e -> Preferences.setBoolean(pref, box.isSelected()));
+    }
+
+    public void addActionListener(ActionListener a) {
+      this.box.addActionListener(a);
     }
 
     private void makeLayout(String message) {
@@ -1960,7 +1863,7 @@ public class OptionsFrame extends GenericFrame {
       public InterfaceCheckboxPanel() {
         super(new Dimension(20, 16), new Dimension(370, 16));
         VerifiableElement[] elements =
-            new VerifiableElement[UserInterfacePanel.this.options.length + 3];
+            new VerifiableElement[UserInterfacePanel.this.options.length + 1];
 
         UserInterfacePanel.this.optionBoxes = new JCheckBox[UserInterfacePanel.this.options.length];
 
