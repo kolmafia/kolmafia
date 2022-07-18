@@ -1649,33 +1649,6 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       return SkillStatus.ERROR;
     }
 
-    if (responseText.contains("You may only use three Tome summonings each day")) {
-      Preferences.setInteger("tomeSummons", 3);
-      if (KoLCharacter.canInteract()) {
-        switch (skillId) {
-          case SkillPool.SNOWCONE:
-            Preferences.setInteger("_snowconeSummons", 3);
-            break;
-          case SkillPool.STICKER:
-            Preferences.setInteger("_stickerSummons", 3);
-            break;
-          case SkillPool.SUGAR:
-            Preferences.setInteger("_sugarSummons", 3);
-            break;
-          case SkillPool.RAD_LIB:
-            Preferences.setInteger("_radlibSummons", 3);
-            break;
-          case SkillPool.SMITHSNESS:
-            Preferences.setInteger("_smithsnessSummons", 3);
-            break;
-        }
-      } else {
-        UseSkillRequest.lastUpdate = "You've used your Tomes enough today.";
-      }
-      ConcoctionDatabase.setRefreshNeeded(true);
-      return SkillStatus.ERROR;
-    }
-
     // Summon Clip Art cast through the browser has two phases:
     //
     //   campground.php?preaction=summoncliparts
@@ -1751,111 +1724,51 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       return SkillStatus.ERROR;
     }
 
-    if (responseText.contains("You can only declare one Employee of the Month per day")) {
-      UseSkillRequest.lastUpdate = "You can only declare one Employee of the Month per day.";
-      Preferences.setBoolean("_managerialManipulationUsed", true);
-      return SkillStatus.ERROR;
-    }
-
     if (responseText.contains("You decide not to commit")) {
       UseSkillRequest.lastUpdate = "You decide to not change your favorite bird.";
       return SkillStatus.ERROR;
     }
 
-    // You've already recalled a lot of ancestral memories lately. You should
-    // probably give your ancestors the rest of the day off.
+    var limit = DailyLimitType.CAST.getDailyLimit(skillId);
 
-    if (responseText.contains("You've already recalled a lot of ancestral memories lately")) {
-      UseSkillRequest.lastUpdate = "You can only cast Ancestral Recall 10 times per day.";
-      Preferences.setInteger("_ancestralRecallCasts", 10);
-      return SkillStatus.ERROR;
-    }
+    // Determine whether maximum casts reached
+    if (limit != null) {
+      boolean maxedOut;
 
-    // You think your stomach has had enough for one day.
-    if (responseText.contains("enough for one day")) {
-      UseSkillRequest.lastUpdate = "You can only do that once a day.";
-      Preferences.setBoolean("_carboLoaded", true);
-      return SkillStatus.WARNING;
-    }
-
-    // You can't cast that many turns of that skill today. (You've used 5 casts today,
-    // and the limit of casts per day you have is 5.)
-    if (responseText.contains("You can't cast that many turns of that skill today")) {
-      UseSkillRequest.lastUpdate = "You've reached your daily casting limit for that skill.";
-      switch (skillId) {
-        case SkillPool.THINGFINDER:
-          Preferences.setInteger("_thingfinderCasts", 10);
-          break;
-
-        case SkillPool.BENETTONS:
-          Preferences.setInteger("_benettonsCasts", 10);
-          break;
-
-        case SkillPool.ELRONS:
-          Preferences.setInteger("_elronsCasts", 10);
-          break;
-
-        case SkillPool.COMPANIONSHIP:
-          Preferences.setInteger("_companionshipCasts", 10);
-          break;
-
-        case SkillPool.PRECISION:
-          Preferences.setInteger("_precisionCasts", 10);
-          break;
-
-        case SkillPool.DONHOS:
-          Preferences.setInteger("_donhosCasts", 50);
-          break;
-
-        case SkillPool.INIGOS:
-          Preferences.setInteger("_inigosCasts", 5);
-          break;
-
-        default:
-          break;
+      if (responseText.contains("You may only use three Tome summonings each day")) {
+        Preferences.setInteger("tomeSummons", 3);
+        ConcoctionDatabase.setRefreshNeeded(true);
+        maxedOut = true;
+      } else {
+        maxedOut =
+            // You've already recalled a lot of ancestral memories lately. You should
+            // probably give your ancestors the rest of the day off.
+            responseText.contains("You've already recalled a lot of ancestral memories lately")
+                ||
+                // You think your stomach has had enough for one day.
+                responseText.contains("enough for one day")
+                ||
+                // You can't cast that many turns of that skill today. (You've used 5 casts today,
+                // and the limit of casts per day you have is 5.)
+                responseText.contains("You can't cast that many turns of that skill today")
+                || responseText.contains("You can only declare one Employee of the Month per day");
       }
-      return SkillStatus.WARNING;
-    }
 
-    Matcher limitedMatcher = UseSkillRequest.LIMITED_PATTERN.matcher(responseText);
-    // limited-use skills
-    // "Y / maxCasts casts used today."
-    if (limitedMatcher.find()) {
-      int casts = 0;
-      // parse the number of casts remaining and set the appropriate preference.
+      if (maxedOut) {
+        UseSkillRequest.lastUpdate = limit.getMaxMessage();
+        limit.setToMax();
+        return SkillStatus.ERROR;
+      }
 
-      String numString = limitedMatcher.group(1);
+      // Handle skills that indicate their current and max casts
+      Matcher limitedMatcher = UseSkillRequest.LIMITED_PATTERN.matcher(responseText);
+      // limited-use skills
+      // "Y / maxCasts casts used today."
+      if (limitedMatcher.find()) {
+        // parse the number of casts remaining and set the appropriate preference.
+        int casts = Integer.parseInt(limitedMatcher.group(1));
 
-      casts = Integer.parseInt(numString);
-
-      switch (skillId) {
-        case SkillPool.THINGFINDER:
-          Preferences.setInteger("_thingfinderCasts", casts);
-          break;
-
-        case SkillPool.BENETTONS:
-          Preferences.setInteger("_benettonsCasts", casts);
-          break;
-
-        case SkillPool.ELRONS:
-          Preferences.setInteger("_elronsCasts", casts);
-          break;
-
-        case SkillPool.COMPANIONSHIP:
-          Preferences.setInteger("_companionshipCasts", casts);
-          break;
-
-        case SkillPool.PRECISION:
-          Preferences.setInteger("_precisionCasts", casts);
-          break;
-
-        case SkillPool.DONHOS:
-          Preferences.setInteger("_donhosCasts", casts);
-          break;
-
-        case SkillPool.INIGOS:
-          Preferences.setInteger("_inigosCasts", casts);
-          break;
+        limit.set(casts);
       }
     }
 

@@ -106,6 +106,20 @@ public class DailyLimitDatabase {
       };
     }
 
+    public String getMaxMessage() {
+      if (this.isTome() && Preferences.getInteger("tomeSummons") >= 3) {
+        return "You may only use three Tome summonings each day";
+      }
+
+      return "You can only "
+          + this.getType()
+          + " "
+          + this.getName()
+          + " "
+          + this.getMax()
+          + " times per day";
+    }
+
     /**
      * Get the maximum number of daily uses for the given DailyLimit item
      *
@@ -123,7 +137,7 @@ public class DailyLimitDatabase {
       if (this.max.startsWith("[") && this.max.endsWith("]")) {
         String exprString = this.max.substring(1, this.max.length() - 1);
         Expression expr =
-            new Expression(exprString, "daily limit for " + this.getType() + " " + this.getId());
+            new Expression(exprString, "daily limit for " + this.getType() + " " + this.getName());
         if (!expr.hasErrors()) {
           return (int) expr.eval();
         }
@@ -144,6 +158,13 @@ public class DailyLimitDatabase {
       return this.id;
     }
 
+    public String getName() {
+      return switch (this.getType()) {
+        case USE, EAT, DRINK, SPLEEN -> ItemDatabase.getItemName(this.getId());
+        case CAST -> SkillDatabase.getSkillName(this.getId());
+      };
+    }
+
     public int increment() {
       return increment(1);
     }
@@ -159,6 +180,14 @@ public class DailyLimitDatabase {
       }
 
       return Preferences.increment(this.uses, delta, getMax(), false);
+    }
+
+    public void set(final int value) {
+      Preferences.setInteger(this.uses, value);
+    }
+
+    public void setToMax() {
+      set(this.getMax());
     }
   }
 
