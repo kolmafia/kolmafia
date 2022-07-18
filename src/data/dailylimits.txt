@@ -1,6 +1,124 @@
 1
 # Limiter: daily limit
 # Type	Item name	Tracking property	[Max = 1]
+Cast	Acquire Rhinestones	_rhinestonesAcquired
+Cast	Advanced Cocktailcrafting	cocktailSummons
+Cast	Advanced Saucecrafting	reagentSummons
+Cast	Ancestral Recall	_ancestralRecallCasts	10
+Cast	Bend Hell	_bendHellUsed
+Cast	Benetton's Medley of Diversity	_benettonsCasts	10
+Cast	Bow-Legged Swagger	_bowleggedSwaggerUsed
+Cast	Bowl Full of Jelly	_bowlFullOfJellyUsed
+Cast	CHEAT CODE: Invisible Avatar	_powerfulGloveBatteryPowerUsed	100
+Cast	CHEAT CODE: Triple Size	_powerfulGloveBatteryPowerUsed	100
+Cast	Canticle of Carboloading	_carboLoaded
+Cast	Ceci N'Est Pas Un Chapeau	_ceciHatUsed
+Cast	Chorale of Companionship	_companionshipCasts	10
+Cast	Chubby and Plump	_chubbyAndPlumpUsed
+Cast	Communism!	_communismUsed
+Cast	Conjure Cheese	_jarlsCheeseSummoned
+Cast	Conjure Cream	_jarlsCreamSummoned
+Cast	Conjure Dough	_jarlsDoughSummoned
+Cast	Conjure Eggs	_jarlsEggsSummoned
+Cast	Conjure Fruit	_jarlsFruitSummoned
+Cast	Conjure Meat Product	_jarlsMeatSummoned
+Cast	Conjure Potato	_jarlsPotatoSummoned
+Cast	Conjure Vegetables	_jarlsVeggiesSummoned
+Cast	Demand Sandwich	_demandSandwich	3
+Cast	Donho's Bubbly Ballad	_donhosCasts	50
+Cast	Elron's Explosive Etude	_elronsCasts	10
+Cast	Evoke Eldritch Horror	_eldritchHorrorEvoked
+Cast	Eye and a Twist	_eyeAndATwistUsed
+Cast	Feel Disappointed	_feelDisappointedUsed	3
+Cast	Feel Envy	_feelEnvyUsed	3
+Cast	Feel Excitement	_feelExcitementUsed	3
+Cast	Feel Hatred	_feelHatredUsed	3
+Cast	Feel Lonely	_feelLonelyUsed	3
+Cast	Feel Lost	_feelLostUsed	3
+Cast	Feel Nervous	_feelNervousUsed	3
+Cast	Feel Nostalgic	_feelNostalgicUsed	3
+Cast	Feel Peaceful	_feelPeacefulUsed	3
+Cast	Feel Pride	_feelPrideUsed	3
+Cast	Feel Superior	_feelSuperiorUsed	3
+Cast	Grab a Cold One	_coldOne
+Cast	Incite Riot	_peteRiotIncited
+Cast	Incredible Self Esteem	_incredibleSelfEsteemCast
+Cast	Inigo's Incantation of Inspiration	_inigosCasts	5
+Cast	Lock Picking	lockPicked
+Cast	Lunch Break	_lunchBreak
+Cast	Managerial Manipulation	_managerialManipulationUsed
+Cast	Map the Monsters	_monstersMapped	3
+Cast	Meatify Matter	_meatifyMatterUsed
+Cast	Pastamastery	noodleSummons
+Cast	Perfect Freeze	_perfectFreezeUsed
+Cast	Pirate Bellow	_pirateBellowUsed
+Cast	Prelude of Precision	_precisionCasts	10
+Cast	Prevent Scurvy and Sobriety	_preventScurvy
+Cast	Psychokinetic Hug	_psychokineticHugUsed
+Cast	Rainbow Gravitation	prismaticSummons	3
+Cast	Request Sandwich	_requestSandwichSucceeded
+Cast	Spaghetti Breakfast	_spaghettiBreakfast
+Cast	Steely-Eyed Squint	_steelyEyedSquintUsed
+Cast	Summon "Boner Battalion"	_bonersSummoned
+Cast	Summon &quot;Boner Battalion&quot;	_bonersSummoned
+Cast	Summon Alice's Army Cards	grimoire3Summons
+Cast	Summon Annoyance	_summonAnnoyanceUsed
+Cast	Summon Carrot	_summonCarrotUsed
+Cast	Summon Confiscated Things	_grimoireConfiscatorSummons
+Cast	Summon Crimbo Candy	_candySummons
+Cast	Summon Geeky Gifts	_grimoireGeekySummons
+Cast	Summon Hilarious Objects	grimoire1Summons
+Cast	Summon Holiday Fun!	_holidayFunUsed
+Cast	Summon Kokomo Resort Pass	_summonResortPassUsed
+Cast	Summon Tasteful Items	grimoire2Summons
+Cast	Sweat Out Some Booze	_sweatOutSomeBoozeUsed	3
+Cast	That's Not a Knife	_discoKnife
+Cast	The Ballad of Richie Thingfinder	_thingfinderCasts	10
+Cast	The Smile of Mr. A.	_smilesOfMrA	[pref(goldenMrAccessories)*5]
+Cast	Throw Party	_petePartyThrown
+Cast	Turtle Power	_turtlePowerCast
+Cast	Vent Rage Gland	rageGlandVented
+Cast	Visit Your Favorite Bird	_favoriteBirdVisited
+Tome	Summon Clip Art	_clipartSummons	3
+Tome	Summon Rad Libs	_radlibSummons	3
+Tome	Summon Smithsness	_smithsnessSummons	3
+Tome	Summon Snowcones	_snowconeSummons	3
+Tome	Summon Stickers	_stickerSummons	3
+Tome	Summon Sugar Sheets	_sugarSummons	3
+Use	CSA fire-starting kit	_fireStartingKitUsed
+Use	Chester's bag of candy	_bagOfCandyUsed
+Use	Chroner cross	_chronerCrossUsed
+Use	Chroner trigger	_chronerTriggerUsed
+Use	Clara's bell	_claraBellUsed
+Use	Cuppa Sobrie tea	_sobrieTeaUsed
+Use	Cuppa Voraci tea	_voraciTeaUsed
+Use	Emblem of Ak'gyxoth	_akgyxothUsed
+Use	Glenn's golden dice	_glennGoldenDiceUsed
+Use	Hunger&trade; Sauce	_hungerSauceUsed
+Use	Idol of Ak'gyxoth	_akgyxothUsed
+Use	Jackass Plumber home game	_jackassPlumberGame
+Use	Jerks' Health&trade; Magazine	_jerksHealthMagazinesUsed	5
+Use	KoL Con Six Pack	_kolConSixPackUsed
+Use	LOV Extraterrestrial Chocolate	_loveChocolatesUsed	3
+Use	License to Chill	_licenseToChillUsed
+Use	M-242	_fireworkUsed
+Use	Manual of Dexterity	_guildManualUsed
+Use	Manual of Labor	_guildManualUsed
+Use	Manual of Transmission	_guildManualUsed
+Use	Meteorite-Ade	_meteoriteAdesUsed	3
+Use	Oscus's neverending soda	oscusSodaUsed
+Use	Platinum Yendorian Express Card	expressCardUsed
+Use	STYX deodorant body spray	_styxSprayUsed
+Use	School of Hard Knocks Diploma	_hardKnocksDiplomaUsed
+Use	Stabonic scroll	_stabonicScrollUsed
+Use	Taco Dan's Taco Stand Flier	_tacoFlierUsed
+Use	The Cocktail Shaker	_cocktailShakerUsed
+Use	The Legendary Beat	_legendaryBeat
+Use	Trivial Avocations board game	_trivialAvocationsGame
+Use	Twelve Night Energy	_twelveNightEnergyUsed
+Use	Ultra Mega Sour Ball	_ultraMegaSourBallUsed
+Use	Universal Seasoning	_universalSeasoningsUsed	[pref(universalSeasoningCost)/1000]
+Use	Victor's Spoils	_victorSpoilsUsed
 Use	alien animal milk	_alienAnimalMilkUsed
 Use	alien plant pod	_alienPlantPodUsed
 Use	all-year sucker	_allYearSucker
@@ -16,7 +134,6 @@ Use	brass Dreadsylvanian flask	_brassDreadFlaskUsed
 Use	broken warbear gyrocopter	_warbearGyrocopterUsed
 Use	burrowgrub hive	burrowgrubHiveUsed
 Use	cabbage-flavored Mr. Mediocrebar	_chocolatesUsed	3
-Use	Chester's bag of candy	_bagOfCandyUsed
 Use	choco-Crimbot	_chocolatesUsed	3
 Use	chocolate cigar	_chocolateCigarsUsed	3
 Use	chocolate disco ball	_chocolatesUsed	3
@@ -25,22 +142,15 @@ Use	chocolate saucepan	_chocolatesUsed	3
 Use	chocolate seal-clubbing club	_chocolatesUsed	3
 Use	chocolate stolen accordion	_chocolatesUsed	3
 Use	chocolate turtle totem	_chocolatesUsed	3
-Use	Chroner cross	_chronerCrossUsed
-Use	Chroner trigger	_chronerTriggerUsed
 Use	circle drum	_circleDrumUsed
-Use	Clara's bell	_claraBellUsed
 Use	coal paperweight	_coalPaperweightUsed
 Use	codpiece	_floundryItemUsed
 Use	corrupted stardust	_corruptedStardustUsed
 Use	creepy voodoo doll	_creepyVoodooDollUsed
-Use	CSA fire-starting kit	_fireStartingKitUsed
-Use	Cuppa Sobrie tea	_sobrieTeaUsed
-Use	Cuppa Voraci tea	_voraciTeaUsed
 Use	cursed microwave	_cursedMicrowaveUsed
 Use	cursed pony keg	_cursedKegUsed
 Use	defective Game Grid token	_defectiveTokenUsed
 Use	distention pill	_distentionPillUsed
-Use	Emblem of Ak'gyxoth	_akgyxothUsed
 Use	essential tofu	_essentialTofuUsed
 Use	etched hourglass	_etchedHourglassUsed
 Use	eternal car battery	_eternalCarBatteryUsed
@@ -53,16 +163,12 @@ Use	festive warbear bank	_warbearBankUsed
 Use	fish hatchet	_floundryItemUsed
 Use	fishy pipe	_fishyPipeUsed
 Use	fudge spork	_fudgeSporkUsed
-Use	Glenn's golden dice	_glennGoldenDiceUsed
 Use	gnoll eye	_gnollEyeUsed
 Use	green rocket	_fireworkUsed
 Use	handmade hobby horse	_hobbyHorseUsed
 Use	heart of dark chocolate	_darkChocolateHeart
-Use	Hunger&trade; Sauce	_hungerSauceUsed
 Use	hyperinflated seal lung	_hyperinflatedSealLungUsed
-Use	Idol of Ak'gyxoth	_akgyxothUsed
 Use	infinite BACON machine	_baconMachineUsed
-Use	Jackass Plumber home game	_jackassPlumberGame
 Use	jar of psychoses (Jick)	_psychoJarUsed
 Use	jar of psychoses (The Captain of the Gourd)	_psychoJarUsed
 Use	jar of psychoses (The Crackpot Mystic)	_psychoJarUsed
@@ -70,138 +176,35 @@ Use	jar of psychoses (The Meatsmith)	_psychoJarUsed
 Use	jar of psychoses (The Old Man)	_psychoJarUsed
 Use	jar of psychoses (The Pretentious Artist)	_psychoJarUsed
 Use	jar of psychoses (The Suspicious-Looking Guy)	_psychoJarUsed
-Use	Jerks' Health&trade; Magazine	_jerksHealthMagazinesUsed	5
 Use	jingle bell	_jingleBellUsed
-Use	KoL Con Six Pack	_kolConSixPackUsed
-Use	License to Chill	_licenseToChillUsed
-Use	LOV Extraterrestrial Chocolate	_loveChocolatesUsed	3
 Use	lupine appetite hormones	_lupineHormonesUsed
-Use	M-242	_fireworkUsed
-Use	Manual of Dexterity	_guildManualUsed
-Use	Manual of Labor	_guildManualUsed
-Use	Manual of Transmission	_guildManualUsed
 Use	meatball machine	_meatballMachineUsed
-Use	Meteorite-Ade	_meteoriteAdesUsed	3
 Use	milk of magnesium	_milkOfMagnesiumUsed
 Use	mojo filter	currentMojoFilters	3
 Use	moveable feast	_feastUsed	5
-Use	Oscus's neverending soda	oscusSodaUsed
 Use	overflowing gift basket	_overflowingGiftBasketUsed
 Use	perfectly fair coin	_perfectlyFairCoinUsed
 Use	picky tweezers	_pickyTweezersUsed
 Use	pixel orb	_pixelOrbUsed
-Use	Platinum Yendorian Express Card	expressCardUsed
 Use	pressurized potion of pneumaticity	_pneumaticityPotionUsed
 Use	pump-up high-tops	_highTopPumps	3
 Use	red and green rain stick	_rainStickUsed
 Use	redwood rain stick	_redwoodRainStickUsed
 Use	refurbished air fryer	_airFryerUsed
-Use	School of Hard Knocks Diploma	_hardKnocksDiplomaUsed
 Use	set of jacks	_setOfJacksUsed
 Use	sewing kit	_sewingKitUsed
 Use	silver Dreadsylvanian flask	_silverDreadFlaskUsed
 Use	snake	_fireworkUsed
 Use	sparkler	_fireworkUsed
 Use	spice melange	spiceMelangeUsed
-Use	Stabonic scroll	_stabonicScrollUsed
 Use	stuffed pocketwatch	_stuffedPocketwatchUsed
-Use	STYX deodorant body spray	_styxSprayUsed
 Use	subscription cocoa dispenser	_cocoaDispenserUsed
 Use	sweet tooth	_sweetToothUsed
 Use	sweet-corn-flavored Mr. Mediocrebar	_chocolatesUsed	3
 Use	synthetic dog hair pill	_syntheticDogHairPillUsed
-Use	Taco Dan's Taco Stand Flier	_tacoFlierUsed
 Use	tempura air	_tempuraAirUsed
-Use	The Cocktail Shaker	_cocktailShakerUsed
-Use	The Legendary Beat	_legendaryBeat
 Use	tonic djinn	_tonicDjinn
-Use	Trivial Avocations board game	_trivialAvocationsGame
-Use	Twelve Night Energy	_twelveNightEnergyUsed
-Use	Ultra Mega Sour Ball	_ultraMegaSourBallUsed
-Use	Universal Seasoning	_universalSeasoningsUsed	[pref(universalSeasoningCost)/1000]
-Use	Victor's Spoils	_victorSpoilsUsed
 Use	vitachoconutriment capsule	_vitachocCapsulesUsed	3
 Use	warbear breakfast machine	_warbearBreakfastMachineUsed
 Use	warbear gyrocopter	_warbearGyrocopterUsed
 Use	warbear soda machine	_warbearSodaMachineUsed
-Cast	The Smile of Mr. A.	_smilesOfMrA	[pref(goldenMrAccessories)*5]
-Cast	Rainbow Gravitation	prismaticSummons	3
-Cast	Vent Rage Gland	rageGlandVented
-Cast	Summon Crimbo Candy	_candySummons
-Cast	Lunch Break	_lunchBreak
-Cast	Summon &quot;Boner Battalion&quot;	_bonersSummoned
-Cast	Request Sandwich	_requestSandwichSucceeded
-Cast	Grab a Cold One	_coldOne
-Cast	Spaghetti Breakfast	_spaghettiBreakfast
-Cast	Pastamastery	noodleSummons
-Cast	Canticle of Carboloading	_carboLoaded
-Cast	Advanced Saucecrafting	reagentSummons
-Cast	That's Not a Knife	_discoKnife
-Cast	Summon "Boner Battalion"	_bonersSummoned
-Cast	Acquire Rhinestones	_rhinestonesAcquired
-Cast	Psychokinetic Hug	_psychokineticHugUsed
-Cast	Managerial Manipulation	_managerialManipulationUsed
-Cast	Throw Party	_petePartyThrown
-Cast	Incite Riot	_peteRiotIncited
-Cast	Perfect Freeze	_perfectFreezeUsed
-Cast	Communism!	_communismUsed
-Cast	Bow-Legged Swagger	_bowleggedSwaggerUsed
-Cast	Bend Hell	_bendHellUsed
-Cast	Steely-Eyed Squint	_steelyEyedSquintUsed
-Cast	Ceci N'Est Pas Un Chapeau	_ceciHatUsed
-Cast	Evoke Eldritch Horror	_eldritchHorrorEvoked
-Cast	Incredible Self Esteem	_incredibleSelfEsteemCast
-Cast	Prevent Scurvy and Sobriety	_preventScurvy
-Cast	Advanced Cocktailcrafting	cocktailSummons
-Cast	The Ballad of Richie Thingfinder	_thingfinderCasts	10
-Cast	Benetton's Medley of Diversity	_benettonsCasts	10
-Cast	Elron's Explosive Etude	_elronsCasts	10
-Cast	Chorale of Companionship	_companionshipCasts	10
-Cast	Prelude of Precision	_precisionCasts	10
-Cast	Donho's Bubbly Ballad	_donhosCasts	50
-Cast	Inigo's Incantation of Inspiration	_inigosCasts	5
-Cast	Summon Hilarious Objects	grimoire1Summons
-Cast	Summon Tasteful Items	grimoire2Summons
-Cast	Summon Alice's Army Cards	grimoire3Summons
-Cast	Summon Geeky Gifts	_grimoireGeekySummons
-Cast	Summon Confiscated Things	_grimoireConfiscatorSummons
-Cast	Demand Sandwich	_demandSandwich	3
-Cast	Conjure Eggs	_jarlsEggsSummoned
-Cast	Conjure Dough	_jarlsDoughSummoned
-Cast	Conjure Vegetables	_jarlsVeggiesSummoned
-Cast	Conjure Cheese	_jarlsCheeseSummoned
-Cast	Conjure Meat Product	_jarlsMeatSummoned
-Cast	Conjure Potato	_jarlsPotatoSummoned
-Cast	Conjure Cream	_jarlsCreamSummoned
-Cast	Conjure Fruit	_jarlsFruitSummoned
-Cast	Pirate Bellow	_pirateBellowUsed
-Cast	Summon Holiday Fun!	_holidayFunUsed
-Cast	Summon Carrot	_summonCarrotUsed
-Cast	Summon Kokomo Resort Pass	_summonResortPassUsed
-Cast	CHEAT CODE: Invisible Avatar	_powerfulGloveBatteryPowerUsed	100
-Cast	CHEAT CODE: Triple Size	_powerfulGloveBatteryPowerUsed	100
-Cast	Bowl Full of Jelly	_bowlFullOfJellyUsed
-Cast	Eye and a Twist	_eyeAndATwistUsed
-Cast	Chubby and Plump	_chubbyAndPlumpUsed
-Tome	Summon Snowcones	_snowconeSummons	3
-Tome	Summon Stickers	_stickerSummons	3
-Tome	Summon Sugar Sheets	_sugarSummons	3
-Tome	Summon Clip Art	_clipartSummons	3
-Tome	Summon Rad Libs	_radlibSummons	3
-Tome	Summon Smithsness	_smithsnessSummons	3
-Cast	Visit Your Favorite Bird	_favoriteBirdVisited
-Cast	Lock Picking	lockPicked
-Cast	Feel Pride	_feelPrideUsed	3
-Cast	Feel Excitement	_feelExcitementUsed	3
-Cast	Feel Hatred	_feelHatredUsed	3
-Cast	Feel Lonely	_feelLonelyUsed	3
-Cast	Feel Nervous	_feelNervousUsed	3
-Cast	Feel Envy	_feelEnvyUsed	3
-Cast	Feel Disappointed	_feelDisappointedUsed	3
-Cast	Feel Superior	_feelSuperiorUsed	3
-Cast	Feel Lost	_feelLostUsed	3
-Cast	Feel Nostalgic	_feelNostalgicUsed	3
-Cast	Feel Peaceful	_feelPeacefulUsed	3
-Cast	Map the Monsters	_monstersMapped	3
-Cast	Meatify Matter	_meatifyMatterUsed
-Cast	Sweat Out Some Booze	_sweatOutSomeBoozeUsed	3
