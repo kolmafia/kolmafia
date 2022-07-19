@@ -11,12 +11,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.Collections;
+import javax.swing.AbstractButton;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.swingui.MaximizerFrame.SmartButtonGroup;
 import net.sourceforge.kolmafia.swingui.OptionsFrame.ConfigQueuingPanel;
+import net.sourceforge.kolmafia.swingui.OptionsFrame.PreferenceButtonGroup;
 import net.sourceforge.kolmafia.swingui.OptionsFrame.PreferenceCheckBox;
 import net.sourceforge.kolmafia.swingui.OptionsFrame.PreferenceIntegerTextField;
 import org.junit.jupiter.api.AfterAll;
@@ -188,6 +192,78 @@ public class OptionsFrameTest {
       }
       assertEquals("0", field.getText());
       assertEquals(0, Preferences.getInteger(pref));
+    }
+  }
+
+  @Nested
+  class PreferenceButtonGroupTest {
+    @BeforeEach
+    private void beforeEach() {
+      KoLCharacter.reset("buttongroup");
+    }
+
+    @AfterEach
+    private void afterEach() {
+      PreferenceListenerRegistry.reset();
+    }
+
+    private ConfigQueuingPanel makePanel(String preference, String... buttons) {
+      ConfigQueuingPanel panel = new ConfigQueuingPanel();
+
+      PreferenceButtonGroup buttongroup =
+          new PreferenceButtonGroup(preference, "Button Group", buttons);
+      panel.queue(buttongroup);
+      panel.makeLayout();
+      return panel;
+    }
+
+    private void fireActionListeners(AbstractButton button) {
+      for (ActionListener a : button.getActionListeners()) {
+        a.actionPerformed(new ActionEvent(button, ActionEvent.ACTION_PERFORMED, null) {});
+      }
+    }
+
+    @Test
+    void preferenceButtonGroupListensForPreferenceChange() {
+      String pref = "preference5";
+      ConfigQueuingPanel panel = makePanel(pref, "button1", "button2", "button3");
+
+      Component[] components = panel.getComponents();
+      assertEquals(1, components.length);
+      assertTrue(components[0] instanceof PreferenceButtonGroup);
+      PreferenceButtonGroup buttongroup = (PreferenceButtonGroup) components[0];
+      SmartButtonGroup group = buttongroup.getButtonGroup();
+      assertEquals(0, group.getSelectedIndex());
+
+      var cleanups = new Cleanups(setProperty(pref, 1));
+      try (cleanups) {
+        assertEquals(1, group.getSelectedIndex());
+      }
+      assertEquals(0, group.getSelectedIndex());
+    }
+
+    @Test
+    void preferenceButtonGroupSetsPreference() {
+      String pref = "preference6";
+      ConfigQueuingPanel panel = makePanel(pref, "button1", "button2", "button3");
+
+      Component[] components = panel.getComponents();
+      assertEquals(1, components.length);
+      assertTrue(components[0] instanceof PreferenceButtonGroup);
+      PreferenceButtonGroup buttongroup = (PreferenceButtonGroup) components[0];
+      SmartButtonGroup group = buttongroup.getButtonGroup();
+      AbstractButton[] buttons =
+          Collections.list(group.getElements()).toArray(new AbstractButton[0]);
+
+      var cleanups = new Cleanups(setProperty(pref, 1));
+      try (cleanups) {
+        assertEquals(1, group.getSelectedIndex());
+        group.setSelectedIndex(2);
+        fireActionListeners(buttons[2]);
+        assertEquals(2, group.getSelectedIndex());
+        assertEquals(2, Preferences.getInteger(pref));
+      }
+      assertEquals(0, group.getSelectedIndex());
     }
   }
 }
