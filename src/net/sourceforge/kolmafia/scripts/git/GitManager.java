@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.scripts.git;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -30,6 +31,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tmatesoft.svn.core.SVNException;
@@ -105,6 +107,7 @@ public class GitManager extends ScriptManager {
     }
     var folder = folderOpt.get();
     Path projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(folder);
+    var oldRoot = getRoot(projectPath);
     Git git;
     try {
       git = Git.open(projectPath.toFile());
@@ -132,6 +135,13 @@ public class GitManager extends ScriptManager {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to update project " + folder + ": " + e);
         return;
       }
+      var newRoot = getRoot(projectPath);
+
+      if (!oldRoot.equals(newRoot)) {
+        // the root directory has changed. Figuring out the diff is too hard, just sync
+        sync(projectPath);
+        return;
+      }
 
       try {
         incomingTree = getCurrentCommitTree(repo);
@@ -143,12 +153,17 @@ public class GitManager extends ScriptManager {
 
       List<DiffEntry> diffs;
       try {
-        diffs =
+        var cmd =
             git.diff()
                 .setOldTree(currTree)
                 .setNewTree(incomingTree)
-                .setShowNameAndStatusOnly(true)
-                .call();
+                .setShowNameAndStatusOnly(true);
+        if (!projectPath.equals(newRoot)) {
+          var relFilter = projectPath.relativize(newRoot);
+          var filter = PathFilter.create(relFilter.toString().replace(File.separatorChar, '/'));
+          cmd = cmd.setPathFilter(filter);
+        }
+                diffs = cmd.call();
       } catch (GitAPIException e) {
         KoLmafia.updateDisplay(
             MafiaState.ERROR, "Failed to diff incoming changes for project " + folder + ": " + e);
@@ -158,12 +173,16 @@ public class GitManager extends ScriptManager {
       boolean checkDependencies = false;
 
       for (var diff : diffs) {
+        var oldDiffPath = diff.getOldPath();
+        var oldRelPath = oldRoot.relativize(projectPath.resolve(oldDiffPath));
+        var newDiffPath = diff.getNewPath();
+        var newRelPath = newRoot.relativize(projectPath.resolve(newDiffPath));
         switch (diff.getChangeType()) {
-          case ADD, MODIFY, COPY -> addNewFile(projectPath, diff);
-          case DELETE -> deleteOldFile(diff);
+          case ADD, MODIFY, COPY -> addNewFile(newRoot, newRelPath);
+          case DELETE -> deleteOldFile(oldRelPath);
           case RENAME -> {
-            deleteOldFile(diff);
-            addNewFile(projectPath, diff);
+            deleteOldFile(oldRelPath);
+            addNewFile(newRoot, newRelPath);
           }
         }
 
@@ -173,14 +192,13 @@ public class GitManager extends ScriptManager {
       }
 
       if (checkDependencies) {
-        installDependencies(projectPath.resolve(DEPENDENCIES));
+        installDependencies(newRoot.resolve(DEPENDENCIES));
       }
     }
   }
 
   /** Delete a newly removed file in the correct permissible folder. */
-  private static void deleteOldFile(DiffEntry diff) {
-    var path = diff.getOldPath();
+  private static void deleteOldFile(Path path) {
     if (isPermissibleFile(path)) {
       try {
         var rootPath = KoLConstants.ROOT_LOCATION.toPath();
@@ -194,11 +212,10 @@ public class GitManager extends ScriptManager {
   }
 
   /** Create or replace a newly added file in the correct permissible folder. */
-  private static void addNewFile(Path projectPath, DiffEntry diff) {
-    var path = diff.getNewPath();
+  private static void addNewFile(Path projectPath, Path path) {
     if (isPermissibleFile(path)) {
       try {
-        copyPath(projectPath.resolve(path), Path.of(path));
+        copyPath(projectPath.resolve(path), path);
       } catch (IOException e) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to add file " + path + ": " + e);
       }
@@ -439,8 +456,8 @@ public class GitManager extends ScriptManager {
     return files;
   }
 
-  private static boolean isPermissibleFile(String path) {
-    return permissibles.stream().anyMatch(p -> path.startsWith(p + "/"));
+  private static boolean isPermissibleFile(Path path) {
+    return permissibles.stream().anyMatch(path::startsWith);
   }
 
   private static void copyPath(Path absPath, Path shortPath) throws IOException {
