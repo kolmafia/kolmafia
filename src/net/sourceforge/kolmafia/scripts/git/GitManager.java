@@ -234,17 +234,18 @@ public class GitManager extends ScriptManager {
     }
     var folder = folderOpt.get();
     var projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(folder);
+    var root = getRoot(projectPath);
     KoLmafia.updateDisplay("Removing project " + folder);
     List<Path> toDelete;
     try {
-      toDelete = getPermissibleFiles(projectPath, true);
+      toDelete = getPermissibleFiles(root, true);
     } catch (IOException e) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to remove project " + folder + ": " + e);
       return;
     }
     var errored = false;
     for (var absPath : toDelete) {
-      var shortPath = projectPath.relativize(absPath);
+      var shortPath = root.relativize(absPath);
       var relPath = KoLConstants.ROOT_LOCATION.toPath().resolve(shortPath);
       try {
         Files.deleteIfExists(relPath);
