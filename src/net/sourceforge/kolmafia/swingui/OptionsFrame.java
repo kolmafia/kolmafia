@@ -11,8 +11,6 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -25,7 +23,6 @@ import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -2400,26 +2397,12 @@ public class OptionsFrame extends GenericFrame {
       }
     }
 
-    private final class FontColorChooser extends JLabel implements MouseListener {
-      final String property;
-
+    private final class FontColorChooser extends ColorChooser {
       public FontColorChooser(final String property) {
-        this.property = property;
-        this.setOpaque(true);
-        this.addMouseListener(this);
+        super(property);
       }
 
       @Override
-      public void mousePressed(final MouseEvent e) {
-        Color c = JColorChooser.showDialog(null, "Choose a color:", this.getBackground());
-        if (c == null) {
-          return;
-        }
-
-        updatePref(this.property, DataUtilities.toHexString(c));
-        this.setBackground(c);
-      }
-
       public void updatePref(String property, String hexString) {
         String rawPref = Preferences.getString("textColors");
         String[] splitPref = rawPref.split("\\|");
@@ -2441,21 +2424,10 @@ public class OptionsFrame extends GenericFrame {
         if (rawPref.length() > 0) {
           delimiter = "|";
         }
+
         String newPref = rawPref + delimiter + newProperty;
         Preferences.setString("textColors", newPref);
       }
-
-      @Override
-      public void mouseReleased(final MouseEvent e) {}
-
-      @Override
-      public void mouseClicked(final MouseEvent e) {}
-
-      @Override
-      public void mouseEntered(final MouseEvent e) {}
-
-      @Override
-      public void mouseExited(final MouseEvent e) {}
     }
   }
 }
