@@ -47,6 +47,8 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
+import net.sourceforge.kolmafia.persistence.DailyLimitDatabase;
+import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -8815,9 +8817,9 @@ public class FightRequest extends GenericRequest {
             || responseText.contains("mayflies, with bait")
             || responseText.contains("mayflies respond")
             || skillSuccess) {
-          Preferences.increment("_mayflySummons", 1);
           Preferences.increment(
               "mayflyExperience", responseText.contains("mayfly aphrodisiac") ? 2 : 1);
+          skillSuccess = true;
         }
         break;
 
@@ -8863,28 +8865,29 @@ public class FightRequest extends GenericRequest {
         break;
 
       case SkillPool.BOXING_GLOVE_ARROW:
-        Preferences.increment("_boxingGloveArrows", 1);
+        skillSuccess = true;
         break;
 
       case SkillPool.POISON_ARROW:
-        Preferences.increment("_poisonArrows", 1);
+        skillSuccess = true;
         break;
 
       case SkillPool.FINGERTRAP_ARROW:
-        Preferences.increment("_fingertrapArrows", 1);
+        skillSuccess = true;
         break;
 
       case SkillPool.SQUEEZE_STRESS_BALL:
         FightRequest.squeezedStressBall = true;
-        Preferences.increment("_stressBallSqueezes", 1);
+        skillSuccess = true;
         return;
 
       case SkillPool.RELEASE_BOOTS:
         FightRequest.canStomp = false;
-        Preferences.increment("_bootStomps", 1);
+        skillSuccess = true;
         break;
 
       case SkillPool.SIPHON_SPIRITS:
+        // No daily limit, siphons take longer to charge the more you do
         Preferences.increment("_mediumSiphons", 1);
         KoLCharacter.setFamiliarImage("medium_0.gif");
         FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
@@ -8922,9 +8925,9 @@ public class FightRequest extends GenericRequest {
               (KoLCharacter.getFamiliar().getId() == FamiliarPool.REANIMATOR)
                   || EquipmentManager.getFamiliarItem().getItemId() == ItemPool.QUAKE_OF_ARROWS;
           int fights = hasQuake ? 3 : 2;
+          familiarSkillSuccess = true;
           Preferences.setInteger("_romanticFightsLeft", fights);
           Preferences.setString("romanticTarget", monsterName);
-          Preferences.increment("_badlyRomanticArrows", 1);
 
           TurnCounter.stopCounting("Romantic Monster window begin");
           TurnCounter.stopCounting("Romantic Monster window end");
@@ -8937,7 +8940,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.OLFACTION:
         if (responseText.contains("fill your entire being") || skillSuccess) {
-          Preferences.increment("_olfactionsUsed", 1);
+          skillSuccess = true;
           Preferences.setString("olfactedMonster", monsterName);
           Preferences.setString("autoOlfact", "");
           FightRequest.canOlfact = false;
@@ -8947,7 +8950,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.LONG_CON:
         if (responseText.contains("memorize some important details") || skillSuccess) {
           Preferences.setString("longConMonster", monsterName);
-          Preferences.increment("_longConUsed");
+          skillSuccess = true;
         }
         break;
 
@@ -8973,14 +8976,14 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.CREEPY_GRIN:
         if (responseText.contains("an even creepier grin") || skillRunawaySuccess) {
-          Preferences.setBoolean("_vmaskBanisherUsed", true);
+          skillRunawaySuccess = true;
           BanishManager.banishMonster(monster, Banisher.V_FOR_VIVALA_MASK);
         }
         break;
 
       case SkillPool.STINKEYE:
         if (responseText.contains("You fix an extremely disdainful eye") || skillRunawaySuccess) {
-          Preferences.setBoolean("_stinkyCheeseBanisherUsed", true);
+          skillRunawaySuccess = true;
           BanishManager.banishMonster(monster, Banisher.STINKY_CHEESE_EYE);
         }
         break;
@@ -8999,7 +9002,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.TALK_ABOUT_POLITICS:
         if (responseText.contains("won't be seeing") || skillSuccess) {
-          Preferences.increment("_pantsgivingBanish");
+          skillSuccess = true;
           BanishManager.banishMonster(monster, Banisher.PANTSGIVING);
         }
         break;
@@ -9026,21 +9029,22 @@ public class FightRequest extends GenericRequest {
         break;
 
       case SkillPool.KGB_TRANQUILIZER_DART:
-        Preferences.increment("_kgbTranquilizerDartUses");
         if (responseText.contains("press the secret switch") || skillRunawaySuccess) {
+          skillRunawaySuccess = true;
           BanishManager.banishMonster(monster, Banisher.KGB_TRANQUILIZER_DART);
         }
         break;
 
       case SkillPool.POCKET_CRUMBS:
         if (responseText.contains("pocket next to the crumbs")) {
+          // No casting limit, can drop items up to 10 times a day
           Preferences.increment("_pantsgivingCrumbs");
         }
         break;
 
       case SkillPool.FIX_JUKEBOX:
         if (responseText.contains("jukebox") || skillSuccess) {
-          Preferences.increment("_peteJukeboxFixed");
+          skillSuccess = true;
         }
         break;
 
@@ -9048,7 +9052,7 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("peel out")
             || responseText.contains("peels out")
             || skillRunawaySuccess) {
-          Preferences.increment("_petePeeledOut");
+          skillRunawaySuccess = true;
           if (Preferences.getString("peteMotorbikeMuffler").equals("Extra-Smelly Muffler")) {
             BanishManager.banishMonster(monster, Banisher.PEEL_OUT);
           }
@@ -9057,32 +9061,32 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.JUMP_SHARK:
         if (responseText.contains("shark") || skillSuccess) {
-          Preferences.increment("_peteJumpedShark");
+          skillSuccess = true;
         }
         break;
 
       case SkillPool.SNOKEBOMB:
         if (responseText.contains("throw the smokebomb at your feet") || skillRunawaySuccess) {
           BanishManager.banishMonster(monster, Banisher.SNOKEBOMB);
-          Preferences.increment("_snokebombUsed");
+          skillRunawaySuccess = true;
         }
         break;
 
       case SkillPool.SHATTERING_PUNCH:
         if (responseText.contains("punch") || skillSuccess) {
-          Preferences.increment("_shatteringPunchUsed");
+          skillSuccess = true;
         }
         break;
 
       case SkillPool.GINGERBREAD_MOB_HIT:
         if (responseText.contains("associates arrive") || skillSuccess) {
-          Preferences.setBoolean("_gingerbreadMobHitUsed", true);
+          skillSuccess = true;
         }
         break;
 
       case SkillPool.BEANCANNON:
         if (responseText.contains("tide of beans") || skillSuccess) {
-          Preferences.increment("_beanCannonUses");
+          skillSuccess = true;
           BanishManager.banishMonster(monster, Banisher.BEANCANNON);
           EquipmentManager.discardEquipment(
               EquipmentManager.getEquipment(EquipmentManager.OFFHAND));
@@ -9098,7 +9102,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.HUGS_KISSES:
         if (responseText.contains("yoinks something") || skillSuccess) {
-          Preferences.increment("_xoHugsUsed");
+          skillSuccess = true;
         }
         break;
 
@@ -9106,13 +9110,14 @@ public class FightRequest extends GenericRequest {
         // You show him your ring. "Well, I never," he exclaims as he storms off in a huff.
         // You show them your ring. They aren't impressed.
         if (responseText.contains("Well, I never") || skillRunawaySuccess) {
-          Preferences.setBoolean("_mafiaMiddleFingerRingUsed", true);
+          skillRunawaySuccess = true;
           BanishManager.banishMonster(monster, Banisher.MAFIA_MIDDLEFINGER_RING);
         }
         break;
 
       case SkillPool.THROW_LATTE:
         if (responseText.contains("They run off") || skillRunawaySuccess) {
+          // Limited to one per refill (which in turn is limited daily)
           Preferences.setBoolean("_latteBanishUsed", true);
           BanishManager.banishMonster(monster, Banisher.THROW_LATTE_ON_OPPONENT);
         }
@@ -9185,7 +9190,7 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("A hobo runs up to you")
             || skillSuccess
                 && !responseText.contains("You give the triangle a vigorous ringing.")) {
-          Preferences.increment("_hoboUnderlingSummons", 1);
+          skillSuccess = true;
         }
         break;
 
@@ -9212,7 +9217,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.LASH_OF_COBRA:
         Preferences.setBoolean("edUsedLash", true);
         if (responseText.contains("You acquire an item") || skillSuccess) {
-          Preferences.increment("_edLashCount");
+          skillSuccess = true;
         }
         break;
 
@@ -9269,14 +9274,17 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.EXTRACT_OIL:
         if (responseText.contains("plunge your trusty oil extractor") || skillSuccess) {
+          // First 5 oils extracted increment normally
           Preferences.increment("_oilExtracted");
         } else {
           Matcher matcher = FightRequest.CLOG_PATTERN.matcher(responseText);
           if (matcher.find()) {
+            // Next 10 oils increase "clog" by 10%
             String clog = matcher.group(1);
             int extracts = StringUtilities.parseInt(clog) / 10 + 5;
             Preferences.setInteger("_oilExtracted", extracts);
           } else if (responseText.contains("completely clogged up")) {
+            // Fully clogged means 15 oils extracted
             Preferences.setInteger("_oilExtracted", 15);
           }
         }
@@ -9317,13 +9325,13 @@ public class FightRequest extends GenericRequest {
       case SkillPool.FIRE_JOKESTER_GUN:
         if (responseText.contains("little flag reading BANG pops out the end of the barrel")
             || skillSuccess) {
-          Preferences.setBoolean("_firedJokestersGun", true);
+          skillSuccess = true;
         }
         break;
 
       case SkillPool.DIGITIZE:
         if (responseText.contains("quickly copy the monster") || skillSuccess) {
-          Preferences.increment("_sourceTerminalDigitizeUses");
+          skillSuccess = true;
           Preferences.setInteger("_sourceTerminalDigitizeMonsterCount", 0);
           TurnCounter.stopCounting("Digitize Monster");
           if (Preferences.getBoolean("stopForFixedWanderer")) {
@@ -9338,7 +9346,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.PORTSCAN:
         if (responseText.contains("scan nearby ports") || skillSuccess) {
-          Preferences.increment("_sourceTerminalPortscanUses");
+          skillSuccess = true;
           if (Preferences.getBoolean("stopForFixedWanderer")) {
             TurnCounter.startCounting(0, "portscan.edu type=wander", "gyroscope.gif");
           } else {
@@ -9349,13 +9357,13 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.DUPLICATE:
         if (responseText.contains("cross your eyes") || skillSuccess) {
-          Preferences.increment("_sourceTerminalDuplicateUses");
+          skillSuccess = true;
         }
         break;
 
       case SkillPool.AM_MISSILE_LAUNCHER:
         if (responseText.contains("they're entirely gone") || skillSuccess) {
-          Preferences.setBoolean("_missileLauncherUsed", true);
+          skillSuccess = true;
           CampgroundRequest.useFuel(SkillDatabase.getFuelCost(SkillPool.AM_MISSILE_LAUNCHER));
         }
         break;
@@ -9373,19 +9381,15 @@ public class FightRequest extends GenericRequest {
         }
         break;
 
-      case SkillPool.MICROMETEOR:
-        Preferences.increment("_micrometeoriteUses");
-        break;
-
       case SkillPool.MACROMETEOR:
         if (responseText.contains("You quickly step") || skillSuccess) {
-          Preferences.increment("_macrometeoriteUses");
+          skillSuccess = true;
         }
         break;
 
       case SkillPool.METEOR_SHOWER:
         if (responseText.contains("consult your mental index") || skillSuccess) {
-          Preferences.increment("_meteorShowerUses");
+          skillSuccess = true;
         }
         break;
 
@@ -9415,14 +9419,14 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.OTOSCOPE:
         if (responseText.contains("jam it into your enemy's ear") || skillSuccess) {
-          Preferences.increment("_otoscopeUsed");
+          skillSuccess = true;
           setFightModifiers("Item Drop: +200");
         }
         break;
 
       case SkillPool.REFLEX_HAMMER:
         if (responseText.contains("short distance into the future") || skillRunawaySuccess) {
-          Preferences.increment("_reflexHammerUsed");
+          skillRunawaySuccess = true;
           BanishManager.banishMonster(monster, Banisher.REFLEX_HAMMER);
         }
         break;
@@ -9435,20 +9439,21 @@ public class FightRequest extends GenericRequest {
             // Damage to bosses or other special monsters
             responseText.contains("damage from the unshielded radiation")
             || skillSuccess) {
-          Preferences.increment("_chestXRayUsed");
+          skillSuccess = true;
         }
         break;
 
       case SkillPool.BALEFUL_HOWL:
+        // TODO: Should this be a skillRunawaySuccess
         if (responseText.contains("spooked by its balefulness") || skillSuccess) {
           BanishManager.banishMonster(monster, Banisher.BALEFUL_HOWL);
-          Preferences.increment("_balefulHowlUses");
+          skillSuccess = true;
         }
         break;
 
       case SkillPool.ARMY_TODDLER:
         if (responseText.contains("You cry havoc") || skillSuccess) {
-          Preferences.setBoolean("_armyToddlerCast", true);
+          skillSuccess = true;
         }
         break;
 
@@ -9461,19 +9466,19 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.BECOME_WOLF:
         if (responseText.contains("You pull your cloake up over your head") || skillSuccess) {
-          Preferences.increment("_vampyreCloakeFormUses");
+          skillSuccess = true;
         }
         break;
 
       case SkillPool.BECOME_MIST:
         if (responseText.contains("You wrap your cloake around your face") || skillSuccess) {
-          Preferences.increment("_vampyreCloakeFormUses");
+          skillSuccess = true;
         }
         break;
 
       case SkillPool.BECOME_BAT:
         if (responseText.contains("You wrap your cloake around your arms") || skillSuccess) {
-          Preferences.increment("_vampyreCloakeFormUses");
+          skillSuccess = true;
         }
         break;
 
@@ -9482,7 +9487,7 @@ public class FightRequest extends GenericRequest {
         // that contains your foe.
         if (responseText.contains("implode the portion of the universe that contains your foe")
             || skillSuccess) {
-          Preferences.increment("_universeImploded");
+          skillSuccess = true;
         }
         break;
 
@@ -9494,7 +9499,7 @@ public class FightRequest extends GenericRequest {
             || responseText.contains("TIME AND SPACE ARE FUNGIBLE")
             || responseText.contains("BUFFER OVERFLOW")
             || skillSuccess) {
-          Preferences.setBoolean("_thesisDelivered", true);
+          skillSuccess = true;
           KoLCharacter.getFamiliar().addNonCombatExperience(-200);
         }
         break;
@@ -9504,7 +9509,7 @@ public class FightRequest extends GenericRequest {
 
         // ADJUSTING DOPPLER WAVELENGTH.
         if (responseText.contains("ADJUSTING DOPPLER WAVELENGTH") || skillSuccess) {
-          Preferences.increment("_pocketProfessorLectures");
+          skillSuccess = true;
         }
         break;
 
@@ -9518,7 +9523,7 @@ public class FightRequest extends GenericRequest {
             || responseText.contains("CALCULATE MASS FOR DROPPED ITEMS")
             || responseText.contains("DO NOT STAND")
             || skillSuccess) {
-          Preferences.increment("_pocketProfessorLectures");
+          skillSuccess = true;
         }
         break;
 
@@ -9532,7 +9537,7 @@ public class FightRequest extends GenericRequest {
             || responseText.contains("NOW CONVERTING MATTER INTO TIME")
             || responseText.contains("FOLDING TIME AND SPACE")
             || skillSuccess) {
-          Preferences.increment("_pocketProfessorLectures");
+          skillSuccess = true;
         }
         break;
 
@@ -9561,7 +9566,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.FEEL_NOSTALGIC:
         if (responseText.contains("really feeling nostalgic") || skillSuccess) {
-          Preferences.increment("_feelNostalgicUsed", 1, 3, false);
+          skillSuccess = true;
         }
         break;
 
@@ -9569,25 +9574,25 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("walk away and decide not to see this creature again")
             || skillRunawaySuccess) {
           BanishManager.banishMonster(monster, Banisher.FEEL_HATRED);
-          Preferences.increment("_feelHatredUsed", 1, 3, false);
+          skillRunawaySuccess = true;
         }
         break;
 
       case SkillPool.FEEL_PRIDE:
         if (responseText.contains("you are going to do a great job") || skillSuccess) {
-          Preferences.increment("_feelPrideUsed", 1, 3, false);
+          skillSuccess = true;
         }
         break;
 
       case SkillPool.FEEL_ENVY:
         if (responseText.contains("really want what they have") || skillSuccess) {
-          Preferences.increment("_feelEnvyUsed", 1, 3, false);
+          skillSuccess = true;
         }
         break;
 
       case SkillPool.FEEL_SUPERIOR:
         if (responseText.contains("express your superiority to the tune") || skillSuccess) {
-          Preferences.increment("_feelSuperiorUsed", 1, 3, false);
+          skillSuccess = true;
         }
         break;
 
@@ -9601,7 +9606,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.BACK_UP:
         if (responseText.contains("You check in your back-up camera, ") || skillSuccess) {
-          Preferences.increment("_backUpUses");
+          skillSuccess = true;
         }
         break;
 
@@ -9756,7 +9761,8 @@ public class FightRequest extends GenericRequest {
         // NAME launches almost all of its body mass at your foe. The blob
         // careens off of THEM and then reforms into an identical copy, which
         // is so surprised to exist that it immediately keels over.
-        if (responseText.contains("launches almost all of its body mass at your foe")) {
+        if (responseText.contains("launches almost all of its body mass at your foe")
+            || skillSuccess) {
           // It resets the weight of the Grey Goose to 1 lb.
           KoLCharacter.getFamiliar().setExperience(0);
           GreyYouManager.reprocessMonster(monster);
@@ -9766,9 +9772,8 @@ public class FightRequest extends GenericRequest {
       case SkillPool.MEATIFY_MATTER:
         // NAME detaches a big chunk of itself, slaps it onto your opponent's
         // torso, and atomically reconfigures the whole mess into Meat.
-        if (responseText.contains("reconfigures the whole mess into Meat")) {
-          // This skill can only be used once per day.
-          Preferences.setBoolean("_meatifyMatterUsed", true);
+        if (responseText.contains("reconfigures the whole mess into Meat") || skillSuccess) {
+          skillSuccess = true;
           // It resets the weight of the Grey Goose to 5 lb.
           KoLCharacter.getFamiliar().setExperience(25);
         }
@@ -9819,6 +9824,14 @@ public class FightRequest extends GenericRequest {
         // These skills consume 1 energy per use
         KoLCharacter.setYouRobotEnergy(KoLCharacter.getYouRobotEnergy() - 1);
         break;
+    }
+
+    if (skillSuccess || skillRunawaySuccess || familiarSkillSuccess) {
+      var limit = DailyLimitType.CAST.getDailyLimit(skillId);
+
+      if (limit != null) {
+        limit.increment();
+      }
     }
   }
 
