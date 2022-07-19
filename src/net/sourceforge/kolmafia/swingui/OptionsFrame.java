@@ -1245,8 +1245,8 @@ public class OptionsFrame extends GenericFrame {
 
     protected void makeLayout() {
       for (Component comp : this.componentQueue) {
-        if (comp instanceof JComponent) {
-          ((JComponent) comp).setAlignmentX(LEFT_ALIGNMENT);
+        if (comp instanceof JComponent jcomp) {
+          jcomp.setAlignmentX(LEFT_ALIGNMENT);
         }
         this.add(comp);
       }
