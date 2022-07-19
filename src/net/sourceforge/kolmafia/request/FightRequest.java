@@ -1359,7 +1359,7 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
-    // Shadow Noodles shares a mutex with Entang;ing Noodles
+    // Shadow Noodles shares a mutex with Entangling Noodles
     int singleCastSkillId =
         skillId == SkillPool.SHADOW_NOODLES ? SkillPool.ENTANGLING_NOODLES : skillId;
 

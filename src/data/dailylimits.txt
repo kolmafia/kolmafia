@@ -39,7 +39,7 @@ Cast	Creepy Grin	_vmaskBanisherUsed	1
 Cast	Demand Sandwich	_demandSandwich	3
 Cast	Digitize	_sourceTerminalDigitizeUses	[1+pref(sourceTerminalChips,TRAM)+pref(sourceTerminalChips,TRIGRAM)]
 Cast	Donho's Bubbly Ballad	_donhosCasts	50
-Cast	Duplicate	_sourceTerminalDuplicateUses	[1+(4*The Source)]
+Cast	Duplicate	_sourceTerminalDuplicateUses	[1+(4*path(The Source))]
 Cast	Elron's Explosive Etude	_elronsCasts	10
 Cast	Evoke Eldritch Horror	_eldritchHorrorEvoked
 Cast	Eye and a Twist	_eyeAndATwistUsed
