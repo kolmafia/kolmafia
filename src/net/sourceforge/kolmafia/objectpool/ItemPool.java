@@ -3359,6 +3359,7 @@ public class ItemPool {
   public static final int GOOIFIED_ANIMAL_MATTER = 10844;
   public static final int GOOIFIED_VEGETABLE_MATTER = 10845;
   public static final int GOOIFIED_MINERAL_MATTER = 10846;
+  public static final int CARNIVOROUS_POTTED_PLANT = 10864;
   public static final int MEATBALL_MACHINE = 10878;
   public static final int REFURBISHED_AIR_FRYER = 10879;
   public static final int ELEVEN_LEAF_CLOVER = 10881;
