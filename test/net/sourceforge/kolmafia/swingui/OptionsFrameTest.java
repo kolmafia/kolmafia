@@ -19,10 +19,10 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.MaximizerFrame.SmartButtonGroup;
-import net.sourceforge.kolmafia.swingui.OptionsFrame.ConfigQueuingPanel;
-import net.sourceforge.kolmafia.swingui.OptionsFrame.PreferenceButtonGroup;
-import net.sourceforge.kolmafia.swingui.OptionsFrame.PreferenceCheckBox;
-import net.sourceforge.kolmafia.swingui.OptionsFrame.PreferenceIntegerTextField;
+import net.sourceforge.kolmafia.swingui.panel.ConfigQueueingPanel;
+import net.sourceforge.kolmafia.swingui.widget.PreferenceButtonGroup;
+import net.sourceforge.kolmafia.swingui.widget.PreferenceCheckBox;
+import net.sourceforge.kolmafia.swingui.widget.PreferenceIntegerTextField;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -54,8 +54,8 @@ public class OptionsFrameTest {
       PreferenceListenerRegistry.reset();
     }
 
-    private ConfigQueuingPanel makePanel(String... preferences) {
-      ConfigQueuingPanel panel = new ConfigQueuingPanel();
+    private ConfigQueueingPanel makePanel(String... preferences) {
+      ConfigQueueingPanel panel = new ConfigQueueingPanel();
 
       for (String pref : preferences) {
         String tip = "<html>" + pref + "</html>";
@@ -75,7 +75,7 @@ public class OptionsFrameTest {
     @Test
     void preferenceCheckBoxListensForPreferenceChange() {
       String pref = "preference1";
-      ConfigQueuingPanel panel = makePanel(pref);
+      ConfigQueueingPanel panel = makePanel(pref);
 
       Component[] components = panel.getComponents();
       assertEquals(1, components.length);
@@ -94,7 +94,7 @@ public class OptionsFrameTest {
     @Test
     void preferenceCheckBoxSetsPreference() {
       String pref = "preference2";
-      ConfigQueuingPanel panel = makePanel(pref);
+      ConfigQueueingPanel panel = makePanel(pref);
 
       Component[] components = panel.getComponents();
       assertEquals(1, components.length);
@@ -128,8 +128,8 @@ public class OptionsFrameTest {
       PreferenceListenerRegistry.reset();
     }
 
-    private ConfigQueuingPanel makePanel(String... preferences) {
-      ConfigQueuingPanel panel = new ConfigQueuingPanel();
+    private ConfigQueueingPanel makePanel(String... preferences) {
+      ConfigQueueingPanel panel = new ConfigQueueingPanel();
 
       for (String pref : preferences) {
         String tip = "<html>" + pref + "</html>";
@@ -153,7 +153,7 @@ public class OptionsFrameTest {
     @Test
     void preferenceTextFieldListensForPreferenceChange() {
       String pref = "preference3";
-      ConfigQueuingPanel panel = makePanel(pref);
+      ConfigQueueingPanel panel = makePanel(pref);
 
       Component[] components = panel.getComponents();
       assertEquals(1, components.length);
@@ -172,7 +172,7 @@ public class OptionsFrameTest {
     @Test
     void preferenceTextFieldSetsPreference() {
       String pref = "preference4";
-      ConfigQueuingPanel panel = makePanel(pref);
+      ConfigQueueingPanel panel = makePanel(pref);
 
       Component[] components = panel.getComponents();
       assertEquals(1, components.length);
@@ -207,8 +207,8 @@ public class OptionsFrameTest {
       PreferenceListenerRegistry.reset();
     }
 
-    private ConfigQueuingPanel makePanel(String preference, String... buttons) {
-      ConfigQueuingPanel panel = new ConfigQueuingPanel();
+    private ConfigQueueingPanel makePanel(String preference, String... buttons) {
+      ConfigQueueingPanel panel = new ConfigQueueingPanel();
 
       PreferenceButtonGroup buttongroup =
           new PreferenceButtonGroup(preference, "Button Group", buttons);
@@ -226,7 +226,7 @@ public class OptionsFrameTest {
     @Test
     void preferenceButtonGroupListensForPreferenceChange() {
       String pref = "preference5";
-      ConfigQueuingPanel panel = makePanel(pref, "button1", "button2", "button3");
+      ConfigQueueingPanel panel = makePanel(pref, "button1", "button2", "button3");
 
       Component[] components = panel.getComponents();
       assertEquals(1, components.length);
@@ -245,7 +245,7 @@ public class OptionsFrameTest {
     @Test
     void preferenceButtonGroupSetsPreference() {
       String pref = "preference6";
-      ConfigQueuingPanel panel = makePanel(pref, "button1", "button2", "button3");
+      ConfigQueueingPanel panel = makePanel(pref, "button1", "button2", "button3");
 
       Component[] components = panel.getComponents();
       assertEquals(1, components.length);
