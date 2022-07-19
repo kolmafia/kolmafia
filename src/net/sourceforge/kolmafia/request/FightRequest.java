@@ -8564,6 +8564,12 @@ public class FightRequest extends GenericRequest {
     return false;
   }
 
+  private static void setFightModifiers(final String mods) {
+    Modifiers.overrideModifier("Generated:fightMods", mods);
+    KoLCharacter.recalculateAdjustments();
+    KoLCharacter.updateStatus();
+  }
+
   // X bits of goo emerge from <name> and begin hovering about, moving probingly around various
   // objects.
   // 1 bit of goo emerge from <name> and begin hovering about, moving probingly around various
@@ -8849,15 +8855,11 @@ public class FightRequest extends GenericRequest {
         break;
 
       case SkillPool.HOBO_JOKE:
-        Modifiers.overrideModifier("Generated:fightMods", "Meat Drop: +100");
-        KoLCharacter.recalculateAdjustments();
-        KoLCharacter.updateStatus();
+        setFightModifiers("Meat Drop: +100");
         break;
 
       case SkillPool.HOBO_DANCE:
-        Modifiers.overrideModifier("Generated:fightMods", "Item Drop: +100");
-        KoLCharacter.recalculateAdjustments();
-        KoLCharacter.updateStatus();
+        setFightModifiers("Item Drop: +100");
         break;
 
       case SkillPool.BOXING_GLOVE_ARROW:
@@ -9219,9 +9221,7 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("Jackal demon shrugs and produces a large wad of meat")
             || skillSuccess) {
           ResultProcessor.processItem(ItemPool.KA_COIN, -1);
-          Modifiers.overrideModifier("Generated:fightMods", "Meat Drop: +200");
-          KoLCharacter.recalculateAdjustments();
-          KoLCharacter.updateStatus();
+          setFightModifiers("Meat Drop: +200");
         }
         break;
 
@@ -9416,9 +9416,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.OTOSCOPE:
         if (responseText.contains("jam it into your enemy's ear") || skillSuccess) {
           Preferences.increment("_otoscopeUsed");
-          Modifiers.overrideModifier("Generated:fightMods", "Item Drop: +200");
-          KoLCharacter.recalculateAdjustments();
-          KoLCharacter.updateStatus();
+          setFightModifiers("Item Drop: +200");
         }
         break;
 
