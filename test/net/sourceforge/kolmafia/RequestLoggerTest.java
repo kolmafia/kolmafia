@@ -30,7 +30,7 @@ class RequestLoggerTest {
   @Nested
   class RegisterLastLocation {
     @Test
-    public void canReportPreviousLocationInMutliFightInLocation() {
+    public void canReportPreviousLocationInMultiFightInLocation() {
       var cleanups =
           new Cleanups(withLastLocationName("The Outskirts of Cobb's Knob"), withMultiFight());
 
@@ -42,7 +42,7 @@ class RequestLoggerTest {
     }
 
     @Test
-    public void canReportPreviousLocationInMutliFightWithItemMonster() {
+    public void canReportPreviousLocationInMultiFightWithItemMonster() {
       var cleanups =
           new Cleanups(
               withLastLocationName(null),
@@ -57,7 +57,7 @@ class RequestLoggerTest {
     }
 
     @Test
-    public void canReportUnknownLocationInMutliFight() {
+    public void canReportUnknownLocationInMultiFight() {
       var cleanups =
           new Cleanups(withLastLocationName(null), withMultiFight(), withItemMonster(null));
 

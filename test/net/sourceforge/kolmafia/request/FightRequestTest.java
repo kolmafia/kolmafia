@@ -9,9 +9,11 @@ import static internal.helpers.Player.setFamiliar;
 import static internal.helpers.Player.setProperty;
 import static internal.helpers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
+import internal.helpers.RequestLoggerOutput;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -733,6 +735,17 @@ public class FightRequestTest {
       expected = 20 - (property / 5);
       adjustment = KoLCharacter.getFamiliarWeightAdjustment();
       assertEquals(expected, adjustment);
+    }
+  }
+
+  @Test
+  public void canDetectPottedPlantWIns() {
+    RequestLoggerOutput.startStream();
+    var cleanups = new Cleanups(equip(EquipmentManager.OFFHAND, "carnivorous potted plant"));
+    try (cleanups) {
+      parseCombatData("request/test_fight_potted_plant.html");
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(text, containsString("Your potted plant swallows your opponent{s} whole."));
     }
   }
 }
