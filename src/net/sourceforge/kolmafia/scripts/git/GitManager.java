@@ -30,6 +30,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
 
@@ -38,9 +40,12 @@ public class GitManager extends ScriptManager {
   /*
    * Like SVNManager, but for Git.
    *
-   * Scripts with folders as in ScriptManager.permissibles have those folder copied to local.
+   * Scripts with folders as in ScriptManager.permissibles have those folders copied to local.
    * Additional scripts in a "dependencies.txt" file are downloaded.
    */
+
+  protected static final String MANIFEST = "manifest.json";
+  protected static final String MANIFEST_ROOTDIR = "root_directory";
 
   public static void clone(String repoUrl) {
     clone(repoUrl, null);
@@ -193,7 +198,7 @@ public class GitManager extends ScriptManager {
     var path = diff.getNewPath();
     if (isPermissibleFile(path)) {
       try {
-        copyPath(projectPath, projectPath.resolve(path));
+        copyPath(projectPath.resolve(path), Path.of(path));
       } catch (IOException e) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to add file " + path + ": " + e);
       }
@@ -306,22 +311,24 @@ public class GitManager extends ScriptManager {
 
   private static void sync(Path projectPath) {
     var folder = KoLConstants.GIT_LOCATION.toPath().relativize(projectPath);
+    var root = getRoot(projectPath);
     List<Path> toAdd;
     try {
-      toAdd = getPermissibleFiles(projectPath, false);
+      toAdd = getPermissibleFiles(root, false);
     } catch (IOException e) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to sync project " + folder + ": " + e);
       return;
     }
     for (var absPath : toAdd) {
       try {
-        copyPath(projectPath, absPath);
+        var toRel = root.relativize(absPath);
+        copyPath(absPath, toRel);
       } catch (IOException e) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to sync project " + folder + ": " + e);
         return;
       }
     }
-    var deps = projectPath.resolve(DEPENDENCIES);
+    var deps = root.resolve(DEPENDENCIES);
     if (Files.exists(deps)) {
       KoLmafia.updateDisplay("Installing dependencies");
       installDependencies(deps);
@@ -435,8 +442,7 @@ public class GitManager extends ScriptManager {
     return permissibles.stream().anyMatch(p -> path.startsWith(p + "/"));
   }
 
-  private static void copyPath(Path projectPath, Path absPath) throws IOException {
-    var shortPath = projectPath.relativize(absPath);
+  private static void copyPath(Path absPath, Path shortPath) throws IOException {
     var rootPath = KoLConstants.ROOT_LOCATION.toPath();
     var relPath = rootPath.resolve(shortPath);
     if (!Files.isDirectory(relPath)) {
@@ -510,6 +516,28 @@ public class GitManager extends ScriptManager {
         }
       }
     }
+  }
+
+  private static Optional<JSONObject> readManifest(Path manifest) {
+    if (!Files.exists(manifest))
+      return Optional.empty();
+
+    JSONObject json;
+    try {
+      json = new JSONObject(Files.readString(manifest));
+    } catch (IOException | JSONException e) {
+      return Optional.empty();
+    }
+    return Optional.of(json);
+  }
+
+  private static Path getRoot(Path projectPath) {
+    var json = readManifest(projectPath.resolve(MANIFEST));
+    if (json.isEmpty()) return projectPath;
+    var manifest = json.get();
+    var root = manifest.optString(MANIFEST_ROOTDIR, "");
+    if (root.length() == 0) return projectPath;
+    return projectPath.resolve(root);
   }
 
   private static class MafiaProgressMonitor implements ProgressMonitor {
