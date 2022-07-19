@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -12,9 +11,6 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.EnumMap;
-import java.util.Enumeration;
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -42,6 +38,7 @@ import net.sourceforge.kolmafia.swingui.panel.ScrollableFilteredPanel;
 import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
+import net.sourceforge.kolmafia.swingui.widget.SmartButtonGroup;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
@@ -413,61 +410,6 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
       if (any) {
         MaximizerFrame.this.maximize();
       }
-    }
-  }
-
-  public static class SmartButtonGroup extends ButtonGroup {
-    // A version of ButtonGroup that actually does useful things:
-    // * Constructor takes a parent container, adding buttons to
-    // the group adds them to the container as well.  This generally
-    // removes any need for a temp variable to hold the individual
-    // buttons as they're being created.
-    // * getSelectedIndex() to determine which button (0-based) is
-    // selected.  How could that have been missing???
-
-    private final Container parent;
-    private ActionListener actionListener = null;
-
-    public SmartButtonGroup(Container parent) {
-      this.parent = parent;
-    }
-
-    public ActionListener getActionListener() {
-      return this.actionListener;
-    }
-
-    public void setActionListener(ActionListener listener) {
-      this.actionListener = listener;
-    }
-
-    @Override
-    public void add(AbstractButton b) {
-      super.add(b);
-      parent.add(b);
-      if (actionListener != null) {
-        b.addActionListener(actionListener);
-      }
-    }
-
-    public void setSelectedIndex(int index) {
-      int i = 0;
-      Enumeration<AbstractButton> e = this.getElements();
-      while (e.hasMoreElements()) {
-        e.nextElement().setSelected(i == index);
-        ++i;
-      }
-    }
-
-    public int getSelectedIndex() {
-      int i = 0;
-      Enumeration<AbstractButton> e = this.getElements();
-      while (e.hasMoreElements()) {
-        if (e.nextElement().isSelected()) {
-          return i;
-        }
-        ++i;
-      }
-      return -1;
     }
   }
 }
