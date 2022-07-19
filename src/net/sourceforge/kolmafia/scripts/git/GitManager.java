@@ -154,16 +154,13 @@ public class GitManager extends ScriptManager {
       List<DiffEntry> diffs;
       try {
         var cmd =
-            git.diff()
-                .setOldTree(currTree)
-                .setNewTree(incomingTree)
-                .setShowNameAndStatusOnly(true);
+            git.diff().setOldTree(currTree).setNewTree(incomingTree).setShowNameAndStatusOnly(true);
         if (!projectPath.equals(newRoot)) {
           var relFilter = projectPath.relativize(newRoot);
           var filter = PathFilter.create(relFilter.toString().replace(File.separatorChar, '/'));
           cmd = cmd.setPathFilter(filter);
         }
-                diffs = cmd.call();
+        diffs = cmd.call();
       } catch (GitAPIException e) {
         KoLmafia.updateDisplay(
             MafiaState.ERROR, "Failed to diff incoming changes for project " + folder + ": " + e);
@@ -537,8 +534,7 @@ public class GitManager extends ScriptManager {
   }
 
   private static Optional<JSONObject> readManifest(Path manifest) {
-    if (!Files.exists(manifest))
-      return Optional.empty();
+    if (!Files.exists(manifest)) return Optional.empty();
 
     JSONObject json;
     try {
