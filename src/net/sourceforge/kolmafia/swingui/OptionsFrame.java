@@ -6,16 +6,11 @@ import com.informit.guides.JDnDList;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -32,7 +27,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -42,14 +36,12 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
@@ -68,11 +60,11 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
-import net.sourceforge.kolmafia.swingui.MaximizerFrame.SmartButtonGroup;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
 import net.sourceforge.kolmafia.swingui.menu.LoadScriptMenuItem;
 import net.sourceforge.kolmafia.swingui.panel.AddCustomDeedsPanel;
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
+import net.sourceforge.kolmafia.swingui.panel.ConfigQueueingPanel;
 import net.sourceforge.kolmafia.swingui.panel.DailyDeedsPanel;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.swingui.panel.OptionsPanel;
@@ -81,6 +73,9 @@ import net.sourceforge.kolmafia.swingui.widget.AutoHighlightTextField;
 import net.sourceforge.kolmafia.swingui.widget.CollapsibleTextArea;
 import net.sourceforge.kolmafia.swingui.widget.ColorChooser;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
+import net.sourceforge.kolmafia.swingui.widget.PreferenceButtonGroup;
+import net.sourceforge.kolmafia.swingui.widget.PreferenceCheckBox;
+import net.sourceforge.kolmafia.swingui.widget.PreferenceIntegerTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
@@ -371,7 +366,7 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private static class ScriptMenuOptionsPanel extends ConfigQueuingPanel {
+  private static class ScriptMenuOptionsPanel extends ConfigQueueingPanel {
     public ScriptMenuOptionsPanel() {
       super();
 
@@ -609,7 +604,7 @@ public class OptionsFrame extends GenericFrame {
   }
 
   /** Panel used for handling maximizer related options */
-  private static class MaximizerOptionsPanel extends ConfigQueuingPanel {
+  private static class MaximizerOptionsPanel extends ConfigQueueingPanel {
 
     public MaximizerOptionsPanel() {
       super();
@@ -1188,73 +1183,7 @@ public class OptionsFrame extends GenericFrame {
     public void saveSettings() {}
   }
 
-  public static class ConfigQueuingPanel extends JPanel {
-    private List<Component> componentQueue = new ArrayList<>();
-
-    public ConfigQueuingPanel() {
-      // 5 px inset
-      this.setBorder(BorderFactory.createEmptyBorder(10, 5, 5, 5));
-      // box layoutmanager
-      this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-    }
-
-    protected JSeparator newSeparator() {
-      JSeparator sep = new JSeparator();
-      // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
-      int width = sep.getMaximumSize().width;
-      int height = sep.getPreferredSize().height;
-      Dimension size = new Dimension(width, height);
-      sep.setMaximumSize(size);
-      return sep;
-    }
-
-    protected JSeparator newSeparator(JLabel label) {
-      JSeparator sep = new JSeparator();
-      // again, JSeparators have unbounded max size, which messes with boxlayout.  Fix it.
-      int width = label.getFontMetrics(label.getFont()).stringWidth(label.getText());
-      int height = sep.getPreferredSize().height;
-      Dimension size = new Dimension(width, height);
-      sep.setMaximumSize(size);
-      return sep;
-    }
-
-    protected JTextArea newTextArea(String content) {
-      JTextArea message =
-          new JTextArea(content) {
-            // don't let boxlayout expand the JTextArea ridiculously
-            @Override
-            public Dimension getMaximumSize() {
-              return this.getPreferredSize();
-            }
-          };
-
-      message.setColumns(40);
-      message.setLineWrap(true);
-      message.setWrapStyleWord(true);
-      message.setEditable(false);
-      message.setOpaque(false);
-      message.setFont(KoLGUIConstants.DEFAULT_FONT);
-
-      return message;
-    }
-
-    protected <T extends Component> T queue(T comp) {
-      this.componentQueue.add(comp);
-      return comp;
-    }
-
-    protected void makeLayout() {
-      for (Component comp : this.componentQueue) {
-        if (comp instanceof JComponent jcomp) {
-          jcomp.setAlignmentX(LEFT_ALIGNMENT);
-        }
-        this.add(comp);
-      }
-      this.componentQueue = null;
-    }
-  }
-
-  private static class SVNPanel extends ConfigQueuingPanel {
+  private static class SVNPanel extends ConfigQueueingPanel {
     public SVNPanel() {
       super();
 
@@ -1324,7 +1253,7 @@ public class OptionsFrame extends GenericFrame {
     }
   }
 
-  private static class GitPanel extends ConfigQueuingPanel {
+  private static class GitPanel extends ConfigQueueingPanel {
     public GitPanel() {
       super();
 
@@ -1347,200 +1276,6 @@ public class OptionsFrame extends GenericFrame {
 
       this.makeLayout();
     }
-  }
-
-  public static class PreferenceCheckBox extends JPanel implements Listener {
-    private final String pref;
-    private final String tooltip;
-
-    private final JCheckBox box = new JCheckBox();
-
-    public PreferenceCheckBox(String pref, String message) {
-      this(pref, message, null);
-    }
-
-    public PreferenceCheckBox(String pref, String message, String tip) {
-      this.pref = pref;
-      this.tooltip = tip;
-
-      configure();
-      makeLayout(message);
-    }
-
-    private void configure() {
-      this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
-      PreferenceListenerRegistry.registerPreferenceListener(pref, this);
-      this.addActionListener(e -> Preferences.setBoolean(pref, box.isSelected()));
-    }
-
-    public void addActionListener(ActionListener a) {
-      this.box.addActionListener(a);
-    }
-
-    private void makeLayout(String message) {
-      this.add(this.box);
-      JLabel label = new JLabel(message);
-      this.add(label);
-
-      if (tooltip != null) {
-        addToolTip(this, tooltip);
-      }
-
-      update();
-    }
-
-    public JCheckBox getCheckBox() {
-      return this.box;
-    }
-
-    @Override
-    public void update() {
-      this.box.setSelected(Preferences.getBoolean(this.pref));
-    }
-
-    @Override
-    public Dimension getMaximumSize() {
-      return this.getPreferredSize();
-    }
-  }
-
-  public static class PreferenceIntegerTextField extends JPanel implements Listener, FocusListener {
-    private final String pref;
-    private final JTextField field;
-    private final String tooltip;
-
-    private final JCheckBox box = new JCheckBox();
-
-    public PreferenceIntegerTextField(String pref, int size, String message) {
-      this(pref, size, message, null);
-    }
-
-    public PreferenceIntegerTextField(String pref, int size, String message, String tip) {
-      this.pref = pref;
-      this.tooltip = tip;
-
-      this.field = new JTextField(size);
-      this.field.addFocusListener(this);
-
-      configure();
-      makeLayout(message);
-    }
-
-    private void configure() {
-      this.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
-      PreferenceListenerRegistry.registerPreferenceListener(pref, this);
-    }
-
-    private void makeLayout(String message) {
-      this.add(this.field);
-      JLabel label = new JLabel(message, SwingConstants.LEFT);
-      label.setLabelFor(this.field);
-      label.setVerticalAlignment(SwingConstants.TOP);
-      this.add(label);
-
-      if (tooltip != null) {
-        addToolTip(this, tooltip);
-      }
-
-      update();
-    }
-
-    public JTextField getTextField() {
-      return this.field;
-    }
-
-    @Override
-    public void update() {
-      this.actionCancelled();
-    }
-
-    @Override
-    public Dimension getMaximumSize() {
-      return this.getPreferredSize();
-    }
-
-    public void actionConfirmed() {
-      Preferences.setInteger(this.pref, InputFieldUtilities.getValue(this.field, 0));
-    }
-
-    public void actionCancelled() {
-      this.field.setText(String.valueOf(Preferences.getInteger(this.pref)));
-    }
-
-    @Override
-    public void focusLost(final FocusEvent e) {
-      this.actionConfirmed();
-    }
-
-    @Override
-    public void focusGained(final FocusEvent e) {}
-  }
-
-  public static class PreferenceButtonGroup extends JPanel implements Listener {
-    private final String pref;
-    private final SmartButtonGroup group;
-
-    public PreferenceButtonGroup(String pref, String message, String... buttons) {
-      this.pref = pref;
-      this.group = new SmartButtonGroup(this);
-
-      configure();
-      makeLayout(message, buttons);
-    }
-
-    private void configure() {
-      this.setLayout(new FlowLayout(FlowLayout.LEADING, 0, 0));
-      PreferenceListenerRegistry.registerPreferenceListener(pref, this);
-      this.group.setActionListener(
-          e -> Preferences.setInteger(pref, this.group.getSelectedIndex()));
-    }
-
-    private void makeLayout(String message, String... buttons) {
-      JLabel label = new JLabel(message);
-      this.add(label);
-      for (String button : buttons) {
-        this.group.add(new JRadioButton(button));
-      }
-
-      update();
-    }
-
-    public SmartButtonGroup getButtonGroup() {
-      return this.group;
-    }
-
-    @Override
-    public void update() {
-      this.group.setSelectedIndex(Preferences.getInteger(pref));
-    }
-
-    @Override
-    public Dimension getMaximumSize() {
-      return this.getPreferredSize();
-    }
-  }
-
-  private static void addToolTip(JComponent component, String tooltip) {
-    component.add(Box.createHorizontalStrut(3));
-    JLabel label = new JLabel("[");
-    label.setFont(KoLGUIConstants.DEFAULT_FONT);
-    component.add(label);
-
-    label = new JLabel("<html><u>?</u></html>");
-    component.add(label);
-    label.setForeground(Color.blue.darker());
-    label.setFont(KoLGUIConstants.DEFAULT_FONT);
-    label.setCursor(new Cursor(Cursor.HAND_CURSOR));
-    label.setToolTipText(tooltip);
-
-    // show the tooltip with no delay, don't dismiss while hovered
-    ToolTipManager.sharedInstance().registerComponent(label);
-    ToolTipManager.sharedInstance().setInitialDelay(0);
-    ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
-
-    label = new JLabel("]");
-    label.setFont(KoLGUIConstants.DEFAULT_FONT);
-    component.add(label);
   }
 
   protected static class CustomizeDailyDeedsPanel extends GenericPanel
