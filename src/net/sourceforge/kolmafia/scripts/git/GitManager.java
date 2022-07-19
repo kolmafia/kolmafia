@@ -551,6 +551,8 @@ public class GitManager extends ScriptManager {
     var manifest = json.get();
     var root = manifest.optString(MANIFEST_ROOTDIR, "");
     if (root.length() == 0) return projectPath;
+    // deny absolute paths or folder escapes
+    if (root.startsWith("/") || root.startsWith("\\") || root.contains("..")) return projectPath;
     return projectPath.resolve(root);
   }
 
