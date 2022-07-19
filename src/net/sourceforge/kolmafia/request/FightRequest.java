@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -320,21 +321,14 @@ public class FightRequest extends GenericRequest {
   private static final String DESTROYER_ACTION = "item" + ItemPool.MINIBORG_DESTROYOBOT;
   private static final String OLFACTION_ACTION = "skill" + SkillPool.OLFACTION;
 
-  private static boolean castNoodles = false;
-  private static boolean castClubFoot = false;
-  private static boolean castShellUp = false;
-  private static boolean castAccordionBash = false;
-  private static boolean castCleesh = false;
-  private static boolean castParaffinPrism = false;
-  private static boolean castTerracottaArmy = false;
+  private static Set<Integer> singleCastsThisFight = new HashSet<>();
+
   private static boolean insultedPirate = false;
   private static boolean usedFlyer = false;
   private static boolean usedBasePair = false;
   private static boolean jiggledChefstaff = false;
   private static boolean handledCan = false;
   private static boolean shotSixgun = false;
-  private static boolean squeezedStressBall = false;
-  private static boolean canOlfact = true;
   private static boolean canStomp = false;
   public static boolean haiku = false;
   public static boolean anapest = false;
@@ -771,7 +765,7 @@ public class FightRequest extends GenericRequest {
   }
 
   public static final boolean canOlfact() {
-    return FightRequest.canOlfact
+    return !singleCastsThisFight.contains(SkillPool.OLFACTION)
         && !KoLCharacter.inGLover()
         && KoLCharacter.hasCombatSkill(SkillPool.OLFACTION);
   }
@@ -1366,6 +1360,16 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    // Shadow Noodles shares a mutex with Entang;ing Noodles
+    int singleCastSkillId =
+        skillId == SkillPool.SHADOW_NOODLES ? SkillPool.ENTANGLING_NOODLES : skillId;
+
+    if (singleCastsThisFight.contains(singleCastSkillId)) {
+      // You can only use this skill once per combat
+      this.skipRound();
+      return;
+    }
+
     switch (skillName) {
       case "Transcendent Olfaction":
         // You can't sniff if you are already on the trail.
@@ -1771,13 +1775,13 @@ public class FightRequest extends GenericRequest {
     }
 
     if (skillName.equals("CLEESH")) {
-      if (FightRequest.castCleesh && !KoLCharacter.isJarlsberg()) {
+      if (singleCastsThisFight.contains(skillId) && !KoLCharacter.isJarlsberg()) {
         FightRequest.nextAction = "attack";
         this.addFormField("action", FightRequest.nextAction);
         return;
       }
 
-      FightRequest.castCleesh = true;
+      singleCastsThisFight.add(skillId);
     }
 
     if (FightRequest.isInvalidAttack(FightRequest.nextAction)) {
@@ -8013,21 +8017,13 @@ public class FightRequest extends GenericRequest {
     FightRequest.transformed = transform;
     FightRequest.fightFollowsChoice = false;
 
-    FightRequest.castNoodles = false;
-    FightRequest.castClubFoot = false;
-    FightRequest.castShellUp = false;
-    FightRequest.castTerracottaArmy = false;
-    FightRequest.castParaffinPrism = false;
-    FightRequest.castAccordionBash = false;
-    FightRequest.castCleesh = false;
+    singleCastsThisFight.clear();
     FightRequest.insultedPirate = false;
     FightRequest.usedFlyer = false;
     FightRequest.usedBasePair = false;
-    FightRequest.canOlfact = true;
     FightRequest.jiggledChefstaff = false;
     FightRequest.handledCan = false;
     FightRequest.shotSixgun = false;
-    FightRequest.squeezedStressBall = false;
     FightRequest.canStomp = false;
     FightRequest.desiredScroll = null;
     FightRequest.won = false;
@@ -8787,27 +8783,15 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.ENTANGLING_NOODLES:
       case SkillPool.SHADOW_NOODLES:
-        FightRequest.castNoodles = true;
+        singleCastsThisFight.add(SkillPool.ENTANGLING_NOODLES);
         return;
 
       case SkillPool.CLUBFOOT:
-        FightRequest.castClubFoot = true;
-        return;
-
       case SkillPool.SHELL_UP:
-        FightRequest.castShellUp = true;
-        return;
-
       case SkillPool.TERRACOTTA_ARMY:
-        FightRequest.castTerracottaArmy = true;
-        return;
-
       case SkillPool.PARAFFIN_PRISM:
-        FightRequest.castParaffinPrism = true;
-        return;
-
       case SkillPool.ACCORDION_BASH:
-        FightRequest.castAccordionBash = true;
+        singleCastsThisFight.add(skillId);
         return;
 
       case SkillPool.MAYFLY_SWARM:
@@ -8865,21 +8849,15 @@ public class FightRequest extends GenericRequest {
         break;
 
       case SkillPool.BOXING_GLOVE_ARROW:
-        skillSuccess = true;
-        break;
-
       case SkillPool.POISON_ARROW:
-        skillSuccess = true;
-        break;
-
       case SkillPool.FINGERTRAP_ARROW:
         skillSuccess = true;
         break;
 
       case SkillPool.SQUEEZE_STRESS_BALL:
-        FightRequest.squeezedStressBall = true;
+        singleCastsThisFight.add(skillId);
         skillSuccess = true;
-        return;
+        break;
 
       case SkillPool.RELEASE_BOOTS:
         FightRequest.canStomp = false;
@@ -8943,7 +8921,7 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
           Preferences.setString("olfactedMonster", monsterName);
           Preferences.setString("autoOlfact", "");
-          FightRequest.canOlfact = false;
+          singleCastsThisFight.add(skillId);
         }
         break;
 
@@ -10255,7 +10233,7 @@ public class FightRequest extends GenericRequest {
     // Bandersnatch + Ode = weight/5 free runaways
     if (KoLCharacter.getEffectiveFamiliar().getId() == FamiliarPool.BANDER
         && KoLConstants.activeEffects.contains(ConsumablesDatabase.ODE)) {
-      if (!FightRequest.castCleesh
+      if (!singleCastsThisFight.contains(SkillPool.CLEESH)
           && KoLCharacter.getFamiliar().getModifiedWeight() / 5
               > Preferences.getInteger("_banderRunaways")) {
         return 100;
@@ -10619,11 +10597,6 @@ public class FightRequest extends GenericRequest {
               action.append("plays Garin's Harp");
             }
           } else {
-            if (item.equalsIgnoreCase("odor extractor")) {
-              Preferences.setString("olfactedMonster", monsterName);
-              Preferences.setString("autoOlfact", "");
-              FightRequest.canOlfact = false;
-            }
             FightRequest.nextAction = String.valueOf(itemId);
             if (shouldLogAction) {
               action.append("uses the ").append(item);
