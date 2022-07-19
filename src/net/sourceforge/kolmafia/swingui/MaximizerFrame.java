@@ -416,8 +416,8 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
     }
   }
 
-  public static class SmartButtonGroup
-      extends ButtonGroup { // A version of ButtonGroup that actually does useful things:
+  public static class SmartButtonGroup extends ButtonGroup {
+    // A version of ButtonGroup that actually does useful things:
     // * Constructor takes a parent container, adding buttons to
     // the group adds them to the container as well.  This generally
     // removes any need for a temp variable to hold the individual
@@ -426,15 +426,27 @@ public class MaximizerFrame extends GenericFrame implements ListSelectionListene
     // selected.  How could that have been missing???
 
     private final Container parent;
+    private ActionListener actionListener = null;
 
     public SmartButtonGroup(Container parent) {
       this.parent = parent;
+    }
+
+    public ActionListener getActionListener() {
+      return this.actionListener;
+    }
+
+    public void setActionListener(ActionListener listener) {
+      this.actionListener = listener;
     }
 
     @Override
     public void add(AbstractButton b) {
       super.add(b);
       parent.add(b);
+      if (actionListener != null) {
+        b.addActionListener(actionListener);
+      }
     }
 
     public void setSelectedIndex(int index) {
