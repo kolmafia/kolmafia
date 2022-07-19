@@ -48,7 +48,6 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
-import net.sourceforge.kolmafia.persistence.DailyLimitDatabase;
 import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -1370,6 +1369,13 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    // Skip round for any skills that have no uses remaining
+    var limit = DailyLimitType.CAST.getDailyLimit(skillId);
+    if (limit != null && !limit.hasUsesRemaining()) {
+      this.skipRound();
+      return;
+    }
+
     switch (skillName) {
       case "Transcendent Olfaction":
         // You can't sniff if you are already on the trail.
@@ -1392,177 +1398,29 @@ public class FightRequest extends GenericRequest {
           return;
         }
         break;
-      case "Entangling Noodles":
-      case "Shadow Noodles":
-        // You can only use this skill once per combat
-        if (FightRequest.castNoodles) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Club Foot":
-        // You can only use this skill once per combat
-        if (FightRequest.castClubFoot) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Shell Up":
-        // You can only use this skill once per combat
-        if (FightRequest.castShellUp) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Accordion Bash":
-        // You can only use this skill once per combat
-        if (FightRequest.castAccordionBash) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Unleash Terra Cotta Army":
-        // You can only use this skill once per combat
-        if (FightRequest.castTerracottaArmy) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Paraffin Prism":
-        // You can only use this skill once per combat
-        if (FightRequest.castParaffinPrism) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Squeeze Stress Ball":
-        // You can only use this skill once per combat
-        if (FightRequest.squeezedStressBall) {
-          this.skipRound();
-          return;
-        }
-        break;
       case "Fire a badly romantic arrow":
-        // You can only shoot 1 badly romantic arrow per day
-
-        if (Preferences.getInteger("_badlyRomanticArrows") >= 1
-            || KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL) {
+      case "Fire a boxing-glove arrow":
+      case "Fire a poison arrow":
+      case "Fire a fingertrap arrow":
+        if (KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL) {
           this.skipRound();
           return;
         }
         break;
       case "Wink at":
-        // You can only shoot 1 badly romantic arrow per day
-
-        if (Preferences.getInteger("_badlyRomanticArrows") >= 1
-            || KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.REANIMATOR) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Fire a boxing-glove arrow":
-        // You can only shoot 5 boxing-glove arrows per day
-
-        if (Preferences.getInteger("_boxingGloveArrows") >= 5
-            || KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Fire a poison arrow":
-        // You can only shoot 10 poison arrows per day
-
-        if (Preferences.getInteger("_poisonArrows") >= 1
-            || KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Fire a fingertrap arrow":
-        // You can only shoot 10 fingertrap arrows per day
-
-        if (Preferences.getInteger("_fingertrapArrows") >= 10
-            || KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.OBTUSE_ANGEL) {
+        if (KoLCharacter.getEffectiveFamiliar().getId() != FamiliarPool.REANIMATOR) {
           this.skipRound();
           return;
         }
         break;
       case "Talk About Politics":
-        // You can only use 5 Pantsgiving banishes per day
-
-        if (Preferences.getInteger("_pantsgivingBanish") >= 5
-            || !KoLCharacter.hasEquipped(ItemPool.get(ItemPool.PANTSGIVING, 1))) {
+        if (!KoLCharacter.hasEquipped(ItemPool.get(ItemPool.PANTSGIVING, 1))) {
           this.skipRound();
           return;
         }
         break;
       case "Release the Boots":
-        // You can only release the boots 7 times per day
-
         if (!FightRequest.canStomp) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Fix Jukebox":
-        // You can only fix 3 Jukeboxes per day
-
-        if (Preferences.getInteger("_peteJukeboxFixed") >= 3) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Peel Out":
-        // You can only Peel Out 10 times per day, 30 with Racing Slicks
-        int max =
-            10 + (Preferences.getString("peteMotorbikeTires").equals("Racing Slicks") ? 20 : 0);
-        if (Preferences.getInteger("_petePeeledOut") >= max) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Jump Shark":
-        // You can only jump the shark 3 times per day
-
-        if (Preferences.getInteger("_peteJumpedShark") >= 3) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Snokebomb":
-        // You can only snokebomb 3 times per day
-
-        if (Preferences.getInteger("_snokebombUsed") >= 3) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Shattering Punch":
-        if (Preferences.getInteger("_shatteringPunchUsed") >= 3) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Gingerbread Mob Hit":
-        if (Preferences.getBoolean("_gingerbreadMobHitUsed")) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Throw Latte on Opponent":
-        if (Preferences.getBoolean("_latteBanishUsed")) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Offer Latte to Opponent":
-        if (Preferences.getBoolean("_latteCopyUsed")) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Gulp Latte":
-        if (Preferences.getBoolean("_latteDrinkUsed")) {
           this.skipRound();
           return;
         }
@@ -1651,7 +1509,7 @@ public class FightRequest extends GenericRequest {
       case "Beancannon":
         // You can only use Beancannon with an offhand Can of Beans
 
-        if (Preferences.getInteger("_beanCannonUses") >= 5 || !EquipmentManager.usingCanOfBeans()) {
+        if (!EquipmentManager.usingCanOfBeans()) {
           this.skipRound();
           return;
         }
@@ -1660,22 +1518,6 @@ public class FightRequest extends GenericRequest {
         // You can only extract 15 oil a day
 
         if (Preferences.getInteger("_oilExtracted") > 14) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Long Con":
-        // You can only use Long Con 5 times per day
-
-        if (Preferences.getInteger("_longConUsed") >= 5) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Fire the Jokester's Gun":
-        // You can only fire the gun once per day per day
-
-        if (Preferences.getBoolean("_firedJokestersGun")) {
           this.skipRound();
           return;
         }
@@ -1690,36 +1532,6 @@ public class FightRequest extends GenericRequest {
       case "CHEAT CODE: Shrink Enemy":
         // Shrink Enemy takes 5% of your daily battery power
         if (EquipmentManager.powerfulGloveUsableBatteryPower() < 5) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Feel Nostalgic":
-        if (Preferences.getInteger("_feelNostalgicUsed") >= 3) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Feel Hatred":
-        if (Preferences.getInteger("_feelHatredUsed") >= 3) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Feel Pride":
-        if (Preferences.getInteger("_feelPrideUsed") >= 3) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Feel Envy":
-        if (Preferences.getInteger("_feelEnvyUsed") >= 3) {
-          this.skipRound();
-          return;
-        }
-        break;
-      case "Feel Superior":
-        if (Preferences.getInteger("_feelSuperiorUsed") >= 3) {
           this.skipRound();
           return;
         }
