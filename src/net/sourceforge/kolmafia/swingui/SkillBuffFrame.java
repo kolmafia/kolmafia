@@ -19,7 +19,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
-import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.ContactManager;
@@ -114,206 +114,10 @@ public class SkillBuffFrame extends GenericFrame {
       this.setSkillListeners();
     }
 
-    private final String[][] DAILY_LIMITED_SKILLS = {
-      {
-        "The Smile of Mr. A.", "_smilesOfMrA", "integer", "5",
-      },
-      {
-        "Rainbow Gravitation", "prismaticSummons", "integer", "3",
-      },
-      {
-        "Vent Rage Gland", "rageGlandVented", "boolean", "true",
-      },
-      {
-        "Summon Crimbo Candy", "_candySummons", "integer", "1",
-      },
-      {
-        "Lunch Break", "_lunchBreak", "boolean", "true",
-      },
-      {
-        "Summon &quot;Boner Battalion&quot;", "_bonersSummoned", "boolean", "true",
-      },
-      {
-        "Request Sandwich", "_requestSandwichSucceeded", "boolean", "true",
-      },
-      {
-        "Grab a Cold One", "_coldOne", "boolean", "true",
-      },
-      {
-        "Spaghetti Breakfast", "_spaghettiBreakfast", "boolean", "true",
-      },
-      {
-        "Pastamastery", "noodleSummons", "integer", "1",
-      },
-      {
-        "Canticle of Carboloading", "_carboLoaded", "boolean", "true",
-      },
-      {
-        "Advanced Saucecrafting", "reagentSummons", "integer", "1",
-      },
-      {
-        "That's Not a Knife", "_discoKnife", "boolean", "true",
-      },
-      {
-        "Summon \"Boner Battalion\"", "_bonersSummoned", "boolean", "true",
-      },
-      {
-        "Acquire Rhinestones", "_rhinestonesAcquired", "boolean", "true",
-      },
-      {
-        "Psychokinetic Hug", "_psychokineticHugUsed", "boolean", "true",
-      },
-      {
-        "Managerial Manipulation", "_managerialManipulationUsed", "boolean", "true",
-      },
-      {
-        "Throw Party", "_petePartyThrown", "boolean", "true",
-      },
-      {
-        "Throw Party", "_petePartyThrown", "boolean", "true",
-      },
-      {
-        "Perfect Freeze", "_perfectFreezeUsed", "boolean", "true",
-      },
-      {
-        "Communism!", "_communismUsed", "boolean", "true",
-      },
-      {
-        "Bow-Legged Swagger", "_bowleggedSwaggerUsed", "boolean", "true",
-      },
-      {
-        "Bend Hell", "_bendHellUsed", "boolean", "true",
-      },
-      {
-        "Steely-Eyed Squint", "_steelyEyedSquintUsed", "boolean", "true",
-      },
-      {
-        "Ceci N'Est Pas Un Chapeau", "_ceciHatUsed", "boolean", "true",
-      },
-      {
-        "Evoke Eldritch Horror", "_eldritchHorrorEvoked", "boolean", "true",
-      },
-      {
-        "Incredible Self Esteem", "_incredibleSelfEsteemCast", "boolean", "true",
-      },
-      {
-        "Prevent Scurvy and Sobriety", "_preventScurvy", "boolean", "true",
-      },
-      {
-        "Advanced Cocktailcrafting", "cocktailSummons", "integer", "1",
-      },
-      {
-        "The Ballad of Richie Thingfinder", "_thingfinderCasts", "integer", "10",
-      },
-      {
-        "Benetton's Medley of Diversity", "_benettonsCasts", "integer", "10",
-      },
-      {
-        "Elron's Explosive Etude", "_elronsCasts", "integer", "10",
-      },
-      {
-        "Chorale of Companionship", "_companionshipCasts", "integer", "10",
-      },
-      {
-        "Prelude of Precision", "_precisionCasts", "integer", "10",
-      },
-      {
-        "Donho's Bubbly Ballad", "_donhosCasts", "integer", "50",
-      },
-      {
-        "Inigo's Incantation of Inspiration", "_inigosCasts", "integer", "5",
-      },
-      {
-        "Summon Snowcones", "_snowconeSummons", "variable", "tomesummons",
-      },
-      {
-        "Summon Stickers", "_stickerSummons", "variable", "tomesummons",
-      },
-      {
-        "Summon Sugar Sheets", "_sugarSummons", "variable", "tomesummons",
-      },
-      {
-        "Summon Clip Art", "_clipartSummons", "variable", "tomesummons",
-      },
-      {
-        "Summon Rad Libs", "_radlibSummons", "variable", "tomesummons",
-      },
-      {
-        "Summon Smithsness", "_smithsnessSummons", "variable", "tomesummons",
-      },
-      {
-        "Dummy", "tomeSummons", "variable", "tomesummons",
-      },
-      {
-        "Summon Hilarious Objects", "grimoire1Summons", "integer", "1",
-      },
-      {
-        "Summon Tasteful Items", "grimoire2Summons", "integer", "1",
-      },
-      {
-        "Summon Alice's Army Cards", "grimoire3Summons", "integer", "1",
-      },
-      {
-        "Summon Geeky Gifts", "_grimoireGeekySummons", "integer", "1",
-      },
-      {
-        "Summon Confiscated Things", "_grimoireConfiscatorSummons", "integer", "1",
-      },
-      {
-        "Demand Sandwich", "_demandSandwich", "integer", "3",
-      },
-      {
-        "Conjure Eggs", "_jarlsEggsSummoned", "boolean", "true",
-      },
-      {
-        "Conjure Dough", "_jarlsDoughSummoned", "boolean", "true",
-      },
-      {
-        "Conjure Vegetables", "_jarlsVeggiesSummoned", "boolean", "true",
-      },
-      {
-        "Conjure Cheese", "_jarlsCheeseSummoned", "boolean", "true",
-      },
-      {
-        "Conjure Meat Product", "_jarlsMeatSummoned", "boolean", "true",
-      },
-      {
-        "Conjure Potato", "_jarlsPotatoSummoned", "boolean", "true",
-      },
-      {
-        "Conjure Cream", "_jarlsCreamSummoned", "boolean", "true",
-      },
-      {
-        "Conjure Fruit", "_jarlsFruitSummoned", "boolean", "true",
-      },
-      {
-        "Pirate Bellow", "_pirateBellowUsed", "boolean", "true",
-      },
-      {
-        "Summon Holiday Fun!", "_holidayFunUsed", "boolean", "true",
-      },
-      {
-        "Summon Carrot", "_summonCarrotUsed", "boolean", "true",
-      },
-      {
-        "Summon Kokomo Resort Pass", "_summonResortPassUsed", "boolean", "true",
-      },
-      {
-        "Bowl Full of Jelly", "_bowlFullOfJellyUsed", "boolean", "true",
-      },
-      {
-        "Eye and a Twist", "_eyeAndATwistUsed", "boolean", "true",
-      },
-      {
-        "Chubby and Plump", "_chubbyAndPlumpUsed", "boolean", "true",
-      }
-    };
-
     private void setSkillListeners() {
       PreferenceListenerRegistry.registerPreferenceListener("tomeSummons", this);
-      for (int i = 0; i < DAILY_LIMITED_SKILLS.length; ++i) {
-        String setting = DAILY_LIMITED_SKILLS[i][1];
-        PreferenceListenerRegistry.registerPreferenceListener(setting, this);
+      for (var limit : DailyLimitType.CAST.getDailyLimits().values()) {
+        PreferenceListenerRegistry.registerPreferenceListener(limit.getPref(), this);
       }
     }
 
@@ -322,35 +126,13 @@ public class SkillBuffFrame extends GenericFrame {
       super.update();
       this.clearDisabledItems();
 
-      for (int i = 0; i < DAILY_LIMITED_SKILLS.length; ++i) {
-        String skill = DAILY_LIMITED_SKILLS[i][0];
-        String setting = DAILY_LIMITED_SKILLS[i][1];
-        String type = DAILY_LIMITED_SKILLS[i][2];
-        String value = DAILY_LIMITED_SKILLS[i][3];
+      int selected = this.getSelectedIndex();
 
-        boolean skillDisable = false;
-
-        if (type.equals("boolean")) {
-          skillDisable = Preferences.getBoolean(setting) == Boolean.valueOf(value);
-        } else if (type.equals("integer")) {
-          skillDisable = Preferences.getInteger(setting) >= Integer.valueOf(value);
-        } else if (type.equals("variable")) {
-          if (value.equals("tomesummons")) {
-            int used = Preferences.getInteger(KoLCharacter.canInteract() ? setting : "tomeSummons");
-            int maxCast = Math.max(3 - used, 0);
-            skillDisable = maxCast == 0;
-          }
-        }
-
-        int selected = this.getSelectedIndex();
-        for (int j = 0; j < this.getItemCount(); j++) {
-          Object obj = this.getItemAt(j);
-          if (obj.toString().contains(skill)) {
-            this.setDisabledIndex(j, skillDisable);
-            if (skillDisable && j == selected) {
-              this.setSelectedIndex(-1);
-            }
-          }
+      for (int j = 0; j < this.getItemCount(); j++) {
+        var disable = this.getItemAt(j).getMaximumCast() <= 0;
+        this.setDisabledIndex(j, disable);
+        if (disable && j == selected) {
+          this.setSelectedIndex(-1);
         }
       }
     }

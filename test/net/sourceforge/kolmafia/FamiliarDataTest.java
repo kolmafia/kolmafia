@@ -7,6 +7,7 @@ import static internal.helpers.Player.addSkill;
 import static internal.helpers.Player.equip;
 import static internal.helpers.Player.inPath;
 import static internal.helpers.Player.isClass;
+import static internal.helpers.Player.setProperty;
 import static internal.helpers.Player.setStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -28,6 +29,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class FamiliarDataTest {
 
@@ -83,7 +86,7 @@ public class FamiliarDataTest {
     var cleanups = addEffect("Fidoxene");
 
     try (cleanups) {
-      var familiar = FamiliarData.registerFamiliar(FamiliarPool.HOMEMADE_ROBOT, 900);
+      var familiar = FamiliarData.registerFamiliar(FamiliarPool.STOCKING_MIMIC, 900);
 
       assertThat(familiar.getModifiedWeight(), equalTo(30));
     }
@@ -168,6 +171,19 @@ public class FamiliarDataTest {
     assertFalse(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_PROTEIN));
     assertFalse(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_ENERGY));
     assertFalse(KoLCharacter.hasCombatSkill(SkillPool.CONVERT_MATTER_TO_POMADE));
+  }
+
+  @ParameterizedTest
+  @CsvSource({"1, 12", "5, 56"})
+  public void homemadeRobotWeightCalculationIgnoresExp(Integer upgrades, Integer weight) {
+    var fam = new FamiliarData(FamiliarPool.HOMEMADE_ROBOT);
+
+    var cleanups = new Cleanups(setProperty("homemadeRobotUpgrades", upgrades));
+    try (cleanups) {
+      // This experience should be ignored
+      fam.setExperience(69);
+      assertThat(fam.getWeight(), equalTo(weight));
+    }
   }
 
   @Nested

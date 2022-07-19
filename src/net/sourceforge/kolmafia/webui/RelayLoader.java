@@ -5,6 +5,7 @@ import java.awt.Desktop.Action;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -84,10 +85,11 @@ public class RelayLoader extends Thread {
       return;
     }
 
-    URI uri = URI.create(location);
-
     try {
+      URI uri = new URI(location);
       Desktop.getDesktop().browse(uri);
+    } catch (URISyntaxException e) {
+      KoLmafia.updateDisplay("Exception: " + e.getMessage());
     } catch (IOException e) {
       KoLmafia.updateDisplay(
           "Exception: " + e.getMessage() + " for location " + location + " in browser.");

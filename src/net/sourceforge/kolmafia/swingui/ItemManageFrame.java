@@ -75,69 +75,15 @@ public class ItemManageFrame extends GenericFrame {
   public ItemManageFrame(final boolean useTabs) {
     super("Item Manager");
 
-    JTabbedPane queueTabs;
-    UseItemDequeuePanel dequeuePanel;
-
     ItemManageFrame.selectorPanel = new CardLayoutSelectorPanel("itemManagerIndex");
 
+    boolean creationQueue = Preferences.getBoolean("addCreationQueue");
+
     selectorPanel.addPanel("Usable", new UseItemPanel());
-
-    JPanel foodPanel = new JPanel(new BorderLayout());
-
-    queueTabs = null;
-
-    if (Preferences.getBoolean("addCreationQueue")) {
-      dequeuePanel = new UseItemDequeuePanel(ConcoctionType.FOOD);
-      foodPanel.add(dequeuePanel, BorderLayout.NORTH);
-      queueTabs = dequeuePanel.getQueueTabs();
-    }
-
-    foodPanel.add(new UseItemEnqueuePanel(ConcoctionType.FOOD, queueTabs), BorderLayout.CENTER);
-
-    selectorPanel.addPanel(" - Food", foodPanel);
-
-    JPanel boozePanel = new JPanel(new BorderLayout());
-
-    queueTabs = null;
-
-    if (Preferences.getBoolean("addCreationQueue")) {
-      dequeuePanel = new UseItemDequeuePanel(ConcoctionType.BOOZE);
-      boozePanel.add(dequeuePanel, BorderLayout.NORTH);
-      queueTabs = dequeuePanel.getQueueTabs();
-    }
-
-    boozePanel.add(new UseItemEnqueuePanel(ConcoctionType.BOOZE, queueTabs), BorderLayout.CENTER);
-
-    selectorPanel.addPanel(" - Booze", boozePanel);
-
-    JPanel spleenPanel = new JPanel(new BorderLayout());
-
-    queueTabs = null;
-
-    if (Preferences.getBoolean("addCreationQueue")) {
-      dequeuePanel = new UseItemDequeuePanel(ConcoctionType.SPLEEN);
-      spleenPanel.add(dequeuePanel, BorderLayout.NORTH);
-      queueTabs = dequeuePanel.getQueueTabs();
-    }
-
-    spleenPanel.add(new UseItemEnqueuePanel(ConcoctionType.SPLEEN, queueTabs), BorderLayout.CENTER);
-
-    selectorPanel.addPanel(" - Spleen", spleenPanel);
-
-    JPanel potionPanel = new JPanel(new BorderLayout());
-
-    queueTabs = null;
-
-    if (Preferences.getBoolean("addCreationQueue")) {
-      dequeuePanel = new UseItemDequeuePanel(ConcoctionType.POTION);
-      potionPanel.add(dequeuePanel, BorderLayout.NORTH);
-      queueTabs = dequeuePanel.getQueueTabs();
-    }
-
-    potionPanel.add(new UseItemEnqueuePanel(ConcoctionType.POTION, queueTabs), BorderLayout.CENTER);
-
-    selectorPanel.addPanel(" - Potions", potionPanel);
-
+    selectorPanel.addPanel(" - Food", makeConsumablePanel(ConcoctionType.FOOD, creationQueue));
+    selectorPanel.addPanel(" - Booze", makeConsumablePanel(ConcoctionType.BOOZE, creationQueue));
+    selectorPanel.addPanel(" - Spleen", makeConsumablePanel(ConcoctionType.SPLEEN, creationQueue));
+    selectorPanel.addPanel(" - Potions", makeConsumablePanel(ConcoctionType.POTION, creationQueue));
     selectorPanel.addPanel(" - Restores", new RestorativeItemPanel());
 
     selectorPanel.addSeparator();
@@ -195,6 +141,20 @@ public class ItemManageFrame extends GenericFrame {
     this.setCenterComponent(selectorPanel);
 
     ItemManageFrame.setHeaderStates();
+  }
+
+  public JPanel makeConsumablePanel(ConcoctionType type, boolean creationQueue) {
+    JPanel panel = new JPanel(new BorderLayout());
+    JTabbedPane queueTabs = null;
+
+    if (creationQueue) {
+      UseItemDequeuePanel dequeuePanel = new UseItemDequeuePanel(type);
+      panel.add(dequeuePanel, BorderLayout.NORTH);
+      queueTabs = dequeuePanel.getQueueTabs();
+    }
+
+    panel.add(new UseItemEnqueuePanel(type, queueTabs), BorderLayout.CENTER);
+    return panel;
   }
 
   public static void saveHeaderStates() {

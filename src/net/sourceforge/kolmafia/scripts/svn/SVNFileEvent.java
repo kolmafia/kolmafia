@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.svn;
+package net.sourceforge.kolmafia.scripts.svn;
 
 import java.io.File;
 import org.tmatesoft.svn.core.wc.SVNEvent;

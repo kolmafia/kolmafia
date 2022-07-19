@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
@@ -27,6 +28,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -188,6 +190,11 @@ public class Player {
     return new Cleanups(() -> setStats(0, 0, 0));
   }
 
+  public static Cleanups isLevel(int level) {
+    int substats = (int) Math.pow(level, 2) - level * 2 + 5;
+    return setStats(substats, substats, substats);
+  }
+
   public static Cleanups setHP(long current, long maximum, long base) {
     KoLCharacter.setHP(current, maximum, base);
     KoLCharacter.recalculateAdjustments();
@@ -343,5 +350,38 @@ public class Player {
 
   public static Cleanups withPostChoice2(int choice, int decision) {
     return withPostChoice2(choice, decision, "");
+  }
+
+  public static Cleanups withLastLocationName(final String lastLocationName) {
+    var old = KoLAdventure.lastLocationName;
+    KoLAdventure.lastLocationName = lastLocationName;
+    return new Cleanups(
+        () -> {
+          KoLAdventure.lastLocationName = old;
+        });
+  }
+
+  public static Cleanups withMultiFight() {
+    var old = FightRequest.inMultiFight;
+    FightRequest.inMultiFight = true;
+    return new Cleanups(
+        () -> {
+          FightRequest.inMultiFight = old;
+        });
+  }
+
+  public static Cleanups withItemMonster(final String itemMonster) {
+    var old = GenericRequest.itemMonster;
+    GenericRequest.itemMonster = itemMonster;
+    return new Cleanups(
+        () -> {
+          GenericRequest.itemMonster = old;
+        });
+  }
+
+  public static Cleanups canInteract(boolean canInteract) {
+    var old = CharPaneRequest.canInteract();
+    CharPaneRequest.setCanInteract(canInteract);
+    return new Cleanups(() -> CharPaneRequest.setCanInteract(old));
   }
 }

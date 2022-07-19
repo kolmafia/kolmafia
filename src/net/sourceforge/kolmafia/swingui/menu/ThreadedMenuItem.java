@@ -4,14 +4,12 @@ import javax.swing.JMenuItem;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 
 public class ThreadedMenuItem extends JMenuItem {
-  public ThreadedMenuItem(final String label, ThreadedListener action) {
+  public ThreadedMenuItem(final String label, ThreadedListener... actions) {
     super(label);
 
-    this.addActionListener(action);
-  }
-
-  public void setAction(ThreadedListener action) {
-    this.addActionListener(action);
+    for (ThreadedListener action : actions) {
+      this.addActionListener(action);
+    }
   }
 
   @Override

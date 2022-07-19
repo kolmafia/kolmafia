@@ -3,13 +3,11 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.Player.setupFakeResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class BasementRequestTest {
 
@@ -19,19 +17,16 @@ class BasementRequestTest {
     KoLCharacter.reset("fakeUserName");
   }
 
-  private static Stream<Arguments> monsterFights() {
-    return Stream.of(
-        Arguments.of("Commence to Pokin'", "Beast with X Eyes"),
-        Arguments.of("Don't Fear the Ear", "Beast with X Ears"),
-        Arguments.of("Stone Golem'", "X Stone Golem"),
-        Arguments.of("Hydra'", "X-headed Hydra"),
-        Arguments.of("Toast that Ghost'", "Ghost of Fernswarthy's Grandfather"),
-        Arguments.of("Bottles of Beer on a Golem", "X Bottles of Beer on a Golem"),
-        Arguments.of("Collapse That Waveform!", "X-dimensional horror"));
-  }
-
   @ParameterizedTest
-  @MethodSource("monsterFights")
+  @CsvSource({
+    "Commence to Pokin', Beast with X Eyes",
+    "Don't Fear the Ear, Beast with X Ears",
+    "Stone Golem', X Stone Golem",
+    "Hydra', X-headed Hydra",
+    "Toast that Ghost', Ghost of Fernswarthy's Grandfather",
+    "Bottles of Beer on a Golem, X Bottles of Beer on a Golem",
+    "Collapse That Waveform!, X-dimensional horror"
+  })
   void matchesMonsterFightFromResponse(String encounter, String monster) {
     var req = new BasementRequest("Fernswarthy's Basement, Level 499");
 
@@ -43,21 +38,18 @@ class BasementRequestTest {
     assertEquals(monster, BasementRequest.basementMonster);
   }
 
-  private static Stream<Arguments> statTests() {
-    return Stream.of(
-        Arguments.of("Don't Wake the Baby", "Buffed Moxie Test"),
-        Arguments.of("Grab a cue", "Buffed Moxie Test"),
-        Arguments.of("Smooth Moves", "Buffed Moxie Test"),
-        Arguments.of("Lift 'em", "Buffed Muscle Test"),
-        Arguments.of("Push it Real Good", "Buffed Muscle Test"),
-        Arguments.of("Ring that Bell", "Buffed Muscle Test"),
-        Arguments.of("Gathering:  The Magic", "Buffed Mysticality Test"),
-        Arguments.of("Mop the Floor", "Buffed Mysticality Test"),
-        Arguments.of("Do away with the 'doo", "Buffed Mysticality Test"));
-  }
-
   @ParameterizedTest
-  @MethodSource("statTests")
+  @CsvSource({
+    "Don't Wake the Baby, Buffed Moxie Test",
+    "Grab a cue, Buffed Moxie Test",
+    "Smooth Moves, Buffed Moxie Test",
+    "Lift 'em, Buffed Muscle Test",
+    "Push it Real Good, Buffed Muscle Test",
+    "Ring that Bell, Buffed Muscle Test",
+    "Gathering:  The Magic, Buffed Mysticality Test",
+    "Mop the Floor, Buffed Mysticality Test",
+    "Do away with the 'doo, Buffed Mysticality Test"
+  })
   void matchesImpassableStatTestFromResponse(String encounter, String summary) {
     var req = new BasementRequest("Fernswarthy's Basement, Level 499");
 

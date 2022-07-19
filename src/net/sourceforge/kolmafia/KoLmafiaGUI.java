@@ -81,10 +81,6 @@ public class KoLmafiaGUI {
   public static void initializeLoginInterface() {
     KoLmafiaGUI.constructFrame(LoginFrame.class);
 
-    if (Preferences.getString("useDecoratedTabs").isEmpty()) {
-      Preferences.setBoolean("useDecoratedTabs", !System.getProperty("os.name").startsWith("Mac"));
-    }
-
     if (!Preferences.getBoolean("customizedTabs")) {
       KoLmafiaGUI.constructFrame(OptionsFrame.class);
       Preferences.setBoolean("customizedTabs", true);

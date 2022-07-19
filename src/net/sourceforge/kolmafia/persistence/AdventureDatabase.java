@@ -47,6 +47,7 @@ public class AdventureDatabase {
   private record Adventure(String zone, String formSource, String id, String name) {}
 
   private static final List<Adventure> adventureTable = new ArrayList<>();
+
   private static final Map<String, AreaCombatData> areaCombatData = new HashMap<>();
   private static final Map<String, KoLAdventure> adventureByURL = new HashMap<>();
   private static final Map<String, KoLAdventure> adventureByName = new HashMap<>();

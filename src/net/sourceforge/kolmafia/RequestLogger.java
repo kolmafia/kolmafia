@@ -1594,7 +1594,14 @@ public class RequestLogger extends NullStream {
     RequestLogger.updateSessionLog(message);
   }
 
-  public static final void registerLastLocation() {
-    RequestLogger.registerLocation(KoLAdventure.lastLocationName);
+  public static void registerLastLocation() {
+    String location = KoLAdventure.lastLocationName;
+
+    if (location == null) {
+      location =
+          (GenericRequest.itemMonster != null) ? GenericRequest.itemMonster : "Unknown Location";
+    }
+
+    RequestLogger.registerLocation(location);
   }
 }

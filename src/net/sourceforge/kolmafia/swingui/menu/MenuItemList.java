@@ -80,7 +80,7 @@ public abstract class MenuItemList<E> extends JMenu implements ListDataListener 
 
   public abstract JComponent[] getHeaders();
 
-  public abstract JComponent constructMenuItem(Object o);
+  public abstract JComponent constructMenuItem(E o);
 
   /**
    * Called whenever contents have been added to the original list; a function required by every
