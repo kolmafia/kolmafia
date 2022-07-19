@@ -9095,8 +9095,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.THROW_LATTE:
         if (responseText.contains("They run off") || skillRunawaySuccess) {
-          // Limited to one per refill (which in turn is limited daily)
-          Preferences.setBoolean("_latteBanishUsed", true);
+          skillRunawaySuccess = true;
           BanishManager.banishMonster(monster, Banisher.THROW_LATTE_ON_OPPONENT);
         }
         break;
@@ -9106,13 +9105,13 @@ public class FightRequest extends GenericRequest {
           TurnCounter.stopCounting("Latte Monster");
           TurnCounter.startCounting(30, "Latte Monster loc=*", "snout.gif");
           Preferences.setString("_latteMonster", monsterName);
-          Preferences.setBoolean("_latteCopyUsed", true);
+          skillSuccess = true;
         }
         break;
 
       case SkillPool.GULP_LATTE:
         if (responseText.contains("take a big invigorating gulp") || skillSuccess) {
-          Preferences.setBoolean("_latteDrinkUsed", true);
+          skillSuccess = true;
         }
         break;
 

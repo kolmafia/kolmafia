@@ -124,6 +124,9 @@ Cast	That's Not a Knife	_discoKnife
 Cast	The Ballad of Richie Thingfinder	_thingfinderCasts	10
 Cast	The Smile of Mr. A.	_smilesOfMrA	[pref(goldenMrAccessories)*5]
 Cast	Throw Party	_petePartyThrown
+Cast	Throw Latte on Opponent	_latteBanishUsed
+Cast	Offer Latte to Opponent	_latteCopyUsed
+Cast	Gulp Latte	_latteDrinkUsed
 Cast	Transcendent Olfaction	_olfactionsUsed	3
 Cast	Turtle Power	_turtlePowerCast
 Cast	Vent Rage Gland	rageGlandVented
