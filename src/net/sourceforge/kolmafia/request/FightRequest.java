@@ -5603,6 +5603,7 @@ public class FightRequest extends GenericRequest {
     public int monsterId;
     public boolean greyYou;
     public int drones;
+    public boolean carnivorous;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5675,6 +5676,10 @@ public class FightRequest extends GenericRequest {
 
       // If we are in Grey You and thus can absorb monsters
       this.greyYou = KoLCharacter.inGreyYou();
+
+      // If you are carrying a carnivorous potted plant
+      this.carnivorous =
+          KoLCharacter.hasEquipped(ItemPool.CARNIVOROUS_POTTED_PLANT, EquipmentManager.OFFHAND);
 
       this.ghost = null;
 
@@ -6433,6 +6438,11 @@ public class FightRequest extends GenericRequest {
       FightRequest.handleVillainLairRadio(node, status);
 
       if (status.meteors && (str.contains("meteor") || str.contains("falling star"))) {
+        FightRequest.logText(str, status);
+      }
+
+      // Your potted plant swallows your opponent{s} whole.
+      if (status.carnivorous && str.contains("Your potted plant swallows")) {
         FightRequest.logText(str, status);
       }
 
