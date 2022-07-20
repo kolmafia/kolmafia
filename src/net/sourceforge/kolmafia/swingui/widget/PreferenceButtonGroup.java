@@ -8,7 +8,6 @@ import javax.swing.JRadioButton;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.swingui.MaximizerFrame.SmartButtonGroup;
 
 public class PreferenceButtonGroup extends JPanel implements Listener {
   private final String pref;
