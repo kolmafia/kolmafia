@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,11 +74,6 @@ public class DailyLimitDatabase {
       this.max = max;
       this.id = id;
       this.subType = subType;
-
-      // Add to map of all limits
-      allDailyLimits.add(this);
-      // Add to map of limits of this type
-      type.addDailyLimit(this);
     }
 
     public DailyLimitType getType() {
@@ -206,6 +202,9 @@ public class DailyLimitDatabase {
   }
 
   public static void reset() {
+    allDailyLimits.clear();
+    Arrays.stream(DailyLimitType.values()).forEach(t -> t.dailyLimits.clear());
+
     boolean error = false;
 
     try (BufferedReader reader =
@@ -225,6 +224,11 @@ public class DailyLimitDatabase {
           } else if (dailyLimit.getMax() < 0) {
             RequestLogger.printLine("Daily Limit: " + data[0] + " " + data[1] + " has invalid max");
             error = true;
+          } else {
+            // Add to map of all limits
+            allDailyLimits.add(dailyLimit);
+            // Add to map of limits of this type
+            type.addDailyLimit(dailyLimit);
           }
         }
       }

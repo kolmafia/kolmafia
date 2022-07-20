@@ -9,6 +9,7 @@ import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.hasToString;
 
 import internal.helpers.Cleanups;
@@ -232,12 +233,13 @@ class DailyLimitDatabaseTest {
     assertErrorState();
   }
 
-  @Test
-  void invalidMax() {
+  @ParameterizedTest
+  @ValueSource(strings = {"invalid", "[onlystart", "onlyend]"})
+  void invalidMax(String maxString) {
     var outputStream = new ByteArrayOutputStream();
     RequestLogger.openCustom(new PrintStream(outputStream));
 
-    var contents = "Cast\tVisit Your Favorite Bird\t_favoriteBirdVisited\tinvalid\n";
+    var contents = "Cast\tVisit Your Favorite Bird\t_favoriteBirdVisited\t" + maxString + "\n";
     var reader = new BufferedReader(new StringReader(contents));
 
     try (var mock = Mockito.mockStatic(FileUtilities.class, Mockito.CALLS_REAL_METHODS)) {
@@ -276,5 +278,21 @@ class DailyLimitDatabaseTest {
 
     assertThat(outputStream, hasToString(containsString("invalid max")));
     assertErrorState();
+  }
+
+  @Test
+  void skipsInvalidLine() {
+    var contents = "Cast\n";
+    var reader = new BufferedReader(new StringReader(contents));
+
+    try (var mock = Mockito.mockStatic(FileUtilities.class, Mockito.CALLS_REAL_METHODS)) {
+      mock.when(
+                      () ->
+                              FileUtilities.getVersionedReader(
+                                      "dailylimits.txt", KoLConstants.DAILYLIMITS_VERSION))
+              .thenReturn(reader);
+      DailyLimitDatabase.reset();
+      assertThat(DailyLimitDatabase.allDailyLimits, hasSize(0));
+    }
   }
 }
