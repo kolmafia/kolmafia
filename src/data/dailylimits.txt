@@ -1,8 +1,6 @@
 1
 # Limiter: daily limit
 # Type	Item name	Tracking property	[Max = 1]
-
-
 Cast	Acquire Rhinestones	_rhinestonesAcquired
 Cast	Advanced Cocktailcrafting	cocktailSummons
 Cast	Advanced Saucecrafting	reagentSummons
@@ -85,7 +83,6 @@ Cast	Lunch Break	_lunchBreak
 Cast	Macrometeorite	_macrometeoriteUses	10
 Cast	Managerial Manipulation	_managerialManipulationUsed
 Cast	Map the Monsters	_monstersMapped	3
-Cast	Meatify Matter	_meatifyMatterUsed
 Cast	Meatify Matter 	_meatifyMatterUsed
 Cast	Meteor Shower	_meteorShowerUses	5
 Cast	Otoscope	_otoscopeUsed	3
