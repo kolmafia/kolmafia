@@ -1514,14 +1514,6 @@ public class FightRequest extends GenericRequest {
           return;
         }
         break;
-      case "Extract Oil":
-        // You can only extract 15 oil a day
-
-        if (Preferences.getInteger("_oilExtracted") > 14) {
-          this.skipRound();
-          return;
-        }
-        break;
       case "CHEAT CODE: Replace Enemy":
         // Replace Enemy takes 10% of your daily battery power
         if (EquipmentManager.powerfulGloveUsableBatteryPower() < 10) {
@@ -9064,7 +9056,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.EXTRACT_OIL:
         if (responseText.contains("plunge your trusty oil extractor") || skillSuccess) {
           // First 5 oils extracted increment normally
-          Preferences.increment("_oilExtracted");
+          skillSuccess = true;
         } else {
           Matcher matcher = FightRequest.CLOG_PATTERN.matcher(responseText);
           if (matcher.find()) {
@@ -9076,6 +9068,7 @@ public class FightRequest extends GenericRequest {
             // Fully clogged means 15 oils extracted
             Preferences.setInteger("_oilExtracted", 15);
           }
+          return;
         }
         break;
 

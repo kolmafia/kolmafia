@@ -43,6 +43,7 @@ Cast	Duplicate	_sourceTerminalDuplicateUses	[1+(4*path(The Source))]
 Cast	Elron's Explosive Etude	_elronsCasts	10
 Cast	Evoke Eldritch Horror	_eldritchHorrorEvoked
 Cast	Eye and a Twist	_eyeAndATwistUsed
+Cast	Extract Oil	_oilExtracted	15
 Cast	Feel 	_feelEnvyUsed	3
 Cast	Feel 	_feelHatredUsed	3
 Cast	Feel 	_feelNostalgicUsed	3
