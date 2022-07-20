@@ -21,6 +21,8 @@ Cast	Bow-Legged Swagger	_bowleggedSwaggerUsed
 Cast	Bowl Full of Jelly	_bowlFullOfJellyUsed
 Cast	CHEAT CODE: Invisible Avatar	_powerfulGloveBatteryPowerUsed	100
 Cast	CHEAT CODE: Triple Size	_powerfulGloveBatteryPowerUsed	100
+Cast	CHEAT CODE: Replace Enemy	_powerfulGloveBatteryPowerUsed	100
+Cast	CHEAT CODE: Shrink Enemy	_powerfulGloveBatteryPowerUsed	100
 Cast	Canticle of Carboloading	_carboLoaded
 Cast	Ceci N'Est Pas Un Chapeau	_ceciHatUsed
 Cast	Chest X-Ray	_chestXRayUsed	3

@@ -8576,6 +8576,9 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    // Number to increment daily limit prop (almost always 1)
+    int increment = 1;
+
     switch (skillId) {
       case SkillPool.GOTHY_HANDWAVE:
         NemesisDecorator.useGothyHandwave(monsterName, responseText);
@@ -9324,11 +9327,13 @@ public class FightRequest extends GenericRequest {
         break;
 
       case SkillPool.REPLACE_ENEMY:
-        Preferences.increment("_powerfulGloveBatteryPowerUsed", 10, 100, false);
+        increment = 10;
+        skillSuccess = true;
         break;
 
       case SkillPool.SHRINK_ENEMY:
-        Preferences.increment("_powerfulGloveBatteryPowerUsed", 5, 100, false);
+        increment = 5;
+        skillSuccess = true;
         break;
 
       case SkillPool.HAMMER_THROW_COMBAT:
@@ -9612,7 +9617,7 @@ public class FightRequest extends GenericRequest {
       var limit = DailyLimitType.CAST.getDailyLimit(skillId);
 
       if (limit != null) {
-        limit.increment();
+        limit.increment(increment);
       }
     }
   }

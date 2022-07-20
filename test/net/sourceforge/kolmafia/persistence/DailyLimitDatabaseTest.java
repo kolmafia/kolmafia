@@ -86,6 +86,22 @@ class DailyLimitDatabaseTest {
     }
 
     @ParameterizedTest
+    @CsvSource({
+      SkillPool.INVISIBLE_AVATAR + ", 14",
+      SkillPool.SHRINK_ENEMY + ", 14",
+      SkillPool.TRIPLE_SIZE + ", 14",
+      SkillPool.REPLACE_ENEMY + ", 7",
+    })
+    void canGetUsesRemainingForPowerfulGloveSkills(int skillId, int remaining) {
+      var cleanups = new Cleanups(setProperty("_powerfulGloveBatteryPowerUsed", 30));
+
+      try (cleanups) {
+        var limit = DailyLimitType.CAST.getDailyLimit(skillId);
+        assertThat(limit.getUsesRemaining(), equalTo(remaining));
+      }
+    }
+
+    @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void canSeeIfAnyUsesRemaining(boolean expected) {
       Preferences.setInteger("goldenMrAccessories", 1);
