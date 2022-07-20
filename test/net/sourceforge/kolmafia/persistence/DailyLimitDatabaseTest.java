@@ -287,10 +287,10 @@ class DailyLimitDatabaseTest {
 
     try (var mock = Mockito.mockStatic(FileUtilities.class, Mockito.CALLS_REAL_METHODS)) {
       mock.when(
-                      () ->
-                              FileUtilities.getVersionedReader(
-                                      "dailylimits.txt", KoLConstants.DAILYLIMITS_VERSION))
-              .thenReturn(reader);
+              () ->
+                  FileUtilities.getVersionedReader(
+                      "dailylimits.txt", KoLConstants.DAILYLIMITS_VERSION))
+          .thenReturn(reader);
       DailyLimitDatabase.reset();
       assertThat(DailyLimitDatabase.allDailyLimits, hasSize(0));
     }
