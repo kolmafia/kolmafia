@@ -747,6 +747,54 @@ public class FightRequestTest {
   }
 
   @Nested
+  class XOSkeleton {
+    @Test
+    public void canTrackXandOCounter() {
+      var cleanups =
+          new Cleanups(
+              setProperty("xoSkeleltonXProgress", 8),
+              setProperty("xoSkeleltonOProgress", 3),
+              setFamiliar(FamiliarPool.XO_SKELETON));
+
+      try (cleanups) {
+        String html = html("request/test_fight_xo_end_of_fight.html");
+        FightRequest.currentRound = 2;
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("xoSkeleltonXProgress", isSetTo(0));
+        assertThat("xoSkeleltonOProgress", isSetTo(4));
+      }
+    }
+
+    @Test
+    public void canTrackHugsAndKissesSuccess() {
+      var cleanups = new Cleanups(setProperty("_xoHugsUsed", 0));
+
+      try (cleanups) {
+        String urlString = "fight.php?action=macro&macrotext=skill+7293&whichmacro=0";
+        String html = html("request/test_fight_hugs_and_kisses_success.html");
+        FightRequest.currentRound = 2;
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("_xoHugsUsed", isSetTo(1));
+      }
+    }
+
+    @Test
+    public void canTrackHugsAndKissesFailure() {
+      var cleanups = new Cleanups(setProperty("_xoHugsUsed", 3));
+
+      try (cleanups) {
+        String urlString = "fight.php?action=macro&macrotext=skill+7293&whichmacro=0";
+        String html = html("request/test_fight_hugs_and_kisses_failure.html");
+        FightRequest.currentRound = 2;
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("_xoHugsUsed", isSetTo(3));
+      }
+    }
+  }
+
+  @Nested
   class SummonHoboUnderling {
     @Test
     public void canTrackSummoningHoboUnderling() {
