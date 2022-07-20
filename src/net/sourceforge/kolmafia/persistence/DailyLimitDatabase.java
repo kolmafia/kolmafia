@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -139,7 +140,14 @@ public class DailyLimitDatabase {
     }
 
     public int getUsesRemaining() {
-      return Math.max(0, getMax() - getUses());
+      double divisor =
+          switch (this.id) {
+            case SkillPool.INVISIBLE_AVATAR, SkillPool.SHRINK_ENEMY, SkillPool.TRIPLE_SIZE -> 5;
+            case SkillPool.REPLACE_ENEMY -> 10;
+            default -> 1;
+          };
+
+      return (int) Math.floor(Math.max(0, getMax() - getUses()) / divisor);
     }
 
     public boolean hasUsesRemaining() {
