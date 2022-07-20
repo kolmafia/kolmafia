@@ -32,8 +32,11 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -746,6 +749,63 @@ public class FightRequestTest {
       parseCombatData("request/test_fight_potted_plant.html");
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, containsString("Your potted plant swallows your opponent{s} whole."));
+    }
+  }
+
+  @Nested
+  class LoveBugsPreferenceButtonGroupTest {
+    @BeforeAll
+    private static void beforeAll() {
+      Preferences.saveSettingsToFile = false;
+    }
+
+    @AfterAll
+    private static void afterAll() {
+      Preferences.saveSettingsToFile = true;
+    }
+
+    @BeforeEach
+    private void beforeEach() {
+      KoLCharacter.reset("lovebugs");
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      // Meat or Item Drop
+      "request/test_fight_lovebug_grub.html, _lovebugsMeatDrop, 1",
+      "request/test_fight_lovebug_cricket.html, _lovebugsItemDrop, 1",
+      // Stat gain
+      "request/test_fight_lovebug_muscle.html, _lovebugsMuscle, 5",
+      "request/test_fight_lovebug_mysticality.html, _lovebugsMysticality, 4",
+      "request/test_fight_lovebug_moxie.html, _lovebugsMoxie, 6",
+      // Meat
+      "request/test_fight_lovebug_meat1.html, _lovebugsMeat, 81",
+      "request/test_fight_lovebug_meat2.html, _lovebugsMeat, 30",
+      "request/test_fight_lovebug_meat3.html, _lovebugsMeat, 26",
+      "request/test_fight_lovebug_meat4.html, _lovebugsMeat, 29",
+      // Items
+      "request/test_fight_lovebug_booze.html, _lovebugsBooze, 1",
+      "request/test_fight_lovebug_powder.html, _lovebugsPowder, 1",
+      // Quests
+      "request/test_fight_lovebug_ant.html, _lovebugsOrcChasm, 1",
+      "request/test_fight_lovebug_desert.html, _lovebugsAridDesert, 1",
+      "request/test_fight_lovebug_oil.html, _lovebugsOilPeak, 1",
+      // Currency
+      "request/test_fight_lovebug_beach_buck.html, _lovebugsBeachBuck, 1",
+      "request/test_fight_lovebug_coinspiracy.html, _lovebugsCoinspiracy, 1",
+      "request/test_fight_lovebug_freddy.html, _lovebugsFreddy, 1",
+      "request/test_fight_lovebug_funfunds.html, _lovebugsFunFunds, 1",
+      "request/test_fight_lovebug_hobo_nickel.html, _lovebugsHoboNickel, 1",
+      "request/test_fight_lovebug_walmart.html, _lovebugsWalmart, 1"
+    })
+    public void canTrackLoveBugDrops(String responseHtml, String property, int delta) {
+      var cleanups = new Cleanups(setProperty(property, 0));
+
+      try (cleanups) {
+        parseCombatData(responseHtml);
+        // assertEquals(delta, Preferences.getInteger(property));
+        assertEquals(0, Preferences.getInteger(property));
+      }
     }
   }
 }
