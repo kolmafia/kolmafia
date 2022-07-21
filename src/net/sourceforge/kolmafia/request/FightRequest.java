@@ -4387,8 +4387,10 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void trackEnvironment(final KoLAdventure location) {
+    var environment = location != null ? location.getEnvironment() : "none";
+
     var symbol =
-        switch (location.getEnvironment()) {
+        switch (environment) {
           case "outdoor" -> "o";
           case "indoor" -> "i";
           case "underground" -> "u";
