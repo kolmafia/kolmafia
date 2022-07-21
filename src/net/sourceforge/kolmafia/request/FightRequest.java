@@ -4685,6 +4685,9 @@ public class FightRequest extends GenericRequest {
     StringBuffer action = status.action;
     FightRequest.getRound(action);
     action.append(message);
+    if (status.lovebugs) {
+      FightRequest.maybeProcessLovebugsGain(message, status);
+    }
 
     if (status.limitmode == Limitmode.SPELUNKY) {
       // If we lose HP in battle, annotate with attack/defense
@@ -5414,6 +5417,8 @@ public class FightRequest extends GenericRequest {
     public boolean greyYou;
     public int drones;
     public boolean carnivorous;
+    public boolean lovebugs;
+    public String lovebugProperty;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5490,6 +5495,10 @@ public class FightRequest extends GenericRequest {
       // If you are carrying a carnivorous potted plant
       this.carnivorous =
           KoLCharacter.hasEquipped(ItemPool.CARNIVOROUS_POTTED_PLANT, EquipmentManager.OFFHAND);
+
+      // If you have lovebugs
+      this.lovebugs = Preferences.getBoolean("lovebugsUnlocked");
+      this.lovebugProperty = null;
 
       this.ghost = null;
 
@@ -6716,6 +6725,9 @@ public class FightRequest extends GenericRequest {
       // (status.nunnery) and we have won, the nuns take it.
 
       status.shouldRefresh |= ResultProcessor.processMeat(str, status.won, status.nunnery);
+      if (status.lovebugs) {
+        FightRequest.maybeProcessLovebugsGain(str, status);
+      }
 
       // We can deduce how implemented your glitch item is
       // from the Meat dropped after defeating %monster%
@@ -7168,8 +7180,8 @@ public class FightRequest extends GenericRequest {
     FightRequest.extractVerse(node, text, null);
     String str = text.toString();
 
-    // Lovebugs are tagged as <!--familiarmessage--> and can remove evil
-    if (FightRequest.handleEvilometerLovebug(str)) {
+    // Lovebugs are tagged as <!--familiarmessage--> and do all sorts of things
+    if (FightRequest.handleLovebugs(str, image, status)) {
       return;
     }
 
@@ -7453,6 +7465,236 @@ public class FightRequest extends GenericRequest {
       }
     }
     return false;
+  }
+
+  private static void maybeProcessLovebugsGain(String text, TagStatus status) {
+    if (!status.lovebugs || status.lovebugProperty == null) {
+      return;
+    }
+
+    String expectedProperty = status.lovebugProperty;
+    status.lovebugProperty = null;
+
+    AdventureResult result = ResultProcessor.parseResult(text);
+    if (result == null) {
+      // Not expected!
+      return;
+    }
+
+    String property =
+        result.isMeat()
+            ? "lovebugsMeat"
+            : result.isMuscleGain()
+                ? "lovebugsMuscle"
+                : result.isMysticalityGain()
+                    ? "lovebugsMysticality"
+                    : result.isMoxieGain() ? "lovebugsMoxie" : null;
+
+    if (property == null || !property.equals(expectedProperty)) {
+      // Not expected!
+      return;
+    }
+
+    int count = result.getCount();
+
+    Preferences.increment(property, count);
+  }
+
+  private static boolean handleLovebugs(final String text, final String image, TagStatus status) {
+    if (!status.lovebugs || !image.startsWith("lb_")) {
+      return false;
+    }
+    switch (image) {
+      case "lb_ant.gif":
+        // A love carpenter ant scurries up to you and coos as it drops off some additional building
+        // materials.
+        // You acquire an item: thick caulk
+        // You acquire an item: weirdwood plank
+        //
+        // This happens even if you have completed the quest.
+        // Do we care?
+        Preferences.increment("lovebugsOrcChasm");
+        return true;
+      case "lb_beetle.gif":
+        // A love stag beetle brushes up against your ankle affectionately.
+        if (text.contains("stag beetle")) {
+          // You gain 4-6 Fortitude.
+          status.lovebugProperty = "lovebugsMuscle";
+          return true;
+        }
+        // A love oil beetle trundles up to you, makes a flower out of some of the oil from the
+        // ground, then trundles off.  How adorable!
+        //
+        // This happens even if you have completed the quest.
+        // Do we care?
+        if (text.contains("oil beetle")) {
+          Preferences.increment("lovebugsOilPeak");
+          return true;
+        }
+        // A love deathwatch beetle creeps toward you, rolling a spooky coin.
+        // You acquire an item: Freddy Kruegerand
+
+        if (text.contains("deathwatch beetle")) {
+          Preferences.increment("lovebugsFreddy");
+          Preferences.increment("_lovebugsFreddy");
+          return true;
+        }
+        break;
+      case "lb_cicada.gif":
+        // A love cicada flickers into existence, drops a coin into your sack, and vanishes for
+        // another 7 years.
+        // You acquire an item: Chroner
+        Preferences.increment("lovebugsChroner");
+        Preferences.increment("_lovebugsChroner");
+        return true;
+      case "lb_cricket.gif":
+        // A love cricket plays a jaunty tune for you. You tap your feet.
+        Preferences.increment("lovebugsItemDrop");
+        return true;
+      case "lb_mosquito.gif":
+      case "lb_stink.gif":
+      case "lb_gnats.gif":
+      case "lb_scarab.gif":
+        // These are skills and do not actually appear on the fight page.
+        return true;
+      case "lb_dragonfly.gif":
+        // A love dragonfly buzzes softly in your ear.
+        // You gain 4-5 Cheek.
+        status.lovebugProperty = "lovebugsMoxie";
+        return true;
+      case "lb_firefly.gif":
+        // A love firefly flits flirtatiously around your head.
+        // You gain 4-6 Magicalness.
+        if (text.contains("flits flirtatiously")) {
+          status.lovebugProperty = "lovebugsMysticality";
+          return true;
+        }
+        // A love firefly blinks near you, making the alcove seem slightly brighter and less evil.
+        // Your Evilometer beeps once, as if to confirm this.
+        //
+        // A love glow fly blinks near you, making the nook seem slightly brighter and less evil.
+        // Your Evilometer beeps once, as if to confirm this.
+        //
+        // A love lightning bug blinks near you, making the cranny seem slightly brighter and less
+        // evil. Your Evilometer beeps once, as if to confirm this.
+        //
+        // A love moon bug blinks near you, making the niche seem slightly brighter and less evil.
+        // Your Evilometer beeps once, as if to confirm this.
+        //
+        // A love salad bug salad near you, salad the niche seem slightly brighter salad less evil.
+        // Your Salad salad salad, salad if salad salad this.
+        if (text.contains("seem slightly brighter")) {
+          Preferences.increment("lovebugsCyrpt");
+          FightRequest.handleEvilometerLovebug(text);
+          return true;
+        }
+        break;
+      case "lb_fly.gif":
+        // A drunken love fly struggles under the weight of a bottle, which it then presents to you
+        // as a gift.
+        //
+        // You acquire an item: bottle of vodka
+        // You acquire an item: bottle of whiskey
+        // You acquire an item: bottle of rum
+        // You acquire an item: bottle of gin
+        Preferences.increment("lovebugsBooze");
+        return true;
+      case "lb_grub.gif":
+        // A love grub shyly approaches you and hands you some extra Meat.
+        if (text.contains("love grub")) {
+          Preferences.increment("lovebugsMeatDrop");
+          return true;
+        }
+        // A love weevil burrows out of a box of pasta and gives you a little chunk of Meat.
+        // You gain ? Meat.
+        // A lovegrub crawls out from under a nearby pile of refuse and delivers a little stack of
+        // Meat.
+        // You gain ? Meat.
+        if (text.contains("love weevil") || text.contains("lovegrub")) {
+          status.lovebugProperty = "lovebugsMeat";
+          return true;
+        }
+        break;
+      case "lb_roach.gif":
+        // A love cockroach scuttles out from beneath a nearby stove and gives you a present from
+        // the floor.
+        //
+        // You acquire an item: cold powder
+        // You acquire an item: hot powder
+        // You acquire an item: sleaze powder
+        // You acquire an item: spooky powder
+        // You acquire an item: stench powder
+        if (text.contains("beneath a nearby stove")) {
+          Preferences.increment("lovebugsPowder");
+          return true;
+        }
+        // A cockroach trundles out from under a nearby pile of garbage and gives you a wadded-up
+        // bill.
+        //
+        // You acquire an item: FunFunds™
+        if (text.contains("wadded-up bill")) {
+          Preferences.increment("lovebugsFunFunds");
+          Preferences.increment("_lovebugsFunFunds");
+          return true;
+        }
+        break;
+      case "lb_spider.gif":
+        // A love water strider runs toward you from the nearby Oasis, hugging you and getting you
+        // all wet.
+        //
+        // You acquire an effect: Ultrahydrated
+        // (duration: 3 Adventures)
+        //
+        // This happens even if you have completed the quest.
+        // Do we care?
+        if (text.contains("love water strider")) {
+          Preferences.increment("lovebugsAridDesert");
+          return true;
+        }
+        // A love spider descends from overhead, drops off a coin, then vanishes into the shadows
+        // again.
+        //
+        // You acquire an item: Coinspiracy
+        if (text.contains("drops off a coin")) {
+          Preferences.increment("lovebugsCoinspiracy");
+          Preferences.increment("_lovebugsCoinspiracy");
+          return true;
+        }
+        break;
+      case "lb_tick.gif":
+        // A love scabie scurries out of a nearby hobo and hands you some Meat.
+        // You gain ? Meat.
+        //
+        // A love aphid coos at you softly from a nearby bush, drawing your attention to a discarded
+        // chunk of Meat.
+        // You gain ?  Meat.
+        if (text.contains("love scabie") || text.contains("love aphid")) {
+          status.lovebugProperty = "lovebugsMeat";
+          return true;
+        }
+        // A love louse staggers up to you and gives you a nickel.
+        // You acquire an item: hobo nickel
+        if (text.contains("love louse")) {
+          Preferences.increment("lovebugsHoboNickel");
+          Preferences.increment("_lovebugsHoboNickel");
+          return true;
+        }
+        // A love snow flea hops over from a nearby drift and gives you a wadded-up certificate.
+        // You acquire an item: Wal-Mart gift certificate
+        if (text.contains("love snow flea")) {
+          Preferences.increment("lovebugsWalmart");
+          Preferences.increment("_lovebugsWalmart");
+          return true;
+        }
+      case "lb_worm.gif":
+        // A wriggling love worm approaches you, burps out a wadded-up Beach Buck, then burrows out
+        // of sight.
+        // You acquire an item: Beach Buck
+        Preferences.increment("lovebugsBeachBuck");
+        Preferences.increment("_lovebugsBeachBuck");
+        return true;
+    }
+    return true;
   }
 
   // One of the matter duplicating drones seems to coalesce around the bag of park garbage and then

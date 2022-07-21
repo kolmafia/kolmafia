@@ -34,6 +34,8 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -830,6 +832,65 @@ public class FightRequestTest {
       FightRequest.updateCombatData(null, null, html);
       var fightMods = Modifiers.getModifiers("Generated", "fightMods");
       assertThat(fightMods.get(Modifiers.MEATDROP), equalTo(100.0));
+    }
+  }
+
+  class LoveBugsPreferenceButtonGroupTest {
+    @BeforeAll
+    private static void beforeAll() {
+      Preferences.saveSettingsToFile = false;
+    }
+
+    @AfterAll
+    private static void afterAll() {
+      Preferences.saveSettingsToFile = true;
+    }
+
+    @BeforeEach
+    private void beforeEach() {
+      KoLCharacter.reset("lovebugs");
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      // Meat or Item Drop
+      "request/test_fight_lovebug_grub.html, lovebugsMeatDrop, 1, false",
+      "request/test_fight_lovebug_cricket.html, lovebugsItemDrop, 1, false",
+      // Stat gain
+      "request/test_fight_lovebug_muscle.html, lovebugsMuscle, 5, false",
+      "request/test_fight_lovebug_mysticality.html, lovebugsMysticality, 4, false",
+      "request/test_fight_lovebug_moxie.html, lovebugsMoxie, 6, false",
+      // Meat
+      "request/test_fight_lovebug_meat1.html, lovebugsMeat, 81, false",
+      "request/test_fight_lovebug_meat2.html, lovebugsMeat, 30, false",
+      "request/test_fight_lovebug_meat3.html, lovebugsMeat, 26, false",
+      "request/test_fight_lovebug_meat4.html, lovebugsMeat, 29, false",
+      // Items
+      "request/test_fight_lovebug_booze.html, lovebugsBooze, 1, false",
+      "request/test_fight_lovebug_powder.html, lovebugsPowder, 1, false",
+      // Quests
+      "request/test_fight_lovebug_ant.html, lovebugsOrcChasm, 1, false",
+      "request/test_fight_lovebug_desert.html, lovebugsAridDesert, 1, false",
+      "request/test_fight_lovebug_oil.html, lovebugsOilPeak, 1, false",
+      // Currency
+      "request/test_fight_lovebug_beach_buck.html, lovebugsBeachBuck, 1, true",
+      "request/test_fight_lovebug_coinspiracy.html, lovebugsCoinspiracy, 1, true",
+      "request/test_fight_lovebug_freddy.html, lovebugsFreddy, 1, true",
+      "request/test_fight_lovebug_funfunds.html, lovebugsFunFunds, 1, true",
+      "request/test_fight_lovebug_hobo_nickel.html, lovebugsHoboNickel, 1, true",
+      "request/test_fight_lovebug_walmart.html, lovebugsWalmart, 1, true"
+    })
+    public void canTrackLoveBugDrops(
+        String responseHtml, String property, int delta, boolean daily) {
+      var cleanups = new Cleanups(setProperty("lovebugsUnlocked", true), setProperty(property, 0));
+
+      try (cleanups) {
+        parseCombatData(responseHtml);
+        assertEquals(delta, Preferences.getInteger(property));
+        if (daily) {
+          assertEquals(delta, Preferences.getInteger("_" + property));
+        }
+      }
     }
   }
 }
