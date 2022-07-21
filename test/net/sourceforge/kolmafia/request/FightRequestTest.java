@@ -34,6 +34,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -746,6 +747,50 @@ public class FightRequestTest {
       parseCombatData("request/test_fight_potted_plant.html");
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, containsString("Your potted plant swallows your opponent{s} whole."));
+    }
+  }
+
+  @Nested
+  class CombatEnvironment {
+    @ParameterizedTest
+    @CsvSource({
+      "Oil Peak, o",
+      "The Haunted Pantry, i",
+      "The Middle Chamber, u",
+      "The Briny Deeps, X",
+      // If they add Gausie's Grotto I promise to come and make up a new location
+      "Gausie's Grotto, ?"
+    })
+    public void canDetectEnvironment(String adventureName, String environmentSymbol) {
+      var cleanups = setProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx");
+      try (cleanups) {
+        KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure(adventureName);
+        // Any old non-free fight from our fixtures
+        parseCombatData("request/test_fight_oil_slick.html");
+        assertThat("lastCombatEnvironments", isSetTo(environmentSymbol + "xxxxxxxxxxxxxxxxxxx"));
+      }
+    }
+
+    @Test
+    public void canRecoverUndersizedProp() {
+      var cleanups = setProperty("lastCombatEnvironments", "xxxxx");
+      try (cleanups) {
+        KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure("The Oasis");
+        // Any old non-free fight from our fixtures
+        parseCombatData("request/test_fight_oil_slick.html");
+        assertThat("lastCombatEnvironments", isSetTo("oxxxxxxxxxxxxxxxxxxx"));
+      }
+    }
+
+    @Test
+    public void doesNotCountFreeFights() {
+      var cleanups = setProperty("lastCombatEnvironments", "ioioioioioioioioioio");
+      try (cleanups) {
+        KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure("Hobopolis Town Square");
+        // Any old free fight from our fixtures
+        parseCombatData("request/test_fight_potted_plant.html");
+        assertThat("lastCombatEnvironments", isSetTo("ioioioioioioioioioio"));
+      }
     }
   }
 }
