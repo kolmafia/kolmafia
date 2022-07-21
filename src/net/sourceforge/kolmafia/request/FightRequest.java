@@ -4398,11 +4398,8 @@ public class FightRequest extends GenericRequest {
           default -> "?";
         };
 
-    var environments = new StringBuilder(Preferences.getString("lastCombatEnvironments"));
-    environments.append(symbol);
-    while (environments.length() < 20) {
-      environments.insert(0, "x");
-    }
+    // Make sure the value is padded to handle malformed preferences
+    var environments = "x".repeat(20) + Preferences.getString("lastCombatEnvironments") + symbol;
 
     Preferences.setString(
         "lastCombatEnvironments", environments.substring(environments.length() - 20));
