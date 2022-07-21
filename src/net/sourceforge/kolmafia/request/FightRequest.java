@@ -3563,12 +3563,17 @@ public class FightRequest extends GenericRequest {
       Preferences.setString("lastCopyableMonster", monsterName);
     }
 
+    final boolean free = responseText.contains("FREEFREEFREE");
+
+    if (free) {
+      String updateMessage = "This combat did not cost a turn";
+      RequestLogger.updateSessionLog(updateMessage);
+      KoLmafia.updateDisplay(updateMessage);
+    } else {
+      trackEnvironment(location);
+    }
+
     if (!won) {
-      if (responseText.contains("FREEFREEFREE")) {
-        String updateMessage = "This combat did not cost a turn";
-        RequestLogger.updateSessionLog(updateMessage);
-        KoLmafia.updateDisplay(updateMessage);
-      }
       QuestManager.updateQuestFightLost(responseText, monsterName);
     } else {
       if (responseText.contains("monstermanuel.gif")) {
@@ -4306,14 +4311,8 @@ public class FightRequest extends GenericRequest {
         Preferences.decrement("breathitinCharges", 1, 0);
       }
 
-      if (responseText.contains("FREEFREEFREE")) {
-        String updateMessage = "This combat did not cost a turn";
-        RequestLogger.updateSessionLog(updateMessage);
-        KoLmafia.updateDisplay(updateMessage);
-      } else {
-        if (responseText.contains("playing on your SongBoom")) {
-          Preferences.increment("_boomBoxFights");
-        }
+      if (!free && responseText.contains("playing on your SongBoom")) {
+        Preferences.increment("_boomBoxFights");
       }
 
       if (IslandManager.isBattlefieldMonster(monsterName)) {
@@ -4385,6 +4384,25 @@ public class FightRequest extends GenericRequest {
     if (FightRequest.inMultiFight && responseText.contains("The barrier between world")) {
       KoLAdventure.lastLocationName = "Eldritch Attunement";
     }
+  }
+
+  private static void trackEnvironment(final KoLAdventure location) {
+    var symbol =
+        switch (location.getEnvironment()) {
+          case "outdoor" -> "o";
+          case "indoor" -> "i";
+          case "underground" -> "u";
+          case "underwater" -> "X";
+          default -> "?";
+        };
+
+    var environments = new StringBuilder(Preferences.getString("lastCombatEnvironments"));
+    environments.insert(0, symbol);
+    while (environments.length() < 20) {
+      environments.append("x");
+    }
+
+    Preferences.setString("lastCombatEnvironments", environments.substring(0, 20));
   }
 
   // <p>You see a strange cartouche painted on a nearby wall.<div style='position: relative;
