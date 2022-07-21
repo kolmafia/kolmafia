@@ -44,11 +44,6 @@ Cast	Elron's Explosive Etude	_elronsCasts	10
 Cast	Evoke Eldritch Horror	_eldritchHorrorEvoked
 Cast	Eye and a Twist	_eyeAndATwistUsed
 Cast	Extract Oil	_oilExtracted	15
-Cast	Feel 	_feelEnvyUsed	3
-Cast	Feel 	_feelHatredUsed	3
-Cast	Feel 	_feelNostalgicUsed	3
-Cast	Feel 	_feelPrideUsed	3
-Cast	Feel 	_feelSuperiorUsed	3
 Cast	Feel Disappointed	_feelDisappointedUsed	3
 Cast	Feel Envy	_feelEnvyUsed	3
 Cast	Feel Excitement	_feelExcitementUsed	3
@@ -83,7 +78,7 @@ Cast	Lunch Break	_lunchBreak
 Cast	Macrometeorite	_macrometeoriteUses	10
 Cast	Managerial Manipulation	_managerialManipulationUsed
 Cast	Map the Monsters	_monstersMapped	3
-Cast	Meatify Matter 	_meatifyMatterUsed
+Cast	Meatify Matter	_meatifyMatterUsed
 Cast	Meteor Shower	_meteorShowerUses	5
 Cast	Otoscope	_otoscopeUsed	3
 Cast	Pastamastery	noodleSummons
