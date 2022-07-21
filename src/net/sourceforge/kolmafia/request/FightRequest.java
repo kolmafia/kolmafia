@@ -9166,6 +9166,12 @@ public class FightRequest extends GenericRequest {
         }
         break;
 
+      case SkillPool.MICROMETEOR:
+        // Delevels by 25% initially, but decreases by 1% per use until reaching its minimum delevel
+        // of 10%.
+        Preferences.increment("_micrometeoriteUses");
+        break;
+
       case SkillPool.MACROMETEOR:
         if (responseText.contains("You quickly step") || skillSuccess) {
           skillSuccess = true;
