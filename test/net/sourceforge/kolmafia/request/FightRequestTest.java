@@ -757,7 +757,7 @@ public class FightRequestTest {
       "Oil Peak, o",
       "The Haunted Pantry, i",
       "The Middle Chamber, u",
-      "The Briny Deeps, X",
+      "The Briny Deeps, x",
       // If they add Gausie's Grotto I promise to come and make up a new location
       "Gausie's Grotto, ?"
     })

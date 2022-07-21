@@ -4394,7 +4394,7 @@ public class FightRequest extends GenericRequest {
           case "outdoor" -> "o";
           case "indoor" -> "i";
           case "underground" -> "u";
-          case "underwater" -> "X";
+          case "underwater" -> "x";
           default -> "?";
         };
 
