@@ -909,7 +909,26 @@ user	longConMonster
 user	louvreDesiredGoal	7
 user	louvreGoal	0
 user	louvreOverride
+user	lovebugsAridDesert	0
+user	lovebugsBeachBuck	0
+user	lovebugsBooze	0
+user	lovebugsChroner	0
+user	lovebugsCoinspiracy	0
+user	lovebugsCyrpt	0
+user	lovebugsFreddy	0
+user	lovebugsFunFunds	0
+user	lovebugsHoboNickel	0
+user	lovebugsItemDrop	0
+user	lovebugsMeat	0
+user	lovebugsMeatDrop	0
+user	lovebugsMoxie	0
+user	lovebugsMuscle	0
+user	lovebugsMysticality	0
+user	lovebugsOilPeak	0
+user	lovebugsOrcChasm	0
+user	lovebugsPowder	0
 user	lovebugsUnlocked	false
+user	lovebugsWalmart	0
 user	lovePotion	
 user	loveTunnelAvailable	false
 user	lowerChamberUnlock	false
@@ -1854,6 +1873,13 @@ user	_llamaCharge	0
 user	_locketMonstersFought
 user	_longConUsed	0
 user	_lookingGlass	false
+user	_lovebugsBeachBuck	0
+user	_lovebugsChroner	0
+user	_lovebugsCoinspiracy	0
+user	_lovebugsFreddy	0
+user	_lovebugsFunFunds	0
+user	_lovebugsHoboNickel	0
+user	_lovebugsWalmart	0
 user	_loveChocolatesUsed	0
 user	_loveTunnelUsed	false
 user	_luckyGoldRingVolcoino	false
