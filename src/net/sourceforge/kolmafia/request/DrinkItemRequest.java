@@ -863,6 +863,12 @@ public class DrinkItemRequest extends UseItemRequest {
           }
           break;
         }
+
+      case ItemPool.VAMPIRE_VINTNER_WINE:
+        // The charge only starts recounting when the wine is drunk
+        Preferences.setInteger("vintnerCharge", 0);
+        KoLCharacter.findFamiliar(FamiliarPool.VAMPIRE_VINTNER).setCharges(0);
+        break;
     }
   }
 

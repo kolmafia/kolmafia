@@ -4190,13 +4190,18 @@ public class FightRequest extends GenericRequest {
           break;
 
         case FamiliarPool.VAMPIRE_VINTNER:
-          {
-            // Counts up to 13 and then the wine drops after the fourth fight
-            Preferences.increment("vintnerCharge", 1, 13, false);
-            int newCharges = Preferences.getInteger("vintnerCharge");
-            familiar.setCharges(newCharges);
-            break;
+          // Counts up to 13 and then the wine drops after the fourteenth fight
+          // If player already has wine, he gestures politely (but, in this code author's opinion,
+          // rudely).
+          if (responseText.contains("clears his throat")
+              || responseText.contains("gestures discreetly")
+              || responseText.contains("taps his foot")) {
+            Preferences.setInteger("vintnerCharge", 13);
+            familiar.setCharges(13);
+          } else {
+            familiar.setCharges(Preferences.increment("vintnerCharge", 1, 13, false));
           }
+          break;
       }
 
       if (KoLCharacter.inRaincore()) {

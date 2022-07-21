@@ -329,12 +329,7 @@ public class ResultProcessor {
     Preferences.setInteger("entauntaunedColdRes", (int) Math.round(res));
   }
 
-  public static void updateVintner(final boolean adventureResults) {
-    if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.VAMPIRE_VINTNER) {
-      Preferences.setInteger("vintnerCharge", 0);
-      KoLCharacter.findFamiliar(FamiliarPool.VAMPIRE_VINTNER).setCharges(0);
-    }
-
+  public static void updateVintner() {
     ItemDatabase.parseVampireVintnerWine();
   }
 
@@ -379,7 +374,7 @@ public class ResultProcessor {
         case EffectPool.WINE_FRIENDLY:
         case EffectPool.WINE_DARK:
         case EffectPool.WINE_BEFOULED:
-          ResultProcessor.updateVintner(false);
+          ResultProcessor.updateVintner();
           break;
       }
 
@@ -3324,7 +3319,8 @@ public class ResultProcessor {
         break;
 
       case ItemPool.VAMPIRE_VINTNER_WINE:
-        ResultProcessor.updateVintner(adventureResults);
+        Preferences.setInteger("vintnerCharge", 13);
+        ResultProcessor.updateVintner();
         break;
 
       case ItemPool.COSMIC_BOWLING_BALL:

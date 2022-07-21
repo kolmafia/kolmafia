@@ -9,6 +9,7 @@ import static internal.helpers.Player.setFamiliar;
 import static internal.helpers.Player.setProperty;
 import static internal.helpers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,6 +35,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -746,6 +748,43 @@ public class FightRequestTest {
       parseCombatData("request/test_fight_potted_plant.html");
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, containsString("Your potted plant swallows your opponent{s} whole."));
+    }
+  }
+
+  @Nested
+  class Vintner {
+    @Test
+    public void notesIncreaseVintnerCharge() {
+      var cleanups =
+          new Cleanups(setFamiliar(FamiliarPool.VAMPIRE_VINTNER), setProperty("vintnerCharge", 0));
+      try (cleanups) {
+        parseCombatData("request/test_fight_vintner_makes_notes.html");
+        assertThat("vintnerCharge", isSetTo(1));
+        assertThat(KoLCharacter.getFamiliar().getCharges(), equalTo(1));
+      }
+    }
+
+    @Test
+    public void wineDropCorrectsVintnerCharge() {
+      var cleanups =
+          new Cleanups(setFamiliar(FamiliarPool.VAMPIRE_VINTNER), setProperty("vintnerCharge", 11));
+      try (cleanups) {
+        parseCombatData("request/test_fight_vintner_drops_wine.html");
+        assertThat("vintnerCharge", isSetTo(13));
+        assertThat(KoLCharacter.getFamiliar().getCharges(), equalTo(13));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"clears_throat", "gestures", "taps"})
+    public void waitingCorrectsVintnerCharge(String dialog) {
+      var cleanups =
+          new Cleanups(setFamiliar(FamiliarPool.VAMPIRE_VINTNER), setProperty("vintnerCharge", 9));
+      try (cleanups) {
+        parseCombatData("request/test_fight_vintner_" + dialog + ".html");
+        assertThat("vintnerCharge", isSetTo(13));
+        assertThat(KoLCharacter.getFamiliar().getCharges(), equalTo(13));
+      }
     }
   }
 }
