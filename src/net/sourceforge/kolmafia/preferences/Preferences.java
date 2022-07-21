@@ -399,6 +399,7 @@ public class Preferences {
         "turtleBlessingTurns",
         "twinPeakProgress",
         "unicornHornInflation",
+        "vintnerCharge",
         "vintnerWineEffect",
         "vintnerWineLevel",
         "vintnerWineName",
