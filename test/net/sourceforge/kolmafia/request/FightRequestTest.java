@@ -767,18 +767,19 @@ public class FightRequestTest {
         KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure(adventureName);
         // Any old non-free fight from our fixtures
         parseCombatData("request/test_fight_oil_slick.html");
-        assertThat("lastCombatEnvironments", isSetTo(environmentSymbol + "xxxxxxxxxxxxxxxxxxx"));
+        assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxx" + environmentSymbol));
       }
     }
 
-    @Test
-    public void canRecoverUndersizedProp() {
-      var cleanups = setProperty("lastCombatEnvironments", "xxxxx");
+    @ParameterizedTest
+    @ValueSource(strings = {"", "xxxxx", "xxxxxxxxxxxxxxxxxxx"})
+    public void canRecoverUndersizedProp(String pref) {
+      var cleanups = setProperty("lastCombatEnvironments", pref);
       try (cleanups) {
         KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure("The Oasis");
         // Any old non-free fight from our fixtures
         parseCombatData("request/test_fight_oil_slick.html");
-        assertThat("lastCombatEnvironments", isSetTo("oxxxxxxxxxxxxxxxxxxx"));
+        assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxxo"));
       }
     }
 

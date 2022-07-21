@@ -4399,12 +4399,13 @@ public class FightRequest extends GenericRequest {
         };
 
     var environments = new StringBuilder(Preferences.getString("lastCombatEnvironments"));
-    environments.insert(0, symbol);
+    environments.append(symbol);
     while (environments.length() < 20) {
-      environments.append("x");
+      environments.insert(0, "x");
     }
 
-    Preferences.setString("lastCombatEnvironments", environments.substring(0, 20));
+    Preferences.setString(
+        "lastCombatEnvironments", environments.substring(environments.length() - 20));
   }
 
   // <p>You see a strange cartouche painted on a nearby wall.<div style='position: relative;
