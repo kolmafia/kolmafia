@@ -804,11 +804,9 @@ public class FightRequestTest {
 
       try (cleanups) {
         parseCombatData(responseHtml);
-        // assertEquals(delta, Preferences.getInteger(property));
-        assertEquals(0, Preferences.getInteger(property));
+        assertEquals(delta, Preferences.getInteger(property));
         if (daily) {
-          // assertEquals(delta, Preferences.getInteger("_" + property));
-          assertEquals(0, Preferences.getInteger("_" + property));
+          assertEquals(delta, Preferences.getInteger("_" + property));
         }
       }
     }
