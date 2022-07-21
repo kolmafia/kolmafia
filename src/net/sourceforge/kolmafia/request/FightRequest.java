@@ -7694,6 +7694,10 @@ public class FightRequest extends GenericRequest {
     if (!status.lovebugs || !image.startsWith("lb_")) {
       return false;
     }
+
+    // Log what happened
+    FightRequest.logText(text, status);
+
     switch (image) {
       case "lb_ant.gif":
         // A love carpenter ant scurries up to you and coos as it drops off some additional building
