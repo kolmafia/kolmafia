@@ -36,14 +36,8 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
     return switch (Preferences.getInteger("_coldMedicineEquipmentTaken")) {
       case 0 -> ItemPool.get("ice crown", 1);
       case 1 -> ItemPool.get("frozen jeans", 1);
-      case 2 -> ItemPool.get("ice wrap", 1);
-      default -> null;
+      default -> ItemPool.get("ice wrap", 1);
     };
-  }
-
-  private static String guessNextEquipmentString() {
-    var equip = guessNextEquipment();
-    return equip == null ? "none" : equip.toString();
   }
 
   /**
@@ -204,10 +198,7 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
     output.append("\n");
 
     if (guessing) {
-      output
-          .append("Your next equipment should be \n")
-          .append(guessNextEquipmentString())
-          .append("\n");
+      output.append("Your next equipment should be ").append(guessNextEquipment()).append("\n");
       output.append("Your next food is not guessed yet\n");
       output.append("Your next booze should be ").append(guessNextWine()).append("\n");
       output.append("Your next potion is not guessed yet\n");
