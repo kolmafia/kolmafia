@@ -810,6 +810,7 @@ public class FightRequestTest {
       }
     }
 
+    @Test
     public void wineDropCorrectsVintnerCharge() {
       var cleanups =
           new Cleanups(setFamiliar(FamiliarPool.VAMPIRE_VINTNER), setProperty("vintnerCharge", 11));
