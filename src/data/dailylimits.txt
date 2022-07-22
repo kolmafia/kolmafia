@@ -5,14 +5,25 @@ Cast	Acquire Rhinestones	_rhinestonesAcquired
 Cast	Advanced Cocktailcrafting	cocktailSummons
 Cast	Advanced Saucecrafting	reagentSummons
 Cast	Ancestral Recall	_ancestralRecallCasts	10
+Cast	Army of Toddlers	_armyToddlerCast
+Cast	Asdon Martin: Missile Launcher	_missileLauncherUsed
+Cast	Back-Up to your Last Enemy	_backUpUses	11
+Cast	Baleful Howl	_balefulHowlUses	10
+Cast	Beancannon	_beanCannonUses	5
+Cast	Become a Bat	_vampyreCloakeFormUses	10
+Cast	Become a Cloud of Mist	_vampyreCloakeFormUses	10
+Cast	Become a Wolf	_vampyreCloakeFormUses	10
 Cast	Bend Hell	_bendHellUsed
 Cast	Benetton's Medley of Diversity	_benettonsCasts	10
 Cast	Bow-Legged Swagger	_bowleggedSwaggerUsed
 Cast	Bowl Full of Jelly	_bowlFullOfJellyUsed
 Cast	CHEAT CODE: Invisible Avatar	_powerfulGloveBatteryPowerUsed	100
 Cast	CHEAT CODE: Triple Size	_powerfulGloveBatteryPowerUsed	100
+Cast	CHEAT CODE: Replace Enemy	_powerfulGloveBatteryPowerUsed	100
+Cast	CHEAT CODE: Shrink Enemy	_powerfulGloveBatteryPowerUsed	100
 Cast	Canticle of Carboloading	_carboLoaded
 Cast	Ceci N'Est Pas Un Chapeau	_ceciHatUsed
+Cast	Chest X-Ray	_chestXRayUsed	3
 Cast	Chorale of Companionship	_companionshipCasts	10
 Cast	Chubby and Plump	_chubbyAndPlumpUsed
 Cast	Communism!	_communismUsed
@@ -24,11 +35,15 @@ Cast	Conjure Fruit	_jarlsFruitSummoned
 Cast	Conjure Meat Product	_jarlsMeatSummoned
 Cast	Conjure Potato	_jarlsPotatoSummoned
 Cast	Conjure Vegetables	_jarlsVeggiesSummoned
+Cast	Creepy Grin	_vmaskBanisherUsed	1
 Cast	Demand Sandwich	_demandSandwich	3
+Cast	Digitize	_sourceTerminalDigitizeUses	[1+pref(sourceTerminalChips,TRAM)+pref(sourceTerminalChips,TRIGRAM)]
 Cast	Donho's Bubbly Ballad	_donhosCasts	50
+Cast	Duplicate	_sourceTerminalDuplicateUses	[1+(4*path(The Source))]
 Cast	Elron's Explosive Etude	_elronsCasts	10
 Cast	Evoke Eldritch Horror	_eldritchHorrorEvoked
 Cast	Eye and a Twist	_eyeAndATwistUsed
+Cast	Extract Oil	_oilExtracted	15
 Cast	Feel Disappointed	_feelDisappointedUsed	3
 Cast	Feel Envy	_feelEnvyUsed	3
 Cast	Feel Excitement	_feelExcitementUsed	3
@@ -40,24 +55,49 @@ Cast	Feel Nostalgic	_feelNostalgicUsed	3
 Cast	Feel Peaceful	_feelPeacefulUsed	3
 Cast	Feel Pride	_feelPrideUsed	3
 Cast	Feel Superior	_feelSuperiorUsed	3
+Cast	Fire a badly romantic arrow	_badlyRomanticArrows	1
+Cast	Fire a boxing-glove arrow	_boxingGloveArrows	5
+Cast	Fire a fingertrap arrow	_fingertrapArrows	10
+Cast	Fire a poison arrow	_poisonArrows	10
+Cast	Fire the Jokester's Gun	_firedJokestersGun
+Cast	Fix Jukebox	_peteJukeboxFixed	3
+Cast	Gingerbread Mob Hit	_gingerbreadMobHitUsed
+Cast	Give Your Opponent the Stinkeye	_stinkyCheeseBanisherUsed
 Cast	Grab a Cold One	_coldOne
+Cast	Hugs and Kisses!	_xoHugsUsed	11
+Cast	Implode Universe	_universeImploded	[pref(skillLevel188)]
 Cast	Incite Riot	_peteRiotIncited
 Cast	Incredible Self Esteem	_incredibleSelfEsteemCast
 Cast	Inigo's Incantation of Inspiration	_inigosCasts	5
+Cast	Jump Shark	_peteJumpedShark	3
+Cast	KGB tranquilizer dart	_kgbTranquilizerDartUses	3
+Cast	Lash of the Cobra	_edLashCount	30
 Cast	Lock Picking	lockPicked
+Cast	Long Con	_longConUsed	5
 Cast	Lunch Break	_lunchBreak
+Cast	Macrometeorite	_macrometeoriteUses	10
 Cast	Managerial Manipulation	_managerialManipulationUsed
 Cast	Map the Monsters	_monstersMapped	3
 Cast	Meatify Matter	_meatifyMatterUsed
+Cast	Meteor Shower	_meteorShowerUses	5
+Cast	Otoscope	_otoscopeUsed	3
 Cast	Pastamastery	noodleSummons
+Cast	Peel Out	_petePeeledOut	[10+(pref(peteMotorbikeTires,Racing Slicks)*20)]
 Cast	Perfect Freeze	_perfectFreezeUsed
 Cast	Pirate Bellow	_pirateBellowUsed
+Cast	Portscan	_sourceTerminalPortscanUses	3
 Cast	Prelude of Precision	_precisionCasts	10
 Cast	Prevent Scurvy and Sobriety	_preventScurvy
 Cast	Psychokinetic Hug	_psychokineticHugUsed
 Cast	Rainbow Gravitation	prismaticSummons	3
+Cast	Reflex Hammer	_reflexHammerUsed	3
+Cast	Release the Boots	_bootStomps	7
 Cast	Request Sandwich	_requestSandwichSucceeded
+Cast	Shattering Punch	_shatteringPunchUsed	3
+Cast	Show them your ring	_mafiaMiddleFingerRingUsed
+Cast	Snokebomb	_snokebombUsed	3
 Cast	Spaghetti Breakfast	_spaghettiBreakfast
+Cast	Squeeze Stress Ball	_stressBallSqueezes	5
 Cast	Steely-Eyed Squint	_steelyEyedSquintUsed
 Cast	Summon "Boner Battalion"	_bonersSummoned
 Cast	Summon &quot;Boner Battalion&quot;	_bonersSummoned
@@ -68,17 +108,29 @@ Cast	Summon Confiscated Things	_grimoireConfiscatorSummons
 Cast	Summon Crimbo Candy	_candySummons
 Cast	Summon Geeky Gifts	_grimoireGeekySummons
 Cast	Summon Hilarious Objects	grimoire1Summons
+Cast	Summon Hobo Underling	_hoboUnderlingSummons	5
 Cast	Summon Holiday Fun!	_holidayFunUsed
 Cast	Summon Kokomo Resort Pass	_summonResortPassUsed
+Cast	Summon Mayfly Swarm	_mayflySummons	30
 Cast	Summon Tasteful Items	grimoire2Summons
 Cast	Sweat Out Some Booze	_sweatOutSomeBoozeUsed	3
+Cast	Talk About Politics	_pantsgivingBanish	5
 Cast	That's Not a Knife	_discoKnife
 Cast	The Ballad of Richie Thingfinder	_thingfinderCasts	10
 Cast	The Smile of Mr. A.	_smilesOfMrA	[pref(goldenMrAccessories)*5]
 Cast	Throw Party	_petePartyThrown
+Cast	Throw Latte on Opponent	_latteBanishUsed
+Cast	Offer Latte to Opponent	_latteCopyUsed
+Cast	Gulp Latte	_latteDrinkUsed
+Cast	Transcendent Olfaction	_olfactionsUsed	3
 Cast	Turtle Power	_turtlePowerCast
 Cast	Vent Rage Gland	rageGlandVented
 Cast	Visit Your Favorite Bird	_favoriteBirdVisited
+Cast	Wink at	_badlyRomanticArrows	1
+Cast	deliver your thesis	_thesisDelivered
+Cast	lecture on mass	_pocketProfessorLectures	[fam(Pocket Professor)*ceil(sqrt(W))+(equipped(Pocket Professor Memory Chip)*2)]
+Cast	lecture on relativity	_pocketProfessorLectures	[fam(Pocket Professor)*ceil(sqrt(W))+(equipped(Pocket Professor Memory Chip)*2)]
+Cast	lecture on velocity	_pocketProfessorLectures	[fam(Pocket Professor)*ceil(sqrt(W))+(equipped(Pocket Professor Memory Chip)*2)]
 Tome	Summon Clip Art	_clipartSummons	3
 Tome	Summon Rad Libs	_radlibSummons	3
 Tome	Summon Smithsness	_smithsnessSummons	3

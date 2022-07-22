@@ -9,6 +9,7 @@ import static internal.helpers.Player.setFamiliar;
 import static internal.helpers.Player.setProperty;
 import static internal.helpers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,6 +20,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -32,6 +34,8 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -600,54 +604,48 @@ public class FightRequestTest {
     assertEquals("41,1547", Preferences.getString("gooseReprocessed"));
   }
 
-  // Cosmic Bowling Ball Tests
-  @Test
-  public void canTrackCosmicBowlingBall() {
-    FightRequest.currentRound = 1;
+  @Nested
+  class CosmicBowlingBall {
+    @ParameterizedTest
+    @ValueSource(
+        ints = {
+          // Off in the distance, you hear your cosmic bowling ball rattling around in the ball
+          // return system.
+          1,
+          // You hear your cosmic bowling ball rattling around in the ball return system.
+          2,
+          // You hear your cosmic bowling ball rattling around in the ball return system nearby.
+          3,
+          // You hear your cosmic bowling ball approaching.
+          4,
+          // Your cosmic bowling ball clatters into the closest ball return and you grab it.
+          5
+        })
+    public void canTrackCosmicBowlingBall(int step) {
+      FightRequest.currentRound = 1;
 
-    // Off in the distance, you hear your cosmic bowling ball rattling around in the ball return
-    // system.
-    String html = html("request/test_fight_bowling_ball_1.html");
-    FightRequest.parseAvailableCombatSkills(html);
-    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
+      String html = html("request/test_fight_bowling_ball_" + step + ".html");
+      FightRequest.parseAvailableCombatSkills(html);
+      assertThat(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP), equalTo(step == 5));
+    }
 
-    // You hear your cosmic bowling ball rattling around in the ball return system.
-    html = html("request/test_fight_bowling_ball_2.html");
-    FightRequest.parseAvailableCombatSkills(html);
-    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
+    @Test
+    public void canTrackCosmicBowlingBallBanishInAnapests() {
+      var cleanups =
+          new Cleanups(
+              addItem(ItemPool.COSMIC_BOWLING_BALL),
+              inAnapest(),
+              fightingMonster("Marcus Macurgeon"));
 
-    // You hear your cosmic bowling ball rattling around in the ball return system nearby.
-    html = html("request/test_fight_bowling_ball_3.html");
-    FightRequest.parseAvailableCombatSkills(html);
-    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
+      try (cleanups) {
+        String urlString = "fight.php?action=skill&whichskill=7405";
+        String html = html("request/test_fight_anapest_runaway.html");
+        FightRequest.currentRound = 2;
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
 
-    // You hear your cosmic bowling ball approaching.
-    html = html("request/test_fight_bowling_ball_4.html");
-    FightRequest.parseAvailableCombatSkills(html);
-    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
-
-    // Your cosmic bowling ball clatters into the closest ball return and you grab it.
-    html = html("request/test_fight_bowling_ball_5.html");
-    FightRequest.parseAvailableCombatSkills(html);
-    assertTrue(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
-  }
-
-  @Test
-  public void canTrackCosmicBowlingBallBanishInAnapests() {
-    var cleanups =
-        new Cleanups(
-            addItem(ItemPool.COSMIC_BOWLING_BALL),
-            inAnapest(),
-            fightingMonster("Marcus Macurgeon"));
-
-    try (cleanups) {
-      String urlString = "fight.php?action=skill&whichskill=7405";
-      String html = html("request/test_fight_anapest_runaway.html");
-      FightRequest.currentRound = 2;
-      FightRequest.registerRequest(true, urlString);
-      FightRequest.updateCombatData(null, null, html);
-
-      assertEquals(0, InventoryManager.getCount(ItemPool.COSMIC_BOWLING_BALL));
+        assertEquals(0, InventoryManager.getCount(ItemPool.COSMIC_BOWLING_BALL));
+      }
     }
   }
 
@@ -751,15 +749,199 @@ public class FightRequestTest {
   }
 
   @Nested
+  class XOSkeleton {
+    @Test
+    public void canTrackXandOCounter() {
+      var cleanups =
+          new Cleanups(
+              setProperty("xoSkeleltonXProgress", 8),
+              setProperty("xoSkeleltonOProgress", 3),
+              setFamiliar(FamiliarPool.XO_SKELETON));
+
+      try (cleanups) {
+        String html = html("request/test_fight_xo_end_of_fight.html");
+        FightRequest.currentRound = 2;
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("xoSkeleltonXProgress", isSetTo(0));
+        assertThat("xoSkeleltonOProgress", isSetTo(4));
+      }
+    }
+
+    @Test
+    public void canTrackHugsAndKissesSuccess() {
+      var cleanups = new Cleanups(setProperty("_xoHugsUsed", 0));
+
+      try (cleanups) {
+        String urlString = "fight.php?action=macro&macrotext=skill+7293&whichmacro=0";
+        String html = html("request/test_fight_hugs_and_kisses_success.html");
+        FightRequest.currentRound = 2;
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("_xoHugsUsed", isSetTo(1));
+      }
+    }
+
+    @Test
+    public void canTrackHugsAndKissesFailure() {
+      var cleanups = new Cleanups(setProperty("_xoHugsUsed", 3));
+
+      try (cleanups) {
+        String urlString = "fight.php?action=macro&macrotext=skill+7293&whichmacro=0";
+        String html = html("request/test_fight_hugs_and_kisses_failure.html");
+        FightRequest.currentRound = 2;
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("_xoHugsUsed", isSetTo(3));
+      }
+    }
+  }
+
+  @Nested
+  class Vintner {
+    @Test
+    public void notesIncreaseVintnerCharge() {
+      var cleanups =
+          new Cleanups(setFamiliar(FamiliarPool.VAMPIRE_VINTNER), setProperty("vintnerCharge", 0));
+      try (cleanups) {
+        parseCombatData("request/test_fight_vintner_makes_notes.html");
+        assertThat("vintnerCharge", isSetTo(1));
+        assertThat(KoLCharacter.getFamiliar().getCharges(), equalTo(1));
+      }
+    }
+
+    @Test
+    public void wineDropCorrectsVintnerCharge() {
+      var cleanups =
+          new Cleanups(setFamiliar(FamiliarPool.VAMPIRE_VINTNER), setProperty("vintnerCharge", 11));
+      try (cleanups) {
+        parseCombatData("request/test_fight_vintner_drops_wine.html");
+        assertThat("vintnerCharge", isSetTo(13));
+        assertThat(KoLCharacter.getFamiliar().getCharges(), equalTo(13));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"clears_throat", "gestures", "taps"})
+    public void waitingCorrectsVintnerCharge(String dialog) {
+      var cleanups =
+          new Cleanups(setFamiliar(FamiliarPool.VAMPIRE_VINTNER), setProperty("vintnerCharge", 9));
+      try (cleanups) {
+        parseCombatData("request/test_fight_vintner_" + dialog + ".html");
+        assertThat("vintnerCharge", isSetTo(13));
+        assertThat(KoLCharacter.getFamiliar().getCharges(), equalTo(13));
+      }
+    }
+  }
+
+  @Nested
+  class SummonHoboUnderling {
+    @Test
+    public void canTrackSummoningHoboUnderling() {
+      var cleanups = new Cleanups(setProperty("_hoboUnderlingSummons", 0));
+
+      try (cleanups) {
+        String urlString = "fight.php?action=skill&whichskill=7052";
+        String html = html("request/test_fight_summon_hobo_underling.html");
+        FightRequest.currentRound = 2;
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("_hoboUnderlingSummons", isSetTo(1));
+      }
+    }
+
+    @Test
+    public void askHoboToDoADance() {
+      String urlString = "fight.php?action=skill&whichskill=7051";
+      String html = html("request/test_fight_ask_hobo_to_dance.html");
+      FightRequest.currentRound = 3;
+      FightRequest.registerRequest(true, urlString);
+      FightRequest.updateCombatData(null, null, html);
+      var fightMods = Modifiers.getModifiers("Generated", "fightMods");
+      assertThat(fightMods.get(Modifiers.ITEMDROP), equalTo(100.0));
+    }
+
+    @Test
+    public void askHoboToTellAJoke() {
+      String urlString = "fight.php?action=skill&whichskill=7050";
+      String html = html("request/test_fight_ask_hobo_to_joke.html");
+      FightRequest.currentRound = 3;
+      FightRequest.registerRequest(true, urlString);
+      FightRequest.updateCombatData(null, null, html);
+      var fightMods = Modifiers.getModifiers("Generated", "fightMods");
+      assertThat(fightMods.get(Modifiers.MEATDROP), equalTo(100.0));
+    }
+  }
+
+  @Nested
+  class LoveBugsPreferenceButtonGroupTest {
+    @BeforeAll
+    private static void beforeAll() {
+      Preferences.saveSettingsToFile = false;
+    }
+
+    @AfterAll
+    private static void afterAll() {
+      Preferences.saveSettingsToFile = true;
+    }
+
+    @BeforeEach
+    private void beforeEach() {
+      KoLCharacter.reset("lovebugs");
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      // Meat or Item Drop
+      "request/test_fight_lovebug_grub.html, lovebugsMeatDrop, 1, false",
+      "request/test_fight_lovebug_cricket.html, lovebugsItemDrop, 1, false",
+      // Stat gain
+      "request/test_fight_lovebug_muscle.html, lovebugsMuscle, 5, false",
+      "request/test_fight_lovebug_mysticality.html, lovebugsMysticality, 4, false",
+      "request/test_fight_lovebug_moxie.html, lovebugsMoxie, 6, false",
+      // Meat
+      "request/test_fight_lovebug_meat1.html, lovebugsMeat, 81, false",
+      "request/test_fight_lovebug_meat2.html, lovebugsMeat, 30, false",
+      "request/test_fight_lovebug_meat3.html, lovebugsMeat, 26, false",
+      "request/test_fight_lovebug_meat4.html, lovebugsMeat, 29, false",
+      // Items
+      "request/test_fight_lovebug_booze.html, lovebugsBooze, 1, false",
+      "request/test_fight_lovebug_powder.html, lovebugsPowder, 1, false",
+      // Quests
+      "request/test_fight_lovebug_ant.html, lovebugsOrcChasm, 1, false",
+      "request/test_fight_lovebug_desert.html, lovebugsAridDesert, 1, false",
+      "request/test_fight_lovebug_oil.html, lovebugsOilPeak, 1, false",
+      // Currency
+      "request/test_fight_lovebug_beach_buck.html, lovebugsBeachBuck, 1, true",
+      "request/test_fight_lovebug_coinspiracy.html, lovebugsCoinspiracy, 1, true",
+      "request/test_fight_lovebug_freddy.html, lovebugsFreddy, 1, true",
+      "request/test_fight_lovebug_funfunds.html, lovebugsFunFunds, 1, true",
+      "request/test_fight_lovebug_hobo_nickel.html, lovebugsHoboNickel, 1, true",
+      "request/test_fight_lovebug_walmart.html, lovebugsWalmart, 1, true"
+    })
+    public void canTrackLoveBugDrops(
+        String responseHtml, String property, int delta, boolean daily) {
+      var cleanups = new Cleanups(setProperty("lovebugsUnlocked", true), setProperty(property, 0));
+
+      try (cleanups) {
+        parseCombatData(responseHtml);
+        assertEquals(delta, Preferences.getInteger(property));
+        if (daily) {
+          assertEquals(delta, Preferences.getInteger("_" + property));
+        }
+      }
+    }
+  }
+
+  @Nested
   class CombatEnvironment {
     @ParameterizedTest
     @CsvSource({
-      "Oil Peak, o",
-      "The Haunted Pantry, i",
-      "The Middle Chamber, u",
-      "The Briny Deeps, x",
-      // If they add Gausie's Grotto I promise to come and make up a new location
-      "Gausie's Grotto, ?"
+            "Oil Peak, o",
+            "The Haunted Pantry, i",
+            "The Middle Chamber, u",
+            "The Briny Deeps, x",
+            // If they add Gausie's Grotto I promise to come and make up a new location
+            "Gausie's Grotto, ?"
     })
     public void canDetectEnvironment(String adventureName, String environmentSymbol) {
       var cleanups = setProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx");
