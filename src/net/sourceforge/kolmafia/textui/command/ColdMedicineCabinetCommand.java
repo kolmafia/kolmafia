@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 
 public class ColdMedicineCabinetCommand extends AbstractCommand {
   public ColdMedicineCabinetCommand() {
@@ -67,7 +68,7 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
     return PILLS.get('x');
   }
 
-  private String guessNextPillString() {
+  private static String guessNextPillString() {
     var nextPill = guessNextPill();
     return nextPill == null ? "unknown" : nextPill.toString();
   }
@@ -83,7 +84,7 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
   private static final AdventureResult MEDICAL_GRADE_WINE =
       ItemPool.get("Doc's Special Reserve Wine", 1);
 
-  private AdventureResult guessNextWine() {
+  private static AdventureResult guessNextWine() {
     var statBuffs =
         new java.util.ArrayList<>(
             List.of(
@@ -151,15 +152,23 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
     return output;
   }
 
-  public void status() {
+  private static int getTurnsToNextConsult() {
+    var nextConsult = Preferences.getInteger("_nextColdMedicineConsult");
+    return nextConsult - KoLCharacter.getTurnsPlayed();
+  }
+
+  private static int getConsultsUsed() {
+    return Preferences.getInteger("_coldMedicineConsults");
+  }
+
+  public static void status() {
     var output = new StringBuilder();
 
-    var consults = Preferences.getInteger("_coldMedicineConsults");
+    var consults = getConsultsUsed();
 
     output.append(consults).append("/5 consults used today.\n");
 
-    var nextConsult = Preferences.getInteger("_nextColdMedicineConsult");
-    var turnsToNextConsult = nextConsult - KoLCharacter.getTurnsPlayed();
+    var turnsToNextConsult = getTurnsToNextConsult();
 
     boolean guessing = true;
 
@@ -193,16 +202,43 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
     RequestLogger.printLine(output.toString());
   }
 
+  private static void collect(final int decision) {
+    if (getConsultsUsed() >= 5) {
+      KoLmafia.updateDisplay(
+          KoLConstants.MafiaState.ERROR, "You do not have any consults left for the day.");
+      return;
+    }
+
+    int turns = getTurnsToNextConsult();
+    if (turns > 0) {
+      KoLmafia.updateDisplay(
+          KoLConstants.MafiaState.ERROR, "You are not due a consult (" + turns + " turns to go).");
+      return;
+    }
+
+    RequestThread.postRequest(new CampgroundRequest("workshed"));
+    ChoiceManager.processChoiceAdventure(decision, "", true);
+  }
+
   @Override
   public void run(final String cmd, String parameter) {
-    if (CampgroundRequest.getCurrentWorkshedItem() != COLD_MEDICINE_CABINET) {
+    var workshedItem = CampgroundRequest.getCurrentWorkshedItem();
+    if (workshedItem == null || workshedItem.getItemId() != ItemPool.COLD_MEDICINE_CABINET) {
       KoLmafia.updateDisplay(
           KoLConstants.MafiaState.ERROR, "You do not have a Cold Medicine Cabinet installed.");
       return;
     }
 
-    if (parameter.equals("")) {
-      status();
+    switch (parameter) {
+      case "" -> status();
+      case "equipment", "equip" -> collect(1);
+      case "food" -> collect(2);
+      case "booze", "wine" -> collect(3);
+      case "potion" -> collect(4);
+      case "pill" -> collect(5);
+      default -> {
+        KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, "Paramter not recognised");
+      }
     }
   }
 }
