@@ -762,6 +762,7 @@ public class DataTypes {
   }
 
   public static final Value makeItemValue(final AdventureResult ar) {
+    if (ar == null) return DataTypes.ITEM_INIT;
     int num = ar.getItemId();
     String name = ItemDatabase.getItemDataName(num);
     return DataTypes.makeNormalizedItem(num, name);
