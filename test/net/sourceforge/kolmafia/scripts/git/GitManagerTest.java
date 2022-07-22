@@ -113,4 +113,52 @@ public class GitManagerTest {
           containsString("Returned: https://github.com/midgleyc/mafia-script-install-test.git"));
     }
   }
+
+  @Nested
+  public class DependencyTests {
+    private static final String id = "midgleyc-mafia-script-install-test-test-deps";
+
+    @BeforeAll
+    public static void cloneRepo() {
+      String output =
+          CliCaller.callCli(
+              "git",
+              "checkout https://github.com/midgleyc/mafia-script-install-test.git test-deps");
+      assertThat(output, containsString("Installing dependencies"));
+      assertThat(output, containsString("Cloned project " + id));
+    }
+
+    @AfterAll
+    public static void removeRepo() {
+      String remove = id;
+      String output = CliCaller.callCli("git", "delete " + remove);
+      assertThat(output, containsString("Project " + remove + " removed"));
+      remove = id + "-git";
+      output = CliCaller.callCli("git", "delete " + remove);
+      assertThat(output, containsString("Project " + remove + " removed"));
+      remove = "midgleyc-mafia-script-install-test-branches-test-deps-svn";
+      output = CliCaller.callCli("svn", "delete " + remove);
+      assertThat(output, containsString("Project uninstalled." + remove));
+    }
+
+    @Test
+    public void installedDependencies() {
+      assertTrue(Files.exists(Paths.get("scripts", "1-git.ash")));
+      assertTrue(Files.exists(Paths.get("scripts", "1-svn.ash")));
+    }
+
+    @Test
+    public void syncReinstallsDependencies() {
+      String dep = id + "-git";
+      // delete script files
+      CliCaller.callCli("git", "delete " + dep);
+
+      // sync
+      CliCaller.callCli("git", "sync");
+
+      // files should return
+      String output = CliCaller.callCli("git", "list");
+      assertThat(output, containsString(dep));
+    }
+  }
 }
