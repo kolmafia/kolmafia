@@ -1,17 +1,28 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.CampgroundRequest;
 
 public class ColdMedicineCabinetCommand extends AbstractCommand {
   public ColdMedicineCabinetCommand() {
     this.usage = " - show information about the cold medicine cabinet";
   }
+
+  private static final AdventureResult COLD_MEDICINE_CABINET =
+      ItemPool.get(ItemPool.COLD_MEDICINE_CABINET);
 
   private static final Map<Character, AdventureResult> PILLS =
       Map.ofEntries(
@@ -33,11 +44,11 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
         .collect(Collectors.groupingBy(Function.identity(), Collectors.summingInt(i -> 1)));
   }
 
-  public static AdventureResult nextPill() {
-    return nextPill(getCounts());
+  public static AdventureResult guessNextPill() {
+    return guessNextPill(getCounts());
   }
 
-  public static AdventureResult nextPill(Map<Character, Integer> counts) {
+  public static AdventureResult guessNextPill(Map<Character, Integer> counts) {
     int unknown = counts.getOrDefault('?', 0);
 
     if (unknown > 10) return null;
@@ -56,17 +67,142 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
     return PILLS.get('x');
   }
 
-  @Override
-  public void run(final String cmd, String parameter) {
+  private String guessNextPillString() {
+    var nextPill = guessNextPill();
+    return nextPill == null ? "unknown" : nextPill.toString();
+  }
+
+  private static final Map<KoLConstants.Stat, AdventureResult> STAT_WINES =
+      Map.ofEntries(
+          Map.entry(KoLConstants.Stat.MUSCLE, ItemPool.get("Doc's Fortifying Wine", 1)),
+          Map.entry(KoLConstants.Stat.MYSTICALITY, ItemPool.get("Doc's Smartifying Wine", 1)),
+          Map.entry(KoLConstants.Stat.MOXIE, ItemPool.get("Doc's Limbering Wine", 1)));
+
+  private static final AdventureResult SPECIAL_RESERVE_WINE =
+      ItemPool.get("Doc's Special Reserve Wine", 1);
+  private static final AdventureResult MEDICAL_GRADE_WINE =
+      ItemPool.get("Doc's Special Reserve Wine", 1);
+
+  private AdventureResult guessNextWine() {
+    var statBuffs =
+        new java.util.ArrayList<>(
+            List.of(
+                Map.entry(
+                    KoLConstants.Stat.MUSCLE,
+                    KoLCharacter.calculateBasePoints(KoLCharacter.getAdjustedMuscle())
+                        - KoLCharacter.getBaseMuscle()),
+                Map.entry(
+                    KoLConstants.Stat.MYSTICALITY,
+                    KoLCharacter.calculateBasePoints(KoLCharacter.getAdjustedMysticality())
+                        - KoLCharacter.getBaseMysticality()),
+                Map.entry(
+                    KoLConstants.Stat.MOXIE,
+                    KoLCharacter.calculateBasePoints(KoLCharacter.getAdjustedMoxie())
+                        - KoLCharacter.getBaseMoxie())));
+
+    statBuffs.sort(Map.Entry.comparingByValue());
+
+    var top = statBuffs.get(2);
+
+    if (top.getValue().equals(statBuffs.get(1).getValue())) {
+      // We have a draw. Give a different wine depending on size of buff
+      return (top.getValue() > 5) ? SPECIAL_RESERVE_WINE : MEDICAL_GRADE_WINE;
+    }
+
+    return STAT_WINES.get(top.getKey());
+  }
+
+  private static final Pattern ITEM_PATTERN = Pattern.compile("descitem\\((\\d+)\\)");
+
+  private static StringBuilder visitCabinet() {
+    var request = new CampgroundRequest("workshed");
+    RequestThread.postRequest(request);
+    String response = request.responseText;
+    var matcher = ITEM_PATTERN.matcher(response);
+
     var output = new StringBuilder();
 
-    var counts = getCounts();
-    var pill = nextPill(counts);
+    if (!matcher.find()) return output;
+    output
+        .append("Your next equipment is ")
+        .append(ItemDatabase.getItemName(matcher.group(1)))
+        .append("\n");
+    if (!matcher.find()) return output;
+    output
+        .append("Your next food is ")
+        .append(ItemDatabase.getItemName(matcher.group(1)))
+        .append("\n");
+    if (!matcher.find()) return output;
+    output
+        .append("Your next booze is ")
+        .append(ItemDatabase.getItemName(matcher.group(1)))
+        .append("\n");
+    if (!matcher.find()) return output;
+    output
+        .append("Your next potion is ")
+        .append(ItemDatabase.getItemName(matcher.group(1)))
+        .append("\n");
+    if (!matcher.find()) return output;
+    output
+        .append("Your next pill is ")
+        .append(ItemDatabase.getItemName(matcher.group(1)))
+        .append("\n");
 
-    var pillName = (pill != null) ? pill.toString() : "unknown";
+    return output;
+  }
 
-    output.append("Your next pill is ").append(pillName);
+  public void status() {
+    var output = new StringBuilder();
+
+    var consults = Preferences.getInteger("_coldMedicineConsults");
+
+    output.append(consults).append("/5 consults used today.\n");
+
+    var nextConsult = Preferences.getInteger("_nextColdMedicineConsult");
+    var turnsToNextConsult = nextConsult - KoLCharacter.getTurnsPlayed();
+
+    boolean guessing = true;
+
+    if (consults < 5) {
+      if (turnsToNextConsult > 0) {
+        output.append(turnsToNextConsult).append(" turns until next consult is ready.\n");
+      } else {
+        output.append("Consult is ready now");
+        guessing = KoLCharacter.inFightOrChoice();
+        if (guessing) {
+          output.append(" but can't visit right now so guessing your options...");
+        } else {
+          output.append("!");
+        }
+        output.append("\n");
+      }
+    }
+
+    output.append("\n");
+
+    if (guessing) {
+      output.append("Your next equipment is not guessed yet\n");
+      output.append("Your next food is not guessed yet\n");
+      output.append("Your next booze should be ").append(guessNextWine()).append("\n");
+      output.append("Your next potion is not guessed yet\n");
+      output.append("Your next pill should be ").append(guessNextPillString()).append("\n");
+    } else {
+      output.append(visitCabinet());
+    }
 
     RequestLogger.printLine(output.toString());
+  }
+
+  @Override
+  public void run(final String cmd, String parameter) {
+    if (CampgroundRequest.getCurrentWorkshedItem() != COLD_MEDICINE_CABINET) {
+      KoLmafia.updateDisplay(
+          KoLConstants.MafiaState.ERROR, "You do not have a Cold Medicine Cabinet installed.");
+      return;
+    }
+
+    if (parameter.equals("")) {
+      status();
+    }
   }
 }

@@ -9635,7 +9635,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value expected_cold_medicine_cabinet_pill(ScriptRuntime controller) {
-    var nextPill = ColdMedicineCabinetCommand.nextPill();
+    var nextPill = ColdMedicineCabinetCommand.guessNextPill();
     return DataTypes.makeItemValue(nextPill);
   }
 }
