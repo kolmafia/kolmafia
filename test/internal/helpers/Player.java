@@ -406,4 +406,10 @@ public class Player {
   public static Cleanups withContinuationState() {
     return withContinuationState(KoLConstants.MafiaState.CONTINUE);
   }
+
+  public static Cleanups withTurnsPlayed(final int turnsPlayed) {
+    var old = KoLCharacter.getTurnsPlayed();
+    KoLCharacter.setTurnsPlayed(turnsPlayed);
+    return new Cleanups(() -> KoLCharacter.setTurnsPlayed(old));
+  }
 }
