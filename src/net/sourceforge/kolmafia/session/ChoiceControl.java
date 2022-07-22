@@ -4472,6 +4472,10 @@ public abstract class ChoiceControl {
       case 1455:
         // Cold Medicine Cabinet
         if (ChoiceManager.lastDecision != 6) {
+          if (ChoiceManager.lastDecision == 1) {
+            Preferences.increment("_coldMedicineEquipmentTaken", 1, 3, false);
+          }
+
           Preferences.increment("_coldMedicineConsults", 1, 5, false);
           Preferences.setInteger("_nextColdMedicineConsult", KoLCharacter.getTurnsPlayed() + 20);
         }
