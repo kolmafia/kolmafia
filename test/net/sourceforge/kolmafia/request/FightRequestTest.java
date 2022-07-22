@@ -763,6 +763,7 @@ public class FightRequestTest {
         FightRequest.currentRound = 2;
         FightRequest.updateCombatData(null, null, html);
         assertThat("xoSkeleltonXProgress", isSetTo(0));
+        assertThat("xoSkeleltonOProgress", isSetTo(4));
       }
     }
 
@@ -791,7 +792,6 @@ public class FightRequestTest {
         FightRequest.registerRequest(true, urlString);
         FightRequest.updateCombatData(null, null, html);
         assertThat("_xoHugsUsed", isSetTo(3));
-        assertThat("xoSkeleltonOProgress", isSetTo(4));
       }
     }
   }
