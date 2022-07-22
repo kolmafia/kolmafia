@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -603,54 +604,48 @@ public class FightRequestTest {
     assertEquals("41,1547", Preferences.getString("gooseReprocessed"));
   }
 
-  // Cosmic Bowling Ball Tests
-  @Test
-  public void canTrackCosmicBowlingBall() {
-    FightRequest.currentRound = 1;
+  @Nested
+  class CosmicBowlingBall {
+    @ParameterizedTest
+    @ValueSource(
+        ints = {
+          // Off in the distance, you hear your cosmic bowling ball rattling around in the ball
+          // return system.
+          1,
+          // You hear your cosmic bowling ball rattling around in the ball return system.
+          2,
+          // You hear your cosmic bowling ball rattling around in the ball return system nearby.
+          3,
+          // You hear your cosmic bowling ball approaching.
+          4,
+          // Your cosmic bowling ball clatters into the closest ball return and you grab it.
+          5
+        })
+    public void canTrackCosmicBowlingBall(int step) {
+      FightRequest.currentRound = 1;
 
-    // Off in the distance, you hear your cosmic bowling ball rattling around in the ball return
-    // system.
-    String html = html("request/test_fight_bowling_ball_1.html");
-    FightRequest.parseAvailableCombatSkills(html);
-    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
+      String html = html("request/test_fight_bowling_ball_" + step + ".html");
+      FightRequest.parseAvailableCombatSkills(html);
+      assertThat(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP), equalTo(step == 5));
+    }
 
-    // You hear your cosmic bowling ball rattling around in the ball return system.
-    html = html("request/test_fight_bowling_ball_2.html");
-    FightRequest.parseAvailableCombatSkills(html);
-    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
+    @Test
+    public void canTrackCosmicBowlingBallBanishInAnapests() {
+      var cleanups =
+          new Cleanups(
+              addItem(ItemPool.COSMIC_BOWLING_BALL),
+              inAnapest(),
+              fightingMonster("Marcus Macurgeon"));
 
-    // You hear your cosmic bowling ball rattling around in the ball return system nearby.
-    html = html("request/test_fight_bowling_ball_3.html");
-    FightRequest.parseAvailableCombatSkills(html);
-    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
+      try (cleanups) {
+        String urlString = "fight.php?action=skill&whichskill=7405";
+        String html = html("request/test_fight_anapest_runaway.html");
+        FightRequest.currentRound = 2;
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
 
-    // You hear your cosmic bowling ball approaching.
-    html = html("request/test_fight_bowling_ball_4.html");
-    FightRequest.parseAvailableCombatSkills(html);
-    assertFalse(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
-
-    // Your cosmic bowling ball clatters into the closest ball return and you grab it.
-    html = html("request/test_fight_bowling_ball_5.html");
-    FightRequest.parseAvailableCombatSkills(html);
-    assertTrue(KoLCharacter.hasCombatSkill(SkillPool.BOWL_STRAIGHT_UP));
-  }
-
-  @Test
-  public void canTrackCosmicBowlingBallBanishInAnapests() {
-    var cleanups =
-        new Cleanups(
-            addItem(ItemPool.COSMIC_BOWLING_BALL),
-            inAnapest(),
-            fightingMonster("Marcus Macurgeon"));
-
-    try (cleanups) {
-      String urlString = "fight.php?action=skill&whichskill=7405";
-      String html = html("request/test_fight_anapest_runaway.html");
-      FightRequest.currentRound = 2;
-      FightRequest.registerRequest(true, urlString);
-      FightRequest.updateCombatData(null, null, html);
-
-      assertEquals(0, InventoryManager.getCount(ItemPool.COSMIC_BOWLING_BALL));
+        assertEquals(0, InventoryManager.getCount(ItemPool.COSMIC_BOWLING_BALL));
+      }
     }
   }
 
@@ -754,6 +749,54 @@ public class FightRequestTest {
   }
 
   @Nested
+  class XOSkeleton {
+    @Test
+    public void canTrackXandOCounter() {
+      var cleanups =
+          new Cleanups(
+              setProperty("xoSkeleltonXProgress", 8),
+              setProperty("xoSkeleltonOProgress", 3),
+              setFamiliar(FamiliarPool.XO_SKELETON));
+
+      try (cleanups) {
+        String html = html("request/test_fight_xo_end_of_fight.html");
+        FightRequest.currentRound = 2;
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("xoSkeleltonXProgress", isSetTo(0));
+        assertThat("xoSkeleltonOProgress", isSetTo(4));
+      }
+    }
+
+    @Test
+    public void canTrackHugsAndKissesSuccess() {
+      var cleanups = new Cleanups(setProperty("_xoHugsUsed", 0));
+
+      try (cleanups) {
+        String urlString = "fight.php?action=macro&macrotext=skill+7293&whichmacro=0";
+        String html = html("request/test_fight_hugs_and_kisses_success.html");
+        FightRequest.currentRound = 2;
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("_xoHugsUsed", isSetTo(1));
+      }
+    }
+
+    @Test
+    public void canTrackHugsAndKissesFailure() {
+      var cleanups = new Cleanups(setProperty("_xoHugsUsed", 3));
+
+      try (cleanups) {
+        String urlString = "fight.php?action=macro&macrotext=skill+7293&whichmacro=0";
+        String html = html("request/test_fight_hugs_and_kisses_failure.html");
+        FightRequest.currentRound = 2;
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("_xoHugsUsed", isSetTo(3));
+      }
+    }
+  }
+
+  @Nested
   class Vintner {
     @Test
     public void notesIncreaseVintnerCharge() {
@@ -787,6 +830,45 @@ public class FightRequestTest {
         assertThat("vintnerCharge", isSetTo(13));
         assertThat(KoLCharacter.getFamiliar().getCharges(), equalTo(13));
       }
+    }
+  }
+
+  @Nested
+  class SummonHoboUnderling {
+    @Test
+    public void canTrackSummoningHoboUnderling() {
+      var cleanups = new Cleanups(setProperty("_hoboUnderlingSummons", 0));
+
+      try (cleanups) {
+        String urlString = "fight.php?action=skill&whichskill=7052";
+        String html = html("request/test_fight_summon_hobo_underling.html");
+        FightRequest.currentRound = 2;
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("_hoboUnderlingSummons", isSetTo(1));
+      }
+    }
+
+    @Test
+    public void askHoboToDoADance() {
+      String urlString = "fight.php?action=skill&whichskill=7051";
+      String html = html("request/test_fight_ask_hobo_to_dance.html");
+      FightRequest.currentRound = 3;
+      FightRequest.registerRequest(true, urlString);
+      FightRequest.updateCombatData(null, null, html);
+      var fightMods = Modifiers.getModifiers("Generated", "fightMods");
+      assertThat(fightMods.get(Modifiers.ITEMDROP), equalTo(100.0));
+    }
+
+    @Test
+    public void askHoboToTellAJoke() {
+      String urlString = "fight.php?action=skill&whichskill=7050";
+      String html = html("request/test_fight_ask_hobo_to_joke.html");
+      FightRequest.currentRound = 3;
+      FightRequest.registerRequest(true, urlString);
+      FightRequest.updateCombatData(null, null, html);
+      var fightMods = Modifiers.getModifiers("Generated", "fightMods");
+      assertThat(fightMods.get(Modifiers.MEATDROP), equalTo(100.0));
     }
   }
 

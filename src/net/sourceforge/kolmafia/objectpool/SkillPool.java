@@ -11,6 +11,7 @@ public class SkillPool {
   public static final int TORSO = 12;
   public static final int GNOMISH_HARDINESS = 13;
   public static final int COSMIC_UNDERSTANDING = 14;
+  public static final int CLEESH = 15;
   public static final int OLFACTION = 19;
   public static final int LUST = 21;
   public static final int GLUTTONY = 22;
