@@ -1439,7 +1439,9 @@ public class EquipmentRequest extends PasswordHashRequest {
     String name = matcher.group(3).trim();
     int itemId = ItemDatabase.getItemIdFromDescription(descId);
     AdventureResult item;
-    if (slot == EquipmentManager.HOLSTER || EquipmentDatabase.contains(itemId)) {
+    if (slot == EquipmentManager.FAMILIAR
+        || slot == EquipmentManager.HOLSTER
+        || EquipmentDatabase.contains(itemId)) {
       item = ItemPool.get(itemId);
     } else {
       RequestLogger.printLine("Found unknown equipped item: \"" + name + "\" descid = " + descId);
