@@ -987,7 +987,6 @@ public class QuestManagerTest {
   @Test
   void canHandleDuplicatedShenQuestItem() {
     String html = html("request/test_stankara_drones.html");
-    ;
     var cleanups =
         new Cleanups(
             setProperty("questL11Shen", "step2"),
