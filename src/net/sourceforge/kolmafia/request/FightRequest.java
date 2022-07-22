@@ -3168,6 +3168,20 @@ public class FightRequest extends GenericRequest {
     updateFinalRoundData(responseText, won);
   }
 
+  static String[] ROBORTENDER_DROP_MESSAGES =
+      new String[] {
+        "Allow Me To Recommend A Local Specialty",
+        "Perhaps You Would Enjoy A Drink Relevant To The Current Circumstances",
+        "This Reminds Me Of A Classic Recipe",
+        "Why Not Celebrate The Occasion With A Drink",
+        "Why Not Try A Popular Local Recipe",
+        "Fighting Works Up A Real Thirst",
+        "Freshen Your Drink, Sir or Madam",
+        "Have One For The Road",
+        "I Hope I Am Not Enabling Any Addictions You Might Have",
+        "It's Always Happy Hour Somewhere"
+      };
+
   // This performs checks that are only applied once combat is finished,
   // and that aren't (yet) part of the processNormalResults loop.
   // `responseText` will be a fragment of the page; anything that needs
@@ -3916,10 +3930,12 @@ public class FightRequest extends GenericRequest {
           break;
 
         case FamiliarPool.ANGRY_JUNG_MAN:
-          Preferences.increment("jungCharge", 1);
-          int newCharges = Preferences.getInteger("jungCharge");
-          familiar.setCharges(newCharges);
-          break;
+          {
+            Preferences.increment("jungCharge", 1);
+            int newCharges = Preferences.getInteger("jungCharge");
+            familiar.setCharges(newCharges);
+            break;
+          }
 
         case FamiliarPool.GRIM_BROTHER:
           if (responseText.contains("finishes an illustrated manuscript with a final flourish")) {
@@ -4063,6 +4079,13 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("garbageFireProgress");
           break;
 
+        case FamiliarPool.ROBORTENDER:
+          for (String s : ROBORTENDER_DROP_MESSAGES) {
+            if (!responseText.contains(s)) continue;
+            Preferences.increment("_roboDrops", 1);
+            break;
+          }
+
         case FamiliarPool.XO_SKELETON:
           Preferences.increment("xoSkeleltonXProgress");
           Preferences.increment("xoSkeleltonOProgress");
@@ -4166,26 +4189,19 @@ public class FightRequest extends GenericRequest {
           }
           break;
 
-        case FamiliarPool.ROBORTENDER:
-          String[] roboDropMessages =
-              new String[] {
-                "Allow Me To Recommend A Local Specialty",
-                "Perhaps You Would Enjoy A Drink Relevant To The Current Circumstances",
-                "This Reminds Me Of A Classic Recipe",
-                "Why Not Celebrate The Occasion With A Drink",
-                "Why Not Try A Popular Local Recipe",
-                "Fighting Works Up A Real Thirst",
-                "Freshen Your Drink, Sir or Madam",
-                "Have One For The Road",
-                "I Hope I Am Not Enabling Any Addictions You Might Have",
-                "It's Always Happy Hour Somewhere"
-              };
-
-          for (String s : roboDropMessages) {
-            if (!responseText.contains(s)) continue;
-            Preferences.increment("_roboDrops", 1);
-            break;
+        case FamiliarPool.VAMPIRE_VINTNER:
+          // Counts up to 13 and then the wine drops after the fourteenth fight
+          // If player already has wine, he gestures politely (but, in this code author's opinion,
+          // rudely).
+          if (responseText.contains("clears his throat")
+              || responseText.contains("gestures discreetly")
+              || responseText.contains("taps his foot")) {
+            Preferences.setInteger("vintnerCharge", 13);
+            familiar.setCharges(13);
+          } else {
+            familiar.setCharges(Preferences.increment("vintnerCharge", 1, 13, false));
           }
+          break;
       }
 
       if (KoLCharacter.inRaincore()) {

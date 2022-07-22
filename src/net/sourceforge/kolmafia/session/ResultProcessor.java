@@ -3319,6 +3319,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.VAMPIRE_VINTNER_WINE:
+        Preferences.setInteger("vintnerCharge", 13);
         ResultProcessor.updateVintner();
         break;
 
