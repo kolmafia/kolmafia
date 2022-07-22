@@ -279,6 +279,7 @@ public class Preferences {
         "lastAnticheeseDay",
         "lastBeardBuff",
         "lastColosseumRoundWon",
+        "lastCombatEnvironments",
         "lastCopyableMonster",
         "lastCouncilVisit",
         "lastZapperWandExplosionDay",

@@ -931,4 +931,49 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Nested
+  class CombatEnvironment {
+    @ParameterizedTest
+    @CsvSource({
+      "Oil Peak, o",
+      "The Haunted Pantry, i",
+      "The Middle Chamber, u",
+      "The Briny Deeps, x",
+      // If they add Gausie's Grotto I promise to come and make up a new location
+      "Gausie's Grotto, ?"
+    })
+    public void canDetectEnvironment(String adventureName, String environmentSymbol) {
+      var cleanups = setProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx");
+      try (cleanups) {
+        KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure(adventureName);
+        // Any old non-free fight from our fixtures
+        parseCombatData("request/test_fight_oil_slick.html");
+        assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxx" + environmentSymbol));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"", "xxxxx", "xxxxxxxxxxxxxxxxxxx"})
+    public void canRecoverUndersizedProp(String pref) {
+      var cleanups = setProperty("lastCombatEnvironments", pref);
+      try (cleanups) {
+        KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure("The Oasis");
+        // Any old non-free fight from our fixtures
+        parseCombatData("request/test_fight_oil_slick.html");
+        assertThat("lastCombatEnvironments", isSetTo("xxxxxxxxxxxxxxxxxxxo"));
+      }
+    }
+
+    @Test
+    public void doesNotCountFreeFights() {
+      var cleanups = setProperty("lastCombatEnvironments", "ioioioioioioioioioio");
+      try (cleanups) {
+        KoLAdventure.lastVisitedLocation = AdventureDatabase.getAdventure("Hobopolis Town Square");
+        // Any old free fight from our fixtures
+        parseCombatData("request/test_fight_potted_plant.html");
+        assertThat("lastCombatEnvironments", isSetTo("ioioioioioioioioioio"));
+      }
+    }
+  }
 }
