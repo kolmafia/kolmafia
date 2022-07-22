@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import net.sourceforge.kolmafia.Expression;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -129,8 +129,9 @@ public class DailyLimitDatabase {
 
       if (this.max.startsWith("[") && this.max.endsWith("]")) {
         String exprString = this.max.substring(1, this.max.length() - 1);
-        Expression expr =
-            new Expression(exprString, "daily limit for " + this.getType() + " " + this.getName());
+        var expr =
+            new ModifierExpression(
+                exprString, "daily limit for " + this.getType() + " " + this.getName());
         if (!expr.hasErrors()) {
           return (int) expr.eval();
         }

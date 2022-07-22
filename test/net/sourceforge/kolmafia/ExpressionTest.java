@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -76,5 +78,11 @@ public class ExpressionTest {
   public void canTrackBiggerInts() {
     var exp = new Expression("32769", "integer bigger than 32768");
     assertEquals(32769.0, exp.eval());
+  }
+
+  @Test
+  void canReportMultipleErrors() {
+    var exp = new Expression("1+(4*path(The Source))", "nonexistent function");
+    assertThat(exp.hasErrors(), equalTo(true));
   }
 }
