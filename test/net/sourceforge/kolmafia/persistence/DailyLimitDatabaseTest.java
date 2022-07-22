@@ -9,6 +9,7 @@ import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.hasToString;
 
@@ -67,6 +68,18 @@ class DailyLimitDatabaseTest {
       assertThat(limit.getMax(), equalTo(3));
       assertThat(limit.getType(), equalTo(DailyLimitType.USE));
       assertThat(limit.getPref(), equalTo("_chocolateCigarsUsed"));
+    }
+
+    @Test
+    void canParseComplicatedExpression() {
+      var limit =
+          new DailyLimitDatabase.DailyLimit(
+              DailyLimitType.CAST,
+              "_somePref",
+              "[pref(a)*path(The Source)*fam(Mosquito)]",
+              1,
+              null);
+      assertThat(limit.getMax(), greaterThanOrEqualTo(0));
     }
 
     @Test
