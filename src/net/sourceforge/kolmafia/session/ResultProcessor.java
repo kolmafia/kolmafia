@@ -1623,7 +1623,10 @@ public class ResultProcessor {
       case ItemPool.STANKARA_STONE:
       case ItemPool.MURPHYS_FLAG:
       case ItemPool.SHIELD_OF_BROOK:
-        QuestDatabase.advanceQuest(Quest.SHEN);
+        // Annoyingly, matter-duplicating drones can duplicate quest items
+        if (InventoryManager.getCount(itemId) == 1) {
+          QuestDatabase.advanceQuest(Quest.SHEN);
+        }
         Preferences.setString("shenQuestItem", result.getName());
         break;
 
