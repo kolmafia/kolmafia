@@ -3168,6 +3168,20 @@ public class FightRequest extends GenericRequest {
     updateFinalRoundData(responseText, won);
   }
 
+  static String[] ROBORTENDER_DROP_MESSAGES =
+      new String[] {
+        "Allow Me To Recommend A Local Specialty",
+        "Perhaps You Would Enjoy A Drink Relevant To The Current Circumstances",
+        "This Reminds Me Of A Classic Recipe",
+        "Why Not Celebrate The Occasion With A Drink",
+        "Why Not Try A Popular Local Recipe",
+        "Fighting Works Up A Real Thirst",
+        "Freshen Your Drink, Sir or Madam",
+        "Have One For The Road",
+        "I Hope I Am Not Enabling Any Addictions You Might Have",
+        "It's Always Happy Hour Somewhere"
+      };
+
   // This performs checks that are only applied once combat is finished,
   // and that aren't (yet) part of the processNormalResults loop.
   // `responseText` will be a fragment of the page; anything that needs
@@ -4066,21 +4080,7 @@ public class FightRequest extends GenericRequest {
           break;
 
         case FamiliarPool.ROBORTENDER:
-          String[] roboDropMessages =
-              new String[] {
-                "Allow Me To Recommend A Local Specialty",
-                "Perhaps You Would Enjoy A Drink Relevant To The Current Circumstances",
-                "This Reminds Me Of A Classic Recipe",
-                "Why Not Celebrate The Occasion With A Drink",
-                "Why Not Try A Popular Local Recipe",
-                "Fighting Works Up A Real Thirst",
-                "Freshen Your Drink, Sir or Madam",
-                "Have One For The Road",
-                "I Hope I Am Not Enabling Any Addictions You Might Have",
-                "It's Always Happy Hour Somewhere"
-              };
-
-          for (String s : roboDropMessages) {
+          for (String s : ROBORTENDER_DROP_MESSAGES) {
             if (!responseText.contains(s)) continue;
             Preferences.increment("_roboDrops", 1);
             break;
