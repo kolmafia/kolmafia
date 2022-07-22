@@ -5,7 +5,6 @@ import static internal.helpers.Player.addItem;
 import static internal.helpers.Player.equip;
 import static internal.helpers.Player.fightingMonster;
 import static internal.helpers.Player.inAnapest;
-
 import static internal.helpers.Player.setFamiliar;
 import static internal.helpers.Player.setProperty;
 import static internal.helpers.Preference.isSetTo;
@@ -796,7 +795,7 @@ public class FightRequestTest {
       }
     }
   }
-  
+
   @Nested
   class Vintner {
     @Test
