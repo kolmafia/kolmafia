@@ -161,4 +161,41 @@ public class GitManagerTest {
       assertThat(output, containsString(dep));
     }
   }
+
+  @Nested
+  public class ManifestTests {
+
+    private static final String id = "midgleyc-mafia-script-install-test-test-manifest";
+
+    @BeforeAll
+    public static void cloneRepo() {
+      String output =
+          CliCaller.callCli(
+              "git",
+              "checkout https://github.com/midgleyc/mafia-script-install-test.git test-manifest");
+      assertThat(output, containsString("Installing dependencies"));
+      assertThat(output, containsString("Cloned project " + id));
+    }
+
+    @AfterAll
+    public static void removeRepo() {
+      String remove = id;
+      String output = CliCaller.callCli("git", "delete " + remove);
+      assertThat(output, containsString("Project " + remove + " removed"));
+      remove = "midgleyc-mafia-script-install-test-test-deps-git";
+      output = CliCaller.callCli("git", "delete " + remove);
+      assertThat(output, containsString("Project " + remove + " removed"));
+    }
+
+    @Test
+    public void installedFilesAndDepenciesRelativeToManifest() {
+      assertTrue(Files.exists(Paths.get("scripts", "1-manifest.ash")));
+      assertTrue(Files.exists(Paths.get("scripts", "1-git.ash")));
+    }
+
+    @Test
+    public void didNotInstallFilesRelativeToRoot() {
+      assertFalse(Files.exists(Paths.get("scripts", "1-root.ash")));
+    }
+  }
 }
