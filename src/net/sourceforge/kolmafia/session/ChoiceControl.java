@@ -4473,7 +4473,7 @@ public abstract class ChoiceControl {
         // Cold Medicine Cabinet
         if (ChoiceManager.lastDecision != 6) {
           if (ChoiceManager.lastDecision == 1) {
-            Preferences.increment("_coldMedicineEquipmentTaken", 1, 3, false);
+            Preferences.increment("_coldMedicineEquipmentTaken", 1, 2, false);
           }
 
           Preferences.increment("_coldMedicineConsults", 1, 5, false);
@@ -7943,6 +7943,9 @@ public abstract class ChoiceControl {
           int remaining = Integer.parseInt(consultations.group(1));
           Preferences.setInteger("_coldMedicineConsults", 5 - remaining);
         }
+        var equipmentCount = text.contains("ice crown") ? 0 : text.contains("frozen jeans") ? 1 : 2;
+        Preferences.setInteger("_coldMedicineEquipmentTaken", equipmentCount);
+
         break;
       case 1462:
         CrystalBallManager.parsePonder(text);
