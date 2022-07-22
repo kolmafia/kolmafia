@@ -5,6 +5,7 @@ import static internal.helpers.Player.addItem;
 import static internal.helpers.Player.equip;
 import static internal.helpers.Player.fightingMonster;
 import static internal.helpers.Player.inAnapest;
+
 import static internal.helpers.Player.setFamiliar;
 import static internal.helpers.Player.setProperty;
 import static internal.helpers.Preference.isSetTo;
@@ -763,7 +764,6 @@ public class FightRequestTest {
         FightRequest.currentRound = 2;
         FightRequest.updateCombatData(null, null, html);
         assertThat("xoSkeleltonXProgress", isSetTo(0));
-        assertThat("xoSkeleltonOProgress", isSetTo(4));
       }
     }
 
@@ -792,6 +792,43 @@ public class FightRequestTest {
         FightRequest.registerRequest(true, urlString);
         FightRequest.updateCombatData(null, null, html);
         assertThat("_xoHugsUsed", isSetTo(3));
+        assertThat("xoSkeleltonOProgress", isSetTo(4));
+      }
+    }
+  }
+  
+  @Nested
+  class Vintner {
+    @Test
+    public void notesIncreaseVintnerCharge() {
+      var cleanups =
+          new Cleanups(setFamiliar(FamiliarPool.VAMPIRE_VINTNER), setProperty("vintnerCharge", 0));
+      try (cleanups) {
+        parseCombatData("request/test_fight_vintner_makes_notes.html");
+        assertThat("vintnerCharge", isSetTo(1));
+        assertThat(KoLCharacter.getFamiliar().getCharges(), equalTo(1));
+      }
+    }
+
+    public void wineDropCorrectsVintnerCharge() {
+      var cleanups =
+          new Cleanups(setFamiliar(FamiliarPool.VAMPIRE_VINTNER), setProperty("vintnerCharge", 11));
+      try (cleanups) {
+        parseCombatData("request/test_fight_vintner_drops_wine.html");
+        assertThat("vintnerCharge", isSetTo(13));
+        assertThat(KoLCharacter.getFamiliar().getCharges(), equalTo(13));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"clears_throat", "gestures", "taps"})
+    public void waitingCorrectsVintnerCharge(String dialog) {
+      var cleanups =
+          new Cleanups(setFamiliar(FamiliarPool.VAMPIRE_VINTNER), setProperty("vintnerCharge", 9));
+      try (cleanups) {
+        parseCombatData("request/test_fight_vintner_" + dialog + ".html");
+        assertThat("vintnerCharge", isSetTo(13));
+        assertThat(KoLCharacter.getFamiliar().getCharges(), equalTo(13));
       }
     }
   }
@@ -835,6 +872,7 @@ public class FightRequestTest {
     }
   }
 
+  @Nested
   class LoveBugsPreferenceButtonGroupTest {
     @BeforeAll
     private static void beforeAll() {
