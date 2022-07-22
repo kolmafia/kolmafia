@@ -936,12 +936,12 @@ public class FightRequestTest {
   class CombatEnvironment {
     @ParameterizedTest
     @CsvSource({
-            "Oil Peak, o",
-            "The Haunted Pantry, i",
-            "The Middle Chamber, u",
-            "The Briny Deeps, x",
-            // If they add Gausie's Grotto I promise to come and make up a new location
-            "Gausie's Grotto, ?"
+      "Oil Peak, o",
+      "The Haunted Pantry, i",
+      "The Middle Chamber, u",
+      "The Briny Deeps, x",
+      // If they add Gausie's Grotto I promise to come and make up a new location
+      "Gausie's Grotto, ?"
     })
     public void canDetectEnvironment(String adventureName, String environmentSymbol) {
       var cleanups = setProperty("lastCombatEnvironments", "xxxxxxxxxxxxxxxxxxxx");
