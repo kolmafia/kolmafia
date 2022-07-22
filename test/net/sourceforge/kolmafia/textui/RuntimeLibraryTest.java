@@ -117,7 +117,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       var cleanups = new Cleanups(setProperty("lastCombatEnvironments", "iiiiiiiiiiioooouuuuu"));
 
       try (cleanups) {
-        String output = execute("next_cold_medicine_cabinet_pill()");
+        String output = execute("expected_cold_medicine_cabinet_pill()");
         assertThat(output, startsWith("Returned: Extrovermectin&trade;"));
       }
     }
@@ -127,7 +127,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       var cleanups = new Cleanups(setProperty("lastCombatEnvironments", "????????????????????"));
 
       try (cleanups) {
-        String output = execute("next_cold_medicine_cabinet_pill()");
+        String output = execute("expected_cold_medicine_cabinet_pill()");
         assertThat(output, startsWith("Returned: none"));
       }
     }

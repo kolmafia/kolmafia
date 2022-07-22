@@ -2677,7 +2677,7 @@ public abstract class RuntimeLibrary {
     // Cold Medicine Cabinet support
     params = new Type[] {};
     functions.add(
-        new LibraryFunction("next_cold_medicine_cabinet_pill", DataTypes.ITEM_TYPE, params));
+        new LibraryFunction("expected_cold_medicine_cabinet_pill", DataTypes.ITEM_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -9634,7 +9634,7 @@ public abstract class RuntimeLibrary {
     return value;
   }
 
-  public static Value next_cold_medicine_cabinet_pill(ScriptRuntime controller) {
+  public static Value expected_cold_medicine_cabinet_pill(ScriptRuntime controller) {
     var nextPill = ColdMedicineCabinetCommand.nextPill();
     return DataTypes.makeItemValue(nextPill);
   }
