@@ -790,6 +790,7 @@ public class FightRequestTest {
     }
   }
 
+  @Nested
   class LoveBugsPreferenceButtonGroupTest {
     @BeforeAll
     private static void beforeAll() {
