@@ -297,7 +297,6 @@ public abstract class MallPriceManager {
 
     List<PurchaseRequest> results = MallPriceManager.getSavedSearch(id, needed);
     if (results != null) {
-      KoLmafia.updateDisplay("Using cached search results for " + name + "...");
       return results;
     }
 
