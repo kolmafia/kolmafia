@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -977,6 +978,30 @@ public class QuestManagerTest {
     assertThat("lastTr4pz0rQuest", isSetTo(ascension));
     assertThat(Quest.TRAPPER, isFinished());
     assertEquals(0, countItem("groar's fur"));
+  }
+
+  /*
+   * Shen Quest
+   */
+
+  @Test
+  void canHandleDuplicatedShenQuestItem() {
+    String html = html("request/test_stankara_drones.html");
+    var cleanups =
+        new Cleanups(
+            setProperty("questL11Shen", "step2"),
+            setFamiliar(FamiliarPool.GREY_GOOSE),
+            setProperty("gooseDronesRemaining", 1));
+    try (cleanups) {
+      KoLAdventure.setLastAdventure("The Batrat and Ratbat Burrow");
+      assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.BATRAT);
+      FightRequest.registerRequest(true, "fight.php?action=attack");
+      FightRequest.currentRound = 1;
+      FightRequest.updateCombatData(null, null, html);
+      assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
+      assertEquals(2, countItem("The Stankara Stone"));
+      assertEquals(Preferences.getString("questL11Shen"), "step3");
+    }
   }
 
   /*
