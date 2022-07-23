@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.addItem;
 import static internal.helpers.Player.setProperty;
+import static internal.helpers.Player.withPostChoice1;
 import static internal.helpers.Player.withPostChoice2;
 import static internal.helpers.Preference.isSetTo;
 import static internal.helpers.Quest.isStep;
@@ -167,6 +168,16 @@ class ChoiceControlTest {
         request.processResponse();
 
         assertThat("_coldMedicineEquipmentTaken", isSetTo(impliedEquipmentTaken));
+      }
+    }
+
+    @Test
+    void takingEquipmentIncrementsCounter() {
+      var cleanups =
+          new Cleanups(setProperty("_coldMedicineEquipmentTaken", 0), withPostChoice1(1455, 1));
+
+      try (cleanups) {
+        assertThat("_coldMedicineEquipmentTaken", isSetTo(1));
       }
     }
   }

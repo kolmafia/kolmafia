@@ -372,6 +372,24 @@ public class Player {
         });
   }
 
+  public static Cleanups withPostChoice1(int choice, int decision, String responseText) {
+    ChoiceManager.lastChoice = choice;
+    ChoiceManager.lastDecision = decision;
+    var req = new GenericRequest("choice.php?choice=" + choice + "&option=" + decision);
+    req.responseText = responseText;
+    ChoiceControl.postChoice1("choice.php?choice=" + choice + "&option=" + decision, req);
+
+    return new Cleanups(
+        () -> {
+          ChoiceManager.lastChoice = 0;
+          ChoiceManager.lastDecision = 0;
+        });
+  }
+
+  public static Cleanups withPostChoice1(int choice, int decision) {
+    return withPostChoice1(choice, decision, "");
+  }
+
   public static Cleanups withPostChoice2(int choice, int decision, String responseText) {
     ChoiceManager.lastChoice = choice;
     ChoiceManager.lastDecision = decision;
