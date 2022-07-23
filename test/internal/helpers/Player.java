@@ -192,6 +192,42 @@ public class Player {
     return new Cleanups(() -> setStats(0, 0, 0));
   }
 
+  public static Cleanups setMuscle(int muscle, int buffedMuscle) {
+    KoLCharacter.setStatPoints(
+        buffedMuscle,
+        (long) muscle * muscle,
+        KoLCharacter.getAdjustedMysticality(),
+        KoLCharacter.getTotalMysticality(),
+        KoLCharacter.getAdjustedMoxie(),
+        KoLCharacter.getTotalMoxie());
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(() -> setStats(0, 0, 0));
+  }
+
+  public static Cleanups setMysticality(int mysticality, int buffedMysticality) {
+    KoLCharacter.setStatPoints(
+        KoLCharacter.getAdjustedMuscle(),
+        KoLCharacter.getTotalMuscle(),
+        buffedMysticality,
+        (long) mysticality * mysticality,
+        KoLCharacter.getAdjustedMoxie(),
+        KoLCharacter.getTotalMoxie());
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(() -> setStats(0, 0, 0));
+  }
+
+  public static Cleanups setMoxie(int moxie, int buffedMoxie) {
+    KoLCharacter.setStatPoints(
+        KoLCharacter.getAdjustedMuscle(),
+        KoLCharacter.getTotalMuscle(),
+        KoLCharacter.getAdjustedMysticality(),
+        KoLCharacter.getTotalMysticality(),
+        buffedMoxie,
+        (long) moxie * moxie);
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(() -> setStats(0, 0, 0));
+  }
+
   public static Cleanups isLevel(int level) {
     int substats = (int) Math.pow(level, 2) - level * 2 + 5;
     return setStats(substats, substats, substats);

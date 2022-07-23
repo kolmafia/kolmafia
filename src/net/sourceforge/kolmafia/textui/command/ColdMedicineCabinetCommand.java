@@ -90,7 +90,7 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
   private static final AdventureResult SPECIAL_RESERVE_WINE =
       ItemPool.get("Doc's Special Reserve Wine", 1);
   private static final AdventureResult MEDICAL_GRADE_WINE =
-      ItemPool.get("Doc's Special Reserve Wine", 1);
+      ItemPool.get("Doc's Medical-Grade Wine", 1);
 
   private static AdventureResult guessNextWine() {
     var statBuffs =
