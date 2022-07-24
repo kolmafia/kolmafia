@@ -3900,6 +3900,7 @@ public class FightRequest extends GenericRequest {
             Preferences.increment("_roboDrops", 1);
             break;
           }
+          break;
 
         case FamiliarPool.XO_SKELETON:
           Preferences.increment("xoSkeleltonXProgress");
