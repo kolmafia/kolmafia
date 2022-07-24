@@ -1280,9 +1280,9 @@ public abstract class InventoryManager {
     }
 
     CraftingType method = ConcoctionDatabase.getMixingMethod(item);
-    long price = ConcoctionDatabase.getCreationCost(method);
     int yield = ConcoctionDatabase.getYield(itemId);
     int madeQuantity = (quantity + yield - 1) / yield;
+    long price = ConcoctionDatabase.getCreationCost(method) * madeQuantity;
 
     AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId);
 
