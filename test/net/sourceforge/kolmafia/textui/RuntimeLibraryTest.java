@@ -2,9 +2,11 @@ package net.sourceforge.kolmafia.textui;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.addItem;
+import static internal.helpers.Player.setProperty;
 import static internal.helpers.Player.setupFakeResponse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.startsWith;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -12,6 +14,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class RuntimeLibraryTest extends AbstractCommandTestBase {
@@ -104,6 +107,29 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertThat(output, containsString("hatchetfish => The Skeleton Store"));
       assertThat(output, containsString("trout => The Haunted Conservatory"));
       assertThat(output, containsString("tuna => The Oasis"));
+    }
+  }
+
+  @Nested
+  class NextCmcPill {
+    @Test
+    void canGetNextPill() {
+      var cleanups = new Cleanups(setProperty("lastCombatEnvironments", "iiiiiiiiiiioooouuuuu"));
+
+      try (cleanups) {
+        String output = execute("expected_cold_medicine_cabinet_pill()");
+        assertThat(output, startsWith("Returned: Extrovermectin&trade;"));
+      }
+    }
+
+    @Test
+    void returnsNoneIfPillUnknown() {
+      var cleanups = new Cleanups(setProperty("lastCombatEnvironments", "????????????????????"));
+
+      try (cleanups) {
+        String output = execute("expected_cold_medicine_cabinet_pill()");
+        assertThat(output, startsWith("Returned: none"));
+      }
     }
   }
 }

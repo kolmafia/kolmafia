@@ -611,7 +611,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       if (this.adventureId.equals(AdventurePool.ICY_PEAK_ID)) {
-        return QuestDatabase.isQuestFinished(Quest.TRAPPER);
+        return QuestDatabase.isQuestLaterThan(Quest.TRAPPER, "step4");
       }
       return false;
     }

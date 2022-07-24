@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.persistence.*;
+import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -814,8 +815,7 @@ public class UseItemRequest extends GenericRequest {
         break;
     }
 
-    DailyLimitDatabase.DailyLimit dailyLimit =
-        DailyLimitDatabase.DailyLimitType.USE.getDailyLimit(itemId);
+    var dailyLimit = DailyLimitType.USE.getDailyLimit(itemId);
     if (dailyLimit != null) {
       UseItemRequest.limiter = "daily limit";
       return dailyLimit.getUsesRemaining();
@@ -4620,6 +4620,21 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.SPOOKYRAVEN_TELEGRAM:
         QuestDatabase.setQuestIfBetter(Quest.SPOOKYRAVEN_NECKLACE, QuestDatabase.STARTED);
+        break;
+
+      case ItemPool.PILE_OF_USELESS_ROBOT_PARTS:
+        if (responseText.contains("emits a satisfied whirr")) {
+          Preferences.increment("homemadeRobotUpgrades", 1, 9, false);
+        } else if (responseText.contains("Your work here is done")) {
+          Preferences.setInteger("homemadeRobotUpgrades", 9);
+        } else {
+          // Otherwise it is not consumed.
+          return;
+        }
+
+        // If we got to here, we probably need to refresh our familiar weight
+        var fam = KoLCharacter.getFamiliar();
+        if (fam != null) fam.setWeight();
         break;
 
       case ItemPool.MERKIN_WORDQUIZ:

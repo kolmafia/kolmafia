@@ -146,6 +146,9 @@ public class ItemPool {
   public static final int SELTZER = 344;
   public static final int REAGENT = 346;
   public static final int DYSPEPSI_COLA = 347;
+  public static final int ICY_KATANA_HILT = 349;
+  public static final int HOT_KATANA_BLADE = 350;
+  public static final int ICY_HOT_KATANA = 351;
   public static final int MINERS_HELMET = 360;
   public static final int MINERS_PANTS = 361;
   public static final int MATTOCK = 362;
@@ -1846,6 +1849,7 @@ public class ItemPool {
   public static final int LED_CLOCK = 6072;
   public static final int HAGGIS_SOCKS = 6080;
   public static final int CLASSY_MONKEY = 6097;
+  public static final int PILE_OF_USELESS_ROBOT_PARTS = 6100;
   public static final int CEO_OFFICE_CARD = 6116;
   public static final int STRANGE_GOGGLES = 6118;
   public static final int BONSAI_TREE = 6120;
@@ -3355,9 +3359,11 @@ public class ItemPool {
   public static final int HOMEBODYL = 10828;
   public static final int EXTROVERMECTIN = 10829;
   public static final int BREATHITIN = 10830;
+  public static final int FLESHAZOLE = 10831;
   public static final int GOOIFIED_ANIMAL_MATTER = 10844;
   public static final int GOOIFIED_VEGETABLE_MATTER = 10845;
   public static final int GOOIFIED_MINERAL_MATTER = 10846;
+  public static final int CARNIVOROUS_POTTED_PLANT = 10864;
   public static final int MEATBALL_MACHINE = 10878;
   public static final int REFURBISHED_AIR_FRYER = 10879;
   public static final int ELEVEN_LEAF_CLOVER = 10881;

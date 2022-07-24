@@ -769,36 +769,6 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     creator.run();
   }
 
-  public static final void compileScripts() {
-    GenericFrame.compileScripts(Preferences.getInteger("scriptMRULength") > 0);
-  }
-
-  public static final void compileScripts(final boolean useMRUlist) {
-    KoLConstants.scripts.clear();
-
-    // Get the list of files in the current directory or build from MRU
-
-    File[] scriptList =
-        useMRUlist
-            ? KoLConstants.scriptMList.listAsFiles()
-            : DataUtilities.listFiles(KoLConstants.SCRIPT_LOCATION);
-
-    // Iterate through the files. Do this in two
-    // passes to make sure that directories start
-    // up top, followed by non-directories.
-
-    int directoryIndex = 0;
-
-    for (File file : scriptList) {
-      if (!ScriptMenu.shouldAddScript(file)) {
-      } else if (file.isDirectory()) {
-        KoLConstants.scripts.add(directoryIndex++, file);
-      } else {
-        KoLConstants.scripts.add(file);
-      }
-    }
-  }
-
   /**
    * Utility method to save the entire list of bookmarks to the settings file. This should be called
    * after every update.
@@ -814,6 +784,29 @@ public abstract class GenericFrame extends JFrame implements Runnable, FocusList
     }
 
     Preferences.setString("browserBookmarks", bookmarkData.toString());
+  }
+
+  public static final void compileScripts() {
+    KoLConstants.scripts.clear();
+
+    // Get the list of files in the current directory or build from MRU
+
+    File[] scriptList = DataUtilities.listFiles(KoLConstants.SCRIPT_LOCATION);
+
+    // Iterate through the files.
+    //
+    // Put the directories at the top, followed by non-directories.
+
+    int directoryIndex = 0;
+
+    for (File file : scriptList) {
+      if (!ScriptMenu.shouldAddScript(file)) {
+      } else if (file.isDirectory()) {
+        KoLConstants.scripts.add(directoryIndex++, file);
+      } else {
+        KoLConstants.scripts.add(file);
+      }
+    }
   }
 
   /** Utility method to compile the list of bookmarks based on the current settings. */

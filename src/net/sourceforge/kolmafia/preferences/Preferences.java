@@ -279,6 +279,7 @@ public class Preferences {
         "lastAnticheeseDay",
         "lastBeardBuff",
         "lastColosseumRoundWon",
+        "lastCombatEnvironments",
         "lastCopyableMonster",
         "lastCouncilVisit",
         "lastZapperWandExplosionDay",
@@ -288,6 +289,25 @@ public class Preferences {
         "locketPhylum",
         "lockPicked",
         "louvreLayout",
+        "lovebugsAridDesert",
+        "lovebugsBeachBuck",
+        "lovebugsBooze",
+        "lovebugsChroner",
+        "lovebugsCoinspiracy",
+        "lovebugsCyrpt",
+        "lovebugsFreddy",
+        "lovebugsFunFunds",
+        "lovebugsHoboNickel",
+        "lovebugsItemDrop",
+        "lovebugsMeat",
+        "lovebugsMeatDrop",
+        "lovebugsMoxie",
+        "lovebugsMuscle",
+        "lovebugsMysticality",
+        "lovebugsOilPeak",
+        "lovebugsOrcChasm",
+        "lovebugsPowder",
+        "lovebugsWalmart",
         "maelstromOfLoversBoss",
         "mappingMonsters",
         "mapToAnemoneMinePurchased",
@@ -399,6 +419,7 @@ public class Preferences {
         "turtleBlessingTurns",
         "twinPeakProgress",
         "unicornHornInflation",
+        "vintnerCharge",
         "vintnerWineEffect",
         "vintnerWineLevel",
         "vintnerWineName",
@@ -480,7 +501,6 @@ public class Preferences {
 
     boolean isUsingMac = System.getProperty("os.name").startsWith("Mac");
 
-    Preferences.globalNames.put("useDecoratedTabs", String.valueOf(!isUsingMac));
     Preferences.globalNames.put("chatFontSize", isUsingMac ? "medium" : "small");
 
     try {

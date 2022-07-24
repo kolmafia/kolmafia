@@ -48,6 +48,7 @@ global	externalEditor
 global	fixedThreadPoolSize	0
 global	gapProtection	false
 global	getBreakfast
+global	gitUpdateOnLogin	false
 global	greenScreenProtection	false
 global	guiUsesOneWindow	false
 global	headerStates	Usable|item name:0|autosell:1|quantity:2|mallprice:-1|power:-1|fill:-1|adv/fill:-1;Restores|item name:0|autosell:1|quantity:2|mallprice:-1|HP restore:-1|MP restore:-1;General|item name:0|autosell:1|quantity:2|mallprice:-1|power:-1|fill:-1|adv/fill:-1;Recent|item name:0|autosell:1|quantity:2|mallprice:-1|power:-1|fill:-1|adv/fill:-1;Closet|item name:0|autosell:1|quantity:2|mallprice:-1|power:-1|fill:-1|adv/fill:-1;Storage|item name:0|autosell:1|quantity:2|mallprice:-1|power:-1|fill:-1|adv/fill:-1;Free Pulls|item name:0|autosell:1|quantity:2|mallprice:-1|power:-1|fill:-1|adv/fill:-1;Creatable|item name:0|autosell:1|quantity:2|mallprice:-1|fill:-1|adv/fill:-1|level req:-1;Cookable|item name:0|autosell:1|quantity:2|mallprice:-1|fill:-1|adv/fill:-1|level req:-1;Mixable|item name:0|autosell:1|quantity:2|mallprice:-1|fill:-1|adv/fill:-1|level req:-1;Fine Tuning|not implemented:0;Equipment|item name:0|power:1|quantity:2|mallprice:-1|autosell:-1;Storage|item name:0|autosell:1|quantity:2|mallprice:-1|power:-1|fill:-1|adv/fill:-1;Create|item name:0|autosell:1|quantity:2|mallprice:-1|fill:-1|adv/fill:-1|level req:-1;
@@ -63,8 +64,6 @@ global	https.proxyPort
 global	https.proxyUser
 global	initialDesktop	AdventureFrame,CommandDisplayFrame,MallSearchFrame,GearChangeFrame,SkillBuffFrame
 global	initialFrames	LocalRelayServer
-global	innerChatColor	#ffa98c
-global	innerTabColor	#8ca9ff
 global	itemManagerIndex	0
 global	lastBuffRequestType	0
 global	lastGlobalCounterDay	-1
@@ -99,8 +98,6 @@ global	macroDebug	false
 global	macroLens	false
 global	mementoListActive	false
 global	mergeHobopolisChat	false
-global	outerChatColor	#b4460f
-global	outerTabColor	#0f46b4
 global	previousNotifyList	<>
 global	previousUpdateVersion
 global	previousUpdateRevision	0
@@ -161,7 +158,6 @@ global	useDockIconBadge	false
 global	useHugglerChannel	false
 global	useImageCache	true
 global	useLastUserAgent	false
-global	useShinyTabbedChat	true
 global	useSystemTrayIcon	false
 global	useTabbedChatFrame	true
 global	useToolbars	true
@@ -172,6 +168,7 @@ global	verboseFloundry	false
 global	wrapLongLines	true
 global	_announcementShown	false
 global	_g9Effect	0
+global	_gitUpdated	false
 global	_svnRepoFileFetched	false
 global	_svnUpdated	false
 
@@ -727,6 +724,7 @@ user	hippiesDefeated	0
 user	holidayHalsBookAvailable	true
 user	holidayHalsBookCost	1000
 user	holidaySwagger	0
+user	homemadeRobotUpgrades	0
 user	homebodylCharges	0
 user	horseryAvailable	false
 user	hotAirportAlways	false
@@ -782,6 +780,7 @@ user	lastChanceThreshold	100
 user	lastChessboard
 user	lastChasmReset	-1
 user	lastColosseumRoundWon	0
+user	lastCombatEnvironments	xxxxxxxxxxxxxxxxxxxx
 user	lastCopyableMonster
 user	lastCouncilVisit	0
 user	lastCounterDay	-1
@@ -911,7 +910,26 @@ user	longConMonster
 user	louvreDesiredGoal	7
 user	louvreGoal	0
 user	louvreOverride
+user	lovebugsAridDesert	0
+user	lovebugsBeachBuck	0
+user	lovebugsBooze	0
+user	lovebugsChroner	0
+user	lovebugsCoinspiracy	0
+user	lovebugsCyrpt	0
+user	lovebugsFreddy	0
+user	lovebugsFunFunds	0
+user	lovebugsHoboNickel	0
+user	lovebugsItemDrop	0
+user	lovebugsMeat	0
+user	lovebugsMeatDrop	0
+user	lovebugsMoxie	0
+user	lovebugsMuscle	0
+user	lovebugsMysticality	0
+user	lovebugsOilPeak	0
+user	lovebugsOrcChasm	0
+user	lovebugsPowder	0
 user	lovebugsUnlocked	false
+user	lovebugsWalmart	0
 user	lovePotion	
 user	loveTunnelAvailable	false
 user	lowerChamberUnlock	false
@@ -1220,6 +1238,7 @@ user	schoolOfHardKnocksDiplomaCost	1000
 user	schoolSwagger	0
 user	scrapbookCharges	0
 user	screencappedMonster	
+user	scriptCascadingMenus	true
 user	scriptMRULength	0
 user	scriptMRUList
 user	seahorseName
@@ -1375,6 +1394,7 @@ user	summonAnnoyanceCost	11
 user	superficiallyInterestedMonster
 user	suppressInappropriateNags	false
 user	suppressPowerPixellation	false
+user	suppressMallPriceCacheMessages	true
 user	sweat	0
 user	sweetSynthesisBlacklist	chocolate cigar,fudge bunny,gummi ammonite,gummi belemnite,gummi trilobite,powdered candy sushi set,radio button candy,Ultra Mega Sour Ball,vitachoconutriment capsule
 user	tacoDanCocktailSauce	0
@@ -1428,6 +1448,7 @@ user	valueOfInventory	1.8
 user	valueOfStill	0
 user	valueOfTome	0
 user	verboseMaximizer	false
+user	vintnerCharge	0
 user	vintnerWineEffect
 user	vintnerWineLevel	0
 user	vintnerWineName
@@ -1854,6 +1875,13 @@ user	_llamaCharge	0
 user	_locketMonstersFought
 user	_longConUsed	0
 user	_lookingGlass	false
+user	_lovebugsBeachBuck	0
+user	_lovebugsChroner	0
+user	_lovebugsCoinspiracy	0
+user	_lovebugsFreddy	0
+user	_lovebugsFunFunds	0
+user	_lovebugsHoboNickel	0
+user	_lovebugsWalmart	0
 user	_loveChocolatesUsed	0
 user	_loveTunnelUsed	false
 user	_luckyGoldRingVolcoino	false

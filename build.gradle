@@ -92,6 +92,7 @@ dependencies {
 	implementation 'org.swinglabs:swingx:1.0'
 	implementation 'org.tmatesoft.svnkit:svnkit:1.10.6'
 	implementation 'com.jgoodies:jgoodies-binding:2.13.0'
+	implementation 'org.eclipse.jgit:org.eclipse.jgit:6.2.0.202206071550-r'
 }
 
 application {

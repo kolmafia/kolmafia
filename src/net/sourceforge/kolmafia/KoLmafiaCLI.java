@@ -576,6 +576,7 @@ public class KoLmafiaCLI {
     new CliRefCommand().register("help").register("which");
     new ClosetCommand().register("closet");
     new CoinmasterCommand().register("coinmaster");
+    new ColdMedicineCabinetCommand().register("cmc");
     new ColorEchoCommand().register("colorecho").register("cecho");
     new ComparisonShopCommand().register("cheapest").register("expensive");
     new CompleteQuestCommand()
@@ -646,6 +647,7 @@ public class KoLmafiaCLI {
     new GarbageCollectCommand().register("gc");
     new GardenCommand().register("garden");
     new GenieCommand().register("genie");
+    new GitCommand().register("git");
     new GongCommand().register("gong");
     new GooSkillsCommand().register("gooskills");
     new GrandpaCommand().register("grandpa");
