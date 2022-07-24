@@ -55,6 +55,8 @@ public class Preferences {
 
   private static final Set<String> defaultsSet = new HashSet<>();
   private static final Set<String> perUserGlobalSet = new HashSet<>();
+  private static final Set<String> resetOnRollover =
+      new TreeSet<>(List.of("_ascensionsToday", "_potatoAlarmClockUsed"));
   private static final Set<String> legacyDailies =
       new TreeSet<>(
           List.of(
@@ -1131,7 +1133,8 @@ public class Preferences {
   }
 
   public static boolean isDaily(String name) {
-    return name.startsWith("_") || legacyDailies.contains(name);
+    return (!resetOnRollover.contains(name) && name.startsWith("_"))
+        || legacyDailies.contains(name);
   }
 
   public static void resetPerAscension() {
@@ -1153,6 +1156,16 @@ public class Preferences {
 
     // Some need special treatment
     MonorailManager.resetMuffinOrder();
+
+    // Increment the amount of times we've ascended today
+    Preferences.increment("_ascensionsToday");
+  }
+
+  public static void resetPerRollover() {
+    // Some preferences are only reset on rollover
+    for (String pref : resetOnRollover) {
+      resetToDefault(pref);
+    }
   }
 
   public static void resetDailies() {
