@@ -380,7 +380,7 @@ class PreferencesTest {
     String legacyDaily = "nunsVisits";
     String newStyleDaily = "_SomeDailyThing";
     String notADaily = "somePrefName";
-    String notARealDaily = "_ascensionsToday";
+    String notARealDaily = "ascensionsToday";
     Integer legacyValue = 1;
     Integer newStyleValue = 2;
     Integer notADailyValue = 3;
@@ -451,7 +451,7 @@ class PreferencesTest {
 
   @Test
   void countsAscensions() {
-    String name = "_ascensionsToday";
+    String name = "ascensionsToday";
     int beforeAscension = 1;
     int afterAscension = 2;
 
@@ -464,7 +464,7 @@ class PreferencesTest {
   }
 
   void resetRolloverProperties() {
-    String name = "_ascensionsToday";
+    String name = "ascensionsToday";
     int beforeRollover = 1;
     int afterRollover = 0;
 
