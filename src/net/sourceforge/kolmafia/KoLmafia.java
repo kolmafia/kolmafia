@@ -634,6 +634,10 @@ public abstract class KoLmafia {
     int ascensions = KoLCharacter.getAscensions();
     int knownAscensions = Preferences.getInteger("knownAscensions");
 
+    if (shouldResetCounters) {
+      Preferences.resetPerRollover();
+    }
+
     if (ascensions != 0 && knownAscensions != -1 && knownAscensions != ascensions) {
       Preferences.setInteger("knownAscensions", ascensions);
       ValhallaManager.resetPerAscensionCounters();
