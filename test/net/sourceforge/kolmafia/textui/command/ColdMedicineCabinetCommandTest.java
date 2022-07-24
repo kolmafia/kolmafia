@@ -17,6 +17,8 @@ import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -28,6 +30,8 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
   public static void beforeAll() {
     KoLCharacter.reset("ColdMedicineCabinetCommandTest");
     HttpClientWrapper.setupFakeClient();
+    ChoiceManager.handlingChoice = false;
+    FightRequest.currentRound = 0;
   }
 
   public ColdMedicineCabinetCommandTest() {
