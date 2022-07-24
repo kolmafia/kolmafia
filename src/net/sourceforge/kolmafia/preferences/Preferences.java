@@ -55,7 +55,7 @@ public class Preferences {
 
   private static final Set<String> defaultsSet = new HashSet<>();
   private static final Set<String> perUserGlobalSet = new HashSet<>();
-  private static final Set<String> resetOnRollover =
+  private static final Set<String> onlyResetOnRollover =
       new TreeSet<>(List.of("ascensionsToday", "potatoAlarmClockUsed"));
   private static final Set<String> legacyDailies =
       new TreeSet<>(
@@ -1162,7 +1162,7 @@ public class Preferences {
 
   public static void resetPerRollover() {
     // Some preferences are only reset on rollover
-    for (String pref : resetOnRollover) {
+    for (String pref : onlyResetOnRollover) {
       resetToDefault(pref);
     }
   }
