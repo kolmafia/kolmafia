@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 
-@DisabledOnOs({OS.WINDOWS})
+@DisabledOnOs(value = {OS.WINDOWS}, disabledReason = "deleting script can fail")
 public class GitManagerTest {
 
   /**
