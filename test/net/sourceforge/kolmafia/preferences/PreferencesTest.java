@@ -457,11 +457,10 @@ class PreferencesTest {
 
     // Confirm it was set
     Preferences.setInteger(name, beforeAscension);
-
     // reset
     Preferences.resetPerAscension();
     // confirm changed
-    assertNotEquals(afterAscension, Preferences.getInteger(name));
+    assertEquals(afterAscension, Preferences.getInteger(name));
   }
 
   void resetRolloverProperties() {
