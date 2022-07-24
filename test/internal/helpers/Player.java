@@ -209,6 +209,11 @@ public class Player {
     return new Cleanups(() -> setMP(0, 0, 0));
   }
 
+  public static Cleanups withAdventuresLeft(int adventures) {
+    KoLCharacter.setAdventuresLeft(adventures);
+    return new Cleanups(() -> withAdventuresLeft(0));
+  }
+
   public static Cleanups isClass(AscensionClass ascensionClass) {
     var old = KoLCharacter.getAscensionClass();
     KoLCharacter.setAscensionClass(ascensionClass);
