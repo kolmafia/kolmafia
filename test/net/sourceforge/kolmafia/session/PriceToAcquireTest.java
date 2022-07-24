@@ -1,5 +1,9 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Player.addItem;
+import static internal.helpers.Player.isSign;
+import static internal.helpers.Player.setProperty;
+import static internal.helpers.Player.withAdventuresLeft;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,6 +21,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -29,6 +34,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -111,6 +117,7 @@ public class PriceToAcquireTest {
   @BeforeEach
   private void beforeEach() {
     CharPaneRequest.setCanInteract(true);
+    Preferences.reset("price to acquire user");
   }
 
   @AfterEach
@@ -591,6 +598,94 @@ public class PriceToAcquireTest {
       assertEquals(25521, InventoryManager.priceToMake(instance, true));
       assertEquals(25521, InventoryManager.priceToAcquire(instance, true));
       assertFalse(InventoryManager.cheaperToBuy(instance));
+    }
+  }
+
+  @Nested
+  class KatanaTests {
+    // We'll be testing with the following concoction:
+    //
+    // icy-hot katana = icy katana hilt + hot katana blade
+    // icy katana hilt = (mall item)
+    // hot katana blade = (mall item)
+
+    static AdventureResult ICY_HOT_KATANA = ItemPool.get(ItemPool.ICY_HOT_KATANA, 1);
+    static AdventureResult ICY_KATANA_HILT = ItemPool.get(ItemPool.ICY_KATANA_HILT, 1);
+    static AdventureResult HOT_KATANA_BLADE = ItemPool.get(ItemPool.HOT_KATANA_BLADE, 1);
+
+    private Map<Integer, Integer> makePriceMap() {
+      // Make a map from itemid -> mall price
+
+      Map<Integer, Integer> priceMap = new HashMap<>();
+      priceMap.put(ItemPool.ICY_HOT_KATANA, 500);
+      priceMap.put(ItemPool.ICY_KATANA_HILT, 128);
+      priceMap.put(ItemPool.HOT_KATANA_BLADE, 100);
+
+      return priceMap;
+    }
+
+    @Test
+    public void canPriceSmithedItemsUsingHammer() {
+
+      Map<Integer, Integer> priceMap = makePriceMap();
+
+      Cleanups mockedMallPrices = mockGetMallPrice(priceMap, priceMap);
+      // Don't mock permitted methods; account for skills, conditions, valueOfAdventure
+
+      Cleanups cleanups =
+          new Cleanups(
+              mockedMallPrices,
+              addItem("tenderizing hammer"),
+              withAdventuresLeft(10),
+              setProperty("valueOfAdventure", 500));
+      try (cleanups) {
+        // We will be testing with no items in inventory.
+        // Therefore, we will need to purchase everything from mall or NPCs.
+        ConcoctionDatabase.refreshConcoctions();
+
+        // Test with "exact" prices - i.e. "current mall prices, from "priceMap"
+        // Verify that we cannot make NOCREATE items
+
+        int katanaPrice = getPrice(ICY_HOT_KATANA, priceMap);
+        int hiltPrice = getPrice(ICY_KATANA_HILT, priceMap);
+        int bladePrice = getPrice(HOT_KATANA_BLADE, priceMap);
+
+        // Smithing takes an adventure
+        int valueOfAdventure = Preferences.getInteger("valueOfAdventure");
+        int price = hiltPrice + bladePrice + valueOfAdventure;
+        assertEquals(price, InventoryManager.priceToMake(ICY_HOT_KATANA, true));
+        assertEquals(
+            price * 10, InventoryManager.priceToMake(ICY_HOT_KATANA.getInstance(10), true));
+      }
+    }
+
+    @Test
+    public void canPriceSmithedItemsUsingInnabox() {
+      Map<Integer, Integer> priceMap = makePriceMap();
+
+      Cleanups mockedMallPrices = mockGetMallPrice(priceMap, priceMap);
+      // Don't mock permitted methods; account for skills, conditions, valueOfAdventure
+
+      Cleanups cleanups =
+          new Cleanups(mockedMallPrices, isSign(ZodiacSign.MONGOOSE), withAdventuresLeft(0));
+      try (cleanups) {
+        // We will be testing with no items in inventory.
+        // Therefore, we will need to purchase everything from mall or NPCs.
+        ConcoctionDatabase.refreshConcoctions();
+
+        // Test with "exact" prices - i.e. "current mall prices, from "priceMap"
+        // Verify that we cannot make NOCREATE items
+
+        int katanaPrice = getPrice(ICY_HOT_KATANA, priceMap);
+        int hiltPrice = getPrice(ICY_KATANA_HILT, priceMap);
+        int bladePrice = getPrice(HOT_KATANA_BLADE, priceMap);
+
+        // Smithing does not take an adventure
+        int price = hiltPrice + bladePrice;
+        assertEquals(price, InventoryManager.priceToAcquire(ICY_HOT_KATANA, true));
+        assertEquals(
+            price * 10, InventoryManager.priceToMake(ICY_HOT_KATANA.getInstance(10), true));
+      }
     }
   }
 
