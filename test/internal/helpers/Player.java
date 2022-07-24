@@ -417,6 +417,12 @@ public class Player {
         });
   }
 
+  public static Cleanups withFight() {
+    var old = FightRequest.currentRound;
+    FightRequest.currentRound = 1;
+    return new Cleanups(() -> FightRequest.currentRound = 0);
+  }
+
   public static Cleanups withMultiFight() {
     var old = FightRequest.inMultiFight;
     FightRequest.inMultiFight = true;
@@ -424,6 +430,12 @@ public class Player {
         () -> {
           FightRequest.inMultiFight = old;
         });
+  }
+
+  public static Cleanups withHandlingChoice() {
+    var old = ChoiceManager.handlingChoice;
+    ChoiceManager.handlingChoice = true;
+    return new Cleanups(() -> ChoiceManager.handlingChoice = old);
   }
 
   public static Cleanups withItemMonster(final String itemMonster) {

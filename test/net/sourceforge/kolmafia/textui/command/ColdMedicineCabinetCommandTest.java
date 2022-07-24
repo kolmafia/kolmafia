@@ -1,15 +1,20 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import static internal.helpers.Networking.html;
 import static internal.helpers.Player.setMoxie;
 import static internal.helpers.Player.setMuscle;
 import static internal.helpers.Player.setMysticality;
 import static internal.helpers.Player.setProperty;
 import static internal.helpers.Player.setWorkshed;
+import static internal.helpers.Player.setupFakeResponse;
+import static internal.helpers.Player.withFight;
+import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withTurnsPlayed;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
 import internal.helpers.Cleanups;
+import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,10 +27,31 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset("ColdMedicineCabinetCommandTest");
+    HttpClientWrapper.setupFakeClient();
   }
 
   public ColdMedicineCabinetCommandTest() {
     this.command = "cmc";
+  }
+
+  @Test
+  void doNotCheckWithNoWorkshedItem() {
+    var cleanups = new Cleanups(setWorkshed(-1));
+
+    try (cleanups) {
+      String output = execute("");
+      assertThat(output, containsString("You do not have a Cold Medicine Cabinet installed."));
+    }
+  }
+
+  @Test
+  void doNotCheckWithWrongWorkshedItem() {
+    var cleanups = new Cleanups(setWorkshed(ItemPool.DIABOLIC_PIZZA_CUBE));
+
+    try (cleanups) {
+      String output = execute("");
+      assertThat(output, containsString("You do not have a Cold Medicine Cabinet installed."));
+    }
   }
 
   @Nested
@@ -88,6 +114,34 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
           assertContinueState();
         }
       }
+
+      @Test
+      void guessesIfDueButInFight() {
+        var cleanups =
+            new Cleanups(
+                withFight(),
+                setProperty("_nextColdMedicineConsult", 0),
+                withTurnsPlayed(1),
+                setWorkshed(ItemPool.COLD_MEDICINE_CABINET));
+        try (cleanups) {
+          String output = execute("");
+          assertThat(output, containsString("Your next equipment should be"));
+        }
+      }
+
+      @Test
+      void guessesIfDueButInChoice() {
+        var cleanups =
+            new Cleanups(
+                withHandlingChoice(),
+                setProperty("_nextColdMedicineConsult", 0),
+                withTurnsPlayed(1),
+                setWorkshed(ItemPool.COLD_MEDICINE_CABINET));
+        try (cleanups) {
+          String output = execute("");
+          assertThat(output, containsString("Your next equipment should be"));
+        }
+      }
     }
 
     @Nested
@@ -136,6 +190,29 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
           assertThat(output, containsString("Your next pill should be Fleshazole&trade;"));
           assertContinueState();
         }
+      }
+    }
+  }
+
+  @Nested
+  class Checking {
+    @Test
+    void canCheckCabinet() {
+      var cleanups =
+          new Cleanups(
+              setupFakeResponse(200, html("request/test_choice_cmc_ice_wrap.html")),
+              setProperty("_nextColdMedicineConsult", 0),
+              setWorkshed(ItemPool.COLD_MEDICINE_CABINET),
+              withTurnsPlayed(1));
+
+      try (cleanups) {
+        String output = execute("");
+
+        assertThat(output, containsString("Your next equipment is ice wrap\n"));
+        assertThat(output, containsString("Your next food is frozen tofu pop\n"));
+        assertThat(output, containsString("Your next booze is Doc's Fortifying Wine\n"));
+        assertThat(output, containsString("Your next potion is anti-odor cream\n"));
+        assertThat(output, containsString("Your next pill is Breathitin™\n"));
       }
     }
   }
