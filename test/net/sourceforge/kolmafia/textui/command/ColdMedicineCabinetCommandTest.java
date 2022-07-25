@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.setMoxie;
 import static internal.helpers.Player.setMuscle;
@@ -7,11 +9,14 @@ import static internal.helpers.Player.setMysticality;
 import static internal.helpers.Player.setProperty;
 import static internal.helpers.Player.setWorkshed;
 import static internal.helpers.Player.setupFakeResponse;
+import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withTurnsPlayed;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
@@ -20,6 +25,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,7 +35,6 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset("ColdMedicineCabinetCommandTest");
-    HttpClientWrapper.setupFakeClient();
     ChoiceManager.handlingChoice = false;
     FightRequest.currentRound = 0;
   }
@@ -55,6 +60,33 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
     try (cleanups) {
       String output = execute("");
       assertThat(output, containsString("You do not have a Cold Medicine Cabinet installed."));
+    }
+  }
+
+  @Test
+  void errorsWithInvalidParameter() {
+    var cleanups =
+        new Cleanups(setWorkshed(ItemPool.COLD_MEDICINE_CABINET), withContinuationState());
+
+    try (cleanups) {
+      var output = execute("beans");
+      assertThat(output, containsString("not recognised"));
+      assertErrorState();
+    }
+  }
+
+  @Test
+  void handlesAllConsultsUsed() {
+    var cleanups =
+        new Cleanups(
+            setWorkshed(ItemPool.COLD_MEDICINE_CABINET), setProperty("_coldMedicineConsults", 5));
+
+    try (cleanups) {
+      var output = execute("");
+
+      assertThat(output, containsString("5/5 consults"));
+      assertThat(output, not(containsString("turns until next consult")));
+      assertThat(output, not(containsString("Consult is ready now")));
     }
   }
 
@@ -200,6 +232,11 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
 
   @Nested
   class Checking {
+    @BeforeEach
+    public void beforeEach() {
+      HttpClientWrapper.setupFakeClient();
+    }
+
     @Test
     void canCheckCabinet() {
       var cleanups =
@@ -217,6 +254,86 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
         assertThat(output, containsString("Your next booze is Doc's Fortifying Wine\n"));
         assertThat(output, containsString("Your next potion is anti-odor cream\n"));
         assertThat(output, containsString("Your next pill is Breathitin™\n"));
+      }
+    }
+  }
+
+  @Nested
+  class Collecting {
+    @BeforeAll
+    public static void beforeAll() {
+      KoLCharacter.reset("ColdMedicineCabinetCommandTest");
+    }
+
+    @BeforeEach
+    public void beforeEach() {
+      HttpClientWrapper.setupFakeClient();
+    }
+
+    @Test
+    void cannotCollectIfNoMoreConsults() {
+      var cleanups =
+          new Cleanups(
+              setProperty("_nextColdMedicineConsult", 0),
+              setWorkshed(ItemPool.COLD_MEDICINE_CABINET),
+              withTurnsPlayed(1),
+              setProperty("_coldMedicineConsults", 5),
+              withContinuationState());
+
+      try (cleanups) {
+        var output = execute("food");
+
+        assertThat(output, containsString("You do not have any consults"));
+        assertErrorState();
+      }
+    }
+
+    @Test
+    void cannotCollectIfNoConsultReady() {
+      var cleanups =
+          new Cleanups(
+              setProperty("_nextColdMedicineConsult", 5),
+              setWorkshed(ItemPool.COLD_MEDICINE_CABINET),
+              withTurnsPlayed(0),
+              setProperty("_coldMedicineConsults", 2),
+              withContinuationState());
+
+      try (cleanups) {
+        var output = execute("equipment");
+
+        assertThat(output, containsString("You are not due a consult (5 turns to go)."));
+        assertErrorState();
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "equip, 1",
+      "equipment, 1",
+      "food, 2",
+      "booze, 3",
+      "wine, 3",
+      "potion, 4",
+      "pill, 5"
+    })
+    void canCollectItem(String command, int decision) {
+      var cleanups =
+          new Cleanups(
+              setProperty("_nextColdMedicineConsult", 0),
+              setWorkshed(ItemPool.COLD_MEDICINE_CABINET),
+              withTurnsPlayed(5),
+              setProperty("_coldMedicineConsults", 2),
+              withContinuationState());
+
+      try (cleanups) {
+        execute(command);
+
+        var requests = getRequests();
+
+        assertThat(requests, hasSize(2));
+        assertPostRequest(requests.get(0), "/campground.php", "action=workshed");
+        assertPostRequest(requests.get(1), "/choice.php", "whichchoice=0&option=" + decision);
+        assertContinueState();
       }
     }
   }
