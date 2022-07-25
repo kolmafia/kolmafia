@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.File;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.session.ValhallaManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -458,7 +459,7 @@ class PreferencesTest {
     // Confirm it was set
     Preferences.setInteger(name, beforeAscension);
     // reset
-    Preferences.resetPerAscension();
+    ValhallaManager.onAscension();
     // confirm changed
     assertEquals(afterAscension, Preferences.getInteger(name));
   }

@@ -173,6 +173,8 @@ public class ValhallaManager {
     try {
       PreferenceListenerRegistry.deferPreferenceListeners(true);
       Preferences.increment("knownAscensions", 1);
+      // Increment the amount of times we've ascended today
+      Preferences.increment("ascensionsToday", 1);
       Preferences.setInteger("lastBreakfast", -1);
       KoLCharacter.setCurrentRun(0);
 
