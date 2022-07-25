@@ -146,6 +146,9 @@ public class ItemPool {
   public static final int SELTZER = 344;
   public static final int REAGENT = 346;
   public static final int DYSPEPSI_COLA = 347;
+  public static final int ICY_KATANA_HILT = 349;
+  public static final int HOT_KATANA_BLADE = 350;
+  public static final int ICY_HOT_KATANA = 351;
   public static final int MINERS_HELMET = 360;
   public static final int MINERS_PANTS = 361;
   public static final int MATTOCK = 362;
