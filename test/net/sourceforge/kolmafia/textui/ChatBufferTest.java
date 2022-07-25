@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.textui;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
@@ -61,10 +60,6 @@ public class ChatBufferTest {
     // generated earlier. We've already tested it still contains our unicode.
     // Given that the buffer should be writing almost exactly what we give
     // it, it should remain unchanged.
-    assertEquals(
-        "<html><head>\n<title>\n[events]\n</title>\n<style>\nbody { font-family: sans-serif; font-size: small; } a { color: black; "
-            + "text-decoration: none; } a.error { color: red; text-decoration: underline }\n</style>\n<body>\n"
-            + displayHTML,
-        builder.toString());
+    assertTrue(builder.toString().contains(displayHTML));
   }
 }
