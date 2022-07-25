@@ -1155,9 +1155,6 @@ public class Preferences {
 
     // Some need special treatment
     MonorailManager.resetMuffinOrder();
-
-    // Increment the amount of times we've ascended today
-    Preferences.increment("ascensionsToday");
   }
 
   public static void resetPerRollover() {
