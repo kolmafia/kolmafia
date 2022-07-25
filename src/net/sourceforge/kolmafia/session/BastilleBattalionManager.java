@@ -69,19 +69,18 @@ public abstract class BastilleBattalionManager {
   //   yield is linear, with randomizing fuzz. Look at the x-intercepts?
   // - Is there a randomizing factor in player stats per game? One hopes not.
   // - How do the potions affect your stats during battles? They do not
-  //   register on the "needles" as stat bonuses, and they do not affect
-  //   cheese yields that scale by stat. But you can definitely win against
-  //   tougher castles if you have them in effect than if you do not.
+  //   register on the "needles" as stat bonuses, and they do not seem to
+  //   affect cheese yields that scale by stat. But you can definitely win
+  //   against tougher castles if you have them in effect than if you do not.
+  // - Do multiple turns of a potion effect stack?
   //
   // Castles:
   //
   // - What are initial stats for the six castles?
-  //   (Conjecture is that each is "better" at one of the six stats.)
+  // - Do they have one superior stat, or does each have a superior offense AND
+  //   a superior defense?
   // - Is there a randomizing factor per game or battle?
   // - How do they scale as fight # increases?
-  // - When comparing castle and player stats, one is always "higher" or
-  //   "lower" than the other. Really? Perhaps equal stats have a 50% chance of
-  //   winning or losing the toss?
   //
   // Battles:
   //
@@ -95,6 +94,20 @@ public abstract class BastilleBattalionManager {
   // - What are the linear formulae for the 12 stat-scaling cheese encounters?
 
   // *** Solved research:
+  //
+  // Castles:
+  //
+  // - Each castle type has at least one "superior" stat.
+  //   barracks - MA
+  //   berserker - PA
+  //   bigcastle - CA
+  //   frenchcastle - PD
+  //   masterofnone - MD
+  //   shieldmaster - CD
+  // - In battle results, the player or castle stat is always "higher" or
+  //   "lower" than the other. I have much data where the highest stat that
+  //   results in a "loss" also sometimes results in a "win". Conclusion: Equal
+  //   stats have a 50% chance of resulting in a player win or a castle win.
   //
   // Cheese:
   //
@@ -232,7 +245,7 @@ public abstract class BastilleBattalionManager {
   // *** Boosts
 
   // Three potions give you 1 turn of increased (by some amount) attack and
-  // defense for one of military, castle, or psychological
+  // defense for one of military, castle, or psychological.
 
   private static AdventureResult SHARK_TOOTH_GRIN = EffectPool.get(EffectPool.SHARK_TOOTH_GRIN);
   private static AdventureResult BOILING_DETERMINATION =
@@ -242,19 +255,46 @@ public abstract class BastilleBattalionManager {
 
   public static class Boosts {
     private final String boosts;
+    private final AdventureResult military;
+    private final AdventureResult castle;
+    private final AdventureResult psychological;
 
     public Boosts() {
+      this.military = this.getBoost(SHARK_TOOTH_GRIN);
+      this.castle = this.getBoost(BOILING_DETERMINATION);
+      this.psychological = this.getBoost(ENHANCED_INTERROGATION);
+      this.boosts = this.makeBoostString();
+    }
+
+    private AdventureResult getBoost(AdventureResult effect) {
+      int index = KoLConstants.activeEffects.indexOf(effect);
+      return index >= 0 ? KoLConstants.activeEffects.get(index) : null;
+    }
+
+    private String makeBoostString() {
       StringBuilder buf = new StringBuilder();
-      if (KoLConstants.activeEffects.contains(SHARK_TOOTH_GRIN)) {
+      if (this.military != null) {
+        int count = this.military.getCount();
+        if (count > 1) {
+          buf.append(String.valueOf(count));
+        }
         buf.append('M');
       }
-      if (KoLConstants.activeEffects.contains(BOILING_DETERMINATION)) {
+      if (this.castle != null) {
+        int count = this.castle.getCount();
+        if (count > 1) {
+          buf.append(String.valueOf(count));
+        }
         buf.append('C');
       }
-      if (KoLConstants.activeEffects.contains(ENHANCED_INTERROGATION)) {
+      if (this.psychological != null) {
+        int count = this.psychological.getCount();
+        if (count > 1) {
+          buf.append(String.valueOf(count));
+        }
         buf.append('P');
       }
-      this.boosts = buf.toString();
+      return buf.toString();
     }
 
     public void log() {
@@ -273,15 +313,30 @@ public abstract class BastilleBattalionManager {
       switch (stat) {
         case MA:
         case MD:
-          return (boosts.contains("M"));
+          return this.military != null;
         case CA:
         case CD:
-          return (boosts.contains("C"));
+          return this.castle != null;
         case PA:
         case PD:
-          return (boosts.contains("P"));
+          return this.psychological != null;
       }
       return false;
+    }
+
+    public int boostedBy(Stat stat) {
+      switch (stat) {
+        case MA:
+        case MD:
+          return this.military == null ? 0 : this.military.getCount();
+        case CA:
+        case CD:
+          return this.castle == null ? 0 : this.castle.getCount();
+        case PA:
+        case PD:
+          return this.psychological == null ? 0 : this.psychological.getCount();
+      }
+      return 0;
     }
 
     @Override
@@ -297,32 +352,38 @@ public abstract class BastilleBattalionManager {
   // Each castle has its own set of stats. We don't know what they are,
   // just as we don't know what your initial stats are.
   //
-  // Erosionseeker posted on G_D about this:
+  // Analysis of more than 4,000 battles shows that each castle type is
+  // superior in one the six stats:
   //
-  //     Avant-Garde - higher psychological defense?
-  //     Imposing Citadel - higher psychological attack
-  //     Generic - higher military defense?
-  //     Military Fortress - higher military attack
-  //     Fortified Stronghold - higher castle defense?
-  //     Sprawling Chateau - higher castle attack?
+  //   Military Fortress (barracks) - higher MA
+  //   Imposing Citadel (berserker) - higher PA
+  //   Sprawling Chateau (bigcastle) - higher CA
+  //   Avant-Garde (frenchcastle) - higher PD
+  //   Generic (masterofnone) - higher MD
+  //   Fortified Stronghold (shieldmaster) - higher CD
+  //
+  // This stat starts out higher and improves faster in harder castles than the
+  // other stats do.
 
   private static Map<String, Castle> imageToCastle = new HashMap<>();
   private static Map<String, Castle> descriptionToCastle = new HashMap<>();
 
   public static enum Castle {
-    ART("frenchcastle", "an avant-garde art castle"),
-    BORING("masterofnone", "a boring, run-of-the-mill castle"),
-    CHATEAU("bigcastle", "a sprawling chateau"),
-    CITADEL("berserker", "a dark and menacing citadel"),
-    FORTIFIED("shieldmaster", "a fortress that puts the 'fort' in 'fortified'"),
-    MILITARY("barracks", "an imposing military fortress");
+    ART("frenchcastle", "an avant-garde art castle", Stat.PD),
+    BORING("masterofnone", "a boring, run-of-the-mill castle", Stat.MD),
+    CHATEAU("bigcastle", "a sprawling chateau", Stat.CA),
+    CITADEL("berserker", "a dark and menacing citadel", Stat.PA),
+    FORTIFIED("shieldmaster", "a fortress that puts the 'fort' in 'fortified'", Stat.CD),
+    MILITARY("barracks", "an imposing military fortress", Stat.MA);
 
     String prefix;
     String description;
+    Stat stat;
 
-    private Castle(String prefix, String description) {
+    private Castle(String prefix, String description, Stat stat) {
       this.prefix = prefix;
       this.description = description;
+      this.stat = stat;
       descriptionToCastle.put(description, this);
       imageToCastle.put(prefix + "_1.png", this);
       imageToCastle.put(prefix + "_2.png", this);
@@ -331,6 +392,10 @@ public abstract class BastilleBattalionManager {
 
     public String getPrefix() {
       return this.prefix;
+    }
+
+    public Stat getStat() {
+      return this.stat;
     }
 
     @Override
@@ -684,7 +749,7 @@ public abstract class BastilleBattalionManager {
     // Derived
     public final Stat stat;
     public final int statBonus;
-    public final boolean potion;
+    public final int potion;
 
     // This is constructed when we have collected cheese.
     public Cheese(int turn, String encounterName, int cheese) {
@@ -693,7 +758,7 @@ public abstract class BastilleBattalionManager {
       this.encounter = cheeseEncounters.getOrDefault(encounterName, UNKNOWN_ENCOUNTER);
       this.stat = this.encounter.stat;
       this.statBonus = getCurrentStat(this.stat);
-      this.potion = (stat != Stat.NONE) && new Boosts().boosted(this.stat);
+      this.potion = (stat == Stat.NONE) ? 0 : new Boosts().boostedBy(this.stat);
     }
 
     // This is constructed when we have defeated another castle
@@ -703,7 +768,7 @@ public abstract class BastilleBattalionManager {
       this.encounter = new CheeseEncounter(castle);
       this.stat = Stat.NONE;
       this.statBonus = turn / 3;
-      this.potion = false;
+      this.potion = 0;
     }
   }
 
@@ -1635,7 +1700,7 @@ public abstract class BastilleBattalionManager {
   //     string name;           // Name of the cheese-granting encounter
   //     string stat_name;      // Name of relevant stat
   //     int stat_value;        // Value of relevant stat
-  //     boolean potion;        // true if appropriate potion in effect
+  //     int potion;		// Turns of appropriate potions in effect
   //     int cheese;            // How much cheese you looted
   // };
   //
