@@ -4,11 +4,13 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.addItem;
 import static internal.helpers.Player.setProperty;
 import static internal.helpers.Player.setupFakeResponse;
+import static internal.helpers.Player.withFight;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.Matchers.equalTo;
 
 import internal.helpers.Cleanups;
+import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
@@ -111,24 +113,93 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   }
 
   @Nested
-  class NextCmcPill {
+  class ExpectedCmc {
+    @BeforeEach
+    public void beforeEach() {
+      HttpClientWrapper.setupFakeClient();
+    }
+
     @Test
-    void canGetNextPill() {
-      var cleanups = new Cleanups(setProperty("lastCombatEnvironments", "iiiiiiiiiiioooouuuuu"));
+    void canVisitCabinet() {
+      var cleanups =
+          new Cleanups(setupFakeResponse(200, html("request/test_choice_cmc_frozen_jeans.html")));
 
       try (cleanups) {
-        String output = execute("expected_cold_medicine_cabinet_pill()");
-        assertThat(output, startsWith("Returned: Extrovermectin&trade;"));
+        String output = execute("expected_cold_medicine_cabinet()");
+        assertThat(
+            output,
+            equalTo(
+                """
+                Returned: aggregate item [string]
+                booze => Doc's Fortifying Wine
+                equipment => frozen jeans
+                food => frozen tofu pop
+                pill => Breathitin&trade;
+                potion => anti-odor cream
+                """));
       }
     }
 
     @Test
-    void returnsNoneIfPillUnknown() {
-      var cleanups = new Cleanups(setProperty("lastCombatEnvironments", "????????????????????"));
+    void canHandleUnexpectedCabinetResponse() {
+      var cleanups = new Cleanups(setupFakeResponse(200, "huh?"));
 
       try (cleanups) {
-        String output = execute("expected_cold_medicine_cabinet_pill()");
-        assertThat(output, startsWith("Returned: none"));
+        String output = execute("expected_cold_medicine_cabinet()");
+        assertThat(
+            output,
+            equalTo(
+                """
+                        Could not parse cabinet.
+                        Returned: aggregate item [string]
+                        booze => none
+                        equipment => none
+                        food => none
+                        pill => none
+                        potion => none
+                        """));
+      }
+    }
+
+    @Test
+    void canGuessCabinet() {
+      var cleanups =
+          new Cleanups(setProperty("lastCombatEnvironments", "iiiiiiiiiiioooouuuuu"), withFight());
+
+      try (cleanups) {
+        String output = execute("expected_cold_medicine_cabinet()");
+        assertThat(
+            output,
+            equalTo(
+                """
+                Returned: aggregate item [string]
+                booze => Doc's Medical-Grade Wine
+                equipment => ice crown
+                food => none
+                pill => Extrovermectin&trade;
+                potion => none
+                """));
+      }
+    }
+
+    @Test
+    void canGuessCabinetWithUnknownPill() {
+      var cleanups =
+          new Cleanups(setProperty("lastCombatEnvironments", "????????????????????"), withFight());
+
+      try (cleanups) {
+        String output = execute("expected_cold_medicine_cabinet()");
+        assertThat(
+            output,
+            equalTo(
+                """
+                Returned: aggregate item [string]
+                booze => Doc's Medical-Grade Wine
+                equipment => ice crown
+                food => none
+                pill => none
+                potion => none
+                """));
       }
     }
   }
