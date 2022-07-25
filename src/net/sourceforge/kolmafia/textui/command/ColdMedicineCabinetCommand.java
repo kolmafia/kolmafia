@@ -279,7 +279,7 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
       case "potion" -> collect(4);
       case "pill" -> collect(5);
       default -> {
-        KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, "Paramter not recognised");
+        KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, "Parameter not recognised");
       }
     }
   }
