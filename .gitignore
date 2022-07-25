@@ -10,6 +10,7 @@
 /build/*
 /dist
 /dist/*
+/test/root/chats/*
 /test/root/data/*
 /test/root/images/*
 /test/root/relay/*
