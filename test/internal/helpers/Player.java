@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -27,7 +28,9 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
+import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -187,6 +190,11 @@ public class Player {
         (long) moxie * moxie);
     KoLCharacter.recalculateAdjustments();
     return new Cleanups(() -> setStats(0, 0, 0));
+  }
+
+  public static Cleanups isLevel(int level) {
+    int substats = (int) Math.pow(level, 2) - level * 2 + 5;
+    return setStats(substats, substats, substats);
   }
 
   public static Cleanups setHP(long current, long maximum, long base) {
@@ -371,5 +379,31 @@ public class Player {
         () -> {
           GenericRequest.itemMonster = old;
         });
+  }
+
+  public static Cleanups canInteract(boolean canInteract) {
+    var old = CharPaneRequest.canInteract();
+    CharPaneRequest.setCanInteract(canInteract);
+    return new Cleanups(() -> CharPaneRequest.setCanInteract(old));
+  }
+
+  public static Cleanups withBasementLevel(final int level) {
+    var old = BasementRequest.getBasementLevel();
+    BasementRequest.setBasementLevel(level);
+    return new Cleanups(() -> BasementRequest.setBasementLevel(old));
+  }
+
+  public static Cleanups withBasementLevel() {
+    return withBasementLevel(0);
+  }
+
+  public static Cleanups withContinuationState(final KoLConstants.MafiaState continuationState) {
+    var old = StaticEntity.getContinuationState();
+    StaticEntity.setContinuationState(continuationState);
+    return new Cleanups(() -> StaticEntity.setContinuationState(old));
+  }
+
+  public static Cleanups withContinuationState() {
+    return withContinuationState(KoLConstants.MafiaState.CONTINUE);
   }
 }

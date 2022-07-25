@@ -58,6 +58,10 @@ public class ScriptMRUList implements Listener {
     }
   }
 
+  public void addItem(File file) {
+    this.addItem(LoadScriptMenuItem.getRelativePath(file));
+  }
+
   public void addItem(String script) {
     if (maxMRU == 0) {
       return;
@@ -95,23 +99,26 @@ public class ScriptMRUList implements Listener {
     Preferences.setString(prefList, pref.toString());
   }
 
-  public File[] listAsFiles() {
+  public List<File> listAsFiles() {
     synchronized (this) {
-      if (mruList.isEmpty()) {
-        return new File[0];
-      }
-
       List<File> results = new ArrayList<>();
+
+      if (mruList.isEmpty()) {
+        return results;
+      }
 
       for (String fileName : mruList) {
         List<File> matches = KoLmafiaCLI.findScriptFile(fileName);
 
         if (matches.size() == 1) {
-          results.add(matches.get(0));
+          File match = matches.get(0);
+          if (!results.contains(match)) {
+            results.add(match);
+          }
         }
       }
 
-      return results.toArray(new File[0]);
+      return results;
     }
   }
 

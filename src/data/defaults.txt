@@ -64,8 +64,6 @@ global	https.proxyPort
 global	https.proxyUser
 global	initialDesktop	AdventureFrame,CommandDisplayFrame,MallSearchFrame,GearChangeFrame,SkillBuffFrame
 global	initialFrames	LocalRelayServer
-global	innerChatColor	#ffa98c
-global	innerTabColor	#8ca9ff
 global	itemManagerIndex	0
 global	lastBuffRequestType	0
 global	lastGlobalCounterDay	-1
@@ -100,8 +98,6 @@ global	macroDebug	false
 global	macroLens	false
 global	mementoListActive	false
 global	mergeHobopolisChat	false
-global	outerChatColor	#b4460f
-global	outerTabColor	#0f46b4
 global	previousNotifyList	<>
 global	previousUpdateVersion
 global	previousUpdateRevision	0
@@ -112,6 +108,7 @@ global	relayAddSounds	false
 global	relayAddsCustomCombat	true
 global	relayAddsDiscoHelper	false
 global	relayAddsGraphicalCLI	false
+global	relayAddsQuickScripts	false
 global	relayAddsRestoreLinks	true
 global	relayAddsUpArrowLinks	true
 global	relayAddsUseLinks	true
@@ -161,7 +158,6 @@ global	useDockIconBadge	false
 global	useHugglerChannel	false
 global	useImageCache	true
 global	useLastUserAgent	false
-global	useShinyTabbedChat	true
 global	useSystemTrayIcon	false
 global	useTabbedChatFrame	true
 global	useToolbars	true
@@ -729,6 +725,7 @@ user	hippiesDefeated	0
 user	holidayHalsBookAvailable	true
 user	holidayHalsBookCost	1000
 user	holidaySwagger	0
+user	homemadeRobotUpgrades	0
 user	homebodylCharges	0
 user	horseryAvailable	false
 user	hotAirportAlways	false
@@ -784,6 +781,7 @@ user	lastChanceThreshold	100
 user	lastChessboard
 user	lastChasmReset	-1
 user	lastColosseumRoundWon	0
+user	lastCombatEnvironments	xxxxxxxxxxxxxxxxxxxx
 user	lastCopyableMonster
 user	lastCouncilVisit	0
 user	lastCounterDay	-1
@@ -913,7 +911,26 @@ user	longConMonster
 user	louvreDesiredGoal	7
 user	louvreGoal	0
 user	louvreOverride
+user	lovebugsAridDesert	0
+user	lovebugsBeachBuck	0
+user	lovebugsBooze	0
+user	lovebugsChroner	0
+user	lovebugsCoinspiracy	0
+user	lovebugsCyrpt	0
+user	lovebugsFreddy	0
+user	lovebugsFunFunds	0
+user	lovebugsHoboNickel	0
+user	lovebugsItemDrop	0
+user	lovebugsMeat	0
+user	lovebugsMeatDrop	0
+user	lovebugsMoxie	0
+user	lovebugsMuscle	0
+user	lovebugsMysticality	0
+user	lovebugsOilPeak	0
+user	lovebugsOrcChasm	0
+user	lovebugsPowder	0
 user	lovebugsUnlocked	false
+user	lovebugsWalmart	0
 user	lovePotion	
 user	loveTunnelAvailable	false
 user	lowerChamberUnlock	false
@@ -1223,6 +1240,7 @@ user	schoolOfHardKnocksDiplomaCost	1000
 user	schoolSwagger	0
 user	scrapbookCharges	0
 user	screencappedMonster	
+user	scriptCascadingMenus	true
 user	scriptMRULength	0
 user	scriptMRUList
 user	seahorseName
@@ -1431,6 +1449,7 @@ user	valueOfInventory	1.8
 user	valueOfStill	0
 user	valueOfTome	0
 user	verboseMaximizer	false
+user	vintnerCharge	0
 user	vintnerWineEffect
 user	vintnerWineLevel	0
 user	vintnerWineName
@@ -1857,6 +1876,13 @@ user	_llamaCharge	0
 user	_locketMonstersFought
 user	_longConUsed	0
 user	_lookingGlass	false
+user	_lovebugsBeachBuck	0
+user	_lovebugsChroner	0
+user	_lovebugsCoinspiracy	0
+user	_lovebugsFreddy	0
+user	_lovebugsFunFunds	0
+user	_lovebugsHoboNickel	0
+user	_lovebugsWalmart	0
 user	_loveChocolatesUsed	0
 user	_loveTunnelUsed	false
 user	_luckyGoldRingVolcoino	false

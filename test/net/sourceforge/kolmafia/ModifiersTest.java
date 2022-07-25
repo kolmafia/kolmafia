@@ -161,31 +161,54 @@ public class ModifiersTest {
     assertEquals(-30, mod.get(Modifiers.COMBAT_RATE));
   }
 
-  @Test
-  void fixodeneConsideredInFamiliarModifiers() {
-    var cleanups = addEffect("Fidoxene");
+  @ParameterizedTest
+  @CsvSource({
+    FamiliarPool.HATRACK + ", " + Modifiers.HATDROP,
+    FamiliarPool.SCARECROW + ", " + Modifiers.PANTSDROP,
+  })
+  public void getsRightModifiersNakedHatrack(int famId, int mod) {
+    var cleanups = new Cleanups(setFamiliar(famId));
 
     try (cleanups) {
       Modifiers familiarMods = new Modifiers();
-      var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 0);
+      var fam = KoLCharacter.getFamiliar();
+      fam.setExperience(400);
+      familiarMods.applyFamiliarModifiers(fam, EquipmentRequest.UNEQUIP);
+      KoLCharacter.recalculateAdjustments();
 
-      familiarMods.applyFamiliarModifiers(familiar, null);
-
-      assertThat(familiarMods.get(Modifiers.ITEMDROP), closeTo(50.166, 0.001));
+      assertThat(fam.getModifiedWeight(), equalTo(1));
+      assertThat(familiarMods.get(mod), closeTo(50, 0.001));
     }
   }
 
-  @Test
-  void fixodeneConsideredInFamiliarModifiersNotExceedingTwenty() {
-    var cleanups = addEffect("Fidoxene");
+  @Nested
+  class Fixodene {
+    @Test
+    void fixodeneConsideredInFamiliarModifiers() {
+      var cleanups = addEffect("Fidoxene");
 
-    try (cleanups) {
-      Modifiers familiarMods = new Modifiers();
-      var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400);
+      try (cleanups) {
+        Modifiers familiarMods = new Modifiers();
+        var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 0);
 
-      familiarMods.applyFamiliarModifiers(familiar, null);
+        familiarMods.applyFamiliarModifiers(familiar, null);
 
-      assertThat(familiarMods.get(Modifiers.ITEMDROP), closeTo(50.166, 0.001));
+        assertThat(familiarMods.get(Modifiers.ITEMDROP), closeTo(50.166, 0.001));
+      }
+    }
+
+    @Test
+    void fixodeneConsideredInFamiliarModifiersNotExceedingTwenty() {
+      var cleanups = addEffect("Fidoxene");
+
+      try (cleanups) {
+        Modifiers familiarMods = new Modifiers();
+        var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400);
+
+        familiarMods.applyFamiliarModifiers(familiar, null);
+
+        assertThat(familiarMods.get(Modifiers.ITEMDROP), closeTo(50.166, 0.001));
+      }
     }
   }
 
@@ -723,6 +746,45 @@ public class ModifiersTest {
 
         // Verify the familiar is heavier
         assertEquals(25, familiar.getModifiedWeight());
+      }
+    }
+  }
+
+  @Nested
+  class Voter {
+    @BeforeAll
+    private static void beforeAll() {
+      Preferences.saveSettingsToFile = false;
+      Preferences.reset("voter");
+    }
+
+    @AfterAll
+    private static void afterAll() {
+      Preferences.saveSettingsToFile = true;
+    }
+
+    @Test
+    void canEvaluateExperienceModifiers() {
+      String setting = "Meat Drop: +30, Experience (familiar): +2, Experience (Muscle): +4";
+      String lookup = "Local Vote";
+
+      Modifiers mods = Modifiers.parseModifiers(lookup, setting);
+      assertEquals(30, mods.get(Modifiers.MEATDROP));
+      assertEquals(2, mods.get(Modifiers.FAMILIAR_EXP));
+      assertEquals(4, mods.get(Modifiers.MUS_EXPERIENCE));
+
+      Modifiers evaluated = Modifiers.evaluatedModifiers(lookup, setting);
+      assertEquals(30, evaluated.get(Modifiers.MEATDROP));
+      assertEquals(2, evaluated.get(Modifiers.FAMILIAR_EXP));
+      assertEquals(4, evaluated.get(Modifiers.MUS_EXPERIENCE));
+
+      var cleanups = new Cleanups(setProperty("_voteModifier", setting));
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertEquals(30, current.get(Modifiers.MEATDROP));
+        assertEquals(2, current.get(Modifiers.FAMILIAR_EXP));
+        assertEquals(4, current.get(Modifiers.MUS_EXPERIENCE));
       }
     }
   }

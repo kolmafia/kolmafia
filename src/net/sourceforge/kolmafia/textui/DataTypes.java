@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
+import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.TypeList;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -761,6 +762,7 @@ public class DataTypes {
   }
 
   public static final Value makeItemValue(final AdventureResult ar) {
+    if (ar == null) return DataTypes.ITEM_INIT;
     int num = ar.getItemId();
     String name = ItemDatabase.getItemDataName(num);
     return DataTypes.makeNormalizedItem(num, name);
@@ -918,6 +920,18 @@ public class DataTypes {
     }
 
     return new Value(DataTypes.MONSTER_TYPE, id, name, monster);
+  }
+
+  public static final Value makeStringArrayValue(final List<String> list) {
+    var length = list.size();
+    AggregateType type = new AggregateType(DataTypes.STRING_TYPE, length);
+    ArrayValue value = new ArrayValue(type);
+
+    for (int i = 0; i < length; ++i) {
+      value.aset(new Value(i), new Value(list.get(i)));
+    }
+
+    return value;
   }
 
   // Also supply:

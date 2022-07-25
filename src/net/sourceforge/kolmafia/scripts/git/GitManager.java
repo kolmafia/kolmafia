@@ -2,11 +2,14 @@ package net.sourceforge.kolmafia.scripts.git;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -21,10 +24,16 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.lib.BranchTrackingStatus;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.eclipse.jgit.treewalk.filter.PathFilter;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
 
@@ -33,11 +42,12 @@ public class GitManager extends ScriptManager {
   /*
    * Like SVNManager, but for Git.
    *
-   * Scripts with folders as in ScriptManager.permissibles have those folder copied to local.
+   * Scripts with folders as in ScriptManager.permissibles have those folders copied to local.
    * Additional scripts in a "dependencies.txt" file are downloaded.
-   *
-   * Local changes are not currently supported.
    */
+
+  protected static final String MANIFEST = "manifest.json";
+  protected static final String MANIFEST_ROOTDIR = "root_directory";
 
   public static void clone(String repoUrl) {
     clone(repoUrl, null);
@@ -62,32 +72,16 @@ public class GitManager extends ScriptManager {
       git.setBranch(branch).setBranchesToClone(List.of("refs/heads/" + branch));
     }
     try (var ignored = git.call()) {
-      var toAdd = getPermissibleFiles(projectPath, false);
-      for (var absPath : toAdd) {
-        try {
-          copyPath(projectPath, absPath);
-        } catch (IOException e) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to clone project " + id + ": " + e);
-          return;
-        }
-      }
+      sync(projectPath);
     } catch (InvalidRemoteException e) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Could not find project at " + repoUrl + ": " + e);
       return;
     } catch (GitAPIException e) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Could not download project " + repoUrl + ": " + e);
       return;
-    } catch (IOException e) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to clone project " + repoUrl + ": " + e);
-      return;
     }
 
     KoLmafia.updateDisplay("Cloned project " + id);
-    Path deps = projectPath.resolve(DEPENDENCIES);
-    if (Files.exists(deps)) {
-      KoLmafia.updateDisplay("Installing dependencies");
-      installDependencies(deps);
-    }
   }
 
   /** Update all installed projects. */
@@ -113,6 +107,7 @@ public class GitManager extends ScriptManager {
     }
     var folder = folderOpt.get();
     Path projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(folder);
+    var oldRoot = getRoot(projectPath);
     Git git;
     try {
       git = Git.open(projectPath.toFile());
@@ -140,6 +135,13 @@ public class GitManager extends ScriptManager {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to update project " + folder + ": " + e);
         return;
       }
+      var newRoot = getRoot(projectPath);
+
+      if (!oldRoot.equals(newRoot)) {
+        // the root directory has changed. Figuring out the diff is too hard, just sync
+        sync(projectPath);
+        return;
+      }
 
       try {
         incomingTree = getCurrentCommitTree(repo);
@@ -151,12 +153,14 @@ public class GitManager extends ScriptManager {
 
       List<DiffEntry> diffs;
       try {
-        diffs =
-            git.diff()
-                .setOldTree(currTree)
-                .setNewTree(incomingTree)
-                .setShowNameAndStatusOnly(true)
-                .call();
+        var cmd =
+            git.diff().setOldTree(currTree).setNewTree(incomingTree).setShowNameAndStatusOnly(true);
+        if (!projectPath.equals(newRoot)) {
+          var relFilter = projectPath.relativize(newRoot);
+          var filter = PathFilter.create(relFilter.toString().replace(File.separatorChar, '/'));
+          cmd = cmd.setPathFilter(filter);
+        }
+        diffs = cmd.call();
       } catch (GitAPIException e) {
         KoLmafia.updateDisplay(
             MafiaState.ERROR, "Failed to diff incoming changes for project " + folder + ": " + e);
@@ -166,12 +170,16 @@ public class GitManager extends ScriptManager {
       boolean checkDependencies = false;
 
       for (var diff : diffs) {
+        var oldDiffPath = diff.getOldPath();
+        var oldRelPath = oldRoot.relativize(projectPath.resolve(oldDiffPath));
+        var newDiffPath = diff.getNewPath();
+        var newRelPath = newRoot.relativize(projectPath.resolve(newDiffPath));
         switch (diff.getChangeType()) {
-          case ADD, MODIFY, COPY -> addNewFile(projectPath, diff);
-          case DELETE -> deleteOldFile(diff);
+          case ADD, MODIFY, COPY -> addNewFile(newRoot, newRelPath);
+          case DELETE -> deleteOldFile(oldRelPath);
           case RENAME -> {
-            deleteOldFile(diff);
-            addNewFile(projectPath, diff);
+            deleteOldFile(oldRelPath);
+            addNewFile(newRoot, newRelPath);
           }
         }
 
@@ -181,14 +189,13 @@ public class GitManager extends ScriptManager {
       }
 
       if (checkDependencies) {
-        installDependencies(projectPath.resolve(DEPENDENCIES));
+        installDependencies(newRoot.resolve(DEPENDENCIES));
       }
     }
   }
 
   /** Delete a newly removed file in the correct permissible folder. */
-  private static void deleteOldFile(DiffEntry diff) {
-    var path = diff.getOldPath();
+  private static void deleteOldFile(Path path) {
     if (isPermissibleFile(path)) {
       try {
         var rootPath = KoLConstants.ROOT_LOCATION.toPath();
@@ -202,11 +209,10 @@ public class GitManager extends ScriptManager {
   }
 
   /** Create or replace a newly added file in the correct permissible folder. */
-  private static void addNewFile(Path projectPath, DiffEntry diff) {
-    var path = diff.getNewPath();
+  private static void addNewFile(Path projectPath, Path path) {
     if (isPermissibleFile(path)) {
       try {
-        copyPath(projectPath, projectPath.resolve(path));
+        copyPath(projectPath.resolve(path), path);
       } catch (IOException e) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to add file " + path + ": " + e);
       }
@@ -224,7 +230,6 @@ public class GitManager extends ScriptManager {
   /** Return all installed git projects */
   public static List<String> listAll() {
     var files = allFolders();
-    if (files == null) return List.of();
     return List.of(files);
   }
 
@@ -243,17 +248,18 @@ public class GitManager extends ScriptManager {
     }
     var folder = folderOpt.get();
     var projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(folder);
+    var root = getRoot(projectPath);
     KoLmafia.updateDisplay("Removing project " + folder);
     List<Path> toDelete;
     try {
-      toDelete = getPermissibleFiles(projectPath, true);
+      toDelete = getPermissibleFiles(root, true);
     } catch (IOException e) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to remove project " + folder + ": " + e);
       return;
     }
     var errored = false;
     for (var absPath : toDelete) {
-      var shortPath = projectPath.relativize(absPath);
+      var shortPath = root.relativize(absPath);
       var relPath = KoLConstants.ROOT_LOCATION.toPath().resolve(shortPath);
       try {
         Files.deleteIfExists(relPath);
@@ -301,7 +307,6 @@ public class GitManager extends ScriptManager {
   /** Copy files from all installed git projects to permissible folders. */
   public static void syncAll() {
     var files = allFolders();
-    if (files == null) return;
     for (var file : files) {
       sync(file);
     }
@@ -316,24 +321,115 @@ public class GitManager extends ScriptManager {
     }
     var folder = folderOpt.get();
     Path projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(folder);
+    sync(projectPath);
+  }
+
+  private static void sync(Path projectPath) {
+    var folder = KoLConstants.GIT_LOCATION.toPath().relativize(projectPath);
+    var root = getRoot(projectPath);
     List<Path> toAdd;
     try {
-      toAdd = getPermissibleFiles(projectPath, false);
+      toAdd = getPermissibleFiles(root, false);
     } catch (IOException e) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to sync project " + folder + ": " + e);
       return;
     }
     for (var absPath : toAdd) {
       try {
-        copyPath(projectPath, absPath);
+        var toRel = root.relativize(absPath);
+        copyPath(absPath, toRel);
       } catch (IOException e) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to sync project " + folder + ": " + e);
         return;
       }
     }
-    var deps = projectPath.resolve(DEPENDENCIES);
+    var deps = root.resolve(DEPENDENCIES);
     if (Files.exists(deps)) {
+      KoLmafia.updateDisplay("Installing dependencies");
       installDependencies(deps);
+    }
+  }
+
+  public record GitInfo(
+      String url,
+      String branch,
+      String commit,
+      String lastChangedAuthor,
+      ZonedDateTime lastChangedDate) {}
+
+  /** Get info from specific project */
+  public static Optional<GitInfo> getInfo(String project) {
+    var folderOpt = getRequiredProject(project);
+    if (folderOpt.isEmpty()) {
+      return Optional.empty();
+    }
+    var folder = folderOpt.get();
+    Path projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(folder);
+    Git git;
+    try {
+      git = Git.open(projectPath.toFile());
+    } catch (IOException e) {
+      return Optional.empty();
+    }
+
+    try (git) {
+      var repo = git.getRepository();
+      var config = repo.getConfig();
+      var url = config.getString("remote", "origin", "url");
+      var branch = repo.getBranch();
+
+      var lastCommitId = repo.resolve("HEAD");
+      var rw = new RevWalk(repo);
+      var commit = rw.parseCommit(lastCommitId);
+      var author = commit.getAuthorIdent();
+      var datetime =
+          ZonedDateTime.ofInstant(
+              Instant.ofEpochSecond(commit.getCommitTime()), author.getZoneId());
+
+      return Optional.of(
+          new GitInfo(
+              url,
+              branch,
+              ObjectId.toString(lastCommitId),
+              author.getName() + " <" + author.getEmailAddress() + ">",
+              datetime));
+    } catch (IOException e) {
+      // all or nothing
+      return Optional.empty();
+    }
+  }
+
+  /** Return whether project is a valid git repo */
+  public static boolean isValidRepo(String project) {
+    var projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(project);
+    if (!Files.isDirectory(projectPath)) return false;
+    try {
+      var git = Git.open(projectPath.toFile());
+      git.close();
+    } catch (IOException e) {
+      return false;
+    }
+    return true;
+  }
+
+  /** Return whether project is up-to-date with remote */
+  public static boolean isUpToDate(String project) {
+    var projectPath = KoLConstants.GIT_LOCATION.toPath().resolve(project);
+    Git git;
+    try {
+      git = Git.open(projectPath.toFile());
+    } catch (IOException e) {
+      return false;
+    }
+
+    try (git) {
+      var repo = git.getRepository();
+      var branch = repo.getBranch();
+      var bts = BranchTrackingStatus.of(repo, branch);
+      var behind = bts.getBehindCount();
+      return behind == 0;
+    } catch (IOException e) {
+      return false;
     }
   }
 
@@ -357,12 +453,11 @@ public class GitManager extends ScriptManager {
     return files;
   }
 
-  private static boolean isPermissibleFile(String path) {
-    return permissibles.stream().anyMatch(p -> path.startsWith(p + "/"));
+  private static boolean isPermissibleFile(Path path) {
+    return permissibles.stream().anyMatch(path::startsWith);
   }
 
-  private static void copyPath(Path projectPath, Path absPath) throws IOException {
-    var shortPath = projectPath.relativize(absPath);
+  private static void copyPath(Path absPath, Path shortPath) throws IOException {
     var rootPath = KoLConstants.ROOT_LOCATION.toPath();
     var relPath = rootPath.resolve(shortPath);
     if (!Files.isDirectory(relPath)) {
@@ -391,7 +486,9 @@ public class GitManager extends ScriptManager {
   }
 
   private static String[] allFolders() {
-    return KoLConstants.GIT_LOCATION.list();
+    var folders = KoLConstants.GIT_LOCATION.list();
+    if (folders == null) return new String[0];
+    return folders;
   }
 
   private static Optional<String> getRequiredProject(String project) {
@@ -434,6 +531,29 @@ public class GitManager extends ScriptManager {
         }
       }
     }
+  }
+
+  private static Optional<JSONObject> readManifest(Path manifest) {
+    if (!Files.exists(manifest)) return Optional.empty();
+
+    JSONObject json;
+    try {
+      json = new JSONObject(Files.readString(manifest));
+    } catch (IOException | JSONException e) {
+      return Optional.empty();
+    }
+    return Optional.of(json);
+  }
+
+  private static Path getRoot(Path projectPath) {
+    var json = readManifest(projectPath.resolve(MANIFEST));
+    if (json.isEmpty()) return projectPath;
+    var manifest = json.get();
+    var root = manifest.optString(MANIFEST_ROOTDIR, "");
+    if (root.length() == 0) return projectPath;
+    // deny absolute paths or folder escapes
+    if (root.startsWith("/") || root.startsWith("\\") || root.contains("..")) return projectPath;
+    return projectPath.resolve(root);
   }
 
   private static class MafiaProgressMonitor implements ProgressMonitor {

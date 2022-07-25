@@ -24,9 +24,13 @@ public class ColorChooser extends JLabel implements MouseListener {
       return;
     }
 
-    Preferences.setString(this.property, DataUtilities.toHexString(c));
+    this.updatePref(this.property, DataUtilities.toHexString(c));
     this.setBackground(c);
     this.applyChanges();
+  }
+
+  public void updatePref(String property, String hexString) {
+    Preferences.setString(property, hexString);
   }
 
   @Override
