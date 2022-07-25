@@ -214,6 +214,10 @@ public class BasementRequest extends AdventureRequest {
     return BasementRequest.basementLevel;
   }
 
+  public static void setBasementLevel(final int level) {
+    BasementRequest.basementLevel = level;
+  }
+
   public static final String getBasementLevelName() {
     return "Fernswarthy's Basement (Level " + BasementRequest.basementLevel + ")";
   }

@@ -9,6 +9,8 @@ import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.hasToString;
 
 import internal.helpers.Cleanups;
@@ -69,6 +71,18 @@ class DailyLimitDatabaseTest {
     }
 
     @Test
+    void canParseComplicatedExpression() {
+      var limit =
+          new DailyLimitDatabase.DailyLimit(
+              DailyLimitType.CAST,
+              "_somePref",
+              "[pref(a)*path(The Source)*fam(Mosquito)]",
+              1,
+              null);
+      assertThat(limit.getMax(), greaterThanOrEqualTo(0));
+    }
+
+    @Test
     void canGetUsesRemaining() {
       Preferences.setBoolean("_floundryItemUsed", true);
       var limit = DailyLimitType.USE.getDailyLimit(ItemPool.FISH_HATCHET);
@@ -82,6 +96,22 @@ class DailyLimitDatabaseTest {
       var limit = DailyLimitType.CAST.getDailyLimit(SkillPool.FEEL_DISAPPOINTED);
 
       assertThat(limit.getUsesRemaining(), equalTo(2));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      SkillPool.INVISIBLE_AVATAR + ", 14",
+      SkillPool.SHRINK_ENEMY + ", 14",
+      SkillPool.TRIPLE_SIZE + ", 14",
+      SkillPool.REPLACE_ENEMY + ", 7",
+    })
+    void canGetUsesRemainingForPowerfulGloveSkills(int skillId, int remaining) {
+      var cleanups = new Cleanups(setProperty("_powerfulGloveBatteryPowerUsed", 30));
+
+      try (cleanups) {
+        var limit = DailyLimitType.CAST.getDailyLimit(skillId);
+        assertThat(limit.getUsesRemaining(), equalTo(remaining));
+      }
     }
 
     @ParameterizedTest
@@ -232,12 +262,13 @@ class DailyLimitDatabaseTest {
     assertErrorState();
   }
 
-  @Test
-  void invalidMax() {
+  @ParameterizedTest
+  @ValueSource(strings = {"invalid", "[onlystart", "onlyend]"})
+  void invalidMax(String maxString) {
     var outputStream = new ByteArrayOutputStream();
     RequestLogger.openCustom(new PrintStream(outputStream));
 
-    var contents = "Cast\tVisit Your Favorite Bird\t_favoriteBirdVisited\tinvalid\n";
+    var contents = "Cast\tVisit Your Favorite Bird\t_favoriteBirdVisited\t" + maxString + "\n";
     var reader = new BufferedReader(new StringReader(contents));
 
     try (var mock = Mockito.mockStatic(FileUtilities.class, Mockito.CALLS_REAL_METHODS)) {
@@ -276,5 +307,21 @@ class DailyLimitDatabaseTest {
 
     assertThat(outputStream, hasToString(containsString("invalid max")));
     assertErrorState();
+  }
+
+  @Test
+  void skipsInvalidLine() {
+    var contents = "Cast\n";
+    var reader = new BufferedReader(new StringReader(contents));
+
+    try (var mock = Mockito.mockStatic(FileUtilities.class, Mockito.CALLS_REAL_METHODS)) {
+      mock.when(
+              () ->
+                  FileUtilities.getVersionedReader(
+                      "dailylimits.txt", KoLConstants.DAILYLIMITS_VERSION))
+          .thenReturn(reader);
+      DailyLimitDatabase.reset();
+      assertThat(DailyLimitDatabase.allDailyLimits, hasSize(0));
+    }
   }
 }

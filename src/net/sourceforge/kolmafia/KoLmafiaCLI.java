@@ -576,6 +576,7 @@ public class KoLmafiaCLI {
     new CliRefCommand().register("help").register("which");
     new ClosetCommand().register("closet");
     new CoinmasterCommand().register("coinmaster");
+    new ColdMedicineCabinetCommand().register("cmc");
     new ColorEchoCommand().register("colorecho").register("cecho");
     new ComparisonShopCommand().register("cheapest").register("expensive");
     new CompleteQuestCommand()

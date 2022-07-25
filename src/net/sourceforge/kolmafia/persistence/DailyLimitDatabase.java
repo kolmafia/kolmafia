@@ -3,17 +3,19 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import net.sourceforge.kolmafia.Expression;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierExpression;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -73,11 +75,6 @@ public class DailyLimitDatabase {
       this.max = max;
       this.id = id;
       this.subType = subType;
-
-      // Add to map of all limits
-      allDailyLimits.add(this);
-      // Add to map of limits of this type
-      type.addDailyLimit(this);
     }
 
     public DailyLimitType getType() {
@@ -132,8 +129,9 @@ public class DailyLimitDatabase {
 
       if (this.max.startsWith("[") && this.max.endsWith("]")) {
         String exprString = this.max.substring(1, this.max.length() - 1);
-        Expression expr =
-            new Expression(exprString, "daily limit for " + this.getType() + " " + this.getName());
+        var expr =
+            new ModifierExpression(
+                exprString, "daily limit for " + this.getType() + " " + this.getName());
         if (!expr.hasErrors()) {
           return (int) expr.eval();
         }
@@ -143,7 +141,14 @@ public class DailyLimitDatabase {
     }
 
     public int getUsesRemaining() {
-      return Math.max(0, getMax() - getUses());
+      double divisor =
+          switch (this.id) {
+            case SkillPool.INVISIBLE_AVATAR, SkillPool.SHRINK_ENEMY, SkillPool.TRIPLE_SIZE -> 5;
+            case SkillPool.REPLACE_ENEMY -> 10;
+            default -> 1;
+          };
+
+      return (int) Math.floor(Math.max(0, getMax() - getUses()) / divisor);
     }
 
     public boolean hasUsesRemaining() {
@@ -206,6 +211,9 @@ public class DailyLimitDatabase {
   }
 
   public static void reset() {
+    allDailyLimits.clear();
+    Arrays.stream(DailyLimitType.values()).forEach(t -> t.dailyLimits.clear());
+
     boolean error = false;
 
     try (BufferedReader reader =
@@ -225,6 +233,11 @@ public class DailyLimitDatabase {
           } else if (dailyLimit.getMax() < 0) {
             RequestLogger.printLine("Daily Limit: " + data[0] + " " + data[1] + " has invalid max");
             error = true;
+          } else {
+            // Add to map of all limits
+            allDailyLimits.add(dailyLimit);
+            // Add to map of limits of this type
+            type.addDailyLimit(dailyLimit);
           }
         }
       }

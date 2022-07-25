@@ -247,7 +247,9 @@ public class DataTypes {
 
   public static final Value parseIntValue(final String name, final boolean returnDefault) {
     try {
-      return new Value(StringUtilities.parseLong(name));
+      return name.equals("false")
+          ? ZERO_VALUE
+          : name.equals("true") ? ONE_VALUE : new Value(StringUtilities.parseLong(name));
     } catch (NumberFormatException e) {
       return returnDefault ? DataTypes.ZERO_VALUE : null;
     }
@@ -762,6 +764,7 @@ public class DataTypes {
   }
 
   public static final Value makeItemValue(final AdventureResult ar) {
+    if (ar == null) return DataTypes.ITEM_INIT;
     int num = ar.getItemId();
     String name = ItemDatabase.getItemDataName(num);
     return DataTypes.makeNormalizedItem(num, name);

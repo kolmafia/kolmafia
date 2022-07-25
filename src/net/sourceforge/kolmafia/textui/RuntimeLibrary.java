@@ -148,6 +148,7 @@ import net.sourceforge.kolmafia.session.UnusualConstructManager;
 import net.sourceforge.kolmafia.session.VotingBoothManager;
 import net.sourceforge.kolmafia.swingui.widget.InterruptableDialog;
 import net.sourceforge.kolmafia.textui.AshRuntime.CallFrame;
+import net.sourceforge.kolmafia.textui.command.ColdMedicineCabinetCommand;
 import net.sourceforge.kolmafia.textui.command.ConditionalStatement;
 import net.sourceforge.kolmafia.textui.command.EudoraCommand;
 import net.sourceforge.kolmafia.textui.command.SetPreferencesCommand;
@@ -2672,6 +2673,11 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.INT_TYPE};
     functions.add(new LibraryFunction("pick_pocket", DataTypes.BOOLEAN_TYPE, params));
+
+    // Cold Medicine Cabinet support
+    params = new Type[] {};
+    functions.add(
+        new LibraryFunction("expected_cold_medicine_cabinet_pill", DataTypes.ITEM_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -9626,5 +9632,10 @@ public abstract class RuntimeLibrary {
       }
     }
     return value;
+  }
+
+  public static Value expected_cold_medicine_cabinet_pill(ScriptRuntime controller) {
+    var nextPill = ColdMedicineCabinetCommand.nextPill();
+    return DataTypes.makeItemValue(nextPill);
   }
 }
