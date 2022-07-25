@@ -1167,13 +1167,6 @@ public class Preferences {
     }
   }
 
-  public static void resetPerRollover() {
-    // Some preferences are only reset on rollover
-    for (String pref : onlyResetOnRollover) {
-      resetToDefault(pref);
-    }
-  }
-
   public static void resetDailies() {
     // See Collections.synchronizedSortedMap
     //
