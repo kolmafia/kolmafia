@@ -323,7 +323,8 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
               setWorkshed(ItemPool.COLD_MEDICINE_CABINET),
               withTurnsPlayed(5),
               setProperty("_coldMedicineConsults", 2),
-              withContinuationState());
+              withContinuationState(),
+              withHandlingChoice(false));
 
       try (cleanups) {
         execute(command);

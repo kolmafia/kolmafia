@@ -438,6 +438,12 @@ public class Player {
     return new Cleanups(() -> ChoiceManager.handlingChoice = old);
   }
 
+  public static Cleanups withHandlingChoice(final boolean handlingChoice) {
+    var old = ChoiceManager.handlingChoice;
+    ChoiceManager.handlingChoice = handlingChoice;
+    return new Cleanups(() -> ChoiceManager.handlingChoice = old);
+  }
+
   public static Cleanups withItemMonster(final String itemMonster) {
     var old = GenericRequest.itemMonster;
     GenericRequest.itemMonster = itemMonster;
