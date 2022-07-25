@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -24,6 +26,9 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
 
   private static final AdventureResult COLD_MEDICINE_CABINET =
       ItemPool.get(ItemPool.COLD_MEDICINE_CABINET);
+
+  public static final List<String> ITEM_TYPES =
+      List.of("equipment", "food", "booze", "potion", "pill");
 
   private static final Map<Character, AdventureResult> PILLS =
       Map.ofEntries(
@@ -123,41 +128,39 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
 
   private static final Pattern ITEM_PATTERN = Pattern.compile("descitem\\((\\d+)\\)");
 
-  private static StringBuilder visitCabinet() {
+  private static SortedMap<String, AdventureResult> visitCabinet() {
     var request = new CampgroundRequest("workshed");
     RequestThread.postRequest(request);
     String response = request.responseText;
-    var matcher = ITEM_PATTERN.matcher(response);
 
-    var output = new StringBuilder();
+    var matches =
+        ITEM_PATTERN
+            .matcher(response)
+            .results()
+            .map(r -> ItemPool.get(ItemDatabase.getItemIdFromDescription(r.group(1))))
+            .toList();
 
-    if (!matcher.find()) return output;
-    output
-        .append("Your next equipment is ")
-        .append(ItemDatabase.getItemName(matcher.group(1)))
-        .append("\n");
-    if (!matcher.find()) return output;
-    output
-        .append("Your next food is ")
-        .append(ItemDatabase.getItemName(matcher.group(1)))
-        .append("\n");
-    if (!matcher.find()) return output;
-    output
-        .append("Your next booze is ")
-        .append(ItemDatabase.getItemName(matcher.group(1)))
-        .append("\n");
-    if (!matcher.find()) return output;
-    output
-        .append("Your next potion is ")
-        .append(ItemDatabase.getItemName(matcher.group(1)))
-        .append("\n");
-    if (!matcher.find()) return output;
-    output
-        .append("Your next pill is ")
-        .append(ItemDatabase.getItemName(matcher.group(1)))
-        .append("\n");
+    if (matches.size() < 5) {
+      return null;
+    }
 
-    return output;
+    var map = new TreeMap<String, AdventureResult>();
+    map.put("equipment", matches.get(0));
+    map.put("food", matches.get(1));
+    map.put("booze", matches.get(2));
+    map.put("potion", matches.get(3));
+    map.put("pill", matches.get(4));
+    return map;
+  }
+
+  private static SortedMap<String, AdventureResult> guessCabinet() {
+    var map = new TreeMap<String, AdventureResult>();
+    map.put("equipment", guessNextEquipment());
+    map.put("food", null);
+    map.put("booze", guessNextWine());
+    map.put("potion", null);
+    map.put("pill", guessNextPill());
+    return map;
   }
 
   private static int getTurnsToNextConsult() {
@@ -169,16 +172,32 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
     return Preferences.getInteger("_coldMedicineConsults");
   }
 
-  public static void status() {
+  private static StringBuilder formatItemList(
+      final Map<String, AdventureResult> items, final boolean guessing) {
     var output = new StringBuilder();
 
+    for (var e : items.entrySet()) {
+      var type = e.getKey();
+      var item = e.getValue();
+      output.append("Your next ").append(type);
+      if (item == null) {
+        output.append(" is ").append(type.equals("pill") ? "unknown" : "not guessed yet");
+      } else {
+        output.append(guessing ? " should be " : " is ").append(item.getName());
+      }
+
+      output.append("\n");
+    }
+
+    return output;
+  }
+
+  public static Map.Entry<Boolean, StringBuilder> shouldGuess() {
     var consults = getConsultsUsed();
-
-    output.append(consults).append("/5 consults used today.\n");
-
     var turnsToNextConsult = getTurnsToNextConsult();
 
     boolean guessing = true;
+    var output = new StringBuilder();
 
     if (consults < 5) {
       if (turnsToNextConsult > 0) {
@@ -191,20 +210,40 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
         } else {
           output.append("!");
         }
-        output.append("\n");
       }
     }
 
+    return Map.entry(guessing, output);
+  }
+
+  public static SortedMap<String, AdventureResult> getCabinet() {
+    var guessing = shouldGuess();
+    return getCabinet(guessing.getKey());
+  }
+
+  public static SortedMap<String, AdventureResult> getCabinet(final boolean guessing) {
+    return guessing ? guessCabinet() : visitCabinet();
+  }
+
+  public static void status() {
+    var output = new StringBuilder();
+
+    var consults = getConsultsUsed();
+
+    output.append(consults).append("/5 consults used today.\n");
+
     output.append("\n");
 
-    if (guessing) {
-      output.append("Your next equipment should be ").append(guessNextEquipment()).append("\n");
-      output.append("Your next food is not guessed yet\n");
-      output.append("Your next booze should be ").append(guessNextWine()).append("\n");
-      output.append("Your next potion is not guessed yet\n");
-      output.append("Your next pill should be ").append(guessNextPillString()).append("\n");
+    var g = shouldGuess();
+    output.append(g.getValue()).append("\n");
+    var guessing = g.getKey();
+    var cabinet = getCabinet(guessing);
+
+    if (cabinet == null) {
+      KoLmafia.updateDisplay(
+          KoLConstants.MafiaState.ERROR, "Cold Medicine Cabinet choice could not be parsed.");
     } else {
-      output.append(visitCabinet());
+      output.append(formatItemList(cabinet, guessing));
     }
 
     RequestLogger.printLine(output.toString());

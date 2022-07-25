@@ -17,6 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.startsWith;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
@@ -206,7 +207,9 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
         try (cleanups) {
           String output = execute("");
 
-          assertThat(output, containsString("Your next pill should be " + pill));
+          var guess =
+              "Your next pill " + (pill.equals("unknown") ? "is unknown" : "should be " + pill);
+          assertThat(output, containsString(guess));
           assertContinueState();
         }
       }
@@ -253,7 +256,25 @@ public class ColdMedicineCabinetCommandTest extends AbstractCommandTestBase {
         assertThat(output, containsString("Your next food is frozen tofu pop\n"));
         assertThat(output, containsString("Your next booze is Doc's Fortifying Wine\n"));
         assertThat(output, containsString("Your next potion is anti-odor cream\n"));
-        assertThat(output, containsString("Your next pill is Breathitin™\n"));
+        assertThat(output, containsString("Your next pill is Breathitin&trade;\n"));
+      }
+    }
+
+    @Test
+    void canHandleBogusCabinetResponse() {
+      var cleanups =
+          new Cleanups(
+              setupFakeResponse(200, "unknown"),
+              setProperty("_nextColdMedicineConsult", 0),
+              setWorkshed(ItemPool.COLD_MEDICINE_CABINET),
+              withTurnsPlayed(1),
+              withContinuationState());
+
+      try (cleanups) {
+        String output = execute("");
+
+        assertThat(output, startsWith("Cold Medicine Cabinet choice could not be parsed.\n"));
+        assertErrorState();
       }
     }
   }
