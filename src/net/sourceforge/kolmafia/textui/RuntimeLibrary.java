@@ -5235,7 +5235,7 @@ public abstract class RuntimeLibrary {
     // check parameters and return false if problems
     if (item == null) return DataTypes.FALSE_VALUE;
     if (itemID < 1) return DataTypes.FALSE_VALUE;
-    if (checkQuant < 6) return DataTypes.FALSE_VALUE;
+    if (checkQuant < 1) return DataTypes.FALSE_VALUE;
     if (checkPrice < (2L * ItemDatabase.getPriceById(itemID))) return DataTypes.FALSE_VALUE;
     // get some data
     MallSearchRequest msr = new MallSearchRequest(item, 20);
@@ -5248,11 +5248,12 @@ public abstract class RuntimeLibrary {
       if (pr instanceof MallPurchaseRequest) {
         // get price and bail if higher
         int storePrice = pr.getPrice();
-        if (storePrice > checkPrice) return new Value(available >= checkQuant);
+        if (storePrice > checkPrice) return DataTypes.FALSE_VALUE;
         // get available
         int canGet = Math.min(pr.getLimit(), pr.getQuantity());
         available += canGet;
-        if (available >= checkQuant) return DataTypes.TRUE_VALUE;
+        if (available >= MallPriceManager.NTH_CHEAPEST_COUNT && available >= checkQuant)
+          return DataTypes.TRUE_VALUE;
       }
     }
     // if we get here we have failed to find enough stock
