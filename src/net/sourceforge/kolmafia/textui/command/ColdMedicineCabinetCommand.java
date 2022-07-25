@@ -81,11 +81,6 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
     return PILLS.get('x');
   }
 
-  private static String guessNextPillString() {
-    var nextPill = guessNextPill();
-    return nextPill == null ? "unknown" : nextPill.toString();
-  }
-
   private static final Map<KoLConstants.Stat, AdventureResult> STAT_WINES =
       Map.ofEntries(
           Map.entry(KoLConstants.Stat.MUSCLE, ItemPool.get("Doc's Fortifying Wine", 1)),
