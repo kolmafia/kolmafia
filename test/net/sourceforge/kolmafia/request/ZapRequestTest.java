@@ -1,10 +1,10 @@
 package net.sourceforge.kolmafia.request;
 
-import static internal.helpers.Player.addItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.Player;
 import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -27,7 +27,7 @@ public class ZapRequestTest {
     zapRequest = new ZapRequest(bacon);
     assertNotNull(zapRequest);
     // get a wand so can zap
-    addItem("pine wand");
+    Player.withItem("pine wand");
     zapRequest = new ZapRequest(accord);
     assertNotNull(zapRequest);
     zapRequest = new ZapRequest(bacon);
@@ -38,8 +38,8 @@ public class ZapRequestTest {
   public void itShouldHaveOtherZapData() {
     // Zap baconstone with wand. both in inventory
     AdventureResult bacon = ItemPool.get(ItemPool.BACONSTONE);
-    addItem("pine wand");
-    addItem("baconstone");
+    Player.withItem("pine wand");
+    Player.withItem("baconstone");
     LockableListModel<AdventureResult> items = ZapRequest.getZappableItems();
     assertThat(items, hasItem(bacon));
     List<String> zapGroup = ZapRequest.getZapGroup(ItemPool.BACONSTONE);
@@ -53,8 +53,8 @@ public class ZapRequestTest {
   @Test
   public void shouldTrimZappableItemsIfRequested() {
     Preferences.setBoolean("relayTrimsZapList", true);
-    addItem("baconstone");
-    addItem("hermit permit");
+    Player.withItem("baconstone");
+    Player.withItem("hermit permit");
     AdventureResult baconstone = ItemPool.get(ItemPool.BACONSTONE);
     assertThat(ZapRequest.getZappableItems(), hasItem(baconstone));
   }

@@ -3,8 +3,7 @@ package net.sourceforge.kolmafia.textui.command;
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
-import static internal.helpers.Player.canUse;
-import static internal.helpers.Player.equip;
+import static internal.helpers.Player.withEquippableItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
@@ -12,6 +11,7 @@ import static org.hamcrest.Matchers.hasSize;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import internal.helpers.Player;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -42,7 +42,7 @@ class RetroCapeCommandTest extends AbstractCommandTestBase {
 
   @Test
   void equipsItemIfNecessary() {
-    var cleanups = new Cleanups(canUse("unwrapped knock-off retro superhero cape"));
+    var cleanups = new Cleanups(withEquippableItem("unwrapped knock-off retro superhero cape"));
 
     try (cleanups) {
       execute("robot kiss");
@@ -62,7 +62,9 @@ class RetroCapeCommandTest extends AbstractCommandTestBase {
   })
   void configuresJustSuperhero(String superhero, int decision) {
     var cleanups =
-        new Cleanups(equip(EquipmentManager.CONTAINER, "unwrapped knock-off retro superhero cape"));
+        new Cleanups(
+            Player.withEquipped(
+                EquipmentManager.CONTAINER, "unwrapped knock-off retro superhero cape"));
 
     try (cleanups) {
       String output = execute(superhero);
@@ -82,7 +84,9 @@ class RetroCapeCommandTest extends AbstractCommandTestBase {
   })
   void configuresJustWashingInstruction(String instruction, int decision) {
     var cleanups =
-        new Cleanups(equip(EquipmentManager.CONTAINER, "unwrapped knock-off retro superhero cape"));
+        new Cleanups(
+            Player.withEquipped(
+                EquipmentManager.CONTAINER, "unwrapped knock-off retro superhero cape"));
 
     try (cleanups) {
       String output = execute(instruction);
@@ -102,7 +106,9 @@ class RetroCapeCommandTest extends AbstractCommandTestBase {
   })
   void configuresBothModes(String mode, int decision1, int decision2) {
     var cleanups =
-        new Cleanups(equip(EquipmentManager.CONTAINER, "unwrapped knock-off retro superhero cape"));
+        new Cleanups(
+            Player.withEquipped(
+                EquipmentManager.CONTAINER, "unwrapped knock-off retro superhero cape"));
 
     try (cleanups) {
       String output = execute(mode);

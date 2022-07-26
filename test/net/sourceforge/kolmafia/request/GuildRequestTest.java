@@ -99,7 +99,7 @@ public class GuildRequestTest {
     // Requesting: choice.php?forceoption=0
     // Requesting: choice.php?pwd&whichchoice=930&option=1
 
-    var cleanups = Player.setProperty("questG02Whitecastle", "unstarted");
+    var cleanups = Player.withProperty("questG02Whitecastle", "unstarted");
 
     try (cleanups) {
       // talk with "ocg"
@@ -135,7 +135,7 @@ public class GuildRequestTest {
     // Field: location = [choice.php?forceoption=0]
     // Requesting: choice.php?forceoption=0
 
-    var cleanups = Player.addItem(ItemPool.CITADEL_SATCHEL);
+    var cleanups = Player.withItem(ItemPool.CITADEL_SATCHEL);
 
     try (cleanups) {
       // talk with "ocg"

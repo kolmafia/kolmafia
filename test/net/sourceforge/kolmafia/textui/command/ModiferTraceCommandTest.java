@@ -40,7 +40,7 @@ public class ModiferTraceCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void matchDisplaysExtantModifiers() {
-    var cleanups = Player.addEffect("Fat Leon's Phat Loot Lyric");
+    var cleanups = Player.withEffect("Fat Leon's Phat Loot Lyric");
 
     try (cleanups) {
       String output = execute("item drop");

@@ -99,7 +99,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     @Test
     public void itShouldRespondToATransferItemRequestFailure() {
       String output;
-      var cleanups = Player.addItem("seal tooth", 3);
+      var cleanups = Player.withItem("seal tooth", 3);
       try (cleanups) {
         output = execute(" 1 seal tooth to buffy");
       }
@@ -130,7 +130,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     @Test
     public void itShouldRequireCsendForMeat() {
       String output;
-      var cleanups = Player.setMeat(1000000);
+      var cleanups = Player.withMeat(1000000);
       try (cleanups) {
         output = execute(" 1000000 meat to buffy");
       }
@@ -141,7 +141,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
     @Test
     public void itShouldNotRequireCsendForItems() {
       String output;
-      var cleanups = Player.addItem("seal tooth", 3);
+      var cleanups = Player.withItem("seal tooth", 3);
       try (cleanups) {
         output = execute(" 1 seal tooth to buffy");
       }
@@ -155,7 +155,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldSendMeatWithOutCommas() {
     String output;
-    var cleanups = Player.setMeat(1000000);
+    var cleanups = Player.withMeat(1000000);
     try (cleanups) {
       output = execute(" 1000000 meat to buffy");
     }
@@ -172,7 +172,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldNotSendMeatWithCommas() {
     String output;
-    var cleanups = Player.setMeat(1000000);
+    var cleanups = Player.withMeat(1000000);
     try (cleanups) {
       output = execute(" 1,000,000 meat to buffy");
     }
@@ -189,7 +189,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldSendALongAmountOfMeat() {
     String output;
-    var cleanups = Player.setMeat(3000000000L);
+    var cleanups = Player.withMeat(3000000000L);
     try (cleanups) {
       output = execute(" 3000000000 meat to buffy");
     }
@@ -208,7 +208,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldNotSendMeatItDoesNotHave() {
     String output;
-    var cleanups = Player.setMeat(10000);
+    var cleanups = Player.withMeat(10000);
     try (cleanups) {
       output = execute(" 1000000 meat to buffy");
     }
@@ -226,7 +226,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   public void itShouldNotSendDuringRecovery() {
     RecoveryManager.setRecoveryActive(true);
     String output;
-    var cleanups = Player.setMeat(1000000);
+    var cleanups = Player.withMeat(1000000);
     try (cleanups) {
       output = execute(" 1000000 meat to buffy");
     }
@@ -256,7 +256,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldSendAlternateMessageText() {
     String output;
-    var cleanups = Player.setMeat(3000000000L);
+    var cleanups = Player.withMeat(3000000000L);
     try (cleanups) {
       output = execute(" 3000000000 meat to buffy || This is Blackmail!!!");
     }
@@ -274,7 +274,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldSendThingsBesidesMeat() {
     String output;
-    var cleanups = Player.addItem("seal tooth", 3);
+    var cleanups = Player.withItem("seal tooth", 3);
     try (cleanups) {
       output = execute(" 1 seal tooth to buffy");
     }
@@ -291,7 +291,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldParseItemCount() {
     String output;
-    var cleanups = Player.addItem("seal tooth", 3);
+    var cleanups = Player.withItem("seal tooth", 3);
     try (cleanups) {
       output = execute(" seal tooth to buffy");
     }
@@ -315,7 +315,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldLimitItemCount() {
     String output;
-    var cleanups = Player.addItem("seal tooth", 3);
+    var cleanups = Player.withItem("seal tooth", 3);
     try (cleanups) {
       output = execute(" 5 seal tooth to buffy");
     }
@@ -326,7 +326,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldNotRecognizeItem() {
     String output;
-    var cleanups = Player.addItem("seal tooth", 3);
+    var cleanups = Player.withItem("seal tooth", 3);
     try (cleanups) {
       output = execute(" 1 soiled dove to buffy");
     }
@@ -337,7 +337,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldAlsoNotRecognizeItem() {
     String output;
-    var cleanups = Player.addItem("seal tooth", 3);
+    var cleanups = Player.withItem("seal tooth", 3);
     try (cleanups) {
       output = execute(" 1 soiled dove to buffy || Wash me.");
     }
@@ -348,7 +348,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldAlsoRecognizeNoItem() {
     String output;
-    var cleanups = Player.addItem("seal tooth", 3);
+    var cleanups = Player.withItem("seal tooth", 3);
     try (cleanups) {
       output = execute("  to buffy || Wash me.");
     }
@@ -359,7 +359,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   @Test
   public void itShouldHandleFuzzyItem() {
     String output;
-    var cleanups = Player.addItem("seal tooth", 3);
+    var cleanups = Player.withItem("seal tooth", 3);
     try (cleanups) {
       output = execute(" 1 potion to buffy");
     }
@@ -371,7 +371,7 @@ class SendMessageCommandTest extends AbstractCommandTestBase {
   public void itShouldHandleDifferentItems() {
     String output;
     var cleanups =
-        new Cleanups(Player.addItem("seal tooth", 3), Player.addItem("seal-clubbing club", 3));
+        new Cleanups(Player.withItem("seal tooth", 3), Player.withItem("seal-clubbing club", 3));
     try (cleanups) {
       output =
           execute(" 1 seal tooth, 1 seal-clubbing club to buffy || Signed.  Sealed.  Delivered.");

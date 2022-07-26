@@ -1,12 +1,12 @@
 package net.sourceforge.kolmafia;
 
-import static internal.helpers.Player.addItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import internal.helpers.Player;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,8 +20,8 @@ public class KoLmafiaTest {
 
   @Test
   public void canDetectRequirementsMet() {
-    addItem("seal-clubbing club", 20);
-    addItem("seal tooth", 4);
+    Player.withItem("seal-clubbing club", 20);
+    Player.withItem("seal tooth", 4);
 
     ArrayList<AdventureResult> requirements =
         new ArrayList<>(
@@ -35,8 +35,8 @@ public class KoLmafiaTest {
 
   @Test
   public void canDetectRequirementsNotMet() {
-    addItem("seal-clubbing club", 20);
-    addItem("seal tooth", 2);
+    Player.withItem("seal-clubbing club", 20);
+    Player.withItem("seal tooth", 2);
 
     ArrayList<AdventureResult> requirements =
         new ArrayList<>(

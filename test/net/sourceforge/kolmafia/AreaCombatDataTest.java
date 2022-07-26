@@ -1,11 +1,11 @@
 package net.sourceforge.kolmafia;
 
-import static internal.helpers.Player.equip;
-import static internal.helpers.Player.setFamiliar;
+import static internal.helpers.Player.withFamiliar;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import internal.helpers.Cleanups;
+import internal.helpers.Player;
 import java.io.File;
 import java.util.Map;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -72,8 +72,8 @@ public class AreaCombatDataTest {
   public void saberCopy() {
     var cleanups =
         new Cleanups(
-            setFamiliar(FamiliarPool.BADGER),
-            equip(EquipmentManager.FAMILIAR, "miniature crystal ball"));
+            withFamiliar(FamiliarPool.BADGER),
+            Player.withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"));
     try (cleanups) {
       Preferences.setString("_saberForceMonster", "smut orc screwer");
       Preferences.setInteger("_saberForceMonsterCount", 3);
@@ -103,8 +103,8 @@ public class AreaCombatDataTest {
   public void crystalBallPrediction() {
     var cleanups =
         new Cleanups(
-            setFamiliar(FamiliarPool.BADGER),
-            equip(EquipmentManager.FAMILIAR, "miniature crystal ball"));
+            withFamiliar(FamiliarPool.BADGER),
+            Player.withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"));
     try (cleanups) {
       Preferences.setString(
           "crystalBallPredictions", "0:" + SMUT_ORC_CAMP.getZone() + ":smut orc nailer");
@@ -130,8 +130,8 @@ public class AreaCombatDataTest {
   public void crystalBallPredictionWhenNCIsUp() {
     var cleanups =
         new Cleanups(
-            setFamiliar(FamiliarPool.BADGER),
-            equip(EquipmentManager.FAMILIAR, "miniature crystal ball"));
+            withFamiliar(FamiliarPool.BADGER),
+            Player.withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"));
     try (cleanups) {
       Preferences.setString(
           "crystalBallPredictions", "0:" + SMUT_ORC_CAMP.getZone() + ":smut orc nailer");

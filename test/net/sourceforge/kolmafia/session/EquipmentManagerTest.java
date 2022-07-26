@@ -1,12 +1,11 @@
 package net.sourceforge.kolmafia.session;
 
-import static internal.helpers.Player.equip;
-import static internal.helpers.Player.setProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
+import internal.helpers.Player;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -51,7 +50,8 @@ public class EquipmentManagerTest {
         "cocoon"
       })
   public void thatUnbreakableUmbrellaIsRecognized(String style) {
-    var cleanups = new Cleanups(equip(EquipmentManager.OFFHAND, "unbreakable umbrella"));
+    var cleanups =
+        new Cleanups(Player.withEquipped(EquipmentManager.OFFHAND, "unbreakable umbrella"));
 
     try (cleanups) {
       Preferences.setString("umbrellaState", style);
@@ -67,7 +67,8 @@ public class EquipmentManagerTest {
 
     var cleanup =
         new Cleanups(
-            equip(EquipmentManager.PANTS, "designer sweatpants"), setProperty("sweat", 100));
+            Player.withEquipped(EquipmentManager.PANTS, "designer sweatpants"),
+            Player.withProperty("sweat", 100));
 
     try (cleanup) {
       assertThat(KoLCharacter.hasSkill("Sweat Flick"), equalTo(true));
@@ -78,7 +79,8 @@ public class EquipmentManagerTest {
   public void unequippingDesignerSweatpantsRemovesCombatSkills() {
     var cleanup =
         new Cleanups(
-            equip(EquipmentManager.PANTS, "designer sweatpants"), setProperty("sweat", 100));
+            Player.withEquipped(EquipmentManager.PANTS, "designer sweatpants"),
+            Player.withProperty("sweat", 100));
 
     try (cleanup) {
       assertThat(KoLCharacter.hasSkill("Sweat Flick"), equalTo(true));

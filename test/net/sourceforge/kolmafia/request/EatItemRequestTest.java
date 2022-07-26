@@ -1,9 +1,9 @@
 package net.sourceforge.kolmafia.request;
 
-import static internal.helpers.Player.addItem;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import internal.helpers.Player;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -23,8 +23,8 @@ class EatItemRequestTest {
   class MilkOfMagnesium {
     @BeforeEach
     private void milkSetup() {
-      addItem(ItemPool.MILK_OF_MAGNESIUM);
-      addItem(ItemPool.TOMATO);
+      Player.withItem(ItemPool.MILK_OF_MAGNESIUM);
+      Player.withItem(ItemPool.TOMATO);
     }
 
     @Test

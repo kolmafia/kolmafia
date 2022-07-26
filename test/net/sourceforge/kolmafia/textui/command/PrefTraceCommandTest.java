@@ -35,7 +35,7 @@ public class PrefTraceCommandTest extends AbstractCommandTestBase {
     execute("_VYKEACompanionType");
 
     RequestLoggerOutput.startStream();
-    Cleanups cleanups = Player.setProperty("_VYKEACompanionType", "couch");
+    Cleanups cleanups = Player.withProperty("_VYKEACompanionType", "couch");
     try (cleanups) {
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, containsString("ptrace: _VYKEACompanionType = couch"));
@@ -50,7 +50,7 @@ public class PrefTraceCommandTest extends AbstractCommandTestBase {
     assertThat(output, containsString("Previously watched prefs have been cleared"));
 
     RequestLoggerOutput.startStream();
-    Cleanups cleanups = Player.setProperty("_VYKEACompanionType", "couch");
+    Cleanups cleanups = Player.withProperty("_VYKEACompanionType", "couch");
     try (cleanups) {
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, not(containsString("ptrace")));

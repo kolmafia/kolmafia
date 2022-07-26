@@ -1,13 +1,13 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.equip;
-import static internal.helpers.Player.setFamiliar;
+import static internal.helpers.Player.withFamiliar;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import internal.helpers.Player;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -56,8 +56,8 @@ public class CrystalBallManagerTest {
   public void canIdentifyPredictedMonster(String monsterName, String locationName, String result) {
     var cleanups =
         new Cleanups(
-            setFamiliar(FamiliarPool.BADGER),
-            equip(EquipmentManager.FAMILIAR, "miniature crystal ball"));
+            withFamiliar(FamiliarPool.BADGER),
+            Player.withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"));
     try (cleanups) {
       // From String
       assertEquals(
@@ -80,8 +80,8 @@ public class CrystalBallManagerTest {
   public void crystalBallMonsterTestNextEncounter() {
     var cleanups =
         new Cleanups(
-            setFamiliar(FamiliarPool.BADGER),
-            equip(EquipmentManager.FAMILIAR, "miniature crystal ball"));
+            withFamiliar(FamiliarPool.BADGER),
+            Player.withEquipped(EquipmentManager.FAMILIAR, "miniature crystal ball"));
     try (cleanups) {
       assertFalse(CrystalBallManager.isCrystalBallMonster());
 

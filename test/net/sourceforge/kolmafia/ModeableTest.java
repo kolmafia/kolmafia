@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia;
 
-import static internal.helpers.Player.setProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
@@ -8,6 +7,7 @@ import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.hasSize;
 
+import internal.helpers.Player;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -58,7 +58,7 @@ class ModeableTest {
 
   @Test
   void getState() {
-    var cleanups = setProperty("umbrellaState", "broken");
+    var cleanups = Player.withProperty("umbrellaState", "broken");
 
     try (cleanups) {
       var modeable = Modeable.UMBRELLA;

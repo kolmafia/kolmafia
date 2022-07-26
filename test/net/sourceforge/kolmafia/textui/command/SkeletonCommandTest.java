@@ -53,7 +53,7 @@ public class SkeletonCommandTest extends AbstractCommandTestBase {
 
   @Test
   void sendsRequestsIfSkeleton() {
-    var cleanups = Player.addItem(ItemPool.SKELETON);
+    var cleanups = Player.withItem(ItemPool.SKELETON);
 
     try (cleanups) {
       execute("buddy");

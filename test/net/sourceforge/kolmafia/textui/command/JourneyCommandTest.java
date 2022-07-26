@@ -51,9 +51,9 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
   void mustProvideValidSkillOnPath() {
     var cleanups =
         new Cleanups(
-            Player.isClass(AscensionClass.ACCORDION_THIEF),
-            Player.isSign(ZodiacSign.VOLE),
-            Player.inPath(Path.JOURNEYMAN));
+            Player.withClass(AscensionClass.ACCORDION_THIEF),
+            Player.withSign(ZodiacSign.VOLE),
+            Player.withPath(Path.JOURNEYMAN));
 
     try (cleanups) {
       String output = execute("find booga booga");
@@ -65,10 +65,10 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
   void canFindNotKnownSkillOnPath() {
     var cleanups =
         new Cleanups(
-            Player.isClass(AscensionClass.ACCORDION_THIEF),
-            Player.isSign(ZodiacSign.VOLE),
-            Player.inPath(Path.JOURNEYMAN),
-            Player.addItem(ItemPool.LAB_KEY));
+            Player.withClass(AscensionClass.ACCORDION_THIEF),
+            Player.withSign(ZodiacSign.VOLE),
+            Player.withPath(Path.JOURNEYMAN),
+            Player.withItem(ItemPool.LAB_KEY));
 
     try (cleanups) {
       String output = execute("find pulverize");
@@ -82,10 +82,10 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
   void canFindNotKnownInaccessibleSkillOnPath() {
     var cleanups =
         new Cleanups(
-            Player.isClass(AscensionClass.ACCORDION_THIEF),
-            Player.isSign(ZodiacSign.VOLE),
-            Player.inPath(Path.JOURNEYMAN),
-            Player.setProperty("questL07Cyrptic", "unstarted"));
+            Player.withClass(AscensionClass.ACCORDION_THIEF),
+            Player.withSign(ZodiacSign.VOLE),
+            Player.withPath(Path.JOURNEYMAN),
+            Player.withProperty("questL07Cyrptic", "unstarted"));
 
     try (cleanups) {
       String output = execute("find springy fusilli");
@@ -100,9 +100,9 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
   void canFindZoneRestrictedSkillOnPath() {
     var cleanups =
         new Cleanups(
-            Player.isClass(AscensionClass.ACCORDION_THIEF),
-            Player.isSign(ZodiacSign.VOLE),
-            Player.inPath(Path.JOURNEYMAN));
+            Player.withClass(AscensionClass.ACCORDION_THIEF),
+            Player.withSign(ZodiacSign.VOLE),
+            Player.withPath(Path.JOURNEYMAN));
 
     try (cleanups) {
       String output = execute("find wave of sauce");
@@ -117,10 +117,10 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
   void canFindZoneAndQuestRestrictedSkillOnPath() {
     var cleanups =
         new Cleanups(
-            Player.isClass(AscensionClass.ACCORDION_THIEF),
-            Player.isSign(ZodiacSign.VOLE),
-            Player.inPath(Path.JOURNEYMAN),
-            Player.setProperty("questM03Bugbear", "started"));
+            Player.withClass(AscensionClass.ACCORDION_THIEF),
+            Player.withSign(ZodiacSign.VOLE),
+            Player.withPath(Path.JOURNEYMAN),
+            Player.withProperty("questM03Bugbear", "started"));
 
     try (cleanups) {
       String output = execute("find lunging");
@@ -135,10 +135,10 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
   void canFindKnownSkillOnPath() {
     var cleanups =
         new Cleanups(
-            Player.isClass(AscensionClass.ACCORDION_THIEF),
-            Player.isSign(ZodiacSign.VOLE),
-            Player.inPath(Path.JOURNEYMAN),
-            Player.addSkill("Advanced Saucecrafting"));
+            Player.withClass(AscensionClass.ACCORDION_THIEF),
+            Player.withSign(ZodiacSign.VOLE),
+            Player.withPath(Path.JOURNEYMAN),
+            Player.withSkill("Advanced Saucecrafting"));
 
     try (cleanups) {
       String output = execute("find advanced sauce");
@@ -153,9 +153,9 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
   void canIdentifyUnavailableSkillOnPath() {
     var cleanups =
         new Cleanups(
-            Player.isClass(AscensionClass.ACCORDION_THIEF),
-            Player.isSign(ZodiacSign.VOLE),
-            Player.inPath(Path.JOURNEYMAN));
+            Player.withClass(AscensionClass.ACCORDION_THIEF),
+            Player.withSign(ZodiacSign.VOLE),
+            Player.withPath(Path.JOURNEYMAN));
 
     try (cleanups) {
       String output = execute("find sing");
@@ -251,10 +251,10 @@ public class JourneyCommandTest extends AbstractCommandTestBase {
   void canGenerateZonesTableOnPath() {
     var cleanups =
         new Cleanups(
-            Player.isClass(AscensionClass.ACCORDION_THIEF),
-            Player.isSign(ZodiacSign.VOLE),
-            Player.inPath(Path.JOURNEYMAN),
-            Player.addSkill("Advanced Saucecrafting"));
+            Player.withClass(AscensionClass.ACCORDION_THIEF),
+            Player.withSign(ZodiacSign.VOLE),
+            Player.withPath(Path.JOURNEYMAN),
+            Player.withSkill("Advanced Saucecrafting"));
 
     try (cleanups) {
       String output = execute("zones");

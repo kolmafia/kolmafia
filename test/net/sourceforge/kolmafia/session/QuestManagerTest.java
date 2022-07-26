@@ -1,24 +1,24 @@
 package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.addEffect;
-import static internal.helpers.Player.addItem;
-import static internal.helpers.Player.countItem;
-import static internal.helpers.Player.equip;
-import static internal.helpers.Player.setFamiliar;
-import static internal.helpers.Player.setProperty;
-import static internal.helpers.Preference.hasIntegerValue;
-import static internal.helpers.Preference.isSetTo;
-import static internal.helpers.Quest.isFinished;
-import static internal.helpers.Quest.isStarted;
-import static internal.helpers.Quest.isStep;
-import static internal.helpers.Quest.isUnstarted;
+import static internal.helpers.Player.withAscensions;
+import static internal.helpers.Player.withEffect;
+import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withItem;
+import static internal.matchers.Item.isInInventory;
+import static internal.matchers.Preference.hasIntegerValue;
+import static internal.matchers.Preference.isSetTo;
+import static internal.matchers.Quest.isFinished;
+import static internal.matchers.Quest.isStarted;
+import static internal.matchers.Quest.isStep;
+import static internal.matchers.Quest.isUnstarted;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import internal.helpers.Player;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -81,14 +81,16 @@ public class QuestManagerTest {
 
   @Test
   public void canParseLarvaReturn() {
-    addItem("mosquito larva");
+    var cleanups = new Cleanups(withItem("mosquito larva"));
 
-    var request = new GenericRequest("council.php");
-    request.responseText = html("request/test_council_hand_in_larva.html");
-    QuestManager.handleQuestChange(request);
+    try (cleanups) {
+      var request = new GenericRequest("council.php");
+      request.responseText = html("request/test_council_hand_in_larva.html");
+      QuestManager.handleQuestChange(request);
 
-    assertThat(Quest.LARVA, isFinished());
-    assertThat(countItem("enchanted bean"), is(0));
+      assertThat(Quest.LARVA, isFinished());
+      assertThat(ItemPool.ENCHANTED_BEAN, not(isInInventory()));
+    }
   }
 
   /*
@@ -203,12 +205,15 @@ public class QuestManagerTest {
 
   @Test
   public void deductsEnchantedBeanWhenPlanting() {
-    addItem("enchanted bean");
-    assertEquals(1, countItem("enchanted bean"));
-    var request = new GenericRequest("place.php?whichplace=plains");
-    request.responseText = html("request/test_place_plains_beanstalk.html");
-    QuestManager.handleQuestChange(request);
-    assertEquals(0, countItem("enchanted bean"));
+    var cleanups = withItem("enchanted bean");
+
+    try (cleanups) {
+      assertThat("enchanted bean", isInInventory());
+      var request = new GenericRequest("place.php?whichplace=plains");
+      request.responseText = html("request/test_place_plains_beanstalk.html");
+      QuestManager.handleQuestChange(request);
+      assertThat("enchanted bean", not(isInInventory()));
+    }
   }
 
   @Test
@@ -322,7 +327,7 @@ public class QuestManagerTest {
   @Test
   void canDetectDesertProgressWithNoBonuses() {
     String responseText = html("request/test_desert_exploration_no_bonuses.html");
-    var cleanups = new Cleanups(setProperty("desertExploration", 20));
+    var cleanups = new Cleanups(Player.withProperty("desertExploration", 20));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
       assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
@@ -337,8 +342,8 @@ public class QuestManagerTest {
     String responseText = html("request/test_desert_exploration_compass.html");
     var cleanups =
         new Cleanups(
-            setProperty("desertExploration", 20),
-            equip(EquipmentManager.OFFHAND, "UV-resistant compass"));
+            Player.withProperty("desertExploration", 20),
+            Player.withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
       assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
@@ -353,9 +358,9 @@ public class QuestManagerTest {
     String responseText = html("request/test_desert_exploration_knife.html");
     var cleanups =
         new Cleanups(
-            setProperty("desertExploration", 20),
-            equip(EquipmentManager.WEAPON, "survival knife"),
-            addEffect("Ultrahydrated"));
+            Player.withProperty("desertExploration", 20),
+            Player.withEquipped(EquipmentManager.WEAPON, "survival knife"),
+            withEffect("Ultrahydrated"));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
       assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
@@ -370,10 +375,10 @@ public class QuestManagerTest {
     String responseText = html("request/test_desert_exploration_compass_knife.html");
     var cleanups =
         new Cleanups(
-            setProperty("desertExploration", 20),
-            equip(EquipmentManager.WEAPON, "survival knife"),
-            equip(EquipmentManager.OFFHAND, "UV-resistant compass"),
-            addEffect("Ultrahydrated"));
+            Player.withProperty("desertExploration", 20),
+            Player.withEquipped(EquipmentManager.WEAPON, "survival knife"),
+            Player.withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"),
+            withEffect("Ultrahydrated"));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
       assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
@@ -387,7 +392,8 @@ public class QuestManagerTest {
   void canDetectDesertProgressWithMelodramadery() {
     String responseText = html("request/test_desert_exploration_camel.html");
     var cleanups =
-        new Cleanups(setProperty("desertExploration", 20), setFamiliar(FamiliarPool.MELODRAMEDARY));
+        new Cleanups(
+            Player.withProperty("desertExploration", 20), withFamiliar(FamiliarPool.MELODRAMEDARY));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
       assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
@@ -402,9 +408,9 @@ public class QuestManagerTest {
     String responseText = html("request/test_desert_exploration_camel_compass.html");
     var cleanups =
         new Cleanups(
-            setProperty("desertExploration", 20),
-            setFamiliar(FamiliarPool.MELODRAMEDARY),
-            equip(EquipmentManager.OFFHAND, "UV-resistant compass"));
+            Player.withProperty("desertExploration", 20),
+            withFamiliar(FamiliarPool.MELODRAMEDARY),
+            Player.withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
       assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
@@ -419,10 +425,10 @@ public class QuestManagerTest {
     String responseText = html("request/test_desert_exploration_camel_knife.html");
     var cleanups =
         new Cleanups(
-            setProperty("desertExploration", 20),
-            setFamiliar(FamiliarPool.MELODRAMEDARY),
-            equip(EquipmentManager.WEAPON, "survival knife"),
-            addEffect("Ultrahydrated"));
+            Player.withProperty("desertExploration", 20),
+            withFamiliar(FamiliarPool.MELODRAMEDARY),
+            Player.withEquipped(EquipmentManager.WEAPON, "survival knife"),
+            withEffect("Ultrahydrated"));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
       assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
@@ -437,11 +443,11 @@ public class QuestManagerTest {
     String responseText = html("request/test_desert_exploration_camel_compass_knife.html");
     var cleanups =
         new Cleanups(
-            setProperty("desertExploration", 20),
-            setFamiliar(FamiliarPool.MELODRAMEDARY),
-            equip(EquipmentManager.OFFHAND, "UV-resistant compass"),
-            equip(EquipmentManager.WEAPON, "survival knife"),
-            addEffect("Ultrahydrated"));
+            Player.withProperty("desertExploration", 20),
+            withFamiliar(FamiliarPool.MELODRAMEDARY),
+            Player.withEquipped(EquipmentManager.OFFHAND, "UV-resistant compass"),
+            Player.withEquipped(EquipmentManager.WEAPON, "survival knife"),
+            withEffect("Ultrahydrated"));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
       assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
@@ -456,9 +462,9 @@ public class QuestManagerTest {
     String responseText = html("request/test_desert_exploration_camel_knife_unhydrated.html");
     var cleanups =
         new Cleanups(
-            setProperty("desertExploration", 20),
-            setFamiliar(FamiliarPool.MELODRAMEDARY),
-            equip(EquipmentManager.WEAPON, "survival knife"));
+            Player.withProperty("desertExploration", 20),
+            withFamiliar(FamiliarPool.MELODRAMEDARY),
+            Player.withEquipped(EquipmentManager.WEAPON, "survival knife"));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
       assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
@@ -729,9 +735,12 @@ public class QuestManagerTest {
 
   @Test
   public void doesNotTrackWritingDesksFoughtAfterNecklace() {
-    addItem(ItemPool.SPOOKYRAVEN_NECKLACE);
-    QuestManager.updateQuestData("anything", "writing desk");
-    assertThat("writingDesksDefeated", isSetTo(0));
+    var cleanups = withItem(ItemPool.SPOOKYRAVEN_NECKLACE);
+
+    try (cleanups) {
+      QuestManager.updateQuestData("anything", "writing desk");
+      assertThat("writingDesksDefeated", isSetTo(0));
+    }
   }
 
   @Test
@@ -824,7 +833,7 @@ public class QuestManagerTest {
 
   @Test
   public void canTrackOilPeakProgressWearingDressPants() {
-    equip(EquipmentManager.PANTS, "dress pants");
+    Player.withEquipped(EquipmentManager.PANTS, "dress pants");
     String responseText = html("request/test_fight_oil_tycoon.html");
     QuestManager.updateQuestData(responseText, "oil tycoon");
     assertThat("oilPeakProgress", isSetTo(285.3f));
@@ -967,17 +976,20 @@ public class QuestManagerTest {
   @Test
   public void canDetectTrapperFinishedInMcLargeHuge() {
     var ascension = 50;
-    KoLCharacter.setAscensions(ascension);
-    addItem("groar's fur");
-    assertThat("lastTr4pz0rQuest", hasIntegerValue(lessThan(ascension)));
 
-    var request = new GenericRequest("place.php?whichplace=mclargehuge&action=trappercabin");
-    request.responseText = html("request/test_place_mclargehuge_trapper_give_fur.html");
-    QuestManager.handleQuestChange(request);
+    var cleanups = new Cleanups(withAscensions(ascension), withItem("groar's fur"));
 
-    assertThat("lastTr4pz0rQuest", isSetTo(ascension));
-    assertThat(Quest.TRAPPER, isFinished());
-    assertEquals(0, countItem("groar's fur"));
+    try (cleanups) {
+      assertThat("lastTr4pz0rQuest", hasIntegerValue(lessThan(ascension)));
+
+      var request = new GenericRequest("place.php?whichplace=mclargehuge&action=trappercabin");
+      request.responseText = html("request/test_place_mclargehuge_trapper_give_fur.html");
+      QuestManager.handleQuestChange(request);
+
+      assertThat("lastTr4pz0rQuest", isSetTo(ascension));
+      assertThat(Quest.TRAPPER, isFinished());
+      assertThat("groar's fur", not(isInInventory()));
+    }
   }
 
   /*
@@ -989,18 +1001,18 @@ public class QuestManagerTest {
     String html = html("request/test_stankara_drones.html");
     var cleanups =
         new Cleanups(
-            setProperty("questL11Shen", "step2"),
-            setFamiliar(FamiliarPool.GREY_GOOSE),
-            setProperty("gooseDronesRemaining", 1));
+            Player.withProperty("questL11Shen", "step2"),
+            withFamiliar(FamiliarPool.GREY_GOOSE),
+            Player.withProperty("gooseDronesRemaining", 1));
     try (cleanups) {
       KoLAdventure.setLastAdventure("The Batrat and Ratbat Burrow");
       assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.BATRAT);
       FightRequest.registerRequest(true, "fight.php?action=attack");
       FightRequest.currentRound = 1;
       FightRequest.updateCombatData(null, null, html);
-      assertEquals(0, Preferences.getInteger("gooseDronesRemaining"));
-      assertEquals(2, countItem("The Stankara Stone"));
-      assertEquals(Preferences.getString("questL11Shen"), "step3");
+      assertThat("gooseDronesRemaining", isSetTo(0));
+      assertThat("The Stankara Stone", isInInventory(2));
+      assertThat(Quest.SHEN, isStep(3));
     }
   }
 
@@ -1124,56 +1136,66 @@ public class QuestManagerTest {
 
   @Test
   void canDetectUnlockingArmoryInSpookyBunker() {
-    addItem("armory keycard");
-    assertThat("armoryUnlocked", isSetTo(false));
-    assertThat("canteenUnlocked", isSetTo(false));
-    assertThat("SHAWARMAInitiativeUnlocked", isSetTo(false));
+    var cleanups = withItem("armory keycard");
+    try (cleanups) {
+      assertThat("armoryUnlocked", isSetTo(false));
+      assertThat("canteenUnlocked", isSetTo(false));
+      assertThat("SHAWARMAInitiativeUnlocked", isSetTo(false));
 
-    var request =
-        new GenericRequest("place.php?whichplace=airport_spooky_bunker&action=si_shop3locked");
-    request.responseText = html("request/test_place_airport_spooky_bunker_unlocking_armory.html");
-    QuestManager.handleQuestChange(request);
+      var request =
+          new GenericRequest("place.php?whichplace=airport_spooky_bunker&action=si_shop3locked");
+      request.responseText = html("request/test_place_airport_spooky_bunker_unlocking_armory.html");
+      QuestManager.handleQuestChange(request);
 
-    assertEquals(0, countItem("armory keycard"));
-    assertThat("armoryUnlocked", isSetTo(true));
-    assertThat("canteenUnlocked", isSetTo(false));
-    assertThat("SHAWARMAInitiativeUnlocked", isSetTo(false));
+      assertThat("armory keycard", not(isInInventory()));
+      assertThat("armoryUnlocked", isSetTo(true));
+      assertThat("canteenUnlocked", isSetTo(false));
+      assertThat("SHAWARMAInitiativeUnlocked", isSetTo(false));
+    }
   }
 
   @Test
   void canDetectUnlockingCanteenInSpookyBunker() {
-    addItem("bottle-opener keycard");
-    assertThat("armoryUnlocked", isSetTo(false));
-    assertThat("canteenUnlocked", isSetTo(false));
-    assertThat("SHAWARMAInitiativeUnlocked", isSetTo(false));
+    var cleanups = withItem("bottle-opener keycard");
 
-    var request =
-        new GenericRequest("place.php?whichplace=airport_spooky_bunker&action=si_shop2locked");
-    request.responseText = html("request/test_place_airport_spooky_bunker_unlocking_canteen.html");
-    QuestManager.handleQuestChange(request);
+    try (cleanups) {
+      assertThat("armoryUnlocked", isSetTo(false));
+      assertThat("canteenUnlocked", isSetTo(false));
+      assertThat("SHAWARMAInitiativeUnlocked", isSetTo(false));
 
-    assertEquals(0, countItem("bottle-opener keycard"));
-    assertThat("armoryUnlocked", isSetTo(false));
-    assertThat("canteenUnlocked", isSetTo(true));
-    assertThat("SHAWARMAInitiativeUnlocked", isSetTo(false));
+      var request =
+          new GenericRequest("place.php?whichplace=airport_spooky_bunker&action=si_shop2locked");
+      request.responseText =
+          html("request/test_place_airport_spooky_bunker_unlocking_canteen.html");
+      QuestManager.handleQuestChange(request);
+
+      assertThat("bottle-opener keycard", not(isInInventory()));
+      assertThat("armoryUnlocked", isSetTo(false));
+      assertThat("canteenUnlocked", isSetTo(true));
+      assertThat("SHAWARMAInitiativeUnlocked", isSetTo(false));
+    }
   }
 
   @Test
   void canDetectUnlockingShawarmaInSpookyBunker() {
-    addItem("SHAWARMA Initiative Keycard");
-    assertThat("armoryUnlocked", isSetTo(false));
-    assertThat("canteenUnlocked", isSetTo(false));
-    assertThat("SHAWARMAInitiativeUnlocked", isSetTo(false));
+    var cleanups = withItem("SHAWARMA Initiative Keycard");
 
-    var request =
-        new GenericRequest("place.php?whichplace=airport_spooky_bunker&action=si_shop1locked");
-    request.responseText = html("request/test_place_airport_spooky_bunker_unlocking_shawarma.html");
-    QuestManager.handleQuestChange(request);
+    try (cleanups) {
+      assertThat("armoryUnlocked", isSetTo(false));
+      assertThat("canteenUnlocked", isSetTo(false));
+      assertThat("SHAWARMAInitiativeUnlocked", isSetTo(false));
 
-    assertEquals(0, countItem("SHAWARMA Initiative keycard"));
-    assertThat("armoryUnlocked", isSetTo(false));
-    assertThat("canteenUnlocked", isSetTo(false));
-    assertThat("SHAWARMAInitiativeUnlocked", isSetTo(true));
+      var request =
+          new GenericRequest("place.php?whichplace=airport_spooky_bunker&action=si_shop1locked");
+      request.responseText =
+          html("request/test_place_airport_spooky_bunker_unlocking_shawarma.html");
+      QuestManager.handleQuestChange(request);
+
+      assertThat("SHAWARMA Initiative keycard", not(isInInventory()));
+      assertThat("armoryUnlocked", isSetTo(false));
+      assertThat("canteenUnlocked", isSetTo(false));
+      assertThat("SHAWARMAInitiativeUnlocked", isSetTo(true));
+    }
   }
 
   @Test

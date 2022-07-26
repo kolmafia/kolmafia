@@ -2,9 +2,6 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
-import static internal.helpers.Player.addItem;
-import static internal.helpers.Player.equip;
-import static internal.helpers.Player.setProperty;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayWithSize;
@@ -15,6 +12,7 @@ import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import internal.helpers.Player;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -69,7 +67,7 @@ class EdPieceCommandTest extends AbstractCommandTestBase {
 
   @Test
   public void showCurrentAnimal() {
-    var cleanups = setProperty("edPiece", "fish");
+    var cleanups = Player.withProperty("edPiece", "fish");
 
     try (cleanups) {
       String output = execute("");
@@ -98,8 +96,8 @@ class EdPieceCommandTest extends AbstractCommandTestBase {
   public void canDoNothing() {
     var cleanups =
         new Cleanups(
-            setProperty("edPiece", "weasel"),
-            equip(EquipmentManager.HAT, "The Crown of Ed the Undying"));
+            Player.withProperty("edPiece", "weasel"),
+            Player.withEquipped(EquipmentManager.HAT, "The Crown of Ed the Undying"));
 
     try (cleanups) {
       String output = execute("weasel");
@@ -115,7 +113,9 @@ class EdPieceCommandTest extends AbstractCommandTestBase {
   @Test
   public void canJustEquipHat() {
     var cleanups =
-        new Cleanups(setProperty("edPiece", "weasel"), addItem("The Crown of Ed the Undying"));
+        new Cleanups(
+            Player.withProperty("edPiece", "weasel"),
+            Player.withItem("The Crown of Ed the Undying"));
 
     try (cleanups) {
       String output = execute("weasel");
@@ -134,8 +134,8 @@ class EdPieceCommandTest extends AbstractCommandTestBase {
   public void canJustChangeAnimal() {
     var cleanups =
         new Cleanups(
-            setProperty("edPiece", "weasel"),
-            equip(EquipmentManager.HAT, "The Crown of Ed the Undying"));
+            Player.withProperty("edPiece", "weasel"),
+            Player.withEquipped(EquipmentManager.HAT, "The Crown of Ed the Undying"));
 
     try (cleanups) {
       String output = execute("hyena");
@@ -151,7 +151,9 @@ class EdPieceCommandTest extends AbstractCommandTestBase {
   @Test
   public void canEquipHatAndChangeAnimal() {
     var cleanups =
-        new Cleanups(setProperty("edPiece", "weasel"), addItem("The Crown of Ed the Undying"));
+        new Cleanups(
+            Player.withProperty("edPiece", "weasel"),
+            Player.withItem("The Crown of Ed the Undying"));
 
     try (cleanups) {
       String output = execute("mouse");

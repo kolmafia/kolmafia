@@ -1,9 +1,10 @@
 package net.sourceforge.kolmafia.request;
 
-import static internal.helpers.Player.addItem;
-import static internal.helpers.Player.countItem;
-import static org.junit.jupiter.api.Assertions.*;
+import static internal.matchers.Item.isInInventory;
+import static org.hamcrest.MatcherAssert.assertThat;
 
+import internal.helpers.Cleanups;
+import internal.helpers.Player;
 import java.util.Set;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -11,27 +12,31 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import org.junit.jupiter.api.Test;
 
 public class PixelRequestTest {
+
+  private static final Set<Integer> BASE_PIXELS =
+      Set.of(ItemPool.RED_PIXEL, ItemPool.GREEN_PIXEL, ItemPool.BLUE_PIXEL);
+
   @Test
   public void whitePixelPurchaseConsumesOtherPixels() {
-    Set<Integer> BASE_PIXELS =
-        Set.of(ItemPool.RED_PIXEL, ItemPool.GREEN_PIXEL, ItemPool.BLUE_PIXEL);
-
+    var cleanups = new Cleanups();
     // 1 of each of red / green / blue pixel
-    BASE_PIXELS.forEach(itemId -> addItem(itemId));
+    BASE_PIXELS.stream().map(Player::withItem).forEach(cleanups::add);
 
-    Concoction whitePixel = ConcoctionPool.get(ItemPool.WHITE_PIXEL);
-    PixelRequest request = new PixelRequest(whitePixel);
+    try (cleanups) {
+      Concoction whitePixel = ConcoctionPool.get(ItemPool.WHITE_PIXEL);
+      PixelRequest request = new PixelRequest(whitePixel);
 
-    // Check pixel counts.
-    for (int itemId : BASE_PIXELS) {
-      assertEquals(1, countItem(itemId), "item " + itemId + " (before): ");
-    }
+      // Check pixel counts.
+      for (int itemId : BASE_PIXELS) {
+        assertThat(ItemPool.get(itemId), isInInventory());
+      }
 
-    final String url = "shop.php?whichshop=mystic&action=buyitem&whichrow=26&quantity=1";
-    request.parseResponse(url, "");
+      final String url = "shop.php?whichshop=mystic&action=buyitem&whichrow=26&quantity=1";
+      PixelRequest.parseResponse(url, "");
 
-    for (int itemId : BASE_PIXELS) {
-      assertEquals(0, countItem(itemId), "item " + itemId + " (after): ");
+      for (int itemId : BASE_PIXELS) {
+        assertThat(ItemPool.get(itemId), isInInventory(0));
+      }
     }
   }
 }

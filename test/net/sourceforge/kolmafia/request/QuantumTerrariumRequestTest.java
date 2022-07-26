@@ -2,9 +2,9 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Networking.json;
-import static internal.helpers.Player.addSkill;
-import static internal.helpers.Player.isClass;
-import static internal.helpers.Player.setStats;
+import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withSkill;
+import static internal.helpers.Player.withStats;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.mockStatic;
@@ -66,10 +66,10 @@ public class QuantumTerrariumRequestTest {
 
     var cleanups =
         new Cleanups(
-            Player.inPath(Path.QUANTUM),
-            isClass(AscensionClass.ACCORDION_THIEF),
-            setStats(basemuscle, basemysticality, basemoxie),
-            addSkill("Amphibian Sympathy"),
+            Player.withPath(Path.QUANTUM),
+            withClass(AscensionClass.ACCORDION_THIEF),
+            withStats(basemuscle, basemysticality, basemoxie),
+            withSkill("Amphibian Sympathy"),
             mockApiRequest(apiRequest));
 
     try (cleanups) {

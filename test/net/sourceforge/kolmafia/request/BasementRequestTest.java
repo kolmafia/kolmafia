@@ -1,8 +1,8 @@
 package net.sourceforge.kolmafia.request;
 
-import static internal.helpers.Player.setupFakeResponse;
 import static internal.helpers.Player.withBasementLevel;
 import static internal.helpers.Player.withContinuationState;
+import static internal.helpers.Player.withNextResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import internal.helpers.Cleanups;
@@ -31,7 +31,7 @@ class BasementRequestTest {
   void matchesMonsterFightFromResponse(String encounter, String monster) {
     var cleanups =
         new Cleanups(
-            setupFakeResponse(200, "Fernswarthy's Basement, Level 499: " + encounter),
+            withNextResponse(200, "Fernswarthy's Basement, Level 499: " + encounter),
             withBasementLevel(),
             withContinuationState());
 
@@ -59,7 +59,7 @@ class BasementRequestTest {
   void matchesImpassableStatTestFromResponse(String encounter, String summary) {
     var cleanups =
         new Cleanups(
-            setupFakeResponse(200, "Fernswarthy's Basement, Level 499: " + encounter),
+            withNextResponse(200, "Fernswarthy's Basement, Level 499: " + encounter),
             withBasementLevel(),
             withContinuationState());
 

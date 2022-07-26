@@ -26,7 +26,7 @@ public class ItemTraceCommandTest extends AbstractCommandTestBase {
     execute("beefy nigiri");
 
     RequestLoggerOutput.startStream();
-    Cleanups cleanups = Player.addItem("beefy nigiri");
+    Cleanups cleanups = Player.withItem("beefy nigiri");
     try (cleanups) {
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, not(containsString("itrace")));
@@ -41,7 +41,7 @@ public class ItemTraceCommandTest extends AbstractCommandTestBase {
     execute("hair spray");
 
     RequestLoggerOutput.startStream();
-    Cleanups cleanups = Player.addItem("hair spray");
+    Cleanups cleanups = Player.withItem("hair spray");
     try (cleanups) {
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, containsString("itrace: hair spray = 1"));
@@ -56,7 +56,7 @@ public class ItemTraceCommandTest extends AbstractCommandTestBase {
     assertThat(output, containsString("Previously watched items have been cleared"));
 
     RequestLoggerOutput.startStream();
-    Cleanups cleanups = Player.addItem("hair spray");
+    Cleanups cleanups = Player.withItem("hair spray");
     try (cleanups) {
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, not(containsString("itrace")));
