@@ -8,12 +8,16 @@ import static internal.helpers.Player.inLocation;
 import static internal.helpers.Player.inPath;
 import static internal.helpers.Player.isClass;
 import static internal.helpers.Player.isDay;
+import static internal.helpers.Player.setMoxie;
+import static internal.helpers.Player.setMuscle;
+import static internal.helpers.Player.setMysticality;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import internal.helpers.Cleanups;
 import java.util.GregorianCalendar;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
@@ -336,10 +340,11 @@ public class ModifierExpressionTest {
 
   @Test
   public void canDetectLevel() {
-    isClass(AscensionClass.SEAL_CLUBBER);
-    KoLCharacter.setStatPoints(100, 100, 0, 0, 0, 0);
-    var exp = new ModifierExpression("L", "Level");
-    assertThat(exp.eval(), is(3.0));
+    var cleanups = new Cleanups(setMuscle(10, 100), isClass(AscensionClass.SEAL_CLUBBER));
+    try (cleanups) {
+      var exp = new ModifierExpression("L", "Level");
+      assertThat(exp.eval(), is(3.0));
+    }
   }
 
   @Test
@@ -439,25 +444,28 @@ public class ModifierExpressionTest {
 
   @Test
   public void canDetectBaseMuscle() {
-    KoLCharacter.setStatPoints(60, 20, 0, 0, 0, 0);
-
-    var exp = new ModifierExpression("basemus", "Base muscle");
-    assertThat(exp.eval(), is(4.0));
+    var cleanups = new Cleanups(setMuscle(4, 60));
+    try (cleanups) {
+      var exp = new ModifierExpression("basemus", "Base muscle");
+      assertThat(exp.eval(), is(4.0));
+    }
   }
 
   @Test
   public void canDetectBaseMysticality() {
-    KoLCharacter.setStatPoints(0, 0, 50, 10, 0, 0);
-
-    var exp = new ModifierExpression("basemys", "Base mysticality");
-    assertThat(exp.eval(), is(3.0));
+    var cleanups = new Cleanups(setMysticality(3, 50));
+    try (cleanups) {
+      var exp = new ModifierExpression("basemys", "Base mysticality");
+      assertThat(exp.eval(), is(3.0));
+    }
   }
 
   @Test
   public void canDetectBaseMoxie() {
-    KoLCharacter.setStatPoints(0, 0, 0, 0, 40, 5);
-
-    var exp = new ModifierExpression("basemox", "Base moxie");
-    assertThat(exp.eval(), is(2.0));
+    var cleanups = new Cleanups(setMoxie(2, 40));
+    try (cleanups) {
+      var exp = new ModifierExpression("basemox", "Base moxie");
+      assertThat(exp.eval(), is(2.0));
+    }
   }
 }

@@ -1610,6 +1610,7 @@ user	_cocoaDispenserUsed	false
 user	_cocktailShakerUsed	false
 user	_coldAirportToday	false
 user	_coldMedicineConsults	0
+user	_coldMedicineEquipmentTaken	0
 user	_coldOne	false
 user	_communismUsed	false
 user	_companionshipCasts	0

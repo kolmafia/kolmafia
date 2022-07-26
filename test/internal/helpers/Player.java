@@ -192,6 +192,24 @@ public class Player {
     return new Cleanups(() -> setStats(0, 0, 0));
   }
 
+  public static Cleanups setMuscle(int muscle, int buffedMuscle) {
+    KoLCharacter.setMuscle(buffedMuscle, (long) muscle * muscle);
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(() -> setMuscle(0, 0));
+  }
+
+  public static Cleanups setMysticality(int mysticality, int buffedMysticality) {
+    KoLCharacter.setMysticality(buffedMysticality, (long) mysticality * mysticality);
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(() -> setMysticality(0, 0));
+  }
+
+  public static Cleanups setMoxie(int moxie, int buffedMoxie) {
+    KoLCharacter.setMoxie(buffedMoxie, (long) moxie * moxie);
+    KoLCharacter.recalculateAdjustments();
+    return new Cleanups(() -> setMoxie(0, 0));
+  }
+
   public static Cleanups isLevel(int level) {
     int substats = (int) Math.pow(level, 2) - level * 2 + 5;
     return setStats(substats, substats, substats);
@@ -341,6 +359,24 @@ public class Player {
         });
   }
 
+  public static Cleanups withPostChoice1(int choice, int decision, String responseText) {
+    ChoiceManager.lastChoice = choice;
+    ChoiceManager.lastDecision = decision;
+    var req = new GenericRequest("choice.php?choice=" + choice + "&option=" + decision);
+    req.responseText = responseText;
+    ChoiceControl.postChoice1("choice.php?choice=" + choice + "&option=" + decision, req);
+
+    return new Cleanups(
+        () -> {
+          ChoiceManager.lastChoice = 0;
+          ChoiceManager.lastDecision = 0;
+        });
+  }
+
+  public static Cleanups withPostChoice1(int choice, int decision) {
+    return withPostChoice1(choice, decision, "");
+  }
+
   public static Cleanups withPostChoice2(int choice, int decision, String responseText) {
     ChoiceManager.lastChoice = choice;
     ChoiceManager.lastDecision = decision;
@@ -368,6 +404,12 @@ public class Player {
         });
   }
 
+  public static Cleanups withFight() {
+    var old = FightRequest.currentRound;
+    FightRequest.currentRound = 1;
+    return new Cleanups(() -> FightRequest.currentRound = 0);
+  }
+
   public static Cleanups withMultiFight() {
     var old = FightRequest.inMultiFight;
     FightRequest.inMultiFight = true;
@@ -375,6 +417,18 @@ public class Player {
         () -> {
           FightRequest.inMultiFight = old;
         });
+  }
+
+  public static Cleanups withHandlingChoice() {
+    var old = ChoiceManager.handlingChoice;
+    ChoiceManager.handlingChoice = true;
+    return new Cleanups(() -> ChoiceManager.handlingChoice = old);
+  }
+
+  public static Cleanups withHandlingChoice(final boolean handlingChoice) {
+    var old = ChoiceManager.handlingChoice;
+    ChoiceManager.handlingChoice = handlingChoice;
+    return new Cleanups(() -> ChoiceManager.handlingChoice = old);
   }
 
   public static Cleanups withItemMonster(final String itemMonster) {
@@ -410,5 +464,11 @@ public class Player {
 
   public static Cleanups withContinuationState() {
     return withContinuationState(KoLConstants.MafiaState.CONTINUE);
+  }
+
+  public static Cleanups withTurnsPlayed(final int turnsPlayed) {
+    var old = KoLCharacter.getTurnsPlayed();
+    KoLCharacter.setTurnsPlayed(turnsPlayed);
+    return new Cleanups(() -> KoLCharacter.setTurnsPlayed(old));
   }
 }
