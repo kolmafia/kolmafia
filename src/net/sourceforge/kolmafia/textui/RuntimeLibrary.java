@@ -2677,7 +2677,8 @@ public abstract class RuntimeLibrary {
     // Cold Medicine Cabinet support
     params = new Type[] {};
     functions.add(
-        new LibraryFunction("expected_cold_medicine_cabinet_pill", DataTypes.ITEM_TYPE, params));
+        new LibraryFunction(
+            "expected_cold_medicine_cabinet", DataTypes.STRING_TO_ITEM_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -9634,8 +9635,27 @@ public abstract class RuntimeLibrary {
     return value;
   }
 
-  public static Value expected_cold_medicine_cabinet_pill(ScriptRuntime controller) {
-    var nextPill = ColdMedicineCabinetCommand.nextPill();
-    return DataTypes.makeItemValue(nextPill);
+  public static Value expected_cold_medicine_cabinet(ScriptRuntime controller) {
+    var value = new MapValue(DataTypes.STRING_TO_ITEM_TYPE);
+
+    var cabinet = ColdMedicineCabinetCommand.getCabinet();
+
+    if (cabinet == null) {
+      KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, "Could not parse cabinet.");
+
+      for (var t : ColdMedicineCabinetCommand.ITEM_TYPES) {
+        Value key = new Value(t);
+        Value val = DataTypes.makeItemValue((AdventureResult) null);
+        value.aset(key, val);
+      }
+    } else {
+      for (var e : cabinet.entrySet()) {
+        Value key = new Value(e.getKey());
+        Value val = DataTypes.makeItemValue(e.getValue());
+        value.aset(key, val);
+      }
+    }
+
+    return value;
   }
 }

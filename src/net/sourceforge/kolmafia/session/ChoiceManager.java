@@ -42,6 +42,13 @@ public abstract class ChoiceManager {
   public static String lastResponseText = "";
   public static String lastDecoratedResponseText = "";
 
+  public static void reset() {
+    ChoiceManager.lastChoice = 0;
+    ChoiceManager.lastDecision = 0;
+    ChoiceManager.lastResponseText = null;
+    ChoiceManager.lastDecoratedResponseText = null;
+  }
+
   private static int skillUses = 0;
 
   public static final void setSkillUses(int uses) {
@@ -2098,11 +2105,7 @@ public abstract class ChoiceManager {
 
     if (choice == null || option == null) {
       // Visiting a choice page but not yet making a decision
-      ChoiceManager.lastChoice = 0;
-      ChoiceManager.lastDecision = 0;
-      ChoiceManager.lastResponseText = null;
-      ChoiceManager.lastDecoratedResponseText = null;
-      return;
+      ChoiceManager.reset();
     }
 
     // We are about to take a choice option

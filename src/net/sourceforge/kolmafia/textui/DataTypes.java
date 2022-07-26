@@ -114,6 +114,10 @@ public class DataTypes {
   public static final AggregateType STRING_TO_INT_TYPE =
       new AggregateType(DataTypes.INT_TYPE, DataTypes.STRING_TYPE);
 
+  // Map from STRING -> ITEM
+  public static final AggregateType STRING_TO_ITEM_TYPE =
+      new AggregateType(DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE);
+
   // Map from INT -> STRING
   public static final AggregateType INT_TO_STRING_TYPE =
       new AggregateType(DataTypes.STRING_TYPE, DataTypes.INT_TYPE);
@@ -247,8 +251,16 @@ public class DataTypes {
 
   public static final Value parseIntValue(final String name, final boolean returnDefault) {
     try {
+      // Expected input is the string representation of an integer
       return new Value(StringUtilities.parseLong(name));
     } catch (NumberFormatException e) {
+      // Allow names of booleans to represent the usual integer value
+      if (name.equals("false")) {
+        return ZERO_VALUE;
+      }
+      if (name.equals("true")) {
+        return ONE_VALUE;
+      }
       return returnDefault ? DataTypes.ZERO_VALUE : null;
     }
   }

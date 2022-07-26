@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
@@ -297,7 +298,9 @@ public abstract class MallPriceManager {
 
     List<PurchaseRequest> results = MallPriceManager.getSavedSearch(id, needed);
     if (results != null) {
-      KoLmafia.updateDisplay("Using cached search results for " + name + "...");
+      if (!Preferences.getBoolean("suppressMallPriceCacheMessages")) {
+        KoLmafia.updateDisplay("Using cached search results for " + name + "...");
+      }
       return results;
     }
 
