@@ -1688,6 +1688,33 @@ public abstract class KoLCharacter {
     }
   }
 
+  public static void setMuscle(final int adjustedMuscle, final long totalMuscle) {
+    KoLCharacter.adjustedStats[0] = adjustedMuscle;
+    KoLCharacter.totalSubpoints[0] = totalMuscle;
+
+    if (totalMuscle >= KoLCharacter.triggerSubpoints[0]) {
+      KoLCharacter.handleTrigger(KoLCharacter.triggerItem[0]);
+    }
+  }
+
+  public static void setMysticality(final int adjustedMysticality, final long totalMysticality) {
+    KoLCharacter.adjustedStats[1] = adjustedMysticality;
+    KoLCharacter.totalSubpoints[1] = totalMysticality;
+
+    if (totalMysticality >= KoLCharacter.triggerSubpoints[1]) {
+      KoLCharacter.handleTrigger(KoLCharacter.triggerItem[1]);
+    }
+  }
+
+  public static void setMoxie(final int adjustedMoxie, final long totalMoxie) {
+    KoLCharacter.adjustedStats[2] = adjustedMoxie;
+    KoLCharacter.totalSubpoints[2] = totalMoxie;
+
+    if (totalMoxie >= KoLCharacter.triggerSubpoints[2]) {
+      KoLCharacter.handleTrigger(KoLCharacter.triggerItem[2]);
+    }
+  }
+
   /**
    * Sets the character's current stat values. Each parameter in the list comes in pairs: the
    * adjusted value (based on equipment and spell effects) and the total number of subpoints
@@ -1709,25 +1736,9 @@ public abstract class KoLCharacter {
       final long totalMysticality,
       final int adjustedMoxie,
       final long totalMoxie) {
-    KoLCharacter.adjustedStats[0] = adjustedMuscle;
-    KoLCharacter.adjustedStats[1] = adjustedMysticality;
-    KoLCharacter.adjustedStats[2] = adjustedMoxie;
-
-    KoLCharacter.totalSubpoints[0] = totalMuscle;
-    KoLCharacter.totalSubpoints[1] = totalMysticality;
-    KoLCharacter.totalSubpoints[2] = totalMoxie;
-
-    if (totalMuscle >= KoLCharacter.triggerSubpoints[0]) {
-      KoLCharacter.handleTrigger(KoLCharacter.triggerItem[0]);
-    }
-
-    if (totalMysticality >= KoLCharacter.triggerSubpoints[1]) {
-      KoLCharacter.handleTrigger(KoLCharacter.triggerItem[1]);
-    }
-
-    if (totalMoxie >= KoLCharacter.triggerSubpoints[2]) {
-      KoLCharacter.handleTrigger(KoLCharacter.triggerItem[2]);
-    }
+    setMuscle(adjustedMuscle, totalMuscle);
+    setMysticality(adjustedMysticality, totalMysticality);
+    setMoxie(adjustedMoxie, totalMoxie);
   }
 
   public static final void resetTriggers() {

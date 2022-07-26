@@ -193,39 +193,21 @@ public class Player {
   }
 
   public static Cleanups setMuscle(int muscle, int buffedMuscle) {
-    KoLCharacter.setStatPoints(
-        buffedMuscle,
-        (long) muscle * muscle,
-        KoLCharacter.getAdjustedMysticality(),
-        KoLCharacter.getTotalMysticality(),
-        KoLCharacter.getAdjustedMoxie(),
-        KoLCharacter.getTotalMoxie());
+    KoLCharacter.setMuscle(buffedMuscle, (long) muscle * muscle);
     KoLCharacter.recalculateAdjustments();
-    return new Cleanups(() -> setStats(0, 0, 0));
+    return new Cleanups(() -> setMuscle(0, 0));
   }
 
   public static Cleanups setMysticality(int mysticality, int buffedMysticality) {
-    KoLCharacter.setStatPoints(
-        KoLCharacter.getAdjustedMuscle(),
-        KoLCharacter.getTotalMuscle(),
-        buffedMysticality,
-        (long) mysticality * mysticality,
-        KoLCharacter.getAdjustedMoxie(),
-        KoLCharacter.getTotalMoxie());
+    KoLCharacter.setMysticality(buffedMysticality, (long) mysticality * mysticality);
     KoLCharacter.recalculateAdjustments();
-    return new Cleanups(() -> setStats(0, 0, 0));
+    return new Cleanups(() -> setMysticality(0, 0));
   }
 
   public static Cleanups setMoxie(int moxie, int buffedMoxie) {
-    KoLCharacter.setStatPoints(
-        KoLCharacter.getAdjustedMuscle(),
-        KoLCharacter.getTotalMuscle(),
-        KoLCharacter.getAdjustedMysticality(),
-        KoLCharacter.getTotalMysticality(),
-        buffedMoxie,
-        (long) moxie * moxie);
+    KoLCharacter.setMoxie(buffedMoxie, (long) moxie * moxie);
     KoLCharacter.recalculateAdjustments();
-    return new Cleanups(() -> setStats(0, 0, 0));
+    return new Cleanups(() -> setMoxie(0, 0));
   }
 
   public static Cleanups isLevel(int level) {
